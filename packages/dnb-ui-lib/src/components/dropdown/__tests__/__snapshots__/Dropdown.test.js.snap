@@ -94,12 +94,12 @@ exports[`Dropdown component have to match snapshot 1`] = `
     <FormLabel
       class={null}
       className={null}
-      direction="horizontal"
+      direction={null}
       disabled="disabled"
       element="label"
       for_id="dropdown-id"
       id="dropdown-id-label"
-      label_direction={null}
+      label_direction="horizontal"
       onMouseDown={[Function]}
       render_content={null}
       sr_only="label_sr_only"

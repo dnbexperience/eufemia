@@ -616,7 +616,7 @@ export default class Slider extends PureComponent {
             id={id + '-label'}
             text={label}
             disabled={disabled}
-            direction={label_direction}
+            label_direction={label_direction}
             sr_only={label_sr_only}
           />
         )}

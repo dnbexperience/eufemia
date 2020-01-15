@@ -36,12 +36,12 @@ exports[`Slider component have to match snapshot 1`] = `
     <FormLabel
       class={null}
       className={null}
-      direction="horizontal"
+      direction={null}
       disabled={false}
       element="label"
       for_id={null}
       id="id-label"
-      label_direction={null}
+      label_direction="horizontal"
       render_content={null}
       sr_only="label_sr_only"
       text="label"

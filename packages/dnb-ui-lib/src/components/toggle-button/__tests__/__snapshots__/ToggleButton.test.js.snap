@@ -34,12 +34,12 @@ exports[`ToggleButton component have to match snapshot 1`] = `
     <FormLabel
       class={null}
       className={null}
-      direction="horizontal"
+      direction={null}
       disabled="disabled"
       element="label"
       for_id="toggle-button"
       id="toggle-button-label"
-      label_direction={null}
+      label_direction="horizontal"
       render_content={null}
       sr_only="label_sr_only"
       text="label"

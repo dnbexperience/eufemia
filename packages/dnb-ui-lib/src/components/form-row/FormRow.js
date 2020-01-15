@@ -257,7 +257,7 @@ export default class FormRow extends PureComponent {
                 for_id={useFieldset ? null : id} // we don't use for_id, because we don't have a single element to target to
                 text={label}
                 element={useFieldset ? 'legend' : 'label'}
-                direction={label_direction}
+                label_direction={label_direction}
                 sr_only={label_sr_only}
                 disabled={isTrue(disabled)}
               />
