@@ -79,7 +79,7 @@ const propTypes = {
     PropTypes.object
   ]),
   input_element: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
-  inner_ref: PropTypes.func,
+  inner_ref: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
   readOnly: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
 
   // Submit button
