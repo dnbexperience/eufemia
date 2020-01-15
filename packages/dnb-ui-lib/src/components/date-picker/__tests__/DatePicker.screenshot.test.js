@@ -40,4 +40,11 @@ describe('DatePicker screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+  it('have to match the date-picker with input in error state', async () => {
+    const screenshot = await testPageScreenshot({
+      selector:
+        '[data-dnb-test="date-picker-input-error"] .dnb-date-picker__inner'
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
 })
