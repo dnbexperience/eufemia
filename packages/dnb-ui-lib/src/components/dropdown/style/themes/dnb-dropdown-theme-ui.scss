@@ -211,6 +211,7 @@
       }
     }
   }
+  &__status--error:not(#{&}--opened) &__trigger,
   &__status--error:not(#{&}--opened) &__icon {
     color: var(--color-fire-red);
   }

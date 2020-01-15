@@ -524,6 +524,7 @@ exports[`Dropdown scss have to match default theme snapshot 1`] = `
           box-shadow: 0 0 0 1px var(--color-fire-red) !important; } }
       html:not([data-is-touch]) .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger:hover:not([disabled]) .dnb-dropdown__icon .dnb-icon {
         color: var(--color-fire-red); }
+  .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger,
   .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__icon {
     color: var(--color-fire-red); }
   .dnb-dropdown__triangle::before {
