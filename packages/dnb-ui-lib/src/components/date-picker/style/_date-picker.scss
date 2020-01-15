@@ -117,19 +117,16 @@
     white-space: nowrap;
 
     // Firefox fix
-    @-moz-document url-prefix() {
-      & {
-        margin: 0 2px;
-      }
+    @supports (-moz-appearance: meterbar) and
+      (background-blend-mode: difference, normal) {
+      margin: 0 2px;
     }
 
     // Chrome fix
     @supports (-webkit-appearance: none) and
       (not (overflow: -webkit-marquee)) and (not (-ms-ime-align: auto)) and
       (not (-moz-appearance: none)) {
-      & {
-        margin: 0 -1px;
-      }
+      margin: 0 -1px;
     }
 
     // Edge fix

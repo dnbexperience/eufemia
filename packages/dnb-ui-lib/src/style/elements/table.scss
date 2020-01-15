@@ -58,11 +58,10 @@
   & > thead > tr > th,
   & &__th {
     // Firefox fix
-    @-moz-document url-prefix() {
-      & {
-        // to get the perfect height of pixles, to this:
-        padding-bottom: calc(0.5rem - 0.5px);
-      }
+    @supports (-moz-appearance: meterbar) and
+      (background-blend-mode: difference, normal) {
+      // to get the perfect height of pixles, to this:
+      padding-bottom: calc(0.5rem - 0.5px);
     }
 
     background-color: var(--color-mint-green-50);
