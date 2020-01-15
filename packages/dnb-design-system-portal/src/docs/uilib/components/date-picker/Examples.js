@@ -183,11 +183,11 @@ const ScreenshotTests = () => {
       <ComponentBox data-dnb-test="date-picker-input-error">
         {/* @jsx */ `
 <DatePicker
-label="DatePicker with error message:"
-date="2019-05-05"
-show_input={true}
-show_submit_button={true}
-status="Please select a valid date"
+  label="DatePicker with error message:"
+  date="2019-05-05"
+  show_input={true}
+  show_submit_button={true}
+  status="Please select a valid date"
 />
         `}
       </ComponentBox>

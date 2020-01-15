@@ -42,6 +42,9 @@ describe('DatePicker screenshot', () => {
   })
   it('have to match the date-picker with input in error state', async () => {
     const screenshot = await testPageScreenshot({
+      style: {
+        width: '200px' // make sure our input gets an explicit width, because of mac/linux rendering differences
+      },
       selector:
         '[data-dnb-test="date-picker-input-error"] .dnb-date-picker__inner'
     })
