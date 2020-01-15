@@ -4,6 +4,7 @@
  */
 
 import {
+  isCI,
   testPageScreenshot,
   setupPageScreenshot
 } from '../../../core/jest/jestSetupScreenshots'
@@ -11,14 +12,26 @@ import {
 describe('DatePicker screenshot', () => {
   setupPageScreenshot({ url: '/uilib/components/date-picker' })
 
-  // skip the input fields, as there is a linux input issue
-  it.skip('have to match the input fields', async () => {
-    const screenshot = await testPageScreenshot({
-      selector:
-        '[data-dnb-test="date-picker-input"] .dnb-date-picker__inner'
+  if (!isCI) {
+    // skip the input fields, as there is a linux input issue
+    it('have to match the input fields', async () => {
+      const screenshot = await testPageScreenshot({
+        selector:
+          '[data-dnb-test="date-picker-input"] .dnb-date-picker__inner'
+      })
+      expect(screenshot).toMatchImageSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
+    it('have to match the date-picker with input in error state', async () => {
+      const screenshot = await testPageScreenshot({
+        style: {
+          width: '200px' // make sure our input gets an explicit width, because of mac/linux rendering differences
+        },
+        selector:
+          '[data-dnb-test="date-picker-input-error"] .dnb-date-picker__inner'
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
+  }
 
   it('have to match the calendar', async () => {
     const screenshot = await testPageScreenshot({
@@ -37,16 +50,6 @@ describe('DatePicker screenshot', () => {
     const screenshot = await testPageScreenshot({
       selector:
         '[data-dnb-test="date-picker-trigger-error"] .dnb-date-picker__inner'
-    })
-    expect(screenshot).toMatchImageSnapshot()
-  })
-  it('have to match the date-picker with input in error state', async () => {
-    const screenshot = await testPageScreenshot({
-      style: {
-        width: '200px' // make sure our input gets an explicit width, because of mac/linux rendering differences
-      },
-      selector:
-        '[data-dnb-test="date-picker-input-error"] .dnb-date-picker__inner'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
