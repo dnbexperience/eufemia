@@ -21,6 +21,7 @@ export default {
   '--font-size-x-large': '2.125rem',
   '--font-size-xx-large': '3rem',
   '--line-height-xx-small--em': '1em',
+  '--line-height-x-small': '1.125rem',
   '--line-height-small': '1.25rem',
   '--line-height-basis': '1.5rem',
   '--line-height-basis--em': '1.333em',
