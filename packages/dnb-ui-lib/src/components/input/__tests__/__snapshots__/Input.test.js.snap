@@ -332,6 +332,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
                   custom_element={null}
                   custom_method={null}
                   disabled={null}
+                  global_status_id={null}
                   href={null}
                   icon="search"
                   icon_position={null}
@@ -343,6 +344,9 @@ exports[`Input component have to match type="search" snapshot 1`] = `
                   onFocus={[Function]}
                   on_click={null}
                   size={null}
+                  status={null}
+                  status_animation={null}
+                  status_state="error"
                   text={null}
                   title={null}
                   type="submit"
@@ -366,6 +370,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
                       custom_element={null}
                       custom_method={null}
                       disabled={null}
+                      global_status_id={null}
                       href={null}
                       icon="search"
                       icon_position={null}
@@ -378,6 +383,9 @@ exports[`Input component have to match type="search" snapshot 1`] = `
                       onFocus={[Function]}
                       on_click={null}
                       size={null}
+                      status={null}
+                      status_animation={null}
+                      status_state="error"
                       text={null}
                       title={null}
                       type="submit"
