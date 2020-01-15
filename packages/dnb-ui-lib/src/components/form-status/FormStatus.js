@@ -8,6 +8,7 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import Context from '../../shared/Context'
 import {
+  isTrue,
   registerElement,
   makeUniqueId,
   validateDOMAttributes,
@@ -27,6 +28,7 @@ const propTypes = {
   title: PropTypes.string,
   text: PropTypes.oneOfType([
     PropTypes.string,
+    PropTypes.bool,
     PropTypes.func,
     PropTypes.node
   ]),
@@ -36,8 +38,17 @@ const propTypes = {
     PropTypes.node
   ]),
   icon_size: PropTypes.string,
-  state: PropTypes.oneOf(['error', 'info']),
-  status: PropTypes.oneOf(['error', 'info']), // Deprecated
+  state: PropTypes.oneOfType([
+    PropTypes.bool,
+    PropTypes.string,
+    PropTypes.oneOf(['error', 'info'])
+  ]),
+  // status is Deprecated
+  status: PropTypes.oneOfType([
+    PropTypes.bool,
+    PropTypes.string,
+    PropTypes.oneOf(['error', 'info'])
+  ]),
   global_status_id: PropTypes.string,
   hidden: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   text_id: PropTypes.string,
@@ -91,7 +102,12 @@ export default class FormStatus extends PureComponent {
   }
 
   static getContent(props) {
-    if (props.text) return props.text
+    if (props.text) {
+      if (isTrue(props.text)) {
+        return null
+      }
+      return props.text
+    }
     if (typeof props.render_content === 'function')
       props.render_content(props)
     return processChildren(props)
@@ -264,6 +280,12 @@ export default class FormStatus extends PureComponent {
       icon_size
     })
     const contentToRender = FormStatus.getContent(this.props)
+
+    // stop here if we don't have content
+    if (contentToRender === null) {
+      return <></>
+    }
+
     const hasStringContent =
       typeof contentToRender === 'string' && contentToRender.length > 0
 
