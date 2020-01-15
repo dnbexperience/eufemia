@@ -9,12 +9,13 @@
 .dnb-button {
   border: none;
   box-shadow: none;
+
   // no animation yet
   // transition: background-color 100ms ease-out, box-shadow 100ms ease-out;
 
   &--primary {
-    --button-color: var(--color-white);
-    --button-background-color: var(--color-sea-green-alt);
+    color: var(--color-white);
+    background-color: var(--color-sea-green-alt);
 
     @include buttonHover(var(--color-sea-green), var(--color-white));
     @include buttonFocus(var(--color-sea-green), var(--color-white));
@@ -24,22 +25,21 @@
     );
 
     &[disabled] {
-      --button-color: var(--color-white);
-      --button-background-color: var(--color-sea-green-alt-30);
+      color: var(--color-white);
+      background-color: var(--color-sea-green-alt-30);
     }
   }
 
   &--secondary {
-    --button-color: var(--color-sea-green);
-    --button-border-color: var(--color-sea-green-alt);
-    --button-background-color: var(--color-white);
+    color: var(--color-sea-green);
+    background-color: var(--color-white);
 
     &:not([disabled]) .dnb-button__icon {
       color: var(--color-emerald-green);
     }
 
     @include fakeBorder(
-      var(--button-border-color),
+      var(--color-sea-green-alt),
       0.0625rem,
       inset,
       true
@@ -55,18 +55,23 @@
     &[disabled],
     &[disabled]:focus // only because of href/anchor button
  {
-      --button-color: var(--color-sea-green-alt-30);
-      --button-background-color: var(--color-white);
+      color: var(--color-sea-green-alt-30);
+      background-color: var(--color-white);
 
       // only because of href/anchor button
-      @include fakeBorder(var(--button-color), 0.0625rem, inset, true);
+      @include fakeBorder(
+        var(--color-sea-green-alt-30),
+        0.0625rem,
+        inset,
+        true
+      );
     }
   }
   &:not([disabled])#{&}--secondary#{&}__status {
     &--error {
-      --button-color: var(--color-fire-red);
+      color: var(--color-fire-red);
 
-      @include fakeBorder(var(--button-color), 0.0625rem, inset, true);
+      @include fakeBorder(var(--color-fire-red), 0.0625rem, inset, true);
       .dnb-button__icon {
         color: inherit;
       }
@@ -81,8 +86,8 @@
   &--tertiary {
     position: relative; // because  of the focus ring
 
-    --button-color: var(--color-sea-green);
-    --button-background-color: transparent;
+    color: var(--color-sea-green);
+    background-color: transparent;
 
     &.dnb-button--has-text {
       padding: 0 0.5rem;
@@ -227,8 +232,8 @@
   }
 
   &--signal {
-    --button-color: var(--color-ocean-green);
-    --button-background-color: var(--color-accent-yellow);
+    color: var(--color-ocean-green);
+    background-color: var(--color-accent-yellow);
 
     @include buttonHover(
       var(--color-ocean-green),
@@ -250,11 +255,8 @@
     // }
 
     &[disabled] {
-      --button-color: var(--color-black-30);
-      --button-background-color: var(--color-accent-yellow-30);
+      color: var(--color-black-30);
+      background-color: var(--color-accent-yellow-30);
     }
   }
-
-  color: var(--button-color);
-  background-color: var(--button-background-color);
 }

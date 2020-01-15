@@ -250,12 +250,10 @@ exports[`Button scss have to match default theme snapshot 1`] = `
 */
 .dnb-button {
   border: none;
-  box-shadow: none;
-  color: var(--button-color);
-  background-color: var(--button-background-color); }
+  box-shadow: none; }
   .dnb-button--primary {
-    --button-color: var(--color-white);
-    --button-background-color: var(--color-sea-green-alt); }
+    color: var(--color-white);
+    background-color: var(--color-sea-green-alt); }
     html:not([data-is-touch]) .dnb-button--primary:hover[disabled] {
       cursor: not-allowed; }
     html:not([data-is-touch]) .dnb-button--primary:hover:not([disabled]) {
@@ -293,20 +291,19 @@ exports[`Button scss have to match default theme snapshot 1`] = `
       /* IE11 fix */
       border-color: transparent; }
     .dnb-button--primary[disabled] {
-      --button-color: var(--color-white);
-      --button-background-color: var(--color-sea-green-alt-30); }
+      color: var(--color-white);
+      background-color: var(--color-sea-green-alt-30); }
   .dnb-button--secondary {
-    --button-color: var(--color-sea-green);
-    --button-border-color: var(--color-sea-green-alt);
-    --button-background-color: var(--color-white);
-    box-shadow: inset 0 0 0 0.0625rem var(--button-border-color);
+    color: var(--color-sea-green);
+    background-color: var(--color-white);
+    box-shadow: inset 0 0 0 0.0625rem var(--color-sea-green-alt);
     /* IE11 fix */
     border-color: transparent; }
     .dnb-button--secondary:not([disabled]) .dnb-button__icon {
       color: var(--color-emerald-green); }
     @media screen and (-ms-high-contrast: none) {
       .dnb-button--secondary {
-        box-shadow: inset 0 0 0 1px var(--button-border-color); } }
+        box-shadow: inset 0 0 0 1px var(--color-sea-green-alt); } }
     html:not([data-is-touch]) .dnb-button--secondary:hover[disabled] {
       cursor: not-allowed; }
     html:not([data-is-touch]) .dnb-button--secondary:hover:not([disabled]) {
@@ -344,22 +341,22 @@ exports[`Button scss have to match default theme snapshot 1`] = `
       /* IE11 fix */
       border-color: transparent; }
     .dnb-button--secondary[disabled], .dnb-button--secondary[disabled]:focus {
-      --button-color: var(--color-sea-green-alt-30);
-      --button-background-color: var(--color-white);
-      box-shadow: inset 0 0 0 0.0625rem var(--button-color);
+      color: var(--color-sea-green-alt-30);
+      background-color: var(--color-white);
+      box-shadow: inset 0 0 0 0.0625rem var(--color-sea-green-alt-30);
       /* IE11 fix */
       border-color: transparent; }
       @media screen and (-ms-high-contrast: none) {
         .dnb-button--secondary[disabled], .dnb-button--secondary[disabled]:focus {
-          box-shadow: inset 0 0 0 1px var(--button-color); } }
+          box-shadow: inset 0 0 0 1px var(--color-sea-green-alt-30); } }
   .dnb-button:not([disabled]).dnb-button--secondary.dnb-button__status--error {
-    --button-color: var(--color-fire-red);
-    box-shadow: inset 0 0 0 0.0625rem var(--button-color);
+    color: var(--color-fire-red);
+    box-shadow: inset 0 0 0 0.0625rem var(--color-fire-red);
     /* IE11 fix */
     border-color: transparent; }
     @media screen and (-ms-high-contrast: none) {
       .dnb-button:not([disabled]).dnb-button--secondary.dnb-button__status--error {
-        box-shadow: inset 0 0 0 1px var(--button-color); } }
+        box-shadow: inset 0 0 0 1px var(--color-fire-red); } }
     .dnb-button:not([disabled]).dnb-button--secondary.dnb-button__status--error .dnb-button__icon {
       color: inherit; }
   .dnb-button--active {
@@ -368,8 +365,8 @@ exports[`Button scss have to match default theme snapshot 1`] = `
     border-color: transparent; }
   .dnb-button--tertiary {
     position: relative;
-    --button-color: var(--color-sea-green);
-    --button-background-color: transparent; }
+    color: var(--color-sea-green);
+    background-color: transparent; }
     .dnb-button--tertiary.dnb-button--has-text {
       padding: 0 0.5rem; }
     .dnb-button--tertiary .dnb-button__text {
@@ -512,8 +509,8 @@ exports[`Button scss have to match default theme snapshot 1`] = `
     .dnb-button--tertiary[disabled] {
       color: var(--color-sea-green-alt-30); }
   .dnb-button--signal {
-    --button-color: var(--color-ocean-green);
-    --button-background-color: var(--color-accent-yellow); }
+    color: var(--color-ocean-green);
+    background-color: var(--color-accent-yellow); }
     html:not([data-is-touch]) .dnb-button--signal:hover[disabled] {
       cursor: not-allowed; }
     html:not([data-is-touch]) .dnb-button--signal:hover:not([disabled]) {
@@ -561,8 +558,8 @@ exports[`Button scss have to match default theme snapshot 1`] = `
       /* IE11 fix */
       border-color: transparent; }
     .dnb-button--signal[disabled] {
-      --button-color: var(--color-black-30);
-      --button-background-color: var(--color-accent-yellow-30); }
+      color: var(--color-black-30);
+      background-color: var(--color-accent-yellow-30); }
 "
 `;
 
