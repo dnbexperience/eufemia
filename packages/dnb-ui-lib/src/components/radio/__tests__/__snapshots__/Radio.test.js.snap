@@ -858,7 +858,7 @@ legend.dnb-form-label {
     .dnb-radio-group [role='radiogroup'], .dnb-radio-group__shell {
       display: block; }
     .dnb-radio-group__shell {
-      line-height: var(--line-height-x-small--em); }
+      line-height: var(--line-height-xx-small--em); }
       .dnb-radio-group__shell > .dnb-form-status {
         margin-top: 0;
         margin-bottom: 0; }

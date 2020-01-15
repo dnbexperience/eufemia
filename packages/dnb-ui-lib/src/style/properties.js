@@ -20,7 +20,7 @@ export default {
   '--font-size-large': '1.625rem',
   '--font-size-x-large': '2.125rem',
   '--font-size-xx-large': '3rem',
-  '--line-height-x-small--em': '1em',
+  '--line-height-xx-small--em': '1em',
   '--line-height-small': '1.25rem',
   '--line-height-basis': '1.5rem',
   '--line-height-basis--em': '1.333em',

@@ -1377,7 +1377,7 @@ exports[`DatePicker scss have to match snapshot 1`] = `
     line-height: var(--button-font-size); }
   .dnb-button__text {
     font-size: var(--button-font-size);
-    line-height: var(--line-height-x-small--em);
+    line-height: var(--line-height-xx-small--em);
     color: inherit;
     background-color: inherit; }
   .dnb-button__bounding {
@@ -2173,7 +2173,7 @@ legend.dnb-form-label {
     .dnb-radio-group [role='radiogroup'], .dnb-radio-group__shell {
       display: block; }
     .dnb-radio-group__shell {
-      line-height: var(--line-height-x-small--em); }
+      line-height: var(--line-height-xx-small--em); }
       .dnb-radio-group__shell > .dnb-form-status {
         margin-top: 0;
         margin-bottom: 0; }

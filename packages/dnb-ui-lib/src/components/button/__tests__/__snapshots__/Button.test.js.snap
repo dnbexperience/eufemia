@@ -346,7 +346,7 @@ exports[`Button scss have to match default theme snapshot 1`] = `
     .dnb-button--tertiary .dnb-button__text {
       position: relative;
       padding: 0.125rem 0;
-      line-height: var(--line-height-x-small--em); }
+      line-height: var(--line-height-xx-small--em); }
       .dnb-button--tertiary .dnb-button__text::after {
         content: '';
         position: absolute;
@@ -703,7 +703,7 @@ exports[`Button scss have to match snapshot 1`] = `
     line-height: var(--button-font-size); }
   .dnb-button__text {
     font-size: var(--button-font-size);
-    line-height: var(--line-height-x-small--em);
+    line-height: var(--line-height-xx-small--em);
     color: inherit;
     background-color: inherit; }
   .dnb-button__bounding {

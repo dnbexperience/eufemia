@@ -1,4 +1,4 @@
-## December, 4. 2019
+## January, 20. 2020
 
 ### New DNB font
 
@@ -14,6 +14,8 @@ General information: All existing and new components uses the new (and slightly 
 - **Body text medium** `DNB Sans Medium` 18px / 24px line height
 - **Small text** `DNB Sans Regular` 16px / 20px line height
 - **Small text medium** `DNB Sans Medium` 16px / 20px line height
+- **X-Small text** `DNB Sans Regular` 14px / 16px line height
+- **X-Small text medium** `DNB Sans Medium` 14px / 16px line height
 
 **Number features** are removed as we do not need them anymore.
 
