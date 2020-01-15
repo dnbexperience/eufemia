@@ -255,7 +255,10 @@ export default class Input extends PureComponent {
     this.setState({
       value,
       _listenForPropChanges: false,
-      inputState: Input.hasValue(value) ? 'dirty' : 'initial'
+      inputState:
+        Input.hasValue(value) && value !== this.state._value
+          ? 'dirty'
+          : 'initial'
     })
     dispatchCustomElementEvent(this, 'on_blur', { value, event })
   }

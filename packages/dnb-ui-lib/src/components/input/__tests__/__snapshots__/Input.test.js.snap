@@ -663,7 +663,7 @@ exports[`Input scss have to match default theme snapshot 1`] = `
       border-color: transparent; }
   .dnb-input:not([data-input-state='disabled']).dnb-input__submit-button svg {
     color: var(--color-sea-green); }
-  .dnb-input__status--error .dnb-input__shell:not([data-input-state='focus']), .dnb-input__status--error .dnb-input__shell:not([data-input-state='focus']):not([data-input-state='disabled']):hover {
+  .dnb-input__status--error .dnb-input__shell:not([data-input-state='focus']) {
     box-shadow: 0 0 0 0.125rem var(--color-fire-red);
     /* IE11 fix */
     border-color: transparent; }
@@ -674,6 +674,9 @@ exports[`Input scss have to match default theme snapshot 1`] = `
     box-shadow: 0 0 0 0.125rem var(--color-fire-red);
     /* IE11 fix */
     border-color: transparent; }
+  .dnb-input__status--error,
+  .dnb-input__status--error .dnb-input__shell[data-input-state='dirty'] {
+    color: var(--color-fire-red); }
   .dnb-input__input::selection {
     background-color: var(--color-mint-green);
     color: var(--input-text-color--focus);
