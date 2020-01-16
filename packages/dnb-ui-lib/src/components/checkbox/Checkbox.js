@@ -241,9 +241,6 @@ export default class Checkbox extends Component {
       ...rest
     }
 
-    // if (showStatus) {
-    //   inputParams['aria-describedby'] = id + '-status'
-    // }
     if (showStatus || suffix) {
       inputParams['aria-describedby'] = `${
         showStatus ? id + '-status' : ''

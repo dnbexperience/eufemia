@@ -51,6 +51,7 @@ class Example extends PureComponent {
   label="Checkbox"
   checked
   status="Error message"
+  suffix={<Modal title="Modal Title" >Modal content</Modal>}
 />
           `}
         </ComponentBox>
