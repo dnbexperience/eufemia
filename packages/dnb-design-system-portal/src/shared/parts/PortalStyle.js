@@ -124,6 +124,7 @@ export default css`
     content: '';
   }
   .gatsby-resp-image-wrapper {
+    margin-left: 0 !important; /* align the img to the left */
     a {
       padding: 0;
       box-shadow: none;

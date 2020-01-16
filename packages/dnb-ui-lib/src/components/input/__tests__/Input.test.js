@@ -23,7 +23,7 @@ const props = {
     all: true,
     optional: true
   }),
-  inputElement: null,
+  input_element: null,
   disabled: false
 }
 props.id = 'input'

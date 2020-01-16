@@ -69,6 +69,9 @@
     ); // because of the background-color
     color: inherit;
     background-color: inherit;
+
+    // vertical alignment
+    transform: translateY(-0.03125rem); // 0.5px
   }
 
   &__bounding {
