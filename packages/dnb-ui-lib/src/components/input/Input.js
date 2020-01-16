@@ -62,7 +62,6 @@ const propTypes = {
     PropTypes.string,
     PropTypes.bool
   ]),
-  description: PropTypes.string, // deprecated
   suffix: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.func,
@@ -127,7 +126,6 @@ const defaultProps = {
   autocomplete: 'off',
   placeholder: null,
   keep_placeholder: null,
-  description: null, // deprecated
   suffix: null,
   align: null,
   selectall: null,
@@ -296,7 +294,6 @@ export default class Input extends PureComponent {
       disabled,
       placeholder,
       keep_placeholder,
-      description, // deprecated
       suffix,
       align,
       input_class,
@@ -389,10 +386,10 @@ export default class Input extends PureComponent {
     }
 
     // we may considder using: aria-details
-    if (showStatus || suffix || description) {
+    if (showStatus || suffix) {
       inputParams['aria-describedby'] = `${
         showStatus ? id + '-status' : ''
-      } ${suffix || description ? id + '-description' : ''}`
+      } ${suffix ? id + '-suffix' : ''}`
     }
     if (type === 'search') {
       inputParams.autoComplete = 'off'
@@ -488,12 +485,12 @@ export default class Input extends PureComponent {
                 )}
               </span>
             )}
-            {(suffix || description) && (
+            {suffix && (
               <span
-                className="dnb-input__description"
-                id={id + '-description'} // used for "aria-describedby"
+                className="dnb-input__suffix"
+                id={id + '-suffix'} // used for "aria-describedby"
               >
-                {suffix || description}
+                {suffix}
               </span>
             )}
           </span>
