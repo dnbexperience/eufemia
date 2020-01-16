@@ -122,6 +122,7 @@ exports[`Modal component have to match snapshot 1`] = `
       custom_element={null}
       custom_method={null}
       disabled={false}
+      global_status_id={null}
       href={null}
       icon="question"
       icon_position="left"
@@ -131,6 +132,9 @@ exports[`Modal component have to match snapshot 1`] = `
       onClick={null}
       on_click={[Function]}
       size={null}
+      status={null}
+      status_animation={null}
+      status_state="error"
       text={null}
       title="modal_title"
       type="button"
@@ -152,6 +156,7 @@ exports[`Modal component have to match snapshot 1`] = `
           custom_element={null}
           custom_method={null}
           disabled={false}
+          global_status_id={null}
           href={null}
           icon="question"
           icon_position="left"
@@ -162,6 +167,9 @@ exports[`Modal component have to match snapshot 1`] = `
           onClick={null}
           on_click={[Function]}
           size={null}
+          status={null}
+          status_animation={null}
+          status_state="error"
           text={null}
           title="modal_title"
           type="button"
@@ -450,6 +458,7 @@ exports[`Modal component have to match snapshot 1`] = `
                 custom_element={null}
                 custom_method={null}
                 disabled={null}
+                global_status_id={null}
                 href={null}
                 icon="close"
                 icon_position={null}
@@ -459,6 +468,9 @@ exports[`Modal component have to match snapshot 1`] = `
                 onClick={null}
                 on_click={[Function]}
                 size="medium"
+                status={null}
+                status_animation={null}
+                status_state="error"
                 text={null}
                 title={null}
                 type="button"
@@ -480,6 +492,7 @@ exports[`Modal component have to match snapshot 1`] = `
                     custom_element={null}
                     custom_method={null}
                     disabled={null}
+                    global_status_id={null}
                     href={null}
                     icon="close"
                     icon_position={null}
@@ -490,6 +503,9 @@ exports[`Modal component have to match snapshot 1`] = `
                     onClick={null}
                     on_click={[Function]}
                     size="medium"
+                    status={null}
+                    status_animation={null}
+                    status_state="error"
                     text={null}
                     title={null}
                     type="button"
@@ -732,7 +748,7 @@ exports[`Modal scss have to match snapshot 1`] = `
     line-height: var(--button-font-size); }
   .dnb-button__text {
     font-size: var(--button-font-size);
-    line-height: var(--line-height-x-small--em);
+    line-height: var(--line-height-xx-small--em);
     color: inherit;
     background-color: inherit; }
   .dnb-button__bounding {

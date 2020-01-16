@@ -17,6 +17,7 @@ import {
   pickRenderProps,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
+import FormStatus from '../form-status/FormStatus'
 import { createSpacingClasses } from '../space/SpacingHelper'
 
 const renderProps = { on_click: null }
@@ -36,6 +37,14 @@ const propTypes = {
   ]),
   icon_position: PropTypes.oneOf(['left', 'right']),
   icon_size: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  status: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.func,
+    PropTypes.node
+  ]),
+  status_state: PropTypes.string,
+  status_animation: PropTypes.string,
+  global_status_id: PropTypes.string,
   id: PropTypes.string,
   class: PropTypes.string,
   href: PropTypes.string,
@@ -74,6 +83,10 @@ const defaultProps = {
   class: null,
   bounding: false,
   disabled: null,
+  status: null,
+  status_state: 'error',
+  status_animation: null,
+  global_status_id: null,
 
   // React props
   className: null,
@@ -157,6 +170,10 @@ export default class Button extends PureComponent {
       variant,
       size,
       title,
+      status,
+      status_state,
+      status_animation,
+      global_status_id,
       id,
       disabled,
       text,
@@ -172,6 +189,7 @@ export default class Button extends PureComponent {
     let usedVariant = variant
     let usedSize = size
     const content = Button.getContent(this.props) || text
+    const showStatus = status && status !== 'error'
 
     // if only has Icon, then resize it and define it as secondary
     const isIconOnly = Boolean(!content && icon)
@@ -205,6 +223,7 @@ export default class Button extends PureComponent {
       icon && iconSize ? `dnb-button--icon-size-${iconSize}` : null,
       content && 'dnb-button--has-text',
       icon && 'dnb-button--has-icon',
+      status && `dnb-button__status--${status_state}`,
       createSpacingClasses(props),
       class_name,
       className,
@@ -248,6 +267,16 @@ export default class Button extends PureComponent {
           </button>
         )}
         {this.state.afterContent}
+        {showStatus && (
+          <FormStatus
+            id={id + '-form-status'}
+            global_status_id={global_status_id}
+            text={status}
+            status={status_state}
+            text_id={id + '-status'} // used for "aria-describedby"
+            animation={status_animation}
+          />
+        )}
       </>
     )
   }

@@ -332,6 +332,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
                   custom_element={null}
                   custom_method={null}
                   disabled={null}
+                  global_status_id={null}
                   href={null}
                   icon="search"
                   icon_position={null}
@@ -343,6 +344,9 @@ exports[`Input component have to match type="search" snapshot 1`] = `
                   onFocus={[Function]}
                   on_click={null}
                   size={null}
+                  status={null}
+                  status_animation={null}
+                  status_state="error"
                   text={null}
                   title={null}
                   type="submit"
@@ -366,6 +370,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
                       custom_element={null}
                       custom_method={null}
                       disabled={null}
+                      global_status_id={null}
                       href={null}
                       icon="search"
                       icon_position={null}
@@ -378,6 +383,9 @@ exports[`Input component have to match type="search" snapshot 1`] = `
                       onFocus={[Function]}
                       on_click={null}
                       size={null}
+                      status={null}
+                      status_animation={null}
+                      status_state="error"
                       text={null}
                       title={null}
                       type="submit"
@@ -655,7 +663,7 @@ exports[`Input scss have to match default theme snapshot 1`] = `
       border-color: transparent; }
   .dnb-input:not([data-input-state='disabled']).dnb-input__submit-button svg {
     color: var(--color-sea-green); }
-  .dnb-input__status--error .dnb-input__shell:not([data-input-state='focus']), .dnb-input__status--error .dnb-input__shell:not([data-input-state='focus']):not([data-input-state='disabled']):hover {
+  .dnb-input__status--error .dnb-input__shell:not([data-input-state='focus']) {
     box-shadow: 0 0 0 0.125rem var(--color-fire-red);
     /* IE11 fix */
     border-color: transparent; }
@@ -666,6 +674,9 @@ exports[`Input scss have to match default theme snapshot 1`] = `
     box-shadow: 0 0 0 0.125rem var(--color-fire-red);
     /* IE11 fix */
     border-color: transparent; }
+  .dnb-input__status--error,
+  .dnb-input__status--error .dnb-input__shell[data-input-state='dirty'] {
+    color: var(--color-fire-red); }
   .dnb-input__input::selection {
     background-color: var(--color-mint-green);
     color: var(--input-text-color--focus);
@@ -848,7 +859,7 @@ exports[`Input scss have to match snapshot 1`] = `
     line-height: var(--button-font-size); }
   .dnb-button__text {
     font-size: var(--button-font-size);
-    line-height: var(--line-height-x-small--em);
+    line-height: var(--line-height-xx-small--em);
     color: inherit;
     background-color: inherit; }
   .dnb-button__bounding {

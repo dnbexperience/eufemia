@@ -39,12 +39,12 @@ exports[`FormRow component have to match snapshot 1`] = `
         <FormLabel
           class={null}
           className="dnb-form-row__label label_class"
-          direction="horizontal"
+          direction={null}
           disabled={false}
           element="legend"
           for_id={null}
           id="label_id"
-          label_direction={null}
+          label_direction="horizontal"
           render_content={null}
           sr_only="label_sr_only"
           text="label"

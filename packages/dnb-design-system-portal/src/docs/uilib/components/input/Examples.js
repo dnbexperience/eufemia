@@ -79,7 +79,10 @@ class Example extends PureComponent {
 />
           `}
         </ComponentBox>
-        <ComponentBox caption="With FormStatus">
+        <ComponentBox
+          caption="With FormStatus"
+          data-dnb-test="input-error"
+        >
           {/* @jsx */ `
 <Input
   label="With FormStatus:"

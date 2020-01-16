@@ -34,12 +34,12 @@ exports[`ToggleButton component have to match snapshot 1`] = `
     <FormLabel
       class={null}
       className={null}
-      direction="horizontal"
+      direction={null}
       disabled="disabled"
       element="label"
       for_id="toggle-button"
       id="toggle-button-label"
-      label_direction={null}
+      label_direction="horizontal"
       render_content={null}
       sr_only="label_sr_only"
       text="label"
@@ -76,6 +76,7 @@ exports[`ToggleButton component have to match snapshot 1`] = `
           custom_element={null}
           custom_method={null}
           disabled="disabled"
+          global_status_id={null}
           href={null}
           icon="icon"
           icon_position={null}
@@ -87,6 +88,9 @@ exports[`ToggleButton component have to match snapshot 1`] = `
           onKeyUp={[Function]}
           on_click={null}
           size={null}
+          status={null}
+          status_animation={null}
+          status_state="error"
           text="text"
           title="title"
           type="button"
@@ -143,6 +147,7 @@ exports[`ToggleButton component have to match snapshot 1`] = `
               custom_element={null}
               custom_method={null}
               disabled="disabled"
+              global_status_id={null}
               href={null}
               icon="icon"
               icon_position={null}
@@ -155,6 +160,9 @@ exports[`ToggleButton component have to match snapshot 1`] = `
               onKeyUp={[Function]}
               on_click={null}
               size={null}
+              status={null}
+              status_animation={null}
+              status_state="error"
               text="text"
               title="title"
               type="button"
@@ -420,6 +428,7 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
                           custom_element={null}
                           custom_method={null}
                           disabled={null}
+                          global_status_id={null}
                           href={null}
                           icon={null}
                           icon_position={null}
@@ -431,6 +440,9 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
                           onKeyUp={[Function]}
                           on_click={null}
                           size={null}
+                          status={null}
+                          status_animation={null}
+                          status_state="error"
                           text="ToggleButton 1"
                           title={null}
                           type="button"
@@ -455,6 +467,7 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
                               custom_element={null}
                               custom_method={null}
                               disabled={null}
+                              global_status_id={null}
                               href={null}
                               icon={null}
                               icon_position={null}
@@ -467,6 +480,9 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
                               onKeyUp={[Function]}
                               on_click={null}
                               size={null}
+                              status={null}
+                              status_animation={null}
+                              status_state="error"
                               text="ToggleButton 1"
                               title={null}
                               type="button"
@@ -529,6 +545,7 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
                           custom_element={null}
                           custom_method={null}
                           disabled={null}
+                          global_status_id={null}
                           href={null}
                           icon={null}
                           icon_position={null}
@@ -540,6 +557,9 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
                           onKeyUp={[Function]}
                           on_click={null}
                           size={null}
+                          status={null}
+                          status_animation={null}
+                          status_state="error"
                           text="ToggleButton 2"
                           title={null}
                           type="button"
@@ -564,6 +584,7 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
                               custom_element={null}
                               custom_method={null}
                               disabled={null}
+                              global_status_id={null}
                               href={null}
                               icon={null}
                               icon_position={null}
@@ -576,6 +597,9 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
                               onKeyUp={[Function]}
                               on_click={null}
                               size={null}
+                              status={null}
+                              status_animation={null}
+                              status_state="error"
                               text="ToggleButton 2"
                               title={null}
                               type="button"
@@ -962,7 +986,7 @@ legend.dnb-form-label {
     line-height: var(--button-font-size); }
   .dnb-button__text {
     font-size: var(--button-font-size);
-    line-height: var(--line-height-x-small--em);
+    line-height: var(--line-height-xx-small--em);
     color: inherit;
     background-color: inherit; }
   .dnb-button__bounding {
@@ -1459,7 +1483,7 @@ button.dnb-button::-moz-focus-inner {
     .dnb-radio-group [role='radiogroup'], .dnb-radio-group__shell {
       display: block; }
     .dnb-radio-group__shell {
-      line-height: var(--line-height-x-small--em); }
+      line-height: var(--line-height-xx-small--em); }
       .dnb-radio-group__shell > .dnb-form-status {
         margin-top: 0;
         margin-bottom: 0; }

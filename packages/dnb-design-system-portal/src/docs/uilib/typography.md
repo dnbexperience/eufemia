@@ -138,6 +138,10 @@ Paragraph comes in several variants. You can use these classes:
   <code className="dnb-code">Code paragraph</code><br />
   <cite>Cite paragraph</cite><br />
 </p>
+<p className="dnb-p dnb-p--x-small">
+  Here is a x-small paragraph text<br />
+  with a new line.
+</p>
 `}
 </CodeBlock>
 

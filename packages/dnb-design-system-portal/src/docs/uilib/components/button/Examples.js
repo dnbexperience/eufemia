@@ -163,6 +163,11 @@ class Example extends PureComponent {
   title="Button with custom, Secondary Icon only"
   icon={question}
 />
+<Button
+  title="Button with status"
+  icon={question}
+  status="error"
+/>
           `}
         </ComponentBox>
       </Fragment>

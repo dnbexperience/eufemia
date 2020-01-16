@@ -908,6 +908,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                             custom_element={null}
                             custom_method={null}
                             disabled={null}
+                            global_status_id={null}
                             href={null}
                             icon="calendar"
                             icon_position={null}
@@ -957,6 +958,9 @@ exports[`DatePicker component have to match snapshot 1`] = `
                             onKeyUp={[Function]}
                             on_click={null}
                             size={null}
+                            status={null}
+                            status_animation={null}
+                            status_state="error"
                             text={null}
                             title={null}
                             type="button"
@@ -984,6 +988,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                 custom_element={null}
                                 custom_method={null}
                                 disabled={null}
+                                global_status_id={null}
                                 href={null}
                                 icon="calendar"
                                 icon_position={null}
@@ -1034,6 +1039,9 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                 onKeyUp={[Function]}
                                 on_click={null}
                                 size={null}
+                                status={null}
+                                status_animation={null}
+                                status_state="error"
                                 text={null}
                                 title={null}
                                 type="button"
@@ -1134,17 +1142,17 @@ exports[`DatePicker scss have to match default theme snapshot 1`] = `
 .dnb-date-picker {
   /* stylelint-disable */
   /* stylelint-enable */ }
-  .dnb-date-picker__input[value*='0'],
-  .dnb-date-picker__input[value*='0'] ~ .dnb-date-picker--separator, .dnb-date-picker__input[value*='1'],
-  .dnb-date-picker__input[value*='1'] ~ .dnb-date-picker--separator, .dnb-date-picker__input[value*='2'],
-  .dnb-date-picker__input[value*='2'] ~ .dnb-date-picker--separator, .dnb-date-picker__input[value*='3'],
-  .dnb-date-picker__input[value*='3'] ~ .dnb-date-picker--separator, .dnb-date-picker__input[value*='4'],
-  .dnb-date-picker__input[value*='4'] ~ .dnb-date-picker--separator, .dnb-date-picker__input[value*='5'],
-  .dnb-date-picker__input[value*='5'] ~ .dnb-date-picker--separator, .dnb-date-picker__input[value*='6'],
-  .dnb-date-picker__input[value*='6'] ~ .dnb-date-picker--separator, .dnb-date-picker__input[value*='7'],
-  .dnb-date-picker__input[value*='7'] ~ .dnb-date-picker--separator, .dnb-date-picker__input[value*='8'],
-  .dnb-date-picker__input[value*='8'] ~ .dnb-date-picker--separator, .dnb-date-picker__input[value*='9'],
-  .dnb-date-picker__input[value*='9'] ~ .dnb-date-picker--separator {
+  .dnb-date-picker:not(.dnb-date-picker__status--error) .dnb-date-picker__input[value*='0'],
+  .dnb-date-picker:not(.dnb-date-picker__status--error) .dnb-date-picker__input[value*='0'] ~ .dnb-date-picker--separator, .dnb-date-picker:not(.dnb-date-picker__status--error) .dnb-date-picker__input[value*='1'],
+  .dnb-date-picker:not(.dnb-date-picker__status--error) .dnb-date-picker__input[value*='1'] ~ .dnb-date-picker--separator, .dnb-date-picker:not(.dnb-date-picker__status--error) .dnb-date-picker__input[value*='2'],
+  .dnb-date-picker:not(.dnb-date-picker__status--error) .dnb-date-picker__input[value*='2'] ~ .dnb-date-picker--separator, .dnb-date-picker:not(.dnb-date-picker__status--error) .dnb-date-picker__input[value*='3'],
+  .dnb-date-picker:not(.dnb-date-picker__status--error) .dnb-date-picker__input[value*='3'] ~ .dnb-date-picker--separator, .dnb-date-picker:not(.dnb-date-picker__status--error) .dnb-date-picker__input[value*='4'],
+  .dnb-date-picker:not(.dnb-date-picker__status--error) .dnb-date-picker__input[value*='4'] ~ .dnb-date-picker--separator, .dnb-date-picker:not(.dnb-date-picker__status--error) .dnb-date-picker__input[value*='5'],
+  .dnb-date-picker:not(.dnb-date-picker__status--error) .dnb-date-picker__input[value*='5'] ~ .dnb-date-picker--separator, .dnb-date-picker:not(.dnb-date-picker__status--error) .dnb-date-picker__input[value*='6'],
+  .dnb-date-picker:not(.dnb-date-picker__status--error) .dnb-date-picker__input[value*='6'] ~ .dnb-date-picker--separator, .dnb-date-picker:not(.dnb-date-picker__status--error) .dnb-date-picker__input[value*='7'],
+  .dnb-date-picker:not(.dnb-date-picker__status--error) .dnb-date-picker__input[value*='7'] ~ .dnb-date-picker--separator, .dnb-date-picker:not(.dnb-date-picker__status--error) .dnb-date-picker__input[value*='8'],
+  .dnb-date-picker:not(.dnb-date-picker__status--error) .dnb-date-picker__input[value*='8'] ~ .dnb-date-picker--separator, .dnb-date-picker:not(.dnb-date-picker__status--error) .dnb-date-picker__input[value*='9'],
+  .dnb-date-picker:not(.dnb-date-picker__status--error) .dnb-date-picker__input[value*='9'] ~ .dnb-date-picker--separator {
     color: var(--color-emerald-green); }
   .dnb-date-picker__container {
     box-shadow: 0 1px 6px rgba(0, 0, 0, 0.16);
@@ -1377,7 +1385,7 @@ exports[`DatePicker scss have to match snapshot 1`] = `
     line-height: var(--button-font-size); }
   .dnb-button__text {
     font-size: var(--button-font-size);
-    line-height: var(--line-height-x-small--em);
+    line-height: var(--line-height-xx-small--em);
     color: inherit;
     background-color: inherit; }
   .dnb-button__bounding {
@@ -2173,7 +2181,7 @@ legend.dnb-form-label {
     .dnb-radio-group [role='radiogroup'], .dnb-radio-group__shell {
       display: block; }
     .dnb-radio-group__shell {
-      line-height: var(--line-height-x-small--em); }
+      line-height: var(--line-height-xx-small--em); }
       .dnb-radio-group__shell > .dnb-form-status {
         margin-top: 0;
         margin-bottom: 0; }
@@ -2469,12 +2477,11 @@ legend.dnb-form-label {
     background: transparent;
     overflow: visible;
     white-space: nowrap; }
-
-@-moz-document url-prefix() {
-  .dnb-date-picker__input,
-  .dnb-date-picker .dnb-input__input.dnb-date-picker__input,
-  .dnb-core-style .dnb-date-picker__input {
-    margin: 0 2px; } }
+    @supports (-moz-appearance: meterbar) and (background-blend-mode: difference, normal) {
+      .dnb-date-picker__input,
+      .dnb-date-picker .dnb-input__input.dnb-date-picker__input,
+      .dnb-core-style .dnb-date-picker__input {
+        margin: 0 2px; } }
     @supports (-webkit-appearance: none) and (not (overflow: -webkit-marquee)) and (not (-ms-ime-align: auto)) and (not (-moz-appearance: none)) {
       .dnb-date-picker__input,
       .dnb-date-picker .dnb-input__input.dnb-date-picker__input,

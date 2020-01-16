@@ -8,6 +8,7 @@ exports[`Button component have to match default button snapshot 1`] = `
   custom_element={Object {}}
   custom_method={[Function]}
   disabled="disabled"
+  global_status_id="global_status_id"
   href={null}
   icon="question"
   icon_position="right"
@@ -17,6 +18,9 @@ exports[`Button component have to match default button snapshot 1`] = `
   onClick={[Function]}
   on_click="on_click"
   size={null}
+  status={null}
+  status_animation="status_animation"
+  status_state="status_state"
   text="text"
   title="This is a button title"
   type="type"
@@ -38,6 +42,7 @@ exports[`Button component have to match default button snapshot 1`] = `
       custom_element={Object {}}
       custom_method={[Function]}
       disabled="disabled"
+      global_status_id="global_status_id"
       href={null}
       icon="question"
       icon_position="right"
@@ -48,6 +53,9 @@ exports[`Button component have to match default button snapshot 1`] = `
       onClick={[Function]}
       on_click="on_click"
       size={null}
+      status={null}
+      status_animation="status_animation"
+      status_state="status_state"
       text="text"
       title="This is a button title"
       type="type"
@@ -115,6 +123,7 @@ exports[`Button component have to match href="..." snapshot 1`] = `
   custom_element={Object {}}
   custom_method={[Function]}
   disabled="disabled"
+  global_status_id="global_status_id"
   href="https://url"
   icon="question"
   icon_position="right"
@@ -124,6 +133,9 @@ exports[`Button component have to match href="..." snapshot 1`] = `
   onClick={[Function]}
   on_click="on_click"
   size={null}
+  status={null}
+  status_animation="status_animation"
+  status_state="status_state"
   text="text"
   title="This is a button title"
   type="type"
@@ -146,6 +158,7 @@ exports[`Button component have to match href="..." snapshot 1`] = `
       custom_element={Object {}}
       custom_method={[Function]}
       disabled="disabled"
+      global_status_id="global_status_id"
       href="https://url"
       icon="question"
       icon_position="right"
@@ -156,6 +169,9 @@ exports[`Button component have to match href="..." snapshot 1`] = `
       onClick={[Function]}
       on_click="on_click"
       size={null}
+      status={null}
+      status_animation="status_animation"
+      status_state="status_state"
       text="text"
       title="This is a button title"
       type="type"
@@ -235,8 +251,6 @@ exports[`Button scss have to match default theme snapshot 1`] = `
 .dnb-button {
   border: none;
   box-shadow: none; }
-  .dnb-button--secondary:not([disabled]):not(.dnb-button--has-text) .dnb-button__icon {
-    color: var(--color-emerald-green); }
   .dnb-button--primary {
     color: var(--color-white);
     background-color: var(--color-sea-green-alt); }
@@ -285,6 +299,8 @@ exports[`Button scss have to match default theme snapshot 1`] = `
     box-shadow: inset 0 0 0 0.0625rem var(--color-sea-green-alt);
     /* IE11 fix */
     border-color: transparent; }
+    .dnb-button--secondary:not([disabled]) .dnb-button__icon {
+      color: var(--color-emerald-green); }
     @media screen and (-ms-high-contrast: none) {
       .dnb-button--secondary {
         box-shadow: inset 0 0 0 1px var(--color-sea-green-alt); } }
@@ -333,6 +349,16 @@ exports[`Button scss have to match default theme snapshot 1`] = `
       @media screen and (-ms-high-contrast: none) {
         .dnb-button--secondary[disabled], .dnb-button--secondary[disabled]:focus {
           box-shadow: inset 0 0 0 1px var(--color-sea-green-alt-30); } }
+  .dnb-button:not([disabled]).dnb-button--secondary.dnb-button__status--error {
+    color: var(--color-fire-red);
+    box-shadow: inset 0 0 0 0.0625rem var(--color-fire-red);
+    /* IE11 fix */
+    border-color: transparent; }
+    @media screen and (-ms-high-contrast: none) {
+      .dnb-button:not([disabled]).dnb-button--secondary.dnb-button__status--error {
+        box-shadow: inset 0 0 0 1px var(--color-fire-red); } }
+    .dnb-button:not([disabled]).dnb-button--secondary.dnb-button__status--error .dnb-button__icon {
+      color: inherit; }
   .dnb-button--active {
     box-shadow: 0 0 0 0.125rem var(--color-emerald-green);
     /* IE11 fix */
@@ -346,7 +372,7 @@ exports[`Button scss have to match default theme snapshot 1`] = `
     .dnb-button--tertiary .dnb-button__text {
       position: relative;
       padding: 0.125rem 0;
-      line-height: var(--line-height-x-small--em); }
+      line-height: var(--line-height-xx-small--em); }
       .dnb-button--tertiary .dnb-button__text::after {
         content: '';
         position: absolute;
@@ -703,7 +729,7 @@ exports[`Button scss have to match snapshot 1`] = `
     line-height: var(--button-font-size); }
   .dnb-button__text {
     font-size: var(--button-font-size);
-    line-height: var(--line-height-x-small--em);
+    line-height: var(--line-height-xx-small--em);
     color: inherit;
     background-color: inherit; }
   .dnb-button__bounding {

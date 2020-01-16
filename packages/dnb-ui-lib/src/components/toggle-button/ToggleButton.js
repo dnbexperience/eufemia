@@ -396,7 +396,7 @@ export default class ToggleButton extends Component {
                   for_id={id}
                   text={label}
                   disabled={disabled}
-                  direction={label_direction}
+                  label_direction={label_direction}
                   sr_only={label_sr_only}
                 />
               )}

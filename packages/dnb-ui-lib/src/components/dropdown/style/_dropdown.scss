@@ -181,18 +181,21 @@
     position: relative;
     order: 2;
 
+    display: inline-flex;
+    justify-content: center;
+
     pointer-events: none;
-    color: inherit;
 
-    font-size: var(--font-size-small); // has to be 16px
-
-    &.dnb-icon > span {
-      display: inline-flex;
-
-      svg {
-        vertical-align: top; // so we don't get the gap on top
-      }
-    }
+    // The rest was used before we used flex
+    // color: inherit;
+    // font-size: var(--font-size-small); // has to be 16px
+    // &.dnb-icon > span {
+    //   display: inline-flex;
+    //
+    //   svg {
+    //     vertical-align: top; // so we don't get the gap on top
+    //   }
+    // }
   }
 
   // arrow
@@ -278,31 +281,32 @@
   }
   &--is-popup &__list {
     left: -0.5rem;
-    // left: calc(
-    //   1px - 2px - (var(--dropdown-padding-horizontal) / 2) - 0.0625rem
-    // );
   }
   &--is-popup#{&}--scroll &__options {
     min-height: 1rem;
   }
+  // small popup
   &--is-popup#{&}__size--small &__shell,
   &--is-popup#{&}__size--small &__trigger {
     width: var(--dropdown-height--small);
   }
   &--is-popup#{&}__size--small &__list {
     left: -0.75rem;
-    // left: calc(1px - 2px - var(--dropdown-height--small) / 2 - 0.0625rem);
   }
   &--is-popup#{&}__align--right &__list {
     left: auto;
     right: -0.5rem;
-    // right: calc(
-    //   1px - 2px - var(--dropdown-padding-horizontal) / 2 - 0.0625rem
-    // );
   }
   &--is-popup#{&}__align--right#{&}__size--small &__list {
     left: -0.75rem;
-    // right: calc(1px - 2px - var(--dropdown-height--small) / 2 - 0.0625rem);
+  }
+  // medium popup - TODO: needs &__list correction
+  &--is-popup#{&}__size--medium &__trigger {
+    width: var(--dropdown-height--medium);
+  }
+  // large popup - TODO: needs &__list correction
+  &--is-popup#{&}__size--large &__trigger {
+    width: var(--dropdown-height--large);
   }
 
   // Size--small

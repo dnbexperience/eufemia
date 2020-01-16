@@ -55,4 +55,11 @@ describe('Input screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+  it('have to match error state', async () => {
+    const screenshot = await testPageScreenshot({
+      ...extend('input-error'),
+      selector: '[data-dnb-test="input-error"]'
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
 })

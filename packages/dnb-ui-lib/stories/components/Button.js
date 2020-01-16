@@ -52,10 +52,33 @@ export default [
           icon="chevron_right_medium"
           right
         />
+        <Button
+          variant="secondary"
+          text="Secondary Button"
+          icon="chevron_right_medium"
+          right
+          disabled
+        />
         <Button icon="chevron_right" icon_size="medium" size="default" />
+        <Button
+          icon="chevron_right"
+          icon_size="medium"
+          size="default"
+          status="error"
+          left
+        />
+        <Button
+          icon="chevron_right"
+          icon_size="medium"
+          size="default"
+          status="Hello"
+          disabled
+          left
+        />
       </Box>
       <Box>
         <Button text="Signal" variant="signal" icon="add" />
+        <Button text="Signal" variant="signal" icon="add" disabled />
       </Box>
       <Box>
         <span className="dnb-p">text</span>{' '}

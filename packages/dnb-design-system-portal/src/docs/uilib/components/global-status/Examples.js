@@ -32,6 +32,23 @@ class Example extends PureComponent {
           `}
         </ComponentBox>
         <ComponentBox
+          caption="GlobalStatus displaying info status"
+          data-dnb-test="global-status-info"
+        >
+          {/* @jsx */ `
+<GlobalStatus
+  state="info"
+  title="Custom info title ..."
+  text="Long info nisl tempus hendrerit tortor dapibus nascetur taciti porta risus cursus fusce platea enim curabitur proin nibh ut luctus magnis metus"
+  items={['Status text 1', 'Status text 2']}
+  show="true"
+  no_animation="true"
+  autoscroll="false"
+  id="demo-4"
+/>
+          `}
+        </ComponentBox>
+        <ComponentBox
           caption="To showcase the automated coupling between **FormStatus** and **GlobalStatus**"
           useRender
         >
@@ -161,23 +178,6 @@ render(
   }}
 />
            `}
-        </ComponentBox>
-        <ComponentBox
-          caption="GlobalStatus displaying info status"
-          data-dnb-test="global-status-info"
-        >
-          {`
-<GlobalStatus
-  state="info"
-  title="Custom info title ..."
-  text="Long info nisl tempus hendrerit tortor dapibus nascetur taciti porta risus cursus fusce platea enim curabitur proin nibh ut luctus magnis metus"
-  items={['Status text 1', 'Status text 2']}
-  show="true"
-  no_animation="true"
-  autoscroll="false"
-  id="demo-4"
-/>
-          `}
         </ComponentBox>
       </Fragment>
     )
