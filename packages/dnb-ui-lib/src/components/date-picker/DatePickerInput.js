@@ -183,7 +183,7 @@ export default class DatePickerInput extends PureComponent {
     if (this._startDayRef.current) {
       setTimeout(() => {
         try {
-          const elem = this._startDayRef.current.input_element
+          const elem = this._startDayRef.current.inputElement
           elem.focus()
           elem.select()
         } catch (e) {
@@ -306,7 +306,7 @@ export default class DatePickerInput extends PureComponent {
     const secondSelectionStart = target.selectionStart
     const isValid = /[0-9]/.test(keyCode)
     const index = this.refList.findIndex(
-      ({ current: { input_element } }) => input_element === target
+      ({ current }) => current.inputElement === target
     )
 
     if (
@@ -322,7 +322,7 @@ export default class DatePickerInput extends PureComponent {
         if (!this.refList[index + 1].current) {
           return
         }
-        const nextSibling = this.refList[index + 1].current.input_element
+        const nextSibling = this.refList[index + 1].current.inputElement
         if (nextSibling) {
           nextSibling.focus()
           nextSibling.setSelectionRange(0, 0)
@@ -336,7 +336,7 @@ export default class DatePickerInput extends PureComponent {
         case 'backspace':
           try {
             const prevSibling = this.refList[index - 1].current
-              .input_element
+              .inputElement
             if (prevSibling) {
               const endPos = prevSibling.value.length
               prevSibling.focus()

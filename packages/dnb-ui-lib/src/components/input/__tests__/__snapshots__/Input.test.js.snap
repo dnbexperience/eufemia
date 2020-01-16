@@ -80,7 +80,6 @@ exports[`Input component have to match type="search" snapshot 1`] = `
   global_status_id={null}
   id="input"
   inner_ref={null}
-  inputElement={null}
   input_attributes={null}
   input_class={null}
   input_element={null}
@@ -216,7 +215,6 @@ exports[`Input component have to match type="search" snapshot 1`] = `
             icon="search"
             icon_size="default"
             inner_ref={null}
-            inputElement={null}
             input_state={null}
             on_blur={null}
             on_change={null}
@@ -307,7 +305,6 @@ exports[`Input component have to match type="search" snapshot 1`] = `
               id={null}
               innerRef={null}
               inner_ref={null}
-              inputElement={null}
               input_state={null}
               on_blur={null}
               on_change={null}
@@ -536,7 +533,6 @@ exports[`Input component have to match type="text" snapshot 1`] = `
   global_status_id={null}
   id="input"
   inner_ref={null}
-  inputElement={null}
   input_attributes={null}
   input_class={null}
   input_element={null}
