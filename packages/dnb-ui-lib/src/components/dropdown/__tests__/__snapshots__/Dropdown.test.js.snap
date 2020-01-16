@@ -1130,13 +1130,9 @@ legend.dnb-form-label {
   .dnb-dropdown__icon {
     position: relative;
     order: 2;
-    pointer-events: none;
-    color: inherit;
-    font-size: var(--font-size-small); }
-    .dnb-dropdown__icon.dnb-icon > span {
-      display: inline-flex; }
-      .dnb-dropdown__icon.dnb-icon > span svg {
-        vertical-align: top; }
+    display: inline-flex;
+    justify-content: center;
+    pointer-events: none; }
   .dnb-dropdown__triangle {
     position: absolute;
     top: calc( var(--dropdown-focus-border-width) - var(--dropdown-height) / 2);
@@ -1201,6 +1197,10 @@ legend.dnb-form-label {
     right: -0.5rem; }
   .dnb-dropdown--is-popup.dnb-dropdown__align--right.dnb-dropdown__size--small .dnb-dropdown__list {
     left: -0.75rem; }
+  .dnb-dropdown--is-popup.dnb-dropdown__size--medium .dnb-dropdown__trigger {
+    width: var(--dropdown-height--medium); }
+  .dnb-dropdown--is-popup.dnb-dropdown__size--large .dnb-dropdown__trigger {
+    width: var(--dropdown-height--large); }
   .dnb-dropdown__size--small {
     line-height: var(--dropdown-height--small); }
   .dnb-dropdown__size--small .dnb-dropdown__shell,
