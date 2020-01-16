@@ -229,7 +229,8 @@ exports[`GlobalStatus scss have to match snapshot 1`] = `
     font-size: var(--button-font-size);
     line-height: var(--line-height-xx-small--em);
     color: inherit;
-    background-color: inherit; }
+    background-color: inherit;
+    transform: translateY(-0.03125rem); }
   .dnb-button__bounding {
     position: absolute;
     background-color: transparent;
