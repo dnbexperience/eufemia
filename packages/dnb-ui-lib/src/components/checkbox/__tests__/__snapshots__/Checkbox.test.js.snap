@@ -25,6 +25,7 @@ exports[`Checkbox component have to match snapshot 1`] = `
         "status": "status",
         "status_animation": "status_animation",
         "status_state": "status_state",
+        "suffix": "suffix",
         "title": "title",
         "value": "value",
       },
@@ -54,6 +55,7 @@ exports[`Checkbox component have to match snapshot 1`] = `
   status={null}
   status_animation={null}
   status_state="error"
+  suffix={null}
   title={null}
   value={null}
 >
@@ -544,6 +546,9 @@ legend.dnb-form-label {
   .dnb-checkbox__order {
     display: inline-flex;
     align-items: baseline; }
+  .dnb-checkbox__suffix {
+    padding-left: 0.5rem;
+    order: 4; }
   .dnb-checkbox--label-position-left .dnb-checkbox__order .dnb-checkbox__inner {
     order: 2; }
   .dnb-checkbox--label-position-left .dnb-checkbox__order .dnb-form-label {
