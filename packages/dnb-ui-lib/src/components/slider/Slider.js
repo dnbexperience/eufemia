@@ -49,6 +49,11 @@ const propTypes = {
   status_state: PropTypes.string,
   status_animation: PropTypes.string,
   global_status_id: PropTypes.string,
+  suffix: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.func,
+    PropTypes.node
+  ]),
   thump_title: PropTypes.string,
   add_title: PropTypes.string,
   subtract_title: PropTypes.string,
@@ -84,6 +89,7 @@ const defaultProps = {
   status_state: 'error',
   status_animation: null,
   global_status_id: null,
+  suffix: null,
   thump_title: null,
   add_title: '+',
   subtract_title: '−',
@@ -481,6 +487,7 @@ export default class Slider extends PureComponent {
       status_state,
       status_animation,
       global_status_id,
+      suffix,
       thump_title: title,
       subtract_title,
       add_title,
@@ -560,10 +567,14 @@ export default class Slider extends PureComponent {
         trackParams['aria-labelledby'] = id + '-label'
       }
     }
-    if (showStatus) {
-      rangeParams['aria-describedby'] = id + '-status'
+    if (showStatus || suffix) {
+      rangeParams['aria-describedby'] = `${
+        showStatus ? id + '-status' : ''
+      } ${suffix ? id + '-suffix' : ''}`
       if (isTouchDevice()) {
-        trackParams['aria-describedby'] = id + '-status'
+        trackParams['aria-describedby'] = `${
+          showStatus ? id + '-status' : ''
+        } ${suffix ? id + '-suffix' : ''}`
       }
     }
 
@@ -670,6 +681,15 @@ export default class Slider extends PureComponent {
               <span className="dnb-slider__line dnb-slider__line__after" />
             </span>
             {showButtons && (reverse ? subtractButton : addButton)}
+
+            {suffix && (
+              <span
+                className="dnb-slider__suffix"
+                id={id + '-suffix'} // used for "aria-describedby"
+              >
+                {suffix}
+              </span>
+            )}
           </span>
         </span>
       </span>

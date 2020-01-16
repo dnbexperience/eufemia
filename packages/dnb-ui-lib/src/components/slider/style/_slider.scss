@@ -52,6 +52,15 @@
     height: var(--slider-thumb-size);
   }
 
+  &__suffix {
+    align-self: center;
+    padding-left: 0.5rem;
+  }
+  &--vertical &__suffix {
+    padding-left: 0;
+    padding-top: 0.5rem;
+  }
+
   &__track {
     // make sure we do not alow page scroll on touch devices
     touch-action: none;

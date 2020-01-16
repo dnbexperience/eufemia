@@ -140,7 +140,7 @@ class Example extends PureComponent {
   label="With suffix:"
   date={new Date()}
   show_input
-  suffix={<Modal title="Modal Title" >Modal content</Modal>}
+  suffix={<Modal title="Modal Title">Modal content</Modal>}
 />
           `}
         </ComponentBox>

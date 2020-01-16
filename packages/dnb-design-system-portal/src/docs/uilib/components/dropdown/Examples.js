@@ -172,7 +172,7 @@ render(
 <Dropdown
   data={['Dropdown with suffix']}
   label="Label:"
-  suffix={<Modal title="Modal Title" >Modal content</Modal>}
+  suffix={<Modal title="Modal Title">Modal content</Modal>}
 />
           `}
         </ComponentBox>

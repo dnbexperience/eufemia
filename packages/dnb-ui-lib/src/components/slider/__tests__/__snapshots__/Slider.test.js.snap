@@ -25,6 +25,7 @@ exports[`Slider component have to match snapshot 1`] = `
   status_state="status_state"
   step={10}
   subtract_title="subtract_title"
+  suffix="suffix"
   thump_title="thump_title"
   use_scrollwheel="use_scrollwheel"
   value={70}
@@ -194,6 +195,7 @@ exports[`Slider component have to match snapshot 1`] = `
             }
           >
             <input
+              aria-describedby=" id-suffix"
               aria-labelledby="id-label"
               className="dnb-slider__button-helper"
               max={100}
@@ -400,6 +402,12 @@ exports[`Slider component have to match snapshot 1`] = `
             </Content>
           </button>
         </Button>
+        <span
+          className="dnb-slider__suffix"
+          id="id-suffix"
+        >
+          suffix
+        </span>
       </span>
     </span>
   </span>
@@ -926,6 +934,12 @@ legend.dnb-form-label {
   .dnb-slider__inner {
     display: inline-flex;
     height: var(--slider-thumb-size); }
+  .dnb-slider__suffix {
+    align-self: center;
+    padding-left: 0.5rem; }
+  .dnb-slider--vertical .dnb-slider__suffix {
+    padding-left: 0;
+    padding-top: 0.5rem; }
   .dnb-slider__track {
     touch-action: none;
     position: relative;

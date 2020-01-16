@@ -59,7 +59,7 @@ class Example extends PureComponent {
 <Checkbox
   label="Checkbox"
   checked
-  suffix={<Modal title="Modal Title" >Modal content</Modal>}
+  suffix={<Modal title="Modal Title">Modal content</Modal>}
 />
           `}
         </ComponentBox>
