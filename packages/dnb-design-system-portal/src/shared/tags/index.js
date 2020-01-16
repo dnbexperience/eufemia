@@ -3,6 +3,7 @@
  */
 
 import React from 'react'
+import PropTypes from 'prop-types'
 import CodeBlock from './CodeBlock'
 import { Checkbox, Input } from 'dnb-ui-lib/src/components'
 import Table from './Table'
@@ -12,11 +13,17 @@ import Anchor from './Anchor'
 import Intro, { IntroFooter } from './Intro'
 import Header from './AutoLinkHeader'
 
+const Img = props => <img src={props.src} alt={props.alt} />
+Img.propTypes = {
+  src: PropTypes.string.isRequired,
+  alt: PropTypes.string.isRequired
+}
+
 export default {
   Intro,
   IntroFooter,
-  // Img,
-  // img: Img
+  // img: Img, // -> <figure> cannot appear as a descendant of <p>
+  img: Img,
   h1: props => <Header is="h1" {...props} />,
   h2: props => <Header is="h2" {...props} />,
   h3: props => <Header is="h3" {...props} />,
