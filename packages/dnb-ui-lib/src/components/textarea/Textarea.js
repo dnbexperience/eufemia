@@ -48,6 +48,11 @@ const propTypes = {
   status_state: PropTypes.string,
   status_animation: PropTypes.string,
   global_status_id: PropTypes.string,
+  suffix: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.func,
+    PropTypes.node
+  ]),
   placeholder: PropTypes.string,
   align: PropTypes.oneOf(['left', 'right']),
   stretch: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -64,7 +69,7 @@ const propTypes = {
 
   // React props
   className: PropTypes.string,
-  textareaElement: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
+  textarea_element: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
   children: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.node,
@@ -91,6 +96,7 @@ const defaultProps = {
   status_state: 'error',
   status_animation: null,
   global_status_id: null,
+  suffix: null,
   placeholder: null,
   align: null,
   stretch: null,
@@ -104,7 +110,7 @@ const defaultProps = {
 
   // React props
   className: null,
-  textareaElement: null,
+  textarea_element: null,
   children: null,
 
   // Web Component props
@@ -225,6 +231,7 @@ export default class Textarea extends PureComponent {
       status_state,
       status_animation,
       global_status_id,
+      suffix,
       disabled,
       stretch,
       placeholder,
@@ -238,7 +245,7 @@ export default class Textarea extends PureComponent {
       id: _id, //eslint-disable-line
       children, //eslint-disable-line
       value: _value, //eslint-disable-line
-      textareaElement: _textareaElement, //eslint-disable-line
+      textarea_element: _textarea_element, //eslint-disable-line
 
       ...attributes
     } = props
@@ -251,7 +258,7 @@ export default class Textarea extends PureComponent {
 
     // pass along all props we wish to have as params
     let {
-      textareaElement: TextareaElement,
+      textarea_element: TextareaElement,
       ...renderProps
     } = pickRenderProps(this.props, Textarea.renderProps)
 
@@ -277,8 +284,10 @@ export default class Textarea extends PureComponent {
     }
 
     // we may considder using: aria-details
-    if (showStatus) {
-      textareaParams['aria-describedby'] = id + '-status'
+    if (showStatus || suffix) {
+      textareaParams['aria-describedby'] = `${
+        showStatus ? id + '-status' : ''
+      } ${suffix ? id + '-suffix' : ''}`
     }
     if (readOnly) {
       textareaParams['aria-readonly'] = textareaParams.readOnly = true
@@ -326,8 +335,8 @@ export default class Textarea extends PureComponent {
 
     if (TextareaElement && typeof TextareaElement === 'function') {
       TextareaElement = TextareaElement(textareaParams, this._ref)
-    } else if (!TextareaElement && _textareaElement) {
-      TextareaElement = _textareaElement
+    } else if (!TextareaElement && _textarea_element) {
+      TextareaElement = _textarea_element
     }
 
     return (
@@ -370,6 +379,15 @@ export default class Textarea extends PureComponent {
                 style={placeholderStyle}
               >
                 {placeholder}
+              </span>
+            )}
+
+            {suffix && (
+              <span
+                className="dnb-textarea__suffix"
+                id={id + '-suffix'} // used for "aria-describedby"
+              >
+                {suffix}
               </span>
             )}
           </span>

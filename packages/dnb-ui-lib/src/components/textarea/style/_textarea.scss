@@ -69,6 +69,13 @@
     font-size: var(--font-size-basis);
   }
 
+  &__suffix {
+    padding-left: 1.5rem;
+
+    // to be aligned to the label on the left side
+    transform: translateY(-0.25rem);
+  }
+
   &__placeholder {
     pointer-events: none;
 
