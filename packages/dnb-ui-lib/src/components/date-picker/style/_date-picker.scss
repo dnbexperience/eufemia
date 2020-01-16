@@ -51,8 +51,13 @@
     line-height: var(--date-picker-input-height);
   }
 
-  // &__helper {
-  // }
+  &__row {
+    display: inline-flex;
+  }
+
+  &__suffix {
+    padding-left: 0.5rem;
+  }
 
   &__shell {
     position: relative;

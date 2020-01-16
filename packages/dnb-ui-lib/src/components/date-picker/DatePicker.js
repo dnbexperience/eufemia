@@ -145,6 +145,11 @@ const propTypes = {
   status_state: PropTypes.string,
   status_animation: PropTypes.string,
   global_status_id: PropTypes.string,
+  suffix: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.func,
+    PropTypes.node
+  ]),
   opened: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   no_animation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   direction: PropTypes.oneOf(['auto', 'top', 'bottom']),
@@ -207,6 +212,7 @@ const defaultProps = {
   status_state: 'error',
   status_animation: null,
   global_status_id: null,
+  suffix: null,
   opened: false,
   no_animation: false,
   align_picker: null,
@@ -666,6 +672,7 @@ export default class DatePicker extends PureComponent {
       status_state,
       status_animation,
       global_status_id,
+      suffix,
       mask_order,
       mask_placeholder,
       align_picker,
@@ -716,6 +723,11 @@ export default class DatePicker extends PureComponent {
     const showStatus = status && status !== 'error'
 
     const pickerParams = {}
+    if (showStatus || suffix) {
+      pickerParams['aria-describedby'] = `${
+        showStatus ? id + '-status' : ''
+      } ${suffix ? id + '-suffix' : ''}`
+    }
     if (label) {
       pickerParams['aria-labelledby'] = id + '-label'
     }
@@ -782,100 +794,110 @@ export default class DatePicker extends PureComponent {
               animation={status_animation}
             />
           )}
-          <span className="dnb-date-picker__shell">
-            <DatePickerInput
-              id={id}
-              title={title}
-              disabled={isTrue(disabled)}
-              maskOrder={mask_order}
-              maskPlaceholder={mask_placeholder}
-              range={isTrue(range)}
-              startDate={startDate}
-              endDate={endDate}
-              minDate={minDate}
-              maxDate={maxDate}
-              showInput={showInput}
-              selectedDateTitle={selectedDateTitle}
-              input_element={input_element}
-              opened={opened}
-              hidden={hidden}
-              status={status ? 'error' : null}
-              status_state={status_state}
-              // status_animation={status_animation}
-              {...inputParams}
-              submitAttributes={submitParams}
-              onChange={this.onInputChange}
-              onFocus={this.showPicker}
-              onSubmit={this.togglePicker}
-              onSubmitButtonFocus={this.onSubmitButtonFocus}
-            />
-            <span className="dnb-date-picker__container">
-              <span
-                className="dnb-date-picker__triangle"
-                ref={this._triangleRef}
+          <span className="dnb-date-picker__row">
+            <span className="dnb-date-picker__shell">
+              <DatePickerInput
+                id={id}
+                title={title}
+                disabled={isTrue(disabled)}
+                maskOrder={mask_order}
+                maskPlaceholder={mask_placeholder}
+                range={isTrue(range)}
+                startDate={startDate}
+                endDate={endDate}
+                minDate={minDate}
+                maxDate={maxDate}
+                showInput={showInput}
+                selectedDateTitle={selectedDateTitle}
+                input_element={input_element}
+                opened={opened}
+                hidden={hidden}
+                status={status ? 'error' : null}
+                status_state={status_state}
+                // status_animation={status_animation}
+                {...inputParams}
+                submitAttributes={submitParams}
+                onChange={this.onInputChange}
+                onFocus={this.showPicker}
+                onSubmit={this.togglePicker}
+                onSubmitButtonFocus={this.onSubmitButtonFocus}
               />
-              {!hidden && (
-                <>
-                  <DatePickerRange
-                    id={id}
-                    range={isTrue(range)}
-                    firstDayOfWeek={first_day}
-                    minDate={minDate}
-                    maxDate={maxDate}
-                    locale={locale}
-                    resetDate={isTrue(reset_date)}
-                    link={isTrue(link)}
-                    sync={isTrue(sync)}
-                    hideDays={isTrue(hide_days)}
-                    hideNav={isTrue(hide_navigation)}
-                    views={
-                      isTrue(hide_navigation_buttons)
-                        ? [{ nextBtn: false, prevBtn: false }]
-                        : null
-                    }
-                    onlyMonth={isTrue(only_month)}
-                    hideNextMonthWeek={isTrue(hide_last_week)}
-                    noAutofocus={isTrue(disable_autofocus)}
-                    onChange={this.onPickerChange}
-                    month={month}
-                    startMonth={startMonth}
-                    endMonth={endMonth}
-                    startDate={startDate}
-                    endDate={endDate}
-                    enableKeyboardNav={
-                      isTrue(enable_keyboard_nav)
-                      // || userUsesKeyboard // NB: We could extend this in future to be more smart
-                    }
-                  />
-                  {(addon_element || shortcuts) && (
-                    <DatePickerAddon
-                      {...props}
+              <span className="dnb-date-picker__container">
+                <span
+                  className="dnb-date-picker__triangle"
+                  ref={this._triangleRef}
+                />
+                {!hidden && (
+                  <>
+                    <DatePickerRange
+                      id={id}
+                      range={isTrue(range)}
+                      firstDayOfWeek={first_day}
+                      minDate={minDate}
+                      maxDate={maxDate}
+                      locale={locale}
+                      resetDate={isTrue(reset_date)}
+                      link={isTrue(link)}
+                      sync={isTrue(sync)}
+                      hideDays={isTrue(hide_days)}
+                      hideNav={isTrue(hide_navigation)}
+                      views={
+                        isTrue(hide_navigation_buttons)
+                          ? [{ nextBtn: false, prevBtn: false }]
+                          : null
+                      }
+                      onlyMonth={isTrue(only_month)}
+                      hideNextMonthWeek={isTrue(hide_last_week)}
+                      noAutofocus={isTrue(disable_autofocus)}
+                      onChange={this.onPickerChange}
+                      month={month}
+                      startMonth={startMonth}
+                      endMonth={endMonth}
                       startDate={startDate}
                       endDate={endDate}
-                      onChange={this.onPickerChange}
-                      renderElement={addon_element}
-                      shortcuts={shortcuts}
+                      enableKeyboardNav={
+                        isTrue(enable_keyboard_nav)
+                        // || userUsesKeyboard // NB: We could extend this in future to be more smart
+                      }
                     />
-                  )}
-                  <DatePickerFooter
-                    {...props}
-                    range={isTrue(range)}
-                    selectedDateTitle={selectedDateTitle}
-                    onSubmit={
-                      (isTrue(range) || isTrue(show_submit_button)) &&
-                      this.onSubmitHandler
-                    }
-                    onCancel={
-                      (isTrue(range) || isTrue(show_cancel_button)) &&
-                      this.onCancelHandler
-                    }
-                    onReset={
-                      isTrue(show_reset_button) && this.onResetHandler
-                    }
-                  />
-                </>
-              )}
+                    {(addon_element || shortcuts) && (
+                      <DatePickerAddon
+                        {...props}
+                        startDate={startDate}
+                        endDate={endDate}
+                        onChange={this.onPickerChange}
+                        renderElement={addon_element}
+                        shortcuts={shortcuts}
+                      />
+                    )}
+                    <DatePickerFooter
+                      {...props}
+                      range={isTrue(range)}
+                      selectedDateTitle={selectedDateTitle}
+                      onSubmit={
+                        (isTrue(range) || isTrue(show_submit_button)) &&
+                        this.onSubmitHandler
+                      }
+                      onCancel={
+                        (isTrue(range) || isTrue(show_cancel_button)) &&
+                        this.onCancelHandler
+                      }
+                      onReset={
+                        isTrue(show_reset_button) && this.onResetHandler
+                      }
+                    />
+                  </>
+                )}
+              </span>
             </span>
+            {suffix && (
+              <span
+                className="dnb-date-picker__suffix"
+                id={id + '-suffix'} // used for "aria-describedby"
+              >
+                {suffix}
+              </span>
+            )}
           </span>
         </span>
       </span>
