@@ -13,7 +13,6 @@ exports[`Input component have to match type="search" snapshot 1`] = `
         "className": "className",
         "custom_element": Object {},
         "custom_method": [Function],
-        "description": "description",
         "disabled": "disabled",
         "global_status_id": "global_status_id",
         "id": "id",
@@ -75,7 +74,6 @@ exports[`Input component have to match type="search" snapshot 1`] = `
   className={null}
   custom_element={null}
   custom_method={null}
-  description={null}
   disabled={false}
   global_status_id={null}
   id="input"
@@ -153,7 +151,6 @@ exports[`Input component have to match type="search" snapshot 1`] = `
                   "className": "className",
                   "custom_element": Object {},
                   "custom_method": [Function],
-                  "description": "description",
                   "disabled": "disabled",
                   "global_status_id": "global_status_id",
                   "id": "id",
@@ -240,7 +237,6 @@ exports[`Input component have to match type="search" snapshot 1`] = `
                     "className": "className",
                     "custom_element": Object {},
                     "custom_method": [Function],
-                    "description": "description",
                     "disabled": "disabled",
                     "global_status_id": "global_status_id",
                     "id": "id",
@@ -466,7 +462,6 @@ exports[`Input component have to match type="text" snapshot 1`] = `
         "className": "className",
         "custom_element": Object {},
         "custom_method": [Function],
-        "description": "description",
         "disabled": "disabled",
         "global_status_id": "global_status_id",
         "id": "id",
@@ -528,7 +523,6 @@ exports[`Input component have to match type="text" snapshot 1`] = `
   className={null}
   custom_element={null}
   custom_method={null}
-  description={null}
   disabled={false}
   global_status_id={null}
   id="input"
@@ -1255,7 +1249,7 @@ legend.dnb-form-label {
   .dnb-input__row {
     display: inline-flex;
     align-items: center; }
-  .dnb-input__description {
+  .dnb-input__suffix {
     color: inherit;
     padding-left: 0.5rem; }
   .dnb-input__submit-element {

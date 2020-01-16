@@ -255,7 +255,6 @@ exports[`DatePicker component have to match snapshot 1`] = `
             className={null}
             custom_element={null}
             custom_method={null}
-            description={null}
             disabled={false}
             global_status_id={null}
             hidden={true}
@@ -1785,7 +1784,7 @@ legend.dnb-form-label {
   .dnb-input__row {
     display: inline-flex;
     align-items: center; }
-  .dnb-input__description {
+  .dnb-input__suffix {
     color: inherit;
     padding-left: 0.5rem; }
   .dnb-input__submit-element {
@@ -2001,6 +2000,9 @@ legend.dnb-form-label {
   .dnb-checkbox__order {
     display: inline-flex;
     align-items: baseline; }
+  .dnb-checkbox__suffix {
+    padding-left: 0.5rem;
+    order: 4; }
   .dnb-checkbox--label-position-left .dnb-checkbox__order .dnb-checkbox__inner {
     order: 2; }
   .dnb-checkbox--label-position-left .dnb-checkbox__order .dnb-form-label {

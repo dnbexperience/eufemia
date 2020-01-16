@@ -138,6 +138,7 @@ exports[`ToggleButton component have to match snapshot 1`] = `
                     status={null}
                     status_animation={null}
                     status_state="error"
+                    suffix={null}
                     tabIndex="-1"
                     title={null}
                     value={null}
@@ -191,6 +192,7 @@ exports[`ToggleButton component have to match snapshot 1`] = `
                   status={null}
                   status_animation={null}
                   status_state="error"
+                  suffix={null}
                   tabIndex="-1"
                   title={null}
                   value={null}
@@ -1303,6 +1305,9 @@ button.dnb-button::-moz-focus-inner {
   .dnb-checkbox__order {
     display: inline-flex;
     align-items: baseline; }
+  .dnb-checkbox__suffix {
+    padding-left: 0.5rem;
+    order: 4; }
   .dnb-checkbox--label-position-left .dnb-checkbox__order .dnb-checkbox__inner {
     order: 2; }
   .dnb-checkbox--label-position-left .dnb-checkbox__order .dnb-form-label {

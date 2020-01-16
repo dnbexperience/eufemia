@@ -22,6 +22,7 @@ exports[`Switch component have to match snapshot 1`] = `
   status={null}
   status_animation="status_animation"
   status_state="status_state"
+  suffix="suffix"
   title="title"
   value="value"
 >
@@ -69,6 +70,7 @@ exports[`Switch component have to match snapshot 1`] = `
         >
           <input
             aria-checked={false}
+            aria-describedby=" id-suffix"
             checked={false}
             className="dnb-switch__input"
             id="id"
@@ -99,6 +101,12 @@ exports[`Switch component have to match snapshot 1`] = `
                 className="dnb-switch__focus__inner"
               />
             </span>
+          </span>
+          <span
+            className="dnb-switch__suffix"
+            id="id-suffix"
+          >
+            suffix
           </span>
         </span>
       </span>
@@ -556,6 +564,9 @@ legend.dnb-form-label {
     margin-bottom: 0; }
   .dnb-switch__order {
     display: inline-flex; }
+  .dnb-switch__suffix {
+    padding-left: 0.5rem;
+    order: 4; }
   .dnb-switch--label-position-left .dnb-switch__order .dnb-switch__inner {
     order: 2; }
   .dnb-switch--label-position-left .dnb-switch__order .dnb-form-label {
