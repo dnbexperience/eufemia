@@ -84,6 +84,7 @@ exports[`Dropdown component have to match snapshot 1`] = `
   status="status"
   status_animation="status_animation"
   status_state="error"
+  suffix="suffix"
   title="title"
   trigger_component={null}
   value={2}
@@ -216,154 +217,167 @@ exports[`Dropdown component have to match snapshot 1`] = `
         </span>
       </FormStatus>
       <span
-        className="dnb-dropdown__shell"
+        className="dnb-dropdown__row"
       >
-        <Button
-          aria-disabled={true}
-          aria-expanded={false}
-          aria-haspopup={true}
-          aria-labelledby="dropdown-id-label"
-          bounding={false}
-          class={null}
-          className="dnb-dropdown__trigger"
-          custom_element={null}
-          custom_method={null}
-          disabled="disabled"
-          global_status_id={null}
-          href={null}
-          icon={null}
-          icon_position={null}
-          icon_size={null}
-          id="dropdown-id"
-          innerRef={null}
-          onBlur={[Function]}
-          onClick={null}
-          onFocus={[Function]}
-          onKeyDown={[Function]}
-          onMouseDown={[Function]}
-          on_click={null}
-          size="medium"
-          status={null}
-          status_animation={null}
-          status_state="error"
-          text={null}
-          title={null}
-          type="button"
-          value={2}
-          variant="secondary"
+        <span
+          className="dnb-dropdown__shell"
         >
-          <button
+          <Button
+            aria-describedby="dropdown-id-status dropdown-id-suffix"
             aria-disabled={true}
             aria-expanded={false}
             aria-haspopup={true}
             aria-labelledby="dropdown-id-label"
-            className="dnb-button dnb-button--secondary dnb-dropdown__trigger dnb-button--size-medium dnb-button--has-text"
+            bounding={false}
+            class={null}
+            className="dnb-dropdown__trigger"
+            custom_element={null}
+            custom_method={null}
+            disabled="disabled"
+            global_status_id={null}
+            href={null}
+            icon={null}
+            icon_position={null}
+            icon_size={null}
             id="dropdown-id"
+            innerRef={null}
             onBlur={[Function]}
-            onClick={[Function]}
+            onClick={null}
             onFocus={[Function]}
             onKeyDown={[Function]}
             onMouseDown={[Function]}
-            onMouseOut={[Function]}
+            on_click={null}
+            size="medium"
+            status={null}
+            status_animation={null}
+            status_state="error"
+            text={null}
+            title={null}
             type="button"
             value={2}
+            variant="secondary"
           >
-            <Content
+            <button
+              aria-describedby="dropdown-id-status dropdown-id-suffix"
               aria-disabled={true}
               aria-expanded={false}
               aria-haspopup={true}
               aria-labelledby="dropdown-id-label"
-              bounding={false}
-              class={null}
-              className="dnb-dropdown__trigger"
-              content={
-                Array [
-                  <span
-                    className="dnb-dropdown__text"
-                  >
-                    <span
-                      className="dnb-dropdown__text__inner"
-                    >
-                      Feriekonto - Kari Nordmann med et kjempelangt etternavnsen
-                    </span>
-                  </span>,
-                  <span
-                    className="dnb-dropdown__icon"
-                  >
-                    <IconPrimary
-                      alt={null}
-                      attributes={null}
-                      border={null}
-                      class={null}
-                      className={null}
-                      color={null}
-                      height={null}
-                      icon="icon"
-                      modifier={null}
-                      size="icon_size"
-                      title={null}
-                      width={null}
-                    />
-                  </span>,
-                ]
-              }
-              custom_element={null}
-              custom_method={null}
-              disabled="disabled"
-              global_status_id={null}
-              href={null}
-              icon={null}
-              icon_position={null}
-              icon_size={null}
+              className="dnb-button dnb-button--secondary dnb-dropdown__trigger dnb-button--size-medium dnb-button--has-text"
               id="dropdown-id"
-              innerRef={null}
-              isIconOnly={false}
               onBlur={[Function]}
-              onClick={null}
+              onClick={[Function]}
               onFocus={[Function]}
               onKeyDown={[Function]}
               onMouseDown={[Function]}
-              on_click={null}
-              size="medium"
-              status={null}
-              status_animation={null}
-              status_state="error"
-              text={null}
-              title={null}
+              onMouseOut={[Function]}
               type="button"
               value={2}
-              variant="secondary"
             >
-              <span
-                className="dnb-dropdown__text"
+              <Content
+                aria-describedby="dropdown-id-status dropdown-id-suffix"
+                aria-disabled={true}
+                aria-expanded={false}
+                aria-haspopup={true}
+                aria-labelledby="dropdown-id-label"
+                bounding={false}
+                class={null}
+                className="dnb-dropdown__trigger"
+                content={
+                  Array [
+                    <span
+                      className="dnb-dropdown__text"
+                    >
+                      <span
+                        className="dnb-dropdown__text__inner"
+                      >
+                        Feriekonto - Kari Nordmann med et kjempelangt etternavnsen
+                      </span>
+                    </span>,
+                    <span
+                      className="dnb-dropdown__icon"
+                    >
+                      <IconPrimary
+                        alt={null}
+                        attributes={null}
+                        border={null}
+                        class={null}
+                        className={null}
+                        color={null}
+                        height={null}
+                        icon="icon"
+                        modifier={null}
+                        size="icon_size"
+                        title={null}
+                        width={null}
+                      />
+                    </span>,
+                  ]
+                }
+                custom_element={null}
+                custom_method={null}
+                disabled="disabled"
+                global_status_id={null}
+                href={null}
+                icon={null}
+                icon_position={null}
+                icon_size={null}
+                id="dropdown-id"
+                innerRef={null}
+                isIconOnly={false}
+                onBlur={[Function]}
+                onClick={null}
+                onFocus={[Function]}
+                onKeyDown={[Function]}
+                onMouseDown={[Function]}
+                on_click={null}
+                size="medium"
+                status={null}
+                status_animation={null}
+                status_state="error"
+                text={null}
+                title={null}
+                type="button"
+                value={2}
+                variant="secondary"
               >
                 <span
-                  className="dnb-dropdown__text__inner"
+                  className="dnb-dropdown__text"
                 >
-                  Feriekonto - Kari Nordmann med et kjempelangt etternavnsen
+                  <span
+                    className="dnb-dropdown__text__inner"
+                  >
+                    Feriekonto - Kari Nordmann med et kjempelangt etternavnsen
+                  </span>
                 </span>
-              </span>
-              <span
-                className="dnb-dropdown__icon"
-              >
-                <IconPrimary
-                  alt={null}
-                  attributes={null}
-                  border={null}
-                  class={null}
-                  className={null}
-                  color={null}
-                  height={null}
-                  icon="icon"
-                  modifier={null}
-                  size="icon_size"
-                  title={null}
-                  width={null}
-                />
-              </span>
-            </Content>
-          </button>
-        </Button>
+                <span
+                  className="dnb-dropdown__icon"
+                >
+                  <IconPrimary
+                    alt={null}
+                    attributes={null}
+                    border={null}
+                    class={null}
+                    className={null}
+                    color={null}
+                    height={null}
+                    icon="icon"
+                    modifier={null}
+                    size="icon_size"
+                    title={null}
+                    width={null}
+                  />
+                </span>
+              </Content>
+            </button>
+          </Button>
+        </span>
+        <span
+          className="dnb-dropdown__suffix"
+          id="dropdown-id-suffix"
+        >
+          suffix
+        </span>
       </span>
     </span>
   </span>
@@ -1065,6 +1079,10 @@ legend.dnb-form-label {
     margin: 0;
     padding: 0;
     color: inherit; }
+  .dnb-dropdown__row {
+    display: inline-flex; }
+  .dnb-dropdown__suffix {
+    padding-left: 0.5rem; }
   .dnb-dropdown__content {
     padding: 0; }
   .dnb-dropdown__list {
