@@ -47,6 +47,11 @@ const propTypes = {
   status_state: PropTypes.string,
   status_animation: PropTypes.string,
   global_status_id: PropTypes.string,
+  suffix: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.func,
+    PropTypes.node
+  ]),
   value: PropTypes.string,
   attributes: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   readOnly: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -76,6 +81,7 @@ const defaultProps = {
   status_state: 'error',
   status_animation: null,
   global_status_id: null,
+  suffix: null,
   value: null,
   attributes: null,
   readOnly: false,
@@ -210,6 +216,7 @@ export default class Switch extends Component {
       status_state,
       status_animation,
       global_status_id,
+      suffix,
       label,
       label_position,
       label_sr_only,
@@ -256,8 +263,10 @@ export default class Switch extends Component {
       ...rest
     }
 
-    if (showStatus) {
-      inputParams['aria-describedby'] = id + '-status'
+    if (showStatus || suffix) {
+      inputParams['aria-describedby'] = `${
+        showStatus ? id + '-status' : ''
+      } ${suffix ? id + '-suffix' : ''}`
     }
     if (readOnly) {
       inputParams['aria-readonly'] = inputParams.readOnly = true
@@ -325,6 +334,15 @@ export default class Switch extends Component {
                   <span className="dnb-switch__focus__inner" />
                 </span>
               </span>
+
+              {suffix && (
+                <span
+                  className="dnb-switch__suffix"
+                  id={id + '-suffix'} // used for "aria-describedby"
+                >
+                  {suffix}
+                </span>
+              )}
             </span>
           </span>
         </span>

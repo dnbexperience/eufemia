@@ -50,7 +50,8 @@ class Example extends PureComponent {
 <Switch
   label="Switch"
   checked
-  status="Error message"
+  status="Error message asd asd asdSociosqu aenean nibh malesuada volutpat dictum sit nisi magnis nullam"
+  suffix={<Modal title="Modal Title" >Modal content</Modal>}
 />
           `}
         </ComponentBox>
