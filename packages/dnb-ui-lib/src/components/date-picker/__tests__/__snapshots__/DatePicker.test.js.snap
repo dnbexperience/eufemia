@@ -2278,6 +2278,8 @@ legend.dnb-form-label {
       width: 0;
       height: 0;
       font-size: var(--font-size-small); }
+  .dnb-toggle-button__suffix {
+    padding-left: 0.5rem; }
   .dnb-toggle-button--vertical {
     flex-direction: column;
     align-items: flex-start; }

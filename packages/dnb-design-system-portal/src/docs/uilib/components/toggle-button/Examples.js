@@ -171,6 +171,27 @@ class Example extends PureComponent {
 </ToggleButton.Group>
           `}
         </ComponentBox>
+        <ComponentBox caption="ToggleButtons with suffix">
+          {/* @jsx */ `
+<ToggleButton.Group
+  label="With suffixes:"
+  suffix="And a group suffix"
+>
+  <ToggleButton text="First" value="first" />
+  <ToggleButton
+    text="Second"
+    value="second"
+    status="Error message"
+    suffix={<Modal title="Modal Title">Modal content</Modal>}
+  />
+  <ToggleButton
+    text="Third"
+    value="third"
+    checked
+  />
+</ToggleButton.Group>
+          `}
+        </ComponentBox>
         <StateDemo />
       </Fragment>
     )

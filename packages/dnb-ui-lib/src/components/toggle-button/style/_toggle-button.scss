@@ -30,6 +30,10 @@
     @include alignmentHelper();
   }
 
+  &__suffix {
+    padding-left: 0.5rem;
+  }
+
   &--vertical {
     flex-direction: column;
     align-items: flex-start;

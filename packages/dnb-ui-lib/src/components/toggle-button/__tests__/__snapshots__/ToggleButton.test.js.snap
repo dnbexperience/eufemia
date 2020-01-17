@@ -23,6 +23,7 @@ exports[`ToggleButton component have to match snapshot 1`] = `
   status={null}
   status_animation="status_animation"
   status_state="status_state"
+  suffix="suffix"
   text="text"
   title="title"
   value="value"
@@ -68,6 +69,7 @@ exports[`ToggleButton component have to match snapshot 1`] = `
         className="dnb-toggle-button__shell"
       >
         <Button
+          aria-describedby=" toggle-button-suffix"
           aria-disabled={true}
           aria-pressed="false"
           bounding={false}
@@ -97,6 +99,7 @@ exports[`ToggleButton component have to match snapshot 1`] = `
           variant="secondary"
         >
           <button
+            aria-describedby=" toggle-button-suffix"
             aria-disabled={true}
             aria-pressed="false"
             className="dnb-button dnb-button--secondary dnb-toggle-button__button dnb-button--icon-position-right dnb-button--has-icon dnb-button--has-text"
@@ -109,6 +112,7 @@ exports[`ToggleButton component have to match snapshot 1`] = `
             type="button"
           >
             <Content
+              aria-describedby=" toggle-button-suffix"
               aria-disabled={true}
               aria-pressed="false"
               bounding={false}
@@ -279,6 +283,12 @@ exports[`ToggleButton component have to match snapshot 1`] = `
             </Content>
           </button>
         </Button>
+        <span
+          className="dnb-toggle-button__suffix"
+          id="toggle-button-suffix"
+        >
+          suffix
+        </span>
       </span>
     </span>
   </span>
@@ -307,6 +317,7 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
   status={null}
   status_animation={null}
   status_state="error"
+  suffix={null}
   title={null}
   variant={null}
   vertical={null}
@@ -408,6 +419,7 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
                   status={null}
                   status_animation={null}
                   status_state="error"
+                  suffix={null}
                   text="ToggleButton 1"
                   title={null}
                   value=""
@@ -525,6 +537,7 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
                   status={null}
                   status_animation={null}
                   status_state="error"
+                  suffix={null}
                   text="ToggleButton 2"
                   title={null}
                   value=""
@@ -1577,6 +1590,8 @@ button.dnb-button::-moz-focus-inner {
       width: 0;
       height: 0;
       font-size: var(--font-size-small); }
+  .dnb-toggle-button__suffix {
+    padding-left: 0.5rem; }
   .dnb-toggle-button--vertical {
     flex-direction: column;
     align-items: flex-start; }
