@@ -52,16 +52,6 @@
     line-height: var(--button-height);
   }
 
-  &__icon.dnb-icon svg:not([width]):not([height]) {
-    width: var(--button-icon-size);
-    height: var(--button-icon-size);
-  }
-  [href] > &__icon.dnb-icon {
-    // has same as &__text
-    // only on a.dnb-button it have to be the same, else the icon will push down the button 1px
-    line-height: var(--button-font-size);
-  }
-
   &__text {
     font-size: var(--button-font-size);
     line-height: var(
@@ -180,6 +170,19 @@
     .dnb-button__text {
       order: 1;
     }
+  }
+
+  &:not(.dnb-button--has-text) &__icon {
+    width: inherit;
+  }
+  &__icon.dnb-icon svg:not([width]):not([height]) {
+    width: var(--button-icon-size);
+    height: var(--button-icon-size);
+  }
+  [href] > &__icon.dnb-icon {
+    // has same as &__text
+    // only on a.dnb-button it have to be the same, else the icon will push down the button 1px
+    line-height: var(--button-font-size);
   }
 
   // Button with icon and text - icon on LEFT side
