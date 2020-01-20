@@ -268,11 +268,6 @@ exports[`GlobalError scss have to match snapshot 1`] = `
   .dnb-button,
   .dnb-core-style .dnb-button {
     line-height: var(--button-height); }
-  .dnb-button__icon.dnb-icon svg:not([width]):not([height]) {
-    width: var(--button-icon-size);
-    height: var(--button-icon-size); }
-  [href] > .dnb-button__icon.dnb-icon {
-    line-height: var(--button-font-size); }
   .dnb-button__text {
     font-size: var(--button-font-size);
     line-height: var(--line-height-xx-small--em);
@@ -343,6 +338,13 @@ exports[`GlobalError scss have to match snapshot 1`] = `
     order: 2; }
   .dnb-button--has-text.dnb-button--has-icon .dnb-button__text {
     order: 1; }
+  .dnb-button:not(.dnb-button--has-text) .dnb-button__icon {
+    width: inherit; }
+  .dnb-button__icon.dnb-icon svg:not([width]):not([height]) {
+    width: var(--button-icon-size);
+    height: var(--button-icon-size); }
+  [href] > .dnb-button__icon.dnb-icon {
+    line-height: var(--button-font-size); }
   .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-left .dnb-button__icon {
     order: 1; }
   .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-left .dnb-button__text {
