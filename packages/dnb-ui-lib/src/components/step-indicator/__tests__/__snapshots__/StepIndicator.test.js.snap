@@ -168,7 +168,6 @@ exports[`StepIndicator component with buttons have to match snapshot 1`] = `
           <span
             aria-disabled={true}
             className="dnb-step-indicator__item-content dnb-step-indicator__item-content--static"
-            role="text"
           >
             <StepItemWrapper>
               <span
@@ -369,7 +368,6 @@ exports[`StepIndicator component with urls have to match snapshot 1`] = `
         >
           <span
             className="dnb-step-indicator__item-content dnb-step-indicator__item-content--static"
-            role="text"
           >
             <StepItemWrapper>
               <span

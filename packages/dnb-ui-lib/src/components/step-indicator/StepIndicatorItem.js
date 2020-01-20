@@ -8,9 +8,12 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import {
   isTrue,
-  dispatchCustomElementEvent
+  dispatchCustomElementEvent,
+  isMac as isMacFunc
 } from '../../shared/component-helper'
 import { Dummy } from '../tabs/Tabs'
+
+let isMac = null
 
 export default class StepItem extends PureComponent {
   static propTypes = {
@@ -88,6 +91,10 @@ export default class StepItem extends PureComponent {
   }
 
   render() {
+    if (isMac === null) {
+      isMac = isMacFunc()
+    }
+
     const {
       activeItem,
       currentItem,
@@ -206,8 +213,11 @@ export default class StepItem extends PureComponent {
         </a>
       )
     } else {
-      // to screen readers read both the nr. and the text in one sentence
-      params.role = 'text'
+      // To screen readers read both the nr. and the text in one sentence
+      if (isMac) {
+        params.role = 'text'
+      }
+
       child = (
         <span
           className="dnb-step-indicator__item-content dnb-step-indicator__item-content--static"
