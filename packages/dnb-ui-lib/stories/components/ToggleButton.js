@@ -26,7 +26,12 @@ export default [
         <Provider formRow={{ vertical: true }}>
           <FormRow>
             <ToggleButton.Group>
-              <ToggleButton text="First" value="first" />
+              <ToggleButton
+                text="First"
+                value="first"
+                suffix="123"
+                status="error message"
+              />
               <ToggleButton text="Second" value="second" />
               <ToggleButton text="Third A" value="thirdA" />
               <ToggleButton text="Third B" value="thirdB" />

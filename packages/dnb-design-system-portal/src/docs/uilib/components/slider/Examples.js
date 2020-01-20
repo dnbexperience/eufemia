@@ -108,6 +108,17 @@ const VerticalWrapper = styled.div\`
 render(<Component />)
           `}
         </ComponentBox>
+        <ComponentBox caption="Slider with suffix">
+          {/* @jsx */ `
+<Slider
+  min={0}
+  max={100}
+  value={70}
+  label="Slider with suffix:"
+  suffix={<Modal title="Modal Title">Modal content</Modal>}
+/>
+          `}
+        </ComponentBox>
         <ComponentBox caption="Native Range Slider. In order to get the styles, import also: `dnb-ui-lib/components/slider/style/dnb-range.min.css`">
           {/* @jsx */ `
 <FormRow>

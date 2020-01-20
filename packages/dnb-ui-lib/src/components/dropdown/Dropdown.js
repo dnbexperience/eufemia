@@ -60,6 +60,11 @@ const propTypes = {
   status_state: PropTypes.string,
   status_animation: PropTypes.string,
   global_status_id: PropTypes.string,
+  suffix: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.func,
+    PropTypes.node
+  ]),
   scrollable: PropTypes.bool,
   direction: PropTypes.oneOf(['auto', 'top', 'bottom']),
   max_height: PropTypes.number,
@@ -135,6 +140,7 @@ const defaultProps = {
   status_state: 'error',
   status_animation: null,
   global_status_id: null,
+  suffix: null,
   scrollable: true,
   max_height: null,
   direction: 'auto',
@@ -317,6 +323,7 @@ export default class Dropdown extends PureComponent {
     }
 
     this._ref = React.createRef()
+    this._refShell = React.createRef()
     this._refUl = React.createRef()
     this._refButton = React.createRef()
     this._refTriangle = React.createRef()
@@ -344,7 +351,7 @@ export default class Dropdown extends PureComponent {
     }
 
     try {
-      const width = this._ref.current.offsetWidth
+      const width = this._refShell.current.offsetWidth
       if (parseFloat(width) > 0) {
         const { icon_position, align_dropdown } = this.props
         switch (align_dropdown) {
@@ -370,7 +377,7 @@ export default class Dropdown extends PureComponent {
 
   setOutsideClickObserver = () => {
     this.outsideClick = detectOutsideClick(
-      this._ref.current,
+      this._refShell.current,
       this.setHidden
     )
     if (typeof document !== 'undefined') {
@@ -397,7 +404,7 @@ export default class Dropdown extends PureComponent {
     }
     // This can be enabled in case we want to bypass the overflow hidden on Modals
     // Has to be tested more!
-    // this.modalScrollLock = addScrollLock(this._ref.current)
+    // this.modalScrollLock = addScrollLock(this._refShell.current)
     this.setState(
       {
         hidden: false,
@@ -444,7 +451,7 @@ export default class Dropdown extends PureComponent {
                 if (setFocus) {
                   let elem = this._refButton.current
                   try {
-                    elem = this._refButton.current._ref.current
+                    elem = this._refButton.current._refShell.current
                   } catch (e) {
                     // do noting
                   }
@@ -850,7 +857,7 @@ export default class Dropdown extends PureComponent {
   }
 
   setDirectionObserver() {
-    if (typeof window === 'undefined' || !this._ref.current) {
+    if (typeof window === 'undefined' || !this._refShell.current) {
       return
     }
     if (this.props.direction !== 'auto') {
@@ -861,7 +868,7 @@ export default class Dropdown extends PureComponent {
       const min_height = 320 // 20rem = 20x16=320
       const spaceToTopOffset = 4 * 16 //because of headers
       const spaceToBottomOffset = 2 * 16
-      const elem = this._ref.current
+      const elem = this._refShell.current
 
       this.setDirection = () => {
         // use "window.pageYOffset" instead of "window.scrollY" because IE
@@ -928,6 +935,7 @@ export default class Dropdown extends PureComponent {
       status_state,
       status_animation,
       global_status_id,
+      suffix,
       scrollable,
       no_animation,
       no_scroll_animation,
@@ -1025,6 +1033,11 @@ export default class Dropdown extends PureComponent {
     // if (typeof title === 'string') {
     //   triggerParams['title'] = title
     // }
+    if (showStatus || suffix) {
+      triggerParams['aria-describedby'] = `${
+        showStatus ? id + '-status' : ''
+      } ${suffix ? id + '-suffix' : ''}`
+    }
     if (hidden && label) {
       triggerParams['aria-labelledby'] = id + '-label'
     }
@@ -1088,108 +1101,119 @@ export default class Dropdown extends PureComponent {
             />
           )}
 
-          <span className="dnb-dropdown__shell">
-            {CustomTrigger ? (
-              <CustomTrigger {...triggerParams} />
-            ) : (
-              <Button
-                variant="secondary"
-                size="medium"
-                ref={this._refButton}
-                {...triggerParams}
-              >
-                {!isPopupMenu && (
-                  <span className="dnb-dropdown__text">
-                    <span className="dnb-dropdown__text__inner">
-                      {title}
-                    </span>
-                  </span>
-                )}
-                <span
-                  className={classnames(
-                    'dnb-dropdown__icon',
-                    // icon && `icon-${icon}`,// not used anymore for now
-                    parseFloat(selected_item) === 0 &&
-                      'dnb-dropdown__icon--first'
-                  )}
+          <span className="dnb-dropdown__row">
+            <span className="dnb-dropdown__shell" ref={this._refShell}>
+              {CustomTrigger ? (
+                <CustomTrigger {...triggerParams} />
+              ) : (
+                <Button
+                  variant="secondary"
+                  size="medium"
+                  ref={this._refButton}
+                  {...triggerParams}
                 >
-                  {icon !== false && (
-                    <Icon
-                      icon={icon || 'chevron-down'}
-                      size={
-                        icon_size ||
-                        (size === 'large' ? 'medium' : 'default')
-                      }
-                    />
+                  {!isPopupMenu && (
+                    <span className="dnb-dropdown__text">
+                      <span className="dnb-dropdown__text__inner">
+                        {title}
+                      </span>
+                    </span>
+                  )}
+                  <span
+                    className={classnames(
+                      'dnb-dropdown__icon',
+                      // icon && `icon-${icon}`,// not used anymore for now
+                      parseFloat(selected_item) === 0 &&
+                        'dnb-dropdown__icon--first'
+                    )}
+                  >
+                    {icon !== false && (
+                      <Icon
+                        icon={icon || 'chevron-down'}
+                        size={
+                          icon_size ||
+                          (size === 'large' ? 'medium' : 'default')
+                        }
+                      />
+                    )}
+                  </span>
+                </Button>
+              )}
+
+              {!hidden && (
+                <span {...listParams}>
+                  {data && data.length > 0 ? (
+                    <ul {...ulParams}>
+                      {data.map((dataItem, i) => {
+                        const isCurrent = i === parseFloat(selected_item)
+                        const liParams = {
+                          id: `option-${id}-${i}`,
+                          role: 'option',
+                          tabIndex: '-1',
+                          // title: Dropdown.parseContentTitle(dataItem),// freaks out NVDA
+                          className: classnames(
+                            'dnb-dropdown__option',
+                            isCurrent && 'dnb-dropdown__option--selected',
+                            i === active_item &&
+                              'dnb-dropdown__option--focus',
+                            // helper classes
+                            i === this.state.closestToTop &&
+                              'closest-to-top',
+                            i === this.state.closestToBottom &&
+                              'closest-to-bottom',
+                            i === data.length - 1 && 'last-of-type' // because of the triangle element
+                          ),
+                          onMouseDown: this.selectItemHandler,
+                          onKeyDown: this.preventTab,
+                          'data-item': i
+                        }
+                        if (isCurrent) {
+                          liParams['aria-current'] = true // has best support on NVDA
+                          liParams['aria-selected'] = true // has best support on VO
+                        }
+                        return (
+                          <li key={id + i} {...liParams}>
+                            <span className="dnb-dropdown__option__inner">
+                              {(Array.isArray(dataItem.content) &&
+                                dataItem.content.map((item, n) => {
+                                  return (
+                                    <span
+                                      key={id + i + n}
+                                      className="dnb-dropdown__option__item"
+                                    >
+                                      {item}
+                                    </span>
+                                  )
+                                })) ||
+                                dataItem.content ||
+                                dataItem}
+                            </span>
+                          </li>
+                        )
+                      })}
+                      <li
+                        className="dnb-dropdown__triangle"
+                        aria-hidden
+                        ref={this._refTriangle}
+                      />
+                    </ul>
+                  ) : (
+                    children && (
+                      <span className="dnb-dropdown__content">
+                        {children}
+                      </span>
+                    )
                   )}
                 </span>
-              </Button>
-            )}
+              )}
+            </span>
 
-            {!hidden && (
-              <span {...listParams}>
-                {data && data.length > 0 ? (
-                  <ul {...ulParams}>
-                    {data.map((dataItem, i) => {
-                      const isCurrent = i === parseFloat(selected_item)
-                      const liParams = {
-                        id: `option-${id}-${i}`,
-                        role: 'option',
-                        tabIndex: '-1',
-                        // title: Dropdown.parseContentTitle(dataItem),// freaks out NVDA
-                        className: classnames(
-                          'dnb-dropdown__option',
-                          isCurrent && 'dnb-dropdown__option--selected',
-                          i === active_item &&
-                            'dnb-dropdown__option--focus',
-                          // helper classes
-                          i === this.state.closestToTop &&
-                            'closest-to-top',
-                          i === this.state.closestToBottom &&
-                            'closest-to-bottom',
-                          i === data.length - 1 && 'last-of-type' // because of the triangle element
-                        ),
-                        onMouseDown: this.selectItemHandler,
-                        onKeyDown: this.preventTab,
-                        'data-item': i
-                      }
-                      if (isCurrent) {
-                        liParams['aria-current'] = true // has best support on NVDA
-                        liParams['aria-selected'] = true // has best support on VO
-                      }
-                      return (
-                        <li key={id + i} {...liParams}>
-                          <span className="dnb-dropdown__option__inner">
-                            {(Array.isArray(dataItem.content) &&
-                              dataItem.content.map((item, n) => {
-                                return (
-                                  <span
-                                    key={id + i + n}
-                                    className="dnb-dropdown__option__item"
-                                  >
-                                    {item}
-                                  </span>
-                                )
-                              })) ||
-                              dataItem.content ||
-                              dataItem}
-                          </span>
-                        </li>
-                      )
-                    })}
-                    <li
-                      className="dnb-dropdown__triangle"
-                      aria-hidden
-                      ref={this._refTriangle}
-                    />
-                  </ul>
-                ) : (
-                  children && (
-                    <span className="dnb-dropdown__content">
-                      {children}
-                    </span>
-                  )
-                )}
+            {suffix && (
+              <span
+                className="dnb-dropdown__suffix"
+                id={id + '-suffix'} // used for "aria-describedby"
+              >
+                {suffix}
               </span>
             )}
           </span>

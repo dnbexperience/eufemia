@@ -26,7 +26,7 @@ const props = {
   id: 'textarea',
   label: null,
   status: null, // to make sure we don't get aria-details
-  textareaElement: null,
+  textarea_element: null,
   disabled: false
 }
 

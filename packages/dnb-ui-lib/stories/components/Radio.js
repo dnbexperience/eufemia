@@ -12,7 +12,8 @@ import {
   FormSet,
   FormRow,
   FormLabel,
-  Button
+  Button,
+  Modal
 } from '../../src/components'
 
 import { H2 } from '../../src/elements'
@@ -22,10 +23,27 @@ export default [
   () => (
     <Wrapper>
       <Box>
+        <Radio.Group
+          label="With suffixes:"
+          // label_position="left"
+          suffix="And a group suffix"
+        >
+          <Radio label="First" value="first" />
+          <Radio
+            label="Second"
+            value="second"
+            status="Error message"
+            // suffix="Suffix message"
+            suffix={<Modal title="Modal Title">Modal content</Modal>}
+          />
+          <Radio label="Third" value="third" checked />
+        </Radio.Group>
+      </Box>
+      <Box>
         <FormRow label="Legend:">
-          <Radio.Group label="Group A label:">
+          <Radio.Group label="Group A label:" suffix="Suffix 123">
             <Radio label="first" value="first" />
-            <Radio label="second" value="second" />
+            <Radio suffix="Suffix 123" label="second" value="second" />
             <Radio label="third" value="third" />
             <Radio label="third-1" value="third-1" />
             <Radio label="third-2" value="third-2" />
@@ -140,6 +158,7 @@ export default [
               label="Second"
               value="second"
               status="Potenti viverra facilisi blandit sodales lorem est fusce pulvinar a imperdiet quis mi parturient mattis feugiat tellus ipsum magnis rutrum"
+              suffix="Suffix 123"
             />
             <Radio
               label="Third"

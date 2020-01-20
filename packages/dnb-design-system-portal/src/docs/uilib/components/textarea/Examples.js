@@ -102,6 +102,15 @@ class Example extends PureComponent {
 />
           `}
         </ComponentBox>
+        <ComponentBox caption="Textarea with suffix">
+          {/* @jsx */ `
+<Textarea
+  label="Textarea with suffix:"
+  value="Nec litora inceptos vestibulum id interdum donec gravida."
+  suffix={<Modal title="Modal Title">Modal content</Modal>}
+/>
+          `}
+        </ComponentBox>
       </Fragment>
     )
   }

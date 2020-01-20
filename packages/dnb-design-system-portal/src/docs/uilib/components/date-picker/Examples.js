@@ -134,6 +134,16 @@ class Example extends PureComponent {
 />
           `}
         </ComponentBox>
+        <ComponentBox>
+          {/* @jsx */ `
+<DatePicker
+  label="With suffix:"
+  date={new Date()}
+  show_input
+  suffix={<Modal title="Modal Title">Modal content</Modal>}
+/>
+          `}
+        </ComponentBox>
 
         <ScreenshotTests />
       </Fragment>

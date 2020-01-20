@@ -84,6 +84,7 @@ exports[`Dropdown component have to match snapshot 1`] = `
   status="status"
   status_animation="status_animation"
   status_state="error"
+  suffix="suffix"
   title="title"
   trigger_component={null}
   value={2}
@@ -216,154 +217,167 @@ exports[`Dropdown component have to match snapshot 1`] = `
         </span>
       </FormStatus>
       <span
-        className="dnb-dropdown__shell"
+        className="dnb-dropdown__row"
       >
-        <Button
-          aria-disabled={true}
-          aria-expanded={false}
-          aria-haspopup={true}
-          aria-labelledby="dropdown-id-label"
-          bounding={false}
-          class={null}
-          className="dnb-dropdown__trigger"
-          custom_element={null}
-          custom_method={null}
-          disabled="disabled"
-          global_status_id={null}
-          href={null}
-          icon={null}
-          icon_position={null}
-          icon_size={null}
-          id="dropdown-id"
-          innerRef={null}
-          onBlur={[Function]}
-          onClick={null}
-          onFocus={[Function]}
-          onKeyDown={[Function]}
-          onMouseDown={[Function]}
-          on_click={null}
-          size="medium"
-          status={null}
-          status_animation={null}
-          status_state="error"
-          text={null}
-          title={null}
-          type="button"
-          value={2}
-          variant="secondary"
+        <span
+          className="dnb-dropdown__shell"
         >
-          <button
+          <Button
+            aria-describedby="dropdown-id-status dropdown-id-suffix"
             aria-disabled={true}
             aria-expanded={false}
             aria-haspopup={true}
             aria-labelledby="dropdown-id-label"
-            className="dnb-button dnb-button--secondary dnb-dropdown__trigger dnb-button--size-medium dnb-button--has-text"
+            bounding={false}
+            class={null}
+            className="dnb-dropdown__trigger"
+            custom_element={null}
+            custom_method={null}
+            disabled="disabled"
+            global_status_id={null}
+            href={null}
+            icon={null}
+            icon_position={null}
+            icon_size={null}
             id="dropdown-id"
+            innerRef={null}
             onBlur={[Function]}
-            onClick={[Function]}
+            onClick={null}
             onFocus={[Function]}
             onKeyDown={[Function]}
             onMouseDown={[Function]}
-            onMouseOut={[Function]}
+            on_click={null}
+            size="medium"
+            status={null}
+            status_animation={null}
+            status_state="error"
+            text={null}
+            title={null}
             type="button"
             value={2}
+            variant="secondary"
           >
-            <Content
+            <button
+              aria-describedby="dropdown-id-status dropdown-id-suffix"
               aria-disabled={true}
               aria-expanded={false}
               aria-haspopup={true}
               aria-labelledby="dropdown-id-label"
-              bounding={false}
-              class={null}
-              className="dnb-dropdown__trigger"
-              content={
-                Array [
-                  <span
-                    className="dnb-dropdown__text"
-                  >
-                    <span
-                      className="dnb-dropdown__text__inner"
-                    >
-                      Feriekonto - Kari Nordmann med et kjempelangt etternavnsen
-                    </span>
-                  </span>,
-                  <span
-                    className="dnb-dropdown__icon"
-                  >
-                    <IconPrimary
-                      alt={null}
-                      attributes={null}
-                      border={null}
-                      class={null}
-                      className={null}
-                      color={null}
-                      height={null}
-                      icon="icon"
-                      modifier={null}
-                      size="icon_size"
-                      title={null}
-                      width={null}
-                    />
-                  </span>,
-                ]
-              }
-              custom_element={null}
-              custom_method={null}
-              disabled="disabled"
-              global_status_id={null}
-              href={null}
-              icon={null}
-              icon_position={null}
-              icon_size={null}
+              className="dnb-button dnb-button--secondary dnb-dropdown__trigger dnb-button--size-medium dnb-button--has-text"
               id="dropdown-id"
-              innerRef={null}
-              isIconOnly={false}
               onBlur={[Function]}
-              onClick={null}
+              onClick={[Function]}
               onFocus={[Function]}
               onKeyDown={[Function]}
               onMouseDown={[Function]}
-              on_click={null}
-              size="medium"
-              status={null}
-              status_animation={null}
-              status_state="error"
-              text={null}
-              title={null}
+              onMouseOut={[Function]}
               type="button"
               value={2}
-              variant="secondary"
             >
-              <span
-                className="dnb-dropdown__text"
+              <Content
+                aria-describedby="dropdown-id-status dropdown-id-suffix"
+                aria-disabled={true}
+                aria-expanded={false}
+                aria-haspopup={true}
+                aria-labelledby="dropdown-id-label"
+                bounding={false}
+                class={null}
+                className="dnb-dropdown__trigger"
+                content={
+                  Array [
+                    <span
+                      className="dnb-dropdown__text"
+                    >
+                      <span
+                        className="dnb-dropdown__text__inner"
+                      >
+                        Feriekonto - Kari Nordmann med et kjempelangt etternavnsen
+                      </span>
+                    </span>,
+                    <span
+                      className="dnb-dropdown__icon"
+                    >
+                      <IconPrimary
+                        alt={null}
+                        attributes={null}
+                        border={null}
+                        class={null}
+                        className={null}
+                        color={null}
+                        height={null}
+                        icon="icon"
+                        modifier={null}
+                        size="icon_size"
+                        title={null}
+                        width={null}
+                      />
+                    </span>,
+                  ]
+                }
+                custom_element={null}
+                custom_method={null}
+                disabled="disabled"
+                global_status_id={null}
+                href={null}
+                icon={null}
+                icon_position={null}
+                icon_size={null}
+                id="dropdown-id"
+                innerRef={null}
+                isIconOnly={false}
+                onBlur={[Function]}
+                onClick={null}
+                onFocus={[Function]}
+                onKeyDown={[Function]}
+                onMouseDown={[Function]}
+                on_click={null}
+                size="medium"
+                status={null}
+                status_animation={null}
+                status_state="error"
+                text={null}
+                title={null}
+                type="button"
+                value={2}
+                variant="secondary"
               >
                 <span
-                  className="dnb-dropdown__text__inner"
+                  className="dnb-dropdown__text"
                 >
-                  Feriekonto - Kari Nordmann med et kjempelangt etternavnsen
+                  <span
+                    className="dnb-dropdown__text__inner"
+                  >
+                    Feriekonto - Kari Nordmann med et kjempelangt etternavnsen
+                  </span>
                 </span>
-              </span>
-              <span
-                className="dnb-dropdown__icon"
-              >
-                <IconPrimary
-                  alt={null}
-                  attributes={null}
-                  border={null}
-                  class={null}
-                  className={null}
-                  color={null}
-                  height={null}
-                  icon="icon"
-                  modifier={null}
-                  size="icon_size"
-                  title={null}
-                  width={null}
-                />
-              </span>
-            </Content>
-          </button>
-        </Button>
+                <span
+                  className="dnb-dropdown__icon"
+                >
+                  <IconPrimary
+                    alt={null}
+                    attributes={null}
+                    border={null}
+                    class={null}
+                    className={null}
+                    color={null}
+                    height={null}
+                    icon="icon"
+                    modifier={null}
+                    size="icon_size"
+                    title={null}
+                    width={null}
+                  />
+                </span>
+              </Content>
+            </button>
+          </Button>
+        </span>
+        <span
+          className="dnb-dropdown__suffix"
+          id="dropdown-id-suffix"
+        >
+          suffix
+        </span>
       </span>
     </span>
   </span>
@@ -633,6 +647,89 @@ exports[`Dropdown scss have to match snapshot 1`] = `
 * DNB Button
 *
 */
+/*
+* DNB FormStatus
+*
+*/
+.dnb-form-status {
+  font-family: var(--font-family-default);
+  font-weight: var(--font-weight-default);
+  font-size: var(--font-size-small);
+  font-style: normal;
+  line-height: var(--line-height-basis);
+  color: var(--color-black-80, #333);
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  /**
+  * 1. Remove repeating backgrounds in all browsers (opinionated).
+  * 2. Add border box sizing in all browsers (opinionated).
+  */
+  /**
+  * 1. Add text decoration inheritance in all browsers (opinionated).
+  * 2. Add vertical alignment inheritance in all browsers (opinionated).
+  */
+  margin: 0;
+  padding: 0; }
+  .dnb-form-status *,
+  .dnb-form-status ::before,
+  .dnb-form-status ::after {
+    background-repeat: no-repeat;
+    /* 1 */
+    box-sizing: border-box;
+    /* 2 */ }
+  .dnb-form-status ::before,
+  .dnb-form-status ::after {
+    text-decoration: inherit;
+    /* 1 */
+    vertical-align: inherit;
+    /* 2 */ }
+
+/*
+ * FormStatus component
+ *
+ */
+.dnb-form-status {
+  display: flex; }
+  .dnb-form-status__shell {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    border-radius: var(--input-border-radius); }
+  .dnb-form-status--text {
+    padding: calc(0.5rem / 2) 1rem;
+    cursor: text;
+    color: inherit;
+    line-height: var(--line-height-basis); }
+  .dnb-icon + .dnb-form-status--text {
+    padding-left: 0.5rem; }
+  .dnb-form-status__shell > .dnb-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 1.5em;
+    height: 1.5em;
+    margin-top: 0.25em;
+    margin-left: 0.5em;
+    color: inherit;
+    font-size: var(--font-size-basis);
+    transform: translateY(-0.125rem); }
+  .dnb-form-status[hidden] {
+    display: none; }
+  .dnb-form-status--fade-in {
+    overflow: hidden;
+    max-height: 0;
+    animation: form-status-fade-in 2s ease-out 400ms forwards; }
+
+@keyframes form-status-fade-in {
+  from {
+    max-height: 0; }
+  to {
+    max-height: calc(var(--input-height) * 8); } }
+  @media screen and (-ms-high-contrast: none) {
+    .dnb-form-status__shell > .dnb-icon {
+      border-width: 1px; } }
+
 .dnb-button {
   font-family: var(--font-family-default);
   font-weight: var(--font-weight-default);
@@ -708,11 +805,6 @@ exports[`Dropdown scss have to match snapshot 1`] = `
   .dnb-button,
   .dnb-core-style .dnb-button {
     line-height: var(--button-height); }
-  .dnb-button__icon.dnb-icon svg:not([width]):not([height]) {
-    width: var(--button-icon-size);
-    height: var(--button-icon-size); }
-  [href] > .dnb-button__icon.dnb-icon {
-    line-height: var(--button-font-size); }
   .dnb-button__text {
     font-size: var(--button-font-size);
     line-height: var(--line-height-xx-small--em);
@@ -783,6 +875,13 @@ exports[`Dropdown scss have to match snapshot 1`] = `
     order: 2; }
   .dnb-button--has-text.dnb-button--has-icon .dnb-button__text {
     order: 1; }
+  .dnb-button:not(.dnb-button--has-text) .dnb-button__icon {
+    width: inherit; }
+  .dnb-button__icon.dnb-icon svg:not([width]):not([height]) {
+    width: var(--button-icon-size);
+    height: var(--button-icon-size); }
+  [href] > .dnb-button__icon.dnb-icon {
+    line-height: var(--button-font-size); }
   .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-left .dnb-button__icon {
     order: 1; }
   .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-left .dnb-button__text {
@@ -908,89 +1007,6 @@ button.dnb-button::-moz-focus-inner {
 legend.dnb-form-label {
   display: inline-block; }
 
-/*
-* DNB FormStatus
-*
-*/
-.dnb-form-status {
-  font-family: var(--font-family-default);
-  font-weight: var(--font-weight-default);
-  font-size: var(--font-size-small);
-  font-style: normal;
-  line-height: var(--line-height-basis);
-  color: var(--color-black-80, #333);
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-font-smoothing: antialiased;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-  /**
-  * 1. Remove repeating backgrounds in all browsers (opinionated).
-  * 2. Add border box sizing in all browsers (opinionated).
-  */
-  /**
-  * 1. Add text decoration inheritance in all browsers (opinionated).
-  * 2. Add vertical alignment inheritance in all browsers (opinionated).
-  */
-  margin: 0;
-  padding: 0; }
-  .dnb-form-status *,
-  .dnb-form-status ::before,
-  .dnb-form-status ::after {
-    background-repeat: no-repeat;
-    /* 1 */
-    box-sizing: border-box;
-    /* 2 */ }
-  .dnb-form-status ::before,
-  .dnb-form-status ::after {
-    text-decoration: inherit;
-    /* 1 */
-    vertical-align: inherit;
-    /* 2 */ }
-
-/*
- * FormStatus component
- *
- */
-.dnb-form-status {
-  display: flex; }
-  .dnb-form-status__shell {
-    display: flex;
-    justify-content: flex-start;
-    align-items: flex-start;
-    border-radius: var(--input-border-radius); }
-  .dnb-form-status--text {
-    padding: calc(0.5rem / 2) 1rem;
-    cursor: text;
-    color: inherit;
-    line-height: var(--line-height-basis); }
-  .dnb-icon + .dnb-form-status--text {
-    padding-left: 0.5rem; }
-  .dnb-form-status__shell > .dnb-icon {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 1.5em;
-    height: 1.5em;
-    margin-top: 0.25em;
-    margin-left: 0.5em;
-    color: inherit;
-    font-size: var(--font-size-basis);
-    transform: translateY(-0.125rem); }
-  .dnb-form-status[hidden] {
-    display: none; }
-  .dnb-form-status--fade-in {
-    overflow: hidden;
-    max-height: 0;
-    animation: form-status-fade-in 2s ease-out 400ms forwards; }
-
-@keyframes form-status-fade-in {
-  from {
-    max-height: 0; }
-  to {
-    max-height: calc(var(--input-height) * 8); } }
-  @media screen and (-ms-high-contrast: none) {
-    .dnb-form-status__shell > .dnb-icon {
-      border-width: 1px; } }
-
 .dnb-dropdown {
   font-family: var(--font-family-default);
   font-weight: var(--font-weight-default);
@@ -1065,6 +1081,10 @@ legend.dnb-form-label {
     margin: 0;
     padding: 0;
     color: inherit; }
+  .dnb-dropdown__row {
+    display: inline-flex; }
+  .dnb-dropdown__suffix {
+    padding-left: 0.5rem; }
   .dnb-dropdown__content {
     padding: 0; }
   .dnb-dropdown__list {

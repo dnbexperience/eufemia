@@ -46,6 +46,11 @@ const propTypes = {
   status_state: PropTypes.string,
   status_animation: PropTypes.string,
   global_status_id: PropTypes.string,
+  suffix: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.func,
+    PropTypes.node
+  ]),
   layout_direction: PropTypes.oneOf(['column', 'row']),
   vertical: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   value: PropTypes.string,
@@ -80,6 +85,7 @@ const defaultProps = {
   status_state: 'error',
   status_animation: null,
   global_status_id: null,
+  suffix: null,
   vertical: null,
   layout_direction: 'row',
   value: null,
@@ -154,6 +160,7 @@ export default class RadioGroup extends PureComponent {
       status_state,
       status_animation,
       global_status_id,
+      suffix,
       label,
       label_direction,
       label_sr_only,
@@ -196,8 +203,10 @@ export default class RadioGroup extends PureComponent {
       ...rest
     }
 
-    if (showStatus) {
-      params['aria-describedby'] = id + '-status'
+    if (showStatus || suffix) {
+      params['aria-describedby'] = `${showStatus ? id + '-status' : ''} ${
+        suffix ? id + '-suffix' : ''
+      }`
     }
     if (label) {
       params['aria-labelledby'] = id + '-label'
@@ -238,6 +247,16 @@ export default class RadioGroup extends PureComponent {
               {...params}
             >
               {children}
+
+              {suffix && (
+                <span
+                  className="dnb-radio-group__suffix"
+                  id={id + '-suffix'} // used for "aria-describedby"
+                >
+                  {suffix}
+                </span>
+              )}
+
               {showStatus && (
                 <FormStatus
                   id={id + '-form-status'}

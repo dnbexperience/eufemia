@@ -125,6 +125,14 @@
     vertical-align: top;
   }
 
+  &__suffix {
+    padding-left: 0.5rem;
+  }
+  &__suffix,
+  &-group__suffix {
+    font-size: var(--font-size-basis);
+  }
+
   // status
   .dnb-form-status {
     order: 2;

@@ -54,6 +54,15 @@ class Example extends PureComponent {
 />
           `}
         </ComponentBox>
+        <ComponentBox caption="Checkbox with suffix" scope={{ onChange }}>
+          {/* @jsx */ `
+<Checkbox
+  label="Checkbox"
+  checked
+  suffix={<Modal title="Modal Title">Modal content</Modal>}
+/>
+          `}
+        </ComponentBox>
         <StateDemo />
       </Fragment>
     )

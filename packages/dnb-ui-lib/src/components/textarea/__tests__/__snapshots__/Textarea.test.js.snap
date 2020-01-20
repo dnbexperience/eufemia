@@ -30,9 +30,10 @@ exports[`Textarea component have to match snapshot 1`] = `
         "status_animation": "status_animation",
         "status_state": "status_state",
         "stretch": "stretch",
-        "textareaElement": [Function],
+        "suffix": "suffix",
         "textarea_attributes": "textarea_attributes",
         "textarea_class": "textarea_class",
+        "textarea_element": [Function],
         "textarea_state": "textarea_state",
         "value": "value",
       },
@@ -61,9 +62,10 @@ exports[`Textarea component have to match snapshot 1`] = `
   status_animation={null}
   status_state="error"
   stretch={null}
-  textareaElement={null}
+  suffix={null}
   textarea_attributes={null}
   textarea_class={null}
+  textarea_element={null}
   textarea_state={null}
   value="test"
 >
@@ -655,6 +657,9 @@ textarea.dnb-textarea {
     display: inline-flex;
     position: relative;
     font-size: var(--font-size-basis); }
+  .dnb-textarea__suffix {
+    padding-left: 1.5rem;
+    transform: translateY(-0.25rem); }
   .dnb-textarea__placeholder {
     pointer-events: none;
     position: absolute;

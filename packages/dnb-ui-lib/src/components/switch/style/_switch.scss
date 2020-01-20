@@ -143,6 +143,11 @@
     display: inline-flex;
   }
 
+  &__suffix {
+    padding-left: 0.5rem;
+    order: 4;
+  }
+
   &--label-position-left &__order {
     .dnb-switch__inner {
       order: 2;

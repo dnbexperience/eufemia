@@ -56,7 +56,12 @@ const AllComponents = ({ horizontal, vertical, showText, hideLabel }) => {
           <Space {...params} inline>
             <p className="dnb-p">
               paragraph{' '}
-              <IconPrimary icon="bell" size="medium" {...params} />
+              <IconPrimary
+                icon="bell"
+                size="medium"
+                {...params}
+                style={{ margin: 0 }} // since this is not a block element
+              />
             </p>
           </Space>
           text
@@ -73,7 +78,12 @@ const AllComponents = ({ horizontal, vertical, showText, hideLabel }) => {
         {...params}
       />
       <DatePicker label={labels.datePicker} {...params} />
-      <IconPrimary icon="bell" size="medium" {...params} />
+      <IconPrimary
+        icon="bell"
+        size="medium"
+        {...params}
+        style={{ marginTop: 0 }} // since this is not a block element
+      />
       <Checkbox label={labels.checkbox} {...params} />
       <Radio label={labels.radio} {...params} />
       <Radio.Group label={labels.radioGroup} {...params}>

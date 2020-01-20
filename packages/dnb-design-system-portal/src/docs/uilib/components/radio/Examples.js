@@ -131,6 +131,28 @@ class Example extends PureComponent {
 </Radio.Group>
           `}
         </ComponentBox>
+        <ComponentBox caption="Radio Buttons with suffix">
+          {/* @jsx */ `
+<Radio.Group
+  label="With suffixes:"
+  label_position="left"
+>
+  <Radio label="First" value="first" />
+  <Radio
+    label="Second"
+    value="second"
+    suffix={<Modal title="Modal Title">Modal content</Modal>}
+  />
+  <Radio
+    label="Third"
+    value="third"
+    status="Error message"
+    suffix={<Modal title="Modal Title">Modal content</Modal>}
+    checked
+  />
+</Radio.Group>
+          `}
+        </ComponentBox>
         <StateDemo />
       </Fragment>
     )

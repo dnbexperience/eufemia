@@ -31,7 +31,7 @@ props.autocomplete = 'off'
 props.label = null
 props.submit_button_variant = 'secondary'
 props.status = null // to make sure we don't get aria-details
-props.description = null // to make sure we don't get aria-details
+props.suffix = null // to make sure we don't get aria-details
 props.type = 'text'
 
 describe('Input component', () => {

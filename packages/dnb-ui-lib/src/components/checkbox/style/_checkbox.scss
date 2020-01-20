@@ -96,10 +96,11 @@
   &__order {
     display: inline-flex;
     align-items: baseline;
+  }
 
-    // is needed for vertical alignment of the whole component
-    // font-size: var(--font-size-small);
-    // line-height: var(--line-height-basis);
+  &__suffix {
+    padding-left: 0.5rem;
+    order: 4;
   }
 
   &--label-position-left &__order {

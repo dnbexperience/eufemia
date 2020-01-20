@@ -55,6 +55,11 @@ const propTypes = {
   status_state: PropTypes.string,
   status_animation: PropTypes.string,
   global_status_id: PropTypes.string,
+  suffix: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.func,
+    PropTypes.node
+  ]),
   value: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number,
@@ -94,6 +99,7 @@ const defaultProps = {
   status_state: 'error',
   status_animation: null,
   global_status_id: null,
+  suffix: null,
   value: '',
   icon: null,
   icon_position: 'right',
@@ -274,6 +280,7 @@ export default class ToggleButton extends Component {
             status_state,
             status_animation,
             global_status_id,
+            suffix,
             label,
             label_direction,
             label_sr_only,
@@ -361,8 +368,10 @@ export default class ToggleButton extends Component {
             }
           }
 
-          if (showStatus) {
-            buttonParams['aria-describedby'] = id + '-status'
+          if (showStatus || suffix) {
+            buttonParams['aria-describedby'] = `${
+              showStatus ? id + '-status' : ''
+            } ${suffix ? id + '-suffix' : ''}`
           }
           if (readOnly) {
             buttonParams['aria-readonly'] = buttonParams.readOnly = true
@@ -428,6 +437,15 @@ export default class ToggleButton extends Component {
                       </span>
                     )}
                   </Button>
+
+                  {suffix && (
+                    <span
+                      className="dnb-toggle-button__suffix"
+                      id={id + '-suffix'} // used for "aria-describedby"
+                    >
+                      {suffix}
+                    </span>
+                  )}
                 </span>
               </span>
             </span>

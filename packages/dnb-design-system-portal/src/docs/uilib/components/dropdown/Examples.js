@@ -167,6 +167,15 @@ render(
 <Dropdown disabled data={['Disabled Dropdown']} label="Label:" />
           `}
         </ComponentBox>
+        <ComponentBox caption="Dropdown with suffix" scope={{ data }}>
+          {/* @jsx */ `
+<Dropdown
+  data={['Dropdown with suffix']}
+  label="Label:"
+  suffix={<Modal title="Modal Title">Modal content</Modal>}
+/>
+          `}
+        </ComponentBox>
         <ComponentBox
           caption="Dropdown with status and vertical label layout"
           data-dnb-test="dropdown-status-error"

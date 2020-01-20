@@ -37,6 +37,7 @@ const SliderStory = () => {
         <Slider
           // hide_buttons
           label="Label:"
+          suffix="123"
           // min={'50'}
           max={100}
           value={value}
@@ -54,6 +55,7 @@ const SliderStory = () => {
           <Slider
             label="Label Lobortis lacus ac ligula vehicula Metus nullam ut at pellentesque:"
             label_direction="vertical"
+            suffix="123"
             min={0}
             max={100}
             value={value}
