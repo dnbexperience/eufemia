@@ -22,25 +22,31 @@ class Example extends PureComponent {
           data-dnb-test="number-default"
         >
           {/* @jsx */ `
-<Number value="12345" />
-<Number>-12345678.9</Number>
+<P>
+  <Number value="12345" />
+  <Number>-12345678.9</Number>
+</P>
           `}
         </ComponentBox>
         <ComponentBox caption="Currency" data-dnb-test="number-currency">
           {/* @jsx */ `
-<Number currency>12345</Number>
-<Number currency value={-12345678.9} />
-<Number currency value={-12345678.9} currency_display="code" />
+<P>
+  <Number currency>12345</Number>
+  <Number currency value={-12345678.9} />
+  <Number currency value={-12345678.9} currency_display="code" />
+</P>
           `}
         </ComponentBox>
         <ComponentBox caption="Phone number" data-dnb-test="number-phone">
           {/* @jsx */ `
-<Number value="99999999" phone />
-<Number value="4799999999" phone />
-<Number value="++4799999999" phone />
-<Number value="+4780022222" phone link="sms" />
-<Number value="+47116000" phone />
-<Number value="+4702000" phone />
+<P>
+  <Number value="99999999" phone />
+  <Number value="4799999999" phone />
+  <Number value="++4799999999" phone />
+  <Number value="+4780022222" phone link="sms" />
+  <Number value="+47116000" phone />
+  <Number value="+4702000" phone />
+</P>
           `}
         </ComponentBox>
         <ComponentBox
@@ -48,7 +54,9 @@ class Example extends PureComponent {
           data-dnb-test="number-ban"
         >
           {/* @jsx */ `
-<Number value="20001234567" ban />
+<P>
+  <Number value="20001234567" ban />
+</P>
           `}
         </ComponentBox>
         <ComponentBox
@@ -56,7 +64,9 @@ class Example extends PureComponent {
           data-dnb-test="number-nin"
         >
           {/* @jsx */ `
-<Number value="18089212345" nin />
+<P>
+  <Number value="18089212345" nin />
+</P>
           `}
         </ComponentBox>
         <ComponentBox
@@ -65,18 +75,22 @@ class Example extends PureComponent {
         >
           {/* @jsx */ `
 <H3>Numbers</H3>
-<Number locale="nb-NO" value="-12345678.9" />
-<Number locale="en-US" value="-12345678.9" />
-<Number locale="de-DE" value="-12345678.9" />
-<Number locale="de-CH" value="-12345678.9" />
-<Number locale="fr-CH" value="-12345678.9" />
+<P>
+  <Number locale="nb-NO" value="-12345678.9" />
+  <Number locale="en-US" value="-12345678.9" />
+  <Number locale="de-DE" value="-12345678.9" />
+  <Number locale="de-CH" value="-12345678.9" />
+  <Number locale="fr-CH" value="-12345678.9" />
+</P>
 
 <H3>Currencies</H3>
-<Number locale="nb-NO" value="-12345.6" currency />
-<Number locale="en-US" value="-12345.6" currency />
-<Number locale="de-DE" value="-12345.6" currency />
-<Number locale="de-CH" value="-12345.6" currency />
-<Number locale="fr-CH" value="-12345.6" currency />
+<P>
+  <Number locale="nb-NO" value="-12345.6" currency />
+  <Number locale="en-US" value="-12345.6" currency />
+  <Number locale="de-DE" value="-12345.6" currency />
+  <Number locale="de-CH" value="-12345.6" currency />
+  <Number locale="fr-CH" value="-12345.6" currency />
+</P>
 
 <br/>
           `}

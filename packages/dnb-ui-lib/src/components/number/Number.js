@@ -13,10 +13,13 @@ import {
   validateDOMAttributes,
   registerElement,
   extend,
-  PLATFORM_MAC
+  isMac as isMacFunc,
+  isWin as isWinFunc
 } from '../../shared/component-helper'
 import { createSpacingClasses } from '../space/SpacingHelper'
 
+let isMac = null
+let isWin = null
 const renderProps = {}
 
 const propTypes = {
@@ -97,8 +100,14 @@ export default class Number extends PureComponent {
   // }
 
   render() {
-    // consume the global context
+    if (isMac === null) {
+      isMac = isMacFunc()
+    }
+    if (isWin === null) {
+      isWin = isWinFunc()
+    }
 
+    // consume the global context
     const {
       value: _value,
       children,
@@ -173,9 +182,12 @@ export default class Number extends PureComponent {
     // }
 
     if (aria !== display) {
-      // NB: role="text" is not valid,
-      // but is required by VO to fix group anouncement
-      attributes['role'] = 'text'
+      if (isMac) {
+        attributes['role'] = 'text'
+      } else {
+        attributes['role'] = 'textbox' // because NVDA is not reading aria-label on span's
+        attributes['aria-readonly'] = true
+      }
       attributes['aria-label'] = aria
     }
     attributes = {
@@ -362,11 +374,7 @@ const enhanceSR = (value, aria) => {
   // Numbers under 99.999 are read out correctly, but only if we remove the spaces
   // Potential we could also check for locale: && /no|nb|nn/.test(locale)
   // but leave it for now without this ectra check
-  if (
-    typeof navigator !== 'undefined' &&
-    navigator.platform.match(new RegExp(PLATFORM_MAC)) !== null &&
-    Math.abs(parseFloat(value)) <= 99999
-  ) {
+  if (isMac && Math.abs(parseFloat(value)) <= 99999) {
     aria = String(aria).replace(/\s([0-9])/g, '$1')
   }
 
@@ -510,7 +518,7 @@ export const formatNIN = (number, locale = null) => {
       aria = display
         .split(/(\d{2})(\d{2})(\d{2}) (\d{1})(\d{1})(\d{1})(\d{1})(\d{1})/)
         .filter(s => s)
-        .join(' ')
+        .join(isWin ? '. ' : ' ') // NVDA fix with a dot to not read date on FF
     }
   }
 

@@ -7,6 +7,7 @@ import React from 'react'
 import { Wrapper, Box } from '../helpers'
 import styled from '@emotion/styled'
 import Number, { format } from '../../src/components/Number'
+import { P } from '../../src/elements'
 import Provider from '../../src/shared/Provider'
 import Context from '../../src/shared/Context'
 
@@ -36,7 +37,7 @@ const ChangeLocale = () => {
         locale,
         currency: true
       })}{' '}
-      text
+      {/* text */}
     </>
   )
 }
@@ -51,32 +52,44 @@ export default [
         >
           <Wrapper>
             <Box>
-              text <Number value="12345" /> text{' '}
-              <Number value={-12345678.9} />{' '}
+              <P>
+                text <Number currency>12 345</Number> text{' '}
+                <Number currency="USD" value="12345" /> text{' '}
+                <Number currency>12 345 678</Number> text{' '}
+                <Number currency>12345.0</Number> text{' '}
+                <Number currency="EUR">-12345,68</Number> text{' '}
+                <ChangeLocale />
+              </P>
             </Box>
             <Box>
-              text <Number currency>12 345 678</Number> text text{' '}
-              <Number currency>12 345</Number> text{' '}
-              <Number currency>12345.0</Number> text{' '}
-              <Number currency="EUR">-12345,68</Number> text{' '}
-              <ChangeLocale />
+              <P>
+                text <Number value="12345" /> text{' '}
+                <Number value={-12345678.9} />{' '}
+              </P>
             </Box>
             <Box>
-              random phone number <Number value="99999999" phone /> random
-              phone number <Number value="4799999999" phone /> random phone
-              number <Number value="++4799999999" phone /> random phone
-              number <Number value="004780022222" phone link="sms" />{' '}
-              random phone number <Number value="+47116000" phone /> random
-              text <Number value="+4702000" phone />
+              <P>
+                random phone number <Number value="99999999" phone />{' '}
+                random phone number <Number value="4799999999" phone />{' '}
+                random phone number <Number value="++4799999999" phone />{' '}
+                random phone number{' '}
+                <Number value="004780022222" phone link="sms" /> random
+                phone number <Number value="+47116000" phone /> random text{' '}
+                <Number value="+4702000" phone />
+              </P>
             </Box>
             <Box>
-              bank account number <Number value="20001234567" ban /> random
-              account number
+              <P>
+                bank account number <Number value="20001234567" ban />{' '}
+                random account number
+              </P>
             </Box>
             <Box>
-              national identification number{' '}
-              <Number value="18089212345" nin /> random identification
-              number
+              <P>
+                national identification number{' '}
+                <Number value="18089212345" nin /> random identification
+                number
+              </P>
             </Box>
           </Wrapper>
         </Provider>
