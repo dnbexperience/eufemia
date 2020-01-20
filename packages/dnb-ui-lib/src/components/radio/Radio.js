@@ -48,6 +48,11 @@ const propTypes = {
   status_state: PropTypes.string,
   status_animation: PropTypes.string,
   global_status_id: PropTypes.string,
+  suffix: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.func,
+    PropTypes.node
+  ]),
   value: PropTypes.string,
   attributes: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   readOnly: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -76,6 +81,7 @@ const defaultProps = {
   status_state: 'error',
   status_animation: null,
   global_status_id: null,
+  suffix: null,
   value: '',
   attributes: null,
   readOnly: false,
@@ -268,6 +274,7 @@ export default class Radio extends Component {
             status_state,
             status_animation,
             global_status_id,
+            suffix,
             label,
             label_sr_only,
             label_position,
@@ -323,8 +330,10 @@ export default class Radio extends Component {
             onMouseOut: this.onMouseOutHandler // for resetting the button to the default state
           }
 
-          if (showStatus) {
-            inputParams['aria-describedby'] = id + '-status'
+          if (showStatus || suffix) {
+            inputParams['aria-describedby'] = `${
+              showStatus ? id + '-status' : ''
+            } ${suffix ? id + '-suffix' : ''}`
           }
           if (readOnly) {
             inputParams['aria-readonly'] = inputParams.readOnly = true
@@ -332,6 +341,18 @@ export default class Radio extends Component {
 
           // also used for code markup simulation
           validateDOMAttributes(this.props, inputParams)
+
+          const labelComp = label && (
+            <FormLabel
+              id={id + '-label'}
+              for_id={id}
+              aria-hidden
+              aria-label={label} // Only for NVDA and mouse over read out.
+              text={label}
+              sr_only={label_sr_only}
+              disabled={disabled}
+            />
+          )
 
           const statusComp = showStatus && (
             <FormStatus
@@ -348,47 +369,48 @@ export default class Radio extends Component {
           return (
             <span {...mainParams}>
               <span className="dnb-radio__order">
-                {label && (
-                  <FormLabel
-                    id={id + '-label'}
-                    for_id={id}
-                    aria-hidden
-                    aria-label={label} // Only for NVDA and mouse over read out.
-                    text={label}
-                    sr_only={label_sr_only}
-                    disabled={disabled}
-                  />
-                )}
+                {label_position === 'left' && labelComp}
 
                 <span className="dnb-radio__inner">
-                  {label_position === 'left' && statusComp}
+                  {statusComp}
 
-                  <span className="dnb-radio__shell">
-                    <input
-                      type="checkbox"
-                      value={value}
-                      id={id}
-                      name={group}
-                      className="dnb-radio__input"
-                      checked={checked}
-                      aria-checked={checked}
-                      aria-label={label} // is responsible for the text/label to be read on both VO and NVDA
-                      disabled={isTrue(disabled)}
-                      ref={this._refInput}
-                      {...inputParams}
-                      onChange={this.onChangeHandler}
-                      onClick={this.onClickHandler}
-                      onKeyDown={this.onKeyDownHandler}
-                    />
+                  <span className="dnb-radio__row">
+                    <span className="dnb-radio__shell">
+                      <input
+                        type="checkbox"
+                        value={value}
+                        id={id}
+                        name={group}
+                        className="dnb-radio__input"
+                        checked={checked}
+                        aria-checked={checked}
+                        aria-label={label} // is responsible for the text/label to be read on both VO and NVDA
+                        disabled={isTrue(disabled)}
+                        ref={this._refInput}
+                        {...inputParams}
+                        onChange={this.onChangeHandler}
+                        onClick={this.onClickHandler}
+                        onKeyDown={this.onKeyDownHandler}
+                      />
 
-                    <span className="dnb-radio__button" aria-hidden />
-                    <span className="dnb-radio__focus" aria-hidden />
-                    <span className="dnb-radio__dot" aria-hidden />
+                      <span className="dnb-radio__button" aria-hidden />
+                      <span className="dnb-radio__focus" aria-hidden />
+                      <span className="dnb-radio__dot" aria-hidden />
+                    </span>
+
+                    {label_position !== 'left' && labelComp}
+
+                    {suffix && (
+                      <span
+                        className="dnb-radio__suffix"
+                        id={id + '-suffix'} // used for "aria-describedby"
+                      >
+                        {suffix}
+                      </span>
+                    )}
                   </span>
                 </span>
               </span>
-              {(label_position === 'right' || !label_position) &&
-                statusComp}
             </span>
           )
         }}

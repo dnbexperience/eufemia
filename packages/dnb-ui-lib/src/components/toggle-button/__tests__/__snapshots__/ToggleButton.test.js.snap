@@ -1467,6 +1467,16 @@ button.dnb-button::-moz-focus-inner {
     align-items: baseline; }
     .dnb-radio-group--column .dnb-radio__order {
       display: flex; }
+  .dnb-radio__row {
+    display: inline-flex; }
+  .dnb-radio__suffix {
+    order: 3;
+    padding-left: 0.5rem; }
+    .dnb-radio__suffix .dnb-modal {
+      margin-top: -0.25rem;
+      margin-bottom: -0.25rem; }
+  .dnb-radio__suffix, .dnb-radio-group__suffix {
+    font-size: var(--font-size-basis); }
   .dnb-radio--label-position-left .dnb-radio__order .dnb-radio__inner {
     order: 2; }
   .dnb-radio--label-position-left .dnb-radio__order .dnb-form-label {
@@ -1479,12 +1489,16 @@ button.dnb-button::-moz-focus-inner {
     order: 2;
     margin-right: 0;
     margin-left: 0.5rem; }
+  .dnb-form-row:not(.dnb-form-row--vertical)[class*='__indent']
+.dnb-radio .dnb-form-label {
+    margin-top: 0; }
   :not(.dnb-radio-group) > .dnb-form-label + .dnb-radio {
     vertical-align: top; }
   .dnb-radio .dnb-form-status {
-    order: 2;
-    margin-top: 0;
-    margin-bottom: 0.5rem; }
+    order: 4;
+    margin-top: 0.375rem;
+    /* 6/16 */
+    margin-bottom: 0; }
   .dnb-radio + .dnb-form-status {
     margin-top: 0.5rem;
     margin-bottom: 1rem; }
@@ -1501,11 +1515,9 @@ button.dnb-button::-moz-focus-inner {
       margin-right: 0; }
     .dnb-radio-group [role='radiogroup'], .dnb-radio-group__shell {
       display: block; }
-    .dnb-radio-group__shell {
-      line-height: var(--line-height-xx-small--em); }
-      .dnb-radio-group__shell > .dnb-form-status {
-        margin-top: 0;
-        margin-bottom: 0; }
+    .dnb-radio-group__shell > .dnb-form-status {
+      margin-top: 0;
+      margin-bottom: 0; }
     .dnb-radio-group--column .dnb-radio-group__shell {
       flex-direction: column; }
     .dnb-radio-group .dnb-form-row {
@@ -1590,8 +1602,6 @@ button.dnb-button::-moz-focus-inner {
       width: 0;
       height: 0;
       font-size: var(--font-size-small); }
-  .dnb-toggle-button__suffix {
-    padding-left: 0.5rem; }
   .dnb-toggle-button--vertical {
     flex-direction: column;
     align-items: flex-start; }
@@ -1647,6 +1657,10 @@ button.dnb-button::-moz-focus-inner {
     color: var(--color-mint-green); }
   :not(.dnb-toggle-button-group) > .dnb-form-label + .dnb-toggle-button {
     vertical-align: top; }
+  .dnb-toggle-button__suffix {
+    padding-left: 0.5rem; }
+  .dnb-toggle-button__suffix, .dnb-toggle-button-group__suffix {
+    font-size: var(--font-size-basis); }
   .dnb-toggle-button .dnb-form-status {
     order: 2;
     margin-top: 0.5rem; }

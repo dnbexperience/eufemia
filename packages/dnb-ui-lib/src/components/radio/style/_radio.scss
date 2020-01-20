@@ -92,11 +92,30 @@
 
   &__order {
     display: inline-flex;
-    align-items: baseline;
+    align-items: baseline; // TODO: do we need this anymore?
 
     .dnb-radio-group--column & {
       display: flex;
     }
+  }
+
+  &__row {
+    display: inline-flex;
+  }
+
+  &__suffix {
+    order: 3;
+    padding-left: 0.5rem;
+
+    // to be aligned to the label on the left side
+    .dnb-modal {
+      margin-top: -0.25rem;
+      margin-bottom: -0.25rem;
+    }
+  }
+  &__suffix,
+  &-group__suffix {
+    font-size: var(--font-size-basis);
   }
 
   &--label-position-left &__order {
@@ -121,6 +140,12 @@
     }
   }
 
+  .dnb-form-row:not(.dnb-form-row--vertical)[class*='__indent']
+    &
+    .dnb-form-label {
+    margin-top: 0;
+  }
+
   // in case we don't define a wrapping group
   // and have a custom label component before the radio (and not inside)
   :not(#{&}-group) > .dnb-form-label + & {
@@ -129,9 +154,9 @@
 
   // status
   .dnb-form-status {
-    order: 2;
-    margin-top: 0;
-    margin-bottom: 0.5rem;
+    order: 4;
+    margin-top: 0.375rem; /* 6/16 */
+    margin-bottom: 0;
   }
   & + .dnb-form-status {
     margin-top: 0.5rem;
@@ -160,8 +185,6 @@
       display: block;
     }
     &__shell {
-      // if we use --line-height-basis here, we get a total height of 33px
-      line-height: var(--line-height-xx-small--em);
       & > .dnb-form-status {
         margin-top: 0;
         margin-bottom: 0;
