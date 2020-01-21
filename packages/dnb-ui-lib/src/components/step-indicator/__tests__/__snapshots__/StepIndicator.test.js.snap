@@ -71,14 +71,6 @@ exports[`StepIndicator component with buttons have to match snapshot 1`] = `
                 className="dnb-step-indicator__item-content--text"
               >
                 Aa
-                <Dummy>
-                  <span
-                    aria-hidden={true}
-                    hidden={true}
-                  >
-                    Aa
-                  </span>
-                </Dummy>
               </span>
             </StepItemWrapper>
           </button>
@@ -126,14 +118,6 @@ exports[`StepIndicator component with buttons have to match snapshot 1`] = `
                 className="dnb-step-indicator__item-content--text"
               >
                 Bb
-                <Dummy>
-                  <span
-                    aria-hidden={true}
-                    hidden={true}
-                  >
-                    Bb
-                  </span>
-                </Dummy>
               </span>
             </StepItemWrapper>
           </button>
@@ -165,9 +149,12 @@ exports[`StepIndicator component with buttons have to match snapshot 1`] = `
         <li
           className="dnb-step-indicator__item"
         >
-          <span
+          <button
             aria-disabled={true}
-            className="dnb-step-indicator__item-content dnb-step-indicator__item-content--static"
+            className="dnb-anchor dnb-step-indicator__item-content dnb-step-indicator__item-content--link dnb-anchor--no-style"
+            disabled={true}
+            onClick={[Function]}
+            type="button"
           >
             <StepItemWrapper>
               <span
@@ -179,17 +166,9 @@ exports[`StepIndicator component with buttons have to match snapshot 1`] = `
                 className="dnb-step-indicator__item-content--text"
               >
                 Cc
-                <Dummy>
-                  <span
-                    aria-hidden={true}
-                    hidden={true}
-                  >
-                    Cc
-                  </span>
-                </Dummy>
               </span>
             </StepItemWrapper>
-          </span>
+          </button>
         </li>
       </StepItem>
     </ul>
@@ -272,14 +251,6 @@ exports[`StepIndicator component with urls have to match snapshot 1`] = `
                 className="dnb-step-indicator__item-content--text"
               >
                 Aa
-                <Dummy>
-                  <span
-                    aria-hidden={true}
-                    hidden={true}
-                  >
-                    Aa
-                  </span>
-                </Dummy>
               </span>
             </StepItemWrapper>
           </a>
@@ -327,14 +298,6 @@ exports[`StepIndicator component with urls have to match snapshot 1`] = `
                 className="dnb-step-indicator__item-content--text"
               >
                 Bb
-                <Dummy>
-                  <span
-                    aria-hidden={true}
-                    hidden={true}
-                  >
-                    Bb
-                  </span>
-                </Dummy>
               </span>
             </StepItemWrapper>
           </a>
@@ -379,14 +342,6 @@ exports[`StepIndicator component with urls have to match snapshot 1`] = `
                 className="dnb-step-indicator__item-content--text"
               >
                 Cc
-                <Dummy>
-                  <span
-                    aria-hidden={true}
-                    hidden={true}
-                  >
-                    Cc
-                  </span>
-                </Dummy>
               </span>
             </StepItemWrapper>
           </span>
@@ -515,13 +470,15 @@ exports[`StepIndicator scss have to match snapshot 1`] = `
   .dnb-spacing .dnb-step-indicator__list li {
     margin-top: 0;
     margin-bottom: 0; }
+  .dnb-step-indicator__item {
+    align-self: flex-end; }
   .dnb-step-indicator__item-content {
     font-size: var(--font-size-basis); }
     .dnb-step-indicator__item-contenta, .dnb-step-indicator__item-content.dnb-anchor, .dnb-step-indicator__item-content--static, .dnb-step-indicator__item-content--link {
       position: relative;
       z-index: 2;
-      display: flex;
-      flex-direction: row;
+      display: inline-flex;
+      align-items: flex-end;
       margin: 0;
       padding: 0.25rem 0.25rem;
       height: 100%;
@@ -549,12 +506,6 @@ exports[`StepIndicator scss have to match snapshot 1`] = `
       white-space: nowrap; }
     .dnb-step-indicator__item-content--text {
       text-align: left; }
-      .dnb-step-indicator__item-content--text > span[hidden] {
-        display: flex;
-        flex-direction: column;
-        height: 0;
-        visibility: hidden;
-        overflow: hidden; }
     .dnb-step-indicator__item-content::after {
       content: '';
       position: absolute;
