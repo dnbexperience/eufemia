@@ -67,3 +67,9 @@ Example usage of HTML5 `landmarks` (e.g. `<nav>` or `<section>` etc.):
   <footer>Footer</footer>
 </body>
 ```
+
+## Practical Support of ARIA labels
+
+ARIA labels like `aria-label`, `aria-labelledby` and `aria-describedby` will mostly work on interactive HTML elements, and not on elements such as `div`, `span`, `p` or `ul`.
+
+Read more [about label-support in the w3 docs](https://www.w3.org/TR/using-aria/#label-support).
