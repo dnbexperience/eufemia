@@ -6,10 +6,11 @@
 import React from 'react'
 import { Wrapper, Box } from '../helpers'
 import styled from '@emotion/styled'
-import Number, { format } from '../../src/components/Number'
+import Number from // , { format }
+'../../src/components/Number'
 import { P } from '../../src/elements'
 import Provider from '../../src/shared/Provider'
-import Context from '../../src/shared/Context'
+// import Context from '../../src/shared/Context'
 
 const CustomStyle = styled.div`
   .dnb-number {
@@ -18,29 +19,29 @@ const CustomStyle = styled.div`
   }
 `
 
-const ChangeLocale = () => {
-  const props = React.useContext(Context)
-  console.log('ChangeLocale', props)
-  const { update, locale } = React.useContext(Context)
-
-  React.useEffect(() => {
-    setTimeout(() => {
-      // update({ locale: 'en-US' })
-      update({ currency: 'USD' })
-    }, 3e3)
-  }, [])
-
-  return (
-    <>
-      {/* Can be e.g. a Dropdown */}
-      {format(12345678.9, {
-        locale,
-        currency: true
-      })}{' '}
-      {/* text */}
-    </>
-  )
-}
+// const ChangeLocale = () => {
+//   const props = React.useContext(Context)
+//   console.log('ChangeLocale', props)
+//   const { update, locale } = React.useContext(Context)
+//
+//   React.useEffect(() => {
+//     setTimeout(() => {
+//       // update({ locale: 'en-US' })
+//       update({ currency: 'USD' })
+//     }, 3e3)
+//   }, [])
+//
+//   return (
+//     <>
+//       {/* Can be e.g. a Dropdown */}
+//       {format(12345678.9, {
+//         locale,
+//         currency: true
+//       })}{' '}
+//       {/* text */}
+//     </>
+//   )
+// }
 
 export default [
   'Number',
@@ -58,7 +59,7 @@ export default [
                 <Number currency>12 345 678</Number> text{' '}
                 <Number currency>12345.0</Number> text{' '}
                 <Number currency="EUR">-12345,68</Number> text{' '}
-                <ChangeLocale />
+                {/* <ChangeLocale /> */}
               </P>
             </Box>
             <Box>

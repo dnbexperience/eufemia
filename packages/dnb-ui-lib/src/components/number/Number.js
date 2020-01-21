@@ -10,6 +10,7 @@ import Context from '../../shared/Context'
 import { LOCALE, CURRENCY, CURRENCY_DISPLAY } from '../../shared/defaults'
 import {
   isTrue,
+  makeUniqueId,
   validateDOMAttributes,
   registerElement,
   extend,
@@ -173,24 +174,13 @@ export default class Number extends PureComponent {
       formatOptions
     )
 
-    let attributes = { ...rest }
-
     // NB: possible enhancement
     // if (isTrue(selectable)) {
     //   attributes.onClick = this.onClickHandler
     //   // attributes.ref = this._ref
     // }
 
-    if (aria !== display) {
-      if (isMac) {
-        attributes['role'] = 'text'
-      } else {
-        attributes['role'] = 'textbox' // because NVDA is not reading aria-label on span's
-        attributes['aria-readonly'] = true
-      }
-      attributes['aria-label'] = aria
-    }
-    attributes = {
+    const attributes = {
       ...{
         className: classnames(
           'dnb-number',
@@ -199,10 +189,21 @@ export default class Number extends PureComponent {
           isTrue(selectable) && 'dnb-number--selectable',
           link && 'dnb-anchor',
           createSpacingClasses(this.props)
-        ),
-        lang
+        )
       },
-      ...attributes
+      ...rest
+    }
+
+    if (isMac) {
+      attributes['role'] = 'text'
+    } else {
+      attributes['role'] = 'textbox' // because NVDA is not reading aria-label on span's
+      attributes['aria-readonly'] = true
+    }
+
+    const additionalAttr = {}
+    if (aria !== display) {
+      additionalAttr['aria-label'] = aria
     }
 
     validateDOMAttributes(this.props, attributes)
@@ -218,8 +219,36 @@ export default class Number extends PureComponent {
       )
     }
 
-    return (
-      <Element is={element} {...attributes}>
+    const OldEdgeFriendly = () => {
+      if (!this._id) {
+        this._id = makeUniqueId()
+      }
+      return (
+        <>
+          <Element
+            is={element}
+            aria-describedby={this._id}
+            aria-hidden
+            {...attributes}
+          >
+            {display}
+          </Element>
+          <span id={this._id} lang={lang} className="dnb-sr-only">
+            {aria}
+          </span>
+        </>
+      )
+    }
+
+    return isWin ? (
+      <OldEdgeFriendly />
+    ) : (
+      <Element
+        is={element}
+        lang={lang}
+        {...additionalAttr}
+        {...attributes}
+      >
         {display}
       </Element>
     )
