@@ -42,6 +42,8 @@ export default [
                 erat egestas felis rhoncus lobortis dis
               </th>
               <th className="dnb-table--sortable dnb-table--reversed">
+                Donec Phasellus odio magnis sit neque commodo nisl
+                hendrerit viverra consectet{' '}
                 <Button
                   variant="tertiary"
                   icon="chevron-down"
