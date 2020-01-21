@@ -100,10 +100,10 @@ exports[`StepIndicator component with buttons have to match snapshot 1`] = `
         use_navigation={true}
       >
         <li
+          aria-current="step"
           className="dnb-step-indicator__item dnb-step-indicator--active"
         >
           <button
-            aria-current="step"
             className="dnb-anchor dnb-step-indicator__item-content dnb-step-indicator__item-content--link"
             onClick={[Function]}
             type="button"
@@ -280,10 +280,10 @@ exports[`StepIndicator component with urls have to match snapshot 1`] = `
         use_navigation="use_navigation"
       >
         <li
+          aria-current="step"
           className="dnb-step-indicator__item dnb-step-indicator--active"
         >
           <a
-            aria-current="step"
             className="dnb-anchor dnb-step-indicator__item-content dnb-step-indicator__item-content--link"
             href="?b"
             onClick={[Function]}

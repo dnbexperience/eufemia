@@ -17,7 +17,8 @@ let isMac = null
 
 export default class StepItem extends PureComponent {
   static propTypes = {
-    activeItem: PropTypes.number.isRequired,
+    title: PropTypes.string.isRequired,
+    activeItem: PropTypes.number,
     currentItem: PropTypes.number.isRequired,
     hide_numbers: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     use_navigation: PropTypes.oneOfType([
@@ -34,8 +35,7 @@ export default class StepItem extends PureComponent {
     is_current: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     url: PropTypes.string,
     url_future: PropTypes.string,
-    url_passed: PropTypes.string,
-    title: PropTypes.string.isRequired
+    url_passed: PropTypes.string
   }
   static defaultProps = {
     on_item_render: null,
@@ -50,7 +50,8 @@ export default class StepItem extends PureComponent {
     is_current: null,
     url: null,
     url_future: null,
-    url_passed: null
+    url_passed: null,
+    activeItem: null
   }
 
   constructor(props) {
@@ -136,25 +137,18 @@ export default class StepItem extends PureComponent {
       hasPassedAndIsCurrent = true
     }
 
-    const params = {
-      ...rest
-    }
-    if (currentItem === activeItem || isTrue(is_current)) {
-      params['aria-current'] = 'step'
-    }
+    const interactiveParams = { ...rest }
     if (
       !hasPassedAndIsCurrent &&
       currentItem > activeItem &&
       !isTrue(is_active)
     ) {
-      params['disabled'] = true
-      params['aria-disabled'] = true
+      interactiveParams['disabled'] = true
+      interactiveParams['aria-disabled'] = true
     }
-
-    const interactiveParams = { ...params }
     interactiveParams.className = classnames(
       'dnb-anchor',
-      params['disabled'] && 'dnb-anchor--no-style',
+      interactiveParams['disabled'] && 'dnb-anchor--no-style',
       'dnb-step-indicator__item-content',
       'dnb-step-indicator__item-content--link'
     )
@@ -183,7 +177,7 @@ export default class StepItem extends PureComponent {
     const props = {
       StepItem: StepItemWrapper,
       itemComponent,
-      params,
+      params: rest,
       props: this.props
     }
 
@@ -220,30 +214,38 @@ export default class StepItem extends PureComponent {
         </a>
       )
     } else {
+      const contentParams = {}
+
       // To screen readers read both the nr. and the text in one sentence
       if (isMac) {
-        params.role = 'text'
+        contentParams.role = 'text'
       }
 
       child = (
         <span
           className="dnb-step-indicator__item-content dnb-step-indicator__item-content--static"
-          {...params}
+          {...contentParams}
         >
           {itemComponent}
         </span>
       )
     }
 
+    const itemParams = {}
+    if (currentItem === activeItem || isTrue(is_current)) {
+      itemParams['aria-current'] = 'step'
+    }
+
     return (
       <li
         className={classnames(
           'dnb-step-indicator__item',
-          currentItem === activeItem || isTrue(props.current)
+          currentItem === activeItem || isTrue(is_current)
             ? 'dnb-step-indicator--active'
             : null,
           currentItem < activeItem ? 'dnb-step-indicator--visited' : null
         )}
+        {...itemParams}
       >
         {child}
       </li>

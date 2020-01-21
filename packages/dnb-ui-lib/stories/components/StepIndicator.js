@@ -84,18 +84,25 @@ export default [
       </Box>
       <Box>
         <StepIndicator
-          active_item="2"
+          // active_item={1}
           data={[
             {
               title: 'First'
             },
             {
-              title: 'Second'
+              title: 'Second',
+              is_current: true
             },
             {
               title: 'Third'
             }
           ]}
+        />
+      </Box>
+      <Box>
+        <StepIndicator
+          active_item="2"
+          data={['First', 'Second', 'Third']}
         />
       </Box>
     </Wrapper>
