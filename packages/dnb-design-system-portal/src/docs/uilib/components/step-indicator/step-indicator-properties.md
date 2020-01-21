@@ -17,13 +17,15 @@ draft: true
 
 ## Item Parameters
 
-| Parameters   | Description                                                                                                        |
-| ------------ | ------------------------------------------------------------------------------------------------------------------ |
-| `title`      | _(mandatory)_ the title showing on every step.                                                                     |
-| `url`        | _(optional)_ sets the url, showing on every step, if not `url_future` is set.                                      |
-| `url_future` | _(optional)_ sets the url, showing only on the future steps. Can be used to _reset_ the future steps individually. |
-| `url_passed` | _(optional)_ sets the url, showing only on the passed steps. Can be used to _reset_ the passed steps individually. |
-| `on_render`  | _(optional)_ callback function to manipulate or wrap a certain item. Has to return a React Node.                   |
+| Parameters   | Description                                                                                                                                                           |
+| ------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `title`      | _(mandatory)_ the title showing on every step.                                                                                                                        |
+| `url`        | _(optional)_ sets the url, showing on every step, if not `url_future` is set.                                                                                         |
+| `is_current` | _(optional)_ if set to `is_current="true"`, the current items will be selected as the current selected.                                                               |
+| `is_active`  | _(optional)_ if set to `is_active="true"`, the current items will be selected as the current active. This can be used instead of using `active_item` or `active_url`. |
+| `url_future` | _(optional)_ sets the url, showing only on the future steps. Can be used to _reset_ the future steps individually.                                                    |
+| `url_passed` | _(optional)_ sets the url, showing only on the passed steps. Can be used to _reset_ the passed steps individually.                                                    |
+| `on_render`  | _(optional)_ callback function to manipulate or wrap a certain item. Has to return a React Node.                                                                      |
 
 ## Item data structure
 

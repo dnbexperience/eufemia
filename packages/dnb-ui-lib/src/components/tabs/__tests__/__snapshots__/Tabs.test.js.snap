@@ -120,6 +120,7 @@ exports[`Tabs component have to match snapshot 1`] = `
                 <Dummy>
                   <span
                     aria-hidden={true}
+                    className="dnb-dummy"
                     hidden={true}
                   >
                     First
@@ -146,6 +147,7 @@ exports[`Tabs component have to match snapshot 1`] = `
                 <Dummy>
                   <span
                     aria-hidden={true}
+                    className="dnb-dummy"
                     hidden={true}
                   >
                     Second
@@ -171,6 +173,7 @@ exports[`Tabs component have to match snapshot 1`] = `
                 <Dummy>
                   <span
                     aria-hidden={true}
+                    className="dnb-dummy"
                     hidden={true}
                   >
                     Third
@@ -386,8 +389,8 @@ exports[`Tabs scss have to match snapshot 1`] = `
       .dnb-core-style .dnb-tabs__tabs .dnb-tabs__button__title .dnb-icon {
         font-size: var(--font-size-small);
         transform: translateY(-0.125rem); }
-    .dnb-tabs__tabs .dnb-tabs__button > span[hidden],
-    .dnb-core-style .dnb-tabs__tabs .dnb-tabs__button > span[hidden] {
+    .dnb-tabs__tabs .dnb-tabs__button .dnb-dummy,
+    .dnb-core-style .dnb-tabs__tabs .dnb-tabs__button .dnb-dummy {
       display: flex;
       flex-direction: column;
       height: 0;

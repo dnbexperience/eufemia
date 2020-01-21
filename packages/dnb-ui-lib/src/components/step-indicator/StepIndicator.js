@@ -25,6 +25,7 @@ const renderProps = {
 const propTypes = {
   data: PropTypes.oneOfType([
     PropTypes.string,
+    PropTypes.arrayOf(PropTypes.string),
     PropTypes.arrayOf(
       PropTypes.shape({
         title: PropTypes.string.isRequired,
@@ -62,7 +63,7 @@ const propTypes = {
 
 const defaultProps = {
   data: [],
-  active_item: 0,
+  active_item: null,
   active_url: null,
   hide_numbers: false,
   use_navigation: false,
@@ -122,8 +123,11 @@ export default class StepIndicator extends PureComponent {
             url && (url === state.activeItem || url === state.activeUrl)
               ? i
               : acc,
-          0
+          parseFloat(props.active_item)
         )
+        if (!(state.activeItem > -1)) {
+          state.activeItem = null
+        }
       }
     }
     state._listenForPropChanges = true
@@ -201,6 +205,9 @@ export default class StepIndicator extends PureComponent {
         {data.length > 0 && (
           <ul className="dnb-step-indicator__list">
             {data.map((props, i) => {
+              if (typeof props === 'string') {
+                props = { title: props }
+              }
               const params = {
                 currentItem: i,
                 activeItem,

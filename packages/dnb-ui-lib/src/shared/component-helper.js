@@ -28,6 +28,10 @@ export const isMac = () =>
   typeof navigator !== 'undefined' &&
   navigator.platform.match(new RegExp(PLATFORM_MAC)) !== null
 
+export const isWin = () =>
+  typeof navigator !== 'undefined' &&
+  navigator.platform.match(new RegExp(PLATFORM_WIN)) !== null
+
 /**
  * Check if device is touch device or not
  */

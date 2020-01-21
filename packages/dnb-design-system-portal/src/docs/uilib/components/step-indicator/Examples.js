@@ -78,7 +78,7 @@ class Example extends PureComponent {
         >
           {`
 <StepIndicator
-  active_item="1"
+  active_item="0"
   active_url={active_url}
   data={[
     {
@@ -105,7 +105,6 @@ class Example extends PureComponent {
         >
           {/* @jsx */ `
 <StepIndicator
-  active_item="2"
   data={[
     {
       title: 'Om din nye bolig'
@@ -114,8 +113,21 @@ class Example extends PureComponent {
       title: 'Ditt lån og egenkapital'
     },
     {
-      title: 'Oppsummering'
+      title: 'Oppsummering',
+      is_current: true
     }
+  ]}
+/>
+            `}
+        </ComponentBox>
+        <ComponentBox caption="Default StepIndicator with strings only">
+          {/* @jsx */ `
+<StepIndicator
+  active_item="1"
+  data={[
+    'Om din nye bolig',
+    'Ditt lån og egenkapital',
+    'Oppsummering'
   ]}
 />
             `}

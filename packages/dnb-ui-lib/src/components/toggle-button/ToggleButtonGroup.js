@@ -191,7 +191,7 @@ export default class ToggleButtonGroup extends PureComponent {
       this.props,
       defaultProps,
       this.context.formRow,
-      this.context.translation.DatePicker
+      this.context.translation.ToggleButton
     )
 
     const {

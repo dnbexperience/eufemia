@@ -272,7 +272,8 @@ export default class ToggleButton extends Component {
             this.props,
             defaultProps,
             this.context, // internal context
-            context.formRow
+            context.formRow,
+            context.translation.ToggleButton
           )
 
           const {

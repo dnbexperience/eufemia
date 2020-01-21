@@ -714,7 +714,14 @@ export const Dummy = ({ children }) => {
    * There is also a CSS to make this work. Have a look in the styles: & > span[hidden] {...}
    */
   return (
-    <span aria-hidden={true} hidden>
+    <span
+      aria-hidden
+      hidden
+      className="dnb-dummy"
+      // role="textbox" // methodes to try to make NVDA not read blank
+      // aria-readonly // methodes to try to make NVDA not read blank
+      // className="dnb-sr-only"
+    >
       {children}
     </span>
   )

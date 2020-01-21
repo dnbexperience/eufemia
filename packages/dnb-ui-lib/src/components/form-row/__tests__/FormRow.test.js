@@ -86,6 +86,16 @@ describe('FormRow component', () => {
     expect(Comp.find('legend').exists()).toBe(false)
   })
 
+  it('should react correct on two states in row', () => {
+    const Comp = mount(
+      <Component {...props} disabled={false}>
+        <Input />
+      </Component>
+    )
+    Comp.setProps({ disabled: true })
+    expect(Comp.find('input').is('[disabled]')).toBe(true)
+  })
+
   it('should validate with ARIA rules', async () => {
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })

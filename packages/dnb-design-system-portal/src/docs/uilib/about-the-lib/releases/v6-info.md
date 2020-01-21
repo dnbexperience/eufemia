@@ -123,6 +123,8 @@ With v6 the `dnb-ui-lib` has it's own localization to be used both for component
 - [Blockquote](/uilib/elements/blockquote) is now up to date `dnb-blockquote--no-background` to display a quote without the contrast background, but rather a transparent.
 - New helper class: `dnb-responsive-component` Makes some component form components, like [Input](/uilib/components/input) react to mobile sized screens. But as this can have some negative effects to have this enabled by default, you can enable this optionally by using this helper class.
 - New [Table](/uilib/elements/tables#working-demo) style / icons on sorting buttons. Icon change: from `chevron` to `arrow`.
+- All form components now have a `suffix` property e.g. [Slider](/uilib/components/slider).
+- [GlobalStatus](/uilib/components/global-status) now supports visual type of info: `state="info"`.
 
 ## Resources package
 
@@ -138,4 +140,4 @@ To upgrade to v6 with NPM, use:
 $ npm i dnb-ui-lib@6
 ```
 
-_January, 20. 2019_
+_January, 22. 2019_

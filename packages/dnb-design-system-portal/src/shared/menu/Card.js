@@ -221,7 +221,7 @@ export default class Card extends PureComponent {
               aria-current={this.isSelected()}
               onClick={closeMenu}
             >
-              <LinkInner {...textRole}>
+              <LinkInner>
                 <Box>
                   <Svg {...svgParams} />
                   <Header className="dnb-lead">{title}</Header>
@@ -247,5 +247,3 @@ export default class Card extends PureComponent {
 
 const random = (min, max) =>
   Math.floor(Math.random() * (max - min + 1) + min)
-
-const textRole = { role: 'text' }

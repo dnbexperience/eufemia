@@ -127,7 +127,7 @@ $focusRingColor: var(--color-emerald-green);
 
 @mixin dummySpacing() {
   // we use "aria-hidden" SPAN to simulate a wider width for each tab
-  & > span[hidden] {
+  .dnb-dummy {
     display: flex;
     flex-direction: column;
 
@@ -190,18 +190,16 @@ $breakpoints: (
 @mixin srOnly() {
   // since we do use it also as positioning helper
   // we then do not want it absolute positioned
-  position: absolute;
+  position: static;
 
-  clip: rect(0, 0, 0, 0);
-  overflow: hidden;
+  visibility: visible; // should not be hidden!
+  opacity: 0;
 
-  height: 1px;
-  width: 1px;
+  white-space: nowrap;
+  font-size: 0;
+  line-height: 0;
 
-  margin: 0;
-  margin-left: -1px; // because of 1px width
-  margin-top: -1px; // because of 1px height
-  padding: 0;
+  overflow: hidden; // older IEs
 
   border: 0;
 }
@@ -212,7 +210,11 @@ $breakpoints: (
 // it to show for sighted users under more specific
 // conditions.
 @mixin notSrOnly() {
-  position: relative;
+  position: initial;
+  font-size: medium;
+  line-height: normal;
+  white-space: normal;
+  opacity: 1;
 }
 
 @function str-replace($string, $search, $replace: '') {
