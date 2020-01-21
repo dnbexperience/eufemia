@@ -252,7 +252,7 @@ exports[`Dropdown component have to match snapshot 1`] = `
             status_animation={null}
             status_state="error"
             text={null}
-            title={null}
+            title="Feriekonto - Kari Nordmann med et kjempelangt etternavnsen"
             type="button"
             value={2}
             variant="secondary"
@@ -271,6 +271,7 @@ exports[`Dropdown component have to match snapshot 1`] = `
               onKeyDown={[Function]}
               onMouseDown={[Function]}
               onMouseOut={[Function]}
+              title="Feriekonto - Kari Nordmann med et kjempelangt etternavnsen"
               type="button"
               value={2}
             >
@@ -295,6 +296,7 @@ exports[`Dropdown component have to match snapshot 1`] = `
                       </span>
                     </span>,
                     <span
+                      aria-hidden={true}
                       className="dnb-dropdown__icon"
                     >
                       <IconPrimary
@@ -336,7 +338,7 @@ exports[`Dropdown component have to match snapshot 1`] = `
                 status_animation={null}
                 status_state="error"
                 text={null}
-                title={null}
+                title="Feriekonto - Kari Nordmann med et kjempelangt etternavnsen"
                 type="button"
                 value={2}
                 variant="secondary"
@@ -351,6 +353,7 @@ exports[`Dropdown component have to match snapshot 1`] = `
                   </span>
                 </span>
                 <span
+                  aria-hidden={true}
                   className="dnb-dropdown__icon"
                 >
                   <IconPrimary

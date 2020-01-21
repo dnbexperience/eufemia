@@ -1029,10 +1029,11 @@ export default class Dropdown extends PureComponent {
       onMouseDown: this.onMouseDownHandler,
       onKeyDown: this.onTriggerKeyDownHandler
     }
-    // freaks out NVDA
-    // if (typeof title === 'string') {
-    //   triggerParams['title'] = title
-    // }
+
+    // reads out the current selected state
+    if (typeof title === 'string') {
+      triggerParams['title'] = title
+    }
     if (showStatus || suffix) {
       triggerParams['aria-describedby'] = `${
         showStatus ? id + '-status' : ''
@@ -1120,6 +1121,7 @@ export default class Dropdown extends PureComponent {
                     </span>
                   )}
                   <span
+                    aria-hidden
                     className={classnames(
                       'dnb-dropdown__icon',
                       // icon && `icon-${icon}`,// not used anymore for now
