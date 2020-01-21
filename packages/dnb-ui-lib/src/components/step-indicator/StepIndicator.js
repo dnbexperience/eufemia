@@ -123,8 +123,11 @@ export default class StepIndicator extends PureComponent {
             url && (url === state.activeItem || url === state.activeUrl)
               ? i
               : acc,
-          props.active_item
+          parseFloat(props.active_item)
         )
+        if (!(state.activeItem > -1)) {
+          state.activeItem = null
+        }
       }
     }
     state._listenForPropChanges = true

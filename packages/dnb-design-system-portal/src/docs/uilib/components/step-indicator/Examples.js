@@ -78,7 +78,7 @@ class Example extends PureComponent {
         >
           {`
 <StepIndicator
-  active_item="1"
+  active_item="0"
   active_url={active_url}
   data={[
     {
