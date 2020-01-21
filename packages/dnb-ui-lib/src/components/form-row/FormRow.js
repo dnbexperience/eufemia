@@ -218,8 +218,9 @@ export default class FormRow extends PureComponent {
     validateDOMAttributes(this.props, params)
 
     // check if context has changed, if yes, then update the cache
-    if (hashSum(this._cachedContext) !== hashSum(this.context)) {
-      this._cachedContext = this.context
+    const cacheSum = { ...this.context, ...this.props }
+    if (hashSum(this._cachedContext) !== hashSum(cacheSum)) {
+      this._cachedContext = cacheSum
 
       const formRow = {
         useId: () => {

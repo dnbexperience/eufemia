@@ -220,7 +220,7 @@ export default class Textarea extends PureComponent {
       this.props,
       defaultProps,
       this.context.formRow,
-      this.context.translation.DatePicker
+      this.context.translation.Textarea
     )
 
     const {
