@@ -43,7 +43,7 @@ Example usage of HTML5 `landmarks` (e.g. `<nav>` or `<section>` etc.):
 
   <main>
 
-    <section>
+    <section aria-label="I'm now a region">
       <h1 class="dnb-h2">h1 styled as h2</h1>
       <p class="dnb-o">text</p>
     </section>
@@ -56,8 +56,10 @@ Example usage of HTML5 `landmarks` (e.g. `<nav>` or `<section>` etc.):
     </article>
 
     <article>
+      <header>I'm not a landmark anymore, because I'm inside article</header>
       <h2 class="dnb-h2">Another article h2</h2>
       ...
+      <footer>I'm not a landmark anymore, because I'm inside article</footer>
     </article>
 
   </main>
@@ -67,6 +69,8 @@ Example usage of HTML5 `landmarks` (e.g. `<nav>` or `<section>` etc.):
   <footer>Footer</footer>
 </body>
 ```
+
+Read more about [HTML landmarks and sectioning elements](https://www.w3.org/TR/wai-aria-practices/examples/landmarks/HTML5.html).
 
 ## Practical Support of ARIA labels
 
