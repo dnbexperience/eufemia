@@ -11,7 +11,7 @@ import {
   dispatchCustomElementEvent,
   isMac as isMacFunc
 } from '../../shared/component-helper'
-import { Dummy } from '../tabs/Tabs'
+// import { Dummy } from '../tabs/Tabs'
 
 let isMac = null
 
@@ -139,7 +139,7 @@ export default class StepItem extends PureComponent {
     const params = {
       ...rest
     }
-    if (currentItem == activeItem || isTrue(is_current)) {
+    if (currentItem === activeItem || isTrue(is_current)) {
       params['aria-current'] = 'step'
     }
     if (
@@ -147,8 +147,17 @@ export default class StepItem extends PureComponent {
       currentItem > activeItem &&
       !isTrue(is_active)
     ) {
+      params['disabled'] = true
       params['aria-disabled'] = true
     }
+
+    const interactiveParams = { ...params }
+    interactiveParams.className = classnames(
+      'dnb-anchor',
+      params['disabled'] && 'dnb-anchor--no-style',
+      'dnb-step-indicator__item-content',
+      'dnb-step-indicator__item-content--link'
+    )
 
     const StepItemWrapper = props => (
       <>
@@ -165,10 +174,10 @@ export default class StepItem extends PureComponent {
           {...props}
         >
           {title}
-          <Dummy>{title}</Dummy>
         </span>
       </>
     )
+
     let itemComponent = <StepItemWrapper />
 
     const props = {
@@ -185,29 +194,27 @@ export default class StepItem extends PureComponent {
     }
 
     let child = null
-    if (hasPassedAndIsCurrent && isTrue(use_navigation)) {
+    if (isTrue(use_navigation)) {
       child = (
         <button
           type="button"
-          className="dnb-anchor dnb-step-indicator__item-content dnb-step-indicator__item-content--link"
           onClick={event =>
             this.onClickHandler({ event, item: this.props, currentItem })
           }
-          {...params}
+          {...interactiveParams}
           ref={this._ref}
         >
           {itemComponent}
         </button>
       )
-    } else if (hasPassedAndIsCurrent && url) {
+    } else if (url) {
       child = (
         <a
-          className="dnb-anchor dnb-step-indicator__item-content dnb-step-indicator__item-content--link"
           href={url}
           onClick={event =>
             this.onClickHandler({ event, item: this.props, currentItem })
           }
-          {...params}
+          {...interactiveParams}
         >
           {itemComponent}
         </a>
@@ -230,9 +237,6 @@ export default class StepItem extends PureComponent {
 
     return (
       <li
-        // In case we do not use the role="tab" - we could use aria-current instead of aria-selected
-        // role="tab"
-        // aria-selected={i === activeItem}
         className={classnames(
           'dnb-step-indicator__item',
           currentItem === activeItem || isTrue(props.current)

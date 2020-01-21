@@ -127,7 +127,7 @@ $focusRingColor: var(--color-emerald-green);
 
 @mixin dummySpacing() {
   // we use "aria-hidden" SPAN to simulate a wider width for each tab
-  & > span[hidden] {
+  .dnb-dummy {
     display: flex;
     flex-direction: column;
 

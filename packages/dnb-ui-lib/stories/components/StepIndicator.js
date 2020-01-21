@@ -43,14 +43,16 @@ export default [
               // )
             },
             {
-              title: 'Second',
+              title:
+                'Second Sapien vivamus convallis fermentum euismod quam platea tellus nullam mollis',
               on_click: ({ currentItem }) =>
                 console.log('on_click', currentItem)
               // is_active: true
               // is_current: true
             },
             {
-              title: 'Third',
+              title:
+                'Third Sapien vivamus convallis fermentum euismod quam platea tellus nullam mollis',
               on_click: ({ currentItem }) =>
                 console.log('on_click', currentItem)
             }
