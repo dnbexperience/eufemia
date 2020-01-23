@@ -8,7 +8,7 @@
 @import './core/properties.scss';
 @import './core/scopes.scss';
 @import './core/fonts.scss';
-@import './core/helper-classes.scss';
+@import './core/helper-classes/helper-classes.scss';
 
 @include globalReset();
 

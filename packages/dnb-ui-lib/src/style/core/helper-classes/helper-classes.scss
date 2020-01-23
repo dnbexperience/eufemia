@@ -28,7 +28,7 @@
     !important
   );
 }
-@import './helper-classes/skip-link.scss';
+@import './skip-link.scss';
 
 .dnb-hide-on-mobile {
   @include allBelow(medium) {

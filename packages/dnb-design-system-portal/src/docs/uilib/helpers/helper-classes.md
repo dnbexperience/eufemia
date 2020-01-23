@@ -30,7 +30,7 @@ To ensure a consistent class structure and to ensure that the class is owned by 
 
 ### SASS and mixins
 
-All CSS helper classes are to be found in `src/style/core/helper-classes.scss`
+All CSS helper classes are to be found in `src/style/core/helper-classes/helper-classes.scss`
 
 Most helper classes are SCSS _mixins_ which are then applied to the class when invoked. The helper _mixins_ can be found in `src/style/core/utilities.scss`.
 
