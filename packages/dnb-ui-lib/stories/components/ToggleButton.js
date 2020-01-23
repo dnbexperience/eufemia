@@ -24,15 +24,20 @@ export default [
     <Wrapper>
       <Box>
         <Provider formRow={{ vertical: true }}>
-          <FormRow>
+          <FormRow disabled>
             <ToggleButton.Group>
               <ToggleButton
                 text="First"
                 value="first"
                 suffix="123"
                 status="error message"
+                disabled={false}
               />
-              <ToggleButton text="Second" value="second" />
+              <ToggleButton
+                text="Second"
+                value="second"
+                disabled={false}
+              />
               <ToggleButton text="Third A" value="thirdA" />
               <ToggleButton text="Third B" value="thirdB" />
               <ToggleButton text="Third C" value="thirdC" />
