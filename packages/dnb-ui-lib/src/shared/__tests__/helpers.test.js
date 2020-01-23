@@ -10,8 +10,7 @@ import {
   isIE11
 } from '../helpers'
 
-const bodyElements = window.document.getElementsByTagName('body')
-const bodyElement = bodyElements[0]
+const bodyElement = document.body
 bodyElement.insertAdjacentHTML(
   'afterbegin',
   `<div class="focus-content">My Content</div>`
@@ -27,7 +26,7 @@ beforeAll(() => {
 })
 
 describe('"applyPageFocus" should', () => {
-  const focusElement = window.document.querySelector('.focus-content')
+  const focusElement = document.querySelector('.focus-content')
   it('set a focus on the given element', () => {
     expect(focusElement === document.activeElement).toBe(true)
   })
@@ -41,7 +40,7 @@ describe('"applyPageFocus" should', () => {
 
 describe('"scrollToLocationHashId" should', () => {
   window.location.hash = '#scroll-hash'
-  const scrollElement = window.document.querySelector('#scroll-hash')
+  const scrollElement = document.querySelector('#scroll-hash')
   it('have a valid dom element', () => {
     expect(scrollElement instanceof HTMLElement).toBe(true)
   })

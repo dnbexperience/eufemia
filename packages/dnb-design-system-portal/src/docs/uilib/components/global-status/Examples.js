@@ -170,7 +170,7 @@ render(
 <Button
   text="Scroll to main GlobalStatus"
   on_click={() => {
-    GlobalStatus.Set({
+    GlobalStatus.AddStatus({
       id: 'main-status',
       text:
         'Dui consectetur viverra aenean vestibulum ac tristique sem ligula condimentum',

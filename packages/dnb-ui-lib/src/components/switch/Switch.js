@@ -248,7 +248,7 @@ export default class Switch extends Component {
       className: classnames(
         'dnb-switch',
         status && `dnb-switch__status--${status_state}`,
-        label && `dnb-switch--label-position-${label_position || 'right'}`,
+        `dnb-switch--label-position-${label_position || 'right'}`,
         'dnb-form-component',
         createSpacingClasses(props),
         className,

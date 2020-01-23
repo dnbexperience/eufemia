@@ -8,9 +8,9 @@ function pad(hash, len) {
 }
 
 function fold(hash, text) {
-  var i
-  var chr
-  var len
+  let i
+  let chr
+  let len
   if (text.length === 0) {
     return hash
   }
@@ -22,17 +22,23 @@ function fold(hash, text) {
   return hash < 0 ? hash * -2 : hash
 }
 
-function foldObject(hash, o, seen) {
+function foldObject(hash, o, seen, deep) {
   return Object.keys(o)
     .sort()
     .reduce(foldKey, hash)
   function foldKey(hash, key) {
-    return foldValue(hash, o[key], key, seen)
+    if (
+      deep === false &&
+      (typeof o[key] === 'object' || typeof o[key] === 'function')
+    ) {
+      return hash
+    }
+    return foldValue(hash, o[key], key, seen, deep)
   }
 }
 
-function foldValue(input, value, key, seen) {
-  var hash = fold(fold(fold(input, key), toString(value)), typeof value)
+function foldValue(input, value, key, seen, deep) {
+  const hash = fold(fold(fold(input, key), toString(value)), typeof value)
   if (value === null) {
     return fold(hash, 'null')
   }
@@ -45,7 +51,7 @@ function foldValue(input, value, key, seen) {
     }
     seen.push(value)
 
-    var objHash = foldObject(hash, value, seen)
+    const objHash = foldObject(hash, value, seen, deep)
 
     if (!('valueOf' in value) || typeof value.valueOf !== 'function') {
       return objHash
@@ -67,6 +73,6 @@ function toString(o) {
   return Object.prototype.toString.call(o)
 }
 
-export default function sum(o) {
-  return pad(foldValue(0, o, '', []).toString(16), 8)
+export default function sum(o, deep = true) {
+  return pad(foldValue(0, o, '', [], deep).toString(16), 8)
 }

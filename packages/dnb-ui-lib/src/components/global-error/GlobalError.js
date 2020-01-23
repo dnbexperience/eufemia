@@ -6,7 +6,7 @@
 import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-// import Context from '../../shared/Context'
+import Context from '../../shared/Context'
 import {
   registerElement,
   processChildren
@@ -32,6 +32,7 @@ const propTypes = {
   text: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
   back: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
   href: PropTypes.string,
+  alt: PropTypes.string,
 
   /** React props */
   className: PropTypes.string,
@@ -48,18 +49,7 @@ const propTypes = {
 
 const defaultProps = {
   status: null,
-  status_content: {
-    404: {
-      title: 'Oisann! Vi finner ikke siden du leter etter …',
-      text:
-        'Sikker på at du har skrevet riktig adresse? Eller har vi rotet med lenkene? Prøv på nytt, eller [gå tilbake der du kom fra](/back).'
-    },
-    500: {
-      title: 'Oops, her ble det en teknisk feil!',
-      text:
-        'Tjenesten fungerer ikke slik den skal for øyeblikket, men prøv igjen senere.'
-    }
-  },
+  status_content: null,
   back: 'Tilbake',
 
   title: null,
@@ -78,6 +68,7 @@ const defaultProps = {
 function GlobalError(props) {
   const {
     useTitle,
+    useAlt,
     backHandler,
     href,
     back,
@@ -103,8 +94,9 @@ function GlobalError(props) {
           back}
         <Svg
           status={props.status}
+          title={useAlt}
+          role="img"
           className="dnb-global-error__gfx"
-          aria-hidden
         />
         <div className="dnb-global-error__inner__content">
           <H1 top="4" bottom="large">
@@ -123,7 +115,6 @@ export default GlobalError
 GlobalError.tagName = 'dnb-global-error'
 GlobalError.propTypes = propTypes
 GlobalError.defaultProps = defaultProps
-// GlobalError.contextType = Context
 
 GlobalError.enableWebComponent = () => {
   registerElement(GlobalError.tagName, GlobalError, defaultProps)
@@ -151,23 +142,41 @@ const prepareLogic = props => {
     ...attributes
   } = props
 
-  let { status_content, title: useTitle, text: useText } = props
+  let {
+    status_content,
+    title: useTitle,
+    text: useText,
+    alt: useAlt
+  } = props
+
   if (useTitle) {
     useTitle = renderOrNot(useTitle)
   }
   if (useText) {
     useText = renderOrNot(useText)
   }
+
   if (typeof status_content === 'string' && status_content[0] === '{') {
     status_content = JSON.parse(status_content)
   }
+
+  if (status_content === null) {
+    const {
+      translation: { GlobalError: contextContent }
+    } = React.useContext(Context)
+    status_content = contextContent
+  }
+
   if (status_content && status_content[status]) {
-    let { title, text } = status_content[status]
+    let { title, text, alt } = status_content[status]
     if (!useTitle && useTitle !== '') {
       useTitle = title
     }
     if (!useText && useText !== '') {
       useText = text
+    }
+    if (!useAlt && useAlt !== '') {
+      useAlt = alt
     }
   }
 
@@ -192,17 +201,6 @@ const prepareLogic = props => {
             .map((c, i) => <Fragment key={i}>{c}</Fragment>)
         }
       }
-
-      // Since document.referrer is not working politely, we use the methode above
-      // const match = useText.match(/\[(.*)\](\(\/back\))/)
-      // useText.replace(
-      //   match[0],
-      //   `<a class="dnb-anchor" href="${
-      //     href || typeof document !== 'undefined'
-      //       ? document.referrer
-      //       : '/'
-      //   }">${match[1]}</a>`
-      // )
     } catch (e) {
       console.warn(e)
     }
@@ -229,6 +227,7 @@ const prepareLogic = props => {
 
   return {
     useTitle,
+    useAlt,
     backHandler,
     href,
     back,
@@ -249,11 +248,12 @@ const Svg = ({ status, ...props }) => {
   }
 }
 Svg.propTypes = {
+  title: PropTypes.string.isRequired,
   status: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
     .isRequired
 }
 
-const Svg404 = props => (
+const Svg404 = ({ title, ...props }) => (
   <svg
     width="339"
     height="360"
@@ -261,6 +261,7 @@ const Svg404 = props => (
     xmlns="http://www.w3.org/2000/svg"
     {...props}
   >
+    <title>{title}</title>
     <path
       d="M104 96s6 16 5 21c0 6 13 4 22-8 9-11-26-14-26-14l-1 1z"
       fill="#00313B"
@@ -348,8 +349,11 @@ const Svg404 = props => (
     <path d="M112 101l4 9c0 2 5-2 5-2l-9-7z" fill="#A5E1D2" />
   </svg>
 )
+Svg404.propTypes = {
+  title: PropTypes.string.isRequired
+}
 
-const Svg500 = props => (
+const Svg500 = ({ title, ...props }) => (
   <svg
     width="500"
     height="360"
@@ -357,6 +361,7 @@ const Svg500 = props => (
     xmlns="http://www.w3.org/2000/svg"
     {...props}
   >
+    <title>{title}</title>
     <path
       opacity=".4"
       d="M154.8 360c23.7 0 60-7 79.5-14.8 32.5-13 56.6-18.3 91-14.2 13.1 1.5 46.2 6.2 60.5 5.9 88.4-1.8 115.9-49 113.2-92.7-2.8-43.8-66.4-75.4-142.2-70.7-5.7.4-11.1.8-16.5 1.6-37 4.9-70.3 6.4-106.6-4.5a257 257 0 0 0-100.5-10.3C63.4 165.7-3.4 207.7.2 265.2 3.6 322.7 45.3 360 154.7 360z"
@@ -549,3 +554,6 @@ const Svg500 = props => (
     />
   </svg>
 )
+Svg500.propTypes = {
+  title: PropTypes.string.isRequired
+}

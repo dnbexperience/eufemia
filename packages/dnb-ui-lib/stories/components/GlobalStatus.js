@@ -39,6 +39,7 @@ export default [
   'GlobalStatus',
   () => (
     <Wrapper>
+      <GlobalStatus />
       <GlobalStatus
         // title="Custom Title"
         // text="Failure text"
@@ -85,7 +86,7 @@ export default [
           ref={scrollto_element}
           text="Scroll To"
           on_click={() => {
-            GlobalStatus.Set({
+            GlobalStatus.AddStatus({
               id: 'demo-1',
               // id: 'custom-status',
               text:
@@ -124,17 +125,18 @@ const InputWithError = () => {
   const [haveAnErrorMessage4, setErrorMessage4] = useState(false)
   return (
     <>
-      <FormSet global_status_id="form-status">
-        <FormRow label="Caption:" global_status_id="form-status">
+      <FormSet
+      // global_status_id="form-status"
+      >
+        <FormRow label="Caption:">
           <Input
             placeholder="Enter #1 ..."
             status={haveAnErrorMessage1 ? 'Error Message #1' : null}
             on_change={({ value }) => {
               setErrorMessage1(value.length >= 3)
             }}
-            // global_status_id="form-status"
             right="small"
-            status_animation="fade-in"
+            // status_animation="fade-in"
           />
           <Input
             placeholder="Enter #2 ..."
@@ -143,8 +145,7 @@ const InputWithError = () => {
               setErrorMessage2(value.length >= 3)
             }}
             right="small"
-            // global_status_id="form-status"
-            status_animation="fade-in"
+            // status_animation="fade-in"
           />
           <FormRow vertical>
             <Switch
@@ -153,16 +154,14 @@ const InputWithError = () => {
                 setErrorMessage3(checked)
               }}
               bottom="small"
-              // global_status_id="form-status"
-              status_animation="fade-in"
+              // status_animation="fade-in"
             />
             <Switch
               status={haveAnErrorMessage4 ? 'Error Message #4' : null}
               on_change={({ checked }) => {
                 setErrorMessage4(checked)
               }}
-              // global_status_id="form-status"
-              status_animation="fade-in"
+              // status_animation="fade-in"
             />
           </FormRow>
         </FormRow>
@@ -179,7 +178,7 @@ const ModalExample = () => (
     // width="80vw"
     on_open={() => {
       setTimeout(() => {
-        const status = GlobalStatus.Set({
+        const status = GlobalStatus.AddStatus({
           id: 'modal',
           status_id: 'custom-id-1',
           text: 'Second Text',
@@ -350,13 +349,13 @@ const NestedSections = () => (
     <Section spacing style_type="mint-green">
       Content 2
       <GlobalStatus
+        id="default-1"
         // title={'Title 1'}
         // demo
         show
         no_animation
         // autoclose={false}
         autoscroll="false"
-        // id="default-1"
         // delay={300}
         on_close={props => {
           console.log('on_close', props)
@@ -366,17 +365,20 @@ const NestedSections = () => (
         Default Text
       </GlobalStatus>
       <GlobalStatus.Add
+        id="default-1"
         status_id="custom-id-1"
         text="Second Text"
         // items={['xxx']}
         item="Second Item"
       />
       {/* <GlobalStatus.Add
+      id="default-1"
       status_id="custom-id-2"
       text="Third Text"
       item="Third Item"
     />
     <GlobalStatus.Add
+      id="default-1"
       status_id="custom-id-2"
       text="Third Text bøø"
       item={{ text: 'Third Item bøø', status_anchor_url: '/' }}

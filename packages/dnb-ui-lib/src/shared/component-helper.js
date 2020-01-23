@@ -229,7 +229,7 @@ export const validateDOMAttributes = (props, params) => {
   }
 
   // remove disabled, in case it is false (this is for web components support)
-  if (params.disabled === null || String(params.disabled) === 'false') {
+  if (params.disabled === null || params.disabled === 'false') {
     delete params.disabled
   }
   if (typeof params.top !== 'undefined') {
@@ -249,7 +249,7 @@ export const validateDOMAttributes = (props, params) => {
   else if (params.disabled === 'true') {
     params.disabled = true
   }
-  if (params.disabled) {
+  if (params.disabled === true) {
     params['aria-disabled'] = true
   }
 

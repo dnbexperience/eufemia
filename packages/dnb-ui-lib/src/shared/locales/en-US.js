@@ -27,6 +27,20 @@ export default {
       close_text: 'Close',
       status_anchor_text: 'Go to'
     },
+    GlobalError: {
+      404: {
+        title: "Oops! We can't find the page you're looking for …",
+        text:
+          'Did we messed with the links? Try again, or [go back where you came from](/back).',
+        alt: 'Lady searching in empty box'
+      },
+      500: {
+        title: 'Ohh, a technical error happened!',
+        text:
+          'The service is not working properly at the moment, but try again later.',
+        alt: 'Man looking for clues'
+      }
+    },
     Dropdown: {
       title: 'Option Menu'
     },

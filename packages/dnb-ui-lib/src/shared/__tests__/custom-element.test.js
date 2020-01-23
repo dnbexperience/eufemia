@@ -10,10 +10,8 @@ import { toJson } from '../../core/jest/jestSetup'
 
 // IMPORTANT: The tests requires that the custom element is polyfilled by using "document-register-element"
 
-const bodyElements = window.document.getElementsByTagName('body')
-const bodyElement = bodyElements[0]
 const CustomElementComponentContent = 'I have a rendered content'
-bodyElement.insertAdjacentHTML(
+document.body.insertAdjacentHTML(
   'afterbegin',
   `<custom-element observed-attribute="${CustomElementComponentContent}">Startup Content</custom-element>`
 )
@@ -37,9 +35,7 @@ describe('"registerElement" should', () => {
   registerElement('custom-element', CustomElementComponent, [
     'observed-attribute'
   ])
-  const customElement = window.document.getElementsByTagName(
-    'custom-element'
-  )
+  const customElement = document.getElementsByTagName('custom-element')
 
   it('have "registeredElements" with more than one element', () => {
     expect(registeredElements.length).toBeGreaterThanOrEqual(1)

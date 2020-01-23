@@ -49,12 +49,14 @@ exports[`ToggleButton component have to match snapshot 1`] = `
     >
       <Element
         className="dnb-form-label"
+        disabled={false}
         htmlFor="toggle-button"
         id="toggle-button-label"
         is="label"
       >
         <label
           className="dnb-form-label"
+          disabled={false}
           htmlFor="toggle-button"
           id="toggle-button-label"
         >
@@ -70,7 +72,6 @@ exports[`ToggleButton component have to match snapshot 1`] = `
       >
         <Button
           aria-describedby=" toggle-button-suffix"
-          aria-disabled={true}
           aria-pressed="false"
           bounding={false}
           class={null}
@@ -100,9 +101,9 @@ exports[`ToggleButton component have to match snapshot 1`] = `
         >
           <button
             aria-describedby=" toggle-button-suffix"
-            aria-disabled={true}
             aria-pressed="false"
             className="dnb-button dnb-button--secondary dnb-toggle-button__button dnb-button--icon-position-right dnb-button--has-icon dnb-button--has-text"
+            disabled={false}
             id="toggle-button"
             onClick={[Function]}
             onKeyDown={[Function]}
@@ -113,7 +114,6 @@ exports[`ToggleButton component have to match snapshot 1`] = `
           >
             <Content
               aria-describedby=" toggle-button-suffix"
-              aria-disabled={true}
               aria-pressed="false"
               bounding={false}
               class={null}
@@ -215,7 +215,6 @@ exports[`ToggleButton component have to match snapshot 1`] = `
                         >
                           <input
                             aria-checked={false}
-                            aria-disabled={true}
                             aria-hidden={true}
                             checked={false}
                             className="dnb-checkbox__input"
@@ -377,11 +376,13 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
             >
               <Element
                 className="dnb-form-label dnb-form-row__label"
+                disabled={false}
                 id="group-label"
                 is="legend"
               >
                 <legend
                   className="dnb-form-label dnb-form-row__label"
+                  disabled={false}
                   id="group-label"
                 >
                   Label
@@ -465,6 +466,7 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
                           <button
                             aria-pressed="true"
                             className="dnb-button dnb-button--secondary dnb-toggle-button__button dnb-button--has-text"
+                            disabled={false}
                             id="toggle-button-1"
                             onClick={[Function]}
                             onKeyDown={[Function]}
@@ -583,6 +585,7 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
                           <button
                             aria-pressed="true"
                             className="dnb-button dnb-button--secondary dnb-toggle-button__button dnb-button--has-text"
+                            disabled={false}
                             id="toggle-button-2"
                             onClick={[Function]}
                             onKeyDown={[Function]}

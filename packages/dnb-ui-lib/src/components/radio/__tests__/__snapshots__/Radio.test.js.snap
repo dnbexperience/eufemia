@@ -52,6 +52,7 @@ exports[`Radio component have to match snapshot 1`] = `
           aria-hidden={true}
           aria-label="label"
           className="dnb-form-label"
+          disabled={false}
           htmlFor="radio"
           id="radio-label"
           is="label"
@@ -60,6 +61,7 @@ exports[`Radio component have to match snapshot 1`] = `
             aria-hidden={true}
             aria-label="label"
             className="dnb-form-label"
+            disabled={false}
             htmlFor="radio"
             id="radio-label"
           >
@@ -200,12 +202,14 @@ exports[`Radio group component have to match group snapshot 1`] = `
             >
               <Element
                 className="dnb-form-label dnb-form-row__label"
+                disabled={false}
                 htmlFor="group"
                 id="group-label"
                 is="label"
               >
                 <label
                   className="dnb-form-label dnb-form-row__label"
+                  disabled={false}
                   htmlFor="group"
                   id="group-label"
                 >
@@ -310,6 +314,7 @@ exports[`Radio group component have to match group snapshot 1`] = `
                               aria-hidden={true}
                               aria-label="Radio 1"
                               className="dnb-form-label"
+                              disabled={false}
                               htmlFor="radio-1"
                               id="radio-1-label"
                               is="label"
@@ -318,6 +323,7 @@ exports[`Radio group component have to match group snapshot 1`] = `
                                 aria-hidden={true}
                                 aria-label="Radio 1"
                                 className="dnb-form-label"
+                                disabled={false}
                                 htmlFor="radio-1"
                                 id="radio-1-label"
                               >
@@ -418,6 +424,7 @@ exports[`Radio group component have to match group snapshot 1`] = `
                               aria-hidden={true}
                               aria-label="Radio 2"
                               className="dnb-form-label"
+                              disabled={false}
                               htmlFor="radio-2"
                               id="radio-2-label"
                               is="label"
@@ -426,6 +433,7 @@ exports[`Radio group component have to match group snapshot 1`] = `
                                 aria-hidden={true}
                                 aria-label="Radio 2"
                                 className="dnb-form-label"
+                                disabled={false}
                                 htmlFor="radio-2"
                                 id="radio-2-label"
                               >

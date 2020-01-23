@@ -83,6 +83,7 @@ exports[`InputMasked component have to match type="text" snapshot 1`] = `
             <t
               autoComplete="off"
               className="dnb-input__input"
+              disabled={false}
               guide={false}
               id="input-masked"
               keepCharPositions={false}
@@ -103,6 +104,7 @@ exports[`InputMasked component have to match type="text" snapshot 1`] = `
                 autoComplete="off"
                 className="dnb-input__input"
                 defaultValue="test"
+                disabled={false}
                 id="input-masked"
                 name="input-masked"
                 onBlur={[Function]}

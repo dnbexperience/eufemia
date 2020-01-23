@@ -80,6 +80,7 @@ exports[`Textarea component have to match snapshot 1`] = `
       >
         <textarea
           className="dnb-textarea__textarea"
+          disabled={false}
           id="textarea"
           name="textarea"
           onBlur={[Function]}

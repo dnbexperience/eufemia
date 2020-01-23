@@ -6,16 +6,21 @@
 import React from 'react'
 import { Wrapper, Box } from '../helpers'
 import styled from '@emotion/styled'
-import Number from // , { format }
-'../../src/components/Number'
 import { P } from '../../src/elements'
 import Provider from '../../src/shared/Provider'
+import Number from '../../src/components/Number'
+
+// import { format } from '../../src/components/Number'
 // import Context from '../../src/shared/Context'
 
 const CustomStyle = styled.div`
   .dnb-number {
     ${'' /* display: block; */}
     ${'' /* color: hotpink; */}
+  }
+  .dnb-sr-only--shadow {
+    box-shadow: 0 0 1px 1px blue;
+    margin: 0;
   }
 `
 
@@ -91,6 +96,34 @@ export default [
                 <Number value="18089212345" nin /> random identification
                 number
               </P>
+            </Box>
+            <Box>
+              <p className="dnb-p">
+                Hidden text:
+                <span className="dnb-sr-only--inline">
+                  I am only visible to screen readers, so you probably
+                  can't see me.. Unless you're using a screen reader.
+                </span>
+                !
+              </p>
+              <p className="dnb-p dnb-sr-only dnb-not-sr-only">
+                I'm the opposite of .dnb-sr-only, so you should be able to
+                see me.
+              </p>
+              <p className="dnb-sr-only--shadow">hello 1</p>
+              <span className="dnb-sr-only">hello 2</span>
+              <span className="dnb-sr-only--inline">hello 3</span>
+              <p className="dnb-sr-only--shadow">end</p>
+              ---
+              <p className="dnb-sr-only--shadow">hello 1</p>
+              <p className="dnb-sr-only">hello 2</p>
+              <div className="dnb-sr-only--inline">hello 3</div>
+              {/* <span className="dnb-sr-only--inline-wrapper">
+            </span> */}
+              <p className="dnb-sr-only--shadow">end</p>
+              <button className="dnb-button dnb-button--primary">
+                <Number value={-12345678.9} />
+              </button>
             </Box>
           </Wrapper>
         </Provider>

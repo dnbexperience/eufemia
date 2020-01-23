@@ -11,6 +11,7 @@ Reusing classes in the markup instead of using SCSS extends or _mixins_ will pre
 | `dnb-skip-link`            | A default Skip Link style. More details in the [Focus Secion](/uilib/usage/accessibility/focus#skip-link)                                                                                                                                                       |
 | `dnb-spacing`              | Default spacing styles. More details in [Styling](/uilib/usage/customisation/styling#spacing)                                                                                                                                                                   |
 | `dnb-sr-only`              | Visually hides an element, but is still reachable by screen readers. (_sr_ stands for _Screen Reader_)                                                                                                                                                          |
+| `dnb-sr-only--inline`      | Like `dnb-sr-only` - but with flow elements in mind. This enables a set of text (in a paragraph `<p>`) to be enhanced with spans inside `<p>text <span class="dnb-sr-only--inline">sr-only</span> text</p>` without NVDA to split up reading the text.          |
 | `dnb-drop-shadow`          | Adds the default drop shadow used in the components.                                                                                                                                                                                                            |
 | `dnb-responsive-component` | Makes some component form components, like [Input](/uilib/components/input) react to mobile sized screens. But as this can have some negative effects to have this enabled by default, you can enable this optionally using this helper class.                  |
 | `dnb-unstyled-list`        | Removes default styling for lists. Applies to the `ul` or `ol` elements                                                                                                                                                                                         |
@@ -29,7 +30,7 @@ To ensure a consistent class structure and to ensure that the class is owned by 
 
 ### SASS and mixins
 
-All CSS helper classes are to be found in `src/style/core/helper-classes.scss`
+All CSS helper classes are to be found in `src/style/core/helper-classes/helper-classes.scss`
 
 Most helper classes are SCSS _mixins_ which are then applied to the class when invoked. The helper _mixins_ can be found in `src/style/core/utilities.scss`.
 

@@ -26,9 +26,6 @@
     @include alignmentHelper();
   }
 
-  // &__helper {
-  // }
-
   &__shell {
     user-select: none;
     -webkit-user-select: none; // Safari / Touch fix

@@ -760,8 +760,10 @@ exports[`GlobalStatus snapshot have to match component snapshot 1`] = `
 >
   <div
     aria-live="assertive"
-    className="dnb-global-status__wrapper className class"
+    className="dnb-global-status__wrapper dnb-no-focus className class"
     key="global-status"
+    onKeyDown={[Function]}
+    tabIndex="-1"
   >
     <Section
       class={null}
@@ -880,6 +882,7 @@ exports[`GlobalStatus snapshot have to match component snapshot 1`] = `
                     <button
                       aria-label="close_text"
                       className="dnb-button dnb-button--tertiary dnb-global-status__close-button dnb-button--icon-position-left dnb-button--has-icon dnb-button--icon-size-medium dnb-button--size-medium dnb-button--has-text"
+                      disabled={false}
                       onClick={[Function]}
                       onMouseOut={[Function]}
                       type="button"

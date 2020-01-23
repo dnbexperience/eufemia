@@ -126,6 +126,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
           <input
             autoComplete="off"
             className="dnb-input__input"
+            disabled={false}
             id="input"
             name="input"
             onBlur={[Function]}
@@ -324,7 +325,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
                   className="dnb-input__submit-button__button"
                   custom_element={null}
                   custom_method={null}
-                  disabled={null}
+                  disabled={false}
                   global_status_id={null}
                   href={null}
                   icon="search"
@@ -348,6 +349,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
                 >
                   <button
                     className="dnb-button dnb-button--secondary dnb-input__submit-button__button dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-default dnb-button--size-medium"
+                    disabled={false}
                     onBlur={[Function]}
                     onClick={[Function]}
                     onFocus={[Function]}
@@ -362,7 +364,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
                       content={null}
                       custom_element={null}
                       custom_method={null}
-                      disabled={null}
+                      disabled={false}
                       global_status_id={null}
                       href={null}
                       icon="search"
@@ -575,6 +577,7 @@ exports[`Input component have to match type="text" snapshot 1`] = `
           <input
             autoComplete="off"
             className="dnb-input__input"
+            disabled={false}
             id="input"
             name="input"
             onBlur={[Function]}

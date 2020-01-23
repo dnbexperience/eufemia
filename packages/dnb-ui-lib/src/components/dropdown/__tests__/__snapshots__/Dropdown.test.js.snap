@@ -110,6 +110,7 @@ exports[`Dropdown component have to match snapshot 1`] = `
     >
       <Element
         className="dnb-form-label"
+        disabled={false}
         htmlFor="dropdown-id"
         id="dropdown-id-label"
         is="label"
@@ -117,6 +118,7 @@ exports[`Dropdown component have to match snapshot 1`] = `
       >
         <label
           className="dnb-form-label"
+          disabled={false}
           htmlFor="dropdown-id"
           id="dropdown-id-label"
           onMouseDown={[Function]}
@@ -224,7 +226,6 @@ exports[`Dropdown component have to match snapshot 1`] = `
         >
           <Button
             aria-describedby="dropdown-id-status dropdown-id-suffix"
-            aria-disabled={true}
             aria-expanded={false}
             aria-haspopup={true}
             aria-labelledby="dropdown-id-label"
@@ -252,18 +253,18 @@ exports[`Dropdown component have to match snapshot 1`] = `
             status_animation={null}
             status_state="error"
             text={null}
-            title={null}
+            title="Feriekonto - Kari Nordmann med et kjempelangt etternavnsen"
             type="button"
             value={2}
             variant="secondary"
           >
             <button
               aria-describedby="dropdown-id-status dropdown-id-suffix"
-              aria-disabled={true}
               aria-expanded={false}
               aria-haspopup={true}
               aria-labelledby="dropdown-id-label"
               className="dnb-button dnb-button--secondary dnb-dropdown__trigger dnb-button--size-medium dnb-button--has-text"
+              disabled={false}
               id="dropdown-id"
               onBlur={[Function]}
               onClick={[Function]}
@@ -271,12 +272,12 @@ exports[`Dropdown component have to match snapshot 1`] = `
               onKeyDown={[Function]}
               onMouseDown={[Function]}
               onMouseOut={[Function]}
+              title="Feriekonto - Kari Nordmann med et kjempelangt etternavnsen"
               type="button"
               value={2}
             >
               <Content
                 aria-describedby="dropdown-id-status dropdown-id-suffix"
-                aria-disabled={true}
                 aria-expanded={false}
                 aria-haspopup={true}
                 aria-labelledby="dropdown-id-label"
@@ -295,6 +296,7 @@ exports[`Dropdown component have to match snapshot 1`] = `
                       </span>
                     </span>,
                     <span
+                      aria-hidden={true}
                       className="dnb-dropdown__icon"
                     >
                       <IconPrimary
@@ -336,7 +338,7 @@ exports[`Dropdown component have to match snapshot 1`] = `
                 status_animation={null}
                 status_state="error"
                 text={null}
-                title={null}
+                title="Feriekonto - Kari Nordmann med et kjempelangt etternavnsen"
                 type="button"
                 value={2}
                 variant="secondary"
@@ -351,6 +353,7 @@ exports[`Dropdown component have to match snapshot 1`] = `
                   </span>
                 </span>
                 <span
+                  aria-hidden={true}
                   className="dnb-dropdown__icon"
                 >
                   <IconPrimary

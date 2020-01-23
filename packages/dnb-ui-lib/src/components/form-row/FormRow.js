@@ -217,10 +217,20 @@ export default class FormRow extends PureComponent {
     // also used for code markup simulation
     validateDOMAttributes(this.props, params)
 
-    // check if context has changed, if yes, then update the cache
-    const cacheSum = { ...this.context, ...this.props }
-    if (hashSum(this._cachedContext) !== hashSum(cacheSum)) {
-      this._cachedContext = cacheSum
+    // NB: Update: Using hashSum on props i too CPU expensive
+    // Sollution is to only check one dimention by using "false"
+    // We could also check: if(this._cachedContext !== this.context)
+    // but not with props. So it's not a sollution
+
+    // NB: check if context has changed, if yes, then update the cache
+    // 1. Modal inside a FormRow will open on rerender without: this._cachedContext !== this.context
+    // 2. But then ToggleButton or any other props
+    if (
+      this._cachedContext !== hashSum(this.context, false) ||
+      this._cachedProps !== hashSum(this.props, false)
+    ) {
+      this._cachedContext = hashSum(this.context, false)
+      this._cachedProps = hashSum(this.props, false)
 
       const formRow = {
         useId: () => {
