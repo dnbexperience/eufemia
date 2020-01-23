@@ -299,7 +299,7 @@ export default class ToggleButton extends Component {
             // group: _group, // eslint-disable-line
             checked: _checked, // eslint-disable-line
             attributes, // eslint-disable-line
-            children, // eslint-disable-line
+            children,
             on_change, // eslint-disable-line
             on_state_update, // eslint-disable-line
             custom_method, // eslint-disable-line
@@ -344,7 +344,7 @@ export default class ToggleButton extends Component {
           const buttonParams = {
             id,
             disabled,
-            text,
+            text: text || children,
             title,
             ['aria-pressed']: String(checked),
             ...rest
