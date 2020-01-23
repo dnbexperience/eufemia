@@ -6,9 +6,11 @@
 import React from 'react'
 import { Wrapper, Box } from '../helpers'
 import styled from '@emotion/styled'
-import Number from '../../src/components/Number' // , { format }
 import { P } from '../../src/elements'
 import Provider from '../../src/shared/Provider'
+import Number from '../../src/components/Number'
+
+// import { format } from '../../src/components/Number'
 // import Context from '../../src/shared/Context'
 
 const CustomStyle = styled.div`
