@@ -62,7 +62,7 @@ Beside the automated connection between the error states of form components ([Fo
 import { GlobalStatus } from 'dnb-ui-lib/components'
 
 // 1. Update / extend the the status like so:
-const statusOne = GlobalStatus.Set({
+const statusOne = GlobalStatus.AddStatus({
   status_id: 'custom-id-1',
   text: 'New Text',
   item: 'Item from status #1'

@@ -86,7 +86,7 @@ export default [
           ref={scrollto_element}
           text="Scroll To"
           on_click={() => {
-            GlobalStatus.Set({
+            GlobalStatus.AddStatus({
               id: 'demo-1',
               // id: 'custom-status',
               text:
@@ -178,7 +178,7 @@ const ModalExample = () => (
     // width="80vw"
     on_open={() => {
       setTimeout(() => {
-        const status = GlobalStatus.Set({
+        const status = GlobalStatus.AddStatus({
           id: 'modal',
           status_id: 'custom-id-1',
           text: 'Second Text',

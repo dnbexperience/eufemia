@@ -825,6 +825,7 @@ CloseButton.defaultProps = {
 
 // Extend our component with controllers
 GlobalStatus.Set = (...args) => new GlobalStatusController(...args)
+GlobalStatus.AddStatus = GlobalStatus.Set
 GlobalStatus.Update = GlobalStatusController
 GlobalStatus.Add = GlobalStatusController
 GlobalStatus.Remove = GlobalStatusController.Remove
