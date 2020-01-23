@@ -4,7 +4,7 @@
  */
 
 import {
-  // isCI,
+  isCI,
   testPageScreenshot,
   setupPageScreenshot
 } from '../../../../core/jest/jestSetupScreenshots'
@@ -59,12 +59,26 @@ describe('HelperClasses screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
-  it('have to match nudge', async () => {
-    const screenshot = await testPageScreenshot({
-      selector: '[data-dnb-test="helper-nudge"]'
+  if (!isCI) {
+    it('have to match nudge', async () => {
+      const screenshot = await testPageScreenshot({
+        style: {
+          width: '60rem'
+        },
+        selector: '[data-dnb-test="helper-nudge"]'
+      })
+      expect(screenshot).toMatchImageSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
+    it('have to match nudge mobile', async () => {
+      const screenshot = await testPageScreenshot({
+        style: {
+          width: '20rem'
+        },
+        selector: '[data-dnb-test="helper-nudge"]'
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
+  }
   it('have to match sr-only', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-dnb-test="helper-sr-only"]'
