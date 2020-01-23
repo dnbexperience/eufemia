@@ -233,7 +233,7 @@ export default class Number extends PureComponent {
           >
             {display}
           </Element>
-          <span id={this._id} lang={lang} className="dnb-sr-only">
+          <span id={this._id} lang={lang} className="dnb-sr-only--inline">
             {aria}
           </span>
         </>

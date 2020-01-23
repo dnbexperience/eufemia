@@ -83,6 +83,9 @@
 .dnb-sr-only {
   @include srOnly();
 }
+.dnb-sr-only--inline {
+  @include srOnlyInline();
+}
 .dnb-not-sr-only {
   @include notSrOnly();
 }

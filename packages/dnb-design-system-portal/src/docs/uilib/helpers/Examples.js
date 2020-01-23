@@ -110,10 +110,13 @@ I'm a vertical nudge. I have four nudges, which means I am 4rem units tall.
           caption="I am only visible to screen readers `.dnb-sr-only`"
         >
           {/* @html */ `
-<div className="dnb-sr-only">
-  I am only visible to screen readers, so you probably can't see
-  me.. Unless you're using a screen reader.
-</div>
+<p className="dnb-p">
+  Hidden text:
+  <span className="dnb-sr-only--inline">
+    I am only visible to screen readers, so you probably can't see
+    me.. Unless you're using a screen reader.
+  </span>!
+</p>
           `}
         </CodeBlock>
         <CodeBlock
@@ -122,10 +125,10 @@ I'm a vertical nudge. I have four nudges, which means I am 4rem units tall.
           caption="`.dnb-not-sr-only` I'm the opposite of .dnb-sr-only"
         >
           {/* @html */ `
-<div className="dnb-not-sr-only">
+<p className="dnb-p dnb-sr-only dnb-not-sr-only">
   I'm the opposite of .dnb-sr-only, so you should be able to see
   me.
-</div>
+</p>
           `}
         </CodeBlock>
       </Fragment>
