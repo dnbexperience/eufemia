@@ -14,6 +14,15 @@ export default [
   () => (
     <Wrapper>
       <Box>
+        <Switch
+          // label="Label:"
+          // label_position="left"
+          checked
+          status="Error message"
+          status_state="info"
+        />
+      </Box>
+      <Box>
         Text: <FormLabel for_id="switch">Unchecked:</FormLabel>
         <Switch id="switch" checked={false} />
       </Box>
