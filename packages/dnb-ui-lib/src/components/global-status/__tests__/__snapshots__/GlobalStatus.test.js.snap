@@ -882,6 +882,7 @@ exports[`GlobalStatus snapshot have to match component snapshot 1`] = `
                     <button
                       aria-label="close_text"
                       className="dnb-button dnb-button--tertiary dnb-global-status__close-button dnb-button--icon-position-left dnb-button--has-icon dnb-button--icon-size-medium dnb-button--size-medium dnb-button--has-text"
+                      disabled={false}
                       onClick={[Function]}
                       onMouseOut={[Function]}
                       type="button"

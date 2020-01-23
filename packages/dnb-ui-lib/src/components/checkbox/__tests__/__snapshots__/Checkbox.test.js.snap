@@ -82,12 +82,14 @@ exports[`Checkbox component have to match snapshot 1`] = `
       >
         <Element
           className="dnb-form-label"
+          disabled={false}
           htmlFor="checkbox"
           id="checkbox-label"
           is="label"
         >
           <label
             className="dnb-form-label"
+            disabled={false}
             htmlFor="checkbox"
             id="checkbox-label"
           >

@@ -53,11 +53,13 @@ exports[`FormRow component have to match snapshot 1`] = `
         >
           <Element
             className="dnb-form-label dnb-form-row__label label_class"
+            disabled={false}
             id="label_id"
             is="legend"
           >
             <legend
               className="dnb-form-label dnb-form-row__label label_class"
+              disabled={false}
               id="label_id"
             >
               label

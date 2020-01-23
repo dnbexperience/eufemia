@@ -51,11 +51,13 @@ exports[`Slider component have to match snapshot 1`] = `
     >
       <Element
         className="dnb-form-label"
+        disabled={false}
         id="id-label"
         is="label"
       >
         <label
           className="dnb-form-label"
+          disabled={false}
           id="id-label"
         >
           label
@@ -75,7 +77,7 @@ exports[`Slider component have to match snapshot 1`] = `
           className="dnb-slider__button dnb-slider__button--subtract"
           custom_element={null}
           custom_method={null}
-          disabled={null}
+          disabled={false}
           global_status_id={null}
           href={null}
           icon="subtract"
@@ -97,6 +99,7 @@ exports[`Slider component have to match snapshot 1`] = `
           <button
             aria-label="subtract_title"
             className="dnb-button dnb-button--secondary dnb-slider__button dnb-slider__button--subtract dnb-button--icon-position-right dnb-button--has-icon dnb-button--size-medium"
+            disabled={false}
             onClick={[Function]}
             onMouseOut={[Function]}
             type="button"
@@ -109,7 +112,7 @@ exports[`Slider component have to match snapshot 1`] = `
               content={null}
               custom_element={null}
               custom_method={null}
-              disabled={null}
+              disabled={false}
               global_status_id={null}
               href={null}
               icon="subtract"
@@ -198,6 +201,7 @@ exports[`Slider component have to match snapshot 1`] = `
               aria-describedby=" id-suffix"
               aria-labelledby="id-label"
               className="dnb-slider__button-helper"
+              disabled={false}
               max={100}
               min={0}
               onBlur={[Function]}
@@ -241,6 +245,7 @@ exports[`Slider component have to match snapshot 1`] = `
               <button
                 aria-hidden={true}
                 className="dnb-button dnb-button--secondary"
+                disabled={false}
                 onClick={[Function]}
                 onMouseDown={[Function]}
                 onMouseOut={[Function]}
@@ -299,7 +304,7 @@ exports[`Slider component have to match snapshot 1`] = `
           className="dnb-slider__button dnb-slider__button--add"
           custom_element={null}
           custom_method={null}
-          disabled={null}
+          disabled={false}
           global_status_id={null}
           href={null}
           icon="add"
@@ -321,6 +326,7 @@ exports[`Slider component have to match snapshot 1`] = `
           <button
             aria-label="add_title"
             className="dnb-button dnb-button--secondary dnb-slider__button dnb-slider__button--add dnb-button--icon-position-right dnb-button--has-icon dnb-button--size-medium"
+            disabled={false}
             onClick={[Function]}
             onMouseOut={[Function]}
             type="button"
@@ -333,7 +339,7 @@ exports[`Slider component have to match snapshot 1`] = `
               content={null}
               custom_element={null}
               custom_method={null}
-              disabled={null}
+              disabled={false}
               global_status_id={null}
               href={null}
               icon="add"

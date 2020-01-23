@@ -49,12 +49,14 @@ exports[`Switch component have to match snapshot 1`] = `
       >
         <Element
           className="dnb-form-label"
+          disabled={false}
           htmlFor="id"
           id="id-label"
           is="label"
         >
           <label
             className="dnb-form-label"
+            disabled={false}
             htmlFor="id"
             id="id-label"
           >
@@ -73,6 +75,7 @@ exports[`Switch component have to match snapshot 1`] = `
             aria-describedby=" id-suffix"
             checked={false}
             className="dnb-switch__input"
+            disabled={false}
             id="id"
             name="id"
             onChange={[Function]}

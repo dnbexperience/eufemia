@@ -529,6 +529,7 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
       >
         <a
           className="dnb-button dnb-button--tertiary dnb-global-error__back dnb-button--icon-position-left dnb-button--has-icon dnb-button--has-text"
+          disabled={false}
           href="href"
           onClick={[Function]}
           onMouseOut={[Function]}
