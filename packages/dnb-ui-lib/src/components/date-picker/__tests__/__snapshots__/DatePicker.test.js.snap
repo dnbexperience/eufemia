@@ -94,6 +94,14 @@ exports[`DatePicker component have to match snapshot 1`] = `
       aria-describedby="date-picker-id-status "
       className="dnb-date-picker__inner"
     >
+      <AlignmentHelper
+        className={null}
+      >
+        <span
+          aria-hidden={true}
+          className="dnb-alignment-helper"
+        />
+      </AlignmentHelper>
       <FormStatus
         animation={null}
         class={null}
@@ -316,6 +324,14 @@ exports[`DatePicker component have to match snapshot 1`] = `
                 <span
                   className="dnb-input__inner"
                 >
+                  <AlignmentHelper
+                    className={null}
+                  >
+                    <span
+                      aria-hidden={true}
+                      className="dnb-alignment-helper"
+                    />
+                  </AlignmentHelper>
                   <span
                     className="dnb-input__row"
                   >
@@ -1749,12 +1765,6 @@ legend.dnb-form-label {
     display: inline-flex;
     flex-direction: column;
     width: auto; }
-    .dnb-input__inner::before {
-      content: '\\\\200C';
-      display: inline-block;
-      width: 0;
-      height: 0;
-      font-size: var(--font-size-small); }
   .dnb-input__shell {
     position: relative;
     display: flex;
@@ -1970,12 +1980,6 @@ legend.dnb-form-label {
     display: inline-flex;
     flex-direction: column;
     align-self: center; }
-    .dnb-checkbox__inner::before {
-      content: '\\\\200C';
-      display: inline-block;
-      width: 0;
-      height: 0;
-      font-size: var(--font-size-small); }
   .dnb-checkbox__shell {
     user-select: none;
     -webkit-user-select: none;
@@ -2121,12 +2125,6 @@ legend.dnb-form-label {
     display: inline-flex;
     flex-direction: column;
     align-self: center; }
-    .dnb-radio__inner::before {
-      content: '\\\\200C';
-      display: inline-block;
-      width: 0;
-      height: 0;
-      font-size: var(--font-size-small); }
   .dnb-radio__shell {
     position: relative;
     user-select: none;
@@ -2305,12 +2303,6 @@ legend.dnb-form-label {
     left: 0;
     user-select: none;
     -webkit-user-select: none; }
-    .dnb-toggle-button__shell::before {
-      content: '\\\\200C';
-      display: inline-block;
-      width: 0;
-      height: 0;
-      font-size: var(--font-size-small); }
   .dnb-toggle-button--vertical {
     flex-direction: column;
     align-items: flex-start; }
@@ -2396,7 +2388,7 @@ legend.dnb-form-label {
       margin-bottom: calc(1px - 1px - var(--toggle-button-margin-bottom)); }
       .dnb-toggle-button-group .dnb-form-row::before {
         font-size: var(--font-size-basis); }
-    .dnb-toggle-button-group--no-label .dnb-form-row::before {
+    .dnb-toggle-button-group--no-label .dnb-form-row {
       line-height: var(--button-height); }
   @media (min-width: 40em) {
     .dnb-form-label + .dnb-toggle-button {
@@ -2471,12 +2463,6 @@ legend.dnb-form-label {
     display: inline-flex;
     flex-direction: column;
     line-height: var(--date-picker-input-height); }
-    .dnb-date-picker__inner::before {
-      content: '\\\\200C';
-      display: inline-block;
-      width: 0;
-      height: 0;
-      font-size: var(--font-size-small); }
   .dnb-date-picker__row {
     display: inline-flex; }
   .dnb-date-picker__suffix {
