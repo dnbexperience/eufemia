@@ -91,7 +91,7 @@ const defaultProps = {
   id: 'main',
   status_id: 'status-main',
   title: null,
-  default_title: 'En feil har skjedd',
+  default_title: null,
   text: null,
   items: [],
   icon: 'error',
@@ -105,7 +105,7 @@ const defaultProps = {
   hide_close_button: false,
   delay: 10,
   duration: 1e3,
-  status_anchor_text: 'Gå til',
+  status_anchor_text: null,
   class: null,
   demo: false,
 
@@ -720,14 +720,18 @@ export default class GlobalStatus extends React.PureComponent {
     const renderedItems = itemsToRender.length > 0 && (
       <ul className="dnb-ul">
         {itemsToRender.map((item, i) => {
+          const text = (item && item.text) || item
+          const link = status_anchor_text || item.status_anchor_text
           return (
             <li key={i}>
-              {(item && item.text) || item}
+              <p className="dnb-p">{text}</p>
+
               {item &&
                 ((item.status_id && isTrue(item.status_anchor_url)) ||
                   item.status_anchor_url) && (
                   <a
                     className="dnb-anchor"
+                    aria-label={`${link} ${text}`}
                     href={
                       isTrue(item.status_anchor_url)
                         ? `#${item.status_id}`
@@ -736,7 +740,7 @@ export default class GlobalStatus extends React.PureComponent {
                     onClick={e => this.gotoItem(e, item)}
                     onKeyDown={e => this.gotoItem(e, item)}
                   >
-                    {status_anchor_text || item.status_anchor_text}
+                    {link}
                   </a>
                 )}
             </li>

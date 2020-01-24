@@ -60,6 +60,7 @@ describe('GlobalStatus component', () => {
     expect(
       Comp.find('div.dnb-global-status__message')
         .find('.dnb-p')
+        .at(0)
         .text()
     ).toBe(props.text)
   })
