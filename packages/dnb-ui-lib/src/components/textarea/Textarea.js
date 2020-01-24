@@ -18,6 +18,7 @@ import {
   pickRenderProps,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
+import AlignmentHelper from '../../shared/AlignmentHelper'
 import { createSpacingClasses } from '../space/SpacingHelper'
 
 import Context from '../../shared/Context'
@@ -353,6 +354,8 @@ export default class Textarea extends PureComponent {
         )}
 
         <span {...innerParams}>
+          <AlignmentHelper />
+
           {showStatus && (
             <FormStatus
               id={id + '-form-status'}

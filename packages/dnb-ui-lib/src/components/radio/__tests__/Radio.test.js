@@ -88,7 +88,15 @@ describe('Radio component', () => {
   })
 
   it('should validate with ARIA rules', async () => {
-    expect(await axeComponent(Comp)).toHaveNoViolations()
+    expect(
+      await axeComponent(Comp, {
+        rules: {
+          // NVDA fix
+          // because of the role="radio", we have to allow this
+          'aria-allowed-role': { enabled: false }
+        }
+      })
+    ).toHaveNoViolations()
   })
 })
 
@@ -107,7 +115,15 @@ describe('Radio group component', () => {
   })
 
   it('should validate with ARIA rules', async () => {
-    expect(await axeComponent(Comp)).toHaveNoViolations()
+    expect(
+      await axeComponent(Comp, {
+        rules: {
+          // NVDA fix
+          // because of the role="radio", we have to allow this
+          'aria-allowed-role': { enabled: false }
+        }
+      })
+    ).toHaveNoViolations()
   })
 })
 

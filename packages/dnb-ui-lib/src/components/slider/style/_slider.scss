@@ -35,8 +35,6 @@
 
     flex: 1;
     width: 100%;
-
-    @include alignmentHelper();
   }
   &--vertical &__wrapper {
     align-items: center;
@@ -71,6 +69,9 @@
     // makre room again for the negative line manipulation
     margin: 0 calc(var(--slider-space) * 1.5);
 
+    // only to make sure we have a visible track
+    min-width: 2rem;
+
     cursor: pointer;
 
     &::before,
@@ -103,6 +104,10 @@
   }
   &--vertical &__track {
     margin: calc(var(--slider-space) * 1.5) 0;
+
+    // only to make sure we have a visible track
+    min-height: 2rem;
+    min-width: auto;
 
     &::before,
     &::after {

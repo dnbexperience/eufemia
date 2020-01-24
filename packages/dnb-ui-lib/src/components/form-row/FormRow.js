@@ -15,6 +15,7 @@ import {
   validateDOMAttributes
   // processChildren
 } from '../../shared/component-helper'
+import AlignmentHelper from '../../shared/AlignmentHelper'
 import Context from '../../shared/Context'
 import hashSum from '../../shared/libs/HashSum'
 import FormLabel from '../form-label/FormLabel'
@@ -261,6 +262,7 @@ export default class FormRow extends PureComponent {
       <Context.Provider value={this._contextWeUse}>
         <Fieldset useFieldset={useFieldset}>
           <div {...params}>
+            <AlignmentHelper />
             {label && (
               <FormLabel
                 className={classnames('dnb-form-row__label', label_class)}

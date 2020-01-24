@@ -15,8 +15,6 @@
   display: flex;
   align-items: baseline;
 
-  @include alignmentHelper();
-
   &__content {
     display: inline-flex;
     flex: 1; // to help #input stretch

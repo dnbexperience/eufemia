@@ -15,6 +15,7 @@ import {
   detectOutsideClick,
   validateDOMAttributes
 } from '../../shared/component-helper'
+import AlignmentHelper from '../../shared/AlignmentHelper'
 import { createSpacingClasses } from '../space/SpacingHelper'
 
 // date-fns
@@ -783,6 +784,7 @@ export default class DatePicker extends PureComponent {
           ref={this._innerRef}
           {...pickerParams}
         >
+          <AlignmentHelper />
           {showStatus && (
             <FormStatus
               id={id + '-form-status'}

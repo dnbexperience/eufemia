@@ -45,8 +45,6 @@
     display: inline-flex;
     flex-direction: column;
 
-    @include alignmentHelper();
-
     // if no label is provided, then make sure we have some text to align the button
     line-height: var(--date-picker-input-height);
   }

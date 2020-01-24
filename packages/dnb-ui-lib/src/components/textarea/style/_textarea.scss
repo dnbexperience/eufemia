@@ -57,8 +57,6 @@
     flex-direction: column;
 
     margin: var(--textarea-padding-width);
-
-    @include alignmentHelper();
   }
 
   &__shell {

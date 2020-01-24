@@ -17,6 +17,7 @@ import {
   detectOutsideClick,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
+import AlignmentHelper from '../../shared/AlignmentHelper'
 import { createSpacingClasses } from '../space/SpacingHelper'
 // import { addScrollLock } from '../modal/Modal'
 
@@ -412,6 +413,7 @@ export default class Dropdown extends PureComponent {
         _listenForPropChanges: false
       },
       () => {
+        clearTimeout(this._showTimeout)
         this._showTimeout = setTimeout(
           () => (this.blockDoubleClick = false),
           1e3
@@ -440,6 +442,7 @@ export default class Dropdown extends PureComponent {
         _listenForPropChanges: false
       },
       () => {
+        clearTimeout(this._hideTimeout)
         this._hideTimeout = setTimeout(
           () => {
             this.setState(
@@ -449,15 +452,16 @@ export default class Dropdown extends PureComponent {
               },
               () => {
                 if (setFocus) {
-                  let elem = this._refButton.current
-                  try {
-                    elem = this._refButton.current._refShell.current
-                  } catch (e) {
-                    // do noting
-                  }
-                  if (elem && elem.focus) {
-                    elem.focus()
-                  }
+                  setTimeout(() => {
+                    try {
+                      const elem = this._refButton.current._ref.current
+                      if (elem && elem.focus) {
+                        elem.focus()
+                      }
+                    } catch (e) {
+                      // do noting
+                    }
+                  }, 1) // NVDA / Firefox needs a dealy to set this focus
                 }
               }
             )
@@ -533,12 +537,14 @@ export default class Dropdown extends PureComponent {
     { fireSelectEvent = false, scrollTo = true, event = null } = {}
   ) {
     if (!(active_item > -1)) {
-      try {
-        const ulElement = this._refUl.current
-        ulElement.focus()
-      } catch (e) {
-        console.warn(e)
-      }
+      setTimeout(() => {
+        try {
+          const ulElement = this._refUl.current
+          ulElement.focus()
+        } catch (e) {
+          console.warn(e)
+        }
+      }, 1) // NVDA / Firefox needs a dealy to set this focus
       return
     }
     this.setState(
@@ -572,29 +578,31 @@ export default class Dropdown extends PureComponent {
           return
         }
 
-        try {
-          const ulElement = this._refUl.current
-          const liElement = ulElement.querySelector(
-            `li.dnb-dropdown__option:nth-of-type(${active_item + 1})`
-          )
-          const top = liElement.offsetTop
-          if (ulElement.scrollTo) {
-            const params = {
-              top
+        setTimeout(() => {
+          try {
+            const ulElement = this._refUl.current
+            const liElement = ulElement.querySelector(
+              `li.dnb-dropdown__option:nth-of-type(${active_item + 1})`
+            )
+            const top = liElement.offsetTop
+            if (ulElement.scrollTo) {
+              const params = {
+                top
+              }
+              if (scrollTo) {
+                params.behavior = 'smooth'
+              }
+              ulElement.scrollTo(params)
+            } else if (ulElement.scrollTop) {
+              ulElement.scrollTop = top
             }
-            if (scrollTo) {
-              params.behavior = 'smooth'
+            if (liElement) {
+              liElement.focus()
             }
-            ulElement.scrollTo(params)
-          } else if (ulElement.scrollTop) {
-            ulElement.scrollTop = top
+          } catch (e) {
+            console.warn('Dropdown could not scroll into element:', e)
           }
-          if (liElement) {
-            liElement.focus()
-          }
-        } catch (e) {
-          console.warn('Dropdown could not scroll into element:', e)
-        }
+        }, 1) // NVDA / Firefox needs a dealy to set this focus
       }
     )
   }
@@ -1032,16 +1040,16 @@ export default class Dropdown extends PureComponent {
 
     // reads out the current selected state
     if (typeof title === 'string') {
-      triggerParams['title'] = title
+      triggerParams['aria-label'] = title
     }
     if (showStatus || suffix) {
       triggerParams['aria-describedby'] = `${
         showStatus ? id + '-status' : ''
       } ${suffix ? id + '-suffix' : ''}`
     }
-    if (hidden && label) {
-      triggerParams['aria-labelledby'] = id + '-label'
-    }
+    // if (hidden && label) {
+    //   triggerParams['aria-labelledby'] = id + '-label'
+    // }
     const listParams = {
       className: classnames(
         'dnb-dropdown__list',
@@ -1051,6 +1059,7 @@ export default class Dropdown extends PureComponent {
     const ulParams = {
       className: 'dnb-dropdown__options', // dnb-no-focus
       role: 'listbox',
+      tabIndex: '-1',
       ['aria-labelledby']: id,
       ref: this._refUl,
       style: {
@@ -1064,8 +1073,8 @@ export default class Dropdown extends PureComponent {
       selected_item > -1
     ) {
       ulParams['aria-activedescendant'] = `option-${id}-${selected_item}`
-    } else {
-      ulParams.tabIndex = '-1'
+      // } else {
+      //   ulParams.tabIndex = '-1'
     }
 
     // also used for code markup simulation
@@ -1091,6 +1100,8 @@ export default class Dropdown extends PureComponent {
         )}
 
         <span className="dnb-dropdown__inner" ref={this._ref}>
+          <AlignmentHelper />
+
           {showStatus && (
             <FormStatus
               id={id + '-form-status'}
@@ -1131,6 +1142,7 @@ export default class Dropdown extends PureComponent {
                   >
                     {icon !== false && (
                       <Icon
+                        aria-hidden
                         icon={icon || 'chevron-down'}
                         size={
                           icon_size ||
