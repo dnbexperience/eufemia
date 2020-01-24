@@ -16,6 +16,7 @@ import {
   validateDOMAttributes,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
+import AlignmentHelper from '../../shared/AlignmentHelper'
 import { createSpacingClasses } from '../space/SpacingHelper'
 
 import FormLabel from '../form-label/FormLabel'
@@ -302,6 +303,8 @@ export default class Switch extends Component {
           {label_position === 'left' && labelComp}
 
           <span className="dnb-switch__inner">
+            <AlignmentHelper />
+
             {statusComp}
 
             <span className="dnb-switch__shell">

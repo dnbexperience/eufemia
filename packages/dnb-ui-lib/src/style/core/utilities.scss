@@ -170,12 +170,7 @@ $breakpoints: (
   // Add a char to align the component
   &::before {
     content: '\200C'; // zero-width non-joiner
-
-    display: inline-block;
-    width: 0;
-    height: 0;
-
-    font-size: var(--font-size-small);
+    @include alignmentHelperClass();
   }
 }
 @mixin alignmentHelperClass() {
@@ -184,6 +179,8 @@ $breakpoints: (
   height: 0;
 
   font-size: var(--font-size-small);
+
+  speak: none;
 }
 
 // Screen reader only helper

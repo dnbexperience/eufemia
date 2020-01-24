@@ -32,8 +32,6 @@ exports[`Radio component have to match snapshot 1`] = `
       className="dnb-radio__order"
     >
       <FormLabel
-        aria-hidden={true}
-        aria-label="label"
         class={null}
         className={null}
         direction={null}
@@ -49,8 +47,6 @@ exports[`Radio component have to match snapshot 1`] = `
         vertical={null}
       >
         <Element
-          aria-hidden={true}
-          aria-label="label"
           className="dnb-form-label"
           disabled={false}
           htmlFor="radio"
@@ -58,8 +54,6 @@ exports[`Radio component have to match snapshot 1`] = `
           is="label"
         >
           <label
-            aria-hidden={true}
-            aria-label="label"
             className="dnb-form-label"
             disabled={false}
             htmlFor="radio"
@@ -72,6 +66,14 @@ exports[`Radio component have to match snapshot 1`] = `
       <span
         className="dnb-radio__inner"
       >
+        <AlignmentHelper
+          className={null}
+        >
+          <span
+            aria-hidden={true}
+            className="dnb-alignment-helper"
+          />
+        </AlignmentHelper>
         <span
           className="dnb-radio__row"
         >
@@ -81,7 +83,6 @@ exports[`Radio component have to match snapshot 1`] = `
             <input
               aria-checked={false}
               aria-describedby=" radio-suffix"
-              aria-label="label"
               checked={false}
               className="dnb-radio__input"
               direction="horizontal"
@@ -92,6 +93,7 @@ exports[`Radio component have to match snapshot 1`] = `
               onClick={[Function]}
               onKeyDown={[Function]}
               onMouseOut={[Function]}
+              role="radio"
               type="checkbox"
               value="value"
             />
@@ -185,6 +187,14 @@ exports[`Radio group component have to match group snapshot 1`] = `
           <div
             className="dnb-form-row"
           >
+            <AlignmentHelper
+              className={null}
+            >
+              <span
+                aria-hidden={true}
+                className="dnb-alignment-helper"
+              />
+            </AlignmentHelper>
             <FormLabel
               class={null}
               className="dnb-form-row__label"
@@ -258,6 +268,14 @@ exports[`Radio group component have to match group snapshot 1`] = `
                       <span
                         className="dnb-radio__inner"
                       >
+                        <AlignmentHelper
+                          className={null}
+                        >
+                          <span
+                            aria-hidden={true}
+                            className="dnb-alignment-helper"
+                          />
+                        </AlignmentHelper>
                         <span
                           className="dnb-radio__row"
                         >
@@ -266,7 +284,6 @@ exports[`Radio group component have to match group snapshot 1`] = `
                           >
                             <input
                               aria-checked={false}
-                              aria-label="Radio 1"
                               checked={false}
                               className="dnb-radio__input"
                               disabled={false}
@@ -294,8 +311,6 @@ exports[`Radio group component have to match group snapshot 1`] = `
                             />
                           </span>
                           <FormLabel
-                            aria-hidden={true}
-                            aria-label="Radio 1"
                             class={null}
                             className={null}
                             direction={null}
@@ -311,8 +326,6 @@ exports[`Radio group component have to match group snapshot 1`] = `
                             vertical={null}
                           >
                             <Element
-                              aria-hidden={true}
-                              aria-label="Radio 1"
                               className="dnb-form-label"
                               disabled={false}
                               htmlFor="radio-1"
@@ -320,8 +333,6 @@ exports[`Radio group component have to match group snapshot 1`] = `
                               is="label"
                             >
                               <label
-                                aria-hidden={true}
-                                aria-label="Radio 1"
                                 className="dnb-form-label"
                                 disabled={false}
                                 htmlFor="radio-1"
@@ -368,6 +379,14 @@ exports[`Radio group component have to match group snapshot 1`] = `
                       <span
                         className="dnb-radio__inner"
                       >
+                        <AlignmentHelper
+                          className={null}
+                        >
+                          <span
+                            aria-hidden={true}
+                            className="dnb-alignment-helper"
+                          />
+                        </AlignmentHelper>
                         <span
                           className="dnb-radio__row"
                         >
@@ -376,7 +395,6 @@ exports[`Radio group component have to match group snapshot 1`] = `
                           >
                             <input
                               aria-checked={true}
-                              aria-label="Radio 2"
                               checked={true}
                               className="dnb-radio__input"
                               disabled={false}
@@ -404,8 +422,6 @@ exports[`Radio group component have to match group snapshot 1`] = `
                             />
                           </span>
                           <FormLabel
-                            aria-hidden={true}
-                            aria-label="Radio 2"
                             class={null}
                             className={null}
                             direction={null}
@@ -421,8 +437,6 @@ exports[`Radio group component have to match group snapshot 1`] = `
                             vertical={null}
                           >
                             <Element
-                              aria-hidden={true}
-                              aria-label="Radio 2"
                               className="dnb-form-label"
                               disabled={false}
                               htmlFor="radio-2"
@@ -430,8 +444,6 @@ exports[`Radio group component have to match group snapshot 1`] = `
                               is="label"
                             >
                               <label
-                                aria-hidden={true}
-                                aria-label="Radio 2"
                                 className="dnb-form-label"
                                 disabled={false}
                                 htmlFor="radio-2"
@@ -799,12 +811,6 @@ legend.dnb-form-label {
     display: inline-flex;
     flex-direction: column;
     align-self: center; }
-    .dnb-radio__inner::before {
-      content: '\\\\200C';
-      display: inline-block;
-      width: 0;
-      height: 0;
-      font-size: var(--font-size-small); }
   .dnb-radio__shell {
     position: relative;
     user-select: none;

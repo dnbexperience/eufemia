@@ -73,6 +73,26 @@
       margin: 0;
     }
   }
+  &__message {
+    cursor: text;
+    z-index: 1;
+
+    padding: 2rem 0 2.5rem;
+
+    & .dnb-p,
+    .dnb-spacing & .dnb-p {
+      position: relative;
+      display: inline-block;
+      margin: 0;
+      padding: 0;
+    }
+
+    // Do this only so NVDA can focus the link speratly
+    a.dnb-anchor {
+      position: absolute;
+      white-space: nowrap;
+    }
+  }
   &__icon {
     position: absolute;
     top: 0;
@@ -116,19 +136,6 @@
   //     }
   //   }
   // }
-
-  &__message {
-    cursor: text;
-    z-index: 1;
-
-    padding: 2rem 0 2.5rem;
-
-    & > .dnb-p,
-    .dnb-spacing & .dnb-p {
-      margin: 0;
-      padding: 0;
-    }
-  }
 
   &__content {
     width: 100%;

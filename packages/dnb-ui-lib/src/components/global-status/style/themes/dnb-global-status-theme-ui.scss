@@ -47,7 +47,7 @@
   &__message {
     color: var(--color-black-80);
 
-    .dnb-p {
+    & > .dnb-p {
       font-weight: var(--font-weight-medium);
     }
 

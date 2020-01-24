@@ -18,6 +18,7 @@ import {
   dispatchCustomElementEvent,
   isTouchDevice
 } from '../../shared/component-helper'
+import AlignmentHelper from '../../shared/AlignmentHelper'
 import { createSpacingClasses } from '../space/SpacingHelper'
 
 import Button from '../button/Button'
@@ -633,6 +634,8 @@ export default class Slider extends PureComponent {
         )}
 
         <span className="dnb-slider__wrapper">
+          <AlignmentHelper />
+
           {showStatus && (
             <FormStatus
               id={id + '-form-status'}

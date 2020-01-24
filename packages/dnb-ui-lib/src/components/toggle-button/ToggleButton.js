@@ -15,6 +15,7 @@ import {
   validateDOMAttributes,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
+import AlignmentHelper from '../../shared/AlignmentHelper'
 import { createSpacingClasses } from '../space/SpacingHelper'
 
 import Radio from '../radio/Radio'
@@ -423,6 +424,8 @@ export default class ToggleButton extends Component {
                 )}
 
                 <span className="dnb-toggle-button__shell">
+                  <AlignmentHelper />
+
                   <Button
                     variant="secondary"
                     className="dnb-toggle-button__button"

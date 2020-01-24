@@ -22,8 +22,6 @@
     justify-content: center;
 
     font-size: var(--font-size-basis);
-
-    @include alignmentHelper();
   }
 
   &__shell {
@@ -35,9 +33,6 @@
     align-items: center;
 
     height: var(--switch-height);
-
-    // vertical alignment
-    // transform: translateY(-0.125rem);
   }
 
   &__focus,

@@ -115,6 +115,14 @@ exports[`Input component have to match type="search" snapshot 1`] = `
     <span
       className="dnb-input__inner"
     >
+      <AlignmentHelper
+        className={null}
+      >
+        <span
+          aria-hidden={true}
+          className="dnb-alignment-helper"
+        />
+      </AlignmentHelper>
       <span
         className="dnb-input__row"
       >
@@ -566,6 +574,14 @@ exports[`Input component have to match type="text" snapshot 1`] = `
     <span
       className="dnb-input__inner"
     >
+      <AlignmentHelper
+        className={null}
+      >
+        <span
+          aria-hidden={true}
+          className="dnb-alignment-helper"
+        />
+      </AlignmentHelper>
       <span
         className="dnb-input__row"
       >
@@ -1192,12 +1208,6 @@ legend.dnb-form-label {
     display: inline-flex;
     flex-direction: column;
     width: auto; }
-    .dnb-input__inner::before {
-      content: '\\\\200C';
-      display: inline-block;
-      width: 0;
-      height: 0;
-      font-size: var(--font-size-small); }
   .dnb-input__shell {
     position: relative;
     display: flex;

@@ -15,6 +15,7 @@ import {
   validateDOMAttributes,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
+import AlignmentHelper from '../../shared/AlignmentHelper'
 import { createSpacingClasses } from '../space/SpacingHelper'
 
 import FormLabel from '../form-label/FormLabel'
@@ -339,6 +340,11 @@ export default class Radio extends Component {
             inputParams['aria-readonly'] = inputParams.readOnly = true
           }
 
+          if (!group) {
+            inputParams.type = 'checkbox'
+            inputParams.role = 'radio' // breaks axe test
+          }
+
           // also used for code markup simulation
           validateDOMAttributes(this.props, inputParams)
 
@@ -346,11 +352,9 @@ export default class Radio extends Component {
             <FormLabel
               id={id + '-label'}
               for_id={id}
-              aria-hidden
-              aria-label={label} // Only for NVDA and mouse over read out.
               text={label}
-              sr_only={label_sr_only}
               disabled={disabled}
+              sr_only={label_sr_only}
             />
           )
 
@@ -372,19 +376,19 @@ export default class Radio extends Component {
                 {label_position === 'left' && labelComp}
 
                 <span className="dnb-radio__inner">
+                  <AlignmentHelper />
                   {statusComp}
 
                   <span className="dnb-radio__row">
                     <span className="dnb-radio__shell">
                       <input
-                        type="checkbox"
+                        type="radio"
                         value={value}
                         id={id}
                         name={group}
                         className="dnb-radio__input"
                         checked={checked}
                         aria-checked={checked}
-                        aria-label={label} // is responsible for the text/label to be read on both VO and NVDA
                         disabled={isTrue(disabled)}
                         ref={this._refInput}
                         {...inputParams}

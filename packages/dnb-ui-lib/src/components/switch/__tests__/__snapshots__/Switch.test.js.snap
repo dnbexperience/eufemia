@@ -67,6 +67,14 @@ exports[`Switch component have to match snapshot 1`] = `
       <span
         className="dnb-switch__inner"
       >
+        <AlignmentHelper
+          className={null}
+        >
+          <span
+            aria-hidden={true}
+            className="dnb-alignment-helper"
+          />
+        </AlignmentHelper>
         <span
           className="dnb-switch__shell"
         >
@@ -502,12 +510,6 @@ legend.dnb-form-label {
     flex-direction: column;
     justify-content: center;
     font-size: var(--font-size-basis); }
-    .dnb-switch__inner::before {
-      content: '\\\\200C';
-      display: inline-block;
-      width: 0;
-      height: 0;
-      font-size: var(--font-size-small); }
   .dnb-switch__shell {
     user-select: none;
     -webkit-user-select: none;

@@ -67,6 +67,14 @@ exports[`Slider component have to match snapshot 1`] = `
     <span
       className="dnb-slider__wrapper"
     >
+      <AlignmentHelper
+        className={null}
+      >
+        <span
+          aria-hidden={true}
+          className="dnb-alignment-helper"
+        />
+      </AlignmentHelper>
       <span
         className="dnb-slider__inner"
       >
@@ -929,12 +937,6 @@ legend.dnb-form-label {
     flex-direction: column;
     flex: 1;
     width: 100%; }
-    .dnb-slider__wrapper::before {
-      content: '\\\\200C';
-      display: inline-block;
-      width: 0;
-      height: 0;
-      font-size: var(--font-size-small); }
   .dnb-slider--vertical .dnb-slider__wrapper {
     align-items: center;
     width: auto;
@@ -953,6 +955,7 @@ legend.dnb-form-label {
     position: relative;
     flex: 1;
     margin: 0 calc(var(--slider-space) * 1.5);
+    min-width: 2rem;
     cursor: pointer; }
     .dnb-slider__track::before, .dnb-slider__track::after {
       content: '';
@@ -974,7 +977,9 @@ legend.dnb-form-label {
       left: auto;
       right: calc(1px - 1px - var(--slider-space)); }
   .dnb-slider--vertical .dnb-slider__track {
-    margin: calc(var(--slider-space) * 1.5) 0; }
+    margin: calc(var(--slider-space) * 1.5) 0;
+    min-height: 2rem;
+    min-width: auto; }
     .dnb-slider--vertical .dnb-slider__track::before, .dnb-slider--vertical .dnb-slider__track::after {
       left: 50%;
       transform: translate3d(-50%, 0, 0);

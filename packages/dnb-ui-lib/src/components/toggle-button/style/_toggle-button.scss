@@ -26,8 +26,6 @@
 
     user-select: none;
     -webkit-user-select: none; // Safari / Touch fix
-
-    @include alignmentHelper();
   }
 
   &--vertical {
@@ -183,7 +181,7 @@
     }
 
     // vertical alignment - if no label is given
-    &--no-label .dnb-form-row::before {
+    &--no-label .dnb-form-row {
       line-height: var(--button-height);
     }
   }

@@ -20,6 +20,7 @@ import {
   dispatchCustomElementEvent,
   isMac
 } from '../../shared/component-helper'
+import AlignmentHelper from '../../shared/AlignmentHelper'
 import { createSpacingClasses } from '../space/SpacingHelper'
 
 import Context from '../../shared/Context'
@@ -433,6 +434,7 @@ export default class Input extends PureComponent {
         )}
 
         <span {...innerParams}>
+          <AlignmentHelper />
           {showStatus && (
             <FormStatus
               id={id + '-form-status'}

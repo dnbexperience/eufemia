@@ -70,6 +70,14 @@ exports[`ToggleButton component have to match snapshot 1`] = `
       <span
         className="dnb-toggle-button__shell"
       >
+        <AlignmentHelper
+          className={null}
+        >
+          <span
+            aria-hidden={true}
+            className="dnb-alignment-helper"
+          />
+        </AlignmentHelper>
         <Button
           aria-describedby=" toggle-button-suffix"
           aria-pressed="false"
@@ -210,6 +218,14 @@ exports[`ToggleButton component have to match snapshot 1`] = `
                       <span
                         className="dnb-checkbox__inner"
                       >
+                        <AlignmentHelper
+                          className={null}
+                        >
+                          <span
+                            aria-hidden={true}
+                            className="dnb-alignment-helper"
+                          />
+                        </AlignmentHelper>
                         <span
                           className="dnb-checkbox__shell"
                         >
@@ -359,6 +375,14 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
           <div
             className="dnb-form-row"
           >
+            <AlignmentHelper
+              className={null}
+            >
+              <span
+                aria-hidden={true}
+                className="dnb-alignment-helper"
+              />
+            </AlignmentHelper>
             <FormLabel
               class={null}
               className="dnb-form-row__label"
@@ -435,6 +459,14 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
                       <span
                         className="dnb-toggle-button__shell"
                       >
+                        <AlignmentHelper
+                          className={null}
+                        >
+                          <span
+                            aria-hidden={true}
+                            className="dnb-alignment-helper"
+                          />
+                        </AlignmentHelper>
                         <Button
                           aria-pressed="true"
                           bounding={false}
@@ -554,6 +586,14 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
                       <span
                         className="dnb-toggle-button__shell"
                       >
+                        <AlignmentHelper
+                          className={null}
+                        >
+                          <span
+                            aria-hidden={true}
+                            className="dnb-alignment-helper"
+                          />
+                        </AlignmentHelper>
                         <Button
                           aria-pressed="true"
                           bounding={false}
@@ -1266,12 +1306,6 @@ button.dnb-button::-moz-focus-inner {
     display: inline-flex;
     flex-direction: column;
     align-self: center; }
-    .dnb-checkbox__inner::before {
-      content: '\\\\200C';
-      display: inline-block;
-      width: 0;
-      height: 0;
-      font-size: var(--font-size-small); }
   .dnb-checkbox__shell {
     user-select: none;
     -webkit-user-select: none;
@@ -1417,12 +1451,6 @@ button.dnb-button::-moz-focus-inner {
     display: inline-flex;
     flex-direction: column;
     align-self: center; }
-    .dnb-radio__inner::before {
-      content: '\\\\200C';
-      display: inline-block;
-      width: 0;
-      height: 0;
-      font-size: var(--font-size-small); }
   .dnb-radio__shell {
     position: relative;
     user-select: none;
@@ -1601,12 +1629,6 @@ button.dnb-button::-moz-focus-inner {
     left: 0;
     user-select: none;
     -webkit-user-select: none; }
-    .dnb-toggle-button__shell::before {
-      content: '\\\\200C';
-      display: inline-block;
-      width: 0;
-      height: 0;
-      font-size: var(--font-size-small); }
   .dnb-toggle-button--vertical {
     flex-direction: column;
     align-items: flex-start; }
@@ -1692,7 +1714,7 @@ button.dnb-button::-moz-focus-inner {
       margin-bottom: calc(1px - 1px - var(--toggle-button-margin-bottom)); }
       .dnb-toggle-button-group .dnb-form-row::before {
         font-size: var(--font-size-basis); }
-    .dnb-toggle-button-group--no-label .dnb-form-row::before {
+    .dnb-toggle-button-group--no-label .dnb-form-row {
       line-height: var(--button-height); }
   @media (min-width: 40em) {
     .dnb-form-label + .dnb-toggle-button {

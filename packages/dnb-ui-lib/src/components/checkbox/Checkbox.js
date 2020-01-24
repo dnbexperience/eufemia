@@ -15,6 +15,7 @@ import {
   validateDOMAttributes,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
+import AlignmentHelper from '../../shared/AlignmentHelper'
 import { createSpacingClasses } from '../space/SpacingHelper'
 
 import Context from '../../shared/Context'
@@ -279,6 +280,7 @@ export default class Checkbox extends Component {
           )}
 
           <span className="dnb-checkbox__inner">
+            <AlignmentHelper />
             {label_position === 'left' && statusComp}
 
             <span className="dnb-checkbox__shell">

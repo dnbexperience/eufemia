@@ -29,7 +29,7 @@ exports[`GlobalStatus scss have to match default theme snapshot 1`] = `
 
 .dnb-global-status__message {
   color: var(--color-black-80); }
-  .dnb-global-status__message .dnb-p {
+  .dnb-global-status__message > .dnb-p {
     font-weight: var(--font-weight-medium); }
   .dnb-global-status__message.dnb-section--white ::selection {
     background-color: var(--color-mint-green); }
@@ -581,6 +581,19 @@ button.dnb-button::-moz-focus-inner {
       padding-bottom: calc(1rem - 0.375rem); }
     .dnb-spacing .dnb-global-status__title.dnb-p {
       margin: 0; }
+  .dnb-global-status__message {
+    cursor: text;
+    z-index: 1;
+    padding: 2rem 0 2.5rem; }
+    .dnb-global-status__message .dnb-p,
+    .dnb-spacing .dnb-global-status__message .dnb-p {
+      position: relative;
+      display: inline-block;
+      margin: 0;
+      padding: 0; }
+    .dnb-global-status__message a.dnb-anchor {
+      position: absolute;
+      white-space: nowrap; }
   .dnb-global-status__icon {
     position: absolute;
     top: 0;
@@ -595,14 +608,6 @@ button.dnb-button::-moz-focus-inner {
     margin-top: 1rem; }
   .dnb-modal__content__inner .dnb-global-status__close-button {
     right: 0; }
-  .dnb-global-status__message {
-    cursor: text;
-    z-index: 1;
-    padding: 2rem 0 2.5rem; }
-    .dnb-global-status__message > .dnb-p,
-    .dnb-spacing .dnb-global-status__message .dnb-p {
-      margin: 0;
-      padding: 0; }
   .dnb-global-status__content {
     width: 100%;
     transform: translate3d(0, -1px, 0); }
@@ -990,12 +995,20 @@ exports[`GlobalStatus snapshot have to match component snapshot 1`] = `
                       <li
                         key="0"
                       >
-                        item #1
+                        <p
+                          className="dnb-p"
+                        >
+                          item #1
+                        </p>
                       </li>
                       <li
                         key="1"
                       >
-                        item #2
+                        <p
+                          className="dnb-p"
+                        >
+                          item #2
+                        </p>
                       </li>
                     </ul>
                   </div>
