@@ -1,4 +1,4 @@
-## January, 22. 2020
+## January, 24. 2020
 
 ### New DNB font
 
@@ -36,7 +36,7 @@ New [Colors](/uilib/usage/customisation/colors):
 
 ### Icons
 
-- secondary `log_in`
+- secondary `login` and `logout`
 
 ### Components and Elements
 

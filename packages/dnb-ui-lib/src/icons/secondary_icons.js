@@ -11,7 +11,7 @@ import hamburger from './hamburger.js'
 import home from './home.js'
 import link_out from './link_out.js'
 import list from './list.js'
-import log_in from './log_in.js'
+import login from './login.js'
 import logout from './logout.js'
 import pencil from './pencil.js'
 import print from './print.js'
@@ -37,7 +37,7 @@ export {
   home,
   link_out,
   list,
-  log_in,
+  login,
   logout,
   pencil,
   print,
