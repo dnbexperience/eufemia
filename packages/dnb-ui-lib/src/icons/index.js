@@ -52,8 +52,8 @@ import link_out from './link_out.js'
 import link_out_medium from './link_out_medium.js'
 import list from './list.js'
 import list_medium from './list_medium.js'
-import log_in from './log_in.js'
-import log_in_medium from './log_in_medium.js'
+import login from './login.js'
+import login_medium from './login_medium.js'
 import logout from './logout.js'
 import logout_medium from './logout_medium.js'
 import more from './more.js'
@@ -144,8 +144,8 @@ export {
   link_out_medium,
   list,
   list_medium,
-  log_in,
-  log_in_medium,
+  login,
+  login_medium,
   logout,
   logout_medium,
   more,
