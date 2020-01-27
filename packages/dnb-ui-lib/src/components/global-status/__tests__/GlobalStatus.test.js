@@ -23,7 +23,10 @@ const status_id = null
 const state = 'error'
 const text = 'text'
 const children = null
-const items = ['item #1', 'item #2']
+const items = [
+  { id: 'id-1', text: 'item #1' },
+  { id: 'id-2', text: 'item #2' }
+]
 const show = true
 const no_animation = true
 const autoscroll = false
@@ -66,7 +69,9 @@ describe('GlobalStatus component', () => {
   })
 
   it('has to to have list items as defined in the prop', () => {
-    expect(Comp.find('.dnb-ul').text()).toBe(props.items.join(''))
+    expect(Comp.find('.dnb-ul').text()).toBe(
+      props.items.map(({ text }) => text).join('')
+    )
   })
 
   it('should have correact attributes like "aria-live"', async () => {

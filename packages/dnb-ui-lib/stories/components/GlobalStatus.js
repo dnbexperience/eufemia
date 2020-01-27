@@ -360,17 +360,30 @@ const NestedSections = () => (
         on_close={props => {
           console.log('on_close', props)
         }}
-        items={['123']}
+        items={[
+          { id: 1, text: 'Error message', status_anchor_url: '#link' },
+          { id: 2, text: 'Error message', status_anchor_url: '#link' },
+          { id: 3, text: 'Error message', status_anchor_url: '#link' },
+          { id: 4, text: 'Error message', status_anchor_url: '#link' }
+        ]}
       >
         Default Text
       </GlobalStatus>
-      <GlobalStatus.Add
+      {/* <GlobalStatus.Add
         id="default-1"
         status_id="custom-id-1"
         text="Second Text"
-        // items={['xxx']}
-        item="Second Item"
-      />
+        items={[{ text: 'Second Item 2', status_anchor_url: '#link' }]}
+        // item="Second Item"
+        // status_anchor_url="http://"
+      /> */}
+      {/* <GlobalStatus.Add
+        id="default-1"
+        status_id="custom-id-2"
+        items={[{ text: 'Item 3', status_anchor_url: '#link' }]}
+        // item="Second Item"
+        // status_anchor_url="http://"
+      /> */}
       {/* <GlobalStatus.Add
       id="default-1"
       status_id="custom-id-2"
