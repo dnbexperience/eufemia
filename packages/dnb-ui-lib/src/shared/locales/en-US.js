@@ -47,6 +47,9 @@ export default {
     Modal: {
       close_title: 'Close'
     },
+    Input: {
+      submit_button_title: 'Submit button'
+    },
     Logo: {
       alt: 'DNB Logo'
     }

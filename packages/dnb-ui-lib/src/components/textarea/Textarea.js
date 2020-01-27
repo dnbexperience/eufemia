@@ -277,6 +277,7 @@ export default class Textarea extends PureComponent {
       id,
       disabled,
       name: id,
+      'aria-placeholder': placeholder,
       ...attributes,
       ...textareaAttributes,
       onChange: this.onChangeHandler,
@@ -367,23 +368,25 @@ export default class Textarea extends PureComponent {
             />
           )}
 
-          <span {...shellParams}>
-            {TextareaElement || (
-              <textarea ref={this._ref} {...textareaParams} />
-            )}
+          <span className="dnb-textarea__row">
+            <span {...shellParams}>
+              {TextareaElement || (
+                <textarea ref={this._ref} {...textareaParams} />
+              )}
 
-            {placeholder && (
-              <span
-                aria-hidden
-                className={classnames(
-                  'dnb-textarea__placeholder',
-                  align ? `dnb-textarea__align--${align}` : null
-                )}
-                style={placeholderStyle}
-              >
-                {placeholder}
-              </span>
-            )}
+              {placeholder && (
+                <span
+                  aria-hidden
+                  className={classnames(
+                    'dnb-textarea__placeholder',
+                    align ? `dnb-textarea__align--${align}` : null
+                  )}
+                  style={placeholderStyle}
+                >
+                  {placeholder}
+                </span>
+              )}
+            </span>
 
             {suffix && (
               <span

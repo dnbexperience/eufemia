@@ -133,7 +133,6 @@ export default [
               type="search"
               align="right"
               stretch
-              submit_button_title="Search"
               placeholder="Search text placeholder"
             />
             <Input
@@ -150,6 +149,7 @@ export default [
               type="search"
               align="right"
               stretch
+              submit_button_title="Custom search button title"
               placeholder="Large input with right aligned text"
             />
           </Box>
@@ -159,7 +159,7 @@ export default [
               status="Error"
               label="Disabled search:"
               type="search"
-              submit_button_title="Search"
+              submit_button_title="Custom search button title"
               placeholder="Search text placeholder"
             />
           </Box>
@@ -173,7 +173,7 @@ export default [
           <Box>
             <Input
               label="Input with description:"
-              description="Description to the user"
+              suffix="Description to the user"
               value="Input value with status"
             />
           </Box>
