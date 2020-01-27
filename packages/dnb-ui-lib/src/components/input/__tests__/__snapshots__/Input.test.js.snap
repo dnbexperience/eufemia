@@ -230,7 +230,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
             on_submit_blur={null}
             on_submit_focus={null}
             size={null}
-            title={null}
+            title="Send knapp"
             value="test"
             variant="secondary"
           >
@@ -319,7 +319,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
               on_submit_blur={null}
               on_submit_focus={null}
               size={null}
-              title={null}
+              title="Send knapp"
               value="test"
               variant="secondary"
             >
@@ -328,6 +328,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
                 data-input-state="virgin"
               >
                 <Button
+                  aria-label="Send knapp"
                   bounding={false}
                   class={null}
                   className="dnb-input__submit-button__button"
@@ -356,6 +357,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
                   variant="secondary"
                 >
                   <button
+                    aria-label="Send knapp"
                     className="dnb-button dnb-button--secondary dnb-input__submit-button__button dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-default dnb-button--size-medium"
                     disabled={false}
                     onBlur={[Function]}
@@ -366,6 +368,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
                     value="test"
                   >
                     <Content
+                      aria-label="Send knapp"
                       bounding={false}
                       class={null}
                       className="dnb-input__submit-button__button"

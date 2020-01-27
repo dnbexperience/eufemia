@@ -278,8 +278,8 @@ export default class Input extends PureComponent {
     const props = extendPropsWithContext(
       this.props,
       defaultProps,
-      this.context.formRow
-      // this.context.translation.Input
+      this.context.formRow,
+      this.context.translation.Input
     )
 
     const {
@@ -374,6 +374,7 @@ export default class Input extends PureComponent {
       id,
       disabled: isTrue(disabled),
       name: id,
+      'aria-placeholder': placeholder,
       ...attributes,
       ...inputAttributes,
       onChange: this.onChangeHandler,
@@ -451,7 +452,8 @@ export default class Input extends PureComponent {
               {!hasValue && placeholder && focusState !== 'focus' && (
                 <span
                   id={id + '-placeholder'}
-                  aria-hidden={this.isMac}
+                  // aria-hidden={this.isMac}
+                  aria-hidden
                   className={classnames(
                     'dnb-input__placeholder',
                     align ? `dnb-input__align--${align}` : null
@@ -574,7 +576,7 @@ class InputSubmitButton extends PureComponent {
     const params = {
       id,
       type: 'submit',
-      title,
+      'aria-label': title,
       disabled,
       ...rest
     }

@@ -76,7 +76,7 @@ steps:
       GH_TOKEN:
         from_secret: GH_TOKEN
     commands:
-      - yarn build-ci
+      - yarn build-portal-ci
     when:
       branch:
         include:

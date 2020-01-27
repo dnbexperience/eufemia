@@ -280,6 +280,17 @@ export default class DatePickerInput extends PureComponent {
     target.setSelectionRange(0, endPos)
   }
 
+  onFocusHandler = event => {
+    try {
+      const target = event.target
+      const endPos = target.value.length
+      target.focus()
+      target.setSelectionRange(0, endPos)
+    } catch (e) {
+      console.warn(e)
+    }
+  }
+
   onKeyDownHandler = async event => {
     const keyCode = keycode(event)
     const target = event.target
@@ -454,7 +465,8 @@ export default class DatePickerInput extends PureComponent {
             ...params,
             onKeyDown: this.onKeyDownHandler,
             onMouseUp: selectInput,
-            onFocus: () => {
+            onFocus: e => {
+              this.onFocusHandler(e)
               this.setState({
                 focusState: 'focus',
                 _listenForPropChanges: false

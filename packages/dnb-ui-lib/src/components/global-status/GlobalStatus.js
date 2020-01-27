@@ -10,6 +10,7 @@ import keycode from 'keycode'
 import Context from '../../shared/Context'
 import {
   isTrue,
+  makeUniqueId,
   registerElement,
   validateDOMAttributes,
   dispatchCustomElementEvent,
@@ -627,6 +628,7 @@ export default class GlobalStatus extends React.PureComponent {
           stateProps
         ])
       : stateProps
+    const lang = this.context.locale
 
     const {
       title,
@@ -720,29 +722,33 @@ export default class GlobalStatus extends React.PureComponent {
     const renderedItems = itemsToRender.length > 0 && (
       <ul className="dnb-ul">
         {itemsToRender.map((item, i) => {
+          const id = item.id || makeUniqueId()
           const text = (item && item.text) || item
           const link = status_anchor_text || item.status_anchor_text
+          const useAutolink =
+            item.status_id && isTrue(item.status_anchor_url)
           return (
             <li key={i}>
-              <p className="dnb-p">{text}</p>
+              <p id={id} className="dnb-p">
+                {text}
+              </p>
 
-              {item &&
-                ((item.status_id && isTrue(item.status_anchor_url)) ||
-                  item.status_anchor_url) && (
-                  <a
-                    className="dnb-anchor"
-                    aria-label={`${link} ${text}`}
-                    href={
-                      isTrue(item.status_anchor_url)
-                        ? `#${item.status_id}`
-                        : item.status_anchor_url
-                    }
-                    onClick={e => this.gotoItem(e, item)}
-                    onKeyDown={e => this.gotoItem(e, item)}
-                  >
-                    {link}
-                  </a>
-                )}
+              {item && (useAutolink || item.status_anchor_url) && (
+                <a
+                  className="dnb-anchor"
+                  aria-describedby={id}
+                  lang={lang}
+                  href={
+                    useAutolink
+                      ? `#${item.status_id}`
+                      : item.status_anchor_url
+                  }
+                  onClick={e => this.gotoItem(e, item)}
+                  onKeyDown={e => this.gotoItem(e, item)}
+                >
+                  {link}
+                </a>
+              )}
             </li>
           )
         })}
@@ -753,7 +759,7 @@ export default class GlobalStatus extends React.PureComponent {
       <div className="dnb-global-status__shell">
         <div className="dnb-global-status__content">
           {title !== false && (
-            <p className="dnb-p dnb-global-status__title">
+            <p className="dnb-p dnb-global-status__title" lang={lang}>
               <span className="dnb-global-status__icon">
                 {iconToRender}
               </span>

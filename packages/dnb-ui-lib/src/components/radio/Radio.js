@@ -358,18 +358,6 @@ export default class Radio extends Component {
             />
           )
 
-          const statusComp = showStatus && (
-            <FormStatus
-              id={id + '-form-status'}
-              global_status_id={global_status_id}
-              text_id={id + '-status'} // used for "aria-describedby"
-              width_selector={id + ', ' + id + '-label'}
-              text={status}
-              status={status_state}
-              animation={status_animation}
-            />
-          )
-
           return (
             <span {...mainParams}>
               <span className="dnb-radio__order">
@@ -377,7 +365,18 @@ export default class Radio extends Component {
 
                 <span className="dnb-radio__inner">
                   <AlignmentHelper />
-                  {statusComp}
+
+                  {showStatus && (
+                    <FormStatus
+                      id={id + '-form-status'}
+                      global_status_id={global_status_id}
+                      text_id={id + '-status'} // used for "aria-describedby"
+                      width_selector={id + ', ' + id + '-label'}
+                      text={status}
+                      status={status_state}
+                      animation={status_animation}
+                    />
+                  )}
 
                   <span className="dnb-radio__row">
                     <span className="dnb-radio__shell">

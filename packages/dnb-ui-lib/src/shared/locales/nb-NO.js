@@ -47,6 +47,9 @@ export default {
     Modal: {
       close_title: 'Lukk'
     },
+    Input: {
+      submit_button_title: 'Send knapp'
+    },
     Logo: {
       alt: 'DNB Logo'
     }

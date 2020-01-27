@@ -157,6 +157,11 @@
     .dnb-toggle-button:last-of-type {
       margin-right: 0;
     }
+
+    & > .dnb-form-status {
+      margin-right: 1rem;
+    }
+
     // correct the bottom on the last row
     &__shell {
       display: block;

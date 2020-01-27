@@ -84,19 +84,23 @@ exports[`Textarea component have to match snapshot 1`] = `
         />
       </AlignmentHelper>
       <span
-        className="dnb-textarea__shell"
+        className="dnb-textarea__row"
       >
-        <textarea
-          className="dnb-textarea__textarea"
-          disabled={false}
-          id="textarea"
-          name="textarea"
-          onBlur={[Function]}
-          onChange={[Function]}
-          onFocus={[Function]}
-          role="textbox"
-          value="test"
-        />
+        <span
+          className="dnb-textarea__shell"
+        >
+          <textarea
+            className="dnb-textarea__textarea"
+            disabled={false}
+            id="textarea"
+            name="textarea"
+            onBlur={[Function]}
+            onChange={[Function]}
+            onFocus={[Function]}
+            role="textbox"
+            value="test"
+          />
+        </span>
       </span>
     </span>
   </span>
@@ -660,9 +664,11 @@ textarea.dnb-textarea {
     display: inline-flex;
     position: relative;
     font-size: var(--font-size-basis); }
+  .dnb-textarea__row {
+    display: inline-flex; }
   .dnb-textarea__suffix {
     padding-left: 1.5rem;
-    transform: translateY(-0.25rem); }
+    font-size: var(--font-size-basis); }
   .dnb-textarea__placeholder {
     pointer-events: none;
     position: absolute;

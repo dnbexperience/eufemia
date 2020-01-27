@@ -1703,6 +1703,8 @@ button.dnb-button::-moz-focus-inner {
       margin-right: 0; }
     .dnb-toggle-button-group .dnb-toggle-button:last-of-type {
       margin-right: 0; }
+    .dnb-toggle-button-group > .dnb-form-status {
+      margin-right: 1rem; }
     .dnb-toggle-button-group__shell {
       display: block; }
       .dnb-toggle-button-group__shell > .dnb-form-status {
