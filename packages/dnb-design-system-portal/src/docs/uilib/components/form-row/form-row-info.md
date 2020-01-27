@@ -19,7 +19,7 @@ There are three possible layout properties for the FormRow children:
 - `direction` Children components direction
 - `vertical` Forces both to be vertically
 
-**`label_direction`**
+### The property: **`label_direction`**
 
 <ComponentBox>
 {`
@@ -30,7 +30,7 @@ There are three possible layout properties for the FormRow children:
 `}
 </ComponentBox>
 
-**`direction`**
+### The property: **`direction`**
 
 <ComponentBox>
 {`
@@ -41,7 +41,7 @@ There are three possible layout properties for the FormRow children:
 `}
 </ComponentBox>
 
-**`vertical`**
+### The property: **`vertical`**
 
 <ComponentBox>
 {`

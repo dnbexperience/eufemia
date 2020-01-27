@@ -276,17 +276,6 @@ export default class Switch extends Component {
     // also used for code markup simulation
     validateDOMAttributes(this.props, inputParams)
 
-    const statusComp = showStatus && (
-      <FormStatus
-        id={id + '-form-status'}
-        global_status_id={global_status_id}
-        text_id={id + '-status'} // used for "aria-describedby"
-        width_selector={id + ', ' + id + '-label'}
-        text={status}
-        status={status_state}
-        animation={status_animation}
-      />
-    )
     const labelComp = label && (
       <FormLabel
         id={id + '-label'}
@@ -305,7 +294,17 @@ export default class Switch extends Component {
           <span className="dnb-switch__inner">
             <AlignmentHelper />
 
-            {statusComp}
+            {showStatus && (
+              <FormStatus
+                id={id + '-form-status'}
+                global_status_id={global_status_id}
+                text_id={id + '-status'} // used for "aria-describedby"
+                width_selector={id + ', ' + id + '-label'}
+                text={status}
+                status={status_state}
+                animation={status_animation}
+              />
+            )}
 
             <span className="dnb-switch__shell">
               {(label_position === 'right' || !label_position) &&

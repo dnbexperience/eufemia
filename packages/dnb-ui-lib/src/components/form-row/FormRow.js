@@ -263,6 +263,7 @@ export default class FormRow extends PureComponent {
         <Fieldset useFieldset={useFieldset}>
           <div {...params}>
             <AlignmentHelper />
+
             {label && (
               <FormLabel
                 className={classnames('dnb-form-row__label', label_class)}
