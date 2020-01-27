@@ -58,9 +58,15 @@ export default [
                   label="Input A:"
                   top="small"
                   right="small"
+                  placeholder="Placeholder text"
                 />
 
-                <Input label="Input B:" top="small" right="small" />
+                <Input
+                  label="Input B:"
+                  top="small"
+                  right="small"
+                  placeholder="Placeholder text"
+                />
                 <Input label="Input C:" top="small" right="small" />
               </FormRow>
             </FormSet>
