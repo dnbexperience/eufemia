@@ -158,18 +158,18 @@
       margin-right: 0;
     }
 
-    & > .dnb-form-status {
-      margin-right: 1rem;
-    }
-
     // correct the bottom on the last row
     &__shell {
-      display: block;
+      display: flex;
+      flex-direction: column;
+
+      &__children {
+        order: 1;
+      }
 
       & > .dnb-form-status {
+        order: 2;
         transform: translateY(-0.5rem);
-        margin-top: 0;
-        margin-bottom: 0;
       }
     }
 
