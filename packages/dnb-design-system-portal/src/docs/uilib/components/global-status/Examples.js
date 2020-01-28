@@ -131,40 +131,6 @@ render(
 }
           `}
         </ComponentBox>
-        <ComponentBox
-          caption="To showcase the grow and shrink (height) animation"
-          noFragments={false}
-        >
-          {/* @jsx */ `
-() => {
-  const [showDemo, toggleShowDemo] = React.useState(false)
-  return (
-    <>
-      <ToggleButton
-        text={showDemo? 'Stop Demo': 'Show animation Demo'}
-        checked={showDemo}
-        variant="checkbox"
-        on_change={({ checked }) => toggleShowDemo(checked)}
-        bottom="small"
-      />
-      <GlobalStatus
-        id="demo-3"
-        title="Demo Animation"
-        text="Long info nisl tempus hendrerit tortor dapibus nascetur taciti porta risus cursus fusce platea enim curabitur proin nibh ut luctus magnis metus"
-        items={['Status text 1', 'Status text 2']}
-        demo={showDemo}
-        show={showDemo}
-        autoscroll={false}
-        delay={0}
-        on_close={() => {
-          toggleShowDemo(false)
-        }}
-      />
-    </>
-  )
-}
-          `}
-        </ComponentBox>
         <ComponentBox caption="To showcase the scrolling. Some browsers (Safari, Edge) will need a polyfill like `smoothscroll-polyfill`">
           {/* @jsx */ `
 <Button

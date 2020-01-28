@@ -299,17 +299,6 @@ export default class ToggleButtonGroup extends PureComponent {
     return (
       <ToggleButtonGroupContext.Provider value={context}>
         <div className={classes}>
-          {showStatus && (
-            <FormStatus
-              id={id + '-form-status'}
-              global_status_id={global_status_id}
-              text_id={id + '-status'} // used for "aria-describedby"
-              text={status}
-              status={status_state}
-              animation={status_animation}
-            />
-          )}
-
           <FormRow {...formRowParams}>
             <span
               id={id}
@@ -317,16 +306,29 @@ export default class ToggleButtonGroup extends PureComponent {
               role="group"
               {...params}
             >
-              {children}
-
-              {suffix && (
-                <span
-                  className="dnb-toggle-button-group__suffix"
-                  id={id + '-suffix'} // used for "aria-describedby"
-                >
-                  {suffix}
-                </span>
+              {showStatus && (
+                <FormStatus
+                  id={id + '-form-status'}
+                  global_status_id={global_status_id}
+                  text_id={id + '-status'} // used for "aria-describedby"
+                  text={status}
+                  status={status_state}
+                  animation={status_animation}
+                />
               )}
+
+              <span className="dnb-toggle-button-group__children">
+                {children}
+
+                {suffix && (
+                  <span
+                    className="dnb-toggle-button-group__suffix"
+                    id={id + '-suffix'} // used for "aria-describedby"
+                  >
+                    {suffix}
+                  </span>
+                )}
+              </span>
             </span>
           </FormRow>
         </div>

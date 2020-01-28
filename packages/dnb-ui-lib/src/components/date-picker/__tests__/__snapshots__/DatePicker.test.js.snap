@@ -136,49 +136,58 @@ exports[`DatePicker component have to match snapshot 1`] = `
               className={null}
               color={null}
               height={null}
-              icon={[Function]}
+              icon={
+                <ErrorIcon
+                  title={null}
+                />
+              }
               modifier={null}
               size="large"
               title={null}
               width={null}
             >
               <span
-                alt="ErrorIcon"
                 aria-hidden={true}
                 className="dnb-icon dnb-icon--large"
                 role="img"
               >
-                <ErrorIcon>
-                  <svg
-                    fill="none"
-                    height="32"
-                    viewBox="0 0 32 32"
-                    width="32"
-                    xmlns="http://www.w3.org/2000/svg"
+                <Component>
+                  <ErrorIcon
+                    title={null}
                   >
-                    <path
-                      d="M16 25a.5.5 0 100 1 .5.5 0 000-1v0"
-                      stroke="#000"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="1.5"
-                    />
-                    <path
-                      d="M16 21V11"
-                      stroke="#000"
-                      strokeLinecap="round"
-                      strokeWidth="1.5"
-                    />
-                    <path
-                      clipRule="evenodd"
-                      d="M18.161 2.347a2.408 2.408 0 00-4.322 0L1.208 28.077A2.028 2.028 0 003.029 31h25.942a2.028 2.028 0 001.821-2.923l-12.63-25.73z"
-                      stroke="#000"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="1.5"
-                    />
-                  </svg>
-                </ErrorIcon>
+                    <svg
+                      fill="none"
+                      height="32"
+                      role="img"
+                      title={null}
+                      viewBox="0 0 32 32"
+                      width="32"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M16 25a.5.5 0 100 1 .5.5 0 000-1v0"
+                        stroke="#000"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="1.5"
+                      />
+                      <path
+                        d="M16 21V11"
+                        stroke="#000"
+                        strokeLinecap="round"
+                        strokeWidth="1.5"
+                      />
+                      <path
+                        clipRule="evenodd"
+                        d="M18.161 2.347a2.408 2.408 0 00-4.322 0L1.208 28.077A2.028 2.028 0 003.029 31h25.942a2.028 2.028 0 001.821-2.923l-12.63-25.73z"
+                        stroke="#000"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="1.5"
+                      />
+                    </svg>
+                  </ErrorIcon>
+                </Component>
               </span>
             </Icon>
             <span
@@ -2377,14 +2386,14 @@ legend.dnb-form-label {
       margin-right: 0; }
     .dnb-toggle-button-group .dnb-toggle-button:last-of-type {
       margin-right: 0; }
-    .dnb-toggle-button-group > .dnb-form-status {
-      margin-right: 1rem; }
     .dnb-toggle-button-group__shell {
-      display: block; }
+      display: flex;
+      flex-direction: column; }
+      .dnb-toggle-button-group__shell__children {
+        order: 1; }
       .dnb-toggle-button-group__shell > .dnb-form-status {
-        transform: translateY(-0.5rem);
-        margin-top: 0;
-        margin-bottom: 0; }
+        order: 2;
+        transform: translateY(-0.5rem); }
     .dnb-toggle-button-group .dnb-form-row {
       align-items: baseline;
       margin-bottom: calc(1px - 1px - var(--toggle-button-margin-bottom)); }

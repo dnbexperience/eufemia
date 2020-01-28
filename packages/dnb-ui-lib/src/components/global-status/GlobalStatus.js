@@ -137,19 +137,25 @@ export default class GlobalStatus extends React.PureComponent {
 
   static getIcon({ state, icon, icon_size }) {
     if (typeof icon === 'string') {
-      let iconToLoad = icon
+      let IconToLoad = icon
 
       switch (state) {
         case 'info':
         case 'information':
-          iconToLoad = InfoIcon
+          IconToLoad = InfoIcon
           break
         case 'error':
         default:
-          iconToLoad = ErrorIcon
+          IconToLoad = ErrorIcon
       }
 
-      icon = <Icon aria-hidden icon={iconToLoad} size={icon_size} />
+      icon = (
+        <Icon
+          icon={<IconToLoad title={null} />}
+          size={icon_size}
+          aria-hidden
+        />
+      )
     }
 
     return icon
