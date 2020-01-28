@@ -2386,14 +2386,14 @@ legend.dnb-form-label {
       margin-right: 0; }
     .dnb-toggle-button-group .dnb-toggle-button:last-of-type {
       margin-right: 0; }
-    .dnb-toggle-button-group > .dnb-form-status {
-      margin-right: 1rem; }
     .dnb-toggle-button-group__shell {
-      display: block; }
+      display: flex;
+      flex-direction: column; }
+      .dnb-toggle-button-group__shell__children {
+        order: 1; }
       .dnb-toggle-button-group__shell > .dnb-form-status {
-        transform: translateY(-0.5rem);
-        margin-top: 0;
-        margin-bottom: 0; }
+        order: 2;
+        transform: translateY(-0.5rem); }
     .dnb-toggle-button-group .dnb-form-row {
       align-items: baseline;
       margin-bottom: calc(1px - 1px - var(--toggle-button-margin-bottom)); }
