@@ -115,19 +115,25 @@ export default class FormStatus extends PureComponent {
 
   static getIcon({ state, icon, icon_size }) {
     if (typeof icon === 'string') {
-      let iconToLoad = icon
+      let IconToLoad = icon
 
       switch (state) {
         case 'info':
         case 'information':
-          iconToLoad = InfoIcon
+          IconToLoad = InfoIcon
           break
         case 'error':
         default:
-          iconToLoad = ErrorIcon
+          IconToLoad = ErrorIcon
       }
 
-      icon = <Icon aria-hidden icon={iconToLoad} size={icon_size} />
+      icon = (
+        <Icon
+          icon={<IconToLoad title={null} />}
+          size={icon_size}
+          aria-hidden
+        />
+      )
     }
 
     return icon
@@ -340,8 +346,10 @@ export const ErrorIcon = props => (
     viewBox="0 0 32 32"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
+    role="img"
     {...props}
   >
+    {props && props.title && <title>{props.title}</title>}
     <path
       d="M16 25a.5.5 0 100 1 .5.5 0 000-1v0"
       stroke="#000"
@@ -365,6 +373,12 @@ export const ErrorIcon = props => (
     />
   </svg>
 )
+ErrorIcon.propTypes = {
+  title: PropTypes.string
+}
+ErrorIcon.defaultProps = {
+  title: 'error'
+}
 
 export const InfoIcon = props => (
   <svg
@@ -373,13 +387,21 @@ export const InfoIcon = props => (
     viewBox="0 0 32 32"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
+    role="img"
     {...props}
   >
+    {props && props.title && <title>{props.title}</title>}
     <path
       fillRule="evenodd"
       clipRule="evenodd"
       d="M10.1 1.08A14.75 14.75 0 00.26 15.01a14.73 14.73 0 0022.16 12.74l8.27 3.94a.75.75 0 001-1l-3.94-8.27A14.75 14.75 0 0010.1 1.08zM1.76 15.01a13.25 13.25 0 1124.5 6.97.75.75 0 00-.04.72l3.2 6.73-6.72-3.2a.75.75 0 00-.72.04A13.23 13.23 0 011.76 15zM13.38 7.9a1.31 1.31 0 112.63 0 1.31 1.31 0 01-2.63 0zm-1.13 5.07c0-.41.34-.75.75-.75h1.13c1.04 0 1.88.85 1.88 1.88v5.64c0 .84.67 1.51 1.5 1.51h1.13a.75.75 0 110 1.5h-1.13a3 3 0 01-3-3V14.1c0-.2-.17-.38-.38-.38H13a.75.75 0 01-.75-.75z"
-      fill="#14555A"
+      fill="#000"
     />
   </svg>
 )
+InfoIcon.propTypes = {
+  title: PropTypes.string
+}
+InfoIcon.defaultProps = {
+  title: 'info'
+}
