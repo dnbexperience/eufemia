@@ -27,42 +27,45 @@ workbox.core.clientsClaim();
  */
 self.__precacheManifest = [
   {
-    "url": "webpack-runtime-d6aa59c113750c211250.js"
+    "url": "webpack-runtime-ead1721d70c3554a9c7a.js"
   },
   {
-    "url": "styles.37684efe56c071089297.css"
+    "url": "styles.a3e82466f0d5a193f883.css"
   },
   {
     "url": "styles-31d0edcd78b60c230294.js"
   },
   {
-    "url": "commons-13c65b6b75fdcb142e86.js"
+    "url": "commons-eb50044eccae56e0c478.js"
   },
   {
-    "url": "component---node-modules-gatsby-plugin-offline-app-shell-js-a37f7248c3616d4852e3.js"
+    "url": "app-36fc1062c591aa1443e4.js"
+  },
+  {
+    "url": "component---node-modules-gatsby-plugin-offline-app-shell-js-c3c3c2d97e1b942d6fb0.js"
   },
   {
     "url": "offline-plugin-app-shell-fallback/index.html",
-    "revision": "d64c1f39a8ffdf8b1a1e5fb7eef303a0"
+    "revision": "85ae7212afa690095d662469e974b4fe"
   },
   {
-    "url": "static/FedraSansStd-Book-72defec4eb362f240076656e7778176a.woff2"
+    "url": "static/DNB-Regular-8126d0ca4ea2694cf9e3f1205d2a3678.woff2"
   },
   {
-    "url": "static/FedraSansStd-Demi-2ccb31bef521cc0af5b9eec892f3e875.woff2"
+    "url": "static/DNB-Medium-c3cb9986e2f530d187df57ac48c6773b.woff2"
   },
   {
-    "url": "static/FedraSansStd-Medium-685da93af520e23fb5571838a4af40bd.woff2"
+    "url": "static/DNB-Bold-c162badb6262a667b7f29ae9d8609b39.woff2"
   },
   {
     "url": "manifest.webmanifest",
-    "revision": "f46558e9f1d3cea490556330c3bd227d"
+    "revision": "43dbc9a6a697b9c4057a11898531032f"
   }
 ].concat(self.__precacheManifest || []);
 workbox.precaching.precacheAndRoute(self.__precacheManifest, {});
 
 workbox.routing.registerRoute(/(\.js$|\.css$|static\/)/, new workbox.strategies.CacheFirst(), 'GET');
-workbox.routing.registerRoute(/^https?:.*\page-data\/.*\/page-data\.json/, new workbox.strategies.NetworkFirst(), 'GET');
+workbox.routing.registerRoute(/^https?:.*\page-data\/.*\/page-data\.json/, new workbox.strategies.StaleWhileRevalidate(), 'GET');
 workbox.routing.registerRoute(/^https?:.*\.(png|jpg|jpeg|webp|svg|gif|tiff|js|woff|woff2|json|css)$/, new workbox.strategies.StaleWhileRevalidate(), 'GET');
 workbox.routing.registerRoute(/^https?:\/\/fonts\.googleapis\.com\/css/, new workbox.strategies.StaleWhileRevalidate(), 'GET');
 
@@ -105,7 +108,7 @@ function handleAPIRequest({ event }) {
   const params = pathname.match(/:(.+)/)[1]
   const data = {}
 
-  if (params.indexOf(`=`) !== -1) {
+  if (params.includes(`=`)) {
     params.split(`&`).forEach(param => {
       const [key, val] = param.split(`=`)
       data[key] = val
@@ -149,7 +152,7 @@ const navigationRoute = new NavigationRoute(async ({ event }) => {
   // Check for resources + the app bundle
   // The latter may not exist if the SW is updating to a new version
   const resources = await idbKeyval.get(`resources:${pathname}`)
-  if (!resources || !(await caches.match(`/app-4122daf731b8180e6ab8.js`))) {
+  if (!resources || !(await caches.match(`/app-36fc1062c591aa1443e4.js`))) {
     return await fetch(event.request)
   }
 
