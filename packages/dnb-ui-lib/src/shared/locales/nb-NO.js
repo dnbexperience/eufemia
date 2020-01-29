@@ -45,7 +45,8 @@ export default {
       title: 'Valgmeny'
     },
     Modal: {
-      close_title: 'Lukk'
+      close_title: 'Lukk',
+      more_info: 'Mer informasjon'
     },
     Input: {
       submit_button_title: 'Send knapp'

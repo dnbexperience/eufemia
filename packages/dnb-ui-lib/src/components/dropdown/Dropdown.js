@@ -22,6 +22,7 @@ import { createSpacingClasses } from '../space/SpacingHelper'
 // import { addScrollLock } from '../modal/Modal'
 
 import Context from '../../shared/Context'
+import Suffix from '../../shared/helpers/Suffix'
 import Icon from '../icon-primary/IconPrimary'
 import FormLabel from '../form-label/FormLabel'
 import FormStatus from '../form-status/FormStatus'
@@ -1227,7 +1228,7 @@ export default class Dropdown extends PureComponent {
                 className="dnb-dropdown__suffix"
                 id={id + '-suffix'} // used for "aria-describedby"
               >
-                {suffix}
+                <Suffix {...props}>{suffix}</Suffix>
               </span>
             )}
           </span>

@@ -19,6 +19,7 @@ import AlignmentHelper from '../../shared/AlignmentHelper'
 import { createSpacingClasses } from '../space/SpacingHelper'
 
 import Context from '../../shared/Context'
+import Suffix from '../../shared/helpers/Suffix'
 import FormLabel from '../form-label/FormLabel'
 import FormStatus from '../form-status/FormStatus'
 
@@ -312,7 +313,7 @@ export default class Checkbox extends Component {
               className="dnb-checkbox__suffix"
               id={id + '-suffix'} // used for "aria-describedby"
             >
-              {suffix}
+              <Suffix {...props}>{suffix}</Suffix>
             </span>
           )}
         </span>

@@ -354,7 +354,7 @@ class Content extends PureComponent {
           className="dnb-button__icon"
           icon={icon}
           size={icon_size}
-          aria-hidden={isIconOnly && !title ? false : true}
+          aria-hidden={isIconOnly && !title ? null : true}
         />
       )
     }

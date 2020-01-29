@@ -317,7 +317,7 @@ export default class DatePickerCalendar extends PureComponent {
                       bounding={true}
                       disabled={isDisabled}
                       tabIndex={isDisabled ? '0' : '-1'} // fix for NVDA
-                      aria-hidden={isInactive}
+                      aria-hidden={isInactive ? true : null}
                       aria-disabled={isDisabled}
                       aria-label={title}
                       {...paramsButton}

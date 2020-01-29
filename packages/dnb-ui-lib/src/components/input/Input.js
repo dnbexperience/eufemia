@@ -24,6 +24,7 @@ import AlignmentHelper from '../../shared/AlignmentHelper'
 import { createSpacingClasses } from '../space/SpacingHelper'
 
 import Context from '../../shared/Context'
+import Suffix from '../../shared/helpers/Suffix'
 
 const renderProps = {
   on_change: null,
@@ -494,7 +495,7 @@ export default class Input extends PureComponent {
                 className="dnb-input__suffix"
                 id={id + '-suffix'} // used for "aria-describedby"
               >
-                {suffix}
+                <Suffix {...props}>{suffix}</Suffix>
               </span>
             )}
           </span>

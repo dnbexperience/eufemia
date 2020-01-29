@@ -19,6 +19,7 @@ import { createSpacingClasses } from '../space/SpacingHelper'
 import FormRow from '../form-row/FormRow'
 import FormStatus from '../form-status/FormStatus'
 import Context from '../../shared/Context'
+import Suffix from '../../shared/helpers/Suffix'
 import ToggleButtonGroupContext from './ToggleButtonGroupContext'
 
 const renderProps = {
@@ -325,7 +326,7 @@ export default class ToggleButtonGroup extends PureComponent {
                     className="dnb-toggle-button-group__suffix"
                     id={id + '-suffix'} // used for "aria-describedby"
                   >
-                    {suffix}
+                    <Suffix {...props}>{suffix}</Suffix>
                   </span>
                 )}
               </span>

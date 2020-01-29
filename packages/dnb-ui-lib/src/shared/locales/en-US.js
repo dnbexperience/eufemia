@@ -45,7 +45,8 @@ export default {
       title: 'Option Menu'
     },
     Modal: {
-      close_title: 'Close'
+      close_title: 'Close',
+      more_info: 'More information'
     },
     Input: {
       submit_button_title: 'Submit button'

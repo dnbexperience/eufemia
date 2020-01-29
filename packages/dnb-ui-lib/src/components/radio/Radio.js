@@ -23,6 +23,7 @@ import FormStatus from '../form-status/FormStatus'
 import RadioGroup from './RadioGroup'
 import RadioGroupContext from './RadioGroupContext'
 import Context from '../../shared/Context'
+import Suffix from '../../shared/helpers/Suffix'
 
 const renderProps = {
   on_change: null,
@@ -408,7 +409,7 @@ export default class Radio extends Component {
                         className="dnb-radio__suffix"
                         id={id + '-suffix'} // used for "aria-describedby"
                       >
-                        {suffix}
+                        <Suffix {...props}>{suffix}</Suffix>
                       </span>
                     )}
                   </span>

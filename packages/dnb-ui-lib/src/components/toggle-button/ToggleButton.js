@@ -26,6 +26,7 @@ import FormStatus from '../form-status/FormStatus'
 import ToggleButtonGroup from './ToggleButtonGroup'
 import ToggleButtonGroupContext from './ToggleButtonGroupContext'
 import Context from '../../shared/Context'
+import Suffix from '../../shared/helpers/Suffix'
 
 const renderProps = {
   on_change: null,
@@ -447,7 +448,7 @@ export default class ToggleButton extends Component {
                       className="dnb-toggle-button__suffix"
                       id={id + '-suffix'} // used for "aria-describedby"
                     >
-                      {suffix}
+                      <Suffix {...props}>{suffix}</Suffix>
                     </span>
                   )}
                 </span>
