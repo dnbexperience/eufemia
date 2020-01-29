@@ -148,7 +148,7 @@ exports[`Slider component have to match snapshot 1`] = `
               </span>
               <IconPrimary
                 alt={null}
-                aria-hidden={false}
+                aria-hidden={null}
                 attributes={null}
                 border={null}
                 class={null}
@@ -164,7 +164,6 @@ exports[`Slider component have to match snapshot 1`] = `
               >
                 <span
                   alt="subtract"
-                  aria-hidden={false}
                   aria-label="subtract"
                   className="dnb-icon dnb-icon--default dnb-button__icon"
                   role="img"
@@ -375,7 +374,7 @@ exports[`Slider component have to match snapshot 1`] = `
               </span>
               <IconPrimary
                 alt={null}
-                aria-hidden={false}
+                aria-hidden={null}
                 attributes={null}
                 border={null}
                 class={null}
@@ -391,7 +390,6 @@ exports[`Slider component have to match snapshot 1`] = `
               >
                 <span
                   alt="add"
-                  aria-hidden={false}
                   aria-label="add"
                   className="dnb-icon dnb-icon--default dnb-button__icon"
                   role="img"
@@ -420,7 +418,38 @@ exports[`Slider component have to match snapshot 1`] = `
           className="dnb-slider__suffix"
           id="id-suffix"
         >
-          suffix
+          <Suffix
+            add_title="add_title"
+            class="class"
+            className="className"
+            disabled="disabled"
+            global_status_id="global_status_id"
+            hide_buttons="hide_buttons"
+            id="id"
+            label="label"
+            label_direction="horizontal"
+            label_sr_only="label_sr_only"
+            max={100}
+            min={0}
+            on_change={[Function]}
+            on_drag_end={[Function]}
+            on_drag_start={[Function]}
+            on_init={[Function]}
+            on_state_update={[Function]}
+            reverse="reverse"
+            status={null}
+            status_animation="status_animation"
+            status_state="status_state"
+            step={10}
+            subtract_title="subtract_title"
+            suffix="suffix"
+            thump_title="thump_title"
+            use_scrollwheel="use_scrollwheel"
+            value={70}
+            vertical="vertical"
+          >
+            suffix
+          </Suffix>
         </span>
       </span>
     </span>

@@ -116,6 +116,7 @@ exports[`Modal component have to match snapshot 1`] = `
     className="dnb-modal"
   >
     <Button
+      aria-label="modal_title"
       bounding={false}
       class={null}
       className="dnb-modal__trigger"
@@ -136,20 +137,21 @@ exports[`Modal component have to match snapshot 1`] = `
       status_animation={null}
       status_state="error"
       text={null}
-      title="modal_title"
+      title={null}
       type="button"
       variant="secondary"
     >
       <button
+        aria-label="modal_title"
         className="dnb-button dnb-button--secondary dnb-modal__trigger dnb-button--icon-position-left dnb-button--has-icon dnb-button--size-medium"
         disabled={false}
         id="modal_id"
         onClick={[Function]}
         onMouseOut={[Function]}
-        title="modal_title"
         type="button"
       >
         <Content
+          aria-label="modal_title"
           bounding={false}
           class={null}
           className="dnb-modal__trigger"
@@ -172,7 +174,7 @@ exports[`Modal component have to match snapshot 1`] = `
           status_animation={null}
           status_state="error"
           text={null}
-          title="modal_title"
+          title={null}
           type="button"
           variant="secondary"
         >
@@ -184,7 +186,7 @@ exports[`Modal component have to match snapshot 1`] = `
           </span>
           <IconPrimary
             alt={null}
-            aria-hidden={true}
+            aria-hidden={null}
             attributes={null}
             border={null}
             class={null}
@@ -200,7 +202,7 @@ exports[`Modal component have to match snapshot 1`] = `
           >
             <span
               alt="question"
-              aria-hidden={true}
+              aria-label="question"
               className="dnb-icon dnb-icon--default dnb-button__icon"
               role="img"
             >
@@ -521,7 +523,7 @@ exports[`Modal component have to match snapshot 1`] = `
                     </span>
                     <IconPrimary
                       alt={null}
-                      aria-hidden={false}
+                      aria-hidden={null}
                       attributes={null}
                       border={null}
                       class={null}
@@ -537,7 +539,6 @@ exports[`Modal component have to match snapshot 1`] = `
                     >
                       <span
                         alt="close"
-                        aria-hidden={false}
                         aria-label="close"
                         className="dnb-icon dnb-icon--medium dnb-button__icon"
                         role="img"

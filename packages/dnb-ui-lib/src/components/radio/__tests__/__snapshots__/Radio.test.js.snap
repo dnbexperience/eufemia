@@ -114,7 +114,32 @@ exports[`Radio component have to match snapshot 1`] = `
             className="dnb-radio__suffix"
             id="radio-suffix"
           >
-            suffix
+            <Suffix
+              attributes="attributes"
+              checked="checked"
+              class="class"
+              className="className"
+              custom_element={Object {}}
+              custom_method={[Function]}
+              direction="horizontal"
+              disabled="disabled"
+              global_status_id="global_status_id"
+              group={null}
+              id="radio"
+              label="label"
+              label_position="left"
+              label_sr_only="label_sr_only"
+              on_change={[Function]}
+              on_state_update={[Function]}
+              readOnly={false}
+              status={null}
+              status_animation="status_animation"
+              status_state="status_state"
+              suffix="suffix"
+              value="value"
+            >
+              suffix
+            </Suffix>
           </span>
         </span>
       </span>

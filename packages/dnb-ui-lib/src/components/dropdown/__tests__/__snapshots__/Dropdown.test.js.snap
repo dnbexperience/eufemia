@@ -397,7 +397,96 @@ exports[`Dropdown component have to match snapshot 1`] = `
           className="dnb-dropdown__suffix"
           id="dropdown-id-suffix"
         >
-          suffix
+          <Suffix
+            align_dropdown={null}
+            class="class"
+            className="className"
+            custom_element={Object {}}
+            custom_method={[Function]}
+            data={
+              Array [
+                Object {
+                  "content": Array [
+                    "1234 56 78901",
+                    "Brukskonto - Kari Nordmann",
+                  ],
+                  "selected_value": "Brukskonto - Kari Nordmann",
+                },
+                Object {
+                  "content": Array [
+                    "1234 56 78902",
+                    "Sparekonto - Ole Nordmann",
+                  ],
+                  "selected_value": "Sparekonto - Ole Nordmann",
+                },
+                Object {
+                  "content": Array [
+                    "1134 56 78962",
+                    "Feriekonto - Kari Nordmann med et kjempelangt etternavnsen",
+                  ],
+                  "selected_value": "Feriekonto - Kari Nordmann med et kjempelangt etternavnsen",
+                },
+                Object {
+                  "content": Array [
+                    "1534 96 48901",
+                    "Oppussing - Ole Nordmann",
+                  ],
+                  "selected_value": "Oppussing - Ole Nordmann",
+                },
+                Object {
+                  "content": <React.Fragment>
+                    Custom content 
+                    123
+                  </React.Fragment>,
+                },
+                <React.Fragment>
+                  Custom content 
+                  123
+                </React.Fragment>,
+                Array [
+                  <React.Fragment>
+                    Custom content 
+                    123
+                  </React.Fragment>,
+                ],
+              ]
+            }
+            default_value="default_value"
+            direction="bottom"
+            disabled="disabled"
+            global_status_id="global_status_id"
+            icon="icon"
+            icon_position="icon_position"
+            icon_size="icon_size"
+            id="dropdown-id"
+            label="label"
+            label_direction="horizontal"
+            label_sr_only="label_sr_only"
+            max_height={1}
+            more_menu={null}
+            no_animation={true}
+            no_scroll_animation="no_scroll_animation"
+            on_change={[Function]}
+            on_hide={[Function]}
+            on_select={[Function]}
+            on_show={[Function]}
+            on_state_update={[Function]}
+            open_on_focus="open_on_focus"
+            opened="opened"
+            prevent_selection={null}
+            scrollable={true}
+            selected_item="selected_item"
+            size={null}
+            status="status"
+            status_animation="status_animation"
+            status_state="error"
+            suffix="suffix"
+            title="title"
+            trigger_component={null}
+            value={2}
+          >
+            suffix
+          </Suffix>
         </span>
       </span>
     </span>
