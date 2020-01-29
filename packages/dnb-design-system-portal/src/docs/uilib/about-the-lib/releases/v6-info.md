@@ -142,4 +142,4 @@ To upgrade to v6 with NPM, use:
 $ npm i dnb-ui-lib@6
 ```
 
-_January, 24. 2020_
+_January, 30. 2020_
