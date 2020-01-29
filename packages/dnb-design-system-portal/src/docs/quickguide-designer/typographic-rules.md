@@ -6,7 +6,7 @@ draft: true
 
 The default font for all web applications is the `DNB` font.
 
-You can download the font as a [ZIP file](https://github.com/dnbexperience/eufemia/tree/develop/packages/dnb-ui-lib/assets/fonts/DNB.zip).
+You can download the font as a [ZIP file](https://github.com/dnbexperience/eufemia/blob/develop/packages/dnb-ui-lib/assets/fonts/DNB.zip?raw=true).
 
 Make sure it is installed on your system so you can use the design resources.
 

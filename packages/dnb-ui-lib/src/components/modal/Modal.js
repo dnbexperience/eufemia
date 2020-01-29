@@ -13,6 +13,7 @@ import {
   enableBodyScroll,
   clearAllBodyScrollLocks
 } from '../../shared/libs/bodyScrollLock'
+import { SuffixContext } from '../../shared/helpers/Suffix'
 import Context from '../../shared/Context'
 import {
   isTrue,
@@ -349,42 +350,63 @@ export default class Modal extends PureComponent {
     }
 
     return (
-      <div className="dnb-modal">
-        {!isTrue(trigger_hidden) && (
-          <Button
-            id={this._id}
-            type="button"
-            variant={trigger_variant}
-            text={trigger_text}
-            title={trigger_title || props.title}
-            disabled={isTrue(disabled) || isTrue(trigger_disabled)}
-            icon={
-              trigger_icon !== 'question'
-                ? trigger_icon
-                : (!trigger_text || trigger_variant === 'tertiary') &&
-                  trigger_icon
-            }
-            icon_position={trigger_icon_position}
-            on_click={this.toggleOpenClose}
-            className={classnames(
-              'dnb-modal__trigger',
-              createSpacingClasses(props),
-              trigger_class
-            )}
-            innerRef={this._triggerRef}
-          />
-        )}
+      <SuffixContext.Consumer>
+        {suffixProps => {
+          const additional = {}
 
-        {modalActive && modal_content && (
-          <ModalRoot
-            {...rest}
-            labelled_by={labelled_by || this._id}
-            modal_content={modal_content}
-            closeModal={this.close}
-            toggleOpenClose={this.toggleOpenClose}
-          />
-        )}
-      </div>
+          const icon =
+            trigger_icon !== 'question'
+              ? trigger_icon
+              : (!trigger_text || trigger_variant === 'tertiary') &&
+                trigger_icon
+
+          // in case the modal is used in suffix and no title is given
+          // suffixProps.label is also available, so we could use that too
+          if (!rest.title && icon === 'question' && suffixProps) {
+            additional.title = this.context.translation.Modal.more_info
+          }
+
+          return (
+            <div className="dnb-modal">
+              {!isTrue(trigger_hidden) && (
+                <Button
+                  id={this._id}
+                  type="button"
+                  variant={trigger_variant}
+                  text={trigger_text}
+                  aria-label={
+                    props['aria-label'] ||
+                    trigger_title ||
+                    props.title ||
+                    additional.title
+                  }
+                  disabled={isTrue(disabled) || isTrue(trigger_disabled)}
+                  icon={icon}
+                  icon_position={trigger_icon_position}
+                  on_click={this.toggleOpenClose}
+                  className={classnames(
+                    'dnb-modal__trigger',
+                    createSpacingClasses(props),
+                    trigger_class
+                  )}
+                  innerRef={this._triggerRef}
+                />
+              )}
+
+              {modalActive && modal_content && (
+                <ModalRoot
+                  {...rest}
+                  labelled_by={labelled_by || this._id}
+                  modal_content={modal_content}
+                  closeModal={this.close}
+                  toggleOpenClose={this.toggleOpenClose}
+                  {...additional}
+                />
+              )}
+            </div>
+          )
+        }}
+      </SuffixContext.Consumer>
     )
   }
 }

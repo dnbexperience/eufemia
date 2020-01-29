@@ -406,7 +406,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
                       </span>
                       <IconPrimary
                         alt={null}
-                        aria-hidden={false}
+                        aria-hidden={null}
                         attributes={null}
                         border={null}
                         class={null}
@@ -422,7 +422,6 @@ exports[`Input component have to match type="search" snapshot 1`] = `
                       >
                         <span
                           alt="search"
-                          aria-hidden={false}
                           aria-label="search"
                           className="dnb-icon dnb-icon--default dnb-button__icon"
                           role="img"

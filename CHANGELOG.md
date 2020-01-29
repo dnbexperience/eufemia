@@ -1,4 +1,4 @@
-## January, 24. 2020
+## January, 30. 2020
 
 ### New DNB font
 

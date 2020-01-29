@@ -18,6 +18,7 @@ import { createSpacingClasses } from '../space/SpacingHelper'
 import FormRow from '../form-row/FormRow'
 import FormStatus from '../form-status/FormStatus'
 import Context from '../../shared/Context'
+import Suffix from '../../shared/helpers/Suffix'
 import RadioGroupContext from './RadioGroupContext'
 
 const renderProps = {
@@ -253,7 +254,7 @@ export default class RadioGroup extends PureComponent {
                   className="dnb-radio-group__suffix"
                   id={id + '-suffix'} // used for "aria-describedby"
                 >
-                  {suffix}
+                  <Suffix {...props}>{suffix}</Suffix>
                 </span>
               )}
 

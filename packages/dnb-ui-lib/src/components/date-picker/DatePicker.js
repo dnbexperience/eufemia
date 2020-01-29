@@ -25,6 +25,7 @@ import nbLocale from 'date-fns/locale/nb'
 import enLocale from 'date-fns/locale/en-US'
 
 import Context from '../../shared/Context'
+import Suffix from '../../shared/helpers/Suffix'
 import FormLabel from '../form-label/FormLabel'
 import FormStatus from '../form-status/FormStatus'
 import {
@@ -897,7 +898,7 @@ export default class DatePicker extends PureComponent {
                 className="dnb-date-picker__suffix"
                 id={id + '-suffix'} // used for "aria-describedby"
               >
-                {suffix}
+                <Suffix {...props}>{suffix}</Suffix>
               </span>
             )}
           </span>

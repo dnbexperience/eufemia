@@ -7,7 +7,6 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import keycode from 'keycode'
-import Context from '../../shared/Context'
 import {
   isTrue,
   makeUniqueId,
@@ -19,6 +18,8 @@ import {
 import AlignmentHelper from '../../shared/AlignmentHelper'
 import { createSpacingClasses } from '../space/SpacingHelper'
 
+import Context from '../../shared/Context'
+import Suffix from '../../shared/helpers/Suffix'
 import FormLabel from '../form-label/FormLabel'
 import FormStatus from '../form-status/FormStatus'
 
@@ -342,7 +343,7 @@ export default class Switch extends Component {
                   className="dnb-switch__suffix"
                   id={id + '-suffix'} // used for "aria-describedby"
                 >
-                  {suffix}
+                  <Suffix {...props}>{suffix}</Suffix>
                 </span>
               )}
             </span>

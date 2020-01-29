@@ -302,7 +302,36 @@ exports[`ToggleButton component have to match snapshot 1`] = `
           className="dnb-toggle-button__suffix"
           id="toggle-button-suffix"
         >
-          suffix
+          <Suffix
+            attributes="attributes"
+            checked="checked"
+            class="class"
+            className="className"
+            custom_element={Object {}}
+            custom_method={[Function]}
+            disabled="disabled"
+            global_status_id="global_status_id"
+            icon="icon"
+            icon_position="left"
+            id="toggle-button"
+            label="label"
+            label_direction="horizontal"
+            label_sr_only="label_sr_only"
+            left_component="left_component"
+            on_change={[Function]}
+            on_state_update={[Function]}
+            readOnly={false}
+            status={null}
+            status_animation="status_animation"
+            status_state="status_state"
+            suffix="suffix"
+            text="text"
+            title="title"
+            value="value"
+            variant="checkbox"
+          >
+            suffix
+          </Suffix>
         </span>
       </span>
     </span>

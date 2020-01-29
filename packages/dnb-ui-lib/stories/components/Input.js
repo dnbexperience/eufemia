@@ -10,6 +10,7 @@ import styled from '@emotion/styled'
 import {
   Input,
   InputMasked,
+  Modal,
   Button,
   FormSet,
   FormRow,
@@ -35,6 +36,13 @@ export default [
     return (
       <CustomStyle>
         <Wrapper>
+          <Box>
+            <Input
+              label="Input with description:"
+              suffix={<Modal>123</Modal>}
+              value="Input value with status"
+            />
+          </Box>
           <Box>
             <Input
               label="Choose file:"
