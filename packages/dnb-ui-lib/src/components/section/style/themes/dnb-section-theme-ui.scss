@@ -14,18 +14,23 @@
       0 -0.0625rem 0 0 var(--color-mint-green-50),
       100vw -0.0625rem 0 0 var(--color-mint-green-50);
   }
-  &--mint-green-12 {
-    &::after {
-      color: var(--color-mint-green-12);
-    }
+  &--mint-green-12::after {
+    color: var(--color-mint-green-12);
   }
   &--white::after {
     color: var(--color-white);
   }
-  &--mint-green {
-    &::after {
-      color: var(--color-mint-green);
-    }
+  &--mint-green::after {
+    color: var(--color-mint-green);
+  }
+  &--lavender::after {
+    color: var(--color-lavender);
+  }
+  &-sand-yellow::after {
+    color: var(--color-sand-yellow);
+  }
+  &--pistachio::after {
+    color: var(--color-pistachio);
   }
   &--emerald-green {
     color: var(--color-mint-green);
@@ -34,12 +39,6 @@
     }
     .dnb-code {
       color: var(--color-emerald-green);
-    }
-  }
-  &--signal-orange {
-    color: var(--color-ocean-green);
-    &::after {
-      color: var(--color-signal-orange);
     }
   }
   &--fire-red {
@@ -54,21 +53,16 @@
   }
 
   // Deprecated
-  &--cherry-red {
-    color: var(--color-white);
+  &--signal-orange {
+    color: var(--color-ocean-green);
     &::after {
-      color: var(--color-cherry-red);
-    }
-
-    .dnb-code {
-      color: var(--color-emerald-green);
+      color: var(--color-signal-orange);
     }
   }
 
   // contrast color
   &--signal-orange,
   &--fire-red,
-  &--cherry-red,/* Deprecated */
   &--mint-green {
     ::selection {
       background-color: var(--color-white);

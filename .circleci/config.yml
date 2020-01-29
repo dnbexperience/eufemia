@@ -69,7 +69,7 @@ jobs:
 
       - run:
           name: Build the portal, just to test if the build is successful
-          command: yarn build-ci
+          command: yarn build-portal-ci
 
       - run:
           name: Run screenshot tests
@@ -111,7 +111,7 @@ jobs:
 
       - run:
           name: Build the portal
-          command: yarn build-ci
+          command: yarn build-portal-ci
 
       - run:
           name: Run screenshot tests

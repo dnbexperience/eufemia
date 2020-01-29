@@ -6,7 +6,6 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-
 import {
   isTrue,
   makeUniqueId,
@@ -16,14 +15,17 @@ import {
   detectOutsideClick,
   validateDOMAttributes
 } from '../../shared/component-helper'
+import AlignmentHelper from '../../shared/AlignmentHelper'
 import { createSpacingClasses } from '../space/SpacingHelper'
 
 // date-fns
 import format from 'date-fns/format'
 import differenceInCalendarDays from 'date-fns/differenceInCalendarDays'
 import nbLocale from 'date-fns/locale/nb'
+import enLocale from 'date-fns/locale/en-US'
 
 import Context from '../../shared/Context'
+import Suffix from '../../shared/helpers/Suffix'
 import FormLabel from '../form-label/FormLabel'
 import FormStatus from '../form-status/FormStatus'
 import {
@@ -96,6 +98,10 @@ const propTypes = {
     PropTypes.string,
     PropTypes.bool
   ]),
+  enable_keyboard_nav: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.bool
+  ]),
   show_input: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   show_submit_button: PropTypes.oneOfType([
     PropTypes.string,
@@ -111,6 +117,7 @@ const propTypes = {
   ]),
   submit_button_text: PropTypes.string,
   cancel_button_text: PropTypes.string,
+  reset_button_text: PropTypes.string,
   reset_date: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   first_day: PropTypes.string,
   locale: PropTypes.object,
@@ -123,6 +130,7 @@ const propTypes = {
     PropTypes.node
   ]),
   label_direction: PropTypes.oneOf(['horizontal', 'vertical']),
+  label_sr_only: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   input_element: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.func,
@@ -139,6 +147,11 @@ const propTypes = {
   status_state: PropTypes.string,
   status_animation: PropTypes.string,
   global_status_id: PropTypes.string,
+  suffix: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.func,
+    PropTypes.node
+  ]),
   opened: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   no_animation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   direction: PropTypes.oneOf(['auto', 'top', 'bottom']),
@@ -174,6 +187,7 @@ const defaultProps = {
   only_month: false,
   hide_last_week: false,
   disable_autofocus: false,
+  enable_keyboard_nav: false,
   show_input: false,
   show_submit_button: null,
   show_cancel_button: null,
@@ -191,6 +205,7 @@ const defaultProps = {
   sync: true,
   label: null,
   label_direction: null,
+  label_sr_only: null,
   input_element: null,
   addon_element: null,
   shortcuts: null,
@@ -199,6 +214,7 @@ const defaultProps = {
   status_state: 'error',
   status_animation: null,
   global_status_id: null,
+  suffix: null,
   opened: false,
   no_animation: false,
   align_picker: null,
@@ -292,6 +308,7 @@ export default class DatePicker extends PureComponent {
 
     const opened = DatePicker.parseOpened(props.opened)
     this.state = {
+      userUsesKeyboard: false,
       startDate: null,
       endDate: null,
       _startDate: props.start_date,
@@ -320,6 +337,7 @@ export default class DatePicker extends PureComponent {
 
     this._innerRef = React.createRef()
     this._triangleRef = React.createRef()
+    this._submitButtonRef = React.createRef()
   }
 
   setTrianglePosition = () => {
@@ -423,8 +441,8 @@ export default class DatePicker extends PureComponent {
     )
     if (
       hidePicker &&
-      (!isTrue(this.props.show_submit_button) &&
-        !isTrue(this.props.show_cancel_button))
+      !isTrue(this.props.show_submit_button) &&
+      !isTrue(this.props.show_cancel_button)
     ) {
       this.hidePicker(args)
     }
@@ -495,6 +513,7 @@ export default class DatePicker extends PureComponent {
       clearTimeout(this._hideTimeout)
     }
     this.setState({
+      userUsesKeyboard: true,
       opened: true,
       hidden: false,
       _listenForPropChanges: false
@@ -520,6 +539,13 @@ export default class DatePicker extends PureComponent {
       },
       this.props.no_animation ? 1 : DatePicker.blurDelay
     ) // wait until animation is over
+
+    try {
+      this._submitButtonRef.current.focus()
+    } catch (e) {
+      console.warn(e)
+    }
+
     dispatchCustomElementEvent(this, 'on_hide', this.getReturnObject(args))
     this.removeOutsideClickHandler()
   }
@@ -589,20 +615,49 @@ export default class DatePicker extends PureComponent {
     return ret
   }
 
+  formatSelectedDateTitle() {
+    const { range } = this.props
+    const { startDate, endDate } = this.state
+    const {
+      selected_date,
+      start,
+      end
+    } = this.context.translation.DatePicker
+
+    let currentDate = startDate ? format(startDate, 'PPPP') : null
+
+    if (isTrue(range) && startDate && endDate) {
+      currentDate = `${start} ${currentDate} - ${end} ${format(
+        endDate,
+        'PPPP'
+      )}`
+    }
+
+    return currentDate ? selected_date.replace(/%s/, currentDate) : ''
+  }
+
   render() {
-    // consume the formRow context
-    const props = this.context.formRow
-      ? // use only the props from context, who are available here anyway
-        extendPropsWithContext(this.props, this.context.formRow)
-      : this.props
+    // use only the props from context, who are available here anyway
+    const props = extendPropsWithContext(
+      this.props,
+      defaultProps,
+      this.context.formRow,
+      this.context.translation.DatePicker
+    )
+
+    if (props.locale !== enLocale && /en-/.test(this.context.locale)) {
+      props.locale = enLocale
+    }
 
     const {
       label,
       title,
       label_direction,
+      label_sr_only,
       only_month,
       hide_last_week,
       disable_autofocus,
+      enable_keyboard_nav,
       hide_navigation_buttons,
       show_input, // eslint-disable-line
       range,
@@ -619,6 +674,7 @@ export default class DatePicker extends PureComponent {
       status_state,
       status_animation,
       global_status_id,
+      suffix,
       mask_order,
       mask_placeholder,
       align_picker,
@@ -661,6 +717,7 @@ export default class DatePicker extends PureComponent {
       maxDate,
       opened,
       hidden,
+      // userUsesKeyboard,// not in use
       showInput
     } = this.state
 
@@ -668,12 +725,21 @@ export default class DatePicker extends PureComponent {
     const showStatus = status && status !== 'error'
 
     const pickerParams = {}
+    if (showStatus || suffix) {
+      pickerParams['aria-describedby'] = `${
+        showStatus ? id + '-status' : ''
+      } ${suffix ? id + '-suffix' : ''}`
+    }
     if (label) {
       pickerParams['aria-labelledby'] = id + '-label'
     }
 
     const inputParams = { ...attributes }
-    const submitParams = { ['aria-expanded']: opened }
+    const submitParams = {
+      ['aria-expanded']: opened,
+      ref: this._submitButtonRef
+    }
+    const selectedDateTitle = this.formatSelectedDateTitle()
 
     const mainParams = {
       className: classnames(
@@ -689,6 +755,7 @@ export default class DatePicker extends PureComponent {
           isTrue(show_reset_button)) &&
           'dnb-date-picker--show-footer',
         align_picker && `dnb-date-picker--${align_picker}`,
+        'dnb-form-component',
         createSpacingClasses(props)
       )
     }
@@ -702,18 +769,15 @@ export default class DatePicker extends PureComponent {
 
     return (
       <span {...mainParams}>
-        {(label && (
+        {label && (
           <FormLabel
             id={id + '-label'}
             for_id={id}
             text={label}
-            direction={label_direction}
+            label_direction={label_direction}
+            sr_only={label_sr_only}
             disabled={isTrue(disabled)}
           />
-        )) || (
-          <span className="dnb-date-picker__helper" aria-hidden>
-            {'-'}
-          </span>
         )}
 
         <span
@@ -721,6 +785,7 @@ export default class DatePicker extends PureComponent {
           ref={this._innerRef}
           {...pickerParams}
         >
+          <AlignmentHelper />
           {showStatus && (
             <FormStatus
               id={id + '-form-status'}
@@ -732,93 +797,110 @@ export default class DatePicker extends PureComponent {
               animation={status_animation}
             />
           )}
-          <span className="dnb-date-picker__shell">
-            <DatePickerInput
-              id={id}
-              title={title}
-              disabled={isTrue(disabled)}
-              maskOrder={mask_order}
-              maskPlaceholder={mask_placeholder}
-              range={isTrue(range)}
-              startDate={startDate}
-              endDate={endDate}
-              minDate={minDate}
-              maxDate={maxDate}
-              showInput={showInput}
-              inputElement={input_element}
-              opened={opened}
-              status={status ? 'error' : null}
-              status_state={status_state}
-              // status_animation={status_animation}
-              {...inputParams}
-              submitAttributes={submitParams}
-              onChange={this.onInputChange}
-              onFocus={this.showPicker}
-              onSubmit={this.togglePicker}
-              onSubmitButtonFocus={this.onSubmitButtonFocus}
-            />
-            <span className="dnb-date-picker__container">
-              <span
-                className="dnb-date-picker__triangle"
-                ref={this._triangleRef}
+          <span className="dnb-date-picker__row">
+            <span className="dnb-date-picker__shell">
+              <DatePickerInput
+                id={id}
+                title={title}
+                disabled={isTrue(disabled)}
+                maskOrder={mask_order}
+                maskPlaceholder={mask_placeholder}
+                range={isTrue(range)}
+                startDate={startDate}
+                endDate={endDate}
+                minDate={minDate}
+                maxDate={maxDate}
+                showInput={showInput}
+                selectedDateTitle={selectedDateTitle}
+                input_element={input_element}
+                opened={opened}
+                hidden={hidden}
+                status={status ? 'error' : null}
+                status_state={status_state}
+                // status_animation={status_animation}
+                {...inputParams}
+                submitAttributes={submitParams}
+                onChange={this.onInputChange}
+                onFocus={this.showPicker}
+                onSubmit={this.togglePicker}
+                onSubmitButtonFocus={this.onSubmitButtonFocus}
               />
-              {!hidden && (
-                <>
-                  <DatePickerRange
-                    id={id}
-                    range={isTrue(range)}
-                    firstDayOfWeek={first_day}
-                    minDate={minDate}
-                    maxDate={maxDate}
-                    locale={locale}
-                    resetDate={isTrue(reset_date)}
-                    link={isTrue(link)}
-                    sync={isTrue(sync)}
-                    hideDays={isTrue(hide_days)}
-                    hideNav={isTrue(hide_navigation)}
-                    views={
-                      isTrue(hide_navigation_buttons)
-                        ? [{ nextBtn: false, prevBtn: false }]
-                        : null
-                    }
-                    onlyMonth={isTrue(only_month)}
-                    hideNextMonthWeek={isTrue(hide_last_week)}
-                    noAutofocus={isTrue(disable_autofocus)}
-                    onChange={this.onPickerChange}
-                    month={month}
-                    startMonth={startMonth}
-                    endMonth={endMonth}
-                    startDate={startDate}
-                    endDate={endDate}
-                  />
-                  {(addon_element || shortcuts) && (
-                    <DatePickerAddon
-                      {...props}
+              <span className="dnb-date-picker__container">
+                <span
+                  className="dnb-date-picker__triangle"
+                  ref={this._triangleRef}
+                />
+                {!hidden && (
+                  <>
+                    <DatePickerRange
+                      id={id}
+                      range={isTrue(range)}
+                      firstDayOfWeek={first_day}
+                      minDate={minDate}
+                      maxDate={maxDate}
+                      locale={locale}
+                      resetDate={isTrue(reset_date)}
+                      link={isTrue(link)}
+                      sync={isTrue(sync)}
+                      hideDays={isTrue(hide_days)}
+                      hideNav={isTrue(hide_navigation)}
+                      views={
+                        isTrue(hide_navigation_buttons)
+                          ? [{ nextBtn: false, prevBtn: false }]
+                          : null
+                      }
+                      onlyMonth={isTrue(only_month)}
+                      hideNextMonthWeek={isTrue(hide_last_week)}
+                      noAutofocus={isTrue(disable_autofocus)}
+                      onChange={this.onPickerChange}
+                      month={month}
+                      startMonth={startMonth}
+                      endMonth={endMonth}
                       startDate={startDate}
                       endDate={endDate}
-                      onChange={this.onPickerChange}
-                      renderElement={addon_element}
-                      shortcuts={shortcuts}
+                      enableKeyboardNav={
+                        isTrue(enable_keyboard_nav)
+                        // || userUsesKeyboard // NB: We could extend this in future to be more smart
+                      }
                     />
-                  )}
-                  <DatePickerFooter
-                    {...props}
-                    range={isTrue(range)}
-                    onSubmit={
-                      (isTrue(range) || isTrue(show_submit_button)) &&
-                      this.onSubmitHandler
-                    }
-                    onCancel={
-                      (isTrue(range) || isTrue(show_cancel_button)) &&
-                      this.onCancelHandler
-                    }
-                    onReset={
-                      isTrue(show_reset_button) && this.onResetHandler
-                    }
-                  />
-                </>
-              )}
+                    {(addon_element || shortcuts) && (
+                      <DatePickerAddon
+                        {...props}
+                        startDate={startDate}
+                        endDate={endDate}
+                        onChange={this.onPickerChange}
+                        renderElement={addon_element}
+                        shortcuts={shortcuts}
+                      />
+                    )}
+                    <DatePickerFooter
+                      {...props}
+                      range={isTrue(range)}
+                      selectedDateTitle={selectedDateTitle}
+                      onSubmit={
+                        (isTrue(range) || isTrue(show_submit_button)) &&
+                        this.onSubmitHandler
+                      }
+                      onCancel={
+                        (isTrue(range) || isTrue(show_cancel_button)) &&
+                        this.onCancelHandler
+                      }
+                      onReset={
+                        isTrue(show_reset_button) && this.onResetHandler
+                      }
+                    />
+                  </>
+                )}
+              </span>
             </span>
+            {suffix && (
+              <span
+                className="dnb-date-picker__suffix"
+                id={id + '-suffix'} // used for "aria-describedby"
+              >
+                <Suffix {...props}>{suffix}</Suffix>
+              </span>
+            )}
           </span>
         </span>
       </span>

@@ -20,7 +20,7 @@ Read more how to use the [different weights](/uilib/typography/font-weights/).
 
 ## Font Face
 
-The DNB default Font Family is `Fedra Sans Std`. This font, together with it's weights is loaded and imported with `@font-face` in `/css/core/fonts.scss`. The font family is included in the library package.
+The DNB default Font Family is `DNB`. This font, together with it's weights is loaded and imported with `@font-face` in `/css/core/fonts.scss`. The font family is included in the library package.
 
 ## Headings
 
@@ -60,23 +60,23 @@ import { H1, H2, Lead, P, Link, ... } from 'dnb-ui-lib/elements'
 
 <CodeBlock reactLive hideCode caption="Default Heading typography">
 {`
-<h1 class="dnb-h1">H1</h1>
-<h2 class="dnb-h2">H2</h2>
-<h3 class="dnb-lead">Lead</h3>
+<h1 className="dnb-h1">H1</h1>
+<h2 className="dnb-h2">H2</h2>
+<h3 className="dnb-lead">Lead</h3>
 `}
 </CodeBlock>
 
 <CodeBlock reactLive hideCode data-dnb-test="heading-additional" caption="Additional Heading typography">
 {`
 <article>
-  <h1 class="dnb-h1">
+  <h1 className="dnb-h1">
     <small>Small H1</small> Normal H1
   </h1>
-  <h1 class="dnb-h1 dnb-h1--small">Small H1 with class</h1>
-  <h2 class="dnb-h2">
+  <h1 className="dnb-h1 dnb-h1--small">Small H1 with class</h1>
+  <h2 className="dnb-h2">
     Normal H2 <small>Small H2</small>
   </h2>
-  <h3 class="dnb-lead">
+  <h3 className="dnb-lead">
     Normal H3/Lead <small>Small H3/Lead</small>
   </h3>
 </article>
@@ -88,8 +88,8 @@ import { H1, H2, Lead, P, Link, ... } from 'dnb-ui-lib/elements'
 Paragraph comes in several variants. You can use these classes:
 
 - `.dnb-p` (Body)
-- `.dnb-p--demi`
 - `.dnb-p--medium`
+- `.dnb-p--bold`
 - `.dnb-p--ingress`
 - `.dnb-p--small`
 
@@ -98,12 +98,12 @@ Paragraph comes in several variants. You can use these classes:
   <ComponentBox hideOnTest caption="Default paragraph typography using React JSX">
   {`
   <P>Paragraph (Body)</P>
-  <P style_type="demi">Paragraph Demi</P>
   <P style_type="medium">Paragraph Medium</P>
+  <P style_type="bold">Paragraph Bold</P>
   <P style_type="ingress">Paragraph Ingress</P>
   <P style_type="small">Paragraph Small</P>
-  <P style_type="small demi">Paragraph Demi Small</P>
   <P style_type="small medium">Paragraph Medium Small</P>
+  <P style_type="small bold">Paragraph Bold Small</P>
   `}
   </ComponentBox>
 
@@ -111,15 +111,15 @@ Paragraph comes in several variants. You can use these classes:
 
 <CodeBlock reactLive hideCode data-dnb-test="paragraph-default" caption="Default Paragraph styles">
 {`
-<p class="dnb-p">
+<p className="dnb-p">
   Here is a paragraph text<br />
-  <a href="/" class="dnb-anchor">Anchor / Text Link</a><br />
+  <a href="/" className="dnb-anchor">Anchor / Text Link</a><br />
   <b>Bold paragraph</b><br />
   <strong>Strong paragraph</strong><br />
   <i>Italic paragraph</i><br />
   <u>Underline paragraph</u><br />
   Numbers 0123456789<br />
-  <code class="dnb-code">Code paragraph</code><br />
+  <code className="dnb-code">Code paragraph</code><br />
   <cite>Cite paragraph</cite><br />
 </p>
 `}
@@ -127,23 +127,27 @@ Paragraph comes in several variants. You can use these classes:
 
 <CodeBlock reactLive hideCode data-dnb-test="paragraph-small" caption="Paragraph with small font-size">
 {`
-<p class="dnb-p dnb-p--small">
+<p className="dnb-p dnb-p--small">
   Here is a small paragraph text<br />
-  <a href="/" class="dnb-anchor">Anchor / Text Link</a><br />
+  <a href="/" className="dnb-anchor">Anchor / Text Link</a><br />
   <b>Bold paragraph</b><br />
   <strong>Strong paragraph</strong><br />
   <i>Italic paragraph</i><br />
   <u>Underline paragraph</u><br />
   Numbers 0123456789<br />
-  <code class="dnb-code">Code paragraph</code><br />
+  <code className="dnb-code">Code paragraph</code><br />
   <cite>Cite paragraph</cite><br />
+</p>
+<p className="dnb-p dnb-p--x-small">
+  Here is a x-small paragraph text<br />
+  with a new line.
 </p>
 `}
 </CodeBlock>
 
 <CodeBlock reactLive hideCode data-dnb-test="paragraph-additional" caption="Additional Paragraph formatting (not defined yet)">
 {`
-<p class="dnb-p">
+<p className="dnb-p">
   <del>Deleted paragraph</del><br />
   <mark>Marked paragraph</mark><br />
   <ins>Inserted paragraph</ins><br />

@@ -5,12 +5,12 @@ import { gridStyle } from './GridStyle'
 import classnames from 'classnames'
 
 const WrapperDiv = styled.div`
-  width: 100%;
   min-height: 100vh;
   margin: 0;
 
   :not(.show-overflow) {
     overflow: hidden;
+    width: 100%;
   }
 `
 const Grid = styled.div`

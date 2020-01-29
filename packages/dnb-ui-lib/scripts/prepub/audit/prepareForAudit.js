@@ -17,7 +17,7 @@ import prettier from 'prettier'
 // }
 
 function renameDependencies(direction = 'auto') {
-  new Promise(async (resolve, reject) => {
+  return async () => {
     const filepath = path.resolve(packpath.self(), './package.json')
     const packageJson = JSON.parse(
       (await fs.readFile(filepath)).toString()
@@ -56,7 +56,7 @@ function renameDependencies(direction = 'auto') {
           break
       }
     } catch (e) {
-      reject(e)
+      throw new Error(e)
     }
 
     const prettierrc = JSON.parse(
@@ -73,9 +73,7 @@ function renameDependencies(direction = 'auto') {
     })
 
     await fs.writeFile(filepath, formattedPackageJson)
-
-    resolve()
-  })
+  }
 }
 
 export default renameDependencies

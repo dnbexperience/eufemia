@@ -42,36 +42,26 @@
   border: var(--button-border-width) solid transparent;
   border-radius: var(--button-border-radius);
 
-  &,
-  .dnb-core-style & {
-    font-size: var(--button-font-size);
-    line-height: var(--button-height);
-  }
   text-decoration: none;
 
-  &__icon {
-    line-height: var(
-      --line-height-x-small--em
-    ); // vertical alignment, if we have no line-height
-    &:not(.dnb-icon) svg:not([width]):not([height]) {
-      width: var(--button-icon-size);
-      height: var(--button-icon-size);
-    }
+  font-size: var(--font-size-small); // has to be 16px
 
-    // vertical alignment
-    [data-os='win'] & {
-      transform: translateY(-0.0625rem);
-    }
+  // Safari needs a correct CSS specificity
+  &,
+  .dnb-core-style & {
+    line-height: var(--button-height);
   }
+
   &__text {
-    line-height: var(--line-height-x-small--em);
+    font-size: var(--button-font-size);
+    line-height: var(
+      --line-height-xx-small--em
+    ); // because of the background-color
     color: inherit;
     background-color: inherit;
 
     // vertical alignment
-    [data-os='mac'] & {
-      transform: translateY(0.0625rem);
-    }
+    transform: translateY(-0.03125rem); // 0.5px
   }
 
   &__bounding {
@@ -88,8 +78,13 @@
     width: var(--button-width--small);
     height: var(--button-height--small);
     font-size: var(--button-font-size-small);
-    line-height: var(--button-height--small);
     border-radius: var(--button-border-radius--small);
+
+    // Safari needs a correct CSS specificity
+    &,
+    .dnb-core-style & {
+      line-height: var(--button-height--small);
+    }
   }
   &--has-text#{&}--size-small {
     padding-left: 1rem;
@@ -106,8 +101,13 @@
   &--size-medium {
     width: var(--button-width--medium);
     height: var(--button-height--medium);
-    line-height: var(--button-height--medium);
     border-radius: var(--button-border-radius--medium);
+
+    // Safari needs a correct CSS specificity
+    &,
+    .dnb-core-style & {
+      line-height: var(--button-height--medium);
+    }
   }
   &--has-text#{&}--size-medium {
     padding-left: 1rem;
@@ -124,8 +124,13 @@
   &--size-large {
     width: var(--button-width--large);
     height: var(--button-height--large);
-    line-height: var(--button-height--large);
     border-radius: var(--button-border-radius--large);
+
+    // Safari needs a correct CSS specificity
+    &,
+    .dnb-core-style & {
+      line-height: var(--button-height--large);
+    }
   }
   &--has-text#{&}--size-large {
     padding-left: 2rem;
@@ -165,6 +170,19 @@
     .dnb-button__text {
       order: 1;
     }
+  }
+
+  &:not(.dnb-button--has-text) &__icon {
+    width: inherit;
+  }
+  &__icon.dnb-icon svg:not([width]):not([height]) {
+    width: var(--button-icon-size);
+    height: var(--button-icon-size);
+  }
+  [href] > &__icon.dnb-icon {
+    // has same as &__text
+    // only on a.dnb-button it have to be the same, else the icon will push down the button 1px
+    line-height: var(--button-font-size);
   }
 
   // Button with icon and text - icon on LEFT side
@@ -243,15 +261,4 @@
 /* Firefox includes a hidden border which messes up button dimensions */
 button.dnb-button::-moz-focus-inner {
   border: none;
-}
-
-// make sure we style an Anchor like a button
-a.dnb-button {
-  // some correction
-  .dnb-button__icon {
-    transform: translateY(0);
-  }
-  .dnb-button__text {
-    transform: translateY(0.0625rem);
-  }
 }

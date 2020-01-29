@@ -35,6 +35,7 @@ const propTypes = {
   label_direction: PropTypes.oneOf(['vertical', 'horizontal']),
   direction: PropTypes.oneOf(['vertical', 'horizontal']),
   vertical: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  sr_only: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
 
   /** React props */
   className: PropTypes.string,
@@ -59,6 +60,7 @@ const defaultProps = {
   label_direction: null,
   direction: null,
   vertical: null,
+  sr_only: null,
 
   /** React props */
   className: null,
@@ -86,11 +88,12 @@ export default class FormLabel extends PureComponent {
   }
 
   render() {
-    // consume the formRow context
-    const props = this.context.formRow
-      ? // use only the props from context, who are available here anyway
-        extendPropsWithContext(this.props, this.context.formRow)
-      : this.props
+    // use only the props from context, who are available here anyway
+    const props = extendPropsWithContext(
+      this.props,
+      defaultProps,
+      this.context.formRow
+    )
 
     const {
       for_id,
@@ -101,7 +104,8 @@ export default class FormLabel extends PureComponent {
       disabled,
       label_direction,
       direction, // eslint-disable-line
-      vertical, // eslint-disable-line
+      vertical,
+      sr_only,
       class: _className,
 
       text: _text, // eslint-disable-line
@@ -114,15 +118,13 @@ export default class FormLabel extends PureComponent {
     const params = {
       className: classnames(
         'dnb-form-label',
-        // label_direction && `dnb-form-label--${label_direction}`,
-        (isTrue(this.props.vertical) ||
-          this.props.direction ||
-          label_direction) &&
-          `dnb-form-label--${
-            isTrue(this.props.vertical)
-              ? 'vertical'
-              : this.props.direction || label_direction
-          }`,
+        (isTrue(vertical) || label_direction === 'vertical') &&
+          `dnb-form-label--vertical`,
+        // "direction" is not in use
+        // direction && `dnb-form-label--${direction}`,
+        // we set and use "label_direction" above
+        // label_direction && `dnb-form-label--${label_direction}-label`,
+        isTrue(sr_only) && 'dnb-form-label--sr-only',
         createSpacingClasses(props),
         className,
         _className
@@ -136,6 +138,14 @@ export default class FormLabel extends PureComponent {
 
     // also used for code markup simulation
     validateDOMAttributes(this.props, params)
+
+    if (isTrue(sr_only)) {
+      return (
+        <Element is={element} {...params}>
+          {content}
+        </Element>
+      )
+    }
 
     return (
       <Element is={element} {...params}>

@@ -17,7 +17,11 @@
   // use flex to make sure we have the whole space available
   display: flex;
 
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-basis);
+
   &--vertical {
+    display: flex;
     width: auto;
     height: 100%;
 
@@ -31,16 +35,12 @@
 
     flex: 1;
     width: 100%;
-
-    transform: translateY(-0.25rem);
   }
   &--vertical &__wrapper {
     align-items: center;
 
     width: auto;
     height: 100%;
-
-    transform: translateY(0);
   }
 
   &__inner {
@@ -50,12 +50,27 @@
     height: var(--slider-thumb-size);
   }
 
+  &__suffix {
+    align-self: center;
+    padding-left: 0.5rem;
+  }
+  &--vertical &__suffix {
+    padding-left: 0;
+    padding-top: 0.5rem;
+  }
+
   &__track {
+    // make sure we do not alow page scroll on touch devices
+    touch-action: none;
+
     position: relative;
     flex: 1;
 
     // makre room again for the negative line manipulation
     margin: 0 calc(var(--slider-space) * 1.5);
+
+    // only to make sure we have a visible track
+    min-width: 2rem;
 
     cursor: pointer;
 
@@ -89,6 +104,10 @@
   }
   &--vertical &__track {
     margin: calc(var(--slider-space) * 1.5) 0;
+
+    // only to make sure we have a visible track
+    min-height: 2rem;
+    min-width: auto;
 
     &::before,
     &::after {
@@ -160,7 +179,7 @@
     bottom: 0;
   }
 
-  &__helper,
+  &__button-helper,
   &__thumb {
     position: absolute;
     left: 0;
@@ -184,9 +203,11 @@
   }
 
   &__button {
-    transform: translateY(0.25rem);
     height: var(--slider-button-size);
     width: var(--slider-button-size);
+
+    line-height: var(--slider-button-size);
+    transform: translateY(0.25rem);
   }
   &--vertical &__button {
     transform: translateX(0.25rem);
@@ -204,19 +225,20 @@
   }
 
   // make sure the helper is not click able
-  &__helper {
+  &__button-helper {
     pointer-events: none;
     z-index: 2;
     opacity: 0;
 
     transform: translate3d(0.0625rem, 0, 0);
   }
-  &__helper:not(:disabled):focus ~ .dnb-button {
+  &__button-helper:not(:disabled):focus ~ .dnb-button {
     @include fakeFocus();
   }
 
   > .dnb-form-label {
     margin-right: 1rem;
+    line-height: var(--slider-thumb-size);
   }
   &__label--vertical {
     flex-direction: column;
@@ -240,11 +262,17 @@
     margin-top: 1rem;
   }
 
-  @media (max-width: 40em) {
-    flex-direction: column;
-    align-items: flex-start;
-    > .dnb-form-label {
+  .dnb-responsive-component & {
+    @media (max-width: 40em) {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+
       margin-bottom: 0.5rem;
+
+      > .dnb-form-label {
+        margin-bottom: 0.5rem;
+      }
     }
   }
 

@@ -23,7 +23,7 @@ const props = {
     all: true,
     optional: true
   }),
-  inputElement: null,
+  input_element: null,
   disabled: false
 }
 props.id = 'input'
@@ -31,7 +31,7 @@ props.autocomplete = 'off'
 props.label = null
 props.submit_button_variant = 'secondary'
 props.status = null // to make sure we don't get aria-details
-props.description = null // to make sure we don't get aria-details
+props.suffix = null // to make sure we don't get aria-details
 props.type = 'text'
 
 describe('Input component', () => {
@@ -210,7 +210,7 @@ describe('Input component', () => {
     const Comp = mount(
       <Component {...props} status="status" status_state="error" />
     )
-    expect(Comp.find('.dnb-form-status').text()).toBe('status')
+    expect(Comp.find('.dnb-form-status--text').text()).toBe('status')
   })
 
   it('has a disabled attribute, once we set disabled to true', () => {
@@ -232,12 +232,12 @@ describe('Input component', () => {
       </Component>
     )
 
-    const Button = Comp.find('SubmitButton').find('button')
+    const Button = Comp.find('InputSubmitButton').find('button')
     expect(Button.exists()).toBe(true)
 
     Button.simulate('focus')
     expect(
-      Comp.find('SubmitButton')
+      Comp.find('InputSubmitButton')
         .find('.dnb-input__submit-button')
         .prop('data-input-state')
     ).toBe('focus')

@@ -16,21 +16,21 @@ describe('Dropdown screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+  it('have to match the closed dropdown with focus', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-dnb-test="dropdown-closed"] .dnb-dropdown__inner',
+      simulateSelector:
+        '[data-dnb-test="dropdown-closed"] .dnb-dropdown__trigger',
+      simulate: 'focus' // should be tested first
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
   it('have to match the closed dropdown with hover', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-dnb-test="dropdown-closed"] .dnb-dropdown__inner',
       simulateSelector:
         '[data-dnb-test="dropdown-closed"] .dnb-dropdown__trigger',
       simulate: 'hover'
-    })
-    expect(screenshot).toMatchImageSnapshot()
-  })
-  it('have to match the closed dropdown with focus', async () => {
-    const screenshot = await testPageScreenshot({
-      selector: '[data-dnb-test="dropdown-closed"] .dnb-dropdown__inner',
-      simulateSelector:
-        '[data-dnb-test="dropdown-closed"] .dnb-dropdown__trigger',
-      simulate: 'focus'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -48,10 +48,10 @@ describe('Dropdown screenshot', () => {
       selector: '[data-dnb-test="dropdown-closed"] .dnb-dropdown__inner',
       simulateSelector:
         '[data-dnb-test="dropdown-closed"] .dnb-dropdown__trigger',
-      simulate: 'click',
+      simulate: 'click'
       // waitAfterSimulateSelector:
       //   '[data-dnb-test="dropdown-closed"] .dnb-dropdown__options',
-      waitAfterSimulate: 100 // to make sure we make the screenshot afte the animation is show
+      // waitAfterSimulate: 100 // to make sure we make the screenshot afte the animation is show
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -83,10 +83,10 @@ describe('Dropdown screenshot', () => {
       selector: '[data-dnb-test="dropdown-more_menu"]',
       simulateSelector:
         '[data-dnb-test="dropdown-more_menu"] .dnb-dropdown:nth-of-type(1) .dnb-dropdown__trigger',
-      simulate: 'click',
+      simulate: 'click'
       // waitAfterSimulateSelector:
       //   '[data-dnb-test="dropdown-more_menu"] .dnb-dropdown:nth-of-type(1) .dnb-dropdown__options',
-      waitAfterSimulate: 100 // to make sure we make the screenshot afte the animation is show
+      // waitAfterSimulate: 100 // to make sure we make the screenshot afte the animation is show
     })
     expect(screenshot).toMatchImageSnapshot()
   })

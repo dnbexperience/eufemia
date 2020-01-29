@@ -11,6 +11,7 @@ const propTypes = {
   submit_button_text: PropTypes.string,
   cancel_button_text: PropTypes.string,
   reset_button_text: PropTypes.string,
+  selectedDateTitle: PropTypes.string,
   onSubmit: PropTypes.oneOfType([PropTypes.bool, PropTypes.func]),
   onCancel: PropTypes.oneOfType([PropTypes.bool, PropTypes.func]),
   onReset: PropTypes.oneOfType([PropTypes.bool, PropTypes.func])
@@ -20,6 +21,7 @@ const defaultProps = {
   submit_button_text: null,
   cancel_button_text: null,
   reset_button_text: null,
+  selectedDateTitle: null,
 
   // events
   onSubmit: null,
@@ -57,6 +59,7 @@ export default class DatePickerFooter extends PureComponent {
       onSubmit,
       onCancel,
       onReset,
+      selectedDateTitle,
       submit_button_text,
       cancel_button_text,
       reset_button_text
@@ -69,6 +72,11 @@ export default class DatePickerFooter extends PureComponent {
         {(onSubmit && (
           <Button
             text={submit_button_text}
+            aria-label={
+              selectedDateTitle
+                ? `${submit_button_text}, ${selectedDateTitle}`
+                : submit_button_text
+            }
             onClick={this.onSubmitHandler}
           />
         )) || <span />}

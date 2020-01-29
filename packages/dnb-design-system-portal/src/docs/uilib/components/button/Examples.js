@@ -28,13 +28,14 @@ class Example extends PureComponent {
         <ComponentBox>
           {/* @jsx */ `
 <Button
-  text="Secondary button with text only"
   variant="secondary"
   onClick={() => {
     console.log('onClick')
   }}
   data-dnb-test="button-secondary"
-/>
+>
+  Secondary button with text only
+</Button>
           `}
         </ComponentBox>
         <ComponentBox>
@@ -88,23 +89,26 @@ class Example extends PureComponent {
 />
           `}
         </ComponentBox>
-        <ComponentBox>
+        <ComponentBox data-dnb-test="button-anchor">
           {/* @jsx */ `
 <Button
-  text="Primary button with href"
+  text="Primary with href"
   href="?no-cache=1"
-  title="This is a link"
   icon_position="right"
   icon="chevron_right"
-  data-dnb-test="button-anchor"
 />
 <Button
   variant="secondary"
-  text="Secondary button with href"
+  text="Secondary with href"
   href="?no-cache=1"
-  title="This is a link"
   icon_position="left"
   icon="chevron_left"
+/>
+<Button
+  href="?no-cache=1"
+  title="This is a link"
+  icon="chevron_right"
+  size="default"
 />
           `}
         </ComponentBox>
@@ -158,6 +162,11 @@ class Example extends PureComponent {
 <Button
   title="Button with custom, Secondary Icon only"
   icon={question}
+/>
+<Button
+  title="Button with status"
+  icon={question}
+  status="error"
 />
           `}
         </ComponentBox>

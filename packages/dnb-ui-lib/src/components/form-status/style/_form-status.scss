@@ -20,11 +20,6 @@
     cursor: text;
     color: inherit;
     line-height: var(--line-height-basis);
-
-    // vertical alignment
-    [data-os='mac'] & {
-      transform: translateY(0.0625rem);
-    }
   }
 
   .dnb-icon + &--text {
@@ -45,6 +40,9 @@
     color: inherit;
 
     font-size: var(--font-size-basis);
+
+    // vertical alignment
+    transform: translateY(-0.125rem);
   }
 
   &[hidden] {

@@ -15,7 +15,9 @@ import {
   validateDOMAttributes
   // processChildren
 } from '../../shared/component-helper'
+import AlignmentHelper from '../../shared/AlignmentHelper'
 import Context from '../../shared/Context'
+import hashSum from '../../shared/libs/HashSum'
 import FormLabel from '../form-label/FormLabel'
 import { createSpacingClasses } from '../space/SpacingHelper'
 
@@ -31,6 +33,7 @@ export const propTypes = {
     PropTypes.node
   ]),
   label_direction: PropTypes.oneOf(['vertical', 'horizontal']),
+  label_sr_only: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   label_id: PropTypes.string,
   label_class: PropTypes.string,
   no_label: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -65,6 +68,7 @@ const defaultProps = {
   id: null,
   label: null,
   label_direction: null,
+  label_sr_only: null,
   label_id: null,
   label_class: null,
   no_label: false,
@@ -113,7 +117,7 @@ export default class FormRow extends PureComponent {
 
     if (Array.isArray(props.children)) {
       children = children.reduce((pV, cV) => {
-        if (cV.type.name === 'FormLabel') {
+        if (cV.type && cV.type.name === 'FormLabel') {
           label = cV.props.children
         } else {
           pV.push(cV)
@@ -125,23 +129,27 @@ export default class FormRow extends PureComponent {
     return { label, children }
   }
 
-  constructor(props, context) {
+  constructor(props) {
     super(props)
-    this.isInsideFormSet =
-      context.formRow && context.formRow.isInsideFormSet
     this._id = props.id || makeUniqueId() // cause we need an id anyway
+
+    // Not used yet
+    // this.isInsideFormSet =
+    //   context.formRow && context.formRow.isInsideFormSet
   }
 
   render() {
-    // consume the formRow context
-    const props = this.context.formRow
-      ? // use only the props from context, who are available here anyway
-        extendPropsWithContext(this.props, this.context.formRow)
-      : this.props
+    // use only the props from context, who are available here anyway
+    const props = extendPropsWithContext(
+      this.props,
+      defaultProps,
+      this.context.formRow
+    )
 
     let {
       label,
       label_direction,
+      label_sr_only,
       label_id,
       label_class,
       no_fieldset,
@@ -185,7 +193,7 @@ export default class FormRow extends PureComponent {
         (isTrue(vertical) || label_direction) &&
           `dnb-form-row--${
             isTrue(vertical) ? 'vertical' : label_direction
-          }-label`,
+          }-label`, // <-- has label
         indent &&
           !(
             isNested &&
@@ -210,8 +218,22 @@ export default class FormRow extends PureComponent {
     // also used for code markup simulation
     validateDOMAttributes(this.props, params)
 
-    const context = extend(this.context, {
-      formRow: {
+    // NB: Update: Using hashSum on props i too CPU expensive
+    // Sollution is to only check one dimention by using "false"
+    // We could also check: if(this._cachedContext !== this.context)
+    // but not with props. So it's not a sollution
+
+    // NB: check if context has changed, if yes, then update the cache
+    // 1. Modal inside a FormRow will open on rerender without: this._cachedContext !== this.context
+    // 2. But then ToggleButton or any other props
+    if (
+      this._cachedContext !== hashSum(this.context, false) ||
+      this._cachedProps !== hashSum(this.props, false)
+    ) {
+      this._cachedContext = hashSum(this.context, false)
+      this._cachedProps = hashSum(this.props, false)
+
+      const formRow = {
         useId: () => {
           if (this.isIsUsed) {
             // make a new ID, as we used one
@@ -229,14 +251,19 @@ export default class FormRow extends PureComponent {
         label_direction: isTrue(vertical) ? 'vertical' : label_direction,
         disabled
       }
-    })
+      this._contextWeUse = extend(this.context, {
+        formRow
+      })
+    }
 
     const useFieldset = !isTrue(no_fieldset) && hasLabel
 
     return (
-      <Context.Provider value={context}>
+      <Context.Provider value={this._contextWeUse}>
         <Fieldset useFieldset={useFieldset}>
           <div {...params}>
+            <AlignmentHelper />
+
             {label && (
               <FormLabel
                 className={classnames('dnb-form-row__label', label_class)}
@@ -244,16 +271,19 @@ export default class FormRow extends PureComponent {
                 for_id={useFieldset ? null : id} // we don't use for_id, because we don't have a single element to target to
                 text={label}
                 element={useFieldset ? 'legend' : 'label'}
-                direction={label_direction}
+                label_direction={label_direction}
+                sr_only={label_sr_only}
                 disabled={isTrue(disabled)}
               />
             )}
+
             {isTrue(no_label) && (
               <span
                 className="dnb-form-label dnb-form-row__label-dummy"
                 aria-hidden
               />
             )}
+
             {isNested && skipContentWrapperIfNested ? (
               children
             ) : (
@@ -310,7 +340,7 @@ Fieldset.defaultProps = {
   className: null
 }
 
-export const prepareFormRowContext = (props = {}) => {
+export const prepareFormRowContext = props => {
   if (typeof props.label_direction === 'undefined') {
     props.label_direction = isTrue(props.vertical)
       ? 'vertical'

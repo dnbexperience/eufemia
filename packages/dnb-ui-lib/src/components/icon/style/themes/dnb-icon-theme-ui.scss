@@ -5,33 +5,25 @@
 
 .dnb-icon {
   &--border {
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
+    position: relative;
 
-    vertical-align: middle;
+    &::after {
+      content: '';
+      position: absolute;
+      left: -25%;
+      right: -25%;
+      top: -25%;
+      bottom: -25%;
 
-    color: inherit;
+      // Not needed, but maybe IE needs it?
+      // width: 150%;
+      // height: 150%;
 
-    border-radius: 50%;
-    // border: 0.0625em solid; // 1px
-    border: 0.09375em solid; // 1.5px
-    border-color: currentColor;
+      margin: auto; // for IE centering
 
-    // default size
-    width: 1.5em;
-    height: 1.5em;
-    svg {
-      width: 1em;
-      height: 1em;
-    }
-  }
-  &--border#{&}--medium {
-    width: 2em;
-    height: 2em;
-    svg {
-      width: 1.5em;
-      height: 1.5em;
+      border-radius: 50%;
+      border: 0.0875rem solid; // use 1.4px instead of 1.5 so webkit is rounding down
+      border-color: currentColor;
     }
   }
 }

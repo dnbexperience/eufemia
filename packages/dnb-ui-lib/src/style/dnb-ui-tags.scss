@@ -8,4 +8,7 @@
 
 // import and execute all HTML element tags
 @import './elements/ui-tags.scss';
-@include executeHTMLTags();
+
+.dnb-core-style {
+  @include executeHTMLTags();
+}

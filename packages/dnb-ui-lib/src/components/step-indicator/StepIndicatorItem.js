@@ -8,13 +8,17 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import {
   isTrue,
-  dispatchCustomElementEvent
+  dispatchCustomElementEvent,
+  isMac as isMacFunc
 } from '../../shared/component-helper'
-import { Dummy } from '../tabs/Tabs'
+// import { Dummy } from '../tabs/Tabs'
+
+let isMac = null
 
 export default class StepItem extends PureComponent {
   static propTypes = {
-    activeItem: PropTypes.number.isRequired,
+    title: PropTypes.string.isRequired,
+    activeItem: PropTypes.number,
     currentItem: PropTypes.number.isRequired,
     hide_numbers: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     use_navigation: PropTypes.oneOfType([
@@ -31,8 +35,7 @@ export default class StepItem extends PureComponent {
     is_current: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     url: PropTypes.string,
     url_future: PropTypes.string,
-    url_passed: PropTypes.string,
-    title: PropTypes.string.isRequired
+    url_passed: PropTypes.string
   }
   static defaultProps = {
     on_item_render: null,
@@ -47,7 +50,8 @@ export default class StepItem extends PureComponent {
     is_current: null,
     url: null,
     url_future: null,
-    url_passed: null
+    url_passed: null,
+    activeItem: null
   }
 
   constructor(props) {
@@ -88,6 +92,10 @@ export default class StepItem extends PureComponent {
   }
 
   render() {
+    if (isMac === null) {
+      isMac = isMacFunc()
+    }
+
     const {
       activeItem,
       currentItem,
@@ -129,19 +137,21 @@ export default class StepItem extends PureComponent {
       hasPassedAndIsCurrent = true
     }
 
-    const params = {
-      ...rest
-    }
-    if (currentItem == activeItem || isTrue(is_current)) {
-      params['aria-current'] = 'step'
-    }
+    const interactiveParams = { ...rest }
     if (
       !hasPassedAndIsCurrent &&
       currentItem > activeItem &&
       !isTrue(is_active)
     ) {
-      params['aria-disabled'] = true
+      interactiveParams['disabled'] = true
+      interactiveParams['aria-disabled'] = true
     }
+    interactiveParams.className = classnames(
+      'dnb-anchor',
+      interactiveParams['disabled'] && 'dnb-anchor--no-style',
+      'dnb-step-indicator__item-content',
+      'dnb-step-indicator__item-content--link'
+    )
 
     const StepItemWrapper = props => (
       <>
@@ -158,16 +168,16 @@ export default class StepItem extends PureComponent {
           {...props}
         >
           {title}
-          <Dummy>{title}</Dummy>
         </span>
       </>
     )
+
     let itemComponent = <StepItemWrapper />
 
     const props = {
       StepItem: StepItemWrapper,
       itemComponent,
-      params,
+      params: rest,
       props: this.props
     }
 
@@ -178,58 +188,64 @@ export default class StepItem extends PureComponent {
     }
 
     let child = null
-    if (hasPassedAndIsCurrent && isTrue(use_navigation)) {
+    if (isTrue(use_navigation)) {
       child = (
         <button
           type="button"
-          className="dnb-anchor dnb-step-indicator__item-content dnb-step-indicator__item-content--link"
           onClick={event =>
             this.onClickHandler({ event, item: this.props, currentItem })
           }
-          {...params}
+          {...interactiveParams}
           ref={this._ref}
         >
           {itemComponent}
         </button>
       )
-    } else if (hasPassedAndIsCurrent && url) {
+    } else if (url) {
       child = (
         <a
-          className="dnb-anchor dnb-step-indicator__item-content dnb-step-indicator__item-content--link"
           href={url}
           onClick={event =>
             this.onClickHandler({ event, item: this.props, currentItem })
           }
-          {...params}
+          {...interactiveParams}
         >
           {itemComponent}
         </a>
       )
     } else {
-      // to screen readers read both the nr. and the text in one sentence
-      params.role = 'text'
+      const contentParams = {}
+
+      // To screen readers read both the nr. and the text in one sentence
+      if (isMac) {
+        contentParams.role = 'text'
+      }
+
       child = (
         <span
           className="dnb-step-indicator__item-content dnb-step-indicator__item-content--static"
-          {...params}
+          {...contentParams}
         >
           {itemComponent}
         </span>
       )
     }
 
+    const itemParams = {}
+    if (currentItem === activeItem || isTrue(is_current)) {
+      itemParams['aria-current'] = 'step'
+    }
+
     return (
       <li
-        // In case we do not use the role="tab" - we could use aria-current instead of aria-selected
-        // role="tab"
-        // aria-selected={i === activeItem}
         className={classnames(
           'dnb-step-indicator__item',
-          currentItem === activeItem || isTrue(props.current)
+          currentItem === activeItem || isTrue(is_current)
             ? 'dnb-step-indicator--active'
             : null,
           currentItem < activeItem ? 'dnb-step-indicator--visited' : null
         )}
+        {...itemParams}
       >
         {child}
       </li>

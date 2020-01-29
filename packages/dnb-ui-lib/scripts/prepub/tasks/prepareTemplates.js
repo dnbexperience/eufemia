@@ -97,7 +97,7 @@ const prepareTemplates = async () => {
   }
   const elements = await runFactory(elementsTemplateConfig).then(res => {
     if (require.main === module) {
-      log.text = '> Created the index template with all the elements'
+      log.info('> Created the index template with all the elements')
     }
     return res
   })
@@ -112,7 +112,7 @@ const prepareTemplates = async () => {
     }
   }).then(res => {
     if (require.main === module) {
-      log.text = '> Created the index template with all the elements'
+      log.info('> Created the index template with all the elements')
     }
     return res
   })
@@ -135,7 +135,7 @@ const prepareTemplates = async () => {
   // const patterns =
   await runFactory(patternsTemplateConfig).then(res => {
     if (require.main === module) {
-      log.text = '> Created the index template with all the patterns'
+      log.info('> Created the index template with all the patterns')
     }
     return res
   })
@@ -150,7 +150,7 @@ const prepareTemplates = async () => {
     }
   }).then(res => {
     if (require.main === module) {
-      log.text = '> Created the lib template with all the patterns'
+      log.info('> Created the lib template with all the patterns')
     }
     return res
   })
@@ -174,7 +174,7 @@ const prepareTemplates = async () => {
     }
   }).then(res => {
     if (require.main === module) {
-      log.text = '> Created the main index with all the libs'
+      log.info('> Created the main index with all the libs')
     }
     return res
   })

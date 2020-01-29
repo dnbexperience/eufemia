@@ -31,11 +31,11 @@ jobs:
 
     - stage: deploy-preview
       name: Build a portal preview
-      script: yarn audit-ci && yarn lint-ci && yarn test-ci && yarn prebuild-ci && yarn build-ci && test-ci-screenshots
+      script: yarn audit-ci && yarn lint-ci && yarn test-ci && yarn prebuild-ci && yarn build-portal-ci && test-ci-screenshots
 
     - stage: deploy-release
       name: Deploy portal and make eventually NPM release
-      script: yarn audit-ci && yarn lint-ci && yarn test-ci && yarn prebuild-ci && yarn build-ci && test-ci-screenshots && yarn deploy-ci && yarn publish-ci
+      script: yarn audit-ci && yarn lint-ci && yarn test-ci && yarn prebuild-ci && yarn build-portal-ci && test-ci-screenshots && yarn deploy-ci && yarn publish-ci
 
 stages:
   - name: test

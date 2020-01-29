@@ -15,9 +15,11 @@ import {
   validateDOMAttributes,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
+import AlignmentHelper from '../../shared/AlignmentHelper'
 import { createSpacingClasses } from '../space/SpacingHelper'
 
 import Context from '../../shared/Context'
+import Suffix from '../../shared/helpers/Suffix'
 import FormLabel from '../form-label/FormLabel'
 import FormStatus from '../form-status/FormStatus'
 
@@ -46,6 +48,11 @@ const propTypes = {
   status_state: PropTypes.string,
   status_animation: PropTypes.string,
   global_status_id: PropTypes.string,
+  suffix: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.func,
+    PropTypes.node
+  ]),
   value: PropTypes.string,
   attributes: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   readOnly: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -74,6 +81,7 @@ const defaultProps = {
   status_state: 'error',
   status_animation: null,
   global_status_id: null,
+  suffix: null,
   value: null,
   attributes: null,
   readOnly: false,
@@ -174,11 +182,12 @@ export default class Checkbox extends Component {
   }
 
   render() {
-    // consume the formRow context
-    const props = this.context.formRow
-      ? // use only the props from context, who are available here anyway
-        extendPropsWithContext(this.props, this.context.formRow)
-      : this.props
+    // use only the props from context, who are available here anyway
+    const props = extendPropsWithContext(
+      this.props,
+      defaultProps,
+      this.context.formRow
+    )
 
     const {
       value,
@@ -186,8 +195,10 @@ export default class Checkbox extends Component {
       status_state,
       status_animation,
       global_status_id,
+      suffix,
       label,
       label_position,
+      label_sr_only,
       title,
       disabled,
       readOnly,
@@ -218,6 +229,7 @@ export default class Checkbox extends Component {
         status && `dnb-checkbox__status--${status_state}`,
         label &&
           `dnb-checkbox--label-position-${label_position || 'right'}`,
+        'dnb-form-component',
         createSpacingClasses(props),
         className,
         _className
@@ -231,8 +243,10 @@ export default class Checkbox extends Component {
       ...rest
     }
 
-    if (showStatus) {
-      inputParams['aria-describedby'] = id + '-status'
+    if (showStatus || suffix) {
+      inputParams['aria-describedby'] = `${
+        showStatus ? id + '-status' : ''
+      } ${suffix ? id + '-suffix' : ''}`
     }
     if (readOnly) {
       inputParams['aria-readonly'] = inputParams.readOnly = true
@@ -262,10 +276,14 @@ export default class Checkbox extends Component {
               for_id={id}
               text={label}
               disabled={disabled}
+              sr_only={label_sr_only}
             />
           )}
+
           <span className="dnb-checkbox__inner">
+            <AlignmentHelper />
             {label_position === 'left' && statusComp}
+
             <span className="dnb-checkbox__shell">
               <input
                 id={id}
@@ -281,16 +299,25 @@ export default class Checkbox extends Component {
                 onKeyDown={this.onKeyDownHandler}
                 ref={this._refInput}
               />
-              <span className="dnb-checkbox__helper" aria-hidden>
-                {'-'}
-              </span>
+
               <span className="dnb-checkbox__button" aria-hidden>
                 <span className="dnb-checkbox__focus" />
               </span>
+
               <CheckSVG />
             </span>
           </span>
+
+          {suffix && (
+            <span
+              className="dnb-checkbox__suffix"
+              id={id + '-suffix'} // used for "aria-describedby"
+            >
+              <Suffix {...props}>{suffix}</Suffix>
+            </span>
+          )}
         </span>
+
         {(label_position === 'right' || !label_position) && statusComp}
       </span>
     )

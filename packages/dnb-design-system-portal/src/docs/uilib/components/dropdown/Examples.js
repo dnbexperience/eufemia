@@ -10,11 +10,6 @@ import styled from '@emotion/styled'
 
 class Example extends PureComponent {
   render() {
-    const props =
-      typeof window !== 'undefined' && window.IS_TEST
-        ? { no_animation: true, no_scroll_animation: true }
-        : {}
-    console.log('props', props)
     return (
       <Fragment>
         <ComponentBox
@@ -67,7 +62,6 @@ render(
           data-dnb-test="dropdown-closed"
           useRender
           hideSyntaxButton
-          scope={{ props }}
         >
           {/* @jsx */ `
 const data = [
@@ -112,14 +106,13 @@ render(
     on_change={({ data: { selected_key } }) => {
       console.log('on_change', selected_key)
     }}
-    {...props}
   />
 )
           `}
         </ComponentBox>
         <ComponentBox
           caption="Default dropdown, icon on left side"
-          scope={{ data, props }}
+          scope={{ data }}
           data-dnb-test="dropdown-left-icon"
         >
           {/* @jsx */ `
@@ -134,14 +127,12 @@ render(
   on_show={() => {
     console.log('on_show')
   }}
-  {...props}
 />
           `}
         </ComponentBox>
         <ComponentBox
           caption="As **Popup Menu** - no lasting selection will be made"
           data-dnb-test="dropdown-more_menu"
-          scope={{ props }}
         >
           {/* @jsx */ `
 <Dropdown
@@ -150,7 +141,6 @@ render(
   title="Choose an item"
   data={() => ['Go this this Link', 'Or press on me', <>Custom component</>]}
   right="small"
-  {...props}
 />
 <Dropdown
   more_menu="true"
@@ -177,10 +167,19 @@ render(
 <Dropdown disabled data={['Disabled Dropdown']} label="Label:" />
           `}
         </ComponentBox>
+        <ComponentBox caption="Dropdown with suffix" scope={{ data }}>
+          {/* @jsx */ `
+<Dropdown
+  data={['Dropdown with suffix']}
+  label="Label:"
+  suffix={<Modal title="Modal Title">Modal content</Modal>}
+/>
+          `}
+        </ComponentBox>
         <ComponentBox
           caption="Dropdown with status and vertical label layout"
           data-dnb-test="dropdown-status-error"
-          scope={{ data, props }}
+          scope={{ data }}
         >
           {/* @jsx */ `
 <Dropdown
@@ -188,7 +187,6 @@ render(
   label="Label:"
   label_direction="vertical"
   status="Message to the user"
-  {...props}
 />
           `}
         </ComponentBox>

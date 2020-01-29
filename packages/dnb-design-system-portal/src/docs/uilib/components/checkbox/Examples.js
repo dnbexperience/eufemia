@@ -36,7 +36,6 @@ class Example extends PureComponent {
 <Checkbox
   label="Label:"
   label_position="left"
-  title="Ths is the title"
   checked
   on_change={({ checked }) => console.log(checked)}
 />
@@ -52,6 +51,15 @@ class Example extends PureComponent {
   label="Checkbox"
   checked
   status="Error message"
+/>
+          `}
+        </ComponentBox>
+        <ComponentBox caption="Checkbox with suffix" scope={{ onChange }}>
+          {/* @jsx */ `
+<Checkbox
+  label="Checkbox"
+  checked
+  suffix={<Modal title="Modal Title">Modal content</Modal>}
 />
           `}
         </ComponentBox>

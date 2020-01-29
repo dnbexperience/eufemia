@@ -35,7 +35,7 @@ describe('Table screenshot', () => {
       styleSelector,
       selector,
       simulateSelector: `${selector} button.dnb-button`,
-      simulate: 'focus'
+      simulate: 'focus' // should be tested first
     })
     expect(screenshot).toMatchImageSnapshot()
   })

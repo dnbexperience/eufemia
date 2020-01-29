@@ -49,10 +49,19 @@
       outline: none;
       border: none;
 
+      font-size: var(--font-size-basis);
+      line-height: var(--line-height-basis);
+
       // should be same as .lead small
-      &-title {
-        font-size: var(--font-size-basis);
+      &__title {
         white-space: nowrap;
+
+        .dnb-icon {
+          font-size: var(--font-size-small); // has to be 16px
+
+          // vertical alignment
+          transform: translateY(-0.125rem);
+        }
       }
 
       @include dummySpacing();

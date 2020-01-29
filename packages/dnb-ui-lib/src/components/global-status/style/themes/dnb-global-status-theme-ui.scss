@@ -12,39 +12,26 @@
       100vw 0.0625rem 0 0 var(--color-black-80);
   }
 
-  // &__content {
-  // red line
-  // &::after {
-  //   content: '';
-  //   position: absolute;
-  //   z-index: 1;
-  //   left: -100vw;
-  //   top: auto;
-  //   bottom: 0;
-  //   width: 100vw;
-  //   height: 1px;
-  //   color: var(--color-fire-red);
-  //   background-color: currentColor;
-  //   box-shadow: 10px 0 0 0 currentColor, 100vw 0 0 0 currentColor;
-  // }
-  // }
+  // because "--mint-green-12" is the defualt
+  // and we dont set a spesific state --> const style = state === 'info' ? null : 'fire-red'
+  &--info#{&}.dnb-section--mint-green-12::after {
+    color: var(--color-sea-green);
+  }
 
   &__title {
+    color: var(--color-white);
     &.dnb-p {
-      font-weight: var(--font-weight-demi);
+      font-weight: var(--font-weight-medium);
     }
   }
   &__icon {
     font-size: 1rem;
   }
-  &--error &__title {
-    color: var(--color-white);
-  }
   &__message {
     color: var(--color-black-80);
 
-    .dnb-p {
-      font-weight: var(--font-weight-demi);
+    & > .dnb-p {
+      font-weight: var(--font-weight-medium);
     }
 
     &.dnb-section--white ::selection {
@@ -53,8 +40,8 @@
   }
 
   // TODO: This has to be implemented as a contrast version
-  &--error &__close-button,
-  &--error &__close-button.dnb-button--tertiary {
+  &__close-button,
+  &__close-button.dnb-button--tertiary {
     color: var(--color-white);
 
     @include hover() {

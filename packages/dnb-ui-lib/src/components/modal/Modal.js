@@ -13,6 +13,8 @@ import {
   enableBodyScroll,
   clearAllBodyScrollLocks
 } from '../../shared/libs/bodyScrollLock'
+import { SuffixContext } from '../../shared/helpers/Suffix'
+import Context from '../../shared/Context'
 import {
   isTrue,
   makeUniqueId,
@@ -51,6 +53,7 @@ const propTypes = {
   trigger_icon: PropTypes.string,
   trigger_icon_position: PropTypes.string,
   trigger_class: PropTypes.string,
+  open_delay: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   content_id: PropTypes.string,
   close_title: PropTypes.string,
   hide_close_button: PropTypes.oneOfType([
@@ -107,6 +110,7 @@ const defaultProps = {
   trigger_icon: 'question',
   trigger_icon_position: 'left',
   trigger_class: null,
+  open_delay: null,
   content_id: null,
   close_title: 'Lukk', // Close Modal Window
   hide_close_button: false,
@@ -130,6 +134,7 @@ export default class Modal extends PureComponent {
   static tagName = 'dnb-modal'
   static propTypes = propTypes
   static defaultProps = defaultProps
+  static contextType = Context
   static modalRoot = null // gets later '.dnb-modal-root'
 
   static enableWebComponent() {
@@ -215,12 +220,20 @@ export default class Modal extends PureComponent {
       event.preventDefault()
     }
 
-    const modalActive =
-      showModal !== null ? showModal : !this.state.modalActive
-    this.setState({
-      modalActive,
-      _listenForPropChanges: false
-    })
+    const openModal = () => {
+      const modalActive =
+        showModal !== null ? showModal : !this.state.modalActive
+      this.setState({
+        modalActive,
+        _listenForPropChanges: false
+      })
+    }
+    const delay = parseFloat(this.props.open_delay)
+    if (delay > 0) {
+      setTimeout(openModal, delay)
+    } else {
+      openModal()
+    }
   }
   handleSideEffects = () => {
     if (!isTrue(this.props.direct_dom_return)) {
@@ -301,15 +314,18 @@ export default class Modal extends PureComponent {
     }
   }
   render() {
-    // consume the formRow context
-    const props = this.context.formRow
-      ? // use only the props from context, who are available here anyway
-        extendPropsWithContext(this.props, this.context.formRow)
-      : this.props
+    // use only the props from context, who are available here anyway
+    const props = extendPropsWithContext(
+      this.props,
+      defaultProps,
+      this.context.formRow,
+      this.context.translation.Modal
+    )
 
     const {
       id, // eslint-disable-line
       open_state, // eslint-disable-line
+      open_delay, // eslint-disable-line
       preventSetTriggerRef, // eslint-disable-line
       disabled,
       labelled_by,
@@ -334,42 +350,63 @@ export default class Modal extends PureComponent {
     }
 
     return (
-      <div className="dnb-modal">
-        {!isTrue(trigger_hidden) && (
-          <Button
-            id={this._id}
-            type="button"
-            variant={trigger_variant}
-            text={trigger_text}
-            title={trigger_title || props.title}
-            disabled={isTrue(disabled) || isTrue(trigger_disabled)}
-            icon={
-              trigger_icon !== 'question'
-                ? trigger_icon
-                : (!trigger_text || trigger_variant === 'tertiary') &&
-                  trigger_icon
-            }
-            icon_position={trigger_icon_position}
-            on_click={this.toggleOpenClose}
-            className={classnames(
-              'dnb-modal__trigger',
-              createSpacingClasses(props),
-              trigger_class
-            )}
-            innerRef={this._triggerRef}
-          />
-        )}
+      <SuffixContext.Consumer>
+        {suffixProps => {
+          const additional = {}
 
-        {modalActive && modal_content && (
-          <ModalRoot
-            {...rest}
-            labelled_by={labelled_by || this._id}
-            modal_content={modal_content}
-            closeModal={this.close}
-            toggleOpenClose={this.toggleOpenClose}
-          />
-        )}
-      </div>
+          const icon =
+            trigger_icon !== 'question'
+              ? trigger_icon
+              : (!trigger_text || trigger_variant === 'tertiary') &&
+                trigger_icon
+
+          // in case the modal is used in suffix and no title is given
+          // suffixProps.label is also available, so we could use that too
+          if (!rest.title && icon === 'question' && suffixProps) {
+            additional.title = this.context.translation.Modal.more_info
+          }
+
+          return (
+            <div className="dnb-modal">
+              {!isTrue(trigger_hidden) && (
+                <Button
+                  id={this._id}
+                  type="button"
+                  variant={trigger_variant}
+                  text={trigger_text}
+                  aria-label={
+                    props['aria-label'] ||
+                    trigger_title ||
+                    props.title ||
+                    additional.title
+                  }
+                  disabled={isTrue(disabled) || isTrue(trigger_disabled)}
+                  icon={icon}
+                  icon_position={trigger_icon_position}
+                  on_click={this.toggleOpenClose}
+                  className={classnames(
+                    'dnb-modal__trigger',
+                    createSpacingClasses(props),
+                    trigger_class
+                  )}
+                  innerRef={this._triggerRef}
+                />
+              )}
+
+              {modalActive && modal_content && (
+                <ModalRoot
+                  {...rest}
+                  labelled_by={labelled_by || this._id}
+                  modal_content={modal_content}
+                  closeModal={this.close}
+                  toggleOpenClose={this.toggleOpenClose}
+                  {...additional}
+                />
+              )}
+            </div>
+          )
+        }}
+      </SuffixContext.Consumer>
     )
   }
 }
@@ -470,8 +507,8 @@ class ModalContent extends PureComponent {
   static defaultProps = {
     labelled_by: null,
     content_id: null,
-    title: null,
-    close_title: null,
+    title: 'Lukk',
+    close_title: 'Lukk',
     hide_close_button: false,
     prevent_close: null,
     prevent_core_style: null,
@@ -633,6 +670,7 @@ class ModalContent extends PureComponent {
       close_title,
       hide_close_button,
       prevent_close, // eslint-disable-line
+      open_delay, // eslint-disable-line
       prevent_core_style,
       min_width: minWidth,
       max_width: maxWidth,

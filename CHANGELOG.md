@@ -1,3 +1,79 @@
+## January, 30. 2020
+
+### New DNB font
+
+General information: All existing and new components uses the new (and slightly larger) text styles, but the existing height of the components is not affected by this and has NOT changed.
+
+[Typography](/uilib/typography) changes:
+
+- **h1** `DNB Sans Medium` 48px / 56px line height
+- **h1 small** `DNB Sans Medium` 34px / 40px line height
+- **h2** `DNB Sans Medium` 26px / 32px line height
+- **h3 / Lead** `DNB Sans Medium` 20px / 28px line height
+- **Body text** `DNB Sans Regular` 18px / 24px line height
+- **Body text medium** `DNB Sans Medium` 18px / 24px line height
+- **Small text** `DNB Sans Regular` 16px / 20px line height
+- **Small text medium** `DNB Sans Medium` 16px / 20px line height
+- **X-Small text** `DNB Sans Regular` 14px / 16px line height
+- **X-Small text medium** `DNB Sans Medium` 14px / 16px line height
+
+**Number features** are removed as we do not need them anymore.
+
+### Colors
+
+[Colors](/uilib/usage/customisation/colors) changes:
+
+- `accent-yellow`, witch replaces `signal-yellow`
+- `accent-yellow-30`, witch replaces `signal-yellow-30`
+- `signal-orange` is moved from Profile to UX color
+
+New [Colors](/uilib/usage/customisation/colors):
+
+- Profile color `lavender`
+- Profile color `sand-yellow`
+- Profile color `pistachio`
+- UX color `success-green`
+
+### Icons
+
+- secondary `login` and `logout`
+
+### Components and Elements
+
+[Components](/uilib/components) and [Elements](/uilib/elements) features and changes:
+
+### Components changes
+
+- **Button** signal button changes:
+  - background color change (`accent-yellow`)
+  - text color change (`ocean-green`)
+  - outline color change (`ocean-green`)
+  - inactive / disabled color: `accent-yellow-30`
+- **Dropdown**
+  - dropdown text error state color: `fire-red`
+- **Table** header icon change: from `chevron` to `arrow`
+
+Get more details about the `dnb-ui-lib` [v6 release](/uilib/about-the-lib/releases/v6-info)
+
+## November, 30. 2019
+
+New [Icons](/icons):
+
+- primary `reset`
+- primary `reset`
+- primary `arrow_top`
+- primary `arrow_right`
+- primary `arrow_bottom`
+- primary `arrow_left`
+- secondary `settings`
+- secondary `home`
+- secondary `refresh`
+- secondary `add_file`
+- secondary `view_on`
+- secondary `view_off`
+
+Get more details about the `dnb-ui-lib` [v5.8 release](/uilib/about-the-lib/releases/v5.8-info)
+
 ## November, 16. 2019
 
 - New [secondary icons](/icons/secondary): `arrow_up`, `arrow_down`, `arrow_right`, `arrow_left`, `view`, `view_off`, `settings`, `refresh`, `add_file`
@@ -19,7 +95,7 @@
   1. secondary `save_alt_01` is now => primary `save`
   1. primary `error` got removed
 
-Get more details about the `dnb-ui-lib` [v5 releas](/uilib/about-the-lib/releases/v5-info)
+Get more details about the `dnb-ui-lib` [v5 release](/uilib/about-the-lib/releases/v5-info)
 
 ## October, 14. 2019
 

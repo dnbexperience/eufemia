@@ -20,44 +20,39 @@ const {
   testScreenshotOnPort
 } = require('./jestSetupScreenshots').config
 
-const startStaticServer = () =>
-  new Promise(async (resolve, reject) => {
-    try {
-      const portIsAvailable = await detectPort(testScreenshotOnPort)
-      if (testScreenshotOnPort === portIsAvailable) {
-        const root = path.resolve(
-          packpath.self(),
-          '../dnb-design-system-portal/public/'
-        )
-        // we do not use gatsby serve, as the thread hangs on
-        // serve({
-        //   directory: root,
-        //   open: false,
-        //   host: config.testScreenshotOnHost,
-        //   port: config.testScreenshotOnPort
-        // })
-        const params = {
-          host: testScreenshotOnHost,
-          port: testScreenshotOnPort,
-          root,
-          open: false,
-          watch: [],
-          quiet: isCI,
-          wait: 10e3
-        }
-        const server = liveServer.start(params)
-        const onDone = async () => {
-          server.removeListener('listening', onDone)
-          resolve()
-        }
-        server.addListener('listening', onDone)
-      } else {
-        resolve()
+const startStaticServer = async () => {
+  try {
+    const portIsAvailable = await detectPort(testScreenshotOnPort)
+    if (testScreenshotOnPort === portIsAvailable) {
+      const root = path.resolve(
+        packpath.self(),
+        '../dnb-design-system-portal/public/'
+      )
+      // we do not use gatsby serve, as the thread hangs on
+      // serve({
+      //   directory: root,
+      //   open: false,
+      //   host: config.testScreenshotOnHost,
+      //   port: config.testScreenshotOnPort
+      // })
+      const params = {
+        host: testScreenshotOnHost,
+        port: testScreenshotOnPort,
+        root,
+        open: false,
+        watch: [],
+        quiet: isCI,
+        wait: 10e3
       }
-    } catch (e) {
-      reject(e)
+      const server = liveServer.start(params)
+      const onDone = async () =>
+        await server.removeListener('listening', onDone)
+      server.addListener('listening', onDone)
     }
-  })
+  } catch (e) {
+    throw new Error(e)
+  }
+}
 
 module.exports = async function() {
   console.log(chalk.green('Setup Puppeteer'))

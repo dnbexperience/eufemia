@@ -2,15 +2,17 @@
 
 import React from 'react'
 
-const arrow_down_medium = props => (
-  <svg width={24} height={24} viewBox="0 0 24 24" fill="none" {...props}>
-    <path
-      fillRule="evenodd"
-      clipRule="evenodd"
-      d="M12.75 18.44l6.22-6.22a.75.75 0 111.06 1.06l-7.5 7.5a.75.75 0 01-1.06 0l-7.5-7.5a.75.75 0 111.06-1.06l6.22 6.22V3.75a.75.75 0 011.5 0v14.69z"
-      fill="#000"
-    />
-  </svg>
-)
+function arrow_down_medium(props) {
+  return (
+    <svg width={24} height={24} viewBox="0 0 24 24" fill="none" {...props}>
+      <path
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M12.75 18.4393L18.9697 12.2197C19.2626 11.9268 19.7374 11.9268 20.0303 12.2197C20.3232 12.5126 20.3232 12.9874 20.0303 13.2803L12.5303 20.7803C12.3897 20.921 12.1989 21 12 21C11.8011 21 11.6103 20.921 11.4697 20.7803L3.96967 13.2803C3.67678 12.9874 3.67678 12.5126 3.96967 12.2197C4.26256 11.9268 4.73744 11.9268 5.03033 12.2197L11.25 18.4393L11.25 3.75C11.25 3.33579 11.5858 3 12 3C12.4142 3 12.75 3.33579 12.75 3.75L12.75 18.4393Z"
+        fill="black"
+      />
+    </svg>
+  )
+}
 
 export default arrow_down_medium

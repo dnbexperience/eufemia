@@ -13,15 +13,13 @@
   display: inline-flex;
   flex-direction: column;
 
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-basis);
+
   &__inner {
     display: inline-flex;
     flex-direction: column;
-  }
-  &__helper {
-    clip: rect(0, 0, 0, 0);
-    width: 0;
-    overflow: hidden;
-    opacity: 0;
+    align-self: center;
   }
 
   &__shell {
@@ -35,11 +33,6 @@
 
     width: var(--checkbox-height);
     height: var(--checkbox-height);
-
-    // vertical alignment
-    [data-os='mac'] & {
-      transform: translateY(-0.0625rem);
-    }
   }
 
   &__focus,
@@ -103,13 +96,17 @@
     align-items: baseline;
   }
 
+  &__suffix {
+    padding-left: 0.5rem;
+    order: 4;
+  }
+
   &--label-position-left &__order {
     .dnb-checkbox__inner {
       order: 2;
     }
     .dnb-form-label {
       order: 1;
-      // align-self: flex-start;// Do we need this?
       margin-right: 0.5rem;
       margin-left: 0;
     }

@@ -157,7 +157,7 @@ const MainForm = () => {
             <FormRow>
               <Input
                 label="How much money did you withdraw?"
-                description="Kr"
+                suffix="Kr"
                 value={currentValues.firstInputValue}
                 on_change={({ value: firstInputValue }) =>
                   setValues({
@@ -172,7 +172,7 @@ const MainForm = () => {
             <FormRow>
               <Input
                 label="How much money did you receive?"
-                description="Kr"
+                suffix="Kr"
                 value={currentValues.secondInputValue}
                 on_change={({ value: secondInputValue }) =>
                   setValues({
@@ -303,7 +303,7 @@ const HeaderTitleWrapper = styled(Space)`
 
 // Custom paragraph
 const IngressRaw = styled(P)`
-  font-weight: var(--font-weight-demi);
+  font-weight: var(--font-weight-medium);
   color: var(--color-emerald-green);
 `
 const Ingress = props => (

@@ -7,6 +7,7 @@ order: 1
 
 import Img from 'Tags/Img'
 import IconNearestNeighbour from 'Pages/quickguide-designer/assets/icon-nearest-neighbour.svg'
+import FormStatusIcons from 'Pages/icons/form-status.md'
 
 # Icons
 
@@ -77,3 +78,5 @@ Icons should have a minimum area of 8px between them and their nearest neighbor.
 ## Custom Icons
 
 [Streamline](https://www.streamlineicons.com/) caters for pretty much all of Eufemia's icon needs. However, sometimes there is a need for a custom icon. In these cases please contact one of Eufemia's [design leads](/design-system/contact).
+
+<FormStatusIcons />

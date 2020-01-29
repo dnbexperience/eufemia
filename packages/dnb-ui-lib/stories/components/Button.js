@@ -14,6 +14,7 @@ export default [
   () => (
     <Wrapper>
       <Box>
+        <span className="dnb-p">text</span>{' '}
         <Button text="Primary" icon="add" />
       </Box>
       <Box>
@@ -35,9 +36,52 @@ export default [
         />
       </Box>
       <Box>
-        <Button text="Signal" variant="signal" icon="add" />
+        <Button
+          variant="secondary"
+          text="Secondary Button"
+          icon="chevron_right_medium"
+          size="large"
+          right
+        />
+        <Button icon="chevron_right" size="large" />
       </Box>
       <Box>
+        <Button
+          variant="secondary"
+          text="Secondary Button"
+          icon="chevron_right_medium"
+          right
+        />
+        <Button
+          variant="secondary"
+          text="Secondary Button"
+          icon="chevron_right_medium"
+          right
+          disabled
+        />
+        <Button icon="chevron_right" icon_size="medium" size="default" />
+        <Button
+          icon="chevron_right"
+          icon_size="medium"
+          size="default"
+          status="error"
+          left
+        />
+        <Button
+          icon="chevron_right"
+          icon_size="medium"
+          size="default"
+          status="Hello"
+          disabled
+          left
+        />
+      </Box>
+      <Box>
+        <Button text="Signal" variant="signal" icon="add" />
+        <Button text="Signal" variant="signal" icon="add" disabled />
+      </Box>
+      <Box>
+        <span className="dnb-p">text</span>{' '}
         <Button
           text="Button text"
           variant="tertiary"
@@ -68,7 +112,8 @@ export default [
           icon="chevron_right"
           icon_size="medium"
           disabled
-        />
+        />{' '}
+        <span className="dnb-p">text</span>
       </Box>
     </Wrapper>
   )

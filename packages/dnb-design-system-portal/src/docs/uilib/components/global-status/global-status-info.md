@@ -61,15 +61,15 @@ Beside the automated connection between the error states of form components ([Fo
 ```js
 import { GlobalStatus } from 'dnb-ui-lib/components'
 
-// Update the the status like so:
-const status = GlobalStatus.Set({
+// 1. Update / extend the the status like so:
+const statusOne = GlobalStatus.AddStatus({
   status_id: 'custom-id-1',
   text: 'New Text',
   item: 'Item from status #1'
 })
 
-// 2. and remove it again if needed
-status.remove()
+// 2. and removes "custom-id-1" again if needed
+statusOne.remove()
 ```
 
 ### JSX

@@ -17,6 +17,7 @@ import {
   pickRenderProps,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
+import FormStatus from '../form-status/FormStatus'
 import { createSpacingClasses } from '../space/SpacingHelper'
 
 const renderProps = { on_click: null }
@@ -36,6 +37,14 @@ const propTypes = {
   ]),
   icon_position: PropTypes.oneOf(['left', 'right']),
   icon_size: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  status: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.func,
+    PropTypes.node
+  ]),
+  status_state: PropTypes.string,
+  status_animation: PropTypes.string,
+  global_status_id: PropTypes.string,
   id: PropTypes.string,
   class: PropTypes.string,
   href: PropTypes.string,
@@ -74,6 +83,10 @@ const defaultProps = {
   class: null,
   bounding: false,
   disabled: null,
+  status: null,
+  status_state: 'error',
+  status_animation: null,
+  global_status_id: null,
 
   // React props
   className: null,
@@ -144,12 +157,12 @@ export default class Button extends PureComponent {
   }
 
   render() {
-    // consume the formRow context
-    const props = this.context.formRow
-      ? // use only the props from context, who are available here anyway
-        extendPropsWithContext(this.props, this.context.formRow)
-      : this.props
-
+    // use only the props from context, who are available here anyway
+    const props = extendPropsWithContext(
+      this.props,
+      defaultProps,
+      this.context.formRow
+    )
     const {
       class: class_name,
       className,
@@ -157,6 +170,10 @@ export default class Button extends PureComponent {
       variant,
       size,
       title,
+      status,
+      status_state,
+      status_animation,
+      global_status_id,
       id,
       disabled,
       text,
@@ -171,9 +188,11 @@ export default class Button extends PureComponent {
 
     let usedVariant = variant
     let usedSize = size
+    const content = Button.getContent(this.props) || text
+    const showStatus = status && status !== 'error'
 
     // if only has Icon, then resize it and define it as secondary
-    const isIconOnly = Boolean(!text && icon)
+    const isIconOnly = Boolean(!content && icon)
     if (isIconOnly) {
       if (!usedVariant) {
         usedVariant = 'secondary'
@@ -181,7 +200,7 @@ export default class Button extends PureComponent {
       if (!usedSize) {
         usedSize = 'medium'
       }
-    } else if (text) {
+    } else if (content) {
       if (!usedVariant) {
         usedVariant = 'primary'
       }
@@ -196,16 +215,15 @@ export default class Button extends PureComponent {
         ? 'medium'
         : icon_size
 
-    const content = Button.getContent(this.props)
-
     const classes = classnames(
       'dnb-button',
       `dnb-button--${usedVariant || 'primary'}`,
       usedSize && usedSize !== 'default' && `dnb-button--size-${usedSize}`,
       icon && `dnb-button--icon-position-${icon_position || 'right'}`,
       icon && iconSize ? `dnb-button--icon-size-${iconSize}` : null,
-      text && 'dnb-button--has-text',
+      content && 'dnb-button--has-text',
       icon && 'dnb-button--has-icon',
+      status && `dnb-button__status--${status_state}`,
       createSpacingClasses(props),
       class_name,
       className,
@@ -221,7 +239,6 @@ export default class Button extends PureComponent {
       disabled: isTrue(disabled),
       ...attributes,
       onMouseOut: this.onMouseOutHandler, // for resetting the button to the default state
-      // onTouchStart: this.preventPageScrolling,
       onClick: this.onClickHandler
     }
 
@@ -250,6 +267,16 @@ export default class Button extends PureComponent {
           </button>
         )}
         {this.state.afterContent}
+        {showStatus && (
+          <FormStatus
+            id={id + '-form-status'}
+            global_status_id={global_status_id}
+            text={status}
+            status={status_state}
+            text_id={id + '-status'} // used for "aria-describedby"
+            animation={status_animation}
+          />
+        )}
       </>
     )
   }
@@ -279,8 +306,8 @@ class Content extends PureComponent {
     isIconOnly: null
   }
   render() {
+    let { text } = this.props
     const {
-      text,
       title,
       content,
       icon,
@@ -297,7 +324,9 @@ class Content extends PureComponent {
       )
     }
 
-    if (content) {
+    if (typeof content === 'string') {
+      text = content
+    } else {
       ret.push(content)
     }
 
@@ -305,6 +334,15 @@ class Content extends PureComponent {
       ret.push(
         <span key="button-text" className="dnb-button__text">
           {text}
+        </span>
+      )
+    } else if (icon) {
+      // on empty text, use a zero-width non-joiner
+      // so the icon button gets vertical aligned
+      // we need the dnb-button__text for alignment
+      ret.push(
+        <span key="button-text-empty" className="dnb-button__text">
+          &zwnj;
         </span>
       )
     }
@@ -316,7 +354,7 @@ class Content extends PureComponent {
           className="dnb-button__icon"
           icon={icon}
           size={icon_size}
-          aria-hidden={isIconOnly && !title ? false : true}
+          aria-hidden={isIconOnly && !title ? null : true}
         />
       )
     }

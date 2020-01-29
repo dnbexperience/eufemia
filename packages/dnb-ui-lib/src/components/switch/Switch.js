@@ -7,7 +7,6 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import keycode from 'keycode'
-import Context from '../../shared/Context'
 import {
   isTrue,
   makeUniqueId,
@@ -16,8 +15,11 @@ import {
   validateDOMAttributes,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
+import AlignmentHelper from '../../shared/AlignmentHelper'
 import { createSpacingClasses } from '../space/SpacingHelper'
 
+import Context from '../../shared/Context'
+import Suffix from '../../shared/helpers/Suffix'
 import FormLabel from '../form-label/FormLabel'
 import FormStatus from '../form-status/FormStatus'
 
@@ -47,6 +49,11 @@ const propTypes = {
   status_state: PropTypes.string,
   status_animation: PropTypes.string,
   global_status_id: PropTypes.string,
+  suffix: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.func,
+    PropTypes.node
+  ]),
   value: PropTypes.string,
   attributes: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   readOnly: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -76,6 +83,7 @@ const defaultProps = {
   status_state: 'error',
   status_animation: null,
   global_status_id: null,
+  suffix: null,
   value: null,
   attributes: null,
   readOnly: false,
@@ -196,11 +204,13 @@ export default class Switch extends Component {
   }
 
   render() {
-    // consume the formRow context
-    const props = this.context.formRow
-      ? // use only the props from context, who are available here anyway
-        extendPropsWithContext(this.props, this.context.formRow)
-      : this.props
+    // use only the props from context, who are available here anyway
+    const props = extendPropsWithContext(
+      this.props,
+      defaultProps,
+      this.context.formRow,
+      this.context.translation.Switch
+    )
 
     const {
       value,
@@ -208,8 +218,10 @@ export default class Switch extends Component {
       status_state,
       status_animation,
       global_status_id,
+      suffix,
       label,
       label_position,
+      label_sr_only,
       title,
       disabled,
       readOnly,
@@ -238,7 +250,8 @@ export default class Switch extends Component {
       className: classnames(
         'dnb-switch',
         status && `dnb-switch__status--${status_state}`,
-        label && `dnb-switch--label-position-${label_position || 'right'}`,
+        `dnb-switch--label-position-${label_position || 'right'}`,
+        'dnb-form-component',
         createSpacingClasses(props),
         className,
         _className
@@ -252,8 +265,10 @@ export default class Switch extends Component {
       ...rest
     }
 
-    if (showStatus) {
-      inputParams['aria-describedby'] = id + '-status'
+    if (showStatus || suffix) {
+      inputParams['aria-describedby'] = `${
+        showStatus ? id + '-status' : ''
+      } ${suffix ? id + '-suffix' : ''}`
     }
     if (readOnly) {
       inputParams['aria-readonly'] = inputParams.readOnly = true
@@ -262,33 +277,40 @@ export default class Switch extends Component {
     // also used for code markup simulation
     validateDOMAttributes(this.props, inputParams)
 
-    const statusComp = showStatus && (
-      <FormStatus
-        id={id + '-form-status'}
-        global_status_id={global_status_id}
-        text_id={id + '-status'} // used for "aria-describedby"
-        width_selector={id + ', ' + id + '-label'}
-        text={status}
-        status={status_state}
-        animation={status_animation}
+    const labelComp = label && (
+      <FormLabel
+        id={id + '-label'}
+        for_id={id}
+        text={label}
+        disabled={disabled}
+        sr_only={label_sr_only}
       />
     )
 
     return (
       <span {...mainParams}>
         <span className="dnb-switch__order">
-          {label && (
-            <FormLabel
-              id={id + '-label'}
-              for_id={id}
-              text={label}
-              disabled={disabled}
-            />
-          )}
+          {label_position === 'left' && labelComp}
+
           <span className="dnb-switch__inner">
-            {label_position === 'left' && statusComp}
+            <AlignmentHelper />
+
+            {showStatus && (
+              <FormStatus
+                id={id + '-form-status'}
+                global_status_id={global_status_id}
+                text_id={id + '-status'} // used for "aria-describedby"
+                width_selector={id + ', ' + id + '-label'}
+                text={status}
+                status={status_state}
+                animation={status_animation}
+              />
+            )}
 
             <span className="dnb-switch__shell">
+              {(label_position === 'right' || !label_position) &&
+                labelComp}
+
               <input
                 id={id}
                 name={id}
@@ -303,9 +325,6 @@ export default class Switch extends Component {
                 onChange={this.onChangeHandler}
                 onKeyDown={this.onKeyDownHandler}
               />
-              <span className="dnb-switch__helper" aria-hidden>
-                {'-'}
-              </span>
               <span
                 draggable
                 aria-hidden
@@ -318,10 +337,18 @@ export default class Switch extends Component {
                   <span className="dnb-switch__focus__inner" />
                 </span>
               </span>
+
+              {suffix && (
+                <span
+                  className="dnb-switch__suffix"
+                  id={id + '-suffix'} // used for "aria-describedby"
+                >
+                  <Suffix {...props}>{suffix}</Suffix>
+                </span>
+              )}
             </span>
           </span>
         </span>
-        {(label_position === 'right' || !label_position) && statusComp}
       </span>
     )
   }

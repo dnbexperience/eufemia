@@ -50,7 +50,7 @@ describe('Icon component', () => {
     )
     Comp.setProps({ size: 16 })
     expect(Comp.find('span.dnb-icon').hasClass('dnb-icon--default')).toBe(
-      false
+      true
     )
   })
 

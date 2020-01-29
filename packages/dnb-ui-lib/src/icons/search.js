@@ -2,19 +2,32 @@
 
 import React from 'react'
 
-const search = props => (
-  <svg width={16} height={16} viewBox="0 0 17 17" fill="none" {...props}>
-    <g
-      clipPath="url(#clip-06a943)"
-      stroke="#000"
-      strokeWidth={1.5}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M9.055 11.937a5.445 5.445 0 10-4.26-10.023 5.445 5.445 0 004.26 10.023zM10.775 10.775L15 14.999" />
-    </g>
-    <defs />
-  </svg>
-)
+function search(props) {
+  return (
+    <svg width={17} height={17} viewBox="0 0 17 17" fill="none" {...props}>
+      <g clipPath="url(#clip-06a943)">
+        <path
+          d="M9.05532 11.9365C11.823 10.7602 13.1131 7.56308 11.9369 4.79541C10.7606 2.02774 7.56348 0.737629 4.79581 1.91386C2.02814 3.09009 0.738029 6.28725 1.91426 9.05492C3.09049 11.8226 6.28765 13.1127 9.05532 11.9365Z"
+          stroke="black"
+          strokeWidth={1.5}
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M10.7755 10.775L14.9986 14.9987"
+          stroke="black"
+          strokeWidth={1.5}
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </g>
+      <defs>
+        <clipPath id="clip-06a943">
+          <rect width={16.4792} height={16.4792} fill="white" />
+        </clipPath>
+      </defs>
+    </svg>
+  )
+}
 
 export default search

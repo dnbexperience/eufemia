@@ -16,47 +16,41 @@ exports[`GlobalStatus scss have to match default theme snapshot 1`] = `
 .dnb-global-status:not(.dnb-global-status--no-animation).dnb-global-status--fade-in.dnb-global-status.dnb-section::after {
   box-shadow: 100vw 0 0 0 currentColor, 0 0.0625rem 0 0 var(--color-black-80), 100vw 0.0625rem 0 0 var(--color-black-80); }
 
-.dnb-global-status__title.dnb-p {
-  font-weight: var(--font-weight-demi); }
+.dnb-global-status--info.dnb-global-status.dnb-section--mint-green-12::after {
+  color: var(--color-sea-green); }
+
+.dnb-global-status__title {
+  color: var(--color-white); }
+  .dnb-global-status__title.dnb-p {
+    font-weight: var(--font-weight-medium); }
 
 .dnb-global-status__icon {
   font-size: 1rem; }
 
-.dnb-global-status--error .dnb-global-status__title {
-  color: var(--color-white); }
-
 .dnb-global-status__message {
   color: var(--color-black-80); }
-  .dnb-global-status__message .dnb-p {
-    font-weight: var(--font-weight-demi); }
+  .dnb-global-status__message > .dnb-p {
+    font-weight: var(--font-weight-medium); }
   .dnb-global-status__message.dnb-section--white ::selection {
     background-color: var(--color-mint-green); }
 
-.dnb-global-status--error .dnb-global-status__close-button,
-.dnb-global-status--error .dnb-global-status__close-button.dnb-button--tertiary {
+.dnb-global-status__close-button, .dnb-global-status__close-button.dnb-button--tertiary {
   color: var(--color-white); }
-  html:not([data-is-touch]) .dnb-global-status--error .dnb-global-status__close-button:hover[disabled], html:not([data-is-touch])
-  .dnb-global-status--error .dnb-global-status__close-button.dnb-button--tertiary:hover[disabled] {
+  html:not([data-is-touch]) .dnb-global-status__close-button:hover[disabled], html:not([data-is-touch]) .dnb-global-status__close-button.dnb-button--tertiary:hover[disabled] {
     cursor: not-allowed; }
-  html:not([data-is-touch]) .dnb-global-status--error .dnb-global-status__close-button:hover:not([disabled]) .dnb-button__text, html:not([data-is-touch])
-  .dnb-global-status--error .dnb-global-status__close-button.dnb-button--tertiary:hover:not([disabled]) .dnb-button__text {
+  html:not([data-is-touch]) .dnb-global-status__close-button:hover:not([disabled]) .dnb-button__text, html:not([data-is-touch]) .dnb-global-status__close-button.dnb-button--tertiary:hover:not([disabled]) .dnb-button__text {
     color: inherit; }
-    html:not([data-is-touch]) .dnb-global-status--error .dnb-global-status__close-button:hover:not([disabled]) .dnb-button__text::after, html:not([data-is-touch])
-    .dnb-global-status--error .dnb-global-status__close-button.dnb-button--tertiary:hover:not([disabled]) .dnb-button__text::after {
+    html:not([data-is-touch]) .dnb-global-status__close-button:hover:not([disabled]) .dnb-button__text::after, html:not([data-is-touch]) .dnb-global-status__close-button.dnb-button--tertiary:hover:not([disabled]) .dnb-button__text::after {
       color: inherit; }
-  .dnb-global-status--error .dnb-global-status__close-button:not([disabled]):focus::before,
-  .dnb-global-status--error .dnb-global-status__close-button.dnb-button--tertiary:not([disabled]):focus::before {
+  .dnb-global-status__close-button:not([disabled]):focus::before, .dnb-global-status__close-button.dnb-button--tertiary:not([disabled]):focus::before {
     outline: none; }
-    html[data-whatinput='keyboard'] .dnb-global-status--error .dnb-global-status__close-button:not([disabled]):focus::before, html[data-whatinput='keyboard']
-    .dnb-global-status--error .dnb-global-status__close-button.dnb-button--tertiary:not([disabled]):focus::before {
+    html[data-whatinput='keyboard'] .dnb-global-status__close-button:not([disabled]):focus::before, html[data-whatinput='keyboard'] .dnb-global-status__close-button.dnb-button--tertiary:not([disabled]):focus::before {
       box-shadow: 0 0 0 0.125rem var(--color-white);
       /* IE11 fix */
       border-color: transparent; }
-  .dnb-global-status--error .dnb-global-status__close-button:not([disabled]):active::before,
-  .dnb-global-status--error .dnb-global-status__close-button.dnb-button--tertiary:not([disabled]):active::before {
+  .dnb-global-status__close-button:not([disabled]):active::before, .dnb-global-status__close-button.dnb-button--tertiary:not([disabled]):active::before {
     outline: none; }
-    html[data-whatinput='mouse'] .dnb-global-status--error .dnb-global-status__close-button:not([disabled]):active::before, html[data-whatinput='mouse']
-    .dnb-global-status--error .dnb-global-status__close-button.dnb-button--tertiary:not([disabled]):active::before {
+    html[data-whatinput='mouse'] .dnb-global-status__close-button:not([disabled]):active::before, html[data-whatinput='mouse'] .dnb-global-status__close-button.dnb-button--tertiary:not([disabled]):active::before {
       box-shadow: 0 0 0 0.125rem var(--color-white);
       /* IE11 fix */
       border-color: transparent; }
@@ -98,17 +92,18 @@ exports[`GlobalStatus scss have to match snapshot 1`] = `
 */
 .dnb-icon {
   display: inline-block;
-  vertical-align: baseline;
-  font-size: inherit;
-  line-height: var(--line-height-x-small--em);
+  vertical-align: middle;
+  font-size: 1rem;
+  line-height: 1rem;
+  color: inherit;
   width: 1em;
   height: 1em; }
   .dnb-icon img,
   .dnb-icon svg {
     width: inherit;
     height: inherit;
-    vertical-align: middle;
-    shape-rendering: geometricPrecision; }
+    shape-rendering: geometricPrecision;
+    vertical-align: top; }
   .dnb-icon svg[width='100%'] {
     width: inherit; }
   .dnb-icon svg[height='100%'] {
@@ -119,40 +114,130 @@ exports[`GlobalStatus scss have to match snapshot 1`] = `
   .dnb-icon svg [stroke] {
     stroke: currentColor; }
   .dnb-icon--small {
-    width: 0.75em;
-    height: 0.75em; }
+    font-size: 0.75rem; }
   .dnb-icon--default {
-    width: 1em;
-    height: 1em; }
+    font-size: 1rem; }
   .dnb-icon--medium {
-    width: 1.5em;
-    height: 1.5em; }
+    font-size: 1.5rem; }
   .dnb-icon--large {
-    width: 2em;
-    height: 2em; }
+    font-size: 2rem; }
   .dnb-icon--x-large {
-    width: 2.5em;
-    height: 2.5em; }
+    font-size: 2.5rem; }
   .dnb-icon--xx-large {
-    width: 3em;
-    height: 3em; }
+    font-size: 3rem; }
   .dnb-icon--custom-size {
     width: auto;
     height: auto; }
+  .dnb-icon--auto {
+    font-size: 1em; }
+  .dnb-icon--auto > .dnb-icon--wrapper {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center; }
+  h1 .dnb-icon,
+  h2 .dnb-icon,
+  h3 .dnb-icon,
+  h4 .dnb-icon,
+  h5 .dnb-icon,
+  h6 .dnb-icon {
+    vertical-align: middle; }
   @media screen and (-ms-high-contrast: none) {
     .dnb-icon {
       flex: none; } }
 
-.dnb-button {
+/*
+* DNB FormStatus
+*
+*/
+.dnb-form-status {
   font-family: var(--font-family-default);
   font-weight: var(--font-weight-default);
-  font-size: var(--font-size-basis);
+  font-size: var(--font-size-small);
   font-style: normal;
   line-height: var(--line-height-basis);
   color: var(--color-black-80, #333);
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-  font-variant-numeric: lining-nums;
-  font-feature-settings: \\"lnum\\";
+  /**
+  * 1. Remove repeating backgrounds in all browsers (opinionated).
+  * 2. Add border box sizing in all browsers (opinionated).
+  */
+  /**
+  * 1. Add text decoration inheritance in all browsers (opinionated).
+  * 2. Add vertical alignment inheritance in all browsers (opinionated).
+  */
+  margin: 0;
+  padding: 0; }
+  .dnb-form-status *,
+  .dnb-form-status ::before,
+  .dnb-form-status ::after {
+    background-repeat: no-repeat;
+    /* 1 */
+    box-sizing: border-box;
+    /* 2 */ }
+  .dnb-form-status ::before,
+  .dnb-form-status ::after {
+    text-decoration: inherit;
+    /* 1 */
+    vertical-align: inherit;
+    /* 2 */ }
+
+/*
+ * FormStatus component
+ *
+ */
+.dnb-form-status {
+  display: flex; }
+  .dnb-form-status__shell {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    border-radius: var(--input-border-radius); }
+  .dnb-form-status--text {
+    padding: calc(0.5rem / 2) 1rem;
+    cursor: text;
+    color: inherit;
+    line-height: var(--line-height-basis); }
+  .dnb-icon + .dnb-form-status--text {
+    padding-left: 0.5rem; }
+  .dnb-form-status__shell > .dnb-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 1.5em;
+    height: 1.5em;
+    margin-top: 0.25em;
+    margin-left: 0.5em;
+    color: inherit;
+    font-size: var(--font-size-basis);
+    transform: translateY(-0.125rem); }
+  .dnb-form-status[hidden] {
+    display: none; }
+  .dnb-form-status--fade-in {
+    overflow: hidden;
+    max-height: 0;
+    animation: form-status-fade-in 2s ease-out 400ms forwards; }
+
+@keyframes form-status-fade-in {
+  from {
+    max-height: 0; }
+  to {
+    max-height: calc(var(--input-height) * 8); } }
+  @media screen and (-ms-high-contrast: none) {
+    .dnb-form-status__shell > .dnb-icon {
+      border-width: 1px; } }
+
+.dnb-button {
+  font-family: var(--font-family-default);
+  font-weight: var(--font-weight-default);
+  font-size: var(--font-size-small);
+  font-style: normal;
+  line-height: var(--line-height-basis);
+  color: var(--color-black-80, #333);
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   /**
   * 1. Remove repeating backgrounds in all browsers (opinionated).
   * 2. Add border box sizing in all browsers (opinionated).
@@ -213,24 +298,17 @@ exports[`GlobalStatus scss have to match snapshot 1`] = `
   padding: 0;
   border: var(--button-border-width) solid transparent;
   border-radius: var(--button-border-radius);
-  text-decoration: none; }
+  text-decoration: none;
+  font-size: var(--font-size-small); }
   .dnb-button,
   .dnb-core-style .dnb-button {
-    font-size: var(--button-font-size);
     line-height: var(--button-height); }
-  .dnb-button__icon {
-    line-height: var(--line-height-x-small--em); }
-    .dnb-button__icon:not(.dnb-icon) svg:not([width]):not([height]) {
-      width: var(--button-icon-size);
-      height: var(--button-icon-size); }
-    [data-os='win'] .dnb-button__icon {
-      transform: translateY(-0.0625rem); }
   .dnb-button__text {
-    line-height: var(--line-height-x-small--em);
+    font-size: var(--button-font-size);
+    line-height: var(--line-height-xx-small--em);
     color: inherit;
-    background-color: inherit; }
-    [data-os='mac'] .dnb-button__text {
-      transform: translateY(0.0625rem); }
+    background-color: inherit;
+    transform: translateY(-0.03125rem); }
   .dnb-button__bounding {
     position: absolute;
     background-color: transparent;
@@ -242,8 +320,10 @@ exports[`GlobalStatus scss have to match snapshot 1`] = `
     width: var(--button-width--small);
     height: var(--button-height--small);
     font-size: var(--button-font-size-small);
-    line-height: var(--button-height--small);
     border-radius: var(--button-border-radius--small); }
+    .dnb-button--size-small,
+    .dnb-core-style .dnb-button--size-small {
+      line-height: var(--button-height--small); }
   .dnb-button--has-text.dnb-button--size-small {
     padding-left: 1rem;
     padding-right: 1rem; }
@@ -254,8 +334,10 @@ exports[`GlobalStatus scss have to match snapshot 1`] = `
   .dnb-button--size-medium {
     width: var(--button-width--medium);
     height: var(--button-height--medium);
-    line-height: var(--button-height--medium);
     border-radius: var(--button-border-radius--medium); }
+    .dnb-button--size-medium,
+    .dnb-core-style .dnb-button--size-medium {
+      line-height: var(--button-height--medium); }
   .dnb-button--has-text.dnb-button--size-medium {
     padding-left: 1rem;
     padding-right: 1rem; }
@@ -266,8 +348,10 @@ exports[`GlobalStatus scss have to match snapshot 1`] = `
   .dnb-button--size-large {
     width: var(--button-width--large);
     height: var(--button-height--large);
-    line-height: var(--button-height--large);
     border-radius: var(--button-border-radius--large); }
+    .dnb-button--size-large,
+    .dnb-core-style .dnb-button--size-large {
+      line-height: var(--button-height--large); }
   .dnb-button--has-text.dnb-button--size-large {
     padding-left: 2rem;
     padding-right: 2rem; }
@@ -289,6 +373,13 @@ exports[`GlobalStatus scss have to match snapshot 1`] = `
     order: 2; }
   .dnb-button--has-text.dnb-button--has-icon .dnb-button__text {
     order: 1; }
+  .dnb-button:not(.dnb-button--has-text) .dnb-button__icon {
+    width: inherit; }
+  .dnb-button__icon.dnb-icon svg:not([width]):not([height]) {
+    width: var(--button-icon-size);
+    height: var(--button-icon-size); }
+  [href] > .dnb-button__icon.dnb-icon {
+    line-height: var(--button-font-size); }
   .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-left .dnb-button__icon {
     order: 1; }
   .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-left .dnb-button__text {
@@ -342,12 +433,6 @@ exports[`GlobalStatus scss have to match snapshot 1`] = `
 button.dnb-button::-moz-focus-inner {
   border: none; }
 
-a.dnb-button .dnb-button__icon {
-  transform: translateY(0); }
-
-a.dnb-button .dnb-button__text {
-  transform: translateY(0.0625rem); }
-
 /*
 * DNB Section
 *
@@ -355,13 +440,13 @@ a.dnb-button .dnb-button__text {
 .dnb-section {
   font-family: var(--font-family-default);
   font-weight: var(--font-weight-default);
-  font-size: var(--font-size-basis);
+  font-size: var(--font-size-small);
   font-style: normal;
   line-height: var(--line-height-basis);
   color: var(--color-black-80, #333);
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-  font-variant-numeric: lining-nums;
-  font-feature-settings: \\"lnum\\";
   /**
   * 1. Remove repeating backgrounds in all browsers (opinionated).
   * 2. Add border box sizing in all browsers (opinionated).
@@ -426,13 +511,13 @@ a.dnb-button .dnb-button__text {
 .dnb-global-status {
   font-family: var(--font-family-default);
   font-weight: var(--font-weight-default);
-  font-size: var(--font-size-basis);
+  font-size: var(--font-size-small);
   font-style: normal;
   line-height: var(--line-height-basis);
   color: var(--color-black-80, #333);
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-  font-variant-numeric: lining-nums;
-  font-feature-settings: \\"lnum\\";
   /**
   * 1. Remove repeating backgrounds in all browsers (opinionated).
   * 2. Add border box sizing in all browsers (opinionated).
@@ -474,74 +559,96 @@ a.dnb-button .dnb-button__text {
     opacity: 0;
     transform: translate3d(0, -2rem, 0); } }
 
-.dnb-global-status {
-  /* for small screesn */ }
-  .dnb-global-status__wrapper {
-    position: relative;
-    z-index: 1; }
-  .dnb-global-status, .dnb-global-status--no-animation.dnb-global-status--visible {
-    display: flex; }
-  .dnb-global-status--no-animation.dnb-global-status--hidden {
-    display: none; }
-  .dnb-global-status__shell {
-    width: 100%; }
-  .dnb-global-status__title {
-    position: relative;
-    cursor: text; }
-    .dnb-global-status__title.dnb-p {
-      font-size: var(--font-size-medium);
-      line-height: var(--line-height-medium);
-      padding: 1rem 6rem 1rem 3rem;
-      padding-top: calc(1rem - 0.125rem);
-      padding-bottom: calc(1rem - 0.375rem); }
-    .dnb-spacing .dnb-global-status__title.dnb-p {
-      margin: 0; }
-  .dnb-global-status__icon {
-    position: absolute;
-    top: 0;
-    left: 0;
-    margin-top: 0.75rem; }
-  .dnb-global-status__close-button, .dnb-global-status__close-button.dnb-button--tertiary {
-    position: absolute;
-    z-index: 1;
-    top: -0.125rem;
-    right: 1rem;
-    left: auto;
-    margin-top: 1rem; }
-  .dnb-modal__content__inner .dnb-global-status__close-button {
-    right: 0; }
-  .dnb-global-status__message {
-    cursor: text;
-    z-index: 1;
-    padding: 2rem 0 2.5rem; }
-    .dnb-global-status__message > .dnb-p,
-    .dnb-spacing .dnb-global-status__message .dnb-p {
+.dnb-global-status__wrapper {
+  position: relative;
+  z-index: 1; }
+
+.dnb-global-status, .dnb-global-status--no-animation.dnb-global-status--visible {
+  display: flex; }
+
+.dnb-global-status--no-animation.dnb-global-status--hidden {
+  display: none; }
+
+.dnb-global-status__shell {
+  width: 100%; }
+
+.dnb-global-status__title {
+  position: relative;
+  cursor: text; }
+  .dnb-global-status__title.dnb-p {
+    font-size: var(--font-size-medium);
+    line-height: var(--line-height-medium);
+    padding: 1rem 6rem 1rem 3rem;
+    padding-top: calc(1rem - 0.125rem);
+    padding-bottom: calc(1rem - 0.375rem); }
+  .dnb-spacing .dnb-global-status__title.dnb-p {
+    margin: 0; }
+
+.dnb-global-status__message {
+  cursor: text;
+  z-index: 1;
+  padding: 2rem 0 2.5rem; }
+  .dnb-global-status__message .dnb-p,
+  .dnb-spacing .dnb-global-status__message .dnb-p {
+    display: inline-block;
+    margin: 0;
+    padding: 0; }
+
+.dnb-global-status__icon {
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin-top: 0.75rem; }
+
+.dnb-global-status__close-button, .dnb-global-status__close-button.dnb-button--tertiary {
+  position: absolute;
+  z-index: 1;
+  top: -0.125rem;
+  right: 1rem;
+  left: auto;
+  margin-top: 1rem; }
+
+.dnb-modal__content__inner .dnb-global-status__close-button {
+  right: 0; }
+
+.dnb-global-status__content {
+  width: 100%;
+  transform: translate3d(0, -1px, 0); }
+  .dnb-global-status__content .dnb-ul,
+  .dnb-spacing .dnb-global-status__content .dnb-ul {
+    margin: 0;
+    margin-top: 0.5rem;
+    padding-left: 1rem; }
+    .dnb-global-status__content .dnb-ul > li,
+    .dnb-spacing .dnb-global-status__content .dnb-ul > li {
       margin: 0;
-      padding: 0; }
-  .dnb-global-status__content {
-    width: 100%;
-    transform: translate3d(0, -1px, 0); }
-    .dnb-global-status__content .dnb-ul,
-    .dnb-spacing .dnb-global-status__content .dnb-ul {
-      margin: 0;
-      margin-top: 0.5rem;
-      padding-left: 1rem; }
-      .dnb-global-status__content .dnb-ul > li,
-      .dnb-spacing .dnb-global-status__content .dnb-ul > li {
-        margin: 0;
-        padding-left: 0; }
-        .dnb-global-status__content .dnb-ul > li .dnb-anchor:last-of-type,
-        .dnb-spacing .dnb-global-status__content .dnb-ul > li .dnb-anchor:last-of-type {
-          margin-left: 0.5rem; }
-  .dnb-global-status:not(.dnb-global-status--no-animation).dnb-global-status--fade-in .dnb-global-status__title {
-    transform: translate3d(0, -2rem, 0);
-    opacity: 0;
-    animation-name: global-status-fade-in;
-    animation-duration: 800ms;
-    animation-fill-mode: forwards;
-    animation-timing-function: ease;
-    animation-delay: calc(30ms + 100ms); }
-  .dnb-global-status:not(.dnb-global-status--no-animation).dnb-global-status--fade-in .dnb-global-status__message {
+      padding-left: 0; }
+      .dnb-global-status__content .dnb-ul > li .dnb-anchor:last-of-type,
+      .dnb-spacing .dnb-global-status__content .dnb-ul > li .dnb-anchor:last-of-type {
+        margin-left: 0.5rem; }
+
+.dnb-global-status:not(.dnb-global-status--no-animation).dnb-global-status--fade-in .dnb-global-status__title {
+  transform: translate3d(0, -2rem, 0);
+  opacity: 0;
+  animation-name: global-status-fade-in;
+  animation-duration: 800ms;
+  animation-fill-mode: forwards;
+  animation-timing-function: ease;
+  animation-delay: calc(30ms + 100ms); }
+
+.dnb-global-status:not(.dnb-global-status--no-animation).dnb-global-status--fade-in .dnb-global-status__message {
+  transform: translate3d(0, -2rem, 0);
+  opacity: 0;
+  animation-name: global-status-fade-in;
+  animation-duration: 800ms;
+  animation-fill-mode: forwards;
+  animation-timing-function: ease;
+  animation-delay: calc(100ms + 100ms); }
+
+.dnb-global-status:not(.dnb-global-status--no-animation).dnb-global-status--fade-in .dnb-global-status__message .dnb-ul {
+  /* stylelint-disable */
+  /* stylelint-enable */ }
+  .dnb-global-status:not(.dnb-global-status--no-animation).dnb-global-status--fade-in .dnb-global-status__message .dnb-ul > li:nth-of-type(1) {
     transform: translate3d(0, -2rem, 0);
     opacity: 0;
     animation-name: global-status-fade-in;
@@ -549,93 +656,88 @@ a.dnb-button .dnb-button__text {
     animation-fill-mode: forwards;
     animation-timing-function: ease;
     animation-delay: calc(100ms + 100ms); }
-  .dnb-global-status:not(.dnb-global-status--no-animation).dnb-global-status--fade-in .dnb-global-status__message .dnb-ul {
-    /* stylelint-disable */
-    /* stylelint-enable */ }
-    .dnb-global-status:not(.dnb-global-status--no-animation).dnb-global-status--fade-in .dnb-global-status__message .dnb-ul > li:nth-of-type(1) {
-      transform: translate3d(0, -2rem, 0);
-      opacity: 0;
-      animation-name: global-status-fade-in;
-      animation-duration: 800ms;
-      animation-fill-mode: forwards;
-      animation-timing-function: ease;
-      animation-delay: calc(100ms + 100ms); }
-    .dnb-global-status:not(.dnb-global-status--no-animation).dnb-global-status--fade-in .dnb-global-status__message .dnb-ul > li:nth-of-type(2) {
-      transform: translate3d(0, -2rem, 0);
-      opacity: 0;
-      animation-name: global-status-fade-in;
-      animation-duration: 800ms;
-      animation-fill-mode: forwards;
-      animation-timing-function: ease;
-      animation-delay: calc(200ms + 100ms); }
-    .dnb-global-status:not(.dnb-global-status--no-animation).dnb-global-status--fade-in .dnb-global-status__message .dnb-ul > li:nth-of-type(3) {
-      transform: translate3d(0, -2rem, 0);
-      opacity: 0;
-      animation-name: global-status-fade-in;
-      animation-duration: 800ms;
-      animation-fill-mode: forwards;
-      animation-timing-function: ease;
-      animation-delay: calc(300ms + 100ms); }
-    .dnb-global-status:not(.dnb-global-status--no-animation).dnb-global-status--fade-in .dnb-global-status__message .dnb-ul > li:nth-of-type(1n + 4) {
-      transform: translate3d(0, -2rem, 0);
-      opacity: 0;
-      animation-name: global-status-fade-in;
-      animation-duration: 800ms;
-      animation-fill-mode: forwards;
-      animation-timing-function: ease;
-      animation-delay: calc(400ms + 100ms); }
-  .dnb-global-status:not(.dnb-global-status--no-animation).dnb-global-status--fade-out .dnb-global-status__title {
-    animation-name: global-status-fade-out;
+  .dnb-global-status:not(.dnb-global-status--no-animation).dnb-global-status--fade-in .dnb-global-status__message .dnb-ul > li:nth-of-type(2) {
+    transform: translate3d(0, -2rem, 0);
+    opacity: 0;
+    animation-name: global-status-fade-in;
     animation-duration: 800ms;
     animation-fill-mode: forwards;
     animation-timing-function: ease;
-    animation-delay: 50ms; }
-  .dnb-global-status:not(.dnb-global-status--no-animation).dnb-global-status--fade-out .dnb-global-status__message {
+    animation-delay: calc(200ms + 100ms); }
+  .dnb-global-status:not(.dnb-global-status--no-animation).dnb-global-status--fade-in .dnb-global-status__message .dnb-ul > li:nth-of-type(3) {
+    transform: translate3d(0, -2rem, 0);
+    opacity: 0;
+    animation-name: global-status-fade-in;
+    animation-duration: 800ms;
+    animation-fill-mode: forwards;
+    animation-timing-function: ease;
+    animation-delay: calc(300ms + 100ms); }
+  .dnb-global-status:not(.dnb-global-status--no-animation).dnb-global-status--fade-in .dnb-global-status__message .dnb-ul > li:nth-of-type(1n + 4) {
+    transform: translate3d(0, -2rem, 0);
+    opacity: 0;
+    animation-name: global-status-fade-in;
+    animation-duration: 800ms;
+    animation-fill-mode: forwards;
+    animation-timing-function: ease;
+    animation-delay: calc(400ms + 100ms); }
+
+.dnb-global-status:not(.dnb-global-status--no-animation).dnb-global-status--fade-out .dnb-global-status__title {
+  animation-name: global-status-fade-out;
+  animation-duration: 800ms;
+  animation-fill-mode: forwards;
+  animation-timing-function: ease;
+  animation-delay: 50ms; }
+
+.dnb-global-status:not(.dnb-global-status--no-animation).dnb-global-status--fade-out .dnb-global-status__message {
+  animation-name: global-status-fade-out;
+  animation-duration: 800ms;
+  animation-fill-mode: forwards;
+  animation-timing-function: ease;
+  animation-delay: 100ms; }
+
+.dnb-global-status:not(.dnb-global-status--no-animation).dnb-global-status--fade-out .dnb-global-status__message .dnb-ul {
+  /* stylelint-disable */
+  /* stylelint-enable */ }
+  .dnb-global-status:not(.dnb-global-status--no-animation).dnb-global-status--fade-out .dnb-global-status__message .dnb-ul > li:nth-of-type(1) {
     animation-name: global-status-fade-out;
     animation-duration: 800ms;
     animation-fill-mode: forwards;
     animation-timing-function: ease;
     animation-delay: 100ms; }
-  .dnb-global-status:not(.dnb-global-status--no-animation).dnb-global-status--fade-out .dnb-global-status__message .dnb-ul {
-    /* stylelint-disable */
-    /* stylelint-enable */ }
-    .dnb-global-status:not(.dnb-global-status--no-animation).dnb-global-status--fade-out .dnb-global-status__message .dnb-ul > li:nth-of-type(1) {
-      animation-name: global-status-fade-out;
-      animation-duration: 800ms;
-      animation-fill-mode: forwards;
-      animation-timing-function: ease;
-      animation-delay: 100ms; }
-    .dnb-global-status:not(.dnb-global-status--no-animation).dnb-global-status--fade-out .dnb-global-status__message .dnb-ul > li:nth-of-type(2) {
-      animation-name: global-status-fade-out;
-      animation-duration: 800ms;
-      animation-fill-mode: forwards;
-      animation-timing-function: ease;
-      animation-delay: 200ms; }
-    .dnb-global-status:not(.dnb-global-status--no-animation).dnb-global-status--fade-out .dnb-global-status__message .dnb-ul > li:nth-of-type(3) {
-      animation-name: global-status-fade-out;
-      animation-duration: 800ms;
-      animation-fill-mode: forwards;
-      animation-timing-function: ease;
-      animation-delay: 300ms; }
-    .dnb-global-status:not(.dnb-global-status--no-animation).dnb-global-status--fade-out .dnb-global-status__message .dnb-ul > li:nth-of-type(1n + 4) {
-      animation-name: global-status-fade-out;
-      animation-duration: 800ms;
-      animation-fill-mode: forwards;
-      animation-timing-function: ease;
-      animation-delay: 400ms; }
-  .dnb-global-status:not(.dnb-global-status--no-animation).dnb-global-status--fade-in.dnb-global-status.dnb-section {
-    height: 0; }
-  .dnb-global-status__fake {
-    opacity: 0;
-    visibility: hidden;
-    position: absolute;
-    width: 100%;
-    top: 0;
-    left: 0;
-    right: 0; }
-  @media screen and (-ms-high-contrast: none) {
-    .dnb-global-status__icon > .dnb-icon {
-      border-width: 1px; } }
+  .dnb-global-status:not(.dnb-global-status--no-animation).dnb-global-status--fade-out .dnb-global-status__message .dnb-ul > li:nth-of-type(2) {
+    animation-name: global-status-fade-out;
+    animation-duration: 800ms;
+    animation-fill-mode: forwards;
+    animation-timing-function: ease;
+    animation-delay: 200ms; }
+  .dnb-global-status:not(.dnb-global-status--no-animation).dnb-global-status--fade-out .dnb-global-status__message .dnb-ul > li:nth-of-type(3) {
+    animation-name: global-status-fade-out;
+    animation-duration: 800ms;
+    animation-fill-mode: forwards;
+    animation-timing-function: ease;
+    animation-delay: 300ms; }
+  .dnb-global-status:not(.dnb-global-status--no-animation).dnb-global-status--fade-out .dnb-global-status__message .dnb-ul > li:nth-of-type(1n + 4) {
+    animation-name: global-status-fade-out;
+    animation-duration: 800ms;
+    animation-fill-mode: forwards;
+    animation-timing-function: ease;
+    animation-delay: 400ms; }
+
+.dnb-global-status:not(.dnb-global-status--no-animation).dnb-global-status--fade-in.dnb-global-status.dnb-section {
+  height: 0; }
+
+.dnb-global-status__fake {
+  opacity: 0;
+  visibility: hidden;
+  position: absolute;
+  width: 100%;
+  top: 0;
+  left: 0;
+  right: 0; }
+
+@media screen and (-ms-high-contrast: none) {
+  .dnb-global-status__icon > .dnb-icon {
+    border-width: 1px; } }
 "
 `;
 
@@ -656,8 +758,16 @@ exports[`GlobalStatus snapshot have to match component snapshot 1`] = `
   id="main"
   items={
     Array [
-      "item #1",
-      "item #2",
+      Object {
+        "id": "id-1",
+        "status_id": "idid-1textitem-1",
+        "text": "item #1",
+      },
+      Object {
+        "id": "id-2",
+        "status_id": "idid-2textitem-2",
+        "text": "item #2",
+      },
     ]
   }
   no_animation={true}
@@ -675,8 +785,10 @@ exports[`GlobalStatus snapshot have to match component snapshot 1`] = `
 >
   <div
     aria-live="assertive"
-    className="dnb-global-status__wrapper className class"
+    className="dnb-global-status__wrapper dnb-no-focus className class"
     key="global-status"
+    onKeyDown={[Function]}
+    tabIndex="-1"
   >
     <Section
       class={null}
@@ -700,6 +812,7 @@ exports[`GlobalStatus snapshot have to match component snapshot 1`] = `
             >
               <p
                 className="dnb-p dnb-global-status__title"
+                lang="nb-NO"
               >
                 <span
                   className="dnb-global-status__icon"
@@ -713,49 +826,58 @@ exports[`GlobalStatus snapshot have to match component snapshot 1`] = `
                     className={null}
                     color={null}
                     height={null}
-                    icon={[Function]}
+                    icon={
+                      <ErrorIcon
+                        title={null}
+                      />
+                    }
                     modifier={null}
                     size="icon_size"
                     title={null}
                     width={null}
                   >
                     <span
-                      alt="ErrorIcon"
                       aria-hidden={true}
-                      className="dnb-icon"
+                      className="dnb-icon dnb-icon--default"
                       role="img"
                     >
-                      <ErrorIcon>
-                        <svg
-                          fill="none"
-                          height="32"
-                          viewBox="0 0 32 32"
-                          width="32"
-                          xmlns="http://www.w3.org/2000/svg"
+                      <Component>
+                        <ErrorIcon
+                          title={null}
                         >
-                          <path
-                            d="M16 25a.5.5 0 100 1 .5.5 0 000-1v0"
-                            stroke="#000"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="1.5"
-                          />
-                          <path
-                            d="M16 21V11"
-                            stroke="#000"
-                            strokeLinecap="round"
-                            strokeWidth="1.5"
-                          />
-                          <path
-                            clipRule="evenodd"
-                            d="M18.161 2.347a2.408 2.408 0 00-4.322 0L1.208 28.077A2.028 2.028 0 003.029 31h25.942a2.028 2.028 0 001.821-2.923l-12.63-25.73z"
-                            stroke="#000"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="1.5"
-                          />
-                        </svg>
-                      </ErrorIcon>
+                          <svg
+                            fill="none"
+                            height="32"
+                            role="img"
+                            title={null}
+                            viewBox="0 0 32 32"
+                            width="32"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M16 25a.5.5 0 100 1 .5.5 0 000-1v0"
+                              stroke="#000"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth="1.5"
+                            />
+                            <path
+                              d="M16 21V11"
+                              stroke="#000"
+                              strokeLinecap="round"
+                              strokeWidth="1.5"
+                            />
+                            <path
+                              clipRule="evenodd"
+                              d="M18.161 2.347a2.408 2.408 0 00-4.322 0L1.208 28.077A2.028 2.028 0 003.029 31h25.942a2.028 2.028 0 001.821-2.923l-12.63-25.73z"
+                              stroke="#000"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth="1.5"
+                            />
+                          </svg>
+                        </ErrorIcon>
+                      </Component>
                     </span>
                   </Icon>
                 </span>
@@ -763,17 +885,18 @@ exports[`GlobalStatus snapshot have to match component snapshot 1`] = `
                 <CloseButton
                   className={null}
                   on_click={[Function]}
-                  text="Lukk"
+                  text="close_text"
                   title="close_text"
                 >
                   <Button
-                    aria-label="Lukk"
+                    aria-label="close_text"
                     bounding={false}
                     class={null}
                     className="dnb-global-status__close-button"
                     custom_element={null}
                     custom_method={null}
                     disabled={null}
+                    global_status_id={null}
                     href={null}
                     icon="close"
                     icon_position="left"
@@ -783,27 +906,32 @@ exports[`GlobalStatus snapshot have to match component snapshot 1`] = `
                     onClick={null}
                     on_click={[Function]}
                     size="medium"
-                    text="Lukk"
+                    status={null}
+                    status_animation={null}
+                    status_state="error"
+                    text="close_text"
                     title={null}
                     type="button"
                     variant="tertiary"
                   >
                     <button
-                      aria-label="Lukk"
+                      aria-label="close_text"
                       className="dnb-button dnb-button--tertiary dnb-global-status__close-button dnb-button--icon-position-left dnb-button--has-icon dnb-button--icon-size-medium dnb-button--size-medium dnb-button--has-text"
+                      disabled={false}
                       onClick={[Function]}
                       onMouseOut={[Function]}
                       type="button"
                     >
                       <Content
-                        aria-label="Lukk"
+                        aria-label="close_text"
                         bounding={false}
                         class={null}
                         className="dnb-global-status__close-button"
-                        content={null}
+                        content="close_text"
                         custom_element={null}
                         custom_method={null}
                         disabled={null}
+                        global_status_id={null}
                         href={null}
                         icon="close"
                         icon_position="left"
@@ -814,7 +942,10 @@ exports[`GlobalStatus snapshot have to match component snapshot 1`] = `
                         onClick={null}
                         on_click={[Function]}
                         size="medium"
-                        text="Lukk"
+                        status={null}
+                        status_animation={null}
+                        status_state="error"
+                        text="close_text"
                         title={null}
                         type="button"
                         variant="tertiary"
@@ -823,7 +954,7 @@ exports[`GlobalStatus snapshot have to match component snapshot 1`] = `
                           className="dnb-button__text"
                           key="button-text"
                         >
-                          Lukk
+                          close_text
                         </span>
                         <IconPrimary
                           alt={null}
@@ -844,7 +975,7 @@ exports[`GlobalStatus snapshot have to match component snapshot 1`] = `
                           <span
                             alt="close"
                             aria-hidden={true}
-                            className="dnb-icon dnb-button__icon dnb-icon--medium"
+                            className="dnb-icon dnb-icon--medium dnb-button__icon"
                             role="img"
                           >
                             <close_medium>
@@ -856,8 +987,8 @@ exports[`GlobalStatus snapshot have to match component snapshot 1`] = `
                               >
                                 <path
                                   clipRule="evenodd"
-                                  d="M4.78 3.914a.75.75 0 00-1.06 1.061l7.22 7.22-7.22 7.22a.75.75 0 001.06 1.06l7.22-7.22 7.22 7.22a.75.75 0 001.06-1.06l-7.22-7.22 7.22-7.22a.75.75 0 00-1.06-1.06L12 11.134l-7.22-7.22z"
-                                  fill="#000"
+                                  d="M4.78033 3.91449C4.48744 3.6216 4.01256 3.6216 3.71967 3.91449C3.42678 4.20739 3.42678 4.68226 3.71967 4.97515L10.9393 12.1948L3.71967 19.4145C3.42678 19.7074 3.42678 20.1823 3.71967 20.4752C4.01256 20.768 4.48744 20.768 4.78033 20.4752L12 13.2555L19.2197 20.4752C19.5126 20.768 19.9874 20.768 20.2803 20.4752C20.5732 20.1823 20.5732 19.7074 20.2803 19.4145L13.0607 12.1948L20.2803 4.97515C20.5732 4.68226 20.5732 4.20739 20.2803 3.91449C19.9874 3.6216 19.5126 3.6216 19.2197 3.91449L12 11.1342L4.78033 3.91449Z"
+                                  fill="black"
                                   fillRule="evenodd"
                                 />
                               </svg>
@@ -894,12 +1025,22 @@ exports[`GlobalStatus snapshot have to match component snapshot 1`] = `
                       <li
                         key="0"
                       >
-                        item #1
+                        <p
+                          className="dnb-p"
+                          id="id-1"
+                        >
+                          item #1
+                        </p>
                       </li>
                       <li
                         key="1"
                       >
-                        item #2
+                        <p
+                          className="dnb-p"
+                          id="id-2"
+                        >
+                          item #2
+                        </p>
                       </li>
                     </ul>
                   </div>

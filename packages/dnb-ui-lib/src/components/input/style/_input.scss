@@ -5,14 +5,14 @@
 
 :root {
   --input-font-size: var(--font-size-basis);
-  --input-font-size--medium: 1.5rem;
-  --input-font-size--large: 2rem;
+  --input-font-size--medium: var(--font-size-basis);
+  --input-font-size--large: var(--font-size-medium);
   --input-padding: 1rem;
-  --input-padding--medium: 1.5rem;
-  --input-padding--large: 2rem;
+  --input-padding--medium: 1rem;
+  --input-padding--large: 1rem;
   --input-height: 2rem;
-  --input-height--medium: 3rem;
-  --input-height--large: 4rem;
+  --input-height--medium: 2.5rem;
+  --input-height--large: 3rem;
   --input-border-width: 0.0625rem;
   --input-border-radius: calc(var(--input-height) / 2);
   --input-border-radius--medium: calc(var(--input-height--medium) / 2);
@@ -23,13 +23,14 @@
   display: inline-flex;
   align-items: center;
 
+  font-size: var(--input-font-small);
+  line-height: var(--input-height);
+
   &__inner {
     display: inline-flex;
     flex-direction: column;
 
     width: auto;
-
-    font-size: var(--input-font-size);
   }
 
   &__shell {
@@ -39,8 +40,6 @@
     align-items: center;
 
     border: var(--input-border-width) solid var(--color-sea-green-alt);
-
-    line-height: var(--input-height);
   }
 
   &__input {
@@ -50,6 +49,14 @@
 
     position: relative;
     z-index: 2; // to make sure we are over the placeholder
+  }
+
+  input#{&}__input {
+    // because we inherit the size on the input (reset.css)
+    font-size: var(--input-font-size);
+    line-height: var(
+      --font-size-basis
+    ); // same as font-size - Desktop Safari fix
   }
 
   &__input[disabled] {
@@ -73,10 +80,10 @@
     text-align: left;
 
     color: inherit;
-    font-size: inherit;
     background-color: transparent;
 
-    @include numberFeature(lining-nums, lnum);
+    // because we inherit the size on the input (reset.css)
+    font-size: var(--input-font-size);
   }
 
   &__placeholder {
@@ -90,8 +97,11 @@
 
     white-space: nowrap;
     text-overflow: ellipsis;
+  }
 
-    line-height: inherit;
+  // centering type="file" - here we can actually keep it as pixels
+  input#{&}__input[type='file'] {
+    line-height: calc(var(--input-height) - 2px);
   }
 
   // hide the clear button on input type="search"
@@ -113,12 +123,6 @@
     }
   }
 
-  // vertical alignment
-  [data-os='mac'] &__placeholder,
-  [data-os='mac'] &__input {
-    transform: translateY(0.0625rem);
-  }
-
   &--has-submit-element &__placeholder,
   &--has-submit-element &__input {
     padding-right: calc(var(--input-padding) * 2.5);
@@ -129,13 +133,14 @@
     align-items: center; // Safari gets wired if we use "baseline"
   }
 
-  &__description {
+  &__suffix {
     color: inherit;
     padding-left: 0.5rem;
   }
 
   &__submit-element {
     margin-left: calc(1px - 1px - var(--input-height));
+    line-height: var(--line-height-basis);
   }
 
   &__submit-button {
@@ -151,9 +156,7 @@
   }
 
   &--medium {
-    .dnb-input__shell {
-      line-height: var(--input-height--medium);
-    }
+    line-height: var(--input-height--medium);
     .dnb-input__shell,
     .dnb-input__input {
       height: var(--input-height--medium);
@@ -170,18 +173,17 @@
       .dnb-button {
         width: var(--input-height--medium);
         height: var(--input-height--medium);
+        line-height: var(--input-height--medium);
       }
     }
   }
   &--medium#{&}--has-submit-element &__placeholder,
   &--medium#{&}--has-submit-element &__input {
-    padding-right: calc(var(--input-padding--medium) * 2.5);
+    padding-right: calc(var(--input-padding--medium) * 3);
   }
 
   &--large {
-    .dnb-input__shell {
-      line-height: var(--input-height--large);
-    }
+    line-height: var(--input-height--large);
     .dnb-input__shell,
     .dnb-input__input {
       height: var(--input-height--large);
@@ -198,15 +200,17 @@
       .dnb-button {
         width: var(--input-height--large);
         height: var(--input-height--large);
-        .dnb-button__icon {
-          transform: scale(1.33333);
-        }
+
+        // NB: before we used to scale the icon additioanlly
+        // .dnb-button__icon {
+        //   transform: scale(1.33333);
+        // }
       }
     }
   }
   &--large#{&}--has-submit-element &__placeholder,
   &--large#{&}--has-submit-element &__input {
-    padding-right: calc(var(--input-padding--large) * 2.5);
+    padding-right: calc(var(--input-padding--large) * 3.5);
   }
 
   &__align--center &__placeholder,
@@ -216,11 +220,6 @@
   &__align--right &__placeholder,
   &__align--right &__input {
     text-align: right;
-  }
-
-  // to make Safari selection not appear all to the top
-  .dnb-core-style &__input:not([type='file']) {
-    line-height: var(--line-height-x-small--em);
   }
 
   // no special style for search
@@ -233,6 +232,7 @@
   }
 
   &--vertical {
+    display: flex;
     flex-direction: column;
     align-items: flex-start;
   }
@@ -253,19 +253,35 @@
     width: 100%;
   }
 
+  & > .dnb-form-label {
+    line-height: var(--line-height-basis);
+  }
+
   &[class*='__status'] {
     align-items: flex-start;
-    > .dnb-form-label {
+
+    & > .dnb-form-label {
       // vertical align the current font
       margin-top: 0.25rem;
     }
   }
 
-  @media (max-width: 40em) {
-    flex-direction: column;
-    align-items: flex-start;
-    > .dnb-form-label {
+  .dnb-responsive-component & {
+    @media (max-width: 40em) {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+
       margin-bottom: 0.5rem;
+
+      // helps to stay in alignment with suffix
+      &__row {
+        align-items: flex-start;
+      }
+
+      & > .dnb-form-label {
+        margin-bottom: 0.5rem;
+      }
     }
   }
 
@@ -279,8 +295,10 @@
     &__inner {
       width: 100%; // fix overflow on parent
     }
+
     &__input,
     &__placeholder {
+      // vertical alignment
       transform: translateY(-0.0625rem);
     }
   }

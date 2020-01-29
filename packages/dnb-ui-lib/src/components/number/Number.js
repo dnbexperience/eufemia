@@ -10,13 +10,17 @@ import Context from '../../shared/Context'
 import { LOCALE, CURRENCY, CURRENCY_DISPLAY } from '../../shared/defaults'
 import {
   isTrue,
+  makeUniqueId,
   validateDOMAttributes,
   registerElement,
   extend,
-  PLATFORM_MAC
+  isMac as isMacFunc,
+  isWin as isWinFunc
 } from '../../shared/component-helper'
 import { createSpacingClasses } from '../space/SpacingHelper'
 
+let isMac = null
+let isWin = null
 const renderProps = {}
 
 const propTypes = {
@@ -97,8 +101,14 @@ export default class Number extends PureComponent {
   // }
 
   render() {
-    // consume the global context
+    if (isMac === null) {
+      isMac = isMacFunc()
+    }
+    if (isWin === null) {
+      isWin = isWinFunc()
+    }
 
+    // consume the global context
     const {
       value: _value,
       children,
@@ -138,8 +148,10 @@ export default class Number extends PureComponent {
     // use only the props from context, who are available here anyway
     if (this.context) {
       const useContext = extend(
+        true,
         { locale: null, currency: null },
-        this.context
+        this.context,
+        this.context.translation.Number
       )
 
       if (useContext) {
@@ -162,21 +174,13 @@ export default class Number extends PureComponent {
       formatOptions
     )
 
-    let attributes = { ...rest }
-
     // NB: possible enhancement
     // if (isTrue(selectable)) {
     //   attributes.onClick = this.onClickHandler
     //   // attributes.ref = this._ref
     // }
 
-    if (aria !== display) {
-      // NB: role="text" is not valid,
-      // but is required by VO to fix group anouncement
-      attributes['role'] = 'text'
-      attributes['aria-label'] = aria
-    }
-    attributes = {
+    const attributes = {
       ...{
         className: classnames(
           'dnb-number',
@@ -185,10 +189,21 @@ export default class Number extends PureComponent {
           isTrue(selectable) && 'dnb-number--selectable',
           link && 'dnb-anchor',
           createSpacingClasses(this.props)
-        ),
-        lang
+        )
       },
-      ...attributes
+      ...rest
+    }
+
+    if (isMac) {
+      attributes['role'] = 'text'
+    } else {
+      attributes['role'] = 'textbox' // because NVDA is not reading aria-label on span's
+      attributes['aria-readonly'] = true
+    }
+
+    const additionalAttr = {}
+    if (aria !== display) {
+      additionalAttr['aria-label'] = aria
     }
 
     validateDOMAttributes(this.props, attributes)
@@ -204,8 +219,36 @@ export default class Number extends PureComponent {
       )
     }
 
-    return (
-      <Element is={element} {...attributes}>
+    const OldEdgeFriendly = () => {
+      if (!this._id) {
+        this._id = makeUniqueId()
+      }
+      return (
+        <>
+          <Element
+            is={element}
+            aria-describedby={this._id}
+            aria-hidden
+            {...attributes}
+          >
+            {display}
+          </Element>
+          <span id={this._id} lang={lang} className="dnb-sr-only--inline">
+            {aria}
+          </span>
+        </>
+      )
+    }
+
+    return isWin ? (
+      <OldEdgeFriendly />
+    ) : (
+      <Element
+        is={element}
+        lang={lang}
+        {...additionalAttr}
+        {...attributes}
+      >
         {display}
       </Element>
     )
@@ -360,11 +403,7 @@ const enhanceSR = (value, aria) => {
   // Numbers under 99.999 are read out correctly, but only if we remove the spaces
   // Potential we could also check for locale: && /no|nb|nn/.test(locale)
   // but leave it for now without this ectra check
-  if (
-    typeof navigator !== 'undefined' &&
-    navigator.platform.match(new RegExp(PLATFORM_MAC)) !== null &&
-    Math.abs(parseFloat(value)) <= 99999
-  ) {
+  if (isMac && Math.abs(parseFloat(value)) <= 99999) {
     aria = String(aria).replace(/\s([0-9])/g, '$1')
   }
 
@@ -508,7 +547,7 @@ export const formatNIN = (number, locale = null) => {
       aria = display
         .split(/(\d{2})(\d{2})(\d{2}) (\d{1})(\d{1})(\d{1})(\d{1})(\d{1})/)
         .filter(s => s)
-        .join(' ')
+        .join(isWin ? '. ' : ' ') // NVDA fix with a dot to not read date on FF
     }
   }
 

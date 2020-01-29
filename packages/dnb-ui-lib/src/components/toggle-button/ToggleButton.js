@@ -15,6 +15,7 @@ import {
   validateDOMAttributes,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
+import AlignmentHelper from '../../shared/AlignmentHelper'
 import { createSpacingClasses } from '../space/SpacingHelper'
 
 import Radio from '../radio/Radio'
@@ -25,6 +26,7 @@ import FormStatus from '../form-status/FormStatus'
 import ToggleButtonGroup from './ToggleButtonGroup'
 import ToggleButtonGroupContext from './ToggleButtonGroupContext'
 import Context from '../../shared/Context'
+import Suffix from '../../shared/helpers/Suffix'
 
 const renderProps = {
   on_change: null,
@@ -39,6 +41,7 @@ const propTypes = {
     PropTypes.node
   ]),
   label_direction: PropTypes.oneOf(['horizontal', 'vertical']),
+  label_sr_only: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   title: PropTypes.string,
   checked: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   variant: PropTypes.oneOf(['default', 'checkbox', 'radio']),
@@ -54,6 +57,11 @@ const propTypes = {
   status_state: PropTypes.string,
   status_animation: PropTypes.string,
   global_status_id: PropTypes.string,
+  suffix: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.func,
+    PropTypes.node
+  ]),
   value: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number,
@@ -81,6 +89,7 @@ const defaultProps = {
   text: null,
   label: null,
   label_direction: null,
+  label_sr_only: null,
   title: null,
   checked: null,
   variant: null,
@@ -92,6 +101,7 @@ const defaultProps = {
   status_state: 'error',
   status_animation: null,
   global_status_id: null,
+  suffix: null,
   value: '',
   icon: null,
   icon_position: 'right',
@@ -258,26 +268,25 @@ export default class ToggleButton extends Component {
   render() {
     return (
       <Context.Consumer>
-        {({ formRow }) => {
-          // consume the formRow context
-          let props = formRow
-            ? // use only the props from context, who are available here anyway
-              extendPropsWithContext(this.props, formRow)
-            : this.props
-
-          // consume the toggleButton context
-          props = this.context.name
-            ? // use only the props from context, who are available here anyway
-              extendPropsWithContext(this.props, this.context)
-            : props
+        {context => {
+          // use only the props from context, who are available here anyway
+          const props = extendPropsWithContext(
+            this.props,
+            defaultProps,
+            this.context, // internal context
+            context.formRow,
+            context.translation.ToggleButton
+          )
 
           const {
             status,
             status_state,
             status_animation,
             global_status_id,
+            suffix,
             label,
             label_direction,
+            label_sr_only,
             text,
             title,
             readOnly,
@@ -292,7 +301,7 @@ export default class ToggleButton extends Component {
             // group: _group, // eslint-disable-line
             checked: _checked, // eslint-disable-line
             attributes, // eslint-disable-line
-            children, // eslint-disable-line
+            children,
             on_change, // eslint-disable-line
             on_state_update, // eslint-disable-line
             custom_method, // eslint-disable-line
@@ -337,7 +346,7 @@ export default class ToggleButton extends Component {
           const buttonParams = {
             id,
             disabled,
-            text,
+            text: text || children,
             title,
             ['aria-pressed']: String(checked),
             ...rest
@@ -362,8 +371,10 @@ export default class ToggleButton extends Component {
             }
           }
 
-          if (showStatus) {
-            buttonParams['aria-describedby'] = id + '-status'
+          if (showStatus || suffix) {
+            buttonParams['aria-describedby'] = `${
+              showStatus ? id + '-status' : ''
+            } ${suffix ? id + '-suffix' : ''}`
           }
           if (readOnly) {
             buttonParams['aria-readonly'] = buttonParams.readOnly = true
@@ -397,7 +408,8 @@ export default class ToggleButton extends Component {
                   for_id={id}
                   text={label}
                   disabled={disabled}
-                  direction={label_direction}
+                  label_direction={label_direction}
+                  sr_only={label_sr_only}
                 />
               )}
               <span className="dnb-toggle-button__inner">
@@ -413,6 +425,8 @@ export default class ToggleButton extends Component {
                 )}
 
                 <span className="dnb-toggle-button__shell">
+                  <AlignmentHelper />
+
                   <Button
                     variant="secondary"
                     className="dnb-toggle-button__button"
@@ -428,6 +442,15 @@ export default class ToggleButton extends Component {
                       </span>
                     )}
                   </Button>
+
+                  {suffix && (
+                    <span
+                      className="dnb-toggle-button__suffix"
+                      id={id + '-suffix'} // used for "aria-describedby"
+                    >
+                      <Suffix {...props}>{suffix}</Suffix>
+                    </span>
+                  )}
                 </span>
               </span>
             </span>

@@ -2,24 +2,34 @@
 
 import React from 'react'
 
-const pencil_medium = props => (
-  <svg width={24} height={24} viewBox="0 0 24 24" fill="none" {...props}>
-    <path
-      clipRule="evenodd"
-      d="M22.19 1.81a3.639 3.639 0 00-5.17.035l-14.5 14.5L.75 23.25l6.905-1.771 14.5-14.5a3.637 3.637 0 00.034-5.169z"
-      stroke="#000"
-      strokeWidth={1.5}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-    <path
-      d="M16.605 2.26l5.134 5.134M2.52 16.344l5.14 5.13"
-      stroke="#000"
-      strokeWidth={1.5}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-  </svg>
-)
+function pencil_medium(props) {
+  return (
+    <svg width={24} height={24} viewBox="0 0 24 24" fill="none" {...props}>
+      <path
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M22.1893 1.8103C21.5013 1.12521 20.568 0.743489 19.5971 0.750062C18.6262 0.756634 17.6982 1.15095 17.0195 1.8453L2.51993 16.3449L0.749978 23.2497L7.65478 21.4787L22.1544 6.97915C22.8489 6.30077 23.2433 5.37286 23.2499 4.40202C23.2565 3.43118 22.8746 2.49802 22.1893 1.8103Z"
+        stroke="black"
+        strokeWidth={1.5}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M16.6055 2.26031L21.7393 7.39416"
+        stroke="black"
+        strokeWidth={1.5}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M2.52092 16.3439L7.65977 21.4737"
+        stroke="black"
+        strokeWidth={1.5}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  )
+}
 
 export default pencil_medium

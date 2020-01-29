@@ -48,17 +48,21 @@ exports[`Section scss have to match default theme snapshot 1`] = `
 .dnb-section--mint-green::after {
   color: var(--color-mint-green); }
 
+.dnb-section--lavender::after {
+  color: var(--color-lavender); }
+
+.dnb-section-sand-yellow::after {
+  color: var(--color-sand-yellow); }
+
+.dnb-section--pistachio::after {
+  color: var(--color-pistachio); }
+
 .dnb-section--emerald-green {
   color: var(--color-mint-green); }
   .dnb-section--emerald-green::after {
     color: var(--color-emerald-green); }
   .dnb-section--emerald-green .dnb-code {
     color: var(--color-emerald-green); }
-
-.dnb-section--signal-orange {
-  color: var(--color-ocean-green); }
-  .dnb-section--signal-orange::after {
-    color: var(--color-signal-orange); }
 
 .dnb-section--fire-red {
   color: var(--color-white); }
@@ -67,14 +71,12 @@ exports[`Section scss have to match default theme snapshot 1`] = `
   .dnb-section--fire-red .dnb-code {
     color: var(--color-emerald-green); }
 
-.dnb-section--cherry-red {
-  color: var(--color-white); }
-  .dnb-section--cherry-red::after {
-    color: var(--color-cherry-red); }
-  .dnb-section--cherry-red .dnb-code {
-    color: var(--color-emerald-green); }
+.dnb-section--signal-orange {
+  color: var(--color-ocean-green); }
+  .dnb-section--signal-orange::after {
+    color: var(--color-signal-orange); }
 
-.dnb-section--signal-orange ::selection, .dnb-section--fire-red ::selection, .dnb-section--cherry-red ::selection, .dnb-section--mint-green ::selection {
+.dnb-section--signal-orange ::selection, .dnb-section--fire-red ::selection, .dnb-section--mint-green ::selection {
   background-color: var(--color-white); }
 "
 `;
@@ -103,13 +105,13 @@ exports[`Section scss have to match snapshot 1`] = `
 .dnb-section {
   font-family: var(--font-family-default);
   font-weight: var(--font-weight-default);
-  font-size: var(--font-size-basis);
+  font-size: var(--font-size-small);
   font-style: normal;
   line-height: var(--line-height-basis);
   color: var(--color-black-80, #333);
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-  font-variant-numeric: lining-nums;
-  font-feature-settings: \\"lnum\\";
   /**
   * 1. Remove repeating backgrounds in all browsers (opinionated).
   * 2. Add border box sizing in all browsers (opinionated).

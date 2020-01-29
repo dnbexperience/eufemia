@@ -68,7 +68,7 @@
     }
 
     &__item:nth-of-type(1) {
-      font-weight: var(--font-weight-demi);
+      font-weight: var(--font-weight-medium);
     }
 
     &__inner {
@@ -211,6 +211,7 @@
       }
     }
   }
+  &__status--error:not(#{&}--opened) &__trigger,
   &__status--error:not(#{&}--opened) &__icon {
     color: var(--color-fire-red);
   }

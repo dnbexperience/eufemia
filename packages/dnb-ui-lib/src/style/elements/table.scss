@@ -9,7 +9,7 @@
   &::before {
     content: '';
     position: absolute;
-    top: -0.6rem;
+    top: -0.5rem;
     left: -1rem;
     right: 0.5rem;
     height: 2.5rem;
@@ -37,8 +37,8 @@
     // to make sure we have the ability to have a border where ever we want
     border-bottom: 1px solid transparent;
 
-    font-size: var(--font-size-basis--em);
-    line-height: var(--line-height-basis--em);
+    font-size: var(--font-size-basis);
+    line-height: var(--line-height-basis);
     border-spacing: 0;
 
     word-break: keep-all;
@@ -57,12 +57,15 @@
   }
   & > thead > tr > th,
   & &__th {
+    // Firefox fix
+    @supports (-moz-appearance: meterbar) and
+      (background-blend-mode: difference, normal) {
+      // to get the perfect height of pixles, to this:
+      padding-bottom: calc(0.5rem - 0.5px);
+    }
+
     background-color: var(--color-mint-green-50);
     border-bottom: 1px solid var(--color-mint-green);
-  }
-  &--tabular > tbody > tr > td,
-  &--tabular &__th {
-    @include numberFeature(tabular-nums, lnum);
   }
 
   // sortable
@@ -99,7 +102,8 @@
 
       color: inherit;
       font-weight: var(--font-weight-medium);
-      white-space: nowrap;
+      text-align: left;
+      // white-space: normal;// we don't support multiline buttons in table headers
 
       .dnb-button__text {
         padding-right: 1rem;
@@ -142,6 +146,9 @@
       }
 
       @include active() {
+        @include buttonFocusRing('mouse'); // also, make a mouse ring
+        @include buttonFocusRing('touch'); // also, make a touch ring
+
         @include tableFocusRing();
 
         // focus ring
@@ -220,7 +227,7 @@
   & > tr > th[scope='row'] {
     padding: 1rem;
     padding-top: 1.25rem;
-    padding-bottom: 1.1875rem;
+    padding-bottom: 1.188rem; /* 19/16 */
   }
   & > tbody > tr,
   & &__tr,
@@ -234,12 +241,12 @@
   }
   & > tbody > tr:last-of-type > td,
   & &__tr:last-of-type &__td {
-    // to get the perfect height of pixles, to this:
-    padding-bottom: calc(1.1875rem - 1px);
     border-bottom: 1px solid var(--color-mint-green-50);
   }
 
   & > caption {
+    font-size: var(--font-size-small);
+
     margin-top: 0.5rem;
     caption-side: bottom;
   }

@@ -13,15 +13,15 @@
   display: inline-flex;
   flex-direction: column;
 
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-basis);
+
   &__inner {
     display: inline-flex;
     flex-direction: column;
-  }
-  &__helper {
-    clip: rect(0, 0, 0, 0);
-    width: 0;
-    overflow: hidden;
-    opacity: 0;
+    justify-content: center;
+
+    font-size: var(--font-size-basis);
   }
 
   &__shell {
@@ -32,10 +32,7 @@
     display: flex;
     align-items: center;
 
-    // vertical alignment
-    [data-os='mac'] & {
-      transform: translateY(-0.0625rem);
-    }
+    height: var(--switch-height);
   }
 
   &__focus,
@@ -136,7 +133,11 @@
 
   &__order {
     display: inline-flex;
-    align-items: baseline;
+  }
+
+  &__suffix {
+    padding-left: 0.5rem;
+    order: 4;
   }
 
   &--label-position-left &__order {
@@ -161,11 +162,8 @@
       order: 2;
       margin-left: 1rem;
     }
-    & + .dnb-form-status {
+    .dnb-form-status {
       order: 3;
-      // in case the status did not wrap, we want to have the status on the same line
-      vertical-align: bottom;
-
       margin-top: 0.5rem;
     }
   }

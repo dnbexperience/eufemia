@@ -15,6 +15,8 @@ import {
   Dropdown,
   Section,
   DatePicker,
+  FormSet,
+  FormRow,
   Number
 } from '../../src/components'
 // import { format } from '../../src/components/Number'
@@ -207,29 +209,7 @@ export default [
         <ModalCloseExample />
       </Box>
       <Box>
-        <Button
-          id="custom-triggerer"
-          text="Custom trigger Button"
-          on_click={() => (
-            <Modal
-              title="Modal Title"
-              trigger_hidden="true"
-              open_state="opened"
-              labelled_by="custom-triggerer"
-              className="dnb-core-style"
-              on_open={e => {
-                console.log('on_open', e)
-              }}
-              on_close={e => {
-                console.log('on_close', e)
-              }}
-            >
-              <p className="dnb-p">
-                This Modal was opened by a custom trigger button.
-              </p>
-            </Modal>
-          )}
-        />
+        <ModalTriggerExample />
       </Box>
     </Wrapper>
   )
@@ -400,5 +380,42 @@ const ModalCloseExample = () => {
         </Box>
       </Modal>
     </>
+  )
+}
+
+const ModalTriggerExample = () => {
+  const [count, setCount] = useState(0)
+
+  return (
+    <FormSet>
+      <FormRow>
+        <Button
+          variant="secondary"
+          text="Count"
+          on_click={() => setCount(count + 1)}
+        />
+
+        <Button
+          id="custom-triggerer"
+          text="Custom trigger Button"
+          on_click={e => {
+            console.log('on_click', e)
+            return (
+              <Modal
+                title="Modal Title"
+                trigger_hidden="true"
+                open_state="opened"
+                labelled_by="custom-triggerer"
+              >
+                <Section spacing style_type="divider">
+                  <P>This Modal was opened by a custom trigger button.</P>
+                </Section>
+              </Modal>
+            )
+          }}
+        />
+        {count}
+      </FormRow>
+    </FormSet>
   )
 }

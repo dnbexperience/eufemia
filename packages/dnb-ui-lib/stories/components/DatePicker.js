@@ -11,6 +11,9 @@ import enLocale from 'date-fns/locale/en-US'
 import startOfMonth from 'date-fns/startOfMonth'
 import lastDayOfMonth from 'date-fns/lastDayOfMonth'
 import addDays from 'date-fns/addDays'
+import Provider from '../../src/shared/Provider'
+import Context from '../../src/shared/Context'
+import nbNO from '../../src/shared/locales/nb-NO'
 
 import {
   DatePicker,
@@ -33,39 +36,31 @@ const ScrollbarInner = styled.div`
   height: 100%;
 `
 
+const ChangeLocale = () => {
+  const { setLocale, translation } = React.useContext(Context)
+
+  // console.log('translation 1', translation)
+
+  React.useEffect(() => {
+    setTimeout(() => {
+      setLocale('en-US')
+    }, 2e3)
+  }, [])
+
+  return translation.myString || 'empty'
+}
+
 export default [
   'DatePicker',
   () => (
     <Wrapper>
-      {/* <Box>
-        <DatePicker
-          show_input
-          on_change={props => {
-            console.log('on_change', props)
-          }}
-        />
-      </Box> */}
       <Box>
-        {/* <Input
-          value="custom value"
-          submit_element={
-            <DatePicker
-              opened
-              range
-              shortcuts={[
-                { title: 'Set this date', date: '1981-01-15' },
-                { title: 'Relative', date: '+3 days' }
-              ]}
-              addon_element={<>Bla</>}
-            />
-          }
-          right
-        /> */}
         <DatePicker
           // opened
           show_input
           show_submit_button
           show_cancel_button
+          enable_keyboard_nav
           input_element={<Input value="custom value" />}
           shortcuts={[
             { title: 'Set date', date: '2019-11-15' },
@@ -97,7 +92,12 @@ export default [
         />
       </Box>
       <Box>
-        <CustomDate />
+        <Provider
+          locales={{ ...nbNO, 'nb-NO': { myString: 'Custom string' } }}
+        >
+          <CustomDate />
+          <ChangeLocale />
+        </Provider>
       </Box>
       <Box>
         <Scrollbar>
@@ -125,7 +125,6 @@ export default [
             align_picker="right"
             mask_placeholder="dd/mm/yyyy"
             locale={enLocale}
-            // inputElement="input"
             first_day="sunday"
             return_format="dd/MM/yyyy"
             date="1981-01-15"

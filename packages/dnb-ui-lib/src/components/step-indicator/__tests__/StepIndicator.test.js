@@ -60,7 +60,7 @@ describe('StepIndicator component with urls', () => {
   it('has a "aria-current" attribute on correct item', () => {
     expect(
       Comp.find('li.dnb-step-indicator--active')
-        .find('a')
+        // .find('a')
         .instance()
         .getAttribute('aria-current')
     ).toBe('step')
@@ -68,12 +68,15 @@ describe('StepIndicator component with urls', () => {
 
   it('should validate with ARIA rules', async () => {
     expect(
-      await axeComponent(Comp, {
-        rules: {
-          // because of the role="text", we disable this rule for now
-          'aria-roles': { enabled: false }
-        }
-      })
+      await axeComponent(Comp)
+      // We had this as the axeComponent option util v5
+      // Can be removed in later versions
+      // , {
+      //   rules: {
+      //     // because of the role="text", we disable this rule for now
+      //     'aria-roles': { enabled: false }
+      //   }
+      // }
     ).toHaveNoViolations()
   })
 })
@@ -122,7 +125,7 @@ describe('StepIndicator component with buttons', () => {
   it('has a "aria-current" attribute on correct item', () => {
     expect(
       Comp.find('li.dnb-step-indicator--active')
-        .find('button')
+        // .find('button')
         .instance()
         .getAttribute('aria-current')
     ).toBe('step')
@@ -130,12 +133,13 @@ describe('StepIndicator component with buttons', () => {
 
   it('should validate with ARIA rules', async () => {
     expect(
-      await axeComponent(Comp, {
-        rules: {
-          // because of the role="text", we disable this rule for now
-          'aria-roles': { enabled: false }
-        }
-      })
+      await axeComponent(Comp)
+      // We had this as the axeComponent option util v5
+      // Can be removed in later versions
+      // rules: {
+      //   // because of the role="text", we disable this rule for now
+      //   'aria-roles': { enabled: false }
+      // }
     ).toHaveNoViolations()
   })
 })

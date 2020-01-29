@@ -11,7 +11,7 @@ import {
 
 describe('FormRow screenshot', () => {
   setupPageScreenshot({
-    url: '/uilib/components/form-row'
+    url: '/uilib/components/form-row/form-row-examples'
     // screenshotConfig: {
     //   // use 7% on CI because of the font rendering differences
     //   pixelThresholdRelative: isCI ? 0.07 : 0
@@ -83,6 +83,14 @@ describe('FormRow screenshot', () => {
       const screenshot = await testPageScreenshot({
         wrapperStyle,
         selector: '[data-dnb-test="form-row-all-vertical-label-direction"]'
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
+    it('have to match "vertical label direction" (no label) with all components', async () => {
+      const screenshot = await testPageScreenshot({
+        wrapperStyle,
+        selector:
+          '[data-dnb-test="form-row-all-vertical-label-direction-no-label"]'
       })
       expect(screenshot).toMatchImageSnapshot()
     })

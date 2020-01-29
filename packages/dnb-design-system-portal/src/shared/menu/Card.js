@@ -94,7 +94,7 @@ const CardWrapper = styled.div`
 `
 
 export const focusRing = css`
-  box-shadow: 0 0 0 0.125rem var(--color-signal-yellow);
+  box-shadow: 0 0 0 0.125rem var(--color-accent-yellow);
 `
 
 const linkStyle = css`
@@ -185,7 +185,14 @@ export default class Card extends PureComponent {
     const Anchor = isIE11
       ? ({ children, to, ...rest }) =>
           to && (
-            <a {...rest} href={url}>
+            <a
+              {...rest}
+              href={url}
+              onClick={event => {
+                event.preventDefault()
+                window.location.assign(url)
+              }}
+            >
               {children}
             </a>
           )
@@ -214,7 +221,7 @@ export default class Card extends PureComponent {
               aria-current={this.isSelected()}
               onClick={closeMenu}
             >
-              <LinkInner {...textRole}>
+              <LinkInner>
                 <Box>
                   <Svg {...svgParams} />
                   <Header className="dnb-lead">{title}</Header>
@@ -240,5 +247,3 @@ export default class Card extends PureComponent {
 
 const random = (min, max) =>
   Math.floor(Math.random() * (max - min + 1) + min)
-
-const textRole = { role: 'text' }

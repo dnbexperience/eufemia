@@ -21,7 +21,7 @@ describe('ToggleButton unchecked screenshot', () => {
       selector: '[data-dnb-test="toggle-button-default"]',
       simulateSelector:
         '[data-dnb-test="toggle-button-default"] .dnb-toggle-button__button',
-      simulate: 'focus'
+      simulate: 'focus' // should be tested first
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -51,7 +51,7 @@ describe('ToggleButton checked screenshot', () => {
       selector: '[data-dnb-test="toggle-button-checked"]',
       simulateSelector:
         '[data-dnb-test="toggle-button-checked"] .dnb-toggle-button__button',
-      simulate: 'focus'
+      simulate: 'focus' // should be tested first
     })
     expect(screenshot).toMatchImageSnapshot()
   })

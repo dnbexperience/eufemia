@@ -20,7 +20,7 @@ exports[`Number component have to match default number snapshot 1`] = `
   <a
     className="dnb-number className class dnb-number--selectable dnb-anchor"
     href="tel:0012 34 56 78 90 1"
-    lang="nb-NO"
+    role="text"
   >
     0012 34 56 78 90 1
   </a>

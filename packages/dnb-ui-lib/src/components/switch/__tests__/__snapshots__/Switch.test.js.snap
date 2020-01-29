@@ -22,11 +22,12 @@ exports[`Switch component have to match snapshot 1`] = `
   status={null}
   status_animation="status_animation"
   status_state="status_state"
+  suffix="suffix"
   title="title"
   value="value"
 >
   <span
-    className="dnb-switch className class dnb-switch--label-position-left"
+    className="dnb-switch dnb-switch--label-position-left dnb-form-component className class"
   >
     <span
       className="dnb-switch__order"
@@ -41,18 +42,21 @@ exports[`Switch component have to match snapshot 1`] = `
         id="id-label"
         label_direction={null}
         render_content={null}
+        sr_only={null}
         text="label"
         title={null}
         vertical={null}
       >
         <Element
           className="dnb-form-label"
+          disabled={false}
           htmlFor="id"
           id="id-label"
           is="label"
         >
           <label
             className="dnb-form-label"
+            disabled={false}
             htmlFor="id"
             id="id-label"
           >
@@ -63,13 +67,23 @@ exports[`Switch component have to match snapshot 1`] = `
       <span
         className="dnb-switch__inner"
       >
+        <AlignmentHelper
+          className={null}
+        >
+          <span
+            aria-hidden={true}
+            className="dnb-alignment-helper"
+          />
+        </AlignmentHelper>
         <span
           className="dnb-switch__shell"
         >
           <input
             aria-checked={false}
+            aria-describedby=" id-suffix"
             checked={false}
             className="dnb-switch__input"
+            disabled={false}
             id="id"
             name="id"
             onChange={[Function]}
@@ -80,12 +94,6 @@ exports[`Switch component have to match snapshot 1`] = `
             type="checkbox"
             value=""
           />
-          <span
-            aria-hidden={true}
-            className="dnb-switch__helper"
-          >
-            -
-          </span>
           <span
             aria-hidden={true}
             className="dnb-switch__background"
@@ -104,6 +112,38 @@ exports[`Switch component have to match snapshot 1`] = `
                 className="dnb-switch__focus__inner"
               />
             </span>
+          </span>
+          <span
+            className="dnb-switch__suffix"
+            id="id-suffix"
+          >
+            <Suffix
+              attributes="attributes"
+              checked="checked"
+              class="class"
+              className="className"
+              custom_element={Object {}}
+              custom_method={[Function]}
+              default_state="default_state"
+              disabled="disabled"
+              global_status_id="global_status_id"
+              id="id"
+              label="label"
+              label_direction="horizontal"
+              label_position="left"
+              on_change={[Function]}
+              on_change_end={[Function]}
+              on_state_update={[Function]}
+              readOnly={false}
+              status={null}
+              status_animation="status_animation"
+              status_state="status_state"
+              suffix="suffix"
+              title="title"
+              value="value"
+            >
+              suffix
+            </Suffix>
           </span>
         </span>
       </span>
@@ -287,13 +327,13 @@ exports[`Switch scss have to match snapshot 1`] = `
 .dnb-form-label {
   font-family: var(--font-family-default);
   font-weight: var(--font-weight-default);
-  font-size: var(--font-size-basis);
+  font-size: var(--font-size-small);
   font-style: normal;
   line-height: var(--line-height-basis);
   color: var(--color-black-80, #333);
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-  font-variant-numeric: lining-nums;
-  font-feature-settings: \\"lnum\\";
   /**
   * 1. Remove repeating backgrounds in all browsers (opinionated).
   * 2. Add border box sizing in all browsers (opinionated).
@@ -328,12 +368,17 @@ exports[`Switch scss have to match snapshot 1`] = `
   padding: 0;
   margin-right: 1rem;
   text-align: left;
+  font-size: var(--font-size-basis);
   vertical-align: baseline;
   color: inherit; }
   .dnb-form-label--vertical {
     display: block;
     margin-right: 0;
     margin-bottom: 0.5rem; }
+  .dnb-form-label--sr-only {
+    width: 1px;
+    margin-left: -1px;
+    overflow: hidden; }
   .dnb-form-label[for]:not([disabled]) {
     user-select: none;
     -webkit-user-select: none;
@@ -354,13 +399,13 @@ legend.dnb-form-label {
 .dnb-form-status {
   font-family: var(--font-family-default);
   font-weight: var(--font-weight-default);
-  font-size: var(--font-size-basis);
+  font-size: var(--font-size-small);
   font-style: normal;
   line-height: var(--line-height-basis);
   color: var(--color-black-80, #333);
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-  font-variant-numeric: lining-nums;
-  font-feature-settings: \\"lnum\\";
   /**
   * 1. Remove repeating backgrounds in all browsers (opinionated).
   * 2. Add border box sizing in all browsers (opinionated).
@@ -401,8 +446,6 @@ legend.dnb-form-label {
     cursor: text;
     color: inherit;
     line-height: var(--line-height-basis); }
-    [data-os='mac'] .dnb-form-status--text {
-      transform: translateY(0.0625rem); }
   .dnb-icon + .dnb-form-status--text {
     padding-left: 0.5rem; }
   .dnb-form-status__shell > .dnb-icon {
@@ -414,7 +457,8 @@ legend.dnb-form-label {
     margin-top: 0.25em;
     margin-left: 0.5em;
     color: inherit;
-    font-size: var(--font-size-basis); }
+    font-size: var(--font-size-basis);
+    transform: translateY(-0.125rem); }
   .dnb-form-status[hidden] {
     display: none; }
   .dnb-form-status--fade-in {
@@ -434,13 +478,13 @@ legend.dnb-form-label {
 .dnb-switch {
   font-family: var(--font-family-default);
   font-weight: var(--font-weight-default);
-  font-size: var(--font-size-basis);
+  font-size: var(--font-size-small);
   font-style: normal;
   line-height: var(--line-height-basis);
   color: var(--color-black-80, #333);
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-  font-variant-numeric: lining-nums;
-  font-feature-settings: \\"lnum\\";
   /**
   * 1. Remove repeating backgrounds in all browsers (opinionated).
   * 2. Add border box sizing in all browsers (opinionated).
@@ -477,6 +521,8 @@ legend.dnb-form-label {
 .dnb-switch {
   display: inline-flex;
   flex-direction: column;
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-basis);
   /*
     * When switched OFF
     * aka when the switch is not :checked
@@ -487,20 +533,16 @@ legend.dnb-form-label {
     */ }
   .dnb-switch__inner {
     display: inline-flex;
-    flex-direction: column; }
-  .dnb-switch__helper {
-    clip: rect(0, 0, 0, 0);
-    width: 0;
-    overflow: hidden;
-    opacity: 0; }
+    flex-direction: column;
+    justify-content: center;
+    font-size: var(--font-size-basis); }
   .dnb-switch__shell {
     user-select: none;
     -webkit-user-select: none;
     position: relative;
     display: flex;
-    align-items: center; }
-    [data-os='mac'] .dnb-switch__shell {
-      transform: translateY(-0.0625rem); }
+    align-items: center;
+    height: var(--switch-height); }
   .dnb-switch__focus, .dnb-switch__button {
     position: absolute;
     z-index: 4;
@@ -552,8 +594,10 @@ legend.dnb-form-label {
     margin-right: 0.5rem;
     margin-bottom: 0; }
   .dnb-switch__order {
-    display: inline-flex;
-    align-items: baseline; }
+    display: inline-flex; }
+  .dnb-switch__suffix {
+    padding-left: 0.5rem;
+    order: 4; }
   .dnb-switch--label-position-left .dnb-switch__order .dnb-switch__inner {
     order: 2; }
   .dnb-switch--label-position-left .dnb-switch__order .dnb-form-label {
@@ -567,9 +611,8 @@ legend.dnb-form-label {
   .dnb-switch--label-position-right .dnb-switch__order .dnb-form-label {
     order: 2;
     margin-left: 1rem; }
-  .dnb-switch--label-position-right .dnb-switch__order + .dnb-form-status {
+  .dnb-switch--label-position-right .dnb-switch__order .dnb-form-status {
     order: 3;
-    vertical-align: bottom;
     margin-top: 0.5rem; }
   @media screen and (-ms-high-contrast: none) {
     .dnb-switch {

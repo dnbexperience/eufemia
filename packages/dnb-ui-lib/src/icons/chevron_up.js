@@ -2,15 +2,17 @@
 
 import React from 'react'
 
-const chevron_up = props => (
-  <svg width={16} height={16} viewBox="0 0 16 16" fill="none" {...props}>
-    <path
-      fillRule="evenodd"
-      clipRule="evenodd"
-      d="M8.78 5.22l4.5 4.5a.75.75 0 11-1.06 1.06L8.25 6.81l-3.97 3.97a.75.75 0 11-1.06-1.06l4.5-4.5a.748.748 0 011.06 0z"
-      fill="#000"
-    />
-  </svg>
-)
+function chevron_up(props) {
+  return (
+    <svg width={16} height={16} viewBox="0 0 16 16" fill="none" {...props}>
+      <path
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M8.53033 5.21967L13.0303 9.71967C13.3232 10.0126 13.3232 10.4874 13.0303 10.7803C12.7374 11.0732 12.2626 11.0732 11.9697 10.7803L8 6.81066L4.03033 10.7803C3.73744 11.0732 3.26256 11.0732 2.96967 10.7803C2.67678 10.4874 2.67678 10.0126 2.96967 9.71967L7.46967 5.21967C7.54289 5.14645 7.62749 5.09153 7.71777 5.05492C7.8059 5.01918 7.89944 5.00089 7.99311 5.00003C8.18734 4.99826 8.38213 5.07147 8.53033 5.21967Z"
+        fill="black"
+      />
+    </svg>
+  )
+}
 
 export default chevron_up

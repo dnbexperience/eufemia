@@ -57,17 +57,18 @@ exports[`GlobalError scss have to match snapshot 1`] = `
 */
 .dnb-icon {
   display: inline-block;
-  vertical-align: baseline;
-  font-size: inherit;
-  line-height: var(--line-height-x-small--em);
+  vertical-align: middle;
+  font-size: 1rem;
+  line-height: 1rem;
+  color: inherit;
   width: 1em;
   height: 1em; }
   .dnb-icon img,
   .dnb-icon svg {
     width: inherit;
     height: inherit;
-    vertical-align: middle;
-    shape-rendering: geometricPrecision; }
+    shape-rendering: geometricPrecision;
+    vertical-align: top; }
   .dnb-icon svg[width='100%'] {
     width: inherit; }
   .dnb-icon svg[height='100%'] {
@@ -78,40 +79,130 @@ exports[`GlobalError scss have to match snapshot 1`] = `
   .dnb-icon svg [stroke] {
     stroke: currentColor; }
   .dnb-icon--small {
-    width: 0.75em;
-    height: 0.75em; }
+    font-size: 0.75rem; }
   .dnb-icon--default {
-    width: 1em;
-    height: 1em; }
+    font-size: 1rem; }
   .dnb-icon--medium {
-    width: 1.5em;
-    height: 1.5em; }
+    font-size: 1.5rem; }
   .dnb-icon--large {
-    width: 2em;
-    height: 2em; }
+    font-size: 2rem; }
   .dnb-icon--x-large {
-    width: 2.5em;
-    height: 2.5em; }
+    font-size: 2.5rem; }
   .dnb-icon--xx-large {
-    width: 3em;
-    height: 3em; }
+    font-size: 3rem; }
   .dnb-icon--custom-size {
     width: auto;
     height: auto; }
+  .dnb-icon--auto {
+    font-size: 1em; }
+  .dnb-icon--auto > .dnb-icon--wrapper {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center; }
+  h1 .dnb-icon,
+  h2 .dnb-icon,
+  h3 .dnb-icon,
+  h4 .dnb-icon,
+  h5 .dnb-icon,
+  h6 .dnb-icon {
+    vertical-align: middle; }
   @media screen and (-ms-high-contrast: none) {
     .dnb-icon {
       flex: none; } }
 
-.dnb-button {
+/*
+* DNB FormStatus
+*
+*/
+.dnb-form-status {
   font-family: var(--font-family-default);
   font-weight: var(--font-weight-default);
-  font-size: var(--font-size-basis);
+  font-size: var(--font-size-small);
   font-style: normal;
   line-height: var(--line-height-basis);
   color: var(--color-black-80, #333);
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-  font-variant-numeric: lining-nums;
-  font-feature-settings: \\"lnum\\";
+  /**
+  * 1. Remove repeating backgrounds in all browsers (opinionated).
+  * 2. Add border box sizing in all browsers (opinionated).
+  */
+  /**
+  * 1. Add text decoration inheritance in all browsers (opinionated).
+  * 2. Add vertical alignment inheritance in all browsers (opinionated).
+  */
+  margin: 0;
+  padding: 0; }
+  .dnb-form-status *,
+  .dnb-form-status ::before,
+  .dnb-form-status ::after {
+    background-repeat: no-repeat;
+    /* 1 */
+    box-sizing: border-box;
+    /* 2 */ }
+  .dnb-form-status ::before,
+  .dnb-form-status ::after {
+    text-decoration: inherit;
+    /* 1 */
+    vertical-align: inherit;
+    /* 2 */ }
+
+/*
+ * FormStatus component
+ *
+ */
+.dnb-form-status {
+  display: flex; }
+  .dnb-form-status__shell {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    border-radius: var(--input-border-radius); }
+  .dnb-form-status--text {
+    padding: calc(0.5rem / 2) 1rem;
+    cursor: text;
+    color: inherit;
+    line-height: var(--line-height-basis); }
+  .dnb-icon + .dnb-form-status--text {
+    padding-left: 0.5rem; }
+  .dnb-form-status__shell > .dnb-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 1.5em;
+    height: 1.5em;
+    margin-top: 0.25em;
+    margin-left: 0.5em;
+    color: inherit;
+    font-size: var(--font-size-basis);
+    transform: translateY(-0.125rem); }
+  .dnb-form-status[hidden] {
+    display: none; }
+  .dnb-form-status--fade-in {
+    overflow: hidden;
+    max-height: 0;
+    animation: form-status-fade-in 2s ease-out 400ms forwards; }
+
+@keyframes form-status-fade-in {
+  from {
+    max-height: 0; }
+  to {
+    max-height: calc(var(--input-height) * 8); } }
+  @media screen and (-ms-high-contrast: none) {
+    .dnb-form-status__shell > .dnb-icon {
+      border-width: 1px; } }
+
+.dnb-button {
+  font-family: var(--font-family-default);
+  font-weight: var(--font-weight-default);
+  font-size: var(--font-size-small);
+  font-style: normal;
+  line-height: var(--line-height-basis);
+  color: var(--color-black-80, #333);
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   /**
   * 1. Remove repeating backgrounds in all browsers (opinionated).
   * 2. Add border box sizing in all browsers (opinionated).
@@ -172,24 +263,17 @@ exports[`GlobalError scss have to match snapshot 1`] = `
   padding: 0;
   border: var(--button-border-width) solid transparent;
   border-radius: var(--button-border-radius);
-  text-decoration: none; }
+  text-decoration: none;
+  font-size: var(--font-size-small); }
   .dnb-button,
   .dnb-core-style .dnb-button {
-    font-size: var(--button-font-size);
     line-height: var(--button-height); }
-  .dnb-button__icon {
-    line-height: var(--line-height-x-small--em); }
-    .dnb-button__icon:not(.dnb-icon) svg:not([width]):not([height]) {
-      width: var(--button-icon-size);
-      height: var(--button-icon-size); }
-    [data-os='win'] .dnb-button__icon {
-      transform: translateY(-0.0625rem); }
   .dnb-button__text {
-    line-height: var(--line-height-x-small--em);
+    font-size: var(--button-font-size);
+    line-height: var(--line-height-xx-small--em);
     color: inherit;
-    background-color: inherit; }
-    [data-os='mac'] .dnb-button__text {
-      transform: translateY(0.0625rem); }
+    background-color: inherit;
+    transform: translateY(-0.03125rem); }
   .dnb-button__bounding {
     position: absolute;
     background-color: transparent;
@@ -201,8 +285,10 @@ exports[`GlobalError scss have to match snapshot 1`] = `
     width: var(--button-width--small);
     height: var(--button-height--small);
     font-size: var(--button-font-size-small);
-    line-height: var(--button-height--small);
     border-radius: var(--button-border-radius--small); }
+    .dnb-button--size-small,
+    .dnb-core-style .dnb-button--size-small {
+      line-height: var(--button-height--small); }
   .dnb-button--has-text.dnb-button--size-small {
     padding-left: 1rem;
     padding-right: 1rem; }
@@ -213,8 +299,10 @@ exports[`GlobalError scss have to match snapshot 1`] = `
   .dnb-button--size-medium {
     width: var(--button-width--medium);
     height: var(--button-height--medium);
-    line-height: var(--button-height--medium);
     border-radius: var(--button-border-radius--medium); }
+    .dnb-button--size-medium,
+    .dnb-core-style .dnb-button--size-medium {
+      line-height: var(--button-height--medium); }
   .dnb-button--has-text.dnb-button--size-medium {
     padding-left: 1rem;
     padding-right: 1rem; }
@@ -225,8 +313,10 @@ exports[`GlobalError scss have to match snapshot 1`] = `
   .dnb-button--size-large {
     width: var(--button-width--large);
     height: var(--button-height--large);
-    line-height: var(--button-height--large);
     border-radius: var(--button-border-radius--large); }
+    .dnb-button--size-large,
+    .dnb-core-style .dnb-button--size-large {
+      line-height: var(--button-height--large); }
   .dnb-button--has-text.dnb-button--size-large {
     padding-left: 2rem;
     padding-right: 2rem; }
@@ -248,6 +338,13 @@ exports[`GlobalError scss have to match snapshot 1`] = `
     order: 2; }
   .dnb-button--has-text.dnb-button--has-icon .dnb-button__text {
     order: 1; }
+  .dnb-button:not(.dnb-button--has-text) .dnb-button__icon {
+    width: inherit; }
+  .dnb-button__icon.dnb-icon svg:not([width]):not([height]) {
+    width: var(--button-icon-size);
+    height: var(--button-icon-size); }
+  [href] > .dnb-button__icon.dnb-icon {
+    line-height: var(--button-font-size); }
   .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-left .dnb-button__icon {
     order: 1; }
   .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-left .dnb-button__text {
@@ -301,22 +398,16 @@ exports[`GlobalError scss have to match snapshot 1`] = `
 button.dnb-button::-moz-focus-inner {
   border: none; }
 
-a.dnb-button .dnb-button__icon {
-  transform: translateY(0); }
-
-a.dnb-button .dnb-button__text {
-  transform: translateY(0.0625rem); }
-
 .dnb-global-error {
   font-family: var(--font-family-default);
   font-weight: var(--font-weight-default);
-  font-size: var(--font-size-basis);
+  font-size: var(--font-size-small);
   font-style: normal;
   line-height: var(--line-height-basis);
   color: var(--color-black-80, #333);
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-  font-variant-numeric: lining-nums;
-  font-feature-settings: \\"lnum\\";
   /**
   * 1. Remove repeating backgrounds in all browsers (opinionated).
   * 2. Add border box sizing in all browsers (opinionated).
@@ -393,6 +484,7 @@ a.dnb-button .dnb-button__text {
 
 exports[`GlobalError snapshot have to match component snapshot 1`] = `
 <GlobalError
+  alt="alt"
   back="back"
   class="class"
   className="className"
@@ -404,6 +496,7 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
   title="title"
 >
   <div
+    alt="alt"
     className="dnb-global-error dnb-global-error--404 className class"
   >
     <div
@@ -416,6 +509,7 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
         custom_element={null}
         custom_method={null}
         disabled={null}
+        global_status_id={null}
         href="href"
         icon="chevron_left"
         icon_position="left"
@@ -425,6 +519,9 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
         onClick={null}
         on_click={[Function]}
         size={null}
+        status={null}
+        status_animation={null}
+        status_state="error"
         text="back"
         title={null}
         type="button"
@@ -432,6 +529,7 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
       >
         <a
           className="dnb-button dnb-button--tertiary dnb-global-error__back dnb-button--icon-position-left dnb-button--has-icon dnb-button--has-text"
+          disabled={false}
           href="href"
           onClick={[Function]}
           onMouseOut={[Function]}
@@ -441,10 +539,11 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
             bounding={false}
             class={null}
             className="dnb-global-error__back"
-            content={null}
+            content="back"
             custom_element={null}
             custom_method={null}
             disabled={null}
+            global_status_id={null}
             href="href"
             icon="chevron_left"
             icon_position="left"
@@ -455,6 +554,9 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
             onClick={null}
             on_click={[Function]}
             size={null}
+            status={null}
+            status_animation={null}
+            status_state="error"
             text="back"
             title={null}
             type="button"
@@ -485,7 +587,7 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
               <span
                 alt="chevron left"
                 aria-hidden={true}
-                className="dnb-icon dnb-button__icon"
+                className="dnb-icon dnb-icon--default dnb-button__icon"
                 role="img"
               >
                 <chevron_left>
@@ -497,8 +599,8 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
                   >
                     <path
                       clipRule="evenodd"
-                      d="M10.78 4.03a.75.75 0 10-1.06-1.06l-4.5 4.5a.75.75 0 000 1.06l4.5 4.5a.75.75 0 101.06-1.06L6.81 8l3.97-3.97z"
-                      fill="#000"
+                      d="M10.7803 4.03033C11.0732 3.73744 11.0732 3.26256 10.7803 2.96967C10.4874 2.67678 10.0126 2.67678 9.71967 2.96967L5.21967 7.46967C4.92678 7.76256 4.92678 8.23744 5.21967 8.53033L9.71967 13.0303C10.0126 13.3232 10.4874 13.3232 10.7803 13.0303C11.0732 12.7374 11.0732 12.2626 10.7803 11.9697L6.81066 8L10.7803 4.03033Z"
+                      fill="black"
                       fillRule="evenodd"
                     />
                   </svg>
@@ -509,22 +611,27 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
         </a>
       </Button>
       <Svg
-        aria-hidden={true}
         className="dnb-global-error__gfx"
+        role="img"
         status="404"
+        title="alt"
       >
         <Svg404
-          aria-hidden={true}
           className="dnb-global-error__gfx"
+          role="img"
+          title="alt"
         >
           <svg
-            aria-hidden={true}
             className="dnb-global-error__gfx"
             fill="none"
             height="360"
+            role="img"
             width="339"
             xmlns="http://www.w3.org/2000/svg"
           >
+            <title>
+              alt
+            </title>
             <path
               d="M104 96s6 16 5 21c0 6 13 4 22-8 9-11-26-14-26-14l-1 1z"
               fill="#00313B"

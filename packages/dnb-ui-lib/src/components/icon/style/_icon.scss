@@ -5,11 +5,15 @@
 
 .dnb-icon {
   display: inline-block;
-  vertical-align: baseline;
-  font-size: inherit; // only to feed width and height em's
-  line-height: var(
-    --line-height-x-small--em
-  ); // for vertical alignment, we have to have no line-height
+
+  // sine we use vertical-align: top on the SVG
+  // we have to move center the alignment here again
+  // else basic text aferwars will get aligned on top
+  vertical-align: middle;
+
+  font-size: 1rem; // to make sure we have always the same starting point
+  line-height: 1rem; // for vertical alignment, we have to have no line-height
+  color: inherit;
 
   width: 1em;
   height: 1em;
@@ -19,8 +23,8 @@
   svg {
     width: inherit;
     height: inherit;
-    vertical-align: middle;
     shape-rendering: geometricPrecision;
+    vertical-align: top;
   }
 
   // auto size
@@ -42,32 +46,43 @@
 
   // sizes
   &--small {
-    width: 0.75em;
-    height: 0.75em;
+    font-size: 0.75rem;
   }
   &--default {
-    width: 1em;
-    height: 1em;
+    font-size: 1rem;
   }
   &--medium {
-    width: 1.5em;
-    height: 1.5em;
+    font-size: 1.5rem;
   }
   &--large {
-    width: 2em;
-    height: 2em;
+    font-size: 2rem;
   }
   &--x-large {
-    width: 2.5em;
-    height: 2.5em;
+    font-size: 2.5rem;
   }
   &--xx-large {
-    width: 3em;
-    height: 3em;
+    font-size: 3rem;
   }
   &--custom-size {
     width: auto; // only to feed the svg
     height: auto; // only to feed the svg
+  }
+  &--auto {
+    font-size: 1em;
+  }
+  &--auto > &--wrapper {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  h1 &,
+  h2 &,
+  h3 &,
+  h4 &,
+  h5 &,
+  h6 & {
+    vertical-align: middle;
   }
 
   // IE fix

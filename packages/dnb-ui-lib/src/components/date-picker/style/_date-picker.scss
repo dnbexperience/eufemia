@@ -15,6 +15,7 @@
   &:not(#{&}--no-animation) {
     animation: date-picker-slide-down 200ms ease-out 1 forwards;
   }
+  html[data-dnb-test] &,
   &--no-animation {
     animation: date-picker-slide-down 1ms ease-out 1 forwards;
   }
@@ -23,6 +24,7 @@
   &:not(#{&}--no-animation) {
     animation: date-picker-slide-up 150ms ease-out 1 forwards;
   }
+  html[data-dnb-test] &,
   &--no-animation {
     animation: date-picker-slide-up 1ms ease-out 1 forwards;
   }
@@ -36,17 +38,23 @@
   display: inline-flex;
   align-items: center;
 
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-basis);
+
   &__inner {
     display: inline-flex;
     flex-direction: column;
+
+    // if no label is provided, then make sure we have some text to align the button
+    line-height: var(--date-picker-input-height);
   }
 
-  // if no label is provided, then make sure we have some text to align the button
-  &__helper {
-    clip: rect(0, 0, 0, 0);
-    width: 0;
-    overflow: hidden;
-    opacity: 0;
+  &__row {
+    display: inline-flex;
+  }
+
+  &__suffix {
+    padding-left: 0.5rem;
   }
 
   &__shell {
@@ -96,34 +104,10 @@
     width: auto;
 
     margin: 0;
-    padding: 0 0.1875rem;
+    padding: 0 0.125rem;
+
+    // reset vertical alignment
     transform: translateY(0);
-
-    /* Chrome fix */
-    @supports (-webkit-appearance: none) and
-      (not (overflow: -webkit-marquee)) and (not (-ms-ime-align: auto)) and
-      (not (-moz-appearance: none)) {
-      & {
-        margin: 0 -2px;
-      }
-    }
-
-    /* Safari fix */
-    @media not all and (min-resolution: 0.001dpcm) {
-      @supports (-webkit-appearance: none) and (stroke-color: transparent)
-        and (not (-webkit-overflow-scrolling: touch)) {
-        &:not(*:root) {
-          margin: 0 -5px;
-        }
-        &:first-of-type:not(*:root) {
-          margin-left: 0.8rem;
-        }
-        // stylelint-disable-next-line
-        &:last-of-type:not(*:root) {
-          margin-right: 2.2rem;
-        }
-      }
-    }
 
     outline: none;
 
@@ -134,6 +118,41 @@
 
     overflow: visible;
     white-space: nowrap;
+
+    // Firefox fix
+    @supports (-moz-appearance: meterbar) and
+      (background-blend-mode: difference, normal) {
+      margin: 0 2px;
+    }
+
+    // Chrome fix
+    @supports (-webkit-appearance: none) and
+      (not (overflow: -webkit-marquee)) and (not (-ms-ime-align: auto)) and
+      (not (-moz-appearance: none)) {
+      margin: 0 -1px;
+    }
+
+    // Edge fix
+    @supports (-ms-ime-align: auto) {
+      margin: 0 -4px;
+    }
+
+    // Safari fix
+    @media not all and (min-resolution: 0.001dpcm) {
+      @supports (-webkit-appearance: none) and (stroke-color: transparent)
+        and (not (-webkit-overflow-scrolling: touch)) {
+        &:not(*:root) {
+          margin: 0 -4px;
+        }
+        &:first-of-type:not(*:root) {
+          margin-left: 0.8rem;
+        }
+        // stylelint-disable-next-line
+        &:last-of-type:not(*:root) {
+          margin-right: 2.2rem;
+        }
+      }
+    }
   }
   .dnb-input__input#{&}__input:first-of-type,
   &__input:first-of-type {
@@ -187,6 +206,11 @@
 
   &:not(#{&}--show-footer) &__calendar::after {
     content: none;
+  }
+
+  &__header {
+    height: 2.5rem;
+    line-height: var(--line-height-basis);
   }
 
   &__addon,
@@ -245,6 +269,9 @@
   }
 
   table {
+    position: relative;
+    z-index: 1; // to make sure we show the focus ring over the header line on top
+
     margin: 0;
 
     &.dnb-no-focus:focus {
@@ -275,6 +302,11 @@
       box-shadow: none;
       &__bounding {
         border-radius: 0;
+      }
+
+      // reset vertical alignment
+      &__text {
+        transform: translateY(0);
       }
     }
 
@@ -367,9 +399,11 @@
     align-items: flex-start;
     flex-direction: column;
   }
-  &--vertical &__helper {
-    display: none;
+
+  > .dnb-form-label {
+    line-height: var(--line-height-basis);
   }
+
   &[class*='__status'] {
     align-items: flex-start;
     > .dnb-form-label {
@@ -378,15 +412,20 @@
     }
   }
 
-  @media (max-width: 40em) {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    > .dnb-form-label {
+  .dnb-responsive-component & {
+    @media (max-width: 40em) {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+
       margin-bottom: 0.5rem;
-    }
-    &__helper {
-      display: none;
+
+      > .dnb-form-label {
+        margin-bottom: 0.5rem;
+      }
+      &__helper {
+        display: none;
+      }
     }
   }
 

@@ -15,19 +15,21 @@
 }
 
 .dnb-date-picker {
-  &__input[value*='0'],
-  &__input[value*='1'],
-  &__input[value*='2'],
-  &__input[value*='3'],
-  &__input[value*='4'],
-  &__input[value*='5'],
-  &__input[value*='6'],
-  &__input[value*='7'],
-  &__input[value*='8'],
-  &__input[value*='9'] {
-    &,
-    & ~ .dnb-date-picker--separator {
-      color: var(--color-emerald-green);
+  &:not(#{&}__status--error) & {
+    &__input[value*='0'],
+    &__input[value*='1'],
+    &__input[value*='2'],
+    &__input[value*='3'],
+    &__input[value*='4'],
+    &__input[value*='5'],
+    &__input[value*='6'],
+    &__input[value*='7'],
+    &__input[value*='8'],
+    &__input[value*='9'] {
+      &,
+      & ~ .dnb-date-picker--separator {
+        color: var(--color-emerald-green);
+      }
     }
   }
 
@@ -57,6 +59,8 @@
     &__title {
       text-transform: capitalize;
       text-align: center;
+
+      font-size: var(--font-size-basis);
       color: var(--date-picker-header-color);
     }
   }
@@ -64,7 +68,7 @@
   &__labels {
     &__day {
       text-transform: capitalize;
-      font-weight: var(--font-weight-demi);
+      font-weight: var(--font-weight-medium);
       color: var(--date-picker-labels-day-color);
     }
   }
@@ -75,10 +79,6 @@
   }
 
   &__day {
-    .dnb-button {
-      @include numberFeature(tabular-nums, lnum);
-    }
-
     // The DNB UX team has desiced to not show today diffrently
     // &--today .dnb-button {
     //   color: var(--color-);
