@@ -9,9 +9,7 @@
 .dnb-button {
   border: none;
   box-shadow: none;
-  &--secondary:not([disabled]):not(.dnb-button--has-text) &__icon {
-    color: var(--color-emerald-green);
-  }
+
   // no animation yet
   // transition: background-color 100ms ease-out, box-shadow 100ms ease-out;
 
@@ -35,6 +33,10 @@
   &--secondary {
     color: var(--color-sea-green);
     background-color: var(--color-white);
+
+    &:not([disabled]) .dnb-button__icon {
+      color: var(--color-emerald-green);
+    }
 
     @include fakeBorder(
       var(--color-sea-green-alt),
@@ -65,6 +67,18 @@
       );
     }
   }
+  &:not([disabled])#{&}--secondary#{&}__status {
+    &--error {
+      color: var(--color-fire-red);
+
+      @include fakeBorder(var(--color-fire-red), 0.0625rem, inset, true);
+      .dnb-button__icon {
+        color: inherit;
+      }
+    }
+  }
+
+  // simulate active state
   &--active {
     @include fakeBorder(var(--color-emerald-green), 0.125rem /*2px*/);
   }
@@ -77,18 +91,13 @@
 
     &.dnb-button--has-text {
       padding: 0 0.5rem;
-
-      // since we don't have a visula alignment
-      [data-os='mac'] & {
-        transform: translateY(-0.0625rem);
-      }
     }
 
     .dnb-button__text {
       position: relative; // because of the underline
 
       padding: 0.125rem 0;
-      line-height: var(--line-height-x-small--em);
+      line-height: var(--line-height-xx-small--em);
 
       @include drawUnderlineBorder() {
         bottom: -0.125rem;
@@ -122,12 +131,18 @@
 
     @include active() {
       @include removeFakeFocus();
-      @include buttonFocusRing('mouse'); // make a mouse over ring
-      @include buttonFocusRing('touch'); // also, make a touch ring
 
       // underline
       .dnb-button__text::after {
-        visibility: hidden;
+        html[data-is-touch] & {
+          transition: none;
+          visibility: visible;
+          opacity: 1;
+          color: var(--color-emerald-green);
+        }
+        html:not([data-is-touch]) & {
+          visibility: hidden;
+        }
       }
     }
 
@@ -139,14 +154,12 @@
     }
 
     &.dnb-button--has-icon {
-      /* stylelint-disable */
       &.dnb-button--has-text .dnb-button__icon {
         position: absolute;
         top: 0;
-        bottom: 0.0625rem;
+        bottom: 0;
         margin: auto 0;
       }
-      /* stylelint-enable */
 
       &.dnb-button--icon-position-left {
         .dnb-button__text {
@@ -178,12 +191,6 @@
             padding-right: 0;
             margin-right: 2rem;
           }
-        }
-      }
-      // correct medium icon offset
-      &.dnb-button--icon-size-medium {
-        .dnb-button__icon {
-          bottom: 0.125rem;
         }
       }
 
@@ -225,16 +232,22 @@
   }
 
   &--signal {
-    color: var(--color-black);
-    background-color: var(--color-signal-yellow);
+    color: var(--color-ocean-green);
+    background-color: var(--color-accent-yellow);
 
     @include buttonHover(
-      var(--color-black),
-      var(--color-signal-yellow),
+      var(--color-ocean-green),
+      var(--color-accent-yellow),
       'touch'
     );
-    @include buttonFocus(var(--color-black), var(--color-signal-yellow));
-    @include buttonActive(var(--color-black), var(--color-signal-yellow));
+    @include buttonFocus(
+      var(--color-ocean-green),
+      var(--color-accent-yellow)
+    );
+    @include buttonActive(
+      var(--color-ocean-green),
+      var(--color-accent-yellow)
+    );
 
     // touch helper
     // html[data-is-touch] &:active {
@@ -243,7 +256,7 @@
 
     &[disabled] {
       color: var(--color-black-30);
-      background-color: var(--color-signal-yellow-30);
+      background-color: var(--color-accent-yellow-30);
     }
   }
 }

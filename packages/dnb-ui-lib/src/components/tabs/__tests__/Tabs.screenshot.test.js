@@ -22,7 +22,7 @@ describe('Tabs screenshot', () => {
       style: { margin: '0 2rem' },
       simulateSelector:
         '[data-dnb-test="tabs-tablist"] .dnb-tabs__tabs__tablist',
-      simulate: 'focus'
+      simulate: 'focus' // should be tested first
     })
     expect(screenshot).toMatchImageSnapshot()
   })

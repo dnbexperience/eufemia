@@ -7,9 +7,7 @@
  */
 
 // Font usage
-.dnb-typo-std,
-.dnb-typo-regular,
-.dnb-typo-book /* deprecated */ {
+.dnb-typo-regular {
   font-family: var(--font-family-default);
   font-weight: normal;
   font-style: normal;
@@ -19,42 +17,20 @@
   font-weight: var(--font-weight-medium);
   font-style: normal;
 }
-.dnb-typo-bold,
-.dnb-typo-demi /* deprecated */ {
+.dnb-typo-bold {
   font-family: var(--font-family-default);
-  font-weight: var(--font-weight-demi);
+  font-weight: var(--font-weight-bold);
   font-style: normal;
-}
-
-// Number usage
-.dnb-typo-number {
-  // Proportional Lining (default)
-  &--lining {
-    @include numberFeature(lining-nums, lnum);
-  }
-  // Proportional Tabular
-  &--tabular {
-    @include numberFeature(tabular-nums, lnum);
-  }
-
-  // Deprecated
-  &--oldstyle {
-    @include numberFeature(oldstyle-nums, onum);
-  }
-  // Deprecated
-  &--proportional {
-    @include numberFeature(proportional-nums, pnum);
-  }
 }
 
 $fonts-path: '../../assets/fonts' !default;
 
 // Std and Regular
 @font-face {
-  font-family: 'Fedra Sans Std';
-  src: url('#{$fonts-path}/FedraSansStd-Book.woff2') format('woff2'),
-    url('#{$fonts-path}/FedraSansStd-Book.woff') format('woff'),
-    url('#{$fonts-path}/FedraSansStd-Book.ttf') format('truetype');
+  font-family: DNB;
+  src: url('#{$fonts-path}/DNB-Regular.woff2') format('woff2'),
+    url('#{$fonts-path}/DNB-Regular.woff') format('woff'),
+    url('#{$fonts-path}/DNB-Regular.ttf') format('truetype');
   font-weight: normal; // have to be the same as: --font-weight-regular
   font-style: normal;
   font-display: fallback;
@@ -62,10 +38,10 @@ $fonts-path: '../../assets/fonts' !default;
 
 // Medium
 @font-face {
-  font-family: 'Fedra Sans Std';
-  src: url('#{$fonts-path}/FedraSansStd-Demi.woff2') format('woff2'),
-    url('#{$fonts-path}/FedraSansStd-Demi.woff') format('woff'),
-    url('#{$fonts-path}/FedraSansStd-Demi.ttf') format('truetype');
+  font-family: DNB;
+  src: url('#{$fonts-path}/DNB-Medium.woff2') format('woff2'),
+    url('#{$fonts-path}/DNB-Medium.woff') format('woff'),
+    url('#{$fonts-path}/DNB-Medium.ttf') format('truetype');
   font-weight: 500; // have to be the same as: --font-weight-medium
   font-style: normal;
   font-display: fallback;
@@ -73,10 +49,10 @@ $fonts-path: '../../assets/fonts' !default;
 
 // Bold
 @font-face {
-  font-family: 'Fedra Sans Std';
-  src: url('#{$fonts-path}/FedraSansStd-Medium.woff2') format('woff2'),
-    url('#{$fonts-path}/FedraSansStd-Medium.woff') format('woff'),
-    url('#{$fonts-path}/FedraSansStd-Medium.ttf') format('truetype');
+  font-family: DNB;
+  src: url('#{$fonts-path}/DNB-Bold.woff2') format('woff2'),
+    url('#{$fonts-path}/DNB-Bold.woff') format('woff'),
+    url('#{$fonts-path}/DNB-Bold.ttf') format('truetype');
   font-weight: 600; // have to be the same as: --font-weight-bold
   font-style: normal;
   font-display: fallback;

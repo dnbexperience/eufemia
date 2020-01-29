@@ -2,16 +2,25 @@
 
 import React from 'react'
 
-const redo = props => (
-  <svg width={16} height={16} viewBox="0 0 16 16" fill="none" {...props}>
-    <path
-      d="M15.004 1.001v4.666h-4.667M8.004 15a7 7 0 116.595-9.333"
-      stroke="#000"
-      strokeWidth={1.5}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-  </svg>
-)
+function redo(props) {
+  return (
+    <svg width={16} height={16} viewBox="0 0 16 16" fill="none" {...props}>
+      <path
+        d="M15.0035 1.00104V5.66735H10.3372"
+        stroke="black"
+        strokeWidth={1.5}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M8.00404 15C4.44395 15.0021 1.44944 12.3316 1.04563 8.79445C0.641829 5.25733 2.95739 1.9806 6.42634 1.18023C9.8953 0.379871 13.4124 2.31089 14.5991 5.66737"
+        stroke="black"
+        strokeWidth={1.5}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  )
+}
 
 export default redo

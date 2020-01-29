@@ -1,5 +1,4 @@
 const config = {
-  // testEnvironment: 'node',
   testURL: 'http://localhost',
   testRegex: '(/__tests__/\\.js|(\\.|/)(test|spec))\\.js?$',
   modulePathIgnorePatterns: ['not_in_use', '/dist/', 'screenshot'],

@@ -11,6 +11,7 @@ exports[`Slider component have to match snapshot 1`] = `
   id="id"
   label="label"
   label_direction="horizontal"
+  label_sr_only="label_sr_only"
   max={100}
   min={0}
   on_change={[Function]}
@@ -24,13 +25,14 @@ exports[`Slider component have to match snapshot 1`] = `
   status_state="status_state"
   step={10}
   subtract_title="subtract_title"
+  suffix="suffix"
   thump_title="thump_title"
   use_scrollwheel="use_scrollwheel"
   value={70}
   vertical="vertical"
 >
   <span
-    className="dnb-slider className class dnb-slider__label--horizontal"
+    className="dnb-slider dnb-form-component className class dnb-slider__label--horizontal"
   >
     <FormLabel
       class={null}
@@ -40,19 +42,22 @@ exports[`Slider component have to match snapshot 1`] = `
       element="label"
       for_id={null}
       id="id-label"
-      label_direction={null}
+      label_direction="horizontal"
       render_content={null}
+      sr_only="label_sr_only"
       text="label"
       title={null}
       vertical={null}
     >
       <Element
         className="dnb-form-label"
+        disabled={false}
         id="id-label"
         is="label"
       >
         <label
           className="dnb-form-label"
+          disabled={false}
           id="id-label"
         >
           label
@@ -62,6 +67,14 @@ exports[`Slider component have to match snapshot 1`] = `
     <span
       className="dnb-slider__wrapper"
     >
+      <AlignmentHelper
+        className={null}
+      >
+        <span
+          aria-hidden={true}
+          className="dnb-alignment-helper"
+        />
+      </AlignmentHelper>
       <span
         className="dnb-slider__inner"
       >
@@ -72,7 +85,8 @@ exports[`Slider component have to match snapshot 1`] = `
           className="dnb-slider__button dnb-slider__button--subtract"
           custom_element={null}
           custom_method={null}
-          disabled={null}
+          disabled={false}
+          global_status_id={null}
           href={null}
           icon="subtract"
           icon_position={null}
@@ -82,6 +96,9 @@ exports[`Slider component have to match snapshot 1`] = `
           onClick={null}
           on_click={[Function]}
           size={null}
+          status={null}
+          status_animation={null}
+          status_state="error"
           text={null}
           title={null}
           type="button"
@@ -90,6 +107,7 @@ exports[`Slider component have to match snapshot 1`] = `
           <button
             aria-label="subtract_title"
             className="dnb-button dnb-button--secondary dnb-slider__button dnb-slider__button--subtract dnb-button--icon-position-right dnb-button--has-icon dnb-button--size-medium"
+            disabled={false}
             onClick={[Function]}
             onMouseOut={[Function]}
             type="button"
@@ -102,7 +120,8 @@ exports[`Slider component have to match snapshot 1`] = `
               content={null}
               custom_element={null}
               custom_method={null}
-              disabled={null}
+              disabled={false}
+              global_status_id={null}
               href={null}
               icon="subtract"
               icon_position={null}
@@ -113,14 +132,23 @@ exports[`Slider component have to match snapshot 1`] = `
               onClick={null}
               on_click={[Function]}
               size={null}
+              status={null}
+              status_animation={null}
+              status_state="error"
               text={null}
               title={null}
               type="button"
               variant="secondary"
             >
+              <span
+                className="dnb-button__text"
+                key="button-text-empty"
+              >
+                ‌
+              </span>
               <IconPrimary
                 alt={null}
-                aria-hidden={false}
+                aria-hidden={null}
                 attributes={null}
                 border={null}
                 class={null}
@@ -136,9 +164,8 @@ exports[`Slider component have to match snapshot 1`] = `
               >
                 <span
                   alt="subtract"
-                  aria-hidden={false}
                   aria-label="subtract"
-                  className="dnb-icon dnb-button__icon"
+                  className="dnb-icon dnb-icon--default dnb-button__icon"
                   role="img"
                 >
                   <subtract>
@@ -148,11 +175,14 @@ exports[`Slider component have to match snapshot 1`] = `
                       viewBox="0 0 16 16"
                       width={16}
                     >
-                      <path
-                        d="M1.75 8h12.5"
-                        stroke="#000"
+                      <line
+                        stroke="black"
                         strokeLinecap="round"
                         strokeWidth={1.5}
+                        x1={1.75}
+                        x2={14.25}
+                        y1={8}
+                        y2={8}
                       />
                     </svg>
                   </subtract>
@@ -166,7 +196,6 @@ exports[`Slider component have to match snapshot 1`] = `
           id="id"
           onMouseDown={[Function]}
           onMouseDownCapture={[Function]}
-          onTouchMove={[Function]}
           onTouchStart={[Function]}
           onTouchStartCapture={[Function]}
         >
@@ -179,8 +208,10 @@ exports[`Slider component have to match snapshot 1`] = `
             }
           >
             <input
+              aria-describedby=" id-suffix"
               aria-labelledby="id-label"
-              className="dnb-slider__helper"
+              className="dnb-slider__button-helper"
+              disabled={false}
               max={100}
               min={0}
               onBlur={[Function]}
@@ -201,6 +232,7 @@ exports[`Slider component have to match snapshot 1`] = `
               custom_element={null}
               custom_method={null}
               disabled={null}
+              global_status_id={null}
               href={null}
               icon={null}
               icon_position={null}
@@ -211,6 +243,9 @@ exports[`Slider component have to match snapshot 1`] = `
               onMouseDown={[Function]}
               on_click={null}
               size={null}
+              status={null}
+              status_animation={null}
+              status_state="error"
               tabIndex="-1"
               text={null}
               title={null}
@@ -220,6 +255,7 @@ exports[`Slider component have to match snapshot 1`] = `
               <button
                 aria-hidden={true}
                 className="dnb-button dnb-button--secondary"
+                disabled={false}
                 onClick={[Function]}
                 onMouseDown={[Function]}
                 onMouseOut={[Function]}
@@ -235,6 +271,7 @@ exports[`Slider component have to match snapshot 1`] = `
                   custom_element={null}
                   custom_method={null}
                   disabled={null}
+                  global_status_id={null}
                   href={null}
                   icon={null}
                   icon_position={null}
@@ -246,6 +283,9 @@ exports[`Slider component have to match snapshot 1`] = `
                   onMouseDown={[Function]}
                   on_click={null}
                   size={null}
+                  status={null}
+                  status_animation={null}
+                  status_state="error"
                   tabIndex="-1"
                   text={null}
                   title={null}
@@ -274,7 +314,8 @@ exports[`Slider component have to match snapshot 1`] = `
           className="dnb-slider__button dnb-slider__button--add"
           custom_element={null}
           custom_method={null}
-          disabled={null}
+          disabled={false}
+          global_status_id={null}
           href={null}
           icon="add"
           icon_position={null}
@@ -284,6 +325,9 @@ exports[`Slider component have to match snapshot 1`] = `
           onClick={null}
           on_click={[Function]}
           size={null}
+          status={null}
+          status_animation={null}
+          status_state="error"
           text={null}
           title={null}
           type="button"
@@ -292,6 +336,7 @@ exports[`Slider component have to match snapshot 1`] = `
           <button
             aria-label="add_title"
             className="dnb-button dnb-button--secondary dnb-slider__button dnb-slider__button--add dnb-button--icon-position-right dnb-button--has-icon dnb-button--size-medium"
+            disabled={false}
             onClick={[Function]}
             onMouseOut={[Function]}
             type="button"
@@ -304,7 +349,8 @@ exports[`Slider component have to match snapshot 1`] = `
               content={null}
               custom_element={null}
               custom_method={null}
-              disabled={null}
+              disabled={false}
+              global_status_id={null}
               href={null}
               icon="add"
               icon_position={null}
@@ -315,14 +361,23 @@ exports[`Slider component have to match snapshot 1`] = `
               onClick={null}
               on_click={[Function]}
               size={null}
+              status={null}
+              status_animation={null}
+              status_state="error"
               text={null}
               title={null}
               type="button"
               variant="secondary"
             >
+              <span
+                className="dnb-button__text"
+                key="button-text-empty"
+              >
+                ‌
+              </span>
               <IconPrimary
                 alt={null}
-                aria-hidden={false}
+                aria-hidden={null}
                 attributes={null}
                 border={null}
                 class={null}
@@ -338,9 +393,8 @@ exports[`Slider component have to match snapshot 1`] = `
               >
                 <span
                   alt="add"
-                  aria-hidden={false}
                   aria-label="add"
-                  className="dnb-icon dnb-button__icon"
+                  className="dnb-icon dnb-icon--default dnb-button__icon"
                   role="img"
                 >
                   <add>
@@ -352,8 +406,8 @@ exports[`Slider component have to match snapshot 1`] = `
                     >
                       <path
                         clipRule="evenodd"
-                        d="M8.75 1.75a.75.75 0 00-1.5 0v5.5h-5.5a.75.75 0 000 1.5h5.5v5.5a.75.75 0 001.5 0v-5.5h5.5a.75.75 0 000-1.5h-5.5v-5.5z"
-                        fill="#000"
+                        d="M8.75 1.75C8.75 1.33579 8.41421 1 8 1C7.58579 1 7.25 1.33579 7.25 1.75V7.25H1.75C1.33579 7.25 1 7.58579 1 8C1 8.41421 1.33579 8.75 1.75 8.75H7.25V14.25C7.25 14.6642 7.58579 15 8 15C8.41421 15 8.75 14.6642 8.75 14.25V8.75H14.25C14.6642 8.75 15 8.41421 15 8C15 7.58579 14.6642 7.25 14.25 7.25H8.75V1.75Z"
+                        fill="black"
                         fillRule="evenodd"
                       />
                     </svg>
@@ -363,6 +417,43 @@ exports[`Slider component have to match snapshot 1`] = `
             </Content>
           </button>
         </Button>
+        <span
+          className="dnb-slider__suffix"
+          id="id-suffix"
+        >
+          <Suffix
+            add_title="add_title"
+            class="class"
+            className="className"
+            disabled="disabled"
+            global_status_id="global_status_id"
+            hide_buttons="hide_buttons"
+            id="id"
+            label="label"
+            label_direction="horizontal"
+            label_sr_only="label_sr_only"
+            max={100}
+            min={0}
+            on_change={[Function]}
+            on_drag_end={[Function]}
+            on_drag_start={[Function]}
+            on_init={[Function]}
+            on_state_update={[Function]}
+            reverse="reverse"
+            status={null}
+            status_animation="status_animation"
+            status_state="status_state"
+            step={10}
+            subtract_title="subtract_title"
+            suffix="suffix"
+            thump_title="thump_title"
+            use_scrollwheel="use_scrollwheel"
+            value={70}
+            vertical="vertical"
+          >
+            suffix
+          </Suffix>
+        </span>
       </span>
     </span>
   </span>
@@ -404,17 +495,18 @@ exports[`Slider scss have to match snapshot 1`] = `
 */
 .dnb-icon {
   display: inline-block;
-  vertical-align: baseline;
-  font-size: inherit;
-  line-height: var(--line-height-x-small--em);
+  vertical-align: middle;
+  font-size: 1rem;
+  line-height: 1rem;
+  color: inherit;
   width: 1em;
   height: 1em; }
   .dnb-icon img,
   .dnb-icon svg {
     width: inherit;
     height: inherit;
-    vertical-align: middle;
-    shape-rendering: geometricPrecision; }
+    shape-rendering: geometricPrecision;
+    vertical-align: top; }
   .dnb-icon svg[width='100%'] {
     width: inherit; }
   .dnb-icon svg[height='100%'] {
@@ -425,40 +517,130 @@ exports[`Slider scss have to match snapshot 1`] = `
   .dnb-icon svg [stroke] {
     stroke: currentColor; }
   .dnb-icon--small {
-    width: 0.75em;
-    height: 0.75em; }
+    font-size: 0.75rem; }
   .dnb-icon--default {
-    width: 1em;
-    height: 1em; }
+    font-size: 1rem; }
   .dnb-icon--medium {
-    width: 1.5em;
-    height: 1.5em; }
+    font-size: 1.5rem; }
   .dnb-icon--large {
-    width: 2em;
-    height: 2em; }
+    font-size: 2rem; }
   .dnb-icon--x-large {
-    width: 2.5em;
-    height: 2.5em; }
+    font-size: 2.5rem; }
   .dnb-icon--xx-large {
-    width: 3em;
-    height: 3em; }
+    font-size: 3rem; }
   .dnb-icon--custom-size {
     width: auto;
     height: auto; }
+  .dnb-icon--auto {
+    font-size: 1em; }
+  .dnb-icon--auto > .dnb-icon--wrapper {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center; }
+  h1 .dnb-icon,
+  h2 .dnb-icon,
+  h3 .dnb-icon,
+  h4 .dnb-icon,
+  h5 .dnb-icon,
+  h6 .dnb-icon {
+    vertical-align: middle; }
   @media screen and (-ms-high-contrast: none) {
     .dnb-icon {
       flex: none; } }
 
-.dnb-button {
+/*
+* DNB FormStatus
+*
+*/
+.dnb-form-status {
   font-family: var(--font-family-default);
   font-weight: var(--font-weight-default);
-  font-size: var(--font-size-basis);
+  font-size: var(--font-size-small);
   font-style: normal;
   line-height: var(--line-height-basis);
   color: var(--color-black-80, #333);
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-  font-variant-numeric: lining-nums;
-  font-feature-settings: \\"lnum\\";
+  /**
+  * 1. Remove repeating backgrounds in all browsers (opinionated).
+  * 2. Add border box sizing in all browsers (opinionated).
+  */
+  /**
+  * 1. Add text decoration inheritance in all browsers (opinionated).
+  * 2. Add vertical alignment inheritance in all browsers (opinionated).
+  */
+  margin: 0;
+  padding: 0; }
+  .dnb-form-status *,
+  .dnb-form-status ::before,
+  .dnb-form-status ::after {
+    background-repeat: no-repeat;
+    /* 1 */
+    box-sizing: border-box;
+    /* 2 */ }
+  .dnb-form-status ::before,
+  .dnb-form-status ::after {
+    text-decoration: inherit;
+    /* 1 */
+    vertical-align: inherit;
+    /* 2 */ }
+
+/*
+ * FormStatus component
+ *
+ */
+.dnb-form-status {
+  display: flex; }
+  .dnb-form-status__shell {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    border-radius: var(--input-border-radius); }
+  .dnb-form-status--text {
+    padding: calc(0.5rem / 2) 1rem;
+    cursor: text;
+    color: inherit;
+    line-height: var(--line-height-basis); }
+  .dnb-icon + .dnb-form-status--text {
+    padding-left: 0.5rem; }
+  .dnb-form-status__shell > .dnb-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 1.5em;
+    height: 1.5em;
+    margin-top: 0.25em;
+    margin-left: 0.5em;
+    color: inherit;
+    font-size: var(--font-size-basis);
+    transform: translateY(-0.125rem); }
+  .dnb-form-status[hidden] {
+    display: none; }
+  .dnb-form-status--fade-in {
+    overflow: hidden;
+    max-height: 0;
+    animation: form-status-fade-in 2s ease-out 400ms forwards; }
+
+@keyframes form-status-fade-in {
+  from {
+    max-height: 0; }
+  to {
+    max-height: calc(var(--input-height) * 8); } }
+  @media screen and (-ms-high-contrast: none) {
+    .dnb-form-status__shell > .dnb-icon {
+      border-width: 1px; } }
+
+.dnb-button {
+  font-family: var(--font-family-default);
+  font-weight: var(--font-weight-default);
+  font-size: var(--font-size-small);
+  font-style: normal;
+  line-height: var(--line-height-basis);
+  color: var(--color-black-80, #333);
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   /**
   * 1. Remove repeating backgrounds in all browsers (opinionated).
   * 2. Add border box sizing in all browsers (opinionated).
@@ -519,24 +701,17 @@ exports[`Slider scss have to match snapshot 1`] = `
   padding: 0;
   border: var(--button-border-width) solid transparent;
   border-radius: var(--button-border-radius);
-  text-decoration: none; }
+  text-decoration: none;
+  font-size: var(--font-size-small); }
   .dnb-button,
   .dnb-core-style .dnb-button {
-    font-size: var(--button-font-size);
     line-height: var(--button-height); }
-  .dnb-button__icon {
-    line-height: var(--line-height-x-small--em); }
-    .dnb-button__icon:not(.dnb-icon) svg:not([width]):not([height]) {
-      width: var(--button-icon-size);
-      height: var(--button-icon-size); }
-    [data-os='win'] .dnb-button__icon {
-      transform: translateY(-0.0625rem); }
   .dnb-button__text {
-    line-height: var(--line-height-x-small--em);
+    font-size: var(--button-font-size);
+    line-height: var(--line-height-xx-small--em);
     color: inherit;
-    background-color: inherit; }
-    [data-os='mac'] .dnb-button__text {
-      transform: translateY(0.0625rem); }
+    background-color: inherit;
+    transform: translateY(-0.03125rem); }
   .dnb-button__bounding {
     position: absolute;
     background-color: transparent;
@@ -548,8 +723,10 @@ exports[`Slider scss have to match snapshot 1`] = `
     width: var(--button-width--small);
     height: var(--button-height--small);
     font-size: var(--button-font-size-small);
-    line-height: var(--button-height--small);
     border-radius: var(--button-border-radius--small); }
+    .dnb-button--size-small,
+    .dnb-core-style .dnb-button--size-small {
+      line-height: var(--button-height--small); }
   .dnb-button--has-text.dnb-button--size-small {
     padding-left: 1rem;
     padding-right: 1rem; }
@@ -560,8 +737,10 @@ exports[`Slider scss have to match snapshot 1`] = `
   .dnb-button--size-medium {
     width: var(--button-width--medium);
     height: var(--button-height--medium);
-    line-height: var(--button-height--medium);
     border-radius: var(--button-border-radius--medium); }
+    .dnb-button--size-medium,
+    .dnb-core-style .dnb-button--size-medium {
+      line-height: var(--button-height--medium); }
   .dnb-button--has-text.dnb-button--size-medium {
     padding-left: 1rem;
     padding-right: 1rem; }
@@ -572,8 +751,10 @@ exports[`Slider scss have to match snapshot 1`] = `
   .dnb-button--size-large {
     width: var(--button-width--large);
     height: var(--button-height--large);
-    line-height: var(--button-height--large);
     border-radius: var(--button-border-radius--large); }
+    .dnb-button--size-large,
+    .dnb-core-style .dnb-button--size-large {
+      line-height: var(--button-height--large); }
   .dnb-button--has-text.dnb-button--size-large {
     padding-left: 2rem;
     padding-right: 2rem; }
@@ -595,6 +776,13 @@ exports[`Slider scss have to match snapshot 1`] = `
     order: 2; }
   .dnb-button--has-text.dnb-button--has-icon .dnb-button__text {
     order: 1; }
+  .dnb-button:not(.dnb-button--has-text) .dnb-button__icon {
+    width: inherit; }
+  .dnb-button__icon.dnb-icon svg:not([width]):not([height]) {
+    width: var(--button-icon-size);
+    height: var(--button-icon-size); }
+  [href] > .dnb-button__icon.dnb-icon {
+    line-height: var(--button-font-size); }
   .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-left .dnb-button__icon {
     order: 1; }
   .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-left .dnb-button__text {
@@ -648,12 +836,6 @@ exports[`Slider scss have to match snapshot 1`] = `
 button.dnb-button::-moz-focus-inner {
   border: none; }
 
-a.dnb-button .dnb-button__icon {
-  transform: translateY(0); }
-
-a.dnb-button .dnb-button__text {
-  transform: translateY(0.0625rem); }
-
 /*
 * DNB FormLabel
 *
@@ -661,13 +843,13 @@ a.dnb-button .dnb-button__text {
 .dnb-form-label {
   font-family: var(--font-family-default);
   font-weight: var(--font-weight-default);
-  font-size: var(--font-size-basis);
+  font-size: var(--font-size-small);
   font-style: normal;
   line-height: var(--line-height-basis);
   color: var(--color-black-80, #333);
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-  font-variant-numeric: lining-nums;
-  font-feature-settings: \\"lnum\\";
   /**
   * 1. Remove repeating backgrounds in all browsers (opinionated).
   * 2. Add border box sizing in all browsers (opinionated).
@@ -702,12 +884,17 @@ a.dnb-button .dnb-button__text {
   padding: 0;
   margin-right: 1rem;
   text-align: left;
+  font-size: var(--font-size-basis);
   vertical-align: baseline;
   color: inherit; }
   .dnb-form-label--vertical {
     display: block;
     margin-right: 0;
     margin-bottom: 0.5rem; }
+  .dnb-form-label--sr-only {
+    width: 1px;
+    margin-left: -1px;
+    overflow: hidden; }
   .dnb-form-label[for]:not([disabled]) {
     user-select: none;
     -webkit-user-select: none;
@@ -721,100 +908,16 @@ a.dnb-button .dnb-button__text {
 legend.dnb-form-label {
   display: inline-block; }
 
-/*
-* DNB FormStatus
-*
-*/
-.dnb-form-status {
-  font-family: var(--font-family-default);
-  font-weight: var(--font-weight-default);
-  font-size: var(--font-size-basis);
-  font-style: normal;
-  line-height: var(--line-height-basis);
-  color: var(--color-black-80, #333);
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-  font-variant-numeric: lining-nums;
-  font-feature-settings: \\"lnum\\";
-  /**
-  * 1. Remove repeating backgrounds in all browsers (opinionated).
-  * 2. Add border box sizing in all browsers (opinionated).
-  */
-  /**
-  * 1. Add text decoration inheritance in all browsers (opinionated).
-  * 2. Add vertical alignment inheritance in all browsers (opinionated).
-  */
-  margin: 0;
-  padding: 0; }
-  .dnb-form-status *,
-  .dnb-form-status ::before,
-  .dnb-form-status ::after {
-    background-repeat: no-repeat;
-    /* 1 */
-    box-sizing: border-box;
-    /* 2 */ }
-  .dnb-form-status ::before,
-  .dnb-form-status ::after {
-    text-decoration: inherit;
-    /* 1 */
-    vertical-align: inherit;
-    /* 2 */ }
-
-/*
- * FormStatus component
- *
- */
-.dnb-form-status {
-  display: flex; }
-  .dnb-form-status__shell {
-    display: flex;
-    justify-content: flex-start;
-    align-items: flex-start;
-    border-radius: var(--input-border-radius); }
-  .dnb-form-status--text {
-    padding: calc(0.5rem / 2) 1rem;
-    cursor: text;
-    color: inherit;
-    line-height: var(--line-height-basis); }
-    [data-os='mac'] .dnb-form-status--text {
-      transform: translateY(0.0625rem); }
-  .dnb-icon + .dnb-form-status--text {
-    padding-left: 0.5rem; }
-  .dnb-form-status__shell > .dnb-icon {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 1.5em;
-    height: 1.5em;
-    margin-top: 0.25em;
-    margin-left: 0.5em;
-    color: inherit;
-    font-size: var(--font-size-basis); }
-  .dnb-form-status[hidden] {
-    display: none; }
-  .dnb-form-status--fade-in {
-    overflow: hidden;
-    max-height: 0;
-    animation: form-status-fade-in 2s ease-out 400ms forwards; }
-
-@keyframes form-status-fade-in {
-  from {
-    max-height: 0; }
-  to {
-    max-height: calc(var(--input-height) * 8); } }
-  @media screen and (-ms-high-contrast: none) {
-    .dnb-form-status__shell > .dnb-icon {
-      border-width: 1px; } }
-
 .dnb-slider {
   font-family: var(--font-family-default);
   font-weight: var(--font-weight-default);
-  font-size: var(--font-size-basis);
+  font-size: var(--font-size-small);
   font-style: normal;
   line-height: var(--line-height-basis);
   color: var(--color-black-80, #333);
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-  font-variant-numeric: lining-nums;
-  font-feature-settings: \\"lnum\\";
   /**
   * 1. Remove repeating backgrounds in all browsers (opinionated).
   * 2. Add border box sizing in all browsers (opinionated).
@@ -852,8 +955,11 @@ legend.dnb-form-label {
 .dnb-slider {
   user-select: none;
   -webkit-user-select: none;
-  display: flex; }
+  display: flex;
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-basis); }
   .dnb-slider--vertical {
+    display: flex;
     width: auto;
     height: 100%;
     min-width: inherit;
@@ -862,20 +968,26 @@ legend.dnb-form-label {
     display: inline-flex;
     flex-direction: column;
     flex: 1;
-    width: 100%;
-    transform: translateY(-0.25rem); }
+    width: 100%; }
   .dnb-slider--vertical .dnb-slider__wrapper {
     align-items: center;
     width: auto;
-    height: 100%;
-    transform: translateY(0); }
+    height: 100%; }
   .dnb-slider__inner {
     display: inline-flex;
     height: var(--slider-thumb-size); }
+  .dnb-slider__suffix {
+    align-self: center;
+    padding-left: 0.5rem; }
+  .dnb-slider--vertical .dnb-slider__suffix {
+    padding-left: 0;
+    padding-top: 0.5rem; }
   .dnb-slider__track {
+    touch-action: none;
     position: relative;
     flex: 1;
     margin: 0 calc(var(--slider-space) * 1.5);
+    min-width: 2rem;
     cursor: pointer; }
     .dnb-slider__track::before, .dnb-slider__track::after {
       content: '';
@@ -897,7 +1009,9 @@ legend.dnb-form-label {
       left: auto;
       right: calc(1px - 1px - var(--slider-space)); }
   .dnb-slider--vertical .dnb-slider__track {
-    margin: calc(var(--slider-space) * 1.5) 0; }
+    margin: calc(var(--slider-space) * 1.5) 0;
+    min-height: 2rem;
+    min-width: auto; }
     .dnb-slider--vertical .dnb-slider__track::before, .dnb-slider--vertical .dnb-slider__track::after {
       left: 50%;
       transform: translate3d(-50%, 0, 0);
@@ -942,7 +1056,7 @@ legend.dnb-form-label {
     top: 0; }
   .dnb-slider--vertical .dnb-slider__line__after {
     bottom: 0; }
-  .dnb-slider__helper, .dnb-slider__thumb {
+  .dnb-slider__button-helper, .dnb-slider__thumb {
     position: absolute;
     left: 0;
     top: 0;
@@ -950,17 +1064,18 @@ legend.dnb-form-label {
     display: block;
     transform: translate3d(-50%, 0, 0);
     border-radius: 50%; }
-    .dnb-slider__helper,
-    .dnb-slider__helper .dnb-button, .dnb-slider__thumb,
+    .dnb-slider__button-helper,
+    .dnb-slider__button-helper .dnb-button, .dnb-slider__thumb,
     .dnb-slider__thumb .dnb-button {
       height: var(--slider-thumb-size);
       width: var(--slider-thumb-size); }
   .dnb-slider--vertical .dnb-slider__thumb {
     transform: translate3d(0, -50%, 0); }
   .dnb-slider__button {
-    transform: translateY(0.25rem);
     height: var(--slider-button-size);
-    width: var(--slider-button-size); }
+    width: var(--slider-button-size);
+    line-height: var(--slider-button-size);
+    transform: translateY(0.25rem); }
   .dnb-slider--vertical .dnb-slider__button {
     transform: translateX(0.25rem); }
   .dnb-slider__state--jumped .dnb-slider__thumb,
@@ -969,19 +1084,20 @@ legend.dnb-form-label {
   .dnb-slider__state--disabled.dnb-slider__track,
   .dnb-slider__state--disabled .dnb-slider__thumb {
     cursor: not-allowed; }
-  .dnb-slider__helper {
+  .dnb-slider__button-helper {
     pointer-events: none;
     z-index: 2;
     opacity: 0;
     transform: translate3d(0.0625rem, 0, 0); }
-  .dnb-slider__helper:not(:disabled):focus ~ .dnb-button {
+  .dnb-slider__button-helper:not(:disabled):focus ~ .dnb-button {
     outline: none; }
-    html[data-whatinput='keyboard'] .dnb-slider__helper:not(:disabled):focus ~ .dnb-button {
+    html[data-whatinput='keyboard'] .dnb-slider__button-helper:not(:disabled):focus ~ .dnb-button {
       box-shadow: 0 0 0 0.125rem var(--color-emerald-green);
       /* IE11 fix */
       border-color: transparent; }
   .dnb-slider > .dnb-form-label {
-    margin-right: 1rem; }
+    margin-right: 1rem;
+    line-height: var(--slider-thumb-size); }
   .dnb-slider__label--vertical {
     flex-direction: column; }
   .dnb-slider__label--vertical.dnb-slider--vertical {
@@ -997,10 +1113,12 @@ legend.dnb-form-label {
   .dnb-slider--vertical .dnb-form-status {
     margin-top: 1rem; }
   @media (max-width: 40em) {
-    .dnb-slider {
+    .dnb-responsive-component .dnb-slider {
+      display: flex;
       flex-direction: column;
-      align-items: flex-start; }
-      .dnb-slider > .dnb-form-label {
+      align-items: flex-start;
+      margin-bottom: 0.5rem; }
+      .dnb-responsive-component .dnb-slider > .dnb-form-label {
         margin-bottom: 0.5rem; } }
   @media screen and (-ms-high-contrast: none) {
     .dnb-slider__wrapper {

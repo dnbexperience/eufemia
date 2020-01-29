@@ -17,10 +17,12 @@ import {
   detectOutsideClick,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
+import AlignmentHelper from '../../shared/AlignmentHelper'
 import { createSpacingClasses } from '../space/SpacingHelper'
 // import { addScrollLock } from '../modal/Modal'
 
 import Context from '../../shared/Context'
+import Suffix from '../../shared/helpers/Suffix'
 import Icon from '../icon-primary/IconPrimary'
 import FormLabel from '../form-label/FormLabel'
 import FormStatus from '../form-status/FormStatus'
@@ -38,7 +40,12 @@ const renderProps = {
 const propTypes = {
   id: PropTypes.string,
   title: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
-  icon: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  icon: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.node,
+    PropTypes.func
+  ]),
+  icon_size: PropTypes.string,
   icon_position: PropTypes.string,
   label: PropTypes.oneOfType([
     PropTypes.string,
@@ -46,6 +53,7 @@ const propTypes = {
     PropTypes.node
   ]),
   label_direction: PropTypes.oneOf(['horizontal', 'vertical']),
+  label_sr_only: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   status: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.func,
@@ -54,6 +62,11 @@ const propTypes = {
   status_state: PropTypes.string,
   status_animation: PropTypes.string,
   global_status_id: PropTypes.string,
+  suffix: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.func,
+    PropTypes.node
+  ]),
   scrollable: PropTypes.bool,
   direction: PropTypes.oneOf(['auto', 'top', 'bottom']),
   max_height: PropTypes.number,
@@ -120,13 +133,16 @@ const defaultProps = {
   id: null,
   title: 'Option Menu',
   icon: null,
+  icon_size: null,
   icon_position: null,
   label: null,
   label_direction: null,
+  label_sr_only: null,
   status: null,
   status_state: 'error',
   status_animation: null,
   global_status_id: null,
+  suffix: null,
   scrollable: true,
   max_height: null,
   direction: 'auto',
@@ -309,6 +325,7 @@ export default class Dropdown extends PureComponent {
     }
 
     this._ref = React.createRef()
+    this._refShell = React.createRef()
     this._refUl = React.createRef()
     this._refButton = React.createRef()
     this._refTriangle = React.createRef()
@@ -336,7 +353,7 @@ export default class Dropdown extends PureComponent {
     }
 
     try {
-      const width = this._ref.current.offsetWidth
+      const width = this._refShell.current.offsetWidth
       if (parseFloat(width) > 0) {
         const { icon_position, align_dropdown } = this.props
         switch (align_dropdown) {
@@ -362,7 +379,7 @@ export default class Dropdown extends PureComponent {
 
   setOutsideClickObserver = () => {
     this.outsideClick = detectOutsideClick(
-      this._ref.current,
+      this._refShell.current,
       this.setHidden
     )
     if (typeof document !== 'undefined') {
@@ -389,7 +406,7 @@ export default class Dropdown extends PureComponent {
     }
     // This can be enabled in case we want to bypass the overflow hidden on Modals
     // Has to be tested more!
-    // this.modalScrollLock = addScrollLock(this._ref.current)
+    // this.modalScrollLock = addScrollLock(this._refShell.current)
     this.setState(
       {
         hidden: false,
@@ -397,6 +414,7 @@ export default class Dropdown extends PureComponent {
         _listenForPropChanges: false
       },
       () => {
+        clearTimeout(this._showTimeout)
         this._showTimeout = setTimeout(
           () => (this.blockDoubleClick = false),
           1e3
@@ -425,6 +443,7 @@ export default class Dropdown extends PureComponent {
         _listenForPropChanges: false
       },
       () => {
+        clearTimeout(this._hideTimeout)
         this._hideTimeout = setTimeout(
           () => {
             this.setState(
@@ -434,15 +453,16 @@ export default class Dropdown extends PureComponent {
               },
               () => {
                 if (setFocus) {
-                  let elem = this._refButton.current
-                  try {
-                    elem = this._refButton.current._ref.current
-                  } catch (e) {
-                    // do noting
-                  }
-                  if (elem && elem.focus) {
-                    elem.focus()
-                  }
+                  setTimeout(() => {
+                    try {
+                      const elem = this._refButton.current._ref.current
+                      if (elem && elem.focus) {
+                        elem.focus()
+                      }
+                    } catch (e) {
+                      // do noting
+                    }
+                  }, 1) // NVDA / Firefox needs a dealy to set this focus
                 }
               }
             )
@@ -518,12 +538,14 @@ export default class Dropdown extends PureComponent {
     { fireSelectEvent = false, scrollTo = true, event = null } = {}
   ) {
     if (!(active_item > -1)) {
-      try {
-        const ulElement = this._refUl.current
-        ulElement.focus()
-      } catch (e) {
-        console.warn(e)
-      }
+      setTimeout(() => {
+        try {
+          const ulElement = this._refUl.current
+          ulElement.focus()
+        } catch (e) {
+          console.warn(e)
+        }
+      }, 1) // NVDA / Firefox needs a dealy to set this focus
       return
     }
     this.setState(
@@ -557,29 +579,31 @@ export default class Dropdown extends PureComponent {
           return
         }
 
-        try {
-          const ulElement = this._refUl.current
-          const liElement = ulElement.querySelector(
-            `li.dnb-dropdown__option:nth-of-type(${active_item + 1})`
-          )
-          const top = liElement.offsetTop
-          if (ulElement.scrollTo) {
-            const params = {
-              top
+        setTimeout(() => {
+          try {
+            const ulElement = this._refUl.current
+            const liElement = ulElement.querySelector(
+              `li.dnb-dropdown__option:nth-of-type(${active_item + 1})`
+            )
+            const top = liElement.offsetTop
+            if (ulElement.scrollTo) {
+              const params = {
+                top
+              }
+              if (scrollTo) {
+                params.behavior = 'smooth'
+              }
+              ulElement.scrollTo(params)
+            } else if (ulElement.scrollTop) {
+              ulElement.scrollTop = top
             }
-            if (scrollTo) {
-              params.behavior = 'smooth'
+            if (liElement) {
+              liElement.focus()
             }
-            ulElement.scrollTo(params)
-          } else if (ulElement.scrollTop) {
-            ulElement.scrollTop = top
+          } catch (e) {
+            console.warn('Dropdown could not scroll into element:', e)
           }
-          if (liElement) {
-            liElement.focus()
-          }
-        } catch (e) {
-          console.warn('Dropdown could not scroll into element:', e)
-        }
+        }, 1) // NVDA / Firefox needs a dealy to set this focus
       }
     )
   }
@@ -797,7 +821,10 @@ export default class Dropdown extends PureComponent {
       }, {})
       const counts = Object.keys(itemSpots)
       const findClosest = (arr, val) =>
-        Math.max.apply(null, arr.filter(v => v <= val))
+        Math.max.apply(
+          null,
+          arr.filter(v => v <= val)
+        )
       let closestToTop = null,
         closestToBottom = null,
         tmpToTop,
@@ -839,7 +866,7 @@ export default class Dropdown extends PureComponent {
   }
 
   setDirectionObserver() {
-    if (typeof window === 'undefined' || !this._ref.current) {
+    if (typeof window === 'undefined' || !this._refShell.current) {
       return
     }
     if (this.props.direction !== 'auto') {
@@ -850,7 +877,7 @@ export default class Dropdown extends PureComponent {
       const min_height = 320 // 20rem = 20x16=320
       const spaceToTopOffset = 4 * 16 //because of headers
       const spaceToBottomOffset = 2 * 16
-      const elem = this._ref.current
+      const elem = this._refShell.current
 
       this.setDirection = () => {
         // use "window.pageYOffset" instead of "window.scrollY" because IE
@@ -893,11 +920,13 @@ export default class Dropdown extends PureComponent {
   }
 
   render() {
-    // consume the formRow context
-    const props = this.context.formRow
-      ? // use only the props from context, who are available here anyway
-        extendPropsWithContext(this.props, this.context.formRow)
-      : this.props
+    // use only the props from context, who are available here anyway
+    const props = extendPropsWithContext(
+      this.props,
+      defaultProps,
+      this.context.formRow,
+      this.context.translation.Dropdown
+    )
 
     let { icon, icon_position } = props
 
@@ -905,14 +934,17 @@ export default class Dropdown extends PureComponent {
       title: titleProp,
       label,
       label_direction,
+      label_sr_only,
       icon: _icon, // eslint-disable-line
       icon_position: _icon_position, // eslint-disable-line
+      icon_size,
       size,
       align_dropdown,
       status,
       status_state,
       status_animation,
       global_status_id,
+      suffix,
       scrollable,
       no_animation,
       no_scroll_animation,
@@ -984,6 +1016,7 @@ export default class Dropdown extends PureComponent {
         isTrue(no_scroll_animation) && 'dnb-dropdown--no-scroll-animation',
         status && `dnb-dropdown__status--${status_state}`,
         showStatus && 'dnb-dropdown__form-status',
+        'dnb-form-component',
         createSpacingClasses(props),
         _className,
         className
@@ -1005,13 +1038,19 @@ export default class Dropdown extends PureComponent {
       onMouseDown: this.onMouseDownHandler,
       onKeyDown: this.onTriggerKeyDownHandler
     }
-    // freaks out NVDA
-    // if (typeof title === 'string') {
-    //   triggerParams['title'] = title
-    // }
-    if (hidden && label) {
-      triggerParams['aria-labelledby'] = id + '-label'
+
+    // reads out the current selected state
+    if (typeof title === 'string') {
+      triggerParams['aria-label'] = title
     }
+    if (showStatus || suffix) {
+      triggerParams['aria-describedby'] = `${
+        showStatus ? id + '-status' : ''
+      } ${suffix ? id + '-suffix' : ''}`
+    }
+    // if (hidden && label) {
+    //   triggerParams['aria-labelledby'] = id + '-label'
+    // }
     const listParams = {
       className: classnames(
         'dnb-dropdown__list',
@@ -1021,6 +1060,7 @@ export default class Dropdown extends PureComponent {
     const ulParams = {
       className: 'dnb-dropdown__options', // dnb-no-focus
       role: 'listbox',
+      tabIndex: '-1',
       ['aria-labelledby']: id,
       ref: this._refUl,
       style: {
@@ -1034,8 +1074,8 @@ export default class Dropdown extends PureComponent {
       selected_item > -1
     ) {
       ulParams['aria-activedescendant'] = `option-${id}-${selected_item}`
-    } else {
-      ulParams.tabIndex = '-1'
+      // } else {
+      //   ulParams.tabIndex = '-1'
     }
 
     // also used for code markup simulation
@@ -1048,22 +1088,21 @@ export default class Dropdown extends PureComponent {
 
     return (
       <span {...mainParams}>
-        {(label && (
+        {label && (
           <FormLabel
             id={id + '-label'}
             for_id={id}
             text={label}
-            direction={label_direction}
+            label_direction={label_direction}
+            sr_only={label_sr_only}
             disabled={disabled}
             onMouseDown={this.toggleVisible}
           />
-        )) || (
-          <span className="dnb-dropdown__helper" aria-hidden>
-            {'-'}
-          </span>
         )}
 
         <span className="dnb-dropdown__inner" ref={this._ref}>
+          <AlignmentHelper />
+
           {showStatus && (
             <FormStatus
               id={id + '-form-status'}
@@ -1075,105 +1114,121 @@ export default class Dropdown extends PureComponent {
             />
           )}
 
-          <span className="dnb-dropdown__shell">
-            {CustomTrigger ? (
-              <CustomTrigger {...triggerParams} />
-            ) : (
-              <Button
-                variant="secondary"
-                size="medium"
-                ref={this._refButton}
-                {...triggerParams}
-              >
-                {!isPopupMenu && (
-                  <span className="dnb-dropdown__text">
-                    <span className="dnb-dropdown__text__inner">
-                      {title}
-                    </span>
-                  </span>
-                )}
-                <span
-                  className={classnames(
-                    'dnb-dropdown__icon',
-                    // icon && `icon-${icon}`,// not used anymore for now
-                    parseFloat(selected_item) === 0 &&
-                      'dnb-dropdown__icon--first'
-                  )}
+          <span className="dnb-dropdown__row">
+            <span className="dnb-dropdown__shell" ref={this._refShell}>
+              {CustomTrigger ? (
+                <CustomTrigger {...triggerParams} />
+              ) : (
+                <Button
+                  variant="secondary"
+                  size="medium"
+                  ref={this._refButton}
+                  {...triggerParams}
                 >
-                  {icon !== false && (
-                    <Icon
-                      icon={icon || 'chevron-down'}
-                      size={size === 'large' ? 'medium' : 'default'}
-                    />
+                  {!isPopupMenu && (
+                    <span className="dnb-dropdown__text">
+                      <span className="dnb-dropdown__text__inner">
+                        {title}
+                      </span>
+                    </span>
+                  )}
+                  <span
+                    aria-hidden
+                    className={classnames(
+                      'dnb-dropdown__icon',
+                      // icon && `icon-${icon}`,// not used anymore for now
+                      parseFloat(selected_item) === 0 &&
+                        'dnb-dropdown__icon--first'
+                    )}
+                  >
+                    {icon !== false && (
+                      <Icon
+                        aria-hidden
+                        icon={icon || 'chevron-down'}
+                        size={
+                          icon_size ||
+                          (size === 'large' ? 'medium' : 'default')
+                        }
+                      />
+                    )}
+                  </span>
+                </Button>
+              )}
+
+              {!hidden && (
+                <span {...listParams}>
+                  {data && data.length > 0 ? (
+                    <ul {...ulParams}>
+                      {data.map((dataItem, i) => {
+                        const isCurrent = i === parseFloat(selected_item)
+                        const liParams = {
+                          id: `option-${id}-${i}`,
+                          role: 'option',
+                          tabIndex: '-1',
+                          // title: Dropdown.parseContentTitle(dataItem),// freaks out NVDA
+                          className: classnames(
+                            'dnb-dropdown__option',
+                            isCurrent && 'dnb-dropdown__option--selected',
+                            i === active_item &&
+                              'dnb-dropdown__option--focus',
+                            // helper classes
+                            i === this.state.closestToTop &&
+                              'closest-to-top',
+                            i === this.state.closestToBottom &&
+                              'closest-to-bottom',
+                            i === data.length - 1 && 'last-of-type' // because of the triangle element
+                          ),
+                          onMouseDown: this.selectItemHandler,
+                          onKeyDown: this.preventTab,
+                          'data-item': i
+                        }
+                        if (isCurrent) {
+                          liParams['aria-current'] = true // has best support on NVDA
+                          liParams['aria-selected'] = true // has best support on VO
+                        }
+                        return (
+                          <li key={id + i} {...liParams}>
+                            <span className="dnb-dropdown__option__inner">
+                              {(Array.isArray(dataItem.content) &&
+                                dataItem.content.map((item, n) => {
+                                  return (
+                                    <span
+                                      key={id + i + n}
+                                      className="dnb-dropdown__option__item"
+                                    >
+                                      {item}
+                                    </span>
+                                  )
+                                })) ||
+                                dataItem.content ||
+                                dataItem}
+                            </span>
+                          </li>
+                        )
+                      })}
+                      <li
+                        className="dnb-dropdown__triangle"
+                        aria-hidden
+                        ref={this._refTriangle}
+                      />
+                    </ul>
+                  ) : (
+                    children && (
+                      <span className="dnb-dropdown__content">
+                        {children}
+                      </span>
+                    )
                   )}
                 </span>
-              </Button>
-            )}
+              )}
+            </span>
 
-            {!hidden && (
-              <span {...listParams}>
-                {data && data.length > 0 ? (
-                  <ul {...ulParams}>
-                    {data.map((dataItem, i) => {
-                      const isCurrent = i === parseFloat(selected_item)
-                      const liParams = {
-                        id: `option-${id}-${i}`,
-                        role: 'option',
-                        tabIndex: '-1',
-                        // title: Dropdown.parseContentTitle(dataItem),// freaks out NVDA
-                        className: classnames(
-                          'dnb-dropdown__option',
-                          isCurrent && 'dnb-dropdown__option--selected',
-                          i === active_item &&
-                            'dnb-dropdown__option--focus',
-                          // helper classes
-                          i === this.state.closestToTop &&
-                            'closest-to-top',
-                          i === this.state.closestToBottom &&
-                            'closest-to-bottom',
-                          i === data.length - 1 && 'last-of-type' // because of the triangle element
-                        ),
-                        onMouseDown: this.selectItemHandler,
-                        onKeyDown: this.preventTab,
-                        'data-item': i
-                      }
-                      if (isCurrent) {
-                        liParams['aria-current'] = true // has best support on NVDA
-                        liParams['aria-selected'] = true // has best support on VO
-                      }
-                      return (
-                        <li key={id + i} {...liParams}>
-                          <span className="dnb-dropdown__option__inner">
-                            {(Array.isArray(dataItem.content) &&
-                              dataItem.content.map((item, n) => {
-                                return (
-                                  <span
-                                    key={id + i + n}
-                                    className="dnb-dropdown__option__item"
-                                  >
-                                    {item}
-                                  </span>
-                                )
-                              })) ||
-                              dataItem.content ||
-                              dataItem}
-                          </span>
-                        </li>
-                      )
-                    })}
-                    <li
-                      className="dnb-dropdown__triangle"
-                      aria-hidden
-                      ref={this._refTriangle}
-                    />
-                  </ul>
-                ) : (
-                  children && (
-                    <span className="dnb-dropdown__content">
-                      {children}
-                    </span>
-                  )
-                )}
+            {suffix && (
+              <span
+                className="dnb-dropdown__suffix"
+                id={id + '-suffix'} // used for "aria-describedby"
+              >
+                <Suffix {...props}>{suffix}</Suffix>
               </span>
             )}
           </span>

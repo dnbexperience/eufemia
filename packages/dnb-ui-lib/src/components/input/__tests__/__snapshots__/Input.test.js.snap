@@ -13,17 +13,18 @@ exports[`Input component have to match type="search" snapshot 1`] = `
         "className": "className",
         "custom_element": Object {},
         "custom_method": [Function],
-        "description": "description",
         "disabled": "disabled",
         "global_status_id": "global_status_id",
         "id": "id",
-        "inputElement": [Function],
+        "inner_ref": [Function],
         "input_attributes": "input_attributes",
         "input_class": "input_class",
+        "input_element": [Function],
         "input_state": "input_state",
         "keep_placeholder": "keep_placeholder",
         "label": "label",
         "label_direction": "'horizontal'",
+        "label_sr_only": "label_sr_only",
         "on_blur": [Function],
         "on_change": [Function],
         "on_focus": [Function],
@@ -51,7 +52,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
   }
   1={
     Object {
-      "displayName": "SubmitButton",
+      "displayName": "InputSubmitButton",
       "props": Object {
         "className": "className",
         "disabled": "disabled",
@@ -73,17 +74,18 @@ exports[`Input component have to match type="search" snapshot 1`] = `
   className={null}
   custom_element={null}
   custom_method={null}
-  description={null}
   disabled={false}
   global_status_id={null}
   id="input"
-  inputElement={null}
+  inner_ref={null}
   input_attributes={null}
   input_class={null}
+  input_element={null}
   input_state={null}
   keep_placeholder={null}
   label={null}
   label_direction={null}
+  label_sr_only={null}
   on_blur={null}
   on_change={null}
   on_focus={null}
@@ -108,11 +110,19 @@ exports[`Input component have to match type="search" snapshot 1`] = `
   value="test"
 >
   <span
-    className="dnb-input dnb-input--search dnb-input--has-submit-element"
+    className="dnb-input dnb-input--search dnb-form-component dnb-input--has-submit-element"
   >
     <span
       className="dnb-input__inner"
     >
+      <AlignmentHelper
+        className={null}
+      >
+        <span
+          aria-hidden={true}
+          className="dnb-alignment-helper"
+        />
+      </AlignmentHelper>
       <span
         className="dnb-input__row"
       >
@@ -124,6 +134,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
           <input
             autoComplete="off"
             className="dnb-input__input"
+            disabled={false}
             id="input"
             name="input"
             onBlur={[Function]}
@@ -137,7 +148,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
         <span
           className="dnb-input__submit-element"
         >
-          <SubmitButton
+          <ForwardRef
             0={
               Object {
                 "displayName": "Input",
@@ -149,17 +160,18 @@ exports[`Input component have to match type="search" snapshot 1`] = `
                   "className": "className",
                   "custom_element": Object {},
                   "custom_method": [Function],
-                  "description": "description",
                   "disabled": "disabled",
                   "global_status_id": "global_status_id",
                   "id": "id",
-                  "inputElement": [Function],
+                  "inner_ref": [Function],
                   "input_attributes": "input_attributes",
                   "input_class": "input_class",
+                  "input_element": [Function],
                   "input_state": "input_state",
                   "keep_placeholder": "keep_placeholder",
                   "label": "label",
                   "label_direction": "'horizontal'",
+                  "label_sr_only": "label_sr_only",
                   "on_blur": [Function],
                   "on_change": [Function],
                   "on_focus": [Function],
@@ -187,7 +199,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
             }
             1={
               Object {
-                "displayName": "SubmitButton",
+                "displayName": "InputSubmitButton",
                 "props": Object {
                   "className": "className",
                   "disabled": "disabled",
@@ -203,13 +215,12 @@ exports[`Input component have to match type="search" snapshot 1`] = `
                 },
               }
             }
-            className={null}
             custom_element={null}
             custom_method={null}
             disabled={false}
             icon="search"
-            icon_size={null}
-            id={null}
+            icon_size="default"
+            inner_ref={null}
             input_state={null}
             on_blur={null}
             on_change={null}
@@ -219,124 +230,248 @@ exports[`Input component have to match type="search" snapshot 1`] = `
             on_submit_blur={null}
             on_submit_focus={null}
             size={null}
-            title={null}
+            title="Send knapp"
             value="test"
             variant="secondary"
           >
-            <span
-              className="dnb-input__submit-button"
-              data-input-state="virgin"
+            <InputSubmitButton
+              0={
+                Object {
+                  "displayName": "Input",
+                  "props": Object {
+                    "align": "align",
+                    "autocomplete": "'on'",
+                    "children": "children",
+                    "class": "class",
+                    "className": "className",
+                    "custom_element": Object {},
+                    "custom_method": [Function],
+                    "disabled": "disabled",
+                    "global_status_id": "global_status_id",
+                    "id": "id",
+                    "inner_ref": [Function],
+                    "input_attributes": "input_attributes",
+                    "input_class": "input_class",
+                    "input_element": [Function],
+                    "input_state": "input_state",
+                    "keep_placeholder": "keep_placeholder",
+                    "label": "label",
+                    "label_direction": "'horizontal'",
+                    "label_sr_only": "label_sr_only",
+                    "on_blur": [Function],
+                    "on_change": [Function],
+                    "on_focus": [Function],
+                    "on_state_update": [Function],
+                    "on_submit": [Function],
+                    "on_submit_blur": [Function],
+                    "on_submit_focus": [Function],
+                    "placeholder": "placeholder",
+                    "readOnly": "readOnly",
+                    "selectall": "selectall",
+                    "size": "size",
+                    "status": "status",
+                    "status_animation": "status_animation",
+                    "status_state": "status_state",
+                    "stretch": "stretch",
+                    "submit_button_icon": "submit_button_icon",
+                    "submit_button_title": "submit_button_title",
+                    "submit_button_variant": "custom type not supported, please set the correct value for submit_button_variant prop",
+                    "submit_element": [Function],
+                    "suffix": "suffix",
+                    "type": "type",
+                    "value": "value",
+                  },
+                }
+              }
+              1={
+                Object {
+                  "displayName": "InputSubmitButton",
+                  "props": Object {
+                    "className": "className",
+                    "disabled": "disabled",
+                    "icon": "icon",
+                    "icon_size": "icon_size",
+                    "id": "id",
+                    "on_submit": [Function],
+                    "on_submit_blur": [Function],
+                    "on_submit_focus": [Function],
+                    "title": "title",
+                    "value": "value",
+                    "variant": "custom type not supported, please set the correct value for variant prop",
+                  },
+                }
+              }
+              className={null}
+              custom_element={null}
+              custom_method={null}
+              disabled={false}
+              icon="search"
+              icon_size="default"
+              id={null}
+              innerRef={null}
+              inner_ref={null}
+              input_state={null}
+              on_blur={null}
+              on_change={null}
+              on_focus={null}
+              on_state_update={null}
+              on_submit={null}
+              on_submit_blur={null}
+              on_submit_focus={null}
+              size={null}
+              title="Send knapp"
+              value="test"
+              variant="secondary"
             >
-              <Button
-                bounding={false}
-                class={null}
-                className="dnb-input__submit-button__button"
-                custom_element={null}
-                custom_method={null}
-                disabled={null}
-                href={null}
-                icon="search"
-                icon_position={null}
-                icon_size={null}
-                id={null}
-                innerRef={null}
-                onBlur={[Function]}
-                onClick={[Function]}
-                onFocus={[Function]}
-                on_click={null}
-                size={null}
-                text={null}
-                title={null}
-                type="submit"
-                value="test"
-                variant="secondary"
+              <span
+                className="dnb-input__submit-button"
+                data-input-state="virgin"
               >
-                <button
-                  className="dnb-button dnb-button--secondary dnb-input__submit-button__button dnb-button--icon-position-right dnb-button--has-icon dnb-button--size-medium"
+                <Button
+                  aria-label="Send knapp"
+                  bounding={false}
+                  class={null}
+                  className="dnb-input__submit-button__button"
+                  custom_element={null}
+                  custom_method={null}
+                  disabled={false}
+                  global_status_id={null}
+                  href={null}
+                  icon="search"
+                  icon_position={null}
+                  icon_size="default"
+                  id={null}
+                  innerRef={null}
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
-                  onMouseOut={[Function]}
+                  on_click={null}
+                  size={null}
+                  status={null}
+                  status_animation={null}
+                  status_state="error"
+                  text={null}
+                  title={null}
                   type="submit"
                   value="test"
+                  variant="secondary"
                 >
-                  <Content
-                    bounding={false}
-                    class={null}
-                    className="dnb-input__submit-button__button"
-                    content={null}
-                    custom_element={null}
-                    custom_method={null}
-                    disabled={null}
-                    href={null}
-                    icon="search"
-                    icon_position={null}
-                    icon_size={null}
-                    id={null}
-                    innerRef={null}
-                    isIconOnly={true}
+                  <button
+                    aria-label="Send knapp"
+                    className="dnb-button dnb-button--secondary dnb-input__submit-button__button dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-default dnb-button--size-medium"
+                    disabled={false}
                     onBlur={[Function]}
                     onClick={[Function]}
                     onFocus={[Function]}
-                    on_click={null}
-                    size={null}
-                    text={null}
-                    title={null}
+                    onMouseOut={[Function]}
                     type="submit"
                     value="test"
-                    variant="secondary"
                   >
-                    <IconPrimary
-                      alt={null}
-                      aria-hidden={false}
-                      attributes={null}
-                      border={null}
+                    <Content
+                      aria-label="Send knapp"
+                      bounding={false}
                       class={null}
-                      className="dnb-button__icon"
-                      color={null}
-                      height={null}
+                      className="dnb-input__submit-button__button"
+                      content={null}
+                      custom_element={null}
+                      custom_method={null}
+                      disabled={false}
+                      global_status_id={null}
+                      href={null}
                       icon="search"
-                      key="button-icon"
-                      modifier={null}
+                      icon_position={null}
+                      icon_size="default"
+                      id={null}
+                      innerRef={null}
+                      isIconOnly={true}
+                      onBlur={[Function]}
+                      onClick={[Function]}
+                      onFocus={[Function]}
+                      on_click={null}
                       size={null}
+                      status={null}
+                      status_animation={null}
+                      status_state="error"
+                      text={null}
                       title={null}
-                      width={null}
+                      type="submit"
+                      value="test"
+                      variant="secondary"
                     >
                       <span
-                        alt="search"
-                        aria-hidden={false}
-                        aria-label="search"
-                        className="dnb-icon dnb-button__icon"
-                        role="img"
+                        className="dnb-button__text"
+                        key="button-text-empty"
                       >
-                        <search>
-                          <svg
-                            fill="none"
-                            height={16}
-                            viewBox="0 0 17 17"
-                            width={16}
-                          >
-                            <g
-                              clipPath="url(#clip-06a943)"
-                              stroke="#000"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={1.5}
-                            >
-                              <path
-                                d="M9.055 11.937a5.445 5.445 0 10-4.26-10.023 5.445 5.445 0 004.26 10.023zM10.775 10.775L15 14.999"
-                              />
-                            </g>
-                            <defs />
-                          </svg>
-                        </search>
+                        ‌
                       </span>
-                    </IconPrimary>
-                  </Content>
-                </button>
-              </Button>
-            </span>
-          </SubmitButton>
+                      <IconPrimary
+                        alt={null}
+                        aria-hidden={null}
+                        attributes={null}
+                        border={null}
+                        class={null}
+                        className="dnb-button__icon"
+                        color={null}
+                        height={null}
+                        icon="search"
+                        key="button-icon"
+                        modifier={null}
+                        size="default"
+                        title={null}
+                        width={null}
+                      >
+                        <span
+                          alt="search"
+                          aria-label="search"
+                          className="dnb-icon dnb-icon--default dnb-button__icon"
+                          role="img"
+                        >
+                          <search>
+                            <svg
+                              fill="none"
+                              height={17}
+                              viewBox="0 0 17 17"
+                              width={17}
+                            >
+                              <g
+                                clipPath="url(#clip-06a943)"
+                              >
+                                <path
+                                  d="M9.05532 11.9365C11.823 10.7602 13.1131 7.56308 11.9369 4.79541C10.7606 2.02774 7.56348 0.737629 4.79581 1.91386C2.02814 3.09009 0.738029 6.28725 1.91426 9.05492C3.09049 11.8226 6.28765 13.1127 9.05532 11.9365Z"
+                                  stroke="black"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth={1.5}
+                                />
+                                <path
+                                  d="M10.7755 10.775L14.9986 14.9987"
+                                  stroke="black"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth={1.5}
+                                />
+                              </g>
+                              <defs>
+                                <clipPath
+                                  id="clip-06a943"
+                                >
+                                  <rect
+                                    fill="white"
+                                    height={16.4792}
+                                    width={16.4792}
+                                  />
+                                </clipPath>
+                              </defs>
+                            </svg>
+                          </search>
+                        </span>
+                      </IconPrimary>
+                    </Content>
+                  </button>
+                </Button>
+              </span>
+            </InputSubmitButton>
+          </ForwardRef>
         </span>
       </span>
     </span>
@@ -357,17 +492,18 @@ exports[`Input component have to match type="text" snapshot 1`] = `
         "className": "className",
         "custom_element": Object {},
         "custom_method": [Function],
-        "description": "description",
         "disabled": "disabled",
         "global_status_id": "global_status_id",
         "id": "id",
-        "inputElement": [Function],
+        "inner_ref": [Function],
         "input_attributes": "input_attributes",
         "input_class": "input_class",
+        "input_element": [Function],
         "input_state": "input_state",
         "keep_placeholder": "keep_placeholder",
         "label": "label",
         "label_direction": "'horizontal'",
+        "label_sr_only": "label_sr_only",
         "on_blur": [Function],
         "on_change": [Function],
         "on_focus": [Function],
@@ -395,7 +531,7 @@ exports[`Input component have to match type="text" snapshot 1`] = `
   }
   1={
     Object {
-      "displayName": "SubmitButton",
+      "displayName": "InputSubmitButton",
       "props": Object {
         "className": "className",
         "disabled": "disabled",
@@ -417,17 +553,18 @@ exports[`Input component have to match type="text" snapshot 1`] = `
   className={null}
   custom_element={null}
   custom_method={null}
-  description={null}
   disabled={false}
   global_status_id={null}
   id="input"
-  inputElement={null}
+  inner_ref={null}
   input_attributes={null}
   input_class={null}
+  input_element={null}
   input_state={null}
   keep_placeholder={null}
   label={null}
   label_direction={null}
+  label_sr_only={null}
   on_blur={null}
   on_change={null}
   on_focus={null}
@@ -452,11 +589,19 @@ exports[`Input component have to match type="text" snapshot 1`] = `
   value="test"
 >
   <span
-    className="dnb-input dnb-input--text"
+    className="dnb-input dnb-input--text dnb-form-component"
   >
     <span
       className="dnb-input__inner"
     >
+      <AlignmentHelper
+        className={null}
+      >
+        <span
+          aria-hidden={true}
+          className="dnb-alignment-helper"
+        />
+      </AlignmentHelper>
       <span
         className="dnb-input__row"
       >
@@ -468,6 +613,7 @@ exports[`Input component have to match type="text" snapshot 1`] = `
           <input
             autoComplete="off"
             className="dnb-input__input"
+            disabled={false}
             id="input"
             name="input"
             onBlur={[Function]}
@@ -546,7 +692,7 @@ exports[`Input scss have to match default theme snapshot 1`] = `
       border-color: transparent; }
   .dnb-input:not([data-input-state='disabled']).dnb-input__submit-button svg {
     color: var(--color-sea-green); }
-  .dnb-input__status--error .dnb-input__shell:not([data-input-state='focus']), .dnb-input__status--error .dnb-input__shell:not([data-input-state='focus']):not([data-input-state='disabled']):hover {
+  .dnb-input__status--error .dnb-input__shell:not([data-input-state='focus']) {
     box-shadow: 0 0 0 0.125rem var(--color-fire-red);
     /* IE11 fix */
     border-color: transparent; }
@@ -557,6 +703,9 @@ exports[`Input scss have to match default theme snapshot 1`] = `
     box-shadow: 0 0 0 0.125rem var(--color-fire-red);
     /* IE11 fix */
     border-color: transparent; }
+  .dnb-input__status--error,
+  .dnb-input__status--error .dnb-input__shell[data-input-state='dirty'] {
+    color: var(--color-fire-red); }
   .dnb-input__input::selection {
     background-color: var(--color-mint-green);
     color: var(--input-text-color--focus);
@@ -604,17 +753,18 @@ exports[`Input scss have to match snapshot 1`] = `
 */
 .dnb-icon {
   display: inline-block;
-  vertical-align: baseline;
-  font-size: inherit;
-  line-height: var(--line-height-x-small--em);
+  vertical-align: middle;
+  font-size: 1rem;
+  line-height: 1rem;
+  color: inherit;
   width: 1em;
   height: 1em; }
   .dnb-icon img,
   .dnb-icon svg {
     width: inherit;
     height: inherit;
-    vertical-align: middle;
-    shape-rendering: geometricPrecision; }
+    shape-rendering: geometricPrecision;
+    vertical-align: top; }
   .dnb-icon svg[width='100%'] {
     width: inherit; }
   .dnb-icon svg[height='100%'] {
@@ -625,40 +775,130 @@ exports[`Input scss have to match snapshot 1`] = `
   .dnb-icon svg [stroke] {
     stroke: currentColor; }
   .dnb-icon--small {
-    width: 0.75em;
-    height: 0.75em; }
+    font-size: 0.75rem; }
   .dnb-icon--default {
-    width: 1em;
-    height: 1em; }
+    font-size: 1rem; }
   .dnb-icon--medium {
-    width: 1.5em;
-    height: 1.5em; }
+    font-size: 1.5rem; }
   .dnb-icon--large {
-    width: 2em;
-    height: 2em; }
+    font-size: 2rem; }
   .dnb-icon--x-large {
-    width: 2.5em;
-    height: 2.5em; }
+    font-size: 2.5rem; }
   .dnb-icon--xx-large {
-    width: 3em;
-    height: 3em; }
+    font-size: 3rem; }
   .dnb-icon--custom-size {
     width: auto;
     height: auto; }
+  .dnb-icon--auto {
+    font-size: 1em; }
+  .dnb-icon--auto > .dnb-icon--wrapper {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center; }
+  h1 .dnb-icon,
+  h2 .dnb-icon,
+  h3 .dnb-icon,
+  h4 .dnb-icon,
+  h5 .dnb-icon,
+  h6 .dnb-icon {
+    vertical-align: middle; }
   @media screen and (-ms-high-contrast: none) {
     .dnb-icon {
       flex: none; } }
 
-.dnb-button {
+/*
+* DNB FormStatus
+*
+*/
+.dnb-form-status {
   font-family: var(--font-family-default);
   font-weight: var(--font-weight-default);
-  font-size: var(--font-size-basis);
+  font-size: var(--font-size-small);
   font-style: normal;
   line-height: var(--line-height-basis);
   color: var(--color-black-80, #333);
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-  font-variant-numeric: lining-nums;
-  font-feature-settings: \\"lnum\\";
+  /**
+  * 1. Remove repeating backgrounds in all browsers (opinionated).
+  * 2. Add border box sizing in all browsers (opinionated).
+  */
+  /**
+  * 1. Add text decoration inheritance in all browsers (opinionated).
+  * 2. Add vertical alignment inheritance in all browsers (opinionated).
+  */
+  margin: 0;
+  padding: 0; }
+  .dnb-form-status *,
+  .dnb-form-status ::before,
+  .dnb-form-status ::after {
+    background-repeat: no-repeat;
+    /* 1 */
+    box-sizing: border-box;
+    /* 2 */ }
+  .dnb-form-status ::before,
+  .dnb-form-status ::after {
+    text-decoration: inherit;
+    /* 1 */
+    vertical-align: inherit;
+    /* 2 */ }
+
+/*
+ * FormStatus component
+ *
+ */
+.dnb-form-status {
+  display: flex; }
+  .dnb-form-status__shell {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    border-radius: var(--input-border-radius); }
+  .dnb-form-status--text {
+    padding: calc(0.5rem / 2) 1rem;
+    cursor: text;
+    color: inherit;
+    line-height: var(--line-height-basis); }
+  .dnb-icon + .dnb-form-status--text {
+    padding-left: 0.5rem; }
+  .dnb-form-status__shell > .dnb-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 1.5em;
+    height: 1.5em;
+    margin-top: 0.25em;
+    margin-left: 0.5em;
+    color: inherit;
+    font-size: var(--font-size-basis);
+    transform: translateY(-0.125rem); }
+  .dnb-form-status[hidden] {
+    display: none; }
+  .dnb-form-status--fade-in {
+    overflow: hidden;
+    max-height: 0;
+    animation: form-status-fade-in 2s ease-out 400ms forwards; }
+
+@keyframes form-status-fade-in {
+  from {
+    max-height: 0; }
+  to {
+    max-height: calc(var(--input-height) * 8); } }
+  @media screen and (-ms-high-contrast: none) {
+    .dnb-form-status__shell > .dnb-icon {
+      border-width: 1px; } }
+
+.dnb-button {
+  font-family: var(--font-family-default);
+  font-weight: var(--font-weight-default);
+  font-size: var(--font-size-small);
+  font-style: normal;
+  line-height: var(--line-height-basis);
+  color: var(--color-black-80, #333);
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   /**
   * 1. Remove repeating backgrounds in all browsers (opinionated).
   * 2. Add border box sizing in all browsers (opinionated).
@@ -719,24 +959,17 @@ exports[`Input scss have to match snapshot 1`] = `
   padding: 0;
   border: var(--button-border-width) solid transparent;
   border-radius: var(--button-border-radius);
-  text-decoration: none; }
+  text-decoration: none;
+  font-size: var(--font-size-small); }
   .dnb-button,
   .dnb-core-style .dnb-button {
-    font-size: var(--button-font-size);
     line-height: var(--button-height); }
-  .dnb-button__icon {
-    line-height: var(--line-height-x-small--em); }
-    .dnb-button__icon:not(.dnb-icon) svg:not([width]):not([height]) {
-      width: var(--button-icon-size);
-      height: var(--button-icon-size); }
-    [data-os='win'] .dnb-button__icon {
-      transform: translateY(-0.0625rem); }
   .dnb-button__text {
-    line-height: var(--line-height-x-small--em);
+    font-size: var(--button-font-size);
+    line-height: var(--line-height-xx-small--em);
     color: inherit;
-    background-color: inherit; }
-    [data-os='mac'] .dnb-button__text {
-      transform: translateY(0.0625rem); }
+    background-color: inherit;
+    transform: translateY(-0.03125rem); }
   .dnb-button__bounding {
     position: absolute;
     background-color: transparent;
@@ -748,8 +981,10 @@ exports[`Input scss have to match snapshot 1`] = `
     width: var(--button-width--small);
     height: var(--button-height--small);
     font-size: var(--button-font-size-small);
-    line-height: var(--button-height--small);
     border-radius: var(--button-border-radius--small); }
+    .dnb-button--size-small,
+    .dnb-core-style .dnb-button--size-small {
+      line-height: var(--button-height--small); }
   .dnb-button--has-text.dnb-button--size-small {
     padding-left: 1rem;
     padding-right: 1rem; }
@@ -760,8 +995,10 @@ exports[`Input scss have to match snapshot 1`] = `
   .dnb-button--size-medium {
     width: var(--button-width--medium);
     height: var(--button-height--medium);
-    line-height: var(--button-height--medium);
     border-radius: var(--button-border-radius--medium); }
+    .dnb-button--size-medium,
+    .dnb-core-style .dnb-button--size-medium {
+      line-height: var(--button-height--medium); }
   .dnb-button--has-text.dnb-button--size-medium {
     padding-left: 1rem;
     padding-right: 1rem; }
@@ -772,8 +1009,10 @@ exports[`Input scss have to match snapshot 1`] = `
   .dnb-button--size-large {
     width: var(--button-width--large);
     height: var(--button-height--large);
-    line-height: var(--button-height--large);
     border-radius: var(--button-border-radius--large); }
+    .dnb-button--size-large,
+    .dnb-core-style .dnb-button--size-large {
+      line-height: var(--button-height--large); }
   .dnb-button--has-text.dnb-button--size-large {
     padding-left: 2rem;
     padding-right: 2rem; }
@@ -795,6 +1034,13 @@ exports[`Input scss have to match snapshot 1`] = `
     order: 2; }
   .dnb-button--has-text.dnb-button--has-icon .dnb-button__text {
     order: 1; }
+  .dnb-button:not(.dnb-button--has-text) .dnb-button__icon {
+    width: inherit; }
+  .dnb-button__icon.dnb-icon svg:not([width]):not([height]) {
+    width: var(--button-icon-size);
+    height: var(--button-icon-size); }
+  [href] > .dnb-button__icon.dnb-icon {
+    line-height: var(--button-font-size); }
   .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-left .dnb-button__icon {
     order: 1; }
   .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-left .dnb-button__text {
@@ -848,12 +1094,6 @@ exports[`Input scss have to match snapshot 1`] = `
 button.dnb-button::-moz-focus-inner {
   border: none; }
 
-a.dnb-button .dnb-button__icon {
-  transform: translateY(0); }
-
-a.dnb-button .dnb-button__text {
-  transform: translateY(0.0625rem); }
-
 /*
 * DNB FormLabel
 *
@@ -861,13 +1101,13 @@ a.dnb-button .dnb-button__text {
 .dnb-form-label {
   font-family: var(--font-family-default);
   font-weight: var(--font-weight-default);
-  font-size: var(--font-size-basis);
+  font-size: var(--font-size-small);
   font-style: normal;
   line-height: var(--line-height-basis);
   color: var(--color-black-80, #333);
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-  font-variant-numeric: lining-nums;
-  font-feature-settings: \\"lnum\\";
   /**
   * 1. Remove repeating backgrounds in all browsers (opinionated).
   * 2. Add border box sizing in all browsers (opinionated).
@@ -902,12 +1142,17 @@ a.dnb-button .dnb-button__text {
   padding: 0;
   margin-right: 1rem;
   text-align: left;
+  font-size: var(--font-size-basis);
   vertical-align: baseline;
   color: inherit; }
   .dnb-form-label--vertical {
     display: block;
     margin-right: 0;
     margin-bottom: 0.5rem; }
+  .dnb-form-label--sr-only {
+    width: 1px;
+    margin-left: -1px;
+    overflow: hidden; }
   .dnb-form-label[for]:not([disabled]) {
     user-select: none;
     -webkit-user-select: none;
@@ -921,100 +1166,16 @@ a.dnb-button .dnb-button__text {
 legend.dnb-form-label {
   display: inline-block; }
 
-/*
-* DNB FormStatus
-*
-*/
-.dnb-form-status {
-  font-family: var(--font-family-default);
-  font-weight: var(--font-weight-default);
-  font-size: var(--font-size-basis);
-  font-style: normal;
-  line-height: var(--line-height-basis);
-  color: var(--color-black-80, #333);
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-  font-variant-numeric: lining-nums;
-  font-feature-settings: \\"lnum\\";
-  /**
-  * 1. Remove repeating backgrounds in all browsers (opinionated).
-  * 2. Add border box sizing in all browsers (opinionated).
-  */
-  /**
-  * 1. Add text decoration inheritance in all browsers (opinionated).
-  * 2. Add vertical alignment inheritance in all browsers (opinionated).
-  */
-  margin: 0;
-  padding: 0; }
-  .dnb-form-status *,
-  .dnb-form-status ::before,
-  .dnb-form-status ::after {
-    background-repeat: no-repeat;
-    /* 1 */
-    box-sizing: border-box;
-    /* 2 */ }
-  .dnb-form-status ::before,
-  .dnb-form-status ::after {
-    text-decoration: inherit;
-    /* 1 */
-    vertical-align: inherit;
-    /* 2 */ }
-
-/*
- * FormStatus component
- *
- */
-.dnb-form-status {
-  display: flex; }
-  .dnb-form-status__shell {
-    display: flex;
-    justify-content: flex-start;
-    align-items: flex-start;
-    border-radius: var(--input-border-radius); }
-  .dnb-form-status--text {
-    padding: calc(0.5rem / 2) 1rem;
-    cursor: text;
-    color: inherit;
-    line-height: var(--line-height-basis); }
-    [data-os='mac'] .dnb-form-status--text {
-      transform: translateY(0.0625rem); }
-  .dnb-icon + .dnb-form-status--text {
-    padding-left: 0.5rem; }
-  .dnb-form-status__shell > .dnb-icon {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 1.5em;
-    height: 1.5em;
-    margin-top: 0.25em;
-    margin-left: 0.5em;
-    color: inherit;
-    font-size: var(--font-size-basis); }
-  .dnb-form-status[hidden] {
-    display: none; }
-  .dnb-form-status--fade-in {
-    overflow: hidden;
-    max-height: 0;
-    animation: form-status-fade-in 2s ease-out 400ms forwards; }
-
-@keyframes form-status-fade-in {
-  from {
-    max-height: 0; }
-  to {
-    max-height: calc(var(--input-height) * 8); } }
-  @media screen and (-ms-high-contrast: none) {
-    .dnb-form-status__shell > .dnb-icon {
-      border-width: 1px; } }
-
 .dnb-input {
   font-family: var(--font-family-default);
   font-weight: var(--font-weight-default);
-  font-size: var(--font-size-basis);
+  font-size: var(--font-size-small);
   font-style: normal;
   line-height: var(--line-height-basis);
   color: var(--color-black-80, #333);
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-  font-variant-numeric: lining-nums;
-  font-feature-settings: \\"lnum\\";
   /**
   * 1. Remove repeating backgrounds in all browsers (opinionated).
   * 2. Add border box sizing in all browsers (opinionated).
@@ -1045,14 +1206,14 @@ legend.dnb-form-label {
 */
 :root {
   --input-font-size: var(--font-size-basis);
-  --input-font-size--medium: 1.5rem;
-  --input-font-size--large: 2rem;
+  --input-font-size--medium: var(--font-size-basis);
+  --input-font-size--large: var(--font-size-medium);
   --input-padding: 1rem;
-  --input-padding--medium: 1.5rem;
-  --input-padding--large: 2rem;
+  --input-padding--medium: 1rem;
+  --input-padding--large: 1rem;
   --input-height: 2rem;
-  --input-height--medium: 3rem;
-  --input-height--large: 4rem;
+  --input-height--medium: 2.5rem;
+  --input-height--large: 3rem;
   --input-border-width: 0.0625rem;
   --input-border-radius: calc(var(--input-height) / 2);
   --input-border-radius--medium: calc(var(--input-height--medium) / 2);
@@ -1060,24 +1221,27 @@ legend.dnb-form-label {
 
 .dnb-input {
   display: inline-flex;
-  align-items: center; }
+  align-items: center;
+  font-size: var(--input-font-small);
+  line-height: var(--input-height); }
   .dnb-input__inner {
     display: inline-flex;
     flex-direction: column;
-    width: auto;
-    font-size: var(--input-font-size); }
+    width: auto; }
   .dnb-input__shell {
     position: relative;
     display: flex;
     align-items: center;
-    border: var(--input-border-width) solid var(--color-sea-green-alt);
-    line-height: var(--input-height); }
+    border: var(--input-border-width) solid var(--color-sea-green-alt); }
   .dnb-input__input {
     border: none;
     outline: none;
     word-break: normal;
     position: relative;
     z-index: 2; }
+  .dnb-input input.dnb-input__input {
+    font-size: var(--input-font-size);
+    line-height: var(--font-size-basis); }
   .dnb-input__input[disabled] {
     user-select: none;
     -webkit-user-select: none;
@@ -1091,10 +1255,8 @@ legend.dnb-form-label {
     padding-right: var(--input-padding);
     text-align: left;
     color: inherit;
-    font-size: inherit;
     background-color: transparent;
-    font-variant-numeric: lining-nums;
-    font-feature-settings: \\"lnum\\"; }
+    font-size: var(--input-font-size); }
   .dnb-input__placeholder {
     pointer-events: none;
     position: absolute;
@@ -1103,8 +1265,9 @@ legend.dnb-form-label {
     left: 0;
     overflow: hidden;
     white-space: nowrap;
-    text-overflow: ellipsis;
-    line-height: inherit; }
+    text-overflow: ellipsis; }
+  .dnb-input input.dnb-input__input[type='file'] {
+    line-height: calc(var(--input-height) - 2px); }
   .dnb-input__input::-webkit-search-cancel-button {
     display: none; }
   .dnb-input__input::-ms-clear {
@@ -1115,20 +1278,18 @@ legend.dnb-form-label {
     color: var(--color-sea-green); }
     .dnb-input ::-webkit-file-upload-button:active, .dnb-input ::-webkit-file-upload-button:hover {
       color: var(--color-emerald-green); }
-  [data-os='mac'] .dnb-input__placeholder,
-  [data-os='mac'] .dnb-input__input {
-    transform: translateY(0.0625rem); }
   .dnb-input--has-submit-element .dnb-input__placeholder,
   .dnb-input--has-submit-element .dnb-input__input {
     padding-right: calc(var(--input-padding) * 2.5); }
   .dnb-input__row {
     display: inline-flex;
     align-items: center; }
-  .dnb-input__description {
+  .dnb-input__suffix {
     color: inherit;
     padding-left: 0.5rem; }
   .dnb-input__submit-element {
-    margin-left: calc(1px - 1px - var(--input-height)); }
+    margin-left: calc(1px - 1px - var(--input-height));
+    line-height: var(--line-height-basis); }
   .dnb-input__submit-button {
     position: relative;
     z-index: 2;
@@ -1136,58 +1297,56 @@ legend.dnb-form-label {
     /* IE needs this to stay centered */ }
     .dnb-input__submit-button__button {
       border-radius: 50%; }
-  .dnb-input--medium .dnb-input__shell {
+  .dnb-input--medium {
     line-height: var(--input-height--medium); }
-  .dnb-input--medium .dnb-input__shell,
-  .dnb-input--medium .dnb-input__input {
-    height: var(--input-height--medium);
-    border-radius: var(--input-border-radius--medium); }
-  .dnb-input--medium .dnb-input__placeholder,
-  .dnb-input--medium .dnb-input__input {
-    padding-left: var(--input-padding--medium);
-    padding-right: var(--input-padding--medium);
-    font-size: var(--input-font-size--medium); }
-  .dnb-input--medium .dnb-input__submit-element {
-    margin-left: calc(1px - 1px - var(--input-height--medium)); }
-    .dnb-input--medium .dnb-input__submit-element .dnb-button {
-      width: var(--input-height--medium);
-      height: var(--input-height--medium); }
+    .dnb-input--medium .dnb-input__shell,
+    .dnb-input--medium .dnb-input__input {
+      height: var(--input-height--medium);
+      border-radius: var(--input-border-radius--medium); }
+    .dnb-input--medium .dnb-input__placeholder,
+    .dnb-input--medium .dnb-input__input {
+      padding-left: var(--input-padding--medium);
+      padding-right: var(--input-padding--medium);
+      font-size: var(--input-font-size--medium); }
+    .dnb-input--medium .dnb-input__submit-element {
+      margin-left: calc(1px - 1px - var(--input-height--medium)); }
+      .dnb-input--medium .dnb-input__submit-element .dnb-button {
+        width: var(--input-height--medium);
+        height: var(--input-height--medium);
+        line-height: var(--input-height--medium); }
   .dnb-input--medium.dnb-input--has-submit-element .dnb-input__placeholder,
   .dnb-input--medium.dnb-input--has-submit-element .dnb-input__input {
-    padding-right: calc(var(--input-padding--medium) * 2.5); }
-  .dnb-input--large .dnb-input__shell {
+    padding-right: calc(var(--input-padding--medium) * 3); }
+  .dnb-input--large {
     line-height: var(--input-height--large); }
-  .dnb-input--large .dnb-input__shell,
-  .dnb-input--large .dnb-input__input {
-    height: var(--input-height--large);
-    border-radius: var(--input-border-radius--large); }
-  .dnb-input--large .dnb-input__placeholder,
-  .dnb-input--large .dnb-input__input {
-    padding-left: var(--input-padding--large);
-    padding-right: var(--input-padding--large);
-    font-size: var(--input-font-size--large); }
-  .dnb-input--large .dnb-input__submit-element {
-    margin-left: calc(1px - 1px - var(--input-height--large)); }
-    .dnb-input--large .dnb-input__submit-element .dnb-button {
-      width: var(--input-height--large);
-      height: var(--input-height--large); }
-      .dnb-input--large .dnb-input__submit-element .dnb-button .dnb-button__icon {
-        transform: scale(1.33333); }
+    .dnb-input--large .dnb-input__shell,
+    .dnb-input--large .dnb-input__input {
+      height: var(--input-height--large);
+      border-radius: var(--input-border-radius--large); }
+    .dnb-input--large .dnb-input__placeholder,
+    .dnb-input--large .dnb-input__input {
+      padding-left: var(--input-padding--large);
+      padding-right: var(--input-padding--large);
+      font-size: var(--input-font-size--large); }
+    .dnb-input--large .dnb-input__submit-element {
+      margin-left: calc(1px - 1px - var(--input-height--large)); }
+      .dnb-input--large .dnb-input__submit-element .dnb-button {
+        width: var(--input-height--large);
+        height: var(--input-height--large); }
   .dnb-input--large.dnb-input--has-submit-element .dnb-input__placeholder,
   .dnb-input--large.dnb-input--has-submit-element .dnb-input__input {
-    padding-right: calc(var(--input-padding--large) * 2.5); }
+    padding-right: calc(var(--input-padding--large) * 3.5); }
   .dnb-input__align--center .dnb-input__placeholder,
   .dnb-input__align--center .dnb-input__input {
     text-align: center; }
   .dnb-input__align--right .dnb-input__placeholder,
   .dnb-input__align--right .dnb-input__input {
     text-align: right; }
-  .dnb-core-style .dnb-input__input:not([type='file']) {
-    line-height: var(--line-height-x-small--em); }
   .dnb-input__inner > .dnb-form-status {
     order: 2;
     margin-top: 0.5rem; }
   .dnb-input--vertical {
+    display: flex;
     flex-direction: column;
     align-items: flex-start; }
   .dnb-input--stretch {
@@ -1198,15 +1357,21 @@ legend.dnb-form-label {
     width: 100%; }
   .dnb-input--vertical.dnb-input--stretch .dnb-input__inner {
     width: 100%; }
+  .dnb-input > .dnb-form-label {
+    line-height: var(--line-height-basis); }
   .dnb-input[class*='__status'] {
     align-items: flex-start; }
     .dnb-input[class*='__status'] > .dnb-form-label {
       margin-top: 0.25rem; }
   @media (max-width: 40em) {
-    .dnb-input {
+    .dnb-responsive-component .dnb-input {
+      display: flex;
       flex-direction: column;
-      align-items: flex-start; }
-      .dnb-input > .dnb-form-label {
+      align-items: flex-start;
+      margin-bottom: 0.5rem; }
+      .dnb-responsive-component .dnb-input__row {
+        align-items: flex-start; }
+      .dnb-responsive-component .dnb-input > .dnb-form-label {
         margin-bottom: 0.5rem; } }
   @media screen and (-ms-high-contrast: none) {
     .dnb-input {

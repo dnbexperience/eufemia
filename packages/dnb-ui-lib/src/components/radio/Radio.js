@@ -15,6 +15,7 @@ import {
   validateDOMAttributes,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
+import AlignmentHelper from '../../shared/AlignmentHelper'
 import { createSpacingClasses } from '../space/SpacingHelper'
 
 import FormLabel from '../form-label/FormLabel'
@@ -22,6 +23,7 @@ import FormStatus from '../form-status/FormStatus'
 import RadioGroup from './RadioGroup'
 import RadioGroupContext from './RadioGroupContext'
 import Context from '../../shared/Context'
+import Suffix from '../../shared/helpers/Suffix'
 
 const renderProps = {
   on_change: null,
@@ -34,6 +36,7 @@ const propTypes = {
     PropTypes.func,
     PropTypes.node
   ]),
+  label_sr_only: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   label_position: PropTypes.oneOf(['left', 'right']),
   checked: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -47,6 +50,11 @@ const propTypes = {
   status_state: PropTypes.string,
   status_animation: PropTypes.string,
   global_status_id: PropTypes.string,
+  suffix: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.func,
+    PropTypes.node
+  ]),
   value: PropTypes.string,
   attributes: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   readOnly: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -65,6 +73,7 @@ const propTypes = {
 
 const defaultProps = {
   label: null,
+  label_sr_only: null,
   label_position: null,
   checked: null,
   disabled: false,
@@ -74,6 +83,7 @@ const defaultProps = {
   status_state: 'error',
   status_animation: null,
   global_status_id: null,
+  suffix: null,
   value: '',
   attributes: null,
   readOnly: false,
@@ -252,25 +262,23 @@ export default class Radio extends Component {
   render() {
     return (
       <Context.Consumer>
-        {({ formRow }) => {
-          // consume the formRow context
-          let props = formRow
-            ? // use only the props from context, who are available here anyway
-              extendPropsWithContext(this.props, formRow)
-            : this.props
-
-          // consume the toggleButton context
-          props = this.context.name
-            ? // use only the props from context, who are available here anyway
-              extendPropsWithContext(this.props, this.context)
-            : props
+        {context => {
+          // use only the props from context, who are available here anyway
+          const props = extendPropsWithContext(
+            this.props,
+            defaultProps,
+            this.context, // internal context
+            context.formRow
+          )
 
           const {
             status,
             status_state,
             status_animation,
             global_status_id,
+            suffix,
             label,
+            label_sr_only,
             label_position,
             readOnly,
             className,
@@ -324,72 +332,89 @@ export default class Radio extends Component {
             onMouseOut: this.onMouseOutHandler // for resetting the button to the default state
           }
 
-          if (showStatus) {
-            inputParams['aria-describedby'] = id + '-status'
+          if (showStatus || suffix) {
+            inputParams['aria-describedby'] = `${
+              showStatus ? id + '-status' : ''
+            } ${suffix ? id + '-suffix' : ''}`
           }
           if (readOnly) {
             inputParams['aria-readonly'] = inputParams.readOnly = true
           }
 
+          if (!group) {
+            inputParams.type = 'checkbox'
+            inputParams.role = 'radio' // breaks axe test
+          }
+
           // also used for code markup simulation
           validateDOMAttributes(this.props, inputParams)
 
-          const statusComp = showStatus && (
-            <FormStatus
-              id={id + '-form-status'}
-              global_status_id={global_status_id}
-              text_id={id + '-status'} // used for "aria-describedby"
-              width_selector={id + ', ' + id + '-label'}
-              text={status}
-              status={status_state}
-              animation={status_animation}
+          const labelComp = label && (
+            <FormLabel
+              id={id + '-label'}
+              for_id={id}
+              text={label}
+              disabled={disabled}
+              sr_only={label_sr_only}
             />
           )
 
           return (
             <span {...mainParams}>
               <span className="dnb-radio__order">
-                {label && (
-                  <FormLabel
-                    id={id + '-label'}
-                    for_id={id}
-                    aria-hidden
-                    aria-label={label} // Only for NVDA and mouse over read out.
-                    text={label}
-                    disabled={disabled}
-                  />
-                )}
-                <span className="dnb-radio__inner">
-                  {label_position === 'left' && statusComp}
+                {label_position === 'left' && labelComp}
 
-                  <span className="dnb-radio__shell">
-                    <input
-                      type="checkbox"
-                      value={value}
-                      id={id}
-                      name={group}
-                      className="dnb-radio__input"
-                      checked={checked}
-                      aria-checked={checked}
-                      aria-label={label} // is responsible for the text/label to be read on both VO and NVDA
-                      disabled={isTrue(disabled)}
-                      ref={this._refInput}
-                      {...inputParams}
-                      onChange={this.onChangeHandler}
-                      onClick={this.onClickHandler}
-                      onKeyDown={this.onKeyDownHandler}
+                <span className="dnb-radio__inner">
+                  <AlignmentHelper />
+
+                  {showStatus && (
+                    <FormStatus
+                      id={id + '-form-status'}
+                      global_status_id={global_status_id}
+                      text_id={id + '-status'} // used for "aria-describedby"
+                      width_selector={id + ', ' + id + '-label'}
+                      text={status}
+                      status={status_state}
+                      animation={status_animation}
                     />
-                    <span className="dnb-radio__helper" aria-hidden>
-                      {'-'}
+                  )}
+
+                  <span className="dnb-radio__row">
+                    <span className="dnb-radio__shell">
+                      <input
+                        type="radio"
+                        value={value}
+                        id={id}
+                        name={group}
+                        className="dnb-radio__input"
+                        checked={checked}
+                        aria-checked={checked}
+                        disabled={isTrue(disabled)}
+                        ref={this._refInput}
+                        {...inputParams}
+                        onChange={this.onChangeHandler}
+                        onClick={this.onClickHandler}
+                        onKeyDown={this.onKeyDownHandler}
+                      />
+
+                      <span className="dnb-radio__button" aria-hidden />
+                      <span className="dnb-radio__focus" aria-hidden />
+                      <span className="dnb-radio__dot" aria-hidden />
                     </span>
-                    <span className="dnb-radio__button" aria-hidden />
-                    <span className="dnb-radio__focus" aria-hidden />
-                    <span className="dnb-radio__dot" aria-hidden />
+
+                    {label_position !== 'left' && labelComp}
+
+                    {suffix && (
+                      <span
+                        className="dnb-radio__suffix"
+                        id={id + '-suffix'} // used for "aria-describedby"
+                      >
+                        <Suffix {...props}>{suffix}</Suffix>
+                      </span>
+                    )}
                   </span>
                 </span>
               </span>
-              {(label_position === 'right' || !label_position) &&
-                statusComp}
             </span>
           )
         }}

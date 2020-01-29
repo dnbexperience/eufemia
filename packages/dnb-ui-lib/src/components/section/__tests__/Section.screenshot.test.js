@@ -41,9 +41,21 @@ describe('Section screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
-  it('have to match signal-orange section', async () => {
+  it('have to match lavender section', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-dnb-test="section-signal-orange"]'
+      selector: '[data-dnb-test="section-lavender"]'
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+  it('have to match sand-yellow section', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-dnb-test="section-sand-yellow"]'
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+  it('have to match pistachio section', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-dnb-test="section-pistachio"]'
     })
     expect(screenshot).toMatchImageSnapshot()
   })

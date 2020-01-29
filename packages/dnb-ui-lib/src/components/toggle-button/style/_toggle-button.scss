@@ -10,7 +10,10 @@
 
 .dnb-toggle-button {
   display: inline-flex;
-  align-items: baseline;
+  align-items: center; // because, with this we v align it to the label
+
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-basis);
 
   &__inner {
     display: inline-flex;
@@ -120,6 +123,14 @@
     vertical-align: top;
   }
 
+  &__suffix {
+    padding-left: 0.5rem;
+  }
+  &__suffix,
+  &-group__suffix {
+    font-size: var(--font-size-basis);
+  }
+
   // status
   .dnb-form-status {
     order: 2;
@@ -146,33 +157,37 @@
     .dnb-toggle-button:last-of-type {
       margin-right: 0;
     }
+
     // correct the bottom on the last row
     &__shell {
-      display: block;
+      display: flex;
+      flex-direction: column;
+
+      &__children {
+        order: 1;
+      }
 
       & > .dnb-form-status {
+        order: 2;
         transform: translateY(-0.5rem);
-        margin-top: 0;
-        margin-bottom: 0;
       }
     }
 
-    // Can be deleted in future
-    // &--row .dnb-form-row {
-    //   // transform: translateY(-0.5rem);
-    //   // &--nested {
-    //   //   transform: translateY(0);
-    //   // }
-    //   // @media (max-width: 40em) {
-    //   //   transform: translateY(0);
-    //   // }
-    // }
-
     .dnb-form-row {
+      // to make sure we vertical align centered to the text
+      align-items: baseline;
+
       margin-bottom: calc(1px - 1px - var(--toggle-button-margin-bottom));
+
+      &::before {
+        // move the gorup 2px up if label exists
+        font-size: var(--font-size-basis);
+      }
     }
-    .dnb-form-row--vertical & {
-      display: flex;
+
+    // vertical alignment - if no label is given
+    &--no-label .dnb-form-row {
+      line-height: var(--button-height);
     }
   }
 

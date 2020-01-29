@@ -19,6 +19,7 @@ import { createSpacingClasses } from '../space/SpacingHelper'
 import FormRow from '../form-row/FormRow'
 import FormStatus from '../form-status/FormStatus'
 import Context from '../../shared/Context'
+import Suffix from '../../shared/helpers/Suffix'
 import ToggleButtonGroupContext from './ToggleButtonGroupContext'
 
 const renderProps = {
@@ -32,6 +33,7 @@ const propTypes = {
     PropTypes.node
   ]),
   label_direction: PropTypes.oneOf(['horizontal', 'vertical']),
+  label_sr_only: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   title: PropTypes.string,
   multiselect: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   variant: PropTypes.oneOf(['default', 'checkbox', 'radio']),
@@ -48,6 +50,11 @@ const propTypes = {
   status_state: PropTypes.string,
   status_animation: PropTypes.string,
   global_status_id: PropTypes.string,
+  suffix: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.func,
+    PropTypes.node
+  ]),
   vertical: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   layout_direction: PropTypes.oneOf(['column', 'row']),
   value: PropTypes.oneOfType([
@@ -77,6 +84,7 @@ const propTypes = {
 const defaultProps = {
   label: null,
   label_direction: null,
+  label_sr_only: null,
   title: null,
   multiselect: null,
   variant: null,
@@ -89,6 +97,7 @@ const defaultProps = {
   status_state: 'error',
   status_animation: null,
   global_status_id: null,
+  suffix: null,
   vertical: null,
   layout_direction: 'row',
   value: undefined,
@@ -178,18 +187,22 @@ export default class ToggleButtonGroup extends PureComponent {
   }
 
   render() {
-    // consume the formRow context
-    const props = this.context.formRow
-      ? // use only the props from context, who are available here anyway
-        extendPropsWithContext(this.props, this.context.formRow)
-      : this.props
+    // use only the props from context, who are available here anyway
+    const props = extendPropsWithContext(
+      this.props,
+      defaultProps,
+      this.context.formRow,
+      this.context.translation.ToggleButton
+    )
 
     const {
       status,
       status_state,
       status_animation,
       global_status_id,
+      suffix,
       label_direction,
+      label_sr_only,
       vertical,
       layout_direction,
       label,
@@ -222,7 +235,9 @@ export default class ToggleButtonGroup extends PureComponent {
     const classes = classnames(
       'dnb-toggle-button-group',
       status && `dnb-toggle-button-group__status--${status_state}`,
+      !label && 'dnb-toggle-button-group--no-label',
       `dnb-toggle-button-group--${layout_direction}`,
+      'dnb-form-component',
       createSpacingClasses(props),
       className,
       _className
@@ -232,8 +247,10 @@ export default class ToggleButtonGroup extends PureComponent {
       ...rest
     }
 
-    if (showStatus) {
-      params['aria-describedby'] = id + '-status'
+    if (showStatus || suffix) {
+      params['aria-describedby'] = `${showStatus ? id + '-status' : ''} ${
+        suffix ? id + '-suffix' : ''
+      }`
     }
     if (label) {
       params['aria-labelledby'] = id + '-label'
@@ -270,6 +287,7 @@ export default class ToggleButtonGroup extends PureComponent {
       label,
       label_id: id + '-label', // send the id along, so the FormRow component can use it
       label_direction,
+      label_sr_only,
       direction: label_direction,
       vertical,
       disabled,
@@ -289,7 +307,6 @@ export default class ToggleButtonGroup extends PureComponent {
               role="group"
               {...params}
             >
-              {children}
               {showStatus && (
                 <FormStatus
                   id={id + '-form-status'}
@@ -300,6 +317,19 @@ export default class ToggleButtonGroup extends PureComponent {
                   animation={status_animation}
                 />
               )}
+
+              <span className="dnb-toggle-button-group__children">
+                {children}
+
+                {suffix && (
+                  <span
+                    className="dnb-toggle-button-group__suffix"
+                    id={id + '-suffix'} // used for "aria-describedby"
+                  >
+                    <Suffix {...props}>{suffix}</Suffix>
+                  </span>
+                )}
+              </span>
             </span>
           </FormRow>
         </div>

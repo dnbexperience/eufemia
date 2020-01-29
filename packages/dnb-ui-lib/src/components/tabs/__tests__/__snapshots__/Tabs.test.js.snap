@@ -120,6 +120,7 @@ exports[`Tabs component have to match snapshot 1`] = `
                 <Dummy>
                   <span
                     aria-hidden={true}
+                    className="dnb-dummy"
                     hidden={true}
                   >
                     First
@@ -146,6 +147,7 @@ exports[`Tabs component have to match snapshot 1`] = `
                 <Dummy>
                   <span
                     aria-hidden={true}
+                    className="dnb-dummy"
                     hidden={true}
                   >
                     Second
@@ -171,6 +173,7 @@ exports[`Tabs component have to match snapshot 1`] = `
                 <Dummy>
                   <span
                     aria-hidden={true}
+                    className="dnb-dummy"
                     hidden={true}
                   >
                     Third
@@ -237,13 +240,13 @@ exports[`Tabs scss have to match default theme snapshot 1`] = `
     box-shadow: 100vw 0 0 0 var(--color-mint-green-50); } }
 
 .dnb-tabs__tabs__tablist {
-  margin: 0 -1rem;
+  margin-left: -1rem;
   padding: 0 1rem; }
   .dnb-tabs__tabs__tablist:focus {
     border-radius: 0.5rem; }
 
 .dnb-tabs__button__title {
-  font-weight: var(--font-weight-book);
+  font-weight: var(--font-weight-regular);
   font-size: var(--font-size-basis);
   text-align: center;
   color: var(--color-sea-green); }
@@ -276,12 +279,10 @@ html:not([data-is-touch]) .dnb-tabs__button:hover:not([disabled]) {
   color: var(--color-emerald-green); }
 
 .dnb-tabs__button:not([disabled]).selected .dnb-tabs__button__title {
-  font-family: var(--font-family-demi);
-  font-weight: var(--font-weight-demi); }
+  font-weight: var(--font-weight-medium); }
 
 .dnb-tabs__button span[hidden] {
-  font-family: var(--font-family-demi);
-  font-weight: var(--font-weight-demi); }
+  font-weight: var(--font-weight-medium); }
 "
 `;
 
@@ -309,13 +310,13 @@ exports[`Tabs scss have to match snapshot 1`] = `
 .dnb-tabs {
   font-family: var(--font-family-default);
   font-weight: var(--font-weight-default);
-  font-size: var(--font-size-basis);
+  font-size: var(--font-size-small);
   font-style: normal;
   line-height: var(--line-height-basis);
   color: var(--color-black-80, #333);
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-  font-variant-numeric: lining-nums;
-  font-feature-settings: \\"lnum\\";
   /**
   * 1. Remove repeating backgrounds in all browsers (opinionated).
   * 2. Add border box sizing in all browsers (opinionated).
@@ -378,13 +379,18 @@ exports[`Tabs scss have to match snapshot 1`] = `
     border-bottom: 1px solid transparent;
     cursor: pointer;
     outline: none;
-    border: none; }
-    .dnb-tabs__tabs .dnb-tabs__button-title,
-    .dnb-core-style .dnb-tabs__tabs .dnb-tabs__button-title {
-      font-size: var(--font-size-basis);
+    border: none;
+    font-size: var(--font-size-basis);
+    line-height: var(--line-height-basis); }
+    .dnb-tabs__tabs .dnb-tabs__button__title,
+    .dnb-core-style .dnb-tabs__tabs .dnb-tabs__button__title {
       white-space: nowrap; }
-    .dnb-tabs__tabs .dnb-tabs__button > span[hidden],
-    .dnb-core-style .dnb-tabs__tabs .dnb-tabs__button > span[hidden] {
+      .dnb-tabs__tabs .dnb-tabs__button__title .dnb-icon,
+      .dnb-core-style .dnb-tabs__tabs .dnb-tabs__button__title .dnb-icon {
+        font-size: var(--font-size-small);
+        transform: translateY(-0.125rem); }
+    .dnb-tabs__tabs .dnb-tabs__button .dnb-dummy,
+    .dnb-core-style .dnb-tabs__tabs .dnb-tabs__button .dnb-dummy {
       display: flex;
       flex-direction: column;
       height: 0;

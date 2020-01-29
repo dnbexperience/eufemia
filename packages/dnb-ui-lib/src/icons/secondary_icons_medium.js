@@ -11,6 +11,7 @@ import hamburger_medium from './hamburger_medium.js'
 import home_medium from './home_medium.js'
 import link_out_medium from './link_out_medium.js'
 import list_medium from './list_medium.js'
+import login_medium from './login_medium.js'
 import logout_medium from './logout_medium.js'
 import pencil_medium from './pencil_medium.js'
 import print_medium from './print_medium.js'
@@ -36,6 +37,7 @@ export {
   home_medium,
   link_out_medium,
   list_medium,
+  login_medium,
   logout_medium,
   pencil_medium,
   print_medium,

@@ -73,15 +73,25 @@
       margin: 0;
     }
   }
+  &__message {
+    cursor: text;
+    z-index: 1;
+
+    padding: 2rem 0 2.5rem;
+
+    & .dnb-p,
+    .dnb-spacing & .dnb-p {
+      display: inline-block;
+      margin: 0;
+      padding: 0;
+    }
+  }
   &__icon {
     position: absolute;
     top: 0;
     left: 0;
 
     margin-top: 0.75rem;
-
-    // & > .dnb-icon {
-    // }
   }
   &__close-button,
   &__close-button.dnb-button--tertiary {
@@ -95,39 +105,6 @@
   }
   .dnb-modal__content__inner &__close-button {
     right: 0;
-
-    // NB: now we align with the modal close button
-    // @include allAbove(medium) {
-    //   right: -1rem;
-    // }
-  }
-
-  /* for small screesn */
-  // @media (max-width: 40em) {
-  //   &__icon {
-  //     position: relative;
-  //     display: block;
-  //     margin-bottom: 1rem;
-  //   }
-  //   &__title {
-  //     display: block;
-  //     &.dnb-p {
-  //       padding-left: 0;
-  //     }
-  //   }
-  // }
-
-  &__message {
-    cursor: text;
-    z-index: 1;
-
-    padding: 2rem 0 2.5rem;
-
-    & > .dnb-p,
-    .dnb-spacing & .dnb-p {
-      margin: 0;
-      padding: 0;
-    }
   }
 
   &__content {
@@ -147,14 +124,6 @@
         .dnb-anchor:last-of-type {
           margin-left: 0.5rem;
         }
-        // &:first-of-type {
-        //   margin-top: 0;
-        // }
-        // /* stylelint-disable */
-        // &:last-of-type {
-        //   margin-bottom: 0;
-        // }
-        // /* stylelint-enable */
       }
     }
   }

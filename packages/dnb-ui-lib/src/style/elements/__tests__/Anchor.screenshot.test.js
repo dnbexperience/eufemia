@@ -52,7 +52,7 @@ describe('Anchor screenshot', () => {
   it('have to match the "focus" state', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-dnb-test="anchor-focus"]',
-      simulate: 'focus'
+      simulate: 'focus' // should be tested first
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -65,7 +65,7 @@ describe('Anchor screenshot', () => {
   it('have to match the anchor-contrast "focus" state', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-dnb-test="anchor-contrast"]',
-      simulate: 'focus'
+      simulate: 'focus' // should be tested first
     })
     expect(screenshot).toMatchImageSnapshot()
   })

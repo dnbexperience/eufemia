@@ -7,7 +7,6 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import keycode from 'keycode'
-import Context from '../../shared/Context'
 import {
   isTrue,
   makeUniqueId,
@@ -18,8 +17,11 @@ import {
   dispatchCustomElementEvent,
   isTouchDevice
 } from '../../shared/component-helper'
+import AlignmentHelper from '../../shared/AlignmentHelper'
 import { createSpacingClasses } from '../space/SpacingHelper'
 
+import Context from '../../shared/Context'
+import Suffix from '../../shared/helpers/Suffix'
 import Button from '../button/Button'
 import FormLabel from '../form-label/FormLabel'
 import FormStatus from '../form-status/FormStatus'
@@ -40,6 +42,7 @@ const propTypes = {
     PropTypes.node
   ]),
   label_direction: PropTypes.oneOf(['horizontal', 'vertical']),
+  label_sr_only: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   status: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.func,
@@ -48,6 +51,11 @@ const propTypes = {
   status_state: PropTypes.string,
   status_animation: PropTypes.string,
   global_status_id: PropTypes.string,
+  suffix: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.func,
+    PropTypes.node
+  ]),
   thump_title: PropTypes.string,
   add_title: PropTypes.string,
   subtract_title: PropTypes.string,
@@ -78,10 +86,12 @@ const defaultProps = {
   id: null,
   label: null,
   label_direction: null,
+  label_sr_only: null,
   status: null,
   status_state: 'error',
   status_animation: null,
   global_status_id: null,
+  suffix: null,
   thump_title: null,
   add_title: '+',
   subtract_title: '−',
@@ -245,8 +255,8 @@ export default class Slider extends PureComponent {
       vertical,
       reverse
     )
-    const value = percentToValue(percent, min, max)
 
+    const value = percentToValue(percent, min, max)
     this.emitChange(event, value, () => this.setToResetState())
   }
 
@@ -261,33 +271,28 @@ export default class Slider extends PureComponent {
     this.emitChange(event, clamp(value + (step || 1), min, max))
   }
 
-  onTouchStartHandler = event => {
-    this.setState({
-      _listenForPropChanges: false,
-      currentState: 'activated'
-    })
-
-    if (typeof document !== 'undefined') {
-      document.body.addEventListener('touchend', this.onMouseUpHandler)
-    }
-
-    if (typeof this.props.on_drag_start === 'function') {
-      dispatchCustomElementEvent(this, 'on_drag_start', {
-        event
-      })
-    }
-  }
-
   onMouseDownHandler = event => {
+    if (typeof document !== 'undefined') {
+      try {
+        document.body.addEventListener(
+          'touchmove',
+          this.onTouchMoveHandler
+        )
+        document.body.addEventListener('touchend', this.onTouchEndHandler)
+        document.body.addEventListener(
+          'mousemove',
+          this.onMouseMoveHandler
+        )
+        document.body.addEventListener('mouseup', this.onMouseUpHandler)
+      } catch (e) {
+        console.warn(e)
+      }
+    }
+
     this.setState({
       _listenForPropChanges: false,
       currentState: 'activated'
     })
-
-    if (typeof document !== 'undefined') {
-      document.body.addEventListener('mousemove', this.onMouseMoveHandler)
-      document.body.addEventListener('mouseup', this.onMouseUpHandler)
-    }
 
     if (typeof this.props.on_drag_start === 'function') {
       dispatchCustomElementEvent(this, 'on_drag_start', {
@@ -296,16 +301,29 @@ export default class Slider extends PureComponent {
     }
   }
 
+  onTouchEndHandler = event => this.onMouseUpHandler(event)
   onMouseUpHandler = event => {
-    this.setState({ _listenForPropChanges: false, currentState: 'normal' })
-
     if (typeof document !== 'undefined') {
-      document.body.removeEventListener(
-        'mousemove',
-        this.onMouseMoveHandler
-      )
-      document.body.removeEventListener('mouseup', this.onMouseUpHandler)
+      try {
+        document.body.removeEventListener(
+          'touchmove',
+          this.onTouchMoveHandler
+        )
+        document.body.removeEventListener(
+          'touchend',
+          this.onTouchEndHandler
+        )
+        document.body.removeEventListener(
+          'mousemove',
+          this.onMouseMoveHandler
+        )
+        document.body.removeEventListener('mouseup', this.onMouseUpHandler)
+      } catch (e) {
+        console.warn(e)
+      }
     }
+
+    this.setState({ _listenForPropChanges: false, currentState: 'normal' })
 
     if (typeof this.props.on_drag_end === 'function') {
       dispatchCustomElementEvent(this, 'on_drag_end', {
@@ -322,6 +340,7 @@ export default class Slider extends PureComponent {
     })
   }
 
+  onTouchMoveHandler = event => this.onMouseMoveHandler(event)
   onMouseMoveHandler = event => {
     let elem = this._trackRef.current
 
@@ -392,39 +411,32 @@ export default class Slider extends PureComponent {
               _listenForPropChanges: false,
               currentState: 'normal'
             }),
-          10
+          100
         )
       }
     )
   }
 
   componentDidMount() {
-    if (
-      (isTouchDevice() || isTrue(this.props.use_scrollwheel)) &&
-      this._trackRef.current
-    ) {
-      this._trackRef.current.addEventListener(
-        'touchstart',
-        this.preventPageScrolling,
-        { passive: false }
-      )
-
-      const { min, max, reverse, vertical } = this.state
-      this._trackRef.current.addEventListener('wheel', event => {
-        event.preventDefault()
-        // Could be handy to use: Math.sign(event.deltaY)
-        this.emitChange(
-          event,
-          clamp(
-            this.state.value +
-              ((!vertical && reverse) || (vertical && !reverse)
-                ? -event.deltaY / 10
-                : event.deltaY / 10),
-            min,
-            max
+    if (this._trackRef.current) {
+      if (isTrue(this.props.use_scrollwheel)) {
+        const { min, max, reverse, vertical } = this.state
+        this._trackRef.current.addEventListener('wheel', event => {
+          event.preventDefault()
+          // Could be handy to use: Math.sign(event.deltaY)
+          this.emitChange(
+            event,
+            clamp(
+              this.state.value +
+                ((!vertical && reverse) || (vertical && !reverse)
+                  ? -event.deltaY / 10
+                  : event.deltaY / 10),
+              min,
+              max
+            )
           )
-        )
-      })
+        })
+      }
     }
 
     if (typeof this.props.on_init === 'function') {
@@ -436,41 +448,48 @@ export default class Slider extends PureComponent {
   }
 
   componentWillUnmount() {
-    if (this._trackRef.current) {
-      this._trackRef.current.removeEventListener(
-        'touchstart',
-        this.preventPageScrolling,
-        { passive: false }
-      )
-    }
     if (typeof document !== 'undefined') {
-      document.body.removeEventListener(
-        'mousemove',
-        this.onMouseMoveHandler
-      )
-      document.body.removeEventListener('mouseup', this.onMouseUpHandler)
+      try {
+        document.body.removeEventListener(
+          'touchmove',
+          this.onTouchMoveHandler
+        )
+        document.body.removeEventListener(
+          'touchend',
+          this.onTouchEndHandler
+        )
+        document.body.removeEventListener(
+          'mousemove',
+          this.onMouseMoveHandler
+        )
+        document.body.removeEventListener('mouseup', this.onMouseUpHandler)
+      } catch (e) {
+        console.warn(e)
+      }
     }
     clearTimeout(this.resetStateTimeoutId)
   }
 
-  preventPageScrolling = event => event.preventDefault()
-
   render() {
     const { currentState, value } = this.state
 
-    // consume the formRow context
-    const props = this.context.formRow
-      ? // use only the props from context, who are available here anyway
-        extendPropsWithContext(this.props, this.context.formRow)
-      : this.props
+    // use only the props from context, who are available here anyway
+    const props = extendPropsWithContext(
+      this.props,
+      defaultProps,
+      this.context.formRow,
+      this.context.translation.Slider
+    )
 
     const {
       label,
       label_direction,
+      label_sr_only,
       status,
       status_state,
       status_animation,
       global_status_id,
+      suffix,
       thump_title: title,
       subtract_title,
       add_title,
@@ -502,9 +521,12 @@ export default class Slider extends PureComponent {
         'dnb-slider',
         reverse && 'dnb-slider--reverse',
         vertical && 'dnb-slider--vertical',
-        label_direction && `dnb-slider__label--${label_direction}`,
+        label &&
+          label_direction &&
+          `dnb-slider__label--${label_direction}`,
         showStatus && 'dnb-slider__form-status',
         status && `dnb-slider__status--${status_state}`,
+        'dnb-form-component',
         createSpacingClasses(props),
         className,
         _className
@@ -526,11 +548,10 @@ export default class Slider extends PureComponent {
         'dnb-slider__track',
         currentState && `dnb-slider__state--${currentState}`
       ),
-      onMouseDown: this.onClickHandler,
-      onMouseDownCapture: this.onMouseDownHandler,
       onTouchStart: this.onClickHandler,
-      onTouchStartCapture: this.onTouchStartHandler,
-      onTouchMove: this.onMouseMoveHandler
+      onTouchStartCapture: this.onMouseDownHandler,
+      onMouseDown: this.onClickHandler,
+      onMouseDownCapture: this.onMouseDownHandler
     }
 
     const rangeParams = {
@@ -548,10 +569,14 @@ export default class Slider extends PureComponent {
         trackParams['aria-labelledby'] = id + '-label'
       }
     }
-    if (showStatus) {
-      rangeParams['aria-describedby'] = id + '-status'
+    if (showStatus || suffix) {
+      rangeParams['aria-describedby'] = `${
+        showStatus ? id + '-status' : ''
+      } ${suffix ? id + '-suffix' : ''}`
       if (isTouchDevice()) {
-        trackParams['aria-describedby'] = id + '-status'
+        trackParams['aria-describedby'] = `${
+          showStatus ? id + '-status' : ''
+        } ${suffix ? id + '-suffix' : ''}`
       }
     }
 
@@ -600,9 +625,18 @@ export default class Slider extends PureComponent {
       <span {...mainParams}>
         {label && (
           // do not use "for_id" as the ID element is not a fo
-          <FormLabel id={id + '-label'} text={label} disabled={disabled} />
+          <FormLabel
+            id={id + '-label'}
+            text={label}
+            disabled={disabled}
+            label_direction={label_direction}
+            sr_only={label_sr_only}
+          />
         )}
+
         <span className="dnb-slider__wrapper">
+          <AlignmentHelper />
+
           {showStatus && (
             <FormStatus
               id={id + '-form-status'}
@@ -625,7 +659,7 @@ export default class Slider extends PureComponent {
                 {!isTouchDevice() && (
                   <input
                     type="range"
-                    className="dnb-slider__helper"
+                    className="dnb-slider__button-helper"
                     min={min}
                     max={max}
                     step={_step}
@@ -651,6 +685,15 @@ export default class Slider extends PureComponent {
               <span className="dnb-slider__line dnb-slider__line__after" />
             </span>
             {showButtons && (reverse ? subtractButton : addButton)}
+
+            {suffix && (
+              <span
+                className="dnb-slider__suffix"
+                id={id + '-suffix'} // used for "aria-describedby"
+              >
+                <Suffix {...props}>{suffix}</Suffix>
+              </span>
+            )}
           </span>
         </span>
       </span>

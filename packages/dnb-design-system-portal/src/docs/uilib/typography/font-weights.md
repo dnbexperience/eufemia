@@ -10,20 +10,17 @@ import TypographyExamples from 'Pages/uilib/typography/TypographyExamples'
 
 ## Eufemia has three (3) font-weights
 
-- <span class="dnb-typo-regular">Regular (as for now also: Book)</span> (normal)
-- <span class="dnb-typo-medium">Medium (as for now also: Demi)</span> (500)
-- <span class="dnb-typo-medium">Bold (as for now also: Medium)</span> (600)
+- <span class="dnb-typo-regular">Regular</span> (normal)
+- <span class="dnb-typo-medium">Medium</span> (500)
+- <span class="dnb-typo-bold">Bold</span> (600)
 
 ## `font-weight` table
 
-| Type        | Custom Property         | Info       |
-| ----------- | ----------------------- | ---------- |
-| **Regular** | `--font-weight-regular` |            |
-| **Medium**  | `--font-weight-medium`  |            |
-| **Bold**    | `--font-weight-bold`    |            |
-| Book        | `--font-weight-book`    | Deprecated |
-| Demi        | `--font-weight-demi`    | Deprecated |
-| Medium      | `--font-weight-medium`  | Deprecated |
+| Type        | Custom Property         | Info          |
+| ----------- | ----------------------- | ------------- |
+| **Regular** | `--font-weight-regular` | Body (Normal) |
+| **Medium**  | `--font-weight-medium`  |               |
+| **Bold**    | `--font-weight-bold`    |               |
 
 ### How to use the weights (CSS)
 

@@ -2,32 +2,36 @@
 
 import React from 'react'
 
-const send_medium = props => (
-  <svg width={24} height={24} viewBox="0 0 24 25" fill="none" {...props}>
-    <path
-      clipRule="evenodd"
-      d="M2.759 15.632a1.664 1.664 0 01-.882-3.075L20.36 1.003a1.663 1.663 0 012.516 1.72l-3.6 19.173a1.664 1.664 0 01-2.966.691l-5.21-6.955H2.759z"
-      stroke="#000"
-      strokeWidth={1.5}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-    <path
-      clipRule="evenodd"
-      d="M11.1 15.632H8.6v5.171a1.663 1.663 0 002.6 1.374l3.178-2.166-3.278-4.379z"
-      stroke="#000"
-      strokeWidth={1.5}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-    <path
-      d="M11.099 15.632l11.08-14.59"
-      stroke="#000"
-      strokeWidth={1.5}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-  </svg>
-)
+function send_medium(props) {
+  return (
+    <svg width={24} height={25} viewBox="0 0 24 25" fill="none" {...props}>
+      <path
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M2.75884 15.6323C2.01654 15.6323 1.36402 15.1406 1.15936 14.4271C0.954702 13.7135 1.2474 12.9508 1.87684 12.5573L20.3598 1.00329C20.9201 0.65265 21.6349 0.667116 22.1806 1.04014C22.7262 1.41316 22.9992 2.07392 22.8758 2.72329L19.2758 21.8963C19.1538 22.5444 18.6605 23.0593 18.0181 23.2089C17.3758 23.3585 16.7058 23.1147 16.3098 22.5873L11.0998 15.6323H2.75884Z"
+        stroke="black"
+        strokeWidth={1.5}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M11.0996 15.6323H8.59961V20.8033C8.59957 21.4197 8.94056 21.9856 9.4856 22.2737C10.0306 22.5617 10.6903 22.5246 11.1996 22.1773L14.3776 20.0113L11.0996 15.6323Z"
+        stroke="black"
+        strokeWidth={1.5}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M11.0986 15.6323L22.1786 1.0423"
+        stroke="black"
+        strokeWidth={1.5}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  )
+}
 
 export default send_medium

@@ -27,7 +27,13 @@
     margin-bottom: 0;
   }
 
+  &__item {
+    align-self: flex-end; // webkit needs this
+  }
+
   &__item-content {
+    font-size: var(--font-size-basis);
+
     &a,
     &.dnb-anchor,
     &--static,
@@ -35,8 +41,8 @@
       position: relative;
       z-index: 2;
 
-      display: flex; // make text wrap beside the number
-      flex-direction: row;
+      display: inline-flex; // make text wrap beside the number
+      align-items: flex-end; // does not work on Safari
 
       margin: 0;
       padding: 0.25rem 0.25rem;
@@ -67,7 +73,6 @@
     }
     &--text {
       text-align: left;
-      @include dummySpacing();
     }
 
     &::after {
@@ -75,6 +80,12 @@
       position: absolute;
       z-index: 1; // over anchor hover
       left: 0;
+
+      // In case we want to have the first line top aligned: align-items: flex-start;
+      // top: calc(
+      //   0.25rem + var(--line-height-basis)
+      // ); // incl. the padding 0.25rem
+
       bottom: 0; // because of the link/anchor border-bottom 2px
 
       width: 100%;

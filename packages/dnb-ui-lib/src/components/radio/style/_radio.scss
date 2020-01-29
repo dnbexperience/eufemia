@@ -15,15 +15,13 @@
   display: inline-flex;
   flex-direction: column;
 
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-basis);
+
   &__inner {
     display: inline-flex;
     flex-direction: column;
-  }
-  &__helper {
-    clip: rect(0, 0, 0, 0);
-    width: 0;
-    overflow: hidden;
-    opacity: 0;
+    align-self: center;
   }
 
   &__shell {
@@ -38,11 +36,6 @@
 
     width: var(--radio-height);
     height: var(--radio-height);
-
-    // vertical alignment
-    [data-os='mac'] & {
-      transform: translateY(-0.0625rem);
-    }
   }
 
   &__focus,
@@ -97,11 +90,30 @@
 
   &__order {
     display: inline-flex;
-    align-items: baseline;
+    align-items: baseline; // TODO: do we need this anymore?
 
     .dnb-radio-group--column & {
       display: flex;
     }
+  }
+
+  &__row {
+    display: inline-flex;
+  }
+
+  &__suffix {
+    order: 3;
+    padding-left: 0.5rem;
+
+    // to be aligned to the label on the left side
+    .dnb-modal {
+      margin-top: -0.25rem;
+      margin-bottom: -0.25rem;
+    }
+  }
+  &__suffix,
+  &-group__suffix {
+    font-size: var(--font-size-basis);
   }
 
   &--label-position-left &__order {
@@ -126,6 +138,12 @@
     }
   }
 
+  .dnb-form-row:not(.dnb-form-row--vertical)[class*='__indent']
+    &
+    .dnb-form-label {
+    margin-top: 0;
+  }
+
   // in case we don't define a wrapping group
   // and have a custom label component before the radio (and not inside)
   :not(#{&}-group) > .dnb-form-label + & {
@@ -134,9 +152,9 @@
 
   // status
   .dnb-form-status {
-    order: 2;
-    margin-top: 0;
-    margin-bottom: 0.5rem;
+    order: 4;
+    margin-top: 0.375rem; /* 6/16 */
+    margin-bottom: 0;
   }
   & + .dnb-form-status {
     margin-top: 0.5rem;
@@ -175,11 +193,15 @@
     }
 
     .dnb-form-row {
+      align-items: flex-start;
+
       // because of our bottom margins we have on the componens
       margin-bottom: calc(1px - 1px - var(--radio-margin-bottom));
-    }
-    .dnb-form-row--vertical & {
-      display: flex;
+
+      &::before {
+        // move the gorup 2px up if label exists
+        font-size: var(--font-size-basis);
+      }
     }
   }
 
@@ -199,9 +221,6 @@
     }
     &__order {
       align-items: center;
-    }
-    &__shell {
-      transform: translateY(0);
     }
 
     &,

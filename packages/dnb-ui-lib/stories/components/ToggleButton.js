@@ -24,10 +24,20 @@ export default [
     <Wrapper>
       <Box>
         <Provider formRow={{ vertical: true }}>
-          <FormRow>
+          <FormRow disabled>
             <ToggleButton.Group>
-              <ToggleButton text="First" value="first" />
-              <ToggleButton text="Second" value="second" />
+              <ToggleButton
+                text="First"
+                value="first"
+                suffix="123"
+                status="error message"
+                disabled={false}
+              />
+              <ToggleButton
+                text="Second"
+                value="second"
+                disabled={false}
+              />
               <ToggleButton text="Third A" value="thirdA" />
               <ToggleButton text="Third B" value="thirdB" />
               <ToggleButton text="Third C" value="thirdC" />
@@ -85,7 +95,6 @@ export default [
             icon="chevron_right"
             text="Toggle Button"
             value="I'm alone"
-            title="Give me a Title"
             on_change={({ value, checked }) => {
               console.log('on_change', value, checked)
             }}
@@ -104,7 +113,6 @@ export default [
             icon="chevron_right"
             text="Toggle Button"
             value="I'm alone"
-            title="Give me a Title"
             on_change={({ value, checked }) => {
               console.log('on_change', value, checked)
             }}
@@ -161,7 +169,6 @@ export default [
           <ToggleButton.Group
             // label="Group:"
             // label="Long Group name Vitae dapibus eros viverra torquent euismod at dignissim vel mattis:"
-            title="Give me a Title"
             on_change={({ value, values, event }) => {
               console.log('on_change', value, values, event)
             }}
@@ -188,7 +195,6 @@ export default [
           label="Long Group name Vitae dapibus eros viverra torquent euismod at dignissim vel mattis:"
         >
           <ToggleButton.Group
-            title="Give me a Title"
             on_change={({ value }) => {
               console.log('on_change', value)
             }}
@@ -235,6 +241,7 @@ export default [
       <Box>
         <ToggleButton.Group
           label="Group with error:"
+          suffix="123"
           status="Error message Potenti viverra facilisi blandit sodales lorem est fusce pulvinar a imperdiet quis mi parturient mattis feugiat tellus ipsum magnis rutrum"
         >
           <ToggleButton text="First" value="first" />

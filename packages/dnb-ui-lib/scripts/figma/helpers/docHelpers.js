@@ -120,7 +120,7 @@ export const findAll = (
       }
       objToReturn.push(tree)
     }
-    if (tree.hasOwnProperty(childrenKey)) {
+    if (Object.prototype.hasOwnProperty.call(tree, childrenKey)) {
       for (let n of tree[childrenKey]) {
         innerFunc(n, childrenKey, objToFindBy, objToIgnoreBy)
       }
@@ -245,7 +245,9 @@ export const getFigmaDoc = async ({
     if (liveVersion) {
       const localVersion = await getLocalVersionFromLockFile({ figmaFile })
 
-      log.text = `> Figma: Comparing old vs new version. (local version is ${localVersion})`
+      log.info(
+        `> Figma: Comparing old vs new version. (local version is ${localVersion})`
+      )
 
       if (localVersion === liveVersion) {
         log.succeed(
@@ -269,7 +271,7 @@ export const getFigmaDoc = async ({
 
   // update if requested
   if (forceRefetch || !fs.existsSync(localFile)) {
-    log.text = `> Figma: Fetching new doc from Figma ...`
+    log.info(`> Figma: Fetching new doc from Figma ...`)
     try {
       const { data } = await Figma.file(figmaFile)
       const doRefetch = fs.existsSync(localFile)
@@ -331,55 +333,50 @@ export const getFigmaUrlByImageIds = async ({
   }
 }
 
-export const safeFileToDisk = (
+export const safeFileToDisk = async (
   { file = '.tmp/file.json', url },
   { errorExceptionType = ERROR_FATAL }
-) =>
-  new Promise(async resolve => {
-    const localFile = /\//.test(file)
-      ? file
-      : path.resolve(__dirname, `../.cache/${file}`)
-    const resetContent = fs.existsSync(localFile)
-      ? await fs.readFile(localFile, 'utf-8')
-      : null
-    const writeStream = fs.createWriteStream(localFile)
-    writeStream
-      .on('error', err => {
-        writeStream.end()
-        new ErrorHandler(
-          'Failed on createWriteStream',
-          err,
-          errorExceptionType
-        )
-      })
-      .on('finish', async () => {
-        writeStream.close()
+) => {
+  const localFile = /\//.test(file)
+    ? file
+    : path.resolve(__dirname, `../.cache/${file}`)
+  const resetContent = fs.existsSync(localFile)
+    ? await fs.readFile(localFile, 'utf-8')
+    : null
+  const writeStream = fs.createWriteStream(localFile)
+  writeStream
+    .on('error', err => {
+      writeStream.end()
+      new ErrorHandler(
+        'Failed on createWriteStream',
+        err,
+        errorExceptionType
+      )
+    })
+    .on('finish', async () => {
+      writeStream.close()
 
-        // reset the file, if its empty
-        if (resetContent) {
-          const newContent = await fs.readFile(localFile, 'utf-8')
-          if (String(newContent).trim().length === 0) {
-            await fs.writeFile(localFile, resetContent)
-          }
+      // reset the file, if its empty
+      if (resetContent) {
+        const newContent = await fs.readFile(localFile, 'utf-8')
+        if (String(newContent).trim().length === 0) {
+          await fs.writeFile(localFile, resetContent)
         }
+      }
 
-        resolve({ localFile })
-      })
-    https
-      .get(url, response => response.pipe(writeStream))
-      .on('error', async err => {
-        try {
-          await fs.unlink(localFile)
-        } catch (err) {
-          new ErrorHandler('Failed on unlink', err, errorExceptionType)
-        }
-        new ErrorHandler(
-          'Failed on safeFileToDisk',
-          err,
-          errorExceptionType
-        )
-      })
-  })
+      return { localFile }
+    })
+  https
+    .get(url, response => response.pipe(writeStream))
+    .on('error', async err => {
+      try {
+        await fs.unlink(localFile)
+      } catch (err) {
+        new ErrorHandler('Failed on unlink', err, errorExceptionType)
+      }
+      new ErrorHandler('Failed on safeFileToDisk', err, errorExceptionType)
+    })
+}
 
 export const saveToFile = async (file, data) => {
   const localFile = /\//.test(file)

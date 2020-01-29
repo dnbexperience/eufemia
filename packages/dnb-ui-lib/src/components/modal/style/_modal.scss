@@ -52,7 +52,7 @@
 
       padding: var(--modal-spacing) var(--modal-spacing) 0;
 
-      @include allBelow(medium) {
+      @include allBelow(small) {
         padding: calc(var(--modal-spacing) / 2) var(--modal-spacing) 0;
       }
 
@@ -73,14 +73,14 @@
 
       background: var(--color-white);
 
-      @include allAbove(medium) {
+      @include allAbove(small) {
         padding: var(--modal-spacing) var(--modal-spacing)
           calc(var(--modal-spacing) / 2);
         @include defaultDropShadow();
         border-radius: 0.5rem;
       }
 
-      @include allBelow(medium) {
+      @include allBelow(small) {
         @include modalFullscreen();
         padding: calc(var(--modal-spacing) / 2)
           calc(var(--modal-spacing) / 2) 0;
@@ -110,7 +110,7 @@
     margin-top: calc(var(--modal-spacing) - 0.5rem);
     margin-bottom: var(--modal-spacing);
 
-    @include allBelow(medium) {
+    @include allBelow(small) {
       margin-top: calc(var(--modal-spacing) / 2);
       margin-bottom: calc(var(--modal-spacing) / 2);
     }
@@ -136,7 +136,7 @@
     // then it is possible that someting else will come in front
     z-index: 1; // below #dropdown and #date-picker
 
-    @include allBelow(medium) {
+    @include allBelow(small) {
       top: calc(var(--modal-spacing) / 2);
       right: calc(var(--modal-spacing) / 2);
     }

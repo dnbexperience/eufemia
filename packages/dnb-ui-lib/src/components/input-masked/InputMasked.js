@@ -82,8 +82,8 @@ export default class InputMasked extends PureComponent {
       mask = createNumberMask(number_mask)
     }
 
-    if (!props.inputElement)
-      props.inputElement = (params, innerRef) => {
+    if (!props.input_element)
+      props.input_element = (params, innerRef) => {
         params = {
           ...params,
           pipe,

@@ -7,9 +7,8 @@
   --form-row-column1-start: auto;
   --form-row-column2-start: 1fr;
   --form-row-row1-start: auto;
-  --form-row-row2-start: auto; //minmax(max-content, auto)
+  --form-row-row2-start: auto;
   --form-bounding-height: 0.25rem;
-  // --form-bounding-height: 0.625rem;
 }
 
 .dnb-form-row {
@@ -121,6 +120,14 @@
       @media (max-width: 40em) {
         display: block;
       }
+
+      // correction to get the total height of the form-row to be in our grid
+      .dnb-form-label {
+        margin-top: 0.25rem; /* 4/16 */
+      }
+      .dnb-form-row__label-dummy {
+        margin-top: 0;
+      }
     }
 
     @media (max-width: 40em) {
@@ -165,6 +172,12 @@
 
   &--vertical-label {
     flex-direction: column;
+  }
+
+  @media (max-width: 40em) {
+    .dnb-form-component {
+      margin-bottom: 0.5rem;
+    }
   }
 
   > .dnb-form-status {

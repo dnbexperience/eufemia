@@ -18,6 +18,7 @@ import { createSpacingClasses } from '../space/SpacingHelper'
 import FormRow from '../form-row/FormRow'
 import FormStatus from '../form-status/FormStatus'
 import Context from '../../shared/Context'
+import Suffix from '../../shared/helpers/Suffix'
 import RadioGroupContext from './RadioGroupContext'
 
 const renderProps = {
@@ -31,6 +32,7 @@ const propTypes = {
     PropTypes.node
   ]),
   label_direction: PropTypes.oneOf(['horizontal', 'vertical']),
+  label_sr_only: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   label_position: PropTypes.oneOf(['left', 'right']),
   title: PropTypes.string,
   no_fieldset: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -45,6 +47,11 @@ const propTypes = {
   status_state: PropTypes.string,
   status_animation: PropTypes.string,
   global_status_id: PropTypes.string,
+  suffix: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.func,
+    PropTypes.node
+  ]),
   layout_direction: PropTypes.oneOf(['column', 'row']),
   vertical: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   value: PropTypes.string,
@@ -68,6 +75,7 @@ const propTypes = {
 const defaultProps = {
   label: null,
   label_direction: null,
+  label_sr_only: null,
   label_position: null,
   title: null,
   no_fieldset: null,
@@ -78,6 +86,7 @@ const defaultProps = {
   status_state: 'error',
   status_animation: null,
   global_status_id: null,
+  suffix: null,
   vertical: null,
   layout_direction: 'row',
   value: null,
@@ -140,19 +149,22 @@ export default class RadioGroup extends PureComponent {
   }
 
   render() {
-    // consume the formRow context
-    const props = this.context.formRow
-      ? // use only the props from context, who are available here anyway
-        extendPropsWithContext(this.props, this.context.formRow)
-      : this.props
+    // use only the props from context, who are available here anyway
+    const props = extendPropsWithContext(
+      this.props,
+      defaultProps,
+      this.context.formRow
+    )
 
     const {
       status,
       status_state,
       status_animation,
       global_status_id,
+      suffix,
       label,
       label_direction,
+      label_sr_only,
       label_position,
       vertical,
       layout_direction,
@@ -182,6 +194,7 @@ export default class RadioGroup extends PureComponent {
       'dnb-radio-group',
       status && `dnb-radio-group__status--${status_state}`,
       `dnb-radio-group--${layout_direction}`,
+      'dnb-form-component',
       createSpacingClasses(props),
       className,
       _className
@@ -191,8 +204,10 @@ export default class RadioGroup extends PureComponent {
       ...rest
     }
 
-    if (showStatus) {
-      params['aria-describedby'] = id + '-status'
+    if (showStatus || suffix) {
+      params['aria-describedby'] = `${showStatus ? id + '-status' : ''} ${
+        suffix ? id + '-suffix' : ''
+      }`
     }
     if (label) {
       params['aria-labelledby'] = id + '-label'
@@ -214,6 +229,7 @@ export default class RadioGroup extends PureComponent {
       label,
       label_id: id + '-label', // send the id along, so the FormRow component can use it
       label_direction,
+      label_sr_only,
       direction: label_direction,
       vertical,
       disabled,
@@ -232,6 +248,16 @@ export default class RadioGroup extends PureComponent {
               {...params}
             >
               {children}
+
+              {suffix && (
+                <span
+                  className="dnb-radio-group__suffix"
+                  id={id + '-suffix'} // used for "aria-describedby"
+                >
+                  <Suffix {...props}>{suffix}</Suffix>
+                </span>
+              )}
+
               {showStatus && (
                 <FormStatus
                   id={id + '-form-status'}

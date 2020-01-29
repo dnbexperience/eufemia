@@ -46,7 +46,7 @@ const makeRepo = async () => {
   if (isCI && config.remote) {
     await repo.removeRemote('origin')
     await repo.addRemote('origin', config.remote)
-    log.text = '> Commit: Added new remote to origin'
+    log.info('> Commit: Added new remote to origin')
   }
 
   return repo
@@ -113,16 +113,16 @@ const commitToBranch = async ({
 
     if (hasChanges) {
       if (config.user && config.user.name && config.user.email) {
-        log.text = `> Commit: Add Git user: ${config.user.name}, ${config.user.email}`
+        log.info(`> Commit: Add Git user: ${config.user.name}, ${config.user.email}`)
         await repo.addConfig('user.name', config.user.name)
         await repo.addConfig('user.email', config.user.email)
-        log.text = '> Commit: Added user details to the repo'
+        log.info('> Commit: Added user details to the repo')
       }
 
       await repo.add(filesToCommit) // use "'./*'" for adding all files
 
       const files = filesToCommit.map(f => path.basename(f))
-      log.text = `> Commit: Add ${files.length} new ${what}`
+      log.info(`> Commit: Add ${files.length} new ${what}`)
 
       if (typeof isFeature === 'function') {
         isFeature = isFeature(files)
@@ -138,7 +138,7 @@ const commitToBranch = async ({
           skipCI ? ' [CI SKIP]' : ''
         }`
       ).trim()
-      log.text = `> Commit: ${commitMessage}`
+      log.info(`> Commit: ${commitMessage}`)
 
       await repo.commit(commitMessage, null, {
         '--no-verify': null

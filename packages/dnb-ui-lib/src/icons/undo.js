@@ -2,16 +2,25 @@
 
 import React from 'react'
 
-const undo = props => (
-  <svg width={16} height={16} viewBox="0 0 16 16" fill="none" {...props}>
-    <path
-      d="M1 1.002v4.666h4.666M8 15a7 7 0 10-6.596-9.333"
-      stroke="#000"
-      strokeWidth={1.5}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-  </svg>
-)
+function undo(props) {
+  return (
+    <svg width={16} height={16} viewBox="0 0 16 16" fill="none" {...props}>
+      <path
+        d="M1 1.00171V5.66802H5.66631"
+        stroke="black"
+        strokeWidth={1.5}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M7.99935 15C11.5594 15.0021 14.554 12.3316 14.9578 8.79445C15.3616 5.25733 13.046 1.9806 9.57705 1.18023C6.10809 0.379871 2.59099 2.31089 1.4043 5.66737"
+        stroke="black"
+        strokeWidth={1.5}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  )
+}
 
 export default undo

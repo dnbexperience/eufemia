@@ -49,7 +49,12 @@ You would normally just decorate your anchor class withe this CSS class: `.dnb-a
 <ComponentBox useRender>
 {`
 // import { Link, Anchor } from 'dnb-ui-lib/elements'
-render(<Anchor href="/uilib/elements/anchor">My Link</Anchor>)
+render(
+  <p className="dnb-p">
+    <Anchor href="/uilib/elements/anchor" right>My Link</Anchor>
+    <Link href="/uilib/elements/anchor">My Link</Link>
+  </p>
+)
 `}
 </ComponentBox>
 
@@ -104,23 +109,32 @@ To force a specific state of style, use the following classes to do so:
 `}
 </ComponentBox>
 
-### With icon
-
-- <a href="/" className="dnb-anchor">Anchor with Icon <IconPrimary icon="chevron_right" /></a>
-- <p>
-    Eros semper blandit tellus mollis primis quisque platea sollicitudin
-    ipsum <a href="/" className="dnb-anchor">Inside a Paragraph <IconPrimary icon="bell" /></a> auctor cursus mauris porta consectetur natoque vehicula vestibulum feugiat ultrices vitae fermentum eros euismod imperdiet eleifend justo vivamus posuere
-  </p>
-- <h2 className="dnb-h2">
-    <a href="/" className="dnb-anchor">Inside Headings <IconPrimary icon="bell" /></a> H2
-  </h2>
-- <h2 className="dnb-h2">
-    <a href="/" target="_blank" className="dnb-anchor">Blank target in headings</a> H2
-  </h2>
-
 ### Manipulation
 
 - `.dnb-anchor--no-animation` <a href="/" class="dnb-anchor dnb-anchor--no-animation">No Animation</a>
 - `.dnb-anchor--no-style` <a href="/" class="dnb-anchor dnb-anchor--no-style">No Style</a>
 - `.dnb-anchor--no-hover` <a href="/" class="dnb-anchor dnb-anchor--no-hover">No Hover</a>
 - `.dnb-anchor--no-underline` <a href="/" class="dnb-anchor dnb-anchor--no-underline">No Underline</a>
+
+### With icon
+
+- <a href="/" className="dnb-anchor">
+    Anchor with Icon <IconPrimary icon="chevron_right" />
+  </a>
+
+- <p>
+    Eros semper blandit tellus mollis primis quisque platea sollicitudin
+    ipsum <a href="/" className="dnb-anchor">Inside a Paragraph <IconPrimary icon="bell" /></a> auctor cursus mauris porta consectetur natoque vehicula vestibulum feugiat ultrices vitae fermentum eros euismod imperdiet eleifend justo vivamus posuere
+  </p>
+
+- <h2 className="dnb-h2 skip-anchor">
+    <a href="/" className="dnb-anchor">
+      Inside Headings <IconPrimary icon="bell" />
+    </a> H2
+  </h2>
+
+- <h2 className="dnb-h2 skip-anchor">
+    <a href="/" target="_blank" className="dnb-anchor">
+      Blank target in headings
+    </a> H2
+  </h2>

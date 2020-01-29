@@ -28,7 +28,7 @@ describe('Textarea screenshot', () => {
       style,
       selector: '[data-dnb-test="textarea-default"]',
       simulateSelector: '[data-dnb-test="textarea-default"] textarea',
-      simulate: 'focus',
+      simulate: 'focus', // should be tested first
       // Only for screenshot testing - make textarea having same width on linux chromium
       styleSelector: '[data-dnb-test="textarea-default"] textarea'
     })

@@ -19,13 +19,10 @@ class Example extends PureComponent {
   title="Modal Title"
   trigger_title="Click me"
   modal_content={() => (
-    <div className="dnb-section dnb-section--spacing dnb-section--mint-green">
-      <p className="dnb-p">
-        This is the modal text. Triggered by a icon button.
-      </p>
-    </div>
+    <Section spacing style_type="mint-green">
+      <P>This is the modal text. Triggered by a icon button.</P>
+    </Section>
   )}
-  className="dnb-core-style"
 />
           `}
         </ComponentBox>
@@ -37,7 +34,6 @@ class Example extends PureComponent {
   trigger_variant="tertiary"
   trigger_text="Click me"
   modal_content="This is the modal text. Triggered by a tertiary button."
-  className="dnb-core-style"
 />
           `}
         </ComponentBox>
@@ -51,17 +47,12 @@ class Example extends PureComponent {
   on_open={(e) => console.log('on_open', e)}
   on_close={(e) => console.log('on_close', e)}
   on_close_prevent={({ close }) => setTimeout(close, 1e3)}
-  className="dnb-core-style"
 >
-  <p className="dnb-p">
-    This is a Modal Window with no close button.
-  </p>
-  <p className="dnb-p">
-    Click outside me, and I will be closed within 1 second.
-  </p>
-  <div className="dnb-section dnb-section--spacing dnb-section--divider">
+  <P>This is a Modal Window with no close button.</P>
+  <P>Click outside me, and I will be closed within 1 second.</P>
+  <Section spacing style_type="divider">
     <Input label="Focus:">Focus me with Tab key</Input>
-  </div>
+  </Section>
 </Modal>
           `}
         </ComponentBox>
@@ -76,13 +67,10 @@ class Example extends PureComponent {
       trigger_hidden="true"
       open_state="opened"
       labelled_by="custom-triggerer"
-      className="dnb-core-style"
     >
-      <div className="dnb-section dnb-section--spacing dnb-section--divider">
-        <p className="dnb-p">
-          This Modal was opened by a custom trigger button.
-        </p>
-      </div>
+      <Section spacing style_type="divider">
+        <P>This Modal was opened by a custom trigger button.</P>
+      </Section>
     </Modal>
   )}
 />
@@ -93,17 +81,13 @@ class Example extends PureComponent {
 <Modal
   title="Auto close"
   trigger_text="Click me"
-  // open_state="opened"
   close_modal={close => {
     setTimeout(close, 3e3)
   }}
-  className="dnb-core-style"
 >
-  <div className="dnb-section dnb-section--spacing dnb-section--signal-orange">
-    <p className="dnb-p">
-      This Modal will close in 3 seconds.
-    </p>
-  </div>
+  <Section spacing style_type="emerald-green">
+    <P>This Modal will close in 3 seconds.</P>
+  </Section>
 </Modal>
           `}
         </ComponentBox>

@@ -6,8 +6,8 @@
 import React from 'react'
 import { Wrapper, Box } from '../helpers'
 import styled from '@emotion/styled'
-import { Anchor } from '../../src/elements'
-import { IconPrimary } from 'dnb-ui-lib/src'
+import { Anchor, P } from '../../src/elements'
+import { IconPrimary } from '../../src'
 
 const CustomStyles = styled.div`
   a {
@@ -29,12 +29,14 @@ export default [
     <Wrapper>
       <CustomStyles>
         <Box>
-          Quam vitae nisi at accumsan per vehicula montes nam hendrerit{' '}
-          <Anchor href="http://dnb.no" target="_blank">
-            Blank taget - tempor ut quam nascetur hendrerit
-          </Anchor>{' '}
-          porttitor feugiat fusce fringilla justo dui torquent potenti
-          montes hendrerit
+          <P>
+            Quam vitae nisi at accumsan per vehicula montes nam hendrerit{' '}
+            <Anchor href="http://dnb.no" target="_blank">
+              Blank taget - tempor ut quam nascetur hendrerit
+            </Anchor>{' '}
+            porttitor feugiat fusce fringilla justo dui torquent potenti
+            montes hendrerit
+          </P>
           {/* <H1>
             <Anchor href="http://dnb.no" target="_blank">
               Blank taget

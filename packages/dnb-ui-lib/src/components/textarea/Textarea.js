@@ -18,9 +18,11 @@ import {
   pickRenderProps,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
+import AlignmentHelper from '../../shared/AlignmentHelper'
 import { createSpacingClasses } from '../space/SpacingHelper'
 
 import Context from '../../shared/Context'
+import Suffix from '../../shared/helpers/Suffix'
 
 const renderProps = {
   on_change: null,
@@ -38,6 +40,7 @@ const propTypes = {
     PropTypes.node
   ]),
   label_direction: PropTypes.oneOf(['horizontal', 'vertical']),
+  label_sr_only: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   status: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.func,
@@ -47,6 +50,11 @@ const propTypes = {
   status_state: PropTypes.string,
   status_animation: PropTypes.string,
   global_status_id: PropTypes.string,
+  suffix: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.func,
+    PropTypes.node
+  ]),
   placeholder: PropTypes.string,
   align: PropTypes.oneOf(['left', 'right']),
   stretch: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -63,7 +71,7 @@ const propTypes = {
 
   // React props
   className: PropTypes.string,
-  textareaElement: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
+  textarea_element: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
   children: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.node,
@@ -84,11 +92,13 @@ const defaultProps = {
   id: null,
   label: null,
   label_direction: null,
+  label_sr_only: null,
   status: null,
   textarea_state: null,
   status_state: 'error',
   status_animation: null,
   global_status_id: null,
+  suffix: null,
   placeholder: null,
   align: null,
   stretch: null,
@@ -102,7 +112,7 @@ const defaultProps = {
 
   // React props
   className: null,
-  textareaElement: null,
+  textarea_element: null,
   children: null,
 
   // Web Component props
@@ -207,19 +217,23 @@ export default class Textarea extends PureComponent {
     dispatchCustomElementEvent(this, 'on_change', { value, event })
   }
   render() {
-    // consume the formRow context
-    const props = this.context.formRow
-      ? // use only the props from context, who are available here anyway
-        extendPropsWithContext(this.props, this.context.formRow)
-      : this.props
+    // use only the props from context, who are available here anyway
+    const props = extendPropsWithContext(
+      this.props,
+      defaultProps,
+      this.context.formRow,
+      this.context.translation.Textarea
+    )
 
     const {
       label,
       label_direction,
+      label_sr_only,
       status,
       status_state,
       status_animation,
       global_status_id,
+      suffix,
       disabled,
       stretch,
       placeholder,
@@ -233,7 +247,7 @@ export default class Textarea extends PureComponent {
       id: _id, //eslint-disable-line
       children, //eslint-disable-line
       value: _value, //eslint-disable-line
-      textareaElement: _textareaElement, //eslint-disable-line
+      textarea_element: _textarea_element, //eslint-disable-line
 
       ...attributes
     } = props
@@ -246,7 +260,7 @@ export default class Textarea extends PureComponent {
 
     // pass along all props we wish to have as params
     let {
-      textareaElement: TextareaElement,
+      textarea_element: TextareaElement,
       ...renderProps
     } = pickRenderProps(this.props, Textarea.renderProps)
 
@@ -264,6 +278,7 @@ export default class Textarea extends PureComponent {
       id,
       disabled,
       name: id,
+      'aria-placeholder': placeholder,
       ...attributes,
       ...textareaAttributes,
       onChange: this.onChangeHandler,
@@ -272,8 +287,10 @@ export default class Textarea extends PureComponent {
     }
 
     // we may considder using: aria-details
-    if (showStatus) {
-      textareaParams['aria-describedby'] = id + '-status'
+    if (showStatus || suffix) {
+      textareaParams['aria-describedby'] = `${
+        showStatus ? id + '-status' : ''
+      } ${suffix ? id + '-suffix' : ''}`
     }
     if (readOnly) {
       textareaParams['aria-readonly'] = textareaParams.readOnly = true
@@ -295,6 +312,7 @@ export default class Textarea extends PureComponent {
         status && `dnb-textarea__status--${status_state}`,
         label_direction && `dnb-textarea--${label_direction}`,
         isTrue(stretch) && `dnb-textarea--stretch`,
+        'dnb-form-component',
         createSpacingClasses(props),
         _className,
         className
@@ -320,8 +338,8 @@ export default class Textarea extends PureComponent {
 
     if (TextareaElement && typeof TextareaElement === 'function') {
       TextareaElement = TextareaElement(textareaParams, this._ref)
-    } else if (!TextareaElement && _textareaElement) {
-      TextareaElement = _textareaElement
+    } else if (!TextareaElement && _textarea_element) {
+      TextareaElement = _textarea_element
     }
 
     return (
@@ -331,11 +349,15 @@ export default class Textarea extends PureComponent {
             id={id + '-label'}
             for_id={id}
             text={label}
+            label_direction={label_direction}
+            sr_only={label_sr_only}
             disabled={disabled}
-            direction={label_direction}
           />
         )}
+
         <span {...innerParams}>
+          <AlignmentHelper />
+
           {showStatus && (
             <FormStatus
               id={id + '-form-status'}
@@ -347,21 +369,32 @@ export default class Textarea extends PureComponent {
             />
           )}
 
-          <span {...shellParams}>
-            {TextareaElement || (
-              <textarea ref={this._ref} {...textareaParams} />
-            )}
+          <span className="dnb-textarea__row">
+            <span {...shellParams}>
+              {TextareaElement || (
+                <textarea ref={this._ref} {...textareaParams} />
+              )}
 
-            {placeholder && (
+              {placeholder && (
+                <span
+                  aria-hidden
+                  className={classnames(
+                    'dnb-textarea__placeholder',
+                    align ? `dnb-textarea__align--${align}` : null
+                  )}
+                  style={placeholderStyle}
+                >
+                  {placeholder}
+                </span>
+              )}
+            </span>
+
+            {suffix && (
               <span
-                aria-hidden
-                className={classnames(
-                  'dnb-textarea__placeholder',
-                  align ? `dnb-textarea__align--${align}` : null
-                )}
-                style={placeholderStyle}
+                className="dnb-textarea__suffix"
+                id={id + '-suffix'} // used for "aria-describedby"
               >
-                {placeholder}
+                <Suffix {...props}>{suffix}</Suffix>
               </span>
             )}
           </span>

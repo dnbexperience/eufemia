@@ -43,14 +43,16 @@ export default [
               // )
             },
             {
-              title: 'Second',
+              title:
+                'Second Sapien vivamus convallis fermentum euismod quam platea tellus nullam mollis',
               on_click: ({ currentItem }) =>
                 console.log('on_click', currentItem)
               // is_active: true
               // is_current: true
             },
             {
-              title: 'Third',
+              title:
+                'Third Sapien vivamus convallis fermentum euismod quam platea tellus nullam mollis',
               on_click: ({ currentItem }) =>
                 console.log('on_click', currentItem)
             }
@@ -82,18 +84,25 @@ export default [
       </Box>
       <Box>
         <StepIndicator
-          active_item="2"
+          // active_item={1}
           data={[
             {
               title: 'First'
             },
             {
-              title: 'Second'
+              title: 'Second',
+              is_current: true
             },
             {
               title: 'Third'
             }
           ]}
+        />
+      </Box>
+      <Box>
+        <StepIndicator
+          active_item="2"
+          data={['First', 'Second', 'Third']}
         />
       </Box>
     </Wrapper>

@@ -16,8 +16,8 @@ exports[`FormStatus component have to match snapshot 1`] = `
         "icon_size": "icon_size",
         "id": "id",
         "render_content": [Function],
-        "state": "'error'",
-        "status": "'error'",
+        "state": true,
+        "status": true,
         "text": "text",
         "text_id": "text_id",
         "title": "title",
@@ -28,13 +28,17 @@ exports[`FormStatus component have to match snapshot 1`] = `
   1={
     Object {
       "displayName": "ErrorIcon",
-      "props": Object {},
+      "props": Object {
+        "title": "title",
+      },
     }
   }
   2={
     Object {
       "displayName": "InfoIcon",
-      "props": Object {},
+      "props": Object {
+        "title": "title",
+      },
     }
   }
   animation={null}
@@ -70,49 +74,58 @@ exports[`FormStatus component have to match snapshot 1`] = `
         className={null}
         color={null}
         height={null}
-        icon={[Function]}
+        icon={
+          <ErrorIcon
+            title={null}
+          />
+        }
         modifier={null}
         size="large"
         title={null}
         width={null}
       >
         <span
-          alt="ErrorIcon"
           aria-hidden={true}
           className="dnb-icon dnb-icon--large"
           role="img"
         >
-          <ErrorIcon>
-            <svg
-              fill="none"
-              height="32"
-              viewBox="0 0 32 32"
-              width="32"
-              xmlns="http://www.w3.org/2000/svg"
+          <Component>
+            <ErrorIcon
+              title={null}
             >
-              <path
-                d="M16 25a.5.5 0 100 1 .5.5 0 000-1v0"
-                stroke="#000"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="1.5"
-              />
-              <path
-                d="M16 21V11"
-                stroke="#000"
-                strokeLinecap="round"
-                strokeWidth="1.5"
-              />
-              <path
-                clipRule="evenodd"
-                d="M18.161 2.347a2.408 2.408 0 00-4.322 0L1.208 28.077A2.028 2.028 0 003.029 31h25.942a2.028 2.028 0 001.821-2.923l-12.63-25.73z"
-                stroke="#000"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="1.5"
-              />
-            </svg>
-          </ErrorIcon>
+              <svg
+                fill="none"
+                height="32"
+                role="img"
+                title={null}
+                viewBox="0 0 32 32"
+                width="32"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M16 25a.5.5 0 100 1 .5.5 0 000-1v0"
+                  stroke="#000"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="1.5"
+                />
+                <path
+                  d="M16 21V11"
+                  stroke="#000"
+                  strokeLinecap="round"
+                  strokeWidth="1.5"
+                />
+                <path
+                  clipRule="evenodd"
+                  d="M18.161 2.347a2.408 2.408 0 00-4.322 0L1.208 28.077A2.028 2.028 0 003.029 31h25.942a2.028 2.028 0 001.821-2.923l-12.63-25.73z"
+                  stroke="#000"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="1.5"
+                />
+              </svg>
+            </ErrorIcon>
+          </Component>
         </span>
       </Icon>
       <span
@@ -191,13 +204,13 @@ exports[`FormStatus scss have to match snapshot 1`] = `
 .dnb-form-status {
   font-family: var(--font-family-default);
   font-weight: var(--font-weight-default);
-  font-size: var(--font-size-basis);
+  font-size: var(--font-size-small);
   font-style: normal;
   line-height: var(--line-height-basis);
   color: var(--color-black-80, #333);
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-  font-variant-numeric: lining-nums;
-  font-feature-settings: \\"lnum\\";
   /**
   * 1. Remove repeating backgrounds in all browsers (opinionated).
   * 2. Add border box sizing in all browsers (opinionated).
@@ -238,8 +251,6 @@ exports[`FormStatus scss have to match snapshot 1`] = `
     cursor: text;
     color: inherit;
     line-height: var(--line-height-basis); }
-    [data-os='mac'] .dnb-form-status--text {
-      transform: translateY(0.0625rem); }
   .dnb-icon + .dnb-form-status--text {
     padding-left: 0.5rem; }
   .dnb-form-status__shell > .dnb-icon {
@@ -251,7 +262,8 @@ exports[`FormStatus scss have to match snapshot 1`] = `
     margin-top: 0.25em;
     margin-left: 0.5em;
     color: inherit;
-    font-size: var(--font-size-basis); }
+    font-size: var(--font-size-basis);
+    transform: translateY(-0.125rem); }
   .dnb-form-status[hidden] {
     display: none; }
   .dnb-form-status--fade-in {

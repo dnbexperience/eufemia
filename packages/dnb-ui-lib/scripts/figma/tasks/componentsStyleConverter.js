@@ -29,7 +29,7 @@ export const ConvertAndSaveComponentsStyle = async ({
   }
 
   if (figmaDoc === null) {
-    log.text = '> Figma: Fetching the figma doc.'
+    log.info('> Figma: Fetching the figma doc.')
     figmaDoc = await getFigmaDoc({ figmaFile })
   }
 
@@ -50,13 +50,13 @@ export const ConvertAndSaveComponentsStyle = async ({
     if (replaceScssVars) {
       const file = `../../src/components/${name}/style/_${name}.scss`
       await saveToFile(path.resolve(__dirname, file), replaceScssVars)
-      log.text = `> Figma: Saved style to file: ${file}`
+      log.info(`> Figma: Saved style to file: ${file}`)
     } else {
       // paste the vars in a vars file
       if (scssVars) {
         const file = `../../src/components/${name}/style/_${name}_custom_vars.scss`
         await saveToFile(path.resolve(__dirname, file), scssVars)
-        log.text = `> Figma: Saved style to file: ${file}`
+        log.info(`> Figma: Saved style to file: ${file}`)
       }
 
       // save complete scss style sheets
@@ -66,7 +66,7 @@ export const ConvertAndSaveComponentsStyle = async ({
           path.resolve(__dirname, file),
           String(scssStyle).trim()
         )
-        log.text = `> Figma: Saved style to file: ${file}`
+        log.info(`> Figma: Saved style to file: ${file}`)
       }
     }
 
@@ -107,7 +107,7 @@ export const ComponentsStyleConverter = async (
           `$1${value}; ${appendString}`
         )
       })
-      log.text = `> Figma: Reading style to replace variables: ${file}`
+      log.info(`> Figma: Reading style to replace variables: ${file}`)
     } else {
       // paste the vars in a vars file
       const entries = Object.entries(scssVars)
@@ -121,11 +121,13 @@ export const ComponentsStyleConverter = async (
               .join('\n')
           : null
 
-      log.text = `> Figma: Replacing variables: ${JSON.stringify(
-        scssVars,
-        null,
-        2
-      )}`
+      log.info(
+        `> Figma: Replacing variables: ${JSON.stringify(
+          scssVars,
+          null,
+          2
+        )}`
+      )
     }
 
     // prepare style sheets

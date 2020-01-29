@@ -29,11 +29,11 @@ Check out a [working example on CodeSandbox](https://codesandbox.io/embed/eufemi
       <th scope="col" className="dnb-table--sortable dnb-table--reversed">
         {/* <a href="#sort">
           Sortable
-          <IconPrimary icon="chevron-down" />
+          <IconPrimary icon="arrow-down" />
         </a> */}
         <Button
           variant="tertiary"
-          icon="chevron-down"
+          icon="arrow-down"
           text="Sortable"
           title="Sort table row"
         />
@@ -41,11 +41,11 @@ Check out a [working example on CodeSandbox](https://codesandbox.io/embed/eufemi
       <th scope="col" className="dnb-table--sortable dnb-table--active">
         {/* <a href="#sort">
           Active
-          <IconPrimary icon="chevron-down" />
+          <IconPrimary icon="arrow-down" />
         </a> */}
         <Button
           variant="tertiary"
-          icon="chevron-down"
+          icon="arrow-down"
           text="Active"
           title="Sort table row"
         />
@@ -115,7 +115,7 @@ There are a couple helper classes to style tables:
       <th scope="col" className="dnb-table__th dnb-table--sortable dnb-table--reversed">
         <Button
           variant="tertiary"
-          icon="chevron-down"
+          icon="arrow-down"
           text="dnb-table--reversed"
           title="dnb-table__th dnb-table--sortable dnb-table--reversed"
         />
@@ -123,7 +123,7 @@ There are a couple helper classes to style tables:
       <th scope="col" className="dnb-table__th dnb-table--sortable dnb-table--active">
         <Button
           variant="tertiary"
-          icon="chevron-down"
+          icon="arrow-down"
           text="dnb-table--active"
           title="dnb-table__th dnb-table--sortable dnb-table--active"
         />

@@ -32,6 +32,23 @@ class Example extends PureComponent {
           `}
         </ComponentBox>
         <ComponentBox
+          caption="GlobalStatus displaying info status"
+          data-dnb-test="global-status-info"
+        >
+          {/* @jsx */ `
+<GlobalStatus
+  state="info"
+  title="Custom info title ..."
+  text="Long info nisl tempus hendrerit tortor dapibus nascetur taciti porta risus cursus fusce platea enim curabitur proin nibh ut luctus magnis metus"
+  items={['Status text 1', 'Status text 2']}
+  show="true"
+  no_animation="true"
+  autoscroll="false"
+  id="demo-4"
+/>
+          `}
+        </ComponentBox>
+        <ComponentBox
           caption="To showcase the automated coupling between **FormStatus** and **GlobalStatus**"
           useRender
         >
@@ -114,46 +131,12 @@ render(
 }
           `}
         </ComponentBox>
-        <ComponentBox
-          caption="To showcase the grow and shrink (height) animation"
-          noFragments={false}
-        >
-          {/* @jsx */ `
-() => {
-  const [showDemo, toggleShowDemo] = React.useState(false)
-  return (
-    <>
-      <ToggleButton
-        text={showDemo? 'Stop Demo': 'Show animation Demo'}
-        checked={showDemo}
-        variant="checkbox"
-        on_change={({ checked }) => toggleShowDemo(checked)}
-        bottom="small"
-      />
-      <GlobalStatus
-        id="demo-3"
-        title="Demo Animation"
-        text="Long info nisl tempus hendrerit tortor dapibus nascetur taciti porta risus cursus fusce platea enim curabitur proin nibh ut luctus magnis metus"
-        items={['Status text 1', 'Status text 2']}
-        demo={showDemo}
-        show={showDemo}
-        autoscroll={false}
-        delay={0}
-        on_close={() => {
-          toggleShowDemo(false)
-        }}
-      />
-    </>
-  )
-}
-          `}
-        </ComponentBox>
         <ComponentBox caption="To showcase the scrolling. Some browsers (Safari, Edge) will need a polyfill like `smoothscroll-polyfill`">
           {/* @jsx */ `
 <Button
   text="Scroll to main GlobalStatus"
   on_click={() => {
-    GlobalStatus.Set({
+    GlobalStatus.AddStatus({
       id: 'main-status',
       text:
         'Dui consectetur viverra aenean vestibulum ac tristique sem ligula condimentum',
@@ -169,30 +152,3 @@ render(
 
 export { Example }
 export default () => <Example />
-
-// <ComponentBox
-//   caption="GlobalStatus displaying info status"
-//   data-dnb-test="global-status-info"
-// >
-//   {`
-// <GlobalStatus
-// title="Custom Title"
-// text="Long info nisl tempus hendrerit tortor dapibus nascetur taciti porta risus cursus fusce platea enim curabitur proin nibh ut luctus magnis metus"
-// items={[
-// 'Item text #1',
-// <>Item text #2</>,
-// {
-// text:'Item text #3',
-// status_id: '123',
-// // status_anchor_text: ...,
-// // status_anchor_url: ...,
-// }
-// ]}
-// state="info"
-// show="true"
-// no_animation="true"
-// autoscroll="false"
-// id="demo-2"
-// />
-//   `}
-// </ComponentBox>

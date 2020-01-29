@@ -22,6 +22,7 @@
 
 .dnb-input {
   color: var(--input-text-color);
+
   &__inner {
     color: inherit;
   }
@@ -70,11 +71,7 @@
 
   // with status_state = "error"
   &__status--error &__shell:not([data-input-state='focus']) {
-    &,
-    &:not([data-input-state='disabled']):hover {
-      // In case we want to have a larger border size on the input
-      @include fakeBorder(var(--color-fire-red), 0.125rem);
-    }
+    @include fakeBorder(var(--color-fire-red), 0.125rem);
   }
   &__status--error
     &__shell:not([data-input-state='focus'])
@@ -86,6 +83,10 @@
     .dnb-button {
       @include fakeBorder(var(--color-fire-red), 0.125rem);
     }
+  }
+  &__status--error,
+  &__status--error &__shell[data-input-state='dirty'] {
+    color: var(--color-fire-red);
   }
 
   &__input::selection {

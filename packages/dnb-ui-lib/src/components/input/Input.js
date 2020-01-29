@@ -20,9 +20,11 @@ import {
   dispatchCustomElementEvent,
   isMac
 } from '../../shared/component-helper'
+import AlignmentHelper from '../../shared/AlignmentHelper'
 import { createSpacingClasses } from '../space/SpacingHelper'
 
 import Context from '../../shared/Context'
+import Suffix from '../../shared/helpers/Suffix'
 
 const renderProps = {
   on_change: null,
@@ -45,6 +47,7 @@ const propTypes = {
     PropTypes.node
   ]),
   label_direction: PropTypes.oneOf(['horizontal', 'vertical']),
+  label_sr_only: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   status: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.func,
@@ -61,7 +64,6 @@ const propTypes = {
     PropTypes.string,
     PropTypes.bool
   ]),
-  description: PropTypes.string, // deprecated
   suffix: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.func,
@@ -77,9 +79,12 @@ const propTypes = {
     PropTypes.string,
     PropTypes.object
   ]),
+  input_element: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
+  inner_ref: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
   readOnly: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
 
   // Submit button
+  submit_element: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
   submit_button_variant: Button.propTypes.variant,
   submit_button_icon: PropTypes.oneOfType([
     PropTypes.string,
@@ -89,13 +94,11 @@ const propTypes = {
 
   // React props
   className: PropTypes.string,
-  inputElement: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
   children: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.node,
     PropTypes.func
   ]),
-  submit_element: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
 
   // Web Component props
   custom_element: PropTypes.object,
@@ -116,6 +119,7 @@ const defaultProps = {
   id: null,
   label: null,
   label_direction: null,
+  label_sr_only: null,
   status: null,
   input_state: null,
   status_state: 'error',
@@ -124,7 +128,6 @@ const defaultProps = {
   autocomplete: 'off',
   placeholder: null,
   keep_placeholder: null,
-  description: null, // deprecated
   suffix: null,
   align: null,
   selectall: null,
@@ -133,18 +136,19 @@ const defaultProps = {
   input_class: null,
   class: null,
   input_attributes: null,
+  input_element: null,
+  inner_ref: null,
   readOnly: false,
 
   // Submit button
+  submit_element: null,
   submit_button_title: null,
   submit_button_variant: 'secondary',
   submit_button_icon: 'search',
 
   // React props
   className: null,
-  inputElement: null,
   children: null,
-  submit_element: null,
 
   // Web Component props
   custom_element: null,
@@ -155,6 +159,7 @@ const defaultProps = {
 /**
  * The input component is an umbrella component for all inputs which share the same style as the classic `text` input field. Radio buttons and other form elements are not included here.
  */
+
 export default class Input extends PureComponent {
   static tagName = 'dnb-input'
   static propTypes = propTypes
@@ -210,7 +215,8 @@ export default class Input extends PureComponent {
   constructor(props, context) {
     super(props)
 
-    this._ref = React.createRef()
+    this._ref = this.props.inner_ref || React.createRef()
+
     this._id =
       props.id ||
       (context.formRow &&
@@ -249,7 +255,10 @@ export default class Input extends PureComponent {
     this.setState({
       value,
       _listenForPropChanges: false,
-      inputState: Input.hasValue(value) ? 'dirty' : 'initial'
+      inputState:
+        Input.hasValue(value) && value !== this.state._value
+          ? 'dirty'
+          : 'initial'
     })
     dispatchCustomElementEvent(this, 'on_blur', { value, event })
   }
@@ -266,17 +275,20 @@ export default class Input extends PureComponent {
     }
   }
   render() {
-    // consume the formRow context
-    const props = this.context.formRow
-      ? // use only the props from context, who are available here anyway
-        extendPropsWithContext(this.props, this.context.formRow)
-      : this.props
+    // use only the props from context, who are available here anyway
+    const props = extendPropsWithContext(
+      this.props,
+      defaultProps,
+      this.context.formRow,
+      this.context.translation.Input
+    )
 
     const {
       type,
       size,
       label,
       label_direction,
+      label_sr_only,
       status,
       status_state,
       status_animation,
@@ -284,7 +296,6 @@ export default class Input extends PureComponent {
       disabled,
       placeholder,
       keep_placeholder,
-      description, // deprecated
       suffix,
       align,
       input_class,
@@ -304,12 +315,12 @@ export default class Input extends PureComponent {
       value: _value, //eslint-disable-line
       selectall, //eslint-disable-line
       on_submit, //eslint-disable-line
-      inputElement: _inputElement, //eslint-disable-line
+      input_element: _input_element, //eslint-disable-line
 
       ...attributes
     } = props
 
-    let { value, inputState } = this.state
+    let { value, focusState, inputState } = this.state
 
     if (disabled) {
       inputState = 'disabled'
@@ -332,6 +343,7 @@ export default class Input extends PureComponent {
         label_direction && `dnb-input--${label_direction}`,
         isTrue(stretch) && `dnb-input--stretch`,
         isTrue(keep_placeholder) && `dnb-input--keep-placeholder`,
+        'dnb-form-component',
         createSpacingClasses(props),
         _className,
         className
@@ -343,7 +355,7 @@ export default class Input extends PureComponent {
     }
 
     // pass along all props we wish to have as params
-    let { inputElement: InputElement, ...renderProps } = pickRenderProps(
+    let { input_element: InputElement, ...renderProps } = pickRenderProps(
       this.props,
       Input.renderProps
     )
@@ -363,6 +375,7 @@ export default class Input extends PureComponent {
       id,
       disabled: isTrue(disabled),
       name: id,
+      'aria-placeholder': placeholder,
       ...attributes,
       ...inputAttributes,
       onChange: this.onChangeHandler,
@@ -376,10 +389,10 @@ export default class Input extends PureComponent {
     }
 
     // we may considder using: aria-details
-    if (showStatus || (suffix || description)) {
+    if (showStatus || suffix) {
       inputParams['aria-describedby'] = `${
         showStatus ? id + '-status' : ''
-      } ${suffix || description ? id + '-description' : ''}`
+      } ${suffix ? id + '-suffix' : ''}`
     }
     if (type === 'search') {
       inputParams.autoComplete = 'off'
@@ -387,7 +400,7 @@ export default class Input extends PureComponent {
     if (readOnly) {
       inputParams['aria-readonly'] = inputParams.readOnly = true
     }
-    if (!hasValue && placeholder && this.state.focusState !== 'focus') {
+    if (!hasValue && placeholder && focusState !== 'focus') {
       inputParams['aria-labelledby'] = id + '-placeholder'
     }
 
@@ -405,23 +418,25 @@ export default class Input extends PureComponent {
 
     if (InputElement && typeof InputElement === 'function') {
       InputElement = InputElement(inputParams, this._ref)
-    } else if (!InputElement && _inputElement) {
-      InputElement = _inputElement
+    } else if (!InputElement && _input_element) {
+      InputElement = _input_element
     }
 
     return (
       <span {...mainParams}>
         {label && (
           <FormLabel
-            id={id + '-label'} // used for "aria-describedby"
+            id={id + '-label'}
             for_id={id}
             text={label}
+            label_direction={label_direction}
+            sr_only={label_sr_only}
             disabled={disabled}
-            direction={label_direction}
           />
         )}
 
         <span {...innerParams}>
+          <AlignmentHelper />
           {showStatus && (
             <FormStatus
               id={id + '-form-status'}
@@ -435,20 +450,19 @@ export default class Input extends PureComponent {
 
           <span className="dnb-input__row">
             <span className="dnb-input__shell" {...shellParams}>
-              {!hasValue &&
-                placeholder &&
-                this.state.focusState !== 'focus' && (
-                  <span
-                    id={id + '-placeholder'}
-                    aria-hidden={this.isMac}
-                    className={classnames(
-                      'dnb-input__placeholder',
-                      align ? `dnb-input__align--${align}` : null
-                    )}
-                  >
-                    {placeholder}
-                  </span>
-                )}
+              {!hasValue && placeholder && focusState !== 'focus' && (
+                <span
+                  id={id + '-placeholder'}
+                  // aria-hidden={this.isMac}
+                  aria-hidden
+                  className={classnames(
+                    'dnb-input__placeholder',
+                    align ? `dnb-input__align--${align}` : null
+                  )}
+                >
+                  {placeholder}
+                </span>
+              )}
 
               {InputElement || <input ref={this._ref} {...inputParams} />}
             </span>
@@ -462,7 +476,11 @@ export default class Input extends PureComponent {
                     {...attributes}
                     value={inputParams.value}
                     icon={submit_button_icon}
-                    icon_size={size === 'large' ? 'medium' : size}
+                    icon_size={
+                      size === 'medium' || size === 'large'
+                        ? 'medium'
+                        : 'default'
+                    }
                     title={submit_button_title}
                     variant={submit_button_variant}
                     disabled={disabled}
@@ -472,12 +490,12 @@ export default class Input extends PureComponent {
                 )}
               </span>
             )}
-            {(suffix || description) && (
+            {suffix && (
               <span
-                className="dnb-input__description"
-                id={id + '-description'} // used for "aria-describedby"
+                className="dnb-input__suffix"
+                id={id + '-suffix'} // used for "aria-describedby"
               >
-                {suffix || description}
+                <Suffix {...props}>{suffix}</Suffix>
               </span>
             )}
           </span>
@@ -487,7 +505,7 @@ export default class Input extends PureComponent {
   }
 }
 
-class SubmitButton extends PureComponent {
+class InputSubmitButton extends PureComponent {
   static propTypes = {
     id: PropTypes.string,
     value: PropTypes.string,
@@ -559,7 +577,7 @@ class SubmitButton extends PureComponent {
     const params = {
       id,
       type: 'submit',
-      title,
+      'aria-label': title,
       disabled,
       ...rest
     }
@@ -589,5 +607,9 @@ class SubmitButton extends PureComponent {
     )
   }
 }
+
+const SubmitButton = React.forwardRef((props, ref) => (
+  <InputSubmitButton innerRef={ref} {...props} />
+))
 
 export { SubmitButton }

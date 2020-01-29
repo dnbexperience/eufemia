@@ -9,9 +9,9 @@ import { fetchFigmaAll } from '../figma'
 export const run = async () => {
   const doRefetch = true
   log.start('Starting the prepublish process...')
-  log.text = '> Figma: Start fetching figma data ...'
+  log.info('> Figma: Start fetching figma data ...')
   await fetchFigmaAll({ doRefetch })
-  log.text = '> PrePublish: Start prepublishing ...'
+  log.info('> PrePublish: Start prepublishing ...')
   await runPrepublishTasks({ preventDelete: false, doRefetch })
 }
 

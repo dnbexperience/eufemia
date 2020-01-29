@@ -134,6 +134,16 @@ class Example extends PureComponent {
 />
           `}
         </ComponentBox>
+        <ComponentBox>
+          {/* @jsx */ `
+<DatePicker
+  label="With suffix:"
+  date={new Date()}
+  show_input
+  suffix={<Modal title="Modal Title">Modal content</Modal>}
+/>
+          `}
+        </ComponentBox>
 
         <ScreenshotTests />
       </Fragment>
@@ -174,11 +184,22 @@ const ScreenshotTests = () => {
         {/* @jsx */ `
 <DatePicker
   label="DatePicker with error status:"
-  date={new Date()}
+  date="2019-05-05"
   hide_navigation={true}
   status="Please select a valid date"
 />
     `}
+      </ComponentBox>
+      <ComponentBox data-dnb-test="date-picker-input-error">
+        {/* @jsx */ `
+<DatePicker
+  label="DatePicker with error message:"
+  date="2019-05-05"
+  show_input={true}
+  show_submit_button={true}
+  status="Please select a valid date"
+/>
+        `}
       </ComponentBox>
       <ComponentBox
         data-dnb-test="date-picker-calendar"

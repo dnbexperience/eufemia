@@ -27,23 +27,24 @@ if (typeof window !== 'undefined' && window.IS_TEST) {
       background: #fff;
     }
 
-    /* because the font-weight is differently on Arial, we have to redefine it to be bold */
-    :root {
-      --font-weight-demi: 600;
-      --font-weight-medium: 700;
-    }
-
+    /* stop scrolling */
     html {
       scroll-behavior: auto !important;
     }
 
-    body * {
+    /* because the font-weight is differently on Arial, we have to redefine it to be bold */
+    ${'' /* :root {
+      --font-weight-medium: 600;
+      --font-weight-medium: 700;
+    } */}
+
+    ${'' /* body * {
       font-family: Arial, Helvetica, sans-serif !important;
       font-variant-numeric: normal;
       font-feature-settings: normal;
 
       -webkit-font-smoothing: antialiased;
-    }
+    } */}
   `
 }
 
@@ -122,6 +123,24 @@ export default css`
     clear: both;
     content: '';
   }
+  .gatsby-resp-image-wrapper {
+    margin-left: 0 !important; /* align the img to the left */
+    a {
+      padding: 0;
+      box-shadow: none;
+      &[target='_blank']:not(:empty):not(.dnb-anchor--no-icon)::after {
+        content: none;
+      }
+
+      img {
+        width: 100%;
+      }
+    }
+    a:hover img {
+      border-radius: 0.25rem; /* 4/16 */
+      box-shadow: 0 0 0 0.125rem var(--color-mint-green-50);
+    }
+  }
 
   ${'' /* .pl-0 {
     padding-left: 0 !important;
@@ -160,7 +179,7 @@ export default css`
   }
 
   .image-box {
-    margin: 0 0 4rem 0;
+    margin: 1rem 0 3rem 0;
     padding: 2rem 2rem 0.9375rem 2rem;
 
     text-align: center;
@@ -169,7 +188,7 @@ export default css`
     background-color: rgba(255, 255, 255, 0.6);
 
     figcaption {
-      padding-top: 1rem;
+      padding-top: 0.938rem; /* 15/16  because of the border */
 
       font-style: italic;
 

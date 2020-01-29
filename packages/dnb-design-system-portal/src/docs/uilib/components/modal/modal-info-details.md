@@ -40,8 +40,9 @@ Modal dialogs appear on top of the main content changing the _mode_ of the syste
 
 ### Design Patterns
 
-<Img src={ModalExample} caption="Modal with header, text and close button (spacing suggestions in blue and pink)" alt="My alt" height="256" />
-<Img src={ModalExampleButtons} caption="Modal with header, text, buttons and close button" alt="My alt" height="296" />
+<Img src={ModalExample} caption="Modal with header, text and close button (spacing suggestions in blue and pink)" alt="Image showing Modal with header" />
+
+<Img src={ModalExampleButtons} caption="Modal with header, text, buttons and close button" alt="Image showing Modal with header and clsoe button" />
 
 ## Root Element
 
@@ -87,13 +88,13 @@ You have the properties `min_width` and `max_width`. But by using these, the wid
 
 ## Styles and `dnb-core-style`
 
-In case you don't use the CSS package `dnb-ui-core` - you have to make sure you assign the HTML class `dnb-core-style`:
+The Modal component comes with the `dnb-core-style` class predefined by default. If you don't want this behavior because of e.g. CSS specificity, you can opt out by setting this property `prevent_core_style="true"`.
 
 ```jsx
-/* Either to the Modal */
+/* The CSS class is set by default */
 <Modal className="dnb-core-style">...</Modal>
 
-/* - or to the root element */
+/* You have the option to set it like this as well */
 <body>
   <div id="app" />
   <div id="dnb-modal-root" class="dnb-core-style" />

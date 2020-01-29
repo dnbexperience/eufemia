@@ -65,6 +65,9 @@ describe('Node', () => {
 describe('Number component', () => {
   const slector = element + '.dnb-number'
   it('have to match default number snapshot', () => {
+    // simulate mac, has to run on the first render
+    platformGetter.mockReturnValue('Mac')
+
     const Comp = mount(<Component {...snapshotProps} />)
     expect(toJson(Comp)).toMatchSnapshot()
   })
@@ -105,7 +108,6 @@ describe('Number component', () => {
     ).toBe('kr 12 345')
   })
   it('have to match currency under 100.000', () => {
-    platformGetter.mockReturnValue('Mac')
     const Comp = mount(<Component value={-12345} currency />)
 
     expect(

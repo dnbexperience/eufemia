@@ -38,13 +38,13 @@ describe('GlobalStatus screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
-  // it('have to match the info state and custom content', async () => {
-  //   const screenshot = await testPageScreenshot({
-  //     style,
-  //     selector: '[data-dnb-test="global-status-info"] .dnb-global-status'
-  //   })
-  //   expect(screenshot).toMatchImageSnapshot()
-  // })
+  it('have to match the info state and custom content', async () => {
+    const screenshot = await testPageScreenshot({
+      style,
+      selector: '[data-dnb-test="global-status-info"] .dnb-global-status'
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
   // it.skip('have to match custom content', async () => {
   //   const screenshot = await testPageScreenshot({
   //     selector: '[data-dnb-test="global-status-custom"]'

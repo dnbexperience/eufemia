@@ -18,6 +18,7 @@ exports[`Textarea component have to match snapshot 1`] = `
         "id": "id",
         "label": "label",
         "label_direction": "'horizontal'",
+        "label_sr_only": "label_sr_only",
         "on_blur": [Function],
         "on_change": [Function],
         "on_focus": [Function],
@@ -29,9 +30,10 @@ exports[`Textarea component have to match snapshot 1`] = `
         "status_animation": "status_animation",
         "status_state": "status_state",
         "stretch": "stretch",
-        "textareaElement": [Function],
+        "suffix": "suffix",
         "textarea_attributes": "textarea_attributes",
         "textarea_class": "textarea_class",
+        "textarea_element": [Function],
         "textarea_state": "textarea_state",
         "value": "value",
       },
@@ -48,6 +50,7 @@ exports[`Textarea component have to match snapshot 1`] = `
   id="textarea"
   label={null}
   label_direction={null}
+  label_sr_only={null}
   on_blur={null}
   on_change={null}
   on_focus={null}
@@ -59,31 +62,45 @@ exports[`Textarea component have to match snapshot 1`] = `
   status_animation={null}
   status_state="error"
   stretch={null}
-  textareaElement={null}
+  suffix={null}
   textarea_attributes={null}
   textarea_class={null}
+  textarea_element={null}
   textarea_state={null}
   value="test"
 >
   <span
-    className="dnb-textarea dnb-textarea--virgin dnb-textarea--has-content"
+    className="dnb-textarea dnb-textarea--virgin dnb-form-component dnb-textarea--has-content"
   >
     <span
       className="dnb-textarea__inner"
     >
-      <span
-        className="dnb-textarea__shell"
+      <AlignmentHelper
+        className={null}
       >
-        <textarea
-          className="dnb-textarea__textarea"
-          id="textarea"
-          name="textarea"
-          onBlur={[Function]}
-          onChange={[Function]}
-          onFocus={[Function]}
-          role="textbox"
-          value="test"
+        <span
+          aria-hidden={true}
+          className="dnb-alignment-helper"
         />
+      </AlignmentHelper>
+      <span
+        className="dnb-textarea__row"
+      >
+        <span
+          className="dnb-textarea__shell"
+        >
+          <textarea
+            className="dnb-textarea__textarea"
+            disabled={false}
+            id="textarea"
+            name="textarea"
+            onBlur={[Function]}
+            onChange={[Function]}
+            onFocus={[Function]}
+            role="textbox"
+            value="test"
+          />
+        </span>
       </span>
     </span>
   </span>
@@ -284,13 +301,13 @@ exports[`Textarea scss have to match snapshot 1`] = `
 .dnb-form-label {
   font-family: var(--font-family-default);
   font-weight: var(--font-weight-default);
-  font-size: var(--font-size-basis);
+  font-size: var(--font-size-small);
   font-style: normal;
   line-height: var(--line-height-basis);
   color: var(--color-black-80, #333);
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-  font-variant-numeric: lining-nums;
-  font-feature-settings: \\"lnum\\";
   /**
   * 1. Remove repeating backgrounds in all browsers (opinionated).
   * 2. Add border box sizing in all browsers (opinionated).
@@ -325,12 +342,17 @@ exports[`Textarea scss have to match snapshot 1`] = `
   padding: 0;
   margin-right: 1rem;
   text-align: left;
+  font-size: var(--font-size-basis);
   vertical-align: baseline;
   color: inherit; }
   .dnb-form-label--vertical {
     display: block;
     margin-right: 0;
     margin-bottom: 0.5rem; }
+  .dnb-form-label--sr-only {
+    width: 1px;
+    margin-left: -1px;
+    overflow: hidden; }
   .dnb-form-label[for]:not([disabled]) {
     user-select: none;
     -webkit-user-select: none;
@@ -351,13 +373,13 @@ legend.dnb-form-label {
 .dnb-form-status {
   font-family: var(--font-family-default);
   font-weight: var(--font-weight-default);
-  font-size: var(--font-size-basis);
+  font-size: var(--font-size-small);
   font-style: normal;
   line-height: var(--line-height-basis);
   color: var(--color-black-80, #333);
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-  font-variant-numeric: lining-nums;
-  font-feature-settings: \\"lnum\\";
   /**
   * 1. Remove repeating backgrounds in all browsers (opinionated).
   * 2. Add border box sizing in all browsers (opinionated).
@@ -398,8 +420,6 @@ legend.dnb-form-label {
     cursor: text;
     color: inherit;
     line-height: var(--line-height-basis); }
-    [data-os='mac'] .dnb-form-status--text {
-      transform: translateY(0.0625rem); }
   .dnb-icon + .dnb-form-status--text {
     padding-left: 0.5rem; }
   .dnb-form-status__shell > .dnb-icon {
@@ -411,7 +431,8 @@ legend.dnb-form-label {
     margin-top: 0.25em;
     margin-left: 0.5em;
     color: inherit;
-    font-size: var(--font-size-basis); }
+    font-size: var(--font-size-basis);
+    transform: translateY(-0.125rem); }
   .dnb-form-status[hidden] {
     display: none; }
   .dnb-form-status--fade-in {
@@ -431,13 +452,13 @@ legend.dnb-form-label {
 .dnb-textarea {
   font-family: var(--font-family-default);
   font-weight: var(--font-weight-default);
-  font-size: var(--font-size-basis);
+  font-size: var(--font-size-small);
   font-style: normal;
   line-height: var(--line-height-basis);
   color: var(--color-black-80, #333);
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-  font-variant-numeric: lining-nums;
-  font-feature-settings: \\"lnum\\";
   /**
   * 1. Remove repeating backgrounds in all browsers (opinionated).
   * 2. Add border box sizing in all browsers (opinionated).
@@ -633,14 +654,21 @@ textarea.dnb-textarea {
 
 .dnb-textarea {
   display: inline-flex;
-  align-items: baseline; }
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-basis); }
   .dnb-textarea__inner {
     display: inline-flex;
     flex-direction: column;
     margin: var(--textarea-padding-width); }
   .dnb-textarea__shell {
     display: inline-flex;
-    position: relative; }
+    position: relative;
+    font-size: var(--font-size-basis); }
+  .dnb-textarea__row {
+    display: inline-flex; }
+  .dnb-textarea__suffix {
+    padding-left: 1.5rem;
+    font-size: var(--font-size-basis); }
   .dnb-textarea__placeholder {
     pointer-events: none;
     position: absolute;
@@ -652,8 +680,9 @@ textarea.dnb-textarea {
     height: 100%;
     margin: 0;
     padding: 0 var(--textarea-padding-width);
-    /* IE11 fix */
-    line-height: var(--line-height-basis); }
+    font-size: var(--font-size-basis);
+    line-height: var(--line-height-basis);
+    /* IE11 fix */ }
     @media screen and (-ms-high-contrast: none) {
       .dnb-textarea__placeholder {
         padding: var(--textarea-padding-width); } }
@@ -666,10 +695,9 @@ textarea.dnb-textarea {
     box-shadow: var(--textarea-border-inner), 0 0 0 calc(var(--textarea-padding-width) + 0.0625rem) var(--color-sea-green-alt);
     margin: 0;
     padding: 0 var(--textarea-padding-width);
-    /* IE11 fix */
+    font-size: var(--font-size-basis);
     line-height: var(--line-height-basis);
-    font-variant-numeric: lining-nums;
-    font-feature-settings: \\"lnum\\"; }
+    /* IE11 fix */ }
     @media screen and (-ms-high-contrast: none) {
       .dnb-textarea__textarea {
         padding: var(--textarea-padding-width); } }
@@ -687,13 +715,16 @@ textarea.dnb-textarea {
   .dnb-textarea__inner > .dnb-form-status {
     order: 2;
     margin: 1rem 0 0 calc(1px - 1px - var(--textarea-padding-width)); }
+  .dnb-textarea:not(.dnb-textarea--vertical) .dnb-form-label {
+    margin-top: 0.5rem; }
+  .dnb-textarea--vertical {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; }
   .dnb-textarea[class*='__status'] {
     align-items: flex-start; }
     .dnb-textarea[class*='__status'] > .dnb-form-label {
       margin-top: 0.25rem; }
-  .dnb-textarea--vertical {
-    flex-direction: column;
-    align-items: flex-start; }
   .dnb-textarea--stretch {
     display: flex; }
   .dnb-textarea--stretch .dnb-textarea__inner {
@@ -701,10 +732,12 @@ textarea.dnb-textarea {
   .dnb-textarea--stretch .dnb-textarea__shell, .dnb-textarea--stretch .dnb-textarea__textarea {
     width: 100%; }
   @media (max-width: 40em) {
-    .dnb-textarea {
+    .dnb-responsive-component .dnb-textarea {
+      display: flex;
       flex-direction: column;
-      align-items: flex-start; }
-      .dnb-textarea > .dnb-form-label {
+      align-items: flex-start;
+      margin-bottom: 0.5rem; }
+      .dnb-responsive-component .dnb-textarea > .dnb-form-label {
         margin-bottom: 0.5rem; } }
   @media screen and (-ms-high-contrast: none) {
     .dnb-textarea__inner {
@@ -721,10 +754,9 @@ textarea.dnb-textarea {
   box-shadow: var(--textarea-border-inner), 0 0 0 calc(var(--textarea-padding-width) + 0.0625rem) var(--color-sea-green-alt);
   margin: 0;
   padding: 0 var(--textarea-padding-width);
-  /* IE11 fix */
+  font-size: var(--font-size-basis);
   line-height: var(--line-height-basis);
-  font-variant-numeric: lining-nums;
-  font-feature-settings: \\"lnum\\";
+  /* IE11 fix */
   border-radius: 0.5rem;
   /* IE11 fix */ }
   @media screen and (-ms-high-contrast: none) {

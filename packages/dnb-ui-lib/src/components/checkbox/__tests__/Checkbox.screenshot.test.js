@@ -21,7 +21,7 @@ describe('Checkbox unchecked screenshot', () => {
       selector: '[data-dnb-test="checkbox-default"] .dnb-checkbox',
       simulateSelector:
         '[data-dnb-test="checkbox-default"] .dnb-checkbox__input',
-      simulate: 'focus'
+      simulate: 'focus' // should be tested first
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -51,7 +51,7 @@ describe('Checkbox checked screenshot', () => {
       selector: '[data-dnb-test="checkbox-checked"] .dnb-checkbox',
       simulateSelector:
         '[data-dnb-test="checkbox-checked"] .dnb-checkbox__input',
-      simulate: 'focus'
+      simulate: 'focus' // should be tested first
     })
     expect(screenshot).toMatchImageSnapshot()
   })

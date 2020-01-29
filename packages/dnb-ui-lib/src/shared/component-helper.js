@@ -28,6 +28,10 @@ export const isMac = () =>
   typeof navigator !== 'undefined' &&
   navigator.platform.match(new RegExp(PLATFORM_MAC)) !== null
 
+export const isWin = () =>
+  typeof navigator !== 'undefined' &&
+  navigator.platform.match(new RegExp(PLATFORM_WIN)) !== null
+
 /**
  * Check if device is touch device or not
  */
@@ -193,7 +197,7 @@ export function defineNavigator() {
         document.documentElement.setAttribute('data-os', 'other')
       }
     } catch (e) {
-      console.warn('Could not apply "os attribute"', e)
+      console.warn(e)
     }
 
     document.removeEventListener('DOMContentLoaded', handleNavigator)
@@ -225,7 +229,7 @@ export const validateDOMAttributes = (props, params) => {
   }
 
   // remove disabled, in case it is false (this is for web components support)
-  if (params.disabled === null || String(params.disabled) === 'false') {
+  if (params.disabled === null || params.disabled === 'false') {
     delete params.disabled
   }
   if (typeof params.top !== 'undefined') {
@@ -245,7 +249,7 @@ export const validateDOMAttributes = (props, params) => {
   else if (params.disabled === 'true') {
     params.disabled = true
   }
-  if (params.disabled) {
+  if (params.disabled === true) {
     params['aria-disabled'] = true
   }
 
@@ -308,17 +312,30 @@ export const processChildren = props => {
   return res
 }
 
-// extends given objects recursively and removing entries with null values
+// extends given objects recursively and removes entries with null values
+// makes sure that we by defualt return a totally new object every time
 export const extend = (...objects) => {
-  const list = Array.from(objects)
-  const recursive = list[0] !== false
-  return list.reduce((acc1, object) => {
+  let first = {}
+  const keepRef = objects[0]
+
+  if (keepRef === true || keepRef === false) {
+    // remove settings value
+    objects.shift()
+
+    if (keepRef) {
+      // by extracting the first, we keep the same main object refferance
+      first = objects.shift()
+    }
+  }
+
+  return objects.reduce((acc1, object) => {
     if (object) {
       acc1 = Object.assign(
         acc1,
         Object.entries(object).reduce((acc2, [key, value]) => {
           if (value !== null) {
-            if (recursive && typeof value === 'object') {
+            // go recursively
+            if (typeof value === 'object') {
               value = extend(acc1[key] || {}, value)
               if (Object.keys(value).length > 0) {
                 acc2[key] = value
@@ -332,29 +349,39 @@ export const extend = (...objects) => {
       )
     }
     return acc1
-  }, {})
+  }, first)
 }
 
 // extends props from a given context
 // but give the context second priority only
 export const extendPropsWithContext = (
   props,
-  context
-  // ,{ acceptTrue = false } = {}
-) =>
-  extend(
-    false, // prevent recursion
-    Object.entries(context).reduce((acc, [key, value]) => {
-      if (typeof props[key] !== 'undefined' && value !== null) {
+  defaults = {},
+  ...contexts
+) => {
+  const context = contexts.reduce((acc, cur) => {
+    if (cur) {
+      acc = { ...acc, ...cur }
+    }
+    return acc
+  }, {})
+
+  return {
+    ...props,
+    ...Object.entries(context).reduce((acc, [key, value]) => {
+      if (
+        // check if a prop of the same name exists
+        typeof props[key] !== 'undefined' &&
+        // and if it was NOT defined as a component prop, because its still the same as the defualts
+        props[key] === defaults[key]
+      ) {
+        // then we use the context value
         acc[key] = value
       }
-      // if (acceptTrue && value !== true) {
-      //   acc[key] = value
-      // }
       return acc
-    }, {}),
-    props
-  )
+    }, {})
+  }
+}
 
 // check if value is "truthy"
 export const isTrue = value => {

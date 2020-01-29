@@ -2,8 +2,8 @@
 draft: true
 ---
 
-import { check_alt_01 as CheckIcon } from 'dnb-ui-lib/icons'
-import { Icon } from 'dnb-ui-lib/components'
+import { check_alt_01 as CheckIcon } from 'dnb-ui-lib/src/icons'
+import { Icon } from 'dnb-ui-lib/src/components'
 
 ## Eufemia aims to be [WCAG 2.1](https://www.w3.org/TR/WCAG21/) compliant
 
@@ -25,7 +25,7 @@ You as a developer has the responsibility to have the technical knowledge about 
 
 ## Keyboard users
 
-Should be able to navigate the application by their keyboard only. For those it is extremely important that [active focus management](uilib/usage/accessibility/focus) is done right.
+Should be able to navigate the application by their keyboard only. For those it is extremely important that [active focus management](uilib/usage/accessibility/focus) is done right and has the required [focus ring](https://www.w3.org/TR/2008/REC-WCAG20-20081211/#navigation-mechanisms-focus-visible) in place.
 
 > **2.1.1 Keyboard:** All functionality of the content is _operable through a keyboard_ interface without requiring specific timings for individual keystrokes, except where the underlying function requires input that depends on the path of the user's movement and not just the endpoints.
 

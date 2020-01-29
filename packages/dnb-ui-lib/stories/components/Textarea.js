@@ -17,7 +17,7 @@ export default [
       <Box>
         <Provider formRow={{ vertical: true }}>
           <FormRow>
-            <Textarea value="Text" label="Label:" />
+            <Textarea value="Text" label="Label:" suffix="123" />
           </FormRow>
         </Provider>
       </Box>
@@ -81,10 +81,10 @@ export default [
           label="Placeholder:"
           rows="3"
           align="right"
-          placeholder="Nec litora inceptos vestibulum id interdum donec gravida nostra
+          placeholder="Placeholder litora inceptos vestibulum id interdum donec gravida nostra
               lacinia bibendum hendrerit porttitor volutpat nam duis nisl
               scelerisque sapien erat"
-          description="Nec litora inceptos vestibulum id interdum donec gravida nostra
+          suffix="Placeholder litora inceptos vestibulum id interdum donec gravida nostra
               lacinia bibendum hendrerit porttitor volutpat nam duis nisl
               scelerisque sapien erat"
         />
@@ -112,6 +112,7 @@ export default [
               lacinia bibendum hendrerit porttitor volutpat nam duis nisl
               scelerisque sapien erat"
           status="Message to the user"
+          suffix="Error Message"
         />
         <p className="dnb-p">I have still to be on the grid!</p>
       </Box>

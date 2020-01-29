@@ -348,6 +348,71 @@ describe('DatePicker component', () => {
     ).toBe('mars 2019')
   })
 
+  it('has to react on keydown events', async () => {
+    const Comp = mount(
+      <Component
+        show_input
+        range
+        start_date={defaultProps.start_date}
+        end_date={defaultProps.end_date}
+      />
+    )
+
+    const dayElem = Comp.find('input.dnb-date-picker__input--day').at(0)
+    const monthElem = Comp.find('input.dnb-date-picker__input--month').at(
+      0
+    )
+    const yearElem = Comp.find('input.dnb-date-picker__input--year').at(0)
+
+    // set the curstor to the end of the input
+    dayElem.instance().setSelectionRange(2, 2)
+
+    // and simualte a right keydown
+    dayElem.simulate('keydown', { key: 'Right', keyCode: 39 })
+
+    // wait for the logic to complete
+    await wait(1)
+
+    // get the active focused element in the document
+    let focusedElement = document.activeElement
+
+    // and check the class of that element
+    expect(focusedElement.getAttribute('class')).toContain(
+      'dnb-date-picker__input--month'
+    )
+
+    // also test the key up to change the value on the month input
+    expect(monthElem.instance().value).toBe('01')
+    monthElem.simulate('keydown', { key: 'Up', keyCode: 38 })
+    expect(monthElem.instance().value).toBe('02')
+
+    // and simualte a left keydown
+    monthElem.simulate('keydown', { key: 'Left', keyCode: 37 })
+
+    // wait for the logic to complete
+    await wait(1)
+
+    // get the active focused element in the document
+    focusedElement = document.activeElement
+
+    // and check the class of that element
+    expect(focusedElement.getAttribute('class')).toContain(
+      'dnb-date-picker__input--day'
+    )
+
+    // also test the key up to change the value on the day input
+    expect(dayElem.instance().value).toBe('01')
+    dayElem.simulate('keydown', { key: 'Up', keyCode: 38 })
+    expect(dayElem.instance().value).toBe('02')
+
+    // also test the key up to change the value on the year input
+    expect(yearElem.instance().value).toBe('2019')
+    yearElem.simulate('keydown', { key: 'Up', keyCode: 38 })
+    expect(yearElem.instance().value).toBe('2020')
+    yearElem.simulate('keydown', { key: 'Down', keyCode: 40 })
+    expect(yearElem.instance().value).toBe('2019')
+  })
+
   it('should validate with ARIA rules as a tabs', async () => {
     const Comp = mount(
       <Component
@@ -456,3 +521,5 @@ describe('DatePicker scss', () => {
     expect(scss).toMatchSnapshot()
   })
 })
+
+const wait = t => new Promise(r => setTimeout(r, t))

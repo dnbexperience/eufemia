@@ -8,6 +8,7 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import Context from '../../shared/Context'
 import {
+  isTrue,
   registerElement,
   makeUniqueId,
   validateDOMAttributes,
@@ -27,6 +28,7 @@ const propTypes = {
   title: PropTypes.string,
   text: PropTypes.oneOfType([
     PropTypes.string,
+    PropTypes.bool,
     PropTypes.func,
     PropTypes.node
   ]),
@@ -36,8 +38,17 @@ const propTypes = {
     PropTypes.node
   ]),
   icon_size: PropTypes.string,
-  state: PropTypes.oneOf(['error', 'info']),
-  status: PropTypes.oneOf(['error', 'info']), // Deprecated
+  state: PropTypes.oneOfType([
+    PropTypes.bool,
+    PropTypes.string,
+    PropTypes.oneOf(['error', 'info'])
+  ]),
+  // status is Deprecated
+  status: PropTypes.oneOfType([
+    PropTypes.bool,
+    PropTypes.string,
+    PropTypes.oneOf(['error', 'info'])
+  ]),
   global_status_id: PropTypes.string,
   hidden: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   text_id: PropTypes.string,
@@ -91,7 +102,12 @@ export default class FormStatus extends PureComponent {
   }
 
   static getContent(props) {
-    if (props.text) return props.text
+    if (props.text) {
+      if (isTrue(props.text)) {
+        return null
+      }
+      return props.text
+    }
     if (typeof props.render_content === 'function')
       props.render_content(props)
     return processChildren(props)
@@ -99,19 +115,25 @@ export default class FormStatus extends PureComponent {
 
   static getIcon({ state, icon, icon_size }) {
     if (typeof icon === 'string') {
-      let iconToLoad = icon
+      let IconToLoad = icon
 
       switch (state) {
         case 'info':
         case 'information':
-          iconToLoad = InfoIcon
+          IconToLoad = InfoIcon
           break
         case 'error':
         default:
-          iconToLoad = ErrorIcon
+          IconToLoad = ErrorIcon
       }
 
-      icon = <Icon aria-hidden icon={iconToLoad} size={icon_size} />
+      icon = (
+        <Icon
+          icon={<IconToLoad title={null} />}
+          size={icon_size}
+          aria-hidden
+        />
+      )
     }
 
     return icon
@@ -230,11 +252,12 @@ export default class FormStatus extends PureComponent {
   }
 
   render() {
-    // consume the formRow context
-    const props = this.context.formRow
-      ? // use only the props from context, who are available here anyway
-        extendPropsWithContext(this.props, this.context.formRow)
-      : this.props
+    // use only the props from context, who are available here anyway
+    const props = extendPropsWithContext(
+      this.props,
+      defaultProps,
+      this.context.formRow
+    )
 
     const {
       title,
@@ -263,6 +286,12 @@ export default class FormStatus extends PureComponent {
       icon_size
     })
     const contentToRender = FormStatus.getContent(this.props)
+
+    // stop here if we don't have content
+    if (contentToRender === null) {
+      return <></>
+    }
+
     const hasStringContent =
       typeof contentToRender === 'string' && contentToRender.length > 0
 
@@ -317,8 +346,10 @@ export const ErrorIcon = props => (
     viewBox="0 0 32 32"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
+    role="img"
     {...props}
   >
+    {props && props.title && <title>{props.title}</title>}
     <path
       d="M16 25a.5.5 0 100 1 .5.5 0 000-1v0"
       stroke="#000"
@@ -342,6 +373,12 @@ export const ErrorIcon = props => (
     />
   </svg>
 )
+ErrorIcon.propTypes = {
+  title: PropTypes.string
+}
+ErrorIcon.defaultProps = {
+  title: 'error'
+}
 
 export const InfoIcon = props => (
   <svg
@@ -350,18 +387,21 @@ export const InfoIcon = props => (
     viewBox="0 0 32 32"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
+    role="img"
     {...props}
   >
-    <path
-      d="M16 .75C24.422.75 31.25 7.578 31.25 16S24.422 31.25 16 31.25.75 24.422.75 16 7.578.75 16 .75z"
-      stroke="#000"
-      strokeWidth="1.5"
-    />
+    {props && props.title && <title>{props.title}</title>}
     <path
       fillRule="evenodd"
       clipRule="evenodd"
-      d="M14.904 7a1.385 1.385 0 100 2.77 1.385 1.385 0 000-2.77zM13 13.346a.75.75 0 000 1.5h1.27a.52.52 0 01.519.52v6.346A3.288 3.288 0 0018.076 25h1.27a.75.75 0 000-1.5h-1.27c-.988 0-1.789-.8-1.789-1.788v-6.347a2.02 2.02 0 00-2.019-2.019H13z"
+      d="M10.1 1.08A14.75 14.75 0 00.26 15.01a14.73 14.73 0 0022.16 12.74l8.27 3.94a.75.75 0 001-1l-3.94-8.27A14.75 14.75 0 0010.1 1.08zM1.76 15.01a13.25 13.25 0 1124.5 6.97.75.75 0 00-.04.72l3.2 6.73-6.72-3.2a.75.75 0 00-.72.04A13.23 13.23 0 011.76 15zM13.38 7.9a1.31 1.31 0 112.63 0 1.31 1.31 0 01-2.63 0zm-1.13 5.07c0-.41.34-.75.75-.75h1.13c1.04 0 1.88.85 1.88 1.88v5.64c0 .84.67 1.51 1.5 1.51h1.13a.75.75 0 110 1.5h-1.13a3 3 0 01-3-3V14.1c0-.2-.17-.38-.38-.38H13a.75.75 0 01-.75-.75z"
       fill="#000"
     />
   </svg>
 )
+InfoIcon.propTypes = {
+  title: PropTypes.string
+}
+InfoIcon.defaultProps = {
+  title: 'info'
+}

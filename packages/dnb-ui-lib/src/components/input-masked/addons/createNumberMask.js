@@ -165,5 +165,5 @@ function convertToMask(strNumber) {
 
 // http://stackoverflow.com/a/10899795/604296
 function addThousandsSeparator(n, thousandsSeparatorSymbol) {
-  return n.replace(/\B(?=(\d{3})+(?!\d))/g, thousandsSeparatorSymbol)
+  return n.replace(/\B(?=(\d{3})+(?!\d))/g, thousandsSeparatorSymbol) // eslint-disable-line
 }

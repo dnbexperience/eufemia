@@ -13,8 +13,8 @@ __tests__
 /package
 /scripts
 /src
-/dist
 /stories
+/dnb-ui-resources
 dnb-ui-lib-*.tgz
 README.md
 .ncurc.json
@@ -38,6 +38,7 @@ README.md
 .prettierignore
 .browserslistrc
 babel.config.js
+babel.config.cjs
 audit-ci.json
 
 # conf

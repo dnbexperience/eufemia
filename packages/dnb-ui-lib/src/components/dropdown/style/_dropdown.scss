@@ -22,6 +22,7 @@
   &:not(#{&}--no-animation) {
     animation: dropdown-slide-down 200ms ease-out 1 forwards;
   }
+  html[data-dnb-test] &,
   &--no-animation {
     animation: dropdown-slide-down 1ms ease-out 1 forwards;
   }
@@ -30,6 +31,7 @@
   &:not(#{&}--no-animation) {
     animation: dropdown-slide-ip 150ms ease-out 1 forwards;
   }
+  html[data-dnb-test] &,
   &--no-animation {
     animation: dropdown-slide-ip 1ms ease-out 1 forwards;
   }
@@ -42,6 +44,9 @@
   display: inline-flex;
   align-items: center;
 
+  font-size: var(--font-size-small);
+  line-height: var(--dropdown-height);
+
   &__inner {
     display: inline-flex;
     flex-direction: column;
@@ -52,27 +57,11 @@
 
     width: auto;
 
-    font-size: var(--font-size-basis);
-    font-weight: var(--font-weight-default);
-
     color: inherit;
-  }
-
-  // if no label is provided, then make sure we have some text to align the button
-  &__helper {
-    clip: rect(0, 0, 0, 0);
-    width: 0;
-    overflow: hidden;
-    opacity: 0;
   }
 
   &__shell {
     position: relative;
-
-    // make the dropdown appear vertical centered to the label and body text
-    // do not use transform: translateY because of z-index¨
-    // we use therefore top
-    top: -0.0625rem;
 
     width: var(--dropdown-width);
     height: var(--dropdown-height);
@@ -81,6 +70,14 @@
     padding: 0;
 
     color: inherit;
+  }
+
+  &__row {
+    display: inline-flex;
+  }
+
+  &__suffix {
+    padding-left: 0.5rem;
   }
 
   &__content {
@@ -103,6 +100,7 @@
     margin: 0;
     padding: 0;
 
+    font-size: var(--font-size-basis);
     background-color: transparent;
 
     transform: translateY(0);
@@ -189,12 +187,21 @@
     position: relative;
     order: 2;
 
-    pointer-events: none;
-    color: inherit;
+    display: inline-flex;
+    justify-content: center;
 
-    .dnb-icon {
-      color: inherit;
-    }
+    pointer-events: none;
+
+    // The rest was used before we used flex
+    // color: inherit;
+    // font-size: var(--font-size-small); // has to be 16px
+    // &.dnb-icon > span {
+    //   display: inline-flex;
+    //
+    //   svg {
+    //     vertical-align: top; // so we don't get the gap on top
+    //   }
+    // }
   }
 
   // arrow
@@ -279,27 +286,39 @@
     width: 100%;
   }
   &--is-popup &__list {
-    left: calc(1px - 2px - var(--dropdown-padding-horizontal) / 2);
+    left: -0.5rem;
   }
   &--is-popup#{&}--scroll &__options {
     min-height: 1rem;
   }
+  // small popup
   &--is-popup#{&}__size--small &__shell,
   &--is-popup#{&}__size--small &__trigger {
     width: var(--dropdown-height--small);
   }
   &--is-popup#{&}__size--small &__list {
-    left: calc(1px - 2px - var(--dropdown-height--small) / 2);
+    left: -0.75rem;
   }
   &--is-popup#{&}__align--right &__list {
     left: auto;
-    right: calc(1px - 2px - var(--dropdown-padding-horizontal) / 2);
+    right: -0.5rem;
   }
   &--is-popup#{&}__align--right#{&}__size--small &__list {
-    right: calc(1px - 2px - var(--dropdown-height--small) / 2);
+    left: -0.75rem;
+  }
+  // medium popup - TODO: needs &__list correction
+  &--is-popup#{&}__size--medium &__trigger {
+    width: var(--dropdown-height--medium);
+  }
+  // large popup - TODO: needs &__list correction
+  &--is-popup#{&}__size--large &__trigger {
+    width: var(--dropdown-height--large);
   }
 
   // Size--small
+  &__size--small {
+    line-height: var(--dropdown-height--small);
+  }
   &__size--small &__shell,
   &__size--small &__trigger {
     height: var(--dropdown-height--small);
@@ -316,6 +335,9 @@
   }
 
   // Size--medium
+  &__size--medium {
+    line-height: var(--dropdown-height--medium);
+  }
   &__size--medium &__shell,
   &__size--medium &__trigger {
     height: var(--dropdown-height--medium);
@@ -333,6 +355,9 @@
   }
 
   // Size--large
+  &__size--large {
+    line-height: var(--dropdown-height--large);
+  }
   &__size--large &__shell,
   &__size--large &__trigger {
     height: var(--dropdown-height--large);
@@ -365,8 +390,7 @@
     color: inherit;
     text-align: left;
     text-overflow: ellipsis;
-
-    @include numberFeature(lining-nums, lnum);
+    font-size: var(--font-size-basis);
 
     &__inner {
       display: inline-block;
@@ -387,11 +411,6 @@
       text-decoration: none;
       text-overflow: inherit;
       text-align: inherit;
-
-      // vertical alignment
-      [data-os='mac'] & {
-        transform: translateY(0.0625rem);
-      }
     }
   }
 
@@ -419,8 +438,9 @@
     padding: 0.5rem 0 1rem var(--dropdown-padding-horizontal);
   }
 
-  > .dnb-form-label {
+  & > .dnb-form-label {
     margin-right: 1rem;
+    line-height: var(--line-height-basis);
   }
 
   label + &[class*='__form-status'] {
@@ -439,9 +459,7 @@
     flex-direction: column;
     align-items: flex-start;
   }
-  &--vertical &__helper {
-    display: none;
-  }
+
   &[class*='__status'] {
     align-items: flex-start;
     > .dnb-form-label {
@@ -450,15 +468,20 @@
     }
   }
 
-  @media (max-width: 40em) {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    > .dnb-form-label {
+  .dnb-responsive-component & {
+    @media (max-width: 40em) {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+
       margin-bottom: 0.5rem;
-    }
-    &__helper {
-      display: none;
+
+      > .dnb-form-label {
+        margin-bottom: 0.5rem;
+      }
+      &__helper {
+        display: none;
+      }
     }
   }
 

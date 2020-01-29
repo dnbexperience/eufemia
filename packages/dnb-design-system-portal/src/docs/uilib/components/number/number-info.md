@@ -94,10 +94,10 @@ You can send down the `locale` as an application wide property (Context). More i
 import Provider from 'dnb-ui-lib/shared/Provider'
 
 render(
-  <Provider locale="en" currency_display="code">
-    <YourApp>
+  <Provider locale="en-US" currency_display="code">
+    <MyApp>
       text <Number>123</Number> table etc.
-    </YourApp>
+    </MyApp>
   </Provider>
 )
 ```
