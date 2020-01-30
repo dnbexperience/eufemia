@@ -70,7 +70,6 @@ exports[`FormStatus component have to match snapshot 1`] = `
         aria-hidden={true}
         attributes={null}
         border={null}
-        class={null}
         className={null}
         color={null}
         height={null}

@@ -67,13 +67,15 @@ export default [
           status="error"
           left
         />
+      </Box>
+      <Box>
         <Button
           icon="chevron_right"
           icon_size="medium"
           size="default"
           status="Hello"
           disabled
-          left
+          // left
         />
       </Box>
       <Box>

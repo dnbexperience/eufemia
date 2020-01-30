@@ -151,7 +151,6 @@ exports[`Slider component have to match snapshot 1`] = `
                 aria-hidden={null}
                 attributes={null}
                 border={null}
-                class={null}
                 className="dnb-button__icon"
                 color={null}
                 height={null}
@@ -380,7 +379,6 @@ exports[`Slider component have to match snapshot 1`] = `
                 aria-hidden={null}
                 attributes={null}
                 border={null}
-                class={null}
                 className="dnb-button__icon"
                 color={null}
                 height={null}
@@ -826,6 +824,8 @@ exports[`Slider scss have to match snapshot 1`] = `
     cursor: not-allowed; }
   .dnb-form-row--vertical .dnb-form-row__content > .dnb-button {
     align-self: flex-start; }
+  .dnb-button + .dnb-form-status {
+    margin-top: 0.5rem; }
   @media screen and (-ms-high-contrast: none) {
     .dnb-button {
       flex: none; }
