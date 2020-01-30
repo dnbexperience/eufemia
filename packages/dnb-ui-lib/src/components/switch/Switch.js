@@ -311,41 +311,43 @@ export default class Switch extends Component {
               {(label_position === 'right' || !label_position) &&
                 labelComp}
 
-              <input
-                id={id}
-                name={id}
-                type="checkbox"
-                role="switch"
-                title={title}
-                aria-checked={checked}
-                className="dnb-switch__input"
-                value={checked ? value || '' : ''}
-                ref={this._refInput}
-                {...inputParams}
-                onChange={this.onChangeHandler}
-                onKeyDown={this.onKeyDownHandler}
-              />
-              <span
-                draggable
-                aria-hidden
-                className="dnb-switch__background"
-                onDragStart={this.onChangeHandler}
-                {...this.helperParams}
-              />
-              <span className="dnb-switch__button" aria-hidden>
-                <span className="dnb-switch__focus">
-                  <span className="dnb-switch__focus__inner" />
-                </span>
-              </span>
-
-              {suffix && (
+              <span className="dnb-switch__row">
+                <input
+                  id={id}
+                  name={id}
+                  type="checkbox"
+                  role="switch"
+                  title={title}
+                  aria-checked={checked}
+                  className="dnb-switch__input"
+                  value={checked ? value || '' : ''}
+                  ref={this._refInput}
+                  {...inputParams}
+                  onChange={this.onChangeHandler}
+                  onKeyDown={this.onKeyDownHandler}
+                />
                 <span
-                  className="dnb-switch__suffix"
-                  id={id + '-suffix'} // used for "aria-describedby"
-                >
-                  <Suffix {...props}>{suffix}</Suffix>
+                  draggable
+                  aria-hidden
+                  className="dnb-switch__background"
+                  onDragStart={this.onChangeHandler}
+                  {...this.helperParams}
+                />
+                <span className="dnb-switch__button" aria-hidden>
+                  <span className="dnb-switch__focus">
+                    <span className="dnb-switch__focus__inner" />
+                  </span>
                 </span>
-              )}
+
+                {suffix && (
+                  <span
+                    className="dnb-switch__suffix"
+                    id={id + '-suffix'} // used for "aria-describedby"
+                  >
+                    <Suffix {...props}>{suffix}</Suffix>
+                  </span>
+                )}
+              </span>
             </span>
           </span>
         </span>
