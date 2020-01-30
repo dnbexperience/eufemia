@@ -127,6 +127,7 @@ With v6 the `dnb-ui-lib` has it's own localization to be used both for component
 - New [Table](/uilib/elements/tables#working-demo) style / icons on sorting buttons. Icon change: from `chevron` to `arrow`.
 - All form components now have a `suffix` property e.g. [Slider](/uilib/components/slider).
 - [GlobalStatus](/uilib/components/global-status) now supports visual type of info: `state="info"`.
+- [FormStatus](/uilib/components/form-status) has now their own icons. You can [import these icons separately](/uilib/components/form-status#use-the-icons-only).
 
 ## Resources package
 

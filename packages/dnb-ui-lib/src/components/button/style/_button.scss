@@ -248,6 +248,10 @@
     align-self: flex-start;
   }
 
+  & + .dnb-form-status {
+    margin-top: 0.5rem;
+  }
+
   // IE fix
   @media screen and (-ms-high-contrast: none) {
     flex: none;

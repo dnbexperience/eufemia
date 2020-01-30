@@ -195,8 +195,10 @@ export default css`
       border-top: solid 1px #c4c4c4;
     }
 
-    img {
+    img:not([width]) {
       width: 100%;
+    }
+    img:not(width) {
       margin-bottom: 2rem;
     }
     /* SVG illustration helper for increasing font-size */
@@ -301,10 +303,6 @@ export default css`
   }
   .lh-32 {
     line-height: calc(var(--line-height-basis) + 1rem); /* 2rem */
-  }
-
-  .gatsby-resp-image-background-image {
-    padding-bottom: 0 !important;
   }
 
   /* Do not delete, this is used for screenshot testing */

@@ -56,7 +56,7 @@ const propTypes = {
   alt: PropTypes.string,
   title: PropTypes.string,
   attributes: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-  class: PropTypes.string,
+
   // React props
   className: PropTypes.string,
   children: PropTypes.oneOfType([
@@ -77,7 +77,7 @@ const defaultProps = {
   alt: null,
   title: null,
   attributes: null,
-  class: null,
+
   // React props
   className: null,
   children: null
