@@ -7,6 +7,7 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import { validateDOMAttributes } from '../../shared/component-helper'
+import { isIE11, isEdge } from '../../shared/helpers'
 
 const propTypes = {
   size: PropTypes.string,
@@ -38,7 +39,8 @@ export default class ProgressIndicatorCircular extends PureComponent {
   }
   constructor(props) {
     super(props)
-    this.useAnimationFrame = typeof props.onComplete === 'function'
+    this.useAnimationFrame =
+      typeof props.onComplete === 'function' || isIE11 || isEdge
     this._refDark = React.createRef()
     this._refLight = React.createRef()
     this.state = { animate: false }

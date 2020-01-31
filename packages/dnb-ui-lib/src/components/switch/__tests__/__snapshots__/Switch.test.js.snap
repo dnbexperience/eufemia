@@ -78,72 +78,76 @@ exports[`Switch component have to match snapshot 1`] = `
         <span
           className="dnb-switch__shell"
         >
-          <input
-            aria-checked={false}
-            aria-describedby=" id-suffix"
-            checked={false}
-            className="dnb-switch__input"
-            disabled={false}
-            id="id"
-            name="id"
-            onChange={[Function]}
-            onKeyDown={[Function]}
-            onMouseOut={[Function]}
-            role="switch"
-            title="title"
-            type="checkbox"
-            value=""
-          />
           <span
-            aria-hidden={true}
-            className="dnb-switch__background"
-            draggable={true}
-            onDragStart={[Function]}
-            onMouseDown={[Function]}
-          />
-          <span
-            aria-hidden={true}
-            className="dnb-switch__button"
+            className="dnb-switch__row"
           >
+            <input
+              aria-checked={false}
+              aria-describedby=" id-suffix"
+              checked={false}
+              className="dnb-switch__input"
+              disabled={false}
+              id="id"
+              name="id"
+              onChange={[Function]}
+              onKeyDown={[Function]}
+              onMouseOut={[Function]}
+              role="switch"
+              title="title"
+              type="checkbox"
+              value=""
+            />
             <span
-              className="dnb-switch__focus"
+              aria-hidden={true}
+              className="dnb-switch__background"
+              draggable={true}
+              onDragStart={[Function]}
+              onMouseDown={[Function]}
+            />
+            <span
+              aria-hidden={true}
+              className="dnb-switch__button"
             >
               <span
-                className="dnb-switch__focus__inner"
-              />
+                className="dnb-switch__focus"
+              >
+                <span
+                  className="dnb-switch__focus__inner"
+                />
+              </span>
             </span>
-          </span>
-          <span
-            className="dnb-switch__suffix"
-            id="id-suffix"
-          >
-            <Suffix
-              attributes="attributes"
-              checked="checked"
-              class="class"
-              className="className"
-              custom_element={Object {}}
-              custom_method={[Function]}
-              default_state="default_state"
-              disabled="disabled"
-              global_status_id="global_status_id"
-              id="id"
-              label="label"
-              label_direction="horizontal"
-              label_position="left"
-              on_change={[Function]}
-              on_change_end={[Function]}
-              on_state_update={[Function]}
-              readOnly={false}
-              status={null}
-              status_animation="status_animation"
-              status_state="status_state"
-              suffix="suffix"
-              title="title"
-              value="value"
+            <span
+              className="dnb-switch__suffix"
+              id="id-suffix"
             >
-              suffix
-            </Suffix>
+              <Suffix
+                attributes="attributes"
+                checked="checked"
+                class="class"
+                className="className"
+                custom_element={Object {}}
+                custom_method={[Function]}
+                default_state="default_state"
+                disabled="disabled"
+                global_status_id="global_status_id"
+                id="id"
+                label="label"
+                label_direction="horizontal"
+                label_position="left"
+                on_change={[Function]}
+                on_change_end={[Function]}
+                on_state_update={[Function]}
+                readOnly={false}
+                status={null}
+                status_animation="status_animation"
+                status_state="status_state"
+                suffix="suffix"
+                title="title"
+                value="value"
+              >
+                suffix
+              </Suffix>
+            </span>
           </span>
         </span>
       </span>
@@ -543,6 +547,9 @@ legend.dnb-form-label {
     display: flex;
     align-items: center;
     height: var(--switch-height); }
+  .dnb-switch__row {
+    display: inline-flex;
+    align-items: center; }
   .dnb-switch__focus, .dnb-switch__button {
     position: absolute;
     z-index: 4;

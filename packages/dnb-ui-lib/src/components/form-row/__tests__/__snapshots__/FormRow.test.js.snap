@@ -294,9 +294,6 @@ legend.dnb-form-label {
   @media (max-width: 40em) {
     .dnb-form-row:not(.dnb-form-row--vertical)[class*='__indent'] {
       display: block; } }
-  .dnb-form-row:not(.dnb-form-row--vertical)[class*='__indent'] .dnb-form-label {
-    margin-top: 0.25rem;
-    /* 4/16 */ }
   .dnb-form-row:not(.dnb-form-row--vertical)[class*='__indent'] .dnb-form-row__label-dummy {
     margin-top: 0; }
   @media (max-width: 40em) {
@@ -315,9 +312,6 @@ legend.dnb-form-label {
     flex-direction: column; }
   .dnb-form-row--vertical-label {
     flex-direction: column; }
-  @media (max-width: 40em) {
-    .dnb-form-row .dnb-form-component {
-      margin-bottom: 0.5rem; } }
   .dnb-form-row > .dnb-form-status {
     margin: 0.5rem 0; }
   .dnb-form-row > .dnb-form-label--vertical {

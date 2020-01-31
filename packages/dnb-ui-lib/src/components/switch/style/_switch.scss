@@ -35,6 +35,11 @@
     height: var(--switch-height);
   }
 
+  &__row {
+    display: inline-flex;
+    align-items: center;
+  }
+
   &__focus,
   &__button {
     position: absolute;
