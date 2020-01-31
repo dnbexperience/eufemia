@@ -2,7 +2,7 @@
 draft: true
 ---
 
-import Examples from 'Pages/uilib/components/global-error/Examples'
+import Examples from 'Pages/uilib/components/global-error/global-error-examples'
 
 ## Description
 
