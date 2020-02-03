@@ -20,6 +20,7 @@ exports[`FormRow component have to match snapshot 1`] = `
   no_fieldset="no_fieldset"
   no_label="no_label"
   render_content={[Function]}
+  responsive="responsive"
   section_spacing="section_spacing"
   section_style="section_style"
   skipContentWrapperIfNested={true}
@@ -75,7 +76,7 @@ exports[`FormRow component have to match snapshot 1`] = `
           </Element>
         </FormLabel>
         <div
-          className="dnb-form-row__content dnb-form-row__content--indent_offset"
+          className="dnb-form-row__content dnb-form-row__content--indent_offset dnb-responsive-component"
         >
           children
         </div>

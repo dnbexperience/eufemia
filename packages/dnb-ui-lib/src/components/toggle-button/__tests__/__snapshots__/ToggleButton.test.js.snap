@@ -387,6 +387,7 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
       no_fieldset={null}
       no_label={false}
       render_content={null}
+      responsive={true}
       section_spacing={null}
       section_style={null}
       skipContentWrapperIfNested={true}
@@ -442,7 +443,7 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
               </Element>
             </FormLabel>
             <div
-              className="dnb-form-row__content dnb-form-row__content--default"
+              className="dnb-form-row__content dnb-form-row__content--default dnb-responsive-component"
             >
               <span
                 aria-labelledby="group-label"
