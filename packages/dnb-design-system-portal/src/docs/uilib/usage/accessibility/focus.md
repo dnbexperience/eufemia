@@ -8,7 +8,9 @@ import SkipLinkExample from 'Pages/uilib/usage/accessibility/examples/skip-link-
 
 # Focus Management
 
-Page Focus is an important part of keyboard-only navigation.
+Page Focus is an important part of keyboard-only and screen reader navigation.
+
+Make sure you handle or your setup like a SPA Router is setting the focus properly on page or context changes. Consider of using Reach Router [because of the build-in accessibility feature](https://reach.tech/router/accessibility).
 
 From the technical side, we have to assign an _invisible_ focus, so the user can continue the navigation inside this new content.
 
