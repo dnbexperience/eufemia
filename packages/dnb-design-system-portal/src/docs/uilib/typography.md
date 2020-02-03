@@ -167,3 +167,17 @@ Read more [about Fonts in the Designer Guides](/quickguide-designer/fonts/)
 - `.dnb-anchor--focus` <a href="/" class="dnb-anchor dnb-anchor--focus">Focus Style</a>
 
 Read more about the [Anchor / Text Link](/uilib/elements/anchor)
+
+## DNB Mono (monospace)
+
+DNB hast it's own monospace typeface (`font-family`).
+
+Use it either by a CSS class `.dnb-typo-mono-regular` or define your own like so:
+
+```css
+.css-selector {
+  font-family: var(--font-family-monospace);
+  font-weight: normal;
+  font-style: normal;
+}
+```
