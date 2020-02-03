@@ -6,12 +6,9 @@
 @mixin getDefaultProperties() {
   // Typography Family
   --font-family-default: DNB, sans-serif;
-  --font-family-monospace: /* macOS 10.10+ */ Menlo,
-    /* Windows 6+ */ Consolas, /* Android 4+ */ Roboto Mono,
-    /* Ubuntu 10.10+ */ Ubuntu Monospace, /* KDE Plasma 5+ */ Noto Mono,
-    /* KDE Plasma 4+ */ Oxygen Mono,
-    /* Linux/OpenOffice fallback */ Liberation Mono,
-    /* fallback */ monospace;
+  --font-family-monospace: DNBMono, Menlo, Consolas, 'Roboto Mono',
+    'Ubuntu Monospace', 'Noto Mono', 'Oxygen Mono', 'Liberation Mono',
+    monospace;
 
   // Deprecated
   --font-family-book: DNB, sans-serif; // Deprecated
