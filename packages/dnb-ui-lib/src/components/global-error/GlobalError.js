@@ -67,6 +67,10 @@ const defaultProps = {
 
 function GlobalError(props) {
   const {
+    translation: { GlobalError: contextContent }
+  } = React.useContext(Context)
+
+  const {
     useTitle,
     useAlt,
     backHandler,
@@ -75,7 +79,7 @@ function GlobalError(props) {
     params,
     textParams,
     additionalContent
-  } = prepareLogic(props)
+  } = prepareLogic(props, contextContent)
 
   return (
     <div {...params}>
@@ -126,7 +130,7 @@ GlobalError.getContent = props => {
   return processChildren(props)
 }
 
-const prepareLogic = props => {
+const prepareLogic = (props, contextContent) => {
   const {
     status,
     back,
@@ -161,9 +165,6 @@ const prepareLogic = props => {
   }
 
   if (status_content === null) {
-    const {
-      translation: { GlobalError: contextContent }
-    } = React.useContext(Context)
     status_content = contextContent
   }
 
