@@ -46,6 +46,7 @@ export const propTypes = {
   section_style: PropTypes.string,
   section_spacing: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   global_status_id: PropTypes.string,
+  responsive: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   class: PropTypes.string,
 
@@ -81,6 +82,7 @@ const defaultProps = {
   section_style: null,
   section_spacing: null,
   global_status_id: null,
+  responsive: true,
   disabled: null,
   class: null,
 
@@ -161,6 +163,7 @@ export default class FormRow extends PureComponent {
       section_style,
       section_spacing,
       global_status_id,
+      responsive,
       disabled,
       wrap,
       id: _id, // eslint-disable-line
@@ -249,6 +252,7 @@ export default class FormRow extends PureComponent {
         direction,
         vertical,
         label_direction: isTrue(vertical) ? 'vertical' : label_direction,
+        responsive,
         disabled
       }
       this._contextWeUse = extend(this.context, {
@@ -294,7 +298,8 @@ export default class FormRow extends PureComponent {
                   label &&
                     !isTrue(vertical) &&
                     direction !== 'vertical' &&
-                    `dnb-form-row__content--${indent_offset || 'default'}`
+                    `dnb-form-row__content--${indent_offset || 'default'}`,
+                  responsive && 'dnb-responsive-component'
                 )}
                 ref={this._contentRef}
               >
