@@ -1,5 +1,5 @@
 ---
-title: 'GlobalError'
+title: 'GlobalError (404)'
 description: 'The GlobalError is a simple component to integrate where a 404 or 500 message has to be shown.'
 draft: false
 status: 'new'
@@ -11,7 +11,7 @@ import Tabs from 'Tags/Tabs'
 import GlobalErrorInfo from 'Pages/uilib/components/global-error/global-error-info'
 import GlobalErrorProperties from 'Pages/uilib/components/global-error/global-error-properties'
 
-# GlobalError
+# GlobalError (404)
 
 <Tabs>
   <Tabs.Content>
