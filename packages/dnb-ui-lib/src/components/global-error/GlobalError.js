@@ -3,7 +3,7 @@
  *
  */
 
-import React, { Fragment } from 'react'
+import React, { PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import Context from '../../shared/Context'
@@ -65,178 +65,156 @@ const defaultProps = {
   ...renderProps
 }
 
-function GlobalError(props) {
-  const {
-    translation: { GlobalError: contextContent }
-  } = React.useContext(Context)
+export default class GlobalError extends PureComponent {
+  static tagName = 'dnb-global-error'
+  static propTypes = propTypes
+  static defaultProps = defaultProps
+  static contextType = Context
 
-  const {
-    useTitle,
-    useAlt,
-    backHandler,
-    href,
-    back,
-    params,
-    textParams,
-    additionalContent
-  } = prepareLogic(props, contextContent)
-
-  return (
-    <div {...params}>
-      <div className="dnb-global-error__inner">
-        {(typeof back === 'string' && (
-          <Button
-            className="dnb-global-error__back"
-            variant="tertiary"
-            icon="chevron_left"
-            icon_position="left"
-            text={back}
-            href={href}
-            on_click={backHandler}
-          />
-        )) ||
-          back}
-        <Svg
-          status={props.status}
-          title={useAlt}
-          role="img"
-          className="dnb-global-error__gfx"
-        />
-        <div className="dnb-global-error__inner__content">
-          <H1 top="4" bottom="large">
-            {useTitle}
-          </H1>
-          <P bottom="large" {...textParams} />
-        </div>
-        {additionalContent}
-      </div>
-    </div>
-  )
-}
-
-export default GlobalError
-
-GlobalError.tagName = 'dnb-global-error'
-GlobalError.propTypes = propTypes
-GlobalError.defaultProps = defaultProps
-
-GlobalError.enableWebComponent = () => {
-  registerElement(GlobalError.tagName, GlobalError, defaultProps)
-}
-GlobalError.getContent = props => {
-  if (typeof props.render_content === 'function') {
-    props.render_content(props)
+  static enableWebComponent() {
+    registerElement(GlobalError.tagName, GlobalError, defaultProps)
   }
-  return processChildren(props)
-}
-
-const prepareLogic = (props, contextContent) => {
-  const {
-    status,
-    back,
-    href,
-
-    render_content: _render_content, // eslint-disable-line
-    status_content: _status_content, // eslint-disable-line
-    title: _title, // eslint-disable-line
-    text: _text, // eslint-disable-line
-    className,
-    class: _className, // eslint-disable-line
-
-    ...attributes
-  } = props
-
-  let {
-    status_content,
-    title: useTitle,
-    text: useText,
-    alt: useAlt
-  } = props
-
-  if (useTitle) {
-    useTitle = renderOrNot(useTitle)
-  }
-  if (useText) {
-    useText = renderOrNot(useText)
-  }
-
-  if (typeof status_content === 'string' && status_content[0] === '{') {
-    status_content = JSON.parse(status_content)
-  }
-
-  if (status_content === null) {
-    status_content = contextContent
-  }
-
-  if (status_content && status_content[status]) {
-    let { title, text, alt } = status_content[status]
-    if (!useTitle && useTitle !== '') {
-      useTitle = title
+  static getContent(props) {
+    if (typeof props.render_content === 'function') {
+      props.render_content(props)
     }
-    if (!useText && useText !== '') {
-      useText = text
-    }
-    if (!useAlt && useAlt !== '') {
-      useAlt = alt
-    }
+    return processChildren(props)
   }
 
-  const backHandler = () =>
-    !href && (typeof window !== 'undefined' ? window.history.back() : null)
+  render() {
+    const {
+      status,
+      back,
+      href,
 
-  if (typeof useText === 'string' && /\[/.test(useText)) {
-    try {
-      let parts = useText.split(/\[(.*)\](\(\/back\))/g)
-      if (parts.length > 1) {
-        const backIndex = parts.findIndex(v => /\/back/.test(v))
-        if (backIndex !== -1) {
-          // the first one will be
-          parts[backIndex - 1] = (
-            <a className="dnb-anchor" href=";" onClick={backHandler}>
-              {parts[1]}
-            </a>
-          )
-
-          useText = parts
-            .filter(v => v && !/\/back/.test(v))
-            .map((c, i) => <Fragment key={i}>{c}</Fragment>)
-        }
-      }
-    } catch (e) {
-      console.warn(e)
-    }
-  }
-
-  const textParams = {}
-  if (typeof useText === 'string') {
-    textParams.dangerouslySetInnerHTML = { __html: useText }
-  } else {
-    textParams.children = useText
-  }
-  const additionalContent = GlobalError.getContent(props)
-
-  const params = {
-    className: classnames(
-      'dnb-global-error',
-      `dnb-global-error--${status}`,
-      createSpacingClasses(props),
+      render_content: _render_content, // eslint-disable-line
+      status_content: _status_content, // eslint-disable-line
+      title: _title, // eslint-disable-line
+      text: _text, // eslint-disable-line
       className,
-      _className
-    ),
-    ...attributes
-  }
+      class: _className, // eslint-disable-line
 
-  return {
-    useTitle,
-    useAlt,
-    backHandler,
-    href,
-    back,
-    params,
-    textParams,
-    additionalContent
+      ...attributes
+    } = this.props
+
+    let {
+      status_content,
+      title: useTitle,
+      text: useText,
+      alt: useAlt
+    } = this.props
+
+    if (useTitle) {
+      useTitle = renderOrNot(useTitle)
+    }
+    if (useText) {
+      useText = renderOrNot(useText)
+    }
+
+    if (typeof status_content === 'string' && status_content[0] === '{') {
+      status_content = JSON.parse(status_content)
+    }
+
+    if (status_content === null) {
+      const {
+        translation: { GlobalError: contextContent }
+      } = this.context
+      status_content = contextContent
+    }
+
+    if (status_content && status_content[status]) {
+      let { title, text, alt } = status_content[status]
+      if (!useTitle && useTitle !== '') {
+        useTitle = title
+      }
+      if (!useText && useText !== '') {
+        useText = text
+      }
+      if (!useAlt && useAlt !== '') {
+        useAlt = alt
+      }
+    }
+
+    const backHandler = () =>
+      !href &&
+      (typeof window !== 'undefined' ? window.history.back() : null)
+
+    if (typeof useText === 'string' && /\[/.test(useText)) {
+      try {
+        let parts = useText.split(/\[(.*)\](\(\/back\))/g)
+        if (parts.length > 1) {
+          const backIndex = parts.findIndex(v => /\/back/.test(v))
+          if (backIndex !== -1) {
+            // the first one will be
+            parts[backIndex - 1] = (
+              <a className="dnb-anchor" href=";" onClick={backHandler}>
+                {parts[1]}
+              </a>
+            )
+
+            useText = parts
+              .filter(v => v && !/\/back/.test(v))
+              .map((c, i) => <Fragment key={i}>{c}</Fragment>)
+          }
+        }
+      } catch (e) {
+        console.warn(e)
+      }
+    }
+
+    const textParams = {}
+    if (typeof useText === 'string') {
+      textParams.dangerouslySetInnerHTML = { __html: useText }
+    } else {
+      textParams.children = useText
+    }
+    const additionalContent = GlobalError.getContent(this.props)
+
+    const params = {
+      className: classnames(
+        'dnb-global-error',
+        `dnb-global-error--${status}`,
+        createSpacingClasses(this.props),
+        className,
+        _className
+      ),
+      ...attributes
+    }
+
+    return (
+      <div {...params}>
+        <div className="dnb-global-error__inner">
+          {(typeof back === 'string' && (
+            <Button
+              className="dnb-global-error__back"
+              variant="tertiary"
+              icon="chevron_left"
+              icon_position="left"
+              text={back}
+              href={href}
+              on_click={backHandler}
+            />
+          )) ||
+            back}
+          <Svg
+            status={this.props.status}
+            title={useAlt}
+            role="img"
+            className="dnb-global-error__gfx"
+          />
+          <div className="dnb-global-error__inner__content">
+            <H1 top="4" bottom="large">
+              {useTitle}
+            </H1>
+            <P bottom="large" {...textParams} />
+          </div>
+          {additionalContent}
+        </div>
+      </div>
+    )
   }
 }
+
 const renderOrNot = C => (typeof C === 'function' ? C() : C)
 
 const Svg = ({ status, ...props }) => {
