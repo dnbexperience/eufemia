@@ -7,7 +7,7 @@ import Examples from 'Pages/uilib/components/form-row/Examples'
 
 ## Description
 
-The FormRow component is a helper to archive more easily often used DNB form layout setups. By default a `FormRow` is using the `<formset>` and `<legend>` HTML elements - if a label property is provided.
+The FormRow component is a helper to archive more easily often used DNB form layout setups. By default a `FormRow` is using the `<fieldset>` and `<legend>` HTML elements - if a label property is provided.
 
 ## Layout direction
 
@@ -47,6 +47,19 @@ There are three possible layout properties for the FormRow children:
 {`
 <FormRow vertical>
   <Input label="Label:" bottom />
+  <Input label="Label:" />
+</FormRow>
+`}
+</ComponentBox>
+
+### Default
+
+This is how it looks if you don't make any definitions.
+
+<ComponentBox>
+{`
+<FormRow>
+  <Input label="Label:" right />
   <Input label="Label:" />
 </FormRow>
 `}

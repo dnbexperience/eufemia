@@ -30,7 +30,7 @@ Eufemia includes a range of tools to help you make better accessible application
 
 - [Number](!/uilib/components/number) makes numbers accessible for screen readers.
 - [GlobalStatus](!/uilib/components/global-status) includes grouping of form status messages and live announcements for screen readers.
-- [FormRow](!/uilib/components/form-row) includes `<formset>` and `<legend>`.
+- [FormRow](!/uilib/components/form-row) includes `<fieldset>` and `<legend>`.
 
 All form components includes a `label` property to bind automatically the FormLabel to the components (HTML element).
 

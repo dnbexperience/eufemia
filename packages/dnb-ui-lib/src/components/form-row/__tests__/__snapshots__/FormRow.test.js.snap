@@ -308,20 +308,20 @@ legend.dnb-form-label {
         flex-direction: column; }
         .dnb-form-row:not(.dnb-form-row--vertical) > .dnb-form-row__content > .dnb-form-label {
           margin-top: 1rem; } }
-  .dnb-form-row--vertical > .dnb-form-label {
+  .dnb-form-row--vertical > .dnb-form-row__label {
     margin-bottom: 0.5rem; }
-  .dnb-form-row--vertical > .dnb-form-row__content {
+  .dnb-form-row--vertical > .dnb-form-row__content, .dnb-form-row--vertical.dnb-form-row:not(.dnb-form-row--nested) {
     flex-direction: column; }
   .dnb-form-row--vertical-label {
     flex-direction: column; }
   .dnb-form-row > .dnb-form-status {
     margin: 0.5rem 0; }
-  .dnb-form-row > .dnb-form-label--vertical {
+  .dnb-form-row > .dnb-form-row__label--vertical {
     display: flex;
     flex-direction: column;
     align-items: flex-start; }
   @supports (display: grid) {
-    .dnb-form-row > .dnb-form-label--vertical ~ .dnb-form-row__content {
+    .dnb-form-row > .dnb-form-row__label--vertical ~ .dnb-form-row__content {
       grid-column: column1-start / column1-end; } }
   .dnb-form-row__label-dummy {
     margin: 0; }

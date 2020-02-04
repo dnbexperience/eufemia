@@ -6,6 +6,7 @@
 .dnb-icon {
   &--border {
     position: relative;
+    vertical-align: baseline;
 
     &::after {
       content: '';
