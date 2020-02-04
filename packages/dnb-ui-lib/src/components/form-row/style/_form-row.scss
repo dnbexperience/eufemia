@@ -151,12 +151,11 @@
   // }
 
   // for vertical direction
-  &--vertical {
-    > .dnb-form-label {
-      margin-bottom: 0.5rem;
-    }
+  &--vertical > .dnb-form-row__label {
+    margin-bottom: 0.5rem;
   }
-  &--vertical > &__content {
+  &--vertical > &__content,
+  &--vertical#{&}:not(#{&}--nested) {
     flex-direction: column;
   }
 
@@ -173,7 +172,7 @@
   > .dnb-form-status {
     margin: 0.5rem 0;
   }
-  > .dnb-form-label {
+  > .dnb-form-row__label {
     &--vertical {
       display: flex;
       flex-direction: column;
@@ -186,10 +185,8 @@
     }
   }
 
-  &__label {
-    &-dummy {
-      margin: 0;
-    }
+  &__label-dummy {
+    margin: 0;
   }
 
   // reset the fieldset

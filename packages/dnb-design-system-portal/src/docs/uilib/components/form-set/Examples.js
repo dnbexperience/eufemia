@@ -15,7 +15,7 @@ class Example extends PureComponent {
           data-dnb-test="form-set-default"
         >
           {/* @jsx */ `
-<FormSet indent="true" direction="horizontal">
+<FormSet indent="true">
   <FormRow no_label>
     <H2>A h2 in a FormRow without a label</H2>
   </FormRow>
@@ -32,16 +32,14 @@ class Example extends PureComponent {
           `}
         </ComponentBox>
         <ComponentBox
-          caption="Vertical form-set"
+          caption="FormSet where FormRow inherits the direction"
           data-dnb-test="form-set-vertical"
         >
           {/* @jsx */ `
 <FormSet direction="vertical">
-  <FormRow no_label>
-    <H2>A h2 in a FormRow without a label</H2>
-  </FormRow>
-  <FormRow>
-    <Checkbox label="Checkbox" />
+  <FormRow label={<H2>Custom Legend:</H2>}>
+    <Input label="Label:" bottom />
+    <Input label="Label:" />
   </FormRow>
 </FormSet>
           `}
