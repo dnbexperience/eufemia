@@ -340,8 +340,9 @@ exports[`Checkbox scss have to match snapshot 1`] = `
   padding: 0;
   margin-right: 1rem;
   text-align: left;
-  font-size: var(--font-size-basis);
   vertical-align: baseline;
+  white-space: pre-wrap;
+  font-size: var(--font-size-basis);
   color: inherit; }
   .dnb-form-label--vertical {
     display: block;
