@@ -50,5 +50,11 @@ export default () => (
 
     {/* Bold */}
     <FontUsageExample font_family="DNB Bold" typo_class="dnb-typo-bold" />
+
+    {/* Mono Regular */}
+    <FontUsageExample
+      font_family="DNB Mono Regular"
+      typo_class="dnb-typo-mono-regular"
+    />
   </Wrapper>
 )

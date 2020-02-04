@@ -196,6 +196,7 @@ exports[`Radio group component have to match group snapshot 1`] = `
       no_fieldset={true}
       no_label={false}
       render_content={null}
+      responsive={null}
       section_spacing={null}
       section_style={null}
       skipContentWrapperIfNested={true}
@@ -675,8 +676,9 @@ exports[`Radio scss have to match snapshot 1`] = `
   padding: 0;
   margin-right: 1rem;
   text-align: left;
-  font-size: var(--font-size-basis);
   vertical-align: baseline;
+  white-space: pre-wrap;
+  font-size: var(--font-size-basis);
   color: inherit; }
   .dnb-form-label--vertical {
     display: block;

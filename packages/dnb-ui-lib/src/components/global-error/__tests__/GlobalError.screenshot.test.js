@@ -4,34 +4,27 @@
  */
 
 import {
-  isCI,
   testPageScreenshot,
   setupPageScreenshot
 } from '../../../core/jest/jestSetupScreenshots'
 
 describe('GlobalError screenshot', () => {
-  if (!isCI) {
-    const style = { width: '25em' }
-    setupPageScreenshot({
-      url: '/uilib/components/global-error'
+  const style = { width: '25em' }
+  setupPageScreenshot({
+    url: '/uilib/components/global-error'
+  })
+  it('have to match the 404 status', async () => {
+    const screenshot = await testPageScreenshot({
+      style,
+      selector: '[data-dnb-test="global-error-404"]'
     })
-    it('have to match the 404 status', async () => {
-      const screenshot = await testPageScreenshot({
-        style,
-        selector: '[data-dnb-test="global-error-404"]'
-      })
-      expect(screenshot).toMatchImageSnapshot()
+    expect(screenshot).toMatchImageSnapshot()
+  })
+  it('have to match the 500 status', async () => {
+    const screenshot = await testPageScreenshot({
+      style,
+      selector: '[data-dnb-test="global-error-500"]'
     })
-    it('have to match the 500 status', async () => {
-      const screenshot = await testPageScreenshot({
-        style,
-        selector: '[data-dnb-test="global-error-500"]'
-      })
-      expect(screenshot).toMatchImageSnapshot()
-    })
-  } else {
-    it('beta release umbrella', () => {
-      expect(1).toBe(1)
-    })
-  }
+    expect(screenshot).toMatchImageSnapshot()
+  })
 })

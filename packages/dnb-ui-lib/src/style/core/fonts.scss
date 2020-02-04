@@ -22,6 +22,11 @@
   font-weight: var(--font-weight-bold);
   font-style: normal;
 }
+.dnb-typo-mono-regular {
+  font-family: var(--font-family-monospace);
+  font-weight: normal;
+  font-style: normal;
+}
 
 $fonts-path: '../../assets/fonts' !default;
 
@@ -54,6 +59,17 @@ $fonts-path: '../../assets/fonts' !default;
     url('#{$fonts-path}/DNB-Bold.woff') format('woff'),
     url('#{$fonts-path}/DNB-Bold.ttf') format('truetype');
   font-weight: 600; // have to be the same as: --font-weight-bold
+  font-style: normal;
+  font-display: fallback;
+}
+
+// Mono-Regular
+@font-face {
+  font-family: DNBMono;
+  src: url('#{$fonts-path}/DNBMono-Regular.woff2') format('woff2'),
+    url('#{$fonts-path}/DNBMono-Regular.woff') format('woff'),
+    url('#{$fonts-path}/DNBMono-Regular.ttf') format('truetype');
+  font-weight: normal; // have to be the same as: --font-weight-regular
   font-style: normal;
   font-display: fallback;
 }

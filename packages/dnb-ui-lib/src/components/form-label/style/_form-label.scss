@@ -9,9 +9,14 @@
   width: auto;
   padding: 0;
   margin-right: 1rem;
+
   text-align: left;
+  vertical-align: baseline;
+
+  white-space: pre-wrap;
 
   font-size: var(--font-size-basis);
+  color: inherit;
 
   &--vertical {
     display: block;
@@ -28,9 +33,6 @@
   // Is not in use
   // &--vertical-label {
   // }
-
-  vertical-align: baseline;
-  color: inherit;
 
   &[for]:not([disabled]) {
     user-select: none;
