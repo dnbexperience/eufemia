@@ -89,7 +89,18 @@ render(
 
 ## Responsiveness
 
-The FormRow component provides by default responsiveness. But if also the wrapped components internally have to wrap responsive, then make use of the [helper class](/uilib/helpers), e.g. `<FormRow className="dnb-responsive-component">...</FormRow>`.
+The FormRow component provides by default responsiveness.
+But if you also want the form components to act responsive. E.g. the label of the input should be wrapped to be vertical / above the input, then you have to set the `responsive` prop to `true`.
+
+```jsx
+<FormRow responsive="true">
+  <Input label="Input label">Value</Input>
+</FormRow>
+```
+
+Wrapping happens then if the view port (screen) is less than `max-width: 40em`.
+
+You can also make use of the [helper class](/uilib/helpers), e.g. `<FormRow className="dnb-responsive-component">...</FormRow>`.
 
 ## Demos
 
