@@ -11,7 +11,7 @@ draft: false
 - [ ] Use different **screen readers** and test [regularly](/uilib/usage/accessibility/screenreader).
 - [ ] Make sure, [everything is responsive](/uilib/usage/layout#web-applications) - use mostly the `rem` [unit](/uilib/usage/best-practices/for-styling#units).
 - [ ] Make everything accessible for [keyboard navigation only](/uilib/usage/accessibility#keyboard-users) and handle [focus management](/uilib/usage/accessibility/focus#managing-the-focus-state) properly.
-- [ ] Group form elements inside `<formset />` and `<legend />`. The [FormRow](/uilib/components/form-row) is doing this by default.
+- [ ] Group form elements inside `<fieldset />` and `<legend />`. The [FormRow](/uilib/components/form-row) is doing this by default.
 - [ ] Do never expose a form element as `disabled` to the user. Use good UX instead.
 - [ ] Have a [Skip Link](/uilib/usage/accessibility/focus#skip-link) in place if the user has to tab many times to reach the main content.
 - [ ] Make good use of `aria-label` and `aria-hidden`, e.g. of [decorative content](/uilib/usage/accessibility/icons#decorative-icons).
