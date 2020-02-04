@@ -387,7 +387,7 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
       no_fieldset={null}
       no_label={false}
       render_content={null}
-      responsive={true}
+      responsive={null}
       section_spacing={null}
       section_style={null}
       skipContentWrapperIfNested={true}
@@ -443,7 +443,7 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
               </Element>
             </FormLabel>
             <div
-              className="dnb-form-row__content dnb-form-row__content--default dnb-responsive-component"
+              className="dnb-form-row__content dnb-form-row__content--default"
             >
               <span
                 aria-labelledby="group-label"
@@ -904,8 +904,9 @@ exports[`ToggleButton scss have to match snapshot 1`] = `
   padding: 0;
   margin-right: 1rem;
   text-align: left;
-  font-size: var(--font-size-basis);
   vertical-align: baseline;
+  white-space: pre-wrap;
+  font-size: var(--font-size-basis);
   color: inherit; }
   .dnb-form-label--vertical {
     display: block;
