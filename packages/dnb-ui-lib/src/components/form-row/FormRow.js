@@ -82,7 +82,7 @@ const defaultProps = {
   section_style: null,
   section_spacing: null,
   global_status_id: null,
-  responsive: true,
+  responsive: null,
   disabled: null,
   class: null,
 
