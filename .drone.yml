@@ -60,6 +60,7 @@ steps:
           - next
           - develop
           - ftr/*
+          - fix/*
           - rc/*
 
   - name: make build of portal
@@ -87,6 +88,7 @@ steps:
           - next
           - develop
           - ftr/*
+          - fix/*
           - rc/*
 
   - name: run screenshot tests
@@ -114,6 +116,7 @@ steps:
           - next
           - develop
           - ftr/*
+          - fix/*
           - rc/*
 
   - name: deploy portal
