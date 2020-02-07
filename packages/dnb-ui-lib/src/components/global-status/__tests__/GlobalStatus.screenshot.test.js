@@ -10,7 +10,7 @@ import {
 
 describe('GlobalStatus screenshot', () => {
   const style = { width: '20rem' }
-  setupPageScreenshot({ url: '/uilib/components/global-status' })
+  setupPageScreenshot({ url: '/uilib/components/global-status/demos' })
   it('have to match the default state with custom content', async () => {
     const screenshot = await testPageScreenshot({
       style,

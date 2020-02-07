@@ -76,7 +76,9 @@ function Tabbar({
         render={({ Wrapper, Content, TabsList, Tabs }) => {
           return (
             <Wrapper css={tabsWrapperStyle}>
-              <TabsList className="dnb-section">
+              <TabsList
+              // className="dnb-section dnb-section--white"
+              >
                 <Tabs />
                 {wasFullscreen ? (
                   <CloseButton
@@ -112,7 +114,8 @@ Tabbar.propTypes = {
 }
 Tabbar.defaultProps = {
   tabs: [
-    { title: 'Demos', key: '/info' },
+    { title: 'Info', key: '/info' },
+    { title: 'Demos', key: '/demos' },
     { title: 'Properties', key: '/properties' },
     { title: 'Events', key: '/events' }
   ],
@@ -150,6 +153,17 @@ const tabsWrapperStyle = css`
     box-shadow: none;
     background-color: transparent;
   }
+
+  ${'' /* &::before {
+    content: '';
+    position: absolute;
+    z-index: 1;
+    height: 17rem;
+    width: 100%;
+    top: 0;
+    left: 0;
+    background: white;
+  } */}
 `
 
 export default Tabbar

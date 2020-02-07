@@ -9,7 +9,7 @@ import {
 } from '../../../core/jest/jestSetupScreenshots'
 
 describe('FormStatus screenshot', () => {
-  setupPageScreenshot({ url: '/uilib/components/form-status' })
+  setupPageScreenshot({ url: '/uilib/components/form-status/demos' })
   it('have to match the form-status with icon', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-dnb-test="form-status"] .dnb-form-status'

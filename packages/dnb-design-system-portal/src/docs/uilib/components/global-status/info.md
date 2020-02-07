@@ -1,4 +1,6 @@
-import Examples from 'Pages/uilib/components/global-status/Examples'
+---
+showTabs: true
+---
 
 ## Description
 
@@ -108,7 +110,3 @@ import { GlobalStatus } from 'dnb-ui-lib/components'
 // 3. and remove it again
 <GlobalStatus.Remove id="custom-status" status_id="custom-id-1" />
 ```
-
-## Demos
-
-<Examples />

@@ -8,6 +8,8 @@ hideTabs:
   - title: Events
 ---
 
-import Info from 'Pages/uilib/components/global-error/info'
+import GlobalErrorInfo from 'Pages/uilib/components/global-error/info'
+import GlobalErrorDemos from 'Pages/uilib/components/global-error/demos'
 
-<Info />
+<GlobalErrorInfo />
+<GlobalErrorDemos />

@@ -42,6 +42,7 @@ export default {
   ol: props => <Tag is="ol" {...props} />,
   dl: props => <Tag is="dl" {...props} />,
   p: props => <Tag is="p" {...props} />,
+  paragraph: props => <Tag is="p" {...props} />,
   blockquote: props => <Tag is="blockquote" {...props} />,
   hr: props => <Tag is="hr" {...props} />
 }

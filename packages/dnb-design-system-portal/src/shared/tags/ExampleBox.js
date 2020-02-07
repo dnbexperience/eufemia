@@ -12,7 +12,7 @@ const ExampleBox = ({ children, caption, ...rest }) => {
       <div className="example-box" {...rest}>
         {children}
       </div>
-      {caption && <p className="example-caption">{caption}</p>}
+      {caption && <p className="dnb-p example-caption">{caption}</p>}
     </>
   )
 }

@@ -14,6 +14,7 @@ import renderers from './index'
 import Code from '../parts/uilib/Code'
 import { Button } from 'dnb-ui-lib/src/components'
 import { makeUniqueId } from 'dnb-ui-lib/src/shared/component-helper'
+import AutoLinkHeader from './AutoLinkHeader'
 
 import {
   generateElement,
@@ -84,6 +85,7 @@ class LiveCode extends PureComponent {
   static propTypes = {
     code: PropTypes.string.isRequired,
     scope: PropTypes.object,
+    title: PropTypes.string,
     caption: PropTypes.string,
     useRender: PropTypes.bool,
     noFragments: PropTypes.bool,
@@ -96,6 +98,7 @@ class LiveCode extends PureComponent {
   }
   static defaultProps = {
     scope: {},
+    title: null,
     caption: null,
     useRender: false,
     noFragments: true,
@@ -147,7 +150,8 @@ class LiveCode extends PureComponent {
     if (
       /data-dnb-test/.test(code) &&
       // remove test attribute only if: we run live, and are not not test
-      (typeof window !== 'undefined' && !window.IS_TEST)
+      typeof window !== 'undefined' &&
+      !window.IS_TEST
     ) {
       code = code
         .replace(/\s+data-dnb-test="[^"]*"/g, '') // remove test data
@@ -158,6 +162,7 @@ class LiveCode extends PureComponent {
 
   render() {
     const {
+      title,
       caption,
       scope,
       useRender,
@@ -212,20 +217,35 @@ class LiveCode extends PureComponent {
           {...props}
         >
           {!hidePreview && (
-            <div className="example-box">
-              <LivePreview
-                data-dnb-test={dnbTest}
-                className="dnb-live-preview"
-              />
-              {caption && (
-                <ReactMarkdown
-                  source={caption}
-                  escapeHtml={false}
-                  renderers={renderers}
-                  className="example-caption"
-                />
+            <>
+              {title && (
+                <AutoLinkHeader is="h3" useId={dnbTest}>
+                  <ReactMarkdown
+                    source={title}
+                    escapeHtml={false}
+                    renderers={{
+                      ...renderers,
+                      paragraph: ({ children }) => children
+                    }}
+                    // className="example-caption"
+                  />
+                </AutoLinkHeader>
               )}
-            </div>
+              <div className="example-box">
+                <LivePreview
+                  data-dnb-test={dnbTest}
+                  className="dnb-live-preview"
+                />
+                {caption && (
+                  <ReactMarkdown
+                    source={caption}
+                    escapeHtml={false}
+                    renderers={renderers}
+                    className="example-caption"
+                  />
+                )}
+              </div>
+            </>
           )}
           {!IS_TEST && !hideCode && (
             <div
@@ -346,19 +366,20 @@ const LiveCodeEditor = styled.div`
   position: relative;
 
   .example-box {
-    margin-bottom: 0.5rem;
+    margin-bottom: 0;
   }
   .example-caption {
     margin-bottom: 1.5rem;
   }
   .dnb-live-editor {
     position: relative;
+    margin-bottom: 4rem;
 
     &::after {
       content: '';
       position: absolute;
       top: calc(-0.5rem + 1px);
-      left: 5%;
+      left: 45%;
 
       width: 0;
       height: 0;
