@@ -81,7 +81,6 @@ export const pageQuery = graphql`
         # }
         motherTabsHide {
           title
-          hide
         }
       }
       frontmatter {

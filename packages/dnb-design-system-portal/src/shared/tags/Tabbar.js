@@ -53,10 +53,9 @@ function Tabbar({
         .filter(
           ({ title }) =>
             !(
-              (motherTabsHide &&
-                motherTabsHide.find(({ title: t }) => t === title)) ||
-              {}
-            ).hide
+              motherTabsHide &&
+              motherTabsHide.find(({ title: t }) => t === title)
+            )
         )
         .map(({ key, ...rest }) => {
           key = `${motherPath}${key}${pathQuery()}`
