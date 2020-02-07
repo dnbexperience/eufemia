@@ -11,6 +11,7 @@ import { withPrefix } from 'gatsby'
 import fontRegular from 'dnb-ui-lib/assets/fonts/DNB-Regular.woff2'
 import fontMedium from 'dnb-ui-lib/assets/fonts/DNB-Medium.woff2'
 import fontBold from 'dnb-ui-lib/assets/fonts/DNB-Bold.woff2'
+import fontMonoRegular from 'dnb-ui-lib/assets/fonts/DNBMono-Regular.woff2'
 
 export default class HTML extends PureComponent {
   render() {
@@ -55,16 +56,18 @@ export default class HTML extends PureComponent {
           />
           <meta name="msapplication-TileColor" content="#007272" />
           <meta name="theme-color" content="#007272" />
-          {[fontRegular, fontMedium, fontBold].map(font => (
-            <link
-              key={font}
-              rel="preload"
-              as="font"
-              type="font/woff2"
-              href={font}
-              crossOrigin="anonymous"
-            />
-          ))}
+          {[fontRegular, fontMedium, fontBold, fontMonoRegular].map(
+            font => (
+              <link
+                key={font}
+                rel="preload"
+                as="font"
+                type="font/woff2"
+                href={font}
+                crossOrigin="anonymous"
+              />
+            )
+          )}
           {headComponents}
         </head>
         <body {...bodyAttributes}>
