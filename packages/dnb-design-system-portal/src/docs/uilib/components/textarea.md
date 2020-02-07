@@ -1,7 +1,6 @@
 ---
 title: 'Textarea'
 description: 'The Textarea component has to be used as a multi-line text input control with an unlimited number of characters possible.'
-
 status: null
 order: 17
 ---

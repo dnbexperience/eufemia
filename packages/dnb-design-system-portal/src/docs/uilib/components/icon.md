@@ -1,7 +1,6 @@
 ---
 title: 'Icon'
 description: 'The main Icon component is basically a wrapper for whatever icon you place within it.'
-
 status: null
 order: 6
 ---

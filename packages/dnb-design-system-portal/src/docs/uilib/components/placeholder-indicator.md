@@ -1,6 +1,5 @@
 ---
 title: 'SpaceholderIndicator'
-
 status: 'wip'
 order: 20
 ---

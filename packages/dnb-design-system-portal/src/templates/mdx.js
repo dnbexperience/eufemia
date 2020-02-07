@@ -39,7 +39,9 @@ export default function MdxTemplate(props) {
         <title>{title || fallbackTitle}</title>
         <meta
           name="description"
-          content={description || fallbackDescription}
+          content={
+            description || fields.motherDescription || fallbackDescription
+          }
         />
       </Head>
       <Layout location={location} fullscreen={Boolean(fullscreen)}>
@@ -74,6 +76,7 @@ export const pageQuery = graphql`
       fields {
         slug
         motherTitle
+        motherDescription
         motherPath
         # motherTabs {
         #   title

@@ -96,6 +96,11 @@ const addMotherFields = ({ node, getNode, getNodesByType, actions }) => {
       value: result.frontmatter.title
     })
     createNodeField({
+      name: 'motherDescription',
+      node,
+      value: result.frontmatter.description
+    })
+    createNodeField({
       name: 'motherTabs',
       node,
       value: result.frontmatter.tabs

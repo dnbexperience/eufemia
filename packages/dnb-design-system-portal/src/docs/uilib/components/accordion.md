@@ -1,6 +1,5 @@
 ---
 title: 'Accordion'
-
 status: 'wip'
 order: 20
 ---
