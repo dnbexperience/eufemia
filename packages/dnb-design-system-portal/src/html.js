@@ -5,6 +5,7 @@
 
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
+import { withPrefix } from 'gatsby'
 
 // preload our default fonts
 import fontRegular from 'dnb-ui-lib/assets/fonts/DNB-Regular.woff2'
@@ -30,6 +31,30 @@ export default class HTML extends PureComponent {
             name="viewport"
             content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=yes"
           />
+          <link
+            rel="apple-touch-icon"
+            sizes="180x180"
+            href={withPrefix('/apple-touch-icon.png')}
+          />
+          <link
+            rel="icon"
+            type="image/png"
+            sizes="32x32"
+            href={withPrefix('/favicon-32x32.png')}
+          />
+          <link
+            rel="icon"
+            type="image/png"
+            sizes="16x16"
+            href={withPrefix('/favicon-16x16.png')}
+          />
+          <link
+            rel="mask-icon"
+            href={withPrefix('/safari-pinned-tab.svg')}
+            color="#007272"
+          />
+          <meta name="msapplication-TileColor" content="#007272" />
+          <meta name="theme-color" content="#007272" />
           {[fontRegular, fontMedium, fontBold].map(font => (
             <link
               key={font}

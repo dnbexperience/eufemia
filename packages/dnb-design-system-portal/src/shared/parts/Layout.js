@@ -41,23 +41,7 @@ class Layout extends PureComponent {
   }
   render() {
     const { children, location, fullscreen } = this.props
-
-    const contentInner = (
-      <ContentInner className="dnb-app-content-inner">
-        <GlobalStatus id="main-status" />
-        <div className="dev-grid">{children}</div>
-      </ContentInner>
-    )
-
-    if (fullscreen || /fullscreen/.test(location.search)) {
-      return (
-        <>
-          <Content className="fullscreen-page">{contentInner}</Content>
-          <ToggleGrid hidden />
-          <Footer />
-        </>
-      )
-    }
+    const fs = fullscreen || /fullscreen/.test(location.search)
 
     return (
       <MainMenuProvider>
@@ -65,14 +49,22 @@ class Layout extends PureComponent {
           <a className="dnb-skip-link" href="#dnb-app-content">
             Skip to content
           </a>
-          <StickyMenuBar />
-          <MainMenu enableOverlay />
+
+          {!fs && <StickyMenuBar />}
+          {!fs && <MainMenu enableOverlay />}
+
           <Wrapper className="content-wrapper">
-            <Sidebar location={location} showAll={false} />
+            {!fs && <Sidebar location={location} showAll={false} />}
+
             <Content>
-              {contentInner}
+              <ContentInner className="dnb-app-content-inner">
+                <GlobalStatus id="main-status" />
+                <div className="dev-grid">{children}</div>
+              </ContentInner>
               <Footer />
             </Content>
+
+            {fs && <ToggleGrid hidden />}
           </Wrapper>
         </SidebarMenuProvider>
       </MainMenuProvider>
