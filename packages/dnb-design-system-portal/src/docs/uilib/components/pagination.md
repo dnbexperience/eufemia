@@ -1,6 +1,6 @@
 ---
 title: 'Pagination'
-draft: false
+
 status: 'wip'
 order: 20
 ---

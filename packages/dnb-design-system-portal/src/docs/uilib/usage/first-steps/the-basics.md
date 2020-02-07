@@ -1,6 +1,6 @@
 ---
 title: 'The Basics'
-draft: false
+
 order: 2
 ---
 

@@ -1,6 +1,6 @@
 ---
 title: 'Icons'
-draft: false
+
 ---
 
 import ComponentBox from 'Tags/ComponentBox'

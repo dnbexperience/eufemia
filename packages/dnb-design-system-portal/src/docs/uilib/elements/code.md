@@ -1,6 +1,6 @@
 ---
 title: 'Code'
-draft: false
+
 ---
 
 ## Code

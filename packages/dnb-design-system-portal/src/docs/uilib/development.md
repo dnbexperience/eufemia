@@ -1,7 +1,7 @@
 ---
 title: 'Development'
 icon: 'development'
-draft: false
+order: 10
 ---
 
 import GithubLogo from 'Pages/uilib/development/assets/github-logo.js'

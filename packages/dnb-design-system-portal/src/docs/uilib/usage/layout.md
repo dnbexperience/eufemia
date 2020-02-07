@@ -1,6 +1,6 @@
 ---
 title: 'Layout'
-draft: false
+
 order: 3
 ---
 

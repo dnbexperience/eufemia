@@ -1,6 +1,6 @@
 ---
 title: 'Anchor (Text Link)'
-draft: false
+
 ---
 
 import ComponentBox from 'Tags/ComponentBox'

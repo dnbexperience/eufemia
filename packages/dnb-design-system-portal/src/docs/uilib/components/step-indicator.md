@@ -1,7 +1,7 @@
 ---
 title: 'StepIndicator'
 description: 'The step indicator (progress indicator) is a visual representation of a users progress through a set of steps or series of actions.'
-draft: false
+
 status: null
 order: 14
 ---

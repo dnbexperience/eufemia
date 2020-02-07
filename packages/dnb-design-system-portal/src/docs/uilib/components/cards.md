@@ -1,6 +1,6 @@
 ---
 title: 'Cards'
-draft: false
+
 status: 'wip'
 order: 20
 ---

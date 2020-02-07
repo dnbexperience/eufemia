@@ -1,7 +1,7 @@
 ---
 title: 'About the Library'
 icon: 'about_the_lib'
-draft: false
+
 order: 1
 ---
 

@@ -1,6 +1,6 @@
 ---
 title: 'Component Properties'
-draft: false
+
 order: 1
 ---
 

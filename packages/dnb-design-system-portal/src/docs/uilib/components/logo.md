@@ -1,7 +1,7 @@
 ---
 title: 'Logo'
 description: 'A ready to use DNB logo in SVG format'
-draft: false
+
 status: null
 order: 10
 ---

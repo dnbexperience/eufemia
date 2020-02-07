@@ -1,7 +1,7 @@
 ---
 title: 'ProgressIndicator'
 description: 'The ProgressIndicator component is a waiting loader / spinner to show while other content is in progression.'
-draft: false
+
 order: 12
 redirect_from:
   - /uilib/components/progress

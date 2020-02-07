@@ -1,6 +1,6 @@
 ---
 title: 'ProgressIndicator'
-
+draft: true
 order: 12
 ---
 

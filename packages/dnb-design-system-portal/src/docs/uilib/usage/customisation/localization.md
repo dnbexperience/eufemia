@@ -1,6 +1,6 @@
 ---
 title: 'Locale / Translation'
-draft: false
+
 order: 8
 ---
 

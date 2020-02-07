@@ -1,7 +1,7 @@
 ---
 title: 'Naming Conventions'
 icon: 'naming'
-draft: false
+
 ---
 
 import Img from 'Tags/Img'

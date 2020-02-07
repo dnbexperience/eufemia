@@ -1,6 +1,6 @@
 ---
 title: 'Quickguide Designers'
-draft: false
+
 ---
 
 import Img from 'Tags/Img'

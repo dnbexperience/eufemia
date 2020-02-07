@@ -2,7 +2,7 @@
 title: 'Test'
 description: 'Description'
 menuTitle: 'test'
-draft: false
+
 order: 1
 icon: ''
 status: ''

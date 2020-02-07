@@ -1,6 +1,6 @@
 ---
 title: 'Accordion'
-draft: false
+
 status: 'wip'
 order: 20
 ---

@@ -1,7 +1,7 @@
 ---
 title: 'FormLabel'
 description: 'The FormLabel component represents a caption for all sorts of HTML elements in a user interface.'
-draft: false
+
 order: 3
 ---
 

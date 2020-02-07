@@ -1,6 +1,6 @@
 ---
 title: 'Upload'
-draft: false
+
 status: 'wip'
 order: 20
 ---

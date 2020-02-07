@@ -1,7 +1,7 @@
 ---
 title: 'Icons Introduction'
 description: 'DNB UX icons in SVG format - optimized for performance, responsiveness and accessibility.'
-draft: false
+
 order: 1
 ---
 

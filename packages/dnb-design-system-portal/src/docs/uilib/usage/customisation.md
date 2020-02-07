@@ -2,7 +2,7 @@
 title: 'Customization'
 description: 'Customization and tools is a section dedicated to how to use and customize Eufemia in various situations.'
 status: null
-draft: false
+
 order: 4
 ---
 

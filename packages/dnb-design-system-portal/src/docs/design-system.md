@@ -1,6 +1,6 @@
 ---
 title: 'Change log'
-draft: false
+
 ---
 
 import ChangeLog from 'Root/../../CHANGELOG.md'

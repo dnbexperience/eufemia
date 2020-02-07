@@ -1,6 +1,6 @@
 ---
 title: 'Template'
-draft: false
+
 status: null
 order: 0
 ---

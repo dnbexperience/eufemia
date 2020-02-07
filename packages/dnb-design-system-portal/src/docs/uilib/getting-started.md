@@ -2,7 +2,7 @@
 title: 'Getting Started'
 description: 'The quick intro is meant to give developers a first guide through all the elementary parts of Eufemia.'
 icon: 'getting_started'
-draft: false
+
 order: 2
 ---
 

@@ -1,7 +1,7 @@
 ---
 title: 'Section'
 description: 'The Section component is a visual helper.'
-draft: false
+
 order: 12
 ---
 

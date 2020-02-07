@@ -1,7 +1,7 @@
 ---
 title: 'Checkbox'
 description: 'The Checkbox component is shown as a square box that is ticked (checked) when activated.'
-draft: false
+
 order: 2
 ---
 

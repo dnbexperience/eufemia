@@ -1,6 +1,6 @@
 ---
 title: 'RangeSlider'
-
+draft: true
 status: dep
 order: 11
 ---

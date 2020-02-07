@@ -1,7 +1,7 @@
 ---
 title: 'Best Practices for testing'
 menuTitle: 'for testing'
-draft: false
+
 order: 4
 ---
 

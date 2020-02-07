@@ -1,7 +1,7 @@
 ---
 title: 'Radio'
 description: 'The Radio component is shown as a circle that is filled (checked) when activated.'
-draft: false
+
 order: 12
 ---
 

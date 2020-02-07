@@ -1,7 +1,7 @@
 ---
 title: 'DatePicker'
 description: 'The DatePicker component should be used whenever there is to enter a single date or a date period.'
-draft: false
+
 order: 2
 ---
 
