@@ -1,7 +1,3 @@
----
-draft: true
----
-
 ## ToggleButton button
 
 | Properties                                      | Description                                                                                                                                                                     |

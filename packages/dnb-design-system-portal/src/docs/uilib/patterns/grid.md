@@ -1,6 +1,6 @@
 ---
 title: 'Grid'
-draft: true
+
 status: wip
 order: 8
 ---

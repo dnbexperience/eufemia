@@ -1,7 +1,3 @@
----
-draft: true
----
-
 | Properties                                      | Description                                                                                                                              |
 | ----------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
 | `text, children`                                | _(optional)_ the `text` appears as the status message. Beside plain text, You can send in a React component as well.                     |

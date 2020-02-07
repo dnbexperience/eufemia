@@ -1,6 +1,6 @@
 ---
 fullscreen: true
-draft: true
+
 ---
 
 import ComponentBox from 'Tags/ComponentBox'

@@ -1,7 +1,3 @@
----
-draft: true
----
-
 import Img from 'Tags/Img'
 import InputMaskedUsage from 'Pages/uilib/components/input/assets/input-masked.svg'
 import Examples from 'Pages/uilib/components/input/Examples'

@@ -1,7 +1,3 @@
----
-draft: true
----
-
 | Events     | Description                                                                                                                                                                       |
 | ---------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `on_open`  | _(optional)_ gets triggered the first time the GlobalStatus appears on the screen. In other words, it has to have been hidden before. Returns `{ id, status_id, ...properties }`. |

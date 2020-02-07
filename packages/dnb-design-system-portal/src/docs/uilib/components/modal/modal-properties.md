@@ -1,7 +1,3 @@
----
-draft: true
----
-
 ## Modal Properties
 
 | Properties           | Description                                                                                                                                                                                                |

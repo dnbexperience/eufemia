@@ -1,6 +1,6 @@
 ---
 title: 'MainNav'
-draft: true
+
 status: wip
 order: 10
 ---

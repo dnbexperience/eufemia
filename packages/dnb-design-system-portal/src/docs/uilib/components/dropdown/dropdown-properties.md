@@ -1,7 +1,3 @@
----
-draft: true
----
-
 import { Data } from 'Pages/uilib/components/dropdown/Examples'
 
 | Properties                                      | Description                                                                                                                                                                                                                                                         |

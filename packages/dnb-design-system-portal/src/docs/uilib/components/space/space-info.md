@@ -1,7 +1,3 @@
----
-draft: true
----
-
 import Examples from 'Pages/uilib/components/space/Examples'
 import SpacingTable from 'Pages/uilib/usage/layout/spacing-table.md'
 

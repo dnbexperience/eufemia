@@ -1,7 +1,3 @@
----
-draft: true
----
-
 ## Font Weights
 
 Achieved with HTML classes: `.dnb-typo-regular`, `.dnb-typo-medium`, `.dnb-typo-bold`

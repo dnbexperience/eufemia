@@ -1,7 +1,3 @@
----
-draft: true
----
-
 import Examples from 'Pages/uilib/components/toggle-button/Examples'
 
 ## Description

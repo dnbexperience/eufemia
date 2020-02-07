@@ -1,7 +1,3 @@
----
-draft: true
----
-
 ## The difference
 
 The difference between `on_change` and `on_select` is:

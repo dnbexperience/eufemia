@@ -1,7 +1,3 @@
----
-draft: true
----
-
 ## Component events
 
 | Events      | Description                                                                                     |

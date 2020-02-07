@@ -1,7 +1,3 @@
----
-draft: true
----
-
 ## Properties
 
 | Properties                                      | Description                                                                                                                            |

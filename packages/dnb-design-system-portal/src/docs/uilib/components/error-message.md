@@ -1,6 +1,5 @@
 ---
 title: 'ErrorMessage'
-draft: true
 status: 'wip'
 order: 20
 ---

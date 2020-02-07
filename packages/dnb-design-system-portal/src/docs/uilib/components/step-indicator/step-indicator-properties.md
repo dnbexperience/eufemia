@@ -1,7 +1,3 @@
----
-draft: true
----
-
 ## Component Properties
 
 | Properties                                      | Description                                                                                                                                            |

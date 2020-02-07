@@ -1,7 +1,3 @@
----
-draft: true
----
-
 | Properties                                      | Description                                                                                                                                                             |
 | ----------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `size`                                          | _(optional)_ define the size of the logo. Sets the height. The width will be calculated by the ratio. Also, `inherit` will use the inherited height. Defaults to `auto` |

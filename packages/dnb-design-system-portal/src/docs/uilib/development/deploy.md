@@ -1,7 +1,7 @@
 ---
 title: 'Deploy'
 status: 'imp'
-draft: true
+
 order: 3
 ---
 

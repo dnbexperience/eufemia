@@ -1,7 +1,3 @@
----
-draft: true
----
-
 ## Radio button
 
 | Events            | Description                                                                                                               |

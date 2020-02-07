@@ -1,7 +1,3 @@
----
-draft: true
----
-
 | Properties                                      | Description                                                                                                                                                                                                                                     |
 | ----------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `mask`                                          | _(optional)_ A mask can be define both as a [RegExp style of characters](https://github.com/text-mask/text-mask/blob/master/componentDocumentation.md#readme) or a callback function. Example below.                                            |

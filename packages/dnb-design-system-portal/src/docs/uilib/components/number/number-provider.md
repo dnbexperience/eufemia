@@ -1,7 +1,3 @@
----
-draft: true
----
-
 ## Changing locale or currency
 
 You can either set the locale as a properly e.g. `<Provider locale="en-US" ...` and handle the change from the app root, or change it inside the app, respective Context:

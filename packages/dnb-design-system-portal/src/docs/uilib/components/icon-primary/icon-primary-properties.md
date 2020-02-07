@@ -1,7 +1,3 @@
----
-draft: true
----
-
 | Properties                                      | Description                                                                       |
 | ----------------------------------------------- | --------------------------------------------------------------------------------- |
 | `icon`                                          | _(mandatory)_ Defines the [primary icon](/icons/primary) to be used, as a string. |

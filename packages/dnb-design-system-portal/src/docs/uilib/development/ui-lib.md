@@ -1,6 +1,6 @@
 ---
 title: 'NPM Library'
-draft: true
+
 order: 4
 ---
 
