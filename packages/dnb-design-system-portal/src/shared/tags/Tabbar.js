@@ -22,7 +22,7 @@ function Tabbar({
 }) {
   const location = getLocation()
   const [wasFullscreen, setFullscreen] = React.useState(
-    /fullscreen/.test(location.search)
+    location && /fullscreen/.test(location.search)
   )
   const pathQuery = state =>
     (typeof state !== 'undefined'

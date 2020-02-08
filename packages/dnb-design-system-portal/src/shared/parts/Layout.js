@@ -41,7 +41,8 @@ class Layout extends PureComponent {
   }
   render() {
     const { children, location, fullscreen } = this.props
-    const fs = fullscreen || /fullscreen/.test(location.search)
+    const fs =
+      fullscreen || (location && /fullscreen/.test(location.search))
 
     return (
       <MainMenuProvider>
