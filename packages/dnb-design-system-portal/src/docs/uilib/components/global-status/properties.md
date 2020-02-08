@@ -22,7 +22,7 @@ showTabs: true
 | `hide_close_button`                             | _(optional)_ set to `true` if the close button should be hidden for the user. Defaults to `false`.                                                                                                    |
 | `close_text`                                    | _(optional)_ text of the close button. Defaults to `Lukk`.                                                                                                                                            |
 | `status_anchor_text`                            | _(optional)_ defines the anchor text showing up after every item, in case there is a `status_id` defined. Defaults to `Gå til`.                                                                       |
-| [Space](/uilib/components/space#tab-properties) | _(optional)_ spacing properties like `top` or `bottom` are supported.                                                                                                                                 |
+| [Space](/uilib/components/space/properties) | _(optional)_ spacing properties like `top` or `bottom` are supported.                                                                                                                                 |
 
 ## Item Object
 

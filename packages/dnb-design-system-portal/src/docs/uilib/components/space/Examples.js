@@ -178,8 +178,7 @@ class Example extends PureComponent {
   }
 }
 
-export { Example }
-export default () => <Example />
+export default Example
 
 const CustomStyle = styled.div`
   display: inline-flex;

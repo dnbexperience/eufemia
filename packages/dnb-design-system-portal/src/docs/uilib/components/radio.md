@@ -2,24 +2,11 @@
 title: 'Radio'
 description: 'The Radio component is shown as a circle that is filled (checked) when activated.'
 order: 12
+showTabs: true
 ---
 
-import Tabs from 'Tags/Tabs'
+import RadioInfo from 'Pages/uilib/components/radio/info'
+import RadioDemos from 'Pages/uilib/components/radio/demos'
 
-import RadioInfo from 'Pages/uilib/components/radio/radio-info'
-import RadioProperties from 'Pages/uilib/components/radio/radio-properties'
-import RadioEvents from 'Pages/uilib/components/radio/radio-events'
-
-# Radio
-
-<Tabs>
-  <Tabs.Content>
-    <RadioInfo />
-  </Tabs.Content>
-  <Tabs.Content>
-    <RadioProperties />
-  </Tabs.Content>
-  <Tabs.Content>
-    <RadioEvents />
-  </Tabs.Content>
-</Tabs>
+<RadioInfo />
+<RadioDemos />

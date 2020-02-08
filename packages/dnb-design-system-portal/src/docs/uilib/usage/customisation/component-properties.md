@@ -9,7 +9,7 @@ import { hamburger as hamburgerIcon } from 'dnb-ui-lib/src/icons/secondary_icons
 
 # Component Properties
 
-Every [Component](/uilib/components) has its own `properties` to make them work for a variety of cases. You may have a look at the table describing all the possibilities. Check out for example the [Button Properties](/uilib/components/button#info).
+Every [Component](/uilib/components) has its own `properties` to make them work for a variety of cases. You may have a look at the table describing all the possibilities. Check out for example the [Button Properties](/uilib/components/button/properties).
 
 ## Naming
 

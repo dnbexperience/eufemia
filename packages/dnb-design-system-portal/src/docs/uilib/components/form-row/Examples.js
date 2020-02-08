@@ -335,5 +335,4 @@ render(
   }
 }
 
-export { Example }
-export default () => <Example />
+export default Example

@@ -9,7 +9,9 @@ import {
 } from '../../../core/jest/jestSetupScreenshots'
 
 describe('ToggleButton unchecked screenshot', () => {
-  setupPageScreenshot({ url: '/uilib/components/toggle-button' })
+  setupPageScreenshot({
+    url: '/uilib/components/toggle-button/demos'
+  })
   it('have to match toggle-button in unchecked state', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-dnb-test="toggle-button-default"]'
@@ -39,7 +41,7 @@ describe('ToggleButton unchecked screenshot', () => {
 // NB: Because of focus simulation and screenshotElement.press('Tab')
 // we have to run the two focus simulations in a seperate run each
 describe('ToggleButton checked screenshot', () => {
-  setupPageScreenshot({ url: '/uilib/components/toggle-button' })
+  setupPageScreenshot({ url: '/uilib/components/toggle-button/demos' })
   it('have to match toggle-button in checked state', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-dnb-test="toggle-button-checked"]'

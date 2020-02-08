@@ -9,7 +9,7 @@ import {
 } from '../../../core/jest/jestSetupScreenshots'
 
 describe('Switch unchecked screenshot', () => {
-  setupPageScreenshot({ url: '/uilib/components/switch' })
+  setupPageScreenshot({ url: '/uilib/components/switch/demos' })
   it('have to match switch in unchecked state', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-dnb-test="switch-default"] .dnb-switch'
@@ -39,7 +39,7 @@ describe('Switch unchecked screenshot', () => {
 // NB: Because of focus simulation and screenshotElement.press('Tab')
 // we have to run the two focus simulations in a seperate run each
 describe('Switch checked screenshot', () => {
-  setupPageScreenshot({ url: '/uilib/components/switch' })
+  setupPageScreenshot({ url: '/uilib/components/switch/demos' })
   it('have to match switch in checked state', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-dnb-test="switch-checked"] .dnb-switch'

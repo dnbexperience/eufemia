@@ -50,22 +50,24 @@ function Tabbar({
     }
   }
   const preparedTabs = React.useMemo(() => {
-    return (
-      motherTabs ||
-      tabs
-        // remove the tab if it is hidden in frontmatter
-        .filter(
-          ({ title }) =>
-            !(
-              motherTabsHide &&
-              motherTabsHide.find(({ title: t }) => t === title)
-            )
-        )
-        .map(({ key, ...rest }) => {
-          key = `${motherPath}${key}${pathQuery()}`
+    return motherTabs
+      ? motherTabs.map(({ key, ...rest }) => {
+          key = key.replace(/\$1$/, pathQuery())
           return { ...rest, key }
         })
-    )
+      : tabs
+          // remove the tab if it is hidden in frontmatter
+          .filter(
+            ({ title }) =>
+              !(
+                motherTabsHide &&
+                motherTabsHide.find(({ title: t }) => t === title)
+              )
+          )
+          .map(({ key, ...rest }) => {
+            key = `${motherPath}${key}${pathQuery()}`
+            return { ...rest, key }
+          })
   }, [wasFullscreen])
 
   // const data = Tabs.getData({ tabs: preparedTabs, children })

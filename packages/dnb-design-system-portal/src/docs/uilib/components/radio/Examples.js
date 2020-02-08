@@ -229,5 +229,4 @@ class StateDemo extends PureComponent {
   }
 }
 
-export { Example }
-export default () => <Example />
+export default Example

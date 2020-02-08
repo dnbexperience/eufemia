@@ -78,10 +78,10 @@ export const pageQuery = graphql`
         motherTitle
         motherDescription
         motherPath
-        # motherTabs {
-        #   title
-        #   key
-        # }
+        motherTabs {
+          title
+          key
+        }
         motherTabsHide {
           title
         }

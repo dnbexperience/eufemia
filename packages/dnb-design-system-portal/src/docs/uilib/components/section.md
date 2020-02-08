@@ -2,20 +2,13 @@
 title: 'Section'
 description: 'The Section component is a visual helper.'
 order: 12
+showTabs: true
+hideTabs:
+  - title: Events
 ---
 
-import Tabs from 'Tags/Tabs'
+import SectionInfo from 'Pages/uilib/components/section/info'
+import SectionDemos from 'Pages/uilib/components/section/demos'
 
-import SectionInfo from 'Pages/uilib/components/section/section-info'
-import SectionProperties from 'Pages/uilib/components/section/section-properties'
-
-# Section
-
-<Tabs>
-  <Tabs.Content>
-    <SectionInfo />
-  </Tabs.Content>
-  <Tabs.Content>
-    <SectionProperties />
-  </Tabs.Content>
-</Tabs>
+<SectionInfo />
+<SectionDemos />

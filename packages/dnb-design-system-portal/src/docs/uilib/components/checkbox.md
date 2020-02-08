@@ -2,24 +2,11 @@
 title: 'Checkbox'
 description: 'The Checkbox component is shown as a square box that is ticked (checked) when activated.'
 order: 2
+showTabs: true
 ---
 
-import Tabs from 'Tags/Tabs'
+import CheckboxInfo from 'Pages/uilib/components/checkbox/info'
+import CheckboxDemos from 'Pages/uilib/components/checkbox/demos'
 
-import CheckboxInfo from 'Pages/uilib/components/checkbox/checkbox-info'
-import CheckboxProperties from 'Pages/uilib/components/checkbox/checkbox-properties'
-import CheckboxEvents from 'Pages/uilib/components/checkbox/checkbox-events'
-
-# Checkbox
-
-<Tabs>
-  <Tabs.Content>
-    <CheckboxInfo />
-  </Tabs.Content>
-  <Tabs.Content>
-    <CheckboxProperties />
-  </Tabs.Content>
-  <Tabs.Content>
-    <CheckboxEvents />
-  </Tabs.Content>
-</Tabs>
+<CheckboxInfo />
+<CheckboxDemos />

@@ -122,34 +122,4 @@ class Example extends PureComponent {
   }
 }
 
-/* <CodeBlock
-  reactLive
-  hideCode
-  caption="All sections - `.dnb-section`"
-  data-dnb-test="helper-classes-section"
-  >
-    <div className="dnb-section">
-      Visual DNB Section, declared with <code className="dnb-code">.dnb-section</code>
-    </div>
-    <div className="dnb-section dnb-section--spacing">
-      Visual DNB Section, declared with <code className="dnb-code">.dnb-section--spacing</code>
-    </div>
-    <div className="dnb-section dnb-section--spacing dnb-section--white">
-      Visual DNB Section, declared with <code className="dnb-code">.dnb-section--white</code>
-    </div>
-    <div className="dnb-section dnb-section--spacing-small dnb-section--divider">
-      Visual DNB Section, declared with <code className="dnb-code">.dnb-section--divider</code>
-    </div>
-    <div className="dnb-section dnb-section--spacing-large dnb-section--mint-green">
-      Visual DNB Section, declared with <code className="dnb-code">.dnb-section--mint-green</code>
-    </div>
-    <div className="dnb-section dnb-section--spacing dnb-section--emerald-green">
-      Visual DNB Section, declared with <code className="dnb-code">.dnb-section--emerald-green</code>
-    </div>
-    <div className="dnb-section dnb-section--spacing dnb-section--signal-orange">
-      Visual DNB Section, declared with <code className="dnb-code">.dnb-section--signal-orange</code>
-    </div>
-  </CodeBlock> */
-
-export { Example }
-export default () => <Example />
+export default Example

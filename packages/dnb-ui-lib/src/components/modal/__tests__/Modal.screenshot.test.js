@@ -9,7 +9,7 @@ import {
 } from '../../../core/jest/jestSetupScreenshots'
 
 describe('Modal screenshot', () => {
-  setupPageScreenshot({ url: '/uilib/components/modal' })
+  setupPageScreenshot({ url: '/uilib/components/modal/demos' })
   it('have to match the default modal trigger button', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-dnb-test="modal-trigger-default"]'
