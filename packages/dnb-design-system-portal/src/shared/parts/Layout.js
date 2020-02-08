@@ -41,6 +41,12 @@ class Layout extends PureComponent {
   }
   render() {
     const { children, location, fullscreen } = this.props
+
+    // for screenshot tests we skip the rest
+    if (/data-dnb-test/.test(location.search)) {
+      return <Content fullscreen={true}>{children}</Content>
+    }
+
     const fs =
       fullscreen || (location && /fullscreen/.test(location.search))
 
@@ -57,7 +63,7 @@ class Layout extends PureComponent {
           <Wrapper className="content-wrapper">
             {!fs && <Sidebar location={location} showAll={false} />}
 
-            <Content>
+            <Content fullscreen={fullscreen}>
               <ContentInner className="dnb-app-content-inner">
                 <GlobalStatus id="main-status" />
                 <div className="dev-grid">{children}</div>
@@ -87,16 +93,22 @@ const Wrapper = styled.div`
   }
 `
 
-const Content = ({ className, children }) => (
+const Content = ({ className, fullscreen, children }) => (
   <ContentWrapper
     id="dnb-app-content"
-    className={classnames('dnb-spacing', 'dnb-app-content', className)}
+    className={classnames(
+      'dnb-spacing',
+      'dnb-app-content',
+      fullscreen && 'fullscreen-page',
+      className
+    )}
   >
     <Global styles={markdownStyle} />
     {children}
   </ContentWrapper>
 )
 Content.propTypes = {
+  fullscreen: PropTypes.bool.isRequired,
   children: PropTypes.node.isRequired,
   className: PropTypes.string
 }
