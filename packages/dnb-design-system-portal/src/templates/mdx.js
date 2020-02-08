@@ -45,7 +45,7 @@ export default function MdxTemplate(props) {
         />
       </Head>
       <Layout location={location} fullscreen={Boolean(fullscreen)}>
-        {showTabs && <Tabbar {...fields} />}
+        {showTabs && <Tabbar location={location} {...fields} />}
         <MDXRenderer {...fields}>{body}</MDXRenderer>
       </Layout>
     </MDXProvider>
