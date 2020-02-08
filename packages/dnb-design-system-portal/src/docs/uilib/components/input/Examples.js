@@ -12,7 +12,7 @@ class Example extends PureComponent {
     return (
       <Fragment>
         <ComponentBox
-          caption="Placeholder text"
+          title="Placeholder text"
           data-dnb-test="input-placeholder"
         >
           {/* @jsx */ `
@@ -23,7 +23,7 @@ class Example extends PureComponent {
           `}
         </ComponentBox>
         <ComponentBox
-          caption="Search text placeholder"
+          title="Search text placeholder"
           data-dnb-test="input-search"
         >
           {/* @jsx */ `
@@ -42,7 +42,7 @@ class Example extends PureComponent {
           `}
         </ComponentBox>
         <ComponentBox
-          caption="Medium and stretched search input"
+          title="Medium and stretched search input"
           data-dnb-test="input-medium"
         >
           {/* @jsx */ `
@@ -58,7 +58,7 @@ class Example extends PureComponent {
           `}
         </ComponentBox>
         <ComponentBox
-          caption="Disabled input"
+          title="Disabled input"
           data-dnb-test="input-disabled"
         >
           {/* @jsx */ `
@@ -70,7 +70,7 @@ class Example extends PureComponent {
 />
           `}
         </ComponentBox>
-        <ComponentBox caption="Show failure status">
+        <ComponentBox title="Show failure status">
           {/* @jsx */ `
 <Input
   label="Show status:"
@@ -80,7 +80,7 @@ class Example extends PureComponent {
           `}
         </ComponentBox>
         <ComponentBox
-          caption="With FormStatus"
+          title="With FormStatus"
           data-dnb-test="input-error"
         >
           {/* @jsx */ `
@@ -91,7 +91,7 @@ class Example extends PureComponent {
 />
           `}
         </ComponentBox>
-        <ComponentBox caption="Input with suffix (additional description)">
+        <ComponentBox title="Input with suffix (additional description)">
           {/* @jsx */ `
 <Input
   label="Short Label:"
@@ -104,7 +104,7 @@ class Example extends PureComponent {
 />
           `}
         </ComponentBox>
-        <ComponentBox caption="Stretched `Input` in horizontal wrapping `FormRow` and a long label">
+        <ComponentBox title="Stretched `Input` in horizontal wrapping `FormRow` and a long label">
           {/* @jsx */ `
 <FormRow
   label="Long label labwl Adipiscing mauris dis proin nec:"
@@ -116,7 +116,7 @@ class Example extends PureComponent {
 </FormRow>
           `}
         </ComponentBox>
-        <ComponentBox caption="Numbers are ligned by using Proportional Lining">
+        <ComponentBox title="Numbers are ligned by using Proportional Lining">
           {/* @jsx */ `
 <Input
   label="My Status:"
@@ -132,7 +132,7 @@ class Example extends PureComponent {
 />
           `}
         </ComponentBox>
-        <ComponentBox caption="Submit Form with Input. Pressing the enter key will trigger a submit.">
+        <ComponentBox title="Submit Form with Input. Pressing the enter key will trigger a submit.">
           {/* @jsx */ `
 <FormSet
   prevent_submit={true}

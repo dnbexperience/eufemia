@@ -16,7 +16,7 @@ class Example extends PureComponent {
     return (
       <Fragment>
         <ComponentBox
-          caption="Unchecked Switch (default state)"
+          title="Unchecked Switch (default state)"
           data-dnb-test="switch-default"
           scope={{ onChange }}
         >
@@ -28,7 +28,7 @@ class Example extends PureComponent {
           `}
         </ComponentBox>
         <ComponentBox
-          caption="Checked Switch"
+          title="Checked Switch"
           data-dnb-test="switch-checked"
           scope={{ onChange }}
         >
@@ -42,7 +42,7 @@ class Example extends PureComponent {
           `}
         </ComponentBox>
         <ComponentBox
-          caption="Checked Switch with error message"
+          title="Checked Switch with error message"
           data-dnb-test="switch-error"
           scope={{ onChange }}
         >
@@ -54,7 +54,7 @@ class Example extends PureComponent {
 />
           `}
         </ComponentBox>
-        <ComponentBox caption="Switch with suffix" scope={{ onChange }}>
+        <ComponentBox title="Switch with suffix" scope={{ onChange }}>
           {/* @jsx */ `
 <Switch
   label="Switch"
@@ -83,7 +83,7 @@ class StateDemo extends PureComponent {
       </ComponentBox>
     ) : (
       <ComponentBox
-        caption="Disabled Switch in checked state"
+        title="Disabled Switch in checked state"
         noFragments={false}
       >
         {/* @jsx */ `

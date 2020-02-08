@@ -19,7 +19,7 @@ class Example extends PureComponent {
     return (
       <Fragment>
         <ComponentBox
-          caption="Default Slider"
+          title="Default Slider"
           data-dnb-test="slider-default"
         >
           {/* @jsx */ `
@@ -33,7 +33,7 @@ class Example extends PureComponent {
           `}
         </ComponentBox>
         <ComponentBox
-          caption="Vertical slider with steps of 10"
+          title="Vertical slider with steps of 10"
           data-dnb-test="slider-vertical"
           useRender
         >
@@ -58,7 +58,7 @@ render(<VerticalWrapper>
           `}
         </ComponentBox>
         <ComponentBox
-          caption="Horizontal and vertical slider in sync with input field"
+          title="Horizontal and vertical slider in sync with input field"
           useRender
         >
           {/* @jsx */ `
@@ -108,7 +108,7 @@ const VerticalWrapper = styled.div\`
 render(<Component />)
           `}
         </ComponentBox>
-        <ComponentBox caption="Slider with suffix">
+        <ComponentBox title="Slider with suffix">
           {/* @jsx */ `
 <Slider
   min={0}
@@ -119,7 +119,7 @@ render(<Component />)
 />
           `}
         </ComponentBox>
-        <ComponentBox caption="Native Range Slider. In order to get the styles, import also: `dnb-ui-lib/components/slider/style/dnb-range.min.css`">
+        <ComponentBox title="Native Range Slider. In order to get the styles, import also: `dnb-ui-lib/components/slider/style/dnb-range.min.css`">
           {/* @jsx */ `
 <FormRow>
   <FormLabel for_id="range-slider">

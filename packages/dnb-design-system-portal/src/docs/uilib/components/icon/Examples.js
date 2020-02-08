@@ -26,7 +26,7 @@ class Example extends PureComponent {
         <ComponentBox
           data-dnb-test="icon-default"
           scope={{ Bell, BellMedium }}
-          caption="Default and Medium sized icons (Responsive)"
+          title="Default and Medium sized icons (Responsive)"
         >
           {/* @jsx */ `
 <Icon icon={Bell} title="Give Icons a Title, or ..." />
@@ -38,7 +38,7 @@ class Example extends PureComponent {
         <ComponentBox
           data-dnb-test="icon-border"
           scope={{ Bell, BellMedium }}
-          caption="Icons with border. **NB:** Use it with caution. It should not be used where the usage can confuse users to be a clickable button."
+          title="Icons with border. **NB:** Use it with caution. It should not be used where the usage can confuse users to be a clickable button."
         >
           {/* @jsx */ `
 <P>
@@ -57,7 +57,7 @@ class Example extends PureComponent {
         <ComponentBox
           data-dnb-test="icon-inherit-sized"
           scope={{ Bell, BellMedium }}
-          caption="Responsive to its inherited `font-size`"
+          title="Responsive to its inherited `font-size`"
         >
           {/* @jsx */ `
 <h1 className="dnb-h1">
@@ -71,7 +71,7 @@ class Example extends PureComponent {
           <ComponentBox
             data-dnb-test="icon-medium"
             scope={{ Bell, BellMedium }}
-            caption="Explicit defined size: medium"
+            title="Explicit defined size: medium"
           >
             {/* @jsx */ `
 <Icon icon={BellMedium} size="16" title="force default size" />
@@ -91,7 +91,7 @@ class Example extends PureComponent {
           <ComponentBox
             data-dnb-test="icon-all-primary"
             scope={{ PrimaryIconsMedium }}
-            caption="All **primary** icons listed as medium sized icons"
+            title="All **primary** icons listed as medium sized icons"
             noFragments={false}
           >
             {/* @jsx */ `
@@ -117,7 +117,7 @@ class Example extends PureComponent {
           <ComponentBox
             data-dnb-test="icon-all-secondary"
             scope={{ SecondaryIconsMedium }}
-            caption="All **secondary** icons listed as medium sized icons"
+            title="All **secondary** icons listed as medium sized icons"
             noFragments={false}
           >
             {/* @jsx */ `

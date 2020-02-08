@@ -10,13 +10,13 @@ class Example extends PureComponent {
   render() {
     return (
       <Fragment>
-        <ComponentBox caption="Default Circular ProgressIndicator">
+        <ComponentBox title="Default Circular ProgressIndicator">
           {/* @jsx */ `
 <ProgressIndicator />
           `}
         </ComponentBox>
         <ComponentBox
-          caption="Shows a large Circular ProgressIndicator with a static 50% in progress"
+          title="Shows a large Circular ProgressIndicator with a static 50% in progress"
           data-dnb-test="progress-indicator-circular--primary"
         >
           {/* @jsx */ `
@@ -29,7 +29,7 @@ class Example extends PureComponent {
           `}
         </ComponentBox>
         <ComponentBox
-          caption="ProgressIndicator with random progress value to show the transition"
+          title="ProgressIndicator with random progress value to show the transition"
           noFragments={false}
         >
           {/* @jsx */ `
@@ -50,7 +50,7 @@ class Example extends PureComponent {
           `}
         </ComponentBox>
         <ComponentBox
-          caption="ProgressIndicator with random `on_complete` callback"
+          title="ProgressIndicator with random `on_complete` callback"
           noFragments={false}
         >
           {/* @jsx */ `

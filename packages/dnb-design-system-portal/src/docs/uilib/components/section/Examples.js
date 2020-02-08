@@ -13,7 +13,7 @@ class Example extends PureComponent {
       <Fragment>
         <ComponentBox
           hideCode
-          caption="Default Section"
+          title="Default Section"
           data-dnb-test="section-default"
         >
           {/* @html */ `
@@ -24,7 +24,7 @@ class Example extends PureComponent {
         </ComponentBox>
         <ComponentBox
           hideCode
-          caption="Default Section with large spacing"
+          title="Default Section with large spacing"
           data-dnb-test="section-spacing"
         >
           {/* @html */ `
@@ -35,7 +35,7 @@ class Example extends PureComponent {
         </ComponentBox>
         <ComponentBox
           hideCode
-          caption="White Section"
+          title="White Section"
           data-dnb-test="section-white"
         >
           {/* @html */ `
@@ -46,7 +46,7 @@ class Example extends PureComponent {
         </ComponentBox>
         <ComponentBox
           hideCode
-          caption="Divider Section"
+          title="Divider Section"
           data-dnb-test="section-divider"
         >
           {/* @html */ `
@@ -57,7 +57,7 @@ class Example extends PureComponent {
         </ComponentBox>
         <ComponentBox
           hideCode
-          caption="Mint-Green Section"
+          title="Mint-Green Section"
           data-dnb-test="section-mint-green"
         >
           {/* @html */ `
@@ -68,7 +68,7 @@ class Example extends PureComponent {
         </ComponentBox>
         <ComponentBox
           hideCode
-          caption="Emerald-Green Section"
+          title="Emerald-Green Section"
           data-dnb-test="section-emerald-green"
         >
           {/* @html */ `
@@ -78,7 +78,7 @@ class Example extends PureComponent {
         `}
         </ComponentBox>
         <ComponentBox
-          caption="Lavender Section"
+          title="Lavender Section"
           data-dnb-test="section-lavender"
         >
           {/* @html */ `
@@ -88,7 +88,7 @@ class Example extends PureComponent {
         `}
         </ComponentBox>
         <ComponentBox
-          caption="Sand-Yellow Section"
+          title="Sand-Yellow Section"
           data-dnb-test="section-sand-yellow"
         >
           {/* @html */ `
@@ -98,7 +98,7 @@ class Example extends PureComponent {
         `}
         </ComponentBox>
         <ComponentBox
-          caption="Pistachio Section"
+          title="Pistachio Section"
           data-dnb-test="section-pistachio"
         >
           {/* @html */ `
@@ -108,7 +108,7 @@ class Example extends PureComponent {
         `}
         </ComponentBox>
         <ComponentBox
-          caption="Fire-Red Section"
+          title="Fire-Red Section"
           data-dnb-test="section-fire-red"
         >
           {/* @html */ `

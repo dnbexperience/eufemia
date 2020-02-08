@@ -11,7 +11,7 @@ class Example extends PureComponent {
     return (
       <>
         <ComponentBox
-          caption="DNB Logo with dynamic height"
+          title="DNB Logo with dynamic height"
           data-dnb-test="logo-auto-size"
         >
           {/* @jsx */ `
@@ -21,7 +21,7 @@ class Example extends PureComponent {
           `}
         </ComponentBox>
         <ComponentBox
-          caption="DNB Logo with dynamic height"
+          title="DNB Logo with dynamic height"
           data-dnb-test="logo-inherit-size"
         >
           {/* @jsx */ `
@@ -30,7 +30,7 @@ class Example extends PureComponent {
 </span>
           `}
         </ComponentBox>
-        <ComponentBox caption="DNB Logo with fixed height">
+        <ComponentBox title="DNB Logo with fixed height">
           {/* @jsx */ `
 <Logo height="192" data-dnb-test="logo-default" />
         `}

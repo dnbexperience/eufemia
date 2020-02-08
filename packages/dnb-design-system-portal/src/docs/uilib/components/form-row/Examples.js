@@ -28,7 +28,7 @@ class Example extends PureComponent {
     return (
       <TestStyles>
         <ComponentBox
-          caption="Only the labels are vertical aligned - while the input labels are still horizontal."
+          title="Only the labels are vertical aligned - while the input labels are still horizontal."
           data-dnb-test="form-row-vertical-label"
         >
           {/* @jsx */ `
@@ -46,7 +46,7 @@ class Example extends PureComponent {
           `}
         </ComponentBox>
         <ComponentBox
-          caption="The label should align the bottom"
+          title="The label should align the bottom"
           data-dnb-test="form-row-default"
         >
           {/* @jsx */ `
@@ -55,7 +55,7 @@ class Example extends PureComponent {
 </FormRow>
           `}
         </ComponentBox>
-        <ComponentBox caption="The `label` property can be used to set a row label as well as the `section_style` is supported">
+        <ComponentBox title="The `label` property can be used to set a row label as well as the `section_style` is supported">
           {/* @jsx */ `
 <FormRow
   section_style="mint-green"
@@ -68,7 +68,7 @@ class Example extends PureComponent {
           `}
         </ComponentBox>
         <ComponentBox
-          caption="Combine both vertical and horizontal FormRow's"
+          title="Combine both vertical and horizontal FormRow's"
           data-dnb-test="form-row-combined"
           useRender
         >
@@ -100,7 +100,7 @@ render(
           `}
         </ComponentBox>
         <ComponentBox
-          caption="Customize the `.dnb-form-row` styles. Instead of using the build in `indent` property."
+          title="Customize the `.dnb-form-row` styles. Instead of using the build in `indent` property."
           useRender
         >
           {/* @jsx */ `
@@ -119,7 +119,7 @@ render(
 )
           `}
         </ComponentBox>
-        <ComponentBox caption="Default `FormRow`">
+        <ComponentBox title="Default `FormRow`">
           {/* @jsx */ `
 <FormRow>
   <Input label="Default horizontal FormRow:" placeholder="Input ..." />
@@ -127,7 +127,7 @@ render(
           `}
         </ComponentBox>
         <ComponentBox
-          caption="Vertical `FormRow`"
+          title="Vertical `FormRow`"
           data-dnb-test="form-row-vertical"
         >
           {/* @jsx */ `
@@ -138,7 +138,7 @@ render(
           `}
         </ComponentBox>
         <ComponentBox
-          caption="Vertical label direction in combination with a button"
+          title="Vertical label direction in combination with a button"
           data-dnb-test="form-row-vertical-label-button"
           useRender
         >
@@ -161,7 +161,7 @@ render(
           `}
         </ComponentBox>
         <ComponentBox
-          caption="Several components inside a horizontal `FormRow` - not wrapping"
+          title="Several components inside a horizontal `FormRow` - not wrapping"
           data-dnb-test="form-row-horizontal-no_wrap"
         >
           {/* @jsx */ `
@@ -177,7 +177,7 @@ render(
           `}
         </ComponentBox>
         <ComponentBox
-          caption="Several components inside a wrapping (`wrap`) horizontal `FormRow`"
+          title="Several components inside a wrapping (`wrap`) horizontal `FormRow`"
           data-dnb-test="form-row-horizontal-wrap"
         >
           {/* @jsx */ `
@@ -194,7 +194,7 @@ render(
 </FormRow>
           `}
         </ComponentBox>
-        <ComponentBox caption="FormRow with `label` (legend)">
+        <ComponentBox title="FormRow with `label` (legend)">
           {/* @jsx */ `
 <FormSet label_direction="vertical">
   <FormRow label="Label legend for the inputs:" >
@@ -207,7 +207,7 @@ render(
 </FormSet>
           `}
         </ComponentBox>
-        <ComponentBox caption="Vertical direction and disabled">
+        <ComponentBox title="Vertical direction and disabled">
           {/* @jsx */ `
 <FormRow vertical={true} disabled={true}>
   <Input label="Vertical input A:" placeholder="Input A ..." />
@@ -216,7 +216,7 @@ render(
           `}
         </ComponentBox>
         <ComponentBox
-          caption="Combining different components and directions"
+          title="Combining different components and directions"
           useRender
         >
           {/* @jsx */ `
@@ -265,7 +265,7 @@ render(
               `}
             ></Global>
             <ComponentBox
-              caption="Horizontal direction"
+              title="Horizontal direction"
               scope={{ AllComponents }}
               data-dnb-test="form-row-all-horizontal-direction"
             >
@@ -281,7 +281,7 @@ render(
           `}
             </ComponentBox>
             <ComponentBox
-              caption="Vertical direction"
+              title="Vertical direction"
               scope={{ AllComponents, WidthLimit }}
               data-dnb-test="form-row-all-vertical-direction"
             >
@@ -294,7 +294,7 @@ render(
           `}
             </ComponentBox>
             <ComponentBox
-              caption="Vertical everything"
+              title="Vertical everything"
               scope={{ AllComponents, WidthLimit }}
               data-dnb-test="form-row-all-vertical-everything"
             >
@@ -307,7 +307,7 @@ render(
           `}
             </ComponentBox>
             <ComponentBox
-              caption="Vertical label direction"
+              title="Vertical label direction"
               scope={{ AllComponents }}
               data-dnb-test="form-row-all-vertical-label-direction"
             >
@@ -318,7 +318,7 @@ render(
           `}
             </ComponentBox>
             <ComponentBox
-              caption="Vertical label direction, no labels"
+              title="Vertical label direction, no labels"
               scope={{ AllComponents }}
               data-dnb-test="form-row-all-vertical-label-direction-no-label"
             >

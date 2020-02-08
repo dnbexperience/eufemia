@@ -28,7 +28,7 @@ class Example extends PureComponent {
     return (
       <TestStyles>
         <ComponentBox
-          caption="Spacing method #1 - `Space` component. The RedBox is only to visualize the result."
+          title="Spacing method #1 - `Space` component. The RedBox is only to visualize the result."
           data-dnb-test="spacing-method-space"
           scope={{ RedBox }}
         >
@@ -41,7 +41,7 @@ class Example extends PureComponent {
           `}
         </ComponentBox>
         <ComponentBox
-          caption="Spacing method #2 - `FormRow` component"
+          title="Spacing method #2 - `FormRow` component"
           data-dnb-test="spacing-method-form-row"
         >
           {/* @jsx */ `
@@ -54,7 +54,7 @@ class Example extends PureComponent {
           `}
         </ComponentBox>
         <ComponentBox
-          caption="Spacing method #3 - Define the space directly"
+          title="Spacing method #3 - Define the space directly"
           data-dnb-test="spacing-method-component"
         >
           {/* @jsx */ `
@@ -65,7 +65,7 @@ class Example extends PureComponent {
           `}
         </ComponentBox>
         <ComponentBox
-          caption="Spacing with no margin collapse, due to the flex usage"
+          title="Spacing with no margin collapse, due to the flex usage"
           hideCode
           scope={{ RedBox, Vertical }}
         >
@@ -85,7 +85,7 @@ class Example extends PureComponent {
           `}
         </ComponentBox>
         <ComponentBox
-          caption="All four values will result in a equivalent margin"
+          title="All four values will result in a equivalent margin"
           data-dnb-test="spacing-margins"
           hideCode
         >
@@ -102,7 +102,7 @@ class Example extends PureComponent {
         </ComponentBox>
         {false && IS_TEST && (
           <ComponentBox
-            caption="All spacing patterns listed (screenshot tests)"
+            title="All spacing patterns listed (screenshot tests)"
             data-dnb-test="spacing-patterns"
             scope={{ MagicBox, CustomStyle }}
             hideCode

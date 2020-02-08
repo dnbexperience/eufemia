@@ -42,7 +42,7 @@ class Example extends PureComponent {
     return (
       <Fragment>
         <ComponentBox
-          caption="StepIndicator with navigation. Every visited step can be clicked."
+          title="StepIndicator with navigation. Every visited step can be clicked."
           data-dnb-test="step-indicator-buttons"
           scope={{ onChangeHandler, active_url }}
           hideSyntaxButton
@@ -71,7 +71,7 @@ class Example extends PureComponent {
           `}
         </ComponentBox>
         <ComponentBox
-          caption="StepIndicator with urls, for visited steps only"
+          title="StepIndicator with urls, for visited steps only"
           data-dnb-test="step-indicator-urls"
           scope={{ onChangeHandler, active_url }}
           hideSyntaxButton
@@ -100,7 +100,7 @@ class Example extends PureComponent {
           `}
         </ComponentBox>
         <ComponentBox
-          caption="Default StepIndicator with no navigation"
+          title="Default StepIndicator with no navigation"
           data-dnb-test="step-indicator-default"
         >
           {/* @jsx */ `
@@ -120,7 +120,7 @@ class Example extends PureComponent {
 />
             `}
         </ComponentBox>
-        <ComponentBox caption="Default StepIndicator with strings only">
+        <ComponentBox title="Default StepIndicator with strings only">
           {/* @jsx */ `
 <StepIndicator
   active_item="1"
@@ -133,7 +133,7 @@ class Example extends PureComponent {
             `}
         </ComponentBox>
         <ComponentBox
-          caption="StepIndicator with custom renderer."
+          title="StepIndicator with custom renderer."
           scope={{ onChangeHandler, active_url }}
           hideSyntaxButton
         >

@@ -36,7 +36,7 @@ class Example extends PureComponent {
     return (
       <Fragment>
         <ComponentBox
-          caption="Left aligned tabs, using both 'data' property and content object"
+          title="Left aligned tabs, using both 'data' property and content object"
           scope={{ exampleContent }}
           data-dnb-test="tabs-tablist"
           useRender
@@ -55,7 +55,7 @@ render(<Tabs data={data}>
           `}
         </ComponentBox>
         <ComponentBox
-          caption="Left aligned tabs, using 'data' property only"
+          title="Left aligned tabs, using 'data' property only"
           scope={{ exampleContent }}
         >
           {/* @jsx */ `
@@ -73,7 +73,7 @@ render(<Tabs data={data}>
 />
           `}
         </ComponentBox>
-        <ComponentBox caption="Left aligned tabs, using React Components only">
+        <ComponentBox title="Left aligned tabs, using React Components only">
           {/* @jsx */ `
 <Tabs section_style="mint-green">
   <Tabs.Content title="First">
@@ -86,7 +86,7 @@ render(<Tabs data={data}>
           `}
         </ComponentBox>
         <ComponentBox
-          caption="Right aligned tabs"
+          title="Right aligned tabs"
           scope={{ exampleContent, activeTabKey, openTab, data }}
         >
           {/* @jsx */ `
@@ -117,7 +117,7 @@ render(<Tabs data={data}>
         {typeof window !== 'undefined' && (
           <>
             <ComponentBox
-              caption="Router navigation example using `react-router-dom`. More [examples on CodeSandbox](https://codesandbox.io/embed/8z8xov7xyj)"
+              title="Router navigation example using `react-router-dom`. More [examples on CodeSandbox](https://codesandbox.io/embed/8z8xov7xyj)"
               scope={{ BrowserRouter, Route, withRouter }}
               useRender
               hideSyntaxButton
@@ -157,7 +157,7 @@ render(<BrowserRouter><TabsNav /></BrowserRouter>)
           `}
             </ComponentBox>
             <ComponentBox
-              caption="Router navigation example using `@reach/router`. More [examples on CodeSandbox](https://codesandbox.io/embed/8z8xov7xyj)"
+              title="Router navigation example using `@reach/router`. More [examples on CodeSandbox](https://codesandbox.io/embed/8z8xov7xyj)"
               scope={{ Location, Router, navigate }}
               useRender
               hideSyntaxButton

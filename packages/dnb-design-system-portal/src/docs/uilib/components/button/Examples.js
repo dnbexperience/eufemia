@@ -114,7 +114,7 @@ class Example extends PureComponent {
         </ComponentBox>
         <ComponentBox
           scope={{ Bell }}
-          caption="Medium is equalent to 24, but responsive. To import custom icons, use: `import { bell_medium as Bell } from 'dnb-ui-lib/icons'`"
+          title="Medium is equalent to 24, but responsive. To import custom icons, use: `import { bell_medium as Bell } from 'dnb-ui-lib/icons'`"
         >
           {/* @jsx */ `
 <Button
@@ -127,7 +127,7 @@ class Example extends PureComponent {
         </ComponentBox>
         <ComponentBox
           scope={{ Bell }}
-          caption="Large Signal button with medium sized icon. To import custom icons, use: `import { bell_medium as Bell } from 'dnb-ui-lib/icons'`"
+          title="Large Signal button with medium sized icon. To import custom icons, use: `import { bell_medium as Bell } from 'dnb-ui-lib/icons'`"
         >
           {/* @jsx */ `
 <Button
@@ -139,7 +139,7 @@ class Example extends PureComponent {
 />
           `}
         </ComponentBox>
-        <ComponentBox scope={{ question }} caption="Button with Icon only">
+        <ComponentBox scope={{ question }} title="Button with Icon only">
           {/* @jsx */ `
 <Button
   title="Disabled Icon only Button"

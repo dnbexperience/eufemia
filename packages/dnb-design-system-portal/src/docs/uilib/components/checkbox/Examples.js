@@ -16,7 +16,7 @@ class Example extends PureComponent {
     return (
       <Fragment>
         <ComponentBox
-          caption="Unchecked Checkbox (default state)"
+          title="Unchecked Checkbox (default state)"
           data-dnb-test="checkbox-default"
           scope={{ onChange }}
         >
@@ -28,7 +28,7 @@ class Example extends PureComponent {
           `}
         </ComponentBox>
         <ComponentBox
-          caption="Checked Checkbox, left label position"
+          title="Checked Checkbox, left label position"
           data-dnb-test="checkbox-checked"
           scope={{ onChange }}
         >
@@ -42,7 +42,7 @@ class Example extends PureComponent {
           `}
         </ComponentBox>
         <ComponentBox
-          caption="Checked Checkbox with error message"
+          title="Checked Checkbox with error message"
           data-dnb-test="checkbox-error"
           scope={{ onChange }}
         >
@@ -54,7 +54,7 @@ class Example extends PureComponent {
 />
           `}
         </ComponentBox>
-        <ComponentBox caption="Checkbox with suffix" scope={{ onChange }}>
+        <ComponentBox title="Checkbox with suffix" scope={{ onChange }}>
           {/* @jsx */ `
 <Checkbox
   label="Checkbox"
@@ -82,7 +82,7 @@ class StateDemo extends PureComponent {
       </ComponentBox>
     ) : (
       <ComponentBox
-        caption="Disabled Checkbox in checked state"
+        title="Disabled Checkbox in checked state"
         noFragments={false}
       >
         {/* @jsx */ `

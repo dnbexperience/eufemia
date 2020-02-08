@@ -11,7 +11,7 @@ class Example extends PureComponent {
     return (
       <Fragment>
         <ComponentBox
-          caption="Use the `FormSet` as a Provider for `FormRow`"
+          title="Use the `FormSet` as a Provider for `FormRow`"
           data-dnb-test="form-set-default"
         >
           {/* @jsx */ `
@@ -32,7 +32,7 @@ class Example extends PureComponent {
           `}
         </ComponentBox>
         <ComponentBox
-          caption="FormSet where FormRow inherits the direction"
+          title="FormSet where FormRow inherits the direction"
           data-dnb-test="form-set-vertical"
         >
           {/* @jsx */ `
@@ -45,7 +45,7 @@ class Example extends PureComponent {
           `}
         </ComponentBox>
         <ComponentBox
-          caption="FormSet with `on_submit` event and `prevent_submit` set to true"
+          title="FormSet with `on_submit` event and `prevent_submit` set to true"
           data-dnb-test="form-set-submit"
         >
           {/* @jsx */ `
