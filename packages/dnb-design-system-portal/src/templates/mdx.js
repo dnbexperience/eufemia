@@ -2,7 +2,7 @@
  * MDX Template
  */
 
-import React from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 
 import { MDXProvider } from '@mdx-js/react'
@@ -13,51 +13,64 @@ import Layout from '../shared/parts/Layout'
 import Head from 'react-helmet'
 import tags from '../shared/tags'
 
-export default function MdxTemplate(props) {
-  const {
-    location,
-    data: {
-      mdx: {
-        body,
-        frontmatter: { title, description, fullscreen, showTabs },
-        fields
-      },
-      site: {
-        siteMetadata: {
-          title: fallbackTitle,
-          description: fallbackDescription
+const Tabbar = tags.Tabbar
+
+export default class MdxTemplate extends PureComponent {
+  render() {
+    const {
+      location,
+      data: {
+        mdx: {
+          body,
+          frontmatter: { title, description, fullscreen, showTabs },
+          children
+        },
+        site: {
+          siteMetadata: {
+            title: fallbackTitle,
+            description: fallbackDescription
+          }
         }
       }
-    }
-  } = props
+    } = this.props
 
-  const Tabbar = tags.Tabbar
+    const child = children[0] || {}
 
-  return (
-    <MDXProvider components={tags}>
-      <Head>
-        <title>{title || fallbackTitle}</title>
-        <meta
-          name="description"
-          content={
-            description || fields.motherDescription || fallbackDescription
-          }
-        />
-      </Head>
-      <Layout location={location} fullscreen={Boolean(fullscreen)}>
-        {showTabs && <Tabbar location={location} {...fields} />}
-        <MDXRenderer {...fields}>{body}</MDXRenderer>
-      </Layout>
-    </MDXProvider>
-  )
+    return (
+      <MDXProvider components={tags}>
+        <Head>
+          <title>{title || fallbackTitle}</title>
+          <meta
+            name="description"
+            content={
+              description ||
+              (child.frontmatter && child.frontmatter.description) ||
+              fallbackDescription
+            }
+          />
+        </Head>
+        <Layout location={location} fullscreen={Boolean(fullscreen)}>
+          {showTabs && (
+            <Tabbar
+              location={location}
+              {...(child.frontmatter || {})}
+              usePath={'/' + (child.fields && child.fields.slug)}
+            />
+          )}
+          <MDXRenderer>{body}</MDXRenderer>
+        </Layout>
+      </MDXProvider>
+    )
+  }
 }
+
 MdxTemplate.propTypes = {
   location: PropTypes.object.isRequired,
   data: PropTypes.shape({
     mdx: PropTypes.shape({
       body: PropTypes.string.isRequired,
       frontmatter: PropTypes.object.isRequired,
-      fields: PropTypes.object.isRequired
+      children: PropTypes.array.isRequired
     }).isRequired,
     site: PropTypes.shape({
       siteMetadata: PropTypes.object.isRequired
@@ -73,19 +86,9 @@ export const pageQuery = graphql`
       }
     }
     mdx(id: { eq: $id }) {
-      fields {
-        slug
-        motherTitle
-        motherDescription
-        motherPath
-        motherTabs {
-          title
-          key
-        }
-        motherTabsHide {
-          title
-        }
-      }
+      # fields {
+      #   slug
+      # }
       frontmatter {
         title
         description
@@ -93,6 +96,25 @@ export const pageQuery = graphql`
         showTabs
       }
       body
+      children {
+        ... on Mdx {
+          fields {
+            slug
+          }
+          frontmatter {
+            title
+            menuTitle
+            showTabs
+            tabs {
+              title
+              key
+            }
+            hideTabs {
+              title
+            }
+          }
+        }
+      }
     }
   }
 `

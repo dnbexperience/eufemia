@@ -30,12 +30,12 @@ exports.onCreateNode = ({
 
 // find the root child wich has a frontmatter.title
 // so the Tabbar can use the mother title
-const addMotherFields = ({ node, getNode, getNodesByType, actions }) => {
+const addMotherFields = ({ node, getNodesByType, actions }) => {
   if (node.internal.type !== 'Mdx') {
     return
   }
 
-  const { createNodeField } = actions
+  const { createParentChildLink } = actions
   const motherDir = node.fileAbsolutePath.substring(
     0,
     node.fileAbsolutePath.lastIndexOf('.')
@@ -90,32 +90,7 @@ const addMotherFields = ({ node, getNode, getNodesByType, actions }) => {
     result.frontmatter.title &&
     result.frontmatter.title.length > 0
   ) {
-    createNodeField({
-      name: 'motherTitle',
-      node,
-      value: result.frontmatter.title
-    })
-    createNodeField({
-      name: 'motherDescription',
-      node,
-      value: result.frontmatter.description
-    })
-    createNodeField({
-      name: 'motherTabs',
-      node,
-      value: result.frontmatter.tabs
-    })
-    createNodeField({
-      name: 'motherTabsHide',
-      node,
-      value: result.frontmatter.hideTabs
-    })
-    const parent = getNode(result.parent)
-    createNodeField({
-      name: 'motherPath',
-      node,
-      value: '/' + parent.relativePath.replace(parent.ext, '')
-    })
+    createParentChildLink({ parent: node, child: result })
   }
 }
 
