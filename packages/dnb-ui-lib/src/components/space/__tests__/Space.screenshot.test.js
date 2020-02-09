@@ -10,7 +10,7 @@ import {
 
 describe('Space screenshot', () => {
   setupPageScreenshot({
-    url: '/uilib/components/space'
+    url: '/uilib/components/space/demos'
   })
   // looks like this is not working well
   it.skip('have to match the spacing patterns', async () => {

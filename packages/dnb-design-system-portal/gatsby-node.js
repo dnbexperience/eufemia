@@ -5,11 +5,17 @@
 
 const path = require('path')
 
-exports.onCreateNode = ({ node, getNode, actions }) => {
+exports.onCreateNode = ({
+  node,
+  getNode,
+  getNodesByType,
+  getNodeAndSavePathDependency,
+  actions
+}) => {
   const { createNodeField } = actions
 
   if (node.internal.type === 'Mdx') {
-    const parent = getNode(node.parent)
+    const parent = getNodeAndSavePathDependency(node.parent)
     const slug = parent.relativePath.replace(parent.ext, '')
 
     createNodeField({
@@ -17,12 +23,105 @@ exports.onCreateNode = ({ node, getNode, actions }) => {
       node,
       value: slug
     })
+
+    addMotherFields({ node, getNode, getNodesByType, actions })
   }
 }
 
-exports.createPages = async ({ graphql, actions }) => {
-  await createPages({ graphql, actions })
-  await createRedirects({ graphql, actions })
+// find the root child wich has a frontmatter.title
+// so the Tabbar can use the mother title
+const addMotherFields = ({ node, getNode, getNodesByType, actions }) => {
+  if (node.internal.type !== 'Mdx') {
+    return
+  }
+
+  const { createNodeField } = actions
+  const motherDir = node.fileAbsolutePath.substring(
+    0,
+    node.fileAbsolutePath.lastIndexOf('.')
+  )
+
+  if (!/uilib\/(components|patterns|elements)/.test(motherDir)) {
+    return
+  }
+
+  const nodes = getNodesByType('Mdx').reverse()
+  const parts = motherDir.split('/')
+  parts.shift() // do not search on empty parts
+
+  let find = null
+  let result = null
+
+  // traverse down the path parts
+  for (let i = 0, l = parts.length; i < l; ++i) {
+    find = '/' + parts.join('/')
+    result = nodes.find(({ fileAbsolutePath, frontmatter }) => {
+      const path = fileAbsolutePath.substring(
+        0,
+        fileAbsolutePath.lastIndexOf('.')
+      )
+      return (
+        find === path &&
+        frontmatter &&
+        frontmatter.title &&
+        // || frontmatter.menuTitle
+        frontmatter.title.length > 0 // we dont need to crawler nodes witch has a title
+      )
+    })
+
+    // ohh we got result, thats fine
+    if (result) {
+      break
+    }
+
+    parts.pop()
+
+    // and stop if the folder is called "src" or "docs"
+    // if we get the parent (node), we can use parent.sourceInstanceName
+    if (parts[parts.length - 1] === 'docs') {
+      break
+    }
+  }
+
+  // Add the mother title to the children
+  if (
+    result &&
+    result.frontmatter &&
+    result.frontmatter.title &&
+    result.frontmatter.title.length > 0
+  ) {
+    createNodeField({
+      name: 'motherTitle',
+      node,
+      value: result.frontmatter.title
+    })
+    createNodeField({
+      name: 'motherDescription',
+      node,
+      value: result.frontmatter.description
+    })
+    createNodeField({
+      name: 'motherTabs',
+      node,
+      value: result.frontmatter.tabs
+    })
+    createNodeField({
+      name: 'motherTabsHide',
+      node,
+      value: result.frontmatter.hideTabs
+    })
+    const parent = getNode(result.parent)
+    createNodeField({
+      name: 'motherPath',
+      node,
+      value: '/' + parent.relativePath.replace(parent.ext, '')
+    })
+  }
+}
+
+exports.createPages = async params => {
+  await createPages(params)
+  await createRedirects(params)
 }
 
 const createPages = async ({ graphql, actions }) => {
@@ -42,7 +141,7 @@ const createPages = async ({ graphql, actions }) => {
   `)
 
   if (mdxResult.errors) {
-    console.log(mdxResult.errors)
+    console.error(mdxResult.errors)
     return mdxResult.errors
   }
 
@@ -90,7 +189,7 @@ const createRedirects = async ({ graphql, actions }) => {
   `)
 
   if (mdxResult.errors) {
-    console.log(mdxResult.errors)
+    console.error(mdxResult.errors)
     return mdxResult.errors
   }
 

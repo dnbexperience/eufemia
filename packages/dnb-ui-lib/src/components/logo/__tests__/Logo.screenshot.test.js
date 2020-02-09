@@ -9,7 +9,7 @@ import {
 } from '../../../core/jest/jestSetupScreenshots'
 
 describe('Logo screenshot', () => {
-  setupPageScreenshot({ url: '/uilib/components/logo' })
+  setupPageScreenshot({ url: '/uilib/components/logo/demos' })
   it('have to match the default "Logo"', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-dnb-test="logo-default"]'

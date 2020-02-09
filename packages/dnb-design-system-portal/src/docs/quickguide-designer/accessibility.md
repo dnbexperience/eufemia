@@ -1,6 +1,6 @@
 ---
 title: 'WCAG Accessibility'
-draft: false
+
 icon: 'accessibility'
 ---
 

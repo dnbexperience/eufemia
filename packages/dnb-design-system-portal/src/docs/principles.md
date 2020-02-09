@@ -1,6 +1,6 @@
 ---
 title: 'Principles & Values'
-draft: false
+
 ---
 
 # Principles & Values

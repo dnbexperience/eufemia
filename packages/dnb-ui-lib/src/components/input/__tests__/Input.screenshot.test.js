@@ -16,7 +16,7 @@ describe('Input screenshot', () => {
     styleSelector: `[data-dnb-test="${selector}"] .dnb-input__input`,
     simulateSelector: `[data-dnb-test="${selector}"] .dnb-input__input`
   })
-  setupPageScreenshot({ url: '/uilib/components/input' })
+  setupPageScreenshot({ url: '/uilib/components/input/demos' })
   it('have to match input with placeholder', async () => {
     const screenshot = await testPageScreenshot({
       ...extend('input-placeholder'),

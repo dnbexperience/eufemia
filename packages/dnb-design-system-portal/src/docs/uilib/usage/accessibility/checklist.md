@@ -1,7 +1,7 @@
 ---
 title: 'Checklist'
 description: 'Accessibility checklist to help you remember the most important tasks you have to follow during front end development.'
-draft: false
+
 ---
 
 # Accessibility Checklist

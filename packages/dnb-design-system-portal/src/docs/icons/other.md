@@ -2,7 +2,7 @@
 title: 'Other icons'
 description: 'Other icons used inside of Eufemia components.'
 icon: 'helper_classes'
-draft: false
+
 order: 3
 ---
 

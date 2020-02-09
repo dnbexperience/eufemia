@@ -11,7 +11,7 @@ class Example extends PureComponent {
     return (
       <Fragment>
         <ComponentBox
-          caption="Default form-label"
+          title="Default form-label"
           data-dnb-test="form-label-default"
         >
           {/* @jsx */ `
@@ -22,7 +22,7 @@ class Example extends PureComponent {
           `}
         </ComponentBox>
         <ComponentBox
-          caption="Vertical form-label"
+          title="Vertical form-label"
           data-dnb-test="form-label-vertical"
         >
           {/* @jsx */ `
@@ -32,7 +32,7 @@ class Example extends PureComponent {
 <Checkbox id="alone-2" label="Checkbox" />
           `}
         </ComponentBox>
-        <ComponentBox caption="Vertical form-label without a `for_id`">
+        <ComponentBox title="Vertical form-label without a `for_id`">
           {/* @jsx */ `
 <FormLabel vertical={true}>
   Without for_id (select me):
@@ -40,7 +40,7 @@ class Example extends PureComponent {
 <Checkbox label="Checkbox" />
           `}
         </ComponentBox>
-        <ComponentBox caption="A form-label using `.dnb-form` (pattern)">
+        <ComponentBox title="A form-label using `.dnb-form` (pattern)">
           {/* @jsx */ `
 <form className="dnb-form">
   <div className="dnb-form__item">
@@ -65,5 +65,4 @@ class Example extends PureComponent {
   }
 }
 
-export { Example }
-export default () => <Example />
+export default Example

@@ -1,22 +1,14 @@
 ---
 title: 'FormLabel'
 description: 'The FormLabel component represents a caption for all sorts of HTML elements in a user interface.'
-draft: false
 order: 3
+showTabs: true
+hideTabs:
+  - title: Events
 ---
 
-import Tabs from 'Tags/Tabs'
+import FormLabelInfo from 'Pages/uilib/components/form-label/info'
+import FormLabelDemos from 'Pages/uilib/components/form-label/demos'
 
-import FormLabelInfo from 'Pages/uilib/components/form-label/form-label-info'
-import FormLabelProperties from 'Pages/uilib/components/form-label/form-label-properties'
-
-# FormLabel
-
-<Tabs>
-  <Tabs.Content>
-    <FormLabelInfo />
-  </Tabs.Content>
-  <Tabs.Content>
-    <FormLabelProperties />
-  </Tabs.Content>
-</Tabs>
+<FormLabelInfo />
+<FormLabelDemos />

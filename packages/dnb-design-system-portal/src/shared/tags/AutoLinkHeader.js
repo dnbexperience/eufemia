@@ -7,14 +7,15 @@ const slugger = new GHSlugger()
 
 const AutoLinkHeader = ({
   is: Component,
+  useId,
   children,
   className,
   ...props
 }) => {
   slugger.reset()
-  let id = null
+  let id = useId
   // custom id (https://www.markdownguide.org/extended-syntax/#heading-ids)
-  if (Array.isArray(children)) {
+  if (!id && Array.isArray(children)) {
     const { _id, _children } = children.reduce(
       (acc, cur) => {
         if (typeof cur === 'string') {
@@ -34,13 +35,16 @@ const AutoLinkHeader = ({
     )
     id = slugger.slug(_id)
     children = _children
-  } else if (typeof children === 'string') {
+  } else if (!id && typeof children === 'string') {
     if (/\{#(.*)\}/.test(children)) {
       id = /\{#([^}]*)\}/.exec(children)[1]
     } else {
       id = slugger.slug(children)
     }
     children = children.replace(/\{#(.*)\}/g, '').trim()
+  }
+  if (!id && typeof children === 'object' && children.props.source) {
+    id = slugger.slug(children.props.source)
   }
 
   const clickHandler =
@@ -61,13 +65,13 @@ const AutoLinkHeader = ({
       className={classnames(`dnb-${Component}`, className)}
       {...props}
     >
-      {clickHandler && (
+      {clickHandler && id && (
         <AnchorLink
           offset="100"
           className="dnb-anchor anchor"
           title="Click to set a Anchor URL"
           id={id}
-          href={id ? `#${id}` : ''}
+          href={`#${id}`}
           onClick={clickHandler}
           aria-hidden
         >
@@ -80,9 +84,10 @@ const AutoLinkHeader = ({
 }
 AutoLinkHeader.propTypes = {
   is: PropTypes.string,
+  useId: PropTypes.string,
   className: PropTypes.string,
   children: PropTypes.node.isRequired
 }
-AutoLinkHeader.defaultProps = { is: 'h2', className: null }
+AutoLinkHeader.defaultProps = { is: 'h2', useId: null, className: null }
 
 export default AutoLinkHeader

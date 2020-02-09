@@ -446,7 +446,9 @@ export default class SidebarLayout extends PureComponent {
               allMdx(
                 # limit: 2
                 # sort: { fields: [frontmatter___order], order: ASC }
-                filter: { frontmatter: { draft: { ne: true } } }
+                filter: {
+                  frontmatter: { title: { ne: null }, draft: { ne: true } }
+                }
               ) {
                 edges {
                   node {

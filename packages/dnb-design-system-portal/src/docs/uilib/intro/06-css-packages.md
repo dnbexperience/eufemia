@@ -1,6 +1,6 @@
 ---
 fullscreen: true
-draft: true
+
 ---
 
 import { Next } from 'Tags/Intro'

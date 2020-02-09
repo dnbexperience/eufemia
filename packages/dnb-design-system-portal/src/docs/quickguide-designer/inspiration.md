@@ -1,7 +1,7 @@
 ---
 title: 'Inspiration'
 icon: 'inspiration'
-draft: false
+
 ---
 
 import Img from 'Tags/Img'

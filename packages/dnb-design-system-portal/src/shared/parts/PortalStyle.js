@@ -81,6 +81,11 @@ export default css`
     padding-right: 1rem;
   }
 
+  .dev-grid > .dnb-h1 {
+    position: relative;
+    z-index: 2;
+  }
+
   h1,
   h2,
   h3,

@@ -11,7 +11,7 @@ import {
 
 describe('Icon screenshot', () => {
   setupPageScreenshot({
-    url: '/uilib/components/icon',
+    url: '/uilib/components/icon/demos',
     screenshotConfig: {
       // use 10% on CI because of the font rendering differences
       pixelThresholdRelative: isCI ? 0.1 : 0

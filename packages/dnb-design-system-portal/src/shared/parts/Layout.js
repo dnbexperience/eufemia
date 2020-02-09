@@ -42,22 +42,13 @@ class Layout extends PureComponent {
   render() {
     const { children, location, fullscreen } = this.props
 
-    const contentInner = (
-      <ContentInner className="dnb-app-content-inner">
-        <GlobalStatus id="main-status" />
-        <div className="dev-grid">{children}</div>
-      </ContentInner>
-    )
-
-    if (fullscreen || /fullscreen/.test(location.search)) {
-      return (
-        <>
-          <Content className="fullscreen-page">{contentInner}</Content>
-          <ToggleGrid hidden />
-          <Footer />
-        </>
-      )
+    // for screenshot tests we skip the rest
+    if (/data-dnb-test/.test(location.search)) {
+      return <Content fullscreen={true}>{children}</Content>
     }
+
+    const fs =
+      fullscreen || (location && /fullscreen/.test(location.search))
 
     return (
       <MainMenuProvider>
@@ -65,14 +56,22 @@ class Layout extends PureComponent {
           <a className="dnb-skip-link" href="#dnb-app-content">
             Skip to content
           </a>
-          <StickyMenuBar />
-          <MainMenu enableOverlay />
+
+          {!fs && <StickyMenuBar />}
+          {!fs && <MainMenu enableOverlay />}
+
           <Wrapper className="content-wrapper">
-            <Sidebar location={location} showAll={false} />
-            <Content>
-              {contentInner}
+            {!fs && <Sidebar location={location} showAll={false} />}
+
+            <Content fullscreen={fullscreen}>
+              <ContentInner className="dnb-app-content-inner">
+                <GlobalStatus id="main-status" />
+                <div className="dev-grid">{children}</div>
+              </ContentInner>
               <Footer />
             </Content>
+
+            {fs && <ToggleGrid hidden />}
           </Wrapper>
         </SidebarMenuProvider>
       </MainMenuProvider>
@@ -94,16 +93,22 @@ const Wrapper = styled.div`
   }
 `
 
-const Content = ({ className, children }) => (
+const Content = ({ className, fullscreen, children }) => (
   <ContentWrapper
     id="dnb-app-content"
-    className={classnames('dnb-spacing', 'dnb-app-content', className)}
+    className={classnames(
+      'dnb-spacing',
+      'dnb-app-content',
+      fullscreen && 'fullscreen-page',
+      className
+    )}
   >
     <Global styles={markdownStyle} />
     {children}
   </ContentWrapper>
 )
 Content.propTypes = {
+  fullscreen: PropTypes.bool.isRequired,
   children: PropTypes.node.isRequired,
   className: PropTypes.string
 }

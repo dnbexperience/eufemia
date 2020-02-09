@@ -12,7 +12,7 @@ class Example extends PureComponent {
     return (
       <Fragment>
         <ComponentBox
-          caption="Placeholder text"
+          title="Placeholder text"
           data-dnb-test="textarea-default"
         >
           {/* @jsx */ `
@@ -27,7 +27,7 @@ class Example extends PureComponent {
 />
           `}
         </ComponentBox>
-        <ComponentBox caption="Placeholder text">
+        <ComponentBox title="Placeholder text">
           {/* @jsx */ `
 <Textarea
   label="Placeholder:"
@@ -35,7 +35,7 @@ class Example extends PureComponent {
 />
           `}
         </ComponentBox>
-        <ComponentBox caption="Vertical placed label">
+        <ComponentBox title="Vertical placed label">
           {/* @jsx */ `
 <Textarea
   label="Vertical:"
@@ -47,7 +47,7 @@ class Example extends PureComponent {
           `}
         </ComponentBox>
         <ComponentBox
-          caption="Stretched horizontal placed label"
+          title="Stretched horizontal placed label"
           data-dnb-test="textarea-stretch"
         >
           {/* @jsx */ `
@@ -59,7 +59,7 @@ class Example extends PureComponent {
 />
           `}
         </ComponentBox>
-        <ComponentBox caption="Max length usage">
+        <ComponentBox title="Max length usage">
           {/* @jsx */ `
 <Textarea
   label="Length limit:"
@@ -72,7 +72,7 @@ class Example extends PureComponent {
           `}
         </ComponentBox>
         <ComponentBox
-          caption="With FormStatus failure message"
+          title="With FormStatus failure message"
           data-dnb-test="textarea-error"
         >
           {/* @jsx */ `
@@ -84,7 +84,7 @@ class Example extends PureComponent {
 />
           `}
         </ComponentBox>
-        <ComponentBox caption="Show failure status">
+        <ComponentBox title="Show failure status">
           {/* @jsx */ `
 <Textarea
   label="Show status:"
@@ -93,7 +93,7 @@ class Example extends PureComponent {
 />
 `}
         </ComponentBox>
-        <ComponentBox caption="Disabled textarea">
+        <ComponentBox title="Disabled textarea">
           {/* @jsx */ `
 <Textarea
   label="Disabled:"
@@ -102,7 +102,7 @@ class Example extends PureComponent {
 />
           `}
         </ComponentBox>
-        <ComponentBox caption="Textarea with suffix">
+        <ComponentBox title="Textarea with suffix">
           {/* @jsx */ `
 <Textarea
   label="Textarea with suffix:"

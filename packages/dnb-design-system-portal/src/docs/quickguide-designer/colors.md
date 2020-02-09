@@ -1,6 +1,6 @@
 ---
 title: 'Colors'
-draft: false
+
 icon: 'colors'
 ---
 

@@ -9,7 +9,7 @@ import {
 } from '../../../core/jest/jestSetupScreenshots'
 
 describe('Slider screenshot', () => {
-  setupPageScreenshot({ url: '/uilib/components/slider' })
+  setupPageScreenshot({ url: '/uilib/components/slider/demos' })
   it('have to match default slider', async () => {
     const screenshot = await testPageScreenshot({
       style: { width: '20rem' },

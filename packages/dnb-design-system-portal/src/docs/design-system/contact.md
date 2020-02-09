@@ -1,7 +1,7 @@
 ---
 title: 'Contact'
 icon: 'contact'
-draft: false
+
 order: 2
 ---
 

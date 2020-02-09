@@ -9,7 +9,7 @@ import {
 } from '../../../core/jest/jestSetupScreenshots'
 
 describe('FormLabel screenshot', () => {
-  setupPageScreenshot({ url: '/uilib/components/form-label' })
+  setupPageScreenshot({ url: '/uilib/components/form-label/demos' })
   const style = {
     // Flex makes the pixel height 100% correct
     display: 'flex'

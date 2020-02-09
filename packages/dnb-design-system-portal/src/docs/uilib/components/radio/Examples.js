@@ -11,7 +11,7 @@ class Example extends PureComponent {
     return (
       <Fragment>
         <UseOnTests />
-        <ComponentBox caption="Radio group" data-dnb-test="radio-group">
+        <ComponentBox title="Radio group" data-dnb-test="radio-group">
           {/* @jsx */ `
 <Radio.Group
   label="Radio Group:"
@@ -28,7 +28,7 @@ class Example extends PureComponent {
           `}
         </ComponentBox>
         <ComponentBox
-          caption="Vertical aligned Radio group"
+          title="Vertical aligned Radio group"
           data-dnb-test="radio-group-vertical"
         >
           {/* @jsx */ `
@@ -48,7 +48,7 @@ class Example extends PureComponent {
           `}
         </ComponentBox>
         <ComponentBox
-          caption="Radio group with status messages"
+          title="Radio group with status messages"
           data-dnb-test="radio-group-status"
         >
           {/* @jsx */ `
@@ -78,7 +78,7 @@ class Example extends PureComponent {
           `}
         </ComponentBox>
         <ComponentBox
-          caption="Plain Radio group without `<Radio.Group>`. It is recomended to use the `<Radio.Group>` if You are using **React**."
+          title="Plain Radio group without `<Radio.Group>`. It is recomended to use the `<Radio.Group>` if You are using **React**."
           data-dnb-test="radio-group-plain"
         >
           {/* @jsx */ `
@@ -111,7 +111,7 @@ class Example extends PureComponent {
           `}
         </ComponentBox>
         <ComponentBox
-          caption="Disabled Radio group with `label_position` set to left"
+          title="Disabled Radio group with `label_position` set to left"
           data-dnb-test="radio-group-disabled"
         >
           {/* @jsx */ `
@@ -131,7 +131,7 @@ class Example extends PureComponent {
 </Radio.Group>
           `}
         </ComponentBox>
-        <ComponentBox caption="Radio Buttons with suffix">
+        <ComponentBox title="Radio Buttons with suffix">
           {/* @jsx */ `
 <Radio.Group
   label="With suffixes:"
@@ -164,7 +164,7 @@ class UseOnTests extends PureComponent {
     return typeof window !== 'undefined' && window.IS_TEST ? (
       <>
         <ComponentBox
-          caption="Unchecked Radio (Single Radio buttons should not be used)"
+          title="Unchecked Radio (Single Radio buttons should not be used)"
           data-dnb-test="radio-default"
         >
           {/* @jsx */ `
@@ -174,7 +174,7 @@ class UseOnTests extends PureComponent {
         `}
         </ComponentBox>
         <ComponentBox
-          caption="Checked Radio (Single Radio buttons should not be used)"
+          title="Checked Radio (Single Radio buttons should not be used)"
           data-dnb-test="radio-checked"
         >
           {/* @jsx */ `
@@ -198,7 +198,7 @@ class StateDemo extends PureComponent {
       <></>
     ) : (
       <ComponentBox
-        caption="External state update with possible event **on_state_update**"
+        title="External state update with possible event **on_state_update**"
         noFragments={false}
       >
         {/* @jsx */ `
@@ -229,5 +229,4 @@ class StateDemo extends PureComponent {
   }
 }
 
-export { Example }
-export default () => <Example />
+export default Example

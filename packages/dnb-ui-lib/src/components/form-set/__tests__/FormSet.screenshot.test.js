@@ -12,7 +12,7 @@ describe('FormSet screenshot', () => {
   // const style = {
   //   width: '60rem' // make sure our input gets an explicit width, because of mac/linux rendering differences
   // }
-  setupPageScreenshot({ url: '/uilib/components/form-set' })
+  setupPageScreenshot({ url: '/uilib/components/form-set/demos' })
   it('have to match default form-set', async () => {
     const screenshot = await testPageScreenshot({
       style: {

@@ -1,9 +1,6 @@
 ---
 status: 'wip'
-draft: false
----
-
-## Description
+---## Description
 
 A simple grid setup using Flexbox.
 

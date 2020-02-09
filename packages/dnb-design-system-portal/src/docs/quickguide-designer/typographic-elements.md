@@ -1,7 +1,3 @@
----
-draft: true
----
-
 ## Typographic elements
 
 This is an overview of the default, basic typographic elements such as **headings**, **sub-headings**, **body text** etc.

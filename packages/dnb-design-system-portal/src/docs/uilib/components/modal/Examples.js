@@ -11,7 +11,7 @@ class Example extends PureComponent {
     return (
       <Fragment>
         <ComponentBox
-          caption="Triggered by a icon button"
+          title="Triggered by a icon button"
           data-dnb-test="modal-trigger-default"
         >
           {/* @jsx */ `
@@ -26,7 +26,7 @@ class Example extends PureComponent {
 />
           `}
         </ComponentBox>
-        <ComponentBox caption="Fullscreen Modal, triggered by a tertiary button">
+        <ComponentBox title="Fullscreen Modal, triggered by a tertiary button">
           {/* @jsx */ `
 <Modal
   title="Modal Title"
@@ -37,7 +37,7 @@ class Example extends PureComponent {
 />
           `}
         </ComponentBox>
-        <ComponentBox caption="Hide the Close Button and Prevent Close for 1sec">
+        <ComponentBox title="Hide the Close Button and Prevent Close for 1sec">
           {/* @jsx */ `
 <Modal
   title="1s close delay"
@@ -56,7 +56,7 @@ class Example extends PureComponent {
 </Modal>
           `}
         </ComponentBox>
-        <ComponentBox caption="Triggered by custom trigger button">
+        <ComponentBox title="Triggered by custom trigger button">
           {/* @jsx */ `
 <Button
   id="custom-triggerer"
@@ -76,7 +76,7 @@ class Example extends PureComponent {
 />
           `}
         </ComponentBox>
-        <ComponentBox caption="Close Modal by handlers">
+        <ComponentBox title="Close Modal by handlers">
           {/* @jsx */ `
 <Modal
   title="Auto close"
@@ -96,5 +96,4 @@ class Example extends PureComponent {
   }
 }
 
-export { Example }
-export default () => <Example />
+export default Example

@@ -1,6 +1,6 @@
 ---
 title: 'Vue'
-draft: false
+
 order: 6
 ---
 

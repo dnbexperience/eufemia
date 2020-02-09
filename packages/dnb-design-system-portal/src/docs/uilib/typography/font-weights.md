@@ -1,6 +1,6 @@
 ---
 title: 'Font Weights'
-draft: false
+
 order: 1
 ---
 

@@ -11,7 +11,7 @@ import {
 describe('GlobalError screenshot', () => {
   const style = { width: '25em' }
   setupPageScreenshot({
-    url: '/uilib/components/global-error'
+    url: '/uilib/components/global-error/demos'
   })
   it('have to match the 404 status', async () => {
     const screenshot = await testPageScreenshot({

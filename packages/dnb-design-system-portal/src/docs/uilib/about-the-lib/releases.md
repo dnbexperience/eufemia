@@ -1,7 +1,7 @@
 ---
 title: 'Releases'
 developers: 'Articles giving a periodically overview of the changes lately released.'
-draft: false
+
 redirect_from:
   - /uilib/releases
 ---

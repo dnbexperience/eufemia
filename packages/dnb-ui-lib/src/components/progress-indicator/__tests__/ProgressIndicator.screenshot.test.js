@@ -9,7 +9,9 @@ import {
 } from '../../../core/jest/jestSetupScreenshots'
 
 describe('ProgressIndicator screenshot', () => {
-  setupPageScreenshot({ url: '/uilib/components/progress-indicator' })
+  setupPageScreenshot({
+    url: '/uilib/components/progress-indicator/demos'
+  })
   it('have to match the static primary circular with 50 percentage', async () => {
     const screenshot = await testPageScreenshot({
       selector:

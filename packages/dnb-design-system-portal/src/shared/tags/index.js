@@ -8,6 +8,7 @@ import { Checkbox, Input } from 'dnb-ui-lib/src/components'
 import Table from './Table'
 // import Img from './Img'
 import Tag from './Tag'
+import Tabbar from './Tabbar'
 import Anchor from './Anchor'
 import Intro, { IntroFooter } from './Intro'
 import Header from './AutoLinkHeader'
@@ -15,6 +16,7 @@ import Header from './AutoLinkHeader'
 export default {
   Intro,
   IntroFooter,
+  Tabbar,
   // img: Img, // -> <figure> cannot appear as a descendant of <p>
   h1: props => <Header is="h1" {...props} />,
   h2: props => <Header is="h2" {...props} />,
@@ -40,6 +42,7 @@ export default {
   ol: props => <Tag is="ol" {...props} />,
   dl: props => <Tag is="dl" {...props} />,
   p: props => <Tag is="p" {...props} />,
+  paragraph: props => <Tag is="p" {...props} />,
   blockquote: props => <Tag is="blockquote" {...props} />,
   hr: props => <Tag is="hr" {...props} />
 }

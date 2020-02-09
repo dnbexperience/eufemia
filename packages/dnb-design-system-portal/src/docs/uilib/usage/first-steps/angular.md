@@ -1,6 +1,6 @@
 ---
 title: 'Angular'
-draft: false
+
 order: 7
 ---
 

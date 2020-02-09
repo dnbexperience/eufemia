@@ -9,7 +9,7 @@ import {
 } from '../../../core/jest/jestSetupScreenshots'
 
 describe('Checkbox unchecked screenshot', () => {
-  setupPageScreenshot({ url: '/uilib/components/checkbox' })
+  setupPageScreenshot({ url: '/uilib/components/checkbox/demos' })
   it('have to match checkbox in unchecked state', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-dnb-test="checkbox-default"] .dnb-checkbox'
@@ -39,7 +39,7 @@ describe('Checkbox unchecked screenshot', () => {
 // NB: Because of focus simulation and screenshotElement.press('Tab')
 // we have to run the two focus simulations in a seperate run each
 describe('Checkbox checked screenshot', () => {
-  setupPageScreenshot({ url: '/uilib/components/checkbox' })
+  setupPageScreenshot({ url: '/uilib/components/checkbox/demos' })
   it('have to match checkbox in checked state', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-dnb-test="checkbox-checked"] .dnb-checkbox'

@@ -9,7 +9,7 @@ import {
 } from '../../../core/jest/jestSetupScreenshots'
 
 describe('Dropdown screenshot', () => {
-  setupPageScreenshot({ url: '/uilib/components/dropdown' })
+  setupPageScreenshot({ url: '/uilib/components/dropdown/demos' })
   it('have to match the closed dropdown', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-dnb-test="dropdown-closed"] .dnb-dropdown__inner'
