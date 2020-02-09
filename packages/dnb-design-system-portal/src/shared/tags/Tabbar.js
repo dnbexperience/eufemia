@@ -17,11 +17,11 @@ import { CloseButton } from 'dnb-ui-lib/src/components/modal'
 
 function Tabbar({
   location,
-  motherTitle,
-  motherTabs,
-  motherTabsHide,
-  motherPath,
+  title,
+  hideTabs,
+  usePath,
   tabs,
+  defaultTabs,
   children
 }) {
   // const location = getLocation()
@@ -50,31 +50,29 @@ function Tabbar({
     }
   }
   const preparedTabs = React.useMemo(() => {
-    return motherTabs
-      ? motherTabs.map(({ key, ...rest }) => {
-          key = key.replace(/\$1$/, pathQuery())
+    return (
+      (tabs || defaultTabs)
+        // remove the tab if it is hidden in frontmatter
+        .filter(
+          ({ title }) =>
+            !(hideTabs && hideTabs.find(({ title: t }) => t === title))
+        )
+        .map(({ key, ...rest }) => {
+          if (key.includes('$1')) {
+            key = key.replace(/\$1$/, pathQuery())
+          } else {
+            key = `${usePath}${key}${pathQuery()}`
+          }
           return { ...rest, key }
         })
-      : tabs
-          // remove the tab if it is hidden in frontmatter
-          .filter(
-            ({ title }) =>
-              !(
-                motherTabsHide &&
-                motherTabsHide.find(({ title: t }) => t === title)
-              )
-          )
-          .map(({ key, ...rest }) => {
-            key = `${motherPath}${key}${pathQuery()}`
-            return { ...rest, key }
-          })
+    )
   }, [wasFullscreen])
 
   // const data = Tabs.getData({ tabs: preparedTabs, children })
 
   return (
     <>
-      {motherTitle && <H1>{motherTitle}</H1>}
+      {title && <H1>{title}</H1>}
       <Tabs
         data={preparedTabs}
         selected_key={location && `${location.pathname}${pathQuery()}`}
@@ -113,21 +111,21 @@ function Tabbar({
 Tabbar.propTypes = {
   location: PropTypes.object.isRequired,
   tabs: PropTypes.array,
-  motherTitle: PropTypes.string.isRequired,
-  motherTabs: PropTypes.array,
-  motherTabsHide: PropTypes.array,
-  motherPath: PropTypes.string.isRequired,
+  defaultTabs: PropTypes.array,
+  title: PropTypes.string.isRequired,
+  hideTabs: PropTypes.array,
+  usePath: PropTypes.string.isRequired,
   children: PropTypes.node
 }
 Tabbar.defaultProps = {
-  tabs: [
+  tabs: null,
+  defaultTabs: [
     { title: 'Info', key: '/info' },
     { title: 'Demos', key: '/demos' },
     { title: 'Properties', key: '/properties' },
     { title: 'Events', key: '/events' }
   ],
-  motherTabs: null,
-  motherTabsHide: null,
+  hideTabs: null,
   children: null
 }
 
