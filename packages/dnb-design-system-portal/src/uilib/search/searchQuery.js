@@ -93,6 +93,6 @@ const queries =
               : 'dev_eufemia_docs'
         }
       ]
-    : []
+    : null
 
 module.exports = queries
