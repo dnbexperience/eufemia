@@ -1,9 +1,6 @@
 ---
 title: 'Lists'
-
----
-
-import CodeBlock from 'Tags/CodeBlock'
+---import CodeBlock from 'Tags/CodeBlock'
 
 ## Lists
 
