@@ -3,7 +3,8 @@
  *
  */
 
-const { getCurrentBranchName } = require('../utils/gitUtils')
+const { getCurrentBranchName } = require('../utils/git')
+const { makeSlug } = require('../utils/slug')
 
 const docsQuery = /* GraphQL */ `
   {
@@ -17,8 +18,12 @@ const docsQuery = /* GraphQL */ `
           frontmatter {
             title
             description
-            status
           }
+          headings {
+            value
+            depth
+          }
+          # use the first children as the category
           children {
             ... on Mdx {
               fields {
@@ -27,7 +32,6 @@ const docsQuery = /* GraphQL */ `
               }
               frontmatter {
                 title
-                description
               }
             }
           }
@@ -38,31 +42,50 @@ const docsQuery = /* GraphQL */ `
 `
 
 const flatten = arr =>
-  arr.map(({ node: { children, fields, frontmatter, ...rest } }) => {
-    const category =
-      children[0] && children[0].tag === 'category' ? children[0] : null
+  arr
+    .filter(
+      ({
+        node: {
+          fields: { slug },
+          frontmatter: { search }
+        }
+      }) => !slug.includes('not_in_use') && search !== false
+    )
+    .map(
+      ({ node: { children, fields, frontmatter, headings, ...rest } }) => {
+        const result = {
+          ...fields,
+          ...frontmatter,
+          ...rest
+        }
 
-    const result = {
-      url: `/${fields.slug}`,
-      category,
-      ...fields,
-      ...frontmatter,
-      ...rest
-    }
+        if (headings && Array.isArray(headings)) {
+          headings = headings.map(item => ({
+            ...item,
+            slug: makeSlug(item.value)
+          }))
+        }
 
-    return result
-  })
+        if (children[0]) {
+          const { fields, frontmatter, ...rest } = children[0]
+          result.category = {
+            ...fields,
+            ...frontmatter,
+            headings,
+            ...rest
+          }
+        }
 
-const transformer = () => {
-  return ({ data }) => flatten(data.pages.edges)
-}
+        return result
+      }
+    )
 
 const queries =
   getCurrentBranchName() === 'release'
     ? [
         {
           query: docsQuery,
-          transformer,
+          transformer: ({ data }) => flatten(data.pages.edges),
           indexName:
             process.env.NODE_ENV === 'production'
               ? 'prod_eufemia_docs'
