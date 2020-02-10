@@ -1,6 +1,5 @@
 ---
 title: 'Font Weights'
-
 order: 1
 ---
 

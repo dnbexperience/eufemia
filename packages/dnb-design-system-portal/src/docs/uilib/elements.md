@@ -1,7 +1,6 @@
 ---
 title: 'HTML Elements'
 icon: 'elements'
-
 order: 6
 ---
 

@@ -1,7 +1,6 @@
 ---
 title: 'Helpers'
 icon: 'helper_classes'
-
 order: 4
 redirect_from:
   - /uilib/helper-classes

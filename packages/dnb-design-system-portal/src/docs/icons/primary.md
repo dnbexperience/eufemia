@@ -2,7 +2,6 @@
 title: 'Primary'
 description: 'The primary icons are icons used inside of Eufemia components.'
 icon: 'primary'
-
 order: 1
 ---
 

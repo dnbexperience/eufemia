@@ -1,6 +1,5 @@
 ---
 title: 'First Steps'
-
 order: 2
 ---
 

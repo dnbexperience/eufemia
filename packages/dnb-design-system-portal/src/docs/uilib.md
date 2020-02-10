@@ -1,5 +1,6 @@
 ---
 title: 'UI Library'
+description: 'Buttons, dropdowns, input fields, components etc.'
 ---
 
 import WelcomeAdvice from 'Pages/welcome-advice.md'

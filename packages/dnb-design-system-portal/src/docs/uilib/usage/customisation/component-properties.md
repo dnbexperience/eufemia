@@ -1,6 +1,5 @@
 ---
 title: 'Component Properties'
-
 order: 1
 ---
 

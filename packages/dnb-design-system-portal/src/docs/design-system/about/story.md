@@ -1,7 +1,6 @@
 ---
 title: 'Story'
 # icon: 'story'
-
 order: 4
 ---
 

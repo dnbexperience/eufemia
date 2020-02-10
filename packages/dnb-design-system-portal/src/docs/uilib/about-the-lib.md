@@ -1,7 +1,6 @@
 ---
 title: 'About the Library'
 icon: 'about_the_lib'
-
 order: 1
 ---
 

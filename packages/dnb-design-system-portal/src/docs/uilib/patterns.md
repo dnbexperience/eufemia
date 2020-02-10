@@ -1,7 +1,6 @@
 ---
 title: 'Patterns'
 icon: 'patterns'
-
 order: 8
 ---
 

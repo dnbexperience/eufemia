@@ -1,5 +1,6 @@
 ---
 title: 'Brand'
+description: 'Brand guidelines - typography, colors etc.'
 ---
 
 # Brand
