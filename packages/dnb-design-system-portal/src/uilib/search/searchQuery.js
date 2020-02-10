@@ -54,12 +54,6 @@ const flatten = arr =>
     )
     .map(
       ({ node: { children, fields, frontmatter, headings, ...rest } }) => {
-        const result = {
-          ...fields,
-          ...frontmatter,
-          ...rest
-        }
-
         if (headings && Array.isArray(headings)) {
           headings = headings.map(item => ({
             ...item,
@@ -67,12 +61,18 @@ const flatten = arr =>
           }))
         }
 
+        const result = {
+          ...fields,
+          ...frontmatter,
+          ...rest,
+          headings
+        }
+
         if (children[0]) {
           const { fields, frontmatter, ...rest } = children[0]
           result.category = {
             ...fields,
             ...frontmatter,
-            headings,
             ...rest
           }
         }
