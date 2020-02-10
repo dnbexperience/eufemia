@@ -18,6 +18,7 @@ const docsQuery = /* GraphQL */ `
           frontmatter {
             title
             description
+            search
           }
           headings {
             value
