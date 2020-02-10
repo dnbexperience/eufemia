@@ -19,16 +19,3 @@ Read more [About the Library](/uilib/about-the-lib)
 ---
 
 <WelcomeAdvice />
-
-<!-- prettier-ignore-start -->
-
-<!-- export default ({children}) => {
-  console.log('Hello')
-  return (
-    <React.Fragment>
-      {children}
-    </React.Fragment>
-  )
-} -->
-
-<!-- prettier-ignore-end -->
