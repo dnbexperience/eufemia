@@ -3,20 +3,33 @@
  *
  */
 
+const { getCurrentBranchName } = require('../utils/gitUtils')
+
 const docsQuery = /* GraphQL */ `
   {
-    pages: allMarkdownRemark(
-      filter: {
-        # fileAbsolutePath: { regex: "/components/" },
-        frontmatter: {}
-      }
-    ) {
+    pages: allMdx {
       edges {
         node {
           objectID: id
+          fields {
+            slug
+          }
           frontmatter {
             title
-            slug
+            description
+            status
+          }
+          children {
+            ... on Mdx {
+              fields {
+                slug
+                tag
+              }
+              frontmatter {
+                title
+                description
+              }
+            }
           }
         }
       }
@@ -25,20 +38,37 @@ const docsQuery = /* GraphQL */ `
 `
 
 const flatten = arr =>
-  arr.map(({ node: { frontmatter, ...rest } }) => ({
-    ...frontmatter,
-    ...rest
-  }))
+  arr.map(({ node: { children, fields, frontmatter, ...rest } }) => {
+    const category =
+      children[0] && children[0].tag === 'category' ? children[0] : null
 
-const queries = [
-  {
-    query: docsQuery,
-    transformer: ({ data }) => flatten(data.pages.edges),
-    indexName:
-      process.env.NODE_ENV === 'production'
-        ? 'prod_eufemia_docs'
-        : 'dev_eufemia_docs'
-  }
-]
+    const result = {
+      url: `/${fields.slug}`,
+      category,
+      ...fields,
+      ...frontmatter,
+      ...rest
+    }
+
+    return result
+  })
+
+const transformer = () => {
+  return ({ data }) => flatten(data.pages.edges)
+}
+
+const queries =
+  getCurrentBranchName() === 'release'
+    ? [
+        {
+          query: docsQuery,
+          transformer,
+          indexName:
+            process.env.NODE_ENV === 'production'
+              ? 'prod_eufemia_docs'
+              : 'dev_eufemia_docs'
+        }
+      ]
+    : []
 
 module.exports = queries

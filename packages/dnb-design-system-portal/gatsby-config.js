@@ -3,11 +3,10 @@
  *
  */
 
+require('dotenv').config()
+
 // used for algolia search
 const queries = require('./src/uilib/search/searchQuery')
-require('dotenv').config({
-  path: `.env.${process.env.NODE_ENV}`
-})
 
 module.exports = {
   pathPrefix: '/',
@@ -41,15 +40,6 @@ module.exports = {
         theme_color: '#007272',
         background_color: '#007272',
         display: 'standalone'
-      }
-    },
-    {
-      resolve: 'gatsby-plugin-algolia',
-      options: {
-        appId: process.env.GATSBY_ALGOLIA_APP_ID,
-        apiKey: process.env.ALGOLIA_ADMIN_KEY,
-        queries,
-        chunkSize: 10000 // default: 1000
       }
     },
     'gatsby-plugin-meta-redirect',
@@ -98,6 +88,16 @@ module.exports = {
         // defaultLayouts: {
         //   // default: require.resolve('./src/templates/mdx.js')
         // }
+      }
+    },
+    {
+      resolve: 'gatsby-plugin-algolia',
+      options: {
+        appId: process.env.ALGOLIA_APP_ID,
+        apiKey: process.env.ALGOLIA_API_KEY,
+        indexName: process.env.ALGOLIA_INDEX_NAME, // for all queries
+        queries,
+        chunkSize: 10000 // default: 1000
       }
     },
     'gatsby-plugin-sass',

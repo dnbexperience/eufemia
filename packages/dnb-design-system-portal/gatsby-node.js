@@ -7,7 +7,6 @@ const path = require('path')
 
 exports.onCreateNode = ({
   node,
-  getNode,
   getNodesByType,
   getNodeAndSavePathDependency,
   actions
@@ -24,44 +23,60 @@ exports.onCreateNode = ({
       value: slug
     })
 
-    addMotherFields({ node, getNode, getNodesByType, actions })
+    linkParentChild({ node, getNodesByType, actions })
   }
 }
 
 // find the root child wich has a frontmatter.title
 // so the Tabbar can use the mother title
-const addMotherFields = ({ node, getNodesByType, actions }) => {
+const linkParentChild = ({ node, getNodesByType, actions }) => {
   if (node.internal.type !== 'Mdx') {
     return
   }
 
+  // get all nodes
+  const nodes = getNodesByType('Mdx').reverse()
   const { createParentChildLink } = actions
-  const motherDir = node.fileAbsolutePath.substring(
-    0,
-    node.fileAbsolutePath.lastIndexOf('.')
+
+  // collect the category items - used for search
+  const categoryDir = (node.fileAbsolutePath
+    .replace('.md', '')
+    .match(/.*\/docs\/([^/]*)/) || [])[0]
+
+  const categoryMdx = nodes.find(
+    ({ fileAbsolutePath }) =>
+      categoryDir === fileAbsolutePath.replace('.md', '')
   )
+
+  if (categoryMdx) {
+    const { createNodeField } = actions
+    createNodeField({
+      node: categoryMdx,
+      name: 'tag',
+      value: 'category'
+    })
+    createParentChildLink({ parent: node, child: categoryMdx })
+  }
+
+  // from here on we only handle the sub tab linking
+  const motherDir = node.fileAbsolutePath.replace('.md', '')
 
   if (!/uilib\/(components|patterns|elements)/.test(motherDir)) {
     return
   }
 
-  const nodes = getNodesByType('Mdx').reverse()
   const parts = motherDir.split('/')
   parts.shift() // do not search on empty parts
 
   let find = null
-  let result = null
+  let motherMdx = null
 
-  // traverse down the path parts
+  // traverse down the mother path parts
   for (let i = 0, l = parts.length; i < l; ++i) {
     find = '/' + parts.join('/')
-    result = nodes.find(({ fileAbsolutePath, frontmatter }) => {
-      const path = fileAbsolutePath.substring(
-        0,
-        fileAbsolutePath.lastIndexOf('.')
-      )
+    motherMdx = nodes.find(({ fileAbsolutePath, frontmatter }) => {
       return (
-        find === path &&
+        find === fileAbsolutePath.replace('.md', '') &&
         frontmatter &&
         frontmatter.title &&
         // || frontmatter.menuTitle
@@ -69,8 +84,8 @@ const addMotherFields = ({ node, getNodesByType, actions }) => {
       )
     })
 
-    // ohh we got result, thats fine
-    if (result) {
+    // ohh we got motherMdx, thats fine
+    if (motherMdx) {
       break
     }
 
@@ -85,12 +100,12 @@ const addMotherFields = ({ node, getNodesByType, actions }) => {
 
   // Add the mother title to the children
   if (
-    result &&
-    result.frontmatter &&
-    result.frontmatter.title &&
-    result.frontmatter.title.length > 0
+    motherMdx &&
+    motherMdx.frontmatter &&
+    motherMdx.frontmatter.title &&
+    motherMdx.frontmatter.title.length > 0
   ) {
-    createParentChildLink({ parent: node, child: result })
+    createParentChildLink({ parent: node, child: motherMdx })
   }
 }
 

@@ -34,7 +34,7 @@ export default class MdxTemplate extends PureComponent {
       }
     } = this.props
 
-    const child = children[0] || {}
+    const child = children[1] || {}
 
     return (
       <MDXProvider components={tags}>
