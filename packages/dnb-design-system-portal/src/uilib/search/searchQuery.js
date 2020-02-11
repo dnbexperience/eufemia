@@ -81,18 +81,18 @@ const flatten = arr =>
       }
     )
 
-const queries =
-  getCurrentBranchName() === 'release'
-    ? [
-        {
-          query: docsQuery,
-          transformer: ({ data }) => flatten(data.pages.edges),
-          indexName:
-            process.env.NODE_ENV === 'production'
-              ? 'prod_eufemia_docs'
-              : 'dev_eufemia_docs'
-        }
-      ]
-    : null
+const currentBranch = getCurrentBranchName()
+const queries = /^(release|portal)$/.test(currentBranch)
+  ? [
+      {
+        query: docsQuery,
+        transformer: ({ data }) => flatten(data.pages.edges),
+        indexName:
+          process.env.NODE_ENV !== 'production'
+            ? 'prod_eufemia_docs'
+            : 'dev_eufemia_docs'
+      }
+    ]
+  : null
 
 module.exports = queries
