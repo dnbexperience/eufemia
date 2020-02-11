@@ -132,6 +132,7 @@ steps:
         from_secret: NPM_TOKEN
     commands:
       - yarn deploy-ci
+      - yarn test-ci-release
     when:
       event:
         - push
