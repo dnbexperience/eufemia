@@ -1,7 +1,8 @@
 ---
-
 title: 'Code'
----## Code
+---
+
+## Code
 
 ### Code Highlighting with Prism
 
