@@ -16,6 +16,7 @@
     "commit-new-pages": "babel-node ./scripts/commitPages.js",
     "clean": "rm -rf .cache ./public/**",
     "cypress:open": "cypress open",
+    "cypress:run": "cypress run --headless --spec 'cypress/integration/**/*'",
     "deploy": "yarn deploy-ci",
     "deploy-ci": "babel-node ./scripts/deploy.js",
     "deploy:fast": "yarn build-portal --prefix-paths && babel-node ./scripts/deploy.js",
