@@ -1,6 +1,5 @@
 ---
 title: 'Theming'
-
 order: 7
 ---
 

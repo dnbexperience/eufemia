@@ -1,6 +1,5 @@
 ---
 title: 'Vue'
-
 order: 6
 ---
 

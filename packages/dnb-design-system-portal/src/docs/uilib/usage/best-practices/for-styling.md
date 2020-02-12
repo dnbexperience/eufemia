@@ -1,7 +1,6 @@
 ---
 title: 'Best Practices for styling'
 menuTitle: 'for css'
-
 order: 1
 ---
 

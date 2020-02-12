@@ -1,7 +1,6 @@
 ---
 title: 'Components'
 icon: 'components'
-
 order: 7
 ---
 

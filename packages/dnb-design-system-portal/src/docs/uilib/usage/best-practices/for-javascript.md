@@ -1,7 +1,6 @@
 ---
 title: 'Best Practices for JavaScript and JSX'
 menuTitle: 'for JS and JSX'
-
 order: 2
 ---
 

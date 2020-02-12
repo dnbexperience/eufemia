@@ -1,7 +1,6 @@
 ---
 title: 'Contact'
 icon: 'contact'
-
 order: 2
 ---
 

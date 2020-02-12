@@ -5,92 +5,106 @@
 
 const path = require('path')
 
-exports.onCreateNode = ({
-  node,
-  getNode,
-  getNodesByType,
-  getNodeAndSavePathDependency,
-  actions
-}) => {
-  const { createNodeField } = actions
-
+exports.onCreateNode = ({ node, ...props }) => {
   if (node.internal.type === 'Mdx') {
-    const parent = getNodeAndSavePathDependency(node.parent)
-    const slug = parent.relativePath.replace(parent.ext, '')
-
-    createNodeField({
-      name: 'slug',
-      node,
-      value: slug
-    })
-
-    addMotherFields({ node, getNode, getNodesByType, actions })
+    createMdxNode({ node, ...props })
   }
 }
 
 // find the root child wich has a frontmatter.title
 // so the Tabbar can use the mother title
-const addMotherFields = ({ node, getNodesByType, actions }) => {
-  if (node.internal.type !== 'Mdx') {
-    return
+global.nodesCacheCount = global.nodesCacheCount || 0
+global.nodesCache = global.nodesCache || {}
+function createMdxNode({
+  node,
+  getNodesByType,
+  getNode, //getNodeAndSavePathDependency
+  actions
+}) {
+  const { createNodeField } = actions
+
+  const parent = getNode(node.parent)
+  const slug = parent.relativePath.replace(parent.ext, '')
+
+  createNodeField({
+    name: 'slug',
+    node,
+    value: slug
+  })
+
+  // get all nodes
+  const nodes = getNodesByType('Mdx')
+
+  // to make sure we get nodes witch has not been thenre during the run
+  // we cound for the length of all nodes
+  if (global.nodesCacheCount !== nodes.length) {
+    nodes.forEach(node => {
+      const path = node.fileAbsolutePath.replace('.md', '')
+      global.nodesCache[path] = node
+    })
+    global.nodesCacheCount = nodes.length
   }
 
   const { createParentChildLink } = actions
-  const motherDir = node.fileAbsolutePath.substring(
-    0,
-    node.fileAbsolutePath.lastIndexOf('.')
-  )
 
-  if (!/uilib\/(components|patterns|elements)/.test(motherDir)) {
-    return
-  }
+  // collect the category items - used for search
+  const categoryDir = (node.fileAbsolutePath
+    .replace('.md', '')
+    .match(/.*\/docs\/([^/]*)/) || [])[0]
 
-  const nodes = getNodesByType('Mdx').reverse()
-  const parts = motherDir.split('/')
-  parts.shift() // do not search on empty parts
+  const categoryMdx = global.nodesCache[categoryDir]
 
-  let find = null
-  let result = null
-
-  // traverse down the path parts
-  for (let i = 0, l = parts.length; i < l; ++i) {
-    find = '/' + parts.join('/')
-    result = nodes.find(({ fileAbsolutePath, frontmatter }) => {
-      const path = fileAbsolutePath.substring(
-        0,
-        fileAbsolutePath.lastIndexOf('.')
-      )
-      return (
-        find === path &&
-        frontmatter &&
-        frontmatter.title &&
-        // || frontmatter.menuTitle
-        frontmatter.title.length > 0 // we dont need to crawler nodes witch has a title
-      )
+  if (categoryMdx) {
+    createNodeField({
+      node: categoryMdx,
+      name: 'tag',
+      value: 'category'
     })
-
-    // ohh we got result, thats fine
-    if (result) {
-      break
-    }
-
-    parts.pop()
-
-    // and stop if the folder is called "src" or "docs"
-    // if we get the parent (node), we can use parent.sourceInstanceName
-    if (parts[parts.length - 1] === 'docs') {
-      break
-    }
+    createParentChildLink({ parent: node, child: categoryMdx })
   }
 
-  // Add the mother title to the children
-  if (
-    result &&
-    result.frontmatter &&
-    result.frontmatter.title &&
-    result.frontmatter.title.length > 0
-  ) {
-    createParentChildLink({ parent: node, child: result })
+  // from here on we only handle the sub tab linking
+  const motherDir = node.fileAbsolutePath.replace('.md', '')
+
+  if (/uilib\/(components|patterns|elements)/.test(motherDir)) {
+    const parts = motherDir.split('/')
+    parts.shift() // do not search on empty parts
+
+    let motherMdx = null
+
+    // traverse down the mother path parts
+    for (let i = 0, l = parts.length; i < l; ++i) {
+      motherMdx = global.nodesCache['/' + parts.join('/')]
+
+      // ohh we got motherMdx, thats fine
+      if (
+        motherMdx &&
+        motherMdx.frontmatter &&
+        motherMdx.frontmatter.title &&
+        motherMdx.frontmatter.title.length > 0 // we dont need to crawler nodes witch has a title
+      ) {
+        break
+      }
+
+      // then we continue the next round
+      parts.pop()
+
+      // and stop if the folder is called "src" or "docs"
+      // if we get the parent (node), we can use parent.sourceInstanceName
+      if (parts[parts.length - 1] === 'docs') {
+        break
+      }
+    }
+
+    // Add the mother title to the children
+    if (motherMdx) {
+      createNodeField({
+        node: motherMdx,
+        name: 'tag',
+        value: 'mother'
+      })
+      createParentChildLink({ parent: node, child: motherMdx })
+    }
   }
 }
 
@@ -99,7 +113,7 @@ exports.createPages = async params => {
   await createRedirects(params)
 }
 
-const createPages = async ({ graphql, actions }) => {
+async function createPages({ graphql, actions }) {
   const mdxResult = await graphql(/* GraphQL */ `
     {
       allMdx {
@@ -145,7 +159,7 @@ const createPages = async ({ graphql, actions }) => {
   })
 }
 
-const createRedirects = async ({ graphql, actions }) => {
+async function createRedirects({ graphql, actions }) {
   const mdxResult = await graphql(/* GraphQL */ `
     {
       allMdx(filter: { frontmatter: { redirect_from: { ne: null } } }) {

@@ -16,6 +16,11 @@ import { Icon, Button } from 'dnb-ui-lib/src'
 import { MainMenuToggleButton } from './ToggleMainMenu'
 import { SidebarMenuContext } from './SidebarMenuContext'
 import ToggleGrid from './ToggleGrid'
+// import {
+//   SearchBarProvider,
+//   SearchBarInput,
+//   SearchBarResults
+// } from './SearchBar'
 
 const Header = styled.header`
   position: fixed;
@@ -61,10 +66,16 @@ const Header = styled.header`
   }
 `
 
+const Tools = styled.span`
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+`
+
 const HeaderInner = styled.div`
   display: flex;
   justify-content: space-between;
-  vertical-align: middle;
+  ${'' /* vertical-align: middle; */}
 
   width: 100%;
 
@@ -85,9 +96,15 @@ const Slogan = styled.span`
 const CenterWrapper = styled.span`
   display: flex;
   align-items: center;
+
   font-size: var(--font-size-basis);
+
   .dnb-icon:nth-of-type(1) {
     color: var(--color-sea-green);
+  }
+
+  @media (max-width: 30em) {
+    display: none;
   }
 `
 
@@ -138,6 +155,8 @@ export default class StickyMenuBar extends PureComponent {
                 }
               }) => (
                 <>
+                  {/* <SearchBarProvider /> */}
+                  {/* <SearchBarResults /> */}
                   <Header
                     css={[
                       hideSiebarToggleButton && hideSiebarToggleButtonStyle
@@ -155,7 +174,8 @@ export default class StickyMenuBar extends PureComponent {
                         />
                         <Slogan>{slogan}</Slogan>
                       </CenterWrapper>
-                      <span>
+                      <Tools>
+                        {/* <SearchBarInput /> */}
                         <Button
                           icon={isOpen ? closeIcon : hamburgerIcon}
                           on_click={toggleMenu}
@@ -171,7 +191,7 @@ export default class StickyMenuBar extends PureComponent {
                           }
                         />
                         <ToggleGrid />
-                      </span>
+                      </Tools>
                     </HeaderInner>
                   </Header>
                 </>

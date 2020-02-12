@@ -2,7 +2,6 @@
 title: 'Best Practices'
 menuTitle: 'Best Practices ...'
 # status: 'wip'
-
 order: 6
 ---
 
