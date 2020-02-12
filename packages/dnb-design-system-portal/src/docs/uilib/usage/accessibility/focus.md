@@ -1,10 +1,8 @@
 ---
+
 title: 'Focus'
 description: 'Accessibility helpers to handle focus management and Skip Link usage.'
-
----
-
-import SkipLinkExample from 'Pages/uilib/usage/accessibility/examples/skip-link-example.js'
+---import SkipLinkExample from 'Pages/uilib/usage/accessibility/examples/skip-link-example.js'
 
 # Focus Management
 
@@ -57,7 +55,9 @@ import {
 setPageFocusElement('.css-selector', 'MyCustomName')
 
 // 2. Later You can call this action, once it's time to activate the new focus state
-applyPageFocus('MyCustomName')
+applyPageFocus('MyCustomName', element => {
+  /* optional callback */
+})
 ```
 
 ### Skip Link
