@@ -1227,7 +1227,7 @@ legend.dnb-form-label {
     overflow-y: scroll;
     overscroll-behavior: contain;
     scroll-behavior: smooth;
-    -ms-overflow-style: none; }
+    -ms-overflow-style: auto; }
   .dnb-dropdown--no-scroll-animation .dnb-dropdown__options {
     scroll-behavior: auto; }
   .dnb-dropdown__option {
