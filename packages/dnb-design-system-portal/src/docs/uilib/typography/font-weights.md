@@ -15,11 +15,11 @@ import TypographyExamples from 'Pages/uilib/typography/TypographyExamples'
 
 ## `font-weight` table
 
-| Type        | Custom Property         | Info          |
-| ----------- | ----------------------- | ------------- |
-| **Regular** | `--font-weight-regular` | Body (Normal) |
-| **Medium**  | `--font-weight-medium`  |               |
-| **Bold**    | `--font-weight-bold`    |               |
+| Type        | Custom Property         | Info      |
+| ----------- | ----------------------- | --------- |
+| **Regular** | `--font-weight-regular` | Body text |
+| **Medium**  | `--font-weight-medium`  | Headings  |
+| **Bold**    | `--font-weight-bold`    |           |
 
 ### How to use the weights (CSS)
 
