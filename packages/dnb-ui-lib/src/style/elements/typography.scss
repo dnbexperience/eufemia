@@ -15,7 +15,6 @@
 @mixin h1Style() {
   font-size: var(--font-size-xx-large);
   line-height: var(--line-height-x-large);
-  font-weight: var(--font-weight-medium);
 
   &--small,
   & > small {
@@ -37,7 +36,6 @@
   }
 }
 @mixin h3Style() {
-  font-weight: var(--font-weight-medium);
   font-size: var(--font-size-medium);
   line-height: calc(var(--line-height-medium) - 0.25rem);
 
