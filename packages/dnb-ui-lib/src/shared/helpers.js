@@ -11,7 +11,7 @@ export const setPageFocusElement = (
   pageFocusElements[key] = selectorOrElement
 }
 
-export const applyPageFocus = (key = 'default') => {
+export const applyPageFocus = (key = 'default', callback = null) => {
   try {
     let element = pageFocusElements[key]
     if (typeof element === 'string' && typeof document !== 'undefined') {
@@ -49,7 +49,11 @@ export const applyPageFocus = (key = 'default') => {
           element.classList.add('dnb-no-focus')
         }
       }
+
       element.focus({ preventScroll: true })
+      if (typeof callback === 'function') {
+        callback(element)
+      }
     }
   } catch (e) {
     console.warn('Error on applyPageFocus:', e)
