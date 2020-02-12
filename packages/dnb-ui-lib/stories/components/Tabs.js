@@ -73,8 +73,8 @@ export default [
 ]
 
 const tablistDataWithContent = [
-  { title: 'First', key: 'first', content: <H2>First</H2> },
-  { title: 'Second', key: 'second', content: () => <H2>Second</H2> }
+  { title: 'First', key: 1, content: <H2>First</H2> },
+  { title: 'Second', key: 2, content: () => <H2>Second</H2> }
 ]
 
 const exampleTabsContent = {
