@@ -16,11 +16,11 @@ import { Icon, Button } from 'dnb-ui-lib/src'
 import { MainMenuToggleButton } from './ToggleMainMenu'
 import { SidebarMenuContext } from './SidebarMenuContext'
 import ToggleGrid from './ToggleGrid'
-import {
-  SearchBarProvider,
-  SearchBarInput,
-  SearchBarResults
-} from './SearchBar'
+// import {
+//   SearchBarProvider,
+//   SearchBarInput,
+//   SearchBarResults
+// } from './SearchBar'
 
 const Header = styled.header`
   position: fixed;
@@ -154,8 +154,9 @@ export default class StickyMenuBar extends PureComponent {
                   siteMetadata: { name: slogan }
                 }
               }) => (
-                <SearchBarProvider>
-                  <SearchBarResults />
+                <>
+                  {/* <SearchBarProvider /> */}
+                  {/* <SearchBarResults /> */}
                   <Header
                     css={[
                       hideSiebarToggleButton && hideSiebarToggleButtonStyle
@@ -174,7 +175,7 @@ export default class StickyMenuBar extends PureComponent {
                         <Slogan>{slogan}</Slogan>
                       </CenterWrapper>
                       <Tools>
-                        <SearchBarInput />
+                        {/* <SearchBarInput /> */}
                         <Button
                           icon={isOpen ? closeIcon : hamburgerIcon}
                           on_click={toggleMenu}
@@ -193,7 +194,7 @@ export default class StickyMenuBar extends PureComponent {
                       </Tools>
                     </HeaderInner>
                   </Header>
-                </SearchBarProvider>
+                </>
               )}
             />
           )
