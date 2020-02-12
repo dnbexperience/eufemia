@@ -1,6 +1,5 @@
 ---
 title: 'Locale / Translation'
-
 order: 8
 ---
 

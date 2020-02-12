@@ -1,6 +1,5 @@
 ---
 title: 'Event Handling'
-
 order: 2
 ---
 

@@ -1,7 +1,6 @@
 ---
 title: 'Best Practices for testing'
 menuTitle: 'for testing'
-
 order: 4
 ---
 

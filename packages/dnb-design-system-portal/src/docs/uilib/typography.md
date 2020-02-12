@@ -1,7 +1,6 @@
 ---
 title: 'Typography'
 icon: 'typography'
-
 order: 5
 ---
 

@@ -1,7 +1,6 @@
 ---
 title: 'Performance'
 icon: 'performance'
-
 order: 11
 ---
 

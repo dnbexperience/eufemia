@@ -1,6 +1,6 @@
 ---
-title: 'Quickguide Designers'
-
+title: 'Quick Guide - Designers'
+description: 'Eufemia for designers - design guidelines and resources'
 ---
 
 import Img from 'Tags/Img'

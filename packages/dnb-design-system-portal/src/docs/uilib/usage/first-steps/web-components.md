@@ -1,6 +1,5 @@
 ---
 title: 'Web Components'
-
 order: 8
 ---
 
