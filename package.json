@@ -29,7 +29,7 @@
     "test": "yarn workspace dnb-ui-lib test",
     "test:update": "yarn workspace dnb-ui-lib test:update",
     "test-ci": "yarn workspace dnb-ui-lib test-ci && yarn workspace dnb-design-system-portal test-ci",
-    "test-ci-release": "yarn workspace dnb-design-system-portal cypress:run",
+    "test-ci-release": "yarn workspace dnb-design-system-portal cypress:run-ci",
     "test-ci-screenshots": "yarn workspace dnb-ui-lib test-ci-screenshots"
   },
   "devDependencies": {
@@ -78,11 +78,11 @@
     ]
   },
   "engines": {
-    "node": ">=10.16.3",
-    "yarn": ">=1.17.0"
+    "node": ">=10.16.0",
+    "yarn": ">=1.16.0"
   },
   "volta": {
-    "node": "10.16.3",
-    "yarn": "1.17.0"
+    "node": "10.16.0",
+    "yarn": "1.16.0"
   }
 }

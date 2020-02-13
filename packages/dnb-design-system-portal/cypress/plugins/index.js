@@ -16,7 +16,8 @@ module.exports = (on, config) => {
   // console.log('process.env', process.env)
 
   if (isCI) {
-    config.baseUrl = 'https://eufemia.dnb.no'
+    // config.baseUrl = 'https://eufemia.dnb.no'
+    config.baseUrl = 'http://localhost:3030'
     config.defaultCommandTimeout = 10e3
     config.video = false
   }
