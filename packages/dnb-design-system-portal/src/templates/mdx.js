@@ -5,13 +5,15 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 
-import Head from 'react-helmet'
 import { MDXProvider } from '@mdx-js/react'
 import { MDXRenderer } from 'gatsby-plugin-mdx'
-import { graphql, withPrefix } from 'gatsby'
+import { graphql } from 'gatsby'
 
 import Layout from '../shared/parts/Layout'
+import { Helmet as Head } from 'react-helmet-async'
 import tags from '../shared/tags'
+
+const Tabbar = tags.Tabbar
 
 export default class MdxTemplate extends PureComponent {
   render() {
@@ -20,7 +22,8 @@ export default class MdxTemplate extends PureComponent {
       data: {
         mdx: {
           body,
-          frontmatter: { title, description, fullscreen }
+          frontmatter: { title, description, fullscreen, showTabs },
+          children
         },
         site: {
           siteMetadata: {
@@ -31,52 +34,43 @@ export default class MdxTemplate extends PureComponent {
       }
     } = this.props
 
+    const child = children[1] || {}
+
     return (
       <MDXProvider components={tags}>
         <Head>
           <title>{title || fallbackTitle}</title>
           <meta
             name="description"
-            content={description || fallbackDescription}
+            content={
+              description ||
+              (child.frontmatter && child.frontmatter.description) ||
+              fallbackDescription
+            }
           />
-          <link
-            rel="apple-touch-icon"
-            sizes="180x180"
-            href={withPrefix('/apple-touch-icon.png')}
-          />
-          <link
-            rel="icon"
-            type="image/png"
-            sizes="32x32"
-            href={withPrefix('/favicon-32x32.png')}
-          />
-          <link
-            rel="icon"
-            type="image/png"
-            sizes="16x16"
-            href={withPrefix('/favicon-16x16.png')}
-          />
-          <link
-            rel="mask-icon"
-            href={withPrefix('/safari-pinned-tab.svg')}
-            color="#007272"
-          />
-          <meta name="msapplication-TileColor" content="#007272" />
-          <meta name="theme-color" content="#007272" />
         </Head>
         <Layout location={location} fullscreen={Boolean(fullscreen)}>
+          {showTabs && (
+            <Tabbar
+              location={location}
+              {...(child.frontmatter || {})}
+              usePath={'/' + (child.fields && child.fields.slug)}
+            />
+          )}
           <MDXRenderer>{body}</MDXRenderer>
         </Layout>
       </MDXProvider>
     )
   }
 }
+
 MdxTemplate.propTypes = {
   location: PropTypes.object.isRequired,
   data: PropTypes.shape({
     mdx: PropTypes.shape({
       body: PropTypes.string.isRequired,
-      frontmatter: PropTypes.object.isRequired
+      frontmatter: PropTypes.object.isRequired,
+      children: PropTypes.array.isRequired
     }).isRequired,
     site: PropTypes.shape({
       siteMetadata: PropTypes.object.isRequired
@@ -92,12 +86,35 @@ export const pageQuery = graphql`
       }
     }
     mdx(id: { eq: $id }) {
+      # fields {
+      #   slug
+      # }
       frontmatter {
         title
         description
         fullscreen
+        showTabs
       }
       body
+      children {
+        ... on Mdx {
+          fields {
+            slug
+          }
+          frontmatter {
+            title
+            menuTitle
+            showTabs
+            tabs {
+              title
+              key
+            }
+            hideTabs {
+              title
+            }
+          }
+        }
+      }
     }
   }
 `

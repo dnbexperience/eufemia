@@ -3,6 +3,9 @@ title: 'Notification'
 draft: true
 status: 'imp'
 order: 12
+showTabs: true
+# hideTabs:
+#   - title: Events
 ---
 
 <!--

@@ -1,6 +1,5 @@
 ---
 status: 'wip'
-draft: false
 ---
 
 ## Description

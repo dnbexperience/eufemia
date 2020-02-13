@@ -1,6 +1,5 @@
 ---
 title: 'Living System'
-draft: false
 order: 1
 ---
 

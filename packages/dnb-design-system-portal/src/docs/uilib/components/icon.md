@@ -1,23 +1,15 @@
 ---
 title: 'Icon'
 description: 'The main Icon component is basically a wrapper for whatever icon you place within it.'
-draft: false
 status: null
 order: 6
+showTabs: true
+hideTabs:
+  - title: Events
 ---
 
-import Tabs from 'Tags/Tabs'
+import IconInfo from 'Pages/uilib/components/icon/info'
+import IconDemos from 'Pages/uilib/components/icon/demos'
 
-import IconInfo from 'Pages/uilib/components/icon/icon-info'
-import IconProperties from 'Pages/uilib/components/icon/icon-properties'
-
-# Icon
-
-<Tabs>
-  <Tabs.Content>
-    <IconInfo />
-  </Tabs.Content>
-  <Tabs.Content>
-    <IconProperties />
-  </Tabs.Content>
-</Tabs>
+<IconInfo />
+<IconDemos />

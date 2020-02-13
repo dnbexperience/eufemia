@@ -11,7 +11,7 @@ class Example extends PureComponent {
     return (
       <Fragment>
         <ComponentBox
-          caption="Unchecked ToggleButton"
+          title="Unchecked ToggleButton"
           data-dnb-test="toggle-button-default"
         >
           {/* @jsx */ `
@@ -22,7 +22,7 @@ class Example extends PureComponent {
         `}
         </ComponentBox>
         <ComponentBox
-          caption="Checked ToggleButton"
+          title="Checked ToggleButton"
           data-dnb-test="toggle-button-checked"
         >
           {/* @jsx */ `
@@ -35,7 +35,7 @@ class Example extends PureComponent {
         `}
         </ComponentBox>
         <ComponentBox
-          caption="Default ToggleButton group"
+          title="Default ToggleButton group"
           data-dnb-test="toggle-button-group-default"
         >
           {/* @jsx */ `
@@ -54,7 +54,7 @@ class Example extends PureComponent {
           `}
         </ComponentBox>
         <ComponentBox
-          caption="Multi-select ToggleButton group"
+          title="Multi-select ToggleButton group"
           data-dnb-test="toggle-button-group-multiselect"
         >
           {/* @jsx */ `
@@ -74,7 +74,7 @@ class Example extends PureComponent {
           `}
         </ComponentBox>
         <ComponentBox
-          caption="Vertical aligned ToggleButton group with `checkbox` variant and `multiselect`"
+          title="Vertical aligned ToggleButton group with `checkbox` variant and `multiselect`"
           data-dnb-test="toggle-button-group-vertical"
         >
           {/* @jsx */ `
@@ -95,7 +95,7 @@ class Example extends PureComponent {
 </ToggleButton.Group>
           `}
         </ComponentBox>
-        <ComponentBox caption="ToggleButton group as `multiselect` with status message">
+        <ComponentBox title="ToggleButton group as `multiselect` with status message">
           {/* @jsx */ `
 <ToggleButton.Group
   label="ToggleButton Group with status:"
@@ -122,7 +122,7 @@ class Example extends PureComponent {
           `}
         </ComponentBox>
         <ComponentBox
-          caption="ToggleButton with status messages and a gorup variant as `radio`"
+          title="ToggleButton with status messages and a gorup variant as `radio`"
           data-dnb-test="toggle-button-group-status"
         >
           {/* @jsx */ `
@@ -152,7 +152,7 @@ class Example extends PureComponent {
           `}
         </ComponentBox>
         <ComponentBox
-          caption="Disabled ToggleButton group"
+          title="Disabled ToggleButton group"
           data-dnb-test="toggle-button-group-disabled"
         >
           {/* @jsx */ `
@@ -171,7 +171,7 @@ class Example extends PureComponent {
 </ToggleButton.Group>
           `}
         </ComponentBox>
-        <ComponentBox caption="ToggleButtons with suffix">
+        <ComponentBox title="ToggleButtons with suffix">
           {/* @jsx */ `
 <ToggleButton.Group
   label="With suffixes:"
@@ -216,7 +216,7 @@ class StateDemo extends PureComponent {
       <></>
     ) : (
       <ComponentBox
-        caption="External state update with possible event **on_state_update**"
+        title="External state update with possible event **on_state_update**"
         noFragments={false}
       >
         {/* @jsx */ `
@@ -251,5 +251,4 @@ class StateDemo extends PureComponent {
   }
 }
 
-export { Example }
-export default () => <Example />
+export default Example

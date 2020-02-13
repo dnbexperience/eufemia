@@ -9,7 +9,7 @@ import {
 } from '../../../core/jest/jestSetupScreenshots'
 
 describe('Section screenshot', () => {
-  setupPageScreenshot({ url: '/uilib/components/section' })
+  setupPageScreenshot({ url: '/uilib/components/section/demos' })
   // const style = { width: '8rem' }
   it('have to match default section', async () => {
     const screenshot = await testPageScreenshot({

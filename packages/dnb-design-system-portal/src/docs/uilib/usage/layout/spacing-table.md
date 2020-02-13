@@ -1,7 +1,3 @@
----
-draft: true
----
-
 | Pixel | Type       | Rem     | Custom Property      |
 | ----- | ---------- | ------- | -------------------- |
 | 8     | `x-small`  | **0.5** | `--spacing-x-small`  |

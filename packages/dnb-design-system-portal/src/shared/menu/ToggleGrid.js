@@ -3,10 +3,10 @@
  *
  */
 
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import { css, Global } from '@emotion/core'
 import styled from '@emotion/styled'
-import { FormLabel, Switch } from 'dnb-ui-lib/src'
+import { Switch } from 'dnb-ui-lib/src'
 import { gridStyle } from '../parts/PortalStyle'
 
 const globalStyle = css`
@@ -34,15 +34,12 @@ const globalStyle = css`
 `
 
 const ToggleWrapper = styled.span`
-  .dnb-form-label {
-    margin-right: 0.5rem;
-  }
   @media (max-width: 50em) {
     display: none;
   }
 `
 
-export default class ToggleGrid extends Component {
+export default class ToggleGrid extends PureComponent {
   state = {
     showGrid: null
   }
@@ -84,9 +81,10 @@ export default class ToggleGrid extends Component {
     return (
       <ToggleWrapper className="toggle-grid" {...this.props}>
         {showGrid && <Global styles={globalStyle} />}
-        <FormLabel for_id="switch-grid" text="Grid" />
         <Switch
           id="switch-grid"
+          label="Grid"
+          label_position="left"
           checked={showGrid}
           on_change={({ checked }) => this.toggleGrid(checked)}
         />

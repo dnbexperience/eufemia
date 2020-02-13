@@ -9,7 +9,7 @@ import {
 } from '../../../core/jest/jestSetupScreenshots'
 
 describe('Button primary screenshot', () => {
-  setupPageScreenshot({ url: '/uilib/components/button' })
+  setupPageScreenshot({ url: '/uilib/components/button/demos' })
   it('have to match primary button with href', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-dnb-test="button-anchor"]'
@@ -46,7 +46,7 @@ describe('Button primary screenshot', () => {
 })
 
 describe('Button secondary screenshot', () => {
-  setupPageScreenshot({ url: '/uilib/components/button' })
+  setupPageScreenshot({ url: '/uilib/components/button/demos' })
   it('have to match "dnb-button--secondary"', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-dnb-test="button-secondary"]'
@@ -77,7 +77,7 @@ describe('Button secondary screenshot', () => {
 })
 
 describe('Button tertiary screenshot', () => {
-  setupPageScreenshot({ url: '/uilib/components/button' })
+  setupPageScreenshot({ url: '/uilib/components/button/demos' })
   it('have to match "dnb-button--tertiary"', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-dnb-test="button-tertiary"]'
@@ -108,7 +108,7 @@ describe('Button tertiary screenshot', () => {
 })
 
 describe('Button signal screenshot', () => {
-  setupPageScreenshot({ url: '/uilib/components/button' })
+  setupPageScreenshot({ url: '/uilib/components/button/demos' })
   it('have to match "dnb-button--signal"', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-dnb-test="button-signal"]'

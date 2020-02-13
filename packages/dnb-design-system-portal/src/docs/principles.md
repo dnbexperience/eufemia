@@ -1,6 +1,6 @@
 ---
-title: 'Principles & Values'
-draft: false
+title: 'Design Principles'
+description: 'DNB, Eufemia and UI design principles'
 ---
 
 # Principles & Values

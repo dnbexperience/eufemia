@@ -11,7 +11,7 @@ import {
 
 describe('FormRow screenshot', () => {
   setupPageScreenshot({
-    url: '/uilib/components/form-row/form-row-examples'
+    url: '/uilib/components/form-row/demos'
     // screenshotConfig: {
     //   // use 7% on CI because of the font rendering differences
     //   pixelThresholdRelative: isCI ? 0.07 : 0

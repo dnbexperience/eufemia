@@ -203,7 +203,7 @@ const ScreenshotTests = () => {
       </ComponentBox>
       <ComponentBox
         data-dnb-test="date-picker-calendar"
-        caption="Opened DatePicker (also used for screenshot tests)"
+        title="Opened DatePicker (also used for screenshot tests)"
       >
         {/* @jsx */ `
 <DatePicker

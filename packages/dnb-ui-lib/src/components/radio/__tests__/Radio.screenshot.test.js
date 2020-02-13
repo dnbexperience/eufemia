@@ -9,7 +9,7 @@ import {
 } from '../../../core/jest/jestSetupScreenshots'
 
 describe('Radio unchecked screenshot', () => {
-  setupPageScreenshot({ url: '/uilib/components/radio' })
+  setupPageScreenshot({ url: '/uilib/components/radio/demos' })
   it('have to match radio in unchecked state', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-dnb-test="radio-default"] .dnb-radio'
@@ -39,7 +39,7 @@ describe('Radio unchecked screenshot', () => {
 // NB: Because of focus simulation and screenshotElement.press('Tab')
 // we have to run the two focus simulations in a seperate run each
 describe('Radio checked screenshot', () => {
-  setupPageScreenshot({ url: '/uilib/components/radio' })
+  setupPageScreenshot({ url: '/uilib/components/radio/demos' })
   it('have to match radio in checked state', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-dnb-test="radio-checked"] .dnb-radio'

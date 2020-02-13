@@ -1,7 +1,7 @@
 ---
 title: 'Performance'
 icon: 'performance'
-draft: false
+order: 11
 ---
 
 import PerformanceTest from 'Src/uilib/performance-test/PerformanceTest'

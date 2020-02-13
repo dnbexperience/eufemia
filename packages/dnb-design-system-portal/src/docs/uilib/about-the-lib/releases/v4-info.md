@@ -51,7 +51,7 @@ To select and change the component **inside** with CSS, You can use now the `*__
 
 ## Dropdown event handling
 
-Did You use `on_select` before? Then make sure You double check that You really want `on_select`. In most cases You will only need `on_change`. [Read more about the difference](/uilib/components/dropdown#tab-events) between `on_change` and `on_select`.
+Did You use `on_select` before? Then make sure You double check that You really want `on_select`. In most cases You will only need `on_change`. [Read more about the difference](/uilib/components/dropdown/events) between `on_change` and `on_select`.
 
 ## Switch label position
 

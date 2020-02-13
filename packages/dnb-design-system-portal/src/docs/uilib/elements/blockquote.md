@@ -1,9 +1,7 @@
 ---
-title: 'Blockquote'
-draft: false
----
 
-import CodeBlock from 'Tags/CodeBlock'
+title: 'Blockquote'
+---import CodeBlock from 'Tags/CodeBlock'
 
 ## Blockquote
 

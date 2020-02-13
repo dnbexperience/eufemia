@@ -1,6 +1,5 @@
 ---
 title: 'Colors'
-draft: false
 order: 5
 ---
 

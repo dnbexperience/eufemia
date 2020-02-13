@@ -10,26 +10,33 @@ import {
 
 describe('Blockquote screenshot', () => {
   setupPageScreenshot({ url: '/uilib/elements/blockquote' })
+  const style = {
+    width: '30rem' // make sure our input gets an explicit width, because of mac/linux rendering differences
+  }
   it('have to match default "blockquote"', async () => {
     const screenshot = await testPageScreenshot({
+      style,
       selector: '[data-dnb-test="blockquote-default"]'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
   it('have to match "blockquote" with top aligned graphic', async () => {
     const screenshot = await testPageScreenshot({
+      style,
       selector: '[data-dnb-test="blockquote-top"]'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
   it('have to match "blockquote" with top aligned graphic and no background', async () => {
     const screenshot = await testPageScreenshot({
+      style,
       selector: '[data-dnb-test="blockquote-top-no-background"]'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
   it('have to match "blockquote" with no background', async () => {
     const screenshot = await testPageScreenshot({
+      style,
       selector: '[data-dnb-test="blockquote-no-background"]'
     })
     expect(screenshot).toMatchImageSnapshot()

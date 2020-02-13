@@ -1,7 +1,6 @@
 ---
 title: 'Best Practices for typography'
 menuTitle: 'for typography'
-draft: false
 order: 3
 ---
 

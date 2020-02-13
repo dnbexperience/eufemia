@@ -1,7 +1,7 @@
 ---
 title: 'Spatial system'
 icon: 'special'
-draft: false
+
 ---
 
 import Img from 'Tags/Img'

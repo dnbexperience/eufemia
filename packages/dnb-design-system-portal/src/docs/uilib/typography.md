@@ -1,7 +1,6 @@
 ---
 title: 'Typography'
 icon: 'typography'
-draft: false
 order: 5
 ---
 

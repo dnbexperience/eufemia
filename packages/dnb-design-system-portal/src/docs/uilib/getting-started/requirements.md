@@ -1,7 +1,6 @@
 ---
 title: 'Requirements'
 description: 'Eufemia can be used within an UMD, ES5, ES6 or TypeScript environment. The purpose is to use it on top (or inside) of modern JavaScript frontend framework and setups.'
-draft: false
 order: 1
 ---
 

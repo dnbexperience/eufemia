@@ -1,7 +1,7 @@
 ---
 title: 'Logos'
 icon: 'logos'
-draft: false
+
 ---
 
 import { Logo } from 'dnb-ui-lib/src'

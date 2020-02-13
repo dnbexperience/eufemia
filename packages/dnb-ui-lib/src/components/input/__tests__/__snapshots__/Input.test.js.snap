@@ -675,7 +675,7 @@ exports[`Input scss have to match default theme snapshot 1`] = `
       background-color: var(--input-background-color--changed); }
     .dnb-input__shell[data-input-state='disabled'] {
       color: var(--input-text-color--disabled);
-      -webkit-text-fill-color: var(--input-text-color--disabled);
+      -webkit-text-fill-color: currentColor;
       box-shadow: inset 0 0 0 var(--input-border-width) var(--input-border-color--disabled);
       /* IE11 fix */
       border-color: transparent;

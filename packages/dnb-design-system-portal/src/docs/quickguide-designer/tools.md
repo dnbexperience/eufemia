@@ -1,7 +1,7 @@
 ---
 title: 'Design Tools'
 icon: 'tools'
-draft: false
+
 ---
 
 # Tools

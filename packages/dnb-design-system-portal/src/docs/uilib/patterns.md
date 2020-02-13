@@ -1,7 +1,6 @@
 ---
 title: 'Patterns'
 icon: 'patterns'
-draft: false
 order: 8
 ---
 

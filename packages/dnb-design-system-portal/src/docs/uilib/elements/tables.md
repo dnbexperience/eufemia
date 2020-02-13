@@ -1,9 +1,7 @@
 ---
-title: 'Tables'
-draft: false
----
 
-import ComponentBox from 'Tags/ComponentBox'
+title: 'Tables'
+---import ComponentBox from 'Tags/ComponentBox'
 
 ## Tables
 

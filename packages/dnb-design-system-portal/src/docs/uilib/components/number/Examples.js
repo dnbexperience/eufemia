@@ -18,7 +18,7 @@ class Example extends PureComponent {
     return (
       <Style>
         <ComponentBox
-          caption="Defualt numbers"
+          title="Defualt numbers"
           data-dnb-test="number-default"
         >
           {/* @jsx */ `
@@ -28,7 +28,7 @@ class Example extends PureComponent {
 </P>
           `}
         </ComponentBox>
-        <ComponentBox caption="Currency" data-dnb-test="number-currency">
+        <ComponentBox title="Currency" data-dnb-test="number-currency">
           {/* @jsx */ `
 <P>
   <Number currency>12345</Number>
@@ -37,7 +37,7 @@ class Example extends PureComponent {
 </P>
           `}
         </ComponentBox>
-        <ComponentBox caption="Phone number" data-dnb-test="number-phone">
+        <ComponentBox title="Phone number" data-dnb-test="number-phone">
           {/* @jsx */ `
 <P>
   <Number value="99999999" phone />
@@ -50,7 +50,7 @@ class Example extends PureComponent {
           `}
         </ComponentBox>
         <ComponentBox
-          caption="Bank Account number (Kontonummer)"
+          title="Bank Account number (Kontonummer)"
           data-dnb-test="number-ban"
         >
           {/* @jsx */ `
@@ -60,7 +60,7 @@ class Example extends PureComponent {
           `}
         </ComponentBox>
         <ComponentBox
-          caption="National Identification number (Fødselsnummer)"
+          title="National Identification number (Fødselsnummer)"
           data-dnb-test="number-nin"
         >
           {/* @jsx */ `
@@ -70,7 +70,7 @@ class Example extends PureComponent {
           `}
         </ComponentBox>
         <ComponentBox
-          caption="Numbers and currencies in different locales"
+          title="Numbers and currencies in different locales"
           data-dnb-test="number-locales"
         >
           {/* @jsx */ `
@@ -100,5 +100,4 @@ class Example extends PureComponent {
   }
 }
 
-export { Example }
-export default () => <Example />
+export default Example

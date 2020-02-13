@@ -13,7 +13,7 @@ class Example extends PureComponent {
     return (
       <Fragment>
         <ComponentBox
-          caption="Default dropdown, with long list to make it scrollable and searchable"
+          title="Default dropdown, with long list to make it scrollable and searchable"
           useRender
           hideCode
           hideSyntaxButton
@@ -58,7 +58,7 @@ render(
           `}
         </ComponentBox>
         <ComponentBox
-          caption="Default dropdown - no `value` is defined, but a `title` is given."
+          title="Default dropdown - no `value` is defined, but a `title` is given."
           data-dnb-test="dropdown-closed"
           useRender
           hideSyntaxButton
@@ -111,7 +111,7 @@ render(
           `}
         </ComponentBox>
         <ComponentBox
-          caption="Default dropdown, icon on left side"
+          title="Default dropdown, icon on left side"
           scope={{ data }}
           data-dnb-test="dropdown-left-icon"
         >
@@ -131,7 +131,7 @@ render(
           `}
         </ComponentBox>
         <ComponentBox
-          caption="As **Popup Menu** - no lasting selection will be made"
+          title="As **Popup Menu** - no lasting selection will be made"
           data-dnb-test="dropdown-more_menu"
         >
           {/* @jsx */ `
@@ -162,12 +162,12 @@ render(
 />
           `}
         </ComponentBox>
-        <ComponentBox caption="Disabled dropdown" scope={{ data }}>
+        <ComponentBox title="Disabled dropdown" scope={{ data }}>
           {/* @jsx */ `
 <Dropdown disabled data={['Disabled Dropdown']} label="Label:" />
           `}
         </ComponentBox>
-        <ComponentBox caption="Dropdown with suffix" scope={{ data }}>
+        <ComponentBox title="Dropdown with suffix" scope={{ data }}>
           {/* @jsx */ `
 <Dropdown
   data={['Dropdown with suffix']}
@@ -177,7 +177,7 @@ render(
           `}
         </ComponentBox>
         <ComponentBox
-          caption="Dropdown with status and vertical label layout"
+          title="Dropdown with status and vertical label layout"
           data-dnb-test="dropdown-status-error"
           scope={{ data }}
         >
@@ -191,7 +191,7 @@ render(
           `}
         </ComponentBox>
         <ComponentBox
-          caption="Dropdown list - only to vissualize"
+          title="Dropdown list - only to vissualize"
           data-dnb-test="dropdown-list"
           scope={{ data }}
           hideCode

@@ -2,7 +2,6 @@
 title: 'Customization'
 description: 'Customization and tools is a section dedicated to how to use and customize Eufemia in various situations.'
 status: null
-draft: false
 order: 4
 ---
 
@@ -19,7 +18,6 @@ For details, have a look at the submenu for all the customizations topics:
   - [Importing the CSS](/uilib/usage/customisation/styling/consume-styles)
   - [Polyfill](/uilib/usage/customisation/styling/polyfill)
 - [Colors](/uilib/usage/customisation/colors)
-- [Theming](/uilib/usage/customisation/theming)
 - [Theming](/uilib/usage/customisation/theming)
 - [Locale / Translation](/uilib/usage/customisation/localization)
 

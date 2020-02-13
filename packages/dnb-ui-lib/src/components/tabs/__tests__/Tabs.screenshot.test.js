@@ -9,7 +9,7 @@ import {
 } from '../../../core/jest/jestSetupScreenshots'
 
 describe('Tabs screenshot', () => {
-  setupPageScreenshot({ url: '/uilib/components/tabs' })
+  setupPageScreenshot({ url: '/uilib/components/tabs/demos' })
   it('have to match the "Tablist"', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-dnb-test="tabs-tablist"] .dnb-tabs__tabs'

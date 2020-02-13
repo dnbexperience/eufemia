@@ -1,6 +1,6 @@
 ---
 fullscreen: true
-draft: true
+
 ---
 
 import Img from 'Tags/Img'

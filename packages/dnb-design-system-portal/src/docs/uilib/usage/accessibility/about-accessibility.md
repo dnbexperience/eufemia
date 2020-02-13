@@ -1,7 +1,3 @@
----
-draft: true
----
-
 import { check_alt_01 as CheckIcon } from 'dnb-ui-lib/src/icons'
 import { Icon } from 'dnb-ui-lib/src/components'
 

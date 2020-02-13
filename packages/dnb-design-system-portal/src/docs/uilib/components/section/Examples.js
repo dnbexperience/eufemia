@@ -13,7 +13,7 @@ class Example extends PureComponent {
       <Fragment>
         <ComponentBox
           hideCode
-          caption="Default Section"
+          title="Default Section"
           data-dnb-test="section-default"
         >
           {/* @html */ `
@@ -24,7 +24,7 @@ class Example extends PureComponent {
         </ComponentBox>
         <ComponentBox
           hideCode
-          caption="Default Section with large spacing"
+          title="Default Section with large spacing"
           data-dnb-test="section-spacing"
         >
           {/* @html */ `
@@ -35,7 +35,7 @@ class Example extends PureComponent {
         </ComponentBox>
         <ComponentBox
           hideCode
-          caption="White Section"
+          title="White Section"
           data-dnb-test="section-white"
         >
           {/* @html */ `
@@ -46,7 +46,7 @@ class Example extends PureComponent {
         </ComponentBox>
         <ComponentBox
           hideCode
-          caption="Divider Section"
+          title="Divider Section"
           data-dnb-test="section-divider"
         >
           {/* @html */ `
@@ -57,7 +57,7 @@ class Example extends PureComponent {
         </ComponentBox>
         <ComponentBox
           hideCode
-          caption="Mint-Green Section"
+          title="Mint-Green Section"
           data-dnb-test="section-mint-green"
         >
           {/* @html */ `
@@ -68,7 +68,7 @@ class Example extends PureComponent {
         </ComponentBox>
         <ComponentBox
           hideCode
-          caption="Emerald-Green Section"
+          title="Emerald-Green Section"
           data-dnb-test="section-emerald-green"
         >
           {/* @html */ `
@@ -78,7 +78,7 @@ class Example extends PureComponent {
         `}
         </ComponentBox>
         <ComponentBox
-          caption="Lavender Section"
+          title="Lavender Section"
           data-dnb-test="section-lavender"
         >
           {/* @html */ `
@@ -88,7 +88,7 @@ class Example extends PureComponent {
         `}
         </ComponentBox>
         <ComponentBox
-          caption="Sand-Yellow Section"
+          title="Sand-Yellow Section"
           data-dnb-test="section-sand-yellow"
         >
           {/* @html */ `
@@ -98,7 +98,7 @@ class Example extends PureComponent {
         `}
         </ComponentBox>
         <ComponentBox
-          caption="Pistachio Section"
+          title="Pistachio Section"
           data-dnb-test="section-pistachio"
         >
           {/* @html */ `
@@ -108,7 +108,7 @@ class Example extends PureComponent {
         `}
         </ComponentBox>
         <ComponentBox
-          caption="Fire-Red Section"
+          title="Fire-Red Section"
           data-dnb-test="section-fire-red"
         >
           {/* @html */ `
@@ -122,34 +122,4 @@ class Example extends PureComponent {
   }
 }
 
-/* <CodeBlock
-  reactLive
-  hideCode
-  caption="All sections - `.dnb-section`"
-  data-dnb-test="helper-classes-section"
-  >
-    <div className="dnb-section">
-      Visual DNB Section, declared with <code className="dnb-code">.dnb-section</code>
-    </div>
-    <div className="dnb-section dnb-section--spacing">
-      Visual DNB Section, declared with <code className="dnb-code">.dnb-section--spacing</code>
-    </div>
-    <div className="dnb-section dnb-section--spacing dnb-section--white">
-      Visual DNB Section, declared with <code className="dnb-code">.dnb-section--white</code>
-    </div>
-    <div className="dnb-section dnb-section--spacing-small dnb-section--divider">
-      Visual DNB Section, declared with <code className="dnb-code">.dnb-section--divider</code>
-    </div>
-    <div className="dnb-section dnb-section--spacing-large dnb-section--mint-green">
-      Visual DNB Section, declared with <code className="dnb-code">.dnb-section--mint-green</code>
-    </div>
-    <div className="dnb-section dnb-section--spacing dnb-section--emerald-green">
-      Visual DNB Section, declared with <code className="dnb-code">.dnb-section--emerald-green</code>
-    </div>
-    <div className="dnb-section dnb-section--spacing dnb-section--signal-orange">
-      Visual DNB Section, declared with <code className="dnb-code">.dnb-section--signal-orange</code>
-    </div>
-  </CodeBlock> */
-
-export { Example }
-export default () => <Example />
+export default Example

@@ -713,19 +713,22 @@ export default class Dropdown extends PureComponent {
         break
 
       default:
+        // returns -1 if nothing is found
         active_item = this.findItemByValue(keycode(e))
         break
     }
 
-    if (active_item < 0) {
-      active_item = 0
-    }
-    if (active_item > total) {
-      active_item = total
-    }
+    if (active_item !== -1) {
+      if (active_item < 0) {
+        active_item = 0
+      }
+      if (active_item > total) {
+        active_item = total
+      }
 
-    if (active_item !== this.state.active_item) {
-      this.scrollToItem(active_item, { fireSelectEvent: true, event: e })
+      if (active_item !== this.state.active_item) {
+        this.scrollToItem(active_item, { fireSelectEvent: true, event: e })
+      }
     }
   }
 

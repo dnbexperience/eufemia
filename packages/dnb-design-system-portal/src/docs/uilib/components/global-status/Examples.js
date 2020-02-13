@@ -3,18 +3,17 @@
  *
  */
 
-import React, { PureComponent, Fragment } from 'react'
+import React from 'react'
 import ComponentBox from 'Src/shared/tags/ComponentBox'
 
-class Example extends PureComponent {
-  render() {
-    return (
-      <Fragment>
-        <ComponentBox
-          caption="GlobalStatus displaying error status"
-          data-dnb-test="global-status"
-        >
-          {/* @jsx */ `
+export default function Example() {
+  return (
+    <>
+      <ComponentBox
+        title="GlobalStatus displaying error status"
+        data-dnb-test="global-status"
+      >
+        {/* @jsx */ `
 <GlobalStatus
   title="Custom Title"
   text="Failure text"
@@ -30,12 +29,12 @@ class Example extends PureComponent {
   id="demo-1"
 />
           `}
-        </ComponentBox>
-        <ComponentBox
-          caption="GlobalStatus displaying info status"
-          data-dnb-test="global-status-info"
-        >
-          {/* @jsx */ `
+      </ComponentBox>
+      <ComponentBox
+        title="GlobalStatus displaying info status"
+        data-dnb-test="global-status-info"
+      >
+        {/* @jsx */ `
 <GlobalStatus
   state="info"
   title="Custom info title ..."
@@ -47,12 +46,12 @@ class Example extends PureComponent {
   id="demo-4"
 />
           `}
-        </ComponentBox>
-        <ComponentBox
-          caption="To showcase the automated coupling between **FormStatus** and **GlobalStatus**"
-          useRender
-        >
-          {/* @jsx */ `
+      </ComponentBox>
+      <ComponentBox
+        title="To showcase the automated coupling between **FormStatus** and **GlobalStatus**"
+        useRender
+      >
+        {/* @jsx */ `
 const InputWithError = () => {
   const [errorMessage, setErrorMessage] = React.useState(null)
   return (
@@ -72,12 +71,12 @@ render(
   <InputWithError />
 )
           `}
-        </ComponentBox>
-        <ComponentBox
-          caption="To showcase the custom **Update** and **Remove** posibility"
-          noFragments={false}
-        >
-          {/* @jsx */ `
+      </ComponentBox>
+      <ComponentBox
+        title="To showcase the custom **Update** and **Remove** posibility"
+        noFragments={false}
+      >
+        {/* @jsx */ `
 () => {
   const [count, toggleUpdateStatus] = React.useState(0)
   return (
@@ -130,9 +129,12 @@ render(
   )
 }
           `}
-        </ComponentBox>
-        <ComponentBox caption="To showcase the scrolling. Some browsers (Safari, Edge) will need a polyfill like `smoothscroll-polyfill`">
-          {/* @jsx */ `
+      </ComponentBox>
+      <ComponentBox
+        title="To showcase the scrolling"
+        caption="Some browsers (Safari, Edge) will need a polyfill like `smoothscroll-polyfill`"
+      >
+        {/* @jsx */ `
 <Button
   text="Scroll to main GlobalStatus"
   on_click={() => {
@@ -144,11 +146,7 @@ render(
   }}
 />
            `}
-        </ComponentBox>
-      </Fragment>
-    )
-  }
+      </ComponentBox>
+    </>
+  )
 }
-
-export { Example }
-export default () => <Example />

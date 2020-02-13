@@ -1,7 +1,6 @@
 ---
 title: 'Components'
 icon: 'components'
-draft: false
 order: 7
 ---
 

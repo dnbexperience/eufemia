@@ -20,7 +20,7 @@ class Example extends PureComponent {
     return (
       <Fragment>
         <ComponentBox
-          caption="Only numbers"
+          title="Only numbers"
           scope={{
             handleInputChange
           }}
@@ -40,7 +40,7 @@ class Example extends PureComponent {
           `}
         </ComponentBox>
         <ComponentBox
-          caption="Only numbers, right aligned and large sized input"
+          title="Only numbers, right aligned and large sized input"
           scope={{
             handleInputChange: this.handleInputChange
           }}
@@ -61,7 +61,7 @@ class Example extends PureComponent {
           `}
         </ComponentBox>
         <ComponentBox
-          caption="Phone Number, starting with 4"
+          title="Phone Number, starting with 4"
           scope={{ handleInputChange: this.handleInputChange }}
           data-dnb-test="input-masked-phone"
         >

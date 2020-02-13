@@ -1,7 +1,6 @@
 ---
 title: 'Living system'
 description: 'Eufemia is DNBs design system. It is constantly evolving and improving and is our single source of truth for UI design and front end code.'
-draft: false
 order: 2
 ---
 

@@ -62,10 +62,10 @@ class CustomTabs extends PureComponent {
   }
   constructor(props) {
     super(props)
-    this._id = 'item-wrapper'
     const location = getLocation()
-    if (location)
+    if (location) {
       this.state.wasFullscreen = /fullscreen/.test(location.search)
+    }
   }
   openTab = ({ key }) => {
     this.setState({

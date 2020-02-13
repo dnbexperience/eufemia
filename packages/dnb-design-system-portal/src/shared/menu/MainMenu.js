@@ -6,7 +6,8 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { css, Global } from '@emotion/core'
-import Head from 'react-helmet'
+import { StaticQuery, graphql } from 'gatsby'
+import { Helmet as Head } from 'react-helmet-async'
 import styled from '@emotion/styled'
 import classnames from 'classnames'
 import Card, { focusRing } from './Card'
@@ -218,96 +219,150 @@ export default class MainMenu extends PureComponent {
     const { closeMenu, isOpen, isClosing, isActive } = this.context
     const { enableOverlay } = this.props
     return (
-      (isActive || !enableOverlay) && (
-        <MainWrapper
-          className={classnames(
-            enableOverlay && 'is-overlay',
-            isOpen && 'is-open',
-            isClosing && 'is-closing'
-          )}
-          {...{ isOpen }}
-        >
-          <Head>
-            <title>Eufemia - DNB Design System</title>
-          </Head>
-          <h1 className="dnb-sr-only">Welcome to Eufemia</h1>
-          {
-            <>
-              <Global styles={customBodyStyle} />
-              {isOpen && !isClosing && <Global styles={toggleContent} />}
-              {(enableOverlay && (
-                <Toolbar className={classnames(isClosing && 'is-closing')}>
-                  {isOpen && !isClosing && (
-                    <Button
-                      variant="secondary"
-                      className="close-button dnb-always-focus"
-                      on_click={closeMenu}
-                      icon="close"
-                      icon_position="left"
-                      text="Close"
-                      aria-label="Close Main Menu"
-                    />
-                  )}
-                </Toolbar>
-              )) ||
-                (!enableOverlay && (
-                  <LogoWrapper aria-hidden>
-                    <Logo size="48" />
-                    Eufemia
-                  </LogoWrapper>
-                ))}
-              <CardsWrapper
-                // id="portal-main-menu"
-                aria-labelledby="toggle-main-menu"
-              >
-                <Card
-                  url="/design-system/"
-                  title="About Eufemia"
-                  about={
-                    <>
-                      Change log, contact, etc.
-                      <LastUpadted title="Last Change log update">
-                        Updated: {buildVersion}
-                      </LastUpadted>
-                    </>
+      <StaticQuery
+        query={graphql`
+          query {
+            categories: allMdx(
+              filter: {
+                fields: {
+                  slug: {
+                    in: [
+                      "uilib"
+                      "quickguide-designer"
+                      "icons"
+                      "design-system"
+                      "brand"
+                      "principles"
+                    ]
                   }
-                  icon={DesignSystemSvg}
-                />
-                <Card
-                  url="/uilib/"
-                  title="UI Library"
-                  about="Buttons, dropdowns, input fields, components etc."
-                  icon={UilibSvg}
-                />
-                <Card
-                  url="/quickguide-designer/"
-                  title="Quick Guide - Designers"
-                  about="Eufemia for designers - design guidelines and resources"
-                  icon={QuickguideDesignerSvg}
-                />
-                <Card
-                  url="/icons/"
-                  title="Icon Library"
-                  about="An overview of our most used icons"
-                  icon={IconsSvg}
-                />
-                <Card
-                  url="/brand/"
-                  title="Brand"
-                  about="Brand guidelines - typography, colors etc."
-                  icon={BrandSvg}
-                />
-                <Card
-                  url="/principles/"
-                  title="Design Principles"
-                  about="DNB, Eufemia and UI design principles"
-                  icon={PrinciplesSvg}
-                />
-              </CardsWrapper>
-            </>
+                }
+              }
+            ) {
+              edges {
+                node {
+                  fields {
+                    slug
+                  }
+                  frontmatter {
+                    title
+                    description
+                  }
+                }
+              }
+            }
           }
-        </MainWrapper>
-      )
+        `}
+        render={({ categories: { edges } }) => {
+          const items = edges.reduce(
+            (acc, { node: { fields, frontmatter } }) => {
+              acc[fields.slug] = {
+                url: `/${fields.slug}/`,
+                ...fields,
+                ...frontmatter
+              }
+              return acc
+            },
+            {}
+          )
+
+          return (
+            (isActive || !enableOverlay) && (
+              <MainWrapper
+                className={classnames(
+                  enableOverlay && 'is-overlay',
+                  isOpen && 'is-open',
+                  isClosing && 'is-closing'
+                )}
+                {...{ isOpen }}
+              >
+                <Head>
+                  <title>Eufemia - DNB Design System</title>
+                </Head>
+                <h1 className="dnb-sr-only">Welcome to Eufemia</h1>
+                {
+                  <>
+                    <Global styles={customBodyStyle} />
+                    {isOpen && !isClosing && (
+                      <Global styles={toggleContent} />
+                    )}
+                    {(enableOverlay && (
+                      <Toolbar
+                        className={classnames(isClosing && 'is-closing')}
+                      >
+                        {isOpen && !isClosing && (
+                          <Button
+                            variant="secondary"
+                            className="close-button dnb-always-focus"
+                            on_click={closeMenu}
+                            icon="close"
+                            icon_position="left"
+                            text="Close"
+                            aria-label="Close Main Menu"
+                          />
+                        )}
+                      </Toolbar>
+                    )) ||
+                      (!enableOverlay && (
+                        <LogoWrapper aria-hidden>
+                          <Logo size="48" />
+                          Eufemia
+                        </LogoWrapper>
+                      ))}
+                    <CardsWrapper
+                      // id="portal-main-menu"
+                      aria-labelledby="toggle-main-menu"
+                    >
+                      <Card
+                        url={items['design-system'].url}
+                        title={items['design-system'].title}
+                        about={
+                          <>
+                            {items['design-system'].description}
+                            <LastUpadted title="Last Change log update">
+                              Updated: {buildVersion}
+                            </LastUpadted>
+                          </>
+                        }
+                        icon={DesignSystemSvg}
+                      />
+                      <Card
+                        url={items['uilib'].url}
+                        title={items['uilib'].title}
+                        about={items['uilib'].description}
+                        icon={UilibSvg}
+                      />
+                      <Card
+                        url={items['quickguide-designer'].url}
+                        title={items['quickguide-designer'].title}
+                        about={items['quickguide-designer'].description}
+                        icon={QuickguideDesignerSvg}
+                      />
+                      <Card
+                        url={items['icons'].url}
+                        title={items['icons'].title}
+                        about={items['icons'].description}
+                        icon={IconsSvg}
+                      />
+                      <Card
+                        url={items['brand'].url}
+                        title={items['brand'].title}
+                        about={items['brand'].description}
+                        icon={BrandSvg}
+                      />
+                      <Card
+                        url={items['principles'].url}
+                        title={items['principles'].title}
+                        about={items['principles'].description}
+                        icon={PrinciplesSvg}
+                      />
+                    </CardsWrapper>
+                  </>
+                }
+              </MainWrapper>
+            )
+          )
+        }}
+      />
     )
   }
 }

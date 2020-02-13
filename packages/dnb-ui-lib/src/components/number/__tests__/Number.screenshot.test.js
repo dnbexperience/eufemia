@@ -11,7 +11,7 @@ import {
 
 describe('Number screenshot', () => {
   setupPageScreenshot({
-    url: '/uilib/components/number/number-examples',
+    url: '/uilib/components/number/demos',
     screenshotConfig: {
       // use 11% on CI because of the font rendering differences
       pixelThresholdRelative: isCI ? 0.11 : 0

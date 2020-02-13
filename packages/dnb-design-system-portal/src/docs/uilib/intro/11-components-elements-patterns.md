@@ -1,6 +1,6 @@
 ---
 fullscreen: true
-draft: true
+
 ---
 
 import { Button } from 'dnb-ui-lib/src'

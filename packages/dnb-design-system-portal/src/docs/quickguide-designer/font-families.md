@@ -1,7 +1,3 @@
----
-draft: true
----
-
 import { H2 } from 'dnb-ui-lib/src/elements'
 
 ## Font Families

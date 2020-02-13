@@ -9,7 +9,7 @@ import {
 } from '../../../core/jest/jestSetupScreenshots'
 
 describe('StepIndicator screenshot', () => {
-  setupPageScreenshot({ url: '/uilib/components/step-indicator' })
+  setupPageScreenshot({ url: '/uilib/components/step-indicator/demos' })
   it('have to match urls mode', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-dnb-test="step-indicator-urls"] .dnb-step-indicator'

@@ -1,9 +1,7 @@
 ---
-title: 'Anchor (Text Link)'
-draft: false
----
 
-import ComponentBox from 'Tags/ComponentBox'
+title: 'Anchor (Text Link)'
+---import ComponentBox from 'Tags/ComponentBox'
 import { IconPrimary } from 'dnb-ui-lib/src'
 
 ## Anchor (Text Link)

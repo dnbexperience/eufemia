@@ -1,6 +1,5 @@
 ---
 title: 'Theming'
-draft: false
 order: 7
 ---
 

@@ -1,9 +1,7 @@
 ---
-title: 'Lists'
-draft: false
----
 
-import CodeBlock from 'Tags/CodeBlock'
+title: 'Lists'
+---import CodeBlock from 'Tags/CodeBlock'
 
 ## Lists
 

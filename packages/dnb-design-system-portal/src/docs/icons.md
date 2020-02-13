@@ -1,7 +1,6 @@
 ---
-title: 'Icons Introduction'
-description: 'DNB UX icons in SVG format - optimized for performance, responsiveness and accessibility.'
-draft: false
+title: 'Icons Library'
+description: 'An overview of our most used icons.'
 order: 1
 ---
 

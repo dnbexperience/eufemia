@@ -10,7 +10,7 @@ class Example extends PureComponent {
   render() {
     return (
       <Fragment>
-        <ComponentBox caption="Default and Medium sized icons (responsive)">
+        <ComponentBox title="Default and Medium sized icons (responsive)">
           {/* @jsx */ `
 <IconPrimary icon="question" title="Give icons a title" />
 <IconPrimary
@@ -20,7 +20,7 @@ class Example extends PureComponent {
 />
           `}
         </ComponentBox>
-        <ComponentBox caption="Default Icon with custom, but fixed size (64)">
+        <ComponentBox title="Default Icon with custom, but fixed size (64)">
           {/* @jsx */ `
 <IconPrimary
   icon="question"
@@ -34,5 +34,4 @@ class Example extends PureComponent {
   }
 }
 
-export { Example }
-export default () => <Example />
+export default Example

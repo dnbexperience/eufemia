@@ -16,7 +16,6 @@ import {
   validateDOMAttributes,
   dispatchCustomElementEvent,
   getPreviousSibling,
-  // extendPropsWithContext,
   filterProps
 } from '../../shared/component-helper'
 import { createSpacingClasses } from '../space/SpacingHelper'
@@ -35,7 +34,8 @@ const propTypes = {
           PropTypes.node,
           PropTypes.func
         ]).isRequired,
-        key: PropTypes.string.isRequired,
+        key: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+          .isRequired,
         selected: PropTypes.bool,
         disabled: PropTypes.bool
       })
@@ -54,7 +54,7 @@ const propTypes = {
     PropTypes.func
   ]),
   label: PropTypes.string,
-  selected_key: PropTypes.string,
+  selected_key: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   align: PropTypes.oneOf(['left', 'center', 'right']),
   section_style: PropTypes.string,
   section_spacing: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -123,7 +123,7 @@ export default class Tabs extends PureComponent {
     } else {
       // 2. check if the key is valid
       // just to make sure we never get an empty content
-      const keyExists = data.findIndex(({ key }) => key === selected_key)
+      const keyExists = data.findIndex(({ key }) => key == selected_key)
       if (keyExists === -1) {
         // key did not exists, so we get the first one
         useKey = data[0] && data[0].key
@@ -282,10 +282,10 @@ export default class Tabs extends PureComponent {
   }
 
   prevTab = e => {
-    this.openTab(-1, e)
+    this.openTab(-1, e, 'step')
   }
   nextTab = e => {
-    this.openTab(+1, e)
+    this.openTab(+1, e, 'step')
   }
 
   componentWillUnmount() {
@@ -328,19 +328,19 @@ export default class Tabs extends PureComponent {
   getCurrentTitle = () => {
     const { selected_key } = this.state
     const current = this.state.data.filter(
-      ({ key }) => key === selected_key
+      ({ key }) => key == selected_key
     )[0]
     return (current && current.title) || null
   }
 
-  openTab = (selected_key, event = null) => {
+  openTab = (selected_key, event = null, mode = null) => {
     // for handling prevTab and nextTab
-    if (parseFloat(selected_key)) {
+    if (mode === 'step' && parseFloat(selected_key)) {
       const currentData = this.state.data.filter(
         ({ disabled }) => !disabled
       )
       const currentIndex = currentData.reduce(
-        (acc, { key }, i) => (key === this.state.selected_key ? i : acc),
+        (acc, { key }, i) => (key == this.state.selected_key ? i : acc),
         -1
       )
       let nextIndex = currentIndex + selected_key
@@ -382,7 +382,7 @@ export default class Tabs extends PureComponent {
   }
 
   isSelected(tabKey) {
-    return this.state.selected_key === tabKey
+    return this.state.selected_key == tabKey
   }
 
   renderCachedContent(selected_key, content = null) {
@@ -447,7 +447,7 @@ export default class Tabs extends PureComponent {
       // - or the content was provided as a content prop i data
       if (items) {
         content = items
-          .filter(({ key }) => key && selected_key && key === selected_key)
+          .filter(({ key }) => key && selected_key && key == selected_key) // like isSelected
           .reduce((acc, { content }) => content || acc, null)
       }
     }
@@ -621,7 +621,8 @@ export default class Tabs extends PureComponent {
 class ContentWrapper extends PureComponent {
   static propTypes = {
     id: PropTypes.string.isRequired,
-    selected_key: PropTypes.string.isRequired,
+    selected_key: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+      .isRequired,
     children: PropTypes.node.isRequired
   }
   render() {

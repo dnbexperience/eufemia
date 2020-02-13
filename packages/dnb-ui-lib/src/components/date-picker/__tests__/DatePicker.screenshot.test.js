@@ -10,7 +10,7 @@ import {
 } from '../../../core/jest/jestSetupScreenshots'
 
 describe('DatePicker screenshot', () => {
-  setupPageScreenshot({ url: '/uilib/components/date-picker' })
+  setupPageScreenshot({ url: '/uilib/components/date-picker/demos' })
 
   if (!isCI) {
     // skip the input fields, as there is a linux input issue

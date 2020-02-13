@@ -1,7 +1,6 @@
 ---
 title: 'HTML Elements'
 icon: 'elements'
-draft: false
 order: 6
 ---
 
