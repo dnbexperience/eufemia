@@ -156,6 +156,10 @@ const propTypes = {
   no_animation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   direction: PropTypes.oneOf(['auto', 'top', 'bottom']),
   align_picker: PropTypes.oneOf(['auto', 'left', 'right']),
+  class: PropTypes.string,
+
+  // React
+  className: PropTypes.string,
 
   // Web Component props
   custom_element: PropTypes.object,
@@ -217,8 +221,12 @@ const defaultProps = {
   suffix: null,
   opened: false,
   no_animation: false,
-  align_picker: null,
   direction: 'auto',
+  align_picker: null,
+  class: null,
+
+  // React
+  className: null,
 
   // Web Component props
   custom_element: null,
@@ -692,6 +700,8 @@ export default class DatePicker extends PureComponent {
       opened: _opened, // eslint-disable-line
       direction: _direction, // eslint-disable-line
       id: _id, // eslint-disable-line
+      className,
+      class: _className,
       show_submit_button, // eslint-disable-line
       show_cancel_button, // eslint-disable-line
       show_reset_button, // eslint-disable-line
@@ -756,7 +766,9 @@ export default class DatePicker extends PureComponent {
           'dnb-date-picker--show-footer',
         align_picker && `dnb-date-picker--${align_picker}`,
         'dnb-form-component',
-        createSpacingClasses(props)
+        createSpacingClasses(props),
+        _className,
+        className
       )
     }
 
