@@ -59,7 +59,7 @@ Now we can use our web components right away in our markup.
   })
   return (
     <form>
-      <dnb-input label="Label for this Input" placeholder="My Placeholder">My Value</dnb-input>
+      <dnb-input label="Label for this Input" placeholder="My Placeholder" right="small">My Value</dnb-input>
       <dnb-button type="submit" text="Submit" />
     </form>
   )

@@ -12,6 +12,7 @@ const fs = require('fs')
 const isCI = require('is-ci')
 const liveServer = require('live-server')
 const detectPort = require('detect-port')
+const waitOn = require('wait-on')
 const packpath = require('packpath')
 const {
   DIR,
@@ -28,14 +29,7 @@ const startStaticServer = async () => {
         packpath.self(),
         '../dnb-design-system-portal/public/'
       )
-      // we do not use gatsby serve, as the thread hangs on
-      // serve({
-      //   directory: root,
-      //   open: false,
-      //   host: config.testScreenshotOnHost,
-      //   port: config.testScreenshotOnPort
-      // })
-      const params = {
+      liveServer.start({
         host: testScreenshotOnHost,
         port: testScreenshotOnPort,
         root,
@@ -43,11 +37,12 @@ const startStaticServer = async () => {
         watch: [],
         quiet: isCI,
         wait: 10e3
-      }
-      const server = liveServer.start(params)
-      const onDone = async () =>
-        await server.removeListener('listening', onDone)
-      server.addListener('listening', onDone)
+      })
+      await waitOn({
+        resources: [
+          `http://${testScreenshotOnHost}:${testScreenshotOnPort}`
+        ]
+      })
     }
   } catch (e) {
     throw new Error(e)

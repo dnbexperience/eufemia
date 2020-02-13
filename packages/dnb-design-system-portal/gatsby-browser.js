@@ -76,10 +76,9 @@ export const onRouteUpdate = ({ prevLocation }) => {
   // More info: why we have to have the tabindex https://reach.tech/router/accessibility
   // More info: The div is necessary to manage focus https://github.com/reach/router/issues/63#issuecomment-395988602
   try {
-    const elem = document.querySelector('div[role="group"][tabindex="-1"]')
+    const elem = document.querySelector('#gatsby-focus-wrapper')
     if (elem) {
       elem.removeAttribute('tabindex')
-      elem.removeAttribute('role')
     }
   } catch (e) {
     console.log(e)

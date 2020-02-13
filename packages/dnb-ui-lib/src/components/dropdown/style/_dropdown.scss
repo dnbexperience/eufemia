@@ -141,7 +141,9 @@
     overflow-y: scroll;
     overscroll-behavior: contain;
     scroll-behavior: smooth;
-    -ms-overflow-style: none;
+
+    // show scrollbar on IE
+    -ms-overflow-style: auto;
   }
   &--no-scroll-animation &__options {
     scroll-behavior: auto;

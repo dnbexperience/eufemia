@@ -36,15 +36,15 @@
 
   @include listOffset();
 
-  // custom counter
-  &,
-  ol {
-    counter-reset: item;
-  }
   & li {
     list-style-type: decimal;
   }
 
+  // custom counter
+  &--nested,
+  &--nested ol {
+    counter-reset: item;
+  }
   &--nested li {
     display: block; // instead of list-item;
 

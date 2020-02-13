@@ -19,7 +19,6 @@ For details, have a look at the submenu for all the customizations topics:
   - [Polyfill](/uilib/usage/customisation/styling/polyfill)
 - [Colors](/uilib/usage/customisation/colors)
 - [Theming](/uilib/usage/customisation/theming)
-- [Theming](/uilib/usage/customisation/theming)
 - [Locale / Translation](/uilib/usage/customisation/localization)
 
 ## Favicon and manifest

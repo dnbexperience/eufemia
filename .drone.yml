@@ -16,7 +16,7 @@ steps:
   - name: install dependencies
     image: tujoworker/docker-node-puppeteer
     commands:
-      - yarn install
+      - CYPRESS_INSTALL_BINARY=0 yarn install
 
   - name: dependencies audit
     image: tujoworker/docker-node-puppeteer
@@ -130,9 +130,16 @@ steps:
         from_secret: GH_TOKEN
       NPM_TOKEN:
         from_secret: NPM_TOKEN
+      ALGOLIA_APP_ID:
+        from_secret: ALGOLIA_APP_ID
+      ALGOLIA_INDEX_NAME:
+        from_secret: ALGOLIA_INDEX_NAME
+      ALGOLIA_SEARCH_KEY:
+        from_secret: ALGOLIA_SEARCH_KEY
+      ALGOLIA_API_KEY:
+        from_secret: ALGOLIA_API_KEY
     commands:
       - yarn deploy-ci
-      - yarn test-ci-release
     when:
       event:
         - push
@@ -163,6 +170,19 @@ steps:
           - beta
           - alpha
           - next
+
+  # - name: test release
+  #   image: cypress/browsers:node10.16.0-chrome77
+  #   commands:
+  #     - yarn test-ci-release
+  #   when:
+  #     event:
+  #       - push
+  #     branch:
+  #       include:
+  #         - ftr/*
+  #         # - portal
+  #         # - release
 
   - name: slack
     image: plugins/slack

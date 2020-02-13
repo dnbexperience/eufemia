@@ -33,9 +33,9 @@ const tablistData = [
   { title: 'Third', key: 'third' }
 ]
 const tablistDataWithContent = [
-  { title: 'First', key: 'first', content: <h2>First</h2> }, // without function
-  { title: 'Second', key: 'second', content: () => <h2>Second</h2> }, // with function
-  { title: 'Third', key: 'third', content: () => <h2>Third</h2> } // with function
+  { title: 'First', key: 1, content: <h2>First</h2> }, // without function
+  { title: 'Second', key: 2, content: () => <h2>Second</h2> }, // with function
+  { title: 'Third', key: 3, content: () => <h2>Third</h2> } // with function
 ]
 const contentWrapperData = {
   first: <h2>First</h2>, // without function
@@ -138,6 +138,11 @@ describe('A single Tab component', () => {
         .hasClass('selected')
     ).toBe(true)
     expect(Comp.find('div.dnb-tabs__content').text()).toBe('First')
+
+    // then click on tab two
+    // also test the ability of having a integer only as the key
+    Comp.find('button[data-tab-key=2]').simulate('click')
+    expect(Comp.find('div.dnb-tabs__content').text()).toBe('Second')
   })
 
   it('has to run "prevent_rerender" as supposed', () => {
