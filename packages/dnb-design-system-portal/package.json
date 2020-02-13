@@ -17,7 +17,9 @@
     "clean": "rm -rf .cache ./public/**",
     "cy": "cypress open",
     "cypress:open": "cypress open",
-    "cypress:run": "cypress run --headless --spec './cypress/integration/**/*'",
+    "cypress:run": "cypress run --port 4000 --headless --spec './cypress/integration/**/*'",
+    "cypress:run-ci": "start-server-and-test cypress:server http://localhost:3030 cypress:run",
+    "cypress:server": "gatsby serve -p 3030",
     "deploy": "yarn deploy-ci",
     "deploy-ci": "babel-node ./scripts/deploy.js",
     "deploy:fast": "yarn build-portal --prefix-paths && babel-node ./scripts/deploy.js",
@@ -131,6 +133,7 @@
     "react-fake-props": "^0.3.2",
     "react-live": "^2.2.2",
     "react-markdown": "^4.3.1",
+    "start-server-and-test": "^1.10.8",
     "stylelint": "^13.1.0",
     "stylelint-config-styled-components": "^0.1.1",
     "stylelint-processor-styled-components": "^1.9.0"
