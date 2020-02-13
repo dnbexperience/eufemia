@@ -19,15 +19,20 @@ import {
 } from '../../src/components'
 
 const CustomStyle = styled.div`
-  [data-dnb-test='dropdown-list'] .dnb-dropdown__options {
-    position: relative;
-    max-width: var(--dropdown-width);
-  }
-  .dnb-dropdown:not(.dnb-dropdown--is-popup) .dnb-dropdown__shell {
-    width: 10rem;
+  ${'' /* --dropdown-width: 20rem; */}
+  ${
+    '' /* .dnb-dropdown:not(.dnb-dropdown--is-popup) .dnb-dropdown__shell {
+    width: 20rem;
   }
   .dnb-dropdown:not(.dnb-dropdown--is-popup) .dnb-dropdown__list {
     min-width: 20rem;
+  } */
+  }
+  ${
+    '' /* [data-dnb-test='dropdown-list'] .dnb-dropdown__options {
+      position: relative;
+      max-width: var(--dropdown-width);
+      } */
   }
 `
 
@@ -36,6 +41,20 @@ const DropdownStory = () => {
   const [value, setSelectedItem] = useState(0)
   return (
     <Wrapper>
+      <Box>
+        <Dropdown
+          data={['A', 'B']}
+          on_change={e => {
+            console.log('on_change', e)
+          }}
+        ></Dropdown>
+      </Box>
+      {/* <Box>
+        <Dropdown.List opened data={['A', 'B']}>
+          <Dropdown.Item>A</Dropdown.Item>
+        </Dropdown.List>
+      </Box> */}
+
       <Box>
         <CurrencyDropdown />
       </Box>

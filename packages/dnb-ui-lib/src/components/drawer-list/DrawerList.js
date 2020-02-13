@@ -1,0 +1,1265 @@
+/**
+ * Web List Component
+ *
+ */
+
+import React, { PureComponent } from 'react'
+import PropTypes from 'prop-types'
+import classnames from 'classnames'
+import keycode from 'keycode'
+import {
+  isTrue,
+  makeUniqueId,
+  extendPropsWithContext,
+  registerElement,
+  validateDOMAttributes,
+  processChildren,
+  detectOutsideClick,
+  dispatchCustomElementEvent
+} from '../../shared/component-helper'
+// import AlignmentHelper from '../../shared/AlignmentHelper'
+import { createSpacingClasses } from '../space/SpacingHelper'
+// import { addScrollLock } from '../modal/Modal'
+
+import Context from '../../shared/Context'
+// import Suffix from '../../shared/helpers/Suffix'
+// import Icon from '../icon-primary/IconPrimary'
+// import FormLabel from '../form-label/FormLabel'
+// import FormStatus from '../form-status/FormStatus'
+// import Button from '../button/Button'
+
+const renderProps = {
+  // set_hidden: null,
+  // set_visible: null,
+  on_show: null,
+  on_hide: null,
+  on_change: null,
+  on_resize: null,
+  on_select: null,
+  on_state_update: null,
+  wrapper_element: null
+}
+
+const propTypes = {
+  id: PropTypes.string,
+  // title: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
+  // icon: PropTypes.oneOfType([
+  //   PropTypes.string,
+  //   PropTypes.node,
+  //   PropTypes.func
+  // ]),
+  // icon_size: PropTypes.string,
+  icon_position: PropTypes.string,
+  label: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.func,
+    PropTypes.node
+  ]),
+  label_direction: PropTypes.oneOf(['horizontal', 'vertical']),
+  label_sr_only: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  status: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.func,
+    PropTypes.node
+  ]),
+  status_state: PropTypes.string,
+  status_animation: PropTypes.string,
+  global_status_id: PropTypes.string,
+  suffix: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.func,
+    PropTypes.node
+  ]),
+  scrollable: PropTypes.bool,
+  direction: PropTypes.oneOf(['auto', 'top', 'bottom']),
+  max_height: PropTypes.number,
+  no_animation: PropTypes.bool,
+  no_scroll_animation: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.bool
+  ]),
+  prevent_selection: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.bool
+  ]),
+  // more_menu: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  // size: PropTypes.oneOf(['default', 'small', 'medium', 'large']),
+  align_drawer: PropTypes.oneOf(['left', 'right']),
+  wrapper_element: PropTypes.oneOfType([
+    PropTypes.object,
+    PropTypes.func,
+    PropTypes.node
+  ]),
+  data: PropTypes.oneOfType([
+    PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.func,
+      PropTypes.node
+    ]),
+    PropTypes.arrayOf(
+      PropTypes.oneOfType([
+        PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
+        PropTypes.shape({
+          selected_value: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.node
+          ]),
+          content: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.node,
+            PropTypes.arrayOf(PropTypes.string)
+          ])
+        })
+      ])
+    )
+  ]).isRequired,
+  default_value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  // selected_item: PropTypes.oneOfType([PropTypes.string, PropTypes.number]), // deprecated
+  open_on_focus: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  prevent_hide: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  opened: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  class: PropTypes.string,
+
+  // React
+  className: PropTypes.string,
+  children: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
+
+  // Web Component props
+  custom_element: PropTypes.object,
+  custom_method: PropTypes.func,
+
+  // set_visible: PropTypes.func,
+  // set_hidden: PropTypes.func,
+  on_show: PropTypes.func,
+  on_hide: PropTypes.func,
+  on_change: PropTypes.func,
+  on_resize: PropTypes.func,
+  on_select: PropTypes.func,
+  on_state_update: PropTypes.func
+}
+
+const defaultProps = {
+  id: null,
+  // title: 'Option Menu',
+  // icon: null,
+  // icon_size: null,
+  icon_position: null,
+  label: null,
+  label_direction: null,
+  label_sr_only: null,
+  status: null,
+  status_state: 'error',
+  status_animation: null,
+  global_status_id: null,
+  suffix: null,
+  scrollable: true,
+  max_height: null,
+  direction: 'auto',
+  no_animation: false,
+  no_scroll_animation: false,
+  prevent_selection: false,
+  // more_menu: false,
+  // size: null,
+  align_drawer: null,
+  // data: null,
+  default_value: null,
+  value: 'initval',
+  // selected_item: 'initval', // deprecated
+  open_on_focus: false,
+  prevent_hide: false,
+  opened: false,
+  disabled: null,
+  class: null,
+
+  // React props
+  className: null,
+  children: null,
+
+  // Web Component props
+  custom_element: null,
+  custom_method: null,
+  ...renderProps
+}
+
+export default class DrawerList extends PureComponent {
+  static tagName = 'dnb-drawer-list'
+  static propTypes = propTypes
+  static defaultProps = defaultProps
+  static renderProps = renderProps
+  static contextType = Context
+
+  static blurDelay = 201 // some ms more than "dropdownSlideDown 200ms"
+
+  static enableWebComponent() {
+    registerElement(DrawerList.tagName, DrawerList, defaultProps)
+  }
+
+  static parseOpened = state => /true|on/.test(String(state))
+
+  static parseContentTitle = (
+    dataItem,
+    { separator = '\n', removeNumericOnlyValues = false } = {}
+  ) => {
+    let ret = ''
+    const onlyNumericRegex = /[0-9.,-\s]+/
+    if (Array.isArray(dataItem) && dataItem.length > 0) {
+      dataItem = { content: dataItem }
+    }
+    if (dataItem && Array.isArray(dataItem.content)) {
+      ret = dataItem.content
+        .reduce((acc, cur) => {
+          // check if we have React inside, with strings we can use
+          cur = grabStringFromReact(cur)
+          if (cur === false) {
+            return acc
+          }
+          // remove only numbers
+          const found =
+            removeNumericOnlyValues && cur && cur.match(onlyNumericRegex)
+          if (!(found && found[0].length === cur.length)) {
+            acc.push(cur)
+          }
+          return acc
+        }, [])
+        .join(separator)
+    } else {
+      ret = grabStringFromReact((dataItem && dataItem.content) || dataItem)
+    }
+    if (
+      dataItem &&
+      dataItem.selected_value &&
+      !onlyNumericRegex.test(dataItem.selected_value)
+    ) {
+      ret = dataItem.selected_value + separator + ret
+    }
+    // make sure we don't return empty strings
+    if (Array.isArray(dataItem) && dataItem.length === 0) {
+      ret = null
+    }
+    return ret
+  }
+
+  static getData(props) {
+    let res = []
+    if (typeof props.data === 'function') {
+      res = props.data()
+    } else if (props.data) {
+      res = props.data
+    } else {
+      res = processChildren(props)
+    }
+    if (typeof res === 'string') {
+      return res[0] === '[' ? JSON.parse(res) : []
+    }
+    return res || []
+  }
+
+  static getOptionData(value, data) {
+    if (typeof data === 'function') {
+      data = data()
+    }
+    return (
+      (data && data.filter((data, i) => i === parseFloat(value))[0]) || []
+    )
+  }
+
+  static getDerivedStateFromProps(props, state) {
+    if (state.opened && !state.data && typeof props.data === 'function') {
+      state.data = DrawerList.getData(props)
+    }
+    if (state._listenForPropChanges) {
+      if (props.data && typeof props.data !== 'function') {
+        state.data = DrawerList.getData(props)
+      }
+
+      let hasChanged = false
+
+      // deprecated, use value instad
+      // if (
+      //   props.selected_item !== 'initval' &&
+      //   state.selected_item !== props.selected_item
+      // ) {
+      //   state.selected_item =
+      //     parseFloat(props.selected_item) > -1
+      //       ? parseFloat(props.selected_item)
+      //       : props.selected_item
+      //   hasChanged = true
+      // }
+
+      if (
+        props.value !== 'initval' &&
+        state.selected_item !== props.value
+      ) {
+        state.selected_item =
+          parseFloat(props.value) > -1
+            ? parseFloat(props.value)
+            : props.value
+        hasChanged = true
+      }
+      if (hasChanged && typeof props.on_state_update === 'function') {
+        dispatchCustomElementEvent({ props }, 'on_state_update', {
+          data: DrawerList.getOptionData(state.selected_item, state.data),
+          value: state.selected_item,
+          selected_item: state.selected_item // deprecated
+        })
+      }
+    }
+    state._listenForPropChanges = true
+    return state
+  }
+
+  constructor(props) {
+    super(props)
+
+    this._id = props.id || makeUniqueId()
+
+    const opened = DrawerList.parseOpened(props.opened)
+    // const hidden = DrawerList.parseOpened(props.hidden)
+    this.state = {
+      _listenForPropChanges: true,
+      opened,
+      // hidden: props.hidden,
+      hidden: !opened,
+      direction: props.direction,
+      max_height: props.max_height,
+      active_item: props.value,
+      // send selected_item in here, so we dont trigger on_state_update
+      selected_item:
+        parseFloat(props.default_value) > -1
+          ? parseFloat(props.default_value)
+          : parseFloat(props.value) > -1
+          ? parseFloat(props.value)
+          : props.value,
+      selectedItemHasChanged: false
+    }
+
+    // this._ref = React.createRef()
+    this._refShell = React.createRef()
+    this._refUl = React.createRef()
+    // this._refButton = React.createRef()
+    this._refTriangle = React.createRef()
+
+    // if (typeof props.set_visible === 'function') {
+    //   setTimeout(() => props.set_visible(this.setVisible), 1)
+    // }
+    // if (typeof props.set_hidden === 'function') {
+    //   setTimeout(() => props.set_hidden(this.setHidden), 1)
+    // }
+  }
+
+  componentDidMount() {
+    if (this.state.opened && !this.state.hidden) {
+      this.setVisible()
+    }
+  }
+
+  componentWillUnmount() {
+    this.setHidden()
+    clearTimeout(this._hideTimeout)
+    clearTimeout(this._selectTimeout)
+  }
+
+  setTrianglePosition = () => {
+    // do not change the triangle on popup mode
+    if (
+      isTrue(this.props.prevent_selection)
+      // TODO: maybe we have to send in someting like more_menu anyway?
+      // ||  isTrue(this.props.more_menu)
+    ) {
+      return
+    }
+
+    try {
+      const width = (this.props.wrapper_element || this._refShell.current)
+        .offsetWidth
+      if (parseFloat(width) > 0) {
+        const { icon_position, align_drawer } = this.props
+        switch (align_drawer) {
+          case 'left':
+          default:
+            if (icon_position !== 'left') {
+              this._refTriangle.current.style.left = `${width / 16 - 3}rem` // -3rem
+            }
+            break
+          case 'right':
+            if (icon_position === 'left') {
+              this._refTriangle.current.style.left = 'auto'
+              this._refTriangle.current.style.right = `${width / 16 -
+                3}rem` // -3rem
+            }
+            break
+        }
+      }
+    } catch (e) {
+      console.warn(e)
+    }
+  }
+
+  setOutsideClickObserver = () => {
+    this.outsideClick = detectOutsideClick(
+      // this.props.wrapper_element ||
+      this._refShell.current,
+      this.setHidden
+    )
+    if (typeof document !== 'undefined') {
+      document.addEventListener('keydown', this.onKeyDownHandler)
+    }
+  }
+
+  removeOutsideClickObserver() {
+    if (this.outsideClick) {
+      this.outsideClick.remove()
+    }
+    if (typeof document !== 'undefined') {
+      document.removeEventListener('keydown', this.onKeyDownHandler)
+    }
+  }
+
+  setVisible = () => {
+    clearTimeout(this._hideTimeout)
+    // clearTimeout(this._showTimeout)
+    this.searchCache = null
+    const {
+      selected_item,
+      active_item
+      // , opened, hidden
+    } = this.state
+    // if (!opened && hidden) {
+    //   this.blockDoubleClick = true
+    // }
+    // This can be enabled in case we want to bypass the overflow hidden on Modals
+    // Has to be tested more!
+    // this.modalScrollLock = addScrollLock(this._refShell.current)
+    this.setState(
+      {
+        hidden: false,
+        opened: true,
+        _listenForPropChanges: false
+      },
+      () => {
+        // clearTimeout(this._showTimeout)
+        // this._showTimeout = setTimeout(
+        //   () => (this.blockDoubleClick = false),
+        //   1e3
+        // ) // wait until animation is over
+
+        this.setTrianglePosition()
+        this.setDirectionObserver()
+        this.setScrollObserver()
+        this.setOutsideClickObserver()
+
+        this.scrollToItem(active_item > -1 ? active_item : selected_item, {
+          scrollTo: false
+        })
+      }
+    )
+    dispatchCustomElementEvent(this, 'on_show', {
+      data: DrawerList.getOptionData(selected_item, this.state.data),
+      attributes: this.attributes || {}
+    })
+  }
+
+  setHidden = () =>
+    // { setFocus = false } = {}
+    {
+      if (!this.state.opened || isTrue(this.props.prevent_hide)) {
+        return
+      }
+      console.log('setHidden', this.state.opened)
+      this.setState(
+        {
+          opened: false,
+          _listenForPropChanges: false
+        },
+        () => {
+          clearTimeout(this._hideTimeout)
+          this._hideTimeout = setTimeout(
+            () => {
+              this.setState(
+                {
+                  hidden: true,
+                  _listenForPropChanges: false
+                }
+                // ,() => {
+                //   if (setFocus) {
+                //     setTimeout(() => {
+                //       try {
+                //         // TODO: handle _refButton
+                //         const elem = this._refButton.current._ref.current
+                //         if (elem && elem.focus) {
+                //           elem.focus()
+                //         }
+                //       } catch (e) {
+                //         // do noting
+                //       }
+                //     }, 1) // NVDA / Firefox needs a dealy to set this focus
+                //   }
+                // }
+              )
+            },
+            this.props.no_animation ? 1 : DrawerList.blurDelay
+          ) // wait until animation is over
+        }
+      )
+      if (typeof this.modalScrollLock === 'function') {
+        this.modalScrollLock()
+      }
+      this.removeDirectionObserver()
+      this.removeScrollObserver()
+      this.removeOutsideClickObserver()
+      const attributes = this.attributes || {}
+      dispatchCustomElementEvent(this, 'on_hide', {
+        data: DrawerList.getOptionData(
+          this.state.selected_item,
+          this.state.data
+        ),
+        attributes
+      })
+      // this.blockDoubleClick = false
+    }
+
+  // this gives us the possibility to quickly search for an item
+  // by simply pressing any alfabetic key
+  findItemByValue(value) {
+    let index = -1
+
+    try {
+      // delete the cache
+      // if ther eare several of the same type
+      if (this.changedOrderFor !== value) {
+        this.searchCache = null
+        this.changedOrderFor = null
+      }
+
+      this.searchCache =
+        this.searchCache ||
+        this.state.data.reduce((acc, itemData, i) => {
+          const str = String(
+            DrawerList.parseContentTitle(itemData, {
+              removeNumericOnlyValues: true,
+              separator: ' '
+            })
+          ).toLowerCase()
+
+          acc[str[0]] = acc[str[0]] || []
+          acc[str[0]].push({
+            i
+          })
+          return acc
+        }, {})
+
+      const found = this.searchCache[value]
+      index = found && found[0] && found[0].i > -1 ? found[0].i : -1
+
+      // if ther eare several of the same type
+      if (found && found.length > 1) {
+        found.push(found.shift())
+        this.changedOrderFor = value
+      }
+    } catch (e) {
+      console.warn('List could not findItemByValue:', e)
+    }
+
+    return index
+  }
+
+  scrollToItem(
+    active_item,
+    { fireSelectEvent = false, scrollTo = true, event = null } = {}
+  ) {
+    if (!(active_item > -1)) {
+      setTimeout(() => {
+        try {
+          const ulElement = this._refUl.current
+          ulElement.focus()
+        } catch (e) {
+          console.warn(e)
+        }
+      }, 1) // NVDA / Firefox needs a dealy to set this focus
+      return
+    }
+    this.setState(
+      {
+        active_item,
+        _listenForPropChanges: false
+      },
+      () => {
+        const { selected_item } = this.state
+        if (fireSelectEvent) {
+          const attributes = this.attributes || {}
+          const ret = dispatchCustomElementEvent(this, 'on_select', {
+            value: selected_item,
+            selected_item, // deprecated
+            active_item,
+            data: DrawerList.getOptionData(active_item, this.state.data),
+            event,
+            attributes
+          })
+          if (ret === false) {
+            return
+          }
+        }
+
+        if (!(active_item > -1)) {
+          return
+        }
+
+        // try to scroll to item
+        if (!this._refUl.current) {
+          return
+        }
+
+        setTimeout(() => {
+          try {
+            const ulElement = this._refUl.current
+            const liElement = ulElement.querySelector(
+              `li.dnb-drawer-list__option:nth-of-type(${active_item + 1})`
+            )
+            const top = liElement.offsetTop
+            if (ulElement.scrollTo) {
+              const params = {
+                top
+              }
+              if (scrollTo) {
+                params.behavior = 'smooth'
+              }
+              ulElement.scrollTo(params)
+            } else if (ulElement.scrollTop) {
+              ulElement.scrollTop = top
+            }
+            if (liElement) {
+              liElement.focus()
+            }
+          } catch (e) {
+            console.warn('List could not scroll into element:', e)
+          }
+        }, 1) // NVDA / Firefox needs a dealy to set this focus
+      }
+    )
+  }
+
+  // onFocusHandler = () => {
+  //   if (isTrue(this.props.open_on_focus)) {
+  //     this.setVisible()
+  //   }
+  // }
+  // onBlurHandler = () => {
+  //   if (isTrue(this.props.open_on_focus)) {
+  //     this.setHidden()
+  //   }
+  // }
+  // toggleVisible = () => {
+  //   if (!this.state.hidden && this.state.opened) {
+  //     this.setHidden()
+  //   } else {
+  //     this.setVisible()
+  //   }
+  // }
+  // onMouseDownHandler = () => {
+  //   if (
+  //     !this.state.hidden &&
+  //     this.state.opened &&
+  //     !this.blockDoubleClick
+  //   ) {
+  //     this.setHidden()
+  //   } else {
+  //     this.setVisible()
+  //   }
+  // }
+
+  // onTriggerKeyDownHandler = e => {
+  //   switch (keycode(e)) {
+  //     case 'enter':
+  //     case 'space':
+  //     case 'up':
+  //     case 'down':
+  //       if (this.state.hidden) {
+  //         e.preventDefault()
+  //         this.setVisible()
+  //       }
+  //       break
+  //     case 'esc':
+  //       this.setHidden()
+  //       break
+  //   }
+  // }
+
+  preventTab = e => {
+    switch (keycode(e)) {
+      case 'tab':
+        this.setHidden()
+        break
+    }
+  }
+
+  onKeyDownHandler = e => {
+    let active_item = parseFloat(this.state.active_item)
+    const total = this.state.data.length - 1
+
+    switch (keycode(e)) {
+      case 'shift':
+        e.preventDefault()
+        break
+
+      case 'up':
+        e.preventDefault()
+        if (active_item > -1) {
+          active_item--
+        } else {
+          active_item = total
+        }
+        break
+
+      case 'down':
+        e.preventDefault()
+        if (active_item > -1) {
+          active_item++
+        } else {
+          active_item = 0
+        }
+        break
+
+      case 'home':
+        e.preventDefault()
+        active_item = 0
+        break
+
+      case 'end':
+        e.preventDefault()
+        active_item = total
+        break
+
+      case 'enter':
+      case 'space':
+        e.preventDefault()
+        this.selectItem(active_item, { fireSelectEvent: true, event: e })
+        this.setHidden()
+        break
+
+      case 'esc':
+      case 'tab':
+        e.preventDefault() // on edge, we need this prevent to not loose focus after close
+        this.setHidden()
+        break
+
+      default:
+        // returns -1 if nothing is found
+        active_item = this.findItemByValue(keycode(e))
+        break
+    }
+
+    if (active_item !== -1) {
+      if (active_item < 0) {
+        active_item = 0
+      }
+      if (active_item > total) {
+        active_item = total
+      }
+
+      if (active_item !== this.state.active_item) {
+        this.scrollToItem(active_item, { fireSelectEvent: true, event: e })
+      }
+    }
+  }
+
+  selectItemHandler = event => {
+    const selected_item = parseFloat(
+      event.currentTarget.getAttribute('data-item')
+    )
+    if (selected_item > -1) {
+      this.selectItem(selected_item, { fireSelectEvent: true, event })
+    }
+  }
+
+  selectItem = (
+    itemToSelect,
+    { fireSelectEvent = false, event = null } = {}
+  ) => {
+    // because of our delay on despatching the event
+    // make a copy of it, so we don't break the syntetic event
+    if (event && typeof event.persist === 'function') {
+      event.persist()
+    }
+
+    const doCallOnChange =
+      this.state.selected_item !== itemToSelect ||
+      // to make sure we call "on_change" on startup
+      this.state.selectedItemHasChanged === false
+
+    const onSelectionIsComplete = () => {
+      const attributes = this.attributes || {}
+      if (doCallOnChange) {
+        dispatchCustomElementEvent(this, 'on_change', {
+          value: itemToSelect,
+          // selected_item: itemToSelect, // deprecated
+          data: DrawerList.getOptionData(itemToSelect, this.state.data),
+          event,
+          attributes
+        })
+      }
+      if (fireSelectEvent) {
+        dispatchCustomElementEvent(this, 'on_select', {
+          value: itemToSelect,
+          // selected_item: itemToSelect, // deprecated
+          active_item: itemToSelect,
+          data: DrawerList.getOptionData(itemToSelect, this.state.data),
+          event,
+          attributes
+        })
+      }
+      if (this._selectTimeout) {
+        clearTimeout(this._selectTimeout)
+      }
+      this._selectTimeout = setTimeout(
+        () => {
+          this.setHidden()
+        },
+        this.props.no_animation ? 1 : DrawerList.blurDelay / 2
+      ) // only for the user experience
+    }
+
+    if (
+      isTrue(this.props.prevent_selection)
+      // TODO: maybe we have to send in someting like more_menu anyway?
+      // ||isTrue(this.props.more_menu)
+    ) {
+      onSelectionIsComplete()
+    } else {
+      this.setState(
+        {
+          _listenForPropChanges: false,
+          selectedItemHasChanged: true,
+          selected_item: itemToSelect,
+          active_item: itemToSelect
+        },
+        onSelectionIsComplete
+      )
+    }
+  }
+
+  setScrollObserver() {
+    if (typeof window === 'undefined' || !this._refUl.current) {
+      return
+    }
+    this.removeScrollObserver()
+
+    try {
+      const itemSpots = this.state.data.reduce((acc, current, i) => {
+        const element = this._refUl.current.querySelector(
+          `li.dnb-drawer-list__option:nth-of-type(${i + 1})`
+        )
+        if (element) {
+          acc[element.offsetTop] = {
+            i
+          }
+        }
+        return acc
+      }, {})
+      const counts = Object.keys(itemSpots)
+      const findClosest = (arr, val) =>
+        Math.max.apply(
+          null,
+          arr.filter(v => v <= val)
+        )
+      let closestToTop = null,
+        closestToBottom = null,
+        tmpToTop,
+        tmpToBottom
+      this.setOnScroll = () => {
+        closestToBottom = findClosest(
+          counts,
+          this._refUl.current.scrollTop + this._refUl.current.offsetHeight
+        )
+        closestToTop = findClosest(counts, this._refUl.current.scrollTop)
+        if (itemSpots[closestToTop] && closestToTop !== tmpToTop) {
+          this.setState({
+            closestToTop: itemSpots[closestToTop].i,
+            _listenForPropChanges: false
+          })
+        }
+        // we do this because we want the arrow
+        // to change visually
+        if (closestToBottom !== tmpToBottom) {
+          this.setState({
+            closestToBottom: itemSpots[closestToBottom].i,
+            _listenForPropChanges: false
+          })
+        }
+        tmpToTop = closestToTop
+        tmpToBottom = closestToBottom
+      }
+      this._refUl.current.addEventListener('scroll', this.setOnScroll)
+      this.setOnScroll()
+    } catch (e) {
+      console.warn('List could not set onScroll:', e)
+    }
+  }
+
+  removeScrollObserver() {
+    if (typeof window !== 'undefined' && this.setOnScroll) {
+      window.removeEventListener('resize', this.setOnScroll)
+    }
+  }
+
+  setDirectionObserver() {
+    if (
+      typeof window === 'undefined' ||
+      !(this.props.wrapper_element || this._refShell.current)
+    ) {
+      return
+    }
+    if (this.props.direction !== 'auto') {
+      return
+    }
+    this.removeDirectionObserver()
+    // console.log('this._refShell', this._refShell.current)
+    const min_height = 320 // 20rem = 20x16=320
+    const spaceToTopOffset = 4 * 16 //because of headers
+    const spaceToBottomOffset = 2 * 16
+    const elem = this.props.wrapper_element || this._refShell.current
+
+    this.setDirection = () => {
+      try {
+        // use "window.pageYOffset" instead of "window.scrollY" because IE
+        const spaceToTop =
+          getOffsetTop(elem) + elem.offsetHeight - window.pageYOffset
+        const spaceToBottom =
+          window.innerHeight -
+          (getOffsetTop(elem) + elem.offsetHeight) +
+          window.pageYOffset
+        const direction =
+          spaceToBottom < min_height && spaceToTop > min_height
+            ? 'top'
+            : 'bottom'
+
+        // console.log(
+        //   'direction',
+        //   spaceToBottom,
+        //   ' < ',
+        //   min_height,
+        //   ' && ',
+        //   spaceToTop,
+        //   ' > ',
+        //   min_height,
+        //   direction
+        // )
+
+        const height =
+          direction === 'top'
+            ? spaceToTop -
+              // TODO: handle this._refButton
+              ((this.props.wrapper_element || this._refShell.current)
+                .offsetHeight || 0) -
+              spaceToTopOffset
+            : spaceToBottom - spaceToBottomOffset
+
+        const max_height = height / 16 // calc to rem
+
+        this.setState({
+          direction,
+          max_height,
+          _listenForPropChanges: false
+        })
+
+        dispatchCustomElementEvent(this, 'on_resize', {
+          direction,
+          max_height
+        })
+      } catch (e) {
+        console.warn('List could not set onResize:', e)
+      }
+    }
+
+    window.addEventListener('resize', this.setDirection)
+    this.setDirection()
+  }
+
+  removeDirectionObserver() {
+    if (typeof window !== 'undefined' && this.setDirection) {
+      window.removeEventListener('resize', this.setDirection)
+    }
+  }
+
+  render() {
+    // use only the props from context, who are available here anyway
+    const props = extendPropsWithContext(
+      this.props,
+      defaultProps,
+      this.context.formRow,
+      this.context.translation.List
+    )
+
+    let { icon_position } = props
+
+    const {
+      // title: titleProp,
+      // label,
+      // label_direction,
+      // label_sr_only,
+      // icon: _icon, // eslint-disable-line
+      icon_position: _icon_position, // eslint-disable-line
+      // icon_size,
+      // size,
+      align_drawer,
+      // status,
+      // status_state,
+      // status_animation,
+      // global_status_id,
+      // suffix,
+      scrollable,
+      no_animation,
+      no_scroll_animation,
+      // wrapper_element: CustomTrigger,
+      // more_menu,
+      prevent_selection,
+      inner_class,
+      className,
+      class: _className,
+      // disabled,
+
+      wrapper_element: _wrapper_element, // eslint-disable-line
+      direction: _direction, // eslint-disable-line
+      max_height: _max_height, // eslint-disable-line
+      id: _id, // eslint-disable-line
+      data: _data, // eslint-disable-line
+      opened: _opened, // eslint-disable-line
+      value: _value, // eslint-disable-line
+      children,
+
+      ...attributes
+    } = props
+
+    const id = this._id
+
+    const isPopupMenu =
+      // isTrue(more_menu) ||
+      isTrue(prevent_selection)
+    if (isPopupMenu) {
+      // if (
+      //   icon === null
+      //   // && isTrue(more_menu)
+      // ) {
+      //   icon = 'more'
+      // }
+      if (icon_position === null && align_drawer !== 'right') {
+        icon_position = 'left'
+      }
+    }
+
+    const {
+      data,
+      direction,
+      max_height,
+      opened,
+      hidden,
+      active_item,
+      selected_item
+    } = this.state
+    // const showStatus = status && status !== 'error'
+
+    // const currentOptionData = DrawerList.getOptionData(selected_item, data)
+    // const title =
+    //   data && data.length > 0
+    //     ? currentOptionData.selected_value ||
+    //       DrawerList.parseContentTitle(currentOptionData) ||
+    //       titleProp
+    //     : titleProp
+    // console.log('direction', direction)
+    const mainParams = {
+      id: `${id}-drawer`,
+      className: classnames(
+        'dnb-drawer-list',
+        opened && 'dnb-drawer-list--opened',
+        hidden && 'dnb-drawer-list--hidden',
+        `dnb-drawer-list--direction-${direction}`,
+        //     label_direction && `dnb-drawer-list--${label_direction}`,
+        //     'dnb-drawer-list',
+        icon_position && `dnb-drawer-list--icon-position-${icon_position}`,
+        // isPopupMenu && 'dnb-drawer-list--is-popup',
+        // isPopupMenu &&
+        //   typeof more_menu === 'string' &&
+        //   `dnb-drawer-list__more_menu`,
+        //     size && `dnb-drawer-list__size--${size}`,
+        //     align_drawer && `dnb-drawer-list__align--${align_drawer}`,
+        scrollable && 'dnb-drawer-list--scroll',
+        isTrue(no_scroll_animation) &&
+          'dnb-drawer-list--no-scroll-animation',
+        //     status && `dnb-drawer-list__status--${status_state}`,
+        //     showStatus && 'dnb-drawer-list__form-status',
+        // 'dnb-form-component',
+        createSpacingClasses(props),
+        _className,
+        className
+      ),
+      ...attributes
+    }
+
+    // const triggerParams = {
+    //   className: classnames(
+    //     'dnb-drawer-list__trigger',
+    //     opened && 'dnb-button--active'
+    //   ),
+    //   id,
+    //   disabled,
+    //   ['aria-haspopup']: true, //listbox
+    //   ['aria-expanded']: opened,
+    //   ...attributes,
+    //   onFocus: this.onFocusHandler,
+    //   onBlur: this.onBlurHandler,
+    //   onMouseDown: this.onMouseDownHandler,
+    //   onKeyDown: this.onTriggerKeyDownHandler
+    // }
+
+    // reads out the current selected state
+    // if (typeof title === 'string') {
+    //   triggerParams['aria-label'] = title
+    // }
+    // if (showStatus || suffix) {
+    //   triggerParams['aria-describedby'] = `${
+    //     showStatus ? id + '-status' : ''
+    //   } ${suffix ? id + '-suffix' : ''}`
+    // }
+    // if (hidden && label) {
+    //   triggerParams['aria-labelledby'] = id + '-label'
+    // }
+
+    const listParams = {
+      className: classnames(
+        'dnb-drawer-list__list',
+        no_animation && 'dnb-drawer-list__list--no-animation',
+        inner_class
+      )
+    }
+    const ulParams = {
+      className: 'dnb-drawer-list__options', // dnb-no-focus
+      role: 'listbox',
+      tabIndex: '-1',
+      ['aria-labelledby']: id,
+      ref: this._refUl,
+      style: {
+        maxHeight: max_height > 0 ? `${max_height}rem` : null
+      }
+    }
+    if (
+      !isPopupMenu &&
+      !hidden &&
+      selected_item !== null &&
+      selected_item > -1
+    ) {
+      ulParams['aria-activedescendant'] = `option-${id}-${selected_item}`
+      // } else {
+      //   ulParams.tabIndex = '-1'
+    }
+
+    // also used for code markup simulation
+    // validateDOMAttributes(this.props, triggerParams)
+    validateDOMAttributes(this.props, mainParams)
+    validateDOMAttributes(null, listParams)
+    validateDOMAttributes(null, ulParams)
+
+    // make it pissible to grab the rest attributes and return it with all events
+    this.attributes = validateDOMAttributes(null, attributes)
+    console.log('hidden', opened, hidden)
+
+    return (
+      <span {...mainParams} ref={this._refShell}>
+        {!hidden && (
+          <span {...listParams}>
+            {data && data.length > 0 ? (
+              <ul {...ulParams}>
+                {data.map((dataItem, i) => {
+                  const isCurrent = i === parseFloat(selected_item)
+                  const liParams = {
+                    id: `option-${id}-${i}`,
+                    role: 'option',
+                    tabIndex: '-1',
+                    // title: DrawerList.parseContentTitle(dataItem),// freaks out NVDA
+                    className: classnames(
+                      'dnb-drawer-list__option',
+                      isCurrent && 'dnb-drawer-list__option--selected',
+                      i === active_item &&
+                        'dnb-drawer-list__option--focus',
+                      // helper classes
+                      i === this.state.closestToTop && 'closest-to-top',
+                      i === this.state.closestToBottom &&
+                        'closest-to-bottom',
+                      i === data.length - 1 && 'last-of-type' // because of the triangle element
+                    ),
+                    onMouseDown: this.selectItemHandler,
+                    onKeyDown: this.preventTab,
+                    'data-item': i
+                  }
+                  if (isCurrent) {
+                    liParams['aria-current'] = true // has best support on NVDA
+                    liParams['aria-selected'] = true // has best support on VO
+                  }
+                  return (
+                    <li key={id + i} {...liParams}>
+                      <span className="dnb-drawer-list__option__inner">
+                        {(Array.isArray(dataItem.content) &&
+                          dataItem.content.map((item, n) => {
+                            return (
+                              <span
+                                key={id + i + n}
+                                className="dnb-drawer-list__option__item"
+                              >
+                                {item}
+                              </span>
+                            )
+                          })) ||
+                          dataItem.content ||
+                          dataItem}
+                      </span>
+                    </li>
+                  )
+                })}
+                <li
+                  className="dnb-drawer-list__triangle"
+                  aria-hidden
+                  ref={this._refTriangle}
+                />
+              </ul>
+            ) : (
+              children && (
+                <span className="dnb-drawer-list__content">
+                  {children}
+                </span>
+              )
+            )}
+          </span>
+        )}
+      </span>
+    )
+  }
+}
+
+function getOffsetTop(elem) {
+  let offsetTop = 0
+  do {
+    if (!isNaN(elem.offsetTop)) {
+      offsetTop += elem.offsetTop
+    }
+  } while ((elem = elem.offsetParent))
+  return offsetTop
+}
+
+function grabStringFromReact(cur) {
+  if (React.isValidElement(cur)) {
+    if (typeof cur.props.children === 'string') {
+      cur = cur.props.children
+    } else if (Array.isArray(cur.props.children)) {
+      cur = cur.props.children.reduce((acc, cur) => {
+        if (typeof cur === 'string') {
+          acc = acc + cur
+        }
+        return acc
+      }, '')
+    } else {
+      return false
+    }
+  }
+
+  return cur
+}
