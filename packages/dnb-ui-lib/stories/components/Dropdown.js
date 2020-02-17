@@ -11,6 +11,7 @@ import styled from '@emotion/styled'
 import {
   Dropdown,
   Button,
+  Input,
   FormLabel,
   FormSet,
   FormRow,
@@ -18,21 +19,25 @@ import {
   // Checkbox
 } from '../../src/components'
 
+// import { P } from '../../src/elements'
+
+const Drawer = styled(Dropdown.List)`
+  margin-bottom: 4rem;
+`
 const CustomStyle = styled.div`
   ${'' /* --dropdown-width: 20rem; */}
-  ${
-    '' /* .dnb-dropdown:not(.dnb-dropdown--is-popup) .dnb-dropdown__shell {
+  ${'' /* .dnb-dropdown:not(.dnb-dropdown--is-popup) .dnb-dropdown__shell {
     width: 20rem;
   }
   .dnb-dropdown:not(.dnb-dropdown--is-popup) .dnb-dropdown__list {
     min-width: 20rem;
-  } */
-  }
-  ${
-    '' /* [data-dnb-test='dropdown-list'] .dnb-dropdown__options {
-      position: relative;
-      max-width: var(--dropdown-width);
-      } */
+  } */}
+   [data-dnb-test='dropdown-list'].dnb-drawer-list__list {
+    display: block;
+    visibility: visible;
+    position: relative;
+    top: 0;
+    width: var(--dropdown-width);
   }
 `
 
@@ -42,18 +47,33 @@ const DropdownStory = () => {
   return (
     <Wrapper>
       <Box>
-        <Dropdown
+        <Input>x</Input>
+        <Drawer
+          focusable
+          prevent_hide
+          opened
+          no_animation
+          icon_position="left"
           data={['A', 'B']}
+        >
+          {/* <Dropdown.Item>A</Dropdown.Item> */}
+        </Drawer>
+      </Box>
+
+      <Box>
+        <Dropdown
+          // opened
+          // no_animation
+          // value="0"
+          data={['A', 'B']}
+          on_select={e => {
+            console.log('on_select', e)
+          }}
           on_change={e => {
             console.log('on_change', e)
           }}
         ></Dropdown>
       </Box>
-      {/* <Box>
-        <Dropdown.List opened data={['A', 'B']}>
-          <Dropdown.Item>A</Dropdown.Item>
-        </Dropdown.List>
-      </Box> */}
 
       <Box>
         <CurrencyDropdown />
@@ -273,45 +293,51 @@ const DropdownStory = () => {
           sollicitudin ipsum
         </p>
       </Box>
-      <Box data-dnb-test="dropdown-list">
-        <ul className="dnb-dropdown__options">
-          <li className="dnb-dropdown__option">
-            <span className="dnb-dropdown__option__inner">
-              Brukskonto - Kari Nordmann
-            </span>
-          </li>
-          <li className="dnb-dropdown__option dnb-dropdown__option--selected">
-            <span className="dnb-dropdown__option__inner">
-              <span className="dnb-dropdown__option__item">
-                <Number ban>12345678902</Number>
+      <Box>
+        <span
+          data-dnb-test="dropdown-list"
+          className="dnb-drawer-list__list"
+        >
+          <ul className="dnb-drawer-list__options">
+            <li className="dnb-drawer-list__option">
+              <span className="dnb-drawer-list__option__inner">
+                Brukskonto - Kari Nordmann
               </span>
-              <span className="dnb-dropdown__option__item">
-                Sparekonto - Ole Nordmann
+            </li>
+            <li className="dnb-drawer-list__option dnb-drawer-list__option--selected">
+              <span className="dnb-drawer-list__option__inner">
+                <span className="dnb-drawer-list__option__item">
+                  <Number ban>12345678902</Number>
+                </span>
+                <span className="dnb-drawer-list__option__item">
+                  Sparekonto - Ole Nordmann
+                </span>
               </span>
-            </span>
-          </li>
-          <li className="dnb-dropdown__option">
-            <span className="dnb-dropdown__option__inner">
-              <span className="dnb-dropdown__option__item">
-                <Number ban>11345678962</Number>
+            </li>
+            <li className="dnb-drawer-list__option">
+              <span className="dnb-drawer-list__option__inner">
+                <span className="dnb-drawer-list__option__item">
+                  <Number ban>11345678962</Number>
+                </span>
+                <span className="dnb-drawer-list__option__item">
+                  Feriekonto - Kari Nordmann med et kjempelangt
+                  etternavnsen
+                </span>
               </span>
-              <span className="dnb-dropdown__option__item">
-                Feriekonto - Kari Nordmann med et kjempelangt etternavnsen
+            </li>
+            <li className="dnb-drawer-list__option last-of-type">
+              <span className="dnb-drawer-list__option__inner">
+                <span className="dnb-drawer-list__option__item">
+                  <Number ban>15349648901</Number>
+                </span>
+                <span className="dnb-drawer-list__option__item">
+                  Oppussing - Ole Nordmann
+                </span>
               </span>
-            </span>
-          </li>
-          <li className="dnb-dropdown__option last-of-type">
-            <span className="dnb-dropdown__option__inner">
-              <span className="dnb-dropdown__option__item">
-                <Number ban>15349648901</Number>
-              </span>
-              <span className="dnb-dropdown__option__item">
-                Oppussing - Ole Nordmann
-              </span>
-            </span>
-          </li>
-          <li className="dnb-dropdown__triangle" />
-        </ul>
+            </li>
+            <li className="dnb-drawer-list__triangle" />
+          </ul>
+        </span>
       </Box>
     </Wrapper>
   )

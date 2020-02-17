@@ -8,84 +8,89 @@ import {
   setupPageScreenshot
 } from '../../../core/jest/jestSetupScreenshots'
 
-describe('Dropdown screenshot', () => {
-  setupPageScreenshot({ url: '/uilib/components/dropdown/demos' })
-  it('have to match the closed dropdown', async () => {
+describe('DrawerList screenshot', () => {
+  setupPageScreenshot({ url: '/uilib/components/drawer-list/demos' })
+  it('have to match the closed drawer-list', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-dnb-test="dropdown-closed"] .dnb-dropdown__inner'
+      selector:
+        '[data-dnb-test="drawer-list-closed"] .dnb-drawer-list__inner'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
-  it('have to match the closed dropdown with focus', async () => {
+  it('have to match the closed drawer-list with focus', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-dnb-test="dropdown-closed"] .dnb-dropdown__inner',
+      selector:
+        '[data-dnb-test="drawer-list-closed"] .dnb-drawer-list__inner',
       simulateSelector:
-        '[data-dnb-test="dropdown-closed"] .dnb-dropdown__trigger',
+        '[data-dnb-test="drawer-list-closed"] .dnb-drawer-list__trigger',
       simulate: 'focus' // should be tested first
     })
     expect(screenshot).toMatchImageSnapshot()
   })
-  it('have to match the closed dropdown with hover', async () => {
+  it('have to match the closed drawer-list with hover', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-dnb-test="dropdown-closed"] .dnb-dropdown__inner',
+      selector:
+        '[data-dnb-test="drawer-list-closed"] .dnb-drawer-list__inner',
       simulateSelector:
-        '[data-dnb-test="dropdown-closed"] .dnb-dropdown__trigger',
+        '[data-dnb-test="drawer-list-closed"] .dnb-drawer-list__trigger',
       simulate: 'hover'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
-  it('have to match the dropdown items', async () => {
+  it('have to match the drawer-list items', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-dnb-test="dropdown-list"] .dnb-dropdown__list',
+      selector:
+        '[data-dnb-test="drawer-list-list"] .dnb-drawer-list__list',
       simulateSelector:
-        '[data-dnb-test="dropdown-list"] .dnb-dropdown__option:nth-of-type(1)',
+        '[data-dnb-test="drawer-list-list"] .dnb-drawer-list__option:nth-of-type(1)',
       simulate: 'hover'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
-  it('have to match the dropdown with click', async () => {
+  it('have to match the drawer-list with click', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-dnb-test="dropdown-closed"] .dnb-dropdown__inner',
+      selector:
+        '[data-dnb-test="drawer-list-closed"] .dnb-drawer-list__inner',
       simulateSelector:
-        '[data-dnb-test="dropdown-closed"] .dnb-dropdown__trigger',
+        '[data-dnb-test="drawer-list-closed"] .dnb-drawer-list__trigger',
       simulate: 'click'
       // waitAfterSimulateSelector:
-      //   '[data-dnb-test="dropdown-closed"] .dnb-dropdown__options',
+      //   '[data-dnb-test="drawer-list-closed"] .dnb-drawer-list__options',
       // waitAfterSimulate: 100 // to make sure we make the screenshot afte the animation is show
     })
     expect(screenshot).toMatchImageSnapshot()
   })
-  it('have to match the dropdown with icon on left side', async () => {
+  it('have to match the drawer-list with icon on left side', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-dnb-test="dropdown-left-icon"]'
+      selector: '[data-dnb-test="drawer-list-left-icon"]'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
-  it('have to match the dropdown with status: error', async () => {
+  it('have to match the drawer-list with status: error', async () => {
     const screenshot = await testPageScreenshot({
       selector:
-        '[data-dnb-test="dropdown-status-error"] .dnb-dropdown__inner'
+        '[data-dnb-test="drawer-list-status-error"] .dnb-drawer-list__inner'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
-  it('have to match the dropdown as more_menu', async () => {
+  it('have to match the drawer-list as more_menu', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-dnb-test="dropdown-more_menu"]'
+      selector: '[data-dnb-test="drawer-list-more_menu"]'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
-  it('have to match the dropdown as small more_menu', async () => {
+  it('have to match the drawer-list as small more_menu', async () => {
     const screenshot = await testPageScreenshot({
       style: {
         width: '2rem',
         height: '2rem'
       },
-      selector: '[data-dnb-test="dropdown-more_menu"]',
+      selector: '[data-dnb-test="drawer-list-more_menu"]',
       simulateSelector:
-        '[data-dnb-test="dropdown-more_menu"] .dnb-dropdown:nth-of-type(1) .dnb-dropdown__trigger',
+        '[data-dnb-test="drawer-list-more_menu"] .dnb-drawer-list:nth-of-type(1) .dnb-drawer-list__trigger',
       simulate: 'click'
       // waitAfterSimulateSelector:
-      //   '[data-dnb-test="dropdown-more_menu"] .dnb-dropdown:nth-of-type(1) .dnb-dropdown__options',
+      //   '[data-dnb-test="drawer-list-more_menu"] .dnb-drawer-list:nth-of-type(1) .dnb-drawer-list__options',
       // waitAfterSimulate: 100 // to make sure we make the screenshot afte the animation is show
     })
     expect(screenshot).toMatchImageSnapshot()
