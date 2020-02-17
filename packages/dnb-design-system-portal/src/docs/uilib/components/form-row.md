@@ -6,6 +6,8 @@ showTabs: true
 tabs:
   - title: Info
     key: /uilib/components/form-row/info$1
+  - title: Demos
+    key: /uilib/components/form-row/demos$1
   - title: Properties
     key: /uilib/components/form-row/properties$1
   - title: Provider
