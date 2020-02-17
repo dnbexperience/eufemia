@@ -12,9 +12,7 @@ import { H1 } from 'dnb-ui-lib/src/elements'
 import { fullscreen as fullscreenIcon } from 'dnb-ui-lib/src/icons/secondary_icons'
 import { CloseButton } from 'dnb-ui-lib/src/components/modal'
 
-const cleanPath = p => p.replace(/(&|\?)$/, '')
-
-function Tabbar({
+export default function Tabbar({
   location,
   title,
   hideTabs,
@@ -23,7 +21,10 @@ function Tabbar({
   defaultTabs,
   children
 }) {
-  const path = parsePath(location && location.href.replace(origin, ''))
+  const path = parsePath(
+    cleanPath([location.pathname, location.search, location.hash].join(''))
+  )
+
   const [wasFullscreen, setFullscreen] = React.useState(
     /fullscreen/.test(path.search)
   )
@@ -147,19 +148,6 @@ Tabbar.defaultProps = {
   children: null
 }
 
-// const pathPrefix = __PATH_PREFIX__ // eslint-disable-line
-// function getLocation() {
-//   if (typeof window === 'undefined') {
-//     return null
-//   }
-//   const { pathname, search, hash } = window.location
-//   return {
-//     ...parsePath(pathname.replace(new RegExp(pathPrefix || '', 'g'), '')),
-//     search,
-//     hash
-//   }
-// }
-
 const tabsWrapperStyle = css`
   .fullscreen-page & {
     top: 0;
@@ -189,4 +177,4 @@ const tabsWrapperStyle = css`
   } */}
 `
 
-export default Tabbar
+const cleanPath = p => p.replace(/(&|\?)$/, '')
