@@ -13,6 +13,10 @@ const AutoLinkHeader = ({
 }) => {
   const id = makeSlug(children, useId)
 
+  if (typeof children === 'string' && /\{#(.*)\}/.test(children)) {
+    children = children.replace(/\{#(.*)\}/g, '').trim()
+  }
+
   const clickHandler =
     className && /skip-anchor/g.test(String(className))
       ? null
