@@ -13,6 +13,7 @@
 import Button from './button/Button'
 import Checkbox from './checkbox/Checkbox'
 import DatePicker from './date-picker/DatePicker'
+import DrawerList from './drawer-list/DrawerList'
 import Dropdown from './dropdown/Dropdown'
 import FormLabel from './form-label/FormLabel'
 import FormRow from './form-row/FormRow'
@@ -45,6 +46,7 @@ export {
   Button,
   Checkbox,
   DatePicker,
+  DrawerList,
   Dropdown,
   FormLabel,
   FormRow,
