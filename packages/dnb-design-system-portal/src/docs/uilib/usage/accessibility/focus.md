@@ -1,8 +1,9 @@
 ---
-
 title: 'Focus'
 description: 'Accessibility helpers to handle focus management and Skip Link usage.'
----import SkipLinkExample from 'Pages/uilib/usage/accessibility/examples/skip-link-example.js'
+---
+
+import SkipLinkExample from 'Pages/uilib/usage/accessibility/examples/skip-link-example.js'
 
 # Focus Management
 
