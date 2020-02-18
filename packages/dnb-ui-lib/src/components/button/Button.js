@@ -318,7 +318,7 @@ class Content extends PureComponent {
 
     const ret = []
 
-    if (bounding) {
+    if (isTrue(bounding)) {
       ret.push(
         <span key="button-bounding" className="dnb-button__bounding" />
       )

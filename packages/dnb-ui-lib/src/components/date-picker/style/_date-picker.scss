@@ -302,6 +302,7 @@
       box-shadow: none;
       &__bounding {
         border-radius: 0;
+        transform: scale(1.28);
       }
 
       // reset vertical alignment
