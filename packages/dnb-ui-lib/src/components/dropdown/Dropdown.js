@@ -13,7 +13,7 @@ import {
   extendPropsWithContext,
   registerElement,
   validateDOMAttributes,
-  processChildren,
+  // processChildren,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
@@ -26,7 +26,9 @@ import Icon from '../icon-primary/IconPrimary'
 import FormLabel from '../form-label/FormLabel'
 import FormStatus from '../form-status/FormStatus'
 import Button from '../button/Button'
-import DrawerList from '../drawer-list/DrawerList'
+import DrawerList, {
+  propTypes as DrawerPropTypes
+} from '../drawer-list/DrawerList'
 
 const renderProps = {
   on_show: null,
@@ -84,29 +86,7 @@ const propTypes = {
   size: PropTypes.oneOf(['default', 'small', 'medium', 'large']),
   align_dropdown: PropTypes.oneOf(['left', 'right']),
   trigger_component: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
-  data: PropTypes.oneOfType([
-    PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.func,
-      PropTypes.node
-    ]),
-    PropTypes.arrayOf(
-      PropTypes.oneOfType([
-        PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
-        PropTypes.shape({
-          selected_value: PropTypes.oneOfType([
-            PropTypes.string,
-            PropTypes.node
-          ]),
-          content: PropTypes.oneOfType([
-            PropTypes.string,
-            PropTypes.node,
-            PropTypes.arrayOf(PropTypes.string)
-          ])
-        })
-      ])
-    )
-  ]).isRequired,
+  data: DrawerPropTypes.data,
   default_value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   open_on_focus: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -116,7 +96,7 @@ const propTypes = {
 
   // React
   className: PropTypes.string,
-  children: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
+  children: DrawerPropTypes.data,
 
   // Web Component props
   custom_element: PropTypes.object,
@@ -153,6 +133,8 @@ const defaultProps = {
   more_menu: false,
   size: null,
   align_dropdown: null,
+  trigger_component: null,
+  data: null,
   default_value: null,
   value: 'initval',
   open_on_focus: false,
@@ -226,37 +208,16 @@ export default class Dropdown extends PureComponent {
     return ret
   }
 
-  static getData(props) {
-    let res = []
-    if (typeof props.data === 'function') {
-      res = props.data()
-    } else if (props.data) {
-      res = props.data
-    } else {
-      res = processChildren(props)
-    }
-    if (typeof res === 'string') {
-      return res[0] === '[' ? JSON.parse(res) : []
-    }
-    return res || []
-  }
-
-  static getOptionData(value, data) {
-    if (typeof data === 'function') {
-      data = data()
-    }
-    return (
-      (data && data.filter((data, i) => i === parseFloat(value))[0]) || []
-    )
-  }
-
   static getDerivedStateFromProps(props, state) {
     if (state.opened && !state.data && typeof props.data === 'function') {
-      state.data = Dropdown.getData(props)
+      state.data = DrawerList.getData(props)
     }
     if (state._listenForPropChanges) {
-      if (props.data && typeof props.data !== 'function') {
-        state.data = Dropdown.getData(props)
+      if (
+        (props.data && typeof props.data !== 'function') ||
+        props.children
+      ) {
+        state.data = DrawerList.getData(props)
       }
 
       let hasChanged = false
@@ -273,7 +234,7 @@ export default class Dropdown extends PureComponent {
       }
       if (hasChanged && typeof props.on_state_update === 'function') {
         dispatchCustomElementEvent({ props }, 'on_state_update', {
-          data: Dropdown.getOptionData(state.selected_item, state.data),
+          data: DrawerList.getOptionData(state.selected_item, state.data),
           value: state.selected_item,
           selected_item: state.selected_item // deprecated
         })
@@ -344,7 +305,7 @@ export default class Dropdown extends PureComponent {
     })
 
     dispatchCustomElementEvent(this, 'on_show', {
-      data: Dropdown.getOptionData(selected_item, this.state.data),
+      data: DrawerList.getOptionData(selected_item, this.state.data),
       attributes: this.attributes || {}
     })
   }
@@ -394,7 +355,7 @@ export default class Dropdown extends PureComponent {
     }
 
     dispatchCustomElementEvent(this, 'on_hide', {
-      data: Dropdown.getOptionData(
+      data: DrawerList.getOptionData(
         this.state.selected_item,
         this.state.data
       ),
@@ -523,7 +484,7 @@ export default class Dropdown extends PureComponent {
       trigger_component: CustomTrigger,
       more_menu,
       prevent_selection,
-      data,
+      data: _data, // eslint-disable-line
       max_height,
       children,
       className,
@@ -550,10 +511,10 @@ export default class Dropdown extends PureComponent {
       }
     }
 
-    const { direction, opened, selected_item } = this.state
+    const { data, direction, opened, selected_item } = this.state
     const showStatus = status && status !== 'error'
 
-    const currentOptionData = Dropdown.getOptionData(selected_item, data)
+    const currentOptionData = DrawerList.getOptionData(selected_item, data)
     const title =
       data && data.length > 0
         ? currentOptionData.selected_value ||

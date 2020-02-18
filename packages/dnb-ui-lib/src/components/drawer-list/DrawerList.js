@@ -13,11 +13,11 @@ import {
   extendPropsWithContext,
   registerElement,
   validateDOMAttributes,
-  processChildren,
   detectOutsideClick,
   getPreviousSibling,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
+import { getOffsetTop } from '../../shared/helpers'
 import { createSpacingClasses } from '../space/SpacingHelper'
 
 import Context from '../../shared/Context'
@@ -32,7 +32,32 @@ const renderProps = {
   wrapper_element: null
 }
 
-const propTypes = {
+const dataType = PropTypes.oneOfType([
+  PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.func,
+    PropTypes.node,
+    PropTypes.object
+  ]),
+  PropTypes.arrayOf(
+    PropTypes.oneOfType([
+      PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
+      PropTypes.shape({
+        selected_value: PropTypes.oneOfType([
+          PropTypes.string,
+          PropTypes.node
+        ]),
+        content: PropTypes.oneOfType([
+          PropTypes.string,
+          PropTypes.node,
+          PropTypes.arrayOf(PropTypes.string)
+        ])
+      })
+    ])
+  )
+])
+
+export const propTypes = {
   id: PropTypes.string,
   icon_position: PropTypes.string,
   scrollable: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -59,37 +84,11 @@ const propTypes = {
   keep_opened: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   opened: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   class: PropTypes.string,
-  data: PropTypes.oneOfType([
-    PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.func,
-      PropTypes.node
-    ]),
-    PropTypes.arrayOf(
-      PropTypes.oneOfType([
-        PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
-        PropTypes.shape({
-          selected_value: PropTypes.oneOfType([
-            PropTypes.string,
-            PropTypes.node
-          ]),
-          content: PropTypes.oneOfType([
-            PropTypes.string,
-            PropTypes.node,
-            PropTypes.arrayOf(PropTypes.string)
-          ])
-        })
-      ])
-    )
-  ]),
+  data: dataType,
 
   // React
   className: PropTypes.string,
-  children: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.node,
-    PropTypes.func
-  ]),
+  children: dataType,
 
   // Web Component props
   custom_element: PropTypes.object,
@@ -194,9 +193,15 @@ export default class DrawerList extends PureComponent {
     } else if (props.data) {
       res = props.data
     } else {
-      res = processChildren(props)
+      res = props.children
     }
-    if (typeof res === 'string') {
+    if (res && typeof res === 'object' && !Array.isArray(res)) {
+      const list = []
+      for (let i in res) {
+        list.push({ selected_key: i, content: res[i] })
+      }
+      res = list
+    } else if (typeof res === 'string') {
       return res[0] === '[' ? JSON.parse(res) : []
     }
     return res || []
@@ -399,7 +404,8 @@ export default class DrawerList extends PureComponent {
         this._hideTimeout = setTimeout(
           () => {
             this.setState({
-              hidden: true,
+              hidden: undefined, // only to idendify once we rerender
+              // hidden: true,
               _listenForPropChanges: false
             })
           },
@@ -573,7 +579,7 @@ export default class DrawerList extends PureComponent {
       active_item = -1
     }
 
-    const total = this.state.data.length - 1
+    const total = this.state.data && this.state.data.length - 1
 
     switch (key) {
       case 'shift':
@@ -989,6 +995,9 @@ export default class DrawerList extends PureComponent {
                 triangleRef={this._refTriangle}
               >
                 {data.map((dataItem, i) => {
+                  if (dataItem.content) {
+                    dataItem = dataItem.content
+                  }
                   const isCurrent = i === parseFloat(selected_item)
                   const liParams = {
                     id: `option-${id}-${i}`,
@@ -1001,7 +1010,7 @@ export default class DrawerList extends PureComponent {
                         'closest-to-bottom',
                       i === data.length - 1 && 'last-of-type' // because of the triangle element
                     ),
-                    onMouseDown: this.selectItemHandler,
+                    onClick: this.selectItemHandler,
                     onKeyDown: this.preventTab,
                     'data-item': i
                   }
@@ -1032,77 +1041,78 @@ export default class DrawerList extends PureComponent {
   }
 }
 
-DrawerList.List = React.forwardRef(
-  ({ children, className, triangleRef = null, ...rest }, ref) => {
-    return (
-      <ul
-        className={classnames('dnb-drawer-list__options', className)}
-        role="listbox"
-        tabIndex="-1"
-        {...rest}
-        ref={ref}
-      >
-        {children}
-        <li
-          className="dnb-drawer-list__triangle"
-          aria-hidden
-          ref={triangleRef}
-        />
-      </ul>
-    )
-  }
-)
+DrawerList.List = React.forwardRef((props, ref) => {
+  const { children, className, triangleRef = null, ...rest } = props
+  return (
+    <ul
+      className={classnames('dnb-drawer-list__options', className)}
+      role="listbox"
+      tabIndex="-1"
+      {...rest}
+      ref={ref}
+    >
+      {children}
+      <li
+        className="dnb-drawer-list__triangle"
+        aria-hidden
+        ref={triangleRef}
+      />
+    </ul>
+  )
+})
 DrawerList.List.displayName = 'DrawerList.List'
 
-DrawerList.Item = React.forwardRef(
-  ({ children, className, selected, ...rest }, ref) => {
-    const params = {}
-    if (selected) {
-      params['aria-current'] = true // has best support on NVDA
-      params['aria-selected'] = true // has best support on VO
-    }
+DrawerList.Item = React.forwardRef((props, ref) => {
+  const { children, className, on_click, selected, value, ...rest } = props
 
-    return (
-      <li
-        className={classnames(
-          className,
-          'dnb-drawer-list__option',
-          selected && 'dnb-drawer-list__option--selected'
-        )}
-        role="option"
-        aria-selected="false"
-        tabIndex="-1"
-        {...rest}
-        {...params}
-        ref={ref}
-      >
-        <span className="dnb-drawer-list__option__inner">
-          {(Array.isArray(children.content) &&
-            children.content.map((item, n) => {
-              return (
-                <span key={n} className="dnb-drawer-list__option__item">
-                  {item}
-                </span>
-              )
-            })) ||
-            children.content ||
-            children}
-        </span>
-      </li>
-    )
+  const params = {}
+  if (selected) {
+    params['aria-current'] = true // has best support on NVDA
+    params['aria-selected'] = true // has best support on VO
   }
-)
-DrawerList.Item.displayName = 'DrawerList.Item'
+  if (on_click) {
+    params.onClick = () =>
+      dispatchCustomElementEvent(
+        { props: { ...props, displayName: DrawerList.Item.displayName } },
+        'on_click',
+        {
+          selected,
+          value,
+          ...rest
+        }
+      )
+  }
 
-function getOffsetTop(elem) {
-  let offsetTop = 0
-  do {
-    if (!isNaN(elem.offsetTop)) {
-      offsetTop += elem.offsetTop
-    }
-  } while ((elem = elem.offsetParent))
-  return offsetTop
-}
+  return (
+    <li
+      className={classnames(
+        className,
+        'dnb-drawer-list__option',
+        selected && 'dnb-drawer-list__option--selected'
+      )}
+      role="option"
+      aria-selected="false"
+      tabIndex="-1"
+      {...rest}
+      {...params}
+      ref={ref}
+    >
+      <span className="dnb-drawer-list__option__inner">
+        {(Array.isArray(children.content) &&
+          children.content.map((item, n) => {
+            return (
+              <span key={n} className="dnb-drawer-list__option__item">
+                {item}
+              </span>
+            )
+          })) ||
+          children.content ||
+          children}
+      </span>
+    </li>
+  )
+})
+DrawerList.Item.displayName = 'DrawerList.Item'
 
 function grabStringFromReact(cur) {
   if (React.isValidElement(cur)) {
