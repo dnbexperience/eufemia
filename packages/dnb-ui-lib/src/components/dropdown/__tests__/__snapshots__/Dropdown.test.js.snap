@@ -474,6 +474,7 @@ exports[`Dropdown component have to match snapshot 1`] = `
                 <DrawerList.List
                   aria-activedescendant="option-dropdown-id-2"
                   aria-labelledby="dropdown-id"
+                  className={null}
                   style={
                     Object {
                       "maxHeight": "1rem",
@@ -502,35 +503,27 @@ exports[`Dropdown component have to match snapshot 1`] = `
                       data-item={0}
                       id="option-dropdown-id-0"
                       key="dropdown-id0"
+                      onClick={[Function]}
                       onKeyDown={[Function]}
-                      onMouseDown={[Function]}
+                      on_click={null}
                       selected={false}
+                      value={null}
                     >
                       <li
                         aria-selected="false"
                         className="dnb-drawer-list__option"
                         data-item={0}
                         id="option-dropdown-id-0"
+                        onClick={[Function]}
                         onKeyDown={[Function]}
-                        onMouseDown={[Function]}
                         role="option"
                         tabIndex="-1"
                       >
                         <span
                           className="dnb-drawer-list__option__inner"
                         >
-                          <span
-                            className="dnb-drawer-list__option__item"
-                            key="0"
-                          >
-                            1234 56 78901
-                          </span>
-                          <span
-                            className="dnb-drawer-list__option__item"
-                            key="1"
-                          >
-                            Brukskonto - Kari Nordmann
-                          </span>
+                          1234 56 78901
+                          Brukskonto - Kari Nordmann
                         </span>
                       </li>
                     </DrawerList.Item>
@@ -539,35 +532,27 @@ exports[`Dropdown component have to match snapshot 1`] = `
                       data-item={1}
                       id="option-dropdown-id-1"
                       key="dropdown-id1"
+                      onClick={[Function]}
                       onKeyDown={[Function]}
-                      onMouseDown={[Function]}
+                      on_click={null}
                       selected={false}
+                      value={null}
                     >
                       <li
                         aria-selected="false"
                         className="dnb-drawer-list__option"
                         data-item={1}
                         id="option-dropdown-id-1"
+                        onClick={[Function]}
                         onKeyDown={[Function]}
-                        onMouseDown={[Function]}
                         role="option"
                         tabIndex="-1"
                       >
                         <span
                           className="dnb-drawer-list__option__inner"
                         >
-                          <span
-                            className="dnb-drawer-list__option__item"
-                            key="0"
-                          >
-                            1234 56 78902
-                          </span>
-                          <span
-                            className="dnb-drawer-list__option__item"
-                            key="1"
-                          >
-                            Sparekonto - Ole Nordmann
-                          </span>
+                          1234 56 78902
+                          Sparekonto - Ole Nordmann
                         </span>
                       </li>
                     </DrawerList.Item>
@@ -576,9 +561,11 @@ exports[`Dropdown component have to match snapshot 1`] = `
                       data-item={2}
                       id="option-dropdown-id-2"
                       key="dropdown-id2"
+                      onClick={[Function]}
                       onKeyDown={[Function]}
-                      onMouseDown={[Function]}
+                      on_click={null}
                       selected={true}
+                      value={null}
                     >
                       <li
                         aria-current={true}
@@ -586,26 +573,16 @@ exports[`Dropdown component have to match snapshot 1`] = `
                         className="dnb-drawer-list__option--focus dnb-drawer-list__option dnb-drawer-list__option--selected"
                         data-item={2}
                         id="option-dropdown-id-2"
+                        onClick={[Function]}
                         onKeyDown={[Function]}
-                        onMouseDown={[Function]}
                         role="option"
                         tabIndex="-1"
                       >
                         <span
                           className="dnb-drawer-list__option__inner"
                         >
-                          <span
-                            className="dnb-drawer-list__option__item"
-                            key="0"
-                          >
-                            1134 56 78962
-                          </span>
-                          <span
-                            className="dnb-drawer-list__option__item"
-                            key="1"
-                          >
-                            Feriekonto - Kari Nordmann med et kjempelangt etternavnsen
-                          </span>
+                          1134 56 78962
+                          Feriekonto - Kari Nordmann med et kjempelangt etternavnsen
                         </span>
                       </li>
                     </DrawerList.Item>
@@ -614,35 +591,27 @@ exports[`Dropdown component have to match snapshot 1`] = `
                       data-item={3}
                       id="option-dropdown-id-3"
                       key="dropdown-id3"
+                      onClick={[Function]}
                       onKeyDown={[Function]}
-                      onMouseDown={[Function]}
+                      on_click={null}
                       selected={false}
+                      value={null}
                     >
                       <li
                         aria-selected="false"
                         className="dnb-drawer-list__option"
                         data-item={3}
                         id="option-dropdown-id-3"
+                        onClick={[Function]}
                         onKeyDown={[Function]}
-                        onMouseDown={[Function]}
                         role="option"
                         tabIndex="-1"
                       >
                         <span
                           className="dnb-drawer-list__option__inner"
                         >
-                          <span
-                            className="dnb-drawer-list__option__item"
-                            key="0"
-                          >
-                            1534 96 48901
-                          </span>
-                          <span
-                            className="dnb-drawer-list__option__item"
-                            key="1"
-                          >
-                            Oppussing - Ole Nordmann
-                          </span>
+                          1534 96 48901
+                          Oppussing - Ole Nordmann
                         </span>
                       </li>
                     </DrawerList.Item>
@@ -651,17 +620,19 @@ exports[`Dropdown component have to match snapshot 1`] = `
                       data-item={4}
                       id="option-dropdown-id-4"
                       key="dropdown-id4"
+                      onClick={[Function]}
                       onKeyDown={[Function]}
-                      onMouseDown={[Function]}
+                      on_click={null}
                       selected={false}
+                      value={null}
                     >
                       <li
                         aria-selected="false"
                         className="dnb-drawer-list__option"
                         data-item={4}
                         id="option-dropdown-id-4"
+                        onClick={[Function]}
                         onKeyDown={[Function]}
-                        onMouseDown={[Function]}
                         role="option"
                         tabIndex="-1"
                       >
@@ -678,17 +649,19 @@ exports[`Dropdown component have to match snapshot 1`] = `
                       data-item={5}
                       id="option-dropdown-id-5"
                       key="dropdown-id5"
+                      onClick={[Function]}
                       onKeyDown={[Function]}
-                      onMouseDown={[Function]}
+                      on_click={null}
                       selected={false}
+                      value={null}
                     >
                       <li
                         aria-selected="false"
                         className="dnb-drawer-list__option"
                         data-item={5}
                         id="option-dropdown-id-5"
+                        onClick={[Function]}
                         onKeyDown={[Function]}
-                        onMouseDown={[Function]}
                         role="option"
                         tabIndex="-1"
                       >
@@ -705,17 +678,19 @@ exports[`Dropdown component have to match snapshot 1`] = `
                       data-item={6}
                       id="option-dropdown-id-6"
                       key="dropdown-id6"
+                      onClick={[Function]}
                       onKeyDown={[Function]}
-                      onMouseDown={[Function]}
+                      on_click={null}
                       selected={false}
+                      value={null}
                     >
                       <li
                         aria-selected="false"
                         className="closest-to-top closest-to-bottom last-of-type dnb-drawer-list__option"
                         data-item={6}
                         id="option-dropdown-id-6"
+                        onClick={[Function]}
                         onKeyDown={[Function]}
-                        onMouseDown={[Function]}
                         role="option"
                         tabIndex="-1"
                       >
@@ -1408,7 +1383,6 @@ exports[`Dropdown scss have to match snapshot 1`] = `
   --button-border-radius--large: calc(var(--button-height--large) / 2); }
 
 .dnb-button {
-  position: relative;
   user-select: none;
   -webkit-user-select: none;
   cursor: pointer;
@@ -1434,13 +1408,11 @@ exports[`Dropdown scss have to match snapshot 1`] = `
     transform: translateY(-0.03125rem); }
   .dnb-button__bounding {
     position: absolute;
-    top: 0;
-    bottom: 0;
-    right: 0;
-    left: 0;
-    transform: scale(1.1, 1.4);
     background-color: transparent;
-    border-radius: var(--button-border-radius); }
+    width: var(--button-width);
+    height: var(--button-height);
+    border-radius: var(--button-border-radius);
+    transform: scale(1.2); }
   .dnb-button--size-small {
     width: var(--button-width--small);
     height: var(--button-height--small);
