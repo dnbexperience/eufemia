@@ -94,7 +94,7 @@ export default function Tabbar({
       {title && <H1>{title}</H1>}
       <Tabs
         data={preparedTabs}
-        selected_key={`${path.pathname}${path.search}`}
+        selected_key={[path.pathname, path.search, path.hash].join('')}
         on_change={({ key }) => navigate(key)}
         render={({ Wrapper, Content, TabsList, Tabs }) => {
           return (
