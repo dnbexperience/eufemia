@@ -1488,6 +1488,7 @@ exports[`DatePicker scss have to match snapshot 1`] = `
   --button-border-radius--large: calc(var(--button-height--large) / 2); }
 
 .dnb-button {
+  position: relative;
   user-select: none;
   -webkit-user-select: none;
   cursor: pointer;
@@ -1513,11 +1514,13 @@ exports[`DatePicker scss have to match snapshot 1`] = `
     transform: translateY(-0.03125rem); }
   .dnb-button__bounding {
     position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    transform: scale(1.1, 1.4);
     background-color: transparent;
-    width: var(--button-width);
-    height: var(--button-height);
-    border-radius: var(--button-border-radius);
-    transform: scale(1.2); }
+    border-radius: var(--button-border-radius); }
   .dnb-button--size-small {
     width: var(--button-width--small);
     height: var(--button-height--small);
@@ -2646,7 +2649,8 @@ legend.dnb-form-label {
       height: var(--date-picker-day-width);
       box-shadow: none; }
       .dnb-date-picker__day .dnb-button__bounding {
-        border-radius: 0; }
+        border-radius: 0;
+        transform: scale(1.28); }
       .dnb-date-picker__day .dnb-button__text {
         transform: translateY(0); }
     .dnb-date-picker__day--selectable:hover {
