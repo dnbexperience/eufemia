@@ -1,8 +1,12 @@
 const GHSlugger = require('github-slugger')
 const slugger = new GHSlugger()
 
-exports.makeSlug = function(value, slug) {
+exports.makeSlug = function(value, slug = null) {
   slugger.reset()
+
+  if (slug) {
+    return slugger.slug(slug)
+  }
 
   // custom id (https://www.markdownguide.org/extended-syntax/#heading-ids)
   if (!slug && Array.isArray(value)) {
