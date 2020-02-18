@@ -24,7 +24,8 @@ class Example extends PureComponent {
           {/* @jsx */ `
 <P>
   <Number value="12345" />
-  <Number options={{maximumFractionDigits: 0}}>-12345678.9</Number>
+  <Number>-12345678.9</Number>
+  <Number options={{ maximumFractionDigits: 0 }}>-1234.5</Number>
 </P>
           `}
         </ComponentBox>
