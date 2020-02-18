@@ -91,10 +91,11 @@ module.exports.testPageScreenshot = async ({
       // because of getComputedStyle we have to use evaluate
       const background = await page.evaluate(
         ({ selector }) => {
-          const node = document.querySelector(selector).parentNode
-          if (!node) {
+          let node = document.querySelector(selector)
+          if (!(node && node.parentNode)) {
             return null
           }
+          node = node.parentNode
 
           const backgroundColor = window
             .getComputedStyle(node)
