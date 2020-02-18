@@ -334,7 +334,6 @@ export default class DrawerList extends PureComponent {
 
   setOutsideClickObserver = () => {
     this.outsideClick = detectOutsideClick(
-      // this.props.wrapper_element ||
       this._refShell.current,
       this.setHidden
     )
@@ -1061,6 +1060,16 @@ DrawerList.List = React.forwardRef((props, ref) => {
   )
 })
 DrawerList.List.displayName = 'DrawerList.List'
+DrawerList.List.propTypes = {
+  children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
+  className: PropTypes.string,
+  triangleRef: PropTypes.object
+}
+DrawerList.List.defaultProps = {
+  children: null,
+  className: null,
+  triangleRef: null
+}
 
 DrawerList.Item = React.forwardRef((props, ref) => {
   const { children, className, on_click, selected, value, ...rest } = props
@@ -1113,6 +1122,24 @@ DrawerList.Item = React.forwardRef((props, ref) => {
   )
 })
 DrawerList.Item.displayName = 'DrawerList.Item'
+DrawerList.Item.propTypes = {
+  children: PropTypes.oneOfType([
+    PropTypes.node,
+    PropTypes.func,
+    PropTypes.object
+  ]),
+  className: PropTypes.string,
+  on_click: PropTypes.func,
+  selected: PropTypes.bool,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+}
+DrawerList.Item.defaultProps = {
+  children: null,
+  className: null,
+  on_click: null,
+  selected: null,
+  value: null
+}
 
 function grabStringFromReact(cur) {
   if (React.isValidElement(cur)) {

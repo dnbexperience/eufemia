@@ -60,8 +60,6 @@ const MagicOpen = props => {
     { value: 'L' }
   ]
 
-  console.log('selected', selected)
-
   return (
     <>
       <Input on_focus={() => setOpened(true)}>x</Input>
