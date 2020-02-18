@@ -11,7 +11,6 @@ import styled from '@emotion/styled'
 import {
   Dropdown,
   Button,
-  Input,
   FormLabel,
   FormSet,
   FormRow,
@@ -19,11 +18,6 @@ import {
   // Checkbox
 } from '../../src/components'
 
-// import { P } from '../../src/elements'
-
-const Drawer = styled(Dropdown.List)`
-  margin-bottom: 4rem;
-`
 const CustomStyle = styled.div`
   ${'' /* --dropdown-width: 20rem; */}
   ${'' /* .dnb-dropdown:not(.dnb-dropdown--is-popup) .dnb-dropdown__shell {
@@ -47,20 +41,6 @@ const DropdownStory = () => {
   return (
     <Wrapper>
       <Box>
-        <Input>x</Input>
-        <Drawer
-          focusable
-          prevent_hide
-          opened
-          no_animation
-          icon_position="left"
-          data={['A', 'B']}
-        >
-          {/* <Dropdown.Item>A</Dropdown.Item> */}
-        </Drawer>
-      </Box>
-
-      <Box>
         <Dropdown
           // opened
           // no_animation
@@ -74,7 +54,6 @@ const DropdownStory = () => {
           }}
         ></Dropdown>
       </Box>
-
       <Box>
         <CurrencyDropdown />
       </Box>
@@ -93,7 +72,6 @@ const DropdownStory = () => {
             label="Vertical A:"
             title="Default option"
             data={() => {
-              console.log('dropdownData', dropdownData)
               return dropdownData
             }}
             right="small"
@@ -168,7 +146,6 @@ const DropdownStory = () => {
             variant="secondary"
             onClick={() => {
               dropdownData = dropdownData.slice(1)
-              console.log('dropdownData', dropdownData)
               setData(dropdownData)
               // setData([...dropdownData])
             }}
@@ -526,14 +503,14 @@ function DropdownStatesSync() {
         title="Dropdown 1"
         on_change={handleOnChange}
       />
-      <Dropdown
+      {/* <Dropdown
         top
         data={dropdownDataScrollable}
         // value={1}
         default_value={1}
         title="Dropdown 2"
         on_change={handleOnChange}
-      />
+      /> */}
     </FormRow>
   )
 }

@@ -37,44 +37,65 @@ const CustomStyle = styled.div`
 
 const MagicOpen = props => {
   const [opened, setOpened] = React.useState(true)
-  console.log('opened', opened)
+  const [selected, setSelected] = React.useState('C')
+  // console.log('opened', opened)
 
   // React.useEffect(() => {
   //   const t = setInterval(() => setOpened(x => !x), 2e3)
   //   return () => clearInterval(t)
   // }, [])
 
+  const list = [
+    { value: 'A' },
+    { value: 'B' },
+    { value: 'C' },
+    { value: 'D' },
+    { value: 'E' },
+    { value: 'F' },
+    { value: 'G' },
+    { value: 'H' },
+    { value: 'I' },
+    { value: 'J' },
+    { value: 'K' },
+    { value: 'L' }
+  ]
+
+  console.log('selected', selected)
+
   return (
-    <Drawer
-      // value="0"
-      // focusable
-      // keep_opened
-      // no_animation
-      opened={opened}
-      // data={['A', 'B']}
-      on_select={e => {
-        console.log('on_select', e)
-      }}
-      on_change={e => {
-        console.log('on_change', e)
-      }}
-      {...props}
-    >
-      <Dropdown.List>
-        <Dropdown.Item>A</Dropdown.Item>
-        <Dropdown.Item selected>B</Dropdown.Item>
-        <Dropdown.Item>B</Dropdown.Item>
-        <Dropdown.Item>B</Dropdown.Item>
-        <Dropdown.Item>B</Dropdown.Item>
-        <Dropdown.Item>B</Dropdown.Item>
-        <Dropdown.Item>B</Dropdown.Item>
-        <Dropdown.Item>B</Dropdown.Item>
-        <Dropdown.Item>B</Dropdown.Item>
-        <Dropdown.Item>B</Dropdown.Item>
-        <Dropdown.Item>B</Dropdown.Item>
-        <Dropdown.Item>B</Dropdown.Item>
-      </Dropdown.List>
-    </Drawer>
+    <>
+      <Input on_focus={() => setOpened(true)}>x</Input>
+      <Drawer
+        // value={selected}
+        // focusable
+        // keep_opened
+        // no_animation
+        opened={opened}
+        // data={['A', 'B']}
+        on_select={e => {
+          console.log('on_select', e)
+        }}
+        on_change={e => {
+          console.log('on_change', e)
+        }}
+        on_hide={() => setOpened(false)}
+        {...props}
+      >
+        <Dropdown.List>
+          {list.map(({ value, ...props }, i) => (
+            <Dropdown.Item
+              key={i}
+              {...props}
+              selected={value === selected}
+              value={value}
+              on_click={({ value }) => setSelected(value)}
+            >
+              {value}
+            </Dropdown.Item>
+          ))}
+        </Dropdown.List>
+      </Drawer>
+    </>
   )
 }
 
@@ -87,7 +108,20 @@ const DrawerStory = () => {
         </Drawer>
       </Box>
       <Box>
-        <Input>x</Input>
+        {/* <Dropdown data={['A', 'B']} /> */}
+        {/* <Dropdown>{['A', 'B']}</Dropdown> */}
+        <Dropdown
+          on_change={e => {
+            console.log('e', e)
+          }}
+        >
+          {{
+            a: 'A',
+            b: 'B'
+          }}
+        </Dropdown>
+      </Box>
+      <Box>
         <MagicOpen bottom></MagicOpen>
       </Box>
     </Wrapper>
