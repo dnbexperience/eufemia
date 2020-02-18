@@ -6,12 +6,16 @@ import { makeSlug } from '../../uilib/utils/slug'
 
 const AutoLinkHeader = ({
   is: Component,
-  useId,
+  useSlug,
   children,
   className,
   ...props
 }) => {
-  const id = makeSlug(children, useId)
+  const id = makeSlug(children, useSlug)
+
+  if (typeof children === 'string' && /\{#(.*)\}/.test(children)) {
+    children = children.replace(/\{#(.*)\}/g, '').trim()
+  }
 
   const clickHandler =
     className && /skip-anchor/g.test(String(className))
@@ -50,10 +54,10 @@ const AutoLinkHeader = ({
 }
 AutoLinkHeader.propTypes = {
   is: PropTypes.string,
-  useId: PropTypes.string,
+  useSlug: PropTypes.string,
   className: PropTypes.string,
   children: PropTypes.node.isRequired
 }
-AutoLinkHeader.defaultProps = { is: 'h2', useId: null, className: null }
+AutoLinkHeader.defaultProps = { is: 'h2', useSlug: null, className: null }
 
 export default AutoLinkHeader

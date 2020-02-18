@@ -7,7 +7,7 @@ showTabs: true
 | Properties                                  | Description                                                                                                                            |
 | ------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
 | `type`                                      | _(optional)_ `button`, `reset` or `submit` for the `type` HTML attribute (default to `button`) .                                       |
-| `text, children`                            | _(optional)_ the content of the button. `children` are treated as `text` as long as the typeof is a string.                            |
+| `text` or `children`                        | _(optional)_ the content of the button. `children` are treated as `text` as long as the typeof is a string.                            |
 | `title`                                     | _(optional)_ title of the button. Optional, but should always be included because of accessibility.                                    |
 | `variant`                                   | _(optional)_ defines the kind of button. Possible values are `primary`, `secondary`, `tertiary` and `signal`.                          |
 | `size`                                      | _(optional)_ the size of the button. For now there is **medium**, **default** and **large**.                                           |

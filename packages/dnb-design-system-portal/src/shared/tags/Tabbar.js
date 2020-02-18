@@ -6,16 +6,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { css } from '@emotion/core'
-import {
-  // parsePath,
-  navigate
-} from 'gatsby'
+import { parsePath, navigate } from 'gatsby'
 import { Button, Tabs } from 'dnb-ui-lib/src/components'
 import { H1 } from 'dnb-ui-lib/src/elements'
 import { fullscreen as fullscreenIcon } from 'dnb-ui-lib/src/icons/secondary_icons'
 import { CloseButton } from 'dnb-ui-lib/src/components/modal'
 
-function Tabbar({
+export default function Tabbar({
   location,
   title,
   hideTabs,
@@ -24,30 +21,38 @@ function Tabbar({
   defaultTabs,
   children
 }) {
-  // const location = getLocation()
-  const [wasFullscreen, setFullscreen] = React.useState(
-    location && /fullscreen/.test(location.search)
+  const path = parsePath(
+    cleanPath([location.pathname, location.search, location.hash].join(''))
   )
-  const pathQuery = state =>
-    (typeof state !== 'undefined'
-    ? state
-    : wasFullscreen)
-      ? '?fullscreen'
-      : ''
+
+  const [wasFullscreen, setFullscreen] = React.useState(
+    /fullscreen/.test(path.search)
+  )
+  const fullscreenQuery = () => (wasFullscreen ? '?fullscreen' : '')
 
   const openFullscreen = () => {
     setFullscreen(true)
-    // const location = getLocation()
-    if (location) {
-      navigate(`${location.pathname}${pathQuery(true)}`)
-    }
+    navigate(
+      cleanPath(
+        [
+          path.pathname,
+          `?fullscreen&${path.search.replace('?', '')}`,
+          path.hash
+        ].join('')
+      )
+    )
   }
   const quitFullscreen = () => {
     setFullscreen(false)
-    // const location = getLocation()
-    if (location) {
-      navigate([location.pathname, location.hash].join(''))
-    }
+    navigate(
+      cleanPath(
+        [
+          path.pathname,
+          path.search.replace('fullscreen', ''),
+          path.hash
+        ].join('')
+      )
+    )
   }
   const preparedTabs = React.useMemo(() => {
     return (
@@ -59,23 +64,37 @@ function Tabbar({
         )
         .map(({ key, ...rest }) => {
           if (key.includes('$1')) {
-            key = key.replace(/\$1$/, pathQuery())
+            key = cleanPath(
+              key.replace(/\$1$/, [fullscreenQuery(), path.hash].join(''))
+            )
           } else {
-            key = `${usePath}${key}${pathQuery()}`
+            key = cleanPath(
+              [usePath, key, fullscreenQuery(), path.hash].join('')
+            )
           }
+
+          // preload the tab page
+          if (
+            typeof window !== 'undefined' &&
+            typeof window.___loader !== 'undefined'
+          ) {
+            const preloadPath = parsePath(key).pathname
+            if (preloadPath !== path.pathname) {
+              window.___loader.enqueue(preloadPath)
+            }
+          }
+
           return { ...rest, key }
         })
     )
   }, [wasFullscreen])
-
-  // const data = Tabs.getData({ tabs: preparedTabs, children })
 
   return (
     <>
       {title && <H1>{title}</H1>}
       <Tabs
         data={preparedTabs}
-        selected_key={location && `${location.pathname}${pathQuery()}`}
+        selected_key={[path.pathname, path.search, path.hash].join('')}
         on_change={({ key }) => navigate(key)}
         render={({ Wrapper, Content, TabsList, Tabs }) => {
           return (
@@ -129,19 +148,6 @@ Tabbar.defaultProps = {
   children: null
 }
 
-// const pathPrefix = __PATH_PREFIX__ // eslint-disable-line
-// function getLocation() {
-//   if (typeof window === 'undefined') {
-//     return null
-//   }
-//   const { pathname, search, hash } = window.location
-//   return {
-//     ...parsePath(pathname.replace(new RegExp(pathPrefix || '', 'g'), '')),
-//     search,
-//     hash
-//   }
-// }
-
 const tabsWrapperStyle = css`
   .fullscreen-page & {
     top: 0;
@@ -171,4 +177,4 @@ const tabsWrapperStyle = css`
   } */}
 `
 
-export default Tabbar
+const cleanPath = p => p.replace(/(&|\?)$/, '')

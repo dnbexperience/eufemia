@@ -219,7 +219,7 @@ class LiveCode extends PureComponent {
           {!hidePreview && (
             <>
               {title && (
-                <AutoLinkHeader is="h3" useId={dnbTest}>
+                <AutoLinkHeader is="h3" useSlug={dnbTest}>
                   <ReactMarkdown
                     source={title}
                     escapeHtml={false}
@@ -227,7 +227,6 @@ class LiveCode extends PureComponent {
                       ...renderers,
                       paragraph: ({ children }) => children
                     }}
-                    // className="example-caption"
                   />
                 </AutoLinkHeader>
               )}

@@ -13,12 +13,11 @@ exports.onCreateNode = ({ node, ...props }) => {
 
 // find the root child wich has a frontmatter.title
 // so the Tabbar can use the mother title
-global.nodesCacheCount = global.nodesCacheCount || 0
 global.nodesCache = global.nodesCache || {}
 function createMdxNode({
   node,
   getNodesByType,
-  getNode, //getNodeAndSavePathDependency
+  getNode, //getNodeAndSavePathDependency could be an option
   actions
 }) {
   const { createNodeField } = actions
@@ -32,18 +31,15 @@ function createMdxNode({
     value: slug
   })
 
-  // get all nodes
-  const nodes = getNodesByType('Mdx')
-
   // to make sure we get nodes witch has not been thenre during the run
   // we cound for the length of all nodes
-  if (global.nodesCacheCount !== nodes.length) {
-    nodes.forEach(node => {
-      const path = node.fileAbsolutePath.replace('.md', '')
-      global.nodesCache[path] = node
-    })
-    global.nodesCacheCount = nodes.length
-  }
+
+  // get all nodes
+  const nodes = getNodesByType('Mdx')
+  nodes.forEach(
+    node =>
+      (global.nodesCache[node.fileAbsolutePath.replace('.md', '')] = node)
+  )
 
   const { createParentChildLink } = actions
 
@@ -66,7 +62,8 @@ function createMdxNode({
   // from here on we only handle the sub tab linking
   const motherDir = node.fileAbsolutePath.replace('.md', '')
 
-  if (/uilib\/(components|patterns|elements)/.test(motherDir)) {
+  // have this check in place only to skip not needed parts
+  if (/uilib\/(components|patterns|elements|helpers)/.test(motherDir)) {
     const parts = motherDir.split('/')
     parts.shift() // do not search on empty parts
 
