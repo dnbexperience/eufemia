@@ -2,6 +2,8 @@
 showTabs: true
 ---
 
+## Events
+
 | Events             | Description                                                                                                                                                                                    |
 | ------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `on_open`          | _(optional)_ this event gets triggered once the modal shows up. Returns the modal id: `{ id }`.                                                                                                |
