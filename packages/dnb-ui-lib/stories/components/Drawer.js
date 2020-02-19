@@ -62,7 +62,10 @@ const MagicOpen = props => {
 
   return (
     <>
-      <Input on_focus={() => setOpened(true)}>x</Input>
+      <Input
+        on_focus={() => setOpened(true)}
+        placeholder="Write someting"
+      />
       <Drawer
         // value={selected}
         // focusable
