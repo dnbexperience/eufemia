@@ -5,14 +5,14 @@
 
 @mixin getDefaultProperties() {
   // Typography Family
-  --font-family-default: DNB, sans-serif;
-  --font-family-monospace: DNBMono, Menlo, Consolas, 'Roboto Mono',
+  --font-family-default: 'DNB', sans-serif;
+  --font-family-monospace: 'DNBMono', 'Menlo', 'Consolas', 'Roboto Mono',
     'Ubuntu Monospace', 'Noto Mono', 'Oxygen Mono', 'Liberation Mono',
     monospace;
 
   // Deprecated
-  --font-family-book: DNB, sans-serif; // Deprecated
-  --font-family-demi: DNB, sans-serif; // Deprecated
+  --font-family-book: 'DNB', sans-serif; // Deprecated
+  --font-family-demi: 'DNB', sans-serif; // Deprecated
 
   // Typography Weights
   --font-weight-basis: normal;
