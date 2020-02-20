@@ -6,7 +6,7 @@
 import React from 'react'
 import styled from '@emotion/styled'
 import { Input } from 'dnb-ui-lib/src'
-import { isCi } from 'is-ci'
+import isCI from 'is-ci'
 
 import {
   InstantSearch,
@@ -68,7 +68,7 @@ export const SearchBarProvider = props => {
 }
 
 export const SearchBarInput = connectSearchBox(({ refine }) => {
-  if (isCi) {
+  if (isCI) {
     return <></>
   }
   return (
