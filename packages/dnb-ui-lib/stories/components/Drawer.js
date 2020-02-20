@@ -36,7 +36,7 @@ const CustomStyle = styled.div`
 `
 
 const MagicOpen = props => {
-  const [opened, setOpened] = React.useState(true)
+  const [opened, setOpened] = React.useState(false)
   const [selected, setSelected] = React.useState('C')
   // console.log('opened', opened)
 
@@ -64,7 +64,8 @@ const MagicOpen = props => {
     <>
       <Input
         on_focus={() => setOpened(true)}
-        placeholder="Write someting"
+        placeholder="Search for items ..."
+        icon="chevron_down"
       />
       <Drawer
         // value={selected}
