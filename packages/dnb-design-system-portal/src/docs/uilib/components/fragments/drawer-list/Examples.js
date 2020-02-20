@@ -1,0 +1,279 @@
+/**
+ * UI lib Component Example
+ *
+ */
+
+import React, { PureComponent, Fragment } from 'react'
+import ComponentBox from 'Src/shared/tags/ComponentBox'
+import CodeBlock from 'Src/shared/tags/CodeBlock'
+import styled from '@emotion/styled'
+
+class Example extends PureComponent {
+  render() {
+    return (
+      <Fragment>
+        <ComponentBox
+          title="Default drawer-list together with an Input"
+          useRender
+          scope={{ data }}
+        >
+          {/* @jsx */ `
+const DrawerListWithState = props => {
+  const [opened, setOpened] = React.useState(false)
+  return (
+    <>
+      <ToggleButton
+        text="Toggle"
+        checked={opened}
+        icon={'chevron_' + (opened ? 'up' : 'down')}
+        icon_position="left"
+        on_change={({ checked }) => setOpened(checked)}
+      />
+      <DrawerList
+        data={data}
+        opened={opened}
+        on_hide={() => setOpened(false)}
+        {...props}
+      />
+    </>
+  )
+}
+render(<DrawerListWithState />)
+          `}
+        </ComponentBox>
+        <ComponentBox
+          title="Using List and Items markup"
+          data-dnb-test="drawer-items"
+          useRender
+        >
+          {/* @jsx */ `
+const list = [
+  { value: 'A' },
+  { value: 'B' },
+  { value: 'C' }
+]
+const DrawerListWithState = props => {
+  const [selected, setSelected] = React.useState('C')
+
+  return (
+    <DrawerList
+      opened
+      keep_opened
+    >
+      <DrawerList.List>
+        {list.map(({ value, ...props }, i) => (
+          <DrawerList.Item
+            key={i}
+            {...props}
+            selected={value === selected}
+            value={value}
+            on_click={({ value }) => setSelected(value)}
+            {...props}
+          >
+            {value}
+          </DrawerList.Item>
+        ))}
+      </DrawerList.List>
+    </DrawerList>
+  )
+}
+render(<DrawerListWithState />)
+          `}
+        </ComponentBox>
+        <ComponentBox
+          title="Default DrawerList"
+          scope={{ data }}
+          data-dnb-test="drawer-list-default"
+        >
+          {/* @jsx */ `
+<DrawerList
+  opened="true"
+  keep_opened
+  icon_position="left"
+  data={data}
+  value={3}
+  on_change={({ data: selectedDataItem }) => {
+    console.log('on_change', selectedDataItem)
+  }}
+  on_show={() => {
+    console.log('on_show')
+  }}
+/>
+          `}
+        </ComponentBox>
+        <ComponentBox
+          title="Custom event and link on single item"
+          scope={{ data }}
+          useRender
+          data-dnb-test="drawer-list-events"
+        >
+          {/* @jsx */ `
+const CustomComponent = () => (
+  <CustomComponentInner
+    onMouseDown={preventDefault}
+    onTouchStart={preventDefault}
+    onClick={e => {
+      console.log('Do someting different')
+    }}
+  >
+    Custom event handler
+  </CustomComponentInner>
+)
+const CustomComponentInner = styled.span\`
+  display: block;
+  margin: -1rem -2rem -1rem -1rem;
+  padding: 1rem 2rem 1rem 1rem;
+\`
+const preventDefault = e => {
+  e.stopPropagation()
+  e.preventDefault()
+}
+render(
+  <DrawerList
+    opened="true"
+    keep_opened
+    more_menu
+    right
+    title="Choose an item"
+    data={() => [
+      <Link href="/">Go to this Link</Link>,
+      'Or press on me',
+      <CustomComponent />
+    ]}
+    on_change={({ value }) => {
+      console.log('More menu:', value)
+    }}
+    suffix={<Modal title="Modal Title">Modal content</Modal>}
+  />
+)
+          `}
+        </ComponentBox>
+        <ComponentBox
+          title="DrawerList list - only to vissualize"
+          data-dnb-test="drawer-list"
+          scope={{ data }}
+          hideCode
+        >
+          {/* @jsx */ `
+<span className="dnb-drawer-list__list">
+  <ul className="dnb-drawer-list__options">
+    <li className="dnb-drawer-list__option">
+      <span className="dnb-drawer-list__option__inner">Brukskonto - Kari Nordmann</span>
+    </li>
+    <li className="dnb-drawer-list__option dnb-drawer-list__option--selected">
+      <span className="dnb-drawer-list__option__inner">
+        <span className="dnb-drawer-list__option__item"><Number ban>12345678902</Number></span>
+        <span className="dnb-drawer-list__option__item">Sparekonto - Ole Nordmann</span>
+      </span>
+    </li>
+    <li className="dnb-drawer-list__option">
+      <span className="dnb-drawer-list__option__inner">
+        <span className="dnb-drawer-list__option__item"><Number ban>11345678962</Number></span>
+        <span className="dnb-drawer-list__option__item">Feriekonto - Kari Nordmann med et kjempelangt etternavnsen</span>
+      </span>
+    </li>
+    <li className="dnb-drawer-list__option last-of-type">
+      <span className="dnb-drawer-list__option__inner">
+        <span className="dnb-drawer-list__option__item"><Number ban>15349648901</Number></span>
+        <span className="dnb-drawer-list__option__item">Oppussing - Ole Nordmann</span>
+      </span>
+    </li>
+    <li className="dnb-drawer-list__triangle" />
+  </ul>
+</span>
+          `}
+        </ComponentBox>
+      </Fragment>
+    )
+  }
+}
+
+const Wrapper = styled.div`
+  [data-dnb-test] {
+    .dnb-drawer-list__list {
+      position: relative;
+    }
+  }
+  [data-dnb-test='drawer-list'] .dnb-drawer-list__list {
+    display: block;
+    visibility: visible;
+    position: relative;
+    top: 0;
+    width: var(--drawer-list-width);
+  }
+`
+
+export { Example }
+export default () => (
+  <Wrapper>
+    <Example />
+  </Wrapper>
+)
+
+export const Data = () => {
+  return (
+    <CodeBlock language="js">{/* @jsx */ `
+const data = [
+  // Every data item can, beside "content" - contain what ever
+  {
+    // (optional) can be what ever
+    selected_key: 'key_0',
+
+    // (optional) is show insted of "content", once selected
+    selected_value: 'Item 1 Value',
+
+    // Item content as a string or array
+    content: 'Item 1 Content'
+  },
+
+  // more items ...
+  {
+    selected_key: 'key_1',
+    content: ['Item 2 Value', 'Item 2 Content']
+  },
+  {
+    selected_key: 'key_2',
+    selected_value: 'Item 3 Value',
+    content: ['Item 3 Content A', 'Item 3 Content B']
+  },
+  {
+    selected_key: 'key_3',
+    selected_value: 'Item 4 Value',
+    content: ['Item 4 Content A', <React.Fragment key="x">Custom Component</React.Fragment>]
+  }
+]
+
+    `}</CodeBlock>
+  )
+}
+
+const data = [
+  // Every data item can, beside "content" - contain what ever
+  {
+    // (optional) can be what ever
+    selected_key: 'key_0',
+
+    // (optional) is show insted of "content", once selected
+    selected_value: 'Item 1 Value',
+
+    // Item content as a string or array
+    content: 'Item 1 Content'
+  },
+  {
+    selected_key: 'key_1',
+    content: ['Item 2 Value', 'Item 2 Content']
+  },
+  {
+    selected_key: 'key_2',
+    selected_value: 'Item 3 Value',
+    content: ['Item 3 Content A', 'Item 3 Content B']
+  },
+  {
+    selected_key: 'key_3',
+    selected_value: 'Item 4 Value',
+    content: [
+      'Item 4 Content A',
+      <React.Fragment key="y">Custom Component</React.Fragment>
+    ]
+  }
+]
