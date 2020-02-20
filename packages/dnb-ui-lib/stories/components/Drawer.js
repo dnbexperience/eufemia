@@ -9,8 +9,9 @@ import styled from '@emotion/styled'
 
 import {
   Dropdown,
-  Input
-  // Checkbox
+  DrawerList,
+  Input,
+  ToggleButton
 } from '../../src/components'
 
 // import { P } from '../../src/elements'
@@ -101,6 +102,29 @@ const MagicOpen = props => {
   )
 }
 
+const DrawerListWithState = props => {
+  const [opened, setOpened] = React.useState(false)
+  return (
+    <>
+      <ToggleButton
+        id="ToggleButton"
+        text="Toggle"
+        checked={opened}
+        icon={'chevron_' + (opened ? 'up' : 'down')}
+        icon_position="left"
+        on_change={({ checked }) => setOpened(checked)}
+      />
+      <DrawerList
+        data={['A', 'B', 'C']}
+        opened={opened}
+        on_hide={() => setOpened(false)}
+        wrapper_element="#ToggleButton"
+        {...props}
+      />
+    </>
+  )
+}
+
 const DrawerStory = () => {
   return (
     <Wrapper>
@@ -108,6 +132,9 @@ const DrawerStory = () => {
         <Drawer opened no_animation keep_opened>
           Emty
         </Drawer>
+      </Box>
+      <Box>
+        <DrawerListWithState></DrawerListWithState>
       </Box>
       <Box>
         {/* <Dropdown data={['A', 'B']} /> */}
@@ -121,6 +148,17 @@ const DrawerStory = () => {
             a: 'A',
             b: 'B'
           }}
+        </Dropdown>
+      </Box>
+      <Box>
+        {/* <Dropdown data={['A', 'B']} /> */}
+        {/* <Dropdown>{['A', 'B']}</Dropdown> */}
+        <Dropdown
+          on_change={e => {
+            console.log('e', e)
+          }}
+        >
+          {[{ value: 'A' }, { value: 'B' }, { value: 'C' }]}
         </Dropdown>
       </Box>
       <Box>

@@ -113,6 +113,7 @@ const defaultProps = {
   no_scroll_animation: false,
   prevent_selection: false,
   align_drawer: null,
+  wrapper_element: null,
   default_value: null,
   value: 'initval',
   keep_opened: false,
@@ -228,6 +229,16 @@ export default class DrawerList extends PureComponent {
       let hasChanged = false
 
       if (
+        typeof props.wrapper_element === 'string' &&
+        typeof document !== 'undefined'
+      ) {
+        state.wrapper_element = document.querySelector(
+          props.wrapper_element
+        )
+        console.log('props.wrapper_element', state.wrapper_element)
+      }
+
+      if (
         props.value !== 'initval' &&
         state.selected_item !== props.value
       ) {
@@ -278,6 +289,17 @@ export default class DrawerList extends PureComponent {
     if (this.state.opened) {
       this.setVisible()
     }
+    if (
+      typeof this.props.wrapper_element === 'string' &&
+      typeof document !== 'undefined'
+    ) {
+      const wrapper_element = document.querySelector(
+        this.props.wrapper_element
+      )
+      this.setState({
+        wrapper_element
+      })
+    }
   }
 
   componentWillUnmount() {
@@ -307,7 +329,7 @@ export default class DrawerList extends PureComponent {
     }
 
     try {
-      const width = (this.props.wrapper_element || this._refShell.current)
+      const width = (this.state.wrapper_element || this._refShell.current)
         .offsetWidth
       if (parseFloat(width) > 0) {
         const { icon_position, align_drawer } = this.props
@@ -334,7 +356,7 @@ export default class DrawerList extends PureComponent {
 
   setOutsideClickObserver = () => {
     this.outsideClick = detectOutsideClick(
-      this._refShell.current,
+      this.state.wrapper_element || this._refShell.current,
       this.setHidden
     )
     if (typeof document !== 'undefined') {
@@ -792,7 +814,7 @@ export default class DrawerList extends PureComponent {
   setDirectionObserver() {
     if (
       typeof window === 'undefined' ||
-      !(this.props.wrapper_element || this._refShell.current)
+      !(this.state.wrapper_element || this._refShell.current)
     ) {
       return
     }
@@ -806,7 +828,7 @@ export default class DrawerList extends PureComponent {
     const min_height = 160 // 10rem = 10x16=160
     const spaceToTopOffset = 4 * 16 //because of headers
     const spaceToBottomOffset = 2 * 16
-    const elem = this.props.wrapper_element || this._refShell.current
+    const elem = this.state.wrapper_element || this._refShell.current
 
     const renderDirection = () => {
       try {
@@ -826,7 +848,7 @@ export default class DrawerList extends PureComponent {
         const height =
           direction === 'top'
             ? spaceToTop -
-              ((this.props.wrapper_element || this._refShell.current)
+              ((this.state.wrapper_element || this._refShell.current)
                 .offsetHeight || 0) -
               spaceToTopOffset
             : spaceToBottom - spaceToBottomOffset
