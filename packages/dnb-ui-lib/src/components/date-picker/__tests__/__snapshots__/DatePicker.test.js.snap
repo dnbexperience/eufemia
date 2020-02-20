@@ -280,6 +280,8 @@ exports[`DatePicker component have to match snapshot 1`] = `
               disabled={false}
               global_status_id={null}
               hidden={true}
+              icon={null}
+              icon_position="left"
               id="date-picker-id__input"
               inner_ref={null}
               input_attributes={null}
@@ -957,7 +959,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                               global_status_id={null}
                               href={null}
                               icon="calendar"
-                              icon_position={null}
+                              icon_position="right"
                               icon_size={null}
                               id="date-picker-id"
                               innerRef={
@@ -1037,7 +1039,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                   global_status_id={null}
                                   href={null}
                                   icon="calendar"
-                                  icon_position={null}
+                                  icon_position="right"
                                   icon_size={null}
                                   id="date-picker-id"
                                   innerRef={
@@ -1698,8 +1700,11 @@ button.dnb-button::-moz-focus-inner {
     margin-bottom: 0.5rem; }
   .dnb-form-label--sr-only {
     width: 1px;
+    margin: 0;
+    padding: 0;
     margin-left: -1px;
-    overflow: hidden; }
+    overflow: hidden;
+    white-space: nowrap; }
   .dnb-form-label[for]:not([disabled]) {
     user-select: none;
     -webkit-user-select: none;
@@ -1833,7 +1838,8 @@ legend.dnb-form-label {
     align-items: center; }
   .dnb-input__suffix {
     color: inherit;
-    padding-left: 0.5rem; }
+    padding-left: 0.5rem;
+    line-height: var(--line-height-basis); }
   .dnb-input__submit-element {
     margin-left: calc(1px - 1px - var(--input-height));
     line-height: var(--line-height-basis); }
@@ -1904,6 +1910,30 @@ legend.dnb-form-label {
     width: 100%; }
   .dnb-input--vertical.dnb-input--stretch .dnb-input__inner {
     width: 100%; }
+  .dnb-input__icon {
+    order: 0;
+    position: absolute;
+    left: 1rem;
+    right: auto; }
+  .dnb-input--icon-position-right .dnb-input__icon {
+    order: 1;
+    left: auto;
+    right: 1rem; }
+  .dnb-input--icon-position-left.dnb-input--has-icon .dnb-input__input,
+  .dnb-input--icon-position-left.dnb-input--has-icon .dnb-input__placeholder {
+    padding-left: 2.5rem; }
+  .dnb-input--icon-position-right.dnb-input--has-icon .dnb-input__input,
+  .dnb-input--icon-position-right.dnb-input--has-icon .dnb-input__placeholder {
+    padding-right: 2.5rem; }
+  .dnb-input--medium.dnb-input--icon-position-left.dnb-input--has-icon .dnb-input__input,
+  .dnb-input--medium.dnb-input--icon-position-left.dnb-input--has-icon .dnb-input__placeholder {
+    padding-left: 2.5rem; }
+  .dnb-input--large.dnb-input--icon-position-left.dnb-input--has-icon .dnb-input__input,
+  .dnb-input--large.dnb-input--icon-position-left.dnb-input--has-icon .dnb-input__placeholder {
+    padding-left: 3rem; }
+  .dnb-input--large.dnb-input--icon-position-right.dnb-input--has-icon .dnb-input__input,
+  .dnb-input--large.dnb-input--icon-position-right.dnb-input--has-icon .dnb-input__placeholder {
+    padding-right: 3rem; }
   .dnb-input > .dnb-form-label {
     line-height: var(--line-height-basis); }
   .dnb-input[class*='__status'] {
@@ -2042,8 +2072,9 @@ legend.dnb-form-label {
     display: inline-flex;
     align-items: baseline; }
   .dnb-checkbox__suffix {
+    order: 4;
     padding-left: 0.5rem;
-    order: 4; }
+    line-height: var(--line-height-basis); }
   .dnb-checkbox--label-position-left .dnb-checkbox__order .dnb-checkbox__inner {
     order: 2; }
   .dnb-checkbox--label-position-left .dnb-checkbox__order .dnb-form-label {
@@ -2188,7 +2219,8 @@ legend.dnb-form-label {
     display: inline-flex; }
   .dnb-radio__suffix {
     order: 3;
-    padding-left: 0.5rem; }
+    padding-left: 0.5rem;
+    line-height: var(--line-height-basis); }
     .dnb-radio__suffix .dnb-modal {
       margin-top: -0.25rem;
       margin-bottom: -0.25rem; }
@@ -2369,7 +2401,8 @@ legend.dnb-form-label {
   :not(.dnb-toggle-button-group) > .dnb-form-label + .dnb-toggle-button {
     vertical-align: top; }
   .dnb-toggle-button__suffix {
-    padding-left: 0.5rem; }
+    padding-left: 0.5rem;
+    line-height: var(--line-height-basis); }
   .dnb-toggle-button__suffix, .dnb-toggle-button-group__suffix {
     font-size: var(--font-size-basis); }
   .dnb-toggle-button .dnb-form-status {
@@ -2478,7 +2511,8 @@ legend.dnb-form-label {
   .dnb-date-picker__row {
     display: inline-flex; }
   .dnb-date-picker__suffix {
-    padding-left: 0.5rem; }
+    padding-left: 0.5rem;
+    line-height: var(--line-height-basis); }
   .dnb-date-picker__shell {
     position: relative;
     top: 0;

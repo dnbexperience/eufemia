@@ -350,8 +350,11 @@ exports[`Checkbox scss have to match snapshot 1`] = `
     margin-bottom: 0.5rem; }
   .dnb-form-label--sr-only {
     width: 1px;
+    margin: 0;
+    padding: 0;
     margin-left: -1px;
-    overflow: hidden; }
+    overflow: hidden;
+    white-space: nowrap; }
   .dnb-form-label[for]:not([disabled]) {
     user-select: none;
     -webkit-user-select: none;
@@ -552,8 +555,9 @@ legend.dnb-form-label {
     display: inline-flex;
     align-items: baseline; }
   .dnb-checkbox__suffix {
+    order: 4;
     padding-left: 0.5rem;
-    order: 4; }
+    line-height: var(--line-height-basis); }
   .dnb-checkbox--label-position-left .dnb-checkbox__order .dnb-checkbox__inner {
     order: 2; }
   .dnb-checkbox--label-position-left .dnb-checkbox__order .dnb-form-label {

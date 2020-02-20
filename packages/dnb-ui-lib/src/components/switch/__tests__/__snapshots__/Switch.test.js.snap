@@ -382,8 +382,11 @@ exports[`Switch scss have to match snapshot 1`] = `
     margin-bottom: 0.5rem; }
   .dnb-form-label--sr-only {
     width: 1px;
+    margin: 0;
+    padding: 0;
     margin-left: -1px;
-    overflow: hidden; }
+    overflow: hidden;
+    white-space: nowrap; }
   .dnb-form-label[for]:not([disabled]) {
     user-select: none;
     -webkit-user-select: none;
@@ -605,7 +608,8 @@ legend.dnb-form-label {
     display: inline-flex; }
   .dnb-switch__suffix {
     padding-left: 0.5rem;
-    order: 4; }
+    order: 4;
+    line-height: var(--line-height-basis); }
   .dnb-switch--label-position-left .dnb-switch__order .dnb-switch__inner {
     order: 2; }
   .dnb-switch--label-position-left .dnb-switch__order .dnb-form-label {
