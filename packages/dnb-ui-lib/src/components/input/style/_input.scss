@@ -75,7 +75,9 @@
   &__input {
     width: 100%; // to get overflow working properly
     padding-left: var(--input-padding);
-    padding-right: var(--input-padding);
+    padding-right: var(
+      --input-padding
+    ); // we may expand things because of the ellipsis
 
     text-align: left;
 
@@ -95,6 +97,7 @@
     left: 0;
     overflow: hidden;
 
+    // NB: We may considder moving this part to include &__input
     white-space: nowrap;
     text-overflow: ellipsis;
   }
@@ -136,6 +139,7 @@
   &__suffix {
     color: inherit;
     padding-left: 0.5rem;
+    line-height: var(--line-height-basis);
   }
 
   &__submit-element {
@@ -251,6 +255,44 @@
   }
   &--vertical#{&}--stretch &__inner {
     width: 100%;
+  }
+
+  // Icon
+  &__icon {
+    order: 0;
+    position: absolute;
+    left: 1rem;
+    right: auto;
+  }
+  &--icon-position-right &__icon {
+    order: 1;
+    left: auto;
+    right: 1rem;
+  }
+  &--icon-position-left#{&}--has-icon &__input,
+  &--icon-position-left#{&}--has-icon &__placeholder {
+    padding-left: 2.5rem;
+    // margin-right: -0.5rem;
+  }
+  &--icon-position-right#{&}--has-icon &__input,
+  &--icon-position-right#{&}--has-icon &__placeholder {
+    padding-right: 2.5rem;
+    // margin-right: -0.5rem;
+  }
+  &--medium#{&}--icon-position-left#{&}--has-icon &__input,
+  &--medium#{&}--icon-position-left#{&}--has-icon &__placeholder {
+    padding-left: 2.5rem;
+    // margin-right: -0.5rem;
+  }
+  &--large#{&}--icon-position-left#{&}--has-icon &__input,
+  &--large#{&}--icon-position-left#{&}--has-icon &__placeholder {
+    padding-left: 3rem;
+    // margin-right: -1rem;
+  }
+  &--large#{&}--icon-position-right#{&}--has-icon &__input,
+  &--large#{&}--icon-position-right#{&}--has-icon &__placeholder {
+    padding-right: 3rem;
+    // margin-right: -1rem;
   }
 
   & > .dnb-form-label {

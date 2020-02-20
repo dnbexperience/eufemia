@@ -6,9 +6,6 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import Button from '../button/Button'
-import FormLabel from '../form-label/FormLabel'
-import FormStatus from '../form-status/FormStatus'
 import {
   isTrue,
   makeUniqueId,
@@ -22,6 +19,10 @@ import {
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
 import { createSpacingClasses } from '../space/SpacingHelper'
+import Button from '../button/Button'
+import FormLabel from '../form-label/FormLabel'
+import FormStatus from '../form-status/FormStatus'
+import IconPrimary from '../icon-primary/IconPrimary'
 
 import Context from '../../shared/Context'
 import Suffix from '../../shared/helpers/Suffix'
@@ -80,6 +81,12 @@ const propTypes = {
     PropTypes.object
   ]),
   input_element: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
+  icon: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.node,
+    PropTypes.func
+  ]),
+  icon_position: PropTypes.string,
   inner_ref: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
   readOnly: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
 
@@ -138,6 +145,8 @@ const defaultProps = {
   input_attributes: null,
   input_element: null,
   inner_ref: null,
+  icon: null,
+  icon_position: 'left',
   readOnly: false,
 
   // Submit button
@@ -307,6 +316,9 @@ export default class Input extends PureComponent {
       readOnly,
       stretch,
       input_attributes,
+      icon,
+      icon_position,
+      icon_size,
       class: _className,
       className,
 
@@ -332,6 +344,11 @@ export default class Input extends PureComponent {
     const hasSubmitButton = submit_element || type === 'search'
     const hasValue = Input.hasValue(value)
 
+    const iconSize =
+      size === 'large' && (icon_size === 'default' || !icon_size)
+        ? 'medium'
+        : icon_size
+
     const mainParams = {
       className: classnames(
         'dnb-input',
@@ -340,6 +357,9 @@ export default class Input extends PureComponent {
         hasSubmitButton && 'dnb-input--has-submit-element',
         align && `dnb-input__align--${align}`,
         status && `dnb-input__status--${status_state}`,
+        icon && `dnb-input--icon-position-${icon_position}`,
+        icon && 'dnb-input--has-icon',
+        icon && iconSize && `dnb-input--icon-size-${iconSize}`,
         label_direction && `dnb-input--${label_direction}`,
         isTrue(stretch) && `dnb-input--stretch`,
         isTrue(keep_placeholder) && `dnb-input--keep-placeholder`,
@@ -450,6 +470,15 @@ export default class Input extends PureComponent {
 
           <span className="dnb-input__row">
             <span className="dnb-input__shell" {...shellParams}>
+              {icon && (
+                <IconPrimary
+                  className="dnb-input__icon"
+                  icon={icon}
+                  size={iconSize}
+                  aria-hidden={true}
+                />
+              )}
+
               {!hasValue && placeholder && focusState !== 'focus' && (
                 <span
                   id={id + '-placeholder'}
