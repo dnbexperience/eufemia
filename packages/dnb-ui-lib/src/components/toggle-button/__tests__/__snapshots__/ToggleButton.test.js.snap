@@ -793,11 +793,13 @@ exports[`ToggleButton scss have to match default theme snapshot 1`] = `
   .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:active):not(:hover):focus,
   .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]):not(:active):not(:hover):focus,
   .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]):not(:active):not(:hover):focus {
+    color: var(--color-emerald-green);
+    background-color: var(--color-mint-green);
     outline: none; }
     html[data-whatinput='keyboard'] .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:active):not(:hover):focus, html[data-whatinput='keyboard']
     .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]):not(:active):not(:hover):focus, html[data-whatinput='keyboard']
     .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]):not(:active):not(:hover):focus {
-      box-shadow: 0 0 0 0.125rem var(--color-mint-green);
+      box-shadow: 0 0 0 0.125rem var(--color-emerald-green);
       /* IE11 fix */
       border-color: transparent; }
   .dnb-toggle-button__button:not([disabled]):active .dnb-radio__button,
