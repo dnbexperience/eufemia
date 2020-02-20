@@ -23,6 +23,10 @@
       }
     }
 
+    .dnb-icon {
+      color: inherit;
+    }
+
     // chrome has focus after click, firefox/safari not
     // TODO: The hover will anyway show up, so this makes the experiance worse
     // &:focus:hover {

@@ -91,8 +91,8 @@ exports[`ToggleButton component have to match snapshot 1`] = `
           global_status_id={null}
           href={null}
           icon="icon"
-          icon_position="right"
-          icon_size={null}
+          icon_position="left"
+          icon_size="icon_size"
           id="toggle-button"
           innerRef={null}
           onClick={[Function]}
@@ -111,7 +111,7 @@ exports[`ToggleButton component have to match snapshot 1`] = `
           <button
             aria-describedby=" toggle-button-suffix"
             aria-pressed="false"
-            className="dnb-button dnb-button--secondary dnb-toggle-button__button dnb-button--icon-position-right dnb-button--has-icon dnb-button--has-text"
+            className="dnb-button dnb-button--secondary dnb-toggle-button__button dnb-button--icon-position-left dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--has-text"
             disabled={false}
             id="toggle-button"
             onClick={[Function]}
@@ -164,8 +164,8 @@ exports[`ToggleButton component have to match snapshot 1`] = `
               global_status_id={null}
               href={null}
               icon="icon"
-              icon_position="right"
-              icon_size={null}
+              icon_position="left"
+              icon_size="icon_size"
               id="toggle-button"
               innerRef={null}
               isIconOnly={false}
@@ -291,7 +291,7 @@ exports[`ToggleButton component have to match snapshot 1`] = `
                 icon="icon"
                 key="button-icon"
                 modifier={null}
-                size={null}
+                size="icon_size"
                 title={null}
                 width={null}
               />
@@ -761,6 +761,10 @@ exports[`ToggleButton scss have to match default theme snapshot 1`] = `
         .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]):not(:active):not(:hover),
         .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]):not(:active):not(:hover) {
           box-shadow: inset 0 0 0 1px var(--color-emerald-green); } }
+  .dnb-toggle-button--checked .dnb-toggle-button__button .dnb-icon,
+  .dnb-toggle-button--checked .dnb-toggle-button__button:focus .dnb-icon,
+  .dnb-toggle-button--checked .dnb-toggle-button__button:hover .dnb-icon {
+    color: inherit; }
   .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]) .dnb-radio__button,
   .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]) .dnb-radio__button,
   .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]) .dnb-radio__button {
@@ -1717,16 +1721,6 @@ button.dnb-button::-moz-focus-inner {
       .dnb-toggle-button__button .dnb-radio__dot {
         width: calc(var(--radio-width) - 1rem);
         height: calc(var(--radio-width) - 1rem); }
-  .dnb-toggle-button__button.dnb-button--has-icon.dnb-button--icon-position-right {
-    padding-right: 0.5rem; }
-  .dnb-toggle-button__button.dnb-button--has-icon.dnb-button--icon-position-left {
-    padding-left: 0.5rem; }
-    .dnb-toggle-button__button.dnb-button--has-icon.dnb-button--icon-position-left .dnb-button__icon {
-      margin-left: 0.25rem;
-      margin-right: 0.25rem; }
-  .dnb-toggle-button__button.dnb-button--has-icon.dnb-button--icon-position-left > .dnb-toggle-button__component {
-    padding-left: 0.5rem;
-    padding-right: 0; }
   .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:active) {
     background-color: var(--color-emerald-green);
     color: var(--color-mint-green); }
