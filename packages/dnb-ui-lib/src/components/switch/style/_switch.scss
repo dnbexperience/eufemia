@@ -143,6 +143,7 @@
   &__suffix {
     padding-left: 0.5rem;
     order: 4;
+    line-height: var(--line-height-basis);
   }
 
   &--label-position-left &__order {

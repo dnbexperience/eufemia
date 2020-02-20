@@ -33,6 +33,8 @@ exports[`InputMasked component have to match type="text" snapshot 1`] = `
     custom_method={null}
     disabled={false}
     global_status_id={null}
+    icon={null}
+    icon_position="left"
     id="input-masked"
     inner_ref={null}
     input_attributes={null}
@@ -573,8 +575,11 @@ button.dnb-button::-moz-focus-inner {
     margin-bottom: 0.5rem; }
   .dnb-form-label--sr-only {
     width: 1px;
+    margin: 0;
+    padding: 0;
     margin-left: -1px;
-    overflow: hidden; }
+    overflow: hidden;
+    white-space: nowrap; }
   .dnb-form-label[for]:not([disabled]) {
     user-select: none;
     -webkit-user-select: none;
@@ -708,7 +713,8 @@ legend.dnb-form-label {
     align-items: center; }
   .dnb-input__suffix {
     color: inherit;
-    padding-left: 0.5rem; }
+    padding-left: 0.5rem;
+    line-height: var(--line-height-basis); }
   .dnb-input__submit-element {
     margin-left: calc(1px - 1px - var(--input-height));
     line-height: var(--line-height-basis); }
@@ -779,6 +785,30 @@ legend.dnb-form-label {
     width: 100%; }
   .dnb-input--vertical.dnb-input--stretch .dnb-input__inner {
     width: 100%; }
+  .dnb-input__icon {
+    order: 0;
+    position: absolute;
+    left: 1rem;
+    right: auto; }
+  .dnb-input--icon-position-right .dnb-input__icon {
+    order: 1;
+    left: auto;
+    right: 1rem; }
+  .dnb-input--icon-position-left.dnb-input--has-icon .dnb-input__input,
+  .dnb-input--icon-position-left.dnb-input--has-icon .dnb-input__placeholder {
+    padding-left: 2.5rem; }
+  .dnb-input--icon-position-right.dnb-input--has-icon .dnb-input__input,
+  .dnb-input--icon-position-right.dnb-input--has-icon .dnb-input__placeholder {
+    padding-right: 2.5rem; }
+  .dnb-input--medium.dnb-input--icon-position-left.dnb-input--has-icon .dnb-input__input,
+  .dnb-input--medium.dnb-input--icon-position-left.dnb-input--has-icon .dnb-input__placeholder {
+    padding-left: 2.5rem; }
+  .dnb-input--large.dnb-input--icon-position-left.dnb-input--has-icon .dnb-input__input,
+  .dnb-input--large.dnb-input--icon-position-left.dnb-input--has-icon .dnb-input__placeholder {
+    padding-left: 3rem; }
+  .dnb-input--large.dnb-input--icon-position-right.dnb-input--has-icon .dnb-input__input,
+  .dnb-input--large.dnb-input--icon-position-right.dnb-input--has-icon .dnb-input__placeholder {
+    padding-right: 3rem; }
   .dnb-input > .dnb-form-label {
     line-height: var(--line-height-basis); }
   .dnb-input[class*='__status'] {

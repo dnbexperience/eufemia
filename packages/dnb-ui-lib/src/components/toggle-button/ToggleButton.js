@@ -68,8 +68,13 @@ const propTypes = {
     PropTypes.object,
     PropTypes.array
   ]),
-  icon: PropTypes.string,
+  icon: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.node,
+    PropTypes.func
+  ]),
   icon_position: PropTypes.string,
+  icon_size: PropTypes.string,
   attributes: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   readOnly: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   class: PropTypes.string,
@@ -105,6 +110,7 @@ const defaultProps = {
   value: '',
   icon: null,
   icon_position: 'right',
+  icon_size: null,
   attributes: null,
   readOnly: false,
   class: null,

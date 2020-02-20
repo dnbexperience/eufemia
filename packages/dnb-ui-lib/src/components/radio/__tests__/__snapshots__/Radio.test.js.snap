@@ -686,8 +686,11 @@ exports[`Radio scss have to match snapshot 1`] = `
     margin-bottom: 0.5rem; }
   .dnb-form-label--sr-only {
     width: 1px;
+    margin: 0;
+    padding: 0;
     margin-left: -1px;
-    overflow: hidden; }
+    overflow: hidden;
+    white-space: nowrap; }
   .dnb-form-label[for]:not([disabled]) {
     user-select: none;
     -webkit-user-select: none;
@@ -891,7 +894,8 @@ legend.dnb-form-label {
     display: inline-flex; }
   .dnb-radio__suffix {
     order: 3;
-    padding-left: 0.5rem; }
+    padding-left: 0.5rem;
+    line-height: var(--line-height-basis); }
     .dnb-radio__suffix .dnb-modal {
       margin-top: -0.25rem;
       margin-bottom: -0.25rem; }

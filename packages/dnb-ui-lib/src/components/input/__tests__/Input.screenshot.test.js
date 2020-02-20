@@ -24,6 +24,20 @@ describe('Input screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+  it('have to match input with icon', async () => {
+    const screenshot = await testPageScreenshot({
+      ...extend('input-icon'),
+      selector: '[data-dnb-test="input-icon"]'
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+  it('have to match text align with icon', async () => {
+    const screenshot = await testPageScreenshot({
+      ...extend('input-align'),
+      selector: '[data-dnb-test="input-align"]'
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
   it('have to match disabled input', async () => {
     const screenshot = await testPageScreenshot({
       ...extend('input-disabled'),

@@ -89,7 +89,7 @@ exports[`Slider component have to match snapshot 1`] = `
           global_status_id={null}
           href={null}
           icon="subtract"
-          icon_position={null}
+          icon_position="right"
           icon_size={null}
           id={null}
           innerRef={null}
@@ -124,7 +124,7 @@ exports[`Slider component have to match snapshot 1`] = `
               global_status_id={null}
               href={null}
               icon="subtract"
-              icon_position={null}
+              icon_position="right"
               icon_size={null}
               id={null}
               innerRef={null}
@@ -174,14 +174,11 @@ exports[`Slider component have to match snapshot 1`] = `
                       viewBox="0 0 16 16"
                       width={16}
                     >
-                      <line
-                        stroke="black"
+                      <path
+                        d="M1.75 8h12.5"
+                        stroke="#000"
                         strokeLinecap="round"
                         strokeWidth={1.5}
-                        x1={1.75}
-                        x2={14.25}
-                        y1={8}
-                        y2={8}
                       />
                     </svg>
                   </subtract>
@@ -234,7 +231,7 @@ exports[`Slider component have to match snapshot 1`] = `
               global_status_id={null}
               href={null}
               icon={null}
-              icon_position={null}
+              icon_position="right"
               icon_size={null}
               id={null}
               innerRef={null}
@@ -273,7 +270,7 @@ exports[`Slider component have to match snapshot 1`] = `
                   global_status_id={null}
                   href={null}
                   icon={null}
-                  icon_position={null}
+                  icon_position="right"
                   icon_size={null}
                   id={null}
                   innerRef={null}
@@ -317,7 +314,7 @@ exports[`Slider component have to match snapshot 1`] = `
           global_status_id={null}
           href={null}
           icon="add"
-          icon_position={null}
+          icon_position="right"
           icon_size={null}
           id={null}
           innerRef={null}
@@ -352,7 +349,7 @@ exports[`Slider component have to match snapshot 1`] = `
               global_status_id={null}
               href={null}
               icon="add"
-              icon_position={null}
+              icon_position="right"
               icon_size={null}
               id={null}
               innerRef={null}
@@ -404,8 +401,8 @@ exports[`Slider component have to match snapshot 1`] = `
                     >
                       <path
                         clipRule="evenodd"
-                        d="M8.75 1.75C8.75 1.33579 8.41421 1 8 1C7.58579 1 7.25 1.33579 7.25 1.75V7.25H1.75C1.33579 7.25 1 7.58579 1 8C1 8.41421 1.33579 8.75 1.75 8.75H7.25V14.25C7.25 14.6642 7.58579 15 8 15C8.41421 15 8.75 14.6642 8.75 14.25V8.75H14.25C14.6642 8.75 15 8.41421 15 8C15 7.58579 14.6642 7.25 14.25 7.25H8.75V1.75Z"
-                        fill="black"
+                        d="M8.75 1.75a.75.75 0 00-1.5 0v5.5h-5.5a.75.75 0 000 1.5h5.5v5.5a.75.75 0 001.5 0v-5.5h5.5a.75.75 0 000-1.5h-5.5v-5.5z"
+                        fill="#000"
                         fillRule="evenodd"
                       />
                     </svg>
@@ -897,8 +894,11 @@ button.dnb-button::-moz-focus-inner {
     margin-bottom: 0.5rem; }
   .dnb-form-label--sr-only {
     width: 1px;
+    margin: 0;
+    padding: 0;
     margin-left: -1px;
-    overflow: hidden; }
+    overflow: hidden;
+    white-space: nowrap; }
   .dnb-form-label[for]:not([disabled]) {
     user-select: none;
     -webkit-user-select: none;
@@ -982,7 +982,8 @@ legend.dnb-form-label {
     height: var(--slider-thumb-size); }
   .dnb-slider__suffix {
     align-self: center;
-    padding-left: 0.5rem; }
+    padding-left: 0.5rem;
+    line-height: var(--line-height-basis); }
   .dnb-slider--vertical .dnb-slider__suffix {
     padding-left: 0;
     padding-top: 0.5rem; }

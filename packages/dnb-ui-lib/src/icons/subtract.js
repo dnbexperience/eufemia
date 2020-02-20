@@ -5,14 +5,11 @@ import React from 'react'
 function subtract(props) {
   return (
     <svg width={16} height={16} viewBox="0 0 16 16" fill="none" {...props}>
-      <line
-        x1={1.75}
-        y1={8}
-        x2={14.25}
-        y2={8}
-        stroke="black"
+      <path
+        stroke="#000"
         strokeWidth={1.5}
         strokeLinecap="round"
+        d="M1.75 8h12.5"
       />
     </svg>
   )
