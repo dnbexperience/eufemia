@@ -149,7 +149,7 @@ describe('DrawerList component', () => {
     Comp.setProps({
       opened: true
     })
-    await wait(8)
+    await wait(20)
 
     // then simulate changes
     document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 40 })) // down

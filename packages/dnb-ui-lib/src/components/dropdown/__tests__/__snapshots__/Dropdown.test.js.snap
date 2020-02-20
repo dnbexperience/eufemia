@@ -254,7 +254,7 @@ exports[`Dropdown component have to match snapshot 1`] = `
             global_status_id={null}
             href={null}
             icon={null}
-            icon_position={null}
+            icon_position="right"
             icon_size={null}
             id="dropdown-id"
             innerRef={null}
@@ -335,7 +335,7 @@ exports[`Dropdown component have to match snapshot 1`] = `
                 global_status_id={null}
                 href={null}
                 icon={null}
-                icon_position={null}
+                icon_position="right"
                 icon_size={null}
                 id="dropdown-id"
                 innerRef={null}
@@ -1593,8 +1593,11 @@ button.dnb-button::-moz-focus-inner {
     margin-bottom: 0.5rem; }
   .dnb-form-label--sr-only {
     width: 1px;
+    margin: 0;
+    padding: 0;
     margin-left: -1px;
-    overflow: hidden; }
+    overflow: hidden;
+    white-space: nowrap; }
   .dnb-form-label[for]:not([disabled]) {
     user-select: none;
     -webkit-user-select: none;
@@ -1838,7 +1841,8 @@ legend.dnb-form-label {
   .dnb-dropdown__row {
     display: inline-flex; }
   .dnb-dropdown__suffix {
-    padding-left: 0.5rem; }
+    padding-left: 0.5rem;
+    line-height: var(--line-height-basis); }
   .dnb-dropdown .dnb-drawer-list {
     position: static; }
   .dnb-dropdown .dnb-drawer-list__list {
