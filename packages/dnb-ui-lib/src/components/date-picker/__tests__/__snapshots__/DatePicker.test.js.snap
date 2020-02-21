@@ -2385,16 +2385,6 @@ legend.dnb-form-label {
       .dnb-toggle-button__button .dnb-radio__dot {
         width: calc(var(--radio-width) - 1rem);
         height: calc(var(--radio-width) - 1rem); }
-  .dnb-toggle-button__button.dnb-button--has-icon.dnb-button--icon-position-right {
-    padding-right: 0.5rem; }
-  .dnb-toggle-button__button.dnb-button--has-icon.dnb-button--icon-position-left {
-    padding-left: 0.5rem; }
-    .dnb-toggle-button__button.dnb-button--has-icon.dnb-button--icon-position-left .dnb-button__icon {
-      margin-left: 0.25rem;
-      margin-right: 0.25rem; }
-  .dnb-toggle-button__button.dnb-button--has-icon.dnb-button--icon-position-left > .dnb-toggle-button__component {
-    padding-left: 0.5rem;
-    padding-right: 0; }
   .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:active) {
     background-color: var(--color-emerald-green);
     color: var(--color-mint-green); }

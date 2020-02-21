@@ -301,6 +301,9 @@ export default class ToggleButton extends Component {
             disabled,
             variant,
             left_component,
+            icon,
+            icon_size,
+            icon_position,
             value: propValue,
 
             id: _id, // eslint-disable-line
@@ -341,6 +344,7 @@ export default class ToggleButton extends Component {
             className: classnames(
               'dnb-toggle-button',
               status && `dnb-toggle-button__status--${status_state}`,
+              // variant && `dnb-toggle-button__variant--${variant}`,
               checked && `dnb-toggle-button--checked`,
               label_direction && `dnb-toggle-button--${label_direction}`,
               createSpacingClasses(props),
@@ -349,17 +353,20 @@ export default class ToggleButton extends Component {
             )
           }
 
+          // to remove spacing props
+          validateDOMAttributes(this.props, rest)
+
           const buttonParams = {
             id,
             disabled,
             text: text || children,
             title,
+            icon,
+            icon_size,
+            icon_position,
             ['aria-pressed']: String(checked),
             ...rest
           }
-
-          // to remove spacing props
-          validateDOMAttributes(this.props, buttonParams)
 
           const componentParams = {
             checked,
