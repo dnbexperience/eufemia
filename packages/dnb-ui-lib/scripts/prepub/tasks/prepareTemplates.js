@@ -95,8 +95,24 @@ const prepareTemplates = async () => {
     processToNamesIgnoreList: ['web-components', 'style'],
     processToNamesListByUsingFolders: true
   }
-  // const fragments =
   await runFactory(fragmentsTemplateConfig).then(res => {
+    if (require.main === module) {
+      log.succeed(
+        '> PrePublish: Created the index template with all the fragments'
+      )
+    }
+    return res
+  })
+  await runFactory({
+    ...fragmentsTemplateConfig,
+    ...{
+      srcFile: path.resolve(
+        __dirname,
+        '../../../src/core/templates/components-lib-template.js'
+      ),
+      destFile: path.resolve(__dirname, '../../../src/fragments/lib.js')
+    }
+  }).then(res => {
     if (require.main === module) {
       log.succeed(
         '> PrePublish: Created the index template with all the fragments'
@@ -173,8 +189,7 @@ const prepareTemplates = async () => {
     processToNamesIgnoreList: ['web-components', 'style'],
     processToNamesListByUsingFolders: true
   }
-  // we dont ezport patterns anymore!
-  // const patterns =
+  // we dont export patterns anymore!
   await runFactory(patternsTemplateConfig).then(res => {
     if (require.main === module) {
       log.info('> Created the index template with all the patterns')
