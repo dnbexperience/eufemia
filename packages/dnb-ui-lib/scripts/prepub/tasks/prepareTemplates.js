@@ -108,7 +108,7 @@ const prepareTemplates = async () => {
     ...{
       srcFile: path.resolve(
         __dirname,
-        '../../../src/core/templates/components-lib-template.js'
+        '../../../src/core/templates/fragments-lib-template.js'
       ),
       destFile: path.resolve(__dirname, '../../../src/fragments/lib.js')
     }
