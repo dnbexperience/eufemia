@@ -400,7 +400,6 @@ exports[`Dropdown component have to match snapshot 1`] = `
             icon_position="icon_position"
             id="dropdown-id"
             inner_class="dnb-dropdown__list"
-            keep_opened={false}
             max_height={1}
             no_animation="no_animation"
             no_scroll_animation="no_scroll_animation"
@@ -459,6 +458,7 @@ exports[`Dropdown component have to match snapshot 1`] = `
                 ],
               ]
             }
+            prevent_close={false}
             prevent_selection={null}
             scrollable="scrollable"
             use_key={false}

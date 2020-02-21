@@ -81,7 +81,7 @@ export const propTypes = {
   ]),
   default_value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  keep_opened: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  prevent_close: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   opened: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   class: PropTypes.string,
   data: dataType,
@@ -118,7 +118,7 @@ const defaultProps = {
   wrapper_element: null,
   default_value: null,
   value: 'initval',
-  keep_opened: false,
+  prevent_close: false,
   opened: false,
   class: null,
   data: null,
@@ -526,7 +526,7 @@ export default class DrawerList extends PureComponent {
   }
 
   setHidden = (args = {}) => {
-    if (!this.state.opened || isTrue(this.props.keep_opened)) {
+    if (!this.state.opened || isTrue(this.props.prevent_close)) {
       return
     }
 
@@ -701,7 +701,7 @@ export default class DrawerList extends PureComponent {
 
     // stop here if the focus is not set
     // and the drawer is opened by defualt
-    if (isTrue(this.props.keep_opened)) {
+    if (isTrue(this.props.prevent_close)) {
       const isSameDrawer =
         typeof document !== 'undefined' &&
         getPreviousSibling('dnb-drawer-list', document.activeElement) ===

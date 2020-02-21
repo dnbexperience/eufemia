@@ -67,7 +67,7 @@ const MagicOpen = props => {
       <Drawer
         // value={selected}
         // focusable
-        // keep_opened
+        // prevent_close
         // no_animation
         opened={opened}
         // data={['A', 'B']}
@@ -125,7 +125,7 @@ const DrawerStory = () => {
   return (
     <Wrapper>
       <Box>
-        <Drawer opened no_animation keep_opened>
+        <Drawer opened no_animation prevent_close>
           Emty
         </Drawer>
       </Box>

@@ -49,7 +49,7 @@ render(<DrawerListWithState />)
           {/* @jsx */ `
 <DrawerList
   opened="true"
-  keep_opened
+  prevent_close
   icon_position="left"
   data={data}
   value={3}
@@ -92,7 +92,7 @@ const preventDefault = e => {
 render(
   <DrawerList
     opened="true"
-    keep_opened
+    prevent_close
     more_menu
     right
     title="Choose an item"
@@ -162,7 +162,7 @@ const DrawerListWithState = props => {
   return (
     <DrawerList
       opened
-      keep_opened
+      prevent_close
     >
       <DrawerList.List>
         {list.map(({ value, ...props }, i) => (
