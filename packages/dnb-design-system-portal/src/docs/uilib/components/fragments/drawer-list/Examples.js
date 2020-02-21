@@ -13,7 +13,7 @@ class Example extends PureComponent {
     return (
       <Fragment>
         <ComponentBox
-          title="Default drawer-list together with an Input"
+          title="Default DrawerList, triggered by a ToggleButton"
           useRender
           scope={{ data }}
         >
@@ -36,45 +36,6 @@ const DrawerListWithState = props => {
         {...props}
       />
     </>
-  )
-}
-render(<DrawerListWithState />)
-          `}
-        </ComponentBox>
-        <ComponentBox
-          title="Using List and Items markup"
-          data-dnb-test="drawer-items"
-          useRender
-        >
-          {/* @jsx */ `
-const list = [
-  { value: 'A' },
-  { value: 'B' },
-  { value: 'C' }
-]
-const DrawerListWithState = props => {
-  const [selected, setSelected] = React.useState('C')
-
-  return (
-    <DrawerList
-      opened
-      keep_opened
-    >
-      <DrawerList.List>
-        {list.map(({ value, ...props }, i) => (
-          <DrawerList.Item
-            key={i}
-            {...props}
-            selected={value === selected}
-            value={value}
-            on_click={({ value }) => setSelected(value)}
-            {...props}
-          >
-            {value}
-          </DrawerList.Item>
-        ))}
-      </DrawerList.List>
-    </DrawerList>
   )
 }
 render(<DrawerListWithState />)
@@ -181,6 +142,46 @@ render(
     <li className="dnb-drawer-list__triangle" />
   </ul>
 </span>
+          `}
+        </ComponentBox>
+        <ComponentBox
+          title="Using List and Items markup"
+          description="**NB:** By using this method you lose currently a lot of the core functionality like keyboard support and other accessibility features."
+          data-dnb-test="drawer-items"
+          useRender
+        >
+          {/* @jsx */ `
+const list = [
+  { value: 'A' },
+  { value: 'B' },
+  { value: 'C' }
+]
+const DrawerListWithState = props => {
+  const [selected, setSelected] = React.useState('C')
+
+  return (
+    <DrawerList
+      opened
+      keep_opened
+    >
+      <DrawerList.List>
+        {list.map(({ value, ...props }, i) => (
+          <DrawerList.Item
+            key={i}
+            {...props}
+            selected={value === selected}
+            value={value}
+            on_click={({ value }) => setSelected(value)}
+            {...props}
+          >
+            {value}
+          </DrawerList.Item>
+        ))}
+      </DrawerList.List>
+    </DrawerList>
+  )
+}
+render(<DrawerListWithState />)
           `}
         </ComponentBox>
       </Fragment>

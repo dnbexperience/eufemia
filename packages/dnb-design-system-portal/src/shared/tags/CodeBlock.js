@@ -13,6 +13,7 @@ import Tag from './Tag'
 import renderers from './index'
 import Code from '../parts/uilib/Code'
 import { Button } from 'dnb-ui-lib/src/components'
+import { P } from 'dnb-ui-lib/src/elements'
 import { makeUniqueId } from 'dnb-ui-lib/src/shared/component-helper'
 import AutoLinkHeader from './AutoLinkHeader'
 
@@ -86,6 +87,7 @@ class LiveCode extends PureComponent {
     code: PropTypes.string.isRequired,
     scope: PropTypes.object,
     title: PropTypes.string,
+    description: PropTypes.string,
     caption: PropTypes.string,
     useRender: PropTypes.bool,
     noFragments: PropTypes.bool,
@@ -99,6 +101,7 @@ class LiveCode extends PureComponent {
   static defaultProps = {
     scope: {},
     title: null,
+    description: null,
     caption: null,
     useRender: false,
     noFragments: true,
@@ -163,6 +166,7 @@ class LiveCode extends PureComponent {
   render() {
     const {
       title,
+      description,
       caption,
       scope,
       useRender,
@@ -229,6 +233,16 @@ class LiveCode extends PureComponent {
                     }}
                   />
                 </AutoLinkHeader>
+              )}
+              {description && (
+                <ReactMarkdown
+                  source={description}
+                  escapeHtml={false}
+                  renderers={{
+                    ...renderers,
+                    paragraph: ({ children }) => <P>{children}</P>
+                  }}
+                />
               )}
               <div className="example-box">
                 <LivePreview
