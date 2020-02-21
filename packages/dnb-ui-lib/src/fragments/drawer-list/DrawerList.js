@@ -411,7 +411,8 @@ export default class DrawerList extends PureComponent {
         this.props.wrapper_element
       )
       this.setState({
-        wrapper_element
+        wrapper_element,
+        _listenForPropChanges: false
       })
     }
   }

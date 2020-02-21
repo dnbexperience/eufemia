@@ -71,10 +71,10 @@ render(<DrawerListWithState />)
           {/* @jsx */ `
 const CustomComponent = () => (
   <CustomComponentInner
-    onMouseDown={preventDefault}
     onTouchStart={preventDefault}
     onClick={e => {
       console.log('Do someting different')
+      preventDefault(e)
     }}
   >
     Custom event handler
