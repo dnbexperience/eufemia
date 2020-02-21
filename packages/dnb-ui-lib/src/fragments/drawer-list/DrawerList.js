@@ -1136,9 +1136,6 @@ export default class DrawerList extends PureComponent {
               >
                 {data.map((dataItem, i) => {
                   const isCurrent = i === parseFloat(selected_item)
-                  if (dataItem.content) {
-                    dataItem = dataItem.content
-                  }
 
                   const liParams = {
                     id: `option-${id}-${i}`,
@@ -1235,6 +1232,22 @@ DrawerList.Item = React.forwardRef((props, ref) => {
       )
   }
 
+  const ItemContent = () => {
+    if (Array.isArray(children.content)) {
+      return children.content.map((item, n) => (
+        <span key={n} className="dnb-drawer-list__option__item">
+          {item}
+        </span>
+      ))
+    }
+
+    if (children.content) {
+      return children.content
+    }
+
+    return children
+  }
+
   return (
     <li
       className={classnames(
@@ -1250,16 +1263,7 @@ DrawerList.Item = React.forwardRef((props, ref) => {
       ref={ref}
     >
       <span className="dnb-drawer-list__option__inner">
-        {(Array.isArray(children.content) &&
-          children.content.map((item, n) => {
-            return (
-              <span key={n} className="dnb-drawer-list__option__item">
-                {item}
-              </span>
-            )
-          })) ||
-          children.content ||
-          children}
+        <ItemContent />
       </span>
     </li>
   )
