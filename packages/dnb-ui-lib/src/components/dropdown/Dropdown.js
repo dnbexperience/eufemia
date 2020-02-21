@@ -88,6 +88,8 @@ const propTypes = {
   default_value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   open_on_focus: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  prevent_close: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  keep_open: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   opened: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   class: PropTypes.string,
@@ -136,6 +138,8 @@ const defaultProps = {
   default_value: null,
   value: 'initval',
   open_on_focus: false,
+  prevent_close: false,
+  keep_open: false,
   opened: false,
   disabled: null,
   class: null,
@@ -397,10 +401,11 @@ export default class Dropdown extends PureComponent {
     if (this._selectTimeout) {
       clearTimeout(this._selectTimeout)
     }
-    this._selectTimeout = setTimeout(
-      () => this.setHidden({ setFocus: true }),
-      1
-    ) // because of state updates we need 1 tick delay here
+    this._selectTimeout = setTimeout(() => {
+      if (!isTrue(this.props.keep_open)) {
+        this.setHidden({ setFocus: true })
+      }
+    }, 1) // because of state updates we need 1 tick delay here
   }
 
   render() {

@@ -60,6 +60,7 @@ exports[`DrawerList component have to match snapshot 1`] = `
   focusable="focusable"
   icon_position="icon_position"
   id="drawer-list-id"
+  keep_open="keep_open"
   max_height={1}
   no_animation="no_animation"
   no_scroll_animation="no_scroll_animation"

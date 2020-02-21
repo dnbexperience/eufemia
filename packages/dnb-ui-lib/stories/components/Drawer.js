@@ -111,6 +111,7 @@ const DrawerListWithState = props => {
         on_change={({ checked }) => setOpened(checked)}
       />
       <DrawerList
+        keep_open
         data={['A', 'B', 'C']}
         opened={opened}
         on_hide={() => setOpened(false)}

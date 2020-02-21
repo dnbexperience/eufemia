@@ -82,6 +82,7 @@ export const propTypes = {
   default_value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   prevent_close: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  keep_open: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   opened: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   class: PropTypes.string,
   data: dataType,
@@ -119,6 +120,7 @@ const defaultProps = {
   default_value: null,
   value: 'initval',
   prevent_close: false,
+  keep_open: false,
   opened: false,
   class: null,
   data: null,
@@ -238,7 +240,10 @@ export default class DrawerList extends PureComponent {
     } else {
       res = props.children
     }
-    if (res && typeof res === 'object' && !Array.isArray(res)) {
+
+    if (res && React.isValidElement(res)) {
+      res = []
+    } else if (res && typeof res === 'object' && !Array.isArray(res)) {
       const list = []
       for (let i in res) {
         list.push({ selected_key: i, content: res[i], type: 'object' })
@@ -252,10 +257,6 @@ export default class DrawerList extends PureComponent {
   }
 
   static getCurrentIndex(value, data) {
-    // if (typeof data === 'function') {
-    //   data = data()
-    // }
-
     // is numeric
     if (parseFloat(value) > -1) {
       return value
@@ -278,10 +279,6 @@ export default class DrawerList extends PureComponent {
   }
 
   static getSelectedItemValue(value, state) {
-    // if (typeof data === 'function') {
-    //   data = data()
-    // }
-
     if (state.use_key) {
       return DrawerList.isCurrentValue(
         state.data &&
@@ -349,9 +346,14 @@ export default class DrawerList extends PureComponent {
         typeof props.wrapper_element === 'string' &&
         typeof document !== 'undefined'
       ) {
-        state.wrapper_element = document.querySelector(
+        const wrapper_element = document.querySelector(
           props.wrapper_element
         )
+        if (wrapper_element) {
+          state.wrapper_element = wrapper_element
+        }
+      } else {
+        state.wrapper_element = props.wrapper_element
       }
 
       if (
@@ -402,18 +404,6 @@ export default class DrawerList extends PureComponent {
   componentDidMount() {
     if (this.state.opened) {
       this.setVisible()
-    }
-    if (
-      typeof this.props.wrapper_element === 'string' &&
-      typeof document !== 'undefined'
-    ) {
-      const wrapper_element = document.querySelector(
-        this.props.wrapper_element
-      )
-      this.setState({
-        wrapper_element,
-        _listenForPropChanges: false
-      })
     }
   }
 
@@ -469,10 +459,27 @@ export default class DrawerList extends PureComponent {
     }
   }
 
+  setWrapperElement = () => {
+    if (
+      typeof this.props.wrapper_element === 'string' &&
+      typeof document !== 'undefined'
+    ) {
+      const wrapper_element = document.querySelector(
+        this.props.wrapper_element
+      )
+      if (wrapper_element) {
+        this.setState({
+          wrapper_element,
+          _listenForPropChanges: false
+        })
+      }
+    }
+  }
+
   setOutsideClickObserver = () => {
     this.outsideClick = detectOutsideClick(
-      this.state.wrapper_element || this._refShell.current,
-      this.setHidden
+      [this.state.wrapper_element, this._refShell.current],
+      this.setHidden // hide if document.activeElement is not inside our elements
     )
     if (typeof document !== 'undefined') {
       document.addEventListener('keydown', this.onKeyDownHandler)
@@ -508,6 +515,7 @@ export default class DrawerList extends PureComponent {
         _listenForPropChanges: false
       },
       () => {
+        this.setWrapperElement()
         this.setTrianglePosition()
         this.setDirectionObserver()
         this.setScrollObserver()
@@ -757,7 +765,9 @@ export default class DrawerList extends PureComponent {
       case 'space':
         e.preventDefault()
         this.selectItem(active_item, { fireSelectEvent: true, event: e })
-        this.setHidden({ setFocus: true })
+        if (!isTrue(this.props.keep_open)) {
+          this.setHidden({ setFocus: true })
+        }
         break
 
       case 'esc':
@@ -841,7 +851,9 @@ export default class DrawerList extends PureComponent {
       }
       this._selectTimeout = setTimeout(
         () => {
-          this.setHidden({ setFocus: true })
+          if (!isTrue(this.props.keep_open)) {
+            this.setHidden({ setFocus: true })
+          }
         },
         isTrue(this.props.no_animation) ? 1 : DrawerList.blurDelay / 2
       ) // only for the user experience
