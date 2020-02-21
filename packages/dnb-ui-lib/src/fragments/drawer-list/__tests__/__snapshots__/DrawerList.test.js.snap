@@ -71,258 +71,28 @@ exports[`DrawerList component have to match snapshot 1`] = `
   on_show={[Function]}
   on_state_update={[Function]}
   opened={true}
+  preparedData={Array []}
   prevent_selection={null}
   scrollable="scrollable"
+  use_key={true}
   value={2}
   wrapper_element={Object {}}
 >
   <span
     className="dnb-drawer-list dnb-drawer-list--direction-bottom class className dnb-drawer-list--opened dnb-drawer-list--icon-position-icon_position"
-    id="drawer-list-id-drawer"
+    id="drawer-list-id-drawer-list"
   >
     <span
       className="dnb-drawer-list__list"
     >
-      <DrawerList.List
-        aria-activedescendant="option-drawer-list-id-2"
-        aria-labelledby="drawer-list-id"
-        className={null}
-        style={
-          Object {
-            "maxHeight": "1rem",
-          }
-        }
-        triangleRef={
-          Object {
-            "current": <li
-              aria-hidden="true"
-              class="dnb-drawer-list__triangle"
-            />,
-          }
-        }
+      <span
+        className="dnb-drawer-list__content"
       >
-        <ul
-          aria-activedescendant="option-drawer-list-id-2"
-          aria-labelledby="drawer-list-id"
-          className="dnb-drawer-list__options"
-          role="listbox"
-          style={
-            Object {
-              "maxHeight": "1rem",
-            }
-          }
-          tabIndex="-1"
-        >
-          <DrawerList.Item
-            className=""
-            data-item={0}
-            id="option-drawer-list-id-0"
-            key="drawer-list-id0"
-            onClick={[Function]}
-            onKeyDown={[Function]}
-            on_click={null}
-            selected={false}
-            value={null}
-          >
-            <li
-              aria-selected="false"
-              className="dnb-drawer-list__option"
-              data-item={0}
-              id="option-drawer-list-id-0"
-              onClick={[Function]}
-              onKeyDown={[Function]}
-              role="option"
-              tabIndex="-1"
-            >
-              <span
-                className="dnb-drawer-list__option__inner"
-              >
-                1234 56 78901
-                Brukskonto - Kari Nordmann
-              </span>
-            </li>
-          </DrawerList.Item>
-          <DrawerList.Item
-            className=""
-            data-item={1}
-            id="option-drawer-list-id-1"
-            key="drawer-list-id1"
-            onClick={[Function]}
-            onKeyDown={[Function]}
-            on_click={null}
-            selected={false}
-            value={null}
-          >
-            <li
-              aria-selected="false"
-              className="dnb-drawer-list__option"
-              data-item={1}
-              id="option-drawer-list-id-1"
-              onClick={[Function]}
-              onKeyDown={[Function]}
-              role="option"
-              tabIndex="-1"
-            >
-              <span
-                className="dnb-drawer-list__option__inner"
-              >
-                1234 56 78902
-                Sparekonto - Ole Nordmann
-              </span>
-            </li>
-          </DrawerList.Item>
-          <DrawerList.Item
-            className="dnb-drawer-list__option--focus"
-            data-item={2}
-            id="option-drawer-list-id-2"
-            key="drawer-list-id2"
-            onClick={[Function]}
-            onKeyDown={[Function]}
-            on_click={null}
-            selected={true}
-            value={null}
-          >
-            <li
-              aria-current={true}
-              aria-selected={true}
-              className="dnb-drawer-list__option--focus dnb-drawer-list__option dnb-drawer-list__option--selected"
-              data-item={2}
-              id="option-drawer-list-id-2"
-              onClick={[Function]}
-              onKeyDown={[Function]}
-              role="option"
-              tabIndex="-1"
-            >
-              <span
-                className="dnb-drawer-list__option__inner"
-              >
-                1134 56 78962
-                Feriekonto - Kari Nordmann med et kjempelangt etternavnsen
-              </span>
-            </li>
-          </DrawerList.Item>
-          <DrawerList.Item
-            className=""
-            data-item={3}
-            id="option-drawer-list-id-3"
-            key="drawer-list-id3"
-            onClick={[Function]}
-            onKeyDown={[Function]}
-            on_click={null}
-            selected={false}
-            value={null}
-          >
-            <li
-              aria-selected="false"
-              className="dnb-drawer-list__option"
-              data-item={3}
-              id="option-drawer-list-id-3"
-              onClick={[Function]}
-              onKeyDown={[Function]}
-              role="option"
-              tabIndex="-1"
-            >
-              <span
-                className="dnb-drawer-list__option__inner"
-              >
-                1534 96 48901
-                Oppussing - Ole Nordmann
-              </span>
-            </li>
-          </DrawerList.Item>
-          <DrawerList.Item
-            className=""
-            data-item={4}
-            id="option-drawer-list-id-4"
-            key="drawer-list-id4"
-            onClick={[Function]}
-            onKeyDown={[Function]}
-            on_click={null}
-            selected={false}
-            value={null}
-          >
-            <li
-              aria-selected="false"
-              className="dnb-drawer-list__option"
-              data-item={4}
-              id="option-drawer-list-id-4"
-              onClick={[Function]}
-              onKeyDown={[Function]}
-              role="option"
-              tabIndex="-1"
-            >
-              <span
-                className="dnb-drawer-list__option__inner"
-              >
-                Custom content 
-                123
-              </span>
-            </li>
-          </DrawerList.Item>
-          <DrawerList.Item
-            className=""
-            data-item={5}
-            id="option-drawer-list-id-5"
-            key="drawer-list-id5"
-            onClick={[Function]}
-            onKeyDown={[Function]}
-            on_click={null}
-            selected={false}
-            value={null}
-          >
-            <li
-              aria-selected="false"
-              className="dnb-drawer-list__option"
-              data-item={5}
-              id="option-drawer-list-id-5"
-              onClick={[Function]}
-              onKeyDown={[Function]}
-              role="option"
-              tabIndex="-1"
-            >
-              <span
-                className="dnb-drawer-list__option__inner"
-              >
-                Custom content 
-                123
-              </span>
-            </li>
-          </DrawerList.Item>
-          <DrawerList.Item
-            className="closest-to-top closest-to-bottom last-of-type"
-            data-item={6}
-            id="option-drawer-list-id-6"
-            key="drawer-list-id6"
-            onClick={[Function]}
-            onKeyDown={[Function]}
-            on_click={null}
-            selected={false}
-            value={null}
-          >
-            <li
-              aria-selected="false"
-              className="closest-to-top closest-to-bottom last-of-type dnb-drawer-list__option"
-              data-item={6}
-              id="option-drawer-list-id-6"
-              onClick={[Function]}
-              onKeyDown={[Function]}
-              role="option"
-              tabIndex="-1"
-            >
-              <span
-                className="dnb-drawer-list__option__inner"
-              >
-                Custom content 
-                123
-              </span>
-            </li>
-          </DrawerList.Item>
-          <li
-            aria-hidden={true}
-            className="dnb-drawer-list__triangle"
-          />
-        </ul>
-      </DrawerList.List>
+        custom type not supported, please set the correct value for children prop
+        <span
+          className="dnb-drawer-list__triangle"
+        />
+      </span>
     </span>
   </span>
 </DrawerList>

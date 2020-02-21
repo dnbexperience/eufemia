@@ -14,7 +14,7 @@
   --dropdown-text-padding: 0.5rem;
 }
 
-@import '../../drawer-list/style/_drawer-list.scss';
+@import '../../../fragments/drawer-list/style/_drawer-list.scss';
 
 .dnb-dropdown {
   display: inline-flex;

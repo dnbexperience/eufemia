@@ -72,7 +72,7 @@ describe('Dropdown component', () => {
 
   it('has correct state at startup', () => {
     expect(Comp.state().opened).toBe(false)
-    expect(Comp.state().hidden).toBe(true)
+    expect(Comp.state().hidden).toBe(undefined)
   })
 
   it('has correct state after "mousedown" trigger', async () => {

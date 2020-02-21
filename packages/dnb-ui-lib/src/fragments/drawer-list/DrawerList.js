@@ -18,7 +18,7 @@ import {
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
 import { getOffsetTop } from '../../shared/helpers'
-import { createSpacingClasses } from '../space/SpacingHelper'
+import { createSpacingClasses } from '../../components/space/SpacingHelper'
 
 import Context from '../../shared/Context'
 
@@ -85,6 +85,8 @@ export const propTypes = {
   opened: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   class: PropTypes.string,
   data: dataType,
+  preparedData: PropTypes.array,
+  use_key: PropTypes.bool,
 
   // React
   className: PropTypes.string,
@@ -120,6 +122,8 @@ const defaultProps = {
   opened: false,
   class: null,
   data: null,
+  preparedData: null,
+  use_key: null,
 
   // React props
   className: null,
@@ -187,8 +191,46 @@ export default class DrawerList extends PureComponent {
     return ret
   }
 
+  static usesKeyAsValue(props) {
+    if (props.preparedData && Array.isArray(props.preparedData)) {
+      if (props.use_key) {
+        return true
+      }
+      return (
+        !(
+          typeof props.value !== 'undefined' &&
+          parseFloat(props.value) > -1
+        ) &&
+        props.value !== 'initval' &&
+        props.value !== null
+      )
+    }
+
+    let res
+
+    if (typeof props.data === 'function') {
+      res = props.data()
+    } else if (props.data) {
+      res = props.data
+    } else {
+      res = props.children
+    }
+
+    if (res && typeof res === 'object' && !Array.isArray(res)) {
+      return true
+    }
+
+    return false
+  }
+
+  // normalize data
   static getData(props) {
-    let res = []
+    if (props.preparedData && Array.isArray(props.preparedData)) {
+      return props.preparedData
+    }
+
+    let res
+
     if (typeof props.data === 'function') {
       res = props.data()
     } else if (props.data) {
@@ -199,16 +241,67 @@ export default class DrawerList extends PureComponent {
     if (res && typeof res === 'object' && !Array.isArray(res)) {
       const list = []
       for (let i in res) {
-        list.push({ selected_key: i, content: res[i] })
+        list.push({ selected_key: i, content: res[i], type: 'object' })
       }
       res = list
     } else if (typeof res === 'string') {
       return res[0] === '[' ? JSON.parse(res) : []
     }
+
     return res || []
   }
 
-  static getOptionData(value, data) {
+  static getCurrentIndex(value, data) {
+    // if (typeof data === 'function') {
+    //   data = data()
+    // }
+
+    // is numeric
+    if (parseFloat(value) > -1) {
+      return value
+    }
+    // is a key given as a string
+    else if (typeof value === 'string') {
+      return (
+        data &&
+        [...data].reduce((acc, cur, i, arr) => {
+          if (value === DrawerList.isCurrentValue(cur)) {
+            arr.splice(1)
+            return i
+          }
+          return acc
+        }, null)
+      )
+    }
+
+    return null
+  }
+
+  static getSelectedItemValue(value, state) {
+    // if (typeof data === 'function') {
+    //   data = data()
+    // }
+
+    if (state.use_key) {
+      return DrawerList.isCurrentValue(
+        state.data &&
+          state.data.filter((data, i) => i === parseFloat(value))[0]
+      )
+    }
+
+    return value
+  }
+
+  static isCurrentValue(current) {
+    return (
+      (typeof current !== 'undefined' &&
+      typeof current.selected_key !== 'undefined'
+        ? current.selected_key
+        : current) || null
+    )
+  }
+
+  static getCurrentData(value, data) {
     if (typeof data === 'function') {
       data = data()
     }
@@ -217,16 +310,40 @@ export default class DrawerList extends PureComponent {
     )
   }
 
-  static getDerivedStateFromProps(props, state) {
+  static prepareStartupState(props) {
+    const opened = isTrue(props.opened)
+    const use_key = DrawerList.usesKeyAsValue(props)
+    const data = DrawerList.getData(props)
+
+    let selected_item = DrawerList.getCurrentIndex(props.value, data)
+    if (parseFloat(props.default_value) > -1) {
+      selected_item = parseFloat(props.default_value)
+    }
+
+    return {
+      _listenForPropChanges: true,
+      opened,
+      data,
+      use_key,
+      direction: props.direction,
+      max_height: props.max_height,
+      active_item: selected_item,
+      selected_item,
+      selectedItemHasChanged: false
+    }
+  }
+
+  static prepareDerivedState(props, state) {
     if (state.opened && !state.data && typeof props.data === 'function') {
       state.data = DrawerList.getData(props)
     }
     if (state._listenForPropChanges) {
-      if (props.data && typeof props.data !== 'function') {
+      if (
+        (props.data && typeof props.data !== 'function') ||
+        props.children
+      ) {
         state.data = DrawerList.getData(props)
       }
-
-      let hasChanged = false
 
       if (
         typeof props.wrapper_element === 'string' &&
@@ -235,28 +352,39 @@ export default class DrawerList extends PureComponent {
         state.wrapper_element = document.querySelector(
           props.wrapper_element
         )
-        console.log('props.wrapper_element', state.wrapper_element)
       }
 
       if (
         props.value !== 'initval' &&
         state.selected_item !== props.value
       ) {
-        state.selected_item =
-          parseFloat(props.value) > -1
-            ? parseFloat(props.value)
-            : props.value
-        hasChanged = true
-      }
-      if (hasChanged && typeof props.on_state_update === 'function') {
-        dispatchCustomElementEvent({ props }, 'on_state_update', {
-          data: DrawerList.getOptionData(state.selected_item, state.data),
-          value: state.selected_item
-        })
+        state.selected_item = DrawerList.getCurrentIndex(
+          props.value,
+          state.data
+        )
+
+        if (typeof props.on_state_update === 'function') {
+          dispatchCustomElementEvent({ props }, 'on_state_update', {
+            selected_item: state.selected_item, // deprecated
+            value: DrawerList.getSelectedItemValue(
+              state.selected_item,
+              state
+            ),
+            data: DrawerList.getCurrentData(
+              state.selected_item,
+              state.data
+            )
+          })
+        }
       }
     }
     state._listenForPropChanges = true
+
     return state
+  }
+
+  static getDerivedStateFromProps(props, state) {
+    return DrawerList.prepareDerivedState(props, state)
   }
 
   constructor(props) {
@@ -264,21 +392,7 @@ export default class DrawerList extends PureComponent {
 
     this._id = props.id || makeUniqueId()
 
-    const opened = isTrue(props.opened)
-    this.state = {
-      _listenForPropChanges: true,
-      opened,
-      direction: props.direction,
-      max_height: props.max_height,
-      active_item: props.value,
-      selected_item:
-        parseFloat(props.default_value) > -1
-          ? parseFloat(props.default_value)
-          : parseFloat(props.value) > -1
-          ? parseFloat(props.value)
-          : props.value,
-      selectedItemHasChanged: false
-    }
+    this.state = DrawerList.prepareStartupState(props)
 
     this._refShell = React.createRef()
     this._refUl = React.createRef()
@@ -405,7 +519,7 @@ export default class DrawerList extends PureComponent {
     )
 
     dispatchCustomElementEvent(this, 'on_show', {
-      data: DrawerList.getOptionData(selected_item, this.state.data),
+      data: DrawerList.getCurrentData(selected_item, this.state.data),
       attributes: this.attributes || {}
     })
   }
@@ -443,7 +557,7 @@ export default class DrawerList extends PureComponent {
 
     dispatchCustomElementEvent(this, 'on_hide', {
       ...args,
-      data: DrawerList.getOptionData(
+      data: DrawerList.getCurrentData(
         this.state.selected_item,
         this.state.data
       ),
@@ -522,9 +636,12 @@ export default class DrawerList extends PureComponent {
         if (fireSelectEvent) {
           const attributes = this.attributes || {}
           const ret = dispatchCustomElementEvent(this, 'on_select', {
-            value: selected_item,
             active_item,
-            data: DrawerList.getOptionData(active_item, this.state.data),
+            value: DrawerList.getSelectedItemValue(
+              selected_item,
+              this.state
+            ),
+            data: DrawerList.getCurrentData(active_item, this.state.data),
             event,
             attributes
           })
@@ -703,17 +820,17 @@ export default class DrawerList extends PureComponent {
       const attributes = this.attributes || {}
       if (doCallOnChange) {
         dispatchCustomElementEvent(this, 'on_change', {
-          value: itemToSelect,
-          data: DrawerList.getOptionData(itemToSelect, this.state.data),
+          value: DrawerList.getSelectedItemValue(itemToSelect, this.state),
+          data: DrawerList.getCurrentData(itemToSelect, this.state.data),
           event,
           attributes
         })
       }
       if (fireSelectEvent) {
         dispatchCustomElementEvent(this, 'on_select', {
-          value: itemToSelect,
           active_item: itemToSelect,
-          data: DrawerList.getOptionData(itemToSelect, this.state.data),
+          value: DrawerList.getSelectedItemValue(itemToSelect, this.state),
+          data: DrawerList.getCurrentData(itemToSelect, this.state.data),
           event,
           attributes
         })
@@ -917,6 +1034,7 @@ export default class DrawerList extends PureComponent {
       max_height: _max_height, // eslint-disable-line
       id: _id, // eslint-disable-line
       data: _data, // eslint-disable-line
+      preparedData: _preparedData, // eslint-disable-line
       opened: _opened, // eslint-disable-line
       value: _value, // eslint-disable-line
       children,
@@ -943,6 +1061,7 @@ export default class DrawerList extends PureComponent {
     ) {
       clearTimeout(this._showTimeout)
       this._showTimeout = setTimeout(this.setVisible, 1)
+      return <></> // to avoid two renders on the first draw
     }
     if (
       isTrue(this.props.opened) === false &&
@@ -954,7 +1073,7 @@ export default class DrawerList extends PureComponent {
     }
 
     const mainParams = {
-      id: `${id}-drawer`,
+      id: `${id}-drawer-list`,
       className: classnames(
         'dnb-drawer-list',
         opened && 'dnb-drawer-list--opened',
@@ -1016,10 +1135,11 @@ export default class DrawerList extends PureComponent {
                 triangleRef={this._refTriangle}
               >
                 {data.map((dataItem, i) => {
+                  const isCurrent = i === parseFloat(selected_item)
                   if (dataItem.content) {
                     dataItem = dataItem.content
                   }
-                  const isCurrent = i === parseFloat(selected_item)
+
                   const liParams = {
                     id: `option-${id}-${i}`,
                     className: classnames(
@@ -1077,7 +1197,7 @@ DrawerList.List = React.forwardRef((props, ref) => {
         className="dnb-drawer-list__triangle"
         aria-hidden
         ref={triangleRef}
-      />
+      ></li>
     </ul>
   )
 })
@@ -1101,6 +1221,7 @@ DrawerList.Item = React.forwardRef((props, ref) => {
     params['aria-current'] = true // has best support on NVDA
     params['aria-selected'] = true // has best support on VO
   }
+
   if (on_click) {
     params.onClick = () =>
       dispatchCustomElementEvent(

@@ -7,16 +7,12 @@ import React from 'react'
 import { Wrapper, Box } from '../helpers'
 import styled from '@emotion/styled'
 
-import {
-  Dropdown,
-  DrawerList,
-  Input,
-  ToggleButton
-} from '../../src/components'
+import { Dropdown, Input, ToggleButton } from '../../src/components'
+import { DrawerList } from '../../src/fragments'
 
 // import { P } from '../../src/elements'
 
-const Drawer = styled(Dropdown.Drawer)`
+const Drawer = styled(DrawerList)`
   margin-bottom: 4rem;
 `
 const CustomStyle = styled.div`
@@ -84,9 +80,9 @@ const MagicOpen = props => {
         on_hide={() => setOpened(false)}
         {...props}
       >
-        <Dropdown.List>
+        <DrawerList.List>
           {list.map(({ value, ...props }, i) => (
-            <Dropdown.Item
+            <DrawerList.Item
               key={i}
               {...props}
               selected={value === selected}
@@ -94,9 +90,9 @@ const MagicOpen = props => {
               on_click={({ value }) => setSelected(value)}
             >
               {value}
-            </Dropdown.Item>
+            </DrawerList.Item>
           ))}
-        </Dropdown.List>
+        </DrawerList.List>
       </Drawer>
     </>
   )
@@ -137,11 +133,20 @@ const DrawerStory = () => {
         <DrawerListWithState></DrawerListWithState>
       </Box>
       <Box>
-        {/* <Dropdown data={['A', 'B']} /> */}
-        {/* <Dropdown>{['A', 'B']}</Dropdown> */}
+        <Dropdown data={['A', 'B']} />
         <Dropdown
+          opened
+          value="0"
           on_change={e => {
-            console.log('e', e)
+            console.log('test e', e)
+          }}
+        >
+          {['A', 'B']}
+        </Dropdown>
+        <Dropdown
+          value="a"
+          on_change={e => {
+            console.log('test e', e)
           }}
         >
           {{
@@ -151,14 +156,14 @@ const DrawerStory = () => {
         </Dropdown>
       </Box>
       <Box>
-        {/* <Dropdown data={['A', 'B']} /> */}
-        {/* <Dropdown>{['A', 'B']}</Dropdown> */}
         <Dropdown
+          // opened
+          value="b"
           on_change={e => {
-            console.log('e', e)
+            console.log('test selected_key', e)
           }}
         >
-          {[{ value: 'A' }, { value: 'B' }, { value: 'C' }]}
+          {{ a: 'A', b: 'B', c: 'C' }}
         </Dropdown>
       </Box>
       <Box>

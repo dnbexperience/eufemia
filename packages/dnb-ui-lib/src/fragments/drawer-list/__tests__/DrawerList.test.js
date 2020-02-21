@@ -118,7 +118,6 @@ describe('DrawerList component', () => {
   })
 
   it('has correct value on key search', () => {
-    // is new in here!
     const Comp = mount(<Component {...props} data={mockData} />)
     document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 66 })) // B
     document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 70 })) // F
@@ -203,6 +202,40 @@ describe('DrawerList component', () => {
     expect(Comp.find('li.dnb-drawer-list__option').length).toBe(
       mockData.length
     )
+  })
+
+  it('has correct value on data given as an object', async () => {
+    const on_change = jest.fn()
+    const on_select = jest.fn()
+    mount(
+      <Component
+        opened
+        no_animation
+        on_change={on_change}
+        on_select={on_select}
+        data={{ a: 'A', b: 'B', c: 'C' }}
+      />
+    )
+
+    // then simulate changes
+    document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 40 })) // down
+    expect(on_select.mock.calls[0][0].active_item).toBe(0)
+
+    document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 13 })) // enter
+    expect(on_change.mock.calls[0][0].value).toBe('a')
+
+    // open again
+    Comp.setProps({
+      opened: true
+    })
+    await wait(10)
+
+    // then simulate changes
+    document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 40 })) // down
+    expect(on_select.mock.calls[2][0].active_item).toBe(1)
+
+    document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 13 })) // enter
+    expect(on_change.mock.calls[1][0].value).toBe('b')
   })
 
   it('has to return all additional attributes the event return', () => {

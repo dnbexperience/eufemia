@@ -18,5 +18,5 @@ You may use them only to build new components from.
 They are a part of components anyway, so you import them like so:
 
 ```jsx
-import { DrawerList } from 'dnb-ui-lib/components/fragments'
+import { DrawerList } from 'dnb-ui-lib/fragments'
 ```

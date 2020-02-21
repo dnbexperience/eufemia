@@ -27,12 +27,12 @@ const scrollableData = [
     content: 'B'
   },
   {
-    selected_value: <Number ban>11345678962</Number>,
-    content: [<Number ban>11345678962</Number>, 'C']
+    selected_value: <Number key="item-1" ban>11345678962</Number>,
+    content: [<Number key="item-2" ban>11345678962</Number>, 'C']
   },
   {
-    selected_value: <Number ban>15349648901</Number>,
-    content: [<Number ban>15349648901</Number>, 'D']
+    selected_value: <Number key="item-3" ban>15349648901</Number>,
+    content: [<Number key="item-4" ban>15349648901</Number>, 'D']
   },
   {
     content: 'E'
@@ -81,8 +81,8 @@ const data = [
     content: ['Item 2 Value', 'Item 2 Content']
   },
   {
-    selected_value: <Number ban>11345678962</Number>,
-    content: [<Number ban>11345678962</Number>, 'Bank account number']
+    selected_value: <Number key="item-1" ban>11345678962</Number>,
+    content: [<Number key="item-2" ban>11345678962</Number>, 'Bank account number']
   },
   {
     selected_key: 'key_2',
@@ -95,7 +95,7 @@ const data = [
   {
     selected_key: 'key_3',
     selected_value: 'Item 4 Value',
-    content: ['Item 4 Content A', <>Custom Component</>]
+    content: ['Item 4 Content A', <React.Fragment key="item-3">Custom Component</React.Fragment>]
   }
 ];
 render(
@@ -240,19 +240,19 @@ render(
     </li>
     <li className="dnb-drawer-list__option dnb-drawer-list__option--selected">
       <span className="dnb-drawer-list__option__inner">
-        <span className="dnb-drawer-list__option__item"><Number ban>12345678902</Number></span>
+        <span className="dnb-drawer-list__option__item"><Number key="n-1" ban>12345678902</Number></span>
         <span className="dnb-drawer-list__option__item">Sparekonto - Ole Nordmann</span>
       </span>
     </li>
     <li className="dnb-drawer-list__option">
       <span className="dnb-drawer-list__option__inner">
-        <span className="dnb-drawer-list__option__item"><Number ban>11345678962</Number></span>
+        <span className="dnb-drawer-list__option__item"><Number key="n-2" ban>11345678962</Number></span>
         <span className="dnb-drawer-list__option__item">Feriekonto - Kari Nordmann med et kjempelangt etternavnsen</span>
       </span>
     </li>
     <li className="dnb-drawer-list__option last-of-type">
       <span className="dnb-drawer-list__option__inner">
-        <span className="dnb-drawer-list__option__item"><Number ban>15349648901</Number></span>
+        <span className="dnb-drawer-list__option__item"><Number key="n-3" ban>15349648901</Number></span>
         <span className="dnb-drawer-list__option__item">Oppussing - Ole Nordmann</span>
       </span>
     </li>
@@ -327,7 +327,7 @@ const data = [
   {
     selected_key: 'key_3',
     selected_value: 'Item 4 Value',
-    content: ['Item 4 Content A', <>Custom Component</>]
+    content: ['Item 4 Content A', <React.Fragment key="item-3">Custom Component</React.Fragment>]
   }
 ]
 
@@ -359,6 +359,9 @@ const data = [
   {
     selected_key: 'key_3',
     selected_value: 'Item 4 Value',
-    content: ['Item 4 Content A', <>Custom Component</>]
+    content: [
+      'Item 4 Content A',
+      <React.Fragment key="item-4">Custom Component</React.Fragment>
+    ]
   }
 ]

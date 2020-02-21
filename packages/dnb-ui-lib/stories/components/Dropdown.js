@@ -69,7 +69,7 @@ const DropdownStory = () => {
           label_direction="vertical"
         >
           <Dropdown
-            label="Vertical A:"
+            label="Vertical A (function):"
             title="Default option"
             data={() => {
               return dropdownData
@@ -358,12 +358,12 @@ let dropdownData = [
     ]
   },
   {
-    selected_value: <>Custom selected {'🔥'}</>,
+    selected_value: <Fragment key="cs-1">Custom selected {'🔥'}</Fragment>,
     content: [
       <Number key={15349648901} ban>
         15349648901
       </Number>,
-      <>Custom content {'🔥'}</>
+      <Fragment key="cs-2">Custom content {'🔥'}</Fragment>
     ]
   }
 ]

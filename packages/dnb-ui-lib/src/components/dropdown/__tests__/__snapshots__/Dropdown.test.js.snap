@@ -392,7 +392,26 @@ exports[`Dropdown component have to match snapshot 1`] = `
             className={null}
             custom_element={null}
             custom_method={null}
-            data={
+            data={null}
+            default_value="default_value"
+            direction="bottom"
+            disabled="disabled"
+            focusable="focusable"
+            icon_position="icon_position"
+            id="dropdown-id"
+            inner_class="dnb-dropdown__list"
+            keep_opened={false}
+            max_height={1}
+            no_animation="no_animation"
+            no_scroll_animation="no_scroll_animation"
+            on_change={[Function]}
+            on_hide={[Function]}
+            on_resize={[Function]}
+            on_select={[Function]}
+            on_show={[Function]}
+            on_state_update={null}
+            opened={true}
+            preparedData={
               Array [
                 Object {
                   "content": Array [
@@ -440,33 +459,49 @@ exports[`Dropdown component have to match snapshot 1`] = `
                 ],
               ]
             }
-            default_value={null}
-            direction="bottom"
-            disabled="disabled"
-            focusable="focusable"
-            icon_position="icon_position"
-            id="dropdown-id"
-            inner_class="dnb-dropdown__list"
-            keep_opened={false}
-            max_height={1}
-            no_animation="no_animation"
-            no_scroll_animation="no_scroll_animation"
-            on_change={[Function]}
-            on_hide={[Function]}
-            on_resize={[Function]}
-            on_select={[Function]}
-            on_show={[Function]}
-            on_state_update={null}
-            opened={true}
             prevent_selection={null}
             scrollable="scrollable"
+            use_key={false}
             value={2}
-            wrapper_element={null}
+            wrapper_element={
+              <span
+                class="dnb-dropdown__shell"
+              >
+                <button
+                  aria-describedby="dropdown-id-status dropdown-id-suffix"
+                  aria-expanded="false"
+                  aria-haspopup="true"
+                  aria-label="Oppussing - Ole Nordmann"
+                  class="dnb-button dnb-button--secondary dnb-dropdown__trigger dnb-button--size-medium dnb-button--has-text"
+                  id="dropdown-id"
+                  type="button"
+                >
+                  <span
+                    class="dnb-dropdown__text"
+                  >
+                    <span
+                      class="dnb-dropdown__text__inner"
+                    >
+                      Oppussing - Ole Nordmann
+                    </span>
+                  </span>
+                  <span
+                    aria-hidden="true"
+                    class="dnb-dropdown__icon"
+                  />
+                </button>
+                <span
+                  class="dnb-drawer-list dnb-drawer-list--direction-bottom dnb-drawer-list--icon-position-icon_position"
+                  disabled=""
+                  id="dropdown-id-drawer-list"
+                />
+              </span>
+            }
           >
             <span
               className="dnb-drawer-list dnb-drawer-list--direction-bottom dnb-drawer-list--opened dnb-drawer-list--icon-position-icon_position"
               disabled="disabled"
-              id="dropdown-id-drawer"
+              id="dropdown-id-drawer-list"
             >
               <span
                 className="dnb-drawer-list__list dnb-dropdown__list"

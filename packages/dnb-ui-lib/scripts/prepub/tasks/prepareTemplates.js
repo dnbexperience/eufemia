@@ -32,7 +32,7 @@ const prepareTemplates = async () => {
       __dirname,
       '../../../src/components/'
     ),
-    processToNamesIgnoreList: ['web-components', 'style'],
+    processToNamesIgnoreList: ['web-components', 'fragments', 'style'],
     processToNamesListByUsingFolders: true
   }
   const components = await runFactory(componentsTemplateConfig).then(
@@ -76,6 +76,48 @@ const prepareTemplates = async () => {
     if (require.main === module) {
       log.succeed(
         '> PrePublish: Created the index template with all the components'
+      )
+    }
+    return res
+  })
+
+  // process fragments
+  const fragmentsTemplateConfig = {
+    templateObjectToFill: '{ Template }',
+    templateListToExtend: `import Template from './template/Template'`,
+    templateListToExtendBy: 'Template',
+    srcFile: path.resolve(
+      __dirname,
+      '../../../src/core/templates/components-index-template.js'
+    ),
+    destFile: path.resolve(__dirname, '../../../src/fragments/index.js'),
+    processToNamesList: path.resolve(__dirname, '../../../src/fragments/'),
+    processToNamesIgnoreList: ['web-components', 'style'],
+    processToNamesListByUsingFolders: true
+  }
+  // const fragments =
+  await runFactory(fragmentsTemplateConfig).then(res => {
+    if (require.main === module) {
+      log.succeed(
+        '> PrePublish: Created the index template with all the fragments'
+      )
+    }
+    return res
+  })
+  await runFactory({
+    ...fragmentsTemplateConfig,
+    ...{
+      srcFile: path.resolve(
+        __dirname,
+        '../../../src/core/templates/component-export-template.js'
+      ),
+      destFile: false,
+      destPath: path.resolve(__dirname, '../../../src/fragments')
+    }
+  }).then(res => {
+    if (require.main === module) {
+      log.succeed(
+        '> PrePublish: Created the index template with all the fragments'
       )
     }
     return res
@@ -165,7 +207,11 @@ const prepareTemplates = async () => {
       '../../../src/core/templates/main-index-template.js'
     ),
     destFile: path.resolve(__dirname, '../../../src/index.js'),
-    processToNamesList: [...components, ...elements],
+    processToNamesList: [
+      ...components,
+      // ...fragments,
+      ...elements
+    ],
     transformNamesList: ({ result }) => {
       // because elements don't have a folder, we remove the last part of the path
       if (/\/elements\//.test(result)) {

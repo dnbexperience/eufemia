@@ -13,7 +13,6 @@
 import Button from './components/button/Button'
 import Checkbox from './components/checkbox/Checkbox'
 import DatePicker from './components/date-picker/DatePicker'
-import DrawerList from './components/drawer-list/DrawerList'
 import Dropdown from './components/dropdown/Dropdown'
 import FormLabel from './components/form-label/FormLabel'
 import FormRow from './components/form-row/FormRow'
@@ -66,7 +65,6 @@ export {
   Button,
   Checkbox,
   DatePicker,
-  DrawerList,
   Dropdown,
   FormLabel,
   FormRow,
