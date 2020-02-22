@@ -20,10 +20,11 @@ import { createSpacingClasses } from '../space/SpacingHelper'
 
 import Context from '../../shared/Context'
 import Suffix from '../../shared/helpers/Suffix'
-import Icon from '../icon-primary/IconPrimary'
+// import Icon from '../icon-primary/IconPrimary'
 import FormLabel from '../form-label/FormLabel'
 import FormStatus from '../form-status/FormStatus'
-import Button from '../button/Button'
+// import Button from '../button/Button'
+import Input from '../input/Input'
 import DrawerList, {
   propTypes as DrawerPropTypes
 } from '../../fragments/drawer-list/DrawerList'
@@ -80,7 +81,7 @@ const propTypes = {
     PropTypes.string,
     PropTypes.bool
   ]),
-  more_menu: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  // more_menu: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   size: PropTypes.oneOf(['default', 'small', 'medium', 'large']),
   align_autocomplete: PropTypes.oneOf(['left', 'right']),
   trigger_component: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
@@ -130,7 +131,7 @@ const defaultProps = {
   no_animation: false,
   no_scroll_animation: false,
   prevent_selection: false,
-  more_menu: false,
+  // more_menu: false,
   size: null,
   align_autocomplete: null,
   trigger_component: null,
@@ -210,8 +211,17 @@ export default class Autocomplete extends PureComponent {
     return ret
   }
 
+  static createSearchIndex(data) {
+    const searchIndex = {}
+    console.log('createSearchIndex', data, searchIndex)
+
+    return searchIndex
+  }
+
   static getDerivedStateFromProps(props, state) {
-    return DrawerList.prepareDerivedState(props, state)
+    const newState = DrawerList.prepareDerivedState(props, state)
+    newState.searchIndex = Autocomplete.createSearchIndex(newState.data)
+    return newState
   }
 
   constructor(props) {
@@ -264,58 +274,63 @@ export default class Autocomplete extends PureComponent {
     })
   }
 
-  setHidden = ({ setFocus = false } = {}) => {
-    if (!this.state.opened) {
-      return
-    }
-
-    this.setState(
-      {
-        opened: false,
-        _listenForPropChanges: false
-      },
-      () => {
-        const execState = () =>
-          this.setState(
-            {
-              hidden: true,
-              _listenForPropChanges: false
-            },
-            () => {
-              if (setFocus) {
-                setTimeout(() => {
-                  try {
-                    const elem = this._refButton.current._ref.current
-                    if (elem && elem.focus) {
-                      elem.focus()
-                    }
-                  } catch (e) {
-                    // do noting
-                  }
-                }, 1) // NVDA / Firefox needs a dealy to set this focus
-              }
-            }
-          )
-        clearTimeout(this._hideTimeout)
-        if (isTrue(this.props.no_animation)) {
-          execState()
-        } else {
-          this._hideTimeout = setTimeout(execState, Autocomplete.blurDelay) // wait until animation is over
-        }
+  setHidden = () =>
+    // { setFocus = false } = {}
+    {
+      if (!this.state.opened) {
+        return
       }
-    )
-    if (typeof this.modalScrollLock === 'function') {
-      this.modalScrollLock()
-    }
 
-    dispatchCustomElementEvent(this, 'on_hide', {
-      data: DrawerList.getCurrentData(
-        this.state.selected_item,
-        this.state.data
-      ),
-      attributes: this.attributes || {}
-    })
-  }
+      this.setState(
+        {
+          opened: false,
+          _listenForPropChanges: false
+        },
+        () => {
+          const execState = () =>
+            this.setState(
+              {
+                hidden: true,
+                _listenForPropChanges: false
+              }
+              // () => {
+              //   if (setFocus) {
+              //     setTimeout(() => {
+              //       try {
+              //         const elem = this._refButton.current._ref.current
+              //         if (elem && elem.focus) {
+              //           elem.focus()
+              //         }
+              //       } catch (e) {
+              //         // do noting
+              //       }
+              //     }, 1) // NVDA / Firefox needs a dealy to set this focus
+              //   }
+              // }
+            )
+          clearTimeout(this._hideTimeout)
+          if (isTrue(this.props.no_animation)) {
+            execState()
+          } else {
+            this._hideTimeout = setTimeout(
+              execState,
+              Autocomplete.blurDelay
+            ) // wait until animation is over
+          }
+        }
+      )
+      if (typeof this.modalScrollLock === 'function') {
+        this.modalScrollLock()
+      }
+
+      dispatchCustomElementEvent(this, 'on_hide', {
+        data: DrawerList.getCurrentData(
+          this.state.selected_item,
+          this.state.data
+        ),
+        attributes: this.attributes || {}
+      })
+    }
 
   onFocusHandler = () => {
     if (isTrue(this.props.open_on_focus)) {
@@ -335,29 +350,48 @@ export default class Autocomplete extends PureComponent {
     }
   }
   onMouseDownHandler = () => {
-    if (
-      !this.state.hidden &&
-      this.state.opened
-      // &&  !this.state.blockDoubleClick
-    ) {
+    if (!this.state.hidden && this.state.opened) {
       this.setHidden()
     } else {
       this.setVisible()
     }
   }
 
-  onTriggerKeyDownHandler = e => {
-    switch (keycode(e)) {
-      case 'enter':
-      case 'space':
-      case 'up':
-      case 'down':
-        e.preventDefault()
-        this.setVisible()
-        break
-      case 'esc':
-        this.setHidden()
-        break
+  // onTriggerKeyDownHandler = e => {
+  onValueChangeHandler = ({ value }) => {
+    // console.log('e', e)
+    // const key = keycode(e)
+    // console.log('key', key)
+    // switch (key) {
+    //   case 'enter':
+    //   case 'space':
+    //   case 'up':
+    //   case 'down':
+    //   case 'tab':
+    //   case 'shift':
+    //   case 'esc':
+    //     return false
+    // }
+
+    // const target = e.event.target
+    // setTimeout(() => this.runFilter(target.value), 1)
+    this.runFilter(value)
+  }
+
+  runFilter = value => {
+    console.log('onTriggerKeyDownHandler ', value, this.state.data)
+    // if (typeof key !== 'undefined') {
+    // }
+    // e.preventDefault()
+
+    if (value.length > 0) {
+      this.setState({
+        data: ['Foo'],
+        _listenForPropChanges: false
+      })
+      this.setVisible()
+    } else {
+      this.setHidden()
     }
   }
 
@@ -403,7 +437,8 @@ export default class Autocomplete extends PureComponent {
     }
     this._selectTimeout = setTimeout(() => {
       if (!isTrue(this.props.keep_open)) {
-        this.setHidden({ setFocus: true })
+        this.setHidden()
+        // { setFocus: true }
       }
     }, 1) // because of state updates we need 1 tick delay here
   }
@@ -437,7 +472,7 @@ export default class Autocomplete extends PureComponent {
       no_animation,
       no_scroll_animation,
       trigger_component: CustomTrigger,
-      more_menu,
+      // more_menu,
       prevent_selection,
       max_height,
       default_value,
@@ -459,15 +494,15 @@ export default class Autocomplete extends PureComponent {
 
     const id = this._id
 
-    const isPopupMenu = isTrue(more_menu) || isTrue(prevent_selection)
-    if (isPopupMenu) {
-      if (icon === null && isTrue(more_menu)) {
-        icon = 'more'
-      }
-      if (icon_position === 'right' && align_autocomplete !== 'right') {
-        icon_position = 'left'
-      }
-    }
+    // const isPopupMenu = isTrue(more_menu) || isTrue(prevent_selection)
+    // if (isPopupMenu) {
+    //   if (icon === null && isTrue(more_menu)) {
+    //     icon = 'more'
+    //   }
+    //   if (icon_position === 'right' && align_autocomplete !== 'right') {
+    //     icon_position = 'left'
+    //   }
+    // }
 
     const { data, direction, opened, selected_item, use_key } = this.state
     const showStatus = status && status !== 'error'
@@ -482,6 +517,10 @@ export default class Autocomplete extends PureComponent {
           Autocomplete.parseContentTitle(currentOptionData) ||
           titleProp
         : titleProp
+    const value =
+      data && data.length > 0
+        ? Autocomplete.parseContentTitle(currentOptionData)
+        : null
 
     const mainParams = {
       className: classnames(
@@ -489,13 +528,15 @@ export default class Autocomplete extends PureComponent {
         `dnb-autocomplete--direction-${direction}`,
         opened && 'dnb-autocomplete--opened',
         label_direction && `dnb-autocomplete--${label_direction}`,
-        icon_position && `dnb-autocomplete--icon-position-${icon_position}`,
-        isPopupMenu && 'dnb-autocomplete--is-popup',
-        isPopupMenu &&
-          typeof more_menu === 'string' &&
-          `dnb-autocomplete__more_menu`,
+        icon_position &&
+          `dnb-autocomplete--icon-position-${icon_position}`,
+        // isPopupMenu && 'dnb-autocomplete--is-popup',
+        // isPopupMenu &&
+        //   typeof more_menu === 'string' &&
+        //   `dnb-autocomplete__more_menu`,
         size && `dnb-autocomplete__size--${size}`,
-        align_autocomplete && `dnb-autocomplete__align--${align_autocomplete}`,
+        align_autocomplete &&
+          `dnb-autocomplete__align--${align_autocomplete}`,
         status && `dnb-autocomplete__status--${status_state}`,
         showStatus && 'dnb-autocomplete__form-status',
         'dnb-form-component',
@@ -516,15 +557,19 @@ export default class Autocomplete extends PureComponent {
       ['aria-expanded']: opened,
       ...attributes,
       onFocus: this.onFocusHandler,
-      onBlur: this.onBlurHandler,
-      onMouseDown: this.onMouseDownHandler,
-      onKeyDown: this.onTriggerKeyDownHandler
+      onBlur: this.onBlurHandler
+      // onMouseDown: this.onMouseDownHandler,
+      // on_change: this.onValueChangeHandler
+      // onKeyDown: this.onTriggerKeyDownHandler
     }
 
-    // reads out the current selected state
-    if (typeof title === 'string') {
-      triggerParams['aria-label'] = title
+    if (typeof value === 'string') {
+      triggerParams.value = value
+    } else if (typeof title === 'string') {
+      triggerParams.placeholder = title
+      // triggerParams['aria-label'] = title
     }
+
     if (showStatus || suffix) {
       triggerParams['aria-describedby'] = `${
         showStatus ? id + '-status' : ''
@@ -571,13 +616,23 @@ export default class Autocomplete extends PureComponent {
               {CustomTrigger ? (
                 <CustomTrigger {...triggerParams} />
               ) : (
-                <Button
-                  variant="secondary"
-                  size="medium"
+                <Input
+                  icon={icon || 'search'}
+                  // icon_position={icon_position}
+                  // icon_size={
+                  //   icon_size || (size === 'large' ? 'medium' : 'default')
+                  // }
+                  type="search"
+                  submit_button_icon={icon || 'chevron-down'}
+                  submit_button_icon_size={
+                    icon_size || (size === 'large' ? 'medium' : 'default')
+                  }
+                  on_submit={this.onMouseDownHandler}
+                  on_change={this.onValueChangeHandler}
                   ref={this._refButton}
                   {...triggerParams}
                 >
-                  {!isPopupMenu && (
+                  {/* {!isPopupMenu && (
                     <span className="dnb-autocomplete__text">
                       <span className="dnb-autocomplete__text__inner">
                         {title}
@@ -602,19 +657,23 @@ export default class Autocomplete extends PureComponent {
                         }
                       />
                     )}
-                  </span>
-                </Button>
+                  </span> */}
+                </Input>
               )}
 
               <DrawerList
                 id={id}
                 inner_class="dnb-autocomplete__list"
-                preparedData={data}
+                data={data}
+                // preparedData={data}
                 use_key={use_key}
                 value={selected_item}
                 default_value={default_value}
                 scrollable={scrollable}
                 focusable={focusable}
+                prevent_focus={true}
+                skip_keysearch={true}
+                // no_animation={true}
                 no_animation={no_animation}
                 no_scroll_animation={no_scroll_animation}
                 prevent_selection={prevent_selection}

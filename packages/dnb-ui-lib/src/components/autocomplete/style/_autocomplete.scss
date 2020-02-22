@@ -62,7 +62,9 @@
   }
 
   .dnb-drawer-list__list {
-    top: calc(var(--autocomplete-height) + var(--autocomplete-focus-border-width));
+    top: calc(
+      var(--autocomplete-height) + var(--autocomplete-focus-border-width)
+    );
     // - 1px
     bottom: auto;
   }
@@ -103,13 +105,22 @@
     align-items: center;
 
     outline: none;
+    margin-right: 0.5rem; // because of the submit button
 
-    width: 100%;
-    padding: 0 var(--autocomplete-padding-horizontal);
+    // width: 100%;
+    // padding: 0 var(--autocomplete-padding-horizontal);
 
-    &.dnb-button {
-      line-height: var(--autocomplete-height);
-    }
+    // &.dnb-button {
+    //   line-height: var(--autocomplete-height);
+    // }
+  }
+  // .dnb-input__submit-button__button {
+  // }
+
+  &__shell,
+  &__trigger {
+    // height: var(--autocomplete-height);
+    border-radius: var(--autocomplete-height);
   }
 
   // Popup menu
@@ -161,9 +172,9 @@
   &__size--small &__trigger {
     height: var(--autocomplete-height--small);
   }
-  &__size--small &__trigger.dnb-button {
-    line-height: var(--autocomplete-height--small);
-  }
+  // &__size--small &__trigger.dnb-button {
+  //   line-height: var(--autocomplete-height--small);
+  // }
   &__size--small .dnb-drawer-list .dnb-drawer-list__list {
     top: var(--autocomplete-height--small);
   }
@@ -181,9 +192,9 @@
     height: var(--autocomplete-height--medium);
     border-radius: var(--autocomplete-height--medium);
   }
-  &__size--medium &__trigger.dnb-button {
-    line-height: var(--autocomplete-height--medium);
-  }
+  // &__size--medium &__trigger.dnb-button {
+  //   line-height: var(--autocomplete-height--medium);
+  // }
   &__size--medium .dnb-drawer-list .dnb-drawer-list__list {
     top: var(--autocomplete-height--medium);
   }
@@ -201,9 +212,9 @@
     height: var(--autocomplete-height--large);
     border-radius: var(--autocomplete-height--large);
   }
-  &__size--large &__trigger.dnb-button {
-    line-height: var(--autocomplete-height--large);
-  }
+  // &__size--large &__trigger.dnb-button {
+  //   line-height: var(--autocomplete-height--large);
+  // }
   &__size--large .dnb-drawer-list .dnb-drawer-list__list {
     top: var(--autocomplete-height--large);
   }

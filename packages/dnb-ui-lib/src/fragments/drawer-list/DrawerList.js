@@ -83,6 +83,8 @@ export const propTypes = {
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   prevent_close: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   keep_open: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  prevent_focus: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  skip_keysearch: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   opened: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   class: PropTypes.string,
   data: dataType,
@@ -121,6 +123,8 @@ const defaultProps = {
   value: 'initval',
   prevent_close: false,
   keep_open: false,
+  prevent_focus: false,
+  skip_keysearch: false,
   opened: false,
   class: null,
   data: null,
@@ -577,6 +581,10 @@ export default class DrawerList extends PureComponent {
   // this gives us the possibility to quickly search for an item
   // by simply pressing any alfabetic key
   findItemByValue(value) {
+    if (isTrue(this.props.skip_keysearch)) {
+      return
+    }
+
     let index = -1
 
     try {
@@ -623,7 +631,7 @@ export default class DrawerList extends PureComponent {
     active_item,
     { fireSelectEvent = false, scrollTo = true, event = null } = {}
   ) {
-    if (!(active_item > -1)) {
+    if (!isTrue(this.props.prevent_focus) && !(active_item > -1)) {
       this._focusTimeout = setTimeout(() => {
         try {
           if (this._refUl.current) {
@@ -685,7 +693,7 @@ export default class DrawerList extends PureComponent {
             } else if (ulElement.scrollTop) {
               ulElement.scrollTop = top
             }
-            if (liElement) {
+            if (!isTrue(this.props.prevent_focus) && liElement) {
               liElement.focus()
             }
           } catch (e) {
