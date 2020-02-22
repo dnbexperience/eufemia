@@ -622,10 +622,14 @@ export default class Autocomplete extends PureComponent {
                   // icon_size={
                   //   icon_size || (size === 'large' ? 'medium' : 'default')
                   // }
+                  // status={status}
                   type="search"
                   submit_button_icon={icon || 'chevron-down'}
                   submit_button_icon_size={
                     icon_size || (size === 'large' ? 'medium' : 'default')
+                  }
+                  submit_button_status={
+                    !opened && status ? status_state : null
                   }
                   on_submit={this.onMouseDownHandler}
                   on_change={this.onValueChangeHandler}

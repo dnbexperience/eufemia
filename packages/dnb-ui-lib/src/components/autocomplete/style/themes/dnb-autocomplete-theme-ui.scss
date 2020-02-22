@@ -16,9 +16,13 @@
   --autocomplete-option-color: var(--color-black-80);
   --autocomplete-option-color--hover: var(--color-sea-green);
   --autocomplete-option-background-color: var(--color-white);
-  --autocomplete-option-background-color--hover: var(--color-mint-green-12);
+  --autocomplete-option-background-color--hover: var(
+    --color-mint-green-12
+  );
   --autocomplete-option-color--selected: var(--color-white);
-  --autocomplete-option-background-color--selected: var(--color-emerald-green);
+  --autocomplete-option-background-color--selected: var(
+    --color-emerald-green
+  );
   --autocomplete-option-border-width: 0.0625rem;
   --autocomplete-option-border-color: var(--color-mint-green-25);
 }
@@ -82,7 +86,9 @@
       background-color: var(--autocomplete-option-background-color--hover);
       .dnb-autocomplete__option__inner {
         color: var(--autocomplete-option-color--hover);
-        background-color: var(--autocomplete-option-background-color--hover);
+        background-color: var(
+          --autocomplete-option-background-color--hover
+        );
       }
     }
 
@@ -109,7 +115,9 @@
 
     &--selected {
       color: var(--autocomplete-option-color--selected);
-      background-color: var(--autocomplete-option-background-color--selected);
+      background-color: var(
+        --autocomplete-option-background-color--selected
+      );
       .dnb-autocomplete__option__inner {
         color: inherit;
         background-color: inherit;
@@ -150,7 +158,9 @@
     &--focus:not(#{&}--selected) {
       .dnb-autocomplete__option__inner {
         color: var(--autocomplete-option-color--hover);
-        background-color: var(--autocomplete-option-background-color--hover);
+        background-color: var(
+          --autocomplete-option-background-color--hover
+        );
       }
     }
 
@@ -204,6 +214,9 @@
   }
 
   // error status
+  &__status--error &__trigger .dnb-input__shell {
+    box-shadow: none;
+  }
   &__status--error:not(#{&}--opened) &__trigger {
     @include autocompleteBorderColor(var(--color-fire-red));
     @include hover() {
@@ -244,7 +257,9 @@
   &--direction-top
     &__option.closest-to-bottom#{&}__option--focus
     ~ &__triangle::before {
-    background-color: var(--autocomplete-option-background-color--selected);
+    background-color: var(
+      --autocomplete-option-background-color--selected
+    );
   }
 
   // ajust the form-status to the inner border for 2px

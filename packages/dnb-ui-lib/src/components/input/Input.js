@@ -98,6 +98,7 @@ const propTypes = {
     PropTypes.node,
     PropTypes.func
   ]),
+  submit_button_status: PropTypes.string,
 
   // React props
   className: PropTypes.string,
@@ -154,6 +155,7 @@ const defaultProps = {
   submit_button_title: null,
   submit_button_variant: 'secondary',
   submit_button_icon: 'search',
+  submit_button_status: null,
 
   // React props
   className: null,
@@ -311,6 +313,7 @@ export default class Input extends PureComponent {
       submit_button_title,
       submit_button_variant,
       submit_button_icon,
+      submit_button_status,
       submit_element,
       autocomplete,
       readOnly,
@@ -505,6 +508,7 @@ export default class Input extends PureComponent {
                     {...attributes}
                     value={inputParams.value}
                     icon={submit_button_icon}
+                    status={submit_button_status}
                     icon_size={
                       size === 'medium' || size === 'large'
                         ? 'medium'
