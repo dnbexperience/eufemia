@@ -101,7 +101,9 @@ There are a couple helper classes to style tables:
 - `.dnb-table--active` Use this on a `th`
 - `.dnb-table--sortable` Use this on a `th`
 - `.dnb-table--reversed` Use this on a `th`
-- `.dnb-table--tabular` Use this on the `table` root
+-
+
+<!-- - `.dnb-table--tabular` Use this on the `table` root -->
 
 <ComponentBox reactLive hideCode data-dnb-test="table-classes" caption="Example usage of class helpers">
 {`
@@ -141,7 +143,7 @@ There are a couple helper classes to style tables:
 `}
 </ComponentBox>
 
-### Tabular Numbers
+<!-- ### Tabular Numbers
 
 Set [Tabular Lining](/uilib/typography/numbers) on tables by using this CSS class: `.dnb-table--tabular`
 
@@ -162,4 +164,4 @@ Set [Tabular Lining](/uilib/typography/numbers) on tables by using this CSS clas
   </tbody>
 </table>
 `}
-</ComponentBox>
+</ComponentBox> -->
