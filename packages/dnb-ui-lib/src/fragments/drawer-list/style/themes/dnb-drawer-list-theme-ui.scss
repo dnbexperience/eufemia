@@ -5,42 +5,42 @@
 
 @import '../../../../style/themes/imports.scss';
 
-@import '../../../../fragments/drawer-list/style/themes/dnb-drawer-list-theme-ui.scss';
-
 :root {
-  --dropdown-text-color: var(--color-emerald-green);
-  --dropdown-text-color--disabled: var(--color-sea-green-alt-30);
-  --dropdown-border-color: var(--color-sea-green-alt);
-  --dropdown-border-color--selected: var(--color-emerald-green);
-  --dropdown-options-border-radius: 0.25rem;
-  --dropdown-option-color: var(--color-black-80);
-  --dropdown-option-color--hover: var(--color-sea-green);
-  --dropdown-option-background-color: var(--color-white);
-  --dropdown-option-background-color--hover: var(--color-mint-green-12);
-  --dropdown-option-color--selected: var(--color-white);
-  --dropdown-option-background-color--selected: var(--color-emerald-green);
-  --dropdown-option-border-width: 0.0625rem;
-  --dropdown-option-border-color: var(--color-mint-green-25);
+  --drawer-list-text-color: var(--color-emerald-green);
+  --drawer-list-text-color--disabled: var(--color-sea-green-alt-30);
+  --drawer-list-border-color: var(--color-sea-green-alt);
+  --drawer-list-border-color--selected: var(--color-emerald-green);
+  --drawer-list-options-border-radius: 0.25rem;
+  --drawer-list-option-color: var(--color-black-80);
+  --drawer-list-option-color--hover: var(--color-sea-green);
+  --drawer-list-option-background-color: var(--color-white);
+  --drawer-list-option-background-color--hover: var(--color-mint-green-12);
+  --drawer-list-option-color--selected: var(--color-white);
+  --drawer-list-option-background-color--selected: var(
+    --color-emerald-green
+  );
+  --drawer-list-option-border-width: 0.0625rem;
+  --drawer-list-option-border-color: var(--color-mint-green-25);
 }
 
-@mixin dropdownBorderColor($color) {
+@mixin drawerListBorderColor($color) {
   @include fakeBorder($color, 0.125rem, null, true, !important);
 }
 
-.dnb-dropdown {
-  color: var(--dropdown-text-color);
+.dnb-drawer-list {
+  color: var(--drawer-list-text-color);
 
   &__list {
     @include defaultDropShadow();
-    border-radius: var(--dropdown-options-border-radius);
-    background-color: var(--dropdown-option-background-color);
+    border-radius: var(--drawer-list-options-border-radius);
+    background-color: var(--drawer-list-option-background-color);
   }
 
   // ul element
   &__options {
     border: none;
-    background-color: var(--dropdown-option-background-color);
-    border-radius: var(--dropdown-options-border-radius);
+    background-color: var(--drawer-list-option-background-color);
+    border-radius: var(--drawer-list-options-border-radius);
     &:focus {
       @include fakeFocus();
     }
@@ -49,10 +49,10 @@
   // li element inner
   &__option {
     position: relative;
-    color: var(--dropdown-option-color);
-    background-color: var(--dropdown-option-background-color);
+    color: var(--drawer-list-option-color);
+    background-color: var(--drawer-list-option-background-color);
 
-    // This is our border, instead of border-bottom: var(--dropdown-option-border-width) solid
+    // This is our border, instead of border-bottom: var(--drawer-list-option-border-width) solid
     &::before {
       pointer-events: none;
 
@@ -64,9 +64,9 @@
       right: 0;
       bottom: 0;
       // width: 100%; // 100% width would result in no margin right
-      height: var(--dropdown-option-border-width);
+      height: var(--drawer-list-option-border-width);
 
-      background-color: var(--dropdown-option-border-color);
+      background-color: var(--drawer-list-option-border-color);
     }
 
     &__item:nth-of-type(1) {
@@ -75,14 +75,16 @@
 
     &__inner {
       padding-right: 2rem;
-      background-color: var(--dropdown-option-background-color);
+      background-color: var(--drawer-list-option-background-color);
     }
 
     @include hover() {
-      background-color: var(--dropdown-option-background-color--hover);
-      .dnb-dropdown__option__inner {
-        color: var(--dropdown-option-color--hover);
-        background-color: var(--dropdown-option-background-color--hover);
+      background-color: var(--drawer-list-option-background-color--hover);
+      .dnb-drawer-list__option__inner {
+        color: var(--drawer-list-option-color--hover);
+        background-color: var(
+          --drawer-list-option-background-color--hover
+        );
       }
     }
 
@@ -92,34 +94,36 @@
       &::before {
         z-index: 3;
 
-        top: var(--dropdown-focus-border-width);
-        left: var(--dropdown-focus-border-width);
-        right: var(--dropdown-focus-border-width);
-        bottom: var(--dropdown-focus-border-width);
+        top: var(--drawer-list-focus-border-width);
+        left: var(--drawer-list-focus-border-width);
+        right: var(--drawer-list-focus-border-width);
+        bottom: var(--drawer-list-focus-border-width);
 
         height: auto;
         background-color: transparent;
 
         @include fakeBorder(
-          var(--dropdown-border-color--selected),
-          var(--dropdown-focus-border-width)
+          var(--drawer-list-border-color--selected),
+          var(--drawer-list-focus-border-width)
         );
       }
     }
 
     &--selected {
-      color: var(--dropdown-option-color--selected);
-      background-color: var(--dropdown-option-background-color--selected);
-      .dnb-dropdown__option__inner {
+      color: var(--drawer-list-option-color--selected);
+      background-color: var(
+        --drawer-list-option-background-color--selected
+      );
+      .dnb-drawer-list__option__inner {
         color: inherit;
         background-color: inherit;
       }
       @include hover() {
-        color: var(--dropdown-option-color--selected);
+        color: var(--drawer-list-option-color--selected);
         background-color: var(
-          --dropdown-option-background-color--selected
+          --drawer-list-option-background-color--selected
         );
-        .dnb-dropdown__option__inner {
+        .dnb-drawer-list__option__inner {
           color: inherit;
           background-color: inherit;
         }
@@ -148,23 +152,25 @@
 
     // Focus ring arround item. Only for keyboard usage
     &--focus:not(#{&}--selected) {
-      .dnb-dropdown__option__inner {
-        color: var(--dropdown-option-color--hover);
-        background-color: var(--dropdown-option-background-color--hover);
+      .dnb-drawer-list__option__inner {
+        color: var(--drawer-list-option-color--hover);
+        background-color: var(
+          --drawer-list-option-background-color--hover
+        );
       }
     }
 
     &:first-of-type,/* only for the vissual demo */
     &--focus:first-of-type &__inner,
     &--focus:first-of-type::before {
-      border-radius: var(--dropdown-options-border-radius)
-        var(--dropdown-options-border-radius) 0 0;
+      border-radius: var(--drawer-list-options-border-radius)
+        var(--drawer-list-options-border-radius) 0 0;
     }
     &.last-of-type,/* only for the vissual demo */
     &--focus.last-of-type &__inner ,
     &--focus.last-of-type::before {
-      border-radius: 0 0 var(--dropdown-options-border-radius)
-        var(--dropdown-options-border-radius);
+      border-radius: 0 0 var(--drawer-list-options-border-radius)
+        var(--drawer-list-options-border-radius);
     }
     // remove last bottom border
     &.last-of-type:not(#{&}--focus)::before {
@@ -179,36 +185,36 @@
   }
 
   &--direction-bottom &__option--focus.closest-to-top &__option__inner {
-    border-radius: var(--dropdown-options-border-radius)
-      var(--dropdown-options-border-radius) 0 0;
+    border-radius: var(--drawer-list-options-border-radius)
+      var(--drawer-list-options-border-radius) 0 0;
   }
   &--direction-bottom &__option--focus.closest-to-bottom &__option__inner {
-    border-radius: 0 0 var(--dropdown-options-border-radius)
-      var(--dropdown-options-border-radius);
+    border-radius: 0 0 var(--drawer-list-options-border-radius)
+      var(--drawer-list-options-border-radius);
   }
   &--direction-top &__option--focus.closest-to-bottom &__option__inner {
-    border-radius: 0 0 var(--dropdown-options-border-radius)
-      var(--dropdown-options-border-radius);
+    border-radius: 0 0 var(--drawer-list-options-border-radius)
+      var(--drawer-list-options-border-radius);
   }
   &--direction-top &__option--focus.closest-to-top &__option__inner {
-    border-radius: var(--dropdown-options-border-radius)
-      var(--dropdown-options-border-radius) 0 0;
+    border-radius: var(--drawer-list-options-border-radius)
+      var(--drawer-list-options-border-radius) 0 0;
   }
 
   // button
   &__trigger {
-    color: var(--dropdown-text-color);
+    color: var(--drawer-list-text-color);
     @include hover() {
-      color: var(--dropdown-text-color);
+      color: var(--drawer-list-text-color);
     }
   }
 
   // error status
   &__status--error:not(#{&}--opened) &__trigger {
-    @include dropdownBorderColor(var(--color-fire-red));
+    @include drawerListBorderColor(var(--color-fire-red));
     @include hover() {
-      @include dropdownBorderColor(var(--color-fire-red));
-      & .dnb-dropdown__icon .dnb-icon {
+      @include drawerListBorderColor(var(--color-fire-red));
+      & .dnb-drawer-list__icon .dnb-icon {
         color: var(--color-fire-red);
       }
     }
@@ -228,7 +234,7 @@
   &__option:first-of-type:hover ~ &__triangle::before,/* only for the vissual demo */
   &--direction-bottom &__option.closest-to-top:hover ~ &__triangle::before ,
   &--direction-top &__option.closest-to-bottom:hover ~ &__triangle::before {
-    background-color: var(--dropdown-option-background-color--hover);
+    background-color: var(--drawer-list-option-background-color--hover);
   }
 
   // selected
@@ -244,7 +250,7 @@
   &--direction-top
     &__option.closest-to-bottom#{&}__option--focus
     ~ &__triangle::before {
-    background-color: var(--dropdown-option-background-color--selected);
+    background-color: var(--drawer-list-option-background-color--selected);
   }
 
   // ajust the form-status to the inner border for 2px

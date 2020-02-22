@@ -1,0 +1,14 @@
+/*
+* DNB DrawerList
+*
+*/
+
+@import '../../../style/components/imports.scss';
+
+// import dependencies
+
+.dnb-drawer-list {
+  @include componentReset();
+}
+
+@import './_drawer-list.scss';

@@ -15,7 +15,7 @@ export default [
     <Wrapper>
       <Box>
         <span className="dnb-p">text</span>{' '}
-        <Button text="Primary" icon="add" />
+        <Button text="Primary" icon="add" bounding />
       </Box>
       <Box>
         <Button text="Primary" icon="add" disabled />
