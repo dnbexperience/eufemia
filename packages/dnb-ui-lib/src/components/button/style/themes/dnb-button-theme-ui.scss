@@ -194,34 +194,27 @@
         }
       }
 
-      // icon only tertiary
+      // even if only icons are not supported by Eufemia, devs are using this
+      // therefore we make sure the text don't has spacing
+      &:not(.dnb-button--has-text).dnb-button--has-icon .dnb-button__text {
+        padding: 0;
+        margin: 0;
+      }
       &:not(.dnb-button--has-text) {
-        &:focus {
-          // focus ring
+        @include focus() {
+          // make the ring round
           &::before {
             left: 0;
             right: 0;
           }
+        }
+
+        @include hover() {
+          @include fakeBorder(var(--color-sea-green-alt), 0.0625rem);
         }
 
         @include active() {
-          // focus ring
-          &::before {
-            left: 0;
-            right: 0;
-          }
-        }
-
-        &:not(:active):not(:focus) {
-          @include hover() {
-            .dnb-button__icon {
-              @include drawUnderlineBorder() {
-                left: 0.5rem;
-                right: 0.5rem;
-                bottom: 0.25rem;
-              }
-            }
-          }
+          @include fakeBorder(var(--color-sea-green-alt-30), 0.0625rem);
         }
       }
     }
