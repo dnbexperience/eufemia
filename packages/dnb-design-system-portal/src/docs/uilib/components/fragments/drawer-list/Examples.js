@@ -41,6 +41,41 @@ render(<DrawerListWithState />)
           `}
         </ComponentBox>
         <ComponentBox
+          title="DrawerList list - only to vissualize"
+          data-dnb-test="drawer-list"
+          scope={{ data }}
+          hideCode
+        >
+          {/* @jsx */ `
+<span className="dnb-drawer-list__list">
+  <ul className="dnb-drawer-list__options">
+    <li className="dnb-drawer-list__option">
+      <span className="dnb-drawer-list__option__inner">Brukskonto - Kari Nordmann</span>
+    </li>
+    <li className="dnb-drawer-list__option dnb-drawer-list__option--selected">
+      <span className="dnb-drawer-list__option__inner">
+        <span className="dnb-drawer-list__option__item"><Number ban>12345678902</Number></span>
+        <span className="dnb-drawer-list__option__item">Sparekonto - Ole Nordmann</span>
+      </span>
+    </li>
+    <li className="dnb-drawer-list__option">
+      <span className="dnb-drawer-list__option__inner">
+        <span className="dnb-drawer-list__option__item"><Number ban>11345678962</Number></span>
+        <span className="dnb-drawer-list__option__item">Feriekonto - Kari Nordmann med et kjempelangt etternavnsen</span>
+      </span>
+    </li>
+    <li className="dnb-drawer-list__option last-of-type">
+      <span className="dnb-drawer-list__option__inner">
+        <span className="dnb-drawer-list__option__item"><Number ban>15349648901</Number></span>
+        <span className="dnb-drawer-list__option__item">Oppussing - Ole Nordmann</span>
+      </span>
+    </li>
+    <li className="dnb-drawer-list__triangle" />
+  </ul>
+</span>
+          `}
+        </ComponentBox>
+        <ComponentBox
           title="Default DrawerList"
           scope={{ data }}
           data-dnb-test="drawer-list-default"
@@ -106,41 +141,6 @@ render(
     suffix={<Modal title="Modal Title">Modal content</Modal>}
   />
 )
-          `}
-        </ComponentBox>
-        <ComponentBox
-          title="DrawerList list - only to vissualize"
-          data-dnb-test="drawer-list"
-          scope={{ data }}
-          hideCode
-        >
-          {/* @jsx */ `
-<span className="dnb-drawer-list__list">
-  <ul className="dnb-drawer-list__options">
-    <li className="dnb-drawer-list__option">
-      <span className="dnb-drawer-list__option__inner">Brukskonto - Kari Nordmann</span>
-    </li>
-    <li className="dnb-drawer-list__option dnb-drawer-list__option--selected">
-      <span className="dnb-drawer-list__option__inner">
-        <span className="dnb-drawer-list__option__item"><Number ban>12345678902</Number></span>
-        <span className="dnb-drawer-list__option__item">Sparekonto - Ole Nordmann</span>
-      </span>
-    </li>
-    <li className="dnb-drawer-list__option">
-      <span className="dnb-drawer-list__option__inner">
-        <span className="dnb-drawer-list__option__item"><Number ban>11345678962</Number></span>
-        <span className="dnb-drawer-list__option__item">Feriekonto - Kari Nordmann med et kjempelangt etternavnsen</span>
-      </span>
-    </li>
-    <li className="dnb-drawer-list__option last-of-type">
-      <span className="dnb-drawer-list__option__inner">
-        <span className="dnb-drawer-list__option__item"><Number ban>15349648901</Number></span>
-        <span className="dnb-drawer-list__option__item">Oppussing - Ole Nordmann</span>
-      </span>
-    </li>
-    <li className="dnb-drawer-list__triangle" />
-  </ul>
-</span>
           `}
         </ComponentBox>
         <ComponentBox
