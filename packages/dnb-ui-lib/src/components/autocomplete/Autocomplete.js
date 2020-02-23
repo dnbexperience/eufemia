@@ -211,16 +211,55 @@ export default class Autocomplete extends PureComponent {
     return ret
   }
 
+  static parseData(data) {
+    const newData = data.map(dataItem => {
+      const toParse = DrawerList.parseContentTitle(dataItem)
+      if (typeof toParse === 'string') {
+        return toParse
+      }
+      // if (typeof toParse === 'object') {
+      //   console.log('createSearchIndex toParse', toParse)
+      //   return '?'
+      // }
+      if (Array.isArray(toParse)) {
+        return Autocomplete.parseData(toParse)
+      }
+    })
+
+    return newData
+  }
+
   static createSearchIndex(data) {
-    const searchIndex = {}
-    console.log('createSearchIndex', data, searchIndex)
+    // const searchIndex = {}
+
+    const searchIndex = Autocomplete.parseData(data)
+    // .forEach(item => {
+    // const words = item.split(/ /g)
+    // words.forEach(word => {
+    //   const chars = word.split('')
+    //   // console.log('createSearchIndex chars', chars)
+    //   chars.forEach(char => {
+    //     word.split('')
+    //     searchIndex[char]
+    //     console.log('createSearchIndex char', char)
+    //   })
+    // })
+    // console.log('createSearchIndex item', item)
+    // searchIndex
+    // })
 
     return searchIndex
   }
 
   static getDerivedStateFromProps(props, state) {
     const newState = DrawerList.prepareDerivedState(props, state)
-    newState.searchIndex = Autocomplete.createSearchIndex(newState.data)
+
+    // update search index if data has changed
+    // newState.searchIndex = Autocomplete.createSearchIndex(newState.data)
+    if (!newState.originalData) {
+      newState.originalData = DrawerList.getData(props)
+    }
+
     return newState
   }
 
@@ -260,7 +299,7 @@ export default class Autocomplete extends PureComponent {
     }
 
     clearTimeout(this._hideTimeout)
-    const { selected_item } = this.state
+    this.setSearchIndex()
 
     this.setState({
       hidden: false,
@@ -268,6 +307,7 @@ export default class Autocomplete extends PureComponent {
       _listenForPropChanges: false
     })
 
+    const { selected_item } = this.state
     dispatchCustomElementEvent(this, 'on_show', {
       data: DrawerList.getCurrentData(selected_item, this.state.data),
       attributes: this.attributes || {}
@@ -357,6 +397,23 @@ export default class Autocomplete extends PureComponent {
     }
   }
 
+  setSearchIndex() {
+    if (!this.state.searchIndex) {
+      const searchIndex = Autocomplete.createSearchIndex(
+        this.state.originalData
+      )
+
+      this.setState({
+        searchIndex,
+        _listenForPropChanges: false
+      })
+    }
+  }
+
+  onFocusChangeHandler = () => {
+    this.setSearchIndex()
+  }
+
   // onTriggerKeyDownHandler = e => {
   onValueChangeHandler = ({ value }) => {
     // console.log('e', e)
@@ -379,16 +436,31 @@ export default class Autocomplete extends PureComponent {
   }
 
   runFilter = value => {
-    console.log('onTriggerKeyDownHandler ', value, this.state.data)
-    // if (typeof key !== 'undefined') {
-    // }
-    // e.preventDefault()
-
     if (value.length > 0) {
+      const words = value.split(/\s+/g).filter(Boolean)
+
+      const findWords = item =>
+        words.filter(
+          word =>
+            typeof item === 'string' && new RegExp(word, 'i').test(item)
+        ).length
+
+      const data = this.state.searchIndex
+        .map(item => {
+          const foundWords = findWords(item)
+          if (foundWords > 0) {
+            return { foundWords, item }
+          }
+        })
+        .filter(Boolean)
+        .sort(({ foundWords: a }, { foundWords: b }) => b - a)
+        .map(({ item }) => item)
+
       this.setState({
-        data: ['Foo'],
+        data,
         _listenForPropChanges: false
       })
+
       this.setVisible()
     } else {
       this.setHidden()
@@ -633,6 +705,7 @@ export default class Autocomplete extends PureComponent {
                   }
                   on_submit={this.onMouseDownHandler}
                   on_change={this.onValueChangeHandler}
+                  on_focus={this.onFocusChangeHandler}
                   ref={this._refButton}
                   {...triggerParams}
                 >
