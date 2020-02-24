@@ -528,9 +528,12 @@ export default class DrawerList extends PureComponent {
         this.setScrollObserver()
         this.setOutsideClickObserver()
 
-        this.scrollToItem(active_item > -1 ? active_item : selected_item, {
-          scrollTo: false
-        })
+        this.scrollToItem(
+          parseFloat(active_item) > -1 ? active_item : selected_item,
+          {
+            scrollTo: false
+          }
+        )
       }
     )
 
@@ -556,7 +559,6 @@ export default class DrawerList extends PureComponent {
           () => {
             this.setState({
               hidden: undefined, // only to idendify once we rerender
-              // hidden: true,
               _listenForPropChanges: false
             })
           },
@@ -634,7 +636,10 @@ export default class DrawerList extends PureComponent {
     active_item,
     { fireSelectEvent = false, scrollTo = true, event = null } = {}
   ) {
-    if (!isTrue(this.props.prevent_focus) && !(active_item > -1)) {
+    if (
+      !isTrue(this.props.prevent_focus) &&
+      !(parseFloat(active_item) > -1)
+    ) {
       this._focusTimeout = setTimeout(() => {
         try {
           if (this._refUl.current) {
@@ -646,6 +651,7 @@ export default class DrawerList extends PureComponent {
       }, 1) // NVDA / Firefox needs a dealy to set this focus
       return
     }
+
     this.setState(
       {
         active_item,
@@ -668,10 +674,6 @@ export default class DrawerList extends PureComponent {
           if (ret === false) {
             return
           }
-        }
-
-        if (!(active_item > -1)) {
-          return
         }
 
         this._focusTimeout = setTimeout(() => {
@@ -750,7 +752,7 @@ export default class DrawerList extends PureComponent {
 
       case 'up':
         e.preventDefault()
-        if (active_item > -1) {
+        if (parseFloat(active_item) > -1) {
           active_item--
         } else {
           active_item = total
@@ -759,7 +761,7 @@ export default class DrawerList extends PureComponent {
 
       case 'down':
         e.preventDefault()
-        if (active_item > -1) {
+        if (parseFloat(active_item) > -1) {
           active_item++
         } else {
           active_item = 0
@@ -778,7 +780,11 @@ export default class DrawerList extends PureComponent {
 
       case 'enter':
       case 'space':
-        if (active_item > -1) {
+        if (
+          isTrue(this.props.skip_keysearch)
+            ? parseFloat(active_item) > -1
+            : true
+        ) {
           e.preventDefault()
           this.selectItem(active_item, { fireSelectEvent: true, event: e })
           if (!isTrue(this.props.keep_open)) {
@@ -810,7 +816,10 @@ export default class DrawerList extends PureComponent {
       }
 
       if (active_item !== this.state.active_item) {
-        this.scrollToItem(active_item, { fireSelectEvent: true, event: e })
+        this.scrollToItem(active_item, {
+          fireSelectEvent: true,
+          event: e
+        })
       }
     }
   }
