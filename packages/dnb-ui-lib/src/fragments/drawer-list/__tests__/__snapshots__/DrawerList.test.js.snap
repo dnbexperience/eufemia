@@ -63,7 +63,7 @@ exports[`DrawerList component have to match snapshot 1`] = `
   ignore_events="ignore_events"
   keep_open="keep_open"
   max_height={1}
-  no_animation="no_animation"
+  no_animation={true}
   no_scroll_animation="no_scroll_animation"
   on_change={[Function]}
   on_hide={[Function]}
@@ -72,6 +72,7 @@ exports[`DrawerList component have to match snapshot 1`] = `
   on_show={[Function]}
   on_state_update={[Function]}
   opened={true}
+  originalData={Array []}
   preparedData={Array []}
   prevent_close="prevent_close"
   prevent_focus="prevent_focus"
@@ -86,12 +87,12 @@ exports[`DrawerList component have to match snapshot 1`] = `
     id="drawer-list-id-drawer-list"
   >
     <span
-      className="dnb-drawer-list__list"
+      className="dnb-drawer-list__list dnb-drawer-list__list--no-animation"
     >
       <span
         className="dnb-drawer-list__content"
       >
-        custom type not supported, please set the correct value for children prop
+        children
         <span
           className="dnb-drawer-list__triangle"
         />

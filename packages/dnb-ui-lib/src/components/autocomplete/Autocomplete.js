@@ -23,9 +23,7 @@ import Suffix from '../../shared/helpers/Suffix'
 import FormLabel from '../form-label/FormLabel'
 import FormStatus from '../form-status/FormStatus'
 import Input, { SubmitButton } from '../input/Input'
-import DrawerList, {
-  propTypes as DrawerPropTypes
-} from '../../fragments/drawer-list/DrawerList'
+import DrawerList from '../../fragments/drawer-list/DrawerList'
 
 const renderProps = {
   on_show: null,
@@ -84,7 +82,30 @@ const propTypes = {
   size: PropTypes.oneOf(['default', 'small', 'medium', 'large']),
   align_autocomplete: PropTypes.oneOf(['left', 'right']),
   trigger_component: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
-  data: DrawerPropTypes.data,
+  data: PropTypes.oneOfType([
+    PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.func,
+      PropTypes.node,
+      PropTypes.object
+    ]),
+    PropTypes.arrayOf(
+      PropTypes.oneOfType([
+        PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
+        PropTypes.shape({
+          selected_value: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.node
+          ]),
+          content: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.node,
+            PropTypes.arrayOf(PropTypes.string)
+          ])
+        })
+      ])
+    )
+  ]),
   default_value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   open_on_focus: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -96,7 +117,13 @@ const propTypes = {
 
   // React
   className: PropTypes.string,
-  children: DrawerPropTypes.data,
+  children: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.func,
+    PropTypes.node,
+    PropTypes.object,
+    PropTypes.array
+  ]),
 
   // Web Component props
   custom_element: PropTypes.object,
@@ -115,7 +142,7 @@ const defaultProps = {
   no_options: 'No options',
   icon: null,
   icon_size: null,
-  icon_position: 'left',
+  icon_position: 'right',
   label: null,
   label_direction: null,
   label_sr_only: null,
@@ -337,7 +364,10 @@ export default class Autocomplete extends PureComponent {
       _listenForPropChanges: false
     })
   }
-  onTriggerKeyDownHandler = ({ event: e }) => {
+  onTriggerKeyDownHandler = e => {
+    if (e.event) {
+      e = e.event
+    }
     switch (keycode(e)) {
       case 'up':
       case 'down':
@@ -628,14 +658,13 @@ export default class Autocomplete extends PureComponent {
               ) : (
                 <Input
                   icon={icon || 'search'}
-                  icon_position={icon_position}
+                  // icon_position={icon_position}
                   icon_size={
                     icon_size || (size === 'large' ? 'medium' : 'default')
                   }
                   type="search" // gives us also autoComplete=off
                   submit_element={
                     <SubmitButton
-                      // value={inputParams.value}
                       icon={icon || 'chevron-down'}
                       icon_size={
                         icon_size ||
@@ -647,6 +676,7 @@ export default class Autocomplete extends PureComponent {
                       disabled={disabled}
                       size={size}
                       on_submit={this.onSubmitHandler}
+                      onKeyDown={this.onTriggerKeyDownHandler}
                       {...triggerParams}
                     />
                   }
@@ -662,7 +692,7 @@ export default class Autocomplete extends PureComponent {
                 id={id}
                 inner_class="dnb-autocomplete__list"
                 data={data}
-                // preparedData={data}
+                originalData={_data}
                 ignore_events={ignore_events}
                 value={selected_item}
                 default_value={default_value}

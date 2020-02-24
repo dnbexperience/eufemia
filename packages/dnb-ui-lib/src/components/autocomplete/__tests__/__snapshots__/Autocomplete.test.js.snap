@@ -8,52 +8,11 @@ exports[`Autocomplete component have to match snapshot 1`] = `
   custom_element={Object {}}
   custom_method={[Function]}
   data={
-    Array [
-      Object {
-        "content": Array [
-          "1234 56 78901",
-          "Brukskonto - Kari Nordmann",
-        ],
-        "selected_value": "Brukskonto - Kari Nordmann",
-      },
-      Object {
-        "content": Array [
-          "1234 56 78902",
-          "Sparekonto - Ole Nordmann",
-        ],
-        "selected_value": "Sparekonto - Ole Nordmann",
-      },
-      Object {
-        "content": Array [
-          "1134 56 78962",
-          "Feriekonto - Kari Nordmann med et kjempelangt etternavnsen",
-        ],
-        "selected_value": "Feriekonto - Kari Nordmann med et kjempelangt etternavnsen",
-      },
-      Object {
-        "content": Array [
-          "1534 96 48901",
-          "Oppussing - Ole Nordmann",
-        ],
-        "selected_value": "Oppussing - Ole Nordmann",
-      },
-      Object {
-        "content": <React.Fragment>
-          Custom content 
-          123
-        </React.Fragment>,
-      },
-      <React.Fragment>
-        Custom content 
-        123
-      </React.Fragment>,
-      Array [
-        <React.Fragment>
-          Custom content 
-          123
-        </React.Fragment>,
-      ],
-    ]
+    Object {
+      "a": "AA cc",
+      "b": "BB cc",
+      "c": "CC cc",
+    }
   }
   default_value="default_value"
   direction="bottom"
@@ -69,7 +28,7 @@ exports[`Autocomplete component have to match snapshot 1`] = `
   label_direction="horizontal"
   label_sr_only="label_sr_only"
   max_height={1}
-  no_animation="no_animation"
+  no_animation={true}
   no_options="no_options"
   no_scroll_animation="no_scroll_animation"
   on_change={[Function]}
@@ -254,7 +213,7 @@ exports[`Autocomplete component have to match snapshot 1`] = `
             disabled="disabled"
             global_status_id={null}
             icon="icon"
-            icon_position="icon_position"
+            icon_position="left"
             icon_size="icon_size"
             id="autocomplete-id"
             inner_ref={null}
@@ -295,6 +254,7 @@ exports[`Autocomplete component have to match snapshot 1`] = `
                 disabled="disabled"
                 icon="icon"
                 icon_size="icon_size"
+                onKeyDown={[Function]}
                 on_submit={[Function]}
                 size={null}
                 status={null}
@@ -304,11 +264,10 @@ exports[`Autocomplete component have to match snapshot 1`] = `
             }
             suffix={null}
             type="search"
-            value="1134 56 78962
-Feriekonto - Kari Nordmann med et kjempelangt etternavnsen"
+            value="CC cc"
           >
             <span
-              className="dnb-input dnb-input--search dnb-form-component dnb-autocomplete__trigger dnb-button--active dnb-input--icon-position-icon_position dnb-input--has-icon dnb-input--icon-size-icon_size dnb-input--has-submit-element"
+              className="dnb-input dnb-input--search dnb-form-component dnb-autocomplete__trigger dnb-button--active dnb-input--icon-position-left dnb-input--has-icon dnb-input--icon-size-icon_size dnb-input--has-submit-element"
             >
               <span
                 className="dnb-input__inner"
@@ -356,8 +315,7 @@ Feriekonto - Kari Nordmann med et kjempelangt etternavnsen"
                       onFocus={[Function]}
                       onKeyDown={[Function]}
                       type="search"
-                      value="1134 56 78962
-Feriekonto - Kari Nordmann med et kjempelangt etternavnsen"
+                      value="CC cc"
                     />
                   </span>
                   <span
@@ -369,6 +327,7 @@ Feriekonto - Kari Nordmann med et kjempelangt etternavnsen"
                       disabled="disabled"
                       icon="icon"
                       icon_size="icon_size"
+                      onKeyDown={[Function]}
                       on_submit={[Function]}
                       size={null}
                       status={null}
@@ -384,6 +343,7 @@ Feriekonto - Kari Nordmann med et kjempelangt etternavnsen"
                         icon_size="icon_size"
                         id={null}
                         innerRef={null}
+                        onKeyDown={[Function]}
                         on_submit={[Function]}
                         on_submit_blur={null}
                         on_submit_focus={null}
@@ -417,6 +377,7 @@ Feriekonto - Kari Nordmann med et kjempelangt etternavnsen"
                             onBlur={[Function]}
                             onClick={[Function]}
                             onFocus={[Function]}
+                            onKeyDown={[Function]}
                             on_click={null}
                             size={null}
                             status={null}
@@ -436,6 +397,7 @@ Feriekonto - Kari Nordmann med et kjempelangt etternavnsen"
                               onBlur={[Function]}
                               onClick={[Function]}
                               onFocus={[Function]}
+                              onKeyDown={[Function]}
                               onMouseOut={[Function]}
                               type="submit"
                             >
@@ -461,6 +423,7 @@ Feriekonto - Kari Nordmann med et kjempelangt etternavnsen"
                                 onBlur={[Function]}
                                 onClick={[Function]}
                                 onFocus={[Function]}
+                                onKeyDown={[Function]}
                                 on_click={null}
                                 size={null}
                                 status={null}
@@ -512,49 +475,20 @@ Feriekonto - Kari Nordmann med et kjempelangt etternavnsen"
             data={
               Array [
                 Object {
-                  "content": Array [
-                    "1234 56 78901",
-                    "Brukskonto - Kari Nordmann",
-                  ],
-                  "selected_value": "Brukskonto - Kari Nordmann",
+                  "content": "AA cc",
+                  "selected_key": "a",
+                  "type": "object",
                 },
                 Object {
-                  "content": Array [
-                    "1234 56 78902",
-                    "Sparekonto - Ole Nordmann",
-                  ],
-                  "selected_value": "Sparekonto - Ole Nordmann",
+                  "content": "BB cc",
+                  "selected_key": "b",
+                  "type": "object",
                 },
                 Object {
-                  "content": Array [
-                    "1134 56 78962",
-                    "Feriekonto - Kari Nordmann med et kjempelangt etternavnsen",
-                  ],
-                  "selected_value": "Feriekonto - Kari Nordmann med et kjempelangt etternavnsen",
+                  "content": "CC cc",
+                  "selected_key": "c",
+                  "type": "object",
                 },
-                Object {
-                  "content": Array [
-                    "1534 96 48901",
-                    "Oppussing - Ole Nordmann",
-                  ],
-                  "selected_value": "Oppussing - Ole Nordmann",
-                },
-                Object {
-                  "content": <React.Fragment>
-                    Custom content 
-                    123
-                  </React.Fragment>,
-                },
-                <React.Fragment>
-                  Custom content 
-                  123
-                </React.Fragment>,
-                Array [
-                  <React.Fragment>
-                    Custom content 
-                    123
-                  </React.Fragment>,
-                ],
               ]
             }
             default_value="default_value"
@@ -567,7 +501,7 @@ Feriekonto - Kari Nordmann med et kjempelangt etternavnsen"
             inner_class="dnb-autocomplete__list"
             keep_open="keep_open"
             max_height={1}
-            no_animation="no_animation"
+            no_animation={true}
             no_scroll_animation="no_scroll_animation"
             on_change={[Function]}
             on_hide={[Function]}
@@ -576,6 +510,13 @@ Feriekonto - Kari Nordmann med et kjempelangt etternavnsen"
             on_show={[Function]}
             on_state_update={null}
             opened={true}
+            originalData={
+              Object {
+                "a": "AA cc",
+                "b": "BB cc",
+                "c": "CC cc",
+              }
+            }
             preparedData={null}
             prevent_close="prevent_close"
             prevent_focus={true}
@@ -588,7 +529,7 @@ Feriekonto - Kari Nordmann med et kjempelangt etternavnsen"
                 class="dnb-autocomplete__shell"
               >
                 <span
-                  class="dnb-input dnb-input--search dnb-form-component dnb-autocomplete__trigger dnb-button--active dnb-input--icon-position-icon_position dnb-input--has-icon dnb-input--icon-size-icon_size dnb-input--has-submit-element"
+                  class="dnb-input dnb-input--search dnb-form-component dnb-autocomplete__trigger dnb-button--active dnb-input--icon-position-left dnb-input--has-icon dnb-input--icon-size-icon_size dnb-input--has-submit-element"
                 >
                   <span
                     class="dnb-input__inner"
@@ -613,8 +554,7 @@ Feriekonto - Kari Nordmann med et kjempelangt etternavnsen"
                           id="autocomplete-id"
                           name="autocomplete-id"
                           type="search"
-                          value="1134 56 78962
-Feriekonto - Kari Nordmann med et kjempelangt etternavnsen"
+                          value="CC cc"
                         />
                       </span>
                       <span
@@ -648,7 +588,7 @@ Feriekonto - Kari Nordmann med et kjempelangt etternavnsen"
                   id="autocomplete-id-drawer-list"
                 >
                   <span
-                    class="dnb-drawer-list__list dnb-autocomplete__list"
+                    class="dnb-drawer-list__list dnb-autocomplete__list dnb-drawer-list__list--no-animation"
                   >
                     <ul
                       aria-activedescendant="option-autocomplete-id-2"
@@ -669,16 +609,7 @@ Feriekonto - Kari Nordmann med et kjempelangt etternavnsen"
                         <span
                           class="dnb-drawer-list__option__inner"
                         >
-                          <span
-                            class="dnb-drawer-list__option__item"
-                          >
-                            1234 56 78901
-                          </span>
-                          <span
-                            class="dnb-drawer-list__option__item"
-                          >
-                            Brukskonto - Kari Nordmann
-                          </span>
+                          AA cc
                         </span>
                       </li>
                       <li
@@ -692,22 +623,13 @@ Feriekonto - Kari Nordmann med et kjempelangt etternavnsen"
                         <span
                           class="dnb-drawer-list__option__inner"
                         >
-                          <span
-                            class="dnb-drawer-list__option__item"
-                          >
-                            1234 56 78902
-                          </span>
-                          <span
-                            class="dnb-drawer-list__option__item"
-                          >
-                            Sparekonto - Ole Nordmann
-                          </span>
+                          BB cc
                         </span>
                       </li>
                       <li
                         aria-current="true"
                         aria-selected="true"
-                        class="dnb-drawer-list__option dnb-drawer-list__option--selected"
+                        class="closest-to-top closest-to-bottom last-of-type dnb-drawer-list__option dnb-drawer-list__option--selected"
                         data-item="2"
                         id="option-autocomplete-id-2"
                         role="option"
@@ -716,84 +638,7 @@ Feriekonto - Kari Nordmann med et kjempelangt etternavnsen"
                         <span
                           class="dnb-drawer-list__option__inner"
                         >
-                          <span
-                            class="dnb-drawer-list__option__item"
-                          >
-                            1134 56 78962
-                          </span>
-                          <span
-                            class="dnb-drawer-list__option__item"
-                          >
-                            Feriekonto - Kari Nordmann med et kjempelangt etternavnsen
-                          </span>
-                        </span>
-                      </li>
-                      <li
-                        aria-selected="false"
-                        class="dnb-drawer-list__option"
-                        data-item="3"
-                        id="option-autocomplete-id-3"
-                        role="option"
-                        tabindex="-1"
-                      >
-                        <span
-                          class="dnb-drawer-list__option__inner"
-                        >
-                          <span
-                            class="dnb-drawer-list__option__item"
-                          >
-                            1534 96 48901
-                          </span>
-                          <span
-                            class="dnb-drawer-list__option__item"
-                          >
-                            Oppussing - Ole Nordmann
-                          </span>
-                        </span>
-                      </li>
-                      <li
-                        aria-selected="false"
-                        class="dnb-drawer-list__option"
-                        data-item="4"
-                        id="option-autocomplete-id-4"
-                        role="option"
-                        tabindex="-1"
-                      >
-                        <span
-                          class="dnb-drawer-list__option__inner"
-                        >
-                          Custom content 
-                          123
-                        </span>
-                      </li>
-                      <li
-                        aria-selected="false"
-                        class="dnb-drawer-list__option"
-                        data-item="5"
-                        id="option-autocomplete-id-5"
-                        role="option"
-                        tabindex="-1"
-                      >
-                        <span
-                          class="dnb-drawer-list__option__inner"
-                        >
-                          Custom content 
-                          123
-                        </span>
-                      </li>
-                      <li
-                        aria-selected="false"
-                        class="closest-to-top closest-to-bottom last-of-type dnb-drawer-list__option"
-                        data-item="6"
-                        id="option-autocomplete-id-6"
-                        role="option"
-                        tabindex="-1"
-                      >
-                        <span
-                          class="dnb-drawer-list__option__inner"
-                        >
-                          Custom content 
-                          123
+                          CC cc
                         </span>
                       </li>
                       <li
@@ -812,7 +657,7 @@ Feriekonto - Kari Nordmann med et kjempelangt etternavnsen"
               id="autocomplete-id-drawer-list"
             >
               <span
-                className="dnb-drawer-list__list dnb-autocomplete__list"
+                className="dnb-drawer-list__list dnb-autocomplete__list dnb-drawer-list__list--no-animation"
               >
                 <DrawerList.List
                   aria-activedescendant="option-autocomplete-id-2"
@@ -869,18 +714,7 @@ Feriekonto - Kari Nordmann med et kjempelangt etternavnsen"
                           className="dnb-drawer-list__option__inner"
                         >
                           <ItemContent>
-                            <span
-                              className="dnb-drawer-list__option__item"
-                              key="0"
-                            >
-                              1234 56 78901
-                            </span>
-                            <span
-                              className="dnb-drawer-list__option__item"
-                              key="1"
-                            >
-                              Brukskonto - Kari Nordmann
-                            </span>
+                            AA cc
                           </ItemContent>
                         </span>
                       </li>
@@ -910,24 +744,13 @@ Feriekonto - Kari Nordmann med et kjempelangt etternavnsen"
                           className="dnb-drawer-list__option__inner"
                         >
                           <ItemContent>
-                            <span
-                              className="dnb-drawer-list__option__item"
-                              key="0"
-                            >
-                              1234 56 78902
-                            </span>
-                            <span
-                              className="dnb-drawer-list__option__item"
-                              key="1"
-                            >
-                              Sparekonto - Ole Nordmann
-                            </span>
+                            BB cc
                           </ItemContent>
                         </span>
                       </li>
                     </DrawerList.Item>
                     <DrawerList.Item
-                      className="dnb-drawer-list__option--focus"
+                      className="dnb-drawer-list__option--focus closest-to-top closest-to-bottom last-of-type"
                       data-item={2}
                       id="option-autocomplete-id-2"
                       key="autocomplete-id2"
@@ -940,7 +763,7 @@ Feriekonto - Kari Nordmann med et kjempelangt etternavnsen"
                       <li
                         aria-current={true}
                         aria-selected={true}
-                        className="dnb-drawer-list__option--focus dnb-drawer-list__option dnb-drawer-list__option--selected"
+                        className="dnb-drawer-list__option--focus closest-to-top closest-to-bottom last-of-type dnb-drawer-list__option dnb-drawer-list__option--selected"
                         data-item={2}
                         id="option-autocomplete-id-2"
                         onClick={[Function]}
@@ -952,152 +775,7 @@ Feriekonto - Kari Nordmann med et kjempelangt etternavnsen"
                           className="dnb-drawer-list__option__inner"
                         >
                           <ItemContent>
-                            <span
-                              className="dnb-drawer-list__option__item"
-                              key="0"
-                            >
-                              1134 56 78962
-                            </span>
-                            <span
-                              className="dnb-drawer-list__option__item"
-                              key="1"
-                            >
-                              Feriekonto - Kari Nordmann med et kjempelangt etternavnsen
-                            </span>
-                          </ItemContent>
-                        </span>
-                      </li>
-                    </DrawerList.Item>
-                    <DrawerList.Item
-                      className=""
-                      data-item={3}
-                      id="option-autocomplete-id-3"
-                      key="autocomplete-id3"
-                      onClick={[Function]}
-                      onKeyDown={[Function]}
-                      on_click={null}
-                      selected={false}
-                      value={null}
-                    >
-                      <li
-                        aria-selected="false"
-                        className="dnb-drawer-list__option"
-                        data-item={3}
-                        id="option-autocomplete-id-3"
-                        onClick={[Function]}
-                        onKeyDown={[Function]}
-                        role="option"
-                        tabIndex="-1"
-                      >
-                        <span
-                          className="dnb-drawer-list__option__inner"
-                        >
-                          <ItemContent>
-                            <span
-                              className="dnb-drawer-list__option__item"
-                              key="0"
-                            >
-                              1534 96 48901
-                            </span>
-                            <span
-                              className="dnb-drawer-list__option__item"
-                              key="1"
-                            >
-                              Oppussing - Ole Nordmann
-                            </span>
-                          </ItemContent>
-                        </span>
-                      </li>
-                    </DrawerList.Item>
-                    <DrawerList.Item
-                      className=""
-                      data-item={4}
-                      id="option-autocomplete-id-4"
-                      key="autocomplete-id4"
-                      onClick={[Function]}
-                      onKeyDown={[Function]}
-                      on_click={null}
-                      selected={false}
-                      value={null}
-                    >
-                      <li
-                        aria-selected="false"
-                        className="dnb-drawer-list__option"
-                        data-item={4}
-                        id="option-autocomplete-id-4"
-                        onClick={[Function]}
-                        onKeyDown={[Function]}
-                        role="option"
-                        tabIndex="-1"
-                      >
-                        <span
-                          className="dnb-drawer-list__option__inner"
-                        >
-                          <ItemContent>
-                            Custom content 
-                            123
-                          </ItemContent>
-                        </span>
-                      </li>
-                    </DrawerList.Item>
-                    <DrawerList.Item
-                      className=""
-                      data-item={5}
-                      id="option-autocomplete-id-5"
-                      key="autocomplete-id5"
-                      onClick={[Function]}
-                      onKeyDown={[Function]}
-                      on_click={null}
-                      selected={false}
-                      value={null}
-                    >
-                      <li
-                        aria-selected="false"
-                        className="dnb-drawer-list__option"
-                        data-item={5}
-                        id="option-autocomplete-id-5"
-                        onClick={[Function]}
-                        onKeyDown={[Function]}
-                        role="option"
-                        tabIndex="-1"
-                      >
-                        <span
-                          className="dnb-drawer-list__option__inner"
-                        >
-                          <ItemContent>
-                            Custom content 
-                            123
-                          </ItemContent>
-                        </span>
-                      </li>
-                    </DrawerList.Item>
-                    <DrawerList.Item
-                      className="closest-to-top closest-to-bottom last-of-type"
-                      data-item={6}
-                      id="option-autocomplete-id-6"
-                      key="autocomplete-id6"
-                      onClick={[Function]}
-                      onKeyDown={[Function]}
-                      on_click={null}
-                      selected={false}
-                      value={null}
-                    >
-                      <li
-                        aria-selected="false"
-                        className="closest-to-top closest-to-bottom last-of-type dnb-drawer-list__option"
-                        data-item={6}
-                        id="option-autocomplete-id-6"
-                        onClick={[Function]}
-                        onKeyDown={[Function]}
-                        role="option"
-                        tabIndex="-1"
-                      >
-                        <span
-                          className="dnb-drawer-list__option__inner"
-                        >
-                          <ItemContent>
-                            Custom content 
-                            123
+                            CC cc
                           </ItemContent>
                         </span>
                       </li>
@@ -1123,52 +801,11 @@ Feriekonto - Kari Nordmann med et kjempelangt etternavnsen"
             custom_element={Object {}}
             custom_method={[Function]}
             data={
-              Array [
-                Object {
-                  "content": Array [
-                    "1234 56 78901",
-                    "Brukskonto - Kari Nordmann",
-                  ],
-                  "selected_value": "Brukskonto - Kari Nordmann",
-                },
-                Object {
-                  "content": Array [
-                    "1234 56 78902",
-                    "Sparekonto - Ole Nordmann",
-                  ],
-                  "selected_value": "Sparekonto - Ole Nordmann",
-                },
-                Object {
-                  "content": Array [
-                    "1134 56 78962",
-                    "Feriekonto - Kari Nordmann med et kjempelangt etternavnsen",
-                  ],
-                  "selected_value": "Feriekonto - Kari Nordmann med et kjempelangt etternavnsen",
-                },
-                Object {
-                  "content": Array [
-                    "1534 96 48901",
-                    "Oppussing - Ole Nordmann",
-                  ],
-                  "selected_value": "Oppussing - Ole Nordmann",
-                },
-                Object {
-                  "content": <React.Fragment>
-                    Custom content 
-                    123
-                  </React.Fragment>,
-                },
-                <React.Fragment>
-                  Custom content 
-                  123
-                </React.Fragment>,
-                Array [
-                  <React.Fragment>
-                    Custom content 
-                    123
-                  </React.Fragment>,
-                ],
-              ]
+              Object {
+                "a": "AA cc",
+                "b": "BB cc",
+                "c": "CC cc",
+              }
             }
             default_value="default_value"
             direction="bottom"
@@ -1184,7 +821,7 @@ Feriekonto - Kari Nordmann med et kjempelangt etternavnsen"
             label_direction="horizontal"
             label_sr_only="label_sr_only"
             max_height={1}
-            no_animation="no_animation"
+            no_animation={true}
             no_options="no_options"
             no_scroll_animation="no_scroll_animation"
             on_change={[Function]}

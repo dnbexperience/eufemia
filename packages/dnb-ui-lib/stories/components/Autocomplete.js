@@ -3,7 +3,7 @@
  *
  */
 
-import React from 'react'
+import React, { Fragment } from 'react'
 import { Wrapper, Box } from '../helpers'
 import styled from '@emotion/styled'
 
@@ -153,7 +153,7 @@ const autocompleteDataScrollable = [
     content: <>E</>
   },
   <>Custom content {'🔥'}</>,
-  [<>Custom content X {'🔥'}</>],
+  [<Fragment key="key1">Custom content X {'🔥'}</Fragment>],
   {
     content: 'EE'
   },

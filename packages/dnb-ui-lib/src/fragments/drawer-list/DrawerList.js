@@ -32,31 +32,6 @@ const renderProps = {
   wrapper_element: null
 }
 
-const dataType = PropTypes.oneOfType([
-  PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-    PropTypes.node,
-    PropTypes.object
-  ]),
-  PropTypes.arrayOf(
-    PropTypes.oneOfType([
-      PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
-      PropTypes.shape({
-        selected_value: PropTypes.oneOfType([
-          PropTypes.string,
-          PropTypes.node
-        ]),
-        content: PropTypes.oneOfType([
-          PropTypes.string,
-          PropTypes.node,
-          PropTypes.arrayOf(PropTypes.string)
-        ])
-      })
-    ])
-  )
-])
-
 export const propTypes = {
   id: PropTypes.string,
   icon_position: PropTypes.string,
@@ -87,13 +62,47 @@ export const propTypes = {
   skip_keysearch: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   opened: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   class: PropTypes.string,
-  data: dataType,
+  data: PropTypes.oneOfType([
+    PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.func,
+      PropTypes.node,
+      PropTypes.object
+    ]),
+    PropTypes.arrayOf(
+      PropTypes.oneOfType([
+        PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
+        PropTypes.shape({
+          selected_value: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.node
+          ]),
+          content: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.node,
+            PropTypes.arrayOf(PropTypes.string)
+          ])
+        })
+      ])
+    )
+  ]),
   preparedData: PropTypes.array,
+  originalData: PropTypes.oneOfType([
+    PropTypes.array,
+    PropTypes.object,
+    PropTypes.func
+  ]),
   ignore_events: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
 
   // React
   className: PropTypes.string,
-  children: dataType,
+  children: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.func,
+    PropTypes.node,
+    PropTypes.object,
+    PropTypes.array
+  ]),
 
   // Web Component props
   custom_element: PropTypes.object,
@@ -129,6 +138,7 @@ const defaultProps = {
   class: null,
   data: null,
   preparedData: null,
+  originalData: null,
   ignore_events: null,
 
   // React props
@@ -203,42 +213,35 @@ export default class DrawerList extends PureComponent {
   }
 
   static hasObjectKeyAsValue(state) {
-    if (
-      state._originalData &&
-      typeof state._originalData === 'object' &&
-      !Array.isArray(state._originalData)
-    ) {
-      return true
+    const data = state.originalData
+    return data && typeof data === 'object' && !Array.isArray(data)
+  }
+
+  static preSelectData(data) {
+    if (typeof data === 'string') {
+      data = data[0] === '{' || data[0] === '[' ? JSON.parse(data) : null
+    } else if (data && React.isValidElement(data)) {
+      data = []
+    } else if (typeof data === 'function') {
+      data = data()
     }
 
-    return false
+    return data
   }
 
   // normalize data
   static normalizeData(props) {
-    let res
+    let data = DrawerList.preSelectData(props.data || props.children)
 
-    if (typeof props.data === 'function') {
-      res = props.data()
-    } else if (props.data) {
-      res = props.data
-    } else {
-      res = props.children
-    }
-
-    if (res && React.isValidElement(res)) {
-      res = []
-    } else if (res && typeof res === 'object' && !Array.isArray(res)) {
+    if (data && typeof data === 'object' && !Array.isArray(data)) {
       const list = []
-      for (let i in res) {
-        list.push({ selected_key: i, content: res[i], type: 'object' })
+      for (let i in data) {
+        list.push({ selected_key: i, content: data[i], type: 'object' })
       }
-      res = list
-    } else if (typeof res === 'string') {
-      return res[0] === '[' ? JSON.parse(res) : []
+      data = list
     }
 
-    return res || []
+    return data || []
   }
 
   static getData(props) {
@@ -309,10 +312,15 @@ export default class DrawerList extends PureComponent {
       selected_item = parseFloat(props.default_value)
     }
 
+    const originalData = DrawerList.preSelectData(
+      props.originalData || props.children || props.data
+    )
+
     return {
       _listenForPropChanges: true,
       opened,
       data,
+      originalData,
       direction: props.direction,
       max_height: props.max_height,
       active_item: selected_item,
@@ -325,7 +333,6 @@ export default class DrawerList extends PureComponent {
     if (state.opened && !state.data && typeof props.data === 'function') {
       state.data = DrawerList.getData(props)
     }
-    state._originalData = props.data
 
     if (state._listenForPropChanges) {
       if (
@@ -678,7 +685,7 @@ export default class DrawerList extends PureComponent {
 
         this._focusTimeout = setTimeout(() => {
           // try to scroll to item
-          if (!this._refUl.current) {
+          if (!this._refUl.current || !(parseFloat(active_item) > -1)) {
             return
           }
           try {
@@ -1076,6 +1083,7 @@ export default class DrawerList extends PureComponent {
       id: _id, // eslint-disable-line
       data: _data, // eslint-disable-line
       preparedData: _preparedData, // eslint-disable-line
+      originalData: _originalData, // eslint-disable-line
       opened: _opened, // eslint-disable-line
       value: _value, // eslint-disable-line
       children,

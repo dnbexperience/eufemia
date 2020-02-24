@@ -70,7 +70,7 @@ exports[`Dropdown component have to match snapshot 1`] = `
   label_sr_only="label_sr_only"
   max_height={1}
   more_menu={null}
-  no_animation="no_animation"
+  no_animation={true}
   no_scroll_animation="no_scroll_animation"
   on_change={[Function]}
   on_hide={[Function]}
@@ -405,7 +405,7 @@ exports[`Dropdown component have to match snapshot 1`] = `
             inner_class="dnb-dropdown__list"
             keep_open="keep_open"
             max_height={1}
-            no_animation="no_animation"
+            no_animation={true}
             no_scroll_animation="no_scroll_animation"
             on_change={[Function]}
             on_hide={[Function]}
@@ -414,6 +414,54 @@ exports[`Dropdown component have to match snapshot 1`] = `
             on_show={[Function]}
             on_state_update={null}
             opened={true}
+            originalData={
+              Array [
+                Object {
+                  "content": Array [
+                    "1234 56 78901",
+                    "Brukskonto - Kari Nordmann",
+                  ],
+                  "selected_value": "Brukskonto - Kari Nordmann",
+                },
+                Object {
+                  "content": Array [
+                    "1234 56 78902",
+                    "Sparekonto - Ole Nordmann",
+                  ],
+                  "selected_value": "Sparekonto - Ole Nordmann",
+                },
+                Object {
+                  "content": Array [
+                    "1134 56 78962",
+                    "Feriekonto - Kari Nordmann med et kjempelangt etternavnsen",
+                  ],
+                  "selected_value": "Feriekonto - Kari Nordmann med et kjempelangt etternavnsen",
+                },
+                Object {
+                  "content": Array [
+                    "1534 96 48901",
+                    "Oppussing - Ole Nordmann",
+                  ],
+                  "selected_value": "Oppussing - Ole Nordmann",
+                },
+                Object {
+                  "content": <React.Fragment>
+                    Custom content 
+                    123
+                  </React.Fragment>,
+                },
+                <React.Fragment>
+                  Custom content 
+                  123
+                </React.Fragment>,
+                Array [
+                  <React.Fragment>
+                    Custom content 
+                    123
+                  </React.Fragment>,
+                ],
+              ]
+            }
             preparedData={
               Array [
                 Object {
@@ -509,7 +557,7 @@ exports[`Dropdown component have to match snapshot 1`] = `
               id="dropdown-id-drawer-list"
             >
               <span
-                className="dnb-drawer-list__list dnb-dropdown__list"
+                className="dnb-drawer-list__list dnb-dropdown__list dnb-drawer-list__list--no-animation"
               >
                 <DrawerList.List
                   aria-activedescendant="option-dropdown-id-2"
@@ -879,7 +927,7 @@ exports[`Dropdown component have to match snapshot 1`] = `
             label_sr_only="label_sr_only"
             max_height={1}
             more_menu={null}
-            no_animation="no_animation"
+            no_animation={true}
             no_scroll_animation="no_scroll_animation"
             on_change={[Function]}
             on_hide={[Function]}

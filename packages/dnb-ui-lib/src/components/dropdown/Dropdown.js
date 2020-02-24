@@ -24,9 +24,7 @@ import Icon from '../icon-primary/IconPrimary'
 import FormLabel from '../form-label/FormLabel'
 import FormStatus from '../form-status/FormStatus'
 import Button from '../button/Button'
-import DrawerList, {
-  propTypes as DrawerPropTypes
-} from '../../fragments/drawer-list/DrawerList'
+import DrawerList from '../../fragments/drawer-list/DrawerList'
 
 const renderProps = {
   on_show: null,
@@ -84,7 +82,30 @@ const propTypes = {
   size: PropTypes.oneOf(['default', 'small', 'medium', 'large']),
   align_dropdown: PropTypes.oneOf(['left', 'right']),
   trigger_component: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
-  data: DrawerPropTypes.data,
+  data: PropTypes.oneOfType([
+    PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.func,
+      PropTypes.node,
+      PropTypes.object
+    ]),
+    PropTypes.arrayOf(
+      PropTypes.oneOfType([
+        PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
+        PropTypes.shape({
+          selected_value: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.node
+          ]),
+          content: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.node,
+            PropTypes.arrayOf(PropTypes.string)
+          ])
+        })
+      ])
+    )
+  ]),
   default_value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   open_on_focus: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -96,7 +117,13 @@ const propTypes = {
 
   // React
   className: PropTypes.string,
-  children: DrawerPropTypes.data,
+  children: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.func,
+    PropTypes.node,
+    PropTypes.object,
+    PropTypes.array
+  ]),
 
   // Web Component props
   custom_element: PropTypes.object,
@@ -569,6 +596,7 @@ export default class Dropdown extends PureComponent {
                 id={id}
                 inner_class="dnb-dropdown__list"
                 preparedData={data}
+                originalData={_data}
                 value={selected_item}
                 default_value={default_value}
                 scrollable={scrollable}

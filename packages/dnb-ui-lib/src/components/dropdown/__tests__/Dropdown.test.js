@@ -33,7 +33,8 @@ const snapshotProps = {
   align_dropdown: null,
   trigger_component: null,
   size: null,
-  opened: true
+  opened: true,
+  no_animation: true
 }
 
 // use no_animation so we don't need to wait

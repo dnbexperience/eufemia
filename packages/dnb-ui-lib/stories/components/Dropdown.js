@@ -45,7 +45,12 @@ const DropdownStory = () => {
           // opened
           // no_animation
           // value="0"
-          data={['A', 'B']}
+          // value="b"
+          // data={['A', 'B']}
+          data={() => ({
+            a: 'AA',
+            b: 'BB'
+          })}
           on_select={e => {
             console.log('on_select', e)
           }}

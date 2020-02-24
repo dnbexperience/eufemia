@@ -3,7 +3,7 @@
  *
  */
 
-import React, { Fragment } from 'react'
+import React from 'react'
 import {
   mount,
   fakeProps,
@@ -32,39 +32,22 @@ const snapshotProps = {
   align_autocomplete: null,
   trigger_component: null,
   size: null,
-  opened: true
+  opened: true,
+  no_animation: true
 }
 
 // use no_animation so we don't need to wait
-const props = { id: 'autocomplete-id', value: 2, no_animation: true }
+const props = {
+  id: 'autocomplete-id',
+  value: 2,
+  no_animation: true
+}
 
-const mockData = [
-  {
-    selected_value: 'Brukskonto - Kari Nordmann',
-    content: ['1234 56 78901', 'Brukskonto - Kari Nordmann']
-  },
-  {
-    selected_value: 'Sparekonto - Ole Nordmann',
-    content: ['1234 56 78902', 'Sparekonto - Ole Nordmann']
-  },
-  {
-    selected_value:
-      'Feriekonto - Kari Nordmann med et kjempelangt etternavnsen',
-    content: [
-      '1134 56 78962',
-      'Feriekonto - Kari Nordmann med et kjempelangt etternavnsen'
-    ]
-  },
-  {
-    selected_value: 'Oppussing - Ole Nordmann',
-    content: ['1534 96 48901', 'Oppussing - Ole Nordmann']
-  },
-  {
-    content: <>Custom content {'123'}</>
-  },
-  <>Custom content {'123'}</>,
-  [<Fragment key="key1">Custom content {'123'}</Fragment>]
-]
+const mockData = {
+  a: 'AA cc',
+  b: 'BB cc',
+  c: 'CC cc'
+}
 
 describe('Autocomplete component', () => {
   const Comp = mount(<Component {...props} data={mockData} />)
@@ -365,6 +348,9 @@ describe('Autocomplete scss', () => {
 
 const open = async Comp => {
   Comp.find('button').simulate('mousedown')
+  // Comp.setProps({
+  //   opened: true
+  // })
   await wait(1) // because we don't we have componentDidMount
 }
 const wait = t => new Promise(r => setTimeout(r, t))

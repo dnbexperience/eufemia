@@ -26,7 +26,7 @@ const snapshotProps = {
   direction: 'bottom',
   value: 2,
   opened: true,
-  // more_menu: null,
+  no_animation: true,
   prevent_selection: null,
   align_drawer: null
 }
@@ -212,13 +212,14 @@ describe('DrawerList component', () => {
   it('has correct value on data given as an object', async () => {
     const on_change = jest.fn()
     const on_select = jest.fn()
+
     mount(
       <Component
         opened
         no_animation
         on_change={on_change}
         on_select={on_select}
-        data={{ a: 'A', b: 'B', c: 'C' }}
+        data={() => ({ a: 'A', b: 'B', c: 'C' })}
       />
     )
 
