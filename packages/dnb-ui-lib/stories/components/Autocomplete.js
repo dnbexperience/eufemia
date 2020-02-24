@@ -3,17 +3,16 @@
  *
  */
 
-import React, { useState, useEffect, Fragment } from 'react'
-import PropTypes from 'prop-types'
+import React from 'react'
 import { Wrapper, Box } from '../helpers'
 import styled from '@emotion/styled'
 
 import {
   Autocomplete,
-  Button,
+  // Button,
   // FormLabel,
   // FormSet,
-  FormRow,
+  // FormRow,
   Number
   // Checkbox
 } from '../../src/components'
@@ -27,6 +26,7 @@ const AutocompleteStory = () => {
     <Wrapper>
       <Box>
         <Autocomplete
+          title="Type to find ..."
           // opened
           // no_animation
           // value="0"
@@ -108,12 +108,12 @@ let autocompleteData = [
     ]
   },
   {
-    selected_value: <Fragment key="cs-1">Custom selected {'🔥'}</Fragment>,
+    selected_value: <>Custom selected {'🔥'}</>,
     content: [
       <Number key={15349648901} ban>
         15349648901
       </Number>,
-      <Fragment key="cs-2">Custom content {'🔥'}</Fragment>
+      <>Custom content {'🔥'}</>
     ]
   }
 ]
@@ -149,10 +149,10 @@ const autocompleteDataScrollable = [
     ]
   },
   {
-    content: <Fragment>E</Fragment>
+    content: <>E</>
   },
-  <Fragment key="key1">Custom content {'🔥'}</Fragment>,
-  [<Fragment key="key2">Custom content X {'🔥'}</Fragment>],
+  <>Custom content {'🔥'}</>,
+  [<>Custom content X {'🔥'}</>],
   {
     content: 'EE'
   },

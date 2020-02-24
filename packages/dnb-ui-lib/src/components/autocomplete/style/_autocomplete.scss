@@ -259,14 +259,14 @@
     }
   }
 
-  &--icon-position-left &__icon {
-    order: 1;
-  }
-  &--icon-position-left &__text {
-    order: 2;
-    padding-right: 0;
-    padding-left: var(--autocomplete-text-padding);
-  }
+  // &--icon-position-left &__icon {
+  //   order: 1;
+  // }
+  // &--icon-position-left &__text {
+  //   order: 2;
+  //   padding-right: 0;
+  //   padding-left: var(--autocomplete-text-padding);
+  // }
 
   &__outside-value {
     display: block;

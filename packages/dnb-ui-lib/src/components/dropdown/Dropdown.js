@@ -25,6 +25,7 @@ import FormLabel from '../form-label/FormLabel'
 import FormStatus from '../form-status/FormStatus'
 import Button from '../button/Button'
 import DrawerList, {
+  grabStringFromReact,
   propTypes as DrawerPropTypes
 } from '../../fragments/drawer-list/DrawerList'
 
@@ -646,27 +647,4 @@ export default class Dropdown extends PureComponent {
       </span>
     )
   }
-}
-
-// Dropdown.Drawer = DrawerList
-// Dropdown.List = DrawerList.List
-// Dropdown.Item = DrawerList.Item
-
-function grabStringFromReact(cur) {
-  if (React.isValidElement(cur)) {
-    if (typeof cur.props.children === 'string') {
-      cur = cur.props.children
-    } else if (Array.isArray(cur.props.children)) {
-      cur = cur.props.children.reduce((acc, cur) => {
-        if (typeof cur === 'string') {
-          acc = acc + cur
-        }
-        return acc
-      }, '')
-    } else {
-      return false
-    }
-  }
-
-  return cur
 }

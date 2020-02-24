@@ -1311,7 +1311,7 @@ DrawerList.Item.defaultProps = {
   value: null
 }
 
-function grabStringFromReact(cur) {
+export function grabStringFromReact(cur) {
   if (React.isValidElement(cur)) {
     if (typeof cur.props.children === 'string') {
       cur = cur.props.children
