@@ -272,27 +272,22 @@
   &--icon-position-left#{&}--has-icon &__input,
   &--icon-position-left#{&}--has-icon &__placeholder {
     padding-left: 2.5rem;
-    // margin-right: -0.5rem;
   }
   &--icon-position-right#{&}--has-icon &__input,
   &--icon-position-right#{&}--has-icon &__placeholder {
     padding-right: 2.5rem;
-    // margin-right: -0.5rem;
   }
   &--medium#{&}--icon-position-left#{&}--has-icon &__input,
   &--medium#{&}--icon-position-left#{&}--has-icon &__placeholder {
     padding-left: 2.5rem;
-    // margin-right: -0.5rem;
   }
   &--large#{&}--icon-position-left#{&}--has-icon &__input,
   &--large#{&}--icon-position-left#{&}--has-icon &__placeholder {
     padding-left: 3rem;
-    // margin-right: -1rem;
   }
   &--large#{&}--icon-position-right#{&}--has-icon &__input,
   &--large#{&}--icon-position-right#{&}--has-icon &__placeholder {
     padding-right: 3rem;
-    // margin-right: -1rem;
   }
 
   & > .dnb-form-label {
