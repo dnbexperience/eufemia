@@ -207,7 +207,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
             aria-haspopup={true}
             autocomplete="off"
             class={null}
-            className="dnb-autocomplete__trigger dnb-button--active"
+            className="dnb-autocomplete__input dnb-button--active"
             custom_element={null}
             custom_method={null}
             disabled="disabled"
@@ -268,7 +268,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
             value="CC cc"
           >
             <span
-              className="dnb-input dnb-input--search dnb-form-component dnb-autocomplete__trigger dnb-button--active dnb-input--icon-position-left dnb-input--has-icon dnb-input--icon-size-icon_size dnb-input--has-submit-element"
+              className="dnb-input dnb-input--search dnb-form-component dnb-autocomplete__input dnb-button--active dnb-input--icon-position-left dnb-input--has-icon dnb-input--icon-size-icon_size dnb-input--has-submit-element"
             >
               <span
                 className="dnb-input__inner"
@@ -522,7 +522,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                 class="dnb-autocomplete__shell"
               >
                 <span
-                  class="dnb-input dnb-input--search dnb-form-component dnb-autocomplete__trigger dnb-input--icon-position-left dnb-input--has-icon dnb-input--icon-size-icon_size dnb-input--has-submit-element"
+                  class="dnb-input dnb-input--search dnb-form-component dnb-autocomplete__input dnb-input--icon-position-left dnb-input--has-icon dnb-input--icon-size-icon_size dnb-input--has-submit-element"
                 >
                   <span
                     class="dnb-input__inner"
@@ -966,167 +966,48 @@ exports[`Autocomplete scss have to match default theme snapshot 1`] = `
 
 :root {
   --autocomplete-text-color: var(--color-emerald-green);
-  --autocomplete-text-color--disabled: var(--color-sea-green-alt-30);
-  --autocomplete-border-color: var(--color-sea-green-alt);
-  --autocomplete-border-color--selected: var(--color-emerald-green);
-  --autocomplete-options-border-radius: 0.25rem;
-  --autocomplete-option-color: var(--color-black-80);
-  --autocomplete-option-color--hover: var(--color-sea-green);
-  --autocomplete-option-background-color: var(--color-white);
-  --autocomplete-option-background-color--hover: var(
-    --color-mint-green-12
-  );
-  --autocomplete-option-color--selected: var(--color-white);
-  --autocomplete-option-background-color--selected: var(
-    --color-emerald-green
-  );
-  --autocomplete-option-border-width: 0.0625rem;
-  --autocomplete-option-border-color: var(--color-mint-green-25); }
+  --autocomplete-border-color--selected: var(--color-emerald-green); }
 
 .dnb-autocomplete {
   color: var(--autocomplete-text-color); }
-  .dnb-autocomplete__list {
-    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.16);
-    border-radius: var(--autocomplete-options-border-radius);
-    background-color: var(--autocomplete-option-background-color); }
-  .dnb-autocomplete__options {
-    border: none;
-    background-color: var(--autocomplete-option-background-color);
-    border-radius: var(--autocomplete-options-border-radius); }
-    .dnb-autocomplete__options:focus {
-      outline: none; }
-      html[data-whatinput='keyboard'] .dnb-autocomplete__options:focus {
-        box-shadow: 0 0 0 0.125rem var(--color-emerald-green);
-        /* IE11 fix */
-        border-color: transparent; }
-  .dnb-autocomplete__option {
-    position: relative;
-    color: var(--autocomplete-option-color);
-    background-color: var(--autocomplete-option-background-color); }
-    .dnb-autocomplete__option::before {
-      pointer-events: none;
-      content: '';
-      position: absolute;
-      z-index: 2;
-      top: auto;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      height: var(--autocomplete-option-border-width);
-      background-color: var(--autocomplete-option-border-color); }
-    .dnb-autocomplete__option__item:nth-of-type(1) {
-      font-weight: var(--font-weight-medium); }
-    .dnb-autocomplete__option__inner {
-      padding-right: 2rem;
-      background-color: var(--autocomplete-option-background-color); }
-    html:not([data-is-touch]) .dnb-autocomplete__option:hover[disabled] {
-      cursor: not-allowed; }
-    html:not([data-is-touch]) .dnb-autocomplete__option:hover:not([disabled]) {
-      background-color: var(--autocomplete-option-background-color--hover); }
-      html:not([data-is-touch]) .dnb-autocomplete__option:hover:not([disabled]) .dnb-autocomplete__option__inner {
-        color: var(--autocomplete-option-color--hover);
-        background-color: var(--autocomplete-option-background-color--hover); }
-    .dnb-autocomplete__option--focus::before {
-      z-index: 3;
-      top: var(--autocomplete-focus-border-width);
-      left: var(--autocomplete-focus-border-width);
-      right: var(--autocomplete-focus-border-width);
-      bottom: var(--autocomplete-focus-border-width);
-      height: auto;
-      background-color: transparent;
-      box-shadow: 0 0 0 var(--autocomplete-focus-border-width) var(--autocomplete-border-color--selected);
-      /* IE11 fix */
-      border-color: transparent; }
-    .dnb-autocomplete__option--selected {
-      color: var(--autocomplete-option-color--selected);
-      background-color: var(--autocomplete-option-background-color--selected); }
-      .dnb-autocomplete__option--selected .dnb-autocomplete__option__inner {
-        color: inherit;
-        background-color: inherit; }
-      html:not([data-is-touch]) .dnb-autocomplete__option--selected:hover[disabled] {
-        cursor: not-allowed; }
-      html:not([data-is-touch]) .dnb-autocomplete__option--selected:hover:not([disabled]) {
-        color: var(--autocomplete-option-color--selected);
-        background-color: var(--autocomplete-option-background-color--selected); }
-        html:not([data-is-touch]) .dnb-autocomplete__option--selected:hover:not([disabled]) .dnb-autocomplete__option__inner {
-          color: inherit;
-          background-color: inherit; }
-      .dnb-autocomplete__option--selected::after {
-        content: '';
-        position: absolute;
-        z-index: 1;
-        top: calc(50% - 0.5rem);
-        right: 1rem;
-        width: 1rem;
-        height: 1rem;
-        background-size: cover;
-        background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgZmlsbD0ibm9uZSI+ICA8cGF0aCAgICBmaWxsPSIjRTlGOEY0IiAgICBkPSJNMyA4LjhhLjc1Ljc1IDAgMSAwLTEuMjIuODZMMyA4Ljc5em0xLjg0IDMuOWwuNjMtLjQxdi0uMDFoLS4wMWwtLjYyLjQyem0xLjcxLjA1bC0uNTktLjQ2di4wMWwuNTkuNDV6bTguNDMtOS40NWEuNzUuNzUgMCAwIDAtMS4xOC0uOTNsMS4xOC45M3pNMS43OCA5LjY2bDIuNDUgMy40OCAxLjIzLS44N0wzIDguOGwtMS4yMy44N3ptMi40NCAzLjQ2Yy4zMi40OC44Ni43OCAxLjQ0LjhsLjA1LTEuNWEuMy4zIDAgMCAxLS4yNC0uMTNsLTEuMjUuODN6bTEuNDQuOGExLjggMS44IDAgMCAwIDEuNDktLjcxbC0xLjItLjlhLjMuMyAwIDAgMS0uMjQuMWwtLjA1IDEuNXptMS40OC0uN2w3Ljg0LTkuOTItMS4xOC0uOTMtNy44NCA5LjkyIDEuMTguOTN6Ii8+PC9zdmc+); }
-      .dnb-autocomplete__option--selected::before {
-        content: none; }
-    .dnb-autocomplete__option--focus:not(.dnb-autocomplete__option--selected) .dnb-autocomplete__option__inner {
-      color: var(--autocomplete-option-color--hover);
-      background-color: var(--autocomplete-option-background-color--hover); }
-    .dnb-autocomplete__option:first-of-type,
-    .dnb-autocomplete__option--focus:first-of-type .dnb-autocomplete__option__inner, .dnb-autocomplete__option--focus:first-of-type::before {
-      border-radius: var(--autocomplete-options-border-radius) var(--autocomplete-options-border-radius) 0 0; }
-    .dnb-autocomplete__option.last-of-type,
-    .dnb-autocomplete__option--focus.last-of-type .dnb-autocomplete__option__inner, .dnb-autocomplete__option--focus.last-of-type::before {
-      border-radius: 0 0 var(--autocomplete-options-border-radius) var(--autocomplete-options-border-radius); }
-    .dnb-autocomplete__option.last-of-type:not(.dnb-autocomplete__option--focus)::before {
-      content: none; }
-  .dnb-autocomplete--scroll .dnb-autocomplete__option:not(.dnb-autocomplete__option--focus)::before {
-    left: 0.5rem;
-    right: 0.5rem; }
-  .dnb-autocomplete--direction-bottom .dnb-autocomplete__option--focus.closest-to-top .dnb-autocomplete__option__inner {
-    border-radius: var(--autocomplete-options-border-radius) var(--autocomplete-options-border-radius) 0 0; }
-  .dnb-autocomplete--direction-bottom .dnb-autocomplete__option--focus.closest-to-bottom .dnb-autocomplete__option__inner {
-    border-radius: 0 0 var(--autocomplete-options-border-radius) var(--autocomplete-options-border-radius); }
-  .dnb-autocomplete--direction-top .dnb-autocomplete__option--focus.closest-to-bottom .dnb-autocomplete__option__inner {
-    border-radius: 0 0 var(--autocomplete-options-border-radius) var(--autocomplete-options-border-radius); }
-  .dnb-autocomplete--direction-top .dnb-autocomplete__option--focus.closest-to-top .dnb-autocomplete__option__inner {
-    border-radius: var(--autocomplete-options-border-radius) var(--autocomplete-options-border-radius) 0 0; }
-  .dnb-autocomplete__trigger {
+  .dnb-autocomplete__input {
     color: var(--autocomplete-text-color); }
-    html:not([data-is-touch]) .dnb-autocomplete__trigger:hover[disabled] {
+    html:not([data-is-touch]) .dnb-autocomplete__input:hover[disabled] {
       cursor: not-allowed; }
-    html:not([data-is-touch]) .dnb-autocomplete__trigger:hover:not([disabled]) {
+    html:not([data-is-touch]) .dnb-autocomplete__input:hover:not([disabled]) {
       color: var(--autocomplete-text-color); }
-  .dnb-autocomplete__status--error .dnb-autocomplete__trigger .dnb-input__shell {
+  .dnb-autocomplete--opened .dnb-autocomplete__input .dnb-input__shell {
     box-shadow: none; }
-  .dnb-autocomplete__status--error:not(.dnb-autocomplete--opened) .dnb-autocomplete__trigger {
+  .dnb-autocomplete--opened .dnb-input__submit-button__button {
+    box-shadow: 0 0 0 0.125rem var(--autocomplete-border-color--selected);
+    /* IE11 fix */
+    border-color: transparent; }
+    @media screen and (-ms-high-contrast: none) {
+      .dnb-autocomplete--opened .dnb-input__submit-button__button {
+        box-shadow: 0 0 0 1px var(--autocomplete-border-color--selected); } }
+  .dnb-autocomplete__status--error .dnb-autocomplete__input .dnb-input__shell {
+    box-shadow: none; }
+  .dnb-autocomplete__status--error:not(.dnb-autocomplete--opened) .dnb-autocomplete__input {
     box-shadow: 0 0 0 0.125rem var(--color-fire-red) !important;
     /* IE11 fix */
     border-color: transparent; }
     @media screen and (-ms-high-contrast: none) {
-      .dnb-autocomplete__status--error:not(.dnb-autocomplete--opened) .dnb-autocomplete__trigger {
+      .dnb-autocomplete__status--error:not(.dnb-autocomplete--opened) .dnb-autocomplete__input {
         box-shadow: 0 0 0 1px var(--color-fire-red) !important; } }
-    html:not([data-is-touch]) .dnb-autocomplete__status--error:not(.dnb-autocomplete--opened) .dnb-autocomplete__trigger:hover[disabled] {
+    html:not([data-is-touch]) .dnb-autocomplete__status--error:not(.dnb-autocomplete--opened) .dnb-autocomplete__input:hover[disabled] {
       cursor: not-allowed; }
-    html:not([data-is-touch]) .dnb-autocomplete__status--error:not(.dnb-autocomplete--opened) .dnb-autocomplete__trigger:hover:not([disabled]) {
+    html:not([data-is-touch]) .dnb-autocomplete__status--error:not(.dnb-autocomplete--opened) .dnb-autocomplete__input:hover:not([disabled]) {
       box-shadow: 0 0 0 0.125rem var(--color-fire-red) !important;
       /* IE11 fix */
       border-color: transparent; }
       @media screen and (-ms-high-contrast: none) {
-        html:not([data-is-touch]) .dnb-autocomplete__status--error:not(.dnb-autocomplete--opened) .dnb-autocomplete__trigger:hover:not([disabled]) {
+        html:not([data-is-touch]) .dnb-autocomplete__status--error:not(.dnb-autocomplete--opened) .dnb-autocomplete__input:hover:not([disabled]) {
           box-shadow: 0 0 0 1px var(--color-fire-red) !important; } }
-      html:not([data-is-touch]) .dnb-autocomplete__status--error:not(.dnb-autocomplete--opened) .dnb-autocomplete__trigger:hover:not([disabled]) .dnb-autocomplete__icon .dnb-icon {
+      html:not([data-is-touch]) .dnb-autocomplete__status--error:not(.dnb-autocomplete--opened) .dnb-autocomplete__input:hover:not([disabled]) .dnb-autocomplete__icon .dnb-icon {
         color: var(--color-fire-red); }
-  .dnb-autocomplete__status--error:not(.dnb-autocomplete--opened) .dnb-autocomplete__trigger,
+  .dnb-autocomplete__status--error:not(.dnb-autocomplete--opened) .dnb-autocomplete__input,
   .dnb-autocomplete__status--error:not(.dnb-autocomplete--opened) .dnb-autocomplete__icon {
     color: var(--color-fire-red); }
-  .dnb-autocomplete__triangle::before {
-    border: none;
-    background-color: var(--color-white);
-    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.16); }
-  .dnb-autocomplete__option:first-of-type:hover ~ .dnb-autocomplete__triangle::before,
-  .dnb-autocomplete--direction-bottom .dnb-autocomplete__option.closest-to-top:hover ~ .dnb-autocomplete__triangle::before,
-  .dnb-autocomplete--direction-top .dnb-autocomplete__option.closest-to-bottom:hover ~ .dnb-autocomplete__triangle::before {
-    background-color: var(--autocomplete-option-background-color--hover); }
-  .dnb-autocomplete--direction-bottom .dnb-autocomplete__option.closest-to-top.dnb-autocomplete__option--selected ~ .dnb-autocomplete__triangle::before,
-  .dnb-autocomplete--direction-bottom .dnb-autocomplete__option.closest-to-top.dnb-autocomplete__option--focus ~ .dnb-autocomplete__triangle::before,
-  .dnb-autocomplete--direction-top .dnb-autocomplete__option.closest-to-bottom.dnb-autocomplete__option--selected ~ .dnb-autocomplete__triangle::before,
-  .dnb-autocomplete--direction-top .dnb-autocomplete__option.closest-to-bottom.dnb-autocomplete__option--focus ~ .dnb-autocomplete__triangle::before {
-    background-color: var(--autocomplete-option-background-color--selected); }
   .dnb-autocomplete > .dnb-form-status {
     transform: translateY(-0.4375rem); }
 "
@@ -2075,10 +1956,10 @@ legend.dnb-form-label {
   .dnb-autocomplete .dnb-drawer-list__list {
     top: calc( var(--autocomplete-height) + var(--autocomplete-focus-border-width));
     bottom: auto; }
-  .dnb-autocomplete--direction-top .dnb-drawer-list__list {
+  .dnb-autocomplete--direction-top .dnb-drawer-list .dnb-drawer-list__list {
     bottom: calc( var(--autocomplete-height) + var(--autocomplete-focus-border-width));
     top: auto; }
-  .dnb-autocomplete__align--right .dnb-drawer-list__list {
+  .dnb-autocomplete__align--right .dnb-drawer-list .dnb-drawer-list__list {
     left: auto; }
   .dnb-autocomplete__icon {
     position: relative;
@@ -2088,47 +1969,19 @@ legend.dnb-form-label {
     pointer-events: none; }
   .dnb-autocomplete__size--large .dnb-drawer-list__triangle {
     margin: 0 calc(var(--autocomplete-padding-horizontal) + 0.25rem); }
-  .dnb-autocomplete__trigger {
+  .dnb-autocomplete__input {
     position: relative;
     z-index: 1;
-    user-select: none;
-    -webkit-user-select: none;
     display: inline-flex;
     align-items: center;
     outline: none;
     margin-right: 0.5rem; }
-  .dnb-autocomplete__shell, .dnb-autocomplete__trigger {
+  .dnb-autocomplete__shell, .dnb-autocomplete__input {
     border-radius: var(--autocomplete-height); }
-  .dnb-autocomplete--is-popup .dnb-autocomplete__shell,
-  .dnb-autocomplete--is-popup .dnb-autocomplete__trigger {
-    padding: 0;
-    width: var(--autocomplete-height);
-    height: var(--autocomplete-height); }
-  .dnb-autocomplete--is-popup .dnb-autocomplete__icon {
-    width: 100%; }
-  .dnb-autocomplete--is-popup .dnb-drawer-list__list {
-    left: -0.5rem;
-    min-width: var(--autocomplete-width); }
-  .dnb-autocomplete--is-popup.dnb-autocomplete--scroll .dnb-autocomplete__options {
-    min-height: 1rem; }
-  .dnb-autocomplete--is-popup.dnb-autocomplete__size--small .dnb-autocomplete__shell,
-  .dnb-autocomplete--is-popup.dnb-autocomplete__size--small .dnb-autocomplete__trigger {
-    width: var(--autocomplete-height--small); }
-  .dnb-autocomplete--is-popup.dnb-autocomplete__size--small .dnb-drawer-list__list {
-    left: -0.75rem; }
-  .dnb-autocomplete--is-popup.dnb-autocomplete__align--right .dnb-drawer-list__list {
-    left: auto;
-    right: -0.5rem; }
-  .dnb-autocomplete--is-popup.dnb-autocomplete__align--right.dnb-autocomplete__size--small .dnb-drawer-list__list {
-    left: -0.75rem; }
-  .dnb-autocomplete--is-popup.dnb-autocomplete__size--medium .dnb-autocomplete__trigger {
-    width: var(--autocomplete-height--medium); }
-  .dnb-autocomplete--is-popup.dnb-autocomplete__size--large .dnb-autocomplete__trigger {
-    width: var(--autocomplete-height--large); }
   .dnb-autocomplete__size--small {
     line-height: var(--autocomplete-height--small); }
   .dnb-autocomplete__size--small .dnb-autocomplete__shell,
-  .dnb-autocomplete__size--small .dnb-autocomplete__trigger {
+  .dnb-autocomplete__size--small .dnb-autocomplete__input {
     height: var(--autocomplete-height--small); }
   .dnb-autocomplete__size--small .dnb-drawer-list .dnb-drawer-list__list {
     top: var(--autocomplete-height--small); }
@@ -2138,7 +1991,7 @@ legend.dnb-form-label {
   .dnb-autocomplete__size--medium {
     line-height: var(--autocomplete-height--medium); }
   .dnb-autocomplete__size--medium .dnb-autocomplete__shell,
-  .dnb-autocomplete__size--medium .dnb-autocomplete__trigger {
+  .dnb-autocomplete__size--medium .dnb-autocomplete__input {
     height: var(--autocomplete-height--medium);
     border-radius: var(--autocomplete-height--medium); }
   .dnb-autocomplete__size--medium .dnb-drawer-list .dnb-drawer-list__list {
@@ -2149,7 +2002,7 @@ legend.dnb-form-label {
   .dnb-autocomplete__size--large {
     line-height: var(--autocomplete-height--large); }
   .dnb-autocomplete__size--large .dnb-autocomplete__shell,
-  .dnb-autocomplete__size--large .dnb-autocomplete__trigger {
+  .dnb-autocomplete__size--large .dnb-autocomplete__input {
     height: var(--autocomplete-height--large);
     border-radius: var(--autocomplete-height--large); }
   .dnb-autocomplete__size--large .dnb-drawer-list .dnb-drawer-list__list {

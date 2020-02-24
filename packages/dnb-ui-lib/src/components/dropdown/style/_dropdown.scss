@@ -66,14 +66,14 @@
     // - 1px
     bottom: auto;
   }
-  &--direction-top .dnb-drawer-list__list {
+  &--direction-top .dnb-drawer-list .dnb-drawer-list__list {
     bottom: calc(
       var(--dropdown-height) + var(--dropdown-focus-border-width)
     );
     // - 1px
     top: auto;
   }
-  &__align--right .dnb-drawer-list__list {
+  &__align--right .dnb-drawer-list .dnb-drawer-list__list {
     left: auto;
   }
 
@@ -122,7 +122,7 @@
   &--is-popup &__icon {
     width: 100%;
   }
-  &--is-popup .dnb-drawer-list__list {
+  &--is-popup .dnb-drawer-list .dnb-drawer-list__list {
     left: -0.5rem;
     min-width: var(--dropdown-width);
   }

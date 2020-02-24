@@ -68,14 +68,14 @@
     // - 1px
     bottom: auto;
   }
-  &--direction-top .dnb-drawer-list__list {
+  &--direction-top .dnb-drawer-list .dnb-drawer-list__list {
     bottom: calc(
       var(--autocomplete-height) + var(--autocomplete-focus-border-width)
     );
     // - 1px
     top: auto;
   }
-  &__align--right .dnb-drawer-list__list {
+  &__align--right .dnb-drawer-list .dnb-drawer-list__list {
     left: auto;
   }
 
@@ -93,13 +93,13 @@
     margin: 0 calc(var(--autocomplete-padding-horizontal) + 0.25rem);
   }
 
-  // button
-  &__trigger {
+  // input
+  &__input {
     position: relative;
     z-index: 1;
 
-    user-select: none;
-    -webkit-user-select: none; // Safari / Touch fix
+    // user-select: none;
+    // -webkit-user-select: none; // Safari / Touch fix
 
     display: inline-flex;
     align-items: center;
@@ -110,7 +110,7 @@
     // width: 100%;
     // padding: 0 var(--autocomplete-padding-horizontal);
 
-    // &.dnb-button {
+    // &.dnb-input {
     //   line-height: var(--autocomplete-height);
     // }
   }
@@ -118,50 +118,8 @@
   // }
 
   &__shell,
-  &__trigger {
-    // height: var(--autocomplete-height);
+  &__input {
     border-radius: var(--autocomplete-height);
-  }
-
-  // Popup menu
-  &--is-popup &__shell,
-  &--is-popup &__trigger {
-    padding: 0;
-    width: var(--autocomplete-height);
-    height: var(--autocomplete-height);
-  }
-  &--is-popup &__icon {
-    width: 100%;
-  }
-  &--is-popup .dnb-drawer-list__list {
-    left: -0.5rem;
-    min-width: var(--autocomplete-width);
-  }
-  &--is-popup#{&}--scroll &__options {
-    min-height: 1rem;
-  }
-  // small popup
-  &--is-popup#{&}__size--small &__shell,
-  &--is-popup#{&}__size--small &__trigger {
-    width: var(--autocomplete-height--small);
-  }
-  &--is-popup#{&}__size--small .dnb-drawer-list__list {
-    left: -0.75rem;
-  }
-  &--is-popup#{&}__align--right .dnb-drawer-list__list {
-    left: auto;
-    right: -0.5rem;
-  }
-  &--is-popup#{&}__align--right#{&}__size--small .dnb-drawer-list__list {
-    left: -0.75rem;
-  }
-  // medium popup - TODO: needs .dnb-drawer-list__list correction
-  &--is-popup#{&}__size--medium &__trigger {
-    width: var(--autocomplete-height--medium);
-  }
-  // large popup - TODO: needs .dnb-drawer-list__list correction
-  &--is-popup#{&}__size--large &__trigger {
-    width: var(--autocomplete-height--large);
   }
 
   // Size--small
@@ -169,10 +127,10 @@
     line-height: var(--autocomplete-height--small);
   }
   &__size--small &__shell,
-  &__size--small &__trigger {
+  &__size--small &__input {
     height: var(--autocomplete-height--small);
   }
-  // &__size--small &__trigger.dnb-button {
+  // &__size--small &__input.dnb-input {
   //   line-height: var(--autocomplete-height--small);
   // }
   &__size--small .dnb-drawer-list .dnb-drawer-list__list {
@@ -188,11 +146,11 @@
     line-height: var(--autocomplete-height--medium);
   }
   &__size--medium &__shell,
-  &__size--medium &__trigger {
+  &__size--medium &__input {
     height: var(--autocomplete-height--medium);
     border-radius: var(--autocomplete-height--medium);
   }
-  // &__size--medium &__trigger.dnb-button {
+  // &__size--medium &__input.dnb-input {
   //   line-height: var(--autocomplete-height--medium);
   // }
   &__size--medium .dnb-drawer-list .dnb-drawer-list__list {
@@ -208,11 +166,11 @@
     line-height: var(--autocomplete-height--large);
   }
   &__size--large &__shell,
-  &__size--large &__trigger {
+  &__size--large &__input {
     height: var(--autocomplete-height--large);
     border-radius: var(--autocomplete-height--large);
   }
-  // &__size--large &__trigger.dnb-button {
+  // &__size--large &__input.dnb-input {
   //   line-height: var(--autocomplete-height--large);
   // }
   &__size--large .dnb-drawer-list .dnb-drawer-list__list {

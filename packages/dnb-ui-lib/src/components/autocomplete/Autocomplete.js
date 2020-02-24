@@ -592,7 +592,7 @@ export default class Autocomplete extends PureComponent {
 
     const inputParams = {
       className: classnames(
-        'dnb-autocomplete__trigger',
+        'dnb-autocomplete__input',
         opened && 'dnb-button--active'
       ),
       id,
