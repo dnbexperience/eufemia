@@ -43,6 +43,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
         "status_state": "status_state",
         "stretch": "stretch",
         "submit_button_icon": "submit_button_icon",
+        "submit_button_status": "submit_button_status",
         "submit_button_title": "submit_button_title",
         "submit_button_variant": "custom type not supported, please set the correct value for submit_button_variant prop",
         "submit_element": [Function],
@@ -106,6 +107,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
   status_state="error"
   stretch={null}
   submit_button_icon="search"
+  submit_button_status={null}
   submit_button_title={null}
   submit_button_variant="secondary"
   submit_element={null}
@@ -194,6 +196,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
                   "status_state": "status_state",
                   "stretch": "stretch",
                   "submit_button_icon": "submit_button_icon",
+                  "submit_button_status": "submit_button_status",
                   "submit_button_title": "submit_button_title",
                   "submit_button_variant": "custom type not supported, please set the correct value for submit_button_variant prop",
                   "submit_element": [Function],
@@ -236,6 +239,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
             on_submit_blur={null}
             on_submit_focus={null}
             size={null}
+            status={null}
             title="Send knapp"
             value="test"
             variant="secondary"
@@ -282,6 +286,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
                     "status_state": "status_state",
                     "stretch": "stretch",
                     "submit_button_icon": "submit_button_icon",
+                    "submit_button_status": "submit_button_status",
                     "submit_button_title": "submit_button_title",
                     "submit_button_variant": "custom type not supported, please set the correct value for submit_button_variant prop",
                     "submit_element": [Function],
@@ -327,6 +332,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
               on_submit_blur={null}
               on_submit_focus={null}
               size={null}
+              status={null}
               title="Send knapp"
               value="test"
               variant="secondary"
@@ -512,6 +518,7 @@ exports[`Input component have to match type="text" snapshot 1`] = `
         "status_state": "status_state",
         "stretch": "stretch",
         "submit_button_icon": "submit_button_icon",
+        "submit_button_status": "submit_button_status",
         "submit_button_title": "submit_button_title",
         "submit_button_variant": "custom type not supported, please set the correct value for submit_button_variant prop",
         "submit_element": [Function],
@@ -575,6 +582,7 @@ exports[`Input component have to match type="text" snapshot 1`] = `
   status_state="error"
   stretch={null}
   submit_button_icon="search"
+  submit_button_status={null}
   submit_button_title={null}
   submit_button_variant="secondary"
   submit_element={null}

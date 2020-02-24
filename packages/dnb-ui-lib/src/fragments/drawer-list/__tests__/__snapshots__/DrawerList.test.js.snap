@@ -60,6 +60,7 @@ exports[`DrawerList component have to match snapshot 1`] = `
   focusable="focusable"
   icon_position="icon_position"
   id="drawer-list-id"
+  ignore_events="ignore_events"
   keep_open="keep_open"
   max_height={1}
   no_animation="no_animation"
@@ -73,9 +74,10 @@ exports[`DrawerList component have to match snapshot 1`] = `
   opened={true}
   preparedData={Array []}
   prevent_close="prevent_close"
+  prevent_focus="prevent_focus"
   prevent_selection={null}
   scrollable="scrollable"
-  use_key={true}
+  skip_keysearch="skip_keysearch"
   value={2}
   wrapper_element={Object {}}
 >
@@ -209,6 +211,9 @@ exports[`DrawerList scss have to match default theme snapshot 1`] = `
         background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgZmlsbD0ibm9uZSI+ICA8cGF0aCAgICBmaWxsPSIjRTlGOEY0IiAgICBkPSJNMyA4LjhhLjc1Ljc1IDAgMSAwLTEuMjIuODZMMyA4Ljc5em0xLjg0IDMuOWwuNjMtLjQxdi0uMDFoLS4wMWwtLjYyLjQyem0xLjcxLjA1bC0uNTktLjQ2di4wMWwuNTkuNDV6bTguNDMtOS40NWEuNzUuNzUgMCAwIDAtMS4xOC0uOTNsMS4xOC45M3pNMS43OCA5LjY2bDIuNDUgMy40OCAxLjIzLS44N0wzIDguOGwtMS4yMy44N3ptMi40NCAzLjQ2Yy4zMi40OC44Ni43OCAxLjQ0LjhsLjA1LTEuNWEuMy4zIDAgMCAxLS4yNC0uMTNsLTEuMjUuODN6bTEuNDQuOGExLjggMS44IDAgMCAwIDEuNDktLjcxbC0xLjItLjlhLjMuMyAwIDAgMS0uMjQuMWwtLjA1IDEuNXptMS40OC0uN2w3Ljg0LTkuOTItMS4xOC0uOTMtNy44NCA5LjkyIDEuMTguOTN6Ii8+PC9zdmc+); }
       .dnb-drawer-list__option--selected::before {
         content: none; }
+    .dnb-drawer-list__option--ignore .dnb-drawer-list__option__inner {
+      color: var(--drawer-list-option-color);
+      background-color: var(--drawer-list-option-background-color); }
     .dnb-drawer-list__option--focus:not(.dnb-drawer-list__option--selected) .dnb-drawer-list__option__inner {
       color: var(--drawer-list-option-color--hover);
       background-color: var(--drawer-list-option-background-color--hover); }
@@ -411,6 +416,9 @@ exports[`DrawerList scss have to match snapshot 1`] = `
       overflow: hidden;
       text-overflow: ellipsis;
       width: 100%; }
+    .dnb-drawer-list__option--ignore {
+      cursor: default;
+      pointer-events: none; }
   .dnb-drawer-list__triangle {
     position: absolute;
     top: calc( var(--drawer-list-focus-border-width) - var(--drawer-list-height) / 2);

@@ -22,9 +22,8 @@ import Context from '../../shared/Context'
 import Suffix from '../../shared/helpers/Suffix'
 import FormLabel from '../form-label/FormLabel'
 import FormStatus from '../form-status/FormStatus'
-import Input from '../input/Input'
+import Input, { SubmitButton } from '../input/Input'
 import DrawerList, {
-  grabStringFromReact,
   propTypes as DrawerPropTypes
 } from '../../fragments/drawer-list/DrawerList'
 
@@ -40,6 +39,7 @@ const renderProps = {
 const propTypes = {
   id: PropTypes.string,
   title: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
+  no_options: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
   icon: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.node,
@@ -112,6 +112,7 @@ const propTypes = {
 const defaultProps = {
   id: null,
   title: 'Option Menu',
+  no_options: 'No options',
   icon: null,
   icon_size: null,
   icon_position: 'left',
@@ -164,49 +165,6 @@ export default class Autocomplete extends PureComponent {
 
   static enableWebComponent() {
     registerElement(Autocomplete.tagName, Autocomplete, defaultProps)
-  }
-
-  static parseContentTitle = (
-    dataItem,
-    { separator = '\n', removeNumericOnlyValues = false } = {}
-  ) => {
-    let ret = ''
-    const onlyNumericRegex = /[0-9.,-\s]+/
-    if (Array.isArray(dataItem) && dataItem.length > 0) {
-      dataItem = { content: dataItem }
-    }
-    if (dataItem && Array.isArray(dataItem.content)) {
-      ret = dataItem.content
-        .reduce((acc, cur) => {
-          // check if we have React inside, with strings we can use
-          cur = grabStringFromReact(cur)
-          if (cur === false) {
-            return acc
-          }
-          // remove only numbers
-          const found =
-            removeNumericOnlyValues && cur && cur.match(onlyNumericRegex)
-          if (!(found && found[0].length === cur.length)) {
-            acc.push(cur)
-          }
-          return acc
-        }, [])
-        .join(separator)
-    } else {
-      ret = grabStringFromReact((dataItem && dataItem.content) || dataItem)
-    }
-    if (
-      dataItem &&
-      dataItem.selected_value &&
-      !onlyNumericRegex.test(dataItem.selected_value)
-    ) {
-      ret = dataItem.selected_value + separator + ret
-    }
-    // make sure we don't return empty strings
-    if (Array.isArray(dataItem) && dataItem.length === 0) {
-      ret = null
-    }
-    return ret
   }
 
   static parseData(data) {
@@ -295,6 +253,10 @@ export default class Autocomplete extends PureComponent {
       return
     }
 
+    if (this.hasNoFilterOptions()) {
+      this.resetFilter()
+    }
+
     this.setState(
       {
         opened: false,
@@ -344,16 +306,44 @@ export default class Autocomplete extends PureComponent {
       this.setVisible()
     }
   }
-  onMouseDownHandler = () => {
-    if (!this.state.hidden && this.state.opened) {
+  onSubmitHandler = () => {
+    // here we reset the "no options" state
+    // because the user clicked on the submit button to open the whole list
+    this.resetFilter({ showOriginalData: true })
+    if (
+      this.hasNoFilterOptions() ||
+      (!this.state.hidden && this.state.opened)
+    ) {
       this.setHidden()
     } else {
       this.setVisible()
     }
   }
+  hasNoFilterOptions = () => {
+    return (
+      this.state.data &&
+      ((this.state.data.length === 1 &&
+        this.state.data[0].ignore_events) ||
+        this.state.data.length === 0)
+    )
+  }
+  resetFilter = ({ showOriginalData } = {}) => {
+    this.setState({
+      value: null,
+      ignore_events: false,
+      selected_item: undefined,
+      active_item: undefined,
+      data: showOriginalData ? this.state.originalData : [],
+      _listenForPropChanges: false
+    })
+  }
   onTriggerKeyDownHandler = ({ event: e }) => {
     switch (keycode(e)) {
+      case 'up':
       case 'down':
+        if (this.hasNoFilterOptions()) {
+          this.resetFilter({ showOriginalData: true })
+        }
         e.preventDefault()
         this.setVisible()
         break
@@ -379,15 +369,24 @@ export default class Autocomplete extends PureComponent {
 
   onValueChangeHandler = ({ value }) => {
     if (value.length > 0) {
+      let ignore_events = false
       const data = this.runFilter(value, this.state.searchIndex)
+
+      if (data.length === 0) {
+        this.resetFilter()
+        ignore_events = true
+        data.push({ content: this._props.no_options, ignore_events })
+      }
 
       this.setState({
         data,
+        ignore_events,
         _listenForPropChanges: false
       })
 
       this.setVisible()
     } else {
+      this.resetFilter()
       this.setHidden()
     }
   }
@@ -460,12 +459,12 @@ export default class Autocomplete extends PureComponent {
 
   render() {
     // use only the props from context, who are available here anyway
-    const props = extendPropsWithContext(
+    const props = (this._props = extendPropsWithContext(
       this.props,
       defaultProps,
       this.context.formRow,
       this.context.translation.Autocomplete
-    )
+    ))
 
     const {
       title: titleProp,
@@ -500,13 +499,20 @@ export default class Autocomplete extends PureComponent {
       id: _id, // eslint-disable-line
       opened: _opened, // eslint-disable-line
       value: _value, // eslint-disable-line
+      no_options: _no_options, // eslint-disable-line
 
       ...attributes
     } = props
 
     const id = this._id
 
-    const { data, direction, opened, selected_item, use_key } = this.state
+    const {
+      data,
+      direction,
+      opened,
+      selected_item,
+      ignore_events
+    } = this.state
     const showStatus = status && status !== 'error'
 
     const currentOptionData = DrawerList.getCurrentData(
@@ -516,12 +522,12 @@ export default class Autocomplete extends PureComponent {
     const title =
       data && data.length > 0
         ? currentOptionData.selected_value ||
-          Autocomplete.parseContentTitle(currentOptionData) ||
+          DrawerList.parseContentTitle(currentOptionData) ||
           titleProp
         : titleProp
     const value =
       data && data.length > 0
-        ? Autocomplete.parseContentTitle(currentOptionData)
+        ? DrawerList.parseContentTitle(currentOptionData)
         : null
 
     const mainParams = {
@@ -544,7 +550,7 @@ export default class Autocomplete extends PureComponent {
       )
     }
 
-    const triggerParams = {
+    const inputParams = {
       className: classnames(
         'dnb-autocomplete__trigger',
         opened && 'dnb-button--active'
@@ -552,27 +558,35 @@ export default class Autocomplete extends PureComponent {
       id,
       disabled,
       ['aria-haspopup']: true, //listbox
-      ['aria-expanded']: opened,
       ...attributes,
       onFocus: this.onFocusHandler,
       onBlur: this.onBlurHandler
     }
 
+    const triggerParams = {
+      ['aria-haspopup']: true, //listbox
+      ['aria-expanded']: opened
+    }
+
     if (typeof value === 'string') {
-      triggerParams.value = value
+      inputParams.value = value
     } else if (typeof title === 'string') {
-      triggerParams.placeholder = title
+      inputParams.placeholder = title
     }
 
     if (showStatus || suffix) {
-      triggerParams['aria-describedby'] = `${
+      inputParams['aria-describedby'] = `${
         showStatus ? id + '-status' : ''
       } ${suffix ? id + '-suffix' : ''}`
     }
 
+    if (this.hasNoFilterOptions()) {
+      inputParams.value = ''
+    }
+
     // also used for code markup simulation
     validateDOMAttributes(null, mainParams)
-    validateDOMAttributes(this.props, triggerParams)
+    validateDOMAttributes(this.props, inputParams)
 
     // make it pissible to grab the rest attributes and return it with all events
     this.attributes = validateDOMAttributes(null, attributes)
@@ -608,7 +622,7 @@ export default class Autocomplete extends PureComponent {
           <span className="dnb-autocomplete__row">
             <span className="dnb-autocomplete__shell" ref={this._refShell}>
               {CustomTrigger ? (
-                <CustomTrigger {...triggerParams} />
+                <CustomTrigger {...inputParams} />
               ) : (
                 <Input
                   icon={icon || 'search'}
@@ -617,19 +631,28 @@ export default class Autocomplete extends PureComponent {
                     icon_size || (size === 'large' ? 'medium' : 'default')
                   }
                   type="search" // gives us also autoComplete=off
-                  submit_button_icon={icon || 'chevron-down'}
-                  submit_button_icon_size={
-                    icon_size || (size === 'large' ? 'medium' : 'default')
+                  submit_element={
+                    <SubmitButton
+                      // value={inputParams.value}
+                      icon={icon || 'chevron-down'}
+                      icon_size={
+                        icon_size ||
+                        (size === 'large' ? 'medium' : 'default')
+                      }
+                      status={!opened && status ? status_state : null}
+                      title={'submit_button_title'}
+                      variant="secondary"
+                      disabled={disabled}
+                      size={size}
+                      on_submit={this.onSubmitHandler}
+                      {...triggerParams}
+                    />
                   }
-                  submit_button_status={
-                    !opened && status ? status_state : null
-                  }
-                  on_submit={this.onMouseDownHandler}
                   on_change={this.onValueChangeHandler}
                   on_focus={this.onFocusChangeHandler}
                   onKeyDown={this.onTriggerKeyDownHandler}
                   ref={this._refButton}
-                  {...triggerParams}
+                  {...inputParams}
                 />
               )}
 
@@ -638,7 +661,7 @@ export default class Autocomplete extends PureComponent {
                 inner_class="dnb-autocomplete__list"
                 data={data}
                 // preparedData={data}
-                use_key={use_key}
+                ignore_events={ignore_events}
                 value={selected_item}
                 default_value={default_value}
                 scrollable={scrollable}

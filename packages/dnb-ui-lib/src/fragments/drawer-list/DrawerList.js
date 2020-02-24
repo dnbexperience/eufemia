@@ -89,7 +89,7 @@ export const propTypes = {
   class: PropTypes.string,
   data: dataType,
   preparedData: PropTypes.array,
-  use_key: PropTypes.bool,
+  ignore_events: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
 
   // React
   className: PropTypes.string,
@@ -129,7 +129,7 @@ const defaultProps = {
   class: null,
   data: null,
   preparedData: null,
-  use_key: null,
+  ignore_events: null,
 
   // React props
   className: null,
@@ -194,35 +194,20 @@ export default class DrawerList extends PureComponent {
     if (Array.isArray(dataItem) && dataItem.length === 0) {
       ret = null
     }
+
+    if (ret && ret.length === 1 && ret[0].ignore_events) {
+      return null
+    }
+
     return ret
   }
 
-  static usesKeyAsValue(props) {
-    if (props.preparedData && Array.isArray(props.preparedData)) {
-      if (props.use_key) {
-        return true
-      }
-      return (
-        !(
-          typeof props.value !== 'undefined' &&
-          parseFloat(props.value) > -1
-        ) &&
-        props.value !== 'initval' &&
-        props.value !== null
-      )
-    }
-
-    let res
-
-    if (typeof props.data === 'function') {
-      res = props.data()
-    } else if (props.data) {
-      res = props.data
-    } else {
-      res = props.children
-    }
-
-    if (res && typeof res === 'object' && !Array.isArray(res)) {
+  static hasObjectKeyAsValue(state) {
+    if (
+      state._originalData &&
+      typeof state._originalData === 'object' &&
+      !Array.isArray(state._originalData)
+    ) {
       return true
     }
 
@@ -230,11 +215,7 @@ export default class DrawerList extends PureComponent {
   }
 
   // normalize data
-  static getData(props) {
-    if (props.preparedData && Array.isArray(props.preparedData)) {
-      return props.preparedData
-    }
-
+  static normalizeData(props) {
     let res
 
     if (typeof props.data === 'function') {
@@ -260,6 +241,14 @@ export default class DrawerList extends PureComponent {
     return res || []
   }
 
+  static getData(props) {
+    if (props.preparedData && Array.isArray(props.preparedData)) {
+      return props.preparedData
+    }
+
+    return DrawerList.normalizeData(props)
+  }
+
   static getCurrentIndex(value, data) {
     // is numeric
     if (parseFloat(value) > -1) {
@@ -283,7 +272,7 @@ export default class DrawerList extends PureComponent {
   }
 
   static getSelectedItemValue(value, state) {
-    if (state.use_key) {
+    if (DrawerList.hasObjectKeyAsValue(state)) {
       return DrawerList.isCurrentValue(
         state.data &&
           state.data.filter((data, i) => i === parseFloat(value))[0]
@@ -313,7 +302,6 @@ export default class DrawerList extends PureComponent {
 
   static prepareStartupState(props) {
     const opened = isTrue(props.opened)
-    const use_key = DrawerList.usesKeyAsValue(props)
     const data = DrawerList.getData(props)
 
     let selected_item = DrawerList.getCurrentIndex(props.value, data)
@@ -325,7 +313,6 @@ export default class DrawerList extends PureComponent {
       _listenForPropChanges: true,
       opened,
       data,
-      use_key,
       direction: props.direction,
       max_height: props.max_height,
       active_item: selected_item,
@@ -338,6 +325,8 @@ export default class DrawerList extends PureComponent {
     if (state.opened && !state.data && typeof props.data === 'function') {
       state.data = DrawerList.getData(props)
     }
+    state._originalData = props.data
+
     if (state._listenForPropChanges) {
       if (
         (props.data && typeof props.data !== 'function') ||
@@ -382,6 +371,15 @@ export default class DrawerList extends PureComponent {
             )
           })
         }
+      }
+
+      // reset selected
+      if (
+        (state.data && state.data.length === 0) ||
+        isTrue(props.ignore_events)
+      ) {
+        state.active_item = null
+        state.selected_item = null
       }
     }
     state._listenForPropChanges = true
@@ -728,6 +726,10 @@ export default class DrawerList extends PureComponent {
       }
     }
 
+    if (isTrue(this.props.ignore_events)) {
+      return
+    }
+
     let active_item = parseFloat(this.state.active_item)
 
     if (isNaN(active_item)) {
@@ -1049,9 +1051,11 @@ export default class DrawerList extends PureComponent {
       no_scroll_animation,
       prevent_selection,
       inner_class,
+      ignore_events,
       className,
       class: _className,
 
+      // use_object_mode: _use_object_mode, // eslint-disable-line
       wrapper_element: _wrapper_element, // eslint-disable-line
       direction: _direction, // eslint-disable-line
       max_height: _max_height, // eslint-disable-line
@@ -1147,6 +1151,9 @@ export default class DrawerList extends PureComponent {
     // make it pissible to grab the rest attributes and return it with all events
     this.attributes = validateDOMAttributes(null, attributes)
 
+    const selectedItem = parseFloat(selected_item)
+    const ignoreEvents = isTrue(ignore_events)
+
     return (
       <span {...mainParams} ref={this._refShell}>
         {hidden === false && (
@@ -1158,7 +1165,7 @@ export default class DrawerList extends PureComponent {
                 triangleRef={this._refTriangle}
               >
                 {data.map((dataItem, i) => {
-                  const isCurrent = i === parseFloat(selected_item)
+                  const isCurrent = i === selectedItem
 
                   const liParams = {
                     id: `option-${id}-${i}`,
@@ -1174,6 +1181,16 @@ export default class DrawerList extends PureComponent {
                     onClick: this.selectItemHandler,
                     onKeyDown: this.preventTab,
                     'data-item': i
+                  }
+
+                  if (ignoreEvents) {
+                    liParams.selected = null
+                    liParams.onClick = null
+                    liParams.onClick = null
+                    liParams.className = classnames(
+                      liParams.className,
+                      'dnb-drawer-list__option--ignore'
+                    )
                   }
 
                   return (
@@ -1311,7 +1328,7 @@ DrawerList.Item.defaultProps = {
   value: null
 }
 
-export function grabStringFromReact(cur) {
+function grabStringFromReact(cur) {
   if (React.isValidElement(cur)) {
     if (typeof cur.props.children === 'string') {
       cur = cur.props.children

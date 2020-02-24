@@ -69,8 +69,8 @@ exports[`Autocomplete component have to match snapshot 1`] = `
   label_direction="horizontal"
   label_sr_only="label_sr_only"
   max_height={1}
-  more_menu={null}
   no_animation="no_animation"
+  no_options="no_options"
   no_scroll_animation="no_scroll_animation"
   on_change={[Function]}
   on_hide={[Function]}
@@ -92,7 +92,7 @@ exports[`Autocomplete component have to match snapshot 1`] = `
   value={2}
 >
   <span
-    className="dnb-autocomplete dnb-autocomplete--direction-bottom dnb-form-component class className dnb-autocomplete--opened dnb-autocomplete--horizontal dnb-autocomplete--icon-position-icon_position dnb-autocomplete__status--error dnb-autocomplete__form-status"
+    className="dnb-autocomplete dnb-autocomplete--direction-bottom dnb-form-component class className dnb-autocomplete--opened dnb-autocomplete--horizontal dnb-autocomplete__status--error dnb-autocomplete__form-status"
   >
     <FormLabel
       class={null}
@@ -242,178 +242,274 @@ exports[`Autocomplete component have to match snapshot 1`] = `
         <span
           className="dnb-autocomplete__shell"
         >
-          <Button
+          <Input
+            align={null}
             aria-describedby="autocomplete-id-status autocomplete-id-suffix"
-            aria-expanded={true}
             aria-haspopup={true}
-            aria-label="Feriekonto - Kari Nordmann med et kjempelangt etternavnsen"
-            bounding={false}
+            autocomplete="off"
             class={null}
             className="dnb-autocomplete__trigger dnb-button--active"
             custom_element={null}
             custom_method={null}
             disabled="disabled"
             global_status_id={null}
-            href={null}
-            icon={null}
-            icon_position="right"
-            icon_size={null}
+            icon="icon"
+            icon_position="icon_position"
+            icon_size="icon_size"
             id="autocomplete-id"
-            innerRef={null}
+            inner_ref={null}
+            input_attributes={null}
+            input_class={null}
+            input_element={null}
+            input_state={null}
+            keep_placeholder={null}
+            label={null}
+            label_direction={null}
+            label_sr_only={null}
             onBlur={[Function]}
-            onClick={null}
             onFocus={[Function]}
             onKeyDown={[Function]}
-            onMouseDown={[Function]}
-            on_click={null}
-            size="medium"
+            on_blur={null}
+            on_change={[Function]}
+            on_focus={[Function]}
+            on_state_update={null}
+            on_submit={null}
+            on_submit_blur={null}
+            on_submit_focus={null}
+            placeholder={null}
+            readOnly={false}
+            selectall={null}
+            size={null}
             status={null}
             status_animation={null}
             status_state="error"
-            text={null}
-            title={null}
-            type="button"
-            variant="secondary"
-          >
-            <button
-              aria-describedby="autocomplete-id-status autocomplete-id-suffix"
-              aria-expanded={true}
-              aria-haspopup={true}
-              aria-label="Feriekonto - Kari Nordmann med et kjempelangt etternavnsen"
-              className="dnb-button dnb-button--secondary dnb-autocomplete__trigger dnb-button--active dnb-button--size-medium dnb-button--has-text"
-              disabled={false}
-              id="autocomplete-id"
-              onBlur={[Function]}
-              onClick={[Function]}
-              onFocus={[Function]}
-              onKeyDown={[Function]}
-              onMouseDown={[Function]}
-              onMouseOut={[Function]}
-              type="button"
-            >
-              <Content
-                aria-describedby="autocomplete-id-status autocomplete-id-suffix"
+            stretch={null}
+            submit_button_icon="search"
+            submit_button_status={null}
+            submit_button_title={null}
+            submit_button_variant="secondary"
+            submit_element={
+              <ForwardRef
                 aria-expanded={true}
                 aria-haspopup={true}
-                aria-label="Feriekonto - Kari Nordmann med et kjempelangt etternavnsen"
-                bounding={false}
-                class={null}
-                className="dnb-autocomplete__trigger dnb-button--active"
-                content={
-                  Array [
-                    <span
-                      className="dnb-autocomplete__text"
-                    >
-                      <span
-                        className="dnb-autocomplete__text__inner"
-                      >
-                        Feriekonto - Kari Nordmann med et kjempelangt etternavnsen
-                      </span>
-                    </span>,
-                    <span
-                      aria-hidden={true}
-                      className="dnb-autocomplete__icon"
-                    >
-                      <IconPrimary
-                        alt={null}
-                        aria-hidden={true}
-                        attributes={null}
-                        border={null}
-                        className={null}
-                        color={null}
-                        height={null}
-                        icon="icon"
-                        modifier={null}
-                        size="icon_size"
-                        title={null}
-                        width={null}
-                      />
-                    </span>,
-                  ]
-                }
-                custom_element={null}
-                custom_method={null}
                 disabled="disabled"
-                global_status_id={null}
-                href={null}
-                icon={null}
-                icon_position="right"
-                icon_size={null}
-                id="autocomplete-id"
-                innerRef={null}
-                isIconOnly={false}
-                onBlur={[Function]}
-                onClick={null}
-                onFocus={[Function]}
-                onKeyDown={[Function]}
-                onMouseDown={[Function]}
-                on_click={null}
-                size="medium"
+                icon="icon"
+                icon_size="icon_size"
+                on_submit={[Function]}
+                size={null}
                 status={null}
-                status_animation={null}
-                status_state="error"
-                text={null}
-                title={null}
-                type="button"
+                title="submit_button_title"
                 variant="secondary"
+              />
+            }
+            suffix={null}
+            type="search"
+            value="1134 56 78962
+Feriekonto - Kari Nordmann med et kjempelangt etternavnsen"
+          >
+            <span
+              className="dnb-input dnb-input--search dnb-form-component dnb-autocomplete__trigger dnb-button--active dnb-input--icon-position-icon_position dnb-input--has-icon dnb-input--icon-size-icon_size dnb-input--has-submit-element"
+            >
+              <span
+                className="dnb-input__inner"
               >
-                <span
-                  className="dnb-autocomplete__text"
+                <AlignmentHelper
+                  className={null}
                 >
                   <span
-                    className="dnb-autocomplete__text__inner"
+                    aria-hidden={true}
+                    className="dnb-alignment-helper"
+                  />
+                </AlignmentHelper>
+                <span
+                  className="dnb-input__row"
+                >
+                  <span
+                    className="dnb-input__shell"
+                    data-has-content="true"
+                    data-input-state="disabled"
                   >
-                    Feriekonto - Kari Nordmann med et kjempelangt etternavnsen
+                    <IconPrimary
+                      alt={null}
+                      aria-hidden={true}
+                      attributes={null}
+                      border={null}
+                      className="dnb-input__icon"
+                      color={null}
+                      height={null}
+                      icon="icon"
+                      modifier={null}
+                      size="icon_size"
+                      title={null}
+                      width={null}
+                    />
+                    <input
+                      aria-describedby="autocomplete-id-status autocomplete-id-suffix"
+                      aria-haspopup={true}
+                      autoComplete="off"
+                      className="dnb-input__input"
+                      disabled={false}
+                      id="autocomplete-id"
+                      name="autocomplete-id"
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      onFocus={[Function]}
+                      onKeyDown={[Function]}
+                      type="search"
+                      value="1134 56 78962
+Feriekonto - Kari Nordmann med et kjempelangt etternavnsen"
+                    />
+                  </span>
+                  <span
+                    className="dnb-input__submit-element"
+                  >
+                    <ForwardRef
+                      aria-expanded={true}
+                      aria-haspopup={true}
+                      disabled="disabled"
+                      icon="icon"
+                      icon_size="icon_size"
+                      on_submit={[Function]}
+                      size={null}
+                      status={null}
+                      title="submit_button_title"
+                      variant="secondary"
+                    >
+                      <InputSubmitButton
+                        aria-expanded={true}
+                        aria-haspopup={true}
+                        className={null}
+                        disabled="disabled"
+                        icon="icon"
+                        icon_size="icon_size"
+                        id={null}
+                        innerRef={null}
+                        on_submit={[Function]}
+                        on_submit_blur={null}
+                        on_submit_focus={null}
+                        size={null}
+                        status={null}
+                        title="submit_button_title"
+                        value={null}
+                        variant="secondary"
+                      >
+                        <span
+                          className="dnb-input__submit-button"
+                          data-input-state="virgin"
+                        >
+                          <Button
+                            aria-expanded={true}
+                            aria-haspopup={true}
+                            aria-label="submit_button_title"
+                            bounding={false}
+                            class={null}
+                            className="dnb-input__submit-button__button"
+                            custom_element={null}
+                            custom_method={null}
+                            disabled="disabled"
+                            global_status_id={null}
+                            href={null}
+                            icon="icon"
+                            icon_position="right"
+                            icon_size="icon_size"
+                            id={null}
+                            innerRef={null}
+                            onBlur={[Function]}
+                            onClick={[Function]}
+                            onFocus={[Function]}
+                            on_click={null}
+                            size={null}
+                            status={null}
+                            status_animation={null}
+                            status_state="error"
+                            text={null}
+                            title={null}
+                            type="submit"
+                            variant="secondary"
+                          >
+                            <button
+                              aria-expanded={true}
+                              aria-haspopup={true}
+                              aria-label="submit_button_title"
+                              className="dnb-button dnb-button--secondary dnb-input__submit-button__button dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--size-medium"
+                              disabled={false}
+                              onBlur={[Function]}
+                              onClick={[Function]}
+                              onFocus={[Function]}
+                              onMouseOut={[Function]}
+                              type="submit"
+                            >
+                              <Content
+                                aria-expanded={true}
+                                aria-haspopup={true}
+                                aria-label="submit_button_title"
+                                bounding={false}
+                                class={null}
+                                className="dnb-input__submit-button__button"
+                                content={null}
+                                custom_element={null}
+                                custom_method={null}
+                                disabled="disabled"
+                                global_status_id={null}
+                                href={null}
+                                icon="icon"
+                                icon_position="right"
+                                icon_size="icon_size"
+                                id={null}
+                                innerRef={null}
+                                isIconOnly={true}
+                                onBlur={[Function]}
+                                onClick={[Function]}
+                                onFocus={[Function]}
+                                on_click={null}
+                                size={null}
+                                status={null}
+                                status_animation={null}
+                                status_state="error"
+                                text={null}
+                                title={null}
+                                type="submit"
+                                variant="secondary"
+                              >
+                                <span
+                                  className="dnb-button__text"
+                                  key="button-text-empty"
+                                >
+                                  ‌
+                                </span>
+                                <IconPrimary
+                                  alt={null}
+                                  aria-hidden={null}
+                                  attributes={null}
+                                  border={null}
+                                  className="dnb-button__icon"
+                                  color={null}
+                                  height={null}
+                                  icon="icon"
+                                  key="button-icon"
+                                  modifier={null}
+                                  size="icon_size"
+                                  title={null}
+                                  width={null}
+                                />
+                              </Content>
+                            </button>
+                          </Button>
+                        </span>
+                      </InputSubmitButton>
+                    </ForwardRef>
                   </span>
                 </span>
-                <span
-                  aria-hidden={true}
-                  className="dnb-autocomplete__icon"
-                >
-                  <IconPrimary
-                    alt={null}
-                    aria-hidden={true}
-                    attributes={null}
-                    border={null}
-                    className={null}
-                    color={null}
-                    height={null}
-                    icon="icon"
-                    modifier={null}
-                    size="icon_size"
-                    title={null}
-                    width={null}
-                  />
-                </span>
-              </Content>
-            </button>
-          </Button>
+              </span>
+            </span>
+          </Input>
           <DrawerList
             align_drawer={null}
             class={null}
             className={null}
             custom_element={null}
             custom_method={null}
-            data={null}
-            default_value="default_value"
-            direction="bottom"
-            disabled="disabled"
-            focusable="focusable"
-            icon_position="icon_position"
-            id="autocomplete-id"
-            inner_class="dnb-autocomplete__list"
-            keep_open={false}
-            max_height={1}
-            no_animation="no_animation"
-            no_scroll_animation="no_scroll_animation"
-            on_change={[Function]}
-            on_hide={[Function]}
-            on_resize={[Function]}
-            on_select={[Function]}
-            on_show={[Function]}
-            on_state_update={null}
-            opened={true}
-            preparedData={
+            data={
               Array [
                 Object {
                   "content": Array [
@@ -461,43 +557,252 @@ exports[`Autocomplete component have to match snapshot 1`] = `
                 ],
               ]
             }
+            default_value="default_value"
+            direction="bottom"
+            disabled="disabled"
+            focusable="focusable"
+            icon_position="icon_position"
+            id="autocomplete-id"
+            ignore_events={null}
+            inner_class="dnb-autocomplete__list"
+            keep_open={false}
+            max_height={1}
+            no_animation="no_animation"
+            no_scroll_animation="no_scroll_animation"
+            on_change={[Function]}
+            on_hide={[Function]}
+            on_resize={[Function]}
+            on_select={[Function]}
+            on_show={[Function]}
+            on_state_update={null}
+            opened={true}
+            preparedData={null}
             prevent_close={false}
+            prevent_focus={true}
             prevent_selection={null}
             scrollable="scrollable"
-            use_key={false}
+            skip_keysearch={true}
             value={2}
             wrapper_element={
               <span
                 class="dnb-autocomplete__shell"
               >
-                <button
-                  aria-describedby="autocomplete-id-status autocomplete-id-suffix"
-                  aria-expanded="false"
-                  aria-haspopup="true"
-                  aria-label="Oppussing - Ole Nordmann"
-                  class="dnb-button dnb-button--secondary dnb-autocomplete__trigger dnb-button--size-medium dnb-button--has-text"
-                  id="autocomplete-id"
-                  type="button"
+                <span
+                  class="dnb-input dnb-input--search dnb-form-component dnb-autocomplete__trigger dnb-button--active dnb-input--icon-position-icon_position dnb-input--has-icon dnb-input--icon-size-icon_size dnb-input--has-submit-element"
                 >
                   <span
-                    class="dnb-autocomplete__text"
+                    class="dnb-input__inner"
                   >
                     <span
-                      class="dnb-autocomplete__text__inner"
+                      aria-hidden="true"
+                      class="dnb-alignment-helper"
+                    />
+                    <span
+                      class="dnb-input__row"
                     >
-                      Oppussing - Ole Nordmann
+                      <span
+                        class="dnb-input__shell"
+                        data-has-content="true"
+                        data-input-state="disabled"
+                      >
+                        <input
+                          aria-describedby="autocomplete-id-status autocomplete-id-suffix"
+                          aria-haspopup="true"
+                          autocomplete="off"
+                          class="dnb-input__input"
+                          id="autocomplete-id"
+                          name="autocomplete-id"
+                          type="search"
+                          value="1134 56 78962
+Feriekonto - Kari Nordmann med et kjempelangt etternavnsen"
+                        />
+                      </span>
+                      <span
+                        class="dnb-input__submit-element"
+                      >
+                        <span
+                          class="dnb-input__submit-button"
+                          data-input-state="virgin"
+                        >
+                          <button
+                            aria-expanded="true"
+                            aria-haspopup="true"
+                            aria-label="submit_button_title"
+                            class="dnb-button dnb-button--secondary dnb-input__submit-button__button dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--size-medium"
+                            type="submit"
+                          >
+                            <span
+                              class="dnb-button__text"
+                            >
+                              ‌
+                            </span>
+                          </button>
+                        </span>
+                      </span>
                     </span>
                   </span>
-                  <span
-                    aria-hidden="true"
-                    class="dnb-autocomplete__icon"
-                  />
-                </button>
+                </span>
                 <span
-                  class="dnb-drawer-list dnb-drawer-list--direction-bottom dnb-drawer-list--icon-position-icon_position"
+                  class="dnb-drawer-list dnb-drawer-list--direction-bottom dnb-drawer-list--opened dnb-drawer-list--icon-position-icon_position"
                   disabled=""
                   id="autocomplete-id-drawer-list"
-                />
+                >
+                  <span
+                    class="dnb-drawer-list__list dnb-autocomplete__list"
+                  >
+                    <ul
+                      aria-activedescendant="option-autocomplete-id-2"
+                      aria-labelledby="autocomplete-id"
+                      class="dnb-drawer-list__options"
+                      role="listbox"
+                      style="max-height: 1rem;"
+                      tabindex="-1"
+                    >
+                      <li
+                        aria-selected="false"
+                        class="dnb-drawer-list__option"
+                        data-item="0"
+                        id="option-autocomplete-id-0"
+                        role="option"
+                        tabindex="-1"
+                      >
+                        <span
+                          class="dnb-drawer-list__option__inner"
+                        >
+                          <span
+                            class="dnb-drawer-list__option__item"
+                          >
+                            1234 56 78901
+                          </span>
+                          <span
+                            class="dnb-drawer-list__option__item"
+                          >
+                            Brukskonto - Kari Nordmann
+                          </span>
+                        </span>
+                      </li>
+                      <li
+                        aria-selected="false"
+                        class="dnb-drawer-list__option"
+                        data-item="1"
+                        id="option-autocomplete-id-1"
+                        role="option"
+                        tabindex="-1"
+                      >
+                        <span
+                          class="dnb-drawer-list__option__inner"
+                        >
+                          <span
+                            class="dnb-drawer-list__option__item"
+                          >
+                            1234 56 78902
+                          </span>
+                          <span
+                            class="dnb-drawer-list__option__item"
+                          >
+                            Sparekonto - Ole Nordmann
+                          </span>
+                        </span>
+                      </li>
+                      <li
+                        aria-current="true"
+                        aria-selected="true"
+                        class="dnb-drawer-list__option dnb-drawer-list__option--selected"
+                        data-item="2"
+                        id="option-autocomplete-id-2"
+                        role="option"
+                        tabindex="-1"
+                      >
+                        <span
+                          class="dnb-drawer-list__option__inner"
+                        >
+                          <span
+                            class="dnb-drawer-list__option__item"
+                          >
+                            1134 56 78962
+                          </span>
+                          <span
+                            class="dnb-drawer-list__option__item"
+                          >
+                            Feriekonto - Kari Nordmann med et kjempelangt etternavnsen
+                          </span>
+                        </span>
+                      </li>
+                      <li
+                        aria-selected="false"
+                        class="dnb-drawer-list__option"
+                        data-item="3"
+                        id="option-autocomplete-id-3"
+                        role="option"
+                        tabindex="-1"
+                      >
+                        <span
+                          class="dnb-drawer-list__option__inner"
+                        >
+                          <span
+                            class="dnb-drawer-list__option__item"
+                          >
+                            1534 96 48901
+                          </span>
+                          <span
+                            class="dnb-drawer-list__option__item"
+                          >
+                            Oppussing - Ole Nordmann
+                          </span>
+                        </span>
+                      </li>
+                      <li
+                        aria-selected="false"
+                        class="dnb-drawer-list__option"
+                        data-item="4"
+                        id="option-autocomplete-id-4"
+                        role="option"
+                        tabindex="-1"
+                      >
+                        <span
+                          class="dnb-drawer-list__option__inner"
+                        >
+                          Custom content 
+                          123
+                        </span>
+                      </li>
+                      <li
+                        aria-selected="false"
+                        class="dnb-drawer-list__option"
+                        data-item="5"
+                        id="option-autocomplete-id-5"
+                        role="option"
+                        tabindex="-1"
+                      >
+                        <span
+                          class="dnb-drawer-list__option__inner"
+                        >
+                          Custom content 
+                          123
+                        </span>
+                      </li>
+                      <li
+                        aria-selected="false"
+                        class="closest-to-top closest-to-bottom last-of-type dnb-drawer-list__option"
+                        data-item="6"
+                        id="option-autocomplete-id-6"
+                        role="option"
+                        tabindex="-1"
+                      >
+                        <span
+                          class="dnb-drawer-list__option__inner"
+                        >
+                          Custom content 
+                          123
+                        </span>
+                      </li>
+                      <li
+                        aria-hidden="true"
+                        class="dnb-drawer-list__triangle"
+                      />
+                    </ul>
+                  </span>
+                </span>
               </span>
             }
           >
@@ -520,7 +825,10 @@ exports[`Autocomplete component have to match snapshot 1`] = `
                   }
                   triangleRef={
                     Object {
-                      "current": null,
+                      "current": <li
+                        aria-hidden="true"
+                        class="dnb-drawer-list__triangle"
+                      />,
                     }
                   }
                 >
@@ -876,8 +1184,8 @@ exports[`Autocomplete component have to match snapshot 1`] = `
             label_direction="horizontal"
             label_sr_only="label_sr_only"
             max_height={1}
-            more_menu={null}
             no_animation="no_animation"
+            no_options="no_options"
             no_scroll_animation="no_scroll_animation"
             on_change={[Function]}
             on_hide={[Function]}
@@ -921,7 +1229,7 @@ exports[`Autocomplete scss have to match default theme snapshot 1`] = `
  * Utilities
  */
 /*
-* Autocomplete theme
+* Dropdown theme
 *
 */
 :root {
@@ -1021,6 +1329,9 @@ exports[`Autocomplete scss have to match default theme snapshot 1`] = `
         background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgZmlsbD0ibm9uZSI+ICA8cGF0aCAgICBmaWxsPSIjRTlGOEY0IiAgICBkPSJNMyA4LjhhLjc1Ljc1IDAgMSAwLTEuMjIuODZMMyA4Ljc5em0xLjg0IDMuOWwuNjMtLjQxdi0uMDFoLS4wMWwtLjYyLjQyem0xLjcxLjA1bC0uNTktLjQ2di4wMWwuNTkuNDV6bTguNDMtOS40NWEuNzUuNzUgMCAwIDAtMS4xOC0uOTNsMS4xOC45M3pNMS43OCA5LjY2bDIuNDUgMy40OCAxLjIzLS44N0wzIDguOGwtMS4yMy44N3ptMi40NCAzLjQ2Yy4zMi40OC44Ni43OCAxLjQ0LjhsLjA1LTEuNWEuMy4zIDAgMCAxLS4yNC0uMTNsLTEuMjUuODN6bTEuNDQuOGExLjggMS44IDAgMCAwIDEuNDktLjcxbC0xLjItLjlhLjMuMyAwIDAgMS0uMjQuMWwtLjA1IDEuNXptMS40OC0uN2w3Ljg0LTkuOTItMS4xOC0uOTMtNy44NCA5LjkyIDEuMTguOTN6Ii8+PC9zdmc+); }
       .dnb-drawer-list__option--selected::before {
         content: none; }
+    .dnb-drawer-list__option--ignore .dnb-drawer-list__option__inner {
+      color: var(--drawer-list-option-color);
+      background-color: var(--drawer-list-option-background-color); }
     .dnb-drawer-list__option--focus:not(.dnb-drawer-list__option--selected) .dnb-drawer-list__option__inner {
       color: var(--drawer-list-option-color--hover);
       background-color: var(--drawer-list-option-background-color--hover); }
@@ -1095,9 +1406,13 @@ exports[`Autocomplete scss have to match default theme snapshot 1`] = `
   --autocomplete-option-color: var(--color-black-80);
   --autocomplete-option-color--hover: var(--color-sea-green);
   --autocomplete-option-background-color: var(--color-white);
-  --autocomplete-option-background-color--hover: var(--color-mint-green-12);
+  --autocomplete-option-background-color--hover: var(
+    --color-mint-green-12
+  );
   --autocomplete-option-color--selected: var(--color-white);
-  --autocomplete-option-background-color--selected: var(--color-emerald-green);
+  --autocomplete-option-background-color--selected: var(
+    --color-emerald-green
+  );
   --autocomplete-option-border-width: 0.0625rem;
   --autocomplete-option-border-color: var(--color-mint-green-25); }
 
@@ -1209,6 +1524,8 @@ exports[`Autocomplete scss have to match default theme snapshot 1`] = `
       cursor: not-allowed; }
     html:not([data-is-touch]) .dnb-autocomplete__trigger:hover:not([disabled]) {
       color: var(--autocomplete-text-color); }
+  .dnb-autocomplete__status--error .dnb-autocomplete__trigger .dnb-input__shell {
+    box-shadow: none; }
   .dnb-autocomplete__status--error:not(.dnb-autocomplete--opened) .dnb-autocomplete__trigger {
     box-shadow: 0 0 0 0.125rem var(--color-fire-red) !important;
     /* IE11 fix */
@@ -1269,6 +1586,14 @@ exports[`Autocomplete scss have to match snapshot 1`] = `
  * Document Reset
  *
  */
+/*
+* DNB Input
+*
+*/
+/*
+* DNB Button
+*
+*/
 /*
 * DNB icon
 *
@@ -1332,10 +1657,6 @@ exports[`Autocomplete scss have to match snapshot 1`] = `
     .dnb-icon {
       flex: none; } }
 
-/*
-* DNB Button
-*
-*/
 /*
 * DNB FormStatus
 *
@@ -1705,6 +2026,248 @@ button.dnb-button::-moz-focus-inner {
 legend.dnb-form-label {
   display: inline-block; }
 
+.dnb-input {
+  font-family: var(--font-family-default);
+  font-weight: var(--font-weight-default);
+  font-size: var(--font-size-small);
+  font-style: normal;
+  line-height: var(--line-height-basis);
+  color: var(--color-black-80, #333);
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  /**
+  * 1. Remove repeating backgrounds in all browsers (opinionated).
+  * 2. Add border box sizing in all browsers (opinionated).
+  */
+  /**
+  * 1. Add text decoration inheritance in all browsers (opinionated).
+  * 2. Add vertical alignment inheritance in all browsers (opinionated).
+  */
+  margin: 0;
+  padding: 0; }
+  .dnb-input *,
+  .dnb-input ::before,
+  .dnb-input ::after {
+    background-repeat: no-repeat;
+    /* 1 */
+    box-sizing: border-box;
+    /* 2 */ }
+  .dnb-input ::before,
+  .dnb-input ::after {
+    text-decoration: inherit;
+    /* 1 */
+    vertical-align: inherit;
+    /* 2 */ }
+
+/*
+* Input component
+*
+*/
+:root {
+  --input-font-size: var(--font-size-basis);
+  --input-font-size--medium: var(--font-size-basis);
+  --input-font-size--large: var(--font-size-medium);
+  --input-padding: 1rem;
+  --input-padding--medium: 1rem;
+  --input-padding--large: 1rem;
+  --input-height: 2rem;
+  --input-height--medium: 2.5rem;
+  --input-height--large: 3rem;
+  --input-border-width: 0.0625rem;
+  --input-border-radius: calc(var(--input-height) / 2);
+  --input-border-radius--medium: calc(var(--input-height--medium) / 2);
+  --input-border-radius--large: calc(var(--input-height--large) / 2); }
+
+.dnb-input {
+  display: inline-flex;
+  align-items: center;
+  font-size: var(--input-font-small);
+  line-height: var(--input-height); }
+  .dnb-input__inner {
+    display: inline-flex;
+    flex-direction: column;
+    width: auto; }
+  .dnb-input__shell {
+    position: relative;
+    display: flex;
+    align-items: center;
+    border: var(--input-border-width) solid var(--color-sea-green-alt); }
+  .dnb-input__input {
+    border: none;
+    outline: none;
+    word-break: normal;
+    position: relative;
+    z-index: 2; }
+  .dnb-input input.dnb-input__input {
+    font-size: var(--input-font-size);
+    line-height: var(--font-size-basis); }
+  .dnb-input__input[disabled] {
+    user-select: none;
+    -webkit-user-select: none;
+    opacity: 1; }
+  .dnb-input__shell, .dnb-input__input {
+    height: var(--input-height);
+    border-radius: var(--input-border-radius); }
+  .dnb-input__placeholder, .dnb-input__input {
+    width: 100%;
+    padding-left: var(--input-padding);
+    padding-right: var(--input-padding);
+    text-align: left;
+    color: inherit;
+    background-color: transparent;
+    font-size: var(--input-font-size); }
+  .dnb-input__placeholder {
+    pointer-events: none;
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis; }
+  .dnb-input input.dnb-input__input[type='file'] {
+    line-height: calc(var(--input-height) - 2px); }
+  .dnb-input__input::-webkit-search-cancel-button {
+    display: none; }
+  .dnb-input__input::-ms-clear {
+    display: none; }
+  .dnb-input ::-webkit-file-upload-button {
+    cursor: pointer;
+    outline: none;
+    color: var(--color-sea-green); }
+    .dnb-input ::-webkit-file-upload-button:active, .dnb-input ::-webkit-file-upload-button:hover {
+      color: var(--color-emerald-green); }
+  .dnb-input--has-submit-element .dnb-input__placeholder,
+  .dnb-input--has-submit-element .dnb-input__input {
+    padding-right: calc(var(--input-padding) * 2.5); }
+  .dnb-input__row {
+    display: inline-flex;
+    align-items: center; }
+  .dnb-input__suffix {
+    color: inherit;
+    padding-left: 0.5rem;
+    line-height: var(--line-height-basis); }
+  .dnb-input__submit-element {
+    margin-left: calc(1px - 1px - var(--input-height));
+    line-height: var(--line-height-basis); }
+  .dnb-input__submit-button {
+    position: relative;
+    z-index: 2;
+    align-self: center;
+    /* IE needs this to stay centered */ }
+    .dnb-input__submit-button__button {
+      border-radius: 50%; }
+  .dnb-input--medium {
+    line-height: var(--input-height--medium); }
+    .dnb-input--medium .dnb-input__shell,
+    .dnb-input--medium .dnb-input__input {
+      height: var(--input-height--medium);
+      border-radius: var(--input-border-radius--medium); }
+    .dnb-input--medium .dnb-input__placeholder,
+    .dnb-input--medium .dnb-input__input {
+      padding-left: var(--input-padding--medium);
+      padding-right: var(--input-padding--medium);
+      font-size: var(--input-font-size--medium); }
+    .dnb-input--medium .dnb-input__submit-element {
+      margin-left: calc(1px - 1px - var(--input-height--medium)); }
+      .dnb-input--medium .dnb-input__submit-element .dnb-button {
+        width: var(--input-height--medium);
+        height: var(--input-height--medium);
+        line-height: var(--input-height--medium); }
+  .dnb-input--medium.dnb-input--has-submit-element .dnb-input__placeholder,
+  .dnb-input--medium.dnb-input--has-submit-element .dnb-input__input {
+    padding-right: calc(var(--input-padding--medium) * 3); }
+  .dnb-input--large {
+    line-height: var(--input-height--large); }
+    .dnb-input--large .dnb-input__shell,
+    .dnb-input--large .dnb-input__input {
+      height: var(--input-height--large);
+      border-radius: var(--input-border-radius--large); }
+    .dnb-input--large .dnb-input__placeholder,
+    .dnb-input--large .dnb-input__input {
+      padding-left: var(--input-padding--large);
+      padding-right: var(--input-padding--large);
+      font-size: var(--input-font-size--large); }
+    .dnb-input--large .dnb-input__submit-element {
+      margin-left: calc(1px - 1px - var(--input-height--large)); }
+      .dnb-input--large .dnb-input__submit-element .dnb-button {
+        width: var(--input-height--large);
+        height: var(--input-height--large); }
+  .dnb-input--large.dnb-input--has-submit-element .dnb-input__placeholder,
+  .dnb-input--large.dnb-input--has-submit-element .dnb-input__input {
+    padding-right: calc(var(--input-padding--large) * 3.5); }
+  .dnb-input__align--center .dnb-input__placeholder,
+  .dnb-input__align--center .dnb-input__input {
+    text-align: center; }
+  .dnb-input__align--right .dnb-input__placeholder,
+  .dnb-input__align--right .dnb-input__input {
+    text-align: right; }
+  .dnb-input__inner > .dnb-form-status {
+    order: 2;
+    margin-top: 0.5rem; }
+  .dnb-input--vertical {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; }
+  .dnb-input--stretch {
+    display: flex; }
+  .dnb-input--stretch .dnb-input__inner {
+    flex-grow: 1; }
+  .dnb-input--stretch .dnb-input__shell {
+    width: 100%; }
+  .dnb-input--vertical.dnb-input--stretch .dnb-input__inner {
+    width: 100%; }
+  .dnb-input__icon {
+    order: 0;
+    position: absolute;
+    left: 1rem;
+    right: auto; }
+  .dnb-input--icon-position-right .dnb-input__icon {
+    order: 1;
+    left: auto;
+    right: 1rem; }
+  .dnb-input--icon-position-left.dnb-input--has-icon .dnb-input__input,
+  .dnb-input--icon-position-left.dnb-input--has-icon .dnb-input__placeholder {
+    padding-left: 2.5rem; }
+  .dnb-input--icon-position-right.dnb-input--has-icon .dnb-input__input,
+  .dnb-input--icon-position-right.dnb-input--has-icon .dnb-input__placeholder {
+    padding-right: 2.5rem; }
+  .dnb-input--medium.dnb-input--icon-position-left.dnb-input--has-icon .dnb-input__input,
+  .dnb-input--medium.dnb-input--icon-position-left.dnb-input--has-icon .dnb-input__placeholder {
+    padding-left: 2.5rem; }
+  .dnb-input--large.dnb-input--icon-position-left.dnb-input--has-icon .dnb-input__input,
+  .dnb-input--large.dnb-input--icon-position-left.dnb-input--has-icon .dnb-input__placeholder {
+    padding-left: 3rem; }
+  .dnb-input--large.dnb-input--icon-position-right.dnb-input--has-icon .dnb-input__input,
+  .dnb-input--large.dnb-input--icon-position-right.dnb-input--has-icon .dnb-input__placeholder {
+    padding-right: 3rem; }
+  .dnb-input > .dnb-form-label {
+    line-height: var(--line-height-basis); }
+  .dnb-input[class*='__status'] {
+    align-items: flex-start; }
+    .dnb-input[class*='__status'] > .dnb-form-label {
+      margin-top: 0.25rem; }
+  @media (max-width: 40em) {
+    .dnb-responsive-component .dnb-input {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      margin-bottom: 0.5rem; }
+      .dnb-responsive-component .dnb-input__row {
+        align-items: flex-start; }
+      .dnb-responsive-component .dnb-input > .dnb-form-label {
+        margin-bottom: 0.5rem; } }
+  @media screen and (-ms-high-contrast: none) {
+    .dnb-input {
+      vertical-align: baseline; }
+      .dnb-form-row--horizontal .dnb-input, .dnb-input:not(.dnb-input--stretch) {
+        flex: none; }
+      .dnb-input__inner {
+        width: 100%; }
+      .dnb-input__input, .dnb-input__placeholder {
+        transform: translateY(-0.0625rem); } }
+
 .dnb-autocomplete {
   font-family: var(--font-family-default);
   font-weight: var(--font-weight-default);
@@ -1833,6 +2396,9 @@ legend.dnb-form-label {
       overflow: hidden;
       text-overflow: ellipsis;
       width: 100%; }
+    .dnb-drawer-list__option--ignore {
+      cursor: default;
+      pointer-events: none; }
   .dnb-drawer-list__triangle {
     position: absolute;
     top: calc( var(--drawer-list-focus-border-width) - var(--drawer-list-height) / 2);
@@ -1940,7 +2506,7 @@ legend.dnb-form-label {
   .dnb-autocomplete .dnb-drawer-list {
     position: static; }
   .dnb-autocomplete .dnb-drawer-list__list {
-    top: calc(var(--autocomplete-height) + var(--autocomplete-focus-border-width));
+    top: calc( var(--autocomplete-height) + var(--autocomplete-focus-border-width));
     bottom: auto; }
   .dnb-autocomplete--direction-top .dnb-drawer-list__list {
     bottom: calc( var(--autocomplete-height) + var(--autocomplete-focus-border-width));
@@ -1963,10 +2529,9 @@ legend.dnb-form-label {
     display: inline-flex;
     align-items: center;
     outline: none;
-    width: 100%;
-    padding: 0 var(--autocomplete-padding-horizontal); }
-    .dnb-autocomplete__trigger.dnb-button {
-      line-height: var(--autocomplete-height); }
+    margin-right: 0.5rem; }
+  .dnb-autocomplete__shell, .dnb-autocomplete__trigger {
+    border-radius: var(--autocomplete-height); }
   .dnb-autocomplete--is-popup .dnb-autocomplete__shell,
   .dnb-autocomplete--is-popup .dnb-autocomplete__trigger {
     padding: 0;
@@ -1998,8 +2563,6 @@ legend.dnb-form-label {
   .dnb-autocomplete__size--small .dnb-autocomplete__shell,
   .dnb-autocomplete__size--small .dnb-autocomplete__trigger {
     height: var(--autocomplete-height--small); }
-  .dnb-autocomplete__size--small .dnb-autocomplete__trigger.dnb-button {
-    line-height: var(--autocomplete-height--small); }
   .dnb-autocomplete__size--small .dnb-drawer-list .dnb-drawer-list__list {
     top: var(--autocomplete-height--small); }
   .dnb-autocomplete__size--small .dnb-drawer-list--direction-top .dnb-drawer-list__list {
@@ -2011,8 +2574,6 @@ legend.dnb-form-label {
   .dnb-autocomplete__size--medium .dnb-autocomplete__trigger {
     height: var(--autocomplete-height--medium);
     border-radius: var(--autocomplete-height--medium); }
-  .dnb-autocomplete__size--medium .dnb-autocomplete__trigger.dnb-button {
-    line-height: var(--autocomplete-height--medium); }
   .dnb-autocomplete__size--medium .dnb-drawer-list .dnb-drawer-list__list {
     top: var(--autocomplete-height--medium); }
   .dnb-autocomplete__size--medium .dnb-drawer-list--direction-top .dnb-drawer-list__list {
@@ -2024,8 +2585,6 @@ legend.dnb-form-label {
   .dnb-autocomplete__size--large .dnb-autocomplete__trigger {
     height: var(--autocomplete-height--large);
     border-radius: var(--autocomplete-height--large); }
-  .dnb-autocomplete__size--large .dnb-autocomplete__trigger.dnb-button {
-    line-height: var(--autocomplete-height--large); }
   .dnb-autocomplete__size--large .dnb-drawer-list .dnb-drawer-list__list {
     top: var(--autocomplete-height--large); }
   .dnb-autocomplete__size--large .dnb-drawer-list--direction-top .dnb-drawer-list__list {
@@ -2055,12 +2614,6 @@ legend.dnb-form-label {
       text-decoration: none;
       text-overflow: inherit;
       text-align: inherit; }
-  .dnb-autocomplete--icon-position-left .dnb-autocomplete__icon {
-    order: 1; }
-  .dnb-autocomplete--icon-position-left .dnb-autocomplete__text {
-    order: 2;
-    padding-right: 0;
-    padding-left: var(--autocomplete-text-padding); }
   .dnb-autocomplete__outside-value {
     display: block;
     padding: 0.5rem 0 1rem var(--autocomplete-padding-horizontal); }

@@ -146,6 +146,11 @@
       text-overflow: ellipsis;
       width: 100%;
     }
+
+    &--ignore {
+      cursor: default;
+      pointer-events: none;
+    }
   }
 
   // arrow

@@ -44,6 +44,10 @@ export default {
     Dropdown: {
       title: 'Option Menu'
     },
+    Autocomplete: {
+      title: 'Option Menu',
+      no_options: 'No option'
+    },
     Modal: {
       close_title: 'Close',
       more_info: 'More information'

@@ -25,7 +25,6 @@ import FormLabel from '../form-label/FormLabel'
 import FormStatus from '../form-status/FormStatus'
 import Button from '../button/Button'
 import DrawerList, {
-  grabStringFromReact,
   propTypes as DrawerPropTypes
 } from '../../fragments/drawer-list/DrawerList'
 
@@ -166,49 +165,6 @@ export default class Dropdown extends PureComponent {
 
   static enableWebComponent() {
     registerElement(Dropdown.tagName, Dropdown, defaultProps)
-  }
-
-  static parseContentTitle = (
-    dataItem,
-    { separator = '\n', removeNumericOnlyValues = false } = {}
-  ) => {
-    let ret = ''
-    const onlyNumericRegex = /[0-9.,-\s]+/
-    if (Array.isArray(dataItem) && dataItem.length > 0) {
-      dataItem = { content: dataItem }
-    }
-    if (dataItem && Array.isArray(dataItem.content)) {
-      ret = dataItem.content
-        .reduce((acc, cur) => {
-          // check if we have React inside, with strings we can use
-          cur = grabStringFromReact(cur)
-          if (cur === false) {
-            return acc
-          }
-          // remove only numbers
-          const found =
-            removeNumericOnlyValues && cur && cur.match(onlyNumericRegex)
-          if (!(found && found[0].length === cur.length)) {
-            acc.push(cur)
-          }
-          return acc
-        }, [])
-        .join(separator)
-    } else {
-      ret = grabStringFromReact((dataItem && dataItem.content) || dataItem)
-    }
-    if (
-      dataItem &&
-      dataItem.selected_value &&
-      !onlyNumericRegex.test(dataItem.selected_value)
-    ) {
-      ret = dataItem.selected_value + separator + ret
-    }
-    // make sure we don't return empty strings
-    if (Array.isArray(dataItem) && dataItem.length === 0) {
-      ret = null
-    }
-    return ret
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -470,7 +426,7 @@ export default class Dropdown extends PureComponent {
       }
     }
 
-    const { data, direction, opened, selected_item, use_key } = this.state
+    const { data, direction, opened, selected_item } = this.state
     const showStatus = status && status !== 'error'
 
     const currentOptionData = DrawerList.getCurrentData(
@@ -480,7 +436,7 @@ export default class Dropdown extends PureComponent {
     const title =
       data && data.length > 0
         ? currentOptionData.selected_value ||
-          Dropdown.parseContentTitle(currentOptionData) ||
+          DrawerList.parseContentTitle(currentOptionData) ||
           titleProp
         : titleProp
 
@@ -611,7 +567,6 @@ export default class Dropdown extends PureComponent {
                 id={id}
                 inner_class="dnb-dropdown__list"
                 preparedData={data}
-                use_key={use_key}
                 value={selected_item}
                 default_value={default_value}
                 scrollable={scrollable}

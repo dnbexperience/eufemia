@@ -61,10 +61,10 @@ const mockData = [
     content: ['1534 96 48901', 'Oppussing - Ole Nordmann']
   },
   {
-    content: <Fragment>Custom content {'123'}</Fragment>
+    content: <>Custom content {'123'}</>
   },
-  <Fragment key="key1">Custom content {'123'}</Fragment>,
-  [<Fragment key="key2">Custom content {'123'}</Fragment>]
+  <>Custom content {'123'}</>,
+  [<Fragment key="key1">Custom content {'123'}</Fragment>]
 ]
 
 describe('DrawerList component', () => {

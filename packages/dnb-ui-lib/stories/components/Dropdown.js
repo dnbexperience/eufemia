@@ -399,9 +399,9 @@ const dropdownDataScrollable = [
     ]
   },
   {
-    content: <Fragment>E</Fragment>
+    content: <>E</>
   },
-  <Fragment key="key1">Custom content {'🔥'}</Fragment>,
+  <>Custom content {'🔥'}</>,
   [<Fragment key="key2">Custom content X {'🔥'}</Fragment>],
   {
     content: 'EE'

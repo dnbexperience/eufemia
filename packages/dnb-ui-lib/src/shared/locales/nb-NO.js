@@ -44,6 +44,10 @@ export default {
     Dropdown: {
       title: 'Valgmeny'
     },
+    Autocomplete: {
+      title: 'Valgmeny',
+      no_options: 'Ingen alternativer'
+    },
     Modal: {
       close_title: 'Lukk',
       more_info: 'Mer informasjon'
