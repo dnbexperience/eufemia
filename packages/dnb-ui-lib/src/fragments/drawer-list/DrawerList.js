@@ -697,20 +697,22 @@ export default class DrawerList extends PureComponent {
             const liElement = ulElement.querySelector(
               `li.dnb-drawer-list__option:nth-of-type(${active_item + 1})`
             )
-            const top = liElement.offsetTop
-            if (ulElement.scrollTo) {
-              const params = {
-                top
+            if (liElement) {
+              const top = liElement.offsetTop
+              if (ulElement.scrollTo) {
+                const params = {
+                  top
+                }
+                if (scrollTo) {
+                  params.behavior = 'smooth'
+                }
+                ulElement.scrollTo(params)
+              } else if (ulElement.scrollTop) {
+                ulElement.scrollTop = top
               }
-              if (scrollTo) {
-                params.behavior = 'smooth'
+              if (!isTrue(this.props.prevent_focus) && liElement) {
+                liElement.focus()
               }
-              ulElement.scrollTo(params)
-            } else if (ulElement.scrollTop) {
-              ulElement.scrollTop = top
-            }
-            if (!isTrue(this.props.prevent_focus) && liElement) {
-              liElement.focus()
             }
           } catch (e) {
             console.warn('List could not scroll into element:', e)

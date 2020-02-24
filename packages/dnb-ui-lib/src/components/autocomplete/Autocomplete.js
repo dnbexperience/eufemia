@@ -235,7 +235,7 @@ export default class Autocomplete extends PureComponent {
 
     this._ref = React.createRef()
     this._refShell = React.createRef()
-    this._refButton = React.createRef()
+    this._refInput = React.createRef()
 
     // deprecated, use value instad
     const dep = 'selected_item'
@@ -339,9 +339,11 @@ export default class Autocomplete extends PureComponent {
     // here we reset the "no options" state
     // because the user clicked on the submit button to open the whole list
     this.resetFilter({ showOriginalData: true })
+
     if (
-      this.hasNoFilterOptions() ||
-      (!this.state.hidden && this.state.opened)
+      !this.hasNoFilterOptions() &&
+      !this.state.hidden &&
+      this.state.opened
     ) {
       this.setHidden()
     } else {
@@ -357,11 +359,15 @@ export default class Autocomplete extends PureComponent {
     )
   }
   resetFilter = ({ showOriginalData } = {}) => {
+    if (this.hasNoFilterOptions()) {
+      this.setState({
+        value: null,
+        selected_item: null,
+        active_item: null
+      })
+    }
     this.setState({
-      value: null,
       ignore_events: false,
-      selected_item: undefined,
-      active_item: undefined,
       data: showOriginalData ? this.state.originalData : [],
       _listenForPropChanges: false
     })
@@ -614,7 +620,10 @@ export default class Autocomplete extends PureComponent {
       } ${suffix ? id + '-suffix' : ''}`
     }
 
-    if (this.hasNoFilterOptions()) {
+    if (
+      (!this.hasNoFilterOptions() && selected_item === null) ||
+      (!opened && this.hasNoFilterOptions())
+    ) {
       inputParams.value = ''
     }
 
@@ -686,7 +695,7 @@ export default class Autocomplete extends PureComponent {
                   on_change={this.onValueChangeHandler}
                   on_focus={this.onFocusChangeHandler}
                   onKeyDown={this.onTriggerKeyDownHandler}
-                  ref={this._refButton}
+                  ref={this._refInput}
                   {...inputParams}
                 />
               )}

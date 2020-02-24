@@ -118,12 +118,17 @@ describe('Autocomplete component', () => {
       mockData[props.value + 1]
     )
 
-    const value = null
     Comp.find('.dnb-input__input').simulate('change', {
-      target: { value }
+      target: { value: 'invalid' }
     })
 
-    expect(Comp.state().selected_item).toBe(undefined)
+    await wait(1)
+    expect(Comp.state().selected_item).toBe(null)
+
+    Comp.find('.dnb-input__input').simulate('change', {
+      target: { value: null }
+    })
+
     expect(Comp.find('span.dnb-input__placeholder').text()).toBe(title)
     expect(Comp.find('.dnb-input__input').instance().value).toBe('')
   })
