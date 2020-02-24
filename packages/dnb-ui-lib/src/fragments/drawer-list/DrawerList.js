@@ -771,10 +771,12 @@ export default class DrawerList extends PureComponent {
 
       case 'enter':
       case 'space':
-        e.preventDefault()
-        this.selectItem(active_item, { fireSelectEvent: true, event: e })
-        if (!isTrue(this.props.keep_open)) {
-          this.setHidden({ setFocus: true })
+        if (active_item > -1) {
+          e.preventDefault()
+          this.selectItem(active_item, { fireSelectEvent: true, event: e })
+          if (!isTrue(this.props.keep_open)) {
+            this.setHidden({ setFocus: true })
+          }
         }
         break
 
