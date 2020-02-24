@@ -259,7 +259,9 @@ describe('DrawerList component', () => {
     expect(my_event.mock.calls.length).toBe(1)
     expect(my_event.mock.calls[0][0].attributes).toMatchObject(params)
   })
+})
 
+describe('DrawerList markup', () => {
   const CheckComponent = mount(
     <Component {...snapshotProps} data={mockData} />
   )

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Autocomplete component have to match snapshot 1`] = `
+exports[`Autocomplete markup have to match snapshot 1`] = `
 <Autocomplete
   align_autocomplete={null}
   class="class"
@@ -8,11 +8,11 @@ exports[`Autocomplete component have to match snapshot 1`] = `
   custom_element={Object {}}
   custom_method={[Function]}
   data={
-    Object {
-      "a": "AA cc",
-      "b": "BB cc",
-      "c": "CC cc",
-    }
+    Array [
+      "AA cc",
+      "BB cc",
+      "CC cc",
+    ]
   }
   default_value="default_value"
   direction="bottom"
@@ -259,6 +259,7 @@ exports[`Autocomplete component have to match snapshot 1`] = `
                 size={null}
                 status={null}
                 title="submit_button_title"
+                value="CC cc"
                 variant="secondary"
               />
             }
@@ -332,6 +333,7 @@ exports[`Autocomplete component have to match snapshot 1`] = `
                       size={null}
                       status={null}
                       title="submit_button_title"
+                      value="CC cc"
                       variant="secondary"
                     >
                       <InputSubmitButton
@@ -350,7 +352,7 @@ exports[`Autocomplete component have to match snapshot 1`] = `
                         size={null}
                         status={null}
                         title="submit_button_title"
-                        value={null}
+                        value="CC cc"
                         variant="secondary"
                       >
                         <span
@@ -386,6 +388,7 @@ exports[`Autocomplete component have to match snapshot 1`] = `
                             text={null}
                             title={null}
                             type="submit"
+                            value="CC cc"
                             variant="secondary"
                           >
                             <button
@@ -400,6 +403,7 @@ exports[`Autocomplete component have to match snapshot 1`] = `
                               onKeyDown={[Function]}
                               onMouseOut={[Function]}
                               type="submit"
+                              value="CC cc"
                             >
                               <Content
                                 aria-expanded={true}
@@ -432,6 +436,7 @@ exports[`Autocomplete component have to match snapshot 1`] = `
                                 text={null}
                                 title={null}
                                 type="submit"
+                                value="CC cc"
                                 variant="secondary"
                               >
                                 <span
@@ -474,21 +479,9 @@ exports[`Autocomplete component have to match snapshot 1`] = `
             custom_method={null}
             data={
               Array [
-                Object {
-                  "content": "AA cc",
-                  "selected_key": "a",
-                  "type": "object",
-                },
-                Object {
-                  "content": "BB cc",
-                  "selected_key": "b",
-                  "type": "object",
-                },
-                Object {
-                  "content": "CC cc",
-                  "selected_key": "c",
-                  "type": "object",
-                },
+                "AA cc",
+                "BB cc",
+                "CC cc",
               ]
             }
             default_value="default_value"
@@ -510,17 +503,17 @@ exports[`Autocomplete component have to match snapshot 1`] = `
             on_show={[Function]}
             on_state_update={null}
             opened={true}
-            originalData={
-              Object {
-                "a": "AA cc",
-                "b": "BB cc",
-                "c": "CC cc",
-              }
-            }
             preparedData={null}
             prevent_close="prevent_close"
             prevent_focus={true}
             prevent_selection={null}
+            rawData={
+              Array [
+                "AA cc",
+                "BB cc",
+                "CC cc",
+              ]
+            }
             scrollable="scrollable"
             skip_keysearch={true}
             value={2}
@@ -529,7 +522,7 @@ exports[`Autocomplete component have to match snapshot 1`] = `
                 class="dnb-autocomplete__shell"
               >
                 <span
-                  class="dnb-input dnb-input--search dnb-form-component dnb-autocomplete__trigger dnb-button--active dnb-input--icon-position-left dnb-input--has-icon dnb-input--icon-size-icon_size dnb-input--has-submit-element"
+                  class="dnb-input dnb-input--search dnb-form-component dnb-autocomplete__trigger dnb-input--icon-position-left dnb-input--has-icon dnb-input--icon-size-icon_size dnb-input--has-submit-element"
                 >
                   <span
                     class="dnb-input__inner"
@@ -565,11 +558,12 @@ exports[`Autocomplete component have to match snapshot 1`] = `
                           data-input-state="virgin"
                         >
                           <button
-                            aria-expanded="true"
+                            aria-expanded="false"
                             aria-haspopup="true"
                             aria-label="submit_button_title"
-                            class="dnb-button dnb-button--secondary dnb-input__submit-button__button dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--size-medium"
+                            class="dnb-button dnb-button--secondary dnb-input__submit-button__button dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--size-medium dnb-button__status--error"
                             type="submit"
+                            value="CC cc"
                           >
                             <span
                               class="dnb-button__text"
@@ -583,71 +577,10 @@ exports[`Autocomplete component have to match snapshot 1`] = `
                   </span>
                 </span>
                 <span
-                  class="dnb-drawer-list dnb-drawer-list--direction-bottom dnb-drawer-list--opened dnb-drawer-list--icon-position-icon_position"
+                  class="dnb-drawer-list dnb-drawer-list--direction-bottom dnb-drawer-list--icon-position-icon_position"
                   disabled=""
                   id="autocomplete-id-drawer-list"
-                >
-                  <span
-                    class="dnb-drawer-list__list dnb-autocomplete__list dnb-drawer-list__list--no-animation"
-                  >
-                    <ul
-                      aria-activedescendant="option-autocomplete-id-2"
-                      aria-labelledby="autocomplete-id"
-                      class="dnb-drawer-list__options"
-                      role="listbox"
-                      style="max-height: 1rem;"
-                      tabindex="-1"
-                    >
-                      <li
-                        aria-selected="false"
-                        class="dnb-drawer-list__option"
-                        data-item="0"
-                        id="option-autocomplete-id-0"
-                        role="option"
-                        tabindex="-1"
-                      >
-                        <span
-                          class="dnb-drawer-list__option__inner"
-                        >
-                          AA cc
-                        </span>
-                      </li>
-                      <li
-                        aria-selected="false"
-                        class="dnb-drawer-list__option"
-                        data-item="1"
-                        id="option-autocomplete-id-1"
-                        role="option"
-                        tabindex="-1"
-                      >
-                        <span
-                          class="dnb-drawer-list__option__inner"
-                        >
-                          BB cc
-                        </span>
-                      </li>
-                      <li
-                        aria-current="true"
-                        aria-selected="true"
-                        class="closest-to-top closest-to-bottom last-of-type dnb-drawer-list__option dnb-drawer-list__option--selected"
-                        data-item="2"
-                        id="option-autocomplete-id-2"
-                        role="option"
-                        tabindex="-1"
-                      >
-                        <span
-                          class="dnb-drawer-list__option__inner"
-                        >
-                          CC cc
-                        </span>
-                      </li>
-                      <li
-                        aria-hidden="true"
-                        class="dnb-drawer-list__triangle"
-                      />
-                    </ul>
-                  </span>
-                </span>
+                />
               </span>
             }
           >
@@ -670,10 +603,7 @@ exports[`Autocomplete component have to match snapshot 1`] = `
                   }
                   triangleRef={
                     Object {
-                      "current": <li
-                        aria-hidden="true"
-                        class="dnb-drawer-list__triangle"
-                      />,
+                      "current": null,
                     }
                   }
                 >
@@ -801,11 +731,11 @@ exports[`Autocomplete component have to match snapshot 1`] = `
             custom_element={Object {}}
             custom_method={[Function]}
             data={
-              Object {
-                "a": "AA cc",
-                "b": "BB cc",
-                "c": "CC cc",
-              }
+              Array [
+                "AA cc",
+                "BB cc",
+                "CC cc",
+              ]
             }
             default_value="default_value"
             direction="bottom"

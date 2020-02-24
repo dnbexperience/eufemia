@@ -215,10 +215,12 @@ export default class Autocomplete extends PureComponent {
   static getDerivedStateFromProps(props, state) {
     const newState = DrawerList.prepareDerivedState(props, state)
 
-    // update search index if data has changed
+    // TODO: update search index if data prop has changed
     // newState.searchIndex = Autocomplete.createSearchIndex(newState.data)
+
+    // TODO: update originalData if data prop has changed
     if (!newState.originalData) {
-      newState.originalData = DrawerList.getData(props)
+      newState.originalData = newState.data
     }
 
     return newState
@@ -398,7 +400,7 @@ export default class Autocomplete extends PureComponent {
   }
 
   onValueChangeHandler = ({ value }) => {
-    if (value.length > 0) {
+    if (value && value.length > 0) {
       let ignore_events = false
       const data = this.runFilter(value, this.state.searchIndex)
 
@@ -665,6 +667,7 @@ export default class Autocomplete extends PureComponent {
                   type="search" // gives us also autoComplete=off
                   submit_element={
                     <SubmitButton
+                      value={value}
                       icon={icon || 'chevron-down'}
                       icon_size={
                         icon_size ||
@@ -692,7 +695,7 @@ export default class Autocomplete extends PureComponent {
                 id={id}
                 inner_class="dnb-autocomplete__list"
                 data={data}
-                originalData={_data}
+                rawData={_data}
                 ignore_events={ignore_events}
                 value={selected_item}
                 default_value={default_value}

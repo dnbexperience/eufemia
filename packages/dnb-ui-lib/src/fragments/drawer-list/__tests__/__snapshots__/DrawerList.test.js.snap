@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`DrawerList component have to match snapshot 1`] = `
+exports[`DrawerList markup have to match snapshot 1`] = `
 <DrawerList
   align_drawer={null}
   class="class"
@@ -72,11 +72,11 @@ exports[`DrawerList component have to match snapshot 1`] = `
   on_show={[Function]}
   on_state_update={[Function]}
   opened={true}
-  originalData={Array []}
   preparedData={Array []}
   prevent_close="prevent_close"
   prevent_focus="prevent_focus"
   prevent_selection={null}
+  rawData={Array []}
   scrollable="scrollable"
   skip_keysearch="skip_keysearch"
   value={2}

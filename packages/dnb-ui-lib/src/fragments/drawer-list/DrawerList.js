@@ -87,7 +87,7 @@ export const propTypes = {
     )
   ]),
   preparedData: PropTypes.array,
-  originalData: PropTypes.oneOfType([
+  rawData: PropTypes.oneOfType([
     PropTypes.array,
     PropTypes.object,
     PropTypes.func
@@ -138,7 +138,7 @@ const defaultProps = {
   class: null,
   data: null,
   preparedData: null,
-  originalData: null,
+  rawData: null,
   ignore_events: null,
 
   // React props
@@ -213,7 +213,7 @@ export default class DrawerList extends PureComponent {
   }
 
   static hasObjectKeyAsValue(state) {
-    const data = state.originalData
+    const data = state.rawData
     return data && typeof data === 'object' && !Array.isArray(data)
   }
 
@@ -257,7 +257,8 @@ export default class DrawerList extends PureComponent {
     if (parseFloat(value) > -1) {
       return value
     }
-    // is a key given as a string
+
+    // if a key is given as a string
     else if (typeof value === 'string') {
       return (
         data &&
@@ -277,8 +278,7 @@ export default class DrawerList extends PureComponent {
   static getSelectedItemValue(value, state) {
     if (DrawerList.hasObjectKeyAsValue(state)) {
       return DrawerList.isCurrentValue(
-        state.data &&
-          state.data.filter((data, i) => i === parseFloat(value))[0]
+        state.data.filter((data, i) => i === parseFloat(value))[0]
       )
     }
 
@@ -312,20 +312,20 @@ export default class DrawerList extends PureComponent {
       selected_item = parseFloat(props.default_value)
     }
 
-    const originalData = DrawerList.preSelectData(
-      props.originalData || props.children || props.data
+    const rawData = DrawerList.preSelectData(
+      props.rawData || props.children || props.data
     )
 
     return {
-      _listenForPropChanges: true,
       opened,
       data,
-      originalData,
+      rawData,
       direction: props.direction,
       max_height: props.max_height,
       active_item: selected_item,
       selected_item,
-      selectedItemHasChanged: false
+      selectedItemHasChanged: false,
+      _listenForPropChanges: true
     }
   }
 
@@ -335,6 +335,10 @@ export default class DrawerList extends PureComponent {
     }
 
     if (state._listenForPropChanges) {
+      // if (state.opened !== isTrue(props.opened)) {
+      //   state.opened = isTrue(props.opened)
+      // }
+
       if (
         (props.data && typeof props.data !== 'function') ||
         props.children
@@ -1083,7 +1087,7 @@ export default class DrawerList extends PureComponent {
       id: _id, // eslint-disable-line
       data: _data, // eslint-disable-line
       preparedData: _preparedData, // eslint-disable-line
-      originalData: _originalData, // eslint-disable-line
+      rawData: _rawData, // eslint-disable-line
       opened: _opened, // eslint-disable-line
       value: _value, // eslint-disable-line
       children,

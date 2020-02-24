@@ -40,6 +40,7 @@ const AutocompleteStory = () => {
             a: 'AA',
             b: 'BB'
           }}
+          // icon_position="left"
           on_select={e => {
             console.log('on_select', e)
           }}

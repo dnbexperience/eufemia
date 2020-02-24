@@ -319,11 +319,7 @@ export default class Dropdown extends PureComponent {
     }
   }
   onMouseDownHandler = () => {
-    if (
-      !this.state.hidden &&
-      this.state.opened
-      // &&  !this.state.blockDoubleClick
-    ) {
+    if (!this.state.hidden && this.state.opened) {
       this.setHidden()
     } else {
       this.setVisible()
@@ -596,7 +592,7 @@ export default class Dropdown extends PureComponent {
                 id={id}
                 inner_class="dnb-dropdown__list"
                 preparedData={data}
-                originalData={_data}
+                rawData={_data}
                 value={selected_item}
                 default_value={default_value}
                 scrollable={scrollable}

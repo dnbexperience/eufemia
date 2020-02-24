@@ -335,7 +335,9 @@ describe('Dropdown component', () => {
         .hasAttribute('disabled')
     ).toBe(true)
   })
+})
 
+describe('Dropdown markup', () => {
   const CheckComponent = mount(
     <Component {...snapshotProps} data={mockData} />
   )
@@ -364,6 +366,7 @@ describe('Dropdown scss', () => {
 })
 
 const open = async Comp => {
+  await wait(1) // in case we close and reopen
   Comp.find('button').simulate('mousedown')
   await wait(1) // because we don't we have componentDidMount
 }
