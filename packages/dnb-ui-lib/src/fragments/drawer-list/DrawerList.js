@@ -373,6 +373,11 @@ export default class DrawerList extends PureComponent {
         }
       }
 
+      // if only one data is present, we auto select this as active
+      if (state.data && state.data.length === 1) {
+        state.active_item = 0
+      }
+
       // reset selected
       if (
         (state.data && state.data.length === 0) ||

@@ -483,6 +483,8 @@ export default class Autocomplete extends PureComponent {
       suffix,
       scrollable,
       focusable,
+      keep_open,
+      prevent_close,
       no_animation,
       no_scroll_animation,
       trigger_component: CustomTrigger,
@@ -672,6 +674,8 @@ export default class Autocomplete extends PureComponent {
                 no_scroll_animation={no_scroll_animation}
                 prevent_selection={prevent_selection}
                 icon_position={icon_position}
+                keep_open={keep_open}
+                prevent_close={prevent_close}
                 align_drawer={align_autocomplete}
                 disabled={disabled}
                 max_height={max_height}

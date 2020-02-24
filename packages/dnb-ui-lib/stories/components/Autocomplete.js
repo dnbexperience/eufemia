@@ -28,6 +28,7 @@ const AutocompleteStory = () => {
         <Autocomplete
           title="Type to find ..."
           // opened
+          // prevent_close
           // no_animation
           // value="0"
           data={['AA cc', 'BB cc']}

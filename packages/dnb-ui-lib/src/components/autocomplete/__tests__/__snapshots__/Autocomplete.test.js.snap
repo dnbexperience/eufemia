@@ -565,7 +565,7 @@ Feriekonto - Kari Nordmann med et kjempelangt etternavnsen"
             id="autocomplete-id"
             ignore_events={null}
             inner_class="dnb-autocomplete__list"
-            keep_open={false}
+            keep_open="keep_open"
             max_height={1}
             no_animation="no_animation"
             no_scroll_animation="no_scroll_animation"
@@ -577,7 +577,7 @@ Feriekonto - Kari Nordmann med et kjempelangt etternavnsen"
             on_state_update={null}
             opened={true}
             preparedData={null}
-            prevent_close={false}
+            prevent_close="prevent_close"
             prevent_focus={true}
             prevent_selection={null}
             scrollable="scrollable"

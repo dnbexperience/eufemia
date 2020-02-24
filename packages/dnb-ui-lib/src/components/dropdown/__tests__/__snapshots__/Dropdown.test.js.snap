@@ -403,7 +403,7 @@ exports[`Dropdown component have to match snapshot 1`] = `
             id="dropdown-id"
             ignore_events={null}
             inner_class="dnb-dropdown__list"
-            keep_open={false}
+            keep_open="keep_open"
             max_height={1}
             no_animation="no_animation"
             no_scroll_animation="no_scroll_animation"
@@ -462,7 +462,7 @@ exports[`Dropdown component have to match snapshot 1`] = `
                 ],
               ]
             }
-            prevent_close={false}
+            prevent_close="prevent_close"
             prevent_focus={false}
             prevent_selection={null}
             scrollable="scrollable"
