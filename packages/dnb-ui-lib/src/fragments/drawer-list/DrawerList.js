@@ -629,8 +629,8 @@ export default class DrawerList extends PureComponent {
         this.state.data.reduce((acc, itemData, i) => {
           const str = String(
             DrawerList.parseContentTitle(itemData, {
-              removeNumericOnlyValues: true,
               separator: ' '
+              // removeNumericOnlyValues: true,// disabled 25. feb. 2020 as this does not make sence to handle this internally
             })
           ).toLowerCase()
 
@@ -759,7 +759,7 @@ export default class DrawerList extends PureComponent {
       }
     }
 
-    if (isTrue(this.props.ignore_events)) {
+    if (isTrue(this.props.ignore_events) && key !== 'tab') {
       return
     }
 

@@ -490,6 +490,11 @@ export default class Autocomplete extends PureComponent {
     this._selectTimeout = setTimeout(() => {
       if (!isTrue(this.props.keep_open)) {
         this.setHidden()
+        try {
+          this._refInput.current._ref.current.focus()
+        } catch (e) {
+          // do nothing
+        }
       }
     }, 1) // because of state updates we need 1 tick delay here
   }
@@ -561,6 +566,7 @@ export default class Autocomplete extends PureComponent {
     const value =
       data && data.length > 0
         ? DrawerList.parseContentTitle(currentOptionData, {
+            separator: ' ',
             preferSelectedValue: true
           })
         : null
