@@ -194,22 +194,21 @@ export default class Autocomplete extends PureComponent {
     registerElement(Autocomplete.tagName, Autocomplete, defaultProps)
   }
 
-  static parseData(data) {
-    const newData = data.map(dataItem => {
-      const toParse = DrawerList.parseContentTitle(dataItem)
-      if (typeof toParse === 'string') {
-        return toParse
-      }
-      if (Array.isArray(toParse)) {
-        return Autocomplete.parseData(toParse)
-      }
+  static parseDataItem(dataItem) {
+    const toParse = DrawerList.parseContentTitle(dataItem, {
+      separator: ' '
     })
-
-    return newData
+    if (typeof toParse !== 'string' && Array.isArray(toParse)) {
+      return Autocomplete.parseDataItem(toParse)
+    }
+    return toParse
   }
 
   static createSearchIndex(data) {
-    return Autocomplete.parseData(data)
+    return data.map(dataItem => {
+      const searchChunk = Autocomplete.parseDataItem(dataItem)
+      return { dataItem, searchChunk }
+    })
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -440,14 +439,14 @@ export default class Autocomplete extends PureComponent {
 
     return searchIndex
       .map(item => {
-        const foundWords = findWords(item)
+        const foundWords = findWords(item.searchChunk)
         if (foundWords > 0) {
           return { foundWords, item }
         }
       })
       .filter(Boolean)
       .sort(({ foundWords: a }, { foundWords: b }) => b - a)
-      .map(({ item }) => item)
+      .map(({ item }) => item.dataItem)
   }
 
   onSetDirectionHandler = props => {
@@ -505,7 +504,7 @@ export default class Autocomplete extends PureComponent {
     ))
 
     const {
-      title: titleProp,
+      title,
       label,
       label_direction,
       label_sr_only,
@@ -559,15 +558,11 @@ export default class Autocomplete extends PureComponent {
       selected_item,
       data
     )
-    const title =
-      data && data.length > 0
-        ? currentOptionData.selected_value ||
-          DrawerList.parseContentTitle(currentOptionData) ||
-          titleProp
-        : titleProp
     const value =
       data && data.length > 0
-        ? DrawerList.parseContentTitle(currentOptionData)
+        ? DrawerList.parseContentTitle(currentOptionData, {
+            preferSelectedValue: true
+          })
         : null
 
     const mainParams = {

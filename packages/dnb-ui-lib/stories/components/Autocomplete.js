@@ -7,15 +7,7 @@ import React, { Fragment } from 'react'
 import { Wrapper, Box } from '../helpers'
 import styled from '@emotion/styled'
 
-import {
-  Autocomplete,
-  // Button,
-  // FormLabel,
-  // FormSet,
-  // FormRow,
-  Number
-  // Checkbox
-} from '../../src/components'
+import { Autocomplete, Number } from '../../src/components'
 
 const CustomStyle = styled.div``
 
@@ -31,7 +23,45 @@ const AutocompleteStory = () => {
           // prevent_close
           // no_animation
           // value="0"
-          data={['AA cc', 'BB cc']}
+          data={[
+            {
+              content: 'A'
+            },
+            {
+              content: 'B'
+            },
+            {
+              selected_value: 99999999,
+              content: [
+                <Number phone key={99999999}>
+                  99999999
+                </Number>,
+                'C'
+              ]
+            },
+            {
+              selected_value: 99999999,
+              content: [
+                <Number phone key={99999999}>
+                  99999999
+                </Number>,
+                'D'
+              ]
+            },
+            {
+              content: 'E'
+            },
+            {
+              selected_value: 'Find me by keypress',
+              content: ['F', 'F', 'F', 'F']
+            },
+            {
+              content: 'G'
+            },
+            {
+              content: 'H'
+            }
+          ]}
         ></Autocomplete>
       </Box>
       <Box>
@@ -93,8 +123,8 @@ let autocompleteData = [
   },
   {
     content: [
-      <Number key={12345678902} ban>
-        12345678902
+      <Number key={99999999} phone>
+        99999999
       </Number>,
       'Sparekonto - Ole Nordmann'
     ]
@@ -103,8 +133,8 @@ let autocompleteData = [
     selected_value:
       'Feriekonto - Kari Nordmann med et kjempelangt etternavnsen',
     content: [
-      <Number key={11345678962} ban>
-        11345678962
+      <Number key={99999999} phone>
+        99999999
       </Number>,
       'Feriekonto - Kari Nordmann med et kjempelangt etternavnsen'
     ]
@@ -112,8 +142,8 @@ let autocompleteData = [
   {
     selected_value: <>Custom selected {'🔥'}</>,
     content: [
-      <Number key={15349648901} ban>
-        15349648901
+      <Number key={99999999} phone>
+        99999999
       </Number>,
       <>Custom content {'🔥'}</>
     ]
@@ -126,8 +156,8 @@ const autocompleteDataScrollable = [
   },
   {
     content: [
-      <Number key={12345678902} ban>
-        12345678902
+      <Number key={99999999} phone>
+        99999999
       </Number>,
       'BB'
     ]
@@ -135,8 +165,8 @@ const autocompleteDataScrollable = [
   {
     selected_value: 'CCC',
     content: [
-      <Number key={11345678962} ban>
-        11345678962
+      <Number key={99999999} phone>
+        99999999
       </Number>,
       'CC'
     ]
@@ -144,8 +174,8 @@ const autocompleteDataScrollable = [
   {
     selected_value: 'DDD',
     content: [
-      <Number key={15349648901} ban>
-        15349648901
+      <Number key={99999999} phone>
+        99999999
       </Number>,
       'DD'
     ]

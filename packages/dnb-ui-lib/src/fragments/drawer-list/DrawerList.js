@@ -166,14 +166,25 @@ export default class DrawerList extends PureComponent {
 
   static parseContentTitle = (
     dataItem,
-    { separator = '\n', removeNumericOnlyValues = false } = {}
+    {
+      separator = '\n',
+      removeNumericOnlyValues = false,
+      preferSelectedValue = false
+    } = {}
   ) => {
     let ret = ''
     const onlyNumericRegex = /[0-9.,-\s]+/
     if (Array.isArray(dataItem) && dataItem.length > 0) {
       dataItem = { content: dataItem }
     }
-    if (dataItem && Array.isArray(dataItem.content)) {
+
+    const hasValue = dataItem && dataItem.selected_value
+
+    if (
+      !(preferSelectedValue && hasValue) &&
+      dataItem &&
+      Array.isArray(dataItem.content)
+    ) {
       ret = dataItem.content
         .reduce((acc, cur) => {
           // check if we have React inside, with strings we can use
@@ -193,13 +204,15 @@ export default class DrawerList extends PureComponent {
     } else {
       ret = grabStringFromReact((dataItem && dataItem.content) || dataItem)
     }
-    if (
-      dataItem &&
-      dataItem.selected_value &&
-      !onlyNumericRegex.test(dataItem.selected_value)
-    ) {
-      ret = dataItem.selected_value + separator + ret
+
+    if (hasValue) {
+      if (preferSelectedValue) {
+        ret = String(dataItem.selected_value)
+      } else if (!onlyNumericRegex.test(dataItem.selected_value)) {
+        ret = String(dataItem.selected_value) + separator + ret
+      }
     }
+
     // make sure we don't return empty strings
     if (Array.isArray(dataItem) && dataItem.length === 0) {
       ret = null
