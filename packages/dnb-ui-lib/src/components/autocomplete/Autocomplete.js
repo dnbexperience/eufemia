@@ -47,6 +47,11 @@ const propTypes = {
   ]),
   icon_size: PropTypes.string,
   icon_position: PropTypes.string,
+  input_icon: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.node,
+    PropTypes.func
+  ]),
   label: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.func,
@@ -81,7 +86,6 @@ const propTypes = {
     PropTypes.string,
     PropTypes.bool
   ]),
-  // more_menu: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   size: PropTypes.oneOf(['default', 'small', 'medium', 'large']),
   align_autocomplete: PropTypes.oneOf(['left', 'right']),
   trigger_component: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
@@ -143,9 +147,10 @@ const defaultProps = {
   id: null,
   title: 'Option Menu',
   no_options: 'No options',
-  icon: null,
+  icon: 'chevron-down',
   icon_size: null,
   icon_position: 'right',
+  input_icon: 'search',
   label: null,
   label_direction: null,
   label_sr_only: null,
@@ -162,7 +167,7 @@ const defaultProps = {
   no_animation: false,
   no_scroll_animation: false,
   prevent_selection: false,
-  size: null,
+  size: 'default',
   align_autocomplete: null,
   trigger_component: null,
   data: null,
@@ -408,14 +413,16 @@ export default class Autocomplete extends PureComponent {
   onSubmitHandler = () => {
     this.showAll()
 
-    if (
-      !this.hasFilterActive() &&
-      !this.state.hidden &&
-      this.state.opened
-    ) {
-      this.setHidden()
-    } else {
-      this.setVisible()
+    if (!isTrue(this.props.prevent_close)) {
+      if (
+        !this.hasFilterActive() &&
+        !this.state.hidden &&
+        this.state.opened
+      ) {
+        this.setHidden()
+      } else {
+        this.setVisible()
+      }
     }
   }
   hasFilterActive = () => {
@@ -677,6 +684,7 @@ export default class Autocomplete extends PureComponent {
       icon,
       icon_size,
       icon_position,
+      input_icon,
       size,
       align_autocomplete,
       status,
@@ -726,14 +734,13 @@ export default class Autocomplete extends PureComponent {
     const mainParams = {
       className: classnames(
         'dnb-autocomplete',
-        `dnb-autocomplete--direction-${direction}`,
+        `dnb-autocomplete--${direction}`,
         opened && 'dnb-autocomplete--opened',
         label_direction && `dnb-autocomplete--${label_direction}`,
         // icon_position &&
         //   `dnb-autocomplete--icon-position-${icon_position}`,
-        size && `dnb-autocomplete__size--${size}`,
-        align_autocomplete &&
-          `dnb-autocomplete__align--${align_autocomplete}`,
+        align_autocomplete && `dnb-autocomplete--${align_autocomplete}`,
+        size && `dnb-autocomplete--${size}`,
         status && `dnb-autocomplete__status--${status_state}`,
         showStatus && 'dnb-autocomplete__form-status',
         'dnb-form-component',
@@ -809,16 +816,18 @@ export default class Autocomplete extends PureComponent {
                 <CustomTrigger {...inputParams} />
               ) : (
                 <Input
-                  icon={icon || 'search'}
+                  icon={input_icon}
                   // icon_position={icon_position}
                   icon_size={
                     icon_size || (size === 'large' ? 'medium' : 'default')
                   }
+                  size={size}
+                  status={!opened && status ? status_state : null}
                   type="search" // gives us also autoComplete=off
                   submit_element={
                     <SubmitButton
                       // value={String(selected_item)}// is not needed for now
-                      icon={icon || 'chevron-down'}
+                      icon={icon}
                       icon_size={
                         icon_size ||
                         (size === 'large' ? 'medium' : 'default')
@@ -827,7 +836,7 @@ export default class Autocomplete extends PureComponent {
                       title={'submit_button_title'}
                       variant="secondary"
                       disabled={disabled}
-                      size={size}
+                      size={size === 'default' ? 'medium' : size}
                       on_submit={this.onSubmitHandler}
                       onKeyDown={this.onTriggerKeyDownHandler}
                       {...triggerParams}
@@ -860,13 +869,14 @@ export default class Autocomplete extends PureComponent {
                 no_animation={no_animation}
                 no_scroll_animation={no_scroll_animation}
                 prevent_selection={prevent_selection}
-                icon_position={icon_position}
+                triangle_position={icon_position}
                 keep_open={keep_open}
                 prevent_close={prevent_close}
                 align_drawer={align_autocomplete}
                 disabled={disabled}
                 max_height={max_height}
-                direction={_direction}
+                direction={direction}
+                size={size}
                 opened={opened}
                 on_change={this.onChangeHandler}
                 on_select={this.onSelectHandler}

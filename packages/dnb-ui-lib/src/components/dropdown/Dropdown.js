@@ -139,7 +139,7 @@ const propTypes = {
 const defaultProps = {
   id: null,
   title: 'Option Menu',
-  icon: null,
+  icon: 'chevron-down',
   icon_size: null,
   icon_position: 'right',
   label: null,
@@ -158,7 +158,7 @@ const defaultProps = {
   no_scroll_animation: false,
   prevent_selection: false,
   more_menu: false,
-  size: null,
+  size: 'default',
   align_dropdown: null,
   trigger_component: null,
   data: null,
@@ -390,9 +390,8 @@ export default class Dropdown extends PureComponent {
     }, 1) // because of state updates we need 1 tick delay here
   }
 
-  getTitle() {
+  getTitle(title) {
     const { data } = this.state
-    let title = this.props.title
     if (data?.length > 0) {
       const currentOptionData = DrawerList.getCurrentData(
         this.state.selected_item,
@@ -445,7 +444,7 @@ export default class Dropdown extends PureComponent {
       class: _className,
       disabled,
 
-      title: _title, // eslint-disable-line
+      title: titleProp,
       icon: _icon, // eslint-disable-line
       icon_position: _icon_position, // eslint-disable-line
       data: _data, // eslint-disable-line
@@ -462,7 +461,7 @@ export default class Dropdown extends PureComponent {
 
     const isPopupMenu = isTrue(more_menu) || isTrue(prevent_selection)
     if (isPopupMenu) {
-      if (icon === null && isTrue(more_menu)) {
+      if (icon !== 'chevron_down' && isTrue(more_menu)) {
         icon = 'more'
       }
       if (icon_position === 'right' && align_dropdown !== 'right') {
@@ -472,21 +471,21 @@ export default class Dropdown extends PureComponent {
 
     const { data, direction, opened, selected_item } = this.state
     const showStatus = status && status !== 'error'
-    const title = this.getTitle()
+    const title = this.getTitle(titleProp)
 
     const mainParams = {
       className: classnames(
         'dnb-dropdown',
-        `dnb-dropdown--direction-${direction}`,
+        `dnb-dropdown--${direction}`,
         opened && 'dnb-dropdown--opened',
         label_direction && `dnb-dropdown--${label_direction}`,
         icon_position && `dnb-dropdown--icon-position-${icon_position}`,
-        isPopupMenu && 'dnb-dropdown--is-popup',
+        isPopupMenu && 'dnb-dropdown--button',
         isPopupMenu &&
           typeof more_menu === 'string' &&
           `dnb-dropdown__more_menu`,
-        size && `dnb-dropdown__size--${size}`,
-        align_dropdown && `dnb-dropdown__align--${align_dropdown}`,
+        size && `dnb-dropdown--${size}`,
+        align_dropdown && `dnb-drawer-list--${align_dropdown}`,
         status && `dnb-dropdown__status--${status_state}`,
         showStatus && 'dnb-dropdown__form-status',
         'dnb-form-component',
@@ -565,6 +564,7 @@ export default class Dropdown extends PureComponent {
                 <Button
                   variant="secondary"
                   size="medium"
+                  // size={size === 'default' ? 'medium' : size}
                   ref={this._refButton}
                   {...triggerParams}
                 >
@@ -586,7 +586,7 @@ export default class Dropdown extends PureComponent {
                     {icon !== false && (
                       <Icon
                         aria-hidden
-                        icon={icon || 'chevron-down'}
+                        icon={icon}
                         size={
                           icon_size ||
                           (size === 'large' ? 'medium' : 'default')
@@ -609,13 +609,15 @@ export default class Dropdown extends PureComponent {
                 no_animation={no_animation}
                 no_scroll_animation={no_scroll_animation}
                 prevent_selection={prevent_selection}
-                icon_position={icon_position}
+                triangle_position={icon_position}
                 keep_open={keep_open}
                 prevent_close={prevent_close}
+                button_only={isPopupMenu}
                 align_drawer={align_dropdown}
                 disabled={disabled}
                 max_height={max_height}
                 direction={_direction}
+                size={size}
                 opened={opened}
                 on_change={this.onChangeHandler}
                 on_select={this.onSelectHandler}

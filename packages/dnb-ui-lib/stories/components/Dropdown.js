@@ -79,7 +79,7 @@ const DropdownStory = () => {
             data={() => {
               return dropdownData
             }}
-            right="small"
+            right
             status="Status message"
             on_change={({ attributes }) => {
               console.log(
@@ -94,7 +94,7 @@ const DropdownStory = () => {
           <Dropdown
             title="Default option"
             label="Vertical B:"
-            align_dropdown="right"
+            // align_dropdown="right"
             icon_position="left"
             data={dropdownData}
           />
@@ -195,9 +195,10 @@ const DropdownStory = () => {
       <Box>
         Popup Menu
         <Dropdown
-          left="small"
-          right="small"
+          left
+          right
           size="small"
+          // align_dropdown="right"
           more_menu={true}
           title="Choose an item"
           data={['Go this this Link', 'Or to this one']}
@@ -209,8 +210,9 @@ const DropdownStory = () => {
           }}
         />
         <Dropdown
-          right="small"
+          right
           more_menu="true"
+          // align_dropdown="right"
           title="Choose an item"
           data={['Go this this Link', 'Or to this one']}
           on_change={({ value }) => {
@@ -221,8 +223,23 @@ const DropdownStory = () => {
           }}
         />
         <Dropdown
+          right
+          size="medium"
           prevent_selection="true"
-          align_dropdown="right"
+          // align_dropdown="right"
+          title="Choose an item"
+          data={['Go this this Link', 'Or to this one']}
+          on_change={({ value }) => {
+            console.log('on_change', value)
+          }}
+          on_select={({ active_item }) => {
+            console.log('on_select', active_item)
+          }}
+        />
+        <Dropdown
+          size="large"
+          prevent_selection="true"
+          // align_dropdown="right"
           title="Choose an item"
           data={['Go this this Link', 'Or to this one']}
           on_change={({ value }) => {

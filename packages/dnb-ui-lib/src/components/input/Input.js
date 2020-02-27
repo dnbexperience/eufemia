@@ -39,7 +39,10 @@ const renderProps = {
 
 const propTypes = {
   type: PropTypes.string,
-  size: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  size: PropTypes.oneOfType([
+    PropTypes.oneOf(['default', 'small', 'medium', 'large']),
+    PropTypes.number
+  ]),
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   id: PropTypes.string,
   label: PropTypes.oneOfType([
@@ -54,9 +57,9 @@ const propTypes = {
     PropTypes.func,
     PropTypes.node
   ]),
-  input_state: PropTypes.string,
   status_state: PropTypes.string,
   status_animation: PropTypes.string,
+  input_state: PropTypes.string,
   global_status_id: PropTypes.string,
   autocomplete: PropTypes.oneOf(['on', 'off']),
   submit_button_title: PropTypes.string,
@@ -129,9 +132,9 @@ const defaultProps = {
   label_direction: null,
   label_sr_only: null,
   status: null,
-  input_state: null,
   status_state: 'error',
   status_animation: null,
+  input_state: null,
   global_status_id: null,
   autocomplete: 'off',
   placeholder: null,

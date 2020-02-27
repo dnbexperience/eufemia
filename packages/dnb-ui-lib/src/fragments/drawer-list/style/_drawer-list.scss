@@ -9,6 +9,9 @@
   --drawer-list-padding-horizontal: 1rem;
   --drawer-list-focus-border-width: 0.125rem;
   --drawer-list-text-padding: 0.5rem;
+  --drawer-list-height--small: 1.5rem;
+  --drawer-list-height--medium: 2.5rem;
+  --drawer-list-height--large: 3rem;
 }
 
 @mixin openDrawerList($state: 'animation') {
@@ -67,13 +70,71 @@
     transform: translateY(0);
     transition: transform 200ms, opacity 160ms ease-out;
   }
-  &__align--right &__list {
-    left: auto;
-  }
 
-  &--direction-top &__list {
+  &--top &__list {
     top: auto;
     bottom: 0;
+  }
+
+  // size--default button left aligned
+  &--button &__list {
+    left: -0.5rem;
+  }
+
+  // size--default button right aligned
+  &--button#{&}--right &__list {
+    right: -0.5rem;
+  }
+
+  // size--small
+  &--small &__list {
+    top: var(--drawer-list-height--small);
+  }
+  &--small#{&}--top &__list {
+    top: auto;
+    bottom: var(--drawer-list-height--small);
+  }
+  &--small#{&}--button &__list {
+    left: -0.75rem;
+  }
+  &--small#{&}--button#{&}--right &__list {
+    right: -0.75rem;
+  }
+
+  // size--medium
+  &--medium &__list {
+    top: var(--drawer-list-height--medium);
+  }
+  &--medium#{&}--top &__list {
+    top: auto;
+    bottom: var(--drawer-list-height--medium);
+  }
+  &--medium#{&}--button &__list {
+    left: -0.25rem;
+  }
+  &--medium#{&}--button#{&}--right &__list {
+    right: -0.25rem;
+  }
+
+  // size--large
+  &--large &__list {
+    top: var(--drawer-list-height--large);
+  }
+  &--large#{&}--top &__list {
+    top: auto;
+    bottom: var(--drawer-list-height--large);
+  }
+  &--large#{&}--button &__list {
+    left: -0.25rem;
+  }
+  &--large#{&}--button#{&}--right &__list {
+    right: -0.25rem;
+  }
+
+  // default right aligned
+  // stylelint-disable-next-line
+  &--right &__list {
+    left: auto;
   }
 
   // ul element
@@ -189,7 +250,7 @@
     left: 0;
     right: auto;
   }
-  &--direction-top &__triangle {
+  &--top &__triangle {
     top: auto;
     bottom: calc(
       var(--drawer-list-focus-border-width) - var(--drawer-list-height) / 2 -
@@ -198,27 +259,6 @@
     transform: rotate(180deg);
     &::before {
       transform: translateY(65%) rotate(45deg);
-    }
-  }
-
-  // button
-  &__trigger {
-    position: relative;
-    z-index: 1;
-
-    user-select: none;
-    -webkit-user-select: none; // Safari / Touch fix
-
-    display: inline-flex;
-    align-items: center;
-
-    outline: none;
-
-    width: 100%;
-    padding: 0 var(--drawer-list-padding-horizontal);
-
-    &.dnb-button {
-      line-height: var(--drawer-list-height);
     }
   }
 

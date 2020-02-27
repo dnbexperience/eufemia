@@ -12,21 +12,17 @@
   --autocomplete-border-color--selected: var(--color-emerald-green);
 }
 
-@mixin autocompleteBorderColor($color) {
-  @include fakeBorder($color, 0.125rem, null, true, !important);
-}
-
 .dnb-autocomplete {
   color: var(--autocomplete-text-color);
 
   // input
-  &__input {
+  &__input.dnb-input {
     color: var(--autocomplete-text-color);
-    @include hover() {
-      color: var(--autocomplete-text-color);
-    }
+    // :hover {
+    //   color: var(--autocomplete-text-color);
+    // }
   }
-  &--opened &__input .dnb-input__shell {
+  &--opened &__input.dnb-input .dnb-input__shell {
     box-shadow: none;
   }
   &--opened .dnb-input__submit-button__button {
@@ -43,28 +39,5 @@
     background-color: var(--color-mint-green);
     color: var(--color-black);
     text-shadow: none;
-  }
-
-  // error status
-  &__status--error &__input .dnb-input__shell {
-    box-shadow: none;
-  }
-  &__status--error:not(#{&}--opened) &__input {
-    @include autocompleteBorderColor(var(--color-fire-red));
-    @include hover() {
-      @include autocompleteBorderColor(var(--color-fire-red));
-      & .dnb-autocomplete__icon .dnb-icon {
-        color: var(--color-fire-red);
-      }
-    }
-  }
-  &__status--error:not(#{&}--opened) &__input,
-  &__status--error:not(#{&}--opened) &__icon {
-    color: var(--color-fire-red);
-  }
-
-  // ajust the form-status to the inner border for 2px
-  > .dnb-form-status {
-    transform: translateY(-0.4375rem);
   }
 }

@@ -220,17 +220,18 @@ describe('Autocomplete component', () => {
 
     // then simulate changes
     document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 13 })) // enter
+    await wait(1)
+
     const notChangedItem = mockData[props.value]
     expect(on_change.mock.calls[0][0].data).toBe(notChangedItem)
     expect(on_select.mock.calls[0][0].data).toBe(notChangedItem)
-
-    await wait(1) // until closed
 
     // open again
     await open(Comp)
 
     // then simulate changes
     document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 40 })) // down
+
     const selectedItem = mockData[props.value + 1]
     expect(on_select.mock.calls[1][0].data).toBe(selectedItem) // second call!
   })

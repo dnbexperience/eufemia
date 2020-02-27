@@ -368,6 +368,6 @@ describe('Dropdown scss', () => {
 const open = async Comp => {
   await wait(1) // in case we close and reopen
   Comp.find('button').simulate('mousedown')
-  await wait(1) // because we don't we have componentDidMount
+  await wait(10) // because we don't we have componentDidMount
 }
 const wait = t => new Promise(r => setTimeout(r, t))

@@ -28,6 +28,7 @@ const snapshotProps = {
   opened: true,
   no_animation: true,
   prevent_selection: null,
+  size: 'default',
   align_drawer: null
 }
 
@@ -152,6 +153,8 @@ describe('DrawerList component', () => {
 
     // then simulate changes
     document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 40 })) // down
+    await wait(1)
+
     const selectedItem = mockData[props.value + 1]
     expect(on_select.mock.calls[1][0].data).toBe(selectedItem) // second call!
   })

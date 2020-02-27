@@ -35,10 +35,11 @@ const renderProps = {
 
 export const propTypes = {
   id: PropTypes.string,
-  icon_position: PropTypes.string,
+  triangle_position: PropTypes.string,
   scrollable: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   focusable: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   direction: PropTypes.oneOf(['auto', 'top', 'bottom']),
+  size: PropTypes.oneOf(['default', 'small', 'medium', 'large']),
   max_height: PropTypes.number,
   no_animation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   no_scroll_animation: PropTypes.oneOfType([
@@ -58,6 +59,7 @@ export const propTypes = {
   default_value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   prevent_close: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  button_only: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   keep_open: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   prevent_focus: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   skip_keysearch: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -122,11 +124,12 @@ export const propTypes = {
 
 const defaultProps = {
   id: null,
-  icon_position: 'left',
+  triangle_position: 'left',
   scrollable: true,
   focusable: false,
   max_height: null,
   direction: 'auto',
+  size: 'default',
   no_animation: false,
   no_scroll_animation: false,
   prevent_selection: false,
@@ -137,6 +140,7 @@ const defaultProps = {
   prevent_close: false,
   keep_open: false,
   prevent_focus: false,
+  button_only: false,
   skip_keysearch: false,
   opened: false,
   class: null,
@@ -470,16 +474,16 @@ export default class DrawerList extends PureComponent {
       const width = (this.state.wrapper_element || this._refShell.current)
         .offsetWidth
       if (parseFloat(width) > 0) {
-        const { icon_position, align_drawer } = this.props
+        const { triangle_position, align_drawer } = this.props
         switch (align_drawer) {
           case 'left':
           default:
-            if (icon_position !== 'left') {
+            if (triangle_position !== 'left') {
               this._refTriangle.current.style.left = `${width / 16 - 3}rem` // -3rem
             }
             break
           case 'right':
-            if (icon_position === 'left') {
+            if (triangle_position === 'left') {
               this._refTriangle.current.style.left = 'auto'
               this._refTriangle.current.style.right = `${width / 16 -
                 3}rem` // -3rem
@@ -753,7 +757,7 @@ export default class DrawerList extends PureComponent {
     const key = keycode(e)
 
     // stop here if the focus is not set
-    // and the drawer is opened by defualt
+    // and the drawer is opened by default
     if (isTrue(this.props.prevent_close)) {
       const isSameDrawer =
         typeof document !== 'undefined' &&
@@ -1139,13 +1143,15 @@ export default class DrawerList extends PureComponent {
       this.context.translation.List
     )
 
-    let { icon_position } = props
+    let { triangle_position } = props
 
     const {
-      icon_position: _icon_position, // eslint-disable-line
+      triangle_position: _triangle_position, // eslint-disable-line
       align_drawer,
+      button_only,
       scrollable,
       focusable,
+      size,
       no_animation,
       no_scroll_animation,
       prevent_selection,
@@ -1203,9 +1209,12 @@ export default class DrawerList extends PureComponent {
         'dnb-drawer-list',
         opened && 'dnb-drawer-list--opened',
         hidden && 'dnb-drawer-list--hidden',
-        `dnb-drawer-list--direction-${direction}`,
-        icon_position && `dnb-drawer-list--icon-position-${icon_position}`,
-        align_drawer && `dnb-drawer-list__align--${align_drawer}`,
+        `dnb-drawer-list--${direction}`,
+        triangle_position &&
+          `dnb-drawer-list--icon-position-${triangle_position}`,
+        align_drawer && `dnb-drawer-list--${align_drawer}`,
+        size && `dnb-drawer-list--${size}`,
+        button_only && 'dnb-drawer-list--button',
         isTrue(scrollable) && 'dnb-drawer-list--scroll',
         isTrue(no_scroll_animation) &&
           'dnb-drawer-list--no-scroll-animation',

@@ -9,7 +9,14 @@ import styled from '@emotion/styled'
 
 import { Autocomplete, Number } from '../../src/components'
 
-const CustomStyle = styled.div``
+const CustomStyle = styled.div`
+  .dnb-autocomplete__shell {
+    width: 10rem; /* custom width */
+  }
+  .dnb-autocomplete__list {
+    min-width: 10rem; /* custom width */
+  }
+`
 
 const AutocompleteStory = () => {
   // const [data, setData] = useState(autocompleteData)
@@ -17,10 +24,21 @@ const AutocompleteStory = () => {
   return (
     <Wrapper>
       <Box>
-        <Autocomplete value="A" data={['A']}></Autocomplete>
+        <CustomStyle>
+          <Autocomplete size="small" value="A" data={['A']} />
+          <Autocomplete
+            status="feil"
+            size="default"
+            value="A"
+            data={['A']}
+          />
+          <Autocomplete size="medium" value="A" data={['A']} />
+          <Autocomplete size="large" value="A" data={['A']} />
+        </CustomStyle>
       </Box>
       <Box>
         <Autocomplete
+          input_icon={null}
           value="c"
           data={{
             a: 'A1 A2 CC',
@@ -122,14 +140,7 @@ const AutocompleteStory = () => {
   )
 }
 
-export default [
-  'Autocomplete',
-  () => (
-    <CustomStyle>
-      <AutocompleteStory />
-    </CustomStyle>
-  )
-]
+export default ['Autocomplete', AutocompleteStory]
 
 let autocompleteData = [
   {
