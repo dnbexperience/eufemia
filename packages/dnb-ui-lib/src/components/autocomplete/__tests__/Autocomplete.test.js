@@ -59,6 +59,13 @@ describe('Autocomplete component', () => {
     expect(Comp.state().hidden).toBe(false)
   })
 
+  it('has correct active_item if only one data entry is available', async () => {
+    const Comp = mount(
+      <Component opened no_animation value="A" data={['A']} />
+    )
+    expect(Comp.state().active_item).toBe(0)
+  })
+
   it('has correct value on keydown "ArrowDown" and "Enter"', async () => {
     const Comp = mount(<Component {...props} data={mockData} />)
 
@@ -102,7 +109,6 @@ describe('Autocomplete component', () => {
     // open
     await open(Comp)
 
-    // make first selection
     document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 40 })) // down
     document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 13 })) // enter
 
@@ -211,7 +217,7 @@ describe('Autocomplete component', () => {
     await open(Comp)
 
     // then simulate changes
-    document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 32 })) // space
+    document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 13 })) // enter
     const notChangedItem = mockData[props.value]
     expect(on_change.mock.calls[0][0].data).toBe(notChangedItem)
     expect(on_select.mock.calls[0][0].data).toBe(notChangedItem)
@@ -395,6 +401,6 @@ const open = async Comp => {
   const elem = Comp.find('button.dnb-input__submit-button__button')
   await wait(1) // in case we close and reopen
   elem.simulate('click')
-  await wait(1) // because we don't we have componentDidMount
+  await wait(10) // because we don't we have componentDidMount
 }
 const wait = t => new Promise(r => setTimeout(r, t))

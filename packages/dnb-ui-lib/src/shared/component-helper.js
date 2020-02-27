@@ -453,6 +453,7 @@ export const dispatchCustomElementEvent = (
   // call Syntetic React event camelCase naming events
   eventName = toPascalCase(eventName)
   if (typeof props[eventName] === 'function') {
+    // TODO: we may use [eventObject.event, eventObject] in future
     ret = props[eventName].apply(src, [eventObject])
   }
 
@@ -665,7 +666,7 @@ export const slugify = s =>
 // NB: in future we can use String.matchAll() instead
 export const matchAll = (string, regex) => {
   if (typeof string.matchAll === 'function') {
-    return string.matchAll(regex)
+    return Array.from(string.matchAll(regex))
   }
   const matches = []
   let match

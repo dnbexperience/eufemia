@@ -23,7 +23,9 @@ import Suffix from '../../shared/helpers/Suffix'
 import FormLabel from '../form-label/FormLabel'
 import FormStatus from '../form-status/FormStatus'
 import Input, { SubmitButton } from '../input/Input'
-import DrawerList from '../../fragments/drawer-list/DrawerList'
+import DrawerList, {
+  grabStringFromReact
+} from '../../fragments/drawer-list/DrawerList'
 
 const renderProps = {
   on_show: null,
@@ -67,6 +69,7 @@ const propTypes = {
   ]),
   scrollable: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   focusable: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  skip_highlight: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   direction: PropTypes.oneOf(['auto', 'top', 'bottom']),
   max_height: PropTypes.number,
   no_animation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -153,6 +156,7 @@ const defaultProps = {
   suffix: null,
   scrollable: true,
   focusable: false,
+  skip_highlight: false,
   max_height: null,
   direction: 'auto',
   no_animation: false,
@@ -211,16 +215,39 @@ export default class Autocomplete extends PureComponent {
     })
   }
 
+  static getInputValue(selected_item, data) {
+    const currentData = DrawerList.getCurrentData(selected_item, data)
+    return DrawerList.parseContentTitle(currentData, {
+      separator: ' ',
+      preferSelectedValue: true
+    })
+  }
+
   static getDerivedStateFromProps(props, state) {
+    if (state._listenForPropChanges) {
+      // TODO: update search index if data prop has changed
+      // state.searchIndex = Autocomplete.createSearchIndex(props.data)
+
+      // TODO: update original_data if data prop has changed
+      if (!state.original_data) {
+        state.original_data = state.data
+      }
+
+      state.skip_highlight = isTrue(props.skip_highlight)
+
+      if (props.value !== 'initval' && state._value !== props.value) {
+        state._value = props.value
+
+        state.input_value = Autocomplete.getInputValue(
+          state.selected_item,
+          state.data
+        )
+      }
+    }
+
     const newState = DrawerList.prepareDerivedState(props, state)
 
-    // TODO: update search index if data prop has changed
-    // newState.searchIndex = Autocomplete.createSearchIndex(newState.data)
-
-    // TODO: update originalData if data prop has changed
-    if (!newState.originalData) {
-      newState.originalData = newState.data
-    }
+    state._listenForPropChanges = true
 
     return newState
   }
@@ -231,6 +258,7 @@ export default class Autocomplete extends PureComponent {
     this._id = props.id || makeUniqueId()
 
     this.state = DrawerList.prepareStartupState(props)
+    this.state._listenForPropChanges = true
 
     this._ref = React.createRef()
     this._refShell = React.createRef()
@@ -261,7 +289,6 @@ export default class Autocomplete extends PureComponent {
     }
 
     clearTimeout(this._hideTimeout)
-    this.setSearchIndex()
 
     this.setState({
       hidden: false,
@@ -279,10 +306,6 @@ export default class Autocomplete extends PureComponent {
   setHidden = () => {
     if (!this.state.opened) {
       return
-    }
-
-    if (this.hasNoFilterOptions()) {
-      this.resetFilter()
     }
 
     this.setState(
@@ -317,9 +340,57 @@ export default class Autocomplete extends PureComponent {
     })
   }
 
-  onFocusHandler = () => {
+  onInputChangeHandler = ({ value }, options) => {
+    value = String(value).trim()
+
+    if (value === this.state.value) {
+      return
+    }
+
+    // run the filter also on invalid values, so we reset the highlight
+    const data = this.runFilter(value, options)
+
+    this.setState({
+      _listenForPropChanges: false
+    })
+
+    if (value && value.length > 0) {
+      // show the "no_options" message
+      if (data.length === 0) {
+        this.resetSelections()
+        this.totalReset()
+        this.setState({
+          ignore_events: true,
+          data: [{ content: this._props.no_options, ignore_events: true }]
+        })
+      } else if (data.length > 0) {
+        const active_id = data.length === 1 ? data[0].__id : null
+        this.setState({
+          active_id,
+          data,
+          skip_highlight: false,
+          ignore_events: false
+        })
+      }
+
+      this.setVisible()
+    } else {
+      // this will not remove selected_item
+      this.totalReset()
+      this.showAll()
+    }
+  }
+  onInputClickHandler = e => {
+    const value = e.target.value.trim()
+    if (value && value.length > 0) {
+      this.setVisible()
+    }
+  }
+  onInputFocusHandler = () => {
     if (isTrue(this.props.open_on_focus)) {
       this.setVisible()
+    } else {
+      this.setSearchIndex()
     }
   }
   onBlurHandler = () => {
@@ -335,12 +406,10 @@ export default class Autocomplete extends PureComponent {
     }
   }
   onSubmitHandler = () => {
-    // here we reset the "no options" state
-    // because the user clicked on the submit button to open the whole list
-    this.resetFilter({ showOriginalData: true })
+    this.showAll()
 
     if (
-      !this.hasNoFilterOptions() &&
+      !this.hasFilterActive() &&
       !this.state.hidden &&
       this.state.opened
     ) {
@@ -349,38 +418,30 @@ export default class Autocomplete extends PureComponent {
       this.setVisible()
     }
   }
-  hasNoFilterOptions = () => {
-    return (
-      this.state.data &&
-      ((this.state.data.length === 1 &&
-        this.state.data[0].ignore_events) ||
-        this.state.data.length === 0)
-    )
+  hasFilterActive = () => {
+    return this.state.data.length !== this.state.original_data.length
   }
-  resetFilter = ({ showOriginalData } = {}) => {
-    if (this.hasNoFilterOptions()) {
-      this.setState({
-        value: null,
-        selected_item: null,
-        active_item: null
-      })
-    }
-    this.setState({
-      ignore_events: false,
-      data: showOriginalData ? this.state.originalData : [],
-      _listenForPropChanges: false
-    })
-  }
+  // hasNoFilterOptions = () => {
+  //   return (
+  //     this.state.data &&
+  //     ((this.state.data.length === 1 &&
+  //       this.state.data[0].ignore_events) ||
+  //       this.state.data.length === 0)
+  //   )
+  // }
   onTriggerKeyDownHandler = e => {
-    if (e.event) {
-      e = e.event
-    }
-    switch (keycode(e)) {
+    const key = keycode(e)
+    switch (key) {
       case 'up':
       case 'down':
-        if (this.hasNoFilterOptions()) {
-          this.resetFilter({ showOriginalData: true })
+        e.preventDefault()
+        if (this.hasFilterActive()) {
+          this.showAll()
         }
+        this.setVisible()
+        break
+
+      case 'enter':
         e.preventDefault()
         this.setVisible()
         break
@@ -388,64 +449,154 @@ export default class Autocomplete extends PureComponent {
   }
 
   setSearchIndex() {
-    if (!this.state.searchIndex) {
-      const searchIndex = Autocomplete.createSearchIndex(
-        this.state.originalData
-      )
-
-      this.setState({
-        searchIndex,
-        _listenForPropChanges: false
-      })
+    if (this.state.searchIndex) {
+      return this.state.searchIndex
     }
+
+    const searchIndex = Autocomplete.createSearchIndex(
+      this.state.original_data
+    )
+
+    this.setState({
+      searchIndex,
+      _listenForPropChanges: false
+    })
+
+    return searchIndex
   }
 
-  onFocusChangeHandler = () => {
-    this.setSearchIndex()
+  onSetActiveItemHandler = active_item => {
+    this.setState({
+      active_item,
+      _listenForPropChanges: false
+    })
   }
 
-  onValueChangeHandler = ({ value }) => {
-    if (value && value.length > 0) {
-      let ignore_events = false
-      const data = this.runFilter(value, this.state.searchIndex)
+  showAll = () => {
+    this.resetFilter()
+    this.resetSelections()
 
-      if (data.length === 0) {
-        this.resetFilter()
-        ignore_events = true
-        data.push({ content: this._props.no_options, ignore_events })
+    this.setState(
+      {
+        ignore_events: true, // to avoid a flicker, if it was the first one (because of the DrawerList arrow down event)
+        _listenForPropChanges: false
+      },
+      () => {
+        // but we reset it right after the rerender
+        setTimeout(() => {
+          this.setState({
+            active_id: null,
+            ignore_events: false, // we also have to reset this one
+            _listenForPropChanges: false
+          })
+        }, 1) // make sure we reset one the rerender/show of DrawerList is done
       }
-
-      this.setState({
-        data,
-        ignore_events,
-        _listenForPropChanges: false
-      })
-
-      this.setVisible()
-    } else {
-      this.resetFilter()
-      this.setHidden()
-    }
+    )
   }
 
-  runFilter = (value, searchIndex) => {
+  totalReset = () => {
+    this.setState({
+      selected_item: null,
+      _listenForPropChanges: false
+    })
+  }
+
+  resetSelections = () => {
+    this.setState({
+      input_value: null,
+      active_id: null,
+      active_item: null,
+      ignore_events: false,
+      _listenForPropChanges: false
+    })
+  }
+
+  resetFilter = () => {
+    this.setState({
+      data: this.state.original_data,
+      _listenForPropChanges: false
+    })
+  }
+
+  runFilter = (value, { skip_highlight } = {}) => {
     const words = value.split(/\s+/g).filter(Boolean)
 
     const findWords = item =>
       words.filter(
         word =>
-          typeof item === 'string' && new RegExp(word, 'i').test(item)
-      ).length
+          typeof item === 'string' &&
+          new RegExp(`^${word}|\\s${word}`, 'i').test(item)
+      )
+
+    // get the search index
+    let searchIndex = this.state.searchIndex
+    if (!searchIndex) {
+      searchIndex = this.setSearchIndex()
+    }
+    if (typeof searchIndex === 'undefined') {
+      return []
+    }
 
     return searchIndex
-      .map(item => {
+      .map((item, i) => {
         const foundWords = findWords(item.searchChunk)
-        if (foundWords > 0) {
-          return { foundWords, item }
+
+        if (typeof item.dataItem === 'string') {
+          item.dataItem = { content: item.dataItem }
+        }
+
+        item.dataItem.render = children => {
+          // make string out of it
+          if (React.isValidElement(children)) {
+            children = grabStringFromReact(children)
+          }
+          if (typeof children === 'string') {
+            children = children
+              .split(' ')
+              .map(child => {
+                return foundWords
+                  .map(word => {
+                    const index = child
+                      .toLowerCase()
+                      .indexOf(word.toLowerCase())
+
+                    if (index === -1) {
+                      return null
+                    }
+
+                    return {
+                      a: child.substring(index, word.length),
+                      b: child.substring(index + word.length)
+                    }
+                  })
+                  .filter(Boolean)
+                  .reduce(
+                    (acc, { a, b }) =>
+                      skip_highlight || this.state.skip_highlight ? (
+                        acc
+                      ) : (
+                        <React.Fragment key={`${i}-${acc}`}>
+                          <span className="dnb-drawer-list__option__item--highlight">
+                            {a}
+                          </span>
+                          {b}
+                        </React.Fragment>
+                      ),
+                    child
+                  )
+              })
+              .map((c, i, a) => (i < a.length - 1 ? [c, ' '] : c)) // add back the skiped spaces
+          }
+
+          return children
+        }
+        return {
+          countFindings: foundWords.length,
+          item
         }
       })
-      .filter(Boolean)
-      .sort(({ foundWords: a }, { foundWords: b }) => b - a)
+      .filter(({ countFindings }) => countFindings)
+      .sort(({ countFindings: a }, { countFindings: b }) => b - a)
       .map(({ item }) => item.dataItem)
   }
 
@@ -457,31 +608,41 @@ export default class Autocomplete extends PureComponent {
   }
 
   onSelectHandler = args => {
+    const active_item = DrawerList.findCurrentIndex(
+      args.active_item,
+      this.state.original_data
+    )
     this.setState({
-      active_item: args.value,
+      active_item,
       _listenForPropChanges: false
     })
-    const attributes = this.attributes || {}
-    dispatchCustomElementEvent(this, 'on_select', {
-      ...args,
-      selected_item: args.value, // deprecated
-      attributes
-    })
+    if (parseFloat(args.active_item) > -1) {
+      const attributes = this.attributes || {}
+      dispatchCustomElementEvent(this, 'on_select', {
+        ...args,
+        attributes
+      })
+    }
   }
 
   onChangeHandler = args => {
-    const selected_item = DrawerList.getCurrentIndex(
-      args.value,
+    const selected_item = args.selected_item
+
+    const input_value = Autocomplete.getInputValue(
+      selected_item,
       this.state.data
     )
+
     this.setState({
+      skip_highlight: true,
+      input_value,
       selected_item,
       _listenForPropChanges: false
     })
+
     const attributes = this.attributes || {}
     dispatchCustomElementEvent(this, 'on_change', {
       ...args,
-      selected_item, // deprecated
       attributes
     })
     if (this._selectTimeout) {
@@ -540,6 +701,7 @@ export default class Autocomplete extends PureComponent {
       data: _data, // eslint-disable-line
       children: _children, // eslint-disable-line
       direction: _direction, // eslint-disable-line
+      skip_highlight: _skip_highlight, // eslint-disable-line
       id: _id, // eslint-disable-line
       opened: _opened, // eslint-disable-line
       value: _value, // eslint-disable-line
@@ -549,27 +711,17 @@ export default class Autocomplete extends PureComponent {
     } = props
 
     const id = this._id
+    const showStatus = status && status !== 'error'
 
     const {
       data,
+      input_value,
       direction,
       opened,
+      active_id,
       selected_item,
       ignore_events
     } = this.state
-    const showStatus = status && status !== 'error'
-
-    const currentOptionData = DrawerList.getCurrentData(
-      selected_item,
-      data
-    )
-    const value =
-      data && data.length > 0
-        ? DrawerList.parseContentTitle(currentOptionData, {
-            separator: ' ',
-            preferSelectedValue: true
-          })
-        : null
 
     const mainParams = {
       className: classnames(
@@ -591,6 +743,11 @@ export default class Autocomplete extends PureComponent {
       )
     }
 
+    const triggerParams = {
+      ['aria-haspopup']: true, //listbox
+      ['aria-expanded']: opened
+    }
+
     const inputParams = {
       className: classnames(
         'dnb-autocomplete__input',
@@ -598,34 +755,17 @@ export default class Autocomplete extends PureComponent {
       ),
       id,
       disabled,
+      placeholder: title,
       ['aria-haspopup']: true, //listbox
-      ...attributes,
-      onFocus: this.onFocusHandler,
-      onBlur: this.onBlurHandler
+      ...attributes
     }
 
-    const triggerParams = {
-      ['aria-haspopup']: true, //listbox
-      ['aria-expanded']: opened
-    }
-
-    if (typeof value === 'string') {
-      inputParams.value = value
-    } else if (typeof title === 'string') {
-      inputParams.placeholder = title
-    }
+    inputParams.value = input_value
 
     if (showStatus || suffix) {
       inputParams['aria-describedby'] = `${
         showStatus ? id + '-status' : ''
       } ${suffix ? id + '-suffix' : ''}`
-    }
-
-    if (
-      (!this.hasNoFilterOptions() && selected_item === null) ||
-      (!opened && this.hasNoFilterOptions())
-    ) {
-      inputParams.value = ''
     }
 
     // also used for code markup simulation
@@ -677,7 +817,7 @@ export default class Autocomplete extends PureComponent {
                   type="search" // gives us also autoComplete=off
                   submit_element={
                     <SubmitButton
-                      value={value}
+                      // value={String(selected_item)}// is not needed for now
                       icon={icon || 'chevron-down'}
                       icon_size={
                         icon_size ||
@@ -693,10 +833,12 @@ export default class Autocomplete extends PureComponent {
                       {...triggerParams}
                     />
                   }
-                  on_change={this.onValueChangeHandler}
-                  on_focus={this.onFocusChangeHandler}
-                  onKeyDown={this.onTriggerKeyDownHandler}
                   ref={this._refInput}
+                  onMouseDown={this.onInputClickHandler}
+                  onKeyDown={this.onTriggerKeyDownHandler}
+                  on_change={this.onInputChangeHandler}
+                  on_focus={this.onInputFocusHandler}
+                  on_blur={this.onBlurHandler}
                   {...inputParams}
                 />
               )}
@@ -705,10 +847,12 @@ export default class Autocomplete extends PureComponent {
                 id={id}
                 inner_class="dnb-autocomplete__list"
                 data={data}
-                rawData={_data}
+                raw_data={_data}
                 ignore_events={ignore_events}
                 value={selected_item}
                 default_value={default_value}
+                active_id={active_id}
+                on_set_active_item={this.onSetActiveItemHandler}
                 scrollable={scrollable}
                 focusable={focusable}
                 prevent_focus={true}

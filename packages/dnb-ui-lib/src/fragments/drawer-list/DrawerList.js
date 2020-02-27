@@ -23,6 +23,7 @@ import { createSpacingClasses } from '../../components/space/SpacingHelper'
 import Context from '../../shared/Context'
 
 const renderProps = {
+  on_set_active_item: null,
   on_show: null,
   on_hide: null,
   on_change: null,
@@ -86,8 +87,8 @@ export const propTypes = {
       ])
     )
   ]),
-  preparedData: PropTypes.array,
-  rawData: PropTypes.oneOfType([
+  prepared_data: PropTypes.array,
+  raw_data: PropTypes.oneOfType([
     PropTypes.array,
     PropTypes.object,
     PropTypes.func
@@ -103,11 +104,14 @@ export const propTypes = {
     PropTypes.object,
     PropTypes.array
   ]),
+  on_set_active_item: PropTypes.func,
+  active_id: PropTypes.number,
 
   // Web Component props
   custom_element: PropTypes.object,
   custom_method: PropTypes.func,
 
+  // Events
   on_show: PropTypes.func,
   on_hide: PropTypes.func,
   on_change: PropTypes.func,
@@ -137,13 +141,15 @@ const defaultProps = {
   opened: false,
   class: null,
   data: null,
-  preparedData: null,
-  rawData: null,
+  prepared_data: null,
+  raw_data: null,
   ignore_events: null,
+  active_id: null,
 
   // React props
   className: null,
   children: null,
+  on_set_active_item: null,
 
   // Web Component props
   custom_element: null,
@@ -178,7 +184,7 @@ export default class DrawerList extends PureComponent {
       dataItem = { content: dataItem }
     }
 
-    const hasValue = dataItem && dataItem.selected_value
+    const hasValue = dataItem?.selected_value
 
     if (
       !(preferSelectedValue && hasValue) &&
@@ -225,8 +231,8 @@ export default class DrawerList extends PureComponent {
     return ret
   }
 
-  static hasObjectKeyAsValue(state) {
-    const data = state.rawData
+  static hasObjectKeyAsValue(data) {
+    data = data?.raw_data || data
     return data && typeof data === 'object' && !Array.isArray(data)
   }
 
@@ -254,15 +260,32 @@ export default class DrawerList extends PureComponent {
       data = list
     }
 
-    return data || []
+    return (data || []).map((item, i) => {
+      if (typeof item === 'string') {
+        item = { content: item, __isTransformed: true }
+      }
+      if (typeof item.__id !== 'undefined') {
+        return item
+      }
+      if (Object.isExtensible(item)) {
+        item.__id = i
+        return item
+      } else {
+        return { ...item, __id: i }
+      }
+    })
   }
 
   static getData(props) {
-    if (props.preparedData && Array.isArray(props.preparedData)) {
-      return props.preparedData
+    if (props.prepared_data && Array.isArray(props.prepared_data)) {
+      return props.prepared_data
     }
 
     return DrawerList.normalizeData(props)
+  }
+
+  static findCurrentIndex(current_item, data) {
+    return data.findIndex(({ __id }) => __id === current_item)
   }
 
   static getCurrentIndex(value, data) {
@@ -273,15 +296,8 @@ export default class DrawerList extends PureComponent {
 
     // if a key is given as a string
     else if (typeof value === 'string') {
-      return (
-        data &&
-        [...data].reduce((acc, cur, i, arr) => {
-          if (value === DrawerList.isCurrentValue(cur)) {
-            arr.splice(1)
-            return i
-          }
-          return acc
-        }, null)
+      return data.findIndex(
+        cur => DrawerList.parseCurrentValue(cur) === value
       )
     }
 
@@ -290,7 +306,7 @@ export default class DrawerList extends PureComponent {
 
   static getSelectedItemValue(value, state) {
     if (DrawerList.hasObjectKeyAsValue(state)) {
-      return DrawerList.isCurrentValue(
+      return DrawerList.parseCurrentValue(
         state.data.filter((data, i) => i === parseFloat(value))[0]
       )
     }
@@ -298,22 +314,22 @@ export default class DrawerList extends PureComponent {
     return value
   }
 
-  static isCurrentValue(current) {
-    return (
-      (typeof current !== 'undefined' &&
-      typeof current.selected_key !== 'undefined'
-        ? current.selected_key
-        : current) || null
-    )
+  static parseCurrentValue(current) {
+    return current?.selected_key || current?.content || current
   }
 
-  static getCurrentData(value, data) {
+  static getCurrentData(item_index, data) {
     if (typeof data === 'function') {
-      data = data()
+      data = DrawerList.normalizeData(data)
     }
-    return (
-      (data && data.filter((data, i) => i === parseFloat(value))[0]) || []
-    )
+
+    data = (data && data.find(({ __id }) => __id === item_index)) || null
+
+    if (data && data.__isTransformed) {
+      data = DrawerList.parseCurrentValue(data)
+    }
+
+    return data
   }
 
   static prepareStartupState(props) {
@@ -325,20 +341,20 @@ export default class DrawerList extends PureComponent {
       selected_item = parseFloat(props.default_value)
     }
 
-    const rawData = DrawerList.preSelectData(
-      props.rawData || props.children || props.data
+    const raw_data = DrawerList.preSelectData(
+      props.raw_data || props.children || props.data
     )
 
     return {
       opened,
       data,
-      rawData,
+      raw_data,
       direction: props.direction,
       max_height: props.max_height,
       active_item: selected_item,
       selected_item,
       selectedItemHasChanged: false,
-      _listenForPropChanges: true
+      _listenForPropChanges: false
     }
   }
 
@@ -348,10 +364,6 @@ export default class DrawerList extends PureComponent {
     }
 
     if (state._listenForPropChanges) {
-      // if (state.opened !== isTrue(props.opened)) {
-      //   state.opened = isTrue(props.opened)
-      // }
-
       if (
         (props.data && typeof props.data !== 'function') ||
         props.children
@@ -384,7 +396,7 @@ export default class DrawerList extends PureComponent {
 
         if (typeof props.on_state_update === 'function') {
           dispatchCustomElementEvent({ props }, 'on_state_update', {
-            selected_item: state.selected_item, // deprecated
+            selected_item: state.selected_item,
             value: DrawerList.getSelectedItemValue(
               state.selected_item,
               state
@@ -397,18 +409,8 @@ export default class DrawerList extends PureComponent {
         }
       }
 
-      // if only one data is present, we auto select this as active
-      if (state.data && state.data.length === 1) {
-        state.active_item = 0
-      }
-
-      // reset selected
-      if (
-        (state.data && state.data.length === 0) ||
-        isTrue(props.ignore_events)
-      ) {
-        state.active_item = null
-        state.selected_item = null
+      if (parseFloat(props.active_id) > -1) {
+        state.active_item = props.active_id
       }
     }
     state._listenForPropChanges = true
@@ -733,6 +735,10 @@ export default class DrawerList extends PureComponent {
         }, 1) // NVDA / Firefox needs a dealy to set this focus
       }
     )
+
+    if (typeof this.props.on_set_active_item === 'function') {
+      this.props.on_set_active_item(active_item)
+    }
   }
 
   preventTab = e => {
@@ -778,37 +784,40 @@ export default class DrawerList extends PureComponent {
 
       case 'up':
         e.preventDefault()
-        if (parseFloat(active_item) > -1) {
-          active_item--
-        } else {
-          active_item = total
+        active_item = this.getPrevActiveItem()
+        if (isNaN(active_item)) {
+          active_item = this.getFirstItem()
         }
         break
 
       case 'down':
         e.preventDefault()
-        if (parseFloat(active_item) > -1) {
-          active_item++
+        if (active_item === -1) {
+          active_item = this.getFirstItem()
         } else {
-          active_item = 0
+          active_item = this.getNextActiveItem()
+          if (isNaN(active_item) || active_item === total) {
+            active_item = this.getLastItem() || total
+          }
         }
         break
 
       case 'home':
         e.preventDefault()
-        active_item = 0
+        active_item = this.getFirstItem() || 0
         break
 
       case 'end':
         e.preventDefault()
-        active_item = total
+        active_item = this.getLastItem() || total
         break
 
       case 'enter':
       case 'space':
+        active_item = this.getCurrentActiveItem()
         if (
           isTrue(this.props.skip_keysearch)
-            ? parseFloat(active_item) > -1
+            ? active_item > -1 && key !== 'space'
             : true
         ) {
           e.preventDefault()
@@ -833,20 +842,17 @@ export default class DrawerList extends PureComponent {
         break
     }
 
-    if (active_item !== -1) {
-      if (active_item < 0) {
-        active_item = 0
-      }
+    if (
+      parseFloat(active_item) > -1 &&
+      active_item !== this.state.active_item
+    ) {
       if (active_item > total) {
         active_item = total
       }
-
-      if (active_item !== this.state.active_item) {
-        this.scrollToItem(active_item, {
-          fireSelectEvent: true,
-          event: e
-        })
-      }
+      this.scrollToItem(active_item, {
+        fireSelectEvent: true,
+        event: e
+      })
     }
   }
 
@@ -857,6 +863,57 @@ export default class DrawerList extends PureComponent {
     if (selected_item > -1) {
       this.selectItem(selected_item, { fireSelectEvent: true, event })
     }
+  }
+
+  getSelectedElement = () => {
+    return (
+      this._refUl.current?.querySelector(
+        'li.dnb-drawer-list__option--selected'
+      ) ||
+      this._refUl.current || { getAttribute: () => null }
+    )
+  }
+
+  getCurrentSelectedItem = () => {
+    const elem = this.getSelectedElement()
+    return parseFloat(elem && elem.getAttribute('data-item'))
+  }
+
+  getActiveElement = () => {
+    return (
+      this._refUl.current?.querySelector(
+        'li.dnb-drawer-list__option--focus'
+      ) || this.getSelectedElement()
+    )
+  }
+
+  getCurrentActiveItem = () => {
+    const elem = this.getActiveElement()
+    return parseFloat(elem && elem.getAttribute('data-item'))
+  }
+
+  getNextActiveItem = () => {
+    const elem = this.getActiveElement().nextSibling
+    return parseFloat(elem && elem.getAttribute('data-item'))
+  }
+
+  getPrevActiveItem = () => {
+    const elem = this.getActiveElement().previousSibling
+    return parseFloat(elem && elem.getAttribute('data-item'))
+  }
+
+  getFirstItem = () => {
+    const elem = this._refUl.current?.querySelector(
+      'li.dnb-drawer-list__option:first-of-type'
+    )
+    return parseFloat(elem && elem.getAttribute('data-item'))
+  }
+
+  getLastItem = () => {
+    const elem = this._refUl.current?.querySelector(
+      'li.dnb-drawer-list__option:last-of-type'
+    )
+    return parseFloat(elem && elem.getAttribute('data-item'))
   }
 
   selectItem = (
@@ -883,6 +940,7 @@ export default class DrawerList extends PureComponent {
       const attributes = this.attributes || {}
       if (doCallOnChange) {
         dispatchCustomElementEvent(this, 'on_change', {
+          selected_item: itemToSelect,
           value: DrawerList.getSelectedItemValue(itemToSelect, this.state),
           data: DrawerList.getCurrentData(itemToSelect, this.state.data),
           event,
@@ -891,6 +949,7 @@ export default class DrawerList extends PureComponent {
       }
       if (fireSelectEvent) {
         dispatchCustomElementEvent(this, 'on_select', {
+          selected_item: itemToSelect,
           active_item: itemToSelect,
           value: DrawerList.getSelectedItemValue(itemToSelect, this.state),
           data: DrawerList.getCurrentData(itemToSelect, this.state.data),
@@ -934,7 +993,7 @@ export default class DrawerList extends PureComponent {
 
     try {
       const itemSpots = this.state.data.reduce((acc, current, i) => {
-        const element = this._refUl.current.querySelector(
+        const element = this._refUl.current?.querySelector(
           `li.dnb-drawer-list__option:nth-of-type(${i + 1})`
         )
         if (element) {
@@ -1094,15 +1153,14 @@ export default class DrawerList extends PureComponent {
       ignore_events,
       className,
       class: _className,
-
-      // use_object_mode: _use_object_mode, // eslint-disable-line
+      active_id: _active_id, // eslint-disable-line
       wrapper_element: _wrapper_element, // eslint-disable-line
       direction: _direction, // eslint-disable-line
       max_height: _max_height, // eslint-disable-line
       id: _id, // eslint-disable-line
       data: _data, // eslint-disable-line
-      preparedData: _preparedData, // eslint-disable-line
-      rawData: _rawData, // eslint-disable-line
+      prepared_data: _prepared_data, // eslint-disable-line
+      raw_data: _raw_data, // eslint-disable-line
       opened: _opened, // eslint-disable-line
       value: _value, // eslint-disable-line
       children,
@@ -1118,7 +1176,6 @@ export default class DrawerList extends PureComponent {
       max_height,
       opened,
       hidden,
-      active_item,
       selected_item
     } = this.state
 
@@ -1175,8 +1232,7 @@ export default class DrawerList extends PureComponent {
     if (
       !isTrue(prevent_selection) &&
       !hidden &&
-      selected_item !== null &&
-      selected_item > -1
+      parseFloat(selected_item) > -1
     ) {
       ulParams['aria-activedescendant'] = `option-${id}-${selected_item}`
     }
@@ -1192,7 +1248,6 @@ export default class DrawerList extends PureComponent {
     // make it pissible to grab the rest attributes and return it with all events
     this.attributes = validateDOMAttributes(null, attributes)
 
-    const selectedItem = parseFloat(selected_item)
     const ignoreEvents = isTrue(ignore_events)
 
     return (
@@ -1205,23 +1260,20 @@ export default class DrawerList extends PureComponent {
                 ref={this._refUl}
                 triangleRef={this._refTriangle}
               >
-                {data.map((dataItem, i) => {
-                  const isCurrent = i === selectedItem
-
+                {data.map(dataItem => {
                   const liParams = {
-                    id: `option-${id}-${i}`,
+                    id: `option-${id}-${dataItem.__id}`, // we could use dataItem.__id here
                     className: classnames(
-                      i === active_item &&
-                        'dnb-drawer-list__option--focus',
                       // helper classes
-                      i === this.state.closestToTop && 'closest-to-top',
-                      i === this.state.closestToBottom &&
+                      dataItem.__id === this.state.closestToTop &&
+                        'closest-to-top',
+                      dataItem.__id === this.state.closestToBottom &&
                         'closest-to-bottom',
-                      i === data.length - 1 && 'last-of-type' // because of the triangle element
+                      dataItem.__id === data.length - 1 && 'last-of-type' // because of the triangle element
                     ),
                     onClick: this.selectItemHandler,
                     onKeyDown: this.preventTab,
-                    'data-item': i
+                    'data-item': dataItem.__id
                   }
 
                   if (ignoreEvents) {
@@ -1236,8 +1288,12 @@ export default class DrawerList extends PureComponent {
 
                   return (
                     <DrawerList.Item
-                      key={id + i}
-                      selected={isCurrent}
+                      key={dataItem.__id}
+                      selected={dataItem.__id === this.state.selected_item}
+                      active={
+                        !ignoreEvents &&
+                        dataItem.__id === this.state.active_item
+                      }
                       {...liParams}
                     >
                       {dataItem}
@@ -1260,6 +1316,7 @@ export default class DrawerList extends PureComponent {
   }
 }
 
+// DrawerList List
 DrawerList.List = React.forwardRef((props, ref) => {
   const { children, className, triangleRef = null, ...rest } = props
   return (
@@ -1291,8 +1348,17 @@ DrawerList.List.defaultProps = {
   triangleRef: null
 }
 
+// DrawerList Item
 DrawerList.Item = React.forwardRef((props, ref) => {
-  const { children, className, on_click, selected, value, ...rest } = props
+  const {
+    children,
+    className,
+    on_click,
+    selected,
+    active,
+    value,
+    ...rest
+  } = props
 
   const params = {}
   if (selected) {
@@ -1313,28 +1379,13 @@ DrawerList.Item = React.forwardRef((props, ref) => {
       )
   }
 
-  const ItemContent = () => {
-    if (Array.isArray(children.content)) {
-      return children.content.map((item, n) => (
-        <span key={n} className="dnb-drawer-list__option__item">
-          {item}
-        </span>
-      ))
-    }
-
-    if (children.content) {
-      return children.content
-    }
-
-    return children
-  }
-
   return (
     <li
       className={classnames(
         className,
         'dnb-drawer-list__option',
-        selected && 'dnb-drawer-list__option--selected'
+        selected && 'dnb-drawer-list__option--selected',
+        active && 'dnb-drawer-list__option--focus'
       )}
       role="option"
       aria-selected="false"
@@ -1344,7 +1395,7 @@ DrawerList.Item = React.forwardRef((props, ref) => {
       ref={ref}
     >
       <span className="dnb-drawer-list__option__inner">
-        <ItemContent />
+        <ItemContent>{children}</ItemContent>
       </span>
     </li>
   )
@@ -1359,6 +1410,7 @@ DrawerList.Item.propTypes = {
   className: PropTypes.string,
   on_click: PropTypes.func,
   selected: PropTypes.bool,
+  active: PropTypes.bool,
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
 }
 DrawerList.Item.defaultProps = {
@@ -1366,10 +1418,36 @@ DrawerList.Item.defaultProps = {
   className: null,
   on_click: null,
   selected: null,
+  active: null,
   value: null
 }
 
-function grabStringFromReact(cur) {
+const ItemContent = ({ children }) => {
+  if (Array.isArray(children.content)) {
+    return children.content.map((item, n) => (
+      <span key={n} className="dnb-drawer-list__option__item">
+        {children.render ? children.render(item) : item}
+      </span>
+    ))
+  }
+
+  if (children.content) {
+    return children.render
+      ? children.render(children.content)
+      : children.content
+  }
+
+  return children
+}
+ItemContent.propTypes = {
+  children: PropTypes.oneOfType([
+    PropTypes.node,
+    PropTypes.func,
+    PropTypes.object
+  ]).isRequired
+}
+
+export function grabStringFromReact(cur) {
   if (React.isValidElement(cur)) {
     if (typeof cur.props.children === 'string') {
       cur = cur.props.children

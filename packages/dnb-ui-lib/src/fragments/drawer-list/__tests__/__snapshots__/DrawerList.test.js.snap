@@ -2,6 +2,7 @@
 
 exports[`DrawerList markup have to match snapshot 1`] = `
 <DrawerList
+  active_id={1}
   align_drawer={null}
   class="class"
   className="className"
@@ -10,6 +11,7 @@ exports[`DrawerList markup have to match snapshot 1`] = `
   data={
     Array [
       Object {
+        "__id": 0,
         "content": Array [
           "1234 56 78901",
           "Brukskonto - Kari Nordmann",
@@ -17,6 +19,7 @@ exports[`DrawerList markup have to match snapshot 1`] = `
         "selected_value": "Brukskonto - Kari Nordmann",
       },
       Object {
+        "__id": 1,
         "content": Array [
           "1234 56 78902",
           "Sparekonto - Ole Nordmann",
@@ -24,6 +27,7 @@ exports[`DrawerList markup have to match snapshot 1`] = `
         "selected_value": "Sparekonto - Ole Nordmann",
       },
       Object {
+        "__id": 2,
         "content": Array [
           "1134 56 78962",
           "Feriekonto - Kari Nordmann med et kjempelangt etternavnsen",
@@ -31,6 +35,7 @@ exports[`DrawerList markup have to match snapshot 1`] = `
         "selected_value": "Feriekonto - Kari Nordmann med et kjempelangt etternavnsen",
       },
       Object {
+        "__id": 3,
         "content": Array [
           "1534 96 48901",
           "Oppussing - Ole Nordmann",
@@ -38,6 +43,7 @@ exports[`DrawerList markup have to match snapshot 1`] = `
         "selected_value": "Oppussing - Ole Nordmann",
       },
       Object {
+        "__id": 4,
         "content": <React.Fragment>
           Custom content 
           123
@@ -69,14 +75,15 @@ exports[`DrawerList markup have to match snapshot 1`] = `
   on_hide={[Function]}
   on_resize={[Function]}
   on_select={[Function]}
+  on_set_active_item={[Function]}
   on_show={[Function]}
   on_state_update={[Function]}
   opened={true}
-  preparedData={Array []}
+  prepared_data={Array []}
   prevent_close="prevent_close"
   prevent_focus="prevent_focus"
   prevent_selection={null}
-  rawData={Array []}
+  raw_data={Array []}
   scrollable="scrollable"
   skip_keysearch="skip_keysearch"
   value={2}

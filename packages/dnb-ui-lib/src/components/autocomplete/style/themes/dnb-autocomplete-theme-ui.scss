@@ -39,6 +39,12 @@
     );
   }
 
+  .dnb-drawer-list__option__item--highlight {
+    background-color: var(--color-mint-green);
+    color: var(--color-black);
+    text-shadow: none;
+  }
+
   // error status
   &__status--error &__input .dnb-input__shell {
     box-shadow: none;

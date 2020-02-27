@@ -117,11 +117,6 @@ describe('DrawerList component', () => {
     expect(Comp.state().selected_item).toBe(null)
   })
 
-  it('has correct active_item if only one data entry is available', () => {
-    const Comp = mount(<Component opened data={['A']} />)
-    expect(Comp.state().active_item).toBe(0)
-  })
-
   it('has correct value on key search', () => {
     const Comp = mount(<Component {...props} data={mockData} />)
     document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 66 })) // B

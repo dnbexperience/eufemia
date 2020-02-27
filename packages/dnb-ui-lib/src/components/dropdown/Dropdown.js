@@ -352,15 +352,17 @@ export default class Dropdown extends PureComponent {
 
   onSelectHandler = args => {
     this.setState({
-      active_item: args.value,
+      active_item: args.active_item,
       _listenForPropChanges: false
     })
-    const attributes = this.attributes || {}
-    dispatchCustomElementEvent(this, 'on_select', {
-      ...args,
-      selected_item: args.value, // deprecated
-      attributes
-    })
+    if (parseFloat(args.active_item) > -1) {
+      const attributes = this.attributes || {}
+      dispatchCustomElementEvent(this, 'on_select', {
+        ...args,
+        selected_item: args.value, // deprecated
+        attributes
+      })
+    }
   }
 
   onChangeHandler = args => {
@@ -388,6 +390,23 @@ export default class Dropdown extends PureComponent {
     }, 1) // because of state updates we need 1 tick delay here
   }
 
+  getTitle() {
+    const { data } = this.state
+    let title = this.props.title
+    if (data?.length > 0) {
+      const currentOptionData = DrawerList.getCurrentData(
+        this.state.selected_item,
+        data
+      )
+      if (currentOptionData) {
+        title =
+          currentOptionData.selected_value ||
+          DrawerList.parseContentTitle(currentOptionData)
+      }
+    }
+    return title
+  }
+
   render() {
     // use only the props from context, who are available here anyway
     const props = extendPropsWithContext(
@@ -400,7 +419,6 @@ export default class Dropdown extends PureComponent {
     let { icon, icon_position } = props
 
     const {
-      title: titleProp,
       label,
       label_direction,
       label_sr_only,
@@ -427,6 +445,7 @@ export default class Dropdown extends PureComponent {
       class: _className,
       disabled,
 
+      title: _title, // eslint-disable-line
       icon: _icon, // eslint-disable-line
       icon_position: _icon_position, // eslint-disable-line
       data: _data, // eslint-disable-line
@@ -453,17 +472,7 @@ export default class Dropdown extends PureComponent {
 
     const { data, direction, opened, selected_item } = this.state
     const showStatus = status && status !== 'error'
-
-    const currentOptionData = DrawerList.getCurrentData(
-      selected_item,
-      data
-    )
-    const title =
-      data && data.length > 0
-        ? currentOptionData.selected_value ||
-          DrawerList.parseContentTitle(currentOptionData) ||
-          titleProp
-        : titleProp
+    const title = this.getTitle()
 
     const mainParams = {
       className: classnames(
@@ -591,8 +600,8 @@ export default class Dropdown extends PureComponent {
               <DrawerList
                 id={id}
                 inner_class="dnb-dropdown__list"
-                preparedData={data}
-                rawData={_data}
+                prepared_data={data}
+                raw_data={_data}
                 value={selected_item}
                 default_value={default_value}
                 scrollable={scrollable}

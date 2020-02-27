@@ -10,6 +10,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
   data={
     Array [
       Object {
+        "__id": 0,
         "content": Array [
           "1234 56 78901",
           "Brukskonto - Kari Nordmann",
@@ -17,6 +18,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
         "selected_value": "Brukskonto - Kari Nordmann",
       },
       Object {
+        "__id": 1,
         "content": Array [
           "1234 56 78902",
           "Sparekonto - Ole Nordmann",
@@ -24,6 +26,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
         "selected_value": "Sparekonto - Ole Nordmann",
       },
       Object {
+        "__id": 2,
         "content": Array [
           "1134 56 78962",
           "Feriekonto - Kari Nordmann med et kjempelangt etternavnsen",
@@ -31,6 +34,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
         "selected_value": "Feriekonto - Kari Nordmann med et kjempelangt etternavnsen",
       },
       Object {
+        "__id": 3,
         "content": Array [
           "1534 96 48901",
           "Oppussing - Ole Nordmann",
@@ -38,6 +42,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
         "selected_value": "Oppussing - Ole Nordmann",
       },
       Object {
+        "__id": 4,
         "content": <React.Fragment>
           Custom content 
           123
@@ -389,6 +394,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
             </button>
           </Button>
           <DrawerList
+            active_id={null}
             align_drawer={null}
             class={null}
             className={null}
@@ -411,12 +417,14 @@ exports[`Dropdown markup have to match snapshot 1`] = `
             on_hide={[Function]}
             on_resize={[Function]}
             on_select={[Function]}
+            on_set_active_item={null}
             on_show={[Function]}
             on_state_update={null}
             opened={true}
-            preparedData={
+            prepared_data={
               Array [
                 Object {
+                  "__id": 0,
                   "content": Array [
                     "1234 56 78901",
                     "Brukskonto - Kari Nordmann",
@@ -424,6 +432,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                   "selected_value": "Brukskonto - Kari Nordmann",
                 },
                 Object {
+                  "__id": 1,
                   "content": Array [
                     "1234 56 78902",
                     "Sparekonto - Ole Nordmann",
@@ -431,6 +440,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                   "selected_value": "Sparekonto - Ole Nordmann",
                 },
                 Object {
+                  "__id": 2,
                   "content": Array [
                     "1134 56 78962",
                     "Feriekonto - Kari Nordmann med et kjempelangt etternavnsen",
@@ -438,6 +448,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                   "selected_value": "Feriekonto - Kari Nordmann med et kjempelangt etternavnsen",
                 },
                 Object {
+                  "__id": 3,
                   "content": Array [
                     "1534 96 48901",
                     "Oppussing - Ole Nordmann",
@@ -445,6 +456,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                   "selected_value": "Oppussing - Ole Nordmann",
                 },
                 Object {
+                  "__id": 4,
                   "content": <React.Fragment>
                     Custom content 
                     123
@@ -465,9 +477,10 @@ exports[`Dropdown markup have to match snapshot 1`] = `
             prevent_close="prevent_close"
             prevent_focus={false}
             prevent_selection={null}
-            rawData={
+            raw_data={
               Array [
                 Object {
+                  "__id": 0,
                   "content": Array [
                     "1234 56 78901",
                     "Brukskonto - Kari Nordmann",
@@ -475,6 +488,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                   "selected_value": "Brukskonto - Kari Nordmann",
                 },
                 Object {
+                  "__id": 1,
                   "content": Array [
                     "1234 56 78902",
                     "Sparekonto - Ole Nordmann",
@@ -482,6 +496,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                   "selected_value": "Sparekonto - Ole Nordmann",
                 },
                 Object {
+                  "__id": 2,
                   "content": Array [
                     "1134 56 78962",
                     "Feriekonto - Kari Nordmann med et kjempelangt etternavnsen",
@@ -489,6 +504,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                   "selected_value": "Feriekonto - Kari Nordmann med et kjempelangt etternavnsen",
                 },
                 Object {
+                  "__id": 3,
                   "content": Array [
                     "1534 96 48901",
                     "Oppussing - Ole Nordmann",
@@ -496,6 +512,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                   "selected_value": "Oppussing - Ole Nordmann",
                 },
                 Object {
+                  "__id": 4,
                   "content": <React.Fragment>
                     Custom content 
                     123
@@ -587,10 +604,11 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                     tabIndex="-1"
                   >
                     <DrawerList.Item
+                      active={false}
                       className=""
                       data-item={0}
                       id="option-dropdown-id-0"
-                      key="dropdown-id0"
+                      key="0"
                       onClick={[Function]}
                       onKeyDown={[Function]}
                       on_click={null}
@@ -628,10 +646,11 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                       </li>
                     </DrawerList.Item>
                     <DrawerList.Item
+                      active={false}
                       className=""
                       data-item={1}
                       id="option-dropdown-id-1"
-                      key="dropdown-id1"
+                      key="1"
                       onClick={[Function]}
                       onKeyDown={[Function]}
                       on_click={null}
@@ -669,10 +688,11 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                       </li>
                     </DrawerList.Item>
                     <DrawerList.Item
-                      className="dnb-drawer-list__option--focus"
+                      active={true}
+                      className=""
                       data-item={2}
                       id="option-dropdown-id-2"
-                      key="dropdown-id2"
+                      key="2"
                       onClick={[Function]}
                       onKeyDown={[Function]}
                       on_click={null}
@@ -682,7 +702,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                       <li
                         aria-current={true}
                         aria-selected={true}
-                        className="dnb-drawer-list__option--focus dnb-drawer-list__option dnb-drawer-list__option--selected"
+                        className="dnb-drawer-list__option dnb-drawer-list__option--selected dnb-drawer-list__option--focus"
                         data-item={2}
                         id="option-dropdown-id-2"
                         onClick={[Function]}
@@ -711,10 +731,11 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                       </li>
                     </DrawerList.Item>
                     <DrawerList.Item
+                      active={false}
                       className=""
                       data-item={3}
                       id="option-dropdown-id-3"
-                      key="dropdown-id3"
+                      key="3"
                       onClick={[Function]}
                       onKeyDown={[Function]}
                       on_click={null}
@@ -752,10 +773,11 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                       </li>
                     </DrawerList.Item>
                     <DrawerList.Item
+                      active={false}
                       className=""
                       data-item={4}
                       id="option-dropdown-id-4"
-                      key="dropdown-id4"
+                      key="4"
                       onClick={[Function]}
                       onKeyDown={[Function]}
                       on_click={null}
@@ -783,10 +805,11 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                       </li>
                     </DrawerList.Item>
                     <DrawerList.Item
+                      active={false}
                       className=""
                       data-item={5}
                       id="option-dropdown-id-5"
-                      key="dropdown-id5"
+                      key="5"
                       onClick={[Function]}
                       onKeyDown={[Function]}
                       on_click={null}
@@ -814,10 +837,11 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                       </li>
                     </DrawerList.Item>
                     <DrawerList.Item
+                      active={false}
                       className="closest-to-top closest-to-bottom last-of-type"
                       data-item={6}
                       id="option-dropdown-id-6"
-                      key="dropdown-id6"
+                      key="6"
                       onClick={[Function]}
                       onKeyDown={[Function]}
                       on_click={null}
@@ -867,6 +891,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
             data={
               Array [
                 Object {
+                  "__id": 0,
                   "content": Array [
                     "1234 56 78901",
                     "Brukskonto - Kari Nordmann",
@@ -874,6 +899,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                   "selected_value": "Brukskonto - Kari Nordmann",
                 },
                 Object {
+                  "__id": 1,
                   "content": Array [
                     "1234 56 78902",
                     "Sparekonto - Ole Nordmann",
@@ -881,6 +907,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                   "selected_value": "Sparekonto - Ole Nordmann",
                 },
                 Object {
+                  "__id": 2,
                   "content": Array [
                     "1134 56 78962",
                     "Feriekonto - Kari Nordmann med et kjempelangt etternavnsen",
@@ -888,6 +915,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                   "selected_value": "Feriekonto - Kari Nordmann med et kjempelangt etternavnsen",
                 },
                 Object {
+                  "__id": 3,
                   "content": Array [
                     "1534 96 48901",
                     "Oppussing - Ole Nordmann",
@@ -895,6 +923,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                   "selected_value": "Oppussing - Ole Nordmann",
                 },
                 Object {
+                  "__id": 4,
                   "content": <React.Fragment>
                     Custom content 
                     123

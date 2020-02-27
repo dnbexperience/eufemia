@@ -42,6 +42,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
   prevent_selection={null}
   scrollable="scrollable"
   size={null}
+  skip_highlight="skip_highlight"
   status="status"
   status_animation="status_animation"
   status_state="error"
@@ -225,17 +226,16 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
             label={null}
             label_direction={null}
             label_sr_only={null}
-            onBlur={[Function]}
-            onFocus={[Function]}
             onKeyDown={[Function]}
-            on_blur={null}
+            onMouseDown={[Function]}
+            on_blur={[Function]}
             on_change={[Function]}
             on_focus={[Function]}
             on_state_update={null}
             on_submit={null}
             on_submit_blur={null}
             on_submit_focus={null}
-            placeholder={null}
+            placeholder="title"
             readOnly={false}
             selectall={null}
             size={null}
@@ -259,7 +259,6 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                 size={null}
                 status={null}
                 title="submit_button_title"
-                value="CC cc"
                 variant="secondary"
               />
             }
@@ -306,6 +305,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                     <input
                       aria-describedby="autocomplete-id-status autocomplete-id-suffix"
                       aria-haspopup={true}
+                      aria-placeholder="title"
                       autoComplete="off"
                       className="dnb-input__input"
                       disabled={false}
@@ -315,6 +315,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                       onChange={[Function]}
                       onFocus={[Function]}
                       onKeyDown={[Function]}
+                      onMouseDown={[Function]}
                       type="search"
                       value="CC cc"
                     />
@@ -333,7 +334,6 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                       size={null}
                       status={null}
                       title="submit_button_title"
-                      value="CC cc"
                       variant="secondary"
                     >
                       <InputSubmitButton
@@ -352,7 +352,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                         size={null}
                         status={null}
                         title="submit_button_title"
-                        value="CC cc"
+                        value={null}
                         variant="secondary"
                       >
                         <span
@@ -388,7 +388,6 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                             text={null}
                             title={null}
                             type="submit"
-                            value="CC cc"
                             variant="secondary"
                           >
                             <button
@@ -403,7 +402,6 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                               onKeyDown={[Function]}
                               onMouseOut={[Function]}
                               type="submit"
-                              value="CC cc"
                             >
                               <Content
                                 aria-expanded={true}
@@ -436,7 +434,6 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                                 text={null}
                                 title={null}
                                 type="submit"
-                                value="CC cc"
                                 variant="secondary"
                               >
                                 <span
@@ -472,6 +469,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
             </span>
           </Input>
           <DrawerList
+            active_id={null}
             align_drawer={null}
             class={null}
             className={null}
@@ -479,9 +477,21 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
             custom_method={null}
             data={
               Array [
-                "AA cc",
-                "BB cc",
-                "CC cc",
+                Object {
+                  "__id": 0,
+                  "__isTransformed": true,
+                  "content": "AA cc",
+                },
+                Object {
+                  "__id": 1,
+                  "__isTransformed": true,
+                  "content": "BB cc",
+                },
+                Object {
+                  "__id": 2,
+                  "__isTransformed": true,
+                  "content": "CC cc",
+                },
               ]
             }
             default_value="default_value"
@@ -500,14 +510,15 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
             on_hide={[Function]}
             on_resize={[Function]}
             on_select={[Function]}
+            on_set_active_item={[Function]}
             on_show={[Function]}
             on_state_update={null}
             opened={true}
-            preparedData={null}
+            prepared_data={null}
             prevent_close="prevent_close"
             prevent_focus={true}
             prevent_selection={null}
-            rawData={
+            raw_data={
               Array [
                 "AA cc",
                 "BB cc",
@@ -542,6 +553,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                         <input
                           aria-describedby="autocomplete-id-status autocomplete-id-suffix"
                           aria-haspopup="true"
+                          aria-placeholder="title"
                           autocomplete="off"
                           class="dnb-input__input"
                           id="autocomplete-id"
@@ -563,7 +575,6 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                             aria-label="submit_button_title"
                             class="dnb-button dnb-button--secondary dnb-input__submit-button__button dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--size-medium dnb-button__status--error"
                             type="submit"
-                            value="CC cc"
                           >
                             <span
                               class="dnb-button__text"
@@ -620,10 +631,11 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                     tabIndex="-1"
                   >
                     <DrawerList.Item
+                      active={false}
                       className=""
                       data-item={0}
                       id="option-autocomplete-id-0"
-                      key="autocomplete-id0"
+                      key="0"
                       onClick={[Function]}
                       onKeyDown={[Function]}
                       on_click={null}
@@ -650,10 +662,11 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                       </li>
                     </DrawerList.Item>
                     <DrawerList.Item
+                      active={false}
                       className=""
                       data-item={1}
                       id="option-autocomplete-id-1"
-                      key="autocomplete-id1"
+                      key="1"
                       onClick={[Function]}
                       onKeyDown={[Function]}
                       on_click={null}
@@ -680,10 +693,11 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                       </li>
                     </DrawerList.Item>
                     <DrawerList.Item
-                      className="dnb-drawer-list__option--focus closest-to-top closest-to-bottom last-of-type"
+                      active={true}
+                      className="closest-to-top closest-to-bottom last-of-type"
                       data-item={2}
                       id="option-autocomplete-id-2"
-                      key="autocomplete-id2"
+                      key="2"
                       onClick={[Function]}
                       onKeyDown={[Function]}
                       on_click={null}
@@ -693,7 +707,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                       <li
                         aria-current={true}
                         aria-selected={true}
-                        className="dnb-drawer-list__option--focus closest-to-top closest-to-bottom last-of-type dnb-drawer-list__option dnb-drawer-list__option--selected"
+                        className="closest-to-top closest-to-bottom last-of-type dnb-drawer-list__option dnb-drawer-list__option--selected dnb-drawer-list__option--focus"
                         data-item={2}
                         id="option-autocomplete-id-2"
                         onClick={[Function]}
@@ -765,6 +779,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
             prevent_selection={null}
             scrollable="scrollable"
             size={null}
+            skip_highlight="skip_highlight"
             status="status"
             status_animation="status_animation"
             status_state="error"
@@ -985,6 +1000,10 @@ exports[`Autocomplete scss have to match default theme snapshot 1`] = `
     @media screen and (-ms-high-contrast: none) {
       .dnb-autocomplete--opened .dnb-input__submit-button__button {
         box-shadow: 0 0 0 1px var(--autocomplete-border-color--selected); } }
+  .dnb-autocomplete .dnb-drawer-list__option__item--highlight {
+    background-color: var(--color-mint-green);
+    color: var(--color-black);
+    text-shadow: none; }
   .dnb-autocomplete__status--error .dnb-autocomplete__input .dnb-input__shell {
     box-shadow: none; }
   .dnb-autocomplete__status--error:not(.dnb-autocomplete--opened) .dnb-autocomplete__input {

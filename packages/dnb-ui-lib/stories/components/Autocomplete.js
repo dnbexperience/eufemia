@@ -17,6 +17,26 @@ const AutocompleteStory = () => {
   return (
     <Wrapper>
       <Box>
+        <Autocomplete value="A" data={['A']}></Autocomplete>
+      </Box>
+      <Box>
+        <Autocomplete
+          value="c"
+          data={{
+            a: 'A1 A2 CC',
+            b: 'BB cC',
+            c: 'CC cc'
+          }}
+          // icon_position="left"
+          on_select={e => {
+            console.log('on_select', e)
+          }}
+          on_change={e => {
+            console.log('on_change', e)
+          }}
+        ></Autocomplete>
+      </Box>
+      <Box>
         <Autocomplete
           title="Type to find ..."
           // opened
