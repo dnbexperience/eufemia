@@ -23,6 +23,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
   icon_position="icon_position"
   icon_size="icon_size"
   id="autocomplete-id"
+  input_icon="input_icon"
   keep_open="keep_open"
   label="label"
   label_direction="horizontal"
@@ -52,7 +53,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
   value={2}
 >
   <span
-    className="dnb-autocomplete dnb-autocomplete--direction-bottom dnb-form-component class className dnb-autocomplete--opened dnb-autocomplete--horizontal dnb-autocomplete__status--error dnb-autocomplete__form-status"
+    className="dnb-autocomplete dnb-autocomplete--bottom dnb-form-component class className dnb-autocomplete--opened dnb-autocomplete--horizontal dnb-autocomplete__status--error dnb-autocomplete__form-status"
   >
     <FormLabel
       class={null}
@@ -213,7 +214,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
             custom_method={null}
             disabled="disabled"
             global_status_id={null}
-            icon="icon"
+            icon="input_icon"
             icon_position="left"
             icon_size="icon_size"
             id="autocomplete-id"
@@ -296,7 +297,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                       className="dnb-input__icon"
                       color={null}
                       height={null}
-                      icon="icon"
+                      icon="input_icon"
                       modifier={null}
                       size="icon_size"
                       title={null}
@@ -471,6 +472,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
           <DrawerList
             active_id={null}
             align_drawer={null}
+            button_only={false}
             class={null}
             className={null}
             custom_element={null}
@@ -498,7 +500,6 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
             direction="bottom"
             disabled="disabled"
             focusable="focusable"
-            icon_position="icon_position"
             id="autocomplete-id"
             ignore_events={null}
             inner_class="dnb-autocomplete__list"
@@ -526,14 +527,16 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
               ]
             }
             scrollable="scrollable"
+            size={null}
             skip_keysearch={true}
+            triangle_position="icon_position"
             value={2}
             wrapper_element={
               <span
                 class="dnb-autocomplete__shell"
               >
                 <span
-                  class="dnb-input dnb-input--search dnb-form-component dnb-autocomplete__input dnb-input--icon-position-left dnb-input--has-icon dnb-input--icon-size-icon_size dnb-input--has-submit-element"
+                  class="dnb-input dnb-input--search dnb-form-component dnb-autocomplete__input dnb-input--icon-position-left dnb-input--has-icon dnb-input--icon-size-icon_size dnb-input--has-submit-element dnb-input__status--error"
                 >
                   <span
                     class="dnb-input__inner"
@@ -588,7 +591,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                   </span>
                 </span>
                 <span
-                  class="dnb-drawer-list dnb-drawer-list--direction-bottom dnb-drawer-list--icon-position-icon_position"
+                  class="dnb-drawer-list dnb-drawer-list--bottom dnb-drawer-list--icon-position-icon_position"
                   disabled=""
                   id="autocomplete-id-drawer-list"
                 />
@@ -596,7 +599,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
             }
           >
             <span
-              className="dnb-drawer-list dnb-drawer-list--direction-bottom dnb-drawer-list--opened dnb-drawer-list--icon-position-icon_position"
+              className="dnb-drawer-list dnb-drawer-list--bottom dnb-drawer-list--opened dnb-drawer-list--icon-position-icon_position"
               disabled="disabled"
               id="autocomplete-id-drawer-list"
             >
@@ -760,6 +763,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
             icon_position="icon_position"
             icon_size="icon_size"
             id="autocomplete-id"
+            input_icon="input_icon"
             keep_open="keep_open"
             label="label"
             label_direction="horizontal"
@@ -928,39 +932,14 @@ exports[`Autocomplete scss have to match default theme snapshot 1`] = `
   .dnb-drawer-list--scroll .dnb-drawer-list__option:not(.dnb-drawer-list__option--focus)::before {
     left: 0.5rem;
     right: 0.5rem; }
-  .dnb-drawer-list--direction-bottom .dnb-drawer-list__option--focus.closest-to-top .dnb-drawer-list__option__inner {
+  .dnb-drawer-list--bottom .dnb-drawer-list__option--focus.closest-to-top .dnb-drawer-list__option__inner {
     border-radius: var(--drawer-list-options-border-radius) var(--drawer-list-options-border-radius) 0 0; }
-  .dnb-drawer-list--direction-bottom .dnb-drawer-list__option--focus.closest-to-bottom .dnb-drawer-list__option__inner {
+  .dnb-drawer-list--bottom .dnb-drawer-list__option--focus.closest-to-bottom .dnb-drawer-list__option__inner {
     border-radius: 0 0 var(--drawer-list-options-border-radius) var(--drawer-list-options-border-radius); }
-  .dnb-drawer-list--direction-top .dnb-drawer-list__option--focus.closest-to-bottom .dnb-drawer-list__option__inner {
+  .dnb-drawer-list--top .dnb-drawer-list__option--focus.closest-to-bottom .dnb-drawer-list__option__inner {
     border-radius: 0 0 var(--drawer-list-options-border-radius) var(--drawer-list-options-border-radius); }
-  .dnb-drawer-list--direction-top .dnb-drawer-list__option--focus.closest-to-top .dnb-drawer-list__option__inner {
+  .dnb-drawer-list--top .dnb-drawer-list__option--focus.closest-to-top .dnb-drawer-list__option__inner {
     border-radius: var(--drawer-list-options-border-radius) var(--drawer-list-options-border-radius) 0 0; }
-  .dnb-drawer-list__trigger {
-    color: var(--drawer-list-text-color); }
-    html:not([data-is-touch]) .dnb-drawer-list__trigger:hover[disabled] {
-      cursor: not-allowed; }
-    html:not([data-is-touch]) .dnb-drawer-list__trigger:hover:not([disabled]) {
-      color: var(--drawer-list-text-color); }
-  .dnb-drawer-list__status--error:not(.dnb-drawer-list--opened) .dnb-drawer-list__trigger {
-    box-shadow: 0 0 0 0.125rem var(--color-fire-red) !important;
-    /* IE11 fix */
-    border-color: transparent; }
-    @media screen and (-ms-high-contrast: none) {
-      .dnb-drawer-list__status--error:not(.dnb-drawer-list--opened) .dnb-drawer-list__trigger {
-        box-shadow: 0 0 0 1px var(--color-fire-red) !important; } }
-    html:not([data-is-touch]) .dnb-drawer-list__status--error:not(.dnb-drawer-list--opened) .dnb-drawer-list__trigger:hover[disabled] {
-      cursor: not-allowed; }
-    html:not([data-is-touch]) .dnb-drawer-list__status--error:not(.dnb-drawer-list--opened) .dnb-drawer-list__trigger:hover:not([disabled]) {
-      box-shadow: 0 0 0 0.125rem var(--color-fire-red) !important;
-      /* IE11 fix */
-      border-color: transparent; }
-      @media screen and (-ms-high-contrast: none) {
-        html:not([data-is-touch]) .dnb-drawer-list__status--error:not(.dnb-drawer-list--opened) .dnb-drawer-list__trigger:hover:not([disabled]) {
-          box-shadow: 0 0 0 1px var(--color-fire-red) !important; } }
-      html:not([data-is-touch]) .dnb-drawer-list__status--error:not(.dnb-drawer-list--opened) .dnb-drawer-list__trigger:hover:not([disabled]) .dnb-drawer-list__icon .dnb-icon {
-        color: var(--color-fire-red); }
-  .dnb-drawer-list__status--error:not(.dnb-drawer-list--opened) .dnb-drawer-list__trigger,
   .dnb-drawer-list__status--error:not(.dnb-drawer-list--opened) .dnb-drawer-list__icon {
     color: var(--color-fire-red); }
   .dnb-drawer-list__triangle::before {
@@ -968,13 +947,13 @@ exports[`Autocomplete scss have to match default theme snapshot 1`] = `
     background-color: var(--color-white);
     box-shadow: 0 1px 6px rgba(0, 0, 0, 0.16); }
   .dnb-drawer-list__option:first-of-type:hover ~ .dnb-drawer-list__triangle::before,
-  .dnb-drawer-list--direction-bottom .dnb-drawer-list__option.closest-to-top:hover ~ .dnb-drawer-list__triangle::before,
-  .dnb-drawer-list--direction-top .dnb-drawer-list__option.closest-to-bottom:hover ~ .dnb-drawer-list__triangle::before {
+  .dnb-drawer-list--bottom .dnb-drawer-list__option.closest-to-top:hover ~ .dnb-drawer-list__triangle::before,
+  .dnb-drawer-list--top .dnb-drawer-list__option.closest-to-bottom:hover ~ .dnb-drawer-list__triangle::before {
     background-color: var(--drawer-list-option-background-color--hover); }
-  .dnb-drawer-list--direction-bottom .dnb-drawer-list__option.closest-to-top.dnb-drawer-list__option--selected ~ .dnb-drawer-list__triangle::before,
-  .dnb-drawer-list--direction-bottom .dnb-drawer-list__option.closest-to-top.dnb-drawer-list__option--focus ~ .dnb-drawer-list__triangle::before,
-  .dnb-drawer-list--direction-top .dnb-drawer-list__option.closest-to-bottom.dnb-drawer-list__option--selected ~ .dnb-drawer-list__triangle::before,
-  .dnb-drawer-list--direction-top .dnb-drawer-list__option.closest-to-bottom.dnb-drawer-list__option--focus ~ .dnb-drawer-list__triangle::before {
+  .dnb-drawer-list--bottom .dnb-drawer-list__option.closest-to-top.dnb-drawer-list__option--selected ~ .dnb-drawer-list__triangle::before,
+  .dnb-drawer-list--bottom .dnb-drawer-list__option.closest-to-top.dnb-drawer-list__option--focus ~ .dnb-drawer-list__triangle::before,
+  .dnb-drawer-list--top .dnb-drawer-list__option.closest-to-bottom.dnb-drawer-list__option--selected ~ .dnb-drawer-list__triangle::before,
+  .dnb-drawer-list--top .dnb-drawer-list__option.closest-to-bottom.dnb-drawer-list__option--focus ~ .dnb-drawer-list__triangle::before {
     background-color: var(--drawer-list-option-background-color--selected); }
   .dnb-drawer-list > .dnb-form-status {
     transform: translateY(-0.4375rem); }
@@ -985,13 +964,9 @@ exports[`Autocomplete scss have to match default theme snapshot 1`] = `
 
 .dnb-autocomplete {
   color: var(--autocomplete-text-color); }
-  .dnb-autocomplete__input {
+  .dnb-autocomplete__input.dnb-input {
     color: var(--autocomplete-text-color); }
-    html:not([data-is-touch]) .dnb-autocomplete__input:hover[disabled] {
-      cursor: not-allowed; }
-    html:not([data-is-touch]) .dnb-autocomplete__input:hover:not([disabled]) {
-      color: var(--autocomplete-text-color); }
-  .dnb-autocomplete--opened .dnb-autocomplete__input .dnb-input__shell {
+  .dnb-autocomplete--opened .dnb-autocomplete__input.dnb-input .dnb-input__shell {
     box-shadow: none; }
   .dnb-autocomplete--opened .dnb-input__submit-button__button {
     box-shadow: 0 0 0 0.125rem var(--autocomplete-border-color--selected);
@@ -1004,31 +979,6 @@ exports[`Autocomplete scss have to match default theme snapshot 1`] = `
     background-color: var(--color-mint-green);
     color: var(--color-black);
     text-shadow: none; }
-  .dnb-autocomplete__status--error .dnb-autocomplete__input .dnb-input__shell {
-    box-shadow: none; }
-  .dnb-autocomplete__status--error:not(.dnb-autocomplete--opened) .dnb-autocomplete__input {
-    box-shadow: 0 0 0 0.125rem var(--color-fire-red) !important;
-    /* IE11 fix */
-    border-color: transparent; }
-    @media screen and (-ms-high-contrast: none) {
-      .dnb-autocomplete__status--error:not(.dnb-autocomplete--opened) .dnb-autocomplete__input {
-        box-shadow: 0 0 0 1px var(--color-fire-red) !important; } }
-    html:not([data-is-touch]) .dnb-autocomplete__status--error:not(.dnb-autocomplete--opened) .dnb-autocomplete__input:hover[disabled] {
-      cursor: not-allowed; }
-    html:not([data-is-touch]) .dnb-autocomplete__status--error:not(.dnb-autocomplete--opened) .dnb-autocomplete__input:hover:not([disabled]) {
-      box-shadow: 0 0 0 0.125rem var(--color-fire-red) !important;
-      /* IE11 fix */
-      border-color: transparent; }
-      @media screen and (-ms-high-contrast: none) {
-        html:not([data-is-touch]) .dnb-autocomplete__status--error:not(.dnb-autocomplete--opened) .dnb-autocomplete__input:hover:not([disabled]) {
-          box-shadow: 0 0 0 1px var(--color-fire-red) !important; } }
-      html:not([data-is-touch]) .dnb-autocomplete__status--error:not(.dnb-autocomplete--opened) .dnb-autocomplete__input:hover:not([disabled]) .dnb-autocomplete__icon .dnb-icon {
-        color: var(--color-fire-red); }
-  .dnb-autocomplete__status--error:not(.dnb-autocomplete--opened) .dnb-autocomplete__input,
-  .dnb-autocomplete__status--error:not(.dnb-autocomplete--opened) .dnb-autocomplete__icon {
-    color: var(--color-fire-red); }
-  .dnb-autocomplete > .dnb-form-status {
-    transform: translateY(-0.4375rem); }
 "
 `;
 
@@ -1533,16 +1483,20 @@ legend.dnb-form-label {
 */
 :root {
   --input-font-size: var(--font-size-basis);
+  --input-font-size--small: var(--font-size-basis);
   --input-font-size--medium: var(--font-size-basis);
   --input-font-size--large: var(--font-size-medium);
   --input-padding: 1rem;
+  --input-padding--small: 1rem;
   --input-padding--medium: 1rem;
   --input-padding--large: 1rem;
   --input-height: 2rem;
+  --input-height--small: 1.5rem;
   --input-height--medium: 2.5rem;
   --input-height--large: 3rem;
   --input-border-width: 0.0625rem;
   --input-border-radius: calc(var(--input-height) / 2);
+  --input-border-radius--small: calc(var(--input-height--small) / 2);
   --input-border-radius--medium: calc(var(--input-height--medium) / 2);
   --input-border-radius--large: calc(var(--input-height--large) / 2); }
 
@@ -1625,6 +1579,26 @@ legend.dnb-form-label {
     /* IE needs this to stay centered */ }
     .dnb-input__submit-button__button {
       border-radius: 50%; }
+  .dnb-input--small {
+    line-height: var(--input-height--small); }
+    .dnb-input--small .dnb-input__shell,
+    .dnb-input--small .dnb-input__input {
+      height: var(--input-height--small);
+      border-radius: var(--input-border-radius--small); }
+    .dnb-input--small .dnb-input__placeholder,
+    .dnb-input--small .dnb-input__input {
+      padding-left: var(--input-padding--small);
+      padding-right: var(--input-padding--small);
+      font-size: var(--input-font-size--small); }
+    .dnb-input--small .dnb-input__submit-element {
+      margin-left: calc(1px - 1px - var(--input-height--small)); }
+      .dnb-input--small .dnb-input__submit-element .dnb-button {
+        width: var(--input-height--small);
+        height: var(--input-height--small);
+        line-height: var(--input-height--small); }
+  .dnb-input--small.dnb-input--has-submit-element .dnb-input__placeholder,
+  .dnb-input--small.dnb-input--has-submit-element .dnb-input__input {
+    padding-right: calc(var(--input-padding--small) * 3); }
   .dnb-input--medium {
     line-height: var(--input-height--medium); }
     .dnb-input--medium .dnb-input__shell,
@@ -1792,7 +1766,10 @@ legend.dnb-form-label {
   --drawer-list-height: 2rem;
   --drawer-list-padding-horizontal: 1rem;
   --drawer-list-focus-border-width: 0.125rem;
-  --drawer-list-text-padding: 0.5rem; }
+  --drawer-list-text-padding: 0.5rem;
+  --drawer-list-height--small: 1.5rem;
+  --drawer-list-height--medium: 2.5rem;
+  --drawer-list-height--large: 3rem; }
 
 .dnb-drawer-list {
   display: block;
@@ -1815,11 +1792,42 @@ legend.dnb-form-label {
     background-color: transparent;
     transform: translateY(0);
     transition: transform 200ms, opacity 160ms ease-out; }
-  .dnb-drawer-list__align--right .dnb-drawer-list__list {
-    left: auto; }
-  .dnb-drawer-list--direction-top .dnb-drawer-list__list {
+  .dnb-drawer-list--top .dnb-drawer-list__list {
     top: auto;
     bottom: 0; }
+  .dnb-drawer-list--button .dnb-drawer-list__list {
+    left: -0.5rem; }
+  .dnb-drawer-list--button.dnb-drawer-list--right .dnb-drawer-list__list {
+    right: -0.5rem; }
+  .dnb-drawer-list--small .dnb-drawer-list__list {
+    top: var(--drawer-list-height--small); }
+  .dnb-drawer-list--small.dnb-drawer-list--top .dnb-drawer-list__list {
+    top: auto;
+    bottom: var(--drawer-list-height--small); }
+  .dnb-drawer-list--small.dnb-drawer-list--button .dnb-drawer-list__list {
+    left: -0.75rem; }
+  .dnb-drawer-list--small.dnb-drawer-list--button.dnb-drawer-list--right .dnb-drawer-list__list {
+    right: -0.75rem; }
+  .dnb-drawer-list--medium .dnb-drawer-list__list {
+    top: var(--drawer-list-height--medium); }
+  .dnb-drawer-list--medium.dnb-drawer-list--top .dnb-drawer-list__list {
+    top: auto;
+    bottom: var(--drawer-list-height--medium); }
+  .dnb-drawer-list--medium.dnb-drawer-list--button .dnb-drawer-list__list {
+    left: -0.25rem; }
+  .dnb-drawer-list--medium.dnb-drawer-list--button.dnb-drawer-list--right .dnb-drawer-list__list {
+    right: -0.25rem; }
+  .dnb-drawer-list--large .dnb-drawer-list__list {
+    top: var(--drawer-list-height--large); }
+  .dnb-drawer-list--large.dnb-drawer-list--top .dnb-drawer-list__list {
+    top: auto;
+    bottom: var(--drawer-list-height--large); }
+  .dnb-drawer-list--large.dnb-drawer-list--button .dnb-drawer-list__list {
+    left: -0.25rem; }
+  .dnb-drawer-list--large.dnb-drawer-list--button.dnb-drawer-list--right .dnb-drawer-list__list {
+    right: -0.25rem; }
+  .dnb-drawer-list--right .dnb-drawer-list__list {
+    left: auto; }
   .dnb-drawer-list__options {
     display: flex;
     flex-direction: column;
@@ -1889,24 +1897,12 @@ legend.dnb-form-label {
   .dnb-drawer-list--icon-position-left .dnb-drawer-list__triangle {
     left: 0;
     right: auto; }
-  .dnb-drawer-list--direction-top .dnb-drawer-list__triangle {
+  .dnb-drawer-list--top .dnb-drawer-list__triangle {
     top: auto;
     bottom: calc( var(--drawer-list-focus-border-width) - var(--drawer-list-height) / 2 - 2px);
     transform: rotate(180deg); }
-    .dnb-drawer-list--direction-top .dnb-drawer-list__triangle::before {
+    .dnb-drawer-list--top .dnb-drawer-list__triangle::before {
       transform: translateY(65%) rotate(45deg); }
-  .dnb-drawer-list__trigger {
-    position: relative;
-    z-index: 1;
-    user-select: none;
-    -webkit-user-select: none;
-    display: inline-flex;
-    align-items: center;
-    outline: none;
-    width: 100%;
-    padding: 0 var(--drawer-list-padding-horizontal); }
-    .dnb-drawer-list__trigger.dnb-button {
-      line-height: var(--drawer-list-height); }
   .dnb-drawer-list--opened .dnb-drawer-list__list {
     z-index: 100;
     display: flex; }
@@ -1973,62 +1969,34 @@ legend.dnb-form-label {
   .dnb-autocomplete .dnb-drawer-list {
     position: static; }
   .dnb-autocomplete .dnb-drawer-list__list {
-    top: calc( var(--autocomplete-height) + var(--autocomplete-focus-border-width));
+    top: var(--autocomplete-height);
     bottom: auto; }
-  .dnb-autocomplete--direction-top .dnb-drawer-list .dnb-drawer-list__list {
-    bottom: calc( var(--autocomplete-height) + var(--autocomplete-focus-border-width));
+  .dnb-autocomplete .dnb-drawer-list--top .dnb-drawer-list__list {
+    bottom: var(--autocomplete-height);
     top: auto; }
-  .dnb-autocomplete__align--right .dnb-drawer-list .dnb-drawer-list__list {
-    left: auto; }
+  .dnb-autocomplete--small {
+    line-height: var(--autocomplete-height--small); }
+    .dnb-autocomplete--small .dnb-drawer-list__triangle {
+      margin: 0 calc(var(--autocomplete-padding-horizontal) + 0.25rem); }
+  .dnb-autocomplete--medium {
+    line-height: var(--autocomplete-height--medium); }
+    .dnb-autocomplete--medium .dnb-drawer-list__triangle {
+      margin: 0 calc(var(--autocomplete-padding-horizontal) - 0.25rem); }
+  .dnb-autocomplete--large {
+    line-height: var(--autocomplete-height--large); }
+    .dnb-autocomplete--large .dnb-drawer-list__triangle {
+      margin: 0 calc(var(--autocomplete-padding-horizontal) - 0.5rem); }
   .dnb-autocomplete__icon {
-    position: relative;
-    order: 2;
     display: inline-flex;
     justify-content: center;
     pointer-events: none; }
-  .dnb-autocomplete__size--large .dnb-drawer-list__triangle {
-    margin: 0 calc(var(--autocomplete-padding-horizontal) + 0.25rem); }
   .dnb-autocomplete__input {
-    position: relative;
-    z-index: 1;
     display: inline-flex;
     align-items: center;
     outline: none;
     margin-right: 0.5rem; }
   .dnb-autocomplete__shell, .dnb-autocomplete__input {
     border-radius: var(--autocomplete-height); }
-  .dnb-autocomplete__size--small {
-    line-height: var(--autocomplete-height--small); }
-  .dnb-autocomplete__size--small .dnb-autocomplete__shell,
-  .dnb-autocomplete__size--small .dnb-autocomplete__input {
-    height: var(--autocomplete-height--small); }
-  .dnb-autocomplete__size--small .dnb-drawer-list .dnb-drawer-list__list {
-    top: var(--autocomplete-height--small); }
-  .dnb-autocomplete__size--small .dnb-drawer-list--direction-top .dnb-drawer-list__list {
-    top: auto;
-    bottom: var(--autocomplete-height--small); }
-  .dnb-autocomplete__size--medium {
-    line-height: var(--autocomplete-height--medium); }
-  .dnb-autocomplete__size--medium .dnb-autocomplete__shell,
-  .dnb-autocomplete__size--medium .dnb-autocomplete__input {
-    height: var(--autocomplete-height--medium);
-    border-radius: var(--autocomplete-height--medium); }
-  .dnb-autocomplete__size--medium .dnb-drawer-list .dnb-drawer-list__list {
-    top: var(--autocomplete-height--medium); }
-  .dnb-autocomplete__size--medium .dnb-drawer-list--direction-top .dnb-drawer-list__list {
-    top: auto;
-    bottom: var(--autocomplete-height--medium); }
-  .dnb-autocomplete__size--large {
-    line-height: var(--autocomplete-height--large); }
-  .dnb-autocomplete__size--large .dnb-autocomplete__shell,
-  .dnb-autocomplete__size--large .dnb-autocomplete__input {
-    height: var(--autocomplete-height--large);
-    border-radius: var(--autocomplete-height--large); }
-  .dnb-autocomplete__size--large .dnb-drawer-list .dnb-drawer-list__list {
-    top: var(--autocomplete-height--large); }
-  .dnb-autocomplete__size--large .dnb-drawer-list--direction-top .dnb-drawer-list__list {
-    top: auto;
-    bottom: var(--autocomplete-height--large); }
   .dnb-autocomplete__text {
     order: 1;
     position: relative;

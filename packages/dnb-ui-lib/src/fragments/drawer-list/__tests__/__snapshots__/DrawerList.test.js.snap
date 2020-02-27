@@ -4,6 +4,7 @@ exports[`DrawerList markup have to match snapshot 1`] = `
 <DrawerList
   active_id={1}
   align_drawer={null}
+  button_only="button_only"
   class="class"
   className="className"
   custom_element={Object {}}
@@ -64,7 +65,6 @@ exports[`DrawerList markup have to match snapshot 1`] = `
   default_value="default_value"
   direction="bottom"
   focusable="focusable"
-  icon_position="icon_position"
   id="drawer-list-id"
   ignore_events="ignore_events"
   keep_open="keep_open"
@@ -85,12 +85,14 @@ exports[`DrawerList markup have to match snapshot 1`] = `
   prevent_selection={null}
   raw_data={Array []}
   scrollable="scrollable"
+  size="default"
   skip_keysearch="skip_keysearch"
+  triangle_position="triangle_position"
   value={2}
   wrapper_element={Object {}}
 >
   <span
-    className="dnb-drawer-list dnb-drawer-list--direction-bottom class className dnb-drawer-list--opened dnb-drawer-list--icon-position-icon_position"
+    className="dnb-drawer-list dnb-drawer-list--bottom class className dnb-drawer-list--opened dnb-drawer-list--icon-position-triangle_position dnb-drawer-list--default dnb-drawer-list--button"
     id="drawer-list-id-drawer-list"
   >
     <span
@@ -236,39 +238,14 @@ exports[`DrawerList scss have to match default theme snapshot 1`] = `
   .dnb-drawer-list--scroll .dnb-drawer-list__option:not(.dnb-drawer-list__option--focus)::before {
     left: 0.5rem;
     right: 0.5rem; }
-  .dnb-drawer-list--direction-bottom .dnb-drawer-list__option--focus.closest-to-top .dnb-drawer-list__option__inner {
+  .dnb-drawer-list--bottom .dnb-drawer-list__option--focus.closest-to-top .dnb-drawer-list__option__inner {
     border-radius: var(--drawer-list-options-border-radius) var(--drawer-list-options-border-radius) 0 0; }
-  .dnb-drawer-list--direction-bottom .dnb-drawer-list__option--focus.closest-to-bottom .dnb-drawer-list__option__inner {
+  .dnb-drawer-list--bottom .dnb-drawer-list__option--focus.closest-to-bottom .dnb-drawer-list__option__inner {
     border-radius: 0 0 var(--drawer-list-options-border-radius) var(--drawer-list-options-border-radius); }
-  .dnb-drawer-list--direction-top .dnb-drawer-list__option--focus.closest-to-bottom .dnb-drawer-list__option__inner {
+  .dnb-drawer-list--top .dnb-drawer-list__option--focus.closest-to-bottom .dnb-drawer-list__option__inner {
     border-radius: 0 0 var(--drawer-list-options-border-radius) var(--drawer-list-options-border-radius); }
-  .dnb-drawer-list--direction-top .dnb-drawer-list__option--focus.closest-to-top .dnb-drawer-list__option__inner {
+  .dnb-drawer-list--top .dnb-drawer-list__option--focus.closest-to-top .dnb-drawer-list__option__inner {
     border-radius: var(--drawer-list-options-border-radius) var(--drawer-list-options-border-radius) 0 0; }
-  .dnb-drawer-list__trigger {
-    color: var(--drawer-list-text-color); }
-    html:not([data-is-touch]) .dnb-drawer-list__trigger:hover[disabled] {
-      cursor: not-allowed; }
-    html:not([data-is-touch]) .dnb-drawer-list__trigger:hover:not([disabled]) {
-      color: var(--drawer-list-text-color); }
-  .dnb-drawer-list__status--error:not(.dnb-drawer-list--opened) .dnb-drawer-list__trigger {
-    box-shadow: 0 0 0 0.125rem var(--color-fire-red) !important;
-    /* IE11 fix */
-    border-color: transparent; }
-    @media screen and (-ms-high-contrast: none) {
-      .dnb-drawer-list__status--error:not(.dnb-drawer-list--opened) .dnb-drawer-list__trigger {
-        box-shadow: 0 0 0 1px var(--color-fire-red) !important; } }
-    html:not([data-is-touch]) .dnb-drawer-list__status--error:not(.dnb-drawer-list--opened) .dnb-drawer-list__trigger:hover[disabled] {
-      cursor: not-allowed; }
-    html:not([data-is-touch]) .dnb-drawer-list__status--error:not(.dnb-drawer-list--opened) .dnb-drawer-list__trigger:hover:not([disabled]) {
-      box-shadow: 0 0 0 0.125rem var(--color-fire-red) !important;
-      /* IE11 fix */
-      border-color: transparent; }
-      @media screen and (-ms-high-contrast: none) {
-        html:not([data-is-touch]) .dnb-drawer-list__status--error:not(.dnb-drawer-list--opened) .dnb-drawer-list__trigger:hover:not([disabled]) {
-          box-shadow: 0 0 0 1px var(--color-fire-red) !important; } }
-      html:not([data-is-touch]) .dnb-drawer-list__status--error:not(.dnb-drawer-list--opened) .dnb-drawer-list__trigger:hover:not([disabled]) .dnb-drawer-list__icon .dnb-icon {
-        color: var(--color-fire-red); }
-  .dnb-drawer-list__status--error:not(.dnb-drawer-list--opened) .dnb-drawer-list__trigger,
   .dnb-drawer-list__status--error:not(.dnb-drawer-list--opened) .dnb-drawer-list__icon {
     color: var(--color-fire-red); }
   .dnb-drawer-list__triangle::before {
@@ -276,13 +253,13 @@ exports[`DrawerList scss have to match default theme snapshot 1`] = `
     background-color: var(--color-white);
     box-shadow: 0 1px 6px rgba(0, 0, 0, 0.16); }
   .dnb-drawer-list__option:first-of-type:hover ~ .dnb-drawer-list__triangle::before,
-  .dnb-drawer-list--direction-bottom .dnb-drawer-list__option.closest-to-top:hover ~ .dnb-drawer-list__triangle::before,
-  .dnb-drawer-list--direction-top .dnb-drawer-list__option.closest-to-bottom:hover ~ .dnb-drawer-list__triangle::before {
+  .dnb-drawer-list--bottom .dnb-drawer-list__option.closest-to-top:hover ~ .dnb-drawer-list__triangle::before,
+  .dnb-drawer-list--top .dnb-drawer-list__option.closest-to-bottom:hover ~ .dnb-drawer-list__triangle::before {
     background-color: var(--drawer-list-option-background-color--hover); }
-  .dnb-drawer-list--direction-bottom .dnb-drawer-list__option.closest-to-top.dnb-drawer-list__option--selected ~ .dnb-drawer-list__triangle::before,
-  .dnb-drawer-list--direction-bottom .dnb-drawer-list__option.closest-to-top.dnb-drawer-list__option--focus ~ .dnb-drawer-list__triangle::before,
-  .dnb-drawer-list--direction-top .dnb-drawer-list__option.closest-to-bottom.dnb-drawer-list__option--selected ~ .dnb-drawer-list__triangle::before,
-  .dnb-drawer-list--direction-top .dnb-drawer-list__option.closest-to-bottom.dnb-drawer-list__option--focus ~ .dnb-drawer-list__triangle::before {
+  .dnb-drawer-list--bottom .dnb-drawer-list__option.closest-to-top.dnb-drawer-list__option--selected ~ .dnb-drawer-list__triangle::before,
+  .dnb-drawer-list--bottom .dnb-drawer-list__option.closest-to-top.dnb-drawer-list__option--focus ~ .dnb-drawer-list__triangle::before,
+  .dnb-drawer-list--top .dnb-drawer-list__option.closest-to-bottom.dnb-drawer-list__option--selected ~ .dnb-drawer-list__triangle::before,
+  .dnb-drawer-list--top .dnb-drawer-list__option.closest-to-bottom.dnb-drawer-list__option--focus ~ .dnb-drawer-list__triangle::before {
     background-color: var(--drawer-list-option-background-color--selected); }
   .dnb-drawer-list > .dnb-form-status {
     transform: translateY(-0.4375rem); }
@@ -353,7 +330,10 @@ exports[`DrawerList scss have to match snapshot 1`] = `
   --drawer-list-height: 2rem;
   --drawer-list-padding-horizontal: 1rem;
   --drawer-list-focus-border-width: 0.125rem;
-  --drawer-list-text-padding: 0.5rem; }
+  --drawer-list-text-padding: 0.5rem;
+  --drawer-list-height--small: 1.5rem;
+  --drawer-list-height--medium: 2.5rem;
+  --drawer-list-height--large: 3rem; }
 
 .dnb-drawer-list {
   display: block;
@@ -376,11 +356,42 @@ exports[`DrawerList scss have to match snapshot 1`] = `
     background-color: transparent;
     transform: translateY(0);
     transition: transform 200ms, opacity 160ms ease-out; }
-  .dnb-drawer-list__align--right .dnb-drawer-list__list {
-    left: auto; }
-  .dnb-drawer-list--direction-top .dnb-drawer-list__list {
+  .dnb-drawer-list--top .dnb-drawer-list__list {
     top: auto;
     bottom: 0; }
+  .dnb-drawer-list--button .dnb-drawer-list__list {
+    left: -0.5rem; }
+  .dnb-drawer-list--button.dnb-drawer-list--right .dnb-drawer-list__list {
+    right: -0.5rem; }
+  .dnb-drawer-list--small .dnb-drawer-list__list {
+    top: var(--drawer-list-height--small); }
+  .dnb-drawer-list--small.dnb-drawer-list--top .dnb-drawer-list__list {
+    top: auto;
+    bottom: var(--drawer-list-height--small); }
+  .dnb-drawer-list--small.dnb-drawer-list--button .dnb-drawer-list__list {
+    left: -0.75rem; }
+  .dnb-drawer-list--small.dnb-drawer-list--button.dnb-drawer-list--right .dnb-drawer-list__list {
+    right: -0.75rem; }
+  .dnb-drawer-list--medium .dnb-drawer-list__list {
+    top: var(--drawer-list-height--medium); }
+  .dnb-drawer-list--medium.dnb-drawer-list--top .dnb-drawer-list__list {
+    top: auto;
+    bottom: var(--drawer-list-height--medium); }
+  .dnb-drawer-list--medium.dnb-drawer-list--button .dnb-drawer-list__list {
+    left: -0.25rem; }
+  .dnb-drawer-list--medium.dnb-drawer-list--button.dnb-drawer-list--right .dnb-drawer-list__list {
+    right: -0.25rem; }
+  .dnb-drawer-list--large .dnb-drawer-list__list {
+    top: var(--drawer-list-height--large); }
+  .dnb-drawer-list--large.dnb-drawer-list--top .dnb-drawer-list__list {
+    top: auto;
+    bottom: var(--drawer-list-height--large); }
+  .dnb-drawer-list--large.dnb-drawer-list--button .dnb-drawer-list__list {
+    left: -0.25rem; }
+  .dnb-drawer-list--large.dnb-drawer-list--button.dnb-drawer-list--right .dnb-drawer-list__list {
+    right: -0.25rem; }
+  .dnb-drawer-list--right .dnb-drawer-list__list {
+    left: auto; }
   .dnb-drawer-list__options {
     display: flex;
     flex-direction: column;
@@ -450,24 +461,12 @@ exports[`DrawerList scss have to match snapshot 1`] = `
   .dnb-drawer-list--icon-position-left .dnb-drawer-list__triangle {
     left: 0;
     right: auto; }
-  .dnb-drawer-list--direction-top .dnb-drawer-list__triangle {
+  .dnb-drawer-list--top .dnb-drawer-list__triangle {
     top: auto;
     bottom: calc( var(--drawer-list-focus-border-width) - var(--drawer-list-height) / 2 - 2px);
     transform: rotate(180deg); }
-    .dnb-drawer-list--direction-top .dnb-drawer-list__triangle::before {
+    .dnb-drawer-list--top .dnb-drawer-list__triangle::before {
       transform: translateY(65%) rotate(45deg); }
-  .dnb-drawer-list__trigger {
-    position: relative;
-    z-index: 1;
-    user-select: none;
-    -webkit-user-select: none;
-    display: inline-flex;
-    align-items: center;
-    outline: none;
-    width: 100%;
-    padding: 0 var(--drawer-list-padding-horizontal); }
-    .dnb-drawer-list__trigger.dnb-button {
-      line-height: var(--drawer-list-height); }
   .dnb-drawer-list--opened .dnb-drawer-list__list {
     z-index: 100;
     display: flex; }
