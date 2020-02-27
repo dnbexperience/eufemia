@@ -45,7 +45,7 @@ export default {
       title: 'Option Menu'
     },
     Autocomplete: {
-      title: 'Option Menu',
+      title: 'Type and select',
       no_options: 'No option'
     },
     Modal: {

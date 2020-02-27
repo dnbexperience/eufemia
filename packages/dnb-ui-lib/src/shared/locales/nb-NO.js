@@ -45,7 +45,7 @@ export default {
       title: 'Valgmeny'
     },
     Autocomplete: {
-      title: 'Valgmeny',
+      title: 'Skriv og velg',
       no_options: 'Ingen alternativer'
     },
     Modal: {
