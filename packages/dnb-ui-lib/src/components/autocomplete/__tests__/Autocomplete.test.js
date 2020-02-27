@@ -79,8 +79,9 @@ describe('Autocomplete component', () => {
     expect(Comp.state().opened).toBe(true)
 
     document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 13 })) // enter
-    expect(Comp.state().opened).toBe(false)
+    await wait(1)
 
+    expect(Comp.state().opened).toBe(false)
     expect(Comp.state().active_item).toBe(props.value)
     expect(Comp.state().selected_item).toBe(props.value)
 
@@ -89,6 +90,7 @@ describe('Autocomplete component', () => {
 
     document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 40 })) // down
     document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 13 })) // enter
+    await wait(1)
 
     expect(Comp.state().active_item).toBe(props.value + 1)
     expect(Comp.state().selected_item).toBe(props.value + 1)
