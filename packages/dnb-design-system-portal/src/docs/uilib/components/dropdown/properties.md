@@ -10,8 +10,8 @@ You may check out the [DrawerList Properties](#drawerlist-properties) down below
 
 | Properties                                  | Description                                                                                                                                                             |
 | ------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `title`                                     | _(optional)_ give a title to let the user know what they has to do. Defaults to `Option Menu` .                                                                         |
-| `icon`                                      | _(optional)_ name of icon to be included in the dropdown.                                                                                                               |
+| `title`                                     | _(optional)_ give a title to let the user know what they has to do. Defaults to `Valgmeny` .                                                                            |
+| `icon`                                      | _(optional)_ icon to be included in the dropdown.                                                                                                                       |
 | `icon_size`                                 | _(optional)_ change the size of the icon pragmatically.                                                                                                                 |
 | `icon_position`                             | _(optional)_ position of icon inside the dropdown. Set to `left` or `right`. Defaults to `right` if not set.                                                            |
 | `size`                                      | _(optional)_ define the height of the Dropdown. Can be set to `small`, `default`, `medium` and `large`. Defaults to `default`.                                          |
