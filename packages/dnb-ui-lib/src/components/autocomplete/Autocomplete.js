@@ -115,6 +115,7 @@ const propTypes = {
   ]),
   default_value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  input_value: PropTypes.string,
   open_on_focus: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   prevent_close: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   keep_open: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -173,6 +174,7 @@ const defaultProps = {
   data: null,
   default_value: null,
   value: 'initval',
+  input_value: 'initval',
   open_on_focus: false,
   prevent_close: false,
   keep_open: false,
@@ -240,7 +242,17 @@ export default class Autocomplete extends PureComponent {
 
       state.skip_highlight = isTrue(props.skip_highlight)
 
-      if (props.value !== 'initval' && state._value !== props.value) {
+      if (
+        props.input_value !== 'initval' &&
+        // typeof state.input_value === 'undefined' &&
+        state.input_value !== props.input_value &&
+        props.input_value?.length > 0
+      ) {
+        state.input_value = props.input_value
+      } else if (
+        props.value !== 'initval' &&
+        state._value !== props.value
+      ) {
         state._value = props.value
 
         state.input_value = Autocomplete.getInputValue(
@@ -263,6 +275,7 @@ export default class Autocomplete extends PureComponent {
     this._id = props.id || makeUniqueId()
 
     this.state = DrawerList.prepareStartupState(props)
+    this.state.cache_hash = ''
     this.state._listenForPropChanges = true
 
     this._ref = React.createRef()
@@ -279,6 +292,7 @@ export default class Autocomplete extends PureComponent {
   componentDidMount() {
     if (this.state.opened) {
       this.setVisible()
+      setTimeout(this.runFilterToHighlight, 1) // TODO: can be remove in future, because of the rerender during opening
     }
   }
 
@@ -348,16 +362,18 @@ export default class Autocomplete extends PureComponent {
   onInputChangeHandler = ({ value }, options) => {
     value = String(value).trim()
 
-    if (value === this.state.value) {
+    if (value === this.state.input_value) {
       return
     }
 
-    // run the filter also on invalid values, so we reset the highlight
-    const data = this.runFilter(value, options)
-
     this.setState({
+      cache_hash: value,
+      input_value: value,
       _listenForPropChanges: false
     })
+
+    // run the filter also on invalid values, so we reset the highlight
+    const data = this.runFilter(value, options)
 
     if (value && value.length > 0) {
       // show the "no_options" message
@@ -366,7 +382,8 @@ export default class Autocomplete extends PureComponent {
         this.totalReset()
         this.setState({
           ignore_events: true,
-          data: [{ content: this._props.no_options, ignore_events: true }]
+          data: [{ content: this._props.no_options, ignore_events: true }],
+          _listenForPropChanges: false
         })
       } else if (data.length > 0) {
         const active_id = data.length === 1 ? data[0].__id : null
@@ -374,7 +391,8 @@ export default class Autocomplete extends PureComponent {
           active_id,
           data,
           skip_highlight: false,
-          ignore_events: false
+          ignore_events: false,
+          _listenForPropChanges: false
         })
       }
 
@@ -385,14 +403,35 @@ export default class Autocomplete extends PureComponent {
       this.showAll()
     }
   }
-  onInputClickHandler = e => {
-    const value = e.target.value.trim()
-    if (value && value.length > 0) {
-      this.setVisible()
+  runFilterToHighlight = (value = null) => {
+    if (value === null) {
+      value = this.state.input_value
     }
+    value = String(value || '').trim()
+
+    if (value.length > 0) {
+      const data = this.runFilter(value)
+      this.setState({
+        data,
+        cache_hash: value,
+        skip_highlight: false,
+        ignore_events: false,
+        _listenForPropChanges: false
+      })
+    }
+  }
+  onInputClickHandler = e => {
+    const value = e.target.value
+    setTimeout(() => {
+      this.runFilterToHighlight(value)
+      this.showAll()
+      this.setVisible()
+    }, 1) // because the input has no focus on first click, and we dismiss if we had it opened by start
   }
   onInputFocusHandler = () => {
     if (isTrue(this.props.open_on_focus)) {
+      // this.runFilterToHighlight()
+      this.showAll()
       this.setVisible()
     } else {
       this.setSearchIndex()
@@ -403,27 +442,23 @@ export default class Autocomplete extends PureComponent {
       this.setHidden()
     }
   }
-  toggleVisible = () => {
-    if (!this.state.hidden && this.state.opened) {
+  toggleVisible = ({ hasFilter = false } = {}) => {
+    if (
+      !hasFilter &&
+      !this.hasFilterActive() &&
+      !isTrue(this.props.prevent_close) &&
+      !this.state.hidden &&
+      this.state.opened
+    ) {
       this.setHidden()
     } else {
       this.setVisible()
     }
   }
   onSubmitHandler = () => {
+    const hasFilter = this.hasFilterActive()
     this.showAll()
-
-    if (!isTrue(this.props.prevent_close)) {
-      if (
-        !this.hasFilterActive() &&
-        !this.state.hidden &&
-        this.state.opened
-      ) {
-        this.setHidden()
-      } else {
-        this.setVisible()
-      }
-    }
+    this.toggleVisible({ hasFilter })
   }
   hasFilterActive = () => {
     return this.state.data.length !== this.state.original_data.length
@@ -436,7 +471,7 @@ export default class Autocomplete extends PureComponent {
   //       this.state.data.length === 0)
   //   )
   // }
-  onTriggerKeyDownHandler = e => {
+  onTriggerKeyDownHandler = ({ event: e }) => {
     const key = keycode(e)
     switch (key) {
       case 'up':
@@ -450,7 +485,10 @@ export default class Autocomplete extends PureComponent {
 
       case 'enter':
         e.preventDefault()
-        this.setVisible()
+        if (this.hasFilterActive()) {
+          this.showAll()
+        }
+        this.toggleVisible()
         break
     }
   }
@@ -485,6 +523,7 @@ export default class Autocomplete extends PureComponent {
 
     this.setState(
       {
+        cache_hash: 'all',
         ignore_events: true, // to avoid a flicker, if it was the first one (because of the DrawerList arrow down event)
         _listenForPropChanges: false
       },
@@ -527,13 +566,22 @@ export default class Autocomplete extends PureComponent {
 
   runFilter = (value, { skip_highlight } = {}) => {
     const words = value.split(/\s+/g).filter(Boolean)
+    const wordsCount = words.length
 
     const findWords = item =>
-      words.filter(
-        word =>
-          typeof item === 'string' &&
-          new RegExp(`^${word}|\\s${word}`, 'i').test(item)
-      )
+      words
+        .map((word, wordIndex) => ({
+          word,
+          score: wordsCount - wordIndex
+        }))
+        .filter(
+          ({ word }, wordIndex) =>
+            // if the uses reached word 3, then we go inside words as well
+            typeof item === 'string' &&
+            (wordIndex > 1
+              ? new RegExp(`${word}`, 'i').test(item)
+              : new RegExp(`^${word}|\\s${word}`, 'i').test(item))
+        )
 
     // get the search index
     let searchIndex = this.state.searchIndex
@@ -544,67 +592,83 @@ export default class Autocomplete extends PureComponent {
       return []
     }
 
-    return searchIndex
-      .map((item, i) => {
-        const foundWords = findWords(item.searchChunk)
+    return (
+      searchIndex
+        .map((item, itemIndex) => {
+          const listOfFoundWords = findWords(item.searchChunk)
 
-        if (typeof item.dataItem === 'string') {
-          item.dataItem = { content: item.dataItem }
-        }
-
-        item.dataItem.render = children => {
-          // make string out of it
-          if (React.isValidElement(children)) {
-            children = grabStringFromReact(children)
+          if (typeof item.dataItem === 'string') {
+            item.dataItem = { content: item.dataItem }
           }
-          if (typeof children === 'string') {
-            children = children
-              .split(' ')
-              .map(child => {
-                return foundWords
-                  .map(word => {
-                    const index = child
-                      .toLowerCase()
-                      .indexOf(word.toLowerCase())
 
-                    if (index === -1) {
-                      return null
-                    }
+          // this function gets called once the items are rendered / in view
+          item.dataItem.render = children => {
+            // make string out of it
+            if (React.isValidElement(children)) {
+              children = grabStringFromReact(children)
+            }
+            if (typeof children === 'string') {
+              children = children
+                .split(' ')
+                .map(child => {
+                  return listOfFoundWords
+                    .map(({ word }) => {
+                      const charStart = child
+                        .toLowerCase()
+                        .indexOf(word.toLowerCase())
+                      const charEnd = word.length + charStart
 
-                    return {
-                      a: child.substring(index, word.length),
-                      b: child.substring(index + word.length)
-                    }
-                  })
-                  .filter(Boolean)
-                  .reduce(
-                    (acc, { a, b }) =>
-                      skip_highlight || this.state.skip_highlight ? (
-                        acc
-                      ) : (
-                        <React.Fragment key={`${i}-${acc}`}>
-                          <span className="dnb-drawer-list__option__item--highlight">
+                      if (charStart === -1) {
+                        return null
+                      }
+                      const ret = {
+                        a: child.substring(0, charStart),
+                        b: child.substring(charStart, charEnd),
+                        c: child.substring(charEnd, child.length)
+                      }
+
+                      return ret
+                    })
+                    .filter(Boolean)
+                    .reduce(
+                      (acc, { a, b, c }) =>
+                        skip_highlight || this.state.skip_highlight ? (
+                          acc
+                        ) : (
+                          <React.Fragment key={`${itemIndex}-${acc}`}>
                             {a}
-                          </span>
-                          {b}
-                        </React.Fragment>
-                      ),
-                    child
-                  )
-              })
-              .map((c, i, a) => (i < a.length - 1 ? [c, ' '] : c)) // add back the skiped spaces
+                            <span className="dnb-drawer-list__option__item--highlight">
+                              {b}
+                            </span>
+                            {c}
+                          </React.Fragment>
+                        ),
+                      child
+                    )
+                })
+                .map((c, i, a) => (i < a.length - 1 ? [c, ' '] : c)) // add back the skiped spaces
+            }
+
+            return children
           }
 
-          return children
-        }
-        return {
-          countFindings: foundWords.length,
-          item
-        }
-      })
-      .filter(({ countFindings }) => countFindings)
-      .sort(({ countFindings: a }, { countFindings: b }) => b - a)
-      .map(({ item }) => item.dataItem)
+          // this prioritizes the first written words
+          const totalScore = listOfFoundWords.reduce(
+            (acc, { score }) => (acc += score),
+            0
+          )
+
+          return {
+            countFindings: listOfFoundWords.length + totalScore,
+            item
+          }
+        })
+
+        // This removes items with 0 findings
+        .filter(({ countFindings }) => countFindings)
+        .sort(({ countFindings: a }, { countFindings: b }) => b - a)
+        .map(({ item }) => item.dataItem)
+    )
   }
 
   onSetDirectionHandler = props => {
@@ -728,6 +792,7 @@ export default class Autocomplete extends PureComponent {
       opened,
       active_id,
       selected_item,
+      cache_hash,
       ignore_events
     } = this.state
 
@@ -844,7 +909,7 @@ export default class Autocomplete extends PureComponent {
                   }
                   ref={this._refInput}
                   onMouseDown={this.onInputClickHandler}
-                  onKeyDown={this.onTriggerKeyDownHandler}
+                  on_key_down={this.onTriggerKeyDownHandler}
                   on_change={this.onInputChangeHandler}
                   on_focus={this.onInputFocusHandler}
                   on_blur={this.onBlurHandler}
@@ -860,6 +925,7 @@ export default class Autocomplete extends PureComponent {
                 ignore_events={ignore_events}
                 value={selected_item}
                 default_value={default_value}
+                cache_hash={cache_hash}
                 active_id={active_id}
                 on_set_active_item={this.onSetActiveItemHandler}
                 scrollable={scrollable}

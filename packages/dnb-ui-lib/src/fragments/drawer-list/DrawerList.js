@@ -35,6 +35,7 @@ const renderProps = {
 
 export const propTypes = {
   id: PropTypes.string,
+  cache_hash: PropTypes.string,
   triangle_position: PropTypes.string,
   scrollable: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   focusable: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -124,6 +125,7 @@ export const propTypes = {
 
 const defaultProps = {
   id: null,
+  cache_hash: null,
   triangle_position: 'left',
   scrollable: true,
   focusable: false,
@@ -1063,9 +1065,6 @@ export default class DrawerList extends PureComponent {
     ) {
       return
     }
-    if (this.props.direction !== 'auto') {
-      return
-    }
 
     // In case we have one before hand
     this.removeDirectionObserver()
@@ -1157,6 +1156,7 @@ export default class DrawerList extends PureComponent {
       prevent_selection,
       inner_class,
       ignore_events,
+      cache_hash,
       className,
       class: _className,
       active_id: _active_id, // eslint-disable-line
@@ -1182,7 +1182,10 @@ export default class DrawerList extends PureComponent {
       max_height,
       opened,
       hidden,
-      selected_item
+      selected_item,
+      active_item,
+      closestToTop,
+      closestToBottom
     } = this.state
 
     if (
@@ -1267,6 +1270,15 @@ export default class DrawerList extends PureComponent {
               <DrawerList.List
                 {...ulParams}
                 ref={this._refUl}
+                cache_hash={
+                  cache_hash +
+                  active_item +
+                  selected_item +
+                  closestToTop +
+                  closestToBottom +
+                  direction +
+                  max_height
+                }
                 triangleRef={this._refTriangle}
               >
                 {data.map(dataItem => {
@@ -1274,9 +1286,8 @@ export default class DrawerList extends PureComponent {
                     id: `option-${id}-${dataItem.__id}`, // we could use dataItem.__id here
                     className: classnames(
                       // helper classes
-                      dataItem.__id === this.state.closestToTop &&
-                        'closest-to-top',
-                      dataItem.__id === this.state.closestToBottom &&
+                      dataItem.__id === closestToTop && 'closest-to-top',
+                      dataItem.__id === closestToBottom &&
                         'closest-to-bottom',
                       dataItem.__id === data.length - 1 && 'last-of-type' // because of the triangle element
                     ),
@@ -1298,10 +1309,10 @@ export default class DrawerList extends PureComponent {
                   return (
                     <DrawerList.Item
                       key={dataItem.__id}
-                      selected={dataItem.__id === this.state.selected_item}
+                      cache_hash={cache_hash}
+                      selected={dataItem.__id === selected_item}
                       active={
-                        !ignoreEvents &&
-                        dataItem.__id === this.state.active_item
+                        !ignoreEvents && dataItem.__id === active_item
                       }
                       {...liParams}
                     >
@@ -1326,25 +1337,28 @@ export default class DrawerList extends PureComponent {
 }
 
 // DrawerList List
-DrawerList.List = React.forwardRef((props, ref) => {
-  const { children, className, triangleRef = null, ...rest } = props
-  return (
-    <ul
-      className={classnames('dnb-drawer-list__options', className)}
-      role="listbox"
-      tabIndex="-1"
-      {...rest}
-      ref={ref}
-    >
-      {children}
-      <li
-        className="dnb-drawer-list__triangle"
-        aria-hidden
-        ref={triangleRef}
-      ></li>
-    </ul>
-  )
-})
+DrawerList.List = React.memo(
+  React.forwardRef((props, ref) => {
+    const { children, className, triangleRef = null, ...rest } = props
+    return (
+      <ul
+        className={classnames('dnb-drawer-list__options', className)}
+        role="listbox"
+        tabIndex="-1"
+        {...rest}
+        ref={ref}
+      >
+        {children}
+        <li
+          className="dnb-drawer-list__triangle"
+          aria-hidden
+          ref={triangleRef}
+        ></li>
+      </ul>
+    )
+  }),
+  (prevProps, nextProps) => prevProps.cache_hash === nextProps.cache_hash
+)
 DrawerList.List.displayName = 'DrawerList.List'
 DrawerList.List.propTypes = {
   children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
@@ -1358,57 +1372,75 @@ DrawerList.List.defaultProps = {
 }
 
 // DrawerList Item
-DrawerList.Item = React.forwardRef((props, ref) => {
-  const {
-    children,
-    className,
-    on_click,
-    selected,
-    active,
-    value,
-    ...rest
-  } = props
+DrawerList.Item = React.memo(
+  React.forwardRef((props, ref) => {
+    const {
+      children,
+      className,
+      on_click,
+      selected,
+      active,
+      value,
+      ...rest
+    } = props
 
-  const params = {}
-  if (selected) {
-    params['aria-current'] = true // has best support on NVDA
-    params['aria-selected'] = true // has best support on VO
+    const params = {}
+    if (selected) {
+      params['aria-current'] = true // has best support on NVDA
+      params['aria-selected'] = true // has best support on VO
+    }
+
+    if (on_click) {
+      params.onClick = () =>
+        dispatchCustomElementEvent(
+          {
+            props: { ...props, displayName: DrawerList.Item.displayName }
+          },
+          'on_click',
+          {
+            selected,
+            value,
+            ...rest
+          }
+        )
+    }
+
+    return (
+      <li
+        className={classnames(
+          className,
+          'dnb-drawer-list__option',
+          selected && 'dnb-drawer-list__option--selected',
+          active && 'dnb-drawer-list__option--focus'
+        )}
+        role="option"
+        aria-selected="false"
+        tabIndex="-1"
+        {...rest}
+        {...params}
+        ref={ref}
+      >
+        <span className="dnb-drawer-list__option__inner">
+          <ItemContent>{children}</ItemContent>
+        </span>
+      </li>
+    )
+  }),
+  (prevProps, nextProps) => {
+    // console.log('cache_hash', nextProps.cache_hash)
+    console.log('prevProps.className', nextProps.className)
+    if (
+      prevProps.cache_hash === nextProps.cache_hash &&
+      prevProps.className === nextProps.className &&
+      prevProps.content === nextProps.content &&
+      prevProps.selected === nextProps.selected &&
+      prevProps.active === nextProps.active
+    ) {
+      return true
+    }
+    return false
   }
-
-  if (on_click) {
-    params.onClick = () =>
-      dispatchCustomElementEvent(
-        { props: { ...props, displayName: DrawerList.Item.displayName } },
-        'on_click',
-        {
-          selected,
-          value,
-          ...rest
-        }
-      )
-  }
-
-  return (
-    <li
-      className={classnames(
-        className,
-        'dnb-drawer-list__option',
-        selected && 'dnb-drawer-list__option--selected',
-        active && 'dnb-drawer-list__option--focus'
-      )}
-      role="option"
-      aria-selected="false"
-      tabIndex="-1"
-      {...rest}
-      {...params}
-      ref={ref}
-    >
-      <span className="dnb-drawer-list__option__inner">
-        <ItemContent>{children}</ItemContent>
-      </span>
-    </li>
-  )
-})
+)
 DrawerList.Item.displayName = 'DrawerList.Item'
 DrawerList.Item.propTypes = {
   children: PropTypes.oneOfType([

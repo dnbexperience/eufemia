@@ -24,6 +24,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
   icon_size="icon_size"
   id="autocomplete-id"
   input_icon="input_icon"
+  input_value="input_value"
   keep_open="keep_open"
   label="label"
   label_direction="horizontal"
@@ -227,11 +228,11 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
             label={null}
             label_direction={null}
             label_sr_only={null}
-            onKeyDown={[Function]}
             onMouseDown={[Function]}
             on_blur={[Function]}
             on_change={[Function]}
             on_focus={[Function]}
+            on_key_down={[Function]}
             on_state_update={null}
             on_submit={null}
             on_submit_blur={null}
@@ -265,7 +266,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
             }
             suffix={null}
             type="search"
-            value="CC cc"
+            value="input_value"
           >
             <span
               className="dnb-input dnb-input--search dnb-form-component dnb-autocomplete__input dnb-button--active dnb-input--icon-position-left dnb-input--has-icon dnb-input--icon-size-icon_size dnb-input--has-submit-element"
@@ -318,7 +319,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                       onKeyDown={[Function]}
                       onMouseDown={[Function]}
                       type="search"
-                      value="CC cc"
+                      value="input_value"
                     />
                   </span>
                   <span
@@ -764,6 +765,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
             icon_size="icon_size"
             id="autocomplete-id"
             input_icon="input_icon"
+            input_value="input_value"
             keep_open="keep_open"
             label="label"
             label_direction="horizontal"
@@ -976,9 +978,7 @@ exports[`Autocomplete scss have to match default theme snapshot 1`] = `
       .dnb-autocomplete--opened .dnb-input__submit-button__button {
         box-shadow: 0 0 0 1px var(--autocomplete-border-color--selected); } }
   .dnb-autocomplete .dnb-drawer-list__option__item--highlight {
-    background-color: var(--color-mint-green);
-    color: var(--color-black);
-    text-shadow: none; }
+    font-weight: var(--font-weight-bold); }
 "
 `;
 

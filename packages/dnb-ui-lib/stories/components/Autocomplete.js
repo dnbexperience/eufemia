@@ -38,12 +38,16 @@ const AutocompleteStory = () => {
       </Box>
       <Box>
         <Autocomplete
-          input_icon={null}
-          value="c"
+          // opened
+          // no_animation
+          input_value="foo bar th"
+          // input_value="a1 a2 cc"
+          // input_value="ccc b"
+          // value="c"
           data={{
             a: 'A1 A2 CC',
-            b: 'BB cC',
-            c: 'CC cc'
+            b: 'BB cC zethx',
+            c: 'CCC'
           }}
           // icon_position="left"
           on_select={e => {
@@ -56,6 +60,7 @@ const AutocompleteStory = () => {
       </Box>
       <Box>
         <Autocomplete
+          input_icon={null}
           title="Type to find ..."
           // opened
           // prevent_close
