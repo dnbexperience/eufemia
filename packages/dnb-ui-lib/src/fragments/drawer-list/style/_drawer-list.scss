@@ -161,13 +161,15 @@
 
     overflow-y: scroll;
     overscroll-behavior: contain;
-    scroll-behavior: smooth;
 
     // older iOS safari
     -webkit-overflow-scrolling: touch;
 
     // show scrollbar on IE
     -ms-overflow-style: auto;
+  }
+  &--opened &__options {
+    scroll-behavior: smooth;
   }
   &--no-scroll-animation &__options {
     scroll-behavior: auto;
