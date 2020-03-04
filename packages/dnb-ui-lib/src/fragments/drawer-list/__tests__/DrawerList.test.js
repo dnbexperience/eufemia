@@ -18,6 +18,21 @@ import _drawerList from '../style/_drawer-list.scss' // eslint-disable-line
 import dnb_drawerList from '../style/dnb-drawer-list.scss' // eslint-disable-line
 import dnb_drawerList_theme_ui from '../style/themes/dnb-drawer-list-theme-ui.scss' // eslint-disable-line
 
+beforeAll(() => {
+  window.resizeTo = function resizeTo({ width, height }) {
+    Object.assign(this, {
+      innerWidth: width || window.innerWidth,
+      innerHeight: height || window.innerHeight
+    }).dispatchEvent(new this.Event('resize'))
+  }
+
+  window.scrollTo = function resizeTo({ top }) {
+    Object.assign(this, {
+      pageYOffset: top || window.pageYOffset
+    }).dispatchEvent(new this.Event('scroll'))
+  }
+})
+
 const snapshotProps = {
   ...fakeProps(require.resolve('../DrawerList'), {
     optional: true
@@ -72,30 +87,34 @@ describe('DrawerList component', () => {
   const Comp = mount(<Component {...props} data={mockData} />)
 
   it('has correct state at startup', () => {
-    expect(Comp.state().opened).toBe(true)
-    expect(Comp.state().hidden).toBe(false)
+    expect(Comp.exists('.dnb-drawer-list--opened')).toBe(true)
   })
 
-  it('has correct state after changing prop to opened', async () => {
+  it('has correct state after changing prop to opened', () => {
     Comp.setProps({
       opened: false
     })
-    await wait(1)
-    expect(Comp.state().opened).toBe(false)
+    expect(Comp.exists('.dnb-drawer-list--opened')).toBe(false)
+    Comp.setProps({
+      opened: true
+    })
+    expect(Comp.exists('.dnb-drawer-list--opened')).toBe(true)
   })
 
-  it('has correct value and attribute after forcing rerender', () => {
+  it('handles default_value correctly on forcing rerender', () => {
     const Comp = mount(
-      <Component opened data={mockData} default_value={props.value} />
+      <Component
+        opened
+        no_animation
+        data={mockData}
+        default_value={props.value}
+      />
     )
+    let elem
 
-    expect(Comp.state().selected_item).toBe(props.value)
-
-    // make first selection
-    document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 40 })) // down
-    document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 13 })) // enter
-
-    expect(Comp.state().selected_item).toBe(props.value + 1)
+    elem = Comp.find('.dnb-drawer-list__option').at(props.value)
+    expect(elem.hasClass('dnb-drawer-list__option--focus')).toBe(true)
+    expect(elem.hasClass('dnb-drawer-list__option--selected')).toBe(true)
 
     // force rerender by prop change
     const title = 'show this attribute now'
@@ -108,86 +127,179 @@ describe('DrawerList component', () => {
         .getAttribute('title')
     ).toBe(title)
 
-    expect(Comp.state().selected_item).toBe(props.value + 1)
-
     // force rerender with null as value by prop change
     Comp.setProps({
-      value: null
+      value: props.value + 1
     })
 
-    expect(Comp.state().selected_item).toBe(null)
+    // the selected option got a new position
+    elem = Comp.find('.dnb-drawer-list__option').at(props.value + 1)
+    expect(elem.hasClass('dnb-drawer-list__option--selected')).toBe(true)
+
+    // but the focused item is still on the prev position
+    elem = Comp.find('.dnb-drawer-list__option').at(props.value)
+    expect(elem.hasClass('dnb-drawer-list__option--focus')).toBe(true)
+
+    // and for sure, the title attribute is still the same
+    expect(
+      Comp.find('.dnb-drawer-list')
+        .instance()
+        .getAttribute('title')
+    ).toBe(title)
   })
 
   it('has correct value on key search', () => {
     const Comp = mount(<Component {...props} data={mockData} />)
-    document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 66 })) // B
-    document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 70 })) // F
-    expect(Comp.state().active_item).toBe(2)
+
+    expect(Comp.exists('.dnb-drawer-list__option--focus')).toBe(true)
+
+    keydown(Comp, 83) // S
+
+    // force rerender
+    Comp.update()
+
+    expect(
+      Comp.find('.dnb-drawer-list__option')
+        .at(1)
+        .hasClass('dnb-drawer-list__option--focus')
+    ).toBe(true)
+
+    keydown(Comp, 70) // F
+
+    // force rerender
+    Comp.update()
+
+    expect(
+      Comp.find('.dnb-drawer-list__option')
+        .at(2)
+        .hasClass('dnb-drawer-list__option--focus')
+    ).toBe(true)
   })
 
   it('has valid on_select callback', async () => {
     const on_select = jest.fn()
-    const on_change = jest.fn()
 
     const Comp = mount(
-      <Component
-        {...props}
-        data={mockData}
-        on_select={on_select}
-        on_change={on_change}
-      />
+      <Component {...props} data={mockData} on_select={on_select} />
     )
 
     // then simulate changes
-    document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 32 })) // space
+    keydown(Comp, 32) // space
 
     const notChangedItem = mockData[props.value]
-    expect(on_change.mock.calls[0][0].data).toBe(notChangedItem)
     expect(on_select.mock.calls[0][0].data).toBe(notChangedItem)
 
-    // open again
-    Comp.setProps({
-      opened: true
-    })
-    await wait(20)
+    await wait(100)
 
-    // then simulate changes
-    document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 40 })) // down
-    await wait(1)
+    keydown(Comp, 40) // down
 
     const selectedItem = mockData[props.value + 1]
     expect(on_select.mock.calls[1][0].data).toBe(selectedItem) // second call!
   })
 
-  it('has valid on_change callback', () => {
+  it('has valid on_change callback', async () => {
     const on_change = jest.fn()
-    mount(<Component {...props} data={mockData} on_change={on_change} />)
+    const on_select = jest.fn()
+
+    const Comp = mount(
+      <Component
+        {...props}
+        data={mockData}
+        on_change={on_change}
+        on_select={on_select}
+      />
+    )
+
+    let selectedItem
 
     // then simulate changes
-    document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 40 })) // down
-    document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 13 })) // enter
+    keydown(Comp, 40) // down
+    keydown(Comp, 32) // space
 
-    const selectedItem = mockData[props.value + 1]
+    selectedItem = mockData[props.value + 1]
     expect(on_change.mock.calls[0][0].data).toBe(selectedItem)
-  })
+    expect(on_select.mock.calls[1][0].data).toBe(selectedItem)
 
-  it('has working direction observer', () => {
-    expect(Comp.props().direction).toBe('auto')
-    expect(Comp.state().max_height).toBeGreaterThan(0)
+    await wait(100)
+
+    // then simulate changes
+    keydown(Comp, 40) // down
+    keydown(Comp, 13) // enter
+
+    selectedItem = mockData[props.value + 2]
+    expect(on_change.mock.calls[1][0].data).toBe(selectedItem) // second call!
+    expect(on_select.mock.calls[3][0].data).toBe(selectedItem) // second call!
   })
 
   it('has correct direction prop', () => {
+    let direction = 'top'
     const Comp = mount(
-      <Component {...props} data={mockData} direction="top" />
+      <Component {...props} data={mockData} direction={direction} />
     )
+    expect(Comp.exists(`.dnb-drawer-list--${direction}`)).toBe(true)
 
-    expect(Comp.find('DrawerList').state().max_height).toBe(null)
+    direction = 'bottom'
+    Comp.setProps({
+      direction
+    })
+    expect(Comp.exists(`.dnb-drawer-list--${direction}`)).toBe(true)
+
+    expect(
+      Comp.find('.dnb-drawer-list__options')
+        .instance()
+        .getAttribute('style')
+    ).toBe('max-height: 46rem;')
   })
 
-  it('has correct state after "esc" key', () => {
+  it('has working direction observer', async () => {
     const Comp = mount(<Component {...props} data={mockData} />)
-    document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 27 })) // esc
-    expect(Comp.state().opened).toBe(false)
+    expect(Comp.props().direction).toBe('auto')
+
+    // the setDirectionObserver fn is chaning this
+    expect(Comp.exists('.dnb-drawer-list--bottom')).toBe(true)
+    expect(
+      Comp.find('.dnb-drawer-list__options')
+        .instance()
+        .getAttribute('style')
+    ).toBe('max-height: 46rem;') // jsdom defualt is 768 innerHeight
+
+    window.resizeTo({
+      height: 640 // change innerHeight
+    })
+    await wait(100)
+
+    expect(Comp.exists('.dnb-drawer-list--bottom')).toBe(true)
+    expect(
+      Comp.find('.dnb-drawer-list__options')
+        .instance()
+        .getAttribute('style')
+    ).toBe('max-height: 38rem;')
+
+    window.scrollTo({
+      top: -640
+    })
+    await wait(100)
+
+    // force rerender to get a updated state
+    Comp.update()
+
+    expect(Comp.exists('.dnb-drawer-list--top')).toBe(true)
+    expect(
+      Comp.find('.dnb-drawer-list__options')
+        .instance()
+        .getAttribute('style')
+    ).toBe('max-height: 36rem;') // is now min_height
+  })
+
+  it('will call on_hide after "esc" key', async () => {
+    const on_hide = jest.fn()
+
+    const Comp = mount(
+      <Component {...props} data={mockData} on_hide={on_hide} />
+    )
+
+    keydown(Comp, 27) // esc
+    expect(on_hide.mock.calls.length).toBe(1)
   })
 
   it('has correct class modifyer "--opened"', () => {
@@ -211,7 +323,7 @@ describe('DrawerList component', () => {
     const on_change = jest.fn()
     const on_select = jest.fn()
 
-    mount(
+    const Comp = mount(
       <Component
         opened
         no_animation
@@ -222,40 +334,37 @@ describe('DrawerList component', () => {
     )
 
     // then simulate changes
-    document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 40 })) // down
+    keydown(Comp, 40) // down
     expect(on_select.mock.calls[0][0].active_item).toBe(0)
 
-    document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 13 })) // enter
+    keydown(Comp, 13) // enter
     expect(on_change.mock.calls[0][0].value).toBe('a')
 
-    // requires too much cpu resources for now
-    // open again
-    // Comp.setProps({
-    //   opened: true
-    // })
-    // await wait(10)
+    // then open again
+    keydown(Comp, 32) // space
+    // await wait(100)
     //
     // // then simulate changes
-    // document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 40 })) // down
+    // keydown(Comp, 40 ) // down
     // expect(on_select.mock.calls[2][0].active_item).toBe(1)
     //
-    // document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 13 })) // enter
+    // keydown(Comp, 13 ) // enter
     // expect(on_change.mock.calls[1][0].value).toBe('b')
   })
 
   it('has to return all additional attributes the event return', () => {
-    const my_event = jest.fn()
+    const on_show = jest.fn()
     const params = { 'data-attr': 'value' }
     mount(
       <Component
         {...props}
-        on_show={my_event}
+        on_show={on_show}
         {...params}
         data={mockData}
       />
     )
-    expect(my_event.mock.calls.length).toBe(1)
-    expect(my_event.mock.calls[0][0].attributes).toMatchObject(params)
+    expect(on_show.mock.calls.length).toBe(1)
+    expect(on_show.mock.calls[0][0].attributes).toMatchObject(params)
   })
 })
 
@@ -287,4 +396,10 @@ describe('DrawerList scss', () => {
   })
 })
 
+const keydown = (Comp, keyCode) => {
+  document.dispatchEvent(new KeyboardEvent('keydown', { keyCode }))
+  // Comp.find('input').simulate('keydown', {
+  //   keyCode
+  // })
+}
 const wait = t => new Promise(r => setTimeout(r, t))

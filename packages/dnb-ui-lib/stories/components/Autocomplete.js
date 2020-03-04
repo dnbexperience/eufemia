@@ -39,11 +39,11 @@ const AutocompleteStory = () => {
       <Box>
         <Autocomplete
           // opened
+          // prevent_close
           // no_animation
-          input_value="foo bar th"
-          // input_value="a1 a2 cc"
-          // input_value="ccc b"
-          // value="c"
+          // input_value="foo bar th"
+          input_value="bb th x"
+          // value="b"
           data={{
             a: 'A1 A2 CC',
             b: 'BB cC zethx',
@@ -51,7 +51,7 @@ const AutocompleteStory = () => {
           }}
           // icon_position="left"
           on_select={e => {
-            console.log('on_select', e)
+            console.log('on_select ???', e)
           }}
           on_change={e => {
             console.log('on_change', e)
@@ -65,7 +65,13 @@ const AutocompleteStory = () => {
           // opened
           // prevent_close
           // no_animation
-          // value="0"
+          value="2"
+          on_select={e => {
+            console.log('on_select', e)
+          }}
+          on_change={e => {
+            console.log('on_change', e)
+          }}
           data={[
             {
               content: 'A'

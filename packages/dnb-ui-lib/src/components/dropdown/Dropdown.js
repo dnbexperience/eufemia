@@ -18,13 +18,18 @@ import {
 import AlignmentHelper from '../../shared/AlignmentHelper'
 import { createSpacingClasses } from '../space/SpacingHelper'
 
-import Context from '../../shared/Context'
 import Suffix from '../../shared/helpers/Suffix'
 import Icon from '../icon-primary/IconPrimary'
 import FormLabel from '../form-label/FormLabel'
 import FormStatus from '../form-status/FormStatus'
 import Button from '../button/Button'
 import DrawerList from '../../fragments/drawer-list/DrawerList'
+import DrawerListContext from '../../fragments/drawer-list/DrawerListContext'
+import DrawerListProvider from '../../fragments/drawer-list/DrawerListProvider'
+import {
+  parseContentTitle,
+  getCurrentData
+} from '../../fragments/drawer-list/DrawerListHelpers'
 
 const renderProps = {
   on_show: null,
@@ -186,24 +191,40 @@ export default class Dropdown extends PureComponent {
   static propTypes = propTypes
   static defaultProps = defaultProps
   static renderProps = renderProps
-  static contextType = Context
-
-  static blurDelay = 201 // some ms more than "dropdownSlideDown 200ms"
 
   static enableWebComponent() {
     registerElement(Dropdown.tagName, Dropdown, defaultProps)
   }
 
-  static getDerivedStateFromProps(props, state) {
-    return DrawerList.prepareDerivedState(props, state)
+  render() {
+    const { children, ...props } = this.props
+
+    return (
+      <DrawerListProvider
+        {...props}
+        opened={null}
+        tagName="dnb-dropdown"
+        ignore_events={false}
+      >
+        <DropdownInstance {...props}>{children}</DropdownInstance>
+      </DrawerListProvider>
+    )
   }
+}
+
+class DropdownInstance extends PureComponent {
+  static propTypes = propTypes
+  static defaultProps = defaultProps
+  static contextType = DrawerListContext
 
   constructor(props) {
     super(props)
 
     this._id = props.id || makeUniqueId()
 
-    this.state = DrawerList.prepareStartupState(props)
+    this.attributes = {}
+    this.state = this.state || {}
+    this.state._listenForPropChanges = true
 
     this._ref = React.createRef()
     this._refShell = React.createRef()
@@ -217,7 +238,7 @@ export default class Dropdown extends PureComponent {
   }
 
   componentDidMount() {
-    if (this.state.opened) {
+    if (isTrue(this.props.opened)) {
       this.setVisible()
     }
   }
@@ -229,75 +250,25 @@ export default class Dropdown extends PureComponent {
   }
 
   setVisible = () => {
-    if (this.state.opened && this.state.hidden === false) {
-      return
-    }
-
-    clearTimeout(this._hideTimeout)
-    const { selected_item } = this.state
-
-    this.setState({
-      hidden: false,
-      opened: true,
-      _listenForPropChanges: false
-    })
-
-    dispatchCustomElementEvent(this, 'on_show', {
-      data: DrawerList.getCurrentData(selected_item, this.state.data),
-      attributes: this.attributes || {}
-    })
+    this.context.drawerList
+      .setWrapperElement(this._refShell.current)
+      .setVisible()
   }
 
   setHidden = ({ setFocus = false } = {}) => {
-    if (!this.state.opened) {
-      return
-    }
-
-    this.setState(
-      {
-        opened: false,
-        _listenForPropChanges: false
-      },
-      () => {
-        const execState = () =>
-          this.setState(
-            {
-              hidden: true,
-              _listenForPropChanges: false
-            },
-            () => {
-              if (setFocus) {
-                setTimeout(() => {
-                  try {
-                    const elem = this._refButton.current._ref.current
-                    if (elem && elem.focus) {
-                      elem.focus()
-                    }
-                  } catch (e) {
-                    // do noting
-                  }
-                }, 1) // NVDA / Firefox needs a dealy to set this focus
-              }
+    this.context.drawerList.setHidden(null, () => {
+      if (setFocus) {
+        setTimeout(() => {
+          try {
+            const elem = this._refButton.current._ref.current
+            if (elem && typeof elem.focus === 'function') {
+              elem.focus()
             }
-          )
-        clearTimeout(this._hideTimeout)
-        if (isTrue(this.props.no_animation)) {
-          execState()
-        } else {
-          this._hideTimeout = setTimeout(execState, Dropdown.blurDelay) // wait until animation is over
-        }
+          } catch (e) {
+            // do noting
+          }
+        }, 1) // NVDA / Firefox needs a dealy to set this focus
       }
-    )
-    if (typeof this.modalScrollLock === 'function') {
-      this.modalScrollLock()
-    }
-
-    dispatchCustomElementEvent(this, 'on_hide', {
-      data: DrawerList.getCurrentData(
-        this.state.selected_item,
-        this.state.data
-      ),
-      attributes: this.attributes || {}
     })
   }
 
@@ -312,20 +283,25 @@ export default class Dropdown extends PureComponent {
     }
   }
   toggleVisible = () => {
-    if (!this.state.hidden && this.state.opened) {
+    if (
+      !this.context.drawerList.hidden &&
+      this.context.drawerList.opened
+    ) {
       this.setHidden()
     } else {
       this.setVisible()
     }
   }
   onMouseDownHandler = () => {
-    if (!this.state.hidden && this.state.opened) {
+    if (
+      !this.context.drawerList.hidden &&
+      this.context.drawerList.opened
+    ) {
       this.setHidden()
     } else {
       this.setVisible()
     }
   }
-
   onTriggerKeyDownHandler = e => {
     switch (keycode(e)) {
       case 'enter':
@@ -341,48 +317,41 @@ export default class Dropdown extends PureComponent {
     }
   }
 
-  onSetDirectionHandler = props => {
+  onSetDirectionHandler = args => {
     this.setState({
       // set the state like:
       // direction:
-      ...props,
+      ...args,
       _listenForPropChanges: false
     })
   }
 
   onSelectHandler = args => {
-    this.setState({
-      active_item: args.active_item,
-      _listenForPropChanges: false
-    })
     if (parseFloat(args.active_item) > -1) {
       const attributes = this.attributes || {}
       dispatchCustomElementEvent(this, 'on_select', {
         ...args,
-        selected_item: args.value, // deprecated
+        // selected_item: args.value, // deprecated
         attributes
       })
     }
   }
 
   onChangeHandler = args => {
-    const selected_item = DrawerList.getCurrentIndex(
-      args.value,
-      this.state.data
-    )
-    this.setState({
-      selected_item,
-      _listenForPropChanges: false
-    })
+    // TODO: has to be called someting else than input_value
+    // const input_value = this.getTitle()
+    // this.setState({
+    //   input_value,
+    //   _listenForPropChanges: false
+    // })
+
     const attributes = this.attributes || {}
     dispatchCustomElementEvent(this, 'on_change', {
       ...args,
-      selected_item, // deprecated
       attributes
     })
-    if (this._selectTimeout) {
-      clearTimeout(this._selectTimeout)
-    }
+
+    clearTimeout(this._selectTimeout)
     this._selectTimeout = setTimeout(() => {
       if (!isTrue(this.props.keep_open)) {
         this.setHidden({ setFocus: true })
@@ -390,17 +359,17 @@ export default class Dropdown extends PureComponent {
     }, 1) // because of state updates we need 1 tick delay here
   }
 
-  getTitle(title) {
-    const { data } = this.state
+  getTitle(title = null) {
+    const { data } = this.context.drawerList
     if (data?.length > 0) {
-      const currentOptionData = DrawerList.getCurrentData(
-        this.state.selected_item,
+      const currentOptionData = getCurrentData(
+        this.context.drawerList.selected_item,
         data
       )
       if (currentOptionData) {
         title =
           currentOptionData.selected_value ||
-          DrawerList.parseContentTitle(currentOptionData)
+          parseContentTitle(currentOptionData)
       }
     }
     return title
@@ -469,9 +438,15 @@ export default class Dropdown extends PureComponent {
       }
     }
 
-    const { data, direction, opened, selected_item } = this.state
+    const { selected_item, direction, opened } = this.context.drawerList
     const showStatus = status && status !== 'error'
     const title = this.getTitle(titleProp)
+
+    // make it pissible to grab the rest attributes and return it with all events
+    Object.assign(
+      this.context.drawerList.attributes,
+      validateDOMAttributes(null, attributes)
+    )
 
     const mainParams = {
       className: classnames(
@@ -600,8 +575,6 @@ export default class Dropdown extends PureComponent {
               <DrawerList
                 id={id}
                 inner_class="dnb-dropdown__list"
-                prepared_data={data}
-                raw_data={_data}
                 value={selected_item}
                 default_value={default_value}
                 scrollable={scrollable}
@@ -618,13 +591,8 @@ export default class Dropdown extends PureComponent {
                 max_height={max_height}
                 direction={_direction}
                 size={size}
-                opened={opened}
                 on_change={this.onChangeHandler}
                 on_select={this.onSelectHandler}
-                on_resize={this.onSetDirectionHandler}
-                on_show={this.setVisible}
-                on_hide={this.setHidden}
-                wrapper_element={this._refShell.current}
               />
             </span>
 

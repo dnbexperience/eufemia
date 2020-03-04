@@ -23,6 +23,7 @@ const snapshotProps = {
     optional: true
   }),
   id: 'autocomplete-id',
+  label: 'Autocomplete Label:',
   status: 'status',
   status_state: 'error',
   direction: 'bottom',
@@ -30,7 +31,7 @@ const snapshotProps = {
   value: 2,
   prevent_selection: null,
   align_autocomplete: null,
-  trigger_component: null,
+  input_component: null,
   size: null,
   opened: true,
   no_animation: true
@@ -48,104 +49,11 @@ const mockData = ['AA cc', 'BB cc', 'CC cc']
 describe('Autocomplete component', () => {
   const Comp = mount(<Component {...props} data={mockData} />)
 
-  it('has correct state at startup', () => {
-    expect(Comp.state().opened).toBe(false)
-    expect(Comp.state().hidden).toBe(undefined)
-  })
-
-  it('has correct state after "mousedown" trigger', async () => {
-    await open(Comp)
-    expect(Comp.state().opened).toBe(true)
-    expect(Comp.state().hidden).toBe(false)
-  })
-
-  it('has correct active_item if only one data entry is available', async () => {
-    const Comp = mount(
-      <Component opened no_animation value="A" data={['A']} />
-    )
-    expect(Comp.state().active_item).toBe(0)
-  })
-
-  it('has correct value on keydown "ArrowDown" and "Enter"', async () => {
-    const Comp = mount(<Component {...props} data={mockData} />)
-
-    expect(Comp.state().selected_item).toBe(props.value)
-
-    expect(Comp.find('.dnb-input__input').instance().value).toBe(
-      mockData[props.value]
-    )
-
-    await open(Comp)
-    expect(Comp.state().opened).toBe(true)
-
-    document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 13 })) // enter
-    await wait(1)
-
-    expect(Comp.state().opened).toBe(false)
-    expect(Comp.state().active_item).toBe(props.value)
-    expect(Comp.state().selected_item).toBe(props.value)
-
-    await open(Comp)
-    expect(Comp.state().opened).toBe(true)
-
-    document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 40 })) // down
-    document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 13 })) // enter
-    await wait(1)
-
-    expect(Comp.state().active_item).toBe(props.value + 1)
-    expect(Comp.state().selected_item).toBe(props.value + 1)
-
-    expect(Comp.find('.dnb-input__input').instance().value).toBe(
-      mockData[props.value + 1]
-    )
-  })
-
-  it('has correct value after forcing rerender', async () => {
-    const title = 'Make a selection'
-    const Comp = mount(
-      <Component data={mockData} default_value={props.value} />
-    )
-
-    expect(Comp.state().selected_item).toBe(props.value)
-
-    // open
-    await open(Comp)
-
-    document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 40 })) // down
-    document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 13 })) // enter
-
-    expect(Comp.state().selected_item).toBe(props.value + 1)
-
-    // force rerender by prop change
-    Comp.setProps({
-      title
-    })
-
-    expect(Comp.state().selected_item).toBe(props.value + 1)
-    expect(Comp.find('.dnb-input__input').instance().value).toBe(
-      mockData[props.value + 1]
-    )
-
-    Comp.find('.dnb-input__input').simulate('change', {
-      target: { value: 'invalid' }
-    })
-
-    await wait(1)
-    expect(Comp.state().selected_item).toBe(null)
-
-    Comp.find('.dnb-input__input').simulate('change', {
-      target: { value: null }
-    })
-
-    expect(Comp.find('span.dnb-input__placeholder').text()).toBe(title)
-    expect(Comp.find('.dnb-input__input').instance().value).toBe('')
-  })
-
-  it('has correct options after filter', async () => {
+  it('has correct options after filter', () => {
     const Comp = mount(<Component data={mockData} />)
 
     // open
-    await open(Comp)
+    open(Comp)
 
     Comp.find('.dnb-input__input').simulate('change', {
       target: { value: 'aa' }
@@ -193,88 +101,9 @@ describe('Autocomplete component', () => {
     ).toBe('Ingen alternativer')
   })
 
-  it('has correct value on key search', async () => {
-    // is new in here!
+  it('has correct "aria-expanded"', () => {
     const Comp = mount(<Component {...props} data={mockData} />)
-    await open(Comp)
-    document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 66 })) // B
-    document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 70 })) // F
-    expect(Comp.state().active_item).toBe(1)
-  })
-
-  it('has valid on_select callback', async () => {
-    const on_select = jest.fn()
-    const on_change = jest.fn()
-
-    const Comp = mount(
-      <Component
-        {...props}
-        data={mockData}
-        on_select={on_select}
-        on_change={on_change}
-      />
-    )
-
-    // open first
-    await open(Comp)
-
-    // then simulate changes
-    document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 13 })) // enter
-    await wait(1)
-
-    const notChangedItem = mockData[props.value]
-    expect(on_change.mock.calls[0][0].data).toBe(notChangedItem)
-    expect(on_select.mock.calls[0][0].data).toBe(notChangedItem)
-
-    // open again
-    await open(Comp)
-
-    // then simulate changes
-    document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 40 })) // down
-
-    const selectedItem = mockData[props.value + 1]
-    expect(on_select.mock.calls[1][0].data).toBe(selectedItem) // second call!
-  })
-
-  it('has valid on_change callback', async () => {
-    const on_change = jest.fn()
-    const Comp = mount(
-      <Component {...props} data={mockData} on_change={on_change} />
-    )
-
-    // open first
-    await open(Comp)
-
-    // then simulate changes
-    document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 40 })) // down
-    document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 13 })) // enter
-
-    const selectedItem = mockData[props.value + 1]
-    expect(on_change.mock.calls[0][0].data).toBe(selectedItem)
-  })
-
-  it('has working direction observer', async () => {
-    // open first
-    await open(Comp)
-
-    expect(Comp.props().direction).toBe('auto')
-    expect(Comp.state().max_height).toBeGreaterThan(0)
-  })
-
-  it('has correct direction prop', async () => {
-    const Comp = mount(
-      <Component {...props} data={mockData} direction="top" />
-    )
-
-    // open first
-    await open(Comp)
-
-    expect(Comp.find('DrawerList').state().max_height).toBe(null)
-  })
-
-  it('has correct "aria-expanded"', async () => {
-    const Comp = mount(<Component {...props} data={mockData} />)
-    await open(Comp)
+    open(Comp)
 
     const elem = Comp.find('span.dnb-autocomplete')
     expect(
@@ -287,33 +116,30 @@ describe('Autocomplete component', () => {
     expect(elem.instance().getAttribute('class')).toContain(
       'dnb-autocomplete--opened'
     )
-
-    expect(elem.hasClass('dnb-autocomplete--closed')).toBe(false)
   })
 
-  it('has correct length of li elements', async () => {
-    // is open already
-    await open(Comp)
+  it('has correct length of li elements', () => {
+    open(Comp)
 
     expect(Comp.find('li.dnb-drawer-list__option').length).toBe(
       mockData.length
     )
   })
 
-  it('has to return all additional attributes the event return', async () => {
-    const my_event = jest.fn()
+  it('has to return all additional attributes the event return', () => {
+    const on_show = jest.fn()
     const params = { 'data-attr': 'value' }
     const Comp = mount(
       <Component
-        {...props}
-        on_show={my_event}
+        no_animation
+        on_show={on_show}
         {...params}
         data={mockData}
       />
     )
-    await open(Comp)
-    expect(my_event.mock.calls.length).toBe(1)
-    expect(my_event.mock.calls[0][0].attributes).toMatchObject(params)
+    open(Comp)
+    expect(on_show.mock.calls.length).toBe(1)
+    expect(on_show.mock.calls[0][0].attributes).toMatchObject(params)
   })
 
   it('has correct selected value', () => {
@@ -323,12 +149,12 @@ describe('Autocomplete component', () => {
     )
   })
 
-  it('has correct selected value after new selection', async () => {
+  it('has correct selected value after new selection', () => {
     const Comp = mount(<Component {...props} data={mockData} />)
-    await open(Comp)
+    open(Comp)
 
     // then simulate changes
-    document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 40 })) // down
+    keydown(Comp, 40) // down
 
     expect(Comp.find('.dnb-input__input').instance().value).toBe(
       mockData[props.value]
@@ -359,14 +185,6 @@ describe('Autocomplete component', () => {
         .instance()
         .hasAttribute('disabled')
     ).toBe(true)
-  })
-
-  it('has correct state after "esc" key', () => {
-    Comp.find('button').simulate('keyDown', {
-      key: 'esc',
-      keyCode: 27
-    })
-    expect(Comp.state().opened).toBe(false)
   })
 })
 
@@ -400,10 +218,13 @@ describe('Autocomplete scss', () => {
   })
 })
 
-const open = async Comp => {
-  const elem = Comp.find('button.dnb-input__submit-button__button')
-  await wait(1) // in case we close and reopen
-  elem.simulate('click')
-  await wait(10) // because we don't we have componentDidMount
+const keydown = (Comp, keyCode) => {
+  document.dispatchEvent(new KeyboardEvent('keydown', { keyCode }))
+
+  Comp.find('button').simulate('keydown', {
+    keyCode
+  })
 }
-const wait = t => new Promise(r => setTimeout(r, t))
+const open = Comp => {
+  Comp.find('button.dnb-input__submit-button__button').simulate('click')
+}

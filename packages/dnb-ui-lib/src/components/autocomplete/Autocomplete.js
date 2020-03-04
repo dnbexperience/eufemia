@@ -18,14 +18,18 @@ import {
 import AlignmentHelper from '../../shared/AlignmentHelper'
 import { createSpacingClasses } from '../space/SpacingHelper'
 
-import Context from '../../shared/Context'
 import Suffix from '../../shared/helpers/Suffix'
 import FormLabel from '../form-label/FormLabel'
 import FormStatus from '../form-status/FormStatus'
 import Input, { SubmitButton } from '../input/Input'
-import DrawerList, {
+import DrawerList from '../../fragments/drawer-list/DrawerList'
+import DrawerListContext from '../../fragments/drawer-list/DrawerListContext'
+import DrawerListProvider from '../../fragments/drawer-list/DrawerListProvider'
+import {
+  parseContentTitle,
+  getCurrentData,
   grabStringFromReact
-} from '../../fragments/drawer-list/DrawerList'
+} from '../../fragments/drawer-list/DrawerListHelpers'
 
 const renderProps = {
   on_show: null,
@@ -33,7 +37,7 @@ const renderProps = {
   on_change: null,
   on_select: null,
   on_state_update: null,
-  trigger_component: null
+  input_component: null
 }
 
 const propTypes = {
@@ -88,7 +92,7 @@ const propTypes = {
   ]),
   size: PropTypes.oneOf(['default', 'small', 'medium', 'large']),
   align_autocomplete: PropTypes.oneOf(['left', 'right']),
-  trigger_component: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
+  input_component: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
   data: PropTypes.oneOfType([
     PropTypes.oneOfType([
       PropTypes.string,
@@ -170,7 +174,7 @@ const defaultProps = {
   prevent_selection: false,
   size: 'default',
   align_autocomplete: null,
-  trigger_component: null,
+  input_component: null,
   data: null,
   default_value: null,
   value: 'initval',
@@ -178,7 +182,7 @@ const defaultProps = {
   open_on_focus: false,
   prevent_close: false,
   keep_open: false,
-  opened: false,
+  opened: null,
   disabled: null,
   class: null,
 
@@ -197,34 +201,54 @@ export default class Autocomplete extends PureComponent {
   static propTypes = propTypes
   static defaultProps = defaultProps
   static renderProps = renderProps
-  static contextType = Context
-
-  static blurDelay = 201 // some ms more than "autocompleteSlideDown 200ms"
 
   static enableWebComponent() {
     registerElement(Autocomplete.tagName, Autocomplete, defaultProps)
   }
 
+  render() {
+    const { children, ...props } = this.props
+
+    return (
+      <DrawerListProvider
+        {...props}
+        opened={null}
+        tagName="dnb-autocomplete"
+        ignore_events={false}
+        prevent_focus
+        skip_keysearch
+      >
+        <AutocompleteInstance {...props}>{children}</AutocompleteInstance>
+      </DrawerListProvider>
+    )
+  }
+}
+
+class AutocompleteInstance extends PureComponent {
+  static propTypes = propTypes
+  static defaultProps = defaultProps
+  static contextType = DrawerListContext
+
   static parseDataItem(dataItem) {
-    const toParse = DrawerList.parseContentTitle(dataItem, {
+    const toParse = parseContentTitle(dataItem, {
       separator: ' '
     })
     if (typeof toParse !== 'string' && Array.isArray(toParse)) {
-      return Autocomplete.parseDataItem(toParse)
+      return AutocompleteInstance.parseDataItem(toParse)
     }
     return toParse
   }
 
   static createSearchIndex(data) {
     return data.map(dataItem => {
-      const searchChunk = Autocomplete.parseDataItem(dataItem)
+      const searchChunk = AutocompleteInstance.parseDataItem(dataItem)
       return { dataItem, searchChunk }
     })
   }
 
-  static getInputValue(selected_item, data) {
-    const currentData = DrawerList.getCurrentData(selected_item, data)
-    return DrawerList.parseContentTitle(currentData, {
+  static getCurrentDataTitle(selected_item, data) {
+    const currentData = getCurrentData(selected_item, data)
+    return parseContentTitle(currentData, {
       separator: ' ',
       preferSelectedValue: true
     })
@@ -232,67 +256,44 @@ export default class Autocomplete extends PureComponent {
 
   static getDerivedStateFromProps(props, state) {
     if (state._listenForPropChanges) {
-      // TODO: update search index if data prop has changed
-      // state.searchIndex = Autocomplete.createSearchIndex(props.data)
-
-      // TODO: update original_data if data prop has changed
-      if (!state.original_data) {
-        state.original_data = state.data
-      }
-
       state.skip_highlight = isTrue(props.skip_highlight)
 
       if (
         props.input_value !== 'initval' &&
-        // typeof state.input_value === 'undefined' &&
-        state.input_value !== props.input_value &&
+        typeof state.input_value === 'undefined' &&
         props.input_value?.length > 0
       ) {
         state.input_value = props.input_value
-      } else if (
-        props.value !== 'initval' &&
-        state._value !== props.value
-      ) {
-        state._value = props.value
-
-        state.input_value = Autocomplete.getInputValue(
-          state.selected_item,
-          state.data
-        )
       }
     }
 
-    const newState = DrawerList.prepareDerivedState(props, state)
-
     state._listenForPropChanges = true
 
-    return newState
+    return state
   }
 
-  constructor(props) {
+  constructor(props, context) {
     super(props)
 
     this._id = props.id || makeUniqueId()
 
-    this.state = DrawerList.prepareStartupState(props)
-    this.state.cache_hash = ''
+    this.attributes = {}
+    this.state = this.state || {}
     this.state._listenForPropChanges = true
+
+    if (context.drawerList?.current_title) {
+      this.state.input_value = context.drawerList.current_title
+    }
 
     this._ref = React.createRef()
     this._refShell = React.createRef()
     this._refInput = React.createRef()
-
-    // deprecated, use value instad
-    const dep = 'selected_item'
-    if (typeof props[dep] !== 'undefined') {
-      console.warn(`Autocomplete: Please use "value" instead of "${dep}".`)
-    }
   }
 
   componentDidMount() {
-    if (this.state.opened) {
+    if (isTrue(this.props.opened)) {
+      this.runFilterToHighlight()
       this.setVisible()
-      setTimeout(this.runFilterToHighlight, 1) // TODO: can be remove in future, because of the rerender during opening
     }
   }
 
@@ -303,60 +304,25 @@ export default class Autocomplete extends PureComponent {
   }
 
   setVisible = () => {
-    if (this.state.opened && this.state.hidden === false) {
-      return
-    }
-
-    clearTimeout(this._hideTimeout)
-
-    this.setState({
-      hidden: false,
-      opened: true,
-      _listenForPropChanges: false
-    })
-
-    const { selected_item } = this.state
-    dispatchCustomElementEvent(this, 'on_show', {
-      data: DrawerList.getCurrentData(selected_item, this.state.data),
-      attributes: this.attributes || {}
-    })
+    this.context.drawerList
+      .setWrapperElement(this._refShell.current)
+      .setVisible()
   }
 
   setHidden = () => {
-    if (!this.state.opened) {
-      return
-    }
+    this.context.drawerList.setHidden()
+  }
 
-    this.setState(
-      {
-        opened: false,
+  scrollToActiveItem = () => {
+    if (parseFloat(this.state.local_active_item) > -1) {
+      this.context.drawerList.scrollToItem(this.state.local_active_item, {
+        scrollTo: false
+      })
+      this.setState({
+        local_active_item: null,
         _listenForPropChanges: false
-      },
-      () => {
-        const execState = () =>
-          this.setState({
-            hidden: true,
-            _listenForPropChanges: false
-          })
-        clearTimeout(this._hideTimeout)
-        if (isTrue(this.props.no_animation)) {
-          execState()
-        } else {
-          this._hideTimeout = setTimeout(execState, Autocomplete.blurDelay) // wait until animation is over
-        }
-      }
-    )
-    if (typeof this.modalScrollLock === 'function') {
-      this.modalScrollLock()
+      })
     }
-
-    dispatchCustomElementEvent(this, 'on_hide', {
-      data: DrawerList.getCurrentData(
-        this.state.selected_item,
-        this.state.data
-      ),
-      attributes: this.attributes || {}
-    })
   }
 
   onInputChangeHandler = ({ value }, options) => {
@@ -367,9 +333,11 @@ export default class Autocomplete extends PureComponent {
     }
 
     this.setState({
-      cache_hash: value,
       input_value: value,
       _listenForPropChanges: false
+    })
+    this.context.drawerList.setState({
+      cache_hash: value
     })
 
     // run the filter also on invalid values, so we reset the highlight
@@ -380,20 +348,29 @@ export default class Autocomplete extends PureComponent {
       if (data.length === 0) {
         this.resetSelections()
         this.totalReset()
-        this.setState({
-          ignore_events: true,
-          data: [{ content: this._props.no_options, ignore_events: true }],
-          _listenForPropChanges: false
+        this.context.drawerList.setState({
+          ignore_events: true
         })
+        this.context.drawerList.setData([
+          {
+            content: this._props.no_options,
+            ignore_events: true,
+            __id: 'no_options'
+          }
+        ])
       } else if (data.length > 0) {
-        const active_id = data.length === 1 ? data[0].__id : null
+        const active_item = data.length === 1 ? data[0].__id : null
+
         this.setState({
-          active_id,
-          data,
+          local_active_item: active_item, // used later so we can scroll there
           skip_highlight: false,
-          ignore_events: false,
           _listenForPropChanges: false
         })
+        this.context.drawerList.setState({
+          active_item,
+          ignore_events: false
+        })
+        this.context.drawerList.setData(data)
       }
 
       this.setVisible()
@@ -412,25 +389,26 @@ export default class Autocomplete extends PureComponent {
     if (value.length > 0) {
       const data = this.runFilter(value)
       this.setState({
-        data,
-        cache_hash: value,
         skip_highlight: false,
-        ignore_events: false,
         _listenForPropChanges: false
       })
+      this.context.drawerList.setState({
+        cache_hash: value,
+        ignore_events: false
+      })
+      this.context.drawerList.setData(data)
     }
   }
   onInputClickHandler = e => {
     const value = e.target.value
-    setTimeout(() => {
-      this.runFilterToHighlight(value)
-      this.showAll()
-      this.setVisible()
-    }, 1) // because the input has no focus on first click, and we dismiss if we had it opened by start
+    this.runFilterToHighlight(value)
+    this.showAll()
+    this.setVisible()
+    // setTimeout(() => {
+    // }, 1) // because the input has no focus on first click, and we dismiss if we had it opened by start
   }
   onInputFocusHandler = () => {
     if (isTrue(this.props.open_on_focus)) {
-      // this.runFilterToHighlight()
       this.showAll()
       this.setVisible()
     } else {
@@ -447,8 +425,8 @@ export default class Autocomplete extends PureComponent {
       !hasFilter &&
       !this.hasFilterActive() &&
       !isTrue(this.props.prevent_close) &&
-      !this.state.hidden &&
-      this.state.opened
+      !this.context.drawerList.hidden &&
+      this.context.drawerList.opened
     ) {
       this.setHidden()
     } else {
@@ -461,16 +439,11 @@ export default class Autocomplete extends PureComponent {
     this.toggleVisible({ hasFilter })
   }
   hasFilterActive = () => {
-    return this.state.data.length !== this.state.original_data.length
+    return (
+      this.context.drawerList.data.length !==
+      this.context.drawerList.original_data?.length
+    )
   }
-  // hasNoFilterOptions = () => {
-  //   return (
-  //     this.state.data &&
-  //     ((this.state.data.length === 1 &&
-  //       this.state.data[0].ignore_events) ||
-  //       this.state.data.length === 0)
-  //   )
-  // }
   onTriggerKeyDownHandler = ({ event: e }) => {
     const key = keycode(e)
     switch (key) {
@@ -481,14 +454,20 @@ export default class Autocomplete extends PureComponent {
           this.showAll()
         }
         this.setVisible()
+        this.scrollToActiveItem()
+
         break
 
       case 'enter':
         e.preventDefault()
-        if (this.hasFilterActive()) {
-          this.showAll()
-        }
-        this.toggleVisible()
+        setTimeout(() => {
+          // this.runFilterToHighlight()
+          if (this.hasFilterActive()) {
+            this.showAll()
+          }
+          this.toggleVisible()
+        }, 1) // to make sure we first handle the DrawerList key enter, before we update the state with a toggle/visible. Else the submit is not set properly
+
         break
     }
   }
@@ -498,8 +477,8 @@ export default class Autocomplete extends PureComponent {
       return this.state.searchIndex
     }
 
-    const searchIndex = Autocomplete.createSearchIndex(
-      this.state.original_data
+    const searchIndex = AutocompleteInstance.createSearchIndex(
+      this.context.drawerList.original_data
     )
 
     this.setState({
@@ -510,58 +489,46 @@ export default class Autocomplete extends PureComponent {
     return searchIndex
   }
 
-  onSetActiveItemHandler = active_item => {
-    this.setState({
-      active_item,
-      _listenForPropChanges: false
-    })
-  }
-
   showAll = () => {
     this.resetFilter()
-    this.resetSelections()
 
-    this.setState(
+    clearTimeout(this.showAllTimeout)
+
+    this.context.drawerList.setState(
       {
         cache_hash: 'all',
-        ignore_events: true, // to avoid a flicker, if it was the first one (because of the DrawerList arrow down event)
-        _listenForPropChanges: false
+        ignore_events: true // we also have to reset this one
       },
       () => {
         // but we reset it right after the rerender
-        setTimeout(() => {
-          this.setState({
-            active_id: null,
-            ignore_events: false, // we also have to reset this one
-            _listenForPropChanges: false
+        this.showAllTimeout = setTimeout(() => {
+          this.context?.drawerList?.setState({
+            ignore_events: false // we also have to reset this one
           })
-        }, 1) // make sure we reset one the rerender/show of DrawerList is done
+        }, 10) // make sure we reset once the rerender of DrawerList is done, because then we keep the active_item at it's position by using key="down"
       }
     )
   }
 
   totalReset = () => {
-    this.setState({
-      selected_item: null,
-      _listenForPropChanges: false
+    this.context.drawerList.setState({
+      selected_item: null
     })
   }
 
   resetSelections = () => {
     this.setState({
       input_value: null,
-      active_id: null,
-      active_item: null,
-      ignore_events: false,
       _listenForPropChanges: false
+    })
+    this.context.drawerList.setState({
+      active_item: null,
+      ignore_events: false
     })
   }
 
   resetFilter = () => {
-    this.setState({
-      data: this.state.original_data,
-      _listenForPropChanges: false
-    })
+    this.context.drawerList.setData(this.context.drawerList.original_data)
   }
 
   runFilter = (value, { skip_highlight } = {}) => {
@@ -671,24 +638,9 @@ export default class Autocomplete extends PureComponent {
     )
   }
 
-  onSetDirectionHandler = props => {
-    this.setState({
-      ...props,
-      _listenForPropChanges: false
-    })
-  }
-
   onSelectHandler = args => {
-    const active_item = DrawerList.findCurrentIndex(
-      args.active_item,
-      this.state.original_data
-    )
-    this.setState({
-      active_item,
-      _listenForPropChanges: false
-    })
     if (parseFloat(args.active_item) > -1) {
-      const attributes = this.attributes || {}
+      const attributes = this.attributes
       dispatchCustomElementEvent(this, 'on_select', {
         ...args,
         attributes
@@ -699,26 +651,24 @@ export default class Autocomplete extends PureComponent {
   onChangeHandler = args => {
     const selected_item = args.selected_item
 
-    const input_value = Autocomplete.getInputValue(
+    const input_value = AutocompleteInstance.getCurrentDataTitle(
       selected_item,
-      this.state.data
+      this.context.drawerList.data
     )
 
     this.setState({
       skip_highlight: true,
       input_value,
-      selected_item,
       _listenForPropChanges: false
     })
 
-    const attributes = this.attributes || {}
+    const attributes = this.attributes
     dispatchCustomElementEvent(this, 'on_change', {
       ...args,
       attributes
     })
-    if (this._selectTimeout) {
-      clearTimeout(this._selectTimeout)
-    }
+
+    clearTimeout(this._selectTimeout)
     this._selectTimeout = setTimeout(() => {
       if (!isTrue(this.props.keep_open)) {
         this.setHidden()
@@ -762,7 +712,7 @@ export default class Autocomplete extends PureComponent {
       prevent_close,
       no_animation,
       no_scroll_animation,
-      trigger_component: CustomTrigger,
+      input_component: CustomInput,
       prevent_selection,
       max_height,
       default_value,
@@ -785,16 +735,15 @@ export default class Autocomplete extends PureComponent {
     const id = this._id
     const showStatus = status && status !== 'error'
 
-    const {
-      data,
-      input_value,
-      direction,
-      opened,
-      active_id,
-      selected_item,
-      cache_hash,
-      ignore_events
-    } = this.state
+    const { input_value } = this.state
+
+    const { selected_item, direction, opened } = this.context.drawerList
+
+    // make it pissible to grab the rest attributes and return it with all events
+    Object.assign(
+      this.context.drawerList.attributes,
+      validateDOMAttributes(null, attributes)
+    )
 
     const mainParams = {
       className: classnames(
@@ -877,8 +826,8 @@ export default class Autocomplete extends PureComponent {
 
           <span className="dnb-autocomplete__row">
             <span className="dnb-autocomplete__shell" ref={this._refShell}>
-              {CustomTrigger ? (
-                <CustomTrigger {...inputParams} />
+              {CustomInput ? (
+                <CustomInput {...inputParams} />
               ) : (
                 <Input
                   icon={input_icon}
@@ -908,6 +857,7 @@ export default class Autocomplete extends PureComponent {
                     />
                   }
                   ref={this._refInput}
+                  // onClick={this.onInputClickHandler}
                   onMouseDown={this.onInputClickHandler}
                   on_key_down={this.onTriggerKeyDownHandler}
                   on_change={this.onInputChangeHandler}
@@ -920,18 +870,10 @@ export default class Autocomplete extends PureComponent {
               <DrawerList
                 id={id}
                 inner_class="dnb-autocomplete__list"
-                data={data}
-                raw_data={_data}
-                ignore_events={ignore_events}
                 value={selected_item}
                 default_value={default_value}
-                cache_hash={cache_hash}
-                active_id={active_id}
-                on_set_active_item={this.onSetActiveItemHandler}
                 scrollable={scrollable}
                 focusable={focusable}
-                prevent_focus={true}
-                skip_keysearch={true}
                 no_animation={no_animation}
                 no_scroll_animation={no_scroll_animation}
                 prevent_selection={prevent_selection}
@@ -943,13 +885,8 @@ export default class Autocomplete extends PureComponent {
                 max_height={max_height}
                 direction={direction}
                 size={size}
-                opened={opened}
                 on_change={this.onChangeHandler}
                 on_select={this.onSelectHandler}
-                on_resize={this.onSetDirectionHandler}
-                on_show={this.setVisible}
-                on_hide={this.setHidden}
-                wrapper_element={this._refShell.current}
               />
             </span>
 

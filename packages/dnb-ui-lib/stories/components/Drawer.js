@@ -7,7 +7,7 @@ import React from 'react'
 import { Wrapper, Box } from '../helpers'
 import styled from '@emotion/styled'
 
-import { Dropdown, Input, ToggleButton } from '../../src/components'
+import { Input, ToggleButton } from '../../src/components'
 import { DrawerList } from '../../src/fragments'
 
 // import { P } from '../../src/elements'
@@ -32,6 +32,7 @@ const CustomStyle = styled.div`
   }
 `
 
+const ref = React.createRef()
 const MagicOpen = props => {
   const [opened, setOpened] = React.useState(false)
   const [selected, setSelected] = React.useState('C')
@@ -63,35 +64,43 @@ const MagicOpen = props => {
         on_focus={() => setOpened(true)}
         placeholder="Search for items ..."
         icon="chevron_down"
+        inner_ref={ref}
       />
       <Drawer
         // value={selected}
         // focusable
         // prevent_close
         // no_animation
+        wrapper_element={ref.current}
         opened={opened}
         // data={['A', 'B']}
         on_select={e => {
+          // does not fire!
           console.log('on_select', e)
         }}
         on_change={e => {
+          // does not fire!
           console.log('on_change', e)
         }}
         on_hide={() => setOpened(false)}
         {...props}
       >
         <DrawerList.List>
-          {list.map(({ value, ...props }, i) => (
-            <DrawerList.Item
-              key={i}
-              {...props}
-              selected={value === selected}
-              value={value}
-              on_click={({ value }) => setSelected(value)}
-            >
-              {value}
-            </DrawerList.Item>
-          ))}
+          {list.map(({ value, ...props }, i) => {
+            return (
+              <DrawerList.Item
+                key={i}
+                {...props}
+                selected={value === selected}
+                value={value}
+                on_click={({ value }) => {
+                  setSelected(value)
+                }}
+              >
+                {value}
+              </DrawerList.Item>
+            )
+          })}
         </DrawerList.List>
       </Drawer>
     </>
@@ -100,6 +109,11 @@ const MagicOpen = props => {
 
 const DrawerListWithState = props => {
   const [opened, setOpened] = React.useState(false)
+  // React.useState(() => {
+  //   setInterval(() => {
+  //     setOpened(o => !o)
+  //   }, 1e3)
+  // }, [])
   return (
     <>
       <ToggleButton
@@ -132,40 +146,6 @@ const DrawerStory = () => {
       </Box>
       <Box>
         <DrawerListWithState></DrawerListWithState>
-      </Box>
-      <Box>
-        <Dropdown data={['A', 'B']} />
-        <Dropdown
-          opened
-          value="0"
-          on_change={e => {
-            console.log('test e', e)
-          }}
-        >
-          {['A', 'B']}
-        </Dropdown>
-        <Dropdown
-          value="a"
-          on_change={e => {
-            console.log('test e', e)
-          }}
-        >
-          {{
-            a: 'A',
-            b: 'B'
-          }}
-        </Dropdown>
-      </Box>
-      <Box>
-        <Dropdown
-          // opened
-          value="b"
-          on_change={e => {
-            console.log('test selected_key', e)
-          }}
-        >
-          {{ a: 'A', b: 'B', c: 'C' }}
-        </Dropdown>
       </Box>
       <Box>
         <MagicOpen bottom></MagicOpen>

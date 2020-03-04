@@ -38,7 +38,11 @@ const snapshotProps = {
 }
 
 // use no_animation so we don't need to wait
-const props = { id: 'dropdown-id', value: 2, no_animation: true }
+const props = {
+  id: 'dropdown-id',
+  value: 2,
+  no_animation: true
+}
 
 const mockData = [
   {
@@ -71,170 +75,122 @@ const mockData = [
 describe('Dropdown component', () => {
   const Comp = mount(<Component {...props} data={mockData} />)
 
-  it('has correct state at startup', () => {
-    expect(Comp.state().opened).toBe(false)
-    expect(Comp.state().hidden).toBe(undefined)
-  })
-
-  it('has correct state after "mousedown" trigger', async () => {
-    await open(Comp)
-    expect(Comp.state().opened).toBe(true)
-    expect(Comp.state().hidden).toBe(false)
-  })
-
   it('has correct value on keydown "ArrowDown" and "Enter"', async () => {
     const Comp = mount(<Component {...props} data={mockData} />)
-
-    expect(Comp.state().selected_item).toBe(props.value)
+    let elem
 
     expect(Comp.find('.dnb-dropdown__text__inner').text()).toBe(
       mockData[props.value].selected_value
     )
 
-    await open(Comp)
+    keydown(Comp, 32) // space
 
-    expect(Comp.state().active_item).toBe(props.value)
+    elem = Comp.find('.dnb-drawer-list__option').at(props.value)
+    expect(elem.hasClass('dnb-drawer-list__option--focus')).toBe(true)
+    expect(elem.hasClass('dnb-drawer-list__option--selected')).toBe(true)
 
-    document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 40 })) // down
-    document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 13 })) // enter
+    keydown(Comp, 40) // down
+    keydown(Comp, 13) // enter
 
-    expect(Comp.state().active_item).toBe(props.value + 1)
-    expect(Comp.state().selected_item).toBe(props.value + 1)
+    elem = Comp.find('.dnb-drawer-list__option').at(props.value + 1)
+    expect(elem.hasClass('dnb-drawer-list__option--focus')).toBe(true)
+    expect(elem.hasClass('dnb-drawer-list__option--selected')).toBe(true)
 
     expect(Comp.find('.dnb-dropdown__text__inner').text()).toBe(
       mockData[props.value + 1].selected_value
     )
   })
 
-  it('has correct value after forcing rerender', async () => {
-    const title = 'Make a selection'
-    const Comp = mount(
-      <Component data={mockData} default_value={props.value} />
-    )
-
-    expect(Comp.state().selected_item).toBe(props.value)
-
-    // open
-    await open(Comp)
-
-    // make first selection
-    document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 40 })) // down
-    document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 13 })) // enter
-
-    expect(Comp.state().selected_item).toBe(props.value + 1)
-
-    // force rerender by prop change
-    Comp.setProps({
-      title
-    })
-
-    expect(Comp.state().selected_item).toBe(props.value + 1)
-    expect(Comp.find('.dnb-dropdown__text__inner').text()).toBe(
-      mockData[props.value + 1].selected_value
-    )
-
-    // force rerender with null as value by prop change
-    Comp.setProps({
-      value: null
-    })
-
-    expect(Comp.state().selected_item).toBe(null)
-    expect(Comp.find('.dnb-dropdown__text__inner').text()).toBe(title)
-  })
-
-  it('has correct value on key search', async () => {
-    // is new in here!
+  it('has correct value on key search', () => {
     const Comp = mount(<Component {...props} data={mockData} />)
-    await open(Comp)
-    document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 66 })) // B
-    document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 70 })) // F
-    expect(Comp.state().active_item).toBe(2)
+
+    keydown(Comp, 32) // space
+
+    expect(Comp.exists('.dnb-drawer-list__option--focus')).toBe(true)
+
+    keydown(Comp, 83) // S
+
+    // force rerender
+    Comp.update()
+
+    expect(
+      Comp.find('.dnb-drawer-list__option')
+        .at(1)
+        .hasClass('dnb-drawer-list__option--focus')
+    ).toBe(true)
+
+    keydown(Comp, 70) // F
+
+    // force rerender
+    Comp.update()
+
+    expect(
+      Comp.find('.dnb-drawer-list__option')
+        .at(2)
+        .hasClass('dnb-drawer-list__option--focus')
+    ).toBe(true)
   })
 
   it('has valid on_select callback', async () => {
     const on_select = jest.fn()
+
+    const Comp = mount(
+      <Component {...props} data={mockData} on_select={on_select} />
+    )
+
+    // then simulate changes
+    keydown(Comp, 32) // space
+    keydown(Comp, 40) // down
+
+    const notChangedItem = mockData[props.value + 1]
+    expect(on_select.mock.calls[0][0].data).toBe(notChangedItem)
+
+    keydown(Comp, 40) // down
+
+    const selectedItem = mockData[props.value + 2]
+    expect(on_select.mock.calls[1][0].data).toBe(selectedItem) // second call!
+  })
+
+  it('has valid on_change callback', async () => {
+    let selectedItem
     const on_change = jest.fn()
+    const on_select = jest.fn()
 
     const Comp = mount(
       <Component
         {...props}
         data={mockData}
-        on_select={on_select}
         on_change={on_change}
+        on_select={on_select}
       />
     )
-
     // open first
-    Comp.find('button').simulate('keydown', { key: 'Enter', keyCode: 13 })
-    await wait(1)
+    open(Comp)
 
     // then simulate changes
-    document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 32 })) // space
-    const notChangedItem = mockData[props.value]
-    expect(on_change.mock.calls[0][0].data).toBe(notChangedItem)
-    expect(on_select.mock.calls[0][0].data).toBe(notChangedItem)
+    keydown(Comp, 40) // down
 
-    await wait(1) // until closed
+    selectedItem = mockData[props.value + 1]
+    expect(on_select.mock.calls[0][0].data).toBe(selectedItem)
 
-    // open again
-    await open(Comp)
+    keydown(Comp, 32) // space
 
-    // then simulate changes
-    document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 40 })) // down
-    const selectedItem = mockData[props.value + 1]
-    expect(on_select.mock.calls[1][0].data).toBe(selectedItem) // second call!
-  })
-
-  it('has valid on_change callback', async () => {
-    const on_change = jest.fn()
-    const Comp = mount(
-      <Component {...props} data={mockData} on_change={on_change} />
-    )
-
-    // open first
-    Comp.find('button').simulate('keydown', { key: 'Space', keyCode: 32 }) // space
-    await wait(1)
-
-    // then simulate changes
-    document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 40 })) // down
-    document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 13 })) // enter
-
-    const selectedItem = mockData[props.value + 1]
+    selectedItem = mockData[props.value + 1]
     expect(on_change.mock.calls[0][0].data).toBe(selectedItem)
+    expect(on_select.mock.calls[1][0].data).toBe(selectedItem)
+
+    // then simulate changes
+    keydown(Comp, 40) // down
+    keydown(Comp, 13) // enter
+
+    selectedItem = mockData[props.value + 2]
+    expect(on_change.mock.calls[1][0].data).toBe(selectedItem) // second call!
+    expect(on_select.mock.calls[3][0].data).toBe(selectedItem) // second call!
   })
 
-  it('has working direction observer', async () => {
-    // open first
-    Comp.find('button').simulate('keydown', { key: 'Space', keyCode: 32 }) // space
-    await wait(1)
-
-    expect(Comp.props().direction).toBe('auto')
-    expect(Comp.state().max_height).toBeGreaterThan(0)
-  })
-
-  it('has correct direction prop', async () => {
-    const Comp = mount(
-      <Component {...props} data={mockData} direction="top" />
-    )
-
-    // open first
-    Comp.find('button').simulate('keydown', { key: 'Space', keyCode: 32 }) // space
-    await wait(1)
-
-    expect(Comp.find('DrawerList').state().max_height).toBe(null)
-  })
-
-  it('has correct state after "esc" key', () => {
-    Comp.find('button').simulate('keyDown', {
-      key: 'esc',
-      keyCode: 27
-    })
-    expect(Comp.state().opened).toBe(false)
-  })
-
-  it('has correct "aria-expanded"', async () => {
+  it('has correct "aria-expanded"', () => {
     const Comp = mount(<Component {...props} data={mockData} />)
-    await open(Comp)
+    open(Comp)
 
     const elem = Comp.find('span.dnb-dropdown')
     expect(
@@ -247,33 +203,30 @@ describe('Dropdown component', () => {
     expect(elem.instance().getAttribute('class')).toContain(
       'dnb-dropdown--opened'
     )
-
-    expect(elem.hasClass('dnb-dropdown--closed')).toBe(false)
   })
 
   it('has correct length of li elements', () => {
-    // is open already
-    // await open(Comp)
+    open(Comp)
 
     expect(Comp.find('li.dnb-drawer-list__option').length).toBe(
       mockData.length
     )
   })
 
-  it('has to return all additional attributes the event return', async () => {
-    const my_event = jest.fn()
+  it('has to return all additional attributes the event return', () => {
+    const on_show = jest.fn()
     const params = { 'data-attr': 'value' }
     const Comp = mount(
       <Component
-        {...props}
-        on_show={my_event}
+        no_animation
+        on_show={on_show}
         {...params}
         data={mockData}
       />
     )
-    await open(Comp)
-    expect(my_event.mock.calls.length).toBe(1)
-    expect(my_event.mock.calls[0][0].attributes).toMatchObject(params)
+    open(Comp)
+    expect(on_show.mock.calls.length).toBe(1)
+    expect(on_show.mock.calls[0][0].attributes).toMatchObject(params)
   })
 
   it('has correct selected value', () => {
@@ -283,9 +236,9 @@ describe('Dropdown component', () => {
     )
   })
 
-  it('has correct selected value after new selection', async () => {
+  it('has correct selected value after new selection', () => {
     const Comp = mount(<Component {...props} data={mockData} />)
-    await open(Comp)
+    open(Comp)
 
     // const elem = Comp.find('li.dnb-drawer-list__option')
     //   .find('.dnb-drawer-list__option__inner')
@@ -293,7 +246,7 @@ describe('Dropdown component', () => {
     //   .simulate('mousedown')
 
     // then simulate changes
-    document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 40 })) // down
+    keydown(Comp, 40) // down
 
     expect(Comp.find('.dnb-dropdown__text__inner').text()).toBe(
       mockData[props.value].selected_value
@@ -365,9 +318,14 @@ describe('Dropdown scss', () => {
   })
 })
 
-const open = async Comp => {
-  await wait(1) // in case we close and reopen
-  Comp.find('button').simulate('mousedown')
-  await wait(10) // because we don't we have componentDidMount
+const keydown = (Comp, keyCode) => {
+  document.dispatchEvent(new KeyboardEvent('keydown', { keyCode }))
+
+  Comp.find('button').simulate('keydown', {
+    keyCode
+  })
 }
-const wait = t => new Promise(r => setTimeout(r, t))
+const open = Comp => {
+  Comp.find('button').simulate('mousedown')
+}
+// const wait = t => new Promise(r => setTimeout(r, t))
