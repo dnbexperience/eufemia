@@ -381,7 +381,8 @@ export default class DrawerListProvider extends PureComponent {
       const width = (this.state.wrapper_element || this._refShell.current)
         .offsetWidth
       if (parseFloat(width) > 0) {
-        const { triangle_position, align_drawer } = this.props
+        const { align_drawer } = this.props
+        const { triangle_position } = this.state
         switch (align_drawer) {
           case 'left':
           default:

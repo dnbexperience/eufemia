@@ -579,7 +579,6 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                 </span>
               </Input>
               <DrawerList
-                active_id={null}
                 align_drawer={null}
                 button_only={false}
                 cache_hash={null}
@@ -619,7 +618,6 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                 wrapper_element={null}
               >
                 <DrawerListInstance
-                  active_id={null}
                   align_drawer={null}
                   button_only={false}
                   cache_hash={null}

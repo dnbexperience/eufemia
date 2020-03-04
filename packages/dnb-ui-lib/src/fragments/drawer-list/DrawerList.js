@@ -104,7 +104,6 @@ export const propTypes = {
     PropTypes.object,
     PropTypes.array
   ]),
-  active_id: PropTypes.number,
 
   // Web Component props
   custom_element: PropTypes.object,
@@ -146,7 +145,6 @@ export const defaultProps = {
   prepared_data: null,
   raw_data: null,
   ignore_events: null,
-  active_id: null,
 
   // React props
   className: null,
@@ -206,6 +204,10 @@ class DrawerListInstance extends PureComponent {
         return acc
       }, {})
     )
+
+    context.drawerList.setState({
+      triangle_position: props.triangle_position
+    })
   }
 
   preventTab = e => {
@@ -237,10 +239,7 @@ class DrawerListInstance extends PureComponent {
       this.context.translation.DrawerList
     )
 
-    let { triangle_position } = props
-
     const {
-      triangle_position: _triangle_position, // eslint-disable-line
       align_drawer,
       button_only,
       scrollable,
@@ -253,8 +252,8 @@ class DrawerListInstance extends PureComponent {
       ignore_events,
       className,
       class: _className,
-      active_id: _active_id, // eslint-disable-line
       wrapper_element: _wrapper_element, // eslint-disable-line
+      triangle_position: _triangle_position, // eslint-disable-line
       direction: _direction, // eslint-disable-line
       max_height: _max_height, // eslint-disable-line
       id: _id, // eslint-disable-line
@@ -274,6 +273,7 @@ class DrawerListInstance extends PureComponent {
       data,
       opened,
       hidden,
+      triangle_position,
       direction,
       max_height,
       cache_hash,

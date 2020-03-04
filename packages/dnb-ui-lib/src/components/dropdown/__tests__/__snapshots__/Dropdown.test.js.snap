@@ -586,7 +586,6 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                 </button>
               </Button>
               <DrawerList
-                active_id={null}
                 align_drawer={null}
                 button_only={false}
                 cache_hash={null}
@@ -626,7 +625,6 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                 wrapper_element={null}
               >
                 <DrawerListInstance
-                  active_id={null}
                   align_drawer={null}
                   button_only={false}
                   cache_hash={null}

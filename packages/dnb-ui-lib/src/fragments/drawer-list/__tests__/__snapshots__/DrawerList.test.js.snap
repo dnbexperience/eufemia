@@ -2,7 +2,6 @@
 
 exports[`DrawerList markup have to match snapshot 1`] = `
 <DrawerList
-  active_id={1}
   align_drawer={null}
   button_only="button_only"
   cache_hash="cache_hash"
@@ -92,7 +91,6 @@ exports[`DrawerList markup have to match snapshot 1`] = `
   wrapper_element={Object {}}
 >
   <DrawerListProvider
-    active_id={1}
     align_drawer={null}
     button_only="button_only"
     cache_hash="cache_hash"
@@ -182,7 +180,6 @@ exports[`DrawerList markup have to match snapshot 1`] = `
     wrapper_element={Object {}}
   >
     <DrawerListInstance
-      active_id={1}
       align_drawer={null}
       button_only="button_only"
       cache_hash="cache_hash"

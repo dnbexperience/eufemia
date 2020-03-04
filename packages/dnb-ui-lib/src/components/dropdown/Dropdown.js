@@ -224,7 +224,6 @@ class DropdownInstance extends PureComponent {
 
     this.attributes = {}
     this.state = this.state || {}
-    this.state._listenForPropChanges = true
 
     this._ref = React.createRef()
     this._refShell = React.createRef()
@@ -317,15 +316,6 @@ class DropdownInstance extends PureComponent {
     }
   }
 
-  onSetDirectionHandler = args => {
-    this.setState({
-      // set the state like:
-      // direction:
-      ...args,
-      _listenForPropChanges: false
-    })
-  }
-
   onSelectHandler = args => {
     if (parseFloat(args.active_item) > -1) {
       const attributes = this.attributes || {}
@@ -338,13 +328,6 @@ class DropdownInstance extends PureComponent {
   }
 
   onChangeHandler = args => {
-    // TODO: has to be called someting else than input_value
-    // const input_value = this.getTitle()
-    // this.setState({
-    //   input_value,
-    //   _listenForPropChanges: false
-    // })
-
     const attributes = this.attributes || {}
     dispatchCustomElementEvent(this, 'on_change', {
       ...args,
@@ -589,7 +572,7 @@ class DropdownInstance extends PureComponent {
                 align_drawer={align_dropdown}
                 disabled={disabled}
                 max_height={max_height}
-                direction={_direction}
+                direction={direction}
                 size={size}
                 on_change={this.onChangeHandler}
                 on_select={this.onSelectHandler}
