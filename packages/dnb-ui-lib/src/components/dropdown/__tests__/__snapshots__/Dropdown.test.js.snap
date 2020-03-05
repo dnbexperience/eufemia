@@ -97,6 +97,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
   value={2}
 >
   <DrawerListProvider
+    align_drawer={null}
     align_dropdown={null}
     class="class"
     className="className"
@@ -181,9 +182,11 @@ exports[`Dropdown markup have to match snapshot 1`] = `
     open_on_focus="open_on_focus"
     opened={null}
     prevent_close="prevent_close"
+    prevent_focus={false}
     prevent_selection={null}
     scrollable="scrollable"
     size={null}
+    skip_keysearch={false}
     status="status"
     status_animation="status_animation"
     status_state="error"
@@ -192,6 +195,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
     title="title"
     trigger_component={null}
     value={2}
+    wrapper_element={null}
   >
     <DropdownInstance
       align_dropdown={null}

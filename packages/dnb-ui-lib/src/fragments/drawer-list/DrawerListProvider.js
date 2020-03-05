@@ -24,17 +24,49 @@ import {
   prepareDerivedState
 } from './DrawerListHelpers'
 import DrawerListContext from './DrawerListContext'
-import {
-  propTypes as DrawerListPropTypes,
-  defaultProps as DrawerListDefaultProps
-} from './DrawerList'
 
 const propTypes = {
-  ...DrawerListPropTypes,
-  children: PropTypes.node.isRequired
+  no_animation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  prevent_selection: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.bool
+  ]),
+  direction: PropTypes.oneOf(['auto', 'top', 'bottom']),
+  align_drawer: PropTypes.oneOf(['left', 'right']),
+  wrapper_element: PropTypes.oneOfType([
+    PropTypes.object,
+    PropTypes.func,
+    PropTypes.node
+  ]),
+  prevent_close: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  keep_open: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  prevent_focus: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  skip_keysearch: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  opened: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+
+  // React
+  children: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.func,
+    PropTypes.node,
+    PropTypes.object,
+    PropTypes.array
+  ])
 }
 const defaultProps = {
-  ...DrawerListDefaultProps
+  no_animation: false,
+  prevent_selection: false,
+  direction: 'auto',
+  align_drawer: null,
+  wrapper_element: null,
+  prevent_close: false,
+  keep_open: false,
+  prevent_focus: false,
+  skip_keysearch: false,
+  opened: null,
+
+  // React props
+  children: null
 }
 
 export default class DrawerListProvider extends PureComponent {
