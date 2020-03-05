@@ -51,6 +51,10 @@ export default {
     Input: {
       submit_button_title: 'Submit button'
     },
+    Pagination: {
+      button_title: 'Page %s',
+      is_loading: 'Loading new content'
+    },
     Logo: {
       alt: 'DNB Logo'
     }

@@ -51,6 +51,12 @@ export default {
     Input: {
       submit_button_title: 'Send knapp'
     },
+    Pagination: {
+      button_title: 'Side %s',
+      next_title: 'Neste side',
+      prev_title: 'Forrige side',
+      is_loading: 'Laster nytt innhold'
+    },
     Logo: {
       alt: 'DNB Logo'
     }

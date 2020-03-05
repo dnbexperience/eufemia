@@ -1,0 +1,71 @@
+/*
+ * Pagination component
+ *
+ */
+
+.dnb-pagination {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+
+  &--left {
+    justify-content: flex-start;
+  }
+  &--center {
+    justify-content: center;
+  }
+  &--right {
+    justify-content: flex-end;
+  }
+
+  // default
+  @at-root .dnb-core-style &__button,
+    &__button {
+    padding: 0 0.7rem;
+  }
+
+  // active/checked - like toggle-button
+  @at-root .dnb-core-style &__button.dnb-button--primary,
+    &__button.dnb-button--primary {
+    &,
+    &:not([disabled]):not(:active):hover {
+      background-color: var(--color-emerald-green);
+      color: var(--color-mint-green);
+    }
+
+    &:not([disabled]):not(:active):not(:hover):focus {
+      color: var(--color-emerald-green);
+      background-color: var(--color-mint-green);
+      @include fakeFocus(null, var(--color-emerald-green));
+    }
+  }
+
+  &__dots {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+
+    & > div {
+      height: 0.2rem;
+      width: 0.2rem;
+
+      margin: 0 0.1rem;
+
+      border-radius: 0.1rem;
+
+      background-color: var(--color-emerald-green);
+    }
+  }
+
+  @at-root .dnb-core-style &__button,
+    &__button,
+    &__dots {
+    margin-right: 0.5rem;
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+}
