@@ -53,6 +53,8 @@ export default {
     },
     Pagination: {
       button_title: 'Page %s',
+      next_title: 'Next page',
+      prev_title: 'Previous page',
       is_loading: 'Loading new content'
     },
     Logo: {

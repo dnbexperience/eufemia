@@ -5,18 +5,57 @@
 
 .dnb-pagination {
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  align-items: center;
+  flex-direction: column;
 
-  &--left {
+  &__bar {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  &__content > ul {
+    // position: relative;
+    padding: 0;
+    list-style: none;
+  }
+  &__content > ul > li {
+    position: relative;
+    padding: 0;
+
+    min-height: 20rem;
+  }
+  &__content > ul > li &__marker {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    margin: auto 0;
+    height: 3rem;
+    width: 4rem;
+    background: black;
+    &--done {
+      opacity: 0.5;
+    }
+  }
+  // &__content {
+  // }
+
+  &--left &__bar {
     justify-content: flex-start;
   }
-  &--center {
+  &--center &__bar {
     justify-content: center;
   }
-  &--right {
+  &--right &__bar {
     justify-content: flex-end;
+  }
+
+  &__indicator {
+    display: flex;
+    flex-direction: column;
+    // flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
   }
 
   // default
@@ -63,6 +102,7 @@
     &__button,
     &__dots {
     margin-right: 0.5rem;
+    margin-bottom: 1rem; // because of wrapping
 
     &:last-child {
       margin-right: 0;

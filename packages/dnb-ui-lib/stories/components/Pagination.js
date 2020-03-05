@@ -24,28 +24,41 @@ const PaginationWithState = ({ children }) => {
     <Pagination
       page_count={30}
       current_page={currentPage}
-      on_change={pageNo => {
+      on_change={(pageNo, returnData) => {
         console.log('PaginationWithState on_change:', pageNo)
         setCurrentPage(pageNo)
+
+        setTimeout(() => {
+          returnData(() => {
+            return children
+          })
+        }, 10)
       }}
     >
-      {children}
+      just a child
     </Pagination>
   )
 }
 const InfinityPagination = ({ children }) => {
   // const [currentPage, setCurrentPage] = React.useState(1)
-
+  // console.log('children', children)
   return (
     <Pagination
+      enable_infinity_scroll
+      show_progress_indicator
       // page_count={30}
       // current_page={currentPage}
-      on_change={pageNo => {
+      current_page={10}
+      on_change={(pageNo, returnData) => {
         console.log('InfinityPagination on_change:', pageNo)
         // setCurrentPage(pageNo)
+
+        setTimeout(() => {
+          returnData([pageNo, children(pageNo)])
+        }, 1)
       }}
     >
-      {children}
+      just a child
     </Pagination>
   )
 }
@@ -66,8 +79,6 @@ export default [
       </Box>
       <Box>
         <PaginationWithState
-          page_count={30}
-          // current_page={2}
           on_change={pageNo => {
             console.log('on_change:', pageNo)
           }}
@@ -75,12 +86,11 @@ export default [
       </Box>
       <Box>
         <InfinityPagination
-          enable_infinity_scroll
           on_change={pageNo => {
             console.log('on_change:', pageNo)
           }}
         >
-          <LargePage>one</LargePage>
+          {pageNo => <LargePage>{pageNo}</LargePage>}
         </InfinityPagination>
       </Box>
     </Wrapper>
