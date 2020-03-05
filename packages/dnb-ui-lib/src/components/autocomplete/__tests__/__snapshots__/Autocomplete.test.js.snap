@@ -10,7 +10,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
   data={
     Array [
       "AA cc",
-      "BB cc",
+      "BB cc zethx",
       "CC cc",
     ]
   }
@@ -63,7 +63,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
     data={
       Array [
         "AA cc",
-        "BB cc",
+        "BB cc zethx",
         "CC cc",
       ]
     }
@@ -120,7 +120,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
       data={
         Array [
           "AA cc",
-          "BB cc",
+          "BB cc zethx",
           "CC cc",
         ]
       }
@@ -713,7 +713,6 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                           >
                             <li
                               aria-selected="false"
-                              cache_hash="CC cc"
                               className="dnb-drawer-list__option"
                               data-item={0}
                               id="option-autocomplete-id-0"
@@ -752,7 +751,6 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                           >
                             <li
                               aria-selected="false"
-                              cache_hash="CC cc"
                               className="dnb-drawer-list__option"
                               data-item={1}
                               id="option-autocomplete-id-1"
@@ -772,6 +770,8 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                                   >
                                     cc
                                   </span>
+                                   
+                                  zethx
                                 </ItemContent>
                               </span>
                             </li>
@@ -792,7 +792,6 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                             <li
                               aria-current={true}
                               aria-selected={true}
-                              cache_hash="CC cc"
                               className="closest-to-top closest-to-bottom last-of-type dnb-drawer-list__option dnb-drawer-list__option--selected dnb-drawer-list__option--focus"
                               data-item={2}
                               id="option-autocomplete-id-2"
@@ -844,7 +843,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                 data={
                   Array [
                     "AA cc",
-                    "BB cc",
+                    "BB cc zethx",
                     "CC cc",
                   ]
                 }

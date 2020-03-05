@@ -44,13 +44,13 @@ const props = {
   no_animation: true
 }
 
-const mockData = ['AA cc', 'BB cc', 'CC cc']
+const mockData = ['AA cc', 'BB cc zethx', 'CC cc']
 
 describe('Autocomplete component', () => {
   const Comp = mount(<Component {...props} data={mockData} />)
 
   it('has correct options after filter', () => {
-    const Comp = mount(<Component data={mockData} />)
+    const Comp = mount(<Component id="autocomplete-id" data={mockData} />)
 
     // open
     open(Comp)
@@ -89,6 +89,27 @@ describe('Autocomplete component', () => {
         .at(0)
         .text()
     ).toBe(mockData[0])
+
+    // check inside words
+    Comp.find('.dnb-input__input').simulate('change', {
+      target: { value: 'bb cc th x' }
+    })
+    expect(
+      Comp.find('li.dnb-drawer-list__option')
+        .at(0)
+        .text()
+    ).toBe(mockData[1])
+    expect(
+      Comp.find('li.dnb-drawer-list__option')
+        .at(0)
+        .html()
+    ).toBe(
+      /* @html */ `<li class="dnb-drawer-list__option" role="option" aria-selected="false" tabindex="-1" id="option-autocomplete-id-1" data-item="1"><span class="dnb-drawer-list__option__inner"><span class="dnb-drawer-list__option__item--highlight">BB</span> <span class="dnb-drawer-list__option__item--highlight">cc</span> zeth<span class="dnb-drawer-list__option__item--highlight">x</span></span></li>`
+    )
+    const elem = Comp.find('.dnb-drawer-list__option__item--highlight')
+    expect(elem.at(0).text()).toBe('BB')
+    expect(elem.at(1).text()).toBe('cc')
+    expect(elem.at(2).text()).toBe('x')
 
     // check "invalid"
     Comp.find('.dnb-input__input').simulate('change', {
@@ -163,20 +184,24 @@ describe('Autocomplete component', () => {
 
   it('has a default title if no value is given', () => {
     const title = 'Make a selection'
-    const Comp = mount(<Component data={mockData} title={title} />)
+    const Comp = mount(
+      <Component id="autocomplete-id" data={mockData} title={title} />
+    )
     expect(Comp.find('.dnb-input__placeholder').text()).toBe(title)
   })
 
   it('has a corret value content if we send in a React component', () => {
     const value = 1
-    const Comp = mount(<Component data={mockData} value={value} />)
+    const Comp = mount(
+      <Component id="autocomplete-id" data={mockData} value={value} />
+    )
     expect(Comp.find('.dnb-input__input').instance().value).toBe(
       mockData[value]
     )
   })
 
   it('has a disabled attribute, once we set disabled to true', () => {
-    const Comp = mount(<Component data={mockData} />)
+    const Comp = mount(<Component id="autocomplete-id" data={mockData} />)
     Comp.setProps({
       disabled: true
     })

@@ -462,6 +462,7 @@ DrawerList.List.defaultProps = {
 DrawerList.Item = React.memo(
   React.forwardRef((props, ref) => {
     const {
+      cache_hash: _cache_hash, // eslint-disable-line
       children,
       className,
       on_click,

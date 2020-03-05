@@ -722,7 +722,6 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                           >
                             <li
                               aria-selected="false"
-                              cache_hash=""
                               className="dnb-drawer-list__option"
                               data-item={0}
                               id="option-dropdown-id-0"
@@ -766,7 +765,6 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                           >
                             <li
                               aria-selected="false"
-                              cache_hash=""
                               className="dnb-drawer-list__option"
                               data-item={1}
                               id="option-dropdown-id-1"
@@ -811,7 +809,6 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                             <li
                               aria-current={true}
                               aria-selected={true}
-                              cache_hash=""
                               className="dnb-drawer-list__option dnb-drawer-list__option--selected dnb-drawer-list__option--focus"
                               data-item={2}
                               id="option-dropdown-id-2"
@@ -855,7 +852,6 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                           >
                             <li
                               aria-selected="false"
-                              cache_hash=""
                               className="dnb-drawer-list__option"
                               data-item={3}
                               id="option-dropdown-id-3"
@@ -899,7 +895,6 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                           >
                             <li
                               aria-selected="false"
-                              cache_hash=""
                               className="dnb-drawer-list__option"
                               data-item={4}
                               id="option-dropdown-id-4"
@@ -933,7 +928,6 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                           >
                             <li
                               aria-selected="false"
-                              cache_hash=""
                               className="dnb-drawer-list__option"
                               data-item={5}
                               id="option-dropdown-id-5"
@@ -967,7 +961,6 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                           >
                             <li
                               aria-selected="false"
-                              cache_hash=""
                               className="closest-to-top closest-to-bottom last-of-type dnb-drawer-list__option"
                               data-item={6}
                               id="option-dropdown-id-6"
