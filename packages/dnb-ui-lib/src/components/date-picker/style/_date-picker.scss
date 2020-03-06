@@ -55,6 +55,7 @@
 
   &__suffix {
     padding-left: 0.5rem;
+    line-height: var(--line-height-basis);
   }
 
   &__shell {
@@ -302,6 +303,7 @@
       box-shadow: none;
       &__bounding {
         border-radius: 0;
+        transform: scale(1.28);
       }
 
       // reset vertical alignment

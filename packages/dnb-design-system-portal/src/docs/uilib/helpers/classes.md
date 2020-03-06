@@ -1,4 +1,8 @@
-import Examples from 'Pages/uilib/helpers/Examples'
+---
+showTabs: true
+---
+
+import CSSHelperClassesExamples from 'Pages/uilib/helpers/Examples'
 
 ## CSS helper classes
 
@@ -38,4 +42,4 @@ Currently the SASS files are not included in the `dnb-ui-lib`.
 
 ## Examples
 
-<Examples />
+<CSSHelperClassesExamples />

@@ -4,12 +4,11 @@ import React from 'react'
 
 function bubble_medium(props) {
   return (
-    <svg width={25} height={24} viewBox="0 0 25 24" fill="none" {...props}>
+    <svg width={24} height={24} viewBox="0 0 25 24" fill="none" {...props}>
       <path
-        fillRule="evenodd"
         clipRule="evenodd"
-        d="M12.75 0.750015C8.93931 0.74452 5.42567 2.80695 3.57279 6.13682C1.71991 9.46669 1.81953 13.5397 3.83299 16.775L0.749999 23.25L7.22399 20.167C11.0102 22.521 15.8701 22.2274 19.3453 19.4347C22.8206 16.642 24.1533 11.9591 22.6693 7.75502C21.1853 3.55093 17.2083 0.742337 12.75 0.750015Z"
-        stroke="black"
+        d="M12.75.75a10.485 10.485 0 00-8.917 16.025L.75 23.25l6.474-3.083A10.5 10.5 0 1012.75.75z"
+        stroke="#000"
         strokeWidth={1.5}
         strokeLinecap="round"
         strokeLinejoin="round"

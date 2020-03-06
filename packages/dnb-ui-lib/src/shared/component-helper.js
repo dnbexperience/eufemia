@@ -497,22 +497,25 @@ export const pickRenderProps = (props, renderProps) =>
  * @param  {[type]} onSuccess     [Will be called on outside click]
  * @return {[type]}               [void]
  */
-export const detectOutsideClick = (ignoreElement, onSuccess) =>
-  new DetectOutsideClickClass(ignoreElement, onSuccess)
+export const detectOutsideClick = (ignoreElements, onSuccess, options) =>
+  new DetectOutsideClickClass(ignoreElements, onSuccess, options)
 
 // Used by detectOutsideClick
 export class DetectOutsideClickClass {
-  constructor(ignoreElement, onSuccess) {
+  constructor(ignoreElements, onSuccess, options = {}) {
     if (
       !this.handleClickOutside &&
       typeof document !== 'undefined' &&
       typeof window !== 'undefined'
     ) {
+      if (!Array.isArray(ignoreElements)) {
+        ignoreElements = [ignoreElements]
+      }
       this.handleClickOutside = event => {
         this.checkOutsideClick(
           {
             currentElement: event.target,
-            ignoreElement
+            ignoreElements
           },
           () => typeof onSuccess === 'function' && onSuccess({ event })
         )
@@ -530,20 +533,23 @@ export class DetectOutsideClickClass {
       }
       window.addEventListener('keydown', this.keydownCallback)
 
-      // use keyup so we get the correct new target
-      this.keyupCallback = event => {
-        const keyCode = keycode(event)
-        if (
-          keyCode === 'tab' &&
-          typeof this.handleClickOutside === 'function'
-        ) {
-          this.handleClickOutside(event, () => {
-            if (this.keyupCallback)
-              window.removeEventListener('keyup', this.keyupCallback)
-          })
+      // e.g. includedKeys = ['tab']
+      if (options.includedKeys) {
+        // use keyup so we get the correct new target
+        this.keyupCallback = event => {
+          const keyCode = keycode(event)
+          if (
+            options.includedKeys.includes(keyCode) &&
+            typeof this.handleClickOutside === 'function'
+          ) {
+            this.handleClickOutside(event, () => {
+              if (this.keyupCallback)
+                window.removeEventListener('keyup', this.keyupCallback)
+            })
+          }
         }
+        window.addEventListener('keyup', this.keyupCallback)
       }
-      window.addEventListener('keyup', this.keyupCallback)
     }
   }
 
@@ -563,7 +569,7 @@ export class DetectOutsideClickClass {
   }
 
   checkOutsideClick = (
-    { currentElement, ignoreElement },
+    { currentElement, ignoreElements },
     onSuccess = null
   ) => {
     try {
@@ -581,12 +587,18 @@ export class DetectOutsideClickClass {
       }
 
       // check the rest
-      do {
-        if (currentElement === ignoreElement) {
-          return // stop here
+      for (let i = 0, elem, l = ignoreElements.length; i < l; ++i) {
+        elem = currentElement
+        if (!ignoreElements[i]) {
+          continue
         }
-        currentElement = currentElement.parentNode
-      } while (currentElement)
+        do {
+          if (elem === ignoreElements[i]) {
+            return // stop here
+          }
+          elem = elem && elem.parentNode
+        } while (elem)
+      }
 
       if (typeof onSuccess === 'function') {
         onSuccess()

@@ -1,0 +1,265 @@
+/*
+* DrawerList component
+*
+*/
+
+:root {
+  --drawer-list-width: 16rem;
+  --drawer-list-height: 2rem;
+  --drawer-list-padding-horizontal: 1rem;
+  --drawer-list-focus-border-width: 0.125rem;
+  --drawer-list-text-padding: 0.5rem;
+}
+
+@mixin openDrawerList($state: 'animation') {
+  z-index: 100; // make sure we are over e.g. switch
+  display: flex;
+
+  &:not(#{&}--no-animation) {
+    animation: drawer-list-slide-down 200ms ease-out 1 forwards;
+  }
+  html[data-dnb-test] &,
+  &--no-animation {
+    animation: drawer-list-slide-down 1ms ease-out 1 forwards;
+  }
+}
+@mixin closDrawerList($state: 'animation') {
+  &:not(#{&}--no-animation) {
+    animation: drawer-list-slide-ip 150ms ease-out 1 forwards;
+  }
+  html[data-dnb-test] &,
+  &--no-animation {
+    animation: drawer-list-slide-ip 1ms ease-out 1 forwards;
+  }
+}
+@mixin drawer-listClosed() {
+  display: none;
+}
+
+.dnb-drawer-list {
+  display: block; // has to be block element so we can se the content
+  position: relative;
+
+  // reset font for correct sizing
+  font-size: var(--font-size-small);
+
+  &__content {
+    width: 100%;
+    padding: 0;
+  }
+
+  &__list {
+    position: absolute;
+    z-index: 3;
+    top: 0;
+    bottom: auto;
+    left: 0;
+    right: 0;
+
+    width: 100%;
+
+    margin: 0;
+    padding: 0;
+
+    font-size: var(--font-size-basis);
+    background-color: transparent;
+
+    transform: translateY(0);
+    transition: transform 200ms, opacity 160ms ease-out;
+  }
+  &__align--right &__list {
+    left: auto;
+  }
+
+  &--direction-top &__list {
+    top: auto;
+    bottom: 0;
+  }
+
+  // ul element
+  &__options {
+    @at-root .dnb-spacing & li.dnb-drawer-list__option {
+      margin: 0;
+    }
+
+    display: flex;
+    flex-direction: column;
+
+    width: 100%;
+    margin: 0;
+    max-height: 90vh;
+    padding: 0;
+
+    list-style: none;
+    background-color: transparent;
+  }
+
+  &--scroll &__options {
+    min-height: 2rem;
+    max-height: 50vh;
+
+    overflow-y: scroll;
+    overscroll-behavior: contain;
+    scroll-behavior: smooth;
+
+    // older iOS safari
+    -webkit-overflow-scrolling: touch;
+
+    // show scrollbar on IE
+    -ms-overflow-style: auto;
+  }
+  &--no-scroll-animation &__options {
+    scroll-behavior: auto;
+  }
+
+  // li element
+  &__option {
+    position: relative;
+
+    cursor: pointer;
+
+    margin: 0;
+    padding: 0;
+    color: inherit;
+
+    background-color: var(--color-white);
+
+    &__inner {
+      position: relative;
+      z-index: 1; // only to go over &__triangle
+
+      display: block;
+
+      outline: none;
+
+      width: 100%;
+      margin: 0;
+      padding: 1rem;
+
+      color: inherit;
+      background-color: var(--color-white);
+    }
+
+    &__item {
+      display: block;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      width: 100%;
+    }
+  }
+
+  // arrow
+  &__triangle {
+    position: absolute;
+    top: calc(
+      var(--drawer-list-focus-border-width) - var(--drawer-list-height) / 2
+    );
+    left: auto;
+    right: 0;
+
+    pointer-events: none;
+
+    margin: 0 var(--drawer-list-padding-horizontal);
+
+    width: calc(var(--drawer-list-height) / 2);
+    height: calc(var(--drawer-list-height) / 2);
+
+    overflow: hidden;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+
+      width: calc(var(--drawer-list-height) / 2);
+      height: calc(var(--drawer-list-height) / 2);
+      transform: translateY(60%) rotate(45deg);
+
+      border: 1px solid var(--color-black-border);
+      background-color: var(--color-white);
+    }
+  }
+  &--icon-position-left &__triangle {
+    left: 0;
+    right: auto;
+  }
+  &--direction-top &__triangle {
+    top: auto;
+    bottom: calc(
+      var(--drawer-list-focus-border-width) - var(--drawer-list-height) / 2 -
+        2px
+    );
+    transform: rotate(180deg);
+    &::before {
+      transform: translateY(65%) rotate(45deg);
+    }
+  }
+
+  // button
+  &__trigger {
+    position: relative;
+    z-index: 1;
+
+    user-select: none;
+    -webkit-user-select: none; // Safari / Touch fix
+
+    display: inline-flex;
+    align-items: center;
+
+    outline: none;
+
+    width: 100%;
+    padding: 0 var(--drawer-list-padding-horizontal);
+
+    &.dnb-button {
+      line-height: var(--drawer-list-height);
+    }
+  }
+
+  &--opened &__list {
+    @include openDrawerList();
+  }
+  &--hidden &__list {
+    @include drawer-listClosed();
+  }
+  &:not(.dnb-drawer-list--opened) &__list {
+    @include closDrawerList();
+  }
+
+  // IE fix
+  @media screen and (-ms-high-contrast: none) {
+    flex: none;
+    vertical-align: baseline;
+
+    &__shell {
+      top: 0;
+    }
+    &__options {
+      // IE has bug where the height can't be calculated propery
+      display: block;
+    }
+  }
+}
+
+@keyframes drawer-list-slide-down {
+  from {
+    opacity: 0;
+    transform: translateY(calc(1px - var(--drawer-list-height)));
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes drawer-list-slide-ip {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(calc(1px - var(--drawer-list-height)));
+  }
+}

@@ -15,7 +15,7 @@ describe('HelperClasses screenshot', () => {
     //   // use 11% on CI because of the font rendering differences
     //   pixelThresholdRelative: isCI ? 0.11 : 0
     // },
-    url: '/uilib/helpers/helper-classes-examples'
+    url: '/uilib/helpers/css-examples'
   })
   it('have to match core-style', async () => {
     const screenshot = await testPageScreenshot({

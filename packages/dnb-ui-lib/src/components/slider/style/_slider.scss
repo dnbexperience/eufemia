@@ -53,6 +53,7 @@
   &__suffix {
     align-self: center;
     padding-left: 0.5rem;
+    line-height: var(--line-height-basis);
   }
   &--vertical &__suffix {
     padding-left: 0;

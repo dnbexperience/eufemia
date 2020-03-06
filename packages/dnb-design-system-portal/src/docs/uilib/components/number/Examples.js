@@ -25,6 +25,7 @@ class Example extends PureComponent {
 <P>
   <Number value="12345" />
   <Number>-12345678.9</Number>
+  <Number options={{ maximumFractionDigits: 0 }}>-1234.5</Number>
 </P>
           `}
         </ComponentBox>

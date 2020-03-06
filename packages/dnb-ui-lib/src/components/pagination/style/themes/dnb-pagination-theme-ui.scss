@@ -1,0 +1,32 @@
+/*
+* Pagination theme
+*
+*/
+
+@import '../../../../style/themes/imports.scss';
+
+.dnb-pagination {
+  &__content > ul > li {
+    min-height: 20rem;
+  }
+
+  // active/checked - like toggle-button
+  @at-root .dnb-core-style &__button.dnb-button--primary,
+    &__button.dnb-button--primary {
+    &,
+    &:not([disabled]):not(:active):hover {
+      background-color: var(--color-emerald-green);
+      color: var(--color-mint-green);
+    }
+
+    &:not([disabled]):not(:active):not(:hover):focus {
+      color: var(--color-emerald-green);
+      background-color: var(--color-mint-green);
+      @include fakeFocus(null, var(--color-emerald-green));
+    }
+  }
+
+  &__dots > div {
+    background-color: var(--color-emerald-green);
+  }
+}

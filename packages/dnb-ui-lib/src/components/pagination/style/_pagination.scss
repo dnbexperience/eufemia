@@ -1,0 +1,106 @@
+/*
+ * Pagination component
+ *
+ */
+
+.dnb-pagination {
+  display: flex;
+  flex-direction: column;
+
+  &__bar,
+  &__loadbar,
+  &__bar__inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  &__content > ul {
+    padding: 0;
+    list-style: none;
+  }
+  &__content > ul > li {
+    position: relative; // because of the marker
+    display: block;
+    padding: 0;
+  }
+  &__content > ul > li &__marker {
+    pointer-events: none;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    margin: auto 0;
+
+    height: 1px;
+    width: 1px;
+
+    opacity: 0;
+  }
+
+  &--left &__bar {
+    justify-content: flex-start;
+  }
+  &--center &__bar {
+    justify-content: center;
+  }
+  &--right &__bar {
+    justify-content: flex-end;
+  }
+
+  &__loadbar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__indicator {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 1rem 0 2rem;
+  }
+
+  // default
+  @at-root .dnb-core-style &__button,
+    &__button {
+    padding: 0 0.7rem;
+  }
+  @at-root .dnb-core-style &__bar__inner &__button,
+    &__bar__inner &__button {
+    padding: 0 1rem;
+  }
+
+  &__dots {
+    display: flex;
+    align-self: flex-end;
+    align-items: center;
+    flex-wrap: nowrap;
+    height: 1rem;
+
+    & > div {
+      height: 0.2rem;
+      width: 0.2rem;
+
+      margin: 0 0.1rem;
+
+      border-radius: 0.1rem;
+    }
+  }
+
+  @at-root .dnb-core-style &__button,
+    &__button,
+    &__dots {
+    margin-right: 0.5rem;
+    margin-top: 0.5rem; // because of wrapping
+    margin-bottom: 0.5rem; // because of wrapping
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+
+  &__bar__inner {
+    margin: 0 1rem 0 0.5rem; // has a relationship with the buttons
+  }
+}

@@ -251,6 +251,7 @@ exports[`GlobalError scss have to match snapshot 1`] = `
   --button-border-radius--large: calc(var(--button-height--large) / 2); }
 
 .dnb-button {
+  position: relative;
   user-select: none;
   -webkit-user-select: none;
   cursor: pointer;
@@ -276,11 +277,13 @@ exports[`GlobalError scss have to match snapshot 1`] = `
     transform: translateY(-0.03125rem); }
   .dnb-button__bounding {
     position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    transform: scale(1.1, 1.4);
     background-color: transparent;
-    width: var(--button-width);
-    height: var(--button-height);
-    border-radius: var(--button-border-radius);
-    transform: scale(1.2); }
+    border-radius: var(--button-border-radius); }
   .dnb-button--size-small {
     width: var(--button-width--small);
     height: var(--button-height--small);
@@ -600,8 +603,8 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
                   >
                     <path
                       clipRule="evenodd"
-                      d="M10.7803 4.03033C11.0732 3.73744 11.0732 3.26256 10.7803 2.96967C10.4874 2.67678 10.0126 2.67678 9.71967 2.96967L5.21967 7.46967C4.92678 7.76256 4.92678 8.23744 5.21967 8.53033L9.71967 13.0303C10.0126 13.3232 10.4874 13.3232 10.7803 13.0303C11.0732 12.7374 11.0732 12.2626 10.7803 11.9697L6.81066 8L10.7803 4.03033Z"
-                      fill="black"
+                      d="M10.78 4.03a.75.75 0 10-1.06-1.06l-4.5 4.5a.75.75 0 000 1.06l4.5 4.5a.75.75 0 101.06-1.06L6.81 8l3.97-3.97z"
+                      fill="#000"
                       fillRule="evenodd"
                     />
                   </svg>

@@ -1,6 +1,5 @@
 ---
 title: 'Naming conventions'
-draft: true
 order: 6
 ---
 

@@ -10,35 +10,11 @@
   --dropdown-height--medium: 2.5rem;
   --dropdown-height--large: 3rem;
   --dropdown-padding-horizontal: 1rem;
-  // --dropdown-border-width: 0.0625rem;
   --dropdown-focus-border-width: 0.125rem;
   --dropdown-text-padding: 0.5rem;
 }
 
-@mixin openDropdown($state: 'animation') {
-  z-index: 100; // make sure we are over e.g. switch
-  display: flex;
-
-  &:not(#{&}--no-animation) {
-    animation: dropdown-slide-down 200ms ease-out 1 forwards;
-  }
-  html[data-dnb-test] &,
-  &--no-animation {
-    animation: dropdown-slide-down 1ms ease-out 1 forwards;
-  }
-}
-@mixin closeDropdown($state: 'animation') {
-  &:not(#{&}--no-animation) {
-    animation: dropdown-slide-ip 150ms ease-out 1 forwards;
-  }
-  html[data-dnb-test] &,
-  &--no-animation {
-    animation: dropdown-slide-ip 1ms ease-out 1 forwards;
-  }
-}
-@mixin dropdownClosed() {
-  display: none;
-}
+@import '../../../fragments/drawer-list/style/_drawer-list.scss';
 
 .dnb-dropdown {
   display: inline-flex;
@@ -78,111 +54,27 @@
 
   &__suffix {
     padding-left: 0.5rem;
+    line-height: var(--line-height-basis);
   }
 
-  &__content {
-    padding: 0;
+  .dnb-drawer-list {
+    position: static;
   }
 
-  &__list {
-    position: absolute;
-    z-index: 3;
-    top: calc(
-      var(--dropdown-height) + var(--dropdown-focus-border-width) - 1px
-    );
+  .dnb-drawer-list__list {
+    top: calc(var(--dropdown-height) + var(--dropdown-focus-border-width));
+    // - 1px
     bottom: auto;
-    left: 0;
-    right: 0;
-
-    width: 100%;
-    min-width: var(--dropdown-width);
-
-    margin: 0;
-    padding: 0;
-
-    font-size: var(--font-size-basis);
-    background-color: transparent;
-
-    transform: translateY(0);
-    transition: transform 200ms, opacity 160ms ease-out;
   }
-  &__align--right &__list {
-    left: auto;
-  }
-
-  &--direction-top &__list {
-    top: auto;
+  &--direction-top .dnb-drawer-list__list {
     bottom: calc(
-      var(--dropdown-height) + var(--dropdown-focus-border-width) - 1px
+      var(--dropdown-height) + var(--dropdown-focus-border-width)
     );
+    // - 1px
+    top: auto;
   }
-
-  // ul element
-  &__options {
-    @at-root .dnb-spacing & li.dnb-dropdown__option {
-      margin: 0;
-    }
-
-    display: flex;
-    flex-direction: column;
-
-    width: 100%;
-    margin: 0;
-    padding: 0;
-
-    list-style: none;
-    background-color: transparent;
-  }
-
-  &--scroll &__options {
-    min-height: 2rem;
-    max-height: 50vh;
-
-    overflow-y: scroll;
-    overscroll-behavior: contain;
-    scroll-behavior: smooth;
-
-    // show scrollbar on IE
-    -ms-overflow-style: auto;
-  }
-  &--no-scroll-animation &__options {
-    scroll-behavior: auto;
-  }
-
-  // li element
-  &__option {
-    position: relative;
-
-    cursor: pointer;
-
-    margin: 0;
-    padding: 0;
-    color: inherit;
-
-    background-color: var(--color-white);
-
-    &__inner {
-      position: relative;
-      z-index: 1; // only to go over &__triangle
-
-      display: block;
-
-      outline: none;
-
-      width: 100%;
-      margin: 0;
-      padding: 1rem;
-
-      color: inherit;
-      background-color: var(--color-white);
-    }
-
-    &__item {
-      display: block;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      width: 100%;
-    }
+  &__align--right .dnb-drawer-list__list {
+    left: auto;
   }
 
   &__icon {
@@ -193,67 +85,10 @@
     justify-content: center;
 
     pointer-events: none;
-
-    // The rest was used before we used flex
-    // color: inherit;
-    // font-size: var(--font-size-small); // has to be 16px
-    // &.dnb-icon > span {
-    //   display: inline-flex;
-    //
-    //   svg {
-    //     vertical-align: top; // so we don't get the gap on top
-    //   }
-    // }
   }
 
-  // arrow
-  &__triangle {
-    position: absolute;
-    top: calc(
-      var(--dropdown-focus-border-width) - var(--dropdown-height) / 2
-    );
-    left: auto;
-    right: 0;
-
-    pointer-events: none;
-
-    margin: 0 var(--dropdown-padding-horizontal);
-
-    width: calc(var(--dropdown-height) / 2);
-    height: calc(var(--dropdown-height) / 2);
-
-    overflow: hidden;
-
-    &::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-
-      width: calc(var(--dropdown-height) / 2);
-      height: calc(var(--dropdown-height) / 2);
-      transform: translateY(60%) rotate(45deg);
-
-      border: 1px solid var(--color-black-border);
-      background-color: var(--color-white);
-    }
-  }
-  &__size--large &__triangle {
+  &__size--large .dnb-drawer-list__triangle {
     margin: 0 calc(var(--dropdown-padding-horizontal) + 0.25rem);
-  }
-  &--icon-position-left &__triangle {
-    left: 0;
-    right: auto;
-  }
-  &--direction-top &__triangle {
-    top: auto;
-    bottom: calc(
-      var(--dropdown-focus-border-width) - var(--dropdown-height) / 2 - 2px
-    );
-    transform: rotate(180deg);
-    &::before {
-      transform: translateY(65%) rotate(45deg);
-    }
   }
 
   // button
@@ -287,8 +122,9 @@
   &--is-popup &__icon {
     width: 100%;
   }
-  &--is-popup &__list {
+  &--is-popup .dnb-drawer-list__list {
     left: -0.5rem;
+    min-width: var(--dropdown-width);
   }
   &--is-popup#{&}--scroll &__options {
     min-height: 1rem;
@@ -298,21 +134,21 @@
   &--is-popup#{&}__size--small &__trigger {
     width: var(--dropdown-height--small);
   }
-  &--is-popup#{&}__size--small &__list {
+  &--is-popup#{&}__size--small .dnb-drawer-list__list {
     left: -0.75rem;
   }
-  &--is-popup#{&}__align--right &__list {
+  &--is-popup#{&}__align--right .dnb-drawer-list__list {
     left: auto;
     right: -0.5rem;
   }
-  &--is-popup#{&}__align--right#{&}__size--small &__list {
+  &--is-popup#{&}__align--right#{&}__size--small .dnb-drawer-list__list {
     left: -0.75rem;
   }
-  // medium popup - TODO: needs &__list correction
+  // medium popup - TODO: needs .dnb-drawer-list__list correction
   &--is-popup#{&}__size--medium &__trigger {
     width: var(--dropdown-height--medium);
   }
-  // large popup - TODO: needs &__list correction
+  // large popup - TODO: needs .dnb-drawer-list__list correction
   &--is-popup#{&}__size--large &__trigger {
     width: var(--dropdown-height--large);
   }
@@ -328,10 +164,10 @@
   &__size--small &__trigger.dnb-button {
     line-height: var(--dropdown-height--small);
   }
-  &__size--small &__list {
+  &__size--small .dnb-drawer-list .dnb-drawer-list__list {
     top: var(--dropdown-height--small);
   }
-  &__size--small#{&}--direction-top &__list {
+  &__size--small .dnb-drawer-list--direction-top .dnb-drawer-list__list {
     top: auto;
     bottom: var(--dropdown-height--small);
   }
@@ -348,10 +184,10 @@
   &__size--medium &__trigger.dnb-button {
     line-height: var(--dropdown-height--medium);
   }
-  &__size--medium &__list {
+  &__size--medium .dnb-drawer-list .dnb-drawer-list__list {
     top: var(--dropdown-height--medium);
   }
-  &__size--medium#{&}--direction-top &__list {
+  &__size--medium .dnb-drawer-list--direction-top .dnb-drawer-list__list {
     top: auto;
     bottom: var(--dropdown-height--medium);
   }
@@ -368,10 +204,10 @@
   &__size--large &__trigger.dnb-button {
     line-height: var(--dropdown-height--large);
   }
-  &__size--large &__list {
+  &__size--large .dnb-drawer-list .dnb-drawer-list__list {
     top: var(--dropdown-height--large);
   }
-  &__size--large#{&}--direction-top &__list {
+  &__size--large .dnb-drawer-list--direction-top .dnb-drawer-list__list {
     top: auto;
     bottom: var(--dropdown-height--large);
   }
@@ -397,10 +233,6 @@
     &__inner {
       display: inline-block;
 
-      // width: calc(
-      //   var(--dropdown-width) -
-      //     calc(var(--dropdown-padding-horizontal) * 3 + 10px)
-      // );
       width: 100%;
 
       height: inherit;
@@ -414,16 +246,6 @@
       text-overflow: inherit;
       text-align: inherit;
     }
-  }
-
-  &--opened &__list {
-    @include openDropdown();
-  }
-  &--hidden &__list {
-    @include dropdownClosed();
-  }
-  &:not(.dnb-dropdown--opened) &__list {
-    @include closeDropdown();
   }
 
   &--icon-position-left &__icon {
@@ -499,27 +321,5 @@
       // IE has bug where the height can't be calculated propery
       display: block;
     }
-  }
-}
-
-@keyframes dropdown-slide-down {
-  from {
-    opacity: 0;
-    transform: translateY(calc(1px - var(--dropdown-height)));
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes dropdown-slide-ip {
-  from {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  to {
-    opacity: 0;
-    transform: translateY(calc(1px - var(--dropdown-height)));
   }
 }

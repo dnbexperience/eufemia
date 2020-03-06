@@ -15,7 +15,7 @@
   "parserOptions": {
     "sourceType": "module"
   },
-  "plugins": ["import", "jsx-a11y", "react", "security"],
+  "plugins": ["import", "jsx-a11y", "react", "react-hooks", "security"],
   "rules": {
     "no-console": "off",
     "import/no-unresolved": 0,
@@ -57,7 +57,7 @@
   },
   "settings": {
     "react": {
-      "version": "^16.4"
+      "version": "^16.12"
     }
   }
 }

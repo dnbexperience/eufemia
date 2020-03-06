@@ -6,7 +6,7 @@
 const chalk = require('chalk')
 const NodeEnvironment = require('jest-environment-node')
 const fs = require('fs')
-const isCi = require('is-ci')
+const isCI = require('is-ci')
 const path = require('path')
 const puppeteer = require('puppeteer')
 const { DIR } = require('./jestSetupScreenshots').config
@@ -17,7 +17,7 @@ class PuppeteerEnvironment extends NodeEnvironment {
   }
 
   async setup() {
-    if (isCi) {
+    if (isCI) {
       console.log(chalk.yellow('Setup Test Environment.'))
     }
     await super.setup()
@@ -38,7 +38,7 @@ class PuppeteerEnvironment extends NodeEnvironment {
   }
 
   async teardown() {
-    if (isCi) {
+    if (isCI) {
       console.log(chalk.yellow('Teardown Test Environment.'))
     }
     await super.teardown()

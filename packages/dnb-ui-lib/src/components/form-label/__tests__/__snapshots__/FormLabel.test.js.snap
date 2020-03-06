@@ -124,8 +124,11 @@ exports[`FormLabel scss have to match snapshot 1`] = `
     margin-bottom: 0.5rem; }
   .dnb-form-label--sr-only {
     width: 1px;
+    margin: 0;
+    padding: 0;
     margin-left: -1px;
-    overflow: hidden; }
+    overflow: hidden;
+    white-space: nowrap; }
   .dnb-form-label[for]:not([disabled]) {
     user-select: none;
     -webkit-user-select: none;

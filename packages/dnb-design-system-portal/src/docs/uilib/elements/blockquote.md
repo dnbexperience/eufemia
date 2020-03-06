@@ -1,7 +1,8 @@
 ---
-
 title: 'Blockquote'
----import CodeBlock from 'Tags/CodeBlock'
+---
+
+import CodeBlock from 'Tags/CodeBlock'
 
 ## Blockquote
 

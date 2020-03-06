@@ -36,9 +36,9 @@ describe('Dropdown screenshot', () => {
   })
   it('have to match the dropdown items', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-dnb-test="dropdown-list"] .dnb-dropdown__list',
+      selector: '[data-dnb-test="dropdown-list"] .dnb-drawer-list__list',
       simulateSelector:
-        '[data-dnb-test="dropdown-list"] .dnb-dropdown__option:nth-of-type(1)',
+        '[data-dnb-test="dropdown-list"] .dnb-drawer-list__option:nth-of-type(1)',
       simulate: 'hover'
     })
     expect(screenshot).toMatchImageSnapshot()
@@ -50,7 +50,7 @@ describe('Dropdown screenshot', () => {
         '[data-dnb-test="dropdown-closed"] .dnb-dropdown__trigger',
       simulate: 'click'
       // waitAfterSimulateSelector:
-      //   '[data-dnb-test="dropdown-closed"] .dnb-dropdown__options',
+      //   '[data-dnb-test="dropdown-closed"] .dnb-drawer-list__options',
       // waitAfterSimulate: 100 // to make sure we make the screenshot afte the animation is show
     })
     expect(screenshot).toMatchImageSnapshot()
@@ -85,7 +85,7 @@ describe('Dropdown screenshot', () => {
         '[data-dnb-test="dropdown-more_menu"] .dnb-dropdown:nth-of-type(1) .dnb-dropdown__trigger',
       simulate: 'click'
       // waitAfterSimulateSelector:
-      //   '[data-dnb-test="dropdown-more_menu"] .dnb-dropdown:nth-of-type(1) .dnb-dropdown__options',
+      //   '[data-dnb-test="dropdown-more_menu"] .dnb-dropdown:nth-of-type(1) .dnb-drawer-list__options',
       // waitAfterSimulate: 100 // to make sure we make the screenshot afte the animation is show
     })
     expect(screenshot).toMatchImageSnapshot()

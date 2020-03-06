@@ -23,6 +23,10 @@ const CustomStyle = styled.div`
   }
 `
 
+const WidthLimit = styled(FormRow)`
+  ${'' /* width: 10rem; */}
+`
+
 const myRef = React.createRef()
 export default [
   'Inputs',
@@ -37,11 +41,58 @@ export default [
       <CustomStyle>
         <Wrapper>
           <Box>
-            <Input
-              label="Input with description:"
-              suffix={<Modal>123</Modal>}
-              value="Input value with status"
-            />
+            <WidthLimit vertical>
+              {/* <Input placeholder="Placeholder" />
+              <Input value="Value" />
+              <Input placeholder="Placeholder" icon="calendar" /> */}
+              {/* <Input
+                placeholder="Placeholder"
+                value="Value"
+                icon="calendar"
+                align="right"
+              /> */}
+              <Input value="Plain" />
+              <Input value="Search" type="search" />
+              <Input value="Search" size="medium" type="search" />
+              <Input value="Search" size="large" type="search" />
+              <Input
+                value="Value Eu pretium sit magnis suscipit cursus dis proin rutrum elementum"
+                icon="calendar"
+                align="right"
+              />
+              <Input
+                placeholder="Placeholder Eu pretium sit magnis suscipit cursus dis proin rutrum elementum"
+                icon_position="right"
+                icon="calendar"
+                align="right"
+              />
+              <Input
+                size="medium"
+                value="Value"
+                icon="calendar"
+                align="right"
+              />
+              <Input
+                size="medium"
+                placeholder="Placeholder"
+                icon_position="right"
+                icon="calendar"
+                align="right"
+              />
+              <Input
+                size="large"
+                value="Value"
+                icon="calendar"
+                align="right"
+              />
+              <Input
+                size="large"
+                placeholder="Placeholder"
+                icon_position="right"
+                icon="calendar"
+                align="right"
+              />
+            </WidthLimit>
           </Box>
           <Box>
             <Input
@@ -136,7 +187,7 @@ export default [
             <p className="dnb-p">
               <Input
                 label="ReadOnly:"
-                placeholder="Placeholder ..."
+                placeholder="Placeholder"
                 readOnly
               />
             </p>
@@ -289,6 +340,7 @@ const CustomInput = () => {
           setValue(value)
         }}
         right
+        suffix={<Modal>123</Modal>}
       />
       <Button
         text="Reset"
