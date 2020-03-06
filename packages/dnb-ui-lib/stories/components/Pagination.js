@@ -17,11 +17,12 @@ const LargePage = styled.div`
   margin: 2rem 0;
 `
 
-const PaginationWithState = ({ children }) => {
+const PaginationWithState = ({ children, ...props }) => {
   const [currentPage, setCurrentPage] = React.useState(1)
 
   return (
     <Pagination
+      {...props}
       page_count={30}
       current_page={currentPage}
       on_change={(pageNo, returnData) => {
@@ -29,9 +30,7 @@ const PaginationWithState = ({ children }) => {
         setCurrentPage(pageNo)
 
         setTimeout(() => {
-          returnData(() => {
-            return children
-          })
+          returnData([pageNo, children])
         }, 10)
       }}
     >
@@ -39,7 +38,7 @@ const PaginationWithState = ({ children }) => {
     </Pagination>
   )
 }
-const InfinityPagination = ({ children }) => {
+const InfinityPagination = ({ children, ...props }) => {
   // const [currentPage, setCurrentPage] = React.useState(1)
   // console.log('children', children)
   return (
@@ -48,7 +47,8 @@ const InfinityPagination = ({ children }) => {
       show_progress_indicator
       // page_count={30}
       // current_page={currentPage}
-      current_page={10}
+      // current_page={10}
+      {...props}
       on_change={(pageNo, returnData) => {
         console.log('InfinityPagination on_change:', pageNo)
         // setCurrentPage(pageNo)
@@ -69,7 +69,6 @@ export default [
     <Wrapper>
       <Box>
         <Pagination
-          align="left"
           page_count={30}
           current_page={15}
           on_change={pageNo => {
@@ -79,10 +78,22 @@ export default [
       </Box>
       <Box>
         <PaginationWithState
+          align="center"
           on_change={pageNo => {
             console.log('on_change:', pageNo)
           }}
         ></PaginationWithState>
+      </Box>
+      <Box>
+        <InfinityPagination
+          use_load_button
+          // page_count={3}
+          on_change={pageNo => {
+            console.log('on_change:', pageNo)
+          }}
+        >
+          {pageNo => <LargePage>{pageNo}</LargePage>}
+        </InfinityPagination>
       </Box>
       <Box>
         <InfinityPagination

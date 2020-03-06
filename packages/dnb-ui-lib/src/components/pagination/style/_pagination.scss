@@ -7,9 +7,10 @@
   display: flex;
   flex-direction: column;
 
-  &__bar {
+  &__bar,
+  &__loadbar,
+  &__bar__inner {
     display: flex;
-    flex-direction: row;
     flex-wrap: wrap;
     align-items: center;
   }
@@ -49,18 +50,28 @@
   &--right &__bar {
     justify-content: flex-end;
   }
+  &__loadbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+  }
 
   &__indicator {
     display: flex;
     flex-direction: column;
-    // flex-wrap: wrap;
     align-items: center;
     justify-content: center;
+    margin: 1rem 0 2rem;
   }
 
   // default
   @at-root .dnb-core-style &__button,
     &__button {
+    padding: 0 0.7rem;
+  }
+  @at-root .dnb-core-style &__bar__inner &__button,
+    &__bar__inner &__button {
     padding: 0 1rem;
   }
 
@@ -82,9 +93,10 @@
 
   &__dots {
     display: flex;
-    flex-direction: row;
+    align-self: flex-end;
     align-items: center;
-    justify-content: center;
+    flex-wrap: nowrap;
+    height: 1rem;
 
     & > div {
       height: 0.2rem;
@@ -102,10 +114,15 @@
     &__button,
     &__dots {
     margin-right: 0.5rem;
-    margin-bottom: 1rem; // because of wrapping
+    margin-top: 0.5rem; // because of wrapping
+    margin-bottom: 0.5rem; // because of wrapping
 
     &:last-child {
       margin-right: 0;
     }
+  }
+
+  &__bar__inner {
+    margin: 0 1rem 0 0.5rem;
   }
 }

@@ -16,9 +16,14 @@ import {
 } from '../../shared/component-helper'
 import { createSpacingClasses } from '../space/SpacingHelper'
 
-import Button from '../button/Button'
-import ProgressIndicator from '../progress-indicator/ProgressIndicator'
 import { calculatePagination } from './paginationCalculation'
+import {
+  InfinityMarker,
+  InfinityLoadButton,
+  PaginationBar,
+  ContentObject,
+  detectScrollDirection
+} from './PaginationHelpers'
 
 const renderProps = {
   on_change: null
@@ -35,9 +40,9 @@ const propTypes = {
     PropTypes.string,
     PropTypes.bool
   ]),
+  use_load_button: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   align: PropTypes.string,
   button_title: PropTypes.string,
-  is_loading: PropTypes.string,
   class: PropTypes.string,
 
   // React props
@@ -54,12 +59,12 @@ const propTypes = {
 const defaultProps = {
   enable_infinity_scroll: false,
   show_progress_indicator: false,
-  align: 'center',
+  use_load_button: false,
+  align: 'left',
   current_page: null,
   page_count: null, // TODO: has to work if set to 0
   class: null,
   button_title: '%s',
-  is_loading: 'Loading ...',
   prev_title: 'Previous',
   next_title: 'Next',
 
@@ -106,6 +111,7 @@ export default class Pagination extends PureComponent {
 
     this.useInfinity = isTrue(props.enable_infinity_scroll)
     this.showIndicator = isTrue(props.show_progress_indicator)
+    this.useLoadButton = isTrue(props.use_load_button)
 
     if (!parseFloat(props.current_page) > -1) {
       this.state.currentPage = 1
@@ -212,7 +218,7 @@ export default class Pagination extends PureComponent {
       _listenForPropChanges: false
     })
     const { on_change } = this.props
-    on_change(currentPage)
+    on_change(currentPage, this.handleNewContent)
   }
 
   setPrevPage = () => {
@@ -263,7 +269,7 @@ export default class Pagination extends PureComponent {
       <div {...mainParams}>
         <div className="dnb-pagination__content">
           {children}
-          {items && (
+          {items.length > 0 && (
             <ul>
               {items.map(
                 ({ pageNo, content, ref, position, skipObserver }) => {
@@ -273,6 +279,7 @@ export default class Pagination extends PureComponent {
                         position === 'before' &&
                         pageNo > 1 && (
                           <InfinityLoadButton
+                            icon="arrow_up"
                             pageNo={pageNo - 1}
                             onClick={pageNoVisible => {
                               this.getNewContent(pageNoVisible, {
@@ -282,28 +289,49 @@ export default class Pagination extends PureComponent {
                             }}
                           />
                         )}
+
                       {content}
-                      {this.useInfinity && !skipObserver && (
-                        <InfinityMarker
-                          pageNo={pageNo}
-                          onVisible={pageNoVisible => {
-                            switch (this.state.scrollDirection) {
-                              case 'up':
-                                if (pageNoVisible > 0) {
-                                  this.getNewContent(pageNoVisible - 1, {
-                                    position: 'before'
+
+                      {this.useLoadButton &&
+                        pageNo >= currentPage &&
+                        (parseFloat(this.props.page_count) > 0
+                          ? pageNo < pageCount
+                          : true) && (
+                          <InfinityLoadButton
+                            icon="arrow_down"
+                            pageNo={pageNo + 1}
+                            onClick={pageNoVisible => {
+                              this.getNewContent(pageNoVisible, {
+                                position: 'after',
+                                skipObserver: true
+                              })
+                            }}
+                          />
+                        )}
+
+                      {this.useInfinity &&
+                        !this.useLoadButton &&
+                        !skipObserver && (
+                          <InfinityMarker
+                            pageNo={pageNo}
+                            onVisible={pageNoVisible => {
+                              switch (this.state.scrollDirection) {
+                                case 'up':
+                                  if (pageNoVisible > 0) {
+                                    this.getNewContent(pageNoVisible - 1, {
+                                      position: 'before'
+                                    })
+                                  }
+                                  break
+                                case 'down':
+                                  this.getNewContent(pageNoVisible + 1, {
+                                    position: 'after'
                                   })
-                                }
-                                break
-                              case 'down':
-                                this.getNewContent(pageNoVisible + 1, {
-                                  position: 'after'
-                                })
-                                break
-                            }
-                          }}
-                        />
-                      )}
+                                  break
+                              }
+                            }}
+                          />
+                        )}
                     </li>
                   )
                 }
@@ -337,222 +365,5 @@ export default class Pagination extends PureComponent {
         )}
       </div>
     )
-  }
-}
-
-class InfinityMarker extends PureComponent {
-  propTypes = {
-    pageNo: PropTypes.number.isRequired,
-    onVisible: PropTypes.func.isRequired
-  }
-  state = { isConnected: false }
-
-  constructor(props) {
-    super(props)
-    this._ref = React.createRef()
-
-    try {
-      this.intersectionObserver = new IntersectionObserver(entries => {
-        const [{ isIntersecting }] = entries
-        if (isIntersecting) {
-          this.callReady()
-        }
-      })
-    } catch (e) {
-      console.warn('IntersectionObserver is not supported!', e)
-    }
-  }
-
-  componentDidMount() {
-    this.intersectionObserver.observe(this._ref.current)
-  }
-
-  componentWillUnmount() {
-    this.intersectionObserver.disconnect()
-  }
-
-  callReady() {
-    this.setState({ isConnected: true })
-    this.props.onVisible(this.props.pageNo)
-    this.intersectionObserver.disconnect()
-  }
-
-  render() {
-    return (
-      <div
-        className={classnames(
-          'dnb-pagination__marker',
-          this.state.isConnected && 'dnb-pagination__marker--done'
-        )}
-        ref={this._ref}
-      >
-        page: {this.props.pageNo}
-      </div>
-    )
-  }
-}
-
-class InfinityLoadButton extends PureComponent {
-  propTypes = {
-    pageNo: PropTypes.number.isRequired,
-    onClick: PropTypes.func.isRequired
-  }
-  render() {
-    const { pageNo } = this.props
-    return (
-      <div className="dnb-pagination__bar">
-        <Button
-          // className="dnb-pagination__load-button"
-          size="medium"
-          icon="chevron_up"
-          icon_position="left"
-          text={'Load ' + String(pageNo)}
-          // title={buttonTitle.replace('%s', pageNo)}
-          variant="secondary"
-          // variant="tertiary"
-          on_click={() => {
-            this.props.onClick(pageNo)
-          }}
-        />
-      </div>
-    )
-  }
-}
-
-const PaginationBar = ({
-  pages,
-  pageCount,
-  currentPage,
-  setPage,
-  setPrevPage,
-  setNextPage,
-  buttonTitle,
-  prevTitle,
-  nextTitle
-}) => {
-  const prevIsDisabled = currentPage === 1
-  const nextIsDisabled = currentPage === pageCount || pageCount === 0
-  return (
-    <div className="dnb-pagination__bar">
-      <Button
-        key="left-arrow"
-        className="dnb-pagination__button"
-        disabled={prevIsDisabled}
-        size="small"
-        icon="chevron_left"
-        on_click={setPrevPage}
-        title={prevIsDisabled ? null : prevTitle}
-      />
-      {pages[0].map(pageNo => (
-        <Button
-          key={pageNo}
-          className="dnb-pagination__button"
-          size="medium"
-          text={String(pageNo)}
-          title={buttonTitle.replace('%s', pageNo)}
-          variant={pageNo === currentPage ? 'primary' : 'secondary'}
-          on_click={() => {
-            setPage(pageNo)
-          }}
-        />
-      ))}
-      {pages.slice(1).map((list, idx) => (
-        <React.Fragment key={idx}>
-          <div key={`dots-${idx}`} className="dnb-pagination__dots">
-            <div key="dot-1" />
-            <div key="dot-2" />
-            <div key="dot-3" />
-          </div>
-          {list.map(pageNo => (
-            <Button
-              key={pageNo}
-              className="dnb-pagination__button"
-              size="medium"
-              text={String(pageNo)}
-              title={buttonTitle.replace('%s', pageNo)}
-              variant={pageNo === currentPage ? 'primary' : 'secondary'}
-              on_click={() => {
-                setPage(pageNo)
-              }}
-            />
-          ))}
-        </React.Fragment>
-      ))}
-      <Button
-        key="right-arrow"
-        className="dnb-pagination__button"
-        disabled={nextIsDisabled}
-        size="small"
-        icon="chevron_right"
-        on_click={setNextPage}
-        title={nextIsDisabled ? null : nextTitle}
-      />
-    </div>
-  )
-}
-PaginationBar.propTypes = {
-  pages: PropTypes.array.isRequired,
-  pageCount: PropTypes.number.isRequired,
-  currentPage: PropTypes.number.isRequired,
-  setPage: PropTypes.func.isRequired,
-  setPrevPage: PropTypes.func.isRequired,
-  setNextPage: PropTypes.func.isRequired,
-  buttonTitle: PropTypes.string.isRequired,
-  prevTitle: PropTypes.string.isRequired,
-  nextTitle: PropTypes.string.isRequired
-}
-
-class PaginationIndicator extends PureComponent {
-  static contextType = Context
-  render() {
-    return (
-      <div className="dnb-pagination__indicator">
-        <ProgressIndicator />
-        {this.context.translation.Pagination.is_loading}
-      </div>
-    )
-  }
-}
-
-class ContentObject {
-  constructor({ pageNo, ...props }) {
-    this.content = <PaginationIndicator />
-    this.pageNo = pageNo
-    for (let k in props) {
-      this[k] = props[k]
-    }
-  }
-  insert(content) {
-    this.content = content
-    if (typeof this.onInsert === 'function') {
-      this.onInsert({ content, ref: this.ref })
-    }
-    return this
-  }
-}
-
-function detectScrollDirection(cb, direction = null) {
-  if (typeof window === 'undefined' || typeof document === 'undefined') {
-    return cb('down')
-  }
-  let last = 0,
-    current,
-    position
-  try {
-    window.addEventListener(
-      'scroll',
-      () => {
-        position = window.pageYOffset || document.documentElement.scrollTop
-        current = position > last ? 'down' : 'up'
-        if (current && current !== direction) {
-          direction = current
-          cb(current)
-        }
-        last = position <= 0 ? 0 : position // secure negative scrolling on mobile
-      },
-      false
-    )
-  } catch (e) {
-    console.warn('Error in detectScrollDirection', e)
   }
 }

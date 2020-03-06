@@ -55,7 +55,8 @@ export default {
       button_title: 'Side %s',
       next_title: 'Neste side',
       prev_title: 'Forrige side',
-      is_loading: 'Laster nytt innhold'
+      is_loading_text: 'Laster nytt innhold',
+      load_button_text: 'Vis mer innhold'
     },
     Logo: {
       alt: 'DNB Logo'
