@@ -25,12 +25,12 @@ const PaginationWithState = ({ children, ...props }) => {
       {...props}
       page_count={30}
       current_page={currentPage}
-      on_change={(pageNo, returnData) => {
-        console.log('PaginationWithState on_change:', pageNo)
-        setCurrentPage(pageNo)
+      on_change={({ page, insertContent }) => {
+        console.log('PaginationWithState on_change:', page)
+        setCurrentPage(page)
 
         setTimeout(() => {
-          returnData([pageNo, children])
+          insertContent([page, children])
         }, 10)
       }}
     >
@@ -49,12 +49,12 @@ const InfinityPagination = ({ children, ...props }) => {
       // current_page={currentPage}
       // current_page={10}
       {...props}
-      on_change={(pageNo, returnData) => {
-        console.log('InfinityPagination on_change:', pageNo)
-        // setCurrentPage(pageNo)
+      on_change={({ page, insertContent }) => {
+        console.log('InfinityPagination on_change:', page)
+        // setCurrentPage(page)
 
         setTimeout(() => {
-          returnData([pageNo, children(pageNo)])
+          insertContent([page, children(page)])
         }, 1)
       }}
     >

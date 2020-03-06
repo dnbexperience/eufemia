@@ -11,7 +11,7 @@ import {
   isTrue,
   registerElement,
   validateDOMAttributes,
-  // processChildren,
+  dispatchCustomElementEvent,
   extendPropsWithContext
 } from '../../shared/component-helper'
 import { createSpacingClasses } from '../space/SpacingHelper'
@@ -170,8 +170,10 @@ export default class Pagination extends PureComponent {
       _listenForPropChanges: false
     })
 
-    const { on_change } = this.props
-    on_change(newPageNo, this.handleNewContent)
+    dispatchCustomElementEvent(this, 'on_change', {
+      page: newPageNo,
+      insertContent: this.handleNewContent
+    })
   }
 
   handleNewContent = newContent => {
@@ -217,8 +219,11 @@ export default class Pagination extends PureComponent {
       currentPage,
       _listenForPropChanges: false
     })
-    const { on_change } = this.props
-    on_change(currentPage, this.handleNewContent)
+
+    dispatchCustomElementEvent(this, 'on_change', {
+      page: currentPage,
+      insertContent: this.handleNewContent // TODO: extend this functinallity, this is not implemented yet
+    })
   }
 
   setPrevPage = () => {
