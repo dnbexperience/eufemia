@@ -174,9 +174,10 @@ const ScreenshotTests = () => {
       <ComponentBox data-dnb-test="date-picker-input">
         {/* @jsx */ `
 <DatePicker
-  label="Range DatePicker:"
-  range={true}
-  show_input={true}
+  label="Linked DatePickers:"
+  range
+  link
+  show_input
 />
         `}
       </ComponentBox>
