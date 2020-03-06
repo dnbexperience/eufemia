@@ -189,6 +189,10 @@
     display: flex;
     user-select: none;
     -webkit-user-select: none; // Safari / Touch fix
+
+    @media (max-width: 40em) {
+      flex-direction: column;
+    }
   }
 
   &__calendar {
