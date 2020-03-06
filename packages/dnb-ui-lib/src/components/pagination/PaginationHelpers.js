@@ -16,7 +16,7 @@ export class InfinityMarker extends PureComponent {
     pageNo: PropTypes.number.isRequired,
     onVisible: PropTypes.func.isRequired
   }
-  state = { isConnected: false }
+  // state = { isConnected: false }
 
   constructor(props) {
     super(props)
@@ -43,7 +43,7 @@ export class InfinityMarker extends PureComponent {
   }
 
   callReady() {
-    this.setState({ isConnected: true })
+    // this.setState({ isConnected: true })
     this.props.onVisible(this.props.pageNo)
     this.intersectionObserver.disconnect()
   }
@@ -52,12 +52,12 @@ export class InfinityMarker extends PureComponent {
     return (
       <div
         className={classnames(
-          'dnb-pagination__marker',
-          this.state.isConnected && 'dnb-pagination__marker--done'
+          'dnb-pagination__marker'
+          // this.state.isConnected && 'dnb-pagination__marker--done'
         )}
         ref={this._ref}
       >
-        page: {this.props.pageNo}
+        {/* page: {this.props.pageNo} */}
       </div>
     )
   }

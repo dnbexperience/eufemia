@@ -16,12 +16,11 @@
   }
 
   &__content > ul {
-    // position: relative;
     padding: 0;
     list-style: none;
   }
   &__content > ul > li {
-    position: relative;
+    position: relative; // because of the marker
     padding: 0;
 
     min-height: 20rem;
@@ -31,15 +30,14 @@
     top: 0;
     bottom: 0;
     margin: auto 0;
-    height: 3rem;
-    width: 4rem;
-    background: black;
-    &--done {
-      opacity: 0.5;
-    }
+
+    height: 1px;
+    width: 1px;
+
+    opacity: 0;
+    // &--done {
+    // }
   }
-  // &__content {
-  // }
 
   &--left &__bar {
     justify-content: flex-start;
