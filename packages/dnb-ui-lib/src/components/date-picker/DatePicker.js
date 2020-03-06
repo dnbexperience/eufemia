@@ -516,6 +516,12 @@ export default class DatePicker extends PureComponent {
     )
   }
 
+  componentDidMount() {
+    if (isTrue(this.props.opened)) {
+      this.showPicker()
+    }
+  }
+
   showPicker = args => {
     if (this._hideTimeout) {
       clearTimeout(this._hideTimeout)
