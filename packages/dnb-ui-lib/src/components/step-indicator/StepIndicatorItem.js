@@ -60,12 +60,7 @@ export default class StepItem extends PureComponent {
   }
 
   onClickHandler = ({ event, item, currentItem }) => {
-    const {
-      use_navigation,
-      on_click,
-      on_change,
-      setActimeItem
-    } = this.props
+    const { use_navigation, on_click, setActimeItem } = this.props
     const params = {
       event,
       item,
@@ -74,15 +69,13 @@ export default class StepItem extends PureComponent {
     if (isTrue(use_navigation) && typeof setActimeItem === 'function') {
       setActimeItem(currentItem)
     }
-    if (typeof on_click === 'function') {
-      const res = dispatchCustomElementEvent(this, 'on_click', params)
-      if (res === false) {
-        return
-      }
+
+    const res = dispatchCustomElementEvent(this, 'on_click', params)
+    if (typeof on_click === 'function' && res === false) {
+      return
     }
-    if (typeof on_change === 'function') {
-      dispatchCustomElementEvent(this, 'on_change', params)
-    }
+
+    dispatchCustomElementEvent(this, 'on_change', params)
 
     // because we use a button, the button will normally stay in focus after click
     // but we don't want this, so we blur after the click
