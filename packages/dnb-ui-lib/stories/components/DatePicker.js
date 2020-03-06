@@ -200,14 +200,14 @@ export default [
       <Box>
         <FormRow vertical>
           <DatePicker
-            label="Range DatePicker:"
+            label="Linked Range DatePicker:"
             // label_direction="vertical"
             // start_date={new Date()}
             // start_date="2019-01-15"
             start_date="1981-01-15"
             end_date="2019-06-15"
             range={true}
-            // link={true}
+            link={true}
             // sync={false}
             opened={false}
             show_input={true}
