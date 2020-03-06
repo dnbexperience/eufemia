@@ -22,30 +22,30 @@ export class InfinityMarker extends PureComponent {
     super(props)
     this._ref = React.createRef()
 
-    try {
+    if (typeof IntersectionObserver !== 'undefined') {
       this.intersectionObserver = new IntersectionObserver(entries => {
         const [{ isIntersecting }] = entries
         if (isIntersecting) {
           this.callReady()
         }
       })
-    } catch (e) {
-      console.warn('IntersectionObserver is not supported!', e)
+    } else {
+      console.warn('Pagination is missing IntersectionObserver supported!')
     }
   }
 
   componentDidMount() {
-    this.intersectionObserver.observe(this._ref.current)
+    this.intersectionObserver?.observe(this._ref.current)
   }
 
   componentWillUnmount() {
-    this.intersectionObserver.disconnect()
+    this.intersectionObserver?.disconnect()
   }
 
   callReady() {
     // this.setState({ isConnected: true })
     this.props.onVisible(this.props.pageNo)
-    this.intersectionObserver.disconnect()
+    this.intersectionObserver?.disconnect()
   }
 
   render() {

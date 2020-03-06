@@ -21,11 +21,11 @@
   }
   &__content > ul > li {
     position: relative; // because of the marker
+    display: block;
     padding: 0;
-
-    min-height: 20rem;
   }
   &__content > ul > li &__marker {
+    pointer-events: none;
     position: absolute;
     top: 0;
     bottom: 0;
@@ -35,8 +35,6 @@
     width: 1px;
 
     opacity: 0;
-    // &--done {
-    // }
   }
 
   &--left &__bar {
@@ -48,9 +46,9 @@
   &--right &__bar {
     justify-content: flex-end;
   }
+
   &__loadbar {
     display: flex;
-    flex-wrap: wrap;
     align-items: center;
     justify-content: center;
   }
@@ -73,22 +71,6 @@
     padding: 0 1rem;
   }
 
-  // active/checked - like toggle-button
-  @at-root .dnb-core-style &__button.dnb-button--primary,
-    &__button.dnb-button--primary {
-    &,
-    &:not([disabled]):not(:active):hover {
-      background-color: var(--color-emerald-green);
-      color: var(--color-mint-green);
-    }
-
-    &:not([disabled]):not(:active):not(:hover):focus {
-      color: var(--color-emerald-green);
-      background-color: var(--color-mint-green);
-      @include fakeFocus(null, var(--color-emerald-green));
-    }
-  }
-
   &__dots {
     display: flex;
     align-self: flex-end;
@@ -103,8 +85,6 @@
       margin: 0 0.1rem;
 
       border-radius: 0.1rem;
-
-      background-color: var(--color-emerald-green);
     }
   }
 
@@ -121,6 +101,6 @@
   }
 
   &__bar__inner {
-    margin: 0 1rem 0 0.5rem;
+    margin: 0 1rem 0 0.5rem; // has a relationship with the buttons
   }
 }
