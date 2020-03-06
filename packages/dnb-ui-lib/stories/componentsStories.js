@@ -33,6 +33,7 @@ import GlobalError from './components/GlobalError'
 import Number from './components/Number'
 import Icons from './components/Icons'
 import Experiments from './components/Experiments'
+import Pagination from './components/Pagination'
 import { Logo } from '../src/components'
 
 const stories = []
@@ -64,6 +65,7 @@ stories.push(GlobalError)
 stories.push(Number)
 stories.push(Icons)
 stories.push(Experiments)
+stories.push(Pagination)
 
 stories.push([
   'Logo',
