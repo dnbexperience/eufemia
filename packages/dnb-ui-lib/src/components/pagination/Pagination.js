@@ -107,31 +107,17 @@ export default class Pagination extends PureComponent {
     this.useInfinity = isTrue(props.enable_infinity_scroll)
     this.showIndicator = isTrue(props.show_progress_indicator)
 
-    // if (!this.useInfinity) {
-    // set some defaults
-    // }
     if (!parseFloat(props.current_page) > -1) {
       this.state.currentPage = 1
     }
     if (!parseFloat(props.page_count) > -1) {
       this.state.pageCount = 1
     }
-
-    // this._refContent = React.createRef()
   }
 
   componentDidMount() {
-    // if (this.useInfinity) {
-    // this.setPage(2)
-    // setTimeout(() => {
-    //   this.setPage(1)
-    // }, 1e3)
-    // }
-    // this.intersectionObserver.observe(this.props.contentElement)
-    // this.intersectionObserver.observe(this._ref.current)
     if (this.useInfinity) {
       detectScrollDirection(scrollDirection => {
-        // console.log('onVisible direction', scrollDirection)
         this.setState({
           scrollDirection,
           _listenForPropChanges: false
@@ -140,9 +126,7 @@ export default class Pagination extends PureComponent {
     }
   }
 
-  getNewContent = (newPageNo, position = 'after', onInsert = null) => {
-    console.log('onVisible setPage', newPageNo)
-
+  getNewContent = (newPageNo, { position = 'after', ...props } = {}) => {
     const exists =
       this.state.items.findIndex(cObj => {
         return cObj.pageNo === newPageNo
@@ -153,27 +137,30 @@ export default class Pagination extends PureComponent {
 
     const items = [...this.state.items]
 
-    // const x =
-    // if (reoder) {
-    //   items = items.sort((A, B) => {
-    //     console.log('onVisible A', A.pageNo)
-    //     return A.pageNo > B.pageNo ? 1 : -1
-    //   })
-    // }
+    const obj = {
+      pageNo: newPageNo,
+      position,
+      ...props
+    }
 
     switch (position) {
       case 'before':
-        items.unshift(new ContentObject({ pageNo: newPageNo, onInsert }))
+        items.unshift(new ContentObject(obj))
         break
       case 'after':
-        items.push(new ContentObject({ pageNo: newPageNo, onInsert }))
+        items.push(new ContentObject(obj))
         break
     }
+
+    // NB: we may considder to sort it in future to ensure correct order
+    // items
+    //   .sort(({ pageNo: a }, { pageNo: b }) => {
+    //     return a > b ? 1 : -1
+    //   })
 
     this.setState({
       items,
       currentPage: newPageNo,
-      // isLoading: true,
       _listenForPropChanges: false
     })
 
@@ -183,7 +170,7 @@ export default class Pagination extends PureComponent {
 
   handleNewContent = newContent => {
     if (!Array.isArray(newContent)) {
-      return console.log(
+      return console.warn(
         'The returned pagination content updater has to be an array!'
       )
     }
@@ -191,19 +178,10 @@ export default class Pagination extends PureComponent {
     const pageNo = newContent[0]
     newContent = newContent[1]
 
-    // console.log('handleNewContent pageNo', pageNo)
-
-    // const items = [...this.state.items] // make a copy so react is handling the DOM update
-    // if (pageNo < this.state.currentPage) {
-    //   items.unshift({ pageNo, content })
-    // } else {
-    // }
-
     const currentPage = this.state.items.find(
       ({ pageNo: p }) => p === pageNo
     )
 
-    // setTimeout(() => {
     if (currentPage) {
       let content = null
       if (typeof newContent === 'function') {
@@ -213,29 +191,24 @@ export default class Pagination extends PureComponent {
       }
 
       if (content) {
-        currentPage.insert(content)
+        const contentObject = currentPage.insert(content)
 
-        this.setState({
-          updatedPageNo: pageNo, // only to rerender
-          // items,
-          // isLoading: false,
-          _listenForPropChanges: false
-        })
+        this.setState(
+          {
+            updatedPageNo: pageNo, // only to rerender
+            _listenForPropChanges: false
+          },
+          () =>
+            typeof contentObject.onAfterInsert === 'function' &&
+            contentObject.onAfterInsert(contentObject)
+        )
       }
-
-      // items
-      //   .push({ pageNo, content })
-      //   .sort(({ pageNo: a }, { pageNo: b }) => {
-      //     return a > b ? 1 : -1
-      //   })
     }
-    // }, 2e3)
   }
 
   setPage = currentPage => {
     this.setState({
       currentPage,
-      // isLoading: true,
       _listenForPropChanges: false
     })
     const { on_change } = this.props
@@ -270,14 +243,7 @@ export default class Pagination extends PureComponent {
       ...attributes
     } = props
 
-    const {
-      currentPage,
-      pageCount,
-      items,
-      prerender
-      // isLoading,
-      // updatedPageNo
-    } = this.state
+    const { currentPage, pageCount, items } = this.state
     const pages = calculatePagination(pageCount, currentPage)
 
     const mainParams = {
@@ -292,54 +258,56 @@ export default class Pagination extends PureComponent {
     }
 
     validateDOMAttributes(props, mainParams)
-    // console.log('items', items)
 
     return (
       <div {...mainParams}>
-        <div
-          className="dnb-pagination__content"
-          // ref={this._refContent}
-        >
+        <div className="dnb-pagination__content">
           {children}
-          {/* only for rerendering */}
-          {/* {updatedPageNo} */}
           {items && (
             <ul>
-              {items.map(({ pageNo, content }) => {
-                // console.log('onVisible pageNo', pageNo)
-                return (
-                  <li key={pageNo}>
-                    {content}
-                    {this.useInfinity && (
-                      <InfinityMarker
-                        pageNo={pageNo}
-                        onVisible={pageNoVisible => {
-                          // console.log(
-                          //   'onVisible',
-                          //   this.state.scrollDirection,
-                          //   pageNoVisible
-                          // )
-                          switch (this.state.scrollDirection) {
-                            case 'up':
-                              this.getNewContent(
-                                pageNoVisible - 1,
-                                'before'
-                              )
-                              break
-                            case 'down':
-                              this.getNewContent(
-                                pageNoVisible + 1,
-                                'after'
-                              )
-                              break
-                          }
-                        }}
-                        // contentElement={this._refContent.current}
-                      />
-                    )}
-                  </li>
-                )
-              })}
+              {items.map(
+                ({ pageNo, content, ref, position, skipObserver }) => {
+                  return (
+                    <li key={pageNo} ref={ref}>
+                      {this.useInfinity &&
+                        position === 'before' &&
+                        pageNo > 1 && (
+                          <InfinityLoadButton
+                            pageNo={pageNo - 1}
+                            onClick={pageNoVisible => {
+                              this.getNewContent(pageNoVisible, {
+                                position: 'before',
+                                skipObserver: true
+                              })
+                            }}
+                          />
+                        )}
+                      {content}
+                      {this.useInfinity && !skipObserver && (
+                        <InfinityMarker
+                          pageNo={pageNo}
+                          onVisible={pageNoVisible => {
+                            switch (this.state.scrollDirection) {
+                              case 'up':
+                                if (pageNoVisible > 0) {
+                                  this.getNewContent(pageNoVisible - 1, {
+                                    position: 'before'
+                                  })
+                                }
+                                break
+                              case 'down':
+                                this.getNewContent(pageNoVisible + 1, {
+                                  position: 'after'
+                                })
+                                break
+                            }
+                          }}
+                        />
+                      )}
+                    </li>
+                  )
+                }
+              )}
             </ul>
           )}
 
@@ -347,43 +315,11 @@ export default class Pagination extends PureComponent {
             <InfinityMarker
               pageNo={currentPage}
               onVisible={pageNoVisible => {
-                console.log(
-                  'onVisible startup ',
-                  this.state.scrollDirection,
-                  pageNoVisible
-                )
-
-                // TODO: set scroll position!
-                // this.lastScrollPosition =
-                //   typeof window !== 'undefined' ? window.pageYOffset : 0
-
-                // const top = this.lastScrollPosition
-                // window.scrollTop = top
-
-                this.getNewContent(pageNoVisible, 'after')
-
-                if (currentPage > 1) {
-                  setTimeout(() => {
-                    this.getNewContent(pageNoVisible - 1, 'before', () => {
-                      // console.log('onVisible content ->', content)
-                      // const Prerender = content
-                      // const ref = React.createRef()
-                      // this.setState({
-                      //   prerender: () => <Prerender ref={ref} />,
-                      //   _listenForPropChanges: false
-                      // })
-                      // console.log('onVisible content -> ref', ref)
-                      // const top = this.lastScrollPosition
-                      if (typeof window !== 'undefined') {
-                        window.scrollTop = top
-                      }
-                    })
-                  }, 2e3)
-                }
+                this.getNewContent(pageNoVisible, {
+                  position: currentPage > 1 ? 'before' : 'after'
+                })
               }}
-              // contentElement={this._refContent.current}
             />
-            // <InfinityMarker contentElement={this._refContent.current} />
           )}
         </div>
         {!this.useInfinity && (
@@ -405,51 +341,29 @@ export default class Pagination extends PureComponent {
 }
 
 class InfinityMarker extends PureComponent {
+  propTypes = {
+    pageNo: PropTypes.number.isRequired,
+    onVisible: PropTypes.func.isRequired
+  }
   state = { isConnected: false }
+
   constructor(props) {
     super(props)
     this._ref = React.createRef()
 
-    // console.log('this._ref.current', this._ref.current)
-
     try {
-      this.intersectionObserver = new IntersectionObserver(
-        entries => {
-          const [{ isIntersecting }] = entries
-          if (isIntersecting) {
-            // console.log('intersectionObserver: is visible')
-            this.callReady()
-          } else {
-            // console.log('intersectionObserver: not visible')
-          }
-
-          // if (entries[0].intersectionRatio <= 0) {
-          //   console.log('intersectionObserver: not visible')
-          //   return
-          // }
-          // console.log('intersectionObserver: is visible')
+      this.intersectionObserver = new IntersectionObserver(entries => {
+        const [{ isIntersecting }] = entries
+        if (isIntersecting) {
+          this.callReady()
         }
-        // {
-        //   // root: document.querySelector('.dnb-pagination')
-        //   // root: document.querySelector('body'),
-        //   // root: document.documentElement,
-        //   // root: document.documentElement,
-        //   // rootMargin: '0px 0px 20% 0px'
-        //   // threshold: [0.0, 0.5, 1]
-        //   // rootMargin: '0px 0px 50% 0px'
-        //   // rootMargin: '90% 0px 0px 0px'
-        //   // rootMargin: '-50% 0px 0px 0px'
-        //   // threshold: 0.5 // half of item height
-        // }
-      )
-      // console.log('intersectionObserver', intersectionObserver)
+      })
     } catch (e) {
       console.warn('IntersectionObserver is not supported!', e)
     }
   }
 
   componentDidMount() {
-    // this.intersectionObserver.observe(this.props.contentElement)
     this.intersectionObserver.observe(this._ref.current)
   }
 
@@ -478,6 +392,33 @@ class InfinityMarker extends PureComponent {
   }
 }
 
+class InfinityLoadButton extends PureComponent {
+  propTypes = {
+    pageNo: PropTypes.number.isRequired,
+    onClick: PropTypes.func.isRequired
+  }
+  render() {
+    const { pageNo } = this.props
+    return (
+      <div className="dnb-pagination__bar">
+        <Button
+          // className="dnb-pagination__load-button"
+          size="medium"
+          icon="chevron_up"
+          icon_position="left"
+          text={'Load ' + String(pageNo)}
+          // title={buttonTitle.replace('%s', pageNo)}
+          variant="secondary"
+          // variant="tertiary"
+          on_click={() => {
+            this.props.onClick(pageNo)
+          }}
+        />
+      </div>
+    )
+  }
+}
+
 const PaginationBar = ({
   pages,
   pageCount,
@@ -494,7 +435,7 @@ const PaginationBar = ({
   return (
     <div className="dnb-pagination__bar">
       <Button
-        // key="left-arrow"
+        key="left-arrow"
         className="dnb-pagination__button"
         disabled={prevIsDisabled}
         size="small"
@@ -538,7 +479,7 @@ const PaginationBar = ({
         </React.Fragment>
       ))}
       <Button
-        // key="right-arrow"
+        key="right-arrow"
         className="dnb-pagination__button"
         disabled={nextIsDisabled}
         size="small"
@@ -574,16 +515,19 @@ class PaginationIndicator extends PureComponent {
 }
 
 class ContentObject {
-  constructor({ pageNo, onInsert }) {
+  constructor({ pageNo, ...props }) {
     this.content = <PaginationIndicator />
     this.pageNo = pageNo
-    this.onInsert = onInsert
+    for (let k in props) {
+      this[k] = props[k]
+    }
   }
   insert(content) {
     this.content = content
     if (typeof this.onInsert === 'function') {
-      this.onInsert({ content })
+      this.onInsert({ content, ref: this.ref })
     }
+    return this
   }
 }
 
@@ -609,6 +553,6 @@ function detectScrollDirection(cb, direction = null) {
       false
     )
   } catch (e) {
-    console.log('Error in detectScrollDirection', e)
+    console.warn('Error in detectScrollDirection', e)
   }
 }

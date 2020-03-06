@@ -71,7 +71,7 @@ export default [
         <Pagination
           align="left"
           page_count={30}
-          // current_page={2}
+          current_page={15}
           on_change={pageNo => {
             console.log('on_change:', pageNo)
           }}
