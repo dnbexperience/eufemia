@@ -26,7 +26,7 @@ const PaginationWithState = ({ children, ...props }) => {
       page_count={30}
       current_page={currentPage}
       on_change={({ page, insertContent }) => {
-        console.log('PaginationWithState on_change:', page)
+        console.log('PaginationWithState on_load:', page)
         setCurrentPage(page)
 
         setTimeout(() => {
@@ -49,8 +49,8 @@ const InfinityPagination = ({ children, ...props }) => {
       // current_page={currentPage}
       // current_page={10}
       {...props}
-      on_change={({ page, insertContent }) => {
-        console.log('InfinityPagination on_change:', page)
+      on_load={({ page, insertContent }) => {
+        console.log('InfinityPagination on_load:', page)
         // setCurrentPage(page)
 
         setTimeout(() => {
@@ -88,8 +88,8 @@ export default [
         <InfinityPagination
           use_load_button
           // page_count={3}
-          on_change={pageNo => {
-            console.log('on_change:', pageNo)
+          on_load={pageNo => {
+            console.log('on_load:', pageNo)
           }}
         >
           {pageNo => <LargePage>{pageNo}</LargePage>}
@@ -97,8 +97,8 @@ export default [
       </Box>
       <Box>
         <InfinityPagination
-          on_change={pageNo => {
-            console.log('on_change:', pageNo)
+          on_load={pageNo => {
+            console.log('on_load:', pageNo)
           }}
         >
           {pageNo => <LargePage>{pageNo}</LargePage>}

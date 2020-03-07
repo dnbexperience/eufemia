@@ -15,16 +15,13 @@
     align-items: center;
   }
 
-  &__content > ul {
-    padding: 0;
-    list-style: none;
-  }
-  &__content > ul > li {
+  // used by the infinity scroller
+  &__content > &__page {
     position: relative; // because of the marker
     display: block;
     padding: 0;
   }
-  &__content > ul > li &__marker {
+  &__content > &__page &__marker {
     pointer-events: none;
     position: absolute;
     top: 0;
@@ -36,6 +33,18 @@
 
     opacity: 0;
   }
+  &__loadbar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  &__indicator {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 1rem 0 2rem;
+  }
 
   &--left &__bar {
     justify-content: flex-start;
@@ -45,20 +54,6 @@
   }
   &--right &__bar {
     justify-content: flex-end;
-  }
-
-  &__loadbar {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  &__indicator {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    margin: 1rem 0 2rem;
   }
 
   // default
