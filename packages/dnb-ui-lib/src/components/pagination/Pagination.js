@@ -16,7 +16,7 @@ import {
 } from '../../shared/component-helper'
 import { createSpacingClasses } from '../space/SpacingHelper'
 
-import { calculatePagination } from './paginationCalculation'
+import { calculatePagination } from './PaginationCalculation'
 import { ContentObject, detectScrollDirection } from './PaginationHelpers'
 import InfinityScroller from './PaginationInfinityScroller'
 import PaginationBar from './PaginationBar'

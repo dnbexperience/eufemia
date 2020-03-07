@@ -17,6 +17,51 @@ const LargePage = styled.div`
   margin: 2rem 0;
 `
 
+export default [
+  'Pagination',
+  () => (
+    <Wrapper>
+      <Box>
+        <Pagination
+          page_count={30}
+          current_page={15}
+          on_change={pageNo => {
+            console.log('on_change:', pageNo)
+          }}
+        ></Pagination>
+      </Box>
+      <Box>
+        <PaginationWithState
+          align="center"
+          on_change={pageNo => {
+            console.log('on_change:', pageNo)
+          }}
+        ></PaginationWithState>
+      </Box>
+      <Box>
+        <InfinityPagination
+          use_load_button
+          // page_count={3}
+          on_load={pageNo => {
+            console.log('on_load:', pageNo)
+          }}
+        >
+          {pageNo => <LargePage>{pageNo}</LargePage>}
+        </InfinityPagination>
+      </Box>
+      <Box>
+        <InfinityPagination
+          on_load={pageNo => {
+            console.log('on_load:', pageNo)
+          }}
+        >
+          {pageNo => <LargePage>{pageNo}</LargePage>}
+        </InfinityPagination>
+      </Box>
+    </Wrapper>
+  )
+]
+
 const PaginationWithState = ({ children, ...props }) => {
   const [currentPage, setCurrentPage] = React.useState(1)
 
@@ -62,48 +107,3 @@ const InfinityPagination = ({ children, ...props }) => {
     </Pagination>
   )
 }
-
-export default [
-  'Pagination',
-  () => (
-    <Wrapper>
-      <Box>
-        <Pagination
-          page_count={30}
-          current_page={15}
-          on_change={pageNo => {
-            console.log('on_change:', pageNo)
-          }}
-        ></Pagination>
-      </Box>
-      <Box>
-        <PaginationWithState
-          align="center"
-          on_change={pageNo => {
-            console.log('on_change:', pageNo)
-          }}
-        ></PaginationWithState>
-      </Box>
-      <Box>
-        <InfinityPagination
-          use_load_button
-          // page_count={3}
-          on_load={pageNo => {
-            console.log('on_load:', pageNo)
-          }}
-        >
-          {pageNo => <LargePage>{pageNo}</LargePage>}
-        </InfinityPagination>
-      </Box>
-      <Box>
-        <InfinityPagination
-          on_load={pageNo => {
-            console.log('on_load:', pageNo)
-          }}
-        >
-          {pageNo => <LargePage>{pageNo}</LargePage>}
-        </InfinityPagination>
-      </Box>
-    </Wrapper>
-  )
-]
