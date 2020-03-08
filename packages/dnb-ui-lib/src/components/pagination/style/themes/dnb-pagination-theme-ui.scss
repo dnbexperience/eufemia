@@ -7,7 +7,12 @@
 
 .dnb-pagination {
   &__content &__page {
-    min-height: 20rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    min-height: 10rem;
+    animation: show-page 300ms ease-out forwards;
   }
 
   // active/checked - like toggle-button
@@ -28,5 +33,16 @@
 
   &__dots > div {
     background-color: var(--color-emerald-green);
+  }
+}
+
+@keyframes show-page {
+  from {
+    transform: translate3d(0, -8px, 0);
+    opacity: 0.1;
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
   }
 }

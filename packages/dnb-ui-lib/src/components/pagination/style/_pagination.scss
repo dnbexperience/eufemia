@@ -18,8 +18,6 @@
   // used by the infinity scroller
   &__content > &__page {
     position: relative; // because of the marker
-    display: block;
-    padding: 0;
   }
   &__content > &__page &__marker {
     pointer-events: none;

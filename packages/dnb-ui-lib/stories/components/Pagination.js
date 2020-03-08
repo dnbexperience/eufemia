@@ -41,7 +41,18 @@ export default [
       <Box>
         <InfinityPagination
           use_load_button
-          // page_count={3}
+          on_load={pageNo => {
+            console.log('on_load:', pageNo)
+          }}
+        >
+          {pageNo => <LargePage>{pageNo}</LargePage>}
+        </InfinityPagination>
+      </Box>
+      <Box>
+        <InfinityPagination
+          indicator_element={'Loading ...'}
+          current_page={2}
+          page_count={3}
           on_load={pageNo => {
             console.log('on_load:', pageNo)
           }}
@@ -76,10 +87,10 @@ const PaginationWithState = ({ children, ...props }) => {
 
         setTimeout(() => {
           insertContent([page, children])
-        }, 10)
+        }, 1e3)
       }}
     >
-      just a child
+      {/* just a child */}
     </Pagination>
   )
 }
@@ -88,8 +99,8 @@ const InfinityPagination = ({ children, ...props }) => {
   // console.log('children', children)
   return (
     <Pagination
-      enable_infinity_scroll
-      show_progress_indicator
+      mode="infinity"
+      // hide_progress_indicator
       // page_count={30}
       // current_page={currentPage}
       // current_page={10}
@@ -100,10 +111,10 @@ const InfinityPagination = ({ children, ...props }) => {
 
         setTimeout(() => {
           insertContent([page, children(page)])
-        }, 1)
+        }, 1e3)
       }}
     >
-      just a child
+      {/* just a child */}
     </Pagination>
   )
 }

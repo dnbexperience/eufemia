@@ -21,14 +21,18 @@ export class PaginationIndicator extends PureComponent {
 }
 
 export class ContentObject {
-  constructor({ pageNo, ...props }) {
-    this.content = <PaginationIndicator />
+  constructor({ pageNo, indicatorElement, hideIndicator, ...props }) {
+    this.hasContent = false
+    this.content = !hideIndicator
+      ? indicatorElement || <PaginationIndicator />
+      : ''
     this.pageNo = pageNo
     for (let k in props) {
       this[k] = props[k]
     }
   }
   insert(content) {
+    this.hasContent = true
     this.content = content
     if (typeof this.onInsert === 'function') {
       this.onInsert({ content, ref: this.ref })

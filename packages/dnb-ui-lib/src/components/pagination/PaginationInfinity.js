@@ -3,7 +3,7 @@
  *
  */
 
-import React, { PureComponent } from 'react'
+import React, { PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import Context from '../../shared/Context'
@@ -28,7 +28,6 @@ export default class InfinityScroller extends PureComponent {
   }
 
   render() {
-    // console.log('props', JSON.stringify(this.props, null, 2))
     const {
       items,
       currentPage,
@@ -41,66 +40,74 @@ export default class InfinityScroller extends PureComponent {
 
     return (
       <>
-        {/* items are used by the infinity scroller */}
-        {items.map(({ pageNo, content, ref, position, skipObserver }) => {
-          return (
-            <div key={pageNo} ref={ref} className="dnb-pagination__page">
-              {position === 'before' && pageNo > 1 && (
-                <InfinityLoadButton
-                  icon="arrow_up"
-                  pageNo={pageNo - 1}
-                  onClick={pageNoVisible => {
-                    getNewContent(pageNoVisible, {
-                      position: 'before',
-                      skipObserver: true
-                    })
-                  }}
-                />
-              )}
-
-              {content}
-
-              {useLoadButton &&
-                pageNo >= currentPage &&
-                (parseFloat(originalPageCount) > 0
-                  ? pageNo < pageCount
-                  : true) && (
-                  <InfinityLoadButton
-                    icon="arrow_down"
-                    pageNo={pageNo + 1}
-                    onClick={pageNoVisible => {
-                      getNewContent(pageNoVisible, {
-                        position: 'after',
-                        skipObserver: true
-                      })
-                    }}
-                  />
-                )}
-
-              {!useLoadButton && !skipObserver && (
-                <InfinityMarker
-                  pageNo={pageNo}
-                  onVisible={pageNoVisible => {
-                    switch (scrollDirection) {
-                      case 'up':
-                        if (pageNoVisible > 0) {
-                          getNewContent(pageNoVisible - 1, {
-                            position: 'before'
+        {items.map(
+          ({
+            pageNo,
+            hasContent,
+            content,
+            ref,
+            position,
+            skipObserver
+          }) => {
+            return (
+              <Fragment key={pageNo}>
+                <div ref={ref} className="dnb-pagination__page">
+                  {hasContent &&
+                    position === 'before' &&
+                    pageNo > 1 &&
+                    pageNo <= currentPage && (
+                      <InfinityLoadButton
+                        icon="arrow_up"
+                        pageNo={pageNo - 1}
+                        onClick={pageNoVisible => {
+                          getNewContent(pageNoVisible, {
+                            position: 'before',
+                            skipObserver: true
                           })
+                        }}
+                      />
+                    )}
+
+                  {content}
+
+                  {hasContent && !useLoadButton && !skipObserver && (
+                    <InfinityMarker
+                      pageNo={pageNo}
+                      onVisible={pageNoVisible => {
+                        switch (scrollDirection) {
+                          // upwards infinity does not work greate, therefore we have the button
+                          case 'down':
+                            getNewContent(pageNoVisible + 1, {
+                              position: 'after'
+                            })
+                            break
                         }
-                        break
-                      case 'down':
-                        getNewContent(pageNoVisible + 1, {
-                          position: 'after'
-                        })
-                        break
-                    }
-                  }}
-                />
-              )}
-            </div>
-          )
-        })}
+                      }}
+                    />
+                  )}
+
+                  {hasContent &&
+                    useLoadButton &&
+                    pageNo >= currentPage &&
+                    (parseFloat(originalPageCount) > 0
+                      ? pageNo < pageCount
+                      : true) && (
+                      <InfinityLoadButton
+                        icon="arrow_down"
+                        pageNo={pageNo + 1}
+                        onClick={pageNoVisible => {
+                          getNewContent(pageNoVisible, {
+                            position: 'after',
+                            skipObserver: true
+                          })
+                        }}
+                      />
+                    )}
+                </div>
+              </Fragment>
+            )
+          }
+        )}
 
         {items.length === 0 && (
           <InfinityMarker

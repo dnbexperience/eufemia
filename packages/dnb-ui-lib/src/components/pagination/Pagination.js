@@ -18,7 +18,7 @@ import { createSpacingClasses } from '../space/SpacingHelper'
 
 import { calculatePagination } from './PaginationCalculation'
 import { ContentObject, detectScrollDirection } from './PaginationHelpers'
-import InfinityScroller from './PaginationInfinityScroller'
+import InfinityScroller from './PaginationInfinity'
 import PaginationBar from './PaginationBar'
 
 const renderProps = {
@@ -29,15 +29,17 @@ const renderProps = {
 const propTypes = {
   current_page: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   page_count: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  enable_infinity_scroll: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.bool
-  ]),
-  show_progress_indicator: PropTypes.oneOfType([
+  mode: PropTypes.oneOf(['pagination', 'infinity']),
+  hide_progress_indicator: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.bool
   ]),
   use_load_button: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  indicator_element: PropTypes.oneOfType([
+    PropTypes.node,
+    PropTypes.func,
+    PropTypes.string
+  ]),
   align: PropTypes.string,
   button_title: PropTypes.string,
   class: PropTypes.string,
@@ -55,9 +57,10 @@ const propTypes = {
   on_load: PropTypes.func
 }
 const defaultProps = {
-  enable_infinity_scroll: false,
-  show_progress_indicator: false,
+  mode: 'pagination',
+  hide_progress_indicator: false,
   use_load_button: false,
+  indicator_element: null,
   align: 'left',
   current_page: null,
   page_count: null, // TODO: has to work if set to 0
@@ -107,8 +110,8 @@ export default class Pagination extends PureComponent {
       _listenForPropChanges: true
     }
 
-    this.useInfinity = isTrue(props.enable_infinity_scroll)
-    this.showIndicator = isTrue(props.show_progress_indicator)
+    this.useInfinity = props.mode === 'infinity'
+    this.hideIndicator = isTrue(props.hide_progress_indicator)
     this.useLoadButton = isTrue(props.use_load_button)
 
     if (!parseFloat(props.current_page) > -1) {
@@ -136,6 +139,11 @@ export default class Pagination extends PureComponent {
   }
 
   getNewContent = (newPageNo, { position = 'after', ...props } = {}) => {
+    // if "page_count" is set do not load more than that value
+    if (newPageNo > parseFloat(this.props.page_count)) {
+      return
+    }
+
     const exists =
       this.state.items.findIndex(cObj => {
         return cObj.pageNo === newPageNo
@@ -150,6 +158,8 @@ export default class Pagination extends PureComponent {
     const obj = {
       pageNo: newPageNo,
       position,
+      hideIndicator: this.hideIndicator,
+      indicatorElement: this.props.indicator_element,
       ...props
     }
 
@@ -255,6 +265,13 @@ export default class Pagination extends PureComponent {
 
       page_count: _page_count, // eslint-disable-line
       current_page: _current_page, // eslint-disable-line
+      indicator_element: _indicator_element, // eslint-disable-line
+      mode: _mode, // eslint-disable-line
+      button_title: _button_title, // eslint-disable-line
+      prev_title: _prev_title, // eslint-disable-line
+      next_title: _next_title, // eslint-disable-line
+      hide_progress_indicator: _hide_progress_indicator, // eslint-disable-line
+      use_load_button: _use_load_button, // eslint-disable-line
 
       ...attributes
     } = props
@@ -288,6 +305,7 @@ export default class Pagination extends PureComponent {
               originalPageCount={this.props.page_count}
               getNewContent={this.getNewContent}
               useLoadButton={this.useLoadButton}
+              hideIndicator={this.hideIndicator}
               scrollDirection={this.state.scrollDirection}
             />
           )}
