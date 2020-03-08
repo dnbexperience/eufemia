@@ -17,52 +17,6 @@ const LargePage = styled.div`
   margin: 2rem 0;
 `
 
-const PaginationWithState = ({ children, ...props }) => {
-  const [currentPage, setCurrentPage] = React.useState(1)
-
-  return (
-    <Pagination
-      {...props}
-      page_count={30}
-      current_page={currentPage}
-      on_change={(pageNo, returnData) => {
-        console.log('PaginationWithState on_change:', pageNo)
-        setCurrentPage(pageNo)
-
-        setTimeout(() => {
-          returnData([pageNo, children])
-        }, 10)
-      }}
-    >
-      just a child
-    </Pagination>
-  )
-}
-const InfinityPagination = ({ children, ...props }) => {
-  // const [currentPage, setCurrentPage] = React.useState(1)
-  // console.log('children', children)
-  return (
-    <Pagination
-      enable_infinity_scroll
-      show_progress_indicator
-      // page_count={30}
-      // current_page={currentPage}
-      // current_page={10}
-      {...props}
-      on_change={(pageNo, returnData) => {
-        console.log('InfinityPagination on_change:', pageNo)
-        // setCurrentPage(pageNo)
-
-        setTimeout(() => {
-          returnData([pageNo, children(pageNo)])
-        }, 1)
-      }}
-    >
-      just a child
-    </Pagination>
-  )
-}
-
 export default [
   'Pagination',
   () => (
@@ -87,9 +41,8 @@ export default [
       <Box>
         <InfinityPagination
           use_load_button
-          // page_count={3}
-          on_change={pageNo => {
-            console.log('on_change:', pageNo)
+          on_load={pageNo => {
+            console.log('on_load:', pageNo)
           }}
         >
           {pageNo => <LargePage>{pageNo}</LargePage>}
@@ -97,8 +50,20 @@ export default [
       </Box>
       <Box>
         <InfinityPagination
-          on_change={pageNo => {
-            console.log('on_change:', pageNo)
+          indicator_element={'Loading ...'}
+          current_page={2}
+          page_count={3}
+          on_load={pageNo => {
+            console.log('on_load:', pageNo)
+          }}
+        >
+          {pageNo => <LargePage>{pageNo}</LargePage>}
+        </InfinityPagination>
+      </Box>
+      <Box>
+        <InfinityPagination
+          on_load={pageNo => {
+            console.log('on_load:', pageNo)
           }}
         >
           {pageNo => <LargePage>{pageNo}</LargePage>}
@@ -107,3 +72,49 @@ export default [
     </Wrapper>
   )
 ]
+
+const PaginationWithState = ({ children, ...props }) => {
+  const [currentPage, setCurrentPage] = React.useState(1)
+
+  return (
+    <Pagination
+      {...props}
+      page_count={30}
+      current_page={currentPage}
+      on_change={({ page, insertContent }) => {
+        console.log('PaginationWithState on_load:', page)
+        setCurrentPage(page)
+
+        setTimeout(() => {
+          insertContent([page, children])
+        }, 1e3)
+      }}
+    >
+      {/* just a child */}
+    </Pagination>
+  )
+}
+const InfinityPagination = ({ children, ...props }) => {
+  // const [currentPage, setCurrentPage] = React.useState(1)
+  // console.log('children', children)
+  return (
+    <Pagination
+      mode="infinity"
+      // hide_progress_indicator
+      // page_count={30}
+      // current_page={currentPage}
+      // current_page={10}
+      {...props}
+      on_load={({ page, insertContent }) => {
+        console.log('InfinityPagination on_load:', page)
+        // setCurrentPage(page)
+
+        setTimeout(() => {
+          insertContent([page, children(page)])
+        }, 1e3)
+      }}
+    >
+      {/* just a child */}
+    </Pagination>
+  )
+}
