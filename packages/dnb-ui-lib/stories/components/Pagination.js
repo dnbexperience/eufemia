@@ -39,12 +39,7 @@ export default [
         ></PaginationWithState>
       </Box>
       <Box>
-        <InfinityPagination
-          use_load_button
-          on_load={pageNo => {
-            console.log('on_load:', pageNo)
-          }}
-        >
+        <InfinityPagination use_load_button>
           {pageNo => <LargePage>{pageNo}</LargePage>}
         </InfinityPagination>
       </Box>
@@ -53,19 +48,12 @@ export default [
           indicator_element={'Loading ...'}
           current_page={2}
           page_count={3}
-          on_load={pageNo => {
-            console.log('on_load:', pageNo)
-          }}
         >
           {pageNo => <LargePage>{pageNo}</LargePage>}
         </InfinityPagination>
       </Box>
       <Box>
-        <InfinityPagination
-          on_load={pageNo => {
-            console.log('on_load:', pageNo)
-          }}
-        >
+        <InfinityPagination>
           {pageNo => <LargePage>{pageNo}</LargePage>}
         </InfinityPagination>
       </Box>
