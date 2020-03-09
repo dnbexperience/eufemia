@@ -2,6 +2,7 @@
 
 exports[`Pagination bar component have to match snapshot 1`] = `
 <Pagination
+  accumulate_count={0}
   align="left"
   button_title="%s"
   class={null}
@@ -9,12 +10,14 @@ exports[`Pagination bar component have to match snapshot 1`] = `
   current_page={null}
   hide_progress_indicator={false}
   indicator_element={null}
+  items={null}
   mode="pagination"
   next_title="Next"
   on_change={null}
   on_load={null}
   page_count={null}
   prev_title="Previous"
+  reset_items_handler={null}
   use_load_button={false}
 >
   <div
