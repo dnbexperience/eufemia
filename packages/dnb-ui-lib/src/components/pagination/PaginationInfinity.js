@@ -15,8 +15,8 @@ export default class InfinityScroller extends PureComponent {
     currentPage: PropTypes.number.isRequired,
     pageCount: PropTypes.number.isRequired,
     useLoadButton: PropTypes.bool.isRequired,
-    scrollDirection: PropTypes.string.isRequired,
     getNewContent: PropTypes.func.isRequired,
+    accumulateCount: PropTypes.number,
     originalPageCount: PropTypes.oneOfType([
       PropTypes.number,
       PropTypes.string
@@ -24,6 +24,7 @@ export default class InfinityScroller extends PureComponent {
   }
 
   static defaultProps = {
+    accumulateCount: 0,
     originalPageCount: null
   }
 
@@ -32,10 +33,10 @@ export default class InfinityScroller extends PureComponent {
       items,
       currentPage,
       pageCount,
+      accumulateCount,
       originalPageCount,
       getNewContent,
-      useLoadButton,
-      scrollDirection
+      useLoadButton
     } = this.props
 
     return (
@@ -60,10 +61,12 @@ export default class InfinityScroller extends PureComponent {
                         icon="arrow_up"
                         pageNo={pageNo - 1}
                         onClick={pageNoVisible => {
-                          getNewContent(pageNoVisible, {
-                            position: 'before',
-                            skipObserver: true
-                          })
+                          for (let i = 0; i <= accumulateCount; ++i) {
+                            getNewContent(pageNoVisible + i, {
+                              position: 'before',
+                              skipObserver: true
+                            })
+                          }
                         }}
                       />
                     )}
@@ -73,14 +76,13 @@ export default class InfinityScroller extends PureComponent {
                   {hasContent && !useLoadButton && !skipObserver && (
                     <InfinityMarker
                       pageNo={pageNo}
+                      callOnVisible={accumulateCount > pageNo}
                       onVisible={pageNoVisible => {
-                        switch (scrollDirection) {
-                          // upwards infinity does not work greate, therefore we have the button
-                          case 'down':
-                            getNewContent(pageNoVisible + 1, {
-                              position: 'after'
-                            })
-                            break
+                        for (let i = 0; i <= accumulateCount; ++i) {
+                          getNewContent(pageNoVisible + i, {
+                            position: 'after',
+                            skipObserver: i < accumulateCount
+                          })
                         }
                       }}
                     />
@@ -127,7 +129,11 @@ export default class InfinityScroller extends PureComponent {
 class InfinityMarker extends PureComponent {
   static propTypes = {
     pageNo: PropTypes.number.isRequired,
-    onVisible: PropTypes.func.isRequired
+    onVisible: PropTypes.func.isRequired,
+    callOnVisible: PropTypes.bool
+  }
+  static defaultProps = {
+    callOnVisible: false
   }
   // state = { isConnected: false }
 
@@ -135,7 +141,9 @@ class InfinityMarker extends PureComponent {
     super(props)
     this._ref = React.createRef()
 
-    if (typeof IntersectionObserver !== 'undefined') {
+    if (props.callOnVisible) {
+      this.callReady()
+    } else if (typeof IntersectionObserver !== 'undefined') {
       this.intersectionObserver = new IntersectionObserver(entries => {
         const [{ isIntersecting }] = entries
         if (isIntersecting) {

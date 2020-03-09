@@ -17,7 +17,10 @@ import {
 import { createSpacingClasses } from '../space/SpacingHelper'
 
 import { calculatePagination } from './PaginationCalculation'
-import { ContentObject, detectScrollDirection } from './PaginationHelpers'
+import {
+  ContentObject
+  // , detectScrollDirection // NB: We do currently not use scroll direction handling
+} from './PaginationHelpers'
 import InfinityScroller from './PaginationInfinity'
 import PaginationBar from './PaginationBar'
 
@@ -29,11 +32,20 @@ const renderProps = {
 const propTypes = {
   current_page: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   page_count: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  accumulate_count: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number
+  ]),
   mode: PropTypes.oneOf(['pagination', 'infinity']),
   hide_progress_indicator: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.bool
   ]),
+  reset_items_handler: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.func
+  ]),
+  items: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
   use_load_button: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   indicator_element: PropTypes.oneOfType([
     PropTypes.node,
@@ -60,10 +72,13 @@ const defaultProps = {
   mode: 'pagination',
   hide_progress_indicator: false,
   use_load_button: false,
+  reset_items_handler: null,
+  items: null,
   indicator_element: null,
   align: 'left',
   current_page: null,
-  page_count: null, // TODO: has to work if set to 0
+  page_count: null,
+  accumulate_count: 0,
   class: null,
   button_title: '%s',
   prev_title: 'Previous',
@@ -90,10 +105,27 @@ export default class Pagination extends PureComponent {
   static getDerivedStateFromProps(props, state) {
     if (state._listenForPropChanges) {
       if (props.page_count !== null) {
-        state.pageCount = parseFloat(props.page_count)
+        state.pageCount = parseFloat(props.page_count) || 1
       }
       if (props.current_page !== null) {
-        state.currentPage = parseFloat(props.current_page)
+        state.currentPage = parseFloat(props.current_page) || 1
+      }
+
+      // reset items, like the resetItems method
+      if (
+        props.reset_items_handler !== null &&
+        isTrue(props.reset_items_handler)
+      ) {
+        state.items = []
+        state.pageCount = parseFloat(props.page_count) || 1
+      }
+
+      if (props.items !== null) {
+        if (typeof props.items === 'string' && props.items[0] === '[') {
+          state.items = JSON.parse(props.items)
+        } else {
+          state.items = props.items
+        }
       }
     }
     state._listenForPropChanges = true
@@ -105,7 +137,7 @@ export default class Pagination extends PureComponent {
 
     this.state = {
       items: [],
-      scrollDirection: 'down',
+      // scrollDirection: 'down',// NB: We do currently not use scroll direction handling
       isLoading: false,
       _listenForPropChanges: true
     }
@@ -122,21 +154,22 @@ export default class Pagination extends PureComponent {
     }
   }
 
-  componentDidMount() {
-    if (this.useInfinity) {
-      this._scrollDirection = detectScrollDirection(scrollDirection => {
-        this.setState({
-          scrollDirection,
-          _listenForPropChanges: false
-        })
-      })
-    }
-  }
-  componentWillUnmount() {
-    if (this._scrollDirection) {
-      this._scrollDirection.remove()
-    }
-  }
+  // NB: We do currently not use scroll direction handling
+  // componentDidMount() {
+  //   if (this.useInfinity) {
+  //     this._scrollDirection = detectScrollDirection(scrollDirection => {
+  //       this.setState({
+  //         scrollDirection,
+  //         _listenForPropChanges: false
+  //       })
+  //     })
+  //   }
+  // }
+  // componentWillUnmount() {
+  //   if (this._scrollDirection) {
+  //     this._scrollDirection.remove()
+  //   }
+  // }
 
   getNewContent = (newPageNo, { position = 'after', ...props } = {}) => {
     // if "page_count" is set do not load more than that value
@@ -180,13 +213,28 @@ export default class Pagination extends PureComponent {
 
     this.setState({
       items,
-      currentPage: newPageNo,
+      // currentPage: newPageNo,// update the currentPage
       _listenForPropChanges: false
     })
 
     dispatchCustomElementEvent(this, 'on_load', {
       page: newPageNo,
       insertContent: this.handleNewContent
+    })
+  }
+
+  // like reset_items_handler in DerivedState
+  setItems = items => {
+    this.setState({
+      items,
+      _listenForPropChanges: false
+    })
+  }
+  resetItems = () => {
+    this.setState({
+      items: [],
+      currentPage: parseFloat(this.props.current_page) || 1,
+      _listenForPropChanges: false
     })
   }
 
@@ -200,11 +248,11 @@ export default class Pagination extends PureComponent {
     const pageNo = newContent[0]
     newContent = newContent[1]
 
-    const currentPage = this.state.items.find(
+    const itemToInsert = this.state.items.find(
       ({ pageNo: p }) => p === pageNo
     )
 
-    if (currentPage) {
+    if (itemToInsert) {
       let content = null
       if (typeof newContent === 'function') {
         content = newContent()
@@ -213,12 +261,12 @@ export default class Pagination extends PureComponent {
       }
 
       if (content) {
-        const contentObject = currentPage.insert(content)
+        const contentObject = itemToInsert.insert(content)
 
         this.setState(
           {
             items: [...this.state.items], // we make a copy, only to rerender
-            // updatedPageNo: pageNo, // only to rerender
+            currentPage: pageNo, // update the currentPage
             _listenForPropChanges: false
           },
           () =>
@@ -260,6 +308,9 @@ export default class Pagination extends PureComponent {
     const {
       align,
       children,
+      accumulate_count,
+      set_items_handler,
+      reset_items_handler,
       className,
       class: _className,
 
@@ -275,6 +326,16 @@ export default class Pagination extends PureComponent {
 
       ...attributes
     } = props
+
+    // update the callback handlers
+    if (!this.hasSetItems && typeof set_items_handler === 'function') {
+      this.hasSetItems = true
+      set_items_handler(this.setItems)
+    }
+    if (!this.hasResetItems && typeof reset_items_handler === 'function') {
+      this.hasResetItems = true
+      reset_items_handler(this.resetItems)
+    }
 
     const { currentPage, pageCount, items } = this.state
     const pages = calculatePagination(pageCount, currentPage)
@@ -302,11 +363,12 @@ export default class Pagination extends PureComponent {
               items={items}
               currentPage={currentPage}
               pageCount={pageCount}
+              accumulateCount={parseFloat(accumulate_count) || 0}
               originalPageCount={this.props.page_count}
               getNewContent={this.getNewContent}
               useLoadButton={this.useLoadButton}
               hideIndicator={this.hideIndicator}
-              scrollDirection={this.state.scrollDirection}
+              // scrollDirection={this.state.scrollDirection}// NB: We do currently not use scroll direction handling
             />
           )}
         </div>

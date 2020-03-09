@@ -7,14 +7,24 @@ import React from 'react'
 import { Wrapper, Box } from '../helpers'
 import styled from '@emotion/styled'
 
-// import { Pagination } from '../../src/components'
+import { Button } from '../../src/components'
 import Pagination from '../../src/components/pagination/Pagination'
 
 const LargePage = styled.div`
-  height: 60rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  height: 30rem;
   width: 100%;
-  background-color: hotpink;
+
   margin: 2rem 0;
+
+  background-color: ${props => props.color || 'hotpink'};
+  font-size: 20rem;
+  font-weight: var(--font-weight-bold);
+  font-feature-settings: 'pnum' on, 'lnum' on;
+  color: white;
 `
 
 export default [
@@ -40,7 +50,7 @@ export default [
       </Box>
       <Box>
         <InfinityPagination use_load_button>
-          {pageNo => <LargePage>{pageNo}</LargePage>}
+          {pageNo => <LargePage color="LightCoral">{pageNo}</LargePage>}
         </InfinityPagination>
       </Box>
       <Box>
@@ -49,14 +59,19 @@ export default [
           current_page={2}
           page_count={3}
         >
-          {pageNo => <LargePage>{pageNo}</LargePage>}
+          {pageNo => <LargePage color="Indigo">{pageNo}</LargePage>}
         </InfinityPagination>
       </Box>
       <Box>
-        <InfinityPagination>
-          {pageNo => <LargePage>{pageNo}</LargePage>}
-        </InfinityPagination>
+        <InfinityPaginationStacked>
+          {pageNo => <LargePage color="Gold">{pageNo}</LargePage>}
+        </InfinityPaginationStacked>
       </Box>
+      {/* <Box>
+        <InfinityPaginationCached>
+        {pageNo => <LargePage>{pageNo}</LargePage>}
+      </InfinityPaginationCached>
+    </Box> */}
     </Wrapper>
   )
 ]
@@ -75,7 +90,7 @@ const PaginationWithState = ({ children, ...props }) => {
 
         setTimeout(() => {
           insertContent([page, children])
-        }, 1e3)
+        }, 300)
       }}
     >
       {/* just a child */}
@@ -99,10 +114,80 @@ const InfinityPagination = ({ children, ...props }) => {
 
         setTimeout(() => {
           insertContent([page, children(page)])
-        }, 1e3)
+        }, 300)
       }}
     >
       {/* just a child */}
     </Pagination>
   )
 }
+
+const InfinityPaginationStacked = ({ children, ...props }) => {
+  const [pagesStack, updatePagesStack] = React.useState([])
+  const resetItems = React.useRef(null)
+
+  if (pagesStack.length > 0) {
+    setTimeout(() => {
+      const { page, insertContent } = pagesStack.shift()
+      insertContent([page, children(page)])
+
+      // NB: this is new here!
+      updatePagesStack(pagesStack)
+    }, 300)
+  }
+
+  return (
+    <Pagination
+      mode="infinity"
+      page_count={20}
+      // accumulate_count={2} // NB: this is new here!
+      reset_items_handler={fn => (resetItems.current = fn)} // NB: this is new here!
+      {...props}
+      on_load={({ page, insertContent }) => {
+        console.log('InfinityPagination on_load:', page)
+
+        // start getting new content
+        updatePagesStack([...pagesStack, { page, insertContent }])
+      }}
+    >
+      {/* just a child */}
+      <Button on_click={() => resetItems?.current()}>Reset</Button>
+    </Pagination>
+  )
+}
+
+// const InfinityPaginationCached = ({ children, ...props }) => {
+//   const [currentPage, setCurrentPage] = React.useState(3)
+//   const [{ page, content }, setNewContent] = React.useState({})
+//   const [pageCache, updatePageCache] = React.useState({})
+//
+//   if (typeof pageCache[page] === 'function') {
+//     // here we do actually a state update during render, therefore we delay it one tick
+//     setTimeout(() => pageCache[page]([page, content]), 0)
+//   }
+//
+//   return (
+//     <Pagination
+//       mode="infinity"
+//       page_count={5}
+//       current_page={currentPage}
+//       {...props}
+//       on_load={({ page, insertContent }) => {
+//         console.log('InfinityPagination on_load:', page)
+//
+//         // just to show case, we don't actually need to track the currentPage in here
+//         setCurrentPage(page)
+//
+//         // has no content yet, but make everything ready
+//         updatePageCache({ ...pageCache, ...{ [page]: insertContent } })
+//
+//         // start getting new content
+//         setTimeout(() => {
+//           setNewContent({ page, content: children(page) })
+//         }, 300)
+//       }}
+//     >
+//       {/* just a child */}
+//     </Pagination>
+//   )
+// }
