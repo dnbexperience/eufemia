@@ -193,6 +193,7 @@ export default class Pagination extends PureComponent {
       position,
       hideIndicator: this.hideIndicator,
       indicatorElement: this.props.indicator_element,
+      skipObserver: false,
       ...props
     }
 
@@ -363,7 +364,7 @@ export default class Pagination extends PureComponent {
               items={items}
               currentPage={currentPage}
               pageCount={pageCount}
-              accumulateCount={parseFloat(accumulate_count) || 0}
+              accumulateCount={parseFloat(accumulate_count)}
               originalPageCount={this.props.page_count}
               getNewContent={this.getNewContent}
               useLoadButton={this.useLoadButton}

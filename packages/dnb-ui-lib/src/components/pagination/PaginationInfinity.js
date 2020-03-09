@@ -61,12 +61,10 @@ export default class InfinityScroller extends PureComponent {
                         icon="arrow_up"
                         pageNo={pageNo - 1}
                         onClick={pageNoVisible => {
-                          for (let i = 0; i <= accumulateCount; ++i) {
-                            getNewContent(pageNoVisible + i, {
-                              position: 'before',
-                              skipObserver: true
-                            })
-                          }
+                          getNewContent(pageNoVisible, {
+                            position: 'before',
+                            skipObserver: true
+                          })
                         }}
                       />
                     )}
@@ -76,12 +74,19 @@ export default class InfinityScroller extends PureComponent {
                   {hasContent && !useLoadButton && !skipObserver && (
                     <InfinityMarker
                       pageNo={pageNo}
-                      callOnVisible={accumulateCount > pageNo}
+                      callOnVisible={accumulateCount > 0 && pageNo === 1}
                       onVisible={pageNoVisible => {
-                        for (let i = 0; i <= accumulateCount; ++i) {
-                          getNewContent(pageNoVisible + i, {
-                            position: 'after',
-                            skipObserver: i < accumulateCount
+                        if (accumulateCount > 0) {
+                          for (let i = 0; i <= accumulateCount; ++i) {
+                            getNewContent(items.length + i, {
+                              position: 'after',
+                              skipObserver:
+                                i !== Math.round(accumulateCount / 2)
+                            })
+                          }
+                        } else {
+                          getNewContent(pageNoVisible + 1, {
+                            position: 'after'
                           })
                         }
                       }}
@@ -142,7 +147,7 @@ class InfinityMarker extends PureComponent {
     this._ref = React.createRef()
 
     if (props.callOnVisible) {
-      this.callReady()
+      this.readyTimeout = setTimeout(this.callReady, 1) // because of rerender loop
     } else if (typeof IntersectionObserver !== 'undefined') {
       this.intersectionObserver = new IntersectionObserver(entries => {
         const [{ isIntersecting }] = entries
@@ -160,10 +165,11 @@ class InfinityMarker extends PureComponent {
   }
 
   componentWillUnmount() {
+    clearTimeout(this.readyTimeout)
     this.intersectionObserver?.disconnect()
   }
 
-  callReady() {
+  callReady = () => {
     // this.setState({ isConnected: true })
     this.props.onVisible(this.props.pageNo)
     this.intersectionObserver?.disconnect()

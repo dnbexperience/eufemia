@@ -140,11 +140,11 @@ const InfinityPaginationStacked = ({ children, ...props }) => {
     <Pagination
       mode="infinity"
       page_count={20}
-      // accumulate_count={2} // NB: this is new here!
+      accumulate_count={3} // NB: this is new here!
       reset_items_handler={fn => (resetItems.current = fn)} // NB: this is new here!
       {...props}
       on_load={({ page, insertContent }) => {
-        console.log('InfinityPagination on_load:', page)
+        console.log('InfinityPaginationStacked on_load:', page)
 
         // start getting new content
         updatePagesStack([...pagesStack, { page, insertContent }])
