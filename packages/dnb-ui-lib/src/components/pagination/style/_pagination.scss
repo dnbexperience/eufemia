@@ -54,16 +54,6 @@
     justify-content: flex-end;
   }
 
-  // default
-  @at-root .dnb-core-style &__button,
-    &__button {
-    padding: 0 0.7rem;
-  }
-  @at-root .dnb-core-style &__bar__inner &__button,
-    &__bar__inner &__button {
-    padding: 0 1rem;
-  }
-
   &__dots {
     display: flex;
     align-self: flex-end;

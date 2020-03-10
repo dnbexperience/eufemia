@@ -921,11 +921,6 @@ button.dnb-button::-moz-focus-inner {
     justify-content: center; }
   .dnb-pagination--right .dnb-pagination__bar {
     justify-content: flex-end; }
-  .dnb-core-style .dnb-pagination__button, .dnb-pagination__button {
-    padding: 0 0.7rem; }
-  .dnb-core-style .dnb-pagination__bar__inner .dnb-pagination__button,
-  .dnb-pagination__bar__inner .dnb-pagination__button {
-    padding: 0 1rem; }
   .dnb-pagination__dots {
     display: flex;
     align-self: flex-end;

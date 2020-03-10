@@ -17,6 +17,7 @@ import Component from '../Pagination'
 import _pagination from '../style/_pagination.scss' // eslint-disable-line
 import dnb_pagination from '../style/dnb-pagination.scss' // eslint-disable-line
 import dnb_pagination_theme_ui from '../style/themes/dnb-pagination-theme-ui.scss' // eslint-disable-line
+;[_pagination, dnb_pagination, dnb_pagination_theme_ui]
 
 const snapshotProps = {
   ...fakeProps(require.resolve('../Pagination'), {
