@@ -4,18 +4,30 @@
  */
 
 import React, { PureComponent } from 'react'
-// import PropTypes from 'prop-types'
+import PropTypes from 'prop-types'
 import Context from '../../shared/Context'
 import ProgressIndicator from '../progress-indicator/ProgressIndicator'
 
 export class PaginationIndicator extends PureComponent {
   static contextType = Context
+  static propTypes = {
+    indicatorElement: PropTypes.oneOfType([
+      PropTypes.object,
+      PropTypes.node,
+      PropTypes.func,
+      PropTypes.string
+    ])
+  }
+  static defaultProps = {
+    indicatorElement: 'div'
+  }
   render() {
+    const Element = this.props.indicatorElement
     return (
-      <div className="dnb-pagination__indicator">
+      <Element className="dnb-pagination__indicator">
         <ProgressIndicator />
         {this.context.translation.Pagination.is_loading_text}
-      </div>
+      </Element>
     )
   }
 }
@@ -23,9 +35,11 @@ export class PaginationIndicator extends PureComponent {
 export class ContentObject {
   constructor({ pageNo, indicatorElement, hideIndicator, ...props }) {
     this.hasContent = false
-    this.content = !hideIndicator
-      ? indicatorElement || <PaginationIndicator />
-      : ''
+    this.content = !hideIndicator ? (
+      <PaginationIndicator indicatorElement={indicatorElement} />
+    ) : (
+      ''
+    )
     this.pageNo = pageNo
     for (let k in props) {
       this[k] = props[k]

@@ -55,7 +55,7 @@ export default [
       </Box>
       <Box>
         <InfinityPagination
-          indicator_element={'Loading ...'}
+          indicator_element={() => 'Loading ...'}
           current_page={2}
           page_count={3}
         >
@@ -137,24 +137,39 @@ const InfinityPaginationStacked = ({ children, ...props }) => {
   }
 
   return (
-    <Pagination
-      mode="infinity"
-      page_count={20}
-      accumulate_count={3} // NB: this is new here!
-      reset_items_handler={fn => (resetItems.current = fn)} // NB: this is new here!
-      {...props}
-      on_load={({ page, insertContent }) => {
-        console.log('InfinityPaginationStacked on_load:', page)
-
-        // start getting new content
-        updatePagesStack([...pagesStack, { page, insertContent }])
-      }}
-    >
-      {/* just a child */}
+    <>
       <Button on_click={() => resetItems?.current()}>Reset</Button>
-    </Pagination>
+      <Pagination
+        mode="infinity"
+        // page_element="tr"
+        // page_element={Element}
+        page_count={20}
+        accumulate_count={3} // NB: this is new here!
+        reset_items_handler={fn => (resetItems.current = fn)} // NB: this is new here!
+        {...props}
+        on_load={({ page, insertContent }) => {
+          console.log('InfinityPaginationStacked on_load:', page)
+
+          // start getting new content
+          updatePagesStack([...pagesStack, { page, insertContent }])
+        }}
+      >
+        {/* just a child */}
+      </Pagination>
+      {/* <table>
+        <tbody>
+        </tbody>
+      </table> */}
+    </>
   )
 }
+
+// const Element = ({ children }) => <tr className="x">{children}</tr>
+// const Element = styled.tr`
+//   background-color: red;
+//   opacity: 0.5;
+//   min-height: 5rem !important;
+// `
 
 // const InfinityPaginationCached = ({ children, ...props }) => {
 //   const [currentPage, setCurrentPage] = React.useState(3)

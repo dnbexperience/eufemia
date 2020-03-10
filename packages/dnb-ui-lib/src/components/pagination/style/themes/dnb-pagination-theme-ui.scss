@@ -6,7 +6,7 @@
 @import '../../../../style/themes/imports.scss';
 
 .dnb-pagination {
-  &__content &__page {
+  &__page {
     display: flex;
     flex-direction: column;
     justify-content: center;

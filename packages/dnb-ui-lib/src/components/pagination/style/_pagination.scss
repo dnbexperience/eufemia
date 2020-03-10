@@ -16,10 +16,10 @@
   }
 
   // used by the infinity scroller
-  &__content > &__page {
+  &__page {
     position: relative; // because of the marker
   }
-  &__content > &__page &__marker {
+  &__page &__marker {
     pointer-events: none;
     position: absolute;
     top: 0;

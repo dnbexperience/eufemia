@@ -37,6 +37,8 @@ const propTypes = {
     PropTypes.number
   ]),
   mode: PropTypes.oneOf(['pagination', 'infinity']),
+  use_load_button: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  items: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
   hide_progress_indicator: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.bool
@@ -45,8 +47,18 @@ const propTypes = {
     PropTypes.string,
     PropTypes.func
   ]),
-  items: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
-  use_load_button: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  page_element: PropTypes.oneOfType([
+    PropTypes.object,
+    PropTypes.node,
+    PropTypes.func,
+    PropTypes.string
+  ]),
+  marker_element: PropTypes.oneOfType([
+    PropTypes.object,
+    PropTypes.node,
+    PropTypes.func,
+    PropTypes.string
+  ]),
   indicator_element: PropTypes.oneOfType([
     PropTypes.node,
     PropTypes.func,
@@ -70,11 +82,13 @@ const propTypes = {
 }
 const defaultProps = {
   mode: 'pagination',
-  hide_progress_indicator: false,
   use_load_button: false,
-  reset_items_handler: null,
   items: null,
-  indicator_element: null,
+  hide_progress_indicator: false,
+  reset_items_handler: null,
+  page_element: null,
+  marker_element: 'div',
+  indicator_element: 'div',
   align: 'left',
   current_page: null,
   page_count: null,
@@ -188,11 +202,18 @@ export default class Pagination extends PureComponent {
 
     const items = [...this.state.items]
 
+    // handle indicator element
+    const { page_element, indicator_element } = this.props
+    const indicatorElement =
+      page_element === 'tr' && indicator_element === 'div'
+        ? 'td'
+        : indicator_element
+
     const obj = {
       pageNo: newPageNo,
       position,
       hideIndicator: this.hideIndicator,
-      indicatorElement: this.props.indicator_element,
+      indicatorElement,
       skipObserver: false,
       ...props
     }
@@ -312,6 +333,8 @@ export default class Pagination extends PureComponent {
       accumulate_count,
       set_items_handler,
       reset_items_handler,
+      page_element,
+      marker_element,
       className,
       class: _className,
 
@@ -339,42 +362,27 @@ export default class Pagination extends PureComponent {
     }
 
     const { currentPage, pageCount, items } = this.state
-    const pages = calculatePagination(pageCount, currentPage)
 
-    const mainParams = {
-      className: classnames(
-        'dnb-pagination',
-        align && `dnb-pagination--${align}`,
-        createSpacingClasses(props),
-        className,
-        _className
-      ),
-      ...attributes
-    }
+    let paginationBar = null
 
-    validateDOMAttributes(props, mainParams)
+    if (!this.useInfinity) {
+      const pages = calculatePagination(pageCount, currentPage)
 
-    return (
-      <div {...mainParams}>
-        <div className="dnb-pagination__content">
-          {children}
+      const mainParams = {
+        className: classnames(
+          'dnb-pagination',
+          align && `dnb-pagination--${align}`,
+          createSpacingClasses(props),
+          className,
+          _className
+        ),
+        ...attributes
+      }
 
-          {this.useInfinity && (
-            <InfinityScroller
-              items={items}
-              currentPage={currentPage}
-              pageCount={pageCount}
-              accumulateCount={parseFloat(accumulate_count)}
-              originalPageCount={this.props.page_count}
-              getNewContent={this.getNewContent}
-              useLoadButton={this.useLoadButton}
-              hideIndicator={this.hideIndicator}
-              // scrollDirection={this.state.scrollDirection}// NB: We do currently not use scroll direction handling
-            />
-          )}
-        </div>
+      validateDOMAttributes(props, mainParams)
 
-        {!this.useInfinity && (
+      paginationBar = (
+        <div {...mainParams}>
           <PaginationBar
             pages={pages}
             pageCount={pageCount}
@@ -386,8 +394,32 @@ export default class Pagination extends PureComponent {
             prevTitle={props.prev_title}
             nextTitle={props.next_title}
           />
+        </div>
+      )
+    }
+
+    return (
+      <>
+        {children}
+
+        {this.useInfinity && (
+          <InfinityScroller
+            items={items}
+            currentPage={currentPage}
+            pageCount={pageCount}
+            accumulateCount={parseFloat(accumulate_count)}
+            originalPageCount={this.props.page_count}
+            getNewContent={this.getNewContent}
+            useLoadButton={this.useLoadButton}
+            hideIndicator={this.hideIndicator}
+            pageElement={page_element}
+            markerElement={marker_element}
+            // scrollDirection={this.state.scrollDirection}// NB: We do currently not use scroll direction handling
+          />
         )}
-      </div>
+
+        {paginationBar}
+      </>
     )
   }
 }

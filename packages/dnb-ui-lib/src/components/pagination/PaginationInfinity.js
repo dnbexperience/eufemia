@@ -5,7 +5,6 @@
 
 import React, { PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
-import classnames from 'classnames'
 import Context from '../../shared/Context'
 import Button from '../button/Button'
 
@@ -20,12 +19,26 @@ export default class InfinityScroller extends PureComponent {
     originalPageCount: PropTypes.oneOfType([
       PropTypes.number,
       PropTypes.string
+    ]),
+    pageElement: PropTypes.oneOfType([
+      PropTypes.object,
+      PropTypes.node,
+      PropTypes.func,
+      PropTypes.string
+    ]),
+    markerElement: PropTypes.oneOfType([
+      PropTypes.object,
+      PropTypes.node,
+      PropTypes.func,
+      PropTypes.string
     ])
   }
 
   static defaultProps = {
     accumulateCount: 0,
-    originalPageCount: null
+    originalPageCount: null,
+    pageElement: 'div',
+    markerElement: 'div'
   }
 
   render() {
@@ -36,8 +49,27 @@ export default class InfinityScroller extends PureComponent {
       accumulateCount,
       originalPageCount,
       getNewContent,
-      useLoadButton
+      useLoadButton,
+      pageElement
     } = this.props
+
+    let { markerElement } = this.props
+
+    let Element = pageElement || Fragment
+    let elementParams = null
+
+    if (
+      typeof Element === 'string' ||
+      typeof Element === 'object' ||
+      React.isValidElement(Element)
+    ) {
+      elementParams = {
+        className: 'dnb-pagination__page'
+      }
+    }
+    if (Element === 'tr') {
+      markerElement = 'td'
+    }
 
     return (
       <>
@@ -50,81 +82,87 @@ export default class InfinityScroller extends PureComponent {
             position,
             skipObserver
           }) => {
+            if (elementParams) {
+              elementParams.ref = ref
+            }
+
             return (
-              <Fragment key={pageNo}>
-                <div ref={ref} className="dnb-pagination__page">
-                  {hasContent &&
-                    position === 'before' &&
-                    pageNo > 1 &&
-                    pageNo <= currentPage && (
-                      <InfinityLoadButton
-                        icon="arrow_up"
-                        pageNo={pageNo - 1}
-                        onClick={pageNoVisible => {
-                          getNewContent(pageNoVisible, {
-                            position: 'before',
-                            skipObserver: true
-                          })
-                        }}
-                      />
-                    )}
-
-                  {content}
-
-                  {hasContent && !useLoadButton && !skipObserver && (
-                    <InfinityMarker
-                      pageNo={pageNo}
-                      callOnVisible={accumulateCount > 0 && pageNo === 1}
-                      onVisible={pageNoVisible => {
-                        if (accumulateCount > 0) {
-                          for (let i = 0; i <= accumulateCount; ++i) {
-                            getNewContent(items.length + i, {
-                              position: 'after',
-                              skipObserver:
-                                i !== Math.round(accumulateCount / 2)
-                            })
-                          }
-                        } else {
-                          getNewContent(pageNoVisible + 1, {
-                            position: 'after'
-                          })
-                        }
+              <Element key={pageNo} {...elementParams}>
+                {hasContent &&
+                  position === 'before' &&
+                  pageNo > 1 &&
+                  pageNo <= currentPage && (
+                    <InfinityLoadButton
+                      icon="arrow_up"
+                      pageNo={pageNo - 1}
+                      onClick={pageNoVisible => {
+                        getNewContent(pageNoVisible, {
+                          position: 'before',
+                          skipObserver: true
+                        })
                       }}
                     />
                   )}
 
-                  {hasContent &&
-                    useLoadButton &&
-                    pageNo >= currentPage &&
-                    (parseFloat(originalPageCount) > 0
-                      ? pageNo < pageCount
-                      : true) && (
-                      <InfinityLoadButton
-                        icon="arrow_down"
-                        pageNo={pageNo + 1}
-                        onClick={pageNoVisible => {
-                          getNewContent(pageNoVisible, {
+                {content}
+
+                {hasContent && !useLoadButton && !skipObserver && (
+                  <InfinityMarker
+                    pageNo={pageNo}
+                    markerElement={markerElement}
+                    callOnVisible={accumulateCount > 0 && pageNo === 1}
+                    onVisible={pageNoVisible => {
+                      if (accumulateCount > 0) {
+                        for (let i = 0; i <= accumulateCount; ++i) {
+                          getNewContent(items.length + i, {
                             position: 'after',
-                            skipObserver: true
+                            skipObserver:
+                              i !== Math.round(accumulateCount / 2)
                           })
-                        }}
-                      />
-                    )}
-                </div>
-              </Fragment>
+                        }
+                      } else {
+                        getNewContent(pageNoVisible + 1, {
+                          position: 'after'
+                        })
+                      }
+                    }}
+                  />
+                )}
+
+                {hasContent &&
+                  useLoadButton &&
+                  pageNo >= currentPage &&
+                  (parseFloat(originalPageCount) > 0
+                    ? pageNo < pageCount
+                    : true) && (
+                    <InfinityLoadButton
+                      icon="arrow_down"
+                      pageNo={pageNo + 1}
+                      onClick={pageNoVisible => {
+                        getNewContent(pageNoVisible, {
+                          position: 'after',
+                          skipObserver: true
+                        })
+                      }}
+                    />
+                  )}
+              </Element>
             )
           }
         )}
 
         {items.length === 0 && (
-          <InfinityMarker
-            pageNo={currentPage}
-            onVisible={pageNoVisible => {
-              getNewContent(pageNoVisible, {
-                position: currentPage > 1 ? 'before' : 'after'
-              })
-            }}
-          />
+          <Element {...elementParams}>
+            <InfinityMarker
+              pageNo={currentPage}
+              markerElement={markerElement}
+              onVisible={pageNoVisible => {
+                getNewContent(pageNoVisible, {
+                  position: currentPage > 1 ? 'before' : 'after'
+                })
+              }}
+            />
+          </Element>
         )}
       </>
     )
@@ -135,19 +173,26 @@ class InfinityMarker extends PureComponent {
   static propTypes = {
     pageNo: PropTypes.number.isRequired,
     onVisible: PropTypes.func.isRequired,
+    markerElement: PropTypes.oneOfType([
+      PropTypes.object,
+      PropTypes.node,
+      PropTypes.func,
+      PropTypes.string
+    ]),
     callOnVisible: PropTypes.bool
   }
   static defaultProps = {
-    callOnVisible: false
+    callOnVisible: false,
+    markerElement: 'div'
   }
-  // state = { isConnected: false }
+  state = { isConnected: false }
 
   constructor(props) {
     super(props)
     this._ref = React.createRef()
 
     if (props.callOnVisible) {
-      this.readyTimeout = setTimeout(this.callReady, 1) // because of rerender loop
+      this.callReady()
     } else if (typeof IntersectionObserver !== 'undefined') {
       this.intersectionObserver = new IntersectionObserver(entries => {
         const [{ isIntersecting }] = entries
@@ -161,31 +206,33 @@ class InfinityMarker extends PureComponent {
   }
 
   componentDidMount() {
-    this.intersectionObserver?.observe(this._ref.current)
+    this._isMounted = true
+    if (this._ref.current) {
+      this.intersectionObserver?.observe(this._ref.current)
+    }
   }
 
   componentWillUnmount() {
+    this._isMounted = false
     clearTimeout(this.readyTimeout)
     this.intersectionObserver?.disconnect()
   }
 
   callReady = () => {
-    // this.setState({ isConnected: true })
-    this.props.onVisible(this.props.pageNo)
     this.intersectionObserver?.disconnect()
+    this.intersectionObserver = null
+    this.readyTimeout = setTimeout(() => {
+      if (this._isMounted) {
+        this.setState({ isConnected: true })
+      }
+      this.props.onVisible(this.props.pageNo)
+    }, 1) // because of rerender loop
   }
 
   render() {
-    return (
-      <div
-        className={classnames(
-          'dnb-pagination__marker'
-          // this.state.isConnected && 'dnb-pagination__marker--done'
-        )}
-        ref={this._ref}
-      >
-        {/* page: {this.props.pageNo} */}
-      </div>
+    const { markerElement: Element, callOnVisible } = this.props
+    return this.state.isConnected || callOnVisible ? null : (
+      <Element className="dnb-pagination__marker" ref={this._ref} />
     )
   }
 }
