@@ -16,10 +16,10 @@
   }
 
   // used by the infinity scroller
-  &__content > &__page {
+  &__page {
     position: relative; // because of the marker
   }
-  &__content > &__page &__marker {
+  &__page &__marker {
     pointer-events: none;
     position: absolute;
     top: 0;
@@ -39,9 +39,14 @@
   &__indicator {
     display: flex;
     flex-direction: column;
-    align-items: center;
     justify-content: center;
-    margin: 1rem 0 2rem;
+
+    &__inner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
   }
 
   &--left &__bar {
@@ -52,16 +57,6 @@
   }
   &--right &__bar {
     justify-content: flex-end;
-  }
-
-  // default
-  @at-root .dnb-core-style &__button,
-    &__button {
-    padding: 0 0.7rem;
-  }
-  @at-root .dnb-core-style &__bar__inner &__button,
-    &__bar__inner &__button {
-    padding: 0 1rem;
   }
 
   &__dots {

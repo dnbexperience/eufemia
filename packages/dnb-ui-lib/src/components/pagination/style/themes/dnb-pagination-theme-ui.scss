@@ -6,13 +6,12 @@
 @import '../../../../style/themes/imports.scss';
 
 .dnb-pagination {
-  &__content &__page {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-
+  &__indicator {
     min-height: 10rem;
-    animation: show-page 300ms ease-out forwards;
+
+    &__inner {
+      animation: show-page 300ms ease-out forwards;
+    }
   }
 
   // active/checked - like toggle-button

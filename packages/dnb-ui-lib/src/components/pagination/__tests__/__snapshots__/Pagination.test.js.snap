@@ -9,13 +9,15 @@ exports[`Pagination bar component have to match snapshot 1`] = `
   className={null}
   current_page={null}
   hide_progress_indicator={false}
-  indicator_element={null}
+  indicator_element="div"
   items={null}
+  marker_element="div"
   mode="pagination"
   next_title="Next"
   on_change={null}
   on_load={null}
   page_count={null}
+  page_element={null}
   prev_title="Previous"
   reset_items_handler={null}
   use_load_button={false}
@@ -23,9 +25,6 @@ exports[`Pagination bar component have to match snapshot 1`] = `
   <div
     className="dnb-pagination dnb-pagination--left"
   >
-    <div
-      className="dnb-pagination__content"
-    />
     <PaginationBar
       buttonTitle="Side %s"
       currentPage={1}
@@ -355,12 +354,10 @@ exports[`Pagination scss have to match default theme snapshot 1`] = `
 /*
  * Utilities
  */
-.dnb-pagination__content .dnb-pagination__page {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  min-height: 10rem;
-  animation: show-page 300ms ease-out forwards; }
+.dnb-pagination__indicator {
+  min-height: 10rem; }
+  .dnb-pagination__indicator__inner {
+    animation: show-page 300ms ease-out forwards; }
 
 .dnb-core-style .dnb-pagination__button.dnb-button--primary, .dnb-core-style .dnb-pagination__button.dnb-button--primary:not([disabled]):not(:active):hover, .dnb-pagination__button.dnb-button--primary, .dnb-pagination__button.dnb-button--primary:not([disabled]):not(:active):hover {
   background-color: var(--color-emerald-green);
@@ -894,9 +891,9 @@ button.dnb-button::-moz-focus-inner {
     display: flex;
     flex-wrap: wrap;
     align-items: center; }
-  .dnb-pagination__content > .dnb-pagination__page {
+  .dnb-pagination__page {
     position: relative; }
-  .dnb-pagination__content > .dnb-pagination__page .dnb-pagination__marker {
+  .dnb-pagination__page .dnb-pagination__marker {
     pointer-events: none;
     position: absolute;
     top: 0;
@@ -912,20 +909,18 @@ button.dnb-button::-moz-focus-inner {
   .dnb-pagination__indicator {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    margin: 1rem 0 2rem; }
+    justify-content: center; }
+    .dnb-pagination__indicator__inner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center; }
   .dnb-pagination--left .dnb-pagination__bar {
     justify-content: flex-start; }
   .dnb-pagination--center .dnb-pagination__bar {
     justify-content: center; }
   .dnb-pagination--right .dnb-pagination__bar {
     justify-content: flex-end; }
-  .dnb-core-style .dnb-pagination__button, .dnb-pagination__button {
-    padding: 0 0.7rem; }
-  .dnb-core-style .dnb-pagination__bar__inner .dnb-pagination__button,
-  .dnb-pagination__bar__inner .dnb-pagination__button {
-    padding: 0 1rem; }
   .dnb-pagination__dots {
     display: flex;
     align-self: flex-end;

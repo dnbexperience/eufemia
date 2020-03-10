@@ -55,7 +55,7 @@ export default [
       </Box>
       <Box>
         <InfinityPagination
-          indicator_element={'Loading ...'}
+          indicator_element={() => 'Loading ...'}
           current_page={2}
           page_count={3}
         >
@@ -64,7 +64,7 @@ export default [
       </Box>
       <Box>
         <InfinityPaginationStacked>
-          {pageNo => <LargePage color="Gold">{pageNo}</LargePage>}
+          {pageNo => <TdPage color="Gold">{pageNo}</TdPage>}
         </InfinityPaginationStacked>
       </Box>
       {/* <Box>
@@ -137,24 +137,57 @@ const InfinityPaginationStacked = ({ children, ...props }) => {
   }
 
   return (
-    <Pagination
-      mode="infinity"
-      page_count={20}
-      accumulate_count={3} // NB: this is new here!
-      reset_items_handler={fn => (resetItems.current = fn)} // NB: this is new here!
-      {...props}
-      on_load={({ page, insertContent }) => {
-        console.log('InfinityPaginationStacked on_load:', page)
-
-        // start getting new content
-        updatePagesStack([...pagesStack, { page, insertContent }])
-      }}
-    >
-      {/* just a child */}
+    <>
       <Button on_click={() => resetItems?.current()}>Reset</Button>
-    </Pagination>
+      <Table>
+        <tbody>
+          <Pagination
+            mode="infinity"
+            // page_element="tr"
+            page_element={Element}
+            page_count={20}
+            accumulate_count={3} // NB: this is new here!
+            reset_items_handler={fn => (resetItems.current = fn)} // NB: this is new here!
+            {...props}
+            on_load={({ page, insertContent }) => {
+              console.log('InfinityPaginationStacked on_load:', page)
+
+              // start getting new content
+              updatePagesStack([...pagesStack, { page, insertContent }])
+            }}
+          >
+            {/* just a child */}
+          </Pagination>
+        </tbody>
+      </Table>
+    </>
   )
 }
+
+// const Element = ({ children }) => <tr className="x">{children}</tr>
+const Table = styled.table`
+  width: 100%;
+`
+const Element = styled.tr`
+  width: 100%;
+  ${'' /* min-height: 5rem !important; */}
+`
+const TdPage = styled.td`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  height: 30rem;
+  width: 100%;
+
+  margin: 2rem 0;
+
+  background-color: ${props => props.color || 'hotpink'};
+  font-size: 20rem;
+  font-weight: var(--font-weight-bold);
+  font-feature-settings: 'pnum' on, 'lnum' on;
+  color: white;
+`
 
 // const InfinityPaginationCached = ({ children, ...props }) => {
 //   const [currentPage, setCurrentPage] = React.useState(3)
