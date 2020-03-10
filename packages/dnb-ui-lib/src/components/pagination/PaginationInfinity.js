@@ -7,6 +7,7 @@ import React, { PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import Context from '../../shared/Context'
 import Button from '../button/Button'
+import { PaginationIndicator } from './PaginationHelpers'
 
 export default class InfinityScroller extends PureComponent {
   static propTypes = {
@@ -15,6 +16,7 @@ export default class InfinityScroller extends PureComponent {
     pageCount: PropTypes.number.isRequired,
     useLoadButton: PropTypes.bool.isRequired,
     getNewContent: PropTypes.func.isRequired,
+    hideIndicator: PropTypes.bool,
     accumulateCount: PropTypes.number,
     originalPageCount: PropTypes.oneOfType([
       PropTypes.number,
@@ -31,14 +33,22 @@ export default class InfinityScroller extends PureComponent {
       PropTypes.node,
       PropTypes.func,
       PropTypes.string
+    ]),
+    indicatorElement: PropTypes.oneOfType([
+      PropTypes.object,
+      PropTypes.node,
+      PropTypes.func,
+      PropTypes.string
     ])
   }
 
   static defaultProps = {
+    hideIndicator: false,
     accumulateCount: 0,
     originalPageCount: null,
     pageElement: 'div',
-    markerElement: 'div'
+    markerElement: 'div',
+    indicatorElement: 'div'
   }
 
   render() {
@@ -50,10 +60,11 @@ export default class InfinityScroller extends PureComponent {
       originalPageCount,
       getNewContent,
       useLoadButton,
+      hideIndicator,
       pageElement
     } = this.props
 
-    let { markerElement } = this.props
+    let { markerElement, indicatorElement } = this.props
 
     let Element = pageElement || Fragment
     let elementParams = null
@@ -63,12 +74,15 @@ export default class InfinityScroller extends PureComponent {
       typeof Element === 'object' ||
       React.isValidElement(Element)
     ) {
+      if (
+        Element === 'tr' ||
+        (Element.__emotion_base || Element.target) === 'tr'
+      ) {
+        markerElement = indicatorElement = 'td'
+      }
       elementParams = {
         className: 'dnb-pagination__page'
       }
-    }
-    if (Element === 'tr') {
-      markerElement = 'td'
     }
 
     return (
@@ -82,7 +96,7 @@ export default class InfinityScroller extends PureComponent {
             position,
             skipObserver
           }) => {
-            if (elementParams) {
+            if (ref && elementParams) {
               elementParams.ref = ref
             }
 
@@ -105,6 +119,12 @@ export default class InfinityScroller extends PureComponent {
                   )}
 
                 {content}
+
+                {!hasContent && !hideIndicator && (
+                  <PaginationIndicator
+                    indicatorElement={indicatorElement}
+                  />
+                )}
 
                 {hasContent && !useLoadButton && !skipObserver && (
                   <InfinityMarker

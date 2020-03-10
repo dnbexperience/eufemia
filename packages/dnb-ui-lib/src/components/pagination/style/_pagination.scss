@@ -39,9 +39,14 @@
   &__indicator {
     display: flex;
     flex-direction: column;
-    align-items: center;
     justify-content: center;
-    margin: 1rem 0 2rem;
+
+    &__inner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
   }
 
   &--left &__bar {

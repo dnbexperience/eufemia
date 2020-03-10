@@ -354,12 +354,10 @@ exports[`Pagination scss have to match default theme snapshot 1`] = `
 /*
  * Utilities
  */
-.dnb-pagination__page {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  min-height: 10rem;
-  animation: show-page 300ms ease-out forwards; }
+.dnb-pagination__indicator {
+  min-height: 10rem; }
+  .dnb-pagination__indicator__inner {
+    animation: show-page 300ms ease-out forwards; }
 
 .dnb-core-style .dnb-pagination__button.dnb-button--primary, .dnb-core-style .dnb-pagination__button.dnb-button--primary:not([disabled]):not(:active):hover, .dnb-pagination__button.dnb-button--primary, .dnb-pagination__button.dnb-button--primary:not([disabled]):not(:active):hover {
   background-color: var(--color-emerald-green);
@@ -911,9 +909,12 @@ button.dnb-button::-moz-focus-inner {
   .dnb-pagination__indicator {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    margin: 1rem 0 2rem; }
+    justify-content: center; }
+    .dnb-pagination__indicator__inner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center; }
   .dnb-pagination--left .dnb-pagination__bar {
     justify-content: flex-start; }
   .dnb-pagination--center .dnb-pagination__bar {

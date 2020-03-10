@@ -202,18 +202,9 @@ export default class Pagination extends PureComponent {
 
     const items = [...this.state.items]
 
-    // handle indicator element
-    const { page_element, indicator_element } = this.props
-    const indicatorElement =
-      page_element === 'tr' && indicator_element === 'div'
-        ? 'td'
-        : indicator_element
-
     const obj = {
       pageNo: newPageNo,
       position,
-      hideIndicator: this.hideIndicator,
-      indicatorElement,
       skipObserver: false,
       ...props
     }
@@ -335,12 +326,12 @@ export default class Pagination extends PureComponent {
       reset_items_handler,
       page_element,
       marker_element,
+      indicator_element,
       className,
       class: _className,
 
       page_count: _page_count, // eslint-disable-line
       current_page: _current_page, // eslint-disable-line
-      indicator_element: _indicator_element, // eslint-disable-line
       mode: _mode, // eslint-disable-line
       button_title: _button_title, // eslint-disable-line
       prev_title: _prev_title, // eslint-disable-line
@@ -414,6 +405,7 @@ export default class Pagination extends PureComponent {
             hideIndicator={this.hideIndicator}
             pageElement={page_element}
             markerElement={marker_element}
+            indicatorElement={indicator_element}
             // scrollDirection={this.state.scrollDirection}// NB: We do currently not use scroll direction handling
           />
         )}
