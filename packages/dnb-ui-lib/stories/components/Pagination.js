@@ -27,6 +27,11 @@ const LargePage = styled.div`
   color: white;
 `
 
+const tableItems = []
+for (let i = 1; i <= 30; i++) {
+  tableItems.push({ ssn: i, text: String(i), expanded: false })
+}
+
 export default [
   'Pagination',
   () => (
@@ -46,8 +51,11 @@ export default [
           on_change={pageNo => {
             console.log('on_change:', pageNo)
           }}
-        ></PaginationWithState>
+        >
+          {pageNo => <LargePage color="HotPink">{pageNo}</LargePage>}
+        </PaginationWithState>
       </Box>
+
       <Box>
         <InfinityPagination use_load_button>
           {pageNo => <LargePage color="LightCoral">{pageNo}</LargePage>}
@@ -63,10 +71,9 @@ export default [
         </InfinityPagination>
       </Box>
       <Box>
-        <InfinityPaginationStacked>
-          {pageNo => <TdPage color="Gold">{pageNo}</TdPage>}
-        </InfinityPaginationStacked>
+        <InfinityPaginationTable tableItems={tableItems} />
       </Box>
+
       {/* <Box>
         <InfinityPaginationCached>
         {pageNo => <LargePage>{pageNo}</LargePage>}
@@ -76,6 +83,258 @@ export default [
   )
 ]
 
+// function TablePagination({ tableItems }) {
+//   // const [items, updateItems] = React.useState(tableItems)
+//   //
+//   // const onToggleExpanded = nr => {
+//   //   const item = items.find(({ ssn }) => ssn === nr)
+//   //   updateItems(
+//   //     items.map(cur => {
+//   //       if (cur.ssn === item.ssn) {
+//   //         cur = item
+//   //       }
+//   //       return cur
+//   //     })
+//   //   )
+//   // }
+//
+//   return (
+//     <InfinityPaginationTable
+//
+//     />
+//   )
+// }
+// {
+//   /* <TableContext.Provider
+//   value={{
+//     expandItem
+//   }}
+//   >
+//   </TableContext.Provider> */
+// }
+
+const InfinityPaginationDesktop = ({
+  children,
+  items,
+  current_page,
+  page_count,
+  onToggleExpanded,
+  ...props
+}) => {
+  // const [expanded, setAsExpanded] = React.useState(false)
+  return (
+    // <TableContext.Consumer>
+    //   {({ ssn, expanded, ...rest }) => {
+    items
+      .filter((cur, idx) => {
+        const floor = (current_page - 1) * page_count
+        const ceil = floor + page_count
+        // console.log('idx', idx, floor, ceil)
+        return idx >= floor && idx < ceil
+      })
+      .map(item => {
+        const params = {
+          onClick: () => {
+            // console.log('onClick', expanded)
+            // setAsExpanded(s => !s)
+            onToggleExpanded(item, current_page)
+          }
+        }
+        // console.log('rest', i, ssn, expanded, rest)
+        return (
+          <TableRow key={item.ssn} {...props}>
+            <TableData color="Gold" {...params}>
+              <details>
+                <summary>
+                  {item.text}
+                  {children}
+                </summary>
+              </details>
+              {item.expanded && <section>I'm expanded!</section>}
+            </TableData>
+          </TableRow>
+        )
+      })
+    //   }}
+    // </TableContext.Consumer>
+  )
+}
+
+const InfinityPaginationTable = ({ tableItems, ...props }) => {
+  const [items, updateItems] = React.useState(tableItems)
+
+  const current_page = 3
+  const page_count = 5
+  // let current_page = items.findIndex(({ selected }) => selected)
+  // if (current_page === -1) {
+  //   current_page = 1
+  // }
+
+  const [currentPage, setCurrentPage] = React.useState(null)
+  // console.log('currentPage', currentPage)
+
+  // const [pagesStack, updatePagesStack] = React.useState([])
+  const setContent = React.useRef(null)
+  // const setItems = React.useRef(null)
+  const resetItems = React.useRef(null)
+  // const contentCache = React.useRef(null)
+
+  const onToggleExpanded = ({ ssn: nr }, current_page) => {
+    const item = items.find(({ ssn }) => ssn === nr)
+    if (item) {
+      // const olditems = items
+      updateItems(
+        items.map(cur => {
+          if (cur.ssn === item.ssn) {
+            cur = {
+              ...item,
+              // text: `${item.ssn} hello`,
+              expanded: !item.expanded
+            }
+          }
+          return cur
+        })
+      )
+      setCurrentPage(current_page)
+    }
+  }
+
+  // console.log('InfinityPaginationTable pagesStack:', pagesStack)
+  // console.log('items', items)
+
+  const updateContent = () => {
+    const content = (
+      <InfinityPaginationDesktop
+        items={items}
+        page_count={page_count}
+        current_page={currentPage}
+        onToggleExpanded={onToggleExpanded}
+      />
+    )
+    // updateContent([page, content])
+    console.log('setContent.current', setContent.current)
+    setContent.current && setContent.current(currentPage, content)
+  }
+  // updateContent(currentPage)
+
+  React.useEffect(updateContent, [currentPage, items])
+
+  // setTimeout(() => {
+  // }, 1)
+  // setTimeout(() => {
+  // if (contentCache.current !== content && pagesStack.length > 0) {
+  // if (pagesStack.length > 0) {
+  //   const { page, insertContent } = pagesStack.find(
+  //     ({ page }) => page === currentPage
+  //   ) //.shift()
+  //
+  //   // {
+  //   //   pageNo => <Expand>{pageNo}</Expand>
+  //   // }
+  //
+  //   // const item = items.find(({ ssn }) => ssn === nr)2
+  //
+  //   insertContent([page, content])
+  //   updatePagesStack([...pagesStack])
+  //
+  //   // contentCache.current = content
+  // }
+  // }, Math.ceil(Math.random() * 2e3))
+
+  return (
+    <>
+      <Button
+        on_click={() => {
+          setCurrentPage(1) // only to make sure we call our sideeffect/useEffect
+          // updateItems([...items])
+          resetItems.current && resetItems.current()
+        }}
+      >
+        Reset
+      </Button>
+      <Table>
+        <tbody>
+          <Pagination
+            // items={items.map(({ ssn }) => {
+            //   return { content: ssn }
+            // })}
+            // items={[]}
+            mode="infinity"
+            // page_element={null}
+            // page_element="tr"
+            // page_element={TableRow}
+            // fallback_element="tr"
+            fallback_element={TableRow}
+            // indicator_element={props => (
+            //   <TableRow>
+            //     <td {...props} />
+            //   </TableRow>
+            // )}
+            // marker_element={React.forwardRef((props, ref) => (
+            //   <TableRow ref={ref}>
+            //     <td {...props} />
+            //   </TableRow>
+            // ))}
+            // marker_element="tr"
+            current_page={current_page}
+            page_count={Math.floor(items.length / page_count)}
+            // accumulate_count={3}
+            // set_content_handler={fn => (setContent.current = fn)}
+            // set_items_handler={fn => (setItems.current = fn)}
+            // reset_items_handler={fn => (resetItems.current = fn)}
+            {...props}
+            on_load={({ page, ...rest }) => {
+              setContent.current = rest.setContent
+              resetItems.current = rest.resetItems
+              // updatePagesStack([...pagesStack, { page, insertContent }])
+
+              setTimeout(() => {
+                setCurrentPage(page)
+              }, Math.ceil(Math.random() * 1e3)) // simulate random delay
+            }}
+          >
+            {/* just a child */}
+          </Pagination>
+        </tbody>
+      </Table>
+    </>
+  )
+}
+
+const Table = styled.table`
+  width: 100%;
+`
+const TableRow = styled.tr`
+  ${'' /* min-height: 3rem; */}
+  background-color: blue;
+  color: white;
+`
+const TableData = styled.td`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  min-height: 6rem;
+  ${'' /* width: 100%; */}
+
+  ${'' /* margin: 2rem 0; */}
+
+  background-color: ${props => props.color || 'hotpink'};
+
+  details {
+    display: block;
+  }
+  summary {
+    font-size: 2rem;
+    font-weight: var(--font-weight-bold);
+    font-feature-settings: 'pnum' on, 'lnum' on;
+    color: white;
+  }
+  section {
+    display: block;
+  }
+`
+
 const PaginationWithState = ({ children, ...props }) => {
   const [currentPage, setCurrentPage] = React.useState(1)
 
@@ -84,19 +343,39 @@ const PaginationWithState = ({ children, ...props }) => {
       {...props}
       page_count={30}
       current_page={currentPage}
-      on_change={({ page, insertContent }) => {
-        console.log('PaginationWithState on_load:', page)
+      // on_load={({ page, insertContent }) => {
+      //   console.log('PaginationWithState on_load:', page)
+      //   // setCurrentPage(page)
+      //
+      //   setTimeout(() => {
+      //     insertContent([page, children(page)])
+      //   }, 300)
+      // }}
+      on_change={({ page }) => {
+        console.log('PaginationWithState on_change:', page)
         setCurrentPage(page)
 
-        setTimeout(() => {
-          insertContent([page, children])
-        }, 300)
+        // setTimeout(() => {
+        //   insertContent([page, children(page)])
+        // }, 300)
       }}
     >
+      {({ page, insertContent }) => {
+        setTimeout(() => {
+          insertContent([page, children(page)])
+        }, 300)
+      }}
+      {/* <Pagination.Content>Content</Pagination.Content>
+      <Pagination.Bar
+        on_change={({ page }) => {
+          setCurrentPage(page)
+        }}
+      /> */}
       {/* just a child */}
     </Pagination>
   )
 }
+
 const InfinityPagination = ({ children, ...props }) => {
   // const [currentPage, setCurrentPage] = React.useState(1)
   // console.log('children', children)
@@ -121,106 +400,3 @@ const InfinityPagination = ({ children, ...props }) => {
     </Pagination>
   )
 }
-
-const InfinityPaginationStacked = ({ children, ...props }) => {
-  const [pagesStack, updatePagesStack] = React.useState([])
-  const resetItems = React.useRef(null)
-
-  if (pagesStack.length > 0) {
-    setTimeout(() => {
-      const { page, insertContent } = pagesStack.shift()
-      insertContent([page, children(page)])
-
-      // NB: this is new here!
-      updatePagesStack(pagesStack)
-    }, 300)
-  }
-
-  return (
-    <>
-      <Button on_click={() => resetItems?.current()}>Reset</Button>
-      <Table>
-        <tbody>
-          <Pagination
-            mode="infinity"
-            // page_element="tr"
-            page_element={Element}
-            page_count={20}
-            accumulate_count={3} // NB: this is new here!
-            reset_items_handler={fn => (resetItems.current = fn)} // NB: this is new here!
-            {...props}
-            on_load={({ page, insertContent }) => {
-              console.log('InfinityPaginationStacked on_load:', page)
-
-              // start getting new content
-              updatePagesStack([...pagesStack, { page, insertContent }])
-            }}
-          >
-            {/* just a child */}
-          </Pagination>
-        </tbody>
-      </Table>
-    </>
-  )
-}
-
-// const Element = ({ children }) => <tr className="x">{children}</tr>
-const Table = styled.table`
-  width: 100%;
-`
-const Element = styled.tr`
-  width: 100%;
-  ${'' /* min-height: 5rem !important; */}
-`
-const TdPage = styled.td`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  height: 30rem;
-  width: 100%;
-
-  margin: 2rem 0;
-
-  background-color: ${props => props.color || 'hotpink'};
-  font-size: 20rem;
-  font-weight: var(--font-weight-bold);
-  font-feature-settings: 'pnum' on, 'lnum' on;
-  color: white;
-`
-
-// const InfinityPaginationCached = ({ children, ...props }) => {
-//   const [currentPage, setCurrentPage] = React.useState(3)
-//   const [{ page, content }, setNewContent] = React.useState({})
-//   const [pageCache, updatePageCache] = React.useState({})
-//
-//   if (typeof pageCache[page] === 'function') {
-//     // here we do actually a state update during render, therefore we delay it one tick
-//     setTimeout(() => pageCache[page]([page, content]), 0)
-//   }
-//
-//   return (
-//     <Pagination
-//       mode="infinity"
-//       page_count={5}
-//       current_page={currentPage}
-//       {...props}
-//       on_load={({ page, insertContent }) => {
-//         console.log('InfinityPagination on_load:', page)
-//
-//         // just to show case, we don't actually need to track the currentPage in here
-//         setCurrentPage(page)
-//
-//         // has no content yet, but make everything ready
-//         updatePageCache({ ...pageCache, ...{ [page]: insertContent } })
-//
-//         // start getting new content
-//         setTimeout(() => {
-//           setNewContent({ page, content: children(page) })
-//         }, 300)
-//       }}
-//     >
-//       {/* just a child */}
-//     </Pagination>
-//   )
-// }

@@ -5,186 +5,178 @@
 
 import React, { PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
+import {
+  isTrue,
+  dispatchCustomElementEvent
+  // extendPropsWithContext
+} from '../../shared/component-helper'
 import Context from '../../shared/Context'
 import Button from '../button/Button'
-import { PaginationIndicator } from './PaginationHelpers'
+import {
+  preparePageElement,
+  isTrElement,
+  PaginationIndicator
+} from './PaginationHelpers'
+import PaginationContext from './PaginationContext'
+
+const propTypes = {}
+
+const defaultProps = {}
 
 export default class InfinityScroller extends PureComponent {
-  static propTypes = {
-    items: PropTypes.array.isRequired,
-    currentPage: PropTypes.number.isRequired,
-    pageCount: PropTypes.number.isRequired,
-    useLoadButton: PropTypes.bool.isRequired,
-    getNewContent: PropTypes.func.isRequired,
-    hideIndicator: PropTypes.bool,
-    accumulateCount: PropTypes.number,
-    originalPageCount: PropTypes.oneOfType([
-      PropTypes.number,
-      PropTypes.string
-    ]),
-    pageElement: PropTypes.oneOfType([
-      PropTypes.object,
-      PropTypes.node,
-      PropTypes.func,
-      PropTypes.string
-    ]),
-    markerElement: PropTypes.oneOfType([
-      PropTypes.object,
-      PropTypes.node,
-      PropTypes.func,
-      PropTypes.string
-    ]),
-    indicatorElement: PropTypes.oneOfType([
-      PropTypes.object,
-      PropTypes.node,
-      PropTypes.func,
-      PropTypes.string
-    ])
+  static contextType = PaginationContext
+  static propTypes = propTypes
+  static defaultProps = defaultProps
+
+  constructor(props, context) {
+    super(props)
+    this.hideIndicator = isTrue(context.pagination.hide_progress_indicator)
+    this.useLoadButton = isTrue(context.pagination.use_load_button)
   }
 
-  static defaultProps = {
-    hideIndicator: false,
-    accumulateCount: 0,
-    originalPageCount: null,
-    pageElement: 'div',
-    markerElement: 'div',
-    indicatorElement: 'div'
+  startup = () => {
+    const { currentPage, current_page } = this.context.pagination
+    this.getNewContent(parseFloat(current_page) || 1, {
+      position: currentPage > 1 ? 'before' : 'after'
+    })
+  }
+
+  getNewContent = (newPageNo, props = {}) => {
+    // if "page_count" is set do not load more than that value
+    if (newPageNo > parseFloat(this.context.pagination.page_count)) {
+      return
+    }
+
+    const exists =
+      this.context.pagination.items.findIndex(obj => {
+        return obj.pageNo === newPageNo
+      }) > -1
+
+    if (exists) {
+      return // stop here!
+    }
+
+    const items = this.context.pagination.prefillItems(newPageNo, props)
+
+    this.context.pagination.setState({
+      items,
+      _listenForPropChanges: false
+    })
+
+    dispatchCustomElementEvent(this.context.pagination, 'on_load', {
+      page: newPageNo,
+      pageNo: newPageNo,
+      ...this.context.pagination
+    })
   }
 
   render() {
     const {
+      // our states
       items,
       currentPage,
-      pageCount,
-      accumulateCount,
-      originalPageCount,
-      getNewContent,
-      useLoadButton,
-      hideIndicator,
-      pageElement
-    } = this.props
+      pageCount
 
-    let { markerElement, indicatorElement } = this.props
+      // our methodes
+    } = this.context.pagination
 
-    let Element = pageElement || Fragment
-    let elementParams = null
-
-    if (
-      typeof Element === 'string' ||
-      typeof Element === 'object' ||
-      React.isValidElement(Element)
-    ) {
-      if (
-        Element === 'tr' ||
-        (Element.__emotion_base || Element.target) === 'tr'
-      ) {
-        markerElement = indicatorElement = 'td'
-      }
-      elementParams = {
-        className: 'dnb-pagination__page'
-      }
+    if (items.length === 0) {
+      setTimeout(this.startup, 1)
     }
 
-    return (
-      <>
-        {items.map(
-          ({
-            pageNo,
-            hasContent,
-            content,
-            ref,
-            position,
-            skipObserver
-          }) => {
-            if (ref && elementParams) {
-              elementParams.ref = ref
-            }
+    // our props
+    const {
+      current_page,
+      page_count,
+      accumulate_count,
+      page_element,
+      fallback_element,
+      marker_element,
+      indicator_element
+    } = this.context.pagination
 
-            return (
-              <Element key={pageNo} {...elementParams}>
-                {hasContent &&
-                  position === 'before' &&
-                  pageNo > 1 &&
-                  pageNo <= currentPage && (
-                    <InfinityLoadButton
-                      icon="arrow_up"
-                      pageNo={pageNo - 1}
-                      onClick={pageNoVisible => {
-                        getNewContent(pageNoVisible, {
-                          position: 'before',
-                          skipObserver: true
-                        })
-                      }}
-                    />
-                  )}
+    // make sure we handle Table markup correctly
+    const Element = preparePageElement(page_element || Fragment)
 
-                {content}
+    const originalCurrentPage = parseFloat(current_page)
+    const originalPageCount = parseFloat(page_count)
+    const accumulateCount = parseFloat(accumulate_count)
 
-                {!hasContent && !hideIndicator && (
-                  <PaginationIndicator
-                    indicatorElement={indicatorElement}
-                  />
-                )}
+    return items.map(
+      ({ pageNo, hasContent, content, ref, position, skipObserver }) => {
+        return (
+          <Element key={pageNo} ref={ref}>
+            {hasContent &&
+              position === 'before' &&
+              originalCurrentPage > 1 &&
+              pageNo > 1 &&
+              pageNo <= currentPage && (
+                <InfinityLoadButton
+                  element={fallback_element}
+                  icon="arrow_up"
+                  onClick={event => {
+                    this.getNewContent(pageNo - 1, {
+                      position: 'before',
+                      skipObserver: true,
+                      event
+                    })
+                  }}
+                />
+              )}
 
-                {hasContent && !useLoadButton && !skipObserver && (
-                  <InfinityMarker
-                    pageNo={pageNo}
-                    markerElement={markerElement}
-                    callOnVisible={accumulateCount > 0 && pageNo === 1}
-                    onVisible={pageNoVisible => {
-                      if (accumulateCount > 0) {
-                        for (let i = 0; i <= accumulateCount; ++i) {
-                          getNewContent(items.length + i, {
-                            position: 'after',
-                            skipObserver:
-                              i !== Math.round(accumulateCount / 2)
-                          })
-                        }
-                      } else {
-                        getNewContent(pageNoVisible + 1, {
-                          position: 'after'
+            {content}
+
+            {!hasContent && !this.hideIndicator && (
+              <PaginationIndicator
+                indicator_element={indicator_element || fallback_element}
+              />
+            )}
+
+            {hasContent &&
+              !this.useLoadButton &&
+              !skipObserver &&
+              pageNo < pageCount && (
+                <InfinityMarker
+                  pageNo={pageNo}
+                  marker_element={marker_element || fallback_element}
+                  callOnVisible={accumulateCount > 0 && pageNo === 1}
+                  onVisible={pageNoVisible => {
+                    if (accumulateCount > 0) {
+                      for (let i = 0; i <= accumulateCount; ++i) {
+                        this.getNewContent(items.length + i, {
+                          position: 'after',
+                          skipObserver:
+                            i !== Math.round(accumulateCount / 2)
                         })
                       }
-                    }}
-                  />
-                )}
+                    } else {
+                      this.getNewContent(pageNoVisible + 1, {
+                        position: 'after'
+                      })
+                    }
+                  }}
+                />
+              )}
 
-                {hasContent &&
-                  useLoadButton &&
-                  pageNo >= currentPage &&
-                  (parseFloat(originalPageCount) > 0
-                    ? pageNo < pageCount
-                    : true) && (
-                    <InfinityLoadButton
-                      icon="arrow_down"
-                      pageNo={pageNo + 1}
-                      onClick={pageNoVisible => {
-                        getNewContent(pageNoVisible, {
-                          position: 'after',
-                          skipObserver: true
-                        })
-                      }}
-                    />
-                  )}
-              </Element>
-            )
-          }
-        )}
-
-        {items.length === 0 && (
-          <Element {...elementParams}>
-            <InfinityMarker
-              pageNo={currentPage}
-              markerElement={markerElement}
-              onVisible={pageNoVisible => {
-                getNewContent(pageNoVisible, {
-                  position: currentPage > 1 ? 'before' : 'after'
-                })
-              }}
-            />
+            {hasContent &&
+              this.useLoadButton &&
+              pageNo >= currentPage &&
+              (originalPageCount > 0 ? pageNo < pageCount : true) && (
+                <InfinityLoadButton
+                  element={fallback_element}
+                  icon="arrow_down"
+                  onClick={event => {
+                    this.getNewContent(pageNo + 1, {
+                      position: 'after',
+                      skipObserver: true,
+                      event
+                    })
+                  }}
+                />
+              )}
           </Element>
-        )}
-      </>
+        )
+      }
     )
   }
 }
@@ -193,7 +185,7 @@ class InfinityMarker extends PureComponent {
   static propTypes = {
     pageNo: PropTypes.number.isRequired,
     onVisible: PropTypes.func.isRequired,
-    markerElement: PropTypes.oneOfType([
+    marker_element: PropTypes.oneOfType([
       PropTypes.object,
       PropTypes.node,
       PropTypes.func,
@@ -203,7 +195,7 @@ class InfinityMarker extends PureComponent {
   }
   static defaultProps = {
     callOnVisible: false,
-    markerElement: 'div'
+    marker_element: 'div'
   }
   state = { isConnected: false }
 
@@ -211,9 +203,7 @@ class InfinityMarker extends PureComponent {
     super(props)
     this._ref = React.createRef()
 
-    if (props.callOnVisible) {
-      this.callReady()
-    } else if (typeof IntersectionObserver !== 'undefined') {
+    if (typeof IntersectionObserver !== 'undefined') {
       this.intersectionObserver = new IntersectionObserver(entries => {
         const [{ isIntersecting }] = entries
         if (isIntersecting) {
@@ -226,8 +216,10 @@ class InfinityMarker extends PureComponent {
   }
 
   componentDidMount() {
-    this._isMounted = true
-    if (this._ref.current) {
+    if (this.props.callOnVisible) {
+      this.callReady()
+    } else if (this._ref.current) {
+      this._isMounted = true
       this.intersectionObserver?.observe(this._ref.current)
     }
   }
@@ -250,9 +242,27 @@ class InfinityMarker extends PureComponent {
   }
 
   render() {
-    const { markerElement: Element, callOnVisible } = this.props
-    return this.state.isConnected || callOnVisible ? null : (
-      <Element className="dnb-pagination__marker" ref={this._ref} />
+    if (
+      this.state.isConnected ||
+      callOnVisible ||
+      !this.intersectionObserver
+    ) {
+      return null
+    }
+
+    const { marker_element, callOnVisible } = this.props
+    const Element = marker_element
+    const ElementChild = isTrElement(Element) ? 'td' : 'div'
+
+    return (
+      <Element className="dnb-pagination__marker">
+        <ElementChild
+          className="dnb-pagination__marker__inner"
+          ref={this._ref}
+        >
+          {/* {this.props.pageNo} */}
+        </ElementChild>
+      </Element>
     )
   }
 }
@@ -260,31 +270,43 @@ class InfinityMarker extends PureComponent {
 class InfinityLoadButton extends PureComponent {
   static contextType = Context
   static propTypes = {
+    element: PropTypes.oneOfType([
+      PropTypes.object,
+      PropTypes.node,
+      PropTypes.func,
+      PropTypes.string
+    ]).isRequired,
     icon: PropTypes.string.isRequired,
-    pageNo: PropTypes.number.isRequired,
     onClick: PropTypes.func.isRequired
   }
   static defaultProps = {
+    element: 'div',
     icon: 'arrow_down'
   }
-  onClickHandler = () => {
-    const { pageNo } = this.props
-    this.props.onClick(pageNo)
+  state = { isPressed: false }
+  onClickHandler = e => {
+    this.setState({ isPressed: true })
+    this.props.onClick(e)
   }
   render() {
-    const { icon } = this.props
-    return (
-      <div className="dnb-pagination__loadbar">
-        <Button
-          // className="dnb-pagination__load-button"
-          size="medium"
-          icon={icon}
-          icon_position="left"
-          text={this.context.translation.Pagination.load_button_text}
-          variant="secondary"
-          on_click={this.onClickHandler}
-        />
-      </div>
+    const { element, icon } = this.props
+    const Element = element
+    const ElementChild = isTrElement(Element) ? 'td' : 'div'
+
+    return this.state.isPressed ? null : (
+      <Element className="dnb-pagination__loadbar">
+        <ElementChild>
+          <Button
+            // className="dnb-pagination__load-button"
+            size="medium"
+            icon={icon}
+            icon_position="left"
+            text={this.context.translation.Pagination.load_button_text}
+            variant="secondary"
+            on_click={this.onClickHandler}
+          />
+        </ElementChild>
+      </Element>
     )
   }
 }

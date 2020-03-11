@@ -11,7 +11,7 @@ import ProgressIndicator from '../progress-indicator/ProgressIndicator'
 export class PaginationIndicator extends PureComponent {
   static contextType = Context
   static propTypes = {
-    indicatorElement: PropTypes.oneOfType([
+    indicator_element: PropTypes.oneOfType([
       PropTypes.object,
       PropTypes.node,
       PropTypes.func,
@@ -19,10 +19,11 @@ export class PaginationIndicator extends PureComponent {
     ])
   }
   static defaultProps = {
-    indicatorElement: 'div'
+    indicator_element: 'div'
   }
   render() {
-    const Element = this.props.indicatorElement
+    const { indicator_element } = this.props
+    const Element = preparePageElement(indicator_element)
     return (
       <Element className="dnb-pagination__indicator">
         <div className="dnb-pagination__indicator__inner">
@@ -49,10 +50,55 @@ export class ContentObject {
     this.hasContent = true
     this.content = content
     if (typeof this.onInsert === 'function') {
-      this.onInsert({ content, ref: this.ref })
+      this.onInsert({ content, pageNo: this.pageNo })
     }
     return this
   }
+  update(content) {
+    this.hasContent = true
+    this.content = content
+    if (typeof this.onUpdate === 'function') {
+      this.onUpdate({ content, pageNo: this.pageNo })
+    }
+    return this
+  }
+}
+
+export function isTrElement(Element) {
+  let isTr = false
+
+  if (Element === 'tr') {
+    isTr = true
+  } else if (
+    Element &&
+    (typeof Element === 'object' || React.isValidElement(Element))
+  ) {
+    if ((Element.__emotion_base || Element.target) === 'tr') {
+      isTr = true
+    }
+  }
+
+  return isTr
+}
+
+export function preparePageElement(Element) {
+  if (String(Element) === 'Symbol(react.fragment)') {
+    return Element
+  }
+
+  if (isTrElement(Element)) {
+    const Tr = Element
+
+    Element = React.forwardRef(({ ...props }, ref) => {
+      return (
+        <Tr className="dnb-pagination__page">
+          <td {...props} ref={ref} />
+        </Tr>
+      )
+    })
+  }
+
+  return Element
 }
 
 // NB: We do currently not use scroll direction handling
