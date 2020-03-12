@@ -60,6 +60,9 @@
   }
   &--center &__bar {
     justify-content: center;
+    @media (max-width: 40em) {
+      justify-content: flex-start;
+    }
   }
   &--right &__bar {
     justify-content: flex-end;
@@ -93,8 +96,27 @@
       margin-right: 0;
     }
   }
-
+  &__button:first-child,
   &__bar__inner {
-    margin: 0 1rem 0 0.5rem; // has a relationship with the buttons
+    margin-right: 1rem;
+  }
+  &__bar__inner &__button {
+    margin-right: 0.5rem;
+  }
+
+  @media (max-width: 40em) {
+    &__bar__inner &__button:not([aria-current]):nth-of-type(2),
+    &__bar__inner &__button:not([aria-current]):nth-last-of-type(2) {
+      width: 0;
+      overflow: hidden;
+      margin: 0;
+      padding: 0;
+    }
+  }
+  @media (max-width: 30em) {
+    &__dots {
+      width: 0;
+      margin: 0;
+    }
   }
 }
