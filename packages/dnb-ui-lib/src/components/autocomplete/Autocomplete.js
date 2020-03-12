@@ -329,7 +329,7 @@ class AutocompleteInstance extends PureComponent {
     }
   }
 
-  onInputChangeHandler = ({ value }, options) => {
+  onInputChangeHandler = ({ value, event }, options) => {
     value = String(value).trim()
 
     if (value === this.state.input_value) {
@@ -383,6 +383,13 @@ class AutocompleteInstance extends PureComponent {
       this.totalReset()
       this.showAll()
     }
+
+    const attributes = this.attributes
+    dispatchCustomElementEvent(this, 'on_type', {
+      value,
+      event,
+      attributes
+    })
   }
   runFilterToHighlight = (value = null) => {
     if (value === null) {

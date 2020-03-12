@@ -61,10 +61,14 @@ const AutocompleteStory = () => {
       </Box>
       <Box>
         <Autocomplete
+          async
           label="Top 100 movies"
           data={topMovies}
           title="Select your movie"
           no_scroll_animation
+          on_type={({ value }) => {
+            console.log('on_type', value)
+          }}
           on_change={({ data: { content, year } }) => {
             console.log('on_change', content, year)
           }}
