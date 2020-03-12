@@ -61,13 +61,24 @@ const AutocompleteStory = () => {
       </Box>
       <Box>
         <Autocomplete
-          async
           label="Top 100 movies"
-          data={topMovies}
+          data={[]}
           title="Select your movie"
+          no_animation
           no_scroll_animation
-          on_type={({ value }) => {
-            console.log('on_type', value)
+          on_type={({ value, dataList }) => {
+            console.log('on_type', value, dataList)
+            // updateData(topMovies)
+          }}
+          on_focus={({ updateData }) => {
+            console.log('on_focus', updateData)
+            setTimeout(() => {
+              updateData(topMovies)
+            }, 1e3)
+          }}
+          on_blur={({ dataList }) => {
+            console.log('on_blur', dataList)
+            // updateData(topMovies)
           }}
           on_change={({ data: { content, year } }) => {
             console.log('on_change', content, year)

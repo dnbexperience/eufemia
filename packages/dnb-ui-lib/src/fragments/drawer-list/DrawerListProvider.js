@@ -728,22 +728,26 @@ export default class DrawerListProvider extends PureComponent {
     })
   }
 
-  setDataHandler = data => {
+  setDataHandler = (data, cb, { overwriteOriginalData = false } = {}) => {
     if (!data) {
       return
     }
 
-    if (data === 'function') {
+    if (typeof data === 'function') {
       data = getData(data)
     }
 
-    this.setState({
-      data,
-      original_data: this.state.original_data
-        ? this.state.original_data
-        : data,
-      _listenForPropChanges: false
-    })
+    this.setState(
+      {
+        data,
+        original_data:
+          !overwriteOriginalData && this.state.original_data
+            ? this.state.original_data
+            : data,
+        _listenForPropChanges: false
+      },
+      cb
+    )
 
     return this
   }

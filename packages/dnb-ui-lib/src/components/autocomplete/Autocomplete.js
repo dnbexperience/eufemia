@@ -329,7 +329,7 @@ class AutocompleteInstance extends PureComponent {
     }
   }
 
-  onInputChangeHandler = ({ value, event }, options) => {
+  onInputChangeHandler = ({ value, event }, options = {}) => {
     value = String(value).trim()
 
     if (value === this.state.input_value) {
@@ -344,6 +344,15 @@ class AutocompleteInstance extends PureComponent {
       cache_hash: value
     })
 
+    this.runFilterWithSideEffects(value, options)
+
+    dispatchCustomElementEvent(this, 'on_type', {
+      value,
+      event,
+      ...this.getEventObjects()
+    })
+  }
+  runFilterWithSideEffects = (value, options = {}) => {
     // run the filter also on invalid values, so we reset the highlight
     const data = this.runFilter(value, options)
 
@@ -383,13 +392,19 @@ class AutocompleteInstance extends PureComponent {
       this.totalReset()
       this.showAll()
     }
-
-    const attributes = this.attributes
-    dispatchCustomElementEvent(this, 'on_type', {
-      value,
-      event,
-      attributes
-    })
+  }
+  updateData = data => {
+    this.context.drawerList.setData(
+      () => data,
+      () => {
+        this.setSearchIndex({ overwriteSearchIndex: true }, () => {
+          this.runFilterWithSideEffects(this.state.input_value || '')
+        })
+      },
+      {
+        overwriteOriginalData: true
+      }
+    )
   }
   runFilterToHighlight = (value = null) => {
     if (value === null) {
@@ -415,20 +430,36 @@ class AutocompleteInstance extends PureComponent {
     this.runFilterToHighlight(value)
     this.showAll()
     this.setVisible()
-    // setTimeout(() => {
-    // }, 1) // because the input has no focus on first click, and we dismiss if we had it opened by start
   }
-  onInputFocusHandler = () => {
+  onInputFocusHandler = event => {
     if (isTrue(this.props.open_on_focus)) {
       this.showAll()
       this.setVisible()
     } else {
       this.setSearchIndex()
     }
+
+    dispatchCustomElementEvent(this, 'on_focus', {
+      event,
+      ...this.getEventObjects()
+    })
   }
-  onBlurHandler = () => {
+  onBlurHandler = event => {
     if (isTrue(this.props.open_on_focus)) {
       this.setHidden()
+    }
+
+    dispatchCustomElementEvent(this, 'on_blur', {
+      event,
+      ...this.getEventObjects()
+    })
+  }
+  getEventObjects = () => {
+    const attributes = this.attributes
+    return {
+      attributes,
+      dataList: this.context.drawerList.data,
+      updateData: this.updateData
     }
   }
   toggleVisible = ({ hasFilter = false } = {}) => {
@@ -472,7 +503,6 @@ class AutocompleteInstance extends PureComponent {
       case 'enter':
         e.preventDefault()
         setTimeout(() => {
-          // this.runFilterToHighlight()
           if (this.hasFilterActive()) {
             this.showAll()
           }
@@ -483,8 +513,8 @@ class AutocompleteInstance extends PureComponent {
     }
   }
 
-  setSearchIndex() {
-    if (this.state.searchIndex) {
+  setSearchIndex({ overwriteSearchIndex = false } = {}, cb) {
+    if (!overwriteSearchIndex && this.state.searchIndex) {
       return this.state.searchIndex
     }
 
@@ -492,10 +522,13 @@ class AutocompleteInstance extends PureComponent {
       this.context.drawerList.original_data
     )
 
-    this.setState({
-      searchIndex,
-      _listenForPropChanges: false
-    })
+    this.setState(
+      {
+        searchIndex,
+        _listenForPropChanges: false
+      },
+      cb
+    )
 
     return searchIndex
   }
@@ -529,7 +562,7 @@ class AutocompleteInstance extends PureComponent {
 
   resetSelections = () => {
     this.setState({
-      input_value: null,
+      // input_value: null,// do we really need to reset this?
       _listenForPropChanges: false
     })
     this.context.drawerList.setState({
@@ -542,7 +575,7 @@ class AutocompleteInstance extends PureComponent {
     this.context.drawerList.setData(this.context.drawerList.original_data)
   }
 
-  runFilter = (value, { skip_highlight } = {}) => {
+  runFilter = (value, { skip_highlight = false } = {}) => {
     const words = value.split(/\s+/g).filter(Boolean)
     const wordsCount = words.length
 
@@ -651,10 +684,9 @@ class AutocompleteInstance extends PureComponent {
 
   onSelectHandler = args => {
     if (parseFloat(args.active_item) > -1) {
-      const attributes = this.attributes
       dispatchCustomElementEvent(this, 'on_select', {
         ...args,
-        attributes
+        ...this.getEventObjects()
       })
     }
   }
@@ -673,10 +705,9 @@ class AutocompleteInstance extends PureComponent {
       _listenForPropChanges: false
     })
 
-    const attributes = this.attributes
     dispatchCustomElementEvent(this, 'on_change', {
       ...args,
-      attributes
+      ...this.getEventObjects()
     })
 
     clearTimeout(this._selectTimeout)
