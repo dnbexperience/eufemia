@@ -28,11 +28,11 @@
 }
 @mixin closDrawerList($state: 'animation') {
   &:not(#{&}--no-animation) {
-    animation: drawer-list-slide-ip 150ms ease-out 1 forwards;
+    animation: drawer-list-slide-up 150ms ease-out 1 forwards;
   }
   html[data-dnb-test] &,
   &--no-animation {
-    animation: drawer-list-slide-ip 1ms ease-out 1 forwards;
+    animation: drawer-list-slide-up 1ms ease-out 1 forwards;
   }
 }
 @mixin drawer-listClosed() {
@@ -300,7 +300,7 @@
   }
 }
 
-@keyframes drawer-list-slide-ip {
+@keyframes drawer-list-slide-up {
   from {
     opacity: 1;
     transform: translateY(0);
