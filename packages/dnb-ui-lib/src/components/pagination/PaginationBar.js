@@ -127,6 +127,7 @@ export default class PaginationBar extends PureComponent {
               text={String(pageNo)}
               title={button_title.replace('%s', pageNo)}
               variant={pageNo === currentPage ? 'primary' : 'secondary'}
+              aria-current={pageNo === currentPage ? 'page' : null}
               on_click={event => this.clickHandler({ pageNo, event })}
             />
           ))}
@@ -147,6 +148,7 @@ export default class PaginationBar extends PureComponent {
                   variant={
                     pageNo === currentPage ? 'primary' : 'secondary'
                   }
+                  aria-current={pageNo === currentPage ? 'page' : null}
                   on_click={event => this.clickHandler({ pageNo, event })}
                 />
               ))}

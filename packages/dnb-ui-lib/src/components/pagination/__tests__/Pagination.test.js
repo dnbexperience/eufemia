@@ -53,10 +53,21 @@ describe('Pagination bar component', () => {
       current_page: 1
     })
 
-    const firstButton = Comp.find('.dnb-pagination__bar__inner')
-      .find('button.dnb-pagination__button')
-      .at(0)
+    const buttonElements = Comp.find('.dnb-pagination__bar__inner').find(
+      'button.dnb-pagination__button'
+    )
+
+    const firstButton = buttonElements.at(0)
     expect(firstButton.hasClass('dnb-button--primary')).toBe(true)
+    expect(firstButton.instance().getAttribute('aria-current')).toBe(
+      'page'
+    )
+
+    const secondButton = buttonElements.at(1)
+    expect(secondButton.hasClass('dnb-button--secondary')).toBe(true)
+    expect(secondButton.instance().hasAttribute('aria-current')).toBe(
+      false
+    )
 
     const prevNavButton = Comp.find('button.dnb-pagination__button').at(0)
     expect(prevNavButton.instance().hasAttribute('disabled')).toBe(true)

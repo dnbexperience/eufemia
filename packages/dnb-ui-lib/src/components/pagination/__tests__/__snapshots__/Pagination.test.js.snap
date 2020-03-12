@@ -178,6 +178,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
               className="dnb-pagination__bar__inner"
             >
               <Button
+                aria-current="page"
                 bounding={false}
                 class={null}
                 className="dnb-pagination__button"
@@ -204,6 +205,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
                 variant="primary"
               >
                 <button
+                  aria-current="page"
                   className="dnb-button dnb-button--primary dnb-pagination__button dnb-button--size-medium dnb-button--has-text"
                   disabled={false}
                   onClick={[Function]}
@@ -212,6 +214,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
                   type="button"
                 >
                   <Content
+                    aria-current="page"
                     bounding={false}
                     class={null}
                     className="dnb-pagination__button"
