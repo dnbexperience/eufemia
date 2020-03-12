@@ -16,21 +16,27 @@
   }
 
   // used by the infinity scroller
-  &__page {
-    position: relative; // because of the marker
-  }
-  &__page &__marker {
+  &__marker {
     pointer-events: none;
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    margin: auto 0;
+    position: relative; // because of the marker
 
-    height: 1px;
-    width: 1px;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
 
     opacity: 0;
+
+    &__inner {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      margin: auto 0;
+
+      width: 1px;
+      height: 1px;
+    }
   }
+
   &__loadbar {
     display: flex;
     align-items: center;

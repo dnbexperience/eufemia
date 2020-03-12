@@ -2,88 +2,239 @@
 
 exports[`Pagination bar component have to match snapshot 1`] = `
 <Pagination
+  0={
+    Object {
+      "displayName": "Pagination",
+      "props": Object {
+        "accumulate_count": "accumulate_count",
+        "align": "align",
+        "children": "children",
+        "class": "class",
+        "className": "className",
+        "current_page": "current_page",
+        "fallback_element": Object {},
+        "hide_progress_indicator": "hide_progress_indicator",
+        "indicator_element": "indicator_element",
+        "items": "items",
+        "marker_element": Object {},
+        "mode": "'pagination'",
+        "on_change": [Function],
+        "on_load": [Function],
+        "page_count": "page_count",
+        "page_element": Object {},
+        "reset_items_handler": "reset_items_handler",
+        "set_content_handler": "set_content_handler",
+        "set_items_handler": "set_items_handler",
+        "use_load_button": "use_load_button",
+      },
+    }
+  }
+  1={
+    Object {
+      "displayName": "PaginationInstance",
+      "props": Object {
+        "accumulate_count": "accumulate_count",
+        "align": "align",
+        "children": "children",
+        "class": "class",
+        "className": "className",
+        "current_page": "current_page",
+        "fallback_element": Object {},
+        "hide_progress_indicator": "hide_progress_indicator",
+        "indicator_element": "indicator_element",
+        "items": "items",
+        "marker_element": Object {},
+        "mode": "'pagination'",
+        "on_change": [Function],
+        "on_load": [Function],
+        "page_count": "page_count",
+        "page_element": Object {},
+        "reset_items_handler": "reset_items_handler",
+        "set_content_handler": "set_content_handler",
+        "set_items_handler": "set_items_handler",
+        "use_load_button": "use_load_button",
+      },
+    }
+  }
   accumulate_count={0}
   align="left"
-  button_title="%s"
   class={null}
   className={null}
   current_page={null}
   hide_progress_indicator={false}
-  indicator_element="div"
   items={null}
-  marker_element="div"
   mode="pagination"
-  next_title="Next"
   on_change={null}
   on_load={null}
   page_count={null}
-  page_element={null}
-  prev_title="Previous"
   reset_items_handler={null}
+  set_content_handler={null}
+  set_items_handler={null}
   use_load_button={false}
 >
-  <div
-    className="dnb-pagination dnb-pagination--left"
-  >
-    <PaginationBar
-      buttonTitle="Side %s"
-      currentPage={1}
-      nextTitle="Neste side"
-      pageCount={1}
-      pages={
-        Array [
-          Array [
-            1,
-          ],
-        ]
+  <PaginationProvider
+    0={
+      Object {
+        "displayName": "Pagination",
+        "props": Object {
+          "accumulate_count": "accumulate_count",
+          "align": "align",
+          "children": "children",
+          "class": "class",
+          "className": "className",
+          "current_page": "current_page",
+          "fallback_element": Object {},
+          "hide_progress_indicator": "hide_progress_indicator",
+          "indicator_element": "indicator_element",
+          "items": "items",
+          "marker_element": Object {},
+          "mode": "'pagination'",
+          "on_change": [Function],
+          "on_load": [Function],
+          "page_count": "page_count",
+          "page_element": Object {},
+          "reset_items_handler": "reset_items_handler",
+          "set_content_handler": "set_content_handler",
+          "set_items_handler": "set_items_handler",
+          "use_load_button": "use_load_button",
+        },
       }
-      prevTitle="Forrige side"
-      setNextPage={[Function]}
-      setPage={[Function]}
-      setPrevPage={[Function]}
+    }
+    1={
+      Object {
+        "displayName": "PaginationInstance",
+        "props": Object {
+          "accumulate_count": "accumulate_count",
+          "align": "align",
+          "children": "children",
+          "class": "class",
+          "className": "className",
+          "current_page": "current_page",
+          "fallback_element": Object {},
+          "hide_progress_indicator": "hide_progress_indicator",
+          "indicator_element": "indicator_element",
+          "items": "items",
+          "marker_element": Object {},
+          "mode": "'pagination'",
+          "on_change": [Function],
+          "on_load": [Function],
+          "page_count": "page_count",
+          "page_element": Object {},
+          "reset_items_handler": "reset_items_handler",
+          "set_content_handler": "set_content_handler",
+          "set_items_handler": "set_items_handler",
+          "use_load_button": "use_load_button",
+        },
+      }
+    }
+    accumulate_count={0}
+    align="left"
+    class={null}
+    className={null}
+    current_page={null}
+    hide_progress_indicator={false}
+    items={null}
+    mode="pagination"
+    on_change={null}
+    on_load={null}
+    page_count={null}
+    reset_items_handler={null}
+    set_content_handler={null}
+    set_items_handler={null}
+    tagName="dnb-pagination"
+    use_load_button={false}
+  >
+    <PaginationInstance
+      0={
+        Object {
+          "displayName": "Pagination",
+          "props": Object {
+            "accumulate_count": "accumulate_count",
+            "align": "align",
+            "children": "children",
+            "class": "class",
+            "className": "className",
+            "current_page": "current_page",
+            "fallback_element": Object {},
+            "hide_progress_indicator": "hide_progress_indicator",
+            "indicator_element": "indicator_element",
+            "items": "items",
+            "marker_element": Object {},
+            "mode": "'pagination'",
+            "on_change": [Function],
+            "on_load": [Function],
+            "page_count": "page_count",
+            "page_element": Object {},
+            "reset_items_handler": "reset_items_handler",
+            "set_content_handler": "set_content_handler",
+            "set_items_handler": "set_items_handler",
+            "use_load_button": "use_load_button",
+          },
+        }
+      }
+      1={
+        Object {
+          "displayName": "PaginationInstance",
+          "props": Object {
+            "accumulate_count": "accumulate_count",
+            "align": "align",
+            "children": "children",
+            "class": "class",
+            "className": "className",
+            "current_page": "current_page",
+            "fallback_element": Object {},
+            "hide_progress_indicator": "hide_progress_indicator",
+            "indicator_element": "indicator_element",
+            "items": "items",
+            "marker_element": Object {},
+            "mode": "'pagination'",
+            "on_change": [Function],
+            "on_load": [Function],
+            "page_count": "page_count",
+            "page_element": Object {},
+            "reset_items_handler": "reset_items_handler",
+            "set_content_handler": "set_content_handler",
+            "set_items_handler": "set_items_handler",
+            "use_load_button": "use_load_button",
+          },
+        }
+      }
+      accumulate_count={0}
+      align="left"
+      class={null}
+      className={null}
+      current_page={null}
+      hide_progress_indicator={false}
+      items={null}
+      mode="pagination"
+      on_change={null}
+      on_load={null}
+      page_count={null}
+      reset_items_handler={null}
+      set_content_handler={null}
+      set_items_handler={null}
+      use_load_button={false}
     >
       <div
-        className="dnb-pagination__bar"
+        className="dnb-pagination dnb-pagination--left"
       >
-        <Button
-          bounding={false}
-          class={null}
-          className="dnb-pagination__button"
-          custom_element={null}
-          custom_method={null}
-          disabled={true}
-          global_status_id={null}
-          href={null}
-          icon="chevron_left"
-          icon_position="right"
-          icon_size={null}
-          id={null}
-          innerRef={null}
-          key="left-arrow"
-          onClick={null}
-          on_click={[Function]}
-          size="small"
-          status={null}
-          status_animation={null}
-          status_state="error"
-          text={null}
-          title={null}
-          type="button"
-          variant={null}
+        <PaginationBar
+          button_title={null}
+          contentRef={
+            Object {
+              "current": null,
+            }
+          }
+          next_title={null}
+          prev_title={null}
         >
-          <button
-            aria-disabled={true}
-            className="dnb-button dnb-button--secondary dnb-pagination__button dnb-button--icon-position-right dnb-button--has-icon dnb-button--size-small"
-            disabled={true}
-            onClick={[Function]}
-            onMouseOut={[Function]}
-            type="button"
+          <div
+            className="dnb-pagination__bar"
           >
-            <Content
+            <Button
               bounding={false}
               class={null}
               className="dnb-pagination__button"
-              content={null}
               custom_element={null}
               custom_method={null}
               disabled={true}
@@ -94,7 +245,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
               icon_size={null}
               id={null}
               innerRef={null}
-              isIconOnly={true}
+              key="left-arrow"
               onClick={null}
               on_click={[Function]}
               size="small"
@@ -106,95 +257,96 @@ exports[`Pagination bar component have to match snapshot 1`] = `
               type="button"
               variant={null}
             >
-              <span
-                className="dnb-button__text"
-                key="button-text-empty"
+              <button
+                aria-disabled={true}
+                className="dnb-button dnb-button--secondary dnb-pagination__button dnb-button--icon-position-right dnb-button--has-icon dnb-button--size-small"
+                disabled={true}
+                onClick={[Function]}
+                onMouseOut={[Function]}
+                type="button"
               >
-                ‌
-              </span>
-              <IconPrimary
-                alt={null}
-                aria-hidden={null}
-                attributes={null}
-                border={null}
-                className="dnb-button__icon"
-                color={null}
-                height={null}
-                icon="chevron_left"
-                key="button-icon"
-                modifier={null}
-                size={null}
-                title={null}
-                width={null}
-              >
-                <span
-                  alt="chevron left"
-                  aria-label="chevron left"
-                  className="dnb-icon dnb-icon--default dnb-button__icon"
-                  role="img"
+                <Content
+                  bounding={false}
+                  class={null}
+                  className="dnb-pagination__button"
+                  content={null}
+                  custom_element={null}
+                  custom_method={null}
+                  disabled={true}
+                  global_status_id={null}
+                  href={null}
+                  icon="chevron_left"
+                  icon_position="right"
+                  icon_size={null}
+                  id={null}
+                  innerRef={null}
+                  isIconOnly={true}
+                  onClick={null}
+                  on_click={[Function]}
+                  size="small"
+                  status={null}
+                  status_animation={null}
+                  status_state="error"
+                  text={null}
+                  title={null}
+                  type="button"
+                  variant={null}
                 >
-                  <chevron_left>
-                    <svg
-                      fill="none"
-                      height={16}
-                      viewBox="0 0 16 16"
-                      width={16}
+                  <span
+                    className="dnb-button__text"
+                    key="button-text-empty"
+                  >
+                    ‌
+                  </span>
+                  <IconPrimary
+                    alt={null}
+                    aria-hidden={null}
+                    attributes={null}
+                    border={null}
+                    className="dnb-button__icon"
+                    color={null}
+                    height={null}
+                    icon="chevron_left"
+                    key="button-icon"
+                    modifier={null}
+                    size={null}
+                    title={null}
+                    width={null}
+                  >
+                    <span
+                      alt="chevron left"
+                      aria-label="chevron left"
+                      className="dnb-icon dnb-icon--default dnb-button__icon"
+                      role="img"
                     >
-                      <path
-                        clipRule="evenodd"
-                        d="M10.78 4.03a.75.75 0 10-1.06-1.06l-4.5 4.5a.75.75 0 000 1.06l4.5 4.5a.75.75 0 101.06-1.06L6.81 8l3.97-3.97z"
-                        fill="#000"
-                        fillRule="evenodd"
-                      />
-                    </svg>
-                  </chevron_left>
-                </span>
-              </IconPrimary>
-            </Content>
-          </button>
-        </Button>
-        <div
-          className="dnb-pagination__bar__inner"
-        >
-          <Button
-            bounding={false}
-            class={null}
-            className="dnb-pagination__button"
-            custom_element={null}
-            custom_method={null}
-            disabled={null}
-            global_status_id={null}
-            href={null}
-            icon={null}
-            icon_position="right"
-            icon_size={null}
-            id={null}
-            innerRef={null}
-            key="1"
-            onClick={null}
-            on_click={[Function]}
-            size="medium"
-            status={null}
-            status_animation={null}
-            status_state="error"
-            text="1"
-            title="Side 1"
-            type="button"
-            variant="primary"
-          >
-            <button
-              className="dnb-button dnb-button--primary dnb-pagination__button dnb-button--size-medium dnb-button--has-text"
-              disabled={false}
-              onClick={[Function]}
-              onMouseOut={[Function]}
-              title="Side 1"
-              type="button"
+                      <chevron_left>
+                        <svg
+                          fill="none"
+                          height={16}
+                          viewBox="0 0 16 16"
+                          width={16}
+                        >
+                          <path
+                            clipRule="evenodd"
+                            d="M10.78 4.03a.75.75 0 10-1.06-1.06l-4.5 4.5a.75.75 0 000 1.06l4.5 4.5a.75.75 0 101.06-1.06L6.81 8l3.97-3.97z"
+                            fill="#000"
+                            fillRule="evenodd"
+                          />
+                        </svg>
+                      </chevron_left>
+                    </span>
+                  </IconPrimary>
+                </Content>
+              </button>
+            </Button>
+            <div
+              className="dnb-pagination__bar__inner"
             >
-              <Content
+              <Button
+                aria-current="page"
                 bounding={false}
                 class={null}
                 className="dnb-pagination__button"
-                content="1"
                 custom_element={null}
                 custom_method={null}
                 disabled={null}
@@ -205,7 +357,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
                 icon_size={null}
                 id={null}
                 innerRef={null}
-                isIconOnly={false}
+                key="1"
                 onClick={null}
                 on_click={[Function]}
                 size="medium"
@@ -217,55 +369,57 @@ exports[`Pagination bar component have to match snapshot 1`] = `
                 type="button"
                 variant="primary"
               >
-                <span
-                  className="dnb-button__text"
-                  key="button-text"
+                <button
+                  aria-current="page"
+                  className="dnb-button dnb-button--primary dnb-pagination__button dnb-button--size-medium dnb-button--has-text"
+                  disabled={false}
+                  onClick={[Function]}
+                  onMouseOut={[Function]}
+                  title="Side 1"
+                  type="button"
                 >
-                  1
-                </span>
-              </Content>
-            </button>
-          </Button>
-        </div>
-        <Button
-          bounding={false}
-          class={null}
-          className="dnb-pagination__button"
-          custom_element={null}
-          custom_method={null}
-          disabled={true}
-          global_status_id={null}
-          href={null}
-          icon="chevron_right"
-          icon_position="right"
-          icon_size={null}
-          id={null}
-          innerRef={null}
-          key="right-arrow"
-          onClick={null}
-          on_click={[Function]}
-          size="small"
-          status={null}
-          status_animation={null}
-          status_state="error"
-          text={null}
-          title={null}
-          type="button"
-          variant={null}
-        >
-          <button
-            aria-disabled={true}
-            className="dnb-button dnb-button--secondary dnb-pagination__button dnb-button--icon-position-right dnb-button--has-icon dnb-button--size-small"
-            disabled={true}
-            onClick={[Function]}
-            onMouseOut={[Function]}
-            type="button"
-          >
-            <Content
+                  <Content
+                    aria-current="page"
+                    bounding={false}
+                    class={null}
+                    className="dnb-pagination__button"
+                    content="1"
+                    custom_element={null}
+                    custom_method={null}
+                    disabled={null}
+                    global_status_id={null}
+                    href={null}
+                    icon={null}
+                    icon_position="right"
+                    icon_size={null}
+                    id={null}
+                    innerRef={null}
+                    isIconOnly={false}
+                    onClick={null}
+                    on_click={[Function]}
+                    size="medium"
+                    status={null}
+                    status_animation={null}
+                    status_state="error"
+                    text="1"
+                    title="Side 1"
+                    type="button"
+                    variant="primary"
+                  >
+                    <span
+                      className="dnb-button__text"
+                      key="button-text"
+                    >
+                      1
+                    </span>
+                  </Content>
+                </button>
+              </Button>
+            </div>
+            <Button
               bounding={false}
               class={null}
               className="dnb-pagination__button"
-              content={null}
               custom_element={null}
               custom_method={null}
               disabled={true}
@@ -276,7 +430,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
               icon_size={null}
               id={null}
               innerRef={null}
-              isIconOnly={true}
+              key="right-arrow"
               onClick={null}
               on_click={[Function]}
               size="small"
@@ -288,56 +442,93 @@ exports[`Pagination bar component have to match snapshot 1`] = `
               type="button"
               variant={null}
             >
-              <span
-                className="dnb-button__text"
-                key="button-text-empty"
+              <button
+                aria-disabled={true}
+                className="dnb-button dnb-button--secondary dnb-pagination__button dnb-button--icon-position-right dnb-button--has-icon dnb-button--size-small"
+                disabled={true}
+                onClick={[Function]}
+                onMouseOut={[Function]}
+                type="button"
               >
-                ‌
-              </span>
-              <IconPrimary
-                alt={null}
-                aria-hidden={null}
-                attributes={null}
-                border={null}
-                className="dnb-button__icon"
-                color={null}
-                height={null}
-                icon="chevron_right"
-                key="button-icon"
-                modifier={null}
-                size={null}
-                title={null}
-                width={null}
-              >
-                <span
-                  alt="chevron right"
-                  aria-label="chevron right"
-                  className="dnb-icon dnb-icon--default dnb-button__icon"
-                  role="img"
+                <Content
+                  bounding={false}
+                  class={null}
+                  className="dnb-pagination__button"
+                  content={null}
+                  custom_element={null}
+                  custom_method={null}
+                  disabled={true}
+                  global_status_id={null}
+                  href={null}
+                  icon="chevron_right"
+                  icon_position="right"
+                  icon_size={null}
+                  id={null}
+                  innerRef={null}
+                  isIconOnly={true}
+                  onClick={null}
+                  on_click={[Function]}
+                  size="small"
+                  status={null}
+                  status_animation={null}
+                  status_state="error"
+                  text={null}
+                  title={null}
+                  type="button"
+                  variant={null}
                 >
-                  <chevron_right>
-                    <svg
-                      fill="none"
-                      height={16}
-                      viewBox="0 0 16 16"
-                      width={16}
+                  <span
+                    className="dnb-button__text"
+                    key="button-text-empty"
+                  >
+                    ‌
+                  </span>
+                  <IconPrimary
+                    alt={null}
+                    aria-hidden={null}
+                    attributes={null}
+                    border={null}
+                    className="dnb-button__icon"
+                    color={null}
+                    height={null}
+                    icon="chevron_right"
+                    key="button-icon"
+                    modifier={null}
+                    size={null}
+                    title={null}
+                    width={null}
+                  >
+                    <span
+                      alt="chevron right"
+                      aria-label="chevron right"
+                      className="dnb-icon dnb-icon--default dnb-button__icon"
+                      role="img"
                     >
-                      <path
-                        clipRule="evenodd"
-                        d="M6.28 2.97a.75.75 0 00-1.06 1.06L9.19 8l-3.97 3.97a.75.75 0 101.06 1.06l4.5-4.5a.75.75 0 000-1.06l-4.5-4.5z"
-                        fill="#000"
-                        fillRule="evenodd"
-                      />
-                    </svg>
-                  </chevron_right>
-                </span>
-              </IconPrimary>
-            </Content>
-          </button>
-        </Button>
+                      <chevron_right>
+                        <svg
+                          fill="none"
+                          height={16}
+                          viewBox="0 0 16 16"
+                          width={16}
+                        >
+                          <path
+                            clipRule="evenodd"
+                            d="M6.28 2.97a.75.75 0 00-1.06 1.06L9.19 8l-3.97 3.97a.75.75 0 101.06 1.06l4.5-4.5a.75.75 0 000-1.06l-4.5-4.5z"
+                            fill="#000"
+                            fillRule="evenodd"
+                          />
+                        </svg>
+                      </chevron_right>
+                    </span>
+                  </IconPrimary>
+                </Content>
+              </button>
+            </Button>
+          </div>
+        </PaginationBar>
       </div>
-    </PaginationBar>
-  </div>
+    </PaginationInstance>
+  </PaginationProvider>
 </Pagination>
 `;
 
@@ -354,8 +545,14 @@ exports[`Pagination scss have to match default theme snapshot 1`] = `
 /*
  * Utilities
  */
-.dnb-pagination__indicator {
+.dnb-pagination__page {
   min-height: 10rem; }
+
+.dnb-pagination__bar {
+  margin-top: 1rem; }
+
+.dnb-pagination__indicator {
+  min-height: inherit; }
   .dnb-pagination__indicator__inner {
     animation: show-page 300ms ease-out forwards; }
 
@@ -891,17 +1088,20 @@ button.dnb-button::-moz-focus-inner {
     display: flex;
     flex-wrap: wrap;
     align-items: center; }
-  .dnb-pagination__page {
-    position: relative; }
-  .dnb-pagination__page .dnb-pagination__marker {
+  .dnb-pagination__marker {
     pointer-events: none;
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    margin: auto 0;
-    height: 1px;
-    width: 1px;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
     opacity: 0; }
+    .dnb-pagination__marker__inner {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      margin: auto 0;
+      width: 1px;
+      height: 1px; }
   .dnb-pagination__loadbar {
     display: flex;
     align-items: center;

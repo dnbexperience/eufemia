@@ -6,8 +6,16 @@
 @import '../../../../style/themes/imports.scss';
 
 .dnb-pagination {
-  &__indicator {
+  &__page {
     min-height: 10rem;
+  }
+
+  &__bar {
+    margin-top: 1rem;
+  }
+
+  &__indicator {
+    min-height: inherit;
 
     &__inner {
       animation: show-page 300ms ease-out forwards;
