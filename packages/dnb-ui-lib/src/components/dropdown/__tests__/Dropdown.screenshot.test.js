@@ -16,6 +16,12 @@ describe('Dropdown screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+  it('have to match different sizes', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-dnb-test="dropdown-sizes"]'
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
   it('have to match the closed dropdown with focus', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-dnb-test="dropdown-closed"] .dnb-dropdown__inner',

@@ -10,7 +10,20 @@ import {
 
 describe('Autocomplete screenshot', () => {
   setupPageScreenshot({ url: '/uilib/components/autocomplete/demos' })
-  it.skip('have to match the closed autocomplete', async () => {
+  it('have to match different sizes', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-dnb-test="autocomplete-sizes"]'
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+  it('have to match autocomplete with drawer-button', async () => {
+    const screenshot = await testPageScreenshot({
+      selector:
+        '[data-dnb-test="autocomplete-drawer-button"] .dnb-autocomplete__inner'
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+  it('have to match the closed autocomplete', async () => {
     const screenshot = await testPageScreenshot({
       selector:
         '[data-dnb-test="autocomplete-closed"] .dnb-autocomplete__inner'

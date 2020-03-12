@@ -2001,6 +2001,7 @@ legend.dnb-form-label {
   .dnb-dropdown__shell {
     position: relative;
     width: var(--dropdown-width);
+    height: var(--dropdown-height);
     margin: 0;
     padding: 0;
     color: inherit; }
