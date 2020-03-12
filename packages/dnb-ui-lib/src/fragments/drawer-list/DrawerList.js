@@ -168,17 +168,18 @@ export default class DrawerList extends PureComponent {
   }
 
   render() {
-    const { children, ...props } = this.props
-
     const hasProvider = this.context?.drawerList
 
     if (hasProvider) {
-      return <DrawerListInstance {...props}>{children}</DrawerListInstance>
+      return <DrawerListInstance {...this.props} />
     }
 
     return (
-      <DrawerListProvider {...props}>
-        <DrawerListInstance {...props}>{children}</DrawerListInstance>
+      <DrawerListProvider
+        {...this.props}
+        data={this.props.data || this.props.children}
+      >
+        <DrawerListInstance {...this.props} />
       </DrawerListProvider>
     )
   }

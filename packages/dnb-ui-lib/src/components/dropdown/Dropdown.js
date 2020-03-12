@@ -197,16 +197,15 @@ export default class Dropdown extends PureComponent {
   }
 
   render() {
-    const { children, ...props } = this.props
-
     return (
       <DrawerListProvider
-        {...props}
+        {...this.props}
+        data={this.props.data || this.props.children}
         opened={null}
         tagName="dnb-dropdown"
         ignore_events={false}
       >
-        <DropdownInstance {...props}>{children}</DropdownInstance>
+        <DropdownInstance {...this.props} />
       </DrawerListProvider>
     )
   }

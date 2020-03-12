@@ -207,18 +207,17 @@ export default class Autocomplete extends PureComponent {
   }
 
   render() {
-    const { children, ...props } = this.props
-
     return (
       <DrawerListProvider
-        {...props}
+        {...this.props}
+        data={this.props.data || this.props.children}
         opened={null}
         tagName="dnb-autocomplete"
         ignore_events={false}
         prevent_focus
         skip_keysearch
       >
-        <AutocompleteInstance {...props}>{children}</AutocompleteInstance>
+        <AutocompleteInstance {...this.props} />
       </DrawerListProvider>
     )
   }

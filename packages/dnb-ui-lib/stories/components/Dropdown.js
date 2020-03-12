@@ -58,6 +58,24 @@ const DropdownStory = () => {
             console.log('on_change', e)
           }}
         ></Dropdown>
+        <Dropdown
+          // opened
+          // no_animation
+          // value="0"
+          // value="b"
+          // data={['A', 'B']}
+          on_select={e => {
+            console.log('on_select', e)
+          }}
+          on_change={e => {
+            console.log('on_change', e)
+          }}
+        >
+          {() => ({
+            a: 'AA',
+            b: 'BB'
+          })}
+        </Dropdown>
       </Box>
       <Box>
         <CurrencyDropdown />
