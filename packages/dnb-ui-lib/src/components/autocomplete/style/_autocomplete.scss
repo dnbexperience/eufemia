@@ -18,6 +18,7 @@
 
 .dnb-autocomplete {
   display: inline-flex;
+  // flex-wrap: wrap;
   align-items: center;
 
   font-size: var(--font-size-small);
@@ -40,7 +41,6 @@
     position: relative;
 
     width: var(--autocomplete-width);
-    height: var(--autocomplete-height);
 
     margin: 0;
     padding: 0;
@@ -69,6 +69,7 @@
     bottom: var(--autocomplete-height);
     top: auto;
   }
+
   &--small {
     line-height: var(--autocomplete-height--small);
   }

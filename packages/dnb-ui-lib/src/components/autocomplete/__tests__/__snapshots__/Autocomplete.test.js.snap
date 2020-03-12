@@ -1887,6 +1887,7 @@ legend.dnb-form-label {
     margin: 0;
     padding: 0;
     font-size: var(--font-size-basis);
+    line-height: var(--line-height-basis);
     background-color: transparent;
     transform: translateY(0);
     transition: transform 200ms, opacity 160ms ease-out; }
@@ -2056,7 +2057,6 @@ legend.dnb-form-label {
   .dnb-autocomplete__shell {
     position: relative;
     width: var(--autocomplete-width);
-    height: var(--autocomplete-height);
     margin: 0;
     padding: 0;
     color: inherit; }
