@@ -34,6 +34,7 @@ const snapshotProps = {
   input_component: null,
   size: null,
   opened: true,
+  show_drawer_button: true,
   no_animation: true
 }
 
@@ -41,6 +42,7 @@ const snapshotProps = {
 const props = {
   id: 'autocomplete-id',
   value: 1,
+  show_drawer_button: true,
   no_animation: true
 }
 
@@ -50,7 +52,9 @@ describe('Autocomplete component', () => {
   const Comp = mount(<Component {...props} data={mockData} />)
 
   it('has correct options after filter', () => {
-    const Comp = mount(<Component id="autocomplete-id" data={mockData} />)
+    const Comp = mount(
+      <Component id="autocomplete-id" data={mockData} show_drawer_button />
+    )
 
     // open
     open(Comp)
@@ -156,6 +160,7 @@ describe('Autocomplete component', () => {
         on_show={on_show}
         {...params}
         data={mockData}
+        show_drawer_button
       />
     )
     open(Comp)
@@ -185,7 +190,12 @@ describe('Autocomplete component', () => {
   it('has a default title if no value is given', () => {
     const title = 'Make a selection'
     const Comp = mount(
-      <Component id="autocomplete-id" data={mockData} title={title} />
+      <Component
+        id="autocomplete-id"
+        data={mockData}
+        title={title}
+        show_drawer_button
+      />
     )
     expect(Comp.find('.dnb-input__placeholder').text()).toBe(title)
   })
@@ -193,7 +203,12 @@ describe('Autocomplete component', () => {
   it('has a corret value content if we send in a React component', () => {
     const value = 1
     const Comp = mount(
-      <Component id="autocomplete-id" data={mockData} value={value} />
+      <Component
+        id="autocomplete-id"
+        data={mockData}
+        value={value}
+        show_drawer_button
+      />
     )
     expect(Comp.find('.dnb-input__input').instance().value).toBe(
       mockData[value]
@@ -201,7 +216,9 @@ describe('Autocomplete component', () => {
   })
 
   it('has a disabled attribute, once we set disabled to true', () => {
-    const Comp = mount(<Component id="autocomplete-id" data={mockData} />)
+    const Comp = mount(
+      <Component id="autocomplete-id" data={mockData} show_drawer_button />
+    )
     Comp.setProps({
       disabled: true
     })

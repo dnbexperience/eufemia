@@ -44,6 +44,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
   prevent_close="prevent_close"
   prevent_selection={null}
   scrollable="scrollable"
+  show_drawer_button={true}
   size={null}
   skip_highlight="skip_highlight"
   status="status"
@@ -99,6 +100,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
     prevent_focus={true}
     prevent_selection={null}
     scrollable="scrollable"
+    show_drawer_button={true}
     size={null}
     skip_highlight="skip_highlight"
     skip_keysearch={true}
@@ -154,6 +156,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
       prevent_close="prevent_close"
       prevent_selection={null}
       scrollable="scrollable"
+      show_drawer_button={true}
       size={null}
       skip_highlight="skip_highlight"
       status="status"
@@ -164,7 +167,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
       value={2}
     >
       <span
-        className="dnb-autocomplete dnb-autocomplete--bottom dnb-form-component class className dnb-autocomplete--opened dnb-autocomplete--horizontal dnb-autocomplete__status--error dnb-autocomplete__form-status"
+        className="dnb-autocomplete dnb-autocomplete--bottom dnb-form-component class className dnb-autocomplete--opened dnb-autocomplete--horizontal dnb-autocomplete--icon-position-icon_position dnb-autocomplete__status--error dnb-autocomplete__form-status"
       >
         <FormLabel
           class={null}
@@ -877,6 +880,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                 prevent_close="prevent_close"
                 prevent_selection={null}
                 scrollable="scrollable"
+                show_drawer_button={true}
                 size={null}
                 skip_highlight="skip_highlight"
                 status="status"
@@ -2071,16 +2075,18 @@ legend.dnb-form-label {
     top: auto; }
   .dnb-autocomplete--small {
     line-height: var(--autocomplete-height--small); }
-    .dnb-autocomplete--small .dnb-drawer-list__triangle {
-      margin: 0 calc(var(--autocomplete-padding-horizontal) + 0.25rem); }
+  .dnb-autocomplete--small.dnb-autocomplete--icon-position-right .dnb-drawer-list__triangle {
+    margin: 0 calc(var(--autocomplete-padding-horizontal) + 0.25rem); }
   .dnb-autocomplete--medium {
     line-height: var(--autocomplete-height--medium); }
-    .dnb-autocomplete--medium .dnb-drawer-list__triangle {
-      margin: 0 calc(var(--autocomplete-padding-horizontal) - 0.25rem); }
+  .dnb-autocomplete--medium.dnb-autocomplete--icon-position-right .dnb-drawer-list__triangle {
+    margin: 0 calc(var(--autocomplete-padding-horizontal) - 0.25rem); }
   .dnb-autocomplete--large {
     line-height: var(--autocomplete-height--large); }
-    .dnb-autocomplete--large .dnb-drawer-list__triangle {
-      margin: 0 calc(var(--autocomplete-padding-horizontal) - 0.5rem); }
+  .dnb-autocomplete--large.dnb-autocomplete--icon-position-right .dnb-drawer-list__triangle {
+    margin: 0 calc(var(--autocomplete-padding-horizontal) - 0.5rem); }
+  .dnb-autocomplete--large.dnb-autocomplete--icon-position-left .dnb-drawer-list__triangle {
+    margin: 0 calc(var(--autocomplete-padding-horizontal) + 0.25rem); }
   .dnb-autocomplete__icon {
     display: inline-flex;
     justify-content: center;

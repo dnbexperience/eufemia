@@ -86,6 +86,10 @@ const propTypes = {
     PropTypes.string,
     PropTypes.bool
   ]),
+  show_drawer_button: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.bool
+  ]),
   prevent_selection: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.bool
@@ -154,7 +158,7 @@ const defaultProps = {
   no_options: 'No options',
   icon: 'chevron-down',
   icon_size: null,
-  icon_position: 'right',
+  icon_position: 'left',
   input_icon: 'search',
   label: null,
   label_direction: null,
@@ -171,6 +175,7 @@ const defaultProps = {
   direction: 'auto',
   no_animation: false,
   no_scroll_animation: false,
+  show_drawer_button: false,
   prevent_selection: false,
   size: 'default',
   align_autocomplete: null,
@@ -711,6 +716,7 @@ class AutocompleteInstance extends PureComponent {
       prevent_close,
       no_animation,
       no_scroll_animation,
+      show_drawer_button,
       input_component: CustomInput,
       prevent_selection,
       max_height,
@@ -750,8 +756,8 @@ class AutocompleteInstance extends PureComponent {
         `dnb-autocomplete--${direction}`,
         opened && 'dnb-autocomplete--opened',
         label_direction && `dnb-autocomplete--${label_direction}`,
-        // icon_position &&
-        //   `dnb-autocomplete--icon-position-${icon_position}`,
+        icon_position &&
+          `dnb-autocomplete--icon-position-${icon_position}`,
         align_autocomplete && `dnb-autocomplete--${align_autocomplete}`,
         size && `dnb-autocomplete--${size}`,
         status && `dnb-autocomplete__status--${status_state}`,
@@ -838,22 +844,26 @@ class AutocompleteInstance extends PureComponent {
                   status={!opened && status ? status_state : null}
                   type="search" // gives us also autoComplete=off
                   submit_element={
-                    <SubmitButton
-                      // value={String(selected_item)}// is not needed for now
-                      icon={icon}
-                      icon_size={
-                        icon_size ||
-                        (size === 'large' ? 'medium' : 'default')
-                      }
-                      status={!opened && status ? status_state : null}
-                      title={'submit_button_title'}
-                      variant="secondary"
-                      disabled={disabled}
-                      size={size === 'default' ? 'medium' : size}
-                      on_submit={this.onSubmitHandler}
-                      onKeyDown={this.onTriggerKeyDownHandler}
-                      {...triggerParams}
-                    />
+                    isTrue(show_drawer_button) ? (
+                      <SubmitButton
+                        // value={String(selected_item)}// is not needed for now
+                        icon={icon}
+                        icon_size={
+                          icon_size ||
+                          (size === 'large' ? 'medium' : 'default')
+                        }
+                        status={!opened && status ? status_state : null}
+                        title={'submit_button_title'}
+                        variant="secondary"
+                        disabled={disabled}
+                        size={size === 'default' ? 'medium' : size}
+                        on_submit={this.onSubmitHandler}
+                        onKeyDown={this.onTriggerKeyDownHandler}
+                        {...triggerParams}
+                      />
+                    ) : (
+                      false
+                    )
                   }
                   ref={this._refInput}
                   // onClick={this.onInputClickHandler}

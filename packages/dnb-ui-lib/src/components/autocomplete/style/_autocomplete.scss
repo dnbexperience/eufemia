@@ -71,21 +71,24 @@
   }
   &--small {
     line-height: var(--autocomplete-height--small);
-    .dnb-drawer-list__triangle {
-      margin: 0 calc(var(--autocomplete-padding-horizontal) + 0.25rem);
-    }
+  }
+  &--small#{&}--icon-position-right .dnb-drawer-list__triangle {
+    margin: 0 calc(var(--autocomplete-padding-horizontal) + 0.25rem);
   }
   &--medium {
     line-height: var(--autocomplete-height--medium);
-    .dnb-drawer-list__triangle {
-      margin: 0 calc(var(--autocomplete-padding-horizontal) - 0.25rem);
-    }
+  }
+  &--medium#{&}--icon-position-right .dnb-drawer-list__triangle {
+    margin: 0 calc(var(--autocomplete-padding-horizontal) - 0.25rem);
   }
   &--large {
     line-height: var(--autocomplete-height--large);
-    .dnb-drawer-list__triangle {
-      margin: 0 calc(var(--autocomplete-padding-horizontal) - 0.5rem);
-    }
+  }
+  &--large#{&}--icon-position-right .dnb-drawer-list__triangle {
+    margin: 0 calc(var(--autocomplete-padding-horizontal) - 0.5rem);
+  }
+  &--large#{&}--icon-position-left .dnb-drawer-list__triangle {
+    margin: 0 calc(var(--autocomplete-padding-horizontal) + 0.25rem);
   }
 
   &__icon {
@@ -103,6 +106,12 @@
     outline: none;
     margin-right: 0.5rem; // because of the submit button
   }
+
+  // if icon only
+  // .dnb-input__submit-element {
+  //   pointer-events: none;
+  //   z-index: 6;
+  // }
 
   &__shell,
   &__input {

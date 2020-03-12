@@ -43,6 +43,7 @@ const AutocompleteStory = () => {
           // no_animation
           // input_value="foo bar th"
           input_value="bb th x"
+          show_drawer_button
           // value="b"
           data={{
             a: 'A1 A2 CC',

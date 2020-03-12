@@ -347,7 +347,8 @@ export default class Input extends PureComponent {
 
     const id = this._id
     const showStatus = status && status !== 'error'
-    const hasSubmitButton = submit_element || type === 'search'
+    const hasSubmitButton =
+      submit_element || (submit_element !== false && type === 'search')
     const hasValue = Input.hasValue(value)
 
     const iconSize =
