@@ -15,6 +15,7 @@ import {
 } from '../../shared/component-helper'
 import { createSpacingClasses } from '../space/SpacingHelper'
 
+import { PaginationIndicator } from './PaginationHelpers'
 import InfinityScroller from './PaginationInfinity'
 import PaginationBar from './PaginationBar'
 
@@ -140,6 +141,11 @@ class PaginationInstance extends PureComponent {
   static defaultProps = defaultProps
   static contextType = PaginationContext
 
+  constructor(props) {
+    super(props)
+    this._contentRef = React.createRef()
+  }
+
   render() {
     // use only the props from context, who are available here anyway
     const props = extendPropsWithContext(
@@ -164,7 +170,13 @@ class PaginationInstance extends PureComponent {
       ...attributes
     } = props
 
-    const { currentPage, pageCount, items } = this.context.pagination
+    // our props
+    const {
+      currentPage,
+      items,
+      fallback_element,
+      indicator_element
+    } = this.context.pagination
 
     // Pagination mode
     if (this.context.pagination.mode !== 'infinity') {
@@ -189,11 +201,18 @@ class PaginationInstance extends PureComponent {
           {typeof children !== 'function' && children}
 
           <div {...mainParams}>
-            {content}
-            <PaginationBar
-              page_count={pageCount}
-              current_page={currentPage}
-            >
+            {items.length > 0 && (
+              <PaginationContent ref={this._contentRef}>
+                {content || (
+                  <PaginationIndicator
+                    indicator_element={
+                      indicator_element || fallback_element
+                    }
+                  />
+                )}
+              </PaginationContent>
+            )}
+            <PaginationBar contentRef={this._contentRef}>
               {children}
             </PaginationBar>
           </div>
@@ -206,16 +225,20 @@ class PaginationInstance extends PureComponent {
   }
 }
 
-// NB: This is not ready yet
-Pagination.Bar = PaginationBar
-Pagination.Content = function Content({ children, ...props }) {
-  return (
-    <div className="dnb-pagination__content" {...props}>
-      {children}
-    </div>
-  )
-}
-Pagination.Content.propTypes = {
+const PaginationContent = React.forwardRef(
+  ({ children, ...props }, ref) => {
+    return (
+      <div className="dnb-pagination__content" {...props} ref={ref}>
+        {children}
+      </div>
+    )
+  }
+)
+PaginationContent.propTypes = {
   children: PropTypes.oneOfType([PropTypes.node, PropTypes.func])
     .isRequired
 }
+
+// NB: This is not ready yet
+Pagination.Bar = PaginationBar
+Pagination.Content = PaginationContent

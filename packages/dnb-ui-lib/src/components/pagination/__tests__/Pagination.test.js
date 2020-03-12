@@ -17,24 +17,18 @@ import Component from '../Pagination'
 import _pagination from '../style/_pagination.scss' // eslint-disable-line
 import dnb_pagination from '../style/dnb-pagination.scss' // eslint-disable-line
 import dnb_pagination_theme_ui from '../style/themes/dnb-pagination-theme-ui.scss' // eslint-disable-line
-;[_pagination, dnb_pagination, dnb_pagination_theme_ui]
 
 const snapshotProps = {
   ...fakeProps(require.resolve('../Pagination'), {
-    // optional: true
+    all: true,
+    optional: true
   })
 }
 
 const props = {
   page_count: 30,
   current_page: 15
-  // on_change: pageNo => {
-  //   console.log('on_change:', pageNo)
-  // }
 }
-
-// const mockData = [
-// ]
 
 describe('Pagination bar component', () => {
   it('has correct state at startup', () => {

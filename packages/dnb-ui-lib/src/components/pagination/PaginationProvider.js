@@ -146,17 +146,22 @@ export default class PaginationProvider extends PureComponent {
       }
       return item
     })
-    this.setState({
-      items,
-      _listenForPropChanges: false
-    })
+    this.setState(
+      {
+        items,
+        _listenForPropChanges: false
+      },
+      this.callOnPageUpdate
+    )
   }
+
   setItems = items => {
     this.setState({
       items,
       _listenForPropChanges: false
     })
   }
+
   // like reset_items_handler in DerivedState
   resetItems = () => {
     this.setState({
@@ -165,9 +170,11 @@ export default class PaginationProvider extends PureComponent {
       _listenForPropChanges: false
     })
   }
+
   setStateHandler = state => {
     this.setState({ ...state, _listenForPropChanges: false })
   }
+
   prefillItems = (pageNo, props = {}) => {
     const items = [...this.state.items]
 
@@ -200,7 +207,20 @@ export default class PaginationProvider extends PureComponent {
     return items
   }
 
-  // used by insertContent
+  callOnPageUpdate = () => {
+    if (Array.isArray(this._updateStack)) {
+      const first = this._updateStack.shift()
+      if (typeof first === 'function') {
+        first()
+      }
+    }
+  }
+
+  onPageUpdate = fn => {
+    this._updateStack = this._updateStack || []
+    this._updateStack.push(fn)
+  }
+
   insertContent = newContent => {
     if (!Array.isArray(newContent)) {
       return console.warn(
@@ -224,7 +244,7 @@ export default class PaginationProvider extends PureComponent {
       }
 
       if (content) {
-        const contentObject = itemToInsert.insert(content)
+        itemToInsert.insert(content)
 
         this.setState(
           {
@@ -232,9 +252,7 @@ export default class PaginationProvider extends PureComponent {
             currentPage: pageNo, // update the currentPage
             _listenForPropChanges: false
           },
-          () =>
-            typeof contentObject.onAfterInsert === 'function' &&
-            contentObject.onAfterInsert(contentObject)
+          this.callOnPageUpdate
         )
       }
     }
@@ -242,8 +260,6 @@ export default class PaginationProvider extends PureComponent {
 
   render() {
     const { children } = this.props
-
-    // console.log('currentPage', this.state.currentPage)
 
     return (
       <PaginationContext.Provider
@@ -257,6 +273,7 @@ export default class PaginationProvider extends PureComponent {
             insertContent: this.insertContent,
             prefillItems: this.prefillItems,
             setState: this.setStateHandler,
+            onPageUpdate: this.onPageUpdate,
             ...this.props,
             ...this.state
           }

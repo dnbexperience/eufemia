@@ -16,13 +16,15 @@ import PaginationContext from './PaginationContext'
 import Button from '../button/Button'
 
 const propTypes = {
+  contentRef: PropTypes.object,
   children: PropTypes.oneOfType([PropTypes.node, PropTypes.func])
 }
 const defaultProps = {
+  contentRef: null,
+  children: null,
   button_title: null,
   prev_title: null,
-  next_title: null,
-  children: null
+  next_title: null
 }
 
 export default class PaginationBar extends PureComponent {
@@ -31,15 +33,6 @@ export default class PaginationBar extends PureComponent {
   static defaultProps = defaultProps
 
   componentDidMount() {
-    const items = this.context.pagination.prefillItems(
-      this.context.pagination.currentPage,
-      {
-        skipObserver: true
-      }
-    )
-    this.context.pagination.setState({
-      items
-    })
     this.callChildrenCallabck(this.context.pagination.currentPage)
   }
 
@@ -49,15 +42,48 @@ export default class PaginationBar extends PureComponent {
 
   callChildrenCallabck(pageNo) {
     if (this.hasChildrenCallabck()) {
+      const items = this.context.pagination.prefillItems(
+        this.context.pagination.currentPage,
+        {
+          skipObserver: true
+        }
+      )
+      this.context.pagination.setState({
+        items
+      })
+
       this.props.children({
         pageNo,
         page: pageNo,
-        insertContent: this.context.pagination.insertContent
+        ...this.context.pagination
+      })
+    }
+  }
+
+  keepPageHeight() {
+    const elem = this.props.contentRef.current
+    if (elem) {
+      try {
+        const pageHeight = elem.offsetHeight
+        elem.style.height = `${pageHeight / 16}rem`
+        elem.style.minHeight = elem.style.height // because of the "min-height: inherit;" in &__indicator
+      } catch (e) {
+        //
+      }
+      this.context.pagination.onPageUpdate(() => {
+        try {
+          elem.style.height = 'auto'
+          elem.style.minHeight = elem.style.height
+        } catch (e) {
+          //
+        }
       })
     }
   }
 
   setPage = (currentPage, event = null) => {
+    this.keepPageHeight()
+
     const items = this.context.pagination.prefillItems(currentPage, {
       skipObserver: true
     })
@@ -73,8 +99,7 @@ export default class PaginationBar extends PureComponent {
 
     this.context.pagination.setState({
       items,
-      currentPage,
-      _listenForPropChanges: false
+      currentPage
     })
   }
 

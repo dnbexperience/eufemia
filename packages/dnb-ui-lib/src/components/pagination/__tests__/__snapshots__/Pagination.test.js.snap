@@ -2,6 +2,60 @@
 
 exports[`Pagination bar component have to match snapshot 1`] = `
 <Pagination
+  0={
+    Object {
+      "displayName": "Pagination",
+      "props": Object {
+        "accumulate_count": "accumulate_count",
+        "align": "align",
+        "children": "children",
+        "class": "class",
+        "className": "className",
+        "current_page": "current_page",
+        "fallback_element": Object {},
+        "hide_progress_indicator": "hide_progress_indicator",
+        "indicator_element": "indicator_element",
+        "items": "items",
+        "marker_element": Object {},
+        "mode": "'pagination'",
+        "on_change": [Function],
+        "on_load": [Function],
+        "page_count": "page_count",
+        "page_element": Object {},
+        "reset_items_handler": "reset_items_handler",
+        "set_content_handler": "set_content_handler",
+        "set_items_handler": "set_items_handler",
+        "use_load_button": "use_load_button",
+      },
+    }
+  }
+  1={
+    Object {
+      "displayName": "PaginationInstance",
+      "props": Object {
+        "accumulate_count": "accumulate_count",
+        "align": "align",
+        "children": "children",
+        "class": "class",
+        "className": "className",
+        "current_page": "current_page",
+        "fallback_element": Object {},
+        "hide_progress_indicator": "hide_progress_indicator",
+        "indicator_element": "indicator_element",
+        "items": "items",
+        "marker_element": Object {},
+        "mode": "'pagination'",
+        "on_change": [Function],
+        "on_load": [Function],
+        "page_count": "page_count",
+        "page_element": Object {},
+        "reset_items_handler": "reset_items_handler",
+        "set_content_handler": "set_content_handler",
+        "set_items_handler": "set_items_handler",
+        "use_load_button": "use_load_button",
+      },
+    }
+  }
   accumulate_count={0}
   align="left"
   class={null}
@@ -19,6 +73,60 @@ exports[`Pagination bar component have to match snapshot 1`] = `
   use_load_button={false}
 >
   <PaginationProvider
+    0={
+      Object {
+        "displayName": "Pagination",
+        "props": Object {
+          "accumulate_count": "accumulate_count",
+          "align": "align",
+          "children": "children",
+          "class": "class",
+          "className": "className",
+          "current_page": "current_page",
+          "fallback_element": Object {},
+          "hide_progress_indicator": "hide_progress_indicator",
+          "indicator_element": "indicator_element",
+          "items": "items",
+          "marker_element": Object {},
+          "mode": "'pagination'",
+          "on_change": [Function],
+          "on_load": [Function],
+          "page_count": "page_count",
+          "page_element": Object {},
+          "reset_items_handler": "reset_items_handler",
+          "set_content_handler": "set_content_handler",
+          "set_items_handler": "set_items_handler",
+          "use_load_button": "use_load_button",
+        },
+      }
+    }
+    1={
+      Object {
+        "displayName": "PaginationInstance",
+        "props": Object {
+          "accumulate_count": "accumulate_count",
+          "align": "align",
+          "children": "children",
+          "class": "class",
+          "className": "className",
+          "current_page": "current_page",
+          "fallback_element": Object {},
+          "hide_progress_indicator": "hide_progress_indicator",
+          "indicator_element": "indicator_element",
+          "items": "items",
+          "marker_element": Object {},
+          "mode": "'pagination'",
+          "on_change": [Function],
+          "on_load": [Function],
+          "page_count": "page_count",
+          "page_element": Object {},
+          "reset_items_handler": "reset_items_handler",
+          "set_content_handler": "set_content_handler",
+          "set_items_handler": "set_items_handler",
+          "use_load_button": "use_load_button",
+        },
+      }
+    }
     accumulate_count={0}
     align="left"
     class={null}
@@ -37,6 +145,60 @@ exports[`Pagination bar component have to match snapshot 1`] = `
     use_load_button={false}
   >
     <PaginationInstance
+      0={
+        Object {
+          "displayName": "Pagination",
+          "props": Object {
+            "accumulate_count": "accumulate_count",
+            "align": "align",
+            "children": "children",
+            "class": "class",
+            "className": "className",
+            "current_page": "current_page",
+            "fallback_element": Object {},
+            "hide_progress_indicator": "hide_progress_indicator",
+            "indicator_element": "indicator_element",
+            "items": "items",
+            "marker_element": Object {},
+            "mode": "'pagination'",
+            "on_change": [Function],
+            "on_load": [Function],
+            "page_count": "page_count",
+            "page_element": Object {},
+            "reset_items_handler": "reset_items_handler",
+            "set_content_handler": "set_content_handler",
+            "set_items_handler": "set_items_handler",
+            "use_load_button": "use_load_button",
+          },
+        }
+      }
+      1={
+        Object {
+          "displayName": "PaginationInstance",
+          "props": Object {
+            "accumulate_count": "accumulate_count",
+            "align": "align",
+            "children": "children",
+            "class": "class",
+            "className": "className",
+            "current_page": "current_page",
+            "fallback_element": Object {},
+            "hide_progress_indicator": "hide_progress_indicator",
+            "indicator_element": "indicator_element",
+            "items": "items",
+            "marker_element": Object {},
+            "mode": "'pagination'",
+            "on_change": [Function],
+            "on_load": [Function],
+            "page_count": "page_count",
+            "page_element": Object {},
+            "reset_items_handler": "reset_items_handler",
+            "set_content_handler": "set_content_handler",
+            "set_items_handler": "set_items_handler",
+            "use_load_button": "use_load_button",
+          },
+        }
+      }
       accumulate_count={0}
       align="left"
       class={null}
@@ -58,9 +220,12 @@ exports[`Pagination bar component have to match snapshot 1`] = `
       >
         <PaginationBar
           button_title={null}
-          current_page={1}
+          contentRef={
+            Object {
+              "current": null,
+            }
+          }
           next_title={null}
-          page_count={1}
           prev_title={null}
         >
           <div
@@ -382,6 +547,9 @@ exports[`Pagination scss have to match default theme snapshot 1`] = `
  */
 .dnb-pagination__page {
   min-height: 10rem; }
+
+.dnb-pagination__bar {
+  margin-top: 1rem; }
 
 .dnb-pagination__indicator {
   min-height: inherit; }
