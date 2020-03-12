@@ -55,6 +55,7 @@ export default {
       button_title: 'Page %s',
       next_title: 'Next page',
       prev_title: 'Previous page',
+      more_pages: '%s more pages',
       is_loading_text: 'Loading new content',
       load_button_text: 'Vis mer innhold'
     },
