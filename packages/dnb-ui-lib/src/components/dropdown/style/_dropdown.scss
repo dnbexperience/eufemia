@@ -105,37 +105,37 @@
   }
 
   // Button only menu
-  &--button &__shell,
-  &--button &__trigger {
+  &--is-popup &__shell,
+  &--is-popup &__trigger {
     padding: 0;
     width: var(--dropdown-height);
     height: var(--dropdown-height);
   }
-  &--button &__icon {
+  &--is-popup &__icon {
     width: 100%;
   }
-  &--button#{&}--scroll &__options {
+  &--is-popup#{&}--scroll &__options {
     min-height: 1rem;
   }
-  &--button .dnb-drawer-list__list {
+  &--is-popup .dnb-drawer-list__list {
     min-width: var(--dropdown-width);
   }
 
   // size--small
-  &--small#{&}--button &__shell,
-  &--small#{&}--button &__trigger {
+  &--small#{&}--is-popup &__shell,
+  &--small#{&}--is-popup &__trigger {
     width: var(--dropdown-height--small);
   }
 
   // size--medium
-  &--medium#{&}--button &__shell,
-  &--medium#{&}--button &__trigger {
+  &--medium#{&}--is-popup &__shell,
+  &--medium#{&}--is-popup &__trigger {
     width: var(--dropdown-height--medium);
   }
 
   // size--large
-  &--large#{&}--button &__shell,
-  &--large#{&}--button &__trigger {
+  &--large#{&}--is-popup &__shell,
+  &--large#{&}--is-popup &__trigger {
     width: var(--dropdown-height--large);
   }
 

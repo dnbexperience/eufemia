@@ -78,12 +78,12 @@
   }
 
   // size--default button left aligned
-  &--button &__list {
+  &--is-popup &__list {
     left: -0.5rem;
   }
 
   // size--default button right aligned
-  &--button#{&}--right &__list {
+  &--is-popup#{&}--right &__list {
     right: -0.5rem;
   }
 
@@ -95,10 +95,10 @@
     top: auto;
     bottom: var(--drawer-list-height--small);
   }
-  &--small#{&}--button &__list {
+  &--small#{&}--is-popup &__list {
     left: -0.75rem;
   }
-  &--small#{&}--button#{&}--right &__list {
+  &--small#{&}--is-popup#{&}--right &__list {
     right: -0.75rem;
   }
 
@@ -110,10 +110,10 @@
     top: auto;
     bottom: var(--drawer-list-height--medium);
   }
-  &--medium#{&}--button &__list {
+  &--medium#{&}--is-popup &__list {
     left: -0.25rem;
   }
-  &--medium#{&}--button#{&}--right &__list {
+  &--medium#{&}--is-popup#{&}--right &__list {
     right: -0.25rem;
   }
 
@@ -125,10 +125,10 @@
     top: auto;
     bottom: var(--drawer-list-height--large);
   }
-  &--large#{&}--button &__list {
+  &--large#{&}--is-popup &__list {
     left: -0.25rem;
   }
-  &--large#{&}--button#{&}--right &__list {
+  &--large#{&}--is-popup#{&}--right &__list {
     right: -0.25rem;
   }
 

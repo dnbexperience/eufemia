@@ -1838,36 +1838,36 @@ legend.dnb-form-label {
   .dnb-drawer-list--top .dnb-drawer-list__list {
     top: auto;
     bottom: 0; }
-  .dnb-drawer-list--button .dnb-drawer-list__list {
+  .dnb-drawer-list--is-popup .dnb-drawer-list__list {
     left: -0.5rem; }
-  .dnb-drawer-list--button.dnb-drawer-list--right .dnb-drawer-list__list {
+  .dnb-drawer-list--is-popup.dnb-drawer-list--right .dnb-drawer-list__list {
     right: -0.5rem; }
   .dnb-drawer-list--small .dnb-drawer-list__list {
     top: var(--drawer-list-height--small); }
   .dnb-drawer-list--small.dnb-drawer-list--top .dnb-drawer-list__list {
     top: auto;
     bottom: var(--drawer-list-height--small); }
-  .dnb-drawer-list--small.dnb-drawer-list--button .dnb-drawer-list__list {
+  .dnb-drawer-list--small.dnb-drawer-list--is-popup .dnb-drawer-list__list {
     left: -0.75rem; }
-  .dnb-drawer-list--small.dnb-drawer-list--button.dnb-drawer-list--right .dnb-drawer-list__list {
+  .dnb-drawer-list--small.dnb-drawer-list--is-popup.dnb-drawer-list--right .dnb-drawer-list__list {
     right: -0.75rem; }
   .dnb-drawer-list--medium .dnb-drawer-list__list {
     top: var(--drawer-list-height--medium); }
   .dnb-drawer-list--medium.dnb-drawer-list--top .dnb-drawer-list__list {
     top: auto;
     bottom: var(--drawer-list-height--medium); }
-  .dnb-drawer-list--medium.dnb-drawer-list--button .dnb-drawer-list__list {
+  .dnb-drawer-list--medium.dnb-drawer-list--is-popup .dnb-drawer-list__list {
     left: -0.25rem; }
-  .dnb-drawer-list--medium.dnb-drawer-list--button.dnb-drawer-list--right .dnb-drawer-list__list {
+  .dnb-drawer-list--medium.dnb-drawer-list--is-popup.dnb-drawer-list--right .dnb-drawer-list__list {
     right: -0.25rem; }
   .dnb-drawer-list--large .dnb-drawer-list__list {
     top: var(--drawer-list-height--large); }
   .dnb-drawer-list--large.dnb-drawer-list--top .dnb-drawer-list__list {
     top: auto;
     bottom: var(--drawer-list-height--large); }
-  .dnb-drawer-list--large.dnb-drawer-list--button .dnb-drawer-list__list {
+  .dnb-drawer-list--large.dnb-drawer-list--is-popup .dnb-drawer-list__list {
     left: -0.25rem; }
-  .dnb-drawer-list--large.dnb-drawer-list--button.dnb-drawer-list--right .dnb-drawer-list__list {
+  .dnb-drawer-list--large.dnb-drawer-list--is-popup.dnb-drawer-list--right .dnb-drawer-list__list {
     right: -0.25rem; }
   .dnb-drawer-list--right .dnb-drawer-list__list {
     left: auto; }
@@ -2037,25 +2037,25 @@ legend.dnb-form-label {
     padding: 0 var(--dropdown-padding-horizontal); }
     .dnb-dropdown__trigger.dnb-button {
       line-height: var(--dropdown-height); }
-  .dnb-dropdown--button .dnb-dropdown__shell,
-  .dnb-dropdown--button .dnb-dropdown__trigger {
+  .dnb-dropdown--is-popup .dnb-dropdown__shell,
+  .dnb-dropdown--is-popup .dnb-dropdown__trigger {
     padding: 0;
     width: var(--dropdown-height);
     height: var(--dropdown-height); }
-  .dnb-dropdown--button .dnb-dropdown__icon {
+  .dnb-dropdown--is-popup .dnb-dropdown__icon {
     width: 100%; }
-  .dnb-dropdown--button.dnb-dropdown--scroll .dnb-dropdown__options {
+  .dnb-dropdown--is-popup.dnb-dropdown--scroll .dnb-dropdown__options {
     min-height: 1rem; }
-  .dnb-dropdown--button .dnb-drawer-list__list {
+  .dnb-dropdown--is-popup .dnb-drawer-list__list {
     min-width: var(--dropdown-width); }
-  .dnb-dropdown--small.dnb-dropdown--button .dnb-dropdown__shell,
-  .dnb-dropdown--small.dnb-dropdown--button .dnb-dropdown__trigger {
+  .dnb-dropdown--small.dnb-dropdown--is-popup .dnb-dropdown__shell,
+  .dnb-dropdown--small.dnb-dropdown--is-popup .dnb-dropdown__trigger {
     width: var(--dropdown-height--small); }
-  .dnb-dropdown--medium.dnb-dropdown--button .dnb-dropdown__shell,
-  .dnb-dropdown--medium.dnb-dropdown--button .dnb-dropdown__trigger {
+  .dnb-dropdown--medium.dnb-dropdown--is-popup .dnb-dropdown__shell,
+  .dnb-dropdown--medium.dnb-dropdown--is-popup .dnb-dropdown__trigger {
     width: var(--dropdown-height--medium); }
-  .dnb-dropdown--large.dnb-dropdown--button .dnb-dropdown__shell,
-  .dnb-dropdown--large.dnb-dropdown--button .dnb-dropdown__trigger {
+  .dnb-dropdown--large.dnb-dropdown--is-popup .dnb-dropdown__shell,
+  .dnb-dropdown--large.dnb-dropdown--is-popup .dnb-dropdown__trigger {
     width: var(--dropdown-height--large); }
   .dnb-dropdown--small {
     line-height: var(--dropdown-height--small); }

@@ -437,10 +437,10 @@ class DropdownInstance extends PureComponent {
         opened && 'dnb-dropdown--opened',
         label_direction && `dnb-dropdown--${label_direction}`,
         icon_position && `dnb-dropdown--icon-position-${icon_position}`,
-        isPopupMenu && 'dnb-dropdown--button',
+        isPopupMenu && 'dnb-dropdown--is-popup',
         isPopupMenu &&
           typeof more_menu === 'string' &&
-          `dnb-dropdown__more_menu`,
+          `dnb-dropdown--more_menu`,
         size && `dnb-dropdown--${size}`,
         align_dropdown && `dnb-drawer-list--${align_dropdown}`,
         status && `dnb-dropdown__status--${status_state}`,

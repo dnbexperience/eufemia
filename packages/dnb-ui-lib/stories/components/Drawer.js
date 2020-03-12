@@ -16,14 +16,7 @@ const Drawer = styled(DrawerList)`
   margin-bottom: 4rem;
 `
 const CustomStyle = styled.div`
-  ${'' /* --dropdown-width: 20rem; */}
-  ${'' /* .dnb-dropdown:not(.dnb-dropdown--is-popup) .dnb-dropdown__shell {
-    width: 20rem;
-  }
-  .dnb-dropdown:not(.dnb-dropdown--is-popup) .dnb-dropdown__list {
-    min-width: 20rem;
-  } */}
-   [data-dnb-test='dropdown-list'].dnb-drawer-list__list {
+  [data-dnb-test='dropdown-list'].dnb-drawer-list__list {
     display: block;
     visibility: visible;
     position: relative;

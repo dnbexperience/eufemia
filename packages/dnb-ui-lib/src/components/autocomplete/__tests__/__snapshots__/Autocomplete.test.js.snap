@@ -1894,36 +1894,36 @@ legend.dnb-form-label {
   .dnb-drawer-list--top .dnb-drawer-list__list {
     top: auto;
     bottom: 0; }
-  .dnb-drawer-list--button .dnb-drawer-list__list {
+  .dnb-drawer-list--is-popup .dnb-drawer-list__list {
     left: -0.5rem; }
-  .dnb-drawer-list--button.dnb-drawer-list--right .dnb-drawer-list__list {
+  .dnb-drawer-list--is-popup.dnb-drawer-list--right .dnb-drawer-list__list {
     right: -0.5rem; }
   .dnb-drawer-list--small .dnb-drawer-list__list {
     top: var(--drawer-list-height--small); }
   .dnb-drawer-list--small.dnb-drawer-list--top .dnb-drawer-list__list {
     top: auto;
     bottom: var(--drawer-list-height--small); }
-  .dnb-drawer-list--small.dnb-drawer-list--button .dnb-drawer-list__list {
+  .dnb-drawer-list--small.dnb-drawer-list--is-popup .dnb-drawer-list__list {
     left: -0.75rem; }
-  .dnb-drawer-list--small.dnb-drawer-list--button.dnb-drawer-list--right .dnb-drawer-list__list {
+  .dnb-drawer-list--small.dnb-drawer-list--is-popup.dnb-drawer-list--right .dnb-drawer-list__list {
     right: -0.75rem; }
   .dnb-drawer-list--medium .dnb-drawer-list__list {
     top: var(--drawer-list-height--medium); }
   .dnb-drawer-list--medium.dnb-drawer-list--top .dnb-drawer-list__list {
     top: auto;
     bottom: var(--drawer-list-height--medium); }
-  .dnb-drawer-list--medium.dnb-drawer-list--button .dnb-drawer-list__list {
+  .dnb-drawer-list--medium.dnb-drawer-list--is-popup .dnb-drawer-list__list {
     left: -0.25rem; }
-  .dnb-drawer-list--medium.dnb-drawer-list--button.dnb-drawer-list--right .dnb-drawer-list__list {
+  .dnb-drawer-list--medium.dnb-drawer-list--is-popup.dnb-drawer-list--right .dnb-drawer-list__list {
     right: -0.25rem; }
   .dnb-drawer-list--large .dnb-drawer-list__list {
     top: var(--drawer-list-height--large); }
   .dnb-drawer-list--large.dnb-drawer-list--top .dnb-drawer-list__list {
     top: auto;
     bottom: var(--drawer-list-height--large); }
-  .dnb-drawer-list--large.dnb-drawer-list--button .dnb-drawer-list__list {
+  .dnb-drawer-list--large.dnb-drawer-list--is-popup .dnb-drawer-list__list {
     left: -0.25rem; }
-  .dnb-drawer-list--large.dnb-drawer-list--button.dnb-drawer-list--right .dnb-drawer-list__list {
+  .dnb-drawer-list--large.dnb-drawer-list--is-popup.dnb-drawer-list--right .dnb-drawer-list__list {
     right: -0.25rem; }
   .dnb-drawer-list--right .dnb-drawer-list__list {
     left: auto; }

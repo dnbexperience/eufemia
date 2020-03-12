@@ -270,7 +270,7 @@ const Wrapper = styled.div`
     margin-right: 1rem;
   }
   [data-dnb-test] {
-    > :not(.dnb-dropdown--is-popup) .dnb-dropdown {
+    > :not(.dnb-dropdown--is-popup) .dnb-dropdown__shell {
       width: var(--dropdown-width);
     }
   }

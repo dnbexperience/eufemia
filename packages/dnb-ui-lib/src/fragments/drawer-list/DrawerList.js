@@ -295,7 +295,7 @@ class DrawerListInstance extends PureComponent {
           `dnb-drawer-list--icon-position-${triangle_position}`,
         align_drawer && `dnb-drawer-list--${align_drawer}`,
         size && `dnb-drawer-list--${size}`,
-        button_only && 'dnb-drawer-list--button',
+        button_only && 'dnb-drawer-list--is-popup',
         isTrue(scrollable) && 'dnb-drawer-list--scroll',
         isTrue(no_scroll_animation) &&
           'dnb-drawer-list--no-scroll-animation',
