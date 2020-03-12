@@ -84,9 +84,13 @@ export default class PaginationBar extends PureComponent {
   setPage = (currentPage, event = null) => {
     this.keepPageHeight()
 
-    const items = this.context.pagination.prefillItems(currentPage, {
-      skipObserver: true
-    })
+    let items = this.context.pagination.items
+
+    if (this.hasChildrenCallabck()) {
+      items = this.context.pagination.prefillItems(currentPage, {
+        skipObserver: true
+      })
+    }
 
     dispatchCustomElementEvent(this.context.pagination, 'on_change', {
       page: currentPage,

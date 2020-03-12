@@ -179,7 +179,7 @@ class PaginationInstance extends PureComponent {
     } = this.context.pagination
 
     // Pagination mode
-    if (this.context.pagination.mode !== 'infinity') {
+    if (this.context.pagination.mode === 'pagination') {
       const mainParams = {
         className: classnames(
           'dnb-pagination',
