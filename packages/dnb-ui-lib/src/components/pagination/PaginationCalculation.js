@@ -50,6 +50,26 @@ export const calculatePagination = (page_count, current_page) => {
   return pages
 }
 
+export const getDotsAriaLabel = ({ more_pages, list, pages }) => {
+  let count = 0
+
+  try {
+    if (list.length === 1) {
+      count =
+        list[0] -
+        (pages.length === 2
+          ? pages[0][pages[0].length - 1]
+          : pages[1][pages[1].length - 1])
+    } else if (list.length > 1) {
+      count = list[0] - pages[0] - 1
+    }
+  } catch (e) {
+    //
+  }
+
+  return count > 0 ? more_pages.replace('%s', count) : null
+}
+
 export default {
   calculatePagination
 }

@@ -212,7 +212,6 @@ const InfinityPaginationTable = ({ tableItems, ...props }) => {
       />
     )
     // updateContent([page, content])
-    console.log('setContent.current', setContent.current)
     setContent.current && setContent.current(currentPage, content)
   }
   // updateContent(currentPage)
