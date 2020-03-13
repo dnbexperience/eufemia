@@ -212,6 +212,35 @@ render(
           `}
         </ComponentBox>
         <ComponentBox
+          title="Dropdown in different sizes"
+          description="Four sizes are available: `small`, `default`, `medium` and `large`"
+          data-dnb-test="dropdown-sizes"
+          scope={{ data }}
+        >
+          {/* @jsx */ `
+<FormRow direction="vertical">
+  <Dropdown
+    label="Label:"
+    size="default"
+    bottom
+    data={() => (data)}
+  />
+  <Dropdown
+    label="Label:"
+    size="medium"
+    bottom
+    data={() => (data)}
+  />
+  <Dropdown
+    label="Label:"
+    size="large"
+    bottom
+    data={() => (data)}
+  />
+</FormRow>
+          `}
+        </ComponentBox>
+        <ComponentBox
           title="Dropdown with status and vertical label layout"
           data-dnb-test="dropdown-status-error"
           scope={{ data }}
@@ -270,7 +299,7 @@ const Wrapper = styled.div`
     margin-right: 1rem;
   }
   [data-dnb-test] {
-    > :not(.dnb-dropdown--is-popup) .dnb-dropdown {
+    > :not(.dnb-dropdown--is-popup) .dnb-dropdown__shell {
       width: var(--dropdown-width);
     }
   }

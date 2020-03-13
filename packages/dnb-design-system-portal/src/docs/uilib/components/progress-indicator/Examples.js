@@ -15,6 +15,15 @@ class Example extends PureComponent {
 <ProgressIndicator />
           `}
         </ComponentBox>
+        <ComponentBox title="Circular ProgressIndicator with a label">
+          {/* @jsx */ `
+<ProgressIndicator
+  // label="Custom label ..."
+  show_label="true"
+  label_direction="horizontal"
+/>
+          `}
+        </ComponentBox>
         <ComponentBox
           title="Shows a large Circular ProgressIndicator with a static 50% in progress"
           data-dnb-test="progress-indicator-circular--primary"

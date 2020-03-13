@@ -11,7 +11,7 @@ import Context, { defaultContext } from './Context'
 import { prepareFormRowContext } from '../components/form-row/FormRow'
 
 const Provider = ({ children, ...providerProps }) => {
-  // 1. Set defualt context to be overwirtter by the provider props
+  // 1. Set default context to be overwirtter by the provider props
   const context = defaultContext(providerProps)
 
   // 2. The reset will extend the Provider Context

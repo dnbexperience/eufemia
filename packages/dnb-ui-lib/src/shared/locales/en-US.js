@@ -41,8 +41,17 @@ export default {
         alt: 'Man looking for clues'
       }
     },
+    ProgressIndicator: {
+      indicator_label: 'Please wait ...'
+    },
     Dropdown: {
       title: 'Option Menu'
+    },
+    Autocomplete: {
+      title: 'Type and select',
+      submit_button_title: 'Show options',
+      no_options: 'No option',
+      indicator_label: 'Getting data ...'
     },
     Modal: {
       close_title: 'Close',
@@ -55,6 +64,7 @@ export default {
       button_title: 'Page %s',
       next_title: 'Next page',
       prev_title: 'Previous page',
+      more_pages: '%s more pages',
       is_loading_text: 'Loading new content',
       load_button_text: 'Vis mer innhold'
     },

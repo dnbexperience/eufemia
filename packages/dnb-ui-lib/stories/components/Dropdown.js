@@ -45,7 +45,12 @@ const DropdownStory = () => {
           // opened
           // no_animation
           // value="0"
-          data={['A', 'B']}
+          value="b"
+          // data={['A', 'B']}
+          data={() => ({
+            a: 'AA',
+            b: 'BB'
+          })}
           on_select={e => {
             console.log('on_select', e)
           }}
@@ -53,6 +58,24 @@ const DropdownStory = () => {
             console.log('on_change', e)
           }}
         ></Dropdown>
+        <Dropdown
+          // opened
+          // no_animation
+          // value="0"
+          // value="b"
+          // data={['A', 'B']}
+          on_select={e => {
+            console.log('on_select', e)
+          }}
+          on_change={e => {
+            console.log('on_change', e)
+          }}
+        >
+          {() => ({
+            a: 'AA',
+            b: 'BB'
+          })}
+        </Dropdown>
       </Box>
       <Box>
         <CurrencyDropdown />
@@ -74,7 +97,7 @@ const DropdownStory = () => {
             data={() => {
               return dropdownData
             }}
-            right="small"
+            right
             status="Status message"
             on_change={({ attributes }) => {
               console.log(
@@ -89,7 +112,7 @@ const DropdownStory = () => {
           <Dropdown
             title="Default option"
             label="Vertical B:"
-            align_dropdown="right"
+            // align_dropdown="right"
             icon_position="left"
             data={dropdownData}
           />
@@ -190,9 +213,10 @@ const DropdownStory = () => {
       <Box>
         Popup Menu
         <Dropdown
-          left="small"
-          right="small"
+          left
+          right
           size="small"
+          // align_dropdown="right"
           more_menu={true}
           title="Choose an item"
           data={['Go this this Link', 'Or to this one']}
@@ -204,8 +228,9 @@ const DropdownStory = () => {
           }}
         />
         <Dropdown
-          right="small"
+          right
           more_menu="true"
+          // align_dropdown="right"
           title="Choose an item"
           data={['Go this this Link', 'Or to this one']}
           on_change={({ value }) => {
@@ -216,8 +241,23 @@ const DropdownStory = () => {
           }}
         />
         <Dropdown
+          right
+          size="medium"
           prevent_selection="true"
-          align_dropdown="right"
+          // align_dropdown="right"
+          title="Choose an item"
+          data={['Go this this Link', 'Or to this one']}
+          on_change={({ value }) => {
+            console.log('on_change', value)
+          }}
+          on_select={({ active_item }) => {
+            console.log('on_select', active_item)
+          }}
+        />
+        <Dropdown
+          size="large"
+          prevent_selection="true"
+          // align_dropdown="right"
           title="Choose an item"
           data={['Go this this Link', 'Or to this one']}
           on_change={({ value }) => {
@@ -399,9 +439,9 @@ const dropdownDataScrollable = [
     ]
   },
   {
-    content: <Fragment>E</Fragment>
+    content: <>E</>
   },
-  <Fragment key="key1">Custom content {'🔥'}</Fragment>,
+  <>Custom content {'🔥'}</>,
   [<Fragment key="key2">Custom content X {'🔥'}</Fragment>],
   {
     content: 'EE'

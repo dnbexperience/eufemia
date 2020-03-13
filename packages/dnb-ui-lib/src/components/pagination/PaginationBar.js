@@ -3,14 +3,17 @@
  *
  */
 
-import React, { PureComponent } from 'react'
+import React, { Fragment, PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import {
   dispatchCustomElementEvent,
   extendPropsWithContext
 } from '../../shared/component-helper'
 
-import { calculatePagination } from './PaginationCalculation'
+import {
+  calculatePagination,
+  getDotsAriaLabel
+} from './PaginationCalculation'
 import PaginationContext from './PaginationContext'
 
 import Button from '../button/Button'
@@ -24,7 +27,8 @@ const defaultProps = {
   children: null,
   button_title: null,
   prev_title: null,
-  next_title: null
+  next_title: null,
+  more_pages: null
 }
 
 export default class PaginationBar extends PureComponent {
@@ -125,7 +129,7 @@ export default class PaginationBar extends PureComponent {
       this.context.translation.Pagination
     )
 
-    const { button_title, prev_title, next_title } = props
+    const { button_title, prev_title, next_title, more_pages } = props
 
     // our states
     const { pageCount, currentPage } = this.context.pagination
@@ -154,15 +158,24 @@ export default class PaginationBar extends PureComponent {
               className="dnb-pagination__button"
               size="medium"
               text={String(pageNo)}
-              title={button_title.replace('%s', pageNo)}
+              aria-label={button_title.replace('%s', pageNo)}
               variant={pageNo === currentPage ? 'primary' : 'secondary'}
               aria-current={pageNo === currentPage ? 'page' : null}
               on_click={event => this.clickHandler({ pageNo, event })}
             />
           ))}
+
           {pages.slice(1).map((list, idx) => (
-            <React.Fragment key={idx}>
-              <div key={`dots-${idx}`} className="dnb-pagination__dots">
+            <Fragment key={idx}>
+              <div
+                key={`dots-${idx}`}
+                className="dnb-pagination__dots"
+                aria-label={getDotsAriaLabel({
+                  more_pages,
+                  list,
+                  pages
+                })}
+              >
                 <div key="dot-1" />
                 <div key="dot-2" />
                 <div key="dot-3" />
@@ -173,7 +186,7 @@ export default class PaginationBar extends PureComponent {
                   className="dnb-pagination__button"
                   size="medium"
                   text={String(pageNo)}
-                  title={button_title.replace('%s', pageNo)}
+                  aria-label={button_title.replace('%s', pageNo)}
                   variant={
                     pageNo === currentPage ? 'primary' : 'secondary'
                   }
@@ -181,7 +194,7 @@ export default class PaginationBar extends PureComponent {
                   on_click={event => this.clickHandler({ pageNo, event })}
                 />
               ))}
-            </React.Fragment>
+            </Fragment>
           ))}
         </div>
 
