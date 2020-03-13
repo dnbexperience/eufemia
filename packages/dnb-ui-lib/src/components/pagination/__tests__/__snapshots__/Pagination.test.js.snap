@@ -1115,12 +1115,9 @@ button.dnb-button::-moz-focus-inner {
     overflow: hidden;
     opacity: 0; }
     .dnb-pagination__marker__inner {
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      margin: auto 0;
-      width: 1px;
-      height: 1px; }
+      padding: 0 !important;
+      width: 0;
+      height: 0; }
   .dnb-pagination__loadbar {
     display: flex;
     align-items: center;

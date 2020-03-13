@@ -35,10 +35,17 @@ export default class InfinityScroller extends PureComponent {
   }
 
   startup = () => {
-    const { currentPage, current_page } = this.context.pagination
-    this.getNewContent(parseFloat(current_page) || 1, {
-      position: currentPage > 1 ? 'before' : 'after'
-    })
+    const { current_page, accumulate_count } = this.context.pagination
+
+    const originalCurrentPage = parseFloat(current_page) || 1
+    const accumulateCount = parseFloat(accumulate_count)
+
+    for (let i = 0; i <= accumulateCount; ++i) {
+      this.getNewContent(originalCurrentPage + i, {
+        position: 'after',
+        skipObserver: i !== Math.floor(accumulateCount / 2)
+      })
+    }
   }
 
   getNewContent = (newPageNo, props = {}) => {
@@ -103,11 +110,10 @@ export default class InfinityScroller extends PureComponent {
     const accumulateCount = parseFloat(accumulate_count)
 
     return items.map(
-      ({ pageNo, hasContent, content, ref, position, skipObserver }) => {
+      ({ pageNo, hasContent, content, ref, skipObserver }) => {
         return (
           <Element key={pageNo} ref={ref}>
             {hasContent &&
-              position === 'before' &&
               originalCurrentPage > 1 &&
               pageNo > 1 &&
               pageNo <= currentPage && (
@@ -126,12 +132,6 @@ export default class InfinityScroller extends PureComponent {
 
             {content}
 
-            {!hasContent && !this.hideIndicator && (
-              <PaginationIndicator
-                indicator_element={indicator_element || fallback_element}
-              />
-            )}
-
             {hasContent &&
               !this.useLoadButton &&
               !skipObserver &&
@@ -143,11 +143,14 @@ export default class InfinityScroller extends PureComponent {
                   onVisible={pageNoVisible => {
                     if (accumulateCount > 0) {
                       for (let i = 0; i <= accumulateCount; ++i) {
-                        this.getNewContent(items.length + i, {
-                          position: 'after',
-                          skipObserver:
-                            i !== Math.round(accumulateCount / 2)
-                        })
+                        this.getNewContent(
+                          originalCurrentPage + items.length + i,
+                          {
+                            position: 'after',
+                            skipObserver:
+                              i !== Math.floor(accumulateCount / 2)
+                          }
+                        )
                       }
                     } else {
                       this.getNewContent(pageNoVisible + 1, {
@@ -157,6 +160,12 @@ export default class InfinityScroller extends PureComponent {
                   }}
                 />
               )}
+
+            {!hasContent && !this.hideIndicator && (
+              <PaginationIndicator
+                indicator_element={indicator_element || fallback_element}
+              />
+            )}
 
             {hasContent &&
               this.useLoadButton &&
@@ -204,12 +213,18 @@ class InfinityMarker extends PureComponent {
     this._ref = React.createRef()
 
     if (typeof IntersectionObserver !== 'undefined') {
-      this.intersectionObserver = new IntersectionObserver(entries => {
-        const [{ isIntersecting }] = entries
-        if (isIntersecting) {
-          this.callReady()
+      this.intersectionObserver = new IntersectionObserver(
+        entries => {
+          const [{ isIntersecting }] = entries
+          if (isIntersecting) {
+            this.callReady()
+          }
         }
-      })
+        // {
+        //   threshold: 1,
+        //   rootMargin: '0px 0px -80% 0px'
+        // }
+      )
     } else {
       console.warn('Pagination is missing IntersectionObserver supported!')
     }
@@ -242,6 +257,8 @@ class InfinityMarker extends PureComponent {
   }
 
   render() {
+    const { marker_element, callOnVisible } = this.props
+
     if (
       this.state.isConnected ||
       callOnVisible ||
@@ -250,7 +267,6 @@ class InfinityMarker extends PureComponent {
       return null
     }
 
-    const { marker_element, callOnVisible } = this.props
     const Element = marker_element
     const ElementChild = isTrElement(Element) ? 'td' : 'div'
 
