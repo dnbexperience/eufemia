@@ -41,6 +41,9 @@ export default {
         alt: 'Mann leter etter spor'
       }
     },
+    ProgressIndicator: {
+      indicator_label: 'Vennligst vent ...'
+    },
     Dropdown: {
       title: 'Valgmeny'
     },
