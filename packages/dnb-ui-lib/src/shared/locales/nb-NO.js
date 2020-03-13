@@ -44,6 +44,9 @@ export default {
     Dropdown: {
       title: 'Valgmeny'
     },
+    ProgressIndicator: {
+      indicator_label: 'Vennligst vent ...'
+    },
     Modal: {
       close_title: 'Lukk',
       more_info: 'Mer informasjon'

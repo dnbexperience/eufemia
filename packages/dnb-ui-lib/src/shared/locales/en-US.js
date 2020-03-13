@@ -41,6 +41,9 @@ export default {
         alt: 'Man looking for clues'
       }
     },
+    ProgressIndicator: {
+      indicator_label: 'Please wait ...'
+    },
     Dropdown: {
       title: 'Option Menu'
     },
