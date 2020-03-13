@@ -37,12 +37,13 @@ exports[`Input component have to match type="search" snapshot 1`] = `
         "placeholder": "placeholder",
         "readOnly": "readOnly",
         "selectall": "selectall",
-        "size": "size",
+        "size": "'default'",
         "status": "status",
         "status_animation": "status_animation",
         "status_state": "status_state",
         "stretch": "stretch",
         "submit_button_icon": "submit_button_icon",
+        "submit_button_status": "submit_button_status",
         "submit_button_title": "submit_button_title",
         "submit_button_variant": "custom type not supported, please set the correct value for submit_button_variant prop",
         "submit_element": [Function],
@@ -106,6 +107,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
   status_state="error"
   stretch={null}
   submit_button_icon="search"
+  submit_button_status={null}
   submit_button_title={null}
   submit_button_variant="secondary"
   submit_element={null}
@@ -188,12 +190,13 @@ exports[`Input component have to match type="search" snapshot 1`] = `
                   "placeholder": "placeholder",
                   "readOnly": "readOnly",
                   "selectall": "selectall",
-                  "size": "size",
+                  "size": "'default'",
                   "status": "status",
                   "status_animation": "status_animation",
                   "status_state": "status_state",
                   "stretch": "stretch",
                   "submit_button_icon": "submit_button_icon",
+                  "submit_button_status": "submit_button_status",
                   "submit_button_title": "submit_button_title",
                   "submit_button_variant": "custom type not supported, please set the correct value for submit_button_variant prop",
                   "submit_element": [Function],
@@ -236,6 +239,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
             on_submit_blur={null}
             on_submit_focus={null}
             size={null}
+            status={null}
             title="Send knapp"
             value="test"
             variant="secondary"
@@ -276,12 +280,13 @@ exports[`Input component have to match type="search" snapshot 1`] = `
                     "placeholder": "placeholder",
                     "readOnly": "readOnly",
                     "selectall": "selectall",
-                    "size": "size",
+                    "size": "'default'",
                     "status": "status",
                     "status_animation": "status_animation",
                     "status_state": "status_state",
                     "stretch": "stretch",
                     "submit_button_icon": "submit_button_icon",
+                    "submit_button_status": "submit_button_status",
                     "submit_button_title": "submit_button_title",
                     "submit_button_variant": "custom type not supported, please set the correct value for submit_button_variant prop",
                     "submit_element": [Function],
@@ -327,6 +332,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
               on_submit_blur={null}
               on_submit_focus={null}
               size={null}
+              status={null}
               title="Send knapp"
               value="test"
               variant="secondary"
@@ -506,12 +512,13 @@ exports[`Input component have to match type="text" snapshot 1`] = `
         "placeholder": "placeholder",
         "readOnly": "readOnly",
         "selectall": "selectall",
-        "size": "size",
+        "size": "'default'",
         "status": "status",
         "status_animation": "status_animation",
         "status_state": "status_state",
         "stretch": "stretch",
         "submit_button_icon": "submit_button_icon",
+        "submit_button_status": "submit_button_status",
         "submit_button_title": "submit_button_title",
         "submit_button_variant": "custom type not supported, please set the correct value for submit_button_variant prop",
         "submit_element": [Function],
@@ -575,6 +582,7 @@ exports[`Input component have to match type="text" snapshot 1`] = `
   status_state="error"
   stretch={null}
   submit_button_icon="search"
+  submit_button_status={null}
   submit_button_title={null}
   submit_button_variant="secondary"
   submit_element={null}
@@ -1211,16 +1219,20 @@ legend.dnb-form-label {
 */
 :root {
   --input-font-size: var(--font-size-basis);
+  --input-font-size--small: var(--font-size-basis);
   --input-font-size--medium: var(--font-size-basis);
   --input-font-size--large: var(--font-size-medium);
   --input-padding: 1rem;
+  --input-padding--small: 1rem;
   --input-padding--medium: 1rem;
   --input-padding--large: 1rem;
   --input-height: 2rem;
+  --input-height--small: 1.5rem;
   --input-height--medium: 2.5rem;
   --input-height--large: 3rem;
   --input-border-width: 0.0625rem;
   --input-border-radius: calc(var(--input-height) / 2);
+  --input-border-radius--small: calc(var(--input-height--small) / 2);
   --input-border-radius--medium: calc(var(--input-height--medium) / 2);
   --input-border-radius--large: calc(var(--input-height--large) / 2); }
 
@@ -1303,6 +1315,26 @@ legend.dnb-form-label {
     /* IE needs this to stay centered */ }
     .dnb-input__submit-button__button {
       border-radius: 50%; }
+  .dnb-input--small {
+    line-height: var(--input-height--small); }
+    .dnb-input--small .dnb-input__shell,
+    .dnb-input--small .dnb-input__input {
+      height: var(--input-height--small);
+      border-radius: var(--input-border-radius--small); }
+    .dnb-input--small .dnb-input__placeholder,
+    .dnb-input--small .dnb-input__input {
+      padding-left: var(--input-padding--small);
+      padding-right: var(--input-padding--small);
+      font-size: var(--input-font-size--small); }
+    .dnb-input--small .dnb-input__submit-element {
+      margin-left: calc(1px - 1px - var(--input-height--small)); }
+      .dnb-input--small .dnb-input__submit-element .dnb-button {
+        width: var(--input-height--small);
+        height: var(--input-height--small);
+        line-height: var(--input-height--small); }
+  .dnb-input--small.dnb-input--has-submit-element .dnb-input__placeholder,
+  .dnb-input--small.dnb-input--has-submit-element .dnb-input__input {
+    padding-right: calc(var(--input-padding--small) * 3); }
   .dnb-input--medium {
     line-height: var(--input-height--medium); }
     .dnb-input--medium .dnb-input__shell,

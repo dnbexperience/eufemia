@@ -12,6 +12,7 @@
 import { registerElement } from '../shared/component-helper'
 
 // import all the aviable components
+import Autocomplete from './autocomplete/Autocomplete'
 import Button from './button/Button'
 import Checkbox from './checkbox/Checkbox'
 import DatePicker from './date-picker/DatePicker'
@@ -45,6 +46,7 @@ import ToggleButton from './toggle-button/ToggleButton'
 
 // define / export all the aviable components
 export {
+  Autocomplete,
   Button,
   Checkbox,
   DatePicker,
@@ -79,6 +81,7 @@ export {
 
 export const getComponents = () => {
   return {
+    Autocomplete,
     Button,
     Checkbox,
     DatePicker,
