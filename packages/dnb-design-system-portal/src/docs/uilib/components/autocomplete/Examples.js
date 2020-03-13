@@ -39,6 +39,28 @@ class Example extends PureComponent {
           `}
         </ComponentBox>
         <ComponentBox
+          title="Update data dynamically"
+          description="**NB:** here we use `label_sr_only` to hide a custom label"
+          scope={{ topMovies }}
+        >
+          {/* @jsx */ `
+<Autocomplete
+  label="Search"
+  label_sr_only="true"
+  on_type={({ value /* updateData, ... */ }) => {
+    console.log('on_type', value,)
+  }}
+  on_focus={({ updateData, showIndicator }) => {
+    showIndicator()
+    setTimeout(() => {
+      updateData(topMovies)
+    }, 1e3)
+  }}
+  no_scroll_animation="true"
+/>
+          `}
+        </ComponentBox>
+        <ComponentBox
           title="Autocomplete with a button to toggle the open / closed state"
           description="**NB:** The data is given as a function and as children."
           data-dnb-test="autocomplete-drawer-button"
@@ -64,12 +86,6 @@ class Example extends PureComponent {
         >
           {/* @jsx */ `
 <FormRow direction="vertical">
-  <Autocomplete
-    label="Label:"
-    size="small"
-    bottom
-    data={() => (topMovies)}
-  />
   <Autocomplete
     label="Label:"
     size="default"

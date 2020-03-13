@@ -46,7 +46,9 @@ export default {
     },
     Autocomplete: {
       title: 'Skriv og velg',
-      no_options: 'Ingen alternativer'
+      submit_button_title: 'Vis alternativer',
+      no_options: 'Ingen alternativer',
+      indicator_label: 'Henter data ...'
     },
     Modal: {
       close_title: 'Lukk',

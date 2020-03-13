@@ -45,7 +45,7 @@ const DropdownStory = () => {
           // opened
           // no_animation
           // value="0"
-          // value="b"
+          value="b"
           // data={['A', 'B']}
           data={() => ({
             a: 'AA',

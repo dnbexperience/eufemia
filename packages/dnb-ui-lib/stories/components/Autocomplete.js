@@ -38,9 +38,9 @@ const AutocompleteStory = () => {
       </Box>
       <Box>
         <Autocomplete
-          // opened
-          // prevent_close
-          // no_animation
+          opened
+          prevent_close
+          no_animation
           // input_value="foo bar th"
           input_value="bb th x"
           show_drawer_button
@@ -61,6 +61,20 @@ const AutocompleteStory = () => {
       </Box>
       <Box>
         <Autocomplete
+          // label="Search"
+          // label_sr_only="true"
+          on_type={({ value /* updateData, ... */ }) => {
+            console.log('on_type', value)
+          }}
+          on_focus={({ updateData, showIndicator }) => {
+            showIndicator()
+            setTimeout(() => {
+              updateData(topMovies)
+            }, 1e3)
+          }}
+          no_scroll_animation="true"
+        />
+        {/* <Autocomplete
           label="Top 100 movies"
           data={[]}
           title="Select your movie"
@@ -83,7 +97,7 @@ const AutocompleteStory = () => {
           on_change={({ data: { content, year } }) => {
             console.log('on_change', content, year)
           }}
-        ></Autocomplete>
+        ></Autocomplete> */}
       </Box>
       <Box>
         <Autocomplete

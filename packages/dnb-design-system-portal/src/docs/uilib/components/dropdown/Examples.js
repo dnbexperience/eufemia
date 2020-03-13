@@ -221,12 +221,6 @@ render(
 <FormRow direction="vertical">
   <Dropdown
     label="Label:"
-    size="small"
-    bottom
-    data={() => (data)}
-  />
-  <Dropdown
-    label="Label:"
     size="default"
     bottom
     data={() => (data)}

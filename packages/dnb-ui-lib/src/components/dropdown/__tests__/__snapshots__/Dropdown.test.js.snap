@@ -444,6 +444,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
               className="dnb-dropdown__shell"
             >
               <Button
+                aria-controls="dropdown-id-drawer-list"
                 aria-describedby="dropdown-id-status dropdown-id-suffix"
                 aria-expanded={true}
                 aria-haspopup={true}
@@ -477,6 +478,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                 variant="secondary"
               >
                 <button
+                  aria-controls="dropdown-id-drawer-list"
                   aria-describedby="dropdown-id-status dropdown-id-suffix"
                   aria-expanded={true}
                   aria-haspopup={true}
@@ -493,6 +495,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                   type="button"
                 >
                   <Content
+                    aria-controls="dropdown-id-drawer-list"
                     aria-describedby="dropdown-id-status dropdown-id-suffix"
                     aria-expanded={true}
                     aria-haspopup={true}
@@ -680,6 +683,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                         aria-labelledby="dropdown-id"
                         cache_hash="2266bottom46"
                         className={null}
+                        id="dropdown-id-ul"
                         style={
                           Object {
                             "maxHeight": "46rem",
@@ -697,8 +701,8 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                         <ul
                           aria-activedescendant="option-dropdown-id-2"
                           aria-labelledby="dropdown-id"
-                          cache_hash="2266bottom46"
                           className="dnb-drawer-list__options"
+                          id="dropdown-id-ul"
                           role="listbox"
                           style={
                             Object {

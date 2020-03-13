@@ -461,6 +461,7 @@ class DropdownInstance extends PureComponent {
       disabled,
       ['aria-haspopup']: true, //listbox
       ['aria-expanded']: opened,
+      ['aria-controls']: `${id}-drawer-list`,
       ...attributes,
       onFocus: this.onFocusHandler,
       onBlur: this.onBlurHandler,

@@ -253,6 +253,7 @@ class DrawerListInstance extends PureComponent {
       ignore_events,
       className,
       class: _className,
+      cache_hash: _cache_hash, // eslint-disable-line
       wrapper_element: _wrapper_element, // eslint-disable-line
       triangle_position: _triangle_position, // eslint-disable-line
       direction: _direction, // eslint-disable-line
@@ -313,7 +314,9 @@ class DrawerListInstance extends PureComponent {
         inner_class
       )
     }
+
     const ulParams = {
+      id: `${id}-ul`,
       ['aria-labelledby']: id,
       style: {
         maxHeight: max_height > 0 ? `${max_height}rem` : null
@@ -422,11 +425,17 @@ class DrawerListInstance extends PureComponent {
 // DrawerList List
 DrawerList.List = React.memo(
   React.forwardRef((props, ref) => {
-    const { children, className, triangleRef = null, ...rest } = props
+    const {
+      children,
+      className,
+      triangleRef = null,
+      cache_hash: _cache_hash, // eslint-disable-line
+      ...rest
+    } = props
     return (
       <ul
         className={classnames('dnb-drawer-list__options', className)}
-        role="listbox"
+        role="listbox" // menu
         tabIndex="-1"
         {...rest}
         ref={ref}
@@ -502,7 +511,7 @@ DrawerList.Item = React.memo(
           selected && 'dnb-drawer-list__option--selected',
           active && 'dnb-drawer-list__option--focus'
         )}
-        role="option"
+        role="option" // menuitem
         aria-selected="false"
         tabIndex="-1"
         {...rest}

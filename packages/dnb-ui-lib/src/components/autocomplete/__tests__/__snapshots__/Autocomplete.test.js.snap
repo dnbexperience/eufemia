@@ -23,6 +23,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
   icon_position="icon_position"
   icon_size="icon_size"
   id="autocomplete-id"
+  indicator_label="indicator_label"
   input_component={null}
   input_icon="input_icon"
   input_value="input_value"
@@ -50,6 +51,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
   status="status"
   status_animation="status_animation"
   status_state="error"
+  submit_button_title="submit_button_title"
   suffix="suffix"
   title="title"
   value={2}
@@ -78,6 +80,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
     icon_size="icon_size"
     id="autocomplete-id"
     ignore_events={false}
+    indicator_label="indicator_label"
     input_component={null}
     input_icon="input_icon"
     input_value="input_value"
@@ -107,6 +110,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
     status="status"
     status_animation="status_animation"
     status_state="error"
+    submit_button_title="submit_button_title"
     suffix="suffix"
     tagName="dnb-autocomplete"
     title="title"
@@ -135,6 +139,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
       icon_position="icon_position"
       icon_size="icon_size"
       id="autocomplete-id"
+      indicator_label="indicator_label"
       input_component={null}
       input_icon="input_icon"
       input_value="input_value"
@@ -162,6 +167,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
       status="status"
       status_animation="status_animation"
       status_state="error"
+      submit_button_title="submit_button_title"
       suffix="suffix"
       title="title"
       value={2}
@@ -320,6 +326,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
               <Input
                 align={null}
                 aria-describedby="autocomplete-id-status autocomplete-id-suffix"
+                aria-expanded={true}
                 aria-haspopup={true}
                 autocomplete="off"
                 class={null}
@@ -419,6 +426,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                         />
                         <input
                           aria-describedby="autocomplete-id-status autocomplete-id-suffix"
+                          aria-expanded={true}
                           aria-haspopup={true}
                           aria-placeholder="title"
                           autoComplete="off"
@@ -672,8 +680,9 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                       <ForwardRef
                         aria-activedescendant="option-autocomplete-id-2"
                         aria-labelledby="autocomplete-id"
-                        cache_hash="CC cc2222bottom46"
+                        cache_hash="CC cc32222bottom46"
                         className={null}
+                        id="autocomplete-id-ul"
                         style={
                           Object {
                             "maxHeight": "46rem",
@@ -691,8 +700,8 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                         <ul
                           aria-activedescendant="option-autocomplete-id-2"
                           aria-labelledby="autocomplete-id"
-                          cache_hash="CC cc2222bottom46"
                           className="dnb-drawer-list__options"
+                          id="autocomplete-id-ul"
                           role="listbox"
                           style={
                             Object {
@@ -703,7 +712,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                         >
                           <ForwardRef
                             active={false}
-                            cache_hash="CC cc"
+                            cache_hash="CC cc3"
                             className=""
                             data-item={0}
                             id="option-autocomplete-id-0"
@@ -741,7 +750,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                           </ForwardRef>
                           <ForwardRef
                             active={false}
-                            cache_hash="CC cc"
+                            cache_hash="CC cc3"
                             className=""
                             data-item={1}
                             id="option-autocomplete-id-1"
@@ -781,7 +790,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                           </ForwardRef>
                           <ForwardRef
                             active={true}
-                            cache_hash="CC cc"
+                            cache_hash="CC cc3"
                             className="closest-to-top closest-to-bottom last-of-type"
                             data-item={2}
                             id="option-autocomplete-id-2"
@@ -859,6 +868,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                 icon_position="icon_position"
                 icon_size="icon_size"
                 id="autocomplete-id"
+                indicator_label="indicator_label"
                 input_component={null}
                 input_icon="input_icon"
                 input_value="input_value"
@@ -886,6 +896,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                 status="status"
                 status_animation="status_animation"
                 status_state="error"
+                submit_button_title="submit_button_title"
                 suffix="suffix"
                 title="title"
                 value={2}
@@ -1806,6 +1817,140 @@ legend.dnb-form-label {
         width: 100%; }
       .dnb-input__input, .dnb-input__placeholder {
         transform: translateY(-0.0625rem); } }
+
+/*
+* DNB ProgressIndicator
+*
+*/
+.dnb-progress-indicator {
+  font-family: var(--font-family-default);
+  font-weight: var(--font-weight-default);
+  font-size: var(--font-size-small);
+  font-style: normal;
+  line-height: var(--line-height-basis);
+  color: var(--color-black-80, #333);
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  /**
+  * 1. Remove repeating backgrounds in all browsers (opinionated).
+  * 2. Add border box sizing in all browsers (opinionated).
+  */
+  /**
+  * 1. Add text decoration inheritance in all browsers (opinionated).
+  * 2. Add vertical alignment inheritance in all browsers (opinionated).
+  */
+  margin: 0;
+  padding: 0; }
+  .dnb-progress-indicator *,
+  .dnb-progress-indicator ::before,
+  .dnb-progress-indicator ::after {
+    background-repeat: no-repeat;
+    /* 1 */
+    box-sizing: border-box;
+    /* 2 */ }
+  .dnb-progress-indicator ::before,
+  .dnb-progress-indicator ::after {
+    text-decoration: inherit;
+    /* 1 */
+    vertical-align: inherit;
+    /* 2 */ }
+
+/*
+ * ProgressIndicator component
+ *
+ */
+:root {
+  --progress-indicator-timing: cubic-bezier(0.5, 0, 0.5, 0.99);
+  --progress-indicator-circular-circle: 88;
+  --progress-indicator-circular-circle-offset--min: 88;
+  --progress-indicator-circular-circle-offset--max: 1; }
+
+.dnb-progress-indicator {
+  position: relative;
+  display: inline-flex; }
+  .dnb-progress-indicator--vertical {
+    flex-direction: column;
+    align-items: center; }
+  .dnb-progress-indicator--horizontal {
+    justify-content: center; }
+  .dnb-progress-indicator__label {
+    display: inline-flex; }
+    .dnb-progress-indicator__label .dnb-p {
+      align-self: center; }
+  .dnb-spacing .dnb-progress-indicator .dnb-p {
+    margin: 0; }
+  .dnb-progress-indicator--horizontal .dnb-progress-indicator__label {
+    margin: 0 1rem; }
+  .dnb-progress-indicator--vertical .dnb-progress-indicator__label {
+    margin-top: 0.5rem; }
+  .dnb-progress-indicator__circular {
+    position: relative;
+    width: 2rem;
+    height: 2rem;
+    transform: rotate(-90deg); }
+    .dnb-progress-indicator__circular svg {
+      position: absolute;
+      width: 100%;
+      height: 100%; }
+    .dnb-progress-indicator__circular__line {
+      animation-duration: 2s;
+      animation-delay: 200ms;
+      animation-timing-function: var(--progress-indicator-timing);
+      animation-iteration-count: infinite; }
+    .dnb-progress-indicator__circular__line.background {
+      stroke-dashoffset: var(--progress-indicator-circular-circle-offset--max); }
+    .dnb-progress-indicator__circular__line.light {
+      animation-name: progress-indicator-circular-line-light;
+      stroke-dasharray: var(--progress-indicator-circular-circle), var(--progress-indicator-circular-circle);
+      stroke-dashoffset: var(--progress-indicator-circular-circle-offset--max); }
+    .dnb-progress-indicator__circular__line.dark {
+      animation-name: progress-indicator-circular-line-dark;
+      stroke-dasharray: var(--progress-indicator-circular-circle), var(--progress-indicator-circular-circle);
+      stroke-dashoffset: var(--progress-indicator-circular-circle-offset--min); }
+    .dnb-progress-indicator__circular__line.paused {
+      animation-play-state: paused; }
+    .dnb-progress-indicator__circular--has-progress-indicator .dnb-progress-indicator__circular__line.dark {
+      transition: stroke-dashoffset 600ms var(--progress-indicator-timing); }
+    .dnb-progress-indicator__circular__circle {
+      stroke-linecap: round; }
+    .dnb-progress-indicator__circular__line.light .dnb-progress-indicator__circular__circle {
+      stroke: grey; }
+    .dnb-progress-indicator__circular__line.dark .dnb-progress-indicator__circular__circle {
+      stroke: black; }
+  .dnb-progress-indicator:not(.dnb-progress-indicator--no-animation), .dnb-progress-indicator--visible:not(.dnb-progress-indicator--no-animation) {
+    opacity: 0;
+    animation: progress-indicator-fade-in 200ms ease-out 1 forwards; }
+  .dnb-progress-indicator--complete:not(.dnb-progress-indicator--no-animation):not(.dnb-progress-indicator--visible) {
+    animation: progress-indicator-fade-out 600ms ease-out 1 forwards; }
+
+@keyframes progress-indicator-fade-in {
+  0% {
+    opacity: 0; }
+  100% {
+    opacity: 1; } }
+
+@keyframes progress-indicator-fade-out {
+  0% {
+    opacity: 1; }
+  100% {
+    opacity: 0; } }
+
+@keyframes progress-indicator-circular-line-light {
+  0% {
+    stroke-dashoffset: var(--progress-indicator-circular-circle-offset--min); }
+  50% {
+    stroke-dashoffset: var(--progress-indicator-circular-circle-offset--min); }
+  100% {
+    stroke-dashoffset: var(--progress-indicator-circular-circle-offset--max); } }
+
+@keyframes progress-indicator-circular-line-dark {
+  0% {
+    stroke-dashoffset: var(--progress-indicator-circular-circle-offset--min); }
+  50% {
+    stroke-dashoffset: var(--progress-indicator-circular-circle-offset--max); }
+  100% {
+    stroke-dashoffset: var(--progress-indicator-circular-circle-offset--max); } }
 
 .dnb-autocomplete {
   font-family: var(--font-family-default);

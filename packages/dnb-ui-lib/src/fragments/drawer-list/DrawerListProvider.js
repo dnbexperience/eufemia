@@ -320,15 +320,48 @@ export default class DrawerListProvider extends PureComponent {
       !(parseFloat(active_item) > -1)
     ) {
       this._focusTimeout = setTimeout(() => {
-        try {
-          if (this._refUl.current) {
+        if (this._refUl.current) {
+          try {
             this._refUl.current.focus()
+          } catch (e) {
+            //
           }
-        } catch (e) {
-          console.warn(e)
         }
       }, 1) // NVDA / Firefox needs a dealy to set this focus
       return
+    }
+
+    const setFocusToItem = () => {
+      // try to scroll to item
+      if (this._refUl.current && parseFloat(active_item) > -1) {
+        try {
+          const ulElement = this._refUl.current
+          const liElement = ulElement.querySelector(
+            `li.dnb-drawer-list__option:nth-of-type(${parseFloat(
+              active_item
+            ) + 1})`
+          )
+          if (liElement) {
+            const top = liElement.offsetTop
+            if (ulElement.scrollTo) {
+              const params = {
+                top
+              }
+              if (scrollTo) {
+                params.behavior = 'smooth'
+              }
+              ulElement.scrollTo(params)
+            } else if (ulElement.scrollTop) {
+              ulElement.scrollTop = top
+            }
+            if (!isTrue(this.props.prevent_focus) && liElement) {
+              liElement.focus()
+            }
+          }
+        } catch (e) {
+          console.warn('List could not scroll into element:', e)
+        }
+      }
     }
 
     this.setState(
@@ -338,6 +371,7 @@ export default class DrawerListProvider extends PureComponent {
       },
       () => {
         const { selected_item } = this.state
+
         if (fireSelectEvent) {
           const attributes = this.attributes
           const ret = dispatchCustomElementEvent(this.state, 'on_select', {
@@ -348,43 +382,11 @@ export default class DrawerListProvider extends PureComponent {
             attributes
           })
           if (ret === false) {
-            return
+            return // stop here!
           }
         }
 
-        this._focusTimeout = setTimeout(() => {
-          // try to scroll to item
-          if (!this._refUl.current || !(parseFloat(active_item) > -1)) {
-            return
-          }
-          try {
-            const ulElement = this._refUl.current
-            const liElement = ulElement.querySelector(
-              `li.dnb-drawer-list__option:nth-of-type(${parseFloat(
-                active_item
-              ) + 1})`
-            )
-            if (liElement) {
-              const top = liElement.offsetTop
-              if (ulElement.scrollTo) {
-                const params = {
-                  top
-                }
-                if (scrollTo) {
-                  params.behavior = 'smooth'
-                }
-                ulElement.scrollTo(params)
-              } else if (ulElement.scrollTop) {
-                ulElement.scrollTop = top
-              }
-              if (!isTrue(this.props.prevent_focus) && liElement) {
-                liElement.focus()
-              }
-            }
-          } catch (e) {
-            console.warn('List could not scroll into element:', e)
-          }
-        }, 1) // NVDA / Firefox needs a dealy to set this focus
+        this._focusTimeout = setTimeout(setFocusToItem, 1) // NVDA / Firefox needs a dealy to set this focus
       }
     )
   }

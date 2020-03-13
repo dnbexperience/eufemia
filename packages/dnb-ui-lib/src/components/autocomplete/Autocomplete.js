@@ -22,6 +22,7 @@ import Suffix from '../../shared/helpers/Suffix'
 import FormLabel from '../form-label/FormLabel'
 import FormStatus from '../form-status/FormStatus'
 import Input, { SubmitButton } from '../input/Input'
+import ProgressIndicator from '../progress-indicator/ProgressIndicator'
 import DrawerList from '../../fragments/drawer-list/DrawerList'
 import DrawerListContext from '../../fragments/drawer-list/DrawerListContext'
 import DrawerListProvider from '../../fragments/drawer-list/DrawerListProvider'
@@ -44,6 +45,8 @@ const propTypes = {
   id: PropTypes.string,
   title: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
   no_options: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
+  indicator_label: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
+  submit_button_title: PropTypes.string,
   icon: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.node,
@@ -155,7 +158,9 @@ const propTypes = {
 const defaultProps = {
   id: null,
   title: 'Option Menu',
-  no_options: 'No options',
+  no_options: null,
+  indicator_label: null,
+  submit_button_title: null,
   icon: 'chevron-down',
   icon_size: null,
   icon_position: 'left',
@@ -340,9 +345,6 @@ class AutocompleteInstance extends PureComponent {
       input_value: value,
       _listenForPropChanges: false
     })
-    this.context.drawerList.setState({
-      cache_hash: value
-    })
 
     this.runFilterWithSideEffects(value, options)
 
@@ -352,78 +354,137 @@ class AutocompleteInstance extends PureComponent {
       ...this.getEventObjects()
     })
   }
-  runFilterWithSideEffects = (value, options = {}) => {
-    // run the filter also on invalid values, so we reset the highlight
-    const data = this.runFilter(value, options)
-
-    if (value && value.length > 0) {
-      // show the "no_options" message
-      if (data.length === 0) {
-        this.resetSelections()
-        this.totalReset()
-        this.context.drawerList.setState({
-          ignore_events: true
-        })
-        this.context.drawerList.setData([
-          {
-            content: this._props.no_options,
-            ignore_events: true,
-            __id: 'no_options'
-          }
-        ])
-      } else if (data.length > 0) {
-        const active_item = data.length === 1 ? data[0].__id : null
-
-        this.setState({
-          local_active_item: active_item, // used later so we can scroll there
-          skip_highlight: false,
-          _listenForPropChanges: false
-        })
-        this.context.drawerList.setState({
-          active_item,
-          ignore_events: false
-        })
-        this.context.drawerList.setData(data)
-      }
-
-      this.setVisible()
-    } else {
-      // this will not remove selected_item
-      this.totalReset()
-      this.showAll()
-    }
-  }
-  updateData = data => {
-    this.context.drawerList.setData(
-      () => data,
-      () => {
-        this.setSearchIndex({ overwriteSearchIndex: true }, () => {
-          this.runFilterWithSideEffects(this.state.input_value || '')
-        })
-      },
-      {
-        overwriteOriginalData: true
-      }
-    )
-  }
   runFilterToHighlight = (value = null) => {
     if (value === null) {
       value = this.state.input_value
     }
     value = String(value || '').trim()
 
-    if (value.length > 0) {
-      const data = this.runFilter(value)
-      this.setState({
-        skip_highlight: false,
-        _listenForPropChanges: false
-      })
-      this.context.drawerList.setState({
-        cache_hash: value,
-        ignore_events: false
-      })
-      this.context.drawerList.setData(data)
+    const data = this.runFilter(value)
+
+    this.setState({
+      skip_highlight: false,
+      _listenForPropChanges: false
+    })
+    this.context.drawerList.setData(data)
+
+    this.context.drawerList.setState({
+      cache_hash: value + data.length,
+      ignore_events: false
+    })
+  }
+  runFilterWithSideEffects = (value, options = {}) => {
+    // run the filter also on invalid values, so we reset the highlight
+    const data = this.runFilter(value, options)
+
+    this.context.drawerList.setState({
+      cache_hash: value + data.length
+    })
+
+    if (value && value.length > 0) {
+      // show the "no_options" message
+      if (data.length === 0) {
+        this.showNoOptions()
+      } else if (data.length > 0) {
+        const local_active_item =
+          data.length === 1 ||
+          !parseFloat(this.context.drawerList.active_item > -1)
+            ? data[0].__id
+            : null
+
+        this.setState({
+          local_active_item, // used later so we can scroll there
+          skip_highlight: false,
+          _listenForPropChanges: false
+        })
+
+        this.context.drawerList.setData(data)
+
+        if (data.length === 1) {
+          this.context.drawerList.setState({
+            active_item: local_active_item,
+            ignore_events: false
+          })
+        }
+      }
+    } else {
+      // this will not remove selected_item
+      this.totalReset()
+      this.showAll()
     }
+
+    this.setVisible()
+  }
+  emptyData = () => {
+    this.setState({
+      input_value: '',
+      _listenForPropChanges: false
+    })
+    this.context.drawerList.setData(
+      () => [],
+      () => {
+        this.setSearchIndex({ overwriteSearchIndex: true })
+        this.resetSelections()
+        this.totalReset()
+      },
+      {
+        overwriteOriginalData: true
+      }
+    )
+  }
+  showNoOptions = () => {
+    this.resetSelections()
+    this.context.drawerList.setState({
+      cache_hash: 'no_options',
+      ignore_events: true
+    })
+    this.context.drawerList.setData([
+      {
+        content: this._props.no_options,
+        ignore_events: true,
+        __id: 'no_options'
+      }
+    ])
+    this.setVisible()
+  }
+  showIndicator = () => {
+    this.resetSelections()
+    this.context.drawerList.setState({
+      cache_hash: 'indicator',
+      ignore_events: true
+    })
+    this.context.drawerList.setData([
+      {
+        content: <ProgressIndicator label={this._props.indicator_label} />,
+        ignore_events: true,
+        __id: 'indicator'
+      }
+    ])
+    this.setVisible()
+  }
+  updateData = data => {
+    this.context.drawerList.setData(
+      () => data,
+      () => {
+        this.setSearchIndex({ overwriteSearchIndex: true }, () => {
+          const { input_value } = this.state
+          if (input_value?.length > 0) {
+            this.runFilterToHighlight(input_value)
+          } else {
+            this.context.drawerList.setState({
+              active_item: -1,
+              ignore_events: false
+            })
+            this.showAll()
+          }
+        })
+      },
+      {
+        overwriteOriginalData: true
+      }
+    )
+
+    return this
   }
   onInputClickHandler = e => {
     const value = e.target.value
@@ -453,13 +514,33 @@ class AutocompleteInstance extends PureComponent {
       event,
       ...this.getEventObjects()
     })
+
+    setTimeout(() => {
+      if (parseFloat(this.context.drawerList.selected_item) > -1) {
+        const input_value = AutocompleteInstance.getCurrentDataTitle(
+          this.context.drawerList.selected_item,
+          this.context.drawerList.data
+        )
+
+        this.setState({
+          skip_highlight: true,
+          input_value,
+          _listenForPropChanges: false
+        })
+      }
+    }, 1) // just to make sure we are after the data is rendered
   }
   getEventObjects = () => {
     const attributes = this.attributes
     return {
       attributes,
       dataList: this.context.drawerList.data,
-      updateData: this.updateData
+      updateData: this.updateData,
+      setVisible: this.setVisible,
+      setHidden: this.setHidden,
+      emptyData: this.emptyData,
+      showNoOptions: this.showNoOptions,
+      showIndicator: this.showIndicator
     }
   }
   toggleVisible = ({ hasFilter = false } = {}) => {
@@ -555,16 +636,16 @@ class AutocompleteInstance extends PureComponent {
   }
 
   totalReset = () => {
+    this.setState({
+      input_value: undefined,
+      _listenForPropChanges: false
+    })
     this.context.drawerList.setState({
       selected_item: null
     })
   }
 
   resetSelections = () => {
-    this.setState({
-      // input_value: null,// do we really need to reset this?
-      _listenForPropChanges: false
-    })
     this.context.drawerList.setState({
       active_item: null,
       ignore_events: false
@@ -759,6 +840,7 @@ class AutocompleteInstance extends PureComponent {
       prevent_selection,
       max_height,
       default_value,
+      submit_button_title,
       className,
       class: _className,
       disabled,
@@ -771,6 +853,7 @@ class AutocompleteInstance extends PureComponent {
       opened: _opened, // eslint-disable-line
       value: _value, // eslint-disable-line
       no_options: _no_options, // eslint-disable-line
+      indicator_label: _indicator_label, // eslint-disable-line
 
       ...attributes
     } = props
@@ -821,6 +904,7 @@ class AutocompleteInstance extends PureComponent {
       disabled,
       placeholder: title,
       ['aria-haspopup']: true, //listbox
+      ['aria-expanded']: opened,
       ...attributes
     }
 
@@ -891,7 +975,7 @@ class AutocompleteInstance extends PureComponent {
                           (size === 'large' ? 'medium' : 'default')
                         }
                         status={!opened && status ? status_state : null}
-                        title={'submit_button_title'}
+                        title={submit_button_title}
                         variant="secondary"
                         disabled={disabled}
                         size={size === 'default' ? 'medium' : size}

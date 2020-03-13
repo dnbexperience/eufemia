@@ -2,6 +2,8 @@
 showTabs: true
 ---
 
+import AutocompleteMethods from 'Pages/uilib/components/autocomplete/methods'
+
 ## Description
 
 The Autocomplete component is a combination of an [Input](/uilib/components/input) and a [Dropdown](/uilib/components/dropdown). During typing, matching data items gets suggested in an option menu.
@@ -28,3 +30,5 @@ You can also set the width directly, but then it has to be defined like so (incl
   min-width: 20rem; /* custom width */
 }
 ```
+
+<AutocompleteMethods></AutocompleteMethods>

@@ -46,7 +46,9 @@ export default {
     },
     Autocomplete: {
       title: 'Type and select',
-      no_options: 'No option'
+      submit_button_title: 'Show options',
+      no_options: 'No option',
+      indicator_label: 'Getting data ...'
     },
     Modal: {
       close_title: 'Close',
