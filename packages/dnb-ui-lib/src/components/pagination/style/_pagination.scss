@@ -27,13 +27,21 @@
     opacity: 0;
 
     &__inner {
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      margin: auto 0;
+      // &:not(td) {
+      //   position: absolute;
+      //   top: 0;
+      //   bottom: 0;
+      //   margin: auto 0;
+      // }
 
-      width: 1px;
-      height: 1px;
+      // this does not work either, because our hight is so low
+      // transform: translateY(-200%);
+      // margin-top: -50%;
+
+      padding: 0 !important; // because if it is used in table
+
+      width: 0;
+      height: 0;
     }
   }
 
