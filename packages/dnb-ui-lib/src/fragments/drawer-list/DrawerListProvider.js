@@ -309,7 +309,40 @@ export default class DrawerListProvider extends PureComponent {
     return index
   }
 
-  scrollToItem = (
+  scrollToItem = (active_item, { scrollTo = true } = {}) => {
+    // try to scroll to item
+    if (this._refUl.current && parseFloat(active_item) > -1) {
+      try {
+        const ulElement = this._refUl.current
+        const liElement = ulElement.querySelector(
+          `li.dnb-drawer-list__option:nth-of-type(${parseFloat(
+            active_item
+          ) + 1})`
+        )
+        if (liElement) {
+          const top = liElement.offsetTop
+          if (ulElement.scrollTo) {
+            const params = {
+              top
+            }
+            if (scrollTo) {
+              params.behavior = 'smooth'
+            }
+            ulElement.scrollTo(params)
+          } else if (ulElement.scrollTop) {
+            ulElement.scrollTop = top
+          }
+          if (!isTrue(this.props.prevent_focus) && liElement) {
+            liElement.focus()
+          }
+        }
+      } catch (e) {
+        console.warn('List could not scroll into element:', e)
+      }
+    }
+  }
+
+  scrollToAndSetActiveItem = (
     active_item,
     { fireSelectEvent = false, scrollTo = true, event = null } = {}
   ) => {
@@ -329,39 +362,6 @@ export default class DrawerListProvider extends PureComponent {
         }
       }, 1) // NVDA / Firefox needs a dealy to set this focus
       return
-    }
-
-    const setFocusToItem = () => {
-      // try to scroll to item
-      if (this._refUl.current && parseFloat(active_item) > -1) {
-        try {
-          const ulElement = this._refUl.current
-          const liElement = ulElement.querySelector(
-            `li.dnb-drawer-list__option:nth-of-type(${parseFloat(
-              active_item
-            ) + 1})`
-          )
-          if (liElement) {
-            const top = liElement.offsetTop
-            if (ulElement.scrollTo) {
-              const params = {
-                top
-              }
-              if (scrollTo) {
-                params.behavior = 'smooth'
-              }
-              ulElement.scrollTo(params)
-            } else if (ulElement.scrollTop) {
-              ulElement.scrollTop = top
-            }
-            if (!isTrue(this.props.prevent_focus) && liElement) {
-              liElement.focus()
-            }
-          }
-        } catch (e) {
-          console.warn('List could not scroll into element:', e)
-        }
-      }
     }
 
     this.setState(
@@ -386,7 +386,10 @@ export default class DrawerListProvider extends PureComponent {
           }
         }
 
-        this._focusTimeout = setTimeout(setFocusToItem, 1) // NVDA / Firefox needs a dealy to set this focus
+        this._focusTimeout = setTimeout(
+          () => this.scrollToItem(active_item, { scrollTo }),
+          1
+        ) // NVDA / Firefox needs a dealy to set this focus
       }
     )
   }
@@ -560,7 +563,7 @@ export default class DrawerListProvider extends PureComponent {
       if (active_item > total) {
         active_item = total
       }
-      this.scrollToItem(active_item, {
+      this.scrollToAndSetActiveItem(active_item, {
         fireSelectEvent: true,
         event: e
       })
@@ -666,7 +669,7 @@ export default class DrawerListProvider extends PureComponent {
 
         const { selected_item, active_item } = this.state
 
-        this.scrollToItem(
+        this.scrollToAndSetActiveItem(
           parseFloat(active_item) > -1 ? active_item : selected_item,
           {
             scrollTo: false
@@ -873,6 +876,7 @@ export default class DrawerListProvider extends PureComponent {
             setHidden: this.setHidden,
             selectItem: this.selectItem,
             scrollToItem: this.scrollToItem,
+            scrollToAndSetActiveItem: this.scrollToAndSetActiveItem,
             ...this.state
           }
         }}

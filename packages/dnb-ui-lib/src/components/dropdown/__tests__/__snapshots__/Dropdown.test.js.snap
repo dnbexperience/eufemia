@@ -977,8 +977,13 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                                 className="dnb-drawer-list__option__inner"
                               >
                                 <ItemContent>
-                                  Custom content 
-                                  123
+                                  <span
+                                    className="dnb-drawer-list__option__item"
+                                    key="0"
+                                  >
+                                    Custom content 
+                                    123
+                                  </span>
                                 </ItemContent>
                               </span>
                             </li>

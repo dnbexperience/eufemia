@@ -38,9 +38,9 @@ const AutocompleteStory = () => {
       </Box>
       <Box>
         <Autocomplete
-          opened
-          prevent_close
-          no_animation
+          // opened
+          // prevent_close
+          // no_animation
           // input_value="foo bar th"
           input_value="bb th x"
           show_drawer_button
