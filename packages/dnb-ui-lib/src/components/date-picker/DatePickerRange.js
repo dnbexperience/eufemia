@@ -213,9 +213,17 @@ export default class DatePickerRange extends PureComponent {
           [`${nr === 0 ? 'start' : 'end'}Month`]: month,
           _listenForPropChanges: false
         })
-        return this.props.link || { ...c, month }
+        return { ...c, month }
       }
-      return this.props.link || c
+      if (this.props.link && c.nr === 1) {
+        const month = addMonths(c.month, 1)
+        this.setState({
+          [`${nr !== 0 ? 'start' : 'end'}Month`]: month,
+          _listenForPropChanges: false
+        })
+        return { ...c, month }
+      }
+      return c
     })
     this.setState({ views, _listenForPropChanges: false }, () => {
       this.callOnNav()
@@ -230,9 +238,17 @@ export default class DatePickerRange extends PureComponent {
           [`${nr === 0 ? 'start' : 'end'}Month`]: month,
           _listenForPropChanges: false
         })
-        return this.props.link || { ...c, month }
+        return { ...c, month }
       }
-      return this.props.link || c
+      if (this.props.link && c.nr === 1) {
+        const month = subMonths(c.month, 1)
+        this.setState({
+          [`${nr !== 0 ? 'start' : 'end'}Month`]: month,
+          _listenForPropChanges: false
+        })
+        return { ...c, month }
+      }
+      return c
     })
     this.setState({ views, _listenForPropChanges: false }, () => {
       this.callOnNav()

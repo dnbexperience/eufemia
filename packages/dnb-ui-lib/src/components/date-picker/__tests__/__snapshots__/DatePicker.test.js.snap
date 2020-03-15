@@ -2625,6 +2625,9 @@ legend.dnb-form-label {
     display: flex;
     user-select: none;
     -webkit-user-select: none; }
+    @media (max-width: 40em) {
+      .dnb-date-picker__views {
+        flex-direction: column; } }
   .dnb-date-picker__calendar {
     position: relative;
     padding: 1rem; }
