@@ -246,7 +246,7 @@ const data = [
   {
     content: <Fragment>E</Fragment>
   },
-  <Fragment key="key1">Custom content {'🔥'}</Fragment>,
+  <>Custom content {'🔥'}</>,
   [<Fragment key="key2">Custom content X {'🔥'}</Fragment>],
   {
     content: 'EE'

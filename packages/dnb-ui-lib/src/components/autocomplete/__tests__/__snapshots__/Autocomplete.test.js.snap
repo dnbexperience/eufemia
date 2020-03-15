@@ -1,0 +1,2310 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Autocomplete markup have to match snapshot 1`] = `
+<Autocomplete
+  align_autocomplete={null}
+  class="class"
+  className="className"
+  custom_element={Object {}}
+  custom_method={[Function]}
+  data={
+    Array [
+      "AA cc",
+      "BB cc zethx",
+      "CC cc",
+    ]
+  }
+  default_value="default_value"
+  direction="bottom"
+  disabled="disabled"
+  focusable="focusable"
+  global_status_id="global_status_id"
+  icon="icon"
+  icon_position="icon_position"
+  icon_size="icon_size"
+  id="autocomplete-id"
+  indicator_label="indicator_label"
+  input_component={null}
+  input_icon="input_icon"
+  input_value="input_value"
+  keep_open="keep_open"
+  label="Autocomplete Label:"
+  label_direction="horizontal"
+  label_sr_only="label_sr_only"
+  max_height={1}
+  no_animation={true}
+  no_options="no_options"
+  no_scroll_animation="no_scroll_animation"
+  on_change={[Function]}
+  on_hide={[Function]}
+  on_select={[Function]}
+  on_show={[Function]}
+  on_state_update={[Function]}
+  open_on_focus="open_on_focus"
+  opened={true}
+  prevent_close="prevent_close"
+  prevent_selection={null}
+  scrollable="scrollable"
+  show_drawer_button={true}
+  size={null}
+  skip_highlight="skip_highlight"
+  status="status"
+  status_animation="status_animation"
+  status_state="error"
+  submit_button_title="submit_button_title"
+  suffix="suffix"
+  title="title"
+  value={2}
+>
+  <DrawerListProvider
+    align_autocomplete={null}
+    align_drawer={null}
+    class="class"
+    className="className"
+    custom_element={Object {}}
+    custom_method={[Function]}
+    data={
+      Array [
+        "AA cc",
+        "BB cc zethx",
+        "CC cc",
+      ]
+    }
+    default_value="default_value"
+    direction="bottom"
+    disabled="disabled"
+    focusable="focusable"
+    global_status_id="global_status_id"
+    icon="icon"
+    icon_position="icon_position"
+    icon_size="icon_size"
+    id="autocomplete-id"
+    ignore_events={false}
+    indicator_label="indicator_label"
+    input_component={null}
+    input_icon="input_icon"
+    input_value="input_value"
+    keep_open="keep_open"
+    label="Autocomplete Label:"
+    label_direction="horizontal"
+    label_sr_only="label_sr_only"
+    max_height={1}
+    no_animation={true}
+    no_options="no_options"
+    no_scroll_animation="no_scroll_animation"
+    on_change={[Function]}
+    on_hide={[Function]}
+    on_select={[Function]}
+    on_show={[Function]}
+    on_state_update={[Function]}
+    open_on_focus="open_on_focus"
+    opened={null}
+    prevent_close="prevent_close"
+    prevent_focus={true}
+    prevent_selection={null}
+    scrollable="scrollable"
+    show_drawer_button={true}
+    size={null}
+    skip_highlight="skip_highlight"
+    skip_keysearch={true}
+    status="status"
+    status_animation="status_animation"
+    status_state="error"
+    submit_button_title="submit_button_title"
+    suffix="suffix"
+    tagName="dnb-autocomplete"
+    title="title"
+    value={2}
+    wrapper_element={null}
+  >
+    <AutocompleteInstance
+      align_autocomplete={null}
+      class="class"
+      className="className"
+      custom_element={Object {}}
+      custom_method={[Function]}
+      data={
+        Array [
+          "AA cc",
+          "BB cc zethx",
+          "CC cc",
+        ]
+      }
+      default_value="default_value"
+      direction="bottom"
+      disabled="disabled"
+      focusable="focusable"
+      global_status_id="global_status_id"
+      icon="icon"
+      icon_position="icon_position"
+      icon_size="icon_size"
+      id="autocomplete-id"
+      indicator_label="indicator_label"
+      input_component={null}
+      input_icon="input_icon"
+      input_value="input_value"
+      keep_open="keep_open"
+      label="Autocomplete Label:"
+      label_direction="horizontal"
+      label_sr_only="label_sr_only"
+      max_height={1}
+      no_animation={true}
+      no_options="no_options"
+      no_scroll_animation="no_scroll_animation"
+      on_change={[Function]}
+      on_hide={[Function]}
+      on_select={[Function]}
+      on_show={[Function]}
+      on_state_update={[Function]}
+      open_on_focus="open_on_focus"
+      opened={true}
+      prevent_close="prevent_close"
+      prevent_selection={null}
+      scrollable="scrollable"
+      show_drawer_button={true}
+      size={null}
+      skip_highlight="skip_highlight"
+      status="status"
+      status_animation="status_animation"
+      status_state="error"
+      submit_button_title="submit_button_title"
+      suffix="suffix"
+      title="title"
+      value={2}
+    >
+      <span
+        className="dnb-autocomplete dnb-autocomplete--bottom dnb-form-component class className dnb-autocomplete--opened dnb-autocomplete--horizontal dnb-autocomplete--icon-position-icon_position dnb-autocomplete__status--error dnb-autocomplete__form-status"
+      >
+        <FormLabel
+          class={null}
+          className={null}
+          direction={null}
+          disabled="disabled"
+          element="label"
+          for_id="autocomplete-id"
+          id="autocomplete-id-label"
+          label_direction="horizontal"
+          onMouseDown={[Function]}
+          render_content={null}
+          sr_only="label_sr_only"
+          text="Autocomplete Label:"
+          title={null}
+          vertical={null}
+        >
+          <Element
+            className="dnb-form-label"
+            disabled={false}
+            htmlFor="autocomplete-id"
+            id="autocomplete-id-label"
+            is="label"
+            onMouseDown={[Function]}
+          >
+            <label
+              className="dnb-form-label"
+              disabled={false}
+              htmlFor="autocomplete-id"
+              id="autocomplete-id-label"
+              onMouseDown={[Function]}
+            >
+              Autocomplete Label:
+            </label>
+          </Element>
+        </FormLabel>
+        <span
+          className="dnb-autocomplete__inner"
+        >
+          <AlignmentHelper
+            className={null}
+          >
+            <span
+              aria-hidden={true}
+              className="dnb-alignment-helper"
+            />
+          </AlignmentHelper>
+          <FormStatus
+            animation="status_animation"
+            class={null}
+            className={null}
+            global_status_id="global_status_id"
+            hidden={false}
+            icon="error"
+            icon_size="large"
+            id="autocomplete-id-form-status"
+            render_content={null}
+            state="error"
+            status="error"
+            text="status"
+            text_id="autocomplete-id-status"
+            title={null}
+            width_selector={null}
+          >
+            <span
+              className="dnb-form-status dnb-form-status--error dnb-form-status--status_animation dnb-form-status--has-content"
+              hidden={false}
+              id="autocomplete-id-form-status"
+            >
+              <span
+                className="dnb-form-status__shell"
+              >
+                <Icon
+                  alt={null}
+                  aria-hidden={true}
+                  attributes={null}
+                  border={null}
+                  className={null}
+                  color={null}
+                  height={null}
+                  icon={
+                    <ErrorIcon
+                      title={null}
+                    />
+                  }
+                  modifier={null}
+                  size="large"
+                  title={null}
+                  width={null}
+                >
+                  <span
+                    aria-hidden={true}
+                    className="dnb-icon dnb-icon--large"
+                    role="img"
+                  >
+                    <Component>
+                      <ErrorIcon
+                        title={null}
+                      >
+                        <svg
+                          fill="none"
+                          height="32"
+                          role="img"
+                          title={null}
+                          viewBox="0 0 32 32"
+                          width="32"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M16 25a.5.5 0 100 1 .5.5 0 000-1v0"
+                            stroke="#000"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="1.5"
+                          />
+                          <path
+                            d="M16 21V11"
+                            stroke="#000"
+                            strokeLinecap="round"
+                            strokeWidth="1.5"
+                          />
+                          <path
+                            clipRule="evenodd"
+                            d="M18.161 2.347a2.408 2.408 0 00-4.322 0L1.208 28.077A2.028 2.028 0 003.029 31h25.942a2.028 2.028 0 001.821-2.923l-12.63-25.73z"
+                            stroke="#000"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="1.5"
+                          />
+                        </svg>
+                      </ErrorIcon>
+                    </Component>
+                  </span>
+                </Icon>
+                <span
+                  className="dnb-form-status--text"
+                  id="autocomplete-id-status"
+                >
+                  status
+                </span>
+              </span>
+            </span>
+          </FormStatus>
+          <span
+            className="dnb-autocomplete__row"
+          >
+            <span
+              className="dnb-autocomplete__shell"
+            >
+              <Input
+                align={null}
+                aria-describedby="autocomplete-id-status autocomplete-id-suffix"
+                aria-expanded={true}
+                aria-haspopup={true}
+                autocomplete="off"
+                class={null}
+                className="dnb-autocomplete__input dnb-button--active"
+                custom_element={null}
+                custom_method={null}
+                disabled="disabled"
+                global_status_id={null}
+                icon="input_icon"
+                icon_position="left"
+                icon_size="icon_size"
+                id="autocomplete-id"
+                inner_ref={null}
+                input_attributes={null}
+                input_class={null}
+                input_element={null}
+                input_state={null}
+                keep_placeholder={null}
+                label={null}
+                label_direction={null}
+                label_sr_only={null}
+                onMouseDown={[Function]}
+                on_blur={[Function]}
+                on_change={[Function]}
+                on_focus={[Function]}
+                on_key_down={[Function]}
+                on_state_update={null}
+                on_submit={null}
+                on_submit_blur={null}
+                on_submit_focus={null}
+                placeholder="title"
+                readOnly={false}
+                selectall={null}
+                size={null}
+                status={null}
+                status_animation={null}
+                status_state="error"
+                stretch={null}
+                submit_button_icon="search"
+                submit_button_status={null}
+                submit_button_title={null}
+                submit_button_variant="secondary"
+                submit_element={
+                  <ForwardRef
+                    aria-expanded={true}
+                    aria-haspopup={true}
+                    disabled="disabled"
+                    icon="icon"
+                    icon_size="icon_size"
+                    onKeyDown={[Function]}
+                    on_submit={[Function]}
+                    size={null}
+                    status={null}
+                    title="submit_button_title"
+                    variant="secondary"
+                  />
+                }
+                suffix={null}
+                type="search"
+                value="CC cc"
+              >
+                <span
+                  className="dnb-input dnb-input--search dnb-form-component dnb-autocomplete__input dnb-button--active dnb-input--icon-position-left dnb-input--has-icon dnb-input--icon-size-icon_size dnb-input--has-submit-element"
+                >
+                  <span
+                    className="dnb-input__inner"
+                  >
+                    <AlignmentHelper
+                      className={null}
+                    >
+                      <span
+                        aria-hidden={true}
+                        className="dnb-alignment-helper"
+                      />
+                    </AlignmentHelper>
+                    <span
+                      className="dnb-input__row"
+                    >
+                      <span
+                        className="dnb-input__shell"
+                        data-has-content="true"
+                        data-input-state="disabled"
+                      >
+                        <IconPrimary
+                          alt={null}
+                          aria-hidden={true}
+                          attributes={null}
+                          border={null}
+                          className="dnb-input__icon"
+                          color={null}
+                          height={null}
+                          icon="input_icon"
+                          modifier={null}
+                          size="icon_size"
+                          title={null}
+                          width={null}
+                        />
+                        <input
+                          aria-describedby="autocomplete-id-status autocomplete-id-suffix"
+                          aria-expanded={true}
+                          aria-haspopup={true}
+                          aria-placeholder="title"
+                          autoComplete="off"
+                          className="dnb-input__input"
+                          disabled={false}
+                          id="autocomplete-id"
+                          name="autocomplete-id"
+                          onBlur={[Function]}
+                          onChange={[Function]}
+                          onFocus={[Function]}
+                          onKeyDown={[Function]}
+                          onMouseDown={[Function]}
+                          type="search"
+                          value="CC cc"
+                        />
+                      </span>
+                      <span
+                        className="dnb-input__submit-element"
+                      >
+                        <ForwardRef
+                          aria-expanded={true}
+                          aria-haspopup={true}
+                          disabled="disabled"
+                          icon="icon"
+                          icon_size="icon_size"
+                          onKeyDown={[Function]}
+                          on_submit={[Function]}
+                          size={null}
+                          status={null}
+                          title="submit_button_title"
+                          variant="secondary"
+                        >
+                          <InputSubmitButton
+                            aria-expanded={true}
+                            aria-haspopup={true}
+                            className={null}
+                            disabled="disabled"
+                            icon="icon"
+                            icon_size="icon_size"
+                            id={null}
+                            innerRef={null}
+                            onKeyDown={[Function]}
+                            on_submit={[Function]}
+                            on_submit_blur={null}
+                            on_submit_focus={null}
+                            size={null}
+                            status={null}
+                            title="submit_button_title"
+                            value={null}
+                            variant="secondary"
+                          >
+                            <span
+                              className="dnb-input__submit-button"
+                              data-input-state="virgin"
+                            >
+                              <Button
+                                aria-expanded={true}
+                                aria-haspopup={true}
+                                aria-label="submit_button_title"
+                                bounding={false}
+                                class={null}
+                                className="dnb-input__submit-button__button"
+                                custom_element={null}
+                                custom_method={null}
+                                disabled="disabled"
+                                global_status_id={null}
+                                href={null}
+                                icon="icon"
+                                icon_position="right"
+                                icon_size="icon_size"
+                                id={null}
+                                innerRef={null}
+                                onBlur={[Function]}
+                                onClick={[Function]}
+                                onFocus={[Function]}
+                                onKeyDown={[Function]}
+                                on_click={null}
+                                size={null}
+                                status={null}
+                                status_animation={null}
+                                status_state="error"
+                                text={null}
+                                title={null}
+                                type="submit"
+                                variant="secondary"
+                              >
+                                <button
+                                  aria-expanded={true}
+                                  aria-haspopup={true}
+                                  aria-label="submit_button_title"
+                                  className="dnb-button dnb-button--secondary dnb-input__submit-button__button dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--size-medium"
+                                  disabled={false}
+                                  onBlur={[Function]}
+                                  onClick={[Function]}
+                                  onFocus={[Function]}
+                                  onKeyDown={[Function]}
+                                  onMouseOut={[Function]}
+                                  type="submit"
+                                >
+                                  <Content
+                                    aria-expanded={true}
+                                    aria-haspopup={true}
+                                    aria-label="submit_button_title"
+                                    bounding={false}
+                                    class={null}
+                                    className="dnb-input__submit-button__button"
+                                    content={null}
+                                    custom_element={null}
+                                    custom_method={null}
+                                    disabled="disabled"
+                                    global_status_id={null}
+                                    href={null}
+                                    icon="icon"
+                                    icon_position="right"
+                                    icon_size="icon_size"
+                                    id={null}
+                                    innerRef={null}
+                                    isIconOnly={true}
+                                    onBlur={[Function]}
+                                    onClick={[Function]}
+                                    onFocus={[Function]}
+                                    onKeyDown={[Function]}
+                                    on_click={null}
+                                    size={null}
+                                    status={null}
+                                    status_animation={null}
+                                    status_state="error"
+                                    text={null}
+                                    title={null}
+                                    type="submit"
+                                    variant="secondary"
+                                  >
+                                    <span
+                                      className="dnb-button__text"
+                                      key="button-text-empty"
+                                    >
+                                      ‌
+                                    </span>
+                                    <IconPrimary
+                                      alt={null}
+                                      aria-hidden={null}
+                                      attributes={null}
+                                      border={null}
+                                      className="dnb-button__icon"
+                                      color={null}
+                                      height={null}
+                                      icon="icon"
+                                      key="button-icon"
+                                      modifier={null}
+                                      size="icon_size"
+                                      title={null}
+                                      width={null}
+                                    />
+                                  </Content>
+                                </button>
+                              </Button>
+                            </span>
+                          </InputSubmitButton>
+                        </ForwardRef>
+                      </span>
+                    </span>
+                  </span>
+                </span>
+              </Input>
+              <DrawerList
+                align_drawer={null}
+                button_only={false}
+                cache_hash={null}
+                class={null}
+                className={null}
+                custom_element={null}
+                custom_method={null}
+                data={null}
+                default_value="default_value"
+                direction="bottom"
+                disabled="disabled"
+                focusable="focusable"
+                id="autocomplete-id"
+                ignore_events={null}
+                inner_class="dnb-autocomplete__list"
+                keep_open="keep_open"
+                max_height={1}
+                no_animation={true}
+                no_scroll_animation="no_scroll_animation"
+                on_change={[Function]}
+                on_hide={null}
+                on_resize={null}
+                on_select={[Function]}
+                on_show={null}
+                on_state_update={null}
+                opened={null}
+                prepared_data={null}
+                prevent_close="prevent_close"
+                prevent_focus={false}
+                prevent_selection={null}
+                raw_data={null}
+                scrollable="scrollable"
+                size={null}
+                skip_keysearch={false}
+                triangle_position="icon_position"
+                value={2}
+                wrapper_element={null}
+              >
+                <DrawerListInstance
+                  align_drawer={null}
+                  button_only={false}
+                  cache_hash={null}
+                  class={null}
+                  className={null}
+                  custom_element={null}
+                  custom_method={null}
+                  data={null}
+                  default_value="default_value"
+                  direction="bottom"
+                  disabled="disabled"
+                  focusable="focusable"
+                  id="autocomplete-id"
+                  ignore_events={null}
+                  inner_class="dnb-autocomplete__list"
+                  keep_open="keep_open"
+                  max_height={1}
+                  no_animation={true}
+                  no_scroll_animation="no_scroll_animation"
+                  on_change={[Function]}
+                  on_hide={null}
+                  on_resize={null}
+                  on_select={[Function]}
+                  on_show={null}
+                  on_state_update={null}
+                  opened={null}
+                  prepared_data={null}
+                  prevent_close="prevent_close"
+                  prevent_focus={false}
+                  prevent_selection={null}
+                  raw_data={null}
+                  scrollable="scrollable"
+                  size={null}
+                  skip_keysearch={false}
+                  triangle_position="icon_position"
+                  value={2}
+                  wrapper_element={null}
+                >
+                  <span
+                    className="dnb-drawer-list dnb-drawer-list--bottom dnb-drawer-list--opened dnb-drawer-list--icon-position-icon_position"
+                    disabled="disabled"
+                    id="autocomplete-id-drawer-list"
+                  >
+                    <span
+                      className="dnb-drawer-list__list dnb-autocomplete__list dnb-drawer-list__list--no-animation"
+                    >
+                      <ForwardRef
+                        aria-activedescendant="option-autocomplete-id-2"
+                        aria-labelledby="autocomplete-id"
+                        cache_hash="CC cc32222bottom46"
+                        className={null}
+                        id="autocomplete-id-ul"
+                        style={
+                          Object {
+                            "maxHeight": "46rem",
+                          }
+                        }
+                        triangleRef={
+                          Object {
+                            "current": <li
+                              aria-hidden="true"
+                              class="dnb-drawer-list__triangle"
+                            />,
+                          }
+                        }
+                      >
+                        <ul
+                          aria-activedescendant="option-autocomplete-id-2"
+                          aria-labelledby="autocomplete-id"
+                          className="dnb-drawer-list__options"
+                          id="autocomplete-id-ul"
+                          role="listbox"
+                          style={
+                            Object {
+                              "maxHeight": "46rem",
+                            }
+                          }
+                          tabIndex="-1"
+                        >
+                          <ForwardRef
+                            active={false}
+                            cache_hash="CC cc3"
+                            className=""
+                            data-item={0}
+                            id="option-autocomplete-id-0"
+                            key="0"
+                            onClick={[Function]}
+                            onKeyDown={[Function]}
+                            on_click={null}
+                            selected={false}
+                            value={null}
+                          >
+                            <li
+                              aria-selected="false"
+                              className="dnb-drawer-list__option"
+                              data-item={0}
+                              id="option-autocomplete-id-0"
+                              onClick={[Function]}
+                              onKeyDown={[Function]}
+                              role="option"
+                              tabIndex="-1"
+                            >
+                              <span
+                                className="dnb-drawer-list__option__inner"
+                              >
+                                <ItemContent>
+                                  AA
+                                   
+                                  <span
+                                    className="dnb-drawer-list__option__item--highlight"
+                                  >
+                                    cc
+                                  </span>
+                                </ItemContent>
+                              </span>
+                            </li>
+                          </ForwardRef>
+                          <ForwardRef
+                            active={false}
+                            cache_hash="CC cc3"
+                            className=""
+                            data-item={1}
+                            id="option-autocomplete-id-1"
+                            key="1"
+                            onClick={[Function]}
+                            onKeyDown={[Function]}
+                            on_click={null}
+                            selected={false}
+                            value={null}
+                          >
+                            <li
+                              aria-selected="false"
+                              className="dnb-drawer-list__option"
+                              data-item={1}
+                              id="option-autocomplete-id-1"
+                              onClick={[Function]}
+                              onKeyDown={[Function]}
+                              role="option"
+                              tabIndex="-1"
+                            >
+                              <span
+                                className="dnb-drawer-list__option__inner"
+                              >
+                                <ItemContent>
+                                  BB
+                                   
+                                  <span
+                                    className="dnb-drawer-list__option__item--highlight"
+                                  >
+                                    cc
+                                  </span>
+                                   
+                                  zethx
+                                </ItemContent>
+                              </span>
+                            </li>
+                          </ForwardRef>
+                          <ForwardRef
+                            active={true}
+                            cache_hash="CC cc3"
+                            className="closest-to-top closest-to-bottom last-of-type"
+                            data-item={2}
+                            id="option-autocomplete-id-2"
+                            key="2"
+                            onClick={[Function]}
+                            onKeyDown={[Function]}
+                            on_click={null}
+                            selected={true}
+                            value={null}
+                          >
+                            <li
+                              aria-current={true}
+                              aria-selected={true}
+                              className="closest-to-top closest-to-bottom last-of-type dnb-drawer-list__option dnb-drawer-list__option--selected dnb-drawer-list__option--focus"
+                              data-item={2}
+                              id="option-autocomplete-id-2"
+                              onClick={[Function]}
+                              onKeyDown={[Function]}
+                              role="option"
+                              tabIndex="-1"
+                            >
+                              <span
+                                className="dnb-drawer-list__option__inner"
+                              >
+                                <ItemContent>
+                                  <span
+                                    className="dnb-drawer-list__option__item--highlight"
+                                  >
+                                    CC
+                                  </span>
+                                   
+                                  <span
+                                    className="dnb-drawer-list__option__item--highlight"
+                                  >
+                                    cc
+                                  </span>
+                                </ItemContent>
+                              </span>
+                            </li>
+                          </ForwardRef>
+                          <li
+                            aria-hidden={true}
+                            className="dnb-drawer-list__triangle"
+                          />
+                        </ul>
+                      </ForwardRef>
+                    </span>
+                  </span>
+                </DrawerListInstance>
+              </DrawerList>
+            </span>
+            <span
+              className="dnb-autocomplete__suffix"
+              id="autocomplete-id-suffix"
+            >
+              <Suffix
+                align_autocomplete={null}
+                class="class"
+                className="className"
+                custom_element={Object {}}
+                custom_method={[Function]}
+                data={
+                  Array [
+                    "AA cc",
+                    "BB cc zethx",
+                    "CC cc",
+                  ]
+                }
+                default_value="default_value"
+                direction="bottom"
+                disabled="disabled"
+                focusable="focusable"
+                global_status_id="global_status_id"
+                icon="icon"
+                icon_position="icon_position"
+                icon_size="icon_size"
+                id="autocomplete-id"
+                indicator_label="indicator_label"
+                input_component={null}
+                input_icon="input_icon"
+                input_value="input_value"
+                keep_open="keep_open"
+                label="Autocomplete Label:"
+                label_direction="horizontal"
+                label_sr_only="label_sr_only"
+                max_height={1}
+                no_animation={true}
+                no_options="no_options"
+                no_scroll_animation="no_scroll_animation"
+                on_change={[Function]}
+                on_hide={[Function]}
+                on_select={[Function]}
+                on_show={[Function]}
+                on_state_update={[Function]}
+                open_on_focus="open_on_focus"
+                opened={true}
+                prevent_close="prevent_close"
+                prevent_selection={null}
+                scrollable="scrollable"
+                show_drawer_button={true}
+                size={null}
+                skip_highlight="skip_highlight"
+                status="status"
+                status_animation="status_animation"
+                status_state="error"
+                submit_button_title="submit_button_title"
+                suffix="suffix"
+                title="title"
+                value={2}
+              >
+                suffix
+              </Suffix>
+            </span>
+          </span>
+        </span>
+      </span>
+    </AutocompleteInstance>
+  </DrawerListProvider>
+</Autocomplete>
+`;
+
+exports[`Autocomplete scss have to match default theme snapshot 1`] = `
+"/*
+* Autocomplete theme
+*
+*/
+/**
+ * This file is only used to make themes independent
+ * so that they can get imported individually, without the core styles
+ *
+ */
+/*
+ * Utilities
+ */
+/*
+* Dropdown theme
+*
+*/
+:root {
+  --drawer-list-text-color: var(--color-emerald-green);
+  --drawer-list-text-color--disabled: var(--color-sea-green-alt-30);
+  --drawer-list-border-color: var(--color-sea-green-alt);
+  --drawer-list-border-color--selected: var(--color-emerald-green);
+  --drawer-list-options-border-radius: 0.25rem;
+  --drawer-list-option-color: var(--color-black-80);
+  --drawer-list-option-color--hover: var(--color-sea-green);
+  --drawer-list-option-background-color: var(--color-white);
+  --drawer-list-option-background-color--hover: var(--color-mint-green-12);
+  --drawer-list-option-color--selected: var(--color-white);
+  --drawer-list-option-background-color--selected: var(
+    --color-emerald-green
+  );
+  --drawer-list-option-border-width: 0.0625rem;
+  --drawer-list-option-border-color: var(--color-mint-green-25); }
+
+.dnb-drawer-list {
+  color: var(--drawer-list-text-color); }
+  .dnb-drawer-list__list {
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.16);
+    border-radius: var(--drawer-list-options-border-radius);
+    background-color: var(--drawer-list-option-background-color); }
+  .dnb-drawer-list__options {
+    border: none;
+    background-color: var(--drawer-list-option-background-color);
+    border-radius: var(--drawer-list-options-border-radius); }
+    .dnb-drawer-list__options:focus {
+      outline: none; }
+      html[data-whatinput='keyboard'] .dnb-drawer-list__options:focus {
+        box-shadow: 0 0 0 0.125rem var(--color-emerald-green);
+        /* IE11 fix */
+        border-color: transparent; }
+  .dnb-drawer-list__option {
+    position: relative;
+    color: var(--drawer-list-option-color);
+    background-color: var(--drawer-list-option-background-color); }
+    .dnb-drawer-list__option::before {
+      pointer-events: none;
+      content: '';
+      position: absolute;
+      z-index: 2;
+      top: auto;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: var(--drawer-list-option-border-width);
+      background-color: var(--drawer-list-option-border-color); }
+    .dnb-drawer-list__option__item:nth-of-type(1) {
+      font-weight: var(--font-weight-medium); }
+    .dnb-drawer-list__option__inner {
+      padding-right: 2rem;
+      background-color: var(--drawer-list-option-background-color); }
+    html:not([data-is-touch]) .dnb-drawer-list__option:hover[disabled] {
+      cursor: not-allowed; }
+    html:not([data-is-touch]) .dnb-drawer-list__option:hover:not([disabled]) {
+      background-color: var(--drawer-list-option-background-color--hover); }
+      html:not([data-is-touch]) .dnb-drawer-list__option:hover:not([disabled]) .dnb-drawer-list__option__inner {
+        color: var(--drawer-list-option-color--hover);
+        background-color: var(--drawer-list-option-background-color--hover); }
+    .dnb-drawer-list__option--focus::before {
+      z-index: 3;
+      top: var(--drawer-list-focus-border-width);
+      left: var(--drawer-list-focus-border-width);
+      right: var(--drawer-list-focus-border-width);
+      bottom: var(--drawer-list-focus-border-width);
+      height: auto;
+      background-color: transparent;
+      box-shadow: 0 0 0 var(--drawer-list-focus-border-width) var(--drawer-list-border-color--selected);
+      /* IE11 fix */
+      border-color: transparent; }
+    .dnb-drawer-list__option--selected {
+      color: var(--drawer-list-option-color--selected);
+      background-color: var(--drawer-list-option-background-color--selected); }
+      .dnb-drawer-list__option--selected .dnb-drawer-list__option__inner {
+        color: inherit;
+        background-color: inherit; }
+      html:not([data-is-touch]) .dnb-drawer-list__option--selected:hover[disabled] {
+        cursor: not-allowed; }
+      html:not([data-is-touch]) .dnb-drawer-list__option--selected:hover:not([disabled]) {
+        color: var(--drawer-list-option-color--selected);
+        background-color: var(--drawer-list-option-background-color--selected); }
+        html:not([data-is-touch]) .dnb-drawer-list__option--selected:hover:not([disabled]) .dnb-drawer-list__option__inner {
+          color: inherit;
+          background-color: inherit; }
+      .dnb-drawer-list__option--selected::after {
+        content: '';
+        position: absolute;
+        z-index: 1;
+        top: calc(50% - 0.5rem);
+        right: 1rem;
+        width: 1rem;
+        height: 1rem;
+        background-size: cover;
+        background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgZmlsbD0ibm9uZSI+ICA8cGF0aCAgICBmaWxsPSIjRTlGOEY0IiAgICBkPSJNMyA4LjhhLjc1Ljc1IDAgMSAwLTEuMjIuODZMMyA4Ljc5em0xLjg0IDMuOWwuNjMtLjQxdi0uMDFoLS4wMWwtLjYyLjQyem0xLjcxLjA1bC0uNTktLjQ2di4wMWwuNTkuNDV6bTguNDMtOS40NWEuNzUuNzUgMCAwIDAtMS4xOC0uOTNsMS4xOC45M3pNMS43OCA5LjY2bDIuNDUgMy40OCAxLjIzLS44N0wzIDguOGwtMS4yMy44N3ptMi40NCAzLjQ2Yy4zMi40OC44Ni43OCAxLjQ0LjhsLjA1LTEuNWEuMy4zIDAgMCAxLS4yNC0uMTNsLTEuMjUuODN6bTEuNDQuOGExLjggMS44IDAgMCAwIDEuNDktLjcxbC0xLjItLjlhLjMuMyAwIDAgMS0uMjQuMWwtLjA1IDEuNXptMS40OC0uN2w3Ljg0LTkuOTItMS4xOC0uOTMtNy44NCA5LjkyIDEuMTguOTN6Ii8+PC9zdmc+); }
+      .dnb-drawer-list__option--selected::before {
+        content: none; }
+    .dnb-drawer-list__option--ignore .dnb-drawer-list__option__inner {
+      color: var(--drawer-list-option-color);
+      background-color: var(--drawer-list-option-background-color); }
+    .dnb-drawer-list__option--focus:not(.dnb-drawer-list__option--selected) .dnb-drawer-list__option__inner {
+      color: var(--drawer-list-option-color--hover);
+      background-color: var(--drawer-list-option-background-color--hover); }
+    .dnb-drawer-list__option:first-of-type,
+    .dnb-drawer-list__option--focus:first-of-type .dnb-drawer-list__option__inner, .dnb-drawer-list__option--focus:first-of-type::before {
+      border-radius: var(--drawer-list-options-border-radius) var(--drawer-list-options-border-radius) 0 0; }
+    .dnb-drawer-list__option.last-of-type,
+    .dnb-drawer-list__option--focus.last-of-type .dnb-drawer-list__option__inner, .dnb-drawer-list__option--focus.last-of-type::before {
+      border-radius: 0 0 var(--drawer-list-options-border-radius) var(--drawer-list-options-border-radius); }
+    .dnb-drawer-list__option.last-of-type:not(.dnb-drawer-list__option--focus)::before {
+      content: none; }
+  .dnb-drawer-list--scroll .dnb-drawer-list__option:not(.dnb-drawer-list__option--focus)::before {
+    left: 0.5rem;
+    right: 0.5rem; }
+  .dnb-drawer-list--bottom .dnb-drawer-list__option--focus.closest-to-top .dnb-drawer-list__option__inner {
+    border-radius: var(--drawer-list-options-border-radius) var(--drawer-list-options-border-radius) 0 0; }
+  .dnb-drawer-list--bottom .dnb-drawer-list__option--focus.closest-to-bottom .dnb-drawer-list__option__inner {
+    border-radius: 0 0 var(--drawer-list-options-border-radius) var(--drawer-list-options-border-radius); }
+  .dnb-drawer-list--top .dnb-drawer-list__option--focus.closest-to-bottom .dnb-drawer-list__option__inner {
+    border-radius: 0 0 var(--drawer-list-options-border-radius) var(--drawer-list-options-border-radius); }
+  .dnb-drawer-list--top .dnb-drawer-list__option--focus.closest-to-top .dnb-drawer-list__option__inner {
+    border-radius: var(--drawer-list-options-border-radius) var(--drawer-list-options-border-radius) 0 0; }
+  .dnb-drawer-list__status--error:not(.dnb-drawer-list--opened) .dnb-drawer-list__icon {
+    color: var(--color-fire-red); }
+  .dnb-drawer-list__triangle::before {
+    border: none;
+    background-color: var(--color-white);
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.16); }
+  .dnb-drawer-list__option:first-of-type:hover ~ .dnb-drawer-list__triangle::before,
+  .dnb-drawer-list--bottom .dnb-drawer-list__option.closest-to-top:hover ~ .dnb-drawer-list__triangle::before,
+  .dnb-drawer-list--top .dnb-drawer-list__option.closest-to-bottom:hover ~ .dnb-drawer-list__triangle::before {
+    background-color: var(--drawer-list-option-background-color--hover); }
+  .dnb-drawer-list--bottom .dnb-drawer-list__option.closest-to-top.dnb-drawer-list__option--selected ~ .dnb-drawer-list__triangle::before,
+  .dnb-drawer-list--bottom .dnb-drawer-list__option.closest-to-top.dnb-drawer-list__option--focus ~ .dnb-drawer-list__triangle::before,
+  .dnb-drawer-list--top .dnb-drawer-list__option.closest-to-bottom.dnb-drawer-list__option--selected ~ .dnb-drawer-list__triangle::before,
+  .dnb-drawer-list--top .dnb-drawer-list__option.closest-to-bottom.dnb-drawer-list__option--focus ~ .dnb-drawer-list__triangle::before {
+    background-color: var(--drawer-list-option-background-color--selected); }
+  .dnb-drawer-list > .dnb-form-status {
+    transform: translateY(-0.4375rem); }
+
+:root {
+  --autocomplete-text-color: var(--color-emerald-green);
+  --autocomplete-border-color--selected: var(--color-emerald-green); }
+
+.dnb-autocomplete {
+  color: var(--autocomplete-text-color); }
+  .dnb-autocomplete__input.dnb-input {
+    color: var(--autocomplete-text-color); }
+  .dnb-autocomplete--opened .dnb-autocomplete__input.dnb-input .dnb-input__shell {
+    box-shadow: none; }
+  .dnb-autocomplete--opened .dnb-input__submit-button__button {
+    box-shadow: 0 0 0 0.125rem var(--autocomplete-border-color--selected);
+    /* IE11 fix */
+    border-color: transparent; }
+    @media screen and (-ms-high-contrast: none) {
+      .dnb-autocomplete--opened .dnb-input__submit-button__button {
+        box-shadow: 0 0 0 1px var(--autocomplete-border-color--selected); } }
+  .dnb-autocomplete .dnb-drawer-list__option__item--highlight {
+    font-weight: var(--font-weight-bold); }
+"
+`;
+
+exports[`Autocomplete scss have to match snapshot 1`] = `
+"/*
+* DNB Autocomplete
+*
+*/
+/**
+ * This file is only used to make components independent
+ * so that they can get imported individually, without the core styles
+ *
+ */
+/*
+ * Utilities
+ */
+/*
+ * Scopes
+ *
+ */
+/*
+ * Document Reset
+ *
+ */
+/*
+* DNB Input
+*
+*/
+/*
+* DNB Button
+*
+*/
+/*
+* DNB icon
+*
+*/
+/*
+* Icon component
+*
+*/
+.dnb-icon {
+  display: inline-block;
+  vertical-align: middle;
+  font-size: 1rem;
+  line-height: 1rem;
+  color: inherit;
+  width: 1em;
+  height: 1em; }
+  .dnb-icon img,
+  .dnb-icon svg {
+    width: inherit;
+    height: inherit;
+    shape-rendering: geometricPrecision;
+    vertical-align: top; }
+  .dnb-icon svg[width='100%'] {
+    width: inherit; }
+  .dnb-icon svg[height='100%'] {
+    height: inherit; }
+  .dnb-icon svg:not([fill]),
+  .dnb-icon svg [fill] {
+    fill: currentColor; }
+  .dnb-icon svg [stroke] {
+    stroke: currentColor; }
+  .dnb-icon--small {
+    font-size: 0.75rem; }
+  .dnb-icon--default {
+    font-size: 1rem; }
+  .dnb-icon--medium {
+    font-size: 1.5rem; }
+  .dnb-icon--large {
+    font-size: 2rem; }
+  .dnb-icon--x-large {
+    font-size: 2.5rem; }
+  .dnb-icon--xx-large {
+    font-size: 3rem; }
+  .dnb-icon--custom-size {
+    width: auto;
+    height: auto; }
+  .dnb-icon--auto {
+    font-size: 1em; }
+  .dnb-icon--auto > .dnb-icon--wrapper {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center; }
+  h1 .dnb-icon,
+  h2 .dnb-icon,
+  h3 .dnb-icon,
+  h4 .dnb-icon,
+  h5 .dnb-icon,
+  h6 .dnb-icon {
+    vertical-align: middle; }
+  @media screen and (-ms-high-contrast: none) {
+    .dnb-icon {
+      flex: none; } }
+
+/*
+* DNB FormStatus
+*
+*/
+.dnb-form-status {
+  font-family: var(--font-family-default);
+  font-weight: var(--font-weight-default);
+  font-size: var(--font-size-small);
+  font-style: normal;
+  line-height: var(--line-height-basis);
+  color: var(--color-black-80, #333);
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  /**
+  * 1. Remove repeating backgrounds in all browsers (opinionated).
+  * 2. Add border box sizing in all browsers (opinionated).
+  */
+  /**
+  * 1. Add text decoration inheritance in all browsers (opinionated).
+  * 2. Add vertical alignment inheritance in all browsers (opinionated).
+  */
+  margin: 0;
+  padding: 0; }
+  .dnb-form-status *,
+  .dnb-form-status ::before,
+  .dnb-form-status ::after {
+    background-repeat: no-repeat;
+    /* 1 */
+    box-sizing: border-box;
+    /* 2 */ }
+  .dnb-form-status ::before,
+  .dnb-form-status ::after {
+    text-decoration: inherit;
+    /* 1 */
+    vertical-align: inherit;
+    /* 2 */ }
+
+/*
+ * FormStatus component
+ *
+ */
+.dnb-form-status {
+  display: flex; }
+  .dnb-form-status__shell {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    border-radius: var(--input-border-radius); }
+  .dnb-form-status--text {
+    padding: calc(0.5rem / 2) 1rem;
+    cursor: text;
+    color: inherit;
+    line-height: var(--line-height-basis); }
+  .dnb-icon + .dnb-form-status--text {
+    padding-left: 0.5rem; }
+  .dnb-form-status__shell > .dnb-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 1.5em;
+    height: 1.5em;
+    margin-top: 0.25em;
+    margin-left: 0.5em;
+    color: inherit;
+    font-size: var(--font-size-basis);
+    transform: translateY(-0.125rem); }
+  .dnb-form-status[hidden] {
+    display: none; }
+  .dnb-form-status--fade-in {
+    overflow: hidden;
+    max-height: 0;
+    animation: form-status-fade-in 2s ease-out 400ms forwards; }
+
+@keyframes form-status-fade-in {
+  from {
+    max-height: 0; }
+  to {
+    max-height: calc(var(--input-height) * 8); } }
+  @media screen and (-ms-high-contrast: none) {
+    .dnb-form-status__shell > .dnb-icon {
+      border-width: 1px; } }
+
+.dnb-button {
+  font-family: var(--font-family-default);
+  font-weight: var(--font-weight-default);
+  font-size: var(--font-size-small);
+  font-style: normal;
+  line-height: var(--line-height-basis);
+  color: var(--color-black-80, #333);
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  /**
+  * 1. Remove repeating backgrounds in all browsers (opinionated).
+  * 2. Add border box sizing in all browsers (opinionated).
+  */
+  /**
+  * 1. Add text decoration inheritance in all browsers (opinionated).
+  * 2. Add vertical alignment inheritance in all browsers (opinionated).
+  */
+  margin: 0;
+  padding: 0; }
+  .dnb-button *,
+  .dnb-button ::before,
+  .dnb-button ::after {
+    background-repeat: no-repeat;
+    /* 1 */
+    box-sizing: border-box;
+    /* 2 */ }
+  .dnb-button ::before,
+  .dnb-button ::after {
+    text-decoration: inherit;
+    /* 1 */
+    vertical-align: inherit;
+    /* 2 */ }
+
+/*
+* Button component
+*
+*/
+:root {
+  --button-font-size: var(--font-size-basis);
+  --button-font-size-small: var(--font-size-small);
+  --button-width: 2.5rem;
+  --button-height: 2.5rem;
+  --button-width--small: 1.5rem;
+  --button-height--small: 1.5rem;
+  --button-width--medium: 2rem;
+  --button-height--medium: 2rem;
+  --button-width--large: 3rem;
+  --button-height--large: 3rem;
+  --button-icon-size: 1rem;
+  --button-border-width: 0.0625rem;
+  --button-border-width--hover: 0.1875rem;
+  --button-border-radius: calc(var(--button-height) / 2);
+  --button-border-radius--small: calc(var(--button-height--small) / 2);
+  --button-border-radius--medium: calc(var(--button-height--medium) / 2);
+  --button-border-radius--large: calc(var(--button-height--large) / 2); }
+
+.dnb-button {
+  position: relative;
+  user-select: none;
+  -webkit-user-select: none;
+  cursor: pointer;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--button-width);
+  height: var(--button-height);
+  padding: 0;
+  border: var(--button-border-width) solid transparent;
+  border-radius: var(--button-border-radius);
+  text-decoration: none;
+  font-size: var(--font-size-small); }
+  .dnb-button,
+  .dnb-core-style .dnb-button {
+    line-height: var(--button-height); }
+  .dnb-button__text {
+    font-size: var(--button-font-size);
+    line-height: var(--line-height-xx-small--em);
+    color: inherit;
+    background-color: inherit;
+    transform: translateY(-0.03125rem); }
+  .dnb-button__bounding {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    transform: scale(1.1, 1.4);
+    background-color: transparent;
+    border-radius: var(--button-border-radius); }
+  .dnb-button--size-small {
+    width: var(--button-width--small);
+    height: var(--button-height--small);
+    font-size: var(--button-font-size-small);
+    border-radius: var(--button-border-radius--small); }
+    .dnb-button--size-small,
+    .dnb-core-style .dnb-button--size-small {
+      line-height: var(--button-height--small); }
+  .dnb-button--has-text.dnb-button--size-small {
+    padding-left: 1rem;
+    padding-right: 1rem; }
+  .dnb-button--has-text.dnb-button--icon-position-left.dnb-button--size-small {
+    padding-left: 0.5rem; }
+  .dnb-button--has-text.dnb-button--icon-position-right.dnb-button--size-small {
+    padding-right: 0.5rem; }
+  .dnb-button--size-medium {
+    width: var(--button-width--medium);
+    height: var(--button-height--medium);
+    border-radius: var(--button-border-radius--medium); }
+    .dnb-button--size-medium,
+    .dnb-core-style .dnb-button--size-medium {
+      line-height: var(--button-height--medium); }
+  .dnb-button--has-text.dnb-button--size-medium {
+    padding-left: 1rem;
+    padding-right: 1rem; }
+  .dnb-button--has-text.dnb-button--icon-position-left.dnb-button--size-medium {
+    padding-left: 0.5rem; }
+  .dnb-button--has-text.dnb-button--icon-position-right.dnb-button--size-medium {
+    padding-right: 0.5rem; }
+  .dnb-button--size-large {
+    width: var(--button-width--large);
+    height: var(--button-height--large);
+    border-radius: var(--button-border-radius--large); }
+    .dnb-button--size-large,
+    .dnb-core-style .dnb-button--size-large {
+      line-height: var(--button-height--large); }
+  .dnb-button--has-text.dnb-button--size-large {
+    padding-left: 2rem;
+    padding-right: 2rem; }
+  .dnb-button--has-text.dnb-button--icon-position-left.dnb-button--size-large {
+    padding-left: 1rem; }
+  .dnb-button--has-text.dnb-button--icon-position-right.dnb-button--size-large {
+    padding-right: 1rem; }
+  .dnb-button--has-text {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    width: auto; }
+  .dnb-button--has-text .dnb-button__icon {
+    margin: 0 calc(var(--button-icon-size) / 2); }
+  .dnb-button--has-text.dnb-button--icon-position-left {
+    padding-left: 0.5rem; }
+  .dnb-button--has-text.dnb-button--icon-position-right {
+    padding-right: 0.5rem; }
+  .dnb-button--has-text.dnb-button--has-icon .dnb-button__icon {
+    order: 2; }
+  .dnb-button--has-text.dnb-button--has-icon .dnb-button__text {
+    order: 1; }
+  .dnb-button:not(.dnb-button--has-text) .dnb-button__icon {
+    width: inherit; }
+  .dnb-button__icon.dnb-icon svg:not([width]):not([height]) {
+    width: var(--button-icon-size);
+    height: var(--button-icon-size); }
+  [href] > .dnb-button__icon.dnb-icon {
+    line-height: var(--button-font-size); }
+  .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-left .dnb-button__icon {
+    order: 1; }
+  .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-left .dnb-button__text {
+    order: 2; }
+  .dnb-button--reset {
+    margin: 0;
+    padding: 0;
+    width: auto;
+    height: auto;
+    overflow: visible;
+    border: none;
+    border-radius: 0;
+    background-color: transparent;
+    appearance: none;
+    box-shadow: none;
+    color: inherit;
+    font: inherit;
+    text-align: inherit;
+    line-height: inherit; }
+    html:not([data-is-touch]) .dnb-button--reset:hover[disabled] {
+      cursor: not-allowed; }
+    html:not([data-is-touch]) .dnb-button--reset:hover:not([disabled]) {
+      box-shadow: none;
+      border: none; }
+    .dnb-button--reset:not([disabled]):focus, .dnb-button--reset:not([disabled]):active {
+      outline: none; }
+      html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):focus, html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):active {
+        box-shadow: 0 0 0 0.125rem var(--color-emerald-green);
+        /* IE11 fix */
+        border-color: transparent; }
+    html[data-whatinput='mouse'] .dnb-button--reset:not([disabled]):focus,
+    html[data-whatinput='mouse'] .dnb-button--reset:not([disabled]):active {
+      box-shadow: none;
+      color: inherit;
+      border: none; }
+  .dnb-button[type='button'], .dnb-button[type='reset'], .dnb-button[type='submit'] {
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none; }
+  .dnb-button[disabled] {
+    cursor: not-allowed; }
+  .dnb-form-row--vertical .dnb-form-row__content > .dnb-button {
+    align-self: flex-start; }
+  .dnb-button + .dnb-form-status {
+    margin-top: 0.5rem; }
+  @media screen and (-ms-high-contrast: none) {
+    .dnb-button {
+      flex: none; }
+      .dnb-button__icon, .dnb-button__text {
+        transform: translateY(-0.0625rem) !important; } }
+
+/* Firefox includes a hidden border which messes up button dimensions */
+button.dnb-button::-moz-focus-inner {
+  border: none; }
+
+/*
+* DNB FormLabel
+*
+*/
+.dnb-form-label {
+  font-family: var(--font-family-default);
+  font-weight: var(--font-weight-default);
+  font-size: var(--font-size-small);
+  font-style: normal;
+  line-height: var(--line-height-basis);
+  color: var(--color-black-80, #333);
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  /**
+  * 1. Remove repeating backgrounds in all browsers (opinionated).
+  * 2. Add border box sizing in all browsers (opinionated).
+  */
+  /**
+  * 1. Add text decoration inheritance in all browsers (opinionated).
+  * 2. Add vertical alignment inheritance in all browsers (opinionated).
+  */
+  margin: 0;
+  padding: 0; }
+  .dnb-form-label *,
+  .dnb-form-label ::before,
+  .dnb-form-label ::after {
+    background-repeat: no-repeat;
+    /* 1 */
+    box-sizing: border-box;
+    /* 2 */ }
+  .dnb-form-label ::before,
+  .dnb-form-label ::after {
+    text-decoration: inherit;
+    /* 1 */
+    vertical-align: inherit;
+    /* 2 */ }
+
+/*
+ * FormLabel component
+ *
+ */
+.dnb-form-label {
+  display: inline-block;
+  width: auto;
+  padding: 0;
+  margin-right: 1rem;
+  text-align: left;
+  vertical-align: baseline;
+  white-space: pre-wrap;
+  font-size: var(--font-size-basis);
+  color: inherit; }
+  .dnb-form-label--vertical {
+    display: block;
+    margin-right: 0;
+    margin-bottom: 0.5rem; }
+  .dnb-form-label--sr-only {
+    width: 1px;
+    margin: 0;
+    padding: 0;
+    margin-left: -1px;
+    overflow: hidden;
+    white-space: nowrap; }
+  .dnb-form-label[for]:not([disabled]) {
+    user-select: none;
+    -webkit-user-select: none;
+    cursor: pointer; }
+  .dnb-form-label[disabled] {
+    cursor: not-allowed; }
+  @media screen and (-ms-high-contrast: none) {
+    .dnb-form-label {
+      max-width: 60vw; } }
+
+legend.dnb-form-label {
+  display: inline-block; }
+
+.dnb-input {
+  font-family: var(--font-family-default);
+  font-weight: var(--font-weight-default);
+  font-size: var(--font-size-small);
+  font-style: normal;
+  line-height: var(--line-height-basis);
+  color: var(--color-black-80, #333);
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  /**
+  * 1. Remove repeating backgrounds in all browsers (opinionated).
+  * 2. Add border box sizing in all browsers (opinionated).
+  */
+  /**
+  * 1. Add text decoration inheritance in all browsers (opinionated).
+  * 2. Add vertical alignment inheritance in all browsers (opinionated).
+  */
+  margin: 0;
+  padding: 0; }
+  .dnb-input *,
+  .dnb-input ::before,
+  .dnb-input ::after {
+    background-repeat: no-repeat;
+    /* 1 */
+    box-sizing: border-box;
+    /* 2 */ }
+  .dnb-input ::before,
+  .dnb-input ::after {
+    text-decoration: inherit;
+    /* 1 */
+    vertical-align: inherit;
+    /* 2 */ }
+
+/*
+* Input component
+*
+*/
+:root {
+  --input-font-size: var(--font-size-basis);
+  --input-font-size--small: var(--font-size-basis);
+  --input-font-size--medium: var(--font-size-basis);
+  --input-font-size--large: var(--font-size-medium);
+  --input-padding: 1rem;
+  --input-padding--small: 1rem;
+  --input-padding--medium: 1rem;
+  --input-padding--large: 1rem;
+  --input-height: 2rem;
+  --input-height--small: 1.5rem;
+  --input-height--medium: 2.5rem;
+  --input-height--large: 3rem;
+  --input-border-width: 0.0625rem;
+  --input-border-radius: calc(var(--input-height) / 2);
+  --input-border-radius--small: calc(var(--input-height--small) / 2);
+  --input-border-radius--medium: calc(var(--input-height--medium) / 2);
+  --input-border-radius--large: calc(var(--input-height--large) / 2); }
+
+.dnb-input {
+  display: inline-flex;
+  align-items: center;
+  font-size: var(--input-font-small);
+  line-height: var(--input-height); }
+  .dnb-input__inner {
+    display: inline-flex;
+    flex-direction: column;
+    width: auto; }
+  .dnb-input__shell {
+    position: relative;
+    display: flex;
+    align-items: center;
+    border: var(--input-border-width) solid var(--color-sea-green-alt); }
+  .dnb-input__input {
+    border: none;
+    outline: none;
+    word-break: normal;
+    position: relative;
+    z-index: 2; }
+  .dnb-input input.dnb-input__input {
+    font-size: var(--input-font-size);
+    line-height: var(--font-size-basis); }
+  .dnb-input__input[disabled] {
+    user-select: none;
+    -webkit-user-select: none;
+    opacity: 1; }
+  .dnb-input__shell, .dnb-input__input {
+    height: var(--input-height);
+    border-radius: var(--input-border-radius); }
+  .dnb-input__placeholder, .dnb-input__input {
+    width: 100%;
+    padding-left: var(--input-padding);
+    padding-right: var(--input-padding);
+    text-align: left;
+    color: inherit;
+    background-color: transparent;
+    font-size: var(--input-font-size); }
+  .dnb-input__placeholder {
+    pointer-events: none;
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis; }
+  .dnb-input input.dnb-input__input[type='file'] {
+    line-height: calc(var(--input-height) - 2px); }
+  .dnb-input__input::-webkit-search-cancel-button {
+    display: none; }
+  .dnb-input__input::-ms-clear {
+    display: none; }
+  .dnb-input ::-webkit-file-upload-button {
+    cursor: pointer;
+    outline: none;
+    color: var(--color-sea-green); }
+    .dnb-input ::-webkit-file-upload-button:active, .dnb-input ::-webkit-file-upload-button:hover {
+      color: var(--color-emerald-green); }
+  .dnb-input--has-submit-element .dnb-input__placeholder,
+  .dnb-input--has-submit-element .dnb-input__input {
+    padding-right: calc(var(--input-padding) * 2.5); }
+  .dnb-input__row {
+    display: inline-flex;
+    align-items: center; }
+  .dnb-input__suffix {
+    color: inherit;
+    padding-left: 0.5rem;
+    line-height: var(--line-height-basis); }
+  .dnb-input__submit-element {
+    margin-left: calc(1px - 1px - var(--input-height));
+    line-height: var(--line-height-basis); }
+  .dnb-input__submit-button {
+    position: relative;
+    z-index: 2;
+    align-self: center;
+    /* IE needs this to stay centered */ }
+    .dnb-input__submit-button__button {
+      border-radius: 50%; }
+  .dnb-input--small {
+    line-height: var(--input-height--small); }
+    .dnb-input--small .dnb-input__shell,
+    .dnb-input--small .dnb-input__input {
+      height: var(--input-height--small);
+      border-radius: var(--input-border-radius--small); }
+    .dnb-input--small .dnb-input__placeholder,
+    .dnb-input--small .dnb-input__input {
+      padding-left: var(--input-padding--small);
+      padding-right: var(--input-padding--small);
+      font-size: var(--input-font-size--small); }
+    .dnb-input--small .dnb-input__submit-element {
+      margin-left: calc(1px - 1px - var(--input-height--small)); }
+      .dnb-input--small .dnb-input__submit-element .dnb-button {
+        width: var(--input-height--small);
+        height: var(--input-height--small);
+        line-height: var(--input-height--small); }
+  .dnb-input--small.dnb-input--has-submit-element .dnb-input__placeholder,
+  .dnb-input--small.dnb-input--has-submit-element .dnb-input__input {
+    padding-right: calc(var(--input-padding--small) * 3); }
+  .dnb-input--medium {
+    line-height: var(--input-height--medium); }
+    .dnb-input--medium .dnb-input__shell,
+    .dnb-input--medium .dnb-input__input {
+      height: var(--input-height--medium);
+      border-radius: var(--input-border-radius--medium); }
+    .dnb-input--medium .dnb-input__placeholder,
+    .dnb-input--medium .dnb-input__input {
+      padding-left: var(--input-padding--medium);
+      padding-right: var(--input-padding--medium);
+      font-size: var(--input-font-size--medium); }
+    .dnb-input--medium .dnb-input__submit-element {
+      margin-left: calc(1px - 1px - var(--input-height--medium)); }
+      .dnb-input--medium .dnb-input__submit-element .dnb-button {
+        width: var(--input-height--medium);
+        height: var(--input-height--medium);
+        line-height: var(--input-height--medium); }
+  .dnb-input--medium.dnb-input--has-submit-element .dnb-input__placeholder,
+  .dnb-input--medium.dnb-input--has-submit-element .dnb-input__input {
+    padding-right: calc(var(--input-padding--medium) * 3); }
+  .dnb-input--large {
+    line-height: var(--input-height--large); }
+    .dnb-input--large .dnb-input__shell,
+    .dnb-input--large .dnb-input__input {
+      height: var(--input-height--large);
+      border-radius: var(--input-border-radius--large); }
+    .dnb-input--large .dnb-input__placeholder,
+    .dnb-input--large .dnb-input__input {
+      padding-left: var(--input-padding--large);
+      padding-right: var(--input-padding--large);
+      font-size: var(--input-font-size--large); }
+    .dnb-input--large .dnb-input__submit-element {
+      margin-left: calc(1px - 1px - var(--input-height--large)); }
+      .dnb-input--large .dnb-input__submit-element .dnb-button {
+        width: var(--input-height--large);
+        height: var(--input-height--large); }
+  .dnb-input--large.dnb-input--has-submit-element .dnb-input__placeholder,
+  .dnb-input--large.dnb-input--has-submit-element .dnb-input__input {
+    padding-right: calc(var(--input-padding--large) * 3.5); }
+  .dnb-input__align--center .dnb-input__placeholder,
+  .dnb-input__align--center .dnb-input__input {
+    text-align: center; }
+  .dnb-input__align--right .dnb-input__placeholder,
+  .dnb-input__align--right .dnb-input__input {
+    text-align: right; }
+  .dnb-input__inner > .dnb-form-status {
+    order: 2;
+    margin-top: 0.5rem; }
+  .dnb-input--vertical {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; }
+  .dnb-input--stretch {
+    display: flex; }
+  .dnb-input--stretch .dnb-input__inner {
+    flex-grow: 1; }
+  .dnb-input--stretch .dnb-input__shell {
+    width: 100%; }
+  .dnb-input--vertical.dnb-input--stretch .dnb-input__inner {
+    width: 100%; }
+  .dnb-input__icon {
+    order: 0;
+    position: absolute;
+    left: 1rem;
+    right: auto; }
+  .dnb-input--icon-position-right .dnb-input__icon {
+    order: 1;
+    left: auto;
+    right: 1rem; }
+  .dnb-input--icon-position-left.dnb-input--has-icon .dnb-input__input,
+  .dnb-input--icon-position-left.dnb-input--has-icon .dnb-input__placeholder {
+    padding-left: 2.5rem; }
+  .dnb-input--icon-position-right.dnb-input--has-icon .dnb-input__input,
+  .dnb-input--icon-position-right.dnb-input--has-icon .dnb-input__placeholder {
+    padding-right: 2.5rem; }
+  .dnb-input--medium.dnb-input--icon-position-left.dnb-input--has-icon .dnb-input__input,
+  .dnb-input--medium.dnb-input--icon-position-left.dnb-input--has-icon .dnb-input__placeholder {
+    padding-left: 2.5rem; }
+  .dnb-input--large.dnb-input--icon-position-left.dnb-input--has-icon .dnb-input__input,
+  .dnb-input--large.dnb-input--icon-position-left.dnb-input--has-icon .dnb-input__placeholder {
+    padding-left: 3rem; }
+  .dnb-input--large.dnb-input--icon-position-right.dnb-input--has-icon .dnb-input__input,
+  .dnb-input--large.dnb-input--icon-position-right.dnb-input--has-icon .dnb-input__placeholder {
+    padding-right: 3rem; }
+  .dnb-input > .dnb-form-label {
+    line-height: var(--line-height-basis); }
+  .dnb-input[class*='__status'] {
+    align-items: flex-start; }
+    .dnb-input[class*='__status'] > .dnb-form-label {
+      margin-top: 0.25rem; }
+  @media (max-width: 40em) {
+    .dnb-responsive-component .dnb-input {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      margin-bottom: 0.5rem; }
+      .dnb-responsive-component .dnb-input__row {
+        align-items: flex-start; }
+      .dnb-responsive-component .dnb-input > .dnb-form-label {
+        margin-bottom: 0.5rem; } }
+  @media screen and (-ms-high-contrast: none) {
+    .dnb-input {
+      vertical-align: baseline; }
+      .dnb-form-row--horizontal .dnb-input, .dnb-input:not(.dnb-input--stretch) {
+        flex: none; }
+      .dnb-input__inner {
+        width: 100%; }
+      .dnb-input__input, .dnb-input__placeholder {
+        transform: translateY(-0.0625rem); } }
+
+/*
+* DNB ProgressIndicator
+*
+*/
+.dnb-progress-indicator {
+  font-family: var(--font-family-default);
+  font-weight: var(--font-weight-default);
+  font-size: var(--font-size-small);
+  font-style: normal;
+  line-height: var(--line-height-basis);
+  color: var(--color-black-80, #333);
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  /**
+  * 1. Remove repeating backgrounds in all browsers (opinionated).
+  * 2. Add border box sizing in all browsers (opinionated).
+  */
+  /**
+  * 1. Add text decoration inheritance in all browsers (opinionated).
+  * 2. Add vertical alignment inheritance in all browsers (opinionated).
+  */
+  margin: 0;
+  padding: 0; }
+  .dnb-progress-indicator *,
+  .dnb-progress-indicator ::before,
+  .dnb-progress-indicator ::after {
+    background-repeat: no-repeat;
+    /* 1 */
+    box-sizing: border-box;
+    /* 2 */ }
+  .dnb-progress-indicator ::before,
+  .dnb-progress-indicator ::after {
+    text-decoration: inherit;
+    /* 1 */
+    vertical-align: inherit;
+    /* 2 */ }
+
+/*
+ * ProgressIndicator component
+ *
+ */
+:root {
+  --progress-indicator-timing: cubic-bezier(0.5, 0, 0.5, 0.99);
+  --progress-indicator-circular-circle: 88;
+  --progress-indicator-circular-circle-offset--min: 88;
+  --progress-indicator-circular-circle-offset--max: 1; }
+
+.dnb-progress-indicator {
+  position: relative;
+  display: inline-flex; }
+  .dnb-progress-indicator--vertical {
+    flex-direction: column;
+    align-items: center; }
+  .dnb-progress-indicator--horizontal {
+    justify-content: center; }
+  .dnb-progress-indicator__label {
+    display: inline-flex; }
+    .dnb-progress-indicator__label .dnb-p {
+      align-self: center; }
+  .dnb-spacing .dnb-progress-indicator .dnb-p {
+    margin: 0; }
+  .dnb-progress-indicator--horizontal .dnb-progress-indicator__label {
+    margin: 0 1rem; }
+  .dnb-progress-indicator--vertical .dnb-progress-indicator__label {
+    margin-top: 0.5rem; }
+  .dnb-progress-indicator__circular {
+    position: relative;
+    width: 2rem;
+    height: 2rem;
+    transform: rotate(-90deg); }
+    .dnb-progress-indicator__circular svg {
+      position: absolute;
+      width: 100%;
+      height: 100%; }
+    .dnb-progress-indicator__circular__line {
+      animation-duration: 2s;
+      animation-delay: 200ms;
+      animation-timing-function: var(--progress-indicator-timing);
+      animation-iteration-count: infinite; }
+    .dnb-progress-indicator__circular__line.background {
+      stroke-dashoffset: var(--progress-indicator-circular-circle-offset--max); }
+    .dnb-progress-indicator__circular__line.light {
+      animation-name: progress-indicator-circular-line-light;
+      stroke-dasharray: var(--progress-indicator-circular-circle), var(--progress-indicator-circular-circle);
+      stroke-dashoffset: var(--progress-indicator-circular-circle-offset--max); }
+    .dnb-progress-indicator__circular__line.dark {
+      animation-name: progress-indicator-circular-line-dark;
+      stroke-dasharray: var(--progress-indicator-circular-circle), var(--progress-indicator-circular-circle);
+      stroke-dashoffset: var(--progress-indicator-circular-circle-offset--min); }
+    .dnb-progress-indicator__circular__line.paused {
+      animation-play-state: paused; }
+    .dnb-progress-indicator__circular--has-progress-indicator .dnb-progress-indicator__circular__line.dark {
+      transition: stroke-dashoffset 600ms var(--progress-indicator-timing); }
+    .dnb-progress-indicator__circular__circle {
+      stroke-linecap: round; }
+    .dnb-progress-indicator__circular__line.light .dnb-progress-indicator__circular__circle {
+      stroke: grey; }
+    .dnb-progress-indicator__circular__line.dark .dnb-progress-indicator__circular__circle {
+      stroke: black; }
+  .dnb-progress-indicator:not(.dnb-progress-indicator--no-animation), .dnb-progress-indicator--visible:not(.dnb-progress-indicator--no-animation) {
+    opacity: 0;
+    animation: progress-indicator-fade-in 200ms ease-out 1 forwards; }
+  .dnb-progress-indicator--complete:not(.dnb-progress-indicator--no-animation):not(.dnb-progress-indicator--visible) {
+    animation: progress-indicator-fade-out 600ms ease-out 1 forwards; }
+
+@keyframes progress-indicator-fade-in {
+  0% {
+    opacity: 0; }
+  100% {
+    opacity: 1; } }
+
+@keyframes progress-indicator-fade-out {
+  0% {
+    opacity: 1; }
+  100% {
+    opacity: 0; } }
+
+@keyframes progress-indicator-circular-line-light {
+  0% {
+    stroke-dashoffset: var(--progress-indicator-circular-circle-offset--min); }
+  50% {
+    stroke-dashoffset: var(--progress-indicator-circular-circle-offset--min); }
+  100% {
+    stroke-dashoffset: var(--progress-indicator-circular-circle-offset--max); } }
+
+@keyframes progress-indicator-circular-line-dark {
+  0% {
+    stroke-dashoffset: var(--progress-indicator-circular-circle-offset--min); }
+  50% {
+    stroke-dashoffset: var(--progress-indicator-circular-circle-offset--max); }
+  100% {
+    stroke-dashoffset: var(--progress-indicator-circular-circle-offset--max); } }
+
+.dnb-autocomplete {
+  font-family: var(--font-family-default);
+  font-weight: var(--font-weight-default);
+  font-size: var(--font-size-small);
+  font-style: normal;
+  line-height: var(--line-height-basis);
+  color: var(--color-black-80, #333);
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  /**
+  * 1. Remove repeating backgrounds in all browsers (opinionated).
+  * 2. Add border box sizing in all browsers (opinionated).
+  */
+  /**
+  * 1. Add text decoration inheritance in all browsers (opinionated).
+  * 2. Add vertical alignment inheritance in all browsers (opinionated).
+  */
+  margin: 0;
+  padding: 0; }
+  .dnb-autocomplete *,
+  .dnb-autocomplete ::before,
+  .dnb-autocomplete ::after {
+    background-repeat: no-repeat;
+    /* 1 */
+    box-sizing: border-box;
+    /* 2 */ }
+  .dnb-autocomplete ::before,
+  .dnb-autocomplete ::after {
+    text-decoration: inherit;
+    /* 1 */
+    vertical-align: inherit;
+    /* 2 */ }
+
+/*
+* Autocomplete component
+*
+*/
+:root {
+  --autocomplete-width: 16rem;
+  --autocomplete-height: 2rem;
+  --autocomplete-height--small: 1.5rem;
+  --autocomplete-height--medium: 2.5rem;
+  --autocomplete-height--large: 3rem;
+  --autocomplete-padding-horizontal: 1rem;
+  --autocomplete-focus-border-width: 0.125rem;
+  --autocomplete-text-padding: 0.5rem; }
+
+/*
+* DrawerList component
+*
+*/
+:root {
+  --drawer-list-width: 16rem;
+  --drawer-list-height: 2rem;
+  --drawer-list-padding-horizontal: 1rem;
+  --drawer-list-focus-border-width: 0.125rem;
+  --drawer-list-text-padding: 0.5rem;
+  --drawer-list-height--small: 1.5rem;
+  --drawer-list-height--medium: 2.5rem;
+  --drawer-list-height--large: 3rem; }
+
+.dnb-drawer-list {
+  display: block;
+  position: relative;
+  font-size: var(--font-size-small); }
+  .dnb-drawer-list__content {
+    width: 100%;
+    padding: 0; }
+  .dnb-drawer-list__list {
+    position: absolute;
+    z-index: 3;
+    top: 0;
+    bottom: auto;
+    left: 0;
+    right: 0;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    font-size: var(--font-size-basis);
+    line-height: var(--line-height-basis);
+    background-color: transparent;
+    transform: translateY(0);
+    transition: transform 200ms, opacity 160ms ease-out; }
+  .dnb-drawer-list--top .dnb-drawer-list__list {
+    top: auto;
+    bottom: 0; }
+  .dnb-drawer-list--is-popup .dnb-drawer-list__list {
+    left: -0.5rem; }
+  .dnb-drawer-list--is-popup.dnb-drawer-list--right .dnb-drawer-list__list {
+    right: -0.5rem; }
+  .dnb-drawer-list--small .dnb-drawer-list__list {
+    top: var(--drawer-list-height--small); }
+  .dnb-drawer-list--small.dnb-drawer-list--top .dnb-drawer-list__list {
+    top: auto;
+    bottom: var(--drawer-list-height--small); }
+  .dnb-drawer-list--small.dnb-drawer-list--is-popup .dnb-drawer-list__list {
+    left: -0.75rem; }
+  .dnb-drawer-list--small.dnb-drawer-list--is-popup.dnb-drawer-list--right .dnb-drawer-list__list {
+    right: -0.75rem; }
+  .dnb-drawer-list--medium .dnb-drawer-list__list {
+    top: var(--drawer-list-height--medium); }
+  .dnb-drawer-list--medium.dnb-drawer-list--top .dnb-drawer-list__list {
+    top: auto;
+    bottom: var(--drawer-list-height--medium); }
+  .dnb-drawer-list--medium.dnb-drawer-list--is-popup .dnb-drawer-list__list {
+    left: -0.25rem; }
+  .dnb-drawer-list--medium.dnb-drawer-list--is-popup.dnb-drawer-list--right .dnb-drawer-list__list {
+    right: -0.25rem; }
+  .dnb-drawer-list--large .dnb-drawer-list__list {
+    top: var(--drawer-list-height--large); }
+  .dnb-drawer-list--large.dnb-drawer-list--top .dnb-drawer-list__list {
+    top: auto;
+    bottom: var(--drawer-list-height--large); }
+  .dnb-drawer-list--large.dnb-drawer-list--is-popup .dnb-drawer-list__list {
+    left: -0.25rem; }
+  .dnb-drawer-list--large.dnb-drawer-list--is-popup.dnb-drawer-list--right .dnb-drawer-list__list {
+    right: -0.25rem; }
+  .dnb-drawer-list--right .dnb-drawer-list__list {
+    left: auto; }
+  .dnb-drawer-list__options {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin: 0;
+    max-height: 90vh;
+    padding: 0;
+    list-style: none;
+    background-color: transparent; }
+    .dnb-spacing .dnb-drawer-list__options li.dnb-drawer-list__option {
+      margin: 0; }
+  .dnb-drawer-list--scroll .dnb-drawer-list__options {
+    min-height: 2rem;
+    max-height: 50vh;
+    overflow-y: scroll;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+    -ms-overflow-style: auto; }
+  .dnb-drawer-list--opened .dnb-drawer-list__options {
+    scroll-behavior: smooth; }
+  .dnb-drawer-list--no-scroll-animation .dnb-drawer-list__options {
+    scroll-behavior: auto; }
+  .dnb-drawer-list__option {
+    position: relative;
+    cursor: pointer;
+    margin: 0;
+    padding: 0;
+    color: inherit;
+    background-color: var(--color-white); }
+    .dnb-drawer-list__option__inner {
+      position: relative;
+      z-index: 1;
+      display: block;
+      outline: none;
+      width: 100%;
+      margin: 0;
+      padding: 1rem;
+      color: inherit;
+      background-color: var(--color-white); }
+    .dnb-drawer-list__option__item {
+      display: block;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      width: 100%; }
+    .dnb-drawer-list__option--ignore {
+      cursor: default;
+      pointer-events: none; }
+  .dnb-drawer-list__triangle {
+    position: absolute;
+    top: calc( var(--drawer-list-focus-border-width) - var(--drawer-list-height) / 2);
+    left: auto;
+    right: 0;
+    pointer-events: none;
+    margin: 0 var(--drawer-list-padding-horizontal);
+    width: calc(var(--drawer-list-height) / 2);
+    height: calc(var(--drawer-list-height) / 2);
+    overflow: hidden; }
+    .dnb-drawer-list__triangle::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: calc(var(--drawer-list-height) / 2);
+      height: calc(var(--drawer-list-height) / 2);
+      transform: translateY(60%) rotate(45deg);
+      border: 1px solid var(--color-black-border);
+      background-color: var(--color-white); }
+  .dnb-drawer-list--icon-position-left .dnb-drawer-list__triangle {
+    left: 0;
+    right: auto; }
+  .dnb-drawer-list--top .dnb-drawer-list__triangle {
+    top: auto;
+    bottom: calc( var(--drawer-list-focus-border-width) - var(--drawer-list-height) / 2 - 2px);
+    transform: rotate(180deg); }
+    .dnb-drawer-list--top .dnb-drawer-list__triangle::before {
+      transform: translateY(65%) rotate(45deg); }
+  .dnb-drawer-list--opened .dnb-drawer-list__list {
+    z-index: 100;
+    display: flex; }
+    .dnb-drawer-list--opened .dnb-drawer-list__list {
+      animation: drawer-list-slide-down 200ms ease-out 1 forwards; }
+    html[data-dnb-test] .dnb-drawer-list--opened .dnb-drawer-list__list, .dnb-drawer-list--opened .dnb-drawer-list__list--no-animation {
+      animation: drawer-list-slide-down 1ms ease-out 1 forwards; }
+  .dnb-drawer-list--hidden .dnb-drawer-list__list {
+    display: none; }
+  .dnb-drawer-list:not(.dnb-drawer-list--opened) .dnb-drawer-list__list {
+    animation: drawer-list-slide-up 150ms ease-out 1 forwards; }
+  html[data-dnb-test] .dnb-drawer-list:not(.dnb-drawer-list--opened) .dnb-drawer-list__list, .dnb-drawer-list:not(.dnb-drawer-list--opened) .dnb-drawer-list__list--no-animation {
+    animation: drawer-list-slide-up 1ms ease-out 1 forwards; }
+  @media screen and (-ms-high-contrast: none) {
+    .dnb-drawer-list {
+      flex: none;
+      vertical-align: baseline; }
+      .dnb-drawer-list__shell {
+        top: 0; }
+      .dnb-drawer-list__options {
+        display: block; } }
+
+@keyframes drawer-list-slide-down {
+  from {
+    opacity: 0;
+    transform: translateY(calc(1px - var(--drawer-list-height))); }
+  to {
+    opacity: 1;
+    transform: translateY(0); } }
+
+@keyframes drawer-list-slide-up {
+  from {
+    opacity: 1;
+    transform: translateY(0); }
+  to {
+    opacity: 0;
+    transform: translateY(calc(1px - var(--drawer-list-height))); } }
+
+.dnb-autocomplete {
+  display: inline-flex;
+  align-items: center;
+  font-size: var(--font-size-small);
+  line-height: var(--autocomplete-height); }
+  .dnb-autocomplete__inner {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin: 0;
+    padding: 0;
+    width: auto;
+    color: inherit; }
+  .dnb-autocomplete__shell {
+    position: relative;
+    width: var(--autocomplete-width);
+    margin: 0;
+    padding: 0;
+    color: inherit; }
+  .dnb-autocomplete__row {
+    display: inline-flex; }
+  .dnb-autocomplete__suffix {
+    padding-left: 0.5rem;
+    line-height: var(--line-height-basis); }
+  .dnb-autocomplete .dnb-drawer-list {
+    position: static; }
+  .dnb-autocomplete .dnb-drawer-list__list {
+    top: var(--autocomplete-height);
+    bottom: auto; }
+  .dnb-autocomplete .dnb-drawer-list--top .dnb-drawer-list__list {
+    bottom: var(--autocomplete-height);
+    top: auto; }
+  .dnb-autocomplete--small {
+    line-height: var(--autocomplete-height--small); }
+  .dnb-autocomplete--small.dnb-autocomplete--icon-position-right .dnb-drawer-list__triangle {
+    margin: 0 calc(var(--autocomplete-padding-horizontal) + 0.25rem); }
+  .dnb-autocomplete--medium {
+    line-height: var(--autocomplete-height--medium); }
+  .dnb-autocomplete--medium.dnb-autocomplete--icon-position-right .dnb-drawer-list__triangle {
+    margin: 0 calc(var(--autocomplete-padding-horizontal) - 0.25rem); }
+  .dnb-autocomplete--large {
+    line-height: var(--autocomplete-height--large); }
+  .dnb-autocomplete--large.dnb-autocomplete--icon-position-right .dnb-drawer-list__triangle {
+    margin: 0 calc(var(--autocomplete-padding-horizontal) - 0.5rem); }
+  .dnb-autocomplete--large.dnb-autocomplete--icon-position-left .dnb-drawer-list__triangle {
+    margin: 0 calc(var(--autocomplete-padding-horizontal) + 0.25rem); }
+  .dnb-autocomplete__icon {
+    display: inline-flex;
+    justify-content: center;
+    pointer-events: none; }
+  .dnb-autocomplete__input {
+    display: inline-flex;
+    align-items: center;
+    outline: none;
+    margin-right: 0.5rem; }
+  .dnb-autocomplete__shell, .dnb-autocomplete__input {
+    border-radius: var(--autocomplete-height); }
+  .dnb-autocomplete__text {
+    order: 1;
+    position: relative;
+    z-index: 4;
+    width: 100%;
+    height: inherit;
+    line-height: inherit;
+    padding: 0 var(--autocomplete-text-padding) 0 0;
+    overflow: hidden;
+    color: inherit;
+    text-align: left;
+    text-overflow: ellipsis;
+    font-size: var(--font-size-basis); }
+    .dnb-autocomplete__text__inner {
+      display: inline-block;
+      width: 100%;
+      height: inherit;
+      padding: 0;
+      overflow: hidden;
+      white-space: nowrap;
+      color: inherit;
+      text-decoration: none;
+      text-overflow: inherit;
+      text-align: inherit; }
+  .dnb-autocomplete__outside-value {
+    display: block;
+    padding: 0.5rem 0 1rem var(--autocomplete-padding-horizontal); }
+  .dnb-autocomplete > .dnb-form-label {
+    margin-right: 1rem;
+    line-height: var(--line-height-basis); }
+  label + .dnb-autocomplete[class*='__form-status'] {
+    vertical-align: top; }
+    label + .dnb-autocomplete[class*='__form-status'] .dnb-autocomplete__shell {
+      top: -0.375rem; }
+  .dnb-autocomplete__inner > .dnb-form-status {
+    order: 2;
+    margin-top: 0.5rem; }
+  .dnb-autocomplete--vertical {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; }
+  .dnb-autocomplete[class*='__status'] {
+    align-items: flex-start; }
+    .dnb-autocomplete[class*='__status'] > .dnb-form-label {
+      margin-top: 0.25rem; }
+  @media (max-width: 40em) {
+    .dnb-responsive-component .dnb-autocomplete {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      margin-bottom: 0.5rem; }
+      .dnb-responsive-component .dnb-autocomplete > .dnb-form-label {
+        margin-bottom: 0.5rem; }
+      .dnb-responsive-component .dnb-autocomplete__helper {
+        display: none; } }
+  @media screen and (-ms-high-contrast: none) {
+    .dnb-autocomplete {
+      flex: none;
+      vertical-align: baseline; }
+      .dnb-autocomplete__shell {
+        top: 0; }
+      .dnb-autocomplete__options {
+        display: block; } }
+"
+`;

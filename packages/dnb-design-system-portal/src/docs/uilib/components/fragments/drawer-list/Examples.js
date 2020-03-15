@@ -84,7 +84,7 @@ render(<DrawerListWithState />)
 <DrawerList
   opened="true"
   prevent_close
-  icon_position="left"
+  triangle_position="left"
   data={data}
   value={3}
   on_change={({ data: selectedDataItem }) => {

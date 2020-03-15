@@ -10,6 +10,7 @@
  */
 
 // import all the aviable components
+import Autocomplete from './autocomplete/Autocomplete'
 import Button from './button/Button'
 import Checkbox from './checkbox/Checkbox'
 import DatePicker from './date-picker/DatePicker'
@@ -29,6 +30,7 @@ import Logo from './logo/Logo'
 import Modal from './modal/Modal'
 import Notification from './notification/Notification'
 import Number from './number/Number'
+import Pagination from './pagination/Pagination'
 import ProgressIndicator from './progress-indicator/ProgressIndicator'
 import Radio from './radio/Radio'
 import Section from './section/Section'
@@ -42,6 +44,7 @@ import ToggleButton from './toggle-button/ToggleButton'
 
 // define / export all the aviable components
 export {
+  Autocomplete,
   Button,
   Checkbox,
   DatePicker,
@@ -61,6 +64,7 @@ export {
   Modal,
   Notification,
   Number,
+  Pagination,
   ProgressIndicator,
   Radio,
   Section,

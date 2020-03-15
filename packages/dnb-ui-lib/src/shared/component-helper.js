@@ -313,7 +313,7 @@ export const processChildren = props => {
 }
 
 // extends given objects recursively and removes entries with null values
-// makes sure that we by defualt return a totally new object every time
+// makes sure that we by default return a totally new object every time
 export const extend = (...objects) => {
   let first = {}
   const keepRef = objects[0]
@@ -372,7 +372,7 @@ export const extendPropsWithContext = (
       if (
         // check if a prop of the same name exists
         typeof props[key] !== 'undefined' &&
-        // and if it was NOT defined as a component prop, because its still the same as the defualts
+        // and if it was NOT defined as a component prop, because its still the same as the defaults
         props[key] === defaults[key]
       ) {
         // then we use the context value
@@ -453,6 +453,7 @@ export const dispatchCustomElementEvent = (
   // call Syntetic React event camelCase naming events
   eventName = toPascalCase(eventName)
   if (typeof props[eventName] === 'function') {
+    // TODO: we may use [eventObject.event, eventObject] in future
     ret = props[eventName].apply(src, [eventObject])
   }
 
@@ -665,7 +666,7 @@ export const slugify = s =>
 // NB: in future we can use String.matchAll() instead
 export const matchAll = (string, regex) => {
   if (typeof string.matchAll === 'function') {
-    return string.matchAll(regex)
+    return Array.from(string.matchAll(regex))
   }
   const matches = []
   let match

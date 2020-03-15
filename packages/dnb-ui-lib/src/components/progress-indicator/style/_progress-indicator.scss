@@ -12,6 +12,32 @@
 
 .dnb-progress-indicator {
   position: relative;
+  display: inline-flex;
+
+  &--vertical {
+    flex-direction: column;
+    align-items: center;
+  }
+  &--horizontal {
+    justify-content: center;
+  }
+
+  // circular variant
+  &__label {
+    display: inline-flex;
+    .dnb-p {
+      align-self: center;
+    }
+  }
+  @at-root .dnb-spacing & .dnb-p {
+    margin: 0;
+  }
+  &--horizontal &__label {
+    margin: 0 1rem;
+  }
+  &--vertical &__label {
+    margin-top: 0.5rem;
+  }
 
   // circular variant
   &__circular {
