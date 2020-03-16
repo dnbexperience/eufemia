@@ -467,37 +467,30 @@ exports[`Button scss have to match default theme snapshot 1`] = `
       .dnb-button--tertiary.dnb-button--has-icon.dnb-button--icon-position-right.dnb-button--icon-size-medium .dnb-button__text {
         padding-right: 0;
         margin-right: 2rem; }
-    .dnb-button--tertiary.dnb-button--has-icon:not(.dnb-button--has-text):focus::before {
+    .dnb-button--tertiary.dnb-button--has-icon:not(.dnb-button--has-text).dnb-button--has-icon .dnb-button__text {
+      padding: 0;
+      margin: 0; }
+    .dnb-button--tertiary.dnb-button--has-icon:not(.dnb-button--has-text):focus[disabled],
+    html:not([data-is-touch]) .dnb-button--tertiary.dnb-button--has-icon:not(.dnb-button--has-text):focus[disabled] {
+      cursor: not-allowed; }
+    .dnb-button--tertiary.dnb-button--has-icon:not(.dnb-button--has-text):focus:not([disabled])::before,
+    html:not([data-is-touch]) .dnb-button--tertiary.dnb-button--has-icon:not(.dnb-button--has-text):focus:not([disabled])::before {
       left: 0;
       right: 0; }
+    html:not([data-is-touch]) .dnb-button--tertiary.dnb-button--has-icon:not(.dnb-button--has-text):hover[disabled] {
+      cursor: not-allowed; }
+    html:not([data-is-touch]) .dnb-button--tertiary.dnb-button--has-icon:not(.dnb-button--has-text):hover:not([disabled]) {
+      box-shadow: 0 0 0 0.0625rem var(--color-sea-green-alt);
+      /* IE11 fix */
+      border-color: transparent; }
     .dnb-button--tertiary.dnb-button--has-icon:not(.dnb-button--has-text):active[disabled],
     html:not([data-is-touch]) .dnb-button--tertiary.dnb-button--has-icon:not(.dnb-button--has-text):active[disabled] {
       cursor: not-allowed; }
-    .dnb-button--tertiary.dnb-button--has-icon:not(.dnb-button--has-text):active:not([disabled])::before,
-    html:not([data-is-touch]) .dnb-button--tertiary.dnb-button--has-icon:not(.dnb-button--has-text):active:not([disabled])::before {
-      left: 0;
-      right: 0; }
-    html:not([data-is-touch]) .dnb-button--tertiary.dnb-button--has-icon:not(.dnb-button--has-text):not(:active):not(:focus):hover[disabled] {
-      cursor: not-allowed; }
-    html:not([data-is-touch]) .dnb-button--tertiary.dnb-button--has-icon:not(.dnb-button--has-text):not(:active):not(:focus):hover:not([disabled]) .dnb-button__icon::after {
-      content: '';
-      position: absolute;
-      z-index: 1;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      width: auto;
-      height: 0.095rem;
-      border-radius: calc(0.095rem / 2);
-      color: var(--color-sea-green);
-      background-color: currentColor;
-      left: 0.5rem;
-      right: 0.5rem;
-      bottom: 0.25rem; }
-      @media screen and (-ms-high-contrast: none) {
-        html:not([data-is-touch]) .dnb-button--tertiary.dnb-button--has-icon:not(.dnb-button--has-text):not(:active):not(:focus):hover:not([disabled]) .dnb-button__icon::after {
-          height: 1px;
-          border-radius: 0.5px; } }
+    .dnb-button--tertiary.dnb-button--has-icon:not(.dnb-button--has-text):active:not([disabled]),
+    html:not([data-is-touch]) .dnb-button--tertiary.dnb-button--has-icon:not(.dnb-button--has-text):active:not([disabled]) {
+      box-shadow: 0 0 0 0.0625rem var(--color-sea-green-alt-30);
+      /* IE11 fix */
+      border-color: transparent; }
     .dnb-button--tertiary[disabled] {
       color: var(--color-sea-green-alt-30); }
   .dnb-button--signal {

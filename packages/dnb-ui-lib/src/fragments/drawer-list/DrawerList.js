@@ -563,15 +563,13 @@ DrawerList.Item.defaultProps = {
 }
 
 const ItemContent = ({ children }) => {
-  if (Array.isArray(children.content)) {
-    return children.content.map((item, n) => (
+  if (Array.isArray(children.content || children)) {
+    return (children.content || children).map((item, n) => (
       <span key={n} className="dnb-drawer-list__option__item">
         {children.render ? children.render(item) : item}
       </span>
     ))
-  }
-
-  if (children.content) {
+  } else if (children.content) {
     return children.render
       ? children.render(children.content)
       : children.content

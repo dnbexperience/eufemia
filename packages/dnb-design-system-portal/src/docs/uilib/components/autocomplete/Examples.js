@@ -39,25 +39,55 @@ class Example extends PureComponent {
           `}
         </ComponentBox>
         <ComponentBox
-          title="Update data dynamically"
-          description="**NB:** here we use `label_sr_only` to hide a custom label"
+          title="Update data dynamically during typing"
+          description="**1.** Simualte server delay and **2.** If it gets debounced, we cancel this timeout"
           scope={{ topMovies }}
+          useRender
         >
           {/* @jsx */ `
-<Autocomplete
-  label="Search"
-  label_sr_only="true"
+const onType = ({
+  showIndicator,
+  hideIndicator,
+  updateData,
+  debounce
+}) => {
+  showIndicator()
+  debounce(() => {
+    const timeout = setTimeout(() => {
+      updateData(topMovies)
+      hideIndicator()
+    }, 600)
+
+    return () => clearTimeout(timeout)
+  })
+}
+render(<Autocomplete
+  mode="async"
+  on_type={onType}
+  no_scroll_animation="true"
+/>)
+          `}
+        </ComponentBox>
+        <ComponentBox
+          title="Update data dynamically on first focus"
+          scope={{ topMovies }}
+          useRender
+        >
+          {/* @jsx */ `
+const onFocus = ({ updateData, showIndicator, hideIndicator }) => {
+  showIndicator()
+  setTimeout(() => {
+    updateData(topMovies)
+    hideIndicator()
+  }, 1e3)
+}
+render(<Autocomplete
   on_type={({ value /* updateData, ... */ }) => {
     console.log('on_type', value,)
   }}
-  on_focus={({ updateData, showIndicator }) => {
-    showIndicator()
-    setTimeout(() => {
-      updateData(topMovies)
-    }, 1e3)
-  }}
+  on_focus={onFocus}
   no_scroll_animation="true"
-/>
+/>)
           `}
         </ComponentBox>
         <ComponentBox

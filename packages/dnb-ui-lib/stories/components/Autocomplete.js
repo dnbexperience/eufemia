@@ -38,9 +38,9 @@ const AutocompleteStory = () => {
       </Box>
       <Box>
         <Autocomplete
-          opened
-          prevent_close
-          no_animation
+          // opened
+          // prevent_close
+          // no_animation
           // input_value="foo bar th"
           input_value="bb th x"
           show_drawer_button
@@ -61,16 +61,50 @@ const AutocompleteStory = () => {
       </Box>
       <Box>
         <Autocomplete
+          mode="async" // prevents showing no options message og typing
+          // label="Search"
+          // label_sr_only="true"
+          on_type={({
+            // value,
+            showIndicator,
+            hideIndicator,
+            updateData,
+            debounce
+          }) => {
+            showIndicator()
+            debounce(() => {
+              // 1. simualte server delay
+              const timeout = setTimeout(() => {
+                updateData(topMovies)
+                hideIndicator()
+              }, 600)
+
+              // 2. if it gets debounced, we cancel this timeout
+              return () => clearTimeout(timeout)
+            })
+          }}
+          no_scroll_animation="true"
+        />
+        <Autocomplete
+          mode="async"
           // label="Search"
           // label_sr_only="true"
           on_type={({ value /* updateData, ... */ }) => {
             console.log('on_type', value)
           }}
-          on_focus={({ updateData, showIndicator }) => {
-            showIndicator()
-            setTimeout(() => {
-              updateData(topMovies)
-            }, 1e3)
+          on_focus={({
+            dataList,
+            updateData,
+            showIndicatorItem,
+            setMode
+          }) => {
+            if (!(dataList.length > 0)) {
+              showIndicatorItem()
+              setTimeout(() => {
+                updateData(topMovies)
+                setMode('sync')
+              }, 1e3)
+            }
           }}
           no_scroll_animation="true"
         />

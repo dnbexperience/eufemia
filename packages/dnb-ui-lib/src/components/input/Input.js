@@ -478,7 +478,7 @@ export default class Input extends PureComponent {
           <span className="dnb-input__row">
             <span className="dnb-input__shell" {...shellParams}>
               {icon && (
-                <IconPrimary
+                <InputIcon
                   className="dnb-input__icon"
                   icon={icon}
                   size={iconSize}
@@ -650,3 +650,21 @@ const SubmitButton = React.forwardRef((props, ref) => (
 ))
 
 export { SubmitButton }
+
+// We momorize by type, in case we send in a ProgressIndicator (Autocomplete)
+const InputIcon = React.memo(
+  props => <IconPrimary {...props} />,
+  ({ icon: prev }, { icon: next }) => {
+    if (typeof prev === 'string' && typeof next === 'string') {
+      return false
+    }
+    return typeof prev === typeof next
+  }
+)
+InputIcon.propTypes = {
+  icon: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.node,
+    PropTypes.func
+  ]).isRequired
+}
