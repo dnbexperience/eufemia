@@ -977,7 +977,23 @@ button.dnb-button::-moz-focus-inner {
   --progress-indicator-circular-circle-offset--max: 1; }
 
 .dnb-progress-indicator {
-  position: relative; }
+  position: relative;
+  display: inline-flex; }
+  .dnb-progress-indicator--vertical {
+    flex-direction: column;
+    align-items: center; }
+  .dnb-progress-indicator--horizontal {
+    justify-content: center; }
+  .dnb-progress-indicator__label {
+    display: inline-flex; }
+    .dnb-progress-indicator__label .dnb-p {
+      align-self: center; }
+  .dnb-spacing .dnb-progress-indicator .dnb-p {
+    margin: 0; }
+  .dnb-progress-indicator--horizontal .dnb-progress-indicator__label {
+    margin: 0 1rem; }
+  .dnb-progress-indicator--vertical .dnb-progress-indicator__label {
+    margin-top: 0.5rem; }
   .dnb-progress-indicator__circular {
     position: relative;
     width: 2rem;
