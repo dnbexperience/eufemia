@@ -5,7 +5,7 @@
 
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import { isTrue, registerElement } from '../../shared/component-helper'
+import { isTrue, registerElement } from '../shared/component-helper'
 
 import E from './Element'
 
