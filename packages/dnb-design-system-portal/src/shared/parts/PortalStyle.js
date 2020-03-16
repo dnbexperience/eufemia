@@ -49,9 +49,14 @@ if (typeof window !== 'undefined' && window.IS_TEST) {
 }
 
 export default css`
+  /*
+    Make sure we cut the tab and seciton parts on the left side
+    so it's not visible "over" the sidebar.
+   */
   .dnb-app-content-inner {
     overflow: hidden;
   }
+
   main > .dnb-global-status {
     transform: translateY(-2rem);
   }

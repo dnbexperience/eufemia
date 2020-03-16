@@ -12,7 +12,7 @@
       100vw 0.0625rem 0 0 var(--color-black-80);
   }
 
-  // because "--mint-green-12" is the defualt
+  // because "--mint-green-12" is the default
   // and we dont set a spesific state --> const style = state === 'info' ? null : 'fire-red'
   &--info#{&}.dnb-section--mint-green-12::after {
     color: var(--color-sea-green);

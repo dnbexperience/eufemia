@@ -39,7 +39,10 @@ const renderProps = {
 
 const propTypes = {
   type: PropTypes.string,
-  size: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  size: PropTypes.oneOfType([
+    PropTypes.oneOf(['default', 'small', 'medium', 'large']),
+    PropTypes.number
+  ]),
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   id: PropTypes.string,
   label: PropTypes.oneOfType([
@@ -54,9 +57,9 @@ const propTypes = {
     PropTypes.func,
     PropTypes.node
   ]),
-  input_state: PropTypes.string,
   status_state: PropTypes.string,
   status_animation: PropTypes.string,
+  input_state: PropTypes.string,
   global_status_id: PropTypes.string,
   autocomplete: PropTypes.oneOf(['on', 'off']),
   submit_button_title: PropTypes.string,
@@ -98,6 +101,7 @@ const propTypes = {
     PropTypes.node,
     PropTypes.func
   ]),
+  submit_button_status: PropTypes.string,
 
   // React props
   className: PropTypes.string,
@@ -128,9 +132,9 @@ const defaultProps = {
   label_direction: null,
   label_sr_only: null,
   status: null,
-  input_state: null,
   status_state: 'error',
   status_animation: null,
+  input_state: null,
   global_status_id: null,
   autocomplete: 'off',
   placeholder: null,
@@ -154,6 +158,7 @@ const defaultProps = {
   submit_button_title: null,
   submit_button_variant: 'secondary',
   submit_button_icon: 'search',
+  submit_button_status: null,
 
   // React props
   className: null,
@@ -311,6 +316,7 @@ export default class Input extends PureComponent {
       submit_button_title,
       submit_button_variant,
       submit_button_icon,
+      submit_button_status,
       submit_element,
       autocomplete,
       readOnly,
@@ -341,7 +347,8 @@ export default class Input extends PureComponent {
 
     const id = this._id
     const showStatus = status && status !== 'error'
-    const hasSubmitButton = submit_element || type === 'search'
+    const hasSubmitButton =
+      submit_element || (submit_element !== false && type === 'search')
     const hasValue = Input.hasValue(value)
 
     const iconSize =
@@ -471,7 +478,7 @@ export default class Input extends PureComponent {
           <span className="dnb-input__row">
             <span className="dnb-input__shell" {...shellParams}>
               {icon && (
-                <IconPrimary
+                <InputIcon
                   className="dnb-input__icon"
                   icon={icon}
                   size={iconSize}
@@ -505,6 +512,7 @@ export default class Input extends PureComponent {
                     {...attributes}
                     value={inputParams.value}
                     icon={submit_button_icon}
+                    status={submit_button_status}
                     icon_size={
                       size === 'medium' || size === 'large'
                         ? 'medium'
@@ -642,3 +650,21 @@ const SubmitButton = React.forwardRef((props, ref) => (
 ))
 
 export { SubmitButton }
+
+// We momorize by type, in case we send in a ProgressIndicator (Autocomplete)
+const InputIcon = React.memo(
+  props => <IconPrimary {...props} />,
+  ({ icon: prev }, { icon: next }) => {
+    if (typeof prev === 'string' && typeof next === 'string') {
+      return false
+    }
+    return typeof prev === typeof next
+  }
+)
+InputIcon.propTypes = {
+  icon: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.node,
+    PropTypes.func
+  ]).isRequired
+}

@@ -114,7 +114,14 @@ export default [
           icon="chevron_right"
           icon_size="medium"
           disabled
-        />{' '}
+        />
+        <span className="dnb-p">text</span>
+      </Box>
+      <Box>
+        <span className="dnb-p">text</span>
+        <Button variant="tertiary" icon="calendar" />
+        <Button variant="tertiary" icon="calendar" size="large" />
+        <Button icon="calendar" size="large" />
         <span className="dnb-p">text</span>
       </Box>
     </Wrapper>

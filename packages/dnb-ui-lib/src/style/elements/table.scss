@@ -250,6 +250,35 @@
     margin-top: 0.5rem;
     caption-side: bottom;
   }
+
+  tr.sticky {
+    top: 0;
+  }
+  tr.sticky th {
+    position: sticky;
+    top: inherit;
+
+    &::after {
+      content: '';
+      position: absolute;
+      opacity: 0;
+      left: -2px;
+      right: -2px;
+      bottom: 0;
+      height: 6px;
+      box-shadow: 0 3px 3px -2px rgba(0, 0, 0, 0.5);
+
+      // old shadow
+      // @mixin bottomDropShadow() {
+      //   box-shadow: 0 6px 6px -6px rgba(0, 0, 0, 0.16);
+      // }
+
+      transition: opacity 300ms ease-out;
+    }
+  }
+  tr.sticky.show-shadow th::after {
+    opacity: 1;
+  }
 }
 
 @mixin resetTableSpacing() {

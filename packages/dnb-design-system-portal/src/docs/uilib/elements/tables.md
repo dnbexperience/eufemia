@@ -14,9 +14,7 @@ You may consider using `table-layout: fixed;`.
 
 Check out a [working example on CodeSandbox](https://codesandbox.io/embed/eufemia-react-table-x4cwc), using `react-table`.
 
-### Styled Demo
-
-<ComponentBox reactLive hideCode data-dnb-test="table-default">
+<ComponentBox reactLive hideCode title="Default Table style" data-dnb-test="table-default">
 {`
 <table className="dnb-table">
   <caption>A Table Caption</caption>
@@ -26,10 +24,6 @@ Check out a [working example on CodeSandbox](https://codesandbox.io/embed/eufemi
         Header
       </th>
       <th scope="col" className="dnb-table--sortable dnb-table--reversed">
-        {/* <a href="#sort">
-          Sortable
-          <IconPrimary icon="arrow-down" />
-        </a> */}
         <Button
           variant="tertiary"
           icon="arrow-down"
@@ -38,10 +32,6 @@ Check out a [working example on CodeSandbox](https://codesandbox.io/embed/eufemi
         />
       </th>
       <th scope="col" className="dnb-table--sortable dnb-table--active">
-        {/* <a href="#sort">
-          Active
-          <IconPrimary icon="arrow-down" />
-        </a> */}
         <Button
           variant="tertiary"
           icon="arrow-down"
@@ -51,12 +41,6 @@ Check out a [working example on CodeSandbox](https://codesandbox.io/embed/eufemi
       </th>
     </tr>
   </thead>
-  {/* <tfoot>
-    <tr>
-      <td colSpan="3">Footer</td>
-      <td>Sum</td>
-    </tr>
-  </tfoot> */}
   <tbody>
     <tr>
       <td>
@@ -88,9 +72,75 @@ Check out a [working example on CodeSandbox](https://codesandbox.io/embed/eufemi
 `}
 </ComponentBox>
 
+<ComponentBox reactLive hideCode title="Table with sticky header" data-dnb-test="table-sticky">
+{`
+<Table sticky="true" sticky_offset="4rem">
+  <caption className="dnb-sr-only">A Table Caption</caption>
+  <thead>
+    <tr>
+      <th scope="col" colSpan="2" className="dnb-table--no-wrap">
+        Header
+      </th>
+      <th scope="col" className="dnb-table--sortable dnb-table--reversed">
+        <Button
+          variant="tertiary"
+          icon="arrow-down"
+          text="Sortable"
+          title="Sort table row"
+        />
+      </th>
+      <th scope="col" className="dnb-table--sortable dnb-table--active">
+        <Button
+          variant="tertiary"
+          icon="arrow-down"
+          text="Active"
+          title="Sort table row"
+        />
+      </th>
+    </tr>
+  </thead>
+  <tfoot>
+    <tr>
+      <td colSpan="3">Footer</td>
+      <td>Sum</td>
+    </tr>
+  </tfoot>
+  <tbody>
+    <tr>
+      <td>
+        <p className="dnb-p">
+          Column 1 <b>width p</b>
+        </p>
+      </td>
+      <td>
+        <code className="dnb-code">Column 2 with code</code>
+      </td>
+      <td>
+        <span>Column 3 with span</span>
+      </td>
+      <td>Column 4</td>
+    </tr>
+    <tr>
+      <td colSpan="2">Column witch spans over two columns</td>
+      <td>Column 3</td>
+      <td>Column 4</td>
+    </tr>
+    <tr>
+      <td>Column 1</td>
+      <td>Column 2</td>
+      <td>Column 3</td>
+      <td>Column 4</td>
+    </tr>
+  </tbody>
+</Table>
+`}
+</ComponentBox>
+
 ### Classes
 
-There are a couple helper classes to style tables:
+**NB:** Tables get their default table style by only having correct markup and the **`.dnb-table`** class assigned.
+
+To enhance or manipulate the the table style, you can make use of a couple helper classes:
 
 - `.dnb-table__th` Table Header
 - `.dnb-table__td` Table Data
@@ -101,7 +151,6 @@ There are a couple helper classes to style tables:
 - `.dnb-table--active` Use this on a `th`
 - `.dnb-table--sortable` Use this on a `th`
 - `.dnb-table--reversed` Use this on a `th`
--
 
 <!-- - `.dnb-table--tabular` Use this on the `table` root -->
 

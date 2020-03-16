@@ -47,6 +47,12 @@ export default {
     Dropdown: {
       title: 'Option Menu'
     },
+    Autocomplete: {
+      title: 'Type and select',
+      submit_button_title: 'Show options',
+      no_options: 'No option',
+      indicator_label: 'Getting data ...'
+    },
     Modal: {
       close_title: 'Close',
       more_info: 'More information'
