@@ -32,6 +32,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
   label_direction="horizontal"
   label_sr_only="label_sr_only"
   max_height={1}
+  mode="sync"
   no_animation={true}
   no_options="no_options"
   no_scroll_animation="no_scroll_animation"
@@ -89,6 +90,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
     label_direction="horizontal"
     label_sr_only="label_sr_only"
     max_height={1}
+    mode="sync"
     no_animation={true}
     no_options="no_options"
     no_scroll_animation="no_scroll_animation"
@@ -148,6 +150,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
       label_direction="horizontal"
       label_sr_only="label_sr_only"
       max_height={1}
+      mode="sync"
       no_animation={true}
       no_options="no_options"
       no_scroll_animation="no_scroll_animation"
@@ -348,6 +351,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                 label={null}
                 label_direction={null}
                 label_sr_only={null}
+                mode="sync"
                 onMouseDown={[Function]}
                 on_blur={[Function]}
                 on_change={[Function]}
@@ -410,20 +414,27 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                         data-has-content="true"
                         data-input-state="disabled"
                       >
-                        <IconPrimary
-                          alt={null}
+                        <Component
                           aria-hidden={true}
-                          attributes={null}
-                          border={null}
                           className="dnb-input__icon"
-                          color={null}
-                          height={null}
                           icon="input_icon"
-                          modifier={null}
                           size="icon_size"
-                          title={null}
-                          width={null}
-                        />
+                        >
+                          <IconPrimary
+                            alt={null}
+                            aria-hidden={true}
+                            attributes={null}
+                            border={null}
+                            className="dnb-input__icon"
+                            color={null}
+                            height={null}
+                            icon="input_icon"
+                            modifier={null}
+                            size="icon_size"
+                            title={null}
+                            width={null}
+                          />
+                        </Component>
                         <input
                           aria-describedby="autocomplete-id-status autocomplete-id-suffix"
                           aria-expanded={true}
@@ -433,6 +444,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                           className="dnb-input__input"
                           disabled={false}
                           id="autocomplete-id"
+                          mode="sync"
                           name="autocomplete-id"
                           onBlur={[Function]}
                           onChange={[Function]}
@@ -877,6 +889,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                 label_direction="horizontal"
                 label_sr_only="label_sr_only"
                 max_height={1}
+                mode="sync"
                 no_animation={true}
                 no_options="no_options"
                 no_scroll_animation="no_scroll_animation"
@@ -2241,6 +2254,8 @@ legend.dnb-form-label {
     align-items: center;
     outline: none;
     margin-right: 0.5rem; }
+  .dnb-autocomplete--show-indicator .dnb-autocomplete__input .dnb-input__icon {
+    color: transparent; }
   .dnb-autocomplete__shell, .dnb-autocomplete__input {
     border-radius: var(--autocomplete-height); }
   .dnb-autocomplete__text {

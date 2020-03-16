@@ -23,6 +23,7 @@ const snapshotProps = {
     optional: true
   }),
   id: 'autocomplete-id',
+  mode: 'sync',
   label: 'Autocomplete Label:',
   status: 'status',
   status_state: 'error',
@@ -41,6 +42,7 @@ const snapshotProps = {
 // use no_animation so we don't need to wait
 const props = {
   id: 'autocomplete-id',
+  mode: 'sync',
   value: 1,
   show_drawer_button: true,
   no_animation: true

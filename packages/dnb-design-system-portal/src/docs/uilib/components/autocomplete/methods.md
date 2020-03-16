@@ -4,12 +4,17 @@ You can manipulate the used data dynamically, either by changing the `data` prop
 
 **Methods**
 
-- `updateData` replace all data entries
-- `emptyData` remove all data entries
-- `showIndicator` shows a progress indicator
-- `showNoOptions` shows the no entries found status
-- `setVisible` shows the [DrawerList](/uilib/components/fragments/drawer-list)
-- `setHidden` hides the [DrawerList](/uilib/components/fragments/drawer-list)
+- `updateData` replace all data entries.
+- `emptyData` remove all data entries.
+- `showIndicator` shows a progress indicator instead of the icon (inside the input).
+- `hideIndicator` hides the progress indicator inside the input.
+- `showIndicatorItem` shows an item with a [ProgressIndicator](/uilib/components/progress-indicator) status as an data option item.
+- `showNoOptionsItem` shows the "no entries found" status as an data option item.
+- `setVisible` shows the [DrawerList](/uilib/components/fragments/drawer-list).
+- `setHidden` hides the [DrawerList](/uilib/components/fragments/drawer-list).
+- `showAllItems` shows all [DrawerList](/uilib/components/fragments/drawer-list) items.
+- `setMode` switch the mode during runtime.
+- `debounce` a classical debounce method
 
 **Properties**
 
