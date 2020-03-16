@@ -30,6 +30,7 @@ import Logo from './components/logo/Logo'
 import Modal from './components/modal/Modal'
 import Notification from './components/notification/Notification'
 import Number from './components/number/Number'
+import Pagination from './components/pagination/Pagination'
 import ProgressIndicator from './components/progress-indicator/ProgressIndicator'
 import Radio from './components/radio/Radio'
 import Section from './components/section/Section'
@@ -83,6 +84,7 @@ export {
   Modal,
   Notification,
   Number,
+  Pagination,
   ProgressIndicator,
   Radio,
   Section,

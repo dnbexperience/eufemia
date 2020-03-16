@@ -1,0 +1,130 @@
+/*
+ * Pagination component
+ *
+ */
+
+.dnb-pagination {
+  display: flex;
+  flex-direction: column;
+
+  &__bar,
+  &__loadbar,
+  &__bar__inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  // used by the infinity scroller
+  &__marker {
+    pointer-events: none;
+    position: relative; // because of the marker
+
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+
+    opacity: 0;
+
+    &__inner {
+      // &:not(td) {
+      //   position: absolute;
+      //   top: 0;
+      //   bottom: 0;
+      //   margin: auto 0;
+      // }
+
+      // this does not work either, because our hight is so low
+      // transform: translateY(-200%);
+      // margin-top: -50%;
+
+      padding: 0 !important; // because if it is used in table
+
+      width: 0;
+      height: 0;
+    }
+  }
+
+  &__loadbar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  &__indicator {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    &__inner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+
+  &--left &__bar {
+    justify-content: flex-start;
+  }
+  &--center &__bar {
+    justify-content: center;
+    @media (max-width: 40em) {
+      justify-content: flex-start;
+    }
+  }
+  &--right &__bar {
+    justify-content: flex-end;
+  }
+
+  &__dots {
+    display: flex;
+    align-self: flex-end;
+    align-items: center;
+    flex-wrap: nowrap;
+    height: 1rem;
+
+    & > div {
+      height: 0.2rem;
+      width: 0.2rem;
+
+      margin: 0 0.1rem;
+
+      border-radius: 0.1rem;
+    }
+  }
+
+  @at-root .dnb-core-style &__button,
+    &__button,
+    &__dots {
+    margin-right: 0.5rem;
+    margin-top: 0.5rem; // because of wrapping
+    margin-bottom: 0.5rem; // because of wrapping
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+  &__button:first-child,
+  &__bar__inner {
+    margin-right: 1rem;
+  }
+  &__bar__inner &__button {
+    margin-right: 0.5rem;
+  }
+
+  @media (max-width: 40em) {
+    &__bar__inner &__button:not([aria-current]):nth-of-type(2),
+    &__bar__inner &__button:not([aria-current]):nth-last-of-type(2) {
+      width: 0;
+      overflow: hidden;
+      margin: 0;
+      padding: 0;
+    }
+  }
+  @media (max-width: 30em) {
+    &__dots {
+      width: 0;
+      margin: 0;
+    }
+  }
+}
