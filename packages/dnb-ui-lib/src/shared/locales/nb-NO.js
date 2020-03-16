@@ -41,8 +41,17 @@ export default {
         alt: 'Mann leter etter spor'
       }
     },
+    ProgressIndicator: {
+      indicator_label: 'Vennligst vent ...'
+    },
     Dropdown: {
       title: 'Valgmeny'
+    },
+    Autocomplete: {
+      title: 'Skriv og velg',
+      submit_button_title: 'Vis alternativer',
+      no_options: 'Ingen alternativer',
+      indicator_label: 'Henter data ...'
     },
     Modal: {
       close_title: 'Lukk',

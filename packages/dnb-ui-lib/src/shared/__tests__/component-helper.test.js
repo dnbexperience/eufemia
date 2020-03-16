@@ -231,7 +231,7 @@ describe('"extendPropsWithContext" should', () => {
     expect(
       extendPropsWithContext(
         { key: { x: 'y' }, foo: null }, // given props
-        { key: { x: 'y' }, foo: null }, // defualt props
+        { key: { x: 'y' }, foo: null }, // default props
         { key: 'I cant replace You', foo: 'bar' }
       )
     ).toMatchObject({

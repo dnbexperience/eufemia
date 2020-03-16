@@ -63,8 +63,11 @@ class Layout extends PureComponent {
           <Wrapper className="content-wrapper">
             {!fs && <Sidebar location={location} showAll={false} />}
 
-            <Content fullscreen={fullscreen}>
-              <ContentInner className="dnb-app-content-inner">
+            <Content
+              fullscreen={fullscreen}
+              className="dnb-app-content-inner"
+            >
+              <ContentInner>
                 <GlobalStatus id="main-status" />
                 <div className="dev-grid">{children}</div>
               </ContentInner>
@@ -121,7 +124,6 @@ const ContentWrapper = styled.div`
   z-index: 2; /* heigher than styled.aside */
 
   width: 100%;
-  overflow: visible;
 
   margin-left: 30vw; /* fallback */
   margin-left: var(--aside-width);

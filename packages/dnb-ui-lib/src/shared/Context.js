@@ -24,7 +24,7 @@ export const defaultContext = (props = {}) => {
   }
 }
 
-// If no provider is given, we use the defualt context from here
+// If no provider is given, we use the default context from here
 const Context = createContext(defaultContext())
 
 export default Context

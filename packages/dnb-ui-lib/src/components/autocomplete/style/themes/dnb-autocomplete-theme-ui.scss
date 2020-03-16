@@ -1,0 +1,41 @@
+/*
+* Autocomplete theme
+*
+*/
+
+@import '../../../../style/themes/imports.scss';
+
+@import '../../../../fragments/drawer-list/style/themes/dnb-drawer-list-theme-ui.scss';
+
+:root {
+  --autocomplete-text-color: var(--color-emerald-green);
+  --autocomplete-border-color--selected: var(--color-emerald-green);
+}
+
+.dnb-autocomplete {
+  color: var(--autocomplete-text-color);
+
+  // input
+  &__input.dnb-input {
+    color: var(--autocomplete-text-color);
+    // :hover {
+    //   color: var(--autocomplete-text-color);
+    // }
+  }
+  &--opened &__input.dnb-input .dnb-input__shell {
+    box-shadow: none;
+  }
+  &--opened .dnb-input__submit-button__button {
+    @include fakeBorder(
+      var(--autocomplete-border-color--selected),
+      0.125rem,
+      // could be 0.0625rem,
+      null,
+      true
+    );
+  }
+
+  .dnb-drawer-list__option__item--highlight {
+    font-weight: var(--font-weight-bold);
+  }
+}
