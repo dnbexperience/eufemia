@@ -49,9 +49,6 @@ if (typeof window !== 'undefined' && window.IS_TEST) {
 }
 
 export default css`
-  .dnb-app-content-inner {
-    overflow: hidden;
-  }
   main > .dnb-global-status {
     transform: translateY(-2rem);
   }
