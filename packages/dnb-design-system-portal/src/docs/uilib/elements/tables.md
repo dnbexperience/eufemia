@@ -3,6 +3,9 @@ title: 'Tables'
 ---
 
 import ComponentBox from 'Tags/ComponentBox'
+import { css, Global } from '@emotion/core'
+
+<Global styles={css`body{ .dnb-app-content-inner { overflow: visible; } }`} />}
 
 ## Tables
 
@@ -14,7 +17,9 @@ You may consider using `table-layout: fixed;`.
 
 Check out a [working example on CodeSandbox](https://codesandbox.io/embed/eufemia-react-table-x4cwc), using `react-table`.
 
-<ComponentBox reactLive hideCode title="Default Table style" data-dnb-test="table-default">
+### Default Table style
+
+<ComponentBox reactLive hideCode data-dnb-test="table-default">
 {`
 <table className="dnb-table">
   <caption>A Table Caption</caption>
@@ -72,8 +77,16 @@ Check out a [working example on CodeSandbox](https://codesandbox.io/embed/eufemi
 `}
 </ComponentBox>
 
-<ComponentBox reactLive hideCode title="Table with sticky header" data-dnb-test="table-sticky">
+### Table with sticky header
+
+**NB:** Keep in mind, you have to avoid using `overflow: hidden;` on any child elements to get `position: sticky;` to work. This is a know issue happening on every modern browser. There are various tricks, including [this deallocation / sync solution](https://uxdesign.cc/position-stuck-96c9f55d9526).
+
+<ComponentBox
+  reactLive
+  hideCode
+ data-dnb-test="table-sticky">
 {`
+
 <Table sticky="true" sticky_offset="4rem">
   <caption className="dnb-sr-only">A Table Caption</caption>
   <thead>
@@ -106,6 +119,7 @@ Check out a [working example on CodeSandbox](https://codesandbox.io/embed/eufemi
     </tr>
   </tfoot>
   <tbody>
+    <Table.StickyHelper />
     <tr>
       <td>
         <p className="dnb-p">

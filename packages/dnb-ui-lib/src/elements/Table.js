@@ -33,6 +33,14 @@ const defaultProps = {
   ...renderProps
 }
 
+export const StickyHelper = () => {
+  return (
+    <tr className="dnb-table__sticky-helper">
+      <td />
+    </tr>
+  )
+}
+
 export default class Table extends PureComponent {
   static tagName = 'dnb-table'
   static propTypes = propTypes
@@ -51,20 +59,27 @@ export default class Table extends PureComponent {
 
   componentDidMount() {
     if (isTrue(this.props.sticky)) {
-      this.enableStickyHeader()
+      this.init()
+    }
+  }
 
-      if (this.intersectionObserver && this._ref.current) {
-        try {
-          const tableElem = this._ref.current
-          const trElem = tableElem.querySelector(
-            'thead > tr:first-of-type'
-          )
-          trElem.classList.add('sticky')
-          const tdElem = this.getTdElement(tableElem)
-          this.intersectionObserver.observe(tdElem)
-        } catch (e) {
-          this.stickyWarning(e)
+  init = () => {
+    this.enableStickyHeader()
+
+    if (this.intersectionObserver && this._ref.current) {
+      try {
+        const tableElem = this._ref.current
+        const trElem = tableElem.querySelector('thead > tr:first-of-type')
+        trElem.classList.add('sticky')
+        const tdElem =
+          tableElem.querySelector(
+            'tbody > tr.dnb-table__sticky-helper > td:first-of-type'
+          ) || this.getTdElement(tableElem)
+        if (tdElem) {
+          this.intersectionObserver?.observe(tdElem)
         }
+      } catch (e) {
+        this.stickyWarning(e)
       }
     }
   }
@@ -75,7 +90,7 @@ export default class Table extends PureComponent {
 
   getTdElement(e) {
     return e.querySelector(
-      'tbody > tr:first-of-type > td:first-of-type, tbody > .dnb-table__tr:first-of-type > .dnb-table__td:first-of-type'
+      'tbody > tr:not(.dnb-table__sticky-helper):first-of-type > td:first-of-type, tbody > .dnb-table__tr:first-of-type > .dnb-table__td:first-of-type'
     )
   }
   getThElement(e) {
@@ -85,61 +100,69 @@ export default class Table extends PureComponent {
   }
 
   enableStickyHeader() {
-    if (typeof IntersectionObserver !== 'undefined' && this._ref.current) {
-      const tableElem = this._ref.current
-      const trElem = tableElem.querySelector(
-        'thead > tr:first-of-type, thead > .dnb-table__tr:first-of-type'
+    if (
+      !(
+        typeof window !== 'undefined' &&
+        typeof IntersectionObserver !== 'undefined' &&
+        this._ref.current
       )
-
-      const thElem = this.getThElement(tableElem)
-      const tdElem = this.getTdElement(tableElem)
-      let thHeight = 80
-      let tdHeight = 64
-      let offsetTop = 0
-
-      try {
-        offsetTop = parseFloat(this.props.sticky_offset) || offsetTop
-
-        if (offsetTop > 0) {
-          if (
-            typeof this.props.sticky_offset === 'string' &&
-            String(this.props.sticky_offset).includes('em')
-          ) {
-            offsetTop = offsetTop * 16
-          }
-          trElem.style.top = this.props.sticky_offset //use it as a string here
-        }
-
-        thHeight =
-          parseFloat(window.getComputedStyle(thElem).height) || thHeight
-        tdHeight =
-          parseFloat(window.getComputedStyle(tdElem).height) || tdHeight
-      } catch (e) {
-        this.stickyWarning(e)
-      }
-      const marginTop = thHeight + tdHeight + offsetTop
-
-      this.intersectionObserver = new IntersectionObserver(
-        entries => {
-          const [entry] = entries
-          try {
-            // console.log('entry.isIntersecting', entry.isIntersecting, trElem)
-            if (entry.isIntersecting) {
-              trElem.classList.remove('show-shadow')
-            } else {
-              trElem.classList.add('show-shadow')
-            }
-          } catch (e) {
-            this.stickyWarning(e)
-          }
-        },
-        {
-          rootMargin: `-${marginTop}px 0px 0px 0px`
-        }
-      )
-    } else {
-      this.stickyWarning()
+    ) {
+      return // stop here
     }
+
+    const tableElem = this._ref.current
+    const trElem = tableElem.querySelector(
+      'thead > tr:first-of-type, thead > .dnb-table__tr:first-of-type'
+    )
+
+    const thElem = this.getThElement(tableElem)
+    const tdElem = this.getTdElement(tableElem)
+    let thHeight = 80
+    let tdHeight = 64
+    let offsetTop = 0
+
+    try {
+      offsetTop = parseFloat(this.props.sticky_offset) || offsetTop
+
+      if (offsetTop > 0) {
+        if (
+          typeof this.props.sticky_offset === 'string' &&
+          String(this.props.sticky_offset).includes('em')
+        ) {
+          offsetTop = offsetTop * 16
+        }
+        trElem.style.top = this.props.sticky_offset //use it as a string here
+      }
+
+      thHeight =
+        (thElem && parseFloat(window.getComputedStyle(thElem).height)) ||
+        thHeight
+      tdHeight =
+        (tdElem && parseFloat(window.getComputedStyle(tdElem).height)) ||
+        tdHeight
+    } catch (e) {
+      this.stickyWarning(e)
+    }
+    const marginTop = thHeight + tdHeight + offsetTop
+
+    this.intersectionObserver = new IntersectionObserver(
+      entries => {
+        const [entry] = entries
+        try {
+          // console.log('entry.isIntersecting', entry.isIntersecting, trElem)
+          if (entry.isIntersecting) {
+            trElem.classList.remove('show-shadow')
+          } else {
+            trElem.classList.add('show-shadow')
+          }
+        } catch (e) {
+          this.stickyWarning(e)
+        }
+      },
+      {
+        rootMargin: `-${marginTop}px 0px 0px 0px`
+      }
+    )
   }
 
   stickyWarning(e = '') {
@@ -156,3 +179,5 @@ export default class Table extends PureComponent {
     return <E is="table" {...props} ref={this._ref} />
   }
 }
+
+Table.StickyHelper = StickyHelper
