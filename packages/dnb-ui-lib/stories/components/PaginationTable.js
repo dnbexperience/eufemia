@@ -4,6 +4,7 @@
  */
 
 import React from 'react'
+import PropTypes from 'prop-types'
 import styled from '@emotion/styled'
 
 import { Section, Pagination, Button } from '../../src/components'
@@ -23,55 +24,64 @@ for (let i = 1; i <= 300; i++) {
   tableItems.push({ ssn: i, text: String(i), expanded: false })
 }
 
-const InfinityPaginationTable = ({ tableItems, ...props }) => {
-  const [items, updateItems] = React.useState(tableItems)
-
-  const current_page = 3
-  const page_count = 5
+export const InfinityPaginationTable = ({ tableItems, ...props }) => {
+  const current_page = 3 // what we start with
+  const per_page_count = 10 // how many items per page
 
   const [currentPage, setCurrentPage] = React.useState(null)
+  const [cacheHash, forceRerender] = React.useState(null) // eslint-disable-line
 
+  // placeholders
   const setContent = React.useRef(null)
   const resetItems = React.useRef(null)
 
-  const onToggleExpanded = ({ ssn: nr }, current_page) => {
-    const item = items.find(({ ssn }) => ssn === nr)
-    if (item) {
-      updateItems(
-        items.map(cur => {
-          if (cur.ssn === item.ssn) {
-            cur = {
-              ...item,
-              expanded: !item.expanded
-            }
-          }
-          return cur
-        })
-      )
-      setCurrentPage(current_page)
-    }
-  }
+  // our items
+  const updateItems = React.useRef(tableItems)
+  const items = updateItems.current
+  const maxPagesCount = Math.floor(items?.length / per_page_count)
 
   const updateContent = () => {
-    (function(page) {
+    if (setContent.current) {
+      const onToggleExpanded = ({ ssn: _ssn }, current_page) => {
+        const index = updateItems.current.findIndex(
+          ({ ssn }) => ssn === _ssn
+        )
+        if (index > -1) {
+          const item = updateItems.current[index]
+
+          // update only the current item
+          updateItems.current[index] = {
+            ...item,
+            expanded: !item.expanded
+          }
+
+          // make a copy to ensure correct rerender
+          updateItems.current = [...updateItems.current]
+
+          // define what page should update
+          // used to update the page inside the Paginatio Component
+          setCurrentPage(current_page)
+
+          // force rerender of this component
+          forceRerender(Math.random())
+        }
+      }
+
       const content = (
         <InfinityPagination
           items={items}
-          page_count={page_count}
-          current_page={page}
+          per_page_count={per_page_count}
+          current_page={currentPage}
           onToggleExpanded={onToggleExpanded}
         />
       )
 
-      setContent.current && setContent.current(currentPage, content)
-      // setCurrentPage(page)
-      // setTimeout(() => {
-      // }, Math.ceil(Math.random() * 1e3)) // simulate random delay
-    })(currentPage)
+      setContent.current(currentPage, content)
+    }
   }
 
+  // once currentPage get's changed during on_load
   React.useEffect(updateContent, [currentPage, items])
-
   return (
     <>
       <Button
@@ -86,20 +96,19 @@ const InfinityPaginationTable = ({ tableItems, ...props }) => {
         <tbody>
           <Pagination
             mode="infinity"
+            parallel_load_count={2}
             // fallback_element="tr"
-            fallback_element={TableRow}
+            fallback_element={TableRow} // can we a string like 'tr'
             current_page={current_page}
-            page_count={Math.floor(items.length / page_count)}
-            accumulate_count={1}
+            page_count={maxPagesCount}
             {...props}
             on_load={({ page, ...rest }) => {
               setContent.current = rest.setContent
               resetItems.current = rest.resetItems
 
-              console.log('page', page, rest)
-
               // simulate delay
               setTimeout(() => {
+                // once we set current page, we force a rerender, and sync of data
                 setCurrentPage(page)
               }, Math.ceil(Math.random() * 1e3)) // simulate random delay
             }}
@@ -111,19 +120,22 @@ const InfinityPaginationTable = ({ tableItems, ...props }) => {
     </>
   )
 }
+InfinityPaginationTable.propTypes = {
+  tableItems: PropTypes.array.isRequired
+}
 
 const InfinityPagination = ({
   children,
   items,
   current_page,
-  page_count,
+  per_page_count,
   onToggleExpanded,
   ...props
 }) => {
   return items
     .filter((cur, idx) => {
-      const floor = (current_page - 1) * page_count
-      const ceil = floor + page_count
+      const floor = (current_page - 1) * per_page_count
+      const ceil = floor + per_page_count
       return idx >= floor && idx < ceil
     })
     .map(item => {

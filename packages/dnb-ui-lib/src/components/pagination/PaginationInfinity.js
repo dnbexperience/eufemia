@@ -35,15 +35,15 @@ export default class InfinityScroller extends PureComponent {
   }
 
   startup = () => {
-    const { current_page, accumulate_count } = this.context.pagination
+    const { current_page, parallel_load_count } = this.context.pagination
 
     const originalCurrentPage = parseFloat(current_page) || 1
-    const accumulateCount = parseFloat(accumulate_count)
+    const parallelLoadCount = parseFloat(parallel_load_count)
 
-    for (let i = 0; i <= accumulateCount; ++i) {
+    for (let i = 0; i < parallelLoadCount; ++i) {
       this.getNewContent(originalCurrentPage + i, {
         position: 'after',
-        skipObserver: i !== Math.floor(accumulateCount / 2)
+        skipObserver: i + 1 < parallelLoadCount
       })
     }
   }
@@ -87,27 +87,29 @@ export default class InfinityScroller extends PureComponent {
       // our methodes
     } = this.context.pagination
 
-    if (items.length === 0) {
-      setTimeout(this.startup, 1)
-    }
-
     // our props
     const {
       current_page,
       page_count,
-      accumulate_count,
+      parallel_load_count,
       page_element,
       fallback_element,
       marker_element,
       indicator_element
     } = this.context.pagination
 
-    // make sure we handle Table markup correctly
-    const Element = preparePageElement(page_element || Fragment)
-
+    // make some props ready to use
     const originalCurrentPage = parseFloat(current_page)
     const originalPageCount = parseFloat(page_count)
-    const accumulateCount = parseFloat(accumulate_count)
+    const parallelLoadCount = parseFloat(parallel_load_count)
+
+    // invoke startup if needed
+    if (items.length === 0) {
+      setTimeout(this.startup, 1)
+    }
+
+    // make sure we handle Table markup correctly
+    const Element = preparePageElement(page_element || Fragment)
 
     return items.map(
       ({ pageNo, hasContent, content, ref, skipObserver }) => {
@@ -116,7 +118,7 @@ export default class InfinityScroller extends PureComponent {
             {hasContent &&
               originalCurrentPage > 1 &&
               pageNo > 1 &&
-              pageNo <= currentPage && (
+              pageNo <= originalCurrentPage && (
                 <InfinityLoadButton
                   element={fallback_element}
                   icon="arrow_up"
@@ -130,8 +132,6 @@ export default class InfinityScroller extends PureComponent {
                 />
               )}
 
-            {content}
-
             {hasContent &&
               !this.useLoadButton &&
               !skipObserver &&
@@ -139,27 +139,21 @@ export default class InfinityScroller extends PureComponent {
                 <InfinityMarker
                   pageNo={pageNo}
                   marker_element={marker_element || fallback_element}
-                  callOnVisible={accumulateCount > 0 && pageNo === 1}
+                  callOnVisible={parallelLoadCount > 0 && pageNo === 1}
                   onVisible={pageNoVisible => {
-                    if (accumulateCount > 0) {
-                      for (let i = 0; i <= accumulateCount; ++i) {
-                        this.getNewContent(
-                          originalCurrentPage + items.length + i,
-                          {
-                            position: 'after',
-                            skipObserver:
-                              i !== Math.floor(accumulateCount / 2)
-                          }
-                        )
-                      }
-                    } else {
-                      this.getNewContent(pageNoVisible + 1, {
-                        position: 'after'
+                    // load several pages at once
+                    for (let i = 0; i < parallelLoadCount; ++i) {
+                      const currentLoadingPage = pageNoVisible + 1 + i
+                      this.getNewContent(currentLoadingPage, {
+                        position: 'after',
+                        skipObserver: i + 1 < parallelLoadCount
                       })
                     }
                   }}
                 />
               )}
+
+            {content}
 
             {!hasContent && !this.hideIndicator && (
               <PaginationIndicator

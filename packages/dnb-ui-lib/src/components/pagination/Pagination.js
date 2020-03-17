@@ -27,7 +27,7 @@ const renderProps = {
 const propTypes = {
   current_page: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   page_count: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  accumulate_count: PropTypes.oneOfType([
+  parallel_load_count: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number
   ]),
@@ -104,7 +104,7 @@ const defaultProps = {
   marker_element: undefined,
   indicator_element: undefined,
   align: 'left',
-  accumulate_count: 0,
+  parallel_load_count: 1,
   class: null,
 
   // React props
