@@ -56,37 +56,65 @@ export default class PaginationBar extends PureComponent {
         items
       })
 
-      this.props.children({
+      const potentialElement = this.props.children({
         pageNo,
         page: pageNo,
         ...this.context.pagination
       })
+
+      if (
+        potentialElement &&
+        (React.isValidElement(potentialElement) ||
+          typeof potentialElement === 'function')
+      ) {
+        setTimeout(
+          () =>
+            this.context.pagination.insertContent([
+              pageNo,
+              potentialElement
+            ]),
+          1 // after first render
+        )
+      }
     }
   }
 
-  keepPageHeight() {
-    const elem = this.props.contentRef.current
-    if (elem) {
+  // because of accessibility
+  focusPage() {
+    this.context.pagination.onPageUpdate(() => {
       try {
-        const pageHeight = elem.offsetHeight
-        elem.style.height = `${pageHeight / 16}rem`
-        elem.style.minHeight = elem.style.height // because of the "min-height: inherit;" in &__indicator
+        const elem = this.props.contentRef.current
+        elem.focus()
       } catch (e) {
         //
       }
-      this.context.pagination.onPageUpdate(() => {
-        try {
-          elem.style.height = 'auto'
-          elem.style.minHeight = elem.style.height
-        } catch (e) {
-          //
-        }
-      })
+    })
+  }
+
+  keepPageHeight() {
+    try {
+      const elem = this.props.contentRef.current
+      const pageHeight = elem.offsetHeight
+      elem.style.height = `${pageHeight / 16}rem`
+      elem.style.minHeight = elem.style.height // because of the "min-height: inherit;" in &__indicator
+    } catch (e) {
+      //
     }
+
+    this.context.pagination.onPageUpdate(() => {
+      try {
+        const elem = this.props.contentRef.current
+        elem.style.height = 'auto'
+        elem.style.minHeight = elem.style.height
+      } catch (e) {
+        //
+      }
+    })
   }
 
   setPage = (currentPage, event = null) => {
     this.keepPageHeight()
+    this.focusPage()
 
     let items = this.context.pagination.items
 

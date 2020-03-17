@@ -5,7 +5,7 @@
 
 .dnb-pagination {
   display: flex;
-  flex-direction: column;
+  flex-direction: column-reverse; // because of screen readers
 
   &__bar,
   &__loadbar,
@@ -26,6 +26,7 @@
 
     opacity: 0;
 
+    td,
     &__inner {
       // &:not(td) {
       //   position: absolute;
@@ -46,11 +47,13 @@
   }
 
   &__loadbar {
+    cursor: default;
     display: flex;
     align-items: center;
     justify-content: center;
   }
   &__indicator {
+    cursor: default;
     display: flex;
     flex-direction: column;
     justify-content: center;

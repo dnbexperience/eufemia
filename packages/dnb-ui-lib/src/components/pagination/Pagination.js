@@ -201,6 +201,9 @@ class PaginationInstance extends PureComponent {
           {typeof children !== 'function' && children}
 
           <div {...mainParams}>
+            <PaginationBar contentRef={this._contentRef}>
+              {children}
+            </PaginationBar>
             {items.length > 0 && (
               <PaginationContent ref={this._contentRef}>
                 {content || (
@@ -212,9 +215,6 @@ class PaginationInstance extends PureComponent {
                 )}
               </PaginationContent>
             )}
-            <PaginationBar contentRef={this._contentRef}>
-              {children}
-            </PaginationBar>
           </div>
         </>
       )
@@ -228,7 +228,12 @@ class PaginationInstance extends PureComponent {
 const PaginationContent = React.forwardRef(
   ({ children, ...props }, ref) => {
     return (
-      <div className="dnb-pagination__content" {...props} ref={ref}>
+      <div
+        className="dnb-pagination__content dnb-no-focus"
+        tabIndex="-1"
+        {...props}
+        ref={ref}
+      >
         {children}
       </div>
     )
