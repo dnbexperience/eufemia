@@ -14,7 +14,7 @@ You can manipulate the used data dynamically, either by changing the `data` prop
 - `setHidden` hides the [DrawerList](/uilib/components/fragments/drawer-list).
 - `showAllItems` shows all [DrawerList](/uilib/components/fragments/drawer-list) items.
 - `setMode` switch the mode during runtime.
-- `debounce` a classical debounce method
+- `debounce` a debounce method with a cancel invocation method on repeating calls
 
 **Properties**
 

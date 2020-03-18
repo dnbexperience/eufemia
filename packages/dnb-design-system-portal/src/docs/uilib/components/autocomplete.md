@@ -1,7 +1,7 @@
 ---
 title: 'Autocomplete'
 description: 'The Autocomplete component completes / suggests values during typing.'
-order: 2
+order: 1
 showTabs: true
 status: 'new'
 ---

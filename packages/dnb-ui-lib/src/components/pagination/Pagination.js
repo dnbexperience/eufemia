@@ -25,6 +25,7 @@ const renderProps = {
 }
 
 const propTypes = {
+  startup_page: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   current_page: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   page_count: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   parallel_load_count: PropTypes.oneOfType([
@@ -90,6 +91,7 @@ const propTypes = {
 }
 
 const defaultProps = {
+  startup_page: null,
   current_page: null,
   page_count: null,
   mode: 'pagination',
@@ -163,6 +165,7 @@ class PaginationInstance extends PureComponent {
 
       page_count: _page_count, // eslint-disable-line
       current_page: _current_page, // eslint-disable-line
+      startup_page: _startup_page, // eslint-disable-line
       mode: _mode, // eslint-disable-line
       hide_progress_indicator: _hide_progress_indicator, // eslint-disable-line
       use_load_button: _use_load_button, // eslint-disable-line

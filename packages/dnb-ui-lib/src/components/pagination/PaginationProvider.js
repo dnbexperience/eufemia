@@ -15,6 +15,7 @@ import {
 import PaginationContext from './PaginationContext'
 
 const propTypes = {
+  startup_page: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   current_page: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   page_count: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   set_content_handler: PropTypes.oneOfType([
@@ -38,6 +39,7 @@ const propTypes = {
   ])
 }
 const defaultProps = {
+  startup_page: null,
   current_page: null,
   page_count: null,
   set_content_handler: null,
@@ -58,6 +60,13 @@ export default class PaginationProvider extends PureComponent {
       }
       if (props.current_page !== null) {
         state.currentPage = parseFloat(props.current_page) || 1
+      }
+      if (typeof state.startupPage === 'undefined') {
+        // originalCurrentPage
+        state.startupPage =
+          parseFloat(props.startup_page) ||
+          parseFloat(props.current_page) ||
+          1
       }
 
       // reset items, like the resetItems method
@@ -90,31 +99,7 @@ export default class PaginationProvider extends PureComponent {
       isLoading: false,
       _listenForPropChanges: true
     }
-
-    if (!parseFloat(props.current_page) > -1) {
-      this.state.currentPage = 1
-    }
-    if (!parseFloat(props.page_count) > -1) {
-      this.state.pageCount = 1
-    }
   }
-
-  // NB: We do currently not use scroll direction handling
-  // componentDidMount() {
-  //   if (this.useInfinity) {
-  //     this._scrollDirection = detectScrollDirection(scrollDirection => {
-  //       this.setState({
-  //         scrollDirection,
-  //         _listenForPropChanges: false
-  //       })
-  //     })
-  //   }
-  // }
-  // componentWillUnmount() {
-  //   if (this._scrollDirection) {
-  //     this._scrollDirection.remove()
-  //   }
-  // }
 
   componentDidMount() {
     const {
