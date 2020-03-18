@@ -29,7 +29,6 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
   const current_page = 3 // what we start with
   const per_page_count = 10 // how many items per page
 
-  // const [pagesStack, setPagesStack] = React.useState({})
   const [currentPage, setCurrentPage] = React.useState(null)
   const [cacheHash, forceRerender] = React.useState(null) // eslint-disable-line
 
