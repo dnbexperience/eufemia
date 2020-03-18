@@ -9,6 +9,7 @@ import styled from '@emotion/styled'
 
 import { Section, Pagination, Button } from '../../src/components'
 import { Table, P } from '../../src/elements'
+import { StickyHelper } from '../../src/elements/Table'
 
 export default [
   'PaginationTable',
@@ -28,48 +29,66 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
   const current_page = 3 // what we start with
   const per_page_count = 10 // how many items per page
 
+  // const [pagesStack, setPagesStack] = React.useState({})
   const [currentPage, setCurrentPage] = React.useState(null)
   const [cacheHash, forceRerender] = React.useState(null) // eslint-disable-line
 
   // placeholders
   const setContent = React.useRef(null)
   const resetItems = React.useRef(null)
-
-  // our items
-  const updateItems = React.useRef(tableItems)
-  const items = updateItems.current
-  const maxPagesCount = Math.floor(items?.length / per_page_count)
+  const maxPagesCount = Math.floor(tableItems?.length / per_page_count)
 
   const updateContent = () => {
     if (setContent.current) {
-      const onToggleExpanded = ({ ssn: _ssn }, current_page) => {
-        const index = updateItems.current.findIndex(
-          ({ ssn }) => ssn === _ssn
-        )
+      const onToggleExpanded = ({ ssn: _ssn }, pageNo, element = null) => {
+        const index = tableItems.findIndex(({ ssn }) => ssn === _ssn)
         if (index > -1) {
-          const item = updateItems.current[index]
+          const item = tableItems[index]
 
           // update only the current item
-          updateItems.current[index] = {
+          tableItems[index] = {
             ...item,
             expanded: !item.expanded
           }
 
-          // make a copy to ensure correct rerender
-          updateItems.current = [...updateItems.current]
-
           // define what page should update
           // used to update the page inside the Paginatio Component
-          setCurrentPage(current_page)
+          setCurrentPage(pageNo)
 
           // force rerender of this component
           forceRerender(Math.random())
+
+          // set new height
+          if (
+            element &&
+            typeof window !== 'undefined' &&
+            window.requestAnimationFrame
+          ) {
+            // get tr element
+            if (String(element.nodeName).toLowerCase() === 'td') {
+              element = element.parentElement
+            }
+
+            // get the new height
+            const newHeight = !item.expanded
+              ? window.getComputedStyle(element)['min-height'] // maxHeight
+              : element.scrollHeight
+
+            // make the animation
+            window.requestAnimationFrame(() => {
+              element.style.height = '1px'
+              window.requestAnimationFrame(
+                () => (element.style.height = newHeight)
+              )
+            })
+          }
         }
       }
 
+      // InfinityPagination basically limits the items
       const content = (
         <InfinityPagination
-          items={items}
+          items={tableItems}
           per_page_count={per_page_count}
           current_page={currentPage}
           onToggleExpanded={onToggleExpanded}
@@ -81,7 +100,8 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
   }
 
   // once currentPage get's changed during on_load
-  React.useEffect(updateContent, [currentPage, items])
+  React.useEffect(updateContent, [currentPage, cacheHash])
+
   return (
     <>
       <Button
@@ -92,13 +112,26 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
       >
         Reset
       </Button>
-      <CustomTable>
+
+      <StyledTable sticky>
+        <thead>
+          <tr>
+            <th scope="col">Header One</th>
+            <th scope="col">Header Two</th>
+          </tr>
+        </thead>
         <tbody>
+          <StickyHelper />
           <Pagination
             mode="infinity"
             parallel_load_count={2}
-            // fallback_element="tr"
-            fallback_element={TableRow} // can we a string like 'tr'
+            // use_load_button
+            marker_element="tr"
+            fallback_element={({ className, ...props }) => (
+              <TableRow className={className}>
+                <TableData colSpan="2" {...props} />
+              </TableRow>
+            )} // can we a string like 'tr'
             current_page={current_page}
             page_count={maxPagesCount}
             {...props}
@@ -112,11 +145,9 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
                 setCurrentPage(page)
               }, Math.ceil(Math.random() * 1e3)) // simulate random delay
             }}
-          >
-            {/* just a child */}
-          </Pagination>
+          />
         </tbody>
-      </CustomTable>
+      </StyledTable>
     </>
   )
 }
@@ -140,8 +171,8 @@ const InfinityPagination = ({
     })
     .map(item => {
       const params = {
-        onClick: () => {
-          onToggleExpanded(item, current_page)
+        onClick: e => {
+          onToggleExpanded(item, current_page, e.currentTarget)
         }
       }
       return (
@@ -150,10 +181,18 @@ const InfinityPagination = ({
           {...props}
           className={item.expanded ? 'expanded' : ''}
         >
-          <TableData color="Gold" {...params}>
+          <TableData {...params}>
+            <Button
+              title={item.expanded ? 'Hide details' : 'Show more details'}
+              icon="chevron_down"
+              size="small"
+              right
+            />
+            {item.expanded && <strong> I'm expanded!</strong>}
+          </TableData>
+          <TableData {...params}>
             <P>
               {item.text} {children}
-              {item.expanded && <strong> I'm expanded!</strong>}
             </P>
           </TableData>
         </TableRow>
@@ -161,41 +200,46 @@ const InfinityPagination = ({
     })
 }
 
-const CustomTable = styled(Table)``
+const StyledTable = styled(Table)`
+  table-layout: fixed;
+`
 
 const TableRow = styled.tr`
-  cursor: pointer;
   &:hover {
     opacity: 0.8;
   }
-  &.expanded {
-    background-color: hotpink !important;
+  .dnb-icon {
+    transition: transform 300ms ease-out;
   }
+
+  &.expanded {
+    .dnb-icon {
+      ${'' /* transform: scale(-1); */}
+      transform: rotate(-180deg);
+    }
+  }
+
+  /** This is our expanded height (maxHeight) */
+  /** NB: we can use min-height, because min-height is not supported in tr */
+  min-height: 10rem;
+  transition: height 0.4s ease-out;
 `
 
 const TableData = styled.td`
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  cursor: pointer;
 
-  min-height: 6rem;
+  .dnb-pagination__loadbar {
+    justify-content: flex-start;
+  }
 
   .dnb-p {
     font-size: 2rem;
     font-weight: var(--font-weight-bold);
     font-feature-settings: 'pnum' on, 'lnum' on;
-
-    strong {
-      font-size: 1rem;
-    }
   }
 `
 
 // Page layout
 const Wrapper = styled(Section)`
   width: 100%;
-
-  /* .dnb-pagination__page {
-    min-height: 30rem;
-  } */
 `

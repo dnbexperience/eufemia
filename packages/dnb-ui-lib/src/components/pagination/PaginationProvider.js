@@ -209,10 +209,12 @@ export default class PaginationProvider extends PureComponent {
 
   callOnPageUpdate = () => {
     if (Array.isArray(this._updateStack)) {
-      const first = this._updateStack.shift()
-      if (typeof first === 'function') {
-        first()
-      }
+      this._updateStack.forEach(cb => {
+        if (typeof cb === 'function') {
+          cb()
+        }
+      })
+      this._updateStack = []
     }
   }
 
@@ -266,11 +268,11 @@ export default class PaginationProvider extends PureComponent {
         value={{
           ...this.context,
           pagination: {
-            setPage: this.setPage,
+            // setPage: this.setPage,
             setContent: this.setContent,
-            setItems: this.setItems,
-            resetItems: this.resetItems,
             insertContent: this.insertContent,
+            resetItems: this.resetItems,
+            setItems: this.setItems,
             prefillItems: this.prefillItems,
             setState: this.setStateHandler,
             onPageUpdate: this.onPageUpdate,

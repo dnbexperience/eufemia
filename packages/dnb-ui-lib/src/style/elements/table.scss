@@ -28,6 +28,13 @@
   border-spacing: 0;
   border-collapse: collapse;
 
+  &__sticky-helper > td {
+    display: block;
+    overflow: hidden;
+    padding: 0 !important;
+    height: 0;
+  }
+
   & > tr > th,
   & > tr > td,
   & > thead > tr > th,
@@ -229,14 +236,14 @@
     padding-top: 1.25rem;
     padding-bottom: 1.188rem; /* 19/16 */
   }
-  & > tbody > tr,
-  & &__tr,
-  & &--odd {
+  & > tbody > tr:not(#{&}--ignore),
+  & &__tr:not(#{&}--ignore),
+  & &--odd:not(#{&}--ignore) {
     background-color: var(--color-white);
   }
-  & > tbody > tr:not(#{&}--odd):nth-of-type(2n),
-  & &__tr:not(#{&}--odd):nth-of-type(2n),
-  & &--even {
+  & > tbody > tr:not(#{&}--odd):nth-of-type(2n):not(#{&}--ignore),
+  & &__tr:not(#{&}--odd):nth-of-type(2n):not(#{&}--ignore),
+  & &--even:not(#{&}--ignore) {
     background-color: var(--color-mint-green-12);
   }
   & > tbody > tr:last-of-type > td,
@@ -257,6 +264,7 @@
   tr.sticky th {
     position: sticky;
     top: inherit;
+    z-index: 2;
 
     &::after {
       content: '';

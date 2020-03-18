@@ -16,16 +16,17 @@ const LargePage = styled.div`
   justify-content: center;
   align-items: center;
 
-  height: 10rem;
-  width: 100%;
-
-  margin: 2rem 0;
+  height: 15vw;
 
   background-color: ${props => props.color || 'hotpink'};
-  font-size: 10rem;
+  font-size: 15vw;
   font-weight: var(--font-weight-bold);
   font-feature-settings: 'pnum' on, 'lnum' on;
+
   color: white;
+`
+const CustomIndicator = styled(LargePage)`
+  color: purple;
 `
 
 const tableItems = []
@@ -44,7 +45,9 @@ export default [
           on_change={pageNo => {
             console.log('on_change:', pageNo)
           }}
-        ></Pagination>
+        >
+          {({ pageNo }) => <div>Page {pageNo}</div>}
+        </Pagination>
       </Box>
       <Box>
         <PaginationWithState
@@ -59,19 +62,29 @@ export default [
 
       <Box>
         <HeightLimit>
-          <InfinityPagination use_load_button>
-            {pageNo => <LargePage color="LightCoral">{pageNo}</LargePage>}
+          <InfinityPagination use_load_button current_page={5}>
+            {(pageNo, ref) => (
+              <LargePage ref={ref} color="LightCoral">
+                {pageNo}
+              </LargePage>
+            )}
           </InfinityPagination>
         </HeightLimit>
       </Box>
       <Box>
         <HeightLimit>
           <InfinityPagination
-            indicator_element={() => 'Loading ...'}
+            indicator_element={() => (
+              <CustomIndicator>Loading ...</CustomIndicator>
+            )}
             current_page={2}
-            page_count={3}
+            page_count={20}
           >
-            {pageNo => <LargePage color="Indigo">{pageNo}</LargePage>}
+            {(pageNo, ref) => (
+              <LargePage ref={ref} color="Indigo">
+                {pageNo}
+              </LargePage>
+            )}
           </InfinityPagination>
         </HeightLimit>
       </Box>
@@ -80,18 +93,12 @@ export default [
           <InfinityPaginationTable tableItems={tableItems} />
         </HeightLimit>
       </Box>
-
-      {/* <Box>
-        <InfinityPaginationCached>
-        {pageNo => <LargePage>{pageNo}</LargePage>}
-      </InfinityPaginationCached>
-    </Box> */}
     </Wrapper>
   )
 ]
 
 const HeightLimit = styled.div`
-  max-height: 20rem;
+  height: 20rem;
   overflow-y: scroll;
   background-color: white;
   border: 4px solid blue;
@@ -105,14 +112,6 @@ const PaginationWithState = ({ children, ...props }) => {
       {...props}
       page_count={30}
       current_page={currentPage}
-      // on_load={({ page, insertContent }) => {
-      //   console.log('PaginationWithState on_load:', page)
-      //   // setCurrentPage(page)
-      //
-      //   setTimeout(() => {
-      //     insertContent([page, children(page)])
-      //   }, 300)
-      // }}
       on_change={({ page }) => {
         console.log('PaginationWithState on_change:', page)
         setCurrentPage(page)
@@ -144,6 +143,8 @@ const InfinityPagination = ({ children, ...props }) => {
   return (
     <Pagination
       mode="infinity"
+      // page_element="div"
+      // fallback_element="div"
       // hide_progress_indicator
       // page_count={30}
       // current_page={currentPage}

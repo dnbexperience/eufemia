@@ -5,6 +5,7 @@
 
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
+import classnames from 'classnames'
 import Context from '../../shared/Context'
 import ProgressIndicator from '../progress-indicator/ProgressIndicator'
 
@@ -24,12 +25,16 @@ export class PaginationIndicator extends PureComponent {
   render() {
     const { indicator_element } = this.props
     const Element = preparePageElement(indicator_element)
+    const ElementChild = isTrElement(Element) ? 'td' : 'div'
+
     return (
-      <Element className="dnb-pagination__indicator">
-        <div className="dnb-pagination__indicator__inner">
-          <ProgressIndicator />
-          {this.context.translation.Pagination.is_loading_text}
-        </div>
+      <Element>
+        <ElementChild className="dnb-pagination__indicator">
+          <div className="dnb-pagination__indicator__inner">
+            <ProgressIndicator />
+            {this.context.translation.Pagination.is_loading_text}
+          </div>
+        </ElementChild>
       </Element>
     )
   }
@@ -50,7 +55,7 @@ export class ContentObject {
     this.hasContent = true
     this.content = content
     if (typeof this.onInsert === 'function') {
-      this.onInsert({ content, pageNo: this.pageNo })
+      this.onInsert(this)
     }
     return this
   }
@@ -58,7 +63,7 @@ export class ContentObject {
     this.hasContent = true
     this.content = content
     if (typeof this.onUpdate === 'function') {
-      this.onUpdate({ content, pageNo: this.pageNo })
+      this.onUpdate(this)
     }
     return this
   }
@@ -81,19 +86,30 @@ export function isTrElement(Element) {
   return isTr
 }
 
-export function preparePageElement(Element) {
+export function preparePageElement(
+  Element,
+  includeClassName = 'dnb-pagination__page'
+) {
   if (String(Element) === 'Symbol(react.fragment)') {
     return Element
   }
 
-  if (isTrElement(Element)) {
-    const Tr = Element
+  if (includeClassName) {
+    const isTr = isTrElement(Element)
 
-    Element = React.forwardRef(({ ...props }, ref) => {
-      return (
-        <Tr className="dnb-pagination__page">
-          <td {...props} ref={ref} />
-        </Tr>
+    // eslint-disable-next-line
+    return React.forwardRef(({ className, children, ...props }, ref) => {
+      const params = {
+        ...props,
+        className: classnames(includeClassName, className),
+        ref
+      }
+      return isTr ? (
+        <td>
+          <div {...params}>{children}</div>
+        </td>
+      ) : (
+        <Element {...params}>{children}</Element>
       )
     })
   }
