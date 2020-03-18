@@ -45,11 +45,12 @@ class Example extends PureComponent {
           useRender
         >
           {/* @jsx */ `
-const onType = ({
+const onTypeHandler = ({
   showIndicator,
   hideIndicator,
   updateData,
   debounce
+  /* ... */
 }) => {
   showIndicator()
   debounce(() => {
@@ -58,12 +59,13 @@ const onType = ({
       hideIndicator()
     }, 600)
 
+    // cancel invocation method
     return () => clearTimeout(timeout)
   })
 }
 render(<Autocomplete
   mode="async"
-  on_type={onType}
+  on_type={onTypeHandler}
   no_scroll_animation="true"
 />)
           `}
@@ -74,18 +76,19 @@ render(<Autocomplete
           useRender
         >
           {/* @jsx */ `
-const onFocus = ({ updateData, showIndicator, hideIndicator }) => {
-  showIndicator()
-  setTimeout(() => {
-    updateData(topMovies)
-    hideIndicator()
-  }, 1e3)
+const onFocusHandler = ({ updateData, dataList, showIndicatorItem }) => {
+  if(!dataList.length){
+    showIndicatorItem()
+    setTimeout(() => {
+      updateData(topMovies)
+    }, 1e3)
+  }
 }
 render(<Autocomplete
   on_type={({ value /* updateData, ... */ }) => {
     console.log('on_type', value,)
   }}
-  on_focus={onFocus}
+  on_focus={onFocusHandler}
   no_scroll_animation="true"
 />)
           `}
