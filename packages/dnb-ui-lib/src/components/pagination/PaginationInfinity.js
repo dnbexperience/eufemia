@@ -5,10 +5,10 @@
 
 import React, { PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
+import { findDOMNode } from 'react-dom'
 import {
   isTrue,
   dispatchCustomElementEvent
-  // extendPropsWithContext
 } from '../../shared/component-helper'
 import Context from '../../shared/Context'
 import Button from '../button/Button'
@@ -20,8 +20,43 @@ import {
 import PaginationContext from './PaginationContext'
 
 const propTypes = {}
-
 const defaultProps = {}
+
+class ScrollToElement extends PureComponent {
+  static propTypes = {
+    page_element: PropTypes.oneOfType([
+      PropTypes.object,
+      PropTypes.node,
+      PropTypes.func,
+      PropTypes.string
+    ])
+  }
+  static defaultProps = {
+    page_element: null
+  }
+  componentDidMount() {
+    // we use "findDOMNode" here, because we have situations, where we dont knwo about what the input element is,
+    // we also don't want to wrap them because of markup collitions
+    // therefor we use "findDOMNode" here
+    // so we can scroll to that page
+    // eslint-disable-next-line
+    const elem = findDOMNode(this)
+    this.scrollToPage(elem)
+  }
+  scrollToPage(element) {
+    if (element && typeof element.scrollIntoView === 'function') {
+      element.scrollIntoView({
+        block: 'nearest',
+        behavior: 'smooth'
+      })
+    }
+  }
+  render() {
+    const { page_element, ...props } = this.props
+    const Element = preparePageElement(page_element || Fragment)
+    return <Element {...props} />
+  }
+}
 
 export default class InfinityScroller extends PureComponent {
   static contextType = PaginationContext
@@ -32,6 +67,7 @@ export default class InfinityScroller extends PureComponent {
     super(props)
     this.hideIndicator = isTrue(context.pagination.hide_progress_indicator)
     this.useLoadButton = isTrue(context.pagination.use_load_button)
+    this.lastElement = React.createRef()
   }
 
   startup = () => {
@@ -112,9 +148,17 @@ export default class InfinityScroller extends PureComponent {
     const Element = preparePageElement(page_element || Fragment)
 
     return items.map(
-      ({ pageNo, hasContent, content, ref, skipObserver }) => {
+      (
+        { pageNo, hasContent, content, ref, skipObserver, ItemElement },
+        idx
+      ) => {
+        const isLastItem = idx === items.length - 1
+
+        // decide to whether use the default Element, or use the scrollTo element
+        const Elem = ItemElement || Element
+
         return (
-          <Element key={pageNo} ref={ref}>
+          <Elem key={pageNo} ref={ref}>
             {hasContent &&
               originalCurrentPage > 1 &&
               pageNo > 1 &&
@@ -122,13 +166,13 @@ export default class InfinityScroller extends PureComponent {
                 <InfinityLoadButton
                   element={fallback_element}
                   icon="arrow_up"
-                  onClick={event => {
+                  onClick={event =>
                     this.getNewContent(pageNo - 1, {
                       position: 'before',
                       skipObserver: true,
                       event
                     })
-                  }}
+                  }
                 />
               )}
 
@@ -163,21 +207,28 @@ export default class InfinityScroller extends PureComponent {
 
             {hasContent &&
               this.useLoadButton &&
+              isLastItem &&
               pageNo >= currentPage &&
               (originalPageCount > 0 ? pageNo < pageCount : true) && (
                 <InfinityLoadButton
                   element={fallback_element}
                   icon="arrow_down"
-                  onClick={event => {
+                  onClick={event =>
                     this.getNewContent(pageNo + 1, {
                       position: 'after',
                       skipObserver: true,
+                      ItemElement: props => (
+                        <ScrollToElement
+                          page_element={page_element}
+                          {...props}
+                        />
+                      ),
                       event
                     })
-                  }}
+                  }
                 />
               )}
-          </Element>
+          </Elem>
         )
       }
     )
@@ -198,12 +249,19 @@ class InfinityMarker extends PureComponent {
   }
   static defaultProps = {
     callOnVisible: false,
-    marker_element: 'div'
+    marker_element: null
   }
   state = { isConnected: false }
 
   constructor(props) {
     super(props)
+
+    if (typeof props.marker_element === 'function') {
+      console.warn(
+        'Pagination: Please use a string or React element e.g. marker_element="tr"'
+      )
+    }
+
     this._ref = React.createRef()
 
     if (typeof IntersectionObserver !== 'undefined') {
@@ -261,11 +319,15 @@ class InfinityMarker extends PureComponent {
       return null
     }
 
-    const Element = marker_element
-    const ElementChild = isTrElement(Element) ? 'td' : 'div'
+    // NB: make sure we don't actually use the marker element,
+    // because it looks like React as troubles regarding handling ref during a rerender?
+    const Element =
+      marker_element && isTrElement(marker_element) ? 'tr' : 'div'
+    const ElementChild =
+      marker_element && isTrElement(marker_element) ? 'td' : 'div'
 
     return (
-      <Element className="dnb-pagination__marker">
+      <Element className="dnb-pagination__marker dnb-table--ignore">
         <ElementChild
           className="dnb-pagination__marker__inner"
           ref={this._ref}
@@ -304,8 +366,8 @@ class InfinityLoadButton extends PureComponent {
     const ElementChild = isTrElement(Element) ? 'td' : 'div'
 
     return this.state.isPressed ? null : (
-      <Element className="dnb-pagination__loadbar">
-        <ElementChild>
+      <Element className="dnb-table--ignore">
+        <ElementChild className="dnb-pagination__loadbar">
           <Button
             // className="dnb-pagination__load-button"
             size="medium"
