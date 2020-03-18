@@ -26,19 +26,19 @@ for (let i = 1; i <= 300; i++) {
 }
 
 export const InfinityPaginationTable = ({ tableItems, ...props }) => {
-  const current_page = 3 // what we start with
-  const per_page_count = 10 // how many items per page
+  const startupPage = 3 // what we start with
+  const perPageCount = 10 // how many items per page
 
   const [currentPage, setCurrentPage] = React.useState(null)
-  const [cacheHash, forceRerender] = React.useState(null) // eslint-disable-line
+  const [cacheHash, forceRerender] = React.useState(null)
 
   // placeholders
   const setContent = React.useRef(null)
   const resetItems = React.useRef(null)
-  const maxPagesCount = Math.floor(tableItems?.length / per_page_count)
+  const maxPagesCount = Math.floor(tableItems?.length / perPageCount)
 
   const updateContent = () => {
-    if (setContent.current) {
+    if (typeof setContent.current === 'function') {
       const onToggleExpanded = ({ ssn: _ssn }, pageNo, element = null) => {
         const index = tableItems.findIndex(({ ssn }) => ssn === _ssn)
         if (index > -1) {
@@ -88,8 +88,8 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
       const content = (
         <InfinityPagination
           items={tableItems}
-          per_page_count={per_page_count}
-          current_page={currentPage}
+          perPageCount={perPageCount}
+          currentPage={currentPage}
           onToggleExpanded={onToggleExpanded}
         />
       )
@@ -123,7 +123,6 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
           <StickyHelper />
           <Pagination
             mode="infinity"
-            parallel_load_count={2}
             // use_load_button
             marker_element="tr"
             fallback_element={({ className, ...props }) => (
@@ -131,17 +130,21 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
                 <TableData colSpan="2" {...props} />
               </TableRow>
             )} // can we a string like 'tr'
-            current_page={current_page}
+            parallel_load_count={1}
+            startup_page={startupPage}
+            // current_page={currentPage}// is not
             page_count={maxPagesCount}
+            set_content_handler={fn => (setContent.current = fn)}
+            reset_items_handler={fn => (resetItems.current = fn)}
             {...props}
-            on_load={({ page, ...rest }) => {
-              setContent.current = rest.setContent
-              resetItems.current = rest.resetItems
-
+            on_load={({ page /*, setContent, resetItems */ }) => {
               // simulate delay
               setTimeout(() => {
                 // once we set current page, we force a rerender, and sync of data
                 setCurrentPage(page)
+
+                // since currentPage already is the same
+                forceRerender(Math.random())
               }, Math.ceil(Math.random() * 1e3)) // simulate random delay
             }}
           />
@@ -157,21 +160,21 @@ InfinityPaginationTable.propTypes = {
 const InfinityPagination = ({
   children,
   items,
-  current_page,
-  per_page_count,
+  currentPage,
+  perPageCount,
   onToggleExpanded,
   ...props
 }) => {
   return items
     .filter((cur, idx) => {
-      const floor = (current_page - 1) * per_page_count
-      const ceil = floor + per_page_count
+      const floor = (currentPage - 1) * perPageCount
+      const ceil = floor + perPageCount
       return idx >= floor && idx < ceil
     })
     .map(item => {
       const params = {
         onClick: e => {
-          onToggleExpanded(item, current_page, e.currentTarget)
+          onToggleExpanded(item, currentPage, e.currentTarget)
         }
       }
       return (

@@ -71,13 +71,11 @@ export default class InfinityScroller extends PureComponent {
   }
 
   startup = () => {
-    const { current_page, parallel_load_count } = this.context.pagination
-
-    const originalCurrentPage = parseFloat(current_page) || 1
+    const { startupPage, parallel_load_count } = this.context.pagination
     const parallelLoadCount = parseFloat(parallel_load_count)
 
     for (let i = 0; i < parallelLoadCount; ++i) {
-      this.getNewContent(originalCurrentPage + i, {
+      this.getNewContent(startupPage + i, {
         position: 'after',
         skipObserver: i + 1 < parallelLoadCount
       })
@@ -125,7 +123,7 @@ export default class InfinityScroller extends PureComponent {
 
     // our props
     const {
-      current_page,
+      startupPage,
       page_count,
       parallel_load_count,
       page_element,
@@ -135,7 +133,6 @@ export default class InfinityScroller extends PureComponent {
     } = this.context.pagination
 
     // make some props ready to use
-    const originalCurrentPage = parseFloat(current_page)
     const originalPageCount = parseFloat(page_count)
     const parallelLoadCount = parseFloat(parallel_load_count)
 
@@ -160,9 +157,9 @@ export default class InfinityScroller extends PureComponent {
         return (
           <Elem key={pageNo} ref={ref}>
             {hasContent &&
-              originalCurrentPage > 1 &&
+              startupPage > 1 &&
               pageNo > 1 &&
-              pageNo <= originalCurrentPage && (
+              pageNo <= startupPage && (
                 <InfinityLoadButton
                   element={fallback_element}
                   icon="arrow_up"
