@@ -15,9 +15,9 @@ import {
 import PaginationContext from './PaginationContext'
 
 const propTypes = {
-  startup_page: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  current_page: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  page_count: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  startup_page: PropTypes.oneOfType([PropTypes.string, PropTypes.number]), // eslint-disable-line
+  current_page: PropTypes.oneOfType([PropTypes.string, PropTypes.number]), // eslint-disable-line
+  page_count: PropTypes.oneOfType([PropTypes.string, PropTypes.number]), // eslint-disable-line
   set_content_handler: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.func
@@ -30,6 +30,8 @@ const propTypes = {
     PropTypes.string,
     PropTypes.func
   ]),
+  rerender: PropTypes.object,
+  store: PropTypes.object,
   children: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.func,
@@ -45,6 +47,8 @@ const defaultProps = {
   set_content_handler: null,
   set_items_handler: null,
   reset_items_handler: null,
+  rerender: null,
+  store: null,
   children: null
 }
 
@@ -78,12 +82,10 @@ export default class PaginationProvider extends PureComponent {
         state.pageCount = parseFloat(props.page_count) || 1
       }
 
-      if (props.items !== null) {
-        if (typeof props.items === 'string' && props.items[0] === '[') {
-          state.items = JSON.parse(props.items)
-        } else {
-          state.items = props.items
-        }
+      if (typeof props.items === 'string' && props.items[0] === '[') {
+        state.items = JSON.parse(props.items)
+      } else if (Array.isArray(props.items)) {
+        state.items = props.items
       }
     }
     state._listenForPropChanges = true
@@ -98,6 +100,15 @@ export default class PaginationProvider extends PureComponent {
       // scrollDirection: 'down',// NB: We do currently not use scroll direction handling
       isLoading: false,
       _listenForPropChanges: true
+    }
+
+    if (props.rerender) {
+      this.rerender = ({ current: store }) => {
+        if (store && store.pageNo > 0) {
+          this.setContent(store.pageNo, store.content)
+        }
+      }
+      props.rerender.current = this.rerender
     }
   }
 
@@ -118,10 +129,23 @@ export default class PaginationProvider extends PureComponent {
     if (typeof reset_items_handler === 'function') {
       reset_items_handler(this.resetItems)
     }
+
+    if (this.props.store && this.props.store.current) {
+      this.setContent(
+        this.props.store.current.pageNo,
+        this.props.store.current.content
+      )
+    }
+
+    this._isMounted = true
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false
   }
 
   setContent = (pageNo, content) => {
-    const items = this.state.items.map(item => {
+    this.state.items.forEach(item => {
       if (item.pageNo === pageNo) {
         if (item.content) {
           item.update(content)
@@ -129,40 +153,36 @@ export default class PaginationProvider extends PureComponent {
           item.insert(content)
         }
       }
-      return item
     })
+  }
+
+  setItems = (items, cb) => {
     this.setState(
       {
         items,
         _listenForPropChanges: false
       },
-      this.callOnPageUpdate
+      cb
     )
-  }
-
-  setItems = items => {
-    this.setState({
-      items,
-      _listenForPropChanges: false
-    })
   }
 
   // like reset_items_handler in DerivedState
   resetItems = () => {
+    const currentPage =
+      this.state.startupPage || this.state.currentPage || 1
+
     this.setState({
       items: [],
-      currentPage: parseFloat(this.props.current_page) || 1,
+      currentPage,
       _listenForPropChanges: false
     })
   }
 
-  setStateHandler = state => {
-    this.setState({ ...state, _listenForPropChanges: false })
+  setStateHandler = (state, cb) => {
+    this.setState({ ...state, _listenForPropChanges: false }, cb)
   }
 
-  prefillItems = (pageNo, props = {}) => {
-    const items = [...this.state.items]
-
+  prefillItems = (pageNo, props = {}, items = [...this.state.items]) => {
     const position =
       props.position ||
       (pageNo < this.state.currentPage ? 'before' : 'after')

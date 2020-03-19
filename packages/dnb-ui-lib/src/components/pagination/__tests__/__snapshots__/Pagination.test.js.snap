@@ -25,6 +25,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
         "reset_items_handler": "reset_items_handler",
         "set_content_handler": "set_content_handler",
         "set_items_handler": "set_items_handler",
+        "startup_count": "startup_count",
         "startup_page": "startup_page",
         "use_load_button": "use_load_button",
       },
@@ -53,6 +54,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
         "reset_items_handler": "reset_items_handler",
         "set_content_handler": "set_content_handler",
         "set_items_handler": "set_items_handler",
+        "startup_count": "startup_count",
         "startup_page": "startup_page",
         "use_load_button": "use_load_button",
       },
@@ -72,6 +74,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
   reset_items_handler={null}
   set_content_handler={null}
   set_items_handler={null}
+  startup_count={1}
   startup_page={null}
   use_load_button={false}
 >
@@ -99,6 +102,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
           "reset_items_handler": "reset_items_handler",
           "set_content_handler": "set_content_handler",
           "set_items_handler": "set_items_handler",
+          "startup_count": "startup_count",
           "startup_page": "startup_page",
           "use_load_button": "use_load_button",
         },
@@ -127,6 +131,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
           "reset_items_handler": "reset_items_handler",
           "set_content_handler": "set_content_handler",
           "set_items_handler": "set_items_handler",
+          "startup_count": "startup_count",
           "startup_page": "startup_page",
           "use_load_button": "use_load_button",
         },
@@ -143,10 +148,13 @@ exports[`Pagination bar component have to match snapshot 1`] = `
     on_load={null}
     page_count={null}
     parallel_load_count={1}
+    rerender={null}
     reset_items_handler={null}
     set_content_handler={null}
     set_items_handler={null}
+    startup_count={1}
     startup_page={null}
+    store={null}
     tagName="dnb-pagination"
     use_load_button={false}
   >
@@ -174,6 +182,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
             "reset_items_handler": "reset_items_handler",
             "set_content_handler": "set_content_handler",
             "set_items_handler": "set_items_handler",
+            "startup_count": "startup_count",
             "startup_page": "startup_page",
             "use_load_button": "use_load_button",
           },
@@ -202,6 +211,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
             "reset_items_handler": "reset_items_handler",
             "set_content_handler": "set_content_handler",
             "set_items_handler": "set_items_handler",
+            "startup_count": "startup_count",
             "startup_page": "startup_page",
             "use_load_button": "use_load_button",
           },
@@ -221,6 +231,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
       reset_items_handler={null}
       set_content_handler={null}
       set_items_handler={null}
+      startup_count={1}
       startup_page={null}
       use_load_button={false}
     >
