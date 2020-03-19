@@ -23,10 +23,12 @@ const snapshotProps = {
     all: true,
     optional: true
   })
+  // starutp_page: null
 }
 
 const props = {
   page_count: 30,
+  // starutp_page: null,
   current_page: 15
 }
 

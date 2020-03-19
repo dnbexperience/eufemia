@@ -124,19 +124,12 @@ export default class Pagination extends PureComponent {
   static propTypes = propTypes
   static defaultProps = defaultProps
   static renderProps = renderProps
-  // static contextType = PaginationContext // only used for the hasProvide check
 
   static enableWebComponent() {
     registerElement(Pagination.tagName, Pagination, defaultProps)
   }
 
   render() {
-    // const hasProvider = this.context?.pagination
-
-    // if (hasProvider) {
-    //   return <PaginationInstance {...this.props} />
-    // }
-
     return (
       <PaginationProvider tagName={Pagination.tagName} {...this.props}>
         <PaginationInstance {...this.props} />
@@ -270,9 +263,7 @@ export const createPagination = (initProps = {}) => {
   const setContent = (pageNo, content) => {
     if (pageNo > 0) {
       store.current = { ...store.current, ...{ pageNo, content } }
-      console.log('setContent call', store.current)
       rerender.current && rerender.current(store)
-      // _setContent.current && _setContent.current(pageNo, content)
     }
   }
   const setItems = items => {

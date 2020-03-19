@@ -37,7 +37,14 @@ export default class PaginationBar extends PureComponent {
   static defaultProps = defaultProps
 
   componentDidMount() {
-    this.callChildrenCallabck(this.context.pagination.currentPage)
+    const pgn = this.context.pagination
+    const currentPage = pgn.startupPage || pgn.currentPage
+    pgn.setState(
+      {
+        currentPage
+      },
+      () => this.callChildrenCallabck(currentPage)
+    )
   }
 
   hasChildrenCallabck() {

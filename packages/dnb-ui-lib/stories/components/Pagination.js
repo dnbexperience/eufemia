@@ -62,7 +62,7 @@ export default [
 
       <Box>
         <HeightLimit>
-          <InfinityPagination use_load_button current_page={5}>
+          <InfinityPagination use_load_button startup_page={5}>
             {(pageNo, ref) => (
               <LargePage ref={ref} color="LightCoral">
                 {pageNo}
@@ -77,7 +77,7 @@ export default [
             indicator_element={() => (
               <CustomIndicator>Loading ...</CustomIndicator>
             )}
-            current_page={2}
+            startup_page={2}
             page_count={20}
           >
             {(pageNo, ref) => (
@@ -104,6 +104,7 @@ const HeightLimit = styled.div`
   border: 4px solid blue;
 `
 
+// eslint-disable-next-line
 const PaginationWithState = ({ children, ...props }) => {
   const [currentPage, setCurrentPage] = React.useState(1)
 
@@ -137,26 +138,18 @@ const PaginationWithState = ({ children, ...props }) => {
   )
 }
 
+// eslint-disable-next-line
 const InfinityPagination = ({ children, ...props }) => {
-  // const [currentPage, setCurrentPage] = React.useState(1)
-  // console.log('children', children)
   return (
     <Pagination
       mode="infinity"
-      // page_element="div"
-      // fallback_element="div"
-      // hide_progress_indicator
-      // page_count={30}
-      // current_page={currentPage}
-      // current_page={10}
       {...props}
       on_load={({ page, insertContent }) => {
         console.log('InfinityPagination on_load:', page)
-        // setCurrentPage(page)
 
         setTimeout(() => {
           insertContent([page, children(page)])
-        }, 300)
+        }, Math.ceil(Math.random() * 1e3))
       }}
     >
       {/* just a child */}

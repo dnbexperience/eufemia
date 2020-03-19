@@ -105,24 +105,28 @@ export default class InfinityScroller extends PureComponent {
 
     const items = this.context.pagination.prefillItems(newPageNo, props)
 
-    this.context.pagination.setItems(items, () => {
-      dispatchCustomElementEvent(
-        this.context.pagination,
-        isStartup ? 'on_startup' : 'on_load',
-        {
+    const createEvent = eventName =>
+      this.context.pagination.setItems(items, () => {
+        dispatchCustomElementEvent(this.context.pagination, eventName, {
           page: newPageNo,
           pageNo: newPageNo,
           ...this.context.pagination
-        }
-      )
-    })
+        })
+      })
+
+    if (isStartup) {
+      createEvent('on_startup')
+    } else {
+      createEvent('on_change')
+    }
+
+    createEvent('on_load')
   }
 
   render() {
     const {
       // our states
       items,
-      currentPage,
       pageCount
 
       // our methodes
@@ -216,7 +220,6 @@ export default class InfinityScroller extends PureComponent {
             {hasContent &&
               this.useLoadButton &&
               isLastItem &&
-              pageNo >= currentPage &&
               (originalPageCount > 0 ? pageNo < pageCount : true) && (
                 <InfinityLoadButton
                   element={fallback_element}
@@ -366,10 +369,9 @@ class InfinityLoadButton extends PureComponent {
     const ElementChild = isTrElement(Element) ? 'td' : 'div'
 
     return this.state.isPressed ? null : (
-      <Element className="dnb-table--ignore">
+      <Element>
         <ElementChild className="dnb-pagination__loadbar">
           <Button
-            // className="dnb-pagination__load-button"
             size="medium"
             icon={icon}
             icon_position="left"
