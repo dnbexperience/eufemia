@@ -47,6 +47,10 @@ const propTypes = {
   mode: PropTypes.oneOf(['sync', 'async']),
   title: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
   no_options: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
+  aria_live_options: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.node
+  ]),
   indicator_label: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
   submit_button_title: PropTypes.string,
   icon: PropTypes.oneOfType([
@@ -162,6 +166,7 @@ const defaultProps = {
   mode: 'sync',
   title: 'Option Menu',
   no_options: null,
+  aria_live_options: null,
   indicator_label: null,
   submit_button_title: null,
   icon: 'chevron-down',
@@ -989,10 +994,13 @@ class AutocompleteInstance extends PureComponent {
       max_height,
       default_value,
       submit_button_title,
+      no_options,
+      aria_live_options,
       className,
       class: _className,
       disabled,
 
+      mode: _mode, // eslint-disable-line
       data: _data, // eslint-disable-line
       children: _children, // eslint-disable-line
       direction: _direction, // eslint-disable-line
@@ -1000,7 +1008,6 @@ class AutocompleteInstance extends PureComponent {
       id: _id, // eslint-disable-line
       opened: _opened, // eslint-disable-line
       value: _value, // eslint-disable-line
-      no_options: _no_options, // eslint-disable-line
       indicator_label: _indicator_label, // eslint-disable-line
 
       ...attributes
@@ -1011,7 +1018,12 @@ class AutocompleteInstance extends PureComponent {
 
     const { inputValue, visibleIndicator } = this.state
 
-    const { selected_item, direction, opened } = this.context.drawerList
+    const {
+      selected_item,
+      direction,
+      opened,
+      hidden
+    } = this.context.drawerList
 
     // make it pissible to grab the rest attributes and return it with all events
     Object.assign(
@@ -1040,7 +1052,8 @@ class AutocompleteInstance extends PureComponent {
     }
 
     const triggerParams = {
-      ['aria-haspopup']: true, //listbox
+      ['aria-owns']: `${id}-ul`, // better would be "-ul" - but it is not in the DOM if hidden
+      ['aria-haspopup']: 'listbox',
       ['aria-expanded']: opened
     }
 
@@ -1052,9 +1065,21 @@ class AutocompleteInstance extends PureComponent {
       id,
       disabled,
       placeholder: title,
-      ['aria-haspopup']: true, //listbox
+      // role: 'combobox', // does not work nicely with VO (focus)
+      ['aria-autocomplete']: 'list', // list, both
+      ['aria-controls']: `${id}-ul`,
+      ['aria-haspopup']: 'listbox', // true, listbox
       ['aria-expanded']: opened,
       ...attributes
+    }
+    if (
+      !isTrue(prevent_selection) &&
+      !hidden &&
+      parseFloat(selected_item) > -1
+    ) {
+      inputParams[
+        'aria-activedescendant'
+      ] = `option-${id}-${selected_item}`
     }
 
     inputParams.value = inputValue
@@ -1185,6 +1210,15 @@ class AutocompleteInstance extends PureComponent {
               </span>
             )}
           </span>
+        </span>
+
+        <span className="dnb-sr-only" aria-live="assertive">
+          {opened && this.hasValidData()
+            ? String(aria_live_options).replace(
+                '%s',
+                this.context.drawerList.data.length
+              )
+            : no_options}
         </span>
       </span>
     )

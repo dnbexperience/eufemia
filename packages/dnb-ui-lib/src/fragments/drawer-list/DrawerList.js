@@ -308,16 +308,29 @@ class DrawerListInstance extends PureComponent {
     }
 
     const listParams = {
+      id: `${id}-listbox`,
+      // role: 'listbox',
+      // ['aria-labelledby']: `${id}-label`,
       className: classnames(
         'dnb-drawer-list__list',
         isTrue(no_animation) && 'dnb-drawer-list__list--no-animation',
         inner_class
       )
     }
+    // if (
+    //   !isTrue(prevent_selection) &&
+    //   !hidden &&
+    //   parseFloat(selected_item) > -1
+    // ) {
+    //   listParams['aria-activedescendant'] = `option-${id}-${selected_item}`
+    // }
 
     const ulParams = {
       id: `${id}-ul`,
-      ['aria-labelledby']: id,
+      role: 'listbox',
+      ['aria-labelledby']: `${id}-label`,
+      // hidden: hidden,
+      tabIndex: '-1',
       style: {
         maxHeight: max_height > 0 ? `${max_height}rem` : null
       }
@@ -348,75 +361,81 @@ class DrawerListInstance extends PureComponent {
 
     return (
       <span {...mainParams} ref={this.context.drawerList._refShell}>
-        {hidden === false && (
-          <span {...listParams}>
-            {data && data.length > 0 ? (
-              <DrawerList.List
-                {...ulParams}
-                ref={this.context.drawerList._refUl}
-                cache_hash={
-                  cache_hash +
-                  active_item +
-                  selected_item +
-                  closestToTop +
-                  closestToBottom +
-                  direction +
-                  max_height
+        <span {...listParams}>
+          {hidden === false && data && data.length > 0 ? (
+            <DrawerList.List
+              {...ulParams}
+              ref={this.context.drawerList._refUl}
+              cache_hash={
+                cache_hash +
+                active_item +
+                selected_item +
+                closestToTop +
+                closestToBottom +
+                direction +
+                max_height
+              }
+              triangleRef={this.context.drawerList._refTriangle}
+            >
+              {data.map(dataItem => {
+                const _id = dataItem.__id
+                const liParams = {
+                  id: `option-${id}-${_id}`, // we could use _id here
+                  className:
+                    // ignoreEvents
+                    //   ? null
+                    //   :
+                    classnames(
+                      // helper classes
+                      _id == closestToTop && 'closest-to-top',
+                      _id == closestToBottom && 'closest-to-bottom',
+                      _id == data.length - 1 && 'last-of-type' // because of the triangle element
+                    ),
+                  onClick: this.selectItemHandler,
+                  onKeyDown: this.preventTab,
+                  'data-item': _id
                 }
-                triangleRef={this.context.drawerList._refTriangle}
-              >
-                {data.map(dataItem => {
-                  const _id = dataItem.__id
-                  const liParams = {
-                    id: `option-${id}-${_id}`, // we could use _id here
-                    className:
-                      // ignoreEvents
-                      //   ? null
-                      //   :
-                      classnames(
-                        // helper classes
-                        _id == closestToTop && 'closest-to-top',
-                        _id == closestToBottom && 'closest-to-bottom',
-                        _id == data.length - 1 && 'last-of-type' // because of the triangle element
-                      ),
-                    onClick: this.selectItemHandler,
-                    onKeyDown: this.preventTab,
-                    'data-item': _id
-                  }
 
-                  if (ignoreEvents) {
-                    liParams.selected = null
-                    liParams.onClick = null
-                    liParams.onClick = null
-                    liParams.className = classnames(
-                      liParams.className,
-                      'dnb-drawer-list__option--ignore'
-                    )
-                  }
-
-                  return (
-                    <DrawerList.Item
-                      key={_id}
-                      cache_hash={cache_hash}
-                      selected={_id == selected_item}
-                      active={!ignoreEvents && _id == active_item}
-                      {...liParams}
-                    >
-                      {dataItem}
-                    </DrawerList.Item>
+                if (ignoreEvents) {
+                  liParams.selected = null
+                  liParams.onClick = null
+                  liParams.onClick = null
+                  liParams.className = classnames(
+                    liParams.className,
+                    'dnb-drawer-list__option--ignore'
                   )
-                })}
-              </DrawerList.List>
-            ) : (
-              children && (
-                <span className="dnb-drawer-list__content">
-                  {children}
-                  <span className="dnb-drawer-list__triangle"></span>
-                </span>
-              )
-            )}
-          </span>
-        )}
+                }
+
+                return (
+                  <DrawerList.Item
+                    key={_id}
+                    cache_hash={cache_hash}
+                    selected={_id == selected_item}
+                    active={!ignoreEvents && _id == active_item}
+                    {...liParams}
+                  >
+                    {dataItem}
+                  </DrawerList.Item>
+                )
+              })}
+            </DrawerList.List>
+          ) : (
+            (children && (
+              <span className="dnb-drawer-list__content">
+                {children}
+                <span className="dnb-drawer-list__triangle"></span>
+              </span>
+            )) || (
+              <ul {...ulParams} hidden>
+                <li
+                  role="option"
+                  id={`option-${id}-${selected_item}`}
+                  aria-selected="true"
+                ></li>
+              </ul>
+            )
+          )}
+        </span>
       </span>
     )
   }
@@ -435,8 +454,8 @@ DrawerList.List = React.memo(
     return (
       <ul
         className={classnames('dnb-drawer-list__options', className)}
-        role="listbox" // menu
-        tabIndex="-1"
+        // role="listbox" // menu
+        // tabIndex="-1"
         {...rest}
         ref={ref}
       >
@@ -511,7 +530,7 @@ DrawerList.Item = React.memo(
           selected && 'dnb-drawer-list__option--selected',
           active && 'dnb-drawer-list__option--focus'
         )}
-        role="option" // menuitem
+        role="option" // presentation / option / menuitem
         aria-selected="false"
         tabIndex="-1"
         {...rest}

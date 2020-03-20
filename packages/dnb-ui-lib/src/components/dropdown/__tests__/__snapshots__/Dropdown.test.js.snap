@@ -447,7 +447,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                 aria-controls="dropdown-id-drawer-list"
                 aria-describedby="dropdown-id-status dropdown-id-suffix"
                 aria-expanded={true}
-                aria-haspopup={true}
+                aria-haspopup="listbox"
                 aria-label="Feriekonto - Kari Nordmann med et kjempelangt etternavnsen"
                 bounding={false}
                 class={null}
@@ -481,7 +481,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                   aria-controls="dropdown-id-drawer-list"
                   aria-describedby="dropdown-id-status dropdown-id-suffix"
                   aria-expanded={true}
-                  aria-haspopup={true}
+                  aria-haspopup="listbox"
                   aria-label="Feriekonto - Kari Nordmann med et kjempelangt etternavnsen"
                   className="dnb-button dnb-button--secondary dnb-dropdown__trigger dnb-button--active dnb-button--size-medium dnb-button--has-text"
                   disabled={false}
@@ -498,7 +498,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                     aria-controls="dropdown-id-drawer-list"
                     aria-describedby="dropdown-id-status dropdown-id-suffix"
                     aria-expanded={true}
-                    aria-haspopup={true}
+                    aria-haspopup="listbox"
                     aria-label="Feriekonto - Kari Nordmann med et kjempelangt etternavnsen"
                     bounding={false}
                     class={null}
@@ -677,18 +677,21 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                   >
                     <span
                       className="dnb-drawer-list__list dnb-dropdown__list dnb-drawer-list__list--no-animation"
+                      id="dropdown-id-listbox"
                     >
                       <ForwardRef
                         aria-activedescendant="option-dropdown-id-2"
-                        aria-labelledby="dropdown-id"
+                        aria-labelledby="dropdown-id-label"
                         cache_hash="2266bottom46"
                         className={null}
                         id="dropdown-id-ul"
+                        role="listbox"
                         style={
                           Object {
                             "maxHeight": "46rem",
                           }
                         }
+                        tabIndex="-1"
                         triangleRef={
                           Object {
                             "current": <li
@@ -700,7 +703,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                       >
                         <ul
                           aria-activedescendant="option-dropdown-id-2"
-                          aria-labelledby="dropdown-id"
+                          aria-labelledby="dropdown-id-label"
                           className="dnb-drawer-list__options"
                           id="dropdown-id-ul"
                           role="listbox"
