@@ -25,6 +25,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
         "reset_items_handler": "reset_items_handler",
         "set_content_handler": "set_content_handler",
         "set_items_handler": "set_items_handler",
+        "startup_count": "startup_count",
         "startup_page": "startup_page",
         "use_load_button": "use_load_button",
       },
@@ -53,6 +54,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
         "reset_items_handler": "reset_items_handler",
         "set_content_handler": "set_content_handler",
         "set_items_handler": "set_items_handler",
+        "startup_count": "startup_count",
         "startup_page": "startup_page",
         "use_load_button": "use_load_button",
       },
@@ -72,6 +74,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
   reset_items_handler={null}
   set_content_handler={null}
   set_items_handler={null}
+  startup_count={1}
   startup_page={null}
   use_load_button={false}
 >
@@ -99,6 +102,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
           "reset_items_handler": "reset_items_handler",
           "set_content_handler": "set_content_handler",
           "set_items_handler": "set_items_handler",
+          "startup_count": "startup_count",
           "startup_page": "startup_page",
           "use_load_button": "use_load_button",
         },
@@ -127,6 +131,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
           "reset_items_handler": "reset_items_handler",
           "set_content_handler": "set_content_handler",
           "set_items_handler": "set_items_handler",
+          "startup_count": "startup_count",
           "startup_page": "startup_page",
           "use_load_button": "use_load_button",
         },
@@ -143,10 +148,13 @@ exports[`Pagination bar component have to match snapshot 1`] = `
     on_load={null}
     page_count={null}
     parallel_load_count={1}
+    rerender={null}
     reset_items_handler={null}
     set_content_handler={null}
     set_items_handler={null}
+    startup_count={1}
     startup_page={null}
+    store={null}
     tagName="dnb-pagination"
     use_load_button={false}
   >
@@ -174,6 +182,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
             "reset_items_handler": "reset_items_handler",
             "set_content_handler": "set_content_handler",
             "set_items_handler": "set_items_handler",
+            "startup_count": "startup_count",
             "startup_page": "startup_page",
             "use_load_button": "use_load_button",
           },
@@ -202,6 +211,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
             "reset_items_handler": "reset_items_handler",
             "set_content_handler": "set_content_handler",
             "set_items_handler": "set_items_handler",
+            "startup_count": "startup_count",
             "startup_page": "startup_page",
             "use_load_button": "use_load_button",
           },
@@ -221,6 +231,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
       reset_items_handler={null}
       set_content_handler={null}
       set_items_handler={null}
+      startup_count={1}
       startup_page={null}
       use_load_button={false}
     >
@@ -247,7 +258,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
               className="dnb-pagination__button"
               custom_element={null}
               custom_method={null}
-              disabled={false}
+              disabled={true}
               global_status_id={null}
               href={null}
               icon="chevron_left"
@@ -263,16 +274,16 @@ exports[`Pagination bar component have to match snapshot 1`] = `
               status_animation={null}
               status_state="error"
               text={null}
-              title="Forrige side"
+              title={null}
               type="button"
               variant={null}
             >
               <button
+                aria-disabled={true}
                 className="dnb-button dnb-button--secondary dnb-pagination__button dnb-button--icon-position-right dnb-button--has-icon dnb-button--size-small"
-                disabled={false}
+                disabled={true}
                 onClick={[Function]}
                 onMouseOut={[Function]}
-                title="Forrige side"
                 type="button"
               >
                 <Content
@@ -282,7 +293,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
                   content={null}
                   custom_element={null}
                   custom_method={null}
-                  disabled={false}
+                  disabled={true}
                   global_status_id={null}
                   href={null}
                   icon="chevron_left"
@@ -298,7 +309,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
                   status_animation={null}
                   status_state="error"
                   text={null}
-                  title="Forrige side"
+                  title={null}
                   type="button"
                   variant={null}
                 >
@@ -310,7 +321,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
                   </span>
                   <IconPrimary
                     alt={null}
-                    aria-hidden={true}
+                    aria-hidden={null}
                     attributes={null}
                     border={null}
                     className="dnb-button__icon"
@@ -325,7 +336,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
                   >
                     <span
                       alt="chevron left"
-                      aria-hidden={true}
+                      aria-label="chevron left"
                       className="dnb-icon dnb-icon--default dnb-button__icon"
                       role="img"
                     >
@@ -358,7 +369,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
               className="dnb-pagination__button"
               custom_element={null}
               custom_method={null}
-              disabled={true}
+              disabled={false}
               global_status_id={null}
               href={null}
               icon="chevron_right"
@@ -374,16 +385,16 @@ exports[`Pagination bar component have to match snapshot 1`] = `
               status_animation={null}
               status_state="error"
               text={null}
-              title={null}
+              title="Neste side"
               type="button"
               variant={null}
             >
               <button
-                aria-disabled={true}
                 className="dnb-button dnb-button--secondary dnb-pagination__button dnb-button--icon-position-right dnb-button--has-icon dnb-button--size-small"
-                disabled={true}
+                disabled={false}
                 onClick={[Function]}
                 onMouseOut={[Function]}
+                title="Neste side"
                 type="button"
               >
                 <Content
@@ -393,7 +404,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
                   content={null}
                   custom_element={null}
                   custom_method={null}
-                  disabled={true}
+                  disabled={false}
                   global_status_id={null}
                   href={null}
                   icon="chevron_right"
@@ -409,7 +420,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
                   status_animation={null}
                   status_state="error"
                   text={null}
-                  title={null}
+                  title="Neste side"
                   type="button"
                   variant={null}
                 >
@@ -421,7 +432,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
                   </span>
                   <IconPrimary
                     alt={null}
-                    aria-hidden={null}
+                    aria-hidden={true}
                     attributes={null}
                     border={null}
                     className="dnb-button__icon"
@@ -436,7 +447,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
                   >
                     <span
                       alt="chevron right"
-                      aria-label="chevron right"
+                      aria-hidden={true}
                       className="dnb-icon dnb-icon--default dnb-button__icon"
                       role="img"
                     >

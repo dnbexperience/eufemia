@@ -3,6 +3,7 @@
 exports[`Autocomplete markup have to match snapshot 1`] = `
 <Autocomplete
   align_autocomplete={null}
+  aria_live_options="aria_live_options"
   class="class"
   className="className"
   custom_element={Object {}}
@@ -60,6 +61,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
   <DrawerListProvider
     align_autocomplete={null}
     align_drawer={null}
+    aria_live_options="aria_live_options"
     class="class"
     className="className"
     custom_element={Object {}}
@@ -121,6 +123,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
   >
     <AutocompleteInstance
       align_autocomplete={null}
+      aria_live_options="aria_live_options"
       class="class"
       className="className"
       custom_element={Object {}}
@@ -328,9 +331,12 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
             >
               <Input
                 align={null}
+                aria-activedescendant="option-autocomplete-id-2"
+                aria-autocomplete="list"
+                aria-controls="autocomplete-id-ul"
                 aria-describedby="autocomplete-id-status autocomplete-id-suffix"
                 aria-expanded={true}
-                aria-haspopup={true}
+                aria-haspopup="listbox"
                 autocomplete="off"
                 class={null}
                 className="dnb-autocomplete__input dnb-button--active"
@@ -351,7 +357,6 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                 label={null}
                 label_direction={null}
                 label_sr_only={null}
-                mode="sync"
                 onMouseDown={[Function]}
                 on_blur={[Function]}
                 on_change={[Function]}
@@ -376,7 +381,8 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                 submit_element={
                   <ForwardRef
                     aria-expanded={true}
-                    aria-haspopup={true}
+                    aria-haspopup="listbox"
+                    aria-owns="autocomplete-id-ul"
                     disabled="disabled"
                     icon="icon"
                     icon_size="icon_size"
@@ -436,15 +442,17 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                           />
                         </Component>
                         <input
+                          aria-activedescendant="option-autocomplete-id-2"
+                          aria-autocomplete="list"
+                          aria-controls="autocomplete-id-ul"
                           aria-describedby="autocomplete-id-status autocomplete-id-suffix"
                           aria-expanded={true}
-                          aria-haspopup={true}
+                          aria-haspopup="listbox"
                           aria-placeholder="title"
                           autoComplete="off"
                           className="dnb-input__input"
                           disabled={false}
                           id="autocomplete-id"
-                          mode="sync"
                           name="autocomplete-id"
                           onBlur={[Function]}
                           onChange={[Function]}
@@ -460,7 +468,8 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                       >
                         <ForwardRef
                           aria-expanded={true}
-                          aria-haspopup={true}
+                          aria-haspopup="listbox"
+                          aria-owns="autocomplete-id-ul"
                           disabled="disabled"
                           icon="icon"
                           icon_size="icon_size"
@@ -473,7 +482,8 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                         >
                           <InputSubmitButton
                             aria-expanded={true}
-                            aria-haspopup={true}
+                            aria-haspopup="listbox"
+                            aria-owns="autocomplete-id-ul"
                             className={null}
                             disabled="disabled"
                             icon="icon"
@@ -496,8 +506,9 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                             >
                               <Button
                                 aria-expanded={true}
-                                aria-haspopup={true}
+                                aria-haspopup="listbox"
                                 aria-label="submit_button_title"
+                                aria-owns="autocomplete-id-ul"
                                 bounding={false}
                                 class={null}
                                 className="dnb-input__submit-button__button"
@@ -527,8 +538,9 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                               >
                                 <button
                                   aria-expanded={true}
-                                  aria-haspopup={true}
+                                  aria-haspopup="listbox"
                                   aria-label="submit_button_title"
+                                  aria-owns="autocomplete-id-ul"
                                   className="dnb-button dnb-button--secondary dnb-input__submit-button__button dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--size-medium"
                                   disabled={false}
                                   onBlur={[Function]}
@@ -540,8 +552,9 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                                 >
                                   <Content
                                     aria-expanded={true}
-                                    aria-haspopup={true}
+                                    aria-haspopup="listbox"
                                     aria-label="submit_button_title"
+                                    aria-owns="autocomplete-id-ul"
                                     bounding={false}
                                     class={null}
                                     className="dnb-input__submit-button__button"
@@ -688,18 +701,21 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                   >
                     <span
                       className="dnb-drawer-list__list dnb-autocomplete__list dnb-drawer-list__list--no-animation"
+                      id="autocomplete-id-listbox"
                     >
                       <ForwardRef
                         aria-activedescendant="option-autocomplete-id-2"
-                        aria-labelledby="autocomplete-id"
+                        aria-labelledby="autocomplete-id-label"
                         cache_hash="CC cc32222bottom46"
                         className={null}
                         id="autocomplete-id-ul"
+                        role="listbox"
                         style={
                           Object {
                             "maxHeight": "46rem",
                           }
                         }
+                        tabIndex="-1"
                         triangleRef={
                           Object {
                             "current": <li
@@ -711,7 +727,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                       >
                         <ul
                           aria-activedescendant="option-autocomplete-id-2"
-                          aria-labelledby="autocomplete-id"
+                          aria-labelledby="autocomplete-id-label"
                           className="dnb-drawer-list__options"
                           id="autocomplete-id-ul"
                           role="listbox"
@@ -860,6 +876,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
             >
               <Suffix
                 align_autocomplete={null}
+                aria_live_options="aria_live_options"
                 class="class"
                 className="className"
                 custom_element={Object {}}
@@ -918,6 +935,12 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
               </Suffix>
             </span>
           </span>
+        </span>
+        <span
+          aria-live="assertive"
+          className="dnb-sr-only"
+        >
+          aria_live_options
         </span>
       </span>
     </AutocompleteInstance>
@@ -2258,6 +2281,8 @@ legend.dnb-form-label {
     color: transparent; }
   .dnb-autocomplete__shell, .dnb-autocomplete__input {
     border-radius: var(--autocomplete-height); }
+  .dnb-autocomplete [aria-controls] {
+    cursor: text; }
   .dnb-autocomplete__text {
     order: 1;
     position: relative;

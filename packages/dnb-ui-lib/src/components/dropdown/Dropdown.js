@@ -459,7 +459,7 @@ class DropdownInstance extends PureComponent {
       ),
       id,
       disabled,
-      ['aria-haspopup']: true, //listbox
+      ['aria-haspopup']: 'listbox',
       ['aria-expanded']: opened,
       ['aria-controls']: `${id}-drawer-list`,
       ...attributes,

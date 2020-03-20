@@ -51,6 +51,7 @@ export default {
       title: 'Type and select',
       submit_button_title: 'Show options',
       no_options: 'No option',
+      aria_live_options: '%s options',
       indicator_label: 'Getting data ...'
     },
     Modal: {

@@ -53,6 +53,9 @@ export class ContentObject {
   }
   insert(content) {
     this.hasContent = true
+    if (!this._content) {
+      this._content = content
+    }
     this.content = content
     if (typeof this.onInsert === 'function') {
       this.onInsert(this)
@@ -61,6 +64,9 @@ export class ContentObject {
   }
   update(content) {
     this.hasContent = true
+    if (!this._content) {
+      this._content = content
+    }
     this.content = content
     if (typeof this.onUpdate === 'function') {
       this.onUpdate(this)

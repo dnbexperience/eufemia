@@ -33,7 +33,7 @@ Check out a [working example on CodeSandbox](https://codesandbox.io/embed/eufemi
           variant="tertiary"
           icon="arrow-down"
           text="Sortable"
-          title="Sort table row"
+          title="Sort table column"
         />
       </th>
       <th scope="col" className="dnb-table--sortable dnb-table--active">
@@ -41,7 +41,7 @@ Check out a [working example on CodeSandbox](https://codesandbox.io/embed/eufemi
           variant="tertiary"
           icon="arrow-down"
           text="Active"
-          title="Sort table row"
+          title="Sort table column"
         />
       </th>
     </tr>
@@ -99,7 +99,7 @@ Check out a [working example on CodeSandbox](https://codesandbox.io/embed/eufemi
           variant="tertiary"
           icon="arrow-down"
           text="Sortable"
-          title="Sort table row"
+          title="Sort table column"
         />
       </th>
       <th scope="col" className="dnb-table--sortable dnb-table--active">
@@ -107,7 +107,7 @@ Check out a [working example on CodeSandbox](https://codesandbox.io/embed/eufemi
           variant="tertiary"
           icon="arrow-down"
           text="Active"
-          title="Sort table row"
+          title="Sort table column"
         />
       </th>
     </tr>
@@ -159,12 +159,12 @@ To enhance or manipulate the the table style, you can make use of a couple helpe
 - `.dnb-table__th` Table Header
 - `.dnb-table__td` Table Data
 - `.dnb-table__tr` Table Row
-- `.dnb-table__tr--even` Use this on a `tr`
-- `.dnb-table__tr--odd` Use this on a `tr`
+- `.dnb-table__tr--even` Use this on a `tr` - if manual definition is needed
+- `.dnb-table__tr--odd` Use this on a `tr` - if manual definition is needed
 - `.dnb-table--no-wrap` Use this on a `th`
-- `.dnb-table--active` Use this on a `th`
-- `.dnb-table--sortable` Use this on a `th`
-- `.dnb-table--reversed` Use this on a `th`
+- `.dnb-table--sortable` Use this on a `th` - sortable column
+- `.dnb-table--active` Use this on a `th` - current column is sorted
+- `.dnb-table--reversed` Use this on a `th` - defines the order
 
 <!-- - `.dnb-table--tabular` Use this on the `table` root -->
 

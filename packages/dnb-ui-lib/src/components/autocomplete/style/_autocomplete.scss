@@ -120,6 +120,9 @@
   &__input {
     border-radius: var(--autocomplete-height);
   }
+  [aria-controls] {
+    cursor: text;
+  }
 
   &__text {
     order: 1;

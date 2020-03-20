@@ -274,6 +274,7 @@ exports[`DrawerList markup have to match snapshot 1`] = `
       >
         <span
           className="dnb-drawer-list__list dnb-drawer-list__list--no-animation"
+          id="drawer-list-id-listbox"
         >
           <span
             className="dnb-drawer-list__content"

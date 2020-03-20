@@ -11,10 +11,7 @@ class Example extends PureComponent {
   render() {
     return (
       <Fragment>
-        <ComponentBox
-          title="Default autocomplete, with long list to make it scrollable and searchable"
-          scope={{ topMovies }}
-        >
+        <ComponentBox title="Default autocomplete" scope={{ topMovies }}>
           {/* @jsx */ `
 <Autocomplete
   data={topMovies}
@@ -23,7 +20,7 @@ class Example extends PureComponent {
           `}
         </ComponentBox>
         <ComponentBox
-          title="Autocomplete with a title"
+          title="Autocomplete with a custom title"
           data-dnb-test="autocomplete-closed"
           scope={{ topMovies }}
         >
@@ -39,8 +36,8 @@ class Example extends PureComponent {
           `}
         </ComponentBox>
         <ComponentBox
-          title="Update data dynamically during typing"
-          description="**1.** Simualte server delay and **2.** If it gets debounced, we cancel this timeout"
+          title="Async usage, dynamically update data during typing"
+          description="**Notes:** 1. Simualte server delay and 2. If it gets debounced, we cancel this timeout"
           scope={{ topMovies }}
           useRender
         >
@@ -94,7 +91,7 @@ render(<Autocomplete
           `}
         </ComponentBox>
         <ComponentBox
-          title="Autocomplete with a button to toggle the open / closed state"
+          title="With a Button to toggle the open / close state"
           description="**NB:** The data is given as a function and as children."
           data-dnb-test="autocomplete-drawer-button"
           scope={{ topMovies }}
@@ -112,7 +109,7 @@ render(<Autocomplete
           `}
         </ComponentBox>
         <ComponentBox
-          title="Autocomplete in different sizes"
+          title="Different sizes"
           description="Four sizes are available: `small`, `default`, `medium` and `large`"
           data-dnb-test="autocomplete-sizes"
           scope={{ topMovies }}

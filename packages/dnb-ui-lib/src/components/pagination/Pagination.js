@@ -28,6 +28,7 @@ const propTypes = {
   startup_page: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   current_page: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   page_count: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  startup_count: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   parallel_load_count: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number
@@ -106,6 +107,7 @@ const defaultProps = {
   marker_element: undefined,
   indicator_element: undefined,
   align: 'left',
+  startup_count: 1,
   parallel_load_count: 1,
   class: null,
 
@@ -128,11 +130,9 @@ export default class Pagination extends PureComponent {
   }
 
   render() {
-    const { children, ...props } = this.props
-
     return (
-      <PaginationProvider tagName={Pagination.tagName} {...props}>
-        <PaginationInstance {...props}>{children}</PaginationInstance>
+      <PaginationProvider tagName={Pagination.tagName} {...this.props}>
+        <PaginationInstance {...this.props} />
       </PaginationProvider>
     )
   }
@@ -250,3 +250,45 @@ PaginationContent.propTypes = {
 // NB: This is not ready yet
 Pagination.Bar = PaginationBar
 Pagination.Content = PaginationContent
+
+const PaginationWrapper = Pagination
+
+export const createPagination = (initProps = {}) => {
+  const store = React.createRef({})
+  const rerender = React.createRef(null)
+  const _setContent = React.createRef(null)
+  const _setItems = React.createRef(null)
+  const _resetItems = React.createRef(null)
+
+  const setContent = (pageNo, content) => {
+    if (pageNo > 0) {
+      store.current = { ...store.current, ...{ pageNo, content } }
+      rerender.current && rerender.current(store)
+    }
+  }
+  const setItems = items => {
+    _setItems.current && _setItems.current(items)
+  }
+  const resetItems = () => {
+    _resetItems.current && _resetItems.current()
+  }
+
+  const Pagination = props => (
+    <PaginationWrapper
+      tagName={PaginationWrapper.tagName}
+      {...{ ...initProps, ...props }}
+      store={store}
+      rerender={rerender}
+      set_content_handler={fn => (_setContent.current = fn)}
+      set_items_handler={fn => (_setItems.current = fn)}
+      reset_items_handler={fn => (_resetItems.current = fn)}
+    />
+  )
+
+  return {
+    Pagination,
+    setContent,
+    setItems,
+    resetItems
+  }
+}

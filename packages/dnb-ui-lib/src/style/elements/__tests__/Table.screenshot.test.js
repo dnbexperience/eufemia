@@ -40,6 +40,10 @@ describe('Table screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+})
+
+describe('Table screenshot', () => {
+  setupPageScreenshot({ url: '/uilib/elements/tables' })
 
   it('have to match a sortable table header on active', async () => {
     const selector =
@@ -53,6 +57,10 @@ describe('Table screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+})
+
+describe('Table screenshot', () => {
+  setupPageScreenshot({ url: '/uilib/elements/tables' })
 
   it('have to match a active sortable table header on active state', async () => {
     const selector =
