@@ -120,7 +120,7 @@
   &__input {
     border-radius: var(--autocomplete-height);
   }
-  .dnb-core-style & [aria-controls] {
+  [aria-controls] {
     cursor: text;
   }
 
