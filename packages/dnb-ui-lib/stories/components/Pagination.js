@@ -8,7 +8,9 @@ import { Wrapper, Box } from '../helpers'
 import styled from '@emotion/styled'
 
 // import { Button } from '../../src/components'
-import Pagination from '../../src/components/pagination/Pagination'
+import Pagination, {
+  createPagination
+} from '../../src/components/pagination/Pagination'
 import { InfinityPaginationTable } from './PaginationTable'
 
 const LargePage = styled.div`
@@ -104,12 +106,28 @@ const HeightLimit = styled.div`
   border: 4px solid blue;
 `
 
+const {
+  Pagination: PaginationInstance,
+  setPage,
+  resetContent
+} = createPagination()
+
 // eslint-disable-next-line
 const PaginationWithState = ({ children, ...props }) => {
   const [currentPage, setCurrentPage] = React.useState(1)
 
+  setPage(currentPage, children(currentPage))
+
+  // will reset the pagination
+  if (currentPage == 30) {
+    setTimeout(() => {
+      resetContent()
+      setCurrentPage(1)
+    }, 1)
+  }
+
   return (
-    <Pagination
+    <PaginationInstance
       {...props}
       page_count={30}
       current_page={currentPage}
@@ -118,23 +136,16 @@ const PaginationWithState = ({ children, ...props }) => {
         setCurrentPage(page)
 
         // setTimeout(() => {
-        //   insertContent([page, children(page)])
-        // }, 300)
+        //   setPage(page, children(page))
+        // }, Math.ceil(Math.random() * 1e3))
       }}
     >
-      {({ page, insertContent }) => {
+      {/* {({ page, setPage }) => {
         setTimeout(() => {
-          insertContent([page, children(page)])
-        }, 300)
-      }}
-      {/* <Pagination.Content>Content</Pagination.Content>
-      <Pagination.Bar
-        on_change={({ page }) => {
-          setCurrentPage(page)
-        }}
-      /> */}
-      {/* just a child */}
-    </Pagination>
+          setPage(page, children(page))
+        }, Math.ceil(Math.random() * 1e3))
+      }} */}
+    </PaginationInstance>
   )
 }
 
@@ -144,11 +155,11 @@ const InfinityPagination = ({ children, ...props }) => {
     <Pagination
       mode="infinity"
       {...props}
-      on_load={({ page, insertContent }) => {
+      on_load={({ page, setPage }) => {
         console.log('InfinityPagination on_load:', page)
 
         setTimeout(() => {
-          insertContent([page, children(page)])
+          setPage(page, children(page))
         }, Math.ceil(Math.random() * 1e3))
       }}
     >

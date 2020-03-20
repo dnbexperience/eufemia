@@ -81,13 +81,13 @@ export default class InfinityScroller extends PureComponent {
           position: 'after',
           skipObserver: i + 1 < startupCount
         },
-        { isStartup: true }
+        { isStartup: i === 0 }
       )
     }
   }
 
   getNewContent = (newPageNo, props = {}, { isStartup = false } = {}) => {
-    const pageCount = parseFloat(this.context.pagination.page_count)
+    const { pageCount } = this.context.pagination
 
     // if "page_count" is set do not load more than that value
     if (newPageNo > pageCount) {
@@ -170,11 +170,10 @@ export default class InfinityScroller extends PureComponent {
         const marker = hasContent &&
           !this.useLoadButton &&
           !skipObserver &&
-          pageNo < pageCount && (
+          (pageNo < pageCount || typeof pageCount === 'undefined') && (
             <InfinityMarker
               pageNo={pageNo}
               marker_element={marker_element || fallback_element}
-              // callOnStartup={parallelLoadCount > 0 && pageNo === 1}
               onVisible={pageNoVisible => {
                 // load several pages at once
                 for (let i = 0; i < parallelLoadCount; ++i) {

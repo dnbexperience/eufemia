@@ -19,12 +19,13 @@ exports[`Pagination bar component have to match snapshot 1`] = `
         "mode": "'pagination'",
         "on_change": [Function],
         "on_load": [Function],
+        "on_startup": [Function],
         "page_count": "page_count",
         "page_element": Object {},
         "parallel_load_count": "parallel_load_count",
-        "reset_items_handler": "reset_items_handler",
+        "reset_content_handler": "reset_content_handler",
         "set_content_handler": "set_content_handler",
-        "set_items_handler": "set_items_handler",
+        "set_page_handler": "set_page_handler",
         "startup_count": "startup_count",
         "startup_page": "startup_page",
         "use_load_button": "use_load_button",
@@ -48,12 +49,13 @@ exports[`Pagination bar component have to match snapshot 1`] = `
         "mode": "'pagination'",
         "on_change": [Function],
         "on_load": [Function],
+        "on_startup": [Function],
         "page_count": "page_count",
         "page_element": Object {},
         "parallel_load_count": "parallel_load_count",
-        "reset_items_handler": "reset_items_handler",
+        "reset_content_handler": "reset_content_handler",
         "set_content_handler": "set_content_handler",
-        "set_items_handler": "set_items_handler",
+        "set_page_handler": "set_page_handler",
         "startup_count": "startup_count",
         "startup_page": "startup_page",
         "use_load_button": "use_load_button",
@@ -69,11 +71,12 @@ exports[`Pagination bar component have to match snapshot 1`] = `
   mode="pagination"
   on_change={null}
   on_load={null}
+  on_startup={null}
   page_count={null}
   parallel_load_count={1}
-  reset_items_handler={null}
+  reset_content_handler={null}
   set_content_handler={null}
-  set_items_handler={null}
+  set_page_handler={null}
   startup_count={1}
   startup_page={null}
   use_load_button={false}
@@ -96,12 +99,13 @@ exports[`Pagination bar component have to match snapshot 1`] = `
           "mode": "'pagination'",
           "on_change": [Function],
           "on_load": [Function],
+          "on_startup": [Function],
           "page_count": "page_count",
           "page_element": Object {},
           "parallel_load_count": "parallel_load_count",
-          "reset_items_handler": "reset_items_handler",
+          "reset_content_handler": "reset_content_handler",
           "set_content_handler": "set_content_handler",
-          "set_items_handler": "set_items_handler",
+          "set_page_handler": "set_page_handler",
           "startup_count": "startup_count",
           "startup_page": "startup_page",
           "use_load_button": "use_load_button",
@@ -125,12 +129,13 @@ exports[`Pagination bar component have to match snapshot 1`] = `
           "mode": "'pagination'",
           "on_change": [Function],
           "on_load": [Function],
+          "on_startup": [Function],
           "page_count": "page_count",
           "page_element": Object {},
           "parallel_load_count": "parallel_load_count",
-          "reset_items_handler": "reset_items_handler",
+          "reset_content_handler": "reset_content_handler",
           "set_content_handler": "set_content_handler",
-          "set_items_handler": "set_items_handler",
+          "set_page_handler": "set_page_handler",
           "startup_count": "startup_count",
           "startup_page": "startup_page",
           "use_load_button": "use_load_button",
@@ -141,17 +146,19 @@ exports[`Pagination bar component have to match snapshot 1`] = `
     class={null}
     className={null}
     current_page={null}
+    end_infinity_handler={null}
     hide_progress_indicator={false}
     items={null}
     mode="pagination"
     on_change={null}
     on_load={null}
+    on_startup={null}
     page_count={null}
     parallel_load_count={1}
     rerender={null}
-    reset_items_handler={null}
+    reset_content_handler={null}
     set_content_handler={null}
-    set_items_handler={null}
+    set_page_handler={null}
     startup_count={1}
     startup_page={null}
     store={null}
@@ -176,12 +183,13 @@ exports[`Pagination bar component have to match snapshot 1`] = `
             "mode": "'pagination'",
             "on_change": [Function],
             "on_load": [Function],
+            "on_startup": [Function],
             "page_count": "page_count",
             "page_element": Object {},
             "parallel_load_count": "parallel_load_count",
-            "reset_items_handler": "reset_items_handler",
+            "reset_content_handler": "reset_content_handler",
             "set_content_handler": "set_content_handler",
-            "set_items_handler": "set_items_handler",
+            "set_page_handler": "set_page_handler",
             "startup_count": "startup_count",
             "startup_page": "startup_page",
             "use_load_button": "use_load_button",
@@ -205,12 +213,13 @@ exports[`Pagination bar component have to match snapshot 1`] = `
             "mode": "'pagination'",
             "on_change": [Function],
             "on_load": [Function],
+            "on_startup": [Function],
             "page_count": "page_count",
             "page_element": Object {},
             "parallel_load_count": "parallel_load_count",
-            "reset_items_handler": "reset_items_handler",
+            "reset_content_handler": "reset_content_handler",
             "set_content_handler": "set_content_handler",
-            "set_items_handler": "set_items_handler",
+            "set_page_handler": "set_page_handler",
             "startup_count": "startup_count",
             "startup_page": "startup_page",
             "use_load_button": "use_load_button",
@@ -226,11 +235,12 @@ exports[`Pagination bar component have to match snapshot 1`] = `
       mode="pagination"
       on_change={null}
       on_load={null}
+      on_startup={null}
       page_count={null}
       parallel_load_count={1}
-      reset_items_handler={null}
+      reset_content_handler={null}
       set_content_handler={null}
-      set_items_handler={null}
+      set_page_handler={null}
       startup_count={1}
       startup_page={null}
       use_load_button={false}

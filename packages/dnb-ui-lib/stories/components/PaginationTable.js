@@ -14,7 +14,12 @@ import { StickyHelper } from '../../src/elements/Table'
 import { createPagination } from '../../src/components/Pagination'
 
 // create our Pagination instance
-const { Pagination, setContent, resetItems } = createPagination()
+const {
+  Pagination,
+  setContent,
+  resetContent,
+  endInfinity
+} = createPagination()
 
 export default [
   'PaginationTable',
@@ -53,7 +58,8 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
   const [currentPage, setCurrentPage] = React.useState(null)
   const [cacheHash, forceRerender] = React.useState(null) // eslint-disable-line
 
-  const maxPagesCount = Math.floor(tableItems?.length / perPageCount)
+  // is not needed
+  // const maxPagesCount = Math.floor(tableItems?.length / perPageCount)
 
   // ascending / descending
   tableItems = reorderDirection(tableItems, orderDirection)
@@ -80,6 +86,7 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
       setHeight({ element, expanded: !item.expanded })
     }
   }
+  // set the startup height
   const onMounted = items => {
     items.forEach(({ element: { current: element }, expanded }) =>
       setHeight({ element, expanded, animation: false })
@@ -110,7 +117,7 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
               icon_position="left"
               variant="secondary"
               on_click={() => {
-                resetItems()
+                resetContent()
 
                 // rerender our component to get back the default state
                 setOrderDirection('asc')
@@ -135,7 +142,7 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
               title="Sort table row"
               on_click={() => {
                 // 1. empty
-                resetItems()
+                resetContent()
 
                 setOrderDirection(o => (o === 'asc' ? 'desc' : 'asc'))
               }}
@@ -158,10 +165,10 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
           parallel_load_count={1} // how many pages to load during next load
           startup_page={startupPage} // the very first page we load
           // current_page={currentPage}// is not needed
-          page_count={maxPagesCount}
+          // page_count={maxPagesCount}// is not needed
           {...props}
           on_startup={({ page }) => {
-            console.log('on_startup: with page', page)
+            // console.log('on_startup: with page', page)
 
             // simulate server delay
             setTimeout(() => {
@@ -172,17 +179,17 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
               forceRerender(new Date().getTime())
             }, Math.ceil(Math.random() * 1e3)) // simulate random delay
           }}
-          on_load={({ page /*, setContent, resetItems */ }) => {
+          on_load={({ page /*, setContent, resetContent */ }) => {
             console.log('on_load: with page', page)
+          }}
+          on_change={({ page }) => {
+            console.log('on_change: with page', page)
 
             // simulate server delay
             setTimeout(() => {
               // once we set current page, we force a rerender, and sync of data
               setCurrentPage(page)
             }, Math.ceil(Math.random() * 1e3)) // simulate random delay
-          }}
-          on_change={({ page }) => {
-            console.log('on_change: with page', page)
           }}
         />
       </tbody>
@@ -203,49 +210,52 @@ const InfinityPagination = ({
   ...props
 }) => {
   const mountedItems = []
-  React.useEffect(() => {
-    if (onMounted) {
-      onMounted(mountedItems)
-    }
-  }, [])
-  return items
-    .filter((cur, idx) => {
-      const floor = (currentPage - 1) * perPageCount
-      const ceil = floor + perPageCount
-      return idx >= floor && idx < ceil
-    })
-    .map(item => {
-      const params = {
-        onClick: e => {
-          onToggleExpanded(item, currentPage, e.currentTarget)
-        }
+  React.useEffect(() => onMounted && onMounted(mountedItems), []) // eslint-disable-line
+
+  items = items.filter((cur, idx) => {
+    const floor = (currentPage - 1) * perPageCount
+    const ceil = floor + perPageCount
+    return idx >= floor && idx < ceil
+  })
+
+  if (items.length === 0) {
+    endInfinity()
+    return null
+  }
+
+  return items.map(item => {
+    const params = {
+      onClick: e => {
+        onToggleExpanded(item, currentPage, e.currentTarget)
       }
-      const ref = React.useRef(null)
-      mountedItems.push({ ...item, element: ref })
-      return (
-        <TableRow
-          key={item.ssn}
-          {...props}
-          ref={ref}
-          className={item.expanded ? 'expanded' : ''}
-        >
-          <TableData {...params}>
-            <Button
-              title={item.expanded ? 'Hide details' : 'Show more details'}
-              icon="chevron_down"
-              size="small"
-              right="large"
-            />
-            {item.expanded && <strong>I'm expanded!</strong>}
-          </TableData>
-          <TableData {...params}>
-            <P className="dnb-h2">
-              {item.text} {children}
-            </P>
-          </TableData>
-        </TableRow>
-      )
-    })
+    }
+    const ref = React.createRef(null)
+    mountedItems.push({ ...item, element: ref })
+
+    return (
+      <TableRow
+        key={item.ssn}
+        {...props}
+        ref={ref}
+        className={item.expanded ? 'expanded' : ''}
+      >
+        <TableData {...params}>
+          <Button
+            title={item.expanded ? 'Hide details' : 'Show more details'}
+            icon="chevron_down"
+            size="small"
+            right="large"
+          />
+          {item.expanded && <strong>I'm expanded!</strong>}
+        </TableData>
+        <TableData {...params}>
+          <P className="dnb-h2">
+            {item.text} {children}
+          </P>
+        </TableData>
+      </TableRow>
+    )
+  })
 }
 
 const StyledTable = styled(Table)`

@@ -52,37 +52,35 @@ export default class PaginationBar extends PureComponent {
   }
 
   callChildrenCallabck(pageNo) {
-    if (this.hasChildrenCallabck()) {
-      const items = this.context.pagination.prefillItems(
-        this.context.pagination.currentPage,
-        {
-          skipObserver: true
-        }
-      )
-      this.context.pagination.setState({
-        items
-      })
+    if (!this.hasChildrenCallabck()) {
+      return // stop here
+    }
 
-      const potentialElement = this.props.children({
-        pageNo,
-        page: pageNo,
-        ...this.context.pagination
-      })
-
-      if (
-        potentialElement &&
-        (React.isValidElement(potentialElement) ||
-          typeof potentialElement === 'function')
-      ) {
-        setTimeout(
-          () =>
-            this.context.pagination.insertContent([
-              pageNo,
-              potentialElement
-            ]),
-          1 // after first render
-        )
+    const items = this.context.pagination.prefillItems(
+      this.context.pagination.currentPage,
+      {
+        skipObserver: true
       }
+    )
+    this.context.pagination.setState({
+      items
+    })
+
+    const potentialElement = this.props.children({
+      pageNo,
+      page: pageNo,
+      ...this.context.pagination
+    })
+
+    if (
+      potentialElement &&
+      (React.isValidElement(potentialElement) ||
+        typeof potentialElement === 'function')
+    ) {
+      setTimeout(
+        () => this.context.pagination.setPage([pageNo, potentialElement]),
+        1 // after first render
+      )
     }
   }
 
