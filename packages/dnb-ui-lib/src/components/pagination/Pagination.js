@@ -259,12 +259,12 @@ const PaginationWrapper = Pagination
 export const createPagination = (initProps = {}) => {
   const store = React.createRef({})
   const rerender = React.createRef(null)
+  const _updateContent = React.createRef(null)
   const _setContent = React.createRef(null)
-  const _setPage = React.createRef(null)
   const _resetContent = React.createRef(null)
   const _endInfinity = React.createRef(null)
 
-  const setContent = (pageNo, content) => {
+  const updateContent = (pageNo, content) => {
     if (pageNo > 0) {
       store.current = { ...store.current, ...{ pageNo, content } }
       rerender.current && rerender.current(store)
@@ -280,8 +280,8 @@ export const createPagination = (initProps = {}) => {
       {...{ ...initProps, ...props }}
       store={store}
       rerender={rerender}
-      set_content_handler={fn => (_setContent.current = fn)}
-      set_page_handler={fn => (_setPage.current = fn)}
+      set_content_handler={fn => (_updateContent.current = fn)}
+      set_page_handler={fn => (_setContent.current = fn)}
       reset_content_handler={fn => (_resetContent.current = fn)}
       end_infinity_handler={fn => (_endInfinity.current = fn)}
     />
@@ -289,8 +289,8 @@ export const createPagination = (initProps = {}) => {
 
   return {
     Pagination,
-    setContent,
-    setPage: setContent,
+    updateContent,
+    setContent: updateContent,
     resetContent,
     endInfinity,
     resetItems: resetContent // deprecated

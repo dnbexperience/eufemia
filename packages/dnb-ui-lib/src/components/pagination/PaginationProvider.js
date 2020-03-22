@@ -105,10 +105,13 @@ export default class PaginationProvider extends PureComponent {
       this.rerender = ({ current: store }) => {
         if (store && store.pageNo > 0) {
           if (props.mode === 'infinity') {
-            this.setContent(store.pageNo, store.content)
+            this.updateContent(store.pageNo, store.content)
           } else {
-            // because we have a set state inside setPage and render at the same time
-            setTimeout(() => this.setPage(store.pageNo, store.content), 1)
+            // because we have a set state inside setContent and render at the same time
+            setTimeout(
+              () => this.setContent(store.pageNo, store.content),
+              1
+            )
           }
         }
       }
@@ -126,7 +129,7 @@ export default class PaginationProvider extends PureComponent {
 
     // update the callback handlers
     if (typeof set_content_handler === 'function') {
-      set_content_handler(this.setContent)
+      set_content_handler(this.updateContent)
     }
     if (typeof set_page_handler === 'function') {
       set_page_handler(this.setItems)
@@ -141,9 +144,9 @@ export default class PaginationProvider extends PureComponent {
     if (this.props.store && this.props.store.current) {
       const store = this.props.store.current
       if (this.props.mode === 'infinity') {
-        this.setContent(store.pageNo, store.content)
+        this.updateContent(store.pageNo, store.content)
       } else {
-        this.setPage(store.pageNo, store.content)
+        this.setContent(store.pageNo, store.content)
       }
     }
 
@@ -154,7 +157,7 @@ export default class PaginationProvider extends PureComponent {
     this._isMounted = false
   }
 
-  setContent = (pageNo, content) => {
+  updateContent = (pageNo, content) => {
     this.state.items.forEach(item => {
       if (item.pageNo === pageNo) {
         if (item.content) {
@@ -176,9 +179,13 @@ export default class PaginationProvider extends PureComponent {
     )
   }
 
-  endInfinity = () => {
+  endInfinity = (pageCount = this.state.items.length) => {
+    const items = this.state.items.filter(({ pageNo }) => {
+      return pageNo < pageCount
+    })
     this.setState({
-      pageCount: this.state.items.length,
+      items,
+      pageCount,
       _listenForPropChanges: false
     })
   }
@@ -245,7 +252,7 @@ export default class PaginationProvider extends PureComponent {
     this._updateStack.push(fn)
   }
 
-  setPage = (newContent, content = null) => {
+  setContent = (newContent, content = null) => {
     if (!Array.isArray(newContent) && content) {
       newContent = [newContent, content]
     }
@@ -294,8 +301,8 @@ export default class PaginationProvider extends PureComponent {
         value={{
           ...this.context,
           pagination: {
+            updateContent: this.updateContent,
             setContent: this.setContent,
-            setPage: this.setPage,
             resetContent: this.resetContent,
             endInfinity: this.endInfinity,
             setItems: this.setItems,

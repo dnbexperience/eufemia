@@ -78,7 +78,7 @@ export default class PaginationBar extends PureComponent {
         typeof potentialElement === 'function')
     ) {
       setTimeout(
-        () => this.context.pagination.setPage([pageNo, potentialElement]),
+        () => this.context.pagination.setContent([pageNo, potentialElement]),
         1 // after first render
       )
     }
@@ -117,7 +117,7 @@ export default class PaginationBar extends PureComponent {
     })
   }
 
-  setPage = (currentPage, event = null) => {
+  setContent = (currentPage, event = null) => {
     this.keepPageHeight()
     this.focusPage()
 
@@ -145,14 +145,14 @@ export default class PaginationBar extends PureComponent {
   }
 
   setPrevPage = () => {
-    this.setPage(this.context.pagination.currentPage - 1)
+    this.setContent(this.context.pagination.currentPage - 1)
   }
   setNextPage = () => {
-    this.setPage(this.context.pagination.currentPage + 1)
+    this.setContent(this.context.pagination.currentPage + 1)
   }
 
   clickHandler = ({ pageNo, event }) => {
-    this.setPage(pageNo, event)
+    this.setContent(pageNo, event)
   }
 
   render() {

@@ -502,8 +502,8 @@ exports[`Pagination scss have to match default theme snapshot 1`] = `
 /*
  * Utilities
  */
-.dnb-pagination__page {
-  min-height: 10rem; }
+.dnb-pagination__page, .dnb-pagination__loadbar {
+  min-height: 6rem; }
 
 .dnb-pagination__bar {
   margin-top: 1rem;
@@ -1104,10 +1104,10 @@ button.dnb-button::-moz-focus-inner {
     flex-wrap: nowrap;
     height: 1rem; }
     .dnb-pagination__dots > div {
-      height: 0.2rem;
-      width: 0.2rem;
+      height: 3px;
+      width: 3px;
       margin: 0 0.1rem;
-      border-radius: 0.1rem; }
+      border-radius: 1.5px; }
   .dnb-core-style .dnb-pagination__button, .dnb-pagination__button, .dnb-pagination__dots {
     margin-right: 0.5rem;
     margin-top: 0.5rem;

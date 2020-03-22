@@ -51,6 +51,7 @@ export default [
           {({ pageNo }) => <div>Page {pageNo}</div>}
         </Pagination>
       </Box>
+
       <Box>
         <PaginationWithState
           align="center"
@@ -73,6 +74,7 @@ export default [
           </InfinityPagination>
         </HeightLimit>
       </Box>
+
       <Box>
         <HeightLimit>
           <InfinityPagination
@@ -90,6 +92,28 @@ export default [
           </InfinityPagination>
         </HeightLimit>
       </Box>
+
+      <Box>
+        <HeightLimit>
+          <Pagination
+            mode="infinity"
+            startup_count={2}
+            parallel_load_count={2}
+            on_load={({ page, setContent, endInfinity }) => {
+              if (page > 10) {
+                endInfinity()
+                setContent(
+                  page,
+                  <LargePage color="lightgreen">End</LargePage>
+                )
+              } else {
+                setContent(page, <LargePage>{page}</LargePage>)
+              }
+            }}
+          />
+        </HeightLimit>
+      </Box>
+
       <Box>
         <HeightLimit>
           <InfinityPaginationTable tableItems={tableItems} />
@@ -108,7 +132,7 @@ const HeightLimit = styled.div`
 
 const {
   Pagination: PaginationInstance,
-  setPage,
+  setContent,
   resetContent
 } = createPagination()
 
@@ -116,7 +140,7 @@ const {
 const PaginationWithState = ({ children, ...props }) => {
   const [currentPage, setCurrentPage] = React.useState(1)
 
-  setPage(currentPage, children(currentPage))
+  setContent(currentPage, children(currentPage))
 
   // will reset the pagination
   if (currentPage == 30) {
@@ -136,13 +160,13 @@ const PaginationWithState = ({ children, ...props }) => {
         setCurrentPage(page)
 
         // setTimeout(() => {
-        //   setPage(page, children(page))
+        //   setContent(page, children(page))
         // }, Math.ceil(Math.random() * 1e3))
       }}
     >
-      {/* {({ page, setPage }) => {
+      {/* {({ page, setContent }) => {
         setTimeout(() => {
-          setPage(page, children(page))
+          setContent(page, children(page))
         }, Math.ceil(Math.random() * 1e3))
       }} */}
     </PaginationInstance>
@@ -155,11 +179,11 @@ const InfinityPagination = ({ children, ...props }) => {
     <Pagination
       mode="infinity"
       {...props}
-      on_load={({ page, setPage }) => {
+      on_load={({ page, setContent }) => {
         console.log('InfinityPagination on_load:', page)
 
         setTimeout(() => {
-          setPage(page, children(page))
+          setContent(page, children(page))
         }, Math.ceil(Math.random() * 1e3))
       }}
     >

@@ -22,42 +22,6 @@ import PaginationContext from './PaginationContext'
 const propTypes = {}
 const defaultProps = {}
 
-class ScrollToElement extends PureComponent {
-  static propTypes = {
-    page_element: PropTypes.oneOfType([
-      PropTypes.object,
-      PropTypes.node,
-      PropTypes.func,
-      PropTypes.string
-    ])
-  }
-  static defaultProps = {
-    page_element: null
-  }
-  componentDidMount() {
-    // we use "findDOMNode" here, because we have situations, where we dont knwo about what the input element is,
-    // we also don't want to wrap them because of markup collitions
-    // therefor we use "findDOMNode" here
-    // so we can scroll to that page
-    // eslint-disable-next-line
-    const elem = findDOMNode(this)
-    this.scrollToPage(elem)
-  }
-  scrollToPage(element) {
-    if (element && typeof element.scrollIntoView === 'function') {
-      element.scrollIntoView({
-        block: 'nearest',
-        behavior: 'smooth'
-      })
-    }
-  }
-  render() {
-    const { page_element, ...props } = this.props
-    const Element = preparePageElement(page_element || Fragment)
-    return <Element {...props} />
-  }
-}
-
 export default class InfinityScroller extends PureComponent {
   static contextType = PaginationContext
   static propTypes = propTypes
@@ -135,7 +99,7 @@ export default class InfinityScroller extends PureComponent {
     // our props
     const {
       startupPage,
-      page_count,
+      // page_count,
       parallel_load_count,
       page_element,
       fallback_element,
@@ -144,7 +108,7 @@ export default class InfinityScroller extends PureComponent {
     } = this.context.pagination
 
     // make some props ready to use
-    const originalPageCount = parseFloat(page_count)
+    // const originalPageCount = parseFloat(page_count)
     const parallelLoadCount = parseFloat(parallel_load_count)
 
     // invoke startup if needed
@@ -158,13 +122,13 @@ export default class InfinityScroller extends PureComponent {
 
     return items.map(
       (
-        { pageNo, hasContent, content, ref, skipObserver, ItemElement },
+        { pageNo, hasContent, content, ref, skipObserver, ScrollElement },
         idx
       ) => {
         const isLastItem = idx === items.length - 1
 
         // decide to whether use the default Element, or use the scrollTo element
-        const Elem = ItemElement || Element
+        const Elem = (hasContent && ScrollElement) || Element
 
         // render the marker before
         const marker = hasContent &&
@@ -178,10 +142,15 @@ export default class InfinityScroller extends PureComponent {
                 // load several pages at once
                 for (let i = 0; i < parallelLoadCount; ++i) {
                   const currentLoadingPage = pageNoVisible + 1 + i
-                  this.getNewContent(currentLoadingPage, {
-                    position: 'after',
-                    skipObserver: i + 1 < parallelLoadCount
-                  })
+                  if (
+                    currentLoadingPage < pageCount ||
+                    typeof pageCount === 'undefined'
+                  ) {
+                    this.getNewContent(currentLoadingPage, {
+                      position: 'after',
+                      skipObserver: i + 1 < parallelLoadCount
+                    })
+                  }
                 }
               }}
             />
@@ -219,7 +188,7 @@ export default class InfinityScroller extends PureComponent {
             {hasContent &&
               this.useLoadButton &&
               isLastItem &&
-              (originalPageCount > 0 ? pageNo < pageCount : true) && (
+              (pageNo < pageCount || typeof pageCount === 'undefined') && (
                 <InfinityLoadButton
                   element={fallback_element}
                   icon="arrow_down"
@@ -227,12 +196,13 @@ export default class InfinityScroller extends PureComponent {
                     this.getNewContent(pageNo + 1, {
                       position: 'after',
                       skipObserver: true,
-                      ItemElement: props => (
-                        <ScrollToElement
-                          page_element={page_element}
-                          {...props}
-                        />
-                      ),
+                      ScrollElement: props =>
+                        hasContent && (
+                          <ScrollToElement
+                            page_element={page_element}
+                            {...props}
+                          />
+                        ),
                       event
                     })
                   }
@@ -381,5 +351,41 @@ class InfinityLoadButton extends PureComponent {
         </ElementChild>
       </Element>
     )
+  }
+}
+
+class ScrollToElement extends PureComponent {
+  static propTypes = {
+    page_element: PropTypes.oneOfType([
+      PropTypes.object,
+      PropTypes.node,
+      PropTypes.func,
+      PropTypes.string
+    ])
+  }
+  static defaultProps = {
+    page_element: null
+  }
+  componentDidMount() {
+    // we use "findDOMNode" here, because we have situations, where we dont knwo about what the input element is,
+    // we also don't want to wrap them because of markup collitions
+    // therefor we use "findDOMNode" here
+    // so we can scroll to that page
+    // eslint-disable-next-line
+    const elem = findDOMNode(this)
+    this.scrollToPage(elem)
+  }
+  scrollToPage(element) {
+    if (element && typeof element.scrollIntoView === 'function') {
+      element.scrollIntoView({
+        block: 'nearest',
+        behavior: 'smooth'
+      })
+    }
+  }
+  render() {
+    const { page_element, ...props } = this.props
+    const Element = preparePageElement(page_element || Fragment)
+    return <Element {...props} />
   }
 }

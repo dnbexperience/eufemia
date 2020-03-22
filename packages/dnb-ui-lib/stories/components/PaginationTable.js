@@ -1,5 +1,5 @@
 /**
- * To showcase the usage of FormRow
+ * To showcase the Pagination in combination with a Table
  *
  */
 
@@ -16,7 +16,7 @@ import { createPagination } from '../../src/components/Pagination'
 // create our Pagination instance
 const {
   Pagination,
-  setContent,
+  updateContent,
   resetContent,
   endInfinity
 } = createPagination()
@@ -104,7 +104,7 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
     />
   )
 
-  setContent(currentPage, content)
+  updateContent(currentPage, content)
 
   return (
     <StyledTable sticky>
@@ -179,7 +179,7 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
               forceRerender(new Date().getTime())
             }, Math.ceil(Math.random() * 1e3)) // simulate random delay
           }}
-          on_load={({ page /*, setContent, resetContent */ }) => {
+          on_load={({ page /*, updateContent, resetContent */ }) => {
             console.log('on_load: with page', page)
           }}
           on_change={({ page }) => {

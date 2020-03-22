@@ -6,8 +6,9 @@
 @import '../../../../style/themes/imports.scss';
 
 .dnb-pagination {
-  &__page {
-    min-height: 10rem;
+  &__page,
+  &__loadbar {
+    min-height: 6rem;
   }
 
   &__bar {
