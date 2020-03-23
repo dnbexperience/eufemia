@@ -186,7 +186,7 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
             setTimeout(() => {
               // once we set current page, we force a rerender, and sync of data
               setLocalPage(page)
-            }, Math.ceil(Math.random() * 1e3 + 2e3)) // simulate random delay
+            }, Math.ceil(Math.random() * 1e3)) // simulate random delay
           }}
         />
       </tbody>
@@ -224,7 +224,9 @@ const InfinityPagination = ({
   return items.map(item => {
     const params = {
       onClick: e => {
-        onToggleExpanded(item, currentPage, e.currentTarget)
+        if (!hasSelectedText(e.currentTarget)) {
+          onToggleExpanded(item, currentPage, e.currentTarget)
+        }
       }
     }
     const ref = React.createRef(null)
@@ -244,10 +246,10 @@ const InfinityPagination = ({
             size="small"
             right="large"
           />
-          {item.expanded && <strong>I'm expanded!</strong>}
+          {item.expanded && <span>I'm expanded!</span>}
         </TableData>
         <TableData {...params}>
-          <P className="dnb-h2">
+          <P>
             {item.text} {children}
           </P>
         </TableData>
@@ -270,19 +272,21 @@ const TableRow = styled.tr`
 
   &.expanded {
     .dnb-icon {
-      ${'' /* transform: scale(-1); */}
       transform: rotate(-180deg);
     }
   }
 
-  /** This is our expanded height (maxHeight) */
-  /** NB: we can use max-height, because max-height is not supported in tr */
+  /** This is our expanded height (maxHeight)
+      NB: we can use max-height, because max-height is not supported in tr
+  */
   max-height: 10rem;
   transition: height 0.4s ease-out;
 `
 
 const TableData = styled.td`
-  cursor: pointer;
+  tr:not(.expanded) & {
+    cursor: pointer;
+  }
 
   .dnb-pagination__loadbar {
     justify-content: flex-start;
@@ -293,8 +297,17 @@ const TableData = styled.td`
   }
 
   .dnb-p {
+    cursor: text;
+
     font-feature-settings: 'pnum' on, 'lnum' on;
     font-weight: var(--font-weight-bold);
+    font-size: var(--font-size-large);
+
+    /** reset css specificity */
+    .dnb-spacing &.dnb-h2:not([class*='space__bottom']),
+    .dnb-core-style .dnb-spacing &.dnb-h2:not([class*='space__bottom']) {
+      margin: 0;
+    }
   }
 `
 
@@ -328,6 +341,22 @@ const setHeight = ({
       )
     })
   }
+}
+
+const hasSelectedText = () => {
+  let selectedText = ''
+
+  try {
+    if (typeof window.getSelection === 'function') {
+      selectedText = window.getSelection().toString()
+    } else if (document.selection?.type !== 'Control') {
+      selectedText = document.selection.createRange().text
+    }
+  } catch (e) {
+    //
+  }
+
+  return selectedText !== ''
 }
 
 const reorderDirection = (items, dir) =>

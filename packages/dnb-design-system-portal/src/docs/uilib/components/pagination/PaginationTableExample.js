@@ -50,7 +50,7 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
     { Pagination, setContent, resetContent, endInfinity }
   ] = React.useState(createPagination)
   const [orderDirection, setOrderDirection] = React.useState('asc')
-  const [localPage, setLocalPage] = React.useState(null)
+  const [currentPage, setLocalPage] = React.useState(null)
   const [cacheHash, forceRerender] = React.useState(null) // eslint-disable-line
 
   // is not needed
@@ -93,14 +93,14 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
     <InfinityPagination
       items={tableItems}
       perPageCount={perPageCount}
-      currentPage={localPage}
+      currentPage={currentPage}
       onToggleExpanded={onToggleExpanded}
       onMounted={onMounted}
       endInfinity={endInfinity}
     />
   )
 
-  setContent(localPage, content)
+  setContent(currentPage, content)
 
   return (
     <StyledTable sticky>
@@ -158,9 +158,9 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
             </TableRow>
           )} // in order to show the injected "indicator" and "load button" in the middle of the orw
           startup_count={1} // how many pages to show on starutp
-          parallel_load_count={2} // how many pages to load during next load
+          parallel_load_count={1} // how many pages to load during next load
           startup_page={startupPage} // the very first page we load
-          // current_page={localPage}// is not needed
+          // current_page={currentPage}// is not needed
           // page_count={maxPagesCount}// is not needed
           {...props}
           on_startup={({ page }) => {
@@ -171,7 +171,7 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
               // once we set current page, we force a rerender, and sync of data
               setLocalPage(page)
 
-              // since localPage already is the same
+              // since currentPage already is the same
               forceRerender(new Date().getTime())
             }, Math.ceil(Math.random() * 1e3)) // simulate random delay
           }}
@@ -223,7 +223,9 @@ const InfinityPagination = ({
   return items.map(item => {
     const params = {
       onClick: e => {
-        onToggleExpanded(item, currentPage, e.currentTarget)
+        if (!hasSelectedText(e.currentTarget)) {
+          onToggleExpanded(item, currentPage, e.currentTarget)
+        }
       }
     }
     const ref = React.createRef(null)
@@ -243,10 +245,10 @@ const InfinityPagination = ({
             size="small"
             right="large"
           />
-          {item.expanded && <strong>I'm expanded!</strong>}
+          {item.expanded && <span>I'm expanded!</span>}
         </TableData>
         <TableData {...params}>
-          <P className="dnb-h2">
+          <P>
             {item.text} {children}
           </P>
         </TableData>
@@ -281,7 +283,9 @@ const TableRow = styled.tr`
 `
 
 const TableData = styled.td`
-  cursor: pointer;
+  tr:not(.expanded) & {
+    cursor: pointer;
+  }
 
   .dnb-pagination__loadbar {
     justify-content: flex-start;
@@ -292,8 +296,11 @@ const TableData = styled.td`
   }
 
   .dnb-p {
+    cursor: text;
+
     font-feature-settings: 'pnum' on, 'lnum' on;
     font-weight: var(--font-weight-bold);
+    font-size: var(--font-size-large);
 
     /** reset css specificity */
     .dnb-spacing &.dnb-h2:not([class*='space__bottom']),
@@ -333,6 +340,22 @@ const setHeight = ({
       )
     })
   }
+}
+
+const hasSelectedText = () => {
+  let selectedText = ''
+
+  try {
+    if (typeof window.getSelection === 'function') {
+      selectedText = window.getSelection().toString()
+    } else if (document.selection?.type !== 'Control') {
+      selectedText = document.selection.createRange().text
+    }
+  } catch (e) {
+    //
+  }
+
+  return selectedText !== ''
 }
 
 const reorderDirection = (items, dir) =>

@@ -69,22 +69,23 @@ export default class InfinityScroller extends PureComponent {
 
     const items = this.context.pagination.prefillItems(newPageNo, props)
 
-    const createEvent = eventName =>
-      this.context.pagination.setItems(items, () => {
+    this.context.pagination.setItems(items, () => {
+      const createEvent = eventName => {
         dispatchCustomElementEvent(this.context.pagination, eventName, {
           page: newPageNo,
           pageNo: newPageNo,
           ...this.context.pagination
         })
-      })
+      }
 
-    if (isStartup) {
-      createEvent('on_startup')
-    } else {
-      createEvent('on_change')
-    }
+      if (isStartup) {
+        createEvent('on_startup')
+      } else {
+        createEvent('on_change')
+      }
 
-    createEvent('on_load')
+      createEvent('on_load')
+    })
   }
 
   render() {
@@ -99,7 +100,6 @@ export default class InfinityScroller extends PureComponent {
     // our props
     const {
       startupPage,
-      // page_count,
       parallel_load_count,
       page_element,
       fallback_element,
@@ -108,12 +108,12 @@ export default class InfinityScroller extends PureComponent {
     } = this.context.pagination
 
     // make some props ready to use
-    // const originalPageCount = parseFloat(page_count)
     const parallelLoadCount = parseFloat(parallel_load_count)
 
     // invoke startup if needed
     if (!(items && items.length > 0)) {
-      setTimeout(this.startup, 1)
+      clearTimeout(this.startupTimeout)
+      this.startupTimeout = setTimeout(this.startup, 1)
       return null // stop here
     }
 
@@ -269,6 +269,7 @@ class InfinityMarker extends PureComponent {
 
   componentWillUnmount() {
     this._isMounted = false
+    clearTimeout(this.startupTimeout)
     clearTimeout(this.readyTimeout)
     this.intersectionObserver?.disconnect()
   }

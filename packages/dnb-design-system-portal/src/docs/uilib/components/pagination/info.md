@@ -162,7 +162,7 @@ render(
 Using a `set_content_handler` handler.
 
 ```jsx
-import { Pagination } from 'dnb-ui-lib/components'
+import InfinityScroller from 'dnb-ui-lib/components/pagination/InfinityScroller'
 
 const [localPage, setLocalPage] = React.useState(1)
 const setContent = React.createRef()
@@ -172,8 +172,7 @@ React.useEffect(() => {
 }, [localPage])
 
 render(
-  <Pagination
-    mode="infinity"
+  <InfinityScroller
     set_content_handler={fn => (setContent = fn)}
     on_change={({ page }) => {
       setLocalPage(page)
