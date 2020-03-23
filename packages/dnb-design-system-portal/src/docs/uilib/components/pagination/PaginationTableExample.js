@@ -50,7 +50,7 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
     { Pagination, setContent, resetContent, endInfinity }
   ] = React.useState(createPagination)
   const [orderDirection, setOrderDirection] = React.useState('asc')
-  const [currentPage, setCurrentPage] = React.useState(null)
+  const [localPage, setLocalPage] = React.useState(null)
   const [cacheHash, forceRerender] = React.useState(null) // eslint-disable-line
 
   // is not needed
@@ -72,7 +72,7 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
 
       // define what page should update
       // used to update the page inside the Paginatio Component
-      setCurrentPage(pageNo)
+      setLocalPage(pageNo)
 
       // force rerender of this component
       forceRerender(new Date().getTime())
@@ -93,14 +93,14 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
     <InfinityPagination
       items={tableItems}
       perPageCount={perPageCount}
-      currentPage={currentPage}
+      currentPage={localPage}
       onToggleExpanded={onToggleExpanded}
       onMounted={onMounted}
       endInfinity={endInfinity}
     />
   )
 
-  setContent(currentPage, content)
+  setContent(localPage, content)
 
   return (
     <StyledTable sticky>
@@ -157,10 +157,10 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
               <TableData colSpan="2" {...props} />
             </TableRow>
           )} // in order to show the injected "indicator" and "load button" in the middle of the orw
-          startup_count={2} // how many pages to show on starutp
+          startup_count={1} // how many pages to show on starutp
           parallel_load_count={2} // how many pages to load during next load
           startup_page={startupPage} // the very first page we load
-          // current_page={currentPage}// is not needed
+          // current_page={localPage}// is not needed
           // page_count={maxPagesCount}// is not needed
           {...props}
           on_startup={({ page }) => {
@@ -169,9 +169,9 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
             // simulate server delay
             setTimeout(() => {
               // once we set current page, we force a rerender, and sync of data
-              setCurrentPage(page)
+              setLocalPage(page)
 
-              // since currentPage already is the same
+              // since localPage already is the same
               forceRerender(new Date().getTime())
             }, Math.ceil(Math.random() * 1e3)) // simulate random delay
           }}
@@ -184,7 +184,7 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
             // simulate server delay
             setTimeout(() => {
               // once we set current page, we force a rerender, and sync of data
-              setCurrentPage(page)
+              setLocalPage(page)
             }, Math.ceil(Math.random() * 1e3)) // simulate random delay
           }}
         />
@@ -283,7 +283,9 @@ const TableRow = styled.tr`
 const TableData = styled.td`
   cursor: pointer;
 
+  .dnb-pagination__indicator,
   .dnb-pagination__loadbar {
+    height: 6rem;
     justify-content: flex-start;
   }
 

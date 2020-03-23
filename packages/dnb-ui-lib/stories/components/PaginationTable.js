@@ -51,7 +51,7 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
     { Pagination, setContent, resetContent, endInfinity }
   ] = React.useState(createPagination)
   const [orderDirection, setOrderDirection] = React.useState('asc')
-  const [currentPage, setCurrentPage] = React.useState(null)
+  const [currentPage, setLocalPage] = React.useState(null)
   const [cacheHash, forceRerender] = React.useState(null) // eslint-disable-line
 
   // is not needed
@@ -73,7 +73,7 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
 
       // define what page should update
       // used to update the page inside the Paginatio Component
-      setCurrentPage(pageNo)
+      setLocalPage(pageNo)
 
       // force rerender of this component
       forceRerender(new Date().getTime())
@@ -170,7 +170,7 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
             // simulate server delay
             setTimeout(() => {
               // once we set current page, we force a rerender, and sync of data
-              setCurrentPage(page)
+              setLocalPage(page)
 
               // since currentPage already is the same
               forceRerender(new Date().getTime())
@@ -185,8 +185,8 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
             // simulate server delay
             setTimeout(() => {
               // once we set current page, we force a rerender, and sync of data
-              setCurrentPage(page)
-            }, Math.ceil(Math.random() * 1e3)) // simulate random delay
+              setLocalPage(page)
+            }, Math.ceil(Math.random() * 1e3 + 2e3)) // simulate random delay
           }}
         />
       </tbody>
@@ -284,7 +284,9 @@ const TableRow = styled.tr`
 const TableData = styled.td`
   cursor: pointer;
 
+  .dnb-pagination__indicator,
   .dnb-pagination__loadbar {
+    height: 6rem;
     justify-content: flex-start;
   }
 

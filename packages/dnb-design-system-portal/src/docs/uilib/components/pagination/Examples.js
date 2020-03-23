@@ -132,7 +132,7 @@ class Example extends PureComponent {
 <HeightLimit>
   <Pagination
     mode="infinity"
-    startup_count={2}
+    startup_count={1}
     parallel_load_count={2}
     on_load={({ page, setContent, endInfinity }) => {
       // simulate server communication delay
