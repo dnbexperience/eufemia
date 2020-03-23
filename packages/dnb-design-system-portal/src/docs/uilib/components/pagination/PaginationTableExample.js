@@ -13,14 +13,6 @@ import { StickyHelper } from 'dnb-ui-lib/src/elements/Table'
 
 import { createPagination } from 'dnb-ui-lib/src/components/Pagination'
 
-// create our Pagination instance
-const {
-  Pagination,
-  setContent,
-  resetContent,
-  endInfinity
-} = createPagination()
-
 export default function() {
   return (
     <Wrapper className="dnb-core-style" spacing>
@@ -53,6 +45,10 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
   const startupPage = 3 // what we start with
   const perPageCount = 10 // how many items per page
 
+  // create our Pagination instance
+  const [
+    { Pagination, setContent, resetContent, endInfinity }
+  ] = React.useState(createPagination)
   const [orderDirection, setOrderDirection] = React.useState('asc')
   const [currentPage, setCurrentPage] = React.useState(null)
   const [cacheHash, forceRerender] = React.useState(null) // eslint-disable-line
@@ -100,6 +96,7 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
       currentPage={currentPage}
       onToggleExpanded={onToggleExpanded}
       onMounted={onMounted}
+      endInfinity={endInfinity}
     />
   )
 
@@ -206,6 +203,7 @@ const InfinityPagination = ({
   perPageCount,
   onToggleExpanded,
   onMounted,
+  endInfinity,
   ...props
 }) => {
   const mountedItems = []

@@ -137,16 +137,14 @@ const HeightLimit = styled.div`
   border: 4px solid blue;
 `
 
-const {
-  Pagination: PaginationInstance,
-  setContent,
-  resetContent
-} = createPagination()
-
 // eslint-disable-next-line
 const PaginationWithState = ({ children, ...props }) => {
   const [currentPage, setCurrentPage] = React.useState(1)
 
+  // create our Pagination instance
+  const [
+    { Pagination: PaginationInstance, setContent, resetContent }
+  ] = React.useState(createPagination)
   setContent(currentPage, children(currentPage))
 
   // will reset the pagination

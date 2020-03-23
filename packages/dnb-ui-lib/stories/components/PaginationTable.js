@@ -42,14 +42,6 @@ for (let i = 1; i <= 300; i++) {
   tableItems.push({ ssn: i, text: String(i), expanded: false })
 }
 
-// create our Pagination instance
-// const {
-//   Pagination,
-//   setContent,
-//   resetContent,
-//   endInfinity
-// } = createPagination()
-
 export const InfinityPaginationTable = ({ tableItems, ...props }) => {
   const startupPage = 3 // what we start with
   const perPageCount = 10 // how many items per page

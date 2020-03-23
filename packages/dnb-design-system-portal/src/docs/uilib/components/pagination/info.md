@@ -131,6 +131,15 @@ setContent(page, ReactComponent)
 render(<Pagination mode="infinity" />)
 ```
 
+**NB:** Keep in mind, you may create the instance first during runtime, either in a class `constructor` or by using `useState`:
+
+```jsx
+// create our Pagination instance
+const [
+  { Pagination, setContent, resetContent, endInfinity }
+] = React.useState(createPagination)
+```
+
 #### Infinity scroller method #2
 
 Using the `on_change` event together with `setContent`.
