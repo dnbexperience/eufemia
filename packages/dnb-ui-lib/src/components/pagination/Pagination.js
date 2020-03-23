@@ -45,10 +45,6 @@ const propTypes = {
     PropTypes.string,
     PropTypes.func
   ]),
-  set_page_handler: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func
-  ]),
   reset_content_handler: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.func
@@ -102,7 +98,6 @@ const defaultProps = {
   items: null,
   hide_progress_indicator: false,
   set_content_handler: null,
-  set_page_handler: null,
   reset_content_handler: null,
   page_element: undefined,
   fallback_element: undefined,
@@ -259,12 +254,11 @@ const PaginationWrapper = Pagination
 export const createPagination = (initProps = {}) => {
   const store = React.createRef({})
   const rerender = React.createRef(null)
-  const _updateContent = React.createRef(null)
   const _setContent = React.createRef(null)
   const _resetContent = React.createRef(null)
   const _endInfinity = React.createRef(null)
 
-  const updateContent = (pageNo, content) => {
+  const setContent = (pageNo, content) => {
     if (pageNo > 0) {
       store.current = { ...store.current, ...{ pageNo, content } }
       rerender.current && rerender.current(store)
@@ -280,8 +274,7 @@ export const createPagination = (initProps = {}) => {
       {...{ ...initProps, ...props }}
       store={store}
       rerender={rerender}
-      set_content_handler={fn => (_updateContent.current = fn)}
-      set_page_handler={fn => (_setContent.current = fn)}
+      set_content_handler={fn => (_setContent.current = fn)}
       reset_content_handler={fn => (_resetContent.current = fn)}
       end_infinity_handler={fn => (_endInfinity.current = fn)}
     />
@@ -289,8 +282,7 @@ export const createPagination = (initProps = {}) => {
 
   return {
     Pagination,
-    updateContent,
-    setContent: updateContent,
+    setContent,
     resetContent,
     endInfinity,
     resetItems: resetContent // deprecated

@@ -71,7 +71,7 @@ class Example extends PureComponent {
           `}
         </ComponentBox>
         <ComponentBox
-          title="Infinity with load button"
+          title="Infinity scroller with load button"
           description="A laod button is shown on the bottom by having `use_load_button={true}` - but here we define our `startup_page={5}`, so we also get a laod button on top."
           data-dnb-test="pagination-infinity-load-button"
           scope={{ HeightLimit, LargePage }}
@@ -97,7 +97,7 @@ class Example extends PureComponent {
           `}
         </ComponentBox>
         <ComponentBox
-          title="Infinity with custom load indicator"
+          title="Infinity scroller with custom load indicator"
           data-dnb-test="pagination-infinity-indicator"
           scope={{ HeightLimit, LargePage }}
         >
@@ -106,7 +106,7 @@ class Example extends PureComponent {
   <Pagination
     mode="infinity"
     indicator_element={() => (
-      <LargePage color="purple">Loading ...</LargePage>
+      <LargePage color="lightgreen">Loading ...</LargePage>
     )}
     startup_page={2}
     page_count={20}
@@ -125,7 +125,7 @@ class Example extends PureComponent {
           `}
         </ComponentBox>
         <ComponentBox
-          title="Infinity with unknown `page_count`"
+          title="Infinity scroller with unknown `page_count`"
           scope={{ HeightLimit, LargePage }}
         >
           {/* @jsx */ `
@@ -159,7 +159,7 @@ class Example extends PureComponent {
         </ComponentBox>
         <ComponentBox
           title="Advanced Table infinity scroller"
-          description="For the source, se either: [GitHub](https://github.com/dnbexperience/eufemia/blob/develop/packages/dnb-design-system-portal/src/docs/uilib/components/pagination/PaginationTableExample.js) or [CodeSandbox](https://codesandbox.io/s/eufemia-table-pagination-infinity-546f7)"
+          description="You can find the code either on [GitHub](https://github.com/dnbexperience/eufemia/blob/develop/packages/dnb-design-system-portal/src/docs/uilib/components/pagination/PaginationTableExample.js) or on [CodeSandbox](https://codesandbox.io/s/eufemia-table-pagination-infinity-546f7)"
           scope={{ HeightLimit, PaginationTableExample }}
         >
           {/* @jsx */ `

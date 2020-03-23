@@ -16,7 +16,7 @@ import { createPagination } from 'dnb-ui-lib/src/components/Pagination'
 // create our Pagination instance
 const {
   Pagination,
-  updateContent,
+  setContent,
   resetContent,
   endInfinity
 } = createPagination()
@@ -32,7 +32,7 @@ export default function() {
         </P>
         <Ul bottom>
           <li>The startup page number is set to 3.</li>
-          <li>And the per page we show 10 items.</li>
+          <li>And per page we show 10 items.</li>
           <li>
             A random delay is added to simulate asynchronous interaction.
           </li>
@@ -103,7 +103,7 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
     />
   )
 
-  updateContent(currentPage, content)
+  setContent(currentPage, content)
 
   return (
     <StyledTable sticky>
@@ -178,7 +178,7 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
               forceRerender(new Date().getTime())
             }, Math.ceil(Math.random() * 1e3)) // simulate random delay
           }}
-          on_load={({ page /*, updateContent, resetContent */ }) => {
+          on_load={({ page /*, setContent, resetContent */ }) => {
             console.log('on_load: with page', page)
           }}
           on_change={({ page }) => {

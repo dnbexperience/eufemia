@@ -15,12 +15,10 @@ import {
 import PaginationContext from './PaginationContext'
 
 const propTypes = {
-  mode: PropTypes.string,
   startup_page: PropTypes.oneOfType([PropTypes.string, PropTypes.number]), // eslint-disable-line
   current_page: PropTypes.oneOfType([PropTypes.string, PropTypes.number]), // eslint-disable-line
   page_count: PropTypes.oneOfType([PropTypes.string, PropTypes.number]), // eslint-disable-line
   set_content_handler: PropTypes.oneOfType([PropTypes.func]),
-  set_page_handler: PropTypes.oneOfType([PropTypes.func]),
   reset_content_handler: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.bool,
@@ -38,12 +36,10 @@ const propTypes = {
   ])
 }
 const defaultProps = {
-  mode: 'pagination',
   startup_page: null,
   current_page: null,
   page_count: null,
   set_content_handler: null,
-  set_page_handler: null,
   reset_content_handler: null,
   end_infinity_handler: null,
   rerender: null,
@@ -104,15 +100,12 @@ export default class PaginationProvider extends PureComponent {
     if (props.rerender) {
       this.rerender = ({ current: store }) => {
         if (store && store.pageNo > 0) {
-          if (props.mode === 'infinity') {
-            this.updateContent(store.pageNo, store.content)
-          } else {
-            // because we have a set state inside setContent and render at the same time
-            setTimeout(
-              () => this.setContent(store.pageNo, store.content),
-              1
-            )
-          }
+          clearTimeout(this.rerenderTimeout)
+          // because we have a set state inside setContent and render at the same time
+          this.rerenderTimeout = setTimeout(
+            () => this.setContent(store.pageNo, store.content),
+            1
+          )
         }
       }
       props.rerender.current = this.rerender
@@ -122,17 +115,13 @@ export default class PaginationProvider extends PureComponent {
   componentDidMount() {
     const {
       set_content_handler,
-      set_page_handler,
       reset_content_handler,
       end_infinity_handler
     } = this.props
 
     // update the callback handlers
     if (typeof set_content_handler === 'function') {
-      set_content_handler(this.updateContent)
-    }
-    if (typeof set_page_handler === 'function') {
-      set_page_handler(this.setItems)
+      set_content_handler(this.setContent)
     }
     if (typeof reset_content_handler === 'function') {
       reset_content_handler(this.resetContent)
@@ -143,40 +132,77 @@ export default class PaginationProvider extends PureComponent {
 
     if (this.props.store && this.props.store.current) {
       const store = this.props.store.current
-      if (this.props.mode === 'infinity') {
-        this.updateContent(store.pageNo, store.content)
-      } else {
-        this.setContent(store.pageNo, store.content)
-      }
+      this.setContent(store.pageNo, store.content)
     }
 
     this._isMounted = true
   }
 
   componentWillUnmount() {
+    clearTimeout(this.rerenderTimeout)
+    clearTimeout(this.resetTimeout)
     this._isMounted = false
   }
 
-  updateContent = (pageNo, content) => {
-    this.state.items.forEach(item => {
-      if (item.pageNo === pageNo) {
-        if (item.content) {
-          item.update(content)
-        } else {
-          item.insert(content)
-        }
+  setContent = (newContent, content = null, position = null) => {
+    if (!Array.isArray(newContent) && content) {
+      newContent = [newContent, content]
+    }
+
+    const pageNo = parseFloat(newContent[0]) // parse, since we get it from a return
+    newContent = newContent[1]
+
+    if (typeof newContent === 'function') {
+      content = newContent()
+    } else if (React.isValidElement(newContent)) {
+      content = newContent
+    }
+
+    if (content) {
+      let itemToPrepare = this.state.items.find(
+        ({ pageNo: p }) => p === pageNo
+      )
+      let items = null
+
+      // just to make sure we have a page we can put content inside
+      if (!itemToPrepare) {
+        items = this.prefillItems(pageNo, {
+          position,
+          skipObserver: true
+        })
+        itemToPrepare = items.find(({ pageNo: p }) => p === pageNo)
       }
-    })
+
+      if (itemToPrepare.content) {
+        itemToPrepare.update(content)
+      } else {
+        itemToPrepare.insert(content)
+      }
+
+      this.setState(
+        {
+          items: [...(items || this.state.items)], // we make a copy, only to rerender
+          currentPage: pageNo, // update the currentPage
+          _listenForPropChanges: false
+        },
+        this.callOnPageUpdate
+      )
+    }
   }
 
-  setItems = (items, cb) => {
-    this.setState(
-      {
-        items,
+  // like reset_content_handler in DerivedState
+  resetContent = () => {
+    const currentPage =
+      this.state.startupPage || this.state.currentPage || 1
+
+    clearTimeout(this.resetTimeout)
+    this.resetTimeout = setTimeout(() => {
+      this.setState({
+        items: [],
+        currentPage,
         _listenForPropChanges: false
-      },
-      cb
-    )
+      })
+    }, 2) // we have to be one tick after "rerender"
   }
 
   endInfinity = (pageCount = this.state.items.length) => {
@@ -190,20 +216,14 @@ export default class PaginationProvider extends PureComponent {
     })
   }
 
-  // like reset_content_handler in DerivedState
-  resetContent = () => {
-    const currentPage =
-      this.state.startupPage || this.state.currentPage || 1
-
-    this.setState({
-      items: [],
-      currentPage,
-      _listenForPropChanges: false
-    })
-  }
-
-  setStateHandler = (state, cb) => {
-    this.setState({ ...state, _listenForPropChanges: false }, cb)
+  setItems = (items, cb) => {
+    this.setState(
+      {
+        items,
+        _listenForPropChanges: false
+      },
+      cb
+    )
   }
 
   prefillItems = (pageNo, props = {}, items = [...this.state.items]) => {
@@ -236,6 +256,10 @@ export default class PaginationProvider extends PureComponent {
     return items
   }
 
+  setStateHandler = (state, cb) => {
+    this.setState({ ...state, _listenForPropChanges: false }, cb)
+  }
+
   callOnPageUpdate = () => {
     if (Array.isArray(this._updateStack)) {
       this._updateStack.forEach(cb => {
@@ -252,47 +276,6 @@ export default class PaginationProvider extends PureComponent {
     this._updateStack.push(fn)
   }
 
-  setContent = (newContent, content = null) => {
-    if (!Array.isArray(newContent) && content) {
-      newContent = [newContent, content]
-    }
-
-    const pageNo = parseFloat(newContent[0]) // parse, since we get it from a return
-    newContent = newContent[1]
-
-    if (typeof newContent === 'function') {
-      content = newContent()
-    } else if (React.isValidElement(newContent)) {
-      content = newContent
-    }
-
-    if (content) {
-      let itemToInsert = this.state.items.find(
-        ({ pageNo: p }) => p === pageNo
-      )
-      let items = null
-
-      // just to make sure we have a page we can put content inside
-      if (!itemToInsert) {
-        items = this.prefillItems(pageNo, {
-          skipObserver: true
-        })
-        itemToInsert = items.find(({ pageNo: p }) => p === pageNo)
-      }
-
-      itemToInsert.insert(content)
-
-      this.setState(
-        {
-          items: [...(items || this.state.items)], // we make a copy, only to rerender
-          currentPage: pageNo, // update the currentPage
-          _listenForPropChanges: false
-        },
-        this.callOnPageUpdate
-      )
-    }
-  }
-
   render() {
     const { children } = this.props
 
@@ -301,7 +284,6 @@ export default class PaginationProvider extends PureComponent {
         value={{
           ...this.context,
           pagination: {
-            updateContent: this.updateContent,
             setContent: this.setContent,
             resetContent: this.resetContent,
             endInfinity: this.endInfinity,

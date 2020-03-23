@@ -43,19 +43,19 @@ export default class PaginationBar extends PureComponent {
       {
         currentPage
       },
-      () => this.callChildrenCallabck(currentPage)
+      () => this.preparePageContent(currentPage)
     )
+  }
+
+  componentWillUnmount() {
+    clearTimeout(this.prepareTimeout)
   }
 
   hasChildrenCallabck() {
     return typeof this.props.children === 'function'
   }
 
-  callChildrenCallabck(pageNo) {
-    if (!this.hasChildrenCallabck()) {
-      return // stop here
-    }
-
+  preparePageContent(pageNo) {
     const items = this.context.pagination.prefillItems(
       this.context.pagination.currentPage,
       {
@@ -66,21 +66,25 @@ export default class PaginationBar extends PureComponent {
       items
     })
 
-    const potentialElement = this.props.children({
-      pageNo,
-      page: pageNo,
-      ...this.context.pagination
-    })
+    if (this.hasChildrenCallabck()) {
+      const potentialElement = this.props.children({
+        pageNo,
+        page: pageNo,
+        ...this.context.pagination
+      })
 
-    if (
-      potentialElement &&
-      (React.isValidElement(potentialElement) ||
-        typeof potentialElement === 'function')
-    ) {
-      setTimeout(
-        () => this.context.pagination.setContent([pageNo, potentialElement]),
-        1 // after first render
-      )
+      if (
+        potentialElement &&
+        (React.isValidElement(potentialElement) ||
+          typeof potentialElement === 'function')
+      ) {
+        clearTimeout(this.prepareTimeout)
+        this.prepareTimeout = setTimeout(
+          () =>
+            this.context.pagination.setContent([pageNo, potentialElement]),
+          1 // after first render
+        )
+      }
     }
   }
 
@@ -117,17 +121,14 @@ export default class PaginationBar extends PureComponent {
     })
   }
 
-  setContent = (currentPage, event = null) => {
+  setPage = (currentPage, event = null) => {
     this.keepPageHeight()
     this.focusPage()
 
-    let items = this.context.pagination.items
-
-    if (this.hasChildrenCallabck()) {
-      items = this.context.pagination.prefillItems(currentPage, {
-        skipObserver: true
-      })
-    }
+    this.context.pagination.setState({
+      currentPage
+    })
+    this.preparePageContent(currentPage)
 
     dispatchCustomElementEvent(this.context.pagination, 'on_change', {
       page: currentPage,
@@ -135,24 +136,17 @@ export default class PaginationBar extends PureComponent {
       ...this.context.pagination,
       event
     })
-
-    this.callChildrenCallabck(currentPage)
-
-    this.context.pagination.setState({
-      items,
-      currentPage
-    })
   }
 
   setPrevPage = () => {
-    this.setContent(this.context.pagination.currentPage - 1)
+    this.setPage(this.context.pagination.currentPage - 1)
   }
   setNextPage = () => {
-    this.setContent(this.context.pagination.currentPage + 1)
+    this.setPage(this.context.pagination.currentPage + 1)
   }
 
   clickHandler = ({ pageNo, event }) => {
-    this.setContent(pageNo, event)
+    this.setPage(pageNo, event)
   }
 
   render() {

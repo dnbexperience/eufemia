@@ -13,14 +13,6 @@ import { StickyHelper } from '../../src/elements/Table'
 
 import { createPagination } from '../../src/components/Pagination'
 
-// create our Pagination instance
-const {
-  Pagination,
-  updateContent,
-  resetContent,
-  endInfinity
-} = createPagination()
-
 export default [
   'PaginationTable',
   () => (
@@ -33,7 +25,7 @@ export default [
         </P>
         <Ul bottom>
           <li>The startup page number is set to 3.</li>
-          <li>And the per page we show 10 items.</li>
+          <li>And per page we show 10 items.</li>
           <li>
             A random delay is added to simulate asynchronous interaction.
           </li>
@@ -50,10 +42,22 @@ for (let i = 1; i <= 300; i++) {
   tableItems.push({ ssn: i, text: String(i), expanded: false })
 }
 
+// create our Pagination instance
+// const {
+//   Pagination,
+//   setContent,
+//   resetContent,
+//   endInfinity
+// } = createPagination()
+
 export const InfinityPaginationTable = ({ tableItems, ...props }) => {
   const startupPage = 3 // what we start with
   const perPageCount = 10 // how many items per page
 
+  // create our Pagination instance
+  const [
+    { Pagination, setContent, resetContent, endInfinity }
+  ] = React.useState(createPagination)
   const [orderDirection, setOrderDirection] = React.useState('asc')
   const [currentPage, setCurrentPage] = React.useState(null)
   const [cacheHash, forceRerender] = React.useState(null) // eslint-disable-line
@@ -101,10 +105,11 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
       currentPage={currentPage}
       onToggleExpanded={onToggleExpanded}
       onMounted={onMounted}
+      endInfinity={endInfinity}
     />
   )
 
-  updateContent(currentPage, content)
+  setContent(currentPage, content)
 
   return (
     <StyledTable sticky>
@@ -179,7 +184,7 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
               forceRerender(new Date().getTime())
             }, Math.ceil(Math.random() * 1e3)) // simulate random delay
           }}
-          on_load={({ page /*, updateContent, resetContent */ }) => {
+          on_load={({ page /*, setContent, resetContent */ }) => {
             console.log('on_load: with page', page)
           }}
           on_change={({ page }) => {
@@ -207,6 +212,7 @@ const InfinityPagination = ({
   perPageCount,
   onToggleExpanded,
   onMounted,
+  endInfinity,
   ...props
 }) => {
   const mountedItems = []

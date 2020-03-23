@@ -14,22 +14,36 @@ Use it to split up larger data sets into pages / sections so the users can inter
 
 Infinity scrolling requires additional handling of already loaded content. To do so, it stores already shown content and interacts from there.
 
-### Gotchas
-
-Once content inside a page changes, we have to tell the component explicit on what page number that happened, including the new content.
-
 ### Screen reader support
 
 To make it easier for screen-readers to navigate, the _navigation bar_ markup is placed above the content, even if it is visually the opposite.
 
+### Gotchas
+
+**Infinity scroller:** Once content inside a page changes, we have to tell the component explicit on what "page" number that happened, including the new content.
+
+```jsx
+setContent(pageNo, ReactComponent)
+```
+
+### Legacy browser support (Internet Explorer 11)
+
+The **infinity scroller** is using the [Intersection Observer API](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API). This API is supported by all now-days browsers. But if your applications needs support for outdated browser, you can install e.g. [this IntersectionObserver polyfill](https://www.npmjs.com/package/intersection-observer) and import it:
+
+```js
+import 'intersection-observer'
+```
+
 ### Default pagination and content handling
 
-You can either only use the pagination component with the buttons (bar) and have your content outside, but linked together by your own state.
+You can either only use the pagination component with the buttons (bar) and have your content outside, but linked together with your own states.
 
 - or you put your content inside the pagination wrapper. This has the advantage that it gives screen-reader users an easier way to interact and understand the content.
 - and it will "keep" the old page height until the next page is inserted, while showing an indicator.
 
-**Method #1**
+#### Pagination method #1
+
+Returning a component directly inside a function child.
 
 ```jsx
 import { Pagination } from 'dnb-ui-lib/components'
@@ -43,7 +57,9 @@ render(
 )
 ```
 
-**Method #2**
+#### Pagination method #2
+
+Returning a function as a child and using `setContent`.
 
 ```jsx
 import { Pagination } from 'dnb-ui-lib/components'
@@ -57,7 +73,9 @@ render(
 )
 ```
 
-**Method #3**
+#### Pagination method #3
+
+Using the `on_change` event together with `setContent`.
 
 ```jsx
 import { Pagination } from 'dnb-ui-lib/components'
@@ -72,7 +90,9 @@ render(
 )
 ```
 
-**Method #4**
+#### Pagination method #4
+
+Create the instance before using it.
 
 ```jsx
 import { createPagination } from 'dnb-ui-lib/components/Pagination'
@@ -90,7 +110,9 @@ render(<Pagination page_count={2} />)
 
 In order to update content into the internal pages stack, we have to get access to the component instance. There are several ways to do so.
 
-**Method #1**
+#### Infinity scroller method #1
+
+Create the instance before using it.
 
 ```jsx
 import { createPagination } from 'dnb-ui-lib/components/Pagination'
@@ -98,18 +120,20 @@ import { createPagination } from 'dnb-ui-lib/components/Pagination'
 // create our Pagination instance
 const {
   Pagination,
-  updateContent,
-  resetContent,
-  endInfinity
+  setContent,
+  endInfinity,
+  resetContent
 } = createPagination()
 
 // Later we can do call this (make sure the page is set by listening to the events)
-updateContent(page, ReactComponent)
+setContent(page, ReactComponent)
 
 render(<Pagination mode="infinity" />)
 ```
 
-**Method #2**
+#### Infinity scroller method #2
+
+Using the `on_change` event together with `setContent`.
 
 ```jsx
 import { Pagination } from 'dnb-ui-lib/components'
@@ -117,28 +141,34 @@ import { Pagination } from 'dnb-ui-lib/components'
 render(
   <Pagination
     mode="infinity"
-    on_change={({ page, updateContent }) => {
-      updateContent(page, ReactComponent)
+    on_change={({ page, setContent }) => {
+      setContent(page, ReactComponent)
     }}
   />
 )
 ```
 
-**Method #3**
+#### Infinity scroller method #3
+
+Using a `set_content_handler` handler.
 
 ```jsx
 import { Pagination } from 'dnb-ui-lib/components'
 
-const updateContent = React.createRef()
+const [localPage, setLocalPage] = React.useState(1)
+const setContent = React.createRef()
 
 React.useEffect(() => {
-  updateContent.current(myCurrentPage, ReactComponent)
-}, [])
+  setContent.current(localPage, ReactComponent)
+}, [localPage])
 
 render(
   <Pagination
     mode="infinity"
-    set_content_handler={fn => (updateContent = fn)}
+    set_content_handler={fn => (setContent = fn)}
+    on_change={({ page }) => {
+      setLocalPage(page)
+    }}
   />
 )
 ```

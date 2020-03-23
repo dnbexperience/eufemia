@@ -41,6 +41,13 @@ export default [
   () => (
     <Wrapper>
       <Box>
+        <Pagination page_count={2}>
+          {({ page, setContent }) => {
+            setContent(page, <>Hello {page}</>)
+          }}
+        </Pagination>
+      </Box>
+      <Box>
         <Pagination
           page_count={30}
           current_page={15}

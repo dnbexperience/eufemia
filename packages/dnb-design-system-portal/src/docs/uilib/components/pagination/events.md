@@ -39,8 +39,7 @@ Events has a number of useful methods to change / manipulate the content.
 ```
 
 - `page` the current page number
-- `setContent` use it to add update a page including content: `setContent(pageNo, ReactComponent)`
-- `updateContent` use it to change content inside an existing page: `updateContent(pageNo, ReactComponent)`
+- `setContent` use it to add update a page including content: `setContent(pageNo, ReactComponent, position = 'after')`
 - `resetContent` use it to invalidate all internal pages: `resetContent()`
 - `endInfinity` use it to tell the infinity pagination to end the infinity scrolling interaction. Use this handler to end the infinity scrolling procedure, in case the page_count is unknown: `endInfinity(pageNo)`
 - `items` internal stored pages
