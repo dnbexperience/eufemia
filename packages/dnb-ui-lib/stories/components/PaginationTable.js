@@ -284,10 +284,12 @@ const TableRow = styled.tr`
 const TableData = styled.td`
   cursor: pointer;
 
+  .dnb-pagination__loadbar {
+    justify-content: flex-start;
+  }
   .dnb-pagination__indicator,
   .dnb-pagination__loadbar {
     height: 6rem;
-    justify-content: flex-start;
   }
 
   .dnb-p {
