@@ -8,7 +8,9 @@ import { Wrapper, Box } from '../helpers'
 import styled from '@emotion/styled'
 
 // import { Button } from '../../src/components'
-import Pagination from '../../src/components/pagination/Pagination'
+import Pagination, {
+  createPagination
+} from '../../src/components/pagination/Pagination'
 import { InfinityPaginationTable } from './PaginationTable'
 
 const LargePage = styled.div`
@@ -39,6 +41,13 @@ export default [
   () => (
     <Wrapper>
       <Box>
+        <Pagination page_count={2}>
+          {({ page, setContent }) => {
+            setContent(page, <>Hello {page}</>)
+          }}
+        </Pagination>
+      </Box>
+      <Box>
         <Pagination
           page_count={30}
           current_page={15}
@@ -49,6 +58,7 @@ export default [
           {({ pageNo }) => <div>Page {pageNo}</div>}
         </Pagination>
       </Box>
+
       <Box>
         <PaginationWithState
           align="center"
@@ -71,6 +81,7 @@ export default [
           </InfinityPagination>
         </HeightLimit>
       </Box>
+
       <Box>
         <HeightLimit>
           <InfinityPagination
@@ -88,6 +99,28 @@ export default [
           </InfinityPagination>
         </HeightLimit>
       </Box>
+
+      <Box>
+        <HeightLimit>
+          <Pagination
+            mode="infinity"
+            startup_count={2}
+            parallel_load_count={2}
+            on_load={({ page, setContent, endInfinity }) => {
+              if (page > 10) {
+                endInfinity()
+                setContent(
+                  page,
+                  <LargePage color="lightgreen">End</LargePage>
+                )
+              } else {
+                setContent(page, <LargePage>{page}</LargePage>)
+              }
+            }}
+          />
+        </HeightLimit>
+      </Box>
+
       <Box>
         <HeightLimit>
           <InfinityPaginationTable tableItems={tableItems} />
@@ -108,8 +141,22 @@ const HeightLimit = styled.div`
 const PaginationWithState = ({ children, ...props }) => {
   const [currentPage, setCurrentPage] = React.useState(1)
 
+  // create our Pagination instance
+  const [
+    { Pagination: PaginationInstance, setContent, resetContent }
+  ] = React.useState(createPagination)
+  setContent(currentPage, children(currentPage))
+
+  // will reset the pagination
+  if (currentPage == 30) {
+    setTimeout(() => {
+      resetContent()
+      setCurrentPage(1)
+    }, 1)
+  }
+
   return (
-    <Pagination
+    <PaginationInstance
       {...props}
       page_count={30}
       current_page={currentPage}
@@ -118,23 +165,16 @@ const PaginationWithState = ({ children, ...props }) => {
         setCurrentPage(page)
 
         // setTimeout(() => {
-        //   insertContent([page, children(page)])
-        // }, 300)
+        //   setContent(page, children(page))
+        // }, Math.ceil(Math.random() * 1e3))
       }}
     >
-      {({ page, insertContent }) => {
+      {/* {({ page, setContent }) => {
         setTimeout(() => {
-          insertContent([page, children(page)])
-        }, 300)
-      }}
-      {/* <Pagination.Content>Content</Pagination.Content>
-      <Pagination.Bar
-        on_change={({ page }) => {
-          setCurrentPage(page)
-        }}
-      /> */}
-      {/* just a child */}
-    </Pagination>
+          setContent(page, children(page))
+        }, Math.ceil(Math.random() * 1e3))
+      }} */}
+    </PaginationInstance>
   )
 }
 
@@ -144,11 +184,11 @@ const InfinityPagination = ({ children, ...props }) => {
     <Pagination
       mode="infinity"
       {...props}
-      on_load={({ page, insertContent }) => {
+      on_load={({ page, setContent }) => {
         console.log('InfinityPagination on_load:', page)
 
         setTimeout(() => {
-          insertContent([page, children(page)])
+          setContent(page, children(page))
         }, Math.ceil(Math.random() * 1e3))
       }}
     >

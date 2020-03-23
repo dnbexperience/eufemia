@@ -21,6 +21,7 @@ import PaginationBar from './PaginationBar'
 
 const renderProps = {
   on_change: null,
+  on_startup: null,
   on_load: null
 }
 
@@ -44,11 +45,7 @@ const propTypes = {
     PropTypes.string,
     PropTypes.func
   ]),
-  set_items_handler: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func
-  ]),
-  reset_items_handler: PropTypes.oneOfType([
+  reset_content_handler: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.func
   ]),
@@ -88,6 +85,7 @@ const propTypes = {
 
   // Web Component props
   on_change: PropTypes.func,
+  on_startup: PropTypes.func,
   on_load: PropTypes.func
 }
 
@@ -100,8 +98,7 @@ const defaultProps = {
   items: null,
   hide_progress_indicator: false,
   set_content_handler: null,
-  set_items_handler: null,
-  reset_items_handler: null,
+  reset_content_handler: null,
   page_element: undefined,
   fallback_element: undefined,
   marker_element: undefined,
@@ -163,6 +160,7 @@ class PaginationInstance extends PureComponent {
       className,
       class: _className,
 
+      tagName: _tagName, // eslint-disable-line
       page_count: _page_count, // eslint-disable-line
       current_page: _current_page, // eslint-disable-line
       startup_page: _startup_page, // eslint-disable-line
@@ -257,8 +255,8 @@ export const createPagination = (initProps = {}) => {
   const store = React.createRef({})
   const rerender = React.createRef(null)
   const _setContent = React.createRef(null)
-  const _setItems = React.createRef(null)
-  const _resetItems = React.createRef(null)
+  const _resetContent = React.createRef(null)
+  const _endInfinity = React.createRef(null)
 
   const setContent = (pageNo, content) => {
     if (pageNo > 0) {
@@ -266,12 +264,9 @@ export const createPagination = (initProps = {}) => {
       rerender.current && rerender.current(store)
     }
   }
-  const setItems = items => {
-    _setItems.current && _setItems.current(items)
-  }
-  const resetItems = () => {
-    _resetItems.current && _resetItems.current()
-  }
+  const resetContent = () =>
+    _resetContent.current && _resetContent.current()
+  const endInfinity = () => _endInfinity.current && _endInfinity.current()
 
   const Pagination = props => (
     <PaginationWrapper
@@ -280,15 +275,16 @@ export const createPagination = (initProps = {}) => {
       store={store}
       rerender={rerender}
       set_content_handler={fn => (_setContent.current = fn)}
-      set_items_handler={fn => (_setItems.current = fn)}
-      reset_items_handler={fn => (_resetItems.current = fn)}
+      reset_content_handler={fn => (_resetContent.current = fn)}
+      end_infinity_handler={fn => (_endInfinity.current = fn)}
     />
   )
 
   return {
     Pagination,
     setContent,
-    setItems,
-    resetItems
+    resetContent,
+    endInfinity,
+    resetItems: resetContent // deprecated
   }
 }

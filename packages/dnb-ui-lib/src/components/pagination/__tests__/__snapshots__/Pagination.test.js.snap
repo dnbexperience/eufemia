@@ -19,12 +19,12 @@ exports[`Pagination bar component have to match snapshot 1`] = `
         "mode": "'pagination'",
         "on_change": [Function],
         "on_load": [Function],
+        "on_startup": [Function],
         "page_count": "page_count",
         "page_element": Object {},
         "parallel_load_count": "parallel_load_count",
-        "reset_items_handler": "reset_items_handler",
+        "reset_content_handler": "reset_content_handler",
         "set_content_handler": "set_content_handler",
-        "set_items_handler": "set_items_handler",
         "startup_count": "startup_count",
         "startup_page": "startup_page",
         "use_load_button": "use_load_button",
@@ -48,12 +48,12 @@ exports[`Pagination bar component have to match snapshot 1`] = `
         "mode": "'pagination'",
         "on_change": [Function],
         "on_load": [Function],
+        "on_startup": [Function],
         "page_count": "page_count",
         "page_element": Object {},
         "parallel_load_count": "parallel_load_count",
-        "reset_items_handler": "reset_items_handler",
+        "reset_content_handler": "reset_content_handler",
         "set_content_handler": "set_content_handler",
-        "set_items_handler": "set_items_handler",
         "startup_count": "startup_count",
         "startup_page": "startup_page",
         "use_load_button": "use_load_button",
@@ -69,11 +69,11 @@ exports[`Pagination bar component have to match snapshot 1`] = `
   mode="pagination"
   on_change={null}
   on_load={null}
+  on_startup={null}
   page_count={null}
   parallel_load_count={1}
-  reset_items_handler={null}
+  reset_content_handler={null}
   set_content_handler={null}
-  set_items_handler={null}
   startup_count={1}
   startup_page={null}
   use_load_button={false}
@@ -96,12 +96,12 @@ exports[`Pagination bar component have to match snapshot 1`] = `
           "mode": "'pagination'",
           "on_change": [Function],
           "on_load": [Function],
+          "on_startup": [Function],
           "page_count": "page_count",
           "page_element": Object {},
           "parallel_load_count": "parallel_load_count",
-          "reset_items_handler": "reset_items_handler",
+          "reset_content_handler": "reset_content_handler",
           "set_content_handler": "set_content_handler",
-          "set_items_handler": "set_items_handler",
           "startup_count": "startup_count",
           "startup_page": "startup_page",
           "use_load_button": "use_load_button",
@@ -125,12 +125,12 @@ exports[`Pagination bar component have to match snapshot 1`] = `
           "mode": "'pagination'",
           "on_change": [Function],
           "on_load": [Function],
+          "on_startup": [Function],
           "page_count": "page_count",
           "page_element": Object {},
           "parallel_load_count": "parallel_load_count",
-          "reset_items_handler": "reset_items_handler",
+          "reset_content_handler": "reset_content_handler",
           "set_content_handler": "set_content_handler",
-          "set_items_handler": "set_items_handler",
           "startup_count": "startup_count",
           "startup_page": "startup_page",
           "use_load_button": "use_load_button",
@@ -141,17 +141,18 @@ exports[`Pagination bar component have to match snapshot 1`] = `
     class={null}
     className={null}
     current_page={null}
+    end_infinity_handler={null}
     hide_progress_indicator={false}
     items={null}
     mode="pagination"
     on_change={null}
     on_load={null}
+    on_startup={null}
     page_count={null}
     parallel_load_count={1}
     rerender={null}
-    reset_items_handler={null}
+    reset_content_handler={null}
     set_content_handler={null}
-    set_items_handler={null}
     startup_count={1}
     startup_page={null}
     store={null}
@@ -176,12 +177,12 @@ exports[`Pagination bar component have to match snapshot 1`] = `
             "mode": "'pagination'",
             "on_change": [Function],
             "on_load": [Function],
+            "on_startup": [Function],
             "page_count": "page_count",
             "page_element": Object {},
             "parallel_load_count": "parallel_load_count",
-            "reset_items_handler": "reset_items_handler",
+            "reset_content_handler": "reset_content_handler",
             "set_content_handler": "set_content_handler",
-            "set_items_handler": "set_items_handler",
             "startup_count": "startup_count",
             "startup_page": "startup_page",
             "use_load_button": "use_load_button",
@@ -205,12 +206,12 @@ exports[`Pagination bar component have to match snapshot 1`] = `
             "mode": "'pagination'",
             "on_change": [Function],
             "on_load": [Function],
+            "on_startup": [Function],
             "page_count": "page_count",
             "page_element": Object {},
             "parallel_load_count": "parallel_load_count",
-            "reset_items_handler": "reset_items_handler",
+            "reset_content_handler": "reset_content_handler",
             "set_content_handler": "set_content_handler",
-            "set_items_handler": "set_items_handler",
             "startup_count": "startup_count",
             "startup_page": "startup_page",
             "use_load_button": "use_load_button",
@@ -226,11 +227,11 @@ exports[`Pagination bar component have to match snapshot 1`] = `
       mode="pagination"
       on_change={null}
       on_load={null}
+      on_startup={null}
       page_count={null}
       parallel_load_count={1}
-      reset_items_handler={null}
+      reset_content_handler={null}
       set_content_handler={null}
-      set_items_handler={null}
       startup_count={1}
       startup_page={null}
       use_load_button={false}
@@ -242,7 +243,77 @@ exports[`Pagination bar component have to match snapshot 1`] = `
           button_title={null}
           contentRef={
             Object {
-              "current": null,
+              "current": <div
+                class="dnb-pagination__content dnb-no-focus"
+                tabindex="-1"
+              >
+                <div
+                  class="dnb-pagination__page"
+                >
+                  <div
+                    class="dnb-pagination__indicator"
+                  >
+                    <div
+                      class="dnb-pagination__indicator__inner"
+                    >
+                      <div
+                        aria-busy="true"
+                        class="dnb-progress-indicator dnb-progress-indicator--visible dnb-progress-indicator--horizontal"
+                        role="alert"
+                      >
+                        <div
+                          aria-hidden="true"
+                          class="dnb-progress-indicator__circular dnb-progress-indicator__circular--medium"
+                        >
+                          <svg
+                            class="dnb-progress-indicator__circular__line light paused"
+                            shape-rendering="geometricPrecision"
+                            viewBox="0 0 32 32"
+                          >
+                            <circle
+                              class="dnb-progress-indicator__circular__circle"
+                              cx="16"
+                              cy="16"
+                              fill="none"
+                              r="14"
+                              stroke-width="4"
+                            />
+                          </svg>
+                          <svg
+                            class="dnb-progress-indicator__circular__line dark dark"
+                            shape-rendering="geometricPrecision"
+                            viewBox="0 0 32 32"
+                          >
+                            <circle
+                              class="dnb-progress-indicator__circular__circle"
+                              cx="16"
+                              cy="16"
+                              fill="none"
+                              r="14"
+                              stroke-width="4"
+                            />
+                          </svg>
+                          <svg
+                            class="dnb-progress-indicator__circular__line light"
+                            shape-rendering="geometricPrecision"
+                            viewBox="0 0 32 32"
+                          >
+                            <circle
+                              class="dnb-progress-indicator__circular__circle"
+                              cx="16"
+                              cy="16"
+                              fill="none"
+                              r="14"
+                              stroke-width="4"
+                            />
+                          </svg>
+                        </div>
+                      </div>
+                      Laster nytt innhold
+                    </div>
+                  </div>
+                </div>
+              </div>,
             }
           }
           more_pages={null}
@@ -473,6 +544,122 @@ exports[`Pagination bar component have to match snapshot 1`] = `
             </Button>
           </div>
         </PaginationBar>
+        <ForwardRef>
+          <div
+            className="dnb-pagination__content dnb-no-focus"
+            tabIndex="-1"
+          >
+            <PaginationIndicator
+              indicator_element="div"
+            >
+              <ForwardRef>
+                <div
+                  className="dnb-pagination__page"
+                >
+                  <div
+                    className="dnb-pagination__indicator"
+                  >
+                    <div
+                      className="dnb-pagination__indicator__inner"
+                    >
+                      <ProgressIndicator
+                        indicator_label={null}
+                        label={null}
+                        label_direction="horizontal"
+                        no_animation={false}
+                        on_complete={null}
+                        progress={null}
+                        show_label={false}
+                        size="medium"
+                        type="circular"
+                        visible={true}
+                      >
+                        <div
+                          aria-busy="true"
+                          className="dnb-progress-indicator dnb-progress-indicator--visible dnb-progress-indicator--horizontal"
+                          role="alert"
+                        >
+                          <ProgressIndicatorCircular
+                            callOnCompleteHandler={[Function]}
+                            complete={false}
+                            maxOffset={88}
+                            onComplete={null}
+                            progress={null}
+                            size="medium"
+                            visible={true}
+                          >
+                            <div
+                              aria-hidden={true}
+                              className="dnb-progress-indicator__circular dnb-progress-indicator__circular--medium"
+                            >
+                              <ForwardRef
+                                className="dnb-progress-indicator__circular__line light paused"
+                              >
+                                <svg
+                                  className="dnb-progress-indicator__circular__line light paused"
+                                  shapeRendering="geometricPrecision"
+                                  viewBox="0 0 32 32"
+                                >
+                                  <circle
+                                    className="dnb-progress-indicator__circular__circle"
+                                    cx="16"
+                                    cy="16"
+                                    fill="none"
+                                    r="14"
+                                    strokeWidth="4"
+                                  />
+                                </svg>
+                              </ForwardRef>
+                              <ForwardRef
+                                className="dnb-progress-indicator__circular__line dark dark"
+                                style={Object {}}
+                              >
+                                <svg
+                                  className="dnb-progress-indicator__circular__line dark dark"
+                                  shapeRendering="geometricPrecision"
+                                  style={Object {}}
+                                  viewBox="0 0 32 32"
+                                >
+                                  <circle
+                                    className="dnb-progress-indicator__circular__circle"
+                                    cx="16"
+                                    cy="16"
+                                    fill="none"
+                                    r="14"
+                                    strokeWidth="4"
+                                  />
+                                </svg>
+                              </ForwardRef>
+                              <ForwardRef
+                                className="dnb-progress-indicator__circular__line light"
+                              >
+                                <svg
+                                  className="dnb-progress-indicator__circular__line light"
+                                  shapeRendering="geometricPrecision"
+                                  viewBox="0 0 32 32"
+                                >
+                                  <circle
+                                    className="dnb-progress-indicator__circular__circle"
+                                    cx="16"
+                                    cy="16"
+                                    fill="none"
+                                    r="14"
+                                    strokeWidth="4"
+                                  />
+                                </svg>
+                              </ForwardRef>
+                            </div>
+                          </ProgressIndicatorCircular>
+                        </div>
+                      </ProgressIndicator>
+                      Laster nytt innhold
+                    </div>
+                  </div>
+                </div>
+              </ForwardRef>
+            </PaginationIndicator>
+          </div>
+        </ForwardRef>
       </div>
     </PaginationInstance>
   </PaginationProvider>
@@ -492,8 +679,8 @@ exports[`Pagination scss have to match default theme snapshot 1`] = `
 /*
  * Utilities
  */
-.dnb-pagination__page {
-  min-height: 10rem; }
+.dnb-pagination__page, .dnb-pagination__loadbar {
+  min-height: 6rem; }
 
 .dnb-pagination__bar {
   margin-top: 1rem;
@@ -1094,10 +1281,10 @@ button.dnb-button::-moz-focus-inner {
     flex-wrap: nowrap;
     height: 1rem; }
     .dnb-pagination__dots > div {
-      height: 0.2rem;
-      width: 0.2rem;
+      height: 3px;
+      width: 3px;
       margin: 0 0.1rem;
-      border-radius: 0.1rem; }
+      border-radius: 1.5px; }
   .dnb-core-style .dnb-pagination__button, .dnb-pagination__button, .dnb-pagination__dots {
     margin-right: 0.5rem;
     margin-top: 0.5rem;

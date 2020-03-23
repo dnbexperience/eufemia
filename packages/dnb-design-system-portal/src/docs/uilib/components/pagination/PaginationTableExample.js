@@ -7,15 +7,14 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from '@emotion/styled'
 
-import { Section, Space, Button } from '../../src/components'
-import { Table, H1, P, Ul } from '../../src/elements'
-import { StickyHelper } from '../../src/elements/Table'
+import { Section, Space, Button } from 'dnb-ui-lib/src/components'
+import { Table, H1, P, Ul } from 'dnb-ui-lib/src/elements'
+import { StickyHelper } from 'dnb-ui-lib/src/elements/Table'
 
-import { createPagination } from '../../src/components/Pagination'
+import { createPagination } from 'dnb-ui-lib/src/components/Pagination'
 
-export default [
-  'PaginationTable',
-  () => (
+export default function() {
+  return (
     <Wrapper className="dnb-core-style" spacing>
       <Space left>
         <H1 size="small">Infinity Table</H1>
@@ -34,7 +33,7 @@ export default [
       <InfinityPaginationTable tableItems={tableItems} />
     </Wrapper>
   )
-]
+}
 
 // create our items
 const tableItems = []
@@ -158,8 +157,8 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
               <TableData colSpan="2" {...props} />
             </TableRow>
           )} // in order to show the injected "indicator" and "load button" in the middle of the orw
-          startup_count={1} // how many pages to show on starutp
-          parallel_load_count={1} // how many pages to load during next load
+          startup_count={2} // how many pages to show on starutp
+          parallel_load_count={2} // how many pages to load during next load
           startup_page={startupPage} // the very first page we load
           // current_page={currentPage}// is not needed
           // page_count={maxPagesCount}// is not needed
@@ -270,13 +269,13 @@ const TableRow = styled.tr`
 
   &.expanded {
     .dnb-icon {
-      ${'' /* transform: scale(-1); */}
       transform: rotate(-180deg);
     }
   }
 
-  /** This is our expanded height (maxHeight) */
-  /** NB: we can use max-height, because max-height is not supported in tr */
+  /** This is our expanded height (maxHeight)
+      NB: we can use max-height, because max-height is not supported in tr
+  */
   max-height: 10rem;
   transition: height 0.4s ease-out;
 `
@@ -291,6 +290,12 @@ const TableData = styled.td`
   .dnb-p {
     font-feature-settings: 'pnum' on, 'lnum' on;
     font-weight: var(--font-weight-bold);
+
+    /** reset css specificity */
+    .dnb-spacing &.dnb-h2:not([class*='space__bottom']),
+    .dnb-core-style .dnb-spacing &.dnb-h2:not([class*='space__bottom']) {
+      margin: 0;
+    }
   }
 `
 
