@@ -19,8 +19,10 @@ import {
 } from './PaginationHelpers'
 import PaginationContext from './PaginationContext'
 
-const propTypes = {}
-const defaultProps = {}
+const propTypes = {
+  children: PropTypes.oneOfType([PropTypes.node, PropTypes.func])
+}
+const defaultProps = { children: null }
 
 export default class InfinityScroller extends PureComponent {
   static contextType = PaginationContext
@@ -69,23 +71,27 @@ export default class InfinityScroller extends PureComponent {
 
     const items = this.context.pagination.prefillItems(newPageNo, props)
 
-    this.context.pagination.setItems(items, () => {
-      const createEvent = eventName => {
-        dispatchCustomElementEvent(this.context.pagination, eventName, {
-          page: newPageNo,
-          pageNo: newPageNo,
-          ...this.context.pagination
-        })
-      }
+    this.context.pagination.setItems(items, () =>
+      this.callEventHandler(newPageNo, isStartup)
+    )
+  }
 
-      if (isStartup) {
-        createEvent('on_startup')
-      } else {
-        createEvent('on_change')
-      }
+  callEventHandler(pageNo, isStartup = false) {
+    const createEvent = eventName => {
+      dispatchCustomElementEvent(this.context.pagination, eventName, {
+        page: pageNo,
+        pageNo,
+        ...this.context.pagination
+      })
+    }
 
-      createEvent('on_load')
-    })
+    if (isStartup) {
+      createEvent('on_startup')
+    } else {
+      createEvent('on_change')
+    }
+
+    createEvent('on_load')
   }
 
   render() {
@@ -109,6 +115,56 @@ export default class InfinityScroller extends PureComponent {
 
     // make some props ready to use
     const parallelLoadCount = parseFloat(parallel_load_count)
+
+    const { children } = this.props
+    if (children) {
+      const {
+        currentPage
+        // current_page,
+
+        // our methodes
+      } = this.context.pagination
+
+      const Marker = () => (
+        <InteractionMarker
+          pageNo={(currentPage || 1) + 1}
+          marker_element={marker_element || fallback_element}
+          onVisible={currentPage => {
+            this.callEventHandler(currentPage)
+          }}
+        />
+      )
+
+      const LoadButton = () => (
+        <InfinityLoadButton
+          pressed_element={
+            <PaginationIndicator
+              indicator_element={indicator_element || fallback_element}
+            />
+          }
+          element={fallback_element}
+          icon="arrow_up"
+          on_click={() => this.callEventHandler(currentPage - 1)}
+        />
+      )
+
+      const showLoadButton = startupPage > 1 && currentPage > 1
+      // && currentPage <= startupPage
+      // console.log('showLoadButton', showLoadButton)
+
+      return (
+        <>
+          {showLoadButton && <LoadButton />}
+          {children}
+          <Marker />
+          {!this.hideIndicator && (
+            <PaginationIndicator
+              indicator_element={indicator_element || fallback_element}
+            />
+          )}
+        </>
+      )
+    }
 
     // invoke startup if needed
     if (!(items && items.length > 0)) {
@@ -135,7 +191,7 @@ export default class InfinityScroller extends PureComponent {
           !this.useLoadButton &&
           !skipObserver &&
           (pageNo < pageCount || typeof pageCount === 'undefined') && (
-            <InfinityMarker
+            <InteractionMarker
               pageNo={pageNo}
               marker_element={marker_element || fallback_element}
               onVisible={pageNoVisible => {
@@ -165,7 +221,7 @@ export default class InfinityScroller extends PureComponent {
                 <InfinityLoadButton
                   element={fallback_element}
                   icon="arrow_up"
-                  onClick={event =>
+                  on_click={event =>
                     this.getNewContent(pageNo - 1, {
                       position: 'before',
                       skipObserver: true,
@@ -192,7 +248,7 @@ export default class InfinityScroller extends PureComponent {
                 <InfinityLoadButton
                   element={fallback_element}
                   icon="arrow_down"
-                  onClick={event =>
+                  on_click={event =>
                     this.getNewContent(pageNo + 1, {
                       position: 'after',
                       skipObserver: true,
@@ -215,7 +271,7 @@ export default class InfinityScroller extends PureComponent {
   }
 }
 
-class InfinityMarker extends PureComponent {
+class InteractionMarker extends PureComponent {
   static propTypes = {
     pageNo: PropTypes.number.isRequired,
     onVisible: PropTypes.func.isRequired,
@@ -289,7 +345,7 @@ class InfinityMarker extends PureComponent {
     const { marker_element } = this.props
 
     if (this.state.isConnected || !this.intersectionObserver) {
-      return null
+      // return null
     }
 
     // NB: make sure we don't actually use the marker element,
@@ -305,14 +361,14 @@ class InfinityMarker extends PureComponent {
           className="dnb-pagination__marker__inner"
           ref={this._ref}
         >
-          {/* {this.props.pageNo} */}
+          {this.props.pageNo}
         </ElementChild>
       </Element>
     )
   }
 }
 
-class InfinityLoadButton extends PureComponent {
+export class InfinityLoadButton extends PureComponent {
   static contextType = Context
   static propTypes = {
     element: PropTypes.oneOfType([
@@ -320,25 +376,35 @@ class InfinityLoadButton extends PureComponent {
       PropTypes.node,
       PropTypes.func,
       PropTypes.string
-    ]).isRequired,
+    ]),
+    pressed_element: PropTypes.oneOfType([
+      PropTypes.object,
+      PropTypes.node,
+      PropTypes.func
+    ]),
     icon: PropTypes.string.isRequired,
-    onClick: PropTypes.func.isRequired
+    on_click: PropTypes.func.isRequired
   }
   static defaultProps = {
     element: 'div',
+    pressed_element: null,
     icon: 'arrow_down'
   }
   state = { isPressed: false }
   onClickHandler = e => {
     this.setState({ isPressed: true })
-    this.props.onClick(e)
+    if (typeof this.props.on_click === 'function') {
+      this.props.on_click(e)
+    }
   }
   render() {
     const { element, icon } = this.props
     const Element = element
     const ElementChild = isTrElement(Element) ? 'td' : 'div'
 
-    return this.state.isPressed ? null : (
+    return this.state.isPressed ? (
+      this.props.pressed_element
+    ) : (
       <Element>
         <ElementChild className="dnb-pagination__loadbar">
           <Button

@@ -60,6 +60,35 @@ exports[`Pagination bar component have to match snapshot 1`] = `
       },
     }
   }
+  2={
+    Object {
+      "displayName": "InfinityMarker",
+      "props": Object {
+        "align": "align",
+        "children": "children",
+        "class": "class",
+        "className": "className",
+        "current_page": "current_page",
+        "fallback_element": Object {},
+        "hide_progress_indicator": "hide_progress_indicator",
+        "indicator_element": "indicator_element",
+        "items": "items",
+        "marker_element": Object {},
+        "mode": "'pagination'",
+        "on_change": [Function],
+        "on_load": [Function],
+        "on_startup": [Function],
+        "page_count": "page_count",
+        "page_element": Object {},
+        "parallel_load_count": "parallel_load_count",
+        "reset_content_handler": "reset_content_handler",
+        "set_content_handler": "set_content_handler",
+        "startup_count": "startup_count",
+        "startup_page": "startup_page",
+        "use_load_button": "use_load_button",
+      },
+    }
+  }
   align="left"
   class={null}
   className={null}
@@ -111,6 +140,35 @@ exports[`Pagination bar component have to match snapshot 1`] = `
     1={
       Object {
         "displayName": "PaginationInstance",
+        "props": Object {
+          "align": "align",
+          "children": "children",
+          "class": "class",
+          "className": "className",
+          "current_page": "current_page",
+          "fallback_element": Object {},
+          "hide_progress_indicator": "hide_progress_indicator",
+          "indicator_element": "indicator_element",
+          "items": "items",
+          "marker_element": Object {},
+          "mode": "'pagination'",
+          "on_change": [Function],
+          "on_load": [Function],
+          "on_startup": [Function],
+          "page_count": "page_count",
+          "page_element": Object {},
+          "parallel_load_count": "parallel_load_count",
+          "reset_content_handler": "reset_content_handler",
+          "set_content_handler": "set_content_handler",
+          "startup_count": "startup_count",
+          "startup_page": "startup_page",
+          "use_load_button": "use_load_button",
+        },
+      }
+    }
+    2={
+      Object {
+        "displayName": "InfinityMarker",
         "props": Object {
           "align": "align",
           "children": "children",
@@ -192,6 +250,35 @@ exports[`Pagination bar component have to match snapshot 1`] = `
       1={
         Object {
           "displayName": "PaginationInstance",
+          "props": Object {
+            "align": "align",
+            "children": "children",
+            "class": "class",
+            "className": "className",
+            "current_page": "current_page",
+            "fallback_element": Object {},
+            "hide_progress_indicator": "hide_progress_indicator",
+            "indicator_element": "indicator_element",
+            "items": "items",
+            "marker_element": Object {},
+            "mode": "'pagination'",
+            "on_change": [Function],
+            "on_load": [Function],
+            "on_startup": [Function],
+            "page_count": "page_count",
+            "page_element": Object {},
+            "parallel_load_count": "parallel_load_count",
+            "reset_content_handler": "reset_content_handler",
+            "set_content_handler": "set_content_handler",
+            "startup_count": "startup_count",
+            "startup_page": "startup_page",
+            "use_load_button": "use_load_button",
+          },
+        }
+      }
+      2={
+        Object {
+          "displayName": "InfinityMarker",
           "props": Object {
             "align": "align",
             "children": "children",
