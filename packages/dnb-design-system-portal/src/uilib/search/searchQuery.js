@@ -61,6 +61,7 @@ const flatten = arr =>
           }))
         }
 
+        // bundle our whole request
         const result = {
           ...fields,
           ...frontmatter,
@@ -68,6 +69,12 @@ const flatten = arr =>
           headings
         }
 
+        // has an empty, not valid title, then we grap the first heading (h1)
+        if (!result.title && headings) {
+          result.title = headings[0]?.value
+        }
+
+        // handle category
         if (children[0]) {
           const { fields, frontmatter, ...rest } = children[0]
           result.category = {
