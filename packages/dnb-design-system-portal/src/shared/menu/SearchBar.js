@@ -69,11 +69,13 @@ export const SearchBarInput = () => {
 const StyledAutocomplete = styled(Autocomplete)`
   .dnb-drawer-list__option__inner {
     .dnb-drawer-list__option__item {
-      white-space: pre-wrap;
+      white-space: normal;
       font-size: var(--font-size-small);
 
       .dnb-anchor {
         margin-right: 0.5rem;
+        word-break: break-word;
+        white-space: nowrap;
       }
     }
 
