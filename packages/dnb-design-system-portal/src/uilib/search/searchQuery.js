@@ -70,7 +70,11 @@ const flatten = arr =>
         }
 
         // has an empty, not valid title, then we grap the first heading (h1)
-        if (!result.title && headings && headings[0]) {
+        if (
+          String(result.title || '').length === 0 &&
+          headings &&
+          headings[0]
+        ) {
           result.title = headings[0].value
         }
 
