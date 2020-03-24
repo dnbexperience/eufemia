@@ -16,11 +16,7 @@ import { Icon, Button } from 'dnb-ui-lib/src'
 import { MainMenuToggleButton } from './ToggleMainMenu'
 import { SidebarMenuContext } from './SidebarMenuContext'
 import ToggleGrid from './ToggleGrid'
-// import {
-//   SearchBarProvider,
-//   SearchBarInput,
-//   SearchBarResults
-// } from './SearchBar'
+import { SearchBarInput } from './SearchBar'
 
 const Header = styled.header`
   position: fixed;
@@ -36,7 +32,7 @@ const Header = styled.header`
   background-color: var(--color-white);
   border-bottom: 1px solid var(--color-black-border);
 
-  overflow: hidden;
+  ${'' /* overflow: hidden; */}
   white-space: nowrap;
 
   #toggle-sidebar-menu {
@@ -154,47 +150,43 @@ export default class StickyMenuBar extends PureComponent {
                   siteMetadata: { name: slogan }
                 }
               }) => (
-                <>
-                  {/* <SearchBarProvider /> */}
-                  {/* <SearchBarResults /> */}
-                  <Header
-                    css={[
-                      hideSiebarToggleButton && hideSiebarToggleButtonStyle
-                    ]}
-                    className={classnames('sticky-menu', 'dev-grid')}
-                  >
-                    <HeaderInner>
-                      <MainMenuToggleButton />
-                      <CenterWrapper aria-hidden>
-                        <Icon
-                          icon={PortalLogo}
-                          size={48}
-                          alt={`${slogan} logo`}
-                          right="x-small"
-                        />
-                        <Slogan>{slogan}</Slogan>
-                      </CenterWrapper>
-                      <Tools>
-                        {/* <SearchBarInput /> */}
-                        <Button
-                          icon={isOpen ? closeIcon : hamburgerIcon}
-                          on_click={toggleMenu}
-                          id="toggle-sidebar-menu"
-                          aria-haspopup="true"
-                          aria-controls="portal-sidebar-menu"
-                          aria-expanded={isOpen}
-                          aria-label="Section Content Menu"
-                          title={
-                            isOpen
-                              ? 'Hide section content menu'
-                              : 'Show section content menu'
-                          }
-                        />
-                        <ToggleGrid />
-                      </Tools>
-                    </HeaderInner>
-                  </Header>
-                </>
+                <Header
+                  css={[
+                    hideSiebarToggleButton && hideSiebarToggleButtonStyle
+                  ]}
+                  className={classnames('sticky-menu', 'dev-grid')}
+                >
+                  <HeaderInner>
+                    <MainMenuToggleButton />
+                    <CenterWrapper aria-hidden>
+                      <Icon
+                        icon={PortalLogo}
+                        size={48}
+                        alt={`${slogan} logo`}
+                        right="x-small"
+                      />
+                      <Slogan>{slogan}</Slogan>
+                    </CenterWrapper>
+                    <Tools>
+                      <SearchBarInput />
+                      <Button
+                        icon={isOpen ? closeIcon : hamburgerIcon}
+                        on_click={toggleMenu}
+                        id="toggle-sidebar-menu"
+                        aria-haspopup="true"
+                        aria-controls="portal-sidebar-menu"
+                        aria-expanded={isOpen}
+                        aria-label="Section Content Menu"
+                        title={
+                          isOpen
+                            ? 'Hide section content menu'
+                            : 'Show section content menu'
+                        }
+                      />
+                      <ToggleGrid />
+                    </Tools>
+                  </HeaderInner>
+                </Header>
               )}
             />
           )

@@ -43,27 +43,41 @@ class Example extends PureComponent {
         >
           {/* @jsx */ `
 const onTypeHandler = ({
+  value,
   showIndicator,
   hideIndicator,
   updateData,
   debounce
   /* ... */
 }) => {
-  showIndicator()
-  debounce(() => {
-    const timeout = setTimeout(() => {
-      updateData(topMovies)
-      hideIndicator()
-    }, 600)
+  console.log('typed value:', value)
 
-    // cancel invocation method
-    return () => clearTimeout(timeout)
-  })
+  showIndicator()
+  debounce(
+    ({ value }) => {
+
+      console.log('debounced value:', value)
+
+      // simualte server delay
+      const timeout = setTimeout(() => {
+
+        // update the drawerList
+        updateData(topMovies)
+        hideIndicator()
+      }, 600)
+
+      // cancel invocation method
+      return () => clearTimeout(timeout)
+    },
+    250,
+    { value }
+  )
 }
 render(<Autocomplete
   mode="async"
-  on_type={onTypeHandler}
   no_scroll_animation="true"
+  prevent_selection="true"
+  on_type={onTypeHandler}
 />)
           `}
         </ComponentBox>
@@ -82,11 +96,13 @@ const onFocusHandler = ({ updateData, dataList, showIndicatorItem }) => {
   }
 }
 render(<Autocomplete
+  mode="async"
+  no_scroll_animation="true"
+  prevent_selection="true"
   on_type={({ value /* updateData, ... */ }) => {
     console.log('on_type', value,)
   }}
   on_focus={onFocusHandler}
-  no_scroll_animation="true"
 />)
           `}
         </ComponentBox>

@@ -645,9 +645,12 @@ class AutocompleteInstance extends PureComponent {
       showIndicator: this.showIndicator,
       hideIndicator: this.hideIndicator,
       setMode: this.setMode,
-      debounce: (func, wait = 250) => {
+      debounce: (func, props = {}, wait = 250) => {
         this.dbf = this.dbf || {}
-        return (this.dbf[key] || (this.dbf[key] = debounce(func, wait)))()
+        return (
+          this.dbf[key] ||
+          (this.dbf[key] = debounce(func, wait, { context: this }))
+        )(props)
       }
     }
   }
@@ -973,7 +976,6 @@ class AutocompleteInstance extends PureComponent {
       label_sr_only,
       icon,
       icon_size,
-      icon_position,
       input_icon,
       size,
       align_autocomplete,
@@ -1004,6 +1006,7 @@ class AutocompleteInstance extends PureComponent {
       data: _data, // eslint-disable-line
       children: _children, // eslint-disable-line
       direction: _direction, // eslint-disable-line
+      icon_position: _icon_position, // eslint-disable-line
       skip_highlight: _skip_highlight, // eslint-disable-line
       id: _id, // eslint-disable-line
       opened: _opened, // eslint-disable-line
@@ -1012,6 +1015,11 @@ class AutocompleteInstance extends PureComponent {
 
       ...attributes
     } = props
+
+    let { icon_position } = props
+    if (icon_position === 'left' && align_autocomplete !== 'left') {
+      icon_position = 'right'
+    }
 
     const id = this._id
     const showStatus = status && status !== 'error'

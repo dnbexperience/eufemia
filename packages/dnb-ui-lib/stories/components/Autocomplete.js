@@ -18,6 +18,46 @@ const CustomStyle = styled.div`
   }
 `
 
+const AutocompleteWithState = () => {
+  const [results, setResults] = React.useState(null)
+
+  return (
+    <Autocomplete
+      mode="async" // prevents showing no options message og typing
+      no_scroll_animation
+      prevent_selection
+      placeholder="Search ..."
+      // label="Search"
+      // label_sr_only="true"
+      on_type={({
+        value,
+        showIndicator,
+        hideIndicator,
+        updateData,
+        debounce
+      }) => {
+        showIndicator()
+        console.log('value 1', value)
+        setResults(topMovies)
+        debounce(
+          ({ value, results }) => {
+            // 1. simualte server delay
+            const timeout = setTimeout(() => {
+              console.log('value 2', value, results)
+              updateData(results)
+              hideIndicator()
+            }, 600)
+
+            // 2. if it gets debounced, we cancel this timeout
+            return () => clearTimeout(timeout)
+          },
+          { value, results }
+        )
+      }}
+    />
+  )
+}
+
 const AutocompleteStory = () => {
   // const [data, setData] = useState(autocompleteData)
   // const [value, setSelectedItem] = useState(0)
@@ -108,6 +148,7 @@ const AutocompleteStory = () => {
           }}
           no_scroll_animation="true"
         />
+        <AutocompleteWithState />
         {/* <Autocomplete
           label="Top 100 movies"
           data={[]}

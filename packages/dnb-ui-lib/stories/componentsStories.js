@@ -36,6 +36,7 @@ import Icons from './components/Icons'
 import Experiments from './components/Experiments'
 import Pagination from './components/Pagination'
 import PaginationTable from './components/PaginationTable'
+import PaginationTableMarker from './components/PaginationTableMarker'
 import { Logo } from '../src/components'
 
 const stories = []
@@ -70,6 +71,7 @@ stories.push(Icons)
 stories.push(Experiments)
 stories.push(Pagination)
 stories.push(PaginationTable)
+stories.push(PaginationTableMarker)
 
 stories.push([
   'Logo',

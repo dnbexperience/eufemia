@@ -97,7 +97,11 @@ export function scrollToLocationHashId({ offset = 0 } = {}) {
 // be triggered. The function will be called after it stops being called for
 // N milliseconds. If `immediate` is passed, trigger the function on the
 // leading edge, instead of the trailing.
-export function debounce(func, wait = 250, immediate = false) {
+export function debounce(
+  func,
+  wait = 250,
+  { immediate = false, context = null } = {}
+) {
   let timeout
   let recall
 
@@ -106,7 +110,7 @@ export function debounce(func, wait = 250, immediate = false) {
   return function executedFunction() {
     // Store the context of this and any
     // parameters passed to executedFunction
-    const context = this
+    const ctx = context || this
     const args = arguments
 
     if (typeof recall === 'function') {
@@ -123,7 +127,7 @@ export function debounce(func, wait = 250, immediate = false) {
 
       // Call function now if you did not on the leading end
       if (!immediate) {
-        recall = func.apply(context, args)
+        recall = func.apply(ctx, args)
       }
     }
 
@@ -144,7 +148,7 @@ export function debounce(func, wait = 250, immediate = false) {
     // Call immediately if you're dong a leading
     // end execution
     if (callNow) {
-      recall = func.apply(context, args)
+      recall = func.apply(ctx, args)
     }
   }
 }

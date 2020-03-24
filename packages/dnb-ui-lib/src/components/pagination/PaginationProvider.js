@@ -202,7 +202,7 @@ export default class PaginationProvider extends PureComponent {
         currentPage,
         _listenForPropChanges: false
       })
-    }, 2) // we have to be one tick after "rerender"
+    }, 10) // we have to be one tick after "rerender"
   }
 
   endInfinity = (pageCount = this.state.items.length) => {
@@ -226,7 +226,7 @@ export default class PaginationProvider extends PureComponent {
     )
   }
 
-  prefillItems = (pageNo, props = {}, items = [...this.state.items]) => {
+  prefillItems = (pageNo, props = {}, items = this.state.items) => {
     const position =
       props.position ||
       (pageNo < this.state.currentPage ? 'before' : 'after')
@@ -240,20 +240,10 @@ export default class PaginationProvider extends PureComponent {
 
     switch (position) {
       case 'before':
-        items.unshift(new ContentObject(obj))
-        break
+        return [new ContentObject(obj), ...items]
       case 'after':
-        items.push(new ContentObject(obj))
-        break
+        return [...items, new ContentObject(obj)]
     }
-
-    // NB: we may considder to sort it in future to ensure correct order
-    // items
-    //   .sort(({ pageNo: a }, { pageNo: b }) => {
-    //     return a > b ? 1 : -1
-    //   })
-
-    return items
   }
 
   setStateHandler = (state, cb) => {
