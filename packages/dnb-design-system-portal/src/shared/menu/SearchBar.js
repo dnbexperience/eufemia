@@ -106,9 +106,9 @@ const makeHitsHumanFriendly = hits => {
   const data = []
 
   hits.forEach(hit => {
-    const { slug, title, description } = hit
+    const { slug, title, description, search } = hit
 
-    const content = [title, description]
+    const content = [title, description, search].filter(Boolean)
 
     const notes = hit.headings
       ?.map(({ value, slug: hash /* depth, slug */ }) => {
