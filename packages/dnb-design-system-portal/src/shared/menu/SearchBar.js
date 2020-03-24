@@ -12,7 +12,9 @@ import { navigate } from 'gatsby'
 
 const indexName =
   process.env.NODE_ENV === 'production'
-    ? 'prod_eufemia_docs'
+    ? typeof window !== 'undefined' && /-beta/.test(window.location.href)
+      ? 'beta_eufemia_docs'
+      : 'prod_eufemia_docs'
     : 'dev_eufemia_docs'
 
 const algoliaApplicationID = 'SLD6KEYMQ9'

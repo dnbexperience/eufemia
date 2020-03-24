@@ -71,11 +71,16 @@ const flatten = arr =>
 
         // has an empty, not valid title, then we grap the first heading (h1)
         if (
-          String(result.title || '').length === 0 &&
+          !hasTitle(result) &&
           headings &&
-          headings[0]
+          headings[0] &&
+          headings[0].depth === 1
         ) {
           result.title = headings[0].value
+        }
+
+        if (!hasTitle(result) && !hasDescription(result)) {
+          return null
         }
 
         // handle category
@@ -91,6 +96,10 @@ const flatten = arr =>
         return result
       }
     )
+    .filter(Boolean)
+
+const hasTitle = r => String(r.title || '').length > 0
+const hasDescription = r => String(r.description || '').length > 0
 
 const currentBranch = getCurrentBranchName()
 const queries = /^(release|beta)$/.test(currentBranch)
@@ -100,7 +109,9 @@ const queries = /^(release|beta)$/.test(currentBranch)
         transformer: ({ data }) => flatten(data.pages.edges),
         indexName:
           process.env.NODE_ENV === 'production'
-            ? 'prod_eufemia_docs'
+            ? /^(beta)$/.test(currentBranch)
+              ? 'beta_eufemia_docs'
+              : 'prod_eufemia_docs'
             : 'dev_eufemia_docs'
       }
     ]

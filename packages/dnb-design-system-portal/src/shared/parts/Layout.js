@@ -170,6 +170,7 @@ const ContentWrapper = styled.div`
 
 const ContentInner = styled.main`
   width: 100%;
+  min-height: 85vh;
   padding: 0 2rem;
 `
 

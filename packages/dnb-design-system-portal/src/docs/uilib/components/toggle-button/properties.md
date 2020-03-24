@@ -2,7 +2,7 @@
 showTabs: true
 ---
 
-## ToggleButton button
+## ToggleButton (button) properties
 
 | Properties                                  | Description                                                                                                                                                                     |
 | ------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -20,7 +20,7 @@ showTabs: true
 | `suffix`                                    | _(optional)_ text describing the content of the ToggleButton more than the label. You can also send in a React component, so it gets wrapped inside the ToggleButton component. |
 | [Space](/uilib/components/space/properties) | _(optional)_ spacing properties like `top` or `bottom` are supported.                                                                                                           |
 
-## ToggleButton group
+## ToggleButton (group) properties
 
 | Properties                                  | Description                                                                                                                                                                                     |
 | ------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
