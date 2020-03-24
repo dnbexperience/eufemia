@@ -109,7 +109,9 @@ const queries = /^(release|beta)$/.test(currentBranch)
         transformer: ({ data }) => flatten(data.pages.edges),
         indexName:
           process.env.NODE_ENV === 'production'
-            ? 'prod_eufemia_docs'
+            ? /^(beta)$/.test(currentBranch)
+              ? 'beta_eufemia_docs'
+              : 'prod_eufemia_docs'
             : 'dev_eufemia_docs'
       }
     ]
