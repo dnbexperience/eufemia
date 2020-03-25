@@ -2,6 +2,7 @@
 
 - [Migration](#migration)
 - [New components](#new-components)
+- [Font fixes](#font-fixes)
 - [How to Install](#install)
 
 ## Migration
@@ -17,6 +18,10 @@ v7 contains a couple of braking changes. As a migration process, you can simply 
 
 - New component [Autocomplete](/uilib/components/autocomplete)
 - New component [Pagination](/uilib/components/pagination) including infinity scroller
+
+## Font fixes
+
+- The `DNB` Font got updates on the bold weight. The changes effects these characters: `i?!`.
 
 ## Install
 
