@@ -1,6 +1,6 @@
 ---
 fullscreen: true
-
+search: 'Intro'
 ---
 
 import Img from 'Tags/Img'

@@ -1,5 +1,6 @@
 ---
 fullscreen: true
+search: 'Intro'
 redirect_from:
   - /uilib/intro/14-helper-classes
 ---
