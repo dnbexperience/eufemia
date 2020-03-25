@@ -123,13 +123,13 @@ import Table from 'Tags/Table'
       <td>--color-pistachio</td>
     </tr>
     <tr>
-      <td color="#B3DADA"></td>
+      <td color="#B3D5D5"></td>
       <td>UX</td>
-      <td>Sea green alt 30%</td>
-      <td>#B3DADA</td>
-      <td>179 218 218</td>
-      <td>Sea green alt 30%</td>
-      <td>--color-sea-green-alt-30</td>
+      <td>Sea green 30%</td>
+      <td>#B3D5D5</td>
+      <td>179 213 213</td>
+      <td>Sea green 30%</td>
+      <td>--color-sea-green-30</td>
     </tr>
     <tr>
       <td color="#D2F0E9"></td>

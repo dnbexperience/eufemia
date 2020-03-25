@@ -267,7 +267,7 @@ html:not([data-is-touch]) .dnb-tabs__button:hover:not([disabled]) {
     background-color: var(--color-sea-green); }
 
 .dnb-tabs__button[disabled] .dnb-tabs__button__title {
-  color: var(--color-sea-green-alt-30); }
+  color: var(--color-sea-green-30); }
 
 .dnb-tabs__button:not([disabled]):active::after, .dnb-tabs__button:not([disabled]).selected::after {
   height: 3px;

@@ -125,7 +125,7 @@ exports[`Textarea scss have to match default theme snapshot 1`] = `
   --textarea-text-color: var(--color-sea-green);
   --textarea-text-color--focus: var(--color-sea-green);
   --textarea-text-color--changed: var(--color-emerald-green);
-  --textarea-text-color--disabled: var(--color-sea-green-alt-30);
+  --textarea-text-color--disabled: var(--color-sea-green-30);
   --textarea-background-color: var(--color-white);
   --textarea-background-color--focus: var(--color-white);
   --textarea-background-color--changed: var(--color-white);
@@ -162,7 +162,7 @@ exports[`Textarea scss have to match default theme snapshot 1`] = `
     -webkit-user-select: none;
     color: var(--textarea-text-color--disabled);
     background-color: var(--textarea-background-color--disabled);
-    box-shadow: 0 0 0 var(--textarea-padding-width) var(--color-mint-green-12), 0 0 0 calc(var(--textarea-padding-width) + 0.0625rem) var(--color-sea-green-alt-30); }
+    box-shadow: 0 0 0 var(--textarea-padding-width) var(--color-mint-green-12), 0 0 0 calc(var(--textarea-padding-width) + 0.0625rem) var(--color-sea-green-30); }
     .dnb-textarea__textarea[disabled]::-webkit-scrollbar,
     .dnb-textarea--disabled .dnb-textarea__textarea::-webkit-scrollbar {
       width: 0; }
@@ -242,7 +242,7 @@ textarea.dnb-textarea {
     -webkit-user-select: none;
     color: var(--textarea-text-color--disabled);
     background-color: var(--textarea-background-color--disabled);
-    box-shadow: 0 0 0 var(--textarea-padding-width) var(--color-mint-green-12), 0 0 0 calc(var(--textarea-padding-width) + 0.0625rem) var(--color-sea-green-alt-30); }
+    box-shadow: 0 0 0 var(--textarea-padding-width) var(--color-mint-green-12), 0 0 0 calc(var(--textarea-padding-width) + 0.0625rem) var(--color-sea-green-30); }
     textarea.dnb-textarea[disabled]::-webkit-scrollbar,
     .dnb-textarea--disabled textarea.dnb-textarea::-webkit-scrollbar {
       width: 0; }
@@ -505,7 +505,7 @@ legend.dnb-form-label {
   --textarea-text-color: var(--color-sea-green);
   --textarea-text-color--focus: var(--color-sea-green);
   --textarea-text-color--changed: var(--color-emerald-green);
-  --textarea-text-color--disabled: var(--color-sea-green-alt-30);
+  --textarea-text-color--disabled: var(--color-sea-green-30);
   --textarea-background-color: var(--color-white);
   --textarea-background-color--focus: var(--color-white);
   --textarea-background-color--changed: var(--color-white);
@@ -542,7 +542,7 @@ legend.dnb-form-label {
     -webkit-user-select: none;
     color: var(--textarea-text-color--disabled);
     background-color: var(--textarea-background-color--disabled);
-    box-shadow: 0 0 0 var(--textarea-padding-width) var(--color-mint-green-12), 0 0 0 calc(var(--textarea-padding-width) + 0.0625rem) var(--color-sea-green-alt-30); }
+    box-shadow: 0 0 0 var(--textarea-padding-width) var(--color-mint-green-12), 0 0 0 calc(var(--textarea-padding-width) + 0.0625rem) var(--color-sea-green-30); }
     .dnb-textarea__textarea[disabled]::-webkit-scrollbar,
     .dnb-textarea--disabled .dnb-textarea__textarea::-webkit-scrollbar {
       width: 0; }
@@ -622,7 +622,7 @@ textarea.dnb-textarea {
     -webkit-user-select: none;
     color: var(--textarea-text-color--disabled);
     background-color: var(--textarea-background-color--disabled);
-    box-shadow: 0 0 0 var(--textarea-padding-width) var(--color-mint-green-12), 0 0 0 calc(var(--textarea-padding-width) + 0.0625rem) var(--color-sea-green-alt-30); }
+    box-shadow: 0 0 0 var(--textarea-padding-width) var(--color-mint-green-12), 0 0 0 calc(var(--textarea-padding-width) + 0.0625rem) var(--color-sea-green-30); }
     textarea.dnb-textarea[disabled]::-webkit-scrollbar,
     .dnb-textarea--disabled textarea.dnb-textarea::-webkit-scrollbar {
       width: 0; }
@@ -798,7 +798,7 @@ textarea.dnb-textarea {
     -webkit-user-select: none;
     color: var(--textarea-text-color--disabled);
     background-color: var(--textarea-background-color--disabled);
-    box-shadow: 0 0 0 var(--textarea-padding-width) var(--color-mint-green-12), 0 0 0 calc(var(--textarea-padding-width) + 0.0625rem) var(--color-sea-green-alt-30); }
+    box-shadow: 0 0 0 var(--textarea-padding-width) var(--color-mint-green-12), 0 0 0 calc(var(--textarea-padding-width) + 0.0625rem) var(--color-sea-green-30); }
     textarea.dnb-textarea[disabled]::-webkit-scrollbar,
     .dnb-textarea--disabled textarea.dnb-textarea::-webkit-scrollbar {
       width: 0; }

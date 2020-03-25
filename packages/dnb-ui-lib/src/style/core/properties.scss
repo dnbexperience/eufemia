@@ -49,7 +49,8 @@
   --color-mint-green-50: #d2f0e9;
   --color-mint-green-25: #e9f8f4;
   --color-mint-green-12: #f4fbf9;
-  --color-sea-green-alt-30: #b3dada;
+  --color-sea-green-30: #b3dada;
+  --color-sea-green-alt-30: #b3dada; // Deprecated
   --color-signal-yellow-30: #ffffd7; // Deprecated
   --color-accent-yellow-30: #feebc1;
   --color-signal-orange: #ff5400;
@@ -67,6 +68,7 @@
 
   // Profile colors
   --color-sea-green: #007272;
+  --color-sea-green-alt: #007272; // Deprecated
   --color-mint-green: #a5e1d2;
   --color-summer-green: #28b482;
   --color-emerald-green: #14555a;

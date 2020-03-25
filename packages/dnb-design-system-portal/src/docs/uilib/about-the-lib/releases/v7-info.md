@@ -8,7 +8,9 @@
 
 v7 contains a couple of braking changes. As a migration process, you can simply search and replace:
 
+1. find `sea-green-alt-30` replace it with `sea-green-30`
 1. find `sea-green-alt` replace it with `sea-green`
+1. find `#B3DADA` replace it with `#B3D5D5`
 1. find `#008484` replace it with `#007272`
 
 ## New components

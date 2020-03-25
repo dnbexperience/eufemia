@@ -99,7 +99,7 @@ const StyledListItem = styled.li`
     }
     &.is-inside {
       html:not([dev-grid]) & {
-        background-color: var(--color-sea-green-alt-30);
+        background-color: var(--color-sea-green-30);
       }
       font-weight: var(--font-weight-medium);
     }

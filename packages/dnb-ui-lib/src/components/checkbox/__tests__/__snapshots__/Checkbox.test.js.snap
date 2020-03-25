@@ -227,7 +227,7 @@ exports[`Checkbox scss have to match default theme snapshot 1`] = `
     border-color: var(--color-mint-green-50); }
   .dnb-checkbox__input[disabled]:checked ~ .dnb-checkbox__button {
     border-color: transparent;
-    background-color: var(--color-sea-green-alt-30); }
+    background-color: var(--color-sea-green-30); }
   .dnb-checkbox__input:not([disabled]):not(:focus):hover ~ .dnb-checkbox__button {
     background-color: var(--color-mint-green-50); }
   .dnb-checkbox__input:not([disabled]):not(:focus):checked:hover ~ .dnb-checkbox__button {

@@ -649,7 +649,7 @@ exports[`Input scss have to match default theme snapshot 1`] = `
   --input-text-color: var(--color-sea-green);
   --input-text-color--focus: var(--color-sea-green);
   --input-text-color--changed: var(--color-emerald-green);
-  --input-text-color--disabled: var(--color-sea-green-alt-30);
+  --input-text-color--disabled: var(--color-sea-green-30);
   --input-background-color: var(--color-white);
   --input-background-color--focus: var(--color-white);
   --input-background-color--changed: var(--color-white);
@@ -657,7 +657,7 @@ exports[`Input scss have to match default theme snapshot 1`] = `
   --input-border-color: var(--color-sea-green);
   --input-border-color--focus: var(--color-emerald-green);
   --input-border-color--changed: var(--color-sea-green);
-  --input-border-color--disabled: var(--color-sea-green-alt-30); }
+  --input-border-color--disabled: var(--color-sea-green-30); }
 
 .dnb-input {
   color: var(--input-text-color); }
@@ -695,7 +695,7 @@ exports[`Input scss have to match default theme snapshot 1`] = `
   .dnb-input:not([data-input-state='disabled']).dnb-input__submit-button svg {
     color: var(--color-sea-green); }
   .dnb-input__icon {
-    color: var(--color-sea-green-alt-30); }
+    color: var(--color-sea-green-30); }
   .dnb-input__status--error .dnb-input__shell:not([data-input-state='focus']) {
     box-shadow: 0 0 0 0.125rem var(--color-fire-red);
     /* IE11 fix */

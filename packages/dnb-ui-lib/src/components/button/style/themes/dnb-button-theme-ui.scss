@@ -26,7 +26,7 @@
 
     &[disabled] {
       color: var(--color-white);
-      background-color: var(--color-sea-green-alt-30);
+      background-color: var(--color-sea-green-30);
     }
   }
 
@@ -55,12 +55,12 @@
     &[disabled],
     &[disabled]:focus // only because of href/anchor button
  {
-      color: var(--color-sea-green-alt-30);
+      color: var(--color-sea-green-30);
       background-color: var(--color-white);
 
       // only because of href/anchor button
       @include fakeBorder(
-        var(--color-sea-green-alt-30),
+        var(--color-sea-green-30),
         0.0625rem,
         inset,
         true
@@ -214,13 +214,13 @@
         }
 
         @include active() {
-          @include fakeBorder(var(--color-sea-green-alt-30), 0.0625rem);
+          @include fakeBorder(var(--color-sea-green-30), 0.0625rem);
         }
       }
     }
 
     &[disabled] {
-      color: var(--color-sea-green-alt-30);
+      color: var(--color-sea-green-30);
     }
   }
 

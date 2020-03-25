@@ -564,9 +564,9 @@ exports[`Radio scss have to match default theme snapshot 1`] = `
   .dnb-radio__input[disabled] ~ .dnb-radio__button {
     border-color: var(--color-mint-green-50); }
   .dnb-radio__input[disabled]:checked ~ .dnb-radio__button {
-    border-color: var(--color-sea-green-alt-30); }
+    border-color: var(--color-sea-green-30); }
   .dnb-radio__input[disabled]:checked ~ .dnb-radio__dot {
-    background-color: var(--color-sea-green-alt-30); }
+    background-color: var(--color-sea-green-30); }
   .dnb-radio__input:not([disabled]):not(:focus):not(:checked):hover ~ .dnb-radio__button {
     background-color: var(--color-mint-green-50); }
   .dnb-radio__input:not([disabled]):not(:focus):checked:hover ~ .dnb-radio__dot {

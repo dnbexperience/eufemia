@@ -214,7 +214,7 @@ exports[`Switch scss have to match default theme snapshot 1`] = `
     flex-direction: row;
     align-items: center;
     overflow: hidden;
-    background-color: var(--color-sea-green-alt-30); }
+    background-color: var(--color-sea-green-30); }
     .dnb-switch__background::after {
       content: '';
       position: absolute;
@@ -244,13 +244,13 @@ exports[`Switch scss have to match default theme snapshot 1`] = `
   .dnb-switch__input[disabled] ~ .dnb-switch__background {
     background-color: var(--color-mint-green-25); }
   .dnb-switch__input[disabled]:checked ~ .dnb-switch__background::after {
-    background-color: var(--color-sea-green-alt-30); }
+    background-color: var(--color-sea-green-30); }
   .dnb-switch__input[disabled]:not(:checked) ~ .dnb-switch__background::after {
-    border-color: var(--color-sea-green-alt-30); }
+    border-color: var(--color-sea-green-30); }
   .dnb-switch__input[disabled] ~ .dnb-switch__button {
-    border-color: var(--color-sea-green-alt-30); }
+    border-color: var(--color-sea-green-30); }
   .dnb-switch__input[disabled]:checked ~ .dnb-switch__button {
-    background-color: var(--color-sea-green-alt-30); }
+    background-color: var(--color-sea-green-30); }
   .dnb-switch__input:not([disabled]):not(:focus):not(:active):hover ~ .dnb-switch__button {
     border-color: var(--color-sea-green);
     background-color: var(--color-mint-green-50); }

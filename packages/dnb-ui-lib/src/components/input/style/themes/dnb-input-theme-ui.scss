@@ -9,7 +9,7 @@
   --input-text-color: var(--color-sea-green);
   --input-text-color--focus: var(--color-sea-green);
   --input-text-color--changed: var(--color-emerald-green);
-  --input-text-color--disabled: var(--color-sea-green-alt-30);
+  --input-text-color--disabled: var(--color-sea-green-30);
   --input-background-color: var(--color-white);
   --input-background-color--focus: var(--color-white);
   --input-background-color--changed: var(--color-white);
@@ -17,7 +17,7 @@
   --input-border-color: var(--color-sea-green);
   --input-border-color--focus: var(--color-emerald-green);
   --input-border-color--changed: var(--color-sea-green);
-  --input-border-color--disabled: var(--color-sea-green-alt-30);
+  --input-border-color--disabled: var(--color-sea-green-30);
 }
 
 .dnb-input {
@@ -71,7 +71,7 @@
 
   // Icon
   &__icon {
-    color: var(--color-sea-green-alt-30);
+    color: var(--color-sea-green-30);
   }
 
   // with status_state = "error"

@@ -77,7 +77,7 @@ const prismTheme = {
     {
       types: ['selector', 'doctype'],
       style: {
-        color: 'var(--color-sea-green-alt-30)',
+        color: 'var(--color-sea-green-30)',
         fontStyle: 'italic'
       }
     },

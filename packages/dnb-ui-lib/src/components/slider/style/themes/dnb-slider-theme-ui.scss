@@ -20,7 +20,7 @@
     }
   }
   &__state--disabled &__line {
-    background-color: var(--color-sea-green-alt-30);
+    background-color: var(--color-sea-green-30);
     &__after {
       background-color: var(--color-mint-green-25);
     }
@@ -36,7 +36,7 @@
   }
   &__state--disabled#{&}__track {
     &::before {
-      background-color: var(--color-sea-green-alt-30);
+      background-color: var(--color-sea-green-30);
     }
     &::after {
       background-color: var(--color-mint-green-25);
