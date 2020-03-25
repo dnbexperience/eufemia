@@ -245,7 +245,7 @@ exports[`Button scss have to match default theme snapshot 1`] = `
   box-shadow: none; }
   .dnb-button--primary {
     color: var(--color-white);
-    background-color: var(--color-sea-green-alt); }
+    background-color: var(--color-sea-green); }
     html:not([data-is-touch]) .dnb-button--primary:hover[disabled] {
       cursor: not-allowed; }
     html:not([data-is-touch]) .dnb-button--primary:hover:not([disabled]) {
@@ -288,14 +288,14 @@ exports[`Button scss have to match default theme snapshot 1`] = `
   .dnb-button--secondary {
     color: var(--color-sea-green);
     background-color: var(--color-white);
-    box-shadow: inset 0 0 0 0.0625rem var(--color-sea-green-alt);
+    box-shadow: inset 0 0 0 0.0625rem var(--color-sea-green);
     /* IE11 fix */
     border-color: transparent; }
     .dnb-button--secondary:not([disabled]) .dnb-button__icon {
       color: var(--color-emerald-green); }
     @media screen and (-ms-high-contrast: none) {
       .dnb-button--secondary {
-        box-shadow: inset 0 0 0 1px var(--color-sea-green-alt); } }
+        box-shadow: inset 0 0 0 1px var(--color-sea-green); } }
     html:not([data-is-touch]) .dnb-button--secondary:hover[disabled] {
       cursor: not-allowed; }
     html:not([data-is-touch]) .dnb-button--secondary:hover:not([disabled]) {
@@ -480,7 +480,7 @@ exports[`Button scss have to match default theme snapshot 1`] = `
     html:not([data-is-touch]) .dnb-button--tertiary.dnb-button--has-icon:not(.dnb-button--has-text):hover[disabled] {
       cursor: not-allowed; }
     html:not([data-is-touch]) .dnb-button--tertiary.dnb-button--has-icon:not(.dnb-button--has-text):hover:not([disabled]) {
-      box-shadow: 0 0 0 0.0625rem var(--color-sea-green-alt);
+      box-shadow: 0 0 0 0.0625rem var(--color-sea-green);
       /* IE11 fix */
       border-color: transparent; }
     .dnb-button--tertiary.dnb-button--has-icon:not(.dnb-button--has-text):active[disabled],

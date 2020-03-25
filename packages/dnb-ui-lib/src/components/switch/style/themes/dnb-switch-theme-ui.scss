@@ -35,8 +35,8 @@
     */
   &__input:not(:checked) ~ &__button {
     background-color: var(--color-white);
-    border-color: var(--color-sea-green-alt);
-    // border: var(--switch-border-width) solid var(--color-sea-green-alt);
+    border-color: var(--color-sea-green);
+    // border: var(--switch-border-width) solid var(--color-sea-green);
   }
 
   /*

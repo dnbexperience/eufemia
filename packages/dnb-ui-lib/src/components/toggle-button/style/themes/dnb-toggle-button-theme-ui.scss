@@ -78,12 +78,12 @@
       .dnb-radio {
         &__button {
           background-color: transparent;
-          border-color: var(--color-sea-green-alt);
+          border-color: var(--color-sea-green);
           // extend the broder to be 1.5px (use .0318rem instead of .03125rem because of Windows)
-          box-shadow: 0 0 0 0.0318rem var(--color-sea-green-alt);
+          box-shadow: 0 0 0 0.0318rem var(--color-sea-green);
         }
         &__dot {
-          background-color: var(--color-sea-green-alt);
+          background-color: var(--color-sea-green);
         }
       }
 
@@ -91,12 +91,12 @@
       .dnb-checkbox {
         &__button {
           background-color: transparent;
-          border-color: var(--color-sea-green-alt);
+          border-color: var(--color-sea-green);
           // extend the broder to be 1.5px (use .0318rem instead of .03125rem because of Windows)
-          box-shadow: 0 0 0 0.0318rem var(--color-sea-green-alt);
+          box-shadow: 0 0 0 0.0318rem var(--color-sea-green);
         }
         &__gfx {
-          color: var(--color-sea-green-alt);
+          color: var(--color-sea-green);
         }
       }
     }

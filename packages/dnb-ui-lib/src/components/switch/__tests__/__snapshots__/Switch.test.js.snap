@@ -224,7 +224,7 @@ exports[`Switch scss have to match default theme snapshot 1`] = `
           top: 0.25rem; } }
   .dnb-switch__input:not(:checked) ~ .dnb-switch__button {
     background-color: var(--color-white);
-    border-color: var(--color-sea-green-alt); }
+    border-color: var(--color-sea-green); }
   .dnb-switch__input:checked ~ .dnb-switch__button {
     background-color: var(--color-sea-green); }
   .dnb-switch__input:not(:checked) ~ .dnb-switch__background::after {

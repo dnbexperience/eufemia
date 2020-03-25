@@ -106,13 +106,13 @@
   /* IE11 fix */
   @media screen and (-ms-high-contrast: none) {
     -ms-overflow-style: -ms-autohiding-scrollbar;
-    box-shadow: 0 0 0 1px var(--color-sea-green-alt);
+    box-shadow: 0 0 0 1px var(--color-sea-green);
   }
 
   // Edge fix
   @supports (-ms-ime-align: auto) {
     -ms-overflow-style: -ms-autohiding-scrollbar;
-    box-shadow: 0 0 0 1px var(--color-sea-green-alt);
+    box-shadow: 0 0 0 1px var(--color-sea-green);
   }
 }
 

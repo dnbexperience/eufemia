@@ -980,7 +980,7 @@ exports[`Autocomplete scss have to match default theme snapshot 1`] = `
 :root {
   --drawer-list-text-color: var(--color-emerald-green);
   --drawer-list-text-color--disabled: var(--color-sea-green-alt-30);
-  --drawer-list-border-color: var(--color-sea-green-alt);
+  --drawer-list-border-color: var(--color-sea-green);
   --drawer-list-border-color--selected: var(--color-emerald-green);
   --drawer-list-options-border-radius: 0.25rem;
   --drawer-list-option-color: var(--color-black-80);
@@ -1670,7 +1670,7 @@ legend.dnb-form-label {
     position: relative;
     display: flex;
     align-items: center;
-    border: var(--input-border-width) solid var(--color-sea-green-alt); }
+    border: var(--input-border-width) solid var(--color-sea-green); }
   .dnb-input__input {
     border: none;
     outline: none;

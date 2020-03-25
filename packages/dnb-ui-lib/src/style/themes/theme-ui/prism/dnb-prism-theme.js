@@ -96,7 +96,7 @@ const prismTheme = {
     {
       types: ['tag'],
       style: {
-        color: 'var(--color-sea-green-alt)'
+        color: 'var(--color-sea-green)'
       }
     },
     {

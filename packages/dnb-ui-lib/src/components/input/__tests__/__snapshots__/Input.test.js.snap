@@ -654,9 +654,9 @@ exports[`Input scss have to match default theme snapshot 1`] = `
   --input-background-color--focus: var(--color-white);
   --input-background-color--changed: var(--color-white);
   --input-background-color--disabled: var(--color-mint-green-12);
-  --input-border-color: var(--color-sea-green-alt);
+  --input-border-color: var(--color-sea-green);
   --input-border-color--focus: var(--color-emerald-green);
-  --input-border-color--changed: var(--color-sea-green-alt);
+  --input-border-color--changed: var(--color-sea-green);
   --input-border-color--disabled: var(--color-sea-green-alt-30); }
 
 .dnb-input {
@@ -1249,7 +1249,7 @@ legend.dnb-form-label {
     position: relative;
     display: flex;
     align-items: center;
-    border: var(--input-border-width) solid var(--color-sea-green-alt); }
+    border: var(--input-border-width) solid var(--color-sea-green); }
   .dnb-input__input {
     border: none;
     outline: none;

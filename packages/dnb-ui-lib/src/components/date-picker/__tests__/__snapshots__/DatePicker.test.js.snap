@@ -1789,7 +1789,7 @@ legend.dnb-form-label {
     position: relative;
     display: flex;
     align-items: center;
-    border: var(--input-border-width) solid var(--color-sea-green-alt); }
+    border: var(--input-border-width) solid var(--color-sea-green); }
   .dnb-input__input {
     border: none;
     outline: none;
@@ -2391,7 +2391,7 @@ legend.dnb-form-label {
         width: calc(var(--checkbox-width) - 0.5rem);
         height: calc(var(--checkbox-width) - 0.5rem);
         border-width: 0.0625rem;
-        box-shadow: 0 0 0 0.0318rem var(--color-sea-green-alt); }
+        box-shadow: 0 0 0 0.0318rem var(--color-sea-green); }
       .dnb-toggle-button__button .dnb-checkbox__dot {
         width: calc(var(--checkbox-width) - 1rem);
         height: calc(var(--checkbox-width) - 1rem); }
@@ -2406,7 +2406,7 @@ legend.dnb-form-label {
         width: calc(var(--radio-width) - 0.5rem);
         height: calc(var(--radio-width) - 0.5rem);
         border-width: 0.0625rem;
-        box-shadow: 0 0 0 0.0318rem var(--color-sea-green-alt); }
+        box-shadow: 0 0 0 0.0318rem var(--color-sea-green); }
       .dnb-toggle-button__button .dnb-radio__dot {
         width: calc(var(--radio-width) - 1rem);
         height: calc(var(--radio-width) - 1rem); }

@@ -547,14 +547,14 @@ exports[`Radio scss have to match default theme snapshot 1`] = `
   /* stylelint-disable */
   /* stylelint-enable */ }
   .dnb-radio__dot {
-    background-color: var(--color-sea-green-alt);
+    background-color: var(--color-sea-green);
     transition: opacity 200ms ease-out, transform 200ms ease-out; }
   .dnb-radio__input:not(:checked) ~ .dnb-radio__button {
     background-color: var(--color-white);
-    border-color: var(--color-sea-green-alt); }
+    border-color: var(--color-sea-green); }
   .dnb-radio__input:checked ~ .dnb-radio__button {
     background-color: var(--color-white);
-    border-color: var(--color-sea-green-alt); }
+    border-color: var(--color-sea-green); }
   .dnb-radio__input:checked ~ .dnb-radio__dot {
     opacity: 1;
     transform: scale(1); }

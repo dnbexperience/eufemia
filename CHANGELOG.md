@@ -1,3 +1,7 @@
+## March, 28. 2020
+
+- The color `Sea green alt` is removed and got replaced by `Sea green`
+
 ## January, 30. 2020
 
 ### New DNB font

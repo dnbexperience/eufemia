@@ -185,11 +185,11 @@ exports[`Textarea scss have to match default theme snapshot 1`] = `
   @media screen and (-ms-high-contrast: none) {
     .dnb-textarea__textarea {
       -ms-overflow-style: -ms-autohiding-scrollbar;
-      box-shadow: 0 0 0 1px var(--color-sea-green-alt); } }
+      box-shadow: 0 0 0 1px var(--color-sea-green); } }
   @supports (-ms-ime-align: auto) {
     .dnb-textarea__textarea {
       -ms-overflow-style: -ms-autohiding-scrollbar;
-      box-shadow: 0 0 0 1px var(--color-sea-green-alt); } }
+      box-shadow: 0 0 0 1px var(--color-sea-green); } }
 
 .dnb-textarea__placeholder {
   color: var(--textarea-text-color);
@@ -265,11 +265,11 @@ textarea.dnb-textarea {
   @media screen and (-ms-high-contrast: none) {
     textarea.dnb-textarea {
       -ms-overflow-style: -ms-autohiding-scrollbar;
-      box-shadow: 0 0 0 1px var(--color-sea-green-alt); } }
+      box-shadow: 0 0 0 1px var(--color-sea-green); } }
   @supports (-ms-ime-align: auto) {
     textarea.dnb-textarea {
       -ms-overflow-style: -ms-autohiding-scrollbar;
-      box-shadow: 0 0 0 1px var(--color-sea-green-alt); } }
+      box-shadow: 0 0 0 1px var(--color-sea-green); } }
 "
 `;
 
@@ -565,11 +565,11 @@ legend.dnb-form-label {
   @media screen and (-ms-high-contrast: none) {
     .dnb-textarea__textarea {
       -ms-overflow-style: -ms-autohiding-scrollbar;
-      box-shadow: 0 0 0 1px var(--color-sea-green-alt); } }
+      box-shadow: 0 0 0 1px var(--color-sea-green); } }
   @supports (-ms-ime-align: auto) {
     .dnb-textarea__textarea {
       -ms-overflow-style: -ms-autohiding-scrollbar;
-      box-shadow: 0 0 0 1px var(--color-sea-green-alt); } }
+      box-shadow: 0 0 0 1px var(--color-sea-green); } }
 
 .dnb-textarea__placeholder {
   color: var(--textarea-text-color);
@@ -645,11 +645,11 @@ textarea.dnb-textarea {
   @media screen and (-ms-high-contrast: none) {
     textarea.dnb-textarea {
       -ms-overflow-style: -ms-autohiding-scrollbar;
-      box-shadow: 0 0 0 1px var(--color-sea-green-alt); } }
+      box-shadow: 0 0 0 1px var(--color-sea-green); } }
   @supports (-ms-ime-align: auto) {
     textarea.dnb-textarea {
       -ms-overflow-style: -ms-autohiding-scrollbar;
-      box-shadow: 0 0 0 1px var(--color-sea-green-alt); } }
+      box-shadow: 0 0 0 1px var(--color-sea-green); } }
 
 :root {
   --textarea-padding-width: 0.5rem;
@@ -697,7 +697,7 @@ textarea.dnb-textarea {
   .dnb-textarea__textarea {
     border: none;
     border-radius: 1px;
-    box-shadow: var(--textarea-border-inner), 0 0 0 calc(var(--textarea-padding-width) + 0.0625rem) var(--color-sea-green-alt);
+    box-shadow: var(--textarea-border-inner), 0 0 0 calc(var(--textarea-padding-width) + 0.0625rem) var(--color-sea-green);
     margin: 0;
     padding: 0 var(--textarea-padding-width);
     font-size: var(--font-size-basis);
@@ -756,7 +756,7 @@ textarea.dnb-textarea {
   margin: var(--textarea-padding-width);
   border: none;
   border-radius: 1px;
-  box-shadow: var(--textarea-border-inner), 0 0 0 calc(var(--textarea-padding-width) + 0.0625rem) var(--color-sea-green-alt);
+  box-shadow: var(--textarea-border-inner), 0 0 0 calc(var(--textarea-padding-width) + 0.0625rem) var(--color-sea-green);
   margin: 0;
   padding: 0 var(--textarea-padding-width);
   font-size: var(--font-size-basis);
@@ -821,10 +821,10 @@ textarea.dnb-textarea {
   @media screen and (-ms-high-contrast: none) {
     textarea.dnb-textarea {
       -ms-overflow-style: -ms-autohiding-scrollbar;
-      box-shadow: 0 0 0 1px var(--color-sea-green-alt); } }
+      box-shadow: 0 0 0 1px var(--color-sea-green); } }
   @supports (-ms-ime-align: auto) {
     textarea.dnb-textarea {
       -ms-overflow-style: -ms-autohiding-scrollbar;
-      box-shadow: 0 0 0 1px var(--color-sea-green-alt); } }
+      box-shadow: 0 0 0 1px var(--color-sea-green); } }
 "
 `;

@@ -664,7 +664,7 @@ legend.dnb-form-label {
     position: relative;
     display: flex;
     align-items: center;
-    border: var(--input-border-width) solid var(--color-sea-green-alt); }
+    border: var(--input-border-width) solid var(--color-sea-green); }
   .dnb-input__input {
     border: none;
     outline: none;

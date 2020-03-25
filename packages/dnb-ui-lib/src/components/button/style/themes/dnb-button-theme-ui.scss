@@ -15,7 +15,7 @@
 
   &--primary {
     color: var(--color-white);
-    background-color: var(--color-sea-green-alt);
+    background-color: var(--color-sea-green);
 
     @include buttonHover(var(--color-sea-green), var(--color-white));
     @include buttonFocus(var(--color-sea-green), var(--color-white));
@@ -39,7 +39,7 @@
     }
 
     @include fakeBorder(
-      var(--color-sea-green-alt),
+      var(--color-sea-green),
       0.0625rem,
       inset,
       true
@@ -210,7 +210,7 @@
         }
 
         @include hover() {
-          @include fakeBorder(var(--color-sea-green-alt), 0.0625rem);
+          @include fakeBorder(var(--color-sea-green), 0.0625rem);
         }
 
         @include active() {
