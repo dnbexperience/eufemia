@@ -1329,14 +1329,16 @@ button.dnb-button::-moz-focus-inner {
   .dnb-pagination__marker {
     pointer-events: none;
     position: relative;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    opacity: 0; }
+    height: 1px;
+    width: 1px;
+    margin: -1px 0 0 -1px;
+    overflow: hidden; }
     .dnb-pagination__marker td, .dnb-pagination__marker__inner {
+      position: absolute;
       padding: 0 !important;
-      width: 0;
-      height: 0; }
+      width: 1px;
+      height: 1px;
+      opacity: 0; }
   .dnb-pagination__loadbar {
     cursor: default;
     display: flex;
