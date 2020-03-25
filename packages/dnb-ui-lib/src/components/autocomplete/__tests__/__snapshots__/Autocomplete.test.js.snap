@@ -768,10 +768,13 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                                   AA
                                    
                                   <span
-                                    className="dnb-drawer-list__option__item--highlight"
-                                  >
-                                    cc
-                                  </span>
+                                    dangerouslySetInnerHTML={
+                                      Object {
+                                        "__html": "<span class=\\"dnb-drawer-list__option__item--highlight\\"><span class=\\"dnb-drawer-list__option__item--highlight\\">cc</span></span>",
+                                      }
+                                    }
+                                    key="0cc"
+                                  />
                                 </ItemContent>
                               </span>
                             </li>
@@ -806,10 +809,13 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                                   BB
                                    
                                   <span
-                                    className="dnb-drawer-list__option__item--highlight"
-                                  >
-                                    cc
-                                  </span>
+                                    dangerouslySetInnerHTML={
+                                      Object {
+                                        "__html": "<span class=\\"dnb-drawer-list__option__item--highlight\\"><span class=\\"dnb-drawer-list__option__item--highlight\\">cc</span></span>",
+                                      }
+                                    }
+                                    key="1cc"
+                                  />
                                    
                                   zethx
                                 </ItemContent>
@@ -845,16 +851,22 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                               >
                                 <ItemContent>
                                   <span
-                                    className="dnb-drawer-list__option__item--highlight"
-                                  >
-                                    CC
-                                  </span>
+                                    dangerouslySetInnerHTML={
+                                      Object {
+                                        "__html": "<span class=\\"dnb-drawer-list__option__item--highlight\\"><span class=\\"dnb-drawer-list__option__item--highlight\\">CC</span></span>",
+                                      }
+                                    }
+                                    key="2CC"
+                                  />
                                    
                                   <span
-                                    className="dnb-drawer-list__option__item--highlight"
-                                  >
-                                    cc
-                                  </span>
+                                    dangerouslySetInnerHTML={
+                                      Object {
+                                        "__html": "<span class=\\"dnb-drawer-list__option__item--highlight\\"><span class=\\"dnb-drawer-list__option__item--highlight\\">cc</span></span>",
+                                      }
+                                    }
+                                    key="2cc"
+                                  />
                                 </ItemContent>
                               </span>
                             </li>

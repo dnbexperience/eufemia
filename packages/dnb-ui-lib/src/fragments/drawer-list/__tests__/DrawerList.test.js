@@ -291,7 +291,7 @@ describe('DrawerList component', () => {
     ).toBe('max-height: 36rem;') // is now min_height
   })
 
-  it('will call on_hide after "esc" key', async () => {
+  it('will call on_hide after "esc" key', () => {
     const on_hide = jest.fn()
 
     const Comp = mount(
@@ -319,7 +319,7 @@ describe('DrawerList component', () => {
     )
   })
 
-  it('has correct value on data given as an object', async () => {
+  it('has correct value on data given as an object', () => {
     const on_change = jest.fn()
     const on_select = jest.fn()
 

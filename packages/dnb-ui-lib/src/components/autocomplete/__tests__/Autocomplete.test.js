@@ -110,12 +110,19 @@ describe('Autocomplete component', () => {
         .at(0)
         .html()
     ).toBe(
-      /* @html */ `<li class="dnb-drawer-list__option" role="option" aria-selected="false" tabindex="-1" id="option-autocomplete-id-1" data-item="1"><span class="dnb-drawer-list__option__inner"><span class="dnb-drawer-list__option__item--highlight">BB</span> <span class="dnb-drawer-list__option__item--highlight">cc</span> zeth<span class="dnb-drawer-list__option__item--highlight">x</span></span></li>`
+      /* @html */ `<li class="dnb-drawer-list__option" role="option" aria-selected="false" tabindex="-1" id="option-autocomplete-id-1" data-item="1"><span class="dnb-drawer-list__option__inner"><span><span class="dnb-drawer-list__option__item--highlight">BB</span></span> <span><span class="dnb-drawer-list__option__item--highlight">cc</span></span> <span>ze<span class="dnb-drawer-list__option__item--highlight">th</span><span class="dnb-drawer-list__option__item--highlight">x</span></span></span></li>`
     )
-    const elem = Comp.find('.dnb-drawer-list__option__item--highlight')
-    expect(elem.at(0).text()).toBe('BB')
-    expect(elem.at(1).text()).toBe('cc')
-    expect(elem.at(2).text()).toBe('x')
+
+    let elem = Comp.find('li.dnb-drawer-list__option')
+      .at(0)
+      .find('span.dnb-drawer-list__option__inner')
+      .find('span')
+
+    expect(elem.at(1).text()).toBe('BB')
+    expect(elem.at(2).text()).toBe('cc')
+    expect(elem.at(3).html()).toBe(
+      '<span>ze<span class="dnb-drawer-list__option__item--highlight">th</span><span class="dnb-drawer-list__option__item--highlight">x</span></span>'
+    )
 
     // check "invalid"
     Comp.find('.dnb-input__input').simulate('change', {

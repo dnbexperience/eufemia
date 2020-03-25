@@ -834,6 +834,10 @@ class AutocompleteInstance extends PureComponent {
       return []
     }
 
+    const startTag =
+      '<span class="dnb-drawer-list__option__item--highlight">'
+    const endTag = '</span>'
+
     return (
       searchIndex
         .map((item, itemIndex) => {
@@ -846,14 +850,23 @@ class AutocompleteInstance extends PureComponent {
           // this function gets called once the items are rendered / in view
           item.dataItem.render = children => {
             // make string out of it
-            if (React.isValidElement(children)) {
+            if (
+              typeof children !== 'string' &&
+              (React.isValidElement(children) || Array.isArray(children))
+            ) {
               children = grabStringFromReact(children)
             }
+
             if (typeof children === 'string') {
               children = children
                 .split(' ')
                 .map(child => {
-                  return listOfFoundWords
+                  if (skipHighlight || this.state.skipHighlight) {
+                    return child
+                  }
+
+                  const formatted = listOfFoundWords
+                    .reverse()
                     .map(({ word }) => {
                       const charStart = child
                         .toLowerCase()
@@ -863,6 +876,7 @@ class AutocompleteInstance extends PureComponent {
                       if (charStart === -1) {
                         return null
                       }
+
                       const ret = {
                         a: child.substring(0, charStart),
                         b: child.substring(charStart, charEnd),
@@ -872,21 +886,31 @@ class AutocompleteInstance extends PureComponent {
                       return ret
                     })
                     .filter(Boolean)
-                    .reduce(
-                      (acc, { a, b, c }) =>
-                        skipHighlight || this.state.skipHighlight ? (
-                          acc
-                        ) : (
-                          <React.Fragment key={`${itemIndex}-${acc}`}>
-                            {a}
-                            <span className="dnb-drawer-list__option__item--highlight">
-                              {b}
-                            </span>
-                            {c}
-                          </React.Fragment>
-                        ),
-                      child
+                    .reduce((acc, { a, b, c }) => {
+                      if (acc.includes('TAG_START')) {
+                        return acc.replace(
+                          new RegExp(`(${b})`, 'gi'),
+                          'TAG_START$1TAG_END'
+                        )
+                      }
+
+                      return `${a}TAG_START${b}TAG_END${c}`
+                    }, child)
+
+                  if (formatted.includes('TAG_START')) {
+                    return (
+                      <span
+                        key={itemIndex + child}
+                        dangerouslySetInnerHTML={{
+                          __html: formatted
+                            .replace(/TAG_START/g, startTag)
+                            .replace(/TAG_END/g, endTag)
+                        }}
+                      />
                     )
+                  }
+
+                  return formatted
                 })
                 .map((c, i, a) => (i < a.length - 1 ? [c, ' '] : c)) // add back the skiped spaces
             }
