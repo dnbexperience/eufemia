@@ -1,6 +1,8 @@
 ## March, 28. 2020
 
 - The [color](/quickguide-designer/colors) `Sea green alt` is removed and got replaced by `Sea green`
+- New component [Autocomplete](/uilib/components/autocomplete)
+- New component [Pagination](/uilib/components/pagination) including infinity scroller
 
 ## January, 30. 2020
 
