@@ -1334,7 +1334,6 @@ button.dnb-button::-moz-focus-inner {
     margin: -1px 0 0 -1px;
     overflow: hidden; }
     .dnb-pagination__marker td, .dnb-pagination__marker__inner {
-      position: absolute;
       padding: 0 !important;
       width: 1px;
       height: 1px;

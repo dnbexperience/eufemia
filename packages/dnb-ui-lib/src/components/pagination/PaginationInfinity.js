@@ -190,7 +190,7 @@ export default class InfinityScroller extends PureComponent {
         const marker = hasContent &&
           !this.useLoadButton &&
           !skipObserver &&
-          (pageNo < pageCount || typeof pageCount === 'undefined') && (
+          (pageNo <= pageCount || typeof pageCount === 'undefined') && (
             <InteractionMarker
               pageNo={pageNo}
               marker_element={marker_element || fallback_element}
@@ -199,7 +199,7 @@ export default class InfinityScroller extends PureComponent {
                 for (let i = 0; i < parallelLoadCount; ++i) {
                   const currentLoadingPage = pageNoVisible + 1 + i
                   if (
-                    currentLoadingPage < pageCount ||
+                    currentLoadingPage <= pageCount ||
                     typeof pageCount === 'undefined'
                   ) {
                     this.getNewContent(currentLoadingPage, {
@@ -345,7 +345,7 @@ class InteractionMarker extends PureComponent {
     const { marker_element } = this.props
 
     if (this.state.isConnected || !this.intersectionObserver) {
-      // return null
+      return null
     }
 
     // NB: make sure we don't actually use the marker element,
@@ -361,7 +361,7 @@ class InteractionMarker extends PureComponent {
           className="dnb-pagination__marker__inner"
           ref={this._ref}
         >
-          {this.props.pageNo}
+          {/* {this.props.pageNo} */}
         </ElementChild>
       </Element>
     )
