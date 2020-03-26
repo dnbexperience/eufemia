@@ -1,7 +1,6 @@
 ---
 title: 'Inspiration'
 icon: 'inspiration'
-
 ---
 
 import Img from 'Tags/Img'

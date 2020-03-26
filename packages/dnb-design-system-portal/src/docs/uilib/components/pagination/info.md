@@ -175,7 +175,7 @@ React.useEffect(() => {
 
 render(
   <InfinityScroller
-    set_content_handler={fn => (setContent = fn)}
+    set_content_handler={(fn) => (setContent = fn)}
     on_change={({ page }) => {
       setLocalPage(page)
     }}
