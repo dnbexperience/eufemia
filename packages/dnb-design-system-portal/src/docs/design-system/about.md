@@ -40,3 +40,7 @@ The DNB ASA Design System (Eufemia) is build together with [EGGS Design](https:/
 ## More People to thank
 
 - [Nicolai Rygh](https://dnb.enterprise.slack.com/user/@WDY36GXKM)
+
+## Credits
+
+The Eufemia Portal includes [third party services](/design-system/credits).
