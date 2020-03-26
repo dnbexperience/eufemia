@@ -11,7 +11,6 @@ function link_out(props) {
           fill="#000"
         />
       </g>
-      <defs />
     </svg>
   )
 }
