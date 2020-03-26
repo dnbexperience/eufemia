@@ -414,7 +414,10 @@ const enhanceSR = (value, aria) => {
 
 export const formatNumber = (number, locale, options = {}) => {
   try {
-    if (typeof Number.toLocaleString === 'function') {
+    if (
+      typeof Number !== 'undefined' &&
+      typeof Number.toLocaleString === 'function'
+    ) {
       return parseFloat(number).toLocaleString(locale, options)
     } else if (
       typeof Intl !== 'undefined' &&
@@ -428,7 +431,8 @@ export const formatNumber = (number, locale, options = {}) => {
         number,
         locale,
         options
-      ])}`
+      ])}`,
+      e
     )
   }
   return number
