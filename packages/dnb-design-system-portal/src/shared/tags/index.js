@@ -44,5 +44,5 @@ export default {
   p: props => <Tag is="p" {...props} />,
   paragraph: props => <Tag is="p" {...props} />,
   blockquote: props => <Tag is="blockquote" {...props} />,
-  hr: props => <Tag is="hr" {...props} />
+  hr: props => <Tag is="hr" className="dnb-hr--fullscreen" {...props} />
 }
