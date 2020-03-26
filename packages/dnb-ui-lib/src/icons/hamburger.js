@@ -13,7 +13,6 @@ function hamburger(props) {
           fill="#000"
         />
       </g>
-      <defs />
     </svg>
   )
 }

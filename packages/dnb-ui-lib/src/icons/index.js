@@ -60,6 +60,8 @@ import logout from './logout.js'
 import logout_medium from './logout_medium.js'
 import more from './more.js'
 import more_medium from './more_medium.js'
+import pay_from from './pay_from.js'
+import pay_from_medium from './pay_from_medium.js'
 import pencil from './pencil.js'
 import pencil_medium from './pencil_medium.js'
 import print from './print.js'
@@ -82,6 +84,8 @@ import settings from './settings.js'
 import settings_medium from './settings_medium.js'
 import subtract from './subtract.js'
 import subtract_medium from './subtract_medium.js'
+import transfer_to from './transfer_to.js'
+import transfer_to_medium from './transfer_to_medium.js'
 import trash from './trash.js'
 import trash_medium from './trash_medium.js'
 import undo from './undo.js'
@@ -154,6 +158,8 @@ export {
   logout_medium,
   more,
   more_medium,
+  pay_from,
+  pay_from_medium,
   pencil,
   pencil_medium,
   print,
@@ -176,6 +182,8 @@ export {
   settings_medium,
   subtract,
   subtract_medium,
+  transfer_to,
+  transfer_to_medium,
   trash,
   trash_medium,
   undo,
