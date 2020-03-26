@@ -18,15 +18,13 @@ const propTypes = {
   startup_page: PropTypes.oneOfType([PropTypes.string, PropTypes.number]), // eslint-disable-line
   current_page: PropTypes.oneOfType([PropTypes.string, PropTypes.number]), // eslint-disable-line
   page_count: PropTypes.oneOfType([PropTypes.string, PropTypes.number]), // eslint-disable-line
-  set_content_handler: PropTypes.oneOfType([PropTypes.func]),
-  reset_content_handler: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.bool,
-    PropTypes.func
-  ]),
-  end_infinity_handler: PropTypes.oneOfType([PropTypes.func]),
+  set_content_handler: PropTypes.func,
+  reset_content_handler: PropTypes.func,
+  reset_pagination_handler: PropTypes.func,
+  end_infinity_handler: PropTypes.func,
   rerender: PropTypes.object,
   store: PropTypes.object,
+  useMarkerOnly: PropTypes.bool,
   children: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.func,
@@ -41,9 +39,11 @@ const defaultProps = {
   page_count: null,
   set_content_handler: null,
   reset_content_handler: null,
+  reset_pagination_handler: null,
   end_infinity_handler: null,
   rerender: null,
   store: null,
+  useMarkerOnly: null,
   children: null
 }
 
@@ -68,7 +68,24 @@ export default class PaginationProvider extends PureComponent {
           1
       }
 
-      // reset items, like the resetContent method
+      // only used by handleInfinityMarker
+      if (props.useMarkerOnly) {
+        if (!state.lowerPage) {
+          state.lowerPage = state.upperPage = state.startupPage
+        }
+      }
+
+      // reset pagination, like the resetPagination method
+      if (
+        props.reset_pagination_handler !== null &&
+        isTrue(props.reset_pagination_handler)
+      ) {
+        if (props.useMarkerOnly) {
+          state.lowerPage = state.upperPage = state.startupPage
+        }
+      }
+
+      // reset content, like the resetContent method
       if (
         props.reset_content_handler !== null &&
         isTrue(props.reset_content_handler)
@@ -116,6 +133,7 @@ export default class PaginationProvider extends PureComponent {
     const {
       set_content_handler,
       reset_content_handler,
+      reset_pagination_handler,
       end_infinity_handler
     } = this.props
 
@@ -125,6 +143,9 @@ export default class PaginationProvider extends PureComponent {
     }
     if (typeof reset_content_handler === 'function') {
       reset_content_handler(this.resetContent)
+    }
+    if (typeof reset_pagination_handler === 'function') {
+      reset_pagination_handler(this.resetPagination)
     }
     if (typeof end_infinity_handler === 'function') {
       end_infinity_handler(this.endInfinity)
@@ -141,6 +162,7 @@ export default class PaginationProvider extends PureComponent {
   componentWillUnmount() {
     clearTimeout(this.rerenderTimeout)
     clearTimeout(this.resetTimeout)
+    clearTimeout(this.callOnPageUpdateTimeout)
     this._isMounted = false
   }
 
@@ -192,8 +214,7 @@ export default class PaginationProvider extends PureComponent {
 
   // like reset_content_handler in DerivedState
   resetContent = () => {
-    const currentPage =
-      this.state.startupPage || this.state.currentPage || 1
+    const { startupPage: currentPage } = this.state
 
     clearTimeout(this.resetTimeout)
     this.resetTimeout = setTimeout(() => {
@@ -205,13 +226,49 @@ export default class PaginationProvider extends PureComponent {
     }, 10) // we have to be one tick after "rerender"
   }
 
-  endInfinity = (pageCount = this.state.items.length) => {
-    const items = this.state.items.filter(({ pageNo }) => {
-      return pageNo < pageCount
-    })
+  // like reset_content_handler in DerivedState
+  resetPagination = () => {
+    const { startupPage } = this.state
+    const lowerPage = startupPage
+    const upperPage = startupPage
+    const currentPage = startupPage
+
+    clearTimeout(this.resetTimeout)
+    this.resetTimeout = setTimeout(() => {
+      this.setState({
+        lowerPage,
+        upperPage,
+        currentPage,
+        _listenForPropChanges: false
+      })
+    }, 10) // we have to be one tick after "rerender"
+  }
+
+  // not implemented yet
+  startInfinity = () => {
     this.setState({
-      items,
+      hasEndedInfinity: false,
+      _listenForPropChanges: false
+    })
+  }
+
+  endInfinity = (pageCount = null) => {
+    if (this.props.useMarkerOnly) {
+      pageCount = pageCount || this.state.currentPage
+    } else {
+      pageCount = this.state.items.length
+      const items = this.state.items.filter(({ pageNo }) => {
+        return pageNo < pageCount
+      })
+      this.setState({
+        items,
+        _listenForPropChanges: false
+      })
+    }
+
+    this.setState({
       pageCount,
+      hasEndedInfinity: true,
       _listenForPropChanges: false
     })
   }
@@ -269,6 +326,11 @@ export default class PaginationProvider extends PureComponent {
   render() {
     const { children } = this.props
 
+    if (this.props.useMarkerOnly) {
+      clearTimeout(this.callOnPageUpdateTimeout)
+      this.callOnPageUpdateTimeout = setTimeout(this.callOnPageUpdate, 1) // because of rerender pssibility
+    }
+
     return (
       <PaginationContext.Provider
         value={{
@@ -276,6 +338,7 @@ export default class PaginationProvider extends PureComponent {
           pagination: {
             setContent: this.setContent,
             resetContent: this.resetContent,
+            resetPagination: this.resetPagination,
             endInfinity: this.endInfinity,
             setItems: this.setItems,
             prefillItems: this.prefillItems,

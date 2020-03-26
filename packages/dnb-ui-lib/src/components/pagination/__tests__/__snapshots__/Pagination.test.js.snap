@@ -210,11 +210,13 @@ exports[`Pagination bar component have to match snapshot 1`] = `
     parallel_load_count={1}
     rerender={null}
     reset_content_handler={null}
+    reset_pagination_handler={null}
     set_content_handler={null}
     startup_count={1}
     startup_page={null}
     store={null}
     tagName="dnb-pagination"
+    useMarkerOnly={null}
     use_load_button={false}
   >
     <PaginationInstance

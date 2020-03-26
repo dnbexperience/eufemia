@@ -34,6 +34,8 @@ The **infinity scroller** is using the [Intersection Observer API](https://devel
 import 'intersection-observer'
 ```
 
+---
+
 ### Default pagination and content handling
 
 You can either only use the pagination component with the buttons (bar) and have your content outside, but linked together with your own states.
@@ -97,7 +99,7 @@ Create the instance before using it.
 ```jsx
 import { createPagination } from 'dnb-ui-lib/components/Pagination'
 
-// create our Pagination instance
+// create our Component instance
 const { Pagination, setContent, resetContent } = createPagination()
 
 // Later we can do call this
@@ -106,38 +108,38 @@ setContent(page, ReactComponent)
 render(<Pagination page_count={2} />)
 ```
 
+---
+
 ### Infinity scroller and content handling
 
 In order to update content into the internal pages stack, we have to get access to the component instance. There are several ways to do so.
+
+Also, there are two type of handling content on:
+
+1. Either you fill the content as "pages" in a page per page basis (methods 1-3),
+2. or you have your own stack, and you only want use the infinity part (method 4).
 
 #### Infinity scroller method #1
 
 Create the instance before using it.
 
+**NB:** Keep in mind, you may create the instance first during runtime, either in a class `constructor` or by using `useState`:
+
 ```jsx
 import { createPagination } from 'dnb-ui-lib/components/Pagination'
 
-// create our Pagination instance
+// create our Component instance
 const {
   Pagination,
   setContent,
   endInfinity,
   resetContent
-} = createPagination()
+} = React.useState(createPagination)
 
 // Later we can do call this (make sure the page is set by listening to the events)
 setContent(page, ReactComponent)
 
 render(<Pagination mode="infinity" />)
-```
-
-**NB:** Keep in mind, you may create the instance first during runtime, either in a class `constructor` or by using `useState`:
-
-```jsx
-// create our Pagination instance
-const [
-  { Pagination, setContent, resetContent, endInfinity }
-] = React.useState(createPagination)
 ```
 
 #### Infinity scroller method #2
@@ -179,4 +181,23 @@ render(
     }}
   />
 )
+```
+
+#### Infinity scroller method #4
+
+Using a `InfinityMarker` only. See [code example on GitHub](https://github.com/dnbexperience/eufemia/blob/develop/packages/dnb-ui-lib/stories/components/PaginationTableMarker.js).
+
+This method will basically add a load button on top, if `startup_page` or `current_page` is higher than `1` at the first render.
+
+Also, it adds an indicator at the bottom until next render, and as long as `page_count` has not reached the internal page count. But instead of setting `page_count` (total pages), you can pragmatically call `endInfinity()` instead.
+
+```jsx
+import { createPagination } from 'dnb-ui-lib/components/Pagination'
+
+// create our Component instance
+const { InfinityMarker, endInfinity, resetPagination } = React.useState(
+  createPagination
+)
+
+render(<InfinityMarker>ReactComponent</InfinityMarker>)
 ```

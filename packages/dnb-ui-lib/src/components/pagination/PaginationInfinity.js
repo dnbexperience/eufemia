@@ -94,17 +94,94 @@ export default class InfinityScroller extends PureComponent {
     createEvent('on_load')
   }
 
+  handleInfinityMarker() {
+    const { children } = this.props
+
+    const {
+      // our states
+      lowerPage,
+      upperPage,
+      pageCount,
+      // currentPage,
+
+      // our props
+      fallback_element,
+      marker_element,
+      indicator_element
+    } = this.context.pagination
+
+    const Marker = () => (
+      <InteractionMarker
+        pageNo={upperPage + 1}
+        markerElement={marker_element || fallback_element}
+        onVisible={pageNo => {
+          // wait on updating our own state, so we can show the indicator (pressed_element) untill we get new children back
+          this.context.pagination.onPageUpdate(() => {
+            this.context.pagination.setState({
+              upperPage: pageNo
+            })
+
+            // only update, so endInfinity can use it
+            // if (!currentPage) {
+            // this.context.pagination.setItems(
+            //   [].fill.call({ length: upperPage - lowerPage }, null)
+            // )
+            // }
+          })
+          this.callEventHandler(pageNo)
+        }}
+      />
+    )
+
+    const LoadButton = () => (
+      <InfinityLoadButton
+        icon="arrow_up"
+        element={fallback_element}
+        pressed_element={
+          <PaginationIndicator
+            indicator_element={indicator_element || fallback_element}
+          />
+        }
+        on_click={() => {
+          const pageNo = lowerPage - 1
+          // wait on updating our own state, so we can show the indicator (pressed_element) untill we get new children back
+          this.context.pagination.onPageUpdate(() => {
+            this.context.pagination.setState({
+              lowerPage: pageNo
+            })
+          })
+          this.callEventHandler(pageNo)
+        }}
+      />
+    )
+
+    return (
+      <>
+        {lowerPage > 1 && <LoadButton />}
+
+        {children}
+
+        {(upperPage < pageCount || typeof pageCount === 'undefined') && (
+          <Marker />
+        )}
+
+        {(upperPage < pageCount || typeof pageCount === 'undefined') &&
+          !this.hideIndicator && (
+            <PaginationIndicator
+              indicator_element={indicator_element || fallback_element}
+            />
+          )}
+      </>
+    )
+  }
+
   render() {
     const {
       // our states
       items,
-      pageCount
+      pageCount,
 
-      // our methodes
-    } = this.context.pagination
-
-    // our props
-    const {
+      // our props
       startupPage,
       parallel_load_count,
       page_element,
@@ -113,57 +190,8 @@ export default class InfinityScroller extends PureComponent {
       indicator_element
     } = this.context.pagination
 
-    // make some props ready to use
-    const parallelLoadCount = parseFloat(parallel_load_count)
-
-    const { children } = this.props
-    if (children) {
-      const {
-        currentPage
-        // current_page,
-
-        // our methodes
-      } = this.context.pagination
-
-      const Marker = () => (
-        <InteractionMarker
-          pageNo={(currentPage || 1) + 1}
-          marker_element={marker_element || fallback_element}
-          onVisible={currentPage => {
-            this.callEventHandler(currentPage)
-          }}
-        />
-      )
-
-      const LoadButton = () => (
-        <InfinityLoadButton
-          pressed_element={
-            <PaginationIndicator
-              indicator_element={indicator_element || fallback_element}
-            />
-          }
-          element={fallback_element}
-          icon="arrow_up"
-          on_click={() => this.callEventHandler(currentPage - 1)}
-        />
-      )
-
-      const showLoadButton = startupPage > 1 && currentPage > 1
-      // && currentPage <= startupPage
-      // console.log('showLoadButton', showLoadButton)
-
-      return (
-        <>
-          {showLoadButton && <LoadButton />}
-          {children}
-          <Marker />
-          {!this.hideIndicator && (
-            <PaginationIndicator
-              indicator_element={indicator_element || fallback_element}
-            />
-          )}
-        </>
-      )
+    if (this.context.pagination.useMarkerOnly) {
+      return this.handleInfinityMarker()
     }
 
     // invoke startup if needed
@@ -172,6 +200,9 @@ export default class InfinityScroller extends PureComponent {
       this.startupTimeout = setTimeout(this.startup, 1)
       return null // stop here
     }
+
+    // make some props ready to use
+    const parallelLoadCount = parseFloat(parallel_load_count)
 
     // make sure we handle Table markup correctly
     const Element = preparePageElement(page_element || Fragment)
@@ -193,7 +224,7 @@ export default class InfinityScroller extends PureComponent {
           (pageNo <= pageCount || typeof pageCount === 'undefined') && (
             <InteractionMarker
               pageNo={pageNo}
-              marker_element={marker_element || fallback_element}
+              markerElement={marker_element || fallback_element}
               onVisible={pageNoVisible => {
                 // load several pages at once
                 for (let i = 0; i < parallelLoadCount; ++i) {
@@ -275,7 +306,7 @@ class InteractionMarker extends PureComponent {
   static propTypes = {
     pageNo: PropTypes.number.isRequired,
     onVisible: PropTypes.func.isRequired,
-    marker_element: PropTypes.oneOfType([
+    markerElement: PropTypes.oneOfType([
       PropTypes.object,
       PropTypes.node,
       PropTypes.func,
@@ -283,14 +314,14 @@ class InteractionMarker extends PureComponent {
     ])
   }
   static defaultProps = {
-    marker_element: null
+    markerElement: null
   }
   state = { isConnected: false }
 
   constructor(props) {
     super(props)
 
-    if (typeof props.marker_element === 'function') {
+    if (typeof props.markerElement === 'function') {
       console.warn(
         'Pagination: Please use a string or React element e.g. marker_element="tr"'
       )
@@ -342,7 +373,7 @@ class InteractionMarker extends PureComponent {
   }
 
   render() {
-    const { marker_element } = this.props
+    const { markerElement } = this.props
 
     if (this.state.isConnected || !this.intersectionObserver) {
       return null
@@ -351,9 +382,9 @@ class InteractionMarker extends PureComponent {
     // NB: make sure we don't actually use the marker element,
     // because it looks like React as troubles regarding handling ref during a rerender?
     const Element =
-      marker_element && isTrElement(marker_element) ? 'tr' : 'div'
+      markerElement && isTrElement(markerElement) ? 'tr' : 'div'
     const ElementChild =
-      marker_element && isTrElement(marker_element) ? 'td' : 'div'
+      markerElement && isTrElement(markerElement) ? 'td' : 'div'
 
     return (
       <Element className="dnb-pagination__marker dnb-table--ignore">
