@@ -130,7 +130,7 @@ export default class ToggleButtonGroup extends PureComponent {
     )
   }
 
-  static parseChecked = state => /true|on/.test(String(state))
+  static parseChecked = (state) => /true|on/.test(String(state))
 
   static getDerivedStateFromProps(props, state) {
     if (state._listenForPropChanges) {
@@ -267,7 +267,7 @@ export default class ToggleButtonGroup extends PureComponent {
       variant,
       left_component,
       disabled,
-      setContext: context => {
+      setContext: (context) => {
         // also look for a fuctions, we we are able to fill old values
         // this is ued in the "constructor" inside the ToggleButton.js component
         if (typeof context === 'function') {

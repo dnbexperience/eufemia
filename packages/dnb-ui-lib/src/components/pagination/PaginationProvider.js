@@ -309,7 +309,7 @@ export default class PaginationProvider extends PureComponent {
 
   callOnPageUpdate = () => {
     if (Array.isArray(this._updateStack)) {
-      this._updateStack.forEach(cb => {
+      this._updateStack.forEach((cb) => {
         if (typeof cb === 'function') {
           cb()
         }
@@ -318,7 +318,7 @@ export default class PaginationProvider extends PureComponent {
     }
   }
 
-  onPageUpdate = fn => {
+  onPageUpdate = (fn) => {
     this._updateStack = this._updateStack || []
     this._updateStack.push(fn)
   }

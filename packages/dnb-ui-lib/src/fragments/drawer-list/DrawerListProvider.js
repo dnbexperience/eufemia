@@ -315,9 +315,9 @@ export default class DrawerListProvider extends PureComponent {
       try {
         const ulElement = this._refUl.current
         const liElement = ulElement.querySelector(
-          `li.dnb-drawer-list__option:nth-of-type(${parseFloat(
-            active_item
-          ) + 1})`
+          `li.dnb-drawer-list__option:nth-of-type(${
+            parseFloat(active_item) + 1
+          })`
         )
         if (liElement) {
           const top = liElement.offsetTop
@@ -430,8 +430,9 @@ export default class DrawerListProvider extends PureComponent {
           case 'right':
             if (triangle_position === 'left') {
               this._refTriangle.current.style.left = 'auto'
-              this._refTriangle.current.style.right = `${width / 16 -
-                3}rem` // -3rem
+              this._refTriangle.current.style.right = `${
+                width / 16 - 3
+              }rem` // -3rem
             }
             break
         }
@@ -459,7 +460,7 @@ export default class DrawerListProvider extends PureComponent {
     return this
   }
 
-  onKeyDownHandler = e => {
+  onKeyDownHandler = (e) => {
     const key = keycode(e)
 
     // stop here if the focus is not set

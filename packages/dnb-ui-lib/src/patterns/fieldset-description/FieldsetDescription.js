@@ -64,9 +64,9 @@ export default class FieldsetDescription extends PureComponent {
     const { text, className, class: _className } = this.props
 
     const params = {
-      className: `dnb-fieldset-description ${className ||
-        _className ||
-        ''}`
+      className: `dnb-fieldset-description ${
+        className || _className || ''
+      }`
     }
 
     // also used for code markup simulation

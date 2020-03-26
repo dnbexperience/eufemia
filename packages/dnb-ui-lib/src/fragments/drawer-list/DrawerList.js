@@ -211,7 +211,7 @@ class DrawerListInstance extends PureComponent {
     })
   }
 
-  preventTab = e => {
+  preventTab = (e) => {
     switch (keycode(e)) {
       case 'tab':
         this.setHidden()
@@ -219,7 +219,7 @@ class DrawerListInstance extends PureComponent {
     }
   }
 
-  selectItemHandler = event => {
+  selectItemHandler = (event) => {
     const selected_item = parseFloat(
       event.currentTarget.getAttribute('data-item')
     )
@@ -377,7 +377,7 @@ class DrawerListInstance extends PureComponent {
               }
               triangleRef={this.context.drawerList._refTriangle}
             >
-              {data.map(dataItem => {
+              {data.map((dataItem) => {
                 const _id = dataItem.__id
                 const liParams = {
                   id: `option-${id}-${_id}`, // we could use _id here

@@ -117,7 +117,7 @@ export default class RadioGroup extends PureComponent {
     registerElement(RadioGroup.tagName, RadioGroup, defaultProps)
   }
 
-  static parseChecked = state => /true|on/.test(String(state))
+  static parseChecked = (state) => /true|on/.test(String(state))
 
   static getDerivedStateFromProps(props, state) {
     if (state._listenForPropChanges) {

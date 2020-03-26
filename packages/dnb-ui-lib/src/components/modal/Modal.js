@@ -292,10 +292,10 @@ export default class Modal extends PureComponent {
       runSideEffect
     )
   }
-  open = e => {
+  open = (e) => {
     this.toggleOpenClose(e, true)
   }
-  close = e => {
+  close = (e) => {
     const { prevent_close } = this.props
     if (isTrue(prevent_close)) {
       if (!this.isClosing) {
@@ -303,7 +303,7 @@ export default class Modal extends PureComponent {
         this.isClosing = true
         dispatchCustomElementEvent(this, 'on_close_prevent', {
           id,
-          close: e => {
+          close: (e) => {
             this.isClosing = false
             this.toggleOpenClose(e, false)
           }
@@ -351,7 +351,7 @@ export default class Modal extends PureComponent {
 
     return (
       <SuffixContext.Consumer>
-        {suffixProps => {
+        {(suffixProps) => {
           const additional = {}
 
           const icon =
@@ -564,14 +564,14 @@ class ModalContent extends PureComponent {
     this.nonScreenReaderNodes = Array.from(
       document.querySelectorAll('body > div:not(#dnb-modal-root)')
     )
-    this.nonScreenReaderNodes.forEach(node => {
+    this.nonScreenReaderNodes.forEach((node) => {
       node.setAttribute('aria-hidden', true)
     })
   }
 
   revertScreenReaderPossibility() {
     if (this.nonScreenReaderNodes) {
-      this.nonScreenReaderNodes.forEach(node => {
+      this.nonScreenReaderNodes.forEach((node) => {
         node.removeAttribute('aria-hidden')
       })
     }
@@ -604,9 +604,9 @@ class ModalContent extends PureComponent {
       document.querySelectorAll(
         'body *:not(.dnb-modal__content):not([tabindex="-1"]):not(script)'
       )
-    ).filter(node => !modalNodes.includes(node))
+    ).filter((node) => !modalNodes.includes(node))
 
-    this.nonModalNodes.forEach(node => {
+    this.nonModalNodes.forEach((node) => {
       try {
         // save the previous tabindex state so we can restore it on close
         node._prevTabindex = node.getAttribute('tabindex')
@@ -630,7 +630,7 @@ class ModalContent extends PureComponent {
       return
     }
     // restore or remove tabindex from nodes
-    this.nonModalNodes.forEach(node => {
+    this.nonModalNodes.forEach((node) => {
       try {
         if (node && node._prevTabindex) {
           node.setAttribute('tabindex', node._prevTabindex)
@@ -647,13 +647,13 @@ class ModalContent extends PureComponent {
     this.nonModalNodes = null
   }
 
-  preventClick = e => {
+  preventClick = (e) => {
     if (e) {
       e.stopPropagation()
     }
   }
 
-  onKeyDownHandler = e => {
+  onKeyDownHandler = (e) => {
     switch (keycode(e)) {
       case 'esc':
         e.preventDefault()

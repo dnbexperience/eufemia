@@ -38,8 +38,9 @@ if (0 && require.main === module && process.env.NODE_ENV !== 'test') {
       packpath.self(),
       './src/uilib/components/demos'
     ),
-    prepareDestFileCallback: file => camelCase(file, { pascalCase: true })
-  }).then(files => {
+    prepareDestFileCallback: (file) =>
+      camelCase(file, { pascalCase: true })
+  }).then((files) => {
     // processAllPartsFile('components', files, {
     //   autoAdvice: `
     //     /** ${autoAdvice} */
@@ -83,7 +84,7 @@ if (0 && require.main === module && process.env.NODE_ENV !== 'test') {
       }
       return content
     },
-    prepareDestFileCallback: file => file.toLowerCase()
+    prepareDestFileCallback: (file) => file.toLowerCase()
   })
 
   // make patterns demos
@@ -104,8 +105,9 @@ if (0 && require.main === module && process.env.NODE_ENV !== 'test') {
       packpath.self(),
       './src/uilib/patterns/demos'
     ),
-    prepareDestFileCallback: file => camelCase(file, { pascalCase: true })
-  }).then(files => {
+    prepareDestFileCallback: (file) =>
+      camelCase(file, { pascalCase: true })
+  }).then((files) => {
     // processAllPartsFile('patterns', files, {
     //   autoAdvice: `
     //       /** ${autoAdvice} */
@@ -139,7 +141,7 @@ if (0 && require.main === module && process.env.NODE_ENV !== 'test') {
       packpath.self(),
       './src/docs/uilib/patterns'
     ),
-    prepareDestFileCallback: file => file.toLowerCase()
+    prepareDestFileCallback: (file) => file.toLowerCase()
   })
 }
 

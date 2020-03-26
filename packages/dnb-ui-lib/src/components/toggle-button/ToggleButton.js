@@ -140,7 +140,7 @@ export default class ToggleButton extends Component {
     registerElement(ToggleButton.tagName, ToggleButton, defaultProps)
   }
 
-  static parseChecked = state => /true|on/.test(String(state))
+  static parseChecked = (state) => /true|on/.test(String(state))
 
   static getDerivedStateFromProps(props, state) {
     if (state._listenForPropChanges) {
@@ -174,7 +174,7 @@ export default class ToggleButton extends Component {
       } else if (ToggleButton.parseChecked(props.checked)) {
         if (context.setContext) {
           if (context.multiselect) {
-            context.setContext(tmp => {
+            context.setContext((tmp) => {
               return {
                 values:
                   // in case we have set before a new context (other component)
@@ -205,7 +205,7 @@ export default class ToggleButton extends Component {
     return true
   }
 
-  onKeyDownHandler = event => {
+  onKeyDownHandler = (event) => {
     switch (keycode(event)) {
       case 'enter':
         this.onClickHandler(event)
@@ -213,7 +213,7 @@ export default class ToggleButton extends Component {
     }
   }
 
-  onKeyUpHandler = event => {
+  onKeyUpHandler = (event) => {
     switch (keycode(event)) {
       case 'enter':
         this.onClickHandler(event)
@@ -274,7 +274,7 @@ export default class ToggleButton extends Component {
   render() {
     return (
       <Context.Consumer>
-        {context => {
+        {(context) => {
           // use only the props from context, who are available here anyway
           const props = extendPropsWithContext(
             this.props,

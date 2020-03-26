@@ -372,7 +372,7 @@ export const format = (
   return returnAria ? { number: display, aria, locale } : display
 }
 
-const cleanupMinus = display => {
+const cleanupMinus = (display) => {
   // change the position of minus if it's first
   // check for two minus - −
   // check also for hyphen ‐
@@ -468,7 +468,7 @@ export const formatPhone = (number, locale = null) => {
           code +
           number
             .split(/(\d{3})(\d{2})/)
-            .filter(s => s)
+            .filter((s) => s)
             .join(' ')
       } else {
         // get 02000
@@ -482,7 +482,7 @@ export const formatPhone = (number, locale = null) => {
               .split(
                 length === 6 ? /^(\+\d{2})|(\d{3})/ : /^(\+\d{2})|(\d{2})/
               )
-              .filter(s => s)
+              .filter((s) => s)
               .join(' ')
         }
       }
@@ -491,7 +491,7 @@ export const formatPhone = (number, locale = null) => {
         code +
         number
           .split(/(\d{2})/)
-          .filter(s => s)
+          .filter((s) => s)
           .join(' ')
     }
   }
@@ -515,12 +515,12 @@ export const formatBAN = (number, locale = null) => {
       // get 2000 12 34567
       display = number
         .split(/(\d{4})(\d{2})(\d{1,})/)
-        .filter(s => s)
+        .filter((s) => s)
         .join(' ')
 
       aria = number
         .split(/(\d{2})/)
-        .filter(s => s)
+        .filter((s) => s)
         .join(' ')
     }
   }
@@ -544,13 +544,13 @@ export const formatNIN = (number, locale = null) => {
       // get 180892 12345
       display = number
         .split(/(\d{6})/)
-        .filter(s => s)
+        .filter((s) => s)
         .join(' ')
 
       // correct nim for screen redaers
       aria = display
         .split(/(\d{2})(\d{2})(\d{2}) (\d{1})(\d{1})(\d{1})(\d{1})(\d{1})/)
-        .filter(s => s)
+        .filter((s) => s)
         .join(isWin ? '. ' : ' ') // NVDA fix with a dot to not read date on FF
     }
   }

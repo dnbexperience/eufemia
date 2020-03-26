@@ -113,7 +113,7 @@ export default class Switch extends Component {
     registerElement(Switch.tagName, Switch, defaultProps)
   }
 
-  static parseChecked = state => /true|on/.test(String(state))
+  static parseChecked = (state) => /true|on/.test(String(state))
 
   static getDerivedStateFromProps(props, state) {
     if (state._listenForPropChanges) {
@@ -138,7 +138,7 @@ export default class Switch extends Component {
       hasDefaultState: props.default_state !== null,
       checked: Switch.parseChecked(props.default_state || props.checked)
     }
-    this.helperParams = { onMouseDown: e => e.preventDefault() }
+    this.helperParams = { onMouseDown: (e) => e.preventDefault() }
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -156,7 +156,7 @@ export default class Switch extends Component {
     clearTimeout(this._onChangeEndId)
   }
 
-  onKeyDownHandler = event => {
+  onKeyDownHandler = (event) => {
     switch (keycode(event)) {
       case 'enter':
         this.onChangeHandler(event)
@@ -164,7 +164,7 @@ export default class Switch extends Component {
     }
   }
 
-  onChangeHandler = event => {
+  onChangeHandler = (event) => {
     if (isTrue(this.props.readOnly)) {
       return event.preventDefault()
     }

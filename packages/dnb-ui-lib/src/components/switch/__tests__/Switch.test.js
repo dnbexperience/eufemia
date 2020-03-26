@@ -73,11 +73,9 @@ describe('Switch component', () => {
     Comp.setProps({
       disabled: true
     })
-    expect(
-      Comp.find('input')
-        .instance()
-        .hasAttribute('disabled')
-    ).toBe(true)
+    expect(Comp.find('input').instance().hasAttribute('disabled')).toBe(
+      true
+    )
   })
 
   it('should validate with ARIA rules', async () => {

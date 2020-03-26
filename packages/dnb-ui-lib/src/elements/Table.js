@@ -146,7 +146,7 @@ export default class Table extends PureComponent {
     const marginTop = thHeight + tdHeight + offsetTop
 
     this.intersectionObserver = new IntersectionObserver(
-      entries => {
+      (entries) => {
         const [entry] = entries
         try {
           // console.log('entry.isIntersecting', entry.isIntersecting, trElem)

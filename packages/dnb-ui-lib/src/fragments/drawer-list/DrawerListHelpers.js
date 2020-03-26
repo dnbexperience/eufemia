@@ -70,12 +70,12 @@ export const parseContentTitle = (
   return ret
 }
 
-export const hasObjectKeyAsValue = data => {
+export const hasObjectKeyAsValue = (data) => {
   data = data?.raw_data || data
   return data && typeof data === 'object' && !Array.isArray(data)
 }
 
-export const preSelectData = data => {
+export const preSelectData = (data) => {
   if (typeof data === 'string') {
     data = data[0] === '{' || data[0] === '[' ? JSON.parse(data) : null
   } else if (data && React.isValidElement(data)) {
@@ -88,7 +88,7 @@ export const preSelectData = data => {
 }
 
 // normalize data
-export const normalizeData = props => {
+export const normalizeData = (props) => {
   let data = preSelectData(props.data || props.children || props)
 
   if (data && typeof data === 'object' && !Array.isArray(data)) {
@@ -115,7 +115,7 @@ export const normalizeData = props => {
   })
 }
 
-export const getData = props => {
+export const getData = (props) => {
   if (props.prepared_data && Array.isArray(props.prepared_data)) {
     return props.prepared_data
   }
@@ -135,7 +135,7 @@ export const getCurrentIndex = (value, data) => {
 
   // if a key is given as a string
   else if (typeof value === 'string') {
-    return data?.findIndex(cur => parseCurrentValue(cur) === value)
+    return data?.findIndex((cur) => parseCurrentValue(cur) === value)
   }
 
   return null
@@ -151,7 +151,7 @@ export const getSelectedItemValue = (value, state) => {
   return value
 }
 
-export const parseCurrentValue = current => {
+export const parseCurrentValue = (current) => {
   return current?.selected_key || current?.content || current
 }
 
@@ -169,7 +169,7 @@ export const getCurrentData = (item_index, data) => {
   return data
 }
 
-export const prepareStartupState = props => {
+export const prepareStartupState = (props) => {
   const raw_data = preSelectData(
     props.raw_data || props.data || props.children
   )
@@ -278,13 +278,13 @@ export const getCurrentDataTitle = (selected_item, data) => {
   })
 }
 
-export const grabStringFromReact = cur => {
+export const grabStringFromReact = (cur) => {
   if (!Array.isArray(cur)) {
     cur = [cur]
   }
 
   return cur
-    .map(word => {
+    .map((word) => {
       if (React.isValidElement(word)) {
         if (typeof word.props.children === 'string') {
           word = word.props.children
@@ -309,5 +309,5 @@ export const grabStringFromReact = cur => {
 export const findClosest = (arr, val) =>
   Math.max.apply(
     null,
-    arr.filter(v => v <= val)
+    arr.filter((v) => v <= val)
   )

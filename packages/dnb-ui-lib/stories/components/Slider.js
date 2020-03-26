@@ -102,7 +102,7 @@ const SliderStory = () => {
             max="100"
             step="5"
             defaultValue="20"
-            onChange={event => {
+            onChange={(event) => {
               console.log('range-slider:', event.currentTarget.value)
             }}
           />

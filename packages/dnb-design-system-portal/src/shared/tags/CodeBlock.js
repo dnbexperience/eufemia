@@ -214,7 +214,7 @@ class LiveCode extends PureComponent {
           theme={prismTheme}
           code={codeToUse}
           scope={scope}
-          transformCode={code =>
+          transformCode={(code) =>
             !useRender && noFragments ? `<>${code}</>` : code
           }
           noInline={useRender}
@@ -275,7 +275,7 @@ class LiveCode extends PureComponent {
                 style={{
                   font: 'inherit'
                 }}
-                onChange={code => {
+                onChange={(code) => {
                   this.setState({ code })
                 }}
                 onFocus={() => {
@@ -293,7 +293,7 @@ class LiveCode extends PureComponent {
                 // make this wrap to get in the custom Prism
                 // This way we can reformat jsx css template-string
                 // language={language}
-                highlight={code => (
+                highlight={(code) => (
                   <Highlight
                     Prism={Prism}
                     code={code}
@@ -449,7 +449,7 @@ const Syntax = styled.div`
 `
 
 /** Removes the last token from a code example if it's empty. */
-const cleanTokens = tokens => {
+const cleanTokens = (tokens) => {
   const tokensLength = tokens.length
   if (tokensLength === 0) {
     return tokens

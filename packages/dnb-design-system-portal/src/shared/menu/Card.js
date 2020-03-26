@@ -188,7 +188,7 @@ export default class Card extends PureComponent {
             <a
               {...rest}
               href={url}
-              onClick={event => {
+              onClick={(event) => {
                 event.preventDefault()
                 window.location.assign(url)
               }}

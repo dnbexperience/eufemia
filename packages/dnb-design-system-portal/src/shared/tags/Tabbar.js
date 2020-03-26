@@ -177,4 +177,4 @@ const tabsWrapperStyle = css`
   } */}
 `
 
-const cleanPath = p => p.replace(/(&|\?)$/, '')
+const cleanPath = (p) => p.replace(/(&|\?)$/, '')

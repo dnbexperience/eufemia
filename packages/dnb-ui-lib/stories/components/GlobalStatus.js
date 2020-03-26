@@ -209,7 +209,7 @@ const ModalExample = () => (
         autoscroll="false"
         // id="default-1"
         // delay={300}
-        on_close={props => {
+        on_close={(props) => {
           console.log('on_close', props)
         }}
         // items={['123']}
@@ -357,7 +357,7 @@ const NestedSections = () => (
         // autoclose={false}
         autoscroll="false"
         // delay={300}
-        on_close={props => {
+        on_close={(props) => {
           console.log('on_close', props)
         }}
         items={[

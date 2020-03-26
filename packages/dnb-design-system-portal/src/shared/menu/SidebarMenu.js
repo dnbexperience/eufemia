@@ -326,7 +326,7 @@ export default class SidebarLayout extends PureComponent {
         let delayBuff
         this.scrollToLastPosition()
 
-        this._scrollRef.current.onscroll = e => {
+        this._scrollRef.current.onscroll = (e) => {
           if (this.bussyOnSettingNewPos) return
           clearTimeout(delayBuff)
           delayBuff = setTimeout(() => {
@@ -400,7 +400,7 @@ export default class SidebarLayout extends PureComponent {
     document.removeEventListener('keydown', this.handleKeyDown)
   }
 
-  handleKeyDown = e => {
+  handleKeyDown = (e) => {
     switch (keycode(e)) {
       case 'esc':
         if (this.isOpen) {
@@ -471,7 +471,7 @@ export default class SidebarLayout extends PureComponent {
             const currentPathname = location.pathname.replace(/(\/)$/, '')
             const currentPathnameList = currentPathname
               .split('/')
-              .filter(i => i)
+              .filter((i) => i)
 
             const nav = prepareNav({
               location,
@@ -481,7 +481,7 @@ export default class SidebarLayout extends PureComponent {
             })
               .filter(({ title, menuTitle }) => title || menuTitle)
 
-              .map(props => {
+              .map((props) => {
                 const path = `/${props.path}`
 
                 // get the active item
@@ -492,8 +492,8 @@ export default class SidebarLayout extends PureComponent {
                 // check if a item path is inside another
                 const inside = path
                   .split('/')
-                  .filter(i => i)
-                  .every(i => currentPathnameList.includes(i))
+                  .filter((i) => i)
+                  .every((i) => currentPathnameList.includes(i))
 
                 return { ...props, active, inside }
               })
@@ -530,7 +530,8 @@ export default class SidebarLayout extends PureComponent {
                     active,
                     inside,
                     to: path,
-                    onOffsetTop: offsetTop => (this.offsetTop = offsetTop)
+                    onOffsetTop: (offsetTop) =>
+                      (this.offsetTop = offsetTop)
                   }
 
                   return (
@@ -709,7 +710,7 @@ const prepareNav = ({ location, allMdx, showAll, pathPrefix }) => {
   let first = null
   if (showAll === false) {
     const prefix = pathPrefix ? pathPrefix.replace(/^(\/)/, '') : null
-    first = pathname.split('/').filter(p => p && p !== prefix)[0]
+    first = pathname.split('/').filter((p) => p && p !== prefix)[0]
   }
 
   const navItems = allMdx.edges
@@ -720,12 +721,12 @@ const prepareNav = ({ location, allMdx, showAll, pathPrefix }) => {
         }
       }) => slug
     )
-    .filter(slug => slug !== '/')
+    .filter((slug) => slug !== '/')
     // preorder
     .sort()
     .reduce(
       (acc, cur) => {
-        const prefix = cur.split('/').filter(p => p)[0]
+        const prefix = cur.split('/').filter((p) => p)[0]
 
         if (showAll === false) {
           if (prefix === first) {
@@ -734,13 +735,13 @@ const prepareNav = ({ location, allMdx, showAll, pathPrefix }) => {
             return { ...acc, [cur]: [cur] }
           }
         } else {
-          if (showAlwaysMenuItems.find(url => url === cur)) {
+          if (showAlwaysMenuItems.find((url) => url === cur)) {
             return { ...acc, [cur]: [cur] }
           }
 
           if (
             prefix &&
-            showAlwaysMenuItems.find(url => url === `/${prefix}`)
+            showAlwaysMenuItems.find((url) => url === `/${prefix}`)
           ) {
             return {
               ...acc,
@@ -762,7 +763,7 @@ const prepareNav = ({ location, allMdx, showAll, pathPrefix }) => {
     .reduce((acc, cur) => acc.concat(navItems[cur]), []) // put in the sub parts
     .concat(navItems.items) // put inn the main parts
     // make items
-    .map(slugPath => {
+    .map((slugPath) => {
       const {
         node: {
           fields: { slug },
@@ -776,15 +777,15 @@ const prepareNav = ({ location, allMdx, showAll, pathPrefix }) => {
         }) => slug === slugPath
       )
 
-      const level = slug.split('/').filter(p => p).length
+      const level = slug.split('/').filter((p) => p).length
       level > countLevels ? (countLevels = level) : countLevels
 
       return { title, path: slug, level, order, _order: slug, ...rest }
     })
 
     // prepare items, make sure we forward order for sub paths, if needed
-    .map(item => {
-      const parts = item.path.split('/').filter(p => p)
+    .map((item) => {
+      const parts = item.path.split('/').filter((p) => p)
       const sub = parts.slice(0, parts.length - 1).join('/')
 
       subCache[sub] = subCache[sub] || {

@@ -47,7 +47,7 @@ describe('"scrollToLocationHashId" should', () => {
   it('set a focus on the given element', () => {
     const offset = 100
     let mock = null
-    window.scrollTo = result => {
+    window.scrollTo = (result) => {
       mock = result
     }
     scrollToLocationHashId({ offset })

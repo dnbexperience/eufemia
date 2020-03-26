@@ -244,7 +244,7 @@ export default class Input extends PureComponent {
 
     this.isMac = isMac()
   }
-  onFocusHandler = event => {
+  onFocusHandler = (event) => {
     const { value } = event.target
     this.setState({
       value,
@@ -264,7 +264,7 @@ export default class Input extends PureComponent {
 
     dispatchCustomElementEvent(this, 'on_focus', { value, event })
   }
-  onBlurHandler = event => {
+  onBlurHandler = (event) => {
     const { value } = event.target
     this.setState({
       value,
@@ -276,12 +276,12 @@ export default class Input extends PureComponent {
     })
     dispatchCustomElementEvent(this, 'on_blur', { value, event })
   }
-  onChangeHandler = event => {
+  onChangeHandler = (event) => {
     const { value } = event.target
     this.setState({ value, _listenForPropChanges: false })
     dispatchCustomElementEvent(this, 'on_change', { value, event })
   }
-  onKeyDownHandler = event => {
+  onKeyDownHandler = (event) => {
     const value = event.target.value
     dispatchCustomElementEvent(this, 'on_key_down', { value, event })
     if (event.key === 'Enter') {
@@ -581,21 +581,21 @@ class InputSubmitButton extends PureComponent {
 
   state = { focusState: 'virgin' }
 
-  onFocusHandler = event => {
+  onFocusHandler = (event) => {
     const value = this.props.value
     this.setState({
       focusState: 'focus'
     })
     dispatchCustomElementEvent(this, 'on_submit_focus', { value, event })
   }
-  onBlurHandler = event => {
+  onBlurHandler = (event) => {
     const value = this.props.value
     this.setState({
       focusState: 'dirty'
     })
     dispatchCustomElementEvent(this, 'on_submit_blur', { value, event })
   }
-  onSubmitHandler = event => {
+  onSubmitHandler = (event) => {
     const value = this.props.value
     dispatchCustomElementEvent(this, 'on_submit', { value, event })
   }
@@ -653,7 +653,7 @@ export { SubmitButton }
 
 // We momorize by type, in case we send in a ProgressIndicator (Autocomplete)
 const InputIcon = React.memo(
-  props => <IconPrimary {...props} />,
+  (props) => <IconPrimary {...props} />,
   ({ icon: prev }, { icon: next }) => {
     if (typeof prev === 'string' && typeof next === 'string') {
       return false

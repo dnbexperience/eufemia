@@ -118,9 +118,9 @@ const ListItem = styled.li`
   box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
 `
 
-const humanFormat = title =>
+const humanFormat = (title) =>
   title
     .replace(/_/g, ' ')
     .split(/\s/g)
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join(' ')

@@ -21,6 +21,6 @@ function ErrorHandler(
     console.log(err)
   }
 }
-ErrorHandler.prototype.constructor = function() {}
+ErrorHandler.prototype.constructor = function () {}
 
 export { ErrorHandler }

@@ -17,7 +17,7 @@ export const gridStyle = ({
     return ''
   }
 
-  const color = c =>
+  const color = (c) =>
     rgb ? `rgba(${rgb}, ${a - c})` : `hsla(${hsl}, ${a - c})`
 
   const vars = /* @css */ `

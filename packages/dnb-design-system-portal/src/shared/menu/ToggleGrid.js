@@ -58,7 +58,7 @@ export default class ToggleGrid extends PureComponent {
     this.showGrid(!this.state.showGrid)
     this.setState({ showGrid: !this.state.showGrid })
   }
-  showGrid = showGrid => {
+  showGrid = (showGrid) => {
     if (typeof document !== 'undefined') {
       if (showGrid) {
         document.documentElement.setAttribute('dev-grid', true)

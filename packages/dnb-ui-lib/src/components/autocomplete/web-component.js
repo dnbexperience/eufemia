@@ -8,4 +8,8 @@ import Autocomplete from './Autocomplete'
 export default Autocomplete
 export * from './Autocomplete'
 
-registerElement(Autocomplete.tagName, Autocomplete, Autocomplete.defaultProps)
+registerElement(
+  Autocomplete.tagName,
+  Autocomplete,
+  Autocomplete.defaultProps
+)

@@ -114,7 +114,7 @@ export default class Radio extends Component {
     registerElement(Radio.tagName, Radio, defaultProps)
   }
 
-  static parseChecked = state => /true|on/.test(String(state))
+  static parseChecked = (state) => /true|on/.test(String(state))
 
   static getDerivedStateFromProps(props, state) {
     if (state._listenForPropChanges) {
@@ -145,7 +145,7 @@ export default class Radio extends Component {
     return true
   }
 
-  onKeyDownHandler = event => {
+  onKeyDownHandler = (event) => {
     const key = keycode(event)
     // only have key support if there is only a single radio
     if (this.isInNoGroup()) {
@@ -182,7 +182,7 @@ export default class Radio extends Component {
     dispatchCustomElementEvent(this, 'on_key_down', { event })
   }
 
-  onChangeHandler = _event => {
+  onChangeHandler = (_event) => {
     const event = _event
     if (isTrue(this.props.readOnly)) {
       return event.preventDefault()
@@ -215,7 +215,7 @@ export default class Radio extends Component {
   isInNoGroup = () =>
     typeof this.context.value === 'undefined' && !this.props.group
 
-  onClickHandler = event => {
+  onClickHandler = (event) => {
     if (isTrue(this.props.readOnly)) {
       return event.preventDefault()
     }
@@ -248,7 +248,7 @@ export default class Radio extends Component {
     }
   }
 
-  onMouseOutHandler = event => {
+  onMouseOutHandler = (event) => {
     dispatchCustomElementEvent(this, 'on_mouse_out', { event })
     // this way we keep the new state after the user changed the state, without getting the error state back vissually
     if (this.props.status && this.props.status_state === 'error') {
@@ -262,7 +262,7 @@ export default class Radio extends Component {
   render() {
     return (
       <Context.Consumer>
-        {context => {
+        {(context) => {
           // use only the props from context, who are available here anyway
           const props = extendPropsWithContext(
             this.props,

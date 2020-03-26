@@ -186,7 +186,7 @@ export default [
           trigger_text="Open Modal"
           title="Modal Title"
           className="dnb-core-style"
-          on_close={e => {
+          on_close={(e) => {
             console.log('on_close', e)
           }}
         >
@@ -353,16 +353,16 @@ const ModalCloseExample = () => {
         //   setTimeout(open, 3e3)
         // }}
         // hide_close_button
-        close_modal={close => {
+        close_modal={(close) => {
           if (open_state !== 'opened') {
             console.log('Modal was opened')
             setTimeout(close, 1e3)
           }
         }}
-        on_open={e => {
+        on_open={(e) => {
           console.log('on_open', e)
         }}
-        on_close={e => {
+        on_close={(e) => {
           console.log('on_close', e)
           // clearTimeout(timeoutId)
           setOpenState('closed')
@@ -398,7 +398,7 @@ const ModalTriggerExample = () => {
         <Button
           id="custom-triggerer"
           text="Custom trigger Button"
-          on_click={e => {
+          on_click={(e) => {
             console.log('on_click', e)
             return (
               <Modal

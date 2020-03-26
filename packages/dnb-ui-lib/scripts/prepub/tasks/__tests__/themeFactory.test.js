@@ -10,15 +10,17 @@ import { runFactory } from '../themeFactory'
 import dnb_theme_ui from '../../../../src/style/themes/theme-ui/dnb-theme-ui.scss' // eslint-disable-line
 
 beforeAll(async () => {
-  global.css = (await runFactory({
-    processToNamesList: [
-      path.resolve(
-        __dirname,
-        '../../../../src/style/themes/theme-ui/dnb-theme-ui.scss'
-      )
-    ],
-    returnResult: true
-  }))[0]
+  global.css = (
+    await runFactory({
+      processToNamesList: [
+        path.resolve(
+          __dirname,
+          '../../../../src/style/themes/theme-ui/dnb-theme-ui.scss'
+        )
+      ],
+      returnResult: true
+    })
+  )[0]
 })
 
 describe('The main UI Theme', () => {

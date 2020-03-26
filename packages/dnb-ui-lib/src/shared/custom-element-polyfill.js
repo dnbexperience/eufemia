@@ -36,10 +36,10 @@ function installCustomElements(window, polyfill) {
   var document = window.document,
     Object = window.Object
 
-  var htmlClass = (function(info) {
+  var htmlClass = (function (info) {
     // (C) Andrea Giammarchi - @WebReflection - MIT Style
     var catchClass = /^[A-Z]+[a-z]/,
-      filterBy = function(re) {
+      filterBy = function (re) {
         var arr = [],
           tag
         for (tag in register) {
@@ -47,7 +47,7 @@ function installCustomElements(window, polyfill) {
         }
         return arr
       },
-      add = function(Class, tag) {
+      add = function (Class, tag) {
         tag = tag.toLowerCase()
         if (!(tag in register)) {
           register[Class] = (register[Class] || []).concat(tag)
@@ -278,7 +278,7 @@ function installCustomElements(window, polyfill) {
     // ES5 inline helpers || basic patches
     indexOf =
       types.indexOf ||
-      function(v) {
+      function (v) {
         for (var i = this.length; i-- && this[i] !== v; ) {}
         return i
       },
@@ -314,10 +314,10 @@ function installCustomElements(window, polyfill) {
           V = [],
           i
         return {
-          get: function(k) {
+          get: function (k) {
             return V[indexOf.call(K, k)]
           },
-          set: function(k, v) {
+          set: function (k, v) {
             i = indexOf.call(K, k)
             if (i < 0) V[K.push(k) - 1] = v
             else V[i] = v
@@ -326,14 +326,14 @@ function installCustomElements(window, polyfill) {
       },
     Promise =
       window.Promise ||
-      function(fn) {
+      function (fn) {
         var notify = [],
           done = false,
           p = {
-            catch: function() {
+            catch: function () {
               return p
             },
-            then: function(cb) {
+            then: function (cb) {
               notify.push(cb)
               if (done) setTimeout(resolve, 1)
               return p
@@ -350,7 +350,7 @@ function installCustomElements(window, polyfill) {
     constructors = Dict(null),
     waitingList = Dict(null),
     nodeNames = new Map(),
-    secondArgument = function(is) {
+    secondArgument = function (is) {
       return is.toLowerCase()
     },
     // used to create unique instances
@@ -365,12 +365,12 @@ function installCustomElements(window, polyfill) {
     setPrototype =
       sPO ||
       (hasProto
-        ? function(o, p) {
+        ? function (o, p) {
             o.__proto__ = p
             return o
           }
         : gOPN && gOPD
-        ? (function() {
+        ? (function () {
             function setProperties(o, p) {
               for (
                 var key, names = gOPN(p), i = 0, length = names.length;
@@ -383,14 +383,14 @@ function installCustomElements(window, polyfill) {
                 }
               }
             }
-            return function(o, p) {
+            return function (o, p) {
               do {
                 setProperties(o, p)
               } while ((p = gPO(p)) && !iPO.call(p, o))
               return o
             }
           })()
-        : function(o, p) {
+        : function (o, p) {
             for (var key in p) {
               o[key] = p[key]
             }
@@ -407,16 +407,16 @@ function installCustomElements(window, polyfill) {
     ).prototype,
     IE8 = !iPO.call(HTMLElementPrototype, documentElement),
     safeProperty = IE8
-      ? function(o, k, d) {
+      ? function (o, k, d) {
           o[k] = d.value
           return o
         }
       : defineProperty,
     isValidNode = IE8
-      ? function(node) {
+      ? function (node) {
           return node.nodeType === 1
         }
-      : function(node) {
+      : function (node) {
           return iPO.call(HTMLElementPrototype, node)
         },
     targets = IE8 && [],
@@ -439,7 +439,7 @@ function installCustomElements(window, polyfill) {
     // useful to detect only if there's no MutationObserver
     DOMAttrModified =
       MutationObserver ||
-      function(e) {
+      function (e) {
         doesNotSupportDOMAttrModified = false
         documentElement.removeEventListener(
           DOM_ATTR_MODIFIED,
@@ -476,7 +476,7 @@ function installCustomElements(window, polyfill) {
   if (MutationObserver) {
     tmp = document.createElement('div')
     tmp.innerHTML = '<div><div></div></div>'
-    new MutationObserver(function(mutations, observer) {
+    new MutationObserver(function (mutations, observer) {
       if (
         mutations[0] &&
         mutations[0].type == 'childList' &&
@@ -486,7 +486,7 @@ function installCustomElements(window, polyfill) {
         var set = tmp && tmp.set
         if (set)
           defineProperty(HTMLElementPrototype, 'innerHTML', {
-            set: function(value) {
+            set: function (value) {
               while (this.lastChild) this.removeChild(this.lastChild)
               set.call(this, value)
             }
@@ -501,14 +501,14 @@ function installCustomElements(window, polyfill) {
   // only if needed
   if (!V0) {
     if (sPO || hasProto) {
-      patchIfNotAlready = function(node, proto) {
+      patchIfNotAlready = function (node, proto) {
         if (!iPO.call(proto, node)) {
           setupNode(node, proto)
         }
       }
       patch = setupNode
     } else {
-      patchIfNotAlready = function(node, proto) {
+      patchIfNotAlready = function (node, proto) {
         if (!node[EXPANDO_UID]) {
           node[EXPANDO_UID] = Object(true)
           setupNode(node, proto)
@@ -519,10 +519,10 @@ function installCustomElements(window, polyfill) {
 
     if (IE8) {
       doesNotSupportDOMAttrModified = false
-      ;(function() {
+      ;(function () {
         var descriptor = gOPD(HTMLElementPrototype, ADD_EVENT_LISTENER),
           addEventListener = descriptor.value,
-          patchedRemoveAttribute = function(name) {
+          patchedRemoveAttribute = function (name) {
             var e = new CustomEvent(DOM_ATTR_MODIFIED, { bubbles: true })
             e.attrName = name
             e.prevValue = getAttribute.call(this, name)
@@ -531,7 +531,7 @@ function installCustomElements(window, polyfill) {
             removeAttribute.call(this, name)
             dispatchEvent.call(this, e)
           },
-          patchedSetAttribute = function(name, value) {
+          patchedSetAttribute = function (name, value) {
             var had = hasAttribute.call(this, name),
               old = had && getAttribute.call(this, name),
               e = new CustomEvent(DOM_ATTR_MODIFIED, { bubbles: true })
@@ -546,7 +546,7 @@ function installCustomElements(window, polyfill) {
             }
             dispatchEvent.call(this, e)
           },
-          onPropertyChange = function(e) {
+          onPropertyChange = function (e) {
             // jshint eqnull:true
             var node = e.currentTarget,
               superSecret = node[EXPANDO_UID],
@@ -567,7 +567,7 @@ function installCustomElements(window, polyfill) {
               dispatchEvent.call(node, event)
             }
           }
-        descriptor.value = function(type, handler, capture) {
+        descriptor.value = function (type, handler, capture) {
           if (
             type === DOM_ATTR_MODIFIED &&
             this[ATTRIBUTE_CHANGED_CALLBACK] &&
@@ -599,7 +599,7 @@ function installCustomElements(window, polyfill) {
       documentElement.setAttribute(EXPANDO_UID, 1)
       documentElement.removeAttribute(EXPANDO_UID)
       if (doesNotSupportDOMAttrModified) {
-        onSubtreeModified = function(e) {
+        onSubtreeModified = function (e) {
           var node = this,
             oldAttributes,
             newAttributes,
@@ -646,7 +646,7 @@ function installCustomElements(window, polyfill) {
             }
           }
         }
-        callDOMAttrModified = function(
+        callDOMAttrModified = function (
           attrChange,
           currentTarget,
           attrName,
@@ -664,7 +664,7 @@ function installCustomElements(window, polyfill) {
           e[action] = attrChange
           onDOMAttrModified(e)
         }
-        getAttributesMirror = function(node) {
+        getAttributesMirror = function (node) {
           for (
             var attr,
               name,
@@ -695,7 +695,7 @@ function installCustomElements(window, polyfill) {
         // setting it by default might slow down for no reason
         setListener = false
         if (MutationObserver) {
-          observer = (function(attached, detached) {
+          observer = (function (attached, detached) {
             function checkEmAll(list, callback) {
               for (
                 var i = 0, length = list.length;
@@ -703,7 +703,7 @@ function installCustomElements(window, polyfill) {
                 callback(list[i++])
               ) {}
             }
-            return new MutationObserver(function(records) {
+            return new MutationObserver(function (records) {
               for (
                 var current,
                   node,
@@ -740,7 +740,7 @@ function installCustomElements(window, polyfill) {
               }
             })
           })(executeAction(ATTACHED), executeAction(DETACHED))
-          observe = function(node) {
+          observe = function (node) {
             observer.observe(node, {
               childList: true,
               subtree: true
@@ -749,7 +749,7 @@ function installCustomElements(window, polyfill) {
           }
           observe(document)
           if (attachShadow) {
-            HTMLElementPrototype.attachShadow = function() {
+            HTMLElementPrototype.attachShadow = function () {
               return observe(attachShadow.apply(this, arguments))
             }
           }
@@ -774,7 +774,7 @@ function installCustomElements(window, polyfill) {
           onReadyStateChange
         )
 
-        HTMLElementPrototype.cloneNode = function(deep) {
+        HTMLElementPrototype.cloneNode = function (deep) {
           var node = cloneNode.call(this, !!deep),
             i = getTypeIndex(node)
           if (-1 < i) patch(node, protos[i])
@@ -801,7 +801,7 @@ function installCustomElements(window, polyfill) {
         throw new Error('The type ' + type + ' is invalid')
       }
 
-      var constructor = function() {
+      var constructor = function () {
           return extending
             ? document.createElement(nodeName, upperType)
             : document.createElement(nodeName)
@@ -835,7 +835,7 @@ function installCustomElements(window, polyfill) {
       return constructor
     }
 
-    document.createElement = patchedCreateElement = function(
+    document.createElement = patchedCreateElement = function (
       localName,
       typeExtension
     ) {
@@ -883,7 +883,7 @@ function installCustomElements(window, polyfill) {
   }
 
   function executeAction(action) {
-    return function(node) {
+    return function (node) {
       if (isValidNode(node)) {
         verifyAndSetupAndAction(node, action)
         if (query.length)
@@ -933,7 +933,7 @@ function installCustomElements(window, polyfill) {
 
   function onDOMNode(action) {
     var executor = executeAction(action)
-    return function(e) {
+    return function (e) {
       asapQueue.push(executor, e.target)
       if (asapTimer) clearTimeout(asapTimer)
       asapTimer = setTimeout(ASAP, 1)
@@ -1033,7 +1033,7 @@ function installCustomElements(window, polyfill) {
     constructor: CustomElementRegistry,
     // a workaround for the stubborn WebKit
     define: usableCustomElements
-      ? function(name, Class, options) {
+      ? function (name, Class, options) {
           if (options) {
             CERDefine(name, Class, options)
           } else {
@@ -1048,12 +1048,12 @@ function installCustomElements(window, polyfill) {
         }
       : CERDefine,
     get: usableCustomElements
-      ? function(name) {
+      ? function (name) {
           return customElements.get(name) || get(name)
         }
       : get,
     whenDefined: usableCustomElements
-      ? function(name) {
+      ? function (name) {
           return Promise.race([
             customElements.whenDefined(name),
             whenDefined(name)
@@ -1071,7 +1071,7 @@ function installCustomElements(window, polyfill) {
     // TODO: is this needed at all since it's inherited?
     // defineProperty(proto, 'constructor', {value: Class});
     safeProperty(proto, CREATED_CALLBACK, {
-      value: function() {
+      value: function () {
         if (justCreated) justCreated = false
         else if (!this[DRECEV1]) {
           this[DRECEV1] = true
@@ -1085,7 +1085,7 @@ function installCustomElements(window, polyfill) {
       }
     })
     safeProperty(proto, ATTRIBUTE_CHANGED_CALLBACK, {
-      value: function(name) {
+      value: function (name) {
         if (-1 < indexOf.call(attributes, name))
           CProto[ATTRIBUTE_CHANGED_CALLBACK].apply(this, arguments)
       }
@@ -1143,7 +1143,7 @@ function installCustomElements(window, polyfill) {
     name = name.toUpperCase()
     if (!(name in waitingList)) {
       waitingList[name] = {}
-      waitingList[name].p = new Promise(function(resolve) {
+      waitingList[name].p = new Promise(function (resolve) {
         waitingList[name].r = resolve
       })
     }
@@ -1161,7 +1161,7 @@ function installCustomElements(window, polyfill) {
       value: CustomElementRegistry
     })
     for (
-      var patchClass = function(name) {
+      var patchClass = function (name) {
           var Class = window[name]
           if (Class) {
             window[name] = function CustomElementsV1(self) {
@@ -1194,7 +1194,7 @@ function installCustomElements(window, polyfill) {
       i--;
       patchClass(Classes[i])
     ) {}
-    document.createElement = function(name, options) {
+    document.createElement = function (name, options) {
       var is = getIs(options)
       return is
         ? patchedCreateElement.call(this, name, secondArgument(is))
@@ -1211,7 +1211,7 @@ function installCustomElements(window, polyfill) {
   else if (!polyfill.noBuiltIn) {
     // if available test extends work as expected
     try {
-      ;(function(DRE, options, name) {
+      ;(function (DRE, options, name) {
         options[EXTENDS] = 'a'
         DRE.prototype = create(HTMLAnchorElement.prototype)
         DRE.prototype.constructor = DRE
@@ -1245,7 +1245,7 @@ function installCustomElements(window, polyfill) {
     try {
       createElement.call(document, 'a', 'a')
     } catch (FireFox) {
-      secondArgument = function(is) {
+      secondArgument = function (is) {
         return { is: is.toLowerCase() }
       }
     }

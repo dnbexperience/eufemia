@@ -145,7 +145,7 @@ export default class Button extends PureComponent {
       this._ref.current.blur()
     }
   }
-  onClickHandler = event => {
+  onClickHandler = (event) => {
     const afterContent = dispatchCustomElementEvent(this, 'on_click', {
       event
     })

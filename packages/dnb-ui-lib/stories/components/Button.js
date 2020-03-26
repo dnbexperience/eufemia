@@ -32,7 +32,7 @@ export default [
           text="Secondary button with href"
           href="?no-cache=1"
           icon="add"
-          onClick={e => e.preventDefault()}
+          onClick={(e) => e.preventDefault()}
         />
       </Box>
       <Box>

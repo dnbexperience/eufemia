@@ -12,7 +12,7 @@ https://jakearchibald.github.io/svgomg/
 
 import React, { Fragment } from 'react'
 
-const SvgComparison = props => (
+const SvgComparison = (props) => (
   <Fragment>
     <svg width="24" height="24" {...props}>
       <path

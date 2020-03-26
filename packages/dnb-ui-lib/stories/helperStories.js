@@ -40,7 +40,7 @@ stories.push([
           <a
             className="dnb-skip-link-demo"
             href="#dnb-app-content"
-            onClick={e => e.preventDefault()}
+            onClick={(e) => e.preventDefault()}
           >
             Skip to content
           </a>

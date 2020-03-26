@@ -61,7 +61,7 @@ export default class InfinityScroller extends PureComponent {
     }
 
     const exists =
-      this.context.pagination.items.findIndex(obj => {
+      this.context.pagination.items.findIndex((obj) => {
         return obj.pageNo === newPageNo
       }) > -1
 
@@ -77,7 +77,7 @@ export default class InfinityScroller extends PureComponent {
   }
 
   callEventHandler(pageNo, isStartup = false) {
-    const createEvent = eventName => {
+    const createEvent = (eventName) => {
       dispatchCustomElementEvent(this.context.pagination, eventName, {
         page: pageNo,
         pageNo,
@@ -114,7 +114,7 @@ export default class InfinityScroller extends PureComponent {
       <InteractionMarker
         pageNo={upperPage + 1}
         markerElement={marker_element || fallback_element}
-        onVisible={pageNo => {
+        onVisible={(pageNo) => {
           // wait on updating our own state, so we can show the indicator (pressed_element) untill we get new children back
           this.context.pagination.onPageUpdate(() => {
             this.context.pagination.setState({
@@ -225,7 +225,7 @@ export default class InfinityScroller extends PureComponent {
             <InteractionMarker
               pageNo={pageNo}
               markerElement={marker_element || fallback_element}
-              onVisible={pageNoVisible => {
+              onVisible={(pageNoVisible) => {
                 // load several pages at once
                 for (let i = 0; i < parallelLoadCount; ++i) {
                   const currentLoadingPage = pageNoVisible + 1 + i
@@ -252,7 +252,7 @@ export default class InfinityScroller extends PureComponent {
                 <InfinityLoadButton
                   element={fallback_element}
                   icon="arrow_up"
-                  on_click={event =>
+                  on_click={(event) =>
                     this.getNewContent(pageNo - 1, {
                       position: 'before',
                       skipObserver: true,
@@ -279,11 +279,11 @@ export default class InfinityScroller extends PureComponent {
                 <InfinityLoadButton
                   element={fallback_element}
                   icon="arrow_down"
-                  on_click={event =>
+                  on_click={(event) =>
                     this.getNewContent(pageNo + 1, {
                       position: 'after',
                       skipObserver: true,
-                      ScrollElement: props =>
+                      ScrollElement: (props) =>
                         hasContent && (
                           <ScrollToElement
                             page_element={page_element}
@@ -331,7 +331,7 @@ class InteractionMarker extends PureComponent {
 
     if (typeof IntersectionObserver !== 'undefined') {
       this.intersectionObserver = new IntersectionObserver(
-        entries => {
+        (entries) => {
           const [{ isIntersecting }] = entries
           if (isIntersecting) {
             this.callReady()
@@ -422,7 +422,7 @@ export class InfinityLoadButton extends PureComponent {
     icon: 'arrow_down'
   }
   state = { isPressed: false }
-  onClickHandler = e => {
+  onClickHandler = (e) => {
     this.setState({ isPressed: true })
     if (typeof this.props.on_click === 'function') {
       this.props.on_click(e)

@@ -20,7 +20,7 @@ describe('Suffix context', () => {
 
     const Comp = mount(
       <Wrapper>
-        {context => {
+        {(context) => {
           more_info = context.translation.Modal.more_info
           return (
             <Input

@@ -111,7 +111,7 @@ export default class Checkbox extends Component {
     registerElement(Checkbox.tagName, Checkbox, defaultProps)
   }
 
-  static parseChecked = state => /true|on/.test(String(state))
+  static parseChecked = (state) => /true|on/.test(String(state))
 
   static getDerivedStateFromProps(props, state) {
     if (state._listenForPropChanges) {
@@ -149,7 +149,7 @@ export default class Checkbox extends Component {
     return true
   }
 
-  onKeyDownHandler = event => {
+  onKeyDownHandler = (event) => {
     switch (keycode(event)) {
       case 'enter':
         this.onChangeHandler(event)
@@ -157,7 +157,7 @@ export default class Checkbox extends Component {
     }
   }
 
-  onChangeHandler = event => {
+  onChangeHandler = (event) => {
     if (isTrue(this.props.readOnly)) {
       return event.preventDefault()
     }
@@ -324,7 +324,7 @@ export default class Checkbox extends Component {
   }
 }
 
-export const CheckSVG = props => (
+export const CheckSVG = (props) => (
   <svg
     width="24"
     height="24"

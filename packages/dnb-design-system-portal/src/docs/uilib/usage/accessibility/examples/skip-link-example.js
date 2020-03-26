@@ -15,7 +15,7 @@ const ChangeStylesOfSkipLink = styled.div`
 `
 
 export default () => {
-  const onClick = e => {
+  const onClick = (e) => {
     try {
       document.querySelector('a.dnb-skip-link').focus()
       e.preventDefault()

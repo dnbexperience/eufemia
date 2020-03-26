@@ -205,7 +205,7 @@ export default class MainMenu extends PureComponent {
       document.removeEventListener('keydown', this.onKeyDownHandler)
     }
   }
-  onKeyDownHandler = e => {
+  onKeyDownHandler = (e) => {
     switch (keycode(e)) {
       case 'esc':
         if (this.context.isOpen) {

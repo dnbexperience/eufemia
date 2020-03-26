@@ -47,12 +47,12 @@ class Provider extends PureComponent {
 
     // general context update
     if (!usedContext.update) {
-      usedContext.update = props => this.setContext(props)
+      usedContext.update = (props) => this.setContext(props)
     }
 
     // make it posible to change the locale during runtime
     if (!usedContext.setLocale) {
-      usedContext.setLocale = locale => this.setContext({ locale })
+      usedContext.setLocale = (locale) => this.setContext({ locale })
     }
 
     this.state = {

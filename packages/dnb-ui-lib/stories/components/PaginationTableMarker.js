@@ -65,7 +65,7 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
       const ceil = floor + perPageCount
       return idx >= floor && idx < ceil
     })
-    .forEach(item => {
+    .forEach((item) => {
       localStack.current[item.ssn] = item
     })
 
@@ -92,7 +92,7 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
     }
   }
   // set the startup height
-  const onMounted = items => {
+  const onMounted = (items) => {
     items.forEach(({ element: { current: element }, expanded }) =>
       setHeight({ element, expanded, animation: false })
     )
@@ -141,7 +141,7 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
               on_click={() => {
                 resetHandler()
 
-                setOrderDirection(o => (o === 'asc' ? 'desc' : 'asc'))
+                setOrderDirection((o) => (o === 'asc' ? 'desc' : 'asc'))
               }}
             />
           </th>
@@ -201,9 +201,9 @@ const InfinityPagination = ({
   const mountedItems = []
   React.useEffect(() => onMounted && onMounted(mountedItems), []) // eslint-disable-line
 
-  return items.map(item => {
+  return items.map((item) => {
     const params = {
-      onClick: e => {
+      onClick: (e) => {
         if (!hasSelectedText(e.currentTarget)) {
           onToggleExpanded(item, currentPage, e.currentTarget)
         }

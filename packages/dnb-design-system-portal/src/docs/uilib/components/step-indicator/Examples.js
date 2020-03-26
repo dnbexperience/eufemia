@@ -32,7 +32,7 @@ class Example extends PureComponent {
   componentWillUnmount() {
     if (this.unlisten) this.unlisten()
   }
-  onChangeHandler = e => {
+  onChangeHandler = (e) => {
     e.event.preventDefault()
     this.history && this.history.push(e.item.url)
   }

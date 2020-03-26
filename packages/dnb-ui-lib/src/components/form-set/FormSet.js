@@ -85,7 +85,7 @@ export default class FormSet extends PureComponent {
     this._id = props.id || makeUniqueId() // cause we need an id anyway
   }
 
-  onSubmitHandler = event => {
+  onSubmitHandler = (event) => {
     const { prevent_submit } = this.props
     if (isTrue(prevent_submit)) {
       event.preventDefault()

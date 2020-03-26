@@ -108,7 +108,7 @@ export const registerElement = (
       }
 
       if (events.length > 0) {
-        events.forEach(eventDef => {
+        events.forEach((eventDef) => {
           // extract the prop name and callback function
           let [type, func] = eventDef.split('=')
           type = EVENT_TRANSLATIONS[type] || type
@@ -122,7 +122,7 @@ export const registerElement = (
                 if (Array.isArray(args[0])) {
                   const elems = []
                   // we have to overwrite the first arg like this - and cant use map/reduce here
-                  args[0].forEach(elem => {
+                  args[0].forEach((elem) => {
                     if (React.isValidElement(elem)) {
                       const rootEl = document.createElement('div') // createDocumentFragment
                       render(elem, rootEl)
@@ -179,7 +179,7 @@ export const registerElement = (
       return props
     }
     addEvent(eventName, eventCallback) {
-      const eventWrapper = event => eventCallback.apply(this, [event])
+      const eventWrapper = (event) => eventCallback.apply(this, [event])
       this._customEvents.push({ eventName, eventCallback, eventWrapper })
       return eventWrapper
     }
@@ -252,10 +252,10 @@ export const registerElement = (
 }
 
 // remove react props witch has uppercase chars
-const filterProps = key =>
+const filterProps = (key) =>
   key && !/[A-Z]/.test(key) && !/children/.test(key)
 
-export const prepareDefaultProps = defaultProps =>
+export const prepareDefaultProps = (defaultProps) =>
   Array.isArray(defaultProps)
     ? defaultProps.filter(filterProps)
     : Object.entries(defaultProps || {})

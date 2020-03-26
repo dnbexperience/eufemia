@@ -35,7 +35,7 @@ export const SearchBarInput = () => {
         searchIndex.current
           .search(value)
           .then(({ hits }) => updateData(makeHitsHumanFriendly(hits)))
-          .catch(err => updateData([{ content: err.message || err }]))
+          .catch((err) => updateData([{ content: err.message || err }]))
         hideIndicator()
       },
       { value }
@@ -102,10 +102,10 @@ const StyledAutocomplete = styled(Autocomplete)`
   }
 `
 
-const makeHitsHumanFriendly = hits => {
+const makeHitsHumanFriendly = (hits) => {
   const data = []
 
-  hits.forEach(hit => {
+  hits.forEach((hit) => {
     const { slug, title, description, search } = hit
 
     const content = [title, description, search].filter(Boolean)

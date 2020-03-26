@@ -64,7 +64,7 @@ const getBranchName = async ({ repo = null, requiredBranch = null }) => {
   }
   if (
     requiredBranch &&
-    !requiredBranch.some(name => new RegExp(name).test(branchName))
+    !requiredBranch.some((name) => new RegExp(name).test(branchName))
   ) {
     log.fail(
       `The current branch (${branchName}) was not the required one: ${requiredBranch.join(
@@ -98,14 +98,16 @@ const commitToBranch = async ({
 
     const status = await repo.status()
 
-    const filesToCommit = [...status.modified, ...status.not_added].filter(
-      f =>
-        new RegExp(
-          Array.isArray(filePathsWhitelist)
-            ? filePathsWhitelist.join('|')
-            : filePathsWhitelist,
-          'g'
-        ).test(f)
+    const filesToCommit = [
+      ...status.modified,
+      ...status.not_added
+    ].filter((f) =>
+      new RegExp(
+        Array.isArray(filePathsWhitelist)
+          ? filePathsWhitelist.join('|')
+          : filePathsWhitelist,
+        'g'
+      ).test(f)
     )
 
     // check if the changes where in the files directories
@@ -113,7 +115,9 @@ const commitToBranch = async ({
 
     if (hasChanges) {
       if (config.user && config.user.name && config.user.email) {
-        log.info(`> Commit: Add Git user: ${config.user.name}, ${config.user.email}`)
+        log.info(
+          `> Commit: Add Git user: ${config.user.name}, ${config.user.email}`
+        )
         await repo.addConfig('user.name', config.user.name)
         await repo.addConfig('user.email', config.user.email)
         log.info('> Commit: Added user details to the repo')
@@ -121,7 +125,7 @@ const commitToBranch = async ({
 
       await repo.add(filesToCommit) // use "'./*'" for adding all files
 
-      const files = filesToCommit.map(f => path.basename(f))
+      const files = filesToCommit.map((f) => path.basename(f))
       log.info(`> Commit: Add ${files.length} new ${what}`)
 
       if (typeof isFeature === 'function') {

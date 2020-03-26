@@ -89,15 +89,15 @@ const runFactory = async ({
     processToNamesList.sort()
     if (processOnlyList) {
       const processdList = await globby(processOnlyList)
-      processToNamesList = processToNamesList.filter(source =>
-        processdList.some(file => file.indexOf(source) !== -1)
+      processToNamesList = processToNamesList.filter((source) =>
+        processdList.some((file) => file.indexOf(source) !== -1)
       )
     }
   } catch (e) {
     console.log('Error', e)
   }
 
-  processToNamesList = processToNamesList.map(source => ({
+  processToNamesList = processToNamesList.map((source) => ({
     source,
     name: basename(source)
   }))

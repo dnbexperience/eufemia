@@ -5,7 +5,7 @@
 
 import prettier from 'prettier'
 
-export const makeStylePrettier = style =>
+export const makeStylePrettier = (style) =>
   prettier.format(style, {
     filepath: `file.scss`,
     printWidth: 75,

@@ -40,5 +40,5 @@ const stylisPlugin = (context, content, props = null) => {
 
 export default stylisPlugin
 
-export const withProperties = properties => (context, content) =>
+export const withProperties = (properties) => (context, content) =>
   stylisPlugin(context, content, properties)

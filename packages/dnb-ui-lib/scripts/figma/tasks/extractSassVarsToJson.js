@@ -19,7 +19,7 @@ export const extractSassVars = async ({
   if (typeof replaceCallback === 'function')
     scssContent = replaceCallback(scssContent)
 
-  imports = imports.map(importStr => `@import '${importStr}';\n`)
+  imports = imports.map((importStr) => `@import '${importStr}';\n`)
   const vars = parseSass(
     `
       ${imports}

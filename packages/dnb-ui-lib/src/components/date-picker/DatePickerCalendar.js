@@ -124,13 +124,13 @@ export default class DatePickerCalendar extends PureComponent {
     }
   }
 
-  onKeyDownHandler = event => {
+  onKeyDownHandler = (event) => {
     if (typeof this.props.onKeyDown === 'function') {
       this.props.onKeyDown(event, this._listRef, this.props.nr)
     }
   }
 
-  buildClassNames = day =>
+  buildClassNames = (day) =>
     classnames({
       'dnb-date-picker__day--start-date': day.isStartDate,
       'dnb-date-picker__day--end-date': day.isEndDate,
@@ -186,7 +186,7 @@ export default class DatePickerCalendar extends PureComponent {
       month || new Date(),
       dayOffset(firstDayOfWeek),
       { onlyMonth, hideNextMonthWeek }
-    ).map(date =>
+    ).map((date) =>
       makeDayObject(date, {
         startDate,
         endDate,

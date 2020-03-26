@@ -150,7 +150,7 @@ export default class StepIndicator extends PureComponent {
     }
   }
 
-  setActimeItem = activeItem => {
+  setActimeItem = (activeItem) => {
     this.setState({
       activeItem,
       _listenForPropChanges: false

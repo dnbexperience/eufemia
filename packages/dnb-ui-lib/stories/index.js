@@ -42,16 +42,16 @@ import '../src/style/themes/ui'
 
 components
   .sort(([a], [b]) => (a > b ? 1 : -1))
-  .forEach(props => storiesOf('Components', module).add(...props))
+  .forEach((props) => storiesOf('Components', module).add(...props))
 
 typography
   .sort(([a], [b]) => (a > b ? 1 : -1))
-  .forEach(props => storiesOf('Typography', module).add(...props))
+  .forEach((props) => storiesOf('Typography', module).add(...props))
 
 elements
   .sort(([a], [b]) => (a > b ? 1 : -1))
-  .forEach(component => storiesOf('Elements', module).add(...component))
+  .forEach((component) => storiesOf('Elements', module).add(...component))
 
 helpers
   .sort(([a], [b]) => (a > b ? 1 : -1))
-  .forEach(component => storiesOf('Helpers', module).add(...component))
+  .forEach((component) => storiesOf('Helpers', module).add(...component))

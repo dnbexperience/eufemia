@@ -13,7 +13,7 @@ import { StickyHelper } from 'dnb-ui-lib/src/elements/Table'
 
 import { createPagination } from 'dnb-ui-lib/src/components/Pagination'
 
-export default function() {
+export default function () {
   return (
     <Wrapper className="dnb-core-style" spacing>
       <Space left>
@@ -82,7 +82,7 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
     }
   }
   // set the startup height
-  const onMounted = items => {
+  const onMounted = (items) => {
     items.forEach(({ element: { current: element }, expanded }) =>
       setHeight({ element, expanded, animation: false })
     )
@@ -140,7 +140,7 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
                 // 1. empty
                 resetContent()
 
-                setOrderDirection(o => (o === 'asc' ? 'desc' : 'asc'))
+                setOrderDirection((o) => (o === 'asc' ? 'desc' : 'asc'))
               }}
             />
           </th>
@@ -220,9 +220,9 @@ const InfinityPagination = ({
     return null
   }
 
-  return items.map(item => {
+  return items.map((item) => {
     const params = {
-      onClick: e => {
+      onClick: (e) => {
         if (!hasSelectedText(e.currentTarget)) {
           onToggleExpanded(item, currentPage, e.currentTarget)
         }

@@ -88,7 +88,7 @@ export const getCalendar = (
 const calendarCache = {}
 
 // calculates offset from sunday, eg monday is +1
-export const dayOffset = dayName => {
+export const dayOffset = (dayName) => {
   const week = [
     'sunday',
     'monday',
@@ -126,7 +126,7 @@ const getRange = (startDate, endDate, hoverDate) => {
 
 // returns an array of dates for each day of the current week
 // weekStartsOn is a number, use dayOffset to convert from a string
-export const getWeek = weekStartsOn => {
+export const getWeek = (weekStartsOn) => {
   const startDay = startOfWeek(new Date(), { weekStartsOn })
   return Array(7)
     .fill(1)
@@ -194,7 +194,7 @@ const isPreview = (date, startDate, endDate, hoverDate) => {
   )
 }
 
-export const correctV1Format = date => {
+export const correctV1Format = (date) => {
   // for backwords compatibility
   // TODO: Remvoe this in next major version
   if (/YYYY/.test(date) && /DD/.test(date)) {

@@ -146,7 +146,7 @@ export default class StepItem extends PureComponent {
       'dnb-step-indicator__item-content--link'
     )
 
-    const StepItemWrapper = props => (
+    const StepItemWrapper = (props) => (
       <>
         {!isTrue(hide_numbers) && (
           <span
@@ -185,7 +185,7 @@ export default class StepItem extends PureComponent {
       child = (
         <button
           type="button"
-          onClick={event =>
+          onClick={(event) =>
             this.onClickHandler({ event, item: this.props, currentItem })
           }
           {...interactiveParams}
@@ -198,7 +198,7 @@ export default class StepItem extends PureComponent {
       child = (
         <a
           href={url}
-          onClick={event =>
+          onClick={(event) =>
             this.onClickHandler({ event, item: this.props, currentItem })
           }
           {...interactiveParams}

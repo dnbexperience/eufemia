@@ -5,7 +5,7 @@
 
 import React from 'react'
 
-export const ToggleMenu = props => (
+export const ToggleMenu = (props) => (
   <svg
     width="24"
     height="24"
@@ -36,7 +36,7 @@ export const ToggleMenu = props => (
     />
   </svg>
 )
-export const BrandSvg = props => (
+export const BrandSvg = (props) => (
   <svg
     width="48"
     height="48"
@@ -96,7 +96,7 @@ export const BrandSvg = props => (
     />
   </svg>
 )
-export const PrinciplesSvg = props => (
+export const PrinciplesSvg = (props) => (
   <svg
     viewBox="0 0 48 47"
     fill="none"
@@ -182,7 +182,7 @@ export const PrinciplesSvg = props => (
     />
   </svg>
 )
-export const QuickguideDesignerSvg = props => (
+export const QuickguideDesignerSvg = (props) => (
   <svg
     width="48"
     height="48"
@@ -249,7 +249,7 @@ export const QuickguideDesignerSvg = props => (
     />
   </svg>
 )
-export const DesignSystemSvg = props => (
+export const DesignSystemSvg = (props) => (
   <svg
     width="48"
     height="48"
@@ -302,7 +302,7 @@ export const DesignSystemSvg = props => (
     />
   </svg>
 )
-export const IconsSvg = props => (
+export const IconsSvg = (props) => (
   <svg
     width="48"
     height="48"
@@ -341,7 +341,7 @@ export const IconsSvg = props => (
     />
   </svg>
 )
-export const UilibSvg = props => (
+export const UilibSvg = (props) => (
   <svg
     width="48"
     height="48"

@@ -51,10 +51,10 @@ const DropdownStory = () => {
             a: 'AA',
             b: 'BB'
           })}
-          on_select={e => {
+          on_select={(e) => {
             console.log('on_select', e)
           }}
-          on_change={e => {
+          on_change={(e) => {
             console.log('on_change', e)
           }}
         ></Dropdown>
@@ -64,10 +64,10 @@ const DropdownStory = () => {
           // value="0"
           // value="b"
           // data={['A', 'B']}
-          on_select={e => {
+          on_select={(e) => {
             console.log('on_select', e)
           }}
-          on_change={e => {
+          on_change={(e) => {
             console.log('on_change', e)
           }}
         >
@@ -126,10 +126,10 @@ const DropdownStory = () => {
       </Box>
       <Box>
         <FormSet
-          onSubmit={event => {
+          onSubmit={(event) => {
             console.log('onSubmit', event)
           }}
-          on_submit={event => {
+          on_submit={(event) => {
             console.log('on_submit', event)
           }}
           prevent_submit
@@ -142,7 +142,7 @@ const DropdownStory = () => {
             label="Label:"
             data={data}
             value={value}
-            on_state_update={event => {
+            on_state_update={(event) => {
               console.log('on_state_update', event)
             }}
             on_change={({ data }) => {
@@ -479,7 +479,7 @@ function CurrencySelector({ currencies, onChange, value, ...props }) {
         }
         onChange(selected_value)
       }}
-      data={currencies.map(currency => ({
+      data={currencies.map((currency) => ({
         selected_value: currency,
         content: (
           <>
@@ -502,7 +502,7 @@ CurrencySelector.defaultProps = {
 function DropdownStates() {
   const [state, setState] = useState({})
 
-  const handleOnChange = props => {
+  const handleOnChange = (props) => {
     console.log('DropdownStates', props)
     setState({ state: Math.random() })
   }
@@ -528,7 +528,7 @@ function DropdownStates() {
 function DropdownStatesSync() {
   const [state, setState] = useState({})
 
-  const handleOnChange = props => {
+  const handleOnChange = (props) => {
     console.log('DropdownStates', props)
     setState({ state: Math.random() })
   }
@@ -565,10 +565,10 @@ function CurrencyDropdown() {
   }, [ccyPair])
 
   // Whenever a user selects a new base currency, the termscurrency select should be forced to reset.
-  const handleBaseCurrencyChange = base =>
-    setCcyPair(prev => ({ ...prev, base, terms: undefined }))
-  const handleTermsCurrencyChange = terms =>
-    setCcyPair(prev => ({ ...prev, terms }))
+  const handleBaseCurrencyChange = (base) =>
+    setCcyPair((prev) => ({ ...prev, base, terms: undefined }))
+  const handleTermsCurrencyChange = (terms) =>
+    setCcyPair((prev) => ({ ...prev, terms }))
 
   return (
     <>
@@ -587,7 +587,7 @@ function CurrencyDropdown() {
         text="New base"
         onClick={() => {
           const base = 'USD'
-          setCcyPair(prev => ({ ...prev, base, terms: undefined }))
+          setCcyPair((prev) => ({ ...prev, base, terms: undefined }))
         }}
       />
     </>

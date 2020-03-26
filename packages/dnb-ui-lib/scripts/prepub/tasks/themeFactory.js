@@ -72,7 +72,7 @@ export const runFactory = async ({
     console.log('Error', e)
   }
 
-  processToNamesList = processToNamesList.map(source => ({
+  processToNamesList = processToNamesList.map((source) => ({
     source,
     name: basename(source)
   }))
@@ -80,7 +80,7 @@ export const runFactory = async ({
   const groups = {}
   const collectedOutput = []
 
-  processToNamesList.forEach(object => {
+  processToNamesList.forEach((object) => {
     const name = /(.*)-theme-(.*)\.scss/g.exec(object.name)[2]
     groups[name] = groups[name] || []
     groups[name].push(object)
@@ -88,7 +88,7 @@ export const runFactory = async ({
 
   // make a group of all gathered themes we later will interact through
   const themes = []
-  Object.entries(groups).forEach(group => {
+  Object.entries(groups).forEach((group) => {
     const name = group[0]
     const files = group[1]
     const theme = files

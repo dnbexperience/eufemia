@@ -300,7 +300,7 @@ class DropdownInstance extends PureComponent {
       this.setVisible()
     }
   }
-  onTriggerKeyDownHandler = e => {
+  onTriggerKeyDownHandler = (e) => {
     switch (keycode(e)) {
       case 'enter':
       case 'space':
@@ -315,7 +315,7 @@ class DropdownInstance extends PureComponent {
     }
   }
 
-  onSelectHandler = args => {
+  onSelectHandler = (args) => {
     if (parseFloat(args.active_item) > -1) {
       const attributes = this.attributes || {}
       dispatchCustomElementEvent(this, 'on_select', {
@@ -326,7 +326,7 @@ class DropdownInstance extends PureComponent {
     }
   }
 
-  onChangeHandler = args => {
+  onChangeHandler = (args) => {
     const attributes = this.attributes || {}
     dispatchCustomElementEvent(this, 'on_change', {
       ...args,

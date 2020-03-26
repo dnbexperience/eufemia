@@ -190,7 +190,7 @@ export default class Slider extends PureComponent {
     }
   }
 
-  onKeyDownHandler = event => {
+  onKeyDownHandler = (event) => {
     const { min, max, reverse, vertical, value: currentValue } = this.state
     const isReverse = vertical ? !reverse : reverse
 
@@ -247,7 +247,7 @@ export default class Slider extends PureComponent {
     this.setState({ _listenForPropChanges: false, currentState: 'normal' })
   }
 
-  onClickHandler = event => {
+  onClickHandler = (event) => {
     const { min, max, reverse, vertical } = this.state
     const percent = calculatePercent(
       this._trackRef.current,
@@ -260,18 +260,18 @@ export default class Slider extends PureComponent {
     this.emitChange(event, value, () => this.setToResetState())
   }
 
-  onSubtractClickHandler = event => {
+  onSubtractClickHandler = (event) => {
     let { step } = this.props
     let { min, max, value } = this.state
     this.emitChange(event, clamp(value - (step || 1), min, max))
   }
-  onAddClickHandler = event => {
+  onAddClickHandler = (event) => {
     let { step } = this.props
     let { min, max, value } = this.state
     this.emitChange(event, clamp(value + (step || 1), min, max))
   }
 
-  onMouseDownHandler = event => {
+  onMouseDownHandler = (event) => {
     if (typeof document !== 'undefined') {
       try {
         document.body.addEventListener(
@@ -301,8 +301,8 @@ export default class Slider extends PureComponent {
     }
   }
 
-  onTouchEndHandler = event => this.onMouseUpHandler(event)
-  onMouseUpHandler = event => {
+  onTouchEndHandler = (event) => this.onMouseUpHandler(event)
+  onMouseUpHandler = (event) => {
     if (typeof document !== 'undefined') {
       try {
         document.body.removeEventListener(
@@ -332,7 +332,7 @@ export default class Slider extends PureComponent {
     }
   }
 
-  onRangeChangeHandler = event => {
+  onRangeChangeHandler = (event) => {
     const value = event.currentTarget.value
     this.setState({
       value,
@@ -340,8 +340,8 @@ export default class Slider extends PureComponent {
     })
   }
 
-  onTouchMoveHandler = event => this.onMouseMoveHandler(event)
-  onMouseMoveHandler = event => {
+  onTouchMoveHandler = (event) => this.onMouseMoveHandler(event)
+  onMouseMoveHandler = (event) => {
     let elem = this._trackRef.current
 
     // we have to mock this for jsdom.
@@ -421,7 +421,7 @@ export default class Slider extends PureComponent {
     if (this._trackRef.current) {
       if (isTrue(this.props.use_scrollwheel)) {
         const { min, max, reverse, vertical } = this.state
-        this._trackRef.current.addEventListener('wheel', event => {
+        this._trackRef.current.addEventListener('wheel', (event) => {
           event.preventDefault()
           // Could be handy to use: Math.sign(event.deltaY)
           this.emitChange(
@@ -706,7 +706,7 @@ const percentToValue = (percent, min, max) =>
 
 const roundToStep = (number, step) => Math.round(number / step) * step
 
-const getOffset = node => {
+const getOffset = (node) => {
   const { pageYOffset, pageXOffset } = global
   const { left, top } = node.getBoundingClientRect()
 
@@ -716,7 +716,7 @@ const getOffset = node => {
   }
 }
 
-const getMousePosition = event => {
+const getMousePosition = (event) => {
   if (event.changedTouches && event.changedTouches[0]) {
     return {
       x: event.changedTouches[0].pageX,
