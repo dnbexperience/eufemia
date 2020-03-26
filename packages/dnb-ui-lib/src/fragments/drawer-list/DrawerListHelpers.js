@@ -33,7 +33,7 @@ export const parseContentTitle = (
     ret = dataItem.content
       .reduce((acc, cur) => {
         // check if we have React inside, with strings we can use
-        cur = grabStringFromReact(cur)
+        cur = grabStringFromReact(cur, ' ')
         if (cur === false) {
           return acc
         }
@@ -47,7 +47,10 @@ export const parseContentTitle = (
       }, [])
       .join(separator)
   } else {
-    ret = grabStringFromReact((dataItem && dataItem.content) || dataItem)
+    ret = grabStringFromReact(
+      (dataItem && dataItem.content) || dataItem,
+      ' '
+    )
   }
 
   if (hasValue) {
@@ -278,12 +281,12 @@ export const getCurrentDataTitle = (selected_item, data) => {
   })
 }
 
-export const grabStringFromReact = (cur) => {
-  if (!Array.isArray(cur)) {
-    cur = [cur]
+export const grabStringFromReact = (elements, separator = undefined) => {
+  if (!Array.isArray(elements)) {
+    elements = [elements]
   }
 
-  return cur
+  return elements
     .map((word) => {
       if (React.isValidElement(word)) {
         if (typeof word.props.children === 'string') {
@@ -303,7 +306,7 @@ export const grabStringFromReact = (cur) => {
       return word
     })
     .filter(Boolean)
-    .join(' ')
+    .join(separator)
 }
 
 export const findClosest = (arr, val) =>

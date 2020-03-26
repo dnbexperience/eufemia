@@ -849,12 +849,15 @@ class AutocompleteInstance extends PureComponent {
 
           // this function gets called once the items are rendered / in view
           item.dataItem.render = (children) => {
+            let Component = null
+
             // make string out of it
             if (
               typeof children !== 'string' &&
               (React.isValidElement(children) || Array.isArray(children))
             ) {
-              children = grabStringFromReact(children)
+              Component = children
+              children = grabStringFromReact(children, ' ')
             }
 
             if (typeof children === 'string') {
@@ -913,6 +916,14 @@ class AutocompleteInstance extends PureComponent {
                   return formatted
                 })
                 .map((c, i, a) => (i < a.length - 1 ? [c, ' '] : c)) // add back the skiped spaces
+
+              if (Component) {
+                children = Array.isArray(Component)
+                  ? Component.map((Comp, i) =>
+                      React.cloneElement(Comp, null, children[i])
+                    )
+                  : React.cloneElement(Component, null, children)
+              }
             }
 
             return children
