@@ -1,6 +1,5 @@
 ---
 title: 'Screen readers'
-
 ---
 
 # Screen readers

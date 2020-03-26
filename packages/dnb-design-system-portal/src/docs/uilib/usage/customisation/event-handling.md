@@ -39,7 +39,7 @@ This example requires also support for class properties.
 import { Button } from 'dnb-ui-lib'
 
 export default class MyComponent extends React.Component {
-  myHandler = event => {}
+  myHandler = (event) => {}
   render() {
     return <Button text="Declarative" on_click={this.myHandler} />
   }
@@ -55,7 +55,7 @@ export default class MyComponent extends React.Component {
     this._ref = React.createRef()
   }
   componentDidMount() {
-    const eventId = this._ref.current.addEvent('on_change', event => {})
+    const eventId = this._ref.current.addEvent('on_change', (event) => {})
     this._ref.current.removeEvent(eventId)
   }
   render() {
@@ -120,7 +120,7 @@ You may also take a look at the [example-html](https://github.com/dnbexperience/
 
   // Class scope
   function MyClass() {}
-  MyClass.prototype.on_click = function(event) {}
+  MyClass.prototype.on_click = function (event) {}
   window.myScope = new MyClass()
 </script>
 
@@ -128,7 +128,7 @@ You may also take a look at the [example-html](https://github.com/dnbexperience/
 <dnb-button text="Imperative" />
 <script>
   var elem = document.querySelector('dnb-button[text=Imperative]')
-  var eventId = elem.addEvent('on_click', function(event) {})
+  var eventId = elem.addEvent('on_click', function (event) {})
   elem.removeEvent(eventId)
 </script>
 ```

@@ -1,7 +1,6 @@
 ---
 title: 'Naming Conventions'
 icon: 'naming'
-
 ---
 
 import Img from 'Tags/Img'

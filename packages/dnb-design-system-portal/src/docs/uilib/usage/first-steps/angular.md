@@ -25,10 +25,10 @@ import { bell_medium as Bell } from 'dnb-ui-lib/icons'
 
 ngEufemiaButton.directive('eufemiaButtonDirective', () => {
   return {
-    controller: $scope => {
+    controller: ($scope) => {
       $scope.text = 'Button'
       $scope.icon = Bell
-      $scope.onClick = event => console.log('onClick', event)
+      $scope.onClick = (event) => console.log('onClick', event)
     },
     template: /* @html */ `
   <eufemia-button
