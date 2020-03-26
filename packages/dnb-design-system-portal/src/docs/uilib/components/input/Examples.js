@@ -58,7 +58,11 @@ class Example extends PureComponent {
 />
           `}
         </ComponentBox>
-        <ComponentBox title="Input with icon" data-dnb-test="input-icon">
+        <ComponentBox
+          title="Input with icon"
+          description="With left / right aligned text"
+          data-dnb-test="input-icon"
+        >
           {/* @jsx */ `
 <Input
   label="Input with icon:"
@@ -66,7 +70,6 @@ class Example extends PureComponent {
   label_direction="vertical"
   icon="check"
   bottom
-  align="right"
 />
 <Input
   label="Input with icon:"

@@ -3,6 +3,7 @@
 - [Migration](#migration)
 - [New components](#new-components)
 - [New icons](#new-icons)
+- [New features](#new-features)
 - [Font fixes](#font-fixes)
 - [How to Install](#install)
 
@@ -18,7 +19,12 @@ v7 contains a couple of braking changes. As a migration process, you can simply 
 ## New components
 
 - New component [Autocomplete](/uilib/components/autocomplete)
-- New component [Pagination](/uilib/components/pagination) including infinity scroller
+- New component [Pagination](/uilib/components/pagination) including **infinity scroller**
+
+## New features
+
+- Icons inside of [Input](/uilib/components/input#input-icon) fields
+- Sticky [Table](/uilib/elements/tables#table-with-sticky-header) header
 
 ## New icons
 
