@@ -11,51 +11,65 @@ import Context, { defaultContext } from './Context'
 import { prepareFormRowContext } from '../components/form-row/FormRow'
 
 class Provider extends PureComponent {
+  static contextType = Context
   static propTypes = {
     children: PropTypes.node.isRequired
   }
 
-  constructor(props) {
-    super(props)
+  static getDerivedStateFromProps(props, state) {
+    if (state._listenForPropChanges) {
+      const {
+        children, // eslint-disable-line
+        ...providerProps
+      } = props
 
-    const {
-      children, // eslint-disable-line
-      ...providerProps
-    } = this.props
+      // 1. Set default context to be overwirtter by the provider props
+      const context = { ...state.usedContext, ...providerProps }
 
-    // 1. Set default context to be overwirtter by the provider props
-    const context = defaultContext(providerProps)
+      // 2. The reset will extend the Provider Context
+      if (context.formRow) {
+        context.formRow = prepareFormRowContext(context.formRow)
+      }
 
-    this.state = { usedContext: context }
-  }
-
-  setContext(state) {
-    this.setState({ usedContext: defaultContext(state) })
-  }
-
-  render() {
-    const { children, ...providerProps } = this.props
-
-    // 1. Set default context to be overwirtter by the provider props
-    const context = defaultContext(providerProps)
-
-    // 2. The reset will extend the Provider Context
-
-    // chore preparation
-    if (context.formRow) {
-      context.formRow = prepareFormRowContext(context.formRow)
+      state.usedContext = context
     }
 
+    state._listenForPropChanges = true
+
+    return state
+  }
+
+  constructor(props, context) {
+    super(props)
+
+    // 1. Set default context to be overwirtter by the provider props
+    const usedContext = defaultContext(context)
+
     // general context update
-    if (!context.update) {
-      context.update = props => this.setContext(props)
+    if (!usedContext.update) {
+      usedContext.update = props => this.setContext(props)
     }
 
     // make it posible to change the locale during runtime
-    if (!context.setLocale) {
-      context.setLocale = locale => this.setContext({ locale })
+    if (!usedContext.setLocale) {
+      usedContext.setLocale = locale => this.setContext({ locale })
     }
 
+    this.state = {
+      usedContext,
+      _listenForPropChanges: true
+    }
+  }
+
+  setContext(props) {
+    this.setState({
+      usedContext: { ...this.state.usedContext, ...props },
+      _listenForPropChanges: false
+    })
+  }
+
+  render() {
+    const { children } = this.props
     return (
       <Context.Provider value={this.state.usedContext}>
         {children}
