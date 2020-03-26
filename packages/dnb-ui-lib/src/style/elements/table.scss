@@ -189,7 +189,7 @@
       @include hover() {
         .dnb-button__text::after {
           right: 0;
-          color: var(--color-sea-green-alt);
+          color: var(--color-sea-green);
           opacity: 1;
         }
       }

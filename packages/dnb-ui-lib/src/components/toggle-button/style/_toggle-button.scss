@@ -61,7 +61,7 @@
         width: calc(var(--checkbox-width) - 0.5rem);
         height: calc(var(--checkbox-width) - 0.5rem);
         border-width: 0.0625rem; // to get 1.5px we use 1px here, and 0.5px with box-shadow
-        box-shadow: 0 0 0 0.0318rem var(--color-sea-green-alt);
+        box-shadow: 0 0 0 0.0318rem var(--color-sea-green);
       }
 
       &__dot {
@@ -86,7 +86,7 @@
         height: calc(var(--radio-width) - 0.5rem);
         border-width: 0.0625rem; // to get 1.5px we use 1px here, and 0.5px with box-shadow
         // extend the broder to be 1.5px (use .0318rem instead of .03125rem because of Windows)
-        box-shadow: 0 0 0 0.0318rem var(--color-sea-green-alt);
+        box-shadow: 0 0 0 0.0318rem var(--color-sea-green);
       }
       &__dot {
         width: calc(var(--radio-width) - 1rem);

@@ -239,8 +239,12 @@ export class InfinityMarker extends PureComponent {
   render() {
     const { children, ...props } = this.props
     return (
-      <PaginationProvider tagName={InfinityMarker.tagName} {...props}>
-        <InfinityScroller>{children}</InfinityScroller>
+      <PaginationProvider
+        useMarkerOnly
+        tagName={InfinityMarker.tagName}
+        {...props}
+      >
+        <InfinityScroller {...props}>{children}</InfinityScroller>
       </PaginationProvider>
     )
   }
@@ -270,12 +274,14 @@ Pagination.Bar = PaginationBar
 Pagination.Content = PaginationContent
 
 const PaginationWrapper = Pagination
+const InfinityMarkerWrapper = InfinityMarker
 
 export const createPagination = (initProps = {}) => {
   const store = React.createRef({})
   const rerender = React.createRef(null)
   const _setContent = React.createRef(null)
   const _resetContent = React.createRef(null)
+  const _resetPagination = React.createRef(null)
   const _endInfinity = React.createRef(null)
 
   const setContent = (pageNo, content) => {
@@ -284,19 +290,37 @@ export const createPagination = (initProps = {}) => {
       rerender.current && rerender.current(store)
     }
   }
-  const resetContent = () =>
+  const resetContent = () => {
     _resetContent.current && _resetContent.current()
-  const endInfinity = () => _endInfinity.current && _endInfinity.current()
+  }
+  const resetPagination = () => {
+    _resetPagination.current && _resetPagination.current()
+  }
+  const endInfinity = () => {
+    _endInfinity.current && _endInfinity.current()
+  }
+
+  const args = props => ({
+    ...{ ...initProps, ...props },
+    store: store,
+    rerender: rerender,
+    set_content_handler: fn => (_setContent.current = fn),
+    reset_content_handler: fn => (_resetContent.current = fn),
+    reset_pagination_handler: fn => (_resetPagination.current = fn),
+    end_infinity_handler: fn => (_endInfinity.current = fn)
+  })
 
   const Pagination = props => (
     <PaginationWrapper
       tagName={PaginationWrapper.tagName}
-      {...{ ...initProps, ...props }}
-      store={store}
-      rerender={rerender}
-      set_content_handler={fn => (_setContent.current = fn)}
-      reset_content_handler={fn => (_resetContent.current = fn)}
-      end_infinity_handler={fn => (_endInfinity.current = fn)}
+      {...args(props)}
+    />
+  )
+
+  const InfinityMarker = props => (
+    <InfinityMarkerWrapper
+      tagName={InfinityMarkerWrapper.tagName}
+      {...args(props)}
     />
   )
 
@@ -305,7 +329,7 @@ export const createPagination = (initProps = {}) => {
     InfinityMarker,
     setContent,
     resetContent,
-    endInfinity,
-    resetItems: resetContent // deprecated
+    resetPagination,
+    endInfinity
   }
 }

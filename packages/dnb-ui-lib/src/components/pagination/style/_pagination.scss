@@ -20,29 +20,19 @@
     pointer-events: none;
     position: relative; // because of the marker
 
-    width: 100%;
-    height: 100%;
+    height: 1px;
+    width: 1px;
+    margin: -1px 0 0 -1px;
     overflow: hidden;
-
-    opacity: 0;
 
     td,
     &__inner {
-      // &:not(td) {
-      //   position: absolute;
-      //   top: 0;
-      //   bottom: 0;
-      //   margin: auto 0;
-      // }
-
-      // this does not work either, because our hight is so low
-      // transform: translateY(-200%);
-      // margin-top: -50%;
-
       padding: 0 !important; // because if it is used in table
 
-      width: 0;
-      height: 0;
+      width: 1px;
+      height: 1px;
+
+      opacity: 0;
     }
   }
 

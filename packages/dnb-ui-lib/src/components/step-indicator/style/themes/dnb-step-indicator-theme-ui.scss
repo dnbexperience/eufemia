@@ -15,7 +15,7 @@
     }
 
     &--link {
-      color: var(--color-sea-green-alt);
+      color: var(--color-sea-green);
     }
   }
 
@@ -52,7 +52,7 @@
     //   cursor: default;
     //   pointer-events: none;
     &::after {
-      background-color: var(--color-sea-green-alt);
+      background-color: var(--color-sea-green);
     }
   }
 

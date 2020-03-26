@@ -110,7 +110,7 @@ const LegacyCodeExample = styled.article`
 const CoreStyleExample = styled.article`
   margin: 0;
   padding: 3rem 2rem 4rem;
-  background-color: var(--color-sea-green-alt-30);
+  background-color: var(--color-sea-green-30);
   code:first-of-type,
   code:last-of-type {
     margin-bottom: 1rem;

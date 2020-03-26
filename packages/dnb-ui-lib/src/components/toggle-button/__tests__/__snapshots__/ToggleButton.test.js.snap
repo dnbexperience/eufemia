@@ -805,19 +805,19 @@ exports[`ToggleButton scss have to match default theme snapshot 1`] = `
   .dnb-toggle-button__button:not([disabled]):active .dnb-radio__button,
   .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):active .dnb-radio__button {
     background-color: transparent;
-    border-color: var(--color-sea-green-alt);
-    box-shadow: 0 0 0 0.0318rem var(--color-sea-green-alt); }
+    border-color: var(--color-sea-green);
+    box-shadow: 0 0 0 0.0318rem var(--color-sea-green); }
   .dnb-toggle-button__button:not([disabled]):active .dnb-radio__dot,
   .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):active .dnb-radio__dot {
-    background-color: var(--color-sea-green-alt); }
+    background-color: var(--color-sea-green); }
   .dnb-toggle-button__button:not([disabled]):active .dnb-checkbox__button,
   .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):active .dnb-checkbox__button {
     background-color: transparent;
-    border-color: var(--color-sea-green-alt);
-    box-shadow: 0 0 0 0.0318rem var(--color-sea-green-alt); }
+    border-color: var(--color-sea-green);
+    box-shadow: 0 0 0 0.0318rem var(--color-sea-green); }
   .dnb-toggle-button__button:not([disabled]):active .dnb-checkbox__gfx,
   .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):active .dnb-checkbox__gfx {
-    color: var(--color-sea-green-alt); }
+    color: var(--color-sea-green); }
   .dnb-toggle-button__status--error .dnb-toggle-button__button:not([disabled]):not(:focus):not(:active) {
     background-color: var(--color-white);
     color: var(--color-fire-red);
@@ -1704,7 +1704,7 @@ button.dnb-button::-moz-focus-inner {
         width: calc(var(--checkbox-width) - 0.5rem);
         height: calc(var(--checkbox-width) - 0.5rem);
         border-width: 0.0625rem;
-        box-shadow: 0 0 0 0.0318rem var(--color-sea-green-alt); }
+        box-shadow: 0 0 0 0.0318rem var(--color-sea-green); }
       .dnb-toggle-button__button .dnb-checkbox__dot {
         width: calc(var(--checkbox-width) - 1rem);
         height: calc(var(--checkbox-width) - 1rem); }
@@ -1719,7 +1719,7 @@ button.dnb-button::-moz-focus-inner {
         width: calc(var(--radio-width) - 0.5rem);
         height: calc(var(--radio-width) - 0.5rem);
         border-width: 0.0625rem;
-        box-shadow: 0 0 0 0.0318rem var(--color-sea-green-alt); }
+        box-shadow: 0 0 0 0.0318rem var(--color-sea-green); }
       .dnb-toggle-button__button .dnb-radio__dot {
         width: calc(var(--radio-width) - 1rem);
         height: calc(var(--radio-width) - 1rem); }

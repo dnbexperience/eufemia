@@ -13,7 +13,6 @@ function check_alt_01_medium(props) {
           fill="#000"
         />
       </g>
-      <defs />
     </svg>
   )
 }

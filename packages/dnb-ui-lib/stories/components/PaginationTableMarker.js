@@ -38,7 +38,7 @@ export default [
 
 // create our items
 const tableItems = []
-for (let i = 1; i <= 300; i++) {
+for (let i = 1; i <= 40; i++) {
   tableItems.push({ ssn: i, text: String(i), expanded: false })
 }
 
@@ -47,14 +47,16 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
   const perPageCount = 10 // how many items per page
 
   // create our Pagination instance
-  const [{ InfinityMarker, resetContent, endInfinity }] = React.useState(
-    createPagination
-  )
-  const [cacheHash, forceRerender] = React.useState(null) // eslint-disable-line
+  const [
+    { InfinityMarker, endInfinity, resetPagination }
+  ] = React.useState(createPagination)
   const [orderDirection, setOrderDirection] = React.useState('asc')
+  const [cacheHash, forceRerender] = React.useState(null) // eslint-disable-line
   const [currentPage, setCurrentPage] = React.useState(startupPage)
-  // const [localStack, setLocalStack] = React.useState({})
   const localStack = React.useRef({})
+
+  // ascending / descending
+  tableItems = reorderDirection(tableItems, orderDirection)
 
   // fill the stack as we go
   tableItems
@@ -67,8 +69,8 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
       localStack.current[item.ssn] = item
     })
 
-  // ascending / descending
-  tableItems = reorderDirection(tableItems, orderDirection)
+  let items = Object.values(localStack.current)
+  items = reorderDirection(items, orderDirection)
 
   const onToggleExpanded = ({ ssn: _ssn }, pageNo, element = null) => {
     const index = tableItems.findIndex(({ ssn }) => ssn === _ssn)
@@ -81,10 +83,6 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
         expanded: !item.expanded
       }
       localStack.current[item.ssn] = tableItems[index]
-
-      // define what page should update
-      // used to update the page inside the Paginatio Component
-      // setCurrentPage(pageNo)
 
       // force rerender of this component
       forceRerender(new Date().getTime())
@@ -100,7 +98,11 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
     )
   }
 
-  const items = Object.values(localStack.current)
+  const resetHandler = () => {
+    localStack.current = {}
+    setCurrentPage(startupPage)
+    resetPagination()
+  }
 
   return (
     <StyledTable sticky>
@@ -113,14 +115,13 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
               icon_position="left"
               variant="secondary"
               on_click={() => {
-                resetContent()
-                // setCurrentPage(1)
+                resetHandler()
 
                 // rerender our component to get back the default state
                 setOrderDirection('asc')
 
-                // rerender our component to get back the default state
-                // forceRerender(new Date().getTime())
+                // call this, because currentPage and orderDirection could be the same
+                forceRerender(new Date().getTime())
               }}
             >
               Reset everything
@@ -138,55 +139,47 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
               text="Sortable"
               title="Sort table row"
               on_click={() => {
-                // 1. empty
-                resetContent()
-                // setCurrentPage(1)
+                resetHandler()
 
                 setOrderDirection(o => (o === 'asc' ? 'desc' : 'asc'))
               }}
             />
-            r
           </th>
         </tr>
       </thead>
       <tbody>
         <StickyHelper />
         <InfinityMarker
-          // refresh_hash={items && items.length}
-          // mode="infinity"
-          // use_load_button // disables infinity scroller, but will add a button to do so
           marker_element="tr"
           fallback_element={({ className, ...props }) => (
             <TableRow className={className}>
               <TableData colSpan="2" {...props} />
             </TableRow>
           )} // in order to show the injected "indicator" and "load button" in the middle of the orw
-          // startup_count={1} // how many pages to show on starutp
-          // parallel_load_count={1} // how many pages to load during next load
-          startup_page={startupPage} // the very first page we load
-          current_page={currentPage} // is not needed
+          // startup_page={startupPage} // is not needed
+          current_page={currentPage} // Mandatory!
           // page_count={maxPagesCount}// is not needed
+          // page_count={4} // is not needed
           {...props}
           on_load={({ page }) => {
-            //   console.log('on_load: with page', page)
-            // }}
-            // on_change={({ page }) => {
-            console.log('on_change: with page', page)
+            // console.log('on_load: with page', page)
 
-            // simulate server delay
-            setTimeout(() => {
-              // once we set current page, we force a rerender, and sync of data
-              setCurrentPage(page)
-            }, Math.ceil(Math.random() * 1e3)) // simulate random delay
+            if (page > tableItems.length / perPageCount) {
+              endInfinity()
+            } else {
+              // simulate server delay
+              setTimeout(() => {
+                // once we set current page, we force a rerender, and sync of data
+                setCurrentPage(page)
+              }, Math.ceil(Math.random() * 1e3)) // simulate random delay
+            }
           }}
         >
           <InfinityPagination
             items={items}
-            // perPageCount={perPageCount}
             currentPage={currentPage}
             onToggleExpanded={onToggleExpanded}
             onMounted={onMounted}
-            endInfinity={endInfinity}
           />
         </InfinityMarker>
       </tbody>
@@ -201,26 +194,12 @@ const InfinityPagination = ({
   children,
   items,
   currentPage,
-  // perPageCount,
   onToggleExpanded,
   onMounted,
-  endInfinity,
   ...props
 }) => {
   const mountedItems = []
   React.useEffect(() => onMounted && onMounted(mountedItems), []) // eslint-disable-line
-
-  // items = items.filter((cur, idx) => {
-  //   const floor = (currentPage - 1) * perPageCount
-  //   const ceil = floor + perPageCount
-  //   return idx < ceil
-  //   // return idx >= floor && idx < ceil
-  // })
-
-  if (items.length === 0) {
-    endInfinity()
-    return null
-  }
 
   return items.map(item => {
     const params = {

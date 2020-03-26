@@ -82,12 +82,53 @@ const AutocompleteStory = () => {
           // prevent_close
           // no_animation
           // input_value="foo bar th"
-          input_value="bb th x"
+          // input_value="bb th x"
+          input_value="com pro ti"
+          show_drawer_button
+          // value="b"
+          data={[
+            {
+              content: [
+                'Component Properties',
+                [
+                  <a key="a" href="/" className="dnb-anchor">
+                    Pro
+                  </a>
+                ]
+              ]
+            }
+            // ,'More',
+            // 'Comp X',
+            // {
+            //   content: [
+            //     'Other Content',
+            //     [
+            //       <a key="a" href="/" className="dnb-anchor">
+            //         ComponentX PropertiesX
+            //       </a>
+            //     ]
+            //   ]
+            // }
+          ]}
+          // icon_position="left"
+          on_select={e => {
+            console.log('on_select ???', e)
+          }}
+          on_change={e => {
+            console.log('on_change', e)
+          }}
+        ></Autocomplete>
+        <Autocomplete
+          // opened
+          // prevent_close
+          // no_animation
+          // input_value="foo bar th"
+          input_value="bb cc th x"
           show_drawer_button
           // value="b"
           data={{
             a: 'A1 A2 CC',
-            b: 'BB cC zethx',
+            b: 'BB cC zethTHx',
             c: 'CCC'
           }}
           // icon_position="left"

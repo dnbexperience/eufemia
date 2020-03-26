@@ -69,11 +69,13 @@ export const SearchBarInput = () => {
 const StyledAutocomplete = styled(Autocomplete)`
   .dnb-drawer-list__option__inner {
     .dnb-drawer-list__option__item {
-      white-space: pre-wrap;
+      white-space: normal;
       font-size: var(--font-size-small);
 
       .dnb-anchor {
         margin-right: 0.5rem;
+        word-break: break-word;
+        white-space: nowrap;
       }
     }
 
@@ -104,9 +106,9 @@ const makeHitsHumanFriendly = hits => {
   const data = []
 
   hits.forEach(hit => {
-    const { slug, title, description } = hit
+    const { slug, title, description, search } = hit
 
-    const content = [title, description]
+    const content = [title, description, search].filter(Boolean)
 
     const notes = hit.headings
       ?.map(({ value, slug: hash /* depth, slug */ }) => {

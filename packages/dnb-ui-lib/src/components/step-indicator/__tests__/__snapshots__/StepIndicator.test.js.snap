@@ -369,7 +369,7 @@ exports[`StepIndicator scss have to match default theme snapshot 1`] = `
   color: var(--color-emerald-green); }
 
 .dnb-step-indicator__item-content--link {
-  color: var(--color-sea-green-alt); }
+  color: var(--color-sea-green); }
 
 .dnb-step-indicator__item {
   margin-left: 4.5rem; }
@@ -384,7 +384,7 @@ exports[`StepIndicator scss have to match default theme snapshot 1`] = `
 
 .dnb-step-indicator--active.dnb-step-indicator__item::after,
 .dnb-step-indicator--active .dnb-step-indicator__item-content::after {
-  background-color: var(--color-sea-green-alt); }
+  background-color: var(--color-sea-green); }
 
 .dnb-step-indicator span[hidden],
 .dnb-step-indicator--active .dnb-step-indicator__item-content {

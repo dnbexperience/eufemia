@@ -41,7 +41,7 @@
 
   box-shadow: var(--textarea-border-inner),
     0 0 0 calc(var(--textarea-padding-width) + 0.0625rem)
-      var(--color-sea-green-alt);
+      var(--color-sea-green);
 
   @include textareaStyleCommon();
 }

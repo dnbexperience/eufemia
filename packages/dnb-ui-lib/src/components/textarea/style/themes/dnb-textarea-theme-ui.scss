@@ -10,7 +10,7 @@
   --textarea-text-color: var(--color-sea-green);
   --textarea-text-color--focus: var(--color-sea-green);
   --textarea-text-color--changed: var(--color-emerald-green);
-  --textarea-text-color--disabled: var(--color-sea-green-alt-30);
+  --textarea-text-color--disabled: var(--color-sea-green-30);
   --textarea-background-color: var(--color-white);
   --textarea-background-color--focus: var(--color-white);
   --textarea-background-color--changed: var(--color-white);
@@ -72,7 +72,7 @@
     box-shadow: 0 0 0 var(--textarea-padding-width)
         var(--color-mint-green-12),
       0 0 0 calc(var(--textarea-padding-width) + 0.0625rem)
-        var(--color-sea-green-alt-30);
+        var(--color-sea-green-30);
 
     &::-webkit-scrollbar {
       width: 0;
@@ -106,13 +106,13 @@
   /* IE11 fix */
   @media screen and (-ms-high-contrast: none) {
     -ms-overflow-style: -ms-autohiding-scrollbar;
-    box-shadow: 0 0 0 1px var(--color-sea-green-alt);
+    box-shadow: 0 0 0 1px var(--color-sea-green);
   }
 
   // Edge fix
   @supports (-ms-ime-align: auto) {
     -ms-overflow-style: -ms-autohiding-scrollbar;
-    box-shadow: 0 0 0 1px var(--color-sea-green-alt);
+    box-shadow: 0 0 0 1px var(--color-sea-green);
   }
 }
 

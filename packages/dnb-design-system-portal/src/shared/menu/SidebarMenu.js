@@ -99,7 +99,7 @@ const StyledListItem = styled.li`
     }
     &.is-inside {
       html:not([dev-grid]) & {
-        background-color: var(--color-sea-green-alt-30);
+        background-color: var(--color-sea-green-30);
       }
       font-weight: var(--font-weight-medium);
     }
@@ -207,7 +207,7 @@ const StyledListItem = styled.li`
     background-color: var(--color-fire-red-8);
   }
   &.status-new .status-badge {
-    color: var(--color-sea-green-alt);
+    color: var(--color-sea-green);
     background-color: transparent;
   }
   &.status-beta .status-badge {

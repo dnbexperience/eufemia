@@ -1,6 +1,6 @@
 ---
 fullscreen: true
-
+search: 'Intro'
 ---
 
 import ComponentBox from 'Tags/ComponentBox'
