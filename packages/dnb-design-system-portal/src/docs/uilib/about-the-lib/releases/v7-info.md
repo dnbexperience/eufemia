@@ -2,6 +2,7 @@
 
 - [Migration](#migration)
 - [New components](#new-components)
+- [New icons](#new-icons)
 - [Font fixes](#font-fixes)
 - [How to Install](#install)
 
@@ -18,6 +19,10 @@ v7 contains a couple of braking changes. As a migration process, you can simply 
 
 - New component [Autocomplete](/uilib/components/autocomplete)
 - New component [Pagination](/uilib/components/pagination) including infinity scroller
+
+## New icons
+
+- New [secondary icons](/icons/secondary): `pay_from`, `transfer_to`
 
 ## Font fixes
 
