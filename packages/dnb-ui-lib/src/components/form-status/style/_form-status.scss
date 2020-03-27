@@ -20,6 +20,8 @@
     cursor: text;
     color: inherit;
     line-height: var(--line-height-basis);
+
+    white-space: normal;
   }
 
   .dnb-icon + &--text {

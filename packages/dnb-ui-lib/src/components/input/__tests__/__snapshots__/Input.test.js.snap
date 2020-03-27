@@ -862,7 +862,8 @@ exports[`Input scss have to match snapshot 1`] = `
     padding: calc(0.5rem / 2) 1rem;
     cursor: text;
     color: inherit;
-    line-height: var(--line-height-basis); }
+    line-height: var(--line-height-basis);
+    white-space: normal; }
   .dnb-icon + .dnb-form-status--text {
     padding-left: 0.5rem; }
   .dnb-form-status__shell > .dnb-icon {
