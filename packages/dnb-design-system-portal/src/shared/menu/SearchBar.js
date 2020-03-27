@@ -115,7 +115,11 @@ const makeHitsHumanFriendly = (hits) => {
         if (value === title) {
           return null
         }
-        return <Anchor href={`/${slug}#${hash}`}>{value}</Anchor>
+        return (
+          <Anchor key={slug + hash} href={`/${slug}#${hash}`}>
+            {value}
+          </Anchor>
+        )
       })
       .filter(Boolean)
 
