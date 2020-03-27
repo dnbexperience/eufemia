@@ -951,9 +951,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
         <span
           aria-live="assertive"
           className="dnb-sr-only"
-        >
-          aria_live_options
-        </span>
+        />
       </span>
     </AutocompleteInstance>
   </DrawerListProvider>

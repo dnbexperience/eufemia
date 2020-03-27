@@ -309,27 +309,17 @@ class DrawerListInstance extends PureComponent {
 
     const listParams = {
       id: `${id}-listbox`,
-      // role: 'listbox',
-      // ['aria-labelledby']: `${id}-label`,
       className: classnames(
         'dnb-drawer-list__list',
         isTrue(no_animation) && 'dnb-drawer-list__list--no-animation',
         inner_class
       )
     }
-    // if (
-    //   !isTrue(prevent_selection) &&
-    //   !hidden &&
-    //   parseFloat(selected_item) > -1
-    // ) {
-    //   listParams['aria-activedescendant'] = `option-${id}-${selected_item}`
-    // }
 
     const ulParams = {
       id: `${id}-ul`,
       role: 'listbox',
       ['aria-labelledby']: `${id}-label`,
-      // hidden: hidden,
       tabIndex: '-1',
       style: {
         maxHeight: max_height > 0 ? `${max_height}rem` : null
@@ -454,8 +444,6 @@ DrawerList.List = React.memo(
     return (
       <ul
         className={classnames('dnb-drawer-list__options', className)}
-        // role="listbox" // menu
-        // tabIndex="-1"
         {...rest}
         ref={ref}
       >

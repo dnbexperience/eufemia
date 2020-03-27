@@ -319,6 +319,7 @@ class AutocompleteInstance extends PureComponent {
     this.setHidden()
     clearTimeout(this._hideTimeout)
     clearTimeout(this._selectTimeout)
+    clearTimeout(this._ariaLiveUpdateTiemout)
   }
 
   setVisible = () => {
@@ -1059,7 +1060,7 @@ class AutocompleteInstance extends PureComponent {
     const id = this._id
     const showStatus = status && status !== 'error'
 
-    const { inputValue, visibleIndicator } = this.state
+    const { inputValue, visibleIndicator, ariaLiveUpdate } = this.state
 
     const {
       selected_item,
@@ -1131,6 +1132,23 @@ class AutocompleteInstance extends PureComponent {
       inputParams['aria-describedby'] = `${
         showStatus ? id + '-status' : ''
       } ${suffix ? id + '-suffix' : ''}`
+    }
+
+    // this is only to make a better screen reader ux
+    if (opened) {
+      clearTimeout(this._ariaLiveUpdateTiemout)
+      this._ariaLiveUpdateTiemout = setTimeout(() => {
+        const ariaLiveUpdate = this.hasValidData()
+          ? String(aria_live_options).replace(
+              '%s',
+              this.context.drawerList.data.length
+            )
+          : no_options
+
+        this.setState({
+          ariaLiveUpdate
+        })
+      }, 1e3) // so that the input gets read out first, and then the results
     }
 
     // also used for code markup simulation
@@ -1256,12 +1274,7 @@ class AutocompleteInstance extends PureComponent {
         </span>
 
         <span className="dnb-sr-only" aria-live="assertive">
-          {opened && this.hasValidData()
-            ? String(aria_live_options).replace(
-                '%s',
-                this.context.drawerList.data.length
-              )
-            : no_options}
+          {ariaLiveUpdate}
         </span>
       </span>
     )
