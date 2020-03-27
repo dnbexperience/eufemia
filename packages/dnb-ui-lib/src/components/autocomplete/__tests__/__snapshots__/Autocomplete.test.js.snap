@@ -56,6 +56,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
   submit_button_title="submit_button_title"
   suffix="suffix"
   title="title"
+  triangle_position="triangle_position"
   value={2}
 >
   <DrawerListProvider
@@ -118,6 +119,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
     suffix="suffix"
     tagName="dnb-autocomplete"
     title="title"
+    triangle_position="triangle_position"
     value={2}
     wrapper_element={null}
   >
@@ -176,6 +178,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
       submit_button_title="submit_button_title"
       suffix="suffix"
       title="title"
+      triangle_position="triangle_position"
       value={2}
     >
       <span
@@ -651,7 +654,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                 scrollable="scrollable"
                 size={null}
                 skip_keysearch={false}
-                triangle_position="icon_position"
+                triangle_position="triangle_position"
                 value={2}
                 wrapper_element={null}
               >
@@ -690,12 +693,12 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                   scrollable="scrollable"
                   size={null}
                   skip_keysearch={false}
-                  triangle_position="icon_position"
+                  triangle_position="triangle_position"
                   value={2}
                   wrapper_element={null}
                 >
                   <span
-                    className="dnb-drawer-list dnb-drawer-list--bottom dnb-drawer-list--opened dnb-drawer-list--icon-position-icon_position"
+                    className="dnb-drawer-list dnb-drawer-list--bottom dnb-drawer-list--opened dnb-drawer-list--icon-position-triangle_position"
                     disabled="disabled"
                     id="autocomplete-id-drawer-list"
                   >
@@ -926,6 +929,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                 submit_button_title="submit_button_title"
                 suffix="suffix"
                 title="title"
+                triangle_position="triangle_position"
                 value={2}
               >
                 suffix
@@ -1267,7 +1271,8 @@ exports[`Autocomplete scss have to match snapshot 1`] = `
     padding: calc(0.5rem / 2) 1rem;
     cursor: text;
     color: inherit;
-    line-height: var(--line-height-basis); }
+    line-height: var(--line-height-basis);
+    white-space: normal; }
   .dnb-icon + .dnb-form-status--text {
     padding-left: 0.5rem; }
   .dnb-form-status__shell > .dnb-icon {
@@ -2230,6 +2235,8 @@ legend.dnb-form-label {
     padding: 0;
     width: auto;
     color: inherit; }
+  .dnb-autocomplete--right .dnb-autocomplete__inner {
+    align-items: flex-end; }
   .dnb-autocomplete__shell {
     position: relative;
     width: var(--autocomplete-width);

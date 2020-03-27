@@ -60,6 +60,7 @@ const propTypes = {
   ]),
   icon_size: PropTypes.string,
   icon_position: PropTypes.string,
+  triangle_position: PropTypes.string,
   input_icon: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.node,
@@ -172,6 +173,7 @@ const defaultProps = {
   icon: 'chevron-down',
   icon_size: null,
   icon_position: 'left',
+  triangle_position: 'left',
   input_icon: 'search',
   label: null,
   label_direction: null,
@@ -368,7 +370,6 @@ class AutocompleteInstance extends PureComponent {
     }
 
     this.setState({
-      inputValue: value,
       typedInputValue: value,
       _listenForPropChanges: false
     })
@@ -620,20 +621,18 @@ class AutocompleteInstance extends PureComponent {
       ...this.getEventObjects('on_blur')
     })
 
-    setTimeout(() => {
-      if (parseFloat(this.context.drawerList.selected_item) > -1) {
-        const inputValue = AutocompleteInstance.getCurrentDataTitle(
-          this.context.drawerList.selected_item,
-          this.context.drawerList.data
-        )
+    if (parseFloat(this.context.drawerList.selected_item) > -1) {
+      const inputValue = AutocompleteInstance.getCurrentDataTitle(
+        this.context.drawerList.selected_item,
+        this.context.drawerList.original_data
+      )
 
-        this.setState({
-          skipHighlight: true,
-          inputValue,
-          _listenForPropChanges: false
-        })
-      }
-    }, 1) // just to make sure we are after the data is rendered
+      this.setState({
+        skipHighlight: true,
+        inputValue,
+        _listenForPropChanges: false
+      })
+    }
   }
 
   getEventObjects = (key) => {
@@ -934,7 +933,11 @@ class AutocompleteInstance extends PureComponent {
             if (Component) {
               children = Array.isArray(Component)
                 ? Component.map((Comp, i) =>
-                    React.cloneElement(Comp, null, children[i])
+                    React.cloneElement(
+                      Comp,
+                      { key: itemIndex + i },
+                      children[i]
+                    )
                   )
                 : React.cloneElement(Component, null, children)
             }
@@ -1082,6 +1085,7 @@ class AutocompleteInstance extends PureComponent {
       className,
       class: _className,
       disabled,
+      icon_position,
 
       mode: _mode, // eslint-disable-line
       data: _data, // eslint-disable-line
@@ -1089,7 +1093,7 @@ class AutocompleteInstance extends PureComponent {
       aria_live_options: _aria_live_options, // eslint-disable-line
       children: _children, // eslint-disable-line
       direction: _direction, // eslint-disable-line
-      icon_position: _icon_position, // eslint-disable-line
+      // icon_position: _icon_position, // eslint-disable-line
       skip_highlight: _skip_highlight, // eslint-disable-line
       id: _id, // eslint-disable-line
       opened: _opened, // eslint-disable-line
@@ -1099,9 +1103,9 @@ class AutocompleteInstance extends PureComponent {
       ...attributes
     } = props
 
-    let { icon_position } = props
-    if (icon_position === 'left' && align_autocomplete !== 'left') {
-      icon_position = 'right'
+    let { triangle_position } = props
+    if (!triangle_position && align_autocomplete === 'right') {
+      triangle_position = 'right'
     }
 
     const id = this._id
@@ -1276,7 +1280,7 @@ class AutocompleteInstance extends PureComponent {
                 no_animation={no_animation}
                 no_scroll_animation={no_scroll_animation}
                 prevent_selection={prevent_selection}
-                triangle_position={icon_position}
+                triangle_position={triangle_position}
                 keep_open={keep_open}
                 prevent_close={prevent_close}
                 align_drawer={align_autocomplete}
