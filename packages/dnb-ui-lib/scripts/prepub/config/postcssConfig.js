@@ -15,7 +15,7 @@ module.exports = ({ IE11 = false, ...options } = {}) => {
       stage: IE11 ? 0 : 2,
       preserve: true, // so we get the calc from vars, to process for IE11 later with "postcss-calc"
       browsers: ['last 2 versions', IE11 ? 'explorer >= 11' : null].filter(
-        i => i
+        (i) => i
       ),
       importFrom: [extractCSSProperties('./src/style/index.scss')],
       ...options
@@ -49,7 +49,7 @@ module.exports = ({ IE11 = false, ...options } = {}) => {
     //     i => i
     //   )
     // })
-  ].filter(i => i)
+  ].filter((i) => i)
 }
 
 function extractCSSProperties(file, opts = {}) {

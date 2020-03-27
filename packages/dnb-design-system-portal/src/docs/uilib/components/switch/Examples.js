@@ -7,7 +7,7 @@ import React, { PureComponent, Fragment } from 'react'
 import ComponentBox from 'Src/shared/tags/ComponentBox'
 
 class Example extends PureComponent {
-  onChangeHandler = state => {
+  onChangeHandler = (state) => {
     console.log('onChangeHandler', state)
   }
 

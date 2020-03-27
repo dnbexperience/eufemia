@@ -33,7 +33,7 @@ export const parseContentTitle = (
     ret = dataItem.content
       .reduce((acc, cur) => {
         // check if we have React inside, with strings we can use
-        cur = grabStringFromReact(cur)
+        cur = grabStringFromReact(cur, ' ')
         if (cur === false) {
           return acc
         }
@@ -47,7 +47,10 @@ export const parseContentTitle = (
       }, [])
       .join(separator)
   } else {
-    ret = grabStringFromReact((dataItem && dataItem.content) || dataItem)
+    ret = grabStringFromReact(
+      (dataItem && dataItem.content) || dataItem,
+      ' '
+    )
   }
 
   if (hasValue) {
@@ -70,12 +73,12 @@ export const parseContentTitle = (
   return ret
 }
 
-export const hasObjectKeyAsValue = data => {
+export const hasObjectKeyAsValue = (data) => {
   data = data?.raw_data || data
   return data && typeof data === 'object' && !Array.isArray(data)
 }
 
-export const preSelectData = data => {
+export const preSelectData = (data) => {
   if (typeof data === 'string') {
     data = data[0] === '{' || data[0] === '[' ? JSON.parse(data) : null
   } else if (data && React.isValidElement(data)) {
@@ -88,7 +91,7 @@ export const preSelectData = data => {
 }
 
 // normalize data
-export const normalizeData = props => {
+export const normalizeData = (props) => {
   let data = preSelectData(props.data || props.children || props)
 
   if (data && typeof data === 'object' && !Array.isArray(data)) {
@@ -115,7 +118,7 @@ export const normalizeData = props => {
   })
 }
 
-export const getData = props => {
+export const getData = (props) => {
   if (props.prepared_data && Array.isArray(props.prepared_data)) {
     return props.prepared_data
   }
@@ -135,7 +138,7 @@ export const getCurrentIndex = (value, data) => {
 
   // if a key is given as a string
   else if (typeof value === 'string') {
-    return data?.findIndex(cur => parseCurrentValue(cur) === value)
+    return data?.findIndex((cur) => parseCurrentValue(cur) === value)
   }
 
   return null
@@ -151,7 +154,7 @@ export const getSelectedItemValue = (value, state) => {
   return value
 }
 
-export const parseCurrentValue = current => {
+export const parseCurrentValue = (current) => {
   return current?.selected_key || current?.content || current
 }
 
@@ -169,7 +172,7 @@ export const getCurrentData = (item_index, data) => {
   return data
 }
 
-export const prepareStartupState = props => {
+export const prepareStartupState = (props) => {
   const raw_data = preSelectData(
     props.raw_data || props.data || props.children
   )
@@ -278,13 +281,13 @@ export const getCurrentDataTitle = (selected_item, data) => {
   })
 }
 
-export const grabStringFromReact = cur => {
-  if (!Array.isArray(cur)) {
-    cur = [cur]
+export const grabStringFromReact = (elements, separator = undefined) => {
+  if (!Array.isArray(elements)) {
+    elements = [elements]
   }
 
-  return cur
-    .map(word => {
+  return elements
+    .map((word) => {
       if (React.isValidElement(word)) {
         if (typeof word.props.children === 'string') {
           word = word.props.children
@@ -303,11 +306,11 @@ export const grabStringFromReact = cur => {
       return word
     })
     .filter(Boolean)
-    .join(' ')
+    .join(separator)
 }
 
 export const findClosest = (arr, val) =>
   Math.max.apply(
     null,
-    arr.filter(v => v <= val)
+    arr.filter((v) => v <= val)
   )

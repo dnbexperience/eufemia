@@ -122,9 +122,7 @@ describe('DrawerList component', () => {
       title
     })
     expect(
-      Comp.find('.dnb-drawer-list')
-        .instance()
-        .getAttribute('title')
+      Comp.find('.dnb-drawer-list').instance().getAttribute('title')
     ).toBe(title)
 
     // force rerender with null as value by prop change
@@ -142,9 +140,7 @@ describe('DrawerList component', () => {
 
     // and for sure, the title attribute is still the same
     expect(
-      Comp.find('.dnb-drawer-list')
-        .instance()
-        .getAttribute('title')
+      Comp.find('.dnb-drawer-list').instance().getAttribute('title')
     ).toBe(title)
   })
 
@@ -402,4 +398,4 @@ const keydown = (Comp, keyCode) => {
   //   keyCode
   // })
 }
-const wait = t => new Promise(r => setTimeout(r, t))
+const wait = (t) => new Promise((r) => setTimeout(r, t))

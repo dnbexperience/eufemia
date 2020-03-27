@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default props => (
+export default (props) => (
   <svg
     width="24"
     height="24"

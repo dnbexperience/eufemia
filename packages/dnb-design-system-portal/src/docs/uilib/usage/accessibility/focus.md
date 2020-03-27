@@ -56,7 +56,7 @@ import {
 setPageFocusElement('.css-selector', 'MyCustomName')
 
 // 2. Later You can call this action, once it's time to activate the new focus state
-applyPageFocus('MyCustomName', element => {
+applyPageFocus('MyCustomName', (element) => {
   /* optional callback */
 })
 ```

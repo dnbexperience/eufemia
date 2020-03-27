@@ -160,7 +160,7 @@ export default function createNumberMask({
 function convertToMask(strNumber) {
   return strNumber
     .split(emptyString)
-    .map(char => (digitRegExp.test(char) ? digitRegExp : char))
+    .map((char) => (digitRegExp.test(char) ? digitRegExp : char))
 }
 
 // http://stackoverflow.com/a/10899795/604296

@@ -79,37 +79,27 @@ describe('Autocomplete component', () => {
     Comp.find('.dnb-input__input').simulate('change', {
       target: { value: 'bb cc' }
     })
-    expect(
-      Comp.find('li.dnb-drawer-list__option')
-        .at(0)
-        .text()
-    ).toBe(mockData[1])
+    expect(Comp.find('li.dnb-drawer-list__option').at(0).text()).toBe(
+      mockData[1]
+    )
     expect(Comp.find('li.dnb-drawer-list__option').length).toBe(3)
 
     // check "aa cc"
     Comp.find('.dnb-input__input').simulate('change', {
       target: { value: 'aa cc' }
     })
-    expect(
-      Comp.find('li.dnb-drawer-list__option')
-        .at(0)
-        .text()
-    ).toBe(mockData[0])
+    expect(Comp.find('li.dnb-drawer-list__option').at(0).text()).toBe(
+      mockData[0]
+    )
 
     // check inside words
     Comp.find('.dnb-input__input').simulate('change', {
       target: { value: 'bb cc th x' }
     })
-    expect(
-      Comp.find('li.dnb-drawer-list__option')
-        .at(0)
-        .text()
-    ).toBe(mockData[1])
-    expect(
-      Comp.find('li.dnb-drawer-list__option')
-        .at(0)
-        .html()
-    ).toBe(
+    expect(Comp.find('li.dnb-drawer-list__option').at(0).text()).toBe(
+      mockData[1]
+    )
+    expect(Comp.find('li.dnb-drawer-list__option').at(0).html()).toBe(
       /* @html */ `<li class="dnb-drawer-list__option" role="option" aria-selected="false" tabindex="-1" id="option-autocomplete-id-1" data-item="1"><span class="dnb-drawer-list__option__inner"><span><span class="dnb-drawer-list__option__item--highlight">BB</span></span> <span><span class="dnb-drawer-list__option__item--highlight">cc</span></span> <span>ze<span class="dnb-drawer-list__option__item--highlight">th</span><span class="dnb-drawer-list__option__item--highlight">x</span></span></span></li>`
     )
 
@@ -128,11 +118,9 @@ describe('Autocomplete component', () => {
     Comp.find('.dnb-input__input').simulate('change', {
       target: { value: 'invalid' }
     })
-    expect(
-      Comp.find('li.dnb-drawer-list__option')
-        .at(0)
-        .text()
-    ).toBe('Ingen alternativer')
+    expect(Comp.find('li.dnb-drawer-list__option').at(0).text()).toBe(
+      'Ingen alternativer'
+    )
   })
 
   it('has correct "aria-expanded"', () => {
@@ -141,10 +129,7 @@ describe('Autocomplete component', () => {
 
     const elem = Comp.find('span.dnb-autocomplete')
     expect(
-      elem
-        .find('button')
-        .instance()
-        .getAttribute('aria-expanded')
+      elem.find('button').instance().getAttribute('aria-expanded')
     ).toBe('true')
 
     expect(elem.instance().getAttribute('class')).toContain(
@@ -276,6 +261,6 @@ const keydown = (Comp, keyCode) => {
     keyCode
   })
 }
-const open = Comp => {
+const open = (Comp) => {
   Comp.find('button.dnb-input__submit-button__button').simulate('click')
 }

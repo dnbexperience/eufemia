@@ -17,12 +17,12 @@ export default async () => {
   )
 }
 
-const transformModulesContent = content => {
+const transformModulesContent = (content) => {
   const variables = content
     .split('\n')
-    .map(s => s.trim())
-    .filter(s => s.startsWith('--'))
-    .map(s => s.split(':').map(s => s.trim()))
+    .map((s) => s.trim())
+    .filter((s) => s.startsWith('--'))
+    .map((s) => s.split(':').map((s) => s.trim()))
     .reduce((acc, [k, v]) => {
       acc[k] = v
         .split(';')[0]
@@ -72,7 +72,7 @@ export const runFactory = ({ returnResult = false } = {}) =>
         ) // rename
         .pipe(
           returnResult
-            ? transform('utf8', result => resolve(result))
+            ? transform('utf8', (result) => resolve(result))
             : gulp.dest('./src/style', {
                 overwrite: true,
                 cwd: process.env.ROOT_DIR

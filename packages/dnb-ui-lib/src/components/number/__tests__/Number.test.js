@@ -73,26 +73,15 @@ describe('Number component', () => {
   })
   it('have to match default number', () => {
     const Comp = mount(<Component value={value} />)
-    expect(
-      Comp.find(slector)
-        .first()
-        .text()
-    ).toBe('12 345 678,901')
+    expect(Comp.find(slector).first().text()).toBe('12 345 678,901')
   })
   it('have to match currency', () => {
     const Comp = mount(<Component value={-value} currency />)
 
-    expect(
-      Comp.find(slector)
-        .first()
-        .text()
-    ).toBe('kr -12 345 678,90')
+    expect(Comp.find(slector).first().text()).toBe('kr -12 345 678,90')
 
     expect(
-      Comp.find(slector)
-        .first()
-        .instance()
-        .getAttribute('aria-label')
+      Comp.find(slector).first().instance().getAttribute('aria-label')
     ).toBe('-12 345 678,90 norske kroner')
 
     // also check the formatting with one digit less
@@ -101,67 +90,37 @@ describe('Number component', () => {
       value: 12345
     })
 
-    expect(
-      Comp.find(slector)
-        .first()
-        .text()
-    ).toBe('kr 12 345')
+    expect(Comp.find(slector).first().text()).toBe('kr 12 345')
   })
   it('have to match currency under 100.000', () => {
     const Comp = mount(<Component value={-12345} currency />)
 
-    expect(
-      Comp.find(slector)
-        .first()
-        .text()
-    ).toBe('kr -12 345')
+    expect(Comp.find(slector).first().text()).toBe('kr -12 345')
 
     expect(
-      Comp.find(slector)
-        .first()
-        .instance()
-        .getAttribute('aria-label')
+      Comp.find(slector).first().instance().getAttribute('aria-label')
     ).toBe('-12345,00 norske kroner')
   })
   it('have to match phone number', () => {
     const Comp = mount(<Component phone>+47 99999999</Component>)
-    expect(
-      Comp.find(slector)
-        .first()
-        .text()
-    ).toBe('0047 99 99 99 99')
+    expect(Comp.find(slector).first().text()).toBe('0047 99 99 99 99')
   })
   it('have to match bank account number', () => {
     const Comp = mount(<Component ban>20001234567</Component>)
-    expect(
-      Comp.find(slector)
-        .first()
-        .text()
-    ).toBe('2000 12 34567')
+    expect(Comp.find(slector).first().text()).toBe('2000 12 34567')
 
     // also check the formatting with one digit less
     Comp.setProps({
       children: null,
       value: 2000123456
     })
-    expect(
-      Comp.find(slector)
-        .first()
-        .text()
-    ).toBe('2000 12 3456')
+    expect(Comp.find(slector).first().text()).toBe('2000 12 3456')
   })
   it('have to match national identification number', () => {
     const Comp = mount(<Component nin>18089212345</Component>)
+    expect(Comp.find(slector).first().text()).toBe('180892 12345')
     expect(
-      Comp.find(slector)
-        .first()
-        .text()
-    ).toBe('180892 12345')
-    expect(
-      Comp.find(slector)
-        .first()
-        .instance()
-        .getAttribute('aria-label')
+      Comp.find(slector).first().instance().getAttribute('aria-label')
     ).toBe('18 08 92 1 2 3 4 5')
   })
   it('should validate with ARIA rules', async () => {

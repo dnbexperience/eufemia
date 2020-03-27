@@ -207,7 +207,7 @@ export default class MainNav extends PureComponent {
   }
 }
 
-const MainNavTrigger = props => {
+const MainNavTrigger = (props) => {
   const { text, className, modifier } = props
 
   const params = {
@@ -246,7 +246,7 @@ MainNavTrigger.defaultProps = {
   onTrigger: null
 }
 
-const Search = props => {
+const Search = (props) => {
   return (
     <Input
       type="search"

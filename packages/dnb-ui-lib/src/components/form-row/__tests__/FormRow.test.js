@@ -58,19 +58,13 @@ describe('FormRow component', () => {
       </Component>
     )
     expect(
-      Comp.find('span.dnb-input')
-        .at(0)
-        .hasClass('dnb-input--vertical')
+      Comp.find('span.dnb-input').at(0).hasClass('dnb-input--vertical')
     ).toBe(true)
     expect(
-      Comp.find('span.dnb-input')
-        .at(1)
-        .hasClass('dnb-input--horizontal')
+      Comp.find('span.dnb-input').at(1).hasClass('dnb-input--horizontal')
     ).toBe(true)
     expect(
-      Comp.find('span.dnb-input')
-        .at(2)
-        .hasClass('dnb-input--vertical')
+      Comp.find('span.dnb-input').at(2).hasClass('dnb-input--vertical')
     ).toBe(true)
   })
 

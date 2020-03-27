@@ -84,6 +84,6 @@ export default [
   )
 ]
 
-const showMe = e => {
+const showMe = (e) => {
   console.log('showMe', e)
 }

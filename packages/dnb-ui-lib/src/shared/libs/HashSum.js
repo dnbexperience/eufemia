@@ -23,9 +23,7 @@ function fold(hash, text) {
 }
 
 function foldObject(hash, o, seen, deep) {
-  return Object.keys(o)
-    .sort()
-    .reduce(foldKey, hash)
+  return Object.keys(o).sort().reduce(foldKey, hash)
   function foldKey(hash, key) {
     if (
       deep === false &&

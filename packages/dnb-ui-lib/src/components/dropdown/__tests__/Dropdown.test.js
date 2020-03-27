@@ -194,10 +194,7 @@ describe('Dropdown component', () => {
 
     const elem = Comp.find('span.dnb-dropdown')
     expect(
-      elem
-        .find('button')
-        .instance()
-        .getAttribute('aria-expanded')
+      elem.find('button').instance().getAttribute('aria-expanded')
     ).toBe('true')
 
     expect(elem.instance().getAttribute('class')).toContain(
@@ -325,7 +322,7 @@ const keydown = (Comp, keyCode) => {
     keyCode
   })
 }
-const open = Comp => {
+const open = (Comp) => {
   Comp.find('button').simulate('mousedown')
 }
 // const wait = t => new Promise(r => setTimeout(r, t))

@@ -300,24 +300,24 @@ export const createPagination = (initProps = {}) => {
     _endInfinity.current && _endInfinity.current()
   }
 
-  const args = props => ({
+  const args = (props) => ({
     ...{ ...initProps, ...props },
     store: store,
     rerender: rerender,
-    set_content_handler: fn => (_setContent.current = fn),
-    reset_content_handler: fn => (_resetContent.current = fn),
-    reset_pagination_handler: fn => (_resetPagination.current = fn),
-    end_infinity_handler: fn => (_endInfinity.current = fn)
+    set_content_handler: (fn) => (_setContent.current = fn),
+    reset_content_handler: (fn) => (_resetContent.current = fn),
+    reset_pagination_handler: (fn) => (_resetPagination.current = fn),
+    end_infinity_handler: (fn) => (_endInfinity.current = fn)
   })
 
-  const Pagination = props => (
+  const Pagination = (props) => (
     <PaginationWrapper
       tagName={PaginationWrapper.tagName}
       {...args(props)}
     />
   )
 
-  const InfinityMarker = props => (
+  const InfinityMarker = (props) => (
     <InfinityMarkerWrapper
       tagName={InfinityMarkerWrapper.tagName}
       {...args(props)}

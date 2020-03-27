@@ -87,11 +87,9 @@ describe('Button component', () => {
     Comp.setProps({
       disabled: true
     })
-    expect(
-      Comp.find('button')
-        .instance()
-        .hasAttribute('disabled')
-    ).toBe(true)
+    expect(Comp.find('button').instance().hasAttribute('disabled')).toBe(
+      true
+    )
   })
 
   it('has "on_click" event witch will trigger on a click', () => {

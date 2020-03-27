@@ -143,7 +143,7 @@ export default class GlobalError extends PureComponent {
       try {
         let parts = useText.split(/\[(.*)\](\(\/back\))/g)
         if (parts.length > 1) {
-          const backIndex = parts.findIndex(v => /\/back/.test(v))
+          const backIndex = parts.findIndex((v) => /\/back/.test(v))
           if (backIndex !== -1) {
             // the first one will be
             parts[backIndex - 1] = (
@@ -153,7 +153,7 @@ export default class GlobalError extends PureComponent {
             )
 
             useText = parts
-              .filter(v => v && !/\/back/.test(v))
+              .filter((v) => v && !/\/back/.test(v))
               .map((c, i) => <Fragment key={i}>{c}</Fragment>)
           }
         }
@@ -215,7 +215,7 @@ export default class GlobalError extends PureComponent {
   }
 }
 
-const renderOrNot = C => (typeof C === 'function' ? C() : C)
+const renderOrNot = (C) => (typeof C === 'function' ? C() : C)
 
 const Svg = ({ status, ...props }) => {
   switch (parseFloat(status)) {

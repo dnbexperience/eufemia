@@ -26,7 +26,7 @@ const CustomStyle = styled.div`
 `
 
 const ref = React.createRef()
-const MagicOpen = props => {
+const MagicOpen = (props) => {
   const [opened, setOpened] = React.useState(false)
   const [selected, setSelected] = React.useState('C')
   // console.log('opened', opened)
@@ -67,11 +67,11 @@ const MagicOpen = props => {
         wrapper_element={ref.current}
         opened={opened}
         // data={['A', 'B']}
-        on_select={e => {
+        on_select={(e) => {
           // does not fire!
           console.log('on_select', e)
         }}
-        on_change={e => {
+        on_change={(e) => {
           // does not fire!
           console.log('on_change', e)
         }}
@@ -100,7 +100,7 @@ const MagicOpen = props => {
   )
 }
 
-const DrawerListWithState = props => {
+const DrawerListWithState = (props) => {
   const [opened, setOpened] = React.useState(false)
   // React.useState(() => {
   //   setInterval(() => {

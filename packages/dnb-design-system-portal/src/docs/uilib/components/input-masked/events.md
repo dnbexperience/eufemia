@@ -4,6 +4,6 @@ showTabs: true
 
 ## Events
 
-| Events                                      | Description                                    |
-| ------------------------------------------- | ---------------------------------------------- |
+| Events                                  | Description                                    |
+| --------------------------------------- | ---------------------------------------------- |
 | [Input](/uilib/components/input/events) | _(optional)_ all `Input` events are supported. |

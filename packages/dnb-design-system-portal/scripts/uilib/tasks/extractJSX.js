@@ -130,8 +130,8 @@ export const cleanCode = (
   if (removeTag && new RegExp(removeTag).test(jsxCode)) {
     jsxCode = jsxCode
       .split(new RegExp(removeTag, 'g'))
-      .filter(row => row.trim().length > 0)
-      .map(row =>
+      .filter((row) => row.trim().length > 0)
+      .map((row) =>
         row
           .trim()
           .replace(/<\/div>$/g, '')

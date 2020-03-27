@@ -257,7 +257,7 @@ class AutocompleteInstance extends PureComponent {
   }
 
   static createSearchIndex(data) {
-    return data.map(dataItem => {
+    return data.map((dataItem) => {
       const searchChunk = AutocompleteInstance.parseDataItem(dataItem)
       return { dataItem, searchChunk }
     })
@@ -535,14 +535,14 @@ class AutocompleteInstance extends PureComponent {
     this.scrollToSelectedItem()
   }
 
-  setMode = mode => {
+  setMode = (mode) => {
     this.setState({
       mode,
       _listenForPropChanges: false
     })
   }
 
-  updateData = data => {
+  updateData = (data) => {
     this.context.drawerList.setData(
       () => data, // set data as a function, so it gets re-evaluate
       () => {
@@ -574,14 +574,14 @@ class AutocompleteInstance extends PureComponent {
     return this
   }
 
-  onInputClickHandler = e => {
+  onInputClickHandler = (e) => {
     const value = e.target.value
     this.runFilterToHighlight(value)
     this.showAll()
     this.setVisible()
   }
 
-  onInputFocusHandler = event => {
+  onInputFocusHandler = (event) => {
     if (this.state.skipFocus) {
       return // stop here
     }
@@ -598,7 +598,7 @@ class AutocompleteInstance extends PureComponent {
     })
   }
 
-  onBlurHandler = event => {
+  onBlurHandler = (event) => {
     this.setState({
       typedInputValue: null,
       _listenForPropChanges: false
@@ -629,7 +629,7 @@ class AutocompleteInstance extends PureComponent {
     }, 1) // just to make sure we are after the data is rendered
   }
 
-  getEventObjects = key => {
+  getEventObjects = (key) => {
     const attributes = this.attributes
 
     return {
@@ -810,7 +810,7 @@ class AutocompleteInstance extends PureComponent {
     const words = value.split(/\s+/g).filter(Boolean)
     const wordsCount = words.length
 
-    const findWords = item =>
+    const findWords = (item) =>
       words
         .map((word, wordIndex) => ({
           word,
@@ -848,19 +848,22 @@ class AutocompleteInstance extends PureComponent {
           }
 
           // this function gets called once the items are rendered / in view
-          item.dataItem.render = children => {
+          item.dataItem.render = (children) => {
+            let Component = null
+
             // make string out of it
             if (
               typeof children !== 'string' &&
               (React.isValidElement(children) || Array.isArray(children))
             ) {
-              children = grabStringFromReact(children)
+              Component = children
+              children = grabStringFromReact(children, ' ')
             }
 
             if (typeof children === 'string') {
               children = children
                 .split(' ')
-                .map(child => {
+                .map((child) => {
                   if (skipHighlight || this.state.skipHighlight) {
                     return child
                   }
@@ -913,6 +916,14 @@ class AutocompleteInstance extends PureComponent {
                   return formatted
                 })
                 .map((c, i, a) => (i < a.length - 1 ? [c, ' '] : c)) // add back the skiped spaces
+
+              if (Component) {
+                children = Array.isArray(Component)
+                  ? Component.map((Comp, i) =>
+                      React.cloneElement(Comp, null, children[i])
+                    )
+                  : React.cloneElement(Component, null, children)
+              }
             }
 
             return children
@@ -937,7 +948,7 @@ class AutocompleteInstance extends PureComponent {
     )
   }
 
-  onSelectHandler = args => {
+  onSelectHandler = (args) => {
     if (parseFloat(args.active_item) > -1) {
       dispatchCustomElementEvent(this, 'on_select', {
         ...args,
@@ -946,7 +957,7 @@ class AutocompleteInstance extends PureComponent {
     }
   }
 
-  onChangeHandler = args => {
+  onChangeHandler = (args) => {
     const selected_item = args.selected_item
 
     const inputValue = AutocompleteInstance.getCurrentDataTitle(

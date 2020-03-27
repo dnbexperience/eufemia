@@ -13,7 +13,7 @@ import history from '../routing/History'
 
 // make sure the lang is set to en
 
-const ProviderSimulation = props => {
+const ProviderSimulation = (props) => {
   localeStore.value = props.lang || 'en'
   return (
     <Provider

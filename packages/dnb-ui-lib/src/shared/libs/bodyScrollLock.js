@@ -34,8 +34,8 @@ let prevRootHeight
 let prevBodyMarginLeft
 
 // returns true if `el` should be allowed to receive touchmove events.
-const allowTouchMove = el =>
-  locks.some(lock => {
+const allowTouchMove = (el) =>
+  locks.some((lock) => {
     if (lock.options.allowTouchMove && lock.options.allowTouchMove(el)) {
       return true
     }
@@ -43,7 +43,7 @@ const allowTouchMove = el =>
     return false
   })
 
-const preventDefault = rawEvent => {
+const preventDefault = (rawEvent) => {
   const e = rawEvent || window.event
 
   // For the case whereby consumers adds a touchmove event listener to document.
@@ -134,7 +134,7 @@ const restoreOverflowSetting = () => {
 }
 
 // https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollHeight#Problems_and_solutions
-const isTargetElementTotallyScrolled = targetElement =>
+const isTargetElementTotallyScrolled = (targetElement) =>
   targetElement
     ? targetElement.scrollHeight - targetElement.scrollTop <=
       targetElement.clientHeight
@@ -175,7 +175,7 @@ export const disableBodyScroll = (targetElement, options = {}) => {
 
     if (
       targetElement &&
-      !locks.some(lock => lock.targetElement === targetElement)
+      !locks.some((lock) => lock.targetElement === targetElement)
     ) {
       const lock = {
         targetElement,
@@ -184,13 +184,13 @@ export const disableBodyScroll = (targetElement, options = {}) => {
 
       locks = [...locks, lock]
 
-      targetElement.ontouchstart = event => {
+      targetElement.ontouchstart = (event) => {
         if (event.targetTouches.length === 1) {
           // detect single touch.
           initialClientY = event.targetTouches[0].clientY
         }
       }
-      targetElement.ontouchmove = event => {
+      targetElement.ontouchmove = (event) => {
         if (event.targetTouches.length === 1) {
           // detect single touch.
           handleScroll(event, targetElement)
@@ -220,7 +220,7 @@ export const disableBodyScroll = (targetElement, options = {}) => {
 export const clearAllBodyScrollLocks = () => {
   if (isIosDevice) {
     // Clear all locks ontouchstart/ontouchmove handlers, and the references.
-    locks.forEach(lock => {
+    locks.forEach((lock) => {
       lock.targetElement.ontouchstart = null
       lock.targetElement.ontouchmove = null
     })
@@ -244,7 +244,7 @@ export const clearAllBodyScrollLocks = () => {
   }
 }
 
-export const enableBodyScroll = targetElement => {
+export const enableBodyScroll = (targetElement) => {
   if (isIosDevice) {
     if (!targetElement) {
       // eslint-disable-next-line no-console
@@ -257,7 +257,7 @@ export const enableBodyScroll = targetElement => {
     targetElement.ontouchstart = null
     targetElement.ontouchmove = null
 
-    locks = locks.filter(lock => lock.targetElement !== targetElement)
+    locks = locks.filter((lock) => lock.targetElement !== targetElement)
 
     if (documentListenerAdded && locks.length === 0) {
       document.removeEventListener(
@@ -269,7 +269,7 @@ export const enableBodyScroll = targetElement => {
       documentListenerAdded = false
     }
   } else {
-    locks = locks.filter(lock => lock.targetElement !== targetElement)
+    locks = locks.filter((lock) => lock.targetElement !== targetElement)
     if (!locks.length) {
       restoreOverflowSetting()
     }

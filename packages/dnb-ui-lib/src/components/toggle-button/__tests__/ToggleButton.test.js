@@ -78,11 +78,9 @@ describe('ToggleButton component', () => {
     Comp.setProps({
       disabled: true
     })
-    expect(
-      Comp.find('button')
-        .instance()
-        .hasAttribute('disabled')
-    ).toBe(true)
+    expect(Comp.find('button').instance().hasAttribute('disabled')).toBe(
+      true
+    )
   })
 
   it('should validate with ARIA rules', async () => {

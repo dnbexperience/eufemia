@@ -29,7 +29,7 @@ const Figma = Client({
   personalAccessToken: defaultFigmaToken
 })
 
-export const fetchTextColor = node => {
+export const fetchTextColor = (node) => {
   const vector = findNode(node, {
     name: 'text'
     // type: 'TEXT'
@@ -37,7 +37,7 @@ export const fetchTextColor = node => {
   if (!vector) return null
   return Color(fetchColors(vector.fills)[0]).hex()
 }
-export const fetchFillColor = node => {
+export const fetchFillColor = (node) => {
   const vector = findNode(node, {
     name: 'bg'
     // type: 'VECTOR'
@@ -45,7 +45,7 @@ export const fetchFillColor = node => {
   if (!vector) return null
   return Color(fetchColors(vector.fills)[0]).hex()
 }
-export const fetchStrokes = node => {
+export const fetchStrokes = (node) => {
   const vector = findNode(node, {
     name: 'bg'
     // type: 'VECTOR'
@@ -57,9 +57,9 @@ export const fetchStrokes = node => {
     weight: strokeWeight
   }
 }
-export const fetchColors = fills => {
+export const fetchColors = (fills) => {
   return fills
-    .map(fill => {
+    .map((fill) => {
       return fill.color
     })
     .reduce((acc, c) => {
@@ -72,11 +72,11 @@ export const fetchColors = fills => {
     }, [])
 }
 
-export const fetchSize = node => {
+export const fetchSize = (node) => {
   const { width, height } = node.absoluteBoundingBox
   return { width, height }
 }
-export const fetchText = node =>
+export const fetchText = (node) =>
   findNode(node, {
     type: 'TEXT'
   })
@@ -105,12 +105,12 @@ export const findAll = (
     //   isEqualWith(tree[key], objToFindBy[key], customizer)
     // )
     // make sure we match all
-    const findSuccess = findKeys.every(key =>
+    const findSuccess = findKeys.every((key) =>
       isEqualWith(tree[key], objToFindBy[key], customizer)
     )
     if (objToIgnoreBy) {
       const ignoreKeys = Object.keys(objToIgnoreBy)
-      ignoreSuccess = ignoreKeys.some(key =>
+      ignoreSuccess = ignoreKeys.some((key) =>
         isEqualWith(tree[key], objToIgnoreBy[key], customizer)
       )
     }
@@ -345,7 +345,7 @@ export const safeFileToDisk = async (
     : null
   const writeStream = fs.createWriteStream(localFile)
   writeStream
-    .on('error', err => {
+    .on('error', (err) => {
       writeStream.end()
       new ErrorHandler(
         'Failed on createWriteStream',
@@ -367,8 +367,8 @@ export const safeFileToDisk = async (
       return { localFile }
     })
   https
-    .get(url, response => response.pipe(writeStream))
-    .on('error', async err => {
+    .get(url, (response) => response.pipe(writeStream))
+    .on('error', async (err) => {
       try {
         await fs.unlink(localFile)
       } catch (err) {
@@ -393,11 +393,7 @@ export const getNodes = (doc, type = 'TEXT') => {
     node && typeof node === 'object' && key in node
   return traverse
     .nodes(doc)
-    .filter(node => hasKey(node, 'type') && node.type === type)
+    .filter((node) => hasKey(node, 'type') && node.type === type)
 }
 
-export const md5 = d =>
-  crypto
-    .createHash('md5')
-    .update(d)
-    .digest('hex')
+export const md5 = (d) => crypto.createHash('md5').update(d).digest('hex')

@@ -230,8 +230,8 @@ module.exports.testPageScreenshot = async ({
         }
       )
       const heightInPixelsFloat = parseFloat(heightInPixels)
-      const isInEightSeries = num => num % pixelGrid
-      const howManyPixeToNextEight = num => {
+      const isInEightSeries = (num) => num % pixelGrid
+      const howManyPixeToNextEight = (num) => {
         const v = isInEightSeries(num)
         return v === 0 ? v : pixelGrid - v
       }
@@ -239,8 +239,9 @@ module.exports.testPageScreenshot = async ({
       if (off > 0) {
         const inRem = Math.round(heightInPixelsFloat / (pixelGrid * 2))
         console.warn(
-          `"${measureElement}" is <${off}px off to ${heightInPixelsFloat +
-            off}rem (${heightInPixels}) witch corresponds to a rem value of ${inRem}rem.`
+          `"${measureElement}" is <${off}px off to ${
+            heightInPixelsFloat + off
+          }rem (${heightInPixels}) witch corresponds to a rem value of ${inRem}rem.`
         )
       }
     }
@@ -255,7 +256,7 @@ module.exports.testPageScreenshot = async ({
 
     // revert the wrapper attribute
     if (wrapperId) {
-      await page.$eval(`[data-dnb-test-id="${wrapperId}"]`, node => {
+      await page.$eval(`[data-dnb-test-id="${wrapperId}"]`, (node) => {
         node.removeAttribute('data-dnb-test-wrapper')
         return node
       })
@@ -324,12 +325,12 @@ const setupBeforeAll = async ({
 
   if (config.blockFontRequest) {
     await page.setRequestInterception(true) // is needed in order to use on "request"
-    page.on('request', req => {
+    page.on('request', (req) => {
       const url = req.url()
 
       if (
         config.allowedFonts &&
-        config.allowedFonts.some(f => url.includes(f))
+        config.allowedFonts.some((f) => url.includes(f))
       ) {
         return req.continue()
       }
@@ -363,7 +364,7 @@ const setupBeforeAll = async ({
 }
 
 module.exports.setupJestScreenshot = setupJestScreenshot
-module.exports.loadImage = async imagePath =>
+module.exports.loadImage = async (imagePath) =>
   await fs.readFile(path.resolve(imagePath))
 
 // make sure "${url}/" has actually a slash on the end
@@ -375,7 +376,7 @@ const createUrl = (url, fullscreen = true) =>
     '/'
   )
 
-const makeStyles = style =>
+const makeStyles = (style) =>
   Object.entries(style)
     .filter(([k, v]) => k && v)
     .map(([k, v]) => `${k}: ${v}`)

@@ -148,7 +148,7 @@ export default class FormStatus extends PureComponent {
     if (props.status !== 'info') {
       this.gsProvider = GlobalStatusProvider.init(
         props.global_status_id || 'main',
-        provider => {
+        (provider) => {
           // gets called once ready
           const { text, state } = this.props
           const status_id = this._id
@@ -199,9 +199,9 @@ export default class FormStatus extends PureComponent {
           this._ref.current
         )
         if (width >= 64) {
-          this._ref.current.style.maxWidth = `${(width +
-            (width < 128 ? 32 : 0)) /
-            16}rem`
+          this._ref.current.style.maxWidth = `${
+            (width + (width < 128 ? 32 : 0)) / 16
+          }rem`
         }
       } catch (e) {
         console.warn(e)
@@ -339,7 +339,7 @@ export default class FormStatus extends PureComponent {
   }
 }
 
-export const ErrorIcon = props => (
+export const ErrorIcon = (props) => (
   <svg
     width="32"
     height="32"
@@ -380,7 +380,7 @@ ErrorIcon.defaultProps = {
   title: 'error'
 }
 
-export const InfoIcon = props => (
+export const InfoIcon = (props) => (
   <svg
     width="32"
     height="32"

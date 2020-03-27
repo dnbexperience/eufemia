@@ -6,7 +6,7 @@
 import React from 'react'
 import ComponentBox from 'Src/shared/tags/ComponentBox'
 
-export default function() {
+export default function () {
   return (
     <>
       <ComponentBox

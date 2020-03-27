@@ -37,7 +37,7 @@ class GlobalStatusController extends PureComponent {
       GSP = window.GlobalStatusProvider
     }
 
-    this.provider = GSP.init(props.id, provider => {
+    this.provider = GSP.init(props.id, (provider) => {
       const { status_id } = provider.add(props)
 
       // current status id
@@ -88,7 +88,7 @@ class GlobalStatusRemove extends PureComponent {
     if (!GSP && typeof window !== 'undefined') {
       GSP = window.GlobalStatusProvider
     }
-    this.provider = GSP.init(props.id, provider => {
+    this.provider = GSP.init(props.id, (provider) => {
       if (props.status_id) {
         provider.remove(props.status_id, {
           buffer_delay: props.buffer_delay

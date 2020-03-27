@@ -88,7 +88,7 @@ export default class ProgressIndicatorCircular extends PureComponent {
       completeCalled = false,
       stopNextRound = false
 
-    const step = timestamp => {
+    const step = (timestamp) => {
       if (!start) {
         start = timestamp
       }

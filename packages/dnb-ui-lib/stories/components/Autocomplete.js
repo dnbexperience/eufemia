@@ -111,10 +111,10 @@ const AutocompleteStory = () => {
             // }
           ]}
           // icon_position="left"
-          on_select={e => {
+          on_select={(e) => {
             console.log('on_select ???', e)
           }}
-          on_change={e => {
+          on_change={(e) => {
             console.log('on_change', e)
           }}
         ></Autocomplete>
@@ -132,10 +132,10 @@ const AutocompleteStory = () => {
             c: 'CCC'
           }}
           // icon_position="left"
-          on_select={e => {
+          on_select={(e) => {
             console.log('on_select ???', e)
           }}
-          on_change={e => {
+          on_change={(e) => {
             console.log('on_change', e)
           }}
         ></Autocomplete>
@@ -223,10 +223,10 @@ const AutocompleteStory = () => {
           // prevent_close
           // no_animation
           value="2"
-          on_select={e => {
+          on_select={(e) => {
             console.log('on_select', e)
           }}
-          on_change={e => {
+          on_change={(e) => {
             console.log('on_change', e)
           }}
           data={testData}
@@ -239,18 +239,18 @@ const AutocompleteStory = () => {
             b: 'BB'
           }}
           // icon_position="left"
-          on_select={e => {
+          on_select={(e) => {
             console.log('on_select', e)
           }}
-          on_change={e => {
+          on_change={(e) => {
             console.log('on_change', e)
           }}
         ></Autocomplete>
         <Autocomplete
-          on_select={e => {
+          on_select={(e) => {
             console.log('on_select', e)
           }}
-          on_change={e => {
+          on_change={(e) => {
             console.log('on_change', e)
           }}
         >

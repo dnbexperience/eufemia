@@ -193,7 +193,7 @@ export default class Textarea extends PureComponent {
     }
     this.state._value = props.value
   }
-  onFocusHandler = event => {
+  onFocusHandler = (event) => {
     const { value } = event.target
     this.setState({
       value,
@@ -202,7 +202,7 @@ export default class Textarea extends PureComponent {
     })
     dispatchCustomElementEvent(this, 'on_focus', { value, event })
   }
-  onBlurHandler = event => {
+  onBlurHandler = (event) => {
     const { value } = event.target
     this.setState({
       value,
@@ -211,7 +211,7 @@ export default class Textarea extends PureComponent {
     })
     dispatchCustomElementEvent(this, 'on_blur', { value, event })
   }
-  onChangeHandler = event => {
+  onChangeHandler = (event) => {
     const { value } = event.target
     this.setState({ value, _listenForPropChanges: false })
     dispatchCustomElementEvent(this, 'on_change', { value, event })

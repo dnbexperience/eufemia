@@ -1,7 +1,6 @@
 ---
 title: 'Fonts & Typography'
 icon: 'fonts'
-
 ---
 
 import TypographicRules from 'Pages/quickguide-designer/typographic-rules.md'

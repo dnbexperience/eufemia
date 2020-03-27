@@ -188,4 +188,4 @@ describe('Modal scss', () => {
   })
 })
 
-const wait = t => new Promise(r => setTimeout(r, t))
+const wait = (t) => new Promise((r) => setTimeout(r, t))

@@ -262,7 +262,7 @@ export default class Tabs extends PureComponent {
     this._tablistRef = React.createRef()
   }
 
-  onKeyDownHandler = e => {
+  onKeyDownHandler = (e) => {
     switch (keycode(e)) {
       case 'up':
       case 'page up':
@@ -281,10 +281,10 @@ export default class Tabs extends PureComponent {
     }
   }
 
-  prevTab = e => {
+  prevTab = (e) => {
     this.openTab(-1, e, 'step')
   }
-  nextTab = e => {
+  nextTab = (e) => {
     this.openTab(+1, e, 'step')
   }
 
@@ -310,9 +310,9 @@ export default class Tabs extends PureComponent {
     }
   }
 
-  openTabByDOM = e => {
+  openTabByDOM = (e) => {
     try {
-      const selected_key = (function(elem) {
+      const selected_key = (function (elem) {
         return (
           getPreviousSibling('dnb-tabs__button', elem) || { dataset: {} }
         )

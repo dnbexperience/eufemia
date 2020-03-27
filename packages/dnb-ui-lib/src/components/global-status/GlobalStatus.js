@@ -420,7 +420,7 @@ export default class GlobalStatus extends React.PureComponent {
     })
   }
 
-  onKeyDownHandler = e => {
+  onKeyDownHandler = (e) => {
     switch (keycode(e)) {
       case 'esc':
         e.preventDefault()
@@ -449,8 +449,9 @@ export default class GlobalStatus extends React.PureComponent {
                   const currentHeight = parseFloat(_mainRef.style.height)
                   if (!(currentHeight > 0)) {
                     _mainRef.style.height = 0
-                    _mainRef.style.transition = `height ${height *
-                      3}ms ease-in-out`
+                    _mainRef.style.transition = `height ${
+                      height * 3
+                    }ms ease-in-out`
                   } else {
                     const diff = Math.abs(currentHeight - height)
                     const speed = height * 3 - diff
@@ -552,10 +553,10 @@ export default class GlobalStatus extends React.PureComponent {
           return
         }
 
-        isElementVisible(element, elem => {
+        isElementVisible(element, (elem) => {
           try {
             // remove the blink animation again
-            elem.addEventListener('blur', e => {
+            elem.addEventListener('blur', (e) => {
               if (e.target.classList) {
                 e.target.removeAttribute('tabindex')
               }
@@ -749,8 +750,8 @@ export default class GlobalStatus extends React.PureComponent {
                       ? `#${item.status_id}`
                       : item.status_anchor_url
                   }
-                  onClick={e => this.gotoItem(e, item)}
-                  onKeyDown={e => this.gotoItem(e, item)}
+                  onClick={(e) => this.gotoItem(e, item)}
+                  onKeyDown={(e) => this.gotoItem(e, item)}
                 >
                   {link}
                 </a>
@@ -848,7 +849,7 @@ GlobalStatus.Remove = GlobalStatusController.Remove
 
 const isElementVisible = (elem, callback, delayFallback = 1e3) => {
   if (typeof IntersectionObserver !== 'undefined') {
-    const intersectionObserver = new IntersectionObserver(entries => {
+    const intersectionObserver = new IntersectionObserver((entries) => {
       const [entry] = entries
       if (entry.isIntersecting) {
         intersectionObserver.unobserve(elem)

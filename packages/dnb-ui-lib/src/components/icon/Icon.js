@@ -132,7 +132,7 @@ export default class Icon extends PureComponent {
   }
 }
 
-export const getIconNameFromComponent = icon => {
+export const getIconNameFromComponent = (icon) => {
   const name =
     typeof icon === 'string'
       ? icon
@@ -143,7 +143,7 @@ export const getIconNameFromComponent = icon => {
   return name
 }
 
-export const calcSize = props => {
+export const calcSize = (props) => {
   const { icon, size, height, width } = props
 
   let sizeAsInt = -1
@@ -292,7 +292,7 @@ const prepareIconParams = ({ sizeAsString, ...rest }) => {
   return { params, sizeAsString }
 }
 
-export const prepareIcon = props => {
+export const prepareIcon = (props) => {
   const {
     icon,
     size, // eslint-disable-line
@@ -401,7 +401,7 @@ export const prerenderIcon = ({
 }
 
 // to replace icon names
-export const iconCase = name =>
+export const iconCase = (name) =>
   name
     .replace(/((?!^)[A-Z])/g, '_$1')
     .toLowerCase()

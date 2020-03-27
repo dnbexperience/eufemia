@@ -9,7 +9,7 @@ import styled from '@emotion/styled'
 import PaginationTableExample from './PaginationTableExample'
 
 const HeightLimit = styled.div`
-  height: ${props => props.height || '20rem'};
+  height: ${(props) => props.height || '20rem'};
   overflow-y: scroll;
   background-color: white;
   border: 0.25rem dotted black;
@@ -21,7 +21,7 @@ const LargePage = styled.div`
 
   height: 15vw;
 
-  background-color: ${props => props.color || 'tomato'};
+  background-color: ${(props) => props.color || 'tomato'};
   font-size: 15vw;
   font-weight: var(--font-weight-bold);
   font-feature-settings: 'pnum' on, 'lnum' on;

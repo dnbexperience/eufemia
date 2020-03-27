@@ -43,7 +43,7 @@ const docsQuery = /* GraphQL */ `
   }
 `
 
-const flatten = arr =>
+const flatten = (arr) =>
   arr
     .filter(
       ({
@@ -56,7 +56,7 @@ const flatten = arr =>
     .map(
       ({ node: { children, fields, frontmatter, headings, ...rest } }) => {
         if (headings && Array.isArray(headings)) {
-          headings = headings.map(item => ({
+          headings = headings.map((item) => ({
             ...item,
             slug: makeSlug(item.value)
           }))
@@ -99,8 +99,8 @@ const flatten = arr =>
     )
     .filter(Boolean)
 
-const hasTitle = r => String(r.title || '').length > 0
-const hasDescription = r => String(r.description || '').length > 0
+const hasTitle = (r) => String(r.title || '').length > 0
+const hasDescription = (r) => String(r.description || '').length > 0
 
 const currentBranch = getCurrentBranchName()
 const queries = /^(release|beta)$/.test(currentBranch)

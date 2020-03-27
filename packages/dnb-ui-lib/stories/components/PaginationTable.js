@@ -83,7 +83,7 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
     }
   }
   // set the startup height
-  const onMounted = items => {
+  const onMounted = (items) => {
     items.forEach(({ element: { current: element }, expanded }) =>
       setHeight({ element, expanded, animation: false })
     )
@@ -141,7 +141,7 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
                 // 1. empty
                 resetContent()
 
-                setOrderDirection(o => (o === 'asc' ? 'desc' : 'asc'))
+                setOrderDirection((o) => (o === 'asc' ? 'desc' : 'asc'))
               }}
             />
           </th>
@@ -221,9 +221,9 @@ const InfinityPagination = ({
     return null
   }
 
-  return items.map(item => {
+  return items.map((item) => {
     const params = {
-      onClick: e => {
+      onClick: (e) => {
         if (!hasSelectedText(e.currentTarget)) {
           onToggleExpanded(item, currentPage, e.currentTarget)
         }

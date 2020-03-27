@@ -169,7 +169,7 @@ export default [
             <Input
               selectall
               label="Label:"
-              on_change={event => {
+              on_change={(event) => {
                 console.log('on_change', event)
               }}
             >
@@ -270,7 +270,7 @@ export default [
           </Box>
           <Box>
             <form
-              onSubmit={event => {
+              onSubmit={(event) => {
                 // console.log('onSubmit', event)
                 event.preventDefault()
                 // event.persist()
@@ -280,10 +280,10 @@ export default [
               <Button
                 text="Submit"
                 type="submit"
-                on_click={event => {
+                on_click={(event) => {
                   console.log('on_click', event)
                 }}
-                onClick={event => {
+                onClick={(event) => {
                   console.log('onClick', event)
                 }}
               />

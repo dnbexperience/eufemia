@@ -57,7 +57,7 @@ export default class HTML extends PureComponent {
           <meta name="msapplication-TileColor" content="#007272" />
           <meta name="theme-color" content="#007272" />
           {[fontRegular, fontMedium, fontBold, fontMonoRegular].map(
-            font => (
+            (font) => (
               <link
                 key={font}
                 rel="preload"

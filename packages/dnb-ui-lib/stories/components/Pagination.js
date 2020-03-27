@@ -20,7 +20,7 @@ const LargePage = styled.div`
 
   height: 15vw;
 
-  background-color: ${props => props.color || 'hotpink'};
+  background-color: ${(props) => props.color || 'hotpink'};
   font-size: 15vw;
   font-weight: var(--font-weight-bold);
   font-feature-settings: 'pnum' on, 'lnum' on;
@@ -51,7 +51,7 @@ export default [
         <Pagination
           page_count={30}
           current_page={15}
-          on_change={pageNo => {
+          on_change={(pageNo) => {
             console.log('on_change:', pageNo)
           }}
         >
@@ -62,11 +62,11 @@ export default [
       <Box>
         <PaginationWithState
           align="center"
-          on_change={pageNo => {
+          on_change={(pageNo) => {
             console.log('on_change:', pageNo)
           }}
         >
-          {pageNo => <LargePage color="HotPink">{pageNo}</LargePage>}
+          {(pageNo) => <LargePage color="HotPink">{pageNo}</LargePage>}
         </PaginationWithState>
       </Box>
 

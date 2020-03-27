@@ -45,21 +45,23 @@ export const loadScss = (file, options = {}) => {
   }
 }
 
-export const loadImage = async imagePath =>
+export const loadImage = async (imagePath) =>
   await fs.readFile(path.resolve(imagePath))
 
-export const toHtml = Component =>
+export const toHtml = (Component) =>
   ReactDOMServer.renderToStaticMarkup(Component)
 
 export const axeComponent = async (...components) => {
+  const html = components
+    .filter((Component) =>
+      // enzyme names the mounted wrapper: ReactWrapper
+      /react/i.test(String(Component.constructor))
+    )
+    .map((Component) => toHtml(Component))
+    .join('\n')
+
   return await axe(
-    components
-      .filter(Component =>
-        // enzyme names the mounted wrapper: ReactWrapper
-        /react/i.test(String(Component.constructor))
-      )
-      .map(Component => toHtml(Component))
-      .join('\n'),
+    `<main>${html}</main>`,
     typeof components[1] === 'object' ? components[1] : null
   )
 }

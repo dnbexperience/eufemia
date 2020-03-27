@@ -6,7 +6,7 @@
 import cleanHtml from 'clean-html' // https://github.com/dave-kennedy/clean-html
 
 const Beautifier = (source, language, opts = {}) =>
-  new Promise(resolve => {
+  new Promise((resolve) => {
     switch (language) {
       case 'html':
         cleanHtml.clean(
@@ -48,7 +48,7 @@ const Beautifier = (source, language, opts = {}) =>
               // 'tr'
             ]
           },
-          res => resolve(res) //.replace(/>(\n\s+)<\//g, ' />$1</')
+          (res) => resolve(res) //.replace(/>(\n\s+)<\//g, ' />$1</')
         )
         break
     }

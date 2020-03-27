@@ -179,7 +179,7 @@ export default class PaginationBar extends PureComponent {
         />
 
         <div className="dnb-pagination__bar__inner">
-          {pages[0].map(pageNo => (
+          {pages[0].map((pageNo) => (
             <Button
               key={pageNo}
               className="dnb-pagination__button"
@@ -188,7 +188,7 @@ export default class PaginationBar extends PureComponent {
               aria-label={button_title.replace('%s', pageNo)}
               variant={pageNo === currentPage ? 'primary' : 'secondary'}
               aria-current={pageNo === currentPage ? 'page' : null}
-              on_click={event => this.clickHandler({ pageNo, event })}
+              on_click={(event) => this.clickHandler({ pageNo, event })}
             />
           ))}
 
@@ -207,7 +207,7 @@ export default class PaginationBar extends PureComponent {
                 <div key="dot-2" />
                 <div key="dot-3" />
               </div>
-              {list.map(pageNo => (
+              {list.map((pageNo) => (
                 <Button
                   key={pageNo}
                   className="dnb-pagination__button"
@@ -218,7 +218,9 @@ export default class PaginationBar extends PureComponent {
                     pageNo === currentPage ? 'primary' : 'secondary'
                   }
                   aria-current={pageNo === currentPage ? 'page' : null}
-                  on_click={event => this.clickHandler({ pageNo, event })}
+                  on_click={(event) =>
+                    this.clickHandler({ pageNo, event })
+                  }
                 />
               ))}
             </Fragment>

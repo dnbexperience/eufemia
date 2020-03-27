@@ -123,7 +123,7 @@ class GlobalStatusProviderItem {
 
   onUpdate(event) {
     // check for duplication first
-    if (this._onUpdateEvents.filter(cb => cb === event).length === 0) {
+    if (this._onUpdateEvents.filter((cb) => cb === event).length === 0) {
       this._onUpdateEvents.push(event)
     }
   }
@@ -135,7 +135,7 @@ class GlobalStatusProviderItem {
     { buffer_delay = 0, isEmpty = false } = {}
   ) {
     const run = () => {
-      this._onUpdateEvents.forEach(event => {
+      this._onUpdateEvents.forEach((event) => {
         if (typeof event === 'function') {
           event(globalStatus, props, { isEmpty })
         }
@@ -175,7 +175,7 @@ class GlobalStatusProviderItem {
 
     // replace the props if exists
     const stackIndex = this.stack.findIndex(
-      cur => cur.status_id === props.status_id
+      (cur) => cur.status_id === props.status_id
     )
     if (stackIndex > -1) {
       this.stack[stackIndex] = newProps
@@ -196,12 +196,12 @@ class GlobalStatusProviderItem {
   }
 
   get(status_id) {
-    return this.stack.find(cur => cur.status_id === status_id)
+    return this.stack.find((cur) => cur.status_id === status_id)
   }
 
   remove(status_id, { buffer_delay = 10, empty_offset = 1 } = {}) {
     if (status_id) {
-      this.stack = this.stack.filter(cur => cur.status_id !== status_id)
+      this.stack = this.stack.filter((cur) => cur.status_id !== status_id)
 
       const globalStatus = GlobalStatusProvider.combineMessages(this.stack)
 
@@ -256,7 +256,7 @@ if (typeof window !== 'undefined') {
 
 export default GlobalStatusProvider
 
-const slugify = s =>
+const slugify = (s) =>
   s
     .toLowerCase()
     .replace(/[^\w\s-]/g, '')

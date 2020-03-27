@@ -1,6 +1,5 @@
 ---
 title: 'Icons'
-
 ---
 
 import ComponentBox from 'Tags/ComponentBox'

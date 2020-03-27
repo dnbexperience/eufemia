@@ -1,7 +1,7 @@
 const GHSlugger = require('github-slugger')
 const slugger = new GHSlugger()
 
-exports.makeSlug = function(value, slug = null) {
+exports.makeSlug = function (value, slug = null) {
   slugger.reset()
 
   if (slug) {

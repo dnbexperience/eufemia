@@ -206,7 +206,7 @@ export default class DatePickerRange extends PureComponent {
   }
 
   onNext = ({ nr }) => {
-    const views = this.state.views.map(c => {
+    const views = this.state.views.map((c) => {
       if (c.nr === nr) {
         const month = addMonths(c.month, 1)
         this.setState({
@@ -231,7 +231,7 @@ export default class DatePickerRange extends PureComponent {
   }
 
   onPrev = ({ nr }) => {
-    const views = this.state.views.map(c => {
+    const views = this.state.views.map((c) => {
       if (c.nr === nr) {
         const month = subMonths(c.month, 1)
         this.setState({
@@ -255,7 +255,7 @@ export default class DatePickerRange extends PureComponent {
     })
   }
 
-  onHover = date => {
+  onHover = (date) => {
     this.setState({ hoverDate: date, _listenForPropChanges: false })
   }
 

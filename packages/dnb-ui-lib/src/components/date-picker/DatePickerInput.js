@@ -280,7 +280,7 @@ export default class DatePickerInput extends PureComponent {
     target.setSelectionRange(0, endPos)
   }
 
-  onFocusHandler = event => {
+  onFocusHandler = (event) => {
     try {
       const target = event.target
       const endPos = target.value.length
@@ -291,7 +291,7 @@ export default class DatePickerInput extends PureComponent {
     }
   }
 
-  onKeyDownHandler = async event => {
+  onKeyDownHandler = async (event) => {
     const keyCode = keycode(event)
     const target = event.target
 
@@ -361,27 +361,27 @@ export default class DatePickerInput extends PureComponent {
     }
   }
 
-  set_startDay = event => {
+  set_startDay = (event) => {
     this.setDate(event, 2, 'start', 'Day', setDate)
   }
 
-  set_startMonth = event => {
+  set_startMonth = (event) => {
     this.setDate(event, 2, 'start', 'Month', setMonth)
   }
 
-  set_startYear = event => {
+  set_startYear = (event) => {
     this.setDate(event, 4, 'start', 'Year', setYear)
   }
 
-  set_endDay = event => {
+  set_endDay = (event) => {
     this.setDate(event, 2, 'end', 'Day', setDate)
   }
 
-  set_endMonth = event => {
+  set_endMonth = (event) => {
     this.setDate(event, 2, 'end', 'Month', setMonth)
   }
 
-  set_endYear = event => {
+  set_endYear = (event) => {
     this.setDate(event, 4, 'end', 'Year', setYear)
   }
 
@@ -430,7 +430,7 @@ export default class DatePickerInput extends PureComponent {
     }
   }
 
-  renderInputElement = params => {
+  renderInputElement = (params) => {
     const { id, range } = this.props
     this.refList = []
     const startDateList = this.generateDateList(params, 'start')
@@ -465,7 +465,7 @@ export default class DatePickerInput extends PureComponent {
             ...params,
             onKeyDown: this.onKeyDownHandler,
             onMouseUp: selectInput,
-            onFocus: e => {
+            onFocus: (e) => {
               this.onFocusHandler(e)
               this.setState({
                 focusState: 'focus',
@@ -671,7 +671,7 @@ export default class DatePickerInput extends PureComponent {
   }
 }
 
-const selectInput = e => {
+const selectInput = (e) => {
   e.target.focus()
   e.target.select()
 }
@@ -688,4 +688,4 @@ const InputElement = React.forwardRef((props, innerRef) => (
 ))
 
 const pad = (num, size) => ('000000000' + num).substr(-size)
-const wait = t => new Promise(r => setTimeout(r, t))
+const wait = (t) => new Promise((r) => setTimeout(r, t))

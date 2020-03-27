@@ -288,7 +288,7 @@ export const validateDOMAttributes = (props, params) => {
   return params
 }
 
-export const processChildren = props => {
+export const processChildren = (props) => {
   const res =
     typeof props.children === 'function'
       ? props.children(props)
@@ -384,7 +384,7 @@ export const extendPropsWithContext = (
 }
 
 // check if value is "truthy"
-export const isTrue = value => {
+export const isTrue = (value) => {
   if (
     value !== null &&
     typeof value !== 'undefined' &&
@@ -461,7 +461,7 @@ export const dispatchCustomElementEvent = (
 }
 
 // transform on_click to onClick
-export const toPascalCase = s =>
+export const toPascalCase = (s) =>
   s
     .split(/_/g)
     .reduce(
@@ -512,7 +512,7 @@ export class DetectOutsideClickClass {
       if (!Array.isArray(ignoreElements)) {
         ignoreElements = [ignoreElements]
       }
-      this.handleClickOutside = event => {
+      this.handleClickOutside = (event) => {
         this.checkOutsideClick(
           {
             currentElement: event.target,
@@ -523,7 +523,7 @@ export class DetectOutsideClickClass {
       }
       document.addEventListener('mousedown', this.handleClickOutside)
 
-      this.keydownCallback = event => {
+      this.keydownCallback = (event) => {
         const keyCode = keycode(event)
         if (keyCode === 'esc') {
           window.removeEventListener('keydown', this.keydownCallback)
@@ -537,7 +537,7 @@ export class DetectOutsideClickClass {
       // e.g. includedKeys = ['tab']
       if (options.includedKeys) {
         // use keyup so we get the correct new target
-        this.keyupCallback = event => {
+        this.keyupCallback = (event) => {
           const keyCode = keycode(event)
           if (
             options.includedKeys.includes(keyCode) &&
@@ -609,7 +609,7 @@ export class DetectOutsideClickClass {
     }
   }
 
-  checkIfHasScrollbar = elem => {
+  checkIfHasScrollbar = (elem) => {
     return (
       elem &&
       (elem.scrollHeight > elem.offsetHeight ||
@@ -618,7 +618,7 @@ export class DetectOutsideClickClass {
     )
   }
 
-  overflowIsScrollable = elem => {
+  overflowIsScrollable = (elem) => {
     const style = window.getComputedStyle(elem)
     return /scroll|auto/i.test(
       style.overflow + (style.overflowX || '') + (style.overflowY || '')
@@ -650,13 +650,11 @@ export const filterProps = (props, remove = null, allowed = null) => {
 export const makeUniqueId = (prefix = '', length = 8) =>
   prefix +
   String(
-    Math.random()
-      .toString(36)
-      .substr(2, length) + idIncrement++
+    Math.random().toString(36).substr(2, length) + idIncrement++
   ).slice(-length)
 let idIncrement = 0
 
-export const slugify = s =>
+export const slugify = (s) =>
   String(s)
     .toLowerCase()
     .replace(/[^\w\s-]/g, '')
@@ -684,7 +682,7 @@ export const matchAll = (string, regex) => {
  */
 export const getPreviousSibling = (className, elem) => {
   try {
-    const contains = elem => elem && elem.classList.contains(className)
+    const contains = (elem) => elem && elem.classList.contains(className)
 
     if (contains(elem)) {
       return elem
