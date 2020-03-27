@@ -320,6 +320,7 @@ class AutocompleteInstance extends PureComponent {
     clearTimeout(this._hideTimeout)
     clearTimeout(this._selectTimeout)
     clearTimeout(this._ariaLiveUpdateTiemout)
+    clearTimeout(this._toggleVisibleTimeout)
   }
 
   setVisible = () => {
@@ -438,6 +439,7 @@ class AutocompleteInstance extends PureComponent {
     }
 
     this.setVisible()
+    this.setAriaLiveUpdate()
 
     return data
   }
@@ -460,6 +462,8 @@ class AutocompleteInstance extends PureComponent {
       cache_hash: value + data.length,
       ignore_events: false
     })
+
+    this.setAriaLiveUpdate()
 
     return data
   }
@@ -562,6 +566,8 @@ class AutocompleteInstance extends PureComponent {
               active_item: -1,
               ignore_events: false
             })
+
+            // Was used before to enhance UX, but looks like we now are good without
             // this.showAll()
             // this.scrollToSelectedItem()
           }
@@ -659,7 +665,6 @@ class AutocompleteInstance extends PureComponent {
   toggleVisible = ({ hasFilter = false } = {}) => {
     if (
       !hasFilter &&
-      // !this.hasFilterActive() &&
       !isTrue(this.props.prevent_close) &&
       !this.context.drawerList.hidden &&
       this.context.drawerList.opened
@@ -727,8 +732,8 @@ class AutocompleteInstance extends PureComponent {
           (!this.hasValidData() || !this.hasSelectedItem()) &&
           !this.hasActiveItem()
         ) {
-          // this.toggleVisible()
-          setTimeout(this.toggleVisible, 1) // to make sure we first handle the DrawerList key enter, before we update the state with a toggle/visible. Else the submit is not set properly
+          clearTimeout(this._toggleVisibleTimeout)
+          this._toggleVisibleTimeout = setTimeout(this.toggleVisible, 1) // to make sure we first handle the DrawerList key enter, before we update the state with a toggle/visible. Else the submit is not set properly
         } else {
           this.setVisible()
         }
@@ -1003,6 +1008,41 @@ class AutocompleteInstance extends PureComponent {
     }, 1) // because of state updates we need 1 tick delay here
   }
 
+  setAriaLiveUpdate() {
+    const { opened } = this.context.drawerList
+    const { aria_live_options, no_options } = this._props
+
+    // this is only to make a better screen reader ux
+    if (opened) {
+      clearTimeout(this._ariaLiveUpdateTiemout)
+      this._ariaLiveUpdateTiemout = setTimeout(() => {
+        let newString = null
+
+        if (this.hasValidData()) {
+          newString = String(aria_live_options).replace(
+            '%s',
+            this.context.drawerList.data.length
+          )
+        } else {
+          newString = no_options
+        }
+
+        if (newString) {
+          this.setState({
+            ariaLiveUpdate: newString,
+            _listenForPropChanges: false
+          })
+          this._ariaLiveUpdateTiemout = setTimeout(() => {
+            this.setState({
+              ariaLiveUpdate: null,
+              _listenForPropChanges: false
+            })
+          }, 1e3)
+        }
+      }, 1e3) // so that the input gets read out first, and then the results
+    }
+  }
+
   render() {
     // use only the props from context, who are available here anyway
     const props = (this._props = extendPropsWithContext(
@@ -1039,14 +1079,14 @@ class AutocompleteInstance extends PureComponent {
       max_height,
       default_value,
       submit_button_title,
-      no_options,
-      aria_live_options,
       className,
       class: _className,
       disabled,
 
       mode: _mode, // eslint-disable-line
       data: _data, // eslint-disable-line
+      no_options: _no_options, // eslint-disable-line
+      aria_live_options: _aria_live_options, // eslint-disable-line
       children: _children, // eslint-disable-line
       direction: _direction, // eslint-disable-line
       icon_position: _icon_position, // eslint-disable-line
@@ -1141,23 +1181,6 @@ class AutocompleteInstance extends PureComponent {
       } ${suffix ? id + '-suffix' : ''}`
     }
 
-    // this is only to make a better screen reader ux
-    if (opened) {
-      clearTimeout(this._ariaLiveUpdateTiemout)
-      this._ariaLiveUpdateTiemout = setTimeout(() => {
-        const ariaLiveUpdate = this.hasValidData()
-          ? String(aria_live_options).replace(
-              '%s',
-              this.context.drawerList.data.length
-            )
-          : no_options
-
-        this.setState({
-          ariaLiveUpdate
-        })
-      }, 1e3) // so that the input gets read out first, and then the results
-    }
-
     // also used for code markup simulation
     validateDOMAttributes(null, mainParams)
     validateDOMAttributes(this.props, inputParams)
@@ -1206,7 +1229,6 @@ class AutocompleteInstance extends PureComponent {
                       input_icon
                     )
                   }
-                  // icon_position={icon_position}
                   icon_size={
                     icon_size || (size === 'large' ? 'medium' : 'default')
                   }
@@ -1216,7 +1238,6 @@ class AutocompleteInstance extends PureComponent {
                   submit_element={
                     isTrue(show_drawer_button) ? (
                       <SubmitButton
-                        // value={String(selected_item)}// is not needed for now
                         icon={icon}
                         icon_size={
                           icon_size ||
@@ -1236,7 +1257,6 @@ class AutocompleteInstance extends PureComponent {
                     )
                   }
                   ref={this._refInput}
-                  // onClick={this.onInputClickHandler}
                   onMouseDown={this.onInputClickHandler}
                   on_key_down={this.onTriggerKeyDownHandler}
                   on_change={this.onInputChangeHandler}
