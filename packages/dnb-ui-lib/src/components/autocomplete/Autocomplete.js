@@ -852,79 +852,86 @@ class AutocompleteInstance extends PureComponent {
           item.dataItem.render = (children) => {
             let Component = null
 
-            // make string out of it
-            if (
-              typeof children !== 'string' &&
-              (React.isValidElement(children) || Array.isArray(children))
-            ) {
+            // it can be an object, React element or an array
+            if (typeof children !== 'string') {
+              if (!Array.isArray(children)) {
+                children = [children]
+              }
+
+              // keep the original for later
               Component = children
-              children = grabStringFromReact(children, ' ')
+
+              // make string out of it
+              children = children.map((child) =>
+                grabStringFromReact(child)
+              )
             }
 
             if (typeof children === 'string') {
-              children = children
-                .split(' ')
-                .map((child) => {
-                  if (skipHighlight || this.state.skipHighlight) {
-                    return child
-                  }
+              children = [children] // for a while we had split this into seperate words children.split(' ') but this is not needed anymore
+            }
 
-                  const formatted = listOfFoundWords
-                    .reverse()
-                    .map(({ word }) => {
-                      const charStart = child
-                        .toLowerCase()
-                        .indexOf(word.toLowerCase())
-                      const charEnd = word.length + charStart
+            children = children
+              .map((child) => {
+                if (skipHighlight || this.state.skipHighlight) {
+                  return child
+                }
 
-                      if (charStart === -1) {
-                        return null
-                      }
+                const formatted = listOfFoundWords
+                  .reverse()
+                  .map(({ word }) => {
+                    const charStart = child
+                      .toLowerCase()
+                      .indexOf(word.toLowerCase())
+                    const charEnd = word.length + charStart
 
-                      const ret = {
-                        a: child.substring(0, charStart),
-                        b: child.substring(charStart, charEnd),
-                        c: child.substring(charEnd, child.length)
-                      }
+                    if (charStart === -1) {
+                      return null
+                    }
 
-                      return ret
-                    })
-                    .filter(Boolean)
-                    .reduce((acc, { a, b, c }) => {
-                      if (acc.includes('TAG_START')) {
-                        return acc.replace(
-                          new RegExp(`(${b})`, 'gi'),
-                          'TAG_START$1TAG_END'
-                        )
-                      }
+                    const ret = {
+                      a: child.substring(0, charStart),
+                      b: child.substring(charStart, charEnd),
+                      c: child.substring(charEnd, child.length)
+                    }
 
-                      return `${a}TAG_START${b}TAG_END${c}`
-                    }, child)
+                    return ret
+                  })
+                  .filter(Boolean)
+                  .reduce((acc, { a, b, c }) => {
+                    if (acc.includes('TAG_START')) {
+                      return acc.replace(
+                        new RegExp(`(${b})`, 'gi'),
+                        'TAG_START$1TAG_END'
+                      )
+                    }
 
-                  if (formatted.includes('TAG_START')) {
-                    return (
-                      <span
-                        key={itemIndex + child}
-                        dangerouslySetInnerHTML={{
-                          __html: formatted
-                            .replace(/TAG_START/g, startTag)
-                            .replace(/TAG_END/g, endTag)
-                        }}
-                      />
-                    )
-                  }
+                    return `${a}TAG_START${b}TAG_END${c}`
+                  }, child)
 
-                  return formatted
-                })
-                .map((c, i, a) => (i < a.length - 1 ? [c, ' '] : c)) // add back the skiped spaces
+                if (formatted.includes('TAG_START')) {
+                  return (
+                    <span
+                      key={itemIndex + child}
+                      dangerouslySetInnerHTML={{
+                        __html: formatted
+                          .replace(/TAG_START/g, startTag)
+                          .replace(/TAG_END/g, endTag)
+                      }}
+                    />
+                  )
+                }
 
-              if (Component) {
-                children = Array.isArray(Component)
-                  ? Component.map((Comp, i) =>
-                      React.cloneElement(Comp, null, children[i])
-                    )
-                  : React.cloneElement(Component, null, children)
-              }
+                return formatted
+              })
+              .map((c, i, a) => (i < a.length - 1 ? [c, ' '] : c)) // add back the skiped spaces
+
+            if (Component) {
+              children = Array.isArray(Component)
+                ? Component.map((Comp, i) =>
+                    React.cloneElement(Comp, null, children[i])
+                  )
+                : React.cloneElement(Component, null, children)
             }
 
             return children

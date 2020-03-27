@@ -8,6 +8,7 @@ import { Wrapper, Box } from '../helpers'
 import styled from '@emotion/styled'
 
 import { Autocomplete, Number } from '../../src/components'
+import { Anchor } from '../../src/elements'
 
 const CustomStyle = styled.div`
   .dnb-autocomplete__shell {
@@ -78,12 +79,12 @@ const AutocompleteStory = () => {
       </Box>
       <Box>
         <Autocomplete
-          // opened
-          // prevent_close
-          // no_animation
+          opened
+          prevent_close
+          no_animation
           // input_value="foo bar th"
           // input_value="bb th x"
-          input_value="com pro ti"
+          input_value="co pr ti"
           show_drawer_button
           // value="b"
           data={[
@@ -91,8 +92,11 @@ const AutocompleteStory = () => {
               content: [
                 'Component Properties',
                 [
+                  <Anchor key="a" href="/">
+                    Pro Com 1
+                  </Anchor>,
                   <a key="a" href="/" className="dnb-anchor">
-                    Pro
+                    Pro Com 2
                   </a>
                 ]
               ]
@@ -103,9 +107,9 @@ const AutocompleteStory = () => {
             //   content: [
             //     'Other Content',
             //     [
-            //       <a key="a" href="/" className="dnb-anchor">
+            //       <Anchor key="a" href="/" >
             //         ComponentX PropertiesX
-            //       </a>
+            //       </Anchor>
             //     ]
             //   ]
             // }

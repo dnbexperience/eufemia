@@ -765,15 +765,13 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                                 className="dnb-drawer-list__option__inner"
                               >
                                 <ItemContent>
-                                  AA
-                                   
                                   <span
                                     dangerouslySetInnerHTML={
                                       Object {
-                                        "__html": "<span class=\\"dnb-drawer-list__option__item--highlight\\"><span class=\\"dnb-drawer-list__option__item--highlight\\">cc</span></span>",
+                                        "__html": "AA <span class=\\"dnb-drawer-list__option__item--highlight\\"><span class=\\"dnb-drawer-list__option__item--highlight\\">cc</span></span>",
                                       }
                                     }
-                                    key="0cc"
+                                    key="0AA cc"
                                   />
                                 </ItemContent>
                               </span>
@@ -806,18 +804,14 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                                 className="dnb-drawer-list__option__inner"
                               >
                                 <ItemContent>
-                                  BB
-                                   
                                   <span
                                     dangerouslySetInnerHTML={
                                       Object {
-                                        "__html": "<span class=\\"dnb-drawer-list__option__item--highlight\\"><span class=\\"dnb-drawer-list__option__item--highlight\\">cc</span></span>",
+                                        "__html": "BB <span class=\\"dnb-drawer-list__option__item--highlight\\"><span class=\\"dnb-drawer-list__option__item--highlight\\">cc</span></span> zethx",
                                       }
                                     }
-                                    key="1cc"
+                                    key="1BB cc zethx"
                                   />
-                                   
-                                  zethx
                                 </ItemContent>
                               </span>
                             </li>
@@ -853,19 +847,10 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                                   <span
                                     dangerouslySetInnerHTML={
                                       Object {
-                                        "__html": "<span class=\\"dnb-drawer-list__option__item--highlight\\"><span class=\\"dnb-drawer-list__option__item--highlight\\">CC</span></span>",
+                                        "__html": "<span class=\\"dnb-drawer-list__option__item--highlight\\"><span class=\\"dnb-drawer-list__option__item--highlight\\">CC</span></span> <span class=\\"dnb-drawer-list__option__item--highlight\\">cc</span>",
                                       }
                                     }
-                                    key="2CC"
-                                  />
-                                   
-                                  <span
-                                    dangerouslySetInnerHTML={
-                                      Object {
-                                        "__html": "<span class=\\"dnb-drawer-list__option__item--highlight\\"><span class=\\"dnb-drawer-list__option__item--highlight\\">cc</span></span>",
-                                      }
-                                    }
-                                    key="2cc"
+                                    key="2CC cc"
                                   />
                                 </ItemContent>
                               </span>

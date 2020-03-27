@@ -100,18 +100,16 @@ describe('Autocomplete component', () => {
       mockData[1]
     )
     expect(Comp.find('li.dnb-drawer-list__option').at(0).html()).toBe(
-      /* @html */ `<li class="dnb-drawer-list__option" role="option" aria-selected="false" tabindex="-1" id="option-autocomplete-id-1" data-item="1"><span class="dnb-drawer-list__option__inner"><span><span class="dnb-drawer-list__option__item--highlight">BB</span></span> <span><span class="dnb-drawer-list__option__item--highlight">cc</span></span> <span>ze<span class="dnb-drawer-list__option__item--highlight">th</span><span class="dnb-drawer-list__option__item--highlight">x</span></span></span></li>`
+      /* @html */ `<li class="dnb-drawer-list__option" role="option" aria-selected="false" tabindex="-1" id="option-autocomplete-id-1" data-item="1"><span class="dnb-drawer-list__option__inner"><span><span class="dnb-drawer-list__option__item--highlight">BB</span> <span class="dnb-drawer-list__option__item--highlight">cc</span> ze<span class="dnb-drawer-list__option__item--highlight">th</span><span class="dnb-drawer-list__option__item--highlight">x</span></span></span></li>`
     )
-
-    let elem = Comp.find('li.dnb-drawer-list__option')
-      .at(0)
-      .find('span.dnb-drawer-list__option__inner')
-      .find('span')
-
-    expect(elem.at(1).text()).toBe('BB')
-    expect(elem.at(2).text()).toBe('cc')
-    expect(elem.at(3).html()).toBe(
-      '<span>ze<span class="dnb-drawer-list__option__item--highlight">th</span><span class="dnb-drawer-list__option__item--highlight">x</span></span>'
+    expect(
+      Comp.find(
+        'li.dnb-drawer-list__option.dnb-drawer-list__option--focus'
+      )
+        .at(0)
+        .html()
+    ).toBe(
+      /* @html */ `<li class="dnb-drawer-list__option dnb-drawer-list__option--focus" role="option" aria-selected="false" tabindex="-1" id="option-autocomplete-id-0" data-item="0"><span class="dnb-drawer-list__option__inner"><span>AA <span class="dnb-drawer-list__option__item--highlight">cc</span></span></span></li>`
     )
 
     // check "invalid"
