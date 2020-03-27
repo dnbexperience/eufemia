@@ -93,6 +93,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
   status_state="error"
   suffix="suffix"
   title="title"
+  triangle_position="triangle_position"
   trigger_component={null}
   value={2}
 >
@@ -193,6 +194,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
     suffix="suffix"
     tagName="dnb-dropdown"
     title="title"
+    triangle_position="triangle_position"
     trigger_component={null}
     value={2}
     wrapper_element={null}
@@ -289,6 +291,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
       status_state="error"
       suffix="suffix"
       title="title"
+      triangle_position="triangle_position"
       trigger_component={null}
       value={2}
     >
@@ -627,7 +630,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                 scrollable="scrollable"
                 size={null}
                 skip_keysearch={false}
-                triangle_position="icon_position"
+                triangle_position="triangle_position"
                 value={2}
                 wrapper_element={null}
               >
@@ -666,12 +669,12 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                   scrollable="scrollable"
                   size={null}
                   skip_keysearch={false}
-                  triangle_position="icon_position"
+                  triangle_position="triangle_position"
                   value={2}
                   wrapper_element={null}
                 >
                   <span
-                    className="dnb-drawer-list dnb-drawer-list--bottom dnb-drawer-list--opened dnb-drawer-list--icon-position-icon_position"
+                    className="dnb-drawer-list dnb-drawer-list--bottom dnb-drawer-list--opened dnb-drawer-list--icon-position-triangle_position"
                     disabled="disabled"
                     id="dropdown-id-drawer-list"
                   >
@@ -1098,6 +1101,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                 status_state="error"
                 suffix="suffix"
                 title="title"
+                triangle_position="triangle_position"
                 trigger_component={null}
                 value={2}
               >

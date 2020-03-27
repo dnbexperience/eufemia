@@ -50,6 +50,7 @@ const propTypes = {
   ]),
   icon_size: PropTypes.string,
   icon_position: PropTypes.string,
+  triangle_position: PropTypes.string,
   label: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.func,
@@ -146,7 +147,8 @@ const defaultProps = {
   title: 'Option Menu',
   icon: 'chevron-down',
   icon_size: null,
-  icon_position: 'right',
+  icon_position: null,
+  triangle_position: null,
   label: null,
   label_direction: null,
   label_sr_only: null,
@@ -366,8 +368,6 @@ class DropdownInstance extends PureComponent {
       this.context.translation.Dropdown
     )
 
-    let { icon, icon_position } = props
-
     const {
       label,
       label_direction,
@@ -386,6 +386,7 @@ class DropdownInstance extends PureComponent {
       prevent_close,
       no_animation,
       no_scroll_animation,
+      triangle_position,
       trigger_component: CustomTrigger,
       more_menu,
       prevent_selection,
@@ -408,6 +409,7 @@ class DropdownInstance extends PureComponent {
       ...attributes
     } = props
 
+    let { icon, icon_position } = props
     const id = this._id
 
     const isPopupMenu = isTrue(more_menu) || isTrue(prevent_selection)
@@ -415,7 +417,7 @@ class DropdownInstance extends PureComponent {
       if (icon !== 'chevron_down' && isTrue(more_menu)) {
         icon = 'more'
       }
-      if (icon_position === 'right' && align_dropdown !== 'right') {
+      if (!icon_position && align_dropdown !== 'right') {
         icon_position = 'left'
       }
     }
@@ -436,7 +438,8 @@ class DropdownInstance extends PureComponent {
         `dnb-dropdown--${direction}`,
         opened && 'dnb-dropdown--opened',
         label_direction && `dnb-dropdown--${label_direction}`,
-        icon_position && `dnb-dropdown--icon-position-${icon_position}`,
+        icon_position &&
+          `dnb-dropdown--icon-position-${icon_position || 'right'}`,
         isPopupMenu && 'dnb-dropdown--is-popup',
         isPopupMenu &&
           typeof more_menu === 'string' &&
@@ -565,7 +568,9 @@ class DropdownInstance extends PureComponent {
                 no_animation={no_animation}
                 no_scroll_animation={no_scroll_animation}
                 prevent_selection={prevent_selection}
-                triangle_position={icon_position}
+                triangle_position={
+                  triangle_position || icon_position || 'right'
+                }
                 keep_open={keep_open}
                 prevent_close={prevent_close}
                 button_only={isPopupMenu}

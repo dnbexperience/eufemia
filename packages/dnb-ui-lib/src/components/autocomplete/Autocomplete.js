@@ -172,8 +172,8 @@ const defaultProps = {
   submit_button_title: null,
   icon: 'chevron-down',
   icon_size: null,
-  icon_position: 'left',
-  triangle_position: 'left',
+  icon_position: null,
+  triangle_position: null,
   input_icon: 'search',
   label: null,
   label_direction: null,
@@ -1085,7 +1085,7 @@ class AutocompleteInstance extends PureComponent {
       className,
       class: _className,
       disabled,
-      icon_position,
+      triangle_position,
 
       mode: _mode, // eslint-disable-line
       data: _data, // eslint-disable-line
@@ -1093,7 +1093,6 @@ class AutocompleteInstance extends PureComponent {
       aria_live_options: _aria_live_options, // eslint-disable-line
       children: _children, // eslint-disable-line
       direction: _direction, // eslint-disable-line
-      // icon_position: _icon_position, // eslint-disable-line
       skip_highlight: _skip_highlight, // eslint-disable-line
       id: _id, // eslint-disable-line
       opened: _opened, // eslint-disable-line
@@ -1103,9 +1102,9 @@ class AutocompleteInstance extends PureComponent {
       ...attributes
     } = props
 
-    let { triangle_position } = props
-    if (!triangle_position && align_autocomplete === 'right') {
-      triangle_position = 'right'
+    let { icon_position } = props
+    if (!icon_position && align_autocomplete === 'right') {
+      icon_position = 'right'
     }
 
     const id = this._id
@@ -1133,7 +1132,7 @@ class AutocompleteInstance extends PureComponent {
         opened && 'dnb-autocomplete--opened',
         label_direction && `dnb-autocomplete--${label_direction}`,
         icon_position &&
-          `dnb-autocomplete--icon-position-${icon_position}`,
+          `dnb-autocomplete--icon-position-${icon_position || 'left'}`,
         align_autocomplete && `dnb-autocomplete--${align_autocomplete}`,
         visibleIndicator && 'dnb-autocomplete--show-indicator',
         size && `dnb-autocomplete--${size}`,
@@ -1280,7 +1279,9 @@ class AutocompleteInstance extends PureComponent {
                 no_animation={no_animation}
                 no_scroll_animation={no_scroll_animation}
                 prevent_selection={prevent_selection}
-                triangle_position={triangle_position}
+                triangle_position={
+                  triangle_position || icon_position || 'left'
+                }
                 keep_open={keep_open}
                 prevent_close={prevent_close}
                 align_drawer={align_autocomplete}
