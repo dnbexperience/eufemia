@@ -15,25 +15,17 @@
     align-items: center;
   }
 
-  // used by the infinity scroller
-  &__marker {
-    pointer-events: none;
-    position: relative; // because of the marker
-
-    height: 1px;
-    width: 1px;
-    margin: -1px 0 0 -1px;
-    overflow: hidden;
-
-    td,
-    &__inner {
-      padding: 0 !important; // because if it is used in table
-
-      width: 1px;
-      height: 1px;
-
-      opacity: 0;
+  &--left &__bar {
+    justify-content: flex-start;
+  }
+  &--center &__bar {
+    justify-content: center;
+    @media (max-width: 40em) {
+      justify-content: flex-start;
     }
+  }
+  &--right &__bar {
+    justify-content: flex-end;
   }
 
   &__loadbar {
@@ -56,25 +48,18 @@
     }
   }
 
-  &--left &__bar {
-    justify-content: flex-start;
-  }
-  &--center &__bar {
-    justify-content: center;
-    @media (max-width: 40em) {
-      justify-content: flex-start;
-    }
-  }
-  &--right &__bar {
-    justify-content: flex-end;
-  }
-
   &__dots {
     display: flex;
     align-self: flex-end;
     align-items: center;
+    justify-content: center;
     flex-wrap: nowrap;
+
     height: 1rem;
+    width: 1.25rem;
+
+    border: none;
+    box-shadow: none;
 
     & > div {
       height: 3px;
@@ -83,6 +68,27 @@
       margin: 0 0.1rem;
 
       border-radius: 1.5px;
+    }
+  }
+
+  // used by the infinity scroller
+  &__marker {
+    pointer-events: none;
+    position: relative; // because of the marker
+
+    height: 1px;
+    width: 1px;
+    margin: -1px 0 0 -1px;
+    overflow: hidden;
+
+    td,
+    &__inner {
+      padding: 0 !important; // because if it is used in table
+
+      width: 1px;
+      height: 1px;
+
+      opacity: 0;
     }
   }
 
@@ -103,21 +109,5 @@
   }
   &__bar__inner &__button {
     margin-right: 0.5rem;
-  }
-
-  @media (max-width: 40em) {
-    &__bar__inner &__button:not([aria-current]):nth-of-type(2),
-    &__bar__inner &__button:not([aria-current]):nth-last-of-type(2) {
-      width: 0;
-      overflow: hidden;
-      margin: 0;
-      padding: 0;
-    }
-  }
-  @media (max-width: 30em) {
-    &__dots {
-      width: 0;
-      margin: 0;
-    }
   }
 }
