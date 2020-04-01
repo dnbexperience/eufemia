@@ -242,54 +242,13 @@ To enhance or manipulate the the table style, you can make use of a couple helpe
   </thead>
   <tbody>
     <tr>
-      <td>
+      <td colSpan="3">
         <p className="dnb-p">
-          Column 1 <b>width p</b>
+          col span of 3
         </p>
       </td>
-      <td>
-        <code className="dnb-code">Column 2 with code</code>
-      </td>
-      <td>
-        <span>Column 3 with span</span>
-      </td>
-      <td>Column 4</td>
-    </tr>
-    <tr>
-      <td colSpan="2">Column witch spans over two columns</td>
-      <td>Column 3</td>
-      <td>Column 4</td>
-    </tr>
-    <tr>
-      <td>Column 1</td>
-      <td>Column 2</td>
-      <td>Column 3</td>
-      <td>Column 4</td>
     </tr>
   </tbody>
 </Table>
 `}
 </ComponentBox>
-
-<!-- ### Tabular Numbers
-
-Set [Tabular Lining](/uilib/typography/numbers) on tables by using this CSS class: `.dnb-table--tabular`
-
-<ComponentBox reactLive hideCode data-dnb-test="table-tabular">
-{`
-<table className="dnb-table dnb-table--tabular">
-  <thead>
-    <tr>
-      <th>
-        Tabular Lining
-      </th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>0123456789</td>
-    </tr>
-  </tbody>
-</table>
-`}
-</ComponentBox> -->
