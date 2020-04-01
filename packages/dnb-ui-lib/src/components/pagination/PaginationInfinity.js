@@ -40,12 +40,14 @@ export default class InfinityScroller extends PureComponent {
     const { startupPage, startup_count } = this.context.pagination
     const startupCount = parseFloat(startup_count)
 
-    for (let i = 0; i < startupCount; ++i) {
+    for (let i = 0, newPageNo; i < startupCount; ++i) {
+      newPageNo = startupPage + i
+      // NB: Looks like we have to do more work here to use a waitBuffer
       this.getNewContent(
-        startupPage + i,
+        newPageNo,
         {
           position: 'after',
-          skipObserver: i + 1 < startupCount
+          skipObserver: newPageNo < startupCount
         },
         { isStartup: i === 0 }
       )
@@ -53,11 +55,11 @@ export default class InfinityScroller extends PureComponent {
   }
 
   getNewContent = (newPageNo, props = {}, { isStartup = false } = {}) => {
-    const { pageCount } = this.context.pagination
+    const { pageCount, endInfinity } = this.context.pagination
 
     // if "page_count" is set do not load more than that value
     if (newPageNo > pageCount) {
-      return
+      return endInfinity()
     }
 
     const exists =
@@ -72,26 +74,66 @@ export default class InfinityScroller extends PureComponent {
     const items = this.context.pagination.prefillItems(newPageNo, props)
 
     this.context.pagination.setItems(items, () =>
-      this.callEventHandler(newPageNo, isStartup)
+      this.callEventHandler(newPageNo, { isStartup })
     )
   }
 
-  callEventHandler(pageNo, isStartup = false) {
-    const createEvent = (eventName) => {
-      dispatchCustomElementEvent(this.context.pagination, eventName, {
-        page: pageNo,
-        pageNo,
-        ...this.context.pagination
-      })
-    }
+  waitForReachedTime(fn, ...props) {
+    this.callbackBuffer = this.callbackBuffer || []
+    this.callbackBuffer.push({ fn, props })
+    this.callBuffer()
+  }
 
-    if (isStartup) {
-      createEvent('on_startup')
-    } else {
-      createEvent('on_change')
-    }
+  callBuffer() {
+    const { minTime } = this.context.pagination
+    const diff =
+      this._lastCall > 0 ? new Date().getTime() - this._lastCall : 0
+    const waitTime = diff < minTime ? minTime : 0
 
-    createEvent('on_load')
+    clearTimeout(this._bufferTimeout)
+    this._bufferTimeout = setTimeout(() => {
+      if (this.callbackBuffer.length > 0) {
+        this._lastCall = new Date().getTime()
+        const { fn, props } = this.callbackBuffer.shift()
+        fn(...props)
+        this.callBuffer()
+      }
+    }, waitTime)
+  }
+
+  callEventHandler(
+    pageNo,
+    { isStartup = false, callOnEnd = false, onDispatch = null } = {}
+  ) {
+    this.waitForReachedTime(
+      ({ pageNo, isStartup }) => {
+        const context = this.context.pagination
+        const createEvent = (eventName) => {
+          dispatchCustomElementEvent(context, eventName, {
+            page: pageNo,
+            pageNo,
+            ...context
+          })
+          if (typeof onDispatch === 'function') {
+            onDispatch()
+          }
+        }
+
+        if (callOnEnd) {
+          // || context.hasEndedInfinity
+          createEvent('on_end')
+        } else {
+          if (isStartup) {
+            createEvent('on_startup')
+          } else {
+            createEvent('on_change')
+          }
+
+          createEvent('on_load')
+        }
+      },
+      { pageNo, isStartup }
+    )
   }
 
   handleInfinityMarker() {
@@ -102,7 +144,8 @@ export default class InfinityScroller extends PureComponent {
       lowerPage,
       upperPage,
       pageCount,
-      // currentPage,
+      hasEndedInfinity,
+      parallelLoadCount,
 
       // our props
       fallback_element,
@@ -112,23 +155,21 @@ export default class InfinityScroller extends PureComponent {
 
     const Marker = () => (
       <InteractionMarker
-        pageNo={upperPage + 1}
+        pageNo={upperPage}
         markerElement={marker_element || fallback_element}
         onVisible={(pageNo) => {
-          // wait on updating our own state, so we can show the indicator (pressed_element) untill we get new children back
-          this.context.pagination.onPageUpdate(() => {
-            this.context.pagination.setState({
-              upperPage: pageNo
+          // load several pages at once
+          for (let i = 0, newPageNo; i < parallelLoadCount; ++i) {
+            newPageNo = pageNo + 1 + i
+            // wait on updating our own state, so we can show the indicator (pressed_element) untill we get new children back
+            this.context.pagination.onPageUpdate(() => {
+              this.context.pagination.setState({
+                upperPage: newPageNo,
+                skipObserver: i + 1 < parallelLoadCount
+              })
             })
-
-            // only update, so endInfinity can use it
-            // if (!currentPage) {
-            // this.context.pagination.setItems(
-            //   [].fill.call({ length: upperPage - lowerPage }, null)
-            // )
-            // }
-          })
-          this.callEventHandler(pageNo)
+            this.callEventHandler(newPageNo)
+          }
         }}
       />
     )
@@ -143,14 +184,14 @@ export default class InfinityScroller extends PureComponent {
           />
         }
         on_click={() => {
-          const pageNo = lowerPage - 1
+          const newPageNo = lowerPage - 1
           // wait on updating our own state, so we can show the indicator (pressed_element) untill we get new children back
           this.context.pagination.onPageUpdate(() => {
             this.context.pagination.setState({
-              lowerPage: pageNo
+              lowerPage: newPageNo
             })
           })
-          this.callEventHandler(pageNo)
+          this.callEventHandler(newPageNo)
         }}
       />
     )
@@ -161,12 +202,14 @@ export default class InfinityScroller extends PureComponent {
 
         {children}
 
-        {(upperPage < pageCount || typeof pageCount === 'undefined') && (
-          <Marker />
-        )}
+        {!hasEndedInfinity &&
+          (typeof pageCount === 'undefined' || upperPage < pageCount) && (
+            <Marker />
+          )}
 
-        {(upperPage < pageCount || typeof pageCount === 'undefined') &&
-          !this.hideIndicator && (
+        {!hasEndedInfinity &&
+          !this.hideIndicator &&
+          (typeof pageCount === 'undefined' || upperPage < pageCount) && (
             <PaginationIndicator
               indicator_element={indicator_element || fallback_element}
             />
@@ -180,10 +223,12 @@ export default class InfinityScroller extends PureComponent {
       // our states
       items,
       pageCount,
+      startupPage,
+      hasEndedInfinity,
+      parallelLoadCount,
+      placeMakerBeforeContent,
 
       // our props
-      startupPage,
-      parallel_load_count,
       page_element,
       fallback_element,
       marker_element,
@@ -196,13 +241,10 @@ export default class InfinityScroller extends PureComponent {
 
     // invoke startup if needed
     if (!(items && items.length > 0)) {
-      clearTimeout(this.startupTimeout)
-      this.startupTimeout = setTimeout(this.startup, 1)
+      clearTimeout(this._startupTimeout)
+      this._startupTimeout = setTimeout(this.startup, 1)
       return null // stop here
     }
-
-    // make some props ready to use
-    const parallelLoadCount = parseFloat(parallel_load_count)
 
     // make sure we handle Table markup correctly
     const Element = preparePageElement(page_element || Fragment)
@@ -221,23 +263,19 @@ export default class InfinityScroller extends PureComponent {
         const marker = hasContent &&
           !this.useLoadButton &&
           !skipObserver &&
-          (pageNo <= pageCount || typeof pageCount === 'undefined') && (
+          !hasEndedInfinity &&
+          (typeof pageCount === 'undefined' || pageNo <= pageCount) && (
             <InteractionMarker
               pageNo={pageNo}
               markerElement={marker_element || fallback_element}
-              onVisible={(pageNoVisible) => {
+              onVisible={(pageNo) => {
                 // load several pages at once
-                for (let i = 0; i < parallelLoadCount; ++i) {
-                  const currentLoadingPage = pageNoVisible + 1 + i
-                  if (
-                    currentLoadingPage <= pageCount ||
-                    typeof pageCount === 'undefined'
-                  ) {
-                    this.getNewContent(currentLoadingPage, {
-                      position: 'after',
-                      skipObserver: i + 1 < parallelLoadCount
-                    })
-                  }
+                for (let i = 0, newPageNo; i < parallelLoadCount; ++i) {
+                  newPageNo = pageNo + 1 + i
+                  this.getNewContent(newPageNo, {
+                    position: 'after',
+                    skipObserver: i + 1 < parallelLoadCount
+                  })
                 }
               }}
             />
@@ -262,20 +300,22 @@ export default class InfinityScroller extends PureComponent {
                 />
               )}
 
-            {idx > 0 && marker}
+            {placeMakerBeforeContent && marker}
             {content}
-            {idx === 0 && marker}
+            {!placeMakerBeforeContent && marker}
 
-            {!hasContent && !this.hideIndicator && (
-              <PaginationIndicator
-                indicator_element={indicator_element || fallback_element}
-              />
-            )}
+            {(parallelLoadCount > 1 && idx > 0 ? isLastItem : true) &&
+              !hasContent &&
+              !this.hideIndicator && (
+                <PaginationIndicator
+                  indicator_element={indicator_element || fallback_element}
+                />
+              )}
 
             {hasContent &&
               this.useLoadButton &&
               isLastItem &&
-              (pageNo < pageCount || typeof pageCount === 'undefined') && (
+              (typeof pageCount === 'undefined' || pageNo < pageCount) && (
                 <InfinityLoadButton
                   element={fallback_element}
                   icon="arrow_down"
@@ -356,15 +396,16 @@ class InteractionMarker extends PureComponent {
 
   componentWillUnmount() {
     this._isMounted = false
-    clearTimeout(this.startupTimeout)
-    clearTimeout(this.readyTimeout)
+    clearTimeout(this._startupTimeout)
+    clearTimeout(this._readyTimeout)
+    clearTimeout(this._bufferTimeout)
     this.intersectionObserver?.disconnect()
   }
 
   callReady = () => {
     this.intersectionObserver?.disconnect()
     this.intersectionObserver = null
-    this.readyTimeout = setTimeout(() => {
+    this._readyTimeout = setTimeout(() => {
       if (this._isMounted) {
         this.setState({ isConnected: true })
       }

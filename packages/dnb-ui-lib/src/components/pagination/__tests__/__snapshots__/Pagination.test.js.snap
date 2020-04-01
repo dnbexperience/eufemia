@@ -16,6 +16,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
         "indicator_element": "indicator_element",
         "items": "items",
         "marker_element": Object {},
+        "min_wait_time": "min_wait_time",
         "mode": "'pagination'",
         "on_change": [Function],
         "on_load": [Function],
@@ -23,6 +24,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
         "page_count": "page_count",
         "page_element": Object {},
         "parallel_load_count": "parallel_load_count",
+        "place_maker_before_content": "place_maker_before_content",
         "reset_content_handler": "reset_content_handler",
         "set_content_handler": "set_content_handler",
         "startup_count": "startup_count",
@@ -45,6 +47,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
         "indicator_element": "indicator_element",
         "items": "items",
         "marker_element": Object {},
+        "min_wait_time": "min_wait_time",
         "mode": "'pagination'",
         "on_change": [Function],
         "on_load": [Function],
@@ -52,6 +55,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
         "page_count": "page_count",
         "page_element": Object {},
         "parallel_load_count": "parallel_load_count",
+        "place_maker_before_content": "place_maker_before_content",
         "reset_content_handler": "reset_content_handler",
         "set_content_handler": "set_content_handler",
         "startup_count": "startup_count",
@@ -74,6 +78,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
         "indicator_element": "indicator_element",
         "items": "items",
         "marker_element": Object {},
+        "min_wait_time": "min_wait_time",
         "mode": "'pagination'",
         "on_change": [Function],
         "on_load": [Function],
@@ -81,6 +86,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
         "page_count": "page_count",
         "page_element": Object {},
         "parallel_load_count": "parallel_load_count",
+        "place_maker_before_content": "place_maker_before_content",
         "reset_content_handler": "reset_content_handler",
         "set_content_handler": "set_content_handler",
         "startup_count": "startup_count",
@@ -95,12 +101,14 @@ exports[`Pagination bar component have to match snapshot 1`] = `
   current_page={null}
   hide_progress_indicator={false}
   items={null}
+  min_wait_time={400}
   mode="pagination"
   on_change={null}
   on_load={null}
   on_startup={null}
   page_count={null}
   parallel_load_count={1}
+  place_maker_before_content={false}
   reset_content_handler={null}
   set_content_handler={null}
   startup_count={1}
@@ -122,6 +130,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
           "indicator_element": "indicator_element",
           "items": "items",
           "marker_element": Object {},
+          "min_wait_time": "min_wait_time",
           "mode": "'pagination'",
           "on_change": [Function],
           "on_load": [Function],
@@ -129,6 +138,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
           "page_count": "page_count",
           "page_element": Object {},
           "parallel_load_count": "parallel_load_count",
+          "place_maker_before_content": "place_maker_before_content",
           "reset_content_handler": "reset_content_handler",
           "set_content_handler": "set_content_handler",
           "startup_count": "startup_count",
@@ -151,6 +161,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
           "indicator_element": "indicator_element",
           "items": "items",
           "marker_element": Object {},
+          "min_wait_time": "min_wait_time",
           "mode": "'pagination'",
           "on_change": [Function],
           "on_load": [Function],
@@ -158,6 +169,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
           "page_count": "page_count",
           "page_element": Object {},
           "parallel_load_count": "parallel_load_count",
+          "place_maker_before_content": "place_maker_before_content",
           "reset_content_handler": "reset_content_handler",
           "set_content_handler": "set_content_handler",
           "startup_count": "startup_count",
@@ -180,6 +192,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
           "indicator_element": "indicator_element",
           "items": "items",
           "marker_element": Object {},
+          "min_wait_time": "min_wait_time",
           "mode": "'pagination'",
           "on_change": [Function],
           "on_load": [Function],
@@ -187,6 +200,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
           "page_count": "page_count",
           "page_element": Object {},
           "parallel_load_count": "parallel_load_count",
+          "place_maker_before_content": "place_maker_before_content",
           "reset_content_handler": "reset_content_handler",
           "set_content_handler": "set_content_handler",
           "startup_count": "startup_count",
@@ -202,12 +216,14 @@ exports[`Pagination bar component have to match snapshot 1`] = `
     end_infinity_handler={null}
     hide_progress_indicator={false}
     items={null}
+    min_wait_time={400}
     mode="pagination"
     on_change={null}
     on_load={null}
     on_startup={null}
     page_count={null}
     parallel_load_count={1}
+    place_maker_before_content={false}
     rerender={null}
     reset_content_handler={null}
     reset_pagination_handler={null}
@@ -234,6 +250,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
             "indicator_element": "indicator_element",
             "items": "items",
             "marker_element": Object {},
+            "min_wait_time": "min_wait_time",
             "mode": "'pagination'",
             "on_change": [Function],
             "on_load": [Function],
@@ -241,6 +258,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
             "page_count": "page_count",
             "page_element": Object {},
             "parallel_load_count": "parallel_load_count",
+            "place_maker_before_content": "place_maker_before_content",
             "reset_content_handler": "reset_content_handler",
             "set_content_handler": "set_content_handler",
             "startup_count": "startup_count",
@@ -263,6 +281,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
             "indicator_element": "indicator_element",
             "items": "items",
             "marker_element": Object {},
+            "min_wait_time": "min_wait_time",
             "mode": "'pagination'",
             "on_change": [Function],
             "on_load": [Function],
@@ -270,6 +289,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
             "page_count": "page_count",
             "page_element": Object {},
             "parallel_load_count": "parallel_load_count",
+            "place_maker_before_content": "place_maker_before_content",
             "reset_content_handler": "reset_content_handler",
             "set_content_handler": "set_content_handler",
             "startup_count": "startup_count",
@@ -292,6 +312,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
             "indicator_element": "indicator_element",
             "items": "items",
             "marker_element": Object {},
+            "min_wait_time": "min_wait_time",
             "mode": "'pagination'",
             "on_change": [Function],
             "on_load": [Function],
@@ -299,6 +320,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
             "page_count": "page_count",
             "page_element": Object {},
             "parallel_load_count": "parallel_load_count",
+            "place_maker_before_content": "place_maker_before_content",
             "reset_content_handler": "reset_content_handler",
             "set_content_handler": "set_content_handler",
             "startup_count": "startup_count",
@@ -313,12 +335,14 @@ exports[`Pagination bar component have to match snapshot 1`] = `
       current_page={null}
       hide_progress_indicator={false}
       items={null}
+      min_wait_time={400}
       mode="pagination"
       on_change={null}
       on_load={null}
       on_startup={null}
       page_count={null}
       parallel_load_count={1}
+      place_maker_before_content={false}
       reset_content_handler={null}
       set_content_handler={null}
       startup_count={1}

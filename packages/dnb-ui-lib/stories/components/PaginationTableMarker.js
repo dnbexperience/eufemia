@@ -38,7 +38,7 @@ export default [
 
 // create our items
 const tableItems = []
-for (let i = 1; i <= 40; i++) {
+for (let i = 1; i <= 60; i++) {
   tableItems.push({ ssn: i, text: String(i), expanded: false })
 }
 
@@ -157,12 +157,16 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
             </TableRow>
           )} // in order to show the injected "indicator" and "load button" in the middle of the orw
           // startup_page={startupPage} // is not needed
+          startup_count={2}
           current_page={currentPage} // Mandatory!
           // page_count={maxPagesCount}// is not needed
           // page_count={4} // is not needed
           {...props}
+          // on_startup={({ page }) => {
+          //   console.log('on_startup: with page', page)
+          // }}
           on_load={({ page }) => {
-            // console.log('on_load: with page', page)
+            console.log('on_load: with page', page)
 
             if (page > tableItems.length / perPageCount) {
               endInfinity()
@@ -173,6 +177,9 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
                 setCurrentPage(page)
               }, Math.ceil(Math.random() * 1e3)) // simulate random delay
             }
+          }}
+          on_end={({ page }) => {
+            console.log('on_end: with page', page)
           }}
         >
           <InfinityPagination

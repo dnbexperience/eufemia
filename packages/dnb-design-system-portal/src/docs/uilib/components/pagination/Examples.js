@@ -82,6 +82,7 @@ class Example extends PureComponent {
     mode="infinity"
     use_load_button
     startup_page={5}
+    min_wait_time={0}
     on_load={({ page, setContent }) => {
       // simulate server communication delay
       setTimeout(() => {
@@ -108,8 +109,9 @@ class Example extends PureComponent {
     indicator_element={() => (
       <LargePage color="lightgreen">Loading ...</LargePage>
     )}
-    startup_page={2}
-    page_count={20}
+    startup_page={3}
+    page_count={10}
+    min_wait_time={0}
     on_load={({ page, setContent }) => {
       // simulate server communication delay
       setTimeout(() => {
@@ -119,6 +121,9 @@ class Example extends PureComponent {
           </LargePage>)
         )
       }, Math.ceil(Math.random() * 500))
+    }}
+    on_end={({ page, setContent }) => {
+      setContent(page, <LargePage color="lightgreen">End</LargePage>)
     }}
   />
 </HeightLimit>
@@ -132,17 +137,13 @@ class Example extends PureComponent {
 <HeightLimit>
   <Pagination
     mode="infinity"
-    startup_count={1}
     parallel_load_count={2}
+    min_wait_time={0}
     on_load={({ page, setContent, endInfinity }) => {
       // simulate server communication delay
       setTimeout(() => {
         if(page > 10){
           endInfinity()
-          setContent(
-            page,
-            <LargePage color="lightgreen">End</LargePage>
-          )
         }
         else {
           setContent(page, (
@@ -152,6 +153,13 @@ class Example extends PureComponent {
           )
         }
       }, Math.ceil(Math.random() * 1e3))
+    }}
+    on_end={({ page, setContent }) => {
+      setContent(page,
+        <LargePage color="lightgreen">
+          End
+        </LargePage>
+      )
     }}
   />
 </HeightLimit>
