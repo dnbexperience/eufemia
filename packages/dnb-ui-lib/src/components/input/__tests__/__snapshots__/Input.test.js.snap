@@ -702,7 +702,7 @@ exports[`Input scss have to match default theme snapshot 1`] = `
   .dnb-input:not([data-input-state='disabled']).dnb-input__submit-button svg {
     color: var(--color-sea-green); }
   .dnb-input__icon {
-    color: var(--color-sea-green-30); }
+    color: var(--color-emerald-green); }
   .dnb-input__status--error .dnb-input__shell:not([data-input-state='focus']) {
     box-shadow: 0 0 0 0.125rem var(--color-fire-red);
     /* IE11 fix */
