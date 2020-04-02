@@ -193,37 +193,37 @@ export default class Button extends PureComponent {
     let usedSize = size
     let content = Button.getContent(this.props) || text
 
-    if (content && React.isValidElement(content)) {
-      content = [content]
-    }
-    if (Array.isArray(content)) {
-      const res = content.reduce(
-        (acc, cur, i) => {
-          if (
-            React.isValidElement(cur) &&
-            /Icon/i.test(String(cur.type))
-          ) {
-            acc.icon = cur
-            if (i === 0) {
-              acc.iconPosition = 'left'
-            }
-          } else {
-            if (!acc.text) {
-              acc.text = []
-            }
-            acc.text.push(cur)
-          }
-          return acc
-        },
-        { text: null, icon, iconPosition }
-      )
-      if (res.icon) {
-        text = res.text || text
-        icon = res.icon
-        iconPosition = res.iconPosition
-        content = null
-      }
-    }
+    // if (content && React.isValidElement(content)) {
+    //   content = [content]
+    // }
+    // if (Array.isArray(content)) {
+    //   const res = content.reduce(
+    //     (acc, cur, i) => {
+    //       if (
+    //         React.isValidElement(cur) &&
+    //         /Icon/i.test(String(cur.type))
+    //       ) {
+    //         acc.icon = cur
+    //         if (i === 0) {
+    //           acc.iconPosition = 'left'
+    //         }
+    //       } else {
+    //         if (!acc.text) {
+    //           acc.text = []
+    //         }
+    //         acc.text.push(cur)
+    //       }
+    //       return acc
+    //     },
+    //     { text: null, icon, iconPosition }
+    //   )
+    //   if (res.icon) {
+    //     text = res.text || text
+    //     icon = res.icon
+    //     iconPosition = res.iconPosition
+    //     content = null
+    //   }
+    // }
 
     // if only has Icon, then resize it and define it as secondary
     const isIconOnly = Boolean(!text && !content && icon)

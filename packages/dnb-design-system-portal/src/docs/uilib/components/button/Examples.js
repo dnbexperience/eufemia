@@ -92,21 +92,25 @@ class Example extends PureComponent {
         </ComponentBox>
         <ComponentBox data-dnb-test="button-anchor">
           {/* @jsx */ `
-<Button href="?no-cache=1">
-  Primary with href
-  <IconPrimary>chevron_right</IconPrimary>
-</Button>
-<Button href="?no-cache=1" variant="secondary">
-  Secondary with href
-  <IconPrimary>chevron_left</IconPrimary>
-</Button>
+<Button
+  text="Primary with href"
+  href="?no-cache=1"
+  icon_position="right"
+  icon="chevron_right"
+/>
+<Button
+  variant="secondary"
+  text="Secondary with href"
+  href="?no-cache=1"
+  icon_position="left"
+  icon="chevron_left"
+/>
 <Button
   href="?no-cache=1"
   title="This is a link"
+  icon="chevron_right"
   size="default"
->
-  <IconPrimary>chevron_right</IconPrimary>
-</Button>
+/>
           `}
         </ComponentBox>
         <ComponentBox

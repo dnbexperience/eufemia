@@ -7,7 +7,10 @@ import React /* , { useState, useEffect } */ from 'react'
 import { Wrapper, Box } from '../helpers'
 import styled from '@emotion/styled'
 
-import { Button, IconPrimary } from '../../src/components'
+import {
+  Button
+  // , IconPrimary
+} from '../../src/components'
 
 const WrappedButton = styled(Button)`
   /* width: 10rem; */
@@ -17,7 +20,7 @@ export default [
   'Buttons',
   () => (
     <Wrapper>
-      <Box>
+      {/* <Box>
         <Button right bottom>
           <IconPrimary icon="chevron_right" />
         </Button>
@@ -33,7 +36,7 @@ export default [
           <IconPrimary>chevron_left</IconPrimary>
           Text <b>Bold</b>
         </Button>
-      </Box>
+      </Box> */}
       <Box>
         <WrappedButton
           right
