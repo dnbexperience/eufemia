@@ -9,8 +9,7 @@ import commonjs from 'rollup-plugin-commonjs'
 import babel from 'rollup-plugin-babel'
 import replace from 'rollup-plugin-replace'
 import nodeGlobals from 'rollup-plugin-node-globals'
-import { uglify } from 'rollup-plugin-uglify'
-// import { terser } from 'rollup-plugin-terser'
+import { terser } from 'rollup-plugin-terser'
 import { sizeSnapshot } from 'rollup-plugin-size-snapshot'
 import isCI from 'is-ci'
 
@@ -76,10 +75,7 @@ function makeRollupConfig(input, file, { name, globals = {} } = {}) {
       nodeGlobals(),
       replace({ 'process.env.NODE_ENV': JSON.stringify('production') }),
       isCI ? sizeSnapshot({ snapshotPath: 'size-snapshot.json' }) : null,
-
-      // NB: Use either uglify or terser
-      uglify({ sourcemap: true }) // is slighlty better (5kb) than terser
-      // terser()
+      terser()
     ]
   }
 }
