@@ -40,6 +40,7 @@ export default ${JSON.stringify(variables, null, 2)}`,
         {
           filepath: 'file.js',
           semi: true,
+          trailingComma: 'none',
           singleQuote: true
         }
       )
