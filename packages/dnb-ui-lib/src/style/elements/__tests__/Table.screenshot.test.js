@@ -8,26 +8,18 @@ import {
   setupPageScreenshot
 } from '../../../core/jest/jestSetupScreenshots'
 
-const style = {
-  display: 'block',
-  width: '40rem',
-  'background-color': 'white'
-}
 const styleSelector = '[data-dnb-test="table-classes"] .dnb-table'
 
 describe('Table screenshot', () => {
   setupPageScreenshot({ url: '/uilib/elements/tables' })
 
-  const style = {
-    display: 'block',
-    width: '20rem',
-    'background-color': 'white'
-  }
-
   it('have to match header with wrapped text', async () => {
     const selector = '[data-dnb-test="table-header"] .dnb-table'
     const screenshot = await testPageScreenshot({
-      style,
+      style: {
+        // 'table-layout': 'fixed',
+        width: '20rem'
+      },
       styleSelector,
       selector
     })
@@ -52,7 +44,10 @@ describe('Table screenshot', () => {
     const selector =
       '[data-dnb-test="table-classes"] th.dnb-table--sortable.dnb-table--reversed'
     const screenshot = await testPageScreenshot({
-      style,
+      style: {
+        // display:'block',
+        'background-color': 'white'
+      },
       styleSelector,
       selector,
       simulateSelector: `${selector} button.dnb-button`,
@@ -60,12 +55,19 @@ describe('Table screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+})
+
+describe('Table screenshot', () => {
+  setupPageScreenshot({ url: '/uilib/elements/tables' })
 
   it('have to match a sortable table header on focus', async () => {
     const selector =
       '[data-dnb-test="table-classes"] th.dnb-table--sortable.dnb-table--reversed'
     const screenshot = await testPageScreenshot({
-      style,
+      style: {
+        // display:'block',
+        'background-color': 'white'
+      },
       styleSelector,
       selector,
       simulateSelector: `${selector} button.dnb-button`,
@@ -82,7 +84,10 @@ describe('Table screenshot', () => {
     const selector =
       '[data-dnb-test="table-classes"] th.dnb-table--sortable.dnb-table--reversed'
     const screenshot = await testPageScreenshot({
-      style,
+      style: {
+        // display:'block',
+        'background-color': 'white'
+      },
       styleSelector,
       selector,
       simulateSelector: `${selector} button.dnb-button`,
@@ -99,7 +104,10 @@ describe('Table screenshot', () => {
     const selector =
       '[data-dnb-test="table-classes"] th.dnb-table--sortable.dnb-table--active'
     const screenshot = await testPageScreenshot({
-      style,
+      style: {
+        // display:'block',
+        'background-color': 'white'
+      },
       styleSelector,
       selector,
       simulateSelector: `${selector} button.dnb-button`,
