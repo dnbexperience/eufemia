@@ -289,26 +289,48 @@ const DropdownStory = () => {
           id="text-dropdown-1"
           size="small"
           icon_position="left"
+          bottom
           value={2}
         />
         <Dropdown
           data={dropdownData}
-          id="text-dropdown-1"
           size="medium"
           icon_position="left"
+          bottom
           value={2}
         />
         <Dropdown
           data={dropdownData}
-          id="text-dropdown-1"
           size="large"
           icon_position="left"
+          bottom
           value={2}
         />
+        <Dropdown data={dropdownData} size="small" bottom value={2} />
+        <Dropdown data={dropdownData} size="medium" bottom value={2} />
+        <Dropdown data={dropdownData} size="large" bottom value={2} />
         <p className="dnb-p">
           Eros semper blandit tellus mollis primis quisque platea
           sollicitudin ipsum
         </p>
+      </Box>
+      <Box>
+        <FormRow direction="vertical">
+          <Dropdown
+            label="Label:"
+            size="default"
+            bottom
+            data={() => data}
+          />
+          <Dropdown
+            label="Label:"
+            size="medium"
+            bottom
+            data={() => data}
+          />
+        </FormRow>
+        <Dropdown size="large" bottom data={() => data} />
+        <Dropdown data={dropdownData} size="large" bottom value={2} />
       </Box>
       <Box>
         <span

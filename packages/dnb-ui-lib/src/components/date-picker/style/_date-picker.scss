@@ -303,6 +303,7 @@
       top: 0;
       width: var(--date-picker-day-width); // medium size
       height: var(--date-picker-day-width); // medium size
+      white-space: nowrap;
 
       box-shadow: none;
       &__bounding {

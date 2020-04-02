@@ -111,7 +111,7 @@ exports[`ToggleButton component have to match snapshot 1`] = `
           <button
             aria-describedby=" toggle-button-suffix"
             aria-pressed="false"
-            className="dnb-button dnb-button--secondary dnb-toggle-button__button dnb-button--icon-position-left dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--has-text"
+            className="dnb-button dnb-button--secondary dnb-button--has-text dnb-toggle-button__button dnb-button--icon-position-left dnb-button--has-icon dnb-button--icon-size-icon_size"
             disabled={false}
             id="toggle-button"
             onClick={[Function]}
@@ -127,7 +127,73 @@ exports[`ToggleButton component have to match snapshot 1`] = `
               bounding={false}
               class={null}
               className="dnb-toggle-button__button"
-              content={
+              content={null}
+              custom_element={null}
+              custom_method={null}
+              disabled="disabled"
+              global_status_id={null}
+              href={null}
+              icon="icon"
+              icon_position="left"
+              icon_size="icon_size"
+              id="toggle-button"
+              innerRef={null}
+              isIconOnly={false}
+              onClick={[Function]}
+              onKeyDown={[Function]}
+              onKeyUp={[Function]}
+              on_click={null}
+              size={null}
+              status={null}
+              status_animation={null}
+              status_state="error"
+              text={
+                Array [
+                  <span
+                    className="dnb-toggle-button__component"
+                  >
+                    <Checkbox
+                      aria-hidden={true}
+                      attributes={null}
+                      checked={false}
+                      class={null}
+                      className={null}
+                      custom_element={null}
+                      custom_method={null}
+                      default_state={null}
+                      disabled="disabled"
+                      global_status_id={null}
+                      id="toggle-button-checkbox"
+                      label={null}
+                      label_position={null}
+                      on_change={null}
+                      on_state_update={null}
+                      readOnly={false}
+                      status={null}
+                      status_animation={null}
+                      status_state="error"
+                      suffix={null}
+                      tabIndex="-1"
+                      title={null}
+                      value={null}
+                    />
+                  </span>,
+                ]
+              }
+              title="title"
+              type="button"
+              variant="secondary"
+            >
+              <span
+                className="dnb-button__alignment"
+                key="button-text-empty"
+              >
+                ‌
+              </span>
+              <span
+                className="dnb-button__text"
+                key="button-text"
+              >
                 <span
                   className="dnb-toggle-button__component"
                 >
@@ -155,130 +221,71 @@ exports[`ToggleButton component have to match snapshot 1`] = `
                     tabIndex="-1"
                     title={null}
                     value={null}
-                  />
-                </span>
-              }
-              custom_element={null}
-              custom_method={null}
-              disabled="disabled"
-              global_status_id={null}
-              href={null}
-              icon="icon"
-              icon_position="left"
-              icon_size="icon_size"
-              id="toggle-button"
-              innerRef={null}
-              isIconOnly={false}
-              onClick={[Function]}
-              onKeyDown={[Function]}
-              onKeyUp={[Function]}
-              on_click={null}
-              size={null}
-              status={null}
-              status_animation={null}
-              status_state="error"
-              text="text"
-              title="title"
-              type="button"
-              variant="secondary"
-            >
-              <span
-                className="dnb-toggle-button__component"
-              >
-                <Checkbox
-                  aria-hidden={true}
-                  attributes={null}
-                  checked={false}
-                  class={null}
-                  className={null}
-                  custom_element={null}
-                  custom_method={null}
-                  default_state={null}
-                  disabled="disabled"
-                  global_status_id={null}
-                  id="toggle-button-checkbox"
-                  label={null}
-                  label_position={null}
-                  on_change={null}
-                  on_state_update={null}
-                  readOnly={false}
-                  status={null}
-                  status_animation={null}
-                  status_state="error"
-                  suffix={null}
-                  tabIndex="-1"
-                  title={null}
-                  value={null}
-                >
-                  <span
-                    className="dnb-checkbox dnb-form-component"
                   >
                     <span
-                      className="dnb-checkbox__order"
+                      className="dnb-checkbox dnb-form-component"
                     >
                       <span
-                        className="dnb-checkbox__inner"
+                        className="dnb-checkbox__order"
                       >
-                        <AlignmentHelper
-                          className={null}
-                        >
-                          <span
-                            aria-hidden={true}
-                            className="dnb-alignment-helper"
-                          />
-                        </AlignmentHelper>
                         <span
-                          className="dnb-checkbox__shell"
+                          className="dnb-checkbox__inner"
                         >
-                          <input
-                            aria-checked={false}
-                            aria-hidden={true}
-                            checked={false}
-                            className="dnb-checkbox__input"
-                            disabled="disabled"
-                            id="toggle-button-checkbox"
-                            name="toggle-button-checkbox"
-                            onChange={[Function]}
-                            onKeyDown={[Function]}
-                            onMouseOut={[Function]}
-                            tabIndex="-1"
-                            title={null}
-                            type="checkbox"
-                            value=""
-                          />
-                          <span
-                            aria-hidden={true}
-                            className="dnb-checkbox__button"
+                          <AlignmentHelper
+                            className={null}
                           >
                             <span
-                              className="dnb-checkbox__focus"
-                            />
-                          </span>
-                          <CheckSVG>
-                            <svg
                               aria-hidden={true}
-                              className="dnb-checkbox__gfx"
-                              fill="none"
-                              height="24"
-                              viewBox="0 0 24 24"
-                              width="24"
+                              className="dnb-alignment-helper"
+                            />
+                          </AlignmentHelper>
+                          <span
+                            className="dnb-checkbox__shell"
+                          >
+                            <input
+                              aria-checked={false}
+                              aria-hidden={true}
+                              checked={false}
+                              className="dnb-checkbox__input"
+                              disabled="disabled"
+                              id="toggle-button-checkbox"
+                              name="toggle-button-checkbox"
+                              onChange={[Function]}
+                              onKeyDown={[Function]}
+                              onMouseOut={[Function]}
+                              tabIndex="-1"
+                              title={null}
+                              type="checkbox"
+                              value=""
+                            />
+                            <span
+                              aria-hidden={true}
+                              className="dnb-checkbox__button"
                             >
-                              <path
-                                d="M5.86 12.95a.75.75 0 1 0-1.22.86l1.22-.86zm2.15 4.34l.62-.42-.01-.01-.61.43zm.94.52l.02-.75-.02.75zm.98-.46l-.6-.47v.01l.6.46zm9.4-10.7a.75.75 0 0 0-1.17-.93l1.18.93zm-14.7 7.16l2.76 3.91 1.23-.86-2.76-3.91-1.22.86zm2.75 3.9c.35.52.93.84 1.55.85l.04-1.5a.43.43 0 0 1-.34-.19l-1.25.84zm1.55.85c.62.02 1.22-.26 1.6-.76l-1.2-.9a.43.43 0 0 1-.36.16l-.04 1.5zm1.59-.75l8.82-11.16-1.18-.93-8.82 11.16 1.18.93z"
+                              <span
+                                className="dnb-checkbox__focus"
                               />
-                            </svg>
-                          </CheckSVG>
+                            </span>
+                            <CheckSVG>
+                              <svg
+                                aria-hidden={true}
+                                className="dnb-checkbox__gfx"
+                                fill="none"
+                                height="24"
+                                viewBox="0 0 24 24"
+                                width="24"
+                              >
+                                <path
+                                  d="M5.86 12.95a.75.75 0 1 0-1.22.86l1.22-.86zm2.15 4.34l.62-.42-.01-.01-.61.43zm.94.52l.02-.75-.02.75zm.98-.46l-.6-.47v.01l.6.46zm9.4-10.7a.75.75 0 0 0-1.17-.93l1.18.93zm-14.7 7.16l2.76 3.91 1.23-.86-2.76-3.91-1.22.86zm2.75 3.9c.35.52.93.84 1.55.85l.04-1.5a.43.43 0 0 1-.34-.19l-1.25.84zm1.55.85c.62.02 1.22-.26 1.6-.76l-1.2-.9a.43.43 0 0 1-.36.16l-.04 1.5zm1.59-.75l8.82-11.16-1.18-.93-8.82 11.16 1.18.93z"
+                                />
+                              </svg>
+                            </CheckSVG>
+                          </span>
                         </span>
                       </span>
                     </span>
-                  </span>
-                </Checkbox>
-              </span>
-              <span
-                className="dnb-button__text"
-                key="button-text"
-              >
-                text
+                  </Checkbox>
+                </span>
               </span>
               <IconPrimary
                 alt={null}
@@ -532,7 +539,7 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
                           >
                             <button
                               aria-pressed="true"
-                              className="dnb-button dnb-button--secondary dnb-toggle-button__button dnb-button--has-text"
+                              className="dnb-button dnb-button--secondary dnb-button--has-text dnb-toggle-button__button"
                               disabled={false}
                               id="toggle-button-1"
                               onClick={[Function]}
@@ -571,6 +578,12 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
                                 type="button"
                                 variant="secondary"
                               >
+                                <span
+                                  className="dnb-button__alignment"
+                                  key="button-text-empty"
+                                >
+                                  ‌
+                                </span>
                                 <span
                                   className="dnb-button__text"
                                   key="button-text"
@@ -660,7 +673,7 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
                           >
                             <button
                               aria-pressed="true"
-                              className="dnb-button dnb-button--secondary dnb-toggle-button__button dnb-button--has-text"
+                              className="dnb-button dnb-button--secondary dnb-button--has-text dnb-toggle-button__button"
                               disabled={false}
                               id="toggle-button-2"
                               onClick={[Function]}
@@ -699,6 +712,12 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
                                 type="button"
                                 variant="secondary"
                               >
+                                <span
+                                  className="dnb-button__alignment"
+                                  key="button-text-empty"
+                                >
+                                  ‌
+                                </span>
                                 <span
                                   className="dnb-button__text"
                                   key="button-text"
@@ -1165,26 +1184,31 @@ legend.dnb-form-label {
   user-select: none;
   -webkit-user-select: none;
   cursor: pointer;
-  white-space: nowrap;
+  white-space: normal;
+  overflow-wrap: break-word;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   width: var(--button-width);
-  height: var(--button-height);
+  height: auto;
   padding: 0;
   border: var(--button-border-width) solid transparent;
   border-radius: var(--button-border-radius);
   text-decoration: none;
-  font-size: var(--font-size-small); }
+  font-size: var(--font-size-small);
+  /* stylelint-disable-next-line */ }
   .dnb-button,
   .dnb-core-style .dnb-button {
     line-height: var(--button-height); }
   .dnb-button__text {
+    margin: 0.5rem 0;
     font-size: var(--button-font-size);
-    line-height: var(--line-height-xx-small--em);
+    line-height: var(--line-height-basis);
     color: inherit;
-    background-color: inherit;
     transform: translateY(-0.03125rem); }
+  .dnb-button__alignment {
+    display: inline-block;
+    width: 0; }
   .dnb-button__bounding {
     position: absolute;
     top: 0;
@@ -1194,14 +1218,18 @@ legend.dnb-form-label {
     transform: scale(1.1, 1.4);
     background-color: transparent;
     border-radius: var(--button-border-radius); }
+  .dnb-button--has-text {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem; }
   .dnb-button--size-small {
     width: var(--button-width--small);
-    height: var(--button-height--small);
     font-size: var(--button-font-size-small);
     border-radius: var(--button-border-radius--small); }
     .dnb-button--size-small,
     .dnb-core-style .dnb-button--size-small {
       line-height: var(--button-height--small); }
+  .dnb-button--size-small .dnb-button__text {
+    margin: 0; }
   .dnb-button--has-text.dnb-button--size-small {
     padding-left: 1rem;
     padding-right: 1rem; }
@@ -1211,11 +1239,12 @@ legend.dnb-form-label {
     padding-right: 0.5rem; }
   .dnb-button--size-medium {
     width: var(--button-width--medium);
-    height: var(--button-height--medium);
     border-radius: var(--button-border-radius--medium); }
     .dnb-button--size-medium,
     .dnb-core-style .dnb-button--size-medium {
       line-height: var(--button-height--medium); }
+  .dnb-button--size-medium .dnb-button__text {
+    margin: 0; }
   .dnb-button--has-text.dnb-button--size-medium {
     padding-left: 1rem;
     padding-right: 1rem; }
@@ -1225,7 +1254,6 @@ legend.dnb-form-label {
     padding-right: 0.5rem; }
   .dnb-button--size-large {
     width: var(--button-width--large);
-    height: var(--button-height--large);
     border-radius: var(--button-border-radius--large); }
     .dnb-button--size-large,
     .dnb-core-style .dnb-button--size-large {
@@ -1238,8 +1266,6 @@ legend.dnb-form-label {
   .dnb-button--has-text.dnb-button--icon-position-right.dnb-button--size-large {
     padding-right: 1rem; }
   .dnb-button--has-text {
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
     width: auto; }
   .dnb-button--has-text .dnb-button__icon {
     margin: 0 calc(var(--button-icon-size) / 2); }
@@ -1301,6 +1327,8 @@ legend.dnb-form-label {
     cursor: not-allowed; }
   .dnb-form-row--vertical .dnb-form-row__content > .dnb-button {
     align-self: flex-start; }
+  .dnb-form-row--horizontal .dnb-form-row__content .dnb-button__text {
+    white-space: nowrap; }
   .dnb-button + .dnb-form-status {
     margin-top: 0.5rem; }
   @media screen and (-ms-high-contrast: none) {

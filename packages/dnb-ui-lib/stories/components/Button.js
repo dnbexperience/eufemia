@@ -5,14 +5,187 @@
 
 import React /* , { useState, useEffect } */ from 'react'
 import { Wrapper, Box } from '../helpers'
-// import styled from '@emotion/styled'
+import styled from '@emotion/styled'
 
-import { Button } from '../../src/components'
+import { Button, IconPrimary } from '../../src/components'
+
+const WrappedButton = styled(Button)`
+  /* width: 10rem; */
+`
 
 export default [
   'Buttons',
   () => (
     <Wrapper>
+      <Box>
+        <Button right bottom>
+          <IconPrimary icon="chevron_right" />
+        </Button>
+        <Button right bottom>
+          Text
+          <IconPrimary icon="chevron_right" />
+        </Button>
+        <Button
+          right
+          bottom
+          // icon="chevron_left" icon_position="left"
+        >
+          <IconPrimary>chevron_left</IconPrimary>
+          Text <b>Bold</b>
+        </Button>
+      </Box>
+      <Box>
+        <WrappedButton
+          right
+          bottom
+          icon="chevron_right"
+          text="Text"
+          size="small"
+        />
+        <WrappedButton
+          right
+          bottom
+          icon="chevron_right"
+          text="Text"
+          size="medium"
+        />
+        <WrappedButton
+          right
+          bottom
+          icon="chevron_right"
+          text="Text"
+          size="large"
+        />
+      </Box>
+      <Box>
+        <WrappedButton
+          right
+          bottom
+          icon="chevron_right"
+          text="Netus cursus vel himenaeos venenatis torquent ac lobortis
+          consectetur risus"
+          size="small"
+        />
+        <WrappedButton
+          right
+          bottom
+          icon="chevron_right"
+          text="Netus cursus vel himenaeos venenatis torquent ac lobortis
+          consectetur risus"
+          size="medium"
+        />
+        <WrappedButton
+          right
+          bottom
+          icon="chevron_right"
+          text="Netus cursus vel himenaeos venenatis torquent ac lobortis
+          consectetur risus"
+          size="large"
+        />
+      </Box>
+      <Box>
+        <WrappedButton icon="chevron_right" right bottom>
+          Netus cursus vel himenaeos venenatis torquent ac lobortis
+          consectetur risus
+        </WrappedButton>
+        <WrappedButton
+          icon="chevron_left"
+          icon_position="left"
+          right
+          bottom
+          variant="secondary"
+        >
+          Netus cursus vel himenaeos venenatis torquent ac lobortis
+          consectetur risus
+        </WrappedButton>
+        <WrappedButton
+          icon="chevron_right"
+          right
+          bottom
+          variant="secondary"
+        >
+          Netus cursus vel himenaeos venenatis torquent ac lobortis
+          consectetur risus
+        </WrappedButton>
+        <WrappedButton
+          icon="chevron_left"
+          icon_position="left"
+          right
+          bottom
+          variant="tertiary"
+        >
+          Netus cursus vel himenaeos venenatis torquent ac lobortis
+          consectetur risus
+        </WrappedButton>
+        <WrappedButton
+          icon="chevron_right"
+          right
+          bottom
+          variant="tertiary"
+        >
+          Netus cursus vel himenaeos venenatis torquent ac lobortis
+          consectetur risus
+        </WrappedButton>
+      </Box>
+      <Box>
+        <span className="dnb-p">text</span>{' '}
+        <Button
+          text="Button text"
+          variant="tertiary"
+          icon_position="left"
+          icon="chevron_left"
+        />
+        <Button
+          text="Button text"
+          variant="tertiary"
+          icon="chevron_right"
+        />
+        <Button
+          text="Button text"
+          variant="tertiary"
+          icon_position="left"
+          icon="chevron_left"
+        />
+        <Button
+          text="Button text"
+          variant="tertiary"
+          icon="chevron_right"
+        />
+        <Button
+          text="Button text"
+          variant="tertiary"
+          icon_position="left"
+          icon="chevron_left"
+          icon_size="medium"
+        />
+        <Button
+          text="Button text"
+          variant="tertiary"
+          icon="chevron_right"
+          icon_size="medium"
+        />
+        <Button
+          text="Button text"
+          variant="tertiary"
+          icon="chevron_right"
+          icon_size="large"
+        />
+        <Button
+          text="Button text"
+          variant="tertiary"
+          icon="chevron_right"
+          icon_size="medium"
+          disabled
+        />
+        <span className="dnb-p">text</span>
+      </Box>
+      <Box>
+        <span className="dnb-p">text</span>
+        <Button variant="tertiary" icon="calendar" />
+        <Button variant="tertiary" icon="calendar" size="large" />
+        <Button icon="calendar" size="large" />
+        <span className="dnb-p">text</span>
+      </Box>
       <Box>
         <span className="dnb-p">text</span>{' '}
         <Button text="Primary" icon="add" bounding />
@@ -81,48 +254,6 @@ export default [
       <Box>
         <Button text="Signal" variant="signal" icon="add" />
         <Button text="Signal" variant="signal" icon="add" disabled />
-      </Box>
-      <Box>
-        <span className="dnb-p">text</span>{' '}
-        <Button
-          text="Button text"
-          variant="tertiary"
-          icon_position="left"
-          icon="chevron_left"
-        />
-        <Button
-          text="Button text"
-          variant="tertiary"
-          icon="chevron_right"
-        />
-        <Button
-          text="Button text"
-          variant="tertiary"
-          icon_position="left"
-          icon="chevron_left"
-          icon_size="medium"
-        />
-        <Button
-          text="Button text"
-          variant="tertiary"
-          icon="chevron_right"
-          icon_size="medium"
-        />
-        <Button
-          text="Button text"
-          variant="tertiary"
-          icon="chevron_right"
-          icon_size="medium"
-          disabled
-        />
-        <span className="dnb-p">text</span>
-      </Box>
-      <Box>
-        <span className="dnb-p">text</span>
-        <Button variant="tertiary" icon="calendar" />
-        <Button variant="tertiary" icon="calendar" size="large" />
-        <Button icon="calendar" size="large" />
-        <span className="dnb-p">text</span>
       </Box>
     </Wrapper>
   )

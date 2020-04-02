@@ -10,6 +10,8 @@
   border: none;
   box-shadow: none;
 
+  text-align: left;
+
   // no animation yet
   // transition: background-color 100ms ease-out, box-shadow 100ms ease-out;
 
@@ -38,12 +40,7 @@
       color: var(--color-emerald-green);
     }
 
-    @include fakeBorder(
-      var(--color-sea-green),
-      0.0625rem,
-      inset,
-      true
-    );
+    @include fakeBorder(var(--color-sea-green), 0.0625rem, inset, true);
 
     @include buttonHover(var(--color-sea-green), var(--color-white));
     @include buttonFocus(var(--color-sea-green), var(--color-white));
@@ -54,7 +51,7 @@
 
     &[disabled],
     &[disabled]:focus // only because of href/anchor button
- {
+    {
       color: var(--color-sea-green-30);
       background-color: var(--color-white);
 
@@ -89,18 +86,13 @@
     color: var(--color-sea-green);
     background-color: transparent;
 
-    &.dnb-button--has-text {
-      padding: 0 0.5rem;
-    }
-
     .dnb-button__text {
       position: relative; // because of the underline
 
-      padding: 0.125rem 0;
-      line-height: var(--line-height-xx-small--em);
-
       @include drawUnderlineBorder() {
-        bottom: -0.125rem;
+        bottom: -0.0625rem;
+        left: -0.5rem;
+        right: -0.5rem;
         color: transparent;
         opacity: 0;
         transition: opacity 200ms ease-out, color 200ms ease-out;
@@ -146,60 +138,64 @@
       }
     }
 
-    // webkit fix
-    html[data-whatinput='keyboard']
-      &:hover:focus
-      .dnb-button__text::after {
-      visibility: hidden;
-    }
-
     &.dnb-button--has-icon {
-      &.dnb-button--has-text .dnb-button__icon {
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        margin: auto 0;
-      }
+      &.dnb-button--has-text {
+        &.dnb-button--icon-position-left {
+          padding-left: 0;
+          padding-right: 0.5rem;
 
-      &.dnb-button--icon-position-left {
-        .dnb-button__text {
-          padding-left: 1.5rem;
-        }
-        .dnb-button__icon {
-          left: 0.5rem;
-          right: auto;
-        }
-        &.dnb-button--icon-size-medium {
           .dnb-button__text {
-            padding-left: 0;
-            margin-left: 2rem;
+            padding-left: 1rem;
+
+            &::after {
+              right: 0;
+            }
+          }
+          .dnb-button__icon {
+            margin-right: -0.5rem;
+          }
+          &.dnb-button--icon-size-medium,
+          &.dnb-button--icon-size-large {
+            .dnb-button__text {
+              padding-left: 0;
+              margin-left: 1rem;
+
+              &::after {
+                left: 0;
+              }
+            }
+          }
+        }
+        &.dnb-button--icon-position-right {
+          padding-right: 0;
+          padding-left: 0.5rem;
+
+          /* stylelint-disable */
+          .dnb-button__text {
+            padding-right: 1rem;
+
+            &::after {
+              left: 0;
+            }
+          }
+          .dnb-button__icon {
+            margin-left: -0.5rem;
+          }
+          /* stylelint-enable */
+          &.dnb-button--icon-size-medium,
+          &.dnb-button--icon-size-large {
+            .dnb-button__text {
+              padding-right: 0;
+              margin-right: 1rem;
+
+              &::after {
+                right: 0;
+              }
+            }
           }
         }
       }
-      &.dnb-button--icon-position-right {
-        /* stylelint-disable */
-        .dnb-button__text {
-          padding-right: 1.5rem;
-        }
-        /* stylelint-enable */
-        .dnb-button__icon {
-          right: 0.5rem;
-          left: auto;
-        }
-        &.dnb-button--icon-size-medium {
-          .dnb-button__text {
-            padding-right: 0;
-            margin-right: 2rem;
-          }
-        }
-      }
 
-      // even if only icons are not supported by Eufemia, devs are using this
-      // therefore we make sure the text don't has spacing
-      &:not(.dnb-button--has-text).dnb-button--has-icon .dnb-button__text {
-        padding: 0;
-        margin: 0;
-      }
       &:not(.dnb-button--has-text) {
         @include focus() {
           // make the ring round
@@ -217,6 +213,14 @@
           @include fakeBorder(var(--color-sea-green-30), 0.0625rem);
         }
       }
+    }
+
+    // stylelint-disable-next-line
+    html[data-whatinput='keyboard']
+    // webkit fix
+      &:hover:focus
+      .dnb-button__text::after {
+      visibility: hidden;
     }
 
     &[disabled] {

@@ -21,7 +21,7 @@
   align-items: center;
 
   font-size: var(--font-size-small);
-  line-height: var(--dropdown-height);
+  // line-height: var(--dropdown-height);
 
   &__inner {
     display: inline-flex;
@@ -71,7 +71,10 @@
   }
 
   &--large .dnb-drawer-list__triangle {
-    margin: 0 calc(var(--dropdown-padding-horizontal) + 0.25rem);
+    margin-left: calc(var(--dropdown-padding-horizontal) - 0.25rem);
+  }
+  &--icon-position-left#{&}--large .dnb-drawer-list__triangle {
+    margin-left: calc(var(--dropdown-padding-horizontal) + 0.25rem);
   }
 
   &__icon {
@@ -92,16 +95,10 @@
     user-select: none;
     -webkit-user-select: none; // Safari / Touch fix
 
-    display: inline-flex;
-    align-items: center;
-
-    outline: none;
-
     width: 100%;
-    padding: 0 var(--dropdown-padding-horizontal);
 
     &.dnb-button {
-      line-height: var(--dropdown-height);
+      padding: 0 1rem;
     }
   }
 
@@ -178,16 +175,20 @@
     line-height: var(--dropdown-height--large);
   }
 
+  &--is-popup &__trigger.dnb-button {
+    padding: 0;
+  }
+
   &__text {
     order: 1;
     position: relative;
     z-index: 4;
 
-    width: 100%;
-    height: inherit;
-    line-height: inherit;
+    display: inline-flex;
 
-    padding: 0 var(--dropdown-text-padding) 0 0;
+    width: 100%;
+
+    // padding: 0 1rem;
 
     overflow: hidden;
 
@@ -201,14 +202,13 @@
 
       width: 100%;
 
-      height: inherit;
-      padding: 0;
+      // height: inherit;
+      // padding: 0;
 
       overflow: hidden;
       white-space: nowrap;
 
       color: inherit;
-      text-decoration: none;
       text-overflow: inherit;
       text-align: inherit;
     }
