@@ -22,6 +22,14 @@ const dnbLib = makeRollupConfig(
     globals: { [path.resolve('./src/icons/primary_icons.js')]: 'dnbIcons' }
   }
 )
+const dnbWebComponents = makeRollupConfig(
+  './src/umd/dnb-ui-web-components.js',
+  'build/umd/dnb-ui-web-components.min.js',
+  {
+    name: 'dnbLib',
+    globals: { [path.resolve('./src/icons/primary_icons.js')]: 'dnbIcons' }
+  }
+)
 const dnbBasis = makeRollupConfig(
   './src/umd/dnb-ui-basis.js',
   'build/umd/dnb-ui-basis.min.js',
@@ -36,10 +44,53 @@ const dnbIcons = makeRollupConfig(
   { name: 'dnbIcons' }
 )
 
-// 2. and export them so rollup knows what to do
-export default [dnbLib, dnbBasis, dnbIcons]
+// es libs
+const dnbLibES = makeRollupConfig(
+  './src/es/dnb-ui-lib.js',
+  'build/es/dnb-ui-lib.es.min.js',
+  {
+    format: 'esm',
+    name: 'dnbLib',
+    globals: {
+      [path.resolve('./src/icons/primary_icons.js')]: 'dnbIcons'
+    }
+  }
+)
+const dnbBasisES = makeRollupConfig(
+  './src/es/dnb-ui-basis.js',
+  'build/es/dnb-ui-basis.es.min.js',
+  {
+    format: 'esm',
+    name: 'dnbBasis',
+    globals: {
+      [path.resolve('./src/icons/primary_icons.js')]: 'dnbIcons'
+    }
+  }
+)
+const dnbIconsES = makeRollupConfig(
+  './src/es/dnb-ui-icons.js',
+  'build/es/dnb-ui-icons.es.min.js',
+  { format: 'esm', name: 'dnbIcons' }
+)
 
-function makeRollupConfig(input, file, { name, globals = {} } = {}) {
+// 2. and export them so rollup knows what to do
+export default [
+  dnbLib,
+  dnbWebComponents,
+  dnbBasis,
+  dnbIcons,
+  dnbLibES,
+  dnbBasisES,
+  dnbIconsES
+]
+
+function makeRollupConfig(
+  input,
+  file,
+  { name, globals = {}, format = 'umd' } = {}
+) {
+  process.env.BABEL_ENV = format
+
   globals = {
     ...{
       react: 'React',
@@ -52,11 +103,14 @@ function makeRollupConfig(input, file, { name, globals = {} } = {}) {
     runtimeHelpers: true, // using @babel/plugin-transform-runtime
     configFile: './babel.config.cjs'
   }
-  const commonjsOptions = {
-    ignoreGlobal: true,
-    include: /node_modules/,
-    namedExports: {}
-  }
+  const commonjsOptions =
+    format === 'esm'
+      ? {}
+      : {
+          ignoreGlobal: true,
+          include: /node_modules/,
+          namedExports: {}
+        }
 
   return {
     input,
@@ -65,7 +119,7 @@ function makeRollupConfig(input, file, { name, globals = {} } = {}) {
       file,
       name,
       globals,
-      format: 'umd'
+      format
     },
     external: Object.keys(globals),
     plugins: [
@@ -75,7 +129,9 @@ function makeRollupConfig(input, file, { name, globals = {} } = {}) {
       nodeGlobals(),
       replace({ 'process.env.NODE_ENV': JSON.stringify('production') }),
       isCI ? sizeSnapshot({ snapshotPath: 'size-snapshot.json' }) : null,
-      terser()
+      terser({
+        sourcemap: true
+      })
     ]
   }
 }
