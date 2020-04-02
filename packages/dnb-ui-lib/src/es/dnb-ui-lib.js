@@ -1,5 +1,5 @@
 /**
- * UMD lib entry
+ * ES lib entry
  *
  */
 

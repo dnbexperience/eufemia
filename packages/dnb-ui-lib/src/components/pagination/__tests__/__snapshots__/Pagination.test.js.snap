@@ -820,6 +820,15 @@ exports[`Pagination scss have to match default theme snapshot 1`] = `
 .dnb-pagination__dots > div {
   background-color: var(--color-emerald-green); }
 
+@media (max-width: 40em) {
+  .dnb-pagination--many-pages .dnb-pagination__bar__inner .dnb-pagination__button:not([aria-current]):nth-of-type(2),
+  .dnb-pagination--many-pages .dnb-pagination__bar__inner .dnb-pagination__button:not([aria-current]):nth-last-of-type(2) {
+    width: 0;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+    box-shadow: none; } }
+
 @keyframes show-page {
   from {
     transform: translate3d(0, -8px, 0);
@@ -1353,18 +1362,15 @@ button.dnb-button::-moz-focus-inner {
     display: flex;
     flex-wrap: wrap;
     align-items: center; }
-  .dnb-pagination__marker {
-    pointer-events: none;
-    position: relative;
-    height: 1px;
-    width: 1px;
-    margin: -1px 0 0 -1px;
-    overflow: hidden; }
-    .dnb-pagination__marker td, .dnb-pagination__marker__inner {
-      padding: 0 !important;
-      width: 1px;
-      height: 1px;
-      opacity: 0; }
+  .dnb-pagination--left .dnb-pagination__bar {
+    justify-content: flex-start; }
+  .dnb-pagination--center .dnb-pagination__bar {
+    justify-content: center; }
+    @media (max-width: 40em) {
+      .dnb-pagination--center .dnb-pagination__bar {
+        justify-content: flex-start; } }
+  .dnb-pagination--right .dnb-pagination__bar {
+    justify-content: flex-end; }
   .dnb-pagination__loadbar {
     cursor: default;
     display: flex;
@@ -1380,26 +1386,33 @@ button.dnb-button::-moz-focus-inner {
       flex-direction: column;
       align-items: center;
       justify-content: center; }
-  .dnb-pagination--left .dnb-pagination__bar {
-    justify-content: flex-start; }
-  .dnb-pagination--center .dnb-pagination__bar {
-    justify-content: center; }
-    @media (max-width: 40em) {
-      .dnb-pagination--center .dnb-pagination__bar {
-        justify-content: flex-start; } }
-  .dnb-pagination--right .dnb-pagination__bar {
-    justify-content: flex-end; }
   .dnb-pagination__dots {
     display: flex;
     align-self: flex-end;
     align-items: center;
+    justify-content: center;
     flex-wrap: nowrap;
-    height: 1rem; }
+    height: 1rem;
+    width: 1.25rem;
+    border: none;
+    box-shadow: none; }
     .dnb-pagination__dots > div {
       height: 3px;
       width: 3px;
       margin: 0 0.1rem;
       border-radius: 1.5px; }
+  .dnb-pagination__marker {
+    pointer-events: none;
+    position: relative;
+    height: 1px;
+    width: 1px;
+    margin: -1px 0 0 -1px;
+    overflow: hidden; }
+    .dnb-pagination__marker td, .dnb-pagination__marker__inner {
+      padding: 0 !important;
+      width: 1px;
+      height: 1px;
+      opacity: 0; }
   .dnb-core-style .dnb-pagination__button, .dnb-pagination__button, .dnb-pagination__dots {
     margin-right: 0.5rem;
     margin-top: 0.5rem;
@@ -1410,16 +1423,5 @@ button.dnb-button::-moz-focus-inner {
     margin-right: 1rem; }
   .dnb-pagination__bar__inner .dnb-pagination__button {
     margin-right: 0.5rem; }
-  @media (max-width: 40em) {
-    .dnb-pagination__bar__inner .dnb-pagination__button:not([aria-current]):nth-of-type(2),
-    .dnb-pagination__bar__inner .dnb-pagination__button:not([aria-current]):nth-last-of-type(2) {
-      width: 0;
-      overflow: hidden;
-      margin: 0;
-      padding: 0; } }
-  @media (max-width: 30em) {
-    .dnb-pagination__dots {
-      width: 0;
-      margin: 0; } }
 "
 `;
