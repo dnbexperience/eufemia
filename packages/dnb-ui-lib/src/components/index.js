@@ -41,6 +41,7 @@ import Switch from './switch/Switch'
 import Tabs from './tabs/Tabs'
 import Textarea from './textarea/Textarea'
 import ToggleButton from './toggle-button/ToggleButton'
+import Tooltip from './tooltip/Tooltip'
 
 // define / export all the aviable components
 export {
@@ -74,5 +75,6 @@ export {
   Switch,
   Tabs,
   Textarea,
-  ToggleButton
+  ToggleButton,
+  Tooltip
 }
