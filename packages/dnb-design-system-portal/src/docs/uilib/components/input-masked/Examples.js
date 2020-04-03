@@ -55,11 +55,10 @@ class Example extends PureComponent {
 />
           `}
         </ComponentBox>
-        <ComponentBox title="Only numbers">
+        <ComponentBox title="Using the `number_mask` - combined suffix">
           {/* @jsx */ `
 <InputMasked
   label="Masked input:"
-  autocomplete="off"
   value="1000000"
   number_mask={{
     suffix: ',-'
@@ -72,12 +71,10 @@ class Example extends PureComponent {
 />
           `}
         </ComponentBox>
-        <ComponentBox title="Only numbers, right aligned and large sized input">
+        <ComponentBox title="Using the `number_mask` and a prefix">
           {/* @jsx */ `
 <InputMasked
   label="Masked input:"
-  autocomplete="off"
-  size="large"
   number_mask={{
     prefix: 'NOK '
   }}
