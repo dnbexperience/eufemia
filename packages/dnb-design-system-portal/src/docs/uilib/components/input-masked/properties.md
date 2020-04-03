@@ -84,7 +84,6 @@ import emailMask from 'dnb-ui-lib/components/input-masked/addons/emailMask'
 
 render(
   <InputMasked
-    type="email"
     label="Email:"
     mask={emailMask}
     placeholder="@."
