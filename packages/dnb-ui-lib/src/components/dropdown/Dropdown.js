@@ -15,7 +15,7 @@ import {
   validateDOMAttributes,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
-import AlignmentHelper from '../../shared/AlignmentHelper'
+// import AlignmentHelper from '../../shared/AlignmentHelper'
 import { createSpacingClasses } from '../space/SpacingHelper'
 
 import Suffix from '../../shared/helpers/Suffix'
@@ -504,7 +504,7 @@ class DropdownInstance extends PureComponent {
         )}
 
         <span className="dnb-dropdown__inner" ref={this._ref}>
-          <AlignmentHelper />
+          {/* <AlignmentHelper /> */}
 
           {showStatus && (
             <FormStatus
@@ -524,8 +524,8 @@ class DropdownInstance extends PureComponent {
               ) : (
                 <Button
                   variant="secondary"
-                  size="medium"
-                  // size={size === 'default' ? 'medium' : size}
+                  // size="medium"
+                  size={size === 'default' ? 'medium' : size}
                   ref={this._refButton}
                   {...triggerParams}
                 >

@@ -30,7 +30,8 @@
   -webkit-user-select: none; // Safari / Touch fix
 
   cursor: pointer;
-  white-space: nowrap;
+  white-space: normal;
+  overflow-wrap: break-word;
 
   // we use flex, even if they dont has effect in safari and webkit
   display: inline-flex;
@@ -38,7 +39,7 @@
   justify-content: center; //centering icons
 
   width: var(--button-width);
-  height: var(--button-height);
+  height: auto;
   padding: 0;
 
   border: var(--button-border-width) solid transparent;
@@ -55,15 +56,18 @@
   }
 
   &__text {
+    margin: 0.5rem 0;
     font-size: var(--button-font-size);
-    line-height: var(
-      --line-height-xx-small--em
-    ); // because of the background-color
+    line-height: var(--line-height-basis);
     color: inherit;
-    background-color: inherit;
 
     // vertical alignment
     transform: translateY(-0.03125rem); // 0.5px
+  }
+
+  &__alignment {
+    display: inline-block;
+    width: 0;
   }
 
   &__bounding {
@@ -79,10 +83,14 @@
     border-radius: var(--button-border-radius);
   }
 
+  &--has-text {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+
   // size small
   &--size-small {
     width: var(--button-width--small);
-    height: var(--button-height--small);
     font-size: var(--button-font-size-small);
     border-radius: var(--button-border-radius--small);
 
@@ -91,6 +99,9 @@
     .dnb-core-style & {
       line-height: var(--button-height--small);
     }
+  }
+  &--size-small &__text {
+    margin: 0;
   }
   &--has-text#{&}--size-small {
     padding-left: 1rem;
@@ -106,7 +117,6 @@
   // size medium
   &--size-medium {
     width: var(--button-width--medium);
-    height: var(--button-height--medium);
     border-radius: var(--button-border-radius--medium);
 
     // Safari needs a correct CSS specificity
@@ -114,6 +124,9 @@
     .dnb-core-style & {
       line-height: var(--button-height--medium);
     }
+  }
+  &--size-medium &__text {
+    margin: 0;
   }
   &--has-text#{&}--size-medium {
     padding-left: 1rem;
@@ -129,7 +142,6 @@
   // size large
   &--size-large {
     width: var(--button-width--large);
-    height: var(--button-height--large);
     border-radius: var(--button-border-radius--large);
 
     // Safari needs a correct CSS specificity
@@ -150,9 +162,9 @@
   }
 
   // size default
+
+  /* stylelint-disable-next-line */
   &--has-text {
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
     width: auto;
   }
   &--has-text &__icon {
@@ -252,6 +264,9 @@
 
   .dnb-form-row--vertical .dnb-form-row__content > & {
     align-self: flex-start;
+  }
+  .dnb-form-row--horizontal .dnb-form-row__content &__text {
+    white-space: nowrap;
   }
 
   & + .dnb-form-status {

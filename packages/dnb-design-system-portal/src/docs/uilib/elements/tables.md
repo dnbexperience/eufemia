@@ -219,14 +219,14 @@ To enhance or manipulate the the table style, you can make use of a couple helpe
   <thead>
     <tr>
       <th scope="col" colSpan="2">
-        Long header senectus ornare convallis ut at  erat imperdiet commodo
+        Static long header senectus ornare convallis ut at  erat imperdiet commodo
       </th>
       <th scope="col" className="dnb-table--sortable dnb-table--reversed">
-        Long header ridiculus laoreet turpis netus at vitae
+        
         <Button
           variant="tertiary"
           icon="arrow-down"
-          text="Sortable"
+          text="Sortable long header ridiculus laoreet turpis netus at vitae"
           title="Sort table column"
         />
       </th>
@@ -234,7 +234,7 @@ To enhance or manipulate the the table style, you can make use of a couple helpe
         <Button
           variant="tertiary"
           icon="arrow-down"
-          text="Active"
+          text="Active long header ridiculus laoreet turpis netus at vitae"
           title="Sort table column"
         />
       </th>
@@ -242,9 +242,9 @@ To enhance or manipulate the the table style, you can make use of a couple helpe
   </thead>
   <tbody>
     <tr>
-      <td colSpan="3">
+      <td colSpan="4">
         <p className="dnb-p">
-          col span of 3
+          col span of 4
         </p>
       </td>
     </tr>
