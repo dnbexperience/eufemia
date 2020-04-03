@@ -55,6 +55,7 @@
 
   &__suffix {
     padding-left: 0.5rem;
+    line-height: var(--line-height-basis);
   }
 
   &__shell {
@@ -188,6 +189,10 @@
     display: flex;
     user-select: none;
     -webkit-user-select: none; // Safari / Touch fix
+
+    @media (max-width: 40em) {
+      flex-direction: column;
+    }
   }
 
   &__calendar {
@@ -302,6 +307,7 @@
       box-shadow: none;
       &__bounding {
         border-radius: 0;
+        transform: scale(1.28);
       }
 
       // reset vertical alignment

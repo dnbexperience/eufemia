@@ -7,7 +7,6 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import Context from '../../shared/Context'
-import IconPrimary from '../icon-primary/IconPrimary'
 import {
   isTrue,
   extendPropsWithContext,
@@ -17,8 +16,9 @@ import {
   pickRenderProps,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
-import FormStatus from '../form-status/FormStatus'
 import { createSpacingClasses } from '../space/SpacingHelper'
+import IconPrimary from '../icon-primary/IconPrimary'
+import FormStatus from '../form-status/FormStatus'
 
 const renderProps = { on_click: null }
 
@@ -76,7 +76,7 @@ const defaultProps = {
   size: null,
   title: null,
   icon: null,
-  icon_position: null,
+  icon_position: 'right',
   icon_size: null,
   href: null,
   id: null,
@@ -219,8 +219,8 @@ export default class Button extends PureComponent {
       'dnb-button',
       `dnb-button--${usedVariant || 'primary'}`,
       usedSize && usedSize !== 'default' && `dnb-button--size-${usedSize}`,
-      icon && `dnb-button--icon-position-${icon_position || 'right'}`,
-      icon && iconSize ? `dnb-button--icon-size-${iconSize}` : null,
+      icon && `dnb-button--icon-position-${icon_position}`,
+      icon && iconSize && `dnb-button--icon-size-${iconSize}`,
       content && 'dnb-button--has-text',
       icon && 'dnb-button--has-icon',
       status && `dnb-button__status--${status_state}`,
@@ -318,7 +318,7 @@ class Content extends PureComponent {
 
     const ret = []
 
-    if (bounding) {
+    if (isTrue(bounding)) {
       ret.push(
         <span key="button-bounding" className="dnb-button__bounding" />
       )

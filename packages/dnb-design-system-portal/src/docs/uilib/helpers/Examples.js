@@ -5,7 +5,7 @@
 
 import React from 'react'
 import styled from '@emotion/styled'
-import { Example } from './helper-classes-examples'
+import { Example } from './css-examples'
 
 const Wrapper = styled.div`
   /*

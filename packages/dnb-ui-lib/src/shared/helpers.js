@@ -4,14 +4,11 @@
  */
 
 const pageFocusElements = {}
-export const setPageFocusElement = (
-  selectorOrElement,
-  key = 'default'
-) => {
-  pageFocusElements[key] = selectorOrElement
+export function setPageFocusElement(selectorOrElement, key = 'default') {
+  return (pageFocusElements[key] = selectorOrElement)
 }
 
-export const applyPageFocus = (key = 'default', callback = null) => {
+export function applyPageFocus(key = 'default', callback = null) {
   try {
     let element = pageFocusElements[key]
     if (typeof element === 'string' && typeof document !== 'undefined') {
@@ -60,13 +57,23 @@ export const applyPageFocus = (key = 'default', callback = null) => {
   }
 }
 
-export const scrollToLocationHashId = ({ offset = 0 } = {}) => {
-  if (typeof document !== 'undefined' && typeof window !== 'undefined') {
+export function getOffsetTop(elem) {
+  let offsetTop = 0
+  do {
+    if (!isNaN(elem.offsetTop)) {
+      offsetTop += elem.offsetTop
+    }
+  } while ((elem = elem.offsetParent))
+  return offsetTop
+}
+
+export function scrollToLocationHashId({ offset = 0 } = {}) {
+  if (typeof window !== 'undefined' && window.location) {
     const id = String(window.location.hash).replace('#', '')
-    if (id) {
+    if (typeof document !== 'undefined' && id.length > 0) {
       const elem = document.getElementById(id)
       if (elem instanceof HTMLElement) {
-        const top = parseFloat(elem.offsetTop) - offset
+        const top = getOffsetTop(elem) - offset
         try {
           if (window.scrollTo) {
             window.scrollTo({

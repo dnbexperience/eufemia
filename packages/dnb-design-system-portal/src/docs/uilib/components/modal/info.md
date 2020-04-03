@@ -6,8 +6,6 @@ import Img from 'Tags/Img'
 import ModalExample from './assets/modal-example.svg'
 import ModalExampleButtons from './assets/modal-example-buttons.svg'
 
-export default ({ children }) => (!(typeof window !== 'undefined' && window.IS_TEST) && children || <></>)
-
 ## Description
 
 NB! Modal dialogs interrupt users and demand an action. They are appropriate when user’s attention needs to be directed toward important information.

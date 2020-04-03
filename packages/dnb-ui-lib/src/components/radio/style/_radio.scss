@@ -105,6 +105,8 @@
     order: 3;
     padding-left: 0.5rem;
 
+    line-height: var(--line-height-basis);
+
     // to be aligned to the label on the left side
     .dnb-modal {
       margin-top: -0.25rem;

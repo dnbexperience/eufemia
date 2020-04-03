@@ -252,14 +252,14 @@ exports[`DatePicker component have to match snapshot 1`] = `
                     >
                       <svg
                         fill="none"
-                        height="17"
+                        height="16"
                         viewBox="0 0 17 17"
-                        width="17"
+                        width="16"
                       >
                         <path
                           clip-rule="evenodd"
-                          d="M4.90522 0C5.3452 0 5.70188 0.356677 5.70188 0.796661V2.05428H11.2983V0.796661C11.2983 0.356677 11.6549 0 12.0949 0C12.5349 0 12.8916 0.356677 12.8916 0.796661V2.05428H14.61C15.9299 2.05428 16.9999 3.12431 16.9999 4.44426V6.95937V14.61C16.9999 15.93 15.9299 17 14.61 17H2.38998C1.07003 17 0 15.93 0 14.61V6.95937V4.44426C0 3.12431 1.07003 2.05428 2.38998 2.05428H4.10856V0.796661C4.10856 0.356677 4.46524 0 4.90522 0ZM11.2983 3.6476V4.39154C11.2983 4.83152 11.6549 5.1882 12.0949 5.1882C12.5349 5.1882 12.8916 4.83152 12.8916 4.39154V3.6476H14.61C15.0499 3.6476 15.4066 4.00428 15.4066 4.44426V6.16271H1.59332V4.44426C1.59332 4.00428 1.95 3.6476 2.38998 3.6476H4.10856V4.39154C4.10856 4.83152 4.46524 5.1882 4.90522 5.1882C5.3452 5.1882 5.70188 4.83152 5.70188 4.39154V3.6476H11.2983ZM1.59332 7.75603H15.4066V14.61C15.4066 15.05 15.0499 15.4067 14.61 15.4067H2.38998C1.95 15.4067 1.59332 15.05 1.59332 14.61V7.75603Z"
-                          fill="black"
+                          d="M4.905 0c.44 0 .797.357.797.797v1.257h5.596V.797a.797.797 0 111.594 0v1.257h1.718A2.39 2.39 0 0117 4.444V14.61A2.39 2.39 0 0114.61 17H2.39A2.39 2.39 0 010 14.61V4.444a2.39 2.39 0 012.39-2.39h1.719V.797c0-.44.356-.797.796-.797zm6.393 3.648v.744a.797.797 0 101.594 0v-.744h1.718c.44 0 .797.356.797.796v1.719H1.593V4.444c0-.44.357-.796.797-.796h1.719v.744a.797.797 0 001.593 0v-.744h5.596zM1.593 7.756h13.814v6.854c0 .44-.357.797-.797.797H2.39a.797.797 0 01-.797-.797V7.756z"
+                          fill="#000"
                           fill-rule="evenodd"
                         />
                       </svg>
@@ -280,6 +280,8 @@ exports[`DatePicker component have to match snapshot 1`] = `
               disabled={false}
               global_status_id={null}
               hidden={true}
+              icon={null}
+              icon_position="left"
               id="date-picker-id__input"
               inner_ref={null}
               input_attributes={null}
@@ -917,14 +919,14 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                 >
                                   <svg
                                     fill="none"
-                                    height="17"
+                                    height="16"
                                     viewBox="0 0 17 17"
-                                    width="17"
+                                    width="16"
                                   >
                                     <path
                                       clip-rule="evenodd"
-                                      d="M4.90522 0C5.3452 0 5.70188 0.356677 5.70188 0.796661V2.05428H11.2983V0.796661C11.2983 0.356677 11.6549 0 12.0949 0C12.5349 0 12.8916 0.356677 12.8916 0.796661V2.05428H14.61C15.9299 2.05428 16.9999 3.12431 16.9999 4.44426V6.95937V14.61C16.9999 15.93 15.9299 17 14.61 17H2.38998C1.07003 17 0 15.93 0 14.61V6.95937V4.44426C0 3.12431 1.07003 2.05428 2.38998 2.05428H4.10856V0.796661C4.10856 0.356677 4.46524 0 4.90522 0ZM11.2983 3.6476V4.39154C11.2983 4.83152 11.6549 5.1882 12.0949 5.1882C12.5349 5.1882 12.8916 4.83152 12.8916 4.39154V3.6476H14.61C15.0499 3.6476 15.4066 4.00428 15.4066 4.44426V6.16271H1.59332V4.44426C1.59332 4.00428 1.95 3.6476 2.38998 3.6476H4.10856V4.39154C4.10856 4.83152 4.46524 5.1882 4.90522 5.1882C5.3452 5.1882 5.70188 4.83152 5.70188 4.39154V3.6476H11.2983ZM1.59332 7.75603H15.4066V14.61C15.4066 15.05 15.0499 15.4067 14.61 15.4067H2.38998C1.95 15.4067 1.59332 15.05 1.59332 14.61V7.75603Z"
-                                      fill="black"
+                                      d="M4.905 0c.44 0 .797.357.797.797v1.257h5.596V.797a.797.797 0 111.594 0v1.257h1.718A2.39 2.39 0 0117 4.444V14.61A2.39 2.39 0 0114.61 17H2.39A2.39 2.39 0 010 14.61V4.444a2.39 2.39 0 012.39-2.39h1.719V.797c0-.44.356-.797.796-.797zm6.393 3.648v.744a.797.797 0 101.594 0v-.744h1.718c.44 0 .797.356.797.796v1.719H1.593V4.444c0-.44.357-.796.797-.796h1.719v.744a.797.797 0 001.593 0v-.744h5.596zM1.593 7.756h13.814v6.854c0 .44-.357.797-.797.797H2.39a.797.797 0 01-.797-.797V7.756z"
+                                      fill="#000"
                                       fill-rule="evenodd"
                                     />
                                   </svg>
@@ -957,7 +959,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                               global_status_id={null}
                               href={null}
                               icon="calendar"
-                              icon_position={null}
+                              icon_position="right"
                               icon_size={null}
                               id="date-picker-id"
                               innerRef={
@@ -982,14 +984,14 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                     >
                                       <svg
                                         fill="none"
-                                        height="17"
+                                        height="16"
                                         viewBox="0 0 17 17"
-                                        width="17"
+                                        width="16"
                                       >
                                         <path
                                           clip-rule="evenodd"
-                                          d="M4.90522 0C5.3452 0 5.70188 0.356677 5.70188 0.796661V2.05428H11.2983V0.796661C11.2983 0.356677 11.6549 0 12.0949 0C12.5349 0 12.8916 0.356677 12.8916 0.796661V2.05428H14.61C15.9299 2.05428 16.9999 3.12431 16.9999 4.44426V6.95937V14.61C16.9999 15.93 15.9299 17 14.61 17H2.38998C1.07003 17 0 15.93 0 14.61V6.95937V4.44426C0 3.12431 1.07003 2.05428 2.38998 2.05428H4.10856V0.796661C4.10856 0.356677 4.46524 0 4.90522 0ZM11.2983 3.6476V4.39154C11.2983 4.83152 11.6549 5.1882 12.0949 5.1882C12.5349 5.1882 12.8916 4.83152 12.8916 4.39154V3.6476H14.61C15.0499 3.6476 15.4066 4.00428 15.4066 4.44426V6.16271H1.59332V4.44426C1.59332 4.00428 1.95 3.6476 2.38998 3.6476H4.10856V4.39154C4.10856 4.83152 4.46524 5.1882 4.90522 5.1882C5.3452 5.1882 5.70188 4.83152 5.70188 4.39154V3.6476H11.2983ZM1.59332 7.75603H15.4066V14.61C15.4066 15.05 15.0499 15.4067 14.61 15.4067H2.38998C1.95 15.4067 1.59332 15.05 1.59332 14.61V7.75603Z"
-                                          fill="black"
+                                          d="M4.905 0c.44 0 .797.357.797.797v1.257h5.596V.797a.797.797 0 111.594 0v1.257h1.718A2.39 2.39 0 0117 4.444V14.61A2.39 2.39 0 0114.61 17H2.39A2.39 2.39 0 010 14.61V4.444a2.39 2.39 0 012.39-2.39h1.719V.797c0-.44.356-.797.796-.797zm6.393 3.648v.744a.797.797 0 101.594 0v-.744h1.718c.44 0 .797.356.797.796v1.719H1.593V4.444c0-.44.357-.796.797-.796h1.719v.744a.797.797 0 001.593 0v-.744h5.596zM1.593 7.756h13.814v6.854c0 .44-.357.797-.797.797H2.39a.797.797 0 01-.797-.797V7.756z"
+                                          fill="#000"
                                           fill-rule="evenodd"
                                         />
                                       </svg>
@@ -1037,7 +1039,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                   global_status_id={null}
                                   href={null}
                                   icon="calendar"
-                                  icon_position={null}
+                                  icon_position="right"
                                   icon_size={null}
                                   id="date-picker-id"
                                   innerRef={
@@ -1062,14 +1064,14 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                         >
                                           <svg
                                             fill="none"
-                                            height="17"
+                                            height="16"
                                             viewBox="0 0 17 17"
-                                            width="17"
+                                            width="16"
                                           >
                                             <path
                                               clip-rule="evenodd"
-                                              d="M4.90522 0C5.3452 0 5.70188 0.356677 5.70188 0.796661V2.05428H11.2983V0.796661C11.2983 0.356677 11.6549 0 12.0949 0C12.5349 0 12.8916 0.356677 12.8916 0.796661V2.05428H14.61C15.9299 2.05428 16.9999 3.12431 16.9999 4.44426V6.95937V14.61C16.9999 15.93 15.9299 17 14.61 17H2.38998C1.07003 17 0 15.93 0 14.61V6.95937V4.44426C0 3.12431 1.07003 2.05428 2.38998 2.05428H4.10856V0.796661C4.10856 0.356677 4.46524 0 4.90522 0ZM11.2983 3.6476V4.39154C11.2983 4.83152 11.6549 5.1882 12.0949 5.1882C12.5349 5.1882 12.8916 4.83152 12.8916 4.39154V3.6476H14.61C15.0499 3.6476 15.4066 4.00428 15.4066 4.44426V6.16271H1.59332V4.44426C1.59332 4.00428 1.95 3.6476 2.38998 3.6476H4.10856V4.39154C4.10856 4.83152 4.46524 5.1882 4.90522 5.1882C5.3452 5.1882 5.70188 4.83152 5.70188 4.39154V3.6476H11.2983ZM1.59332 7.75603H15.4066V14.61C15.4066 15.05 15.0499 15.4067 14.61 15.4067H2.38998C1.95 15.4067 1.59332 15.05 1.59332 14.61V7.75603Z"
-                                              fill="black"
+                                              d="M4.905 0c.44 0 .797.357.797.797v1.257h5.596V.797a.797.797 0 111.594 0v1.257h1.718A2.39 2.39 0 0117 4.444V14.61A2.39 2.39 0 0114.61 17H2.39A2.39 2.39 0 010 14.61V4.444a2.39 2.39 0 012.39-2.39h1.719V.797c0-.44.356-.797.796-.797zm6.393 3.648v.744a.797.797 0 101.594 0v-.744h1.718c.44 0 .797.356.797.796v1.719H1.593V4.444c0-.44.357-.796.797-.796h1.719v.744a.797.797 0 001.593 0v-.744h5.596zM1.593 7.756h13.814v6.854c0 .44-.357.797-.797.797H2.39a.797.797 0 01-.797-.797V7.756z"
+                                              fill="#000"
                                               fill-rule="evenodd"
                                             />
                                           </svg>
@@ -1122,14 +1124,14 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                       <calendar>
                                         <svg
                                           fill="none"
-                                          height={17}
+                                          height={16}
                                           viewBox="0 0 17 17"
-                                          width={17}
+                                          width={16}
                                         >
                                           <path
                                             clipRule="evenodd"
-                                            d="M4.90522 0C5.3452 0 5.70188 0.356677 5.70188 0.796661V2.05428H11.2983V0.796661C11.2983 0.356677 11.6549 0 12.0949 0C12.5349 0 12.8916 0.356677 12.8916 0.796661V2.05428H14.61C15.9299 2.05428 16.9999 3.12431 16.9999 4.44426V6.95937V14.61C16.9999 15.93 15.9299 17 14.61 17H2.38998C1.07003 17 0 15.93 0 14.61V6.95937V4.44426C0 3.12431 1.07003 2.05428 2.38998 2.05428H4.10856V0.796661C4.10856 0.356677 4.46524 0 4.90522 0ZM11.2983 3.6476V4.39154C11.2983 4.83152 11.6549 5.1882 12.0949 5.1882C12.5349 5.1882 12.8916 4.83152 12.8916 4.39154V3.6476H14.61C15.0499 3.6476 15.4066 4.00428 15.4066 4.44426V6.16271H1.59332V4.44426C1.59332 4.00428 1.95 3.6476 2.38998 3.6476H4.10856V4.39154C4.10856 4.83152 4.46524 5.1882 4.90522 5.1882C5.3452 5.1882 5.70188 4.83152 5.70188 4.39154V3.6476H11.2983ZM1.59332 7.75603H15.4066V14.61C15.4066 15.05 15.0499 15.4067 14.61 15.4067H2.38998C1.95 15.4067 1.59332 15.05 1.59332 14.61V7.75603Z"
-                                            fill="black"
+                                            d="M4.905 0c.44 0 .797.357.797.797v1.257h5.596V.797a.797.797 0 111.594 0v1.257h1.718A2.39 2.39 0 0117 4.444V14.61A2.39 2.39 0 0114.61 17H2.39A2.39 2.39 0 010 14.61V4.444a2.39 2.39 0 012.39-2.39h1.719V.797c0-.44.356-.797.796-.797zm6.393 3.648v.744a.797.797 0 101.594 0v-.744h1.718c.44 0 .797.356.797.796v1.719H1.593V4.444c0-.44.357-.796.797-.796h1.719v.744a.797.797 0 001.593 0v-.744h5.596zM1.593 7.756h13.814v6.854c0 .44-.357.797-.797.797H2.39a.797.797 0 01-.797-.797V7.756z"
+                                            fill="#000"
                                             fillRule="evenodd"
                                           />
                                         </svg>
@@ -1488,6 +1490,7 @@ exports[`DatePicker scss have to match snapshot 1`] = `
   --button-border-radius--large: calc(var(--button-height--large) / 2); }
 
 .dnb-button {
+  position: relative;
   user-select: none;
   -webkit-user-select: none;
   cursor: pointer;
@@ -1513,11 +1516,13 @@ exports[`DatePicker scss have to match snapshot 1`] = `
     transform: translateY(-0.03125rem); }
   .dnb-button__bounding {
     position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    transform: scale(1.1, 1.4);
     background-color: transparent;
-    width: var(--button-width);
-    height: var(--button-height);
-    border-radius: var(--button-border-radius);
-    transform: scale(1.2); }
+    border-radius: var(--button-border-radius); }
   .dnb-button--size-small {
     width: var(--button-width--small);
     height: var(--button-height--small);
@@ -1695,8 +1700,11 @@ button.dnb-button::-moz-focus-inner {
     margin-bottom: 0.5rem; }
   .dnb-form-label--sr-only {
     width: 1px;
+    margin: 0;
+    padding: 0;
     margin-left: -1px;
-    overflow: hidden; }
+    overflow: hidden;
+    white-space: nowrap; }
   .dnb-form-label[for]:not([disabled]) {
     user-select: none;
     -webkit-user-select: none;
@@ -1830,7 +1838,8 @@ legend.dnb-form-label {
     align-items: center; }
   .dnb-input__suffix {
     color: inherit;
-    padding-left: 0.5rem; }
+    padding-left: 0.5rem;
+    line-height: var(--line-height-basis); }
   .dnb-input__submit-element {
     margin-left: calc(1px - 1px - var(--input-height));
     line-height: var(--line-height-basis); }
@@ -1901,6 +1910,30 @@ legend.dnb-form-label {
     width: 100%; }
   .dnb-input--vertical.dnb-input--stretch .dnb-input__inner {
     width: 100%; }
+  .dnb-input__icon {
+    order: 0;
+    position: absolute;
+    left: 1rem;
+    right: auto; }
+  .dnb-input--icon-position-right .dnb-input__icon {
+    order: 1;
+    left: auto;
+    right: 1rem; }
+  .dnb-input--icon-position-left.dnb-input--has-icon .dnb-input__input,
+  .dnb-input--icon-position-left.dnb-input--has-icon .dnb-input__placeholder {
+    padding-left: 2.5rem; }
+  .dnb-input--icon-position-right.dnb-input--has-icon .dnb-input__input,
+  .dnb-input--icon-position-right.dnb-input--has-icon .dnb-input__placeholder {
+    padding-right: 2.5rem; }
+  .dnb-input--medium.dnb-input--icon-position-left.dnb-input--has-icon .dnb-input__input,
+  .dnb-input--medium.dnb-input--icon-position-left.dnb-input--has-icon .dnb-input__placeholder {
+    padding-left: 2.5rem; }
+  .dnb-input--large.dnb-input--icon-position-left.dnb-input--has-icon .dnb-input__input,
+  .dnb-input--large.dnb-input--icon-position-left.dnb-input--has-icon .dnb-input__placeholder {
+    padding-left: 3rem; }
+  .dnb-input--large.dnb-input--icon-position-right.dnb-input--has-icon .dnb-input__input,
+  .dnb-input--large.dnb-input--icon-position-right.dnb-input--has-icon .dnb-input__placeholder {
+    padding-right: 3rem; }
   .dnb-input > .dnb-form-label {
     line-height: var(--line-height-basis); }
   .dnb-input[class*='__status'] {
@@ -2039,8 +2072,9 @@ legend.dnb-form-label {
     display: inline-flex;
     align-items: baseline; }
   .dnb-checkbox__suffix {
+    order: 4;
     padding-left: 0.5rem;
-    order: 4; }
+    line-height: var(--line-height-basis); }
   .dnb-checkbox--label-position-left .dnb-checkbox__order .dnb-checkbox__inner {
     order: 2; }
   .dnb-checkbox--label-position-left .dnb-checkbox__order .dnb-form-label {
@@ -2185,7 +2219,8 @@ legend.dnb-form-label {
     display: inline-flex; }
   .dnb-radio__suffix {
     order: 3;
-    padding-left: 0.5rem; }
+    padding-left: 0.5rem;
+    line-height: var(--line-height-basis); }
     .dnb-radio__suffix .dnb-modal {
       margin-top: -0.25rem;
       margin-bottom: -0.25rem; }
@@ -2350,23 +2385,14 @@ legend.dnb-form-label {
       .dnb-toggle-button__button .dnb-radio__dot {
         width: calc(var(--radio-width) - 1rem);
         height: calc(var(--radio-width) - 1rem); }
-  .dnb-toggle-button__button.dnb-button--has-icon.dnb-button--icon-position-right {
-    padding-right: 0.5rem; }
-  .dnb-toggle-button__button.dnb-button--has-icon.dnb-button--icon-position-left {
-    padding-left: 0.5rem; }
-    .dnb-toggle-button__button.dnb-button--has-icon.dnb-button--icon-position-left .dnb-button__icon {
-      margin-left: 0.25rem;
-      margin-right: 0.25rem; }
-  .dnb-toggle-button__button.dnb-button--has-icon.dnb-button--icon-position-left > .dnb-toggle-button__component {
-    padding-left: 0.5rem;
-    padding-right: 0; }
   .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:active) {
     background-color: var(--color-emerald-green);
     color: var(--color-mint-green); }
   :not(.dnb-toggle-button-group) > .dnb-form-label + .dnb-toggle-button {
     vertical-align: top; }
   .dnb-toggle-button__suffix {
-    padding-left: 0.5rem; }
+    padding-left: 0.5rem;
+    line-height: var(--line-height-basis); }
   .dnb-toggle-button__suffix, .dnb-toggle-button-group__suffix {
     font-size: var(--font-size-basis); }
   .dnb-toggle-button .dnb-form-status {
@@ -2475,7 +2501,8 @@ legend.dnb-form-label {
   .dnb-date-picker__row {
     display: inline-flex; }
   .dnb-date-picker__suffix {
-    padding-left: 0.5rem; }
+    padding-left: 0.5rem;
+    line-height: var(--line-height-basis); }
   .dnb-date-picker__shell {
     position: relative;
     top: 0;
@@ -2573,6 +2600,9 @@ legend.dnb-form-label {
     display: flex;
     user-select: none;
     -webkit-user-select: none; }
+    @media (max-width: 40em) {
+      .dnb-date-picker__views {
+        flex-direction: column; } }
   .dnb-date-picker__calendar {
     position: relative;
     padding: 1rem; }
@@ -2646,7 +2676,8 @@ legend.dnb-form-label {
       height: var(--date-picker-day-width);
       box-shadow: none; }
       .dnb-date-picker__day .dnb-button__bounding {
-        border-radius: 0; }
+        border-radius: 0;
+        transform: scale(1.28); }
       .dnb-date-picker__day .dnb-button__text {
         transform: translateY(0); }
     .dnb-date-picker__day--selectable:hover {

@@ -55,6 +55,39 @@ export default [
   () => (
     <Wrapper>
       <Box>
+        <FormRow vertical>
+          <DatePicker
+            label="Linked Range DatePicker:"
+            // label_direction="vertical"
+            // start_date={new Date()}
+            // start_date="2019-01-15"
+            start_date="1981-01-15"
+            end_date="2019-06-15"
+            range={true}
+            link={true}
+            // sync={false}
+            opened={true}
+            show_input={true}
+            on_show={props => {
+              console.log('on_show', props)
+            }}
+            on_hide={props => {
+              console.log('on_hide', props)
+            }}
+            on_change={props => {
+              console.log('on_change', props)
+            }}
+            on_submit={props => {
+              console.log('on_submit', props)
+            }}
+            on_cancel={props => {
+              console.log('on_cancel', props)
+            }}
+            status="Please select a valid date"
+          />
+        </FormRow>
+      </Box>
+      <Box>
         <DatePicker
           // opened
           show_input
@@ -195,39 +228,6 @@ export default [
         <FormRow vertical label="Legend:">
           <DatePicker label="Date Picker 1:" />
           <DatePicker label="Date Picker 2:" top="small" />
-        </FormRow>
-      </Box>
-      <Box>
-        <FormRow vertical>
-          <DatePicker
-            label="Range DatePicker:"
-            // label_direction="vertical"
-            // start_date={new Date()}
-            // start_date="2019-01-15"
-            start_date="1981-01-15"
-            end_date="2019-06-15"
-            range={true}
-            // link={true}
-            // sync={false}
-            opened={false}
-            show_input={true}
-            on_show={props => {
-              console.log('on_show', props)
-            }}
-            on_hide={props => {
-              console.log('on_hide', props)
-            }}
-            on_change={props => {
-              console.log('on_change', props)
-            }}
-            on_submit={props => {
-              console.log('on_submit', props)
-            }}
-            on_cancel={props => {
-              console.log('on_cancel', props)
-            }}
-            status="Please select a valid date"
-          />
         </FormRow>
       </Box>
       <Box>

@@ -77,13 +77,14 @@ describe('Table screenshot', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match the tabular table style', async () => {
-    const screenshot = await testPageScreenshot({
-      style: {
-        width: '10rem'
-      },
-      selector: '[data-dnb-test="table-tabular"] .dnb-table'
-    })
-    expect(screenshot).toMatchImageSnapshot()
-  })
+  // got removed, no need for tabular lining
+  // it('have to match the tabular table style', async () => {
+  //   const screenshot = await testPageScreenshot({
+  //     style: {
+  //       width: '10rem'
+  //     },
+  //     selector: '[data-dnb-test="table-tabular"] .dnb-table'
+  //   })
+  //   expect(screenshot).toMatchImageSnapshot()
+  // })
 })

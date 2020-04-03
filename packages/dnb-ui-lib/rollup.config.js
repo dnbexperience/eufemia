@@ -12,7 +12,7 @@ import nodeGlobals from 'rollup-plugin-node-globals'
 import { uglify } from 'rollup-plugin-uglify'
 // import { terser } from 'rollup-plugin-terser'
 import { sizeSnapshot } from 'rollup-plugin-size-snapshot'
-import isCi from 'is-ci'
+import isCI from 'is-ci'
 
 // 1. process theese files
 const dnbLib = makeRollupConfig(
@@ -75,7 +75,7 @@ function makeRollupConfig(input, file, { name, globals = {} } = {}) {
       commonjs(commonjsOptions),
       nodeGlobals(),
       replace({ 'process.env.NODE_ENV': JSON.stringify('production') }),
-      isCi ? sizeSnapshot({ snapshotPath: 'size-snapshot.json' }) : null,
+      isCI ? sizeSnapshot({ snapshotPath: 'size-snapshot.json' }) : null,
 
       // NB: Use either uglify or terser
       uglify({ sourcemap: true }) // is slighlty better (5kb) than terser

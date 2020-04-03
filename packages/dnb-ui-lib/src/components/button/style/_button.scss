@@ -24,6 +24,8 @@
 }
 
 .dnb-button {
+  position: relative;
+
   user-select: none;
   -webkit-user-select: none; // Safari / Touch fix
 
@@ -66,11 +68,15 @@
 
   &__bounding {
     position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+
+    transform: scale(1.1, 1.4);
+
     background-color: transparent;
-    width: var(--button-width);
-    height: var(--button-height);
     border-radius: var(--button-border-radius);
-    transform: scale(1.2);
   }
 
   // size small

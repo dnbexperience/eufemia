@@ -11,6 +11,7 @@ class Example extends PureComponent {
   render() {
     return (
       <Fragment>
+        <ScreenshotTests />
         <ComponentBox
           title="Placeholder text"
           data-dnb-test="input-placeholder"
@@ -57,6 +58,26 @@ class Example extends PureComponent {
 />
           `}
         </ComponentBox>
+        <ComponentBox title="Input with icon" data-dnb-test="input-icon">
+          {/* @jsx */ `
+<Input
+  label="Input with icon:"
+  placeholder="Input"
+  label_direction="vertical"
+  icon="check"
+  bottom
+  align="right"
+/>
+<Input
+  label="Input with icon:"
+  label_sr_only
+  placeholder="Input with a placeholder asd dsd  asd asd"
+  icon_position="right"
+  icon="check"
+  align="right"
+/>
+          `}
+        </ComponentBox>
         <ComponentBox
           title="Disabled input"
           data-dnb-test="input-disabled"
@@ -65,7 +86,6 @@ class Example extends PureComponent {
 <Input
   disabled
   label="Disabled input:"
-  id="text-input-disabled"
   placeholder="Disabled Input with a placeholder"
 />
           `}
@@ -79,10 +99,7 @@ class Example extends PureComponent {
 />
           `}
         </ComponentBox>
-        <ComponentBox
-          title="With FormStatus"
-          data-dnb-test="input-error"
-        >
+        <ComponentBox title="With FormStatus" data-dnb-test="input-error">
           {/* @jsx */ `
 <Input
   label="With FormStatus:"
@@ -166,6 +183,98 @@ class Example extends PureComponent {
       </Fragment>
     )
   }
+}
+
+const ScreenshotTests = () => {
+  if (!(typeof window !== 'undefined' && window.IS_TEST)) {
+    return <></>
+  }
+  return (
+    <ComponentBox data-dnb-test="input-align">
+      {/* @jsx */ `
+<FormRow label="Left aligned" vertical>
+  <Input value="Plain" />
+  <Input value="Search" type="search" />
+  <Input value="Search" size="medium" type="search" />
+  <Input value="Search" size="large" type="search" />
+  <Input
+    value="Value Eu pretium sit magnis suscipit cursus dis proin rutrum elementum"
+    icon="calendar"
+  />
+  <Input
+    placeholder="Placeholder Eu pretium sit magnis suscipit cursus dis proin rutrum elementum"
+    icon_position="right"
+    icon="calendar"
+  />
+  <Input
+    size="medium"
+    value="Value"
+    icon="calendar"
+  />
+  <Input
+    size="medium"
+    placeholder="Placeholder"
+    icon_position="right"
+    icon="calendar"
+  />
+  <Input
+    size="large"
+    value="Value"
+    icon="calendar"
+  />
+  <Input
+    size="large"
+    placeholder="Placeholder"
+    icon_position="right"
+    icon="calendar"
+  />
+</FormRow>
+<FormRow label="Right aligned" vertical top>
+  <Input value="Plain" align="right" />
+  <Input value="Search" type="search" align="right" />
+  <Input value="Search" size="medium" type="search" align="right" />
+  <Input value="Search" size="large" type="search" align="right" />
+  <Input
+    value="Value Eu pretium sit magnis suscipit cursus dis proin rutrum elementum"
+    icon="calendar"
+    align="right"
+  />
+  <Input
+    placeholder="Placeholder Eu pretium sit magnis suscipit cursus dis proin rutrum elementum"
+    icon_position="right"
+    icon="calendar"
+    align="right"
+  />
+  <Input
+    size="medium"
+    value="Value"
+    icon="calendar"
+    align="right"
+  />
+  <Input
+    size="medium"
+    placeholder="Placeholder"
+    icon_position="right"
+    icon="calendar"
+    align="right"
+  />
+  <Input
+    size="large"
+    value="Value"
+    icon="calendar"
+    align="right"
+  />
+  <Input
+    size="large"
+    placeholder="Placeholder"
+    icon_position="right"
+    icon="calendar"
+    align="right"
+  />
+</FormRow>
+            `}
+    </ComponentBox>
+  )
 }
 
 const Wrapper = styled.div`

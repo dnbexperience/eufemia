@@ -82,7 +82,7 @@ const flatten = arr =>
     )
 
 const currentBranch = getCurrentBranchName()
-const queries = /^(release|portal)$/.test(currentBranch)
+const queries = /^(release|beta)$/.test(currentBranch)
   ? [
       {
         query: docsQuery,

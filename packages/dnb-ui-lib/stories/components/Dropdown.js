@@ -19,15 +19,19 @@ import {
 } from '../../src/components'
 
 const CustomStyle = styled.div`
-  [data-dnb-test='dropdown-list'] .dnb-dropdown__options {
-    position: relative;
-    max-width: var(--dropdown-width);
-  }
-  .dnb-dropdown:not(.dnb-dropdown--is-popup) .dnb-dropdown__shell {
-    width: 10rem;
+  ${'' /* --dropdown-width: 20rem; */}
+  ${'' /* .dnb-dropdown:not(.dnb-dropdown--is-popup) .dnb-dropdown__shell {
+    width: 20rem;
   }
   .dnb-dropdown:not(.dnb-dropdown--is-popup) .dnb-dropdown__list {
     min-width: 20rem;
+  } */}
+   [data-dnb-test='dropdown-list'].dnb-drawer-list__list {
+    display: block;
+    visibility: visible;
+    position: relative;
+    top: 0;
+    width: var(--dropdown-width);
   }
 `
 
@@ -36,6 +40,20 @@ const DropdownStory = () => {
   const [value, setSelectedItem] = useState(0)
   return (
     <Wrapper>
+      <Box>
+        <Dropdown
+          // opened
+          // no_animation
+          // value="0"
+          data={['A', 'B']}
+          on_select={e => {
+            console.log('on_select', e)
+          }}
+          on_change={e => {
+            console.log('on_change', e)
+          }}
+        ></Dropdown>
+      </Box>
       <Box>
         <CurrencyDropdown />
       </Box>
@@ -51,10 +69,9 @@ const DropdownStory = () => {
           label_direction="vertical"
         >
           <Dropdown
-            label="Vertical A:"
+            label="Vertical A (function):"
             title="Default option"
             data={() => {
-              console.log('dropdownData', dropdownData)
               return dropdownData
             }}
             right="small"
@@ -129,7 +146,6 @@ const DropdownStory = () => {
             variant="secondary"
             onClick={() => {
               dropdownData = dropdownData.slice(1)
-              console.log('dropdownData', dropdownData)
               setData(dropdownData)
               // setData([...dropdownData])
             }}
@@ -254,45 +270,51 @@ const DropdownStory = () => {
           sollicitudin ipsum
         </p>
       </Box>
-      <Box data-dnb-test="dropdown-list">
-        <ul className="dnb-dropdown__options">
-          <li className="dnb-dropdown__option">
-            <span className="dnb-dropdown__option__inner">
-              Brukskonto - Kari Nordmann
-            </span>
-          </li>
-          <li className="dnb-dropdown__option dnb-dropdown__option--selected">
-            <span className="dnb-dropdown__option__inner">
-              <span className="dnb-dropdown__option__item">
-                <Number ban>12345678902</Number>
+      <Box>
+        <span
+          data-dnb-test="dropdown-list"
+          className="dnb-drawer-list__list"
+        >
+          <ul className="dnb-drawer-list__options">
+            <li className="dnb-drawer-list__option">
+              <span className="dnb-drawer-list__option__inner">
+                Brukskonto - Kari Nordmann
               </span>
-              <span className="dnb-dropdown__option__item">
-                Sparekonto - Ole Nordmann
+            </li>
+            <li className="dnb-drawer-list__option dnb-drawer-list__option--selected">
+              <span className="dnb-drawer-list__option__inner">
+                <span className="dnb-drawer-list__option__item">
+                  <Number ban>12345678902</Number>
+                </span>
+                <span className="dnb-drawer-list__option__item">
+                  Sparekonto - Ole Nordmann
+                </span>
               </span>
-            </span>
-          </li>
-          <li className="dnb-dropdown__option">
-            <span className="dnb-dropdown__option__inner">
-              <span className="dnb-dropdown__option__item">
-                <Number ban>11345678962</Number>
+            </li>
+            <li className="dnb-drawer-list__option">
+              <span className="dnb-drawer-list__option__inner">
+                <span className="dnb-drawer-list__option__item">
+                  <Number ban>11345678962</Number>
+                </span>
+                <span className="dnb-drawer-list__option__item">
+                  Feriekonto - Kari Nordmann med et kjempelangt
+                  etternavnsen
+                </span>
               </span>
-              <span className="dnb-dropdown__option__item">
-                Feriekonto - Kari Nordmann med et kjempelangt etternavnsen
+            </li>
+            <li className="dnb-drawer-list__option last-of-type">
+              <span className="dnb-drawer-list__option__inner">
+                <span className="dnb-drawer-list__option__item">
+                  <Number ban>15349648901</Number>
+                </span>
+                <span className="dnb-drawer-list__option__item">
+                  Oppussing - Ole Nordmann
+                </span>
               </span>
-            </span>
-          </li>
-          <li className="dnb-dropdown__option last-of-type">
-            <span className="dnb-dropdown__option__inner">
-              <span className="dnb-dropdown__option__item">
-                <Number ban>15349648901</Number>
-              </span>
-              <span className="dnb-dropdown__option__item">
-                Oppussing - Ole Nordmann
-              </span>
-            </span>
-          </li>
-          <li className="dnb-dropdown__triangle" />
-        </ul>
+            </li>
+            <li className="dnb-drawer-list__triangle" />
+          </ul>
+        </span>
       </Box>
     </Wrapper>
   )
@@ -336,12 +358,12 @@ let dropdownData = [
     ]
   },
   {
-    selected_value: <>Custom selected {'🔥'}</>,
+    selected_value: <Fragment key="cs-1">Custom selected {'🔥'}</Fragment>,
     content: [
       <Number key={15349648901} ban>
         15349648901
       </Number>,
-      <>Custom content {'🔥'}</>
+      <Fragment key="cs-2">Custom content {'🔥'}</Fragment>
     ]
   }
 ]
@@ -481,14 +503,14 @@ function DropdownStatesSync() {
         title="Dropdown 1"
         on_change={handleOnChange}
       />
-      <Dropdown
+      {/* <Dropdown
         top
         data={dropdownDataScrollable}
         // value={1}
         default_value={1}
         title="Dropdown 2"
         on_change={handleOnChange}
-      />
+      /> */}
     </FormRow>
   )
 }

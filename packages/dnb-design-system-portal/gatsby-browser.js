@@ -4,13 +4,13 @@
  */
 
 import { applyPageFocus } from 'dnb-ui-lib/src/shared/helpers'
-
-import cssVars from 'css-vars-ponyfill'
+import { rootElement } from './src/core/portalProviders'
 import smoothscroll from 'smoothscroll-polyfill'
 
 // run the polifills
 smoothscroll.polyfill()
-cssVars()
+
+export const wrapRootElement = rootElement
 
 if (process.env.NODE_ENV === 'development') {
   loadDevStyles()

@@ -15,7 +15,7 @@
     "plugin:jsx-a11y/recommended",
     "plugin:cypress/recommended"
   ],
-  "plugins": ["react", "import", "jsx-a11y", "cypress"],
+  "plugins": ["react", "react-hooks", "import", "jsx-a11y", "cypress"],
   "rules": {
     "no-console": "off",
     "import/no-unresolved": 0,
@@ -29,7 +29,7 @@
   },
   "settings": {
     "react": {
-      "version": "^16.4"
+      "version": "^16.12"
     }
   }
 }

@@ -69,6 +69,11 @@
     color: var(--color-sea-green);
   }
 
+  // Icon
+  &__icon {
+    color: var(--color-sea-green-alt-30);
+  }
+
   // with status_state = "error"
   &__status--error &__shell:not([data-input-state='focus']) {
     @include fakeBorder(var(--color-fire-red), 0.125rem);

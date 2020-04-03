@@ -5,6 +5,8 @@
 
 @import '../../../../style/themes/imports.scss';
 
+@import '../../../../fragments/drawer-list/style/themes/dnb-drawer-list-theme-ui.scss';
+
 :root {
   --dropdown-text-color: var(--color-emerald-green);
   --dropdown-text-color--disabled: var(--color-sea-green-alt-30);
