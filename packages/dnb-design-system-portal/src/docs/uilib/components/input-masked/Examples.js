@@ -12,57 +12,83 @@ import styled from '@emotion/styled'
 // import createNumberMask from 'dnb-ui-lib/src/components/input-masked/addons/createNumberMask'
 
 class Example extends PureComponent {
-  handleInputChange = ({ value }) => {
-    console.log(value)
-  }
   render() {
-    const handleInputChange = this.handleInputChange
     return (
       <Fragment>
-        <ComponentBox
-          title="Only numbers"
-          scope={{
-            handleInputChange
-          }}
-        >
+        <ComponentBox title="Using the `currency_mask`">
+          {/* @jsx */ `
+<FormRow vertical>
+  <InputMasked
+    label="Amount:"
+    currency_mask="kr"
+    on_change={(e) => {
+      console.log('e', e)
+    }}
+    right
+    bottom
+  />
+  <InputMasked
+    label="Amount:"
+    currency_mask={{ currency: 'NOK' }}
+    align="left"
+    on_change={(e) => {
+      console.log('e', e)
+    }}
+  />
+</FormRow>
+          `}
+        </ComponentBox>
+        <ComponentBox title="Making a custom currency mask">
+          {/* @jsx */ `
+<InputMasked
+  label="Masked amount:"
+  show_mask
+  number_mask={{
+    suffix: ' kr',
+    allowDecimal: true
+  }}
+  placeholder_char={null}
+  align="right"
+  on_change={(e) => {
+    console.log('e', e)
+  }}
+/>
+          `}
+        </ComponentBox>
+        <ComponentBox title="Using the `number_mask` - combined suffix">
           {/* @jsx */ `
 <InputMasked
   label="Masked input:"
-  autocomplete="off"
   value="1000000"
   number_mask={{
     suffix: ',-'
   }}
   suffix="kr."
   align="right"
-  on_change={handleInputChange}
+  on_change={(e) => {
+    console.log('e', e)
+  }}
 />
           `}
         </ComponentBox>
-        <ComponentBox
-          title="Only numbers, right aligned and large sized input"
-          scope={{
-            handleInputChange: this.handleInputChange
-          }}
-        >
+        <ComponentBox title="Using the `number_mask` and a prefix">
           {/* @jsx */ `
 <InputMasked
   label="Masked input:"
-  autocomplete="off"
-  size="large"
   number_mask={{
     prefix: 'NOK '
   }}
   align="right"
   stretch="true"
   placeholder="Enter a number"
-  on_change={handleInputChange}
+  on_change={(e) => {
+    console.log('e', e)
+  }}
 />
           `}
         </ComponentBox>
         <ComponentBox
           title="Phone Number, starting with 4"
-          scope={{ handleInputChange: this.handleInputChange }}
           data-dnb-test="input-masked-phone"
         >
           {/* @jsx */ `
@@ -87,7 +113,9 @@ class Example extends PureComponent {
     /\\d/
   ]}
   show_mask="true"
-  on_change={handleInputChange}
+  on_change={(e) => {
+    console.log('e', e)
+  }}
 />
           `}
         </ComponentBox>

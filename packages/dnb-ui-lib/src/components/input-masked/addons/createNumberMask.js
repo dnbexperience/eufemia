@@ -2,13 +2,6 @@
 // No license was given at the point of writing
 
 const emptyString = ''
-const minus = '-'
-const minusRegExp = /-/
-const nonDigitsRegExp = /\D+/g
-const number = 'number'
-const digitRegExp = /\d/
-const caretTrap = '[]'
-
 export default function createNumberMask({
   prefix = emptyString,
   suffix = emptyString,
@@ -22,6 +15,24 @@ export default function createNumberMask({
   allowLeadingZeroes = false,
   integerLimit = null
 } = {}) {
+  const minus = '-'
+  const minusRegExp = /-/
+  const nonDigitsRegExp = /\D+/g
+  const number = 'number'
+  const caretTrap = '[]'
+  const digitRegExp = /\d/
+
+  function convertToMask(strNumber) {
+    return strNumber
+      .split(emptyString)
+      .map((char) => (digitRegExp.test(char) ? digitRegExp : char))
+  }
+
+  // http://stackoverflow.com/a/10899795/604296
+  function addThousandsSeparator(n, thousandsSeparatorSymbol) {
+    return n.replace(/\B(?=(\d{3})+(?!\d))/g, thousandsSeparatorSymbol) // eslint-disable-line
+  }
+
   const prefixLength = (prefix && prefix.length) || 0
   const suffixLength = (suffix && suffix.length) || 0
   const thousandsSeparatorSymbolLength =
@@ -155,15 +166,4 @@ export default function createNumberMask({
   numberMask.instanceOf = 'createNumberMask'
 
   return numberMask
-}
-
-function convertToMask(strNumber) {
-  return strNumber
-    .split(emptyString)
-    .map(char => (digitRegExp.test(char) ? digitRegExp : char))
-}
-
-// http://stackoverflow.com/a/10899795/604296
-function addThousandsSeparator(n, thousandsSeparatorSymbol) {
-  return n.replace(/\B(?=(\d{3})+(?!\d))/g, thousandsSeparatorSymbol) // eslint-disable-line
 }
