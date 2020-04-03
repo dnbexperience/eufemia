@@ -39,6 +39,7 @@ import Switch from './components/switch/Switch'
 import Tabs from './components/tabs/Tabs'
 import Textarea from './components/textarea/Textarea'
 import ToggleButton from './components/toggle-button/ToggleButton'
+import Tooltip from './components/tooltip/Tooltip'
 import Anchor from './elements/Anchor'
 import Blockquote from './elements/Blockquote'
 import Code from './elements/Code'
@@ -91,6 +92,7 @@ export {
   Tabs,
   Textarea,
   ToggleButton,
+  Tooltip,
   Anchor,
   Blockquote,
   Code,

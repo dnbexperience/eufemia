@@ -25,6 +25,7 @@ import FormRowStory from './components/FormRow'
 import FormSetStory from './components/FormSet'
 import Dropdown from './components/Dropdown'
 import Drawer from './components/Drawer'
+import Tooltip from './components/Tooltip'
 import Space from './components/Space'
 import Tabs from './components/Tabs'
 import FormStatus from './components/FormStatus'
@@ -56,6 +57,7 @@ stories.push(FormRowStory)
 stories.push(FormSetStory)
 stories.push(Dropdown)
 stories.push(Drawer)
+stories.push(Tooltip)
 stories.push(Space)
 stories.push(Tabs)
 stories.push(FormStatus)
