@@ -106,6 +106,18 @@ $focusRingColor: var(--color-emerald-green);
     }
   }
 
+  @if $inset {
+    /* iOS fix - because "inset" works not fine with border-radius and rem unit */
+    @supports (-webkit-touch-callout: none) {
+      // remove inset on iOS - this makes the border outside
+      box-shadow: 0 0 0 $width $color $important;
+
+      // This also works, but then we move content for 1px, if they don't have a border from before
+      // box-shadow: none;
+      // border: $width solid $color $important;
+    }
+  }
+
   @if $color != null {
     border-color: transparent;
   }

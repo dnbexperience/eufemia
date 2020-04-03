@@ -35,6 +35,9 @@
 
     color: inherit;
   }
+  &--right &__inner {
+    align-items: flex-end;
+  }
 
   &__shell {
     position: relative;

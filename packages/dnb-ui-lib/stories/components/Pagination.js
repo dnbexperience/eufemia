@@ -88,8 +88,9 @@ export default [
             indicator_element={() => (
               <CustomIndicator>Loading ...</CustomIndicator>
             )}
-            startup_page={2}
-            page_count={20}
+            startup_page={3}
+            page_count={10}
+            min_wait_time={0}
           >
             {(pageNo, ref) => (
               <LargePage ref={ref} color="Indigo">
@@ -105,17 +106,23 @@ export default [
           <Pagination
             mode="infinity"
             startup_count={2}
-            parallel_load_count={2}
+            // parallel_load_count={1}
+            // page_count={10} // the last one we fill with "End"
+            min_wait_time={0}
             on_load={({ page, setContent, endInfinity }) => {
+              console.log('on_load: ', page)
               if (page > 10) {
                 endInfinity()
-                setContent(
-                  page,
-                  <LargePage color="lightgreen">End</LargePage>
-                )
               } else {
                 setContent(page, <LargePage>{page}</LargePage>)
               }
+            }}
+            on_end={({ page, setContent }) => {
+              console.log('on_end: ', page)
+              setContent(
+                page,
+                <LargePage color="lightgreen">End</LargePage>
+              )
             }}
           />
         </HeightLimit>
@@ -190,6 +197,10 @@ const InfinityPagination = ({ children, ...props }) => {
         setTimeout(() => {
           setContent(page, children(page))
         }, Math.ceil(Math.random() * 1e3))
+      }}
+      on_end={({ page, setContent }) => {
+        console.log('InfinityPagination on_end:', page)
+        setContent(page, <LargePage>End</LargePage>)
       }}
     >
       {/* just a child */}

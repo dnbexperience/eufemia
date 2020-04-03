@@ -22,6 +22,7 @@ const algoliaAPIKey = '6cf238b7456ffd9f7a400d8de37318a3'
 
 export const SearchBarInput = () => {
   const searchIndex = React.useRef(null)
+  const [status, setStatus] = React.useState(null)
 
   const onTypeHandler = ({
     value,
@@ -34,16 +35,27 @@ export const SearchBarInput = () => {
       ({ value }) => {
         searchIndex.current
           .search(value)
-          .then(({ hits }) => updateData(makeHitsHumanFriendly(hits)))
-          .catch((err) => updateData([{ content: err.message || err }]))
-        hideIndicator()
+          .then(({ hits }) => {
+            updateData(makeHitsHumanFriendly(hits))
+            hideIndicator()
+          })
+          .catch((err) => {
+            setStatus(err.message || err)
+            hideIndicator()
+          })
       },
       { value }
     )
     showIndicator()
   }
 
-  const onChangeHandler = ({ data: { hit } }) => navigate(hit.slug)
+  const onChangeHandler = ({ data }) => {
+    try {
+      navigate(data.hit.slug)
+    } catch (e) {
+      setStatus(e.message)
+    }
+  }
 
   const onFocusHandler = () => {
     const searchClient = algoliasearch(algoliaApplicationID, algoliaAPIKey)
@@ -52,13 +64,17 @@ export const SearchBarInput = () => {
 
   return (
     <StyledAutocomplete
-      align_autocomplete="right"
+      right
       mode="async"
       no_scroll_animation
       prevent_selection
-      right
+      keep_placeholder
+      size="medium"
+      align_autocomplete="right"
+      triangle_position="left"
       placeholder="Search ..."
       id="portal-search"
+      status={status}
       on_type={onTypeHandler}
       on_change={onChangeHandler}
       on_focus={onFocusHandler}
@@ -72,7 +88,10 @@ const StyledAutocomplete = styled(Autocomplete)`
       white-space: normal;
       font-size: var(--font-size-small);
 
+      padding-bottom: 0.5rem;
+
       .dnb-anchor {
+        display: inline-block;
         margin-right: 0.5rem;
         word-break: break-word;
         white-space: nowrap;
@@ -87,18 +106,31 @@ const StyledAutocomplete = styled(Autocomplete)`
     }
   }
 
-  ${'' /* .dnb-autocomplete__shell {
-    width: 40rem;
-  } */}
+  .dnb-autocomplete__shell {
+    &,
+    input {
+      width: 30vw;
+    }
+  }
+
   .dnb-autocomplete__list {
     width: 40vw;
+    @media (max-width: 60em) {
+      width: 60vw;
+    }
     @media (max-width: 40em) {
       width: 80vw;
     }
   }
 
   .dnb-drawer-list__triangle {
-    right: 13rem;
+    left: 10vw;
+    @media (max-width: 60em) {
+      left: 30vw;
+    }
+    @media (max-width: 40em) {
+      left: 50vw;
+    }
   }
 `
 
@@ -115,7 +147,11 @@ const makeHitsHumanFriendly = (hits) => {
         if (value === title) {
           return null
         }
-        return <Anchor href={`/${slug}#${hash}`}>{value}</Anchor>
+        return (
+          <Anchor key={slug + hash} href={`/${slug}#${hash}`}>
+            {value}
+          </Anchor>
+        )
       })
       .filter(Boolean)
 

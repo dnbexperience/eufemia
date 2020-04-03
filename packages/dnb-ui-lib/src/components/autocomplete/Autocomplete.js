@@ -60,6 +60,7 @@ const propTypes = {
   ]),
   icon_size: PropTypes.string,
   icon_position: PropTypes.string,
+  triangle_position: PropTypes.string,
   input_icon: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.node,
@@ -171,7 +172,8 @@ const defaultProps = {
   submit_button_title: null,
   icon: 'chevron-down',
   icon_size: null,
-  icon_position: 'left',
+  icon_position: null,
+  triangle_position: null,
   input_icon: 'search',
   label: null,
   label_direction: null,
@@ -319,6 +321,8 @@ class AutocompleteInstance extends PureComponent {
     this.setHidden()
     clearTimeout(this._hideTimeout)
     clearTimeout(this._selectTimeout)
+    clearTimeout(this._ariaLiveUpdateTiemout)
+    clearTimeout(this._toggleVisibleTimeout)
   }
 
   setVisible = () => {
@@ -366,7 +370,6 @@ class AutocompleteInstance extends PureComponent {
     }
 
     this.setState({
-      inputValue: value,
       typedInputValue: value,
       _listenForPropChanges: false
     })
@@ -437,6 +440,7 @@ class AutocompleteInstance extends PureComponent {
     }
 
     this.setVisible()
+    this.setAriaLiveUpdate()
 
     return data
   }
@@ -459,6 +463,8 @@ class AutocompleteInstance extends PureComponent {
       cache_hash: value + data.length,
       ignore_events: false
     })
+
+    this.setAriaLiveUpdate()
 
     return data
   }
@@ -561,6 +567,8 @@ class AutocompleteInstance extends PureComponent {
               active_item: -1,
               ignore_events: false
             })
+
+            // Was used before to enhance UX, but looks like we now are good without
             // this.showAll()
             // this.scrollToSelectedItem()
           }
@@ -613,20 +621,18 @@ class AutocompleteInstance extends PureComponent {
       ...this.getEventObjects('on_blur')
     })
 
-    setTimeout(() => {
-      if (parseFloat(this.context.drawerList.selected_item) > -1) {
-        const inputValue = AutocompleteInstance.getCurrentDataTitle(
-          this.context.drawerList.selected_item,
-          this.context.drawerList.data
-        )
+    if (parseFloat(this.context.drawerList.selected_item) > -1) {
+      const inputValue = AutocompleteInstance.getCurrentDataTitle(
+        this.context.drawerList.selected_item,
+        this.context.drawerList.original_data
+      )
 
-        this.setState({
-          skipHighlight: true,
-          inputValue,
-          _listenForPropChanges: false
-        })
-      }
-    }, 1) // just to make sure we are after the data is rendered
+      this.setState({
+        skipHighlight: true,
+        inputValue,
+        _listenForPropChanges: false
+      })
+    }
   }
 
   getEventObjects = (key) => {
@@ -658,7 +664,6 @@ class AutocompleteInstance extends PureComponent {
   toggleVisible = ({ hasFilter = false } = {}) => {
     if (
       !hasFilter &&
-      // !this.hasFilterActive() &&
       !isTrue(this.props.prevent_close) &&
       !this.context.drawerList.hidden &&
       this.context.drawerList.opened
@@ -726,8 +731,8 @@ class AutocompleteInstance extends PureComponent {
           (!this.hasValidData() || !this.hasSelectedItem()) &&
           !this.hasActiveItem()
         ) {
-          // this.toggleVisible()
-          setTimeout(this.toggleVisible, 1) // to make sure we first handle the DrawerList key enter, before we update the state with a toggle/visible. Else the submit is not set properly
+          clearTimeout(this._toggleVisibleTimeout)
+          this._toggleVisibleTimeout = setTimeout(this.toggleVisible, 1) // to make sure we first handle the DrawerList key enter, before we update the state with a toggle/visible. Else the submit is not set properly
         } else {
           this.setVisible()
         }
@@ -851,79 +856,90 @@ class AutocompleteInstance extends PureComponent {
           item.dataItem.render = (children) => {
             let Component = null
 
-            // make string out of it
-            if (
-              typeof children !== 'string' &&
-              (React.isValidElement(children) || Array.isArray(children))
-            ) {
+            // it can be an object, React element or an array
+            if (typeof children !== 'string') {
+              if (!Array.isArray(children)) {
+                children = [children]
+              }
+
+              // keep the original for later
               Component = children
-              children = grabStringFromReact(children, ' ')
+
+              // make string out of it
+              children = children.map((child) =>
+                grabStringFromReact(child)
+              )
             }
 
             if (typeof children === 'string') {
-              children = children
-                .split(' ')
-                .map((child) => {
-                  if (skipHighlight || this.state.skipHighlight) {
-                    return child
-                  }
+              children = [children] // for a while we had split this into seperate words children.split(' ') but this is not needed anymore
+            }
 
-                  const formatted = listOfFoundWords
-                    .reverse()
-                    .map(({ word }) => {
-                      const charStart = child
-                        .toLowerCase()
-                        .indexOf(word.toLowerCase())
-                      const charEnd = word.length + charStart
+            children = children
+              .map((child) => {
+                if (skipHighlight || this.state.skipHighlight) {
+                  return child
+                }
 
-                      if (charStart === -1) {
-                        return null
-                      }
+                const formatted = listOfFoundWords
+                  .reverse()
+                  .map(({ word }) => {
+                    const charStart = child
+                      .toLowerCase()
+                      .indexOf(word.toLowerCase())
+                    const charEnd = word.length + charStart
 
-                      const ret = {
-                        a: child.substring(0, charStart),
-                        b: child.substring(charStart, charEnd),
-                        c: child.substring(charEnd, child.length)
-                      }
+                    if (charStart === -1) {
+                      return null
+                    }
 
-                      return ret
-                    })
-                    .filter(Boolean)
-                    .reduce((acc, { a, b, c }) => {
-                      if (acc.includes('TAG_START')) {
-                        return acc.replace(
-                          new RegExp(`(${b})`, 'gi'),
-                          'TAG_START$1TAG_END'
-                        )
-                      }
+                    const ret = {
+                      a: child.substring(0, charStart),
+                      b: child.substring(charStart, charEnd),
+                      c: child.substring(charEnd, child.length)
+                    }
 
-                      return `${a}TAG_START${b}TAG_END${c}`
-                    }, child)
+                    return ret
+                  })
+                  .filter(Boolean)
+                  .reduce((acc, { a, b, c }) => {
+                    if (acc.includes('TAG_START')) {
+                      return acc.replace(
+                        new RegExp(`(${b})`, 'gi'),
+                        'TAG_START$1TAG_END'
+                      )
+                    }
 
-                  if (formatted.includes('TAG_START')) {
-                    return (
-                      <span
-                        key={itemIndex + child}
-                        dangerouslySetInnerHTML={{
-                          __html: formatted
-                            .replace(/TAG_START/g, startTag)
-                            .replace(/TAG_END/g, endTag)
-                        }}
-                      />
+                    return `${a}TAG_START${b}TAG_END${c}`
+                  }, child)
+
+                if (formatted.includes('TAG_START')) {
+                  return (
+                    <span
+                      key={itemIndex + child}
+                      dangerouslySetInnerHTML={{
+                        __html: formatted
+                          .replace(/TAG_START/g, startTag)
+                          .replace(/TAG_END/g, endTag)
+                      }}
+                    />
+                  )
+                }
+
+                return formatted
+              })
+              .map((c, i, a) => (i < a.length - 1 ? [c, ' '] : c)) // add back the skiped spaces
+
+            if (Component) {
+              children = Array.isArray(Component)
+                ? Component.map((Comp, i) =>
+                    React.cloneElement(
+                      Comp,
+                      { key: itemIndex + i },
+                      children[i]
                     )
-                  }
-
-                  return formatted
-                })
-                .map((c, i, a) => (i < a.length - 1 ? [c, ' '] : c)) // add back the skiped spaces
-
-              if (Component) {
-                children = Array.isArray(Component)
-                  ? Component.map((Comp, i) =>
-                      React.cloneElement(Comp, null, children[i])
-                    )
-                  : React.cloneElement(Component, null, children)
-              }
+                  )
+                : React.cloneElement(Component, null, children)
             }
 
             return children
@@ -995,6 +1011,41 @@ class AutocompleteInstance extends PureComponent {
     }, 1) // because of state updates we need 1 tick delay here
   }
 
+  setAriaLiveUpdate() {
+    const { opened } = this.context.drawerList
+    const { aria_live_options, no_options } = this._props
+
+    // this is only to make a better screen reader ux
+    if (opened) {
+      clearTimeout(this._ariaLiveUpdateTiemout)
+      this._ariaLiveUpdateTiemout = setTimeout(() => {
+        let newString = null
+
+        if (this.hasValidData()) {
+          newString = String(aria_live_options).replace(
+            '%s',
+            this.context.drawerList.data.length
+          )
+        } else {
+          newString = no_options
+        }
+
+        if (newString) {
+          this.setState({
+            ariaLiveUpdate: newString,
+            _listenForPropChanges: false
+          })
+          this._ariaLiveUpdateTiemout = setTimeout(() => {
+            this.setState({
+              ariaLiveUpdate: null,
+              _listenForPropChanges: false
+            })
+          }, 1e3)
+        }
+      }, 1e3) // so that the input gets read out first, and then the results
+    }
+  }
+
   render() {
     // use only the props from context, who are available here anyway
     const props = (this._props = extendPropsWithContext(
@@ -1031,17 +1082,17 @@ class AutocompleteInstance extends PureComponent {
       max_height,
       default_value,
       submit_button_title,
-      no_options,
-      aria_live_options,
       className,
       class: _className,
       disabled,
+      triangle_position,
 
       mode: _mode, // eslint-disable-line
       data: _data, // eslint-disable-line
+      no_options: _no_options, // eslint-disable-line
+      aria_live_options: _aria_live_options, // eslint-disable-line
       children: _children, // eslint-disable-line
       direction: _direction, // eslint-disable-line
-      icon_position: _icon_position, // eslint-disable-line
       skip_highlight: _skip_highlight, // eslint-disable-line
       id: _id, // eslint-disable-line
       opened: _opened, // eslint-disable-line
@@ -1052,14 +1103,14 @@ class AutocompleteInstance extends PureComponent {
     } = props
 
     let { icon_position } = props
-    if (icon_position === 'left' && align_autocomplete !== 'left') {
+    if (!icon_position && align_autocomplete === 'right') {
       icon_position = 'right'
     }
 
     const id = this._id
     const showStatus = status && status !== 'error'
 
-    const { inputValue, visibleIndicator } = this.state
+    const { inputValue, visibleIndicator, ariaLiveUpdate } = this.state
 
     const {
       selected_item,
@@ -1081,7 +1132,7 @@ class AutocompleteInstance extends PureComponent {
         opened && 'dnb-autocomplete--opened',
         label_direction && `dnb-autocomplete--${label_direction}`,
         icon_position &&
-          `dnb-autocomplete--icon-position-${icon_position}`,
+          `dnb-autocomplete--icon-position-${icon_position || 'left'}`,
         align_autocomplete && `dnb-autocomplete--${align_autocomplete}`,
         visibleIndicator && 'dnb-autocomplete--show-indicator',
         size && `dnb-autocomplete--${size}`,
@@ -1181,7 +1232,6 @@ class AutocompleteInstance extends PureComponent {
                       input_icon
                     )
                   }
-                  // icon_position={icon_position}
                   icon_size={
                     icon_size || (size === 'large' ? 'medium' : 'default')
                   }
@@ -1191,7 +1241,6 @@ class AutocompleteInstance extends PureComponent {
                   submit_element={
                     isTrue(show_drawer_button) ? (
                       <SubmitButton
-                        // value={String(selected_item)}// is not needed for now
                         icon={icon}
                         icon_size={
                           icon_size ||
@@ -1211,7 +1260,6 @@ class AutocompleteInstance extends PureComponent {
                     )
                   }
                   ref={this._refInput}
-                  // onClick={this.onInputClickHandler}
                   onMouseDown={this.onInputClickHandler}
                   on_key_down={this.onTriggerKeyDownHandler}
                   on_change={this.onInputChangeHandler}
@@ -1231,7 +1279,9 @@ class AutocompleteInstance extends PureComponent {
                 no_animation={no_animation}
                 no_scroll_animation={no_scroll_animation}
                 prevent_selection={prevent_selection}
-                triangle_position={icon_position}
+                triangle_position={
+                  triangle_position || icon_position || 'left'
+                }
                 keep_open={keep_open}
                 prevent_close={prevent_close}
                 align_drawer={align_autocomplete}
@@ -1256,12 +1306,7 @@ class AutocompleteInstance extends PureComponent {
         </span>
 
         <span className="dnb-sr-only" aria-live="assertive">
-          {opened && this.hasValidData()
-            ? String(aria_live_options).replace(
-                '%s',
-                this.context.drawerList.data.length
-              )
-            : no_options}
+          {ariaLiveUpdate}
         </span>
       </span>
     )

@@ -176,9 +176,9 @@ export default class Button extends PureComponent {
       global_status_id,
       id,
       disabled,
-      text,
-      icon,
-      icon_position,
+      text: _text, // eslint-disable-line
+      icon: _icon, // eslint-disable-line
+      icon_position: _icon_position, // eslint-disable-line
       icon_size,
       href,
       bounding, // eslint-disable-line
@@ -186,13 +186,47 @@ export default class Button extends PureComponent {
       ...attributes
     } = props
 
-    let usedVariant = variant
-    let usedSize = size
-    const content = Button.getContent(this.props) || text
     const showStatus = status && status !== 'error'
 
+    let { text, icon, icon_position: iconPosition } = props
+    let usedVariant = variant
+    let usedSize = size
+    let content = Button.getContent(this.props) || text
+
+    // if (content && React.isValidElement(content)) {
+    //   content = [content]
+    // }
+    // if (Array.isArray(content)) {
+    //   const res = content.reduce(
+    //     (acc, cur, i) => {
+    //       if (
+    //         React.isValidElement(cur) &&
+    //         /Icon/i.test(String(cur.type))
+    //       ) {
+    //         acc.icon = cur
+    //         if (i === 0) {
+    //           acc.iconPosition = 'left'
+    //         }
+    //       } else {
+    //         if (!acc.text) {
+    //           acc.text = []
+    //         }
+    //         acc.text.push(cur)
+    //       }
+    //       return acc
+    //     },
+    //     { text: null, icon, iconPosition }
+    //   )
+    //   if (res.icon) {
+    //     text = res.text || text
+    //     icon = res.icon
+    //     iconPosition = res.iconPosition
+    //     content = null
+    //   }
+    // }
+
     // if only has Icon, then resize it and define it as secondary
-    const isIconOnly = Boolean(!content && icon)
+    const isIconOnly = Boolean(!text && !content && icon)
     if (isIconOnly) {
       if (!usedVariant) {
         usedVariant = 'secondary'
@@ -219,9 +253,9 @@ export default class Button extends PureComponent {
       'dnb-button',
       `dnb-button--${usedVariant || 'primary'}`,
       usedSize && usedSize !== 'default' && `dnb-button--size-${usedSize}`,
-      icon && `dnb-button--icon-position-${icon_position}`,
+      icon && `dnb-button--icon-position-${iconPosition}`,
       icon && iconSize && `dnb-button--icon-size-${iconSize}`,
-      content && 'dnb-button--has-text',
+      (text || content) && 'dnb-button--has-text',
       icon && 'dnb-button--has-icon',
       status && `dnb-button__status--${status_state}`,
       createSpacingClasses(props),
@@ -251,6 +285,8 @@ export default class Button extends PureComponent {
           <a href={href} ref={this._ref} {...params}>
             <Content
               {...this.props}
+              icon={icon}
+              text={text}
               icon_size={iconSize}
               content={content}
               isIconOnly={isIconOnly}
@@ -260,6 +296,8 @@ export default class Button extends PureComponent {
           <button ref={this._ref} {...params}>
             <Content
               {...this.props}
+              icon={icon}
+              text={text}
               icon_size={iconSize}
               content={content}
               isIconOnly={isIconOnly}
@@ -284,8 +322,8 @@ export default class Button extends PureComponent {
 
 class Content extends PureComponent {
   static propTypes = {
-    text: PropTypes.string,
     title: PropTypes.string,
+    text: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
     content: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
     icon: PropTypes.oneOfType([
       PropTypes.string,
@@ -324,14 +362,21 @@ class Content extends PureComponent {
       )
     }
 
-    if (typeof content === 'string') {
+    if (
+      typeof content === 'string'
+      // ||
+      // (Array.isArray(content) && typeof content[0] === 'string')
+    ) {
       text = content
-    } else {
+    } else if (content) {
       ret.push(content)
     }
 
     if (text) {
       ret.push(
+        <span key="button-text-empty" className="dnb-button__alignment">
+          &zwnj;
+        </span>,
         <span key="button-text" className="dnb-button__text">
           {text}
         </span>
@@ -341,7 +386,7 @@ class Content extends PureComponent {
       // so the icon button gets vertical aligned
       // we need the dnb-button__text for alignment
       ret.push(
-        <span key="button-text-empty" className="dnb-button__text">
+        <span key="button-text-empty" className="dnb-button__alignment">
           &zwnj;
         </span>
       )
@@ -349,13 +394,20 @@ class Content extends PureComponent {
 
     if (icon) {
       ret.push(
-        <IconPrimary
-          key="button-icon"
-          className="dnb-button__icon"
-          icon={icon}
-          size={icon_size}
-          aria-hidden={isIconOnly && !title ? null : true}
-        />
+        React.isValidElement(icon) && /Icon/i.test(String(icon.type)) ? (
+          React.cloneElement(icon, {
+            key: 'button-icon',
+            className: `dnb-button__icon ${icon.props.className || ''}`
+          })
+        ) : (
+          <IconPrimary
+            key="button-icon"
+            className="dnb-button__icon"
+            icon={icon}
+            size={icon_size}
+            aria-hidden={isIconOnly && !title ? null : true}
+          />
+        )
       )
     }
 

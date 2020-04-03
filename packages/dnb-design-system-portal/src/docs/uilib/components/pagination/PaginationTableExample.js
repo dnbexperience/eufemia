@@ -59,7 +59,10 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
   // ascending / descending
   tableItems = reorderDirection(tableItems, orderDirection)
 
-  const onToggleExpanded = ({ ssn: _ssn }, pageNo, element = null) => {
+  const onToggleExpanded = (
+    { ssn: _ssn },
+    { pageNo, element = null, onExpanded = null } = {}
+  ) => {
     const index = tableItems.findIndex(({ ssn }) => ssn === _ssn)
     if (index > -1) {
       const item = tableItems[index]
@@ -78,7 +81,11 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
       forceRerender(new Date().getTime())
 
       // set new height
-      setHeight({ element, expanded: !item.expanded })
+      if (element) {
+        setHeight({ element, expanded: !item.expanded })
+      }
+
+      setTimeout(onExpanded, 10)
     }
   }
   // set the startup height
@@ -164,7 +171,7 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
           // page_count={maxPagesCount}// is not needed
           {...props}
           on_startup={({ page }) => {
-            // console.log('on_startup: with page', page)
+            console.log('on_startup: with page', page)
 
             // simulate server delay
             setTimeout(() => {
@@ -175,9 +182,9 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
               forceRerender(new Date().getTime())
             }, Math.ceil(Math.random() * 1e3)) // simulate random delay
           }}
-          on_load={({ page /*, setContent, resetContent */ }) => {
-            console.log('on_load: with page', page)
-          }}
+          // on_load={({ page /*, setContent, resetContent */ }) => {
+          //   console.log('on_load: with page', page)
+          // }}
           on_change={({ page }) => {
             console.log('on_change: with page', page)
 
@@ -207,7 +214,9 @@ const InfinityPagination = ({
   ...props
 }) => {
   const mountedItems = []
-  React.useEffect(() => onMounted && onMounted(mountedItems), []) // eslint-disable-line
+  if (onMounted) {
+    React.useEffect(() => onMounted && onMounted(mountedItems), []) // eslint-disable-line
+  }
 
   items = items.filter((cur, idx) => {
     const floor = (currentPage - 1) * perPageCount
@@ -220,39 +229,82 @@ const InfinityPagination = ({
     return null
   }
 
-  return items.map((item) => {
+  return items.map((item, i) => {
     const params = {
       onClick: (e) => {
-        if (!hasSelectedText(e.currentTarget)) {
-          onToggleExpanded(item, currentPage, e.currentTarget)
+        if (
+          !hasSelectedText(e.currentTarget) ||
+          /button/.test(document.activeElement.type)
+        ) {
+          let element = e.currentTarget
+          onToggleExpanded(item, {
+            pageNo: currentPage,
+            // element,
+            onExpanded: () => {
+              try {
+                // rather find the next tr
+                element = element.nextElementSibling
+                setHeight({ element, expanded: !item.expanded })
+                element.focus() // for better ally we set the focus to the new content
+              } catch (e) {
+                //
+              }
+            }
+          })
         }
       }
     }
-    const ref = React.createRef(null)
-    mountedItems.push({ ...item, element: ref })
+
+    // we do this only to have a working useEffect, so we can call onMounted
+    const trRef = React.createRef(null)
+    mountedItems.push({ ...item, element: trRef })
 
     return (
-      <TableRow
-        key={item.ssn}
-        {...props}
-        ref={ref}
-        className={item.expanded ? 'expanded' : ''}
-      >
-        <TableData {...params}>
-          <Button
-            title={item.expanded ? 'Hide details' : 'Show more details'}
-            icon="chevron_down"
-            size="small"
-            right="large"
-          />
-          {item.expanded && <span>I'm expanded!</span>}
-        </TableData>
-        <TableData {...params}>
-          <P>
-            {item.text} {children}
-          </P>
-        </TableData>
-      </TableRow>
+      <React.Fragment key={item.ssn}>
+        <TableRow
+          {...props}
+          {...params}
+          className={`dnb-table--${i % 2 ? 'even' : 'odd'} ${
+            item.expanded ? 'expanded' : ''
+          }`}
+          ref={trRef}
+        >
+          <TableData>
+            {/* The button "bubbles" the event just down */}
+            <Button
+              title={item.expanded ? 'Hide details' : 'Show more details'}
+              icon="chevron_down"
+              size="small"
+              right="large"
+            />
+          </TableData>
+          <TableData>
+            <P>
+              {item.text} {children}
+            </P>
+          </TableData>
+        </TableRow>
+
+        <TableRow
+          className={`expanded-content dnb-no-focus ${
+            item.expanded ? 'expanded' : ''
+          }`}
+          tabIndex="-1"
+        >
+          <TableData colSpan="2">
+            {item.expanded && (
+              <div className="expanded-content__outer">
+                <div className="expanded-content__inner">
+                  <P>What ever content ...</P>
+                  <Button variant="secondary" top>
+                    {'🔥'}
+                  </Button>
+                </div>
+              </div>
+            )}
+          </TableData>
+        </TableRow>
+      </React.Fragment>
     )
   })
 }
@@ -262,31 +314,58 @@ const StyledTable = styled(Table)`
 `
 
 const TableRow = styled.tr`
-  &:hover {
+  &:not(.expanded-content):hover {
+    cursor: pointer;
     opacity: 0.8;
   }
+
   .dnb-icon {
     transition: transform 300ms ease-out;
   }
-
   &.expanded {
     .dnb-icon {
       transform: rotate(-180deg);
     }
   }
 
-  /** This is our expanded height (maxHeight)
+  &.expanded-content {
+    /*
+      This is our expanded height (maxHeight)
       NB: we can use max-height, because max-height is not supported in tr
-  */
-  max-height: 10rem;
-  transition: height 0.4s ease-out;
+    */
+    max-height: 10rem;
+
+    transform: translateY(-10px);
+    opacity: 0;
+
+    transition: height 400ms ease-out, opacity 600ms ease-out,
+      transform 400ms ease-out;
+
+    td {
+      height: inherit;
+      padding: 0;
+      background-color: white;
+
+      .expanded-content__outer {
+        height: inherit;
+      }
+
+      /* If we don't wrapp with an additional inner, then we get a jump in the animation */
+      .expanded-content__inner {
+        height: inherit;
+        padding: 2rem 0 2rem 3rem;
+
+        background-color: tomato;
+      }
+    }
+  }
+  &.expanded.expanded-content {
+    opacity: 1;
+    transform: translateY(0);
+  }
 `
 
 const TableData = styled.td`
-  tr:not(.expanded) & {
-    cursor: pointer;
-  }
-
   .dnb-pagination__loadbar {
     justify-content: flex-start;
   }

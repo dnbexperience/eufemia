@@ -163,7 +163,8 @@ exports[`GlobalError scss have to match snapshot 1`] = `
     padding: calc(0.5rem / 2) 1rem;
     cursor: text;
     color: inherit;
-    line-height: var(--line-height-basis); }
+    line-height: var(--line-height-basis);
+    white-space: normal; }
   .dnb-icon + .dnb-form-status--text {
     padding-left: 0.5rem; }
   .dnb-form-status__shell > .dnb-icon {
@@ -255,26 +256,31 @@ exports[`GlobalError scss have to match snapshot 1`] = `
   user-select: none;
   -webkit-user-select: none;
   cursor: pointer;
-  white-space: nowrap;
+  white-space: normal;
+  overflow-wrap: break-word;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   width: var(--button-width);
-  height: var(--button-height);
+  height: auto;
   padding: 0;
   border: var(--button-border-width) solid transparent;
   border-radius: var(--button-border-radius);
   text-decoration: none;
-  font-size: var(--font-size-small); }
+  font-size: var(--font-size-small);
+  /* stylelint-disable-next-line */ }
   .dnb-button,
   .dnb-core-style .dnb-button {
     line-height: var(--button-height); }
   .dnb-button__text {
+    margin: 0.5rem 0;
     font-size: var(--button-font-size);
-    line-height: var(--line-height-xx-small--em);
+    line-height: var(--line-height-basis);
     color: inherit;
-    background-color: inherit;
     transform: translateY(-0.03125rem); }
+  .dnb-button__alignment {
+    display: inline-block;
+    width: 0; }
   .dnb-button__bounding {
     position: absolute;
     top: 0;
@@ -284,14 +290,18 @@ exports[`GlobalError scss have to match snapshot 1`] = `
     transform: scale(1.1, 1.4);
     background-color: transparent;
     border-radius: var(--button-border-radius); }
+  .dnb-button--has-text {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem; }
   .dnb-button--size-small {
     width: var(--button-width--small);
-    height: var(--button-height--small);
     font-size: var(--button-font-size-small);
     border-radius: var(--button-border-radius--small); }
     .dnb-button--size-small,
     .dnb-core-style .dnb-button--size-small {
       line-height: var(--button-height--small); }
+  .dnb-button--size-small .dnb-button__text {
+    margin: 0; }
   .dnb-button--has-text.dnb-button--size-small {
     padding-left: 1rem;
     padding-right: 1rem; }
@@ -301,11 +311,12 @@ exports[`GlobalError scss have to match snapshot 1`] = `
     padding-right: 0.5rem; }
   .dnb-button--size-medium {
     width: var(--button-width--medium);
-    height: var(--button-height--medium);
     border-radius: var(--button-border-radius--medium); }
     .dnb-button--size-medium,
     .dnb-core-style .dnb-button--size-medium {
       line-height: var(--button-height--medium); }
+  .dnb-button--size-medium .dnb-button__text {
+    margin: 0; }
   .dnb-button--has-text.dnb-button--size-medium {
     padding-left: 1rem;
     padding-right: 1rem; }
@@ -315,7 +326,6 @@ exports[`GlobalError scss have to match snapshot 1`] = `
     padding-right: 0.5rem; }
   .dnb-button--size-large {
     width: var(--button-width--large);
-    height: var(--button-height--large);
     border-radius: var(--button-border-radius--large); }
     .dnb-button--size-large,
     .dnb-core-style .dnb-button--size-large {
@@ -328,8 +338,6 @@ exports[`GlobalError scss have to match snapshot 1`] = `
   .dnb-button--has-text.dnb-button--icon-position-right.dnb-button--size-large {
     padding-right: 1rem; }
   .dnb-button--has-text {
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
     width: auto; }
   .dnb-button--has-text .dnb-button__icon {
     margin: 0 calc(var(--button-icon-size) / 2); }
@@ -391,6 +399,8 @@ exports[`GlobalError scss have to match snapshot 1`] = `
     cursor: not-allowed; }
   .dnb-form-row--vertical .dnb-form-row__content > .dnb-button {
     align-self: flex-start; }
+  .dnb-form-row--horizontal .dnb-form-row__content .dnb-button__text {
+    white-space: nowrap; }
   .dnb-button + .dnb-form-status {
     margin-top: 0.5rem; }
   @media screen and (-ms-high-contrast: none) {
@@ -533,7 +543,7 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
         variant="tertiary"
       >
         <a
-          className="dnb-button dnb-button--tertiary dnb-global-error__back dnb-button--icon-position-left dnb-button--has-icon dnb-button--has-text"
+          className="dnb-button dnb-button--tertiary dnb-button--has-text dnb-global-error__back dnb-button--icon-position-left dnb-button--has-icon"
           disabled={false}
           href="href"
           onClick={[Function]}
@@ -567,6 +577,12 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
             type="button"
             variant="tertiary"
           >
+            <span
+              className="dnb-button__alignment"
+              key="button-text-empty"
+            >
+              ‌
+            </span>
             <span
               className="dnb-button__text"
               key="button-text"

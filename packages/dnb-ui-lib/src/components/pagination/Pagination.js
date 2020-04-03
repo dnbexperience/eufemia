@@ -34,6 +34,11 @@ const propTypes = {
     PropTypes.string,
     PropTypes.number
   ]),
+  place_maker_before_content: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.bool
+  ]),
+  min_wait_time: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   mode: PropTypes.oneOf(['pagination', 'infinity']),
   use_load_button: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   items: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
@@ -106,6 +111,8 @@ const defaultProps = {
   align: 'left',
   startup_count: 1,
   parallel_load_count: 1,
+  place_maker_before_content: false,
+  min_wait_time: 400,
   class: null,
 
   // React props

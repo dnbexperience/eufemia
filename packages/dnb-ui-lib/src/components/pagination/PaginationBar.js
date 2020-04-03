@@ -5,6 +5,7 @@
 
 import React, { Fragment, PureComponent } from 'react'
 import PropTypes from 'prop-types'
+import classnames from 'classnames'
 import {
   dispatchCustomElementEvent,
   extendPropsWithContext
@@ -167,7 +168,12 @@ export default class PaginationBar extends PureComponent {
     const pages = calculatePagination(pageCount, currentPage)
 
     return (
-      <div className="dnb-pagination__bar">
+      <div
+        className={classnames(
+          'dnb-pagination__bar',
+          pageCount >= 8 && 'dnb-pagination--many-pages'
+        )}
+      >
         <Button
           key="left-arrow"
           className="dnb-pagination__button"

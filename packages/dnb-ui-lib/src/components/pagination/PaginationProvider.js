@@ -6,7 +6,10 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import Context from '../../shared/Context'
-import { isTrue } from '../../shared/component-helper'
+import {
+  isTrue,
+  dispatchCustomElementEvent
+} from '../../shared/component-helper'
 import {
   ContentObject
   // , detectScrollDirection // NB: We do currently not use scroll direction handling
@@ -67,6 +70,12 @@ export default class PaginationProvider extends PureComponent {
           parseFloat(props.current_page) ||
           1
       }
+
+      state.parallelLoadCount = parseFloat(props.parallel_load_count) || 1
+      state.minTime = parseFloat(props.min_wait_time) || 0
+      state.placeMakerBeforeContent = isTrue(
+        props.place_maker_before_content
+      )
 
       // only used by handleInfinityMarker
       if (props.useMarkerOnly) {
@@ -223,6 +232,7 @@ export default class PaginationProvider extends PureComponent {
         currentPage,
         _listenForPropChanges: false
       })
+      this.startInfinity()
     }, 10) // we have to be one tick after "rerender"
   }
 
@@ -241,36 +251,35 @@ export default class PaginationProvider extends PureComponent {
         currentPage,
         _listenForPropChanges: false
       })
+      this.startInfinity()
     }, 10) // we have to be one tick after "rerender"
   }
 
   // not implemented yet
   startInfinity = () => {
+    this._hasEndedInfinity = false
     this.setState({
       hasEndedInfinity: false,
       _listenForPropChanges: false
     })
   }
 
-  endInfinity = (pageCount = null) => {
-    if (this.props.useMarkerOnly) {
-      pageCount = pageCount || this.state.currentPage
-    } else {
-      pageCount = this.state.items.length
-      const items = this.state.items.filter(({ pageNo }) => {
-        return pageNo < pageCount
-      })
-      this.setState({
-        items,
+  endInfinity = () => {
+    this._hasEndedInfinity = true
+    this.setState(
+      {
+        hasEndedInfinity: true,
         _listenForPropChanges: false
-      })
-    }
-
-    this.setState({
-      pageCount,
-      hasEndedInfinity: true,
-      _listenForPropChanges: false
-    })
+      },
+      () => {
+        const pageNo = this.state.currentPage + 1
+        dispatchCustomElementEvent(this, 'on_end', {
+          page: pageNo,
+          pageNo,
+          ...this
+        })
+      }
+    )
   }
 
   setItems = (items, cb) => {
@@ -344,6 +353,7 @@ export default class PaginationProvider extends PureComponent {
             prefillItems: this.prefillItems,
             setState: this.setStateHandler,
             onPageUpdate: this.onPageUpdate,
+            _hasEndedInfinity: this._hasEndedInfinity,
             ...this.props,
             ...this.state
           }

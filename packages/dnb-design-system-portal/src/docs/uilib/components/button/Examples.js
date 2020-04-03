@@ -66,10 +66,11 @@ class Example extends PureComponent {
         <ComponentBox>
           {/* @jsx */ `
 <Button
-  text="Primary button with icon on left"
   icon_position="left"
   icon="chevron_left"
-/>
+>
+  Primary button with icon on left
+</Button>
           `}
         </ComponentBox>
         <ComponentBox>

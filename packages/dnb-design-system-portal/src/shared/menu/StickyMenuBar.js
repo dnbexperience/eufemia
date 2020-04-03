@@ -51,7 +51,7 @@ const Header = styled.header`
   @media (max-width: 40em) {
     /* make the button round */
     button:nth-of-type(1) {
-      padding: 0 0.2rem;
+      padding: 0 0.25rem;
       .dnb-button__text {
         display: none;
       }
@@ -71,7 +71,6 @@ const Tools = styled.span`
 const HeaderInner = styled.div`
   display: flex;
   justify-content: space-between;
-  ${'' /* vertical-align: middle; */}
 
   width: 100%;
 
@@ -173,6 +172,7 @@ export default class StickyMenuBar extends PureComponent {
                         icon={isOpen ? closeIcon : hamburgerIcon}
                         on_click={toggleMenu}
                         id="toggle-sidebar-menu"
+                        size="default"
                         aria-haspopup="true"
                         aria-controls="portal-sidebar-menu"
                         aria-expanded={isOpen}

@@ -10,9 +10,9 @@
     content: '';
     position: absolute;
     top: -0.5rem;
+    bottom: -0.5rem;
     left: -1rem;
     right: 0.5rem;
-    height: 2.5rem;
   }
 }
 
@@ -83,9 +83,6 @@
     .dnb-anchor,
     .dnb-button {
       > .dnb-icon {
-        position: absolute;
-        right: 0.25rem;
-        left: auto;
         opacity: 0;
         transition: opacity 200ms ease-out, transform 500ms ease-out;
         [data-dnb-test-wrapper] & {
@@ -100,7 +97,6 @@
       // reset anchor
       box-shadow: none;
 
-      height: 1.5rem;
       line-height: var(--line-height-basis);
 
       margin: 0;
@@ -113,8 +109,6 @@
       // white-space: normal;// we don't support multiline buttons in table headers
 
       .dnb-button__text {
-        padding-right: 1rem;
-
         // underline
         &::after {
           right: 1rem;
@@ -178,7 +172,6 @@
     .dnb-button {
       // hide underline
       &:not(:hover) .dnb-button__text::after {
-        right: 0;
         opacity: 0;
       }
       .dnb-icon {
@@ -188,15 +181,9 @@
       // and underline on hover
       @include hover() {
         .dnb-button__text::after {
-          right: 0;
           color: var(--color-sea-green);
           opacity: 1;
         }
-      }
-
-      // focus ring
-      &:focus::before {
-        right: -0.5rem;
       }
 
       // webkit fix
