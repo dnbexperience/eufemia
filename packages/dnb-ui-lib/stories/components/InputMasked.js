@@ -28,6 +28,22 @@ export default [
       <Wrapper>
         <Box>
           <InputMasked
+            label="Masked amount:"
+            // show_mask
+            // number_mask={{
+            //   suffix: ' kr',
+            //   allowDecimal: true
+            // }}
+            // placeholder_char={null}
+            currency_mask={{ currency: 'NOK' }}
+            // align="right"
+            on_change={(e) => {
+              console.log('e', e)
+            }}
+          />
+        </Box>
+        <Box>
+          <InputMasked
             label="Email:"
             type="email"
             placeholder="@."
