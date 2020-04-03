@@ -27,15 +27,6 @@ v7 contains a couple of braking changes. As a migration process, you can simply 
 - Sticky [Table](/uilib/elements/tables#table-with-sticky-header) header.
 - Sorable [table](/uilib/elements/tables#table-with-sticky-header) header buttons supports npw word-wrap.
 - [Buttons](/uilib/components/button) now wrap overflow text into new lines (break-word).
-<!-- - [Button](/uilib/components/button) enhancement on how to compose the button content.
-
-````jsx
-<Button>
-  <IconPrimary>chevron_left</IconPrimary>
-  Back
-</Button>
-``` -->
-
 - [Dropdown](/uilib/components/dropdown) supports now also plain objects as data source.
 
 ```jsx
@@ -45,7 +36,7 @@ v7 contains a couple of braking changes. As a migration process, you can simply 
     b: 'BB'
   }}
 />
-````
+```
 
 ## New icons
 
