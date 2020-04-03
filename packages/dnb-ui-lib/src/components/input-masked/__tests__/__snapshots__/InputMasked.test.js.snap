@@ -46,9 +46,9 @@ exports[`InputMasked component have to match type="text" snapshot 1`] = `
     label={null}
     label_direction={null}
     label_sr_only={null}
-    on_blur={null}
+    on_blur={[Function]}
     on_change={[Function]}
-    on_focus={null}
+    on_focus={[Function]}
     on_state_update={null}
     on_submit={null}
     on_submit_blur={null}

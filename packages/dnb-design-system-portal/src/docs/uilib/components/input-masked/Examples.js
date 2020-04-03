@@ -17,21 +17,25 @@ class Example extends PureComponent {
       <Fragment>
         <ComponentBox title="Using the `currency_mask`">
           {/* @jsx */ `
-<InputMasked
-  label="Masked amount:"
-  currency_mask="kr"
-  on_change={(e) => {
-    console.log('e', e)
-  }}
-  right
-/>
-<InputMasked
-  label="Masked amount:"
-  currency_mask={{ currency: 'NOK' }}
-  on_change={(e) => {
-    console.log('e', e)
-  }}
-/>
+<FormRow vertical>
+  <InputMasked
+    label="Amount:"
+    currency_mask="kr"
+    on_change={(e) => {
+      console.log('e', e)
+    }}
+    right
+    bottom
+  />
+  <InputMasked
+    label="Amount:"
+    currency_mask={{ currency: 'NOK' }}
+    align="left"
+    on_change={(e) => {
+      console.log('e', e)
+    }}
+  />
+</FormRow>
           `}
         </ComponentBox>
         <ComponentBox title="Making a custom currency mask">
