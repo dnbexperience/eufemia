@@ -101,20 +101,26 @@ export default class InputMasked extends PureComponent {
           number_mask = JSON.parse(number_mask)
         }
       }
-      props.align = props.align || 'right'
       show_mask = true
       placeholderChar = null
-      mask = createNumberMask({
+      props.align = props.align || 'right'
+
+      const maskParams = {
         allowDecimal: true,
-        suffix: ` ${
-          typeof currency_mask === 'string'
-            ? currency_mask
-            : typeof currency_mask.currency === 'string'
-            ? currency_mask.currency
-            : 'kr'
-        }`,
         ...currency_mask
-      })
+      }
+      const fix =
+        typeof currency_mask === 'string'
+          ? currency_mask
+          : typeof currency_mask.currency === 'string'
+          ? currency_mask.currency
+          : 'kr'
+      if (props.align === 'left') {
+        maskParams.prefix = `${fix} `
+      } else {
+        maskParams.suffix = ` ${fix}`
+      }
+      mask = createNumberMask(maskParams)
     }
 
     if (!props.input_element) {
@@ -122,15 +128,41 @@ export default class InputMasked extends PureComponent {
         placeholderChar = '\u200B'
       }
 
-      props.on_change = (params) => {
-        const cleaned_value = String(params.value).replace(
-          new RegExp('[^\\d,.-]', 'g'),
-          ''
-        )
-        dispatchCustomElementEvent(this, 'on_change', {
-          cleaned_value,
-          ...params
-        })
+      if (mask.instanceOf === 'createNumberMask') {
+        const clean = (v) =>
+          String(v).replace(new RegExp('[^\\d,.-]', 'g'), '')
+        props.on_change = (params) => {
+          dispatchCustomElementEvent(this, 'on_change', {
+            cleaned_value: clean(params.value),
+            ...params
+          })
+        }
+        props.on_focus = (params) => {
+          dispatchCustomElementEvent(this, 'on_focus', {
+            cleaned_value: clean(params.value),
+            ...params
+          })
+
+          const elem = params.event.target
+          setTimeout(() => {
+            try {
+              if (
+                elem.selectionStart === elem.selectionEnd &&
+                elem.selectionStart === elem.value.length
+              ) {
+                elem.setSelectionRange(0, elem.selectionEnd)
+              }
+            } catch (e) {
+              //
+            }
+          }, 1) // to get selectionStart
+        }
+        props.on_blur = (params) => {
+          dispatchCustomElementEvent(this, 'on_blur', {
+            cleaned_value: clean(params.value),
+            ...params
+          })
+        }
       }
 
       props.input_element = (params, innerRef) => {
