@@ -16,6 +16,7 @@ showTabs: true
 | `icon_size`                                 | _(optional)_ define icon width and height. Defaults to 16px                                                                            |
 | `class`                                     | _(optional)_ any extra modifying class.                                                                                                |
 | `href`                                      | _(optional)_ if you want the button to behave as a link. Use with caution! A link should normally visually be a link and not a button. |
+| `wrap`                                      | _(optional)_ if set to `true` the button text will wrap in to new lines if the overflow point is reached. Defaults to `false`.         |
 | `status`                                    | _(optional)_ set it to either `status="error"` or a text with a status message. The style defaults to an error message.                |
 | `status_state`                              | _(optional)_ defines the state of the status. Currently there are two statuses `[error, info]`. Defaults to `error`.                   |
 | `global_status_id`                          | _(optional)_ the `status_id` used for the target [GlobalStatus](/uilib/components/global-status).                                      |

@@ -25,8 +25,8 @@ v7 contains a couple of braking changes. As a migration process, you can simply 
 
 - Icons inside of [Input](/uilib/components/input#input-icon) fields.
 - Sticky [Table](/uilib/elements/tables#table-with-sticky-header) header.
-- Sorable [table](/uilib/elements/tables#table-with-sticky-header) header buttons supports npw word-wrap.
-- [Buttons](/uilib/components/button) now wrap overflow text into new lines (break-word).
+- [Buttons](/uilib/components/button) now supports overflow text to wrap (break-word) by using `wrap="true"`.
+- Sorable [table](/uilib/elements/tables#table-with-sticky-header) header buttons supports now word-wrap by using `wrap="true"`.
 - [Dropdown](/uilib/components/dropdown) supports now also plain objects as data source.
 
 ```jsx

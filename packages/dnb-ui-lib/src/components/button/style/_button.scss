@@ -30,8 +30,12 @@
   -webkit-user-select: none; // Safari / Touch fix
 
   cursor: pointer;
-  white-space: normal;
-  overflow-wrap: break-word;
+  white-space: nowrap;
+
+  &--wrap {
+    overflow-wrap: break-word;
+    white-space: normal;
+  }
 
   // we use flex, even if they dont has effect in safari and webkit
   display: inline-flex;

@@ -461,6 +461,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
               title={null}
               type="button"
               variant={null}
+              wrap={false}
             >
               <button
                 aria-disabled={true}
@@ -496,6 +497,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
                   title={null}
                   type="button"
                   variant={null}
+                  wrap={false}
                 >
                   <span
                     className="dnb-button__alignment"
@@ -572,6 +574,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
               title="Neste side"
               type="button"
               variant={null}
+              wrap={false}
             >
               <button
                 className="dnb-button dnb-button--secondary dnb-pagination__button dnb-button--icon-position-right dnb-button--has-icon dnb-button--size-small"
@@ -607,6 +610,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
                   title="Neste side"
                   type="button"
                   variant={null}
+                  wrap={false}
                 >
                   <span
                     className="dnb-button__alignment"
@@ -1073,8 +1077,7 @@ exports[`Pagination scss have to match snapshot 1`] = `
   user-select: none;
   -webkit-user-select: none;
   cursor: pointer;
-  white-space: normal;
-  overflow-wrap: break-word;
+  white-space: nowrap;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -1086,6 +1089,9 @@ exports[`Pagination scss have to match snapshot 1`] = `
   text-decoration: none;
   font-size: var(--font-size-small);
   /* stylelint-disable-next-line */ }
+  .dnb-button--wrap {
+    overflow-wrap: break-word;
+    white-space: normal; }
   .dnb-button,
   .dnb-core-style .dnb-button {
     line-height: var(--button-height); }

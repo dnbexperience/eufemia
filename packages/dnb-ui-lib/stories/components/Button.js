@@ -44,6 +44,7 @@ export default [
           icon="chevron_right"
           text="Text"
           size="small"
+          wrap
         />
         <WrappedButton
           right
@@ -51,6 +52,7 @@ export default [
           icon="chevron_right"
           text="Text"
           size="medium"
+          wrap
         />
         <WrappedButton
           right
@@ -58,6 +60,7 @@ export default [
           icon="chevron_right"
           text="Text"
           size="large"
+          wrap
         />
       </Box>
       <Box>
@@ -68,6 +71,7 @@ export default [
           text="Netus cursus vel himenaeos venenatis torquent ac lobortis
           consectetur risus"
           size="small"
+          wrap
         />
         <WrappedButton
           right
@@ -76,6 +80,7 @@ export default [
           text="Netus cursus vel himenaeos venenatis torquent ac lobortis
           consectetur risus"
           size="medium"
+          wrap
         />
         <WrappedButton
           right
@@ -84,10 +89,11 @@ export default [
           text="Netus cursus vel himenaeos venenatis torquent ac lobortis
           consectetur risus"
           size="large"
+          wrap
         />
       </Box>
       <Box>
-        <WrappedButton icon="chevron_right" right bottom>
+        <WrappedButton icon="chevron_right" right bottom wrap>
           Netus cursus vel himenaeos venenatis torquent ac lobortis
           consectetur risus
         </WrappedButton>
@@ -97,6 +103,7 @@ export default [
           right
           bottom
           variant="secondary"
+          wrap
         >
           Netus cursus vel himenaeos venenatis torquent ac lobortis
           consectetur risus
@@ -106,6 +113,7 @@ export default [
           right
           bottom
           variant="secondary"
+          wrap
         >
           Netus cursus vel himenaeos venenatis torquent ac lobortis
           consectetur risus
@@ -116,6 +124,7 @@ export default [
           right
           bottom
           variant="tertiary"
+          wrap
         >
           Netus cursus vel himenaeos venenatis torquent ac lobortis
           consectetur risus
@@ -125,6 +134,7 @@ export default [
           right
           bottom
           variant="tertiary"
+          wrap
         >
           Netus cursus vel himenaeos venenatis torquent ac lobortis
           consectetur risus

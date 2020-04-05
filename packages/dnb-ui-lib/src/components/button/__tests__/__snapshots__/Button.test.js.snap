@@ -25,9 +25,10 @@ exports[`Button component have to match default button snapshot 1`] = `
   title="This is a button title"
   type="type"
   variant="primary"
+  wrap="wrap"
 >
   <button
-    className="dnb-button dnb-button--primary dnb-button--has-text class className dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size"
+    className="dnb-button dnb-button--primary dnb-button--has-text class className dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--wrap"
     disabled={false}
     id="id"
     onClick={[Function]}
@@ -61,6 +62,7 @@ exports[`Button component have to match default button snapshot 1`] = `
       title="This is a button title"
       type="type"
       variant="primary"
+      wrap="wrap"
     >
       <span
         className="dnb-button__alignment"
@@ -142,9 +144,10 @@ exports[`Button component have to match href="..." snapshot 1`] = `
   title="This is a button title"
   type="type"
   variant="primary"
+  wrap="wrap"
 >
   <a
-    className="dnb-button dnb-button--primary dnb-button--has-text class className dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size"
+    className="dnb-button dnb-button--primary dnb-button--has-text class className dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--wrap"
     disabled={false}
     href="https://url"
     id="id"
@@ -179,6 +182,7 @@ exports[`Button component have to match href="..." snapshot 1`] = `
       title="This is a button title"
       type="type"
       variant="primary"
+      wrap="wrap"
     >
       <span
         className="dnb-button__alignment"
@@ -819,8 +823,7 @@ exports[`Button scss have to match snapshot 1`] = `
   user-select: none;
   -webkit-user-select: none;
   cursor: pointer;
-  white-space: normal;
-  overflow-wrap: break-word;
+  white-space: nowrap;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -832,6 +835,9 @@ exports[`Button scss have to match snapshot 1`] = `
   text-decoration: none;
   font-size: var(--font-size-small);
   /* stylelint-disable-next-line */ }
+  .dnb-button--wrap {
+    overflow-wrap: break-word;
+    white-space: normal; }
   .dnb-button,
   .dnb-core-style .dnb-button {
     line-height: var(--button-height); }
