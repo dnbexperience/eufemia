@@ -12,4 +12,11 @@
   background-color: var(--color-emerald-green);
 
   @include defaultDropShadow();
+
+  &__arrow {
+    &::before {
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      background-color: var(--color-emerald-green);
+    }
+  }
 }

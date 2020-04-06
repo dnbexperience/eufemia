@@ -18,25 +18,23 @@ if (typeof window !== 'undefined') {
 
 export default class TooltipPortal extends PureComponent {
   static propTypes = {
-    parent: PropTypes.oneOfType([PropTypes.string, PropTypes.object])
+    internal_id: PropTypes.string,
+    target: PropTypes.oneOfType([PropTypes.string, PropTypes.object])
       .isRequired,
     active: PropTypes.bool,
     group: PropTypes.string,
-    hide_delay: PropTypes.number
+    hide_delay: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
   }
 
   static defaultProps = {
+    internal_id: null,
     active: false,
     group: 'main',
     hide_delay: 500
   }
 
   componentDidMount() {
-    if (!this.props.active) {
-      return
-    }
-
-    this.renderPortal(this.props)
+    this.renderPortal()
   }
 
   componentDidUpdate(props) {
@@ -80,14 +78,33 @@ export default class TooltipPortal extends PureComponent {
     }
   }
 
+  handleAria(elem) {
+    if (elem && this.props.internal_id) {
+      try {
+        const describedby = makeArrayUnique(
+          String(elem.getAttribute('aria-describedby') || '').split(' ')
+        )
+        describedby.push(this.props.internal_id)
+        elem.setAttribute('aria-describedby', describedby.join(' '))
+      } catch (e) {
+        //
+      }
+    }
+  }
+
   renderPortal(props = {}) {
+    if (typeof document === 'undefined') {
+      return // stop here
+    }
+
     if (!tooltipPortal[this.props.group]) {
       this.createPortal()
     }
 
-    const { group, parent } = this.props
-    const parentElement =
-      typeof parent === 'string' ? document.querySelector(parent) : parent
+    const { group, target } = this.props
+
+    const targetElement =
+      typeof target === 'string' ? document.querySelector(target) : target
 
     if (tooltipPortal[group].timeout) {
       clearTimeout(tooltipPortal[group].timeout)
@@ -96,20 +113,27 @@ export default class TooltipPortal extends PureComponent {
     if (!this.props.active && props.active) {
       tooltipPortal[group].timeout = setTimeout(() => {
         this.renderPortal({ active: false })
-      }, this.props.hide_delay)
+      }, parseFloat(this.props.hide_delay))
     }
 
     ReactDOM.render(
       <TooltipContainer
-        parentElement={parentElement}
+        targetElement={targetElement}
         {...this.props}
         {...props}
       />,
       tooltipPortal[this.props.group].node
     )
+
+    this.handleAria(targetElement)
   }
 
   render() {
     return null
   }
 }
+
+const makeArrayUnique = () =>
+  this.filter(Boolean).filter(
+    (value, index, self) => self.indexOf(value) === index
+  )
