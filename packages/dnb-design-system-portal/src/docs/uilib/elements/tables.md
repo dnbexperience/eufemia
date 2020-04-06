@@ -49,6 +49,7 @@ To enhance or manipulate the the table style, you can make use of a couple helpe
           icon="arrow-down"
           text="dnb-table--reversed"
           title="dnb-table__th dnb-table--sortable dnb-table--reversed"
+          wrap="true"
         />
       </th>
       <th scope="col" className="dnb-table__th dnb-table--sortable dnb-table--active">
@@ -57,6 +58,7 @@ To enhance or manipulate the the table style, you can make use of a couple helpe
           icon="arrow-down"
           text="dnb-table--active"
           title="dnb-table__th dnb-table--sortable dnb-table--active"
+          wrap="true"
         />
       </th>
     </tr>
@@ -90,6 +92,7 @@ To enhance or manipulate the the table style, you can make use of a couple helpe
           icon="arrow-down"
           text="Sortable"
           title="Sort table column"
+          wrap="true"
         />
       </th>
       <th scope="col" className="dnb-table--sortable dnb-table--active">
@@ -98,6 +101,7 @@ To enhance or manipulate the the table style, you can make use of a couple helpe
           icon="arrow-down"
           text="Active"
           title="Sort table column"
+          wrap="true"
         />
       </th>
     </tr>
@@ -156,6 +160,7 @@ To enhance or manipulate the the table style, you can make use of a couple helpe
           icon="arrow-down"
           text="Sortable"
           title="Sort table column"
+          wrap="true"
         />
       </th>
       <th scope="col" className="dnb-table--sortable dnb-table--active">
@@ -164,6 +169,7 @@ To enhance or manipulate the the table style, you can make use of a couple helpe
           icon="arrow-down"
           text="Active"
           title="Sort table column"
+          wrap="true"
         />
       </th>
     </tr>
@@ -228,6 +234,7 @@ To enhance or manipulate the the table style, you can make use of a couple helpe
           icon="arrow-down"
           text="Sortable long header ridiculus laoreet turpis netus at vitae"
           title="Sort table column"
+          wrap="true"
         />
       </th>
       <th scope="col" className="dnb-table--sortable dnb-table--active">
@@ -236,6 +243,7 @@ To enhance or manipulate the the table style, you can make use of a couple helpe
           icon="arrow-down"
           text="Active long header ridiculus laoreet turpis netus at vitae"
           title="Sort table column"
+          wrap="true"
         />
       </th>
     </tr>

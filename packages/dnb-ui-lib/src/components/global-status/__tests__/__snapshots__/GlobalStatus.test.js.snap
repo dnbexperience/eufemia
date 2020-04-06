@@ -291,8 +291,7 @@ exports[`GlobalStatus scss have to match snapshot 1`] = `
   user-select: none;
   -webkit-user-select: none;
   cursor: pointer;
-  white-space: normal;
-  overflow-wrap: break-word;
+  white-space: nowrap;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -304,6 +303,9 @@ exports[`GlobalStatus scss have to match snapshot 1`] = `
   text-decoration: none;
   font-size: var(--font-size-small);
   /* stylelint-disable-next-line */ }
+  .dnb-button--wrap {
+    overflow-wrap: break-word;
+    white-space: normal; }
   .dnb-button,
   .dnb-core-style .dnb-button {
     line-height: var(--button-height); }
@@ -927,6 +929,7 @@ exports[`GlobalStatus snapshot have to match component snapshot 1`] = `
                     title={null}
                     type="button"
                     variant="tertiary"
+                    wrap={false}
                   >
                     <button
                       aria-label="close_text"
@@ -963,6 +966,7 @@ exports[`GlobalStatus snapshot have to match component snapshot 1`] = `
                         title={null}
                         type="button"
                         variant="tertiary"
+                        wrap={false}
                       >
                         <span
                           className="dnb-button__alignment"

@@ -48,6 +48,7 @@ const propTypes = {
   id: PropTypes.string,
   class: PropTypes.string,
   href: PropTypes.string,
+  wrap: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   bounding: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
 
@@ -81,6 +82,7 @@ const defaultProps = {
   href: null,
   id: null,
   class: null,
+  wrap: false,
   bounding: false,
   disabled: null,
   status: null,
@@ -181,6 +183,7 @@ export default class Button extends PureComponent {
       icon_position: _icon_position, // eslint-disable-line
       icon_size,
       href,
+      wrap,
       bounding, // eslint-disable-line
       innerRef, // eslint-disable-line
       ...attributes
@@ -193,6 +196,8 @@ export default class Button extends PureComponent {
     let usedSize = size
     let content = Button.getContent(this.props) || text
 
+    // NB: Nice API, but will create way too much code to maintain in future
+    // therefore we do not use this fro now
     // if (content && React.isValidElement(content)) {
     //   content = [content]
     // }
@@ -257,6 +262,7 @@ export default class Button extends PureComponent {
       icon && iconSize && `dnb-button--icon-size-${iconSize}`,
       (text || content) && 'dnb-button--has-text',
       icon && 'dnb-button--has-icon',
+      wrap && 'dnb-button--wrap',
       status && `dnb-button__status--${status_state}`,
       createSpacingClasses(props),
       class_name,
