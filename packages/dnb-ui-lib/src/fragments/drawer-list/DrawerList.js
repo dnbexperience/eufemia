@@ -336,7 +336,8 @@ export default class DrawerList extends PureComponent {
     }
     if (state._listenForPropChanges) {
       if (
-        (props.data && typeof props.data !== 'function') ||
+        ((props.data || props.preparedData) &&
+          typeof props.data !== 'function') ||
         props.children
       ) {
         state.data = DrawerList.getData(props)
