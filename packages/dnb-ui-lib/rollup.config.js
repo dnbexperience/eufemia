@@ -46,8 +46,8 @@ const dnbIcons = makeRollupConfig(
 
 // es libs
 const dnbLibES = makeRollupConfig(
-  './src/es/dnb-ui-lib.js',
-  'build/es/dnb-ui-lib.es.min.js',
+  './src/esm/dnb-ui-lib.js',
+  'build/esm/dnb-ui-lib.min.mjs',
   {
     format: 'esm',
     name: 'dnbLib',
@@ -57,8 +57,8 @@ const dnbLibES = makeRollupConfig(
   }
 )
 const dnbBasisES = makeRollupConfig(
-  './src/es/dnb-ui-basis.js',
-  'build/es/dnb-ui-basis.es.min.js',
+  './src/esm/dnb-ui-basis.js',
+  'build/esm/dnb-ui-basis.min.mjs',
   {
     format: 'esm',
     name: 'dnbBasis',
@@ -68,8 +68,8 @@ const dnbBasisES = makeRollupConfig(
   }
 )
 const dnbIconsES = makeRollupConfig(
-  './src/es/dnb-ui-icons.js',
-  'build/es/dnb-ui-icons.es.min.js',
+  './src/esm/dnb-ui-icons.js',
+  'build/esm/dnb-ui-icons.min.mjs',
   { format: 'esm', name: 'dnbIcons' }
 )
 
@@ -103,14 +103,10 @@ function makeRollupConfig(
     runtimeHelpers: true, // using @babel/plugin-transform-runtime
     configFile: './babel.config.cjs'
   }
-  const commonjsOptions =
-    format === 'esm'
-      ? {}
-      : {
-          ignoreGlobal: true,
-          include: /node_modules/,
-          namedExports: {}
-        }
+  const commonjsOptions = {
+    ignoreGlobal: true,
+    include: /node_modules/
+  }
 
   return {
     input,

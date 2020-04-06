@@ -4,6 +4,6 @@
  */
 
 export * from './lib'
-import lib from './lib'
+import * as lib from './lib'
 lib.enableWebComponents()
 export default lib
