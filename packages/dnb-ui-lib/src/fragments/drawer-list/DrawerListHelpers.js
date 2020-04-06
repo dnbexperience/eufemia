@@ -216,7 +216,8 @@ export const prepareDerivedState = (props, state) => {
 
   if (state._listenForPropChanges) {
     if (
-      (props.data && typeof props.data !== 'function') ||
+      ((props.data || props.prepared_data) &&
+        typeof props.data !== 'function') ||
       props.children
     ) {
       state.data = getData(props)
