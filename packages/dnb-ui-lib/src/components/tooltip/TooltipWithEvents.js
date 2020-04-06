@@ -5,12 +5,14 @@
 
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import TooltipAnimated from './TooltipPortal'
+import TooltipPortal from './TooltipPortal'
 
 export default class TooltipWithEvents extends PureComponent {
   static propTypes = {
     className: PropTypes.string,
-    parent: PropTypes.oneOfType([
+    internal_id: PropTypes.string,
+    show_delay: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    target: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.func,
       PropTypes.node
@@ -24,52 +26,64 @@ export default class TooltipWithEvents extends PureComponent {
 
   static defaultProps = {
     className: '',
-    parent: null,
+    internal_id: null,
+    show_delay: 1,
+    target: null,
     children: null
   }
 
-  constructor(props) {
-    super(props)
+  state = {
+    isActive: false
+  }
 
-    this.state = {
-      isVisible: false
-    }
-
-    this._parent = React.createRef()
+  componentWillUnmount() {
+    clearTimeout(this._onEnterTimeout)
   }
 
   onMouseEnter = () => {
-    this.setState({ isVisible: true })
+    clearTimeout(this._onEnterTimeout)
+    this._onEnterTimeout = setTimeout(() => {
+      this.setState({ isActive: true })
+    }, this.props.show_delay || 1) // have min 1 to make sure we are after onMouseLeave
   }
 
   onMouseLeave = () => {
-    this.setState({ isVisible: false })
+    clearTimeout(this._onEnterTimeout)
+    this.setState({ isActive: false })
   }
 
   render() {
-    const { children, className, parent, ...props } = this.props
+    const {
+      children,
+      className,
+      target,
+      // internal_id,// NB: Do not remove internal_id from props!
+      ...props
+    } = this.props
 
     return (
       <>
         <span
-          key="parent-wrapper"
-          ref={this._parent}
+          key="target-wrapper"
+          ref={(target) => this.setState({ target })}
           className={className}
           onMouseEnter={this.onMouseEnter}
           onMouseLeave={this.onMouseLeave}
         >
-          {parent}
+          {React.cloneElement(target, {
+            'aria-describedby': this.props.internal_id
+          })}
         </span>
 
-        {this._parent.current && (
-          <TooltipAnimated
+        {this.state.target && (
+          <TooltipPortal
             key="tooltip"
-            active={this.state.isVisible}
-            parent={this._parent.current}
+            active={this.state.isActive}
+            target={this.state.target}
             {...props}
           >
             {children}
-          </TooltipAnimated>
+          </TooltipPortal>
         )}
       </>
     )

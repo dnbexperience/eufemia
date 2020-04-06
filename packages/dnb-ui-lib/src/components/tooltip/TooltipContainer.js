@@ -10,23 +10,21 @@ import classnames from 'classnames'
 
 export default class TooltipContainer extends PureComponent {
   static propTypes = {
-    parentElement: PropTypes.oneOfType([
+    internal_id: PropTypes.string,
+    targetElement: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.func,
       PropTypes.object,
       PropTypes.node
     ]),
     active: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    position: PropTypes.oneOf(['top', 'right', 'bottom', 'left']),
-    arrow: PropTypes.oneOf([
-      null,
-      'center',
-      'top',
-      'right',
-      'bottom',
-      'left'
+    position: PropTypes.string,
+    arrow: PropTypes.string,
+    align: PropTypes.string,
+    animate_position: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool
     ]),
-    align: PropTypes.oneOf([null, 'center', 'right', 'left']),
     useHover: PropTypes.bool,
     attributes: PropTypes.object,
     children: PropTypes.oneOfType([
@@ -37,20 +35,39 @@ export default class TooltipContainer extends PureComponent {
   }
 
   static defaultProps = {
-    parentElement: null,
+    internal_id: null,
+    targetElement: null,
     active: false,
     position: 'center',
     arrow: null,
     align: null,
+    animate_position: null,
     useHover: true,
     attributes: null,
     children: null
   }
 
+  _rootRef = React.createRef()
+  offset = 16
   state = {
+    hide: null,
     hover: null,
     width: 0,
     height: 0
+  }
+
+  static getDerivedStateFromProps(props, state) {
+    if (state._listenForPropChanges) {
+      if (state.wasActive && !props.active && !state.hover) {
+        state.hide = true
+      }
+      if (props.active || state.hover) {
+        state.wasActive = true
+        state.hide = false
+      }
+    }
+    state._listenForPropChanges = true
+    return state
   }
 
   componentDidMount() {
@@ -65,11 +82,8 @@ export default class TooltipContainer extends PureComponent {
     }
   }
 
-  offset = 16
-  _rootRef = React.createRef()
-
   getGlobalStyle() {
-    if (!this.props.parentElement) {
+    if (!this.props.targetElement) {
       return { display: 'none' }
     }
 
@@ -81,10 +95,13 @@ export default class TooltipContainer extends PureComponent {
   }
 
   makeStyle(position, arrow) {
+    if (typeof window === 'undefined') {
+      return {}
+    }
     let alignOffset = 0
-    const parent = this.props.parentElement
+    const target = this.props.targetElement
     const align = this.props.align
-    const tooltipPosition = parent.getBoundingClientRect()
+    const tooltipPosition = target.getBoundingClientRect()
     const scrollY =
       window.scrollY !== undefined ? window.scrollY : window.pageYOffset
     const scrollX =
@@ -93,63 +110,63 @@ export default class TooltipContainer extends PureComponent {
     const left = scrollX + tooltipPosition.left
     const style = {}
 
-    const parentSize = {
-      width: parent.offsetWidth,
-      height: parent.offsetHeight
+    const targetSize = {
+      width: target.offsetWidth,
+      height: target.offsetHeight
     }
 
     // fix for svg
-    if (!parent.offsetHeight && parent.getBoundingClientRect) {
-      parentSize.width = parent.getBoundingClientRect().width
-      parentSize.height = parent.getBoundingClientRect().height
+    if (!target.offsetHeight && target.getBoundingClientRect) {
+      targetSize.width = target.getBoundingClientRect().width
+      targetSize.height = target.getBoundingClientRect().height
     }
 
     if (align === 'left') {
-      alignOffset = -parentSize.width / 2
+      alignOffset = -targetSize.width / 2
     } else if (align === 'right') {
-      alignOffset = parentSize.width / 2
+      alignOffset = targetSize.width / 2
     }
 
     const stylesFromPosition = {
       left: () => {
-        style.top = top + parentSize.height / 2 - this.state.height / 2
+        style.top = top + targetSize.height / 2 - this.state.height / 2
         style.left = left - this.state.width - this.offset
       },
       right: () => {
-        style.top = top + parentSize.height / 2 - this.state.height / 2
-        style.left = left + parentSize.width + this.offset
+        style.top = top + targetSize.height / 2 - this.state.height / 2
+        style.left = left + targetSize.width + this.offset
       },
       top: () => {
         style.left =
-          left - this.state.width / 2 + parentSize.width / 2 + alignOffset
+          left - this.state.width / 2 + targetSize.width / 2 + alignOffset
         style.top = top - this.state.height - this.offset
       },
       bottom: () => {
         style.left =
-          left - this.state.width / 2 + parentSize.width / 2 + alignOffset
-        style.top = top + parentSize.height + this.offset
+          left - this.state.width / 2 + targetSize.width / 2 + alignOffset
+        style.top = top + targetSize.height + this.offset
       }
     }
 
     const stylesFromArrow = {
       left: () => {
         style.left =
-          left + parentSize.width / 2 - this.offset + alignOffset
+          left + targetSize.width / 2 - this.offset + alignOffset
       },
       right: () => {
         style.left =
           left -
           this.state.width +
-          parentSize.width / 2 +
+          targetSize.width / 2 +
           this.offset +
           alignOffset
       },
       top: () => {
-        style.top = top + parentSize.height / 2 - this.offset
+        style.top = top + targetSize.height / 2 - this.offset
       },
       bottom: () => {
         style.top =
-          top + parentSize.height / 2 - this.state.height + this.offset
+          top + targetSize.height / 2 - this.state.height + this.offset
       }
     }
 
@@ -181,16 +198,6 @@ export default class TooltipContainer extends PureComponent {
     return style
   }
 
-  handleMouseEnter = () => {
-    isTrue(this.props.active) &&
-      this.props.useHover &&
-      this.setState({ hover: true })
-  }
-
-  handleMouseLeave = () => {
-    this.setState({ hover: false })
-  }
-
   updateSize() {
     const width = this._rootRef.current.offsetWidth
     const height = this._rootRef.current.offsetHeight
@@ -198,17 +205,41 @@ export default class TooltipContainer extends PureComponent {
     if (width !== this.state.width || height !== this.state.height) {
       this.setState({
         width,
-        height
+        height,
+        _listenForPropChanges: false
       })
     }
   }
 
+  handleMouseEnter = () => {
+    isTrue(this.props.active) &&
+      this.props.useHover &&
+      this.setState({ hover: true })
+  }
+
+  handleMouseLeave = () => {
+    this.props.useHover && this.setState({ hover: false })
+  }
+
   render() {
-    const { attributes, arrow, position } = this.props
+    const {
+      internal_id,
+      active,
+      attributes,
+      arrow,
+      position,
+      animate_position,
+      children
+    } = this.props
+    const { hover, hide } = this.state
+
     const style = this.checkWindowPosition(this.getGlobalStyle())
+    const isActive = isTrue(active) || hover
 
     return (
       <div
+        role="tooltip"
+        aria-hidden // make sure SR does not find it in the DOM, because we use "aria-describedby" for that
         style={style}
         ref={this._rootRef}
         onMouseEnter={this.handleMouseEnter}
@@ -216,12 +247,12 @@ export default class TooltipContainer extends PureComponent {
         {...attributes}
         className={classnames(
           attributes.className,
-          ((isTrue(this.props.active) && this.state.hover !== false) ||
-            this.state.hover) &&
-            'dnb-tooltip--active'
+          isTrue(animate_position) && 'dnb-tooltip--animate_position',
+          isActive && 'dnb-tooltip--active',
+          !isActive && hide && 'dnb-tooltip--hide'
         )}
       >
-        {this.props.arrow && (
+        {arrow && (
           <span
             className={classnames(
               'dnb-tooltip__arrow',
@@ -231,7 +262,9 @@ export default class TooltipContainer extends PureComponent {
           />
         )}
 
-        <div className="dnb-tooltip__content">{this.props.children}</div>
+        <div id={internal_id} className="dnb-tooltip__content">
+          {children}
+        </div>
       </div>
     )
   }
