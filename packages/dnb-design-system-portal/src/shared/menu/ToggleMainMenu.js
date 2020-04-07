@@ -13,7 +13,7 @@ export const MainMenuToggleButton = () => {
     return (
       <Button
         variant="primary"
-        icon="chevron-left"
+        icon="chevron_left"
         icon_position="left"
         text="Home"
         href="/"
@@ -29,7 +29,7 @@ export const MainMenuToggleButton = () => {
           text="Home"
           title="Eufemia main sections"
           on_click={openMenu}
-          icon="chevron-left"
+          icon="chevron_left"
           icon_position="left"
           aria-haspopup="true"
           // aria-controls="portal-main-menu"

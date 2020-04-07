@@ -145,7 +145,7 @@ const propTypes = {
 const defaultProps = {
   id: null,
   title: 'Option Menu',
-  icon: 'chevron-down',
+  icon: 'chevron_down',
   icon_size: null,
   icon_position: null,
   triangle_position: null,
