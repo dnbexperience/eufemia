@@ -3,13 +3,13 @@
  *
  */
 
-import '../../core/jest/jestSetup'
+import '../core/jest/jestSetup'
 import lib, {
   enableWebComponents,
   getComponents,
   Button
 } from '../web-components'
-import { registeredElements } from '../../shared/custom-element'
+import { registeredElements } from '../shared/custom-element'
 
 describe('Web Components', () => {
   it('has to have a enableWebComponents function', () => {

@@ -3,15 +3,11 @@
  *
  */
 
-import '../../core/jest/jestSetup'
-import lib, {
-  enableWebComponents,
-  getComponents,
-  Button
-} from '../web-components'
-import { registeredElements } from '../../shared/custom-element'
+import '../core/jest/jestSetup'
+import lib, { enableWebComponents, getComponents, Button } from '../lib'
+import { registeredElements } from '../shared/custom-element'
 
-describe('Web Components', () => {
+describe('Library', () => {
   it('has to have a enableWebComponents function', () => {
     expect(lib.enableWebComponents).toBeType('function')
   })
@@ -24,7 +20,7 @@ describe('Web Components', () => {
   it('has to have a Button Component', () => {
     expect(Button).toBeType('function')
   })
-  it('have to be enabled by including "dnb-button" in registeredElements', () => {
-    expect(registeredElements).toContain('dnb-button')
+  it('have no Web Components enabled in registeredElements', () => {
+    expect(registeredElements).not.toContain('dnb-button')
   })
 })

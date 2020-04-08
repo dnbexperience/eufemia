@@ -39,7 +39,7 @@ export {
   ViewTitle
 }
 
-export const getComponents = () => {
+export const getPatterns = () => {
   return {
     ActionNav,
     DescriptionList,
@@ -59,7 +59,7 @@ let webComponentsAreEnabled = false
 export const enableWebComponents = () => {
   if (webComponentsAreEnabled) return false
   webComponentsAreEnabled = true
-  const components = getComponents()
+  const components = getPatterns()
   // register this component to work with custom element
   for (const c in components) {
     if (components[c] && components[c].tagName) {

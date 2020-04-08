@@ -15,6 +15,7 @@ v7 contains a couple of braking changes. As a migration process, you can simply 
 1. find `sea-green-alt` replace it with `sea-green`
 1. find `#B3DADA` replace it with `#B3D5D5`
 1. find `#008484` replace it with `#007272`
+1. **For UMD usage only** find `dnb-ui-lib.min.js` replace it with `dnb-ui-web-components.min.js`
 
 ## New components
 
@@ -35,6 +36,10 @@ v7 contains a couple of braking changes. As a migration process, you can simply 
   }}
 />
 ```
+
+- ESM bundles to load directly in to modern browsers:
+  - `dnb-ui-lib/esm/dnb-ui-icons.min.mjs`
+  - `dnb-ui-lib/esm/dnb-ui-lib.min.mjs`
 
 ### Table (new features)
 
@@ -58,4 +63,4 @@ To upgrade to v7 with NPM, use:
 $ npm i dnb-ui-lib@7
 ```
 
-_March, 28. 2020_
+_April, 12. 2020_

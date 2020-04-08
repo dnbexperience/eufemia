@@ -4,7 +4,9 @@
  */
 
 // import all the aviable libs
-export * from './lib'
-import { enableWebComponents } from './lib'
+import * as lib from './lib'
 
-enableWebComponents()
+export * from './lib'
+export default lib
+
+lib.enableWebComponents()
