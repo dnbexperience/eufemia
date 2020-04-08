@@ -49,8 +49,8 @@
     border-spacing: 0;
 
     word-break: keep-all;
-    text-align: left;
   }
+
   /* stylelint-disable-next-line */
   & > tr > th,
   & > thead > tr > th,
@@ -92,7 +92,7 @@
 
       position: relative;
       z-index: 1;
-      display: inline-block;
+      align-items: flex-end;
 
       // reset anchor
       box-shadow: none;
@@ -105,14 +105,22 @@
 
       color: inherit;
       font-weight: var(--font-weight-medium);
-      text-align: left;
-      // white-space: normal;// we don't support multiline buttons in table headers
+      text-align: inherit;
+      font-size: inherit;
 
       .dnb-button__text {
+        margin: 0;
+        font-size: inherit;
+
         // underline
         &::after {
           right: 1rem;
         }
+      }
+
+      // because of the "align-items: flex-end;"
+      .dnb-button__icon {
+        margin-bottom: 0.25rem;
       }
 
       // underline
@@ -238,6 +246,17 @@
     border-bottom: 1px solid var(--color-mint-green-50);
   }
 
+  &,
+  &--left {
+    text-align: left;
+  }
+  &--right {
+    text-align: right;
+  }
+  &--center {
+    text-align: center;
+  }
+
   & > caption {
     font-size: var(--font-size-small);
 
@@ -274,6 +293,58 @@
   tr.sticky.show-shadow th::after {
     opacity: 1;
   }
+
+  /* stylelint-disable */
+
+  &--small,
+  &--small > tr > th,
+  &--small > tr > td,
+  &--small > thead > tr > th,
+  &--small > tbody > tr > td {
+    font-size: var(--font-size-small);
+  }
+
+  & > tr#{&}--small > th,
+  & > tr#{&}--small > td,
+  & > thead > tr#{&}--small > th,
+  & > tbody > tr#{&}--small > td {
+    font-size: var(--font-size-small);
+  }
+
+  & > tr > th#{&}--small,
+  & > tr > td#{&}--small,
+  & > thead > tr > th#{&}--small,
+  & > tbody > tr > td#{&}--small,
+  &__th#{&}--small,
+  &__td#{&}--small {
+    font-size: var(--font-size-small);
+  }
+
+  &--x-small,
+  &--x-small > tr > th,
+  &--x-small > tr > td,
+  &--x-small > thead > tr > th,
+  &--x-small > tbody > tr > td {
+    font-size: var(--font-size-x-small);
+  }
+
+  & > tr#{&}--x-small > th,
+  & > tr#{&}--x-small > td,
+  & > thead > tr#{&}--x-small > th,
+  & > tbody > tr#{&}--x-small > td {
+    font-size: var(--font-size-x-small);
+  }
+
+  & > tr > th#{&}--x-small,
+  & > tr > td#{&}--x-small,
+  & > thead > tr > th#{&}--x-small,
+  & > tbody > tr > td#{&}--x-small,
+  &__th#{&}--x-small,
+  &__td#{&}--x-small {
+    font-size: var(--font-size-x-small);
+  }
+
+  /* stylelint-enable */
 }
 
 @mixin resetTableSpacing() {
