@@ -15,6 +15,7 @@ v7 contains a couple of braking changes. As a migration process, you can simply 
 1. find `sea-green-alt` replace it with `sea-green`
 1. find `#B3DADA` replace it with `#B3D5D5`
 1. find `#008484` replace it with `#007272`
+1. **For UMD usage only** find `dnb-ui-lib.min.js` replace it with `dnb-ui-web-components.min.js`
 
 ## New components
 
@@ -24,9 +25,7 @@ v7 contains a couple of braking changes. As a migration process, you can simply 
 ## New features
 
 - Icons inside of [Input](/uilib/components/input#input-icon) fields.
-- Sticky [Table](/uilib/elements/tables#table-with-sticky-header) header.
 - [Buttons](/uilib/components/button) now supports overflow text to wrap (break-word) by using `wrap="true"`.
-- Sorable [table](/uilib/elements/tables#table-with-sticky-header) header buttons supports now word-wrap by using `wrap="true"`.
 - [Dropdown](/uilib/components/dropdown) supports now also plain objects as data source.
 
 ```jsx
@@ -37,6 +36,16 @@ v7 contains a couple of braking changes. As a migration process, you can simply 
   }}
 />
 ```
+
+- ESM bundles to load directly in to modern browsers:
+  - `dnb-ui-lib/esm/dnb-ui-icons.min.mjs`
+  - `dnb-ui-lib/esm/dnb-ui-lib.min.mjs`
+
+### Table (new features)
+
+- Sticky [Table](/uilib/elements/tables#table-with-sticky-header) header.
+- Sorable [table](/uilib/elements/tables) header buttons supports now word-wrap by using `wrap="true"`.
+- [Table](/uilib/elements/table) headers supports now `small` font-size as well as `right` and `center` aligned headers.
 
 ## New icons
 
@@ -54,4 +63,4 @@ To upgrade to v7 with NPM, use:
 $ npm i dnb-ui-lib@7
 ```
 
-_March, 28. 2020_
+_April, 12. 2020_

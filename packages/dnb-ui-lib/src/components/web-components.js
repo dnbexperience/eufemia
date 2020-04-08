@@ -3,7 +3,9 @@
  *
  */
 
-export * from './lib'
 import * as lib from './lib'
-lib.enableWebComponents()
+
+export * from './lib'
 export default lib
+
+lib.enableWebComponents()

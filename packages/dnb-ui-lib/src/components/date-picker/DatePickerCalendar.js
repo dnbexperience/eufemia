@@ -384,7 +384,7 @@ const PrevButton = ({
   return (
     <Button
       className={classnames('dnb-date-picker__prev', { disabled })}
-      icon="chevron-left"
+      icon="chevron_left"
       size="small"
       aria-label={title}
       onClick={onClick}
@@ -439,7 +439,7 @@ const NextButton = ({
     nextBtn && (
       <Button
         className={classnames('dnb-date-picker__next', { disabled })}
-        icon="chevron-right"
+        icon="chevron_right"
         size="small"
         aria-label={title}
         onClick={onClick}

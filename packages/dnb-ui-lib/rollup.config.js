@@ -13,75 +13,110 @@ import { terser } from 'rollup-plugin-terser'
 import { sizeSnapshot } from 'rollup-plugin-size-snapshot'
 import isCI from 'is-ci'
 
-// 1. process theese files
-const dnbLib = makeRollupConfig(
-  './src/umd/dnb-ui-lib.js',
-  'build/umd/dnb-ui-lib.min.js',
-  {
-    name: 'dnbLib',
-    globals: { [path.resolve('./src/icons/primary_icons.js')]: 'dnbIcons' }
-  }
-)
-const dnbWebComponents = makeRollupConfig(
-  './src/umd/dnb-ui-web-components.js',
-  'build/umd/dnb-ui-web-components.min.js',
-  {
-    name: 'dnbLib',
-    globals: { [path.resolve('./src/icons/primary_icons.js')]: 'dnbIcons' }
-  }
-)
-const dnbBasis = makeRollupConfig(
-  './src/umd/dnb-ui-basis.js',
-  'build/umd/dnb-ui-basis.min.js',
-  {
-    name: 'dnbBasis',
-    globals: { [path.resolve('./src/icons/primary_icons.js')]: 'dnbIcons' }
-  }
-)
-const dnbIcons = makeRollupConfig(
-  './src/umd/dnb-ui-icons.js',
-  'build/umd/dnb-ui-icons.min.js',
-  { name: 'dnbIcons' }
-)
-
-// es libs
-const dnbLibES = makeRollupConfig(
-  './src/esm/dnb-ui-lib.js',
-  'build/esm/dnb-ui-lib.min.mjs',
-  {
-    format: 'esm',
-    name: 'dnbLib',
-    globals: {
-      [path.resolve('./src/icons/primary_icons.js')]: 'dnbIcons'
-    }
-  }
-)
-const dnbBasisES = makeRollupConfig(
-  './src/esm/dnb-ui-basis.js',
-  'build/esm/dnb-ui-basis.min.mjs',
-  {
-    format: 'esm',
-    name: 'dnbBasis',
-    globals: {
-      [path.resolve('./src/icons/primary_icons.js')]: 'dnbIcons'
-    }
-  }
-)
-const dnbIconsES = makeRollupConfig(
-  './src/esm/dnb-ui-icons.js',
-  'build/esm/dnb-ui-icons.min.mjs',
-  { format: 'esm', name: 'dnbIcons' }
-)
+const defaultGlobals = {
+  [path.resolve('./src/icons/primary_icons.js')]: 'dnbIcons'
+}
 
 // 2. and export them so rollup knows what to do
 export default [
-  dnbLib,
-  dnbWebComponents,
-  dnbBasis,
-  dnbIcons,
-  dnbLibES,
-  dnbBasisES,
-  dnbIconsES
+  // 1. process theese files
+  makeRollupConfig(
+    './src/umd/dnb-ui-lib.js',
+    'build/umd/dnb-ui-lib.min.js',
+    {
+      name: 'dnbLib',
+      format: 'umd',
+      globals: defaultGlobals
+    }
+  ),
+  makeRollupConfig(
+    './src/umd/dnb-ui-web-components.js',
+    'build/umd/dnb-ui-web-components.min.js',
+    {
+      name: 'dnbWebComponents',
+      format: 'umd',
+      globals: defaultGlobals
+    }
+  ),
+  makeRollupConfig(
+    './src/umd/dnb-ui-components.js',
+    'build/umd/dnb-ui-components.min.js',
+    {
+      name: 'dnbComponents',
+      format: 'umd',
+      globals: defaultGlobals
+    }
+  ),
+  makeRollupConfig(
+    './src/umd/dnb-ui-patterns.js',
+    'build/umd/dnb-ui-patterns.min.js',
+    {
+      name: 'dnbPatterns',
+      format: 'umd',
+      globals: {}
+    }
+  ),
+  makeRollupConfig(
+    './src/umd/dnb-ui-basis.js',
+    'build/umd/dnb-ui-basis.min.js',
+    {
+      name: 'dnbBasis',
+      format: 'umd',
+      globals: {}
+    }
+  ),
+  makeRollupConfig(
+    './src/umd/dnb-ui-icons.js',
+    'build/umd/dnb-ui-icons.min.js',
+    { name: 'dnbIcons', format: 'umd' }
+  ),
+
+  // es libs
+  makeRollupConfig(
+    './src/esm/dnb-ui-lib.js',
+    'build/esm/dnb-ui-lib.min.mjs',
+    {
+      format: 'esm',
+      globals: defaultGlobals
+    }
+  ),
+  makeRollupConfig(
+    './src/esm/dnb-ui-components.js',
+    'build/esm/dnb-ui-components.min.mjs',
+    {
+      format: 'esm',
+      globals: defaultGlobals
+    }
+  ),
+  makeRollupConfig(
+    './src/esm/dnb-ui-patterns.js',
+    'build/esm/dnb-ui-patterns.min.mjs',
+    {
+      format: 'esm',
+      globals: {}
+    }
+  ),
+  makeRollupConfig(
+    './src/esm/dnb-ui-elements.js',
+    'build/esm/dnb-ui-elements.min.mjs',
+    {
+      format: 'esm',
+      globals: {}
+    }
+  ),
+  makeRollupConfig(
+    './src/esm/dnb-ui-basis.js',
+    'build/esm/dnb-ui-basis.min.mjs',
+    {
+      format: 'esm',
+      globals: {}
+    }
+  ),
+  makeRollupConfig(
+    './src/esm/dnb-ui-icons.js',
+    'build/esm/dnb-ui-icons.min.mjs',
+    { format: 'esm' }
+  )
 ]
 
 function makeRollupConfig(
@@ -115,7 +150,8 @@ function makeRollupConfig(
       file,
       name,
       globals,
-      format
+      format,
+      sourcemap: true
     },
     external: Object.keys(globals),
     plugins: [
@@ -125,9 +161,7 @@ function makeRollupConfig(
       nodeGlobals(),
       replace({ 'process.env.NODE_ENV': JSON.stringify('production') }),
       isCI ? sizeSnapshot({ snapshotPath: 'size-snapshot.json' }) : null,
-      terser({
-        sourcemap: true
-      })
+      terser()
     ]
   }
 }

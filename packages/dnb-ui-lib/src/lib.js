@@ -4,8 +4,8 @@
  */
 
 // import all the aviable libs
-import componentsIndex from './components/lib'
-import patternsIndex from './patterns/lib'
+import * as componentsIndex from './components/lib'
+import * as patternsIndex from './patterns/lib'
 export * from './components/lib'
 export * from './patterns/lib'
 
@@ -18,3 +18,8 @@ export const enableWebComponents = () => {
   patternsIndex.enableWebComponents()
 }
 
+export default {
+  enableWebComponents,
+  ...componentsIndex,
+  ...patternsIndex
+}

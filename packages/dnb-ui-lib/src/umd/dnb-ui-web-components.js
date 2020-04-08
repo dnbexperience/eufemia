@@ -3,7 +3,7 @@
  *
  */
 
-import * as dnbLib from '../components/web-components'
+import * as components from '../components/web-components'
 
 // we have to export
-export default dnbLib
+export default components

@@ -170,7 +170,7 @@ const defaultProps = {
   aria_live_options: null,
   indicator_label: null,
   submit_button_title: null,
-  icon: 'chevron-down',
+  icon: 'chevron_down',
   icon_size: null,
   icon_position: null,
   triangle_position: null,
