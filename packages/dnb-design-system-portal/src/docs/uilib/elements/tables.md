@@ -32,6 +32,10 @@ To enhance or manipulate the the table style, you can make use of a couple helpe
 - `.dnb-table--sortable` Use this on a `th` - sortable column
 - `.dnb-table--active` Use this on a `th` - current column is sorted
 - `.dnb-table--reversed` Use this on a `th` - defines the order
+- `.dnb-table--right` Use this on a `th`, `td` or `tr` - alignes the content to the right (or use `align="right"`)
+- `.dnb-table--center` Use this on a `th`, `td` or `tr` - alignes the content to the left (or use `align="center"`)
+
+<!-- - `.dnb-table--small` Use this on a `th`, `td` or `tr` - [font-size](/uilib/typography/font-size) is then `small` (`x-small` is also supported, but should generally be avoided due to bad accessibility) -->
 
 <!-- - `.dnb-table--tabular` Use this on the `table` root -->
 
@@ -95,7 +99,7 @@ To enhance or manipulate the the table style, you can make use of a couple helpe
           wrap="true"
         />
       </th>
-      <th scope="col" className="dnb-table--sortable dnb-table--active">
+      <th scope="col" align="right" className="dnb-table--sortable dnb-table--active">
         <Button
           variant="tertiary"
           icon="arrow-down"
@@ -119,18 +123,18 @@ To enhance or manipulate the the table style, you can make use of a couple helpe
       <td>
         <span>Column 3 with span</span>
       </td>
-      <td>Column 4</td>
+      <td align="right">Column 4</td>
     </tr>
     <tr>
       <td colSpan="2">Column witch spans over two columns</td>
       <td>Column 3</td>
-      <td>Column 4</td>
+      <td align="right">Column 4</td>
     </tr>
     <tr>
       <td>Column 1</td>
       <td>Column 2</td>
       <td>Column 3</td>
-      <td>Column 4</td>
+      <td align="right">Column 4</td>
     </tr>
   </tbody>
 </table>
@@ -140,6 +144,8 @@ To enhance or manipulate the the table style, you can make use of a couple helpe
 ### Table with sticky header
 
 **NB:** Keep in mind, you have to avoid using `overflow: hidden;` on any child elements to get `position: sticky;` to work. This is a know issue happening on every modern browser. There are various tricks, including [this deallocation / sync solution](https://uxdesign.cc/position-stuck-96c9f55d9526).
+
+Also, the table header is set to **small** font-size.
 
 <ComponentBox
   reactLive
@@ -228,7 +234,6 @@ To enhance or manipulate the the table style, you can make use of a couple helpe
         Static long header senectus ornare convallis ut at  erat imperdiet commodo
       </th>
       <th scope="col" className="dnb-table--sortable dnb-table--reversed">
-        
         <Button
           variant="tertiary"
           icon="arrow-down"
@@ -237,11 +242,11 @@ To enhance or manipulate the the table style, you can make use of a couple helpe
           wrap="true"
         />
       </th>
-      <th scope="col" className="dnb-table--sortable dnb-table--active">
+      <th scope="col" align="right" className="dnb-table--sortable dnb-table--active">
         <Button
           variant="tertiary"
           icon="arrow-down"
-          text="Active long header ridiculus laoreet turpis netus at vitae"
+          text="Active and right aligned long header ridiculus laoreet turpis netus at vitae"
           title="Sort table column"
           wrap="true"
         />
