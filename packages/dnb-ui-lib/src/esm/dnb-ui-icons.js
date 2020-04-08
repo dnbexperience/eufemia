@@ -8,7 +8,5 @@ import * as primary_icons_medium from '../icons/primary_icons_medium'
 export * from '../icons/primary_icons'
 export * from '../icons/primary_icons_medium'
 
-const dnbIcons = { ...primary_icons, ...primary_icons_medium }
-
 // we have to export
-export default dnbIcons
+export default { ...primary_icons, ...primary_icons_medium }
