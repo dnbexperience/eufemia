@@ -150,7 +150,8 @@ function makeRollupConfig(
       file,
       name,
       globals,
-      format
+      format,
+      sourcemap: true
     },
     external: Object.keys(globals),
     plugins: [
@@ -160,9 +161,7 @@ function makeRollupConfig(
       nodeGlobals(),
       replace({ 'process.env.NODE_ENV': JSON.stringify('production') }),
       isCI ? sizeSnapshot({ snapshotPath: 'size-snapshot.json' }) : null,
-      terser({
-        sourcemap: true
-      })
+      terser()
     ]
   }
 }
