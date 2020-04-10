@@ -10,8 +10,10 @@ import DefaultIcon, {
   prerenderIcon,
   prepareIcon
 } from '../icon/Icon'
-import * as primary_icons from '../../icons/primary_icons'
-import * as primary_icons_medium from '../../icons/primary_icons_medium'
+
+// NB: The path reflects the rollup.config.js -> external: '../../icons/primary_icons'
+import * as primary_icons from '../../icons/primary_icons.js'
+import * as primary_icons_medium from '../../icons/primary_icons_medium.js'
 
 const icons = { ...primary_icons, ...primary_icons_medium }
 

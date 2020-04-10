@@ -9,14 +9,14 @@ import PropTypes from 'prop-types'
 import styled from '@emotion/styled'
 
 // UI Components
-import dnb from 'dnb-ui-lib/src/components/lib'
 import {
+  enableWebComponents,
   Button,
   Input,
   IconPrimary as Icon,
   Switch,
   FormLabel
-} from 'dnb-ui-lib/src/components'
+} from 'dnb-ui-lib/src/components/lib'
 import { H2, P, Hr } from 'dnb-ui-lib/src/elements'
 
 // Content
@@ -35,13 +35,13 @@ export default class PerformanceTest extends Component {
   }
   componentDidMount() {
     if (this.state.webComponentsEnabled) {
-      dnb.enableWebComponents()
+      enableWebComponents()
     }
   }
   toggleActiveState = () => {
     const isActive = !this.state.isActive
     if (isActive && this.state.webComponentsEnabled) {
-      dnb.enableWebComponents()
+      enableWebComponents()
     }
     this.setState({
       isActive
@@ -50,7 +50,7 @@ export default class PerformanceTest extends Component {
   switchMode = () => {
     const webComponentsEnabled = !this.state.webComponentsEnabled
     if (webComponentsEnabled) {
-      dnb.enableWebComponents()
+      enableWebComponents()
     }
     this.setState({
       webComponentsEnabled

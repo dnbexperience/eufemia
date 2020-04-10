@@ -4,7 +4,7 @@
  */
 
 import '../../core/jest/jestSetup'
-import dnbLib from '../dnb-ui-lib'
+import * as dnbLib from '../dnb-ui-lib'
 import { registeredElements } from '../../shared/custom-element'
 
 describe('UMD main package', () => {

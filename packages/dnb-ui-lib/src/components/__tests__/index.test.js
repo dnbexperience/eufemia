@@ -4,12 +4,12 @@
  */
 
 import '../../core/jest/jestSetup'
-import lib, { Button } from '../lib'
+import { enableWebComponents, Button } from '../lib'
 import { registeredElements } from '../../shared/custom-element'
 
 describe('Library', () => {
   it('has to have a enableWebComponents function', () => {
-    expect(lib.enableWebComponents).toBeType('function')
+    expect(enableWebComponents).toBeType('function')
   })
   it('has to have a Button Component', () => {
     expect(Button).toBeType('function')
