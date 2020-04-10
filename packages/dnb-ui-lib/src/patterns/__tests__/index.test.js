@@ -14,7 +14,7 @@ describe('Library', () => {
   it('has to have a MainNav Component', () => {
     expect(MainNav).toBeType('function')
   })
-  it('have no Web Components enabled in registeredElements', () => {
+  it('has no Web Components enabled in registeredElements', () => {
     expect(registeredElements).not.toContain('dnb-main-nav')
   })
 })

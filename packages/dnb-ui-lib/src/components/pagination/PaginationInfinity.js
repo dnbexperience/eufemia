@@ -5,7 +5,7 @@
 
 import React, { PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
-import { findDOMNode } from 'react-dom'
+import ReactDom from 'react-dom'
 import {
   isTrue,
   dispatchCustomElementEvent
@@ -511,7 +511,7 @@ class ScrollToElement extends PureComponent {
     // therefor we use "findDOMNode" here
     // so we can scroll to that page
     // eslint-disable-next-line
-    const elem = findDOMNode(this)
+    const elem = ReactDom.findDOMNode(this)
     this.scrollToPage(elem)
   }
   scrollToPage(element) {

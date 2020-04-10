@@ -4,7 +4,7 @@
  */
 
 import React from 'react'
-import { render, unmountComponentAtNode } from 'react-dom'
+import ReactDom from 'react-dom'
 import { ErrorHandler } from './error-helper'
 
 // import "custom-element-polyfill" - insted of import 'document-register-element' // https://github.com/WebReflection/document-register-element
@@ -66,7 +66,7 @@ export const registerElement = (
     }
     // adoptedCallback: Invoked when the custom element is moved to a new document.
     detachedCallback() {
-      unmountComponentAtNode(this)
+      ReactDom.unmountComponentAtNode(this)
       if (this._children) delete this._children
       if (this._isConnected) delete this._isConnected
       if (this._elementRef) delete this._elementRef
@@ -125,7 +125,7 @@ export const registerElement = (
                   args[0].forEach((elem) => {
                     if (React.isValidElement(elem)) {
                       const rootEl = document.createElement('div') // createDocumentFragment
-                      render(elem, rootEl)
+                      ReactDom.render(elem, rootEl)
                       elems.push(rootEl)
                     }
                   })
@@ -244,7 +244,7 @@ export const registerElement = (
         }
       }
 
-      render(<ReactComponent {...props} />, this)
+      ReactDom.render(<ReactComponent {...props} />, this)
     }
   }
 

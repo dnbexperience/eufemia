@@ -55,6 +55,15 @@ export default [
     }
   ),
   makeRollupConfig(
+    './src/umd/dnb-ui-elements.js',
+    'build/umd/dnb-ui-elements.min.js',
+    {
+      name: 'dnbElements',
+      format: 'umd',
+      excludes
+    }
+  ),
+  makeRollupConfig(
     './src/umd/dnb-ui-patterns.js',
     'build/umd/dnb-ui-patterns.min.js',
     {
@@ -105,6 +114,14 @@ export default [
   makeRollupConfig(
     './src/esm/dnb-ui-elements.js',
     'build/esm/dnb-ui-elements.min.mjs',
+    {
+      format: 'esm',
+      excludes
+    }
+  ),
+  makeRollupConfig(
+    './src/esm/dnb-ui-web-components.js',
+    'build/esm/dnb-ui-web-components.min.mjs',
     {
       format: 'esm',
       excludes

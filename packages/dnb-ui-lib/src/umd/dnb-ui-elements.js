@@ -3,4 +3,4 @@
  *
  */
 
-export * from '../patterns'
+export * from '../elements'
