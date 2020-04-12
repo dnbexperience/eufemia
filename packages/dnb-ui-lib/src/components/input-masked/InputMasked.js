@@ -71,6 +71,10 @@ export default class InputMasked extends React.PureComponent {
     registerElement(InputMasked.tagName, InputMasked, defaultProps)
   }
 
+  componentWillUnmount() {
+    clearTimeout(this._selectionTimeout)
+  }
+
   render() {
     let {
       mask,
@@ -129,40 +133,60 @@ export default class InputMasked extends React.PureComponent {
       }
 
       if (mask.instanceOf === 'createNumberMask') {
-        const clean = (v) =>
+        const clean = v =>
           String(v).replace(new RegExp('[^\\d,.-]', 'g'), '')
-        props.on_change = (params) => {
-          dispatchCustomElementEvent(this, 'on_change', {
-            cleaned_value: clean(params.value),
-            ...params
-          })
-        }
-        props.on_focus = (params) => {
-          dispatchCustomElementEvent(this, 'on_focus', {
-            cleaned_value: clean(params.value),
-            ...params
-          })
 
-          const elem = params.event.target
-          setTimeout(() => {
+        const fixPositionIssue = elem => {
+          clearTimeout(this._selectionTimeout)
+          this._selectionTimeout = setTimeout(() => {
+            const cleaned_value = clean(elem.value)
+            if (cleaned_value.length > 0) {
+              return
+            }
             try {
+              const end = elem.selectionEnd
               if (
-                elem.selectionStart === elem.selectionEnd &&
-                elem.selectionStart === elem.value.length
+                elem.selectionStart === end &&
+                end === elem.value.length
               ) {
-                elem.setSelectionRange(0, elem.selectionEnd)
+                let pos = 0
+                if (props.align === 'left') {
+                  pos = end - 1
+                }
+                elem.setSelectionRange(pos, pos)
               }
             } catch (e) {
               //
             }
-          }, 1) // to get selectionStart
+          }, 1) // to get the current value
         }
-        props.on_blur = (params) => {
-          dispatchCustomElementEvent(this, 'on_blur', {
-            cleaned_value: clean(params.value),
-            ...params
+
+        const callEvent = ({ event, value }, name) => {
+          value = value || event.target.value
+          const cleaned_value = clean(value)
+          return dispatchCustomElementEvent(this, name, {
+            event,
+            value,
+            cleaned_value
           })
         }
+        props.onMouseUp = event => {
+          fixPositionIssue(event.target)
+          callEvent({ event }, 'on_mouse_up')
+        }
+        props.onTouchEnd = event => {
+          fixPositionIssue(event.target)
+          callEvent({ event }, 'on_touch_end')
+        }
+        props.on_focus = params => {
+          fixPositionIssue(params.event.target)
+          callEvent(params, 'on_focus')
+        }
+
+        props.on_key_down = params => callEvent(params, 'on_key_down')
+        props.on_submit = params => callEvent(params, 'on_submit')
+        props.on_blur = params => callEvent(params, 'on_blur')
+        props.on_change = params => callEvent(params, 'on_change')
       }
 
       props.input_element = (params, innerRef) => {
