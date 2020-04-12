@@ -3,5 +3,10 @@
 *
 */
 
-// .dnb-input-masked {
-// }
+.dnb-input-masked {
+  &--guide {
+    input {
+      font-family: var(--font-family-monospace);
+    }
+  }
+}
