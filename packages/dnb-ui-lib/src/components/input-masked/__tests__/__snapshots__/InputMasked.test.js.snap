@@ -29,7 +29,7 @@ exports[`InputMasked component have to match type="text" snapshot 1`] = `
     align={null}
     autocomplete="off"
     class={null}
-    className="dnb-input-masked"
+    className="dnb-input-masked dnb-input-masked--guide"
     custom_element={null}
     custom_method={null}
     disabled={false}
@@ -74,7 +74,7 @@ exports[`InputMasked component have to match type="text" snapshot 1`] = `
     value="test"
   >
     <span
-      className="dnb-input dnb-input--text dnb-form-component dnb-input-masked"
+      className="dnb-input dnb-input--text dnb-form-component dnb-input-masked dnb-input-masked--guide"
     >
       <span
         className="dnb-input__inner"
@@ -918,5 +918,7 @@ legend.dnb-form-label {
 * InputMasked component
 *
 */
+.dnb-input-masked--guide input {
+  font-family: var(--font-family-monospace); }
 "
 `;
