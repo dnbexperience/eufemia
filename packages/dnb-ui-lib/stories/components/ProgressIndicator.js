@@ -3,7 +3,7 @@
  *
  */
 
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { Wrapper, Box } from '../helpers'
 // import styled from '@emotion/styled'
 
@@ -26,8 +26,8 @@ export default [
   )
 ]
 const ProgressIndicatorCircular = () => {
-  const [visible, setVisibe] = useState(true)
-  useEffect(() => {
+  const [visible, setVisibe] = React.useState(true)
+  React.useEffect(() => {
     const timer = setInterval(() => setVisibe(!visible), 3400)
     return () => clearInterval(timer)
   })

@@ -3,7 +3,7 @@
  *
  */
 
-import React, { PureComponent } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import {
@@ -54,7 +54,7 @@ const defaultProps = {
   ...renderProps
 }
 
-export default class MainNav extends PureComponent {
+export default class MainNav extends React.PureComponent {
   static tagName = 'dnb-main-nav'
   static propTypes = propTypes
   static defaultProps = defaultProps

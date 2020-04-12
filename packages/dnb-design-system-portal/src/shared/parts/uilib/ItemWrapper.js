@@ -5,7 +5,7 @@
 
 import { Button, Tabs } from 'dnb-ui-lib/src'
 import Code, { CodeRenderer } from './Code'
-import React, { PureComponent, Fragment } from 'react'
+import React from 'react'
 import ReactDOMServer from 'react-dom/server'
 
 import { CloseButton } from 'dnb-ui-lib/src/components/modal'
@@ -52,7 +52,7 @@ const tabsWrapperStyle = css`
   }
 `
 
-class ItemWrapper extends PureComponent {
+class ItemWrapper extends React.PureComponent {
   static propTypes = {
     ExampleCode: PropTypes.string,
     Description: PropTypes.func.isRequired,
@@ -187,10 +187,10 @@ class ItemWrapper extends PureComponent {
               <Additional.info CodeRenderer={CodeRenderer} />
             )}
             {ExampleCode && (
-              <Fragment>
+              <React.Fragment>
                 <h3>JSX Example</h3>
                 <CodeRenderer language="jsx">{ExampleCode}</CodeRenderer>
-              </Fragment>
+              </React.Fragment>
             )}
           </Tabs.ContentWrapper>
         )

@@ -3,7 +3,7 @@
  *
  */
 
-import React, { PureComponent } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import DefaultIcon, {
   DefaultIconSize,
@@ -31,7 +31,7 @@ const propTypes = {
 
 const defaultProps = { ...DefaultIcon.defaultProps }
 
-export default class IconPrimary extends PureComponent {
+export default class IconPrimary extends React.PureComponent {
   static tagName = 'dnb-icon-primary'
   static propTypes = propTypes
   static defaultProps = defaultProps

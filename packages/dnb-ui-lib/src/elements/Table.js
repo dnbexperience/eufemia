@@ -3,7 +3,7 @@
  *
  */
 
-import React, { PureComponent } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { isTrue, registerElement } from '../shared/component-helper'
 
@@ -41,7 +41,7 @@ export const StickyHelper = () => {
   )
 }
 
-export default class Table extends PureComponent {
+export default class Table extends React.PureComponent {
   static tagName = 'dnb-table'
   static propTypes = propTypes
   static defaultProps = defaultProps

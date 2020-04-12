@@ -3,7 +3,7 @@
  *
  */
 
-import React, { PureComponent } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import keycode from 'keycode'
@@ -99,7 +99,7 @@ const defaultProps = {
   ...renderProps
 }
 
-export default class Tabs extends PureComponent {
+export default class Tabs extends React.PureComponent {
   static tagName = 'dnb-tabs'
   static propTypes = propTypes
   static defaultProps = defaultProps
@@ -618,7 +618,7 @@ export default class Tabs extends PureComponent {
   }
 }
 
-class ContentWrapper extends PureComponent {
+class ContentWrapper extends React.PureComponent {
   static propTypes = {
     id: PropTypes.string.isRequired,
     selected_key: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
@@ -654,7 +654,7 @@ class ContentWrapper extends PureComponent {
     <Tabs.Content title="second">second</Tabs.Content>
   </Tabs>
  */
-class CustomContent extends PureComponent {
+class CustomContent extends React.PureComponent {
   static propTypes = {
     displayName: PropTypes.string,
     title: PropTypes.oneOfType([

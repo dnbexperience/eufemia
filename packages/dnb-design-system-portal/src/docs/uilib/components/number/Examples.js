@@ -3,7 +3,7 @@
  *
  */
 
-import React, { PureComponent } from 'react'
+import React from 'react'
 import ComponentBox from 'Src/shared/tags/ComponentBox'
 import styled from '@emotion/styled'
 
@@ -13,7 +13,7 @@ const Style = styled.div`
   }
 `
 
-class Example extends PureComponent {
+class Example extends React.PureComponent {
   render() {
     return (
       <Style>

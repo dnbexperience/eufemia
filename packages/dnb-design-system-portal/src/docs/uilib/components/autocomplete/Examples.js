@@ -3,14 +3,14 @@
  *
  */
 
-import React, { PureComponent, Fragment } from 'react'
+import React from 'react'
 import ComponentBox from 'Src/shared/tags/ComponentBox'
 import styled from '@emotion/styled'
 
-class Example extends PureComponent {
+class Example extends React.PureComponent {
   render() {
     return (
-      <Fragment>
+      <React.Fragment>
         <ComponentBox title="Default autocomplete" scope={{ topMovies }}>
           {/* @jsx */ `
 <Autocomplete
@@ -153,7 +153,7 @@ render(<Autocomplete
 </FormRow>
           `}
         </ComponentBox>
-      </Fragment>
+      </React.Fragment>
     )
   }
 }

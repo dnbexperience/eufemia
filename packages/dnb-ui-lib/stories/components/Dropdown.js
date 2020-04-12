@@ -3,7 +3,7 @@
  *
  */
 
-import React, { useState, useEffect, Fragment } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { Wrapper, Box } from '../helpers'
 import styled from '@emotion/styled'
@@ -36,8 +36,8 @@ const CustomStyle = styled.div`
 `
 
 const DropdownStory = () => {
-  const [data, setData] = useState(dropdownData)
-  const [value, setSelectedItem] = useState(0)
+  const [data, setData] = React.useState(dropdownData)
+  const [value, setSelectedItem] = React.useState(0)
   return (
     <Wrapper>
       <Box>
@@ -420,12 +420,14 @@ let dropdownData = [
     ]
   },
   {
-    selected_value: <Fragment key="cs-1">Custom selected {'🔥'}</Fragment>,
+    selected_value: (
+      <React.Fragment key="cs-1">Custom selected {'🔥'}</React.Fragment>
+    ),
     content: [
       <Number key={15349648901} ban>
         15349648901
       </Number>,
-      <Fragment key="cs-2">Custom content {'🔥'}</Fragment>
+      <React.Fragment key="cs-2">Custom content {'🔥'}</React.Fragment>
     ]
   }
 ]
@@ -464,7 +466,7 @@ const dropdownDataScrollable = [
     content: <>E</>
   },
   <>Custom content {'🔥'}</>,
-  [<Fragment key="key2">Custom content X {'🔥'}</Fragment>],
+  [<React.Fragment key="key2">Custom content X {'🔥'}</React.Fragment>],
   {
     content: 'EE'
   },
@@ -522,7 +524,7 @@ CurrencySelector.defaultProps = {
 }
 
 function DropdownStates() {
-  const [state, setState] = useState({})
+  const [state, setState] = React.useState({})
 
   const handleOnChange = (props) => {
     console.log('DropdownStates', props)
@@ -548,7 +550,7 @@ function DropdownStates() {
 }
 
 function DropdownStatesSync() {
-  const [state, setState] = useState({})
+  const [state, setState] = React.useState({})
 
   const handleOnChange = (props) => {
     console.log('DropdownStates', props)
@@ -580,9 +582,12 @@ function DropdownStatesSync() {
 function CurrencyDropdown() {
   // You can regard this as part of a state object that we eventually push to the backend iot conduct a Request for Quote in a Foreign Exchange (FX) transaction
   // The string reps of the currencies are pulled from an API that provides valid currency pairs for specific FX instruments
-  const [ccyPair, setCcyPair] = useState({ base: 'EUR', terms: 'SEK' })
+  const [ccyPair, setCcyPair] = React.useState({
+    base: 'EUR',
+    terms: 'SEK'
+  })
 
-  useEffect(() => {
+  React.useEffect(() => {
     console.log('ccyPair:', ccyPair)
   }, [ccyPair])
 

@@ -3,10 +3,7 @@
  *
  */
 
-import React, {
-  useState
-  // , useEffect
-} from 'react'
+import React from 'react'
 import { Wrapper, Box } from '../helpers'
 // import styled from '@emotion/styled'
 
@@ -119,10 +116,10 @@ export default [
 const scrollto_element = React.createRef()
 
 const InputWithError = () => {
-  const [haveAnErrorMessage1, setErrorMessage1] = useState(false)
-  const [haveAnErrorMessage2, setErrorMessage2] = useState(false)
-  const [haveAnErrorMessage3, setErrorMessage3] = useState(false)
-  const [haveAnErrorMessage4, setErrorMessage4] = useState(false)
+  const [haveAnErrorMessage1, setErrorMessage1] = React.useState(false)
+  const [haveAnErrorMessage2, setErrorMessage2] = React.useState(false)
+  const [haveAnErrorMessage3, setErrorMessage3] = React.useState(false)
+  const [haveAnErrorMessage4, setErrorMessage4] = React.useState(false)
   return (
     <>
       <FormSet
@@ -221,7 +218,7 @@ const ModalExample = () => (
 )
 
 const SimulateSteps = () => {
-  const [count, toggleUpdateStatus] = useState(0)
+  const [count, toggleUpdateStatus] = React.useState(0)
   return (
     <>
       <Button
@@ -284,9 +281,8 @@ const SimulateSteps = () => {
 }
 
 // const UpdateGlobalStatus = () => {
-//   const [count, setCount] = useState(0)
+//   const [count, setCount] = React.useState(0)
 //
-//   useEffect(() => {
 //     setTimeout(() => {
 //       setCount(1)
 //     }, 1e3)
@@ -404,7 +400,7 @@ const NestedSections = () => (
 
 // const items = ['Status text 1', 'Status text 2']
 const DemoAnimation = () => {
-  const [showDemo, toggleShowDemo] = useState(false)
+  const [showDemo, toggleShowDemo] = React.useState(false)
   // setTimeout(() => {
   //   // toggleShowDemo(true)
   // }, 30)

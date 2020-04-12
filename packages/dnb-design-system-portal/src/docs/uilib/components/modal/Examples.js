@@ -3,13 +3,13 @@
  *
  */
 
-import React, { PureComponent, Fragment } from 'react'
+import React from 'react'
 import ComponentBox from 'Src/shared/tags/ComponentBox'
 
-class Example extends PureComponent {
+class Example extends React.PureComponent {
   render() {
     return (
-      <Fragment>
+      <React.Fragment>
         <ComponentBox
           title="Triggered by a icon button"
           data-dnb-test="modal-trigger-default"
@@ -91,7 +91,7 @@ class Example extends PureComponent {
 </Modal>
           `}
         </ComponentBox>
-      </Fragment>
+      </React.Fragment>
     )
   }
 }

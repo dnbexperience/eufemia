@@ -3,13 +3,13 @@
  *
  */
 
-import React, { PureComponent, Fragment } from 'react'
+import React from 'react'
 import ComponentBox from 'Src/shared/tags/ComponentBox'
 
-class Example extends PureComponent {
+class Example extends React.PureComponent {
   render() {
     return (
-      <Fragment>
+      <React.Fragment>
         <ComponentBox
           title="Default form-label"
           data-dnb-test="form-label-default"
@@ -60,7 +60,7 @@ class Example extends PureComponent {
 </form>
           `}
         </ComponentBox>
-      </Fragment>
+      </React.Fragment>
     )
   }
 }

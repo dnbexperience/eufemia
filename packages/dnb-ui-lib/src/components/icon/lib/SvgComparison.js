@@ -10,10 +10,10 @@ https://jakearchibald.github.io/svgomg/
 
 */
 
-import React, { Fragment } from 'react'
+import React from 'react'
 
 const SvgComparison = (props) => (
-  <Fragment>
+  <React.Fragment>
     <svg width="24" height="24" {...props}>
       <path
         d="M.5 23.56h23"
@@ -59,7 +59,7 @@ const SvgComparison = (props) => (
         d="M8.738 7.37a.5.5 0 0 1-.078.702l-3.587 2.87a.5.5 0 0 1-.624-.78l3.587-2.87a.5.5 0 0 1 .702.077zM10.448 7.063a.5.5 0 0 1 .628-.324l3.153 1.009a.5.5 0 1 1-.304.952l-3.153-1.009a.5.5 0 0 1-.324-.628zM20.633 2.931a.5.5 0 0 1 .04.706l-3.759 4.21a.5.5 0 0 1-.746-.666l3.76-4.21a.5.5 0 0 1 .705-.04z"
       />
     </svg>
-  </Fragment>
+  </React.Fragment>
 )
 
 export default SvgComparison

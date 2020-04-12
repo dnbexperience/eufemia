@@ -3,7 +3,7 @@
  *
  */
 
-import React, { Component, Fragment } from 'react'
+import React from 'react'
 import ReactTestUtils from 'react-dom/test-utils' // ES6
 import PropTypes from 'prop-types'
 import styled from '@emotion/styled'
@@ -26,7 +26,7 @@ const FormRow = styled.div`
   margin-bottom: 1.5rem;
 `
 
-export default class PerformanceTest extends Component {
+export default class PerformanceTest extends React.Component {
   state = {
     isActive: false,
     countToRender: 20,
@@ -147,7 +147,7 @@ const ButtonWrap = React.forwardRef(
       <Button title="Title" {...props} ref={ref} />
     )
 )
-class ButtonTest extends Component {
+class ButtonTest extends React.Component {
   state = {
     icon: 'question',
     text: 'Custom Element with icon',
@@ -222,7 +222,7 @@ class ButtonTest extends Component {
   }
   render() {
     return (
-      <Fragment>
+      <React.Fragment>
         <ButtonWrap
           ref={this._ref}
           text={this.state.text}
@@ -231,7 +231,7 @@ class ButtonTest extends Component {
           on_click={this.onClick}
           {...this.props}
         />
-      </Fragment>
+      </React.Fragment>
     )
   }
 }
@@ -244,7 +244,7 @@ const InputWrap = React.forwardRef(
       <Input {...props} ref={ref} />
     )
 )
-class InputTest extends Component {
+class InputTest extends React.Component {
   state = {
     value: '0',
     placeholder: 'Write someting',
@@ -326,7 +326,7 @@ class InputTest extends Component {
   }
   render() {
     return (
-      <Fragment>
+      <React.Fragment>
         <InputWrap
           ref={this._ref}
           value={this.state.value}
@@ -337,7 +337,7 @@ class InputTest extends Component {
           onBlur={this.onBlur}
           {...this.props}
         />
-      </Fragment>
+      </React.Fragment>
     )
   }
 }
@@ -352,7 +352,7 @@ const listOfIcons = ['chevron-right', 'question', 'chevron-left']
 IconWrap.propTypes = {
   webComponentsEnabled: PropTypes.bool.isRequired
 }
-class IconTest extends Component {
+class IconTest extends React.Component {
   state = {
     icon: 'chevron-right',
     size: 200
@@ -391,13 +391,13 @@ class IconTest extends Component {
   }
   render() {
     return (
-      <Fragment>
+      <React.Fragment>
         <IconWrap
           icon={this.state.icon}
           size={this.state.size}
           {...this.props}
         />
-      </Fragment>
+      </React.Fragment>
     )
   }
 }

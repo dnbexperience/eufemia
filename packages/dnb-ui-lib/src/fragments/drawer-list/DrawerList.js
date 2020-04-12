@@ -3,7 +3,7 @@
  *
  */
 
-import React, { PureComponent } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import keycode from 'keycode'
@@ -156,7 +156,7 @@ export const defaultProps = {
   ...renderProps
 }
 
-export default class DrawerList extends PureComponent {
+export default class DrawerList extends React.PureComponent {
   static tagName = 'dnb-drawer-list'
   static propTypes = propTypes
   static defaultProps = defaultProps
@@ -185,7 +185,7 @@ export default class DrawerList extends PureComponent {
   }
 }
 
-class DrawerListInstance extends PureComponent {
+class DrawerListInstance extends React.PureComponent {
   static propTypes = propTypes
   static defaultProps = defaultProps
   static contextType = DrawerListContext

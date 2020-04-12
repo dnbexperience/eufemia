@@ -3,7 +3,7 @@
  *
  */
 
-import React, { PureComponent } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import {
@@ -106,7 +106,7 @@ const defaultProps = {
 /**
  * The radio component is our enhancement of the classic radio button. It acts like a radio. Example: On/off, yes/no.
  */
-export default class RadioGroup extends PureComponent {
+export default class RadioGroup extends React.PureComponent {
   static tagName = 'dnb-radio-group'
   static propTypes = propTypes
   static defaultProps = defaultProps

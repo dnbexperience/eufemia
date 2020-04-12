@@ -3,14 +3,14 @@
  *
  */
 
-import React, { PureComponent, Fragment } from 'react'
+import React from 'react'
 // import Grid from './Grid'
 import { css } from '@emotion/core'
 
-class Example extends PureComponent {
+class Example extends React.PureComponent {
   render() {
     return (
-      <Fragment>
+      <React.Fragment>
         <div className="example-box dnb-grid dnb-grid--gutters">
           <div className="dnb-grid__cell">
             <div className="demo">1/2</div>
@@ -167,7 +167,7 @@ class Example extends PureComponent {
             </div>
           </div>
         </div>
-      </Fragment>
+      </React.Fragment>
     )
   }
 }

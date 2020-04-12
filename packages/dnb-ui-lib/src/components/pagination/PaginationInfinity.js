@@ -3,7 +3,7 @@
  *
  */
 
-import React, { PureComponent, Fragment } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import ReactDom from 'react-dom'
 import {
@@ -24,7 +24,7 @@ const propTypes = {
 }
 const defaultProps = { children: null }
 
-export default class InfinityScroller extends PureComponent {
+export default class InfinityScroller extends React.PureComponent {
   static contextType = PaginationContext
   static propTypes = propTypes
   static defaultProps = defaultProps
@@ -247,7 +247,7 @@ export default class InfinityScroller extends PureComponent {
     }
 
     // make sure we handle Table markup correctly
-    const Element = preparePageElement(page_element || Fragment)
+    const Element = preparePageElement(page_element || React.Fragment)
 
     return items.map(
       (
@@ -342,7 +342,7 @@ export default class InfinityScroller extends PureComponent {
   }
 }
 
-class InteractionMarker extends PureComponent {
+class InteractionMarker extends React.PureComponent {
   static propTypes = {
     pageNo: PropTypes.number.isRequired,
     onVisible: PropTypes.func.isRequired,
@@ -440,7 +440,7 @@ class InteractionMarker extends PureComponent {
   }
 }
 
-export class InfinityLoadButton extends PureComponent {
+export class InfinityLoadButton extends React.PureComponent {
   static contextType = Context
   static propTypes = {
     element: PropTypes.oneOfType([
@@ -493,7 +493,7 @@ export class InfinityLoadButton extends PureComponent {
   }
 }
 
-class ScrollToElement extends PureComponent {
+class ScrollToElement extends React.PureComponent {
   static propTypes = {
     page_element: PropTypes.oneOfType([
       PropTypes.object,
@@ -524,7 +524,7 @@ class ScrollToElement extends PureComponent {
   }
   render() {
     const { page_element, ...props } = this.props
-    const Element = preparePageElement(page_element || Fragment)
+    const Element = preparePageElement(page_element || React.Fragment)
     return <Element {...props} />
   }
 }

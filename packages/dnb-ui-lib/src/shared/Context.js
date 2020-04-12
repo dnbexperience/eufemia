@@ -3,7 +3,7 @@
  *
  */
 
-import { createContext } from 'react'
+import React from 'react'
 import { LOCALE, CURRENCY, CURRENCY_DISPLAY } from './defaults'
 import defaultLocales from './locales'
 import { extend } from './component-helper'
@@ -25,6 +25,6 @@ export const defaultContext = (props = {}) => {
 }
 
 // If no provider is given, we use the default context from here
-const Context = createContext(defaultContext())
+const Context = React.createContext(defaultContext())
 
 export default Context

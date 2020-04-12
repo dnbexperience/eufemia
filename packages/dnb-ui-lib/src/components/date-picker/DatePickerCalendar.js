@@ -3,7 +3,7 @@
  *
  */
 
-import React, { PureComponent } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import Context from '../../shared/Context'
@@ -101,7 +101,7 @@ const defaultProps = {
   onKeyDown: null
 }
 
-export default class DatePickerCalendar extends PureComponent {
+export default class DatePickerCalendar extends React.PureComponent {
   static propTypes = propTypes
   static defaultProps = defaultProps
   static contextType = Context

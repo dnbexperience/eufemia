@@ -3,14 +3,14 @@
  *
  */
 
-import React, { PureComponent, Fragment } from 'react'
+import React from 'react'
 import ComponentBox from 'Src/shared/tags/ComponentBox'
 import styled from '@emotion/styled'
 
-class Example extends PureComponent {
+class Example extends React.PureComponent {
   render() {
     return (
-      <Fragment>
+      <React.Fragment>
         <ComponentBox
           title="Default DrawerList, triggered by a ToggleButton"
           useRender
@@ -183,7 +183,7 @@ const DrawerListWithState = props => {
 render(<DrawerListWithState />)
           `}
         </ComponentBox>
-      </Fragment>
+      </React.Fragment>
     )
   }
 }

@@ -3,7 +3,7 @@
  *
  */
 
-import React, { PureComponent } from 'react'
+import React from 'react'
 import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
@@ -130,7 +130,7 @@ const defaultProps = {
   ...renderProps
 }
 
-export default class Modal extends PureComponent {
+export default class Modal extends React.PureComponent {
   static tagName = 'dnb-modal'
   static propTypes = propTypes
   static defaultProps = defaultProps
@@ -413,7 +413,7 @@ export default class Modal extends PureComponent {
   }
 }
 
-class ModalRoot extends PureComponent {
+class ModalRoot extends React.PureComponent {
   static propTypes = {
     direct_dom_return: PropTypes.oneOfType([
       PropTypes.string,
@@ -475,7 +475,7 @@ class ModalRoot extends PureComponent {
   }
 }
 
-class ModalContent extends PureComponent {
+class ModalContent extends React.PureComponent {
   static propTypes = {
     modal_content: PropTypes.node.isRequired,
     labelled_by: PropTypes.string,
