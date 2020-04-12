@@ -46,11 +46,14 @@ exports[`InputMasked component have to match type="text" snapshot 1`] = `
     label={null}
     label_direction={null}
     label_sr_only={null}
+    onMouseUp={[Function]}
+    onTouchEnd={[Function]}
     on_blur={[Function]}
     on_change={[Function]}
     on_focus={[Function]}
+    on_key_down={[Function]}
     on_state_update={null}
-    on_submit={null}
+    on_submit={[Function]}
     on_submit_blur={null}
     on_submit_focus={null}
     placeholder={null}
@@ -105,6 +108,8 @@ exports[`InputMasked component have to match type="text" snapshot 1`] = `
               onChange={[Function]}
               onFocus={[Function]}
               onKeyDown={[Function]}
+              onMouseUp={[Function]}
+              onTouchEnd={[Function]}
               pipe={null}
               placeholderChar="placeholder_char"
               render={[Function]}
@@ -123,6 +128,8 @@ exports[`InputMasked component have to match type="text" snapshot 1`] = `
                 onChange={[Function]}
                 onFocus={[Function]}
                 onKeyDown={[Function]}
+                onMouseUp={[Function]}
+                onTouchEnd={[Function]}
                 type="text"
               />
             </t>
