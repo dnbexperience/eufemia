@@ -15,11 +15,14 @@ class Example extends PureComponent {
   render() {
     return (
       <Fragment>
-        <ComponentBox title="Using the `currency_mask`">
+        <ComponentBox
+          title="Using the `currency_mask`"
+          data-dnb-test="input-masked-currency_mask"
+        >
           {/* @jsx */ `
 <FormRow vertical>
   <InputMasked
-    label="Amount:"
+    label="Right aligned:"
     currency_mask="kr"
     on_change={(e) => {
       console.log('e', e)
@@ -28,7 +31,7 @@ class Example extends PureComponent {
     bottom
   />
   <InputMasked
-    label="Amount:"
+    label="Left aligned:"
     currency_mask={{ currency: 'NOK' }}
     align="left"
     on_change={(e) => {
@@ -55,7 +58,10 @@ class Example extends PureComponent {
 />
           `}
         </ComponentBox>
-        <ComponentBox title="Using the `number_mask` - combined suffix">
+        <ComponentBox
+          title="Using the `number_mask` - combined suffix"
+          data-dnb-test="input-masked-number_mask"
+        >
           {/* @jsx */ `
 <InputMasked
   label="Masked input:"
