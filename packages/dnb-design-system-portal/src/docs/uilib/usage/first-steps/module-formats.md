@@ -85,7 +85,7 @@ As React by default don't delivers an ESM bundle, we have to create our own.
   <script type="module-shim">
     import React from 'react'
     import ReactDom from 'react-dom'
-    import { Button } from './esm/dnb-ui-lib.min.mjs'
+    import { Button } from 'https://unpkg.com/dnb-ui-lib/esm/dnb-ui-lib.min.mjs'
 
     const MyButton = React.createElement(
       Button,
@@ -127,10 +127,10 @@ Read more about the [Web Components](/uilib/usage/first-steps/web-components) us
     src="https://unpkg.com/dnb-ui-lib/esm/dnb-ui-lib.min.mjs"
   >
     // Enable all by default
-    import 'dnb-ui-web-components.min.mjs'
+    import 'https://unpkg.com/dnb-ui-lib/esm/dnb-ui-web-components.min.mjs'
 
     // or enable them this way
-    import { Button, enableWebComponents } 'dnb-ui-lib.min.mjs'
+    import { Button, enableWebComponents } 'https://unpkg.com/dnb-ui-lib/esm/dnb-ui-lib.min.mjs'
 
     // then, either all
     enableWebComponents()
