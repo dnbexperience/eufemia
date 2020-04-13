@@ -145,7 +145,7 @@ const propTypes = {
 const defaultProps = {
   id: null,
   title: 'Option Menu',
-  icon: 'chevron_down',
+  icon: null,
   icon_size: null,
   icon_position: null,
   triangle_position: null,
@@ -414,9 +414,7 @@ class DropdownInstance extends PureComponent {
 
     const isPopupMenu = isTrue(more_menu) || isTrue(prevent_selection)
     if (isPopupMenu) {
-      if (icon !== 'chevron_down' && isTrue(more_menu)) {
-        icon = 'more'
-      }
+      icon = icon || (isTrue(more_menu) ? 'more' : 'chevron_down')
       if (!icon_position && align_dropdown !== 'right') {
         icon_position = 'left'
       }
@@ -547,7 +545,7 @@ class DropdownInstance extends PureComponent {
                     {icon !== false && (
                       <Icon
                         aria-hidden
-                        icon={icon}
+                        icon={icon || 'chevron_down'}
                         size={
                           icon_size ||
                           (size === 'large' ? 'medium' : 'default')
