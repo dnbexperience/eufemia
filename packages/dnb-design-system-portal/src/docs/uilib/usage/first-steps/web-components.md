@@ -11,9 +11,17 @@ So called [Custom Elements](https://www.w3.org/TR/custom-elements/), running as 
 
 ## Example usage
 
+Once the method `enableWebComponents` is executed, we can use our web components right away in our HTML markup.
+You can use Web Components in various situations. But one of the main situations will be:
+
+- Build step
+- UMD / ESM (mjs) browser based composition
+
+### Web Components with build step
+
 ```jsx
 // Method #1 (will import all components)
-import { enableWebComponents } from 'dnb-ui-lib/components'
+import { enableWebComponents } from 'dnb-ui-lib/components/lib'
 enableWebComponents()
 
 // Method #2 (will import all components)
@@ -33,7 +41,69 @@ import { Button } from 'dnb-ui-lib/components/Button'
 Button.enableWebComponent()
 ```
 
-Now we can use our web components right away in our markup.
+### Web Components with UMD
+
+Browser based composition.
+
+```html
+<body>
+  <dnb-button icon="chevron_right">My Button</dnb-button>
+
+  <!-- Required -->
+  <script src="https://unpkg.com/react/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom/umd/react-dom.production.min.js"></script>
+
+  <!-- Method #1 -->
+  <script src="https://unpkg.com/dnb-ui-lib/umd/dnb-ui-icons.min.js"></script>
+  <script src="https://unpkg.com/dnb-ui-lib/umd/dnb-ui-web-components.min.js"></script>
+  <script type="application/javascript">
+    console.log(window.dnbWebComponents)
+  </script>
+
+  <!-- Method #2 -->
+  <script src="https://unpkg.com/dnb-ui-lib/umd/dnb-ui-icons.min.js"></script>
+  <script src="https://unpkg.com/dnb-ui-lib/umd/dnb-ui-lib.min.js"></script>
+  <script type="application/javascript">
+    window.dnbLib.enableWebComponents()
+    console.log(window.dnbLib)
+  </script>
+</body>
+```
+
+### Web Components with ESM (mjs)
+
+Browser based composition by using ESM bundles with the `mjs` file extension.
+
+```html
+<body>
+  <dnb-button icon="chevron_right">My Button</dnb-button>
+
+  <!-- With IE11 support by using a Polyfill: "-shim" -->
+  <script
+    crossorigin
+    defer
+    src="https://unpkg.com/es-module-shims/dist/es-module-shims.js"
+  ></script>
+
+  <script type="importmap-shim">
+    {
+      "imports": {
+        "react": "...",
+        "react-dom": "...",
+        "../icons/primary_icons.js": "https://unpkg.com/dnb-ui-lib/esm/dnb-ui-icons.min.mjs",
+        "../icons/primary_icons_medium.js": "https://unpkg.com/dnb-ui-lib/esm/dnb-ui-icons.min.mjs"
+      }
+    }
+  </script>
+
+  <script
+    type="module-shim"
+    src="https://unpkg.com/dnb-ui-lib/esm/dnb-ui-lib.min.mjs"
+  >
+    import 'dnb-ui-lib/web-components'
+  </script>
+</body>
+```
 
 ### Button
 
