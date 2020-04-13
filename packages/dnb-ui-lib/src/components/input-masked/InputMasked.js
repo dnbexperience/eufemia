@@ -207,7 +207,10 @@ export default class InputMasked extends React.PureComponent {
     props.className = classnames(
       'dnb-input-masked',
       props.className,
-      show_guide && 'dnb-input-masked--guide'
+      show_mask &&
+        show_guide &&
+        placeholderChar === '_' &&
+        'dnb-input-masked--guide'
     )
 
     return <Input {...props} />
