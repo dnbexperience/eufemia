@@ -106,6 +106,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
     open_on_focus="open_on_focus"
     opened={null}
     options_render={Object {}}
+    page_offset={null}
     prevent_close="prevent_close"
     prevent_focus={true}
     prevent_selection={null}

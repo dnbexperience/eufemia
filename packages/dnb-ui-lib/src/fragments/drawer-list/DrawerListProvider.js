@@ -42,6 +42,7 @@ const propTypes = {
   keep_open: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   prevent_focus: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   skip_keysearch: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  page_offset: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   opened: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
 
   // React
@@ -63,6 +64,7 @@ const defaultProps = {
   keep_open: false,
   prevent_focus: false,
   skip_keysearch: false,
+  page_offset: null,
   opened: null,
 
   // React props
@@ -194,6 +196,7 @@ export default class DrawerListProvider extends React.PureComponent {
     // In case we have one before hand
     this.removeDirectionObserver()
 
+    const { page_offset } = this.props
     const min_height = 160 // 10rem = 10x16=160
     const spaceToTopOffset = 4 * 16 //because of headers
     const spaceToBottomOffset = 2 * 16
@@ -202,12 +205,15 @@ export default class DrawerListProvider extends React.PureComponent {
     const renderDirection = () => {
       try {
         // use "window.pageYOffset" instead of "window.scrollY" because IE
+        const pageYOffset = !isNaN(parseFloat(page_offset))
+          ? parseFloat(page_offset)
+          : window.pageYOffset
         const spaceToTop =
-          getOffsetTop(elem) + elem.offsetHeight - window.pageYOffset
+          getOffsetTop(elem) + elem.offsetHeight - pageYOffset
         const spaceToBottom =
           window.innerHeight -
           (getOffsetTop(elem) + elem.offsetHeight) +
-          window.pageYOffset
+          pageYOffset
 
         const direction =
           spaceToBottom < min_height && spaceToTop > min_height

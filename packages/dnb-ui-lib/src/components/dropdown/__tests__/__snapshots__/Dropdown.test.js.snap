@@ -182,6 +182,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
     on_state_update={[Function]}
     open_on_focus="open_on_focus"
     opened={null}
+    page_offset={null}
     prevent_close="prevent_close"
     prevent_focus={false}
     prevent_selection={null}
