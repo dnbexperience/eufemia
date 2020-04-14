@@ -3,7 +3,7 @@
  *
  */
 
-import React, { Fragment } from 'react'
+import React from 'react'
 import { Wrapper, Box } from '../helpers'
 import styled from '@emotion/styled'
 
@@ -254,10 +254,10 @@ const data = [
     ]
   },
   {
-    content: <Fragment>E</Fragment>
+    content: <React.Fragment>E</React.Fragment>
   },
   <>Custom content {'🔥'}</>,
-  [<Fragment key="key2">Custom content X {'🔥'}</Fragment>],
+  [<React.Fragment key="key2">Custom content X {'🔥'}</React.Fragment>],
   {
     content: 'EE'
   },

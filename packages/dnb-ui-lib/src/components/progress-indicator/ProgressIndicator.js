@@ -3,7 +3,7 @@
  *
  */
 
-import React, { PureComponent } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import Context from '../../shared/Context'
@@ -59,7 +59,7 @@ const defaultProps = {
   ...renderProps
 }
 
-export default class ProgressIndicator extends PureComponent {
+export default class ProgressIndicator extends React.PureComponent {
   static tagName = 'dnb-progress-indicator'
   static propTypes = propTypes
   static defaultProps = defaultProps

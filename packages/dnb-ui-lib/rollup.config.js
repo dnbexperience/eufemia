@@ -13,20 +13,27 @@ import { terser } from 'rollup-plugin-terser'
 import { sizeSnapshot } from 'rollup-plugin-size-snapshot'
 import isCI from 'is-ci'
 
-const defaultGlobals = {
-  [path.resolve('./src/icons/primary_icons.js')]: 'dnbIcons'
-}
+const excludes = [
+  {
+    name: 'dnbIcons',
+    global: [path.resolve('./src/icons/primary_icons.js')],
+    external: '../../icons/primary_icons.js'
+  },
+  {
+    name: 'dnbIcons',
+    global: [path.resolve('./src/icons/primary_icons_medium.js')],
+    external: '../../icons/primary_icons_medium.js'
+  }
+]
 
-// 2. and export them so rollup knows what to do
 export default [
-  // 1. process theese files
   makeRollupConfig(
     './src/umd/dnb-ui-lib.js',
     'build/umd/dnb-ui-lib.min.js',
     {
       name: 'dnbLib',
       format: 'umd',
-      globals: defaultGlobals
+      excludes
     }
   ),
   makeRollupConfig(
@@ -35,7 +42,7 @@ export default [
     {
       name: 'dnbWebComponents',
       format: 'umd',
-      globals: defaultGlobals
+      excludes
     }
   ),
   makeRollupConfig(
@@ -44,7 +51,16 @@ export default [
     {
       name: 'dnbComponents',
       format: 'umd',
-      globals: defaultGlobals
+      excludes
+    }
+  ),
+  makeRollupConfig(
+    './src/umd/dnb-ui-elements.js',
+    'build/umd/dnb-ui-elements.min.js',
+    {
+      name: 'dnbElements',
+      format: 'umd',
+      excludes
     }
   ),
   makeRollupConfig(
@@ -53,7 +69,7 @@ export default [
     {
       name: 'dnbPatterns',
       format: 'umd',
-      globals: {}
+      excludes
     }
   ),
   makeRollupConfig(
@@ -61,8 +77,7 @@ export default [
     'build/umd/dnb-ui-basis.min.js',
     {
       name: 'dnbBasis',
-      format: 'umd',
-      globals: {}
+      format: 'umd'
     }
   ),
   makeRollupConfig(
@@ -77,7 +92,7 @@ export default [
     'build/esm/dnb-ui-lib.min.mjs',
     {
       format: 'esm',
-      globals: defaultGlobals
+      excludes
     }
   ),
   makeRollupConfig(
@@ -85,7 +100,7 @@ export default [
     'build/esm/dnb-ui-components.min.mjs',
     {
       format: 'esm',
-      globals: defaultGlobals
+      excludes
     }
   ),
   makeRollupConfig(
@@ -93,7 +108,7 @@ export default [
     'build/esm/dnb-ui-patterns.min.mjs',
     {
       format: 'esm',
-      globals: {}
+      excludes
     }
   ),
   makeRollupConfig(
@@ -101,15 +116,22 @@ export default [
     'build/esm/dnb-ui-elements.min.mjs',
     {
       format: 'esm',
-      globals: {}
+      excludes
+    }
+  ),
+  makeRollupConfig(
+    './src/esm/dnb-ui-web-components.js',
+    'build/esm/dnb-ui-web-components.min.mjs',
+    {
+      format: 'esm',
+      excludes
     }
   ),
   makeRollupConfig(
     './src/esm/dnb-ui-basis.js',
     'build/esm/dnb-ui-basis.min.mjs',
     {
-      format: 'esm',
-      globals: {}
+      format: 'esm'
     }
   ),
   makeRollupConfig(
@@ -117,22 +139,42 @@ export default [
     'build/esm/dnb-ui-icons.min.mjs',
     { format: 'esm' }
   )
+
+  // make esm of React, only for testing
+  // makeRollupConfig(
+  //   '../../node_modules/react/index.js',
+  //   'build/esm/react.production.min.js',
+  //   { format: 'esm' }
+  // ),
+  // makeRollupConfig(
+  //   '../../node_modules/react-dom/index.js',
+  //   'build/esm/react-dom.production.min.js',
+  //   { format: 'esm' }
+  // )
 ]
 
 function makeRollupConfig(
   input,
   file,
-  { name, globals = {}, format = 'umd' } = {}
+  { name, format = 'umd', excludes = [] } = {}
 ) {
   process.env.BABEL_ENV = format
 
-  globals = {
-    ...{
-      react: 'React',
-      'react-dom': 'ReactDOM'
-    },
-    ...globals
+  const globals = {
+    react: 'React',
+    'react-dom': 'ReactDOM'
   }
+  const external = Object.keys(globals)
+
+  excludes.forEach((excl) => {
+    if (excl.global) {
+      globals[excl.global] = excl.name
+    }
+    if (excl.external) {
+      external.push(excl.external)
+    }
+  })
+
   const babelOptions = {
     exclude: /node_modules/,
     runtimeHelpers: true, // using @babel/plugin-transform-runtime
@@ -153,7 +195,7 @@ function makeRollupConfig(
       format,
       sourcemap: true
     },
-    external: Object.keys(globals),
+    external,
     plugins: [
       nodeResolve(),
       babel(babelOptions),

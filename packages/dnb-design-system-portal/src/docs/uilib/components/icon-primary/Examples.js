@@ -3,13 +3,13 @@
  *
  */
 
-import React, { PureComponent, Fragment } from 'react'
+import React from 'react'
 import ComponentBox from 'Src/shared/tags/ComponentBox'
 
-class Example extends PureComponent {
+class Example extends React.PureComponent {
   render() {
     return (
-      <Fragment>
+      <React.Fragment>
         <ComponentBox title="Default and Medium sized icons (responsive)">
           {/* @jsx */ `
 <IconPrimary icon="question" title="Give icons a title" />
@@ -29,7 +29,7 @@ class Example extends PureComponent {
 />
           `}
         </ComponentBox>
-      </Fragment>
+      </React.Fragment>
     )
   }
 }

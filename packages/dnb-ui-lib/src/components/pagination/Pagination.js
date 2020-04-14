@@ -3,7 +3,7 @@
  *
  */
 
-import React, { PureComponent } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import PaginationContext from './PaginationContext'
@@ -123,7 +123,7 @@ const defaultProps = {
   ...renderProps
 }
 
-export default class Pagination extends PureComponent {
+export default class Pagination extends React.PureComponent {
   static tagName = 'dnb-pagination'
   static propTypes = propTypes
   static defaultProps = defaultProps
@@ -142,7 +142,7 @@ export default class Pagination extends PureComponent {
   }
 }
 
-class PaginationInstance extends PureComponent {
+class PaginationInstance extends React.PureComponent {
   static propTypes = propTypes
   static defaultProps = defaultProps
   static contextType = PaginationContext
@@ -233,7 +233,7 @@ class PaginationInstance extends PureComponent {
   }
 }
 
-export class InfinityMarker extends PureComponent {
+export class InfinityMarker extends React.PureComponent {
   static tagName = 'dnb-infinity-marker'
   static propTypes = propTypes
   static defaultProps = defaultProps

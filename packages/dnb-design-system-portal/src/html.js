@@ -3,7 +3,7 @@
  *
  */
 
-import React, { PureComponent } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { withPrefix } from 'gatsby'
 
@@ -13,7 +13,7 @@ import fontMedium from 'dnb-ui-lib/assets/fonts/DNB-Medium.woff2'
 import fontBold from 'dnb-ui-lib/assets/fonts/DNB-Bold.woff2'
 import fontMonoRegular from 'dnb-ui-lib/assets/fonts/DNBMono-Regular.woff2'
 
-export default class HTML extends PureComponent {
+export default class HTML extends React.PureComponent {
   render() {
     const {
       htmlAttributes,

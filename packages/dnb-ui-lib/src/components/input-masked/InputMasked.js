@@ -3,7 +3,7 @@
  *
  */
 
-import React, { PureComponent } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import Input from '../input/Input'
 import {
@@ -62,7 +62,7 @@ const defaultProps = {
   ...renderProps
 }
 
-export default class InputMasked extends PureComponent {
+export default class InputMasked extends React.PureComponent {
   static tagName = 'dnb-input-masked'
   static propTypes = propTypes
   static defaultProps = defaultProps

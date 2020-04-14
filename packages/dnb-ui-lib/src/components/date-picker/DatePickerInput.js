@@ -3,7 +3,7 @@
  *
  */
 
-import React, { PureComponent, Fragment } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 
 // date-fns
@@ -78,7 +78,7 @@ const defaultProps = {
   onFocus: null
 }
 
-export default class DatePickerInput extends PureComponent {
+export default class DatePickerInput extends React.PureComponent {
   static propTypes = propTypes
   static defaultProps = defaultProps
   static contextType = Context
@@ -491,7 +491,7 @@ export default class DatePickerInput extends PureComponent {
             this.refList.push(this[`_${mode}DayRef`])
 
             return (
-              <Fragment key={'dd' + i}>
+              <React.Fragment key={'dd' + i}>
                 <Input
                   {...params}
                   id={`${this.props.id}-${mode}-day`}
@@ -515,13 +515,13 @@ export default class DatePickerInput extends PureComponent {
                 >
                   {rangeLabe + day}
                 </label>
-              </Fragment>
+              </React.Fragment>
             )
           case 'm':
             this.refList.push(this[`_${mode}MonthRef`])
 
             return (
-              <Fragment key={'mm' + i}>
+              <React.Fragment key={'mm' + i}>
                 <Input
                   {...params}
                   id={`${this.props.id}-${mode}-month`}
@@ -545,13 +545,13 @@ export default class DatePickerInput extends PureComponent {
                 >
                   {rangeLabe + month}
                 </label>
-              </Fragment>
+              </React.Fragment>
             )
           case 'y':
             this.refList.push(this[`_${mode}YearRef`])
 
             return (
-              <Fragment key={'yy' + i}>
+              <React.Fragment key={'yy' + i}>
                 <Input
                   {...params}
                   id={`${this.props.id}-${mode}-year`}
@@ -575,7 +575,7 @@ export default class DatePickerInput extends PureComponent {
                 >
                   {rangeLabe + year}
                 </label>
-              </Fragment>
+              </React.Fragment>
             )
         }
       }

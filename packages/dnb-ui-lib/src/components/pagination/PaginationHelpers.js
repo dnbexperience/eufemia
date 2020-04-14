@@ -3,13 +3,13 @@
  *
  */
 
-import React, { PureComponent } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import Context from '../../shared/Context'
 import ProgressIndicator from '../progress-indicator/ProgressIndicator'
 
-export class PaginationIndicator extends PureComponent {
+export class PaginationIndicator extends React.PureComponent {
   static contextType = Context
   static propTypes = {
     indicator_element: PropTypes.oneOfType([

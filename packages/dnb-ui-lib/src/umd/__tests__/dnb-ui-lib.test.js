@@ -4,7 +4,7 @@
  */
 
 import '../../core/jest/jestSetup'
-import dnbLib from '../dnb-ui-lib'
+import * as dnbLib from '../dnb-ui-lib'
 import { registeredElements } from '../../shared/custom-element'
 
 describe('UMD main package', () => {
@@ -14,7 +14,10 @@ describe('UMD main package', () => {
   it('has to have a Button Component', () => {
     expect(dnbLib.Button).toBeType('function')
   })
-  it('have no Web Components enabled in registeredElements', () => {
+  it('has to have a Anchor Component', () => {
+    expect(dnbLib.Anchor).toBeType('object')
+  })
+  it('has no Web Components enabled in registeredElements', () => {
     expect(registeredElements).not.toContain('dnb-button')
   })
 })

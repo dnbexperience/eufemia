@@ -3,7 +3,7 @@
  *
  */
 
-import React, { PureComponent } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import keycode from 'keycode'
 
@@ -75,7 +75,7 @@ const defaultProps = {
   onSelect: null // {startDate: Date, endDate: Date | null}
 }
 
-export default class DatePickerRange extends PureComponent {
+export default class DatePickerRange extends React.PureComponent {
   static propTypes = propTypes
   static defaultProps = defaultProps
 

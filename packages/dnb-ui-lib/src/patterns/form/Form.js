@@ -3,7 +3,7 @@
  *
  */
 
-import React, { PureComponent } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import {
@@ -37,7 +37,7 @@ const defaultProps = {
   ...renderProps
 }
 
-export default class Form extends PureComponent {
+export default class Form extends React.PureComponent {
   static tagName = 'dnb-form'
   static propTypes = propTypes
   static defaultProps = defaultProps

@@ -3,7 +3,7 @@
  *
  */
 
-import React, { PureComponent } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import isSameDay from 'date-fns/isSameDay'
 import { convertStringToDate } from './DatePickerCalc'
@@ -25,7 +25,7 @@ const defaultProps = {
   onChange: null
 }
 
-export default class DatePickerAddon extends PureComponent {
+export default class DatePickerAddon extends React.PureComponent {
   static propTypes = propTypes
   static defaultProps = defaultProps
 

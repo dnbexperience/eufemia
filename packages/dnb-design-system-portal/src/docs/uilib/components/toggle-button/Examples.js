@@ -3,13 +3,13 @@
  *
  */
 
-import React, { PureComponent, Fragment } from 'react'
+import React from 'react'
 import ComponentBox from 'Src/shared/tags/ComponentBox'
 
-class Example extends PureComponent {
+class Example extends React.PureComponent {
   render() {
     return (
-      <Fragment>
+      <React.Fragment>
         <ComponentBox
           title="Unchecked ToggleButton"
           data-dnb-test="toggle-button-default"
@@ -193,12 +193,12 @@ class Example extends PureComponent {
           `}
         </ComponentBox>
         <StateDemo />
-      </Fragment>
+      </React.Fragment>
     )
   }
 }
 
-// class UseOnTests extends PureComponent {
+// class UseOnTests extends React.PureComponent {
 //   render() {
 //     return typeof window !== 'undefined' && window.IS_TEST ? (
 //       <>
@@ -210,7 +210,7 @@ class Example extends PureComponent {
 //   }
 // }
 
-class StateDemo extends PureComponent {
+class StateDemo extends React.PureComponent {
   render() {
     return typeof window !== 'undefined' && window.IS_TEST ? (
       <></>

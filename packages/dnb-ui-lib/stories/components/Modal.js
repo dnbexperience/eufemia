@@ -3,7 +3,7 @@
  *
  */
 
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { Wrapper, Box } from '../helpers'
 // import styled from '@emotion/styled'
 
@@ -323,10 +323,10 @@ let dropdownData = [
 ]
 
 const ModalCloseExample = () => {
-  const [open_state, setOpenState] = useState(null)
-  const [count, setCount] = useState(0)
+  const [open_state, setOpenState] = React.useState(null)
+  const [count, setCount] = React.useState(0)
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (open_state === 'opened') {
       // setTimeout(() => {
       setTimeout(() => {
@@ -384,7 +384,7 @@ const ModalCloseExample = () => {
 }
 
 const ModalTriggerExample = () => {
-  const [count, setCount] = useState(0)
+  const [count, setCount] = React.useState(0)
 
   return (
     <FormSet>

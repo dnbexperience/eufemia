@@ -3,10 +3,10 @@
  *
  */
 
-import React, { PureComponent, Fragment } from 'react'
+import React from 'react'
 import ComponentBox from 'Src/shared/tags/ComponentBox'
 
-class Example extends PureComponent {
+class Example extends React.PureComponent {
   onChangeHandler = (state) => {
     console.log('onChangeHandler', state)
   }
@@ -14,7 +14,7 @@ class Example extends PureComponent {
   render() {
     const { onChangeHandler: onChange } = this
     return (
-      <Fragment>
+      <React.Fragment>
         <ComponentBox
           title="Unchecked Checkbox (default state)"
           data-dnb-test="checkbox-default"
@@ -64,12 +64,12 @@ class Example extends PureComponent {
           `}
         </ComponentBox>
         <StateDemo />
-      </Fragment>
+      </React.Fragment>
     )
   }
 }
 
-class StateDemo extends PureComponent {
+class StateDemo extends React.PureComponent {
   render() {
     return typeof window !== 'undefined' && window.IS_TEST ? (
       <ComponentBox data-dnb-test="checkbox-disabled">

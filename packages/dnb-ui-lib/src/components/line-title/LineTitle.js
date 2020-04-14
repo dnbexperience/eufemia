@@ -3,7 +3,7 @@
  *
  */
 
-import React, { PureComponent } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import {
@@ -45,7 +45,7 @@ const defaultProps = {
   ...renderProps
 }
 
-export default class LineTitle extends PureComponent {
+export default class LineTitle extends React.PureComponent {
   static tagName = 'dnb-line-title'
   static propTypes = propTypes
   static defaultProps = defaultProps

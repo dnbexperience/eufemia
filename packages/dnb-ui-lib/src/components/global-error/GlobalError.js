@@ -3,7 +3,7 @@
  *
  */
 
-import React, { PureComponent, Fragment } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import Context from '../../shared/Context'
@@ -65,7 +65,7 @@ const defaultProps = {
   ...renderProps
 }
 
-export default class GlobalError extends PureComponent {
+export default class GlobalError extends React.PureComponent {
   static tagName = 'dnb-global-error'
   static propTypes = propTypes
   static defaultProps = defaultProps
@@ -154,7 +154,7 @@ export default class GlobalError extends PureComponent {
 
             useText = parts
               .filter((v) => v && !/\/back/.test(v))
-              .map((c, i) => <Fragment key={i}>{c}</Fragment>)
+              .map((c, i) => <React.Fragment key={i}>{c}</React.Fragment>)
           }
         }
       } catch (e) {

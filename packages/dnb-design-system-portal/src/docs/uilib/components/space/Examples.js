@@ -3,7 +3,7 @@
  *
  */
 
-import React, { PureComponent } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 // import { Space } from 'dnb-ui-lib/src/components'
@@ -22,7 +22,7 @@ const TestStyles = styled.div`
   }
 `
 
-class Example extends PureComponent {
+class Example extends React.PureComponent {
   render() {
     const IS_TEST = typeof window !== 'undefined' && window.IS_TEST
     return (

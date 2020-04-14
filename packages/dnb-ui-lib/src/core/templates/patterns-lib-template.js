@@ -20,6 +20,7 @@ export const enableWebComponents = () => {
   if (webComponentsAreEnabled) return false
   webComponentsAreEnabled = true
   const components = getPatterns()
+
   // register this component to work with custom element
   for (const c in components) {
     if (components[c] && components[c].tagName) {
@@ -30,8 +31,4 @@ export const enableWebComponents = () => {
       )
     }
   }
-}
-
-export default {
-  enableWebComponents
 }

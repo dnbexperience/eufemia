@@ -3,7 +3,7 @@
  *
  */
 
-import React, { PureComponent } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import Context from '../../shared/Context'
 import {
@@ -50,7 +50,7 @@ const defaultProps = {
   children: null
 }
 
-export default class PaginationProvider extends PureComponent {
+export default class PaginationProvider extends React.PureComponent {
   static propTypes = propTypes
   static defaultProps = defaultProps
   static contextType = Context

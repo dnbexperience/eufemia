@@ -3,13 +3,13 @@
  *
  */
 
-import React, { PureComponent, Fragment } from 'react'
+import React from 'react'
 import Notification from './Notification'
 
-class Example extends PureComponent {
+class Example extends React.PureComponent {
   render() {
     return (
-      <Fragment>
+      <React.Fragment>
         <div className="example-box">
           <Notification
             notification_amount={0}
@@ -23,7 +23,7 @@ class Example extends PureComponent {
             Left: No notifications. Right 2 notifications
           </p>
         </div>
-      </Fragment>
+      </React.Fragment>
     )
   }
 }

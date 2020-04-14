@@ -3,17 +3,17 @@
  *
  */
 
-import React, { PureComponent, Fragment } from 'react'
+import React from 'react'
 import ComponentBox from 'Src/shared/tags/ComponentBox'
 import { bell_medium as Bell, question } from 'dnb-ui-lib/src/icons'
 
-class Example extends PureComponent {
+class Example extends React.PureComponent {
   clickHandler = () => {
     alert('You clicked a button with a click function attached to it')
   }
   render() {
     return (
-      <Fragment>
+      <React.Fragment>
         <ComponentBox>
           {/* @jsx */ `
 <Button
@@ -171,7 +171,7 @@ class Example extends PureComponent {
 />
           `}
         </ComponentBox>
-      </Fragment>
+      </React.Fragment>
     )
   }
 }

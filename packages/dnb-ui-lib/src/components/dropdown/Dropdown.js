@@ -3,7 +3,7 @@
  *
  */
 
-import React, { PureComponent } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import keycode from 'keycode'
@@ -188,7 +188,7 @@ const defaultProps = {
   ...renderProps
 }
 
-export default class Dropdown extends PureComponent {
+export default class Dropdown extends React.PureComponent {
   static tagName = 'dnb-dropdown'
   static propTypes = propTypes
   static defaultProps = defaultProps
@@ -213,7 +213,7 @@ export default class Dropdown extends PureComponent {
   }
 }
 
-class DropdownInstance extends PureComponent {
+class DropdownInstance extends React.PureComponent {
   static propTypes = propTypes
   static defaultProps = defaultProps
   static contextType = DrawerListContext

@@ -2,7 +2,7 @@
  * List all the Icons available
  */
 
-import React, { PureComponent } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import Icon from 'dnb-ui-lib/src/components/icon/Icon'
 import * as PrimaryIcons from 'dnb-ui-lib/src/icons/primary_icons'
@@ -11,7 +11,7 @@ import * as PrimaryIconsMedium from 'dnb-ui-lib/src/icons/primary_icons_medium'
 import * as SecondaryIconsMedium from 'dnb-ui-lib/src/icons/secondary_icons_medium'
 import styled from '@emotion/styled'
 
-export default class Icons extends PureComponent {
+export default class Icons extends React.PureComponent {
   state = { iconsToRender: [] }
   static propTypes = {
     type: PropTypes.string

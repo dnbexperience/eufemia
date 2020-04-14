@@ -4,7 +4,7 @@
  */
 
 import '../../core/jest/jestSetup'
-import dnbWebComponents from '../dnb-ui-web-components'
+import * as dnbWebComponents from '../dnb-ui-web-components'
 import { registeredElements } from '../../shared/custom-element'
 
 describe('UMD Web Components package', () => {

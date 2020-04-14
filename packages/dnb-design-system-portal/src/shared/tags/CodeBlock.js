@@ -3,7 +3,7 @@
  *
  */
 
-import React, { PureComponent } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import styled from '@emotion/styled'
@@ -82,7 +82,7 @@ const CodeBlock = ({
 
 export default CodeBlock
 
-class LiveCode extends PureComponent {
+class LiveCode extends React.PureComponent {
   static propTypes = {
     code: PropTypes.string.isRequired,
     scope: PropTypes.object,

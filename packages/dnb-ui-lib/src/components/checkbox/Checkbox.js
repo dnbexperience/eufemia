@@ -3,7 +3,7 @@
  *
  */
 
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import keycode from 'keycode'
@@ -100,7 +100,7 @@ const defaultProps = {
 /**
  * The checkbox component is our enhancement of the classic checkbox button. It acts like a checkbox. Example: On/off, yes/no.
  */
-export default class Checkbox extends Component {
+export default class Checkbox extends React.Component {
   static tagName = 'dnb-checkbox'
   static propTypes = propTypes
   static defaultProps = defaultProps

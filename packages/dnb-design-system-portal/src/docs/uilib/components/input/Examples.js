@@ -3,14 +3,14 @@
  *
  */
 
-import React, { PureComponent, Fragment } from 'react'
+import React from 'react'
 import ComponentBox from 'Src/shared/tags/ComponentBox'
 import styled from '@emotion/styled'
 
-class Example extends PureComponent {
+class Example extends React.PureComponent {
   render() {
     return (
-      <Fragment>
+      <React.Fragment>
         <ScreenshotTests />
         <ComponentBox
           title="Placeholder text"
@@ -183,7 +183,7 @@ class Example extends PureComponent {
 </FormSet>
           `}
         </ComponentBox>
-      </Fragment>
+      </React.Fragment>
     )
   }
 }

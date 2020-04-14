@@ -3,7 +3,7 @@
  *
  */
 
-import * as components from '../components/web-components'
+export * from '../components/lib'
 
-// we have to export
-export default components
+import { enableWebComponents } from '../components/lib'
+enableWebComponents()

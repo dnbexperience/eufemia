@@ -7,7 +7,7 @@
  *
  */
 
-import React, { PureComponent } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import ItemWrapper from '../../../shared/parts/uilib/ItemWrapper'
 import DemoComponent, {
@@ -17,7 +17,7 @@ import Description from 'dnb-ui-lib/src/components/template/description.md'
 import Details from 'dnb-ui-lib/src/components/template/details.md'
 import ExampleCode from 'raw-loader!../examples/Template.txt'
 
-export default class TemplateDemo extends PureComponent {
+export default class TemplateDemo extends React.PureComponent {
   static propTypes = {
     title: PropTypes.string,
     id: PropTypes.string,

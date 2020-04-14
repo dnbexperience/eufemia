@@ -3,21 +3,21 @@
  *
  */
 
-import React, { PureComponent, Fragment } from 'react'
+import React from 'react'
 import ComponentBox from 'Src/shared/tags/ComponentBox'
 // import styled from '@emotion/styled'
 
 // import the native range slider as well
 import 'dnb-ui-lib/src/components/slider/style/dnb-range.scss'
 
-class Example extends PureComponent {
+class Example extends React.PureComponent {
   onChangeHandler = ({ value }) => {
     console.log('on_change', value)
   }
 
   render() {
     return (
-      <Fragment>
+      <React.Fragment>
         <ComponentBox
           title="Default Slider"
           data-dnb-test="slider-default"
@@ -137,7 +137,7 @@ render(<Component />)
 </FormRow>
           `}
         </ComponentBox>
-      </Fragment>
+      </React.Fragment>
     )
   }
 }
