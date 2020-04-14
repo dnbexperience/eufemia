@@ -27,6 +27,7 @@ const renderProps = {
   on_resize: null,
   on_select: null,
   on_state_update: null,
+  options_render: null,
   wrapper_element: null
 }
 
@@ -49,6 +50,11 @@ export const propTypes = {
     PropTypes.bool
   ]),
   align_drawer: PropTypes.oneOf(['left', 'right']),
+  options_render: PropTypes.oneOfType([
+    PropTypes.object,
+    PropTypes.func,
+    PropTypes.node
+  ]),
   wrapper_element: PropTypes.oneOfType([
     PropTypes.object,
     PropTypes.func,
@@ -251,6 +257,7 @@ class DrawerListInstance extends React.PureComponent {
       prevent_selection,
       inner_class,
       ignore_events,
+      options_render,
       className,
       class: _className,
       cache_hash: _cache_hash, // eslint-disable-line
@@ -349,11 +356,50 @@ class DrawerListInstance extends React.PureComponent {
 
     const ignoreEvents = isTrue(ignore_events)
 
+    const Items = () =>
+      data.map((dataItem) => {
+        const _id = dataItem.__id
+        const liParams = {
+          id: `option-${id}-${_id}`, // we could use _id here
+          className: classnames(
+            // helper classes
+            _id == closestToTop && 'closest-to-top',
+            _id == closestToBottom && 'closest-to-bottom',
+            _id == data.length - 1 && 'last-of-type' // because of the triangle element
+          ),
+          onClick: this.selectItemHandler,
+          onKeyDown: this.preventTab,
+          'data-item': _id
+        }
+
+        if (ignoreEvents) {
+          liParams.selected = null
+          liParams.onClick = null
+          liParams.onClick = null
+          liParams.className = classnames(
+            liParams.className,
+            'dnb-drawer-list__option--ignore'
+          )
+        }
+
+        return (
+          <DrawerList.Item
+            key={_id}
+            cache_hash={cache_hash}
+            selected={_id == selected_item}
+            active={!ignoreEvents && _id == active_item}
+            {...liParams}
+          >
+            {dataItem}
+          </DrawerList.Item>
+        )
+      })
+
     return (
       <span {...mainParams} ref={this.context.drawerList._refShell}>
         <span {...listParams}>
           {hidden === false && data && data.length > 0 ? (
-            <DrawerList.List
+            <DrawerList.Options
               {...ulParams}
               ref={this.context.drawerList._refUl}
               cache_hash={
@@ -367,48 +413,12 @@ class DrawerListInstance extends React.PureComponent {
               }
               triangleRef={this.context.drawerList._refTriangle}
             >
-              {data.map((dataItem) => {
-                const _id = dataItem.__id
-                const liParams = {
-                  id: `option-${id}-${_id}`, // we could use _id here
-                  className:
-                    // ignoreEvents
-                    //   ? null
-                    //   :
-                    classnames(
-                      // helper classes
-                      _id == closestToTop && 'closest-to-top',
-                      _id == closestToBottom && 'closest-to-bottom',
-                      _id == data.length - 1 && 'last-of-type' // because of the triangle element
-                    ),
-                  onClick: this.selectItemHandler,
-                  onKeyDown: this.preventTab,
-                  'data-item': _id
-                }
-
-                if (ignoreEvents) {
-                  liParams.selected = null
-                  liParams.onClick = null
-                  liParams.onClick = null
-                  liParams.className = classnames(
-                    liParams.className,
-                    'dnb-drawer-list__option--ignore'
-                  )
-                }
-
-                return (
-                  <DrawerList.Item
-                    key={_id}
-                    cache_hash={cache_hash}
-                    selected={_id == selected_item}
-                    active={!ignoreEvents && _id == active_item}
-                    {...liParams}
-                  >
-                    {dataItem}
-                  </DrawerList.Item>
-                )
-              })}
-            </DrawerList.List>
+              {typeof options_render === 'function' ? (
+                options_render({ data, Items, Item: DrawerList.Item })
+              ) : (
+                <Items />
+              )}
+            </DrawerList.Options>
           ) : (
             (children && (
               <span className="dnb-drawer-list__content">
@@ -432,7 +442,7 @@ class DrawerListInstance extends React.PureComponent {
 }
 
 // DrawerList List
-DrawerList.List = React.memo(
+DrawerList.Options = React.memo(
   React.forwardRef((props, ref) => {
     const {
       children,
@@ -463,13 +473,13 @@ DrawerList.List = React.memo(
     return prevProps.cache_hash === nextProps.cache_hash
   }
 )
-DrawerList.List.displayName = 'DrawerList.List'
-DrawerList.List.propTypes = {
+DrawerList.Options.displayName = 'DrawerList.Options'
+DrawerList.Options.propTypes = {
   children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
   className: PropTypes.string,
   triangleRef: PropTypes.object
 }
-DrawerList.List.defaultProps = {
+DrawerList.Options.defaultProps = {
   children: null,
   className: null,
   triangleRef: null

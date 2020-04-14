@@ -79,9 +79,9 @@ const AutocompleteStory = () => {
       </Box>
       <Box>
         <Autocomplete
-          opened
-          prevent_close
-          no_animation
+          // opened
+          // prevent_close
+          // no_animation
           // input_value="foo bar th"
           // input_value="bb th x"
           input_value="co pr ti"
@@ -121,6 +121,16 @@ const AutocompleteStory = () => {
           on_change={(e) => {
             console.log('on_change', e)
           }}
+          options_render={({
+            Items
+            // , Item
+          }) => (
+            <>
+              <Items />
+              {/* <Item selected>123</Item> */}
+              <div>Additional</div>
+            </>
+          )}
         ></Autocomplete>
         <Autocomplete
           // opened
