@@ -1,13 +1,16 @@
 ---
 title: 'Web Components'
-order: 8
+description: 'Web Components are'
+order: 9
 ---
 
 import ComponentBox from 'Tags/ComponentBox'
 
 # Web Components
 
-So called [Custom Elements](https://www.w3.org/TR/custom-elements/), running as a [Web Component](https://github.com/w3c/webcomponents/) can be used to run the `dnb-ui-lib` components in all other frameworks like Dojo.
+So called [Custom Elements](https://www.w3.org/TR/custom-elements/) running as a [Web Component](https://github.com/w3c/webcomponents/) can be used to run the `dnb-ui-lib` components in all other frameworks like Dojo.
+
+**Limitations:** Both nested Web Components and the usage of React Context is not supported. But can be implemented if needed.
 
 ## Example usage
 
@@ -15,9 +18,11 @@ Once the method `enableWebComponents` is executed, we can use our web components
 You can use Web Components in various situations. But one of the main situations will be:
 
 - Build step
-- UMD / ESM (mjs) browser based composition
+- Browser based composition, using UMD or ESM (mjs) bundles
 
 ### Web Components with build step
+
+There are several different ways to enable Web Components:
 
 ```jsx
 // Method #1 (will import all components)
@@ -65,20 +70,19 @@ Browser based composition.
   <script src="https://unpkg.com/dnb-ui-lib/umd/dnb-ui-lib.min.js"></script>
   <script type="application/javascript">
     window.dnbLib.enableWebComponents()
-    console.log(window.dnbLib)
   </script>
 </body>
 ```
 
 ### Web Components with ESM (mjs)
 
-Browser based composition by using ESM bundles with the `mjs` file extension.
+Browser based composition by [using ESM bundles](/uilib/usage/first-steps/bundles) with the `mjs` file extension.
+To support [importmap](https://github.com/WICG/import-maps), we can load a polyfill like [es-module-shims](https://github.com/guybedford/es-module-shims) and adding a suffix: `-shim`. **NB:** Right now the ESM bundles are delivered with ES5 code, but in future, this will change to be ES6. That means it's not future IE11 proof out of the box.
 
 ```html
 <body>
   <dnb-button icon="chevron_right">My Button</dnb-button>
 
-  <!-- With IE11 support by using a Polyfill: "-shim" -->
   <script
     crossorigin
     defer
@@ -100,36 +104,44 @@ Browser based composition by using ESM bundles with the `mjs` file extension.
     type="module-shim"
     src="https://unpkg.com/dnb-ui-lib/esm/dnb-ui-lib.min.mjs"
   >
-    import 'dnb-ui-lib/web-components'
+    // Enable every custom element by default
+    import 'https://unpkg.com/dnb-ui-lib/esm/dnb-ui-web-components.min.mjs'
+
+    // or enable them this way
+    import { Button, enableWebComponents } 'https://unpkg.com/dnb-ui-lib/esm/dnb-ui-lib.min.mjs'
+
+    // then, either all
+    enableWebComponents()
+
+    // or only buttons
+    Button.enableWebComponent()
   </script>
 </body>
 ```
 
-### Button
+### Web Component example: Button
 
 <ComponentBox noFragments={false}>
 {`
 () => {
-  React.useEffect(() => {
-    Button.enableWebComponent()
-  })
+  Button.enableWebComponent()
+  
   return (<dnb-button icon="chevron_right" text="Custom Element" />)
 }
 `}
 </ComponentBox>
 
-### Input
+### Web Component example: Input
 
 <ComponentBox noFragments={false}>
 {`
 () => {
-  React.useEffect(() => {
-    Button.enableWebComponent()
-    Input.enableWebComponent()
-  })
+  Button.enableWebComponent()
+  Input.enableWebComponent()
+  
   return (
     <form>
-      <dnb-input label="Label for this Input" placeholder="My Placeholder" right="small">My Value</dnb-input>
+      <dnb-input label="Label" placeholder="My Placeholder" right="small">My Value</dnb-input>
       <dnb-button type="submit" text="Submit" />
     </form>
   )
@@ -141,6 +153,6 @@ Browser based composition by using ESM bundles with the `mjs` file extension.
 
 You may have a look at [HTML & ES5 event handling](/uilib/usage/customisation/event-handling#html--es5) for both **Declarative** and **Imperative** usage and examples.
 
-## Example
+## More Web Component examples
 
 Have a look at [this UDM example app](https://github.com/dnbexperience/eufemia-examples/tree/master/packages/example-html) as well as the [Web Component example](https://github.com/dnbexperience/eufemia-examples/tree/master/packages/example-web-components).

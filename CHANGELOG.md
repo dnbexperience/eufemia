@@ -5,6 +5,7 @@
 - New component [Autocomplete](/uilib/components/autocomplete)
 - New component [Pagination](/uilib/components/pagination) including infinity scroller
 - New [secondary icons](/icons/secondary): `pay_from`, `transfer_to`
+- Changes to the UMD [bundles](/uilib/usage/first-steps/bundles) structure, including ESM (mjs)
 
 ## January, 30. 2020
 

@@ -1,7 +1,7 @@
 ---
 title: 'ES6 and SSR'
 description: 'Eufemia uses ESM as their default module format. More info on this topic below.'
-order: 9
+order: 8
 ---
 
 # ES6 and SSR
