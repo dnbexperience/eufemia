@@ -5,6 +5,10 @@
 
 import React from 'react'
 import ComponentBox from 'Src/shared/tags/ComponentBox'
+import {
+  InfoIcon,
+  ErrorIcon
+} from 'dnb-ui-lib/src/components/form-status/FormStatus'
 
 export default function () {
   return (
@@ -73,6 +77,26 @@ render(
 </FormStatus>
 )
         `}
+      </ComponentBox>
+      <ComponentBox
+        scope={{ InfoIcon, ErrorIcon }}
+        data-dnb-test="form-status-icons"
+        title="In combination with the Icon component"
+      >
+        {`
+<Icon
+	icon={InfoIcon}
+	size="medium"
+	title="Some title"
+	right
+/>
+<Icon
+	icon={ErrorIcon}
+	size="medium"
+	title="Some title"
+	color="var(--color-fire-red)"
+/>
+`}
       </ComponentBox>
     </>
   )
