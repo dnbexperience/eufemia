@@ -169,6 +169,7 @@ exports[`DrawerList markup have to match snapshot 1`] = `
     on_state_update={[Function]}
     opened={true}
     options_render={Object {}}
+    page_offset={null}
     prepared_data={Array []}
     prevent_close="prevent_close"
     prevent_focus="prevent_focus"
