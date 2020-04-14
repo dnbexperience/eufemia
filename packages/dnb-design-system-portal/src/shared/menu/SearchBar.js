@@ -82,6 +82,7 @@ export const SearchBarInput = () => {
       on_change={onChangeHandler}
       on_focus={onFocusHandler}
       className="portal-search"
+      page_offset={0}
       options_render={({ Items, data }) => (
         <>
           <Items />
@@ -123,27 +124,35 @@ const StyledAutocomplete = styled(Autocomplete)`
   .dnb-autocomplete__shell {
     &,
     input {
-      width: 30vw;
+      width: 40vw;
+      @media (max-width: 40em) {
+        width: 60vw;
+      }
     }
   }
 
   .dnb-autocomplete__list {
-    width: 40vw;
+    width: 50vw;
     @media (max-width: 60em) {
-      width: 60vw;
+      width: 70vw;
     }
     @media (max-width: 40em) {
-      width: 80vw;
+      width: 90vw;
+      right: -10vw;
+    }
+    @media (max-width: 30em) {
+      right: -15vw;
     }
   }
 
   .dnb-drawer-list__triangle {
     left: 10vw;
+    transform: translateX(0.25rem);
     @media (max-width: 60em) {
       left: 30vw;
     }
     @media (max-width: 40em) {
-      left: 50vw;
+      display: none;
     }
   }
 
