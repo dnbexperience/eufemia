@@ -37,7 +37,7 @@ class Layout extends PureComponent {
     setPageFocusElement('.dnb-app-content h1:nth-of-type(1)', 'content')
 
     // if url hash is defined, scroll to the id
-    scrollToLocationHashId({ offset: 100 })
+    scrollToLocationHashId({ offset: 100, delay: 100 })
   }
   render() {
     const { children, location, fullscreen } = this.props
