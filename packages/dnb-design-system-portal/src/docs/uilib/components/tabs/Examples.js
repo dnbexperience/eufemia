@@ -3,7 +3,7 @@
  *
  */
 
-import React, { PureComponent, Fragment } from 'react'
+import React from 'react'
 import ComponentBox from 'Src/shared/tags/ComponentBox'
 
 import Input from 'dnb-ui-lib/src/components/input/Input'
@@ -11,13 +11,13 @@ import styled from '@emotion/styled'
 import { Location, Router, navigate } from '@reach/router'
 import { BrowserRouter, Route, withRouter } from 'react-router-dom'
 
-class Example extends PureComponent {
+class Example extends React.PureComponent {
   static AdditionalCallback = {
     info: ({ CodeRenderer }) => (
-      <Fragment>
+      <React.Fragment>
         <h3>Data Structure</h3>
         <CodeRenderer language="json">{dataBlob}</CodeRenderer>
-      </Fragment>
+      </React.Fragment>
     )
   }
   state = { activeTabKey: 'second' }
@@ -34,7 +34,7 @@ class Example extends PureComponent {
     const { activeTabKey } = this.state
     const openTab = this.openTab
     return (
-      <Fragment>
+      <React.Fragment>
         <ComponentBox
           title="Left aligned tabs, using both 'data' property and content object"
           scope={{ exampleContent }}
@@ -197,7 +197,7 @@ render(
             </ComponentBox>
           </>
         )}
-      </Fragment>
+      </React.Fragment>
     )
   }
 }

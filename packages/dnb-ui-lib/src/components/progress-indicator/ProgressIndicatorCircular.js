@@ -3,7 +3,7 @@
  *
  */
 
-import React, { PureComponent } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import { validateDOMAttributes } from '../../shared/component-helper'
@@ -28,7 +28,7 @@ const defaultProps = {
   callOnCompleteHandler: null
 }
 
-export default class ProgressIndicatorCircular extends PureComponent {
+export default class ProgressIndicatorCircular extends React.PureComponent {
   static propTypes = propTypes
   static defaultProps = defaultProps
   static getDerivedStateFromProps(props, state) {

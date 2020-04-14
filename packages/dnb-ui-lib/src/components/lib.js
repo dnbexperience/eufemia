@@ -134,7 +134,3 @@ export const enableWebComponents = () => {
     }
   }
 }
-
-export default {
-  enableWebComponents
-}

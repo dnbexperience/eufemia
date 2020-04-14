@@ -3,7 +3,7 @@
  *
  */
 
-import React, { Fragment, PureComponent } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import {
@@ -32,7 +32,7 @@ const defaultProps = {
   more_pages: null
 }
 
-export default class PaginationBar extends PureComponent {
+export default class PaginationBar extends React.PureComponent {
   static contextType = PaginationContext
   static propTypes = propTypes
   static defaultProps = defaultProps
@@ -199,7 +199,7 @@ export default class PaginationBar extends PureComponent {
           ))}
 
           {pages.slice(1).map((list, idx) => (
-            <Fragment key={idx}>
+            <React.Fragment key={idx}>
               <div
                 key={`dots-${idx}`}
                 className="dnb-pagination__dots"
@@ -229,7 +229,7 @@ export default class PaginationBar extends PureComponent {
                   }
                 />
               ))}
-            </Fragment>
+            </React.Fragment>
           ))}
         </div>
 

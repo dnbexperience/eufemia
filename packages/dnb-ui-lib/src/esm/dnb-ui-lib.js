@@ -3,5 +3,5 @@
  *
  */
 
-export * from '../components'
-export * from '../elements'
+export * from '../components/lib'
+export * from '../elements/lib'

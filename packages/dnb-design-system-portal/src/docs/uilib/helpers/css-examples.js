@@ -3,14 +3,14 @@
  *
  */
 
-import React, { PureComponent, Fragment } from 'react'
+import React from 'react'
 import styled from '@emotion/styled'
 import CodeBlock from 'Src/shared/tags/CodeBlock'
 
-class Example extends PureComponent {
+class Example extends React.PureComponent {
   render() {
     return (
-      <Fragment>
+      <React.Fragment>
         <CodeBlock
           reactLive
           hideCode
@@ -148,7 +148,7 @@ I'm a vertical nudge. I have four nudges, which means I am 4rem units tall.
 </p>
           `}
         </CodeBlock>
-      </Fragment>
+      </React.Fragment>
     )
   }
 }

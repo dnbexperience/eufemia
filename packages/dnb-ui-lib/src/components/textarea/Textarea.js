@@ -3,7 +3,7 @@
  *
  */
 
-import React, { PureComponent } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import FormLabel from '../form-label/FormLabel'
@@ -124,7 +124,7 @@ const defaultProps = {
 /**
  * The textarea component is an umbrella component for all textareas which share the same style as the classic `text` textarea field. Radio buttons and other form elements are not included here.
  */
-export default class Textarea extends PureComponent {
+export default class Textarea extends React.PureComponent {
   static tagName = 'dnb-textarea'
   static propTypes = propTypes
   static defaultProps = defaultProps

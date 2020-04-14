@@ -3,7 +3,7 @@
  *
  */
 
-import React, { PureComponent } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import { StaticQuery, graphql } from 'gatsby'
@@ -109,7 +109,7 @@ const hideSiebarToggleButtonStyle = css`
   }
 `
 
-export default class StickyMenuBar extends PureComponent {
+export default class StickyMenuBar extends React.PureComponent {
   state = {
     mobileMenuVisible: false
   }

@@ -3,7 +3,7 @@
  *
  */
 
-import React, { useState } from 'react'
+import React from 'react'
 import { Wrapper, Box } from '../helpers'
 import styled from '@emotion/styled'
 
@@ -29,7 +29,7 @@ const VerticalWrapper = styled.div`
 `
 
 const SliderStory = () => {
-  const [value, setValue] = useState(70)
+  const [value, setValue] = React.useState(70)
   return (
     <Wrapper>
       <Box>

@@ -3,7 +3,7 @@
  *
  */
 
-import React, { PureComponent } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import Link from 'gatsby-link'
 import { css } from '@emotion/core'
@@ -156,7 +156,7 @@ const BottomWrapper = styled.span`
   margin: 2rem 0;
 `
 
-export default class Card extends PureComponent {
+export default class Card extends React.PureComponent {
   static propTypes = {
     url: PropTypes.string.isRequired,
     customStyle: PropTypes.object,

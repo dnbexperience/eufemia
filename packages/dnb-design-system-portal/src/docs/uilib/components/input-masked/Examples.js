@@ -3,7 +3,7 @@
  *
  */
 
-import React, { PureComponent, Fragment } from 'react'
+import React from 'react'
 import ComponentBox from 'Src/shared/tags/ComponentBox'
 import styled from '@emotion/styled'
 
@@ -11,10 +11,10 @@ import styled from '@emotion/styled'
 // How to use masks: https://github.com/text-mask/text-mask/blob/master/componentDocumentation.md#readme
 // import createNumberMask from 'dnb-ui-lib/src/components/input-masked/addons/createNumberMask'
 
-class Example extends PureComponent {
+class Example extends React.PureComponent {
   render() {
     return (
-      <Fragment>
+      <React.Fragment>
         <ComponentBox
           title="Using the `currency_mask`"
           data-dnb-test="input-masked-currency_mask"
@@ -125,7 +125,7 @@ class Example extends PureComponent {
 />
           `}
         </ComponentBox>
-      </Fragment>
+      </React.Fragment>
     )
   }
 }

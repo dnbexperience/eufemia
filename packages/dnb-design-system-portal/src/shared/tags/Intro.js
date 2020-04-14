@@ -3,7 +3,7 @@
  *
  */
 
-import React, { useEffect } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { navigate } from 'gatsby'
 import styled from '@emotion/styled'
@@ -15,7 +15,7 @@ import { Button } from 'dnb-ui-lib/src/components'
 
 const ref = React.createRef()
 const Intro = ({ children }) => {
-  useEffect(() => {
+  React.useEffect(() => {
     const onKeyDownHandler = (e) => {
       if (/textarea|input/i.test(document.activeElement.tagName)) {
         return

@@ -3,14 +3,14 @@
  *
  */
 
-import React, { PureComponent } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import Context, { defaultContext } from './Context'
 
 // fill with data
 import { prepareFormRowContext } from '../components/form-row/FormRow'
 
-class Provider extends PureComponent {
+class Provider extends React.PureComponent {
   static contextType = Context
   static propTypes = {
     children: PropTypes.node.isRequired

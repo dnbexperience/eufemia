@@ -3,13 +3,13 @@
  *
  */
 
-import React, { PureComponent } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import GlobalStatusProvider from './GlobalStatusProvider'
 import { isTrue } from '../../shared/component-helper'
 
 // This is the Update controller
-class GlobalStatusController extends PureComponent {
+class GlobalStatusController extends React.PureComponent {
   static propTypes = {
     id: PropTypes.string, // Provider id
     status_id: PropTypes.string, // Status Item id
@@ -64,7 +64,7 @@ class GlobalStatusController extends PureComponent {
   }
 }
 
-class GlobalStatusRemove extends PureComponent {
+class GlobalStatusRemove extends React.PureComponent {
   static propTypes = {
     id: PropTypes.string, // Provider id
     status_id: PropTypes.string, // Status Item id

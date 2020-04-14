@@ -3,7 +3,7 @@
  *
  */
 
-import React, { PureComponent } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import { ErrorHandler } from '../../shared/error-helper'
@@ -86,7 +86,7 @@ const defaultProps = {
 /**
  * The icon component is a span wrapping an inline svg. When using this component in your preferred framework. To load an svg file dynamically, you may need a "svg-loader". Feel free to use whatever tool you want (regarding the setup/tooling), as long as the output is the same markup as shown below.
  */
-export default class Icon extends PureComponent {
+export default class Icon extends React.PureComponent {
   static tagName = 'dnb-icon'
   static propTypes = propTypes
   static defaultProps = defaultProps

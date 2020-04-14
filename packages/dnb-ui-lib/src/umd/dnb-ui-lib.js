@@ -3,8 +3,5 @@
  *
  */
 
-import * as components from '../components'
-import * as elements from '../elements'
-
-// we have to export
-export default { ...components, ...elements }
+export * from '../components/lib'
+export * from '../elements/lib'

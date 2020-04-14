@@ -3,7 +3,7 @@
  *
  */
 
-import React, { PureComponent } from 'react'
+import React from 'react'
 import ComponentBox from 'Src/shared/tags/ComponentBox'
 import { Global, css } from '@emotion/core'
 import styled from '@emotion/styled'
@@ -22,7 +22,7 @@ const WidthLimit = styled.div`
   width: 40rem;
 `
 
-class Example extends PureComponent {
+class Example extends React.PureComponent {
   render() {
     const IS_TEST = typeof window !== 'undefined' && window.IS_TEST
     return (

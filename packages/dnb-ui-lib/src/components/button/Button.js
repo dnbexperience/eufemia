@@ -3,7 +3,7 @@
  *
  */
 
-import React, { PureComponent } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import Context from '../../shared/Context'
@@ -107,7 +107,7 @@ const defaultProps = {
 /**
  * The button component should be used as the call-to-action in a form, or as a user interaction mechanism. Generally speaking, a button should not be used when a link would do the trick. Exceptions are made at times when it is used as a navigation element in the action-nav element.
  */
-export default class Button extends PureComponent {
+export default class Button extends React.PureComponent {
   static tagName = 'dnb-button'
   static propTypes = propTypes
   static defaultProps = defaultProps
@@ -326,7 +326,7 @@ export default class Button extends PureComponent {
   }
 }
 
-class Content extends PureComponent {
+class Content extends React.PureComponent {
   static propTypes = {
     title: PropTypes.string,
     text: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
