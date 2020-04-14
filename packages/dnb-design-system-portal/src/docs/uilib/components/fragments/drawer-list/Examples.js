@@ -163,7 +163,7 @@ const DrawerListWithState = props => {
       opened
       prevent_close
     >
-      <DrawerList.List>
+      <DrawerList.Options>
         {list.map(({ value, ...props }, i) => (
           <DrawerList.Item
             key={i}
@@ -176,7 +176,7 @@ const DrawerListWithState = props => {
             {value}
           </DrawerList.Item>
         ))}
-      </DrawerList.List>
+      </DrawerList.Options>
     </DrawerList>
   )
 }

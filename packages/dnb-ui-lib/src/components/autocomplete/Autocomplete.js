@@ -106,6 +106,11 @@ const propTypes = {
   ]),
   size: PropTypes.oneOf(['default', 'small', 'medium', 'large']),
   align_autocomplete: PropTypes.oneOf(['left', 'right']),
+  options_render: PropTypes.oneOfType([
+    PropTypes.object,
+    PropTypes.func,
+    PropTypes.node
+  ]),
   input_component: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
   data: PropTypes.oneOfType([
     PropTypes.oneOfType([
@@ -194,7 +199,6 @@ const defaultProps = {
   prevent_selection: false,
   size: 'default',
   align_autocomplete: null,
-  input_component: null,
   data: null,
   default_value: null,
   value: 'initval',
@@ -1078,6 +1082,7 @@ class AutocompleteInstance extends React.PureComponent {
       no_scroll_animation,
       show_drawer_button,
       input_component: CustomInput,
+      options_render,
       prevent_selection,
       max_height,
       default_value,
@@ -1289,6 +1294,7 @@ class AutocompleteInstance extends React.PureComponent {
                 max_height={max_height}
                 direction={direction}
                 size={size}
+                options_render={options_render}
                 on_change={this.onChangeHandler}
                 on_select={this.onSelectHandler}
               />

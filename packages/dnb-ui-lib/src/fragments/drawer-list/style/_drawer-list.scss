@@ -17,6 +17,7 @@
 @mixin openDrawerList($state: 'animation') {
   z-index: 100; // make sure we are over e.g. switch
   display: flex;
+  flex-direction: column;
 
   &:not(#{&}--no-animation) {
     animation: drawer-list-slide-down 200ms ease-out 1 forwards;
