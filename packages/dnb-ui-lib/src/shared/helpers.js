@@ -67,26 +67,55 @@ export function getOffsetTop(elem) {
   return offsetTop
 }
 
-export function scrollToLocationHashId({ offset = 0 } = {}) {
-  if (typeof window !== 'undefined' && window.location) {
-    const id = String(window.location.hash).replace('#', '')
-    if (typeof document !== 'undefined' && id.length > 0) {
-      const elem = document.getElementById(id)
-      if (elem instanceof HTMLElement) {
-        const top = getOffsetTop(elem) - offset
-        try {
-          if (window.scrollTo) {
-            window.scrollTo({
-              top,
-              behavior: 'smooth'
-            })
-          } else {
-            window.scrollTop = top
+export function scrollToLocationHashId({ offset = 0, delay = null } = {}) {
+  if (
+    typeof document !== 'undefined' &&
+    typeof window !== 'undefined' &&
+    window.location
+  ) {
+    try {
+      let _timeout
+      const id = String(window.location.hash).replace('#', '')
+      if (id.length > 0) {
+        const handleScroll = () => {
+          const runScroll = () => {
+            const top = getOffsetTop(elem) - offset
+            try {
+              if (window.scrollTo) {
+                window.scrollTo({
+                  top,
+                  behavior: 'smooth'
+                })
+              } else {
+                window.scrollTop = top
+              }
+            } catch (e) {
+              console.warn('Error on scrollToLocationHashId:', e)
+            }
           }
-        } catch (e) {
-          console.warn('Error on scrollToLocationHashId:', e)
+
+          if (delay > 0) {
+            clearTimeout(_timeout)
+            _timeout = setTimeout(runScroll, delay) // to make sure we run our scrollTo after the native anchor
+          } else {
+            runScroll()
+          }
+        }
+
+        const elem = document.getElementById(id)
+        if (elem instanceof HTMLElement) {
+          window.addEventListener('beforeunload', () =>
+            clearTimeout(_timeout)
+          )
+          if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', handleScroll)
+          } else {
+            handleScroll()
+          }
         }
       }
+    } catch (e) {
+      console.warn('Error on scrollToLocationHashId:', e)
     }
   }
 }
