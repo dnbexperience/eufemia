@@ -3,8 +3,8 @@
  *
  */
 
-import { createContext } from 'react'
+import React from 'react'
 
-const Context = createContext({ pagination: {} })
+const Context = React.createContext({ pagination: {} })
 
 export default Context

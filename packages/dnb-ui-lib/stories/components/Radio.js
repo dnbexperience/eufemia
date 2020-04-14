@@ -3,7 +3,7 @@
  *
  */
 
-import React, { useState } from 'react'
+import React from 'react'
 import { Wrapper, Box } from '../helpers'
 // import styled from '@emotion/styled'
 
@@ -242,8 +242,12 @@ export default [
 ]
 
 const RadioGroupsWithStatus = () => {
-  const [currentValueForGorupA, setValueForGorupA] = useState('first')
-  const [currentValueForGorupB, setValueForGorupB] = useState('second')
+  const [currentValueForGorupA, setValueForGorupA] = React.useState(
+    'first'
+  )
+  const [currentValueForGorupB, setValueForGorupB] = React.useState(
+    'second'
+  )
 
   return (
     <FormSet>

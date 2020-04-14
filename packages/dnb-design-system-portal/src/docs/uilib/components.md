@@ -8,6 +8,10 @@ order: 7
 
 DNB Eufemia components are ready to use, styled and custom build HTML elements.
 
+## [Autocomplete](/uilib/components/autocomplete)
+
+The Autocomplete component is a combination of an [Input](/uilib/components/input) and a [Dropdown](/uilib/components/dropdown), also called **ComboBox**. During typing, matching data items gets suggested in an option menu (listbox).
+
 ## [Button](/uilib/components/button)
 
 The Button component should be used as the primary call-to-action in a form, or as a user interaction mechanism.
@@ -76,6 +80,10 @@ Modal dialogs appear on top of the main content changing the mode of the system 
 ## [Number](/uilib/components/number)
 
 The number component is a ready to use DNB number formatter. Use it where over you have to display a number, a currency value, phone number etc.
+
+## [Pagination](/uilib/components/pagination)
+
+The Pagination component supports both classical **page pagination** and **infinity scrolling**.
 
 ## [ProgressIndicator](/uilib/components/progress-indicator)
 

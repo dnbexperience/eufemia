@@ -2,7 +2,7 @@
  * MDX Template
  */
 
-import React, { PureComponent } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 
 import { MDXProvider } from '@mdx-js/react'
@@ -15,7 +15,7 @@ import tags from '../shared/tags'
 
 const Tabbar = tags.Tabbar
 
-export default class MdxTemplate extends PureComponent {
+export default class MdxTemplate extends React.PureComponent {
   render() {
     const {
       location,

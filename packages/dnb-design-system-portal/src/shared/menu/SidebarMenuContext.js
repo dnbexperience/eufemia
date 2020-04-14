@@ -3,7 +3,7 @@
  *
  */
 
-import React, { PureComponent } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 
 export const SidebarMenuContext = React.createContext({
@@ -15,7 +15,7 @@ export const SidebarMenuContext = React.createContext({
   isClosing: null
 })
 
-export class SidebarMenuProvider extends PureComponent {
+export class SidebarMenuProvider extends React.PureComponent {
   static propTypes = {
     children: PropTypes.node.isRequired
   }

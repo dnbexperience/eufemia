@@ -3,7 +3,7 @@
  *
  */
 
-import React, { PureComponent } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import Link from '../parts/Link'
@@ -303,7 +303,7 @@ const Navigation = styled.nav`
 
 const showAlwaysMenuItems = [] // like "uilib" som someting like that
 
-export default class SidebarLayout extends PureComponent {
+export default class SidebarLayout extends React.PureComponent {
   static propTypes = {
     location: PropTypes.object.isRequired,
     showAll: PropTypes.bool
@@ -589,7 +589,7 @@ export default class SidebarLayout extends PureComponent {
   }
 }
 
-class ListItem extends PureComponent {
+class ListItem extends React.PureComponent {
   static propTypes = {
     onOffsetTop: PropTypes.func,
     children: PropTypes.node.isRequired,

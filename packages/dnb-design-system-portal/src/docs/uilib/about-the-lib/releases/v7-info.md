@@ -37,9 +37,7 @@ v7 contains a couple of braking changes. As a migration process, you can simply 
 />
 ```
 
-- ESM bundles to load directly in to modern browsers:
-  - `dnb-ui-lib/esm/dnb-ui-icons.min.mjs`
-  - `dnb-ui-lib/esm/dnb-ui-lib.min.mjs`
+- **ESM** (mjs) [bundles](/uilib/usage/first-steps/bundles) to load directly in to modern browsers.
 
 ### Table (new features)
 

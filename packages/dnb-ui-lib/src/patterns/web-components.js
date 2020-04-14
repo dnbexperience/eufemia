@@ -3,7 +3,8 @@
  *
  */
 
+import { enableWebComponents } from './lib'
+
 export * from './lib'
-import * as lib from './lib'
-lib.enableWebComponents()
-export default lib
+
+enableWebComponents()

@@ -3,7 +3,7 @@
  *
  */
 
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import keycode from 'keycode'
@@ -102,7 +102,7 @@ const defaultProps = {
 /**
  * The switch component is our enhancement of the classic radio button. It acts like a switch. Example: On/off, yes/no.
  */
-export default class Switch extends Component {
+export default class Switch extends React.Component {
   static tagName = 'dnb-switch'
   static propTypes = propTypes
   static defaultProps = defaultProps

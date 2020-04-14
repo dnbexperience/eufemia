@@ -3,7 +3,7 @@
  *
  */
 
-import React, { PureComponent } from 'react'
+import React from 'react'
 import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
@@ -130,7 +130,7 @@ const defaultProps = {
   ...renderProps
 }
 
-export default class Modal extends PureComponent {
+export default class Modal extends React.PureComponent {
   static tagName = 'dnb-modal'
   static propTypes = propTypes
   static defaultProps = defaultProps
@@ -230,7 +230,8 @@ export default class Modal extends PureComponent {
     }
     const delay = parseFloat(this.props.open_delay)
     if (delay > 0) {
-      setTimeout(openModal, delay)
+      clearTimeout(this._openTimeout)
+      this._openTimeout = setTimeout(openModal, delay)
     } else {
       openModal()
     }
@@ -344,7 +345,8 @@ export default class Modal extends PureComponent {
     const modal_content = Modal.getContent(this.props)
 
     if (modalActive !== currentActiveState) {
-      setTimeout(this.handleSideEffects, 1)
+      clearTimeout(this._sideEffectsTimeout)
+      this._sideEffectsTimeout = setTimeout(this.handleSideEffects, 1)
       // delay the dispatch to make sure we are after the render cyclus
       // this way have the content insted by the time we call this event
     }
@@ -411,7 +413,7 @@ export default class Modal extends PureComponent {
   }
 }
 
-class ModalRoot extends PureComponent {
+class ModalRoot extends React.PureComponent {
   static propTypes = {
     direct_dom_return: PropTypes.oneOfType([
       PropTypes.string,
@@ -473,7 +475,7 @@ class ModalRoot extends PureComponent {
   }
 }
 
-class ModalContent extends PureComponent {
+class ModalContent extends React.PureComponent {
   static propTypes = {
     modal_content: PropTypes.node.isRequired,
     labelled_by: PropTypes.string,
@@ -528,14 +530,18 @@ class ModalContent extends PureComponent {
     this._contentRef = React.createRef()
     this._id = props.content_id || makeUniqueId()
   }
+
   componentDidMount() {
     this.removeScrollPossibility()
     this.preventScreenReaderPossibility()
     this.removeFocusPossibility()
     this.setFocus()
   }
+
   componentWillUnmount() {
-    clearTimeout(this._setFocusId)
+    clearTimeout(this._focusTimeout)
+    clearTimeout(this._openTimeout)
+    clearTimeout(this._sideEffectsTimeout)
     this.revertScrollPossibility()
     this.revertScreenReaderPossibility()
     this.revertFocusPossibility()
@@ -543,8 +549,8 @@ class ModalContent extends PureComponent {
 
   setFocus() {
     if (this._contentRef.current) {
-      clearTimeout(this._setFocusId)
-      this._setFocusId = setTimeout(() => {
+      clearTimeout(this._focusTimeout)
+      this._focusTimeout = setTimeout(() => {
         try {
           this._contentRef.current.focus() // in case the button is disabled
           const focusElement = this._contentRef.current.querySelector(

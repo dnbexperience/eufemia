@@ -3,7 +3,7 @@
  *
  */
 
-import React, { PureComponent } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import Input from '../input/Input'
 import {
@@ -13,6 +13,7 @@ import {
 } from '../../shared/component-helper'
 import MaskedInput from 'react-text-mask' // https://github.com/text-mask/text-mask
 import createNumberMask from './addons/createNumberMask'
+import classnames from 'classnames'
 
 const renderProps = {
   on_change: null,
@@ -61,7 +62,7 @@ const defaultProps = {
   ...renderProps
 }
 
-export default class InputMasked extends PureComponent {
+export default class InputMasked extends React.PureComponent {
   static tagName = 'dnb-input-masked'
   static propTypes = propTypes
   static defaultProps = defaultProps
@@ -69,6 +70,10 @@ export default class InputMasked extends PureComponent {
 
   static enableWebComponent() {
     registerElement(InputMasked.tagName, InputMasked, defaultProps)
+  }
+
+  componentWillUnmount() {
+    clearTimeout(this._selectionTimeout)
   }
 
   render() {
@@ -131,38 +136,58 @@ export default class InputMasked extends PureComponent {
       if (mask.instanceOf === 'createNumberMask') {
         const clean = (v) =>
           String(v).replace(new RegExp('[^\\d,.-]', 'g'), '')
-        props.on_change = (params) => {
-          dispatchCustomElementEvent(this, 'on_change', {
-            cleaned_value: clean(params.value),
-            ...params
-          })
-        }
-        props.on_focus = (params) => {
-          dispatchCustomElementEvent(this, 'on_focus', {
-            cleaned_value: clean(params.value),
-            ...params
-          })
 
-          const elem = params.event.target
-          setTimeout(() => {
+        const fixPositionIssue = (elem) => {
+          clearTimeout(this._selectionTimeout)
+          this._selectionTimeout = setTimeout(() => {
+            const cleaned_value = clean(elem.value)
+            if (cleaned_value.length > 0) {
+              return
+            }
             try {
+              const end = elem.selectionEnd
               if (
-                elem.selectionStart === elem.selectionEnd &&
-                elem.selectionStart === elem.value.length
+                elem.selectionStart === end &&
+                end === elem.value.length
               ) {
-                elem.setSelectionRange(0, elem.selectionEnd)
+                let pos = 0
+                if (props.align === 'left') {
+                  pos = end - 1
+                }
+                elem.setSelectionRange(pos, pos)
               }
             } catch (e) {
               //
             }
-          }, 1) // to get selectionStart
+          }, 1) // to get the current value
         }
-        props.on_blur = (params) => {
-          dispatchCustomElementEvent(this, 'on_blur', {
-            cleaned_value: clean(params.value),
-            ...params
+
+        const callEvent = ({ event, value }, name) => {
+          value = value || event.target.value
+          const cleaned_value = clean(value)
+          return dispatchCustomElementEvent(this, name, {
+            event,
+            value,
+            cleaned_value
           })
         }
+        props.onMouseUp = (event) => {
+          fixPositionIssue(event.target)
+          callEvent({ event }, 'on_mouse_up')
+        }
+        props.onTouchEnd = (event) => {
+          fixPositionIssue(event.target)
+          callEvent({ event }, 'on_touch_end')
+        }
+        props.on_focus = (params) => {
+          fixPositionIssue(params.event.target)
+          callEvent(params, 'on_focus')
+        }
+
+        props.on_key_down = (params) => callEvent(params, 'on_key_down')
+        props.on_submit = (params) => callEvent(params, 'on_submit')
+        props.on_blur = (params) => callEvent(params, 'on_blur')
+        props.on_change = (params) => callEvent(params, 'on_change')
       }
 
       props.input_element = (params, innerRef) => {
@@ -179,6 +204,15 @@ export default class InputMasked extends PureComponent {
       }
     }
 
-    return <Input className="dnb-input-masked" {...props} />
+    props.className = classnames(
+      'dnb-input-masked',
+      props.className,
+      show_mask &&
+        show_guide &&
+        placeholderChar === '_' &&
+        'dnb-input-masked--guide'
+    )
+
+    return <Input {...props} />
   }
 }

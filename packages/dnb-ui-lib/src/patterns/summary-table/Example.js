@@ -3,14 +3,14 @@
  *
  */
 
-import React, { PureComponent, Fragment } from 'react'
+import React from 'react'
 import SummaryTable from './SummaryTable'
 import Button from '../../components/button/Button'
 
-class Example extends PureComponent {
+class Example extends React.PureComponent {
   render() {
     return (
-      <Fragment>
+      <React.Fragment>
         <div className="example-box">
           <SummaryTable prev_href="?prev" next_href="?next" />
         </div>
@@ -38,7 +38,7 @@ class Example extends PureComponent {
             </div>
           </SummaryTable>
         </div>
-      </Fragment>
+      </React.Fragment>
     )
   }
 }

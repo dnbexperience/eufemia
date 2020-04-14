@@ -3,11 +3,11 @@
  *
  */
 
-import React, { PureComponent, Fragment } from 'react'
+import React from 'react'
 import ComponentBox from 'Src/shared/tags/ComponentBox'
 import { createBrowserHistory } from 'history'
 
-class Example extends PureComponent {
+class Example extends React.PureComponent {
   state = {
     active_url: null
   }
@@ -40,7 +40,7 @@ class Example extends PureComponent {
     const { active_url } = this.state
     const onChangeHandler = this.onChangeHandler
     return (
-      <Fragment>
+      <React.Fragment>
         <ComponentBox
           title="StepIndicator with navigation. Every visited step can be clicked."
           data-dnb-test="step-indicator-buttons"
@@ -177,7 +177,7 @@ class Example extends PureComponent {
 />
           `}
         </ComponentBox>
-      </Fragment>
+      </React.Fragment>
     )
   }
 }

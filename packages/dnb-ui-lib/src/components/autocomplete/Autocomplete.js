@@ -3,7 +3,7 @@
  *
  */
 
-import React, { PureComponent } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import keycode from 'keycode'
@@ -216,7 +216,7 @@ const defaultProps = {
   ...renderProps
 }
 
-export default class Autocomplete extends PureComponent {
+export default class Autocomplete extends React.PureComponent {
   static tagName = 'dnb-autocomplete'
   static propTypes = propTypes
   static defaultProps = defaultProps
@@ -243,7 +243,7 @@ export default class Autocomplete extends PureComponent {
   }
 }
 
-class AutocompleteInstance extends PureComponent {
+class AutocompleteInstance extends React.PureComponent {
   static propTypes = propTypes
   static defaultProps = defaultProps
   static contextType = DrawerListContext

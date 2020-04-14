@@ -4,7 +4,7 @@
  */
 
 import '../../core/jest/jestSetup'
-import lib, {
+import {
   enableWebComponents,
   getPatterns,
   MainNav
@@ -12,9 +12,6 @@ import lib, {
 import { registeredElements } from '../../shared/custom-element'
 
 describe('Web Components', () => {
-  it('has to have a enableWebComponents function', () => {
-    expect(lib.enableWebComponents).toBeType('function')
-  })
   it('has to have a named export of enableWebComponents', () => {
     expect(enableWebComponents).toBeType('function')
   })
@@ -26,5 +23,6 @@ describe('Web Components', () => {
   })
   it('have to be enabled by including "dnb-main-nav" in registeredElements', () => {
     expect(registeredElements).toContain('dnb-main-nav')
+    expect(registeredElements).not.toContain('dnb-button')
   })
 })

@@ -3,7 +3,7 @@
  *
  */
 
-import React, { PureComponent } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import {
@@ -15,7 +15,7 @@ import {
 
 let isMac = null
 
-export default class StepItem extends PureComponent {
+export default class StepItem extends React.PureComponent {
   static propTypes = {
     title: PropTypes.string.isRequired,
     activeItem: PropTypes.number,

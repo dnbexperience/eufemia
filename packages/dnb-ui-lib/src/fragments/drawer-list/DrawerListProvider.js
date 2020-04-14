@@ -3,7 +3,7 @@
  *
  */
 
-import React, { PureComponent } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import keycode from 'keycode'
 import Context from '../../shared/Context'
@@ -69,7 +69,7 @@ const defaultProps = {
   children: null
 }
 
-export default class DrawerListProvider extends PureComponent {
+export default class DrawerListProvider extends React.PureComponent {
   static propTypes = propTypes
   static defaultProps = defaultProps
   static contextType = Context

@@ -3,7 +3,7 @@
  *
  */
 
-import React, { PureComponent, Fragment } from 'react'
+import React from 'react'
 import ComponentBox from 'Src/shared/tags/ComponentBox'
 import {
   bell_medium as BellMedium,
@@ -19,10 +19,10 @@ import * as SecondaryIconsMedium from 'dnb-ui-lib/src/icons/secondary_icons_medi
 // })
 // .sort(([a], [b]) => (a > b ? 1 : -1))
 
-class Example extends PureComponent {
+class Example extends React.PureComponent {
   render() {
     return (
-      <Fragment>
+      <React.Fragment>
         <ComponentBox
           data-dnb-test="icon-default"
           scope={{ Bell, BellMedium }}
@@ -139,7 +139,7 @@ class Example extends PureComponent {
           `}
           </ComponentBox>
         )}
-      </Fragment>
+      </React.Fragment>
     )
   }
 }

@@ -3,15 +3,15 @@
  *
  */
 
-import React, { PureComponent, Fragment } from 'react'
+import React from 'react'
 
 import PropTypes from 'prop-types'
-import dnb from 'dnb-ui-lib/src/lib'
+import { enableWebComponents } from 'dnb-ui-lib/src/lib'
 import portalStyle from './PortalStyle'
 
 // import { CodeRenderer } from './Code'
 // import ReactMarkdown from 'react-markdown'
-// export default class Markdown extends PureComponent {
+// export default class Markdown extends React.PureComponent {
 //   static propTypes = {
 //     children: PropTypes.string.isRequired
 //   }
@@ -35,7 +35,7 @@ import portalStyle from './PortalStyle'
 //   }
 // }
 
-export class Html extends PureComponent {
+export class Html extends React.PureComponent {
   static propTypes = {
     children: PropTypes.node,
     value: PropTypes.string
@@ -49,7 +49,7 @@ export class Html extends PureComponent {
       this.props.children ||
       (this.props.value && /<dnb/.test(this.props.value))
     ) {
-      dnb.enableWebComponents()
+      enableWebComponents()
     }
     // setTimeout(() => {
     //   this.show()
@@ -65,7 +65,7 @@ export class Html extends PureComponent {
   // }
   render() {
     return (
-      <Fragment>
+      <React.Fragment>
         {this.state.visible && this.props.value && (
           <div
             dangerouslySetInnerHTML={{
@@ -74,12 +74,12 @@ export class Html extends PureComponent {
           />
         )}
         {this.state.visible && this.props.children}
-      </Fragment>
+      </React.Fragment>
     )
   }
 }
 
-// export class Script extends PureComponent {
+// export class Script extends React.PureComponent {
 //   static propTypes = {
 //     children: PropTypes.node,
 //     value: PropTypes.string
@@ -90,7 +90,7 @@ export class Html extends PureComponent {
 //   }
 //   render() {
 //     console.log('Script', this.props)
-//     return <Fragment>Hello</Fragment>
+//     return <React.Fragment>Hello</React.Fragment>
 //   }
 // }
 

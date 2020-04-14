@@ -3,18 +3,18 @@
  *
  */
 
-import React, { PureComponent, Fragment } from 'react'
+import React from 'react'
 import ViewTitle from './ViewTitle'
 
-class Example extends PureComponent {
+class Example extends React.PureComponent {
   render() {
     return (
-      <Fragment>
+      <React.Fragment>
         <div className="example-box">
           <ViewTitle>This is the default view title component</ViewTitle>
           <ViewTitle text="This is the small version" tag="h3" />
         </div>
-      </Fragment>
+      </React.Fragment>
     )
   }
 }

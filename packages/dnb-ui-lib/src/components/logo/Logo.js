@@ -3,7 +3,7 @@
  *
  */
 
-import React, { PureComponent } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import Context from '../../shared/Context'
@@ -46,7 +46,7 @@ const defaultProps = {
   ...renderProps
 }
 
-export default class Logo extends PureComponent {
+export default class Logo extends React.PureComponent {
   static tagName = 'dnb-logo'
   static propTypes = propTypes
   static defaultProps = defaultProps

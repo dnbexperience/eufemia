@@ -3,7 +3,7 @@
  *
  */
 
-import React, { PureComponent } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { css, Global } from '@emotion/core'
 import { StaticQuery, graphql } from 'gatsby'
@@ -30,7 +30,7 @@ import {
 } from 'dnb-ui-lib/src/shared/helpers'
 import { SearchBarInput } from './SearchBar'
 
-class MainWrapper extends PureComponent {
+class MainWrapper extends React.PureComponent {
   static propTypes = {
     isOpen: PropTypes.bool.isRequired,
     className: PropTypes.string.isRequired,
@@ -201,7 +201,7 @@ const toggleContent = css`
   }
 `
 
-export default class MainMenu extends PureComponent {
+export default class MainMenu extends React.PureComponent {
   static propTypes = {
     enableOverlay: PropTypes.bool
   }

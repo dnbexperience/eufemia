@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 
@@ -18,7 +18,7 @@ const Img = ({
   }
   const props = { width, height }
   return (
-    <Fragment>
+    <React.Fragment>
       <figure className={classnames('image-box', className)}>
         <img
           aria-hidden
@@ -28,7 +28,7 @@ const Img = ({
         />
         {caption && <figcaption>{caption}</figcaption>}
       </figure>
-    </Fragment>
+    </React.Fragment>
   )
 }
 

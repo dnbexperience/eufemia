@@ -3,7 +3,7 @@
  *
  */
 
-import React, { PureComponent, Fragment } from 'react'
+import React from 'react'
 import ComponentBox from 'Src/shared/tags/ComponentBox'
 import styled from '@emotion/styled'
 
@@ -11,15 +11,18 @@ import styled from '@emotion/styled'
 // How to use masks: https://github.com/text-mask/text-mask/blob/master/componentDocumentation.md#readme
 // import createNumberMask from 'dnb-ui-lib/src/components/input-masked/addons/createNumberMask'
 
-class Example extends PureComponent {
+class Example extends React.PureComponent {
   render() {
     return (
-      <Fragment>
-        <ComponentBox title="Using the `currency_mask`">
+      <React.Fragment>
+        <ComponentBox
+          title="Using the `currency_mask`"
+          data-dnb-test="input-masked-currency_mask"
+        >
           {/* @jsx */ `
 <FormRow vertical>
   <InputMasked
-    label="Amount:"
+    label="Right aligned:"
     currency_mask="kr"
     on_change={(e) => {
       console.log('e', e)
@@ -28,7 +31,7 @@ class Example extends PureComponent {
     bottom
   />
   <InputMasked
-    label="Amount:"
+    label="Left aligned:"
     currency_mask={{ currency: 'NOK' }}
     align="left"
     on_change={(e) => {
@@ -55,7 +58,10 @@ class Example extends PureComponent {
 />
           `}
         </ComponentBox>
-        <ComponentBox title="Using the `number_mask` - combined suffix">
+        <ComponentBox
+          title="Using the `number_mask` - combined suffix"
+          data-dnb-test="input-masked-number_mask"
+        >
           {/* @jsx */ `
 <InputMasked
   label="Masked input:"
@@ -119,7 +125,7 @@ class Example extends PureComponent {
 />
           `}
         </ComponentBox>
-      </Fragment>
+      </React.Fragment>
     )
   }
 }

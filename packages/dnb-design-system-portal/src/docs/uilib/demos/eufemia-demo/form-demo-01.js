@@ -11,7 +11,7 @@
  *
  */
 
-import React, { useState, useContext } from 'react'
+import React from 'react'
 import { Helmet as Head } from 'react-helmet-async'
 import styled from '@emotion/styled'
 
@@ -95,7 +95,7 @@ const MainForm = () => {
     resetErrors,
     submitHandler,
     cancelHandler
-  } = useContext(FormContext)
+  } = React.useContext(FormContext)
 
   return (
     <FormSet vertical prevent_submit on_submit={submitHandler}>
@@ -367,8 +367,8 @@ const defaultErrors = {
 // Form Logic and Event handling
 const FormContext = React.createContext({})
 const FormLogic = (props) => {
-  const [currentValues, updateValues] = useState(defaultValues)
-  const [currentErrors, updateErrors] = useState({})
+  const [currentValues, updateValues] = React.useState(defaultValues)
+  const [currentErrors, updateErrors] = React.useState({})
 
   function submitHandler() {
     // Handle error before we use the form value

@@ -26,7 +26,7 @@
     "build:cjs": "cross-env NODE_ENV=production BABEL_ENV=cjs babel --config-file ./babel.config.cjs ./src --out-dir ./build/cjs --ignore \"./src/umd\" --ignore \"./src/core\" --ignore \"**/*.test.js\"",
     "build:clean": "rm -rf build/**",
     "build:component": "cross-env NODE_ENV=production BABEL_ENV=esm babel --config-file ./babel.config.cjs ./src/components/global-status --out-dir ./build/esm/components/global-status --ignore \"./src/umd\" --ignore \"./src/core\" --ignore \"**/*.test.js\"",
-    "build:copy": "cp -R build/esm/* ./ && cp -R build/* ./ && rm -rf build",
+    "build:copy": "cp -R build/esm/* ./ && cp -R build/* ./ && rm -rf build && rm ./dnb-ui-*.min.*",
     "build:es": "cross-env NODE_ENV=production BABEL_ENV=es babel --config-file ./babel.config.cjs ./src --out-dir ./build/es --ignore \"./src/umd\" --ignore \"./src/core\" --ignore \"**/*.test.js\"",
     "build:esm": "cross-env NODE_ENV=production BABEL_ENV=esm babel --config-file ./babel.config.cjs ./src --out-dir ./build/esm --ignore \"./src/umd\" --ignore \"./src/core\" --ignore \"**/*.test.js\"",
     "build:prebuild": "babel-node ./scripts/prepub/runPrepub.js",

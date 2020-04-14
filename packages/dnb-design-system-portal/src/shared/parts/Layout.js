@@ -3,7 +3,7 @@
  *
  */
 
-import React, { PureComponent } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'gatsby'
 import classnames from 'classnames'
@@ -23,7 +23,7 @@ import {
 } from 'dnb-ui-lib/src/shared/helpers'
 import { Logo, GlobalStatus } from 'dnb-ui-lib/src/components'
 
-class Layout extends PureComponent {
+class Layout extends React.PureComponent {
   static propTypes = {
     fullscreen: PropTypes.bool,
     children: PropTypes.node.isRequired,
@@ -37,7 +37,7 @@ class Layout extends PureComponent {
     setPageFocusElement('.dnb-app-content h1:nth-of-type(1)', 'content')
 
     // if url hash is defined, scroll to the id
-    scrollToLocationHashId({ offset: 100 })
+    scrollToLocationHashId({ offset: 100, delay: 100 })
   }
   render() {
     const { children, location, fullscreen } = this.props

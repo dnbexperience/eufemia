@@ -11,7 +11,7 @@ describe('ESM elements library package', () => {
   it('has to have a Anchor Component', () => {
     expect(Anchor).toBeType('object')
   })
-  it('have no Web Components enabled in registeredElements', () => {
+  it('has no Web Components enabled in registeredElements', () => {
     expect(registeredElements).not.toContain('dnb-anchor')
   })
 })
