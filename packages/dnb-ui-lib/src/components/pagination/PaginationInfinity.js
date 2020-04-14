@@ -5,7 +5,7 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import ReactDom from 'react-dom'
+import ReactDOM from 'react-dom'
 import {
   isTrue,
   dispatchCustomElementEvent
@@ -511,7 +511,7 @@ class ScrollToElement extends React.PureComponent {
     // therefor we use "findDOMNode" here
     // so we can scroll to that page
     // eslint-disable-next-line
-    const elem = ReactDom.findDOMNode(this)
+    const elem = ReactDOM.findDOMNode(this)
     this.scrollToPage(elem)
   }
   scrollToPage(element) {
