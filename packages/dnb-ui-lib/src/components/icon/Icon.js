@@ -347,9 +347,18 @@ export const prepareIcon = (props) => {
     className
   )
 
+  let iconToRender = Icon.getIcon(props)
+
+  if (typeof iconToRender.defaultProps !== 'undefined') {
+    iconToRender = React.createElement(
+      iconToRender,
+      validateDOMAttributes({}, props)
+    )
+  }
+
   return {
     ...props,
-    icon: Icon.getIcon(props),
+    icon: iconToRender,
     alt,
     iconParams,
     wrapperParams
