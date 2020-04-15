@@ -94,12 +94,15 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
     label_direction="horizontal"
     label_sr_only="label_sr_only"
     max_height={1}
+    min_height={10}
     mode="sync"
     no_animation={true}
     no_options="no_options"
     no_scroll_animation="no_scroll_animation"
+    observer_element={null}
     on_change={[Function]}
     on_hide={[Function]}
+    on_resize={null}
     on_select={[Function]}
     on_show={[Function]}
     on_state_update={[Function]}
@@ -717,13 +720,13 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                       <ForwardRef
                         aria-activedescendant="option-autocomplete-id-2"
                         aria-labelledby="autocomplete-id-label"
-                        cache_hash="CC cc32222bottom46"
+                        cache_hash="CC cc32222bottom1"
                         className={null}
                         id="autocomplete-id-ul"
                         role="listbox"
                         style={
                           Object {
-                            "maxHeight": "46rem",
+                            "maxHeight": "1rem",
                           }
                         }
                         tabIndex="-1"
@@ -744,7 +747,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                           role="listbox"
                           style={
                             Object {
-                              "maxHeight": "46rem",
+                              "maxHeight": "1rem",
                             }
                           }
                           tabIndex="-1"
