@@ -364,25 +364,22 @@ class AutocompleteInstance extends React.PureComponent {
   }
 
   onInputChangeHandler = ({ value, event }, options = {}) => {
-    value = String(value).trim()
-
-    if (value === this.state.inputValue) {
-      return
-    }
-
     this.setState({
       typedInputValue: value,
       inputValue: value,
       _listenForPropChanges: false
     })
 
-    this.runFilterWithSideEffects(value, options)
-
     dispatchCustomElementEvent(this, 'on_type', {
       value,
       event,
       ...this.getEventObjects('on_type')
     })
+
+    value = String(value).trim()
+    if (value !== this.state.inputValue) {
+      this.runFilterWithSideEffects(value, options)
+    }
   }
 
   runFilterWithSideEffects = (value, options = {}) => {
@@ -916,24 +913,24 @@ class AutocompleteInstance extends React.PureComponent {
                   })
                   .filter(Boolean)
                   .reduce((acc, { a, b, c }) => {
-                    if (acc.includes('TAG_START')) {
+                    if (acc.includes('«')) {
                       return acc.replace(
                         new RegExp(`(${b})`, 'gi'),
-                        'TAG_START$1TAG_END'
+                        '«$1»'
                       )
                     }
 
-                    return `${a}TAG_START${b}TAG_END${c}`
+                    return `${a}«${b}»${c}`
                   }, child)
 
-                if (formatted.includes('TAG_START')) {
+                if (formatted.includes('«')) {
                   return (
                     <span
                       key={itemIndex + child}
                       dangerouslySetInnerHTML={{
                         __html: formatted
-                          .replace(/TAG_START/g, startTag)
-                          .replace(/TAG_END/g, endTag)
+                          .replace(/«/g, startTag)
+                          .replace(/»/g, endTag)
                       }}
                     />
                   )
