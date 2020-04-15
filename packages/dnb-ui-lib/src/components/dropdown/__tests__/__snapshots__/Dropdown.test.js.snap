@@ -172,11 +172,14 @@ exports[`Dropdown markup have to match snapshot 1`] = `
     label_direction="horizontal"
     label_sr_only="label_sr_only"
     max_height={1}
+    min_height={10}
     more_menu={null}
     no_animation={true}
     no_scroll_animation="no_scroll_animation"
+    observer_element={null}
     on_change={[Function]}
     on_hide={[Function]}
+    on_resize={null}
     on_select={[Function]}
     on_show={[Function]}
     on_state_update={[Function]}
@@ -682,13 +685,13 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                       <ForwardRef
                         aria-activedescendant="option-dropdown-id-2"
                         aria-labelledby="dropdown-id-label"
-                        cache_hash="2266bottom46"
+                        cache_hash="2266bottom1"
                         className={null}
                         id="dropdown-id-ul"
                         role="listbox"
                         style={
                           Object {
-                            "maxHeight": "46rem",
+                            "maxHeight": "1rem",
                           }
                         }
                         tabIndex="-1"
@@ -709,7 +712,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                           role="listbox"
                           style={
                             Object {
-                              "maxHeight": "46rem",
+                              "maxHeight": "1rem",
                             }
                           }
                           tabIndex="-1"

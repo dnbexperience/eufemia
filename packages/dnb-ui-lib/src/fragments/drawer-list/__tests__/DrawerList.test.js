@@ -19,18 +19,37 @@ import dnb_drawerList from '../style/dnb-drawer-list.scss' // eslint-disable-lin
 import dnb_drawerList_theme_ui from '../style/themes/dnb-drawer-list-theme-ui.scss' // eslint-disable-line
 
 beforeAll(() => {
-  window.resizeTo = function resizeTo({ width, height }) {
+  window.resizeTo = function resizeTo({
+    width = window.innerWidth,
+    height = window.innerHeight
+  }) {
     Object.assign(this, {
-      innerWidth: width || window.innerWidth,
-      innerHeight: height || window.innerHeight
+      innerWidth: width,
+      innerHeight: height
     }).dispatchEvent(new this.Event('resize'))
+
+    // new setDirectionObserver implementation
+    jest
+      .spyOn(document.documentElement, 'clientWidth', 'get')
+      .mockImplementation(() => width)
+    jest
+      .spyOn(document.documentElement, 'clientHeight', 'get')
+      .mockImplementation(() => height)
   }
 
-  window.scrollTo = function resizeTo({ top }) {
+  window.scrollTo = function resizeTo({ top = window.pageYOffset }) {
     Object.assign(this, {
-      pageYOffset: top || window.pageYOffset
+      pageYOffset: top
     }).dispatchEvent(new this.Event('scroll'))
+
+    // new setDirectionObserver implementation
+    jest
+      .spyOn(document.documentElement, 'scrollTop', 'get')
+      .mockImplementation(() => top)
   }
+
+  // make sure we get the correct document.documentElement.clientHeight on startup
+  window.resizeTo({ height: window.innerHeight })
 })
 
 const snapshotProps = {
