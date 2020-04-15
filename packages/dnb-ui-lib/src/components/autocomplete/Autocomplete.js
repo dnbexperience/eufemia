@@ -340,10 +340,7 @@ class AutocompleteInstance extends React.PureComponent {
   }
 
   scrollToActiveItem = () => {
-    if (
-      // !(parseFloat(this.context.drawerList.selected_item) > -1) &&
-      parseFloat(this.state.localActiveItem) > -1
-    ) {
+    if (parseFloat(this.state.localActiveItem) > -1) {
       this.context.drawerList.scrollToAndSetActiveItem(
         this.state.localActiveItem,
         {
@@ -714,6 +711,7 @@ class AutocompleteInstance extends React.PureComponent {
       case 'up':
       case 'down':
         e.preventDefault()
+        e.stopPropagation()
 
         if (this.hasFilterActive()) {
           this.ignoreEvents()

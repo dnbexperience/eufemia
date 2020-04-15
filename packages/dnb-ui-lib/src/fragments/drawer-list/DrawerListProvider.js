@@ -394,10 +394,40 @@ export default class DrawerListProvider extends React.PureComponent {
   ) => {
     clearTimeout(this._focusTimeout)
 
-    if (
-      !isTrue(this.props.prevent_focus) &&
-      !(parseFloat(active_item) > -1)
-    ) {
+    if (parseFloat(active_item) > -1) {
+      this.setState(
+        {
+          active_item,
+          _listenForPropChanges: false
+        },
+        () => {
+          const { selected_item } = this.state
+
+          if (fireSelectEvent) {
+            const attributes = this.attributes
+            const ret = dispatchCustomElementEvent(
+              this.state,
+              'on_select',
+              {
+                active_item,
+                value: getSelectedItemValue(selected_item, this.state),
+                data: getCurrentData(active_item, this.state.data),
+                event,
+                attributes
+              }
+            )
+            if (ret === false) {
+              return // stop here!
+            }
+          }
+
+          this._focusTimeout = setTimeout(
+            () => this.scrollToItem(active_item, { scrollTo }),
+            1
+          ) // NVDA / Firefox needs a dealy to set this focus
+        }
+      )
+    } else if (!isTrue(this.props.prevent_focus)) {
       this._focusTimeout = setTimeout(() => {
         if (this._refUl.current) {
           try {
@@ -407,37 +437,7 @@ export default class DrawerListProvider extends React.PureComponent {
           }
         }
       }, 1) // NVDA / Firefox needs a dealy to set this focus
-      return
     }
-
-    this.setState(
-      {
-        active_item,
-        _listenForPropChanges: false
-      },
-      () => {
-        const { selected_item } = this.state
-
-        if (fireSelectEvent) {
-          const attributes = this.attributes
-          const ret = dispatchCustomElementEvent(this.state, 'on_select', {
-            active_item,
-            value: getSelectedItemValue(selected_item, this.state),
-            data: getCurrentData(active_item, this.state.data),
-            event,
-            attributes
-          })
-          if (ret === false) {
-            return // stop here!
-          }
-        }
-
-        this._focusTimeout = setTimeout(
-          () => this.scrollToItem(active_item, { scrollTo }),
-          1
-        ) // NVDA / Firefox needs a dealy to set this focus
-      }
-    )
   }
 
   removeDirectionObserver() {
