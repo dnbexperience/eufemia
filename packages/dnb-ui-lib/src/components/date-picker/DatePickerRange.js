@@ -406,7 +406,7 @@ export default class DatePickerRange extends React.PureComponent {
 
         // and set the focus back again
         if (ref && ref.current) {
-          ref.current.focus()
+          ref.current.focus({ preventScroll: true })
         }
       })
     }
