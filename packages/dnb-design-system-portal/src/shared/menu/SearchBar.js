@@ -233,12 +233,12 @@ const makeHitsHumanFriendly = (hits) => {
     const content = [title, description, search].filter(Boolean)
 
     const notes = hit.headings
-      ?.map(({ value, slug: hash /* depth, slug */ }) => {
+      ?.map(({ value, slug: hash /* depth, slug */ }, i) => {
         if (value === title) {
           return null
         }
         return (
-          <Anchor key={slug + hash} href={`/${slug}#${hash}`}>
+          <Anchor key={slug + hash + i} href={`/${slug}#${hash}`}>
             {value}
           </Anchor>
         )
