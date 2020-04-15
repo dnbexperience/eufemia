@@ -84,7 +84,6 @@ To support [importmap](https://github.com/WICG/import-maps), we can load a polyf
   <dnb-button icon="chevron_right">My Button</dnb-button>
 
   <script
-    crossorigin
     defer
     src="https://unpkg.com/es-module-shims/dist/es-module-shims.js"
   ></script>

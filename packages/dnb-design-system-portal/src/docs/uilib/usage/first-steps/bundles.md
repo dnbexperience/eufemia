@@ -36,22 +36,10 @@ Requires React and ReactDOM to be loaded. Supports `ES5`.
 <body>
   <div id="app"></div>
 
-  <script
-    crossorigin
-    src="https://unpkg.com/react/umd/react.production.min.js"
-  ></script>
-  <script
-    crossorigin
-    src="https://unpkg.com/react-dom/umd/react-dom.production.min.js"
-  ></script>
-  <script
-    crossorigin
-    src="https://unpkg.com/dnb-ui-lib/umd/dnb-ui-icons.min.js"
-  ></script>
-  <script
-    crossorigin
-    src="https://unpkg.com/dnb-ui-lib/umd/dnb-ui-lib.min.js"
-  ></script>
+  <script src="https://unpkg.com/react/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/dnb-ui-lib/umd/dnb-ui-icons.min.js"></script>
+  <script src="https://unpkg.com/dnb-ui-lib/umd/dnb-ui-lib.min.js"></script>
 
   <script type="application/javascript">
     const MyButton = React.createElement(window.dnbLib.Button, {
@@ -87,7 +75,6 @@ Because `importmap` is still not supported by the majority of browsers, we use a
   <div id="app"></div>
 
   <script
-    crossorigin
     defer
     src="https://unpkg.com/es-module-shims/dist/es-module-shims.js"
   ></script>
