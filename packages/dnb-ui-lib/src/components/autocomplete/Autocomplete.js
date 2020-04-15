@@ -372,6 +372,7 @@ class AutocompleteInstance extends React.PureComponent {
 
     this.setState({
       typedInputValue: value,
+      inputValue: value,
       _listenForPropChanges: false
     })
 
@@ -622,17 +623,26 @@ class AutocompleteInstance extends React.PureComponent {
       ...this.getEventObjects('on_blur')
     })
 
-    if (parseFloat(this.context.drawerList.selected_item) > -1) {
+    if (!isTrue(this.props.prevent_selection)) {
       const inputValue = AutocompleteInstance.getCurrentDataTitle(
         this.context.drawerList.selected_item,
         this.context.drawerList.original_data
       )
 
-      this.setState({
-        skipHighlight: true,
-        inputValue,
-        _listenForPropChanges: false
-      })
+      clearTimeout(this._selectTimeout)
+      this._selectTimeout = setTimeout(() => {
+        if (parseFloat(this.context.drawerList.selected_item) > -1) {
+          this.setState({
+            inputValue,
+            _listenForPropChanges: false
+          })
+        } else {
+          this.setState({
+            inputValue: '',
+            _listenForPropChanges: false
+          })
+        }
+      }, 1)
     }
   }
 
@@ -711,14 +721,15 @@ class AutocompleteInstance extends React.PureComponent {
       case 'up':
       case 'down':
         e.preventDefault()
-        e.stopPropagation()
 
         if (this.hasFilterActive()) {
           this.ignoreEvents()
           this.showAll()
+          this.setVisible()
+          this.scrollToActiveItem()
+        } else {
+          this.setVisible()
         }
-        this.setVisible()
-        this.scrollToActiveItem()
 
         break
 
