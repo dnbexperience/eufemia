@@ -1428,15 +1428,15 @@ button.dnb-button::-moz-focus-inner {
       width: 1px;
       height: 1px;
       opacity: 0; }
+  .dnb-pagination__button:first-child, .dnb-pagination__bar__inner {
+    margin-right: 1rem; }
+  .dnb-pagination__bar__inner .dnb-pagination__button {
+    margin-right: 0.5rem; }
   .dnb-core-style .dnb-pagination__button, .dnb-pagination__button, .dnb-pagination__dots {
     margin-right: 0.5rem;
     margin-top: 0.5rem;
     margin-bottom: 0.5rem; }
     .dnb-core-style .dnb-pagination__button:last-child, .dnb-pagination__button:last-child, .dnb-pagination__dots:last-child {
       margin-right: 0; }
-  .dnb-pagination__button:first-child, .dnb-pagination__bar__inner {
-    margin-right: 1rem; }
-  .dnb-pagination__bar__inner .dnb-pagination__button {
-    margin-right: 0.5rem; }
 "
 `;
