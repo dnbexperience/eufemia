@@ -913,24 +913,24 @@ class AutocompleteInstance extends React.PureComponent {
                   })
                   .filter(Boolean)
                   .reduce((acc, { a, b, c }) => {
-                    if (acc.includes('«')) {
+                    if (acc.includes('š')) {
                       return acc.replace(
                         new RegExp(`(${b})`, 'gi'),
-                        '«$1»'
+                        'š$1Ÿ'
                       )
                     }
 
-                    return `${a}«${b}»${c}`
+                    return `${a}š${b}Ÿ${c}`
                   }, child)
 
-                if (formatted.includes('«')) {
+                if (formatted.includes('š')) {
                   return (
                     <span
                       key={itemIndex + child}
                       dangerouslySetInnerHTML={{
                         __html: formatted
-                          .replace(/«/g, startTag)
-                          .replace(/»/g, endTag)
+                          .replace(/š/g, startTag)
+                          .replace(/Ÿ/g, endTag)
                       }}
                     />
                   )
