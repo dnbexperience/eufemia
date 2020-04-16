@@ -38,7 +38,8 @@ class Example extends React.PureComponent {
           data-dnb-test="pagination-default"
           scope={{ HeightLimit, LargePage }}
         >
-          {/* @jsx */ `
+          {
+            /* @jsx */ `
 <Pagination
   page_count={30}
   current_page={15}
@@ -48,15 +49,16 @@ class Example extends React.PureComponent {
 >
   {({ pageNo }) => <div>Page {pageNo}</div>}
 </Pagination>
-          `}
+          `
+          }
         </ComponentBox>
         <ComponentBox
           title="Centered Pagination with random delay"
           description="Note that we keep the hight of the previous page. All pages can for sure have their own height."
-          data-dnb-test="pagination-centered"
           scope={{ HeightLimit, LargePage }}
         >
-          {/* @jsx */ `
+          {
+            /* @jsx */ `
 <Pagination
   align="center"
   page_count={30}
@@ -68,7 +70,8 @@ class Example extends React.PureComponent {
     }, Math.ceil(Math.random() * 500))
   }}
 </Pagination>
-          `}
+          `
+          }
         </ComponentBox>
         <ComponentBox
           title="Infinity scroller with load button"
@@ -76,7 +79,8 @@ class Example extends React.PureComponent {
           data-dnb-test="pagination-infinity-load-button"
           scope={{ HeightLimit, LargePage }}
         >
-          {/* @jsx */ `
+          {
+            /* @jsx */ `
 <HeightLimit>
   <Pagination
     mode="infinity"
@@ -95,14 +99,16 @@ class Example extends React.PureComponent {
     }}
   />
 </HeightLimit>
-          `}
+          `
+          }
         </ComponentBox>
         <ComponentBox
           title="Infinity scroller with custom load indicator"
           data-dnb-test="pagination-infinity-indicator"
           scope={{ HeightLimit, LargePage }}
         >
-          {/* @jsx */ `
+          {
+            /* @jsx */ `
 <HeightLimit>
   <Pagination
     mode="infinity"
@@ -127,13 +133,15 @@ class Example extends React.PureComponent {
     }}
   />
 </HeightLimit>
-          `}
+          `
+          }
         </ComponentBox>
         <ComponentBox
           title="Infinity scroller with unknown `page_count`"
           scope={{ HeightLimit, LargePage }}
         >
-          {/* @jsx */ `
+          {
+            /* @jsx */ `
 <HeightLimit>
   <Pagination
     mode="infinity"
@@ -163,18 +171,21 @@ class Example extends React.PureComponent {
     }}
   />
 </HeightLimit>
-          `}
+          `
+          }
         </ComponentBox>
         <ComponentBox
           title="Advanced Table infinity scroller"
           description="You can find the code either on [GitHub](https://github.com/dnbexperience/eufemia/blob/develop/packages/dnb-design-system-portal/src/docs/uilib/components/pagination/PaginationTableExample.js) or on [CodeSandbox](https://codesandbox.io/s/eufemia-table-pagination-infinity-546f7)"
           scope={{ HeightLimit, PaginationTableExample }}
         >
-          {/* @jsx */ `
+          {
+            /* @jsx */ `
 <HeightLimit height="60rem">
   <PaginationTableExample />
 </HeightLimit>
-          `}
+          `
+          }
         </ComponentBox>
       </React.Fragment>
     )
