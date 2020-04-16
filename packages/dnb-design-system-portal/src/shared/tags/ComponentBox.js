@@ -22,6 +22,7 @@ const ComponentBox = ({ children, hideOnTest, scope = {}, ...rest }) => {
         ...getFragments(),
         ...getElements(),
         styled,
+        React,
         TestWrapper,
         ...scope
       }}
