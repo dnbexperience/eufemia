@@ -76,7 +76,6 @@ class Example extends React.PureComponent {
         <ComponentBox
           title="Infinity scroller with load button"
           description="A laod button is shown on the bottom by having `use_load_button={true}` - but here we define our `startup_page={5}`, so we also get a laod button on top."
-          data-dnb-test="pagination-infinity-load-button"
           scope={{ HeightLimit, LargePage }}
         >
           {
@@ -104,7 +103,6 @@ class Example extends React.PureComponent {
         </ComponentBox>
         <ComponentBox
           title="Infinity scroller with custom load indicator"
-          data-dnb-test="pagination-infinity-indicator"
           scope={{ HeightLimit, LargePage }}
         >
           {
