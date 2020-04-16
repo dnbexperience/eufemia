@@ -106,6 +106,11 @@ const propTypes = {
   ]),
   size: PropTypes.oneOf(['default', 'small', 'medium', 'large']),
   align_autocomplete: PropTypes.oneOf(['left', 'right']),
+  options_render: PropTypes.oneOfType([
+    PropTypes.object,
+    PropTypes.func,
+    PropTypes.node
+  ]),
   input_component: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
   data: PropTypes.oneOfType([
     PropTypes.oneOfType([
@@ -194,7 +199,6 @@ const defaultProps = {
   prevent_selection: false,
   size: 'default',
   align_autocomplete: null,
-  input_component: null,
   data: null,
   default_value: null,
   value: 'initval',
@@ -336,10 +340,7 @@ class AutocompleteInstance extends React.PureComponent {
   }
 
   scrollToActiveItem = () => {
-    if (
-      // !(parseFloat(this.context.drawerList.selected_item) > -1) &&
-      parseFloat(this.state.localActiveItem) > -1
-    ) {
+    if (parseFloat(this.state.localActiveItem) > -1) {
       this.context.drawerList.scrollToAndSetActiveItem(
         this.state.localActiveItem,
         {
@@ -363,24 +364,22 @@ class AutocompleteInstance extends React.PureComponent {
   }
 
   onInputChangeHandler = ({ value, event }, options = {}) => {
-    value = String(value).trim()
-
-    if (value === this.state.inputValue) {
-      return
-    }
-
     this.setState({
       typedInputValue: value,
+      inputValue: value,
       _listenForPropChanges: false
     })
-
-    this.runFilterWithSideEffects(value, options)
 
     dispatchCustomElementEvent(this, 'on_type', {
       value,
       event,
       ...this.getEventObjects('on_type')
     })
+
+    value = String(value).trim()
+    if (value !== this.state.inputValue) {
+      this.runFilterWithSideEffects(value, options)
+    }
   }
 
   runFilterWithSideEffects = (value, options = {}) => {
@@ -621,17 +620,26 @@ class AutocompleteInstance extends React.PureComponent {
       ...this.getEventObjects('on_blur')
     })
 
-    if (parseFloat(this.context.drawerList.selected_item) > -1) {
+    if (!isTrue(this.props.prevent_selection)) {
       const inputValue = AutocompleteInstance.getCurrentDataTitle(
         this.context.drawerList.selected_item,
         this.context.drawerList.original_data
       )
 
-      this.setState({
-        skipHighlight: true,
-        inputValue,
-        _listenForPropChanges: false
-      })
+      clearTimeout(this._selectTimeout)
+      this._selectTimeout = setTimeout(() => {
+        if (parseFloat(this.context.drawerList.selected_item) > -1) {
+          this.setState({
+            inputValue,
+            _listenForPropChanges: false
+          })
+        } else {
+          this.setState({
+            inputValue: '',
+            _listenForPropChanges: false
+          })
+        }
+      }, 1)
     }
   }
 
@@ -714,9 +722,11 @@ class AutocompleteInstance extends React.PureComponent {
         if (this.hasFilterActive()) {
           this.ignoreEvents()
           this.showAll()
+          this.setVisible()
+          this.scrollToActiveItem()
+        } else {
+          this.setVisible()
         }
-        this.setVisible()
-        this.scrollToActiveItem()
 
         break
 
@@ -903,24 +913,24 @@ class AutocompleteInstance extends React.PureComponent {
                   })
                   .filter(Boolean)
                   .reduce((acc, { a, b, c }) => {
-                    if (acc.includes('TAG_START')) {
+                    if (acc.includes('«')) {
                       return acc.replace(
                         new RegExp(`(${b})`, 'gi'),
-                        'TAG_START$1TAG_END'
+                        '«$1»'
                       )
                     }
 
-                    return `${a}TAG_START${b}TAG_END${c}`
+                    return `${a}«${b}»${c}`
                   }, child)
 
-                if (formatted.includes('TAG_START')) {
+                if (formatted.includes('«')) {
                   return (
                     <span
                       key={itemIndex + child}
                       dangerouslySetInnerHTML={{
                         __html: formatted
-                          .replace(/TAG_START/g, startTag)
-                          .replace(/TAG_END/g, endTag)
+                          .replace(/«/g, startTag)
+                          .replace(/»/g, endTag)
                       }}
                     />
                   )
@@ -1078,6 +1088,7 @@ class AutocompleteInstance extends React.PureComponent {
       no_scroll_animation,
       show_drawer_button,
       input_component: CustomInput,
+      options_render,
       prevent_selection,
       max_height,
       default_value,
@@ -1289,6 +1300,7 @@ class AutocompleteInstance extends React.PureComponent {
                 max_height={max_height}
                 direction={direction}
                 size={size}
+                options_render={options_render}
                 on_change={this.onChangeHandler}
                 on_select={this.onSelectHandler}
               />

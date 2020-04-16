@@ -78,6 +78,7 @@ exports[`DrawerList markup have to match snapshot 1`] = `
   on_show={[Function]}
   on_state_update={[Function]}
   opened={true}
+  options_render={Object {}}
   prepared_data={Array []}
   prevent_close="prevent_close"
   prevent_focus="prevent_focus"
@@ -158,8 +159,10 @@ exports[`DrawerList markup have to match snapshot 1`] = `
     ignore_events="ignore_events"
     keep_open="keep_open"
     max_height={1}
+    min_height={10}
     no_animation={true}
     no_scroll_animation="no_scroll_animation"
+    observer_element={null}
     on_change={[Function]}
     on_hide={[Function]}
     on_resize={[Function]}
@@ -167,6 +170,8 @@ exports[`DrawerList markup have to match snapshot 1`] = `
     on_show={[Function]}
     on_state_update={[Function]}
     opened={true}
+    options_render={Object {}}
+    page_offset={null}
     prepared_data={Array []}
     prevent_close="prevent_close"
     prevent_focus="prevent_focus"
@@ -256,6 +261,7 @@ exports[`DrawerList markup have to match snapshot 1`] = `
       on_show={[Function]}
       on_state_update={[Function]}
       opened={true}
+      options_render={Object {}}
       prepared_data={Array []}
       prevent_close="prevent_close"
       prevent_focus="prevent_focus"
@@ -651,7 +657,8 @@ exports[`DrawerList scss have to match snapshot 1`] = `
       transform: translateY(65%) rotate(45deg); }
   .dnb-drawer-list--opened .dnb-drawer-list__list {
     z-index: 100;
-    display: flex; }
+    display: flex;
+    flex-direction: column; }
     .dnb-drawer-list--opened .dnb-drawer-list__list {
       animation: drawer-list-slide-down 200ms ease-out 1 forwards; }
     html[data-dnb-test] .dnb-drawer-list--opened .dnb-drawer-list__list, .dnb-drawer-list--opened .dnb-drawer-list__list--no-animation {

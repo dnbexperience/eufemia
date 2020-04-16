@@ -117,9 +117,9 @@ export default class DatePickerCalendar extends React.PureComponent {
       // because we block screen reader nav by providing the arrow key feature
       // we set the focus on the label instead
       if (this.props.enableKeyboardNav && this._listRef.current) {
-        this._listRef.current.focus()
+        this._listRef.current.focus({ preventScroll: true })
       } else if (this._labelRef.current) {
-        this._labelRef.current.focus()
+        this._labelRef.current.focus({ preventScroll: true })
       }
     }
   }

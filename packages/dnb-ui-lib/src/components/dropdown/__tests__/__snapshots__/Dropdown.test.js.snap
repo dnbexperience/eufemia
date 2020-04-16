@@ -172,16 +172,20 @@ exports[`Dropdown markup have to match snapshot 1`] = `
     label_direction="horizontal"
     label_sr_only="label_sr_only"
     max_height={1}
+    min_height={10}
     more_menu={null}
     no_animation={true}
     no_scroll_animation="no_scroll_animation"
+    observer_element={null}
     on_change={[Function]}
     on_hide={[Function]}
+    on_resize={null}
     on_select={[Function]}
     on_show={[Function]}
     on_state_update={[Function]}
     open_on_focus="open_on_focus"
     opened={null}
+    page_offset={null}
     prevent_close="prevent_close"
     prevent_focus={false}
     prevent_selection={null}
@@ -616,6 +620,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                 on_show={null}
                 on_state_update={null}
                 opened={null}
+                options_render={null}
                 prepared_data={null}
                 prevent_close="prevent_close"
                 prevent_focus={false}
@@ -655,6 +660,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                   on_show={null}
                   on_state_update={null}
                   opened={null}
+                  options_render={null}
                   prepared_data={null}
                   prevent_close="prevent_close"
                   prevent_focus={false}
@@ -679,13 +685,13 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                       <ForwardRef
                         aria-activedescendant="option-dropdown-id-2"
                         aria-labelledby="dropdown-id-label"
-                        cache_hash="2266bottom46"
+                        cache_hash="2266bottom1"
                         className={null}
                         id="dropdown-id-ul"
                         role="listbox"
                         style={
                           Object {
-                            "maxHeight": "46rem",
+                            "maxHeight": "1rem",
                           }
                         }
                         tabIndex="-1"
@@ -706,288 +712,290 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                           role="listbox"
                           style={
                             Object {
-                              "maxHeight": "46rem",
+                              "maxHeight": "1rem",
                             }
                           }
                           tabIndex="-1"
                         >
-                          <ForwardRef
-                            active={false}
-                            cache_hash=""
-                            className=""
-                            data-item={0}
-                            id="option-dropdown-id-0"
-                            key="0"
-                            onClick={[Function]}
-                            onKeyDown={[Function]}
-                            on_click={null}
-                            selected={false}
-                            value={null}
-                          >
-                            <li
-                              aria-selected="false"
-                              className="dnb-drawer-list__option"
+                          <Items>
+                            <ForwardRef
+                              active={false}
+                              cache_hash=""
+                              className=""
                               data-item={0}
                               id="option-dropdown-id-0"
+                              key="0"
                               onClick={[Function]}
                               onKeyDown={[Function]}
-                              role="option"
-                              tabIndex="-1"
+                              on_click={null}
+                              selected={false}
+                              value={null}
                             >
-                              <span
-                                className="dnb-drawer-list__option__inner"
+                              <li
+                                aria-selected="false"
+                                className="dnb-drawer-list__option"
+                                data-item={0}
+                                id="option-dropdown-id-0"
+                                onClick={[Function]}
+                                onKeyDown={[Function]}
+                                role="option"
+                                tabIndex="-1"
                               >
-                                <ItemContent>
-                                  <span
-                                    className="dnb-drawer-list__option__item"
-                                    key="0"
-                                  >
-                                    1234 56 78901
-                                  </span>
-                                  <span
-                                    className="dnb-drawer-list__option__item"
-                                    key="1"
-                                  >
-                                    Brukskonto - Kari Nordmann
-                                  </span>
-                                </ItemContent>
-                              </span>
-                            </li>
-                          </ForwardRef>
-                          <ForwardRef
-                            active={false}
-                            cache_hash=""
-                            className=""
-                            data-item={1}
-                            id="option-dropdown-id-1"
-                            key="1"
-                            onClick={[Function]}
-                            onKeyDown={[Function]}
-                            on_click={null}
-                            selected={false}
-                            value={null}
-                          >
-                            <li
-                              aria-selected="false"
-                              className="dnb-drawer-list__option"
+                                <span
+                                  className="dnb-drawer-list__option__inner"
+                                >
+                                  <ItemContent>
+                                    <span
+                                      className="dnb-drawer-list__option__item"
+                                      key="0"
+                                    >
+                                      1234 56 78901
+                                    </span>
+                                    <span
+                                      className="dnb-drawer-list__option__item"
+                                      key="1"
+                                    >
+                                      Brukskonto - Kari Nordmann
+                                    </span>
+                                  </ItemContent>
+                                </span>
+                              </li>
+                            </ForwardRef>
+                            <ForwardRef
+                              active={false}
+                              cache_hash=""
+                              className=""
                               data-item={1}
                               id="option-dropdown-id-1"
+                              key="1"
                               onClick={[Function]}
                               onKeyDown={[Function]}
-                              role="option"
-                              tabIndex="-1"
+                              on_click={null}
+                              selected={false}
+                              value={null}
                             >
-                              <span
-                                className="dnb-drawer-list__option__inner"
+                              <li
+                                aria-selected="false"
+                                className="dnb-drawer-list__option"
+                                data-item={1}
+                                id="option-dropdown-id-1"
+                                onClick={[Function]}
+                                onKeyDown={[Function]}
+                                role="option"
+                                tabIndex="-1"
                               >
-                                <ItemContent>
-                                  <span
-                                    className="dnb-drawer-list__option__item"
-                                    key="0"
-                                  >
-                                    1234 56 78902
-                                  </span>
-                                  <span
-                                    className="dnb-drawer-list__option__item"
-                                    key="1"
-                                  >
-                                    Sparekonto - Ole Nordmann
-                                  </span>
-                                </ItemContent>
-                              </span>
-                            </li>
-                          </ForwardRef>
-                          <ForwardRef
-                            active={true}
-                            cache_hash=""
-                            className=""
-                            data-item={2}
-                            id="option-dropdown-id-2"
-                            key="2"
-                            onClick={[Function]}
-                            onKeyDown={[Function]}
-                            on_click={null}
-                            selected={true}
-                            value={null}
-                          >
-                            <li
-                              aria-current={true}
-                              aria-selected={true}
-                              className="dnb-drawer-list__option dnb-drawer-list__option--selected dnb-drawer-list__option--focus"
+                                <span
+                                  className="dnb-drawer-list__option__inner"
+                                >
+                                  <ItemContent>
+                                    <span
+                                      className="dnb-drawer-list__option__item"
+                                      key="0"
+                                    >
+                                      1234 56 78902
+                                    </span>
+                                    <span
+                                      className="dnb-drawer-list__option__item"
+                                      key="1"
+                                    >
+                                      Sparekonto - Ole Nordmann
+                                    </span>
+                                  </ItemContent>
+                                </span>
+                              </li>
+                            </ForwardRef>
+                            <ForwardRef
+                              active={true}
+                              cache_hash=""
+                              className=""
                               data-item={2}
                               id="option-dropdown-id-2"
+                              key="2"
                               onClick={[Function]}
                               onKeyDown={[Function]}
-                              role="option"
-                              tabIndex="-1"
+                              on_click={null}
+                              selected={true}
+                              value={null}
                             >
-                              <span
-                                className="dnb-drawer-list__option__inner"
+                              <li
+                                aria-current={true}
+                                aria-selected={true}
+                                className="dnb-drawer-list__option dnb-drawer-list__option--selected dnb-drawer-list__option--focus"
+                                data-item={2}
+                                id="option-dropdown-id-2"
+                                onClick={[Function]}
+                                onKeyDown={[Function]}
+                                role="option"
+                                tabIndex="-1"
                               >
-                                <ItemContent>
-                                  <span
-                                    className="dnb-drawer-list__option__item"
-                                    key="0"
-                                  >
-                                    1134 56 78962
-                                  </span>
-                                  <span
-                                    className="dnb-drawer-list__option__item"
-                                    key="1"
-                                  >
-                                    Feriekonto - Kari Nordmann med et kjempelangt etternavnsen
-                                  </span>
-                                </ItemContent>
-                              </span>
-                            </li>
-                          </ForwardRef>
-                          <ForwardRef
-                            active={false}
-                            cache_hash=""
-                            className=""
-                            data-item={3}
-                            id="option-dropdown-id-3"
-                            key="3"
-                            onClick={[Function]}
-                            onKeyDown={[Function]}
-                            on_click={null}
-                            selected={false}
-                            value={null}
-                          >
-                            <li
-                              aria-selected="false"
-                              className="dnb-drawer-list__option"
+                                <span
+                                  className="dnb-drawer-list__option__inner"
+                                >
+                                  <ItemContent>
+                                    <span
+                                      className="dnb-drawer-list__option__item"
+                                      key="0"
+                                    >
+                                      1134 56 78962
+                                    </span>
+                                    <span
+                                      className="dnb-drawer-list__option__item"
+                                      key="1"
+                                    >
+                                      Feriekonto - Kari Nordmann med et kjempelangt etternavnsen
+                                    </span>
+                                  </ItemContent>
+                                </span>
+                              </li>
+                            </ForwardRef>
+                            <ForwardRef
+                              active={false}
+                              cache_hash=""
+                              className=""
                               data-item={3}
                               id="option-dropdown-id-3"
+                              key="3"
                               onClick={[Function]}
                               onKeyDown={[Function]}
-                              role="option"
-                              tabIndex="-1"
+                              on_click={null}
+                              selected={false}
+                              value={null}
                             >
-                              <span
-                                className="dnb-drawer-list__option__inner"
+                              <li
+                                aria-selected="false"
+                                className="dnb-drawer-list__option"
+                                data-item={3}
+                                id="option-dropdown-id-3"
+                                onClick={[Function]}
+                                onKeyDown={[Function]}
+                                role="option"
+                                tabIndex="-1"
                               >
-                                <ItemContent>
-                                  <span
-                                    className="dnb-drawer-list__option__item"
-                                    key="0"
-                                  >
-                                    1534 96 48901
-                                  </span>
-                                  <span
-                                    className="dnb-drawer-list__option__item"
-                                    key="1"
-                                  >
-                                    Oppussing - Ole Nordmann
-                                  </span>
-                                </ItemContent>
-                              </span>
-                            </li>
-                          </ForwardRef>
-                          <ForwardRef
-                            active={false}
-                            cache_hash=""
-                            className=""
-                            data-item={4}
-                            id="option-dropdown-id-4"
-                            key="4"
-                            onClick={[Function]}
-                            onKeyDown={[Function]}
-                            on_click={null}
-                            selected={false}
-                            value={null}
-                          >
-                            <li
-                              aria-selected="false"
-                              className="dnb-drawer-list__option"
+                                <span
+                                  className="dnb-drawer-list__option__inner"
+                                >
+                                  <ItemContent>
+                                    <span
+                                      className="dnb-drawer-list__option__item"
+                                      key="0"
+                                    >
+                                      1534 96 48901
+                                    </span>
+                                    <span
+                                      className="dnb-drawer-list__option__item"
+                                      key="1"
+                                    >
+                                      Oppussing - Ole Nordmann
+                                    </span>
+                                  </ItemContent>
+                                </span>
+                              </li>
+                            </ForwardRef>
+                            <ForwardRef
+                              active={false}
+                              cache_hash=""
+                              className=""
                               data-item={4}
                               id="option-dropdown-id-4"
+                              key="4"
                               onClick={[Function]}
                               onKeyDown={[Function]}
-                              role="option"
-                              tabIndex="-1"
+                              on_click={null}
+                              selected={false}
+                              value={null}
                             >
-                              <span
-                                className="dnb-drawer-list__option__inner"
+                              <li
+                                aria-selected="false"
+                                className="dnb-drawer-list__option"
+                                data-item={4}
+                                id="option-dropdown-id-4"
+                                onClick={[Function]}
+                                onKeyDown={[Function]}
+                                role="option"
+                                tabIndex="-1"
                               >
-                                <ItemContent>
-                                  Custom content 
-                                  123
-                                </ItemContent>
-                              </span>
-                            </li>
-                          </ForwardRef>
-                          <ForwardRef
-                            active={false}
-                            cache_hash=""
-                            className=""
-                            data-item={5}
-                            id="option-dropdown-id-5"
-                            key="5"
-                            onClick={[Function]}
-                            onKeyDown={[Function]}
-                            on_click={null}
-                            selected={false}
-                            value={null}
-                          >
-                            <li
-                              aria-selected="false"
-                              className="dnb-drawer-list__option"
-                              data-item={5}
-                              id="option-dropdown-id-5"
-                              onClick={[Function]}
-                              onKeyDown={[Function]}
-                              role="option"
-                              tabIndex="-1"
-                            >
-                              <span
-                                className="dnb-drawer-list__option__inner"
-                              >
-                                <ItemContent>
-                                  Custom content 
-                                  123
-                                </ItemContent>
-                              </span>
-                            </li>
-                          </ForwardRef>
-                          <ForwardRef
-                            active={false}
-                            cache_hash=""
-                            className="closest-to-top closest-to-bottom last-of-type"
-                            data-item={6}
-                            id="option-dropdown-id-6"
-                            key="6"
-                            onClick={[Function]}
-                            onKeyDown={[Function]}
-                            on_click={null}
-                            selected={false}
-                            value={null}
-                          >
-                            <li
-                              aria-selected="false"
-                              className="closest-to-top closest-to-bottom last-of-type dnb-drawer-list__option"
-                              data-item={6}
-                              id="option-dropdown-id-6"
-                              onClick={[Function]}
-                              onKeyDown={[Function]}
-                              role="option"
-                              tabIndex="-1"
-                            >
-                              <span
-                                className="dnb-drawer-list__option__inner"
-                              >
-                                <ItemContent>
-                                  <span
-                                    className="dnb-drawer-list__option__item"
-                                    key="0"
-                                  >
+                                <span
+                                  className="dnb-drawer-list__option__inner"
+                                >
+                                  <ItemContent>
                                     Custom content 
                                     123
-                                  </span>
-                                </ItemContent>
-                              </span>
-                            </li>
-                          </ForwardRef>
+                                  </ItemContent>
+                                </span>
+                              </li>
+                            </ForwardRef>
+                            <ForwardRef
+                              active={false}
+                              cache_hash=""
+                              className=""
+                              data-item={5}
+                              id="option-dropdown-id-5"
+                              key="5"
+                              onClick={[Function]}
+                              onKeyDown={[Function]}
+                              on_click={null}
+                              selected={false}
+                              value={null}
+                            >
+                              <li
+                                aria-selected="false"
+                                className="dnb-drawer-list__option"
+                                data-item={5}
+                                id="option-dropdown-id-5"
+                                onClick={[Function]}
+                                onKeyDown={[Function]}
+                                role="option"
+                                tabIndex="-1"
+                              >
+                                <span
+                                  className="dnb-drawer-list__option__inner"
+                                >
+                                  <ItemContent>
+                                    Custom content 
+                                    123
+                                  </ItemContent>
+                                </span>
+                              </li>
+                            </ForwardRef>
+                            <ForwardRef
+                              active={false}
+                              cache_hash=""
+                              className="closest-to-top closest-to-bottom last-of-type"
+                              data-item={6}
+                              id="option-dropdown-id-6"
+                              key="6"
+                              onClick={[Function]}
+                              onKeyDown={[Function]}
+                              on_click={null}
+                              selected={false}
+                              value={null}
+                            >
+                              <li
+                                aria-selected="false"
+                                className="closest-to-top closest-to-bottom last-of-type dnb-drawer-list__option"
+                                data-item={6}
+                                id="option-dropdown-id-6"
+                                onClick={[Function]}
+                                onKeyDown={[Function]}
+                                role="option"
+                                tabIndex="-1"
+                              >
+                                <span
+                                  className="dnb-drawer-list__option__inner"
+                                >
+                                  <ItemContent>
+                                    <span
+                                      className="dnb-drawer-list__option__item"
+                                      key="0"
+                                    >
+                                      Custom content 
+                                      123
+                                    </span>
+                                  </ItemContent>
+                                </span>
+                              </li>
+                            </ForwardRef>
+                          </Items>
                           <li
                             aria-hidden={true}
                             className="dnb-drawer-list__triangle"
@@ -1971,7 +1979,8 @@ legend.dnb-form-label {
       transform: translateY(65%) rotate(45deg); }
   .dnb-drawer-list--opened .dnb-drawer-list__list {
     z-index: 100;
-    display: flex; }
+    display: flex;
+    flex-direction: column; }
     .dnb-drawer-list--opened .dnb-drawer-list__list {
       animation: drawer-list-slide-down 200ms ease-out 1 forwards; }
     html[data-dnb-test] .dnb-drawer-list--opened .dnb-drawer-list__list, .dnb-drawer-list--opened .dnb-drawer-list__list--no-animation {

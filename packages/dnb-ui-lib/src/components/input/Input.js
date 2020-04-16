@@ -247,9 +247,9 @@ export default class Input extends React.PureComponent {
   onFocusHandler = (event) => {
     const { value } = event.target
     this.setState({
-      value,
-      _listenForPropChanges: false,
-      inputState: 'focus'
+      // value,// why should we update the value on blur?
+      inputState: 'focus',
+      _listenForPropChanges: false
     })
 
     if (isTrue(this.props.selectall) && this._ref.current) {
@@ -267,12 +267,12 @@ export default class Input extends React.PureComponent {
   onBlurHandler = (event) => {
     const { value } = event.target
     this.setState({
-      value,
-      _listenForPropChanges: false,
+      // value,// why should we update the value on blur?
       inputState:
         Input.hasValue(value) && value !== this.state._value
           ? 'dirty'
-          : 'initial'
+          : 'initial',
+      _listenForPropChanges: false
     })
     dispatchCustomElementEvent(this, 'on_blur', { value, event })
   }

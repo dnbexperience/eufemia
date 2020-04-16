@@ -557,7 +557,7 @@ export default class DatePicker extends React.PureComponent {
     ) // wait until animation is over
 
     try {
-      this._submitButtonRef.current.focus()
+      this._submitButtonRef.current.focus({ preventScroll: true })
     } catch (e) {
       console.warn(e)
     }

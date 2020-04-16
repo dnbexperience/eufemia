@@ -15,7 +15,28 @@
 | `scrollable`                                | _(optional)_ defines if the options list should be scrollable (the `max-height` is set by default to `50vh`). Defaults to `true`.                                                                                                                                                                                                               |
 | `no_scroll_animation`                       | _(optional)_ to disable scrolling animation. Defaults to `false`.                                                                                                                                                                                                                                                                               |
 | `no_animation`                              | _(optional)_ to disable appear/disappear (show/hide) animation. Defaults to `false`.                                                                                                                                                                                                                                                            |
-| `max_height`                                | _(optional)_ defines if the height (in `rem`) of the options list. Defaults to null, as this is set automatically by default.                                                                                                                                                                                                                   |
+| `min_height`                                | _(optional)_ defines if the minimum height (in `rem`) of the options list. Defaults to `10rem`.                                                                                                                                                                                                                                                 |
+| `max_height`                                | _(optional)_ defines if the maximum height (in `rem`) of the options list. Defaults to null, as this is set automatically by default.                                                                                                                                                                                                           |
+| `page_offset`                               | _(optional)_ defines if the available scrollable height. If scrolling not should change the height of the drawer-list, then set it to `0` (useful if the DrawerList is used in fixed positions on contrast to a scrollable page content). Defaults to `window.pageYOffset`.                                                                     |
+| `observer_element`                          | _(optional)_ set a HTML element, either as a selector or a DOM element. Can be used to send in an element witch will be used to make the _direction calculation_ on.                                                                                                                                                                            |
 | `cache_hash`                                | _(optional)_ set a `cache_hash` as a string to enable internal memorizing of the list to enhance rerendering performance. Components like Autocomplete is using this because of the huge data changes due to search and reorder. Defaults to `null`.                                                                                            |
 | `wrapper_element`                           | _(optional)_ has to be a HTML Element, ideal a mother element, used to calculate sizes and distances. Also used for the "click outside" detection. Clicking on the `wrapper_element` will not be anymore triggered as an outside click.                                                                                                         |
+| `options_render`                            | _(optional)_ has to be a function, returning the items again. Se example above. This can be used to add additional options above the actual rendered list.                                                                                                                                                                                      |
 | [Space](/uilib/components/space/properties) | _(optional)_ spacing properties like `top` or `bottom` are supported.                                                                                                                                                                                                                                                                           |
+
+**Example usage of `options_render`**
+
+```jsx
+render(
+  <DrawerList>
+    options_render=
+    {({ Items, Item, data }) => (
+      <>
+        <Items />
+        <Item>Addition</Item>
+        {data.length > 1 && <li>Addition</li>}
+      </>
+    )}
+  </DrawerList>
+)
+```

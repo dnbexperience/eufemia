@@ -42,7 +42,15 @@ const propTypes = {
   keep_open: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   prevent_focus: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   skip_keysearch: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  page_offset: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  observer_element: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.node
+  ]),
   opened: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  min_height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  max_height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  on_resize: PropTypes.func,
 
   // React
   children: PropTypes.oneOfType([
@@ -63,7 +71,12 @@ const defaultProps = {
   keep_open: false,
   prevent_focus: false,
   skip_keysearch: false,
+  page_offset: null,
+  observer_element: null,
   opened: null,
+  min_height: 10, // 10rem = 10x16=160,
+  max_height: null,
+  on_resize: null,
 
   // React props
   children: null
@@ -186,59 +199,91 @@ export default class DrawerListProvider extends React.PureComponent {
   setDirectionObserver() {
     if (
       typeof window === 'undefined' ||
+      typeof document === 'undefined' ||
       !(this.state.wrapper_element || this._refShell.current)
     ) {
       return
     }
 
+    const {
+      min_height,
+      max_height,
+      on_resize,
+      page_offset,
+      observer_element
+    } = this.props
+    const customMinHeight = parseFloat(min_height) * 16
+    const customMaxHeight = parseFloat(max_height) || 0
+
+    let customElem =
+      typeof observer_element === 'string'
+        ? document.querySelector(observer_element)
+        : null
+    if (!customElem) {
+      customElem = getPreviousSibling(
+        'dnb-modal__content__inner',
+        this._refShell.current
+      )
+    }
+
     // In case we have one before hand
     this.removeDirectionObserver()
 
-    const min_height = 160 // 10rem = 10x16=160
     const spaceToTopOffset = 4 * 16 //because of headers
     const spaceToBottomOffset = 2 * 16
     const elem = this.state.wrapper_element || this._refShell.current
 
     const renderDirection = () => {
       try {
-        // use "window.pageYOffset" instead of "window.scrollY" because IE
+        // make calculation for both direction and height
+        const rootElem = customElem || document.documentElement
+
+        const pageYOffset = !isNaN(parseFloat(page_offset))
+          ? parseFloat(page_offset)
+          : rootElem.scrollTop /* pageYOffset */
         const spaceToTop =
-          getOffsetTop(elem) + elem.offsetHeight - window.pageYOffset
+          getOffsetTop(elem) + elem.offsetHeight - pageYOffset
         const spaceToBottom =
-          window.innerHeight -
+          rootElem.clientHeight /* innerHeight */ -
           (getOffsetTop(elem) + elem.offsetHeight) +
-          window.pageYOffset
+          pageYOffset
 
         const direction =
-          spaceToBottom < min_height && spaceToTop > min_height
+          spaceToBottom < customMinHeight && spaceToTop > customMinHeight
             ? 'top'
             : 'bottom'
 
-        const height =
-          direction === 'top'
-            ? spaceToTop -
-              ((this.state.wrapper_element || this._refShell.current)
-                .offsetHeight || 0) -
-              spaceToTopOffset
-            : spaceToBottom - spaceToBottomOffset
+        // and calc the max_height if not set
+        let max_height = customMaxHeight
+        if (!(parseFloat(max_height) > 0)) {
+          max_height =
+            (direction === 'top'
+              ? spaceToTop -
+                ((this.state.wrapper_element || this._refShell.current)
+                  .offsetHeight || 0) -
+                spaceToTopOffset
+              : spaceToBottom - spaceToBottomOffset) / 16 // calc to rem
+        }
 
-        const max_height = height / 16 // calc to rem
-
+        // update the states
         if (this.props.direction === 'auto') {
           this.setState({
             direction,
             _listenForPropChanges: false
           })
         }
-
         this.setState({
           max_height,
           _listenForPropChanges: false
         })
-        dispatchCustomElementEvent(this.state, 'on_resize', {
-          direction,
-          max_height
-        })
+
+        // call the event, if set
+        if (on_resize) {
+          dispatchCustomElementEvent(this.state, 'on_resize', {
+            direction,
+            max_height
+          })
+        }
       } catch (e) {
         console.warn('List could not set onResize:', e)
       }
@@ -250,8 +295,9 @@ export default class DrawerListProvider extends React.PureComponent {
       this._ddt = setTimeout(renderDirection, 30)
     }
 
+    const rootElem = customElem || window
+    rootElem.addEventListener('scroll', this.setDirection)
     window.addEventListener('resize', this.setDirection)
-    window.addEventListener('scroll', this.setDirection)
 
     renderDirection()
   }
@@ -348,50 +394,50 @@ export default class DrawerListProvider extends React.PureComponent {
   ) => {
     clearTimeout(this._focusTimeout)
 
-    if (
-      !isTrue(this.props.prevent_focus) &&
-      !(parseFloat(active_item) > -1)
-    ) {
+    if (parseFloat(active_item) > -1) {
+      this.setState(
+        {
+          active_item,
+          _listenForPropChanges: false
+        },
+        () => {
+          const { selected_item } = this.state
+
+          if (fireSelectEvent) {
+            const attributes = this.attributes
+            const ret = dispatchCustomElementEvent(
+              this.state,
+              'on_select',
+              {
+                active_item,
+                value: getSelectedItemValue(selected_item, this.state),
+                data: getCurrentData(active_item, this.state.data),
+                event,
+                attributes
+              }
+            )
+            if (ret === false) {
+              return // stop here!
+            }
+          }
+
+          this._focusTimeout = setTimeout(
+            () => this.scrollToItem(active_item, { scrollTo }),
+            1
+          ) // NVDA / Firefox needs a dealy to set this focus
+        }
+      )
+    } else if (!isTrue(this.props.prevent_focus)) {
       this._focusTimeout = setTimeout(() => {
         if (this._refUl.current) {
           try {
-            this._refUl.current.focus()
+            this._refUl.current.focus({ preventScroll: true })
           } catch (e) {
             //
           }
         }
       }, 1) // NVDA / Firefox needs a dealy to set this focus
-      return
     }
-
-    this.setState(
-      {
-        active_item,
-        _listenForPropChanges: false
-      },
-      () => {
-        const { selected_item } = this.state
-
-        if (fireSelectEvent) {
-          const attributes = this.attributes
-          const ret = dispatchCustomElementEvent(this.state, 'on_select', {
-            active_item,
-            value: getSelectedItemValue(selected_item, this.state),
-            data: getCurrentData(active_item, this.state.data),
-            event,
-            attributes
-          })
-          if (ret === false) {
-            return // stop here!
-          }
-        }
-
-        this._focusTimeout = setTimeout(
-          () => this.scrollToItem(active_item, { scrollTo }),
-          1
-        ) // NVDA / Firefox needs a dealy to set this focus
-      }
-    )
   }
 
   removeDirectionObserver() {
