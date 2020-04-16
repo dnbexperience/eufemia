@@ -87,7 +87,7 @@ export const SearchBarInput = () => {
         <>
           <Items />
           {data.length > 1 && (
-            <li>
+            <li align="right">
               <SearchLogo />
             </li>
           )}
@@ -170,13 +170,9 @@ const StyledAutocomplete = styled(Autocomplete)`
   } */
 
   .search-logo {
-    display: flex;
-    align-items: flex-end;
-
     min-width: 4rem;
     height: 1rem;
     margin: 1rem;
-    margin-left: auto;
 
     filter: grayscale(1);
   }
