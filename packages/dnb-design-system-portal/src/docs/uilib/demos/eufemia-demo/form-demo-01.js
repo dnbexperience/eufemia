@@ -12,7 +12,7 @@
  */
 
 import React from 'react'
-import { Helmet as Head } from 'react-helmet-async'
+import { Helmet as Head } from 'react-helmet'
 import styled from '@emotion/styled'
 
 // App layout wrapper
