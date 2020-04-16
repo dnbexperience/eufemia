@@ -10,7 +10,7 @@ import { MDXRenderer } from 'gatsby-plugin-mdx'
 import { graphql } from 'gatsby'
 
 import Layout from '../shared/parts/Layout'
-import { Helmet as Head } from 'react-helmet-async'
+import { Helmet as Head } from 'react-helmet'
 import tags from '../shared/tags'
 
 const Tabbar = tags.Tabbar

@@ -30,6 +30,30 @@ describe('Anchor screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+  it('have to match anchor with icon', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-dnb-test="anchor-icon"]'
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+  it('have to match anchor with paragraph', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-dnb-test="anchor-paragraph"]'
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+  it('have to match anchor in heading', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-dnb-test="anchor-heading"]'
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+  it('have to match blank target anchor in heading', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-dnb-test="anchor-heading-blank"]'
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
   it('have to match the target blank on active state', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-dnb-test="anchor-blank"]',
