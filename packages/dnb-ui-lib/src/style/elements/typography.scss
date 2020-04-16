@@ -11,6 +11,21 @@
 
   font-family: var(--font-family-default);
   font-weight: var(--font-weight-medium);
+
+  // make icons inside heading responsive to the heading size
+  .dnb-icon--default {
+    font-size: 1em;
+  }
+  .dnb-icon--medium {
+    font-size: 1.5em;
+  }
+
+  // to ensure we don't make the heading higher than it is supposed to be
+  a,
+  .dnb-anchor {
+    padding-top: 0;
+    padding-bottom: 0.03125rem;
+  }
 }
 @mixin h1Style() {
   font-size: var(--font-size-xx-large);
