@@ -127,8 +127,9 @@ $anchorBorderRadius: 0.25em;
 
       display: inline-block;
 
-      width: 1rem;
-      height: 1rem;
+      // because we have a defualt font-size of 18px we use 0.889em
+      width: 0.889em;
+      height: 0.889em;
 
       margin-left: 0.3em;
       margin-right: 0.125em;
