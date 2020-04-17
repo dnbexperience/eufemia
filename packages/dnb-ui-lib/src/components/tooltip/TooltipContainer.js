@@ -25,6 +25,7 @@ export default class TooltipContainer extends PureComponent {
       PropTypes.string,
       PropTypes.bool
     ]),
+    offset: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     useHover: PropTypes.bool,
     attributes: PropTypes.object,
     children: PropTypes.oneOfType([
@@ -42,13 +43,13 @@ export default class TooltipContainer extends PureComponent {
     arrow: null,
     align: null,
     animate_position: null,
+    offset: 0,
     useHover: true,
     attributes: null,
     children: null
   }
 
   _rootRef = React.createRef()
-  offset = 16
   state = {
     hide: null,
     hover: null,
@@ -98,6 +99,8 @@ export default class TooltipContainer extends PureComponent {
     if (typeof window === 'undefined') {
       return {}
     }
+
+    const offset = parseFloat(this.props.offset)
     let alignOffset = 0
     const target = this.props.targetElement
     const align = this.props.align
@@ -130,43 +133,42 @@ export default class TooltipContainer extends PureComponent {
     const stylesFromPosition = {
       left: () => {
         style.top = top + targetSize.height / 2 - this.state.height / 2
-        style.left = left - this.state.width - this.offset
+        style.left = left - this.state.width - offset
       },
       right: () => {
         style.top = top + targetSize.height / 2 - this.state.height / 2
-        style.left = left + targetSize.width + this.offset
+        style.left = left + targetSize.width + offset
       },
       top: () => {
         style.left =
           left - this.state.width / 2 + targetSize.width / 2 + alignOffset
-        style.top = top - this.state.height - this.offset
+        style.top = top - this.state.height - offset
       },
       bottom: () => {
         style.left =
           left - this.state.width / 2 + targetSize.width / 2 + alignOffset
-        style.top = top + targetSize.height + this.offset
+        style.top = top + targetSize.height + offset
       }
     }
 
     const stylesFromArrow = {
       left: () => {
-        style.left =
-          left + targetSize.width / 2 - this.offset + alignOffset
+        style.left = left + targetSize.width / 2 - offset + alignOffset
       },
       right: () => {
         style.left =
           left -
           this.state.width +
           targetSize.width / 2 +
-          this.offset +
+          offset +
           alignOffset
       },
       top: () => {
-        style.top = top + targetSize.height / 2 - this.offset
+        style.top = top + targetSize.height / 2 - offset
       },
       bottom: () => {
         style.top =
-          top + targetSize.height / 2 - this.state.height + this.offset
+          top + targetSize.height / 2 - this.state.height + offset
       }
     }
 
@@ -181,14 +183,15 @@ export default class TooltipContainer extends PureComponent {
   }
 
   checkWindowPosition(style) {
+    const offset = parseFloat(this.props.offset)
     if (style.left < 0) {
-      style.left = this.offset
+      style.left = offset
     } else {
       try {
         const rightOffset =
           style.left + this.state.width - window.innerWidth
         if (rightOffset > 0) {
-          style.left = window.innerWidth - this.state.width - this.offset
+          style.left = window.innerWidth - this.state.width - offset
         }
       } catch (e) {
         //

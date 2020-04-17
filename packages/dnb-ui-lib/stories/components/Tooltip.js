@@ -10,6 +10,7 @@ import styled from '@emotion/styled'
 import {
   // Dropdown,
   Button,
+  Input,
   Tooltip
 } from '../../src/components'
 
@@ -20,6 +21,45 @@ const StyledTooltip = styled(Tooltip)`
 const TooltipStory = () => {
   return (
     <Wrapper>
+      <Box>
+        <Button
+          // aria-describedby="customId"
+          tooltip={
+            // 'Tooltip for this Button 1a'
+            <Tooltip>Tooltip for this Button 1b</Tooltip>
+          }
+        >
+          Button with Tooltip 1
+        </Button>
+        <Button
+          tooltip={
+            // 'Tooltip for this Button 2a'
+            <Tooltip position="bottom">Tooltip for this Button 2b</Tooltip>
+          }
+        >
+          Button with Tooltip 2
+        </Button>
+      </Box>
+      <Box>
+        <Input
+          // aria-describedby="customId"
+          tooltip={
+            // 'Tooltip for this Input 1a'
+            <Tooltip>Tooltip for this Input 1b</Tooltip>
+          }
+        >
+          Input with Tooltip 1
+        </Input>
+        <Input
+          tooltip={
+            // 'Tooltip for this Input 2a'
+            <Tooltip position="bottom">Tooltip for this Input 2b</Tooltip>
+          }
+        >
+          Input with Tooltip 2
+        </Input>
+      </Box>
+
       <Box>
         <button className="target-1">Show the Tooltip</button>
 
@@ -68,25 +108,6 @@ const TooltipStory = () => {
         >
           Tooltip 2
         </StyledTooltip>
-      </Box>
-      <Box>
-        <Button
-          // aria-describedby="customId"
-          tooltip={
-            // 'Tooltip for this Button 1a'
-            <Tooltip>Tooltip for this Button 1b</Tooltip>
-          }
-        >
-          Button with Tooltip 1
-        </Button>
-        <Button
-          tooltip={
-            // 'Tooltip for this Button 2a'
-            <Tooltip position="bottom">Tooltip for this Button 2b</Tooltip>
-          }
-        >
-          Button with Tooltip 2
-        </Button>
       </Box>
     </Wrapper>
   )

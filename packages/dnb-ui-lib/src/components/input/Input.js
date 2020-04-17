@@ -23,7 +23,7 @@ import Button from '../button/Button'
 import FormLabel from '../form-label/FormLabel'
 import FormStatus from '../form-status/FormStatus'
 import IconPrimary from '../icon-primary/IconPrimary'
-
+import Tooltip from '../tooltip/Tooltip'
 import Context from '../../shared/Context'
 import Suffix from '../../shared/helpers/Suffix'
 
@@ -52,6 +52,11 @@ const propTypes = {
   ]),
   label_direction: PropTypes.oneOf(['horizontal', 'vertical']),
   label_sr_only: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  tooltip: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.func,
+    PropTypes.node
+  ]),
   status: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.func,
@@ -131,6 +136,7 @@ const defaultProps = {
   label: null,
   label_direction: null,
   label_sr_only: null,
+  tooltip: null,
   status: null,
   status_state: 'error',
   status_animation: null,
@@ -303,6 +309,7 @@ export default class Input extends React.PureComponent {
       label,
       label_direction,
       label_sr_only,
+      tooltip,
       status,
       status_state,
       status_animation,
@@ -537,6 +544,20 @@ export default class Input extends React.PureComponent {
             )}
           </span>
         </span>
+
+        {tooltip && this._ref && (
+          <Tooltip
+            {...{
+              ...(React.isValidElement(tooltip) && tooltip.props
+                ? tooltip.props
+                : { children: tooltip }),
+              ...{
+                id: this._id + '-tooltip',
+                component: this._ref
+              }
+            }}
+          />
+        )}
       </span>
     )
   }

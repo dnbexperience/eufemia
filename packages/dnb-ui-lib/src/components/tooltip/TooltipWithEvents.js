@@ -5,6 +5,7 @@
 
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
+import classnames from 'classnames'
 import TooltipPortal from './TooltipPortal'
 
 export default class TooltipWithEvents extends PureComponent {
@@ -99,7 +100,7 @@ export default class TooltipWithEvents extends PureComponent {
         <span
           key="target-wrapper"
           ref={(target) => this.setState({ target })}
-          className={className}
+          className={classnames('dnb-tooltip__wrapper', className)}
           onMouseEnter={this.onMouseEnter}
           onMouseLeave={this.onMouseLeave}
         >

@@ -43,6 +43,10 @@
     padding: 0;
   }
 
+  &__wrapper {
+    display: inline-block;
+  }
+
   &__arrow {
     position: absolute;
     pointer-events: none;

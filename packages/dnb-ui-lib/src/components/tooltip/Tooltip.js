@@ -42,6 +42,7 @@ const propTypes = {
     PropTypes.string,
     PropTypes.bool
   ]),
+  offset: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   show_delay: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   hide_delay: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 
@@ -66,6 +67,7 @@ const defaultProps = {
   arrow: 'center',
   align: null,
   animate_position: false,
+  offset: 12,
   show_delay: 300,
   hide_delay: 500,
 
