@@ -48,6 +48,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
         "submit_button_variant": "custom type not supported, please set the correct value for submit_button_variant prop",
         "submit_element": [Function],
         "suffix": "suffix",
+        "tooltip": "tooltip",
         "type": "type",
         "value": "value",
       },
@@ -112,6 +113,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
   submit_button_variant="secondary"
   submit_element={null}
   suffix={null}
+  tooltip={null}
   type="search"
   value="test"
 >
@@ -201,6 +203,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
                   "submit_button_variant": "custom type not supported, please set the correct value for submit_button_variant prop",
                   "submit_element": [Function],
                   "suffix": "suffix",
+                  "tooltip": "tooltip",
                   "type": "type",
                   "value": "value",
                 },
@@ -291,6 +294,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
                     "submit_button_variant": "custom type not supported, please set the correct value for submit_button_variant prop",
                     "submit_element": [Function],
                     "suffix": "suffix",
+                    "tooltip": "tooltip",
                     "type": "type",
                     "value": "value",
                   },
@@ -526,6 +530,7 @@ exports[`Input component have to match type="text" snapshot 1`] = `
         "submit_button_variant": "custom type not supported, please set the correct value for submit_button_variant prop",
         "submit_element": [Function],
         "suffix": "suffix",
+        "tooltip": "tooltip",
         "type": "type",
         "value": "value",
       },
@@ -590,6 +595,7 @@ exports[`Input component have to match type="text" snapshot 1`] = `
   submit_button_variant="secondary"
   submit_element={null}
   suffix={null}
+  tooltip={null}
   type="text"
   value="test"
 >

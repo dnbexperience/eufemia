@@ -70,6 +70,7 @@ exports[`InputMasked component have to match type="text" snapshot 1`] = `
     submit_button_variant="secondary"
     submit_element={null}
     suffix={null}
+    tooltip={null}
     type="text"
     value="test"
   >

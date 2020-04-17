@@ -16,6 +16,7 @@ exports[`Tooltip component with component have to match default tooltip snapshot
     group="main"
     hide_delay={500}
     id="tooltip"
+    offset={12}
     onClick={null}
     on_click={null}
     position="top"
@@ -30,6 +31,7 @@ exports[`Tooltip component with component have to match default tooltip snapshot
           "children": "Text",
           "className": "dnb-tooltip dnb-core-style",
           "id": "tooltip",
+          "offset": 12,
         }
       }
       class={null}
@@ -43,6 +45,7 @@ exports[`Tooltip component with component have to match default tooltip snapshot
       hide_delay={500}
       id="tooltip"
       internal_id="tooltip"
+      offset={12}
       onClick={null}
       on_click={null}
       position="top"
@@ -54,7 +57,7 @@ exports[`Tooltip component with component have to match default tooltip snapshot
       }
     >
       <span
-        className={null}
+        className="dnb-tooltip__wrapper"
         key="target-wrapper"
         onMouseEnter={[Function]}
         onMouseLeave={[Function]}
@@ -75,6 +78,7 @@ exports[`Tooltip component with component have to match default tooltip snapshot
             "children": "Text",
             "className": "dnb-tooltip dnb-core-style",
             "id": "tooltip",
+            "offset": 12,
           }
         }
         class={null}
@@ -88,12 +92,15 @@ exports[`Tooltip component with component have to match default tooltip snapshot
         id="tooltip"
         internal_id="tooltip"
         key="tooltip"
+        offset={12}
         onClick={null}
         on_click={null}
         position="top"
         show_delay={300}
         target={
-          <span>
+          <span
+            class="dnb-tooltip__wrapper"
+          >
             <button
               aria-describedby="tooltip"
             >
@@ -124,6 +131,7 @@ exports[`Tooltip component with target have to match default tooltip snapshot 1`
     group="main"
     hide_delay={500}
     id="tooltip"
+    offset={12}
     onClick={null}
     on_click={null}
     position="top"
@@ -140,6 +148,7 @@ exports[`Tooltip component with target have to match default tooltip snapshot 1`
           "children": "Text",
           "className": "dnb-tooltip dnb-core-style",
           "id": "tooltip",
+          "offset": 12,
         }
       }
       class={null}
@@ -149,6 +158,7 @@ exports[`Tooltip component with target have to match default tooltip snapshot 1`
       hide_delay={500}
       id="tooltip"
       internal_id="tooltip"
+      offset={12}
       onClick={null}
       on_click={null}
       position="top"
@@ -269,6 +279,8 @@ exports[`Tooltip scss have to match snapshot 1`] = `
     min-width: 2rem;
     min-height: 1.5rem;
     padding: 0; }
+  .dnb-tooltip__wrapper {
+    display: inline-block; }
   .dnb-tooltip__arrow {
     position: absolute;
     pointer-events: none;

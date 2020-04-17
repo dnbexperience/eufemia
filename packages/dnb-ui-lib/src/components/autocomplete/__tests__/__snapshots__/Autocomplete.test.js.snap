@@ -406,6 +406,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                   />
                 }
                 suffix={null}
+                tooltip={null}
                 type="search"
                 value="CC cc"
               >
