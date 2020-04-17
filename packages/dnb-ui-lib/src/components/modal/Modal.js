@@ -319,6 +319,7 @@ export default class Modal extends React.PureComponent {
           this._triggerRef.current.focus()
         }
 
+        // because the open_state was set to opened, we force
         if (this.props.open_state === 'opened' && this.activeElement) {
           try {
             this.activeElement.focus()
