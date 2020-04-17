@@ -1241,6 +1241,7 @@ class AutocompleteInstance extends PureComponent {
                   submit_element={
                     isTrue(show_drawer_button) ? (
                       <SubmitButton
+                        id={this._id + '-button'}
                         icon={icon}
                         icon_size={
                           icon_size ||

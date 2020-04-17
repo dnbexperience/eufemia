@@ -48,12 +48,6 @@ const TooltipStory = () => {
         </Tooltip>
       </Box>
       <Box>
-        {/* <Button right id="button1">
-          Bottom 1
-        </Button>
-        <Button right id="button2">
-          Bottom 2
-        </Button> */}
         <Button>Clickable</Button>
         <br />
         <StyledTooltip
@@ -74,6 +68,25 @@ const TooltipStory = () => {
         >
           Tooltip 2
         </StyledTooltip>
+      </Box>
+      <Box>
+        <Button
+          // aria-describedby="customId"
+          tooltip={
+            // 'Tooltip for this Button 1a'
+            <Tooltip>Tooltip for this Button 1b</Tooltip>
+          }
+        >
+          Button with Tooltip 1
+        </Button>
+        <Button
+          tooltip={
+            // 'Tooltip for this Button 2a'
+            <Tooltip position="bottom">Tooltip for this Button 2b</Tooltip>
+          }
+        >
+          Button with Tooltip 2
+        </Button>
       </Box>
     </Wrapper>
   )

@@ -21,11 +21,13 @@ import dnb_button_theme_ui from '../style/themes/dnb-button-theme-ui.scss' // es
 const props = fakeProps(require.resolve('../Button'), {
   optional: true
 })
+props.id = 'button'
 props.variant = 'primary'
 props.icon = 'question'
 props.title = 'This is a button title'
 props.size = null
 props.status = null
+props.tooltip = null
 props.icon_position = 'right'
 
 describe('Button component', () => {

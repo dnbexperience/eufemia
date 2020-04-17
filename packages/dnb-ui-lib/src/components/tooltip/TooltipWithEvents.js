@@ -14,6 +14,7 @@ export default class TooltipWithEvents extends PureComponent {
     show_delay: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     target: PropTypes.oneOfType([
       PropTypes.string,
+      PropTypes.object,
       PropTypes.func,
       PropTypes.node
     ]),
@@ -38,6 +39,7 @@ export default class TooltipWithEvents extends PureComponent {
 
   componentWillUnmount() {
     clearTimeout(this._onEnterTimeout)
+    clearTimeout(this._targetTimeout)
   }
 
   onMouseEnter = () => {
@@ -61,8 +63,39 @@ export default class TooltipWithEvents extends PureComponent {
       ...props
     } = this.props
 
-    return (
-      <>
+    if (!this.state.target && typeof target.current !== 'undefined') {
+      this._targetTimeout = setTimeout(() => {
+        if (!target.current) return
+        try {
+          const elem = target.current
+          elem.addEventListener('mouseenter', this.onMouseEnter)
+          elem.addEventListener('mouseleave', this.onMouseLeave)
+
+          const describedby = [this.props.internal_id]
+          const db = elem.getAttribute('aria-describedby')
+          if (db) {
+            describedby.unshift(db)
+          }
+          elem.setAttribute('aria-describedby', describedby.join(' '))
+        } catch (e) {
+          console.warn('Tooltip: Could not add event listeners', e)
+        }
+        this.setState({
+          target: target.current
+        })
+      }, 1)
+      return null
+    }
+
+    let componentWrapper
+    if (React.isValidElement(target)) {
+      const describedby = [this.props.internal_id]
+
+      if (target.props && target.props['aria-describedby']) {
+        describedby.unshift(target.props['aria-describedby'])
+      }
+
+      componentWrapper = (
         <span
           key="target-wrapper"
           ref={(target) => this.setState({ target })}
@@ -71,9 +104,15 @@ export default class TooltipWithEvents extends PureComponent {
           onMouseLeave={this.onMouseLeave}
         >
           {React.cloneElement(target, {
-            'aria-describedby': this.props.internal_id
+            'aria-describedby': describedby.join(' ')
           })}
         </span>
+      )
+    }
+
+    return (
+      <>
+        {componentWrapper}
 
         {this.state.target && (
           <TooltipPortal
