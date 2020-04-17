@@ -27,6 +27,7 @@ v7 contains a couple of braking changes. As a migration process, you can simply 
 - Icons inside of [Input](/uilib/components/input#input-icon) fields.
 - [Buttons](/uilib/components/button) now supports overflow text to wrap (break-word) by using `wrap="true"`.
 - [Dropdown](/uilib/components/dropdown) supports now also plain objects as data source.
+- [Modal](/uilib/components/modal) has now a **Drawer** mode inside the Modal component `mode="drawer"`.
 
 ```jsx
 <Dropdown
@@ -42,7 +43,7 @@ v7 contains a couple of braking changes. As a migration process, you can simply 
 ### Table (new features)
 
 - Sticky [Table](/uilib/elements/tables#table-with-sticky-header) header.
-- Sorable [table](/uilib/elements/tables) header buttons supports now word-wrap by using `wrap="true"`.
+- Sortable [table](/uilib/elements/tables) header buttons supports now word-wrap by using `wrap="true"`.
 - [Table](/uilib/elements/table) headers supports now `small` font-size as well as `right` and `center` aligned headers.
 
 ## New icons
