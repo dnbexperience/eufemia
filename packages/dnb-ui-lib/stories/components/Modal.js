@@ -29,6 +29,13 @@ export default [
       <Box>
         <Button variant="tertiary" text="Button" />
         <Modal
+          // no_animation
+          // open_state="opened"
+          mode="drawer"
+          container_placement="left"
+          align_content="right"
+          // align_content="center"
+          // drawer_offset={}
           title="Tertiary test"
           min_width="20rem"
           className="dnb-core-style"
@@ -52,12 +59,6 @@ export default [
         >
           This is the modal text. Triggered by a tertiary button. Hac
           eleifend consectetur massa lobortis diam netus congue a nibh
-          <Dropdown
-            label="Dropdown"
-            data={dropdownData}
-            right
-            direction="top"
-          />
           dolor faucibus vivamus taciti neque accumsan urna varius dis
           egestas montes tempus tortor mi aptent enim cursus venenatis cras
           ornare nisl pretium tincidunt et imperdiet sapien luctus vel
@@ -103,6 +104,12 @@ export default [
           fringilla curae praesent nullam vulputate nostra leo cum
           consequat sit ridiculus ad inceptos cras facilisis pretium
           natoque libero nulla interdum pellentesque viverra turpis
+          <Dropdown
+            label="Dropdown"
+            data={dropdownData}
+            right
+            // direction="top"
+          />
           vestibulum maecenas molestie dolor morbi vehicula ultrices diam
           quis velit etiam dictum feugiat sed lacinia placerat euismod
           magna sapien luctus eget tempus rutrum faucibus et suspendisse
@@ -176,7 +183,7 @@ export default [
             label="Dropdown"
             data={dropdownData}
             right
-            direction="top"
+            // direction="top"
           />
         </Modal>
       </Box>
@@ -222,10 +229,14 @@ class ModalRerenderExample extends React.PureComponent {
   }
 
   componentDidMount() {
-    setTimeout(() => {
+    this.timeout = setTimeout(() => {
       this.setState({ title: 'New Title' })
       this.setState({ trigger_text: 'New Open Modal' })
     }, 1e3)
+  }
+
+  componentWillUnmount() {
+    clearTimeout(this.timeout)
   }
 
   render() {
@@ -327,37 +338,44 @@ const ModalCloseExample = () => {
   const [count, setCount] = React.useState(0)
 
   React.useEffect(() => {
+    let timeout
+
     if (open_state === 'opened') {
-      // setTimeout(() => {
-      setTimeout(() => {
+      timeout = setTimeout(() => {
         console.log('count:', count)
         setCount(count + 1)
       }, 1e3)
-      // setOpenState('opened')
-      // setTimeout(() => {
-      //   setOpenState('closed')
-      // }, 3e3)
-      // }, 1e3)
     }
+
+    return () => clearTimeout(timeout)
   })
 
   return (
     <>
-      <Button text="Open" on_click={() => setOpenState('opened')} />
+      <Button
+        text="Set opened state"
+        on_click={() => setOpenState('opened')}
+      />
       <Modal
         className="dnb-core-style"
+        // trigger_hidden
         trigger_text="Open Modal and auto close"
         title="Modal Title"
         open_state={open_state}
-        // open_modal={open => {
-        //   setTimeout(open, 3e3)
+        // open_modal={(open) => {
+        //   const timeout = setTimeout(open, 3e3)
+        //   return () => clearTimeout(timeout)
         // }}
         // hide_close_button
         close_modal={(close) => {
+          let timeout
+
           if (open_state !== 'opened') {
             console.log('Modal was opened')
-            setTimeout(close, 1e3)
+            timeout = setTimeout(close, 1e3)
           }
+
+          return () => clearTimeout(timeout)
         }}
         on_open={(e) => {
           console.log('on_open', e)
