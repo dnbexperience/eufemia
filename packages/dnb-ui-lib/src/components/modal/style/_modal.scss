@@ -15,6 +15,11 @@
   --modal-z-index: 3000;
   --modal-spacing: 2rem; // should reflect --spacing-large
   --modal-max-width: 60rem;
+
+  // Drawer mode
+  --modal-drawer-width: 40vw;
+  --modal-drawer-min-width: 25rem;
+  --modal-drawer-max-width: 40rem;
 }
 
 [data-dnb-modal-active='true'] {
@@ -71,8 +76,6 @@
       -webkit-user-select: text; // Safari / Touch fix
       border: none;
 
-      background: var(--color-white);
-
       @include allAbove(small) {
         padding: var(--modal-spacing) var(--modal-spacing)
           calc(var(--modal-spacing) / 2);
@@ -85,6 +88,9 @@
         padding: calc(var(--modal-spacing) / 2)
           calc(var(--modal-spacing) / 2) 0;
       }
+
+      overscroll-behavior-y: contain;
+      -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
     }
 
     &--fullscreen {
@@ -93,6 +99,69 @@
     }
     &--fullscreen &__inner {
       @include modalFullscreen();
+      border-radius: 0;
+    }
+
+    &__align--center &__inner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    &__align--right &__inner {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+    }
+    &__align--centered &__inner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    // Drawer mode
+    &--drawer &__inner {
+      width: var(--modal-drawer-width);
+      min-width: var(--modal-drawer-min-width);
+      max-width: var(--modal-drawer-max-width);
+
+      @media (max-width: 40em) {
+        width: 100vw;
+        min-width: auto;
+        max-width: auto;
+      }
+    }
+    html:not([data-dnb-test]) &--drawer#{&}--left &__inner {
+      transform: translate3d(-20rem, 0, 0);
+    }
+    html:not([data-dnb-test]) &--drawer#{&}--right &__inner {
+      transform: translate3d(20rem, 0, 0);
+    }
+    html:not([data-dnb-test]) &--drawer#{&}--right {
+      justify-content: flex-end;
+    }
+    html:not([data-dnb-test]) &--drawer &__inner {
+      opacity: 0.1;
+      animation: show-drawer 300ms ease-out forwards;
+    }
+    html:not([data-dnb-test]) &--drawer#{&}--hide#{&}--left &__inner {
+      animation: hide-drawer-left 300ms ease-in-out forwards;
+    }
+    html:not([data-dnb-test]) &--drawer#{&}--hide#{&}--right &__inner {
+      animation: hide-drawer-right 300ms ease-in-out forwards;
+    }
+
+    // Modal mode
+    html:not([data-dnb-test]) &--modal &__inner {
+      animation: show-modal 300ms ease-out forwards;
+    }
+    html:not([data-dnb-test]) &--modal#{&}--hide &__inner {
+      animation: hide-modal 220ms ease-in-out forwards;
+    }
+
+    /* stylelint-disable-next-line */
+    &--no-animation &__inner {
+      animation-duration: 0ms !important;
     }
   }
 
@@ -118,11 +187,6 @@
     // For testing large scrollable content
     // height: 200vh;
     // background: blue;
-
-    // Firefox Section fix
-    .dnb-section::after {
-      left: calc(1px - 1px - var(--modal-spacing));
-    }
   }
 
   &__close-button {
@@ -151,6 +215,104 @@
     width: 100%;
     height: 100%;
 
-    background-color: rgba(255, 255, 255, 0.85);
+    html:not([data-dnb-test]) &--modal {
+      animation: show-modal-overlay 300ms ease-out forwards;
+    }
+    html:not([data-dnb-test]) &--modal#{&}--hide {
+      animation: hide-modal-overlay 300ms ease-in-out forwards;
+    }
+
+    // Drawer mode
+    &--drawer {
+      background: rgba(0, 0, 0, 0.4);
+      box-shadow: 0 100vh 0 0 rgba(0, 0, 0, 0.4);
+    }
+    html:not([data-dnb-test]) &--drawer {
+      animation: show-drawer-overlay 300ms ease-out forwards;
+    }
+    html:not([data-dnb-test]) &--drawer#{&}--hide {
+      animation: hide-drawer-overlay 300ms ease-in-out forwards;
+    }
+  }
+}
+
+@keyframes show-modal {
+  from {
+    opacity: 0.1;
+    transform: translate3d(0, -1rem, 0);
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+}
+@keyframes hide-modal {
+  from {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+  to {
+    transform: translate3d(0, 1rem, 0);
+    opacity: 0;
+  }
+}
+
+@keyframes show-drawer {
+  to {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+}
+@keyframes hide-drawer-left {
+  from {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+  to {
+    transform: translate3d(-20rem, 0, 0);
+    opacity: 0;
+  }
+}
+@keyframes hide-drawer-right {
+  from {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+  to {
+    transform: translate3d(20rem, 0, 0);
+    opacity: 0;
+  }
+}
+
+@keyframes show-modal-overlay {
+  from {
+    background: transparent;
+  }
+  to {
+    background: rgba(255, 255, 255, 0.85);
+  }
+}
+@keyframes hide-modal-overlay {
+  from {
+    background: rgba(255, 255, 255, 0.85);
+  }
+  to {
+    background: transparent;
+  }
+}
+@keyframes show-drawer-overlay {
+  from {
+    background: transparent;
+  }
+  to {
+    background: rgba(0, 0, 0, 0.4);
+  }
+}
+@keyframes hide-drawer-overlay {
+  from {
+    background: rgba(0, 0, 0, 0.4);
+  }
+  to {
+    background: transparent;
   }
 }
