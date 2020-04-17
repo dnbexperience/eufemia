@@ -171,13 +171,15 @@ export default class Tooltip extends PureComponent {
             {content}
           </TooltipWithEvents>
         ) : (
-          <TooltipPortal
-            target={target}
-            attributes={attributes}
-            {...newProps}
-          >
-            {content}
-          </TooltipPortal>
+          target && (
+            <TooltipPortal
+              target={target}
+              attributes={attributes}
+              {...newProps}
+            >
+              {content}
+            </TooltipPortal>
+          )
         )}
       </>
     )

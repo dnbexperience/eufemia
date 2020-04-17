@@ -8,6 +8,7 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import Context from '../../shared/Context'
 import {
+  makeUniqueId,
   isTrue,
   extendPropsWithContext,
   registerElement,
@@ -19,6 +20,7 @@ import {
 import { createSpacingClasses } from '../space/SpacingHelper'
 import IconPrimary from '../icon-primary/IconPrimary'
 import FormStatus from '../form-status/FormStatus'
+import Tooltip from '../tooltip/Tooltip'
 
 const renderProps = { on_click: null }
 
@@ -37,6 +39,11 @@ const propTypes = {
   ]),
   icon_position: PropTypes.oneOf(['left', 'right']),
   icon_size: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  tooltip: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.func,
+    PropTypes.node
+  ]),
   status: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.func,
@@ -85,6 +92,7 @@ const defaultProps = {
   wrap: false,
   bounding: false,
   disabled: null,
+  tooltip: null,
   status: null,
   status_state: 'error',
   status_animation: null,
@@ -125,6 +133,8 @@ export default class Button extends React.PureComponent {
   constructor(props) {
     super(props)
 
+    this._id =
+      props.id || ((props.status || props.tooltip) && makeUniqueId()) // cause we need an id anyway
     this._ref = React.createRef()
 
     // pass along all props we wish to have as params
@@ -172,11 +182,12 @@ export default class Button extends React.PureComponent {
       variant,
       size,
       title,
+      tooltip,
       status,
       status_state,
       status_animation,
       global_status_id,
-      id,
+      id, // eslint-disable-line
       disabled,
       text: _text, // eslint-disable-line
       icon: _icon, // eslint-disable-line
@@ -275,7 +286,7 @@ export default class Button extends React.PureComponent {
       className: classes,
       type,
       title,
-      id,
+      id: this._id,
       disabled: isTrue(disabled),
       ...attributes,
       onMouseOut: this.onMouseOutHandler, // for resetting the button to the default state
@@ -313,12 +324,22 @@ export default class Button extends React.PureComponent {
         {this.state.afterContent}
         {showStatus && (
           <FormStatus
-            id={id + '-form-status'}
+            id={this._id + '-form-status'}
             global_status_id={global_status_id}
             text={status}
             status={status_state}
-            text_id={id + '-status'} // used for "aria-describedby"
+            text_id={this._id + '-status'} // used for "aria-describedby"
             animation={status_animation}
+          />
+        )}
+
+        {tooltip && this._ref && (
+          <Tooltip
+            id={this._id + '-tooltip'}
+            component={this._ref}
+            {...(React.isValidElement(tooltip) && tooltip.props
+              ? tooltip.props
+              : { children: tooltip })}
           />
         )}
       </>
