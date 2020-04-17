@@ -145,8 +145,6 @@ To enhance or manipulate the the table style, you can make use of a couple helpe
 
 **NB:** Keep in mind, you have to avoid using `overflow: hidden;` on any child elements to get `position: sticky;` to work. This is a know issue happening on every modern browser. There are various tricks, including [this deallocation / sync solution](https://uxdesign.cc/position-stuck-96c9f55d9526).
 
-Also, the table header is set to **small** font-size.
-
 <ComponentBox
   reactLive
   hideCode
@@ -220,6 +218,8 @@ Also, the table header is set to **small** font-size.
 
 ### Table with long header text (wrapping)
 
+Also, the table header is set to **small** font-size.
+
 <ComponentBox
   reactLive
   hideCode
@@ -229,7 +229,7 @@ Also, the table header is set to **small** font-size.
 <Table>
   <caption className="dnb-sr-only">A Table Caption</caption>
   <thead>
-    <tr>
+    <tr className="dnb-table--small">
       <th scope="col" colSpan="2">
         Static long header senectus ornare convallis ut at  erat imperdiet commodo
       </th>
