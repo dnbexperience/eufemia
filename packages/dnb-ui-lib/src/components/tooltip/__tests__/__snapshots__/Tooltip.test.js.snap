@@ -99,6 +99,7 @@ exports[`Tooltip component with component have to match default tooltip snapshot
         show_delay={300}
         target={
           <span
+            aria-describedby="tooltip"
             class="dnb-tooltip__wrapper"
           >
             <button
