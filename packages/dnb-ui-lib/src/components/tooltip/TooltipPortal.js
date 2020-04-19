@@ -133,7 +133,7 @@ export default class TooltipPortal extends React.PureComponent {
   }
 }
 
-const makeArrayUnique = () =>
-  this.filter(Boolean).filter(
-    (value, index, self) => self.indexOf(value) === index
-  )
+const makeArrayUnique = (array) =>
+  array
+    .filter(Boolean)
+    .filter((value, index, self) => self.indexOf(value) === index)

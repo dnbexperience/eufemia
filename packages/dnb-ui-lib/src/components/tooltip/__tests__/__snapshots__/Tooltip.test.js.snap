@@ -93,7 +93,9 @@ exports[`Tooltip component with component have to match default tooltip snapshot
         position="top"
         show_delay={300}
         target={
-          <span>
+          <span
+            aria-describedby="tooltip"
+          >
             <button
               aria-describedby="tooltip"
             >
