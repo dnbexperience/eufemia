@@ -212,6 +212,8 @@ export default class Modal extends PureComponent {
     }
   }
   componentWillUnmount() {
+    clearTimeout(this._sideEffectsTimeout)
+    clearTimeout(this._openTimeout)
     this.toggleOpenClose(null, false)
   }
 
@@ -540,8 +542,6 @@ class ModalContent extends PureComponent {
 
   componentWillUnmount() {
     clearTimeout(this._focusTimeout)
-    clearTimeout(this._openTimeout)
-    clearTimeout(this._sideEffectsTimeout)
     this.revertScrollPossibility()
     this.revertScreenReaderPossibility()
     this.revertFocusPossibility()
