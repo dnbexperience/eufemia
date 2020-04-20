@@ -86,6 +86,7 @@ const propTypes = {
     PropTypes.func,
     PropTypes.node
   ]),
+  disable_filter: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   scrollable: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   focusable: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   skip_highlight: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -188,6 +189,7 @@ const defaultProps = {
   status_animation: null,
   global_status_id: null,
   suffix: null,
+  disable_filter: false,
   scrollable: true,
   focusable: false,
   skip_highlight: false,
@@ -853,125 +855,128 @@ class AutocompleteInstance extends React.PureComponent {
       '<span class="dnb-drawer-list__option__item--highlight">'
     const endTag = '</span>'
 
-    return (
-      searchIndex
-        .map((item, itemIndex) => {
-          const listOfFoundWords = findWords(item.searchChunk)
+    const disableFilter = isTrue(this.props.disable_filter)
 
-          if (typeof item.dataItem === 'string') {
-            item.dataItem = { content: item.dataItem }
+    searchIndex = searchIndex.map((item, itemIndex) => {
+      const listOfFoundWords = findWords(item.searchChunk)
+
+      if (typeof item.dataItem === 'string') {
+        item.dataItem = { content: item.dataItem }
+      }
+
+      // this function gets called once the items are rendered / in view
+      item.dataItem.render = (children) => {
+        let Component = null
+
+        // it can be an object, React element or an array
+        if (typeof children !== 'string') {
+          if (!Array.isArray(children)) {
+            children = [children]
           }
 
-          // this function gets called once the items are rendered / in view
-          item.dataItem.render = (children) => {
-            let Component = null
+          // keep the original for later
+          Component = children
 
-            // it can be an object, React element or an array
-            if (typeof children !== 'string') {
-              if (!Array.isArray(children)) {
-                children = [children]
-              }
+          // make string out of it
+          children = children.map((child) => grabStringFromReact(child))
+        }
 
-              // keep the original for later
-              Component = children
+        if (typeof children === 'string') {
+          children = [children] // for a while we had split this into seperate words children.split(' ') but this is not needed anymore
+        }
 
-              // make string out of it
-              children = children.map((child) =>
-                grabStringFromReact(child)
+        children = children
+          .map((child) => {
+            if (skipHighlight || this.state.skipHighlight) {
+              return child
+            }
+
+            const formatted = listOfFoundWords
+              .reverse()
+              .map(({ word }) => {
+                const charStart = child
+                  .toLowerCase()
+                  .indexOf(word.toLowerCase())
+                const charEnd = word.length + charStart
+
+                if (charStart === -1) {
+                  return null
+                }
+
+                const ret = {
+                  a: child.substring(0, charStart),
+                  b: child.substring(charStart, charEnd),
+                  c: child.substring(charEnd, child.length)
+                }
+
+                return ret
+              })
+              .filter(Boolean)
+              .reduce((acc, { a, b, c }) => {
+                if (acc.includes('š')) {
+                  return acc.replace(new RegExp(`(${b})`, 'gi'), 'š$1Ÿ')
+                }
+
+                return `${a}š${b}Ÿ${c}`
+              }, child)
+
+            if (formatted.includes('š')) {
+              return (
+                <span
+                  key={itemIndex + child}
+                  dangerouslySetInnerHTML={{
+                    __html: formatted
+                      .replace(/š/g, startTag)
+                      .replace(/Ÿ/g, endTag)
+                  }}
+                />
               )
             }
 
-            if (typeof children === 'string') {
-              children = [children] // for a while we had split this into seperate words children.split(' ') but this is not needed anymore
-            }
+            return formatted
+          })
+          .map((c, i, a) => (i < a.length - 1 ? [c, ' '] : c)) // add back the skiped spaces
 
-            children = children
-              .map((child) => {
-                if (skipHighlight || this.state.skipHighlight) {
-                  return child
-                }
+        if (Component) {
+          children = Array.isArray(Component)
+            ? Component.map((Comp, i) =>
+                React.cloneElement(
+                  Comp,
+                  { key: itemIndex + i },
+                  children[i]
+                )
+              )
+            : React.cloneElement(Component, null, children)
+        }
 
-                const formatted = listOfFoundWords
-                  .reverse()
-                  .map(({ word }) => {
-                    const charStart = child
-                      .toLowerCase()
-                      .indexOf(word.toLowerCase())
-                    const charEnd = word.length + charStart
+        return children
+      }
 
-                    if (charStart === -1) {
-                      return null
-                    }
+      // this prioritizes the first written words
+      const totalScore = listOfFoundWords.reduce(
+        (acc, { score }) => (acc += score),
+        0
+      )
 
-                    const ret = {
-                      a: child.substring(0, charStart),
-                      b: child.substring(charStart, charEnd),
-                      c: child.substring(charEnd, child.length)
-                    }
+      if (disableFilter) {
+        return item.dataItem
+      }
 
-                    return ret
-                  })
-                  .filter(Boolean)
-                  .reduce((acc, { a, b, c }) => {
-                    if (acc.includes('š')) {
-                      return acc.replace(
-                        new RegExp(`(${b})`, 'gi'),
-                        'š$1Ÿ'
-                      )
-                    }
+      return {
+        countFindings: listOfFoundWords.length + totalScore,
+        item
+      }
+    })
 
-                    return `${a}š${b}Ÿ${c}`
-                  }, child)
-
-                if (formatted.includes('š')) {
-                  return (
-                    <span
-                      key={itemIndex + child}
-                      dangerouslySetInnerHTML={{
-                        __html: formatted
-                          .replace(/š/g, startTag)
-                          .replace(/Ÿ/g, endTag)
-                      }}
-                    />
-                  )
-                }
-
-                return formatted
-              })
-              .map((c, i, a) => (i < a.length - 1 ? [c, ' '] : c)) // add back the skiped spaces
-
-            if (Component) {
-              children = Array.isArray(Component)
-                ? Component.map((Comp, i) =>
-                    React.cloneElement(
-                      Comp,
-                      { key: itemIndex + i },
-                      children[i]
-                    )
-                  )
-                : React.cloneElement(Component, null, children)
-            }
-
-            return children
-          }
-
-          // this prioritizes the first written words
-          const totalScore = listOfFoundWords.reduce(
-            (acc, { score }) => (acc += score),
-            0
-          )
-
-          return {
-            countFindings: listOfFoundWords.length + totalScore,
-            item
-          }
-        })
-
-        // This removes items with 0 findings
+    if (!disableFilter) {
+      // This removes items with 0 findings
+      searchIndex = searchIndex
         .filter(({ countFindings }) => countFindings)
         .sort(({ countFindings: a }, { countFindings: b }) => b - a)
         .map(({ item }) => item.dataItem)
-    )
+    }
+
+    return searchIndex
   }
 
   onSelectHandler = (args) => {

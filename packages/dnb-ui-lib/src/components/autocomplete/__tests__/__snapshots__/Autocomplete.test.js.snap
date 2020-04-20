@@ -17,6 +17,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
   }
   default_value="default_value"
   direction="bottom"
+  disable_filter="disable_filter"
   disabled="disabled"
   focusable="focusable"
   global_status_id="global_status_id"
@@ -77,6 +78,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
     }
     default_value="default_value"
     direction="bottom"
+    disable_filter="disable_filter"
     disabled="disabled"
     focusable="focusable"
     global_status_id="global_status_id"
@@ -145,6 +147,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
       }
       default_value="default_value"
       direction="bottom"
+      disable_filter="disable_filter"
       disabled="disabled"
       focusable="focusable"
       global_status_id="global_status_id"
@@ -903,6 +906,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                 }
                 default_value="default_value"
                 direction="bottom"
+                disable_filter="disable_filter"
                 disabled="disabled"
                 focusable="focusable"
                 global_status_id="global_status_id"

@@ -58,7 +58,6 @@ describe('Autocomplete component', () => {
       <Component id="autocomplete-id" data={mockData} show_drawer_button />
     )
 
-    // open
     open(Comp)
 
     Comp.find('.dnb-input__input').simulate('change', {
@@ -119,6 +118,24 @@ describe('Autocomplete component', () => {
     expect(Comp.find('li.dnb-drawer-list__option').at(0).text()).toBe(
       'Ingen alternativer'
     )
+  })
+
+  it('has correct options after filter if filter is disabled', () => {
+    const Comp = mount(
+      <Component
+        id="autocomplete-id"
+        disable_filter
+        data={mockData}
+        show_drawer_button
+      />
+    )
+
+    open(Comp)
+
+    Comp.find('.dnb-input__input').simulate('change', {
+      target: { value: 'aa' }
+    })
+    expect(Comp.find('li.dnb-drawer-list__option').length).toBe(3)
   })
 
   it('has correct "aria-expanded"', () => {
