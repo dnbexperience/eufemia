@@ -52,7 +52,10 @@ class Layout extends React.PureComponent {
     // we prevent the default and set it manually. The DOM elements have tabIndex="-1" and className="dnb-no-focus" in place
     try {
       event.preventDefault()
-      this._mainRef.current.focus()
+      const elem = this._mainRef.current
+      elem.setAttribute('tabindex', '-1')
+      elem.focus()
+      elem.removeAttribute('tabindex') // don't keep tabindex arround, Chrome fucks up the selection / focus feature
     } catch (e) {
       console.warn(e)
     }
@@ -92,7 +95,6 @@ class Layout extends React.PureComponent {
             >
               <ContentInner
                 id="dnb-app-content"
-                tabIndex="-1"
                 className="dnb-no-focus"
                 ref={this._mainRef}
               >
