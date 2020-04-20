@@ -224,10 +224,14 @@ export default class Modal extends React.PureComponent {
         fn()
       }
     })
+    this.setState({
+      hide: true,
+      modalActive: false,
+      _listenForPropChanges: false
+    })
     clearTimeout(this._openTimeout)
     clearTimeout(this._closeTimeout)
     clearTimeout(this._sideEffectsTimeout)
-    this.toggleOpenClose(null, false)
   }
 
   toggleOpenClose = (event = null, showModal = null) => {
