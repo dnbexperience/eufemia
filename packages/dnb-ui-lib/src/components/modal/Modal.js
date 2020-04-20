@@ -212,9 +212,12 @@ export default class Modal extends PureComponent {
     }
   }
   componentWillUnmount() {
+    this.setState({
+      modalActive: false,
+      _listenForPropChanges: false
+    })
     clearTimeout(this._sideEffectsTimeout)
     clearTimeout(this._openTimeout)
-    this.toggleOpenClose(null, false)
   }
 
   toggleOpenClose = (event = null, showModal = null) => {
