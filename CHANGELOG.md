@@ -1,11 +1,11 @@
-## March, 28. 2020
+## April, 22. 2020
 
 - The [color](/quickguide-designer/colors) `Sea green alt` is removed and got replaced by `Sea green`
 - The `DNB` font got updates on the bold weight, mostly effected Windows users
 - New component [Autocomplete](/uilib/components/autocomplete)
 - New component [Pagination](/uilib/components/pagination) including infinity scroller
 - New [secondary icons](/icons/secondary): `pay_from`, `transfer_to`
-- Changes to the UMD [bundles](/uilib/usage/first-steps/bundles) structure, including ESM (mjs)
+- **Breaking Changes** to the UMD [bundles](/uilib/usage/first-steps/bundles) structure (v7), including ESM (mjs)
 
 ## January, 30. 2020
 
