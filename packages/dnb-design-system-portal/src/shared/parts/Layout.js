@@ -29,9 +29,16 @@ class Layout extends React.PureComponent {
     children: PropTypes.node.isRequired,
     location: PropTypes.object.isRequired
   }
+
   static defaultProps = {
     fullscreen: false
   }
+
+  constructor(props) {
+    super(props)
+    this._mainRef = React.createRef()
+  }
+
   componentDidMount() {
     // gets aplyed on "onRouteUpdate"
     setPageFocusElement('.dnb-app-content h1:nth-of-type(1)', 'content')
@@ -39,6 +46,18 @@ class Layout extends React.PureComponent {
     // if url hash is defined, scroll to the id
     scrollToLocationHashId({ offset: 100, delay: 100 })
   }
+
+  skipToContentHandler = (event) => {
+    // because we want to avoid that the hash get's set (#dnb-app-content)
+    // we prevent the default and set it manually. The DOM elements have tabIndex="-1" and className="dnb-no-focus" in place
+    try {
+      event.preventDefault()
+      this._mainRef.current.focus()
+    } catch (e) {
+      console.warn(e)
+    }
+  }
+
   render() {
     const { children, location, fullscreen } = this.props
 
@@ -53,7 +72,11 @@ class Layout extends React.PureComponent {
     return (
       <MainMenuProvider>
         <SidebarMenuProvider>
-          <a className="dnb-skip-link" href="#dnb-app-content">
+          <a
+            className="dnb-skip-link"
+            href="#dnb-app-content"
+            onClick={this.skipToContentHandler}
+          >
             Skip to content
           </a>
 
@@ -67,7 +90,12 @@ class Layout extends React.PureComponent {
               fullscreen={fullscreen}
               className="dnb-app-content-inner"
             >
-              <ContentInner>
+              <ContentInner
+                id="dnb-app-content"
+                tabIndex="-1"
+                className="dnb-no-focus"
+                ref={this._mainRef}
+              >
                 <GlobalStatus id="main-status" />
                 <div className="dev-grid">{children}</div>
               </ContentInner>
@@ -98,7 +126,6 @@ const Wrapper = styled.div`
 
 const Content = ({ className, fullscreen, children }) => (
   <ContentWrapper
-    id="dnb-app-content"
     className={classnames(
       'dnb-spacing',
       'dnb-app-content',

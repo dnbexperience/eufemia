@@ -60,6 +60,7 @@ if (
 ) {
   window.IS_TEST = true
 }
+
 export const onPreRouteUpdate = ({ location }) => {
   if (
     location &&
@@ -70,18 +71,18 @@ export const onPreRouteUpdate = ({ location }) => {
     }
   }
 }
+
 export const onRouteUpdate = ({ prevLocation }) => {
-  // in order to use our own focus management by using applyPageFocus
-  // we have to disable the focus management from Reach Router
-  // More info: why we have to have the tabindex https://reach.tech/router/accessibility
-  // More info: The div is necessary to manage focus https://github.com/reach/router/issues/63#issuecomment-395988602
   try {
-    const elem = document.querySelector('#gatsby-focus-wrapper')
-    if (elem) {
-      elem.removeAttribute('tabindex')
-    }
+    // in order to use our own focus management by using applyPageFocus
+    // we have to disable the focus management from Reach Router
+    // More info: why we have to have the tabindex https://reach.tech/router/accessibility
+    // More info: The div is necessary to manage focus https://github.com/reach/router/issues/63#issuecomment-395988602
+    document
+      .querySelector('#gatsby-focus-wrapper')
+      .removeAttribute('tabindex')
   } catch (e) {
-    console.log(e)
+    console.warn(e)
   }
 
   // if previous location is not null
