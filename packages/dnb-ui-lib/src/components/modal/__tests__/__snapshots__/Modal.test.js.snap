@@ -989,6 +989,7 @@ button.dnb-button::-moz-focus-inner {
       -webkit-user-select: text;
       border: none;
       overscroll-behavior-y: contain;
+      scrollbar-width: thin;
       -webkit-tap-highlight-color: rgba(0, 0, 0, 0); }
       @media screen and (max-width: 40em) {
         .dnb-modal__content__inner {

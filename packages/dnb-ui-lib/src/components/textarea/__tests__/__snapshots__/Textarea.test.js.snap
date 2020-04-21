@@ -688,6 +688,7 @@ textarea.dnb-textarea {
     padding: 0 var(--textarea-padding-width);
     font-size: var(--font-size-basis);
     line-height: var(--line-height-basis);
+    scrollbar-width: thin;
     /* IE11 fix */ }
     @media screen and (-ms-high-contrast: none) {
       .dnb-textarea__placeholder {
@@ -703,6 +704,7 @@ textarea.dnb-textarea {
     padding: 0 var(--textarea-padding-width);
     font-size: var(--font-size-basis);
     line-height: var(--line-height-basis);
+    scrollbar-width: thin;
     /* IE11 fix */ }
     @media screen and (-ms-high-contrast: none) {
       .dnb-textarea__textarea {
@@ -762,6 +764,7 @@ textarea.dnb-textarea {
   padding: 0 var(--textarea-padding-width);
   font-size: var(--font-size-basis);
   line-height: var(--line-height-basis);
+  scrollbar-width: thin;
   /* IE11 fix */
   border-radius: 0.5rem;
   /* IE11 fix */ }
