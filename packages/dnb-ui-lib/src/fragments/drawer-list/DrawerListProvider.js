@@ -173,7 +173,10 @@ export default class DrawerListProvider extends React.PureComponent {
         }
         // we do this because we want the arrow
         // to change visually
-        if (closestToBottom !== tmpToBottom) {
+        if (
+          closestToBottom !== tmpToBottom &&
+          itemSpots[closestToBottom]
+        ) {
           this.setState({
             closestToBottom: itemSpots[closestToBottom].i,
             _listenForPropChanges: false
@@ -421,22 +424,13 @@ export default class DrawerListProvider extends React.PureComponent {
             }
           }
 
-          this._focusTimeout = setTimeout(
-            () => this.scrollToItem(active_item, { scrollTo }),
-            1
-          ) // NVDA / Firefox needs a dealy to set this focus
+          this.scrollToItem(active_item, { scrollTo })
         }
       )
     } else if (!isTrue(this.props.prevent_focus)) {
-      this._focusTimeout = setTimeout(() => {
-        if (this._refUl.current) {
-          try {
-            this._refUl.current.focus({ preventScroll: true })
-          } catch (e) {
-            //
-          }
-        }
-      }, 1) // NVDA / Firefox needs a dealy to set this focus
+      if (this._refUl.current) {
+        this._refUl.current.focus({ preventScroll: true })
+      }
     }
   }
 

@@ -8,14 +8,14 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import {
   isTrue,
+  isMac,
   makeUniqueId,
   extendPropsWithContext,
   registerElement,
   validateDOMAttributes,
   processChildren,
   pickRenderProps,
-  dispatchCustomElementEvent,
-  isMac
+  dispatchCustomElementEvent
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
 import { createSpacingClasses } from '../space/SpacingHelper'
@@ -257,7 +257,7 @@ export default class Input extends React.PureComponent {
         try {
           this._ref.current.select()
         } catch (e) {
-          console.log(e)
+          console.warn(e)
         }
       }, 1) // safari needs a delay
     }
@@ -402,7 +402,7 @@ export default class Input extends React.PureComponent {
       id,
       disabled: isTrue(disabled),
       name: id,
-      'aria-placeholder': placeholder,
+      // 'aria-placeholder': placeholder,// NVDA just reads out the placeholder twice
       ...attributes,
       ...inputAttributes,
       onChange: this.onChangeHandler,
@@ -489,8 +489,7 @@ export default class Input extends React.PureComponent {
               {!hasValue && placeholder && focusState !== 'focus' && (
                 <span
                   id={id + '-placeholder'}
-                  // aria-hidden={this.isMac}
-                  aria-hidden
+                  aria-hidden={this.isMac}
                   className={classnames(
                     'dnb-input__placeholder',
                     align ? `dnb-input__align--${align}` : null

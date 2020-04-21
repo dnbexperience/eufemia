@@ -684,6 +684,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                     >
                       <ForwardRef
                         aria-activedescendant="option-dropdown-id-2"
+                        aria-expanded={true}
                         aria-labelledby="dropdown-id-label"
                         cache_hash="2266bottom1"
                         className={null}
@@ -706,6 +707,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                       >
                         <ul
                           aria-activedescendant="option-dropdown-id-2"
+                          aria-expanded={true}
                           aria-labelledby="dropdown-id-label"
                           className="dnb-drawer-list__options"
                           id="dropdown-id-ul"
@@ -732,7 +734,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                               value={null}
                             >
                               <li
-                                aria-selected="false"
+                                aria-selected={false}
                                 className="dnb-drawer-list__option"
                                 data-item={0}
                                 id="option-dropdown-id-0"
@@ -775,7 +777,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                               value={null}
                             >
                               <li
-                                aria-selected="false"
+                                aria-selected={false}
                                 className="dnb-drawer-list__option"
                                 data-item={1}
                                 id="option-dropdown-id-1"
@@ -862,7 +864,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                               value={null}
                             >
                               <li
-                                aria-selected="false"
+                                aria-selected={false}
                                 className="dnb-drawer-list__option"
                                 data-item={3}
                                 id="option-dropdown-id-3"
@@ -905,7 +907,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                               value={null}
                             >
                               <li
-                                aria-selected="false"
+                                aria-selected={false}
                                 className="dnb-drawer-list__option"
                                 data-item={4}
                                 id="option-dropdown-id-4"
@@ -938,7 +940,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                               value={null}
                             >
                               <li
-                                aria-selected="false"
+                                aria-selected={false}
                                 className="dnb-drawer-list__option"
                                 data-item={5}
                                 id="option-dropdown-id-5"
@@ -971,7 +973,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                               value={null}
                             >
                               <li
-                                aria-selected="false"
+                                aria-selected={false}
                                 className="closest-to-top closest-to-bottom last-of-type dnb-drawer-list__option"
                                 data-item={6}
                                 id="option-dropdown-id-6"
@@ -1917,6 +1919,7 @@ legend.dnb-form-label {
     max-height: 50vh;
     overflow-y: scroll;
     overscroll-behavior: contain;
+    scrollbar-width: thin;
     -webkit-overflow-scrolling: touch;
     -ms-overflow-style: auto; }
   .dnb-drawer-list--opened .dnb-drawer-list__options {

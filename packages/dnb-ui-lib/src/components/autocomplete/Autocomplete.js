@@ -9,6 +9,8 @@ import classnames from 'classnames'
 import keycode from 'keycode'
 import {
   isTrue,
+  isMac,
+  isWin,
   makeUniqueId,
   extendPropsWithContext,
   registerElement,
@@ -314,6 +316,9 @@ class AutocompleteInstance extends React.PureComponent {
     this._ref = React.createRef()
     this._refShell = React.createRef()
     this._refInput = React.createRef()
+
+    this.isMac = isMac()
+    this.isWin = isWin()
   }
 
   componentDidMount() {
@@ -684,12 +689,6 @@ class AutocompleteInstance extends React.PureComponent {
     }
   }
 
-  onSubmitHandler = () => {
-    const hasFilter = this.hasFilterActive()
-    this.showAll()
-    this.toggleVisible({ hasFilter })
-  }
-
   hasValidData = (data = this.context.drawerList.data) => {
     if (data.length > 0) {
       const first = data[0]
@@ -714,7 +713,48 @@ class AutocompleteInstance extends React.PureComponent {
     )
   }
 
-  onTriggerKeyDownHandler = ({ event: e }) => {
+  onTriggerKeyDownHandler = (e) => {
+    const key = keycode(e)
+
+    switch (key) {
+      case 'space':
+        {
+          this.setVisible()
+        }
+        break
+    }
+
+    switch (key) {
+      case 'space':
+      case 'enter':
+      case 'down':
+      case 'up':
+        {
+          e.preventDefault()
+          const hasFilter = this.hasFilterActive()
+          if (hasFilter) {
+            this.showAll()
+          }
+          try {
+            this._refInput.current._ref.current.focus()
+          } catch (e) {
+            console.warn(e)
+          }
+        }
+        break
+    }
+  }
+
+  onSubmit = () => {
+    const hasFilter = this.hasFilterActive()
+    if (hasFilter) {
+      this.showAll()
+    }
+
+    this.toggleVisible({ hasFilter })
+  }
+
+  onShellKeyDownHandler = (e) => {
     const key = keycode(e)
     switch (key) {
       case 'up':
@@ -991,39 +1031,56 @@ class AutocompleteInstance extends React.PureComponent {
   onChangeHandler = (args) => {
     const selected_item = args.selected_item
 
-    const inputValue = AutocompleteInstance.getCurrentDataTitle(
-      selected_item,
-      this.context.drawerList.data
-    )
+    if (!isTrue(this.props.keep_open)) {
+      this.setState({
+        skipFocus: true,
+        skipHighlight: true,
+        _listenForPropChanges: false
+      })
 
-    this.setState({
-      skipFocus: true,
-      skipHighlight: true,
-      inputValue,
-      _listenForPropChanges: false
-    })
+      this.setHidden()
+
+      // // Do this, so screen readers get a NEW focus later on
+      // // So we first need a blur of the input basically
+      try {
+        this.context.drawerList._refUl.current.focus({
+          preventScroll: true
+        })
+      } catch (e) {
+        // do nothing
+      }
+
+      clearTimeout(this._selectTimeout)
+      this._selectTimeout = setTimeout(() => {
+        this.setState({
+          inputValue: AutocompleteInstance.getCurrentDataTitle(
+            selected_item,
+            this.context.drawerList.data
+          ),
+          skipFocus: false,
+          _listenForPropChanges: false
+        })
+
+        try {
+          this._refInput.current._ref.current.focus()
+        } catch (e) {
+          // do nothing
+        }
+      }, 200) // so we propely can set the focus "again" we have to have this amount of delay
+    } else {
+      this.setState({
+        inputValue: AutocompleteInstance.getCurrentDataTitle(
+          selected_item,
+          this.context.drawerList.data
+        ),
+        _listenForPropChanges: false
+      })
+    }
 
     dispatchCustomElementEvent(this, 'on_change', {
       ...args,
       ...this.getEventObjects('on_change')
     })
-
-    this.setHidden()
-
-    clearTimeout(this._selectTimeout)
-    this._selectTimeout = setTimeout(() => {
-      if (!isTrue(this.props.keep_open)) {
-        try {
-          this._refInput.current._ref.current.focus()
-          this.setState({
-            skipFocus: false,
-            _listenForPropChanges: false
-          })
-        } catch (e) {
-          // do nothing
-        }
-      }
-    }, 1) // because of state updates we need 1 tick delay here
   }
 
   setAriaLiveUpdate() {
@@ -1130,6 +1187,7 @@ class AutocompleteInstance extends React.PureComponent {
 
     const {
       selected_item,
+      active_item,
       direction,
       opened,
       hidden
@@ -1161,10 +1219,17 @@ class AutocompleteInstance extends React.PureComponent {
       )
     }
 
-    const triggerParams = {
-      ['aria-owns']: `${id}-ul`, // better would be "-ul" - but it is not in the DOM if hidden
-      ['aria-haspopup']: 'listbox',
-      ['aria-expanded']: opened
+    const shellParams = {
+      className: 'dnb-autocomplete__shell',
+      ref: this._refShell,
+      onKeyDown: this.onShellKeyDownHandler
+    }
+
+    if (this.isMac) {
+      // we need combobox twice to make it properly work on VO
+      // else key down will not work propely anymore
+      shellParams.role = 'combobox'
+      shellParams['aria-owns'] = `${id}-ul`
     }
 
     const inputParams = {
@@ -1173,26 +1238,82 @@ class AutocompleteInstance extends React.PureComponent {
         opened && 'dnb-button--active'
       ),
       id,
+      role: 'combobox', // we need combobox twice to make it properly work on VO
+      'aria-autocomplete': 'list', // list, both
+      'aria-controls': `${id}-ul`,
+      'aria-expanded': Boolean(opened), // is needed for semantics
+      'aria-roledescription': 'autocomplete',
+      value: inputValue,
+      autoCapitalize: 'none',
+      spellCheck: 'false',
+      onMouseDown: this.onInputClickHandler,
+      onKeyDown: ({ event: e }) => {
+        const key = keycode(e)
+        switch (key) {
+          case 'up':
+          case 'down':
+          case 'home':
+          case 'end':
+            e.preventDefault()
+            break
+        }
+      },
+      onChange: this.onInputChangeHandler,
+      onFocus: this.onInputFocusHandler,
+      onBlur: this.onBlurHandler,
       disabled,
-      placeholder: title,
-      // role: 'combobox', // does not work nicely with VO (focus)
-      ['aria-autocomplete']: 'list', // list, both
-      ['aria-controls']: `${id}-ul`,
-      ['aria-haspopup']: 'listbox', // true, listbox
-      ['aria-expanded']: opened,
       ...attributes
     }
-    if (
-      !isTrue(prevent_selection) &&
+
+    if (parseFloat(selected_item) > -1) {
+      inputParams['aria-label'] = inputValue
+    } else {
+      inputParams.placeholder = title
+    }
+
+    const triggerParams = isTrue(show_drawer_button)
+      ? {
+          icon: icon,
+          icon_size:
+            icon_size || (size === 'large' ? 'medium' : 'default'),
+          status: !opened && status ? status_state : null,
+          title: submit_button_title,
+          variant: 'secondary',
+          disabled: disabled,
+          size: size === 'default' ? 'medium' : size,
+          onKeyDown: this.onTriggerKeyDownHandler,
+          onSubmit: this.onSubmit,
+          'aria-haspopup': 'listbox',
+          'aria-expanded': Boolean(opened)
+        }
+      : {}
+
+    // Handling of activedescendant
+    if (!hidden && parseFloat(active_item) > -1) {
+      inputParams['aria-activedescendant'] = `option-${id}-${active_item}`
+
+      // for some reason, only old Edge and NVDA needs this
+      if (this.isWin) {
+        shellParams[
+          'aria-activedescendant'
+        ] = `option-${id}-${active_item}`
+      }
+    } else if (
       !hidden &&
+      !isTrue(prevent_selection) &&
       parseFloat(selected_item) > -1
     ) {
       inputParams[
         'aria-activedescendant'
       ] = `option-${id}-${selected_item}`
-    }
 
-    inputParams.value = inputValue
+      // for some reason, only old Edge and NVDA needs this
+      if (this.isWin) {
+        shellParams[
+          'aria-activedescendant'
+        ] = `option-${id}-${selected_item}`
+      }
+    }
 
     if (showStatus || suffix) {
       inputParams['aria-describedby'] = `${
@@ -1202,6 +1323,7 @@ class AutocompleteInstance extends React.PureComponent {
 
     // also used for code markup simulation
     validateDOMAttributes(null, mainParams)
+    validateDOMAttributes(null, shellParams)
     validateDOMAttributes(this.props, inputParams)
 
     // make it pissible to grab the rest attributes and return it with all events
@@ -1236,7 +1358,7 @@ class AutocompleteInstance extends React.PureComponent {
           )}
 
           <span className="dnb-autocomplete__row">
-            <span className="dnb-autocomplete__shell" ref={this._refShell}>
+            <span {...shellParams}>
               {CustomInput ? (
                 <CustomInput {...inputParams} />
               ) : (
@@ -1256,31 +1378,13 @@ class AutocompleteInstance extends React.PureComponent {
                   type="search" // gives us also autoComplete=off
                   submit_element={
                     isTrue(show_drawer_button) ? (
-                      <SubmitButton
-                        icon={icon}
-                        icon_size={
-                          icon_size ||
-                          (size === 'large' ? 'medium' : 'default')
-                        }
-                        status={!opened && status ? status_state : null}
-                        title={submit_button_title}
-                        variant="secondary"
-                        disabled={disabled}
-                        size={size === 'default' ? 'medium' : size}
-                        on_submit={this.onSubmitHandler}
-                        onKeyDown={this.onTriggerKeyDownHandler}
-                        {...triggerParams}
-                      />
+                      <SubmitButton {...triggerParams} />
                     ) : (
                       false
                     )
                   }
+                  input_state={this.state.skipFocus ? 'focus' : undefined} // because of the short blur / focus during select
                   ref={this._refInput}
-                  onMouseDown={this.onInputClickHandler}
-                  on_key_down={this.onTriggerKeyDownHandler}
-                  on_change={this.onInputChangeHandler}
-                  on_focus={this.onInputFocusHandler}
-                  on_blur={this.onBlurHandler}
                   {...inputParams}
                 />
               )}
