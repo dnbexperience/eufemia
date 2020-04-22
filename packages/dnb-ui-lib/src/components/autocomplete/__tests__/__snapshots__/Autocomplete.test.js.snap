@@ -340,7 +340,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
             className="dnb-autocomplete__row"
           >
             <span
-              className="dnb-autocomplete__shell"
+              className="dnb-autocomplete__shell dnb-no-focus"
               onKeyDown={[Function]}
             >
               <Input
@@ -350,8 +350,6 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                 aria-controls="autocomplete-id-ul"
                 aria-describedby="autocomplete-id-status autocomplete-id-suffix"
                 aria-expanded={true}
-                aria-label="CC cc"
-                aria-roledescription="autocomplete"
                 autoCapitalize="none"
                 autocomplete="off"
                 class={null}
@@ -440,35 +438,12 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                         data-has-content="true"
                         data-input-state="disabled"
                       >
-                        <Component
-                          aria-hidden={true}
-                          className="dnb-input__icon"
-                          icon="input_icon"
-                          size="icon_size"
-                        >
-                          <IconPrimary
-                            alt={null}
-                            aria-hidden={true}
-                            attributes={null}
-                            border={null}
-                            className="dnb-input__icon"
-                            color={null}
-                            height={null}
-                            icon="input_icon"
-                            modifier={null}
-                            size="icon_size"
-                            title={null}
-                            width={null}
-                          />
-                        </Component>
                         <input
                           aria-activedescendant="option-autocomplete-id-2"
                           aria-autocomplete="list"
                           aria-controls="autocomplete-id-ul"
                           aria-describedby="autocomplete-id-status autocomplete-id-suffix"
                           aria-expanded={true}
-                          aria-label="CC cc"
-                          aria-roledescription="autocomplete"
                           autoCapitalize="none"
                           autoComplete="off"
                           className="dnb-input__input"
@@ -485,6 +460,29 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                           type="search"
                           value="CC cc"
                         />
+                        <Component
+                          aria-hidden={true}
+                          className="dnb-input__icon"
+                          icon="input_icon"
+                          role="presentation"
+                          size="icon_size"
+                        >
+                          <IconPrimary
+                            alt={null}
+                            aria-hidden={true}
+                            attributes={null}
+                            border={null}
+                            className="dnb-input__icon"
+                            color={null}
+                            height={null}
+                            icon="input_icon"
+                            modifier={null}
+                            role="presentation"
+                            size="icon_size"
+                            title={null}
+                            width={null}
+                          />
+                        </Component>
                       </span>
                       <span
                         className="dnb-input__submit-element"

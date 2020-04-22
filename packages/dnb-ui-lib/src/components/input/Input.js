@@ -402,7 +402,7 @@ export default class Input extends React.PureComponent {
       id,
       disabled: isTrue(disabled),
       name: id,
-      // 'aria-placeholder': placeholder,// NVDA just reads out the placeholder twice
+      'aria-placeholder': placeholder, // NVDA just reads out the placeholder twice
       ...attributes,
       ...inputAttributes,
       onChange: this.onChangeHandler,
@@ -477,29 +477,31 @@ export default class Input extends React.PureComponent {
 
           <span className="dnb-input__row">
             <span className="dnb-input__shell" {...shellParams}>
+              {InputElement || <input ref={this._ref} {...inputParams} />}
+
               {icon && (
                 <InputIcon
                   className="dnb-input__icon"
                   icon={icon}
                   size={iconSize}
-                  aria-hidden={true}
+                  role="presentation"
+                  aria-hidden
                 />
               )}
 
               {!hasValue && placeholder && focusState !== 'focus' && (
                 <span
                   id={id + '-placeholder'}
-                  aria-hidden={this.isMac}
                   className={classnames(
                     'dnb-input__placeholder',
                     align ? `dnb-input__align--${align}` : null
                   )}
+                  role="presentation"
+                  aria-hidden
                 >
                   {placeholder}
                 </span>
               )}
-
-              {InputElement || <input ref={this._ref} {...inputParams} />}
             </span>
 
             {hasSubmitButton && (

@@ -17,7 +17,7 @@ import {
   validateDOMAttributes,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
-import { debounce } from '../../shared/helpers'
+import { isIE11, isEdge, debounce } from '../../shared/helpers'
 import AlignmentHelper from '../../shared/AlignmentHelper'
 import { createSpacingClasses } from '../space/SpacingHelper'
 
@@ -333,6 +333,7 @@ class AutocompleteInstance extends React.PureComponent {
     clearTimeout(this._hideTimeout)
     clearTimeout(this._selectTimeout)
     clearTimeout(this._ariaLiveUpdateTiemout)
+    clearTimeout(this._focusTimeout)
     clearTimeout(this._toggleVisibleTimeout)
   }
 
@@ -588,6 +589,18 @@ class AutocompleteInstance extends React.PureComponent {
     return this
   }
 
+  onInputKeyDownHandler = ({ event: e }) => {
+    const key = keycode(e)
+    switch (key) {
+      case 'up':
+      case 'down':
+      case 'home':
+      case 'end':
+        e.preventDefault()
+        break
+    }
+  }
+
   onInputClickHandler = (e) => {
     const value = e.target.value
     this.runFilterToHighlight(value)
@@ -599,6 +612,7 @@ class AutocompleteInstance extends React.PureComponent {
     if (this.state.skipFocus) {
       return // stop here
     }
+
     if (isTrue(this.props.open_on_focus)) {
       this.showAll()
       this.setVisible()
@@ -648,69 +662,6 @@ class AutocompleteInstance extends React.PureComponent {
         }
       }, 1)
     }
-  }
-
-  getEventObjects = (key) => {
-    const attributes = this.attributes
-
-    return {
-      attributes,
-      dataList: this.context.drawerList.data,
-      updateData: this.updateData,
-      showAllItems: this.showAllItems,
-      setVisible: this.setVisible,
-      setHidden: this.setHidden,
-      emptyData: this.emptyData,
-      showNoOptionsItem: this.showNoOptionsItem,
-      showIndicatorItem: this.showIndicatorItem,
-      showIndicator: this.showIndicator,
-      hideIndicator: this.hideIndicator,
-      setMode: this.setMode,
-      debounce: (func, props = {}, wait = 250) => {
-        this.dbf = this.dbf || {}
-        return (
-          this.dbf[key] ||
-          (this.dbf[key] = debounce(func, wait, { context: this }))
-        )(props)
-      }
-    }
-  }
-
-  toggleVisible = ({ hasFilter = false } = {}) => {
-    if (
-      !hasFilter &&
-      !isTrue(this.props.prevent_close) &&
-      !this.context.drawerList.hidden &&
-      this.context.drawerList.opened
-    ) {
-      this.setHidden()
-    } else {
-      this.setVisible()
-    }
-  }
-
-  hasValidData = (data = this.context.drawerList.data) => {
-    if (data.length > 0) {
-      const first = data[0]
-      if (!['no_options', 'indicator'].includes(first.__id)) {
-        return true
-      }
-    }
-    return false
-  }
-
-  hasSelectedItem = () => {
-    return parseFloat(this.context.drawerList.selected_item) > -1
-  }
-  hasActiveItem = () => {
-    return parseFloat(this.context.drawerList.active_item) > -1
-  }
-
-  hasFilterActive = () => {
-    return (
-      this.context.drawerList.data.length !==
-      this.context.drawerList.original_data?.length
-    )
   }
 
   onTriggerKeyDownHandler = (e) => {
@@ -791,6 +742,95 @@ class AutocompleteInstance extends React.PureComponent {
 
         break
     }
+
+    // This is used for the announced ctrl+alt+space key activation
+    if (this.isMac) {
+      switch (key) {
+        case 'enter':
+          // Do this, so screen readers get a NEW focus later on
+          // So we first need a blur of the input basically (therefore the Shell has an tabIndex / dnb-no-focus)
+          try {
+            this._refShell.current.focus({
+              preventScroll: true
+            })
+          } catch (e) {
+            // do nothing
+          }
+
+          clearTimeout(this._focusTimeout)
+          this._focusTimeout = setTimeout(() => {
+            try {
+              this._refInput.current._ref.current.focus()
+            } catch (e) {
+              // do nothing
+            }
+          }, 200) // so we propely can set the focus "again" we have to have this amount of delay
+          break
+      }
+    }
+  }
+
+  getEventObjects = (key) => {
+    const attributes = this.attributes
+
+    return {
+      attributes,
+      dataList: this.context.drawerList.data,
+      updateData: this.updateData,
+      showAllItems: this.showAllItems,
+      setVisible: this.setVisible,
+      setHidden: this.setHidden,
+      emptyData: this.emptyData,
+      showNoOptionsItem: this.showNoOptionsItem,
+      showIndicatorItem: this.showIndicatorItem,
+      showIndicator: this.showIndicator,
+      hideIndicator: this.hideIndicator,
+      setMode: this.setMode,
+      debounce: (func, props = {}, wait = 250) => {
+        this.dbf = this.dbf || {}
+        return (
+          this.dbf[key] ||
+          (this.dbf[key] = debounce(func, wait, { context: this }))
+        )(props)
+      }
+    }
+  }
+
+  toggleVisible = ({ hasFilter = false } = {}) => {
+    if (
+      !hasFilter &&
+      !isTrue(this.props.prevent_close) &&
+      !this.context.drawerList.hidden &&
+      this.context.drawerList.opened
+    ) {
+      this.setHidden()
+    } else {
+      this.setVisible()
+    }
+  }
+
+  hasValidData = (data = this.context.drawerList.data) => {
+    if (data.length > 0) {
+      const first = data[0]
+      if (!['no_options', 'indicator'].includes(first.__id)) {
+        return true
+      }
+    }
+    return false
+  }
+
+  hasSelectedItem = () => {
+    return parseFloat(this.context.drawerList.selected_item) > -1
+  }
+  hasActiveItem = () => {
+    return parseFloat(this.context.drawerList.active_item) > -1
+  }
+
+  hasFilterActive = () => {
+    return (
+      this.context.drawerList.data.length !==
+      this.context.drawerList.original_data?.length
+    )
   }
 
   setSearchIndex({ overwriteSearchIndex = false } = {}, cb) {
@@ -1040,9 +1080,12 @@ class AutocompleteInstance extends React.PureComponent {
 
       this.setHidden()
 
-      // // Do this, so screen readers get a NEW focus later on
-      // // So we first need a blur of the input basically
+      // Do this, so screen readers get a NEW focus later on
+      // So we first need a blur of the input basically
       try {
+        // this._refShell.current.focus({
+        //   preventScroll: true
+        // })
         this.context.drawerList._refUl.current.focus({
           preventScroll: true
         })
@@ -1220,16 +1263,17 @@ class AutocompleteInstance extends React.PureComponent {
     }
 
     const shellParams = {
-      className: 'dnb-autocomplete__shell',
+      className: 'dnb-autocomplete__shell dnb-no-focus',
       ref: this._refShell,
       onKeyDown: this.onShellKeyDownHandler
     }
 
     if (this.isMac) {
       // we need combobox twice to make it properly work on VO
-      // else key down will not work propely anymore
+      // else key down will not work properly anymore!
       shellParams.role = 'combobox'
       shellParams['aria-owns'] = `${id}-ul`
+      shellParams.tabIndex = '-1'
     }
 
     const inputParams = {
@@ -1238,26 +1282,19 @@ class AutocompleteInstance extends React.PureComponent {
         opened && 'dnb-button--active'
       ),
       id,
+      value: inputValue,
+      autoCapitalize: 'none',
+      spellCheck: 'false',
+
+      // ARIA
       role: 'combobox', // we need combobox twice to make it properly work on VO
       'aria-autocomplete': 'list', // list, both
       'aria-controls': `${id}-ul`,
       'aria-expanded': Boolean(opened), // is needed for semantics
-      'aria-roledescription': 'autocomplete',
-      value: inputValue,
-      autoCapitalize: 'none',
-      spellCheck: 'false',
+      // 'aria-roledescription': 'autocomplete', // is not needed by now
+
       onMouseDown: this.onInputClickHandler,
-      onKeyDown: ({ event: e }) => {
-        const key = keycode(e)
-        switch (key) {
-          case 'up':
-          case 'down':
-          case 'home':
-          case 'end':
-            e.preventDefault()
-            break
-        }
-      },
+      onKeyDown: this.onInputKeyDownHandler,
       onChange: this.onInputChangeHandler,
       onFocus: this.onInputFocusHandler,
       onBlur: this.onBlurHandler,
@@ -1265,10 +1302,11 @@ class AutocompleteInstance extends React.PureComponent {
       ...attributes
     }
 
-    if (parseFloat(selected_item) > -1) {
-      inputParams['aria-label'] = inputValue
-    } else {
+    if (!(parseFloat(selected_item) > -1)) {
       inputParams.placeholder = title
+      if (!(this.isWin && (isIE11 || isEdge))) {
+        inputParams['aria-placeholder'] = undefined
+      }
     }
 
     const triggerParams = isTrue(show_drawer_button)
@@ -1293,7 +1331,7 @@ class AutocompleteInstance extends React.PureComponent {
       inputParams['aria-activedescendant'] = `option-${id}-${active_item}`
 
       // for some reason, only old Edge and NVDA needs this
-      if (this.isWin) {
+      if (this.isWin && (isIE11 || isEdge)) {
         shellParams[
           'aria-activedescendant'
         ] = `option-${id}-${active_item}`
@@ -1308,7 +1346,7 @@ class AutocompleteInstance extends React.PureComponent {
       ] = `option-${id}-${selected_item}`
 
       // for some reason, only old Edge and NVDA needs this
-      if (this.isWin) {
+      if (this.isWin && (isIE11 || isEdge)) {
         shellParams[
           'aria-activedescendant'
         ] = `option-${id}-${selected_item}`
