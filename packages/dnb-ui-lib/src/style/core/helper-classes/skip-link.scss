@@ -99,6 +99,3 @@ a.dnb-skip-link-demo,
 a.dnb-skip-link:focus {
   @include skipLink();
 }
-[data-is-touch] a.dnb-skip-link {
-  display: none;
-}
