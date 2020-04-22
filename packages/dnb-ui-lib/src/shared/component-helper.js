@@ -21,7 +21,6 @@ if (
 
 // run component helper functions
 whatInput.specificKeys([9])
-defineIsTouch()
 defineNavigator()
 
 export const isMac = () =>
@@ -36,142 +35,17 @@ export const isWin = () =>
  * Check if device is touch device or not
  */
 
-let IS_TOUCH_DEVICE = undefined
 export function isTouchDevice() {
-  if (typeof IS_TOUCH_DEVICE !== 'undefined') {
-    if (typeof window !== 'undefined') {
-      window.IS_TOUCH_DEVICE = IS_TOUCH_DEVICE
+  if (typeof document !== 'undefined') {
+    let intent = false
+    try {
+      intent = document.documentElement.getAttribute('data-whatintent')
+    } catch (e) {
+      //
     }
-    return IS_TOUCH_DEVICE
+    return intent === 'touch'
   }
-
-  return IS_TOUCH_DEVICE
-}
-
-/**
- * Detects if device supports touches
- *
- * @param  {[type]} [interactive=true}] [Makes it posible that the state changes interactive]
- * @return {[type]} [void]
- */
-export function defineIsTouch({ interactive = true } = {}) {
-  const handleDefineTouch = () => {
-    if (typeof document === 'undefined' || typeof window === 'undefined') {
-      return
-    }
-
-    // to give it a change to have isTouch from the very beginning
-    if (unsafeIsTouchDeviceCheck()) {
-      document.documentElement.setAttribute('data-is-touch', true)
-      IS_TOUCH_DEVICE = true
-    }
-
-    function onMouseOver() {
-      try {
-        if (IS_TOUCH_DEVICE === true) {
-          document.documentElement.removeAttribute('data-is-touch')
-        }
-        IS_TOUCH_DEVICE = false
-      } catch (e) {
-        console.warn(e)
-      }
-      if (!interactive) {
-        window.removeEventListener('mouseover', onMouseOver, false)
-      }
-    }
-    window.addEventListener('mouseover', onMouseOver, false)
-
-    // both the "touchstart" and "touchend" is there to support devices supporting both a mouse and a touchpad
-    let touchendTimeout
-    window.addEventListener(
-      'touchstart',
-      function onTouchStart() {
-        try {
-          clearTimeout(touchendTimeout)
-          window.removeEventListener('mouseover', onMouseOver, false)
-          if (IS_TOUCH_DEVICE !== true) {
-            document.documentElement.setAttribute('data-is-touch', true)
-          }
-          IS_TOUCH_DEVICE = true
-        } catch (e) {
-          console.warn(e)
-        }
-
-        if (!interactive) {
-          window.removeEventListener('touchstart', onTouchStart, false)
-        }
-      },
-      false
-    )
-
-    // since iOS fires "mousemove" on the first click,
-    // we to make sure to add the "data-is-touch" back again
-    if (interactive) {
-      window.addEventListener(
-        'touchend',
-        function onTouchEnd() {
-          touchendTimeout = setTimeout(() => {
-            try {
-              window.addEventListener('mouseover', onMouseOver, false)
-              if (IS_TOUCH_DEVICE !== true) {
-                document.documentElement.setAttribute(
-                  'data-is-touch',
-                  true
-                )
-                IS_TOUCH_DEVICE = true
-              }
-            } catch (e) {
-              console.warn(e)
-            }
-          }, 50) // so we actually call this after blur
-        },
-        false
-      )
-    }
-
-    document.removeEventListener('DOMContentLoaded', handleDefineTouch)
-  }
-
-  if (
-    typeof document !== 'undefined' &&
-    document.readyState === 'loading'
-  ) {
-    document.addEventListener('DOMContentLoaded', handleDefineTouch)
-  } else {
-    handleDefineTouch()
-  }
-}
-
-function unsafeIsTouchDeviceCheck() {
-  if (typeof document === 'undefined' || typeof window === 'undefined') {
-    return false
-  }
-  let result = false
-
-  try {
-    if (window.PointerEvent && 'maxTouchPoints' in navigator) {
-      // IE gives 1, even on no touch systems, therefore we check for 1 or more
-      if (navigator.maxTouchPoints > 1) {
-        result = true
-      }
-    } else {
-      if (
-        window.matchMedia &&
-        window.matchMedia('(any-pointer: coarse)').matches
-      ) {
-        result = true
-      } else if (
-        'ontouchstart' in window &&
-        document.createEvent('TouchEvent')
-      ) {
-        result = true
-      }
-    }
-  } catch (e) {
-    result = false
-  }
-
-  return result
+  return false
 }
 
 export function defineNavigator() {

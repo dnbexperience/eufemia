@@ -9,7 +9,6 @@ import {
   isTrue,
   extend,
   extendPropsWithContext,
-  defineIsTouch,
   defineNavigator,
   validateDOMAttributes,
   processChildren,
@@ -19,6 +18,7 @@ import {
   detectOutsideClick,
   makeUniqueId,
   filterProps,
+  isTouchDevice,
   slugify,
   matchAll
 } from '../component-helper'
@@ -26,7 +26,6 @@ import {
 beforeAll(() => {
   window.PointerEvent = new CustomEvent('ontouchstart')
   navigator.maxTouchPoints = 2 // mocking touch
-  defineIsTouch()
   defineNavigator()
 })
 afterAll(() => {
@@ -35,11 +34,14 @@ afterAll(() => {
   navigator.maxTouchPoints = 0
 })
 
-describe('"defineIsTouch" should', () => {
-  it('add "data-is-touch" as an attribute to the HTML tag', () => {
-    expect(document.documentElement.getAttribute('data-is-touch')).toBe(
-      'true'
-    )
+describe('"isTouchDevice" should', () => {
+  it('return false if what-input did not run', () => {
+    expect(isTouchDevice()).toBe(false)
+  })
+  it('return true if device is touch', () => {
+    document.documentElement.setAttribute('data-whatintent', 'touch')
+    expect(isTouchDevice()).toBe(true)
+    document.documentElement.removeAttribute('data-whatintent')
   })
 })
 

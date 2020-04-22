@@ -15,6 +15,7 @@ v7 contains a couple of _braking changes_. As a migration process, you can simpl
 1. find `sea-green-alt` replace it with `sea-green`
 1. find `#B3DADA` replace it with `#B3D5D5`
 1. find `#008484` replace it with `#007272`
+1. find `['data-is-touch']` replace it with `[data-whatintent='touch']`
 1. **For UMD usage only** find `dnb-ui-lib.min.js` replace it with `dnb-ui-web-components.min.js`
 
 ## New components
@@ -62,4 +63,4 @@ To upgrade to v7 with NPM, use:
 $ npm i dnb-ui-lib@7
 ```
 
-_April, 22. 2020_
+_April, 24. 2020_
