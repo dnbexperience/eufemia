@@ -100,6 +100,11 @@ export default isCI && !/^(release|beta|alpha)$/.test(currentBranch)
         'build/umd/dnb-ui-icons.min.js',
         { name: 'dnbIcons', format: 'umd' }
       ),
+      makeRollupConfig(
+        './src/umd/dnb-ui-icons-archive.js',
+        'build/umd/dnb-ui-icons-archive.min.js',
+        { name: 'dnbIcons', format: 'umd' }
+      ),
 
       // es libs
       makeRollupConfig(
@@ -152,6 +157,11 @@ export default isCI && !/^(release|beta|alpha)$/.test(currentBranch)
       makeRollupConfig(
         './src/esm/dnb-ui-icons.js',
         'build/esm/dnb-ui-icons.min.mjs',
+        { format: 'esm' }
+      ),
+      makeRollupConfig(
+        './src/esm/dnb-ui-icons-archive.js',
+        'build/esm/dnb-ui-icons-archive.min.mjs',
         { format: 'esm' }
       )
 
