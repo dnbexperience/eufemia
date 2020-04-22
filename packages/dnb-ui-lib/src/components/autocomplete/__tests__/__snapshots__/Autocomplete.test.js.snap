@@ -1044,11 +1044,11 @@ exports[`Autocomplete scss have to match default theme snapshot 1`] = `
     .dnb-drawer-list__option__inner {
       padding-right: 2rem;
       background-color: var(--drawer-list-option-background-color); }
-    html:not([data-is-touch]) .dnb-drawer-list__option:hover[disabled] {
+    html:not([data-whatintent='touch']) .dnb-drawer-list__option:hover[disabled] {
       cursor: not-allowed; }
-    html:not([data-is-touch]) .dnb-drawer-list__option:hover:not([disabled]) {
+    html:not([data-whatintent='touch']) .dnb-drawer-list__option:hover:not([disabled]) {
       background-color: var(--drawer-list-option-background-color--hover); }
-      html:not([data-is-touch]) .dnb-drawer-list__option:hover:not([disabled]) .dnb-drawer-list__option__inner {
+      html:not([data-whatintent='touch']) .dnb-drawer-list__option:hover:not([disabled]) .dnb-drawer-list__option__inner {
         color: var(--drawer-list-option-color--hover);
         background-color: var(--drawer-list-option-background-color--hover); }
     .dnb-drawer-list__option--focus::before {
@@ -1068,12 +1068,12 @@ exports[`Autocomplete scss have to match default theme snapshot 1`] = `
       .dnb-drawer-list__option--selected .dnb-drawer-list__option__inner {
         color: inherit;
         background-color: inherit; }
-      html:not([data-is-touch]) .dnb-drawer-list__option--selected:hover[disabled] {
+      html:not([data-whatintent='touch']) .dnb-drawer-list__option--selected:hover[disabled] {
         cursor: not-allowed; }
-      html:not([data-is-touch]) .dnb-drawer-list__option--selected:hover:not([disabled]) {
+      html:not([data-whatintent='touch']) .dnb-drawer-list__option--selected:hover:not([disabled]) {
         color: var(--drawer-list-option-color--selected);
         background-color: var(--drawer-list-option-background-color--selected); }
-        html:not([data-is-touch]) .dnb-drawer-list__option--selected:hover:not([disabled]) .dnb-drawer-list__option__inner {
+        html:not([data-whatintent='touch']) .dnb-drawer-list__option--selected:hover:not([disabled]) .dnb-drawer-list__option__inner {
           color: inherit;
           background-color: inherit; }
       .dnb-drawer-list__option--selected::after {
@@ -1512,9 +1512,9 @@ exports[`Autocomplete scss have to match snapshot 1`] = `
     font: inherit;
     text-align: inherit;
     line-height: inherit; }
-    html:not([data-is-touch]) .dnb-button--reset:hover[disabled] {
+    html:not([data-whatintent='touch']) .dnb-button--reset:hover[disabled] {
       cursor: not-allowed; }
-    html:not([data-is-touch]) .dnb-button--reset:hover:not([disabled]) {
+    html:not([data-whatintent='touch']) .dnb-button--reset:hover:not([disabled]) {
       box-shadow: none;
       border: none; }
     .dnb-button--reset:not([disabled]):focus, .dnb-button--reset:not([disabled]):active {
