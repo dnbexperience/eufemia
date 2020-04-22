@@ -256,12 +256,12 @@ exports[`Tabs scss have to match default theme snapshot 1`] = `
     text-align: left;
     padding: 0.5rem 1rem; } }
 
-html:not([data-is-touch]) .dnb-tabs__button:hover[disabled] {
+html:not([data-whatintent='touch']) .dnb-tabs__button:hover[disabled] {
   cursor: not-allowed; }
 
-html:not([data-is-touch]) .dnb-tabs__button:hover:not([disabled]) {
+html:not([data-whatintent='touch']) .dnb-tabs__button:hover:not([disabled]) {
   background-color: var(--color-mint-green-50); }
-  html:not([data-is-touch]) .dnb-tabs__button:hover:not([disabled])::after {
+  html:not([data-whatintent='touch']) .dnb-tabs__button:hover:not([disabled])::after {
     height: 3px;
     border-radius: 1.5px;
     background-color: var(--color-sea-green); }

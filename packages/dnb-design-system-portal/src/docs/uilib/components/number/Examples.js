@@ -21,25 +21,30 @@ class Example extends React.PureComponent {
           title="Defualt numbers"
           data-dnb-test="number-default"
         >
-          {/* @jsx */ `
+          {
+            /* @jsx */ `
 <P>
   <Number value="12345" />
   <Number>-12345678.9</Number>
-  <Number options={{ maximumFractionDigits: 0 }}>-1234.5</Number>
+  <Number options={{ maximumFractionDigits: 1 }}>-1234.54321</Number>
 </P>
-          `}
+          `
+          }
         </ComponentBox>
         <ComponentBox title="Currency" data-dnb-test="number-currency">
-          {/* @jsx */ `
+          {
+            /* @jsx */ `
 <P>
   <Number currency>12345</Number>
   <Number currency value={-12345678.9} />
   <Number currency value={-12345678.9} currency_display="code" />
 </P>
-          `}
+          `
+          }
         </ComponentBox>
         <ComponentBox title="Phone number" data-dnb-test="number-phone">
-          {/* @jsx */ `
+          {
+            /* @jsx */ `
 <P>
   <Number value="99999999" phone />
   <Number value="4799999999" phone />
@@ -48,33 +53,39 @@ class Example extends React.PureComponent {
   <Number value="+47116000" phone />
   <Number value="+4702000" phone />
 </P>
-          `}
+          `
+          }
         </ComponentBox>
         <ComponentBox
           title="Bank Account number (Kontonummer)"
           data-dnb-test="number-ban"
         >
-          {/* @jsx */ `
+          {
+            /* @jsx */ `
 <P>
   <Number value="20001234567" ban />
 </P>
-          `}
+          `
+          }
         </ComponentBox>
         <ComponentBox
           title="National Identification number (Fødselsnummer)"
           data-dnb-test="number-nin"
         >
-          {/* @jsx */ `
+          {
+            /* @jsx */ `
 <P>
   <Number value="18089212345" nin />
 </P>
-          `}
+          `
+          }
         </ComponentBox>
         <ComponentBox
           title="Numbers and currencies in different locales"
           data-dnb-test="number-locales"
         >
-          {/* @jsx */ `
+          {
+            /* @jsx */ `
 <H3>Numbers</H3>
 <P>
   <Number locale="nb-NO" value="-12345678.9" />
@@ -94,7 +105,8 @@ class Example extends React.PureComponent {
 </P>
 
 <br/>
-          `}
+          `
+          }
         </ComponentBox>
       </Style>
     )

@@ -90,6 +90,7 @@
       }
 
       overscroll-behavior-y: contain;
+      scrollbar-width: thin;
       -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
     }
 
@@ -190,7 +191,7 @@
   }
 
   &__close-button {
-    // NB: as the specificity is several levels deep: html:not([data-is-touch]) .dnb-button--secondary:hover:not([disabled])
+    // NB: as the specificity is several levels deep: html:not([data-whatintent='touch'] ) .dnb-button--secondary:hover:not([disabled])
     // we use !important in case we define position="relative" on hover
     position: absolute;
     top: var(--modal-spacing);

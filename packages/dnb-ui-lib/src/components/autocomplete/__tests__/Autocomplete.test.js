@@ -58,7 +58,6 @@ describe('Autocomplete component', () => {
       <Component id="autocomplete-id" data={mockData} show_drawer_button />
     )
 
-    // open
     open(Comp)
 
     Comp.find('.dnb-input__input').simulate('change', {
@@ -100,7 +99,7 @@ describe('Autocomplete component', () => {
       mockData[1]
     )
     expect(Comp.find('li.dnb-drawer-list__option').at(0).html()).toBe(
-      /* @html */ `<li class="dnb-drawer-list__option" role="option" aria-selected="false" tabindex="-1" id="option-autocomplete-id-1" data-item="1"><span class="dnb-drawer-list__option__inner"><span><span class="dnb-drawer-list__option__item--highlight">BB</span> <span class="dnb-drawer-list__option__item--highlight">cc</span> ze<span class="dnb-drawer-list__option__item--highlight">th</span><span class="dnb-drawer-list__option__item--highlight">x</span></span></span></li>`
+      /* @html */ `<li class="dnb-drawer-list__option" role="option" tabindex="-1" aria-selected="false" data-item="1" id="option-autocomplete-id-1"><span class="dnb-drawer-list__option__inner"><span><span class="dnb-drawer-list__option__item--highlight">BB</span> <span class="dnb-drawer-list__option__item--highlight">cc</span> ze<span class="dnb-drawer-list__option__item--highlight">th</span><span class="dnb-drawer-list__option__item--highlight">x</span></span></span></li>`
     )
     expect(
       Comp.find(
@@ -109,7 +108,7 @@ describe('Autocomplete component', () => {
         .at(0)
         .html()
     ).toBe(
-      /* @html */ `<li class="dnb-drawer-list__option dnb-drawer-list__option--focus" role="option" aria-selected="false" tabindex="-1" id="option-autocomplete-id-0" data-item="0"><span class="dnb-drawer-list__option__inner"><span>AA <span class="dnb-drawer-list__option__item--highlight">cc</span></span></span></li>`
+      /* @html */ `<li class="dnb-drawer-list__option dnb-drawer-list__option--focus" role="option" tabindex="-1" aria-selected="true" data-item="0" id="option-autocomplete-id-0"><span class="dnb-drawer-list__option__inner"><span>AA <span class="dnb-drawer-list__option__item--highlight">cc</span></span></span></li>`
     )
 
     // check "invalid"
@@ -121,18 +120,40 @@ describe('Autocomplete component', () => {
     )
   })
 
+  it('has correct options after filter if filter is disabled', () => {
+    const Comp = mount(
+      <Component
+        id="autocomplete-id"
+        disable_filter
+        data={mockData}
+        show_drawer_button
+      />
+    )
+
+    open(Comp)
+
+    Comp.find('.dnb-input__input').simulate('change', {
+      target: { value: 'aa' }
+    })
+    expect(Comp.find('li.dnb-drawer-list__option').length).toBe(3)
+  })
+
   it('has correct "aria-expanded"', () => {
     const Comp = mount(<Component {...props} data={mockData} />)
-    open(Comp)
+
+    Comp.find('button.dnb-input__submit-button__button').simulate(
+      'keydown',
+      {
+        keyCode: 13
+      }
+    )
 
     const elem = Comp.find('span.dnb-autocomplete')
     expect(
       elem.find('button').instance().getAttribute('aria-expanded')
     ).toBe('true')
 
-    expect(elem.instance().getAttribute('class')).toContain(
-      'dnb-autocomplete--opened'
-    )
+    expect(elem.hasClass('dnb-autocomplete--opened')).toBe(true)
   })
 
   it('has correct length of li elements', () => {
@@ -233,7 +254,13 @@ describe('Autocomplete markup', () => {
   })
 
   it('should validate with ARIA rules as a tabs', async () => {
-    expect(await axeComponent(CheckComponent)).toHaveNoViolations()
+    expect(
+      await axeComponent(CheckComponent, {
+        rules: {
+          'aria-valid-attr-value': { enabled: false }
+        }
+      })
+    ).toHaveNoViolations()
   })
 })
 

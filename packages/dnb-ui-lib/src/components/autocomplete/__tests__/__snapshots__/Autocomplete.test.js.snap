@@ -17,6 +17,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
   }
   default_value="default_value"
   direction="bottom"
+  disable_filter="disable_filter"
   disabled="disabled"
   focusable="focusable"
   global_status_id="global_status_id"
@@ -77,6 +78,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
     }
     default_value="default_value"
     direction="bottom"
+    disable_filter="disable_filter"
     disabled="disabled"
     focusable="focusable"
     global_status_id="global_status_id"
@@ -145,6 +147,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
       }
       default_value="default_value"
       direction="bottom"
+      disable_filter="disable_filter"
       disabled="disabled"
       focusable="focusable"
       global_status_id="global_status_id"
@@ -337,7 +340,8 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
             className="dnb-autocomplete__row"
           >
             <span
-              className="dnb-autocomplete__shell"
+              className="dnb-autocomplete__shell dnb-no-focus"
+              onKeyDown={[Function]}
             >
               <Input
                 align={null}
@@ -346,7 +350,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                 aria-controls="autocomplete-id-ul"
                 aria-describedby="autocomplete-id-status autocomplete-id-suffix"
                 aria-expanded={true}
-                aria-haspopup="listbox"
+                autoCapitalize="none"
                 autocomplete="off"
                 class={null}
                 className="dnb-autocomplete__input dnb-button--active"
@@ -367,19 +371,24 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                 label={null}
                 label_direction={null}
                 label_sr_only={null}
+                onBlur={[Function]}
+                onChange={[Function]}
+                onFocus={[Function]}
+                onKeyDown={[Function]}
                 onMouseDown={[Function]}
-                on_blur={[Function]}
-                on_change={[Function]}
-                on_focus={[Function]}
-                on_key_down={[Function]}
+                on_blur={null}
+                on_change={null}
+                on_focus={null}
                 on_state_update={null}
                 on_submit={null}
                 on_submit_blur={null}
                 on_submit_focus={null}
-                placeholder="title"
+                placeholder={null}
                 readOnly={false}
+                role="combobox"
                 selectall={null}
                 size={null}
+                spellCheck="false"
                 status={null}
                 status_animation={null}
                 status_state="error"
@@ -392,12 +401,11 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                   <ForwardRef
                     aria-expanded={true}
                     aria-haspopup="listbox"
-                    aria-owns="autocomplete-id-ul"
                     disabled="disabled"
                     icon="icon"
                     icon_size="icon_size"
                     onKeyDown={[Function]}
-                    on_submit={[Function]}
+                    onSubmit={[Function]}
                     size={null}
                     status={null}
                     title="submit_button_title"
@@ -430,10 +438,33 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                         data-has-content="true"
                         data-input-state="disabled"
                       >
+                        <input
+                          aria-activedescendant="option-autocomplete-id-2"
+                          aria-autocomplete="list"
+                          aria-controls="autocomplete-id-ul"
+                          aria-describedby="autocomplete-id-status autocomplete-id-suffix"
+                          aria-expanded={true}
+                          autoCapitalize="none"
+                          autoComplete="off"
+                          className="dnb-input__input"
+                          disabled={false}
+                          id="autocomplete-id"
+                          name="autocomplete-id"
+                          onBlur={[Function]}
+                          onChange={[Function]}
+                          onFocus={[Function]}
+                          onKeyDown={[Function]}
+                          onMouseDown={[Function]}
+                          role="combobox"
+                          spellCheck="false"
+                          type="search"
+                          value="CC cc"
+                        />
                         <Component
                           aria-hidden={true}
                           className="dnb-input__icon"
                           icon="input_icon"
+                          role="presentation"
                           size="icon_size"
                         >
                           <IconPrimary
@@ -446,32 +477,12 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                             height={null}
                             icon="input_icon"
                             modifier={null}
+                            role="presentation"
                             size="icon_size"
                             title={null}
                             width={null}
                           />
                         </Component>
-                        <input
-                          aria-activedescendant="option-autocomplete-id-2"
-                          aria-autocomplete="list"
-                          aria-controls="autocomplete-id-ul"
-                          aria-describedby="autocomplete-id-status autocomplete-id-suffix"
-                          aria-expanded={true}
-                          aria-haspopup="listbox"
-                          aria-placeholder="title"
-                          autoComplete="off"
-                          className="dnb-input__input"
-                          disabled={false}
-                          id="autocomplete-id"
-                          name="autocomplete-id"
-                          onBlur={[Function]}
-                          onChange={[Function]}
-                          onFocus={[Function]}
-                          onKeyDown={[Function]}
-                          onMouseDown={[Function]}
-                          type="search"
-                          value="CC cc"
-                        />
                       </span>
                       <span
                         className="dnb-input__submit-element"
@@ -479,12 +490,11 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                         <ForwardRef
                           aria-expanded={true}
                           aria-haspopup="listbox"
-                          aria-owns="autocomplete-id-ul"
                           disabled="disabled"
                           icon="icon"
                           icon_size="icon_size"
                           onKeyDown={[Function]}
-                          on_submit={[Function]}
+                          onSubmit={[Function]}
                           size={null}
                           status={null}
                           title="submit_button_title"
@@ -493,7 +503,6 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                           <InputSubmitButton
                             aria-expanded={true}
                             aria-haspopup="listbox"
-                            aria-owns="autocomplete-id-ul"
                             className={null}
                             disabled="disabled"
                             icon="icon"
@@ -501,7 +510,8 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                             id={null}
                             innerRef={null}
                             onKeyDown={[Function]}
-                            on_submit={[Function]}
+                            onSubmit={[Function]}
+                            on_submit={null}
                             on_submit_blur={null}
                             on_submit_focus={null}
                             size={null}
@@ -518,7 +528,6 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                                 aria-expanded={true}
                                 aria-haspopup="listbox"
                                 aria-label="submit_button_title"
-                                aria-owns="autocomplete-id-ul"
                                 bounding={false}
                                 class={null}
                                 className="dnb-input__submit-button__button"
@@ -536,6 +545,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                                 onClick={[Function]}
                                 onFocus={[Function]}
                                 onKeyDown={[Function]}
+                                onSubmit={[Function]}
                                 on_click={null}
                                 size={null}
                                 status={null}
@@ -551,7 +561,6 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                                   aria-expanded={true}
                                   aria-haspopup="listbox"
                                   aria-label="submit_button_title"
-                                  aria-owns="autocomplete-id-ul"
                                   className="dnb-button dnb-button--secondary dnb-input__submit-button__button dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--size-medium"
                                   disabled={false}
                                   onBlur={[Function]}
@@ -559,13 +568,13 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                                   onFocus={[Function]}
                                   onKeyDown={[Function]}
                                   onMouseOut={[Function]}
+                                  onSubmit={[Function]}
                                   type="submit"
                                 >
                                   <Content
                                     aria-expanded={true}
                                     aria-haspopup="listbox"
                                     aria-label="submit_button_title"
-                                    aria-owns="autocomplete-id-ul"
                                     bounding={false}
                                     class={null}
                                     className="dnb-input__submit-button__button"
@@ -585,6 +594,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                                     onClick={[Function]}
                                     onFocus={[Function]}
                                     onKeyDown={[Function]}
+                                    onSubmit={[Function]}
                                     on_click={null}
                                     size={null}
                                     status={null}
@@ -719,6 +729,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                     >
                       <ForwardRef
                         aria-activedescendant="option-autocomplete-id-2"
+                        aria-expanded={true}
                         aria-labelledby="autocomplete-id-label"
                         cache_hash="CC cc32222bottom1"
                         className={null}
@@ -741,6 +752,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                       >
                         <ul
                           aria-activedescendant="option-autocomplete-id-2"
+                          aria-expanded={true}
                           aria-labelledby="autocomplete-id-label"
                           className="dnb-drawer-list__options"
                           id="autocomplete-id-ul"
@@ -767,7 +779,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                               value={null}
                             >
                               <li
-                                aria-selected="false"
+                                aria-selected={false}
                                 className="dnb-drawer-list__option"
                                 data-item={0}
                                 id="option-autocomplete-id-0"
@@ -806,7 +818,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                               value={null}
                             >
                               <li
-                                aria-selected="false"
+                                aria-selected={false}
                                 className="dnb-drawer-list__option"
                                 data-item={1}
                                 id="option-autocomplete-id-1"
@@ -903,6 +915,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                 }
                 default_value="default_value"
                 direction="bottom"
+                disable_filter="disable_filter"
                 disabled="disabled"
                 focusable="focusable"
                 global_status_id="global_status_id"
@@ -1031,11 +1044,11 @@ exports[`Autocomplete scss have to match default theme snapshot 1`] = `
     .dnb-drawer-list__option__inner {
       padding-right: 2rem;
       background-color: var(--drawer-list-option-background-color); }
-    html:not([data-is-touch]) .dnb-drawer-list__option:hover[disabled] {
+    html:not([data-whatintent='touch']) .dnb-drawer-list__option:hover[disabled] {
       cursor: not-allowed; }
-    html:not([data-is-touch]) .dnb-drawer-list__option:hover:not([disabled]) {
+    html:not([data-whatintent='touch']) .dnb-drawer-list__option:hover:not([disabled]) {
       background-color: var(--drawer-list-option-background-color--hover); }
-      html:not([data-is-touch]) .dnb-drawer-list__option:hover:not([disabled]) .dnb-drawer-list__option__inner {
+      html:not([data-whatintent='touch']) .dnb-drawer-list__option:hover:not([disabled]) .dnb-drawer-list__option__inner {
         color: var(--drawer-list-option-color--hover);
         background-color: var(--drawer-list-option-background-color--hover); }
     .dnb-drawer-list__option--focus::before {
@@ -1055,12 +1068,12 @@ exports[`Autocomplete scss have to match default theme snapshot 1`] = `
       .dnb-drawer-list__option--selected .dnb-drawer-list__option__inner {
         color: inherit;
         background-color: inherit; }
-      html:not([data-is-touch]) .dnb-drawer-list__option--selected:hover[disabled] {
+      html:not([data-whatintent='touch']) .dnb-drawer-list__option--selected:hover[disabled] {
         cursor: not-allowed; }
-      html:not([data-is-touch]) .dnb-drawer-list__option--selected:hover:not([disabled]) {
+      html:not([data-whatintent='touch']) .dnb-drawer-list__option--selected:hover:not([disabled]) {
         color: var(--drawer-list-option-color--selected);
         background-color: var(--drawer-list-option-background-color--selected); }
-        html:not([data-is-touch]) .dnb-drawer-list__option--selected:hover:not([disabled]) .dnb-drawer-list__option__inner {
+        html:not([data-whatintent='touch']) .dnb-drawer-list__option--selected:hover:not([disabled]) .dnb-drawer-list__option__inner {
           color: inherit;
           background-color: inherit; }
       .dnb-drawer-list__option--selected::after {
@@ -1499,9 +1512,9 @@ exports[`Autocomplete scss have to match snapshot 1`] = `
     font: inherit;
     text-align: inherit;
     line-height: inherit; }
-    html:not([data-is-touch]) .dnb-button--reset:hover[disabled] {
+    html:not([data-whatintent='touch']) .dnb-button--reset:hover[disabled] {
       cursor: not-allowed; }
-    html:not([data-is-touch]) .dnb-button--reset:hover:not([disabled]) {
+    html:not([data-whatintent='touch']) .dnb-button--reset:hover:not([disabled]) {
       box-shadow: none;
       border: none; }
     .dnb-button--reset:not([disabled]):focus, .dnb-button--reset:not([disabled]):active {
@@ -2149,6 +2162,7 @@ legend.dnb-form-label {
     max-height: 50vh;
     overflow-y: scroll;
     overscroll-behavior: contain;
+    scrollbar-width: thin;
     -webkit-overflow-scrolling: touch;
     -ms-overflow-style: auto; }
   .dnb-drawer-list--opened .dnb-drawer-list__options {

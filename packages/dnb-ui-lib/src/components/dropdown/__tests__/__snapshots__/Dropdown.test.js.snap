@@ -684,6 +684,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                     >
                       <ForwardRef
                         aria-activedescendant="option-dropdown-id-2"
+                        aria-expanded={true}
                         aria-labelledby="dropdown-id-label"
                         cache_hash="2266bottom1"
                         className={null}
@@ -706,6 +707,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                       >
                         <ul
                           aria-activedescendant="option-dropdown-id-2"
+                          aria-expanded={true}
                           aria-labelledby="dropdown-id-label"
                           className="dnb-drawer-list__options"
                           id="dropdown-id-ul"
@@ -732,7 +734,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                               value={null}
                             >
                               <li
-                                aria-selected="false"
+                                aria-selected={false}
                                 className="dnb-drawer-list__option"
                                 data-item={0}
                                 id="option-dropdown-id-0"
@@ -775,7 +777,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                               value={null}
                             >
                               <li
-                                aria-selected="false"
+                                aria-selected={false}
                                 className="dnb-drawer-list__option"
                                 data-item={1}
                                 id="option-dropdown-id-1"
@@ -862,7 +864,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                               value={null}
                             >
                               <li
-                                aria-selected="false"
+                                aria-selected={false}
                                 className="dnb-drawer-list__option"
                                 data-item={3}
                                 id="option-dropdown-id-3"
@@ -905,7 +907,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                               value={null}
                             >
                               <li
-                                aria-selected="false"
+                                aria-selected={false}
                                 className="dnb-drawer-list__option"
                                 data-item={4}
                                 id="option-dropdown-id-4"
@@ -938,7 +940,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                               value={null}
                             >
                               <li
-                                aria-selected="false"
+                                aria-selected={false}
                                 className="dnb-drawer-list__option"
                                 data-item={5}
                                 id="option-dropdown-id-5"
@@ -971,7 +973,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                               value={null}
                             >
                               <li
-                                aria-selected="false"
+                                aria-selected={false}
                                 className="closest-to-top closest-to-bottom last-of-type dnb-drawer-list__option"
                                 data-item={6}
                                 id="option-dropdown-id-6"
@@ -1188,11 +1190,11 @@ exports[`Dropdown scss have to match default theme snapshot 1`] = `
     .dnb-drawer-list__option__inner {
       padding-right: 2rem;
       background-color: var(--drawer-list-option-background-color); }
-    html:not([data-is-touch]) .dnb-drawer-list__option:hover[disabled] {
+    html:not([data-whatintent='touch']) .dnb-drawer-list__option:hover[disabled] {
       cursor: not-allowed; }
-    html:not([data-is-touch]) .dnb-drawer-list__option:hover:not([disabled]) {
+    html:not([data-whatintent='touch']) .dnb-drawer-list__option:hover:not([disabled]) {
       background-color: var(--drawer-list-option-background-color--hover); }
-      html:not([data-is-touch]) .dnb-drawer-list__option:hover:not([disabled]) .dnb-drawer-list__option__inner {
+      html:not([data-whatintent='touch']) .dnb-drawer-list__option:hover:not([disabled]) .dnb-drawer-list__option__inner {
         color: var(--drawer-list-option-color--hover);
         background-color: var(--drawer-list-option-background-color--hover); }
     .dnb-drawer-list__option--focus::before {
@@ -1212,12 +1214,12 @@ exports[`Dropdown scss have to match default theme snapshot 1`] = `
       .dnb-drawer-list__option--selected .dnb-drawer-list__option__inner {
         color: inherit;
         background-color: inherit; }
-      html:not([data-is-touch]) .dnb-drawer-list__option--selected:hover[disabled] {
+      html:not([data-whatintent='touch']) .dnb-drawer-list__option--selected:hover[disabled] {
         cursor: not-allowed; }
-      html:not([data-is-touch]) .dnb-drawer-list__option--selected:hover:not([disabled]) {
+      html:not([data-whatintent='touch']) .dnb-drawer-list__option--selected:hover:not([disabled]) {
         color: var(--drawer-list-option-color--selected);
         background-color: var(--drawer-list-option-background-color--selected); }
-        html:not([data-is-touch]) .dnb-drawer-list__option--selected:hover:not([disabled]) .dnb-drawer-list__option__inner {
+        html:not([data-whatintent='touch']) .dnb-drawer-list__option--selected:hover:not([disabled]) .dnb-drawer-list__option__inner {
           color: inherit;
           background-color: inherit; }
       .dnb-drawer-list__option--selected::after {
@@ -1282,9 +1284,9 @@ exports[`Dropdown scss have to match default theme snapshot 1`] = `
   color: var(--dropdown-text-color); }
   .dnb-dropdown__trigger {
     color: var(--dropdown-text-color); }
-    html:not([data-is-touch]) .dnb-dropdown__trigger:hover[disabled] {
+    html:not([data-whatintent='touch']) .dnb-dropdown__trigger:hover[disabled] {
       cursor: not-allowed; }
-    html:not([data-is-touch]) .dnb-dropdown__trigger:hover:not([disabled]) {
+    html:not([data-whatintent='touch']) .dnb-dropdown__trigger:hover:not([disabled]) {
       color: var(--dropdown-text-color); }
   .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger {
     box-shadow: 0 0 0 0.125rem var(--color-fire-red) !important;
@@ -1293,16 +1295,16 @@ exports[`Dropdown scss have to match default theme snapshot 1`] = `
     @media screen and (-ms-high-contrast: none) {
       .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger {
         box-shadow: 0 0 0 1px var(--color-fire-red) !important; } }
-    html:not([data-is-touch]) .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger:hover[disabled] {
+    html:not([data-whatintent='touch']) .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger:hover[disabled] {
       cursor: not-allowed; }
-    html:not([data-is-touch]) .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger:hover:not([disabled]) {
+    html:not([data-whatintent='touch']) .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger:hover:not([disabled]) {
       box-shadow: 0 0 0 0.125rem var(--color-fire-red) !important;
       /* IE11 fix */
       border-color: transparent; }
       @media screen and (-ms-high-contrast: none) {
-        html:not([data-is-touch]) .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger:hover:not([disabled]) {
+        html:not([data-whatintent='touch']) .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger:hover:not([disabled]) {
           box-shadow: 0 0 0 1px var(--color-fire-red) !important; } }
-      html:not([data-is-touch]) .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger:hover:not([disabled]) .dnb-dropdown__icon .dnb-icon {
+      html:not([data-whatintent='touch']) .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger:hover:not([disabled]) .dnb-dropdown__icon .dnb-icon {
         color: var(--color-fire-red); }
   .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger,
   .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__icon {
@@ -1667,9 +1669,9 @@ exports[`Dropdown scss have to match snapshot 1`] = `
     font: inherit;
     text-align: inherit;
     line-height: inherit; }
-    html:not([data-is-touch]) .dnb-button--reset:hover[disabled] {
+    html:not([data-whatintent='touch']) .dnb-button--reset:hover[disabled] {
       cursor: not-allowed; }
-    html:not([data-is-touch]) .dnb-button--reset:hover:not([disabled]) {
+    html:not([data-whatintent='touch']) .dnb-button--reset:hover:not([disabled]) {
       box-shadow: none;
       border: none; }
     .dnb-button--reset:not([disabled]):focus, .dnb-button--reset:not([disabled]):active {
@@ -1917,6 +1919,7 @@ legend.dnb-form-label {
     max-height: 50vh;
     overflow-y: scroll;
     overscroll-behavior: contain;
+    scrollbar-width: thin;
     -webkit-overflow-scrolling: touch;
     -ms-overflow-style: auto; }
   .dnb-drawer-list--opened .dnb-drawer-list__options {

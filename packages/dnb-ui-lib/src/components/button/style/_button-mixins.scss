@@ -28,7 +28,7 @@
   }
 
   @if $enable-touch == 'touch' {
-    html[data-is-touch] & {
+    html[data-whatintent='touch'] & {
       @include active() {
         @include buttonHoverStyle($color, $background-color);
       }
@@ -50,7 +50,7 @@
 
 @mixin buttonFocus($color, $background-color, $focus-color: null) {
   @include focus() {
-    html:not([data-is-touch]) & {
+    html:not([data-whatintent='touch']) & {
       color: $color;
       background-color: $background-color;
     }

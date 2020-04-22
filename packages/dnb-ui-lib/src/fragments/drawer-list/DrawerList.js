@@ -326,11 +326,13 @@ class DrawerListInstance extends React.PureComponent {
     const ulParams = {
       id: `${id}-ul`,
       role: 'listbox',
-      ['aria-labelledby']: `${id}-label`,
+      'aria-expanded': opened,
+      'aria-labelledby': `${id}-label`,
       tabIndex: '-1',
       style: {
         maxHeight: max_height > 0 ? `${max_height}rem` : null
-      }
+      },
+      ref: this.context.drawerList._refUl
     }
     if (
       !isTrue(prevent_selection) &&
@@ -360,6 +362,8 @@ class DrawerListInstance extends React.PureComponent {
       data.map((dataItem) => {
         const _id = dataItem.__id
         const liParams = {
+          'data-item': _id,
+          cache_hash,
           id: `option-${id}-${_id}`, // we could use _id here
           className: classnames(
             // helper classes
@@ -367,15 +371,17 @@ class DrawerListInstance extends React.PureComponent {
             _id == closestToBottom && 'closest-to-bottom',
             _id == data.length - 1 && 'last-of-type' // because of the triangle element
           ),
+          active: _id == active_item,
+          selected: _id == selected_item,
           onClick: this.selectItemHandler,
-          onKeyDown: this.preventTab,
-          'data-item': _id
+          onKeyDown: this.preventTab
         }
 
         if (ignoreEvents) {
+          liParams.active = null
           liParams.selected = null
           liParams.onClick = null
-          liParams.onClick = null
+          liParams.onKeyDown = null
           liParams.className = classnames(
             liParams.className,
             'dnb-drawer-list__option--ignore'
@@ -383,13 +389,7 @@ class DrawerListInstance extends React.PureComponent {
         }
 
         return (
-          <DrawerList.Item
-            key={_id}
-            cache_hash={cache_hash}
-            selected={_id == selected_item}
-            active={!ignoreEvents && _id == active_item}
-            {...liParams}
-          >
+          <DrawerList.Item key={_id} {...liParams}>
             {dataItem}
           </DrawerList.Item>
         )
@@ -400,8 +400,6 @@ class DrawerListInstance extends React.PureComponent {
         <span {...listParams}>
           {hidden === false && data && data.length > 0 ? (
             <DrawerList.Options
-              {...ulParams}
-              ref={this.context.drawerList._refUl}
               cache_hash={
                 cache_hash +
                 active_item +
@@ -411,6 +409,7 @@ class DrawerListInstance extends React.PureComponent {
                 direction +
                 max_height
               }
+              {...ulParams}
               triangleRef={this.context.drawerList._refTriangle}
             >
               {typeof options_render === 'function' ? (
@@ -420,20 +419,22 @@ class DrawerListInstance extends React.PureComponent {
               )}
             </DrawerList.Options>
           ) : (
-            (children && (
+            children && (
               <span className="dnb-drawer-list__content">
                 {children}
                 <span className="dnb-drawer-list__triangle"></span>
               </span>
-            )) || (
+            ) /*|| (
               <ul {...ulParams} hidden>
                 <li
                   role="option"
                   id={`option-${id}-${selected_item}`}
                   aria-selected="true"
-                ></li>
+                >
+                  blabla
+                </li>
               </ul>
-            )
+            ) - is semanticall good, but not good for NVDA screen reader, as it reads out that there is only one item in there */
           )}
         </span>
       </span>
@@ -499,10 +500,19 @@ DrawerList.Item = React.memo(
       ...rest
     } = props
 
-    const params = {}
+    const params = {
+      className: classnames(
+        className,
+        'dnb-drawer-list__option',
+        selected && 'dnb-drawer-list__option--selected',
+        active && 'dnb-drawer-list__option--focus'
+      ),
+      role: 'option', // presentation / option / menuitem
+      tabIndex: '-1',
+      'aria-selected': active
+    }
     if (selected) {
       params['aria-current'] = true // has best support on NVDA
-      params['aria-selected'] = true // has best support on VO
     }
 
     if (on_click) {
@@ -521,20 +531,7 @@ DrawerList.Item = React.memo(
     }
 
     return (
-      <li
-        className={classnames(
-          className,
-          'dnb-drawer-list__option',
-          selected && 'dnb-drawer-list__option--selected',
-          active && 'dnb-drawer-list__option--focus'
-        )}
-        role="option" // presentation / option / menuitem
-        aria-selected="false"
-        tabIndex="-1"
-        {...rest}
-        {...params}
-        ref={ref}
-      >
+      <li {...params} {...rest} ref={ref}>
         <span className="dnb-drawer-list__option__inner">
           <ItemContent>{children}</ItemContent>
         </span>

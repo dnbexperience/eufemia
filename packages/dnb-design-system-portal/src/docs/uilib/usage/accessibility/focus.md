@@ -92,3 +92,13 @@ Our solution is CSS only and should work for all kinds of application setups. De
 ```
 
 That's it. The styles are included in both the **dnb-ui-basis** and **dnb-ui-core** styling packages.
+
+**NP:** If you link the anchor to only a `<div id="content-id">`, then you have to make sure you also add a tabindex.
+
+```html
+...
+<div id="content-id" tabindex="-1" class="dnb-no-focus">
+  <!-- Content goes here -->
+</div>
+...
+```

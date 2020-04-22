@@ -126,13 +126,13 @@
 
       // underline
       .dnb-button__text::after {
-        html[data-is-touch] & {
+        html[data-whatintent='touch'] & {
           transition: none;
           visibility: visible;
           opacity: 1;
           color: var(--color-emerald-green);
         }
-        html:not([data-is-touch]) & {
+        html:not([data-whatintent='touch']) & {
           visibility: hidden;
         }
       }
@@ -247,7 +247,7 @@
     );
 
     // touch helper
-    // html[data-is-touch] &:active {
+    // html[data-whatintent='touch']  &:active {
     //   @include fakeBorder(var(--color-emerald-green), 0.125rem /*2px*/);
     // }
 
