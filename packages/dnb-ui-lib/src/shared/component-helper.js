@@ -10,6 +10,7 @@ import whatInput from 'what-input'
 
 export const PLATFORM_MAC = 'Mac|iPad|iPhone|iPod'
 export const PLATFORM_WIN = 'Win'
+export const PLATFORM_LINUX = 'Linux'
 
 if (
   typeof process !== 'undefined' &&
@@ -30,6 +31,10 @@ export const isMac = () =>
 export const isWin = () =>
   typeof navigator !== 'undefined' &&
   navigator.platform.match(new RegExp(PLATFORM_WIN)) !== null
+
+export const isLinux = () =>
+  typeof navigator !== 'undefined' &&
+  navigator.platform.match(new RegExp(PLATFORM_LINUX)) !== null
 
 /**
  * Check if device is touch device or not
@@ -66,6 +71,10 @@ export function defineNavigator() {
           navigator.platform.match(new RegExp(PLATFORM_WIN)) !== null
         ) {
           document.documentElement.setAttribute('data-os', 'win')
+        } else if (
+          navigator.platform.match(new RegExp(PLATFORM_LINUX)) !== null
+        ) {
+          document.documentElement.setAttribute('data-os', 'linux')
         }
       } else {
         document.documentElement.setAttribute('data-os', 'other')

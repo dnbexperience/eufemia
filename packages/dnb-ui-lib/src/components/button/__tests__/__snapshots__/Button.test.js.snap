@@ -847,6 +847,8 @@ exports[`Button scss have to match snapshot 1`] = `
     line-height: var(--line-height-basis);
     color: inherit;
     transform: translateY(-0.03125rem); }
+    .dnb-button__text [data-os='linux'] {
+      transform: translateY(-0.035rem); }
   .dnb-button__alignment {
     display: inline-block;
     width: 0; }
