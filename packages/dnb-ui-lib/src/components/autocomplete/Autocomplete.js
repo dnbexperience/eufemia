@@ -1283,6 +1283,8 @@ class AutocompleteInstance extends React.PureComponent {
       hidden
     } = this.context.drawerList
 
+    const isExpanded = Boolean(opened) && this.hasValidData()
+
     // make it pissible to grab the rest attributes and return it with all events
     Object.assign(
       this.context.drawerList.attributes,
@@ -1337,7 +1339,7 @@ class AutocompleteInstance extends React.PureComponent {
       role: 'combobox', // we need combobox twice to make it properly work on VO
       'aria-autocomplete': 'list', // list, both
       'aria-controls': `${id}-ul`,
-      'aria-expanded': Boolean(opened), // is needed for semantics
+      'aria-expanded': isExpanded, // is needed for semantics
       // 'aria-roledescription': 'autocomplete', // is not needed by now
 
       onMouseDown: this.onInputClickHandler,
@@ -1370,7 +1372,7 @@ class AutocompleteInstance extends React.PureComponent {
           onKeyDown: this.onTriggerKeyDownHandler,
           onSubmit: this.onSubmit,
           'aria-haspopup': 'listbox',
-          'aria-expanded': Boolean(opened)
+          'aria-expanded': isExpanded
         }
       : {}
 
