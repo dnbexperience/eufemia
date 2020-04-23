@@ -11,6 +11,7 @@ import {
   isTrue,
   isMac,
   isWin,
+  isTouchDevice,
   makeUniqueId,
   extendPropsWithContext,
   registerElement,
@@ -48,6 +49,7 @@ const propTypes = {
   id: PropTypes.string,
   mode: PropTypes.oneOf(['sync', 'async']),
   title: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
+  placeholder: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
   no_options: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
   aria_live_options: PropTypes.oneOfType([
     PropTypes.string,
@@ -75,6 +77,7 @@ const propTypes = {
   ]),
   label_direction: PropTypes.oneOf(['horizontal', 'vertical']),
   label_sr_only: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  keep_value: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   status: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.func,
@@ -91,7 +94,10 @@ const propTypes = {
   disable_filter: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   scrollable: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   focusable: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  skip_highlight: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  disable_highlighting: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.bool
+  ]),
   direction: PropTypes.oneOf(['auto', 'top', 'bottom']),
   max_height: PropTypes.number,
   no_animation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -174,6 +180,7 @@ const defaultProps = {
   id: null,
   mode: 'sync',
   title: 'Option Menu',
+  placeholder: null,
   no_options: null,
   aria_live_options: null,
   indicator_label: null,
@@ -186,6 +193,7 @@ const defaultProps = {
   label: null,
   label_direction: null,
   label_sr_only: null,
+  keep_value: null,
   status: null,
   status_state: 'error',
   status_animation: null,
@@ -194,7 +202,7 @@ const defaultProps = {
   disable_filter: false,
   scrollable: true,
   focusable: false,
-  skip_highlight: false,
+  disable_highlighting: false,
   max_height: null,
   direction: 'auto',
   no_animation: false,
@@ -283,7 +291,7 @@ class AutocompleteInstance extends React.PureComponent {
 
   static getDerivedStateFromProps(props, state) {
     if (state._listenForPropChanges) {
-      state.skipHighlight = isTrue(props.skip_highlight)
+      state.skipHighlight = isTrue(props.disable_highlighting)
 
       if (
         props.input_value !== 'initval' &&
@@ -452,13 +460,13 @@ class AutocompleteInstance extends React.PureComponent {
     return data
   }
 
-  runFilterToHighlight = (value = null) => {
+  runFilterToHighlight = (value = null, options = {}) => {
     if (value === null) {
       value = this.state.inputValue
     }
     value = String(value || '').trim()
 
-    const data = this.runFilter(value)
+    const data = this.runFilter(value, options) // do not skip the filter here
 
     this.setState({
       skipHighlight: false,
@@ -602,9 +610,19 @@ class AutocompleteInstance extends React.PureComponent {
   }
 
   onInputClickHandler = (e) => {
-    const value = e.target.value
-    this.runFilterToHighlight(value)
-    this.showAll()
+    if (!this.context.drawerList.opened) {
+      const value = e.target.value
+      this.runFilterToHighlight(value)
+
+      if (this.state.showAllNextTime) {
+        this.showAll()
+        this.setState({
+          showAllNextTime: false,
+          _listenForPropChanges: false
+        })
+      }
+    }
+
     this.setVisible()
   }
 
@@ -627,12 +645,18 @@ class AutocompleteInstance extends React.PureComponent {
   }
 
   onBlurHandler = (event) => {
+    const {
+      open_on_focus,
+      prevent_selection,
+      input_value,
+      keep_value
+    } = this.props
     this.setState({
       typedInputValue: null,
       _listenForPropChanges: false
     })
 
-    if (isTrue(this.props.open_on_focus)) {
+    if (isTrue(open_on_focus)) {
       this.setHidden()
     }
 
@@ -641,7 +665,7 @@ class AutocompleteInstance extends React.PureComponent {
       ...this.getEventObjects('on_blur')
     })
 
-    if (!isTrue(this.props.prevent_selection)) {
+    if (!isTrue(prevent_selection)) {
       const inputValue = AutocompleteInstance.getCurrentDataTitle(
         this.context.drawerList.selected_item,
         this.context.drawerList.original_data
@@ -654,13 +678,16 @@ class AutocompleteInstance extends React.PureComponent {
             inputValue,
             _listenForPropChanges: false
           })
-        } else {
+        } else if (
+          !(input_value !== 'initval' && input_value.length > 0) &&
+          !isTrue(keep_value)
+        ) {
           this.setState({
             inputValue: '',
             _listenForPropChanges: false
           })
         }
-      }, 1)
+      }, 1) // to make sure we actually are after the Input state handling -> "input placeholder reset"
     }
   }
 
@@ -720,6 +747,15 @@ class AutocompleteInstance extends React.PureComponent {
         } else {
           this.setVisible()
         }
+
+        break
+
+      case 'esc':
+        this.showAll()
+        this.setState({
+          showAllNextTime: true,
+          _listenForPropChanges: false
+        })
 
         break
 
@@ -903,7 +939,10 @@ class AutocompleteInstance extends React.PureComponent {
     this.context.drawerList.setData(this.context.drawerList.original_data)
   }
 
-  runFilter = (value, { skipHighlight = false } = {}) => {
+  runFilter = (
+    value,
+    { skipHighlight = false, skipFilter = false, skipReorder = false } = {}
+  ) => {
     const words = value.split(/\s+/g).filter(Boolean)
     const wordsCount = words.length
 
@@ -1038,7 +1077,7 @@ class AutocompleteInstance extends React.PureComponent {
         0
       )
 
-      if (disableFilter) {
+      if (disableFilter || skipFilter) {
         return item.dataItem
       }
 
@@ -1048,12 +1087,19 @@ class AutocompleteInstance extends React.PureComponent {
       }
     })
 
-    if (!disableFilter) {
+    if (!disableFilter && !skipFilter) {
       // This removes items with 0 findings
-      searchIndex = searchIndex
-        .filter(({ countFindings }) => countFindings)
-        .sort(({ countFindings: a }, { countFindings: b }) => b - a)
-        .map(({ item }) => item.dataItem)
+      searchIndex = searchIndex.filter(
+        ({ countFindings }) => countFindings
+      )
+
+      if (!skipReorder) {
+        searchIndex = searchIndex.sort(
+          ({ countFindings: a }, { countFindings: b }) => b - a
+        )
+      }
+
+      searchIndex = searchIndex.map(({ item }) => item.dataItem)
     }
 
     return searchIndex
@@ -1172,6 +1218,7 @@ class AutocompleteInstance extends React.PureComponent {
 
     const {
       title,
+      placeholder,
       label,
       label_direction,
       label_sr_only,
@@ -1209,7 +1256,7 @@ class AutocompleteInstance extends React.PureComponent {
       aria_live_options: _aria_live_options, // eslint-disable-line
       children: _children, // eslint-disable-line
       direction: _direction, // eslint-disable-line
-      skip_highlight: _skip_highlight, // eslint-disable-line
+      disable_highlighting: _disable_highlighting, // eslint-disable-line
       id: _id, // eslint-disable-line
       opened: _opened, // eslint-disable-line
       value: _value, // eslint-disable-line
@@ -1268,7 +1315,7 @@ class AutocompleteInstance extends React.PureComponent {
       onKeyDown: this.onShellKeyDownHandler
     }
 
-    if (this.isMac) {
+    if (this.isMac && !isTouchDevice()) {
       // we need combobox twice to make it properly work on VO
       // else key down will not work properly anymore!
       shellParams.role = 'combobox'
@@ -1294,6 +1341,7 @@ class AutocompleteInstance extends React.PureComponent {
       // 'aria-roledescription': 'autocomplete', // is not needed by now
 
       onMouseDown: this.onInputClickHandler,
+      onTouchStart: this.onInputClickHandler,
       onKeyDown: this.onInputKeyDownHandler,
       onChange: this.onInputChangeHandler,
       onFocus: this.onInputFocusHandler,
@@ -1303,7 +1351,7 @@ class AutocompleteInstance extends React.PureComponent {
     }
 
     if (!(parseFloat(selected_item) > -1)) {
-      inputParams.placeholder = title
+      inputParams.placeholder = placeholder || title
       if (!(this.isWin && (isIE11 || isEdge))) {
         inputParams['aria-placeholder'] = undefined
       }

@@ -112,6 +112,13 @@
   &--show-indicator &__input .dnb-input__icon {
     color: transparent;
   }
+  &--opened .dnb-input__submit-button__button .dnb-icon {
+    transform: rotate(180deg);
+    transform-origin: 50% 50%;
+  }
+  .dnb-input__submit-button__button .dnb-icon {
+    transition: transform 400ms ease-out;
+  }
 
   // if icon only
   // .dnb-input__submit-element {

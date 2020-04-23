@@ -159,6 +159,7 @@ const AutocompleteStory = () => {
           mode="async" // prevents showing no options message og typing
           // label="Search"
           // label_sr_only="true"
+          // prevent_selection
           on_type={({
             // value,
             showIndicator,
@@ -184,6 +185,7 @@ const AutocompleteStory = () => {
           mode="async"
           // label="Search"
           // label_sr_only="true"
+          keep_value
           on_type={({ value /* updateData, ... */ }) => {
             console.log('on_type', value)
           }}
