@@ -720,9 +720,8 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                           tabIndex="-1"
                         >
                           <Items>
-                            <ForwardRef
+                            <DrawerList.Item
                               active={false}
-                              cache_hash=""
                               className=""
                               data-item={0}
                               id="option-dropdown-id-0"
@@ -737,7 +736,6 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                                 aria-selected={false}
                                 className="dnb-drawer-list__option"
                                 data-item={0}
-                                id="option-dropdown-id-0"
                                 onClick={[Function]}
                                 onKeyDown={[Function]}
                                 role="option"
@@ -746,7 +744,9 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                                 <span
                                   className="dnb-drawer-list__option__inner"
                                 >
-                                  <ItemContent>
+                                  <ItemContent
+                                    id="option-dropdown-id-0"
+                                  >
                                     <span
                                       className="dnb-drawer-list__option__item"
                                       key="0"
@@ -762,10 +762,9 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                                   </ItemContent>
                                 </span>
                               </li>
-                            </ForwardRef>
-                            <ForwardRef
+                            </DrawerList.Item>
+                            <DrawerList.Item
                               active={false}
-                              cache_hash=""
                               className=""
                               data-item={1}
                               id="option-dropdown-id-1"
@@ -780,7 +779,6 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                                 aria-selected={false}
                                 className="dnb-drawer-list__option"
                                 data-item={1}
-                                id="option-dropdown-id-1"
                                 onClick={[Function]}
                                 onKeyDown={[Function]}
                                 role="option"
@@ -789,7 +787,9 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                                 <span
                                   className="dnb-drawer-list__option__inner"
                                 >
-                                  <ItemContent>
+                                  <ItemContent
+                                    id="option-dropdown-id-1"
+                                  >
                                     <span
                                       className="dnb-drawer-list__option__item"
                                       key="0"
@@ -805,10 +805,9 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                                   </ItemContent>
                                 </span>
                               </li>
-                            </ForwardRef>
-                            <ForwardRef
+                            </DrawerList.Item>
+                            <DrawerList.Item
                               active={true}
-                              cache_hash=""
                               className=""
                               data-item={2}
                               id="option-dropdown-id-2"
@@ -824,7 +823,6 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                                 aria-selected={true}
                                 className="dnb-drawer-list__option dnb-drawer-list__option--selected dnb-drawer-list__option--focus"
                                 data-item={2}
-                                id="option-dropdown-id-2"
                                 onClick={[Function]}
                                 onKeyDown={[Function]}
                                 role="option"
@@ -833,7 +831,9 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                                 <span
                                   className="dnb-drawer-list__option__inner"
                                 >
-                                  <ItemContent>
+                                  <ItemContent
+                                    id="option-dropdown-id-2"
+                                  >
                                     <span
                                       className="dnb-drawer-list__option__item"
                                       key="0"
@@ -849,10 +849,9 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                                   </ItemContent>
                                 </span>
                               </li>
-                            </ForwardRef>
-                            <ForwardRef
+                            </DrawerList.Item>
+                            <DrawerList.Item
                               active={false}
-                              cache_hash=""
                               className=""
                               data-item={3}
                               id="option-dropdown-id-3"
@@ -867,7 +866,6 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                                 aria-selected={false}
                                 className="dnb-drawer-list__option"
                                 data-item={3}
-                                id="option-dropdown-id-3"
                                 onClick={[Function]}
                                 onKeyDown={[Function]}
                                 role="option"
@@ -876,7 +874,9 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                                 <span
                                   className="dnb-drawer-list__option__inner"
                                 >
-                                  <ItemContent>
+                                  <ItemContent
+                                    id="option-dropdown-id-3"
+                                  >
                                     <span
                                       className="dnb-drawer-list__option__item"
                                       key="0"
@@ -892,10 +892,9 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                                   </ItemContent>
                                 </span>
                               </li>
-                            </ForwardRef>
-                            <ForwardRef
+                            </DrawerList.Item>
+                            <DrawerList.Item
                               active={false}
-                              cache_hash=""
                               className=""
                               data-item={4}
                               id="option-dropdown-id-4"
@@ -910,7 +909,6 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                                 aria-selected={false}
                                 className="dnb-drawer-list__option"
                                 data-item={4}
-                                id="option-dropdown-id-4"
                                 onClick={[Function]}
                                 onKeyDown={[Function]}
                                 role="option"
@@ -919,16 +917,17 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                                 <span
                                   className="dnb-drawer-list__option__inner"
                                 >
-                                  <ItemContent>
+                                  <ItemContent
+                                    id="option-dropdown-id-4"
+                                  >
                                     Custom content 
                                     123
                                   </ItemContent>
                                 </span>
                               </li>
-                            </ForwardRef>
-                            <ForwardRef
+                            </DrawerList.Item>
+                            <DrawerList.Item
                               active={false}
-                              cache_hash=""
                               className=""
                               data-item={5}
                               id="option-dropdown-id-5"
@@ -943,7 +942,6 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                                 aria-selected={false}
                                 className="dnb-drawer-list__option"
                                 data-item={5}
-                                id="option-dropdown-id-5"
                                 onClick={[Function]}
                                 onKeyDown={[Function]}
                                 role="option"
@@ -952,16 +950,17 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                                 <span
                                   className="dnb-drawer-list__option__inner"
                                 >
-                                  <ItemContent>
+                                  <ItemContent
+                                    id="option-dropdown-id-5"
+                                  >
                                     Custom content 
                                     123
                                   </ItemContent>
                                 </span>
                               </li>
-                            </ForwardRef>
-                            <ForwardRef
+                            </DrawerList.Item>
+                            <DrawerList.Item
                               active={false}
-                              cache_hash=""
                               className="closest-to-top closest-to-bottom last-of-type"
                               data-item={6}
                               id="option-dropdown-id-6"
@@ -976,7 +975,6 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                                 aria-selected={false}
                                 className="closest-to-top closest-to-bottom last-of-type dnb-drawer-list__option"
                                 data-item={6}
-                                id="option-dropdown-id-6"
                                 onClick={[Function]}
                                 onKeyDown={[Function]}
                                 role="option"
@@ -985,7 +983,9 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                                 <span
                                   className="dnb-drawer-list__option__inner"
                                 >
-                                  <ItemContent>
+                                  <ItemContent
+                                    id="option-dropdown-id-6"
+                                  >
                                     <span
                                       className="dnb-drawer-list__option__item"
                                       key="0"
@@ -996,7 +996,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                                   </ItemContent>
                                 </span>
                               </li>
-                            </ForwardRef>
+                            </DrawerList.Item>
                           </Items>
                           <li
                             aria-hidden={true}

@@ -363,7 +363,6 @@ class DrawerListInstance extends React.PureComponent {
         const _id = dataItem.__id
         const liParams = {
           'data-item': _id,
-          cache_hash,
           id: `option-${id}-${_id}`, // we could use _id here
           className: classnames(
             // helper classes
@@ -449,7 +448,7 @@ DrawerList.Options = React.memo(
       children,
       className,
       triangleRef = null,
-      cache_hash: _cache_hash, // eslint-disable-line
+      cache_hash, // eslint-disable-line
       ...rest
     } = props
     return (
@@ -487,75 +486,59 @@ DrawerList.Options.defaultProps = {
 }
 
 // DrawerList Item
-DrawerList.Item = React.memo(
-  React.forwardRef((props, ref) => {
-    const {
-      cache_hash: _cache_hash, // eslint-disable-line
-      children,
+DrawerList.Item = React.forwardRef((props, ref) => {
+  const {
+    id, // eslint-disable-line
+    children, // eslint-disable-line
+    className, // eslint-disable-line
+    on_click, // eslint-disable-line
+    selected, // eslint-disable-line
+    active, // eslint-disable-line
+    value, // eslint-disable-line
+    ...rest
+  } = props
+
+  const params = {
+    className: classnames(
       className,
-      on_click,
-      selected,
-      active,
-      value,
-      ...rest
-    } = props
-
-    const params = {
-      className: classnames(
-        className,
-        'dnb-drawer-list__option',
-        selected && 'dnb-drawer-list__option--selected',
-        active && 'dnb-drawer-list__option--focus'
-      ),
-      role: 'option', // presentation / option / menuitem
-      tabIndex: '-1',
-      'aria-selected': active
-    }
-    if (selected) {
-      params['aria-current'] = true // has best support on NVDA
-    }
-
-    if (on_click) {
-      params.onClick = () =>
-        dispatchCustomElementEvent(
-          {
-            props: { ...props, displayName: DrawerList.Item.displayName }
-          },
-          'on_click',
-          {
-            selected,
-            value,
-            ...rest
-          }
-        )
-    }
-
-    return (
-      <li {...params} {...rest} ref={ref}>
-        <span className="dnb-drawer-list__option__inner">
-          <ItemContent>{children}</ItemContent>
-        </span>
-      </li>
-    )
-  }),
-  (prevProps, nextProps) => {
-    if (!prevProps.cache_hash) {
-      return null
-    }
-    if (
-      prevProps.cache_hash === nextProps.cache_hash &&
-      prevProps.className === nextProps.className &&
-      prevProps.content === nextProps.content &&
-      prevProps.selected === nextProps.selected &&
-      prevProps.active === nextProps.active
-    ) {
-      return true
-    }
-    return false
+      'dnb-drawer-list__option',
+      selected && 'dnb-drawer-list__option--selected',
+      active && 'dnb-drawer-list__option--focus'
+    ),
+    role: 'option', // presentation / option / menuitem
+    tabIndex: '-1',
+    'aria-selected': active
   }
-)
+  if (selected) {
+    params['aria-current'] = true // has best support on NVDA
+  }
+
+  if (on_click) {
+    params.onClick = () =>
+      dispatchCustomElementEvent(
+        {
+          props: { ...props, displayName: DrawerList.Item.displayName }
+        },
+        'on_click',
+        {
+          selected,
+          value,
+          ...rest
+        }
+      )
+  }
+
+  return (
+    <li {...params} {...rest} ref={ref}>
+      <span className="dnb-drawer-list__option__inner">
+        <ItemContent id={id}>{children}</ItemContent>
+      </span>
+    </li>
+  )
+})
 DrawerList.Item.displayName = 'DrawerList.Item'
 DrawerList.Item.propTypes = {
+  id: PropTypes.string,
   children: PropTypes.oneOfType([
     PropTypes.node,
     PropTypes.func,
@@ -568,6 +551,7 @@ DrawerList.Item.propTypes = {
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
 }
 DrawerList.Item.defaultProps = {
+  id: null,
   children: null,
   className: null,
   on_click: null,
@@ -576,16 +560,16 @@ DrawerList.Item.defaultProps = {
   value: null
 }
 
-const ItemContent = ({ children }) => {
+const ItemContent = ({ id, children }) => {
   if (Array.isArray(children.content || children)) {
     return (children.content || children).map((item, n) => (
       <span key={n} className="dnb-drawer-list__option__item">
-        {children.render ? children.render(item) : item}
+        {children.render ? children.render(item, id) : item}
       </span>
     ))
   } else if (children.content) {
     return children.render
-      ? children.render(children.content)
+      ? children.render(children.content, id)
       : children.content
   }
 

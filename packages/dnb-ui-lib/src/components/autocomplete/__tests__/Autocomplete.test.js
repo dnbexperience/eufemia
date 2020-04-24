@@ -51,7 +51,20 @@ const props = {
 const mockData = ['AA cc', 'BB cc zethx', 'CC cc']
 
 describe('Autocomplete component', () => {
-  const Comp = mount(<Component {...props} data={mockData} />)
+  it('has correct word and in-word highlighting', () => {
+    const Comp = mount(
+      <Component
+        id="autocomplete-id"
+        data={['aaa', 'The Godfather the godfather The Godfather', 'ccc']}
+        opened
+        no_animation
+        input_value="the g th"
+      />
+    )
+    expect(Comp.find('li.dnb-drawer-list__option').at(0).html()).toBe(
+      /* @html */ `<li class="dnb-drawer-list__option" role="option" tabindex="-1" aria-selected="false" data-item="1"><span class="dnb-drawer-list__option__inner"><span><span class="dnb-drawer-list__option__item--highlight"><span class="dnb-drawer-list__option__item--highlight"><span class="dnb-drawer-list__option__item--highlight">Th</span></span>e</span> <span class="dnb-drawer-list__option__item--highlight">G</span>odfa<span class="dnb-drawer-list__option__item--highlight">th</span>er <span class="dnb-drawer-list__option__item--highlight"><span class="dnb-drawer-list__option__item--highlight">th</span>e</span> <span class="dnb-drawer-list__option__item--highlight">g</span>odfa<span class="dnb-drawer-list__option__item--highlight">th</span>er <span class="dnb-drawer-list__option__item--highlight"><span class="dnb-drawer-list__option__item--highlight">Th</span>e</span> <span class="dnb-drawer-list__option__item--highlight">G</span>odfa<span class="dnb-drawer-list__option__item--highlight">th</span>er</span></span></li>`
+    )
+  })
 
   it('has correct options after filter', () => {
     const Comp = mount(
@@ -99,7 +112,7 @@ describe('Autocomplete component', () => {
       mockData[1]
     )
     expect(Comp.find('li.dnb-drawer-list__option').at(0).html()).toBe(
-      /* @html */ `<li class="dnb-drawer-list__option" role="option" tabindex="-1" aria-selected="false" data-item="1" id="option-autocomplete-id-1"><span class="dnb-drawer-list__option__inner"><span><span class="dnb-drawer-list__option__item--highlight">BB</span> <span class="dnb-drawer-list__option__item--highlight">cc</span> ze<span class="dnb-drawer-list__option__item--highlight">th</span><span class="dnb-drawer-list__option__item--highlight">x</span></span></span></li>`
+      /* @html */ `<li class="dnb-drawer-list__option" role="option" tabindex="-1" aria-selected="false" data-item="1"><span class="dnb-drawer-list__option__inner"><span><span class="dnb-drawer-list__option__item--highlight">BB</span> <span class="dnb-drawer-list__option__item--highlight">cc</span> ze<span class="dnb-drawer-list__option__item--highlight"><span class="dnb-drawer-list__option__item--highlight">th</span></span><span class="dnb-drawer-list__option__item--highlight"><span class="dnb-drawer-list__option__item--highlight">x</span></span></span></span></li>`
     )
     expect(
       Comp.find(
@@ -108,7 +121,7 @@ describe('Autocomplete component', () => {
         .at(0)
         .html()
     ).toBe(
-      /* @html */ `<li class="dnb-drawer-list__option dnb-drawer-list__option--focus" role="option" tabindex="-1" aria-selected="true" data-item="0" id="option-autocomplete-id-0"><span class="dnb-drawer-list__option__inner"><span>AA <span class="dnb-drawer-list__option__item--highlight">cc</span></span></span></li>`
+      /* @html */ `<li class="dnb-drawer-list__option dnb-drawer-list__option--focus" role="option" tabindex="-1" aria-selected="true" data-item="0"><span class="dnb-drawer-list__option__inner"><span>AA <span class="dnb-drawer-list__option__item--highlight">cc</span></span></span></li>`
     )
 
     // check "invalid"
@@ -118,6 +131,45 @@ describe('Autocomplete component', () => {
     expect(Comp.find('li.dnb-drawer-list__option').at(0).text()).toBe(
       'Ingen alternativer'
     )
+  })
+
+  it('has correct options after filter and key interaction', () => {
+    const Comp = mount(
+      <Component id="autocomplete-id" data={mockData} show_drawer_button />
+    )
+
+    let elem
+    open(Comp)
+
+    // check "bb cc"
+    Comp.find('.dnb-input__input').simulate('change', {
+      target: { value: 'bb' }
+    })
+    expect(Comp.find('li.dnb-drawer-list__option').at(0).text()).toBe(
+      mockData[1]
+    )
+    expect(Comp.find('li.dnb-drawer-list__option').length).toBe(1)
+
+    // then simulate changes
+    keydown(Comp, 40) // down
+
+    expect(Comp.find('li.dnb-drawer-list__option').length).toBe(3)
+
+    // check "cc b"
+    Comp.find('.dnb-input__input').simulate('change', {
+      target: { value: 'cc b' }
+    })
+
+    elem = Comp.find('li.dnb-drawer-list__option').at(0)
+    expect(elem.text()).toBe(mockData[1])
+    expect(elem.instance().getAttribute('aria-selected')).toBe('true')
+
+    // remove selection and reset the order
+    keydown(Comp, 27) // esc
+
+    elem = Comp.find('li.dnb-drawer-list__option').at(1)
+    expect(elem.text()).toBe(mockData[1])
+    expect(elem.instance().getAttribute('aria-selected')).toBe('true')
   })
 
   it('has correct options after filter if filter is disabled', () => {
@@ -147,8 +199,6 @@ describe('Autocomplete component', () => {
     expect(
       elem.find('button').instance().getAttribute('aria-expanded')
     ).toBe('true')
-
-    // expect(elem.hasClass('dnb-autocomplete--opened')).toBe(true)
   })
 
   it('has correct "opened" state', () => {
@@ -162,6 +212,8 @@ describe('Autocomplete component', () => {
   })
 
   it('has correct length of li elements', () => {
+    const Comp = mount(<Component {...props} data={mockData} />)
+
     open(Comp)
 
     expect(Comp.find('li.dnb-drawer-list__option').length).toBe(
@@ -287,7 +339,7 @@ describe('Autocomplete scss', () => {
 const keydown = (Comp, keyCode) => {
   document.dispatchEvent(new KeyboardEvent('keydown', { keyCode }))
 
-  Comp.find('button').simulate('keydown', {
+  Comp.find('.dnb-input__input').simulate('keydown', {
     keyCode
   })
 }

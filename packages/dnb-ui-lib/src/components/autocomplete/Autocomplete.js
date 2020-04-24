@@ -92,6 +92,7 @@ const propTypes = {
     PropTypes.node
   ]),
   disable_filter: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  disable_reorder: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   scrollable: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   focusable: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   disable_highlighting: PropTypes.oneOfType([
@@ -144,6 +145,10 @@ const propTypes = {
         })
       ])
     )
+  ]),
+  search_in_word_index: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number
   ]),
   default_value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
@@ -200,6 +205,7 @@ const defaultProps = {
   global_status_id: null,
   suffix: null,
   disable_filter: false,
+  disable_reorder: false,
   scrollable: true,
   focusable: false,
   disable_highlighting: false,
@@ -212,6 +218,7 @@ const defaultProps = {
   size: 'default',
   align_autocomplete: null,
   data: null,
+  search_in_word_index: 3,
   default_value: null,
   value: 'initval',
   input_value: 'initval',
@@ -327,6 +334,11 @@ class AutocompleteInstance extends React.PureComponent {
 
     this.isMac = isMac()
     this.isWin = isWin()
+    this.isTouchDevice = isTouchDevice()
+
+    this.skipFilter = isTrue(props.disable_filter)
+    this.skipReorder = isTrue(props.disable_reorder)
+    this.inWordIndex = (parseFloat(props.search_in_word_index) || 3) - 2
   }
 
   componentDidMount() {
@@ -956,6 +968,7 @@ class AutocompleteInstance extends React.PureComponent {
   ) => {
     const words = value.split(/\s+/g).filter(Boolean)
     const wordsCount = words.length
+    const wordCond = '(^|\\s)'
 
     const findWords = (item) =>
       words
@@ -967,9 +980,9 @@ class AutocompleteInstance extends React.PureComponent {
           ({ word }, wordIndex) =>
             // if the uses reached word 3, then we go inside words as well
             typeof item === 'string' &&
-            (wordIndex > 1
-              ? new RegExp(`${word}`, 'i').test(item)
-              : new RegExp(`^${word}|\\s${word}`, 'i').test(item))
+            (wordIndex > this.inWordIndex
+              ? new RegExp(`${word}`, 'gi').test(item)
+              : new RegExp(`${wordCond}${word}`, 'gi').test(item))
         )
 
     // get the search index
@@ -985,8 +998,6 @@ class AutocompleteInstance extends React.PureComponent {
       '<span class="dnb-drawer-list__option__item--highlight">'
     const endTag = '</span>'
 
-    const disableFilter = isTrue(this.props.disable_filter)
-
     searchIndex = searchIndex.map((item, itemIndex) => {
       const listOfFoundWords = findWords(item.searchChunk)
 
@@ -995,7 +1006,15 @@ class AutocompleteInstance extends React.PureComponent {
       }
 
       // this function gets called once the items are rendered / in view
-      item.dataItem.render = (children) => {
+      // this part is used for the highlighting
+      item.dataItem.render = (children, id) => {
+        // if the ID and the content is the same, use the cached version
+        const cacheHash = id + value
+        this._rC = this._rC || {}
+        if (this._rC[cacheHash]) {
+          return this._rC[cacheHash]
+        }
+
         let Component = null
 
         // it can be an object, React element or an array
@@ -1021,34 +1040,35 @@ class AutocompleteInstance extends React.PureComponent {
               return child
             }
 
-            const formatted = listOfFoundWords
-              .reverse()
-              .map(({ word }) => {
-                const charStart = child
-                  .toLowerCase()
-                  .indexOf(word.toLowerCase())
-                const charEnd = word.length + charStart
+            let formatted = child
+            listOfFoundWords.forEach(({ word }, i) => {
+              const charStart = formatted
+                .toLowerCase()
+                .indexOf(word.toLowerCase())
+              const charEnd = word.length + charStart
 
-                if (charStart === -1) {
-                  return null
-                }
+              if (charStart === -1) {
+                return null
+              }
 
-                const ret = {
-                  a: child.substring(0, charStart),
-                  b: child.substring(charStart, charEnd),
-                  c: child.substring(charEnd, child.length)
-                }
+              // the parts
+              const a = formatted.substring(0, charStart)
+              const b = formatted.substring(charStart, charEnd)
+              const c = formatted.substring(charEnd, formatted.length)
 
-                return ret
-              })
-              .filter(Boolean)
-              .reduce((acc, { a, b, c }) => {
-                if (acc.includes('š')) {
-                  return acc.replace(new RegExp(`(${b})`, 'gi'), 'š$1Ÿ')
-                }
-
-                return `${a}š${b}Ÿ${c}`
-              }, child)
+              formatted = `${a}š${b}Ÿ${c}`
+              if (i > this.inWordIndex) {
+                formatted = formatted.replace(
+                  new RegExp(`(${b})`, 'gi'),
+                  'š$1Ÿ'
+                )
+              } else {
+                formatted = formatted.replace(
+                  new RegExp(`${wordCond}(${b})`, 'gi'),
+                  '$1š$2Ÿ'
+                )
+              }
+            })
 
             if (formatted.includes('š')) {
               return (
@@ -1079,7 +1099,7 @@ class AutocompleteInstance extends React.PureComponent {
             : React.cloneElement(Component, null, children)
         }
 
-        return children
+        return (this._rC[cacheHash] = children)
       }
 
       // this prioritizes the first written words
@@ -1088,7 +1108,7 @@ class AutocompleteInstance extends React.PureComponent {
         0
       )
 
-      if (disableFilter || skipFilter) {
+      if (this.skipFilter || skipFilter) {
         return item.dataItem
       }
 
@@ -1098,13 +1118,13 @@ class AutocompleteInstance extends React.PureComponent {
       }
     })
 
-    if (!disableFilter && !skipFilter) {
+    if (!this.skipFilter && !skipFilter) {
       // This removes items with 0 findings
       searchIndex = searchIndex.filter(
         ({ countFindings }) => countFindings
       )
 
-      if (!skipReorder) {
+      if (!this.skipReorder && !skipReorder) {
         searchIndex = searchIndex.sort(
           ({ countFindings: a }, { countFindings: b }) => b - a
         )
@@ -1328,7 +1348,7 @@ class AutocompleteInstance extends React.PureComponent {
       onKeyDown: this.onShellKeyDownHandler
     }
 
-    if (this.isMac && !isTouchDevice()) {
+    if (this.isMac && !this.isTouchDevice) {
       // we need combobox twice to make it properly work on VO
       // else key down will not work properly anymore!
       shellParams.role = 'combobox'

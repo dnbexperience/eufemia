@@ -195,7 +195,7 @@ const AutocompleteStory = () => {
             showIndicatorItem,
             setMode
           }) => {
-            if (!(dataList.length > -1)) {
+            if (!(dataList.length > 0)) {
               showIndicatorItem()
               setTimeout(() => {
                 updateData(topMovies)
@@ -228,7 +228,7 @@ const AutocompleteStory = () => {
           // prevent_close
           no_animation
           keep_value
-          input_value="the g"
+          input_value="the g er"
           mode="async"
           label="Top 100 movies"
           data={topMovies}
@@ -413,7 +413,7 @@ const autocompleteDataScrollable = [
 
 const topMovies = [
   { content: 'The Shawshank Redemption', year: 1994 },
-  { content: 'The Godfather', year: 1972 },
+  { content: 'The Godfather the godfather The Godfather', year: 1972 },
   { content: 'The Godfather: Part II', year: 1974 },
   { content: 'The Dark Knight', year: 2008 },
   { content: '12 Angry Men', year: 1957 },
