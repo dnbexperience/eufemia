@@ -131,7 +131,7 @@ const AutocompleteStory = () => {
               <div>Additional</div>
             </>
           )}
-        ></Autocomplete>
+        />
         <Autocomplete
           // opened
           // prevent_close
@@ -152,7 +152,7 @@ const AutocompleteStory = () => {
           on_change={(e) => {
             console.log('on_change', e)
           }}
-        ></Autocomplete>
+        />
       </Box>
       <Box>
         <Autocomplete
@@ -195,7 +195,7 @@ const AutocompleteStory = () => {
             showIndicatorItem,
             setMode
           }) => {
-            if (!(dataList.length > 0)) {
+            if (!(dataList.length > -1)) {
               showIndicatorItem()
               setTimeout(() => {
                 updateData(topMovies)
@@ -206,30 +206,6 @@ const AutocompleteStory = () => {
           no_scroll_animation="true"
         />
         <AutocompleteWithState />
-        {/* <Autocomplete
-          label="Top 100 movies"
-          data={[]}
-          title="Select your movie"
-          no_animation
-          no_scroll_animation
-          on_type={({ value, dataList }) => {
-            console.log('on_type', value, dataList)
-            // updateData(topMovies)
-          }}
-          on_focus={({ updateData }) => {
-            console.log('on_focus', updateData)
-            setTimeout(() => {
-              updateData(topMovies)
-            }, 1e3)
-          }}
-          on_blur={({ dataList }) => {
-            console.log('on_blur', dataList)
-            // updateData(topMovies)
-          }}
-          on_change={({ data: { content, year } }) => {
-            console.log('on_change', content, year)
-          }}
-        ></Autocomplete> */}
       </Box>
       <Box>
         <Autocomplete
@@ -246,7 +222,17 @@ const AutocompleteStory = () => {
             console.log('on_change', e)
           }}
           data={testData}
-        ></Autocomplete>
+        />
+        <Autocomplete
+          opened
+          // prevent_close
+          no_animation
+          keep_value
+          input_value="the g"
+          mode="async"
+          label="Top 100 movies"
+          data={topMovies}
+        />
       </Box>
       <Box>
         <Autocomplete
@@ -261,7 +247,7 @@ const AutocompleteStory = () => {
           on_change={(e) => {
             console.log('on_change', e)
           }}
-        ></Autocomplete>
+        />
         <Autocomplete
           on_select={(e) => {
             console.log('on_select', e)
@@ -277,16 +263,16 @@ const AutocompleteStory = () => {
         </Autocomplete>
       </Box>
       <Box>
-        <Autocomplete data={autocompleteData}></Autocomplete>
+        <Autocomplete data={autocompleteData} />
       </Box>
       <Box>
-        <Autocomplete data={autocompleteDataScrollable}></Autocomplete>
+        <Autocomplete data={autocompleteDataScrollable} />
       </Box>
       {/* <Box>
         <Autocomplete
           label="Top 100 movies"
           data={topMovies}
-        ></Autocomplete>
+        />
       </Box> */}
     </Wrapper>
   )

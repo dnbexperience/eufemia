@@ -355,6 +355,42 @@ class AutocompleteInstance extends React.PureComponent {
     this.context.drawerList.setHidden()
   }
 
+  toggleVisible = ({ hasFilter = false } = {}) => {
+    if (
+      !hasFilter &&
+      !isTrue(this.props.prevent_close) &&
+      !this.context.drawerList.hidden &&
+      this.context.drawerList.opened
+    ) {
+      this.setHidden()
+    } else {
+      // this.setVisible()
+      this.setVisibleByContext()
+    }
+  }
+
+  setVisibleByContext = ({ value = this.state.input_value } = {}) => {
+    const { opened } = this.context.drawerList
+    const { prevent_selection, keep_value } = this.props
+
+    if (!opened) {
+      this.runFilterToHighlight(value)
+
+      if (
+        this.state.showAllNextTime ||
+        (!opened && !isTrue(prevent_selection) && !isTrue(keep_value))
+      ) {
+        this.showAll()
+        this.setState({
+          showAllNextTime: false,
+          _listenForPropChanges: false
+        })
+      }
+    }
+
+    this.setVisible()
+  }
+
   scrollToActiveItem = () => {
     if (parseFloat(this.state.localActiveItem) > -1) {
       this.context.drawerList.scrollToAndSetActiveItem(
@@ -610,20 +646,8 @@ class AutocompleteInstance extends React.PureComponent {
   }
 
   onInputClickHandler = (e) => {
-    if (!this.context.drawerList.opened) {
-      const value = e.target.value
-      this.runFilterToHighlight(value)
-
-      if (this.state.showAllNextTime) {
-        this.showAll()
-        this.setState({
-          showAllNextTime: false,
-          _listenForPropChanges: false
-        })
-      }
-    }
-
-    this.setVisible()
+    const { value } = e.target
+    this.setVisibleByContext({ value })
   }
 
   onInputFocusHandler = (event) => {
@@ -632,8 +656,8 @@ class AutocompleteInstance extends React.PureComponent {
     }
 
     if (isTrue(this.props.open_on_focus)) {
-      this.showAll()
-      this.setVisible()
+      const { value } = event.target
+      this.setVisibleByContext({ value })
     } else {
       this.setSearchIndex()
     }
@@ -829,19 +853,6 @@ class AutocompleteInstance extends React.PureComponent {
           (this.dbf[key] = debounce(func, wait, { context: this }))
         )(props)
       }
-    }
-  }
-
-  toggleVisible = ({ hasFilter = false } = {}) => {
-    if (
-      !hasFilter &&
-      !isTrue(this.props.prevent_close) &&
-      !this.context.drawerList.hidden &&
-      this.context.drawerList.opened
-    ) {
-      this.setHidden()
-    } else {
-      this.setVisible()
     }
   }
 

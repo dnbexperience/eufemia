@@ -141,17 +141,22 @@ describe('Autocomplete component', () => {
   it('has correct "aria-expanded"', () => {
     const Comp = mount(<Component {...props} data={mockData} />)
 
-    Comp.find('button.dnb-input__submit-button__button').simulate(
-      'keydown',
-      {
-        keyCode: 13
-      }
-    )
+    keydown(Comp, 13) // enter
 
-    const elem = Comp.find('span.dnb-autocomplete')
+    const elem = Comp.find('.dnb-autocomplete')
     expect(
       elem.find('button').instance().getAttribute('aria-expanded')
     ).toBe('true')
+
+    // expect(elem.hasClass('dnb-autocomplete--opened')).toBe(true)
+  })
+
+  it('has correct "opened" state', () => {
+    const Comp = mount(<Component {...props} data={mockData} />)
+
+    open(Comp)
+
+    const elem = Comp.find('.dnb-autocomplete')
 
     expect(elem.hasClass('dnb-autocomplete--opened')).toBe(true)
   })
