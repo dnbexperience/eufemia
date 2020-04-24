@@ -6,6 +6,7 @@
 - New component [Pagination](/uilib/components/pagination) including infinity scroller
 - New [secondary icons](/icons/secondary): `pay_from`, `transfer_to`
 - **Breaking Changes** to the UMD [bundles](/uilib/usage/first-steps/bundles) structure (v7), including ESM (mjs)
+- The Modal got a [Drawer mode](/uilib/components/modal/demos#drawer-mode) and has now a dark background color
 
 ## January, 30. 2020
 

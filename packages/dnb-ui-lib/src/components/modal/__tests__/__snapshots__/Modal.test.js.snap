@@ -1086,14 +1086,13 @@ button.dnb-button::-moz-focus-inner {
     left: 0;
     top: 0;
     width: 100%;
-    height: 100%; }
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    box-shadow: 0 100vh 0 0 rgba(0, 0, 0, 0.4); }
     html:not([data-dnb-test]) .dnb-modal__overlay--modal {
       animation: show-modal-overlay 300ms ease-out forwards; }
     html:not([data-dnb-test]) .dnb-modal__overlay--modal.dnb-modal__overlay--hide {
       animation: hide-modal-overlay 300ms ease-in-out forwards; }
-    .dnb-modal__overlay--drawer {
-      background: rgba(0, 0, 0, 0.4);
-      box-shadow: 0 100vh 0 0 rgba(0, 0, 0, 0.4); }
     html:not([data-dnb-test]) .dnb-modal__overlay--drawer {
       animation: show-drawer-overlay 300ms ease-out forwards; }
     html:not([data-dnb-test]) .dnb-modal__overlay--drawer.dnb-modal__overlay--hide {
@@ -1140,11 +1139,11 @@ button.dnb-button::-moz-focus-inner {
   from {
     background: transparent; }
   to {
-    background: rgba(255, 255, 255, 0.85); } }
+    background: rgba(0, 0, 0, 0.4); } }
 
 @keyframes hide-modal-overlay {
   from {
-    background: rgba(255, 255, 255, 0.85); }
+    background: rgba(0, 0, 0, 0.4); }
   to {
     background: transparent; } }
 

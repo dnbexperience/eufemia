@@ -28,6 +28,7 @@ v7 contains a couple of _braking changes_. As a migration process, you can simpl
 - Icons inside of [Input](/uilib/components/input#input-icon) fields.
 - [Buttons](/uilib/components/button) now supports overflow text to wrap (break-word) by using `wrap="true"`.
 - [Modal](/uilib/components/modal#drawer-mode) has now a **Drawer** mode inside the Modal component `mode="drawer"`.
+- Also, the [Modal](/uilib/components/modal#drawer-mode) has now a dark background color and both open and close animation
 
 ```jsx
 <Dropdown
