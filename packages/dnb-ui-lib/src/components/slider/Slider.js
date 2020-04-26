@@ -199,10 +199,10 @@ export default class Slider extends React.PureComponent {
     let value = -1
 
     switch (keycode(event)) {
-      case 'home':
+      case 'end':
         value = isReverse ? max : min
         break
-      case 'end':
+      case 'home':
         value = isReverse ? min : max
         break
       case 'page up':
