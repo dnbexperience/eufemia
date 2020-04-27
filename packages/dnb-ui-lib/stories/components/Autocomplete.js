@@ -95,7 +95,7 @@ const AutocompleteStory = () => {
                   <Anchor key="a" href="/">
                     Pro Com 1
                   </Anchor>,
-                  <a key="a" href="/" className="dnb-anchor">
+                  <a key="b" href="/" className="dnb-anchor">
                     Pro Com 2
                   </a>
                 ]

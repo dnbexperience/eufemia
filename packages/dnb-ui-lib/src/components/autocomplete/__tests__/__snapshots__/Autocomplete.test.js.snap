@@ -746,6 +746,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                         aria-expanded={true}
                         aria-labelledby="autocomplete-id-label"
                         cache_hash="CC cc32222bottom1"
+                        class={null}
                         className={null}
                         id="autocomplete-id-ul"
                         role="listbox"
@@ -781,10 +782,11 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                           <Items>
                             <DrawerList.Item
                               active={false}
+                              class={null}
                               className=""
                               data-item={0}
-                              id="option-autocomplete-id-0"
-                              key="0"
+                              hash="option-autocomplete-id-0"
+                              key="option-autocomplete-id-0"
                               onClick={[Function]}
                               onKeyDown={[Function]}
                               on_click={null}
@@ -795,6 +797,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                                 aria-selected={false}
                                 className="dnb-drawer-list__option"
                                 data-item={0}
+                                key="lioption-autocomplete-id-0"
                                 onClick={[Function]}
                                 onKeyDown={[Function]}
                                 role="option"
@@ -804,7 +807,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                                   className="dnb-drawer-list__option__inner"
                                 >
                                   <ItemContent
-                                    id="option-autocomplete-id-0"
+                                    hash="option-autocomplete-id-0"
                                   >
                                     <span
                                       dangerouslySetInnerHTML={
@@ -812,7 +815,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                                           "__html": "AA <span class=\\"dnb-drawer-list__option__item--highlight\\"><span class=\\"dnb-drawer-list__option__item--highlight\\">cc</span></span>",
                                         }
                                       }
-                                      key="0AA cc"
+                                      key="option-autocomplete-id-00CC cc0AA cc"
                                     />
                                   </ItemContent>
                                 </span>
@@ -820,10 +823,11 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                             </DrawerList.Item>
                             <DrawerList.Item
                               active={false}
+                              class={null}
                               className=""
                               data-item={1}
-                              id="option-autocomplete-id-1"
-                              key="1"
+                              hash="option-autocomplete-id-1"
+                              key="option-autocomplete-id-1"
                               onClick={[Function]}
                               onKeyDown={[Function]}
                               on_click={null}
@@ -834,6 +838,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                                 aria-selected={false}
                                 className="dnb-drawer-list__option"
                                 data-item={1}
+                                key="lioption-autocomplete-id-1"
                                 onClick={[Function]}
                                 onKeyDown={[Function]}
                                 role="option"
@@ -843,7 +848,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                                   className="dnb-drawer-list__option__inner"
                                 >
                                   <ItemContent
-                                    id="option-autocomplete-id-1"
+                                    hash="option-autocomplete-id-1"
                                   >
                                     <span
                                       dangerouslySetInnerHTML={
@@ -851,7 +856,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                                           "__html": "BB <span class=\\"dnb-drawer-list__option__item--highlight\\"><span class=\\"dnb-drawer-list__option__item--highlight\\">cc</span></span> zethx",
                                         }
                                       }
-                                      key="1BB cc zethx"
+                                      key="option-autocomplete-id-11CC cc1BB cc zethx"
                                     />
                                   </ItemContent>
                                 </span>
@@ -859,10 +864,11 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                             </DrawerList.Item>
                             <DrawerList.Item
                               active={true}
+                              class={null}
                               className="closest-to-top closest-to-bottom last-of-type"
                               data-item={2}
-                              id="option-autocomplete-id-2"
-                              key="2"
+                              hash="option-autocomplete-id-2"
+                              key="option-autocomplete-id-2"
                               onClick={[Function]}
                               onKeyDown={[Function]}
                               on_click={null}
@@ -874,6 +880,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                                 aria-selected={true}
                                 className="closest-to-top closest-to-bottom last-of-type dnb-drawer-list__option dnb-drawer-list__option--selected dnb-drawer-list__option--focus"
                                 data-item={2}
+                                key="lioption-autocomplete-id-2"
                                 onClick={[Function]}
                                 onKeyDown={[Function]}
                                 role="option"
@@ -883,7 +890,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                                   className="dnb-drawer-list__option__inner"
                                 >
                                   <ItemContent
-                                    id="option-autocomplete-id-2"
+                                    hash="option-autocomplete-id-2"
                                   >
                                     <span
                                       dangerouslySetInnerHTML={
@@ -891,7 +898,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                                           "__html": "<span class=\\"dnb-drawer-list__option__item--highlight\\"><span class=\\"dnb-drawer-list__option__item--highlight\\">CC</span></span> <span class=\\"dnb-drawer-list__option__item--highlight\\">cc</span>",
                                         }
                                       }
-                                      key="2CC cc"
+                                      key="option-autocomplete-id-22CC cc2CC cc"
                                     />
                                   </ItemContent>
                                 </span>

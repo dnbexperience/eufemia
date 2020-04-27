@@ -611,31 +611,36 @@ class AutocompleteInstance extends React.PureComponent {
     })
   }
 
-  updateData = (data) => {
+  updateData = (rawData) => {
     this.context.drawerList.setData(
-      () => data, // set data as a function, so it gets re-evaluate
-      () => {
-        this.setSearchIndex({ overwriteSearchIndex: true }, () => {
-          const { typedInputValue } = this.state
+      () => rawData, // set data as a function, so it gets re-evaluated with normalizeData
+      (newData) => {
+        this.setSearchIndex(
+          { overwriteSearchIndex: true, data: newData },
+          () => {
+            const { typedInputValue } = this.state
 
-          if (typedInputValue?.length > 0) {
-            // run with side effects, to get preselection of active_item
-            const data = this.runFilterWithSideEffects(typedInputValue)
-            if (data.length === 0) {
-              this.showNoOptionsItem()
+            if (typedInputValue?.length > 0) {
+              // run with side effects, to get preselection of active_item
+              const filteredData = this.runFilterWithSideEffects(
+                typedInputValue
+              )
+              if (filteredData.length === 0) {
+                this.showNoOptionsItem()
+              }
+            } else {
+              this.resetSelections()
+              this.context.drawerList.setState({
+                active_item: -1,
+                ignore_events: false
+              })
+
+              // Was used before to enhance UX, but looks like we now are good without
+              // this.showAll()
+              // this.scrollToSelectedItem()
             }
-          } else {
-            this.resetSelections()
-            this.context.drawerList.setState({
-              active_item: -1,
-              ignore_events: false
-            })
-
-            // Was used before to enhance UX, but looks like we now are good without
-            // this.showAll()
-            // this.scrollToSelectedItem()
           }
-        })
+        )
       },
       {
         overwriteOriginalData: true
@@ -892,13 +897,13 @@ class AutocompleteInstance extends React.PureComponent {
     )
   }
 
-  setSearchIndex({ overwriteSearchIndex = false } = {}, cb) {
+  setSearchIndex({ overwriteSearchIndex = false, data = null } = {}, cb) {
     if (!overwriteSearchIndex && this.state.searchIndex) {
       return this.state.searchIndex
     }
 
     const searchIndex = AutocompleteInstance.createSearchIndex(
-      this.context.drawerList.original_data
+      data || this.context.drawerList.original_data
     )
 
     this.setState(
@@ -1005,11 +1010,17 @@ class AutocompleteInstance extends React.PureComponent {
         item.dataItem = { content: item.dataItem }
       }
 
+      // Only make a copy if render is not set
+      // If we don't make a copy of the item, we risk that we manipulate data outside
+      if (!item.dataItem.render) {
+        item.dataItem = { ...item.dataItem }
+      }
+
       // this function gets called once the items are rendered / in view
       // this part is used for the highlighting
       item.dataItem.render = (children, id) => {
         // if the ID and the content is the same, use the cached version
-        const cacheHash = id + value
+        const cacheHash = id + itemIndex + value
         this._rC = this._rC || {}
         if (this._rC[cacheHash]) {
           return this._rC[cacheHash]
@@ -1073,7 +1084,7 @@ class AutocompleteInstance extends React.PureComponent {
             if (formatted.includes('š')) {
               return (
                 <span
-                  key={itemIndex + child}
+                  key={cacheHash + itemIndex + child}
                   dangerouslySetInnerHTML={{
                     __html: formatted
                       .replace(/š/g, startTag)
@@ -1092,11 +1103,15 @@ class AutocompleteInstance extends React.PureComponent {
             ? Component.map((Comp, i) =>
                 React.cloneElement(
                   Comp,
-                  { key: itemIndex + i },
+                  { key: 'clone' + cacheHash + itemIndex + i },
                   children[i]
                 )
               )
-            : React.cloneElement(Component, null, children)
+            : React.cloneElement(
+                Component,
+                { key: 'clone' + cacheHash + itemIndex },
+                children
+              )
         }
 
         return (this._rC[cacheHash] = children)

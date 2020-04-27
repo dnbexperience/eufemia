@@ -361,9 +361,10 @@ class DrawerListInstance extends React.PureComponent {
     const Items = () =>
       data.map((dataItem) => {
         const _id = dataItem.__id
+        const hash = `option-${id}-${_id}`
         const liParams = {
           'data-item': _id,
-          id: `option-${id}-${_id}`, // we could use _id here
+          hash,
           className: classnames(
             // helper classes
             _id == closestToTop && 'closest-to-top',
@@ -388,7 +389,7 @@ class DrawerListInstance extends React.PureComponent {
         }
 
         return (
-          <DrawerList.Item key={_id} {...liParams}>
+          <DrawerList.Item key={hash} {...liParams}>
             {dataItem}
           </DrawerList.Item>
         )
@@ -447,13 +448,18 @@ DrawerList.Options = React.memo(
     const {
       children,
       className,
+      class: _className,
       triangleRef = null,
       cache_hash, // eslint-disable-line
       ...rest
     } = props
     return (
       <ul
-        className={classnames('dnb-drawer-list__options', className)}
+        className={classnames(
+          'dnb-drawer-list__options',
+          className,
+          _className
+        )}
         {...rest}
         ref={ref}
       >
@@ -477,20 +483,23 @@ DrawerList.Options.displayName = 'DrawerList.Options'
 DrawerList.Options.propTypes = {
   children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
   className: PropTypes.string,
+  class: PropTypes.string,
   triangleRef: PropTypes.object
 }
 DrawerList.Options.defaultProps = {
   children: null,
   className: null,
+  class: null,
   triangleRef: null
 }
 
 // DrawerList Item
 DrawerList.Item = React.forwardRef((props, ref) => {
   const {
-    id, // eslint-disable-line
+    hash, // eslint-disable-line
     children, // eslint-disable-line
     className, // eslint-disable-line
+    class: _className, // eslint-disable-line
     on_click, // eslint-disable-line
     selected, // eslint-disable-line
     active, // eslint-disable-line
@@ -501,6 +510,7 @@ DrawerList.Item = React.forwardRef((props, ref) => {
   const params = {
     className: classnames(
       className,
+      _className,
       'dnb-drawer-list__option',
       selected && 'dnb-drawer-list__option--selected',
       active && 'dnb-drawer-list__option--focus'
@@ -529,53 +539,54 @@ DrawerList.Item = React.forwardRef((props, ref) => {
   }
 
   return (
-    <li {...params} {...rest} ref={ref}>
+    <li {...params} {...rest} ref={ref} key={'li' + hash}>
       <span className="dnb-drawer-list__option__inner">
-        <ItemContent id={id}>{children}</ItemContent>
+        <ItemContent hash={hash}>{children}</ItemContent>
       </span>
     </li>
   )
 })
 DrawerList.Item.displayName = 'DrawerList.Item'
 DrawerList.Item.propTypes = {
-  id: PropTypes.string,
+  hash: PropTypes.string.isRequired,
   children: PropTypes.oneOfType([
     PropTypes.node,
     PropTypes.func,
     PropTypes.object
-  ]),
+  ]).isRequired,
   className: PropTypes.string,
+  class: PropTypes.string,
   on_click: PropTypes.func,
   selected: PropTypes.bool,
   active: PropTypes.bool,
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
 }
 DrawerList.Item.defaultProps = {
-  id: null,
-  children: null,
   className: null,
+  class: null,
   on_click: null,
   selected: null,
   active: null,
   value: null
 }
 
-const ItemContent = ({ id, children }) => {
+const ItemContent = ({ hash, children }) => {
   if (Array.isArray(children.content || children)) {
     return (children.content || children).map((item, n) => (
-      <span key={n} className="dnb-drawer-list__option__item">
-        {children.render ? children.render(item, id) : item}
+      <span key={hash + n} className="dnb-drawer-list__option__item">
+        {children.render ? children.render(item, hash) : item}
       </span>
     ))
   } else if (children.content) {
     return children.render
-      ? children.render(children.content, id)
+      ? children.render(children.content, hash)
       : children.content
   }
 
   return children
 }
 ItemContent.propTypes = {
+  hash: PropTypes.string.isRequired,
   children: PropTypes.oneOfType([
     PropTypes.node,
     PropTypes.func,

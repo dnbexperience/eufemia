@@ -102,19 +102,16 @@ export const normalizeData = (props) => {
     data = list
   }
 
-  return (data || []).map((item, i) => {
-    if (typeof item === 'string') {
+  return (data || []).map((item, __id) => {
+    if (
+      typeof item === 'string' ||
+      Array.isArray(item) ||
+      React.isValidElement(item)
+    ) {
       item = { content: item, __isTransformed: true }
     }
-    if (typeof item.__id !== 'undefined') {
-      return item
-    }
-    if (Object.isExtensible(item)) {
-      item.__id = i
-      return item
-    } else {
-      return { ...item, __id: i }
-    }
+
+    return typeof item.__id !== 'undefined' ? item : { ...item, __id }
   })
 }
 
@@ -156,6 +153,19 @@ export const getSelectedItemValue = (value, state) => {
 
 export const parseCurrentValue = (current) => {
   return current?.selected_key || current?.content || current
+}
+
+export const getEventData = (item_index, data) => {
+  data = getCurrentData(item_index, data)
+
+  // cleanup
+  if (data && data.__id) {
+    data = { ...data }
+    delete data.__id
+    delete data.__isTransformed
+  }
+
+  return data
 }
 
 export const getCurrentData = (item_index, data) => {
@@ -246,7 +256,7 @@ export const prepareDerivedState = (props, state) => {
         dispatchCustomElementEvent({ props }, 'on_state_update', {
           selected_item: state.selected_item,
           value: getSelectedItemValue(state.selected_item, state),
-          data: getCurrentData(state.selected_item, state.data)
+          data: getEventData(state.selected_item, state.data)
         })
       }
     }

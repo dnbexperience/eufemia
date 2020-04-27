@@ -19,7 +19,7 @@ import {
   findClosest,
   getSelectedItemValue,
   parseContentTitle,
-  getCurrentData,
+  getEventData,
   prepareStartupState,
   prepareDerivedState
 } from './DrawerListHelpers'
@@ -416,7 +416,7 @@ export default class DrawerListProvider extends React.PureComponent {
               {
                 active_item,
                 value: getSelectedItemValue(selected_item, this.state),
-                data: getCurrentData(active_item, this.state.data),
+                data: getEventData(active_item, this.state.data),
                 event,
                 attributes
               }
@@ -720,7 +720,7 @@ export default class DrawerListProvider extends React.PureComponent {
         )
 
         dispatchCustomElementEvent(this.state, 'on_show', {
-          data: getCurrentData(selected_item, this.state.data),
+          data: getEventData(selected_item, this.state.data),
           attributes: this.attributes
         })
       }
@@ -771,12 +771,16 @@ export default class DrawerListProvider extends React.PureComponent {
 
     dispatchCustomElementEvent(this.state, 'on_hide', {
       ...args,
-      data: getCurrentData(this.state.selected_item, this.state.data),
+      data: getEventData(this.state.selected_item, this.state.data),
       attributes: this.attributes
     })
   }
 
-  setDataHandler = (data, cb, { overwriteOriginalData = false } = {}) => {
+  setDataHandler = (
+    data,
+    cb = null,
+    { overwriteOriginalData = false } = {}
+  ) => {
     if (!data) {
       return
     }
@@ -794,7 +798,7 @@ export default class DrawerListProvider extends React.PureComponent {
             : data,
         _listenForPropChanges: false
       },
-      cb
+      () => typeof cb === 'function' && cb(data)
     )
 
     return this
@@ -835,7 +839,7 @@ export default class DrawerListProvider extends React.PureComponent {
         dispatchCustomElementEvent(this.state, 'on_change', {
           selected_item: itemToSelect,
           value: getSelectedItemValue(itemToSelect, this.state),
-          data: getCurrentData(itemToSelect, this.state.data),
+          data: getEventData(itemToSelect, this.state.data),
           event,
           attributes
         })
@@ -845,7 +849,7 @@ export default class DrawerListProvider extends React.PureComponent {
           selected_item: itemToSelect,
           active_item: itemToSelect,
           value: getSelectedItemValue(itemToSelect, this.state),
-          data: getCurrentData(itemToSelect, this.state.data),
+          data: getEventData(itemToSelect, this.state.data),
           event,
           attributes
         })
