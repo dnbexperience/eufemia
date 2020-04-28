@@ -383,21 +383,16 @@ class AutocompleteInstance extends React.PureComponent {
     }
   }
 
-  setVisibleByContext = () => {
-    const { opened } = this.context.drawerList
-
-    if (!opened) {
-      const skipFilter = this.state.showAllNextTime
-
-      this.runFilterToHighlight({ skipFilter })
-
-      if (this.state.showAllNextTime) {
-        this.setState({
-          showAllNextTime: false,
-          _listenForPropChanges: false
-        })
-      }
+  setVisibleByContext = (options = {}) => {
+    const skipFilter = this.state.showAllNextTime
+    if (skipFilter) {
+      this.setState({
+        showAllNextTime: false,
+        _listenForPropChanges: false
+      })
     }
+
+    this.runFilterToHighlight({ ...options, skipFilter })
 
     this.setVisible()
   }
@@ -479,7 +474,10 @@ class AutocompleteInstance extends React.PureComponent {
     return data
   }
 
-  runFilterToHighlight = (options = {}, value = this.state.inputValue) => {
+  runFilterToHighlight = (
+    { fillDataIfEmpty = false, ...options } = {},
+    value = this.state.inputValue
+  ) => {
     // do not filter or highlight if the current selected item is the same as the input value
     const possibleTitle = AutocompleteInstance.getCurrentDataTitle(
       this.context.drawerList.selected_item,
@@ -496,7 +494,13 @@ class AutocompleteInstance extends React.PureComponent {
       _listenForPropChanges: false
     })
 
-    const data = this.runFilter(value, options) // do not skip the filter here
+    let data = this.runFilter(value, options) // do not skip the filter here
+
+    // this is a backup, in case everything is empty, we fill the data
+    if (fillDataIfEmpty && data.length === 0 && value === '') {
+      data = this.context.drawerList.original_data
+    }
+
     this.context.drawerList.setData(this.addShowAllToData(data))
     this.context.drawerList.setState({
       cache_hash: value + this.countData(data)
@@ -661,7 +665,7 @@ class AutocompleteInstance extends React.PureComponent {
 
   onInputClickHandler = (e) => {
     const { value } = e.target
-    this.setVisibleByContext({ value })
+    this.setVisibleByContext({ value, fillDataIfEmpty: true })
   }
 
   onInputFocusHandler = (event) => {
@@ -671,7 +675,7 @@ class AutocompleteInstance extends React.PureComponent {
 
     if (isTrue(this.props.open_on_focus)) {
       const { value } = event.target
-      this.setVisibleByContext({ value })
+      this.setVisibleByContext({ value, fillDataIfEmpty: true })
     } else {
       this.setSearchIndex()
     }
@@ -946,7 +950,7 @@ class AutocompleteInstance extends React.PureComponent {
       cache_hash: 'all'
     })
 
-    this.runFilterToHighlight({ skipFilter: true })
+    this.runFilterToHighlight({ skipFilter: true, fillDataIfEmpty: true })
   }
 
   showAllItems = () => {
@@ -1491,7 +1495,6 @@ class AutocompleteInstance extends React.PureComponent {
         showStatus ? id + '-status' : ''
       } ${suffix ? id + '-suffix' : ''}`
     }
-
 
     // also used for code markup simulation
     validateDOMAttributes(null, mainParams)

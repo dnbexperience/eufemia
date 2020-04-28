@@ -343,6 +343,7 @@ export const format = (
     aria = formatNumber(cleanedNumber, locale, {
       ...opts,
       minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
       currencyDisplay: 'name'
     })
     aria = enhanceSR(cleanedNumber, aria, locale)
@@ -359,7 +360,8 @@ export const format = (
     // NVDA fix
     aria = formatNumber(value, locale, {
       ...opts,
-      minimumFractionDigits: 1
+      minimumFractionDigits: 1,
+      maximumFractionDigits: 1
     })
     aria = enhanceSR(value, aria, locale)
   }

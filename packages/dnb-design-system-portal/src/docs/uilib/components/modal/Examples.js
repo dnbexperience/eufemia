@@ -36,7 +36,6 @@ class Example extends React.PureComponent {
             /* @jsx */ `
 <Modal
   mode="drawer"
-  no_animation
   container_placement="left"
   align_content="center"
   title="Drawer title"
