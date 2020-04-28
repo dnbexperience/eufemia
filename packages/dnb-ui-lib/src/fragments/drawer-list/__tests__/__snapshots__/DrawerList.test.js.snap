@@ -68,6 +68,7 @@ exports[`DrawerList markup have to match snapshot 1`] = `
   no_scroll_animation="no_scroll_animation"
   on_change={[Function]}
   on_hide={[Function]}
+  on_pre_change={[Function]}
   on_resize={[Function]}
   on_select={[Function]}
   on_show={[Function]}
@@ -155,6 +156,7 @@ exports[`DrawerList markup have to match snapshot 1`] = `
     observer_element={null}
     on_change={[Function]}
     on_hide={[Function]}
+    on_pre_change={[Function]}
     on_resize={[Function]}
     on_select={[Function]}
     on_show={[Function]}
@@ -241,6 +243,7 @@ exports[`DrawerList markup have to match snapshot 1`] = `
       no_scroll_animation="no_scroll_animation"
       on_change={[Function]}
       on_hide={[Function]}
+      on_pre_change={[Function]}
       on_resize={[Function]}
       on_select={[Function]}
       on_show={[Function]}
@@ -332,6 +335,8 @@ exports[`DrawerList scss have to match default theme snapshot 1`] = `
     position: relative;
     color: var(--drawer-list-option-color);
     background-color: var(--drawer-list-option-background-color); }
+    .dnb-drawer-list__option.ignore-events {
+      pointer-events: none; }
     .dnb-drawer-list__option::before {
       pointer-events: none;
       content: '';
@@ -355,6 +360,12 @@ exports[`DrawerList scss have to match default theme snapshot 1`] = `
       html:not([data-whatintent='touch']) .dnb-drawer-list__option:hover:not([disabled]) .dnb-drawer-list__option__inner {
         color: var(--drawer-list-option-color--hover);
         background-color: var(--drawer-list-option-background-color--hover); }
+    .dnb-drawer-list__option:active[disabled],
+    html:not([data-whatintent='touch']) .dnb-drawer-list__option:active[disabled] {
+      cursor: not-allowed; }
+    .dnb-drawer-list__option:active:not([disabled]) .dnb-drawer-list__option__inner,
+    html:not([data-whatintent='touch']) .dnb-drawer-list__option:active:not([disabled]) .dnb-drawer-list__option__inner {
+      color: var(--color-black); }
     .dnb-drawer-list__option--focus::before {
       z-index: 3;
       top: var(--drawer-list-focus-border-width);

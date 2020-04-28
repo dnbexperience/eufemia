@@ -600,6 +600,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                 no_scroll_animation="no_scroll_animation"
                 on_change={[Function]}
                 on_hide={null}
+                on_pre_change={null}
                 on_resize={null}
                 on_select={[Function]}
                 on_show={null}
@@ -640,6 +641,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                   no_scroll_animation="no_scroll_animation"
                   on_change={[Function]}
                   on_hide={null}
+                  on_pre_change={null}
                   on_resize={null}
                   on_select={[Function]}
                   on_show={null}
@@ -709,7 +711,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                             <DrawerList.Item
                               active={false}
                               class={null}
-                              className=""
+                              className="first-of-type"
                               data-item={0}
                               hash="option-dropdown-id-0"
                               key="option-dropdown-id-0"
@@ -721,7 +723,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                             >
                               <li
                                 aria-selected={false}
-                                className="dnb-drawer-list__option"
+                                className="first-of-type dnb-drawer-list__option"
                                 data-item={0}
                                 key="lioption-dropdown-id-0"
                                 onClick={[Function]}
@@ -1169,6 +1171,8 @@ exports[`Dropdown scss have to match default theme snapshot 1`] = `
     position: relative;
     color: var(--drawer-list-option-color);
     background-color: var(--drawer-list-option-background-color); }
+    .dnb-drawer-list__option.ignore-events {
+      pointer-events: none; }
     .dnb-drawer-list__option::before {
       pointer-events: none;
       content: '';
@@ -1192,6 +1196,12 @@ exports[`Dropdown scss have to match default theme snapshot 1`] = `
       html:not([data-whatintent='touch']) .dnb-drawer-list__option:hover:not([disabled]) .dnb-drawer-list__option__inner {
         color: var(--drawer-list-option-color--hover);
         background-color: var(--drawer-list-option-background-color--hover); }
+    .dnb-drawer-list__option:active[disabled],
+    html:not([data-whatintent='touch']) .dnb-drawer-list__option:active[disabled] {
+      cursor: not-allowed; }
+    .dnb-drawer-list__option:active:not([disabled]) .dnb-drawer-list__option__inner,
+    html:not([data-whatintent='touch']) .dnb-drawer-list__option:active:not([disabled]) .dnb-drawer-list__option__inner {
+      color: var(--color-black); }
     .dnb-drawer-list__option--focus::before {
       z-index: 3;
       top: var(--drawer-list-focus-border-width);
@@ -2136,9 +2146,6 @@ legend.dnb-form-label {
     order: 2;
     padding-right: 0;
     padding-left: var(--dropdown-text-padding); }
-  .dnb-dropdown__outside-value {
-    display: block;
-    padding: 0.5rem 0 1rem var(--dropdown-padding-horizontal); }
   .dnb-dropdown > .dnb-form-label {
     margin-right: 1rem;
     line-height: var(--line-height-basis); }

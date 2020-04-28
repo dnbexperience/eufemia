@@ -16,9 +16,13 @@ When you need to provide a considerable amount of options to the user and do not
 
 ### When not to use it:
 
-1. do not use this if you have only a few 'menu' options which could otherwise be shown such as tabs or buttons
+1. do not use this if you have only a few _menu_ options which could otherwise be shown such as [Radio buttons](/uilib/components/radio) or [ToggleButtons](/uilib/components/toggle-button).
 
 **NB:** This pattern can be constructed in a number of ways to achieve a similar effect - from using the HTML 'select' element to custom building with divs, spans and javascript.
+
+## Menu Button
+
+The Dropdown component can easily be used as a so called **menu button** by setting the prop `prevent_selection="true"` (or `more_menu="true"` witch shows then the [more](/icons/primary#icon-more) icon, appears as dots).
 
 ## Custom size
 

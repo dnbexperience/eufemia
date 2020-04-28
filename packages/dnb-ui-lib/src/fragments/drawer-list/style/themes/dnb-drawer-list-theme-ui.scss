@@ -52,6 +52,10 @@
     color: var(--drawer-list-option-color);
     background-color: var(--drawer-list-option-background-color);
 
+    &.ignore-events {
+      pointer-events: none;
+    }
+
     // This is our border, instead of border-bottom: var(--drawer-list-option-border-width) solid
     &::before {
       pointer-events: none;
@@ -85,6 +89,12 @@
         background-color: var(
           --drawer-list-option-background-color--hover
         );
+      }
+    }
+
+    @include active() {
+      .dnb-drawer-list__option__inner {
+        color: var(--color-black);
       }
     }
 

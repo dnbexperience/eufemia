@@ -24,6 +24,7 @@ const renderProps = {
   on_show: null,
   on_hide: null,
   on_change: null,
+  on_pre_change: null,
   on_resize: null,
   on_select: null,
   on_state_update: null,
@@ -119,6 +120,7 @@ export const propTypes = {
   on_show: PropTypes.func,
   on_hide: PropTypes.func,
   on_change: PropTypes.func,
+  on_pre_change: PropTypes.func,
   on_resize: PropTypes.func,
   on_select: PropTypes.func,
   on_state_update: PropTypes.func
@@ -220,7 +222,12 @@ class DrawerListInstance extends React.PureComponent {
   preventTab = (e) => {
     switch (keycode(e)) {
       case 'tab':
-        this.setHidden()
+        this.context.drawerList.setHidden()
+        break
+
+      case 'page down':
+      case 'page up':
+        e.preventDefault()
         break
     }
   }
@@ -359,7 +366,7 @@ class DrawerListInstance extends React.PureComponent {
     const ignoreEvents = isTrue(ignore_events)
 
     const Items = () =>
-      data.map((dataItem) => {
+      data.map((dataItem, i) => {
         const _id = dataItem.__id
         const hash = `option-${id}-${_id}`
         const liParams = {
@@ -367,12 +374,15 @@ class DrawerListInstance extends React.PureComponent {
           hash,
           className: classnames(
             // helper classes
-            _id == closestToTop && 'closest-to-top',
-            _id == closestToBottom && 'closest-to-bottom',
-            _id == data.length - 1 && 'last-of-type' // because of the triangle element
+            i === closestToTop && 'closest-to-top',
+            i === closestToBottom && 'closest-to-bottom',
+            i === 0 && 'first-of-type', // because of the triangle element
+            i === data.length - 1 && 'last-of-type', // because of the triangle element
+            ignoreEvents || (dataItem.ignore_events && 'ignore-events'),
+            dataItem.class_name
           ),
           active: _id == active_item,
-          selected: _id == selected_item,
+          selected: !dataItem.ignore_events && _id == selected_item,
           onClick: this.selectItemHandler,
           onKeyDown: this.preventTab
         }
@@ -548,7 +558,7 @@ DrawerList.Item = React.forwardRef((props, ref) => {
 })
 DrawerList.Item.displayName = 'DrawerList.Item'
 DrawerList.Item.propTypes = {
-  hash: PropTypes.string.isRequired,
+  hash: PropTypes.string,
   children: PropTypes.oneOfType([
     PropTypes.node,
     PropTypes.func,
@@ -562,6 +572,7 @@ DrawerList.Item.propTypes = {
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
 }
 DrawerList.Item.defaultProps = {
+  hash: '',
   className: null,
   class: null,
   on_click: null,
