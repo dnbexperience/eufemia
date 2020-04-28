@@ -525,7 +525,7 @@ class AutocompleteInstance extends React.PureComponent {
         selected_item: false,
         content: (
           <>
-            <IconPrimary icon="arrow_down" />
+            <IconPrimary icon="arrow_down" aria-hidden />
             {show_all}
           </>
         )
@@ -861,13 +861,12 @@ class AutocompleteInstance extends React.PureComponent {
 
   hasShowMore = (data = this.context.drawerList.data) => {
     const lastItem = data.slice(-1)[0]
-    return typeof lastItem?.show_all === 'function'
+    return lastItem?.show_all === true
   }
 
   countData = (data = this.context.drawerList.data) => {
-    return this.hasShowMore(data) && data.length > 0
-      ? data.length - 1
-      : data.length
+    const count = data.length
+    return count > 0 && this.hasShowMore(data) ? count - 1 : count
   }
 
   hasValidData = (data = this.context.drawerList.data) => {
@@ -1263,11 +1262,10 @@ class AutocompleteInstance extends React.PureComponent {
       this._ariaLiveUpdateTiemout = setTimeout(() => {
         let newString = null
 
-        if (this.hasValidData()) {
-          newString = String(aria_live_options).replace(
-            '%s',
-            this.countData()
-          )
+        const count = this.countData()
+
+        if (count > 0) {
+          newString = String(aria_live_options).replace('%s', count)
         } else {
           newString = no_options
         }
