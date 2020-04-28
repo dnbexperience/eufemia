@@ -115,9 +115,9 @@ const AutocompleteStory = () => {
             // }
           ]}
           // icon_position="left"
-          on_select={(e) => {
-            console.log('on_select ???', e)
-          }}
+          // on_select={(e) => {
+          //   console.log('on_select ???', e)
+          // }}
           on_change={(e) => {
             console.log('on_change', e)
           }}
@@ -137,18 +137,19 @@ const AutocompleteStory = () => {
           // prevent_close
           // no_animation
           // input_value="foo bar th"
-          input_value="bb cc th x"
+          input_value="bb"
+          // value={2}
           show_drawer_button
           // value="b"
           data={{
-            a: 'A1 A2 CC',
+            a: 'A1 A2 C',
             b: 'BB cC zethTHx',
             c: 'CCC'
           }}
           // icon_position="left"
-          on_select={(e) => {
-            console.log('on_select ???', e)
-          }}
+          // on_select={(e) => {
+          //   console.log('on_select ???', e)
+          // }}
           on_change={(e) => {
             console.log('on_change', e)
           }}
@@ -224,7 +225,7 @@ const AutocompleteStory = () => {
           data={testData}
         />
         <Autocomplete
-          opened
+          // opened
           // prevent_close
           no_animation
           keep_value

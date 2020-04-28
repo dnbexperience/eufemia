@@ -48,7 +48,7 @@ const props = {
   no_animation: true
 }
 
-const mockData = ['AA cc', 'BB cc zethx', 'CC cc']
+const mockData = ['AA c', 'BB cc zethx', 'CC cc']
 
 describe('Autocomplete component', () => {
   it('has correct word and in-word highlighting', () => {
@@ -62,7 +62,7 @@ describe('Autocomplete component', () => {
       />
     )
     expect(Comp.find('li.dnb-drawer-list__option').at(0).html()).toBe(
-      /* @html */ `<li class="dnb-drawer-list__option" role="option" tabindex="-1" aria-selected="false" data-item="1"><span class="dnb-drawer-list__option__inner"><span><span class="dnb-drawer-list__option__item--highlight"><span class="dnb-drawer-list__option__item--highlight"><span class="dnb-drawer-list__option__item--highlight">Th</span></span>e</span> <span class="dnb-drawer-list__option__item--highlight">G</span>odfa<span class="dnb-drawer-list__option__item--highlight">th</span>er <span class="dnb-drawer-list__option__item--highlight"><span class="dnb-drawer-list__option__item--highlight">th</span>e</span> <span class="dnb-drawer-list__option__item--highlight">g</span>odfa<span class="dnb-drawer-list__option__item--highlight">th</span>er <span class="dnb-drawer-list__option__item--highlight"><span class="dnb-drawer-list__option__item--highlight">Th</span>e</span> <span class="dnb-drawer-list__option__item--highlight">G</span>odfa<span class="dnb-drawer-list__option__item--highlight">th</span>er</span></span></li>`
+      /* @html */ `<li class="first-of-type dnb-drawer-list__option" role="option" tabindex="-1" aria-selected="false" data-item="1"><span class="dnb-drawer-list__option__inner"><span><span class="dnb-drawer-list__option__item--highlight"><span class="dnb-drawer-list__option__item--highlight"><span class="dnb-drawer-list__option__item--highlight">Th</span></span>e</span> <span class="dnb-drawer-list__option__item--highlight">G</span>odfa<span class="dnb-drawer-list__option__item--highlight">th</span>er <span class="dnb-drawer-list__option__item--highlight"><span class="dnb-drawer-list__option__item--highlight">th</span>e</span> <span class="dnb-drawer-list__option__item--highlight">g</span>odfa<span class="dnb-drawer-list__option__item--highlight">th</span>er <span class="dnb-drawer-list__option__item--highlight"><span class="dnb-drawer-list__option__item--highlight">Th</span>e</span> <span class="dnb-drawer-list__option__item--highlight">G</span>odfa<span class="dnb-drawer-list__option__item--highlight">th</span>er</span></span></li>`
     )
   })
 
@@ -76,16 +76,26 @@ describe('Autocomplete component', () => {
     Comp.find('.dnb-input__input').simulate('change', {
       target: { value: 'aa' }
     })
-    expect(Comp.find('li.dnb-drawer-list__option').length).toBe(1)
-    expect(Comp.find('li.dnb-drawer-list__option').text()).toBe(
-      mockData[0]
-    )
+    expect(
+      Comp.find(
+        'li.dnb-drawer-list__option:not(.dnb-autocomplete__show-all)'
+      ).length
+    ).toBe(1)
+    expect(
+      Comp.find(
+        'li.dnb-drawer-list__option:not(.dnb-autocomplete__show-all)'
+      ).text()
+    ).toBe(mockData[0])
 
     // check "cc"
     Comp.find('.dnb-input__input').simulate('change', {
       target: { value: 'cc' }
     })
-    expect(Comp.find('li.dnb-drawer-list__option').length).toBe(3)
+    expect(
+      Comp.find(
+        'li.dnb-drawer-list__option:not(.dnb-autocomplete__show-all)'
+      ).length
+    ).toBe(2)
 
     // check "bb cc"
     Comp.find('.dnb-input__input').simulate('change', {
@@ -94,7 +104,11 @@ describe('Autocomplete component', () => {
     expect(Comp.find('li.dnb-drawer-list__option').at(0).text()).toBe(
       mockData[1]
     )
-    expect(Comp.find('li.dnb-drawer-list__option').length).toBe(3)
+    expect(
+      Comp.find(
+        'li.dnb-drawer-list__option:not(.dnb-autocomplete__show-all)'
+      ).length
+    ).toBe(2)
 
     // check "aa cc"
     Comp.find('.dnb-input__input').simulate('change', {
@@ -112,16 +126,14 @@ describe('Autocomplete component', () => {
       mockData[1]
     )
     expect(Comp.find('li.dnb-drawer-list__option').at(0).html()).toBe(
-      /* @html */ `<li class="dnb-drawer-list__option" role="option" tabindex="-1" aria-selected="false" data-item="1"><span class="dnb-drawer-list__option__inner"><span><span class="dnb-drawer-list__option__item--highlight">BB</span> <span class="dnb-drawer-list__option__item--highlight">cc</span> ze<span class="dnb-drawer-list__option__item--highlight"><span class="dnb-drawer-list__option__item--highlight">th</span></span><span class="dnb-drawer-list__option__item--highlight"><span class="dnb-drawer-list__option__item--highlight">x</span></span></span></span></li>`
+      /* @html */ `<li class="first-of-type dnb-drawer-list__option" role="option" tabindex="-1" aria-selected="false" data-item="1"><span class="dnb-drawer-list__option__inner"><span><span class="dnb-drawer-list__option__item--highlight">BB</span> <span class="dnb-drawer-list__option__item--highlight">cc</span> ze<span class="dnb-drawer-list__option__item--highlight"><span class="dnb-drawer-list__option__item--highlight">th</span></span><span class="dnb-drawer-list__option__item--highlight"><span class="dnb-drawer-list__option__item--highlight">x</span></span></span></span></li>`
     )
+
+    keydown(Comp, 40) // down
     expect(
-      Comp.find(
-        'li.dnb-drawer-list__option.dnb-drawer-list__option--focus'
-      )
-        .at(0)
-        .html()
+      Comp.find('li.dnb-drawer-list__option--focus').at(0).html()
     ).toBe(
-      /* @html */ `<li class="dnb-drawer-list__option dnb-drawer-list__option--focus" role="option" tabindex="-1" aria-selected="true" data-item="0"><span class="dnb-drawer-list__option__inner"><span>AA <span class="dnb-drawer-list__option__item--highlight">cc</span></span></span></li>`
+      /* @html */ `<li class="first-of-type dnb-drawer-list__option dnb-drawer-list__option--focus" role="option" tabindex="-1" aria-selected="true" data-item="1"><span class="dnb-drawer-list__option__inner"><span><span class="dnb-drawer-list__option__item--highlight">BB</span> <span class="dnb-drawer-list__option__item--highlight">cc</span> ze<span class="dnb-drawer-list__option__item--highlight"><span class="dnb-drawer-list__option__item--highlight">th</span></span><span class="dnb-drawer-list__option__item--highlight"><span class="dnb-drawer-list__option__item--highlight">x</span></span></span></span></li>`
     )
 
     // check "invalid"
@@ -138,37 +150,68 @@ describe('Autocomplete component', () => {
       <Component id="autocomplete-id" data={mockData} show_drawer_button />
     )
 
-    let elem
     open(Comp)
 
-    // check "bb cc"
+    // check "cc"
     Comp.find('.dnb-input__input').simulate('change', {
-      target: { value: 'bb' }
+      target: { value: 'cc' }
     })
     expect(Comp.find('li.dnb-drawer-list__option').at(0).text()).toBe(
       mockData[1]
     )
-    expect(Comp.find('li.dnb-drawer-list__option').length).toBe(1)
+    expect(
+      Comp.find(
+        'li.dnb-drawer-list__option:not(.dnb-autocomplete__show-all)'
+      ).length
+    ).toBe(2)
+    expect(Comp.find('li.dnb-drawer-list__option--focus').exists()).toBe(
+      false
+    )
 
     // then simulate changes
     keydown(Comp, 40) // down
 
-    expect(Comp.find('li.dnb-drawer-list__option').length).toBe(3)
+    expect(
+      Comp.find('li.dnb-drawer-list__option')
+        .at(0)
+        .hasClass('dnb-drawer-list__option--focus')
+    ).toBe(true)
+
+    // then simulate changes
+    keydown(Comp, 40) // down
+
+    expect(
+      Comp.find('li.dnb-drawer-list__option')
+        .at(1)
+        .hasClass('dnb-drawer-list__option--focus')
+    ).toBe(true)
 
     // check "cc b"
     Comp.find('.dnb-input__input').simulate('change', {
-      target: { value: 'cc b' }
+      target: { value: 'cc bb' }
     })
+    expect(
+      Comp.find(
+        'li.dnb-drawer-list__option:not(.dnb-autocomplete__show-all)'
+      ).length
+    ).toBe(2)
+    expect(Comp.find('li.dnb-autocomplete__show-all').text()).toBe(
+      'Vis alt'
+    )
+    expect(Comp.find('li.dnb-drawer-list__option').length).toBe(3)
 
-    elem = Comp.find('li.dnb-drawer-list__option').at(0)
-    expect(elem.text()).toBe(mockData[1])
+    let elem
+    elem = Comp.find('li.dnb-drawer-list__option').at(1)
+    expect(elem.text()).toBe(mockData[2])
     expect(elem.instance().getAttribute('aria-selected')).toBe('true')
 
-    // remove selection and reset the order
+    // remove selection and reset the order and open again
+    // aria-selected should now be on place 2
     keydown(Comp, 27) // esc
+    open(Comp)
 
-    elem = Comp.find('li.dnb-drawer-list__option').at(1)
-    expect(elem.text()).toBe(mockData[1])
+    elem = Comp.find('li.dnb-drawer-list__option').at(2)
+    expect(elem.text()).toBe(mockData[2])
     expect(elem.instance().getAttribute('aria-selected')).toBe('true')
   })
 
@@ -187,7 +230,11 @@ describe('Autocomplete component', () => {
     Comp.find('.dnb-input__input').simulate('change', {
       target: { value: 'aa' }
     })
-    expect(Comp.find('li.dnb-drawer-list__option').length).toBe(3)
+    expect(
+      Comp.find(
+        'li.dnb-drawer-list__option:not(.dnb-autocomplete__show-all)'
+      ).length
+    ).toBe(3)
   })
 
   it('has correct "aria-expanded"', () => {
@@ -216,9 +263,11 @@ describe('Autocomplete component', () => {
 
     open(Comp)
 
-    expect(Comp.find('li.dnb-drawer-list__option').length).toBe(
-      mockData.length
-    )
+    expect(
+      Comp.find(
+        'li.dnb-drawer-list__option:not(.dnb-autocomplete__show-all)'
+      ).length
+    ).toBe(mockData.length)
   })
 
   it('has to return all additional attributes the event return', () => {

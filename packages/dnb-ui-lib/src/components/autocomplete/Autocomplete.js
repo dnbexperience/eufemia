@@ -379,69 +379,36 @@ class AutocompleteInstance extends React.PureComponent {
     ) {
       this.setHidden()
     } else {
-      // this.setVisible()
       this.setVisibleByContext()
     }
   }
 
-  setVisibleByContext = () =>
-    // { value = this.state.input_value } = {}
-    {
-      const { opened } = this.context.drawerList
-      // const { prevent_selection, keep_value } = this.props
+  setVisibleByContext = () => {
+    const { opened } = this.context.drawerList
 
-      if (!opened) {
-        const skipFilter = this.state.showAllNextTime
-        //  ||
-        // (!opened && !isTrue(prevent_selection) && !isTrue(keep_value))
+    if (!opened) {
+      const skipFilter = this.state.showAllNextTime
 
-        this.runFilterToHighlight({ skipFilter })
-        // this.showAll()
+      this.runFilterToHighlight({ skipFilter })
 
-        if (
-          this.state.showAllNextTime
-          //  ||
-          // (!opened && !isTrue(prevent_selection) && !isTrue(keep_value))
-        ) {
-          // this.showAll()
-          this.setState({
-            showAllNextTime: false,
-            _listenForPropChanges: false
-          })
-        }
+      if (this.state.showAllNextTime) {
+        this.setState({
+          showAllNextTime: false,
+          _listenForPropChanges: false
+        })
       }
-
-      this.setVisible()
     }
 
+    this.setVisible()
+  }
+
   scrollToActiveItem = () => {
-    // clearTimeout(this._selectTimeout)
-    // this._selectTimeout = setTimeout(() => {
-    console.log(
-      'this.context.drawerList.active_item',
-      this.context.drawerList.active_item
-    )
     this.context.drawerList.scrollToItem(
       this.context.drawerList.active_item,
       {
         scrollTo: false
       }
     )
-    // }, 1)
-
-    // NB: This is used before, to handle show all during the first keydown
-    // if (parseFloat(this.state.localActiveItem) > -1) {
-    //   this.context.drawerList.scrollToAndSetActiveItem(
-    //     this.state.localActiveItem,
-    //     {
-    //       scrollTo: false
-    //     }
-    //   )
-    //   this.setState({
-    //     localActiveItem: null,
-    //     _listenForPropChanges: false
-    //   })
-    // }
   }
 
   scrollToSelectedItem = () => {
@@ -494,37 +461,9 @@ class AutocompleteInstance extends React.PureComponent {
       } else if (this.countData(data) > 0) {
         this.context.drawerList.setData(this.addShowAllToData(data))
 
-        // NB: This is used before, to handle show all during the first keydown
-        // const localActiveItem =
-        //   this.countData(data) === 1 ||
-        //   !parseFloat(this.context.drawerList.active_item > -1)
-        //     ? data[0].__id
-        //     : null
-        // this.setState(
-        //   {
-        //     localActiveItem, // used later so we can scroll there
-        //     skipHighlight: false,
-        //     _listenForPropChanges: false
-        //   },
-        //   () => {
-        //     if (!localActiveItem) {
-        //       this.context.drawerList.scrollToItem(data[0]?.__id, {
-        //         scrollTo: false
-        //       })
-        //     }
-        //   }
-        // )
-
-        // const active_item =
-        //   this.countData(data) === 1 ||
-        //   !parseFloat(this.context.drawerList.active_item > -1)
-        //     ? data[0].__id
-        //     : null
-
         if (this.countData(data) === 1) {
           this.context.drawerList.setState({
             active_item: data[0].__id
-            // ignore_events: false
           })
         }
       }
@@ -552,23 +491,15 @@ class AutocompleteInstance extends React.PureComponent {
 
     value = String(value || '').trim()
 
-    // const skipFilter = !this.hasFilterActive()
-    // console.log('this.hasFilterActive()', this.hasFilterActive())
-    const data = this.runFilter(value, {
-      // skipFilter,
-      ...options
-    }) // do not skip the filter here
-
     this.setState({
       skipHighlight: false,
       _listenForPropChanges: false
     })
 
+    const data = this.runFilter(value, options) // do not skip the filter here
     this.context.drawerList.setData(this.addShowAllToData(data))
-
     this.context.drawerList.setState({
       cache_hash: value + this.countData(data)
-      // ignore_events: false
     })
 
     this.setAriaLiveUpdate()
@@ -586,7 +517,6 @@ class AutocompleteInstance extends React.PureComponent {
       const { show_all } = this._props
 
       // NB: here we could use unshift, but this has to be implemented different places as well
-      // because of
       data.push({
         __id: lastItem.__id + 1,
         class_name: 'dnb-autocomplete__show-all',
@@ -702,12 +632,7 @@ class AutocompleteInstance extends React.PureComponent {
               this.resetSelections()
               this.context.drawerList.setState({
                 active_item: -1
-                // ignore_events: false
               })
-
-              // Was used before to enhance UX, but looks like we now are good without
-              // this.showAll()
-              // this.scrollToSelectedItem()
             }
           }
         )
@@ -848,16 +773,6 @@ class AutocompleteInstance extends React.PureComponent {
       case 'up':
       case 'down':
         e.preventDefault()
-
-        // if (this.hasFilterActive() && this.countData() === 1) {
-        //   // NB: This is used before, to handle show all during the first keydown
-        //   // this.ignoreEvents()
-
-        //   this.showAll()
-        //   this.setVisible()
-        //   this.scrollToActiveItem()
-        // } else {
-        // }
 
         this.setVisible()
 
@@ -1027,12 +942,6 @@ class AutocompleteInstance extends React.PureComponent {
   showAll = () => {
     this.resetFilter()
 
-    // NB: This is used before, to handle show all during the first keydown
-    // this.setState({
-    //   localActiveItem: null,
-    //   _listenForPropChanges: false
-    // })
-
     this.context.drawerList.setState({
       cache_hash: 'all'
     })
@@ -1062,7 +971,6 @@ class AutocompleteInstance extends React.PureComponent {
   resetSelections = () => {
     this.context.drawerList.setState({
       active_item: null
-      // ignore_events: false
     })
   }
 
@@ -1305,9 +1213,6 @@ class AutocompleteInstance extends React.PureComponent {
       // Do this, so screen readers get a NEW focus later on
       // So we first need a blur of the input basically
       try {
-        // this._refShell.current.focus({
-        //   preventScroll: true
-        // })
         this.context.drawerList._refUl.current.focus({
           preventScroll: true
         })
