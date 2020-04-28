@@ -392,7 +392,11 @@ class AutocompleteInstance extends React.PureComponent {
       })
     }
 
-    this.runFilterToHighlight({ ...options, skipFilter })
+    this.runFilterToHighlight({
+      fillDataIfEmpty: true,
+      skipFilter,
+      ...options
+    })
 
     this.setVisible()
   }
@@ -454,7 +458,7 @@ class AutocompleteInstance extends React.PureComponent {
           this.showNoOptionsItem()
         }
       } else if (this.countData(data) > 0) {
-        this.context.drawerList.setData(this.addShowAllToData(data))
+        this.context.drawerList.setData(this.wrapWithShowAll(data))
 
         if (this.countData(data) === 1) {
           this.context.drawerList.setState({
@@ -501,7 +505,7 @@ class AutocompleteInstance extends React.PureComponent {
       data = this.context.drawerList.original_data
     }
 
-    this.context.drawerList.setData(this.addShowAllToData(data))
+    this.context.drawerList.setData(this.wrapWithShowAll(data))
     this.context.drawerList.setState({
       cache_hash: value + this.countData(data)
     })
@@ -511,7 +515,7 @@ class AutocompleteInstance extends React.PureComponent {
     return data
   }
 
-  addShowAllToData = (data) => {
+  wrapWithShowAll = (data) => {
     if (!this.hasFilterActive(data)) {
       return data
     }
@@ -665,7 +669,7 @@ class AutocompleteInstance extends React.PureComponent {
 
   onInputClickHandler = (e) => {
     const { value } = e.target
-    this.setVisibleByContext({ value, fillDataIfEmpty: true })
+    this.setVisibleByContext({ value })
   }
 
   onInputFocusHandler = (event) => {
@@ -675,7 +679,7 @@ class AutocompleteInstance extends React.PureComponent {
 
     if (isTrue(this.props.open_on_focus)) {
       const { value } = event.target
-      this.setVisibleByContext({ value, fillDataIfEmpty: true })
+      this.setVisibleByContext({ value })
     } else {
       this.setSearchIndex()
     }
@@ -688,10 +692,10 @@ class AutocompleteInstance extends React.PureComponent {
 
   onBlurHandler = (event) => {
     const {
-      open_on_focus,
-      prevent_selection,
       input_value,
-      keep_value
+      open_on_focus,
+      keep_value,
+      prevent_selection
     } = this.props
     this.setState({
       typedInputValue: null,
@@ -962,8 +966,12 @@ class AutocompleteInstance extends React.PureComponent {
   }
 
   totalReset = () => {
+    if (!isTrue(this.props.keep_value)) {
+      this.setState({
+        inputValue: undefined
+      })
+    }
     this.setState({
-      inputValue: undefined,
       typedInputValue: undefined,
       _listenForPropChanges: false
     })

@@ -129,13 +129,6 @@ describe('Autocomplete component', () => {
       /* @html */ `<li class="first-of-type dnb-drawer-list__option" role="option" tabindex="-1" aria-selected="false" data-item="1" id="option-autocomplete-id-1"><span class="dnb-drawer-list__option__inner"><span><span class="dnb-drawer-list__option__item--highlight">BB</span> <span class="dnb-drawer-list__option__item--highlight">cc</span> ze<span class="dnb-drawer-list__option__item--highlight"><span class="dnb-drawer-list__option__item--highlight">th</span></span><span class="dnb-drawer-list__option__item--highlight"><span class="dnb-drawer-list__option__item--highlight">x</span></span></span></span></li>`
     )
 
-    keydown(Comp, 40) // down
-    expect(
-      Comp.find('li.dnb-drawer-list__option--focus').at(0).html()
-    ).toBe(
-      /* @html */ `<li class="first-of-type dnb-drawer-list__option dnb-drawer-list__option--focus" role="option" tabindex="-1" aria-selected="true" data-item="1" id="option-autocomplete-id-1"><span class="dnb-drawer-list__option__inner"><span><span class="dnb-drawer-list__option__item--highlight">BB</span> <span class="dnb-drawer-list__option__item--highlight">cc</span> ze<span class="dnb-drawer-list__option__item--highlight"><span class="dnb-drawer-list__option__item--highlight">th</span></span><span class="dnb-drawer-list__option__item--highlight"><span class="dnb-drawer-list__option__item--highlight">x</span></span></span></span></li>`
-    )
-
     // check "invalid"
     Comp.find('.dnb-input__input').simulate('change', {
       target: { value: 'invalid' }
@@ -256,6 +249,21 @@ describe('Autocomplete component', () => {
     expect(
       elem.find('button').instance().getAttribute('aria-expanded')
     ).toBe('true')
+  })
+
+  it('has correct "opened" state on click in input', () => {
+    const Comp = mount(<Component data={mockData} />)
+
+    Comp.find('.dnb-input__input').simulate('mousedown')
+
+    const elem = Comp.find('.dnb-autocomplete')
+    expect(elem.hasClass('dnb-autocomplete--opened')).toBe(true)
+
+    expect(
+      elem.find(
+        'li.dnb-drawer-list__option:not(.dnb-autocomplete__show-all)'
+      ).length
+    ).toBe(3)
   })
 
   it('has correct "opened" state', () => {
