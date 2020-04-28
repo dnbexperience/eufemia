@@ -72,6 +72,7 @@ export const SearchBarInput = () => {
       mode="async"
       no_scroll_animation
       prevent_selection
+      disable_filter
       size="medium"
       align_autocomplete="right"
       triangle_position="left"

@@ -32,15 +32,30 @@ import {
 
 ### General helpers
 
-```js
-import { scrollToLocationHashId, isIE11 } from 'dnb-ui-lib/shared/helpers'
-```
+| Function                 | Description                                                                                                                     | Parameters                                                    | Return    |
+| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------- | --------- |
+| `isIE11`                 | Check if the browser is Microsoft Internet Explorer.                                                                            | none                                                          | `Boolean` |
+| `isEdge`                 | Check if the browser is Microsoft Edge.                                                                                         | none                                                          | `Boolean` |
+| `scrollToLocationHashId` | Enhance the native anchor scroll handling by providing additional features like a custom offset.                                | `{ offset: Integer, delay: Integer, onCompletion: Function }` | `Element` |
+| `getOffsetTop`           | Get the HTML Element offset to the top of the browser window, minus `offset`.                                                   | `{ offset: Integer }`                                         | `Number`  |
+| `applyPageFocus`         | More info about that function in the [focus section about better accessibility](/uilib/usage/accessibility/focus#focus-helper). | `[optional key as String]`                                    | `Void`    |
+| `setPageFocusElement`    | More info about that function in the [focus section about better accessibility](/uilib/usage/accessibility/focus#focus-helper). | `[CSS selector or HTML element, optional key as String]`      | `Void`    |
 
-| Function                 | Description                                                                                                                     | Parameters                                               | Return    |
-| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------- | --------- |
-| `isIE11`                 | Check if the browser is Microsoft Internet Explorer.                                                                            | none                                                     | `Boolean` |
-| `isEdge`                 | Check if the browser is Microsoft Edge.                                                                                         | none                                                     | `Boolean` |
-| `scrollToLocationHashId` | Enhance the native anchor scroll handling by providing additional features like a custom offset.                                | `{ offset: Integer, delay: Integer }`                    | `Void`    |
-| `getOffsetTop`           | Get the HTML Element offset to the top of the browser window, minus `offset`.                                                   | `{ offset: Integer }`                                    | `Number`  |
-| `applyPageFocus`         | More info about that function in the [focus section about better accessibility](/uilib/usage/accessibility/focus#focus-helper). | `[optional key as String]`                               | `Void`    |
-| `setPageFocusElement`    | More info about that function in the [focus section about better accessibility](/uilib/usage/accessibility/focus#focus-helper). | `[CSS selector or HTML element, optional key as String]` | `Void`    |
+#### `scrollToLocationHashId` Example
+
+```js
+import { scrollToLocationHashId } from 'dnb-ui-lib/shared/helpers'
+
+// in case there is a #hash in the url
+const elem = scrollToLocationHashId({
+  offset: 100,
+  delay: 100,
+  onCompletion: (elem) => {
+    try {
+      elem.classList.add('focus')
+    } catch (e) {
+      //
+    }
+  }
+})
+```

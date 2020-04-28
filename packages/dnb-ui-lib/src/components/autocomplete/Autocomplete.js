@@ -25,6 +25,7 @@ import { createSpacingClasses } from '../space/SpacingHelper'
 import Suffix from '../../shared/helpers/Suffix'
 import FormLabel from '../form-label/FormLabel'
 import FormStatus from '../form-status/FormStatus'
+import IconPrimary from '../icon-primary/IconPrimary'
 import Input, { SubmitButton } from '../input/Input'
 import ProgressIndicator from '../progress-indicator/ProgressIndicator'
 import DrawerList from '../../fragments/drawer-list/DrawerList'
@@ -51,6 +52,7 @@ const propTypes = {
   title: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
   placeholder: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
   no_options: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
+  show_all: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
   aria_live_options: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.node
@@ -187,6 +189,7 @@ const defaultProps = {
   title: 'Option Menu',
   placeholder: null,
   no_options: null,
+  show_all: null,
   aria_live_options: null,
   indicator_label: null,
   submit_button_title: null,
@@ -381,41 +384,64 @@ class AutocompleteInstance extends React.PureComponent {
     }
   }
 
-  setVisibleByContext = ({ value = this.state.input_value } = {}) => {
-    const { opened } = this.context.drawerList
-    const { prevent_selection, keep_value } = this.props
+  setVisibleByContext = () =>
+    // { value = this.state.input_value } = {}
+    {
+      const { opened } = this.context.drawerList
+      // const { prevent_selection, keep_value } = this.props
 
-    if (!opened) {
-      this.runFilterToHighlight(value)
+      if (!opened) {
+        const skipFilter = this.state.showAllNextTime
+        //  ||
+        // (!opened && !isTrue(prevent_selection) && !isTrue(keep_value))
 
-      if (
-        this.state.showAllNextTime ||
-        (!opened && !isTrue(prevent_selection) && !isTrue(keep_value))
-      ) {
-        this.showAll()
-        this.setState({
-          showAllNextTime: false,
-          _listenForPropChanges: false
-        })
+        this.runFilterToHighlight({ skipFilter })
+        // this.showAll()
+
+        if (
+          this.state.showAllNextTime
+          //  ||
+          // (!opened && !isTrue(prevent_selection) && !isTrue(keep_value))
+        ) {
+          // this.showAll()
+          this.setState({
+            showAllNextTime: false,
+            _listenForPropChanges: false
+          })
+        }
       }
-    }
 
-    this.setVisible()
-  }
+      this.setVisible()
+    }
 
   scrollToActiveItem = () => {
-    if (parseFloat(this.state.localActiveItem) > -1) {
-      this.context.drawerList.scrollToAndSetActiveItem(
-        this.state.localActiveItem,
-        {
-          scrollTo: false
-        }
-      )
-      this.setState({
-        localActiveItem: null,
-        _listenForPropChanges: false
-      })
-    }
+    // clearTimeout(this._selectTimeout)
+    // this._selectTimeout = setTimeout(() => {
+    console.log(
+      'this.context.drawerList.active_item',
+      this.context.drawerList.active_item
+    )
+    this.context.drawerList.scrollToItem(
+      this.context.drawerList.active_item,
+      {
+        scrollTo: false
+      }
+    )
+    // }, 1)
+
+    // NB: This is used before, to handle show all during the first keydown
+    // if (parseFloat(this.state.localActiveItem) > -1) {
+    //   this.context.drawerList.scrollToAndSetActiveItem(
+    //     this.state.localActiveItem,
+    //     {
+    //       scrollTo: false
+    //     }
+    //   )
+    //   this.setState({
+    //     localActiveItem: null,
+    //     _listenForPropChanges: false
+    //   })
+    // }
   }
 
   scrollToSelectedItem = () => {
@@ -452,7 +478,7 @@ class AutocompleteInstance extends React.PureComponent {
 
     this.context.drawerList.setState(
       {
-        cache_hash: value + data.length
+        cache_hash: value + this.countData(data)
       },
       () =>
         typeof options?.afterSetState === 'function' &&
@@ -461,45 +487,51 @@ class AutocompleteInstance extends React.PureComponent {
 
     if (value && value.length > 0) {
       // show the "no_options" message
-      if (data.length === 0) {
+      if (this.countData(data) === 0) {
         if (this.state.mode !== 'async') {
           this.showNoOptionsItem()
         }
-      } else if (data.length > 0) {
-        this.context.drawerList.setData(data)
+      } else if (this.countData(data) > 0) {
+        this.context.drawerList.setData(this.addShowAllToData(data))
 
-        const localActiveItem =
-          data.length === 1 ||
-          !parseFloat(this.context.drawerList.active_item > -1)
-            ? data[0].__id
-            : null
+        // NB: This is used before, to handle show all during the first keydown
+        // const localActiveItem =
+        //   this.countData(data) === 1 ||
+        //   !parseFloat(this.context.drawerList.active_item > -1)
+        //     ? data[0].__id
+        //     : null
+        // this.setState(
+        //   {
+        //     localActiveItem, // used later so we can scroll there
+        //     skipHighlight: false,
+        //     _listenForPropChanges: false
+        //   },
+        //   () => {
+        //     if (!localActiveItem) {
+        //       this.context.drawerList.scrollToItem(data[0]?.__id, {
+        //         scrollTo: false
+        //       })
+        //     }
+        //   }
+        // )
 
-        this.setState(
-          {
-            localActiveItem, // used later so we can scroll there
-            skipHighlight: false,
-            _listenForPropChanges: false
-          },
-          () => {
-            if (!localActiveItem) {
-              this.context.drawerList.scrollToItem(data[0]?.__id, {
-                scrollTo: false
-              })
-            }
-          }
-        )
+        // const active_item =
+        //   this.countData(data) === 1 ||
+        //   !parseFloat(this.context.drawerList.active_item > -1)
+        //     ? data[0].__id
+        //     : null
 
-        if (data.length === 1) {
+        if (this.countData(data) === 1) {
           this.context.drawerList.setState({
-            active_item: localActiveItem,
-            ignore_events: false
+            active_item: data[0].__id
+            // ignore_events: false
           })
         }
       }
     } else {
       // this will not remove selected_item
       this.totalReset()
-      this.showAll()
+      this.showAllItems()
     }
 
     this.setVisible()
@@ -508,26 +540,67 @@ class AutocompleteInstance extends React.PureComponent {
     return data
   }
 
-  runFilterToHighlight = (value = null, options = {}) => {
-    if (value === null) {
-      value = this.state.inputValue
+  runFilterToHighlight = (options = {}, value = this.state.inputValue) => {
+    // do not filter or highlight if the current selected item is the same as the input value
+    const possibleTitle = AutocompleteInstance.getCurrentDataTitle(
+      this.context.drawerList.selected_item,
+      this.context.drawerList.original_data
+    )
+    if (value === possibleTitle) {
+      return // stop here
     }
+
     value = String(value || '').trim()
 
-    const data = this.runFilter(value, options) // do not skip the filter here
+    // const skipFilter = !this.hasFilterActive()
+    // console.log('this.hasFilterActive()', this.hasFilterActive())
+    const data = this.runFilter(value, {
+      // skipFilter,
+      ...options
+    }) // do not skip the filter here
 
     this.setState({
       skipHighlight: false,
       _listenForPropChanges: false
     })
-    this.context.drawerList.setData(data)
+
+    this.context.drawerList.setData(this.addShowAllToData(data))
 
     this.context.drawerList.setState({
-      cache_hash: value + data.length,
-      ignore_events: false
+      cache_hash: value + this.countData(data)
+      // ignore_events: false
     })
 
     this.setAriaLiveUpdate()
+
+    return data
+  }
+
+  addShowAllToData = (data) => {
+    if (!this.hasFilterActive(data)) {
+      return data
+    }
+
+    const lastItem = data.slice(-1)[0]
+    if (lastItem && !lastItem.show_all) {
+      const { show_all } = this._props
+
+      // NB: here we could use unshift, but this has to be implemented different places as well
+      // because of
+      data.push({
+        __id: lastItem.__id + 1,
+        class_name: 'dnb-autocomplete__show-all',
+        show_all: true,
+        active_item: false,
+        selected_item: false,
+        content: (
+          <>
+            <IconPrimary icon="arrow_down" />
+            {show_all}
+          </>
+        )
+      })
+    }
 
     return data
   }
@@ -556,6 +629,7 @@ class AutocompleteInstance extends React.PureComponent {
     this.ignoreEvents()
     this.context.drawerList.setData([
       {
+        class_name: 'dnb-autocomplete__no-options',
         content: this._props.no_options,
         ignore_events: true,
         __id: 'no_options'
@@ -572,6 +646,7 @@ class AutocompleteInstance extends React.PureComponent {
     this.ignoreEvents()
     this.context.drawerList.setData([
       {
+        class_name: 'dnb-autocomplete__indicator',
         content: <ProgressIndicator label={this._props.indicator_label} />,
         ignore_events: true,
         __id: 'indicator'
@@ -599,11 +674,6 @@ class AutocompleteInstance extends React.PureComponent {
     })
   }
 
-  showAllItems = () => {
-    this.showAll()
-    this.scrollToSelectedItem()
-  }
-
   setMode = (mode) => {
     this.setState({
       mode,
@@ -625,14 +695,14 @@ class AutocompleteInstance extends React.PureComponent {
               const filteredData = this.runFilterWithSideEffects(
                 typedInputValue
               )
-              if (filteredData.length === 0) {
+              if (this.countData(filteredData) === 0) {
                 this.showNoOptionsItem()
               }
             } else {
               this.resetSelections()
               this.context.drawerList.setState({
-                active_item: -1,
-                ignore_events: false
+                active_item: -1
+                // ignore_events: false
               })
 
               // Was used before to enhance UX, but looks like we now are good without
@@ -653,6 +723,8 @@ class AutocompleteInstance extends React.PureComponent {
   onInputKeyDownHandler = ({ event: e }) => {
     const key = keycode(e)
     switch (key) {
+      case 'page up':
+      case 'page down':
       case 'up':
       case 'down':
       case 'home':
@@ -746,14 +818,16 @@ class AutocompleteInstance extends React.PureComponent {
     switch (key) {
       case 'space':
       case 'enter':
+      case 'page up':
+      case 'page down':
       case 'down':
       case 'up':
         {
           e.preventDefault()
-          const hasFilter = this.hasFilterActive()
-          if (hasFilter) {
-            this.showAll()
-          }
+          // const hasFilter = this.hasFilterActive()
+          // if (hasFilter) {
+          //   this.showAll()
+          // }
           try {
             this._refInput.current._ref.current.focus()
           } catch (e) {
@@ -765,12 +839,7 @@ class AutocompleteInstance extends React.PureComponent {
   }
 
   onSubmit = () => {
-    const hasFilter = this.hasFilterActive()
-    if (hasFilter) {
-      this.showAll()
-    }
-
-    this.toggleVisible({ hasFilter })
+    this.toggleVisible()
   }
 
   onShellKeyDownHandler = (e) => {
@@ -780,19 +849,21 @@ class AutocompleteInstance extends React.PureComponent {
       case 'down':
         e.preventDefault()
 
-        if (this.hasFilterActive()) {
-          this.ignoreEvents()
-          this.showAll()
-          this.setVisible()
-          this.scrollToActiveItem()
-        } else {
-          this.setVisible()
-        }
+        // if (this.hasFilterActive() && this.countData() === 1) {
+        //   // NB: This is used before, to handle show all during the first keydown
+        //   // this.ignoreEvents()
+
+        //   this.showAll()
+        //   this.setVisible()
+        //   this.scrollToActiveItem()
+        // } else {
+        // }
+
+        this.setVisible()
 
         break
 
       case 'esc':
-        this.showAll()
         this.setState({
           showAllNextTime: true,
           _listenForPropChanges: false
@@ -873,10 +944,24 @@ class AutocompleteInstance extends React.PureComponent {
     }
   }
 
+  hasShowMore = (data = this.context.drawerList.data) => {
+    const lastItem = data.slice(-1)[0]
+    return typeof lastItem?.show_all === 'function'
+  }
+
+  countData = (data = this.context.drawerList.data) => {
+    return this.hasShowMore(data) && data.length > 0
+      ? data.length - 1
+      : data.length
+  }
+
   hasValidData = (data = this.context.drawerList.data) => {
-    if (data.length > 0) {
+    if (this.countData(data) > 0) {
       const first = data[0]
-      if (!['no_options', 'indicator'].includes(first.__id)) {
+      if (
+        !first.show_all &&
+        !['no_options', 'indicator'].includes(first.__id)
+      ) {
         return true
       }
     }
@@ -886,25 +971,30 @@ class AutocompleteInstance extends React.PureComponent {
   hasSelectedItem = () => {
     return parseFloat(this.context.drawerList.selected_item) > -1
   }
+
   hasActiveItem = () => {
     return parseFloat(this.context.drawerList.active_item) > -1
   }
 
-  hasFilterActive = () => {
+  hasFilterActive = (data = this.context.drawerList.data) => {
     return (
-      this.context.drawerList.data.length !==
+      this.countData(data) !==
       this.context.drawerList.original_data?.length
     )
   }
 
-  setSearchIndex({ overwriteSearchIndex = false, data = null } = {}, cb) {
+  setSearchIndex(
+    {
+      overwriteSearchIndex = false,
+      data = this.context.drawerList.original_data
+    } = {},
+    cb
+  ) {
     if (!overwriteSearchIndex && this.state.searchIndex) {
       return this.state.searchIndex
     }
 
-    const searchIndex = AutocompleteInstance.createSearchIndex(
-      data || this.context.drawerList.original_data
-    )
+    const searchIndex = AutocompleteInstance.createSearchIndex(data)
 
     this.setState(
       {
@@ -936,13 +1026,26 @@ class AutocompleteInstance extends React.PureComponent {
 
   showAll = () => {
     this.resetFilter()
-    this.setState({
-      localActiveItem: null,
-      _listenForPropChanges: false
-    })
+
+    // NB: This is used before, to handle show all during the first keydown
+    // this.setState({
+    //   localActiveItem: null,
+    //   _listenForPropChanges: false
+    // })
+
     this.context.drawerList.setState({
       cache_hash: 'all'
     })
+
+    this.runFilterToHighlight({ skipFilter: true })
+  }
+
+  showAllItems = () => {
+    this.resetFilter()
+    this.context.drawerList.setState({
+      cache_hash: 'all'
+    })
+    this.scrollToSelectedItem()
   }
 
   totalReset = () => {
@@ -958,8 +1061,8 @@ class AutocompleteInstance extends React.PureComponent {
 
   resetSelections = () => {
     this.context.drawerList.setState({
-      active_item: null,
-      ignore_events: false
+      active_item: null
+      // ignore_events: false
     })
   }
 
@@ -969,7 +1072,13 @@ class AutocompleteInstance extends React.PureComponent {
 
   runFilter = (
     value,
-    { skipHighlight = false, skipFilter = false, skipReorder = false } = {}
+    {
+      data = null, // rawData
+      searchIndex = this.state.searchIndex,
+      skipHighlight = false,
+      skipFilter = false,
+      skipReorder = false
+    } = {}
   ) => {
     const words = value.split(/\s+/g).filter(Boolean)
     const wordsCount = words.length
@@ -990,9 +1099,11 @@ class AutocompleteInstance extends React.PureComponent {
               : new RegExp(`${wordCond}${word}`, 'gi').test(item))
         )
 
+    if (data) {
+      searchIndex = this.setSearchIndex({ data })
+    }
     // get the search index
-    let searchIndex = this.state.searchIndex
-    if (!searchIndex) {
+    else if (!searchIndex) {
       searchIndex = this.setSearchIndex()
     }
     if (typeof searchIndex === 'undefined') {
@@ -1160,6 +1271,25 @@ class AutocompleteInstance extends React.PureComponent {
     }
   }
 
+  onPreChangeHandler = ({ data, selected_item }) => {
+    if (data && data.show_all) {
+      this.showAll()
+
+      if (parseFloat(selected_item) > -1) {
+        const active_item = selected_item - 1
+        clearTimeout(this._selectTimeout)
+        this._selectTimeout = setTimeout(() => {
+          this.context.drawerList.setState({
+            active_item
+          })
+          this.scrollToActiveItem()
+        }, 1)
+      }
+
+      return false
+    }
+  }
+
   onChangeHandler = (args) => {
     const selected_item = args.selected_item
 
@@ -1231,7 +1361,7 @@ class AutocompleteInstance extends React.PureComponent {
         if (this.hasValidData()) {
           newString = String(aria_live_options).replace(
             '%s',
-            this.context.drawerList.data.length
+            this.countData()
           )
         } else {
           newString = no_options
@@ -1298,15 +1428,17 @@ class AutocompleteInstance extends React.PureComponent {
 
       mode: _mode, // eslint-disable-line
       data: _data, // eslint-disable-line
-      no_options: _no_options, // eslint-disable-line
-      aria_live_options: _aria_live_options, // eslint-disable-line
       children: _children, // eslint-disable-line
       direction: _direction, // eslint-disable-line
-      disable_highlighting: _disable_highlighting, // eslint-disable-line
       id: _id, // eslint-disable-line
       opened: _opened, // eslint-disable-line
       value: _value, // eslint-disable-line
-      indicator_label: _indicator_label, // eslint-disable-line
+
+      indicator_label, // eslint-disable-line
+      no_options, // eslint-disable-line
+      show_all, // eslint-disable-line
+      aria_live_options, // eslint-disable-line
+      disable_highlighting, // eslint-disable-line
 
       ...attributes
     } = props
@@ -1546,6 +1678,7 @@ class AutocompleteInstance extends React.PureComponent {
                 options_render={options_render}
                 on_change={this.onChangeHandler}
                 on_select={this.onSelectHandler}
+                on_pre_change={this.onPreChangeHandler}
               />
             </span>
 
