@@ -62,7 +62,7 @@ describe('Autocomplete component', () => {
       />
     )
     expect(Comp.find('li.dnb-drawer-list__option').at(0).html()).toBe(
-      /* @html */ `<li class="first-of-type dnb-drawer-list__option" role="option" tabindex="-1" aria-selected="false" data-item="1"><span class="dnb-drawer-list__option__inner"><span><span class="dnb-drawer-list__option__item--highlight"><span class="dnb-drawer-list__option__item--highlight"><span class="dnb-drawer-list__option__item--highlight">Th</span></span>e</span> <span class="dnb-drawer-list__option__item--highlight">G</span>odfa<span class="dnb-drawer-list__option__item--highlight">th</span>er <span class="dnb-drawer-list__option__item--highlight"><span class="dnb-drawer-list__option__item--highlight">th</span>e</span> <span class="dnb-drawer-list__option__item--highlight">g</span>odfa<span class="dnb-drawer-list__option__item--highlight">th</span>er <span class="dnb-drawer-list__option__item--highlight"><span class="dnb-drawer-list__option__item--highlight">Th</span>e</span> <span class="dnb-drawer-list__option__item--highlight">G</span>odfa<span class="dnb-drawer-list__option__item--highlight">th</span>er</span></span></li>`
+      /* @html */ `<li class="first-of-type dnb-drawer-list__option" role="option" tabindex="-1" aria-selected="false" data-item="1" id="option-autocomplete-id-1"><span class="dnb-drawer-list__option__inner"><span><span class="dnb-drawer-list__option__item--highlight"><span class="dnb-drawer-list__option__item--highlight"><span class="dnb-drawer-list__option__item--highlight">Th</span></span>e</span> <span class="dnb-drawer-list__option__item--highlight">G</span>odfa<span class="dnb-drawer-list__option__item--highlight">th</span>er <span class="dnb-drawer-list__option__item--highlight"><span class="dnb-drawer-list__option__item--highlight">th</span>e</span> <span class="dnb-drawer-list__option__item--highlight">g</span>odfa<span class="dnb-drawer-list__option__item--highlight">th</span>er <span class="dnb-drawer-list__option__item--highlight"><span class="dnb-drawer-list__option__item--highlight">Th</span>e</span> <span class="dnb-drawer-list__option__item--highlight">G</span>odfa<span class="dnb-drawer-list__option__item--highlight">th</span>er</span></span></li>`
     )
   })
 
@@ -126,14 +126,14 @@ describe('Autocomplete component', () => {
       mockData[1]
     )
     expect(Comp.find('li.dnb-drawer-list__option').at(0).html()).toBe(
-      /* @html */ `<li class="first-of-type dnb-drawer-list__option" role="option" tabindex="-1" aria-selected="false" data-item="1"><span class="dnb-drawer-list__option__inner"><span><span class="dnb-drawer-list__option__item--highlight">BB</span> <span class="dnb-drawer-list__option__item--highlight">cc</span> ze<span class="dnb-drawer-list__option__item--highlight"><span class="dnb-drawer-list__option__item--highlight">th</span></span><span class="dnb-drawer-list__option__item--highlight"><span class="dnb-drawer-list__option__item--highlight">x</span></span></span></span></li>`
+      /* @html */ `<li class="first-of-type dnb-drawer-list__option" role="option" tabindex="-1" aria-selected="false" data-item="1" id="option-autocomplete-id-1"><span class="dnb-drawer-list__option__inner"><span><span class="dnb-drawer-list__option__item--highlight">BB</span> <span class="dnb-drawer-list__option__item--highlight">cc</span> ze<span class="dnb-drawer-list__option__item--highlight"><span class="dnb-drawer-list__option__item--highlight">th</span></span><span class="dnb-drawer-list__option__item--highlight"><span class="dnb-drawer-list__option__item--highlight">x</span></span></span></span></li>`
     )
 
     keydown(Comp, 40) // down
     expect(
       Comp.find('li.dnb-drawer-list__option--focus').at(0).html()
     ).toBe(
-      /* @html */ `<li class="first-of-type dnb-drawer-list__option dnb-drawer-list__option--focus" role="option" tabindex="-1" aria-selected="true" data-item="1"><span class="dnb-drawer-list__option__inner"><span><span class="dnb-drawer-list__option__item--highlight">BB</span> <span class="dnb-drawer-list__option__item--highlight">cc</span> ze<span class="dnb-drawer-list__option__item--highlight"><span class="dnb-drawer-list__option__item--highlight">th</span></span><span class="dnb-drawer-list__option__item--highlight"><span class="dnb-drawer-list__option__item--highlight">x</span></span></span></span></li>`
+      /* @html */ `<li class="first-of-type dnb-drawer-list__option dnb-drawer-list__option--focus" role="option" tabindex="-1" aria-selected="true" data-item="1" id="option-autocomplete-id-1"><span class="dnb-drawer-list__option__inner"><span><span class="dnb-drawer-list__option__item--highlight">BB</span> <span class="dnb-drawer-list__option__item--highlight">cc</span> ze<span class="dnb-drawer-list__option__item--highlight"><span class="dnb-drawer-list__option__item--highlight">th</span></span><span class="dnb-drawer-list__option__item--highlight"><span class="dnb-drawer-list__option__item--highlight">x</span></span></span></span></li>`
     )
 
     // check "invalid"
@@ -185,6 +185,16 @@ describe('Autocomplete component', () => {
         .at(1)
         .hasClass('dnb-drawer-list__option--focus')
     ).toBe(true)
+    expect(
+      Comp.find('li.dnb-drawer-list__option')
+        .at(1)
+        .instance()
+        .getAttribute('id')
+    ).toBe(
+      Comp.find('.dnb-input__input')
+        .instance()
+        .getAttribute('aria-activedescendant')
+    )
 
     // check "cc b"
     Comp.find('.dnb-input__input').simulate('change', {

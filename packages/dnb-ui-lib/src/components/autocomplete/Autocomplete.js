@@ -769,6 +769,7 @@ class AutocompleteInstance extends React.PureComponent {
 
   onShellKeyDownHandler = (e) => {
     const key = keycode(e)
+
     switch (key) {
       case 'up':
       case 'down':
@@ -1418,8 +1419,9 @@ class AutocompleteInstance extends React.PureComponent {
 
       // ARIA
       role: 'combobox', // we need combobox twice to make it properly work on VO
-      'aria-autocomplete': 'list', // list, both
+      'aria-autocomplete': 'both', // list, both
       'aria-controls': `${id}-ul`,
+      'aria-haspopup': 'listbox',
       'aria-expanded': isExpanded, // is needed for semantics
       // 'aria-roledescription': 'autocomplete', // is not needed by now
 
@@ -1489,6 +1491,7 @@ class AutocompleteInstance extends React.PureComponent {
         showStatus ? id + '-status' : ''
       } ${suffix ? id + '-suffix' : ''}`
     }
+
 
     // also used for code markup simulation
     validateDOMAttributes(null, mainParams)

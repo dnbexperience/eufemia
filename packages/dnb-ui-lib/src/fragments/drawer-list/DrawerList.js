@@ -371,6 +371,7 @@ class DrawerListInstance extends React.PureComponent {
         const hash = `option-${id}-${_id}`
         const liParams = {
           'data-item': _id,
+          id: hash,
           hash,
           className: classnames(
             // helper classes
