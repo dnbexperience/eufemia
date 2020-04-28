@@ -23,6 +23,7 @@ exports[`Modal component have to match snapshot 1`] = `
         "modal_content": "modal_content",
         "mode": "'modal'",
         "no_animation": "no_animation",
+        "no_animation_on_mobile": "no_animation_on_mobile",
         "on_close": [Function],
         "on_close_prevent": [Function],
         "on_open": [Function],
@@ -69,6 +70,7 @@ exports[`Modal component have to match snapshot 1`] = `
   modal_content="unique_modal_content"
   mode="modal"
   no_animation={true}
+  no_animation_on_mobile={false}
   on_close={null}
   on_close_prevent={null}
   on_open={null}
@@ -225,6 +227,7 @@ exports[`Modal component have to match snapshot 1`] = `
             "modal_content": "modal_content",
             "mode": "'modal'",
             "no_animation": "no_animation",
+            "no_animation_on_mobile": "no_animation_on_mobile",
             "on_close": [Function],
             "on_close_prevent": [Function],
             "on_open": [Function],
@@ -271,6 +274,7 @@ exports[`Modal component have to match snapshot 1`] = `
       modal_content="unique_modal_content"
       mode="modal"
       no_animation={true}
+      no_animation_on_mobile={false}
       on_close={null}
       on_close_prevent={null}
       on_open={null}
@@ -302,6 +306,7 @@ exports[`Modal component have to match snapshot 1`] = `
               "modal_content": "modal_content",
               "mode": "'modal'",
               "no_animation": "no_animation",
+              "no_animation_on_mobile": "no_animation_on_mobile",
               "on_close": [Function],
               "on_close_prevent": [Function],
               "on_open": [Function],
@@ -349,6 +354,7 @@ exports[`Modal component have to match snapshot 1`] = `
         modal_content="unique_modal_content"
         mode="modal"
         no_animation={true}
+        no_animation_on_mobile={false}
         on_close={null}
         on_close_prevent={null}
         on_open={null}
@@ -505,7 +511,7 @@ exports[`Modal component have to match snapshot 1`] = `
         </div>
         <span
           aria-hidden="true"
-          className="dnb-modal__overlay dnb-modal__overlay--modal"
+          className="dnb-modal__overlay dnb-modal__overlay--modal dnb-modal__overlay--no-animation"
         />
       </ModalContent>
     </ModalRoot>
@@ -1058,6 +1064,9 @@ button.dnb-button::-moz-focus-inner {
       animation: hide-modal 220ms ease-in-out forwards; }
     .dnb-modal__content--no-animation .dnb-modal__content__inner {
       animation-duration: 0ms !important; }
+    @media (max-width: 40em) {
+      .dnb-modal__content--no-animation-on-mobile .dnb-modal__content__inner {
+        animation-duration: 0ms !important; } }
   .dnb-modal__title.dnb-h2,
   .dnb-core-style .dnb-modal__title.dnb-h2:not([class*='dnb-space']) {
     margin: 0;
@@ -1088,7 +1097,8 @@ button.dnb-button::-moz-focus-inner {
     width: 100%;
     height: 100%;
     background: rgba(0, 0, 0, 0.4);
-    box-shadow: 0 100vh 0 0 rgba(0, 0, 0, 0.4); }
+    box-shadow: 0 100vh 0 0 rgba(0, 0, 0, 0.4);
+    /* stylelint-disable-next-line */ }
     html:not([data-dnb-test]) .dnb-modal__overlay--modal {
       animation: show-modal-overlay 300ms ease-out forwards; }
     html:not([data-dnb-test]) .dnb-modal__overlay--modal.dnb-modal__overlay--hide {
@@ -1097,6 +1107,11 @@ button.dnb-button::-moz-focus-inner {
       animation: show-drawer-overlay 300ms ease-out forwards; }
     html:not([data-dnb-test]) .dnb-modal__overlay--drawer.dnb-modal__overlay--hide {
       animation: hide-drawer-overlay 300ms ease-in-out forwards; }
+    .dnb-modal__overlay--no-animation {
+      animation-duration: 0ms !important; }
+    @media (max-width: 40em) {
+      .dnb-modal__overlay--no-animation-on-mobile {
+        animation-duration: 0ms !important; } }
 
 @keyframes show-modal {
   from {

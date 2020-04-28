@@ -39,6 +39,10 @@ export default class ModalContent extends React.PureComponent {
       PropTypes.bool
     ]),
     no_animation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    no_animation_on_mobile: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool
+    ]),
     min_width: PropTypes.string,
     max_width: PropTypes.string,
     fullscreen: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -67,6 +71,7 @@ export default class ModalContent extends React.PureComponent {
     prevent_close: null,
     prevent_core_style: null,
     no_animation: null,
+    no_animation_on_mobile: null,
     min_width: null,
     max_width: null,
     fullscreen: null,
@@ -234,6 +239,7 @@ export default class ModalContent extends React.PureComponent {
       open_delay, // eslint-disable-line
       prevent_core_style,
       no_animation,
+      no_animation_on_mobile,
       min_width: minWidth,
       max_width: maxWidth,
       fullscreen,
@@ -262,7 +268,9 @@ export default class ModalContent extends React.PureComponent {
           `dnb-modal__content--${container_placement}`,
         (fullscreen || mode === 'drawer') &&
           'dnb-modal__content--fullscreen',
-        isTrue(no_animation) && 'dnb-modal__content--no-animation'
+        isTrue(no_animation) && 'dnb-modal__content--no-animation',
+        isTrue(no_animation_on_mobile) &&
+          'dnb-modal__content--no-animation-on-mobile'
       ),
       onClick: closeModal
     }
@@ -292,7 +300,10 @@ export default class ModalContent extends React.PureComponent {
       className: classnames(
         'dnb-modal__overlay',
         hide && 'dnb-modal__overlay--hide',
-        mode && `dnb-modal__overlay--${mode}`
+        mode && `dnb-modal__overlay--${mode}`,
+        isTrue(no_animation) && 'dnb-modal__overlay--no-animation',
+        isTrue(no_animation_on_mobile) &&
+          'dnb-modal__overlay--no-animation-on-mobile'
       )
     }
 

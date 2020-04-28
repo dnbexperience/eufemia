@@ -60,6 +60,10 @@ const propTypes = {
     PropTypes.bool
   ]),
   no_animation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  no_animation_on_mobile: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.bool
+  ]),
   fullscreen: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   align_content: PropTypes.oneOf(['left', 'center', 'centered', 'right']),
   container_placement: PropTypes.oneOf(['left', 'right']),
@@ -115,6 +119,7 @@ const defaultProps = {
   prevent_close: false,
   prevent_core_style: false,
   no_animation: false,
+  no_animation_on_mobile: false,
   fullscreen: false,
   align_content: 'left',
   container_placement: 'right',
