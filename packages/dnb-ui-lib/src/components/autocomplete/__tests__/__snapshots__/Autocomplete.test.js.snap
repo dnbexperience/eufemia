@@ -10,7 +10,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
   custom_method={[Function]}
   data={
     Array [
-      "AA cc",
+      "AA c",
       "BB cc zethx",
       "CC cc",
     ]
@@ -18,6 +18,8 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
   default_value="default_value"
   direction="bottom"
   disable_filter="disable_filter"
+  disable_highlighting="disable_highlighting"
+  disable_reorder="disable_reorder"
   disabled="disabled"
   focusable="focusable"
   global_status_id="global_status_id"
@@ -30,6 +32,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
   input_icon="input_icon"
   input_value="input_value"
   keep_open="keep_open"
+  keep_value="keep_value"
   label="Autocomplete Label:"
   label_direction="horizontal"
   label_sr_only="label_sr_only"
@@ -46,12 +49,14 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
   open_on_focus="open_on_focus"
   opened={true}
   options_render={Object {}}
+  placeholder="placeholder"
   prevent_close="prevent_close"
   prevent_selection={null}
   scrollable="scrollable"
+  search_in_word_index="search_in_word_index"
+  show_all="show_all"
   show_drawer_button={true}
   size={null}
-  skip_highlight="skip_highlight"
   status="status"
   status_animation="status_animation"
   status_state="error"
@@ -71,7 +76,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
     custom_method={[Function]}
     data={
       Array [
-        "AA cc",
+        "AA c",
         "BB cc zethx",
         "CC cc",
       ]
@@ -79,6 +84,8 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
     default_value="default_value"
     direction="bottom"
     disable_filter="disable_filter"
+    disable_highlighting="disable_highlighting"
+    disable_reorder="disable_reorder"
     disabled="disabled"
     focusable="focusable"
     global_status_id="global_status_id"
@@ -92,6 +99,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
     input_icon="input_icon"
     input_value="input_value"
     keep_open="keep_open"
+    keep_value="keep_value"
     label="Autocomplete Label:"
     label_direction="horizontal"
     label_sr_only="label_sr_only"
@@ -112,13 +120,15 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
     opened={null}
     options_render={Object {}}
     page_offset={null}
+    placeholder="placeholder"
     prevent_close="prevent_close"
     prevent_focus={true}
     prevent_selection={null}
     scrollable="scrollable"
+    search_in_word_index="search_in_word_index"
+    show_all="show_all"
     show_drawer_button={true}
     size={null}
-    skip_highlight="skip_highlight"
     skip_keysearch={true}
     status="status"
     status_animation="status_animation"
@@ -140,7 +150,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
       custom_method={[Function]}
       data={
         Array [
-          "AA cc",
+          "AA c",
           "BB cc zethx",
           "CC cc",
         ]
@@ -148,6 +158,8 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
       default_value="default_value"
       direction="bottom"
       disable_filter="disable_filter"
+      disable_highlighting="disable_highlighting"
+      disable_reorder="disable_reorder"
       disabled="disabled"
       focusable="focusable"
       global_status_id="global_status_id"
@@ -160,6 +172,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
       input_icon="input_icon"
       input_value="input_value"
       keep_open="keep_open"
+      keep_value="keep_value"
       label="Autocomplete Label:"
       label_direction="horizontal"
       label_sr_only="label_sr_only"
@@ -176,12 +189,14 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
       open_on_focus="open_on_focus"
       opened={true}
       options_render={Object {}}
+      placeholder="placeholder"
       prevent_close="prevent_close"
       prevent_selection={null}
       scrollable="scrollable"
+      search_in_word_index="search_in_word_index"
+      show_all="show_all"
       show_drawer_button={true}
       size={null}
-      skip_highlight="skip_highlight"
       status="status"
       status_animation="status_animation"
       status_state="error"
@@ -346,10 +361,11 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
               <Input
                 align={null}
                 aria-activedescendant="option-autocomplete-id-2"
-                aria-autocomplete="list"
+                aria-autocomplete="both"
                 aria-controls="autocomplete-id-ul"
                 aria-describedby="autocomplete-id-status autocomplete-id-suffix"
                 aria-expanded={true}
+                aria-haspopup="listbox"
                 autoCapitalize="none"
                 autocomplete="off"
                 class={null}
@@ -376,6 +392,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                 onFocus={[Function]}
                 onKeyDown={[Function]}
                 onMouseDown={[Function]}
+                onTouchStart={[Function]}
                 on_blur={null}
                 on_change={null}
                 on_focus={null}
@@ -440,10 +457,11 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                       >
                         <input
                           aria-activedescendant="option-autocomplete-id-2"
-                          aria-autocomplete="list"
+                          aria-autocomplete="both"
                           aria-controls="autocomplete-id-ul"
                           aria-describedby="autocomplete-id-status autocomplete-id-suffix"
                           aria-expanded={true}
+                          aria-haspopup="listbox"
                           autoCapitalize="none"
                           autoComplete="off"
                           className="dnb-input__input"
@@ -455,6 +473,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                           onFocus={[Function]}
                           onKeyDown={[Function]}
                           onMouseDown={[Function]}
+                          onTouchStart={[Function]}
                           role="combobox"
                           spellCheck="false"
                           type="search"
@@ -660,6 +679,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                 no_scroll_animation="no_scroll_animation"
                 on_change={[Function]}
                 on_hide={null}
+                on_pre_change={[Function]}
                 on_resize={null}
                 on_select={[Function]}
                 on_show={null}
@@ -700,6 +720,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                   no_scroll_animation="no_scroll_animation"
                   on_change={[Function]}
                   on_hide={null}
+                  on_pre_change={[Function]}
                   on_resize={null}
                   on_select={[Function]}
                   on_show={null}
@@ -731,7 +752,8 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                         aria-activedescendant="option-autocomplete-id-2"
                         aria-expanded={true}
                         aria-labelledby="autocomplete-id-label"
-                        cache_hash="CC cc32222bottom1"
+                        cache_hash="2222bottom1"
+                        class={null}
                         className={null}
                         id="autocomplete-id-ul"
                         role="listbox"
@@ -765,13 +787,14 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                           tabIndex="-1"
                         >
                           <Items>
-                            <ForwardRef
+                            <DrawerList.Item
                               active={false}
-                              cache_hash="CC cc3"
-                              className=""
+                              class={null}
+                              className="first-of-type"
                               data-item={0}
+                              hash="option-autocomplete-id-0"
                               id="option-autocomplete-id-0"
-                              key="0"
+                              key="option-autocomplete-id-0"
                               onClick={[Function]}
                               onKeyDown={[Function]}
                               on_click={null}
@@ -780,9 +803,10 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                             >
                               <li
                                 aria-selected={false}
-                                className="dnb-drawer-list__option"
+                                className="first-of-type dnb-drawer-list__option"
                                 data-item={0}
                                 id="option-autocomplete-id-0"
+                                key="lioption-autocomplete-id-0"
                                 onClick={[Function]}
                                 onKeyDown={[Function]}
                                 role="option"
@@ -791,26 +815,22 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                                 <span
                                   className="dnb-drawer-list__option__inner"
                                 >
-                                  <ItemContent>
-                                    <span
-                                      dangerouslySetInnerHTML={
-                                        Object {
-                                          "__html": "AA <span class=\\"dnb-drawer-list__option__item--highlight\\"><span class=\\"dnb-drawer-list__option__item--highlight\\">cc</span></span>",
-                                        }
-                                      }
-                                      key="0AA cc"
-                                    />
+                                  <ItemContent
+                                    hash="option-autocomplete-id-0"
+                                  >
+                                    AA c
                                   </ItemContent>
                                 </span>
                               </li>
-                            </ForwardRef>
-                            <ForwardRef
+                            </DrawerList.Item>
+                            <DrawerList.Item
                               active={false}
-                              cache_hash="CC cc3"
+                              class={null}
                               className=""
                               data-item={1}
+                              hash="option-autocomplete-id-1"
                               id="option-autocomplete-id-1"
-                              key="1"
+                              key="option-autocomplete-id-1"
                               onClick={[Function]}
                               onKeyDown={[Function]}
                               on_click={null}
@@ -822,6 +842,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                                 className="dnb-drawer-list__option"
                                 data-item={1}
                                 id="option-autocomplete-id-1"
+                                key="lioption-autocomplete-id-1"
                                 onClick={[Function]}
                                 onKeyDown={[Function]}
                                 role="option"
@@ -830,26 +851,22 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                                 <span
                                   className="dnb-drawer-list__option__inner"
                                 >
-                                  <ItemContent>
-                                    <span
-                                      dangerouslySetInnerHTML={
-                                        Object {
-                                          "__html": "BB <span class=\\"dnb-drawer-list__option__item--highlight\\"><span class=\\"dnb-drawer-list__option__item--highlight\\">cc</span></span> zethx",
-                                        }
-                                      }
-                                      key="1BB cc zethx"
-                                    />
+                                  <ItemContent
+                                    hash="option-autocomplete-id-1"
+                                  >
+                                    BB cc zethx
                                   </ItemContent>
                                 </span>
                               </li>
-                            </ForwardRef>
-                            <ForwardRef
+                            </DrawerList.Item>
+                            <DrawerList.Item
                               active={true}
-                              cache_hash="CC cc3"
+                              class={null}
                               className="closest-to-top closest-to-bottom last-of-type"
                               data-item={2}
+                              hash="option-autocomplete-id-2"
                               id="option-autocomplete-id-2"
-                              key="2"
+                              key="option-autocomplete-id-2"
                               onClick={[Function]}
                               onKeyDown={[Function]}
                               on_click={null}
@@ -862,6 +879,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                                 className="closest-to-top closest-to-bottom last-of-type dnb-drawer-list__option dnb-drawer-list__option--selected dnb-drawer-list__option--focus"
                                 data-item={2}
                                 id="option-autocomplete-id-2"
+                                key="lioption-autocomplete-id-2"
                                 onClick={[Function]}
                                 onKeyDown={[Function]}
                                 role="option"
@@ -870,19 +888,14 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                                 <span
                                   className="dnb-drawer-list__option__inner"
                                 >
-                                  <ItemContent>
-                                    <span
-                                      dangerouslySetInnerHTML={
-                                        Object {
-                                          "__html": "<span class=\\"dnb-drawer-list__option__item--highlight\\"><span class=\\"dnb-drawer-list__option__item--highlight\\">CC</span></span> <span class=\\"dnb-drawer-list__option__item--highlight\\">cc</span>",
-                                        }
-                                      }
-                                      key="2CC cc"
-                                    />
+                                  <ItemContent
+                                    hash="option-autocomplete-id-2"
+                                  >
+                                    CC cc
                                   </ItemContent>
                                 </span>
                               </li>
-                            </ForwardRef>
+                            </DrawerList.Item>
                           </Items>
                           <li
                             aria-hidden={true}
@@ -908,7 +921,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                 custom_method={[Function]}
                 data={
                   Array [
-                    "AA cc",
+                    "AA c",
                     "BB cc zethx",
                     "CC cc",
                   ]
@@ -916,6 +929,8 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                 default_value="default_value"
                 direction="bottom"
                 disable_filter="disable_filter"
+                disable_highlighting="disable_highlighting"
+                disable_reorder="disable_reorder"
                 disabled="disabled"
                 focusable="focusable"
                 global_status_id="global_status_id"
@@ -928,6 +943,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                 input_icon="input_icon"
                 input_value="input_value"
                 keep_open="keep_open"
+                keep_value="keep_value"
                 label="Autocomplete Label:"
                 label_direction="horizontal"
                 label_sr_only="label_sr_only"
@@ -944,12 +960,14 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                 open_on_focus="open_on_focus"
                 opened={true}
                 options_render={Object {}}
+                placeholder="placeholder"
                 prevent_close="prevent_close"
                 prevent_selection={null}
                 scrollable="scrollable"
+                search_in_word_index="search_in_word_index"
+                show_all="show_all"
                 show_drawer_button={true}
                 size={null}
-                skip_highlight="skip_highlight"
                 status="status"
                 status_animation="status_animation"
                 status_state="error"
@@ -1028,6 +1046,8 @@ exports[`Autocomplete scss have to match default theme snapshot 1`] = `
     position: relative;
     color: var(--drawer-list-option-color);
     background-color: var(--drawer-list-option-background-color); }
+    .dnb-drawer-list__option.ignore-events {
+      pointer-events: none; }
     .dnb-drawer-list__option::before {
       pointer-events: none;
       content: '';
@@ -1051,6 +1071,12 @@ exports[`Autocomplete scss have to match default theme snapshot 1`] = `
       html:not([data-whatintent='touch']) .dnb-drawer-list__option:hover:not([disabled]) .dnb-drawer-list__option__inner {
         color: var(--drawer-list-option-color--hover);
         background-color: var(--drawer-list-option-background-color--hover); }
+    .dnb-drawer-list__option:active[disabled],
+    html:not([data-whatintent='touch']) .dnb-drawer-list__option:active[disabled] {
+      cursor: not-allowed; }
+    .dnb-drawer-list__option:active:not([disabled]) .dnb-drawer-list__option__inner,
+    html:not([data-whatintent='touch']) .dnb-drawer-list__option:active:not([disabled]) .dnb-drawer-list__option__inner {
+      color: var(--color-black); }
     .dnb-drawer-list__option--focus::before {
       z-index: 3;
       top: var(--drawer-list-focus-border-width);
@@ -1415,6 +1441,8 @@ exports[`Autocomplete scss have to match snapshot 1`] = `
     line-height: var(--line-height-basis);
     color: inherit;
     transform: translateY(-0.03125rem); }
+    .dnb-button__text [data-os='linux'] {
+      transform: translateY(-0.035rem); }
   .dnb-button__alignment {
     display: inline-block;
     width: 0; }
@@ -2314,6 +2342,13 @@ legend.dnb-form-label {
     display: inline-flex;
     justify-content: center;
     pointer-events: none; }
+  .dnb-autocomplete__show-all .dnb-drawer-list__option__inner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--color-sea-green); }
+    .dnb-autocomplete__show-all .dnb-drawer-list__option__inner .dnb-icon {
+      margin-right: 0.5rem; }
   .dnb-autocomplete__input {
     display: inline-flex;
     align-items: center;
@@ -2321,6 +2356,11 @@ legend.dnb-form-label {
     margin-right: 0.5rem; }
   .dnb-autocomplete--show-indicator .dnb-autocomplete__input .dnb-input__icon {
     color: transparent; }
+  .dnb-autocomplete--opened .dnb-input__submit-button__button .dnb-icon {
+    transform: rotate(180deg);
+    transform-origin: 50% 50%; }
+  .dnb-autocomplete .dnb-input__submit-button__button .dnb-icon {
+    transition: transform 400ms ease-out; }
   .dnb-autocomplete__shell, .dnb-autocomplete__input {
     border-radius: var(--autocomplete-height); }
   .dnb-autocomplete [aria-controls] {
@@ -2349,9 +2389,6 @@ legend.dnb-form-label {
       text-decoration: none;
       text-overflow: inherit;
       text-align: inherit; }
-  .dnb-autocomplete__outside-value {
-    display: block;
-    padding: 0.5rem 0 1rem var(--autocomplete-padding-horizontal); }
   .dnb-autocomplete > .dnb-form-label {
     margin-right: 1rem;
     line-height: var(--line-height-basis); }

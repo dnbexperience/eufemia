@@ -311,8 +311,16 @@ class DropdownInstance extends React.PureComponent {
         e.preventDefault()
         this.setVisible()
         break
+
       case 'esc':
         this.setHidden()
+        break
+
+      case 'home':
+      case 'end':
+      case 'page down':
+      case 'page up':
+        e.preventDefault()
         break
     }
   }

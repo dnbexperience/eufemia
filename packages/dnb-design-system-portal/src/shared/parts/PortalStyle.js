@@ -91,33 +91,6 @@ export default css`
     z-index: 2;
   }
 
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    .anchor {
-      display: inline-block;
-      visibility: hidden;
-
-      width: 1em;
-      margin-left: -1em;
-
-      line-height: 1; /* for vertical centering*/
-      text-align: center;
-      border-bottom: none;
-
-      transition: opacity 0.4s ease-out;
-      opacity: 0;
-    }
-
-    &:hover .anchor {
-      visibility: visible;
-      opacity: 1;
-    }
-  }
-
   :checked + .radio-label {
     position: relative;
     z-index: 1;

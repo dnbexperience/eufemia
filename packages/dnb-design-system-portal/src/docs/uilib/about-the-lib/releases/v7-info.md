@@ -17,6 +17,10 @@ v7 contains a couple of _braking changes_. As a migration process, you can simpl
 1. find `#008484` replace it with `#007272`
 1. find `['data-is-touch']` replace it with `[data-whatintent='touch']`
 1. **For UMD usage only** find `dnb-ui-lib.min.js` replace it with `dnb-ui-web-components.min.js`
+1. new strings where added to the [language files](/uilib/usage/customisation/localization) `nb-NO.js` and `en-US.js`. If you have a customized localization (changes or addition), then make sure you maintain these new groups of strings:
+   - Autocomplete
+   - Pagination
+   - ProgressIndicator
 
 ## New components
 
@@ -28,6 +32,7 @@ v7 contains a couple of _braking changes_. As a migration process, you can simpl
 - Icons inside of [Input](/uilib/components/input#input-icon) fields.
 - [Buttons](/uilib/components/button) now supports overflow text to wrap (break-word) by using `wrap="true"`.
 - [Modal](/uilib/components/modal#drawer-mode) has now a **Drawer** mode inside the Modal component `mode="drawer"`.
+- Also, the [Modal](/uilib/components/modal#drawer-mode) has now a dark background color and both open and close animation
 
 ```jsx
 <Dropdown
@@ -63,4 +68,4 @@ To upgrade to v7 with NPM, use:
 $ npm i dnb-ui-lib@7
 ```
 
-_April, 24. 2020_
+_April, 28. 2020_

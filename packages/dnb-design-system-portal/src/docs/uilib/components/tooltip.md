@@ -1,11 +1,10 @@
 ---
-title: 'Cards'
+title: 'Tooltip'
 status: 'wip'
-order: 20
-draft: true
+order: 19
 # showTabs: true
 ---
 
-# Cards
+# Tooltip
 
 **Under development**

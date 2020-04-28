@@ -2,7 +2,7 @@
 title: 'SpaceholderIndicator'
 status: 'wip'
 order: 20
-# showTabs: true
+draft: true
 # hideTabs:
 #   - title: Events
 ---

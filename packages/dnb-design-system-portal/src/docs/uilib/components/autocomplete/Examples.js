@@ -12,19 +12,22 @@ class Example extends React.PureComponent {
     return (
       <React.Fragment>
         <ComponentBox title="Default autocomplete" scope={{ topMovies }}>
-          {/* @jsx */ `
+          {
+            /* @jsx */ `
 <Autocomplete
   data={topMovies}
   label="Label:"
 />
-          `}
+          `
+          }
         </ComponentBox>
         <ComponentBox
           title="Autocomplete with a custom title"
           data-dnb-test="autocomplete-closed"
           scope={{ topMovies }}
         >
-          {/* @jsx */ `
+          {
+            /* @jsx */ `
 <Autocomplete
   data={topMovies}
   label="Label:"
@@ -33,15 +36,17 @@ class Example extends React.PureComponent {
     console.log('on_change', data)
   }}
 />
-          `}
+          `
+          }
         </ComponentBox>
         <ComponentBox
           title="Async usage, dynamically update data during typing"
-          description="**Notes:** 1. Simualte server delay and 2. If it gets debounced, we cancel this timeout"
+          description="This example simulates server delay with a timeout and - if it gets debounced, we cancel the timeout.<br /><br />Also, you may consider of using `disable_filter` if you have a backend doing the search operation."
           scope={{ topMovies }}
           useRender
         >
-          {/* @jsx */ `
+          {
+            /* @jsx */ `
 const onTypeHandler = ({
   value,
   showIndicator,
@@ -75,18 +80,21 @@ const onTypeHandler = ({
 }
 render(<Autocomplete
   mode="async"
-  no_scroll_animation="true"
   prevent_selection="true"
   on_type={onTypeHandler}
+  no_scroll_animation="true"
+  placeholder="Search ..."
 />)
-          `}
+          `
+          }
         </ComponentBox>
         <ComponentBox
           title="Update data dynamically on first focus"
           scope={{ topMovies }}
           useRender
         >
-          {/* @jsx */ `
+          {
+            /* @jsx */ `
 const onFocusHandler = ({ updateData, dataList, showIndicatorItem }) => {
   if(!dataList.length){
     showIndicatorItem()
@@ -104,7 +112,8 @@ render(<Autocomplete
   }}
   on_focus={onFocusHandler}
 />)
-          `}
+          `
+          }
         </ComponentBox>
         <ComponentBox
           title="With a Button to toggle the open / close state"
@@ -112,7 +121,8 @@ render(<Autocomplete
           data-dnb-test="autocomplete-drawer-button"
           scope={{ topMovies }}
         >
-          {/* @jsx */ `
+          {
+            /* @jsx */ `
 <Autocomplete
   label="Label:"
   show_drawer_button="true"
@@ -122,7 +132,8 @@ render(<Autocomplete
 >
   {() => (topMovies)}
 </Autocomplete>
-          `}
+          `
+          }
         </ComponentBox>
         <ComponentBox
           title="Different sizes"
@@ -130,7 +141,8 @@ render(<Autocomplete
           data-dnb-test="autocomplete-sizes"
           scope={{ topMovies }}
         >
-          {/* @jsx */ `
+          {
+            /* @jsx */ `
 <FormRow direction="vertical">
   <Autocomplete
     label="Label:"
@@ -151,7 +163,8 @@ render(<Autocomplete
     data={() => (topMovies)}
   />
 </FormRow>
-          `}
+          `
+          }
         </ComponentBox>
       </React.Fragment>
     )

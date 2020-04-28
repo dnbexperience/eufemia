@@ -10,6 +10,7 @@ import * as SecondaryIcons from 'dnb-ui-lib/src/icons/secondary_icons'
 import * as PrimaryIconsMedium from 'dnb-ui-lib/src/icons/primary_icons_medium'
 import * as SecondaryIconsMedium from 'dnb-ui-lib/src/icons/secondary_icons_medium'
 import styled from '@emotion/styled'
+import AutoLinkHeader from '../../tags/AutoLinkHeader'
 
 export default class Icons extends React.PureComponent {
   state = { iconsToRender: [] }
@@ -36,14 +37,20 @@ export default class Icons extends React.PureComponent {
         return (
           <ListItem key={`icon${name}`}>
             <ListItemInner>
-              <figure aria-labelledby={`id${name}`} aria-hidden>
+              <figure aria-labelledby={`icon-${name}`} aria-hidden>
                 {(SvgMedium && (
                   <Icon icon={SvgMedium} size="medium" />
                 )) || <Icon icon={Svg} />}
               </figure>
-              <figcaption className="dnb-h3" id={`id${name}`}>
+
+              <AutoLinkHeader
+                is="figcaption"
+                className="dnb-h3"
+                useSlug={`icon-${name}`}
+              >
                 {humanFormat(name)}
-              </figcaption>
+              </AutoLinkHeader>
+
               <p className="dnb-p" aria-hidden>
                 ({name})
               </p>

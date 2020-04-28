@@ -19,7 +19,7 @@ You may check out the [Dropdown](/uilib/components/dropdown/info) component for 
 Words found during typing are highlighted. The rules are:
 
 1. The two first words will match the beginning of an option
-1. The third word will match inside an option
+1. The third word will match inside an option (can be changed with `search_in_word_index`)
 1. Case insensitive
 
 ### Screen reader support

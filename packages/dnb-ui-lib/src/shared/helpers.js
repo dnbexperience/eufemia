@@ -67,7 +67,11 @@ export function getOffsetTop(elem) {
   return offsetTop
 }
 
-export function scrollToLocationHashId({ offset = 0, delay = null } = {}) {
+export function scrollToLocationHashId({
+  offset = 0,
+  delay = null,
+  onCompletion = null
+} = {}) {
   if (
     typeof document !== 'undefined' &&
     typeof window !== 'undefined' &&
@@ -81,6 +85,22 @@ export function scrollToLocationHashId({ offset = 0, delay = null } = {}) {
           const runScroll = () => {
             const top = getOffsetTop(elem) - offset
             try {
+              if (typeof IntersectionObserver !== 'undefined') {
+                const intersectionObserver = new IntersectionObserver(
+                  (entries) => {
+                    const [entry] = entries
+                    if (entry.isIntersecting) {
+                      intersectionObserver.unobserve(elem)
+                      if (typeof onCompletion === 'function') {
+                        onCompletion(elem)
+                      }
+                    }
+                  }
+                )
+                // start observing
+                intersectionObserver.observe(elem)
+              }
+
               if (window.scrollTo) {
                 window.scrollTo({
                   top,
@@ -113,6 +133,8 @@ export function scrollToLocationHashId({ offset = 0, delay = null } = {}) {
             handleScroll()
           }
         }
+
+        return elem
       }
     } catch (e) {
       console.warn('Error on scrollToLocationHashId:', e)

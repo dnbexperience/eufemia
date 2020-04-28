@@ -95,7 +95,7 @@ const AutocompleteStory = () => {
                   <Anchor key="a" href="/">
                     Pro Com 1
                   </Anchor>,
-                  <a key="a" href="/" className="dnb-anchor">
+                  <a key="b" href="/" className="dnb-anchor">
                     Pro Com 2
                   </a>
                 ]
@@ -115,9 +115,9 @@ const AutocompleteStory = () => {
             // }
           ]}
           // icon_position="left"
-          on_select={(e) => {
-            console.log('on_select ???', e)
-          }}
+          // on_select={(e) => {
+          //   console.log('on_select ???', e)
+          // }}
           on_change={(e) => {
             console.log('on_change', e)
           }}
@@ -131,34 +131,36 @@ const AutocompleteStory = () => {
               <div>Additional</div>
             </>
           )}
-        ></Autocomplete>
+        />
         <Autocomplete
           // opened
           // prevent_close
           // no_animation
           // input_value="foo bar th"
-          input_value="bb cc th x"
+          input_value="bb"
+          // value={2}
           show_drawer_button
           // value="b"
           data={{
-            a: 'A1 A2 CC',
+            a: 'A1 A2 C',
             b: 'BB cC zethTHx',
             c: 'CCC'
           }}
           // icon_position="left"
-          on_select={(e) => {
-            console.log('on_select ???', e)
-          }}
+          // on_select={(e) => {
+          //   console.log('on_select ???', e)
+          // }}
           on_change={(e) => {
             console.log('on_change', e)
           }}
-        ></Autocomplete>
+        />
       </Box>
       <Box>
         <Autocomplete
           mode="async" // prevents showing no options message og typing
           // label="Search"
           // label_sr_only="true"
+          // prevent_selection
           on_type={({
             // value,
             showIndicator,
@@ -184,6 +186,7 @@ const AutocompleteStory = () => {
           mode="async"
           // label="Search"
           // label_sr_only="true"
+          keep_value
           on_type={({ value /* updateData, ... */ }) => {
             console.log('on_type', value)
           }}
@@ -204,30 +207,6 @@ const AutocompleteStory = () => {
           no_scroll_animation="true"
         />
         <AutocompleteWithState />
-        {/* <Autocomplete
-          label="Top 100 movies"
-          data={[]}
-          title="Select your movie"
-          no_animation
-          no_scroll_animation
-          on_type={({ value, dataList }) => {
-            console.log('on_type', value, dataList)
-            // updateData(topMovies)
-          }}
-          on_focus={({ updateData }) => {
-            console.log('on_focus', updateData)
-            setTimeout(() => {
-              updateData(topMovies)
-            }, 1e3)
-          }}
-          on_blur={({ dataList }) => {
-            console.log('on_blur', dataList)
-            // updateData(topMovies)
-          }}
-          on_change={({ data: { content, year } }) => {
-            console.log('on_change', content, year)
-          }}
-        ></Autocomplete> */}
       </Box>
       <Box>
         <Autocomplete
@@ -244,7 +223,17 @@ const AutocompleteStory = () => {
             console.log('on_change', e)
           }}
           data={testData}
-        ></Autocomplete>
+        />
+        <Autocomplete
+          // opened
+          // prevent_close
+          no_animation
+          keep_value
+          input_value="the g er"
+          mode="async"
+          label="Top 100 movies"
+          data={topMovies}
+        />
       </Box>
       <Box>
         <Autocomplete
@@ -259,7 +248,7 @@ const AutocompleteStory = () => {
           on_change={(e) => {
             console.log('on_change', e)
           }}
-        ></Autocomplete>
+        />
         <Autocomplete
           on_select={(e) => {
             console.log('on_select', e)
@@ -275,16 +264,16 @@ const AutocompleteStory = () => {
         </Autocomplete>
       </Box>
       <Box>
-        <Autocomplete data={autocompleteData}></Autocomplete>
+        <Autocomplete data={autocompleteData} />
       </Box>
       <Box>
-        <Autocomplete data={autocompleteDataScrollable}></Autocomplete>
+        <Autocomplete data={autocompleteDataScrollable} />
       </Box>
       {/* <Box>
         <Autocomplete
           label="Top 100 movies"
           data={topMovies}
-        ></Autocomplete>
+        />
       </Box> */}
     </Wrapper>
   )
@@ -425,7 +414,7 @@ const autocompleteDataScrollable = [
 
 const topMovies = [
   { content: 'The Shawshank Redemption', year: 1994 },
-  { content: 'The Godfather', year: 1972 },
+  { content: 'The Godfather the godfather The Godfather', year: 1972 },
   { content: 'The Godfather: Part II', year: 1974 },
   { content: 'The Dark Knight', year: 2008 },
   { content: '12 Angry Men', year: 1957 },

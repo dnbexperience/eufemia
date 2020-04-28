@@ -72,7 +72,7 @@ export const SearchBarInput = () => {
       mode="async"
       no_scroll_animation
       prevent_selection
-      keep_placeholder
+      disable_filter
       size="medium"
       align_autocomplete="right"
       triangle_position="left"
@@ -82,7 +82,7 @@ export const SearchBarInput = () => {
       on_change={onChangeHandler}
       on_focus={onFocusHandler}
       className="portal-search"
-      page_offset={0}
+      page_offset={0} // drawer-list property
       options_render={({ Items, data }) => (
         <>
           <Items />

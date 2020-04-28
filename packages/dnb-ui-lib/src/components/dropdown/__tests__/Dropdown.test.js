@@ -143,12 +143,12 @@ describe('Dropdown component', () => {
     keydown(Comp, 40) // down
 
     const notChangedItem = mockData[props.value + 1]
-    expect(on_select.mock.calls[0][0].data).toBe(notChangedItem)
+    expect(on_select.mock.calls[0][0].data).toStrictEqual(notChangedItem)
 
     keydown(Comp, 40) // down
 
     const selectedItem = mockData[props.value + 2]
-    expect(on_select.mock.calls[1][0].data).toBe(selectedItem) // second call!
+    expect(on_select.mock.calls[1][0].data).toStrictEqual(selectedItem) // second call!
   })
 
   it('has valid on_change callback', async () => {
@@ -171,21 +171,21 @@ describe('Dropdown component', () => {
     keydown(Comp, 40) // down
 
     selectedItem = mockData[props.value + 1]
-    expect(on_select.mock.calls[0][0].data).toBe(selectedItem)
+    expect(on_select.mock.calls[0][0].data).toStrictEqual(selectedItem)
 
     keydown(Comp, 32) // space
 
     selectedItem = mockData[props.value + 1]
-    expect(on_change.mock.calls[0][0].data).toBe(selectedItem)
-    expect(on_select.mock.calls[1][0].data).toBe(selectedItem)
+    expect(on_change.mock.calls[0][0].data).toStrictEqual(selectedItem)
+    expect(on_select.mock.calls[1][0].data).toStrictEqual(selectedItem)
 
     // then simulate changes
     keydown(Comp, 40) // down
     keydown(Comp, 13) // enter
 
     selectedItem = mockData[props.value + 2]
-    expect(on_change.mock.calls[1][0].data).toBe(selectedItem) // second call!
-    expect(on_select.mock.calls[3][0].data).toBe(selectedItem) // second call!
+    expect(on_change.mock.calls[1][0].data).toStrictEqual(selectedItem) // second call!
+    expect(on_select.mock.calls[3][0].data).toStrictEqual(selectedItem) // second call!
   })
 
   it('has correct "aria-expanded"', () => {
