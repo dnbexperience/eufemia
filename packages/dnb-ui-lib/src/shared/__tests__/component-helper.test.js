@@ -20,6 +20,7 @@ import {
   filterProps,
   isTouchDevice,
   slugify,
+  roundToNearest,
   matchAll
 } from '../component-helper'
 
@@ -405,6 +406,27 @@ describe('"slugify" should', () => {
   })
   it('or other types', () => {
     expect(slugify({ foo: 'bar' })).toEqual('object-object')
+  })
+})
+
+describe('"roundToNearest" should', () => {
+  it('round to 8 if under is given', () => {
+    expect(roundToNearest(7, 8)).toEqual(8)
+  })
+  it('round to 8 if over is given', () => {
+    expect(roundToNearest(9, 8)).toEqual(8)
+  })
+  it('round to 16 if too much over is given', () => {
+    expect(roundToNearest(13, 8)).toEqual(16)
+  })
+  it('round to 16 if under is given', () => {
+    expect(roundToNearest(9, 16)).toEqual(16)
+  })
+  it('round to 16 if over is given', () => {
+    expect(roundToNearest(20, 16)).toEqual(16)
+  })
+  it('round to 0 if too much under is given', () => {
+    expect(roundToNearest(7, 16)).toEqual(0)
   })
 })
 

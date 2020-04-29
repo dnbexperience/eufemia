@@ -263,7 +263,7 @@ describe('DrawerList component', () => {
       Comp.find('.dnb-drawer-list__options')
         .instance()
         .getAttribute('style')
-    ).toBe('max-height: 46rem;')
+    ).toBe('max-height: 33.5rem;')
   })
 
   it('has working direction observer', async () => {
@@ -276,7 +276,7 @@ describe('DrawerList component', () => {
       Comp.find('.dnb-drawer-list__options')
         .instance()
         .getAttribute('style')
-    ).toBe('max-height: 46rem;') // jsdom defualt is 768 innerHeight
+    ).toBe('max-height: 33.5rem;') // jsdom defualt is 768 innerHeight
 
     window.resizeTo({
       height: 640 // change innerHeight
@@ -288,7 +288,7 @@ describe('DrawerList component', () => {
       Comp.find('.dnb-drawer-list__options')
         .instance()
         .getAttribute('style')
-    ).toBe('max-height: 38rem;')
+    ).toBe('max-height: 28rem;')
 
     window.scrollTo({
       top: -640
@@ -303,7 +303,7 @@ describe('DrawerList component', () => {
       Comp.find('.dnb-drawer-list__options')
         .instance()
         .getAttribute('style')
-    ).toBe('max-height: 36rem;') // is now min_height
+    ).toBe('max-height: 28rem;') // is now min_height
   })
 
   it('will call on_hide after "esc" key', () => {

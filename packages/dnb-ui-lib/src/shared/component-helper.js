@@ -577,3 +577,9 @@ export const getPreviousSibling = (className, elem) => {
   }
   return elem
 }
+
+// Round number to nearest target number
+export const roundToNearest = (num, target) => {
+  const diff = num % target
+  return diff > target / 2 ? num - diff + target : num - diff
+}
