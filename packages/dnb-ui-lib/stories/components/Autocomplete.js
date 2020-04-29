@@ -215,7 +215,7 @@ const AutocompleteStory = () => {
           // opened
           // prevent_close
           // no_animation
-          value="2"
+          input_value="d"
           on_select={(e) => {
             console.log('on_select', e)
           }}
@@ -283,7 +283,10 @@ export default ['Autocomplete', AutocompleteStory]
 
 const testData = [
   {
-    content: 'A'
+    content: [
+      'Dropdown',
+      'The Dropdown component is a custom-made data selection component.'
+    ]
   },
   {
     content: 'B'

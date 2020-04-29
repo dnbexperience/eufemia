@@ -586,7 +586,7 @@ const ItemContent = ({ hash, children }) => {
   if (Array.isArray(children.content || children)) {
     return (children.content || children).map((item, n) => (
       <span key={hash + n} className="dnb-drawer-list__option__item">
-        {children.render ? children.render(item, hash) : item}
+        {children.render ? children.render(item, hash + n) : item}
       </span>
     ))
   } else if (children.content) {

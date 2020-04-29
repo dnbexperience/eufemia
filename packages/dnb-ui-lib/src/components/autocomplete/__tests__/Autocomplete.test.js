@@ -48,7 +48,7 @@ const props = {
   no_animation: true
 }
 
-const mockData = ['AA c', 'BB cc zethx', 'CC cc']
+const mockData = ['AA c', 'BB cc zethx', { content: ['CC', 'cc'] }]
 
 describe('Autocomplete component', () => {
   it('has correct word and in-word highlighting', () => {
@@ -205,7 +205,7 @@ describe('Autocomplete component', () => {
 
     let elem
     elem = Comp.find('li.dnb-drawer-list__option').at(1)
-    expect(elem.text()).toBe(mockData[2])
+    expect(elem.text()).toBe(mockData[2].content.join(''))
     expect(elem.instance().getAttribute('aria-selected')).toBe('true')
 
     // remove selection and reset the order and open again
@@ -214,7 +214,7 @@ describe('Autocomplete component', () => {
     open(Comp)
 
     elem = Comp.find('li.dnb-drawer-list__option').at(2)
-    expect(elem.text()).toBe(mockData[2])
+    expect(elem.text()).toBe(mockData[2].content.join(''))
     expect(elem.instance().getAttribute('aria-selected')).toBe('true')
   })
 
