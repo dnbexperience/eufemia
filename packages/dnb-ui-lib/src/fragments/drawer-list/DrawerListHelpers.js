@@ -55,9 +55,12 @@ export const parseContentTitle = (
 
   if (hasValue) {
     if (preferSelectedValue) {
-      ret = String(dataItem.selected_value)
+      ret = String(grabStringFromReact(dataItem.selected_value))
     } else if (!onlyNumericRegex.test(dataItem.selected_value)) {
-      ret = String(dataItem.selected_value) + separator + ret
+      ret =
+        String(grabStringFromReact(dataItem.selected_value)) +
+        separator +
+        ret
     }
   }
 

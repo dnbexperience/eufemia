@@ -12,7 +12,12 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
     Array [
       "AA c",
       "BB cc zethx",
-      "CC cc",
+      Object {
+        "content": Array [
+          "CC",
+          "cc",
+        ],
+      },
     ]
   }
   default_value="default_value"
@@ -78,7 +83,12 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
       Array [
         "AA c",
         "BB cc zethx",
-        "CC cc",
+        Object {
+          "content": Array [
+            "CC",
+            "cc",
+          ],
+        },
       ]
     }
     default_value="default_value"
@@ -152,7 +162,12 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
         Array [
           "AA c",
           "BB cc zethx",
-          "CC cc",
+          Object {
+            "content": Array [
+              "CC",
+              "cc",
+            ],
+          },
         ]
       }
       default_value="default_value"
@@ -891,7 +906,18 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                                   <ItemContent
                                     hash="option-autocomplete-id-2"
                                   >
-                                    CC cc
+                                    <span
+                                      className="dnb-drawer-list__option__item"
+                                      key="option-autocomplete-id-20"
+                                    >
+                                      CC
+                                    </span>
+                                    <span
+                                      className="dnb-drawer-list__option__item"
+                                      key="option-autocomplete-id-21"
+                                    >
+                                      cc
+                                    </span>
                                   </ItemContent>
                                 </span>
                               </li>
@@ -923,7 +949,12 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                   Array [
                     "AA c",
                     "BB cc zethx",
-                    "CC cc",
+                    Object {
+                      "content": Array [
+                        "CC",
+                        "cc",
+                      ],
+                    },
                   ]
                 }
                 default_value="default_value"

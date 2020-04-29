@@ -215,7 +215,7 @@ const AutocompleteStory = () => {
           // opened
           // prevent_close
           // no_animation
-          value="2"
+          input_value="d"
           on_select={(e) => {
             console.log('on_select', e)
           }}
@@ -228,7 +228,7 @@ const AutocompleteStory = () => {
           // opened
           // prevent_close
           no_animation
-          keep_value
+          prevent_selection
           input_value="the g er"
           mode="async"
           label="Top 100 movies"
@@ -259,12 +259,12 @@ const AutocompleteStory = () => {
         >
           {{
             a: 'AA',
-            b: 'BB'
+            b: '🔥'
           }}
         </Autocomplete>
       </Box>
       <Box>
-        <Autocomplete data={autocompleteData} />
+        <Autocomplete data={autocompleteData} value="3" />
       </Box>
       <Box>
         <Autocomplete data={autocompleteDataScrollable} />
@@ -283,7 +283,10 @@ export default ['Autocomplete', AutocompleteStory]
 
 const testData = [
   {
-    content: 'A'
+    content: [
+      'Dropdown',
+      'The Dropdown component is a custom-made data selection component.'
+    ]
   },
   {
     content: 'B'

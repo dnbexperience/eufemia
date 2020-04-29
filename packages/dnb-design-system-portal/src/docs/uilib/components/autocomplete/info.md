@@ -8,6 +8,10 @@ import AutocompleteMethods from 'Pages/uilib/components/autocomplete/methods'
 
 The Autocomplete component is a combination of an [Input](/uilib/components/input) and a [Dropdown](/uilib/components/dropdown), also called **ComboBox**. During typing, matching data items gets suggested in an option menu (listbox).
 
+## Type Ahead and ComboBox
+
+The Autocomplete component may also be known as _Type Ahead_ or _ComboBox_. But autocomplete describes the purpose more pricey and descriptive, therefore Eufemia is using this term.
+
 ### When to use it:
 
 Use it for both small autocomplete purposes and large (async) data set search. The component supports two ways of showing [ProgressIndicator](/uilib/components/progress-indicator).
@@ -24,7 +28,7 @@ Words found during typing are highlighted. The rules are:
 
 ### Screen reader support
 
-To enhance screen-reader usage, this component uses `aria-live` to announce the amount of options found.
+To enhance screen-reader usage, this component uses `aria-live` to announce the amount of options found (`aria_live_options`).
 
 ## Custom size
 
