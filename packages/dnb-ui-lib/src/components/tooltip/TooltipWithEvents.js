@@ -3,11 +3,11 @@
  *
  */
 
-import React, { PureComponent } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import TooltipPortal from './TooltipPortal'
 
-export default class TooltipWithEvents extends PureComponent {
+export default class TooltipWithEvents extends React.PureComponent {
   static propTypes = {
     className: PropTypes.string,
     internal_id: PropTypes.string,

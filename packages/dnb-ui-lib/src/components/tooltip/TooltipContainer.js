@@ -3,12 +3,12 @@
  *
  */
 
-import React, { PureComponent } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { isTrue } from '../../shared/component-helper'
 import classnames from 'classnames'
 
-export default class TooltipContainer extends PureComponent {
+export default class TooltipContainer extends React.PureComponent {
   static propTypes = {
     internal_id: PropTypes.string,
     targetElement: PropTypes.oneOfType([

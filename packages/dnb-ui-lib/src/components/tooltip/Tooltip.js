@@ -3,7 +3,7 @@
  *
  */
 
-import React, { PureComponent } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import Context from '../../shared/Context'
@@ -82,7 +82,7 @@ const defaultProps = {
 /**
  * The tooltip component should be used as the call-to-action in a form, or as a user interaction mechanism. Generally speaking, a tooltip should not be used when a link would do the trick. Exceptions are made at times when it is used as a navigation element in the action-nav element.
  */
-export default class Tooltip extends PureComponent {
+export default class Tooltip extends React.PureComponent {
   static tagName = 'dnb-tooltip'
   static propTypes = propTypes
   static defaultProps = defaultProps

@@ -3,7 +3,7 @@
  *
  */
 
-import React, { PureComponent } from 'react'
+import React from 'react'
 import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 import TooltipContainer from './TooltipContainer'
@@ -16,7 +16,7 @@ if (typeof window !== 'undefined') {
   tooltipPortal = {}
 }
 
-export default class TooltipPortal extends PureComponent {
+export default class TooltipPortal extends React.PureComponent {
   static propTypes = {
     internal_id: PropTypes.string,
     target: PropTypes.oneOfType([PropTypes.string, PropTypes.object])
