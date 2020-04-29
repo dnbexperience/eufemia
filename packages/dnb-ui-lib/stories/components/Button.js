@@ -142,6 +142,7 @@ export default [
       </Box>
       <Box>
         <span className="dnb-p">text</span>{' '}
+        <Button text="Button text" variant="tertiary" />
         <Button
           text="Button text"
           variant="tertiary"

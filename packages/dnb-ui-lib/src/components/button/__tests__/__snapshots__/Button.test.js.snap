@@ -413,8 +413,6 @@ exports[`Button scss have to match default theme snapshot 1`] = `
         color: var(--color-sea-green);
         background-color: currentColor;
         bottom: -0.0625rem;
-        left: -0.5rem;
-        right: -0.5rem;
         color: transparent;
         opacity: 0;
         transition: opacity 200ms ease-out, color 200ms ease-out; }
@@ -424,6 +422,12 @@ exports[`Button scss have to match default theme snapshot 1`] = `
             border-radius: 0.5px; } }
         [data-dnb-test-wrapper] .dnb-button--tertiary .dnb-button__text::after {
           transition: none; }
+    .dnb-button--tertiary.dnb-button--has-text {
+      padding-left: 0.5rem;
+      padding-right: 0.5rem; }
+    .dnb-button--tertiary.dnb-button--has-icon .dnb-button__text::after {
+      left: -0.5rem;
+      right: -0.5rem; }
     .dnb-button--tertiary:focus[disabled],
     html:not([data-whatintent='touch']) .dnb-button--tertiary:focus[disabled] {
       cursor: not-allowed; }
