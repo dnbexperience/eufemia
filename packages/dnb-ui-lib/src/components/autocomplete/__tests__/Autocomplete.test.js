@@ -36,16 +36,21 @@ const snapshotProps = {
   size: null,
   opened: true,
   show_drawer_button: true,
-  no_animation: true
+  no_animation: true,
+  use_portal: false
 }
 
 // use no_animation so we don't need to wait
+const mockProps = {
+  use_portal: false
+}
 const props = {
   id: 'autocomplete-id',
   mode: 'sync',
   value: 1,
   show_drawer_button: true,
-  no_animation: true
+  no_animation: true,
+  use_portal: false
 }
 
 const mockData = ['AA c', 'BB cc zethx', { content: ['CC', 'cc'] }]
@@ -59,6 +64,7 @@ describe('Autocomplete component', () => {
         opened
         no_animation
         input_value="the g th"
+        {...mockProps}
       />
     )
     expect(Comp.find('li.dnb-drawer-list__option').at(0).html()).toBe(
@@ -68,7 +74,12 @@ describe('Autocomplete component', () => {
 
   it('has correct options after filter', () => {
     const Comp = mount(
-      <Component id="autocomplete-id" data={mockData} show_drawer_button />
+      <Component
+        id="autocomplete-id"
+        data={mockData}
+        show_drawer_button
+        {...mockProps}
+      />
     )
 
     open(Comp)
@@ -140,7 +151,12 @@ describe('Autocomplete component', () => {
 
   it('has correct options after filter and key interaction', () => {
     const Comp = mount(
-      <Component id="autocomplete-id" data={mockData} show_drawer_button />
+      <Component
+        id="autocomplete-id"
+        data={mockData}
+        show_drawer_button
+        {...mockProps}
+      />
     )
 
     open(Comp)
@@ -225,6 +241,7 @@ describe('Autocomplete component', () => {
         disable_filter
         data={mockData}
         show_drawer_button
+        {...mockProps}
       />
     )
 
@@ -252,7 +269,7 @@ describe('Autocomplete component', () => {
   })
 
   it('has correct "opened" state on click in input', () => {
-    const Comp = mount(<Component data={mockData} />)
+    const Comp = mount(<Component data={mockData} {...mockProps} />)
 
     Comp.find('.dnb-input__input').simulate('mousedown')
 
@@ -332,6 +349,7 @@ describe('Autocomplete component', () => {
         data={mockData}
         title={title}
         show_drawer_button
+        {...mockProps}
       />
     )
     expect(Comp.find('.dnb-input__placeholder').text()).toBe(title)
@@ -345,6 +363,7 @@ describe('Autocomplete component', () => {
         data={mockData}
         value={value}
         show_drawer_button
+        {...mockProps}
       />
     )
     expect(Comp.find('.dnb-input__input').instance().value).toBe(
@@ -354,7 +373,12 @@ describe('Autocomplete component', () => {
 
   it('has a disabled attribute, once we set disabled to true', () => {
     const Comp = mount(
-      <Component id="autocomplete-id" data={mockData} show_drawer_button />
+      <Component
+        id="autocomplete-id"
+        data={mockData}
+        show_drawer_button
+        {...mockProps}
+      />
     )
     Comp.setProps({
       disabled: true

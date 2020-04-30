@@ -31,7 +31,7 @@ class Example extends React.PureComponent {
 <Autocomplete
   data={topMovies}
   label="Label:"
-  title="Find cc ..."
+  placeholder="Custom placeholder ..."
   on_change={({ data }) => {
     console.log('on_change', data)
   }}
@@ -126,6 +126,26 @@ render(<Autocomplete
 <Autocomplete
   label="Label:"
   show_drawer_button="true"
+  on_change={({ data }) => {
+    console.log('on_change', data)
+  }}
+>
+  {() => (topMovies)}
+</Autocomplete>
+          `
+          }
+        </ComponentBox>
+        <ComponentBox
+          title="With a predefined input/search value"
+          data-dnb-test="autocomplete-drawer-search"
+          scope={{ topMovies }}
+        >
+          {
+            /* @jsx */ `
+<Autocomplete
+  label="Label:"
+  input_value="the pa ther"
+  no_animation
   on_change={({ data }) => {
     console.log('on_change', data)
   }}
