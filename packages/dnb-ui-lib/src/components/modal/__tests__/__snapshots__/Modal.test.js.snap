@@ -1026,7 +1026,9 @@ button.dnb-button::-moz-focus-inner {
 :root {
   --modal-z-index: 3000;
   --modal-spacing: 2rem;
-  --modal-max-width: min(100vw, 60rem);
+  --modal-min-width: 30rem;
+  --modal-avg-width: 60vw;
+  --modal-max-width: 60rem;
   --modal-drawer-width: 40vw;
   --modal-drawer-min-width: 25rem;
   --modal-drawer-max-width: 40rem; }
@@ -1052,16 +1054,17 @@ button.dnb-button::-moz-focus-inner {
     justify-content: center;
     width: 100%;
     height: 100%;
+    max-width: 100vw;
     user-select: none;
     -webkit-user-select: none;
     /* stylelint-disable-next-line */ }
     .dnb-modal__content__inner {
       position: relative;
       padding: var(--modal-spacing) var(--modal-spacing) 0;
-      width: auto;
-      height: auto;
-      max-width: 60rem;
+      width: var(--modal-avg-width);
+      min-width: var(--modal-min-width);
       max-width: var(--modal-max-width);
+      height: auto;
       max-height: calc( 100vh - var(--modal-spacing) * 2);
       user-select: text;
       -webkit-user-select: text;

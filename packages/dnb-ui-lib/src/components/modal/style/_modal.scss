@@ -14,7 +14,11 @@
 :root {
   --modal-z-index: 3000;
   --modal-spacing: 2rem; // should reflect --spacing-large
-  --modal-max-width: min(100vw, 60rem);
+
+  // we do this because SCSS fails by using min(100vw, 50rem) = "Incompatible units: 'rem' and 'vw'"
+  --modal-min-width: 30rem; // under 40em, because of spacing and later mobile fullscreen
+  --modal-avg-width: 60vw; // content defines the size
+  --modal-max-width: 60rem; // because of our default width --layout-large
 
   // Drawer mode
   --modal-drawer-width: 40vw;
@@ -48,6 +52,7 @@
 
     width: 100%;
     height: 100%;
+    max-width: 100vw;
 
     user-select: none;
     -webkit-user-select: none; // Safari / Touch fix
@@ -61,11 +66,12 @@
         padding: calc(var(--modal-spacing) / 2) var(--modal-spacing) 0;
       }
 
-      width: auto;
-      height: auto;
-
-      max-width: 60rem;
+      // width: auto;
+      width: var(--modal-avg-width);
+      min-width: var(--modal-min-width);
       max-width: var(--modal-max-width);
+
+      height: auto;
       max-height: calc(
         100vh - var(--modal-spacing) * 2
       ); // minus vertical padding

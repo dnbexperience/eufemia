@@ -44,8 +44,8 @@ export default class ModalContent extends React.PureComponent {
       PropTypes.string,
       PropTypes.bool
     ]),
-    min_width: PropTypes.string,
-    max_width: PropTypes.string,
+    min_width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    max_width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     fullscreen: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     align_content: PropTypes.string,
     container_placement: PropTypes.string,
@@ -241,8 +241,8 @@ export default class ModalContent extends React.PureComponent {
       prevent_core_style,
       no_animation,
       no_animation_on_mobile,
-      min_width: minWidth,
-      max_width: maxWidth,
+      min_width,
+      max_width,
       fullscreen,
       align_content,
       container_placement,
@@ -256,6 +256,15 @@ export default class ModalContent extends React.PureComponent {
     } = this.props
 
     const id = this._id
+
+    // ensure the min/max dont conflict
+    let minWidth = min_width
+    let maxWidth = max_width
+    if (minWidth && !maxWidth && parseFloat(minWidth) > 0) {
+      maxWidth = 0
+    } else if (maxWidth && !minWidth && parseFloat(maxWidth) > 0) {
+      minWidth = 0
+    }
 
     const contentParams = {
       role: 'dialog',
