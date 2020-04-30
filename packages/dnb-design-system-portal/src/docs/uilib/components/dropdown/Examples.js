@@ -125,7 +125,7 @@ render(
   icon_position="left"
   data={data}
   value={3}
-  use_portal={false}
+  skip_portal={true}
   on_change={({ data: selectedDataItem }) => {
     console.log('on_change', selectedDataItem)
   }}

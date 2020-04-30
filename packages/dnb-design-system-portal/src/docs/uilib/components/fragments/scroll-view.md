@@ -8,6 +8,6 @@ hideTabs:
   - title: Properties
 ---
 
-import ScrollViewInfo from 'Pages/uilib/components/fragments/scroll-view/info'
+import ScrollViewInfo from 'Pages/uilib/components/components/fragments/scroll-view/info'
 
 <ScrollViewInfo />

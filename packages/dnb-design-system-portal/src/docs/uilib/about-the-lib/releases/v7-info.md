@@ -21,12 +21,13 @@ v7 contains a couple of _braking changes_. As a migration process, you can simpl
    - Autocomplete
    - Pagination
    - ProgressIndicator
+1. The [Dropdown](/uilib/components/dropdown) uses now by default React Portal. This can have negative effects on scrollable views. Therefore, use the new [ScrollView](/uilib/components/fragments/scroll-view) fragment as the scrollable element.
 
 ## New components
 
 - New component [Autocomplete](/uilib/components/autocomplete).
 - New component [Pagination](/uilib/components/pagination) including **infinity scroller**.
-- New fragment [ScrollView](/uilib/fragments/scroll-view), used in [Modal](/uilib/components/modal) to fulfill the new Portal mode in the DrawerList scroll dependency inside of a Modal.
+- New fragment [ScrollView](/uilib/components/fragments/scroll-view), used in [Modal](/uilib/components/modal) to fulfill the new Portal mode in the DrawerList scroll dependency inside of a Modal.
 
 ## New features
 

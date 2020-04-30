@@ -42,6 +42,7 @@ const DropdownStory = () => {
     <Wrapper>
       <Box>
         <Dropdown
+          skip_portal={true}
           // opened
           // no_animation
           // value="0"

@@ -103,6 +103,7 @@ const propTypes = {
   ]),
   direction: PropTypes.oneOf(['auto', 'top', 'bottom']),
   max_height: PropTypes.number,
+  skip_portal: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   no_animation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   no_scroll_animation: PropTypes.oneOfType([
     PropTypes.string,
@@ -214,6 +215,7 @@ const defaultProps = {
   disable_highlighting: false,
   max_height: null,
   direction: 'auto',
+  skip_portal: null,
   no_animation: false,
   no_scroll_animation: false,
   show_drawer_button: false,
@@ -1341,6 +1343,7 @@ class AutocompleteInstance extends React.PureComponent {
       class: _className,
       disabled,
       triangle_position,
+      skip_portal,
 
       mode: _mode, // eslint-disable-line
       data: _data, // eslint-disable-line
@@ -1581,6 +1584,7 @@ class AutocompleteInstance extends React.PureComponent {
                 focusable={focusable}
                 no_animation={no_animation}
                 no_scroll_animation={no_scroll_animation}
+                skip_portal={skip_portal}
                 prevent_selection={prevent_selection}
                 triangle_position={
                   triangle_position || icon_position || 'left'

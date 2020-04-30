@@ -34,13 +34,18 @@ const snapshotProps = {
   trigger_component: null,
   size: null,
   opened: true,
+  skip_portal: true,
   no_animation: true
 }
 
 // use no_animation so we don't need to wait
+const mockProps = {
+  skip_portal: true
+}
 const props = {
   id: 'dropdown-id',
   value: 2,
+  skip_portal: true,
   no_animation: true
 }
 
@@ -252,7 +257,9 @@ describe('Dropdown component', () => {
 
   it('has a default title if no value is given', () => {
     const title = 'Make a selection'
-    const Comp = mount(<Component data={mockData} title={title} />)
+    const Comp = mount(
+      <Component data={mockData} title={title} {...mockProps} />
+    )
     expect(
       Comp.find('.dnb-dropdown__text__inner').instance().innerHTML
     ).toBe(title)
@@ -260,9 +267,15 @@ describe('Dropdown component', () => {
 
   it('has a corret value content if we send in a React component', () => {
     const aStringOf = 'Custom content 123'
-    const Comp1 = mount(<Component data={mockData} value={4} />)
-    const Comp2 = mount(<Component data={mockData} value={5} />)
-    const Comp3 = mount(<Component data={mockData} value={6} />)
+    const Comp1 = mount(
+      <Component data={mockData} value={4} {...mockProps} />
+    )
+    const Comp2 = mount(
+      <Component data={mockData} value={5} {...mockProps} />
+    )
+    const Comp3 = mount(
+      <Component data={mockData} value={6} {...mockProps} />
+    )
     expect(
       Comp1.find('.dnb-dropdown__text__inner').instance().innerHTML
     ).toBe(aStringOf)
@@ -275,7 +288,7 @@ describe('Dropdown component', () => {
   })
 
   it('has a disabled attribute, once we set disabled to true', () => {
-    const Comp = mount(<Component data={mockData} />)
+    const Comp = mount(<Component data={mockData} {...mockProps} />)
     Comp.setProps({
       disabled: true
     })

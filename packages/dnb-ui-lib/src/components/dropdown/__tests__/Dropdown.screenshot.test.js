@@ -22,6 +22,12 @@ describe('Dropdown screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+  it('have to match the dropdown with icon on left side', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-dnb-test="dropdown-left-icon"]'
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
   it('have to match the closed dropdown with focus', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-dnb-test="dropdown-closed"] .dnb-dropdown__inner',
@@ -58,12 +64,6 @@ describe('Dropdown screenshot', () => {
       // waitAfterSimulateSelector:
       //   '[data-dnb-test="dropdown-closed"] .dnb-drawer-list__options',
       // waitAfterSimulate: 100 // to make sure we make the screenshot afte the animation is show
-    })
-    expect(screenshot).toMatchImageSnapshot()
-  })
-  it('have to match the dropdown with icon on left side', async () => {
-    const screenshot = await testPageScreenshot({
-      selector: '[data-dnb-test="dropdown-left-icon"]'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
