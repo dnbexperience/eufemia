@@ -528,7 +528,8 @@ exports[`DrawerList scss have to match snapshot 1`] = `
     position: absolute;
     top: -100vh;
     left: -100vw;
-    z-index: 3010; }
+    z-index: 3010;
+    min-width: var(--drawer-list-width); }
   .dnb-drawer-list__root {
     position: absolute;
     top: 0;

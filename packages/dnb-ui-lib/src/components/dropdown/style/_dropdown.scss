@@ -19,7 +19,6 @@
   align-items: center;
 
   font-size: var(--font-size-small);
-  // line-height: var(--dropdown-height);
 
   &__inner {
     display: inline-flex;
@@ -64,14 +63,6 @@
   //   bottom: var(--dropdown-height);
   //   top: auto;
   // }
-
-  @at-root .dnb-drawer-list {
-    position: static;
-
-    &--is-popup &__list {
-      min-width: var(--dropdown-width);
-    }
-  }
 
   &--large .dnb-drawer-list__triangle {
     margin-left: calc(var(--dropdown-padding-horizontal) - 0.25rem);

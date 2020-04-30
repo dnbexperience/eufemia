@@ -1730,10 +1730,8 @@ legend.dnb-form-label {
   .dnb-dropdown__suffix {
     padding-left: 0.5rem;
     line-height: var(--line-height-basis); }
-  .dnb-drawer-list {
-    position: static; }
-    .dnb-drawer-list--is-popup .dnb-drawer-list__list {
-      min-width: var(--dropdown-width); }
+  .dnb-drawer-list--is-popup .dnb-drawer-list__list {
+    min-width: var(--dropdown-width); }
   .dnb-dropdown--large .dnb-drawer-list__triangle {
     margin-left: calc(var(--dropdown-padding-horizontal) - 0.25rem); }
   .dnb-dropdown--icon-position-left.dnb-dropdown--large .dnb-drawer-list__triangle {

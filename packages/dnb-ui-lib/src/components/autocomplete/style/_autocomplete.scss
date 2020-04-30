@@ -57,10 +57,6 @@
     line-height: var(--line-height-basis);
   }
 
-  .dnb-drawer-list {
-    position: static;
-  }
-
   .dnb-drawer-list__list {
     top: var(--autocomplete-height);
     bottom: auto;
