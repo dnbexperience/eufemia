@@ -26,6 +26,7 @@ v7 contains a couple of _braking changes_. As a migration process, you can simpl
 
 - New component [Autocomplete](/uilib/components/autocomplete).
 - New component [Pagination](/uilib/components/pagination) including **infinity scroller**.
+- New fragment [ScrollView](/uilib/fragments/scroll-view), used in [Modal](/uilib/components/modal) to fulfill the new Portal mode in the DrawerList scroll dependency inside of a Modal.
 
 ## New features
 
