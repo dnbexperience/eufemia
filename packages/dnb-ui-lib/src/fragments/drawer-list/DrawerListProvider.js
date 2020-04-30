@@ -10,6 +10,7 @@ import Context from '../../shared/Context'
 import {
   isTrue,
   roundToNearest,
+  isInsideScrollView,
   detectOutsideClick,
   getPreviousSibling,
   dispatchCustomElementEvent
@@ -110,6 +111,7 @@ export default class DrawerListProvider extends React.PureComponent {
       _listenForPropChanges: true
     }
 
+    this._refRoot = React.createRef()
     this._refShell = React.createRef()
     this._refUl = React.createRef()
     this._refTriangle = React.createRef()
@@ -126,7 +128,6 @@ export default class DrawerListProvider extends React.PureComponent {
     clearTimeout(this._focusTimeout)
     clearTimeout(this._hideTimeout)
     clearTimeout(this._selectTimeout)
-    clearTimeout(this._ddt)
 
     // NB: do not use setHidden here
     this.setState({
@@ -230,11 +231,9 @@ export default class DrawerListProvider extends React.PureComponent {
       typeof observer_element === 'string'
         ? document.querySelector(observer_element)
         : null
+
     if (!customElem) {
-      customElem = getPreviousSibling(
-        'dnb-modal__content__inner',
-        this._refShell.current
-      )
+      customElem = isInsideScrollView(this._refShell.current, true)
     }
 
     // In case we have one before hand
@@ -328,8 +327,8 @@ export default class DrawerListProvider extends React.PureComponent {
     }
 
     // customElem can be a modal etc.
-    const rootElem = customElem || window
-    rootElem.addEventListener('scroll', this.setDirection)
+    this._rootElem = customElem || window
+    this._rootElem.addEventListener('scroll', this.setDirection)
 
     // this fixes iOS softkeyboard
     if (typeof window.visualViewport !== 'undefined') {
@@ -469,9 +468,23 @@ export default class DrawerListProvider extends React.PureComponent {
   }
 
   removeDirectionObserver() {
+    clearTimeout(this._ddt)
     if (typeof window !== 'undefined' && this.setDirection) {
-      window.removeEventListener('resize', this.setDirection)
-      window.removeEventListener('scroll', this.setDirection)
+      this._rootElem?.removeEventListener('scroll', this.setDirection)
+
+      // this fixes iOS softkeyboard
+      if (typeof window.visualViewport !== 'undefined') {
+        window.visualViewport.removeEventListener(
+          'scroll',
+          this.setDirection
+        )
+        window.visualViewport.removeEventListener(
+          'resize',
+          this.setDirection
+        )
+      } else {
+        window.removeEventListener('resize', this.setDirection)
+      }
     }
   }
 
@@ -736,10 +749,6 @@ export default class DrawerListProvider extends React.PureComponent {
     clearTimeout(this._hideTimeout)
     this.searchCache = null
 
-    // This can be enabled in case we want to bypass the overflow hidden on Modals
-    // Has to be tested more!
-    // this.modalScrollLock = addScrollLock(this._refShell.current)
-
     this.setState(
       {
         hidden: false,
@@ -803,10 +812,6 @@ export default class DrawerListProvider extends React.PureComponent {
         ) // wait until animation is over
       }
     )
-
-    if (typeof this.modalScrollLock === 'function') {
-      this.modalScrollLock()
-    }
 
     this.removeDirectionObserver()
     this.removeScrollObserver()
@@ -968,9 +973,11 @@ export default class DrawerListProvider extends React.PureComponent {
           ...this.context,
           drawerList: {
             attributes: this.attributes,
+            _refRoot: this._refRoot,
             _refShell: this._refShell,
             _refUl: this._refUl,
             _refTriangle: this._refTriangle,
+            _rootElem: this._rootElem,
             setData: this.setDataHandler,
             setState: this.setStateHandler,
             setWrapperElement: this.setWrapperElement,

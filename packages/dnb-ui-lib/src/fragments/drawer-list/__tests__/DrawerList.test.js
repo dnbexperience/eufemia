@@ -59,6 +59,7 @@ const snapshotProps = {
   id: 'drawer-list-id',
   direction: 'bottom',
   value: 2,
+  skip_portal: true,
   opened: true,
   no_animation: true,
   prevent_selection: null,
@@ -67,9 +68,13 @@ const snapshotProps = {
 }
 
 // use no_animation so we don't need to wait
+const mockProps = {
+  skip_portal: true
+}
 const props = {
   id: 'drawer-list-id',
   value: 2,
+  skip_portal: true,
   opened: true,
   no_animation: true
 }
@@ -127,6 +132,7 @@ describe('DrawerList component', () => {
         no_animation
         data={mockData}
         default_value={props.value}
+        {...mockProps}
       />
     )
     let elem
@@ -345,6 +351,7 @@ describe('DrawerList component', () => {
         on_change={on_change}
         on_select={on_select}
         data={() => ({ a: 'A', b: 'B', c: 'C' })}
+        {...mockProps}
       />
     )
 

@@ -37,12 +37,12 @@ const snapshotProps = {
   opened: true,
   show_drawer_button: true,
   no_animation: true,
-  use_portal: false
+  skip_portal: true
 }
 
 // use no_animation so we don't need to wait
 const mockProps = {
-  use_portal: false
+  skip_portal: true
 }
 const props = {
   id: 'autocomplete-id',
@@ -50,7 +50,7 @@ const props = {
   value: 1,
   show_drawer_button: true,
   no_animation: true,
-  use_portal: false
+  skip_portal: true
 }
 
 const mockData = ['AA c', 'BB cc zethx', { content: ['CC', 'cc'] }]

@@ -62,6 +62,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
   show_all="show_all"
   show_drawer_button={true}
   size={null}
+  skip_portal={true}
   status="status"
   status_animation="status_animation"
   status_state="error"
@@ -69,7 +70,6 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
   suffix="suffix"
   title="title"
   triangle_position="triangle_position"
-  use_portal={false}
   value={2}
 >
   <DrawerListProvider
@@ -141,6 +141,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
     show_drawer_button={true}
     size={null}
     skip_keysearch={true}
+    skip_portal={true}
     status="status"
     status_animation="status_animation"
     status_state="error"
@@ -149,7 +150,6 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
     tagName="dnb-autocomplete"
     title="title"
     triangle_position="triangle_position"
-    use_portal={false}
     value={2}
     wrapper_element={null}
   >
@@ -214,6 +214,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
       show_all="show_all"
       show_drawer_button={true}
       size={null}
+      skip_portal={true}
       status="status"
       status_animation="status_animation"
       status_state="error"
@@ -221,7 +222,6 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
       suffix="suffix"
       title="title"
       triangle_position="triangle_position"
-      use_portal={false}
       value={2}
     >
       <span
@@ -712,8 +712,8 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                 scrollable="scrollable"
                 size={null}
                 skip_keysearch={false}
+                skip_portal={null}
                 triangle_position="triangle_position"
-                use_portal={null}
                 value={2}
                 wrapper_element={null}
               >
@@ -754,8 +754,8 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                   scrollable="scrollable"
                   size={null}
                   skip_keysearch={false}
+                  skip_portal={null}
                   triangle_position="triangle_position"
-                  use_portal={null}
                   value={2}
                   wrapper_element={null}
                 >
@@ -1004,6 +1004,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                 show_all="show_all"
                 show_drawer_button={true}
                 size={null}
+                skip_portal={true}
                 status="status"
                 status_animation="status_animation"
                 status_state="error"
@@ -1011,7 +1012,6 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                 suffix="suffix"
                 title="title"
                 triangle_position="triangle_position"
-                use_portal={false}
                 value={2}
               >
                 suffix
