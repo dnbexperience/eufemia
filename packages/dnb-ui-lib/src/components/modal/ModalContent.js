@@ -19,6 +19,7 @@ import {
   validateDOMAttributes
 } from '../../shared/component-helper'
 import Button from '../button/Button'
+import ScrollView from '../../fragments/scroll-view/ScrollView'
 
 export default class ModalContent extends React.PureComponent {
   static propTypes = {
@@ -313,13 +314,13 @@ export default class ModalContent extends React.PureComponent {
     return (
       <>
         <div {...contentParams}>
-          <div {...innerParams} ref={this._contentRef}>
+          <ScrollView {...innerParams} ref={this._contentRef}>
             {title && <h1 className="dnb-modal__title dnb-h2">{title}</h1>}
             {isTrue(hide_close_button) !== true && (
               <CloseButton on_click={closeModal} title={close_title} />
             )}
             <div className="dnb-modal__wrapper">{modal_content}</div>
-          </div>
+          </ScrollView>
         </div>
         <span {...overlayParams} aria-hidden="true" />
       </>

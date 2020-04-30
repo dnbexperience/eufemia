@@ -37,7 +37,8 @@ export default [
           // align_content="center"
           // drawer_offset={}
           title="Tertiary test"
-          min_width="20rem"
+          min_width="20vw"
+          max_width="40vw"
           className="dnb-core-style"
         >
           <Button variant="tertiary" text="Button" />
@@ -48,7 +49,7 @@ export default [
       </Box>
       <Box>
         <Modal
-          max_width="20rem"
+          max_width="50vw"
           // open_state="opened"
           // fullscreen
           className="dnb-core-style"
@@ -196,7 +197,7 @@ export default [
       </Box>
       <Box>
         <Modal
-          min_width="60rem"
+          min_width="60vw"
           trigger_text="Open Modal"
           title="Modal Title"
           className="dnb-core-style"

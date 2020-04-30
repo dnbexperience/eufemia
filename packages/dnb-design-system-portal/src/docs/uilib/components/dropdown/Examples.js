@@ -17,7 +17,8 @@ class Example extends React.PureComponent {
           hideCode
           hideSyntaxButton
         >
-          {/* @jsx */ `
+          {
+            /* @jsx */ `
 const scrollableData = [
   {
     content: 'A'
@@ -54,7 +55,8 @@ render(
     label="Label:"
   />
 )
-          `}
+          `
+          }
         </ComponentBox>
         <ComponentBox
           title="Default dropdown - no `value` is defined, but a `title` is given."
@@ -62,7 +64,8 @@ render(
           useRender
           hideSyntaxButton
         >
-          {/* @jsx */ `
+          {
+            /* @jsx */ `
 const data = [
   // Every data item can, beside "content" - contain what ever
   {
@@ -107,19 +110,22 @@ render(
     }}
   />
 )
-          `}
+          `
+          }
         </ComponentBox>
         <ComponentBox
           title="Default dropdown, icon on left side"
           scope={{ data }}
           data-dnb-test="dropdown-left-icon"
         >
-          {/* @jsx */ `
+          {
+            /* @jsx */ `
 <Dropdown
   label="Label:"
   icon_position="left"
   data={data}
   value={3}
+  use_portal={false}
   on_change={({ data: selectedDataItem }) => {
     console.log('on_change', selectedDataItem)
   }}
@@ -127,13 +133,15 @@ render(
     console.log('on_show')
   }}
 />
-          `}
+          `
+          }
         </ComponentBox>
         <ComponentBox
           title="As **Popup Menu** - no lasting selection will be made"
           data-dnb-test="dropdown-more_menu"
         >
-          {/* @jsx */ `
+          {
+            /* @jsx */ `
 <Dropdown
   more_menu="true"
   size="small"
@@ -159,19 +167,23 @@ render(
     console.log('on_select', active_item)
   }}
 />
-          `}
+          `
+          }
         </ComponentBox>
         <ComponentBox title="Disabled dropdown" scope={{ data }}>
-          {/* @jsx */ `
+          {
+            /* @jsx */ `
 <Dropdown disabled data={['Disabled Dropdown']} label="Label:" />
-          `}
+          `
+          }
         </ComponentBox>
         <ComponentBox
           title="Custom event and link on single item"
           scope={{ data }}
           useRender
         >
-          {/* @jsx */ `
+          {
+            /* @jsx */ `
 const CustomComponent = () => (
   <CustomComponentInner
     onTouchStart={preventDefault}
@@ -209,7 +221,8 @@ render(
     suffix={<Modal title="Modal Title">Modal content</Modal>}
   />
 )
-          `}
+          `
+          }
         </ComponentBox>
         <ComponentBox
           title="Dropdown in different sizes"
@@ -217,7 +230,8 @@ render(
           data-dnb-test="dropdown-sizes"
           scope={{ data }}
         >
-          {/* @jsx */ `
+          {
+            /* @jsx */ `
 <FormRow direction="vertical">
   <Dropdown
     label="Label:"
@@ -238,29 +252,33 @@ render(
     data={() => (data)}
   />
 </FormRow>
-          `}
+          `
+          }
         </ComponentBox>
         <ComponentBox
           title="Dropdown with status and vertical label layout"
           data-dnb-test="dropdown-status-error"
           scope={{ data }}
         >
-          {/* @jsx */ `
+          {
+            /* @jsx */ `
 <Dropdown
   data={data}
   label="Label:"
   label_direction="vertical"
   status="Message to the user"
 />
-          `}
+          `
+          }
         </ComponentBox>
-        <ComponentBox
-          title="Dropdown list - only to vissualize"
-          data-dnb-test="dropdown-list"
-          scope={{ data }}
-          hideCode
-        >
-          {/* @jsx */ `
+        {typeof window !== 'undefined' && window.IS_TEST && (
+          <ComponentBox
+            title="DrawerList - only to vissualize"
+            data-dnb-test="dropdown-list"
+            scope={{ data }}
+            hideCode
+          >
+            {ComponentBox/* @jsx */ `
 <span className="dnb-drawer-list__list">
   <ul className="dnb-drawer-list__options">
     <li className="dnb-drawer-list__option">
@@ -288,7 +306,8 @@ render(
   </ul>
 </span>
           `}
-        </ComponentBox>
+          </ComponentBox>
+        )}
       </React.Fragment>
     )
   }
