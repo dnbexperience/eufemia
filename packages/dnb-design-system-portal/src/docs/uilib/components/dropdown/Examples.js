@@ -278,7 +278,8 @@ render(
             scope={{ data }}
             hideCode
           >
-            {ComponentBox/* @jsx */ `
+            {
+              /* @jsx */ `
 <span className="dnb-drawer-list__list">
   <ul className="dnb-drawer-list__options">
     <li className="dnb-drawer-list__option">
@@ -305,7 +306,8 @@ render(
     <li className="dnb-drawer-list__triangle" />
   </ul>
 </span>
-          `}
+          `
+            }
           </ComponentBox>
         )}
       </React.Fragment>
