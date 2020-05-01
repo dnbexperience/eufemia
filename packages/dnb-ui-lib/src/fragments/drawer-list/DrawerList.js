@@ -371,10 +371,10 @@ class DrawerListInstance extends React.PureComponent {
     const Items = () =>
       data.map((dataItem, i) => {
         const _id = dataItem.__id
-        const hash = `option-${id}-${_id}`
+        const hash = `option-${id}-${_id}-${i}`
         const liParams = {
           'data-item': _id,
-          id: hash,
+          id: `option-${id}-${_id}`,
           hash,
           className: classnames(
             // helper classes

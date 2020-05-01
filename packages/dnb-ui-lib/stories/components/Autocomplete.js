@@ -137,7 +137,7 @@ const AutocompleteStory = () => {
           // prevent_close
           // no_animation
           // input_value="foo bar th"
-          input_value="bb"
+          input_value="bb c"
           // value={2}
           show_drawer_button
           // value="b"
@@ -160,18 +160,23 @@ const AutocompleteStory = () => {
           mode="async" // prevents showing no options message og typing
           // label="Search"
           // label_sr_only="true"
-          // prevent_selection
+          prevent_selection
+          disable_filter
+          data={topMovies}
           on_type={({
             // value,
+            dataList,
             showIndicator,
             hideIndicator,
             updateData,
             debounce
           }) => {
+            console.log('dataList', dataList)
             showIndicator()
             debounce(() => {
               // 1. simualte server delay
               const timeout = setTimeout(() => {
+                // updateData(['topMovies'])
                 updateData(topMovies)
                 hideIndicator()
               }, 600)
@@ -229,7 +234,8 @@ const AutocompleteStory = () => {
           // prevent_close
           no_animation
           prevent_selection
-          input_value="the g er"
+          // input_value="the g er"
+          input_value="episode a I"
           mode="async"
           label="Top 100 movies"
           data={topMovies}

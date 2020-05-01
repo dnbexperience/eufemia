@@ -718,9 +718,9 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                               class={null}
                               className="first-of-type"
                               data-item={0}
-                              hash="option-dropdown-id-0"
+                              hash="option-dropdown-id-0-0"
                               id="option-dropdown-id-0"
-                              key="option-dropdown-id-0"
+                              key="option-dropdown-id-0-0"
                               onClick={[Function]}
                               onKeyDown={[Function]}
                               on_click={null}
@@ -732,7 +732,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                                 className="first-of-type dnb-drawer-list__option"
                                 data-item={0}
                                 id="option-dropdown-id-0"
-                                key="lioption-dropdown-id-0"
+                                key="lioption-dropdown-id-0-0"
                                 onClick={[Function]}
                                 onKeyDown={[Function]}
                                 role="option"
@@ -742,17 +742,17 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                                   className="dnb-drawer-list__option__inner"
                                 >
                                   <ItemContent
-                                    hash="option-dropdown-id-0"
+                                    hash="option-dropdown-id-0-0"
                                   >
                                     <span
                                       className="dnb-drawer-list__option__item"
-                                      key="option-dropdown-id-00"
+                                      key="option-dropdown-id-0-00"
                                     >
                                       1234 56 78901
                                     </span>
                                     <span
                                       className="dnb-drawer-list__option__item"
-                                      key="option-dropdown-id-01"
+                                      key="option-dropdown-id-0-01"
                                     >
                                       Brukskonto - Kari Nordmann
                                     </span>
@@ -765,9 +765,9 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                               class={null}
                               className=""
                               data-item={1}
-                              hash="option-dropdown-id-1"
+                              hash="option-dropdown-id-1-1"
                               id="option-dropdown-id-1"
-                              key="option-dropdown-id-1"
+                              key="option-dropdown-id-1-1"
                               onClick={[Function]}
                               onKeyDown={[Function]}
                               on_click={null}
@@ -779,7 +779,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                                 className="dnb-drawer-list__option"
                                 data-item={1}
                                 id="option-dropdown-id-1"
-                                key="lioption-dropdown-id-1"
+                                key="lioption-dropdown-id-1-1"
                                 onClick={[Function]}
                                 onKeyDown={[Function]}
                                 role="option"
@@ -789,17 +789,17 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                                   className="dnb-drawer-list__option__inner"
                                 >
                                   <ItemContent
-                                    hash="option-dropdown-id-1"
+                                    hash="option-dropdown-id-1-1"
                                   >
                                     <span
                                       className="dnb-drawer-list__option__item"
-                                      key="option-dropdown-id-10"
+                                      key="option-dropdown-id-1-10"
                                     >
                                       1234 56 78902
                                     </span>
                                     <span
                                       className="dnb-drawer-list__option__item"
-                                      key="option-dropdown-id-11"
+                                      key="option-dropdown-id-1-11"
                                     >
                                       Sparekonto - Ole Nordmann
                                     </span>
@@ -812,9 +812,9 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                               class={null}
                               className=""
                               data-item={2}
-                              hash="option-dropdown-id-2"
+                              hash="option-dropdown-id-2-2"
                               id="option-dropdown-id-2"
-                              key="option-dropdown-id-2"
+                              key="option-dropdown-id-2-2"
                               onClick={[Function]}
                               onKeyDown={[Function]}
                               on_click={null}
@@ -827,7 +827,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                                 className="dnb-drawer-list__option dnb-drawer-list__option--selected dnb-drawer-list__option--focus"
                                 data-item={2}
                                 id="option-dropdown-id-2"
-                                key="lioption-dropdown-id-2"
+                                key="lioption-dropdown-id-2-2"
                                 onClick={[Function]}
                                 onKeyDown={[Function]}
                                 role="option"
@@ -837,17 +837,17 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                                   className="dnb-drawer-list__option__inner"
                                 >
                                   <ItemContent
-                                    hash="option-dropdown-id-2"
+                                    hash="option-dropdown-id-2-2"
                                   >
                                     <span
                                       className="dnb-drawer-list__option__item"
-                                      key="option-dropdown-id-20"
+                                      key="option-dropdown-id-2-20"
                                     >
                                       1134 56 78962
                                     </span>
                                     <span
                                       className="dnb-drawer-list__option__item"
-                                      key="option-dropdown-id-21"
+                                      key="option-dropdown-id-2-21"
                                     >
                                       Feriekonto - Kari Nordmann med et kjempelangt etternavnsen
                                     </span>
@@ -860,9 +860,9 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                               class={null}
                               className=""
                               data-item={3}
-                              hash="option-dropdown-id-3"
+                              hash="option-dropdown-id-3-3"
                               id="option-dropdown-id-3"
-                              key="option-dropdown-id-3"
+                              key="option-dropdown-id-3-3"
                               onClick={[Function]}
                               onKeyDown={[Function]}
                               on_click={null}
@@ -874,7 +874,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                                 className="dnb-drawer-list__option"
                                 data-item={3}
                                 id="option-dropdown-id-3"
-                                key="lioption-dropdown-id-3"
+                                key="lioption-dropdown-id-3-3"
                                 onClick={[Function]}
                                 onKeyDown={[Function]}
                                 role="option"
@@ -884,17 +884,17 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                                   className="dnb-drawer-list__option__inner"
                                 >
                                   <ItemContent
-                                    hash="option-dropdown-id-3"
+                                    hash="option-dropdown-id-3-3"
                                   >
                                     <span
                                       className="dnb-drawer-list__option__item"
-                                      key="option-dropdown-id-30"
+                                      key="option-dropdown-id-3-30"
                                     >
                                       1534 96 48901
                                     </span>
                                     <span
                                       className="dnb-drawer-list__option__item"
-                                      key="option-dropdown-id-31"
+                                      key="option-dropdown-id-3-31"
                                     >
                                       Oppussing - Ole Nordmann
                                     </span>
@@ -907,9 +907,9 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                               class={null}
                               className=""
                               data-item={4}
-                              hash="option-dropdown-id-4"
+                              hash="option-dropdown-id-4-4"
                               id="option-dropdown-id-4"
-                              key="option-dropdown-id-4"
+                              key="option-dropdown-id-4-4"
                               onClick={[Function]}
                               onKeyDown={[Function]}
                               on_click={null}
@@ -921,7 +921,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                                 className="dnb-drawer-list__option"
                                 data-item={4}
                                 id="option-dropdown-id-4"
-                                key="lioption-dropdown-id-4"
+                                key="lioption-dropdown-id-4-4"
                                 onClick={[Function]}
                                 onKeyDown={[Function]}
                                 role="option"
@@ -931,7 +931,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                                   className="dnb-drawer-list__option__inner"
                                 >
                                   <ItemContent
-                                    hash="option-dropdown-id-4"
+                                    hash="option-dropdown-id-4-4"
                                   >
                                     Custom content 
                                     123
@@ -944,9 +944,9 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                               class={null}
                               className=""
                               data-item={5}
-                              hash="option-dropdown-id-5"
+                              hash="option-dropdown-id-5-5"
                               id="option-dropdown-id-5"
-                              key="option-dropdown-id-5"
+                              key="option-dropdown-id-5-5"
                               onClick={[Function]}
                               onKeyDown={[Function]}
                               on_click={null}
@@ -958,7 +958,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                                 className="dnb-drawer-list__option"
                                 data-item={5}
                                 id="option-dropdown-id-5"
-                                key="lioption-dropdown-id-5"
+                                key="lioption-dropdown-id-5-5"
                                 onClick={[Function]}
                                 onKeyDown={[Function]}
                                 role="option"
@@ -968,7 +968,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                                   className="dnb-drawer-list__option__inner"
                                 >
                                   <ItemContent
-                                    hash="option-dropdown-id-5"
+                                    hash="option-dropdown-id-5-5"
                                   >
                                     Custom content 
                                     123
@@ -981,9 +981,9 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                               class={null}
                               className="closest-to-top closest-to-bottom last-of-type"
                               data-item={6}
-                              hash="option-dropdown-id-6"
+                              hash="option-dropdown-id-6-6"
                               id="option-dropdown-id-6"
-                              key="option-dropdown-id-6"
+                              key="option-dropdown-id-6-6"
                               onClick={[Function]}
                               onKeyDown={[Function]}
                               on_click={null}
@@ -995,7 +995,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                                 className="closest-to-top closest-to-bottom last-of-type dnb-drawer-list__option"
                                 data-item={6}
                                 id="option-dropdown-id-6"
-                                key="lioption-dropdown-id-6"
+                                key="lioption-dropdown-id-6-6"
                                 onClick={[Function]}
                                 onKeyDown={[Function]}
                                 role="option"
@@ -1005,11 +1005,11 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                                   className="dnb-drawer-list__option__inner"
                                 >
                                   <ItemContent
-                                    hash="option-dropdown-id-6"
+                                    hash="option-dropdown-id-6-6"
                                   >
                                     <span
                                       className="dnb-drawer-list__option__item"
-                                      key="option-dropdown-id-60"
+                                      key="option-dropdown-id-6-60"
                                     >
                                       Custom content 
                                       123
@@ -1730,8 +1730,6 @@ legend.dnb-form-label {
   .dnb-dropdown__suffix {
     padding-left: 0.5rem;
     line-height: var(--line-height-basis); }
-  .dnb-drawer-list--is-popup .dnb-drawer-list__list {
-    min-width: var(--dropdown-width); }
   .dnb-dropdown--large .dnb-drawer-list__triangle {
     margin-left: calc(var(--dropdown-padding-horizontal) - 0.25rem); }
   .dnb-dropdown--icon-position-left.dnb-dropdown--large .dnb-drawer-list__triangle {

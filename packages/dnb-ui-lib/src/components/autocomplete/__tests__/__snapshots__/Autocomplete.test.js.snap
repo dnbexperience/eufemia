@@ -812,9 +812,9 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                               class={null}
                               className="first-of-type"
                               data-item={0}
-                              hash="option-autocomplete-id-0"
+                              hash="option-autocomplete-id-0-0"
                               id="option-autocomplete-id-0"
-                              key="option-autocomplete-id-0"
+                              key="option-autocomplete-id-0-0"
                               onClick={[Function]}
                               onKeyDown={[Function]}
                               on_click={null}
@@ -826,7 +826,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                                 className="first-of-type dnb-drawer-list__option"
                                 data-item={0}
                                 id="option-autocomplete-id-0"
-                                key="lioption-autocomplete-id-0"
+                                key="lioption-autocomplete-id-0-0"
                                 onClick={[Function]}
                                 onKeyDown={[Function]}
                                 role="option"
@@ -836,7 +836,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                                   className="dnb-drawer-list__option__inner"
                                 >
                                   <ItemContent
-                                    hash="option-autocomplete-id-0"
+                                    hash="option-autocomplete-id-0-0"
                                   >
                                     AA c
                                   </ItemContent>
@@ -848,9 +848,9 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                               class={null}
                               className=""
                               data-item={1}
-                              hash="option-autocomplete-id-1"
+                              hash="option-autocomplete-id-1-1"
                               id="option-autocomplete-id-1"
-                              key="option-autocomplete-id-1"
+                              key="option-autocomplete-id-1-1"
                               onClick={[Function]}
                               onKeyDown={[Function]}
                               on_click={null}
@@ -862,7 +862,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                                 className="dnb-drawer-list__option"
                                 data-item={1}
                                 id="option-autocomplete-id-1"
-                                key="lioption-autocomplete-id-1"
+                                key="lioption-autocomplete-id-1-1"
                                 onClick={[Function]}
                                 onKeyDown={[Function]}
                                 role="option"
@@ -872,7 +872,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                                   className="dnb-drawer-list__option__inner"
                                 >
                                   <ItemContent
-                                    hash="option-autocomplete-id-1"
+                                    hash="option-autocomplete-id-1-1"
                                   >
                                     BB cc zethx
                                   </ItemContent>
@@ -884,9 +884,9 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                               class={null}
                               className="closest-to-top closest-to-bottom last-of-type"
                               data-item={2}
-                              hash="option-autocomplete-id-2"
+                              hash="option-autocomplete-id-2-2"
                               id="option-autocomplete-id-2"
-                              key="option-autocomplete-id-2"
+                              key="option-autocomplete-id-2-2"
                               onClick={[Function]}
                               onKeyDown={[Function]}
                               on_click={null}
@@ -899,7 +899,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                                 className="closest-to-top closest-to-bottom last-of-type dnb-drawer-list__option dnb-drawer-list__option--selected dnb-drawer-list__option--focus"
                                 data-item={2}
                                 id="option-autocomplete-id-2"
-                                key="lioption-autocomplete-id-2"
+                                key="lioption-autocomplete-id-2-2"
                                 onClick={[Function]}
                                 onKeyDown={[Function]}
                                 role="option"
@@ -909,17 +909,17 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                                   className="dnb-drawer-list__option__inner"
                                 >
                                   <ItemContent
-                                    hash="option-autocomplete-id-2"
+                                    hash="option-autocomplete-id-2-2"
                                   >
                                     <span
                                       className="dnb-drawer-list__option__item"
-                                      key="option-autocomplete-id-20"
+                                      key="option-autocomplete-id-2-20"
                                     >
                                       CC
                                     </span>
                                     <span
                                       className="dnb-drawer-list__option__item"
-                                      key="option-autocomplete-id-21"
+                                      key="option-autocomplete-id-2-21"
                                     >
                                       cc
                                     </span>
@@ -2014,8 +2014,6 @@ legend.dnb-form-label {
   .dnb-autocomplete__suffix {
     padding-left: 0.5rem;
     line-height: var(--line-height-basis); }
-  .dnb-autocomplete .dnb-drawer-list {
-    position: static; }
   .dnb-autocomplete .dnb-drawer-list__list {
     top: var(--autocomplete-height);
     bottom: auto; }
