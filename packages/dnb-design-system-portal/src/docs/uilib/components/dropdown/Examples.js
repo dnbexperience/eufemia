@@ -150,6 +150,14 @@ render(
   right="small"
 />
 <Dropdown
+  prevent_selection="true"
+  align_dropdown="right"
+  size="small"
+  title="Choose an item"
+  data={() => ['Go this this Link', 'Or press on me', <>Custom component</>]}
+  right="small"
+/>
+<Dropdown
   more_menu="true"
   title="Choose an item"
   data={['Go this this Link', 'Or press on me', <>Custom component</>]}

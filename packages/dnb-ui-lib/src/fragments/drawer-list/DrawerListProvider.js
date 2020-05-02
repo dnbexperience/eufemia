@@ -493,11 +493,7 @@ export default class DrawerListProvider extends React.PureComponent {
       return
     }
     // do not change the triangle on popup mode
-    if (
-      isTrue(this.props.prevent_selection)
-      // TODO: maybe we have to send in someting like more_menu anyway?
-      // ||  isTrue(this.props.more_menu)
-    ) {
+    if (isTrue(this.props.prevent_selection)) {
       return
     }
 

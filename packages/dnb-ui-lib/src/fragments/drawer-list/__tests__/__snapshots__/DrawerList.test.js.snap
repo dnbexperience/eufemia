@@ -266,7 +266,7 @@ exports[`DrawerList markup have to match snapshot 1`] = `
       wrapper_element={Object {}}
     >
       <span
-        className="dnb-drawer-list dnb-drawer-list--bottom class className dnb-drawer-list--opened dnb-drawer-list--icon-position-triangle_position dnb-drawer-list--default dnb-drawer-list--is-popup"
+        className="dnb-drawer-list dnb-drawer-list--bottom class className dnb-drawer-list--opened dnb-drawer-list--triangle-position-triangle_position dnb-drawer-list--default dnb-drawer-list--is-popup"
         id="drawer-list-id-drawer-list"
       >
         <span
@@ -620,7 +620,7 @@ exports[`DrawerList scss have to match snapshot 1`] = `
       transform: translateY(60%) rotate(45deg);
       border: 1px solid var(--color-black-border);
       background-color: var(--color-white); }
-  .dnb-drawer-list--icon-position-left .dnb-drawer-list__triangle {
+  .dnb-drawer-list--triangle-position-left .dnb-drawer-list__triangle {
     left: 0;
     right: auto; }
   .dnb-drawer-list--top .dnb-drawer-list__triangle {
@@ -656,7 +656,8 @@ exports[`DrawerList scss have to match snapshot 1`] = `
     left: -0.25rem; }
   .dnb-drawer-list--large.dnb-drawer-list--is-popup.dnb-drawer-list--right .dnb-drawer-list__list {
     right: -0.25rem; }
-  .dnb-drawer-list--right .dnb-drawer-list__list {
+  .dnb-drawer-list--right .dnb-drawer-list__list,
+  .dnb-drawer-list--is-popup.dnb-drawer-list--right .dnb-drawer-list__list {
     left: auto; }
   .dnb-drawer-list--opened .dnb-drawer-list__list {
     z-index: 100;

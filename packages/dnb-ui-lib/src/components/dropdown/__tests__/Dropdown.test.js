@@ -156,6 +156,76 @@ describe('Dropdown component', () => {
     expect(on_select.mock.calls[1][0].data).toStrictEqual(selectedItem) // second call!
   })
 
+  it('has no selected items on using prevent_selection', async () => {
+    let selectedItem
+    const on_change = jest.fn()
+
+    const Comp = mount(
+      <Component
+        {...props}
+        value={null}
+        data={mockData}
+        on_change={on_change}
+        prevent_selection
+      />
+    )
+
+    // open first
+    open(Comp)
+
+    // then simulate changes
+    keydown(Comp, 40) // down
+    keydown(Comp, 40) // down
+    keydown(Comp, 32) // space
+
+    // open first
+    open(Comp)
+
+    expect(
+      Comp.find('.dnb-drawer-list__option')
+        .at(1)
+        .hasClass('dnb-drawer-list__option--selected')
+    ).toBe(false)
+
+    expect(Comp.find('.dnb-icon').instance().getAttribute('alt')).toBe(
+      'chevron down'
+    )
+
+    const event = on_change.mock.calls[0][0]
+    selectedItem = mockData[event.value]
+    expect(event.value).toBe(1)
+    expect(event.selected_item).toBe(1)
+    expect(event.active_item).toBe(undefined)
+    expect(event.data).toStrictEqual(selectedItem)
+  })
+
+  it('has no selected items on using more_menu', async () => {
+    const Comp = mount(
+      <Component {...props} value={null} data={mockData} more_menu />
+    )
+
+    // open first
+    open(Comp)
+
+    // then simulate changes
+    keydown(Comp, 40) // down
+    keydown(Comp, 40) // down
+    keydown(Comp, 32) // space
+
+    // open first
+    open(Comp)
+
+    expect(
+      Comp.find('.dnb-drawer-list__option')
+        .at(1)
+        .hasClass('dnb-drawer-list__option--selected')
+    ).toBe(false)
+
+    expect(Comp.find('.dnb-icon').instance().getAttribute('alt')).toBe(
+      'more'
+    )
+  })
+
   it('has valid on_change callback', async () => {
     let selectedItem
     const on_change = jest.fn()

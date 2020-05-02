@@ -28,6 +28,19 @@ describe('Dropdown screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+  it('have to match the dropdown with status: error', async () => {
+    const screenshot = await testPageScreenshot({
+      selector:
+        '[data-dnb-test="dropdown-status-error"] .dnb-dropdown__inner'
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+  it('have to match the dropdown as more_menu', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-dnb-test="dropdown-more_menu"]'
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
   it('have to match the closed dropdown with focus', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-dnb-test="dropdown-closed"] .dnb-dropdown__inner',
@@ -67,16 +80,21 @@ describe('Dropdown screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
-  it('have to match the dropdown with status: error', async () => {
+  it('have to match the dropdown as more_menu opened on left side', async () => {
     const screenshot = await testPageScreenshot({
-      selector:
-        '[data-dnb-test="dropdown-status-error"] .dnb-dropdown__inner'
+      selector: '[data-dnb-test="dropdown-more_menu"]',
+      simulateSelector:
+        '[data-dnb-test="dropdown-more_menu"] .dnb-dropdown:nth-of-type(1) .dnb-dropdown__trigger',
+      simulate: 'click'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
-  it('have to match the dropdown as more_menu', async () => {
+  it('have to match the dropdown as more_menu opened on right side', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-dnb-test="dropdown-more_menu"]'
+      selector: '[data-dnb-test="dropdown-more_menu"]',
+      simulateSelector:
+        '[data-dnb-test="dropdown-more_menu"] .dnb-dropdown:nth-of-type(2) .dnb-dropdown__trigger',
+      simulate: 'click'
     })
     expect(screenshot).toMatchImageSnapshot()
   })

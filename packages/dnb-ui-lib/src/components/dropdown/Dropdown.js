@@ -208,6 +208,9 @@ export default class Dropdown extends React.PureComponent {
         opened={null}
         tagName="dnb-dropdown"
         ignore_events={false}
+        prevent_selection={
+          this.props.more_menu || this.props.prevent_selection
+        }
       >
         <DropdownInstance {...this.props} />
       </DrawerListProvider>
@@ -577,7 +580,7 @@ class DropdownInstance extends React.PureComponent {
                 no_animation={no_animation}
                 no_scroll_animation={no_scroll_animation}
                 skip_portal={skip_portal}
-                prevent_selection={prevent_selection}
+                prevent_selection={more_menu || prevent_selection}
                 triangle_position={
                   triangle_position || icon_position || 'right'
                 }

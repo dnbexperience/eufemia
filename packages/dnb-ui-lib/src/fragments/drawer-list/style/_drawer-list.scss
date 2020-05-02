@@ -206,7 +206,7 @@
       background-color: var(--color-white);
     }
   }
-  &--icon-position-left &__triangle {
+  &--triangle-position-left &__triangle {
     left: 0;
     right: auto;
   }
@@ -274,8 +274,8 @@
   }
 
   // default right aligned
-  // stylelint-disable-next-line
-  &--right &__list {
+  &--right &__list,
+  &--is-popup#{&}--right &__list {
     left: auto;
   }
 

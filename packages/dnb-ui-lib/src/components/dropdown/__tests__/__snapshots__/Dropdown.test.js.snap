@@ -666,7 +666,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                   wrapper_element={null}
                 >
                   <span
-                    className="dnb-drawer-list dnb-drawer-list--bottom dnb-drawer-list--opened dnb-drawer-list--icon-position-triangle_position"
+                    className="dnb-drawer-list dnb-drawer-list--bottom dnb-drawer-list--opened dnb-drawer-list--triangle-position-triangle_position"
                     disabled="disabled"
                     id="dropdown-id-drawer-list"
                   >

@@ -310,7 +310,7 @@ class DrawerListInstance extends React.PureComponent {
         hidden && 'dnb-drawer-list--hidden',
         `dnb-drawer-list--${direction}`,
         triangle_position &&
-          `dnb-drawer-list--icon-position-${triangle_position}`,
+          `dnb-drawer-list--triangle-position-${triangle_position}`,
         align_drawer && `dnb-drawer-list--${align_drawer}`,
         size && `dnb-drawer-list--${size}`,
         button_only && 'dnb-drawer-list--is-popup',
