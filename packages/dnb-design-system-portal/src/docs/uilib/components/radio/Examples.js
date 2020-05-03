@@ -89,14 +89,14 @@ class Example extends React.PureComponent {
         >
           {
             /* @jsx */ `
-<p className="dnb-p dnb-radio-group">
-  <FormLabel id="MyRadioGroup">Plain Radio group:</FormLabel>
+<FormRow label="Plain Radio group:">
   <Radio
     value="first"
     label="First"
     group="MyRadioGroup"
     labelledby="MyRadioGroup"
     on_change={({ value, checked }) => { console.log('on_change', value, checked) }}
+    right
   />
   <Radio
     checked
@@ -105,6 +105,7 @@ class Example extends React.PureComponent {
     group="MyRadioGroup"
     labelledby="MyRadioGroup"
     on_change={({ value, checked }) => { console.log('on_change', value, checked) }}
+    right
   />
   <Radio
     checked
@@ -113,8 +114,9 @@ class Example extends React.PureComponent {
     group="MyRadioGroup"
     labelledby="MyRadioGroup"
     on_change={({ value, checked }) => { console.log('on_change', value, checked) }}
+    right
   />
-</p>
+</FormRow>
           `
           }
         </ComponentBox>

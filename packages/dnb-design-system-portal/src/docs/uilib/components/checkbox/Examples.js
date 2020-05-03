@@ -71,6 +71,16 @@ class Example extends React.PureComponent {
           `
           }
         </ComponentBox>
+        <ComponentBox data-dnb-test="checkbox-disabled">
+          {
+            /* @jsx */ `
+<Checkbox
+  checked
+  disabled
+/>
+`
+          }
+        </ComponentBox>
       </React.Fragment>
     )
   }
