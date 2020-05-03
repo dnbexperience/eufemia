@@ -7,7 +7,6 @@ showTabs: true
 | Properties                                  | Description                                                                                                                                                         |
 | ------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `checked`                                   | _(optional)_ determine whether the switch is checked or not. Default will be `false`.                                                                               |
-| `default_state`                             | _(optional)_ boolean value. The state of the switch. Defaults to `false`. Set to `true` if otherwise.                                                               |
 | `title`                                     | _(mandatory)_ the `title` of the input - describing it a bit further for accessibility reasons.                                                                     |
 | `label`                                     | _(optional)_ use either the `label` property or provide custom one.                                                                                                 |
 | `label_position`                            | _(optional)_ defines the position of the `label`. Use either `left` or `right`. Defaults to `right`.                                                                |
