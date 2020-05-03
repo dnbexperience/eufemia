@@ -171,7 +171,6 @@ exports[`Radio group component have to match group snapshot 1`] = `
   status_state="error"
   suffix={null}
   title={null}
-  value={null}
   vertical={null}
 >
   <div
@@ -264,7 +263,6 @@ exports[`Radio group component have to match group snapshot 1`] = `
               >
                 <Radio
                   attributes={null}
-                  checked={null}
                   class={null}
                   className={null}
                   custom_element={null}
@@ -314,14 +312,13 @@ exports[`Radio group component have to match group snapshot 1`] = `
                               className="dnb-radio__input"
                               disabled={false}
                               id="radio-1"
-                              name="group"
+                              name={null}
                               onChange={[Function]}
                               onClick={[Function]}
                               onKeyDown={[Function]}
                               onMouseOut={[Function]}
                               role="radio"
-                              type="radio"
-                              value=""
+                              type="checkbox"
                             />
                             <span
                               aria-hidden={true}
@@ -340,7 +337,7 @@ exports[`Radio group component have to match group snapshot 1`] = `
                             class={null}
                             className={null}
                             direction={null}
-                            disabled={false}
+                            disabled={null}
                             element="label"
                             for_id="radio-1"
                             id="radio-1-label"
@@ -425,14 +422,13 @@ exports[`Radio group component have to match group snapshot 1`] = `
                               className="dnb-radio__input"
                               disabled={false}
                               id="radio-2"
-                              name="group"
+                              name={null}
                               onChange={[Function]}
                               onClick={[Function]}
                               onKeyDown={[Function]}
                               onMouseOut={[Function]}
                               role="radio"
-                              type="radio"
-                              value=""
+                              type="checkbox"
                             />
                             <span
                               aria-hidden={true}
@@ -451,7 +447,7 @@ exports[`Radio group component have to match group snapshot 1`] = `
                             class={null}
                             className={null}
                             direction={null}
-                            disabled={false}
+                            disabled={null}
                             element="label"
                             for_id="radio-2"
                             id="radio-2-label"

@@ -37,7 +37,7 @@ const propTypes = {
   ]),
   label_position: PropTypes.oneOf(['left', 'right']),
   title: PropTypes.string,
-  default_state: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  default_state: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]), // Deprecated
   checked: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   id: PropTypes.string,
@@ -75,8 +75,8 @@ const defaultProps = {
   label: null,
   label_position: null,
   title: null,
-  default_state: null,
-  checked: 'default', //we have to send this as a string
+  default_state: undefined, // Deprecated
+  checked: undefined,
   disabled: null,
   id: null,
   status: null,
@@ -102,7 +102,7 @@ const defaultProps = {
 /**
  * The switch component is our enhancement of the classic radio button. It acts like a switch. Example: On/off, yes/no.
  */
-export default class Switch extends React.Component {
+export default class Switch extends React.PureComponent {
   static tagName = 'dnb-switch'
   static propTypes = propTypes
   static defaultProps = defaultProps
@@ -117,14 +117,30 @@ export default class Switch extends React.Component {
 
   static getDerivedStateFromProps(props, state) {
     if (state._listenForPropChanges) {
-      if (state.hasDefaultState) {
+      if (
+        typeof props.default_state !== 'undefined' &&
+        typeof state.checked === 'undefined'
+      ) {
         state.checked = Switch.parseChecked(props.default_state)
-        state.hasDefaultState = false
-      } else if (props.checked !== 'default') {
+      } else if (props.checked !== state._checked) {
         state.checked = Switch.parseChecked(props.checked)
+      }
+      if (typeof props.checked !== 'undefined') {
+        state._checked = props.checked
       }
     }
     state._listenForPropChanges = true
+
+    if (state.checked !== state.__checked) {
+      dispatchCustomElementEvent({ props }, 'on_state_update', {
+        checked: state.checked
+      })
+    }
+
+    if (typeof state.checked === 'undefined') {
+      state.checked = false
+    }
+    state.__checked = state.checked
 
     return state
   }
@@ -134,22 +150,9 @@ export default class Switch extends React.Component {
     this._refInput = React.createRef()
     this._id = props.id || makeUniqueId() // cause we need an id anyway
     this.state = {
-      _listenForPropChanges: true,
-      hasDefaultState: props.default_state !== null,
-      checked: Switch.parseChecked(props.default_state || props.checked)
+      _listenForPropChanges: true
     }
     this.helperParams = { onMouseDown: (e) => e.preventDefault() }
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    if (
-      Switch.parseChecked(this.props.checked) !==
-      Switch.parseChecked(nextProps.checked)
-    ) {
-      const { checked } = nextState
-      dispatchCustomElementEvent(this, 'on_state_update', { checked })
-    }
-    return true
   }
 
   componentWillUnmount() {
@@ -229,7 +232,6 @@ export default class Switch extends React.Component {
       class: _className,
 
       id: _id, // eslint-disable-line
-      default_state: _default_state, // eslint-disable-line
       checked: _checked, // eslint-disable-line
       attributes, // eslint-disable-line
       children, // eslint-disable-line
