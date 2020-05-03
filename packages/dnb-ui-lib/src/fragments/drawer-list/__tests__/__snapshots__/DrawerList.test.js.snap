@@ -83,6 +83,7 @@ exports[`DrawerList markup have to match snapshot 1`] = `
   scrollable="scrollable"
   size="default"
   skip_keysearch="skip_keysearch"
+  skip_portal={true}
   triangle_position="triangle_position"
   value={2}
   wrapper_element={Object {}}
@@ -172,6 +173,7 @@ exports[`DrawerList markup have to match snapshot 1`] = `
     scrollable="scrollable"
     size="default"
     skip_keysearch="skip_keysearch"
+    skip_portal={true}
     triangle_position="triangle_position"
     value={2}
     wrapper_element={Object {}}
@@ -258,12 +260,13 @@ exports[`DrawerList markup have to match snapshot 1`] = `
       scrollable="scrollable"
       size="default"
       skip_keysearch="skip_keysearch"
+      skip_portal={true}
       triangle_position="triangle_position"
       value={2}
       wrapper_element={Object {}}
     >
       <span
-        className="dnb-drawer-list dnb-drawer-list--bottom class className dnb-drawer-list--opened dnb-drawer-list--icon-position-triangle_position dnb-drawer-list--default dnb-drawer-list--is-popup"
+        className="dnb-drawer-list dnb-drawer-list--bottom class className dnb-drawer-list--opened dnb-drawer-list--triangle-position-triangle_position dnb-drawer-list--default dnb-drawer-list--is-popup"
         id="drawer-list-id-drawer-list"
       >
         <span
@@ -287,7 +290,7 @@ exports[`DrawerList markup have to match snapshot 1`] = `
 
 exports[`DrawerList scss have to match default theme snapshot 1`] = `
 "/*
-* Dropdown theme
+* ScrollView theme
 *
 */
 /**
@@ -521,17 +524,27 @@ exports[`DrawerList scss have to match snapshot 1`] = `
   display: block;
   position: relative;
   font-size: var(--font-size-small); }
+  .dnb-drawer-list__portal__style {
+    position: absolute;
+    top: -100vh;
+    left: -100vw;
+    z-index: 3010; }
+  .dnb-drawer-list__root {
+    position: absolute;
+    top: 0;
+    left: 0; }
   .dnb-drawer-list__content {
     width: 100%;
     padding: 0; }
   .dnb-drawer-list__list {
     position: absolute;
     z-index: 3;
-    top: 0;
+    top: var(--drawer-list-height);
     bottom: auto;
     left: 0;
     right: 0;
     width: 100%;
+    min-width: var(--drawer-list-width);
     margin: 0;
     padding: 0;
     font-size: var(--font-size-basis);
@@ -539,42 +552,6 @@ exports[`DrawerList scss have to match snapshot 1`] = `
     background-color: transparent;
     transform: translateY(0);
     transition: transform 200ms, opacity 160ms ease-out; }
-  .dnb-drawer-list--top .dnb-drawer-list__list {
-    top: auto;
-    bottom: 0; }
-  .dnb-drawer-list--is-popup .dnb-drawer-list__list {
-    left: -0.5rem; }
-  .dnb-drawer-list--is-popup.dnb-drawer-list--right .dnb-drawer-list__list {
-    right: -0.5rem; }
-  .dnb-drawer-list--small .dnb-drawer-list__list {
-    top: var(--drawer-list-height--small); }
-  .dnb-drawer-list--small.dnb-drawer-list--top .dnb-drawer-list__list {
-    top: auto;
-    bottom: var(--drawer-list-height--small); }
-  .dnb-drawer-list--small.dnb-drawer-list--is-popup .dnb-drawer-list__list {
-    left: -0.75rem; }
-  .dnb-drawer-list--small.dnb-drawer-list--is-popup.dnb-drawer-list--right .dnb-drawer-list__list {
-    right: -0.75rem; }
-  .dnb-drawer-list--medium .dnb-drawer-list__list {
-    top: var(--drawer-list-height--medium); }
-  .dnb-drawer-list--medium.dnb-drawer-list--top .dnb-drawer-list__list {
-    top: auto;
-    bottom: var(--drawer-list-height--medium); }
-  .dnb-drawer-list--medium.dnb-drawer-list--is-popup .dnb-drawer-list__list {
-    left: -0.25rem; }
-  .dnb-drawer-list--medium.dnb-drawer-list--is-popup.dnb-drawer-list--right .dnb-drawer-list__list {
-    right: -0.25rem; }
-  .dnb-drawer-list--large .dnb-drawer-list__list {
-    top: var(--drawer-list-height--large); }
-  .dnb-drawer-list--large.dnb-drawer-list--top .dnb-drawer-list__list {
-    top: auto;
-    bottom: var(--drawer-list-height--large); }
-  .dnb-drawer-list--large.dnb-drawer-list--is-popup .dnb-drawer-list__list {
-    left: -0.25rem; }
-  .dnb-drawer-list--large.dnb-drawer-list--is-popup.dnb-drawer-list--right .dnb-drawer-list__list {
-    right: -0.25rem; }
-  .dnb-drawer-list--right .dnb-drawer-list__list {
-    left: auto; }
   .dnb-drawer-list__options {
     display: flex;
     flex-direction: column;
@@ -588,7 +565,7 @@ exports[`DrawerList scss have to match snapshot 1`] = `
       margin: 0; }
   .dnb-drawer-list--scroll .dnb-drawer-list__options {
     min-height: 2rem;
-    max-height: 50vh;
+    max-height: 70vh;
     overflow-y: scroll;
     overscroll-behavior: contain;
     scrollbar-width: thin;
@@ -643,7 +620,7 @@ exports[`DrawerList scss have to match snapshot 1`] = `
       transform: translateY(60%) rotate(45deg);
       border: 1px solid var(--color-black-border);
       background-color: var(--color-white); }
-  .dnb-drawer-list--icon-position-left .dnb-drawer-list__triangle {
+  .dnb-drawer-list--triangle-position-left .dnb-drawer-list__triangle {
     left: 0;
     right: auto; }
   .dnb-drawer-list--top .dnb-drawer-list__triangle {
@@ -652,6 +629,36 @@ exports[`DrawerList scss have to match snapshot 1`] = `
     transform: rotate(180deg); }
     .dnb-drawer-list--top .dnb-drawer-list__triangle::before {
       transform: translateY(65%) rotate(45deg); }
+  .dnb-drawer-list--top .dnb-drawer-list__list {
+    top: auto;
+    bottom: 0; }
+  .dnb-drawer-list--is-popup .dnb-drawer-list__list {
+    left: -0.5rem; }
+  .dnb-drawer-list--is-popup.dnb-drawer-list--right .dnb-drawer-list__list {
+    right: -0.5rem; }
+  .dnb-drawer-list--small .dnb-drawer-list__list {
+    top: var(--drawer-list-height--small); }
+  .dnb-drawer-list--small.dnb-drawer-list--is-popup .dnb-drawer-list__list {
+    left: -0.75rem; }
+  .dnb-drawer-list--small.dnb-drawer-list--is-popup.dnb-drawer-list--right .dnb-drawer-list__list {
+    right: -0.75rem; }
+  .dnb-drawer-list--medium .dnb-drawer-list__list {
+    top: var(--drawer-list-height--medium); }
+  .dnb-drawer-list--medium.dnb-drawer-list--is-popup .dnb-drawer-list__list {
+    left: -0.25rem; }
+  .dnb-drawer-list--medium.dnb-drawer-list--is-popup.dnb-drawer-list--right .dnb-drawer-list__list {
+    right: -0.25rem; }
+  .dnb-drawer-list--large .dnb-drawer-list__list {
+    top: var(--drawer-list-height--large); }
+  .dnb-drawer-list--large .dnb-drawer-list__triangle {
+    margin: 0 1.25rem; }
+  .dnb-drawer-list--large.dnb-drawer-list--is-popup .dnb-drawer-list__list {
+    left: -0.25rem; }
+  .dnb-drawer-list--large.dnb-drawer-list--is-popup.dnb-drawer-list--right .dnb-drawer-list__list {
+    right: -0.25rem; }
+  .dnb-drawer-list--right .dnb-drawer-list__list,
+  .dnb-drawer-list--is-popup.dnb-drawer-list--right .dnb-drawer-list__list {
+    left: auto; }
   .dnb-drawer-list--opened .dnb-drawer-list__list {
     z-index: 100;
     display: flex;

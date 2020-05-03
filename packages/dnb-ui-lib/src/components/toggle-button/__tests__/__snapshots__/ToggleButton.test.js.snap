@@ -140,7 +140,6 @@ exports[`ToggleButton component have to match snapshot 1`] = `
                     className={null}
                     custom_element={null}
                     custom_method={null}
-                    default_state={null}
                     disabled="disabled"
                     global_status_id={null}
                     id="toggle-button-checkbox"
@@ -195,7 +194,6 @@ exports[`ToggleButton component have to match snapshot 1`] = `
                   className={null}
                   custom_element={null}
                   custom_method={null}
-                  default_state={null}
                   disabled="disabled"
                   global_status_id={null}
                   id="toggle-button-checkbox"
@@ -466,7 +464,6 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
                 >
                   <ToggleButton
                     attributes={null}
-                    checked={null}
                     class={null}
                     className={null}
                     custom_element={null}

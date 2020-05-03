@@ -560,20 +560,41 @@ export const matchAll = (string, regex) => {
 /**
  * [getPreviousSibling traverses down the DOM tree until it finds the wanted element]
  * @param  {[string]} className [CSS class]
- * @param  {[HTMLElement]} elem      [starting HTMLElement]
+ * @param  {[HTMLElement]} element      [starting HTMLElement]
  * @return {[HTMLElement]}           [HTMLElement]
  */
-export const getPreviousSibling = (className, elem) => {
+export const getPreviousSibling = (className, element) => {
   try {
-    const contains = (elem) => elem && elem.classList.contains(className)
+    const contains = (element) =>
+      element && element.classList.contains(className)
 
-    if (contains(elem)) {
-      return elem
+    if (contains(element)) {
+      return element
     }
 
-    while ((elem = elem && elem.parentElement) && !contains(elem));
+    while (
+      (element = element && element.parentElement) &&
+      !contains(element)
+    );
   } catch (e) {
     console.warn(e)
   }
-  return elem
+  return element
+}
+
+// Round number to nearest target number
+export const roundToNearest = (num, target) => {
+  const diff = num % target
+  return diff > target / 2 ? num - diff + target : num - diff
+}
+
+export const isInsideScrollView = (
+  currentElement,
+  returnElement = false
+) => {
+  const elem = getPreviousSibling('dnb-scroll-view', currentElement)
+  if (returnElement) {
+    return elem == window ? null : elem
+  }
+  return elem == window ? false : Boolean(elem)
 }

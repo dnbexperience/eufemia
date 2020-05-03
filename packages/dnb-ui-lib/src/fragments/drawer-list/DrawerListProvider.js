@@ -9,6 +9,8 @@ import keycode from 'keycode'
 import Context from '../../shared/Context'
 import {
   isTrue,
+  roundToNearest,
+  isInsideScrollView,
   detectOutsideClick,
   getPreviousSibling,
   dispatchCustomElementEvent
@@ -48,6 +50,7 @@ const propTypes = {
     PropTypes.node
   ]),
   opened: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  scrollable: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   min_height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   max_height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   on_resize: PropTypes.func,
@@ -74,6 +77,7 @@ const defaultProps = {
   page_offset: null,
   observer_element: null,
   opened: null,
+  scrollable: null,
   min_height: 10, // 10rem = 10x16=160,
   max_height: null,
   on_resize: null,
@@ -107,6 +111,7 @@ export default class DrawerListProvider extends React.PureComponent {
       _listenForPropChanges: true
     }
 
+    this._refRoot = React.createRef()
     this._refShell = React.createRef()
     this._refUl = React.createRef()
     this._refTriangle = React.createRef()
@@ -123,7 +128,6 @@ export default class DrawerListProvider extends React.PureComponent {
     clearTimeout(this._focusTimeout)
     clearTimeout(this._hideTimeout)
     clearTimeout(this._selectTimeout)
-    clearTimeout(this._ddt)
 
     // NB: do not use setHidden here
     this.setState({
@@ -211,12 +215,15 @@ export default class DrawerListProvider extends React.PureComponent {
     }
 
     const {
+      scrollable,
       min_height,
       max_height,
       on_resize,
       page_offset,
       observer_element
     } = this.props
+
+    const isScrollable = isTrue(scrollable)
     const customMinHeight = parseFloat(min_height) * 16
     const customMaxHeight = parseFloat(max_height) || 0
 
@@ -224,11 +231,9 @@ export default class DrawerListProvider extends React.PureComponent {
       typeof observer_element === 'string'
         ? document.querySelector(observer_element)
         : null
+
     if (!customElem) {
-      customElem = getPreviousSibling(
-        'dnb-modal__content__inner',
-        this._refShell.current
-      )
+      customElem = isInsideScrollView(this._refShell.current, true)
     }
 
     // In case we have one before hand
@@ -258,16 +263,37 @@ export default class DrawerListProvider extends React.PureComponent {
             ? 'top'
             : 'bottom'
 
-        // and calc the max_height if not set
+        // make sure we never get higher than we have defined in CSS
         let max_height = customMaxHeight
-        if (!(parseFloat(max_height) > 0)) {
+        if (!(max_height > 0)) {
           max_height =
-            (direction === 'top'
+            direction === 'top'
               ? spaceToTop -
                 ((this.state.wrapper_element || this._refShell.current)
                   .offsetHeight || 0) -
                 spaceToTopOffset
-              : spaceToBottom - spaceToBottomOffset) / 16 // calc to rem
+              : spaceToBottom - spaceToBottomOffset
+
+          // get the view port height, like in CSS
+          let vh = 0
+          if (typeof window.visualViewport !== 'undefined') {
+            vh = window.visualViewport.height
+          } else {
+            vh = Math.max(
+              document.documentElement.clientHeight,
+              window.innerHeight || 0
+            )
+          }
+
+          // like defined in CSS
+          vh = vh * (isScrollable ? 0.7 : 0.9)
+
+          if (max_height > vh) {
+            max_height = vh
+          }
+
+          // convert px to rem
+          max_height = roundToNearest(max_height, 8) / 16
         }
 
         // update the states
@@ -300,9 +326,17 @@ export default class DrawerListProvider extends React.PureComponent {
       this._ddt = setTimeout(renderDirection, 30)
     }
 
-    const rootElem = customElem || window
-    rootElem.addEventListener('scroll', this.setDirection)
-    window.addEventListener('resize', this.setDirection)
+    // customElem can be a modal etc.
+    this._rootElem = customElem || window
+    this._rootElem.addEventListener('scroll', this.setDirection)
+
+    // this fixes iOS softkeyboard
+    if (typeof window.visualViewport !== 'undefined') {
+      window.visualViewport.addEventListener('scroll', this.setDirection)
+      window.visualViewport.addEventListener('resize', this.setDirection)
+    } else {
+      window.addEventListener('resize', this.setDirection)
+    }
 
     renderDirection()
   }
@@ -434,9 +468,23 @@ export default class DrawerListProvider extends React.PureComponent {
   }
 
   removeDirectionObserver() {
+    clearTimeout(this._ddt)
     if (typeof window !== 'undefined' && this.setDirection) {
-      window.removeEventListener('resize', this.setDirection)
-      window.removeEventListener('scroll', this.setDirection)
+      this._rootElem?.removeEventListener('scroll', this.setDirection)
+
+      // this fixes iOS softkeyboard
+      if (typeof window.visualViewport !== 'undefined') {
+        window.visualViewport.removeEventListener(
+          'scroll',
+          this.setDirection
+        )
+        window.visualViewport.removeEventListener(
+          'resize',
+          this.setDirection
+        )
+      } else {
+        window.removeEventListener('resize', this.setDirection)
+      }
     }
   }
 
@@ -445,11 +493,7 @@ export default class DrawerListProvider extends React.PureComponent {
       return
     }
     // do not change the triangle on popup mode
-    if (
-      isTrue(this.props.prevent_selection)
-      // TODO: maybe we have to send in someting like more_menu anyway?
-      // ||  isTrue(this.props.more_menu)
-    ) {
+    if (isTrue(this.props.prevent_selection)) {
       return
     }
 
@@ -701,10 +745,6 @@ export default class DrawerListProvider extends React.PureComponent {
     clearTimeout(this._hideTimeout)
     this.searchCache = null
 
-    // This can be enabled in case we want to bypass the overflow hidden on Modals
-    // Has to be tested more!
-    // this.modalScrollLock = addScrollLock(this._refShell.current)
-
     this.setState(
       {
         hidden: false,
@@ -768,10 +808,6 @@ export default class DrawerListProvider extends React.PureComponent {
         ) // wait until animation is over
       }
     )
-
-    if (typeof this.modalScrollLock === 'function') {
-      this.modalScrollLock()
-    }
 
     this.removeDirectionObserver()
     this.removeScrollObserver()
@@ -933,9 +969,11 @@ export default class DrawerListProvider extends React.PureComponent {
           ...this.context,
           drawerList: {
             attributes: this.attributes,
+            _refRoot: this._refRoot,
             _refShell: this._refShell,
             _refUl: this._refUl,
             _refTriangle: this._refTriangle,
+            _rootElem: this._rootElem,
             setData: this.setDataHandler,
             setState: this.setStateHandler,
             setWrapperElement: this.setWrapperElement,

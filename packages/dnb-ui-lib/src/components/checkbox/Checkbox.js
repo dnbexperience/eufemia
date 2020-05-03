@@ -73,8 +73,8 @@ const defaultProps = {
   label: null,
   label_position: null,
   title: null,
-  default_state: null,
-  checked: 'default', //we have to send this as a string
+  default_state: undefined,
+  checked: undefined,
   disabled: null,
   id: null,
   status: null,
@@ -100,7 +100,7 @@ const defaultProps = {
 /**
  * The checkbox component is our enhancement of the classic checkbox button. It acts like a checkbox. Example: On/off, yes/no.
  */
-export default class Checkbox extends React.Component {
+export default class Checkbox extends React.PureComponent {
   static tagName = 'dnb-checkbox'
   static propTypes = propTypes
   static defaultProps = defaultProps
@@ -115,14 +115,30 @@ export default class Checkbox extends React.Component {
 
   static getDerivedStateFromProps(props, state) {
     if (state._listenForPropChanges) {
-      if (state.hasDefaultState) {
+      if (
+        typeof props.default_state !== 'undefined' &&
+        typeof state.checked === 'undefined'
+      ) {
         state.checked = Checkbox.parseChecked(props.default_state)
-        state.hasDefaultState = false
-      } else if (props.checked !== 'default') {
+      } else if (props.checked !== state._checked) {
         state.checked = Checkbox.parseChecked(props.checked)
+      }
+      if (typeof props.checked !== 'undefined') {
+        state._checked = props.checked
       }
     }
     state._listenForPropChanges = true
+
+    if (state.checked !== state.__checked) {
+      dispatchCustomElementEvent({ props }, 'on_state_update', {
+        checked: state.checked
+      })
+    }
+
+    if (typeof state.checked === 'undefined') {
+      state.checked = false
+    }
+    state.__checked = state.checked
 
     return state
   }
@@ -132,21 +148,8 @@ export default class Checkbox extends React.Component {
     this._refInput = React.createRef()
     this._id = props.id || makeUniqueId() // cause we need an id anyway
     this.state = {
-      _listenForPropChanges: true,
-      hasDefaultState: props.default_state !== null,
-      checked: Checkbox.parseChecked(props.default_state || props.checked)
+      _listenForPropChanges: true
     }
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    if (
-      Checkbox.parseChecked(this.props.checked) !==
-      Checkbox.parseChecked(nextProps.checked)
-    ) {
-      const { checked } = nextState
-      dispatchCustomElementEvent(this, 'on_state_update', { checked })
-    }
-    return true
   }
 
   onKeyDownHandler = (event) => {

@@ -34,13 +34,18 @@ const snapshotProps = {
   trigger_component: null,
   size: null,
   opened: true,
+  skip_portal: true,
   no_animation: true
 }
 
 // use no_animation so we don't need to wait
+const mockProps = {
+  skip_portal: true
+}
 const props = {
   id: 'dropdown-id',
   value: 2,
+  skip_portal: true,
   no_animation: true
 }
 
@@ -151,6 +156,76 @@ describe('Dropdown component', () => {
     expect(on_select.mock.calls[1][0].data).toStrictEqual(selectedItem) // second call!
   })
 
+  it('has no selected items on using prevent_selection', async () => {
+    let selectedItem
+    const on_change = jest.fn()
+
+    const Comp = mount(
+      <Component
+        {...props}
+        value={null}
+        data={mockData}
+        on_change={on_change}
+        prevent_selection
+      />
+    )
+
+    // open first
+    open(Comp)
+
+    // then simulate changes
+    keydown(Comp, 40) // down
+    keydown(Comp, 40) // down
+    keydown(Comp, 32) // space
+
+    // open first
+    open(Comp)
+
+    expect(
+      Comp.find('.dnb-drawer-list__option')
+        .at(1)
+        .hasClass('dnb-drawer-list__option--selected')
+    ).toBe(false)
+
+    expect(Comp.find('.dnb-icon').instance().getAttribute('alt')).toBe(
+      'chevron down'
+    )
+
+    const event = on_change.mock.calls[0][0]
+    selectedItem = mockData[event.value]
+    expect(event.value).toBe(1)
+    expect(event.selected_item).toBe(1)
+    expect(event.active_item).toBe(undefined)
+    expect(event.data).toStrictEqual(selectedItem)
+  })
+
+  it('has no selected items on using more_menu', async () => {
+    const Comp = mount(
+      <Component {...props} value={null} data={mockData} more_menu />
+    )
+
+    // open first
+    open(Comp)
+
+    // then simulate changes
+    keydown(Comp, 40) // down
+    keydown(Comp, 40) // down
+    keydown(Comp, 32) // space
+
+    // open first
+    open(Comp)
+
+    expect(
+      Comp.find('.dnb-drawer-list__option')
+        .at(1)
+        .hasClass('dnb-drawer-list__option--selected')
+    ).toBe(false)
+
+    expect(Comp.find('.dnb-icon').instance().getAttribute('alt')).toBe(
+      'more'
+    )
+  })
+
   it('has valid on_change callback', async () => {
     let selectedItem
     const on_change = jest.fn()
@@ -252,7 +327,9 @@ describe('Dropdown component', () => {
 
   it('has a default title if no value is given', () => {
     const title = 'Make a selection'
-    const Comp = mount(<Component data={mockData} title={title} />)
+    const Comp = mount(
+      <Component data={mockData} title={title} {...mockProps} />
+    )
     expect(
       Comp.find('.dnb-dropdown__text__inner').instance().innerHTML
     ).toBe(title)
@@ -260,9 +337,15 @@ describe('Dropdown component', () => {
 
   it('has a corret value content if we send in a React component', () => {
     const aStringOf = 'Custom content 123'
-    const Comp1 = mount(<Component data={mockData} value={4} />)
-    const Comp2 = mount(<Component data={mockData} value={5} />)
-    const Comp3 = mount(<Component data={mockData} value={6} />)
+    const Comp1 = mount(
+      <Component data={mockData} value={4} {...mockProps} />
+    )
+    const Comp2 = mount(
+      <Component data={mockData} value={5} {...mockProps} />
+    )
+    const Comp3 = mount(
+      <Component data={mockData} value={6} {...mockProps} />
+    )
     expect(
       Comp1.find('.dnb-dropdown__text__inner').instance().innerHTML
     ).toBe(aStringOf)
@@ -275,7 +358,7 @@ describe('Dropdown component', () => {
   })
 
   it('has a disabled attribute, once we set disabled to true', () => {
-    const Comp = mount(<Component data={mockData} />)
+    const Comp = mount(<Component data={mockData} {...mockProps} />)
     Comp.setProps({
       disabled: true
     })

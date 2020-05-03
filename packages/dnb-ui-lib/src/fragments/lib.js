@@ -13,12 +13,13 @@ import { registerElement } from '../shared/component-helper'
 
 // import all the aviable fragments
 import DrawerList from './drawer-list/DrawerList'
+import ScrollView from './scroll-view/ScrollView'
 
 // define / export all the aviable fragments
-export { DrawerList }
+export { DrawerList, ScrollView }
 
 export const getFragments = () => {
-  return { DrawerList }
+  return { DrawerList, ScrollView }
 }
 
 let webFragmentsAreEnabled = false

@@ -19,6 +19,7 @@ import {
   validateDOMAttributes
 } from '../../shared/component-helper'
 import Button from '../button/Button'
+import ScrollView from '../../fragments/scroll-view/ScrollView'
 
 export default class ModalContent extends React.PureComponent {
   static propTypes = {
@@ -43,8 +44,8 @@ export default class ModalContent extends React.PureComponent {
       PropTypes.string,
       PropTypes.bool
     ]),
-    min_width: PropTypes.string,
-    max_width: PropTypes.string,
+    min_width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    max_width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     fullscreen: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     align_content: PropTypes.string,
     container_placement: PropTypes.string,
@@ -240,8 +241,8 @@ export default class ModalContent extends React.PureComponent {
       prevent_core_style,
       no_animation,
       no_animation_on_mobile,
-      min_width: minWidth,
-      max_width: maxWidth,
+      min_width,
+      max_width,
       fullscreen,
       align_content,
       container_placement,
@@ -255,6 +256,15 @@ export default class ModalContent extends React.PureComponent {
     } = this.props
 
     const id = this._id
+
+    // ensure the min/max dont conflict
+    let minWidth = min_width
+    let maxWidth = max_width
+    if (minWidth && !maxWidth && parseFloat(minWidth) > 0) {
+      maxWidth = 0
+    } else if (maxWidth && !minWidth && parseFloat(maxWidth) > 0) {
+      minWidth = 0
+    }
 
     const contentParams = {
       role: 'dialog',
@@ -313,13 +323,13 @@ export default class ModalContent extends React.PureComponent {
     return (
       <>
         <div {...contentParams}>
-          <div {...innerParams} ref={this._contentRef}>
+          <ScrollView {...innerParams} ref={this._contentRef}>
             {title && <h1 className="dnb-modal__title dnb-h2">{title}</h1>}
             {isTrue(hide_close_button) !== true && (
               <CloseButton on_click={closeModal} title={close_title} />
             )}
             <div className="dnb-modal__wrapper">{modal_content}</div>
-          </div>
+          </ScrollView>
         </div>
         <span {...overlayParams} aria-hidden="true" />
       </>

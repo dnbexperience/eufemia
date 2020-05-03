@@ -47,6 +47,26 @@
   // reset font for correct sizing
   font-size: var(--font-size-small);
 
+  // do noting about this
+  // &__portal {
+  // }
+
+  &__portal__style {
+    position: absolute;
+    top: -100vh;
+    left: -100vw;
+
+    // higher than modal --modal-z-index:
+    z-index: 3010;
+  }
+
+  &__root {
+    // this is our relative startuing point on absolute positioning
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
   &__content {
     width: 100%;
     padding: 0;
@@ -55,12 +75,13 @@
   &__list {
     position: absolute;
     z-index: 3;
-    top: 0;
+    top: var(--drawer-list-height);
     bottom: auto;
     left: 0;
     right: 0;
 
     width: 100%;
+    min-width: var(--drawer-list-width);
 
     margin: 0;
     padding: 0;
@@ -71,72 +92,6 @@
 
     transform: translateY(0);
     transition: transform 200ms, opacity 160ms ease-out;
-  }
-
-  &--top &__list {
-    top: auto;
-    bottom: 0;
-  }
-
-  // size--default button left aligned
-  &--is-popup &__list {
-    left: -0.5rem;
-  }
-
-  // size--default button right aligned
-  &--is-popup#{&}--right &__list {
-    right: -0.5rem;
-  }
-
-  // size--small
-  &--small &__list {
-    top: var(--drawer-list-height--small);
-  }
-  &--small#{&}--top &__list {
-    top: auto;
-    bottom: var(--drawer-list-height--small);
-  }
-  &--small#{&}--is-popup &__list {
-    left: -0.75rem;
-  }
-  &--small#{&}--is-popup#{&}--right &__list {
-    right: -0.75rem;
-  }
-
-  // size--medium
-  &--medium &__list {
-    top: var(--drawer-list-height--medium);
-  }
-  &--medium#{&}--top &__list {
-    top: auto;
-    bottom: var(--drawer-list-height--medium);
-  }
-  &--medium#{&}--is-popup &__list {
-    left: -0.25rem;
-  }
-  &--medium#{&}--is-popup#{&}--right &__list {
-    right: -0.25rem;
-  }
-
-  // size--large
-  &--large &__list {
-    top: var(--drawer-list-height--large);
-  }
-  &--large#{&}--top &__list {
-    top: auto;
-    bottom: var(--drawer-list-height--large);
-  }
-  &--large#{&}--is-popup &__list {
-    left: -0.25rem;
-  }
-  &--large#{&}--is-popup#{&}--right &__list {
-    right: -0.25rem;
-  }
-
-  // default right aligned
-  // stylelint-disable-next-line
-  &--right &__list {
-    left: auto;
   }
 
   // ul element
@@ -159,7 +114,7 @@
 
   &--scroll &__options {
     min-height: 2rem;
-    max-height: 50vh;
+    max-height: 70vh;
 
     overflow-y: scroll;
     overscroll-behavior: contain;
@@ -251,7 +206,7 @@
       background-color: var(--color-white);
     }
   }
-  &--icon-position-left &__triangle {
+  &--triangle-position-left &__triangle {
     left: 0;
     right: auto;
   }
@@ -265,6 +220,63 @@
     &::before {
       transform: translateY(65%) rotate(45deg);
     }
+  }
+
+  &--top &__list {
+    top: auto;
+    bottom: 0;
+  }
+
+  // size--default button left aligned
+  &--is-popup &__list {
+    left: -0.5rem;
+  }
+
+  // size--default button right aligned
+  &--is-popup#{&}--right &__list {
+    right: -0.5rem;
+  }
+
+  // size--small
+  &--small &__list {
+    top: var(--drawer-list-height--small);
+  }
+  &--small#{&}--is-popup &__list {
+    left: -0.75rem;
+  }
+  &--small#{&}--is-popup#{&}--right &__list {
+    right: -0.75rem;
+  }
+
+  // size--medium
+  &--medium &__list {
+    top: var(--drawer-list-height--medium);
+  }
+  &--medium#{&}--is-popup &__list {
+    left: -0.25rem;
+  }
+  &--medium#{&}--is-popup#{&}--right &__list {
+    right: -0.25rem;
+  }
+
+  // size--large
+  &--large &__list {
+    top: var(--drawer-list-height--large);
+  }
+  &--large &__triangle {
+    margin: 0 1.25rem;
+  }
+  &--large#{&}--is-popup &__list {
+    left: -0.25rem;
+  }
+  &--large#{&}--is-popup#{&}--right &__list {
+    right: -0.25rem;
+  }
+
+  // default right aligned
+  &--right &__list,
+  &--is-popup#{&}--right &__list {
+    left: auto;
   }
 
   &--opened &__list {

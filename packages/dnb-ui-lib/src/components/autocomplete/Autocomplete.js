@@ -103,6 +103,7 @@ const propTypes = {
   ]),
   direction: PropTypes.oneOf(['auto', 'top', 'bottom']),
   max_height: PropTypes.number,
+  skip_portal: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   no_animation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   no_scroll_animation: PropTypes.oneOfType([
     PropTypes.string,
@@ -214,6 +215,7 @@ const defaultProps = {
   disable_highlighting: false,
   max_height: null,
   direction: 'auto',
+  skip_portal: null,
   no_animation: false,
   no_scroll_animation: false,
   show_drawer_button: false,
@@ -544,11 +546,14 @@ class AutocompleteInstance extends React.PureComponent {
   }
 
   emptyData = () => {
+    this._rC = {}
+
     this.setState({
       inputValue: '',
       typedInputValue: null,
       _listenForPropChanges: false
     })
+
     this.context.drawerList.setData(
       () => [],
       () => {
@@ -913,6 +918,8 @@ class AutocompleteInstance extends React.PureComponent {
     } = {},
     cb
   ) {
+    this._rC = {}
+
     if (!overwriteSearchIndex && this.state.searchIndex) {
       return this.state.searchIndex
     }
@@ -1002,21 +1009,25 @@ class AutocompleteInstance extends React.PureComponent {
   ) => {
     const words = value.split(/\s+/g).filter(Boolean)
     const wordsCount = words.length
-    const wordCond = '(^|\\s)'
+    const wordCond = '^|\\s'
 
     const findWords = (item) =>
       words
         .map((word, wordIndex) => ({
           word,
+          wordIndex,
           score: wordsCount - wordIndex
         }))
         .filter(
-          ({ word }, wordIndex) =>
+          ({ word, wordIndex }) =>
             // if the uses reached word 3, then we go inside words as well
             typeof item === 'string' &&
-            (wordIndex > this.inWordIndex
-              ? new RegExp(`${word}`, 'gi').test(item)
-              : new RegExp(`${wordCond}${word}`, 'gi').test(item))
+            new RegExp(
+              wordIndex > this.inWordIndex
+                ? `${word}`
+                : `(${wordCond})${word}`,
+              'i'
+            ).test(item)
         )
 
     if (data) {
@@ -1030,11 +1041,12 @@ class AutocompleteInstance extends React.PureComponent {
       return []
     }
 
-    const startTag =
-      '<span class="dnb-drawer-list__option__item--highlight">'
-    const endTag = '</span>'
+    const S = '\uFFFE'
+    const E = '\uFFFF'
+    const tagS = '<span class="dnb-drawer-list__option__item--highlight">'
+    const tagE = '</span>'
 
-    searchIndex = searchIndex.map((item, itemIndex) => {
+    searchIndex = searchIndex.map((item) => {
       const listOfFoundWords = findWords(item.searchChunk)
 
       if (typeof item.dataItem === 'string') {
@@ -1051,7 +1063,7 @@ class AutocompleteInstance extends React.PureComponent {
       // this part is used for the highlighting
       item.dataItem.render = (children, id) => {
         // if the ID and the content is the same, use the cached version
-        const cacheHash = id + itemIndex + value
+        const cacheHash = id + value
         this._rC = this._rC || {}
         if (this._rC[cacheHash]) {
           return this._rC[cacheHash]
@@ -1077,55 +1089,45 @@ class AutocompleteInstance extends React.PureComponent {
         }
 
         children = children
-          .map((child) => {
+          .map((segment, sIndex) => {
             if (skipHighlight || this.state.skipHighlight) {
-              return child
+              return segment
             }
 
-            let formatted = child
-            listOfFoundWords.forEach(({ word }, i) => {
-              const charStart = formatted
-                .toLowerCase()
-                .indexOf(word.toLowerCase())
-              const charEnd = word.length + charStart
-
-              if (charStart === -1) {
-                return null
-              }
-
-              // the parts
-              const a = formatted.substring(0, charStart)
-              const b = formatted.substring(charStart, charEnd)
-              const c = formatted.substring(charEnd, formatted.length)
-
-              formatted = `${a}š${b}Ÿ${c}`
-              if (i > this.inWordIndex) {
-                formatted = formatted.replace(
-                  new RegExp(`(${b})`, 'gi'),
-                  'š$1Ÿ'
+            listOfFoundWords.forEach(({ word, wordIndex }) => {
+              if (wordIndex > this.inWordIndex) {
+                segment = segment.replace(
+                  new RegExp(`(${word})`, 'gi'),
+                  `${S}$1${E}`
                 )
               } else {
-                formatted = formatted.replace(
-                  new RegExp(`${wordCond}(${b})`, 'gi'),
-                  '$1š$2Ÿ'
+                segment = segment.replace(
+                  new RegExp(`(${wordCond})(${word})`, 'gi'),
+                  `$1${S}$2${E}`
                 )
               }
             })
 
-            if (formatted.includes('š')) {
+            if (segment.includes(S)) {
+              // to make sure we don't have several in a row
+              const __html = segment
+                .replace(new RegExp(`(${S})+`, 'g'), S)
+                .replace(new RegExp(`(${E})+`, 'g'), E)
+                .replace(new RegExp(`(${E}${S})`, 'g'), '')
+                .replace(new RegExp(S, 'g'), tagS)
+                .replace(new RegExp(E, 'g'), tagE)
+
               return (
                 <span
-                  key={cacheHash + itemIndex + child}
+                  key={cacheHash + sIndex}
                   dangerouslySetInnerHTML={{
-                    __html: formatted
-                      .replace(/š/g, startTag)
-                      .replace(/Ÿ/g, endTag)
+                    __html
                   }}
                 />
               )
             }
 
-            return formatted
+            return segment
           })
           .map((c, i, a) => (i < a.length - 1 ? [c, ' '] : c)) // add back the skiped spaces
 
@@ -1134,13 +1136,13 @@ class AutocompleteInstance extends React.PureComponent {
             ? Component.map((Comp, i) =>
                 React.cloneElement(
                   Comp,
-                  { key: 'clone' + cacheHash + itemIndex + i },
+                  { key: 'clone' + cacheHash + i },
                   children[i]
                 )
               )
             : React.cloneElement(
                 Component,
-                { key: 'clone' + cacheHash + itemIndex },
+                { key: 'clone' + cacheHash },
                 children
               )
         }
@@ -1341,6 +1343,7 @@ class AutocompleteInstance extends React.PureComponent {
       class: _className,
       disabled,
       triangle_position,
+      skip_portal,
 
       mode: _mode, // eslint-disable-line
       data: _data, // eslint-disable-line
@@ -1581,6 +1584,7 @@ class AutocompleteInstance extends React.PureComponent {
                 focusable={focusable}
                 no_animation={no_animation}
                 no_scroll_animation={no_scroll_animation}
+                skip_portal={skip_portal}
                 prevent_selection={prevent_selection}
                 triangle_position={
                   triangle_position || icon_position || 'left'

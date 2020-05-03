@@ -36,16 +36,22 @@ const snapshotProps = {
   size: null,
   opened: true,
   show_drawer_button: true,
-  no_animation: true
+  no_animation: true,
+  skip_portal: true
 }
 
 // use no_animation so we don't need to wait
+const mockProps = {
+  no_animation: true,
+  skip_portal: true
+}
 const props = {
   id: 'autocomplete-id',
   mode: 'sync',
   value: 1,
   show_drawer_button: true,
-  no_animation: true
+  no_animation: true,
+  skip_portal: true
 }
 
 const mockData = ['AA c', 'BB cc zethx', { content: ['CC', 'cc'] }]
@@ -59,16 +65,22 @@ describe('Autocomplete component', () => {
         opened
         no_animation
         input_value="the g th"
+        {...mockProps}
       />
     )
     expect(Comp.find('li.dnb-drawer-list__option').at(0).html()).toBe(
-      /* @html */ `<li class="first-of-type dnb-drawer-list__option" role="option" tabindex="-1" aria-selected="false" data-item="1" id="option-autocomplete-id-1"><span class="dnb-drawer-list__option__inner"><span><span class="dnb-drawer-list__option__item--highlight"><span class="dnb-drawer-list__option__item--highlight"><span class="dnb-drawer-list__option__item--highlight">Th</span></span>e</span> <span class="dnb-drawer-list__option__item--highlight">G</span>odfa<span class="dnb-drawer-list__option__item--highlight">th</span>er <span class="dnb-drawer-list__option__item--highlight"><span class="dnb-drawer-list__option__item--highlight">th</span>e</span> <span class="dnb-drawer-list__option__item--highlight">g</span>odfa<span class="dnb-drawer-list__option__item--highlight">th</span>er <span class="dnb-drawer-list__option__item--highlight"><span class="dnb-drawer-list__option__item--highlight">Th</span>e</span> <span class="dnb-drawer-list__option__item--highlight">G</span>odfa<span class="dnb-drawer-list__option__item--highlight">th</span>er</span></span></li>`
+      /* @html */ `<li class="first-of-type dnb-drawer-list__option" role="option" tabindex="-1" aria-selected="false" data-item="1" id="option-autocomplete-id-1"><span class="dnb-drawer-list__option__inner"><span><span class="dnb-drawer-list__option__item--highlight">Th</span>e <span class="dnb-drawer-list__option__item--highlight">G</span>odfa<span class="dnb-drawer-list__option__item--highlight">th</span>er <span class="dnb-drawer-list__option__item--highlight">th</span>e <span class="dnb-drawer-list__option__item--highlight">g</span>odfa<span class="dnb-drawer-list__option__item--highlight">th</span>er <span class="dnb-drawer-list__option__item--highlight">Th</span>e <span class="dnb-drawer-list__option__item--highlight">G</span>odfa<span class="dnb-drawer-list__option__item--highlight">th</span>er</span></span></li>`
     )
   })
 
   it('has correct options after filter', () => {
     const Comp = mount(
-      <Component id="autocomplete-id" data={mockData} show_drawer_button />
+      <Component
+        id="autocomplete-id"
+        data={mockData}
+        show_drawer_button
+        {...mockProps}
+      />
     )
 
     open(Comp)
@@ -126,7 +138,7 @@ describe('Autocomplete component', () => {
       mockData[1]
     )
     expect(Comp.find('li.dnb-drawer-list__option').at(0).html()).toBe(
-      /* @html */ `<li class="first-of-type dnb-drawer-list__option" role="option" tabindex="-1" aria-selected="false" data-item="1" id="option-autocomplete-id-1"><span class="dnb-drawer-list__option__inner"><span><span class="dnb-drawer-list__option__item--highlight">BB</span> <span class="dnb-drawer-list__option__item--highlight">cc</span> ze<span class="dnb-drawer-list__option__item--highlight"><span class="dnb-drawer-list__option__item--highlight">th</span></span><span class="dnb-drawer-list__option__item--highlight"><span class="dnb-drawer-list__option__item--highlight">x</span></span></span></span></li>`
+      /* @html */ `<li class="first-of-type dnb-drawer-list__option" role="option" tabindex="-1" aria-selected="false" data-item="1" id="option-autocomplete-id-1"><span class="dnb-drawer-list__option__inner"><span><span class="dnb-drawer-list__option__item--highlight">BB</span> <span class="dnb-drawer-list__option__item--highlight">cc</span> ze<span class="dnb-drawer-list__option__item--highlight">thx</span></span></span></li>`
     )
 
     // check "invalid"
@@ -140,7 +152,12 @@ describe('Autocomplete component', () => {
 
   it('has correct options after filter and key interaction', () => {
     const Comp = mount(
-      <Component id="autocomplete-id" data={mockData} show_drawer_button />
+      <Component
+        id="autocomplete-id"
+        data={mockData}
+        show_drawer_button
+        {...mockProps}
+      />
     )
 
     open(Comp)
@@ -225,6 +242,7 @@ describe('Autocomplete component', () => {
         disable_filter
         data={mockData}
         show_drawer_button
+        {...mockProps}
       />
     )
 
@@ -252,7 +270,7 @@ describe('Autocomplete component', () => {
   })
 
   it('has correct "opened" state on click in input', () => {
-    const Comp = mount(<Component data={mockData} />)
+    const Comp = mount(<Component data={mockData} {...mockProps} />)
 
     Comp.find('.dnb-input__input').simulate('mousedown')
 
@@ -298,11 +316,99 @@ describe('Autocomplete component', () => {
         {...params}
         data={mockData}
         show_drawer_button
+        {...mockProps}
       />
     )
     open(Comp)
     expect(on_show.mock.calls.length).toBe(1)
     expect(on_show.mock.calls[0][0].attributes).toMatchObject(params)
+  })
+
+  it('has no highlighted value by using "disable_highlighting"', () => {
+    const Comp = mount(
+      <Component
+        mode="async"
+        disable_highlighting
+        data={mockData}
+        show_drawer_button
+        {...mockProps}
+      />
+    )
+
+    open(Comp)
+
+    const result = Comp.find('li.dnb-drawer-list__option')
+      .at(0)
+      .find('.dnb-drawer-list__option__inner')
+      .html()
+
+    Comp.find('.dnb-input__input').simulate('change', {
+      target: { value: 'aa' }
+    })
+
+    expect(
+      Comp.find('li.dnb-drawer-list__option')
+        .at(0)
+        .find('.dnb-drawer-list__option__inner')
+        .html()
+    ).toBe(result)
+  })
+
+  it('has to replace all data properly', () => {
+    const on_type = jest.fn()
+    const replaceData = ['aaa']
+
+    const Comp = mount(
+      <Component
+        mode="async"
+        disable_filter
+        on_type={on_type}
+        data={mockData}
+        // show_drawer_button
+        {...mockProps}
+      />
+    )
+
+    keydown(Comp, 40) // down
+
+    Comp.find('.dnb-input__input').simulate('change', {
+      target: { value: 'aa' }
+    })
+
+    // const result = Comp.find('.dnb-drawer-list__list').html()
+    // console.log('result 1:\n', result)
+
+    let callOne = on_type.mock.calls[0][0]
+    expect(Comp.find('li.dnb-drawer-list__option').length).toBe(3)
+    expect(on_type.mock.calls.length).toBe(1)
+    expect(callOne.dataList.length).toBe(3)
+
+    // console.log('callOne 1:\n', callOne.dataList)
+
+    // update data
+    callOne.updateData(replaceData)
+
+    Comp.find('.dnb-input__input').simulate('change', {
+      target: { value: 'a' }
+    })
+
+    // const result = Comp.find('.dnb-drawer-list__list').html()
+    // console.log('result 2:\n', result)
+
+    const callTwo = on_type.mock.calls[1][0]
+    expect(Comp.find('li.dnb-drawer-list__option').length).toBe(1)
+    expect(on_type.mock.calls.length).toBe(2)
+    expect(callTwo.dataList.length).toBe(1)
+    // console.log('event 2:\n', callTwo.dataList)
+    expect(callOne.dataList).not.toBe(callTwo.dataList)
+
+    Comp.find('.dnb-input__input').simulate('change', {
+      target: { value: 'someting' }
+    })
+
+    const callThree = on_type.mock.calls[2][0]
+    // console.log('event 3:\n', callThree.dataList)
+    expect(callThree.dataList).toStrictEqual(callTwo.dataList)
   })
 
   it('has correct selected value', () => {
@@ -332,6 +438,7 @@ describe('Autocomplete component', () => {
         data={mockData}
         title={title}
         show_drawer_button
+        {...mockProps}
       />
     )
     expect(Comp.find('.dnb-input__placeholder').text()).toBe(title)
@@ -345,6 +452,7 @@ describe('Autocomplete component', () => {
         data={mockData}
         value={value}
         show_drawer_button
+        {...mockProps}
       />
     )
     expect(Comp.find('.dnb-input__input').instance().value).toBe(
@@ -354,7 +462,12 @@ describe('Autocomplete component', () => {
 
   it('has a disabled attribute, once we set disabled to true', () => {
     const Comp = mount(
-      <Component id="autocomplete-id" data={mockData} show_drawer_button />
+      <Component
+        id="autocomplete-id"
+        data={mockData}
+        show_drawer_button
+        {...mockProps}
+      />
     )
     Comp.setProps({
       disabled: true

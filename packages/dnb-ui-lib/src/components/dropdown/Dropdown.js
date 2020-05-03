@@ -75,6 +75,7 @@ const propTypes = {
   focusable: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   direction: PropTypes.oneOf(['auto', 'top', 'bottom']),
   max_height: PropTypes.number,
+  skip_portal: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   no_animation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   no_scroll_animation: PropTypes.oneOfType([
     PropTypes.string,
@@ -161,6 +162,7 @@ const defaultProps = {
   focusable: false,
   max_height: null,
   direction: 'auto',
+  skip_portal: null,
   no_animation: false,
   no_scroll_animation: false,
   prevent_selection: false,
@@ -206,6 +208,9 @@ export default class Dropdown extends React.PureComponent {
         opened={null}
         tagName="dnb-dropdown"
         ignore_events={false}
+        prevent_selection={
+          this.props.more_menu || this.props.prevent_selection
+        }
       >
         <DropdownInstance {...this.props} />
       </DrawerListProvider>
@@ -395,6 +400,7 @@ class DropdownInstance extends React.PureComponent {
       no_animation,
       no_scroll_animation,
       triangle_position,
+      skip_portal,
       trigger_component: CustomTrigger,
       more_menu,
       prevent_selection,
@@ -573,7 +579,8 @@ class DropdownInstance extends React.PureComponent {
                 focusable={focusable}
                 no_animation={no_animation}
                 no_scroll_animation={no_scroll_animation}
-                prevent_selection={prevent_selection}
+                skip_portal={skip_portal}
+                prevent_selection={more_menu || prevent_selection}
                 triangle_position={
                   triangle_position || icon_position || 'right'
                 }

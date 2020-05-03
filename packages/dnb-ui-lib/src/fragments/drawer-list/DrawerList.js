@@ -19,6 +19,7 @@ import { createSpacingClasses } from '../../components/space/SpacingHelper'
 
 import DrawerListContext from './DrawerListContext'
 import DrawerListProvider from './DrawerListProvider'
+import DrawerListPortal from './DrawerListPortal'
 
 const renderProps = {
   on_show: null,
@@ -63,6 +64,7 @@ export const propTypes = {
   ]),
   default_value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  skip_portal: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   prevent_close: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   button_only: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   keep_open: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -142,6 +144,7 @@ export const defaultProps = {
   wrapper_element: null,
   default_value: null,
   value: 'initval',
+  skip_portal: null,
   prevent_close: false,
   keep_open: false,
   prevent_focus: false,
@@ -307,7 +310,7 @@ class DrawerListInstance extends React.PureComponent {
         hidden && 'dnb-drawer-list--hidden',
         `dnb-drawer-list--${direction}`,
         triangle_position &&
-          `dnb-drawer-list--icon-position-${triangle_position}`,
+          `dnb-drawer-list--triangle-position-${triangle_position}`,
         align_drawer && `dnb-drawer-list--${align_drawer}`,
         size && `dnb-drawer-list--${size}`,
         button_only && 'dnb-drawer-list--is-popup',
@@ -368,10 +371,10 @@ class DrawerListInstance extends React.PureComponent {
     const Items = () =>
       data.map((dataItem, i) => {
         const _id = dataItem.__id
-        const hash = `option-${id}-${_id}`
+        const hash = `option-${id}-${_id}-${i}`
         const liParams = {
           'data-item': _id,
-          id: hash,
+          id: `option-${id}-${_id}`,
           hash,
           className: classnames(
             // helper classes
@@ -406,7 +409,7 @@ class DrawerListInstance extends React.PureComponent {
         )
       })
 
-    return (
+    const mainList = (
       <span {...mainParams} ref={this.context.drawerList._refShell}>
         <span {...listParams}>
           {hidden === false && data && data.length > 0 ? (
@@ -436,19 +439,36 @@ class DrawerListInstance extends React.PureComponent {
                 <span className="dnb-drawer-list__triangle"></span>
               </span>
             ) /*|| (
-              <ul {...ulParams} hidden>
-                <li
-                  role="option"
-                  id={`option-${id}-${selected_item}`}
-                  aria-selected="true"
-                >
-                  blabla
-                </li>
-              </ul>
-            ) - is semanticall good, but not good for NVDA screen reader, as it reads out that there is only one item in there */
+        <ul {...ulParams} hidden>
+          <li
+            role="option"
+            id={`option-${id}-${selected_item}`}
+            aria-selected="true"
+          >
+            blabla
+          </li>
+        </ul>
+      ) - is semanticall good, but not good for NVDA screen reader, as it reads out that there is only one item in there */
           )}
         </span>
       </span>
+    )
+
+    return this.context.drawerList.usePortal ? (
+      <span
+        className="dnb-drawer-list__root"
+        ref={this.context.drawerList._refRoot}
+      >
+        <DrawerListPortal
+          id={this._id}
+          ownerRef={this.context.drawerList._refRoot}
+          opened={hidden === false}
+        >
+          {mainList}
+        </DrawerListPortal>
+      </span>
+    ) : (
+      mainList
     )
   }
 }

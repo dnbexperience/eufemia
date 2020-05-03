@@ -96,7 +96,7 @@ const defaultProps = {
   label_direction: null,
   label_sr_only: null,
   title: null,
-  checked: null,
+  checked: undefined,
   variant: null,
   left_component: null,
   disabled: null,
@@ -128,7 +128,7 @@ const defaultProps = {
 /**
  * The toggle-button component is our enhancement of the classic toggle-button button.
  */
-export default class ToggleButton extends React.Component {
+export default class ToggleButton extends React.PureComponent {
   static tagName = 'dnb-toggle-button'
   static propTypes = propTypes
   static defaultProps = defaultProps
@@ -147,6 +147,17 @@ export default class ToggleButton extends React.Component {
       state.checked = ToggleButton.parseChecked(props.checked)
     }
     state._listenForPropChanges = true
+
+    if (state.checked !== state.__checked) {
+      dispatchCustomElementEvent({ props }, 'on_state_update', {
+        checked: state.checked
+      })
+    }
+
+    if (typeof state.checked === 'undefined') {
+      state.checked = false
+    }
+    state.__checked = state.checked
 
     return state
   }
@@ -192,17 +203,6 @@ export default class ToggleButton extends React.Component {
         }
       }
     }
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    if (
-      ToggleButton.parseChecked(this.props.checked) !==
-      ToggleButton.parseChecked(nextProps.checked)
-    ) {
-      const { checked } = nextState
-      dispatchCustomElementEvent(this, 'on_state_update', { checked })
-    }
-    return true
   }
 
   onKeyDownHandler = (event) => {

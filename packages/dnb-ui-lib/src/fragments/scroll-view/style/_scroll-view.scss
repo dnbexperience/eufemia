@@ -1,0 +1,15 @@
+/*
+* ScrollView component
+*
+*/
+
+// :root {
+// }
+
+.dnb-scroll-view {
+  overflow-x: hidden;
+  overflow-y: auto;
+
+  overscroll-behavior-y: contain;
+  scrollbar-width: thin;
+}

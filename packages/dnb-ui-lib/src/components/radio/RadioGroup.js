@@ -89,7 +89,7 @@ const defaultProps = {
   suffix: null,
   vertical: null,
   layout_direction: 'row',
-  value: null,
+  value: undefined,
   attributes: null,
   class: null,
 
@@ -121,8 +121,11 @@ export default class RadioGroup extends React.PureComponent {
 
   static getDerivedStateFromProps(props, state) {
     if (state._listenForPropChanges) {
-      if (typeof props.value !== 'undefined') {
+      if (props.value !== state._value) {
         state.value = props.value
+      }
+      if (typeof props.value !== 'undefined') {
+        state._value = props.value
       }
     }
     state._listenForPropChanges = true
