@@ -97,7 +97,7 @@
   }
 
   // Button only menu
-  &--is-popup &__shell,
+  &--default#{&}--is-popup &__shell,
   &--is-popup &__trigger {
     padding: 0;
     width: var(--dropdown-height);
@@ -108,6 +108,9 @@
   }
   &--is-popup#{&}--scroll &__options {
     min-height: 1rem;
+  }
+  &--is-popup .dnb-drawer-list__root {
+    width: var(--dropdown-width); // only a fallback
   }
 
   // size--small

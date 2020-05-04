@@ -276,7 +276,7 @@ describe('DrawerList component', () => {
     const Comp = mount(<Component {...props} data={mockData} />)
     expect(Comp.props().direction).toBe('auto')
 
-    // the setDirectionObserver fn is chaning this
+    // the setDirectionObserver fn is changing this
     expect(Comp.exists('.dnb-drawer-list--bottom')).toBe(true)
     expect(
       Comp.find('.dnb-drawer-list__options')

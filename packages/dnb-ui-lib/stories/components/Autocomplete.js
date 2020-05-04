@@ -66,7 +66,13 @@ const AutocompleteStory = () => {
     <Wrapper>
       <Box>
         <CustomStyle>
-          <Autocomplete size="small" value="A" data={['A']} />
+          <Autocomplete
+            drawer_class="drawer_class"
+            size="small"
+            value="A"
+            data={['A']}
+            icon_position="right"
+          />
           <Autocomplete
             status="feil"
             size="default"
@@ -85,7 +91,7 @@ const AutocompleteStory = () => {
           // input_value="foo bar th"
           // input_value="bb th x"
           input_value="co pr ti"
-          show_drawer_button
+          show_submit_button
           // value="b"
           data={[
             {
@@ -139,7 +145,7 @@ const AutocompleteStory = () => {
           // input_value="foo bar th"
           input_value="bb c"
           // value={2}
-          show_drawer_button
+          show_submit_button
           // value="b"
           data={{
             a: 'A1 A2 C',

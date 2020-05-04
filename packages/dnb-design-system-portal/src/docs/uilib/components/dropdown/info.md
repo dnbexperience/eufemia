@@ -37,10 +37,18 @@ Changing the **width** of the Dropdown component by CSS is easy done by doing:
 You can also set the width directly, but then it has to be defined like so (including `min-width`):
 
 ```css
+/** Because of the included label/status etc. we target the "__shell" */
 .dnb-dropdown__shell {
-  width: 20rem; /* custom width */
+  width: 10rem;
 }
-.dnb-dropdown__list {
-  min-width: 20rem; /* custom width */
+
+/** In order to change only the drawer-list width */
+.dnb-dropdown .dnb-drawer-list__root {
+  width: 10rem;
+}
+
+/** If more_menu="true" is used */
+.dnb-dropdown--is-popup .dnb-drawer-list__root {
+  width: 10rem;
 }
 ```

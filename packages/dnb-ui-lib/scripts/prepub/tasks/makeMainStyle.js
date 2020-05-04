@@ -18,7 +18,7 @@ import { asyncForEach } from '../../tools/index'
 // import the post css config
 import postcssConfig from '../config/postcssConfig'
 
-export default async () => {
+export default async function makeMainStyle() {
   // info: use this aproach to process files because:
   // this way we avoid cross "includePaths" and the result is:
   // Now a custom theme can overwrite existing CSS Custom Properties

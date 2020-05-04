@@ -29,9 +29,9 @@ The goal is to have a single source of truth for design through color, typograph
 Thank You for all who as contributed to build Eufemia. People who has contributed heavily to Eufemia are:
 
 - [Jens Thuland](https://dnb.enterprise.slack.com/user/@WE4QCR6PQ)
+- [Tobias Høegh](https://dnb.enterprise.slack.com/user/@WE2M4E65N)
 - [Sindre Marken](https://dnb.enterprise.slack.com/user/@WDUUEJNVC)
 - [Casper Brekke](https://dnb.enterprise.slack.com/user/@WDU4VCEP5)
-- [Tobias Høegh](https://dnb.enterprise.slack.com/user/@WE2M4E65N)
 - Kevin Murphy
 - Hans Kristian Smedsrød
 

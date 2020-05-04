@@ -24,15 +24,17 @@ class DrawerListPortal extends React.PureComponent {
     innerRef: PropTypes.shape({
       current: PropTypes.oneOfType([PropTypes.node, PropTypes.object])
     }),
-    ownerRef: PropTypes.shape({
+    rootRef: PropTypes.shape({
       current: PropTypes.oneOfType([PropTypes.node, PropTypes.object])
     }).isRequired,
+    useWidthAddition: PropTypes.bool,
     inactive: PropTypes.bool
   }
 
   static defaultProps = {
-    ownerRef: { current: null },
+    rootRef: { current: null },
     innerRef: null,
+    useWidthAddition: false,
     inactive: false
   }
 
@@ -88,25 +90,50 @@ class DrawerListPortal extends React.PureComponent {
 
   makeStyle() {
     try {
-      const { ownerRef } = this.props
-      const ownerElem = ownerRef.current
+      const { rootRef, useWidthAddition } = this.props
+      const rootElem = rootRef.current
+      const ownerElem = rootElem.parentElement
 
-      const rect = ownerElem.getBoundingClientRect()
+      const rect = rootElem.getBoundingClientRect()
+
+      // min width as  a threshold
+      let width = 64
+
+      // Handle width
+      const { width: ownerWidth } = window.getComputedStyle(ownerElem)
+
+      // fallback for too norrow width - in case there is not width -> e.g. "--is-popup"
+      if (parseFloat(ownerWidth) < 64) {
+        // get min-width from CSS property
+        const minWidth = parseFloat(
+          window
+            .getComputedStyle(document.documentElement)
+            .getPropertyValue('--drawer-list-width')
+        )
+        width = minWidth * 16
+      }
+
+      // also check if root "has a custom width"
+      const { width: customWidth } = rect
+      if (parseFloat(customWidth) >= 64) {
+        width = customWidth
+      }
+
+      // Handle positions
       const scrollY =
         window.scrollY !== undefined ? window.scrollY : window.pageYOffset
       const scrollX =
         window.scrollX !== undefined ? window.scrollX : window.pageXOffset
-
-      const { width } = window.getComputedStyle(ownerElem.parentElement)
-
-      const top = scrollY + rect.top
-      const left = scrollX + rect.left
-
-      // const listElem = targetElem.querySelector('.dnb-drawer-list__list')
-      // const { minWidth } = window.getComputedStyle(listElem)
+      const top = `${(scrollY + rect.top) / 16}rem`
+      const left = `${
+        (scrollX +
+          rect.left +
+          (useWidthAddition ? parseFloat(ownerWidth) : 0)) /
+        16
+      }rem`
 
       return {
-        width,
+        width: `${parseFloat(width) / 16}rem`,
         top,
         left
       }
@@ -137,7 +164,7 @@ class DrawerListPortal extends React.PureComponent {
     }
     window.addEventListener('resize', this.setPosition)
 
-    this.customElem = isInsideScrollView(this.props.ownerRef.current, true)
+    this.customElem = isInsideScrollView(this.props.rootRef.current, true)
     if (this.customElem) {
       this.customElem.addEventListener('scroll', this.setPosition)
     }

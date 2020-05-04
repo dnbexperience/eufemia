@@ -61,7 +61,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
   focusable="focusable"
   global_status_id="global_status_id"
   icon="icon"
-  icon_position="icon_position"
+  icon_position={null}
   icon_size="icon_size"
   id="dropdown-id"
   keep_open="keep_open"
@@ -89,12 +89,11 @@ exports[`Dropdown markup have to match snapshot 1`] = `
   status_state="error"
   suffix="suffix"
   title="title"
-  triangle_position="triangle_position"
+  triangle_position={null}
   trigger_component={null}
   value={2}
 >
   <DrawerListProvider
-    align_drawer={null}
     align_dropdown={null}
     class="class"
     className="className"
@@ -154,7 +153,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
     focusable="focusable"
     global_status_id="global_status_id"
     icon="icon"
-    icon_position="icon_position"
+    icon_position={null}
     icon_size="icon_size"
     id="dropdown-id"
     ignore_events={false}
@@ -190,7 +189,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
     suffix="suffix"
     tagName="dnb-dropdown"
     title="title"
-    triangle_position="triangle_position"
+    triangle_position={null}
     trigger_component={null}
     value={2}
     wrapper_element={null}
@@ -255,7 +254,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
       focusable="focusable"
       global_status_id="global_status_id"
       icon="icon"
-      icon_position="icon_position"
+      icon_position={null}
       icon_size="icon_size"
       id="dropdown-id"
       keep_open="keep_open"
@@ -283,12 +282,12 @@ exports[`Dropdown markup have to match snapshot 1`] = `
       status_state="error"
       suffix="suffix"
       title="title"
-      triangle_position="triangle_position"
+      triangle_position={null}
       trigger_component={null}
       value={2}
     >
       <span
-        className="dnb-dropdown dnb-dropdown--bottom dnb-form-component class className dnb-dropdown--opened dnb-dropdown--horizontal dnb-dropdown--icon-position-icon_position dnb-dropdown__status--error dnb-dropdown__form-status"
+        className="dnb-dropdown dnb-dropdown--bottom dnb-form-component class className dnb-dropdown--opened dnb-dropdown--horizontal dnb-dropdown__status--error dnb-dropdown__form-status"
       >
         <FormLabel
           class={null}
@@ -583,7 +582,6 @@ exports[`Dropdown markup have to match snapshot 1`] = `
               </Button>
               <DrawerList
                 align_drawer={null}
-                button_only={false}
                 cache_hash={null}
                 class={null}
                 className={null}
@@ -596,6 +594,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                 focusable="focusable"
                 id="dropdown-id"
                 ignore_events={null}
+                independent_width={false}
                 inner_class="dnb-dropdown__list"
                 keep_open="keep_open"
                 max_height={1}
@@ -619,13 +618,12 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                 size={null}
                 skip_keysearch={false}
                 skip_portal={true}
-                triangle_position="triangle_position"
+                triangle_position="right"
                 value={2}
                 wrapper_element={null}
               >
                 <DrawerListInstance
                   align_drawer={null}
-                  button_only={false}
                   cache_hash={null}
                   class={null}
                   className={null}
@@ -638,6 +636,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                   focusable="focusable"
                   id="dropdown-id"
                   ignore_events={null}
+                  independent_width={false}
                   inner_class="dnb-dropdown__list"
                   keep_open="keep_open"
                   max_height={1}
@@ -661,48 +660,29 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                   size={null}
                   skip_keysearch={false}
                   skip_portal={true}
-                  triangle_position="triangle_position"
+                  triangle_position="right"
                   value={2}
                   wrapper_element={null}
                 >
                   <span
-                    className="dnb-drawer-list dnb-drawer-list--bottom dnb-drawer-list--opened dnb-drawer-list--triangle-position-triangle_position"
-                    disabled="disabled"
-                    id="dropdown-id-drawer-list"
+                    className="dnb-drawer-list__root"
                   >
                     <span
-                      className="dnb-drawer-list__list dnb-dropdown__list dnb-drawer-list__list--no-animation"
-                      id="dropdown-id-listbox"
+                      className="dnb-drawer-list dnb-drawer-list--bottom dnb-drawer-list--opened dnb-drawer-list--triangle-position-right"
+                      disabled="disabled"
+                      id="dropdown-id-drawer-list"
                     >
-                      <ForwardRef
-                        aria-activedescendant="option-dropdown-id-2"
-                        aria-expanded={true}
-                        aria-labelledby="dropdown-id-label"
-                        cache_hash="2266bottom1"
-                        class={null}
-                        className={null}
-                        id="dropdown-id-ul"
-                        role="listbox"
-                        style={
-                          Object {
-                            "maxHeight": "1rem",
-                          }
-                        }
-                        tabIndex="-1"
-                        triangleRef={
-                          Object {
-                            "current": <li
-                              aria-hidden="true"
-                              class="dnb-drawer-list__triangle"
-                            />,
-                          }
-                        }
+                      <span
+                        className="dnb-drawer-list__list dnb-dropdown__list dnb-drawer-list__list--no-animation"
+                        id="dropdown-id-listbox"
                       >
-                        <ul
+                        <ForwardRef
                           aria-activedescendant="option-dropdown-id-2"
                           aria-expanded={true}
                           aria-labelledby="dropdown-id-label"
-                          className="dnb-drawer-list__options"
+                          cache_hash="2266bottom1"
+                          class={null}
+                          className={null}
                           id="dropdown-id-ul"
                           role="listbox"
                           style={
@@ -711,320 +691,343 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                             }
                           }
                           tabIndex="-1"
+                          triangleRef={
+                            Object {
+                              "current": <li
+                                aria-hidden="true"
+                                class="dnb-drawer-list__triangle"
+                              />,
+                            }
+                          }
                         >
-                          <Items>
-                            <DrawerList.Item
-                              active={false}
-                              class={null}
-                              className="first-of-type"
-                              data-item={0}
-                              hash="option-dropdown-id-0-0"
-                              id="option-dropdown-id-0"
-                              key="option-dropdown-id-0-0"
-                              onClick={[Function]}
-                              onKeyDown={[Function]}
-                              on_click={null}
-                              selected={false}
-                              value={null}
-                            >
-                              <li
-                                aria-selected={false}
-                                className="first-of-type dnb-drawer-list__option"
+                          <ul
+                            aria-activedescendant="option-dropdown-id-2"
+                            aria-expanded={true}
+                            aria-labelledby="dropdown-id-label"
+                            className="dnb-drawer-list__options"
+                            id="dropdown-id-ul"
+                            role="listbox"
+                            style={
+                              Object {
+                                "maxHeight": "1rem",
+                              }
+                            }
+                            tabIndex="-1"
+                          >
+                            <Items>
+                              <DrawerList.Item
+                                active={false}
+                                class={null}
+                                className="first-of-type"
                                 data-item={0}
+                                hash="option-dropdown-id-0-0"
                                 id="option-dropdown-id-0"
-                                key="lioption-dropdown-id-0-0"
+                                key="option-dropdown-id-0-0"
                                 onClick={[Function]}
                                 onKeyDown={[Function]}
-                                role="option"
-                                tabIndex="-1"
+                                on_click={null}
+                                selected={false}
+                                value={null}
                               >
-                                <span
-                                  className="dnb-drawer-list__option__inner"
+                                <li
+                                  aria-selected={false}
+                                  className="first-of-type dnb-drawer-list__option"
+                                  data-item={0}
+                                  id="option-dropdown-id-0"
+                                  key="lioption-dropdown-id-0-0"
+                                  onClick={[Function]}
+                                  onKeyDown={[Function]}
+                                  role="option"
+                                  tabIndex="-1"
                                 >
-                                  <ItemContent
-                                    hash="option-dropdown-id-0-0"
+                                  <span
+                                    className="dnb-drawer-list__option__inner"
                                   >
-                                    <span
-                                      className="dnb-drawer-list__option__item"
-                                      key="option-dropdown-id-0-00"
+                                    <ItemContent
+                                      hash="option-dropdown-id-0-0"
                                     >
-                                      1234 56 78901
-                                    </span>
-                                    <span
-                                      className="dnb-drawer-list__option__item"
-                                      key="option-dropdown-id-0-01"
-                                    >
-                                      Brukskonto - Kari Nordmann
-                                    </span>
-                                  </ItemContent>
-                                </span>
-                              </li>
-                            </DrawerList.Item>
-                            <DrawerList.Item
-                              active={false}
-                              class={null}
-                              className=""
-                              data-item={1}
-                              hash="option-dropdown-id-1-1"
-                              id="option-dropdown-id-1"
-                              key="option-dropdown-id-1-1"
-                              onClick={[Function]}
-                              onKeyDown={[Function]}
-                              on_click={null}
-                              selected={false}
-                              value={null}
-                            >
-                              <li
-                                aria-selected={false}
-                                className="dnb-drawer-list__option"
+                                      <span
+                                        className="dnb-drawer-list__option__item"
+                                        key="option-dropdown-id-0-00"
+                                      >
+                                        1234 56 78901
+                                      </span>
+                                      <span
+                                        className="dnb-drawer-list__option__item"
+                                        key="option-dropdown-id-0-01"
+                                      >
+                                        Brukskonto - Kari Nordmann
+                                      </span>
+                                    </ItemContent>
+                                  </span>
+                                </li>
+                              </DrawerList.Item>
+                              <DrawerList.Item
+                                active={false}
+                                class={null}
+                                className=""
                                 data-item={1}
+                                hash="option-dropdown-id-1-1"
                                 id="option-dropdown-id-1"
-                                key="lioption-dropdown-id-1-1"
+                                key="option-dropdown-id-1-1"
                                 onClick={[Function]}
                                 onKeyDown={[Function]}
-                                role="option"
-                                tabIndex="-1"
+                                on_click={null}
+                                selected={false}
+                                value={null}
                               >
-                                <span
-                                  className="dnb-drawer-list__option__inner"
+                                <li
+                                  aria-selected={false}
+                                  className="dnb-drawer-list__option"
+                                  data-item={1}
+                                  id="option-dropdown-id-1"
+                                  key="lioption-dropdown-id-1-1"
+                                  onClick={[Function]}
+                                  onKeyDown={[Function]}
+                                  role="option"
+                                  tabIndex="-1"
                                 >
-                                  <ItemContent
-                                    hash="option-dropdown-id-1-1"
+                                  <span
+                                    className="dnb-drawer-list__option__inner"
                                   >
-                                    <span
-                                      className="dnb-drawer-list__option__item"
-                                      key="option-dropdown-id-1-10"
+                                    <ItemContent
+                                      hash="option-dropdown-id-1-1"
                                     >
-                                      1234 56 78902
-                                    </span>
-                                    <span
-                                      className="dnb-drawer-list__option__item"
-                                      key="option-dropdown-id-1-11"
-                                    >
-                                      Sparekonto - Ole Nordmann
-                                    </span>
-                                  </ItemContent>
-                                </span>
-                              </li>
-                            </DrawerList.Item>
-                            <DrawerList.Item
-                              active={true}
-                              class={null}
-                              className=""
-                              data-item={2}
-                              hash="option-dropdown-id-2-2"
-                              id="option-dropdown-id-2"
-                              key="option-dropdown-id-2-2"
-                              onClick={[Function]}
-                              onKeyDown={[Function]}
-                              on_click={null}
-                              selected={true}
-                              value={null}
-                            >
-                              <li
-                                aria-current={true}
-                                aria-selected={true}
-                                className="dnb-drawer-list__option dnb-drawer-list__option--selected dnb-drawer-list__option--focus"
+                                      <span
+                                        className="dnb-drawer-list__option__item"
+                                        key="option-dropdown-id-1-10"
+                                      >
+                                        1234 56 78902
+                                      </span>
+                                      <span
+                                        className="dnb-drawer-list__option__item"
+                                        key="option-dropdown-id-1-11"
+                                      >
+                                        Sparekonto - Ole Nordmann
+                                      </span>
+                                    </ItemContent>
+                                  </span>
+                                </li>
+                              </DrawerList.Item>
+                              <DrawerList.Item
+                                active={true}
+                                class={null}
+                                className=""
                                 data-item={2}
+                                hash="option-dropdown-id-2-2"
                                 id="option-dropdown-id-2"
-                                key="lioption-dropdown-id-2-2"
+                                key="option-dropdown-id-2-2"
                                 onClick={[Function]}
                                 onKeyDown={[Function]}
-                                role="option"
-                                tabIndex="-1"
+                                on_click={null}
+                                selected={true}
+                                value={null}
                               >
-                                <span
-                                  className="dnb-drawer-list__option__inner"
+                                <li
+                                  aria-current={true}
+                                  aria-selected={true}
+                                  className="dnb-drawer-list__option dnb-drawer-list__option--selected dnb-drawer-list__option--focus"
+                                  data-item={2}
+                                  id="option-dropdown-id-2"
+                                  key="lioption-dropdown-id-2-2"
+                                  onClick={[Function]}
+                                  onKeyDown={[Function]}
+                                  role="option"
+                                  tabIndex="-1"
                                 >
-                                  <ItemContent
-                                    hash="option-dropdown-id-2-2"
+                                  <span
+                                    className="dnb-drawer-list__option__inner"
                                   >
-                                    <span
-                                      className="dnb-drawer-list__option__item"
-                                      key="option-dropdown-id-2-20"
+                                    <ItemContent
+                                      hash="option-dropdown-id-2-2"
                                     >
-                                      1134 56 78962
-                                    </span>
-                                    <span
-                                      className="dnb-drawer-list__option__item"
-                                      key="option-dropdown-id-2-21"
-                                    >
-                                      Feriekonto - Kari Nordmann med et kjempelangt etternavnsen
-                                    </span>
-                                  </ItemContent>
-                                </span>
-                              </li>
-                            </DrawerList.Item>
-                            <DrawerList.Item
-                              active={false}
-                              class={null}
-                              className=""
-                              data-item={3}
-                              hash="option-dropdown-id-3-3"
-                              id="option-dropdown-id-3"
-                              key="option-dropdown-id-3-3"
-                              onClick={[Function]}
-                              onKeyDown={[Function]}
-                              on_click={null}
-                              selected={false}
-                              value={null}
-                            >
-                              <li
-                                aria-selected={false}
-                                className="dnb-drawer-list__option"
+                                      <span
+                                        className="dnb-drawer-list__option__item"
+                                        key="option-dropdown-id-2-20"
+                                      >
+                                        1134 56 78962
+                                      </span>
+                                      <span
+                                        className="dnb-drawer-list__option__item"
+                                        key="option-dropdown-id-2-21"
+                                      >
+                                        Feriekonto - Kari Nordmann med et kjempelangt etternavnsen
+                                      </span>
+                                    </ItemContent>
+                                  </span>
+                                </li>
+                              </DrawerList.Item>
+                              <DrawerList.Item
+                                active={false}
+                                class={null}
+                                className=""
                                 data-item={3}
+                                hash="option-dropdown-id-3-3"
                                 id="option-dropdown-id-3"
-                                key="lioption-dropdown-id-3-3"
+                                key="option-dropdown-id-3-3"
                                 onClick={[Function]}
                                 onKeyDown={[Function]}
-                                role="option"
-                                tabIndex="-1"
+                                on_click={null}
+                                selected={false}
+                                value={null}
                               >
-                                <span
-                                  className="dnb-drawer-list__option__inner"
+                                <li
+                                  aria-selected={false}
+                                  className="dnb-drawer-list__option"
+                                  data-item={3}
+                                  id="option-dropdown-id-3"
+                                  key="lioption-dropdown-id-3-3"
+                                  onClick={[Function]}
+                                  onKeyDown={[Function]}
+                                  role="option"
+                                  tabIndex="-1"
                                 >
-                                  <ItemContent
-                                    hash="option-dropdown-id-3-3"
+                                  <span
+                                    className="dnb-drawer-list__option__inner"
                                   >
-                                    <span
-                                      className="dnb-drawer-list__option__item"
-                                      key="option-dropdown-id-3-30"
+                                    <ItemContent
+                                      hash="option-dropdown-id-3-3"
                                     >
-                                      1534 96 48901
-                                    </span>
-                                    <span
-                                      className="dnb-drawer-list__option__item"
-                                      key="option-dropdown-id-3-31"
-                                    >
-                                      Oppussing - Ole Nordmann
-                                    </span>
-                                  </ItemContent>
-                                </span>
-                              </li>
-                            </DrawerList.Item>
-                            <DrawerList.Item
-                              active={false}
-                              class={null}
-                              className=""
-                              data-item={4}
-                              hash="option-dropdown-id-4-4"
-                              id="option-dropdown-id-4"
-                              key="option-dropdown-id-4-4"
-                              onClick={[Function]}
-                              onKeyDown={[Function]}
-                              on_click={null}
-                              selected={false}
-                              value={null}
-                            >
-                              <li
-                                aria-selected={false}
-                                className="dnb-drawer-list__option"
+                                      <span
+                                        className="dnb-drawer-list__option__item"
+                                        key="option-dropdown-id-3-30"
+                                      >
+                                        1534 96 48901
+                                      </span>
+                                      <span
+                                        className="dnb-drawer-list__option__item"
+                                        key="option-dropdown-id-3-31"
+                                      >
+                                        Oppussing - Ole Nordmann
+                                      </span>
+                                    </ItemContent>
+                                  </span>
+                                </li>
+                              </DrawerList.Item>
+                              <DrawerList.Item
+                                active={false}
+                                class={null}
+                                className=""
                                 data-item={4}
+                                hash="option-dropdown-id-4-4"
                                 id="option-dropdown-id-4"
-                                key="lioption-dropdown-id-4-4"
+                                key="option-dropdown-id-4-4"
                                 onClick={[Function]}
                                 onKeyDown={[Function]}
-                                role="option"
-                                tabIndex="-1"
+                                on_click={null}
+                                selected={false}
+                                value={null}
                               >
-                                <span
-                                  className="dnb-drawer-list__option__inner"
+                                <li
+                                  aria-selected={false}
+                                  className="dnb-drawer-list__option"
+                                  data-item={4}
+                                  id="option-dropdown-id-4"
+                                  key="lioption-dropdown-id-4-4"
+                                  onClick={[Function]}
+                                  onKeyDown={[Function]}
+                                  role="option"
+                                  tabIndex="-1"
                                 >
-                                  <ItemContent
-                                    hash="option-dropdown-id-4-4"
+                                  <span
+                                    className="dnb-drawer-list__option__inner"
                                   >
-                                    Custom content 
-                                    123
-                                  </ItemContent>
-                                </span>
-                              </li>
-                            </DrawerList.Item>
-                            <DrawerList.Item
-                              active={false}
-                              class={null}
-                              className=""
-                              data-item={5}
-                              hash="option-dropdown-id-5-5"
-                              id="option-dropdown-id-5"
-                              key="option-dropdown-id-5-5"
-                              onClick={[Function]}
-                              onKeyDown={[Function]}
-                              on_click={null}
-                              selected={false}
-                              value={null}
-                            >
-                              <li
-                                aria-selected={false}
-                                className="dnb-drawer-list__option"
-                                data-item={5}
-                                id="option-dropdown-id-5"
-                                key="lioption-dropdown-id-5-5"
-                                onClick={[Function]}
-                                onKeyDown={[Function]}
-                                role="option"
-                                tabIndex="-1"
-                              >
-                                <span
-                                  className="dnb-drawer-list__option__inner"
-                                >
-                                  <ItemContent
-                                    hash="option-dropdown-id-5-5"
-                                  >
-                                    Custom content 
-                                    123
-                                  </ItemContent>
-                                </span>
-                              </li>
-                            </DrawerList.Item>
-                            <DrawerList.Item
-                              active={false}
-                              class={null}
-                              className="closest-to-top closest-to-bottom last-of-type"
-                              data-item={6}
-                              hash="option-dropdown-id-6-6"
-                              id="option-dropdown-id-6"
-                              key="option-dropdown-id-6-6"
-                              onClick={[Function]}
-                              onKeyDown={[Function]}
-                              on_click={null}
-                              selected={false}
-                              value={null}
-                            >
-                              <li
-                                aria-selected={false}
-                                className="closest-to-top closest-to-bottom last-of-type dnb-drawer-list__option"
-                                data-item={6}
-                                id="option-dropdown-id-6"
-                                key="lioption-dropdown-id-6-6"
-                                onClick={[Function]}
-                                onKeyDown={[Function]}
-                                role="option"
-                                tabIndex="-1"
-                              >
-                                <span
-                                  className="dnb-drawer-list__option__inner"
-                                >
-                                  <ItemContent
-                                    hash="option-dropdown-id-6-6"
-                                  >
-                                    <span
-                                      className="dnb-drawer-list__option__item"
-                                      key="option-dropdown-id-6-60"
+                                    <ItemContent
+                                      hash="option-dropdown-id-4-4"
                                     >
                                       Custom content 
                                       123
-                                    </span>
-                                  </ItemContent>
-                                </span>
-                              </li>
-                            </DrawerList.Item>
-                          </Items>
-                          <li
-                            aria-hidden={true}
-                            className="dnb-drawer-list__triangle"
-                          />
-                        </ul>
-                      </ForwardRef>
+                                    </ItemContent>
+                                  </span>
+                                </li>
+                              </DrawerList.Item>
+                              <DrawerList.Item
+                                active={false}
+                                class={null}
+                                className=""
+                                data-item={5}
+                                hash="option-dropdown-id-5-5"
+                                id="option-dropdown-id-5"
+                                key="option-dropdown-id-5-5"
+                                onClick={[Function]}
+                                onKeyDown={[Function]}
+                                on_click={null}
+                                selected={false}
+                                value={null}
+                              >
+                                <li
+                                  aria-selected={false}
+                                  className="dnb-drawer-list__option"
+                                  data-item={5}
+                                  id="option-dropdown-id-5"
+                                  key="lioption-dropdown-id-5-5"
+                                  onClick={[Function]}
+                                  onKeyDown={[Function]}
+                                  role="option"
+                                  tabIndex="-1"
+                                >
+                                  <span
+                                    className="dnb-drawer-list__option__inner"
+                                  >
+                                    <ItemContent
+                                      hash="option-dropdown-id-5-5"
+                                    >
+                                      Custom content 
+                                      123
+                                    </ItemContent>
+                                  </span>
+                                </li>
+                              </DrawerList.Item>
+                              <DrawerList.Item
+                                active={false}
+                                class={null}
+                                className="closest-to-top closest-to-bottom last-of-type"
+                                data-item={6}
+                                hash="option-dropdown-id-6-6"
+                                id="option-dropdown-id-6"
+                                key="option-dropdown-id-6-6"
+                                onClick={[Function]}
+                                onKeyDown={[Function]}
+                                on_click={null}
+                                selected={false}
+                                value={null}
+                              >
+                                <li
+                                  aria-selected={false}
+                                  className="closest-to-top closest-to-bottom last-of-type dnb-drawer-list__option"
+                                  data-item={6}
+                                  id="option-dropdown-id-6"
+                                  key="lioption-dropdown-id-6-6"
+                                  onClick={[Function]}
+                                  onKeyDown={[Function]}
+                                  role="option"
+                                  tabIndex="-1"
+                                >
+                                  <span
+                                    className="dnb-drawer-list__option__inner"
+                                  >
+                                    <ItemContent
+                                      hash="option-dropdown-id-6-6"
+                                    >
+                                      <span
+                                        className="dnb-drawer-list__option__item"
+                                        key="option-dropdown-id-6-60"
+                                      >
+                                        Custom content 
+                                        123
+                                      </span>
+                                    </ItemContent>
+                                  </span>
+                                </li>
+                              </DrawerList.Item>
+                            </Items>
+                            <li
+                              aria-hidden={true}
+                              className="dnb-drawer-list__triangle"
+                            />
+                          </ul>
+                        </ForwardRef>
+                      </span>
                     </span>
                   </span>
                 </DrawerListInstance>
@@ -1094,7 +1097,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                 focusable="focusable"
                 global_status_id="global_status_id"
                 icon="icon"
-                icon_position="icon_position"
+                icon_position={null}
                 icon_size="icon_size"
                 id="dropdown-id"
                 keep_open="keep_open"
@@ -1122,7 +1125,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                 status_state="error"
                 suffix="suffix"
                 title="title"
-                triangle_position="triangle_position"
+                triangle_position={null}
                 trigger_component={null}
                 value={2}
               >
@@ -1748,7 +1751,7 @@ legend.dnb-form-label {
     width: 100%; }
     .dnb-dropdown__trigger.dnb-button {
       padding: 0 1rem; }
-  .dnb-dropdown--is-popup .dnb-dropdown__shell,
+  .dnb-dropdown--default.dnb-dropdown--is-popup .dnb-dropdown__shell,
   .dnb-dropdown--is-popup .dnb-dropdown__trigger {
     padding: 0;
     width: var(--dropdown-height);
@@ -1757,6 +1760,8 @@ legend.dnb-form-label {
     width: 100%; }
   .dnb-dropdown--is-popup.dnb-dropdown--scroll .dnb-dropdown__options {
     min-height: 1rem; }
+  .dnb-dropdown--is-popup .dnb-drawer-list__root {
+    width: var(--dropdown-width); }
   .dnb-dropdown--small.dnb-dropdown--is-popup .dnb-dropdown__shell,
   .dnb-dropdown--small.dnb-dropdown--is-popup .dnb-dropdown__trigger {
     width: var(--dropdown-height--small); }

@@ -22,11 +22,11 @@ import {
   saveLockFile as saveSvgLockFile
 } from '../../figma/tasks/iconsConverter'
 
-export default async ({
+export default async function convertSvgToJsx({
   srcPath = ['./assets/icons/*.svg'],
   destPath = './src/icons',
   preventDelete = false
-} = {}) => {
+} = {}) {
   log.start('> PrePublish: converting svg to jsx')
 
   try {

@@ -3,7 +3,6 @@
 exports[`DrawerList markup have to match snapshot 1`] = `
 <DrawerList
   align_drawer={null}
-  button_only="button_only"
   cache_hash="cache_hash"
   class="class"
   className="className"
@@ -62,6 +61,7 @@ exports[`DrawerList markup have to match snapshot 1`] = `
   focusable="focusable"
   id="drawer-list-id"
   ignore_events="ignore_events"
+  independent_width="independent_width"
   keep_open="keep_open"
   max_height={1}
   no_animation={true}
@@ -90,7 +90,6 @@ exports[`DrawerList markup have to match snapshot 1`] = `
 >
   <DrawerListProvider
     align_drawer={null}
-    button_only="button_only"
     cache_hash="cache_hash"
     class="class"
     className="className"
@@ -149,6 +148,7 @@ exports[`DrawerList markup have to match snapshot 1`] = `
     focusable="focusable"
     id="drawer-list-id"
     ignore_events="ignore_events"
+    independent_width="independent_width"
     keep_open="keep_open"
     max_height={1}
     min_height={10}
@@ -180,7 +180,6 @@ exports[`DrawerList markup have to match snapshot 1`] = `
   >
     <DrawerListInstance
       align_drawer={null}
-      button_only="button_only"
       cache_hash="cache_hash"
       class="class"
       className="className"
@@ -239,6 +238,7 @@ exports[`DrawerList markup have to match snapshot 1`] = `
       focusable="focusable"
       id="drawer-list-id"
       ignore_events="ignore_events"
+      independent_width="independent_width"
       keep_open="keep_open"
       max_height={1}
       no_animation={true}
@@ -266,20 +266,24 @@ exports[`DrawerList markup have to match snapshot 1`] = `
       wrapper_element={Object {}}
     >
       <span
-        className="dnb-drawer-list dnb-drawer-list--bottom class className dnb-drawer-list--opened dnb-drawer-list--triangle-position-triangle_position dnb-drawer-list--default dnb-drawer-list--is-popup"
-        id="drawer-list-id-drawer-list"
+        className="dnb-drawer-list__root"
       >
         <span
-          className="dnb-drawer-list__list dnb-drawer-list__list--no-animation"
-          id="drawer-list-id-listbox"
+          className="dnb-drawer-list dnb-drawer-list--bottom class className dnb-drawer-list--opened dnb-drawer-list--triangle-position-triangle_position dnb-drawer-list--default"
+          id="drawer-list-id-drawer-list"
         >
           <span
-            className="dnb-drawer-list__content"
+            className="dnb-drawer-list__list dnb-drawer-list__list--no-animation"
+            id="drawer-list-id-listbox"
           >
-            children
             <span
-              className="dnb-drawer-list__triangle"
-            />
+              className="dnb-drawer-list__content"
+            >
+              children
+              <span
+                className="dnb-drawer-list__triangle"
+              />
+            </span>
           </span>
         </span>
       </span>
@@ -523,28 +527,34 @@ exports[`DrawerList scss have to match snapshot 1`] = `
 .dnb-drawer-list {
   display: block;
   position: relative;
-  font-size: var(--font-size-small); }
+  font-size: var(--font-size-small);
+  width: inherit;
+  min-width: inherit;
+  /* stylelint-disable-next-line  */ }
   .dnb-drawer-list__portal__style {
     position: absolute;
     top: -100vh;
     left: -100vw;
     z-index: 3010; }
   .dnb-drawer-list__root {
-    position: absolute;
-    top: 0;
-    left: 0; }
+    width: inherit;
+    min-width: inherit; }
+    .dnb-drawer-list__root--portal {
+      position: absolute;
+      top: 0;
+      left: 0; }
   .dnb-drawer-list__content {
     width: 100%;
     padding: 0; }
   .dnb-drawer-list__list {
     position: absolute;
     z-index: 3;
-    top: var(--drawer-list-height);
+    top: 0;
     bottom: auto;
     left: 0;
     right: 0;
-    width: 100%;
-    min-width: var(--drawer-list-width);
+    width: inherit;
+    min-width: inherit;
     margin: 0;
     padding: 0;
     font-size: var(--font-size-basis);
@@ -629,36 +639,14 @@ exports[`DrawerList scss have to match snapshot 1`] = `
     transform: rotate(180deg); }
     .dnb-drawer-list--top .dnb-drawer-list__triangle::before {
       transform: translateY(65%) rotate(45deg); }
-  .dnb-drawer-list--top .dnb-drawer-list__list {
-    top: auto;
-    bottom: 0; }
-  .dnb-drawer-list--is-popup .dnb-drawer-list__list {
+  .dnb-drawer-list--independent-width.dnb-drawer-list--right {
+    position: absolute;
+    left: auto;
+    right: 0; }
+  .dnb-drawer-list--independent-width.dnb-drawer-list--left .dnb-drawer-list__list {
     left: -0.5rem; }
-  .dnb-drawer-list--is-popup.dnb-drawer-list--right .dnb-drawer-list__list {
+  .dnb-drawer-list--independent-width.dnb-drawer-list--right .dnb-drawer-list__list {
     right: -0.5rem; }
-  .dnb-drawer-list--small .dnb-drawer-list__list {
-    top: var(--drawer-list-height--small); }
-  .dnb-drawer-list--small.dnb-drawer-list--is-popup .dnb-drawer-list__list {
-    left: -0.75rem; }
-  .dnb-drawer-list--small.dnb-drawer-list--is-popup.dnb-drawer-list--right .dnb-drawer-list__list {
-    right: -0.75rem; }
-  .dnb-drawer-list--medium .dnb-drawer-list__list {
-    top: var(--drawer-list-height--medium); }
-  .dnb-drawer-list--medium.dnb-drawer-list--is-popup .dnb-drawer-list__list {
-    left: -0.25rem; }
-  .dnb-drawer-list--medium.dnb-drawer-list--is-popup.dnb-drawer-list--right .dnb-drawer-list__list {
-    right: -0.25rem; }
-  .dnb-drawer-list--large .dnb-drawer-list__list {
-    top: var(--drawer-list-height--large); }
-  .dnb-drawer-list--large .dnb-drawer-list__triangle {
-    margin: 0 1.25rem; }
-  .dnb-drawer-list--large.dnb-drawer-list--is-popup .dnb-drawer-list__list {
-    left: -0.25rem; }
-  .dnb-drawer-list--large.dnb-drawer-list--is-popup.dnb-drawer-list--right .dnb-drawer-list__list {
-    right: -0.25rem; }
-  .dnb-drawer-list--right .dnb-drawer-list__list,
-  .dnb-drawer-list--is-popup.dnb-drawer-list--right .dnb-drawer-list__list {
-    left: auto; }
   .dnb-drawer-list--opened .dnb-drawer-list__list {
     z-index: 100;
     display: flex;
@@ -669,6 +657,52 @@ exports[`DrawerList scss have to match snapshot 1`] = `
       animation: drawer-list-slide-down 1ms ease-out 1 forwards; }
   .dnb-drawer-list--hidden .dnb-drawer-list__list {
     display: none; }
+  .dnb-drawer-list--bottom .dnb-drawer-list__list {
+    top: 0;
+    bottom: auto; }
+  .dnb-drawer-list--top .dnb-drawer-list__list {
+    top: auto;
+    bottom: var(--drawer-list-height); }
+  .dnb-drawer-list__portal .dnb-drawer-list--bottom .dnb-drawer-list__list {
+    top: var(--drawer-list-height);
+    bottom: auto; }
+  .dnb-drawer-list__portal .dnb-drawer-list--small .dnb-drawer-list__list {
+    top: var(--drawer-list-height--small); }
+  .dnb-drawer-list--small.dnb-drawer-list--top .dnb-drawer-list__list {
+    bottom: var(--drawer-list-height--small); }
+  .dnb-drawer-list--small.dnb-drawer-list--independent-width.dnb-drawer-list--left .dnb-drawer-list__list {
+    left: -0.75rem; }
+  .dnb-drawer-list--small.dnb-drawer-list--independent-width.dnb-drawer-list--right .dnb-drawer-list__list {
+    right: -0.75rem; }
+  .dnb-drawer-list__portal .dnb-drawer-list--medium .dnb-drawer-list__list {
+    top: var(--drawer-list-height--medium); }
+  .dnb-drawer-list--medium.dnb-drawer-list--top .dnb-drawer-list__list {
+    bottom: var(--drawer-list-height--medium); }
+  .dnb-drawer-list--medium.dnb-drawer-list--independent-width.dnb-drawer-list--left .dnb-drawer-list__list {
+    left: -0.25rem; }
+  .dnb-drawer-list--medium.dnb-drawer-list--independent-width.dnb-drawer-list--right .dnb-drawer-list__list {
+    right: -0.25rem; }
+  .dnb-drawer-list__portal .dnb-drawer-list--large .dnb-drawer-list__list {
+    top: var(--drawer-list-height--large); }
+  .dnb-drawer-list--large.dnb-drawer-list--top .dnb-drawer-list__list {
+    bottom: var(--drawer-list-height--large); }
+  .dnb-drawer-list--large .dnb-drawer-list__triangle {
+    margin: 0 1.25rem; }
+  .dnb-drawer-list--large.dnb-drawer-list--independent-width.dnb-drawer-list--left .dnb-drawer-list__list {
+    left: -0.25rem; }
+  .dnb-drawer-list--large.dnb-drawer-list--independent-width.dnb-drawer-list--right .dnb-drawer-list__list {
+    right: -0.25rem; }
+  .dnb-drawer-list--independent-width.dnb-drawer-list--right .dnb-drawer-list__list {
+    left: auto; }
+  .dnb-drawer-list__root > .dnb-drawer-list--right {
+    position: absolute;
+    right: 0;
+    left: auto; }
+  .dnb-drawer-list__portal .dnb-drawer-list--right {
+    right: 100%; }
+  .dnb-drawer-list__portal .dnb-drawer-list--top .dnb-drawer-list__list {
+    top: auto;
+    bottom: 0; }
   .dnb-drawer-list:not(.dnb-drawer-list--opened) .dnb-drawer-list__list {
     animation: drawer-list-slide-up 150ms ease-out 1 forwards; }
   html[data-dnb-test] .dnb-drawer-list:not(.dnb-drawer-list--opened) .dnb-drawer-list__list, .dnb-drawer-list:not(.dnb-drawer-list--opened) .dnb-drawer-list__list--no-animation {

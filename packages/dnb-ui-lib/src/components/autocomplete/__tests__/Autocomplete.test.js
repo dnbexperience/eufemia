@@ -30,12 +30,14 @@ const snapshotProps = {
   direction: 'bottom',
   label_direction: 'horizontal',
   value: 2,
+  icon_position: null,
+  triangle_position: null,
   prevent_selection: null,
   align_autocomplete: null,
   input_component: null,
   size: null,
   opened: true,
-  show_drawer_button: true,
+  show_submit_button: true,
   no_animation: true,
   skip_portal: true
 }
@@ -49,7 +51,7 @@ const props = {
   id: 'autocomplete-id',
   mode: 'sync',
   value: 1,
-  show_drawer_button: true,
+  show_submit_button: true,
   no_animation: true,
   skip_portal: true
 }
@@ -78,7 +80,7 @@ describe('Autocomplete component', () => {
       <Component
         id="autocomplete-id"
         data={mockData}
-        show_drawer_button
+        show_submit_button
         {...mockProps}
       />
     )
@@ -155,7 +157,7 @@ describe('Autocomplete component', () => {
       <Component
         id="autocomplete-id"
         data={mockData}
-        show_drawer_button
+        show_submit_button
         {...mockProps}
       />
     )
@@ -241,7 +243,7 @@ describe('Autocomplete component', () => {
         id="autocomplete-id"
         disable_filter
         data={mockData}
-        show_drawer_button
+        show_submit_button
         {...mockProps}
       />
     )
@@ -315,7 +317,7 @@ describe('Autocomplete component', () => {
         on_show={on_show}
         {...params}
         data={mockData}
-        show_drawer_button
+        show_submit_button
         {...mockProps}
       />
     )
@@ -330,7 +332,7 @@ describe('Autocomplete component', () => {
         mode="async"
         disable_highlighting
         data={mockData}
-        show_drawer_button
+        show_submit_button
         {...mockProps}
       />
     )
@@ -364,7 +366,7 @@ describe('Autocomplete component', () => {
         disable_filter
         on_type={on_type}
         data={mockData}
-        // show_drawer_button
+        // show_submit_button
         {...mockProps}
       />
     )
@@ -437,7 +439,7 @@ describe('Autocomplete component', () => {
         id="autocomplete-id"
         data={mockData}
         title={title}
-        show_drawer_button
+        show_submit_button
         {...mockProps}
       />
     )
@@ -451,7 +453,7 @@ describe('Autocomplete component', () => {
         id="autocomplete-id"
         data={mockData}
         value={value}
-        show_drawer_button
+        show_submit_button
         {...mockProps}
       />
     )
@@ -465,7 +467,7 @@ describe('Autocomplete component', () => {
       <Component
         id="autocomplete-id"
         data={mockData}
-        show_drawer_button
+        show_submit_button
         {...mockProps}
       />
     )

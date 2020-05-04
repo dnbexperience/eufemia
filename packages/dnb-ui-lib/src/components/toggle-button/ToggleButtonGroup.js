@@ -169,7 +169,7 @@ export default class ToggleButtonGroup extends React.PureComponent {
 
   onChangeHandler = ({ value, event }) => {
     const { multiselect } = this.props
-    const { values } = this.state
+    const values = this.state.values || []
     if (isTrue(multiselect)) {
       if (!values.includes(value)) {
         values.push(value)

@@ -66,7 +66,10 @@ export const propTypes = {
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   skip_portal: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   prevent_close: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  button_only: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  independent_width: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.bool
+  ]),
   keep_open: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   prevent_focus: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   skip_keysearch: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -140,7 +143,7 @@ export const defaultProps = {
   no_animation: false,
   no_scroll_animation: false,
   prevent_selection: false,
-  align_drawer: null,
+  align_drawer: 'left',
   wrapper_element: null,
   default_value: null,
   value: 'initval',
@@ -148,7 +151,7 @@ export const defaultProps = {
   prevent_close: false,
   keep_open: false,
   prevent_focus: false,
-  button_only: false,
+  independent_width: false,
   skip_keysearch: false,
   opened: null,
   class: null,
@@ -258,7 +261,7 @@ class DrawerListInstance extends React.PureComponent {
 
     const {
       align_drawer,
-      button_only,
+      independent_width,
       scrollable,
       focusable,
       size,
@@ -313,7 +316,7 @@ class DrawerListInstance extends React.PureComponent {
           `dnb-drawer-list--triangle-position-${triangle_position}`,
         align_drawer && `dnb-drawer-list--${align_drawer}`,
         size && `dnb-drawer-list--${size}`,
-        button_only && 'dnb-drawer-list--is-popup',
+        isTrue(independent_width) && 'dnb-drawer-list--independent-width',
         isTrue(scrollable) && 'dnb-drawer-list--scroll',
         isTrue(no_scroll_animation) &&
           'dnb-drawer-list--no-scroll-animation',
@@ -454,21 +457,29 @@ class DrawerListInstance extends React.PureComponent {
       </span>
     )
 
-    return this.context.drawerList.usePortal ? (
+    // Gets set as "skip_portal"
+    return (
       <span
-        className="dnb-drawer-list__root"
+        className={classnames(
+          'dnb-drawer-list__root',
+          this.context.drawerList.usePortal &&
+            'dnb-drawer-list__root--portal'
+        )}
         ref={this.context.drawerList._refRoot}
       >
-        <DrawerListPortal
-          id={this._id}
-          ownerRef={this.context.drawerList._refRoot}
-          opened={hidden === false}
-        >
-          {mainList}
-        </DrawerListPortal>
+        {this.context.drawerList.usePortal ? (
+          <DrawerListPortal
+            id={this._id}
+            rootRef={this.context.drawerList._refRoot}
+            opened={hidden === false}
+            useWidthAddition={align_drawer === 'right'}
+          >
+            {mainList}
+          </DrawerListPortal>
+        ) : (
+          mainList
+        )}
       </span>
-    ) : (
-      mainList
     )
   }
 }

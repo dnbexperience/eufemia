@@ -57,35 +57,14 @@
     line-height: var(--line-height-basis);
   }
 
-  .dnb-drawer-list__list {
-    top: var(--autocomplete-height);
-    bottom: auto;
-  }
-  .dnb-drawer-list--top .dnb-drawer-list__list {
-    bottom: var(--autocomplete-height);
-    top: auto;
-  }
-
   &--small {
     line-height: var(--autocomplete-height--small);
-  }
-  &--small#{&}--icon-position-right .dnb-drawer-list__triangle {
-    margin: 0 calc(var(--autocomplete-padding-horizontal) + 0.25rem);
   }
   &--medium {
     line-height: var(--autocomplete-height--medium);
   }
-  &--medium#{&}--icon-position-right .dnb-drawer-list__triangle {
-    margin: 0 calc(var(--autocomplete-padding-horizontal) - 0.25rem);
-  }
   &--large {
     line-height: var(--autocomplete-height--large);
-  }
-  &--large#{&}--icon-position-right .dnb-drawer-list__triangle {
-    margin: 0 calc(var(--autocomplete-padding-horizontal) - 0.5rem);
-  }
-  &--large#{&}--icon-position-left .dnb-drawer-list__triangle {
-    margin: 0 calc(var(--autocomplete-padding-horizontal) + 0.25rem);
   }
 
   &__icon {
@@ -115,7 +94,13 @@
     align-items: center;
 
     outline: none;
-    margin-right: 0.5rem; // because of the submit button
+
+    &,
+    .dnb-input__inner,
+    .dnb-input__shell,
+    .dnb-input__input {
+      width: 100%;
+    }
   }
   &--show-indicator &__input .dnb-input__icon {
     color: transparent;
@@ -127,12 +112,6 @@
   .dnb-input__submit-button__button .dnb-icon {
     transition: transform 400ms ease-out;
   }
-
-  // if icon only
-  // .dnb-input__submit-element {
-  //   pointer-events: none;
-  //   z-index: 6;
-  // }
 
   &__shell,
   &__input {
@@ -177,15 +156,6 @@
       text-align: inherit;
     }
   }
-
-  // &--icon-position-left &__icon {
-  //   order: 1;
-  // }
-  // &--icon-position-left &__text {
-  //   order: 2;
-  //   padding-right: 0;
-  //   padding-left: var(--autocomplete-text-padding);
-  // }
 
   & > .dnb-form-label {
     margin-right: 1rem;

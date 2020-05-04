@@ -65,8 +65,8 @@ const propTypes = {
     PropTypes.func
   ]),
   icon_size: PropTypes.string,
-  icon_position: PropTypes.string,
-  triangle_position: PropTypes.string,
+  icon_position: PropTypes.oneOf(['left', 'right']),
+  triangle_position: PropTypes.oneOf(['left', 'right']),
   input_icon: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.node,
@@ -109,7 +109,7 @@ const propTypes = {
     PropTypes.string,
     PropTypes.bool
   ]),
-  show_drawer_button: PropTypes.oneOfType([
+  show_submit_button: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.bool
   ]),
@@ -161,6 +161,7 @@ const propTypes = {
   keep_open: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   opened: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  drawer_class: PropTypes.string,
   class: PropTypes.string,
 
   // React
@@ -196,7 +197,7 @@ const defaultProps = {
   submit_button_title: null,
   icon: 'chevron_down',
   icon_size: null,
-  icon_position: null,
+  icon_position: 'left',
   triangle_position: null,
   input_icon: 'search',
   label: null,
@@ -218,7 +219,7 @@ const defaultProps = {
   skip_portal: null,
   no_animation: false,
   no_scroll_animation: false,
-  show_drawer_button: false,
+  show_submit_button: false,
   prevent_selection: false,
   size: 'default',
   align_autocomplete: null,
@@ -232,6 +233,7 @@ const defaultProps = {
   keep_open: false,
   opened: null,
   disabled: null,
+  drawer_class: null,
   class: null,
 
   // React props
@@ -348,7 +350,7 @@ class AutocompleteInstance extends React.PureComponent {
 
   componentDidMount() {
     if (isTrue(this.props.opened)) {
-      this.runFilterToHighlight()
+      this.runFilterToHighlight({ fillDataIfEmpty: true })
       this.setVisible()
     }
   }
@@ -1332,17 +1334,19 @@ class AutocompleteInstance extends React.PureComponent {
       prevent_close,
       no_animation,
       no_scroll_animation,
-      show_drawer_button,
+      show_submit_button,
       input_component: CustomInput,
       options_render,
       prevent_selection,
       max_height,
       default_value,
       submit_button_title,
+      drawer_class,
       className,
       class: _className,
       disabled,
       triangle_position,
+      icon_position,
       skip_portal,
 
       mode: _mode, // eslint-disable-line
@@ -1362,10 +1366,10 @@ class AutocompleteInstance extends React.PureComponent {
       ...attributes
     } = props
 
-    let { icon_position } = props
-    if (!icon_position && align_autocomplete === 'right') {
-      icon_position = 'right'
-    }
+    // let { icon_position } = props
+    // if (icon_position !== 'right' && align_autocomplete === 'right') {
+    //   icon_position = 'right'
+    // }
 
     const id = this._id
     const showStatus = status && status !== 'error'
@@ -1395,9 +1399,10 @@ class AutocompleteInstance extends React.PureComponent {
         opened && 'dnb-autocomplete--opened',
         label_direction && `dnb-autocomplete--${label_direction}`,
         icon_position &&
-          `dnb-autocomplete--icon-position-${icon_position || 'left'}`,
+          `dnb-autocomplete--icon-position-${icon_position}`,
         align_autocomplete && `dnb-autocomplete--${align_autocomplete}`,
         visibleIndicator && 'dnb-autocomplete--show-indicator',
+        // isTrue(show_submit_button) && 'dnb-autocomplete--submit-buton',
         size && `dnb-autocomplete--${size}`,
         status && `dnb-autocomplete__status--${status_state}`,
         showStatus && 'dnb-autocomplete__form-status',
@@ -1446,6 +1451,7 @@ class AutocompleteInstance extends React.PureComponent {
       onChange: this.onInputChangeHandler,
       onFocus: this.onInputFocusHandler,
       onBlur: this.onBlurHandler,
+      icon_position,
       disabled,
       ...attributes
     }
@@ -1457,7 +1463,7 @@ class AutocompleteInstance extends React.PureComponent {
       }
     }
 
-    const triggerParams = isTrue(show_drawer_button)
+    const triggerParams = isTrue(show_submit_button)
       ? {
           icon: icon,
           icon_size:
@@ -1510,7 +1516,6 @@ class AutocompleteInstance extends React.PureComponent {
     // also used for code markup simulation
     validateDOMAttributes(null, mainParams)
     validateDOMAttributes(null, shellParams)
-    validateDOMAttributes(this.props, inputParams)
 
     // make it pissible to grab the rest attributes and return it with all events
     this.attributes = validateDOMAttributes(null, attributes)
@@ -1563,7 +1568,7 @@ class AutocompleteInstance extends React.PureComponent {
                   status={!opened && status ? status_state : null}
                   type="search" // gives us also autoComplete=off
                   submit_element={
-                    isTrue(show_drawer_button) ? (
+                    isTrue(show_submit_button) ? (
                       <SubmitButton {...triggerParams} />
                     ) : (
                       false
@@ -1577,6 +1582,10 @@ class AutocompleteInstance extends React.PureComponent {
 
               <DrawerList
                 id={id}
+                className={classnames(
+                  'dnb-autocomplete__root',
+                  drawer_class
+                )}
                 inner_class="dnb-autocomplete__list"
                 value={selected_item}
                 default_value={default_value}
@@ -1586,9 +1595,7 @@ class AutocompleteInstance extends React.PureComponent {
                 no_scroll_animation={no_scroll_animation}
                 skip_portal={skip_portal}
                 prevent_selection={prevent_selection}
-                triangle_position={
-                  triangle_position || icon_position || 'left'
-                }
+                triangle_position={triangle_position || icon_position}
                 keep_open={keep_open}
                 prevent_close={prevent_close}
                 align_drawer={align_autocomplete}

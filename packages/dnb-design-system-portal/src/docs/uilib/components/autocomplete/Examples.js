@@ -125,7 +125,7 @@ render(<Autocomplete
             /* @jsx */ `
 <Autocomplete
   label="Label:"
-  show_drawer_button="true"
+  show_submit_button="true"
   on_change={({ data }) => {
     console.log('on_change', data)
   }}
@@ -186,6 +186,62 @@ render(<Autocomplete
           `
           }
         </ComponentBox>
+        <ComponentBox
+          title="Custom width"
+          // data-dnb-test="autocomplete-width"
+          scope={{ topMovies }}
+          useRender
+        >
+          {
+            /* @jsx */ `
+const CustomWidthOne = styled(Autocomplete)\`
+  .dnb-autocomplete__shell {
+    width: 10rem;
+  }
+\`
+const CustomWidthTwo = styled(Autocomplete)\`
+  &.dnb-autocomplete--is-popup .dnb-drawer-list__root {
+    width: 8rem;
+  }
+\`
+const CustomWidthThree = styled(Autocomplete)\`
+  /** Change the "__shell" width */
+  .dnb-autocomplete__shell {
+    width: 12rem;
+  }
+
+  /** Change the "__list" width */
+  .dnb-drawer-list__root {
+    width: 20rem;
+  }
+\`
+render(<FormRow direction="vertical">
+  <CustomWidthOne
+    label="Label:"
+    size="default"
+    icon_position="left"
+    bottom
+    data={topMovies}
+  />
+  <CustomWidthTwo
+    label="Label:"
+    size="medium"
+    bottom
+    data={topMovies}
+  />
+  <CustomWidthThree
+    label="Label:"
+    size="large"
+    align_autocomplete="right"
+    icon_position="right"
+    input_icon="chevron_down"
+    bottom
+    data={topMovies}
+  />
+</FormRow>)
+          `
+          }
+        </ComponentBox>
       </React.Fragment>
     )
   }
@@ -200,11 +256,13 @@ const Wrapper = styled.div`
 `
 
 export { Example }
-export default () => (
-  <Wrapper>
-    <Example />
-  </Wrapper>
-)
+export default function StyledExample() {
+  return (
+    <Wrapper>
+      <Example />
+    </Wrapper>
+  )
+}
 
 const topMovies = [
   { content: 'The Shawshank Redemption', year: 1994 },
