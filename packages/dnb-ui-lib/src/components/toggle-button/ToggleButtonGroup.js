@@ -163,6 +163,7 @@ export default class ToggleButtonGroup extends React.PureComponent {
     this._id = props.id || makeUniqueId() // cause we need an id anyway
     this._name = props.name || makeUniqueId() // cause we need an id anyway
     this.state = {
+      values: [],
       _listenForPropChanges: true
     }
   }
