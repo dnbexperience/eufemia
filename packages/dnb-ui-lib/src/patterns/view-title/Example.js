@@ -20,4 +20,4 @@ class Example extends React.PureComponent {
 }
 
 export { Example }
-export default () => <Example />
+export default Example

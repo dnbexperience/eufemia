@@ -19,7 +19,8 @@ class Example extends React.PureComponent {
           title="Using the `currency_mask`"
           data-dnb-test="input-masked-currency_mask"
         >
-          {/* @jsx */ `
+          {
+            /* @jsx */ `
 <FormRow vertical>
   <InputMasked
     label="Right aligned:"
@@ -39,10 +40,12 @@ class Example extends React.PureComponent {
     }}
   />
 </FormRow>
-          `}
+          `
+          }
         </ComponentBox>
         <ComponentBox title="Making a custom currency mask">
-          {/* @jsx */ `
+          {
+            /* @jsx */ `
 <InputMasked
   label="Masked amount:"
   show_mask
@@ -56,13 +59,15 @@ class Example extends React.PureComponent {
     console.log('e', e)
   }}
 />
-          `}
+          `
+          }
         </ComponentBox>
         <ComponentBox
           title="Using the `number_mask` - combined suffix"
           data-dnb-test="input-masked-number_mask"
         >
-          {/* @jsx */ `
+          {
+            /* @jsx */ `
 <InputMasked
   label="Masked input:"
   value="1000000"
@@ -75,10 +80,12 @@ class Example extends React.PureComponent {
     console.log('e', e)
   }}
 />
-          `}
+          `
+          }
         </ComponentBox>
         <ComponentBox title="Using the `number_mask` and a prefix">
-          {/* @jsx */ `
+          {
+            /* @jsx */ `
 <InputMasked
   label="Masked input:"
   number_mask={{
@@ -91,13 +98,15 @@ class Example extends React.PureComponent {
     console.log('e', e)
   }}
 />
-          `}
+          `
+          }
         </ComponentBox>
         <ComponentBox
           title="Phone Number, starting with 4"
           data-dnb-test="input-masked-phone"
         >
-          {/* @jsx */ `
+          {
+            /* @jsx */ `
 <InputMasked
   label="Masked input:"
   mask={[
@@ -123,7 +132,8 @@ class Example extends React.PureComponent {
     console.log('e', e)
   }}
 />
-          `}
+          `
+          }
         </ComponentBox>
       </React.Fragment>
     )
@@ -143,8 +153,10 @@ const Wrapper = styled.div`
 `
 
 export { Example }
-export default () => (
-  <Wrapper>
-    <Example />
-  </Wrapper>
-)
+export default function StyledExample() {
+  return (
+    <Wrapper>
+      <Example />
+    </Wrapper>
+  )
+}

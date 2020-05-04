@@ -173,11 +173,13 @@ class Example extends React.PureComponent {
 }
 
 export { Example }
-export default () => (
-  <div css={demoStyle}>
-    <Example />
-  </div>
-)
+export default function StyledExample() {
+  return (
+    <div css={demoStyle}>
+      <Example />
+    </div>
+  )
+}
 
 const demoStyle = css`
   .demo {

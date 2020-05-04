@@ -15,7 +15,7 @@ import { log } from '../../lib'
 // import the post css config
 import postcssConfig from '../config/postcssConfig'
 
-export default async () => {
+export default async function makeLibStyles() {
   log.info('> PrePublish: converting sass to css')
 
   try {
