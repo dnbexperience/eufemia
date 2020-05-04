@@ -23,17 +23,12 @@ order: 2
 
 ## People
 
-### Administrators
-
-- **Jens Thuland** (_jens.thuland@dnb.no_)
-- **Tobias Høegh** (_tobias.hoegh@dnb.no_)
-
 ### Designers
 
-- **Jens Thuland** (Figma, Web)
+- **Colin McMahon** (Figma, Web)
 - **Sindre Marken** (Figma, Typography)
 - **Casper Brekke** (Figma, Native mobile)
 
 ### Developers
 
-- **Tobias Høegh** (GitHub, `dnb-ui-lib`)
+- **Tobias Høegh** (_tobias.hoegh@dnb.no_) (GitHub, `dnb-ui-lib`)

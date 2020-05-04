@@ -73,4 +73,4 @@ To upgrade to v7 with NPM, use:
 $ npm i dnb-ui-lib@7
 ```
 
-_April, 28. 2020_
+_May, 6. 2020_
