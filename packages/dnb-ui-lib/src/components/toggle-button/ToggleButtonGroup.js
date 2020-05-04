@@ -163,14 +163,13 @@ export default class ToggleButtonGroup extends React.PureComponent {
     this._id = props.id || makeUniqueId() // cause we need an id anyway
     this._name = props.name || makeUniqueId() // cause we need an id anyway
     this.state = {
-      values: [],
       _listenForPropChanges: true
     }
   }
 
   onChangeHandler = ({ value, event }) => {
     const { multiselect } = this.props
-    const { values } = this.state
+    const values = this.state.values || []
     if (isTrue(multiselect)) {
       if (!values.includes(value)) {
         values.push(value)

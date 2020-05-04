@@ -491,7 +491,7 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
                     variant={null}
                   >
                     <span
-                      className="dnb-toggle-button"
+                      className="dnb-toggle-button dnb-toggle-button--checked"
                     >
                       <span
                         className="dnb-toggle-button__inner"
@@ -508,7 +508,7 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
                             />
                           </AlignmentHelper>
                           <Button
-                            aria-pressed="false"
+                            aria-pressed="true"
                             bounding={false}
                             class={null}
                             className="dnb-toggle-button__button"
@@ -537,7 +537,7 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
                             wrap={false}
                           >
                             <button
-                              aria-pressed="false"
+                              aria-pressed="true"
                               className="dnb-button dnb-button--secondary dnb-button--has-text dnb-toggle-button__button"
                               disabled={false}
                               id="toggle-button-1"
@@ -548,7 +548,7 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
                               type="button"
                             >
                               <Content
-                                aria-pressed="false"
+                                aria-pressed="true"
                                 bounding={false}
                                 class={null}
                                 className="dnb-toggle-button__button"
@@ -627,7 +627,7 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
                     variant={null}
                   >
                     <span
-                      className="dnb-toggle-button"
+                      className="dnb-toggle-button dnb-toggle-button--checked"
                     >
                       <span
                         className="dnb-toggle-button__inner"
@@ -644,7 +644,7 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
                             />
                           </AlignmentHelper>
                           <Button
-                            aria-pressed="false"
+                            aria-pressed="true"
                             bounding={false}
                             class={null}
                             className="dnb-toggle-button__button"
@@ -673,7 +673,7 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
                             wrap={false}
                           >
                             <button
-                              aria-pressed="false"
+                              aria-pressed="true"
                               className="dnb-button dnb-button--secondary dnb-button--has-text dnb-toggle-button__button"
                               disabled={false}
                               id="toggle-button-2"
@@ -684,7 +684,7 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
                               type="button"
                             >
                               <Content
-                                aria-pressed="false"
+                                aria-pressed="true"
                                 bounding={false}
                                 class={null}
                                 className="dnb-toggle-button__button"
