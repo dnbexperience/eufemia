@@ -264,6 +264,61 @@ render(
           }
         </ComponentBox>
         <ComponentBox
+          title="Custom width"
+          // data-dnb-test="dropdown-width"
+          scope={{ data }}
+          useRender
+        >
+          {
+            /* @jsx */ `
+const CustomWidthOne = styled(Dropdown)\`
+  .dnb-dropdown__shell {
+    width: 10rem;
+  }
+\`
+const CustomWidthTwo = styled(Dropdown)\`
+  &.dnb-dropdown--is-popup .dnb-drawer-list__root {
+    width: 8rem;
+  }
+\`
+const CustomWidthThree = styled(Dropdown)\`
+  /** Change the "__shell" width */
+  .dnb-dropdown__shell {
+    width: 10rem;
+  }
+
+  /** Change the "__list" width */
+  .dnb-drawer-list__root {
+    width: 20rem;
+  }
+\`
+render(<FormRow direction="vertical">
+  <CustomWidthOne
+    label="Label:"
+    size="default"
+    icon_position="left"
+    bottom
+    data={data}
+  />
+  <CustomWidthTwo
+    label="Label:"
+    size="small"
+    more_menu
+    bottom
+    data={data}
+  />
+  <CustomWidthThree
+    label="Label:"
+    size="large"
+    align_dropdown="right"
+    bottom
+    data={data}
+  />
+</FormRow>)
+          `
+          }
+        </ComponentBox>
+        <ComponentBox
           title="Dropdown with status and vertical label layout"
           data-dnb-test="dropdown-status-error"
           scope={{ data }}

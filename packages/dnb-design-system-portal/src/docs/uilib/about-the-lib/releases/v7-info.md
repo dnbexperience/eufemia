@@ -22,6 +22,7 @@ v7 contains a couple of _braking changes_. As a migration process, you can simpl
    - Pagination
    - ProgressIndicator
 1. The [Dropdown](/uilib/components/dropdown) uses now by default React Portal. This can have negative effects on scrollable views. Therefore, use the new [ScrollView](/uilib/components/fragments/scroll-view) fragment as the scrollable element.
+1. For a custom [Dropdown](/uilib/components/dropdown) list width `.dnb-dropdown__list`, use `.dnb-dropdown .dnb-drawer-list__root` instead.
 1. All events called `on_state_update` are now deprecated and will be removed in a future major version.
 1. The property `default_state` in [Checkbox](/uilib/components/checkbox) and [Switch](/uilib/components/switch) is now deprecated and will be removed in a future major version.
 

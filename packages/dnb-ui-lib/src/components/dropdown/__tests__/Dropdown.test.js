@@ -29,6 +29,8 @@ const snapshotProps = {
   label_direction: 'horizontal',
   value: 2,
   more_menu: null,
+  icon_position: null,
+  triangle_position: null,
   prevent_selection: null,
   align_dropdown: null,
   trigger_component: null,

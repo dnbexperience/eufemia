@@ -34,7 +34,7 @@ const propTypes = {
     PropTypes.bool
   ]),
   direction: PropTypes.oneOf(['auto', 'top', 'bottom']),
-  align_drawer: PropTypes.oneOf(['left', 'right']),
+  // align_drawer: PropTypes.oneOf(['left', 'right']),
   wrapper_element: PropTypes.oneOfType([
     PropTypes.object,
     PropTypes.func,
@@ -68,7 +68,7 @@ const defaultProps = {
   no_animation: false,
   prevent_selection: false,
   direction: 'auto',
-  align_drawer: null,
+  // align_drawer: null,
   wrapper_element: null,
   prevent_close: false,
   keep_open: false,
@@ -209,7 +209,7 @@ export default class DrawerListProvider extends React.PureComponent {
     if (
       typeof window === 'undefined' ||
       typeof document === 'undefined' ||
-      !(this.state.wrapper_element || this._refShell.current)
+      !(this.state.wrapper_element || this._refRoot.current)
     ) {
       return
     }
@@ -233,7 +233,7 @@ export default class DrawerListProvider extends React.PureComponent {
         : null
 
     if (!customElem) {
-      customElem = isInsideScrollView(this._refShell.current, true)
+      customElem = isInsideScrollView(this._refRoot.current, true)
     }
 
     // In case we have one before hand
@@ -241,7 +241,7 @@ export default class DrawerListProvider extends React.PureComponent {
 
     const spaceToTopOffset = 4 * 16 //because of headers
     const spaceToBottomOffset = 2 * 16
-    const elem = this.state.wrapper_element || this._refShell.current
+    const elem = this.state.wrapper_element || this._refRoot.current
 
     const renderDirection = () => {
       try {
@@ -269,7 +269,7 @@ export default class DrawerListProvider extends React.PureComponent {
           max_height =
             direction === 'top'
               ? spaceToTop -
-                ((this.state.wrapper_element || this._refShell.current)
+                ((this.state.wrapper_element || this._refRoot.current)
                   .offsetHeight || 0) -
                 spaceToTopOffset
               : spaceToBottom - spaceToBottomOffset
@@ -488,42 +488,42 @@ export default class DrawerListProvider extends React.PureComponent {
     }
   }
 
-  setTrianglePosition = () => {
-    if (!this._refTriangle.current) {
-      return
-    }
-    // do not change the triangle on popup mode
-    if (isTrue(this.props.prevent_selection)) {
-      return
-    }
+  // NB: from v7, CSS is resolving the positioning (deprecated)
+  // setTrianglePosition = () => {
+  //   if (!this._refTriangle.current) {
+  //     return
+  //   }
+  //   // do not change the triangle on popup mode
+  //   if (isTrue(this.props.prevent_selection)) {
+  //     return
+  //   }
 
-    try {
-      const width = (this.state.wrapper_element || this._refShell.current)
-        .offsetWidth
-      if (parseFloat(width) > 0) {
-        const { align_drawer } = this.props
-        const { triangle_position } = this.state
-        switch (align_drawer) {
-          case 'left':
-          default:
-            if (triangle_position !== 'left') {
-              this._refTriangle.current.style.left = `${width / 16 - 3}rem` // -3rem
-            }
-            break
-          case 'right':
-            if (triangle_position === 'left') {
-              this._refTriangle.current.style.left = 'auto'
-              this._refTriangle.current.style.right = `${
-                width / 16 - 3
-              }rem` // -3rem
-            }
-            break
-        }
-      }
-    } catch (e) {
-      console.warn(e)
-    }
-  }
+  //   try {
+  //     const width = this._refUl.current.offsetWidth
+  //     if (parseFloat(width) > 0) {
+  //       const { align_drawer } = this.props
+  //       const { triangle_position } = this.state
+  //       switch (align_drawer) {
+  //         case 'left':
+  //         default:
+  //           if (triangle_position !== 'left') {
+  //             this._refTriangle.current.style.left = `${width / 16 - 3}rem` // -3rem
+  //           }
+  //           break
+  //         case 'right':
+  //           if (triangle_position === 'left') {
+  //             this._refTriangle.current.style.left = 'auto'
+  //             this._refTriangle.current.style.right = `${
+  //               width / 16 - 3
+  //             }rem` // -3rem
+  //           }
+  //           break
+  //       }
+  //     }
+  //   } catch (e) {
+  //     console.warn(e)
+  //   }
+  // }
 
   setWrapperElement = (wrapper_element = this.props.wrapper_element) => {
     if (
@@ -556,7 +556,7 @@ export default class DrawerListProvider extends React.PureComponent {
       const isSameDrawer =
         typeof document !== 'undefined' &&
         getPreviousSibling('dnb-drawer-list', document.activeElement) ===
-          this._refShell.current
+          this._refRoot.current
       if (!isSameDrawer || key === 'tab') {
         return
       }
@@ -720,7 +720,7 @@ export default class DrawerListProvider extends React.PureComponent {
 
   setOutsideClickObserver = () => {
     this.outsideClick = detectOutsideClick(
-      [this.state.wrapper_element, this._refShell.current],
+      [this.state.wrapper_element, this._refRoot.current],
       this.setHidden // hide if document.activeElement is not inside our elements
     )
     if (typeof document !== 'undefined') {
@@ -753,7 +753,7 @@ export default class DrawerListProvider extends React.PureComponent {
       },
       () => {
         this.setWrapperElement()
-        this.setTrianglePosition()
+        // this.setTrianglePosition() // deprecated
         this.setDirectionObserver()
         this.setScrollObserver()
         this.setOutsideClickObserver()

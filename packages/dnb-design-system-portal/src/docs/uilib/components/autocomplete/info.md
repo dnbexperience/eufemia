@@ -41,11 +41,14 @@ To enhance screen-reader usage, this component uses `aria-live` to announce the 
 You can also set the width directly, but then it has to be defined like so (including `min-width`):
 
 ```css
+/** Because of the included label/status etc. we target the "__shell" */
 .dnb-autocomplete__shell {
-  width: 20rem; /* custom width */
+  width: 10rem;
 }
-.dnb-autocomplete__list {
-  min-width: 20rem; /* custom width */
+
+/** In order to change only the drawer-list width */
+.dnb-autocomplete .dnb-drawer-list__root {
+  width: 10rem;
 }
 ```
 

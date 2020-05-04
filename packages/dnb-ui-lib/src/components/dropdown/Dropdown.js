@@ -49,8 +49,8 @@ const propTypes = {
     PropTypes.func
   ]),
   icon_size: PropTypes.string,
-  icon_position: PropTypes.string,
-  triangle_position: PropTypes.string,
+  icon_position: PropTypes.oneOf(['left', 'right']),
+  triangle_position: PropTypes.oneOf(['left', 'right']),
   label: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.func,
@@ -168,7 +168,7 @@ const defaultProps = {
   prevent_selection: false,
   more_menu: false,
   size: 'default',
-  align_dropdown: null,
+  align_dropdown: 'left',
   trigger_component: null,
   data: null,
   default_value: null,
@@ -429,7 +429,7 @@ class DropdownInstance extends React.PureComponent {
     const isPopupMenu = isTrue(more_menu) || isTrue(prevent_selection)
     if (isPopupMenu) {
       icon = icon || (isTrue(more_menu) ? 'more' : 'chevron_down')
-      if (!icon_position && align_dropdown !== 'right') {
+      if (icon_position !== 'right' && align_dropdown !== 'right') {
         icon_position = 'left'
       }
     }
@@ -586,7 +586,7 @@ class DropdownInstance extends React.PureComponent {
                 }
                 keep_open={keep_open}
                 prevent_close={prevent_close}
-                button_only={isPopupMenu}
+                independent_width={isPopupMenu}
                 align_drawer={align_dropdown}
                 disabled={disabled}
                 max_height={max_height}
