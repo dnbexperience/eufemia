@@ -70,6 +70,7 @@ export const propTypes = {
     PropTypes.string,
     PropTypes.bool
   ]),
+  fixed_position: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   keep_open: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   prevent_focus: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   skip_keysearch: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -151,6 +152,7 @@ export const defaultProps = {
   prevent_close: false,
   keep_open: false,
   prevent_focus: false,
+  fixed_position: false,
   independent_width: false,
   skip_keysearch: false,
   opened: null,
@@ -261,6 +263,7 @@ class DrawerListInstance extends React.PureComponent {
 
     const {
       align_drawer,
+      fixed_position,
       independent_width,
       scrollable,
       focusable,
@@ -316,6 +319,7 @@ class DrawerListInstance extends React.PureComponent {
           `dnb-drawer-list--triangle-position-${triangle_position}`,
         align_drawer && `dnb-drawer-list--${align_drawer}`,
         size && `dnb-drawer-list--${size}`,
+        // isTrue(fixed_position) && 'dnb-drawer-list--fixed',
         isTrue(independent_width) && 'dnb-drawer-list--independent-width',
         isTrue(scrollable) && 'dnb-drawer-list--scroll',
         isTrue(no_scroll_animation) &&
@@ -473,6 +477,7 @@ class DrawerListInstance extends React.PureComponent {
             rootRef={this.context.drawerList._refRoot}
             opened={hidden === false}
             useWidthAddition={align_drawer === 'right'}
+            fixedPosition={isTrue(fixed_position)}
           >
             {mainList}
           </DrawerListPortal>
