@@ -457,7 +457,6 @@ export default class Modal extends React.PureComponent {
                   innerRef={this._triggerRef}
                 />
               )}
-
               {modalActive && modal_content && (
                 <ModalRoot
                   {...rest}

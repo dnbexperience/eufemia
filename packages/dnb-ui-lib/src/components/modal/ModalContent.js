@@ -50,6 +50,8 @@ export default class ModalContent extends React.PureComponent {
     align_content: PropTypes.string,
     container_placement: PropTypes.string,
     class: PropTypes.string,
+    content_class: PropTypes.string,
+    overlay_class: PropTypes.string,
 
     // React props
     closeModal: PropTypes.func.isRequired,
@@ -79,6 +81,8 @@ export default class ModalContent extends React.PureComponent {
     align_content: null,
     container_placement: null,
     class: null,
+    overlay_class: null,
+    content_class: null,
 
     // React props
     closeModal: null,
@@ -249,6 +253,8 @@ export default class ModalContent extends React.PureComponent {
       closeModal,
       className,
       class: _className,
+      content_class,
+      overlay_class,
       content_id, // eslint-disable-line
       toggleOpenClose, // eslint-disable-line
       children, // eslint-disable-line
@@ -280,7 +286,8 @@ export default class ModalContent extends React.PureComponent {
           'dnb-modal__content--fullscreen',
         isTrue(no_animation) && 'dnb-modal__content--no-animation',
         isTrue(no_animation_on_mobile) &&
-          'dnb-modal__content--no-animation-on-mobile'
+          'dnb-modal__content--no-animation-on-mobile',
+        content_class
       ),
       onClick: closeModal
     }
@@ -313,7 +320,8 @@ export default class ModalContent extends React.PureComponent {
         mode && `dnb-modal__overlay--${mode}`,
         isTrue(no_animation) && 'dnb-modal__overlay--no-animation',
         isTrue(no_animation_on_mobile) &&
-          'dnb-modal__overlay--no-animation-on-mobile'
+          'dnb-modal__overlay--no-animation-on-mobile',
+        overlay_class
       )
     }
 
