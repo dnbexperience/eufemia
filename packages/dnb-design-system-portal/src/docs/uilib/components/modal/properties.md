@@ -26,6 +26,9 @@ showTabs: true
 | `prevent_core_style`     | _(optional)_ by default the modal content gets added the core style class `dnb-core-style`. Use `false` to disable this behavior.                                                                                                            |
 | `open_modal`             | _(optional)_ set a function to call the callback function, once the modal should open: `open_modal={(open) => open()}`                                                                                                                       |
 | `close_modal`            | _(optional)_ set a function to call the callback function, once the modal should close: `close_modal={(close) => close()}`                                                                                                                   |
+| `overlay_class`          | _(optional)_ give the page overlay a custom class name (maps to `dnb-modal__overlay`).                                                                                                                                                       |
+| `content_class`          | _(optional)_ give the content wrapper a custom class name (maps to `dnb-modal__content`).                                                                                                                                                    |
+| `class` or `className`   | _(optional)_ give the inner content wrapper a class name (maps to `dnb-modal__content__inner`).                                                                                                                                              |
 
 ### Drawer sizes
 
@@ -53,7 +56,8 @@ Properties targeting the trigger component (Button), but they will be set the sa
 | `trigger_variant`                           | _(optional)_ the modal triggering button variant. Defaults to `secondary`.                                                                                |
 | `trigger_text`                              | _(optional)_ if type is set to `text`, this will be the text which triggers the modal. If set to `button` it will be the `title` attribute of the button. |
 | `trigger_title`                             | _(optional)_ the modal triggering button title.                                                                                                           |
-| `trigger_icon`                              | _(optional)_ the modal triggering button icon. Can be used instead of a `trigger_text`. Defaults to `question` .                                          |
+| `trigger_icon`                              | _(optional)_ the modal triggering button icon. Can be used instead of a `trigger_text`. Defaults to `question`.                                           |
 | `trigger_icon_position`                     | _(optional)_ defines the modal triggering icon position. Defaults to `left` because of the tertiary button variant.                                       |
+| `trigger_class`                             | _(optional)_ adds a custom modal trigger class name.                                                                                                      |
 | `trigger_disabled`                          | _(optional)_ if truthy, then the trigger button can't be opened.                                                                                          |
 | [Space](/uilib/components/space/properties) | _(optional)_ spacing properties like `top` or `bottom` are supported.                                                                                     |

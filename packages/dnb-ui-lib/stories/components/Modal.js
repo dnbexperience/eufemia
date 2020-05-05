@@ -39,7 +39,9 @@ export default [
           title="Tertiary test"
           // min_width="20vw"
           // max_width="40vw"
-          className="dnb-core-style"
+          overlay_class="overlay_class"
+          content_class="content_class"
+          class="inner_class"
         >
           <Button variant="tertiary" text="Button" />
           <Section>
@@ -53,7 +55,6 @@ export default [
           // max_width="2rem"
           // open_state="opened"
           // fullscreen
-          className="dnb-core-style"
           title="Modal Title"
           trigger_variant="tertiary"
           trigger_icon={null}
@@ -201,7 +202,6 @@ export default [
           min_width="60vw"
           trigger_text="Open Modal"
           title="Modal Title"
-          className="dnb-core-style"
           on_close={(e) => {
             console.log('on_close', e)
           }}
@@ -252,7 +252,6 @@ class ModalRerenderExample extends React.PureComponent {
     return (
       <Modal
         // open_state="opened"
-        className="dnb-core-style"
         trigger_text={this.state.trigger_text}
         title={this.state.title}
         // trigger_disabled
@@ -366,7 +365,6 @@ const ModalCloseExample = () => {
         on_click={() => setOpenState('opened')}
       />
       <Modal
-        className="dnb-core-style"
         // trigger_hidden
         trigger_text="Open Modal and auto close"
         title="Modal Title"
