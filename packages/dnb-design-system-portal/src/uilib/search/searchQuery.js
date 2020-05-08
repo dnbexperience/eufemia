@@ -60,6 +60,23 @@ const flatten = (arr) =>
             ...item,
             slug: makeSlug(item.value)
           }))
+
+          // bacuse we need also pages form Tabs, we use here the h2 to make the title
+          // also, h1 is there an object
+          const first = headings[0]
+
+          // has an empty, not valid title, then we grap the first heading (h1)
+          if (
+            !hasTitle(frontmatter) &&
+            first &&
+            (first.depth === 1 || first.depth === 2)
+          ) {
+            headings.shift()
+            frontmatter = {
+              ...frontmatter,
+              title: first.value
+            }
+          }
         }
 
         // bundle our whole request
@@ -68,16 +85,6 @@ const flatten = (arr) =>
           ...frontmatter,
           ...rest,
           headings
-        }
-
-        // has an empty, not valid title, then we grap the first heading (h1)
-        if (
-          !hasTitle(result) &&
-          headings &&
-          headings[0] &&
-          headings[0].depth === 1
-        ) {
-          result.title = headings[0].value
         }
 
         if (!hasTitle(result) && !hasDescription(result)) {
@@ -102,20 +109,22 @@ const flatten = (arr) =>
 const hasTitle = (r) => String(r.title || '').length > 0
 const hasDescription = (r) => String(r.description || '').length > 0
 
+const dev = false
 const currentBranch = getCurrentBranchName()
-const queries = /^(release|beta)$/.test(currentBranch)
-  ? [
-      {
-        query: docsQuery,
-        transformer: ({ data }) => flatten(data.pages.edges),
-        indexName:
-          process.env.NODE_ENV === 'production'
-            ? /^(beta)$/.test(currentBranch)
+const queries =
+  dev || /^(release|beta)$/.test(currentBranch)
+    ? [
+        {
+          query: docsQuery,
+          transformer: ({ data }) => flatten(data.pages.edges),
+          indexName:
+            dev || process.env.NODE_ENV !== 'production'
+              ? 'dev_eufemia_docs'
+              : /^(beta)$/.test(currentBranch)
               ? 'beta_eufemia_docs'
               : 'prod_eufemia_docs'
-            : 'dev_eufemia_docs'
-      }
-    ]
-  : null
+        }
+      ]
+    : null
 
 module.exports = queries
