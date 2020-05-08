@@ -64,7 +64,6 @@ export default class PaginationProvider extends React.PureComponent {
         state.currentPage = parseFloat(props.current_page) || 1
       }
       if (typeof state.startupPage === 'undefined') {
-        // originalCurrentPage
         state.startupPage =
           parseFloat(props.startup_page) ||
           parseFloat(props.current_page) ||
@@ -84,7 +83,7 @@ export default class PaginationProvider extends React.PureComponent {
         }
       }
 
-      // reset pagination, like the resetPagination method
+      // reset pagination, like the resetInfinity method
       if (
         props.reset_pagination_handler !== null &&
         isTrue(props.reset_pagination_handler)
@@ -154,7 +153,7 @@ export default class PaginationProvider extends React.PureComponent {
       reset_content_handler(this.resetContent)
     }
     if (typeof reset_pagination_handler === 'function') {
-      reset_pagination_handler(this.resetPagination)
+      reset_pagination_handler(this.resetInfinity)
     }
     if (typeof end_infinity_handler === 'function') {
       end_infinity_handler(this.endInfinity)
@@ -170,7 +169,8 @@ export default class PaginationProvider extends React.PureComponent {
 
   componentWillUnmount() {
     clearTimeout(this.rerenderTimeout)
-    clearTimeout(this.resetTimeout)
+    clearTimeout(this.resetContentTimeout)
+    clearTimeout(this.resetInfinityTimeout)
     clearTimeout(this.callOnPageUpdateTimeout)
     this._isMounted = false
   }
@@ -223,36 +223,33 @@ export default class PaginationProvider extends React.PureComponent {
 
   // like reset_content_handler in DerivedState
   resetContent = () => {
-    const { startupPage: currentPage } = this.state
-
-    clearTimeout(this.resetTimeout)
-    this.resetTimeout = setTimeout(() => {
+    clearTimeout(this.resetContentTimeout)
+    this.resetContentTimeout = setTimeout(() => {
       this.setState({
         items: [],
-        currentPage,
         _listenForPropChanges: false
       })
-      this.startInfinity()
-    }, 10) // we have to be one tick after "rerender"
+    }, 2) // we have to be two tick after "rerender"
   }
 
   // like reset_content_handler in DerivedState
-  resetPagination = () => {
-    const { startupPage } = this.state
-    const lowerPage = startupPage
-    const upperPage = startupPage
-    const currentPage = startupPage
+  resetInfinity = (pageNo = this.state.startupPage) => {
+    const lowerPage = pageNo
+    const upperPage = pageNo
+    const currentPage = pageNo
+    this._hasEndedInfinity = true
+    this.setState({
+      hasEndedInfinity: true,
+      lowerPage,
+      upperPage,
+      currentPage,
+      _listenForPropChanges: false
+    })
 
-    clearTimeout(this.resetTimeout)
-    this.resetTimeout = setTimeout(() => {
-      this.setState({
-        lowerPage,
-        upperPage,
-        currentPage,
-        _listenForPropChanges: false
-      })
+    clearTimeout(this.resetInfinityTimeout)
+    this.resetInfinityTimeout = setTimeout(() => {
       this.startInfinity()
-    }, 10) // we have to be one tick after "rerender"
+    }, this.state.minTime) // give it custom defined time to start again
   }
 
   // not implemented yet
@@ -347,7 +344,8 @@ export default class PaginationProvider extends React.PureComponent {
           pagination: {
             setContent: this.setContent,
             resetContent: this.resetContent,
-            resetPagination: this.resetPagination,
+            resetInfinity: this.resetInfinity,
+            resetPagination: this.resetInfinity, // deprecated
             endInfinity: this.endInfinity,
             setItems: this.setItems,
             prefillItems: this.prefillItems,

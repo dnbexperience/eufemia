@@ -47,9 +47,9 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
   const perPageCount = 10 // how many items per page
 
   // create our Pagination instance
-  const [
-    { InfinityMarker, endInfinity, resetPagination }
-  ] = React.useState(createPagination)
+  const [{ InfinityMarker, endInfinity, resetInfinity }] = React.useState(
+    createPagination
+  )
   const [orderDirection, setOrderDirection] = React.useState('asc')
   const [cacheHash, forceRerender] = React.useState(null) // eslint-disable-line
   const [currentPage, setCurrentPage] = React.useState(startupPage)
@@ -98,10 +98,12 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
     )
   }
 
+  let serverDelayTimeout
   const resetHandler = () => {
+    clearTimeout(serverDelayTimeout)
     localStack.current = {}
     setCurrentPage(startupPage)
-    resetPagination()
+    resetInfinity()
   }
 
   return (
@@ -172,7 +174,7 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
               endInfinity()
             } else {
               // simulate server delay
-              setTimeout(() => {
+              serverDelayTimeout = setTimeout(() => {
                 // once we set current page, we force a rerender, and sync of data
                 setCurrentPage(page)
               }, Math.ceil(Math.random() * 1e3)) // simulate random delay
