@@ -203,14 +203,14 @@
     transform: translate3d(0, -50%, 0);
   }
 
-  &__button {
+  &__button.dnb-button--size-small {
     height: var(--slider-button-size);
     width: var(--slider-button-size);
 
     line-height: var(--slider-button-size);
     transform: translateY(0.25rem);
   }
-  &--vertical &__button {
+  &--vertical &__button.dnb-button--size-small {
     transform: translateX(0.25rem);
   }
 
