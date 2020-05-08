@@ -59,6 +59,10 @@
     top: -100vh;
     left: -100vw;
 
+    &--fixed {
+      position: fixed;
+    }
+
     // higher than modal --modal-z-index:
     z-index: 3010;
   }

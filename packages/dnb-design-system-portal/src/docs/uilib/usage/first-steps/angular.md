@@ -10,7 +10,7 @@ import AngularAppScreenshot from 'Pages/uilib/usage/first-steps/assets/example-a
 
 ## Angular v2 and above
 
-Eufemia may have an example code soon of using this [React adapter solution, used by Microsoft](https://microsoft.github.io/angular-react/).
+Eufemia may have an example code soon of using this [React adapter solution, used by Microsoft](https://github.com/microsoft/angular-react/).
 
 ## Angular v1
 

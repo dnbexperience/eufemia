@@ -95,7 +95,7 @@ exports[`Slider component have to match snapshot 1`] = `
           innerRef={null}
           onClick={null}
           on_click={[Function]}
-          size={null}
+          size="small"
           status={null}
           status_animation={null}
           status_state="error"
@@ -107,7 +107,7 @@ exports[`Slider component have to match snapshot 1`] = `
         >
           <button
             aria-label="subtract_title"
-            className="dnb-button dnb-button--secondary dnb-slider__button dnb-slider__button--subtract dnb-button--icon-position-right dnb-button--has-icon dnb-button--size-medium"
+            className="dnb-button dnb-button--secondary dnb-slider__button dnb-slider__button--subtract dnb-button--icon-position-right dnb-button--has-icon dnb-button--size-small"
             disabled={false}
             onClick={[Function]}
             onMouseOut={[Function]}
@@ -132,7 +132,7 @@ exports[`Slider component have to match snapshot 1`] = `
               isIconOnly={true}
               onClick={null}
               on_click={[Function]}
-              size={null}
+              size="small"
               status={null}
               status_animation={null}
               status_state="error"
@@ -324,7 +324,7 @@ exports[`Slider component have to match snapshot 1`] = `
           innerRef={null}
           onClick={null}
           on_click={[Function]}
-          size={null}
+          size="small"
           status={null}
           status_animation={null}
           status_state="error"
@@ -336,7 +336,7 @@ exports[`Slider component have to match snapshot 1`] = `
         >
           <button
             aria-label="add_title"
-            className="dnb-button dnb-button--secondary dnb-slider__button dnb-slider__button--add dnb-button--icon-position-right dnb-button--has-icon dnb-button--size-medium"
+            className="dnb-button dnb-button--secondary dnb-slider__button dnb-slider__button--add dnb-button--icon-position-right dnb-button--has-icon dnb-button--size-small"
             disabled={false}
             onClick={[Function]}
             onMouseOut={[Function]}
@@ -361,7 +361,7 @@ exports[`Slider component have to match snapshot 1`] = `
               isIconOnly={true}
               onClick={null}
               on_click={[Function]}
-              size={null}
+              size="small"
               status={null}
               status_animation={null}
               status_state="error"
@@ -1096,12 +1096,12 @@ legend.dnb-form-label {
       width: var(--slider-thumb-size); }
   .dnb-slider--vertical .dnb-slider__thumb {
     transform: translate3d(0, -50%, 0); }
-  .dnb-slider__button {
+  .dnb-slider__button.dnb-button--size-small {
     height: var(--slider-button-size);
     width: var(--slider-button-size);
     line-height: var(--slider-button-size);
     transform: translateY(0.25rem); }
-  .dnb-slider--vertical .dnb-slider__button {
+  .dnb-slider--vertical .dnb-slider__button.dnb-button--size-small {
     transform: translateX(0.25rem); }
   .dnb-slider__state--jumped .dnb-slider__thumb,
   .dnb-slider__state--jumped .dnb-slider__line {

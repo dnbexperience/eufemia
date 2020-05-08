@@ -31,8 +31,10 @@ export default [
   () => (
     <Center>
       <Wrapper>
-        <Provider formRow={{ indent: false, vertical: true }}>
-          <FormSet indent="true" vertical="false">
+        <Provider formRow={{ indent: true, vertical: false }}>
+          <FormSet
+          // indent="true" vertical="false"
+          >
             <Box>
               <FormRow no_label>
                 <H2>A h2 in a FormRow without a label</H2>
@@ -49,9 +51,11 @@ export default [
               </FormRow>
             </Box>
             <Box>
-              <FormRow label="Input:" indent_offset="large">
-                <Input value="Value" />
-              </FormRow>
+              <Provider formRow={{ vertical: true }}>
+                <FormRow label="Input:" indent_offset="large">
+                  <Input value="Value" />
+                </FormRow>
+              </Provider>
             </Box>
             <Box>
               <FormRow label="Long Group name Vitae dapibus eros viverra torquent euismod at dignissim vel mattis:">

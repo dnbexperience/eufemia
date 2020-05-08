@@ -5,7 +5,8 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import Context, { defaultContext } from './Context'
+import Context, { prepareContext } from './Context'
+import { makeUniqueId } from './component-helper'
 
 // fill with data
 import { prepareFormRowContext } from '../components/form-row/FormRow'
@@ -20,61 +21,83 @@ class Provider extends React.PureComponent {
     if (state._listenForPropChanges) {
       const {
         children, // eslint-disable-line
-        ...providerProps
+        ...updatedProps
       } = props
 
-      // 1. Set default context to be overwirtter by the provider props
-      const context = { ...state.usedContext, ...providerProps }
+      // 1. Set default context to be overwritten by the provider props
+      const newContext = { ...state, ...updatedProps }
 
       // 2. The reset will extend the Provider Context
-      if (context.formRow) {
-        context.formRow = prepareFormRowContext(context.formRow)
+      if (newContext.formRow) {
+        newContext.formRow = prepareFormRowContext(newContext.formRow)
       }
 
-      state.usedContext = context
+      state = newContext
     }
 
     state._listenForPropChanges = true
 
-    return state
+    return prepareContext(state)
   }
 
   constructor(props, context) {
     super(props)
 
+    const {
+      children, // eslint-disable-line
+      ...startupProps
+    } = props
+
+    const newContext = { ...context, ...startupProps }
+    const isRoot = !(newContext && newContext.__providerId)
+    newContext.__providerId = makeUniqueId()
+
     // 1. Set default context to be overwirtter by the provider props
-    const usedContext = defaultContext(context)
+    const pC = isRoot ? prepareContext(newContext) : newContext
 
-    // general context update
-    if (!usedContext.update) {
-      usedContext.update = (props) => this.setContext(props)
+    // change only current context
+    pC.updateCurrent = (props) => this.setContext(props)
+    pC.setCurrentLocale = (locale) => this.setContext({ locale })
+
+    // change both the root and the current context
+    pC.update = (props) => {
+      if (typeof context.update === 'function') {
+        context.update(props)
+      }
+      this.setContext(props)
+    }
+    pC.setLocale = (locale) => {
+      if (typeof context.update === 'function') {
+        context.update({ locale })
+      }
+      // make it posible to change the locale during runtime
+      this.setContext({ locale })
     }
 
-    // make it posible to change the locale during runtime
-    if (!usedContext.setLocale) {
-      usedContext.setLocale = (locale) => this.setContext({ locale })
-    }
-
-    this.state = {
-      usedContext,
-      _listenForPropChanges: true
-    }
+    this.state = pC
+    this.state.isRoot = isRoot
+    this.state._listenForPropChanges = true
   }
 
-  setContext(props) {
+  setContext(newContext) {
     this.setState({
-      usedContext: { ...this.state.usedContext, ...props },
       _listenForPropChanges: false
     })
+    this.setState(newContext)
   }
 
   render() {
     const { children } = this.props
-    return (
-      <Context.Provider value={this.state.usedContext}>
-        {children}
-      </Context.Provider>
-    )
+
+    // this way we update the translation object
+    const context = !this.state.isRoot
+      ? {
+          ...this.context,
+          ...this.state // use this state here, because our child provider can still update the context          ...this.context
+        }
+      : this.state
+
+    return <Context.Provider value={context}>{children}</Context.Provider>
   }
 }
 

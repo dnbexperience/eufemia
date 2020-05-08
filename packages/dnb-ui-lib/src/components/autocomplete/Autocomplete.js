@@ -1323,6 +1323,7 @@ class AutocompleteInstance extends React.PureComponent {
       input_icon,
       size,
       align_autocomplete,
+      fixed_position,
       status,
       status_state,
       status_animation,
@@ -1599,6 +1600,7 @@ class AutocompleteInstance extends React.PureComponent {
                 keep_open={keep_open}
                 prevent_close={prevent_close}
                 align_drawer={align_autocomplete}
+                fixed_position={fixed_position}
                 disabled={disabled}
                 max_height={max_height}
                 direction={direction}

@@ -73,7 +73,7 @@ export default function Tabbar({
             )
           }
 
-          // preload the tab page
+          // preload pages the tab page
           if (
             typeof window !== 'undefined' &&
             typeof window.___loader !== 'undefined'
@@ -89,12 +89,18 @@ export default function Tabbar({
     )
   }, [wasFullscreen])
 
+  const selectedKey = [
+    path.pathname.replace(/(\/)$/, ''),
+    path.search,
+    path.hash
+  ].join('')
+
   return (
     <>
       {title && <H1>{title}</H1>}
       <Tabs
         data={preparedTabs}
-        selected_key={[path.pathname, path.search, path.hash].join('')}
+        selected_key={selectedKey}
         on_change={({ key }) => navigate(key)}
         render={({ Wrapper, Content, TabsList, Tabs }) => {
           return (

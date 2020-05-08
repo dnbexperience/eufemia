@@ -58,6 +58,7 @@ exports[`DrawerList markup have to match snapshot 1`] = `
   }
   default_value="default_value"
   direction="bottom"
+  fixed_position="fixed_position"
   focusable="focusable"
   id="drawer-list-id"
   ignore_events="ignore_events"
@@ -145,6 +146,7 @@ exports[`DrawerList markup have to match snapshot 1`] = `
     }
     default_value="default_value"
     direction="bottom"
+    fixed_position="fixed_position"
     focusable="focusable"
     id="drawer-list-id"
     ignore_events="ignore_events"
@@ -235,6 +237,7 @@ exports[`DrawerList markup have to match snapshot 1`] = `
       }
       default_value="default_value"
       direction="bottom"
+      fixed_position="fixed_position"
       focusable="focusable"
       id="drawer-list-id"
       ignore_events="ignore_events"
@@ -536,6 +539,8 @@ exports[`DrawerList scss have to match snapshot 1`] = `
     top: -100vh;
     left: -100vw;
     z-index: 3010; }
+    .dnb-drawer-list__portal__style--fixed {
+      position: fixed; }
   .dnb-drawer-list__root {
     width: inherit;
     min-width: inherit; }

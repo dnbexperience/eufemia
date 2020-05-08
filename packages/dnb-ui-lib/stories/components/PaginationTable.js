@@ -48,7 +48,7 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
 
   // create our Pagination instance
   const [
-    { Pagination, setContent, resetContent, endInfinity }
+    { Pagination, setContent, resetContent, resetInfinity, endInfinity }
   ] = React.useState(createPagination)
   const [orderDirection, setOrderDirection] = React.useState('asc')
   const [currentPage, setLocalPage] = React.useState(null)
@@ -109,6 +109,7 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
   )
 
   setContent(currentPage, content)
+  let serverDelayTimeout
 
   return (
     <StyledTable sticky>
@@ -121,6 +122,9 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
               icon_position="left"
               variant="secondary"
               on_click={() => {
+                clearTimeout(serverDelayTimeout)
+
+                resetInfinity()
                 resetContent()
 
                 // rerender our component to get back the default state
@@ -175,7 +179,7 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
             console.log('on_startup: with page', page)
 
             // simulate server delay
-            setTimeout(() => {
+            serverDelayTimeout = setTimeout(() => {
               // once we set current page, we force a rerender, and sync of data
               setLocalPage(page)
 
@@ -190,7 +194,7 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
             console.log('on_change: with page', page)
 
             // simulate server delay
-            setTimeout(() => {
+            serverDelayTimeout = setTimeout(() => {
               // once we set current page, we force a rerender, and sync of data
               setLocalPage(page)
             }, Math.ceil(Math.random() * 1e3)) // simulate random delay

@@ -6,6 +6,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
+import classnames from 'classnames'
 import { isInsideScrollView } from '../../shared/component-helper'
 
 let drawerListPortal
@@ -28,6 +29,7 @@ class DrawerListPortal extends React.PureComponent {
       current: PropTypes.oneOfType([PropTypes.node, PropTypes.object])
     }).isRequired,
     useWidthAddition: PropTypes.bool,
+    fixedPosition: PropTypes.bool,
     inactive: PropTypes.bool
   }
 
@@ -35,6 +37,7 @@ class DrawerListPortal extends React.PureComponent {
     rootRef: { current: null },
     innerRef: null,
     useWidthAddition: false,
+    fixedPosition: false,
     inactive: false
   }
 
@@ -90,7 +93,7 @@ class DrawerListPortal extends React.PureComponent {
 
   makeStyle() {
     try {
-      const { rootRef, useWidthAddition } = this.props
+      const { rootRef, useWidthAddition, fixedPosition } = this.props
       const rootElem = rootRef.current
       const ownerElem = rootElem.parentElement
 
@@ -120,10 +123,16 @@ class DrawerListPortal extends React.PureComponent {
       }
 
       // Handle positions
-      const scrollY =
-        window.scrollY !== undefined ? window.scrollY : window.pageYOffset
-      const scrollX =
-        window.scrollX !== undefined ? window.scrollX : window.pageXOffset
+      const scrollY = fixedPosition
+        ? 0
+        : window.scrollY !== undefined
+        ? window.scrollY
+        : window.pageYOffset
+      const scrollX = fixedPosition
+        ? 0
+        : window.scrollX !== undefined
+        ? window.scrollX
+        : window.pageXOffset
       const top = `${(scrollY + rect.top) / 16}rem`
       const left = `${
         (scrollX +
@@ -132,11 +141,13 @@ class DrawerListPortal extends React.PureComponent {
         16
       }rem`
 
-      return {
+      const style = {
         width: `${parseFloat(width) / 16}rem`,
         top,
         left
       }
+
+      return style
     } catch (e) {
       console.warn('Could not create makeStyle in DrawerListPortal!', e)
     }
@@ -181,7 +192,7 @@ class DrawerListPortal extends React.PureComponent {
   }
 
   renderPortal() {
-    const { inactive, id, opened, children } = this.props
+    const { inactive, id, opened, fixedPosition, children } = this.props
     if (inactive) {
       return // stop here
     }
@@ -197,7 +208,10 @@ class DrawerListPortal extends React.PureComponent {
 
     ReactDOM.render(
       <span
-        className="dnb-drawer-list__portal__style"
+        className={classnames(
+          'dnb-drawer-list__portal__style',
+          fixedPosition && 'dnb-drawer-list__portal__style--fixed'
+        )}
         style={style}
         ref={this.ref}
       >
