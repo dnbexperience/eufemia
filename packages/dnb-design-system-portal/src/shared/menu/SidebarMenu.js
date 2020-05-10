@@ -24,7 +24,7 @@ const StyledListItem = styled.li`
   list-style: none;
   margin: 0;
 
-  a {
+  .dnb-anchor {
     position: relative;
     padding: 0;
     height: 2.5rem;
@@ -37,6 +37,7 @@ const StyledListItem = styled.li`
     transform: translateY(1px);
     color: var(--color-emerald-green);
     background-color: inherit;
+    font-size: inherit;
 
     &:hover {
       color: var(--color-black);
@@ -65,7 +66,7 @@ const StyledListItem = styled.li`
     background-color: var(--color-white);
   }
 
-  &.l-1 a {
+  &.l-1 .dnb-anchor {
     margin-left: var(--level-icon-adjust);
     padding-left: calc(var(--level-offset) + var(--level) * 2);
     height: 4rem;
@@ -74,7 +75,7 @@ const StyledListItem = styled.li`
     font-size: var(--font-size-large);
   }
   &.l-2 {
-    a {
+    .dnb-anchor {
       padding-left: calc(var(--level-offset) + var(--level) * 2);
       height: 3.5rem;
 
@@ -94,7 +95,7 @@ const StyledListItem = styled.li`
 
   &.l-3 {
     font-size: var(--font-size-small); /* small size */
-    a {
+    .dnb-anchor {
       padding-left: calc(var(--level-offset) + var(--level) * 3);
     }
     &.is-inside {
@@ -105,13 +106,13 @@ const StyledListItem = styled.li`
     }
   }
 
-  &.l-4 a {
+  &.l-4 .dnb-anchor {
     padding-left: calc(var(--level-offset) + var(--level) * 4);
   }
-  &.l-5 a {
+  &.l-5 .dnb-anchor {
     padding-left: calc(var(--level-offset) + var(--level) * 5);
   }
-  &.l-6 a {
+  &.l-6 .dnb-anchor {
     padding-left: calc(var(--level-offset) + var(--level) * 6);
   }
 
@@ -139,7 +140,7 @@ const StyledListItem = styled.li`
     }
   }
 
-  a:focus:not(:active) {
+  .dnb-anchor:focus:not(:active) {
     color: var(--color-white);
     svg {
       color: var(--color-white);

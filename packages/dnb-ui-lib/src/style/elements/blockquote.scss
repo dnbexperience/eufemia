@@ -85,6 +85,10 @@
     margin: 0;
   }
 
+  .dnb-anchor {
+    font-size: inherit;
+  }
+
   // make contrast
   &:not(.dnb-blockquote--no-background) {
     .dnb-anchor,

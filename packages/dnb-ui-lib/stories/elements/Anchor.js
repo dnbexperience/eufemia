@@ -6,7 +6,7 @@
 import React from 'react'
 import { Wrapper, Box } from '../helpers'
 import styled from '@emotion/styled'
-import { Anchor, P } from '../../src/elements'
+import { Anchor, H1, P } from '../../src/elements'
 import { IconPrimary } from '../../src'
 
 const CustomStyles = styled.div`
@@ -37,11 +37,11 @@ export default [
             porttitor feugiat fusce fringilla justo dui torquent potenti
             montes hendrerit
           </P>
-          {/* <H1>
+          <H1>
             <Anchor href="http://dnb.no" target="_blank">
               Blank taget
             </Anchor>
-          </H1> */}
+          </H1>
           <Anchor
             className="dnb-anchor--no-icon"
             href="http://dnb.no"

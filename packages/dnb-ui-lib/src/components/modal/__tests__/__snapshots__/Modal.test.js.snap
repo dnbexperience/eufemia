@@ -735,6 +735,8 @@ exports[`Modal scss have to match snapshot 1`] = `
     color: inherit;
     line-height: var(--line-height-basis);
     white-space: normal; }
+    .dnb-form-status--text .dnb-anchor {
+      font-size: inherit; }
   .dnb-icon + .dnb-form-status--text {
     padding-left: 0.5rem; }
   .dnb-form-status__shell > .dnb-icon {
@@ -1028,7 +1030,7 @@ button.dnb-button::-moz-focus-inner {
 :root {
   --modal-z-index: 3000;
   --modal-spacing: 2rem;
-  --modal-min-width: 30rem;
+  --modal-min-width: 20rem;
   --modal-avg-width: 60vw;
   --modal-max-width: 60rem;
   --modal-drawer-width: 40vw;
@@ -1087,6 +1089,12 @@ button.dnb-button::-moz-focus-inner {
           max-width: 100%;
           max-height: 100%;
           padding: calc(var(--modal-spacing) / 2) calc(var(--modal-spacing) / 2) 0; } }
+  @media screen and (max-width: 40em) and (max-width: 40em) {
+    .dnb-modal__content__inner {
+      height: calc(100vh - 1rem); } }
+  @media screen and (max-width: 40em) and (min-width: 40em) {
+    .dnb-modal__content__inner {
+      height: calc(100vh - 3rem); } }
     .dnb-modal__content--fullscreen {
       align-items: flex-start;
       justify-content: flex-start; }
@@ -1096,6 +1104,12 @@ button.dnb-button::-moz-focus-inner {
       max-width: 100%;
       max-height: 100%;
       border-radius: 0; }
+      @media screen and (max-width: 40em) {
+        .dnb-modal__content--fullscreen .dnb-modal__content__inner {
+          height: calc(100vh - 1rem); } }
+      @media screen and (min-width: 40em) {
+        .dnb-modal__content--fullscreen .dnb-modal__content__inner {
+          height: calc(100vh - 3rem); } }
     .dnb-modal__content__align--center .dnb-modal__content__inner {
       display: flex;
       flex-direction: column;

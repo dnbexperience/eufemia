@@ -7,6 +7,13 @@
   width: 100vw;
   height: 100vh;
 
+  @include allBelow(small) {
+    height: calc(100vh - 1rem);
+  }
+  @include allAbove(small) {
+    height: calc(100vh - 3rem);
+  }
+
   max-width: 100%; // fixes overflow issue on some browsers
   max-height: 100%;
 }
@@ -16,7 +23,7 @@
   --modal-spacing: 2rem; // should reflect --spacing-large
 
   // we do this because SCSS fails by using min(100vw, 50rem) = "Incompatible units: 'rem' and 'vw'"
-  --modal-min-width: 30rem; // under 40em, because of spacing and later mobile fullscreen
+  --modal-min-width: 20rem; // under 40em, because of spacing and later mobile fullscreen
   --modal-avg-width: 60vw; // content defines the size
   --modal-max-width: 60rem; // because of our default width --layout-large
 

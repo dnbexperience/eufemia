@@ -95,6 +95,8 @@ export const SearchBarInput = () => {
                   margin-right: 0.5rem;
                   word-break: break-word;
                   white-space: nowrap;
+
+                  font-size: inherit;
                 }
               }
 

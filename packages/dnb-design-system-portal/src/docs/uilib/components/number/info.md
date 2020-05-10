@@ -2,6 +2,8 @@
 showTabs: true
 ---
 
+import { Number } from 'dnb-ui-lib/src'
+
 ## Description
 
 A ready to use DNB number formatter. Use it where over you have to display a number, a currency value, phone number etc.
@@ -13,11 +15,11 @@ Good reasons for why we have this is to:
 
 ### Supported formats
 
-- Numbers in general e.g. `12 345 678,90`
-- Currency e.g. `kr 12 345 678,90`
-- Phone numbers e.g. `0047 99 99 99 99`
-- Bank account number e.g. `2000 12 34567`
-- National identification number e.g. `180892 12345`
+- Numbers in general e.g. <pre className="dnb-code"><Number value="12345678.90" /></pre>
+- Currency e.g. <pre className="dnb-code"><Number currency value="12345678.90" /></pre>
+- Phone numbers e.g. <pre className="dnb-code"><Number phone value="004799999999" /></pre>
+- Bank account number e.g. <pre className="dnb-code"><Number ban value="20001234567" /></pre>
+- National identification number e.g. <pre className="dnb-code"><Number nin value="18089212345" /></pre>
 
 ### Defaults
 
@@ -70,7 +72,7 @@ const number = format(value)
 
 // by using returnAria you get an object
 const { number, aria } = format(value, {
-  locale: 'no',
+  locale: 'nb-NO',
   currency: true,
   returnAria: true
 })

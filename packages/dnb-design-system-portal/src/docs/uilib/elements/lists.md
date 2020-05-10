@@ -18,7 +18,7 @@ import CodeBlock from 'Tags/CodeBlock'
     <ul>
       <li>
         Item 1 <br />
-        Break
+        Break with a <a className="dnb-anchor" href="/">Anchor (Text Link</a>
       </li>
       <li>Item 2</li>
     </ul>
