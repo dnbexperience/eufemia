@@ -24,9 +24,28 @@ const emotionCache = createEmotionCache({
 // Optional, use a Provider
 export const rootElement = ({ element }) => (
   <CacheProvider value={emotionCache}>
-    <EufemiaProvider>{element}</EufemiaProvider>
+    <EufemiaProvider locale={getLang()}>{element}</EufemiaProvider>
   </CacheProvider>
 )
 rootElement.propTypes = {
   element: PropTypes.node.isRequired
+}
+
+export function getLang(locale = 'nb-NO') {
+  try {
+    const l = window.localStorage.getItem('locale')
+    if (l) {
+      locale = l
+    }
+  } catch (e) {
+    //
+  }
+  return locale
+}
+export function setLang(locale) {
+  try {
+    window.localStorage.setItem('locale', locale)
+  } catch (e) {
+    //
+  }
 }
