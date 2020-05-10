@@ -3,7 +3,11 @@
  *
  */
 
-@mixin listOffset() {
+@mixin listDefaults() {
+  .dnb-anchor {
+    font-size: inherit;
+  }
+
   & ul,
   & ol {
     margin-top: 0;
@@ -19,7 +23,7 @@
   font-size: var(--font-size-basis);
   line-height: var(--line-height-basis);
 
-  @include listOffset();
+  @include listDefaults();
 
   & li {
     display: list-item;
@@ -34,7 +38,7 @@
 @mixin olStyle() {
   @include ulStyle();
 
-  @include listOffset();
+  @include listDefaults();
 
   & li {
     list-style-type: decimal;
