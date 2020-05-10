@@ -1,6 +1,5 @@
 ---
-title: 'Number'
-developers: 'Articles giving a periodically overview of the changes lately released.'
+showTabs: true
 ---
 
 import { Number } from 'dnb-ui-lib/src'
