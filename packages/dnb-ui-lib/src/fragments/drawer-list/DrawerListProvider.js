@@ -128,6 +128,8 @@ export default class DrawerListProvider extends React.PureComponent {
     clearTimeout(this._focusTimeout)
     clearTimeout(this._hideTimeout)
     clearTimeout(this._selectTimeout)
+    clearTimeout(this._scrollTimeout)
+    clearTimeout(this._ddt)
 
     // NB: do not use setHidden here
     this.setState({
@@ -396,32 +398,35 @@ export default class DrawerListProvider extends React.PureComponent {
   }
 
   scrollToItem = (active_item, { scrollTo = true } = {}) => {
-    // try to scroll to item
-    if (this._refUl.current && parseFloat(active_item) > -1) {
-      try {
-        const ulElement = this._refUl.current
-        const liElement = this.getActiveElement()
-        if (liElement) {
-          const top = liElement.offsetTop
-          if (ulElement.scrollTo) {
-            const params = {
-              top
+    clearTimeout(this._scrollTimeout)
+    this._scrollTimeout = setTimeout(() => {
+      // try to scroll to item
+      if (this._refUl.current && parseFloat(active_item) > -1) {
+        try {
+          const ulElement = this._refUl.current
+          const liElement = this.getActiveElement()
+          if (liElement) {
+            const top = liElement.offsetTop
+            if (ulElement.scrollTo) {
+              const params = {
+                top
+              }
+              if (scrollTo) {
+                params.behavior = 'smooth'
+              }
+              ulElement.scrollTo(params)
+            } else if (ulElement.scrollTop) {
+              ulElement.scrollTop = top
             }
-            if (scrollTo) {
-              params.behavior = 'smooth'
+            if (!isTrue(this.props.prevent_focus) && liElement) {
+              liElement.focus()
             }
-            ulElement.scrollTo(params)
-          } else if (ulElement.scrollTop) {
-            ulElement.scrollTop = top
           }
-          if (!isTrue(this.props.prevent_focus) && liElement) {
-            liElement.focus()
-          }
+        } catch (e) {
+          console.warn('List could not scroll into element:', e)
         }
-      } catch (e) {
-        console.warn('List could not scroll into element:', e)
       }
-    }
+    }, 1) // to make sure we are after all DOM updates, else we don't get this scrolling
   }
 
   scrollToAndSetActiveItem = (

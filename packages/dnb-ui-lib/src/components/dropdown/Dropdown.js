@@ -517,7 +517,8 @@ class DropdownInstance extends React.PureComponent {
         )}
 
         <span className="dnb-dropdown__inner" ref={this._ref}>
-          {/* <AlignmentHelper /> */}
+          {/* NB: The AlignmentHelper is not needed to get the right alignment anymore */
+          /* <AlignmentHelper /> */}
 
           {showStatus && (
             <FormStatus
