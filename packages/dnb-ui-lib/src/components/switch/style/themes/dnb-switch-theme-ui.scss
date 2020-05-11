@@ -103,37 +103,20 @@
   }
 
   /*
-    * On hover
-    *
-    */
-  &__input:not([disabled]):not(:focus):not(:active):hover ~ &__button {
-    border-color: var(--color-sea-green);
-    background-color: var(--color-mint-green-50);
-  }
-
-  /*
-    * On active
-    *
-    */
-  /* stylelint-disable */
-  &__input:not([disabled]):active ~ &__button {
-    background-color: var(--color-mint-green-50);
-    border-color: transparent;
-  }
-  /* stylelint-enable */
-
-  /*
     * On focus
     *
     */
-  /* stylelint-disable */
   &__input:not([disabled]):focus ~ &__button {
     html[data-whatinput='keyboard'] & {
       border: none;
-      // border-color: var(--color-sea-green-30);
     }
   }
-  /* stylelint-enable */
+  /* stylelint-disable-next-line */
+  &__input:not([disabled]):not(:checked):focus ~ &__button {
+    html[data-whatinput='keyboard'] & {
+      background-color: var(--color-mint-green-50);
+    }
+  }
   &__input:not([disabled]):focus ~ &__background,
   &__input:not([disabled]):active ~ &__background {
     @include fakeFocus();
@@ -145,19 +128,34 @@
   &__input:not([disabled]):checked ~ &__button &__focus {
     transform: rotate(180deg);
   }
-  /* stylelint-disable */
-  &__input:not([disabled]):not(:checked):focus ~ &__button,
-  &__input:not([disabled]):not(:checked):active ~ &__button {
+
+  /*
+    * On hover
+    *
+    */
+  /* stylelint-disable-next-line */
+  &__input:not([disabled]):not(:focus):not(:active):hover ~ &__button {
+    border-color: var(--color-sea-green);
     background-color: var(--color-mint-green-50);
   }
-  /* stylelint-enable */
+
+  /*
+    * On active
+    *
+    */
+  /* stylelint-disable-next-line */
+  &__input:not([disabled]):active ~ &__button {
+    background-color: var(--color-mint-green-50);
+    border-color: transparent;
+  }
 
   /*
     * On error state
     *
     */
-  // change button color
+  /* stylelint-disable-next-line */
   &__status--error &__input:not([disabled]):not(:focus):hover ~ &__button {
+    // change button color
     border-color: var(--color-fire-red);
     background-color: var(--color-fire-red-8);
   }
@@ -171,10 +169,10 @@
     ~ &__button {
     background-color: var(--color-fire-red);
   }
-  // change background color
   &__status--error
     &__input:not([disabled]):not(:focus):not(:active)
     ~ &__background {
+    // change background color
     background-color: var(--color-fire-red-8);
     @include fakeBorder(var(--color-fire-red), $focusRingWidth);
   }
