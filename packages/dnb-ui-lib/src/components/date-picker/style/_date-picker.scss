@@ -410,6 +410,7 @@
   > .dnb-form-label {
     line-height: var(--line-height-basis);
   }
+  @include formLabelWrap();
 
   &[class*='__status'] {
     align-items: flex-start;

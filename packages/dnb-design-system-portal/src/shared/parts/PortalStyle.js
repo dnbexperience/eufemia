@@ -49,6 +49,16 @@ if (typeof window !== 'undefined' && window.IS_TEST) {
 }
 
 export default css`
+  ${'' /* .dnb-form-component {
+    @media (max-width: 40em) {
+      flex-wrap: wrap;
+      & > .dnb-form-label {
+        margin-bottom: 0.5rem;
+        margin-top: 0.5rem;
+      }
+    }
+  } */}
+
   /*
     Make sure we cut the tab and seciton parts on the left side
     so it's not visible "over" the sidebar.

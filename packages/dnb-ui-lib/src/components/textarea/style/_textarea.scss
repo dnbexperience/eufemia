@@ -136,6 +136,7 @@
       margin-top: 0.25rem;
     }
   }
+  @include formLabelWrap();
 
   // make the input full width
   &--stretch {
