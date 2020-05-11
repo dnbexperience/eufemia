@@ -940,7 +940,6 @@ exports[`GlobalStatus snapshot have to match component snapshot 1`] = `
                       className="dnb-button dnb-button--tertiary dnb-button--has-text dnb-global-status__close-button dnb-button--icon-position-left dnb-button--has-icon dnb-button--icon-size-medium dnb-button--size-medium"
                       disabled={false}
                       onClick={[Function]}
-                      onMouseOut={[Function]}
                       type="button"
                     >
                       <Content

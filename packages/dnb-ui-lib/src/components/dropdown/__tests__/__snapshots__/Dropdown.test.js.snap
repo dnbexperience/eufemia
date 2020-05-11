@@ -478,7 +478,6 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                   onFocus={[Function]}
                   onKeyDown={[Function]}
                   onMouseDown={[Function]}
-                  onMouseOut={[Function]}
                   type="button"
                 >
                   <Content

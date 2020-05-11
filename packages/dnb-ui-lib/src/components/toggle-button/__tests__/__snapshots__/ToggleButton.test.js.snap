@@ -118,7 +118,6 @@ exports[`ToggleButton component have to match snapshot 1`] = `
             onClick={[Function]}
             onKeyDown={[Function]}
             onKeyUp={[Function]}
-            onMouseOut={[Function]}
             title="title"
             type="button"
           >
@@ -240,7 +239,6 @@ exports[`ToggleButton component have to match snapshot 1`] = `
                             name="toggle-button-checkbox"
                             onChange={[Function]}
                             onKeyDown={[Function]}
-                            onMouseOut={[Function]}
                             tabIndex="-1"
                             title={null}
                             type="checkbox"
@@ -544,7 +542,6 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
                               onClick={[Function]}
                               onKeyDown={[Function]}
                               onKeyUp={[Function]}
-                              onMouseOut={[Function]}
                               type="button"
                             >
                               <Content
@@ -680,7 +677,6 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
                               onClick={[Function]}
                               onKeyDown={[Function]}
                               onKeyUp={[Function]}
-                              onMouseOut={[Function]}
                               type="button"
                             >
                               <Content

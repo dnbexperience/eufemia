@@ -606,7 +606,6 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                                   onClick={[Function]}
                                   onFocus={[Function]}
                                   onKeyDown={[Function]}
-                                  onMouseOut={[Function]}
                                   onSubmit={[Function]}
                                   type="submit"
                                 >

@@ -126,7 +126,6 @@ exports[`Modal component have to match snapshot 1`] = `
         disabled={false}
         id="modal_id"
         onClick={[Function]}
-        onMouseOut={[Function]}
         type="button"
       >
         <Content
@@ -493,7 +492,6 @@ exports[`Modal component have to match snapshot 1`] = `
                       className="dnb-button dnb-button--secondary dnb-modal__close-button dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-medium dnb-button--size-medium"
                       disabled={false}
                       onClick={[Function]}
-                      onMouseOut={[Function]}
                       type="button"
                     >
                       <Content
