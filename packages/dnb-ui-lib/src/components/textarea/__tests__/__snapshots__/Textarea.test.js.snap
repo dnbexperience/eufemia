@@ -344,6 +344,7 @@ exports[`Textarea scss have to match snapshot 1`] = `
   text-align: left;
   vertical-align: baseline;
   white-space: pre-wrap;
+  word-break: normal;
   font-size: var(--font-size-basis);
   color: inherit; }
   .dnb-form-label--vertical {
@@ -735,6 +736,12 @@ textarea.dnb-textarea {
     align-items: flex-start; }
     .dnb-textarea[class*='__status'] > .dnb-form-label {
       margin-top: 0.25rem; }
+  @media (max-width: 40em) {
+    .dnb-textarea {
+      flex-wrap: wrap; }
+      .dnb-textarea > .dnb-form-label {
+        margin-bottom: 0.5rem;
+        margin-top: 0.5rem; } }
   .dnb-textarea--stretch {
     display: flex; }
   .dnb-textarea--stretch .dnb-textarea__inner {

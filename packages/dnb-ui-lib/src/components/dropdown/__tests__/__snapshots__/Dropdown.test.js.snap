@@ -1638,6 +1638,7 @@ button.dnb-button::-moz-focus-inner {
   text-align: left;
   vertical-align: baseline;
   white-space: pre-wrap;
+  word-break: normal;
   font-size: var(--font-size-basis);
   color: inherit; }
   .dnb-form-label--vertical {
@@ -1827,6 +1828,12 @@ legend.dnb-form-label {
   .dnb-dropdown > .dnb-form-label {
     margin-right: 1rem;
     line-height: var(--line-height-basis); }
+  @media (max-width: 40em) {
+    .dnb-dropdown {
+      flex-wrap: wrap; }
+      .dnb-dropdown > .dnb-form-label {
+        margin-bottom: 0.5rem;
+        margin-top: 0.5rem; } }
   label + .dnb-dropdown[class*='__form-status'] {
     vertical-align: top; }
     label + .dnb-dropdown[class*='__form-status'] .dnb-dropdown__shell {
