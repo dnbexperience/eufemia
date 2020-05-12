@@ -5,7 +5,7 @@
 
 import React from 'react'
 import { Wrapper, Box } from '../helpers'
-// import styled from '@emotion/styled'
+import { Global, css } from '@emotion/core'
 
 import {
   Modal,
@@ -26,6 +26,14 @@ export default [
   'Modal',
   () => (
     <Wrapper>
+      <Global
+        styles={css`
+          :root {
+            --modal-height-offset: 3rem;
+          }
+        `}
+      />
+
       <Box>
         <Button variant="tertiary" text="Button" />
         <Modal
