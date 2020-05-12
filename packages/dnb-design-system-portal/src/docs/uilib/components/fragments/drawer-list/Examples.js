@@ -33,6 +33,7 @@ const DrawerListWithState = props => {
         on_change={({ checked }) => setOpened(checked)}
       />
       <DrawerList
+        skip_portal
         data={data}
         opened={opened}
         on_hide={() => setOpened(false)}

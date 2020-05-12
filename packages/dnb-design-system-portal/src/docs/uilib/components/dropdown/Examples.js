@@ -50,6 +50,7 @@ render(
   <Dropdown
     data={scrollableData}
     value={5}
+    use_mobile_view={true}
     label="Label:"
   />
 )

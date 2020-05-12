@@ -71,6 +71,7 @@ const DropdownStory = () => {
           <Dropdown
             size="small"
             opened={opened}
+            use_mobile_view
             no_animation
             direction={direction}
             align_dropdown={align_dropdown}
@@ -152,7 +153,7 @@ const DropdownStory = () => {
             <Dropdown
               size="small"
               // opened={opened}
-              // opened
+              opened
               label={label}
               no_animation
               direction={direction}

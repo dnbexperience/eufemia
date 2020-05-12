@@ -391,6 +391,7 @@ class DropdownInstance extends React.PureComponent {
       size,
       align_dropdown,
       fixed_position,
+      use_mobile_view,
       status,
       status_state,
       status_animation,
@@ -593,6 +594,7 @@ class DropdownInstance extends React.PureComponent {
                 independent_width={isPopupMenu}
                 align_drawer={align_dropdown}
                 fixed_position={fixed_position}
+                use_mobile_view={use_mobile_view}
                 disabled={disabled}
                 max_height={max_height}
                 direction={direction}

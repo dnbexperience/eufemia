@@ -126,6 +126,7 @@ export default class DrawerListProvider extends React.PureComponent {
 
   componentWillUnmount() {
     clearTimeout(this._showTimeout)
+    clearTimeout(this._outsideClickTimeout)
     clearTimeout(this._hideTimeout)
     clearTimeout(this._selectTimeout)
     clearTimeout(this._scrollTimeout)
@@ -733,14 +734,19 @@ export default class DrawerListProvider extends React.PureComponent {
 
   setOutsideClickObserver = () => {
     this.removeOutsideClickObserver()
-    this.outsideClick = detectOutsideClick(
-      [
-        this.state.wrapper_element,
-        this._refRoot.current,
-        this._refUl.current
-      ],
-      this.setHidden // hide if document.activeElement is not inside our elements
-    )
+
+    clearTimeout(this._outsideClickTimeout)
+    this._outsideClickTimeout = setTimeout(() => {
+      this.outsideClick = detectOutsideClick(
+        [
+          this.state.wrapper_element,
+          this._refRoot.current,
+          this._refUl.current
+        ],
+        this.setHidden // hide if document.activeElement is not inside our elements
+      )
+    }, 1) // delay so we get a proper this._refUl.current used in setOutsideClickObserver
+
     if (typeof document !== 'undefined') {
       document.addEventListener('keydown', this.onKeyDownHandler)
     }

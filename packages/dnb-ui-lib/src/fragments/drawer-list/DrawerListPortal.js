@@ -31,6 +31,7 @@ class DrawerListPortal extends React.PureComponent {
     }).isRequired,
     useWidthAddition: PropTypes.bool,
     fixedPosition: PropTypes.bool,
+    useMobileView: PropTypes.bool,
     inactive: PropTypes.bool
   }
 
@@ -39,6 +40,7 @@ class DrawerListPortal extends React.PureComponent {
     innerRef: null,
     useWidthAddition: false,
     fixedPosition: false,
+    useMobileView: false,
     inactive: false
   }
 
@@ -144,6 +146,7 @@ class DrawerListPortal extends React.PureComponent {
       // NB:  before we recalculated the values to REM, but iOS rounds this and we get a wrong total value out of that!
       const style = {
         width,
+        '--drawer-list-width': `${width / 16}rem`, // used by the "drawer-list-scale-in" aniation
         top,
         left
       }
@@ -193,7 +196,14 @@ class DrawerListPortal extends React.PureComponent {
   }
 
   renderPortal() {
-    const { inactive, id, opened, fixedPosition, children } = this.props
+    const {
+      inactive,
+      id,
+      opened,
+      fixedPosition,
+      useMobileView,
+      children
+    } = this.props
     if (inactive) {
       return // stop here
     }
@@ -211,7 +221,8 @@ class DrawerListPortal extends React.PureComponent {
       <span
         className={classnames(
           'dnb-drawer-list__portal__style',
-          fixedPosition && 'dnb-drawer-list__portal__style--fixed'
+          fixedPosition && 'dnb-drawer-list__portal__style--fixed',
+          useMobileView && 'dnb-drawer-list__portal__style--mobile-view'
         )}
         style={style}
         ref={this.ref}

@@ -716,6 +716,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                 skip_keysearch={false}
                 skip_portal={true}
                 triangle_position={null}
+                use_mobile_view={false}
                 value={2}
                 wrapper_element={null}
               >
@@ -759,6 +760,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                   skip_keysearch={false}
                   skip_portal={true}
                   triangle_position={null}
+                  use_mobile_view={false}
                   value={2}
                   wrapper_element={null}
                 >
