@@ -71,6 +71,7 @@ const DropdownStory = () => {
           <Dropdown
             size="small"
             opened={opened}
+            use_mobile_view
             no_animation
             direction={direction}
             align_dropdown={align_dropdown}
@@ -331,6 +332,7 @@ const DropdownStory = () => {
         </FormRow>
       </Box>
       <Box>
+        <span className="dnb-p">Eros semper</span>
         <Dropdown
           label="Label:"
           // direction="top"
@@ -338,14 +340,12 @@ const DropdownStory = () => {
           value={4}
           no_scroll_animation="true"
           status="Message to the user"
+          right
         />
-        <p className="dnb-p">
-          Eros semper blandit tellus mollis primis quisque platea
-          sollicitudin ipsum
-        </p>
+        <span className="dnb-p">Eros semper</span>
       </Box>
       <Box>
-        <FormLabel for_id="text-dropdown-1" text="Label:" />
+        <FormLabel for_id="text-dropdown-1" text="FormLabel Label:" />
         <Dropdown
           data={dropdownData}
           id="text-dropdown-1"

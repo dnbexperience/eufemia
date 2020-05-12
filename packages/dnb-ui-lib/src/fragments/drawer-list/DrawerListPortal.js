@@ -8,6 +8,7 @@ import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import { isInsideScrollView } from '../../shared/component-helper'
+// import { getOffsetTop } from '../../shared/helpers'
 
 let drawerListPortal
 if (typeof window !== 'undefined') {
@@ -30,6 +31,7 @@ class DrawerListPortal extends React.PureComponent {
     }).isRequired,
     useWidthAddition: PropTypes.bool,
     fixedPosition: PropTypes.bool,
+    useMobileView: PropTypes.bool,
     inactive: PropTypes.bool
   }
 
@@ -38,6 +40,7 @@ class DrawerListPortal extends React.PureComponent {
     innerRef: null,
     useWidthAddition: false,
     fixedPosition: false,
+    useMobileView: false,
     inactive: false
   }
 
@@ -94,10 +97,9 @@ class DrawerListPortal extends React.PureComponent {
   makeStyle() {
     try {
       const { rootRef, useWidthAddition, fixedPosition } = this.props
+
       const rootElem = rootRef.current
       const ownerElem = rootElem.parentElement
-
-      const rect = rootElem.getBoundingClientRect()
 
       // min width as  a threshold
       let width = 64
@@ -117,12 +119,13 @@ class DrawerListPortal extends React.PureComponent {
       }
 
       // also check if root "has a custom width"
-      const { width: customWidth } = rect
+      const { width: customWidth } = rootElem.getBoundingClientRect()
       if (parseFloat(customWidth) >= 64) {
         width = customWidth
       }
 
       // Handle positions
+      const rect = rootElem.getBoundingClientRect()
       const scrollY = fixedPosition
         ? 0
         : window.scrollY !== undefined
@@ -133,16 +136,17 @@ class DrawerListPortal extends React.PureComponent {
         : window.scrollX !== undefined
         ? window.scrollX
         : window.pageXOffset
-      const top = `${(scrollY + rect.top) / 16}rem`
-      const left = `${
-        (scrollX +
-          rect.left +
-          (useWidthAddition ? parseFloat(ownerWidth) : 0)) /
-        16
-      }rem`
+      const top = scrollY + rect.top
+      // const top = scrollY + getOffsetTop(rootElem) // iOS 8 safe version
+      const left =
+        scrollX +
+        rect.left +
+        (useWidthAddition ? parseFloat(ownerWidth) : 0)
 
+      // NB:  before we recalculated the values to REM, but iOS rounds this and we get a wrong total value out of that!
       const style = {
-        width: `${parseFloat(width) / 16}rem`,
+        width,
+        '--drawer-list-width': `${width / 16}rem`, // used by the "drawer-list-scale-in" aniation
         top,
         left
       }
@@ -192,7 +196,14 @@ class DrawerListPortal extends React.PureComponent {
   }
 
   renderPortal() {
-    const { inactive, id, opened, fixedPosition, children } = this.props
+    const {
+      inactive,
+      id,
+      opened,
+      fixedPosition,
+      useMobileView,
+      children
+    } = this.props
     if (inactive) {
       return // stop here
     }
@@ -210,7 +221,8 @@ class DrawerListPortal extends React.PureComponent {
       <span
         className={classnames(
           'dnb-drawer-list__portal__style',
-          fixedPosition && 'dnb-drawer-list__portal__style--fixed'
+          fixedPosition && 'dnb-drawer-list__portal__style--fixed',
+          useMobileView && 'dnb-drawer-list__portal__style--mobile-view'
         )}
         style={style}
         ref={this.ref}

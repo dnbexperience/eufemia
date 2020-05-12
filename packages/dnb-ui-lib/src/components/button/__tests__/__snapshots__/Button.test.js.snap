@@ -32,7 +32,6 @@ exports[`Button component have to match default button snapshot 1`] = `
     disabled={false}
     id="id"
     onClick={[Function]}
-    onMouseOut={[Function]}
     title="This is a button title"
     type="type"
   >
@@ -152,7 +151,6 @@ exports[`Button component have to match href="..." snapshot 1`] = `
     href="https://url"
     id="id"
     onClick={[Function]}
-    onMouseOut={[Function]}
     title="This is a button title"
     type="type"
   >

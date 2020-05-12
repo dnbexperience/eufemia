@@ -14,8 +14,6 @@ class Example extends React.PureComponent {
         <ComponentBox
           title="Default dropdown, with long list to make it scrollable and searchable"
           useRender
-          hideCode
-          hideSyntaxButton
         >
           {
             /* @jsx */ `
@@ -52,6 +50,7 @@ render(
   <Dropdown
     data={scrollableData}
     value={5}
+    use_mobile_view={true}
     label="Label:"
   />
 )
@@ -62,7 +61,6 @@ render(
           title="Default dropdown - no `value` is defined, but a `title` is given."
           data-dnb-test="dropdown-closed"
           useRender
-          hideSyntaxButton
         >
           {
             /* @jsx */ `

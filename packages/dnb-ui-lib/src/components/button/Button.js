@@ -142,11 +142,6 @@ export default class Button extends React.PureComponent {
     }
   }
 
-  onMouseOutHandler = () => {
-    if (this._ref.current) {
-      this._ref.current.blur()
-    }
-  }
   onClickHandler = (event) => {
     const afterContent = dispatchCustomElementEvent(this, 'on_click', {
       event
@@ -278,7 +273,6 @@ export default class Button extends React.PureComponent {
       id,
       disabled: isTrue(disabled),
       ...attributes,
-      onMouseOut: this.onMouseOutHandler, // for resetting the button to the default state
       onClick: this.onClickHandler
     }
 

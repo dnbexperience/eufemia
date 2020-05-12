@@ -237,17 +237,24 @@
   }
 
   // selected
+  // The code below makrs the triangle on focus only, becuas of the focus ring, it can make sence
+  // &--bottom
+  //   &__option.closest-to-top#{&}__option--focus
+  //   ~ &__triangle::before,
+  // &--top
+  //   &__option.closest-to-bottom#{&}__option--focus
+  //   ~ &__triangle::before,
+  &--bottom
+    &__option.first-of-type#{&}__option--selected
+    ~ &__triangle::before,
+  &--top
+    &__option.last-of-type#{&}__option--selected
+    ~ &__triangle::before,
   &--bottom
     &__option.closest-to-top#{&}__option--selected
     ~ &__triangle::before,
-  &--bottom
-    &__option.closest-to-top#{&}__option--focus
-    ~ &__triangle::before,
   &--top
     &__option.closest-to-bottom#{&}__option--selected
-    ~ &__triangle::before,
-  &--top
-    &__option.closest-to-bottom#{&}__option--focus
     ~ &__triangle::before {
     background-color: var(--drawer-list-option-background-color--selected);
   }

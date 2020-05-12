@@ -364,14 +364,6 @@ describe('DrawerList component', () => {
 
     // then open again
     keydown(Comp, 32) // space
-    // await wait(100)
-    //
-    // // then simulate changes
-    // keydown(Comp, 40 ) // down
-    // expect(on_select.mock.calls[2][0].active_item).toBe(1)
-    //
-    // keydown(Comp, 13 ) // enter
-    // expect(on_change.mock.calls[1][0].value).toBe('b')
   })
 
   it('has to return all additional attributes the event return', () => {

@@ -468,7 +468,6 @@ exports[`Pagination bar component have to match snapshot 1`] = `
                 className="dnb-button dnb-button--secondary dnb-pagination__button dnb-button--icon-position-right dnb-button--has-icon dnb-button--size-small"
                 disabled={true}
                 onClick={[Function]}
-                onMouseOut={[Function]}
                 type="button"
               >
                 <Content
@@ -580,7 +579,6 @@ exports[`Pagination bar component have to match snapshot 1`] = `
                 className="dnb-button dnb-button--secondary dnb-pagination__button dnb-button--icon-position-right dnb-button--has-icon dnb-button--size-small"
                 disabled={false}
                 onClick={[Function]}
-                onMouseOut={[Function]}
                 title="Neste side"
                 type="button"
               >

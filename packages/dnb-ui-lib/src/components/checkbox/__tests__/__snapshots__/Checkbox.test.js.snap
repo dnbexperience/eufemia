@@ -118,7 +118,6 @@ exports[`Checkbox component have to match snapshot 1`] = `
             name="checkbox"
             onChange={[Function]}
             onKeyDown={[Function]}
-            onMouseOut={[Function]}
             title={null}
             type="checkbox"
             value=""
@@ -187,17 +186,17 @@ exports[`Checkbox scss have to match default theme snapshot 1`] = `
     *
     */
   /*
+    * On focus
+    *
+    */
+  /*
     * On hover
     *
     */
+  /* stylelint-disable-next-line */
+  /* stylelint-disable-next-line */
   /*
     * On active
-    *
-    */
-  /* stylelint-disable */
-  /* stylelint-enable */
-  /*
-    * On focus
     *
     */
   /* stylelint-disable */
@@ -226,6 +225,14 @@ exports[`Checkbox scss have to match default theme snapshot 1`] = `
   .dnb-checkbox__input[disabled]:checked ~ .dnb-checkbox__button {
     border-color: transparent;
     background-color: var(--color-sea-green-30); }
+  html[data-whatinput='keyboard'] .dnb-checkbox__input:not([disabled]):focus ~ .dnb-checkbox__button {
+    border: none;
+    background-color: var(--color-mint-green-50); }
+  html[data-whatinput='keyboard'] .dnb-checkbox__input:not([disabled]):focus ~ .dnb-checkbox__gfx {
+    color: var(--color-sea-green); }
+  .dnb-checkbox__input:not([disabled]):focus ~ .dnb-checkbox__button .dnb-checkbox__focus,
+  .dnb-checkbox__input:not([disabled]):active ~ .dnb-checkbox__button .dnb-checkbox__focus {
+    display: block; }
   .dnb-checkbox__input:not([disabled]):not(:focus):hover ~ .dnb-checkbox__button {
     background-color: var(--color-mint-green-50); }
   .dnb-checkbox__input:not([disabled]):not(:focus):checked:hover ~ .dnb-checkbox__button {
@@ -237,17 +244,6 @@ exports[`Checkbox scss have to match default theme snapshot 1`] = `
     border-color: transparent; }
   .dnb-checkbox__input:not([disabled]):active ~ .dnb-checkbox__gfx {
     color: var(--color-white); }
-  html[data-whatinput='keyboard'] .dnb-checkbox__input:not([disabled]):focus ~ .dnb-checkbox__button {
-    border: none;
-    background-color: var(--color-mint-green-50); }
-  html[data-whatinput='keyboard'] .dnb-checkbox__input:not([disabled]):focus ~ .dnb-checkbox__gfx {
-    color: var(--color-sea-green); }
-  .dnb-checkbox__input:not([disabled]):focus ~ .dnb-checkbox__button .dnb-checkbox__focus,
-  .dnb-checkbox__input:not([disabled]):active ~ .dnb-checkbox__button .dnb-checkbox__focus {
-    display: block; }
-  .dnb-checkbox__input:not([disabled]):not(:checked):focus ~ .dnb-checkbox__button,
-  .dnb-checkbox__input:not([disabled]):not(:checked):active ~ .dnb-checkbox__button {
-    background-color: var(--color-mint-green-50); }
   .dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):not(:focus):not(:active) ~ .dnb-checkbox__button {
     border: none; }
   .dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):not(:focus):not(:active) ~ .dnb-checkbox__button .dnb-checkbox__focus {
@@ -340,6 +336,7 @@ exports[`Checkbox scss have to match snapshot 1`] = `
   text-align: left;
   vertical-align: baseline;
   white-space: pre-wrap;
+  word-break: normal;
   font-size: var(--font-size-basis);
   color: inherit; }
   .dnb-form-label--vertical {

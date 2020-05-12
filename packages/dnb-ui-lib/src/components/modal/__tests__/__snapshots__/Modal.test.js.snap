@@ -126,7 +126,6 @@ exports[`Modal component have to match snapshot 1`] = `
         disabled={false}
         id="modal_id"
         onClick={[Function]}
-        onMouseOut={[Function]}
         type="button"
       >
         <Content
@@ -493,7 +492,6 @@ exports[`Modal component have to match snapshot 1`] = `
                       className="dnb-button dnb-button--secondary dnb-modal__close-button dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-medium dnb-button--size-medium"
                       disabled={false}
                       onClick={[Function]}
-                      onMouseOut={[Function]}
                       type="button"
                     >
                       <Content
@@ -1033,6 +1031,7 @@ button.dnb-button::-moz-focus-inner {
   --modal-min-width: 20rem;
   --modal-avg-width: 60vw;
   --modal-max-width: 60rem;
+  --modal-height-offset: 0.0001rem;
   --modal-drawer-width: 40vw;
   --modal-drawer-min-width: 25rem;
   --modal-drawer-max-width: 40rem; }
@@ -1086,30 +1085,20 @@ button.dnb-button::-moz-focus-inner {
         .dnb-modal__content__inner {
           width: 100vw;
           height: 100vh;
+          height: calc(100vh - var(--modal-height-offset));
           max-width: 100%;
           max-height: 100%;
           padding: calc(var(--modal-spacing) / 2) calc(var(--modal-spacing) / 2) 0; } }
-  @media screen and (max-width: 40em) and (max-width: 40em) {
-    .dnb-modal__content__inner {
-      height: calc(100vh - 1rem); } }
-  @media screen and (max-width: 40em) and (min-width: 40em) {
-    .dnb-modal__content__inner {
-      height: calc(100vh - 3rem); } }
     .dnb-modal__content--fullscreen {
       align-items: flex-start;
       justify-content: flex-start; }
     .dnb-modal__content--fullscreen .dnb-modal__content__inner {
       width: 100vw;
       height: 100vh;
+      height: calc(100vh - var(--modal-height-offset));
       max-width: 100%;
       max-height: 100%;
       border-radius: 0; }
-      @media screen and (max-width: 40em) {
-        .dnb-modal__content--fullscreen .dnb-modal__content__inner {
-          height: calc(100vh - 1rem); } }
-      @media screen and (min-width: 40em) {
-        .dnb-modal__content--fullscreen .dnb-modal__content__inner {
-          height: calc(100vh - 3rem); } }
     .dnb-modal__content__align--center .dnb-modal__content__inner {
       display: flex;
       flex-direction: column;

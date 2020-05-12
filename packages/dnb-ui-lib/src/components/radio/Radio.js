@@ -253,17 +253,6 @@ export default class Radio extends React.PureComponent {
     }
   }
 
-  onMouseOutHandler = (event) => {
-    dispatchCustomElementEvent(this, 'on_mouse_out', { event })
-    // this way we keep the new state after the user changed the state, without getting the error state back vissually
-    if (this.props.status && this.props.status_state === 'error') {
-      return
-    }
-    if (this._refInput.current) {
-      this._refInput.current.blur()
-    }
-  }
-
   render() {
     return (
       <Context.Consumer>
@@ -335,8 +324,7 @@ export default class Radio extends React.PureComponent {
           const inputParams = {
             role: hasContext || group ? 'radio' : null,
             type: hasContext || group ? 'radio' : 'checkbox', // overwriting the type
-            ...rest,
-            onMouseOut: this.onMouseOutHandler // for resetting the button to the default state
+            ...rest
           }
 
           if (showStatus || suffix) {

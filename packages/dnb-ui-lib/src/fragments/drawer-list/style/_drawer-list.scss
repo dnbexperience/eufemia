@@ -14,26 +14,34 @@
   --drawer-list-height--large: 3rem;
 }
 
-@mixin openDrawerList($state: 'animation') {
+@mixin openDrawerList($type: 'slide') {
   z-index: 100; // make sure we are over e.g. switch
   display: flex;
   flex-direction: column;
 
-  &:not(#{&}--no-animation) {
-    animation: drawer-list-slide-down 200ms ease-out 1 forwards;
-  }
-  html[data-dnb-test] &,
-  &--no-animation {
-    animation: drawer-list-slide-down 1ms ease-out 1 forwards;
+  @if $type == 'scale' {
+    animation: drawer-list-scale-in 200ms ease-out 1 forwards;
+  } @else {
+    &:not(#{&}--no-animation) {
+      animation: drawer-list-slide-down 200ms ease-out 1 forwards;
+    }
+    html[data-dnb-test] &,
+    &--no-animation {
+      animation: drawer-list-slide-down 1ms ease-out 1 forwards;
+    }
   }
 }
-@mixin closDrawerList($state: 'animation') {
-  &:not(#{&}--no-animation) {
-    animation: drawer-list-slide-up 150ms ease-out 1 forwards;
-  }
-  html[data-dnb-test] &,
-  &--no-animation {
-    animation: drawer-list-slide-up 1ms ease-out 1 forwards;
+@mixin closDrawerList($type: 'slide') {
+  @if $type == 'scale' {
+    animation: drawer-list-scale-out 150ms ease-out 1 forwards;
+  } @else {
+    &:not(#{&}--no-animation) {
+      animation: drawer-list-slide-up 150ms ease-out 1 forwards;
+    }
+    html[data-dnb-test] &,
+    &--no-animation {
+      animation: drawer-list-slide-up 1ms ease-out 1 forwards;
+    }
   }
 }
 @mixin drawer-listClosed() {
@@ -156,6 +164,8 @@
     padding: 0;
     color: inherit;
 
+    outline: none;
+
     background-color: var(--color-white);
 
     &__inner {
@@ -254,6 +264,11 @@
   &--opened &__list {
     @include openDrawerList();
   }
+  @media (max-width: 40em) {
+    &__portal &--mobile-view#{&}--opened &__list {
+      @include openDrawerList('scale');
+    }
+  }
   &--hidden &__list {
     @include drawer-listClosed();
   }
@@ -337,8 +352,32 @@
     bottom: 0;
   }
 
+  @media (max-width: 40em) {
+    &__portal &--mobile-view,
+    &__portal__style--mobile-view {
+      top: 0 !important;
+      right: 0 !important;
+      left: auto !important;
+    }
+    &__portal__style--mobile-view {
+      position: fixed;
+    }
+
+    &__portal &--mobile-view &__list,
+    &__portal &--mobile-view &__options {
+      height: 100vh;
+      top: 0 !important;
+      max-height: 100vh !important;
+    }
+  }
+
   &:not(.dnb-drawer-list--opened) &__list {
     @include closDrawerList();
+  }
+  @media (max-width: 40em) {
+    &__portal &--mobile-view#{&}:not(.dnb-drawer-list--opened) &__list {
+      @include closDrawerList('scale');
+    }
   }
 
   // IE fix
@@ -353,6 +392,27 @@
       // IE has bug where the height can't be calculated propery
       display: block;
     }
+  }
+}
+
+@keyframes drawer-list-scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.8) translateX(calc(1px - var(--drawer-list-width)));
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateX(0);
+  }
+}
+@keyframes drawer-list-scale-out {
+  from {
+    opacity: 1;
+    transform: scale(1) translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.8) translateX(calc(1px - var(--drawer-list-width)));
   }
 }
 

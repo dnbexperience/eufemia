@@ -174,16 +174,6 @@ export default class Checkbox extends React.PureComponent {
     }
   }
 
-  onMouseOutHandler = () => {
-    // this way we keep the new state after the user changed the state, without getting the error state back vissually
-    if (this.props.status && this.props.status_state === 'error') {
-      return
-    }
-    if (this._refInput.current) {
-      this._refInput.current.blur()
-    }
-  }
-
   render() {
     // use only the props from context, who are available here anyway
     const props = extendPropsWithContext(
@@ -242,7 +232,6 @@ export default class Checkbox extends React.PureComponent {
     const inputParams = {
       disabled,
       checked,
-      onMouseOut: this.onMouseOutHandler, // for resetting the button to the default state
       ...rest
     }
 

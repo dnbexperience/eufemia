@@ -110,7 +110,6 @@ exports[`Slider component have to match snapshot 1`] = `
             className="dnb-button dnb-button--secondary dnb-slider__button dnb-slider__button--subtract dnb-button--icon-position-right dnb-button--has-icon dnb-button--size-small"
             disabled={false}
             onClick={[Function]}
-            onMouseOut={[Function]}
             type="button"
           >
             <Content
@@ -257,7 +256,6 @@ exports[`Slider component have to match snapshot 1`] = `
                 disabled={false}
                 onClick={[Function]}
                 onMouseDown={[Function]}
-                onMouseOut={[Function]}
                 tabIndex="-1"
                 type="button"
               >
@@ -339,7 +337,6 @@ exports[`Slider component have to match snapshot 1`] = `
             className="dnb-button dnb-button--secondary dnb-slider__button dnb-slider__button--add dnb-button--icon-position-right dnb-button--has-icon dnb-button--size-small"
             disabled={false}
             onClick={[Function]}
-            onMouseOut={[Function]}
             type="button"
           >
             <Content
@@ -908,6 +905,7 @@ button.dnb-button::-moz-focus-inner {
   text-align: left;
   vertical-align: baseline;
   white-space: pre-wrap;
+  word-break: normal;
   font-size: var(--font-size-basis);
   color: inherit; }
   .dnb-form-label--vertical {

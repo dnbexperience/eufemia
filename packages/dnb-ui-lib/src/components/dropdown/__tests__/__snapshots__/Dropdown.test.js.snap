@@ -478,7 +478,6 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                   onFocus={[Function]}
                   onKeyDown={[Function]}
                   onMouseDown={[Function]}
-                  onMouseOut={[Function]}
                   type="button"
                 >
                   <Content
@@ -602,7 +601,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                 no_animation={true}
                 no_scroll_animation="no_scroll_animation"
                 on_change={[Function]}
-                on_hide={null}
+                on_hide={[Function]}
                 on_pre_change={null}
                 on_resize={null}
                 on_select={[Function]}
@@ -620,6 +619,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                 skip_keysearch={false}
                 skip_portal={true}
                 triangle_position="right"
+                use_mobile_view={false}
                 value={2}
                 wrapper_element={null}
               >
@@ -645,7 +645,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                   no_animation={true}
                   no_scroll_animation="no_scroll_animation"
                   on_change={[Function]}
-                  on_hide={null}
+                  on_hide={[Function]}
                   on_pre_change={null}
                   on_resize={null}
                   on_select={[Function]}
@@ -663,6 +663,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                   skip_keysearch={false}
                   skip_portal={true}
                   triangle_position="right"
+                  use_mobile_view={false}
                   value={2}
                   wrapper_element={null}
                 >
@@ -1639,6 +1640,7 @@ button.dnb-button::-moz-focus-inner {
   text-align: left;
   vertical-align: baseline;
   white-space: pre-wrap;
+  word-break: normal;
   font-size: var(--font-size-basis);
   color: inherit; }
   .dnb-form-label--vertical {
@@ -1828,6 +1830,12 @@ legend.dnb-form-label {
   .dnb-dropdown > .dnb-form-label {
     margin-right: 1rem;
     line-height: var(--line-height-basis); }
+  @media (max-width: 40em) {
+    .dnb-dropdown {
+      flex-wrap: wrap; }
+      .dnb-dropdown > .dnb-form-label {
+        margin-bottom: 0.5rem;
+        margin-top: 0.5rem; } }
   label + .dnb-dropdown[class*='__form-status'] {
     vertical-align: top; }
     label + .dnb-dropdown[class*='__form-status'] .dnb-dropdown__shell {

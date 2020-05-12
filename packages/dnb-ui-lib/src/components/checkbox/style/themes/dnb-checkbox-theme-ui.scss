@@ -60,38 +60,9 @@
   }
 
   /*
-    * On hover
-    *
-    */
-  &__input:not([disabled]):not(:focus):hover ~ &__button {
-    background-color: var(--color-mint-green-50);
-  }
-  &__input:not([disabled]):not(:focus):checked:hover ~ &__button {
-    border-color: transparent;
-  }
-  &__input:not([disabled]):not(:focus):hover ~ &__gfx {
-    color: var(--color-sea-green);
-  }
-
-  /*
-    * On active
-    *
-    */
-  /* stylelint-disable */
-  &__input:not([disabled]):active ~ &__button {
-    background-color: var(--color-mint-green-50);
-    border-color: transparent;
-  }
-  &__input:not([disabled]):active ~ &__gfx {
-    color: var(--color-white);
-  }
-  /* stylelint-enable */
-
-  /*
     * On focus
     *
     */
-  /* stylelint-disable */
   &__input:not([disabled]):focus ~ &__button {
     html[data-whatinput='keyboard'] & {
       border: none;
@@ -107,9 +78,34 @@
   &__input:not([disabled]):active ~ &__button &__focus {
     display: block;
   }
-  &__input:not([disabled]):not(:checked):focus ~ &__button,
-  &__input:not([disabled]):not(:checked):active ~ &__button {
+
+  /*
+    * On hover
+    *
+    */
+  /* stylelint-disable-next-line */
+  &__input:not([disabled]):not(:focus):hover ~ &__button {
     background-color: var(--color-mint-green-50);
+  }
+  &__input:not([disabled]):not(:focus):checked:hover ~ &__button {
+    border-color: transparent;
+  }
+  /* stylelint-disable-next-line */
+  &__input:not([disabled]):not(:focus):hover ~ &__gfx {
+    color: var(--color-sea-green);
+  }
+
+  /*
+    * On active
+    *
+    */
+  /* stylelint-disable */
+  &__input:not([disabled]):active ~ &__button {
+    background-color: var(--color-mint-green-50);
+    border-color: transparent;
+  }
+  &__input:not([disabled]):active ~ &__gfx {
+    color: var(--color-white);
   }
   /* stylelint-enable */
 

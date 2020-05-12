@@ -14,6 +14,7 @@ import {
   IconPrimary,
   DatePicker,
   Textarea,
+  Autocomplete,
   Dropdown,
   Slider,
   Checkbox,
@@ -33,6 +34,7 @@ const AllComponents = ({ horizontal, vertical, showText, hideLabel }) => {
   let labels = {
     datePicker: 'DatePicker:',
     dropdown: 'Dropdown:',
+    autocomplete: 'Autocomplete:',
     checkbox: 'Checkbox',
     radio: 'Radio',
     radioGroup: 'Radio Group:',
@@ -74,6 +76,11 @@ const AllComponents = ({ horizontal, vertical, showText, hideLabel }) => {
       <Input label={labels.input} stretch {...params} />
       <Dropdown
         label={labels.dropdown}
+        data={['Item A', 'Item B', 'Item C']}
+        {...params}
+      />
+      <Autocomplete
+        label={labels.autocomplete}
         data={['Item A', 'Item B', 'Item C']}
         {...params}
       />
