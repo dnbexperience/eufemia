@@ -598,3 +598,19 @@ export const isInsideScrollView = (
   }
   return elem == window ? false : Boolean(elem)
 }
+
+export const hasSelectedText = () => {
+  let selectedText = ''
+
+  try {
+    if (typeof window.getSelection === 'function') {
+      selectedText = window.getSelection().toString()
+    } else if (document.selection?.type !== 'Control') {
+      selectedText = document.selection.createRange().text
+    }
+  } catch (e) {
+    //
+  }
+
+  return selectedText !== ''
+}

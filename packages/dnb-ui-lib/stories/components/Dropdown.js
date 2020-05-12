@@ -152,7 +152,7 @@ const DropdownStory = () => {
             <Dropdown
               size="small"
               // opened={opened}
-              opened
+              // opened
               label={label}
               no_animation
               direction={direction}

@@ -251,7 +251,7 @@ class DropdownInstance extends React.PureComponent {
   componentWillUnmount() {
     this.setHidden()
     clearTimeout(this._hideTimeout)
-    clearTimeout(this._selectTimeout)
+    clearTimeout(this._focusTimeout)
   }
 
   setVisible = () => {
@@ -260,21 +260,8 @@ class DropdownInstance extends React.PureComponent {
       .setVisible()
   }
 
-  setHidden = ({ setFocus = false } = {}) => {
-    this.context.drawerList.setHidden(null, () => {
-      if (setFocus) {
-        setTimeout(() => {
-          try {
-            const elem = this._refButton.current._ref.current
-            if (elem && typeof elem.focus === 'function') {
-              elem.focus()
-            }
-          } catch (e) {
-            // do noting
-          }
-        }, 1) // NVDA / Firefox needs a dealy to set this focus
-      }
-    })
+  setHidden = (...args) => {
+    this.context.drawerList.setHidden(...args)
   }
 
   onFocusHandler = () => {
@@ -330,6 +317,28 @@ class DropdownInstance extends React.PureComponent {
     }
   }
 
+  onHideHandler = ({ setFocus, ...args } = {}) => {
+    if (setFocus) {
+      const attributes = this.attributes || {}
+      dispatchCustomElementEvent(this, 'on_hide', {
+        ...args,
+        attributes
+      })
+
+      clearTimeout(this._focusTimeout)
+      this._focusTimeout = setTimeout(() => {
+        try {
+          const elem = this._refButton.current._ref.current
+          if (elem && typeof elem.focus === 'function') {
+            elem.focus()
+          }
+        } catch (e) {
+          // do noting
+        }
+      }, 1) // NVDA / Firefox needs a dealy to set this focus
+    }
+  }
+
   onSelectHandler = (args) => {
     if (parseFloat(args.active_item) > -1) {
       const attributes = this.attributes || {}
@@ -347,13 +356,6 @@ class DropdownInstance extends React.PureComponent {
       ...args,
       attributes
     })
-
-    clearTimeout(this._selectTimeout)
-    this._selectTimeout = setTimeout(() => {
-      if (!isTrue(this.props.keep_open)) {
-        this.setHidden({ setFocus: true })
-      }
-    }, 1) // because of state updates we need 1 tick delay here
   }
 
   getTitle(title = null) {
@@ -597,6 +599,7 @@ class DropdownInstance extends React.PureComponent {
                 size={size}
                 on_change={this.onChangeHandler}
                 on_select={this.onSelectHandler}
+                on_hide={this.onHideHandler}
               />
             </span>
 
