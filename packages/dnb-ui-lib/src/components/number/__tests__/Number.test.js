@@ -6,7 +6,6 @@
 import React from 'react'
 import {
   mount,
-  fakeProps,
   axeComponent,
   toJson,
   loadScss
@@ -25,16 +24,9 @@ const element = Component.defaultProps.element
 const locale = LOCALE
 const value = 12345678.901
 const snapshotProps = {
-  ...fakeProps(require.resolve('../Number'), {
-    optional: true
-  }),
-  ...{
-    value,
-    locale,
-    element,
-    children: null,
-    anchor: null
-  }
+  value,
+  locale,
+  element
 }
 
 // make it possible to change the navigator lang
@@ -93,7 +85,18 @@ describe('Number component', () => {
     expect(Comp.find(slector).first().text()).toBe('kr 12 345')
   })
   it('have to match currency under 100.000', () => {
-    const Comp = mount(<Component value={-12345} currency />)
+    const Comp = mount(<Component value={-12345.95} currency />)
+
+    expect(Comp.find(slector).first().text()).toBe('kr -12 345,95')
+
+    expect(
+      Comp.find(slector).first().instance().getAttribute('aria-label')
+    ).toBe('-12345,95 norske kroner')
+  })
+  it('have to match currency with no decimals', () => {
+    const Comp = mount(
+      <Component value={-12345.99} currency decimals={0} />
+    )
 
     expect(Comp.find(slector).first().text()).toBe('kr -12 345')
 

@@ -37,6 +37,7 @@ class Example extends React.PureComponent {
 <P>
   <Number currency>12345</Number>
   <Number currency value={-12345678.9} />
+  <Number currency value={-12345678.95} decimals={0} />
   <Number currency value={-12345678.9} currency_display="code" />
 </P>
           `

@@ -2,28 +2,37 @@
 
 exports[`Number component have to match default number snapshot 1`] = `
 <Number
-  anchor={null}
-  ban={true}
-  class="class"
-  className="className"
-  currency={true}
-  currency_display="currency_display"
+  ban={null}
+  class={null}
+  className={null}
+  currency={null}
+  currency_display={null}
+  decimals={null}
   element="span"
-  link={true}
+  link={null}
   locale="nb-NO"
-  nin={true}
-  options={Object {}}
-  phone={true}
-  selectable={true}
+  nin={null}
+  options={null}
+  phone={null}
+  selectable={null}
   value={12345678.901}
 >
-  <a
-    className="dnb-number className class dnb-number--selectable dnb-anchor"
-    href="tel:0012 34 56 78 90 1"
+  <ForwardRef
+    aria-label="12 345 678,9"
+    className="dnb-number"
+    is="span"
+    lang="nb-NO"
     role="text"
   >
-    0012 34 56 78 90 1
-  </a>
+    <span
+      aria-label="12 345 678,9"
+      className="dnb-number"
+      lang="nb-NO"
+      role="text"
+    >
+      12 345 678,901
+    </span>
+  </ForwardRef>
 </Number>
 `;
 

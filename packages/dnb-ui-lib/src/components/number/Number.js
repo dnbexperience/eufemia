@@ -40,6 +40,7 @@ const propTypes = {
   link: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   options: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
 
+  decimals: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   selectable: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   element: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   class: PropTypes.string,
@@ -62,6 +63,7 @@ const defaultProps = {
   link: null,
   options: null,
 
+  decimals: null,
   selectable: null,
   element: 'span', // span or abbr
   class: null,
@@ -120,6 +122,7 @@ export default class Number extends React.PureComponent {
       link: _link,
       options,
       locale,
+      decimals,
       selectable,
       element,
       class: _className,
@@ -166,6 +169,16 @@ export default class Number extends React.PureComponent {
             : {}
           formatOptions.options.currency = useContext.currency
         }
+      }
+    }
+
+    const deci = parseFloat(decimals)
+    if (deci >= 0) {
+      formatOptions.options.minimumFractionDigits = deci
+      formatOptions.options.maximumFractionDigits = deci
+      const pos = String(parseFloat(value)).indexOf('.')
+      if (pos > 0) {
+        value = parseFloat(String(value).substr(0, pos + 1 + deci))
       }
     }
 
@@ -332,7 +345,11 @@ export const format = (
       opts.currencyDisplay || currency_display || CURRENCY_DISPLAY // code, name, symbol
 
     // if currency has no decimal, then go ahead and remove it
-    if (String(value).indexOf('.') === -1 && cleanedNumber % 1 === 0) {
+    if (
+      typeof opts.minimumFractionDigits === 'undefined' &&
+      String(value).indexOf('.') === -1 &&
+      cleanedNumber % 1 === 0
+    ) {
       opts.minimumFractionDigits = 0 // to enfoce Norwegian style
     }
 
