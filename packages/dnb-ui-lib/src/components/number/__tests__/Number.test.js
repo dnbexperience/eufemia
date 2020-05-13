@@ -84,6 +84,27 @@ describe('Number component', () => {
 
     expect(Comp.find(slector).first().text()).toBe('kr 12 345')
   })
+  it('have to match currency with currency_position="after"', () => {
+    const Comp = mount(
+      <Component value={-value} currency currency_position="after" />
+    )
+
+    expect(Comp.find(slector).first().text()).toBe('-12 345 678,90 kr')
+
+    expect(
+      Comp.find(slector).first().instance().getAttribute('aria-label')
+    ).toBe('-12 345 678,90 norske kroner')
+
+    Comp.setProps({
+      currency_display: 'code'
+    })
+    expect(Comp.find(slector).first().text()).toBe('-12 345 678,90 NOK')
+
+    Comp.setProps({
+      currency_position: 'before'
+    })
+    expect(Comp.find(slector).first().text()).toBe('NOK -12 345 678,90')
+  })
   it('have to match currency under 100.000', () => {
     const Comp = mount(<Component value={-12345.95} currency />)
 

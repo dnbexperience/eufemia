@@ -60,6 +60,8 @@ export default [
                 currency
                 decimals={0}
                 locale={'nb-NO'}
+                currency_position="after"
+                // currency_display="name"
                 // options={{
                 //   // minimumSignificantDigits: 1,
                 //   // maximumSignificantDigits: 6,

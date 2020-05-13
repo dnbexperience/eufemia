@@ -19,6 +19,8 @@ import {
 } from '../../shared/component-helper'
 import { createSpacingClasses } from '../space/SpacingHelper'
 
+const NUMBER_CHARS = '-0-9,.'
+
 let isMac = null
 let isWin = null
 const renderProps = {}
@@ -28,6 +30,7 @@ const propTypes = {
   locale: PropTypes.string,
   currency: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   currency_display: PropTypes.string,
+  currency_position: PropTypes.oneOf(['auto', 'before', 'after']),
 
   // bank account number
   ban: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
@@ -57,6 +60,7 @@ const defaultProps = {
   locale: null,
   currency: null,
   currency_display: null, // code, name, symbol
+  currency_position: null, // null, before, after
   ban: null,
   nin: null,
   phone: null,
@@ -116,6 +120,7 @@ export default class Number extends React.PureComponent {
       children,
       currency,
       currency_display,
+      currency_position,
       ban,
       nin,
       phone,
@@ -141,6 +146,7 @@ export default class Number extends React.PureComponent {
       locale,
       currency,
       currency_display,
+      currency_position,
       ban,
       nin,
       phone,
@@ -292,6 +298,7 @@ export const format = (
     nin = null,
     currency = null,
     currency_display = CURRENCY_DISPLAY,
+    currency_position = null,
     options = null,
     returnAria = false
   } = {}
@@ -355,6 +362,7 @@ export const format = (
 
     display = formatNumber(cleanedNumber, locale, opts)
     display = cleanupMinus(display)
+    display = prepareCurrencyPosition(display, currency_position)
 
     // aria options
     aria = formatNumber(cleanedNumber, locale, {
@@ -389,6 +397,48 @@ export const format = (
 
   // return "locale" as well, since we have to "auto" option
   return returnAria ? { number: display, aria, locale } : display
+}
+
+const prepareCurrencyPosition = (display, position = null) => {
+  if (position) {
+    const sign = String(display)
+      .replace(new RegExp(`([${NUMBER_CHARS}])`, 'g'), '')
+      .trim()
+
+    const signPos = String(display).indexOf(sign)
+
+    let start = 0
+    let end = 0
+
+    // if "NOK -123"
+    if (signPos === 0) {
+      start = sign.length
+      end = display.length
+    }
+    // if "-123 NOK"
+    else {
+      end = signPos
+    }
+
+    // backup / fallback
+    if (!(end > 0)) {
+      return display
+    }
+
+    const num = String(display).substr(start, end).trim()
+
+    switch (position) {
+      case 'before':
+        display = `${sign} ${num}`
+        break
+
+      case 'after':
+        display = `${num} ${sign}`
+        break
+    }
+  }
+
+  return display
 }
 
 const cleanupMinus = (display) => {
