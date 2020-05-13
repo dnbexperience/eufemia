@@ -327,6 +327,14 @@ exports[`Dropdown markup have to match snapshot 1`] = `
         <span
           className="dnb-dropdown__inner"
         >
+          <AlignmentHelper
+            className={null}
+          >
+            <span
+              aria-hidden={true}
+              className="dnb-alignment-helper"
+            />
+          </AlignmentHelper>
           <FormStatus
             animation="status_animation"
             class={null}
@@ -1718,7 +1726,8 @@ legend.dnb-form-label {
 .dnb-dropdown {
   display: inline-flex;
   align-items: center;
-  font-size: var(--font-size-small); }
+  font-size: var(--font-size-small);
+  line-height: var(--dropdown-height); }
   .dnb-dropdown__inner {
     display: inline-flex;
     flex-direction: column;
