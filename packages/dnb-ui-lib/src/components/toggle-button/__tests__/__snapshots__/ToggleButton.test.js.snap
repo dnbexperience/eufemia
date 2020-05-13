@@ -1340,7 +1340,7 @@ legend.dnb-form-label {
     .dnb-button {
       flex: none; }
       .dnb-button__icon, .dnb-button__text {
-        transform: translateY(-0.0625rem) !important; } }
+        transform: translateY(-0.0625rem); } }
 
 /* Firefox includes a hidden border which messes up button dimensions */
 button.dnb-button::-moz-focus-inner {
