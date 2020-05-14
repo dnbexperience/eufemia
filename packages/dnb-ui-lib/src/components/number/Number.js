@@ -13,16 +13,17 @@ import {
   makeUniqueId,
   validateDOMAttributes,
   registerElement,
-  extend,
-  isMac as isMacFunc,
-  isWin as isWinFunc
+  extend
 } from '../../shared/component-helper'
 import {
   insertElementBeforeSelection,
   getSelectedText,
   getSelectedElement,
   copyToClipboard,
-  hasSelectedText
+  hasSelectedText,
+  isiOS as isiOSFunc,
+  isMac as isMacFunc,
+  isWin as isWinFunc
 } from '../../shared/helpers'
 import { createSpacingClasses } from '../space/SpacingHelper'
 
@@ -137,8 +138,21 @@ export default class Number extends React.PureComponent {
         range.selectNode(this._ref.current) // also selectNodeContents works fine
         selection.removeAllRanges()
         selection.addRange(range)
+
+        // works on iOS, becaus of the user event
+        // if (isiOSFunc()) {
+        //   let { value, children } = this.props
+        //   if (children !== null) {
+        //     value = children
+        //   }
+
+        //   copyToClipboard(value, () => {
+        //     createSelectionFX(value)
+        //     console.info('Copy:', value) // debug
+        //   })
+        // }
       } catch (e) {
-        //
+        console.warn(e)
       }
     }
   }
@@ -671,15 +685,21 @@ export const formatNIN = (number, locale = null) => {
 
 let copyTimeout = null
 export function copySelectedNumber(e = null) {
+  if (isiOSFunc()) {
+    return // iOS does not provide support for async copy
+  }
+
   const cleanedValue = getCleanedSelection(e)
 
   if (cleanedValue) {
-    createSelectionFX(cleanedValue)
-
+    // copyToClipboard(cleanedValue)
     clearTimeout(copyTimeout)
-    copyTimeout = setTimeout(() => copyToClipboard(cleanedValue), 10) // only to make it work on right click and copy
-
-    console.info('Copy:', cleanedValue) // debug
+    copyTimeout = setTimeout(() => {
+      copyToClipboard(cleanedValue, () => {
+        createSelectionFX(cleanedValue)
+        console.info('Copy:', cleanedValue) // debug
+      })
+    }, 10) // only to make it work on right click and copy
   }
 }
 

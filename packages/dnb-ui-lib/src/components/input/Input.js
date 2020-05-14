@@ -8,7 +8,6 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import {
   isTrue,
-  isMac,
   makeUniqueId,
   extendPropsWithContext,
   registerElement,
@@ -17,6 +16,7 @@ import {
   pickRenderProps,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
+import { isMac } from '../../shared/helpers'
 import AlignmentHelper from '../../shared/AlignmentHelper'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import Button from '../button/Button'

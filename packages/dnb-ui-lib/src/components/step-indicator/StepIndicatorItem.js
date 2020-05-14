@@ -8,9 +8,9 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import {
   isTrue,
-  dispatchCustomElementEvent,
-  isMac as isMacFunc
+  dispatchCustomElementEvent
 } from '../../shared/component-helper'
+import { isMac as isMacFunc } from '../../shared/helpers'
 // import { Dummy } from '../tabs/Tabs'
 
 let isMac = null

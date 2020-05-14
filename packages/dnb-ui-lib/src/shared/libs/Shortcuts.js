@@ -115,9 +115,6 @@ export class createShortcut {
     this.shortcutExists[shortcut] = true
   }
 
-  // --------------------------------------------------------------
-
-  // Remove an event listener
   remove(shortcut) {
     shortcut = shortcut.toLowerCase()
 

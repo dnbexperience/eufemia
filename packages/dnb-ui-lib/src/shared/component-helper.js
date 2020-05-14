@@ -7,10 +7,7 @@ import { registerElement } from './custom-element'
 export { registerElement }
 import keycode from 'keycode'
 import whatInput from 'what-input'
-
-export const PLATFORM_MAC = 'Mac|iPad|iPhone|iPod'
-export const PLATFORM_WIN = 'Win'
-export const PLATFORM_LINUX = 'Linux'
+import { PLATFORM_MAC, PLATFORM_WIN, PLATFORM_LINUX } from './helpers'
 
 if (
   typeof process !== 'undefined' &&
@@ -24,22 +21,9 @@ if (
 whatInput.specificKeys([9])
 defineNavigator()
 
-export const isMac = () =>
-  typeof navigator !== 'undefined' &&
-  navigator.platform.match(new RegExp(PLATFORM_MAC)) !== null
-
-export const isWin = () =>
-  typeof navigator !== 'undefined' &&
-  navigator.platform.match(new RegExp(PLATFORM_WIN)) !== null
-
-export const isLinux = () =>
-  typeof navigator !== 'undefined' &&
-  navigator.platform.match(new RegExp(PLATFORM_LINUX)) !== null
-
 /**
  * Check if device is touch device or not
  */
-
 export function isTouchDevice() {
   if (typeof document !== 'undefined') {
     let intent = false

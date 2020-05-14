@@ -3,6 +3,27 @@
  *
  */
 
+export const PLATFORM_MAC = 'Mac|iPad|iPhone|iPod'
+export const PLATFORM_WIN = 'Win'
+export const PLATFORM_LINUX = 'Linux'
+export const PLATFORM_IOS = 'ipad|iphone'
+
+export const isMac = () =>
+  typeof navigator !== 'undefined' &&
+  navigator.platform.match(new RegExp(PLATFORM_MAC)) !== null
+
+export const isWin = () =>
+  typeof navigator !== 'undefined' &&
+  navigator.platform.match(new RegExp(PLATFORM_WIN)) !== null
+
+export const isLinux = () =>
+  typeof navigator !== 'undefined' &&
+  navigator.platform.match(new RegExp(PLATFORM_LINUX)) !== null
+
+export const isiOS = () =>
+  typeof navigator !== 'undefined' &&
+  navigator.platform.match(new RegExp(PLATFORM_IOS)) !== null
+
 const pageFocusElements = {}
 export function setPageFocusElement(selectorOrElement, key = 'default') {
   return (pageFocusElements[key] = selectorOrElement)
@@ -264,34 +285,66 @@ export function getSelectedElement() {
   return null
 }
 
-export function copyToClipboard(string) {
-  try {
-    // get the selection range
-    const selection = window.getSelection()
-    const range =
-      selection.rangeCount > 0 // Check if there is any content selected previously
-        ? selection.getRangeAt(0) // Store selection if found
-        : false // Mark as false to know no selection existed before
+export function copyToClipboard(string, onSuccess = null) {
+  const copyFallback = () => {
+    try {
+      // get the selection range
+      const selection = window.getSelection()
+      const range =
+        selection.rangeCount > 0 // Check if there is any content selected previously
+          ? selection.getRangeAt(0) // Store selection if found
+          : false // Mark as false to know no selection existed before
 
-    // create the focusable element
-    const elem = document.createElement('textarea')
-    elem.value = String(string)
-    elem.setAttribute('readonly', '')
-    elem.style.position = 'absolute'
-    elem.style.top = '-1000rem'
-    document.body.appendChild(elem)
-    elem.select()
+      // create the focusable element
+      const elem = document.createElement('textArea')
+      elem.value = String(string)
+      elem.contentEditable = true
+      elem.readOnly = false
+      elem.style.position = 'fixed'
+      elem.style.top = '-1000px'
+      document.body.appendChild(elem)
 
-    // NB: copy only works as a result of a user action (e.g. click events)
-    document.execCommand('copy')
+      // iOS helper
+      if (isiOS()) {
+        const newRange = document.createRange()
+        newRange.selectNodeContents(elem)
+        const sel = window.getSelection()
+        sel.removeAllRanges()
+        sel.addRange(newRange)
+        elem.setSelectionRange(0, 999999)
+      } else {
+        elem.select()
+      }
 
-    // Cleanup
-    document.body.removeChild(elem)
+      // NB: copy only works as a result of a user action (e.g. click events)
+      const successful = document.execCommand('copy')
 
-    // If a selection existed before copying
-    selection.removeAllRanges() // Unselect everything on the HTML document
-    selection.addRange(range) // Restore the original selection
-  } catch (e) {
-    console.warn('Could not copy the string', string, '\n', e)
+      // Cleanup
+      document.body.removeChild(elem)
+
+      // // If a selection existed before copying
+      selection.removeAllRanges() // Unselect everything on the HTML document
+      selection.addRange(range) // Restore the original selection
+
+      if (!successful) {
+        return false
+      }
+    } catch (e) {
+      console.warn('Could not copy the string', string, '\n', e)
+    }
+
+    if (typeof onSuccess === 'function') {
+      onSuccess()
+    }
+    return true
+  }
+
+  if (navigator?.clipboard) {
+    return navigator.clipboard
+      .writeText(string)
+      .then(onSuccess)
+      .catch(copyFallback)
+  } else {
+    return copyFallback()
   }
 }

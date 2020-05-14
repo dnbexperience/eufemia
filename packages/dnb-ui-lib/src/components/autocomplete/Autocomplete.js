@@ -9,8 +9,6 @@ import classnames from 'classnames'
 import keycode from 'keycode'
 import {
   isTrue,
-  isMac,
-  isWin,
   isTouchDevice,
   makeUniqueId,
   extendPropsWithContext,
@@ -18,7 +16,13 @@ import {
   validateDOMAttributes,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
-import { isIE11, isEdge, debounce } from '../../shared/helpers'
+import {
+  isMac,
+  isWin,
+  isIE11,
+  isEdge,
+  debounce
+} from '../../shared/helpers'
 import AlignmentHelper from '../../shared/AlignmentHelper'
 import { createSpacingClasses } from '../space/SpacingHelper'
 
