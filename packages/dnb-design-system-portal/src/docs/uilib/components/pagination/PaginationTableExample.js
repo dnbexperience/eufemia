@@ -10,6 +10,7 @@ import styled from '@emotion/styled'
 import { Section, Space, Button } from 'dnb-ui-lib/src/components'
 import { Table, H1, P, Ul } from 'dnb-ui-lib/src/elements'
 import { StickyHelper } from 'dnb-ui-lib/src/elements/Table'
+import { hasSelectedText } from 'dnb-ui-lib/src/shared/helpers'
 
 import { createPagination } from 'dnb-ui-lib/src/components/Pagination'
 
@@ -423,22 +424,6 @@ const setHeight = ({
       )
     })
   }
-}
-
-const hasSelectedText = () => {
-  let selectedText = ''
-
-  try {
-    if (typeof window.getSelection === 'function') {
-      selectedText = window.getSelection().toString()
-    } else if (document.selection?.type !== 'Control') {
-      selectedText = document.selection.createRange().text
-    }
-  } catch (e) {
-    //
-  }
-
-  return selectedText !== ''
 }
 
 const reorderDirection = (items, dir) =>

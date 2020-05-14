@@ -11,7 +11,7 @@ import {
   loadScss
 } from '../../../core/jest/jestSetup'
 import { LOCALE } from '../../../shared/defaults'
-import Component from '../Number'
+import Component, { cleanNumber } from '../Number'
 
 // import intl from 'intl'
 // import nb from 'intl/locale-data/jsonp/nb-NO.js'
@@ -157,6 +157,22 @@ describe('Number component', () => {
         }
       })
     ).toHaveNoViolations()
+  })
+})
+
+describe('Number cleanNumber', () => {
+  it('should clean up and remove invalid suff arround numbers', () => {
+    expect(cleanNumber('prefix -12.345,67 suffix')).toBe('-12345.67')
+    expect(cleanNumber('prefix -12 345,67 suffix')).toBe('-12345.67')
+    expect(cleanNumber('prefix -12.345·67 suffix')).toBe('-12345.67')
+    expect(cleanNumber("prefix -12.345'67 suffix")).toBe('-12345.67')
+    expect(cleanNumber('prefix -12.345.678 suffix')).toBe('-12345678')
+    expect(cleanNumber('prefix -1,234,567.89 suffix')).toBe('-1234567.89')
+    expect(cleanNumber('prefix -1 234 567,89 suffix')).toBe('-1234567.89')
+    expect(cleanNumber('prefix -1 234 567.89 suffix')).toBe('-1234567.89')
+    expect(cleanNumber("prefix -1'234'567.89 suffix")).toBe('-1234567.89')
+    expect(cleanNumber('prefix -1,234,567·89 suffix')).toBe('-1234567.89')
+    expect(cleanNumber("prefix -1.234.567'89 suffix")).toBe('-1234567.89')
   })
 })
 

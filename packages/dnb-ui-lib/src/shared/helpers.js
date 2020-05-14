@@ -215,3 +215,83 @@ export const isEdge =
   navigator.userAgent.indexOf
     ? navigator.userAgent.indexOf('Edge') >= 0
     : false
+
+export function insertElementBeforeSelection(elem) {
+  try {
+    const selection = window.getSelection()
+    const range = selection.getRangeAt(0)
+    range.cloneRange().insertNode(elem)
+    selection.addRange(range) // Restore the original selection - this is a Safari fix!
+
+    // For now I (Tobias) could not find any reason for supporting document.selection as well
+    // const range = document.selection.createRange()
+    // range.collapse(true)
+    // range.pasteHTML(elem.outerHTML)
+  } catch (e) {
+    //
+  }
+}
+
+export function getSelectedText() {
+  try {
+    return window.getSelection().toString()
+
+    // For now I (Tobias) could not find any reason for supporting document.selection as well
+    // return document.selection.createRange().text
+  } catch (e) {
+    //
+  }
+  return ''
+}
+
+export function hasSelectedText() {
+  return getSelectedText().length > 0
+}
+
+export function getSelectedElement() {
+  try {
+    const selection = window.getSelection()
+    if (selection.rangeCount > 0) {
+      return selection.getRangeAt(0).startContainer.parentNode
+    }
+
+    // For now I (Tobias) could not find any reason for supporting document.selection as well
+    // return document.selection.createRange().parentElement()
+  } catch (e) {
+    //
+  }
+
+  return null
+}
+
+export function copyToClipboard(string) {
+  try {
+    // get the selection range
+    const selection = window.getSelection()
+    const range =
+      selection.rangeCount > 0 // Check if there is any content selected previously
+        ? selection.getRangeAt(0) // Store selection if found
+        : false // Mark as false to know no selection existed before
+
+    // create the focusable element
+    const elem = document.createElement('textarea')
+    elem.value = String(string)
+    elem.setAttribute('readonly', '')
+    elem.style.position = 'absolute'
+    elem.style.top = '-1000rem'
+    document.body.appendChild(elem)
+    elem.select()
+
+    // NB: copy only works as a result of a user action (e.g. click events)
+    document.execCommand('copy')
+
+    // Cleanup
+    document.body.removeChild(elem)
+
+    // If a selection existed before copying
+    selection.removeAllRanges() // Unselect everything on the HTML document
+    selection.addRange(range) // Restore the original selection
+  } catch (e) {
+    console.warn('Could not copy the string', string, '\n', e)
+  }
+}

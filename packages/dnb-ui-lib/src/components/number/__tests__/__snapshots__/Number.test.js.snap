@@ -15,7 +15,7 @@ exports[`Number component have to match default number snapshot 1`] = `
   nin={null}
   options={null}
   phone={null}
-  selectable={null}
+  selectall={null}
   value={12345678.901}
 >
   <ForwardRef
@@ -23,12 +23,16 @@ exports[`Number component have to match default number snapshot 1`] = `
     className="dnb-number"
     is="span"
     lang="nb-NO"
+    onClick={[Function]}
+    onCopy={[Function]}
     role="text"
   >
     <span
       aria-label="12 345 678,9"
       className="dnb-number"
       lang="nb-NO"
+      onClick={[Function]}
+      onCopy={[Function]}
       role="text"
     >
       12 345 678,901
@@ -68,9 +72,36 @@ exports[`Number scss have to match snapshot 1`] = `
  */
 .dnb-number {
   speak-as: numbers;
-  color: inherit; }
+  color: inherit;
+  cursor: text; }
   .dnb-number > a {
     text-decoration: none;
     color: inherit; }
+  .dnb-number__fx {
+    pointer-events: none;
+    position: fixed;
+    z-index: 3300;
+    border-radius: 2px;
+    background-color: var(--color-mint-green);
+    color: var(--color-black);
+    animation: number-fx-scale-out 750ms cubic-bezier(0.04, 0.65, 0.55, 0.95) 1 forwards; }
+    .dnb-number__fx__selection {
+      display: inline-block;
+      width: 0;
+      height: 0;
+      font-size: 0;
+      line-height: 0; }
+  .dnb-number--selectall {
+    user-select: all; }
+
+@keyframes number-fx-scale-out {
+  0% {
+    opacity: 1;
+    transform: scale(1); }
+  90% {
+    opacity: 0; }
+  100% {
+    opacity: 0;
+    transform: scale(5); } }
 "
 `;

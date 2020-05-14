@@ -51,14 +51,15 @@ export default [
     return (
       <CustomStyle>
         <Provider
-        // locale="nb-NO"
+          // locale="nb-NO"
+          locale="en-US"
         >
           <Wrapper>
             <Box>
               <Number
-                value={-12345.99}
+                value={'-12 345,99'}
                 currency
-                decimals={0}
+                decimals={2}
                 locale={'nb-NO'}
                 currency_position="after"
                 // currency_display="name"
@@ -73,7 +74,9 @@ export default [
               />
             </Box>
             <Box>
-              <Provider locale="en-US">
+              <Provider
+              //  locale="en-US"
+              >
                 <ChangeLocale />
                 <P>
                   text <Number currency>12 345</Number> text{' '}

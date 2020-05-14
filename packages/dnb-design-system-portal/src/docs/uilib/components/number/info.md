@@ -36,27 +36,19 @@ The number component is style independent, so it has no visual styles. By defaul
 
 Eufemia is basing their number formats on both the [Norwegian authority](https://lovdata.no/forskrift/2004-02-16-426/§16) and [Språkradet](https://www.sprakradet.no/sprakhjelp/Skriveregler/Dato). Wikipedia has more info on world wide [decimal separator](https://en.wikipedia.org/wiki/Decimal_separator) usage.
 
-## Usage and known issues
-
-Edge Browser on Windows 10 is converting numbers automatically to followable links. This makes the experience on NVDA bad, as it reads also the new, unformatted link number.
-
-You can [disable this behavior](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/x-ms-format-detection):
-
-```html
-<html x-ms-format-detection="none">
-  ...
-</html>
-```
-
-NVDA has also [issues](https://github.com/nvaccess/nvda/issues/8874) on reconciling the `lang` attribute, this makes it hard to have a solid and good working solution for reading numbers. VoiceOver on desktop makes a perfect job there.
-
-VoiceOver on mobile devices (iOS) only supports numbers read out properly to a maximum of `99,999.00`. On amounts above this value, VO reads numbers digit by digit.
-
 ## Details
 
 > Screen readers requires numbers to be formatted properly in order to be read as numbers. The **Number** component will help to achieve this requirement.
 
 So, numbers are formatted differently for screen readers than the visual number. And numbers also gets assigned a `lang` attribute, so the screen reader knows what language (locale) should be used on the particular number, even if the text around not corresponds to the same language.
+
+## Accessibility
+
+To enhance the **Copy & Paste** experience of copying numbers into other applications, the Number component automatically changes the number formatting to be without thousand separator and to have a dot, instead of a coma for the decimal separator.
+
+**NVDA** has also [issues](https://github.com/nvaccess/nvda/issues/8874) on reconciling the `lang` attribute, this makes it hard to have a solid and good working solution for reading numbers. VoiceOver on desktop makes a perfect job there.
+
+**VoiceOver** on mobile devices (iOS) only supports numbers read out properly to a maximum of `99,999.00`. On amounts above this value, VO reads numbers digit by digit.
 
 ## Formatting only
 
@@ -100,4 +92,16 @@ render(
     </MyApp>
   </Provider>
 )
+```
+
+## Known issues
+
+Edge Browser on Windows 10 is converting numbers automatically to followable links. This makes the experience on NVDA bad, as it reads also the new, unformatted link number.
+
+You can [disable this behavior](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/x-ms-format-detection):
+
+```html
+<html x-ms-format-detection="none">
+  ...
+</html>
 ```
