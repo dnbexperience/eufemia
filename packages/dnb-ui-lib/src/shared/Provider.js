@@ -25,7 +25,24 @@ class Provider extends React.PureComponent {
       } = props
 
       // 1. Set default context to be overwritten by the provider props
-      const newContext = { ...state, ...updatedProps }
+      // const newContext = { ...state, ...updatedProps }
+      let newContext = state
+
+      // No, it's not sure that props have been updated, so we check that here
+      if (state._startupProps !== updatedProps) {
+        let hasChanges = false
+        for (const i in state._startupProps) {
+          if (state._startupProps[i] !== updatedProps[i]) {
+            hasChanges = true
+            break
+          }
+        }
+
+        // and if so, update these props
+        if (hasChanges) {
+          newContext = { ...state, ...updatedProps }
+        }
+      }
 
       // 2. The reset will extend the Provider Context
       if (newContext.formRow) {
@@ -77,6 +94,7 @@ class Provider extends React.PureComponent {
     this.state = pC
     this.state.isRoot = isRoot
     this.state._listenForPropChanges = true
+    this.state._startupProps = startupProps
   }
 
   setContext(newContext) {

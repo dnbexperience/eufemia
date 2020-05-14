@@ -15,7 +15,7 @@ import {
   validateDOMAttributes,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
-// import AlignmentHelper from '../../shared/AlignmentHelper'
+import AlignmentHelper from '../../shared/AlignmentHelper'
 import { createSpacingClasses } from '../space/SpacingHelper'
 
 import Suffix from '../../shared/helpers/Suffix'
@@ -520,8 +520,7 @@ class DropdownInstance extends React.PureComponent {
         )}
 
         <span className="dnb-dropdown__inner" ref={this._ref}>
-          {/* NB: The AlignmentHelper is not needed to get the right alignment anymore */
-          /* <AlignmentHelper /> */}
+          <AlignmentHelper />
 
           {showStatus && (
             <FormStatus

@@ -43,17 +43,40 @@ const ChangeLocale = () => {
   )
 }
 
+// new Intl.NumberFormat('nb-NO', { minimumFractionDigits: 4, maximumFractionDigits: 4, style: 'currency', currency: 'NOK' }).format(-12345)
+
 export default [
   'Number',
   () => {
     return (
       <CustomStyle>
         <Provider
-        // locale="nb-NO"
+          // locale="nb-NO"
+          locale="en-US"
         >
           <Wrapper>
             <Box>
-              <Provider locale="en-US">
+              <Number
+                value={'-12 345,99'}
+                currency
+                decimals={2}
+                locale={'nb-NO'}
+                currency_position="after"
+                // currency_display="name"
+                // options={{
+                //   // minimumSignificantDigits: 1,
+                //   // maximumSignificantDigits: 6,
+                //   // minimumIntegerDigits: 0
+                //   minimumFractionDigits: 1,
+                //   maximumFractionDigits: 1
+                //   // maximumFractionDigits: 1
+                // }}
+              />
+            </Box>
+            <Box>
+              <Provider
+              //  locale="en-US"
+              >
                 <ChangeLocale />
                 <P>
                   text <Number currency>12 345</Number> text{' '}

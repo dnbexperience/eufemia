@@ -10,6 +10,7 @@ import styled from '@emotion/styled'
 import { Section, Space, Button } from '../../src/components'
 import { Table, H1, P, Ul } from '../../src/elements'
 import { StickyHelper } from '../../src/elements/Table'
+import { hasSelectedText } from '../../src/shared/helpers'
 
 import { createPagination } from '../../src/components/Pagination'
 
@@ -424,22 +425,6 @@ const setHeight = ({
       )
     })
   }
-}
-
-const hasSelectedText = () => {
-  let selectedText = ''
-
-  try {
-    if (typeof window.getSelection === 'function') {
-      selectedText = window.getSelection().toString()
-    } else if (document.selection?.type !== 'Control') {
-      selectedText = document.selection.createRange().text
-    }
-  } catch (e) {
-    //
-  }
-
-  return selectedText !== ''
 }
 
 const reorderDirection = (items, dir) =>

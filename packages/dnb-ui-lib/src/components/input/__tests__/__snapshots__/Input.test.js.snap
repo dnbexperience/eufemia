@@ -1121,7 +1121,7 @@ exports[`Input scss have to match snapshot 1`] = `
     .dnb-button {
       flex: none; }
       .dnb-button__icon, .dnb-button__text {
-        transform: translateY(-0.0625rem) !important; } }
+        transform: translateY(-0.0625rem); } }
 
 /* Firefox includes a hidden border which messes up button dimensions */
 button.dnb-button::-moz-focus-inner {
@@ -1424,7 +1424,10 @@ legend.dnb-form-label {
     order: 0;
     position: absolute;
     left: 1rem;
-    right: auto; }
+    right: auto;
+    top: 0;
+    bottom: 0;
+    margin: auto; }
   .dnb-input--icon-position-right .dnb-input__icon {
     order: 1;
     left: auto;

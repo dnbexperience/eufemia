@@ -6,13 +6,12 @@
 import React from 'react'
 import {
   mount,
-  fakeProps,
   axeComponent,
   toJson,
   loadScss
 } from '../../../core/jest/jestSetup'
 import { LOCALE } from '../../../shared/defaults'
-import Component from '../Number'
+import Component, { cleanNumber } from '../Number'
 
 // import intl from 'intl'
 // import nb from 'intl/locale-data/jsonp/nb-NO.js'
@@ -25,16 +24,9 @@ const element = Component.defaultProps.element
 const locale = LOCALE
 const value = 12345678.901
 const snapshotProps = {
-  ...fakeProps(require.resolve('../Number'), {
-    optional: true
-  }),
-  ...{
-    value,
-    locale,
-    element,
-    children: null,
-    anchor: null
-  }
+  value,
+  locale,
+  element
 }
 
 // make it possible to change the navigator lang
@@ -92,8 +84,40 @@ describe('Number component', () => {
 
     expect(Comp.find(slector).first().text()).toBe('kr 12 345')
   })
+  it('have to match currency with currency_position="after"', () => {
+    const Comp = mount(
+      <Component value={-value} currency currency_position="after" />
+    )
+
+    expect(Comp.find(slector).first().text()).toBe('-12 345 678,90 kr')
+
+    expect(
+      Comp.find(slector).first().instance().getAttribute('aria-label')
+    ).toBe('-12 345 678,90 norske kroner')
+
+    Comp.setProps({
+      currency_display: 'code'
+    })
+    expect(Comp.find(slector).first().text()).toBe('-12 345 678,90 NOK')
+
+    Comp.setProps({
+      currency_position: 'before'
+    })
+    expect(Comp.find(slector).first().text()).toBe('NOK -12 345 678,90')
+  })
   it('have to match currency under 100.000', () => {
-    const Comp = mount(<Component value={-12345} currency />)
+    const Comp = mount(<Component value={-12345.95} currency />)
+
+    expect(Comp.find(slector).first().text()).toBe('kr -12 345,95')
+
+    expect(
+      Comp.find(slector).first().instance().getAttribute('aria-label')
+    ).toBe('-12345,95 norske kroner')
+  })
+  it('have to match currency with no decimals', () => {
+    const Comp = mount(
+      <Component value={-12345.99} currency decimals={0} />
+    )
 
     expect(Comp.find(slector).first().text()).toBe('kr -12 345')
 
@@ -133,6 +157,23 @@ describe('Number component', () => {
         }
       })
     ).toHaveNoViolations()
+  })
+})
+
+describe('Number cleanNumber', () => {
+  it('should clean up and remove invalid suff arround numbers', () => {
+    expect(cleanNumber(-12345.67)).toBe(-12345.67)
+    expect(cleanNumber('prefix -12.345,67 suffix')).toBe('-12345.67')
+    expect(cleanNumber('prefix -12 345,67 suffix')).toBe('-12345.67')
+    expect(cleanNumber('prefix -12.345·67 suffix')).toBe('-12345.67')
+    expect(cleanNumber("prefix -12.345'67 suffix")).toBe('-12345.67')
+    expect(cleanNumber('prefix -12.345.678 suffix')).toBe('-12345678')
+    expect(cleanNumber('prefix -1,234,567.89 suffix')).toBe('-1234567.89')
+    expect(cleanNumber('prefix -1 234 567,89 suffix')).toBe('-1234567.89')
+    expect(cleanNumber('prefix -1 234 567.89 suffix')).toBe('-1234567.89')
+    expect(cleanNumber("prefix -1'234'567.89 suffix")).toBe('-1234567.89')
+    expect(cleanNumber('prefix -1,234,567·89 suffix')).toBe('-1234567.89')
+    expect(cleanNumber("prefix -1.234.567'89 suffix")).toBe('-1234567.89')
   })
 })
 

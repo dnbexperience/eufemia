@@ -13,10 +13,9 @@ import {
   isInsideScrollView,
   detectOutsideClick,
   getPreviousSibling,
-  dispatchCustomElementEvent,
-  hasSelectedText
+  dispatchCustomElementEvent
 } from '../../shared/component-helper'
-import { getOffsetTop } from '../../shared/helpers'
+import { getOffsetTop, hasSelectedText } from '../../shared/helpers'
 import {
   getData,
   findClosest,

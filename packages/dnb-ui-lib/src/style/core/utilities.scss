@@ -197,6 +197,10 @@ $breakpoints: (
 
 // Screen reader only helper
 @mixin srOnly() {
+  user-select: none;
+  -webkit-touch-callout: none; // iOS
+  pointer-events: none;
+
   position: absolute;
 
   clip: rect(1px, 1px, 1px, 1px);
@@ -212,21 +216,18 @@ $breakpoints: (
 }
 
 @mixin srOnlyInline() {
+  @include srOnly();
+
   // since we do use it also as positioning helper
   // we then do not want it absolute positioned
   position: static;
+  display: inline-block;
 
   visibility: visible; // should not be hidden!
   opacity: 0;
 
   font-size: 0;
   line-height: 0;
-
-  overflow: hidden; // older IEs
-
-  padding: 0;
-  margin: 0;
-  border: 0;
 }
 
 // This "negates" the srOnly() helper; useful if
