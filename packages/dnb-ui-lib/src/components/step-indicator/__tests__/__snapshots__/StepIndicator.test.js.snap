@@ -24,10 +24,11 @@ exports[`StepIndicator component with buttons have to match snapshot 1`] = `
   on_item_render={null}
   use_navigation={true}
 >
-  <div
+  <nav
+    aria-label="progress"
     className="dnb-step-indicator"
   >
-    <ul
+    <ol
       className="dnb-step-indicator__list"
     >
       <StepItem
@@ -171,8 +172,8 @@ exports[`StepIndicator component with buttons have to match snapshot 1`] = `
           </button>
         </li>
       </StepItem>
-    </ul>
-  </div>
+    </ol>
+  </nav>
 </StepIndicator>
 `;
 
@@ -205,9 +206,11 @@ exports[`StepIndicator component with urls have to match snapshot 1`] = `
   use_navigation="use_navigation"
 >
   <div
+    aria-label="progress"
     className="dnb-step-indicator className class"
+    role="group"
   >
-    <ul
+    <ol
       className="dnb-step-indicator__list"
     >
       <StepItem
@@ -347,7 +350,7 @@ exports[`StepIndicator component with urls have to match snapshot 1`] = `
           </span>
         </li>
       </StepItem>
-    </ul>
+    </ol>
   </div>
 </StepIndicator>
 `;

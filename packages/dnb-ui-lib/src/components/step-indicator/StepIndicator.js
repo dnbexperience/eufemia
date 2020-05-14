@@ -8,7 +8,7 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import Context from '../../shared/Context'
 import {
-  // isTrue,
+  isTrue,
   registerElement,
   validateDOMAttributes,
   processChildren,
@@ -184,6 +184,7 @@ export default class StepIndicator extends React.PureComponent {
     const { activeItem } = this.state
 
     const params = {
+      'aria-label': 'progress',
       className: classnames(
         'dnb-step-indicator',
         createSpacingClasses(props),
@@ -191,6 +192,13 @@ export default class StepIndicator extends React.PureComponent {
         _className
       ),
       ...attributes
+    }
+
+    let Element = 'div'
+    if (isTrue(use_navigation)) {
+      Element = 'nav'
+    } else {
+      params.role = 'group'
     }
 
     // also used for code markup simulation
@@ -201,9 +209,9 @@ export default class StepIndicator extends React.PureComponent {
     }
 
     return (
-      <div {...params}>
+      <Element {...params}>
         {data.length > 0 && (
-          <ul className="dnb-step-indicator__list">
+          <ol className="dnb-step-indicator__list">
             {data.map((props, i) => {
               if (typeof props === 'string') {
                 props = { title: props }
@@ -226,9 +234,9 @@ export default class StepIndicator extends React.PureComponent {
                 />
               )
             })}
-          </ul>
+          </ol>
         )}
-      </div>
+      </Element>
     )
   }
 }
