@@ -162,6 +162,7 @@ describe('Number component', () => {
 
 describe('Number cleanNumber', () => {
   it('should clean up and remove invalid suff arround numbers', () => {
+    expect(cleanNumber(-12345.67)).toBe(-12345.67)
     expect(cleanNumber('prefix -12.345,67 suffix')).toBe('-12345.67')
     expect(cleanNumber('prefix -12 345,67 suffix')).toBe('-12345.67')
     expect(cleanNumber('prefix -12.345·67 suffix')).toBe('-12345.67')

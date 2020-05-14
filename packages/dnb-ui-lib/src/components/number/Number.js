@@ -792,6 +792,10 @@ export function createSelectionFX(string) {
 
 // Can be human number - https://en.wikipedia.org/wiki/Decimal_separator
 export function cleanNumber(num) {
+  if (typeof num === 'number') {
+    return num
+  }
+
   num = String(num).trim()
 
   // If the number starts with not valid number chars
