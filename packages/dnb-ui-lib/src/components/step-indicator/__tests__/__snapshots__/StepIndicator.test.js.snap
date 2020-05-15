@@ -22,6 +22,7 @@ exports[`StepIndicator component with buttons have to match snapshot 1`] = `
   hide_numbers={false}
   on_change={null}
   on_item_render={null}
+  step_title="%step"
   use_navigation={true}
 >
   <nav
@@ -33,6 +34,7 @@ exports[`StepIndicator component with buttons have to match snapshot 1`] = `
     >
       <StepItem
         activeItem={1}
+        countSteps={3}
         currentItem={0}
         hasReached={
           Array [
@@ -48,6 +50,7 @@ exports[`StepIndicator component with buttons have to match snapshot 1`] = `
         on_item_render={null}
         on_render={null}
         setActimeItem={[Function]}
+        step_title="Steg %step av %count"
         title="Aa"
         url={null}
         url_future={null}
@@ -64,6 +67,7 @@ exports[`StepIndicator component with buttons have to match snapshot 1`] = `
           >
             <StepItemWrapper>
               <span
+                aria-label="Steg 1 av 3"
                 className="dnb-step-indicator__item-content--number"
               >
                 1. 
@@ -79,6 +83,7 @@ exports[`StepIndicator component with buttons have to match snapshot 1`] = `
       </StepItem>
       <StepItem
         activeItem={1}
+        countSteps={3}
         currentItem={1}
         hasReached={
           Array [
@@ -94,6 +99,7 @@ exports[`StepIndicator component with buttons have to match snapshot 1`] = `
         on_item_render={null}
         on_render={null}
         setActimeItem={[Function]}
+        step_title="Steg %step av %count"
         title="Bb"
         url={null}
         url_future={null}
@@ -111,6 +117,7 @@ exports[`StepIndicator component with buttons have to match snapshot 1`] = `
           >
             <StepItemWrapper>
               <span
+                aria-label="Steg 2 av 3"
                 className="dnb-step-indicator__item-content--number"
               >
                 2. 
@@ -126,6 +133,7 @@ exports[`StepIndicator component with buttons have to match snapshot 1`] = `
       </StepItem>
       <StepItem
         activeItem={1}
+        countSteps={3}
         currentItem={2}
         hasReached={
           Array [
@@ -141,6 +149,7 @@ exports[`StepIndicator component with buttons have to match snapshot 1`] = `
         on_item_render={null}
         on_render={null}
         setActimeItem={[Function]}
+        step_title="Steg %step av %count"
         title="Cc"
         url={null}
         url_future={null}
@@ -159,6 +168,7 @@ exports[`StepIndicator component with buttons have to match snapshot 1`] = `
           >
             <StepItemWrapper>
               <span
+                aria-label="Steg 3 av 3"
                 className="dnb-step-indicator__item-content--number"
               >
                 3. 
@@ -203,6 +213,7 @@ exports[`StepIndicator component with urls have to match snapshot 1`] = `
   hide_numbers="hide_numbers"
   on_change={[Function]}
   on_item_render={null}
+  step_title="step_title"
   use_navigation="use_navigation"
 >
   <div
@@ -215,6 +226,7 @@ exports[`StepIndicator component with urls have to match snapshot 1`] = `
     >
       <StepItem
         activeItem={1}
+        countSteps={3}
         currentItem={0}
         hasReached={
           Array [
@@ -230,6 +242,7 @@ exports[`StepIndicator component with urls have to match snapshot 1`] = `
         on_item_render={null}
         on_render={null}
         setActimeItem={[Function]}
+        step_title="step_title"
         title="Aa"
         url="?a"
         url_future={null}
@@ -246,6 +259,7 @@ exports[`StepIndicator component with urls have to match snapshot 1`] = `
           >
             <StepItemWrapper>
               <span
+                aria-label="step_title"
                 className="dnb-step-indicator__item-content--number"
               >
                 1. 
@@ -261,6 +275,7 @@ exports[`StepIndicator component with urls have to match snapshot 1`] = `
       </StepItem>
       <StepItem
         activeItem={1}
+        countSteps={3}
         currentItem={1}
         hasReached={
           Array [
@@ -276,6 +291,7 @@ exports[`StepIndicator component with urls have to match snapshot 1`] = `
         on_item_render={null}
         on_render={null}
         setActimeItem={[Function]}
+        step_title="step_title"
         title="Bb"
         url="?b"
         url_future={null}
@@ -293,6 +309,7 @@ exports[`StepIndicator component with urls have to match snapshot 1`] = `
           >
             <StepItemWrapper>
               <span
+                aria-label="step_title"
                 className="dnb-step-indicator__item-content--number"
               >
                 2. 
@@ -308,6 +325,7 @@ exports[`StepIndicator component with urls have to match snapshot 1`] = `
       </StepItem>
       <StepItem
         activeItem={1}
+        countSteps={3}
         currentItem={2}
         hasReached={
           Array [
@@ -323,6 +341,7 @@ exports[`StepIndicator component with urls have to match snapshot 1`] = `
         on_item_render={null}
         on_render={null}
         setActimeItem={[Function]}
+        step_title="step_title"
         title="Cc"
         url="?c"
         url_future=""
@@ -337,6 +356,7 @@ exports[`StepIndicator component with urls have to match snapshot 1`] = `
           >
             <StepItemWrapper>
               <span
+                aria-label="step_title"
                 className="dnb-step-indicator__item-content--number"
               >
                 3. 

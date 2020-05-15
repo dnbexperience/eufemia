@@ -18,10 +18,11 @@ v7 contains a couple of _braking changes_. As a migration process, you can simpl
 1. find `['data-is-touch']` replace it with `[data-whatintent='touch']`
 1. The [Anchor (Text link)](/uilib/elements/anchor) has now also the defualt font-size of 18px (basis) - this means, you may have places where you would rather inherit the font-size by: `.dnb-anchor { font-size: inherit; }`
 1. **For UMD usage only** find `dnb-ui-lib.min.js` replace it with `dnb-ui-web-components.min.js`
-1. new strings where added to the [language files](/uilib/usage/customisation/localization) `nb-NO.js` and `en-US.js`. If you have a customized localization (changes or addition), then make sure you maintain these new groups of strings:
+1. New strings where added to the [language files](/uilib/usage/customisation/localization) `nb-NO.js` and `en-US.js`. If you have a customized localization ([changes or addition](https://gist.github.com/tujoworker/f754da1137507fdd5d4bb61949a92259/revisions)), then make sure you maintain these new groups of strings:
    - Autocomplete
    - Pagination
    - ProgressIndicator
+   - StepIndicator
 1. The [Dropdown](/uilib/components/dropdown) uses now by default React Portal. This can have negative effects on scrollable views. Therefore, use the new [ScrollView](/uilib/components/fragments/scroll-view) fragment as the scrollable element.
 1. For a custom [Dropdown](/uilib/components/dropdown) list width `.dnb-dropdown__list`, use `.dnb-dropdown .dnb-drawer-list__root` instead.
 1. All events called `on_state_update` are now deprecated and will be removed in a future major version.

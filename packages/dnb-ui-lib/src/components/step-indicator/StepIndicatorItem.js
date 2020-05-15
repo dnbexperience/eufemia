@@ -18,6 +18,7 @@ let isMac = null
 export default class StepItem extends React.PureComponent {
   static propTypes = {
     title: PropTypes.string.isRequired,
+    step_title: PropTypes.string,
     activeItem: PropTypes.number,
     currentItem: PropTypes.number.isRequired,
     hide_numbers: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -31,6 +32,7 @@ export default class StepItem extends React.PureComponent {
     on_change: PropTypes.func,
     setActimeItem: PropTypes.func,
     hasReached: PropTypes.array,
+    countSteps: PropTypes.number,
     is_active: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     is_current: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     url: PropTypes.string,
@@ -38,12 +40,14 @@ export default class StepItem extends React.PureComponent {
     url_passed: PropTypes.string
   }
   static defaultProps = {
+    step_title: '%step',
     on_item_render: null,
     on_render: null,
     on_click: null,
     on_change: null,
     setActimeItem: null,
     hasReached: [],
+    countSteps: null,
     hide_numbers: false,
     use_navigation: false,
     is_active: null,
@@ -92,6 +96,7 @@ export default class StepItem extends React.PureComponent {
     const {
       activeItem,
       currentItem,
+      countSteps,
       is_active,
       is_current,
       url: _url,
@@ -99,6 +104,7 @@ export default class StepItem extends React.PureComponent {
       url_passed,
       hide_numbers,
       title,
+      step_title,
       use_navigation,
       on_item_render,
       on_render,
@@ -145,12 +151,16 @@ export default class StepItem extends React.PureComponent {
       'dnb-step-indicator__item-content',
       'dnb-step-indicator__item-content--link'
     )
+    const aria = step_title
+      .replace('%step', currentItem + 1)
+      .replace('%count', countSteps)
 
     const StepItemWrapper = (props) => (
       <>
         {!isTrue(hide_numbers) && (
           <span
             className="dnb-step-indicator__item-content--number"
+            aria-label={aria}
             {...props}
           >
             {`${currentItem + 1}. `}

@@ -70,6 +70,9 @@ export default {
       is_loading_text: 'Laster nytt innhold',
       load_button_text: 'Vis mer innhold'
     },
+    StepIndicator: {
+      step_title: 'Steg %step av %count'
+    },
     Logo: {
       alt: 'DNB Logo'
     }

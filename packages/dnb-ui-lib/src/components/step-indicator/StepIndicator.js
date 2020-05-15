@@ -42,6 +42,7 @@ const propTypes = {
       })
     )
   ]).isRequired,
+  step_title: PropTypes.string,
   active_item: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   active_url: PropTypes.string,
   hide_numbers: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -63,6 +64,7 @@ const propTypes = {
 
 const defaultProps = {
   data: [],
+  step_title: '%step',
   active_item: null,
   active_url: null,
   hide_numbers: false,
@@ -172,6 +174,7 @@ export default class StepIndicator extends React.PureComponent {
       hide_numbers,
       use_navigation,
       on_item_render,
+      step_title,
       on_change,
       className,
       class: _className,
@@ -208,20 +211,23 @@ export default class StepIndicator extends React.PureComponent {
       this.state.hasReached.push(activeItem)
     }
 
+    const countSteps = data.length
     return (
       <Element {...params}>
-        {data.length > 0 && (
+        {countSteps > 0 && (
           <ol className="dnb-step-indicator__list">
             {data.map((props, i) => {
               if (typeof props === 'string') {
                 props = { title: props }
               }
               const params = {
+                countSteps,
                 currentItem: i,
                 activeItem,
                 hide_numbers,
                 use_navigation,
                 on_item_render,
+                step_title,
                 on_change,
                 ...props
               }
