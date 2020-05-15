@@ -695,8 +695,9 @@ export function copySelectedNumber(e = null) {
     // copyToClipboard(cleanedValue)
     clearTimeout(copyTimeout)
     copyTimeout = setTimeout(() => {
+      const fx = createSelectionFX(cleanedValue)
       copyToClipboard(cleanedValue, () => {
-        createSelectionFX(cleanedValue)
+        fx.run()
         console.info('Copy:', cleanedValue) // debug
       })
     }, 10) // only to make it work on right click and copy
@@ -777,6 +778,9 @@ function getCleanedSelection(e = null) {
 
 export function createSelectionFX(string) {
   let height = 32
+  let portalElem
+
+  // do that becuase getClientRects from selection is an experimental browser API
   try {
     const getClientRects = window
       .getSelection()
@@ -787,6 +791,7 @@ export function createSelectionFX(string) {
   } catch (e) {
     //
   }
+
   try {
     // get a more precize position by inserting this empty node
     const posElem = document.createElement('span')
@@ -798,22 +803,32 @@ export function createSelectionFX(string) {
     posElem.parentElement.removeChild(posElem)
 
     // create that portal element
-    const portalElem = document.createElement('span')
+    portalElem = document.createElement('span')
     portalElem.innerHTML = String(string)
     portalElem.setAttribute('class', 'dnb-number__fx dnb-core-style')
     portalElem.style.top = `${top - height / 1.333}px`
     portalElem.style.left = `${left + getSelectedText().length / 2}px`
-    document.body.appendChild(portalElem)
-
-    setTimeout(() => {
-      try {
-        document.body.removeChild(portalElem)
-      } catch (e) {
-        //
-      }
-    }, 800)
   } catch (e) {
     console.warn(e)
+  }
+
+  return {
+    run: () => {
+      try {
+        document.body.appendChild(portalElem)
+
+        // remove that element again
+        setTimeout(() => {
+          try {
+            document.body.removeChild(portalElem)
+          } catch (e) {
+            //
+          }
+        }, 800)
+      } catch (e) {
+        console.warn(e)
+      }
+    }
   }
 }
 

@@ -294,21 +294,19 @@ export function copyToClipboard(string, onSuccess = null) {
       : false // Mark as false to know no selection existed before
 
   const resetSelection = () => {
-    setTimeout(() => {
-      try {
-        // If a selection existed before copying
-        selection.removeAllRanges() // Unselect everything on the HTML document
-        selection.addRange(range) // Restore the original selection
-      } catch (e) {
-        //
-      }
-    }, 1) // just a quick work arround - we want to be AFTER calling "createSelectionFX" - after
+    try {
+      // If a selection existed before copying
+      selection.removeAllRanges() // Unselect everything on the HTML document
+      selection.addRange(range) // Restore the original selection
+    } catch (e) {
+      //
+    }
   }
 
   const copyFallback = () => {
     try {
       // create the focusable element
-      const elem = document.createElement('textArea')
+      const elem = document.createElement('input')
       elem.value = String(string)
       elem.contentEditable = true
       elem.readOnly = false
