@@ -43,7 +43,7 @@ v7 contains a couple of _braking changes_. As a migration process, you can simpl
 - [Buttons](/uilib/components/button) now supports overflow text to wrap (break-word) by using `wrap="true"`.
 - [Modal](/uilib/components/modal#drawer-mode) has now a **Drawer** mode inside the Modal component `mode="drawer"`.
 - Also, the [Modal](/uilib/components/modal#drawer-mode) has now a dark background color and both open and close animation
-- Expose [new helper functions](/uilib/helpers/functions#general-helpers) like `isiOS`, `isMac`, `isWin` and `isLinux` (beside `isIE11`,`isEdge`) in the shared helpers file: `import { isLinux } from 'dnb-ui-lib/shared/helpers'`. They are available as constants as well: `IS_IE11`, `IS_EDGE`, `IS_IOS`, `IS_MAC`, `IS_WIN` and `IS_LINUX`.
+- Expose [new helper functions](/uilib/helpers/functions#general-helpers) like, `isSafari`, `isiOS`, `isMac`, `isWin` and `isLinux` (beside `isIE11`,`isEdge`) in the shared helpers file: `import { isLinux } from 'dnb-ui-lib/shared/helpers'`. They are available as constants as well: `IS_IE11`, `IS_EDGE`, `IS_IOS`, `IS_MAC`, `IS_WIN` and `IS_LINUX`.
 
 ```jsx
 <Dropdown

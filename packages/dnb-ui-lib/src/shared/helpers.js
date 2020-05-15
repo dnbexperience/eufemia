@@ -6,34 +6,33 @@
 export const PLATFORM_MAC = 'Mac|iPad|iPhone|iPod'
 export const PLATFORM_WIN = 'Win'
 export const PLATFORM_LINUX = 'Linux'
-export const PLATFORM_IOS = 'ipad|iphone'
+export const PLATFORM_IOS = 'iOS|iPhone|iPad|iPod'
 
 export let IS_IE11 = false
 export let IS_EDGE = false
 export let IS_IOS = false
+export let IS_SAFARI = false
 export let IS_WIN = false
 export let IS_MAC = false
 export let IS_LINUX = false
 
 export const isMac = () =>
   (IS_MAC =
-    typeof navigator !== 'undefined' &&
-    navigator.platform.match(new RegExp(PLATFORM_MAC)) !== null)
+    String(navigator?.platform).match(new RegExp(PLATFORM_MAC)) !== null)
 
 export const isWin = () =>
   (IS_WIN =
-    typeof navigator !== 'undefined' &&
-    navigator.platform.match(new RegExp(PLATFORM_WIN)) !== null)
+    String(navigator?.platform).match(new RegExp(PLATFORM_WIN)) !== null)
 
 export const isLinux = () =>
   (IS_LINUX =
-    typeof navigator !== 'undefined' &&
-    navigator.platform.match(new RegExp(PLATFORM_LINUX)) !== null)
+    String(navigator?.platform).match(new RegExp(PLATFORM_LINUX)) !== null)
 
 export const isiOS = () =>
-  (IS_IOS =
-    typeof navigator !== 'undefined' &&
-    navigator.platform.match(new RegExp(PLATFORM_IOS)) !== null)
+  (IS_IOS = navigator?.platform.match(new RegExp(PLATFORM_IOS)) !== null)
+
+export const isSafari = () =>
+  (IS_SAFARI = navigator?.userAgent.toLowerCase().indexOf('safari') >= 0)
 
 export const isIE11 = () =>
   (IS_IE11 =
@@ -43,15 +42,12 @@ export const isIE11 = () =>
 
 export const isEdge = () =>
   (IS_EDGE =
-    typeof navigator !== 'undefined' &&
-    navigator.userAgent &&
-    navigator.userAgent.indexOf
-      ? navigator.userAgent.indexOf('Edge') >= 0
-      : false)
+    String(navigator?.userAgent)?.toLowerCase().indexOf('edge') >= 0)
 
 isIE11()
 isEdge()
 isiOS()
+isSafari()
 isWin()
 isMac()
 isLinux()
@@ -221,8 +217,6 @@ export function debounce(
       recall()
     }
 
-    // console.log('timeout!!!', timeout)
-
     // The function to be called after
     // the debounce time has elapsed
     const later = () => {
@@ -258,19 +252,19 @@ export function debounce(
 }
 
 export function insertElementBeforeSelection(elem) {
-  try {
-    const selection = window.getSelection()
-    const range = selection.getRangeAt(0)
-    range.cloneRange().insertNode(elem)
-    selection.addRange(range) // Restore the original selection - this is a Safari fix!
+  // try {
+  const selection = window.getSelection()
+  const range = selection.getRangeAt(0)
+  range.cloneRange().insertNode(elem)
+  selection.addRange(range) // Restore the original selection - this is a Safari fix!
 
-    // For now I (Tobias) could not find any reason for supporting document.selection as well
-    // const range = document.selection.createRange()
-    // range.collapse(true)
-    // range.pasteHTML(elem.outerHTML)
-  } catch (e) {
-    //
-  }
+  // For now I (Tobias) could not find any reason for supporting document.selection as well
+  // const range = document.selection.createRange()
+  // range.collapse(true)
+  // range.pasteHTML(elem.outerHTML)
+  // } catch (e) {
+  //   //
+  // }
 }
 
 export function getSelectedText() {
@@ -305,77 +299,80 @@ export function getSelectedElement() {
   return null
 }
 
-export function copyToClipboard(string, onSuccess = null) {
-  // get the selection range
-  const selection = window.getSelection()
-  const range =
-    selection.rangeCount > 0 // Check if there is any content selected previously
-      ? selection.getRangeAt(0) // Store selection if found
-      : false // Mark as false to know no selection existed before
-
-  const resetSelection = () => {
-    try {
-      // If a selection existed before copying
-      selection.removeAllRanges() // Unselect everything on the HTML document
-      selection.addRange(range) // Restore the original selection
-    } catch (e) {
-      //
+export function copyToClipboard(string) {
+  return new Promise((resolve, reject) => {
+    if (typeof window === 'undefined' || typeof document === 'undefined') {
+      return reject()
     }
-  }
 
-  const copyFallback = () => {
-    try {
-      // create the focusable element
-      const elem = document.createElement('input')
-      elem.value = String(string)
-      elem.contentEditable = true
-      elem.readOnly = false
-      elem.style.position = 'fixed'
-      elem.style.top = '-1000px'
-      document.body.appendChild(elem)
+    // get the selection range
+    const selection = window.getSelection()
+    const range =
+      selection.rangeCount > 0 // Check if there is any content selected previously
+        ? selection.getRangeAt(0) // Store selection if found
+        : false // Mark as false to know no selection existed before
 
-      // iOS helper
-      if (isiOS()) {
-        const newRange = document.createRange()
-        newRange.selectNodeContents(elem)
-        const sel = window.getSelection()
-        sel.removeAllRanges()
-        sel.addRange(newRange)
-        elem.setSelectionRange(0, 999999)
-      } else {
-        elem.select()
+    const resetSelection = () => {
+      try {
+        // If a selection existed before copying
+        selection.removeAllRanges() // Unselect everything on the HTML document
+        selection.addRange(range) // Restore the original selection
+      } catch (e) {
+        //
       }
-
-      // NB: copy only works as a result of a user action (e.g. click events)
-      const successful = document.execCommand('copy')
-
-      // Cleanup
-      document.body.removeChild(elem)
-
-      resetSelection()
-
-      if (!successful) {
-        return false
-      }
-    } catch (e) {
-      console.warn('Could not copy the string', string, '\n', e)
     }
 
-    if (typeof onSuccess === 'function') {
-      onSuccess()
-    }
-    return true
-  }
+    const copyFallback = () => {
+      try {
+        // create the focusable element
+        const elem = document.createElement('textarea')
+        elem.value = String(string)
+        elem.contentEditable = true
+        elem.readOnly = false
+        elem.style.position = 'fixed'
+        elem.style.top = '-1000px'
+        document.body.appendChild(elem)
 
-  if (navigator?.clipboard) {
-    return navigator.clipboard
-      .writeText(string)
-      .then(() => {
+        // iOS helper
+        if (IS_IOS) {
+          const newRange = document.createRange()
+          newRange.selectNodeContents(elem)
+          const sel = window.getSelection()
+          sel.removeAllRanges()
+          sel.addRange(newRange)
+          elem.setSelectionRange(0, 999999)
+        } else {
+          elem.select()
+        }
+
+        // NB: copy only works as a result of a user action (e.g. click events)
+        const successful = document.execCommand('copy')
+
+        // Cleanup
+        document.body.removeChild(elem)
+
         resetSelection()
-        onSuccess()
-      })
-      .catch(copyFallback)
-  } else {
-    return copyFallback()
-  }
+
+        if (successful) {
+          return resolve()
+        }
+
+        reject(`Could not copy! Unknown reason. ${string}`)
+      } catch (e) {
+        reject(e)
+      }
+    }
+
+    if (typeof navigator !== 'undefined' && navigator?.clipboard) {
+      return navigator.clipboard
+        .writeText(String(string))
+        .then(() => {
+          resetSelection()
+          resolve()
+        })
+        .catch(copyFallback)
+    } else {
+      return copyFallback()
+    }
+  })
 }
