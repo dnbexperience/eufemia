@@ -7,7 +7,7 @@ import {
   setPageFocusElement,
   applyPageFocus,
   scrollToLocationHashId,
-  isIE11
+  IS_IE11
 } from '../helpers'
 
 const bodyElement = document.body
@@ -59,9 +59,9 @@ describe('"scrollToLocationHashId" should', () => {
   })
 })
 
-describe('"isIE11" should', () => {
+describe('"IS_IE11" should', () => {
   it('result in false (no function)', () => {
     navigator.maxTouchPoints = 2
-    expect(isIE11).toBe(false)
+    expect(IS_IE11).toBe(false)
   })
 })

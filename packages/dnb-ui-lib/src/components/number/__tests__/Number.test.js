@@ -11,6 +11,7 @@ import {
   loadScss
 } from '../../../core/jest/jestSetup'
 import { LOCALE } from '../../../shared/defaults'
+import { isMac } from '../../../shared/helpers'
 import Component, { cleanNumber } from '../Number'
 
 // import intl from 'intl'
@@ -32,9 +33,16 @@ const snapshotProps = {
 // make it possible to change the navigator lang
 // because "navigator.language" defaults to en-US
 let languageGetter, platformGetter
-beforeEach(() => {
+
+beforeAll(() => {
   languageGetter = jest.spyOn(window.navigator, 'language', 'get')
   platformGetter = jest.spyOn(window.navigator, 'platform', 'get')
+
+  // simulate mac, has to run on the first render
+  platformGetter.mockReturnValue('Mac')
+  languageGetter.mockReturnValue(locale)
+
+  isMac() // just to uptate the exported const: IS_MAC
 })
 
 describe('Node', () => {
@@ -48,8 +56,6 @@ describe('Node', () => {
     expect(intl.format(value)).toBe('kr 12 345 678,90')
   })
   it('supports setting navigator.language (JSDOM)', () => {
-    languageGetter.mockReturnValue(locale)
-
     expect(navigator.language).toBe(locale)
   })
 })
@@ -57,9 +63,6 @@ describe('Node', () => {
 describe('Number component', () => {
   const slector = element + '.dnb-number'
   it('have to match default number snapshot', () => {
-    // simulate mac, has to run on the first render
-    platformGetter.mockReturnValue('Mac')
-
     const Comp = mount(<Component {...snapshotProps} />)
     expect(toJson(Comp)).toMatchSnapshot()
   })

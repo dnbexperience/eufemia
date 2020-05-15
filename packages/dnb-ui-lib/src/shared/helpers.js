@@ -8,21 +8,53 @@ export const PLATFORM_WIN = 'Win'
 export const PLATFORM_LINUX = 'Linux'
 export const PLATFORM_IOS = 'ipad|iphone'
 
+export let IS_IE11 = false
+export let IS_EDGE = false
+export let IS_IOS = false
+export let IS_WIN = false
+export let IS_MAC = false
+export let IS_LINUX = false
+
 export const isMac = () =>
-  typeof navigator !== 'undefined' &&
-  navigator.platform.match(new RegExp(PLATFORM_MAC)) !== null
+  (IS_MAC =
+    typeof navigator !== 'undefined' &&
+    navigator.platform.match(new RegExp(PLATFORM_MAC)) !== null)
 
 export const isWin = () =>
-  typeof navigator !== 'undefined' &&
-  navigator.platform.match(new RegExp(PLATFORM_WIN)) !== null
+  (IS_WIN =
+    typeof navigator !== 'undefined' &&
+    navigator.platform.match(new RegExp(PLATFORM_WIN)) !== null)
 
 export const isLinux = () =>
-  typeof navigator !== 'undefined' &&
-  navigator.platform.match(new RegExp(PLATFORM_LINUX)) !== null
+  (IS_LINUX =
+    typeof navigator !== 'undefined' &&
+    navigator.platform.match(new RegExp(PLATFORM_LINUX)) !== null)
 
 export const isiOS = () =>
-  typeof navigator !== 'undefined' &&
-  navigator.platform.match(new RegExp(PLATFORM_IOS)) !== null
+  (IS_IOS =
+    typeof navigator !== 'undefined' &&
+    navigator.platform.match(new RegExp(PLATFORM_IOS)) !== null)
+
+export const isIE11 = () =>
+  (IS_IE11 =
+    typeof window !== 'undefined' && typeof document !== 'undefined'
+      ? !!window.MSInputMethodContext && !!document.documentMode
+      : false)
+
+export const isEdge = () =>
+  (IS_EDGE =
+    typeof navigator !== 'undefined' &&
+    navigator.userAgent &&
+    navigator.userAgent.indexOf
+      ? navigator.userAgent.indexOf('Edge') >= 0
+      : false)
+
+isIE11()
+isEdge()
+isiOS()
+isWin()
+isMac()
+isLinux()
 
 const pageFocusElements = {}
 export function setPageFocusElement(selectorOrElement, key = 'default') {
@@ -224,18 +256,6 @@ export function debounce(
     }
   }
 }
-
-export const isIE11 =
-  typeof window !== 'undefined' && typeof document !== 'undefined'
-    ? !!window.MSInputMethodContext && !!document.documentMode
-    : false
-
-export const isEdge =
-  typeof navigator !== 'undefined' &&
-  navigator.userAgent &&
-  navigator.userAgent.indexOf
-    ? navigator.userAgent.indexOf('Edge') >= 0
-    : false
 
 export function insertElementBeforeSelection(elem) {
   try {

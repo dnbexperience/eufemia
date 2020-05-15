@@ -25,7 +25,7 @@ import { InfoIcon, ErrorIcon } from '../form-status/FormStatus'
 import Button from '../button/Button'
 import Section from '../section/Section'
 import Animation from './AnimationHelper'
-import { isIE11 } from '../../shared/helpers'
+import { IS_IE11 } from '../../shared/helpers'
 
 const renderProps = {
   on_open: null,
@@ -514,7 +514,7 @@ export default class GlobalStatus extends React.PureComponent {
       // dispatchCustomElementEvent(this.state.globalStatus, 'on_scroll_to')
       const element = this._shellRef.current
       this._scrollToStatusId = isElementVisible(element, isDone)
-      if (element && !isIE11) {
+      if (element && !IS_IE11) {
         element.scrollIntoView({
           block: 'center',
           behavior: 'smooth'
@@ -577,7 +577,7 @@ export default class GlobalStatus extends React.PureComponent {
         })
 
         // block: 'center' is not suported on IE - now we se the element above
-        if (isIE11) {
+        if (IS_IE11) {
           window.scrollTop = element.offsetTop
         } else {
           // then go there

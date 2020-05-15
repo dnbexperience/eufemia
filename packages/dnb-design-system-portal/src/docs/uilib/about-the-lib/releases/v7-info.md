@@ -11,11 +11,13 @@
 
 v7 contains a couple of _braking changes_. As a migration process, you can simply search and replace:
 
-1. find `sea-green-alt-30` replace it with `sea-green-30`
-1. find `sea-green-alt` replace it with `sea-green`
-1. find `#B3DADA` replace it with `#B3D5D5`
-1. find `#008484` replace it with `#007272`
-1. find `['data-is-touch']` replace it with `[data-whatintent='touch']`
+1. Find `sea-green-alt-30` and replace it with `sea-green-30`
+1. Find `sea-green-alt` and replace it with `sea-green`
+1. Find `#B3DADA` and replace it with `#B3D5D5`
+1. Find `#008484` and replace it with `#007272`
+1. Find `['data-is-touch']` and replace it with `[data-whatintent='touch']`
+1. Find `isIE11` and replace it with `IS_IE11`
+1. Find `isEdge` and replace it with `IS_EDGE`
 1. The [Anchor (Text link)](/uilib/elements/anchor) has now also the defualt font-size of 18px (basis) - this means, you may have places where you would rather inherit the font-size by: `.dnb-anchor { font-size: inherit; }`
 1. **For UMD usage only** find `dnb-ui-lib.min.js` replace it with `dnb-ui-web-components.min.js`
 1. New strings where added to the [language files](/uilib/usage/customisation/localization) `nb-NO.js` and `en-US.js`. If you have a customized localization ([changes or addition](https://gist.github.com/tujoworker/f754da1137507fdd5d4bb61949a92259/revisions)), then make sure you maintain these new groups of strings:
@@ -41,6 +43,7 @@ v7 contains a couple of _braking changes_. As a migration process, you can simpl
 - [Buttons](/uilib/components/button) now supports overflow text to wrap (break-word) by using `wrap="true"`.
 - [Modal](/uilib/components/modal#drawer-mode) has now a **Drawer** mode inside the Modal component `mode="drawer"`.
 - Also, the [Modal](/uilib/components/modal#drawer-mode) has now a dark background color and both open and close animation
+- Expose [new helper functions](/uilib/helpers/functions#general-helpers) like `isiOS`, `isMac`, `isWin` and `isLinux` (beside `isIE11`,`isEdge`) in the shared helpers file: `import { isLinux } from 'dnb-ui-lib/shared/helpers'`. They are available as constants as well: `IS_IE11`, `IS_EDGE`, `IS_IOS`, `IS_MAC`, `IS_WIN` and `IS_LINUX`.
 
 ```jsx
 <Dropdown
