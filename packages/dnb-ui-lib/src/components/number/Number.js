@@ -21,7 +21,7 @@ import {
   getSelectedElement,
   copyToClipboard,
   hasSelectedText,
-  IS_EDGE,
+  IS_SAFARI,
   IS_MAC,
   IS_WIN,
   IS_IE11
@@ -108,8 +108,8 @@ export default class Number extends React.PureComponent {
       if (!window.shortcuts) {
         window.shortcuts = new createShortcut()
       }
-
       // Firefox sometimes don't respond on the onCopy event
+      // But more importanly, Safari does not supprt onCopy event and custom copy at the same time
       // therefore we use shortcuts as well
       this.osShortcut = IS_WIN ? 'ctrl+c' : 'cmd+c'
       window.shortcuts.add(this.osShortcut, this.shortcutHandler)
@@ -126,6 +126,9 @@ export default class Number extends React.PureComponent {
   }
 
   onCopyHandler = (e) => {
+    if (IS_SAFARI) {
+      return // iOS can't copy
+    }
     copySelectedNumber(e)
   }
 
@@ -134,21 +137,17 @@ export default class Number extends React.PureComponent {
       try {
         const selection = window.getSelection()
         const range = document.createRange()
-        range.selectNode(this._ref.current) // also selectNodeContents works fine
+        range.selectNodeContents(this._ref.current)
         selection.removeAllRanges()
         selection.addRange(range)
 
-        // works on iOS, becaus of the user event
-        // if (IS_EDGE) {
+        // works on iOS / IS_SAFARI, becaus of the user event
+        // if (IS_SAFARI) {
         //   let { value, children } = this.props
         //   if (children !== null) {
         //     value = children
         //   }
-
-        //   copyToClipboard(value, () => {
-        //     createSelectionFX(value)
-        //     console.info('Copy:', value) // debug
-        //   })
+        //   copyNumber(cleanDirtyNumber(value))
         // }
       } catch (e) {
         console.warn(e)
@@ -683,45 +682,50 @@ export const formatNIN = (number, locale = null) => {
   return { number: display, aria }
 }
 
-let copyTimeout = null
-export function copySelectedNumber(e = null) {
-  if (IS_EDGE) {
-    return // iOS does not provide support for async copy
-  }
-
+export function copySelectedNumber(e) {
   const cleanedValue = getCleanedSelection(e)
 
   if (cleanedValue) {
-    // copyToClipboard(cleanedValue)
-    clearTimeout(copyTimeout)
-    copyTimeout = setTimeout(() => {
-      const fx = createSelectionFX(cleanedValue)
-      copyToClipboard(cleanedValue, () => {
-        fx.run()
-        console.info('Copy:', cleanedValue) // debug
-      })
-    }, 10) // only to make it work on right click and copy
+    e?.preventDefault && e.preventDefault() // works on macOS, prevents the actuall copy
+    copyNumber(cleanedValue)
   }
 }
 
-function getCleanedSelection(e = null) {
-  let selection = getSelectedText()
+export function copyNumber(string) {
+  if (string) {
+    const fx = createSelectionFX(string)
+    copyToClipboard(string)
+      .then(() => {
+        fx.run()
+        console.info('Copy:', string) // debug
+      })
+      .catch(fx.remove)
+  }
+}
 
-  if (/^[\s].*[\s]$/.test(selection)) {
-    // console.info('Selection starts and ends with space', selection) // debug
-    return // invalid
+function getCleanedSelection() {
+  const selection = getSelectedText()
+  return cleanDirtyNumber(selection)
+}
+
+export function cleanDirtyNumber(value) {
+  value = String(value)
+
+  if (/^[\s].*[\s]$/.test(value)) {
+    // console.info('Selection starts and ends with space', value) // debug
+    return false // invalid
   }
 
-  selection = selection.trim()
+  value = value.trim()
 
-  if (/\n|\r/.test(selection)) {
-    // console.info('Selection had new lines', selection) // debug
-    return // invalid
+  if (/\n|\r/.test(value)) {
+    // console.info('Selection had new lines', value) // debug
+    return false // invalid
   }
 
-  if (!(selection.length > 0)) {
-    // console.info('Selection was to short', selection) // debug
-    return // invalid
+  if (!(value.length > 0)) {
+    // console.info('Selection was to short', value) // debug
+    return false // invalid
   }
 
   const elem = getSelectedElement()
@@ -729,11 +733,11 @@ function getCleanedSelection(e = null) {
   if (
     // stop if the selected elem is not the number component0
     !/dnb-number/.test(elem.getAttribute('class')) &&
-    // and if no, then check if the selection is not a pure number
-    !new RegExp(`[${NUMBER_CHARS}\\s]`).test(selection)
+    // and if no, then check if the value is not a pure number
+    !new RegExp(`[${NUMBER_CHARS}\\s]`).test(value)
   ) {
     // console.info('Selected elem was not the Number component', elem) // debug
-    return // invalid
+    return false // invalid
   }
 
   // Remove invalid selected text, because we have this for NVDA
@@ -742,35 +746,33 @@ function getCleanedSelection(e = null) {
       elem.querySelector('.dnb-sr-only--inline') || elem.nextSibling
     )?.innerHTML
     if (invalidText) {
-      selection = selection.replace(invalidText, '')
+      value = value.replace(invalidText, '')
     }
   }
 
-  if (/^[a-z\s].*[a-z\s]$/.test(selection)) {
-    // console.info('Selection starts and ends with characters', selection) // debug
-    return // invalid
+  if (/^[a-z\s].*[a-z\s]$/.test(value)) {
+    // console.info('Selection starts and ends with characters', value) // debug
+    return false // invalid
   }
 
   // limit the body, but to be above KID of 25
-  if (selection.length > 30) {
-    // console.info('Selection was to long', selection) // debug
-    return // invalid
+  if (value.length > 30) {
+    // console.info('Selection was to long', value) // debug
+    return false // invalid
   }
 
-  let cleanedValue = cleanNumber(selection)
+  let cleanedValue = cleanNumber(value)
 
   // contoll number
   const num = parseFloat(cleanedValue)
   if (isNaN(num)) {
     // console.info('Number was invalid', cleanedValue) // debug
-    return // invalid
+    return false // invalid
   }
-
-  e && e.preventDefault() // works on macOS, prevents the actuall copy
 
   // if the number not starts with 0, then use the controll number
   if (!/^0/.test(cleanedValue)) {
-    cleanedValue = num
+    return num
   }
 
   return cleanedValue
@@ -778,58 +780,65 @@ function getCleanedSelection(e = null) {
 
 export function createSelectionFX(string) {
   let height = 32
-  let portalElem
+  let left = 0
+  let top = 0
+  let elem // portalElem
 
   // do that becuase getClientRects from selection is an experimental browser API
   try {
-    const getClientRects = window
-      .getSelection()
-      .getRangeAt(0)
-      .getClientRects()
+    // getClientRects
+    const cR = window.getSelection().getRangeAt(0).getClientRects()
 
-    height = getClientRects[0]?.height
+    height = cR[0]?.height
+    left = cR[0]?.left
+    top = cR[0]?.top
   } catch (e) {
     //
   }
 
   try {
-    // get a more precize position by inserting this empty node
-    const posElem = document.createElement('span')
-    posElem.setAttribute('class', 'dnb-number__fx__selection')
-    insertElementBeforeSelection(posElem)
+    // create backup to get the position from
+    if (!(top > 0) && !(left > 0)) {
+      // get a more precize position by inserting this empty node
+      const posElem = document.createElement('span')
+      posElem.setAttribute('class', 'dnb-number__fx__selection')
+      insertElementBeforeSelection(posElem)
 
-    // get position
-    const { top, left } = posElem.getBoundingClientRect()
-    posElem.parentElement.removeChild(posElem)
+      // get position
+      ;({ top, left } = posElem.getBoundingClientRect())
+      top -= height / 1.333
+      posElem.parentElement.removeChild(posElem)
+    }
 
     // create that portal element
-    portalElem = document.createElement('span')
-    portalElem.innerHTML = String(string)
-    portalElem.setAttribute('class', 'dnb-number__fx dnb-core-style')
-    portalElem.style.top = `${top - height / 1.333}px`
-    portalElem.style.left = `${left + getSelectedText().length / 2}px`
+    elem = document.createElement('span')
+    elem.innerHTML = String(string)
+    elem.setAttribute('class', 'dnb-number__fx dnb-core-style')
+    elem.style.top = `${top}px`
+    elem.style.left = `${left + getSelectedText().length / 2}px`
   } catch (e) {
     console.warn(e)
   }
 
-  return {
-    run: () => {
+  return new (class SelectionFx {
+    remove() {
       try {
-        document.body.appendChild(portalElem)
+        document.body.removeChild(elem)
+      } catch (e) {
+        //
+      }
+    }
+    run() {
+      try {
+        document.body.appendChild(elem)
 
         // remove that element again
-        setTimeout(() => {
-          try {
-            document.body.removeChild(portalElem)
-          } catch (e) {
-            //
-          }
-        }, 800)
+        setTimeout(this.remove, 800)
       } catch (e) {
         console.warn(e)
       }
     }
-  }
+  })()
 }
 
 // Can be human number - https://en.wikipedia.org/wiki/Decimal_separator

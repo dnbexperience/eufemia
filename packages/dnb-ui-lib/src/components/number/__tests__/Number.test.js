@@ -8,11 +8,17 @@ import {
   mount,
   axeComponent,
   toJson,
-  loadScss
+  loadScss,
+  mockGetSelection
 } from '../../../core/jest/jestSetup'
 import { LOCALE } from '../../../shared/defaults'
 import { isMac } from '../../../shared/helpers'
-import Component, { cleanNumber } from '../Number'
+import Component, {
+  cleanNumber,
+  cleanDirtyNumber,
+  copyNumber,
+  copySelectedNumber
+} from '../Number'
 
 // import intl from 'intl'
 // import nb from 'intl/locale-data/jsonp/nb-NO.js'
@@ -43,6 +49,8 @@ beforeAll(() => {
   languageGetter.mockReturnValue(locale)
 
   isMac() // just to uptate the exported const: IS_MAC
+
+  mockGetSelection()
 })
 
 describe('Node', () => {
@@ -177,6 +185,31 @@ describe('Number cleanNumber', () => {
     expect(cleanNumber("prefix -1'234'567.89 suffix")).toBe('-1234567.89')
     expect(cleanNumber('prefix -1,234,567·89 suffix')).toBe('-1234567.89')
     expect(cleanNumber("prefix -1.234.567'89 suffix")).toBe('-1234567.89')
+  })
+})
+
+describe('Number cleanDirtyNumber', () => {
+  it('should clean up and remove invalid suff arround numbers', () => {
+    expect(cleanDirtyNumber(-12345.67)).toBe(-12345.67)
+    expect(cleanDirtyNumber('-12.345,67 suffix')).toBe(-12345.67)
+    expect(cleanDirtyNumber('prefix -12.345,67')).toBe(-12345.67)
+    expect(cleanDirtyNumber(' -12.345,67')).toBe(-12345.67)
+    expect(cleanDirtyNumber('prefix -12 345,67 suffix')).toBe(false)
+    expect(cleanDirtyNumber(' -12 345,67 ')).toBe(false)
+    expect(cleanDirtyNumber('0047 ')).toBe('0047')
+    expect(cleanDirtyNumber('prefix \n-12 345,67')).toBe(false)
+    expect(cleanDirtyNumber('prefix')).toBe(false)
+  })
+})
+
+describe('Number copy methods like', () => {
+  it('copyNumber should make valid clipboard copy', async () => {
+    copyNumber('1234.56')
+    expect(await navigator.clipboard.readText()).toBe('1234.56')
+  })
+  it('copySelectedNumber make valid clipboard copy', async () => {
+    copySelectedNumber()
+    expect(await navigator.clipboard.readText()).toBe('1234.56')
   })
 })
 
