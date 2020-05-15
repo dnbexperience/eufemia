@@ -21,9 +21,10 @@ import {
   getSelectedElement,
   copyToClipboard,
   hasSelectedText,
-  isiOS as isiOSFunc,
-  isMac as isMacFunc,
-  isWin as isWinFunc
+  IS_EDGE,
+  IS_MAC,
+  IS_WIN,
+  IS_IE11
 } from '../../shared/helpers'
 import { createSpacingClasses } from '../space/SpacingHelper'
 
@@ -31,8 +32,6 @@ import { createShortcut } from '../../shared/libs/Shortcuts'
 
 const NUMBER_CHARS = '-0-9,.'
 
-let isMac = null
-let isWin = null
 const renderProps = {}
 
 const propTypes = {
@@ -112,7 +111,7 @@ export default class Number extends React.PureComponent {
 
       // Firefox sometimes don't respond on the onCopy event
       // therefore we use shortcuts as well
-      this.osShortcut = isWin ? 'ctrl+c' : 'cmd+c'
+      this.osShortcut = IS_WIN ? 'ctrl+c' : 'cmd+c'
       window.shortcuts.add(this.osShortcut, this.shortcutHandler)
     }
   }
@@ -140,7 +139,7 @@ export default class Number extends React.PureComponent {
         selection.addRange(range)
 
         // works on iOS, becaus of the user event
-        // if (isiOSFunc()) {
+        // if (IS_EDGE) {
         //   let { value, children } = this.props
         //   if (children !== null) {
         //     value = children
@@ -158,13 +157,6 @@ export default class Number extends React.PureComponent {
   }
 
   render() {
-    if (isMac === null) {
-      isMac = isMacFunc()
-    }
-    if (isWin === null) {
-      isWin = isWinFunc()
-    }
-
     // consume the global context
     const {
       value: _value,
@@ -260,7 +252,7 @@ export default class Number extends React.PureComponent {
       ...rest
     }
 
-    if (isMac) {
+    if (IS_MAC) {
       attributes['role'] = 'text'
     } else {
       attributes['role'] = 'textbox' // because NVDA is not reading aria-label on span's
@@ -306,7 +298,7 @@ export default class Number extends React.PureComponent {
       )
     }
 
-    return isWin ? (
+    return IS_WIN ? (
       <NVDAFriendly />
     ) : (
       <Element
@@ -423,7 +415,15 @@ export const format = (
       maximumFractionDigits: 2,
       currencyDisplay: 'name'
     })
-    aria = enhanceSR(cleanedNumber, aria, locale)
+    aria = enhanceSR(cleanedNumber, aria, locale) // also calls cleanupMinus
+
+    // IE has a bug, where negative numbers has a parantese arround the number
+    if (IS_IE11) {
+      display = display.replace(/^\((.*)\)$/, '-$1')
+      aria = aria.replace(/^\((.*)\)$/, '-$1')
+      display = cleanupMinus(display)
+      aria = cleanupMinus(aria)
+    }
 
     // get only the currency name
     // const num = aria.replace(/([^0-9])+$/g, '')
@@ -440,7 +440,7 @@ export const format = (
       minimumFractionDigits: 1,
       maximumFractionDigits: 1
     })
-    aria = enhanceSR(value, aria, locale)
+    aria = enhanceSR(value, aria, locale) // also calls cleanupMinus
   }
 
   if (aria === null) {
@@ -524,7 +524,7 @@ const enhanceSR = (value, aria) => {
   // Numbers under 99.999 are read out correctly, but only if we remove the spaces
   // Potential we could also check for locale: && /no|nb|nn/.test(locale)
   // but leave it for now without this ectra check
-  if (isMac && Math.abs(parseFloat(value)) <= 99999) {
+  if (IS_MAC && Math.abs(parseFloat(value)) <= 99999) {
     aria = String(aria).replace(/\s([0-9])/g, '$1')
   }
 
@@ -672,7 +672,7 @@ export const formatNIN = (number, locale = null) => {
       aria = display
         .split(/(\d{2})(\d{2})(\d{2}) (\d{1})(\d{1})(\d{1})(\d{1})(\d{1})/)
         .filter((s) => s)
-        .join(isWin ? '. ' : ' ') // NVDA fix with a dot to not read date on FF
+        .join(IS_WIN ? '. ' : ' ') // NVDA fix with a dot to not read date on FF
     }
   }
 
@@ -685,7 +685,7 @@ export const formatNIN = (number, locale = null) => {
 
 let copyTimeout = null
 export function copySelectedNumber(e = null) {
-  if (isiOSFunc()) {
+  if (IS_EDGE) {
     return // iOS does not provide support for async copy
   }
 
@@ -737,7 +737,7 @@ function getCleanedSelection(e = null) {
   }
 
   // Remove invalid selected text, because we have this for NVDA
-  if (isWin) {
+  if (IS_WIN) {
     const invalidText = (
       elem.querySelector('.dnb-sr-only--inline') || elem.nextSibling
     )?.innerHTML
