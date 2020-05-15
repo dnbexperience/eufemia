@@ -278,7 +278,7 @@ exports[`Button scss have to match default theme snapshot 1`] = `
     .dnb-button--primary:focus:not([disabled]),
     html:not([data-whatintent='touch']) .dnb-button--primary:focus:not([disabled]) {
       outline: none; }
-      html:not([data-whatintent='touch']) .dnb-button--primary:focus:not([disabled]), html:not([data-whatintent='touch'])
+      html[data-whatinput='keyboard'] .dnb-button--primary:focus:not([disabled]), html[data-whatinput='keyboard']
       html:not([data-whatintent='touch']) .dnb-button--primary:focus:not([disabled]) {
         color: var(--color-sea-green);
         background-color: var(--color-white); }
@@ -337,7 +337,7 @@ exports[`Button scss have to match default theme snapshot 1`] = `
     .dnb-button--secondary:focus:not([disabled]),
     html:not([data-whatintent='touch']) .dnb-button--secondary:focus:not([disabled]) {
       outline: none; }
-      html:not([data-whatintent='touch']) .dnb-button--secondary:focus:not([disabled]), html:not([data-whatintent='touch'])
+      html[data-whatinput='keyboard'] .dnb-button--secondary:focus:not([disabled]), html[data-whatinput='keyboard']
       html:not([data-whatintent='touch']) .dnb-button--secondary:focus:not([disabled]) {
         color: var(--color-sea-green);
         background-color: var(--color-white); }
@@ -565,7 +565,7 @@ exports[`Button scss have to match default theme snapshot 1`] = `
     .dnb-button--signal:focus:not([disabled]),
     html:not([data-whatintent='touch']) .dnb-button--signal:focus:not([disabled]) {
       outline: none; }
-      html:not([data-whatintent='touch']) .dnb-button--signal:focus:not([disabled]), html:not([data-whatintent='touch'])
+      html[data-whatinput='keyboard'] .dnb-button--signal:focus:not([disabled]), html[data-whatinput='keyboard']
       html:not([data-whatintent='touch']) .dnb-button--signal:focus:not([disabled]) {
         color: var(--color-ocean-green);
         background-color: var(--color-accent-yellow); }

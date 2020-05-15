@@ -181,6 +181,10 @@
       // to make sure we vertical align centered to the text
       align-items: baseline;
 
+      &--vertical-label {
+        align-items: flex-start;
+      }
+
       margin-bottom: calc(1px - 1px - var(--toggle-button-margin-bottom));
 
       &::before {

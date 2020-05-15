@@ -704,7 +704,14 @@ export function copySelectedNumber(e = null) {
 }
 
 function getCleanedSelection(e = null) {
-  let selection = getSelectedText().trim()
+  let selection = getSelectedText()
+
+  if (/^[\s].*[\s]$/.test(selection)) {
+    // console.info('Selection starts and ends with space', selection) // debug
+    return // invalid
+  }
+
+  selection = selection.trim()
 
   if (/\n|\r/.test(selection)) {
     // console.info('Selection had new lines', selection) // debug

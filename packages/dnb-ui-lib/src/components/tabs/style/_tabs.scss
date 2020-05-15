@@ -54,8 +54,6 @@
 
       // should be same as .lead small
       &__title {
-        white-space: nowrap;
-
         .dnb-icon {
           font-size: var(--font-size-small); // has to be 16px
 
@@ -105,7 +103,7 @@
     @include allBelow(small) {
       &__tablist {
         flex-direction: column;
-        flex-grow: 1;
+        align-items: flex-start;
         margin: 0;
       }
       .dnb-tabs__button,

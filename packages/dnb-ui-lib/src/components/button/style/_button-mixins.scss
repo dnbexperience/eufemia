@@ -50,7 +50,7 @@
 
 @mixin buttonFocus($color, $background-color, $focus-color: null) {
   @include focus() {
-    html:not([data-whatintent='touch']) & {
+    html[data-whatinput='keyboard'] & {
       color: $color;
       background-color: $background-color;
     }

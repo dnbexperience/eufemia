@@ -286,15 +286,27 @@ export function getSelectedElement() {
 }
 
 export function copyToClipboard(string, onSuccess = null) {
+  // get the selection range
+  const selection = window.getSelection()
+  const range =
+    selection.rangeCount > 0 // Check if there is any content selected previously
+      ? selection.getRangeAt(0) // Store selection if found
+      : false // Mark as false to know no selection existed before
+
+  const resetSelection = () => {
+    setTimeout(() => {
+      try {
+        // If a selection existed before copying
+        selection.removeAllRanges() // Unselect everything on the HTML document
+        selection.addRange(range) // Restore the original selection
+      } catch (e) {
+        //
+      }
+    }, 1) // just a quick work arround - we want to be AFTER calling "createSelectionFX" - after
+  }
+
   const copyFallback = () => {
     try {
-      // get the selection range
-      const selection = window.getSelection()
-      const range =
-        selection.rangeCount > 0 // Check if there is any content selected previously
-          ? selection.getRangeAt(0) // Store selection if found
-          : false // Mark as false to know no selection existed before
-
       // create the focusable element
       const elem = document.createElement('textArea')
       elem.value = String(string)
@@ -322,9 +334,7 @@ export function copyToClipboard(string, onSuccess = null) {
       // Cleanup
       document.body.removeChild(elem)
 
-      // // If a selection existed before copying
-      selection.removeAllRanges() // Unselect everything on the HTML document
-      selection.addRange(range) // Restore the original selection
+      resetSelection()
 
       if (!successful) {
         return false
@@ -342,7 +352,10 @@ export function copyToClipboard(string, onSuccess = null) {
   if (navigator?.clipboard) {
     return navigator.clipboard
       .writeText(string)
-      .then(onSuccess)
+      .then(() => {
+        resetSelection()
+        onSuccess()
+      })
       .catch(copyFallback)
   } else {
     return copyFallback()

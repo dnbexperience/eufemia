@@ -813,11 +813,15 @@ exports[`ToggleButton scss have to match default theme snapshot 1`] = `
   .dnb-toggle-button--checked .dnb-toggle-button__button:hover[disabled] .dnb-radio__button,
   .dnb-toggle-button--checked .dnb-toggle-button__button:hover[disabled] .dnb-checkbox__button {
     box-shadow: none; }
+  html[data-whatinput='keyboard']
+.dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:active):not(:hover):focus, html[data-whatinput='keyboard']
+  .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]):not(:active):not(:hover):focus, html[data-whatinput='keyboard']
+  .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]):not(:active):not(:hover):focus {
+    color: var(--color-emerald-green);
+    background-color: var(--color-mint-green); }
   .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:active):not(:hover):focus,
   .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]):not(:active):not(:hover):focus,
   .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]):not(:active):not(:hover):focus {
-    color: var(--color-emerald-green);
-    background-color: var(--color-mint-green);
     outline: none; }
     html[data-whatinput='keyboard'] .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:active):not(:hover):focus, html[data-whatinput='keyboard']
     .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]):not(:active):not(:hover):focus, html[data-whatinput='keyboard']
@@ -1803,6 +1807,8 @@ button.dnb-button::-moz-focus-inner {
     .dnb-toggle-button-group .dnb-form-row {
       align-items: baseline;
       margin-bottom: calc(1px - 1px - var(--toggle-button-margin-bottom)); }
+      .dnb-toggle-button-group .dnb-form-row--vertical-label {
+        align-items: flex-start; }
       .dnb-toggle-button-group .dnb-form-row::before {
         font-size: var(--font-size-basis); }
     .dnb-toggle-button-group--no-label .dnb-form-row {

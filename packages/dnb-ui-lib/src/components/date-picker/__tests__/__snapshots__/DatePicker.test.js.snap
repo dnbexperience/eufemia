@@ -2473,6 +2473,8 @@ legend.dnb-form-label {
     .dnb-toggle-button-group .dnb-form-row {
       align-items: baseline;
       margin-bottom: calc(1px - 1px - var(--toggle-button-margin-bottom)); }
+      .dnb-toggle-button-group .dnb-form-row--vertical-label {
+        align-items: flex-start; }
       .dnb-toggle-button-group .dnb-form-row::before {
         font-size: var(--font-size-basis); }
     .dnb-toggle-button-group--no-label .dnb-form-row {

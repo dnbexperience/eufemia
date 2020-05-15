@@ -8,7 +8,7 @@
   "main": "index.js",
   "scripts": {
     "build": "yarn build-portal:version && yarn build-portal",
-    "build-portal": "gatsby build",
+    "build-portal": "GATSBY_EXPERIMENTAL_PAGE_BUILD_ON_DATA_CHANGES=true gatsby build --log-pages",
     "build-portal-ci": "yarn build-portal:version && yarn make-ui-lib-pages && yarn build-portal --prefix-paths && yarn commit-new-pages",
     "build-portal:version": "babel-node ./scripts/version.js --new-version",
     "build:dev": "yarn make-ui-lib-pages:dev",
