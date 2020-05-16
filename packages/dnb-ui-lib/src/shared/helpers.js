@@ -18,21 +18,28 @@ export let IS_LINUX = false
 
 export const isMac = () =>
   (IS_MAC =
-    String(navigator?.platform).match(new RegExp(PLATFORM_MAC)) !== null)
+    typeof navigator !== 'undefined' &&
+    navigator?.platform.match(new RegExp(PLATFORM_MAC)) !== null)
 
 export const isWin = () =>
   (IS_WIN =
-    String(navigator?.platform).match(new RegExp(PLATFORM_WIN)) !== null)
+    typeof navigator !== 'undefined' &&
+    navigator?.platform.match(new RegExp(PLATFORM_WIN)) !== null)
 
 export const isLinux = () =>
   (IS_LINUX =
-    String(navigator?.platform).match(new RegExp(PLATFORM_LINUX)) !== null)
+    typeof navigator !== 'undefined' &&
+    navigator?.platform.match(new RegExp(PLATFORM_LINUX)) !== null)
 
 export const isiOS = () =>
-  (IS_IOS = navigator?.platform.match(new RegExp(PLATFORM_IOS)) !== null)
+  (IS_IOS =
+    typeof navigator !== 'undefined' &&
+    navigator?.platform.match(new RegExp(PLATFORM_IOS)) !== null)
 
 export const isSafari = () =>
-  (IS_SAFARI = navigator?.userAgent.toLowerCase().indexOf('safari') >= 0)
+  (IS_SAFARI =
+    typeof navigator !== 'undefined' &&
+    navigator?.userAgent.toLowerCase().indexOf('safari') >= 0)
 
 export const isIE11 = () =>
   (IS_IE11 =
@@ -42,7 +49,8 @@ export const isIE11 = () =>
 
 export const isEdge = () =>
   (IS_EDGE =
-    String(navigator?.userAgent)?.toLowerCase().indexOf('edge') >= 0)
+    typeof navigator !== 'undefined' &&
+    navigator?.userAgent?.toLowerCase().indexOf('edge') >= 0)
 
 isIE11()
 isEdge()
