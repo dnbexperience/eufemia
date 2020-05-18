@@ -17,10 +17,10 @@ import {
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
 import {
-  isMac,
-  isWin,
-  isIE11,
-  isEdge,
+  IS_MAC,
+  IS_WIN,
+  IS_IE11,
+  IS_EDGE,
   debounce
 } from '../../shared/helpers'
 import AlignmentHelper from '../../shared/AlignmentHelper'
@@ -343,8 +343,6 @@ class AutocompleteInstance extends React.PureComponent {
     this._refShell = React.createRef()
     this._refInput = React.createRef()
 
-    this.isMac = isMac()
-    this.isWin = isWin()
     this.isTouchDevice = isTouchDevice()
 
     this.skipFilter = isTrue(props.disable_filter)
@@ -827,7 +825,7 @@ class AutocompleteInstance extends React.PureComponent {
     }
 
     // This is used for the announced ctrl+alt+space key activation
-    if (this.isMac) {
+    if (IS_MAC) {
       switch (key) {
         case 'enter':
           // Do this, so screen readers get a NEW focus later on
@@ -1424,7 +1422,7 @@ class AutocompleteInstance extends React.PureComponent {
       onKeyDown: this.onShellKeyDownHandler
     }
 
-    if (this.isMac && !this.isTouchDevice) {
+    if (IS_MAC && !this.isTouchDevice) {
       // we need combobox twice to make it properly work on VO
       // else key down will not work properly anymore!
       shellParams.role = 'combobox'
@@ -1463,7 +1461,7 @@ class AutocompleteInstance extends React.PureComponent {
 
     if (!(parseFloat(selected_item) > -1)) {
       inputParams.placeholder = placeholder || title
-      if (!(this.isWin && (isIE11 || isEdge))) {
+      if (!(IS_WIN && (IS_IE11 || IS_EDGE))) {
         inputParams['aria-placeholder'] = undefined
       }
     }
@@ -1490,7 +1488,7 @@ class AutocompleteInstance extends React.PureComponent {
       inputParams['aria-activedescendant'] = `option-${id}-${active_item}`
 
       // for some reason, only old Edge and NVDA needs this
-      if (this.isWin && (isIE11 || isEdge)) {
+      if (IS_WIN && (IS_IE11 || IS_EDGE)) {
         shellParams[
           'aria-activedescendant'
         ] = `option-${id}-${active_item}`
@@ -1505,7 +1503,7 @@ class AutocompleteInstance extends React.PureComponent {
       ] = `option-${id}-${selected_item}`
 
       // for some reason, only old Edge and NVDA needs this
-      if (this.isWin && (isIE11 || isEdge)) {
+      if (IS_WIN && (IS_IE11 || IS_EDGE)) {
         shellParams[
           'aria-activedescendant'
         ] = `option-${id}-${selected_item}`

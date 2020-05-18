@@ -9,7 +9,7 @@ import Link from 'gatsby-link'
 import { css } from '@emotion/core'
 import styled from '@emotion/styled'
 import { Button } from 'dnb-ui-lib/src'
-import { isIE11 } from 'dnb-ui-lib/src/shared/helpers'
+import { IS_IE11 } from 'dnb-ui-lib/src/shared/helpers'
 import { MainMenuContext } from './MainMenuContext'
 import classnames from 'classnames'
 
@@ -180,9 +180,9 @@ export default class Card extends React.PureComponent {
     const { url, customStyle, title, about, icon: Svg } = this.props
 
     // size is else defined in css
-    const svgParams = isIE11 ? { width: '48', height: '48' } : null
+    const svgParams = IS_IE11 ? { width: '48', height: '48' } : null
 
-    const Anchor = isIE11
+    const Anchor = IS_IE11
       ? ({ children, to, ...rest }) =>
           to && (
             <a

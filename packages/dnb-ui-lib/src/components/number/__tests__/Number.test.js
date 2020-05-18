@@ -8,10 +8,17 @@ import {
   mount,
   axeComponent,
   toJson,
-  loadScss
+  loadScss,
+  mockGetSelection
 } from '../../../core/jest/jestSetup'
 import { LOCALE } from '../../../shared/defaults'
-import Component, { cleanNumber } from '../Number'
+import { isMac } from '../../../shared/helpers'
+import Component, {
+  cleanNumber,
+  cleanDirtyNumber,
+  copyNumber,
+  copySelectedNumber
+} from '../Number'
 
 // import intl from 'intl'
 // import nb from 'intl/locale-data/jsonp/nb-NO.js'
@@ -22,7 +29,7 @@ import dnb_number from '../style/dnb-number.scss' // eslint-disable-line
 
 const element = Component.defaultProps.element
 const locale = LOCALE
-const value = 12345678.901
+const value = 12345678.9876
 const snapshotProps = {
   value,
   locale,
@@ -32,9 +39,18 @@ const snapshotProps = {
 // make it possible to change the navigator lang
 // because "navigator.language" defaults to en-US
 let languageGetter, platformGetter
-beforeEach(() => {
+
+beforeAll(() => {
   languageGetter = jest.spyOn(window.navigator, 'language', 'get')
   platformGetter = jest.spyOn(window.navigator, 'platform', 'get')
+
+  // simulate mac, has to run on the first render
+  platformGetter.mockReturnValue('Mac')
+  languageGetter.mockReturnValue(locale)
+
+  isMac() // just to uptate the exported const: IS_MAC
+
+  mockGetSelection()
 })
 
 describe('Node', () => {
@@ -45,11 +61,9 @@ describe('Node', () => {
       style: 'currency',
       currency: 'NOK'
     })
-    expect(intl.format(value)).toBe('kr 12 345 678,90')
+    expect(intl.format(value)).toBe('kr 12 345 678,99') // Rounds
   })
   it('supports setting navigator.language (JSDOM)', () => {
-    languageGetter.mockReturnValue(locale)
-
     expect(navigator.language).toBe(locale)
   })
 })
@@ -57,28 +71,26 @@ describe('Node', () => {
 describe('Number component', () => {
   const slector = element + '.dnb-number'
   it('have to match default number snapshot', () => {
-    // simulate mac, has to run on the first render
-    platformGetter.mockReturnValue('Mac')
-
     const Comp = mount(<Component {...snapshotProps} />)
     expect(toJson(Comp)).toMatchSnapshot()
   })
   it('have to match default number', () => {
     const Comp = mount(<Component value={value} />)
-    expect(Comp.find(slector).first().text()).toBe('12 345 678,901')
+    expect(Comp.find(slector).first().text()).toBe('12 345 678,9876')
   })
   it('have to match currency', () => {
     const Comp = mount(<Component value={-value} currency />)
 
-    expect(Comp.find(slector).first().text()).toBe('kr -12 345 678,90')
+    expect(Comp.find(slector).first().text()).toBe('kr -12 345 678,98')
 
     expect(
       Comp.find(slector).first().instance().getAttribute('aria-label')
-    ).toBe('-12 345 678,90 norske kroner')
+    ).toBe('-12 345 678,98 norske kroner')
 
     // also check the formatting with one digit less
     Comp.setProps({
       children: null,
+      decimals: 0,
       value: 12345
     })
 
@@ -89,21 +101,21 @@ describe('Number component', () => {
       <Component value={-value} currency currency_position="after" />
     )
 
-    expect(Comp.find(slector).first().text()).toBe('-12 345 678,90 kr')
+    expect(Comp.find(slector).first().text()).toBe('-12 345 678,98 kr')
 
     expect(
       Comp.find(slector).first().instance().getAttribute('aria-label')
-    ).toBe('-12 345 678,90 norske kroner')
+    ).toBe('-12 345 678,98 norske kroner')
 
     Comp.setProps({
       currency_display: 'code'
     })
-    expect(Comp.find(slector).first().text()).toBe('-12 345 678,90 NOK')
+    expect(Comp.find(slector).first().text()).toBe('-12 345 678,98 NOK')
 
     Comp.setProps({
       currency_position: 'before'
     })
-    expect(Comp.find(slector).first().text()).toBe('NOK -12 345 678,90')
+    expect(Comp.find(slector).first().text()).toBe('NOK -12 345 678,98')
   })
   it('have to match currency under 100.000', () => {
     const Comp = mount(<Component value={-12345.95} currency />)
@@ -163,17 +175,57 @@ describe('Number component', () => {
 describe('Number cleanNumber', () => {
   it('should clean up and remove invalid suff arround numbers', () => {
     expect(cleanNumber(-12345.67)).toBe(-12345.67)
-    expect(cleanNumber('prefix -12.345,67 suffix')).toBe('-12345.67')
-    expect(cleanNumber('prefix -12 345,67 suffix')).toBe('-12345.67')
-    expect(cleanNumber('prefix -12.345·67 suffix')).toBe('-12345.67')
-    expect(cleanNumber("prefix -12.345'67 suffix")).toBe('-12345.67')
+    expect(cleanNumber('prefix -12.345,678 suffix')).toBe('-12345.678')
+    expect(cleanNumber('prefix -12 345,678 suffix')).toBe('-12345.678')
+    expect(cleanNumber('prefix -12.345·678 suffix')).toBe('-12345.678')
+    expect(cleanNumber("prefix -12.345'678 suffix")).toBe('-12345.678')
     expect(cleanNumber('prefix -12.345.678 suffix')).toBe('-12345678')
-    expect(cleanNumber('prefix -1,234,567.89 suffix')).toBe('-1234567.89')
-    expect(cleanNumber('prefix -1 234 567,89 suffix')).toBe('-1234567.89')
-    expect(cleanNumber('prefix -1 234 567.89 suffix')).toBe('-1234567.89')
-    expect(cleanNumber("prefix -1'234'567.89 suffix")).toBe('-1234567.89')
-    expect(cleanNumber('prefix -1,234,567·89 suffix')).toBe('-1234567.89')
-    expect(cleanNumber("prefix -1.234.567'89 suffix")).toBe('-1234567.89')
+    expect(cleanNumber('prefix -1,234,567.891 suffix')).toBe(
+      '-1234567.891'
+    )
+    expect(cleanNumber('prefix -1 234 567,891 suffix')).toBe(
+      '-1234567.891'
+    )
+    expect(cleanNumber('prefix -1 234 567.891 suffix')).toBe(
+      '-1234567.891'
+    )
+    expect(cleanNumber("prefix -1'234'567.891 suffix")).toBe(
+      '-1234567.891'
+    )
+    expect(cleanNumber('prefix -1,234,567·891 suffix')).toBe(
+      '-1234567.891'
+    )
+    expect(cleanNumber("prefix -1.234.567'891 suffix")).toBe(
+      '-1234567.891'
+    )
+  })
+})
+
+describe('Number cleanDirtyNumber', () => {
+  it('should clean up and remove invalid suff arround numbers', () => {
+    expect(cleanDirtyNumber(-12345.67)).toBe('-12345.67')
+    expect(cleanDirtyNumber('-12.345,67 suffix')).toBe('-12345.67')
+    expect(cleanDirtyNumber('prefix -12.345,67')).toBe('-12345.67')
+    expect(cleanDirtyNumber(' -12.345,67')).toBe('-12345.67')
+    expect(cleanDirtyNumber('prefix -12 345,67 suffix')).toBe(false)
+    expect(cleanDirtyNumber('prefix -12 345,67 $')).toBe(false)
+    expect(cleanDirtyNumber('$ -12 345,67 suffix')).toBe(false)
+    expect(cleanDirtyNumber(' -12 345,67 ')).toBe(false)
+    expect(cleanDirtyNumber('  -12 345,67  ')).toBe(false)
+    expect(cleanDirtyNumber('0047 ')).toBe('0047')
+    expect(cleanDirtyNumber('prefix \n-12 345,67')).toBe(false)
+    expect(cleanDirtyNumber('prefix')).toBe(false)
+  })
+})
+
+describe('Number copy methods like', () => {
+  it('copyNumber should make valid clipboard copy', async () => {
+    copyNumber('1234.56')
+    expect(await navigator.clipboard.readText()).toBe('1234.56')
+  })
+  it('copySelectedNumber make valid clipboard copy', async () => {
+    copySelectedNumber()
+    expect(await navigator.clipboard.readText()).toBe('1234.56')
   })
 })
 

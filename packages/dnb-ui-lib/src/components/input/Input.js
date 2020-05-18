@@ -16,7 +16,6 @@ import {
   pickRenderProps,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
-import { isMac } from '../../shared/helpers'
 import AlignmentHelper from '../../shared/AlignmentHelper'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import Button from '../button/Button'
@@ -241,8 +240,6 @@ export default class Input extends React.PureComponent {
     // make sure we dont trigger getDerivedStateFromProps on startup
     this.state._listenForPropChanges = true
     this.state._value = props.value
-
-    this.isMac = isMac()
   }
   onFocusHandler = (event) => {
     const { value } = event.target

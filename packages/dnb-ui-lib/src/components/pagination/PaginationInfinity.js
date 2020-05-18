@@ -34,6 +34,13 @@ export default class InfinityScroller extends React.PureComponent {
     this.hideIndicator = isTrue(context.pagination.hide_progress_indicator)
     this.useLoadButton = isTrue(context.pagination.use_load_button)
     this.lastElement = React.createRef()
+    this.callOnUnmount = []
+  }
+
+  componentWillUnmount() {
+    clearTimeout(this._startupTimeout)
+    clearTimeout(this._bufferTimeout)
+    this.callOnUnmount.forEach((f) => typeof f === 'function' && f())
   }
 
   startup = () => {
@@ -109,13 +116,18 @@ export default class InfinityScroller extends React.PureComponent {
       ({ pageNo, isStartup }) => {
         const context = this.context.pagination
         const createEvent = (eventName) => {
-          dispatchCustomElementEvent(context, eventName, {
+          const ret = dispatchCustomElementEvent(context, eventName, {
             page: pageNo,
             pageNo,
             ...context
           })
+
           if (typeof onDispatch === 'function') {
             onDispatch()
+          }
+
+          if (typeof ret === 'function') {
+            this.callOnUnmount.push(ret)
           }
         }
 
@@ -396,15 +408,14 @@ class InteractionMarker extends React.PureComponent {
 
   componentWillUnmount() {
     this._isMounted = false
-    clearTimeout(this._startupTimeout)
     clearTimeout(this._readyTimeout)
-    clearTimeout(this._bufferTimeout)
     this.intersectionObserver?.disconnect()
   }
 
   callReady = () => {
     this.intersectionObserver?.disconnect()
     this.intersectionObserver = null
+    clearTimeout(this._readyTimeout)
     this._readyTimeout = setTimeout(() => {
       if (this._isMounted) {
         this.setState({ isConnected: true })

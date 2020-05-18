@@ -26,6 +26,7 @@ class Example extends React.PureComponent {
 <P>
   <Number value="12345" />
   <Number>-12345678.9</Number>
+  <Number prefix={<b>prefix</b>} suffix="suffix">-12345678.9</Number>
   <Number options={{ maximumFractionDigits: 1 }}>-1234.54321</Number>
 </P>
           `

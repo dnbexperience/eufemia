@@ -7,8 +7,32 @@ import {
   setPageFocusElement,
   applyPageFocus,
   scrollToLocationHashId,
-  isIE11
+  copyToClipboard,
+  getSelectedElement,
+  hasSelectedText,
+  getSelectedText,
+  insertElementBeforeSelection,
+  isIE11,
+  isEdge,
+  isiOS,
+  isSafari,
+  isWin,
+  isMac,
+  isLinux
 } from '../helpers'
+
+import { mockGetSelection } from '../../core/jest/jestSetup'
+
+// make it possible to change the navigator lang
+// because "navigator.language" defaults to en-US
+let userAgentGetter, platformGetter
+
+beforeAll(() => {
+  userAgentGetter = jest.spyOn(window.navigator, 'userAgent', 'get')
+  platformGetter = jest.spyOn(window.navigator, 'platform', 'get')
+
+  mockGetSelection()
+})
 
 const bodyElement = document.body
 bodyElement.insertAdjacentHTML(
@@ -59,9 +83,72 @@ describe('"scrollToLocationHashId" should', () => {
   })
 })
 
-describe('"isIE11" should', () => {
-  it('result in false (no function)', () => {
+describe('platform', () => {
+  it('"isMac" should result in true', () => {
+    platformGetter.mockReturnValue('Mac')
+
+    expect(isMac()).toBe(true)
+  })
+  it('"isWin" should result in true', () => {
+    platformGetter.mockReturnValue('Win')
+
+    expect(isWin()).toBe(true)
+  })
+  it('"isLinux" should result in true', () => {
+    platformGetter.mockReturnValue('Linux')
+
+    expect(isLinux()).toBe(true)
+  })
+  it('"isiOS" should result in true', () => {
+    platformGetter.mockReturnValue('iPhone')
+
+    expect(isiOS()).toBe(true)
+
+    platformGetter.mockReturnValue('iPad')
+    expect(isiOS()).toBe(true)
+  })
+})
+
+describe('user agent', () => {
+  it('"isIE11" should result in false (no function)', () => {
     navigator.maxTouchPoints = 2
-    expect(isIE11).toBe(false)
+    expect(isIE11()).toBe(false)
+  })
+  it('"isEdge" should result in true', () => {
+    userAgentGetter.mockReturnValue('Edge')
+
+    expect(isEdge()).toBe(true)
+  })
+  it('"isSafari" should result in true', () => {
+    userAgentGetter.mockReturnValue('Safari')
+
+    expect(isSafari()).toBe(true)
+  })
+})
+
+describe('"copyToClipboard" should', () => {
+  it('make valid copy', async () => {
+    await copyToClipboard('copy')
+    expect(await navigator.clipboard.readText()).toBe('copy')
+  })
+})
+
+describe('selection related methods', () => {
+  it('getSelectedElement should return HTML element', () => {
+    expect(getSelectedElement() instanceof HTMLElement).toBe(true)
+  })
+  it('getSelectedText should return numbers', () => {
+    expect(getSelectedText()).toBe('1234.56')
+  })
+  it('hasSelectedText should be true', () => {
+    expect(hasSelectedText()).toBe(true)
+  })
+  it('insertElementBeforeSelection should be true', () => {
+    const elem = document.createElement('div')
+    insertElementBeforeSelection(elem)
+    expect(
+      window.getSelection().getRangeAt(1).getElement() instanceof
+        HTMLElement
+    ).toBe(true)
   })
 })

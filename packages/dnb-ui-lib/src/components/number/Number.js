@@ -21,9 +21,10 @@ import {
   getSelectedElement,
   copyToClipboard,
   hasSelectedText,
-  isiOS as isiOSFunc,
-  isMac as isMacFunc,
-  isWin as isWinFunc
+  IS_SAFARI,
+  IS_MAC,
+  IS_WIN,
+  IS_IE11
 } from '../../shared/helpers'
 import { createSpacingClasses } from '../space/SpacingHelper'
 
@@ -31,13 +32,23 @@ import { createShortcut } from '../../shared/libs/Shortcuts'
 
 const NUMBER_CHARS = '-0-9,.'
 
-let isMac = null
-let isWin = null
 const renderProps = {}
 
 const propTypes = {
   value: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   locale: PropTypes.string,
+  prefix: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.node,
+    PropTypes.func
+  ]),
+  suffix: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.node,
+    PropTypes.func
+  ]),
+
+  // currency
   currency: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   currency_display: PropTypes.string,
   currency_position: PropTypes.oneOf(['auto', 'before', 'after']),
@@ -47,12 +58,14 @@ const propTypes = {
 
   // national identification number
   nin: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
+
+  // phone number
   phone: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
 
   // can be tel or sms
   link: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
-  options: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
 
+  options: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
   decimals: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   selectall: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   element: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
@@ -66,6 +79,8 @@ const propTypes = {
 const defaultProps = {
   value: null,
   locale: null,
+  prefix: null,
+  sufix: null,
   currency: null,
   currency_display: null, // code, name, symbol
   currency_position: null, // null, before, after
@@ -73,8 +88,8 @@ const defaultProps = {
   nin: null,
   phone: null,
   link: null,
-  options: null,
 
+  options: null,
   decimals: null,
   selectall: null,
   element: 'span', // span or abbr
@@ -98,8 +113,8 @@ export default class Number extends React.PureComponent {
     registerElement(Number.tagName, Number, defaultProps)
   }
 
-  constructor(prosp) {
-    super(prosp)
+  constructor(props) {
+    super(props)
 
     this._ref = React.createRef()
   }
@@ -109,10 +124,10 @@ export default class Number extends React.PureComponent {
       if (!window.shortcuts) {
         window.shortcuts = new createShortcut()
       }
-
       // Firefox sometimes don't respond on the onCopy event
+      // But more importanly, Safari does not supprt onCopy event and custom copy at the same time
       // therefore we use shortcuts as well
-      this.osShortcut = isWin ? 'ctrl+c' : 'cmd+c'
+      this.osShortcut = IS_WIN ? 'ctrl+c' : 'cmd+c'
       window.shortcuts.add(this.osShortcut, this.shortcutHandler)
     }
   }
@@ -127,6 +142,9 @@ export default class Number extends React.PureComponent {
   }
 
   onCopyHandler = (e) => {
+    if (IS_SAFARI) {
+      return // iOS can't copy
+    }
     copySelectedNumber(e)
   }
 
@@ -135,21 +153,17 @@ export default class Number extends React.PureComponent {
       try {
         const selection = window.getSelection()
         const range = document.createRange()
-        range.selectNode(this._ref.current) // also selectNodeContents works fine
+        range.selectNodeContents(this._ref.current)
         selection.removeAllRanges()
         selection.addRange(range)
 
-        // works on iOS, becaus of the user event
-        // if (isiOSFunc()) {
+        // works on iOS / IS_SAFARI, becaus of the user event
+        // if (IS_SAFARI) {
         //   let { value, children } = this.props
         //   if (children !== null) {
         //     value = children
         //   }
-
-        //   copyToClipboard(value, () => {
-        //     createSelectionFX(value)
-        //     console.info('Copy:', value) // debug
-        //   })
+        //   copyNumber(cleanDirtyNumber(value))
         // }
       } catch (e) {
         console.warn(e)
@@ -157,17 +171,24 @@ export default class Number extends React.PureComponent {
     }
   }
 
-  render() {
-    if (isMac === null) {
-      isMac = isMacFunc()
+  runFix(comp, className) {
+    if (typeof comp === 'function') {
+      comp = comp()
     }
-    if (isWin === null) {
-      isWin = isWinFunc()
+    if (React.isValidElement(comp)) {
+      return React.cloneElement(comp, {
+        className: classnames(comp.props.className, className)
+      })
     }
+    return <span className={className}>{comp}</span>
+  }
 
+  render() {
     // consume the global context
     const {
       value: _value,
+      prefix,
+      suffix,
       children,
       currency,
       currency_display,
@@ -201,6 +222,7 @@ export default class Number extends React.PureComponent {
       ban,
       nin,
       phone,
+      decimals,
       options,
       returnAria: true
     }
@@ -229,18 +251,7 @@ export default class Number extends React.PureComponent {
       }
     }
 
-    const deci = parseFloat(decimals)
-    if (deci >= 0) {
-      formatOptions.options.minimumFractionDigits = deci
-      formatOptions.options.maximumFractionDigits = deci
-      value = String(cleanNumber(value))
-      const pos = value.indexOf('.')
-      if (pos > 0) {
-        value = String(value).substr(0, pos + 1 + deci)
-      }
-    }
-
-    const { number: display, aria, locale: lang } = format(
+    let { number: display, aria, locale: lang } = format(
       value,
       formatOptions
     )
@@ -253,6 +264,8 @@ export default class Number extends React.PureComponent {
         'dnb-number',
         className,
         _className,
+        (isTrue(currency) || typeof currency === 'string') &&
+          'dnb-number--currency',
         isTrue(selectall) && 'dnb-number--selectall',
         link && 'dnb-anchor',
         createSpacingClasses(this.props)
@@ -260,7 +273,7 @@ export default class Number extends React.PureComponent {
       ...rest
     }
 
-    if (isMac) {
+    if (IS_MAC) {
       attributes['role'] = 'text'
     } else {
       attributes['role'] = 'textbox' // because NVDA is not reading aria-label on span's
@@ -273,6 +286,21 @@ export default class Number extends React.PureComponent {
     }
 
     validateDOMAttributes(this.props, attributes)
+
+    if (prefix) {
+      display = (
+        <>
+          {this.runFix(prefix, 'dnb-number__prefix')} {display}
+        </>
+      )
+    }
+    if (suffix) {
+      display = (
+        <>
+          {display} {this.runFix(suffix, 'dnb-number__suffix')}
+        </>
+      )
+    }
 
     if (link) {
       if (isTrue(link)) {
@@ -299,14 +327,18 @@ export default class Number extends React.PureComponent {
           >
             {display}
           </Element>
-          <span id={this._id} lang={lang} className="dnb-sr-only--inline">
+          <span
+            id={this._id}
+            lang={lang}
+            className="dnb-number__sr-only dnb-sr-only--inline"
+          >
             {aria}
           </span>
         </>
       )
     }
 
-    return isWin ? (
+    return IS_WIN ? (
       <NVDAFriendly />
     ) : (
       <Element
@@ -356,12 +388,14 @@ export const format = (
     currency = null,
     currency_display = CURRENCY_DISPLAY,
     currency_position = null,
+    decimals = null,
     options = null,
     returnAria = false
   } = {}
 ) => {
   let display = value
   let aria = null
+  const isCurrency = isTrue(currency) || typeof currency === 'string'
 
   // because we are using context comparison
   if (!locale) {
@@ -379,6 +413,22 @@ export const format = (
       ? JSON.parse(options)
       : options) || {}
 
+  let deci = parseFloat(decimals)
+  if (isCurrency && isNaN(deci)) {
+    deci = 2
+  }
+  if (deci >= 0) {
+    opts.minimumFractionDigits = deci
+    opts.maximumFractionDigits = deci
+    value = String(cleanNumber(value))
+    const pos = value.indexOf('.')
+    if (pos > 0) {
+      value = String(value).substr(0, pos + 1 + deci)
+    }
+  } else {
+    opts.maximumFractionDigits = 20
+  }
+
   if (isTrue(phone)) {
     const { number: _number, aria: _aria } = formatPhone(value, locale)
     display = _number
@@ -392,7 +442,7 @@ export const format = (
 
     display = _number
     aria = _aria
-  } else if (isTrue(currency) || typeof currency === 'string') {
+  } else if (isCurrency) {
     // cleanup
     let cleanedNumber = parseFloat(cleanNumber(value))
 
@@ -423,7 +473,15 @@ export const format = (
       maximumFractionDigits: 2,
       currencyDisplay: 'name'
     })
-    aria = enhanceSR(cleanedNumber, aria, locale)
+    aria = enhanceSR(cleanedNumber, aria, locale) // also calls cleanupMinus
+
+    // IE has a bug, where negative numbers has a parantese arround the number
+    if (IS_IE11) {
+      display = display.replace(/^\((.*)\)$/, '-$1')
+      aria = aria.replace(/^\((.*)\)$/, '-$1')
+      display = cleanupMinus(display)
+      aria = cleanupMinus(aria)
+    }
 
     // get only the currency name
     // const num = aria.replace(/([^0-9])+$/g, '')
@@ -440,7 +498,7 @@ export const format = (
       minimumFractionDigits: 1,
       maximumFractionDigits: 1
     })
-    aria = enhanceSR(value, aria, locale)
+    aria = enhanceSR(value, aria, locale) // also calls cleanupMinus
   }
 
   if (aria === null) {
@@ -512,7 +570,7 @@ const cleanupMinus = (display) => {
       display = display.replace(new RegExp(reg + '(.*)'), '-$2')
     } else {
       // then first has to be currency
-      display = display.replace(new RegExp(reg + '([^\\d]+)(.*)'), '$2-$3')
+      display = display.replace(new RegExp(reg + '([^0-9]+)(.*)'), '$2-$3')
     }
   }
 
@@ -524,7 +582,7 @@ const enhanceSR = (value, aria) => {
   // Numbers under 99.999 are read out correctly, but only if we remove the spaces
   // Potential we could also check for locale: && /no|nb|nn/.test(locale)
   // but leave it for now without this ectra check
-  if (isMac && Math.abs(parseFloat(value)) <= 99999) {
+  if (IS_MAC && Math.abs(parseFloat(value)) <= 99999) {
     aria = String(aria).replace(/\s([0-9])/g, '$1')
   }
 
@@ -588,7 +646,7 @@ export const formatPhone = (number, locale = null) => {
         display =
           code +
           number
-            .split(/(\d{3})(\d{2})/)
+            .split(/([0-9]{3})([0-9]{2})/)
             .filter((s) => s)
             .join(' ')
       } else {
@@ -601,7 +659,9 @@ export const formatPhone = (number, locale = null) => {
             code +
             number
               .split(
-                length === 6 ? /^(\+\d{2})|(\d{3})/ : /^(\+\d{2})|(\d{2})/
+                length === 6
+                  ? /^(\+[0-9]{2})|([0-9]{3})/
+                  : /^(\+[0-9]{2})|([0-9]{2})/
               )
               .filter((s) => s)
               .join(' ')
@@ -611,7 +671,7 @@ export const formatPhone = (number, locale = null) => {
       aria =
         code +
         number
-          .split(/(\d{2})/)
+          .split(/([0-9]{2})/)
           .filter((s) => s)
           .join(' ')
     }
@@ -635,12 +695,12 @@ export const formatBAN = (number, locale = null) => {
     default: {
       // get 2000 12 34567
       display = number
-        .split(/(\d{4})(\d{2})(\d{1,})/)
+        .split(/([0-9]{4})([0-9]{2})([0-9]{1,})/)
         .filter((s) => s)
         .join(' ')
 
       aria = number
-        .split(/(\d{2})/)
+        .split(/([0-9]{2})/)
         .filter((s) => s)
         .join(' ')
     }
@@ -664,15 +724,17 @@ export const formatNIN = (number, locale = null) => {
     default: {
       // get 180892 12345
       display = number
-        .split(/(\d{6})/)
+        .split(/([0-9]{6})/)
         .filter((s) => s)
         .join(' ')
 
       // correct nim for screen redaers
       aria = display
-        .split(/(\d{2})(\d{2})(\d{2}) (\d{1})(\d{1})(\d{1})(\d{1})(\d{1})/)
+        .split(
+          /([0-9]{2})([0-9]{2})([0-9]{2}) ([0-9]{1})([0-9]{1})([0-9]{1})([0-9]{1})([0-9]{1})/
+        )
         .filter((s) => s)
-        .join(isWin ? '. ' : ' ') // NVDA fix with a dot to not read date on FF
+        .join(IS_WIN ? '. ' : ' ') // NVDA fix with a dot to not read date on FF
     }
   }
 
@@ -683,153 +745,201 @@ export const formatNIN = (number, locale = null) => {
   return { number: display, aria }
 }
 
-let copyTimeout = null
-export function copySelectedNumber(e = null) {
-  if (isiOSFunc()) {
-    return // iOS does not provide support for async copy
-  }
-
+export function copySelectedNumber(e) {
   const cleanedValue = getCleanedSelection(e)
 
   if (cleanedValue) {
-    // copyToClipboard(cleanedValue)
-    clearTimeout(copyTimeout)
-    copyTimeout = setTimeout(() => {
-      const fx = createSelectionFX(cleanedValue)
-      copyToClipboard(cleanedValue, () => {
-        fx.run()
-        console.info('Copy:', cleanedValue) // debug
-      })
-    }, 10) // only to make it work on right click and copy
+    e?.preventDefault && e.preventDefault() // works on macOS, prevents the actuall copy
+
+    // If it is a currency, we could do that, but for other numbers like NIN, it does not do a good job
+    // if (
+    //   String(cleanedValue).indexOf('.') === -1 &&
+    //   !isNaN(parseFloat(cleanedValue))
+    // ) {
+    //   cleanedValue = `${cleanedValue}.0`
+    // }
+
+    copyNumber(cleanedValue)
   }
 }
 
-function getCleanedSelection(e = null) {
-  let selection = getSelectedText()
-
-  if (/^[\s].*[\s]$/.test(selection)) {
-    // console.info('Selection starts and ends with space', selection) // debug
-    return // invalid
+export function copyNumber(string) {
+  if (string) {
+    const fx = createSelectionFX(string)
+    copyToClipboard(string)
+      .then(() => {
+        fx.run()
+        // console.info('Copy:', string) // debug
+      })
+      .catch(fx.remove)
   }
+}
 
-  selection = selection.trim()
-
-  if (/\n|\r/.test(selection)) {
-    // console.info('Selection had new lines', selection) // debug
-    return // invalid
-  }
-
-  if (!(selection.length > 0)) {
-    // console.info('Selection was to short', selection) // debug
-    return // invalid
-  }
-
-  const elem = getSelectedElement()
-
-  if (
-    // stop if the selected elem is not the number component0
-    !/dnb-number/.test(elem.getAttribute('class')) &&
-    // and if no, then check if the selection is not a pure number
-    !new RegExp(`[${NUMBER_CHARS}\\s]`).test(selection)
-  ) {
-    // console.info('Selected elem was not the Number component', elem) // debug
-    return // invalid
-  }
-
-  // Remove invalid selected text, because we have this for NVDA
-  if (isWin) {
-    const invalidText = (
-      elem.querySelector('.dnb-sr-only--inline') || elem.nextSibling
-    )?.innerHTML
-    if (invalidText) {
-      selection = selection.replace(invalidText, '')
-    }
-  }
-
-  if (/^[a-z\s].*[a-z\s]$/.test(selection)) {
-    // console.info('Selection starts and ends with characters', selection) // debug
-    return // invalid
-  }
-
-  // limit the body, but to be above KID of 25
-  if (selection.length > 30) {
-    // console.info('Selection was to long', selection) // debug
-    return // invalid
-  }
-
-  let cleanedValue = cleanNumber(selection)
-
-  // contoll number
-  const num = parseFloat(cleanedValue)
-  if (isNaN(num)) {
-    // console.info('Number was invalid', cleanedValue) // debug
-    return // invalid
-  }
-
-  e && e.preventDefault() // works on macOS, prevents the actuall copy
-
-  // if the number not starts with 0, then use the controll number
-  if (!/^0/.test(cleanedValue)) {
-    cleanedValue = num
-  }
-
-  return cleanedValue
+function getCleanedSelection() {
+  const selection = getSelectedText()
+  return cleanDirtyNumber(selection)
 }
 
 export function createSelectionFX(string) {
   let height = 32
-  let portalElem
+  let left = 0
+  let top = 0
+  let elem // portalElem
 
   // do that becuase getClientRects from selection is an experimental browser API
   try {
-    const getClientRects = window
-      .getSelection()
-      .getRangeAt(0)
-      .getClientRects()
+    // getClientRects
+    const cR = window.getSelection().getRangeAt(0).getClientRects()
 
-    height = getClientRects[0]?.height
+    height = cR[0]?.height
+    left = cR[0]?.left
+    top = cR[0]?.top
   } catch (e) {
     //
   }
 
   try {
-    // get a more precize position by inserting this empty node
-    const posElem = document.createElement('span')
-    posElem.setAttribute('class', 'dnb-number__fx__selection')
-    insertElementBeforeSelection(posElem)
+    // create backup to get the position from
+    if (!(top > 0) && !(left > 0)) {
+      // get a more precize position by inserting this empty node
+      const posElem = document.createElement('span')
+      posElem.setAttribute('class', 'dnb-number__fx__selection')
+      insertElementBeforeSelection(posElem)
 
-    // get position
-    const { top, left } = posElem.getBoundingClientRect()
-    posElem.parentElement.removeChild(posElem)
+      // get position
+      ;({ top, left } = posElem.getBoundingClientRect())
+      top -= height / 1.333
+      posElem.parentElement.removeChild(posElem)
+    }
 
     // create that portal element
-    portalElem = document.createElement('span')
-    portalElem.innerHTML = String(string)
-    portalElem.setAttribute('class', 'dnb-number__fx dnb-core-style')
-    portalElem.style.top = `${top - height / 1.333}px`
-    portalElem.style.left = `${left + getSelectedText().length / 2}px`
+    elem = document.createElement('span')
+    elem.innerHTML = String(string)
+    elem.setAttribute('class', 'dnb-number__fx dnb-core-style')
+    elem.style.top = `${top}px`
+    elem.style.left = `${left + getSelectedText().length / 2}px`
   } catch (e) {
     console.warn(e)
   }
 
-  return {
-    run: () => {
+  return new (class SelectionFx {
+    remove() {
       try {
-        document.body.appendChild(portalElem)
+        document.body.removeChild(elem)
+      } catch (e) {
+        //
+      }
+    }
+    run() {
+      try {
+        document.body.appendChild(elem)
 
         // remove that element again
-        setTimeout(() => {
-          try {
-            document.body.removeChild(portalElem)
-          } catch (e) {
-            //
-          }
-        }, 800)
+        setTimeout(this.remove, 800)
       } catch (e) {
         console.warn(e)
       }
     }
+  })()
+}
+
+export function cleanDirtyNumber(value) {
+  value = String(value)
+
+  // give the user the option to opt out if he selects white space before and after
+  // later we check even more on that
+  if (/^[\s].*[\s]$/.test(value)) {
+    // console.info('Selection starts and ends with space', value) // debug
+    return false // invalid
   }
+
+  value = value.trim()
+
+  // opt out if we got newlines
+  if (/\n|\r/.test(value)) {
+    // console.info('Selection had new lines', value) // debug
+    return false // invalid
+  }
+
+  // ok, there has to be some content
+  if (!(value.length > 0)) {
+    // console.info('Selection was to short', value) // debug
+    return false // invalid
+  }
+
+  let elem = getSelectedElement()
+
+  // also, check if we got other elements than our number element
+  if (
+    // stop if the selected elem is not the number component0
+    !/dnb-number/.test(elem.getAttribute('class')) &&
+    // and if no, then check if the value is not a pure number
+    !new RegExp(`[${NUMBER_CHARS}\\s]`).test(value)
+  ) {
+    // console.info('Selected elem was not the Number component', elem) // debug
+    return false // invalid
+  }
+
+  // if the element was a prefix or suffix, get the parent
+  if (/dnb-number__(pre|suf|sr)/.test(elem.getAttribute('class'))) {
+    elem = elem.parentElement
+  }
+
+  // Remove invalid selected text, because we have this for NVDA
+  if (IS_WIN) {
+    const invalidText = (
+      elem.querySelector('.dnb-sr-only--inline') || elem.nextSibling
+    )?.innerHTML
+    if (invalidText) {
+      value = value.replace(invalidText, '')
+    }
+  }
+
+  // Remove prefix and suffix content
+  const removePrefix = elem.querySelector('.dnb-number__prefix')?.innerHTML
+  if (removePrefix) {
+    value = value.replace(removePrefix, '').trim()
+  }
+  const remvoeSuffix = elem.querySelector('.dnb-number__suffix')?.innerHTML
+  if (remvoeSuffix) {
+    value = value.replace(remvoeSuffix, '').trim()
+  }
+
+  // now, also opt out if we have someting else then a number on both sides
+  if (new RegExp(`^[^${NUMBER_CHARS}].*[^${NUMBER_CHARS}]$`).test(value)) {
+    // console.info('Selection starts and ends with someting else than a number', value) // debug
+    return false // invalid
+  }
+
+  // limit the body, but to be above KID of 25
+  if (value.length > 30) {
+    // console.info('Selection was to long', value) // debug
+    return false // invalid
+  }
+
+  let cleanedValue = cleanNumber(value)
+
+  // contoll number
+  const num = parseFloat(cleanedValue)
+  if (isNaN(num)) {
+    // console.info('Number was invalid', cleanedValue) // debug
+    return false // invalid
+  }
+
+  // If it is a currency, and has no decimals, add zero
+  // if (elem.querySelector('.dnb-number--currency')) {
+  //   if (String(num).indexOf('.') === -1) {
+  //     return cleanedValue
+  //   }
+  // }
+
+  // Ff the number not starts with 0, then use the controll number
+  if (/^0/.test(cleanedValue)) {
+    return cleanedValue
+  }
+
+  // This is the defualt return
+  return cleanedValue
 }
 
 // Can be human number - https://en.wikipedia.org/wiki/Decimal_separator
@@ -837,28 +947,66 @@ export function cleanNumber(num) {
   if (typeof num === 'number') {
     return num
   }
-
   num = String(num).trim()
 
-  // If the number starts with not valid number chars
-  num = /^[^0-9-]/.test(num) ? num.replace(/^(^[^0-9-]+)/, '') : num
+  // 1. Remove invalid chars on the beginning (not a number)
+  if (/^[^0-9-]/.test(num)) {
+    num.replace(/^(^[^0-9-]+)/, '')
+  }
 
-  // Prepare decimals
+  // Find valid decimals
+  let usesThousand = '\\.'
+  let usesDecimal = ','
+
+  // -12 345,678
+  if (/(\s)([0-9]{3})/.test(num)) {
+    usesThousand = '\\s'
+    usesDecimal = ','
+
+    // -12.345,678
+  } else if (
+    /(\.)([0-9]{3})/.test(num) &&
+    !/([,'][0-9]{3})(\.)([0-9]{3})/.test(num) // just an additioanl check, for support with more
+  ) {
+    usesThousand = '\\.'
+    usesDecimal = ",|·|'" // also support Spain and CH
+
+    // -1,234,567.891
+  } else if (/(,)([0-9]{3})/.test(num)) {
+    usesThousand = ','
+    usesDecimal = '\\.|·' // also support Spain
+  }
+
+  // -1'234'567.891, only used in CH
+  else if (/(')([0-9]{3})/.test(num)) {
+    usesThousand = "'"
+    usesDecimal = '\\.|,'
+  }
+
+  // 3. Remove invalid thousand seperators
+  const thousandReg = new RegExp(
+    `([0-9]|)(${usesThousand})([0-9]{3})`,
+    'g'
+  )
+  if (thousandReg.test(num)) {
+    num = num.replace(thousandReg, '$1$3')
+  }
+
+  // 2. Rename invalid decimal separator
   // Make sure that there are only two digits after the coma, then we clean that up.
-  // else we dont, because it can be a US number!
-  const reg = /(,|'|·)(\d{1,2})([^0-9]|\s+|$)/g
-  num = reg.test(num)
-    ? num.replace(reg, '.$2')
-    : num.replace(/(,|'|·)/g, '')
+  // else we dont, because it can be a US number
+  // therefore, check first, is there a chance of beeing a decimal?
+  const decimalReg = new RegExp(`(${usesDecimal})([0-9]{1,2})`, 'g')
+  if (decimalReg.test(num)) {
+    num = num.replace(decimalReg, '.$2')
+  }
 
-  // Prepare thousend seperators first
-  if ((num.match(/\.|,|'/g) || []).length > 1) {
-    num = num.replace(/(\d|)(\.|,|')(\d{3})/g, '$1$3')
+  // Edge case, if we have more than 2 decimals, replace these decimals
+  const decimalBackup = new RegExp(`(${usesDecimal})([0-9]{3,})`, 'g')
+  if (decimalBackup.test(num)) {
+    num = num.replace(decimalBackup, '.$2')
   }
 
   // Remove all invalid chars
   return num.replace(new RegExp(`([^${NUMBER_CHARS}])`, 'g'), '')
-
-  // before we only removed spaces
-  // return num.replace(/\s/g, '')
 }

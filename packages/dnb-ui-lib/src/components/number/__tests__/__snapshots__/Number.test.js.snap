@@ -15,11 +15,13 @@ exports[`Number component have to match default number snapshot 1`] = `
   nin={null}
   options={null}
   phone={null}
+  prefix={null}
   selectall={null}
-  value={12345678.901}
+  sufix={null}
+  value={12345678.9876}
 >
   <ForwardRef
-    aria-label="12 345 678,9"
+    aria-label="12 345 679,0"
     className="dnb-number"
     is="span"
     lang="nb-NO"
@@ -28,14 +30,14 @@ exports[`Number component have to match default number snapshot 1`] = `
     role="text"
   >
     <span
-      aria-label="12 345 678,9"
+      aria-label="12 345 679,0"
       className="dnb-number"
       lang="nb-NO"
       onClick={[Function]}
       onCopy={[Function]}
       role="text"
     >
-      12 345 678,901
+      12 345 678,9876
     </span>
   </ForwardRef>
 </Number>
@@ -74,9 +76,8 @@ exports[`Number scss have to match snapshot 1`] = `
   speak-as: numbers;
   color: inherit;
   cursor: text; }
-  .dnb-number > a {
-    text-decoration: none;
-    color: inherit; }
+  .dnb-number.dnb-anchor {
+    cursor: pointer; }
   .dnb-number__fx {
     pointer-events: none;
     position: fixed;

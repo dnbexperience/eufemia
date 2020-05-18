@@ -10,10 +10,8 @@ import {
   isTrue,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
-import { isMac as isMacFunc } from '../../shared/helpers'
+import { IS_MAC } from '../../shared/helpers'
 // import { Dummy } from '../tabs/Tabs'
-
-let isMac = null
 
 export default class StepItem extends React.PureComponent {
   static propTypes = {
@@ -89,10 +87,6 @@ export default class StepItem extends React.PureComponent {
   }
 
   render() {
-    if (isMac === null) {
-      isMac = isMacFunc()
-    }
-
     const {
       activeItem,
       currentItem,
@@ -220,7 +214,7 @@ export default class StepItem extends React.PureComponent {
       const contentParams = {}
 
       // To screen readers read both the nr. and the text in one sentence
-      if (isMac) {
+      if (IS_MAC) {
         contentParams.role = 'text'
       }
 

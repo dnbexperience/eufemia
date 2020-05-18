@@ -64,10 +64,21 @@ const number = format(value)
 
 // by using returnAria you get an object
 const { number, aria } = format(value, {
-  locale: 'nb-NO',
+  locale: 'nb-NO', // also inherited from the Provider
   currency: true,
   returnAria: true
 })
+```
+
+## Using the number clean helpers
+
+You can use the clean helpers without using the Component. Have a look at the [available properties](/uilib/components/number/properties). Also, you may check out the related tests **Number cleanNumber** in the source code to find more examples.
+
+```js
+import { cleanNumber } from 'dnb-ui-lib/components/Number'
+
+const string = cleanNumber('prefix -12 345,678 suffix') // returns -12345.678
+const string = cleanNumber('prefix -12.345,678 suffix') // returns -12345.678
 ```
 
 ## Node.js and SSR usage

@@ -45,6 +45,56 @@ export const loadScss = (file, options = {}) => {
   }
 }
 
+export const mockGetSelection = () => {
+  let memory
+  Object.defineProperty(window.navigator, 'clipboard', {
+    configurable: true,
+    value: {
+      writeText: jest.fn().mockImplementation((v) => {
+        memory = v
+        return Promise.resolve(v)
+      }),
+      readText: jest.fn().mockImplementation(() => Promise.resolve(memory))
+    }
+  })
+
+  const ranges = [
+    new (class Range {
+      constructor() {
+        this.startContainer = {
+          parentNode: document.createElement('div')
+        }
+      }
+      getElement() {
+        return this.node
+      }
+      insertNode(elem) {
+        this.node = document.createElement('div')
+        this.node.appendChild(elem)
+        return this
+      }
+      cloneRange() {
+        return this
+      }
+    })()
+  ]
+  Object.defineProperty(window, 'getSelection', {
+    configurable: true,
+    value: () => {
+      return {
+        rangeCount: 9,
+        toString: () => '1234.56',
+        addRange: (range) => {
+          ranges.push(range)
+        },
+        getRangeAt: (index) => {
+          return ranges[index]
+        }
+      }
+    }
+  })
+}
+
 export const loadImage = async (imagePath) =>
   await fs.readFile(path.resolve(imagePath))
 

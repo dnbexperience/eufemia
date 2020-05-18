@@ -54,6 +54,10 @@
 
       // should be same as .lead small
       &__title {
+        // Here we had "white-space: nowrap;" before
+        // but now we alow wrapping, but make it a little nicer than the defualt
+        word-break: normal;
+
         .dnb-icon {
           font-size: var(--font-size-small); // has to be 16px
 

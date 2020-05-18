@@ -100,6 +100,7 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
   }
 
   let serverDelayTimeout
+  React.useEffect(() => () => clearTimeout(serverDelayTimeout))
   const resetHandler = () => {
     clearTimeout(serverDelayTimeout)
     localStack.current = {}
@@ -175,6 +176,7 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
               endInfinity()
             } else {
               // simulate server delay
+              clearTimeout(serverDelayTimeout)
               serverDelayTimeout = setTimeout(() => {
                 // once we set current page, we force a rerender, and sync of data
                 setCurrentPage(page)
