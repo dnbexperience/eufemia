@@ -16,10 +16,10 @@ exports[`Number component have to match default number snapshot 1`] = `
   options={null}
   phone={null}
   selectall={null}
-  value={12345678.901}
+  value={12345678.9876}
 >
   <ForwardRef
-    aria-label="12 345 678,9"
+    aria-label="12 345 679,0"
     className="dnb-number"
     is="span"
     lang="nb-NO"
@@ -28,14 +28,14 @@ exports[`Number component have to match default number snapshot 1`] = `
     role="text"
   >
     <span
-      aria-label="12 345 678,9"
+      aria-label="12 345 679,0"
       className="dnb-number"
       lang="nb-NO"
       onClick={[Function]}
       onCopy={[Function]}
       role="text"
     >
-      12 345 678,901
+      12 345 678,9876
     </span>
   </ForwardRef>
 </Number>

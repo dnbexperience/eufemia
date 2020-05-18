@@ -56,22 +56,44 @@ export default [
         >
           <Wrapper>
             <Box>
-              <Number
-                value={'-12 345,99'}
-                currency
-                decimals={2}
-                locale={'nb-NO'}
-                currency_position="after"
-                // currency_display="name"
-                // options={{
-                //   // minimumSignificantDigits: 1,
-                //   // maximumSignificantDigits: 6,
-                //   // minimumIntegerDigits: 0
-                //   minimumFractionDigits: 1,
-                //   maximumFractionDigits: 1
-                //   // maximumFractionDigits: 1
-                // }}
-              />
+              <Provider
+                // locale="de-DE"
+                locale="nb-NO"
+                // locale="en-US"
+              >
+                <Number
+                  value={'-12 345,99'}
+                  currency
+                  decimals={2}
+                  // locale={'nb-NO'}
+                  currency_position="after"
+                  // currency_display="name"
+                  // options={{
+                  //   // minimumSignificantDigits: 1,
+                  //   // maximumSignificantDigits: 6,
+                  //   // minimumIntegerDigits: 0
+                  //   minimumFractionDigits: 1,
+                  //   maximumFractionDigits: 1
+                  //   // maximumFractionDigits: 1
+                  // }}
+                />
+                <br />
+                <Number
+                  // value={'-12 623,988'}
+                  // value={'-12.623,988'}
+                  value={'-12,623.988'}
+                  decimals={3}
+                  // currency
+                />
+              </Provider>
+            </Box>
+            <Box>
+              <Provider locale="nb-NO">
+                <P>
+                  <Number>12345.987654321</Number> text{' '}
+                  <Number>-12345678.9834523</Number> text{' '}
+                </P>
+              </Provider>
             </Box>
             <Box>
               <Provider

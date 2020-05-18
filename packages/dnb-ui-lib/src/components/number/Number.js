@@ -192,6 +192,7 @@ export default class Number extends React.PureComponent {
       ban,
       nin,
       phone,
+      decimals,
       options,
       returnAria: true
     }
@@ -217,17 +218,6 @@ export default class Number extends React.PureComponent {
             : {}
           formatOptions.options.currency = useContext.currency
         }
-      }
-    }
-
-    const deci = parseFloat(decimals)
-    if (deci >= 0) {
-      formatOptions.options.minimumFractionDigits = deci
-      formatOptions.options.maximumFractionDigits = deci
-      value = String(cleanNumber(value))
-      const pos = value.indexOf('.')
-      if (pos > 0) {
-        value = String(value).substr(0, pos + 1 + deci)
       }
     }
 
@@ -347,12 +337,14 @@ export const format = (
     currency = null,
     currency_display = CURRENCY_DISPLAY,
     currency_position = null,
+    decimals = null,
     options = null,
     returnAria = false
   } = {}
 ) => {
   let display = value
   let aria = null
+  const isCurrency = isTrue(currency) || typeof currency === 'string'
 
   // because we are using context comparison
   if (!locale) {
@@ -370,6 +362,22 @@ export const format = (
       ? JSON.parse(options)
       : options) || {}
 
+  let deci = parseFloat(decimals)
+  if (isCurrency && isNaN(deci)) {
+    deci = 2
+  }
+  if (deci >= 0) {
+    opts.minimumFractionDigits = deci
+    opts.maximumFractionDigits = deci
+    value = String(cleanNumber(value))
+    const pos = value.indexOf('.')
+    if (pos > 0) {
+      value = String(value).substr(0, pos + 1 + deci)
+    }
+  } else {
+    opts.maximumFractionDigits = 20
+  }
+
   if (isTrue(phone)) {
     const { number: _number, aria: _aria } = formatPhone(value, locale)
     display = _number
@@ -383,7 +391,7 @@ export const format = (
 
     display = _number
     aria = _aria
-  } else if (isTrue(currency) || typeof currency === 'string') {
+  } else if (isCurrency) {
     // cleanup
     let cleanedNumber = parseFloat(cleanNumber(value))
 
@@ -511,7 +519,7 @@ const cleanupMinus = (display) => {
       display = display.replace(new RegExp(reg + '(.*)'), '-$2')
     } else {
       // then first has to be currency
-      display = display.replace(new RegExp(reg + '([^\\d]+)(.*)'), '$2-$3')
+      display = display.replace(new RegExp(reg + '([^0-9]+)(.*)'), '$2-$3')
     }
   }
 
@@ -587,7 +595,7 @@ export const formatPhone = (number, locale = null) => {
         display =
           code +
           number
-            .split(/(\d{3})(\d{2})/)
+            .split(/([0-9]{3})([0-9]{2})/)
             .filter((s) => s)
             .join(' ')
       } else {
@@ -600,7 +608,9 @@ export const formatPhone = (number, locale = null) => {
             code +
             number
               .split(
-                length === 6 ? /^(\+\d{2})|(\d{3})/ : /^(\+\d{2})|(\d{2})/
+                length === 6
+                  ? /^(\+[0-9]{2})|([0-9]{3})/
+                  : /^(\+[0-9]{2})|([0-9]{2})/
               )
               .filter((s) => s)
               .join(' ')
@@ -610,7 +620,7 @@ export const formatPhone = (number, locale = null) => {
       aria =
         code +
         number
-          .split(/(\d{2})/)
+          .split(/([0-9]{2})/)
           .filter((s) => s)
           .join(' ')
     }
@@ -634,12 +644,12 @@ export const formatBAN = (number, locale = null) => {
     default: {
       // get 2000 12 34567
       display = number
-        .split(/(\d{4})(\d{2})(\d{1,})/)
+        .split(/([0-9]{4})([0-9]{2})([0-9]{1,})/)
         .filter((s) => s)
         .join(' ')
 
       aria = number
-        .split(/(\d{2})/)
+        .split(/([0-9]{2})/)
         .filter((s) => s)
         .join(' ')
     }
@@ -663,13 +673,15 @@ export const formatNIN = (number, locale = null) => {
     default: {
       // get 180892 12345
       display = number
-        .split(/(\d{6})/)
+        .split(/([0-9]{6})/)
         .filter((s) => s)
         .join(' ')
 
       // correct nim for screen redaers
       aria = display
-        .split(/(\d{2})(\d{2})(\d{2}) (\d{1})(\d{1})(\d{1})(\d{1})(\d{1})/)
+        .split(
+          /([0-9]{2})([0-9]{2})([0-9]{2}) ([0-9]{1})([0-9]{1})([0-9]{1})([0-9]{1})([0-9]{1})/
+        )
         .filter((s) => s)
         .join(IS_WIN ? '. ' : ' ') // NVDA fix with a dot to not read date on FF
     }
@@ -697,7 +709,7 @@ export function copyNumber(string) {
     copyToClipboard(string)
       .then(() => {
         fx.run()
-        console.info('Copy:', string) // debug
+        // console.info('Copy:', string) // debug
       })
       .catch(fx.remove)
   }
@@ -706,76 +718,6 @@ export function copyNumber(string) {
 function getCleanedSelection() {
   const selection = getSelectedText()
   return cleanDirtyNumber(selection)
-}
-
-export function cleanDirtyNumber(value) {
-  value = String(value)
-
-  if (/^[\s].*[\s]$/.test(value)) {
-    // console.info('Selection starts and ends with space', value) // debug
-    return false // invalid
-  }
-
-  value = value.trim()
-
-  if (/\n|\r/.test(value)) {
-    // console.info('Selection had new lines', value) // debug
-    return false // invalid
-  }
-
-  if (!(value.length > 0)) {
-    // console.info('Selection was to short', value) // debug
-    return false // invalid
-  }
-
-  const elem = getSelectedElement()
-
-  if (
-    // stop if the selected elem is not the number component0
-    !/dnb-number/.test(elem.getAttribute('class')) &&
-    // and if no, then check if the value is not a pure number
-    !new RegExp(`[${NUMBER_CHARS}\\s]`).test(value)
-  ) {
-    // console.info('Selected elem was not the Number component', elem) // debug
-    return false // invalid
-  }
-
-  // Remove invalid selected text, because we have this for NVDA
-  if (IS_WIN) {
-    const invalidText = (
-      elem.querySelector('.dnb-sr-only--inline') || elem.nextSibling
-    )?.innerHTML
-    if (invalidText) {
-      value = value.replace(invalidText, '')
-    }
-  }
-
-  if (/^[a-z\s].*[a-z\s]$/.test(value)) {
-    // console.info('Selection starts and ends with characters', value) // debug
-    return false // invalid
-  }
-
-  // limit the body, but to be above KID of 25
-  if (value.length > 30) {
-    // console.info('Selection was to long', value) // debug
-    return false // invalid
-  }
-
-  let cleanedValue = cleanNumber(value)
-
-  // contoll number
-  const num = parseFloat(cleanedValue)
-  if (isNaN(num)) {
-    // console.info('Number was invalid', cleanedValue) // debug
-    return false // invalid
-  }
-
-  // if the number not starts with 0, then use the controll number
-  if (!/^0/.test(cleanedValue)) {
-    return num
-  }
-
-  return cleanedValue
 }
 
 export function createSelectionFX(string) {
@@ -841,33 +783,147 @@ export function createSelectionFX(string) {
   })()
 }
 
+export function cleanDirtyNumber(value) {
+  value = String(value)
+
+  // give the user the option to opt out if he selects white space before and after
+  // later we check even more on that
+  if (/^[\s].*[\s]$/.test(value)) {
+    // console.info('Selection starts and ends with space', value) // debug
+    return false // invalid
+  }
+
+  value = value.trim()
+
+  // opt out if we got newlines
+  if (/\n|\r/.test(value)) {
+    // console.info('Selection had new lines', value) // debug
+    return false // invalid
+  }
+
+  // ok, there has to be some content
+  if (!(value.length > 0)) {
+    // console.info('Selection was to short', value) // debug
+    return false // invalid
+  }
+
+  const elem = getSelectedElement()
+
+  // also, check if we got other elements than our number element
+  if (
+    // stop if the selected elem is not the number component0
+    !/dnb-number/.test(elem.getAttribute('class')) &&
+    // and if no, then check if the value is not a pure number
+    !new RegExp(`[${NUMBER_CHARS}\\s]`).test(value)
+  ) {
+    // console.info('Selected elem was not the Number component', elem) // debug
+    return false // invalid
+  }
+
+  // Remove invalid selected text, because we have this for NVDA
+  if (IS_WIN) {
+    const invalidText = (
+      elem.querySelector('.dnb-sr-only--inline') || elem.nextSibling
+    )?.innerHTML
+    if (invalidText) {
+      value = value.replace(invalidText, '')
+    }
+  }
+
+  // now, also opt out if we have someting else then a number on both sides
+  if (new RegExp(`^[^${NUMBER_CHARS}].*[^${NUMBER_CHARS}]$`).test(value)) {
+    // console.info('Selection starts and ends with someting else than a number', value) // debug
+    return false // invalid
+  }
+
+  // limit the body, but to be above KID of 25
+  if (value.length > 30) {
+    // console.info('Selection was to long', value) // debug
+    return false // invalid
+  }
+
+  let cleanedValue = cleanNumber(value)
+
+  // contoll number
+  const num = parseFloat(cleanedValue)
+  if (isNaN(num)) {
+    // console.info('Number was invalid', cleanedValue) // debug
+    return false // invalid
+  }
+
+  // if the number not starts with 0, then use the controll number
+  if (!/^0/.test(cleanedValue)) {
+    return num
+  }
+
+  return cleanedValue
+}
+
 // Can be human number - https://en.wikipedia.org/wiki/Decimal_separator
 export function cleanNumber(num) {
   if (typeof num === 'number') {
     return num
   }
-
   num = String(num).trim()
 
-  // If the number starts with not valid number chars
-  num = /^[^0-9-]/.test(num) ? num.replace(/^(^[^0-9-]+)/, '') : num
+  // 1. Remove invalid chars on the beginning (not a number)
+  if (/^[^0-9-]/.test(num)) {
+    num.replace(/^(^[^0-9-]+)/, '')
+  }
 
-  // Prepare decimals
+  // Find valid decimals
+  let usesThousand = '\\.'
+  let usesDecimal = ','
+
+  // -12 345,678
+  if (/(\s)([0-9]{3})/.test(num)) {
+    usesThousand = '\\s'
+    usesDecimal = ','
+
+    // -12.345,678
+  } else if (
+    /(\.)([0-9]{3})/.test(num) &&
+    !/([,'][0-9]{3})(\.)([0-9]{3})/.test(num) // just an additioanl check, for support with more
+  ) {
+    usesThousand = '\\.'
+    usesDecimal = ",|·|'" // also support Spain and CH
+
+    // -1,234,567.891
+  } else if (/(,)([0-9]{3})/.test(num)) {
+    usesThousand = ','
+    usesDecimal = '\\.|·' // also support Spain
+  }
+
+  // -1'234'567.891, only used in CH
+  else if (/(')([0-9]{3})/.test(num)) {
+    usesThousand = "'"
+    usesDecimal = '\\.|,'
+  }
+
+  // 3. Remove invalid thousand seperators
+  const thousandReg = new RegExp(
+    `([0-9]|)(${usesThousand})([0-9]{3})`,
+    'g'
+  )
+  if (thousandReg.test(num)) {
+    num = num.replace(thousandReg, '$1$3')
+  }
+
+  // 2. Rename invalid decimal separator
   // Make sure that there are only two digits after the coma, then we clean that up.
-  // else we dont, because it can be a US number!
-  const reg = /(,|'|·)(\d{1,2})([^0-9]|\s+|$)/g
-  num = reg.test(num)
-    ? num.replace(reg, '.$2')
-    : num.replace(/(,|'|·)/g, '')
+  // else we dont, because it can be a US number
+  // therefore, check first, is there a chance of beeing a decimal?
+  const decimalReg = new RegExp(`(${usesDecimal})([0-9]{1,2})`, 'g')
+  if (decimalReg.test(num)) {
+    num = num.replace(decimalReg, '.$2')
+  }
 
-  // Prepare thousend seperators first
-  if ((num.match(/\.|,|'/g) || []).length > 1) {
-    num = num.replace(/(\d|)(\.|,|')(\d{3})/g, '$1$3')
+  // Edge case, if we have more than 2 decimals, replace these decimals
+  const decimalBackup = new RegExp(`(${usesDecimal})([0-9]{3,})`, 'g')
+  if (decimalBackup.test(num)) {
+    num = num.replace(decimalBackup, '.$2')
   }
 
   // Remove all invalid chars
   return num.replace(new RegExp(`([^${NUMBER_CHARS}])`, 'g'), '')
-
-  // before we only removed spaces
-  // return num.replace(/\s/g, '')
 }
