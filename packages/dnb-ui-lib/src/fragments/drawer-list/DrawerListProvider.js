@@ -556,8 +556,21 @@ export default class DrawerListProvider extends React.PureComponent {
     return this
   }
 
+  onKeyUpHandler = () => {
+    this.currentKey = null
+  }
+
   onKeyDownHandler = (e) => {
     const key = keycode(e)
+
+    // to allow copy keycode
+    if (
+      this.currentKey &&
+      /command|alt|shift|ctrl/.test(this.currentKey)
+    ) {
+      return // stop here
+    }
+    this.currentKey = key
 
     // stop here if the focus is not set
     // and the drawer is opened by default
@@ -748,6 +761,7 @@ export default class DrawerListProvider extends React.PureComponent {
 
     if (typeof document !== 'undefined') {
       document.addEventListener('keydown', this.onKeyDownHandler)
+      document.addEventListener('keyup', this.onKeyUpHandler)
     }
   }
 
@@ -757,6 +771,7 @@ export default class DrawerListProvider extends React.PureComponent {
     }
     if (typeof document !== 'undefined') {
       document.removeEventListener('keydown', this.onKeyDownHandler)
+      document.removeEventListener('keyup', this.onKeyUpHandler)
     }
   }
 
