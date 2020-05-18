@@ -699,6 +699,15 @@ export function copySelectedNumber(e) {
 
   if (cleanedValue) {
     e?.preventDefault && e.preventDefault() // works on macOS, prevents the actuall copy
+
+    // If it is a currency, we could do that, but for other numbers like NIN, it does not do a good job
+    // if (
+    //   String(cleanedValue).indexOf('.') === -1 &&
+    //   !isNaN(parseFloat(cleanedValue))
+    // ) {
+    //   cleanedValue = `${cleanedValue}.0`
+    // }
+
     copyNumber(cleanedValue)
   }
 }
