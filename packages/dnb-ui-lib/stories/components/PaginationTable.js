@@ -111,6 +111,7 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
 
   setContent(currentPage, content)
   let serverDelayTimeout
+  React.useEffect(() => () => clearTimeout(serverDelayTimeout))
 
   return (
     <StyledTable sticky>
@@ -180,11 +181,13 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
             console.log('on_startup: with page', page)
 
             // simulate server delay
+            clearTimeout(serverDelayTimeout)
             serverDelayTimeout = setTimeout(() => {
               // once we set current page, we force a rerender, and sync of data
               setLocalPage(page)
 
               // since currentPage already is the same
+              clearTimeout(serverDelayTimeout)
               forceRerender(new Date().getTime())
             }, Math.ceil(Math.random() * 1e3)) // simulate random delay
           }}
@@ -195,6 +198,7 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
             console.log('on_change: with page', page)
 
             // simulate server delay
+            clearTimeout(serverDelayTimeout)
             serverDelayTimeout = setTimeout(() => {
               // once we set current page, we force a rerender, and sync of data
               setLocalPage(page)

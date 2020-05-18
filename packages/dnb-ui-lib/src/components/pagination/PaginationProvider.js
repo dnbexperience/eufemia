@@ -229,7 +229,7 @@ export default class PaginationProvider extends React.PureComponent {
         items: [],
         _listenForPropChanges: false
       })
-    }, 2) // we have to be two tick after "rerender"
+    }, 10) // we have to be two tick after "rerender"
   }
 
   // like reset_content_handler in DerivedState
