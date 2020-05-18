@@ -43,6 +43,10 @@ const ChangeLocale = () => {
   )
 }
 
+const Prefix = styled.b`
+  color: red;
+`
+
 // new Intl.NumberFormat('nb-NO', { minimumFractionDigits: 4, maximumFractionDigits: 4, style: 'currency', currency: 'NOK' }).format(-12345)
 
 export default [
@@ -62,6 +66,8 @@ export default [
                 // locale="en-US"
               >
                 <Number
+                  prefix={() => <i>S</i>}
+                  suffix={<b>E</b>}
                   value={'-12 345,99'}
                   currency
                   decimals={2}
@@ -79,6 +85,8 @@ export default [
                 />
                 <br />
                 <Number
+                  prefix={<Prefix className="custom">S</Prefix>}
+                  suffix="E"
                   // value={'-12 623,988'}
                   // value={'-12.623,988'}
                   value={'-12,623.988'}

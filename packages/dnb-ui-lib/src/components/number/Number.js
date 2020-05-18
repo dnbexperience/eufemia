@@ -37,6 +37,18 @@ const renderProps = {}
 const propTypes = {
   value: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   locale: PropTypes.string,
+  prefix: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.node,
+    PropTypes.func
+  ]),
+  suffix: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.node,
+    PropTypes.func
+  ]),
+
+  // currency
   currency: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   currency_display: PropTypes.string,
   currency_position: PropTypes.oneOf(['auto', 'before', 'after']),
@@ -46,12 +58,14 @@ const propTypes = {
 
   // national identification number
   nin: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
+
+  // phone number
   phone: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
 
   // can be tel or sms
   link: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
-  options: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
 
+  options: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
   decimals: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   selectall: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   element: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
@@ -65,6 +79,8 @@ const propTypes = {
 const defaultProps = {
   value: null,
   locale: null,
+  prefix: null,
+  sufix: null,
   currency: null,
   currency_display: null, // code, name, symbol
   currency_position: null, // null, before, after
@@ -72,8 +88,8 @@ const defaultProps = {
   nin: null,
   phone: null,
   link: null,
-  options: null,
 
+  options: null,
   decimals: null,
   selectall: null,
   element: 'span', // span or abbr
@@ -97,8 +113,8 @@ export default class Number extends React.PureComponent {
     registerElement(Number.tagName, Number, defaultProps)
   }
 
-  constructor(prosp) {
-    super(prosp)
+  constructor(props) {
+    super(props)
 
     this._ref = React.createRef()
   }
@@ -155,10 +171,24 @@ export default class Number extends React.PureComponent {
     }
   }
 
+  runFix(comp, className) {
+    if (typeof comp === 'function') {
+      comp = comp()
+    }
+    if (React.isValidElement(comp)) {
+      return React.cloneElement(comp, {
+        className: classnames(comp.props.className, className)
+      })
+    }
+    return <span className={className}>{comp}</span>
+  }
+
   render() {
     // consume the global context
     const {
       value: _value,
+      prefix,
+      suffix,
       children,
       currency,
       currency_display,
@@ -221,7 +251,7 @@ export default class Number extends React.PureComponent {
       }
     }
 
-    const { number: display, aria, locale: lang } = format(
+    let { number: display, aria, locale: lang } = format(
       value,
       formatOptions
     )
@@ -234,6 +264,8 @@ export default class Number extends React.PureComponent {
         'dnb-number',
         className,
         _className,
+        (isTrue(currency) || typeof currency === 'string') &&
+          'dnb-number--currency',
         isTrue(selectall) && 'dnb-number--selectall',
         link && 'dnb-anchor',
         createSpacingClasses(this.props)
@@ -254,6 +286,21 @@ export default class Number extends React.PureComponent {
     }
 
     validateDOMAttributes(this.props, attributes)
+
+    if (prefix) {
+      display = (
+        <>
+          {this.runFix(prefix, 'dnb-number__prefix')} {display}
+        </>
+      )
+    }
+    if (suffix) {
+      display = (
+        <>
+          {display} {this.runFix(suffix, 'dnb-number__suffix')}
+        </>
+      )
+    }
 
     if (link) {
       if (isTrue(link)) {
@@ -280,7 +327,11 @@ export default class Number extends React.PureComponent {
           >
             {display}
           </Element>
-          <span id={this._id} lang={lang} className="dnb-sr-only--inline">
+          <span
+            id={this._id}
+            lang={lang}
+            className="dnb-number__sr-only dnb-sr-only--inline"
+          >
             {aria}
           </span>
         </>
@@ -816,7 +867,7 @@ export function cleanDirtyNumber(value) {
     return false // invalid
   }
 
-  const elem = getSelectedElement()
+  let elem = getSelectedElement()
 
   // also, check if we got other elements than our number element
   if (
@@ -829,6 +880,11 @@ export function cleanDirtyNumber(value) {
     return false // invalid
   }
 
+  // if the element was a prefix or suffix, get the parent
+  if (/dnb-number__(pre|suf|sr)/.test(elem.getAttribute('class'))) {
+    elem = elem.parentElement
+  }
+
   // Remove invalid selected text, because we have this for NVDA
   if (IS_WIN) {
     const invalidText = (
@@ -837,6 +893,16 @@ export function cleanDirtyNumber(value) {
     if (invalidText) {
       value = value.replace(invalidText, '')
     }
+  }
+
+  // Remove prefix and suffix content
+  const removePrefix = elem.querySelector('.dnb-number__prefix')?.innerHTML
+  if (removePrefix) {
+    value = value.replace(removePrefix, '').trim()
+  }
+  const remvoeSuffix = elem.querySelector('.dnb-number__suffix')?.innerHTML
+  if (remvoeSuffix) {
+    value = value.replace(remvoeSuffix, '').trim()
   }
 
   // now, also opt out if we have someting else then a number on both sides
@@ -860,11 +926,19 @@ export function cleanDirtyNumber(value) {
     return false // invalid
   }
 
-  // if the number not starts with 0, then use the controll number
-  if (!/^0/.test(cleanedValue)) {
-    return num
+  // If it is a currency, and has no decimals, add zero
+  // if (elem.querySelector('.dnb-number--currency')) {
+  //   if (String(num).indexOf('.') === -1) {
+  //     return cleanedValue
+  //   }
+  // }
+
+  // Ff the number not starts with 0, then use the controll number
+  if (/^0/.test(cleanedValue)) {
+    return cleanedValue
   }
 
+  // This is the defualt return
   return cleanedValue
 }
 

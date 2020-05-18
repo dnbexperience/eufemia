@@ -15,7 +15,9 @@ exports[`Number component have to match default number snapshot 1`] = `
   nin={null}
   options={null}
   phone={null}
+  prefix={null}
   selectall={null}
+  sufix={null}
   value={12345678.9876}
 >
   <ForwardRef
@@ -74,9 +76,8 @@ exports[`Number scss have to match snapshot 1`] = `
   speak-as: numbers;
   color: inherit;
   cursor: text; }
-  .dnb-number > a {
-    text-decoration: none;
-    color: inherit; }
+  .dnb-number.dnb-anchor {
+    cursor: pointer; }
   .dnb-number__fx {
     pointer-events: none;
     position: fixed;

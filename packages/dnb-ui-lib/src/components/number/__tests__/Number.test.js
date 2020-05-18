@@ -203,10 +203,10 @@ describe('Number cleanNumber', () => {
 
 describe('Number cleanDirtyNumber', () => {
   it('should clean up and remove invalid suff arround numbers', () => {
-    expect(cleanDirtyNumber(-12345.67)).toBe(-12345.67)
-    expect(cleanDirtyNumber('-12.345,67 suffix')).toBe(-12345.67)
-    expect(cleanDirtyNumber('prefix -12.345,67')).toBe(-12345.67)
-    expect(cleanDirtyNumber(' -12.345,67')).toBe(-12345.67)
+    expect(cleanDirtyNumber(-12345.67)).toBe('-12345.67')
+    expect(cleanDirtyNumber('-12.345,67 suffix')).toBe('-12345.67')
+    expect(cleanDirtyNumber('prefix -12.345,67')).toBe('-12345.67')
+    expect(cleanDirtyNumber(' -12.345,67')).toBe('-12345.67')
     expect(cleanDirtyNumber('prefix -12 345,67 suffix')).toBe(false)
     expect(cleanDirtyNumber('prefix -12 345,67 $')).toBe(false)
     expect(cleanDirtyNumber('$ -12 345,67 suffix')).toBe(false)
