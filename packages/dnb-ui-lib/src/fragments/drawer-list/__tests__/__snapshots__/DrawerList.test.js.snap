@@ -334,6 +334,9 @@ exports[`DrawerList scss have to match default theme snapshot 1`] = `
     box-shadow: 0 1px 6px rgba(0, 0, 0, 0.16);
     border-radius: var(--drawer-list-options-border-radius);
     background-color: var(--drawer-list-option-background-color); }
+  @media (max-width: 40em) {
+    .dnb-drawer-list__portal .dnb-drawer-list--mobile-view .dnb-drawer-list__list {
+      border-radius: 0; } }
   .dnb-drawer-list__options {
     border: none;
     background-color: var(--drawer-list-option-background-color);
@@ -344,6 +347,9 @@ exports[`DrawerList scss have to match default theme snapshot 1`] = `
         box-shadow: 0 0 0 0.125rem var(--color-emerald-green);
         /* IE11 fix */
         border-color: transparent; }
+  @media (max-width: 40em) {
+    .dnb-drawer-list__portal .dnb-drawer-list--mobile-view .dnb-drawer-list__options {
+      border-radius: 0; } }
   .dnb-drawer-list__option {
     position: relative;
     color: var(--drawer-list-option-color);
@@ -441,6 +447,9 @@ exports[`DrawerList scss have to match default theme snapshot 1`] = `
     border-radius: 0 0 var(--drawer-list-options-border-radius) var(--drawer-list-options-border-radius); }
   .dnb-drawer-list--top .dnb-drawer-list__option--focus.closest-to-top .dnb-drawer-list__option__inner {
     border-radius: var(--drawer-list-options-border-radius) var(--drawer-list-options-border-radius) 0 0; }
+  @media (max-width: 40em) {
+    .dnb-drawer-list__portal .dnb-drawer-list--mobile-view .dnb-drawer-list__option__inner {
+      border-radius: 0; } }
   .dnb-drawer-list__status--error:not(.dnb-drawer-list--opened) .dnb-drawer-list__icon {
     color: var(--color-fire-red); }
   .dnb-drawer-list__triangle::before {
