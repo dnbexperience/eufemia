@@ -382,10 +382,13 @@ exports[`Tabs scss have to match snapshot 1`] = `
     border: none;
     font-size: var(--font-size-basis);
     line-height: var(--line-height-basis); }
-    .dnb-tabs__tabs .dnb-tabs__button__title .dnb-icon,
-    .dnb-core-style .dnb-tabs__tabs .dnb-tabs__button__title .dnb-icon {
-      font-size: var(--font-size-small);
-      transform: translateY(-0.125rem); }
+    .dnb-tabs__tabs .dnb-tabs__button__title,
+    .dnb-core-style .dnb-tabs__tabs .dnb-tabs__button__title {
+      word-break: normal; }
+      .dnb-tabs__tabs .dnb-tabs__button__title .dnb-icon,
+      .dnb-core-style .dnb-tabs__tabs .dnb-tabs__button__title .dnb-icon {
+        font-size: var(--font-size-small);
+        transform: translateY(-0.125rem); }
     .dnb-tabs__tabs .dnb-tabs__button .dnb-dummy,
     .dnb-core-style .dnb-tabs__tabs .dnb-tabs__button .dnb-dummy {
       display: flex;
