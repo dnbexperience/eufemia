@@ -21,13 +21,12 @@ import {
   getSelectedElement,
   copyToClipboard,
   hasSelectedText,
-  IS_SAFARI,
+  // IS_IOS,
   IS_MAC,
   IS_WIN,
   IS_IE11
 } from '../../shared/helpers'
 import { createSpacingClasses } from '../space/SpacingHelper'
-
 import { createShortcut } from '../../shared/libs/Shortcuts'
 
 const NUMBER_CHARS = '-0-9,.'
@@ -103,6 +102,8 @@ const defaultProps = {
   ...renderProps
 }
 
+let shortcutInFire = false
+
 export default class Number extends React.PureComponent {
   static tagName = 'dnb-number'
   static propTypes = propTypes
@@ -120,31 +121,34 @@ export default class Number extends React.PureComponent {
   }
 
   componentDidMount() {
-    if (typeof window !== 'undefined') {
-      if (!window.shortcuts) {
-        window.shortcuts = new createShortcut()
-      }
-      // Firefox sometimes don't respond on the onCopy event
-      // But more importanly, Safari does not supprt onCopy event and custom copy at the same time
-      // therefore we use shortcuts as well
-      this.osShortcut = IS_WIN ? 'ctrl+c' : 'cmd+c'
-      window.shortcuts.add(this.osShortcut, this.shortcutHandler)
+    if (!this.shortcuts) {
+      this.shortcuts = new createShortcut()
     }
+    // Firefox sometimes don't respond on the onCopy event
+    // But more importanly, Safari does not supprt onCopy event and custom copy at the same time
+    // therefore we use shortcuts as well
+    this.osShortcut = IS_WIN ? 'ctrl+c' : 'cmd+c'
+    this.shortcuts.add(
+      this.osShortcut,
+      this.shortcutHandler,
+      () => (shortcutInFire = false)
+    )
   }
   componentWillUnmount() {
-    if (typeof window !== 'undefined' && this.osShortcut) {
-      window.shortcuts.remove(this.osShortcut)
+    if (this.shortcuts && this.osShortcut) {
+      this.shortcuts.remove(this.osShortcut)
     }
   }
 
   shortcutHandler = (e) => {
-    copySelectedNumber(e)
+    if (!shortcutInFire) {
+      shortcutInFire = true
+      copySelectedNumber(e)
+    }
   }
 
   onCopyHandler = (e) => {
-    if (IS_SAFARI) {
-      return // iOS can't copy
-    }
+    // NB: Safari can't copy during context menu copy
     copySelectedNumber(e)
   }
 
@@ -152,18 +156,19 @@ export default class Number extends React.PureComponent {
     if (!hasSelectedText()) {
       try {
         const selection = window.getSelection()
+        selection.removeAllRanges()
         const range = document.createRange()
         range.selectNodeContents(this._ref.current)
-        selection.removeAllRanges()
         selection.addRange(range)
 
-        // works on iOS / IS_SAFARI, becaus of the user event
-        // if (IS_SAFARI) {
+        // Could work on IS_IOS, becaus of the user event
+        // if (IS_IOS) {
         //   let { value, children } = this.props
         //   if (children !== null) {
         //     value = children
         //   }
-        //   copyNumber(cleanDirtyNumber(value))
+        //   const cleanedNumber = cleanDirtyNumber(value)
+        //   copyNumber(cleanedNumber)
         // }
       } catch (e) {
         console.warn(e)
@@ -259,6 +264,7 @@ export default class Number extends React.PureComponent {
     const attributes = {
       ref: this._ref,
       onCopy: this.onCopyHandler,
+      onTouchStart: this.onClickHandler,
       onClick: this.onClickHandler,
       className: classnames(
         'dnb-number',
@@ -771,7 +777,7 @@ export function copyNumber(string) {
         fx.run()
         // console.info('Copy:', string) // debug
       })
-      .catch(fx.remove)
+      .catch(console.warn)
   }
 }
 

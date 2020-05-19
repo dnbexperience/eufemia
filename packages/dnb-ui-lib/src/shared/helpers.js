@@ -378,7 +378,10 @@ export function copyToClipboard(string) {
           resetSelection()
           resolve()
         })
-        .catch(copyFallback)
+        .catch((e) => {
+          reject(e)
+          copyFallback()
+        })
     } else {
       return copyFallback()
     }
