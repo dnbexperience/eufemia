@@ -102,8 +102,6 @@ const defaultProps = {
   ...renderProps
 }
 
-let shortcutInFire = false
-
 export default class Number extends React.PureComponent {
   static tagName = 'dnb-number'
   static propTypes = propTypes
@@ -121,30 +119,32 @@ export default class Number extends React.PureComponent {
   }
 
   componentDidMount() {
-    if (!this.shortcuts) {
-      this.shortcuts = new createShortcut()
-    }
-    // Firefox sometimes don't respond on the onCopy event
-    // But more importanly, Safari does not supprt onCopy event and custom copy at the same time
-    // therefore we use shortcuts as well
     this.osShortcut = IS_WIN ? 'ctrl+c' : 'cmd+c'
-    this.shortcuts.add(
-      this.osShortcut,
-      this.shortcutHandler,
-      () => (shortcutInFire = false)
-    )
+
+    if (typeof window !== 'undefined') {
+      if (!window._shortcuts) {
+        window._shortcuts = new createShortcut()
+        // Firefox sometimes don't respond on the onCopy event
+        // But more importanly, Safari does not supprt onCopy event and custom copy at the same time
+        // therefore we use shortcuts as well
+        window._shortcuts.add(this.osShortcut, this.shortcutHandler)
+        window._shortcuts._number = 1
+      } else {
+        window._shortcuts._number++
+      }
+    }
   }
   componentWillUnmount() {
-    if (this.shortcuts && this.osShortcut) {
-      this.shortcuts.remove(this.osShortcut)
+    if (typeof window !== 'undefined' && window._shortcuts) {
+      window._shortcuts._number--
+      if (window._shortcuts._number === 0) {
+        window._shortcuts.remove(this.osShortcut)
+      }
     }
   }
 
   shortcutHandler = (e) => {
-    if (!shortcutInFire) {
-      shortcutInFire = true
-      copySelectedNumber(e)
-    }
+    copySelectedNumber(e)
   }
 
   onCopyHandler = (e) => {
