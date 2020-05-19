@@ -3,6 +3,8 @@
  *
  */
 
+import { warn } from '../../shared/component-helper'
+
 // IMPORTANT: Keep the shorthand after the long type names
 export const spacePatterns = {
   'xx-small': 0.25,
@@ -148,7 +150,7 @@ export const createSpacingClasses = (props) =>
         // get the total sum
         const sum = sumTypes(typeModifyers)
         if (sum > 10) {
-          console.warn(
+          warn(
             `Spacing of more than 10rem is not supported! You used ${sum} / (${typeModifyers.join(
               ','
             )})`

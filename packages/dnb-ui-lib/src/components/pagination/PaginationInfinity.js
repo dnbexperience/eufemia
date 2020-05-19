@@ -7,6 +7,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import ReactDOM from 'react-dom'
 import {
+  warn,
   isTrue,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
@@ -374,7 +375,7 @@ class InteractionMarker extends React.PureComponent {
     super(props)
 
     if (typeof props.markerElement === 'function') {
-      console.warn(
+      warn(
         'Pagination: Please use a string or React element e.g. marker_element="tr"'
       )
     }
@@ -395,7 +396,7 @@ class InteractionMarker extends React.PureComponent {
         // }
       )
     } else {
-      console.warn('Pagination is missing IntersectionObserver supported!')
+      warn('Pagination is missing IntersectionObserver supported!')
     }
   }
 

@@ -13,6 +13,7 @@ import {
   clearAllBodyScrollLocks
 } from '../../shared/libs/bodyScrollLock'
 import {
+  warn,
   isTrue,
   makeUniqueId,
   isTouchDevice,
@@ -123,7 +124,7 @@ export default class ModalContent extends React.PureComponent {
             focusElement.focus()
           }
         } catch (e) {
-          console.warn(e)
+          warn(e)
         }
       }, 300) // with this delay, the user can  press esc without an focus action first
     }
@@ -187,7 +188,7 @@ export default class ModalContent extends React.PureComponent {
         // @see https://www.sitepoint.com/when-do-elements-take-the-focus/
         node.style.outline = 'none'
       } catch (e) {
-        console.warn(e)
+        warn(e)
       }
     })
   }
@@ -210,7 +211,7 @@ export default class ModalContent extends React.PureComponent {
         }
         node.style.outline = null
       } catch (e) {
-        console.warn(e)
+        warn(e)
       }
     })
     this.nonModalNodes = null

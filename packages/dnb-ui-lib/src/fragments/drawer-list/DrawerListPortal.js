@@ -7,7 +7,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import { isInsideScrollView } from '../../shared/component-helper'
+import { warn, isInsideScrollView } from '../../shared/component-helper'
 // import { getOffsetTop } from '../../shared/helpers'
 
 let drawerListPortal
@@ -89,7 +89,7 @@ class DrawerListPortal extends React.PureComponent {
           'dnb-drawer-list__portal dnb-core-style'
         document.body.appendChild(drawerListPortal[this.props.id].node)
       } catch (e) {
-        console.warn('Could not create DrawerListPortal!', e)
+        warn('Could not create DrawerListPortal!', e)
       }
     }
   }
@@ -153,7 +153,7 @@ class DrawerListPortal extends React.PureComponent {
 
       return style
     } catch (e) {
-      console.warn('Could not create makeStyle in DrawerListPortal!', e)
+      warn('Could not create makeStyle in DrawerListPortal!', e)
     }
   }
 

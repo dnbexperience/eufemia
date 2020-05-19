@@ -64,7 +64,7 @@ export function defineNavigator() {
         document.documentElement.setAttribute('data-os', 'other')
       }
     } catch (e) {
-      console.warn(e)
+      warn(e)
     }
 
     document.removeEventListener('DOMContentLoaded', handleNavigator)
@@ -298,7 +298,7 @@ export const dispatchCustomElementEvent = (
           }
         }
       } catch (e) {
-        console.warn('Error on handling dataset:', e)
+        warn('Error on handling dataset:', e)
       }
     }
   }
@@ -472,7 +472,7 @@ export class DetectOutsideClickClass {
         onSuccess()
       }
     } catch (e) {
-      console.warn(e)
+      warn(e)
     }
   }
 
@@ -561,7 +561,7 @@ export const getPreviousSibling = (className, element) => {
       !contains(element)
     );
   } catch (e) {
-    console.warn(e)
+    warn(e)
   }
   return element
 }
@@ -581,4 +581,10 @@ export const isInsideScrollView = (
     return elem == window ? null : elem
   }
   return elem == window ? false : Boolean(elem)
+}
+
+export const warn = (...e) => {
+  if (typeof console !== 'undefined') {
+    console.warn(...e)
+  }
 }

@@ -3,6 +3,8 @@
  *
  */
 
+import { warn } from './component-helper'
+
 export const PLATFORM_MAC = 'Mac|iPad|iPhone|iPod'
 export const PLATFORM_WIN = 'Win'
 export const PLATFORM_LINUX = 'Linux'
@@ -110,7 +112,7 @@ export function applyPageFocus(key = 'default', callback = null) {
       }
     }
   } catch (e) {
-    console.warn('Error on applyPageFocus:', e)
+    warn('Error on applyPageFocus:', e)
   }
 }
 
@@ -167,7 +169,7 @@ export function scrollToLocationHashId({
                 window.scrollTop = top
               }
             } catch (e) {
-              console.warn('Error on scrollToLocationHashId:', e)
+              warn('Error on scrollToLocationHashId:', e)
             }
           }
 
@@ -194,7 +196,7 @@ export function scrollToLocationHashId({
         return elem
       }
     } catch (e) {
-      console.warn('Error on scrollToLocationHashId:', e)
+      warn('Error on scrollToLocationHashId:', e)
     }
   }
 }

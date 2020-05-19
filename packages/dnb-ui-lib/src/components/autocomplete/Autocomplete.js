@@ -8,6 +8,7 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import keycode from 'keycode'
 import {
+  warn,
   isTrue,
   isTouchDevice,
   makeUniqueId,
@@ -773,7 +774,7 @@ class AutocompleteInstance extends React.PureComponent {
           try {
             this._refInput.current._ref.current.focus()
           } catch (e) {
-            console.warn(e)
+            warn(e)
           }
         }
         break

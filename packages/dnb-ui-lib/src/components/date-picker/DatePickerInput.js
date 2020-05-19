@@ -20,7 +20,7 @@ import classnames from 'classnames'
 import MaskedInput from 'react-text-mask' // https://github.com/text-mask/text-mask
 import Input, { SubmitButton } from '../input/Input'
 import keycode from 'keycode'
-import { validateDOMAttributes } from '../../shared/component-helper'
+import { warn, validateDOMAttributes } from '../../shared/component-helper'
 import { isDisabled } from './DatePickerCalc'
 import Context from '../../shared/Context'
 
@@ -187,7 +187,7 @@ export default class DatePickerInput extends React.PureComponent {
           elem.focus()
           elem.select()
         } catch (e) {
-          console.warn(e)
+          warn(e)
         }
       }, 100)
     }
@@ -287,7 +287,7 @@ export default class DatePickerInput extends React.PureComponent {
       target.focus()
       target.setSelectionRange(0, endPos)
     } catch (e) {
-      console.warn(e)
+      warn(e)
     }
   }
 
@@ -339,7 +339,7 @@ export default class DatePickerInput extends React.PureComponent {
           nextSibling.setSelectionRange(0, 0)
         }
       } catch (e) {
-        console.warn(e)
+        warn(e)
       }
     } else if (firstSelectionStart === 0 && index > 0) {
       switch (keyCode) {
@@ -354,7 +354,7 @@ export default class DatePickerInput extends React.PureComponent {
               prevSibling.setSelectionRange(endPos, endPos)
             }
           } catch (e) {
-            console.warn(e)
+            warn(e)
           }
           break
       }
@@ -426,7 +426,7 @@ export default class DatePickerInput extends React.PureComponent {
         })
       }
     } catch (e) {
-      console.warn(e)
+      warn(e)
     }
   }
 

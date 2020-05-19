@@ -9,6 +9,7 @@ import classnames from 'classnames'
 import Context from '../../shared/Context'
 import { LOCALE, CURRENCY, CURRENCY_DISPLAY } from '../../shared/defaults'
 import {
+  warn,
   isTrue,
   makeUniqueId,
   validateDOMAttributes,
@@ -171,7 +172,7 @@ export default class Number extends React.PureComponent {
         //   copyNumber(cleanedNumber)
         // }
       } catch (e) {
-        console.warn(e)
+        warn(e)
       }
     }
   }
@@ -410,7 +411,7 @@ export const format = (
     try {
       locale = window.navigator.language
     } catch (e) {
-      console.warn(e)
+      warn(e)
     }
   }
 
@@ -611,7 +612,7 @@ export const formatNumber = (number, locale, options = {}) => {
       return Intl.NumberFormat(locale, options).format(number)
     }
   } catch (e) {
-    console.warn(
+    warn(
       `Number could not be formatted: ${JSON.stringify([
         number,
         locale,
@@ -777,7 +778,7 @@ export function copyNumber(string) {
         fx.run()
         // console.info('Copy:', string) // debug
       })
-      .catch(console.warn)
+      .catch(warn)
   }
 }
 
@@ -825,7 +826,7 @@ export function createSelectionFX(string) {
     elem.style.top = `${top}px`
     elem.style.left = `${left + getSelectedText().length / 2}px`
   } catch (e) {
-    console.warn(e)
+    warn(e)
   }
 
   return new (class SelectionFx {
@@ -843,7 +844,7 @@ export function createSelectionFX(string) {
         // remove that element again
         setTimeout(this.remove, 800)
       } catch (e) {
-        console.warn(e)
+        warn(e)
       }
     }
   })()

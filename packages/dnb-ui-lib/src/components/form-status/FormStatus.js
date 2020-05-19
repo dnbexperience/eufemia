@@ -8,6 +8,7 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import Context from '../../shared/Context'
 import {
+  warn,
   isTrue,
   registerElement,
   makeUniqueId,
@@ -204,7 +205,7 @@ export default class FormStatus extends React.PureComponent {
           }rem`
         }
       } catch (e) {
-        console.warn(e)
+        warn(e)
       }
     }
   }
@@ -245,7 +246,7 @@ export default class FormStatus extends React.PureComponent {
       // and show it again
       targetElement.style.display = display
     } catch (e) {
-      console.warn(e)
+      warn(e)
     }
 
     return width

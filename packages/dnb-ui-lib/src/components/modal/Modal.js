@@ -10,6 +10,7 @@ import classnames from 'classnames'
 import { SuffixContext } from '../../shared/helpers/Suffix'
 import Context from '../../shared/Context'
 import {
+  warn,
   isTrue,
   makeUniqueId,
   extendPropsWithContext,
@@ -172,7 +173,7 @@ export default class Modal extends React.PureComponent {
         )
       }
     } catch (e) {
-      console.warn('Modal: Could not insert dnb-modal-root', e)
+      warn('Modal: Could not insert dnb-modal-root', e)
     }
 
     return window.modalRoot
@@ -295,7 +296,7 @@ export default class Modal extends React.PureComponent {
             modalActive ? 'true' : 'false'
           )
         } catch (e) {
-          console.warn(
+          warn(
             'Modal: Error on set "data-dnb-modal-active" by using element.setAttribute()',
             e
           )
@@ -510,7 +511,7 @@ class ModalRoot extends React.PureComponent {
           window.modalRoot.appendChild(this.node)
         }
       } catch (e) {
-        console.warn(e)
+        warn(e)
       }
       this.setState({ isMonted: true })
     }

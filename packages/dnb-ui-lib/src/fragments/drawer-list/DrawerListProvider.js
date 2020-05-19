@@ -8,6 +8,7 @@ import PropTypes from 'prop-types'
 import keycode from 'keycode'
 import Context from '../../shared/Context'
 import {
+  warn,
   isTrue,
   roundToNearest,
   isInsideScrollView,
@@ -212,7 +213,7 @@ export default class DrawerListProvider extends React.PureComponent {
       this._refUl.current.addEventListener('scroll', this.setOnScroll)
       this.setOnScroll()
     } catch (e) {
-      console.warn('List could not set onScroll:', e)
+      warn('List could not set onScroll:', e)
     }
   }
 
@@ -366,7 +367,7 @@ export default class DrawerListProvider extends React.PureComponent {
           }
         }
       } catch (e) {
-        console.warn('List could not set onResize:', e)
+        warn('List could not set onResize:', e)
       }
     }
 
@@ -439,7 +440,7 @@ export default class DrawerListProvider extends React.PureComponent {
         this.changedOrderFor = value
       }
     } catch (e) {
-      console.warn('List could not findItemByValue:', e)
+      warn('List could not findItemByValue:', e)
     }
 
     return index
@@ -471,7 +472,7 @@ export default class DrawerListProvider extends React.PureComponent {
             }
           }
         } catch (e) {
-          console.warn('List could not scroll into element:', e)
+          warn('List could not scroll into element:', e)
         }
       }
     }, 1) // to make sure we are after all DOM updates, else we don't get this scrolling
@@ -576,7 +577,7 @@ export default class DrawerListProvider extends React.PureComponent {
   //       }
   //     }
   //   } catch (e) {
-  //     console.warn(e)
+  //     warn(e)
   //   }
   // }
 
