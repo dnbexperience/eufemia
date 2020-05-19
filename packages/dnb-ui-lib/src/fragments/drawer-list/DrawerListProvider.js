@@ -26,6 +26,11 @@ import {
   prepareDerivedState
 } from './DrawerListHelpers'
 import DrawerListContext from './DrawerListContext'
+import {
+  disableBodyScroll,
+  enableBodyScroll,
+  clearAllBodyScrollLocks
+} from '../../shared/libs/bodyScrollLock'
 
 const propTypes = {
   no_animation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -44,6 +49,7 @@ const propTypes = {
   keep_open: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   prevent_focus: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   skip_keysearch: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  use_mobile_view: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   page_offset: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   observer_element: PropTypes.oneOfType([
     PropTypes.string,
@@ -74,6 +80,7 @@ const defaultProps = {
   keep_open: false,
   prevent_focus: false,
   skip_keysearch: false,
+  use_mobile_view: null,
   page_offset: null,
   observer_element: null,
   opened: null,
@@ -115,8 +122,11 @@ export default class DrawerListProvider extends React.PureComponent {
     this._refShell = React.createRef()
     this._refUl = React.createRef()
     this._refTriangle = React.createRef()
+
+    this.mobileViewIsEnabled = null
   }
 
+  // NB: Not sure if this is needed anymore!
   componentDidMount() {
     if (this.state.opened) {
       this.setVisible()
@@ -213,6 +223,23 @@ export default class DrawerListProvider extends React.PureComponent {
     }
   }
 
+  enableMobileView = () => {
+    if (this.mobileViewIsEnabled || !this._refRoot.current) {
+      return //stop here
+    }
+    this.mobileViewIsEnabled = true
+    disableBodyScroll(this._refRoot.current)
+  }
+
+  disableMobileView = () => {
+    if (this.mobileViewIsEnabled === null) {
+      return //stop here
+    }
+    this.mobileViewIsEnabled = null
+    enableBodyScroll(this._refRoot.current)
+    clearAllBodyScrollLocks()
+  }
+
   setDirectionObserver() {
     if (
       typeof window === 'undefined' ||
@@ -223,6 +250,8 @@ export default class DrawerListProvider extends React.PureComponent {
     }
 
     const {
+      // skip_portal,
+      use_mobile_view,
       scrollable,
       min_height,
       max_height,
@@ -231,6 +260,8 @@ export default class DrawerListProvider extends React.PureComponent {
       observer_element
     } = this.props
 
+    // const skipPortal = isTrue(skip_portal)
+    const useMobileView = isTrue(use_mobile_view)
     const isScrollable = isTrue(scrollable)
     const customMinHeight = parseFloat(min_height) * 16
     const customMaxHeight = parseFloat(max_height) || 0
@@ -324,6 +355,15 @@ export default class DrawerListProvider extends React.PureComponent {
             direction,
             max_height
           })
+        }
+
+        if (useMobileView) {
+          // Like @media (max-width: 40em) { ...
+          if (window.innerWidth / 16 <= 40) {
+            this.enableMobileView()
+          } else {
+            this.disableMobileView()
+          }
         }
       } catch (e) {
         console.warn('List could not set onResize:', e)
@@ -479,6 +519,8 @@ export default class DrawerListProvider extends React.PureComponent {
   }
 
   removeDirectionObserver() {
+    this.disableMobileView()
+
     clearTimeout(this._ddt)
     if (typeof window !== 'undefined' && this.setDirection) {
       this._rootElem?.removeEventListener('scroll', this.setDirection)
@@ -556,8 +598,21 @@ export default class DrawerListProvider extends React.PureComponent {
     return this
   }
 
+  onKeyUpHandler = () => {
+    this.currentKey = null
+  }
+
   onKeyDownHandler = (e) => {
     const key = keycode(e)
+
+    // to allow copy keycode
+    if (
+      this.currentKey &&
+      /command|alt|shift|ctrl/.test(this.currentKey)
+    ) {
+      return // stop here
+    }
+    this.currentKey = key
 
     // stop here if the focus is not set
     // and the drawer is opened by default
@@ -748,6 +803,7 @@ export default class DrawerListProvider extends React.PureComponent {
 
     if (typeof document !== 'undefined') {
       document.addEventListener('keydown', this.onKeyDownHandler)
+      document.addEventListener('keyup', this.onKeyUpHandler)
     }
   }
 
@@ -757,6 +813,7 @@ export default class DrawerListProvider extends React.PureComponent {
     }
     if (typeof document !== 'undefined') {
       document.removeEventListener('keydown', this.onKeyDownHandler)
+      document.removeEventListener('keyup', this.onKeyUpHandler)
     }
   }
 
@@ -791,7 +848,7 @@ export default class DrawerListProvider extends React.PureComponent {
       },
       () => {
         this.setWrapperElement()
-        this.assignObservers()
+        this.assignObservers() // do not add a delay here!
 
         const { selected_item, active_item } = this.state
 

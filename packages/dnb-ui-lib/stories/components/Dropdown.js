@@ -152,8 +152,8 @@ const DropdownStory = () => {
           <Box>
             <Dropdown
               size="small"
-              // opened={opened}
-              opened
+              opened={opened}
+              // opened
               label={label}
               no_animation
               direction={direction}
@@ -599,6 +599,7 @@ function DropdownStates() {
       <Dropdown
         data={dropdownDataScrollable}
         title="Dropdown 1"
+        use_mobile_view
         on_change={handleOnChange}
       />
       <Dropdown

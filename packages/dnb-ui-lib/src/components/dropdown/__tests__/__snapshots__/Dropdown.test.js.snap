@@ -191,6 +191,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
     title="title"
     triangle_position={null}
     trigger_component={null}
+    use_mobile_view={null}
     value={2}
     wrapper_element={null}
   >

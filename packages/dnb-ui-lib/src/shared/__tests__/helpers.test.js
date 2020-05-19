@@ -86,22 +86,18 @@ describe('"scrollToLocationHashId" should', () => {
 describe('platform', () => {
   it('"isMac" should result in true', () => {
     platformGetter.mockReturnValue('Mac')
-
     expect(isMac()).toBe(true)
   })
   it('"isWin" should result in true', () => {
     platformGetter.mockReturnValue('Win')
-
     expect(isWin()).toBe(true)
   })
   it('"isLinux" should result in true', () => {
     platformGetter.mockReturnValue('Linux')
-
     expect(isLinux()).toBe(true)
   })
   it('"isiOS" should result in true', () => {
     platformGetter.mockReturnValue('iPhone')
-
     expect(isiOS()).toBe(true)
 
     platformGetter.mockReturnValue('iPad')
@@ -116,13 +112,14 @@ describe('user agent', () => {
   })
   it('"isEdge" should result in true', () => {
     userAgentGetter.mockReturnValue('Edge')
-
     expect(isEdge()).toBe(true)
   })
   it('"isSafari" should result in true', () => {
     userAgentGetter.mockReturnValue('Safari')
-
     expect(isSafari()).toBe(true)
+
+    userAgentGetter.mockReturnValue('Safari Chrome')
+    expect(isSafari()).toBe(false)
   })
 })
 

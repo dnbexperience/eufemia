@@ -19,27 +19,28 @@ export let IS_LINUX = false
 export const isMac = () =>
   (IS_MAC =
     typeof navigator !== 'undefined' &&
-    navigator?.platform.match(new RegExp(PLATFORM_MAC)) !== null)
+    new RegExp(PLATFORM_MAC, 'i').test(navigator?.platform))
 
 export const isWin = () =>
   (IS_WIN =
     typeof navigator !== 'undefined' &&
-    navigator?.platform.match(new RegExp(PLATFORM_WIN)) !== null)
+    new RegExp(PLATFORM_WIN, 'i').test(navigator?.platform))
 
 export const isLinux = () =>
   (IS_LINUX =
     typeof navigator !== 'undefined' &&
-    navigator?.platform.match(new RegExp(PLATFORM_LINUX)) !== null)
+    new RegExp(PLATFORM_LINUX, 'i').test(navigator?.platform))
 
 export const isiOS = () =>
   (IS_IOS =
     typeof navigator !== 'undefined' &&
-    navigator?.platform.match(new RegExp(PLATFORM_IOS)) !== null)
+    new RegExp(PLATFORM_IOS, 'i').test(navigator?.platform))
 
 export const isSafari = () =>
   (IS_SAFARI =
     typeof navigator !== 'undefined' &&
-    navigator?.userAgent.toLowerCase().indexOf('safari') >= 0)
+    /safari/i.test(navigator?.userAgent) &&
+    !/chrome/i.test(navigator?.userAgent))
 
 export const isIE11 = () =>
   (IS_IE11 =
@@ -49,8 +50,7 @@ export const isIE11 = () =>
 
 export const isEdge = () =>
   (IS_EDGE =
-    typeof navigator !== 'undefined' &&
-    navigator?.userAgent?.toLowerCase().indexOf('edge') >= 0)
+    typeof navigator !== 'undefined' && /edge/i.test(navigator?.userAgent))
 
 isIE11()
 isEdge()
@@ -378,7 +378,10 @@ export function copyToClipboard(string) {
           resetSelection()
           resolve()
         })
-        .catch(copyFallback)
+        .catch((e) => {
+          reject(e)
+          copyFallback()
+        })
     } else {
       return copyFallback()
     }

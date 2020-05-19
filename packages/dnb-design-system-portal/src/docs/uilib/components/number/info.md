@@ -70,7 +70,7 @@ const { number, aria } = format(value, {
 })
 ```
 
-## Using the number clean helpers
+## Using number helpers, like cleanNumber
 
 You can use the clean helpers without using the Component. Have a look at the [available properties](/uilib/components/number/properties). Also, you may check out the related tests **Number cleanNumber** in the source code to find more examples.
 

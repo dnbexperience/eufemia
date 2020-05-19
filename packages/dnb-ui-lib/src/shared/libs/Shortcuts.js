@@ -1,131 +1,135 @@
+import keycode from 'keycode'
+
 export class createShortcut {
   constructor() {
-    this.eventType = 'keydown'
-    this.eventTracker = new Array()
-    this.shortcutExists = new Array()
+    this.eventTracker = []
+    this.shortcutExists = []
   }
 
   // Lets you add a new shortcut
-  add(shortcut, callback, el) {
+  add(shortcut, callback, onDone, element = null) {
     // Prevents multiple additions of the same shortcut
-    if (this.shortcutExists[shortcut] === true) {
+    if (
+      typeof window === 'undefined' ||
+      typeof document === 'undefined' ||
+      this.shortcutExists[shortcut] === true
+    ) {
       return
     }
 
-    const element = el || document
-    const keyTracker = (e) => {
-      const event = e || window.event
-      const keypress = event.keyCode ? event.keyCode : event.which
-      const keyvalue = String.fromCharCode(keypress).toLowerCase()
-      const keycodes = {
-        backspace: 8,
-        tab: 9,
-        return: 13,
-        esc: 27,
-        space: 32,
-        scroll: 145,
-        capslock: 20,
-        numlock: 144,
-        pause: 19,
-        break: 19,
-        insert: 45,
-        home: 36,
-        delete: 127,
-        end: 35,
-        pageup: 33,
-        pagedown: 34,
-        left: 37,
-        up: 38,
-        right: 39,
-        down: 40,
-        f1: 112,
-        f2: 113,
-        f3: 114,
-        f4: 115,
-        f5: 116,
-        f6: 117,
-        f7: 118,
-        f8: 119,
-        f9: 120,
-        f10: 121,
-        f11: 122,
-        f12: 123
-      }
-      const metaWanted = {
-        cmd: false,
-        ctrl: false,
-        shift: false,
-        alt: false
-      }
-      const metaPressed = {
-        cmd: event.metaKey,
-        ctrl: event.ctrlKey,
-        shift: event.shiftKey,
-        alt: event.altKey
-      }
+    try {
+      element = element || document
+      const timeout = { id: null }
 
-      const shortcuts = shortcut.split('+')
+      const keyDown = (e) => {
+        try {
+          const event = e || window.event
+          const code = keycode(event)
+          const shortcuts = shortcut.split('+')
+          const metaWanted = {
+            cmd: false,
+            ctrl: false,
+            shift: false,
+            alt: false
+          }
+          const metaPressed = {
+            cmd: event.metaKey,
+            ctrl: event.ctrlKey,
+            shift: event.shiftKey,
+            alt: event.altKey
+          }
 
-      let matches = 0
-      for (let i = 0, l = shortcuts.length; i < l; i++) {
-        if (shortcuts[i] == 'cmd') {
-          metaWanted['cmd'] = true
-          matches++
-        } else if (shortcuts[i] == 'ctrl') {
-          metaWanted['ctrl'] = true
-          matches++
-        } else if (shortcuts[i] == 'shift') {
-          metaWanted['shift'] = true
-          matches++
-        } else if (shortcuts[i] == 'alt') {
-          metaWanted['alt'] = true
-          matches++
-        } else if (shortcuts[i].length > 1) {
-          if (keycodes[shortcuts[i]] == keypress) {
-            matches++
+          let matches = 0
+          shortcuts.forEach((cut) => {
+            switch (cut) {
+              case 'cmd':
+              case 'ctrl':
+              case 'shift':
+              case 'alt':
+                {
+                  metaWanted[cut] = true
+                  matches++
+                }
+                break
+              default:
+                {
+                  if (cut === code) {
+                    matches++
+                  }
+                }
+                break
+            }
+            // if (cut.length > 1) {
+            //   if (keycodes[cut] === keypress) {
+            //     matches++
+            //   }
+            // }
+          })
+
+          // If we have matched the shortcut we issue the callback
+          if (
+            matches === shortcuts.length &&
+            metaWanted.cmd === metaPressed.cmd &&
+            metaWanted.ctrl === metaPressed.ctrl &&
+            metaWanted.shift === metaPressed.shift &&
+            metaWanted.alt === metaPressed.alt
+          ) {
+            callback(event)
+            if (typeof onDone === 'function') {
+              clearTimeout(timeout.id)
+              timeout.id = setTimeout(onDone, 10)
+            }
           }
-        } else {
-          if (shortcuts[i] === keyvalue) {
-            matches++
-          }
+
+          return false
+        } catch (e) {
+          console.warn(e)
         }
       }
 
-      // If we have matched the shortcut we issue the callback
-      if (
-        matches === shortcuts.length &&
-        metaWanted['cmd'] === metaPressed['cmd'] &&
-        metaWanted['ctrl'] === metaPressed['ctrl'] &&
-        metaWanted['shift'] === metaPressed['shift'] &&
-        metaWanted['alt'] === metaPressed['alt']
-      ) {
-        callback(event)
+      const keyUp = (e) => {
+        if (typeof onDone === 'function') {
+          onDone(e)
+        }
       }
+
+      // Add the event listener
+      element.addEventListener('keydown', keyDown)
+      element.addEventListener('keyup', keyUp)
+
+      // Cache the event data so it can be removed later
+      this.eventTracker[shortcut] = {
+        timeout,
+        element,
+        keyDown,
+        keyUp
+      }
+
+      this.shortcutExists[shortcut] = true
+    } catch (e) {
+      console.warn(e)
     }
-
-    // Add the event listener
-    element.addEventListener(this.eventType, keyTracker)
-
-    // Cache the event data so it can be removed later
-    this.eventTracker[shortcut] = {
-      element: element,
-      callback: keyTracker
-    }
-
-    this.shortcutExists[shortcut] = true
   }
 
   remove(shortcut) {
-    shortcut = shortcut.toLowerCase()
+    try {
+      shortcut = shortcut.toLowerCase()
 
-    if (this.eventTracker[shortcut]) {
-      const element = this.eventTracker[shortcut]['element']
-      const callback = this.eventTracker[shortcut]['callback']
+      if (this.eventTracker[shortcut]) {
+        const { timeout, element, keyDown, keyUp } = this.eventTracker[
+          shortcut
+        ]
 
-      element.removeEventListener(this.eventType, callback, false)
+        element.removeEventListener('keydown', keyDown, false)
+        element.removeEventListener('keyup', keyUp, false)
 
-      delete this.eventTracker[shortcut]
-      this.shortcutExists[shortcut] = false
+        clearTimeout(timeout.id)
+
+        delete this.eventTracker[shortcut]
+        this.shortcutExists[shortcut] = false
+      }
+    } catch (e) {
+      //
     }
   }
 }
