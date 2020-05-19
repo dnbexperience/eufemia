@@ -12,8 +12,10 @@ import Tabbar from './Tabbar'
 import Anchor from './Anchor'
 import Intro, { IntroFooter } from './Intro'
 import Header from './AutoLinkHeader'
+import Copy from './Copy'
 
 export default {
+  Copy,
   Intro,
   IntroFooter,
   Tabbar,
@@ -37,7 +39,11 @@ export default {
   },
   table: Table,
   code: (...args) => CodeBlock(...args),
-  inlineCode: (props) => <Tag is="code" {...props} />,
+  inlineCode: (props) => (
+    <Copy>
+      <Tag is="code" {...props} />
+    </Copy>
+  ),
   ul: (props) => <Tag is="ul" {...props} />,
   ol: (props) => <Tag is="ol" {...props} />,
   dl: (props) => <Tag is="dl" {...props} />,

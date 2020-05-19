@@ -3,6 +3,7 @@
  *
  */
 
+import React from 'react'
 import { registerElement } from './custom-element'
 export { registerElement }
 import keycode from 'keycode'
@@ -587,4 +588,32 @@ export const warn = (...e) => {
   if (typeof console !== 'undefined') {
     console.warn(...e)
   }
+}
+
+export const convertJsxToString = (elements, separator = undefined) => {
+  if (!Array.isArray(elements)) {
+    elements = [elements]
+  }
+
+  return elements
+    .map((word) => {
+      if (React.isValidElement(word)) {
+        if (typeof word.props.children === 'string') {
+          word = word.props.children
+        } else if (Array.isArray(word.props.children)) {
+          word = word.props.children.reduce((acc, word) => {
+            if (typeof word === 'string') {
+              acc = acc + word
+            }
+            return acc
+          }, '')
+        } else {
+          return null
+        }
+      }
+
+      return word
+    })
+    .filter(Boolean)
+    .join(separator)
 }

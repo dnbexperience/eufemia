@@ -821,7 +821,7 @@ export function createSelectionFX(string) {
 
     // create that portal element
     elem = document.createElement('span')
-    elem.innerHTML = String(string)
+    elem.textContent = String(string)
     elem.setAttribute('class', 'dnb-number__fx dnb-core-style')
     elem.style.top = `${top}px`
     elem.style.left = `${left + getSelectedText().length / 2}px`
