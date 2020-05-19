@@ -470,7 +470,7 @@ export const format = (
     aria = formatNumber(cleanedNumber, locale, {
       ...opts,
       minimumFractionDigits: 2,
-      maximumFractionDigits: 2,
+      maximumFractionDigits: 20,
       currencyDisplay: 'name'
     })
     aria = enhanceSR(cleanedNumber, aria, locale) // also calls cleanupMinus
@@ -496,7 +496,7 @@ export const format = (
     aria = formatNumber(value, locale, {
       ...opts,
       minimumFractionDigits: 1,
-      maximumFractionDigits: 1
+      maximumFractionDigits: 20
     })
     aria = enhanceSR(value, aria, locale) // also calls cleanupMinus
   }
