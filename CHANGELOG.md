@@ -5,14 +5,27 @@
 - New component [Autocomplete](/uilib/components/autocomplete)
 - New component [Pagination](/uilib/components/pagination) including infinity scroller
 - New [secondary icons](/icons/secondary): `pay_from`, `transfer_to`
+- Modal got a [Drawer mode](/uilib/components/modal/demos#drawer-mode) and has now a dark background color
 - **Breaking Changes** to the UMD [bundles](/uilib/usage/first-steps/bundles) structure (v7), including ESM (mjs)
-- The Modal got a [Drawer mode](/uilib/components/modal/demos#drawer-mode) and has now a dark background color
 - **Breaking Changes** to headings:
 
-- **h1** `.dnb-h1` is now `.dnb-h--xx-large`
-- **h1 — small** `.dnb-h1--small` is now `.dnb-h--x-large`
-- **h2** `.dnb-h2` is now `.dnb-h--large`
-- **h3** `.dnb-h3` is now `.dnb-h--medium`
+  - `.dnb-h1` is now `.dnb-h--xx-large`
+  - `.dnb-h1--small` is now `.dnb-h--x-large`
+  - `.dnb-h2` is now `.dnb-h--large`
+  - `.dnb-h3` is now `.dnb-h--medium` / `.dnb-lead`
+  - For `.dnb-h4`, `.dnb-h5` and `.dnb-h6` se [v7 release notes](/uilib/about-the-lib/releases/v7-info#heading-changes)
+
+Check out the [detailed migration guide](/uilib/about-the-lib/releases/v7-info#migration)
+
+Figma typography styles got updated as well:
+
+- ~~h1~~ `Heading xx-large`
+- ~~h1 small~~ `Heading x-large`
+- ~~h2~~ `Heading large`
+- ~~Lead~~ `Text lead`
+- ~~Body~~ `Text basis` and `Text basis (Medium)`
+- ~~Small~~ `Text small` and `Text small / (Medium)`
+- ~~X-Small~~ `Text x-small` and `Text x-small (Medium)`
 
 ## January, 30. 2020
 

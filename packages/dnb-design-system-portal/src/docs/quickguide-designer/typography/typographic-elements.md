@@ -9,8 +9,8 @@ This is an overview of the default, basic typographic elements such as **heading
 - font-weight: DNB Medium
 - font-size: 3rem (48px)
 - line-height: 3.5rem (56px)
-- margin-top: 3rem (48px)
-- margin-bottom: 2.5rem (40px)
+- (optional) margin-top: 3rem (48px)
+- (optional) margin-bottom: 2.5rem (40px)
 
 ### Example:
 
@@ -30,8 +30,8 @@ This is an overview of the default, basic typographic elements such as **heading
 - font-weight: DNB Medium
 - font-size: 2.125rem (34px)
 - line-height: 2.5rem (40px)
-- margin-top: 3rem (48px)
-- margin-bottom: 2.5rem (40px)
+- (optional) margin-top: 3rem (48px)
+- (optional) margin-bottom: 2.5rem (40px)
 
 ### Example:
 
@@ -53,8 +53,8 @@ This is an overview of the default, basic typographic elements such as **heading
 - font-weight: DNB Medium
 - font-size: 1.625rem (26px)
 - line-height: 2rem (32px)
-- margin-top: 3rem (48px)
-- margin-bottom: 1rem (16px)
+- (optional) margin-top: 3rem (48px)
+- (optional) margin-bottom: 1rem (16px)
 
 ### Example:
 
@@ -67,15 +67,15 @@ This is an overview of the default, basic typographic elements such as **heading
   </p>
 </div>
 
-## Lead (Heading medium)
+## Text lead
 
 ### Specs:
 
 - font-weight: DNB Medium
 - font-size: 1.25rem (20px)
 - line-height: 1.75rem (28px)
-- margin-top: 2rem (32px)
-- margin-bottom: 1rem (16px)
+- (optional) margin-top: 2rem (32px)
+- (optional) margin-bottom: 1rem (16px)
 
 ### Example:
 
@@ -89,14 +89,14 @@ This is an overview of the default, basic typographic elements such as **heading
   </p>
 </div>
 
-## Body (paragraph)
+## Text basis (paragraph)
 
 ### Specs:
 
 - font-weight: DNB Regular or DNB Medium
 - font-size: 1.125rem (18px)
 - line-height: 1.5rem (24px)
-- margin-bottom: 1.5rem (24px)
+- (optional) margin-bottom: 1.5rem (24px)
 
 ### Example:
 
@@ -110,14 +110,14 @@ This is an overview of the default, basic typographic elements such as **heading
   </p>
 </div>
 
-## Body small
+## Text basis - small
 
 ### Specs:
 
 - font-weight: DNB Regular or DNB Medium
 - font-size: 1rem (16px)
 - line-height: 1.25rem (20px)
-- margin-bottom: 1.5rem (24px)
+- (optional) margin-bottom: 1.5rem (24px)
 
 ### Note:
 

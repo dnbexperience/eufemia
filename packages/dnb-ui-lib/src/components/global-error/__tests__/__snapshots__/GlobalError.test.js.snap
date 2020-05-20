@@ -779,41 +779,52 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
       >
         <H1
           bottom="large"
-          className={null}
-          style_type={null}
           top="4"
         >
-          <ForwardRef
+          <H
             bottom="large"
-            class={null}
             className={null}
-            css={null}
             is="h1"
+            size="xx-large"
+            style_type={null}
             top="4"
-            useClass={null}
           >
-            <h1
-              className="dnb-h--xx-large dnb-space__top--xx-large dnb-space__top--x-small dnb-space__bottom--large"
+            <ForwardRef
+              bottom="large"
+              class={null}
+              className="dnb-h--xx-large"
+              css={null}
+              is="h1"
+              top="4"
+              useClass={null}
             >
-              title
-            </h1>
-          </ForwardRef>
+              <h1
+                className="dnb-h--xx-large dnb-space__top--xx-large dnb-space__top--x-small dnb-space__bottom--large dnb-h--xx-large"
+              >
+                title
+              </h1>
+            </ForwardRef>
+          </H>
         </H1>
         <P
+          bold={null}
           bottom="large"
           className={null}
+          medium={null}
+          modifier={null}
+          small={null}
           style_type={null}
         >
           <ForwardRef
             bottom="large"
             class={null}
-            className={null}
+            className="dnb-p"
             css={null}
             is="p"
             useClass={null}
           >
             <p
-              className="dnb-p dnb-space__bottom--large"
+              className="dnb-p dnb-space__bottom--large dnb-p"
             >
               text 
               <a

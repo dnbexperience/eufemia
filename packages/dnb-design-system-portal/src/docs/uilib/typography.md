@@ -21,14 +21,24 @@ Read more how to use the [different weights](/uilib/typography/font-weights/).
 
 The DNB default Font Family is `DNB`. This font, together with it's weights is loaded and imported with `@font-face` in `/css/core/fonts.scss`. The font family is included in the library package.
 
-## Headings
+## Headings and heading styles
 
-The DNB UX team has defined four levels of heading styles:
+The DNB UX team has defined three levels of heading styles:
 
-- **Heading xx-large**
-- **Heading x-large**
-- **Heading large**
-- **Heading medium** (Same as **Lead**)
+- `.dnb-h-xx--large` (Heading xx-large)
+- `.dnb-h-x--large` (Heading x-large)
+- `.dnb-h--large` (Heading large)
+
+Also available are:
+
+- `.dnb-h--medium`
+- `.dnb-h--basis`
+- `.dnb-h--small`
+- `.dnb-h--x-small`
+
+Optional, you could use `.dnb-lead` (equivalent to `.dnb-h--medium`) to style a heading as well. But only if that would make sense in the particular context.
+
+The sizes are aligned to the [font-size definitions](/uilib/typography/font-size).
 
 ### Think semantics first
 
@@ -37,51 +47,57 @@ You should [think semantics first](/uilib/usage/best-practices/for-typography#he
 If you have to use a paragraph or a arbitrary heading, and it has to **look like** a specific heading, you can use these classes:
 
 - `.dnb-h--xx-large`
-- `.dnb-h--xx-large--small`
+- `.dnb-h--x-large`
 - `.dnb-h--large`
-- `.dnb-lead` (h3)
+- etc.
 
 Read more about [best practices for typography](/uilib/usage/best-practices/for-typography).
 
-### Headings in React
+### Heading styles in in React
 
 ```jsx
-import { H1, H2, Lead, P, Link, ... } from 'dnb-ui-lib/elements'
+import { H1, H2, ... } from 'dnb-ui-lib/elements'
 
-<H1>Title</H1>
+<H1>Heading style xx-large</H1>
+<H1 size="small">Heading style small</H1>
+
+/** These are equivalent */
+<H1><small>Heading style x-large</small></H1>
+<H1 modifier="small">Heading style x-large</H1>
 ```
 
 <ComponentBox hideOnTest caption="Default Heading typography using React JSX">
 {`
-<H1 style_type="small">H1 small</H1>
-<H1>H1</H1>
-<H2>H2</H2>
-<Lead>Lead</Lead>
+<H1 bottom="large">Heading style xx-large</H1>
+<H1 size="x-large">Heading style x-large (one down)</H1>
+<H1 size="small">Heading style small</H1>
+<H2>Heading style large</H2>
 `}
 </ComponentBox>
 
-### Headings with vanilla HTML
+### Heading styles in vanilla HTML
 
-<CodeBlock reactLive hideCode caption="Default Heading typography">
+<CodeBlock reactLive hideCode caption="Heading styles in vanilla HTML">
 {`
-<h1 className="dnb-h--xx-large">H1</h1>
-<h2 className="dnb-h--large">H2</h2>
-<h3 className="dnb-lead">Lead</h3>
+<h1 className="dnb-h--xx-large">Heading style xx-large</h1>
+<h2 className="dnb-h--x-large">Heading style x-large</h2>
+<h5 className="dnb-h--large">Heading style large</h5>
+<h3 className="dnb-h--small">Heading style small</h3>
+<h3 className="dnb-h--basis">Heading style basis</h3>
 `}
 </CodeBlock>
 
-<CodeBlock reactLive hideCode data-dnb-test="heading-additional" caption="Additional Heading typography">
+<CodeBlock reactLive hideCode data-dnb-test="heading-additional" caption="Additional Heading modifiers">
 {`
 <article>
   <h1 className="dnb-h--xx-large">
-    <small>Small H1</small> Normal H1
+    <small>dnb-h--x-large</small> Normal dnb-h--xx-large
   </h1>
-  <h1 className="dnb-h--xx-large dnb-h--xx-large--small">Small H1 with class</h1>
   <h2 className="dnb-h--large">
-    Normal H2 <small>Small H2</small>
+    Normal dnb-h--large <small>dnb-h--medium</small>
   </h2>
   <h3 className="dnb-lead">
-    Normal H3/Lead <small>Small H3/Lead</small>
+    Normal dnb-h--medium <small>dnb-h--basis</small>
   </h3>
 </article>
 `}
@@ -91,25 +107,33 @@ import { H1, H2, Lead, P, Link, ... } from 'dnb-ui-lib/elements'
 
 Paragraph comes in several variants. You can use these classes:
 
-- `.dnb-p` (Body)
+- `.dnb-p` (Text basis)
 - `.dnb-p--medium`
 - `.dnb-p--bold`
-- `.dnb-p--ingress`
 - `.dnb-p--small`
+
+<!-- - `.dnb-p--ingress` -->
 
 ### Paragraphs in React
 
-  <ComponentBox hideOnTest caption="Default paragraph typography using React JSX">
-  {`
-  <P>Paragraph (Body)</P>
-  <P style_type="medium">Paragraph Medium</P>
-  <P style_type="bold">Paragraph Bold</P>
-  <P style_type="ingress">Paragraph Ingress</P>
-  <P style_type="small">Paragraph Small</P>
-  <P style_type="small medium">Paragraph Medium Small</P>
-  <P style_type="small bold">Paragraph Bold Small</P>
-  `}
-  </ComponentBox>
+```jsx
+import { Lead, P, Link, ... } from 'dnb-ui-lib/elements'
+
+<Lead>Lead style medium</Lead>
+<P>Paragraph style basis</P>
+<P modifier="small">Paragraph style small</P>
+```
+
+<ComponentBox hideOnTest caption="Default paragraph typography using React JSX">
+{`
+<P bottom="small">Paragraph (Default)</P>
+<P modifier="medium">Paragraph (Medium weight)</P>
+<P modifier="bold">Paragraph (Bold weight)</P>
+<P modifier="small">Paragraph Small</P>
+<P modifier="small medium">Paragraph Small (Medium weight)</P>
+<P modifier="small bold">Paragraph Small (Bold weight)</P>
+`}
+</ComponentBox>
 
 ### Paragraphs with vanilla HTML
 

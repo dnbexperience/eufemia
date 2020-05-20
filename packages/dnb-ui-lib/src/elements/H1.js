@@ -4,23 +4,9 @@
  */
 
 import React from 'react'
-import PropTypes from 'prop-types'
-import classnames from 'classnames'
-import E from './Element'
+import H from './H'
 
-const H1 = ({ style_type, className, ...p }) => {
-  if (style_type) {
-    className = classnames(`dnb-h--xx-large--${style_type}`, className)
-  }
-  return <E is="h1" {...p} className={className} />
-}
-H1.tagName = 'dnb-h--xx-large'
-H1.propTypes = {
-  className: PropTypes.string,
-  style_type: PropTypes.string
-}
-H1.defaultProps = {
-  className: null,
-  style_type: null
-}
+const H1 = (props) => <H is="h1" size="xx-large" {...props} />
+H1.tagName = 'dnb-h1'
+
 export default H1

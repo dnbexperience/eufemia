@@ -31,7 +31,7 @@
   font-size: var(--font-size-xx-large);
   line-height: var(--line-height-x-large);
 
-  &--small,
+  // &--small,/* deprecated */
   & > small {
     display: block;
     font-size: var(--font-size-x-large);
@@ -42,7 +42,7 @@
   font-size: var(--font-size-x-large);
   line-height: var(--line-height-large);
 
-  &--small,
+  // &--small,/* deprecated */
   & > small {
     display: block;
     font-size: var(--font-size-x-large);
@@ -53,23 +53,20 @@
   font-size: var(--font-size-large);
   line-height: var(--line-height-medium);
 
-  &--small,
+  // &--small,/* deprecated */
   & > small {
     font-size: var(--font-size-medium);
-  }
-  & > small {
     line-height: calc(var(--line-height-medium) - 0.125rem);
   }
 }
+// Like Lead / --lead
 @mixin headingStyle_medium() {
   font-size: var(--font-size-medium);
   line-height: calc(var(--line-height-medium) - 0.25rem);
 
-  &--small,
+  // &--small,/* deprecated */
   & > small {
     font-size: var(--font-size-basis);
-  }
-  & > small {
     line-height: var(--line-height-basis);
   }
 }
@@ -104,18 +101,21 @@
   }
   padding: 0;
 
+  &--lead {
+    @include headingStyle_medium();
+  }
+
+  &--ingress,
   &--medium {
     font-weight: var(--font-weight-medium);
   }
-  &--ingress {
-    font-weight: var(--font-weight-medium);
-    color: var(--color-emerald-green);
-  }
+
   b,
   strong,
   &--bold {
     font-weight: var(--font-weight-bold);
   }
+
   &--small,
   & > small {
     font-size: var(--font-size-small);

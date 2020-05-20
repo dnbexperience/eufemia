@@ -4,8 +4,9 @@
  */
 
 import React from 'react'
-import E from './Element'
+import H from './H'
 
-const H5 = (p) => <E is="h5" {...p} />
-H5.tagName = 'dnb-h--small'
+const H5 = (props) => <H is="h5" size="small" {...props} />
+H5.tagName = 'dnb-h5'
+
 export default H5
