@@ -72,22 +72,27 @@
 }
 @mixin headingStyle_basis() {
   font-size: var(--font-size-basis);
+  line-height: var(--line-height-basis);
+
   & > small {
+    font-size: var(--font-size-small);
     line-height: var(--line-height-small);
   }
 }
 @mixin headingStyle_small() {
   font-size: var(--font-size-small);
+  line-height: var(--line-height-small);
+
   & > small {
+    font-size: var(--font-size-x-small);
     line-height: var(--line-height-small);
   }
 }
 @mixin headingStyle_x-small() {
-  font-size: var(--font-size-small);
-  font-weight: var(--font-weight-regular);
-  & > small {
-    line-height: var(--line-height-small);
-  }
+  font-size: var(--font-size-x-small);
+  line-height: var(--line-height-x-small);
+
+  // font-weight: var(--font-weight-regular);
 }
 @mixin paragraphStyle() {
   font-size: var(--font-size-basis);

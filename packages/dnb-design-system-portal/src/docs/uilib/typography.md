@@ -4,7 +4,6 @@ icon: 'typography'
 order: 5
 ---
 
-import CodeBlock from 'Tags/CodeBlock'
 import ComponentBox from 'Tags/ComponentBox'
 
 # Typography
@@ -53,7 +52,26 @@ If you have to use a paragraph or a arbitrary heading, and it has to **look like
 
 Read more about [best practices for typography](/uilib/usage/best-practices/for-typography).
 
-### Heading styles in in React
+### Spacing / margin of headings
+
+You can use the [Spacing properties](/uilib/components/space/properties) inside every Eufemia React Element, but keep in mind, [margin collapsing](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Box_Model/Mastering_margin_collapsing) can some times a little tricky to get right.
+
+```jsx
+import { H1, H2, ... } from 'dnb-ui-lib/elements'
+
+<H1 bottom="x-large">Heading with bottom margin: x-large</H1>
+<H2 top="x-large">Heading with top margin: x-large</H2>
+```
+
+<ComponentBox caption="Example of margin collapsing. Only x-large takes effect.">
+{`
+<H1 size="small" top bottom="small">Heading with bottom margin: small</H1>
+<P collapse="false" top="large" bottom="small">Heading with top margin: large</P>
+<P collapse="false" top="large">Heading with top margin: large - not collapsed</P>
+`}
+</ComponentBox>
+
+### Heading styles in React
 
 ```jsx
 import { H1, H2, ... } from 'dnb-ui-lib/elements'
@@ -66,7 +84,7 @@ import { H1, H2, ... } from 'dnb-ui-lib/elements'
 <H1 modifier="small">Heading style x-large</H1>
 ```
 
-<ComponentBox hideOnTest caption="Default Heading typography using React JSX">
+<ComponentBox caption="Default Heading typography using React JSX">
 {`
 <H1 bottom="large">Heading style xx-large</H1>
 <H1 size="x-large">Heading style x-large (one down)</H1>
@@ -77,7 +95,7 @@ import { H1, H2, ... } from 'dnb-ui-lib/elements'
 
 ### Heading styles in vanilla HTML
 
-<CodeBlock reactLive hideCode caption="Heading styles in vanilla HTML">
+<ComponentBox reactLive hideCode caption="Heading styles in vanilla HTML">
 {`
 <h1 className="dnb-h--xx-large">Heading style xx-large</h1>
 <h2 className="dnb-h--x-large">Heading style x-large</h2>
@@ -85,9 +103,9 @@ import { H1, H2, ... } from 'dnb-ui-lib/elements'
 <h3 className="dnb-h--small">Heading style small</h3>
 <h3 className="dnb-h--basis">Heading style basis</h3>
 `}
-</CodeBlock>
+</ComponentBox>
 
-<CodeBlock reactLive hideCode data-dnb-test="heading-additional" caption="Additional Heading modifiers">
+<ComponentBox reactLive hideCode data-dnb-test="heading-additional" caption="Additional Heading modifiers">
 {`
 <article>
   <h1 className="dnb-h--xx-large">
@@ -101,7 +119,7 @@ import { H1, H2, ... } from 'dnb-ui-lib/elements'
   </h3>
 </article>
 `}
-</CodeBlock>
+</ComponentBox>
 
 ### Paragraph
 
@@ -124,7 +142,7 @@ import { Lead, P, Link, ... } from 'dnb-ui-lib/elements'
 <P modifier="small">Paragraph style small</P>
 ```
 
-<ComponentBox hideOnTest caption="Default paragraph typography using React JSX">
+<ComponentBox data-dnb-test="paragraph-modifiers" caption="Default paragraph typography using React JSX">
 {`
 <P bottom="small">Paragraph (Default)</P>
 <P modifier="medium">Paragraph (Medium weight)</P>
@@ -137,7 +155,7 @@ import { Lead, P, Link, ... } from 'dnb-ui-lib/elements'
 
 ### Paragraphs with vanilla HTML
 
-<CodeBlock reactLive hideCode data-dnb-test="paragraph-default" caption="Default Paragraph styles">
+<ComponentBox reactLive hideCode data-dnb-test="paragraph-default" caption="Default Paragraph styles">
 {`
 <p className="dnb-p">
   Here is a paragraph text<br />
@@ -151,9 +169,9 @@ import { Lead, P, Link, ... } from 'dnb-ui-lib/elements'
   <cite>Cite paragraph</cite><br />
 </p>
 `}
-</CodeBlock>
+</ComponentBox>
 
-<CodeBlock reactLive hideCode data-dnb-test="paragraph-small" caption="Paragraph with small font-size">
+<ComponentBox reactLive hideCode data-dnb-test="paragraph-small" caption="Paragraph with small font-size">
 {`
 <p className="dnb-p dnb-p--small">
   Here is a small paragraph text<br />
@@ -171,9 +189,9 @@ import { Lead, P, Link, ... } from 'dnb-ui-lib/elements'
   with a new line.
 </p>
 `}
-</CodeBlock>
+</ComponentBox>
 
-<CodeBlock reactLive hideCode data-dnb-test="paragraph-additional" caption="Additional Paragraph formatting (not defined yet)">
+<ComponentBox reactLive hideCode data-dnb-test="paragraph-additional" caption="Additional Paragraph formatting (not defined yet)">
 {`
 <p className="dnb-p">
   <del>Deleted paragraph</del><br />
@@ -183,7 +201,7 @@ import { Lead, P, Link, ... } from 'dnb-ui-lib/elements'
   <sup>Superscript paragraph</sup><br />
 </p>
 `}
-</CodeBlock>
+</ComponentBox>
 
 Read more [about Fonts in the Designer Guides](/quickguide-designer/fonts/)
 

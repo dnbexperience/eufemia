@@ -112,6 +112,9 @@ export const validateDOMAttributes = (props, params) => {
   if (typeof params.left !== 'undefined') {
     delete params.left
   }
+  if (typeof params.collapse !== 'undefined') {
+    delete params.collapse
+  }
 
   // in case disabled is a string, it its enabled, send it in as a true (this is for web components support)
   else if (params.disabled === 'true') {

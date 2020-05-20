@@ -36,15 +36,18 @@ const Element = React.forwardRef(
         break
     }
 
-    rest.className = classnames(
-      useClass ? useClass : `dnb-${style}`,
-      createSpacingClasses(rest),
-      className,
-      _className,
-      css
-    )
+    const params = {
+      className: classnames(
+        useClass ? useClass : `dnb-${style}`,
+        createSpacingClasses(rest, Tag),
+        className,
+        _className,
+        css
+      )
+    }
+
     validateDOMAttributes(null, rest)
-    return <Tag ref={ref} {...rest} />
+    return <Tag ref={ref} {...rest} {...params} />
   }
 )
 Element.propTypes = {
