@@ -4,11 +4,16 @@
  */
 
 import React from 'react'
-import { registerElement } from './custom-element'
-export { registerElement }
 import keycode from 'keycode'
 import whatInput from 'what-input'
-import { PLATFORM_MAC, PLATFORM_WIN, PLATFORM_LINUX } from './helpers'
+import { registerElement } from './custom-element'
+
+export { registerElement }
+
+export const PLATFORM_MAC = 'Mac|iPad|iPhone|iPod'
+export const PLATFORM_WIN = 'Win'
+export const PLATFORM_LINUX = 'Linux'
+export const PLATFORM_IOS = 'iOS|iPhone|iPad|iPod'
 
 if (
   typeof process !== 'undefined' &&

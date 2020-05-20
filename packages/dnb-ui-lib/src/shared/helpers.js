@@ -3,12 +3,13 @@
  *
  */
 
-import { warn } from './component-helper'
-
-export const PLATFORM_MAC = 'Mac|iPad|iPhone|iPod'
-export const PLATFORM_WIN = 'Win'
-export const PLATFORM_LINUX = 'Linux'
-export const PLATFORM_IOS = 'iOS|iPhone|iPad|iPod'
+import {
+  warn,
+  PLATFORM_MAC,
+  PLATFORM_WIN,
+  PLATFORM_LINUX,
+  PLATFORM_IOS
+} from './component-helper'
 
 export let IS_IE11 = false
 export let IS_EDGE = false
