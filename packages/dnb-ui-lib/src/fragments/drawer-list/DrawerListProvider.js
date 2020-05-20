@@ -29,8 +29,7 @@ import {
 import DrawerListContext from './DrawerListContext'
 import {
   disableBodyScroll,
-  enableBodyScroll,
-  clearAllBodyScrollLocks
+  enableBodyScroll
 } from '../../shared/libs/bodyScrollLock'
 
 const propTypes = {
@@ -225,20 +224,20 @@ export default class DrawerListProvider extends React.PureComponent {
   }
 
   enableMobileView = () => {
-    if (this.mobileViewIsEnabled || !this._refRoot.current) {
-      return //stop here
-    }
     this.mobileViewIsEnabled = true
-    disableBodyScroll(this._refRoot.current)
+
+    // wait unitl render is complete and we have a valid this._refUl.current
+    clearTimeout(this._mobileViewTimeout)
+    this._mobileViewTimeout = setTimeout(
+      () => disableBodyScroll(this._refUl.current),
+      1
+    )
   }
 
   disableMobileView = () => {
-    if (this.mobileViewIsEnabled === null) {
-      return //stop here
-    }
     this.mobileViewIsEnabled = null
-    enableBodyScroll(this._refRoot.current)
-    clearAllBodyScrollLocks()
+    clearTimeout(this._mobileViewTimeout)
+    enableBodyScroll(this._refUl.current)
   }
 
   setDirectionObserver() {
@@ -360,9 +359,13 @@ export default class DrawerListProvider extends React.PureComponent {
 
         if (useMobileView) {
           // Like @media screen and (max-width: 40em) { ...
-          if (window.innerWidth / 16 <= 40) {
+          if (
+            (window.innerWidth / 16 <= 40 ||
+              window.innerHeight / 16 <= 40) &&
+            this.mobileViewIsEnabled === null
+          ) {
             this.enableMobileView()
-          } else {
+          } else if (this.mobileViewIsEnabled) {
             this.disableMobileView()
           }
         }

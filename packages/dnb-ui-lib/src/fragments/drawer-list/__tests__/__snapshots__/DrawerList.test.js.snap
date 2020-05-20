@@ -673,7 +673,7 @@ exports[`DrawerList scss have to match snapshot 1`] = `
       animation: drawer-list-slide-down 200ms ease-out 1 forwards; }
     html[data-dnb-test] .dnb-drawer-list--opened .dnb-drawer-list__list, .dnb-drawer-list--opened .dnb-drawer-list__list--no-animation {
       animation: drawer-list-slide-down 1ms ease-out 1 forwards; }
-  @media screen and (max-width: 40em) {
+  @media screen and (max-width: 40em), screen and (max-height: 40em) {
     .dnb-drawer-list__portal .dnb-drawer-list--mobile-view.dnb-drawer-list--opened .dnb-drawer-list__list {
       z-index: 100;
       display: flex;
@@ -727,7 +727,7 @@ exports[`DrawerList scss have to match snapshot 1`] = `
   .dnb-drawer-list__portal .dnb-drawer-list--top .dnb-drawer-list__list {
     top: auto;
     bottom: 0; }
-  @media screen and (max-width: 40em) {
+  @media screen and (max-width: 40em), screen and (max-height: 40em) {
     .dnb-drawer-list__portal .dnb-drawer-list--mobile-view, .dnb-drawer-list__portal__style--mobile-view {
       top: 0 !important;
       right: 0 !important;
@@ -743,7 +743,7 @@ exports[`DrawerList scss have to match snapshot 1`] = `
     animation: drawer-list-slide-up 150ms ease-out 1 forwards; }
   html[data-dnb-test] .dnb-drawer-list:not(.dnb-drawer-list--opened) .dnb-drawer-list__list, .dnb-drawer-list:not(.dnb-drawer-list--opened) .dnb-drawer-list__list--no-animation {
     animation: drawer-list-slide-up 1ms ease-out 1 forwards; }
-  @media screen and (max-width: 40em) {
+  @media screen and (max-width: 40em), screen and (max-height: 40em) {
     .dnb-drawer-list__portal .dnb-drawer-list--mobile-view.dnb-drawer-list:not(.dnb-drawer-list--opened) .dnb-drawer-list__list {
       animation: drawer-list-scale-out 150ms ease-out 1 forwards; } }
   @media screen and (-ms-high-contrast: none) {

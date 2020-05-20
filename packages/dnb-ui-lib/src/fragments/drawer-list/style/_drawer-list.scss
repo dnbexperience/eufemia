@@ -256,7 +256,7 @@
   &--opened &__list {
     @include openDrawerList();
   }
-  @media screen and (max-width: 40em) {
+  @media screen and (max-width: 40em), screen and (max-height: 40em) {
     &__portal &--mobile-view#{&}--opened &__list {
       @include openDrawerList('scale');
     }
@@ -344,7 +344,7 @@
     bottom: 0;
   }
 
-  @media screen and (max-width: 40em) {
+  @media screen and (max-width: 40em), screen and (max-height: 40em) {
     &__portal &--mobile-view,
     &__portal__style--mobile-view {
       top: 0 !important;
@@ -366,7 +366,7 @@
   &:not(.dnb-drawer-list--opened) &__list {
     @include closDrawerList();
   }
-  @media screen and (max-width: 40em) {
+  @media screen and (max-width: 40em), screen and (max-height: 40em) {
     &__portal &--mobile-view#{&}:not(.dnb-drawer-list--opened) &__list {
       @include closDrawerList('scale');
     }
