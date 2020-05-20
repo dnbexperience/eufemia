@@ -63,7 +63,11 @@ function createMdxNode({
   const motherDir = node.fileAbsolutePath.replace('.md', '')
 
   // have this check in place only to skip not needed parts
-  if (/uilib/.test(motherDir)) {
+  if (
+    /uilib\/(components|patterns|elements|helpers|typography)/.test(
+      motherDir
+    )
+  ) {
     const parts = motherDir.split('/')
     parts.shift() // do not search on empty parts
 
