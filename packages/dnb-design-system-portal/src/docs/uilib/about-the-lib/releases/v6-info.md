@@ -39,7 +39,7 @@ More info and details in the respective documentation on:
 
 - [font-size](/uilib/typography/font-size)
 - [line-heigh](/uilib/typography/line-height)
-- [font-weight](/uilib/typography/font-weights)
+- [font-weight](/uilib/typography/font-weight)
 
 ### Adjustments
 

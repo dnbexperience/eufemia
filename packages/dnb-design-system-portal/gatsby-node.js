@@ -37,7 +37,7 @@ function createMdxNode({
   // get all nodes
   const nodes = getNodesByType('Mdx')
   nodes.forEach(
-    node =>
+    (node) =>
       (global.nodesCache[node.fileAbsolutePath.replace('.md', '')] = node)
   )
 
@@ -63,7 +63,7 @@ function createMdxNode({
   const motherDir = node.fileAbsolutePath.replace('.md', '')
 
   // have this check in place only to skip not needed parts
-  if (/uilib\/(components|patterns|elements|helpers)/.test(motherDir)) {
+  if (/uilib/.test(motherDir)) {
     const parts = motherDir.split('/')
     parts.shift() // do not search on empty parts
 
@@ -105,7 +105,7 @@ function createMdxNode({
   }
 }
 
-exports.createPages = async params => {
+exports.createPages = async (params) => {
   await createPages(params)
   await createRedirects(params)
 }
@@ -197,7 +197,7 @@ async function createRedirects({ graphql, actions }) {
 
   // Create redirects from the constructed array
   redirects.forEach(({ fromItems, toPath }) => {
-    fromItems.forEach(fromPath => {
+    fromItems.forEach((fromPath) => {
       const config = {
         fromPath,
         toPath: `/${toPath}`,
