@@ -27,13 +27,14 @@ $anchorBorderRadius: 0.25em;
   }
 
   .dnb-p &,
-  .dnb-h1 &,
-  .dnb-h2 &,
-  .dnb-h3 &,
   .dnb-lead &,
-  .dnb-h4 &,
-  .dnb-h5 &,
-  .dnb-h6 & {
+  .dnb-h--xx-large &,
+  .dnb-h--x-large &,
+  .dnb-h--large &,
+  .dnb-h--medium &,
+  .dnb-h--basis &,
+  .dnb-h--small &,
+  .dnb-h--x-small & {
     font-size: inherit;
   }
 }

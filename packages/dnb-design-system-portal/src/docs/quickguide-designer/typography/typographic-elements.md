@@ -2,7 +2,7 @@
 
 This is an overview of the default, basic typographic elements such as **headings**, **sub-headings**, **body text** etc.
 
-## H1 heading
+## Heading xx-large
 
 ### Specs:
 
@@ -15,7 +15,7 @@ This is an overview of the default, basic typographic elements such as **heading
 ### Example:
 
 <div className="typography-box">
-  <h1 className="dnb-h1 skip-anchor">
+  <h1 className="dnb-h--xx-large skip-anchor">
     Quem facilisi moderatius id eam, id tamquam albucius per.
   </h1>
   <p className="dnb-p">
@@ -23,7 +23,7 @@ This is an overview of the default, basic typographic elements such as **heading
   </p>
 </div>
 
-## H1 small heading
+## Heading x-large
 
 ### Specs:
 
@@ -36,17 +36,17 @@ This is an overview of the default, basic typographic elements such as **heading
 ### Example:
 
 <div className="typography-box">
-  <h1 className="dnb-h1 skip-anchor">
+  <h4 className="dnb-h--xx-large skip-anchor">
     <small>
       This part is small facilisi moderatius id eam, id tamquam albucius per. Vel quem congue appareat cu, mei te eros convenire
     </small>
-  </h1>
+  </h4>
   <p className="dnb-p">
     Quem facilisi moderatius id eam, id tamquam albucius per. Vel quem congue appareat cu, mei te eros convenire. Sea bonorum epicuri ea, ei exerci tacimates pro, aliquam pertinacia eu vim.
   </p>
 </div>
 
-## H2 Heading
+## Heading large
 
 ### Specs:
 
@@ -59,15 +59,15 @@ This is an overview of the default, basic typographic elements such as **heading
 ### Example:
 
 <div className="typography-box">
-  <h2 className="dnb-h2 skip-anchor">
+  <h4 className="dnb-h--large skip-anchor">
     Quem facilisi moderatius id eam, id tamquam albucius per. Vel quem congue appareat cu, mei te eros convenire. Sea bonorum epicuri ea, ei exerci tacimates pro.
-  </h2>
+  </h4>
   <p className="dnb-p">
     Quem facilisi moderatius id eam, id tamquam albucius per. Vel quem congue appareat cu, mei te eros convenire. Sea bonorum epicuri ea, ei exerci tacimates pro, aliquam pertinacia eu vim.
   </p>
 </div>
 
-## Lead (H3) - Heading and/or Block text
+## Lead (Heading medium)
 
 ### Specs:
 
@@ -80,16 +80,16 @@ This is an overview of the default, basic typographic elements such as **heading
 ### Example:
 
 <div className="typography-box">
-  <h3 className="dnb-lead skip-anchor">
+  <h4 className="dnb-lead skip-anchor">
     Quem facilisi moderatius id eam, id tamquam albucius per. Vel quem congue appareat cu, mei te eros convenire. Sea bonorum epicuri ea, ei exerci tacimates pro, aliquam pertinacia eu vim. Vix ei stet ornatus. Est mediocrem reprimique contentiones ei, mea
     ne primis intellegat. Dico purto nullam sea an.
-  </h3>
+  </h4>
   <p className="dnb-p">
     Quem facilisi moderatius id eam, id tamquam albucius per. Vel quem congue appareat cu, mei te eros convenire. Sea bonorum epicuri ea, ei exerci tacimates pro, aliquam pertinacia eu vim.
   </p>
 </div>
 
-## Body text (paragraph)
+## Body (paragraph)
 
 ### Specs:
 
@@ -110,7 +110,7 @@ This is an overview of the default, basic typographic elements such as **heading
   </p>
 </div>
 
-## Small Text
+## Body small
 
 ### Specs:
 

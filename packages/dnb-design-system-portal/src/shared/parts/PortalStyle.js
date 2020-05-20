@@ -96,7 +96,7 @@ export default css`
     padding-right: 1rem;
   }
 
-  .dev-grid > .dnb-h1 {
+  .dev-grid > .dnb-h--xx-large {
     position: relative;
     z-index: 2;
   }
@@ -218,7 +218,7 @@ export default css`
     ${gridStyle({ rgb: '164, 255, 255', a: 0.8 })};
 
     h1 {
-      margin-top: 0rem;
+      margin-top: 0;
     }
 
     ul {

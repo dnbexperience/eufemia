@@ -30,7 +30,7 @@ It uses the browser APIs `number.toLocaleString` or `Intl.NumberFormat.format` u
 
 ### Element and style
 
-The number component is style independent, so it has no visual styles. By default a `<span>` is used (with [`speak-as:numbers`](https://developer.mozilla.org/en-US/docs/Web/CSS/@counter-style/speak-as), even the support is very low). But you can easily change the element type by providing something else to `element="div"` property.
+The number component is style independent, so it has no visual styles. By default a `<span>` is used (with [speak-as: numbers](https://developer.mozilla.org/en-US/docs/Web/CSS/@counter-style/speak-as), even the support is very low). But you can easily change the element type by providing something else to `element="div"` property.
 
 ### Sources
 

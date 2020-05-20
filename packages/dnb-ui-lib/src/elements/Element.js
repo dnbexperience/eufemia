@@ -14,8 +14,30 @@ const Element = React.forwardRef(
     { className, class: _className, useClass, css, is: Tag, ...rest },
     ref
   ) => {
+    let style = Tag
+    switch (Tag) {
+      case 'h1':
+        style = 'h--xx-large'
+        break
+      case 'h2':
+        style = 'h--large'
+        break
+      case 'h3':
+        style = 'h--medium'
+        break
+      case 'h4':
+        style = 'h--basis'
+        break
+      case 'h5':
+        style = 'h--small'
+        break
+      case 'h6':
+        style = 'h--x-small'
+        break
+    }
+
     rest.className = classnames(
-      useClass ? useClass : `dnb-${Tag}`,
+      useClass ? useClass : `dnb-${style}`,
       createSpacingClasses(rest),
       className,
       _className,

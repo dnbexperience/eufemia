@@ -215,7 +215,7 @@ render(
 }
 
 const exampleContent = {
-  first: () => <h2 className="dnb-h2">First</h2>,
+  first: () => <h2 className="dnb-h--large">First</h2>,
   second: () => <Input label="Label:">Focus me with next Tab key</Input>,
   third: () => (
     <>

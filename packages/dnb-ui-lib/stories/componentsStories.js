@@ -81,7 +81,7 @@ stories.push([
         <Logo size="80" style={{ color: 'var(--color-fire-red)' }} />
       </Box>
       <Box>
-        <h1 className="dnb-h1">
+        <h1 className="dnb-h--xx-large">
           H1 with the DNB Logo <Logo size="auto" />
         </h1>
         <p className="dnb-p">

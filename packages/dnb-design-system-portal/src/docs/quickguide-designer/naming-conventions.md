@@ -50,7 +50,7 @@ Whereas in CSS as a custom property this is written:
 
 Colors have a naming convention across all platforms and formats. Please refer to the table in 'colors' section https://eufemia.dnb.no/quickguide-designer/colors.
 
-NB! Android and iOS will have a different format for the same names. This guide is for application in <b>web</b> products.
+**NB!** Android and iOS will have a different format for the same names. This guide is for application in **web** products.
 
 ### Naming conventions in design applications
 
@@ -61,13 +61,13 @@ However, in order to maintain consistency, in Figma we name Pages and Frames (ca
 Example of a Figma Page name:
 
 <div class="typography-box">
-Web components
+04 Spacing & Common components
 </div>
 
 Example of a Figma Frame name:
 
 <div class="typography-box">
-Spacing components
+02 Spacing components - horizontal
 </div>
 
 Actual components are written with all small letters.
@@ -78,4 +78,4 @@ Example of a Figma component name:
 date picker
 </div>
 
-If in doubt, look at the master Eufemia file.
+If in doubt, look at the master Eufemia file **Eufemia - Web**.

@@ -15,7 +15,7 @@ exports[`GlobalError scss have to match default theme snapshot 1`] = `
  */
 .dnb-global-error {
   background-color: var(--color-white); }
-  .dnb-global-error .dnb-h1 {
+  .dnb-global-error .dnb-h--xx-large {
     color: var(--color-fire-red); }
   .dnb-global-error .dnb-p {
     color: var(--color-ocean-green); }
@@ -497,7 +497,7 @@ button.dnb-button::-moz-focus-inner {
         margin-top: 0;
         transform: scale(0.8); } }
   @media (max-width: 40em) {
-    .dnb-global-error .dnb-h1.dnb-space__top--xx-large.dnb-space__top--x-small {
+    .dnb-global-error .dnb-h--xx-large.dnb-space__top--xx-large.dnb-space__top--x-small {
       margin-top: 0;
       font-size: var(--font-size-x-large); } }
 "
@@ -793,7 +793,7 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
             useClass={null}
           >
             <h1
-              className="dnb-h1 dnb-space__top--xx-large dnb-space__top--x-small dnb-space__bottom--large"
+              className="dnb-h--xx-large dnb-space__top--xx-large dnb-space__top--x-small dnb-space__bottom--large"
             >
               title
             </h1>

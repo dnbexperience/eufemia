@@ -18,8 +18,15 @@ v7 contains a couple of _braking changes_. As a migration process, you can simpl
 1. Find `['data-is-touch']` and replace it with `[data-whatintent='touch']`
 1. Find `isIE11` and replace it with `IS_IE11`
 1. Find `isEdge` and replace it with `IS_EDGE`
-1. The [Anchor (Text link)](/uilib/elements/anchor) has now also the defualt font-size of 18px (basis) - this means, you may have places where you would rather inherit the font-size by: `.dnb-anchor { font-size: inherit; }`
+1. Find `dnb-h1--small` and replace it with `dnb-h--x-large`
+1. Find `dnb-h1` and replace it with `dnb-h--xx-large`
+1. Find `dnb-h2` and replace it with `dnb-h--large`
+1. Find `dnb-h3` and replace it with `dnb-h--medium`
+1. Find `dnb-h4` and replace it with `dnb-h--basis`
+1. Find `dnb-h5` and replace it with `dnb-h--small`
+1. Find `dnb-h6` and replace it with `dnb-h--x-small`
 1. **For UMD usage only** find `dnb-ui-lib.min.js` replace it with `dnb-ui-web-components.min.js`
+1. The [Anchor (Text link)](/uilib/elements/anchor) has now also the defualt font-size of 18px (basis) - this means, you may have places where you would rather inherit the font-size by: `.dnb-anchor { font-size: inherit; }`
 1. New strings where added to the [language files](/uilib/usage/customisation/localization) `nb-NO.js` and `en-US.js`. If you have a customized localization ([changes or addition](https://gist.github.com/tujoworker/f754da1137507fdd5d4bb61949a92259/revisions)), then make sure you maintain these new groups of strings:
    - Autocomplete
    - Pagination
@@ -79,4 +86,4 @@ To upgrade to v7 with NPM, use:
 $ npm i dnb-ui-lib@7
 ```
 
-_May, 6. 2020_
+_May, 22. 2020_

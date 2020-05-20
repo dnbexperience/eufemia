@@ -44,7 +44,7 @@ import { H1, H2, Lead, P, Link } from 'dnb-ui-lib/elements'
 
 render(
   <article>
-    <H1>My h1</H1>
+    <H1>Semantic h1</H1>
     <P>My Paragraph</P>
   </article>
 )

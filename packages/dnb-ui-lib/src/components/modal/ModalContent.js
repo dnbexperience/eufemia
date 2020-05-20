@@ -118,7 +118,7 @@ export default class ModalContent extends React.PureComponent {
         try {
           this._contentRef.current.focus() // in case the button is disabled
           const focusElement = this._contentRef.current.querySelector(
-            '.dnb-h1:first-of-type, .dnb-h2:first-of-type, .dnb-modal__close-button'
+            '.dnb-h--xx-large:first-of-type, .dnb-h--large:first-of-type, .dnb-modal__close-button'
           )
           if (focusElement) {
             focusElement.focus()
@@ -333,7 +333,9 @@ export default class ModalContent extends React.PureComponent {
       <>
         <div {...contentParams}>
           <ScrollView {...innerParams} ref={this._contentRef}>
-            {title && <h1 className="dnb-modal__title dnb-h2">{title}</h1>}
+            {title && (
+              <h1 className="dnb-modal__title dnb-h--large">{title}</h1>
+            )}
             {isTrue(hide_close_button) !== true && (
               <CloseButton on_click={closeModal} title={close_title} />
             )}

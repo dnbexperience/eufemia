@@ -23,7 +23,12 @@ The DNB default Font Family is `DNB`. This font, together with it's weights is l
 
 ## Headings
 
-The DNB UX team has currently only defined tree levels of heading styles (h1, h2 and h3). But level 4, 5 and 6 are also supported by the `dnb-ui-lib`.
+The DNB UX team has defined four levels of heading styles:
+
+- **Heading xx-large**
+- **Heading x-large**
+- **Heading large**
+- **Heading medium** (Same as **Lead**)
 
 ### Think semantics first
 
@@ -31,9 +36,9 @@ You should [think semantics first](/uilib/usage/best-practices/for-typography#he
 
 If you have to use a paragraph or a arbitrary heading, and it has to **look like** a specific heading, you can use these classes:
 
-- `.dnb-h1`
-- `.dnb-h1--small`
-- `.dnb-h2`
+- `.dnb-h--xx-large`
+- `.dnb-h--xx-large--small`
+- `.dnb-h--large`
 - `.dnb-lead` (h3)
 
 Read more about [best practices for typography](/uilib/usage/best-practices/for-typography).
@@ -59,8 +64,8 @@ import { H1, H2, Lead, P, Link, ... } from 'dnb-ui-lib/elements'
 
 <CodeBlock reactLive hideCode caption="Default Heading typography">
 {`
-<h1 className="dnb-h1">H1</h1>
-<h2 className="dnb-h2">H2</h2>
+<h1 className="dnb-h--xx-large">H1</h1>
+<h2 className="dnb-h--large">H2</h2>
 <h3 className="dnb-lead">Lead</h3>
 `}
 </CodeBlock>
@@ -68,11 +73,11 @@ import { H1, H2, Lead, P, Link, ... } from 'dnb-ui-lib/elements'
 <CodeBlock reactLive hideCode data-dnb-test="heading-additional" caption="Additional Heading typography">
 {`
 <article>
-  <h1 className="dnb-h1">
+  <h1 className="dnb-h--xx-large">
     <small>Small H1</small> Normal H1
   </h1>
-  <h1 className="dnb-h1 dnb-h1--small">Small H1 with class</h1>
-  <h2 className="dnb-h2">
+  <h1 className="dnb-h--xx-large dnb-h--xx-large--small">Small H1 with class</h1>
+  <h2 className="dnb-h--large">
     Normal H2 <small>Small H2</small>
   </h2>
   <h3 className="dnb-lead">

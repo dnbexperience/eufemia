@@ -40,12 +40,12 @@ const CustomStyle = styled.div`
 
 const Typography = () => (
   <CustomStyle>
-    <h1 className="dnb-h1">H1</h1>
-    <h2 className="dnb-h2">H2</h2>
-    <h3 className="dnb-h3">H3</h3>
-    <h4 className="dnb-h4">H4</h4>
-    <h5 className="dnb-h5">H5</h5>
-    <h6 className="dnb-h6">H6</h6>
+    <h1 className="dnb-h--xx-large">H1</h1>
+    <h2 className="dnb-h--large">H2</h2>
+    <h3 className="dnb-h--medium">H3</h3>
+    <h4 className="dnb-h--basis">H4</h4>
+    <h5 className="dnb-h--small">H5</h5>
+    <h6 className="dnb-h--x-small">H6</h6>
     <p className="dnb-p">
       Paragraph with Link{' '}
       <a className="dnb-anchor" href="#anchor">
@@ -66,18 +66,18 @@ stories.push([
       <CustomStyle>
         <Box>
           <article>
-            <h1 className="dnb-h1">H1</h1>
+            <h1 className="dnb-h--xx-large">H1</h1>
             <p className="dnb-p">Paragraph A</p>
             <p className="dnb-p">Paragraph B</p>
             <p className="dnb-p">Paragraph C</p>
           </article>
           <article>
-            <h2 className="dnb-h2">H2</h2>
+            <h2 className="dnb-h--large">H2</h2>
             <p className="dnb-p">Paragraph A</p>
             <p className="dnb-p">Paragraph B</p>
             <p className="dnb-p">Paragraph C</p>
           </article>
-          <h2 className="dnb-h2">H3</h2>
+          <h2 className="dnb-h--large">H3</h2>
         </Box>
       </CustomStyle>
     </Wrapper>
@@ -115,54 +115,54 @@ stories.push([
         </Box>
         <Box>
           {/* h1 */}
-          <h1 className="dnb-h1">
+          <h1 className="dnb-h--xx-large">
             <small>Small H1</small> Normal H1
           </h1>
-          <h1 className="dnb-h1">
+          <h1 className="dnb-h--xx-large">
             <small>Small only H1</small>
           </h1>
-          <h1 className="dnb-h1 dnb-small">Small class H1</h1>
+          <h1 className="dnb-h--xx-large dnb-small">Small class H1</h1>
         </Box>
         <Box>
           {/* h2 */}
-          <h2 className="dnb-h2">
+          <h2 className="dnb-h--large">
             Normal H2 <small>Small H2</small>
           </h2>
-          <h2 className="dnb-h2">
+          <h2 className="dnb-h--large">
             <small>Small only H2</small>
           </h2>
-          <h2 className="dnb-h2 dnb-small">Small class H2</h2>
+          <h2 className="dnb-h--large dnb-small">Small class H2</h2>
         </Box>
         <Box>
           {/* h3 */}
-          <h3 className="dnb-h3">
+          <h3 className="dnb-h--medium">
             Normal H3 <small>Small H3</small>
           </h3>
-          <h3 className="dnb-h3">
+          <h3 className="dnb-h--medium">
             <small>Small only H3</small>
           </h3>
-          <h3 className="dnb-h3 dnb-small">Small class H3</h3>
+          <h3 className="dnb-h--medium dnb-small">Small class H3</h3>
         </Box>
         <Box>
           {/* h4 */}
-          <h4 className="dnb-h4">
+          <h4 className="dnb-h--basis">
             Normal H4 <small>H4 Small</small>
           </h4>
-          <h4 className="dnb-h4">Normal H4</h4>
+          <h4 className="dnb-h--basis">Normal H4</h4>
         </Box>
         <Box>
           {/* h5 */}
-          <h5 className="dnb-h5">
+          <h5 className="dnb-h--small">
             Normal H5 <small>H5 Small</small>
           </h5>
-          <h5 className="dnb-h5">Normal H5</h5>
+          <h5 className="dnb-h--small">Normal H5</h5>
         </Box>
         <Box>
           {/* h6 */}
-          <h6 className="dnb-h6">
+          <h6 className="dnb-h--x-small">
             Normal H6 <small>H6 Small</small>
           </h6>
-          <h6 className="dnb-h6">Normal H6</h6>
+          <h6 className="dnb-h--x-small">Normal H6</h6>
         </Box>
       </CustomStyle>
     </Wrapper>

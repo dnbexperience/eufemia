@@ -45,7 +45,7 @@ export default class Icons extends React.PureComponent {
 
               <AutoLinkHeader
                 is="figcaption"
-                className="dnb-h3"
+                className="dnb-h--medium"
                 useSlug={`icon-${name}`}
               >
                 {humanFormat(name)}
@@ -89,8 +89,8 @@ const ListItemInner = styled.div`
 
   padding: 0.5rem 0;
 
-  .dnb-h3,
-  .dnb-spacing & .dnb-h3 {
+  .dnb-h--medium,
+  .dnb-spacing & .dnb-h--medium {
     margin: 1rem 0 0;
     white-space: nowrap;
   }

@@ -10,11 +10,11 @@ import E from './Element'
 
 const H1 = ({ style_type, className, ...p }) => {
   if (style_type) {
-    className = classnames(`dnb-h1--${style_type}`, className)
+    className = classnames(`dnb-h--xx-large--${style_type}`, className)
   }
   return <E is="h1" {...p} className={className} />
 }
-H1.tagName = 'dnb-h1'
+H1.tagName = 'dnb-h--xx-large'
 H1.propTypes = {
   className: PropTypes.string,
   style_type: PropTypes.string

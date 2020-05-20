@@ -27,11 +27,11 @@ There are several packages you can use and combine.
 - **dnb-ui-body** - includes the default body style and a CSS reset (normalize).
 - **dnb-ui-basis** - includes everything from `dnb-ui-core`, except `dnb-ui-body`
   - **NB:** needs a `.dnb-core-style` [wrapper class](/uilib/usage/customisation/styling#core-style).
-- **dnb-ui-elements** - includes only the styles for [HTML Elements](/uilib/elements) CSS classes, like `.dnb-h1`.
+- **dnb-ui-elements** - includes only the styles for [HTML Elements](/uilib/elements) CSS classes, like `.dnb-h--xx-large`.
 
 ## Additional Packages
 
-- **dnb-ui-tags** - this package will force styles on all the HTML Tags like `<h1>` instead of CSS classes, like `.dnb-h1`
+- **dnb-ui-tags** - this package will force styles on all the HTML Tags like `<h1>` instead of CSS classes, like `.dnb-h--xx-large`
   - **NB:** needs a `.dnb-core-style` [wrapper class](/uilib/usage/customisation/styling#core-style).
   - Use it carefully - because this will effect existing styles as well.
 - **dnb-ui-properties** - includes only the CSS Custom Properties.
@@ -79,7 +79,7 @@ If You neither include the **dnb-ui-core** nor the **dnb-ui-body** package, then
   <p>I'm not Eufemia</p>
   <!-- Wrapper to have correct Eufemia css reset and styles -->
   <div id="app" class="dnb-core-style">
-    <h1 class="dnb-h1">I have an Eufemia Style</h1>
+    <h1 class="dnb-h--xx-large">I have an Eufemia Style</h1>
     <p class="dnb-p">👉 Me as well</p>
   </div>
 </body>
@@ -120,7 +120,9 @@ Effected HTML Elements inside this container will then have a default spacing. T
 ```html
 <article class="dnb-spacing">
   <!-- DNB spacings -->
-  <h1 class="dnb-h1">e.g. I have now the Eufemia spacing (margin)</h1>
+  <h1 class="dnb-h--xx-large">
+    e.g. I have now the Eufemia spacing (margin)
+  </h1>
   <p class="dnb-p">👉 Me as well</p>
 </article>
 ```
@@ -130,7 +132,7 @@ For more details, check out the source file: `spacing.scss`
 
 ## Styling of HTML Elements (tags)
 
-To deal with HTML Elements, without declaring them individual with the right css classes, like `<h1 class="dnb-h1">`, You can import the sub package **dnb-ui-tags**.
+To deal with HTML Elements, without declaring them individual with the right css classes, like `<h1 class="dnb-h--xx-large">`, You can import the sub package **dnb-ui-tags**.
 
 **NB:** Use it carefully - cause this will effect existing styles as well!
 

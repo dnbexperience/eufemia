@@ -98,9 +98,31 @@ const AutoLinkHeader = ({
           }
         }
 
+  let style = Component
+  switch (Component) {
+    case 'h1':
+      style = 'h--xx-large'
+      break
+    case 'h2':
+      style = 'h--large'
+      break
+    case 'h3':
+      style = 'h--medium'
+      break
+    case 'h4':
+      style = 'h--basis'
+      break
+    case 'h5':
+      style = 'h--small'
+      break
+    case 'h6':
+      style = 'h--x-small'
+      break
+  }
+
   return (
     <Component
-      className={classnames(`dnb-${Component}`, className)}
+      className={classnames(`dnb-${style}`, className)}
       css={anchorLinkStyle}
       {...props}
     >

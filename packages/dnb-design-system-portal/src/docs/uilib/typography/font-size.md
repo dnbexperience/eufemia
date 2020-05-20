@@ -12,10 +12,10 @@ order: 2
 | 14px  | `x-small`  | **0.875rem** | `--font-size-x-small`  |                                 |
 | 16px  | `small`    | **1rem**     | `--font-size-small`    | [Fallback](#fallback-font-size) |
 | 18px  | `basis`    | **1.125rem** | `--font-size-basis`    | Body text                       |
-| 20px  | `medium`   | **1.25rem**  | `--font-size-medium`   | H3                              |
-| 26px  | `large`    | **1.625rem** | `--font-size-large`    | H2                              |
-| 34px  | `x-large`  | **2.125rem** | `--font-size-x-large`  | H1 small                        |
-| 48px  | `xx-large` | **3rem**     | `--font-size-xx-large` | H1                              |
+| 20px  | `medium`   | **1.25rem**  | `--font-size-medium`   | Heading / Lead                  |
+| 26px  | `large`    | **1.625rem** | `--font-size-large`    | Heading                         |
+| 34px  | `x-large`  | **2.125rem** | `--font-size-x-large`  | Heading                         |
+| 48px  | `xx-large` | **3rem**     | `--font-size-xx-large` | Heading                         |
 
 ## Additional `font-size` **em** table
 

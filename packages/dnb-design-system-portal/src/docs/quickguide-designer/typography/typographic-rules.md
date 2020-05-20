@@ -12,7 +12,7 @@ The Eufemia typographic scale is as follows:
 
 _16px, 18px, 20px, 26px, 34px, 48px_
 
-**NB!** we use `em` and `rem` for setting the size in code **not** pixels.
+**NB!** we use `rem` for setting the size in code **not** pixels.
 
 Line-heights vary depending on context but adhere to the Eufemia space units (multiples of 8 including halves (4px)).
 
@@ -26,7 +26,7 @@ Blocks of text (headings and body etc.) do not have TOP, RIGHT, BOTTOM or LEFT m
 
 ```html
 <div class="dnb-spacing">
-  <h1 class="dnb-h1">...</h1>
+  <h1 class="dnb-h--xx-large">...</h1>
   <p class="dnb-p">...</p>
 </div>
 ```
