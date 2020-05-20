@@ -139,7 +139,7 @@ export const isValidSpaceProp = (prop) =>
   prop && ['top', 'right', 'bottom', 'left'].includes(prop)
 
 // Creates a valid space CSS class out from given space types
-export const createSpacingClasses = (props) =>
+export const createSpacingClasses = (props, Element = null) =>
   Object.entries(props).reduce((acc, [direction, cur]) => {
     if (isValidSpaceProp(direction)) {
       if (String(cur) === '0' || String(cur) === 'false') {
@@ -166,6 +166,11 @@ export const createSpacingClasses = (props) =>
             )
           ]
         }
+      }
+    } else if (direction === 'no_collapse') {
+      acc.push('dnb-space--no-collapse')
+      if (Element && isInline(Element)) {
+        acc.push('dnb-space--inline')
       }
     }
 
@@ -199,4 +204,21 @@ export const createStyleObject = (props) => {
     }
     return acc
   }, {})
+}
+
+export const isInline = (Element) => {
+  let inline = false
+  switch (Element) {
+    case 'h1':
+    case 'h2':
+    case 'h3':
+    case 'h4':
+    case 'h5':
+    case 'h6':
+    case 'p':
+      inline = true
+      break
+  }
+
+  return inline
 }

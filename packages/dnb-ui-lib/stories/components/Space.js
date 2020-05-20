@@ -36,7 +36,7 @@ export default [
       <Box>
         <Provider
           space={{
-            collapse: false
+            no_collapse: true
           }}
         >
           <Collapsing bottom="small">
@@ -48,7 +48,7 @@ export default [
         </Provider>
       </Box>
       <Box>
-        <Collapsing bottom="small" collapse={false}>
+        <Collapsing bottom="small" no_collapse={true}>
           <div>
             I have <code className="dnb-code">bottom="small"</code>
           </div>
