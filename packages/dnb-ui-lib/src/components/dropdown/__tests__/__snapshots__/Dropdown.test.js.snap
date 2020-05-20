@@ -1840,7 +1840,7 @@ legend.dnb-form-label {
   .dnb-dropdown > .dnb-form-label {
     margin-right: 1rem;
     line-height: var(--line-height-basis); }
-  @media (max-width: 40em) {
+  @media screen and (max-width: 40em) {
     .dnb-dropdown {
       flex-wrap: wrap; }
       .dnb-dropdown > .dnb-form-label {
@@ -1861,7 +1861,7 @@ legend.dnb-form-label {
     align-items: flex-start; }
     .dnb-dropdown[class*='__status'] > .dnb-form-label {
       margin-top: 0.25rem; }
-  @media (max-width: 40em) {
+  @media screen and (max-width: 40em) {
     .dnb-responsive-component .dnb-dropdown {
       display: flex;
       flex-direction: column;

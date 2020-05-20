@@ -131,7 +131,7 @@
       min-width: var(--modal-drawer-min-width);
       max-width: var(--modal-drawer-max-width);
 
-      @media (max-width: 40em) {
+      @media screen and (max-width: 40em) {
         width: 100vw;
         min-width: auto;
         max-width: auto;
@@ -169,7 +169,7 @@
     &--no-animation &__inner {
       animation-duration: 0ms !important;
     }
-    @media (max-width: 40em) {
+    @media screen and (max-width: 40em) {
       &--no-animation-on-mobile &__inner {
         animation-duration: 0ms !important;
       }
@@ -248,7 +248,7 @@
     &--no-animation {
       animation-duration: 0ms !important;
     }
-    @media (max-width: 40em) {
+    @media screen and (max-width: 40em) {
       &--no-animation-on-mobile {
         animation-duration: 0ms !important;
       }

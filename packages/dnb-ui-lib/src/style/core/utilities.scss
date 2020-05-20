@@ -149,6 +149,18 @@ $focusRingColor: var(--color-emerald-green);
   }
 }
 
+@mixin scrollY($mode: scroll) {
+  overflow-y: $mode;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+
+  // older iOS safari
+  -webkit-overflow-scrolling: touch;
+
+  // show scrollbar on IE
+  -ms-overflow-style: auto;
+}
+
 $breakpoints: (
   'small': 40em,
   'medium': 50em,
@@ -264,7 +276,7 @@ $breakpoints: (
 }
 
 @mixin formLabelWrap() {
-  @media (max-width: 40em) {
+  @media screen and (max-width: 40em) {
     flex-wrap: wrap;
     & > .dnb-form-label {
       margin-bottom: 0.5rem;

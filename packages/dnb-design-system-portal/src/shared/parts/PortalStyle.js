@@ -50,7 +50,7 @@ if (typeof window !== 'undefined' && window.IS_TEST) {
 
 export default css`
   ${'' /* .dnb-form-component {
-    @media (max-width: 40em) {
+    @media screen and (max-width: 40em) {
       flex-wrap: wrap;
       & > .dnb-form-label {
         margin-bottom: 0.5rem;

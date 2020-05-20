@@ -359,7 +359,7 @@ export default class DrawerListProvider extends React.PureComponent {
         }
 
         if (useMobileView) {
-          // Like @media (max-width: 40em) { ...
+          // Like @media screen and (max-width: 40em) { ...
           if (window.innerWidth / 16 <= 40) {
             this.enableMobileView()
           } else {

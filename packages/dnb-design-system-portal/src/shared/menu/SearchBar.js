@@ -109,10 +109,10 @@ export const SearchBarInput = () => {
             }
 
             .dnb-drawer-list__list {
-              @media (max-width: 40em) {
+              @media screen and (max-width: 40em) {
                 left: 10vw;
               }
-              @media (max-width: 30em) {
+              @media screen and (max-width: 30em) {
                 left: 15vw;
               }
             }
@@ -120,10 +120,10 @@ export const SearchBarInput = () => {
             .dnb-drawer-list__triangle {
               left: 10vw;
               transform: translateX(0.25rem);
-              @media (max-width: 60em) {
+              @media screen and (max-width: 60em) {
                 left: 30vw;
               }
-              @media (max-width: 40em) {
+              @media screen and (max-width: 40em) {
                 left: 20vw;
               }
             }
@@ -162,7 +162,7 @@ const StyledAutocomplete = styled(Autocomplete)`
     &,
     input {
       width: 40vw;
-      @media (max-width: 40em) {
+      @media screen and (max-width: 40em) {
         width: 60vw;
       }
     }
@@ -170,10 +170,10 @@ const StyledAutocomplete = styled(Autocomplete)`
 
   .dnb-drawer-list__root {
     width: 50vw;
-    @media (max-width: 60em) {
+    @media screen and (max-width: 60em) {
       width: 70vw;
     }
-    @media (max-width: 40em) {
+    @media screen and (max-width: 40em) {
       width: 90vw;
     }
   }

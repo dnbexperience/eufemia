@@ -23,7 +23,7 @@
     max-width: var(--layout-large);
 
     padding: var(--spacing-large);
-    @media (max-width: 40em) {
+    @media screen and (max-width: 40em) {
       padding: 0 var(--spacing-x-small);
     }
 
@@ -39,24 +39,24 @@
     z-index: 1; // make sure to be above the image on small screens
     top: var(--spacing-large);
     left: var(--spacing-large);
-    @media (max-width: 90em) {
+    @media screen and (max-width: 90em) {
       left: var(--spacing-x-small);
     }
   }
 
   &__gfx {
     margin-top: 9rem; // IE fallback
-    @media (max-width: 90em) {
+    @media screen and (max-width: 90em) {
       margin-top: 8vw;
       margin-top: calc(4vw + 4vh);
     }
-    @media (max-width: 40em) {
+    @media screen and (max-width: 40em) {
       margin-top: 0;
       transform: scale(0.8);
     }
   }
   .dnb-h--xx-large.dnb-space__top--xx-large.dnb-space__top--x-small {
-    @media (max-width: 40em) {
+    @media screen and (max-width: 40em) {
       margin-top: 0;
       font-size: var(--font-size-x-large);
     }

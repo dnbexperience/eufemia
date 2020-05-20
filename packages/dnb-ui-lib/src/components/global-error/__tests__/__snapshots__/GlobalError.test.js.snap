@@ -473,7 +473,7 @@ button.dnb-button::-moz-focus-inner {
     max-width: var(--layout-large);
     padding: var(--spacing-large);
     text-align: center; }
-    @media (max-width: 40em) {
+    @media screen and (max-width: 40em) {
       .dnb-global-error__inner {
         padding: 0 var(--spacing-x-small); } }
     .dnb-global-error__inner__content {
@@ -483,20 +483,20 @@ button.dnb-button::-moz-focus-inner {
     z-index: 1;
     top: var(--spacing-large);
     left: var(--spacing-large); }
-    @media (max-width: 90em) {
+    @media screen and (max-width: 90em) {
       .dnb-global-error__back.dnb-button--tertiary {
         left: var(--spacing-x-small); } }
   .dnb-global-error__gfx {
     margin-top: 9rem; }
-    @media (max-width: 90em) {
+    @media screen and (max-width: 90em) {
       .dnb-global-error__gfx {
         margin-top: 8vw;
         margin-top: calc(4vw + 4vh); } }
-    @media (max-width: 40em) {
+    @media screen and (max-width: 40em) {
       .dnb-global-error__gfx {
         margin-top: 0;
         transform: scale(0.8); } }
-  @media (max-width: 40em) {
+  @media screen and (max-width: 40em) {
     .dnb-global-error .dnb-h--xx-large.dnb-space__top--xx-large.dnb-space__top--x-small {
       margin-top: 0;
       font-size: var(--font-size-x-large); } }

@@ -94,7 +94,7 @@ exports[`FormRow scss have to match default theme snapshot 1`] = `
 .dnb-form-row:not(.dnb-form-row--vertical).dnb-form-row__indent--default > .dnb-form-label, .dnb-form-row:not(.dnb-form-row--vertical).dnb-form-row__indent--medium > .dnb-form-label {
   width: 30vw;
   max-width: 20rem; }
-  @media (max-width: 40em) {
+  @media screen and (max-width: 40em) {
     .dnb-form-row:not(.dnb-form-row--vertical).dnb-form-row__indent--default > .dnb-form-label, .dnb-form-row:not(.dnb-form-row--vertical).dnb-form-row__indent--medium > .dnb-form-label {
       width: auto; } }
 "
@@ -265,7 +265,7 @@ legend.dnb-form-label {
     .dnb-form-row:not(.dnb-form-row--vertical)[class*='__indent'] > .dnb-form-row__content {
       grid-column: column2-start / column2-end;
       grid-row: row2-start / row2-end; } }
-  @media (min-width: 40em) {
+  @media screen and (min-width: 40em) {
     .dnb-form-row:not(.dnb-form-row--vertical)[class*='__indent'] > .dnb-form-row__content--default {
       margin-top: -1.5rem; }
     .dnb-form-row:not(.dnb-form-row--vertical)[class*='__indent'] > .dnb-form-row__content--x-small {
@@ -285,7 +285,7 @@ legend.dnb-form-label {
   @media screen and (-ms-high-contrast: none) {
     .dnb-form-row:not(.dnb-form-row--vertical)[class*='__indent'] > .dnb-form-row__content {
       margin-top: 0; } }
-  @media (max-width: 40em) {
+  @media screen and (max-width: 40em) {
     .dnb-form-row:not(.dnb-form-row--vertical)[class*='__indent'] > .dnb-form-row__content {
       margin-top: 0.5rem !important; } }
   .dnb-form-row:not(.dnb-form-row--vertical)[class*='__indent'] > .dnb-form-label {
@@ -294,15 +294,15 @@ legend.dnb-form-label {
       .dnb-form-row:not(.dnb-form-row--vertical)[class*='__indent'] > .dnb-form-label {
         grid-column: column1-start / column1-end;
         grid-row: row1-start / row1-end; } }
-    @media (min-width: 40em) {
+    @media screen and (min-width: 40em) {
       .dnb-form-row:not(.dnb-form-row--vertical)[class*='__indent'] > .dnb-form-label {
         text-align: right; } }
-  @media (max-width: 40em) {
+  @media screen and (max-width: 40em) {
     .dnb-form-row:not(.dnb-form-row--vertical)[class*='__indent'] {
       display: block; } }
   .dnb-form-row:not(.dnb-form-row--vertical)[class*='__indent'] .dnb-form-row__label-dummy {
     margin-top: 0; }
-  @media (max-width: 40em) {
+  @media screen and (max-width: 40em) {
     .dnb-form-row:not(.dnb-form-row--vertical) {
       flex-direction: column;
       align-items: flex-start; }

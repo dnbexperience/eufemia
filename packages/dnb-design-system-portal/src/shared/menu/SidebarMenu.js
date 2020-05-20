@@ -238,7 +238,7 @@ const Navigation = styled.nav`
   -ms-overflow-style: none;
 
   /* make the sidemenu accsible for screenreaders on mobile devices  */
-  @media (max-width: 50em) {
+  @media screen and (max-width: 50em) {
     position: relative;
     height: auto;
     overflow: auto;
@@ -259,13 +259,13 @@ const Navigation = styled.nav`
     God for a mobile menu insted
     make sure that Content main "styled.main" gets the same max-width
   */
-  @media (max-width: 50em) {
+  @media screen and (max-width: 50em) {
     &:not(.show-mobile-menu) {
       display: none;
     }
   }
 
-  @media (max-width: 50em) {
+  @media screen and (max-width: 50em) {
     position: relative;
     ul {
       width: 100vw;
@@ -420,7 +420,7 @@ export default class SidebarLayout extends React.PureComponent {
           styles={css`
             :root {
               --level-offset: 3vw;
-              @media (max-width: 50em) {
+              @media screen and (max-width: 50em) {
                 --level-offset: 2rem;
               }
 
@@ -432,7 +432,7 @@ export default class SidebarLayout extends React.PureComponent {
               --level-icon-adjust: -40px;
               --level: 2vw;
 
-              @media (max-width: 50em) {
+              @media screen and (max-width: 50em) {
                 --level: 1.3rem;
               }
             }

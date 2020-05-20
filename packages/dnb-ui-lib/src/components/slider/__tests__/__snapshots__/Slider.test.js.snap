@@ -1137,7 +1137,7 @@ legend.dnb-form-label {
     margin-top: 0.5rem; }
   .dnb-slider--vertical .dnb-form-status {
     margin-top: 1rem; }
-  @media (max-width: 40em) {
+  @media screen and (max-width: 40em) {
     .dnb-responsive-component .dnb-slider {
       display: flex;
       flex-direction: column;

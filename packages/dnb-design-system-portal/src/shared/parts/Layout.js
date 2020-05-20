@@ -132,7 +132,7 @@ const Wrapper = styled.div`
   display: flex;
   justify-content: space-between; /* pos Footer at the bottom */
 
-  @media (max-width: 50em) {
+  @media screen and (max-width: 50em) {
     display: block;
   }
 `
@@ -187,7 +187,7 @@ const ContentWrapper = styled.div`
   border-left: 1px solid var(--color-black-border);
 
   /* make sure that Sidebar aside "styled.aside" gets the same max-width */
-  @media (max-width: 50em) {
+  @media screen and (max-width: 50em) {
     margin-left: 0;
     padding-left: 0;
   }
@@ -201,7 +201,7 @@ const ContentWrapper = styled.div`
   /* for whider screens */
   &:not(.fullscreen-page) {
     .dnb-app-content-inner > div:first-of-type {
-      @media (min-width: 70em) {
+      @media screen and (min-width: 70em) {
         max-width: 70rem;
       }
     }

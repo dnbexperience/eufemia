@@ -1799,7 +1799,7 @@ legend.dnb-form-label {
     padding-right: 3rem; }
   .dnb-input > .dnb-form-label {
     line-height: var(--line-height-basis); }
-  @media (max-width: 40em) {
+  @media screen and (max-width: 40em) {
     .dnb-input {
       flex-wrap: wrap; }
       .dnb-input > .dnb-form-label {
@@ -1809,7 +1809,7 @@ legend.dnb-form-label {
     align-items: flex-start; }
     .dnb-input[class*='__status'] > .dnb-form-label {
       margin-top: 0.25rem; }
-  @media (max-width: 40em) {
+  @media screen and (max-width: 40em) {
     .dnb-responsive-component .dnb-input {
       display: flex;
       flex-direction: column;
@@ -2101,7 +2101,7 @@ legend.dnb-form-label {
   .dnb-autocomplete > .dnb-form-label {
     margin-right: 1rem;
     line-height: var(--line-height-basis); }
-  @media (max-width: 40em) {
+  @media screen and (max-width: 40em) {
     .dnb-autocomplete {
       flex-wrap: wrap; }
       .dnb-autocomplete > .dnb-form-label {
@@ -2122,7 +2122,7 @@ legend.dnb-form-label {
     align-items: flex-start; }
     .dnb-autocomplete[class*='__status'] > .dnb-form-label {
       margin-top: 0.25rem; }
-  @media (max-width: 40em) {
+  @media screen and (max-width: 40em) {
     .dnb-responsive-component .dnb-autocomplete {
       display: flex;
       flex-direction: column;

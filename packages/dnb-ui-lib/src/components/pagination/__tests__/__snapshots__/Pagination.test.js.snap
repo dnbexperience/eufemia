@@ -822,7 +822,7 @@ exports[`Pagination scss have to match default theme snapshot 1`] = `
 .dnb-pagination__dots > div {
   background-color: var(--color-emerald-green); }
 
-@media (max-width: 40em) {
+@media screen and (max-width: 40em) {
   .dnb-pagination--many-pages .dnb-pagination__bar__inner .dnb-pagination__button:not([aria-current]):nth-of-type(2),
   .dnb-pagination--many-pages .dnb-pagination__bar__inner .dnb-pagination__button:not([aria-current]):nth-last-of-type(2) {
     width: 0;
@@ -1383,7 +1383,7 @@ button.dnb-button::-moz-focus-inner {
     justify-content: flex-start; }
   .dnb-pagination--center .dnb-pagination__bar {
     justify-content: center; }
-    @media (max-width: 40em) {
+    @media screen and (max-width: 40em) {
       .dnb-pagination--center .dnb-pagination__bar {
         justify-content: flex-start; } }
   .dnb-pagination--right .dnb-pagination__bar {

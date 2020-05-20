@@ -334,7 +334,7 @@ exports[`DrawerList scss have to match default theme snapshot 1`] = `
     box-shadow: 0 1px 6px rgba(0, 0, 0, 0.16);
     border-radius: var(--drawer-list-options-border-radius);
     background-color: var(--drawer-list-option-background-color); }
-  @media (max-width: 40em) {
+  @media screen and (max-width: 40em) {
     .dnb-drawer-list__portal .dnb-drawer-list--mobile-view .dnb-drawer-list__list {
       border-radius: 0; } }
   .dnb-drawer-list__options {
@@ -347,7 +347,7 @@ exports[`DrawerList scss have to match default theme snapshot 1`] = `
         box-shadow: 0 0 0 0.125rem var(--color-emerald-green);
         /* IE11 fix */
         border-color: transparent; }
-  @media (max-width: 40em) {
+  @media screen and (max-width: 40em) {
     .dnb-drawer-list__portal .dnb-drawer-list--mobile-view .dnb-drawer-list__options {
       border-radius: 0; } }
   .dnb-drawer-list__option {
@@ -447,7 +447,7 @@ exports[`DrawerList scss have to match default theme snapshot 1`] = `
     border-radius: 0 0 var(--drawer-list-options-border-radius) var(--drawer-list-options-border-radius); }
   .dnb-drawer-list--top .dnb-drawer-list__option--focus.closest-to-top .dnb-drawer-list__option__inner {
     border-radius: var(--drawer-list-options-border-radius) var(--drawer-list-options-border-radius) 0 0; }
-  @media (max-width: 40em) {
+  @media screen and (max-width: 40em) {
     .dnb-drawer-list__portal .dnb-drawer-list--mobile-view .dnb-drawer-list__option__inner {
       border-radius: 0; } }
   .dnb-drawer-list__status--error:not(.dnb-drawer-list--opened) .dnb-drawer-list__icon {
@@ -673,7 +673,7 @@ exports[`DrawerList scss have to match snapshot 1`] = `
       animation: drawer-list-slide-down 200ms ease-out 1 forwards; }
     html[data-dnb-test] .dnb-drawer-list--opened .dnb-drawer-list__list, .dnb-drawer-list--opened .dnb-drawer-list__list--no-animation {
       animation: drawer-list-slide-down 1ms ease-out 1 forwards; }
-  @media (max-width: 40em) {
+  @media screen and (max-width: 40em) {
     .dnb-drawer-list__portal .dnb-drawer-list--mobile-view.dnb-drawer-list--opened .dnb-drawer-list__list {
       z-index: 100;
       display: flex;
@@ -727,7 +727,7 @@ exports[`DrawerList scss have to match snapshot 1`] = `
   .dnb-drawer-list__portal .dnb-drawer-list--top .dnb-drawer-list__list {
     top: auto;
     bottom: 0; }
-  @media (max-width: 40em) {
+  @media screen and (max-width: 40em) {
     .dnb-drawer-list__portal .dnb-drawer-list--mobile-view, .dnb-drawer-list__portal__style--mobile-view {
       top: 0 !important;
       right: 0 !important;
@@ -743,7 +743,7 @@ exports[`DrawerList scss have to match snapshot 1`] = `
     animation: drawer-list-slide-up 150ms ease-out 1 forwards; }
   html[data-dnb-test] .dnb-drawer-list:not(.dnb-drawer-list--opened) .dnb-drawer-list__list, .dnb-drawer-list:not(.dnb-drawer-list--opened) .dnb-drawer-list__list--no-animation {
     animation: drawer-list-slide-up 1ms ease-out 1 forwards; }
-  @media (max-width: 40em) {
+  @media screen and (max-width: 40em) {
     .dnb-drawer-list__portal .dnb-drawer-list--mobile-view.dnb-drawer-list:not(.dnb-drawer-list--opened) .dnb-drawer-list__list {
       animation: drawer-list-scale-out 150ms ease-out 1 forwards; } }
   @media screen and (-ms-high-contrast: none) {

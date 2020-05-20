@@ -1116,7 +1116,7 @@ button.dnb-button::-moz-focus-inner {
       width: var(--modal-drawer-width);
       min-width: var(--modal-drawer-min-width);
       max-width: var(--modal-drawer-max-width); }
-      @media (max-width: 40em) {
+      @media screen and (max-width: 40em) {
         .dnb-modal__content--drawer .dnb-modal__content__inner {
           width: 100vw;
           min-width: auto;
@@ -1140,7 +1140,7 @@ button.dnb-button::-moz-focus-inner {
       animation: hide-modal 220ms ease-in-out forwards; }
     .dnb-modal__content--no-animation .dnb-modal__content__inner {
       animation-duration: 0ms !important; }
-    @media (max-width: 40em) {
+    @media screen and (max-width: 40em) {
       .dnb-modal__content--no-animation-on-mobile .dnb-modal__content__inner {
         animation-duration: 0ms !important; } }
   .dnb-modal__title.dnb-h--large,
@@ -1185,7 +1185,7 @@ button.dnb-button::-moz-focus-inner {
       animation: hide-drawer-overlay 300ms ease-in-out forwards; }
     .dnb-modal__overlay--no-animation {
       animation-duration: 0ms !important; }
-    @media (max-width: 40em) {
+    @media screen and (max-width: 40em) {
       .dnb-modal__overlay--no-animation-on-mobile {
         animation-duration: 0ms !important; } }
 

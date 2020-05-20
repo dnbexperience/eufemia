@@ -736,7 +736,7 @@ textarea.dnb-textarea {
     align-items: flex-start; }
     .dnb-textarea[class*='__status'] > .dnb-form-label {
       margin-top: 0.25rem; }
-  @media (max-width: 40em) {
+  @media screen and (max-width: 40em) {
     .dnb-textarea {
       flex-wrap: wrap; }
       .dnb-textarea > .dnb-form-label {
@@ -748,7 +748,7 @@ textarea.dnb-textarea {
     flex: 1; }
   .dnb-textarea--stretch .dnb-textarea__shell, .dnb-textarea--stretch .dnb-textarea__textarea {
     width: 100%; }
-  @media (max-width: 40em) {
+  @media screen and (max-width: 40em) {
     .dnb-responsive-component .dnb-textarea {
       display: flex;
       flex-direction: column;

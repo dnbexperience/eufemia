@@ -190,7 +190,7 @@
     user-select: none;
     -webkit-user-select: none; // Safari / Touch fix
 
-    @media (max-width: 40em) {
+    @media screen and (max-width: 40em) {
       flex-direction: column;
     }
   }
@@ -421,7 +421,7 @@
   }
 
   .dnb-responsive-component & {
-    @media (max-width: 40em) {
+    @media screen and (max-width: 40em) {
       display: flex;
       flex-direction: column;
       align-items: flex-start;
