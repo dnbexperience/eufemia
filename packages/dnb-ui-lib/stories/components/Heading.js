@@ -23,23 +23,25 @@ export default [
         <Provider>
           <Wrapper>
             <Box>
-              <Heading debug>Heading #1</Heading>
-              <Heading debug>Heading #2</Heading>
-              <Heading debug>Heading #3</Heading>
-              <Heading debug increase>
-                Heading #4
-              </Heading>
-              <Heading debug>Heading #5</Heading>
-              <Heading debug increase>
-                Heading #6
-              </Heading>
-              <Heading debug decrease>
-                Heading #7
-              </Heading>
-              <Heading debug>Heading #8</Heading>
+              <Heading.Level reset debug>
+                <Heading>Heading #1</Heading>
+                <Heading>Heading #2</Heading>
+                <Heading>Heading #3</Heading>
+                <Heading increase>Heading #4</Heading>
+                <Heading>Heading #5</Heading>
+                <Heading increase>Heading #6</Heading>
+                <Heading decrease>Heading #7</Heading>
+                <Heading>Heading #8</Heading>
+              </Heading.Level>
             </Box>
             <Box>
-              <Heading.Level bypass_checks={true} debug level={2}>
+              <StateUpdate />
+            </Box>
+            <Box>
+              <StateUpdateKeepLevel />
+            </Box>
+            <Box>
+              <Heading.Level skip_checks debug level={2}>
                 <Heading>Heading #1</Heading>
                 <Heading level={4}>Heading #2</Heading>
               </Heading.Level>
@@ -85,3 +87,63 @@ export default [
     )
   }
 ]
+
+const StateUpdate = () => {
+  const [level, setLevel] = React.useState(1)
+  const [foo, setFoo] = React.useState('bar')
+
+  React.useEffect(() => {
+    const tA = setTimeout(() => {
+      setLevel(3)
+      setFoo('x')
+    }, 1e3)
+    const tB = setTimeout(() => {
+      setFoo('b')
+    }, 2e3)
+    const tC = setTimeout(() => {
+      setFoo('c')
+    }, 3e3)
+    return () => {
+      clearTimeout(tA)
+      clearTimeout(tB)
+      clearTimeout(tC)
+    }
+  }, [])
+
+  return (
+    <Heading.Level debug reset>
+      <Heading level={level}>Heading #1</Heading>
+      <Heading increase>Heading #2 {foo}</Heading>
+    </Heading.Level>
+  )
+}
+
+const StateUpdateKeepLevel = () => {
+  // const [level, setLevel] = React.useState(1)
+  const [foo, setFoo] = React.useState('bar')
+
+  React.useEffect(() => {
+    const tA = setTimeout(() => {
+      setFoo('a')
+    }, 1e3)
+    const tB = setTimeout(() => {
+      setFoo('b')
+    }, 2e3)
+    const tC = setTimeout(() => {
+      setFoo('c')
+    }, 3e3)
+
+    return () => {
+      clearTimeout(tA)
+      clearTimeout(tB)
+      clearTimeout(tC)
+    }
+  }, [])
+
+  return (
+    <Heading.Level debug reset>
+      <Heading>Heading #1</Heading>
+      <Heading increase>Heading #2 {foo}</Heading>
+    </Heading.Level>
+  )
+}

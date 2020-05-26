@@ -7,7 +7,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import {
-  // warn,
   isTrue,
   // makeUniqueId,
   validateDOMAttributes,
@@ -52,8 +51,8 @@ const propTypes = {
   up: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   down: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
 
-  debug: PropTypes.bool,
-  bypass_checks: PropTypes.bool,
+  skip_checks: PropTypes.bool,
+  debug: PropTypes.oneOfType([PropTypes.bool, PropTypes.func]),
   counter: PropTypes.any,
 
   element: PropTypes.string,
@@ -74,8 +73,8 @@ const defaultProps = {
   up: null,
   down: null,
 
+  skip_checks: null,
   debug: null,
-  bypass_checks: null,
   counter: null,
 
   element: 'auto', // e.g h1
@@ -117,40 +116,73 @@ export default class Heading extends React.PureComponent {
 Heading.Level = HeadingProvider
 
 class HeadingInstance extends React.PureComponent {
-  // static tagName = 'dnb-heading'
   static propTypes = propTypes
   static defaultProps = defaultProps
   static contextType = HeadingContext
 
-  // static enableWebComponent() {
-  //   registerElement(Heading.tagName, HeadingInstance, defaultProps)
-  // }
+  static getDerivedStateFromProps(props, state) {
+    if (state._listenForPropChanges) {
+      state._providerProps = { ...state._providerProps, ...props }
+
+      const newLevel = parseFloat(props.level)
+      // console.log(
+      //   'state.context.heading.level',
+      //   state.context.heading.level
+      // )
+      if (newLevel > 0 && newLevel !== state.level) {
+        // state.level = newLevel || 1
+
+        // Run this again here, so we can get a recalculated "getLevel" from the counter
+        HeadingProvider.handleCounter({
+          counter: state.counter,
+          level: newLevel,
+          // increase: isTrue(props.increase) || isTrue(props.up),
+          // decrease: isTrue(props.decrease) || isTrue(props.down),
+          bypassChecks:
+            isTrue(props.skip_checks) ||
+            isTrue(state.context.heading.skip_checks),
+          source: props.text || props.children, // only for debuging
+          debug: props.debug || state.context.heading.debug
+        })
+        state.level = state.counter.getLevel()
+      }
+
+      // state.level = state.counter.getLevel()
+      // } else {
+    }
+    // console.log('state.context.heading.level', state.context.heading.level)
+    state._listenForPropChanges = true
+
+    return state
+  }
 
   constructor(props, context) {
     super(props)
 
     this._ref = React.createRef()
 
-    // console.log('context.heading.', context.heading.counter)
+    const state = {
+      context,
+      _listenForPropChanges: true
+    }
 
     // const counter = context.heading.counter || HeadingProvider.initCounter(props.counter)
-    const counter = HeadingProvider.initCounter(props.counter)
+    state.counter = HeadingProvider.initCounter(props.counter)
 
     HeadingProvider.handleCounter({
-      // counter: this.counter,
-      counter,
-      level: props.level || context.heading.level,
+      counter: state.counter,
+      level: props.level, //  || state.context.heading.level
       increase: isTrue(props.increase) || isTrue(props.up),
       decrease: isTrue(props.decrease) || isTrue(props.down),
-      bypassChecks: isTrue(context.heading.bypass_checks),
-      source: props.text || props.children // only for debuging
+      bypassChecks:
+        isTrue(props.skip_checks) ||
+        isTrue(state.context.heading.skip_checks),
+      source: props.text || props.children, // only for debuging
+      debug: props.debug || state.context.heading.debug
     })
+    state.level = state.counter.getLevel()
 
-    const level = counter.getLevel()
-    // const level = this.counter.getLevel()
-    this.state = {
-      level
-    }
+    this.state = state
   }
 
   componentDidMount() {
@@ -168,7 +200,8 @@ class HeadingInstance extends React.PureComponent {
     const {
       text,
       debug: _debug, // eslint-disable-line
-      bypass_checks: _bypass_checks, // eslint-disable-line
+      reset: _reset, // eslint-disable-line
+      skip_checks: _skip_checks, // eslint-disable-line
       increase: _increase, // eslint-disable-line
       decrease: _decrease, // eslint-disable-line
       up: _up, // eslint-disable-line
@@ -185,6 +218,10 @@ class HeadingInstance extends React.PureComponent {
     let { size, element } = this.props
     const { level } = this.state
     const { debug } = this.context.heading
+
+    // if(_debug!==null){
+    //   debug = _debug
+    // }
 
     const attributes = {
       ...rest

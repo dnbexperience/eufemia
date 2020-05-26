@@ -3,16 +3,47 @@
 exports[`Heading component semantic have to match default heading snapshot 1`] = `
 <HeadingProvider
   counter={null}
-  debug={true}
+  debug={
+    [MockFunction] {
+      "calls": Array [
+        Array [
+          "Can not decrement to heading level 1! Had before",
+          2,
+          "
+NB: This warning was triggered by:",
+          "Heading #9",
+        ],
+        Array [
+          "Can not increment heading level higher than 6! Got:",
+          7,
+          "and had before",
+          6,
+          "
+NB: This warning was triggered by:",
+          "Heading #3",
+        ],
+      ],
+      "results": Array [
+        Object {
+          "type": "return",
+          "value": undefined,
+        },
+        Object {
+          "type": "return",
+          "value": undefined,
+        },
+      ],
+    }
+  }
   decrease={null}
   down={null}
   increase={true}
   level={null}
   reset={true}
+  text={null}
   up={true}
 >
   <Heading
-    bypass_checks={null}
     class={null}
     className={null}
     counter={null}
@@ -23,11 +54,11 @@ exports[`Heading component semantic have to match default heading snapshot 1`] =
     increase={null}
     level={null}
     size="auto"
+    skip_checks={null}
     text={null}
     up={null}
   >
     <HeadingInstance
-      bypass_checks={null}
       class={null}
       className={null}
       counter={null}
@@ -38,6 +69,7 @@ exports[`Heading component semantic have to match default heading snapshot 1`] =
       increase={null}
       level={null}
       size="auto"
+      skip_checks={null}
       text={null}
       up={null}
     >
@@ -50,7 +82,6 @@ exports[`Heading component semantic have to match default heading snapshot 1`] =
     </HeadingInstance>
   </Heading>
   <Heading
-    bypass_checks={null}
     class={null}
     className={null}
     counter={null}
@@ -61,11 +92,11 @@ exports[`Heading component semantic have to match default heading snapshot 1`] =
     increase={null}
     level={null}
     size="auto"
+    skip_checks={null}
     text={null}
     up={null}
   >
     <HeadingInstance
-      bypass_checks={null}
       class={null}
       className={null}
       counter={null}
@@ -76,6 +107,7 @@ exports[`Heading component semantic have to match default heading snapshot 1`] =
       increase={null}
       level={null}
       size="auto"
+      skip_checks={null}
       text={null}
       up={null}
     >
@@ -94,10 +126,10 @@ exports[`Heading component semantic have to match default heading snapshot 1`] =
     increase={true}
     level={null}
     reset={null}
+    text={null}
     up={true}
   >
     <Heading
-      bypass_checks={null}
       class={null}
       className={null}
       counter={null}
@@ -108,11 +140,11 @@ exports[`Heading component semantic have to match default heading snapshot 1`] =
       increase={null}
       level={null}
       size="auto"
+      skip_checks={null}
       text={null}
       up={null}
     >
       <HeadingInstance
-        bypass_checks={null}
         class={null}
         className={null}
         counter={null}
@@ -123,6 +155,7 @@ exports[`Heading component semantic have to match default heading snapshot 1`] =
         increase={null}
         level={null}
         size="auto"
+        skip_checks={null}
         text={null}
         up={null}
       >
@@ -135,7 +168,6 @@ exports[`Heading component semantic have to match default heading snapshot 1`] =
       </HeadingInstance>
     </Heading>
     <Heading
-      bypass_checks={null}
       class={null}
       className={null}
       counter={null}
@@ -146,11 +178,11 @@ exports[`Heading component semantic have to match default heading snapshot 1`] =
       increase={null}
       level={null}
       size="auto"
+      skip_checks={null}
       text={null}
       up={true}
     >
       <HeadingInstance
-        bypass_checks={null}
         class={null}
         className={null}
         counter={null}
@@ -161,6 +193,7 @@ exports[`Heading component semantic have to match default heading snapshot 1`] =
         increase={null}
         level={null}
         size="auto"
+        skip_checks={null}
         text={null}
         up={true}
       >
@@ -173,7 +206,6 @@ exports[`Heading component semantic have to match default heading snapshot 1`] =
       </HeadingInstance>
     </Heading>
     <Heading
-      bypass_checks={null}
       class={null}
       className={null}
       counter={null}
@@ -184,11 +216,11 @@ exports[`Heading component semantic have to match default heading snapshot 1`] =
       increase={null}
       level={null}
       size="auto"
+      skip_checks={null}
       text={null}
       up={null}
     >
       <HeadingInstance
-        bypass_checks={null}
         class={null}
         className={null}
         counter={null}
@@ -199,6 +231,7 @@ exports[`Heading component semantic have to match default heading snapshot 1`] =
         increase={null}
         level={null}
         size="auto"
+        skip_checks={null}
         text={null}
         up={null}
       >
@@ -211,7 +244,6 @@ exports[`Heading component semantic have to match default heading snapshot 1`] =
       </HeadingInstance>
     </Heading>
     <Heading
-      bypass_checks={null}
       class={null}
       className={null}
       counter={null}
@@ -222,11 +254,11 @@ exports[`Heading component semantic have to match default heading snapshot 1`] =
       increase={null}
       level={null}
       size="auto"
+      skip_checks={null}
       text={null}
       up={null}
     >
       <HeadingInstance
-        bypass_checks={null}
         class={null}
         className={null}
         counter={null}
@@ -237,6 +269,7 @@ exports[`Heading component semantic have to match default heading snapshot 1`] =
         increase={null}
         level={null}
         size="auto"
+        skip_checks={null}
         text={null}
         up={null}
       >
@@ -256,10 +289,10 @@ exports[`Heading component semantic have to match default heading snapshot 1`] =
     increase={true}
     level={null}
     reset={null}
+    text={null}
     up={true}
   >
     <Heading
-      bypass_checks={null}
       class={null}
       className={null}
       counter={null}
@@ -270,11 +303,11 @@ exports[`Heading component semantic have to match default heading snapshot 1`] =
       increase={null}
       level={null}
       size="auto"
+      skip_checks={null}
       text={null}
       up={null}
     >
       <HeadingInstance
-        bypass_checks={null}
         class={null}
         className={null}
         counter={null}
@@ -285,6 +318,7 @@ exports[`Heading component semantic have to match default heading snapshot 1`] =
         increase={null}
         level={null}
         size="auto"
+        skip_checks={null}
         text={null}
         up={null}
       >
@@ -303,10 +337,10 @@ exports[`Heading component semantic have to match default heading snapshot 1`] =
       increase={true}
       level={null}
       reset={null}
+      text={null}
       up={true}
     >
       <Heading
-        bypass_checks={null}
         class={null}
         className={null}
         counter={null}
@@ -317,11 +351,11 @@ exports[`Heading component semantic have to match default heading snapshot 1`] =
         increase={null}
         level={null}
         size="auto"
+        skip_checks={null}
         text={null}
         up={null}
       >
         <HeadingInstance
-          bypass_checks={null}
           class={null}
           className={null}
           counter={null}
@@ -332,6 +366,7 @@ exports[`Heading component semantic have to match default heading snapshot 1`] =
           increase={null}
           level={null}
           size="auto"
+          skip_checks={null}
           text={null}
           up={null}
         >
@@ -340,6 +375,44 @@ exports[`Heading component semantic have to match default heading snapshot 1`] =
           >
             (2) 
             Heading #8
+          </h2>
+        </HeadingInstance>
+      </Heading>
+      <Heading
+        class={null}
+        className={null}
+        counter={null}
+        debug={null}
+        decrease={true}
+        down={null}
+        element="auto"
+        increase={null}
+        level={null}
+        size="auto"
+        skip_checks={null}
+        text={null}
+        up={null}
+      >
+        <HeadingInstance
+          class={null}
+          className={null}
+          counter={null}
+          debug={null}
+          decrease={true}
+          down={null}
+          element="auto"
+          increase={null}
+          level={null}
+          size="auto"
+          skip_checks={null}
+          text={null}
+          up={null}
+        >
+          <h2
+            className="dnb-heading dnb-h--large"
+          >
+            (2) 
+            Heading #9
           </h2>
         </HeadingInstance>
       </Heading>

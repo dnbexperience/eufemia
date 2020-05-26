@@ -16,15 +16,17 @@ import Heading from '../Heading'
 import _heading from '../style/_heading.scss' // eslint-disable-line
 import dnb_heading from '../style/dnb-heading.scss' // eslint-disable-line
 
+const warn = jest.fn()
+
 describe('Heading component', () => {
   it('have to match leveling reset', () => {
     const Comp = mount(
       <>
-        <Heading.Level debug reset>
+        <Heading.Level debug={warn} reset>
           <Heading>Heading #1</Heading>
         </Heading.Level>
 
-        <Heading.Level debug reset bypass_checks>
+        <Heading.Level debug={warn} reset skip_checks>
           <Heading>Heading #2</Heading>
         </Heading.Level>
       </>
@@ -34,12 +36,105 @@ describe('Heading component', () => {
     expect(elem.at(0).text()).toBe('(1) Heading #1')
     expect(elem.at(1).text()).toBe('(1) Heading #2')
   })
+
+  it('have to match after level state update', () => {
+    const warn = jest.fn()
+
+    const Comp = mount(
+      <Heading debug={warn} reset>
+        Heading #1
+      </Heading>
+    )
+
+    expect(Comp.find('.dnb-heading').at(0).text()).toBe('(1) Heading #1')
+
+    Comp.setProps({ level: 3 })
+
+    expect(Comp.find('.dnb-heading').at(0).text()).toBe('(3) Heading #1')
+
+    expect(warn).toBeCalledTimes(2)
+    expect(warn).toHaveBeenCalledWith(
+      'Heading levels can only increase/decrease by factor one! Got:',
+      3,
+      'and had before',
+      1,
+      '\nNB: This warning was triggered by:',
+      'Heading #1'
+    )
+
+    Comp.setProps({ skip_checks: true })
+    Comp.setProps({ level: 4 })
+
+    expect(Comp.find('.dnb-heading').at(0).text()).toBe('(4) Heading #1')
+    expect(warn).toBeCalledTimes(2) // still two times, same as we had earlier
+  })
+
+  it('have to have aria role and level if set as span element', () => {
+    const warn = jest.fn()
+
+    const Comp = mount(
+      <Heading element="span" debug={warn} reset>
+        Heading #1
+      </Heading>
+    )
+
+    const elem = Comp.find('span.dnb-heading')
+    expect(elem.at(0).text()).toBe('(1) Heading #1')
+    expect(elem.at(0).instance().getAttribute('role')).toBe('heading')
+    expect(elem.at(0).instance().getAttribute('aria-level')).toBe('1')
+  })
+
+  it('have to refuse to set level below 1', () => {
+    const warn = jest.fn()
+
+    const Comp = mount(
+      <Heading debug={warn} level={0} reset>
+        Heading #1
+      </Heading>
+    )
+
+    expect(Comp.find('.dnb-heading').at(0).text()).toBe('(1) Heading #1')
+  })
+
+  it('should set level if skip_checks is true', () => {
+    const Comp = mount(
+      <>
+        <Heading.Level debug={warn} skip_checks reset>
+          <Heading level={4}>Heading #1</Heading>
+          <Heading increase>Heading #2</Heading>
+        </Heading.Level>
+      </>
+    )
+
+    const elem = Comp.find('.dnb-heading')
+    expect(elem.at(0).text()).toBe('(4) Heading #1')
+    expect(elem.at(1).text()).toBe('(5) Heading #2')
+  })
+
+  it('should not increase level above 6', () => {
+    const Comp = mount(
+      <>
+        <Heading.Level debug={warn} reset>
+          <Heading>Heading #1</Heading>
+          <Heading.Level skip_checks level="6">
+            <Heading>Heading #2</Heading>
+            <Heading increase>Heading #3</Heading>
+          </Heading.Level>
+        </Heading.Level>
+      </>
+    )
+
+    const elem = Comp.find('.dnb-heading')
+    expect(elem.at(0).text()).toBe('(1) Heading #1')
+    expect(elem.at(1).text()).toBe('(6) Heading #2')
+    expect(elem.at(2).text()).toBe('(6) Heading #3')
+  })
 })
 
 describe('Heading component semantic', () => {
   const Comp = mount(
     <>
-      <Heading.Level debug reset>
+      <Heading.Level debug={warn} reset>
         <Heading>Heading #1</Heading>
         <Heading>Heading #2</Heading>
 
@@ -54,6 +149,7 @@ describe('Heading component semantic', () => {
           <Heading>Heading #7</Heading>
           <Heading.Level decrease>
             <Heading>Heading #8</Heading>
+            <Heading decrease>Heading #9</Heading>
           </Heading.Level>
         </Heading.Level>
       </Heading.Level>
@@ -70,6 +166,7 @@ describe('Heading component semantic', () => {
     expect(elem.at(5).text()).toBe('(2) Heading #6')
     expect(elem.at(6).text()).toBe('(3) Heading #7')
     expect(elem.at(7).text()).toBe('(2) Heading #8')
+    expect(elem.at(8).text()).toBe('(2) Heading #9')
   })
 
   it('have to match default heading snapshot', () => {
