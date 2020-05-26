@@ -73,25 +73,25 @@ export class Counter {
     this.level = parseFloat(level) || 1
   }
 
-  setLevel(level) {
-    if (!this.bypassChecks && (level === 1 || this.level === 1)) {
-      this.report(
-        'Can not set heading level 1 several times! Got:',
-        level,
-        'and had before',
-        this.level
-      )
-      level = 2
-    }
-
+  setLevel(level, logName = 'set') {
     if (level >= 5 || this.level >= 5) {
       this.report(
-        'Can not set heading level higher than 6! Got:',
+        `Can not ${logName} heading level higher than 6! Got:`,
         level,
         'and had before',
         this.level
       )
       level = 6
+    }
+
+    if (!this.bypassChecks && (level === 1 || this.level === 1)) {
+      this.report(
+        `Can not ${logName} heading level 1 several times! Got:`,
+        level,
+        'and had before',
+        this.level
+      )
+      level = 2
     }
 
     if (!this.bypassChecks && Math.abs(this.level - level) > 1) {
@@ -122,7 +122,7 @@ export class Counter {
       )
       return // stop!
     }
-    this.setLevel(this.level + 1)
+    this.setLevel(this.level + 1, 'increment')
   }
 
   decrement() {
@@ -133,7 +133,7 @@ export class Counter {
       )
       return // stop!
     }
-    this.setLevel(this.level - 1)
+    this.setLevel(this.level - 1, 'decrement')
   }
 }
 
