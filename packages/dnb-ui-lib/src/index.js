@@ -21,6 +21,7 @@ import FormSet from './components/form-set/FormSet'
 import FormStatus from './components/form-status/FormStatus'
 import GlobalError from './components/global-error/GlobalError'
 import GlobalStatus from './components/global-status/GlobalStatus'
+import Heading from './components/heading/Heading'
 import Icon from './components/icon/Icon'
 import IconPrimary from './components/icon-primary/IconPrimary'
 import Input from './components/input/Input'
@@ -45,6 +46,7 @@ import Anchor from './elements/Anchor'
 import Blockquote from './elements/Blockquote'
 import Code from './elements/Code'
 import Dl from './elements/Dl'
+import H from './elements/H'
 import H1 from './elements/H1'
 import H2 from './elements/H2'
 import H3 from './elements/H3'
@@ -75,6 +77,7 @@ export {
   FormStatus,
   GlobalError,
   GlobalStatus,
+  Heading,
   Icon,
   IconPrimary,
   Input,
@@ -99,6 +102,7 @@ export {
   Blockquote,
   Code,
   Dl,
+  H,
   H1,
   H2,
   H3,

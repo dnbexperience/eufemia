@@ -32,6 +32,7 @@ import FormStatus from './components/FormStatus'
 import GlobalStatus from './components/GlobalStatus'
 import GlobalError from './components/GlobalError'
 import Number from './components/Number'
+import Heading from './components/Heading'
 import Icons from './components/Icons'
 import Experiments from './components/Experiments'
 import Pagination from './components/Pagination'
@@ -67,6 +68,7 @@ stories.push(FormStatus)
 stories.push(GlobalStatus)
 stories.push(GlobalError)
 stories.push(Number)
+stories.push(Heading)
 stories.push(Icons)
 stories.push(Experiments)
 stories.push(Pagination)
