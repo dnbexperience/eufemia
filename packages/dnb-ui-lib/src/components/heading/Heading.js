@@ -8,7 +8,7 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import {
   // warn,
-  // isTrue,
+  isTrue,
   // makeUniqueId,
   validateDOMAttributes,
   registerElement
@@ -45,11 +45,16 @@ const propTypes = {
     'small',
     'x-small'
   ]),
+
   level: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   increase: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   decrease: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   up: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   down: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+
+  debug: PropTypes.bool,
+  bypass_checks: PropTypes.bool,
+  counter: PropTypes.any,
 
   element: PropTypes.string,
   class: PropTypes.string,
@@ -63,11 +68,15 @@ const defaultProps = {
   text: null,
   size: 'auto',
 
-  level: 'auto',
+  level: null, // like auto
   increase: null,
   decrease: null,
   up: null,
   down: null,
+
+  debug: null,
+  bypass_checks: null,
+  counter: null,
 
   element: 'auto', // e.g h1
   class: null,
@@ -90,12 +99,6 @@ export default class Heading extends React.PureComponent {
   static enableWebComponent() {
     registerElement(Heading.tagName, Heading, defaultProps)
   }
-
-  // constructor(props) {
-  //   super(props)
-  //   this._id = this._id || props.id || makeUniqueId()
-  //   console.log('this._id', this._id)
-  // }
 
   render() {
     const hasProvider = this.context?.heading
@@ -128,14 +131,23 @@ class HeadingInstance extends React.PureComponent {
 
     this._ref = React.createRef()
 
-    this.counter = context.heading.initCounter(props)
+    // console.log('context.heading.', context.heading.counter)
 
-    const { level } = context.heading.handleCounter({
-      props,
-      counter: this.counter
+    // const counter = context.heading.counter || HeadingProvider.initCounter(props.counter)
+    const counter = HeadingProvider.initCounter(props.counter)
+
+    HeadingProvider.handleCounter({
+      // counter: this.counter,
+      counter,
+      level: props.level || context.heading.level,
+      increase: isTrue(props.increase) || isTrue(props.up),
+      decrease: isTrue(props.decrease) || isTrue(props.down),
+      bypassChecks: isTrue(context.heading.bypass_checks),
+      source: props.text || props.children // only for debuging
     })
-    this.counter.getLevel()
 
+    const level = counter.getLevel()
+    // const level = this.counter.getLevel()
     this.state = {
       level
     }
@@ -153,11 +165,14 @@ class HeadingInstance extends React.PureComponent {
   }
 
   render() {
-    // consume the global context
     const {
       text,
+      debug: _debug, // eslint-disable-line
+      bypass_checks: _bypass_checks, // eslint-disable-line
       increase: _increase, // eslint-disable-line
       decrease: _decrease, // eslint-disable-line
+      up: _up, // eslint-disable-line
+      down: _down, // eslint-disable-line
       level: _level, // eslint-disable-line
       size: _size, // eslint-disable-line
       element: _element, // eslint-disable-line
@@ -169,7 +184,7 @@ class HeadingInstance extends React.PureComponent {
 
     let { size, element } = this.props
     const { level } = this.state
-    // const { level } = this.context.heading
+    const { debug } = this.context.heading
 
     const attributes = {
       ...rest
@@ -203,7 +218,8 @@ class HeadingInstance extends React.PureComponent {
 
     return (
       <Element {...attributes}>
-        {text || children} ({level})
+        {debug && `(${level}) `}
+        {text || children}
       </Element>
     )
   }
