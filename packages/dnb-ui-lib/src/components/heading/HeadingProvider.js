@@ -84,7 +84,7 @@ export class Counter {
       level = 6
     }
 
-    if (!this.bypassChecks && (level === 1 || this.level === 1)) {
+    if (!this.bypassChecks && level === 1 && this.level === 1) {
       this.report(
         `Can not ${logName} heading level 1 several times! Got:`,
         level,

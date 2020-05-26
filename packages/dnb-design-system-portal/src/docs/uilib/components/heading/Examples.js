@@ -16,16 +16,20 @@ import ComponentBox from 'Src/shared/tags/ComponentBox'
 class Example extends React.PureComponent {
   render() {
     return (
-      <ComponentBox
-        title="Defualt headings"
-        data-dnb-test="heading-default"
-      >
-        {
-          /* @jsx */ `
-<Heading>Heading</Heading>
-          `
-        }
-      </ComponentBox>
+      <>
+        <ComponentBox
+          title="Default headings"
+          data-dnb-test="heading-default"
+        >
+          {
+            /* @jsx */ `
+<Heading>Heading #1</Heading>
+<Heading>Heading #2</Heading>
+<Heading level={4}>Heading #3</Heading>
+        `
+          }
+        </ComponentBox>
+      </>
     )
   }
 }
