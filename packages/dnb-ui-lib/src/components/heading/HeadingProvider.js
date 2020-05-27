@@ -20,13 +20,13 @@ const propTypes = {
   decrease: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   up: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   down: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  reset: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
 
   // Do not set these! Because we do not smart check the merge!
   //   skip_checks: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   //   debug: PropTypes.oneOfType([PropTypes.bool, PropTypes.func]),
 
   counter: PropTypes.any,
+  reset: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   text: PropTypes.any,
   children: PropTypes.any
 }
@@ -36,13 +36,13 @@ const defaultProps = {
   decrease: null,
   up: true, // set increase as the default
   down: null,
-  reset: null,
 
   // Do not set these! Because we do not smart check the merge!
   //   skip_checks: null,
   //   debug: null,
 
   counter: null,
+  reset: null,
   text: null,
   children: null
 }
@@ -58,10 +58,12 @@ export class Counter {
   }
 
   report(...str) {
-    this.reports.push(str)
+    if (!(process && process.env.NODE_ENV === 'production')) {
+      this.reports.push(str)
+    }
   }
 
-  emptyReports() {
+  useLastReport() {
     return this.reports.shift()
   }
 
@@ -76,7 +78,12 @@ export class Counter {
     level = parseFloat(level)
 
     if (!this.bypassChecks && level > 1) {
-      this.report('Can not set other than level 1 at startup! Got:', level)
+      this.report(
+        'Can not set other than level 1 at startup! Got:',
+        level,
+        '- The new level is',
+        1
+      )
       level = 1
     }
 
@@ -86,6 +93,8 @@ export class Counter {
 
   setLevel(level, action = 'set') {
     level = parseFloat(level)
+
+    const report = []
 
     // NB: We may considder to use this "used" check later on
     // if (!this.bypassChecks && this.used !== this.level) {
@@ -99,12 +108,16 @@ export class Counter {
     // }
 
     if (!this.bypassChecks && Math.abs(this.level - level) > 1) {
-      this.report(
-        'Heading levels can only increase/decrease by factor one! Got:',
+      report.push(
+        `Heading levels can only be ${action} by factor one! Got:`,
         level,
         'and had before',
         this.level
       )
+
+      if (level > this.level) {
+        action = 'increment'
+      }
 
       switch (action) {
         case 'increment':
@@ -116,13 +129,13 @@ export class Counter {
           break
 
         default:
-          level = this.level
+          level = this.level === 0 ? 1 : this.level
           break
       }
     }
 
     if (level > 6) {
-      this.report(
+      report.push(
         `Can not ${action} heading level higher than 6! Got:`,
         level,
         'and had before',
@@ -130,7 +143,7 @@ export class Counter {
       )
       level = 6
     } else if (level < 1) {
-      this.report(
+      report.push(
         `Can not ${action} heading level lower than 1! Got:`,
         level,
         'and had before',
@@ -138,7 +151,7 @@ export class Counter {
       )
       level = 1
     } else if (!this.bypassChecks && level === 1 && this.level === 1) {
-      this.report(
+      report.push(
         `Can not ${action} heading level 1 several times! Got:`,
         level,
         'and had before',
@@ -146,11 +159,16 @@ export class Counter {
       )
       level = 2
     } else if (!this.bypassChecks && level < 2 && this.level === 2) {
-      this.report(
+      report.push(
         'Can not decrement to heading level 1! Had before',
         this.level
       )
       level = this.level
+    }
+
+    if (report.length > 0) {
+      report.push('- The new level is', level)
+      this.report(...report)
     }
 
     this.level = level
@@ -177,8 +195,9 @@ export default class HeadingProvider extends React.PureComponent {
   //   static contextType = Context// in order to get _providerProps, we use HeadingContext instead
 
   static initCounter = (counter = null, reset = false) => {
-    if (!defaultCounter.current || reset) {
+    if (!defaultCounter.current || reset || globalResetNextTime.current) {
       defaultCounter.current = counter || new Counter()
+      globalResetNextTime.current = false
     }
 
     return counter || defaultCounter.current
@@ -198,39 +217,70 @@ export default class HeadingProvider extends React.PureComponent {
       counter.enableBypassChecks()
     }
 
-    if (parseFloat(level) < 1) {
-      level = 1
-    } else if (parseFloat(level) > 6) {
-      level = 6
-    }
+    const update = (level) => {
+      if (parseFloat(level) < 1) {
+        level = 1
+      } else if (parseFloat(level) > 6) {
+        level = 6
+      }
 
-    if (!isProvider && !counter._hadFirst) {
-      counter.setFirst(level)
-    } else {
-      if (decrease) {
-        counter.decrement()
-      } else if (increase) {
-        counter.increment()
-      } else if (level === null) {
-        if (counter.level === 1) {
+      if (!isProvider && !counter._hadFirst) {
+        counter.setFirst(level)
+
+        if (decrease) {
+          counter.decrement()
+        } else if (increase) {
           counter.increment()
         }
-      } else if (parseFloat(level) >= 1) {
-        counter.setLevel(level)
+      } else {
+        if (level === null) {
+          if (decrease) {
+            counter.decrement()
+          } else if (counter.level === 1 || increase) {
+            counter.increment()
+          }
+        } else if (parseFloat(level) >= 1) {
+          counter.setLevel(level)
 
-        // In case we want allow to jump from 1 to 3 or so
-        // if (parseFloat(level) > 1) {
-        //   return { ...counter, level: parseFloat(level) }
-        // }
+          // In case we want allow to jump from 1 to 3 or so
+          // if (parseFloat(level) > 1) {
+          //   return { ...counter, level: parseFloat(level) }
+          // }
+        } else {
+          if (decrease) {
+            counter.decrement()
+          } else if (increase) {
+            counter.increment()
+          }
+        }
       }
     }
 
-    const hasReport = counter.emptyReports()
+    if (globalNextLevel.current > 0) {
+      level = globalNextLevel.current
+      globalNextLevel.current = null
+      counter.enableBypassChecks()
+      update(level)
+      counter.disableBypassChecks()
+    } else {
+      update(level)
+    }
+
+    const hasReport = counter.useLastReport()
     if (hasReport) {
       if (source) {
-        // console.log('source', source)
-        const str = convertJsxToString(source)
-        hasReport.push('\nNB: This warning was triggered by:', str)
+        const props = source.props || {}
+        const ideintifiers = [
+          props.id,
+          props['class'],
+          props.className
+        ].filter(Boolean)
+
+        hasReport.push(
+          '\nNB: This warning was triggered by:',
+          ideintifiers.length > 0 ? ideintifiers.join(', ') : '',
+          convertJsxToString(source)
+        )
       }
       if (typeof debug === 'function') {
         debug(...hasReport)
@@ -251,18 +301,20 @@ export default class HeadingProvider extends React.PureComponent {
       state._providerProps = { ...state._providerProps, ...props }
 
       const newLevel = parseFloat(props.level)
-      if (newLevel > 0) {
+      if (
+        // state.prevLevel !== props.level &&
+        newLevel > 0
+      ) {
         // && newLevel !== state.level
         HeadingProvider.handleCounter({
           isProvider: true,
-          level: newLevel,
           counter: state.counter,
-          //   increase: isTrue(props.increase) || isTrue(props.up),
-          //   decrease: isTrue(props.decrease) || isTrue(props.down),
-          source: props.text || props.children,
+          level: newLevel,
           bypassChecks: isTrue(state._providerProps.skip_checks),
+          source: props.text || props.children,
           debug: state._providerProps.debug
         })
+        // NB: This level state is currently not used
         // state.level = state.counter.getLevel()
       }
     }
@@ -291,17 +343,19 @@ export default class HeadingProvider extends React.PureComponent {
 
     HeadingProvider.handleCounter({
       isProvider: true,
-      level: state._providerProps.level,
       counter: state.counter,
+      level: state._providerProps.level,
       increase: isTrue(props.increase) || isTrue(props.up),
       decrease: isTrue(props.decrease) || isTrue(props.down),
-      source: props.text || props.children,
       bypassChecks: isTrue(state._providerProps.skip_checks),
+      source: props.text || props.children,
       debug: state._providerProps.debug
     })
-    // state.level = state.counter.getLevel()
 
-    // This level state is currently not used
+    // NB: This level state is currently not used
+    // state.level = state.counter.getLevel()
+    // state.prevLevel = props.level
+
     this.state = state
   }
 
@@ -320,4 +374,14 @@ export default class HeadingProvider extends React.PureComponent {
       </HeadingContext.Provider>
     )
   }
+}
+
+// Interceptor to reset leveling -
+const globalResetNextTime = React.createRef(false)
+export function resetLevels() {
+  globalResetNextTime.current = true
+}
+const globalNextLevel = React.createRef(null)
+export function setNextLevel(level) {
+  globalNextLevel.current = parseFloat(level)
 }

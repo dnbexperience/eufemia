@@ -16,11 +16,15 @@ import '../../shared/helpers'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import HeadingContext from './HeadingContext'
 import HeadingProvider from './HeadingProvider'
-import { defaultCounter } from './HeadingProvider'
+import {
+  defaultCounter,
+  resetLevels,
+  setNextLevel
+} from './HeadingProvider'
 
 let countHeadings = 0
 
-export const headingResolution = {
+export const levelResolution = {
   1: 'xx-large',
   // 'x-large',
   2: 'large',
@@ -54,6 +58,7 @@ const propTypes = {
   skip_checks: PropTypes.bool,
   debug: PropTypes.oneOfType([PropTypes.bool, PropTypes.func]),
   counter: PropTypes.any,
+  reset: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
 
   element: PropTypes.string,
   class: PropTypes.string,
@@ -76,6 +81,7 @@ const defaultProps = {
   skip_checks: null,
   debug: null,
   counter: null,
+  reset: null,
 
   element: 'auto', // e.g h1
   class: null,
@@ -93,64 +99,34 @@ export default class Heading extends React.PureComponent {
   static propTypes = propTypes
   static defaultProps = defaultProps
   static renderProps = renderProps
-  static contextType = HeadingContext // only used for the hasProvide check
+  static contextType = HeadingContext
 
   static enableWebComponent() {
     registerElement(Heading.tagName, Heading, defaultProps)
   }
 
-  render() {
-    const hasProvider = this.context?.heading
-
-    if (hasProvider) {
-      return <HeadingInstance {...this.props} />
-    }
-
-    return (
-      <HeadingProvider {...this.props}>
-        <HeadingInstance {...this.props} />
-      </HeadingProvider>
-    )
-  }
-}
-Heading.Level = HeadingProvider
-
-class HeadingInstance extends React.PureComponent {
-  static propTypes = propTypes
-  static defaultProps = defaultProps
-  static contextType = HeadingContext
-
   static getDerivedStateFromProps(props, state) {
     if (state._listenForPropChanges) {
-      state._providerProps = { ...state._providerProps, ...props }
-
       const newLevel = parseFloat(props.level)
-      // console.log(
-      //   'state.context.heading.level',
-      //   state.context.heading.level
-      // )
-      if (newLevel > 0 && newLevel !== state.level) {
-        // state.level = newLevel || 1
-
+      // console.log('newLevel', newLevel, props.children)
+      if (
+        state.prevLevel !== props.level &&
+        newLevel > 0 &&
+        newLevel !== state.level
+      ) {
         // Run this again here, so we can get a recalculated "getLevel" from the counter
         HeadingProvider.handleCounter({
           counter: state.counter,
           level: newLevel,
-          // increase: isTrue(props.increase) || isTrue(props.up),
-          // decrease: isTrue(props.decrease) || isTrue(props.down),
           bypassChecks:
             isTrue(props.skip_checks) ||
-            isTrue(state.context.heading.skip_checks),
+            isTrue(state.context.heading?.skip_checks),
           source: props.text || props.children, // only for debuging
-          debug: props.debug || state.context.heading.debug
+          debug: props.debug || state.context.heading?.debug
         })
         state.level = state.counter.getLevel()
       }
-
-      // state.level = state.counter.getLevel()
-      // } else {
     }
-    // console.log('state.context.heading.level', state.context.heading.level)
     state._listenForPropChanges = true
 
     return state
@@ -166,21 +142,25 @@ class HeadingInstance extends React.PureComponent {
       _listenForPropChanges: true
     }
 
-    // const counter = context.heading.counter || HeadingProvider.initCounter(props.counter)
-    state.counter = HeadingProvider.initCounter(props.counter)
+    // const counter = context.heading?.counter || HeadingProvider.initCounter(props.counter)
+    state.counter = HeadingProvider.initCounter(
+      props.counter,
+      isTrue(props.reset)
+    )
 
     HeadingProvider.handleCounter({
       counter: state.counter,
-      level: props.level, //  || state.context.heading.level
+      level: props.level, //  || state.context.heading?.level
       increase: isTrue(props.increase) || isTrue(props.up),
       decrease: isTrue(props.decrease) || isTrue(props.down),
       bypassChecks:
         isTrue(props.skip_checks) ||
-        isTrue(state.context.heading.skip_checks),
+        isTrue(state.context.heading?.skip_checks),
       source: props.text || props.children, // only for debuging
-      debug: props.debug || state.context.heading.debug
+      debug: props.debug || state.context.heading?.debug
     })
     state.level = state.counter.getLevel()
+    state.prevLevel = props.level
 
     this.state = state
   }
@@ -217,19 +197,17 @@ class HeadingInstance extends React.PureComponent {
 
     let { size, element } = this.props
     const { level } = this.state
-    const { debug } = this.context.heading
-
-    // if(_debug!==null){
-    //   debug = _debug
-    // }
+    const debug = _debug || this.context.heading?.debug
 
     const attributes = {
       ...rest
     }
 
-    if (element === 'auto') {
+    if (element === 'auto' || element === null) {
       element = `h${level}`
-      size = headingResolution[level]
+      if (_size === 'auto' || _size === null) {
+        size = levelResolution[level]
+      }
     } else {
       if (!attributes.role) {
         attributes.role = 'heading'
@@ -251,28 +229,17 @@ class HeadingInstance extends React.PureComponent {
     validateDOMAttributes(this.props, attributes)
 
     const Element = element
-    // is={element}
 
     return (
       <Element {...attributes}>
-        {debug && `(${level}) `}
+        {debug && `[${level}] `}
         {text || children}
       </Element>
     )
   }
 }
 
-// const Element = React.forwardRef(
-//   ({ is: Element, children, ...rest }, ref) => (
-//     <Element {...rest} ref={ref}>
-//       {children}
-//     </Element>
-//   )
-// )
-// Element.propTypes = {
-//   is: PropTypes.string.isRequired,
-//   children: PropTypes.node
-// }
-// Element.defaultProps = {
-//   children: null
-// }
+Heading.Level = HeadingProvider
+
+// Interceptor to reset leveling
+export { resetLevels, setNextLevel }

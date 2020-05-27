@@ -594,7 +594,7 @@ export const isInsideScrollView = (
 
 export const warn = (...e) => {
   if (typeof console !== 'undefined') {
-    console.warn(...e)
+    console.info(...e)
   }
 }
 

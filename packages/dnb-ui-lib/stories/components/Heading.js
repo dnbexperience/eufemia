@@ -6,14 +6,23 @@
 import React from 'react'
 import { Wrapper, Box } from '../helpers'
 import styled from '@emotion/styled'
-// import { P } from '../../src/elements'
+import { H2 } from '../../src/elements'
 import Provider from '../../src/shared/Provider'
-import Heading from '../../src/components/Heading'
+import Heading, {
+  // resetLevels,
+  setNextLevel
+} from '../../src/components/Heading'
 
 const CustomStyle = styled.div`
   /* .dnb-heading {
   } */
 `
+
+const RenderNow = () => {
+  // resetLevels()
+  setNextLevel(2)
+  return <></>
+}
 
 export default [
   'Heading',
@@ -22,6 +31,32 @@ export default [
       <CustomStyle>
         <Provider>
           <Wrapper>
+            <Box>
+              <H2 level="auto" H2>
+                Heading #1
+              </H2>
+              <Heading debug increase>
+                Heading #2
+              </Heading>
+              <Heading debug increase>
+                Heading #3
+              </Heading>
+              ---
+              <Heading.Level debug>
+                <RenderNow />
+                <Heading>Heading #1</Heading>
+                <Heading increase>Heading #2</Heading>
+                <Heading level={4}>Heading #3</Heading>
+              </Heading.Level>
+            </Box>
+            <Box>
+              <Heading.Level reset debug>
+                <Heading level={2}>Heading #1</Heading>
+                <Heading level={3}>Heading #2</Heading>
+                <Heading level={4}>Heading #3</Heading>
+                <Heading level={4}>Heading #4</Heading>
+              </Heading.Level>
+            </Box>
             <Box>
               <Heading.Level reset debug>
                 <Heading>Heading #1</Heading>
@@ -32,18 +67,6 @@ export default [
                 <Heading increase>Heading #6</Heading>
                 <Heading decrease>Heading #7</Heading>
                 <Heading>Heading #8</Heading>
-              </Heading.Level>
-            </Box>
-            <Box>
-              <StateUpdate />
-            </Box>
-            <Box>
-              <StateUpdateKeepLevel />
-            </Box>
-            <Box>
-              <Heading.Level skip_checks debug level={2}>
-                <Heading>Heading #1</Heading>
-                <Heading level={4}>Heading #2</Heading>
               </Heading.Level>
             </Box>
             <Box>
@@ -80,6 +103,12 @@ export default [
                   <Heading increase>Heading #20</Heading>
                 </Heading.Level>
               </Heading.Level>
+            </Box>
+            <Box>
+              <StateUpdate />
+            </Box>
+            <Box>
+              <StateUpdateKeepLevel />
             </Box>
           </Wrapper>
         </Provider>
