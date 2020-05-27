@@ -8,12 +8,12 @@ import E from './Element'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 
-const Hr = ({ fullscreen, ...p } = {}) => {
+const Hr = ({ fullscreen, ...props } = {}) => {
   if (fullscreen) {
-    p.className = classnames(p.className, 'dnb-hr--fullscreen')
+    props.className = classnames(props.className, 'dnb-hr--fullscreen')
   }
 
-  return <E is="hr" {...p} />
+  return <E is="hr" {...props} />
 }
 Hr.tagName = 'dnb-hr'
 Hr.propTypes = {

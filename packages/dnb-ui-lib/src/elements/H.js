@@ -21,6 +21,7 @@ const H = ({ is, level, style_type, size, className, ...props }) => {
       is={is}
       {...props}
       className={classnames(size && `dnb-h--${size}`, className)}
+      hasTagClass
     />
   )
 }
