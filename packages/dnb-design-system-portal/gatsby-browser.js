@@ -4,6 +4,7 @@
  */
 
 import { applyPageFocus } from 'dnb-ui-lib/src/shared/helpers'
+import { resetLevels } from 'dnb-ui-lib/src/components/Heading'
 import { rootElement } from './src/core/portalProviders'
 import smoothscroll from 'smoothscroll-polyfill'
 
@@ -73,6 +74,8 @@ export const onPreRouteUpdate = ({ location }) => {
 }
 
 export const onRouteUpdate = ({ prevLocation }) => {
+  resetLevels()
+
   try {
     // in order to use our own focus management by using applyPageFocus
     // we have to disable the focus management from Reach Router
