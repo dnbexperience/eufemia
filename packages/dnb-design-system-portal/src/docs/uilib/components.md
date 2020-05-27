@@ -55,7 +55,7 @@ The GlobalStatus is a complex component meant for displaying global Application 
 
 ## [Heading](/uilib/components/heading)
 
-Handle automated semantic headings.
+The Heading component is a helper to create automated semantic headings within a boundary of some rules.
 
 ## [Icon](/uilib/components/icon)
 

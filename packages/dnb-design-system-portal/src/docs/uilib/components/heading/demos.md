@@ -3,10 +3,9 @@ showTabs: true
 ---
 
 import HeadingExamples from 'Pages/uilib/components/heading/Examples'
-import ChangeLocale from 'Src/core/ChangeLocale'
 
 ## Demos
 
-<ChangeLocale label="Locale used in the demos:" label_direction="vertical" />
+All the demos do use `<Heading.Level reset={true}`. This way every demo does reset the global level handling.
 
 <HeadingExamples />
