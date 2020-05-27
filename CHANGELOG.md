@@ -52,8 +52,8 @@ General information: All existing and new components uses the new (and slightly 
 
 [Colors](/uilib/usage/customisation/colors) changes:
 
-- `accent-yellow`, witch replaces `signal-yellow`
-- `accent-yellow-30`, witch replaces `signal-yellow-30`
+- `accent-yellow`, which replaces `signal-yellow`
+- `accent-yellow-30`, which replaces `signal-yellow-30`
 - `signal-orange` is moved from Profile to UX color
 
 New [Colors](/uilib/usage/customisation/colors):
@@ -117,8 +117,8 @@ Get more details about the `dnb-ui-lib` [v5.8 release](/uilib/about-the-lib/rele
 
 - New component in the `dnb-ui-lib`: [Number](/uilib/components/number)
 - New [colors](/uilib/usage/customisation/colors):
-  1. `fire-red`, witch replaces `cherry-red` (_default error color_)
-  1. `fire-red-8`, witch replaces `cherry-red-8`
+  1. `fire-red`, which replaces `cherry-red` (_default error color_)
+  1. `fire-red-8`, which replaces `cherry-red-8`
 - Icons changes:
   1. primary `save` is now => secondary `download`
   1. secondary `save_alt_01` is now => primary `save`

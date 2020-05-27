@@ -49,6 +49,10 @@ render(
 )
 ```
 
+### Skip auto correction and warnings
+
+First, the warnings will not show up in production builds. And to skip the auto correction of heading levels, simply use the `skip_checks` property.
+
 ### Heading levels interceptor modification
 
 ```js
