@@ -69,7 +69,7 @@ The Modal component is using **3000** as the `z-index`.
 
 ## Sizing and spacing
 
-You have the properties `min_width` and `max_width`. But by using these, the width styles get injected inline, witch normal circumstances works fine. But in case you want to set it by CSS, you can do so:
+You have the properties `min_width` and `max_width`. But by using these, the width styles get injected inline, which normal circumstances works fine. But in case you want to set it by CSS, you can do so:
 
 ```css
 /* Change the Modal size  */

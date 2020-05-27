@@ -22,7 +22,7 @@ When you need to provide a considerable amount of options to the user and do not
 
 ## Menu Button
 
-The Dropdown component can easily be used as a so called **menu button** by setting the prop `prevent_selection="true"` (or `more_menu="true"` witch shows then the [more](/icons/primary#icon-more) icon, appears as dots).
+The Dropdown component can easily be used as a so called **menu button** by setting the prop `prevent_selection="true"` (or `more_menu="true"` which shows then the [more](/icons/primary#icon-more) icon, appears as dots).
 
 ## Custom size
 

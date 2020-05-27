@@ -126,7 +126,7 @@ To enhance or manipulate the the table style, you can make use of a couple helpe
       <td align="right">Column 4</td>
     </tr>
     <tr>
-      <td colSpan="2">Column witch spans over two columns</td>
+      <td colSpan="2">Column which spans over two columns</td>
       <td>Column 3</td>
       <td align="right">Column 4</td>
     </tr>
@@ -201,7 +201,7 @@ To enhance or manipulate the the table style, you can make use of a couple helpe
       <td>Column 4</td>
     </tr>
     <tr>
-      <td colSpan="2">Column witch spans over two columns</td>
+      <td colSpan="2">Column which spans over two columns</td>
       <td>Column 3</td>
       <td>Column 4</td>
     </tr>

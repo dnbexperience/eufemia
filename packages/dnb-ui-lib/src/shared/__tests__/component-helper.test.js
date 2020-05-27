@@ -324,7 +324,7 @@ describe('"toPascalCase" should', () => {
 })
 
 describe('"pickRenderProps" should', () => {
-  it('only pass function props witch dont exists in renderProps', () => {
+  it('only pass function props which dont exists in renderProps', () => {
     const renderProp = jest.fn()
     const customRenderer = jest.fn()
     const children = jest.fn()

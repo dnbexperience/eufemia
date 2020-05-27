@@ -237,7 +237,7 @@ const makeIconsEntryFiles = async ({
   }
 
   // the index.js file will contain "all icons"
-  // even the ones witch dont exists in the lock file
+  // even the ones which dont exists in the lock file
   // this is in contrast to the "groups", they will only contain the icons, deticated to the current figma document
   const _imports = icons
     .map(({ name, filename }) => `import ${name} from './${filename}.js'`)

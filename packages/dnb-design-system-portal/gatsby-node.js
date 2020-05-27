@@ -31,7 +31,7 @@ function createMdxNode({
     value: slug
   })
 
-  // to make sure we get nodes witch has not been thenre during the run
+  // to make sure we get nodes which has not been thenre during the run
   // we cound for the length of all nodes
 
   // get all nodes
@@ -82,7 +82,7 @@ function createMdxNode({
         motherMdx &&
         motherMdx.frontmatter &&
         motherMdx.frontmatter.title &&
-        motherMdx.frontmatter.title.length > 0 // we dont need to crawler nodes witch has a title
+        motherMdx.frontmatter.title.length > 0 // we dont need to crawler nodes which has a title
       ) {
         break
       }

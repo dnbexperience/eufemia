@@ -92,7 +92,7 @@ describe('Button component', () => {
     )
   })
 
-  it('has "on_click" event witch will trigger on a click', () => {
+  it('has "on_click" event which will trigger on a click', () => {
     const my_event = jest.fn()
     const myEvent = jest.fn()
     const Comp = mount(<Component on_click={my_event} onClick={myEvent} />)

@@ -822,7 +822,7 @@ export default class DrawerListProvider extends React.PureComponent {
   }
 
   assignObservers = () => {
-    // this is the one witch will be visible, so we depend on the _refUl
+    // this is the one which will be visible, so we depend on the _refUl
     if (
       !this._refUl.current ||
       (this._refUl.current && !this.hasObservers)

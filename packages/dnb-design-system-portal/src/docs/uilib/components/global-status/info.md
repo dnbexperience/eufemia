@@ -31,7 +31,7 @@ Normally, You only want to have **one** `GlobalStatus` inside Your application. 
 <Input global_status_id="other-global-status" ... />
 ```
 
-But You can also make use of the [FormSet](/uilib/components/form-set) or [FormRow](/uilib/components/form-row) (or FormSet) witch will send along the `global_status_id` the underlaying/children components, like:
+But You can also make use of the [FormSet](/uilib/components/form-set) or [FormRow](/uilib/components/form-row) (or FormSet) which will send along the `global_status_id` the underlaying/children components, like:
 
 ```jsx
 <FormSet global_status_id="other-global-status">...</FormSet>
