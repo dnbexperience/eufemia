@@ -48,15 +48,15 @@ class Example extends React.PureComponent {
   <Heading>h1</Heading>
   <Heading>h2</Heading>
 
-  <Heading.Level>
+  <Heading.Increase>
     <Heading>h3</Heading>
     <Heading>h3</Heading>
-  </Heading.Level>
+  </Heading.Increase>
 
-  <Heading.Level decrease>
+  <Heading.Decrease>
     <Heading>h2</Heading>
     <Heading>h2</Heading>
-  </Heading.Level>
+  </Heading.Decrease>
 </Heading.Level>
         `
           }

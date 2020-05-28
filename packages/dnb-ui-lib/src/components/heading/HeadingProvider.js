@@ -32,9 +32,9 @@ const propTypes = {
 }
 const defaultProps = {
   level: null, // like auto
-  increase: true, // set increase as the default
+  increase: null, // set increase as the default
   decrease: null,
-  up: true, // set increase as the default
+  up: null, // set increase as the default
   down: null,
 
   // Do not set these! Because we do not smart check the merge!

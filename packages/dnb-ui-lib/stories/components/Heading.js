@@ -81,11 +81,11 @@ export default [
                 {/* Can not decrement to heading level 1! Had before 2 */}
                 <Heading decrease>Heading #6</Heading>
 
-                <Heading.Level>
+                <Heading.Increase>
                   <Heading>Heading #7</Heading>
                   <Heading>Heading #8</Heading>
-                </Heading.Level>
-                <Heading.Level>
+                </Heading.Increase>
+                <Heading.Increase>
                   {/* Heading level increment is not in sync! 3 4 */}
                   <Heading increase>Heading #9</Heading>
                   <Heading>Heading #10</Heading>
@@ -101,7 +101,7 @@ export default [
                   <Heading increase>Heading #18</Heading>
                   <Heading increase>Heading #19</Heading>
                   <Heading increase>Heading #20</Heading>
-                </Heading.Level>
+                </Heading.Increase>
               </Heading.Level>
             </Box>
             <Box>

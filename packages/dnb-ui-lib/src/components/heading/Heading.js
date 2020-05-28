@@ -240,6 +240,10 @@ export default class Heading extends React.PureComponent {
 }
 
 Heading.Level = HeadingProvider
+Heading.Increase = (props) => <HeadingProvider increase {...props} />
+Heading.Decrease = (props) => <HeadingProvider decrease {...props} />
+Heading.Up = (props) => <HeadingProvider increase {...props} />
+Heading.Down = (props) => <HeadingProvider decrease {...props} />
 
 // Interceptor to reset leveling
 export { resetLevels, setNextLevel }

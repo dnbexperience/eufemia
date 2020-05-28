@@ -172,10 +172,10 @@ describe('Heading component', () => {
       <>
         <Heading.Level debug={warn} reset>
           <Heading>Heading #1</Heading>
-          <Heading.Level skip_checks level="6">
+          <Heading.Increase skip_checks level="6">
             <Heading>Heading #2</Heading>
             <Heading increase>Heading #3</Heading>
-          </Heading.Level>
+          </Heading.Increase>
         </Heading.Level>
       </>
     )
@@ -194,20 +194,20 @@ describe('Heading component semantic', () => {
         <Heading>Heading #1</Heading>
         <Heading>Heading #2</Heading>
 
-        <Heading.Level>
+        <Heading.Increase>
           <Heading>Heading #3</Heading>
           <Heading up>Heading #4</Heading>
           <Heading down>Heading #5</Heading>
           <Heading decrease>Heading #6</Heading>
-        </Heading.Level>
+        </Heading.Increase>
 
-        <Heading.Level>
+        <Heading.Increase>
           <Heading>Heading #7</Heading>
-          <Heading.Level decrease>
+          <Heading.Increase decrease>
             <Heading>Heading #8</Heading>
             <Heading decrease>Heading #9</Heading>
-          </Heading.Level>
-        </Heading.Level>
+          </Heading.Increase>
+        </Heading.Increase>
       </Heading.Level>
     </>
   )

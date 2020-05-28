@@ -18,8 +18,28 @@ render(
     <Heading>h2</Heading>
     <Heading>h2</Heading>
     <Heading increase>h3</Heading>
-    <Heading>h3</Heading>
+    <Heading>still h3</Heading>
     <Heading decrease>h2</Heading>
+    ...
+  </article>
+)
+```
+
+### Heading level up/down
+
+Instead of `increase` and `decrease` you can use `up` and `down` also.
+
+```jsx
+import { Heading } from 'dnb-ui-lib/components'
+
+render(
+  <article>
+    <Heading>h1</Heading>
+    <Heading>h2</Heading>
+    <Heading>h2</Heading>
+    <Heading up>h3</Heading>
+    <Heading>still h3</Heading>
+    <Heading down>h2</Heading>
     ...
   </article>
 )
@@ -31,20 +51,25 @@ For the visual part, we simply use [typography styles](/uilib/typography/heading
 
 ### Level context
 
-In order to control leveling of headings accordingly, you can make use of the `Heading.Level` provider.
+In order to control leveling of headings accordingly, you can make use of the `Heading.Level`, `Heading.Increase` or `Heading.Decrease` providers.
 
-The first inherited Heading, inside of `Heading.Level` will get a new level by default.
+They are completely optional. But can some times help out to solve some kinds of challenges.
+
+The first inherited Heading, inside of `Heading.Increase`, will get a new level by default.
 
 ```jsx
 import { Heading } from 'dnb-ui-lib/components'
 
 render(
-  <Heading.Level>
+  <Heading.Level reset_on_url_change={true}>
     <Heading>h1</Heading>
-    <Heading.Level>
-      <Heading>h2</Heading>
-      <Heading>h2</Heading>
-    </Heading.Level>
+    <Heading>h2</Heading>
+    <Heading increase>h3</Heading>
+    <Heading>still h3</Heading>
+    <Heading.Increase>
+      <Heading>h4</Heading>
+      <Heading>still h4</Heading>
+    </Heading.Increase>
   </Heading.Level>
 )
 ```

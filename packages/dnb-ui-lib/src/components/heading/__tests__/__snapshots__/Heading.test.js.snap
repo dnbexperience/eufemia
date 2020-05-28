@@ -89,11 +89,11 @@ NB: This warning was triggered by:",
   }
   decrease={null}
   down={null}
-  increase={true}
+  increase={null}
   level={null}
   reset={true}
   text={null}
-  up={true}
+  up={null}
 >
   <Heading
     class={null}
@@ -141,151 +141,16 @@ NB: This warning was triggered by:",
       Heading #2
     </h2>
   </Heading>
-  <HeadingProvider
-    counter={null}
-    decrease={null}
-    down={null}
-    increase={true}
-    level={null}
-    reset={null}
-    text={null}
-    up={true}
-  >
-    <Heading
-      class={null}
-      className={null}
-      counter={null}
-      debug={null}
-      decrease={null}
-      down={null}
-      element="auto"
-      increase={null}
-      level={null}
-      reset={null}
-      size="auto"
-      skip_checks={null}
-      text={null}
-      up={null}
-    >
-      <h3
-        className="dnb-heading dnb-h--medium"
-      >
-        [3] 
-        Heading #3
-      </h3>
-    </Heading>
-    <Heading
-      class={null}
-      className={null}
-      counter={null}
-      debug={null}
-      decrease={null}
-      down={null}
-      element="auto"
-      increase={null}
-      level={null}
-      reset={null}
-      size="auto"
-      skip_checks={null}
-      text={null}
-      up={true}
-    >
-      <h4
-        className="dnb-heading dnb-h--basis"
-      >
-        [4] 
-        Heading #4
-      </h4>
-    </Heading>
-    <Heading
-      class={null}
-      className={null}
-      counter={null}
-      debug={null}
-      decrease={null}
-      down={true}
-      element="auto"
-      increase={null}
-      level={null}
-      reset={null}
-      size="auto"
-      skip_checks={null}
-      text={null}
-      up={null}
-    >
-      <h3
-        className="dnb-heading dnb-h--medium"
-      >
-        [3] 
-        Heading #5
-      </h3>
-    </Heading>
-    <Heading
-      class={null}
-      className={null}
-      counter={null}
-      debug={null}
-      decrease={true}
-      down={null}
-      element="auto"
-      increase={null}
-      level={null}
-      reset={null}
-      size="auto"
-      skip_checks={null}
-      text={null}
-      up={null}
-    >
-      <h2
-        className="dnb-heading dnb-h--large"
-      >
-        [2] 
-        Heading #6
-      </h2>
-    </Heading>
-  </HeadingProvider>
-  <HeadingProvider
-    counter={null}
-    decrease={null}
-    down={null}
-    increase={true}
-    level={null}
-    reset={null}
-    text={null}
-    up={true}
-  >
-    <Heading
-      class={null}
-      className={null}
-      counter={null}
-      debug={null}
-      decrease={null}
-      down={null}
-      element="auto"
-      increase={null}
-      level={null}
-      reset={null}
-      size="auto"
-      skip_checks={null}
-      text={null}
-      up={null}
-    >
-      <h3
-        className="dnb-heading dnb-h--medium"
-      >
-        [3] 
-        Heading #7
-      </h3>
-    </Heading>
+  <Component>
     <HeadingProvider
       counter={null}
-      decrease={true}
+      decrease={null}
       down={null}
       increase={true}
       level={null}
       reset={null}
       text={null}
-      up={true}
+      up={null}
     >
       <Heading
         class={null}
@@ -303,12 +168,58 @@ NB: This warning was triggered by:",
         text={null}
         up={null}
       >
-        <h2
-          className="dnb-heading dnb-h--large"
+        <h3
+          className="dnb-heading dnb-h--medium"
         >
-          [2] 
-          Heading #8
-        </h2>
+          [3] 
+          Heading #3
+        </h3>
+      </Heading>
+      <Heading
+        class={null}
+        className={null}
+        counter={null}
+        debug={null}
+        decrease={null}
+        down={null}
+        element="auto"
+        increase={null}
+        level={null}
+        reset={null}
+        size="auto"
+        skip_checks={null}
+        text={null}
+        up={true}
+      >
+        <h4
+          className="dnb-heading dnb-h--basis"
+        >
+          [4] 
+          Heading #4
+        </h4>
+      </Heading>
+      <Heading
+        class={null}
+        className={null}
+        counter={null}
+        debug={null}
+        decrease={null}
+        down={true}
+        element="auto"
+        increase={null}
+        level={null}
+        reset={null}
+        size="auto"
+        skip_checks={null}
+        text={null}
+        up={null}
+      >
+        <h3
+          className="dnb-heading dnb-h--medium"
+        >
+          [3] 
+          Heading #5
+        </h3>
       </Heading>
       <Heading
         class={null}
@@ -330,11 +241,108 @@ NB: This warning was triggered by:",
           className="dnb-heading dnb-h--large"
         >
           [2] 
-          Heading #9
+          Heading #6
         </h2>
       </Heading>
     </HeadingProvider>
-  </HeadingProvider>
+  </Component>
+  <Component>
+    <HeadingProvider
+      counter={null}
+      decrease={null}
+      down={null}
+      increase={true}
+      level={null}
+      reset={null}
+      text={null}
+      up={null}
+    >
+      <Heading
+        class={null}
+        className={null}
+        counter={null}
+        debug={null}
+        decrease={null}
+        down={null}
+        element="auto"
+        increase={null}
+        level={null}
+        reset={null}
+        size="auto"
+        skip_checks={null}
+        text={null}
+        up={null}
+      >
+        <h3
+          className="dnb-heading dnb-h--medium"
+        >
+          [3] 
+          Heading #7
+        </h3>
+      </Heading>
+      <Component
+        decrease={true}
+      >
+        <HeadingProvider
+          counter={null}
+          decrease={true}
+          down={null}
+          increase={true}
+          level={null}
+          reset={null}
+          text={null}
+          up={null}
+        >
+          <Heading
+            class={null}
+            className={null}
+            counter={null}
+            debug={null}
+            decrease={null}
+            down={null}
+            element="auto"
+            increase={null}
+            level={null}
+            reset={null}
+            size="auto"
+            skip_checks={null}
+            text={null}
+            up={null}
+          >
+            <h2
+              className="dnb-heading dnb-h--large"
+            >
+              [2] 
+              Heading #8
+            </h2>
+          </Heading>
+          <Heading
+            class={null}
+            className={null}
+            counter={null}
+            debug={null}
+            decrease={true}
+            down={null}
+            element="auto"
+            increase={null}
+            level={null}
+            reset={null}
+            size="auto"
+            skip_checks={null}
+            text={null}
+            up={null}
+          >
+            <h2
+              className="dnb-heading dnb-h--large"
+            >
+              [2] 
+              Heading #9
+            </h2>
+          </Heading>
+        </HeadingProvider>
+      </Component>
+    </HeadingProvider>
+  </Component>
 </HeadingProvider>
 `;
 
