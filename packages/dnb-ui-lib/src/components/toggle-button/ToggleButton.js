@@ -8,6 +8,7 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import keycode from 'keycode'
 import {
+  warn,
   isTrue,
   makeUniqueId,
   registerElement,
@@ -256,7 +257,7 @@ export default class ToggleButton extends React.PureComponent {
       try {
         this._refButton.current._ref.current.focus()
       } catch (e) {
-        console.warn(e)
+        warn(e)
       }
     }
   }

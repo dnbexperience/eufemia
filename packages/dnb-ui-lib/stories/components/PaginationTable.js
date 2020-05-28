@@ -392,8 +392,10 @@ const TableData = styled.td`
     font-size: var(--font-size-large);
 
     /** reset css specificity */
-    .dnb-spacing &.dnb-h2:not([class*='space__bottom']),
-    .dnb-core-style .dnb-spacing &.dnb-h2:not([class*='space__bottom']) {
+    .dnb-spacing &.dnb-h--large:not([class*='space__bottom']),
+    .dnb-core-style
+      .dnb-spacing
+      &.dnb-h--large:not([class*='space__bottom']) {
       margin: 0;
     }
   }

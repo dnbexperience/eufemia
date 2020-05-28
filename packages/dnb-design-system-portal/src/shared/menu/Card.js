@@ -34,7 +34,7 @@ const CardWrapper = styled.div`
   }
 
   /* mobile view */
-  @media (max-width: 40em) {
+  @media screen and (max-width: 40em) {
     & {
       min-width: calc(100% - 1rem);
       transition: 0.5s;

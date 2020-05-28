@@ -8,6 +8,7 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import Context from '../../shared/Context'
 import {
+  warn,
   isTrue,
   registerElement,
   validateDOMAttributes,
@@ -146,7 +147,7 @@ export default class StepIndicator extends React.PureComponent {
 
     const sn = 'show_numbers'
     if (typeof props[sn] !== 'undefined') {
-      console.warn(
+      warn(
         'StepIndicator: "show_numbers" is deprecated. Use "hide_numbers" instead.'
       )
     }

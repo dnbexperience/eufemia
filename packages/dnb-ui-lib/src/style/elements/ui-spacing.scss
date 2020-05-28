@@ -5,6 +5,8 @@
  */
 
 @mixin defaultSpacing() {
-  margin-top: 0;
-  margin-bottom: 1.5rem;
+  &:not([class*='dnb-space']) {
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+  }
 }

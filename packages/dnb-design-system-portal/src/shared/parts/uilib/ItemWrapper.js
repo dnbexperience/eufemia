@@ -159,7 +159,7 @@ class ItemWrapper extends React.PureComponent {
         <Tabs.ContentWrapper key="demo" selected_key="demo" id={this._id}>
           {!hideTabs && <Description />}
           <DemoWrapper>
-            <h2 className="dnb-h2">Demos</h2>
+            <h2 className="dnb-h--large">Demos</h2>
             <DemoComponent />
           </DemoWrapper>
           {Additional && Additional.demo && (
@@ -218,9 +218,9 @@ class ItemWrapper extends React.PureComponent {
     return (
       <div className="wrapped-item">
         {!hideTabs ? (
-          <h1 className="dnb-h1">{title}</h1>
+          <h1 className="dnb-h--xx-large">{title}</h1>
         ) : (
-          <h4 className="dnb-h4">
+          <h4 className="dnb-h--basis">
             <Link to={`/uilib/components/${id}`} className="dnb-anchor">
               {title}
             </Link>

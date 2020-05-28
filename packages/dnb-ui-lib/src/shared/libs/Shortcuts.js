@@ -1,4 +1,5 @@
 import keycode from 'keycode'
+import { warn } from '../component-helper'
 
 export class createShortcut {
   constructor() {
@@ -83,7 +84,7 @@ export class createShortcut {
 
           return false
         } catch (e) {
-          console.warn(e)
+          warn(e)
         }
       }
 
@@ -107,7 +108,7 @@ export class createShortcut {
 
       this.shortcutExists[shortcut] = true
     } catch (e) {
-      console.warn(e)
+      warn(e)
     }
   }
 

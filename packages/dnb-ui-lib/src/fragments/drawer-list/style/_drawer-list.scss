@@ -137,15 +137,7 @@
     min-height: 2rem;
     max-height: 70vh;
 
-    overflow-y: scroll;
-    overscroll-behavior: contain;
-    scrollbar-width: thin;
-
-    // older iOS safari
-    -webkit-overflow-scrolling: touch;
-
-    // show scrollbar on IE
-    -ms-overflow-style: auto;
+    @include scrollY();
   }
   &--opened &__options {
     scroll-behavior: smooth;
@@ -264,7 +256,7 @@
   &--opened &__list {
     @include openDrawerList();
   }
-  @media (max-width: 40em) {
+  @media screen and (max-width: 40em), screen and (max-height: 40em) {
     &__portal &--mobile-view#{&}--opened &__list {
       @include openDrawerList('scale');
     }
@@ -352,7 +344,7 @@
     bottom: 0;
   }
 
-  @media (max-width: 40em) {
+  @media screen and (max-width: 40em), screen and (max-height: 40em) {
     &__portal &--mobile-view,
     &__portal__style--mobile-view {
       top: 0 !important;
@@ -374,7 +366,7 @@
   &:not(.dnb-drawer-list--opened) &__list {
     @include closDrawerList();
   }
-  @media (max-width: 40em) {
+  @media screen and (max-width: 40em), screen and (max-height: 40em) {
     &__portal &--mobile-view#{&}:not(.dnb-drawer-list--opened) &__list {
       @include closDrawerList('scale');
     }

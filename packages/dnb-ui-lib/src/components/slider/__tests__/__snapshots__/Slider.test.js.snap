@@ -614,8 +614,7 @@ exports[`Slider scss have to match snapshot 1`] = `
     margin-top: 0.25em;
     margin-left: 0.5em;
     color: inherit;
-    font-size: var(--font-size-basis);
-    transform: translateY(-0.125rem); }
+    font-size: var(--font-size-small); }
   .dnb-form-status[hidden] {
     display: none; }
   .dnb-form-status--fade-in {
@@ -1137,7 +1136,7 @@ legend.dnb-form-label {
     margin-top: 0.5rem; }
   .dnb-slider--vertical .dnb-form-status {
     margin-top: 1rem; }
-  @media (max-width: 40em) {
+  @media screen and (max-width: 40em) {
     .dnb-responsive-component .dnb-slider {
       display: flex;
       flex-direction: column;

@@ -8,13 +8,15 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import keycode from 'keycode'
 import {
+  warn,
   isTrue,
   isTouchDevice,
   makeUniqueId,
   extendPropsWithContext,
   registerElement,
   validateDOMAttributes,
-  dispatchCustomElementEvent
+  dispatchCustomElementEvent,
+  convertJsxToString
 } from '../../shared/component-helper'
 import {
   IS_MAC,
@@ -37,8 +39,7 @@ import DrawerListContext from '../../fragments/drawer-list/DrawerListContext'
 import DrawerListProvider from '../../fragments/drawer-list/DrawerListProvider'
 import {
   parseContentTitle,
-  getCurrentData,
-  grabStringFromReact
+  getCurrentData
 } from '../../fragments/drawer-list/DrawerListHelpers'
 
 const renderProps = {
@@ -773,7 +774,7 @@ class AutocompleteInstance extends React.PureComponent {
           try {
             this._refInput.current._ref.current.focus()
           } catch (e) {
-            console.warn(e)
+            warn(e)
           }
         }
         break
@@ -1085,7 +1086,7 @@ class AutocompleteInstance extends React.PureComponent {
           Component = children
 
           // make string out of it
-          children = children.map((child) => grabStringFromReact(child))
+          children = children.map((child) => convertJsxToString(child))
         }
 
         if (typeof children === 'string') {

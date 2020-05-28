@@ -8,6 +8,7 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import keycode from 'keycode'
 import {
+  warn,
   isTrue,
   makeUniqueId,
   extendPropsWithContext,
@@ -238,7 +239,7 @@ class DropdownInstance extends React.PureComponent {
     // deprecated, use value instad
     const dep = 'selected_item'
     if (typeof props[dep] !== 'undefined') {
-      console.warn(`Dropdown: Please use "value" instead of "${dep}".`)
+      warn(`Dropdown: Please use "value" instead of "${dep}".`)
     }
   }
 

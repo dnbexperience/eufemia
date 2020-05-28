@@ -251,7 +251,7 @@ const PhoneRow = styled(FormRow)\`
   width: auto;
   min-width: 6rem;
 }
-@media (max-width: 40em) {
+@media screen and (max-width: 40em) {
   .dnb-dropdown {
     margin-bottom: 0.5rem;
   }

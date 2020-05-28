@@ -32,44 +32,51 @@ class Example extends React.PureComponent {
           data-dnb-test="spacing-method-space"
           scope={{ RedBox }}
         >
-          {/* @jsx */ `
+          {
+            /* @jsx */ `
 <RedBox>
   <Space top="large x-small">
     <Input label="Input:" />
   </Space>
 </RedBox>
-          `}
+          `
+          }
         </ComponentBox>
         <ComponentBox
           title="Spacing method #2 - `FormRow` component"
           data-dnb-test="spacing-method-form-row"
         >
-          {/* @jsx */ `
+          {
+            /* @jsx */ `
 <FormRow>
   <Input label="Input A:" />
 </FormRow>
 <FormRow top="medium">
   <Input label="Input B:" />
 </FormRow>
-          `}
+          `
+          }
         </ComponentBox>
         <ComponentBox
           title="Spacing method #3 - Define the space directly"
           data-dnb-test="spacing-method-component"
         >
-          {/* @jsx */ `
+          {
+            /* @jsx */ `
 <FormRow>
   <Input label="Input A:" right="small" />
   <Input label="Input B:" />
 </FormRow>
-          `}
+          `
+          }
         </ComponentBox>
         <ComponentBox
           title="Spacing with no margin collapse, due to the flex usage"
           hideCode
           scope={{ RedBox, Vertical }}
         >
-          {/* @jsx */ `
+          {
+            /* @jsx */ `
 <Vertical>
   <RedBox>
     <Space bottom="small">
@@ -82,14 +89,16 @@ class Example extends React.PureComponent {
     </Space>
   </RedBox>
 </Vertical>
-          `}
+          `
+          }
         </ComponentBox>
         <ComponentBox
           title="All four values will result in a equivalent margin"
           data-dnb-test="spacing-margins"
           hideCode
         >
-          {/* @jsx */ `
+          {
+            /* @jsx */ `
 <Space top="large x-small" right="2.5" bottom="2.5rem" left="40px" >
   <details>
     <summary>
@@ -98,7 +107,8 @@ class Example extends React.PureComponent {
     And this are my CSS classes: <code className="dnb-code">dnb-space dnb-space__top--large dnb-space__top--x-small dnb-space__right--large dnb-space__right--x-small dnb-space__bottom--large dnb-space__bottom--x-small dnb-space__left--large dnb-space__left--x-small</code>
   </details>
 </Space>
-          `}
+          `
+          }
         </ComponentBox>
         {false && IS_TEST && (
           <ComponentBox
@@ -107,7 +117,8 @@ class Example extends React.PureComponent {
             scope={{ MagicBox, CustomStyle }}
             hideCode
           >
-            {/* @jsx */ `
+            {
+              /* @jsx */ `
 <CustomStyle className="spacing-patterns">
   <Space top="0.5">
     <MagicBox />
@@ -170,7 +181,8 @@ class Example extends React.PureComponent {
     <MagicBox />
   </Space>
 </CustomStyle>
-          `}
+          `
+            }
           </ComponentBox>
         )}
       </TestStyles>

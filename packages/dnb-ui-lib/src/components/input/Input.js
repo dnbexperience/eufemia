@@ -7,6 +7,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import {
+  warn,
   isTrue,
   makeUniqueId,
   extendPropsWithContext,
@@ -254,7 +255,7 @@ export default class Input extends React.PureComponent {
         try {
           this._ref.current.select()
         } catch (e) {
-          console.warn(e)
+          warn(e)
         }
       }, 1) // safari needs a delay
     }

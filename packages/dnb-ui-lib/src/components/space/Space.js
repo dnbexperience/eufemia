@@ -13,7 +13,7 @@ import {
   validateDOMAttributes
 } from '../../shared/component-helper'
 import Context from '../../shared/Context'
-import { createSpacingClasses } from './SpacingHelper'
+import { createSpacingClasses, isInline } from './SpacingHelper'
 
 const renderProps = {
   render_content: null
@@ -23,7 +23,7 @@ const propTypes = {
   id: PropTypes.string,
   element: PropTypes.string,
   inline: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  collapse: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  no_collapse: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   top: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number,
@@ -62,7 +62,7 @@ const defaultProps = {
   id: null,
   element: 'div',
   inline: null,
-  collapse: null,
+  no_collapse: null, // avoid margin collapsing
   top: null,
   right: null,
   bottom: null,
@@ -107,10 +107,10 @@ export default class Space extends React.PureComponent {
         )
       : this.props
 
-    let {
+    const {
       element,
       inline,
-      collapse,
+      no_collapse,
       top,
       right,
       bottom,
@@ -140,16 +140,24 @@ export default class Space extends React.PureComponent {
     validateDOMAttributes(this.props, params)
 
     return (
-      <Element element={element} collapse={collapse} {...params}>
+      <Element element={element} no_collapse={no_collapse} {...params}>
         {children}
       </Element>
     )
   }
 }
 
-const Element = ({ element: E, collapse, children, ...props }) => {
-  return collapse === false || collapse === 'false' ? (
-    <E className="dnb-space--no-collapse">
+const Element = ({ element: E, no_collapse, children, ...props }) => {
+  const doCollaps = isTrue(no_collapse)
+
+  return doCollaps ? (
+    <E
+      element={isInline(Element) ? 'span' : 'div'}
+      className={classnames(
+        'dnb-space--no-collapse',
+        isInline(Element) && 'dnb-space--inline'
+      )}
+    >
       <E {...props}>{children}</E>
     </E>
   ) : (
@@ -159,10 +167,10 @@ const Element = ({ element: E, collapse, children, ...props }) => {
 Element.propTypes = {
   children: PropTypes.node,
   element: PropTypes.string,
-  collapse: PropTypes.bool
+  no_collapse: PropTypes.bool
 }
 Element.defaultProps = {
   children: null,
   element: 'div',
-  collapse: true
+  no_collapse: true
 }

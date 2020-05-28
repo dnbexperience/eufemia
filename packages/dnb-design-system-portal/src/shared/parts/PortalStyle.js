@@ -50,7 +50,7 @@ if (typeof window !== 'undefined' && window.IS_TEST) {
 
 export default css`
   ${'' /* .dnb-form-component {
-    @media (max-width: 40em) {
+    @media screen and (max-width: 40em) {
       flex-wrap: wrap;
       & > .dnb-form-label {
         margin-bottom: 0.5rem;
@@ -96,7 +96,7 @@ export default css`
     padding-right: 1rem;
   }
 
-  .dev-grid > .dnb-h1 {
+  .dev-grid > .dnb-h--xx-large {
     position: relative;
     z-index: 2;
   }
@@ -218,7 +218,7 @@ export default css`
     ${gridStyle({ rgb: '164, 255, 255', a: 0.8 })};
 
     h1 {
-      margin-top: 0rem;
+      margin-top: 0;
     }
 
     ul {

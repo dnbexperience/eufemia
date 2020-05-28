@@ -822,7 +822,7 @@ exports[`Pagination scss have to match default theme snapshot 1`] = `
 .dnb-pagination__dots > div {
   background-color: var(--color-emerald-green); }
 
-@media (max-width: 40em) {
+@media screen and (max-width: 40em) {
   .dnb-pagination--many-pages .dnb-pagination__bar__inner .dnb-pagination__button:not([aria-current]):nth-of-type(2),
   .dnb-pagination--many-pages .dnb-pagination__bar__inner .dnb-pagination__button:not([aria-current]):nth-last-of-type(2) {
     width: 0;
@@ -997,8 +997,7 @@ exports[`Pagination scss have to match snapshot 1`] = `
     margin-top: 0.25em;
     margin-left: 0.5em;
     color: inherit;
-    font-size: var(--font-size-basis);
-    transform: translateY(-0.125rem); }
+    font-size: var(--font-size-small); }
   .dnb-form-status[hidden] {
     display: none; }
   .dnb-form-status--fade-in {
@@ -1260,7 +1259,8 @@ button.dnb-button::-moz-focus-inner {
     display: inline-flex; }
     .dnb-progress-indicator__label .dnb-p {
       align-self: center; }
-  .dnb-spacing .dnb-progress-indicator .dnb-p {
+  .dnb-spacing .dnb-progress-indicator .dnb-p,
+  .dnb-spacing .dnb-progress-indicator .dnb-p:not([class*='dnb-space']) {
     margin: 0; }
   .dnb-progress-indicator--horizontal .dnb-progress-indicator__label {
     margin: 0 1rem; }
@@ -1383,7 +1383,7 @@ button.dnb-button::-moz-focus-inner {
     justify-content: flex-start; }
   .dnb-pagination--center .dnb-pagination__bar {
     justify-content: center; }
-    @media (max-width: 40em) {
+    @media screen and (max-width: 40em) {
       .dnb-pagination--center .dnb-pagination__bar {
         justify-content: flex-start; } }
   .dnb-pagination--right .dnb-pagination__bar {

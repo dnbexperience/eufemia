@@ -131,7 +131,7 @@
       min-width: var(--modal-drawer-min-width);
       max-width: var(--modal-drawer-max-width);
 
-      @media (max-width: 40em) {
+      @media screen and (max-width: 40em) {
         width: 100vw;
         min-width: auto;
         max-width: auto;
@@ -169,7 +169,7 @@
     &--no-animation &__inner {
       animation-duration: 0ms !important;
     }
-    @media (max-width: 40em) {
+    @media screen and (max-width: 40em) {
       &--no-animation-on-mobile &__inner {
         animation-duration: 0ms !important;
       }
@@ -177,8 +177,8 @@
   }
 
   &__title {
-    &.dnb-h2,
-    .dnb-core-style &.dnb-h2:not([class*='dnb-space']) {
+    &.dnb-h--large,
+    .dnb-core-style &.dnb-h--large:not([class*='dnb-space']) {
       margin: 0;
       padding: 0 2rem 0 0; // because of the close button
     }
@@ -248,7 +248,7 @@
     &--no-animation {
       animation-duration: 0ms !important;
     }
-    @media (max-width: 40em) {
+    @media screen and (max-width: 40em) {
       &--no-animation-on-mobile {
         animation-duration: 0ms !important;
       }

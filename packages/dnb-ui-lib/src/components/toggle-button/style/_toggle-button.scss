@@ -200,7 +200,7 @@
   }
 
   // default spacing for a single toggle button
-  @media (min-width: 40em) {
+  @media screen and (min-width: 40em) {
     .dnb-form-label + & {
       transform: translateY(-0.5rem);
     }

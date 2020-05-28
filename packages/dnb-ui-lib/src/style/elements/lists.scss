@@ -14,6 +14,28 @@
     margin-bottom: 1.5rem;
     padding-left: 2rem; // to ajust the left spacing of child lists
   }
+
+  & li,
+  &--outside li {
+    position: relative;
+
+    &::before {
+      position: absolute;
+      left: -10rem;
+      width: 10rem;
+      padding-right: 0.25rem;
+      text-align: right;
+    }
+  }
+  &--inside li {
+    &::before {
+      position: relative;
+      left: 0;
+      width: auto;
+      padding-right: 0;
+      text-align: initial;
+    }
+  }
 }
 @mixin ulStyle() {
   margin: 0;

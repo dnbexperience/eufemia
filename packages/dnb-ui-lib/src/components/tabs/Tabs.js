@@ -9,6 +9,7 @@ import classnames from 'classnames'
 import keycode from 'keycode'
 import Context from '../../shared/Context'
 import {
+  warn,
   slugify,
   isTrue,
   makeUniqueId,
@@ -321,7 +322,7 @@ export default class Tabs extends React.PureComponent {
       this.openTab(selected_key, e)
       this.setFocusOnTablist()
     } catch (e) {
-      console.warn('Tabs Error:', e)
+      warn('Tabs Error:', e)
     }
   }
 
@@ -376,7 +377,7 @@ export default class Tabs extends React.PureComponent {
           `#${selected_key}`
         )
       } catch (e) {
-        console.warn('Tabs Error:', e)
+        warn('Tabs Error:', e)
       }
     }
   }

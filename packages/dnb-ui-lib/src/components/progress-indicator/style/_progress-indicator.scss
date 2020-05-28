@@ -29,8 +29,11 @@
       align-self: center;
     }
   }
-  @at-root .dnb-spacing & .dnb-p {
-    margin: 0;
+  @at-root .dnb-spacing & {
+    .dnb-p,
+    .dnb-p:not([class*='dnb-space']) {
+      margin: 0;
+    }
   }
   &--horizontal &__label {
     margin: 0 1rem;

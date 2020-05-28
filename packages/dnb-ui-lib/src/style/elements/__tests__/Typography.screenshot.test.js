@@ -13,7 +13,7 @@ import {
 
 describe('Heading screenshot', () => {
   setupPageScreenshot({
-    url: '/uilib/typography',
+    url: '/uilib/typography/heading',
     screenshotConfig: {
       /*
         if we use Helvetica, we can go down to 6%
@@ -25,21 +25,43 @@ describe('Heading screenshot', () => {
       pixelThresholdRelative: isCI ? 0.1 : 0
     }
   })
-  it('have to match the additional heading examples', async () => {
+  it('have to match the default heading examples', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-dnb-test="heading-additional"] article'
+      selector: '[data-dnb-test="heading-default"]'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+  it('have to match the additional heading examples', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-dnb-test="heading-additional"]'
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+})
+
+describe('Paragraph screenshot', () => {
+  setupPageScreenshot({
+    url: '/uilib/typography/paragraph',
+    screenshotConfig: {
+      // use 10% on CI because of the font rendering differences
+      pixelThresholdRelative: isCI ? 0.1 : 0
+    }
+  })
   it('have to match the paragraph example', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-dnb-test="paragraph-default"] .dnb-p'
+      selector: '[data-dnb-test="paragraph-default"]'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
   it('have to match the paragraph with small text', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-dnb-test="paragraph-small"] .dnb-p'
+      selector: '[data-dnb-test="paragraph-small"]'
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+  it('have to match the paragraph with modifiers', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-dnb-test="paragraph-modifiers"]'
     })
     expect(screenshot).toMatchImageSnapshot()
   })

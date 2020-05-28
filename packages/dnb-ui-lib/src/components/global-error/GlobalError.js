@@ -8,6 +8,7 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import Context from '../../shared/Context'
 import {
+  warn,
   registerElement,
   processChildren
 } from '../../shared/component-helper'
@@ -158,7 +159,7 @@ export default class GlobalError extends React.PureComponent {
           }
         }
       } catch (e) {
-        console.warn(e)
+        warn(e)
       }
     }
 

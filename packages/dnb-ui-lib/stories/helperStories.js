@@ -25,7 +25,7 @@ const WidthWrapperInner = styled.div`
   padding: 0 1rem;
 
   /* for small screesn */
-  @media (max-width: 40em) {
+  @media screen and (max-width: 40em) {
     width: 95vw;
     padding: 0;
   }

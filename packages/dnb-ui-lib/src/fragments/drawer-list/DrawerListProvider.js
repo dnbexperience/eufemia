@@ -8,6 +8,7 @@ import PropTypes from 'prop-types'
 import keycode from 'keycode'
 import Context from '../../shared/Context'
 import {
+  warn,
   isTrue,
   roundToNearest,
   isInsideScrollView,
@@ -28,8 +29,7 @@ import {
 import DrawerListContext from './DrawerListContext'
 import {
   disableBodyScroll,
-  enableBodyScroll,
-  clearAllBodyScrollLocks
+  enableBodyScroll
 } from '../../shared/libs/bodyScrollLock'
 
 const propTypes = {
@@ -212,7 +212,7 @@ export default class DrawerListProvider extends React.PureComponent {
       this._refUl.current.addEventListener('scroll', this.setOnScroll)
       this.setOnScroll()
     } catch (e) {
-      console.warn('List could not set onScroll:', e)
+      warn('List could not set onScroll:', e)
     }
   }
 
@@ -224,20 +224,20 @@ export default class DrawerListProvider extends React.PureComponent {
   }
 
   enableMobileView = () => {
-    if (this.mobileViewIsEnabled || !this._refRoot.current) {
-      return //stop here
-    }
     this.mobileViewIsEnabled = true
-    disableBodyScroll(this._refRoot.current)
+
+    // wait unitl render is complete and we have a valid this._refUl.current
+    clearTimeout(this._mobileViewTimeout)
+    this._mobileViewTimeout = setTimeout(
+      () => disableBodyScroll(this._refUl.current),
+      1
+    )
   }
 
   disableMobileView = () => {
-    if (this.mobileViewIsEnabled === null) {
-      return //stop here
-    }
     this.mobileViewIsEnabled = null
-    enableBodyScroll(this._refRoot.current)
-    clearAllBodyScrollLocks()
+    clearTimeout(this._mobileViewTimeout)
+    enableBodyScroll(this._refUl.current)
   }
 
   setDirectionObserver() {
@@ -358,15 +358,19 @@ export default class DrawerListProvider extends React.PureComponent {
         }
 
         if (useMobileView) {
-          // Like @media (max-width: 40em) { ...
-          if (window.innerWidth / 16 <= 40) {
+          // Like @media screen and (max-width: 40em) { ...
+          if (
+            (window.innerWidth / 16 <= 40 ||
+              window.innerHeight / 16 <= 40) &&
+            this.mobileViewIsEnabled === null
+          ) {
             this.enableMobileView()
-          } else {
+          } else if (this.mobileViewIsEnabled) {
             this.disableMobileView()
           }
         }
       } catch (e) {
-        console.warn('List could not set onResize:', e)
+        warn('List could not set onResize:', e)
       }
     }
 
@@ -439,7 +443,7 @@ export default class DrawerListProvider extends React.PureComponent {
         this.changedOrderFor = value
       }
     } catch (e) {
-      console.warn('List could not findItemByValue:', e)
+      warn('List could not findItemByValue:', e)
     }
 
     return index
@@ -471,7 +475,7 @@ export default class DrawerListProvider extends React.PureComponent {
             }
           }
         } catch (e) {
-          console.warn('List could not scroll into element:', e)
+          warn('List could not scroll into element:', e)
         }
       }
     }, 1) // to make sure we are after all DOM updates, else we don't get this scrolling
@@ -576,7 +580,7 @@ export default class DrawerListProvider extends React.PureComponent {
   //       }
   //     }
   //   } catch (e) {
-  //     console.warn(e)
+  //     warn(e)
   //   }
   // }
 
@@ -818,7 +822,7 @@ export default class DrawerListProvider extends React.PureComponent {
   }
 
   assignObservers = () => {
-    // this is the one witch will be visible, so we depend on the _refUl
+    // this is the one which will be visible, so we depend on the _refUl
     if (
       !this._refUl.current ||
       (this._refUl.current && !this.hasObservers)

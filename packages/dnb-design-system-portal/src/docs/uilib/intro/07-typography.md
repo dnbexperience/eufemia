@@ -11,7 +11,7 @@ Fonts are handled automatically once the CSS packages **dnb-ui-core** or **dnb-u
 
 Every typography HTML element, like headings and paragraphs, have a defined `height`, respective `line-height` so everything falls exactly into the **8 pixel grid**.
 
-You don't need to define the `font-family` ever, but rather use CSS Custom Properties for [`font-weight`](/font-weights), [`font-size`](/uilib/typography/font-size) and [`line-height`](/uilib/typography/line-height).
+You don't need to define the `font-family` ever, but rather use CSS Custom Properties for [font-weight](/font-weights), [font-size](/uilib/typography/font-size) and [line-height](/uilib/typography/line-height).
 
 ```css
 .selector {

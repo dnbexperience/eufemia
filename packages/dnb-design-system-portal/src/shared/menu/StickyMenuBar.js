@@ -43,12 +43,12 @@ const Header = styled.header`
     God for a mobile menu insted
     make sure that Content main "styled.main" gets the same max-width
    */
-  @media (max-width: 50em) {
+  @media screen and (max-width: 50em) {
     #toggle-sidebar-menu {
       display: flex;
     }
   }
-  @media (max-width: 40em) {
+  @media screen and (max-width: 40em) {
     /* make the button round */
     button:nth-of-type(1) {
       padding: 0 0.25rem;
@@ -77,14 +77,14 @@ const HeaderInner = styled.div`
   /* make sure we are on 64px insted of 65px */
   padding: 0.5rem 2rem;
 
-  @media (max-width: 40em) {
+  @media screen and (max-width: 40em) {
     padding: 0.5rem 5vw;
   }
 
   align-items: center;
 `
 const Slogan = styled.span`
-  @media (max-width: 40em) {
+  @media screen and (max-width: 40em) {
     display: none;
   }
 `
@@ -98,7 +98,7 @@ const CenterWrapper = styled.span`
     color: var(--color-sea-green);
   }
 
-  @media (max-width: 30em) {
+  @media screen and (max-width: 30em) {
     display: none;
   }
 `

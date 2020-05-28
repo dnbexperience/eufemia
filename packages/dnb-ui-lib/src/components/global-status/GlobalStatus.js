@@ -9,6 +9,7 @@ import classnames from 'classnames'
 import keycode from 'keycode'
 import Context from '../../shared/Context'
 import {
+  warn,
   isTrue,
   makeUniqueId,
   registerElement,
@@ -471,7 +472,7 @@ export default class GlobalStatus extends React.PureComponent {
           }
         }
       } catch (e) {
-        console.warn('GlobalStatus: Could not set height!', e)
+        warn('GlobalStatus: Could not set height!', e)
       }
     }
 
@@ -499,7 +500,7 @@ export default class GlobalStatus extends React.PureComponent {
         this.initialActiveElement.focus()
         this.initialActiveElement = null
       } catch (e) {
-        console.warn(e)
+        warn(e)
       }
     }
     dispatchCustomElementEvent(
@@ -531,7 +532,7 @@ export default class GlobalStatus extends React.PureComponent {
         }
       }
     } catch (e) {
-      console.warn('GlobalStatus: Could not scroll into view!', e)
+      warn('GlobalStatus: Could not scroll into view!', e)
     }
   }
 
@@ -572,7 +573,7 @@ export default class GlobalStatus extends React.PureComponent {
             // we use "attention-focus" in #form-status theme
             elem.focus({ preventScroll: true })
           } catch (e) {
-            console.warn(e)
+            warn(e)
           }
         })
 
@@ -587,7 +588,7 @@ export default class GlobalStatus extends React.PureComponent {
           })
         }
       } catch (e) {
-        console.warn(e)
+        warn(e)
       }
     }
   }

@@ -20,7 +20,7 @@ From the technical side, we have to assign an _invisible_ focus, so the user can
   <nav><!-- focusable navigation --></nav>
   <main>
     <!-- more markup with focusable HTMLElements -->
-    <h1 class="dnb-no-focus" tabindex="-1">Main Title</h1>
+    <h1 class="dnb-h--xx-large dnb-no-focus" tabindex="-1">Main Title</h1>
     <a href="/path">I'm now focusable on next tab</a>
   </main>
 </body>
@@ -30,7 +30,7 @@ From the technical side, we have to assign an _invisible_ focus, so the user can
 
 Make sure You ...
 
-- set the focus on the content (e.g. `<h1 class="dnb-h1">`) after a navigation action, initiated by the user.
+- set the focus on the content (e.g. `<h1 class="dnb-h--xx-large">`) after a navigation action, initiated by the user.
 - set the focus into a _menu or navigation_ area, if it has an opening mechanism.
 - also set the focus back to the content, once the menu or navigation area gets closed.
 

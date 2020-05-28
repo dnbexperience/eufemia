@@ -8,7 +8,7 @@ const path = require('path')
 const isCI = require('is-ci')
 const os = require('os')
 const { setupJestScreenshot } = require('jest-screenshot')
-const { makeUniqueId } = require('../../shared/component-helper')
+const { warn, makeUniqueId } = require('../../shared/component-helper')
 
 const config = {
   DIR: path.join(os.tmpdir(), 'jest_puppeteer_global_setup'),
@@ -238,10 +238,10 @@ module.exports.testPageScreenshot = async ({
       const off = howManyPixeToNextEight(heightInPixelsFloat)
       if (off > 0) {
         const inRem = Math.round(heightInPixelsFloat / (pixelGrid * 2))
-        console.warn(
+        warn(
           `"${measureElement}" is <${off}px off to ${
             heightInPixelsFloat + off
-          }rem (${heightInPixels}) witch corresponds to a rem value of ${inRem}rem.`
+          }rem (${heightInPixels}) which corresponds to a rem value of ${inRem}rem.`
         )
       }
     }

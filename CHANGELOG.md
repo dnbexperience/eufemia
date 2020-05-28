@@ -1,12 +1,31 @@
-## May, 6. 2020
+## May, 22. 2020
 
 - The [color](/quickguide-designer/colors) `Sea green alt` is removed and got replaced by `Sea green`
 - The `DNB` font got updates on the bold weight, mostly effected Windows users
 - New component [Autocomplete](/uilib/components/autocomplete)
 - New component [Pagination](/uilib/components/pagination) including infinity scroller
 - New [secondary icons](/icons/secondary): `pay_from`, `transfer_to`
+- Modal got a [Drawer mode](/uilib/components/modal/demos#drawer-mode) and has now a dark background color
 - **Breaking Changes** to the UMD [bundles](/uilib/usage/first-steps/bundles) structure (v7), including ESM (mjs)
-- The Modal got a [Drawer mode](/uilib/components/modal/demos#drawer-mode) and has now a dark background color
+- **Breaking Changes** to headings:
+
+  - `.dnb-h1` is now `.dnb-h--xx-large`
+  - `.dnb-h1--small` is now `.dnb-h--x-large`
+  - `.dnb-h2` is now `.dnb-h--large`
+  - `.dnb-h3` is now `.dnb-h--medium` / `.dnb-lead`
+  - For `.dnb-h4`, `.dnb-h5` and `.dnb-h6` se [v7 release notes](/uilib/about-the-lib/releases/v7-info#heading-changes)
+
+Check out the [detailed migration guide](/uilib/about-the-lib/releases/v7-info#migration)
+
+Figma typography styles got updated as well:
+
+- ~~h1~~ `Heading xx-large`
+- ~~h1 small~~ `Heading x-large`
+- ~~h2~~ `Heading large`
+- ~~Lead~~ `Text lead`
+- ~~Body~~ `Text basis` and `Text basis (Medium)`
+- ~~Small~~ `Text small` and `Text small / (Medium)`
+- ~~X-Small~~ `Text x-small` and `Text x-small (Medium)`
 
 ## January, 30. 2020
 
@@ -33,8 +52,8 @@ General information: All existing and new components uses the new (and slightly 
 
 [Colors](/uilib/usage/customisation/colors) changes:
 
-- `accent-yellow`, witch replaces `signal-yellow`
-- `accent-yellow-30`, witch replaces `signal-yellow-30`
+- `accent-yellow`, which replaces `signal-yellow`
+- `accent-yellow-30`, which replaces `signal-yellow-30`
 - `signal-orange` is moved from Profile to UX color
 
 New [Colors](/uilib/usage/customisation/colors):
@@ -98,8 +117,8 @@ Get more details about the `dnb-ui-lib` [v5.8 release](/uilib/about-the-lib/rele
 
 - New component in the `dnb-ui-lib`: [Number](/uilib/components/number)
 - New [colors](/uilib/usage/customisation/colors):
-  1. `fire-red`, witch replaces `cherry-red` (_default error color_)
-  1. `fire-red-8`, witch replaces `cherry-red-8`
+  1. `fire-red`, which replaces `cherry-red` (_default error color_)
+  1. `fire-red-8`, which replaces `cherry-red-8`
 - Icons changes:
   1. primary `save` is now => secondary `download`
   1. secondary `save_alt_01` is now => primary `save`

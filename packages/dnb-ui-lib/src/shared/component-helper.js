@@ -3,11 +3,17 @@
  *
  */
 
-import { registerElement } from './custom-element'
-export { registerElement }
+import React from 'react'
 import keycode from 'keycode'
 import whatInput from 'what-input'
-import { PLATFORM_MAC, PLATFORM_WIN, PLATFORM_LINUX } from './helpers'
+import { registerElement } from './custom-element'
+
+export { registerElement }
+
+export const PLATFORM_MAC = 'Mac|iPad|iPhone|iPod'
+export const PLATFORM_WIN = 'Win'
+export const PLATFORM_LINUX = 'Linux'
+export const PLATFORM_IOS = 'iOS|iPhone|iPad|iPod'
 
 if (
   typeof process !== 'undefined' &&
@@ -64,7 +70,7 @@ export function defineNavigator() {
         document.documentElement.setAttribute('data-os', 'other')
       }
     } catch (e) {
-      console.warn(e)
+      warn(e)
     }
 
     document.removeEventListener('DOMContentLoaded', handleNavigator)
@@ -110,6 +116,9 @@ export const validateDOMAttributes = (props, params) => {
   }
   if (typeof params.left !== 'undefined') {
     delete params.left
+  }
+  if (typeof params.no_collapse !== 'undefined') {
+    delete params.no_collapse
   }
 
   // in case disabled is a string, it its enabled, send it in as a true (this is for web components support)
@@ -161,7 +170,7 @@ export const processChildren = (props) => {
       ? props.children(props)
       : props.children
 
-  // if we get several react children witch representates only a text
+  // if we get several react children which representates only a text
   if (Array.isArray(res)) {
     const onlyTexts = res.reduce((pV, cV) => {
       if (typeof cV === 'string' || typeof cV === 'number') {
@@ -298,7 +307,7 @@ export const dispatchCustomElementEvent = (
           }
         }
       } catch (e) {
-        console.warn('Error on handling dataset:', e)
+        warn('Error on handling dataset:', e)
       }
     }
   }
@@ -472,7 +481,7 @@ export class DetectOutsideClickClass {
         onSuccess()
       }
     } catch (e) {
-      console.warn(e)
+      warn(e)
     }
   }
 
@@ -561,7 +570,7 @@ export const getPreviousSibling = (className, element) => {
       !contains(element)
     );
   } catch (e) {
-    console.warn(e)
+    warn(e)
   }
   return element
 }
@@ -581,4 +590,38 @@ export const isInsideScrollView = (
     return elem == window ? null : elem
   }
   return elem == window ? false : Boolean(elem)
+}
+
+export const warn = (...e) => {
+  if (typeof console !== 'undefined') {
+    console.warn(...e)
+  }
+}
+
+export const convertJsxToString = (elements, separator = undefined) => {
+  if (!Array.isArray(elements)) {
+    elements = [elements]
+  }
+
+  return elements
+    .map((word) => {
+      if (React.isValidElement(word)) {
+        if (typeof word.props.children === 'string') {
+          word = word.props.children
+        } else if (Array.isArray(word.props.children)) {
+          word = word.props.children.reduce((acc, word) => {
+            if (typeof word === 'string') {
+              acc = acc + word
+            }
+            return acc
+          }, '')
+        } else {
+          return null
+        }
+      }
+
+      return word
+    })
+    .filter(Boolean)
+    .join(separator)
 }

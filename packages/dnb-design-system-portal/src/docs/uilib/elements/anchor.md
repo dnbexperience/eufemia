@@ -133,12 +133,12 @@ To force a specific state of style, use the following classes to do so:
 
 <ComponentBox hideCode>
 {`
-<h2 className="dnb-h2">
+<h2 className="dnb-h--large">
   <a href="/" className="dnb-anchor" data-dnb-test="anchor-heading">
     Inside Headings <IconPrimary icon="bell" />
   </a> H2
 </h2>
-<h2 className="dnb-h2">
+<h2 className="dnb-h--large">
   <a target="_blank" href="https://eufemia.dnb.no/uilib/elements/anchor" className="dnb-anchor" data-dnb-test="anchor-heading-blank">
     Blank target in headings
   </a> H2

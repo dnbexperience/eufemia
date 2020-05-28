@@ -30,6 +30,12 @@ describe('List screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+  it('have to match outside ol list', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-dnb-test="lists-ol-style-position"]'
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
   it('have to match dl list', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-dnb-test="lists-dl"]'

@@ -26,8 +26,8 @@ const Center = styled.div`
   ${'' /* > div {
     max-width: 60rem;
   } */}
-  .dnb-h2,
-  .dnb-h3 {
+  .dnb-h--large,
+  .dnb-h--medium {
     margin: 0 0 2rem;
     line-height: 1.5rem;
   }

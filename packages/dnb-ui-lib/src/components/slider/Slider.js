@@ -8,6 +8,7 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import keycode from 'keycode'
 import {
+  warn,
   isTrue,
   makeUniqueId,
   registerElement,
@@ -291,7 +292,7 @@ export default class Slider extends React.PureComponent {
         )
         document.body.addEventListener('mouseup', this.onMouseUpHandler)
       } catch (e) {
-        console.warn(e)
+        warn(e)
       }
     }
 
@@ -325,7 +326,7 @@ export default class Slider extends React.PureComponent {
         )
         document.body.removeEventListener('mouseup', this.onMouseUpHandler)
       } catch (e) {
-        console.warn(e)
+        warn(e)
       }
     }
 
@@ -470,7 +471,7 @@ export default class Slider extends React.PureComponent {
         )
         document.body.removeEventListener('mouseup', this.onMouseUpHandler)
       } catch (e) {
-        console.warn(e)
+        warn(e)
       }
     }
     clearTimeout(this.resetStateTimeoutId)

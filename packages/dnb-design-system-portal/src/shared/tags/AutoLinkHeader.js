@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { css } from '@emotion/core'
 import AnchorLink from 'react-anchor-link-smooth-scroll'
-import classnames from 'classnames'
+import { Heading } from 'dnb-ui-lib/src'
 import { makeSlug } from '../../uilib/utils/slug'
 
 const anchorLinkStyle = css`
@@ -73,7 +73,8 @@ const anchorLinkStyle = css`
 `
 
 const AutoLinkHeader = ({
-  is: Component,
+  level,
+  element,
   useSlug,
   children,
   className,
@@ -98,9 +99,34 @@ const AutoLinkHeader = ({
           }
         }
 
+  // let size = 'auto'
+  // switch (String(level)) {
+  //   case '1':
+  //     size = 'xx-large'
+  //     break
+  //   case '2':
+  //     size = 'x-large'
+  //     break
+  //   case '3':
+  //     size = 'large'
+  //     break
+  //   case '4':
+  //     size = 'medium'
+  //     break
+  //   case '5':
+  //     size = 'basis'
+  //     break
+  //   case '6':
+  //     size = 'small'
+  //     break
+  // }
+
   return (
-    <Component
-      className={classnames(`dnb-${Component}`, className)}
+    <Heading
+      level={level}
+      // size={size}
+      element={element}
+      className={className}
       css={anchorLinkStyle}
       {...props}
     >
@@ -118,15 +144,21 @@ const AutoLinkHeader = ({
         </AnchorLink>
       )}
       {children}
-    </Component>
+    </Heading>
   )
 }
 AutoLinkHeader.propTypes = {
-  is: PropTypes.string,
+  level: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  element: PropTypes.string,
   useSlug: PropTypes.string,
   className: PropTypes.string,
   children: PropTypes.node.isRequired
 }
-AutoLinkHeader.defaultProps = { is: 'h2', useSlug: null, className: null }
+AutoLinkHeader.defaultProps = {
+  level: '1',
+  element: null,
+  useSlug: null,
+  className: null
+}
 
 export default AutoLinkHeader

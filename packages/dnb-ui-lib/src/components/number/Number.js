@@ -9,6 +9,7 @@ import classnames from 'classnames'
 import Context from '../../shared/Context'
 import { LOCALE, CURRENCY, CURRENCY_DISPLAY } from '../../shared/defaults'
 import {
+  warn,
   isTrue,
   makeUniqueId,
   validateDOMAttributes,
@@ -102,8 +103,6 @@ const defaultProps = {
   ...renderProps
 }
 
-let shortcutInFire = false
-
 export default class Number extends React.PureComponent {
   static tagName = 'dnb-number'
   static propTypes = propTypes
@@ -121,30 +120,32 @@ export default class Number extends React.PureComponent {
   }
 
   componentDidMount() {
-    if (!this.shortcuts) {
-      this.shortcuts = new createShortcut()
-    }
-    // Firefox sometimes don't respond on the onCopy event
-    // But more importanly, Safari does not supprt onCopy event and custom copy at the same time
-    // therefore we use shortcuts as well
     this.osShortcut = IS_WIN ? 'ctrl+c' : 'cmd+c'
-    this.shortcuts.add(
-      this.osShortcut,
-      this.shortcutHandler,
-      () => (shortcutInFire = false)
-    )
+
+    if (typeof window !== 'undefined') {
+      if (!window._shortcuts) {
+        window._shortcuts = new createShortcut()
+        // Firefox sometimes don't respond on the onCopy event
+        // But more importanly, Safari does not supprt onCopy event and custom copy at the same time
+        // therefore we use shortcuts as well
+        window._shortcuts.add(this.osShortcut, this.shortcutHandler)
+        window._shortcuts._number = 1
+      } else {
+        window._shortcuts._number++
+      }
+    }
   }
   componentWillUnmount() {
-    if (this.shortcuts && this.osShortcut) {
-      this.shortcuts.remove(this.osShortcut)
+    if (typeof window !== 'undefined' && window._shortcuts) {
+      window._shortcuts._number--
+      if (window._shortcuts._number === 0) {
+        window._shortcuts.remove(this.osShortcut)
+      }
     }
   }
 
   shortcutHandler = (e) => {
-    if (!shortcutInFire) {
-      shortcutInFire = true
-      copySelectedNumber(e)
-    }
+    copySelectedNumber(e)
   }
 
   onCopyHandler = (e) => {
@@ -171,7 +172,7 @@ export default class Number extends React.PureComponent {
         //   copyNumber(cleanedNumber)
         // }
       } catch (e) {
-        console.warn(e)
+        warn(e)
       }
     }
   }
@@ -410,7 +411,7 @@ export const format = (
     try {
       locale = window.navigator.language
     } catch (e) {
-      console.warn(e)
+      warn(e)
     }
   }
 
@@ -611,7 +612,7 @@ export const formatNumber = (number, locale, options = {}) => {
       return Intl.NumberFormat(locale, options).format(number)
     }
   } catch (e) {
-    console.warn(
+    warn(
       `Number could not be formatted: ${JSON.stringify([
         number,
         locale,
@@ -777,7 +778,7 @@ export function copyNumber(string) {
         fx.run()
         // console.info('Copy:', string) // debug
       })
-      .catch(console.warn)
+      .catch(warn)
   }
 }
 
@@ -820,12 +821,12 @@ export function createSelectionFX(string) {
 
     // create that portal element
     elem = document.createElement('span')
-    elem.innerHTML = String(string)
+    elem.textContent = String(string)
     elem.setAttribute('class', 'dnb-number__fx dnb-core-style')
     elem.style.top = `${top}px`
     elem.style.left = `${left + getSelectedText().length / 2}px`
   } catch (e) {
-    console.warn(e)
+    warn(e)
   }
 
   return new (class SelectionFx {
@@ -843,7 +844,7 @@ export function createSelectionFX(string) {
         // remove that element again
         setTimeout(this.remove, 800)
       } catch (e) {
-        console.warn(e)
+        warn(e)
       }
     }
   })()

@@ -7,8 +7,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { css } from '@emotion/core'
 import { parsePath, navigate } from 'gatsby'
-import { Button, Tabs } from 'dnb-ui-lib/src/components'
-import { H1 } from 'dnb-ui-lib/src/elements'
+import { Heading, Button, Tabs } from 'dnb-ui-lib/src/components'
+// import { H1 } from 'dnb-ui-lib/src/elements'
 import { fullscreen as fullscreenIcon } from 'dnb-ui-lib/src/icons/secondary_icons'
 import { CloseButton } from 'dnb-ui-lib/src/components/modal'
 
@@ -97,7 +97,11 @@ export default function Tabbar({
 
   return (
     <>
-      {title && <H1>{title}</H1>}
+      {title && (
+        <Heading level={1} skip_checks>
+          {title}
+        </Heading>
+      )}
       <Tabs
         data={preparedTabs}
         selected_key={selectedKey}

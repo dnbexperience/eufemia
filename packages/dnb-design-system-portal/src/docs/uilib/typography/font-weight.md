@@ -1,6 +1,8 @@
 ---
 title: 'Font Weights'
 order: 1
+redirect_from:
+  - /uilib/typography/font-weights
 ---
 
 import TypographyExamples from 'Pages/uilib/typography/TypographyExamples'

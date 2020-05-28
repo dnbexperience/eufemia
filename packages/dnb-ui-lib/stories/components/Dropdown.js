@@ -14,7 +14,8 @@ import {
   FormLabel,
   FormSet,
   FormRow,
-  Number
+  Number,
+  Modal
   // Checkbox
 } from '../../src/components'
 
@@ -55,6 +56,15 @@ const DropdownStory = () => {
   return (
     <Wrapper>
       <CustomWidth>
+        <Box>
+          <Modal mode="drawer">
+            <Dropdown
+              use_mobile_view
+              label={label}
+              data={dropdownDataScrollable}
+            />
+          </Modal>
+        </Box>
         <Box>
           <Dropdown
             size="small"

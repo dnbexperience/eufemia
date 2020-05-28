@@ -35,7 +35,7 @@
     border-radius: var(--drawer-list-options-border-radius);
     background-color: var(--drawer-list-option-background-color);
   }
-  @media (max-width: 40em) {
+  @media screen and (max-width: 40em) {
     &__portal &--mobile-view &__list {
       border-radius: 0;
     }
@@ -50,7 +50,7 @@
       @include fakeFocus();
     }
   }
-  @media (max-width: 40em) {
+  @media screen and (max-width: 40em) {
     &__portal &--mobile-view &__options {
       border-radius: 0;
     }
@@ -228,7 +228,7 @@
       var(--drawer-list-options-border-radius) 0 0;
   }
 
-  @media (max-width: 40em) {
+  @media screen and (max-width: 40em) {
     &__portal &--mobile-view &__option__inner {
       border-radius: 0;
     }

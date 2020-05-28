@@ -213,7 +213,8 @@ exports[`ProgressIndicator scss have to match snapshot 1`] = `
     display: inline-flex; }
     .dnb-progress-indicator__label .dnb-p {
       align-self: center; }
-  .dnb-spacing .dnb-progress-indicator .dnb-p {
+  .dnb-spacing .dnb-progress-indicator .dnb-p,
+  .dnb-spacing .dnb-progress-indicator .dnb-p:not([class*='dnb-space']) {
     margin: 0; }
   .dnb-progress-indicator--horizontal .dnb-progress-indicator__label {
     margin: 0 1rem; }

@@ -279,7 +279,7 @@ const WidthLimit = styled.div`
   .dnb-input__input {
     max-width: 10rem;
   }
-  @media (max-width: 40em) {
+  @media screen and (max-width: 40em) {
     textarea {
       width: 90vw;
     }
@@ -336,7 +336,7 @@ const DividerSection = styled(Section)`
   .dnb-button + .dnb-button {
     margin-left: 1rem;
   }
-  @media (max-width: 30rem) {
+  @media screen and (max-width: 30rem) {
     display: block;
     .dnb-button {
       display: flex;
