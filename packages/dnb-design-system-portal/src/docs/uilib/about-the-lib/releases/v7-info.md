@@ -46,9 +46,11 @@ We hope with that change we embrace [better accessibility](/uilib/usage/accessib
 
 ## New components
 
-- New component [Autocomplete](/uilib/components/autocomplete).
-- New component [Pagination](/uilib/components/pagination) including **infinity scroller**.
-- New fragment [ScrollView](/uilib/components/fragments/scroll-view), used in [Modal](/uilib/components/modal) to fulfill the new Portal mode in the DrawerList scroll dependency inside of a Modal.
+- [Heading](/uilib/components/heading) component to automated semantic headings.
+- [Autocomplete](/uilib/components/autocomplete) component.
+- [Pagination](/uilib/components/pagination) component including **infinity scroller**.
+- New element [Horizontal Rule (Hr)](/uilib/elements/horizontal-rule).
+- New fragment [ScrollView](/uilib/components/fragments/scroll-view), used in [Modal](/uilib/components/modal) to fulfill the new Portal mode in the DrawerList scroll dependency inside of a Modal / Drawer.
 
 ## New features
 
