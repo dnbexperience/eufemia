@@ -55,7 +55,7 @@
     */
     background-image: linear-gradient(
       to bottom,
-      #333 60%,
+      currentColor 60%,
       transparent 65%
     );
     background-size: 100% 1px;
@@ -69,7 +69,7 @@
     /* Revert the hairline halv */
     background-image: linear-gradient(
       to bottom,
-      #333 51%,
+      currentColor 51%,
       transparent 51%
     );
     background-size: 100% 3px;
