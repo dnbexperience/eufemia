@@ -170,7 +170,7 @@ export const processChildren = (props) => {
       ? props.children(props)
       : props.children
 
-  // if we get several react children witch representates only a text
+  // if we get several react children which representates only a text
   if (Array.isArray(res)) {
     const onlyTexts = res.reduce((pV, cV) => {
       if (typeof cV === 'string' || typeof cV === 'number') {

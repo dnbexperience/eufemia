@@ -11,60 +11,38 @@ import { createSpacingClasses } from '../components/space/SpacingHelper'
 
 const Element = React.forwardRef(
   (
-    { className, class: _className, useClass, css, is: Tag, ...rest },
+    { className, class: _className, css, is: Tag, hasTagClass, ...rest },
     ref
   ) => {
-    let style = Tag
-    switch (Tag) {
-      case 'h1':
-        style = 'h--xx-large'
-        break
-      case 'h2':
-        style = 'h--large'
-        break
-      case 'h3':
-        style = 'h--medium'
-        break
-      case 'h4':
-        style = 'h--basis'
-        break
-      case 'h5':
-        style = 'h--small'
-        break
-      case 'h6':
-        style = 'h--x-small'
-        break
-    }
-
-    const params = {
-      className: classnames(
-        useClass ? useClass : `dnb-${style}`,
-        createSpacingClasses(rest, Tag),
-        className,
-        _className,
-        css
-      )
-    }
-
+    const tagClass = `dnb-${Tag}`
+    rest.className = classnames(
+      !hasTagClass &&
+        !new RegExp(`${tagClass}(\\s|$)`).test(String(className)) &&
+        tagClass,
+      className,
+      _className,
+      css,
+      createSpacingClasses(rest, Tag)
+    )
     validateDOMAttributes(null, rest)
-    return <Tag ref={ref} {...rest} {...params} />
+    return <Tag ref={ref} {...rest} />
   }
 )
 Element.propTypes = {
   is: PropTypes.string.isRequired,
+  hasTagClass: PropTypes.bool,
   className: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.object,
     PropTypes.array
   ]),
   class: PropTypes.string,
-  useClass: PropTypes.string,
   css: PropTypes.oneOfType([PropTypes.string, PropTypes.object])
 }
 Element.defaultProps = {
   className: null,
+  hasTagClass: false,
   class: null,
-  useClass: null,
   css: null
 }
 

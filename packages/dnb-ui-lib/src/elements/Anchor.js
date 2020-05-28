@@ -19,7 +19,7 @@ const Anchor = React.forwardRef(({ ...props }, ref) => {
     <E
       ref={ref}
       is="a"
-      useClass="dnb-anchor"
+      class="dnb-anchor"
       className={props.className}
       {...props}
     />

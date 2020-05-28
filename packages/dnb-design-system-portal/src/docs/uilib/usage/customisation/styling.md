@@ -54,7 +54,7 @@ The following Diagram gives an overall overview how the packages are structured.
 
 ## How to deal with existing styles
 
-The **dnb-ui-core** package includes some styles witch effects the global scope (body and CSS reset). To avoid interference with existing styles, let's say a header or a menu, You could only use the **dnb-ui-basis** package in combination with other packages like **dnb-theme-ui** and **dnb-ui-components**.
+The **dnb-ui-core** package includes some styles which effects the global scope (body and CSS reset). To avoid interference with existing styles, let's say a header or a menu, You could only use the **dnb-ui-basis** package in combination with other packages like **dnb-theme-ui** and **dnb-ui-components**.
 
 You may have a look at some [code examples of dealing with legacy code](/uilib/usage/customisation/styling/legacy-styling).
 
@@ -156,4 +156,4 @@ import 'dnb-ui-lib/style/elements'
 
 ## A list of all CSS properties
 
-Beside the portal documentation with related tables and additional information, you may have a look at the [CSS file](https://unpkg.com/browse/dnb-ui-lib@latest/style/dnb-ui-properties.css), containing the custom properties (CSS variables), as well as a[ JavaScript file](https://unpkg.com/browse/dnb-ui-lib@latest/style/properties.js), witch is auto generated from the CSS data.
+Beside the portal documentation with related tables and additional information, you may have a look at the [CSS file](https://unpkg.com/browse/dnb-ui-lib@latest/style/dnb-ui-properties.css), containing the custom properties (CSS variables), as well as a[ JavaScript file](https://unpkg.com/browse/dnb-ui-lib@latest/style/properties.js), which is auto generated from the CSS data.

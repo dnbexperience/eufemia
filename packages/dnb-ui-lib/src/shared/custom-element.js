@@ -251,7 +251,7 @@ export const registerElement = (
   return window.customElements.define(tagName, HtmlClass)
 }
 
-// remove react props witch has uppercase chars
+// remove react props which has uppercase chars
 const filterProps = (key) =>
   key && !/[A-Z]/.test(key) && !/children/.test(key)
 

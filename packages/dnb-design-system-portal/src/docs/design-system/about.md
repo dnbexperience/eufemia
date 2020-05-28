@@ -10,7 +10,7 @@ import WelcomeAdvice from 'Pages/welcome-advice'
 
 ## The Goal
 
-Eufemia is DNB Design System witch consist of resources for designers and developers in order to maintain consistency and efficiency when building web applications.
+Eufemia is DNB Design System which consist of resources for designers and developers in order to maintain consistency and efficiency when building web applications.
 
 The goal is to have a single source of truth for design through color, typography and layout guidelines as well as fully coded components to use in applications.
 

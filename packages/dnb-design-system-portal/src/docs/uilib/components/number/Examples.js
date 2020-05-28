@@ -18,7 +18,7 @@ class Example extends React.PureComponent {
     return (
       <Style>
         <ComponentBox
-          title="Defualt numbers"
+          title="Default numbers"
           data-dnb-test="number-default"
         >
           {

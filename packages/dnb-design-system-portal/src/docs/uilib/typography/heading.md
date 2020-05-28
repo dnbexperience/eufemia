@@ -36,6 +36,10 @@ If you have to use a paragraph or a arbitrary heading, and it has to **look like
 
 Read more about [best practices for typography](/uilib/usage/best-practices/for-typography).
 
+### Automated heading levels
+
+There is also [Heading](/uilib/components/heading), a component to create automated semantic headings within a boundary of some rules.
+
 ### Heading styles in React
 
 ```jsx

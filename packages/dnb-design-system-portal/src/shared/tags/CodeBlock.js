@@ -223,7 +223,11 @@ class LiveCode extends React.PureComponent {
           {!hidePreview && (
             <>
               {title && (
-                <AutoLinkHeader is="h3" useSlug={dnbTest}>
+                <AutoLinkHeader
+                  level={3}
+                  // is="h3"
+                  useSlug={dnbTest}
+                >
                   <ReactMarkdown
                     source={title}
                     escapeHtml={false}

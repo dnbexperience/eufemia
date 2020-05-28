@@ -784,6 +784,7 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
             bottom="large"
             className={null}
             is="h1"
+            level={null}
             size="xx-large"
             style_type={null}
             top="4"
@@ -793,12 +794,12 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
               class={null}
               className="dnb-h--xx-large"
               css={null}
+              hasTagClass={true}
               is="h1"
               top="4"
-              useClass={null}
             >
               <h1
-                className="dnb-h--xx-large dnb-space__top--xx-large dnb-space__top--x-small dnb-space__bottom--large dnb-h--xx-large"
+                className="dnb-h--xx-large dnb-space__top--xx-large dnb-space__top--x-small dnb-space__bottom--large"
               >
                 title
               </h1>
@@ -819,11 +820,11 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
             class={null}
             className="dnb-p"
             css={null}
+            hasTagClass={false}
             is="p"
-            useClass={null}
           >
             <p
-              className="dnb-p dnb-space__bottom--large dnb-p"
+              className="dnb-p dnb-space__bottom--large"
             >
               text 
               <a

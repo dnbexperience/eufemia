@@ -241,7 +241,7 @@ module.exports.testPageScreenshot = async ({
         warn(
           `"${measureElement}" is <${off}px off to ${
             heightInPixelsFloat + off
-          }rem (${heightInPixels}) witch corresponds to a rem value of ${inRem}rem.`
+          }rem (${heightInPixels}) which corresponds to a rem value of ${inRem}rem.`
         )
       }
     }

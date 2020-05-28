@@ -11,9 +11,9 @@ The `dnb-ui-lib` also supports ready to use `UMD` and `ESM` bundles.
 
 > **NB:** As these bundles will keep on getting larger once new components arrive, I strongly recommend to only use UMD and ESM bundles as an easy drop-in for simple web pages.
 >
-> For **advanced applications**, I recommend a holistic build step, handling all dependencies together, creating mono page bundles with code splitting in place. This ensures that only code witch is currently used by the application, is sent to the user.
+> For **advanced applications**, I recommend a holistic build step, handling all dependencies together, creating mono page bundles with code splitting in place. This ensures that only code which is currently used by the application, is sent to the user.
 >
-> The reason for that is the first page load (first paint) witch is extremely important for good UX, as it has a whole bunch of negative side effects like page flicker and uncontrolled movements as well as load time.
+> The reason for that is the first page load (first paint) which is extremely important for good UX, as it has a whole bunch of negative side effects like page flicker and uncontrolled movements as well as load time.
 >
 > - **Tobias Høegh**, april 2020
 
@@ -68,7 +68,7 @@ Requires React and ReactDOM to be loaded as a module resolution ([importmap](htt
 
 ### Usage of ESM bundles
 
-Because `importmap` is still not supported by the majority of browsers, we use a shim, witch can be simply removed once the browser support is good enough.
+Because `importmap` is still not supported by the majority of browsers, we use a shim, which can be simply removed once the browser support is good enough.
 
 ```html
 <body>

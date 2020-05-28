@@ -23,6 +23,7 @@ import FormSet from './form-set/FormSet'
 import FormStatus from './form-status/FormStatus'
 import GlobalError from './global-error/GlobalError'
 import GlobalStatus from './global-status/GlobalStatus'
+import Heading from './heading/Heading'
 import Icon from './icon/Icon'
 import IconPrimary from './icon-primary/IconPrimary'
 import Input from './input/Input'
@@ -57,6 +58,7 @@ export {
   FormStatus,
   GlobalError,
   GlobalStatus,
+  Heading,
   Icon,
   IconPrimary,
   Input,
@@ -92,6 +94,7 @@ export const getComponents = () => {
     FormStatus,
     GlobalError,
     GlobalStatus,
+    Heading,
     Icon,
     IconPrimary,
     Input,

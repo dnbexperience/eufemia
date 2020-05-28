@@ -40,17 +40,15 @@ const P = ({
 
   if (Array.isArray(modifier)) {
     modifier = modifier.reduce((acc, cur) => `${acc} dnb-p--${cur}`, '')
+  } else {
+    modifier = `dnb-p--${modifier}`
   }
 
   return (
     <E
       is="p"
       {...props}
-      className={classnames(
-        'dnb-p',
-        modifier && `dnb-p--${modifier}`,
-        className
-      )}
+      className={classnames('dnb-p', modifier, className)}
     />
   )
 }

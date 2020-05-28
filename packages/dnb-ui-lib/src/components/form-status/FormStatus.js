@@ -220,7 +220,7 @@ export default class FormStatus extends React.PureComponent {
       if (selector && selector.offsetWidth) {
         width = selector.offsetWidth
       } else {
-        // beside "width_selector" - witch is straight forward, we
+        // beside "width_selector" - which is straight forward, we
         // also check if we can get an ID given by text_id
         const ids = /,/.test(selector) ? selector.split(', ') : [selector]
 
@@ -321,7 +321,7 @@ export default class FormStatus extends React.PureComponent {
       params['aria-hidden'] = hidden
       // Deprecated: use the GlobalStatus and aria-live
       // } else if (hasStringContent) {
-      //   // in case we send in a React component, witchs has its own state, then we dont want to have aria-live all the time active
+      //   // in case we send in a React component, whichs has its own state, then we dont want to have aria-live all the time active
       //   params['aria-live'] = 'assertive'
     }
 

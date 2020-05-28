@@ -44,8 +44,9 @@ export default class Icons extends React.PureComponent {
               </figure>
 
               <AutoLinkHeader
-                is="figcaption"
-                className="dnb-h--medium"
+                level={3}
+                element="figcaption"
+                // className="dnb-h--medium"
                 useSlug={`icon-${name}`}
               >
                 {humanFormat(name)}
