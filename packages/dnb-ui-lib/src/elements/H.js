@@ -7,7 +7,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import E from './Element'
-import { setNextLevel } from '../components/heading/HeadingProvider'
+import { setNextLevel } from '../components/heading/HeadingCounter'
 
 const H = ({ is, level, style_type, size, className, ...props }) => {
   if (style_type) {

@@ -17,10 +17,12 @@ import { createSpacingClasses } from '../space/SpacingHelper'
 import HeadingContext from './HeadingContext'
 import HeadingProvider from './HeadingProvider'
 import {
-  defaultCounter,
+  initCounter,
+  handleCounter,
   resetLevels,
-  setNextLevel
-} from './HeadingProvider'
+  setNextLevel,
+  defaultCounter
+} from './HeadingCounter'
 
 let countHeadings = 0
 
@@ -115,7 +117,7 @@ export default class Heading extends React.PureComponent {
         newLevel !== state.level
       ) {
         // Run this again here, so we can get a recalculated "getLevel" from the counter
-        HeadingProvider.handleCounter({
+        handleCounter({
           counter: state.counter,
           level: newLevel,
           bypassChecks:
@@ -142,13 +144,10 @@ export default class Heading extends React.PureComponent {
       _listenForPropChanges: true
     }
 
-    // const counter = context.heading?.counter || HeadingProvider.initCounter(props.counter)
-    state.counter = HeadingProvider.initCounter(
-      props.counter,
-      isTrue(props.reset)
-    )
+    // const counter = context.heading?.counter || initCounter(props.counter)
+    state.counter = initCounter(props.counter, isTrue(props.reset))
 
-    HeadingProvider.handleCounter({
+    handleCounter({
       counter: state.counter,
       level: props.level, //  || state.context.heading?.level
       increase: isTrue(props.increase) || isTrue(props.up),
