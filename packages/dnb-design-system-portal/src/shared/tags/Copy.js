@@ -21,7 +21,7 @@ import { copyNumber } from 'dnb-ui-lib/src/components/Number'
 // import ReactMarkdown from 'react-markdown'
 
 const StyledSpan = styled.span`
-  cursor: text;
+  cursor: copy;
 `
 
 const Copy = ({ children, className, ...rest }) => {
