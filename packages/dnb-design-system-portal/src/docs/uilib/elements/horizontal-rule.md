@@ -5,7 +5,6 @@ redirect_from:
 ---
 
 import ComponentBox from 'Tags/ComponentBox'
-import HrTests from 'Docs/uilib/elements/HrTests'
 
 ## Horizontal Rule
 
@@ -46,12 +45,32 @@ render(<>
 `}
 </ComponentBox>
 
-## hr line thickness / hairline
+### Horizontal Rule thickness / hairline
 
-Browsers do render borders differently. They also handle sizing differently. E.g. will `1.5px` be rounded up to `2px`, in Chromium based browsers (on size related CSS properties).
+Use the modifier `dnb-hr--hairline` to get a `0.5px` rule. You can also set just `hairline={true}`.
 
-In order to address different solutions, here are some test cases:
+<ComponentBox hideCode useRender data-dnb-test="hr-thickness">
+{`
+// import { Hr } from 'dnb-ui-lib/elements'
+render(<>
+  <Dl>
+    <dt>Light 0.5px</dt>
+    <dd><Hr light /></dd>
+  </Dl>
+  <Dl>
+    <dt>Default 1px</dt>
+    <dd><Hr /></dd>
+  </Dl>
+  <Dl>
+    <dt>Medium 1.5px</dt>
+    <dd><Hr medium /></dd>
+  </Dl>
+</>)
+`}
+</ComponentBox>
 
-As per year 2020, Firefox does the best job on showing the line thickness correct.
+## Horizontal Rule thickness tests
 
-<HrTests />
+Browsers do render borders differently. They also handle sizing differently. E.g. will `1.5px` be rounded up to `2px` in Chromium based browsers (on size related CSS properties).
+
+In order to address different solutions, [here is a test case](https://r8ljo.csb.app/), finding the right balance of creating `0.5px` / `1.5px` lines, browser compatibility and correct look. As per year 2020, Firefox does the best job on showing the line thickness correct.
