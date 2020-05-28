@@ -2653,7 +2653,7 @@ legend.dnb-form-label {
     display: flex;
     user-select: none;
     -webkit-user-select: none; }
-    @media screen and (max-width: 40em) {
+    @media screen and (max-width: 50em) {
       .dnb-date-picker__views {
         flex-direction: column; } }
   .dnb-date-picker__calendar {

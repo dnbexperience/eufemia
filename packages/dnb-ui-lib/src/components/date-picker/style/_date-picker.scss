@@ -190,7 +190,8 @@
     user-select: none;
     -webkit-user-select: none; // Safari / Touch fix
 
-    @media screen and (max-width: 40em) {
+    // Wrap aleady on 50em, because 40em is too narrow in range mode
+    @media screen and (max-width: 50em) {
       flex-direction: column;
     }
   }
