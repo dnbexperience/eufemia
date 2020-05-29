@@ -27,7 +27,7 @@ describe('Heading component', () => {
           <Heading>Heading #1</Heading>
         </Heading.Level>
 
-        <Heading.Level debug={warn} reset skip_checks>
+        <Heading.Level debug={warn} reset skip_correction>
           <Heading>Heading #2</Heading>
         </Heading.Level>
       </>
@@ -109,7 +109,7 @@ describe('Heading component', () => {
       'Heading #1'
     )
 
-    Comp.setProps({ skip_checks: true })
+    Comp.setProps({ skip_correction: true })
     Comp.setProps({ level: 4 })
 
     expect(Comp.find('.dnb-heading').at(0).text()).toBe('[4] Heading #1')
@@ -154,10 +154,10 @@ describe('Heading component', () => {
     )
   })
 
-  it('should set level if skip_checks is true', () => {
+  it('should set level if skip_correction is true', () => {
     const Comp = mount(
       <>
-        <Heading.Level debug={warn} skip_checks reset>
+        <Heading.Level debug={warn} skip_correction reset>
           <Heading level={4}>Heading #1</Heading>
           <Heading increase>Heading #2</Heading>
         </Heading.Level>
@@ -174,7 +174,7 @@ describe('Heading component', () => {
       <>
         <Heading.Level debug={warn} reset>
           <Heading>Heading #1</Heading>
-          <Heading.Increase skip_checks level="6">
+          <Heading.Increase skip_correction level="6">
             <Heading>Heading #2</Heading>
             <Heading increase>Heading #3</Heading>
           </Heading.Increase>

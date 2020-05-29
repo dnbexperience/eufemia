@@ -123,7 +123,7 @@ export class Counter {
       level = 2
     } else if (!this.bypassChecks && level < 2 && this.level === 2) {
       report.push(
-        'Can not decrement to heading level 1! Had before',
+        'Can not decrease to heading level 1! Had before',
         this.level
       )
       level = this.level

@@ -9,41 +9,40 @@ The Heading component is a helper to create automated semantic headings within a
 
 > Basically, only assistive technologies do have need for semantic headings. But they need them correct.
 
+**NB:** Instead of `increase` and `decrease` you can use `up` and `down` as well.
+
+This Example is without using provider/context. To handle levels more smart, use the `Heading.Level` provider.
+
 ```jsx
 import { Heading } from 'dnb-ui-lib/components'
 
 render(
   <article>
     <Heading>h1</Heading>
-    <Heading>h2</Heading>
     <Heading>h2</Heading>
     <Heading increase>h3</Heading>
     <Heading>still h3</Heading>
-    <Heading decrease>h2</Heading>
+    <Heading increase>h4</Heading>
+    <Heading increase>h5</Heading>
+    <Heading decrease>h4</Heading>
+    <Heading level={2}>back to h2</Heading>
+    <Heading increase>h3</Heading>
     ...
   </article>
 )
 ```
 
-### Heading level up/down
+### Heading level rules and corrections
 
-Instead of `increase` and `decrease` you can use `up` and `down` also.
+The correction will ensure that:
 
-```jsx
-import { Heading } from 'dnb-ui-lib/components'
+1. a heading will always start with a level **1**
+1. the second will automatically be level **2**
+1. if a level will increase with a factor of more than one (level={>1}), it will get corrected to only increase by one (**1**).
+1. if a level will be set to **1** a second time, it will get corrected to level **2**.
 
-render(
-  <article>
-    <Heading>h1</Heading>
-    <Heading>h2</Heading>
-    <Heading>h2</Heading>
-    <Heading up>h3</Heading>
-    <Heading>still h3</Heading>
-    <Heading down>h2</Heading>
-    ...
-  </article>
-)
-```
+You get a `console.warn` warning (only in development) about corrections. You can attach a custom warning / handler if you want: `<Heading.Level debug={(...logs) => console.info(...logs)}>`
+You can also disable corrections by using the property `skip_correction={true}`.
 
 ### Defining heading styles
 
@@ -76,7 +75,7 @@ render(
 
 ### Skip auto correction and warnings
 
-First, the warnings will not show up in production builds. And to skip the auto correction of heading levels, simply use the `skip_checks` property.
+First, the warnings will not show up in production builds. And to skip the auto correction of heading levels, simply use the `skip_correction` property.
 
 ### Heading levels interceptor modification
 

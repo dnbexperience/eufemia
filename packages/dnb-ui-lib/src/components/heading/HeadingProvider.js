@@ -30,7 +30,7 @@ const propTypes = {
   down: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
 
   // Do not set these! Because we do not smart check the merge!
-  //   skip_checks: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  //   skip_correction: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   //   debug: PropTypes.oneOfType([PropTypes.bool, PropTypes.func]),
 
   counter: PropTypes.any,
@@ -46,7 +46,7 @@ const defaultProps = {
   down: null,
 
   // Do not set these! Because we do not smart check the merge!
-  //   skip_checks: null,
+  //   skip_correction: null,
   //   debug: null,
 
   counter: null,
@@ -74,7 +74,7 @@ export default class HeadingProvider extends React.PureComponent {
       //     isProvider: true,
       //     counter: state.counter,
       //     level: newLevel,
-      //     bypassChecks: isTrue(state._providerProps.skip_checks),
+      //     bypassChecks: isTrue(state._providerProps.skip_correction),
       //     source: props.text || props.children,
       //     debug: state._providerProps.debug
       //   })
@@ -108,7 +108,7 @@ export default class HeadingProvider extends React.PureComponent {
       level: state._providerProps.level,
       increase: isTrue(props.increase) || isTrue(props.up),
       decrease: isTrue(props.decrease) || isTrue(props.down),
-      bypassChecks: isTrue(state._providerProps.skip_checks),
+      bypassChecks: isTrue(state._providerProps.skip_correction),
       source: props.text || props.children,
       debug: state._providerProps.debug
     })

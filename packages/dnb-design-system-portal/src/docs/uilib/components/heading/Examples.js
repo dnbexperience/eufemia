@@ -32,7 +32,7 @@ class Example extends React.PureComponent {
   <Heading>Heading #1</Heading>
   <Heading>Heading #2</Heading>
   <Heading>Heading #3</Heading>
-  <Heading skip_checks level={4}>Heading #4</Heading>
+  <Heading skip_correction level={4}>Heading #4</Heading>
 </Heading.Level>
       `
           }

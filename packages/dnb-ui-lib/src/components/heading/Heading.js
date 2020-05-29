@@ -57,7 +57,7 @@ const propTypes = {
   up: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   down: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
 
-  skip_checks: PropTypes.bool,
+  skip_correction: PropTypes.bool,
   debug: PropTypes.oneOfType([PropTypes.bool, PropTypes.func]),
   counter: PropTypes.any,
   reset: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -80,7 +80,7 @@ const defaultProps = {
   up: null,
   down: null,
 
-  skip_checks: null,
+  skip_correction: null,
   debug: null,
   counter: null,
   reset: null,
@@ -121,8 +121,8 @@ export default class Heading extends React.PureComponent {
           counter: state.counter,
           level: newLevel,
           bypassChecks:
-            isTrue(props.skip_checks) ||
-            isTrue(state.context.heading?.skip_checks),
+            isTrue(props.skip_correction) ||
+            isTrue(state.context.heading?.skip_correction),
           source: props.text || props.children, // only for debuging
           debug: props.debug || state.context.heading?.debug
         })
@@ -153,8 +153,8 @@ export default class Heading extends React.PureComponent {
       increase: isTrue(props.increase) || isTrue(props.up),
       decrease: isTrue(props.decrease) || isTrue(props.down),
       bypassChecks:
-        isTrue(props.skip_checks) ||
-        isTrue(state.context.heading?.skip_checks),
+        isTrue(props.skip_correction) ||
+        isTrue(state.context.heading?.skip_correction),
       source: props.text || props.children, // only for debuging
       debug: props.debug || state.context.heading?.debug
     })
@@ -180,7 +180,7 @@ export default class Heading extends React.PureComponent {
       text,
       debug: _debug, // eslint-disable-line
       reset: _reset, // eslint-disable-line
-      skip_checks: _skip_checks, // eslint-disable-line
+      skip_correction: _skip_correction, // eslint-disable-line
       increase: _increase, // eslint-disable-line
       decrease: _decrease, // eslint-disable-line
       up: _up, // eslint-disable-line

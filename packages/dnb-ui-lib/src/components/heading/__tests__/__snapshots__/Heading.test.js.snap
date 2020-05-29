@@ -7,7 +7,7 @@ exports[`Heading component semantic have to match default heading snapshot 1`] =
     [MockFunction] {
       "calls": Array [
         Array [
-          "Can not decrement to heading level 1! Had before",
+          "Can not decrease to heading level 1! Had before",
           2,
           "- The new level is",
           2,
@@ -51,7 +51,7 @@ NB: This warning was triggered by:",
           "Heading #3",
         ],
         Array [
-          "Can not decrement to heading level 1! Had before",
+          "Can not decrease to heading level 1! Had before",
           2,
           "- The new level is",
           2,
@@ -121,7 +121,7 @@ NB: This warning was triggered by:",
     level={null}
     reset={null}
     size="auto"
-    skip_checks={null}
+    skip_correction={null}
     text={null}
     up={null}
   >
@@ -144,7 +144,7 @@ NB: This warning was triggered by:",
     level={null}
     reset={null}
     size="auto"
-    skip_checks={null}
+    skip_correction={null}
     text={null}
     up={null}
   >
@@ -178,7 +178,7 @@ NB: This warning was triggered by:",
         level={null}
         reset={null}
         size="auto"
-        skip_checks={null}
+        skip_correction={null}
         text={null}
         up={null}
       >
@@ -201,7 +201,7 @@ NB: This warning was triggered by:",
         level={null}
         reset={null}
         size="auto"
-        skip_checks={null}
+        skip_correction={null}
         text={null}
         up={true}
       >
@@ -224,7 +224,7 @@ NB: This warning was triggered by:",
         level={null}
         reset={null}
         size="auto"
-        skip_checks={null}
+        skip_correction={null}
         text={null}
         up={null}
       >
@@ -247,7 +247,7 @@ NB: This warning was triggered by:",
         level={null}
         reset={null}
         size="auto"
-        skip_checks={null}
+        skip_correction={null}
         text={null}
         up={null}
       >
@@ -283,7 +283,7 @@ NB: This warning was triggered by:",
         level={null}
         reset={null}
         size="auto"
-        skip_checks={null}
+        skip_correction={null}
         text={null}
         up={null}
       >
@@ -319,7 +319,7 @@ NB: This warning was triggered by:",
             level={null}
             reset={null}
             size="auto"
-            skip_checks={null}
+            skip_correction={null}
             text={null}
             up={null}
           >
@@ -342,7 +342,7 @@ NB: This warning was triggered by:",
             level={null}
             reset={null}
             size="auto"
-            skip_checks={null}
+            skip_correction={null}
             text={null}
             up={null}
           >
