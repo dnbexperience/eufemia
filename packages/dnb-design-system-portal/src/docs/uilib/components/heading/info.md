@@ -80,10 +80,7 @@ First, the warnings will not show up in production builds. And to skip the auto 
 ### Heading levels interceptor modification
 
 ```js
-import {
-  resetLevels,
-  setNextLevel
-} from 'dnb-ui-lib/components/heading/Heading'
+import { resetLevels, setNextLevel } from 'dnb-ui-lib/components/Heading'
 
 // e.g. during Gatsby route change
 export const onRouteUpdate = () => {
