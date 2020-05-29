@@ -32,9 +32,15 @@ export default [
         <Provider>
           <Wrapper>
             <Box>
-              <H2 level="auto" H2>
-                Heading #1
-              </H2>
+              <Heading.Level debug>
+                <Heading>Heading #1</Heading>
+                <Heading increase>Heading #2</Heading>
+                <Heading level={4}>Heading #3</Heading>
+                <Heading level={2}>Heading #4</Heading>
+              </Heading.Level>
+            </Box>
+            <Box>
+              <H2 level="auto">Heading #1</H2>
               <Heading debug increase>
                 Heading #2
               </Heading>

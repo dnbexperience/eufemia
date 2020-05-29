@@ -46,6 +46,8 @@ describe('Heading component', () => {
           <Heading level={3}>Heading #2</Heading>
           <Heading level={4}>Heading #3</Heading>
           <Heading level={4}>Heading #4</Heading>
+          <Heading level={2}>Heading #5</Heading>
+          <Heading level={1}>Heading #6</Heading>
         </Heading.Level>
       </>
     )
@@ -55,15 +57,15 @@ describe('Heading component', () => {
     expect(elem.at(1).text()).toBe('[2] Heading #2')
     expect(elem.at(2).text()).toBe('[3] Heading #3')
     expect(elem.at(3).text()).toBe('[4] Heading #4')
+    expect(elem.at(4).text()).toBe('[2] Heading #5')
+    expect(elem.at(5).text()).toBe('[2] Heading #6')
   })
 
   it('have to match level correction', () => {
     const Comp = mount(
       <>
         <Heading.Level reset debug={warn}>
-          <H2 level="auto" H2>
-            Heading #1
-          </H2>
+          <H2 level="auto">Heading #1</H2>
           <Heading>Heading #2</Heading>
           <Heading increase>Heading #3</Heading>
         </Heading.Level>

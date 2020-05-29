@@ -51,6 +51,16 @@ NB: This warning was triggered by:",
           "Heading #3",
         ],
         Array [
+          "Can not decrement to heading level 1! Had before",
+          2,
+          "- The new level is",
+          2,
+          "
+NB: This warning was triggered by:",
+          "",
+          "Heading #6",
+        ],
+        Array [
           "Can not increment heading level higher than 6! Got:",
           7,
           "and had before",
@@ -64,6 +74,10 @@ NB: This warning was triggered by:",
         ],
       ],
       "results": Array [
+        Object {
+          "type": "return",
+          "value": undefined,
+        },
         Object {
           "type": "return",
           "value": undefined,

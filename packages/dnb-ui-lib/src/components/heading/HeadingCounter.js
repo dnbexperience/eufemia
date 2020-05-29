@@ -70,7 +70,7 @@ export class Counter {
     // level = this.level
     // }
 
-    if (!this.bypassChecks && Math.abs(this.level - level) > 1) {
+    if (!this.bypassChecks && level - this.level > 1) {
       report.push(
         `Heading levels can only be ${action} by factor one! Got:`,
         level,
