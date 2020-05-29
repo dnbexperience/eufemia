@@ -17,7 +17,7 @@ import {
   // Counter,
   initCounter,
   handleCounter
-  // defaultCounter,
+  // globalHeadingCounter,
   // globalResetNextTime,
   // globalNextLevel
 } from './HeadingCounter'
@@ -63,25 +63,24 @@ export default class HeadingProvider extends React.PureComponent {
 
   static getDerivedStateFromProps(props, state) {
     if (state._listenForPropChanges) {
-      state._providerProps = { ...state._providerProps, ...props }
-
-      const newLevel = parseFloat(props.level)
-      if (
-        // state.prevLevel !== props.level &&
-        newLevel > 0
-      ) {
-        // && newLevel !== state.level
-        handleCounter({
-          isProvider: true,
-          counter: state.counter,
-          level: newLevel,
-          bypassChecks: isTrue(state._providerProps.skip_checks),
-          source: props.text || props.children,
-          debug: state._providerProps.debug
-        })
-        // NB: This level state is currently not used
-        // state.level = state.counter.getLevel()
-      }
+      // state._providerProps = { ...state._providerProps, ...props }
+      // const newLevel = parseFloat(props.level)
+      // if (
+      //   // state.prevLevel !== props.level &&
+      //   newLevel > 0
+      // ) {
+      //   // && newLevel !== state.level
+      //   handleCounter({
+      //     isProvider: true,
+      //     counter: state.counter,
+      //     level: newLevel,
+      //     bypassChecks: isTrue(state._providerProps.skip_checks),
+      //     source: props.text || props.children,
+      //     debug: state._providerProps.debug
+      //   })
+      //   // NB: This level state is currently not used
+      //   // state.level = state.counter.getLevel()
+      // }
     }
     state._listenForPropChanges = true
 
@@ -114,8 +113,10 @@ export default class HeadingProvider extends React.PureComponent {
       debug: state._providerProps.debug
     })
 
-    // NB: This level state is currently not used
-    // state.level = state.counter.getLevel()
+    // Set the current level here, and keep it, so a heading, comming later in, will inherit it
+    // This will require a new Counter "group" - not the global.
+    // We basically start again counting from this one.
+    state.level = state.counter.getLevel()
     // state.prevLevel = props.level
 
     this.state = state

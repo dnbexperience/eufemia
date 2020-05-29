@@ -10,7 +10,7 @@ import {
   convertJsxToString
 } from '../../shared/component-helper'
 
-export const defaultCounter = React.createRef(null)
+export const globalHeadingCounter = React.createRef(null)
 
 export class Counter {
   level = 0
@@ -152,12 +152,16 @@ export class Counter {
 }
 
 export const initCounter = (counter = null, reset = false) => {
-  if (!defaultCounter.current || reset || globalResetNextTime.current) {
-    defaultCounter.current = counter || new Counter()
+  if (
+    !globalHeadingCounter.current ||
+    reset ||
+    globalResetNextTime.current
+  ) {
+    globalHeadingCounter.current = counter || new Counter()
     globalResetNextTime.current = false
   }
 
-  return counter || defaultCounter.current
+  return counter || globalHeadingCounter.current
 }
 
 export const handleCounter = ({

@@ -21,7 +21,7 @@ import {
   handleCounter,
   resetLevels,
   setNextLevel,
-  defaultCounter
+  globalHeadingCounter
 } from './HeadingCounter'
 
 let countHeadings = 0
@@ -171,7 +171,7 @@ export default class Heading extends React.PureComponent {
   componentWillUnmount() {
     countHeadings--
     if (countHeadings === 0) {
-      defaultCounter.current = null
+      globalHeadingCounter.current = null
     }
   }
 
