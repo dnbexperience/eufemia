@@ -9,26 +9,27 @@ import ComponentBox from 'Src/shared/tags/ComponentBox'
 //   resetLevels
 // } from 'dnb-ui-lib/src/components/heading/Heading'
 // import { H2 } from 'dnb-ui-lib/src/elements'
-// import styled from '@emotion/styled'
+import styled from '@emotion/styled'
 
-// const Style = styled.div`
-//   span.dnb-heading {
-//     display: block;
-//   }
-// `
+const Style = styled.div`
+  .dnb-heading {
+    display: block;
+    margin: 0 !important;
+  }
+`
 
 class Example extends React.PureComponent {
   render() {
     // resetLevels()
     return (
-      <>
+      <Style>
         <ComponentBox
           title="Default headings"
           data-dnb-test="heading-default"
         >
           {
             /* @jsx */ `
-<Heading.Level debug reset>
+<Heading.Level debug reset={1}>
   <Heading>Heading #1</Heading>
   <Heading>Heading #2</Heading>
   <Heading>Heading #3</Heading>
@@ -44,7 +45,7 @@ class Example extends React.PureComponent {
         >
           {
             /* @jsx */ `
-<Heading.Level debug reset>
+<Heading.Level debug reset={1}>
   <Heading>h1</Heading>
   <Heading>h2</Heading>
 
@@ -61,7 +62,7 @@ class Example extends React.PureComponent {
         `
           }
         </ComponentBox>
-      </>
+      </Style>
     )
   }
 }
