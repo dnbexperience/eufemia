@@ -1,33 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Heading component semantic have to match default heading snapshot 1`] = `
+exports[`Heading component have to match default heading snapshot 1`] = `
 <HeadingProvider
   counter={null}
   debug={
     [MockFunction] {
       "calls": Array [
         Array [
-          "Can not decrease to heading level 1! Had before",
-          2,
-          "- The new level is",
-          2,
-          "
-NB: This warning was triggered by:",
-          "",
-          "Heading #9",
-        ],
-        Array [
-          "Can not set other than level 1 at startup! Got:",
-          2,
-          "- The new level is",
-          1,
-          "
-NB: This warning was triggered by:",
-          "",
-          "Heading #1",
-        ],
-        Array [
-          "Heading levels can only be set by factor one! Got:",
+          "Heading levels can only be changed by factor one! Got:",
           3,
           "and had before",
           1,
@@ -36,10 +16,10 @@ NB: This warning was triggered by:",
           "
 NB: This warning was triggered by:",
           "",
-          "Heading #2",
+          "Heading #3",
         ],
         Array [
-          "Heading levels can only be set by factor one! Got:",
+          "Heading levels can only be changed by factor one! Got:",
           4,
           "and had before",
           2,
@@ -48,7 +28,7 @@ NB: This warning was triggered by:",
           "
 NB: This warning was triggered by:",
           "",
-          "Heading #3",
+          "Heading #4",
         ],
         Array [
           "Can not decrease to heading level 1! Had before",
@@ -58,10 +38,10 @@ NB: This warning was triggered by:",
           "
 NB: This warning was triggered by:",
           "",
-          "Heading #6",
+          "Heading #7",
         ],
         Array [
-          "Can not increment heading level higher than 6! Got:",
+          "Can not [increment] heading level higher than 6! Got:",
           7,
           "and had before",
           6,
@@ -71,6 +51,28 @@ NB: This warning was triggered by:",
 NB: This warning was triggered by:",
           "",
           "Heading #3",
+        ],
+        Array [
+          "Heading levels can only be changed by factor one! Got:",
+          4,
+          "and had before",
+          2,
+          "- The new level is",
+          3,
+          "
+NB: This warning was triggered by:",
+          "",
+          "Heading #7",
+        ],
+        Array [
+          "Can not decrease to heading level 1! Had before",
+          2,
+          "- The new level is",
+          2,
+          "
+NB: This warning was triggered by:",
+          "",
+          "Heading #9",
         ],
       ],
       "results": Array [
@@ -103,9 +105,11 @@ NB: This warning was triggered by:",
   }
   decrease={null}
   down={null}
+  group={null}
   increase={null}
+  inherit={null}
   level={null}
-  reset={true}
+  reset={1}
   text={null}
   up={null}
 >
@@ -117,6 +121,7 @@ NB: This warning was triggered by:",
     decrease={null}
     down={null}
     element="auto"
+    group={null}
     increase={null}
     level={null}
     reset={null}
@@ -140,6 +145,7 @@ NB: This warning was triggered by:",
     decrease={null}
     down={null}
     element="auto"
+    group={null}
     increase={null}
     level={null}
     reset={null}
@@ -160,7 +166,9 @@ NB: This warning was triggered by:",
       counter={null}
       decrease={null}
       down={null}
+      group={null}
       increase={true}
+      inherit={null}
       level={null}
       reset={null}
       text={null}
@@ -174,6 +182,7 @@ NB: This warning was triggered by:",
         decrease={null}
         down={null}
         element="auto"
+        group={null}
         increase={null}
         level={null}
         reset={null}
@@ -197,6 +206,7 @@ NB: This warning was triggered by:",
         decrease={null}
         down={null}
         element="auto"
+        group={null}
         increase={null}
         level={null}
         reset={null}
@@ -220,6 +230,7 @@ NB: This warning was triggered by:",
         decrease={null}
         down={true}
         element="auto"
+        group={null}
         increase={null}
         level={null}
         reset={null}
@@ -243,6 +254,7 @@ NB: This warning was triggered by:",
         decrease={true}
         down={null}
         element="auto"
+        group={null}
         increase={null}
         level={null}
         reset={null}
@@ -265,7 +277,9 @@ NB: This warning was triggered by:",
       counter={null}
       decrease={null}
       down={null}
+      group={null}
       increase={true}
+      inherit={null}
       level={null}
       reset={null}
       text={null}
@@ -279,6 +293,7 @@ NB: This warning was triggered by:",
         decrease={null}
         down={null}
         element="auto"
+        group={null}
         increase={null}
         level={null}
         reset={null}
@@ -301,7 +316,9 @@ NB: This warning was triggered by:",
           counter={null}
           decrease={true}
           down={null}
+          group={null}
           increase={true}
+          inherit={null}
           level={null}
           reset={null}
           text={null}
@@ -315,6 +332,7 @@ NB: This warning was triggered by:",
             decrease={null}
             down={null}
             element="auto"
+            group={null}
             increase={null}
             level={null}
             reset={null}
@@ -338,6 +356,7 @@ NB: This warning was triggered by:",
             decrease={true}
             down={null}
             element="auto"
+            group={null}
             increase={null}
             level={null}
             reset={null}
@@ -360,7 +379,7 @@ NB: This warning was triggered by:",
 </HeadingProvider>
 `;
 
-exports[`Heading scss have to match snapshot 1`] = `
+exports[`Heading component have to match snapshot 1`] = `
 "/*
 * DNB Heading
 *

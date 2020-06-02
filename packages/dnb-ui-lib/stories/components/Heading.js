@@ -6,7 +6,7 @@
 import React from 'react'
 import { Wrapper, Box } from '../helpers'
 import styled from '@emotion/styled'
-import { H2 } from '../../src/elements'
+import { H2, H3 } from '../../src/elements'
 import Provider from '../../src/shared/Provider'
 import Heading, {
   // resetLevels,
@@ -23,23 +23,239 @@ const RenderNow = () => {
   setNextLevel(2)
   return <></>
 }
+const warn = (...log) => {
+  console.log(...log)
+}
 
 export default [
   'Heading',
   () => {
+    const [showHeading, setShowHeading] = React.useState(false)
+
+    React.useEffect(() => {
+      const timeout = setTimeout(() => {
+        setShowHeading(true)
+      }, 1e3)
+
+      return () => clearTimeout(timeout)
+    })
+
     return (
       <CustomStyle>
         <Provider>
           <Wrapper>
             <Box>
+              {' '}
+              <Heading.Level debug={warn} reset={1}>
+                <Heading>Heading #1</Heading>
+                <Heading>Heading #2</Heading>
+                <Heading increase>Heading #3</Heading>
+                <Heading.Level reset>
+                  <Heading>Heading #4</Heading>
+                </Heading.Level>
+              </Heading.Level>
+            </Box>
+            {/* <Box>
+              <Heading level={2} debug={warn}>
+                Heading #1
+              </Heading>
+              <Heading.Level reset={1} debug={warn}>
+                <Heading level={2}>Heading #2</Heading>
+                <Heading level={3}>Heading #3</Heading>
+                <Heading level={4}>Heading #4</Heading>
+                <Heading level={4}>Heading #5</Heading>
+                <Heading level={2}>Heading #6</Heading>
+                <Heading level={1}>Heading #7</Heading>
+              </Heading.Level>
+              <Heading.Level debug={warn}>
+                <Heading>Heading #8</Heading>
+              </Heading.Level>
+              <Heading.Level increase debug={warn}>
+                <Heading>Heading #9</Heading>
+              </Heading.Level>
+              <Heading.Level inherit debug={warn}>
+                <Heading>Heading #10</Heading>
+              </Heading.Level>
+            </Box> */}
+            <Box>
+              <Heading group="A" level={2} debug={warn}>
+                Heading #1 A
+              </Heading>
+              <Heading group="A" debug={warn}>
+                Heading #1 A
+              </Heading>
+              <Heading.Level group="B" debug={warn}>
+                Heading.Level B
+                <Heading group="C" debug={warn}>
+                  Heading #2 C1
+                </Heading>
+                <Heading group="C" debug={warn}>
+                  Heading #2 C2
+                </Heading>
+                <Heading.Level group="async" debug={warn}>
+                  {showHeading && (
+                    <Heading group="X" increase debug={warn}>
+                      Heading #X
+                    </Heading>
+                  )}
+                </Heading.Level>
+                <Heading group="C" increase debug={warn}>
+                  Heading #2 C3
+                </Heading>
+                <Heading.Level group="D" debug={warn}>
+                  Heading.Level D
+                  <Heading group="E" increase debug={warn}>
+                    Heading #3 E
+                  </Heading>
+                  <Heading group="G" increase debug={warn}>
+                    Heading #4
+                  </Heading>
+                  <Heading group="C" decrease debug={warn}>
+                    Heading #4
+                  </Heading>
+                </Heading.Level>
+                <Heading group="C" decrease debug={warn}>
+                  Heading #4
+                </Heading>
+                <Heading
+                  // level={1}
+                  debug={warn}
+                >
+                  Heading #1
+                </Heading>
+                <Heading level={2} debug={warn}>
+                  Heading #1
+                </Heading>
+                <Heading level={3} debug={warn}>
+                  Heading #1
+                </Heading>
+              </Heading.Level>
+
+              <Heading.Level inherit debug={warn}>
+                <Heading>Heading inherit #2</Heading>
+                <Heading increase>Heading #3</Heading>
+                <Heading level={4}>Heading #4</Heading>
+                <Heading level={4}>Heading #5</Heading>
+                <Heading level={2}>Heading #6</Heading>
+                <Heading level={1}>Heading #7</Heading>
+              </Heading.Level>
+
+              {/* <Heading.Level debug={warn}>
+                <Heading>Heading #8</Heading>
+              </Heading.Level> */}
+              {/* <Heading increase debug>
+                Heading #9
+              </Heading>
+              <Heading increase debug>
+                Heading #9
+              </Heading> */}
+              {/* <Heading.Level increase debug={warn}>
+                <Heading>Heading #9</Heading>
+              </Heading.Level> */}
+              {/* <Heading.Level increase debug={warn}>
+                <Heading>Heading #9</Heading>
+              </Heading.Level>
+              <Heading.Level inherit debug={warn}>
+                <Heading>Heading #10</Heading>
+              </Heading.Level> */}
+            </Box>
+            <Box>
+              <H2 level="auto">Heading #1</H2>
+              <Heading debug increase>
+                Heading #2
+              </Heading>
+              <Heading debug increase>
+                Heading #3
+              </Heading>
+              ---
               <Heading.Level debug>
+                <RenderNow />
                 <Heading>Heading #1</Heading>
                 <Heading increase>Heading #2</Heading>
                 <Heading level={4}>Heading #3</Heading>
-                <Heading level={2}>Heading #4</Heading>
               </Heading.Level>
             </Box>
             <Box>
+              {/* <Heading level={2} debug>
+                Heading #1
+              </Heading>
+              <Heading debug>Heading #1a</Heading>
+              <Heading debug increase>
+                Heading #2a
+              </Heading>
+              <Heading debug increase>
+                Heading #2a
+              </Heading>
+              --- */}
+              <Heading.Level group="A" debug inherit>
+                <Heading>Heading #1</Heading>
+                <Heading increase>Heading #2</Heading>
+              </Heading.Level>
+              ---
+              <Heading.Level reset debug={warn}>
+                <Heading>Heading #1</Heading>
+                <Heading>Heading #2</Heading>
+                <H3 level="auto">Heading #3</H3>
+                <Heading>Heading #4</Heading>
+              </Heading.Level>
+              ---
+              <Heading debug>Heading #1b</Heading>
+              <Heading level={3} debug>
+                Heading #2b
+              </Heading>
+              <Heading reset debug>
+                Heading #1b
+              </Heading>
+              <Heading level={3} debug>
+                Heading #2b
+              </Heading>
+              <Heading increase debug>
+                Heading #3b
+              </Heading>
+              ---
+              {/* <Heading inherit debug>
+                Heading #1b
+              </Heading>
+              <Heading debug increase>
+                Heading #2b
+              </Heading> */}
+              ---
+              {/* <Heading debug>Heading #2b</Heading> */}
+              ---
+              {/* <Heading.Level debug inherit increase group="D">
+                <Heading>Heading #6</Heading>
+                <Heading increase>Heading #7</Heading>
+              </Heading.Level> */}
+              ---
+              {/* <Heading debug>Heading #1b</Heading> */}
+              ---
+              {/* <Heading.Level debug level={5} group="E">
+                <Heading>Heading #6</Heading>
+                <Heading increase>Heading #7</Heading>
+              </Heading.Level> */}
+              ---
+              {/* <Heading.Level group="X" debug decrease>
+                <Heading>Heading #1</Heading>
+              </Heading.Level> */}
+              ---
+              {/* <Heading.Level group="z" debug reset>
+                <Heading level={2}>Heading #1</Heading>
+              </Heading.Level> */}
+              ---
+              {/* <Heading level={2} debug>
+                Heading #1
+              </Heading> */}
+              ---
+              {/* <Heading.Level reset debug>
+                <Heading level={2}>Heading #1</Heading>
+                <Heading level={3}>Heading #2</Heading>
+                <Heading level={5}>Heading #3</Heading>
+                <Heading level={4}>Heading #4</Heading>
+                <Heading level={2}>Heading #5</Heading>
+                <Heading level={1}>Heading #6</Heading>
+              </Heading.Level> */}
+            </Box>
+            {/* <Box>
               <H2 level="auto">Heading #1</H2>
               <Heading debug increase>
                 Heading #2
@@ -78,13 +294,11 @@ export default [
             <Box>
               <Heading.Level reset debug>
                 <Heading>Heading #1</Heading>
-                {/* Heading levels can only increase by factor one! Got: 3 and had before 1 */}
                 <Heading level={2}>Heading #2</Heading>
                 <Heading>Heading #3</Heading>
                 <Heading up>Heading #4</Heading>
                 <Heading decrease>Heading #5</Heading>
 
-                {/* Can not decrement to heading level 1! Had before 2 */}
                 <Heading decrease>Heading #6</Heading>
 
                 <Heading.Increase>
@@ -92,7 +306,6 @@ export default [
                   <Heading>Heading #8</Heading>
                 </Heading.Increase>
                 <Heading.Increase>
-                  {/* Heading level increment is not in sync! 3 4 */}
                   <Heading increase>Heading #9</Heading>
                   <Heading>Heading #10</Heading>
                   <Heading>Heading #11</Heading>
@@ -100,7 +313,6 @@ export default [
                   <Heading>Heading #13</Heading>
                   <Heading decrease>Heading #14</Heading>
 
-                  {/* Can not decrement to heading level 1! Had before 2 */}
                   <Heading decrease>Heading #15</Heading>
                   <Heading increase>Heading #16</Heading>
                   <Heading increase>Heading #17</Heading>
@@ -115,7 +327,7 @@ export default [
             </Box>
             <Box>
               <StateUpdateKeepLevel />
-            </Box>
+            </Box> */}
           </Wrapper>
         </Provider>
       </CustomStyle>
@@ -123,62 +335,58 @@ export default [
   }
 ]
 
-const StateUpdate = () => {
-  const [level, setLevel] = React.useState(1)
-  const [foo, setFoo] = React.useState('bar')
+// const StateUpdate = () => {
+//   const [level, setLevel] = React.useState(1)
+//   const [foo, setFoo] = React.useState('bar')
 
-  React.useEffect(() => {
-    const tA = setTimeout(() => {
-      setLevel(3)
-      setFoo('x')
-    }, 1e3)
-    const tB = setTimeout(() => {
-      setFoo('b')
-    }, 2e3)
-    const tC = setTimeout(() => {
-      setFoo('c')
-    }, 3e3)
-    return () => {
-      clearTimeout(tA)
-      clearTimeout(tB)
-      clearTimeout(tC)
-    }
-  }, [])
+//   React.useEffect(() => {
+//     const tA = setTimeout(() => {
+//       setLevel(3)
+//       setFoo('x')
+//     }, 1e3)
+//     const tB = setTimeout(() => {
+//       setFoo('b')
+//     }, 2e3)
+//     const tC = setTimeout(() => {
+//       setFoo('c')
+//     }, 3e3)
+//     return () => {
+//       clearTimeout(tA)
+//       clearTimeout(tB)
+//       clearTimeout(tC)
+//     }
+//   }, [])
 
-  return (
-    <Heading.Level debug reset>
-      <Heading level={level}>Heading #1</Heading>
-      <Heading increase>Heading #2 {foo}</Heading>
-    </Heading.Level>
-  )
-}
+//   return (
+//     <Heading.Level debug reset>
+//       <Heading level={level}>Heading #1</Heading>
+//       <Heading increase>Heading #2 {foo}</Heading>
+//     </Heading.Level>
+//   )
+// }
 
-const StateUpdateKeepLevel = () => {
-  // const [level, setLevel] = React.useState(1)
-  const [foo, setFoo] = React.useState('bar')
+// const StateUpdateKeepLevel = () => {
+//   // const [level, setLevel] = React.useState(1)
+//   const [foo, setFoo] = React.useState(1)
+//   const [skip_correction, setskip_correction] = React.useState(false)
 
-  React.useEffect(() => {
-    const tA = setTimeout(() => {
-      setFoo('a')
-    }, 1e3)
-    const tB = setTimeout(() => {
-      setFoo('b')
-    }, 2e3)
-    const tC = setTimeout(() => {
-      setFoo('c')
-    }, 3e3)
+//   React.useEffect(() => {
+//     const tA = setTimeout(() => {
+//       setskip_correction(true)
+//       setFoo(3)
+//     }, 500)
 
-    return () => {
-      clearTimeout(tA)
-      clearTimeout(tB)
-      clearTimeout(tC)
-    }
-  }, [])
+//     return () => {
+//       clearTimeout(tA)
+//     }
+//   }, [])
 
-  return (
-    <Heading.Level debug reset>
-      <Heading>Heading #1</Heading>
-      <Heading increase>Heading #2 {foo}</Heading>
-    </Heading.Level>
-  )
-}
+//   return (
+//     <>
+//       {/* <Heading debug>Heading #1</Heading> */}
+//       <Heading debug level={foo} skip_correction={skip_correction}>
+//         Heading #2
+//       </Heading>
+//     </>
+//   )
+// }

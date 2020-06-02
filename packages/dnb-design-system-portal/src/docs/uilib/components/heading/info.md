@@ -32,6 +32,10 @@ render(
 )
 ```
 
+### Defining heading styles
+
+For the visual part, we simply use [typography styles](/uilib/typography/heading) with the `size` property.
+
 ### Heading level rules and corrections
 
 The correction will ensure that:
@@ -44,9 +48,11 @@ The correction will ensure that:
 You get a `console.warn` warning (only in development) about corrections. You can attach a custom warning / handler if you want: `<Heading.Level debug={(...logs) => console.info(...logs)}>`
 You can also disable corrections by using the property `skip_correction={true}`.
 
-### Defining heading styles
+### Heading leveling core-concept
 
-For the visual part, we simply use [typography styles](/uilib/typography/heading) with the `size` property.
+- A heading will inherit its level from its previous sibling
+- A context will create an isolated leveling space (`Heading.Level`). By default the level is
+- A heading nested inside a context (`Heading.Level`) will inherit the last level context level
 
 ### Level context
 

@@ -8,7 +8,6 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import {
   isTrue,
-  // makeUniqueId,
   validateDOMAttributes,
   registerElement
 } from '../../shared/component-helper'
@@ -18,13 +17,14 @@ import HeadingContext from './HeadingContext'
 import HeadingProvider from './HeadingProvider'
 import {
   initCounter,
-  handleCounter,
+  correctHeadingLevel,
   resetLevels,
   setNextLevel,
-  globalHeadingCounter
-} from './HeadingCounter'
-
-let countHeadings = 0
+  globalSyncCounter,
+  globalHeadingCounter,
+  windUpHeadings,
+  tearDownHeadings
+} from './HeadingHelpers'
 
 export const levelResolution = {
   1: 'xx-large',
@@ -39,6 +39,7 @@ export const levelResolution = {
 const renderProps = {}
 
 const propTypes = {
+  group: PropTypes.string,
   text: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
   size: PropTypes.oneOf([
     'auto',
@@ -60,7 +61,11 @@ const propTypes = {
   skip_correction: PropTypes.bool,
   debug: PropTypes.oneOfType([PropTypes.bool, PropTypes.func]),
   counter: PropTypes.any,
-  reset: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  reset: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.string,
+    PropTypes.bool
+  ]),
 
   element: PropTypes.string,
   class: PropTypes.string,
@@ -71,6 +76,7 @@ const propTypes = {
 }
 
 const defaultProps = {
+  group: null,
   text: null,
   size: 'auto',
 
@@ -109,24 +115,27 @@ export default class Heading extends React.PureComponent {
 
   static getDerivedStateFromProps(props, state) {
     if (state._listenForPropChanges) {
-      const newLevel = parseFloat(props.level)
-      // console.log('newLevel', newLevel, props.children)
+      const level = parseFloat(props.level)
       if (
         state.prevLevel !== props.level &&
-        newLevel > 0 &&
-        newLevel !== state.level
+        level > 0 &&
+        level !== state.level
       ) {
-        // Run this again here, so we can get a recalculated "getLevel" from the counter
-        handleCounter({
+        // Because we do not want to run MakeMeReady to set "this.level = 2"
+        state.counter.skipMakeMeReady()
+
+        // Run this again here, so we can get a recalculated "useLevel" from the counter
+        const { level: newLevel } = correctHeadingLevel({
           counter: state.counter,
-          level: newLevel,
+          level,
+          // reset: props.reset,
           bypassChecks:
             isTrue(props.skip_correction) ||
             isTrue(state.context.heading?.skip_correction),
           source: props.text || props.children, // only for debuging
           debug: props.debug || state.context.heading?.debug
         })
-        state.level = state.counter.getLevel()
+        state.level = newLevel
       }
     }
     state._listenForPropChanges = true
@@ -144,12 +153,22 @@ export default class Heading extends React.PureComponent {
       _listenForPropChanges: true
     }
 
-    // const counter = context.heading?.counter || initCounter(props.counter)
-    state.counter = initCounter(props.counter, isTrue(props.reset))
+    // If a heading runs inside a context, use that counter
+    if (context.heading?.counter) {
+      state.counter = initCounter(props)
+      state.counter.setContextCounter(context.heading.counter)
+      state.counter.isHeading = true
+    } else {
+      // else we use the global counter, or craete a new one
+      state.counter = initCounter(props)
+      state.counter.setContextCounter(globalHeadingCounter.current)
+      state.counter.isHeading = true
+    }
 
-    handleCounter({
+    const { level: newLevel } = correctHeadingLevel({
       counter: state.counter,
-      level: props.level, //  || state.context.heading?.level
+      level: parseFloat(props.level),
+      reset: props.reset,
       increase: isTrue(props.increase) || isTrue(props.up),
       decrease: isTrue(props.decrease) || isTrue(props.down),
       bypassChecks:
@@ -158,26 +177,26 @@ export default class Heading extends React.PureComponent {
       source: props.text || props.children, // only for debuging
       debug: props.debug || state.context.heading?.debug
     })
-    state.level = state.counter.getLevel()
+
+    globalSyncCounter.current = state.counter
+
+    state.level = newLevel
     state.prevLevel = props.level
 
     this.state = state
   }
 
   componentDidMount() {
-    countHeadings++
-    this._isMounted = true
+    windUpHeadings()
   }
   componentWillUnmount() {
-    countHeadings--
-    if (countHeadings === 0) {
-      globalHeadingCounter.current = null
-    }
+    tearDownHeadings()
   }
 
   render() {
     const {
       text,
+      group: _group, // eslint-disable-line
       debug: _debug, // eslint-disable-line
       reset: _reset, // eslint-disable-line
       skip_correction: _skip_correction, // eslint-disable-line
@@ -185,6 +204,7 @@ export default class Heading extends React.PureComponent {
       decrease: _decrease, // eslint-disable-line
       up: _up, // eslint-disable-line
       down: _down, // eslint-disable-line
+      inherit: _inherit, // eslint-disable-line
       level: _level, // eslint-disable-line
       size: _size, // eslint-disable-line
       element: _element, // eslint-disable-line
@@ -203,9 +223,9 @@ export default class Heading extends React.PureComponent {
     }
 
     if (element === 'auto' || element === null) {
-      element = `h${level}`
+      element = `h${level || '6'}`
       if (_size === 'auto' || _size === null) {
-        size = levelResolution[level]
+        size = levelResolution[level || '6']
       }
     } else {
       if (!attributes.role) {
@@ -231,7 +251,7 @@ export default class Heading extends React.PureComponent {
 
     return (
       <Element {...attributes}>
-        {debug && `[${level}] `}
+        {debug && `[${level || '6'}] `}
         {text || children}
       </Element>
     )
@@ -243,6 +263,10 @@ Heading.Increase = (props) => <HeadingProvider increase {...props} />
 Heading.Decrease = (props) => <HeadingProvider decrease {...props} />
 Heading.Up = (props) => <HeadingProvider increase {...props} />
 Heading.Down = (props) => <HeadingProvider decrease {...props} />
+Heading.Reset = () => {
+  globalHeadingCounter.current?.reset()
+  return <></>
+}
 
 // Interceptor to reset leveling
 export { resetLevels, setNextLevel }
