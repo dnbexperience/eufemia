@@ -62,6 +62,9 @@ const propTypes = {
   // phone number
   phone: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
 
+  // organization number
+  org: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
+
   // can be tel or sms
   link: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
 
@@ -87,6 +90,7 @@ const defaultProps = {
   ban: null,
   nin: null,
   phone: null,
+  org: null,
   link: null,
 
   options: null,
@@ -202,6 +206,7 @@ export default class Number extends React.PureComponent {
       ban,
       nin,
       phone,
+      org,
       link: _link,
       options,
       locale,
@@ -228,6 +233,7 @@ export default class Number extends React.PureComponent {
       ban,
       nin,
       phone,
+      org,
       decimals,
       options,
       returnAria: true
@@ -390,6 +396,7 @@ export const format = (
   {
     locale = null, // can be "auto"
     phone = null,
+    org = null,
     ban = null,
     nin = null,
     currency = null,
@@ -438,14 +445,22 @@ export const format = (
 
   if (isTrue(phone)) {
     const { number: _number, aria: _aria } = formatPhone(value, locale)
+
     display = _number
     aria = _aria
   } else if (isTrue(ban)) {
     const { number: _number, aria: _aria } = formatBAN(value, locale)
+
     display = _number
     aria = _aria
   } else if (isTrue(nin)) {
     const { number: _number, aria: _aria } = formatNIN(value, locale)
+
+    display = _number
+    aria = _aria
+  } else if (isTrue(org)) {
+    // organization number
+    const { number: _number, aria: _aria } = formatORG(value, locale)
 
     display = _number
     aria = _aria
@@ -708,6 +723,35 @@ export const formatBAN = (number, locale = null) => {
 
       aria = number
         .split(/([0-9]{2})/)
+        .filter((s) => s)
+        .join(' ')
+    }
+  }
+
+  if (aria === null) {
+    aria = display
+  }
+
+  return { number: display, aria }
+}
+
+export const formatORG = (number, locale = null) => {
+  // cleanup
+  number = String(number).replace(/[^0-9]/g, '')
+
+  let display = number
+  let aria = null
+
+  switch (locale) {
+    default: {
+      // get 123 456 789
+      display = number
+        .split(/([0-9]{3})/)
+        .filter((s) => s)
+        .join(' ')
+
+      aria = number
+        .split(/([0-9]{1})/)
         .filter((s) => s)
         .join(' ')
     }

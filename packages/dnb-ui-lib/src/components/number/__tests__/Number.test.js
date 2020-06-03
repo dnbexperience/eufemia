@@ -159,6 +159,17 @@ describe('Number component', () => {
       Comp.find(slector).first().instance().getAttribute('aria-label')
     ).toBe('18 08 92 1 2 3 4 5')
   })
+  it('have to match organization number', () => {
+    const Comp = mount(
+      <Component org suffix="MVA">
+        123456789
+      </Component>
+    )
+    expect(Comp.find(slector).first().text()).toBe('123 456 789 MVA')
+    expect(
+      Comp.find(slector).first().instance().getAttribute('aria-label')
+    ).toBe('1 2 3 4 5 6 7 8 9')
+  })
   it('should validate with ARIA rules', async () => {
     const Comp = mount(<Component value={-value} currency />)
     expect(
