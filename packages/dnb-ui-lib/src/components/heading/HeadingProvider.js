@@ -12,11 +12,11 @@ import HeadingContext from './HeadingContext'
 import {
   globalSyncCounter,
   globalHeadingCounter,
-  initCounter,
   correctHeadingLevel,
   windUpHeadings,
   tearDownHeadings
 } from './HeadingHelpers'
+import { initCounter } from './HeadingCounter'
 
 const propTypes = {
   group: PropTypes.string,

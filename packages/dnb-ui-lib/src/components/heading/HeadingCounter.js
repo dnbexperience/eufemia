@@ -8,6 +8,17 @@
 // } from '../../shared/component-helper'
 import { globalSyncCounter, globalHeadingCounter } from './HeadingHelpers'
 
+export const initCounter = (props = null) => {
+  if (!globalHeadingCounter.current) {
+    globalHeadingCounter.current = new Counter({
+      group: 'global',
+      isGlobal: true
+    })
+  }
+
+  return (props && props.counter) || new Counter(props)
+}
+
 export class Counter {
   level = 0
   entry = 0

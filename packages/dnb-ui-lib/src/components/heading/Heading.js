@@ -16,7 +16,6 @@ import { createSpacingClasses } from '../space/SpacingHelper'
 import HeadingContext from './HeadingContext'
 import HeadingProvider from './HeadingProvider'
 import {
-  initCounter,
   correctHeadingLevel,
   resetLevels,
   setNextLevel,
@@ -25,6 +24,7 @@ import {
   windUpHeadings,
   tearDownHeadings
 } from './HeadingHelpers'
+import { initCounter } from './HeadingCounter'
 
 export const levelResolution = {
   1: 'xx-large',

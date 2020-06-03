@@ -9,21 +9,9 @@ import {
   // makeUniqueId,
   convertJsxToString
 } from '../../shared/component-helper'
-import { Counter } from './HeadingCounter'
 
 export const globalSyncCounter = React.createRef()
 export const globalHeadingCounter = React.createRef(null)
-
-export const initCounter = (props = null) => {
-  if (!globalHeadingCounter.current) {
-    globalHeadingCounter.current = new Counter({
-      group: 'global',
-      isGlobal: true
-    })
-  }
-
-  return (props && props.counter) || new Counter(props)
-}
 
 export const correctHeadingLevel = ({
   counter,
