@@ -5,13 +5,13 @@ showTabs: true
 
 ## Description
 
-The Heading component is a helper to create automated semantic headings within a boundary of some rules.
+The Heading component is a helper to create automated semantic headings within a boundary of the web heading rules.
 
 > Basically, only assistive technologies do have need for semantic headings. But they need them correct.
 
-**NB:** Instead of `increase` and `decrease` you can use `up` and `down` as well.
+How does it work? The heading leveling is handled synchronously. But you can easily isolate one level, or a part by using a context provider: `<Heading.Level ...`. This alows you to later, asynchronous, add new headings inside. You can nest several contexts inside each.
 
-This Example is without using provider/context. To handle levels more smart, use the `Heading.Level` provider.
+The first code example is without using context provider. To handle levels in batches or asynchron, use a `Heading.Level` context provider.
 
 ```jsx
 import { Heading } from 'dnb-ui-lib/components'
@@ -31,6 +31,8 @@ render(
   </article>
 )
 ```
+
+**NB:** Instead of `increase` and `decrease` you can use `up` and `down` as well.
 
 ### Defining heading styles
 
@@ -65,7 +67,7 @@ You get a `console.warn` warning (only in development) about corrections. You ca
 
 You can also disable corrections by using the property `skip_correction={true}`.
 
-### Level context
+### Heading level context provider / asynchron
 
 In order to control leveling of headings systematically, you can make use of the `Heading.Level`, `Heading.Increase` or `Heading.Decrease` providers.
 
