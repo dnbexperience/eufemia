@@ -63,7 +63,7 @@ const Header = () => (
     </Head>
     <HeaderSection style_type="mint-green">
       <HeaderTitleWrapper top="x-large">
-        <H1 style_type="small">Card complaint</H1>
+        <H1 size="x-large">Card complaint</H1>
       </HeaderTitleWrapper>
 
       <StepIndicator

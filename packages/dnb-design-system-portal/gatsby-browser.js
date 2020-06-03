@@ -74,8 +74,7 @@ export const onPreRouteUpdate = ({ location }) => {
 }
 
 export const onRouteUpdate = ({ prevLocation }) => {
-  resetLevels()
-
+  resetLevels(1)
   try {
     // in order to use our own focus management by using applyPageFocus
     // we have to disable the focus management from Reach Router

@@ -53,4 +53,10 @@ describe('Number screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+  it('have to match org', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-dnb-test="number-org"]'
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
 })

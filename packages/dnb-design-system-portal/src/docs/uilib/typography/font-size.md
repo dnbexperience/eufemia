@@ -9,7 +9,7 @@ order: 2
 
 | Pixel | Type       | Rem          | Custom Property        | Info                            |
 | ----- | ---------- | ------------ | ---------------------- | ------------------------------- |
-| 14px  | `x-small`  | **0.875rem** | `--font-size-x-small`  |                                 |
+| 14px  | `x-small`  | **0.875rem** | `--font-size-x-small`  | Do not use for texts            |
 | 16px  | `small`    | **1rem**     | `--font-size-small`    | [Fallback](#fallback-font-size) |
 | 18px  | `basis`    | **1.125rem** | `--font-size-basis`    | Default size                    |
 | 20px  | `medium`   | **1.25rem**  | `--font-size-medium`   | Lead                            |

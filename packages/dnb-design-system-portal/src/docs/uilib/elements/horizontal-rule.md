@@ -30,7 +30,7 @@ render(<>
 `}
 </ComponentBox>
 
-### Horizontal Rule in fullscreen
+## Horizontal Rule in fullscreen
 
 Use the modifier `dnb-hr--fullscreen` to get a full screen rule. You can also set just `fullscreen={true}`.
 
@@ -45,9 +45,9 @@ render(<>
 `}
 </ComponentBox>
 
-### Horizontal Rule thickness / hairline
+## Horizontal Rule thickness / hairline
 
-Use the modifier `dnb-hr--hairline` to get a `0.5px` rule. You can also set just `hairline={true}`.
+Use the modifier `dnb-hr--light` to get a `0.5px` rule. You can also set just `light={true}` or `medium={true}`.
 
 <ComponentBox hideCode useRender data-dnb-test="hr-thickness">
 {`

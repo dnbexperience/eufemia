@@ -9,6 +9,10 @@ The Heading component is a helper to create automated semantic headings within a
 
 > Basically, only assistive technologies do have need for semantic headings. But they need them correct.
 
+**NB:** Instead of `increase` and `decrease` you can use `up` and `down` as well.
+
+This Example is without using provider/context. To handle levels more smart, use the `Heading.Level` provider.
+
 ```jsx
 import { Heading } from 'dnb-ui-lib/components'
 
@@ -16,10 +20,13 @@ render(
   <article>
     <Heading>h1</Heading>
     <Heading>h2</Heading>
-    <Heading>h2</Heading>
     <Heading increase>h3</Heading>
-    <Heading>h3</Heading>
-    <Heading decrease>h2</Heading>
+    <Heading>still h3</Heading>
+    <Heading increase>h4</Heading>
+    <Heading increase>h5</Heading>
+    <Heading decrease>h4</Heading>
+    <Heading level={2}>back to h2</Heading>
+    <Heading increase>h3</Heading>
     ...
   </article>
 )
@@ -27,43 +34,74 @@ render(
 
 ### Defining heading styles
 
-For the visual part, we simply use [typography styles](/uilib/typography/heading) with the `size` property.
-
-### Level context
-
-In order to control leveling of headings accordingly, you can make use of the `Heading.Level` provider.
-
-The first inherited Heading, inside of `Heading.Level` will get a new level by default.
+For the visual part, we simply use [typography styles](/uilib/typography/heading) with the `size` property, e.g. `size="x-large"`
 
 ```jsx
 import { Heading } from 'dnb-ui-lib/components'
 
 render(
-  <Heading.Level>
+  <Heading increase size="xx-large">
+    h2, but looks like h1
+  </Heading>
+)
+```
+
+### Heading leveling core-concept
+
+- A **heading** will inherit its level from its previous sibling.
+- A **level provider** will create an isolated level context (`Heading.Level`).
+- A heading, nested inside a context (`Heading.Level`) will likewise inherit the context level.
+
+### Heading level rules and corrections
+
+The correction will ensure that:
+
+1. a heading will start with a level **1**.
+1. the second level will get corrected be level **2**.
+1. if a level will increase with a factor of more than one (level={>1}), it will get corrected to only increase by one (**1**).
+1. if a level will be set to **1** a second time, it will get corrected to level **2**.
+
+You get a `console.warn` warning (only in development) about corrections. You can attach a custom warning / handler if you need that: `<Heading.Level debug={(...logs) => console.info(...logs)}>`
+
+You can also disable corrections by using the property `skip_correction={true}`.
+
+### Level context
+
+In order to control leveling of headings systematically, you can make use of the `Heading.Level`, `Heading.Increase` or `Heading.Decrease` providers.
+
+They are completely optional. But can help out to solve some kinds of challenges or logic.
+
+```jsx
+import { Heading } from 'dnb-ui-lib/components'
+
+render(
+  <article>
     <Heading>h1</Heading>
-    <Heading.Level>
+    <Heading.Level level="2">
       <Heading>h2</Heading>
-      <Heading>h2</Heading>
+      <Heading increase>h3</Heading>
+      <Heading>still h3</Heading>
+      <Heading.Increase>
+        <Heading>h4</Heading>
+        <Heading>still h4</Heading>
+      </Heading.Increase>
     </Heading.Level>
-  </Heading.Level>
+  </article>
 )
 ```
 
 ### Skip auto correction and warnings
 
-First, the warnings will not show up in production builds. And to skip the auto correction of heading levels, simply use the `skip_checks` property.
+First, warnings will not show up in production builds. And to skip the auto correction of heading levels, simply use the `skip_correction` property.
 
 ### Heading levels interceptor modification
 
 ```js
-import {
-  resetLevels,
-  setNextLevel
-} from 'dnb-ui-lib/components/heading/Heading'
+import { resetLevels, setNextLevel } from 'dnb-ui-lib/components/Heading'
 
 // e.g. during Gatsby route change
 export const onRouteUpdate = () => {
-  resetLevels()
+  resetLevels(1)
 }
 
 // e.g. if you for some reason have to force setting a new level
