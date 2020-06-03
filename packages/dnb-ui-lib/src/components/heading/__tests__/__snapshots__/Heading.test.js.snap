@@ -53,18 +53,6 @@ NB: This warning was triggered by:",
           "Heading #3",
         ],
         Array [
-          "Heading levels can only be changed by factor one! Got:",
-          4,
-          "and had before",
-          2,
-          "- The new level is",
-          3,
-          "
-NB: This warning was triggered by:",
-          "",
-          "Heading #7",
-        ],
-        Array [
           "Can not decrease to heading level 1! Had before",
           2,
           "- The new level is",
@@ -96,16 +84,13 @@ NB: This warning was triggered by:",
           "type": "return",
           "value": undefined,
         },
-        Object {
-          "type": "return",
-          "value": undefined,
-        },
       ],
     }
   }
   decrease={null}
   down={null}
   group={null}
+  id={null}
   increase={null}
   inherit={null}
   level={null}
@@ -118,11 +103,14 @@ NB: This warning was triggered by:",
     className={null}
     counter={null}
     debug={null}
+    debug_counter={null}
     decrease={null}
     down={null}
     element="auto"
     group={null}
+    id={null}
     increase={null}
+    inherit={null}
     level={null}
     reset={null}
     size="auto"
@@ -133,7 +121,11 @@ NB: This warning was triggered by:",
     <h1
       className="dnb-heading dnb-h--xx-large"
     >
-      [1] 
+      <span
+        className="dnb-heading__debug"
+      >
+        [h1] 
+      </span>
       Heading #1
     </h1>
   </Heading>
@@ -142,11 +134,14 @@ NB: This warning was triggered by:",
     className={null}
     counter={null}
     debug={null}
+    debug_counter={null}
     decrease={null}
     down={null}
     element="auto"
     group={null}
+    id={null}
     increase={null}
+    inherit={null}
     level={null}
     reset={null}
     size="auto"
@@ -157,7 +152,11 @@ NB: This warning was triggered by:",
     <h2
       className="dnb-heading dnb-h--large"
     >
-      [2] 
+      <span
+        className="dnb-heading__debug"
+      >
+        [h2] 
+      </span>
       Heading #2
     </h2>
   </Heading>
@@ -167,6 +166,7 @@ NB: This warning was triggered by:",
       decrease={null}
       down={null}
       group={null}
+      id={null}
       increase={true}
       inherit={null}
       level={null}
@@ -179,11 +179,14 @@ NB: This warning was triggered by:",
         className={null}
         counter={null}
         debug={null}
+        debug_counter={null}
         decrease={null}
         down={null}
         element="auto"
         group={null}
+        id={null}
         increase={null}
+        inherit={null}
         level={null}
         reset={null}
         size="auto"
@@ -194,7 +197,11 @@ NB: This warning was triggered by:",
         <h3
           className="dnb-heading dnb-h--medium"
         >
-          [3] 
+          <span
+            className="dnb-heading__debug"
+          >
+            [h3] 
+          </span>
           Heading #3
         </h3>
       </Heading>
@@ -203,11 +210,14 @@ NB: This warning was triggered by:",
         className={null}
         counter={null}
         debug={null}
+        debug_counter={null}
         decrease={null}
         down={null}
         element="auto"
         group={null}
+        id={null}
         increase={null}
+        inherit={null}
         level={null}
         reset={null}
         size="auto"
@@ -218,7 +228,11 @@ NB: This warning was triggered by:",
         <h4
           className="dnb-heading dnb-h--basis"
         >
-          [4] 
+          <span
+            className="dnb-heading__debug"
+          >
+            [h4] 
+          </span>
           Heading #4
         </h4>
       </Heading>
@@ -227,11 +241,14 @@ NB: This warning was triggered by:",
         className={null}
         counter={null}
         debug={null}
+        debug_counter={null}
         decrease={null}
         down={true}
         element="auto"
         group={null}
+        id={null}
         increase={null}
+        inherit={null}
         level={null}
         reset={null}
         size="auto"
@@ -242,7 +259,11 @@ NB: This warning was triggered by:",
         <h3
           className="dnb-heading dnb-h--medium"
         >
-          [3] 
+          <span
+            className="dnb-heading__debug"
+          >
+            [h3] 
+          </span>
           Heading #5
         </h3>
       </Heading>
@@ -251,11 +272,14 @@ NB: This warning was triggered by:",
         className={null}
         counter={null}
         debug={null}
+        debug_counter={null}
         decrease={true}
         down={null}
         element="auto"
         group={null}
+        id={null}
         increase={null}
+        inherit={null}
         level={null}
         reset={null}
         size="auto"
@@ -266,7 +290,11 @@ NB: This warning was triggered by:",
         <h2
           className="dnb-heading dnb-h--large"
         >
-          [2] 
+          <span
+            className="dnb-heading__debug"
+          >
+            [h2] 
+          </span>
           Heading #6
         </h2>
       </Heading>
@@ -278,6 +306,7 @@ NB: This warning was triggered by:",
       decrease={null}
       down={null}
       group={null}
+      id={null}
       increase={true}
       inherit={null}
       level={null}
@@ -290,11 +319,14 @@ NB: This warning was triggered by:",
         className={null}
         counter={null}
         debug={null}
+        debug_counter={null}
         decrease={null}
         down={null}
         element="auto"
         group={null}
+        id={null}
         increase={null}
+        inherit={null}
         level={null}
         reset={null}
         size="auto"
@@ -305,7 +337,11 @@ NB: This warning was triggered by:",
         <h3
           className="dnb-heading dnb-h--medium"
         >
-          [3] 
+          <span
+            className="dnb-heading__debug"
+          >
+            [h3] 
+          </span>
           Heading #7
         </h3>
       </Heading>
@@ -317,6 +353,7 @@ NB: This warning was triggered by:",
           decrease={true}
           down={null}
           group={null}
+          id={null}
           increase={true}
           inherit={null}
           level={null}
@@ -329,11 +366,14 @@ NB: This warning was triggered by:",
             className={null}
             counter={null}
             debug={null}
+            debug_counter={null}
             decrease={null}
             down={null}
             element="auto"
             group={null}
+            id={null}
             increase={null}
+            inherit={null}
             level={null}
             reset={null}
             size="auto"
@@ -344,7 +384,11 @@ NB: This warning was triggered by:",
             <h2
               className="dnb-heading dnb-h--large"
             >
-              [2] 
+              <span
+                className="dnb-heading__debug"
+              >
+                [h2] 
+              </span>
               Heading #8
             </h2>
           </Heading>
@@ -353,11 +397,14 @@ NB: This warning was triggered by:",
             className={null}
             counter={null}
             debug={null}
+            debug_counter={null}
             decrease={true}
             down={null}
             element="auto"
             group={null}
+            id={null}
             increase={null}
+            inherit={null}
             level={null}
             reset={null}
             size="auto"
@@ -368,7 +415,11 @@ NB: This warning was triggered by:",
             <h2
               className="dnb-heading dnb-h--large"
             >
-              [2] 
+              <span
+                className="dnb-heading__debug"
+              >
+                [h2] 
+              </span>
               Heading #9
             </h2>
           </Heading>
@@ -404,5 +455,15 @@ exports[`Heading component have to match snapshot 1`] = `
  * Heading Component
  *
  */
+.dnb-heading__debug {
+  color: var(--color-black-30);
+  font-weight: var(--font-weight-basis); }
+  .dnb-heading__debug .dnb-code {
+    color: black;
+    font-size: 12px !important; }
+
+.dnb-heading__context {
+  display: block;
+  padding: 1rem 0 2rem; }
 "
 `;

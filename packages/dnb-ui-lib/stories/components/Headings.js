@@ -7,6 +7,7 @@ import React from 'react'
 import { Wrapper, Box } from '../helpers'
 import styled from '@emotion/styled'
 import { H2, H3 } from '../../src/elements'
+import { ToggleButton } from '../../src/components'
 import Provider from '../../src/shared/Provider'
 import Heading, {
   // resetLevels,
@@ -18,9 +19,11 @@ const CustomStyle = styled.div`
   } */
 `
 
-const RenderNow = () => {
-  // resetLevels()
-  setNextLevel(2)
+const ChangeLevel = ({ level }) => {
+  React.useEffect(() => {
+    // resetLevels()
+    setNextLevel(level)
+  }, [])
   return <></>
 }
 const warn = (...log) => {
@@ -35,7 +38,7 @@ export default [
     React.useEffect(() => {
       const timeout = setTimeout(() => {
         setShowHeading(true)
-      }, 1e3)
+      }, 100)
 
       return () => clearTimeout(timeout)
     })
@@ -53,7 +56,11 @@ export default [
                 <Heading.Level reset>
                   <Heading>Heading #4</Heading>
                 </Heading.Level>
+                <Heading reset>Heading #4</Heading>
               </Heading.Level>
+            </Box>
+            <Box>
+              <App />
             </Box>
             {/* <Box>
               <Heading level={2} debug={warn}>
@@ -169,7 +176,7 @@ export default [
               </Heading>
               ---
               <Heading.Level debug>
-                <RenderNow />
+                <ChangeLevel level="2" />
                 <Heading>Heading #1</Heading>
                 <Heading increase>Heading #2</Heading>
                 <Heading level={4}>Heading #3</Heading>
@@ -265,7 +272,7 @@ export default [
               </Heading>
               ---
               <Heading.Level debug>
-                <RenderNow />
+                <ChangeLevel level="2" />
                 <Heading>Heading #1</Heading>
                 <Heading increase>Heading #2</Heading>
                 <Heading level={4}>Heading #3</Heading>
@@ -390,3 +397,56 @@ export default [
 //     </>
 //   )
 // }
+
+function App() {
+  // const [showHeading3, setShowHeading3] = React.useState(false)
+  const [showHeading3, setShowHeading3] = React.useState(false)
+  const [showHeading4, setShowHeading4] = React.useState(false)
+
+  return (
+    <Heading.Level group="A" debug debug_counter reset={1}>
+      <Heading>h1</Heading>
+      <Heading>h2</Heading>
+      <Heading increase>h3</Heading>
+
+      <Heading.Level group="B">
+        <ToggleButton
+          text="Toggle h3"
+          size="small"
+          checked={showHeading3}
+          onChange={() => setShowHeading3((c) => !c)}
+        />
+
+        <Heading>h3 before</Heading>
+        {showHeading3 && (
+          <>
+            <Heading increase>h4 1</Heading>
+            <Heading>h4 2</Heading>
+            <Heading increase>h5 1</Heading>
+          </>
+        )}
+        <Heading>h3 after</Heading>
+
+        <Heading.Increase group="C">
+          <ToggleButton
+            text="Toggle h4"
+            size="small"
+            checked={showHeading4}
+            onChange={() => setShowHeading4((c) => !c)}
+          />
+          {showHeading4 && (
+            <>
+              <Heading>h4</Heading>
+              <Heading>h4</Heading>
+              <Heading increase>h5</Heading>
+            </>
+          )}
+        </Heading.Increase>
+      </Heading.Level>
+
+      <Heading.Level group="C">
+        <Heading>h2</Heading>
+      </Heading.Level>
+    </Heading.Level>
+  )
+}

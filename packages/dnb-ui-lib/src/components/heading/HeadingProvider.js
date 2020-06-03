@@ -6,6 +6,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { isTrue } from '../../shared/component-helper'
+// import { makeUniqueId } from '../../shared/component-helper'
 
 // import Context from '../../shared/Context'
 import HeadingContext from './HeadingContext'
@@ -13,12 +14,14 @@ import {
   globalSyncCounter,
   globalHeadingCounter,
   correctHeadingLevel,
-  windUpHeadings,
-  tearDownHeadings
+  windupHeadings,
+  teardownHeadings,
+  debugCounter
 } from './HeadingHelpers'
 import { initCounter } from './HeadingCounter'
 
 const propTypes = {
+  id: PropTypes.string,
   group: PropTypes.string,
   level: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   increase: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -41,6 +44,7 @@ const propTypes = {
   children: PropTypes.any
 }
 const defaultProps = {
+  id: null,
   group: null,
   level: null, // like auto
   increase: null, // set increase as the default
@@ -76,11 +80,14 @@ export default class HeadingProvider extends React.PureComponent {
   constructor(props, context) {
     super(props)
 
+    // this._id = props.id || makeUniqueId()
+
     const state = {
       _listenForPropChanges: true
     }
 
     const existingContext = context.heading
+    // console.log('existingContext', existingContext)
 
     // Here we create a new counter, but use the last global level
     state.counter = initCounter(props) // in here we use isContext prop
@@ -97,6 +104,8 @@ export default class HeadingProvider extends React.PureComponent {
     } else {
       state.counter.setContextCounter(globalHeadingCounter.current)
     }
+
+    state.counter.rerender = this.rerender
 
     const { level: newLevel } = correctHeadingLevel({
       counter: state.counter,
@@ -121,15 +130,22 @@ export default class HeadingProvider extends React.PureComponent {
   }
 
   componentDidMount() {
-    windUpHeadings()
+    windupHeadings()
   }
   componentWillUnmount() {
-    tearDownHeadings()
+    teardownHeadings()
   }
+
+  // rerender = () => {
+  //   this.setState({
+  //     force: makeUniqueId()
+  //   })
+  // }
 
   render() {
     return (
       <HeadingContext.Provider
+        // key={this._id}
         value={{
           //   ...this.context,// in case we would send in the global context
           heading: {
@@ -138,7 +154,18 @@ export default class HeadingProvider extends React.PureComponent {
           }
         }}
       >
-        {this.props.children}
+        {(this.state.newProps.debug_counter && (
+          <span className="dnb-heading__context">
+            <span className="dnb-heading__debug">
+              Context:{' '}
+              <span className="dnb-code">
+                {debugCounter(this.state.counter)}
+              </span>
+            </span>
+            {this.props.children}
+          </span>
+        )) ||
+          this.props.children}
       </HeadingContext.Provider>
     )
   }

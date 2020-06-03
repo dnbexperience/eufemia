@@ -9,21 +9,37 @@ import classnames from 'classnames'
 import E from './Element'
 import { setNextLevel } from '../components/heading/HeadingHelpers'
 
-const H = ({ is, level, style_type, size, className, ...props }) => {
-  if (style_type) {
-    size = style_type // deprecated
+class H extends React.PureComponent {
+  constructor(props) {
+    super(props)
+    if (props.level === 'auto') {
+      setNextLevel(parseFloat(props.is.substr(1)))
+    }
   }
-  if (level === 'auto') {
-    setNextLevel(parseFloat(is.substr(1)))
+
+  render() {
+    let {
+      is,
+      level, // eslint-disable-line
+      style_type,
+      size,
+      className,
+      ...props
+    } = this.props
+
+    if (style_type) {
+      size = style_type // deprecated
+    }
+
+    return (
+      <E
+        is={is}
+        {...props}
+        className={classnames(size && `dnb-h--${size}`, className)}
+        hasTagClass
+      />
+    )
   }
-  return (
-    <E
-      is={is}
-      {...props}
-      className={classnames(size && `dnb-h--${size}`, className)}
-      hasTagClass
-    />
-  )
 }
 H.propTypes = {
   className: PropTypes.string,

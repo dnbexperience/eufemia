@@ -11,7 +11,8 @@ import {
   toJson,
   loadScss
 } from '../../../core/jest/jestSetup'
-import Heading, { resetLevels } from '../Heading'
+import Heading from '../Heading'
+// import{ resetLevels, resetAllLevels } from '../Heading'
 import H3 from '../../../elements/H3'
 
 // just to make sure we re-run the test in watch mode due to changes in theese files
@@ -23,6 +24,48 @@ const warn = jest.fn()
 // beforeEach(() => {
 //   render(<Heading.Reset />)
 // })
+
+class StateChanges extends React.PureComponent {
+  constructor(props) {
+    super(props)
+    this.state = {}
+  }
+  render() {
+    return (
+      <Heading.Level group="A" debug={warn} reset={1}>
+        <Heading>h1</Heading>
+        <Heading>h2</Heading>
+        <Heading increase>h3</Heading>
+
+        <Heading.Level group="B">
+          <Heading>h3 before</Heading>
+          {this.state.showHeading3 && (
+            <>
+              <Heading increase>h4 1</Heading>
+              <Heading>h4 2</Heading>
+              <Heading increase>h5 1</Heading>
+            </>
+          )}
+          <Heading>h3 after</Heading>
+
+          <Heading.Increase group="C">
+            {this.state.showHeading4 && (
+              <>
+                <Heading>h4 1</Heading>
+                <Heading>h4 2</Heading>
+                <Heading increase>h5 1</Heading>
+              </>
+            )}
+          </Heading.Increase>
+        </Heading.Level>
+
+        <Heading.Decrease group="C">
+          <Heading>h2</Heading>
+        </Heading.Decrease>
+      </Heading.Level>
+    )
+  }
+}
 
 describe('Heading component', () => {
   it('have to match level correction', () => {
@@ -48,21 +91,29 @@ describe('Heading component', () => {
         <Heading.Level inherit debug={warn}>
           <Heading>Heading #10</Heading>
         </Heading.Level>
+        <Heading debug inherit>
+          Heading #11
+        </Heading>
+        <Heading debug inherit decrease>
+          Heading #12
+        </Heading>
       </>
     )
 
     let i = -1
     const elem = Comp.find('.dnb-heading')
-    expect(elem.at(++i).text()).toBe('[1] Heading #1')
-    expect(elem.at(++i).text()).toBe('[1] Heading #2')
-    expect(elem.at(++i).text()).toBe('[2] Heading #3')
-    expect(elem.at(++i).text()).toBe('[3] Heading #4')
-    expect(elem.at(++i).text()).toBe('[4] Heading #5')
-    expect(elem.at(++i).text()).toBe('[2] Heading #6')
-    expect(elem.at(++i).text()).toBe('[2] Heading #7')
-    expect(elem.at(++i).text()).toBe('[2] Heading #8')
-    expect(elem.at(++i).text()).toBe('[3] Heading #9')
-    expect(elem.at(++i).text()).toBe('[3] Heading #10')
+    expect(elem.at(++i).text()).toBe('[h1] Heading #1')
+    expect(elem.at(++i).text()).toBe('[h1] Heading #2')
+    expect(elem.at(++i).text()).toBe('[h2] Heading #3')
+    expect(elem.at(++i).text()).toBe('[h3] Heading #4')
+    expect(elem.at(++i).text()).toBe('[h4] Heading #5')
+    expect(elem.at(++i).text()).toBe('[h2] Heading #6')
+    expect(elem.at(++i).text()).toBe('[h2] Heading #7')
+    expect(elem.at(++i).text()).toBe('[h2] Heading #8')
+    expect(elem.at(++i).text()).toBe('[h3] Heading #9')
+    expect(elem.at(++i).text()).toBe('[h3] Heading #10')
+    expect(elem.at(++i).text()).toBe('[h3] Heading #11')
+    expect(elem.at(++i).text()).toBe('[h2] Heading #12')
   })
 
   it('have to match global reset', () => {
@@ -75,13 +126,20 @@ describe('Heading component', () => {
         <Heading.Level debug={warn} reset={1}>
           <Heading>Heading #2</Heading>
         </Heading.Level>
+
+        <Heading debug>Heading #3</Heading>
+        <Heading debug reset>
+          Heading #4
+        </Heading>
       </>
     )
 
     let i = -1
     const elem = Comp.find('.dnb-heading')
-    expect(elem.at(++i).text()).toBe('[1] Heading #1')
-    expect(elem.at(++i).text()).toBe('[1] Heading #2')
+    expect(elem.at(++i).text()).toBe('[h1] Heading #1')
+    expect(elem.at(++i).text()).toBe('[h1] Heading #2')
+    expect(elem.at(++i).text()).toBe('[h2] Heading #3')
+    expect(elem.at(++i).text()).toBe('[h2] Heading #4')
   })
 
   it('have to match context reset', () => {
@@ -94,16 +152,18 @@ describe('Heading component', () => {
           <Heading.Level reset>
             <Heading>Heading #4</Heading>
           </Heading.Level>
+          <Heading reset>Heading #5</Heading>
         </Heading.Level>
       </>
     )
 
     let i = -1
     const elem = Comp.find('.dnb-heading')
-    expect(elem.at(++i).text()).toBe('[1] Heading #1')
-    expect(elem.at(++i).text()).toBe('[2] Heading #2')
-    expect(elem.at(++i).text()).toBe('[3] Heading #3')
-    expect(elem.at(++i).text()).toBe('[2] Heading #4')
+    expect(elem.at(++i).text()).toBe('[h1] Heading #1')
+    expect(elem.at(++i).text()).toBe('[h2] Heading #2')
+    expect(elem.at(++i).text()).toBe('[h3] Heading #3')
+    expect(elem.at(++i).text()).toBe('[h2] Heading #4')
+    expect(elem.at(++i).text()).toBe('[h2] Heading #5')
   })
 
   it('have to match level correction with manual heading', () => {
@@ -123,23 +183,28 @@ describe('Heading component', () => {
 
     let i = -1
     const elem = Comp.find('.dnb-heading')
-    expect(elem.at(++i).text()).toBe('[1] Heading #1')
-    expect(elem.at(++i).text()).toBe('[2] Heading #2')
-    expect(elem.at(++i).text()).toBe('[3] Heading #4')
+    expect(elem.at(++i).text()).toBe('[h1] Heading #1')
+    expect(elem.at(++i).text()).toBe('[h2] Heading #2')
+    expect(elem.at(++i).text()).toBe('[h3] Heading #4')
   })
 
   it('have to match after level state update', () => {
     const warn = jest.fn()
 
-    resetLevels(1)
-    const Comp = mount(<Heading debug={warn}>Heading #1</Heading>)
+    // resetLevels(1)
+    // resetAllLevels()
+    const Comp = mount(
+      <Heading reset={1} debug={warn}>
+        Heading #1
+      </Heading>
+    )
 
-    expect(Comp.find('.dnb-heading').at(0).text()).toBe('[1] Heading #1')
+    expect(Comp.find('.dnb-heading').at(0).text()).toBe('[h1] Heading #1')
 
     Comp.setProps({ level: 3 })
 
     // We got a level correction here!
-    expect(Comp.find('.dnb-heading').at(0).text()).toBe('[2] Heading #1')
+    expect(Comp.find('.dnb-heading').at(0).text()).toBe('[h2] Heading #1')
 
     expect(warn).toBeCalledTimes(1)
     expect(warn).toHaveBeenCalledWith(
@@ -157,7 +222,7 @@ describe('Heading component', () => {
     Comp.setProps({ skip_correction: true })
     Comp.setProps({ level: 4 })
 
-    expect(Comp.find('.dnb-heading').at(0).text()).toBe('[4] Heading #1')
+    expect(Comp.find('.dnb-heading').at(0).text()).toBe('[h4] Heading #1')
     expect(warn).toBeCalledTimes(1) // still one time, same as we had earlier
   })
 
@@ -169,7 +234,7 @@ describe('Heading component', () => {
     )
 
     const elem = Comp.find('span.dnb-heading')
-    expect(elem.at(0).text()).toBe('[1] Heading #1')
+    expect(elem.at(0).text()).toBe('[h1] Heading #1')
     expect(elem.at(0).instance().getAttribute('role')).toBe('heading')
     expect(elem.at(0).instance().getAttribute('aria-level')).toBe('1')
   })
@@ -181,7 +246,7 @@ describe('Heading component', () => {
       </Heading>
     )
 
-    expect(Comp.find('.dnb-heading').at(0).text()).toBe('[1] Heading #1')
+    expect(Comp.find('.dnb-heading').at(0).text()).toBe('[h1] Heading #1')
   })
 
   it('have to have correct size class', () => {
@@ -192,7 +257,7 @@ describe('Heading component', () => {
     )
 
     const elem = Comp.find('.dnb-heading')
-    expect(elem.at(0).text()).toBe('[1] Heading #1')
+    expect(elem.at(0).text()).toBe('[h1] Heading #1')
     expect(elem.at(0).exists('.dnb-h--x-large')).toBe(true)
     expect(elem.at(0).instance().getAttribute('class')).toBe(
       'dnb-heading dnb-h--x-large'
@@ -210,8 +275,8 @@ describe('Heading component', () => {
     )
 
     const elem = Comp.find('.dnb-heading')
-    expect(elem.at(0).text()).toBe('[4] Heading #1')
-    expect(elem.at(1).text()).toBe('[5] Heading #2')
+    expect(elem.at(0).text()).toBe('[h4] Heading #1')
+    expect(elem.at(1).text()).toBe('[h5] Heading #2')
   })
 
   it('should not increase level above 6', () => {
@@ -228,9 +293,57 @@ describe('Heading component', () => {
     )
 
     const elem = Comp.find('.dnb-heading')
-    expect(elem.at(0).text()).toBe('[1] Heading #1')
-    expect(elem.at(1).text()).toBe('[6] Heading #2')
-    expect(elem.at(2).text()).toBe('[6] Heading #3')
+    expect(elem.at(0).text()).toBe('[h1] Heading #1')
+    expect(elem.at(1).text()).toBe('[h6] Heading #2')
+    expect(elem.at(2).text()).toBe('[h6] Heading #3')
+  })
+
+  it('should keep context level after state update', () => {
+    const Comp = mount(<StateChanges />)
+
+    let i = -1
+    let elem = Comp.find('.dnb-heading')
+    expect(elem.at(++i).text()).toBe('[h1] h1')
+    expect(elem.at(++i).text()).toBe('[h2] h2')
+    expect(elem.at(++i).text()).toBe('[h3] h3')
+    expect(elem.at(++i).text()).toBe('[h3] h3 before')
+    expect(elem.at(++i).text()).toBe('[h3] h3 after')
+    expect(elem.at(++i).text()).toBe('[h2] h2')
+
+    Comp.setState({
+      showHeading3: true
+    })
+
+    i = -1
+    elem = Comp.find('.dnb-heading')
+    expect(elem.at(++i).text()).toBe('[h1] h1')
+    expect(elem.at(++i).text()).toBe('[h2] h2')
+    expect(elem.at(++i).text()).toBe('[h3] h3')
+    expect(elem.at(++i).text()).toBe('[h3] h3 before')
+    expect(elem.at(++i).text()).toBe('[h4] h4 1')
+    expect(elem.at(++i).text()).toBe('[h4] h4 2')
+    expect(elem.at(++i).text()).toBe('[h5] h5 1')
+    expect(elem.at(++i).text()).toBe('[h3] h3 after')
+    expect(elem.at(++i).text()).toBe('[h2] h2')
+
+    Comp.setState({
+      showHeading4: true
+    })
+
+    i = -1
+    elem = Comp.find('.dnb-heading')
+    expect(elem.at(++i).text()).toBe('[h1] h1')
+    expect(elem.at(++i).text()).toBe('[h2] h2')
+    expect(elem.at(++i).text()).toBe('[h3] h3')
+    expect(elem.at(++i).text()).toBe('[h3] h3 before')
+    expect(elem.at(++i).text()).toBe('[h4] h4 1')
+    expect(elem.at(++i).text()).toBe('[h4] h4 2')
+    expect(elem.at(++i).text()).toBe('[h5] h5 1')
+    expect(elem.at(++i).text()).toBe('[h3] h3 after')
+    expect(elem.at(++i).text()).toBe('[h4] h4 1')
+    expect(elem.at(++i).text()).toBe('[h4] h4 2')
+    expect(elem.at(++i).text()).toBe('[h5] h5 1')
+    expect(elem.at(++i).text()).toBe('[h2] h2')
   })
 
   it('have to match default leveling', () => {
@@ -238,15 +351,15 @@ describe('Heading component', () => {
 
     let i = -1
     const elem = Comp.find('.dnb-heading')
-    expect(elem.at(++i).text()).toBe('[1] Heading #1')
-    expect(elem.at(++i).text()).toBe('[2] Heading #2')
-    expect(elem.at(++i).text()).toBe('[3] Heading #3')
-    expect(elem.at(++i).text()).toBe('[4] Heading #4')
-    expect(elem.at(++i).text()).toBe('[3] Heading #5')
-    expect(elem.at(++i).text()).toBe('[2] Heading #6')
-    expect(elem.at(++i).text()).toBe('[3] Heading #7')
-    expect(elem.at(++i).text()).toBe('[2] Heading #8')
-    expect(elem.at(++i).text()).toBe('[2] Heading #9')
+    expect(elem.at(++i).text()).toBe('[h1] Heading #1')
+    expect(elem.at(++i).text()).toBe('[h2] Heading #2')
+    expect(elem.at(++i).text()).toBe('[h3] Heading #3')
+    expect(elem.at(++i).text()).toBe('[h4] Heading #4')
+    expect(elem.at(++i).text()).toBe('[h3] Heading #5')
+    expect(elem.at(++i).text()).toBe('[h2] Heading #6')
+    expect(elem.at(++i).text()).toBe('[h3] Heading #7')
+    expect(elem.at(++i).text()).toBe('[h2] Heading #8')
+    expect(elem.at(++i).text()).toBe('[h2] Heading #9')
   })
 
   it('have to match default heading snapshot', () => {

@@ -8,6 +8,7 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import {
   isTrue,
+  // makeUniqueId,
   validateDOMAttributes,
   registerElement
 } from '../../shared/component-helper'
@@ -18,11 +19,13 @@ import HeadingProvider from './HeadingProvider'
 import {
   correctHeadingLevel,
   resetLevels,
+  resetAllLevels,
   setNextLevel,
   globalSyncCounter,
   globalHeadingCounter,
-  windUpHeadings,
-  tearDownHeadings
+  windupHeadings,
+  teardownHeadings,
+  debugCounter
 } from './HeadingHelpers'
 import { initCounter } from './HeadingCounter'
 
@@ -39,6 +42,7 @@ export const levelResolution = {
 const renderProps = {}
 
 const propTypes = {
+  id: PropTypes.string,
   group: PropTypes.string,
   text: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
   size: PropTypes.oneOf([
@@ -60,7 +64,9 @@ const propTypes = {
 
   skip_correction: PropTypes.bool,
   debug: PropTypes.oneOfType([PropTypes.bool, PropTypes.func]),
+  debug_counter: PropTypes.oneOfType([PropTypes.bool, PropTypes.func]),
   counter: PropTypes.any,
+  inherit: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   reset: PropTypes.oneOfType([
     PropTypes.number,
     PropTypes.string,
@@ -76,6 +82,7 @@ const propTypes = {
 }
 
 const defaultProps = {
+  id: null,
   group: null,
   text: null,
   size: 'auto',
@@ -88,8 +95,10 @@ const defaultProps = {
 
   skip_correction: null,
   debug: null,
+  debug_counter: null,
   counter: null,
   reset: null,
+  inherit: null,
 
   element: 'auto', // e.g h1
   class: null,
@@ -146,6 +155,8 @@ export default class Heading extends React.PureComponent {
   constructor(props, context) {
     super(props)
 
+    // this._id = props.id || makeUniqueId()
+
     this._ref = React.createRef()
 
     const state = {
@@ -168,6 +179,7 @@ export default class Heading extends React.PureComponent {
     const { level: newLevel } = correctHeadingLevel({
       counter: state.counter,
       level: parseFloat(props.level),
+      inherit: isTrue(props.inherit),
       reset: props.reset,
       increase: isTrue(props.increase) || isTrue(props.up),
       decrease: isTrue(props.decrease) || isTrue(props.down),
@@ -187,10 +199,12 @@ export default class Heading extends React.PureComponent {
   }
 
   componentDidMount() {
-    windUpHeadings()
+    windupHeadings()
+    this.state.counter.windup()
   }
   componentWillUnmount() {
-    tearDownHeadings()
+    teardownHeadings()
+    this.state.counter.teardown()
   }
 
   render() {
@@ -198,6 +212,7 @@ export default class Heading extends React.PureComponent {
       text,
       group: _group, // eslint-disable-line
       debug: _debug, // eslint-disable-line
+      debug_counter: _debug_counter, // eslint-disable-line
       reset: _reset, // eslint-disable-line
       skip_correction: _skip_correction, // eslint-disable-line
       increase: _increase, // eslint-disable-line
@@ -217,8 +232,11 @@ export default class Heading extends React.PureComponent {
     let { size, element } = this.props
     const { level } = this.state
     const debug = _debug || this.context.heading?.debug
+    const debug_counter =
+      _debug_counter || this.context.heading?.debug_counter
 
     const attributes = {
+      // key: this._id,
       ...rest
     }
 
@@ -251,7 +269,19 @@ export default class Heading extends React.PureComponent {
 
     return (
       <Element {...attributes}>
-        {debug && `[${level || '6'}] `}
+        {debug && (
+          <span className="dnb-heading__debug">
+            {`[h${level || '6'}] `}
+            {debug_counter && (
+              <>
+                {' '}
+                <span className="dnb-code">
+                  {debugCounter(this.state.counter)}
+                </span>
+              </>
+            )}
+          </span>
+        )}
         {text || children}
       </Element>
     )
@@ -269,4 +299,4 @@ Heading.Reset = () => {
 }
 
 // Interceptor to reset leveling
-export { resetLevels, setNextLevel }
+export { resetAllLevels, resetLevels, setNextLevel }

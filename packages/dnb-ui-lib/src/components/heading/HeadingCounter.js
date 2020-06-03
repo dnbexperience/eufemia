@@ -22,7 +22,9 @@ export const initCounter = (props = null) => {
 export class Counter {
   level = 0
   entry = 0
+  correction = 0
   countHeadings = 0
+  _initCount = 0
   isGlobal = false
   isHeading = false
   bypassChecks = false
@@ -73,8 +75,8 @@ export class Counter {
     return this.entry > 0
   }
 
-  getEntryLevel() {
-    return this.entry
+  hasCorrection() {
+    return this.correction > 0
   }
 
   setEntryLevel(level = null) {
@@ -90,30 +92,56 @@ export class Counter {
   }
 
   skipMakeMeReady() {
+    this.correction = 1
     this.entry = 1
     this.level = 1
     this.contextCounter.entry = 2
   }
 
+  windup() {
+    this.contextCounter.countHeadings++
+  }
+
+  teardown() {
+    if (this.contextCounter.countHeadings > 0) {
+      this.contextCounter.level = this.contextCounter.entry
+      // this.contextCounter.rerender()
+    }
+    this.contextCounter.countHeadings--
+    this.contextCounter._initCount--
+  }
+
   makeMeReady() {
-    if (!this.hasEntryLevel()) {
+    if (!this.hasCorrection()) {
       if (this.contextCounter.level > 1) {
-        this.entry = this.contextCounter.entry
         this.level = this.contextCounter.level
-      } else if (this.contextCounter.entry === 1) {
+        // if (this.entry === 0) {
+        //   this.entry = this.level
+        // }
+      } else if (this.contextCounter.correction === 1) {
         if (!this.bypassChecks) {
           this.level = 2
         }
-      } else if (this.contextCounter.entry === 0) {
-        this.contextCounter.entry = 1
+        // this.entry = 2
+      } else if (this.contextCounter.correction === 0) {
+        this.contextCounter.correction = 1
+        // this.correction = 1 // <-- do we need this?
         if (!this.bypassChecks) {
           this.level = 1
         }
+        // this.entry = 1
       }
-    }
 
-    if (this.isHeading) {
-      this.contextCounter.countHeadings++
+      if (
+        // !this.isHeading &&
+        this.entry === 0
+      ) {
+        this.entry = this.level
+
+        if (this.isHeading) {
+          this.contextCounter._initCount++
+        }
+      }
     }
   }
 
@@ -157,14 +185,14 @@ export class Counter {
     // skip level setting on first heading
     if (
       // !this.bypassChecks &&
-      this.entry === 0 &&
+      this.correction === 0 &&
       this.level === 1 &&
       (!globalSyncCounter.current || globalSyncCounter.current.level < 2)
 
       // !this.bypassChecks &&
       // (this.contextCounter.level === 0 ||
       //   (this.contextCounter.level < 2 &&
-      //     this.contextCounter.countHeadings === 1)) &&
+      //     this.contextCounter._initCount === 1)) &&
       // (!globalSyncCounter.current || globalSyncCounter.current.level < 2)
     ) {
       return // stop
@@ -179,8 +207,9 @@ export class Counter {
       })
     }
 
+    // NB: we don't need this anymore, because of the globalSyncCounter check
     // if (
-    //   this.contextCounter.countHeadings === 2 &&
+    //   this.contextCounter._initCount === 2 &&
     //   !this.contextCounter.isGlobal
     // ) {
     //   level = this.factorCheck({
@@ -236,7 +265,14 @@ export class Counter {
     }
 
     this.level = level
-    this.contextCounter.level = level
+
+    if (this.isHeading) {
+      // update the context to the last level
+      this.contextCounter.level = level
+    } else {
+      // if it is a context, update only the entry to the latest
+      this.entry = level
+    }
   }
 
   increment() {
@@ -257,6 +293,7 @@ export class Counter {
     toLevel = parseFloat(toLevel) || 2
     this.level = toLevel
     this.entry = 0
+    this.correction = 0
 
     if (
       toLevel === 1 &&

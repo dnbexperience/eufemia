@@ -67,9 +67,9 @@ export const correctHeadingLevel = ({
     update(level)
     counter.disableBypassChecks()
   } else if (globalResetNextTime.current > 0) {
-    level = globalResetNextTime.current
+    counter.reset(globalResetNextTime.current)
     globalResetNextTime.current = null
-    counter.reset(level)
+    update(level)
   } else if (
     reset === true ||
     reset === 'true' ||
@@ -116,6 +116,10 @@ function report(debug, source, ...reports) {
 }
 
 // Interceptor to reset leveling -
+export function resetAllLevels() {
+  countHeadings = 0
+  teardownHeadings()
+}
 export const globalResetNextTime = React.createRef(false)
 export function resetLevels(level = 1) {
   globalResetNextTime.current = level
@@ -126,16 +130,31 @@ export function setNextLevel(level) {
 }
 
 let countHeadings = 0
-export function windUpHeadings() {
+export function windupHeadings() {
   countHeadings++
+  // reset the sync counter, as this will distract correct assembling
+  globalSyncCounter.current = null
 }
-export function tearDownHeadings() {
+export function teardownHeadings() {
   countHeadings--
-  console.log('countHeadings', countHeadings)
   if (countHeadings === 0) {
     globalHeadingCounter.current = null
     globalSyncCounter.current = null
     globalResetNextTime.current = null
     globalNextLevel.current = null
   }
+}
+
+export function debugCounter(counter) {
+  return JSON.stringify(
+    {
+      group: counter.group || counter.contextCounter.group,
+      level: counter.level,
+      entry: counter.entry,
+      contextLevel: counter.contextCounter.level,
+      contextLEntry: counter.contextCounter.entry
+    },
+    null,
+    2
+  )
 }
