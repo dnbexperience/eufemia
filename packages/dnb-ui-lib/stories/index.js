@@ -55,3 +55,5 @@ elements
 helpers
   .sort(([a], [b]) => (a > b ? 1 : -1))
   .forEach((component) => storiesOf('Helpers', module).add(...component))
+
+export default []

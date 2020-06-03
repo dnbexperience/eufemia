@@ -1,33 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Heading component semantic have to match default heading snapshot 1`] = `
+exports[`Heading component have to match default heading snapshot 1`] = `
 <HeadingProvider
   counter={null}
   debug={
     [MockFunction] {
       "calls": Array [
         Array [
-          "Can not decrement to heading level 1! Had before",
-          2,
-          "- The new level is",
-          2,
-          "
-NB: This warning was triggered by:",
-          "",
-          "Heading #9",
-        ],
-        Array [
-          "Can not set other than level 1 at startup! Got:",
-          2,
-          "- The new level is",
-          1,
-          "
-NB: This warning was triggered by:",
-          "",
-          "Heading #1",
-        ],
-        Array [
-          "Heading levels can only be set by factor one! Got:",
+          "Heading levels can only be changed by factor one! Got:",
           3,
           "and had before",
           1,
@@ -36,10 +16,10 @@ NB: This warning was triggered by:",
           "
 NB: This warning was triggered by:",
           "",
-          "Heading #2",
+          "Heading #3",
         ],
         Array [
-          "Heading levels can only be set by factor one! Got:",
+          "Heading levels can only be changed by factor one! Got:",
           4,
           "and had before",
           2,
@@ -48,10 +28,20 @@ NB: This warning was triggered by:",
           "
 NB: This warning was triggered by:",
           "",
-          "Heading #3",
+          "Heading #4",
         ],
         Array [
-          "Can not increment heading level higher than 6! Got:",
+          "Can not decrease to heading level 1! Had before",
+          2,
+          "- The new level is",
+          2,
+          "
+NB: This warning was triggered by:",
+          "",
+          "Heading #7",
+        ],
+        Array [
+          "Can not [increment] heading level higher than 6! Got:",
           7,
           "and had before",
           6,
@@ -61,6 +51,16 @@ NB: This warning was triggered by:",
 NB: This warning was triggered by:",
           "",
           "Heading #3",
+        ],
+        Array [
+          "Can not decrease to heading level 1! Had before",
+          2,
+          "- The new level is",
+          2,
+          "
+NB: This warning was triggered by:",
+          "",
+          "Heading #9",
         ],
       ],
       "results": Array [
@@ -89,32 +89,43 @@ NB: This warning was triggered by:",
   }
   decrease={null}
   down={null}
-  increase={true}
+  group={null}
+  id={null}
+  increase={null}
+  inherit={null}
   level={null}
-  reset={true}
+  reset={1}
   text={null}
-  up={true}
+  up={null}
 >
   <Heading
     class={null}
     className={null}
     counter={null}
     debug={null}
+    debug_counter={null}
     decrease={null}
     down={null}
     element="auto"
+    group={null}
+    id={null}
     increase={null}
+    inherit={null}
     level={null}
     reset={null}
     size="auto"
-    skip_checks={null}
+    skip_correction={null}
     text={null}
     up={null}
   >
     <h1
       className="dnb-heading dnb-h--xx-large"
     >
-      [1] 
+      <span
+        className="dnb-heading__debug"
+      >
+        [h1] 
+      </span>
       Heading #1
     </h1>
   </Heading>
@@ -123,222 +134,303 @@ NB: This warning was triggered by:",
     className={null}
     counter={null}
     debug={null}
+    debug_counter={null}
     decrease={null}
     down={null}
     element="auto"
+    group={null}
+    id={null}
     increase={null}
+    inherit={null}
     level={null}
     reset={null}
     size="auto"
-    skip_checks={null}
+    skip_correction={null}
     text={null}
     up={null}
   >
     <h2
       className="dnb-heading dnb-h--large"
     >
-      [2] 
+      <span
+        className="dnb-heading__debug"
+      >
+        [h2] 
+      </span>
       Heading #2
     </h2>
   </Heading>
-  <HeadingProvider
-    counter={null}
-    decrease={null}
-    down={null}
-    increase={true}
-    level={null}
-    reset={null}
-    text={null}
-    up={true}
-  >
-    <Heading
-      class={null}
-      className={null}
-      counter={null}
-      debug={null}
-      decrease={null}
-      down={null}
-      element="auto"
-      increase={null}
-      level={null}
-      reset={null}
-      size="auto"
-      skip_checks={null}
-      text={null}
-      up={null}
-    >
-      <h3
-        className="dnb-heading dnb-h--medium"
-      >
-        [3] 
-        Heading #3
-      </h3>
-    </Heading>
-    <Heading
-      class={null}
-      className={null}
-      counter={null}
-      debug={null}
-      decrease={null}
-      down={null}
-      element="auto"
-      increase={null}
-      level={null}
-      reset={null}
-      size="auto"
-      skip_checks={null}
-      text={null}
-      up={true}
-    >
-      <h4
-        className="dnb-heading dnb-h--basis"
-      >
-        [4] 
-        Heading #4
-      </h4>
-    </Heading>
-    <Heading
-      class={null}
-      className={null}
-      counter={null}
-      debug={null}
-      decrease={null}
-      down={true}
-      element="auto"
-      increase={null}
-      level={null}
-      reset={null}
-      size="auto"
-      skip_checks={null}
-      text={null}
-      up={null}
-    >
-      <h3
-        className="dnb-heading dnb-h--medium"
-      >
-        [3] 
-        Heading #5
-      </h3>
-    </Heading>
-    <Heading
-      class={null}
-      className={null}
-      counter={null}
-      debug={null}
-      decrease={true}
-      down={null}
-      element="auto"
-      increase={null}
-      level={null}
-      reset={null}
-      size="auto"
-      skip_checks={null}
-      text={null}
-      up={null}
-    >
-      <h2
-        className="dnb-heading dnb-h--large"
-      >
-        [2] 
-        Heading #6
-      </h2>
-    </Heading>
-  </HeadingProvider>
-  <HeadingProvider
-    counter={null}
-    decrease={null}
-    down={null}
-    increase={true}
-    level={null}
-    reset={null}
-    text={null}
-    up={true}
-  >
-    <Heading
-      class={null}
-      className={null}
-      counter={null}
-      debug={null}
-      decrease={null}
-      down={null}
-      element="auto"
-      increase={null}
-      level={null}
-      reset={null}
-      size="auto"
-      skip_checks={null}
-      text={null}
-      up={null}
-    >
-      <h3
-        className="dnb-heading dnb-h--medium"
-      >
-        [3] 
-        Heading #7
-      </h3>
-    </Heading>
+  <Component>
     <HeadingProvider
       counter={null}
-      decrease={true}
+      decrease={null}
       down={null}
+      group={null}
+      id={null}
       increase={true}
+      inherit={null}
       level={null}
       reset={null}
       text={null}
-      up={true}
+      up={null}
     >
       <Heading
         class={null}
         className={null}
         counter={null}
         debug={null}
+        debug_counter={null}
         decrease={null}
         down={null}
         element="auto"
+        group={null}
+        id={null}
         increase={null}
+        inherit={null}
         level={null}
         reset={null}
         size="auto"
-        skip_checks={null}
+        skip_correction={null}
         text={null}
         up={null}
       >
-        <h2
-          className="dnb-heading dnb-h--large"
+        <h3
+          className="dnb-heading dnb-h--medium"
         >
-          [2] 
-          Heading #8
-        </h2>
+          <span
+            className="dnb-heading__debug"
+          >
+            [h3] 
+          </span>
+          Heading #3
+        </h3>
       </Heading>
       <Heading
         class={null}
         className={null}
         counter={null}
         debug={null}
-        decrease={true}
+        debug_counter={null}
+        decrease={null}
         down={null}
         element="auto"
+        group={null}
+        id={null}
         increase={null}
+        inherit={null}
         level={null}
         reset={null}
         size="auto"
-        skip_checks={null}
+        skip_correction={null}
+        text={null}
+        up={true}
+      >
+        <h4
+          className="dnb-heading dnb-h--basis"
+        >
+          <span
+            className="dnb-heading__debug"
+          >
+            [h4] 
+          </span>
+          Heading #4
+        </h4>
+      </Heading>
+      <Heading
+        class={null}
+        className={null}
+        counter={null}
+        debug={null}
+        debug_counter={null}
+        decrease={null}
+        down={true}
+        element="auto"
+        group={null}
+        id={null}
+        increase={null}
+        inherit={null}
+        level={null}
+        reset={null}
+        size="auto"
+        skip_correction={null}
+        text={null}
+        up={null}
+      >
+        <h3
+          className="dnb-heading dnb-h--medium"
+        >
+          <span
+            className="dnb-heading__debug"
+          >
+            [h3] 
+          </span>
+          Heading #5
+        </h3>
+      </Heading>
+      <Heading
+        class={null}
+        className={null}
+        counter={null}
+        debug={null}
+        debug_counter={null}
+        decrease={true}
+        down={null}
+        element="auto"
+        group={null}
+        id={null}
+        increase={null}
+        inherit={null}
+        level={null}
+        reset={null}
+        size="auto"
+        skip_correction={null}
         text={null}
         up={null}
       >
         <h2
           className="dnb-heading dnb-h--large"
         >
-          [2] 
-          Heading #9
+          <span
+            className="dnb-heading__debug"
+          >
+            [h2] 
+          </span>
+          Heading #6
         </h2>
       </Heading>
     </HeadingProvider>
-  </HeadingProvider>
+  </Component>
+  <Component>
+    <HeadingProvider
+      counter={null}
+      decrease={null}
+      down={null}
+      group={null}
+      id={null}
+      increase={true}
+      inherit={null}
+      level={null}
+      reset={null}
+      text={null}
+      up={null}
+    >
+      <Heading
+        class={null}
+        className={null}
+        counter={null}
+        debug={null}
+        debug_counter={null}
+        decrease={null}
+        down={null}
+        element="auto"
+        group={null}
+        id={null}
+        increase={null}
+        inherit={null}
+        level={null}
+        reset={null}
+        size="auto"
+        skip_correction={null}
+        text={null}
+        up={null}
+      >
+        <h3
+          className="dnb-heading dnb-h--medium"
+        >
+          <span
+            className="dnb-heading__debug"
+          >
+            [h3] 
+          </span>
+          Heading #7
+        </h3>
+      </Heading>
+      <Component
+        decrease={true}
+      >
+        <HeadingProvider
+          counter={null}
+          decrease={true}
+          down={null}
+          group={null}
+          id={null}
+          increase={true}
+          inherit={null}
+          level={null}
+          reset={null}
+          text={null}
+          up={null}
+        >
+          <Heading
+            class={null}
+            className={null}
+            counter={null}
+            debug={null}
+            debug_counter={null}
+            decrease={null}
+            down={null}
+            element="auto"
+            group={null}
+            id={null}
+            increase={null}
+            inherit={null}
+            level={null}
+            reset={null}
+            size="auto"
+            skip_correction={null}
+            text={null}
+            up={null}
+          >
+            <h2
+              className="dnb-heading dnb-h--large"
+            >
+              <span
+                className="dnb-heading__debug"
+              >
+                [h2] 
+              </span>
+              Heading #8
+            </h2>
+          </Heading>
+          <Heading
+            class={null}
+            className={null}
+            counter={null}
+            debug={null}
+            debug_counter={null}
+            decrease={true}
+            down={null}
+            element="auto"
+            group={null}
+            id={null}
+            increase={null}
+            inherit={null}
+            level={null}
+            reset={null}
+            size="auto"
+            skip_correction={null}
+            text={null}
+            up={null}
+          >
+            <h2
+              className="dnb-heading dnb-h--large"
+            >
+              <span
+                className="dnb-heading__debug"
+              >
+                [h2] 
+              </span>
+              Heading #9
+            </h2>
+          </Heading>
+        </HeadingProvider>
+      </Component>
+    </HeadingProvider>
+  </Component>
 </HeadingProvider>
 `;
 
-exports[`Heading scss have to match snapshot 1`] = `
+exports[`Heading component have to match snapshot 1`] = `
 "/*
 * DNB Heading
 *
@@ -363,5 +455,15 @@ exports[`Heading scss have to match snapshot 1`] = `
  * Heading Component
  *
  */
+.dnb-heading__debug {
+  color: var(--color-black-30);
+  font-weight: var(--font-weight-basis); }
+  .dnb-heading__debug .dnb-code {
+    color: black;
+    font-size: 12px !important; }
+
+.dnb-heading__context {
+  display: block;
+  padding: 1rem 0 2rem; }
 "
 `;

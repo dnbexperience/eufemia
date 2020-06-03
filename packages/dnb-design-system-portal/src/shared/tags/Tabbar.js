@@ -98,7 +98,7 @@ export default function Tabbar({
   return (
     <>
       {title && (
-        <Heading level={1} skip_checks>
+        <Heading level={1} skip_correction>
           {title}
         </Heading>
       )}

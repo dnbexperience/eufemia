@@ -29,4 +29,10 @@ describe('Heading screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+  it('have to match headings with manual mixin', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-dnb-test="heading-mixin"]'
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
 })
