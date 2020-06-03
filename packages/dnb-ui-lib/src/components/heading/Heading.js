@@ -126,9 +126,10 @@ export default class Heading extends React.PureComponent {
     if (state._listenForPropChanges) {
       const level = parseFloat(props.level)
       if (
-        state.prevLevel !== props.level &&
-        level > 0 &&
-        level !== state.level
+        (state.prevLevel !== props.level &&
+          level > 0 &&
+          level !== state.level) ||
+        props.relevel
       ) {
         // Because we do not want to run MakeMeReady to set "this.level = 2"
         state.counter.skipMakeMeReady()
@@ -144,7 +145,7 @@ export default class Heading extends React.PureComponent {
           source: props.text || props.children, // only for debuging
           debug: props.debug || state.context.heading?.debug
         })
-        state.level = newLevel
+        state.level = state.prevLevel = newLevel
       }
     }
     state._listenForPropChanges = true
@@ -210,6 +211,7 @@ export default class Heading extends React.PureComponent {
   render() {
     const {
       text,
+      relevel: _relevel, // eslint-disable-line
       group: _group, // eslint-disable-line
       debug: _debug, // eslint-disable-line
       debug_counter: _debug_counter, // eslint-disable-line

@@ -12,7 +12,11 @@ import {
   loadScss
 } from '../../../core/jest/jestSetup'
 import Heading from '../Heading'
-// import{ resetLevels, resetAllLevels } from '../Heading'
+import {
+  resetLevels,
+  setNextLevel
+  // , resetAllLevels
+} from '../Heading'
 import H3 from '../../../elements/H3'
 
 // just to make sure we re-run the test in watch mode due to changes in theese files
@@ -191,13 +195,9 @@ describe('Heading component', () => {
   it('have to match after level state update', () => {
     const warn = jest.fn()
 
-    // resetLevels(1)
+    resetLevels(1)
     // resetAllLevels()
-    const Comp = mount(
-      <Heading reset={1} debug={warn}>
-        Heading #1
-      </Heading>
-    )
+    const Comp = mount(<Heading debug={warn}>Heading #1</Heading>)
 
     expect(Comp.find('.dnb-heading').at(0).text()).toBe('[h1] Heading #1')
 
@@ -224,6 +224,45 @@ describe('Heading component', () => {
 
     expect(Comp.find('.dnb-heading').at(0).text()).toBe('[h4] Heading #1')
     expect(warn).toBeCalledTimes(1) // still one time, same as we had earlier
+  })
+
+  it('have to have correct leveling after using setNextLevel', () => {
+    setNextLevel(4)
+
+    resetLevels(1)
+    const Comp1 = mount(<Heading debug={warn}>h1</Heading>)
+
+    setNextLevel(2)
+    const Comp2 = mount(<Heading debug={warn}>h2</Heading>)
+
+    setNextLevel(3)
+    const Comp3 = mount(
+      <Heading.Level debug={warn}>
+        <Heading>h3</Heading>
+      </Heading.Level>
+    )
+
+    expect(Comp1.find('.dnb-heading').at(0).text()).toBe('[h1] h1')
+    expect(Comp2.find('.dnb-heading').at(0).text()).toBe('[h2] h2')
+    expect(Comp3.find('.dnb-heading').at(0).text()).toBe('[h3] h3')
+
+    Comp2.setState({
+      level: 4
+    })
+    expect(Comp2.find('.dnb-heading').at(0).text()).toBe('[h4] h2')
+
+    resetLevels(1)
+    Comp2.setProps({ relevel: true })
+    expect(Comp2.find('.dnb-heading').at(0).text()).toBe('[h1] h2')
+
+    setNextLevel(2)
+    Comp1.setProps({ relevel: true })
+    expect(Comp1.find('.dnb-heading').at(0).text()).toBe('[h2] h1')
+
+    // setNextLevel(4)
+    // resetLevels(4)
+    // Comp3.setProps({ relevel: true })
+    // expect(Comp3.find('.dnb-heading').at(0).text()).toBe('[h4] h3')
   })
 
   it('have to have aria role and level if set as span element', () => {
@@ -280,9 +319,10 @@ describe('Heading component', () => {
   })
 
   it('should not increase level above 6', () => {
+    resetLevels(1)
     const Comp = mount(
       <>
-        <Heading.Level debug={warn} reset={1}>
+        <Heading.Level debug={warn}>
           <Heading>Heading #1</Heading>
           <Heading.Increase skip_correction level="6">
             <Heading>Heading #2</Heading>

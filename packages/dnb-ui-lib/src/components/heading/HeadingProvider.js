@@ -69,13 +69,36 @@ export default class HeadingProvider extends React.PureComponent {
   static contextType = HeadingContext
   //   static contextType = Context// in order to get newProps, we use HeadingContext instead
 
-  // static getDerivedStateFromProps(props, state) {
-  //   if (state._listenForPropChanges) {
-  //   }
-  //   state._listenForPropChanges = true
+  static getDerivedStateFromProps(props, state) {
+    if (state._listenForPropChanges) {
+      const level = parseFloat(props.level)
+      if (
+        (state.prevLevel !== props.level &&
+          level > 0 &&
+          level !== state.level) ||
+        props.relevel
+      ) {
+        // Because we do not want to run MakeMeReady to set "this.level = 2"
+        // state.counter.skipMakeMeReady()
 
-  //   return state
-  // }
+        // Run this again here, so we can get a recalculated "useLevel" from the counter
+        const { level: newLevel } = correctHeadingLevel({
+          counter: state.counter,
+          level,
+          // reset: props.reset,
+          bypassChecks:
+            isTrue(props.skip_correction) ||
+            isTrue(state.context.heading?.skip_correction),
+          source: props.text || props.children, // only for debuging
+          debug: props.debug || state.context.heading?.debug
+        })
+        state.level = state.prevLevel = newLevel
+      }
+      state._listenForPropChanges = true
+
+      return state
+    }
+  }
 
   constructor(props, context) {
     super(props)
@@ -83,6 +106,7 @@ export default class HeadingProvider extends React.PureComponent {
     // this._id = props.id || makeUniqueId()
 
     const state = {
+      context,
       _listenForPropChanges: true
     }
 
@@ -105,7 +129,7 @@ export default class HeadingProvider extends React.PureComponent {
       state.counter.setContextCounter(globalHeadingCounter.current)
     }
 
-    state.counter.rerender = this.rerender
+    // state.counter.rerender = this.rerender
 
     const { level: newLevel } = correctHeadingLevel({
       counter: state.counter,
@@ -125,7 +149,7 @@ export default class HeadingProvider extends React.PureComponent {
     // This will require a new Counter "group" - not the global.
     // We basically start again counting from this one.
     state.level = newLevel
-    state.initLevel = state.newProps.level || newLevel
+    state.prevLevel = state.newProps.level || newLevel
     this.state = state
   }
 

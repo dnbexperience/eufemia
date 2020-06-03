@@ -67,9 +67,10 @@ export const correctHeadingLevel = ({
     update(level)
     counter.disableBypassChecks()
   } else if (globalResetNextTime.current > 0) {
-    counter.reset(globalResetNextTime.current)
+    const resetLevel = globalResetNextTime.current
     globalResetNextTime.current = null
-    update(level)
+    counter.makeMeReady()
+    counter.reset(resetLevel)
   } else if (
     reset === true ||
     reset === 'true' ||
@@ -123,10 +124,12 @@ export function resetAllLevels() {
 export const globalResetNextTime = React.createRef(false)
 export function resetLevels(level = 1) {
   globalResetNextTime.current = level
+  globalNextLevel.current = null
 }
 export const globalNextLevel = React.createRef(null)
 export function setNextLevel(level) {
   globalNextLevel.current = parseFloat(level)
+  globalResetNextTime.current = null
 }
 
 let countHeadings = 0
