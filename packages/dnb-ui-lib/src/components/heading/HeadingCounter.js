@@ -6,7 +6,12 @@
 // import {
 //   makeUniqueId
 // } from '../../shared/component-helper'
-import { globalSyncCounter, globalHeadingCounter } from './HeadingHelpers'
+import {
+  globalSyncCounter,
+  globalHeadingCounter
+  // globalNextLevel,
+  // globalResetNextTime
+} from './HeadingHelpers'
 
 export const initCounter = (props = null) => {
   if (!globalHeadingCounter.current) {
@@ -44,10 +49,6 @@ export class Counter {
     }
 
     this.children = props.children
-
-    // if (parseFloat(props.level) > 0) {
-    //   this.setLevel(props.level)
-    // }
   }
 
   report(...str) {
@@ -115,27 +116,18 @@ export class Counter {
     if (!this.hasCorrection()) {
       if (this.contextCounter.level > 1) {
         this.level = this.contextCounter.level
-        // if (this.entry === 0) {
-        //   this.entry = this.level
-        // }
       } else if (this.contextCounter._isReady) {
         if (!this.bypassChecks) {
           this.level = 2
         }
-        // this.entry = 2
       } else if (!this.contextCounter._isReady) {
         this.contextCounter._isReady = true
-        // this._isReady = true // <-- do we need this?
         if (!this.bypassChecks) {
           this.level = 1
         }
-        // this.entry = 1
       }
 
-      if (
-        // !this.isHeading &&
-        this.entry === 0
-      ) {
+      if (this.entry === 0) {
         this.entry = this.level
 
         if (this.isHeading) {
@@ -291,16 +283,16 @@ export class Counter {
 
   reset(toLevel = null) {
     toLevel = parseFloat(toLevel) || 2
-    this.level = toLevel
-    this.entry = 0
-    this._isReady = false
 
-    if (
-      toLevel === 1 &&
-      !this.isInContext() &&
-      !globalHeadingCounter.current?.hasEntryLevel()
-    ) {
-      globalHeadingCounter.current?.setEntryLevel()
+    this.level = toLevel
+    this.entry = toLevel
+
+    if (this.contextCounter) {
+      this.contextCounter.level = this.contextCounter.entry
+    }
+
+    if (toLevel === 1 && globalHeadingCounter.current) {
+      globalHeadingCounter.current.level = 2
     }
   }
 }

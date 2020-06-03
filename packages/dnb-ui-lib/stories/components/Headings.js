@@ -7,11 +7,11 @@ import React from 'react'
 import { Wrapper, Box } from '../helpers'
 import styled from '@emotion/styled'
 import { H2, H3 } from '../../src/elements'
-import { ToggleButton } from '../../src/components'
+import { ToggleButton, Button } from '../../src/components'
 import Provider from '../../src/shared/Provider'
 import Heading, {
-  // resetLevels,
-  setNextLevel
+  setNextLevel,
+  resetLevels
 } from '../../src/components/Heading'
 
 const CustomStyle = styled.div`
@@ -403,8 +403,19 @@ function App() {
   const [showHeading3, setShowHeading3] = React.useState(false)
   const [showHeading4, setShowHeading4] = React.useState(false)
 
+  React.useState(() => {
+    resetLevels(1)
+  })
+
   return (
-    <Heading.Level group="A" debug debug_counter reset={1}>
+    <Heading.Level
+      group="A"
+      debug
+      debug_counter
+      // reset={1}
+    >
+      <Button text="Reset" size="small" onClick={() => resetLevels(1)} />
+
       <Heading>h1</Heading>
       <Heading>h2</Heading>
       <Heading increase>h3</Heading>
