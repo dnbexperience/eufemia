@@ -34,54 +34,65 @@ render(
 
 ### Defining heading styles
 
-For the visual part, we simply use [typography styles](/uilib/typography/heading) with the `size` property.
-
-### Heading level rules and corrections
-
-The correction will ensure that:
-
-1. a heading will always start with a level **1**
-1. the second will automatically be level **2**
-1. if a level will increase with a factor of more than one (level={>1}), it will get corrected to only increase by one (**1**).
-1. if a level will be set to **1** a second time, it will get corrected to level **2**.
-
-You get a `console.warn` warning (only in development) about corrections. You can attach a custom warning / handler if you want: `<Heading.Level debug={(...logs) => console.info(...logs)}>`
-You can also disable corrections by using the property `skip_correction={true}`.
-
-### Heading leveling core-concept
-
-- A heading will inherit its level from its previous sibling
-- A context will create an isolated leveling space (`Heading.Level`). By default the level is
-- A heading nested inside a context (`Heading.Level`) will inherit the last level context level
-
-### Level context
-
-In order to control leveling of headings accordingly, you can make use of the `Heading.Level`, `Heading.Increase` or `Heading.Decrease` providers.
-
-They are completely optional. But can some times help out to solve some kinds of challenges.
-
-The first inherited Heading, inside of `Heading.Increase`, will get a new level by default.
+For the visual part, we simply use [typography styles](/uilib/typography/heading) with the `size` property, e.g. `size="x-large"`
 
 ```jsx
 import { Heading } from 'dnb-ui-lib/components'
 
 render(
-  <Heading.Level reset_on_url_change={true}>
+  <Heading increase size="xx-large">
+    h2, but looks like h1
+  </Heading>
+)
+```
+
+### Heading leveling core-concept
+
+- A **heading** will inherit its level from its previous sibling.
+- A **level provider** will create an isolated level context (`Heading.Level`).
+- A heading, nested inside a context (`Heading.Level`) will likewise inherit the context level.
+
+### Heading level rules and corrections
+
+The correction will ensure that:
+
+1. a heading will start with a level **1**.
+1. the second level will get corrected be level **2**.
+1. if a level will increase with a factor of more than one (level={>1}), it will get corrected to only increase by one (**1**).
+1. if a level will be set to **1** a second time, it will get corrected to level **2**.
+
+You get a `console.warn` warning (only in development) about corrections. You can attach a custom warning / handler if you need that: `<Heading.Level debug={(...logs) => console.info(...logs)}>`
+
+You can also disable corrections by using the property `skip_correction={true}`.
+
+### Level context
+
+In order to control leveling of headings systematically, you can make use of the `Heading.Level`, `Heading.Increase` or `Heading.Decrease` providers.
+
+They are completely optional. But can help out to solve some kinds of challenges or logic.
+
+```jsx
+import { Heading } from 'dnb-ui-lib/components'
+
+render(
+  <article>
     <Heading>h1</Heading>
-    <Heading>h2</Heading>
-    <Heading increase>h3</Heading>
-    <Heading>still h3</Heading>
-    <Heading.Increase>
-      <Heading>h4</Heading>
-      <Heading>still h4</Heading>
-    </Heading.Increase>
-  </Heading.Level>
+    <Heading.Level level="2">
+      <Heading>h2</Heading>
+      <Heading increase>h3</Heading>
+      <Heading>still h3</Heading>
+      <Heading.Increase>
+        <Heading>h4</Heading>
+        <Heading>still h4</Heading>
+      </Heading.Increase>
+    </Heading.Level>
+  </article>
 )
 ```
 
 ### Skip auto correction and warnings
 
-First, the warnings will not show up in production builds. And to skip the auto correction of heading levels, simply use the `skip_correction` property.
+First, warnings will not show up in production builds. And to skip the auto correction of heading levels, simply use the `skip_correction` property.
 
 ### Heading levels interceptor modification
 

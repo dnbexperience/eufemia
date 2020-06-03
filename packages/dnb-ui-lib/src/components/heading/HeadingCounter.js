@@ -22,7 +22,7 @@ export const initCounter = (props = null) => {
 export class Counter {
   level = 0
   entry = 0
-  correction = 0
+  _isReady = false
   countHeadings = 0
   _initCount = 0
   isGlobal = false
@@ -76,7 +76,7 @@ export class Counter {
   }
 
   hasCorrection() {
-    return this.correction > 0
+    return this._isReady
   }
 
   setEntryLevel(level = null) {
@@ -92,7 +92,7 @@ export class Counter {
   }
 
   skipMakeMeReady() {
-    this.correction = 1
+    this._isReady = true
     this.entry = 1
     this.level = 1
     this.contextCounter.entry = 2
@@ -118,14 +118,14 @@ export class Counter {
         // if (this.entry === 0) {
         //   this.entry = this.level
         // }
-      } else if (this.contextCounter.correction === 1) {
+      } else if (this.contextCounter._isReady) {
         if (!this.bypassChecks) {
           this.level = 2
         }
         // this.entry = 2
-      } else if (this.contextCounter.correction === 0) {
-        this.contextCounter.correction = 1
-        // this.correction = 1 // <-- do we need this?
+      } else if (!this.contextCounter._isReady) {
+        this.contextCounter._isReady = true
+        // this._isReady = true // <-- do we need this?
         if (!this.bypassChecks) {
           this.level = 1
         }
@@ -185,7 +185,7 @@ export class Counter {
     // skip level setting on first heading
     if (
       // !this.bypassChecks &&
-      this.correction === 0 &&
+      !this._isReady &&
       this.level === 1 &&
       (!globalSyncCounter.current || globalSyncCounter.current.level < 2)
 
@@ -293,7 +293,7 @@ export class Counter {
     toLevel = parseFloat(toLevel) || 2
     this.level = toLevel
     this.entry = 0
-    this.correction = 0
+    this._isReady = false
 
     if (
       toLevel === 1 &&
