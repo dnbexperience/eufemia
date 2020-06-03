@@ -20,6 +20,7 @@ Good reasons for why we have this is to:
 - Phone numbers e.g. <pre className="dnb-code"><Number phone value="004799999999" /></pre>
 - Bank account number e.g. <pre className="dnb-code"><Number ban value="20001234567" /></pre>
 - National identification number e.g. <pre className="dnb-code"><Number nin value="18089212345" /></pre>
+- Organization number e.g. <pre className="dnb-code"><Number org value="123456789" /></pre>
 
 ### Defaults
 
