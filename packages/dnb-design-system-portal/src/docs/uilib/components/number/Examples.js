@@ -83,6 +83,18 @@ class Example extends React.PureComponent {
           }
         </ComponentBox>
         <ComponentBox
+          title="Organization number (Organisasjonsnummer)"
+          data-dnb-test="number-org"
+        >
+          {
+            /* @jsx */ `
+<P>
+  <Number value="123456789" org suffix="MVA" />
+</P>
+          `
+          }
+        </ComponentBox>
+        <ComponentBox
           title="Numbers and currencies in different locales"
           data-dnb-test="number-locales"
         >
