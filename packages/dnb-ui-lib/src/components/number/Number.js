@@ -14,6 +14,7 @@ import {
   makeUniqueId,
   validateDOMAttributes,
   registerElement,
+  convertJsxToString,
   extend
 } from '../../shared/component-helper'
 import {
@@ -293,11 +294,6 @@ export default class Number extends React.PureComponent {
       attributes['aria-readonly'] = true
     }
 
-    const additionalAttr = {}
-    if (aria !== display) {
-      additionalAttr['aria-label'] = aria
-    }
-
     validateDOMAttributes(this.props, attributes)
 
     if (prefix) {
@@ -306,6 +302,7 @@ export default class Number extends React.PureComponent {
           {this.runFix(prefix, 'dnb-number__prefix')} {display}
         </>
       )
+      aria = `${convertJsxToString(prefix)} ${aria}`
     }
     if (suffix) {
       display = (
@@ -313,6 +310,12 @@ export default class Number extends React.PureComponent {
           {display} {this.runFix(suffix, 'dnb-number__suffix')}
         </>
       )
+      aria = `${aria} ${convertJsxToString(suffix)}`
+    }
+
+    const additionalAttr = {}
+    if (aria !== display) {
+      additionalAttr['aria-label'] = aria
     }
 
     if (link) {
