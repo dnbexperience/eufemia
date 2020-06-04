@@ -62,7 +62,7 @@ const Copy = ({ children, className, ...rest }) => {
   const params = {
     onClick: onClickHandler,
     onMouseDown: onMouseDownHandler,
-    onTouchStart: onClickHandler
+    onTouchStart: onMouseDownHandler
   }
 
   return (
