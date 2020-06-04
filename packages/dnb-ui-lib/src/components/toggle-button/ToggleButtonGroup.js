@@ -130,15 +130,19 @@ export default class ToggleButtonGroup extends React.PureComponent {
     )
   }
 
-  static parseChecked = (state) => /true|on/.test(String(state))
-
   static getDerivedStateFromProps(props, state) {
     if (state._listenForPropChanges) {
-      if (typeof props.value !== 'undefined') {
+      if (props.value !== state._value) {
         state.value = props.value
       }
-      if (typeof props.values !== 'undefined') {
+      if (typeof props.value !== 'undefined') {
+        state._value = props.value
+      }
+      if (props.values !== state._values) {
         state.values = ToggleButtonGroup.getValues(props)
+      }
+      if (typeof props.values !== 'undefined') {
+        state._values = props.values
       }
     }
     state._listenForPropChanges = true
@@ -165,7 +169,7 @@ export default class ToggleButtonGroup extends React.PureComponent {
 
   onChangeHandler = ({ value, event }) => {
     const { multiselect } = this.props
-    const { values } = this.state
+    const values = this.state.values || []
     if (isTrue(multiselect)) {
       if (!values.includes(value)) {
         values.push(value)

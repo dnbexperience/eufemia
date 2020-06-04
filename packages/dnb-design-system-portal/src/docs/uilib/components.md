@@ -53,6 +53,10 @@ The GlobalError is a simple component to integrate where a `404` or `500` messag
 
 The GlobalStatus is a complex component meant for displaying global Application notifications or a summary of a form ( displaying form errors, messages etc. ).
 
+## [Heading](/uilib/components/heading)
+
+The Heading component is a helper to create automated semantic headings within a boundary of some rules.
+
 ## [Icon](/uilib/components/icon)
 
 The main Icon component is basically a wrapper for whatever icon you place within it. This means a span wrapping an inline svg.

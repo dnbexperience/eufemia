@@ -3,12 +3,38 @@
  *
  */
 
-@mixin listOffset() {
+@mixin listDefaults() {
+  .dnb-anchor {
+    font-size: inherit;
+  }
+
   & ul,
   & ol {
     margin-top: 0;
     margin-bottom: 1.5rem;
     padding-left: 2rem; // to ajust the left spacing of child lists
+  }
+
+  & li,
+  &--outside li {
+    position: relative;
+
+    &::before {
+      position: absolute;
+      left: -10rem;
+      width: 10rem;
+      padding-right: 0.25rem;
+      text-align: right;
+    }
+  }
+  &--inside li {
+    &::before {
+      position: relative;
+      left: 0;
+      width: auto;
+      padding-right: 0;
+      text-align: initial;
+    }
   }
 }
 @mixin ulStyle() {
@@ -19,7 +45,7 @@
   font-size: var(--font-size-basis);
   line-height: var(--line-height-basis);
 
-  @include listOffset();
+  @include listDefaults();
 
   & li {
     display: list-item;
@@ -34,7 +60,7 @@
 @mixin olStyle() {
   @include ulStyle();
 
-  @include listOffset();
+  @include listDefaults();
 
   & li {
     list-style-type: decimal;

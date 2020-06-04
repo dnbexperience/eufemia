@@ -19,8 +19,9 @@ import styled from '@emotion/styled'
 import Layout from '../layout/Layout'
 
 // Get Eufemia in
-import { H1, H2, P } from 'dnb-ui-lib/src/elements'
+import { P } from 'dnb-ui-lib/src/elements'
 import {
+  Heading,
   FormSet,
   FormRow,
   Input,
@@ -63,7 +64,7 @@ const Header = () => (
     </Head>
     <HeaderSection style_type="mint-green">
       <HeaderTitleWrapper top="x-large">
-        <H1 style_type="small">Card complaint</H1>
+        <Heading size="x-large">Card complaint</Heading>
       </HeaderTitleWrapper>
 
       <StepIndicator
@@ -101,7 +102,7 @@ const MainForm = () => {
     <FormSet vertical prevent_submit on_submit={submitHandler}>
       <WidthLimit>
         <Section top="medium" spacing="x-large" style_type="white">
-          <H2>What has happened?</H2>
+          <Heading>What has happened?</Heading>
           <Ingress>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
             eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
@@ -131,7 +132,7 @@ const MainForm = () => {
         </Section>
 
         <Section spacing="x-large">
-          <H2>Lorem ipsum</H2>
+          <Heading>Lorem ipsum</Heading>
           <Ingress>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
             eiusmod tempor incididunt ut labore.
@@ -201,7 +202,7 @@ const MainForm = () => {
         </Section>
 
         <Section spacing="x-large" style_type="white">
-          <H2>Attachment</H2>
+          <Heading>Attachment</Heading>
 
           <Ingress bottom="x-small">
             If you have a receipt of the ATM transaction showing that money
@@ -279,7 +280,7 @@ const WidthLimit = styled.div`
   .dnb-input__input {
     max-width: 10rem;
   }
-  @media (max-width: 40em) {
+  @media screen and (max-width: 40em) {
     textarea {
       width: 90vw;
     }
@@ -336,7 +337,7 @@ const DividerSection = styled(Section)`
   .dnb-button + .dnb-button {
     margin-left: 1rem;
   }
-  @media (max-width: 30rem) {
+  @media screen and (max-width: 30rem) {
     display: block;
     .dnb-button {
       display: flex;

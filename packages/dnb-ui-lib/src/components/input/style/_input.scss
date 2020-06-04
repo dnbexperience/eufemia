@@ -294,6 +294,11 @@
     position: absolute;
     left: 1rem;
     right: auto;
+
+    // IE fix
+    top: 0;
+    bottom: 0;
+    margin: auto;
   }
   &--icon-position-right &__icon {
     order: 1;
@@ -321,9 +326,10 @@
     padding-right: 3rem;
   }
 
-  & > .dnb-form-label {
+  > .dnb-form-label {
     line-height: var(--line-height-basis);
   }
+  @include formLabelWrap();
 
   &[class*='__status'] {
     align-items: flex-start;
@@ -335,7 +341,7 @@
   }
 
   .dnb-responsive-component & {
-    @media (max-width: 40em) {
+    @media screen and (max-width: 40em) {
       display: flex;
       flex-direction: column;
       align-items: flex-start;

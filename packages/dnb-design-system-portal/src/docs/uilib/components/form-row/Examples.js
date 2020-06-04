@@ -31,7 +31,8 @@ class Example extends React.PureComponent {
           title="Only the labels are vertical aligned - while the input labels are still horizontal."
           data-dnb-test="form-row-vertical-label"
         >
-          {/* @jsx */ `
+          {
+            /* @jsx */ `
 <FormRow
     label={
       <Ingress top="0" bottom="small">
@@ -43,20 +44,24 @@ class Example extends React.PureComponent {
   <Input label="Label A:" value="Input A" right="small" />
   <Input label="Label B:" value="Input B" />
 </FormRow>
-          `}
+          `
+          }
         </ComponentBox>
         <ComponentBox
           title="The label should align the bottom"
           data-dnb-test="form-row-default"
         >
-          {/* @jsx */ `
+          {
+            /* @jsx */ `
 <FormRow indent="default" label="A long horizontal legend (FormLabel) with a lot of informative text and a default indent:">
   <Checkbox id="alone-1" label="Checkbox" />
 </FormRow>
-          `}
+          `
+          }
         </ComponentBox>
         <ComponentBox title="The `label` property can be used to set a row label as well as the `section_style` is supported">
-          {/* @jsx */ `
+          {
+            /* @jsx */ `
 <FormRow
   section_style="mint-green"
   section_spacing="default"
@@ -65,14 +70,16 @@ class Example extends React.PureComponent {
 >
   <Checkbox label="Checkbox" />
 </FormRow>
-          `}
+          `
+          }
         </ComponentBox>
         <ComponentBox
           title="Combine both vertical and horizontal FormRow's"
           data-dnb-test="form-row-combined"
           useRender
         >
-          {/* @jsx */ `
+          {
+            /* @jsx */ `
 // 1. In the nested FormRow we reset the layout to not be vertical
 // 2. So we can use a different diretion ("label_direction")
 render(
@@ -97,13 +104,15 @@ render(
     <Input label="Vertical input C" top="medium" />
   </FormRow>
 )
-          `}
+          `
+          }
         </ComponentBox>
         <ComponentBox
           title="Customize the `.dnb-form-row` styles. Instead of using the build in `indent` property."
           useRender
         >
-          {/* @jsx */ `
+          {
+            /* @jsx */ `
 const CustomRow = styled(FormRow)\`
   align-items: flex-end;
   > .dnb-form-label {
@@ -117,32 +126,38 @@ render(
     <Checkbox label="Checkbox" />
   </CustomRow>
 )
-          `}
+          `
+          }
         </ComponentBox>
         <ComponentBox title="Default `FormRow`">
-          {/* @jsx */ `
+          {
+            /* @jsx */ `
 <FormRow>
   <Input label="Default horizontal FormRow:" placeholder="Input ..." />
 </FormRow>
-          `}
+          `
+          }
         </ComponentBox>
         <ComponentBox
           title="Vertical `FormRow`"
           data-dnb-test="form-row-vertical"
         >
-          {/* @jsx */ `
+          {
+            /* @jsx */ `
 <FormRow direction="vertical" label="Label legend for the inputs:">
   <Input label="Vertical direction:" placeholder="Input A ..." />
   <Input label="Vertical direction:" placeholder="Input B ..." top="small" />
 </FormRow>
-          `}
+          `
+          }
         </ComponentBox>
         <ComponentBox
           title="Vertical label direction in combination with a button"
           data-dnb-test="form-row-vertical-label-button"
           useRender
         >
-          {/* @jsx */ `
+          {
+            /* @jsx */ `
 const CustomRow = styled(FormRow)\`
   .dnb-form-row__content .dnb-button {
     align-self: flex-end;
@@ -158,13 +173,15 @@ render(
   <Button text="Button" />
 </CustomRow>
 )
-          `}
+          `
+          }
         </ComponentBox>
         <ComponentBox
           title="Several components inside a horizontal `FormRow` - not wrapping"
           data-dnb-test="form-row-horizontal-no_wrap"
         >
-          {/* @jsx */ `
+          {
+            /* @jsx */ `
 <FormRow
   label="A long horizontal legend (FormLabel) with a lot of informative text:"
   indent="true"
@@ -174,13 +191,15 @@ render(
   <Input label="Input label A:" right="small"  />
   <Input label="Input label B:"  />
 </FormRow>
-          `}
+          `
+          }
         </ComponentBox>
         <ComponentBox
           title="Several components inside a wrapping (`wrap`) horizontal `FormRow`"
           data-dnb-test="form-row-horizontal-wrap"
         >
-          {/* @jsx */ `
+          {
+            /* @jsx */ `
 <FormRow
   label="Long label labwl Adipiscing mauris dis proin nec Condimentum egestas class blandit netus non a suscipit id urna:"
   indent
@@ -192,10 +211,12 @@ render(
   <Input label="Input B:" top="small" right="small" />
   <Input label="Input C:" top="small" right="small" />
 </FormRow>
-          `}
+          `
+          }
         </ComponentBox>
         <ComponentBox title="FormRow with `label` (legend)">
-          {/* @jsx */ `
+          {
+            /* @jsx */ `
 <FormSet label_direction="vertical">
   <FormRow label="Label legend for the inputs:" >
     <Input label="Vertical label direction:" placeholder="Input A ..." right="small" />
@@ -205,27 +226,35 @@ render(
     <Checkbox label="Checkbox" />
   </FormRow>
 </FormSet>
-          `}
+          `
+          }
         </ComponentBox>
         <ComponentBox title="Vertical direction and disabled">
-          {/* @jsx */ `
+          {
+            /* @jsx */ `
 <FormRow vertical={true} disabled={true}>
   <Input label="Vertical input A:" placeholder="Input A ..." />
   <Input label="Vertical input B:" placeholder="Input B ..." top="medium" />
 </FormRow>
-          `}
+          `
+          }
         </ComponentBox>
         <ComponentBox
           title="Combining different components and directions"
           useRender
         >
-          {/* @jsx */ `
+          {
+            /* @jsx */ `
 const PhoneRow = styled(FormRow)\`
 .dnb-dropdown__shell,
 .dnb-dropdown__list {
   width: auto;
   min-width: 6rem;
 }
+@media screen and (max-width: 40em) {
+  .dnb-dropdown {
+    margin-bottom: 0.5rem;
+  }
 \`
 render(
 <FormRow vertical={true}>
@@ -249,7 +278,8 @@ render(
   </PhoneRow>
 </FormRow>
 )
-      `}
+      `
+          }
         </ComponentBox>
 
         {IS_TEST && (
@@ -269,7 +299,8 @@ render(
               scope={{ AllComponents }}
               data-dnb-test="form-row-all-horizontal-direction"
             >
-              {/* @jsx */ `
+              {
+                /* @jsx */ `
 <FormRow
   // label="Horizontal:"
   // indent="true"
@@ -278,55 +309,64 @@ render(
 >
   <AllComponents horizontal />
 </FormRow>
-          `}
+          `
+              }
             </ComponentBox>
             <ComponentBox
               title="Vertical direction"
               scope={{ AllComponents, WidthLimit }}
               data-dnb-test="form-row-all-vertical-direction"
             >
-              {/* @jsx */ `
+              {
+                /* @jsx */ `
 <WidthLimit>
   <FormRow label="Vertical direction:" direction="vertical">
     <AllComponents />
   </FormRow>
 </WidthLimit>
-          `}
+          `
+              }
             </ComponentBox>
             <ComponentBox
               title="Vertical everything"
               scope={{ AllComponents, WidthLimit }}
               data-dnb-test="form-row-all-vertical-everything"
             >
-              {/* @jsx */ `
+              {
+                /* @jsx */ `
 <WidthLimit>
   <FormRow label="Vertical everything:" vertical="true">
     <AllComponents />
   </FormRow>
 </WidthLimit>
-          `}
+          `
+              }
             </ComponentBox>
             <ComponentBox
               title="Vertical label direction"
               scope={{ AllComponents }}
               data-dnb-test="form-row-all-vertical-label-direction"
             >
-              {/* @jsx */ `
+              {
+                /* @jsx */ `
 <FormRow label="Vertical label direction:" label_direction="vertical">
   <AllComponents horizontal />
 </FormRow>
-          `}
+          `
+              }
             </ComponentBox>
             <ComponentBox
               title="Vertical label direction, no labels"
               scope={{ AllComponents }}
               data-dnb-test="form-row-all-vertical-label-direction-no-label"
             >
-              {/* @jsx */ `
+              {
+                /* @jsx */ `
 <FormRow label="Vertical label direction, no labels:" label_direction="vertical">
   <AllComponents horizontal hideLabel />
 </FormRow>
-          `}
+          `
+              }
             </ComponentBox>
           </>
         )}

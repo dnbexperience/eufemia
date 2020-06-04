@@ -75,7 +75,7 @@ const defaultProps = {
   label: null,
   label_sr_only: null,
   label_position: null,
-  checked: null,
+  checked: undefined,
   disabled: false,
   id: null,
   group: null,
@@ -102,7 +102,7 @@ const defaultProps = {
 /**
  * The radio component is our enhancement of the classic radio button.
  */
-export default class Radio extends React.Component {
+export default class Radio extends React.PureComponent {
   static tagName = 'dnb-radio'
   static propTypes = propTypes
   static defaultProps = defaultProps
@@ -118,9 +118,25 @@ export default class Radio extends React.Component {
 
   static getDerivedStateFromProps(props, state) {
     if (state._listenForPropChanges) {
-      state.checked = Radio.parseChecked(props.checked)
+      if (props.checked !== state._checked) {
+        state.checked = Radio.parseChecked(props.checked)
+      }
+      if (typeof props.checked !== 'undefined') {
+        state._checked = props.checked
+      }
     }
     state._listenForPropChanges = true
+
+    if (state.checked !== state.__checked) {
+      dispatchCustomElementEvent({ props }, 'on_state_update', {
+        checked: state.checked
+      })
+    }
+
+    if (typeof state.checked === 'undefined') {
+      state.checked = false
+    }
+    state.__checked = state.checked
 
     return state
   }
@@ -132,17 +148,6 @@ export default class Radio extends React.Component {
     this.state = {
       _listenForPropChanges: true
     }
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    if (
-      Radio.parseChecked(this.props.checked) !==
-      Radio.parseChecked(nextProps.checked)
-    ) {
-      const { checked } = nextState
-      dispatchCustomElementEvent(this, 'on_state_update', { checked })
-    }
-    return true
   }
 
   onKeyDownHandler = (event) => {
@@ -248,17 +253,6 @@ export default class Radio extends React.Component {
     }
   }
 
-  onMouseOutHandler = (event) => {
-    dispatchCustomElementEvent(this, 'on_mouse_out', { event })
-    // this way we keep the new state after the user changed the state, without getting the error state back vissually
-    if (this.props.status && this.props.status_state === 'error') {
-      return
-    }
-    if (this._refInput.current) {
-      this._refInput.current.blur()
-    }
-  }
-
   render() {
     return (
       <Context.Consumer>
@@ -299,7 +293,7 @@ export default class Radio extends React.Component {
           } = props
 
           let { checked } = this.state
-          let { value, group, disabled } = this.props
+          let { value, group, disabled } = props // get it from context also
 
           const hasContext = typeof this.context.value !== 'undefined'
           if (hasContext) {
@@ -308,6 +302,8 @@ export default class Radio extends React.Component {
             }
             group = this.context.name
             disabled = isTrue(this.context.disabled)
+          } else if (typeof rest.name !== 'undefined') {
+            group = rest.name
           }
 
           const id = this._id
@@ -328,8 +324,7 @@ export default class Radio extends React.Component {
           const inputParams = {
             role: hasContext || group ? 'radio' : null,
             type: hasContext || group ? 'radio' : 'checkbox', // overwriting the type
-            ...rest,
-            onMouseOut: this.onMouseOutHandler // for resetting the button to the default state
+            ...rest
           }
 
           if (showStatus || suffix) {

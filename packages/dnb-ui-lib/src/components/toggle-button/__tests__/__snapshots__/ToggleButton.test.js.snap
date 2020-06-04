@@ -119,7 +119,6 @@ exports[`ToggleButton component have to match snapshot 1`] = `
             onClick={[Function]}
             onKeyDown={[Function]}
             onKeyUp={[Function]}
-            onMouseOut={[Function]}
             title="title"
             type="button"
           >
@@ -141,7 +140,6 @@ exports[`ToggleButton component have to match snapshot 1`] = `
                     className={null}
                     custom_element={null}
                     custom_method={null}
-                    default_state={null}
                     disabled="disabled"
                     global_status_id={null}
                     id="toggle-button-checkbox"
@@ -197,7 +195,6 @@ exports[`ToggleButton component have to match snapshot 1`] = `
                   className={null}
                   custom_element={null}
                   custom_method={null}
-                  default_state={null}
                   disabled="disabled"
                   global_status_id={null}
                   id="toggle-button-checkbox"
@@ -244,7 +241,6 @@ exports[`ToggleButton component have to match snapshot 1`] = `
                             name="toggle-button-checkbox"
                             onChange={[Function]}
                             onKeyDown={[Function]}
-                            onMouseOut={[Function]}
                             tabIndex="-1"
                             title={null}
                             type="checkbox"
@@ -468,7 +464,6 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
                 >
                   <ToggleButton
                     attributes={null}
-                    checked={null}
                     class={null}
                     className={null}
                     custom_element={null}
@@ -550,7 +545,6 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
                               onClick={[Function]}
                               onKeyDown={[Function]}
                               onKeyUp={[Function]}
-                              onMouseOut={[Function]}
                               type="button"
                             >
                               <Content
@@ -688,7 +682,6 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
                               onClick={[Function]}
                               onKeyDown={[Function]}
                               onKeyUp={[Function]}
-                              onMouseOut={[Function]}
                               type="button"
                             >
                               <Content
@@ -826,11 +819,15 @@ exports[`ToggleButton scss have to match default theme snapshot 1`] = `
   .dnb-toggle-button--checked .dnb-toggle-button__button:hover[disabled] .dnb-radio__button,
   .dnb-toggle-button--checked .dnb-toggle-button__button:hover[disabled] .dnb-checkbox__button {
     box-shadow: none; }
+  html[data-whatinput='keyboard']
+.dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:active):not(:hover):focus, html[data-whatinput='keyboard']
+  .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]):not(:active):not(:hover):focus, html[data-whatinput='keyboard']
+  .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]):not(:active):not(:hover):focus {
+    color: var(--color-emerald-green);
+    background-color: var(--color-mint-green); }
   .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:active):not(:hover):focus,
   .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]):not(:active):not(:hover):focus,
   .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]):not(:active):not(:hover):focus {
-    color: var(--color-emerald-green);
-    background-color: var(--color-mint-green);
     outline: none; }
     html[data-whatinput='keyboard'] .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:active):not(:hover):focus, html[data-whatinput='keyboard']
     .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]):not(:active):not(:hover):focus, html[data-whatinput='keyboard']
@@ -956,6 +953,7 @@ exports[`ToggleButton scss have to match snapshot 1`] = `
   text-align: left;
   vertical-align: baseline;
   white-space: pre-wrap;
+  word-break: normal;
   font-size: var(--font-size-basis);
   color: inherit; }
   .dnb-form-label--vertical {
@@ -1104,6 +1102,8 @@ legend.dnb-form-label {
     color: inherit;
     line-height: var(--line-height-basis);
     white-space: normal; }
+    .dnb-form-status--text .dnb-anchor {
+      font-size: inherit; }
   .dnb-icon + .dnb-form-status--text {
     padding-left: 0.5rem; }
   .dnb-form-status__shell > .dnb-icon {
@@ -1115,8 +1115,7 @@ legend.dnb-form-label {
     margin-top: 0.25em;
     margin-left: 0.5em;
     color: inherit;
-    font-size: var(--font-size-basis);
-    transform: translateY(-0.125rem); }
+    font-size: var(--font-size-small); }
   .dnb-form-status[hidden] {
     display: none; }
   .dnb-form-status--fade-in {
@@ -1219,6 +1218,8 @@ legend.dnb-form-label {
     line-height: var(--line-height-basis);
     color: inherit;
     transform: translateY(-0.03125rem); }
+    .dnb-button__text [data-os='linux'] {
+      transform: translateY(-0.035rem); }
   .dnb-button__alignment {
     display: inline-block;
     width: 0; }
@@ -1316,9 +1317,9 @@ legend.dnb-form-label {
     font: inherit;
     text-align: inherit;
     line-height: inherit; }
-    html:not([data-is-touch]) .dnb-button--reset:hover[disabled] {
+    html:not([data-whatintent='touch']) .dnb-button--reset:hover[disabled] {
       cursor: not-allowed; }
-    html:not([data-is-touch]) .dnb-button--reset:hover:not([disabled]) {
+    html:not([data-whatintent='touch']) .dnb-button--reset:hover:not([disabled]) {
       box-shadow: none;
       border: none; }
     .dnb-button--reset:not([disabled]):focus, .dnb-button--reset:not([disabled]):active {
@@ -1348,7 +1349,7 @@ legend.dnb-form-label {
     .dnb-button {
       flex: none; }
       .dnb-button__icon, .dnb-button__text {
-        transform: translateY(-0.0625rem) !important; } }
+        transform: translateY(-0.0625rem); } }
 
 /* Firefox includes a hidden border which messes up button dimensions */
 button.dnb-button::-moz-focus-inner {
@@ -1811,11 +1812,13 @@ button.dnb-button::-moz-focus-inner {
     .dnb-toggle-button-group .dnb-form-row {
       align-items: baseline;
       margin-bottom: calc(1px - 1px - var(--toggle-button-margin-bottom)); }
+      .dnb-toggle-button-group .dnb-form-row--vertical-label {
+        align-items: flex-start; }
       .dnb-toggle-button-group .dnb-form-row::before {
         font-size: var(--font-size-basis); }
     .dnb-toggle-button-group--no-label .dnb-form-row {
       line-height: var(--button-height); }
-  @media (min-width: 40em) {
+  @media screen and (min-width: 40em) {
     .dnb-form-label + .dnb-toggle-button {
       transform: translateY(-0.5rem); } }
   @media screen and (-ms-high-contrast: none) {

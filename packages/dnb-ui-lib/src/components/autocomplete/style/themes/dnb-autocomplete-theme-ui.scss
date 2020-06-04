@@ -5,8 +5,6 @@
 
 @import '../../../../style/themes/imports.scss';
 
-@import '../../../../fragments/drawer-list/style/themes/dnb-drawer-list-theme-ui.scss';
-
 :root {
   --autocomplete-text-color: var(--color-emerald-green);
   --autocomplete-border-color--selected: var(--color-emerald-green);
@@ -30,12 +28,12 @@
       var(--autocomplete-border-color--selected),
       0.125rem,
       // could be 0.0625rem,
-      null,
+        null,
       true
     );
   }
+}
 
-  .dnb-drawer-list__option__item--highlight {
-    font-weight: var(--font-weight-bold);
-  }
+.dnb-drawer-list__option__item--highlight {
+  font-weight: var(--font-weight-bold);
 }

@@ -45,14 +45,14 @@
   }
 
   // Do not hide the dots
-  // @media (max-width: 30em) {
+  // @media screen and (max-width: 30em) {
   //   &__dots {
   //     width: 0;
   //     margin: 0;
   //   }
   // }
 
-  @media (max-width: 40em) {
+  @media screen and (max-width: 40em) {
     &--many-pages
       &__bar__inner
       &__button:not([aria-current]):nth-of-type(2),

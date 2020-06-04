@@ -21,6 +21,10 @@
     color: inherit;
     line-height: var(--line-height-basis);
 
+    .dnb-anchor {
+      font-size: inherit;
+    }
+
     white-space: normal;
   }
 
@@ -41,10 +45,7 @@
 
     color: inherit;
 
-    font-size: var(--font-size-basis);
-
-    // vertical alignment
-    transform: translateY(-0.125rem);
+    font-size: var(--font-size-small);
   }
 
   &[hidden] {

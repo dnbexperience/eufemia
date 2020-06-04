@@ -6,6 +6,7 @@
 import React from 'react'
 // import ReactDOMServer from 'react-dom/server'
 import styled from '@emotion/styled'
+import { ClassNames } from '@emotion/core'
 import algoliasearch from 'algoliasearch/lite'
 import { Autocomplete } from 'dnb-ui-lib/src/components'
 import { Anchor } from 'dnb-ui-lib/src/elements'
@@ -67,114 +68,114 @@ export const SearchBarInput = () => {
   }
 
   return (
-    <StyledAutocomplete
-      right
-      mode="async"
-      no_scroll_animation
-      prevent_selection
-      keep_placeholder
-      size="medium"
-      align_autocomplete="right"
-      triangle_position="left"
-      placeholder="Search ..."
-      status={status}
-      on_type={onTypeHandler}
-      on_change={onChangeHandler}
-      on_focus={onFocusHandler}
-      className="portal-search"
-      page_offset={0}
-      options_render={({ Items, data }) => (
-        <>
-          <Items />
-          {data.length > 1 && (
-            <li align="right">
-              <SearchLogo />
-            </li>
+    <ClassNames>
+      {({ css }) => (
+        <StyledAutocomplete
+          right
+          mode="async"
+          no_scroll_animation
+          prevent_selection
+          disable_filter
+          fixed_position
+          size="medium"
+          align_autocomplete="right"
+          // triangle_position="left"
+          placeholder="Search ..."
+          status={status}
+          drawer_class={css`
+            .dnb-drawer-list__option__inner {
+              .dnb-drawer-list__option__item {
+                white-space: normal;
+                font-size: var(--font-size-small);
+
+                padding-bottom: 0.5rem;
+
+                .dnb-anchor {
+                  display: inline-block;
+                  margin-right: 0.5rem;
+                  word-break: break-word;
+                  white-space: nowrap;
+
+                  font-size: inherit;
+                }
+              }
+
+              .dnb-drawer-list__option__item:first-of-type {
+                color: var(--color-sea-green);
+                font-weight: var(--font-weight-default);
+                font-size: var(--font-size-medium);
+                padding-bottom: 0.5rem;
+              }
+            }
+
+            .dnb-drawer-list__list {
+              @media screen and (max-width: 40em) {
+                left: 10vw;
+              }
+              @media screen and (max-width: 30em) {
+                left: 15vw;
+              }
+            }
+
+            .dnb-drawer-list__triangle {
+              left: 10vw;
+              transform: translateX(0.25rem);
+              @media screen and (max-width: 60em) {
+                left: 30vw;
+              }
+              @media screen and (max-width: 40em) {
+                left: 20vw;
+              }
+            }
+
+            .search-logo {
+              min-width: 4rem;
+              height: 1rem;
+              margin: 1rem;
+
+              filter: grayscale(1);
+            }
+          `}
+          on_type={onTypeHandler}
+          on_change={onChangeHandler}
+          on_focus={onFocusHandler}
+          className="portal-search"
+          page_offset={0} // drawer-list property
+          options_render={({ Items, data }) => (
+            <>
+              <Items />
+              {data.length > 1 && (
+                <li align="right">
+                  <SearchLogo />
+                </li>
+              )}
+            </>
           )}
-        </>
+        />
       )}
-    />
+    </ClassNames>
   )
 }
 
 const StyledAutocomplete = styled(Autocomplete)`
-  .dnb-drawer-list__option__inner {
-    .dnb-drawer-list__option__item {
-      white-space: normal;
-      font-size: var(--font-size-small);
-
-      padding-bottom: 0.5rem;
-
-      .dnb-anchor {
-        display: inline-block;
-        margin-right: 0.5rem;
-        word-break: break-word;
-        white-space: nowrap;
-      }
-    }
-
-    .dnb-drawer-list__option__item:first-of-type {
-      color: var(--color-sea-green);
-      font-weight: var(--font-weight-default);
-      font-size: var(--font-size-medium);
-      padding-bottom: 0.5rem;
-    }
-  }
-
   .dnb-autocomplete__shell {
     &,
     input {
       width: 40vw;
-      @media (max-width: 40em) {
+      @media screen and (max-width: 40em) {
         width: 60vw;
       }
     }
   }
 
-  .dnb-autocomplete__list {
+  .dnb-drawer-list__root {
     width: 50vw;
-    @media (max-width: 60em) {
+    @media screen and (max-width: 60em) {
       width: 70vw;
     }
-    @media (max-width: 40em) {
+    @media screen and (max-width: 40em) {
       width: 90vw;
-      right: -10vw;
     }
-    @media (max-width: 30em) {
-      right: -15vw;
-    }
-  }
-
-  .dnb-drawer-list__triangle {
-    left: 10vw;
-    transform: translateX(0.25rem);
-    @media (max-width: 60em) {
-      left: 30vw;
-    }
-    @media (max-width: 40em) {
-      display: none;
-    }
-  }
-
-  /* NB: Other option to add the logo
-   .dnb-drawer-list__options::after {
-    content: '';
-    width: auto;
-    min-width: 4rem;
-    height: 1rem;
-    margin: 1rem;
-    margin-left: auto;
-
-    background-size: contain;
-    background-image: var(--search-logo);
-  } */
-
-  .search-logo {
-    min-width: 4rem;
-    height: 1rem;
-    margin: 1rem;
-
-    filter: grayscale(1);
   }
 `
 

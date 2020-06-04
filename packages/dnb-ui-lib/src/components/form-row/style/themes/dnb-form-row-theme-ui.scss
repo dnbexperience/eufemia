@@ -22,7 +22,7 @@
         // a fixed with is not the best sollution
         // width: 20rem;
 
-        @media (max-width: 40em) {
+        @media screen and (max-width: 40em) {
           width: auto;
         }
       }

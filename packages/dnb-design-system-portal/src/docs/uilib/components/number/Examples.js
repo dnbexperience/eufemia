@@ -18,7 +18,7 @@ class Example extends React.PureComponent {
     return (
       <Style>
         <ComponentBox
-          title="Defualt numbers"
+          title="Default numbers"
           data-dnb-test="number-default"
         >
           {
@@ -26,6 +26,7 @@ class Example extends React.PureComponent {
 <P>
   <Number value="12345" />
   <Number>-12345678.9</Number>
+  <Number prefix={<b>prefix</b>} suffix="suffix">-12345678.9</Number>
   <Number options={{ maximumFractionDigits: 1 }}>-1234.54321</Number>
 </P>
           `
@@ -36,7 +37,8 @@ class Example extends React.PureComponent {
             /* @jsx */ `
 <P>
   <Number currency>12345</Number>
-  <Number currency value={-12345678.9} />
+  <Number currency currency_position="after" value={-12345678.9} />
+  <Number currency value={-12345678.95} decimals={0} />
   <Number currency value={-12345678.9} currency_display="code" />
 </P>
           `
@@ -76,6 +78,18 @@ class Example extends React.PureComponent {
             /* @jsx */ `
 <P>
   <Number value="18089212345" nin />
+</P>
+          `
+          }
+        </ComponentBox>
+        <ComponentBox
+          title="Organization number (Organisasjonsnummer)"
+          data-dnb-test="number-org"
+        >
+          {
+            /* @jsx */ `
+<P>
+  <Number value="123456789" org suffix="MVA" />
 </P>
           `
           }

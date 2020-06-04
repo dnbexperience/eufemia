@@ -1,5 +1,5 @@
 /**
- * DNB Eufemia Defualts
+ * DNB Eufemia Defaults
  *
  */
 

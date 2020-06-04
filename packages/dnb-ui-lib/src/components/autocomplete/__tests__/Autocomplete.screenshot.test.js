@@ -30,4 +30,17 @@ describe('Autocomplete screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+  it('have to match autocomplete with search result', async () => {
+    const style = {
+      height: '12rem'
+    }
+    const screenshot = await testPageScreenshot({
+      selector: '[data-dnb-test="autocomplete-drawer-search"]',
+      simulateSelector:
+        '[data-dnb-test="autocomplete-drawer-search"] .dnb-autocomplete .dnb-input',
+      simulate: 'click', // should be tested first
+      style
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
 })

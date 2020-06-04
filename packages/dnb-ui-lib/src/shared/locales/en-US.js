@@ -51,6 +51,7 @@ export default {
       title: 'Type and select',
       submit_button_title: 'Show options',
       no_options: 'No option',
+      show_all: 'Show everything',
       aria_live_options: '%s options',
       indicator_label: 'Getting data ...'
     },
@@ -68,6 +69,9 @@ export default {
       more_pages: '%s more pages',
       is_loading_text: 'Loading new content',
       load_button_text: 'Show more content'
+    },
+    StepIndicator: {
+      step_title: 'Step %step aofv %count'
     },
     Logo: {
       alt: 'DNB Logo'

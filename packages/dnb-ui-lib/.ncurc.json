@@ -6,6 +6,7 @@
     "jest",
     "babel-jest",
     "eslint",
+    "puppeteer",
     "semantic-release",
     "@semantic-release/changelog",
     "@semantic-release/commit-analyzer",

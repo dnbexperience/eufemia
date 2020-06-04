@@ -103,7 +103,8 @@ class Example extends React.PureComponent {
           title="Default StepIndicator with no navigation"
           data-dnb-test="step-indicator-default"
         >
-          {/* @jsx */ `
+          {
+            /* @jsx */ `
 <StepIndicator
   data={[
     {
@@ -118,10 +119,12 @@ class Example extends React.PureComponent {
     }
   ]}
 />
-            `}
+            `
+          }
         </ComponentBox>
         <ComponentBox title="Default StepIndicator with strings only">
-          {/* @jsx */ `
+          {
+            /* @jsx */ `
 <StepIndicator
   active_item="1"
   data={[
@@ -130,7 +133,8 @@ class Example extends React.PureComponent {
     'Oppsummering'
   ]}
 />
-            `}
+            `
+          }
         </ComponentBox>
         <ComponentBox
           title="StepIndicator with custom renderer."
@@ -183,4 +187,4 @@ class Example extends React.PureComponent {
 }
 
 export { Example }
-export default () => <Example />
+export default Example

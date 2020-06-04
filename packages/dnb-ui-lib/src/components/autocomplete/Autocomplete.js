@@ -8,20 +8,30 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import keycode from 'keycode'
 import {
+  warn,
   isTrue,
+  isTouchDevice,
   makeUniqueId,
   extendPropsWithContext,
   registerElement,
   validateDOMAttributes,
-  dispatchCustomElementEvent
+  dispatchCustomElementEvent,
+  convertJsxToString
 } from '../../shared/component-helper'
-import { debounce } from '../../shared/helpers'
+import {
+  IS_MAC,
+  IS_WIN,
+  IS_IE11,
+  IS_EDGE,
+  debounce
+} from '../../shared/helpers'
 import AlignmentHelper from '../../shared/AlignmentHelper'
 import { createSpacingClasses } from '../space/SpacingHelper'
 
 import Suffix from '../../shared/helpers/Suffix'
 import FormLabel from '../form-label/FormLabel'
 import FormStatus from '../form-status/FormStatus'
+import IconPrimary from '../icon-primary/IconPrimary'
 import Input, { SubmitButton } from '../input/Input'
 import ProgressIndicator from '../progress-indicator/ProgressIndicator'
 import DrawerList from '../../fragments/drawer-list/DrawerList'
@@ -29,8 +39,7 @@ import DrawerListContext from '../../fragments/drawer-list/DrawerListContext'
 import DrawerListProvider from '../../fragments/drawer-list/DrawerListProvider'
 import {
   parseContentTitle,
-  getCurrentData,
-  grabStringFromReact
+  getCurrentData
 } from '../../fragments/drawer-list/DrawerListHelpers'
 
 const renderProps = {
@@ -46,7 +55,9 @@ const propTypes = {
   id: PropTypes.string,
   mode: PropTypes.oneOf(['sync', 'async']),
   title: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
+  placeholder: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
   no_options: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
+  show_all: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
   aria_live_options: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.node
@@ -59,8 +70,8 @@ const propTypes = {
     PropTypes.func
   ]),
   icon_size: PropTypes.string,
-  icon_position: PropTypes.string,
-  triangle_position: PropTypes.string,
+  icon_position: PropTypes.oneOf(['left', 'right']),
+  triangle_position: PropTypes.oneOf(['left', 'right']),
   input_icon: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.node,
@@ -73,6 +84,7 @@ const propTypes = {
   ]),
   label_direction: PropTypes.oneOf(['horizontal', 'vertical']),
   label_sr_only: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  keep_value: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   status: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.func,
@@ -86,17 +98,23 @@ const propTypes = {
     PropTypes.func,
     PropTypes.node
   ]),
+  disable_filter: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  disable_reorder: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   scrollable: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   focusable: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  skip_highlight: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  disable_highlighting: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.bool
+  ]),
   direction: PropTypes.oneOf(['auto', 'top', 'bottom']),
   max_height: PropTypes.number,
+  skip_portal: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   no_animation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   no_scroll_animation: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.bool
   ]),
-  show_drawer_button: PropTypes.oneOfType([
+  show_submit_button: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.bool
   ]),
@@ -136,6 +154,10 @@ const propTypes = {
       ])
     )
   ]),
+  search_in_word_index: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number
+  ]),
   default_value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   input_value: PropTypes.string,
@@ -144,6 +166,7 @@ const propTypes = {
   keep_open: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   opened: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  drawer_class: PropTypes.string,
   class: PropTypes.string,
 
   // React
@@ -171,35 +194,42 @@ const defaultProps = {
   id: null,
   mode: 'sync',
   title: 'Option Menu',
+  placeholder: null,
   no_options: null,
+  show_all: null,
   aria_live_options: null,
   indicator_label: null,
   submit_button_title: null,
   icon: 'chevron_down',
   icon_size: null,
-  icon_position: null,
+  icon_position: 'left',
   triangle_position: null,
   input_icon: 'search',
   label: null,
   label_direction: null,
   label_sr_only: null,
+  keep_value: null,
   status: null,
   status_state: 'error',
   status_animation: null,
   global_status_id: null,
   suffix: null,
+  disable_filter: false,
+  disable_reorder: false,
   scrollable: true,
   focusable: false,
-  skip_highlight: false,
+  disable_highlighting: false,
   max_height: null,
   direction: 'auto',
+  skip_portal: null,
   no_animation: false,
   no_scroll_animation: false,
-  show_drawer_button: false,
+  show_submit_button: false,
   prevent_selection: false,
   size: 'default',
   align_autocomplete: null,
   data: null,
+  search_in_word_index: 3,
   default_value: null,
   value: 'initval',
   input_value: 'initval',
@@ -208,6 +238,7 @@ const defaultProps = {
   keep_open: false,
   opened: null,
   disabled: null,
+  drawer_class: null,
   class: null,
 
   // React props
@@ -279,7 +310,7 @@ class AutocompleteInstance extends React.PureComponent {
 
   static getDerivedStateFromProps(props, state) {
     if (state._listenForPropChanges) {
-      state.skipHighlight = isTrue(props.skip_highlight)
+      state.skipHighlight = isTrue(props.disable_highlighting)
 
       if (
         props.input_value !== 'initval' &&
@@ -312,11 +343,17 @@ class AutocompleteInstance extends React.PureComponent {
     this._ref = React.createRef()
     this._refShell = React.createRef()
     this._refInput = React.createRef()
+
+    this.isTouchDevice = isTouchDevice()
+
+    this.skipFilter = isTrue(props.disable_filter)
+    this.skipReorder = isTrue(props.disable_reorder)
+    this.inWordIndex = (parseFloat(props.search_in_word_index) || 3) - 2
   }
 
   componentDidMount() {
     if (isTrue(this.props.opened)) {
-      this.runFilterToHighlight()
+      this.runFilterToHighlight({ fillDataIfEmpty: true })
       this.setVisible()
     }
   }
@@ -326,6 +363,7 @@ class AutocompleteInstance extends React.PureComponent {
     clearTimeout(this._hideTimeout)
     clearTimeout(this._selectTimeout)
     clearTimeout(this._ariaLiveUpdateTiemout)
+    clearTimeout(this._focusTimeout)
     clearTimeout(this._toggleVisibleTimeout)
   }
 
@@ -339,19 +377,44 @@ class AutocompleteInstance extends React.PureComponent {
     this.context.drawerList.setHidden()
   }
 
-  scrollToActiveItem = () => {
-    if (parseFloat(this.state.localActiveItem) > -1) {
-      this.context.drawerList.scrollToAndSetActiveItem(
-        this.state.localActiveItem,
-        {
-          scrollTo: false
-        }
-      )
+  toggleVisible = ({ hasFilter = false } = {}) => {
+    if (
+      !hasFilter &&
+      !isTrue(this.props.prevent_close) &&
+      !this.context.drawerList.hidden &&
+      this.context.drawerList.opened
+    ) {
+      this.setHidden()
+    } else {
+      this.setVisibleByContext()
+    }
+  }
+
+  setVisibleByContext = (options = {}) => {
+    const skipFilter = this.state.showAllNextTime
+    if (skipFilter) {
       this.setState({
-        localActiveItem: null,
+        showAllNextTime: false,
         _listenForPropChanges: false
       })
     }
+
+    this.runFilterToHighlight({
+      fillDataIfEmpty: true,
+      skipFilter,
+      ...options
+    })
+
+    this.setVisible()
+  }
+
+  scrollToActiveItem = () => {
+    this.context.drawerList.scrollToItem(
+      this.context.drawerList.active_item,
+      {
+        scrollTo: false
+      }
+    )
   }
 
   scrollToSelectedItem = () => {
@@ -388,7 +451,7 @@ class AutocompleteInstance extends React.PureComponent {
 
     this.context.drawerList.setState(
       {
-        cache_hash: value + data.length
+        cache_hash: value + this.countData(data)
       },
       () =>
         typeof options?.afterSetState === 'function' &&
@@ -397,45 +460,23 @@ class AutocompleteInstance extends React.PureComponent {
 
     if (value && value.length > 0) {
       // show the "no_options" message
-      if (data.length === 0) {
+      if (this.countData(data) === 0) {
         if (this.state.mode !== 'async') {
           this.showNoOptionsItem()
         }
-      } else if (data.length > 0) {
-        this.context.drawerList.setData(data)
+      } else if (this.countData(data) > 0) {
+        this.context.drawerList.setData(this.wrapWithShowAll(data))
 
-        const localActiveItem =
-          data.length === 1 ||
-          !parseFloat(this.context.drawerList.active_item > -1)
-            ? data[0].__id
-            : null
-
-        this.setState(
-          {
-            localActiveItem, // used later so we can scroll there
-            skipHighlight: false,
-            _listenForPropChanges: false
-          },
-          () => {
-            if (!localActiveItem) {
-              this.context.drawerList.scrollToItem(data[0]?.__id, {
-                scrollTo: false
-              })
-            }
-          }
-        )
-
-        if (data.length === 1) {
+        if (this.countData(data) === 1) {
           this.context.drawerList.setState({
-            active_item: localActiveItem,
-            ignore_events: false
+            active_item: data[0].__id
           })
         }
       }
     } else {
       // this will not remove selected_item
       this.totalReset()
-      this.showAll()
+      this.showAllItems()
     }
 
     this.setVisible()
@@ -444,23 +485,36 @@ class AutocompleteInstance extends React.PureComponent {
     return data
   }
 
-  runFilterToHighlight = (value = null) => {
-    if (value === null) {
-      value = this.state.inputValue
+  runFilterToHighlight = (
+    { fillDataIfEmpty = false, ...options } = {},
+    value = this.state.inputValue
+  ) => {
+    // do not filter or highlight if the current selected item is the same as the input value
+    const possibleTitle = AutocompleteInstance.getCurrentDataTitle(
+      this.context.drawerList.selected_item,
+      this.context.drawerList.original_data
+    )
+    if (value === possibleTitle) {
+      return // stop here
     }
-    value = String(value || '').trim()
 
-    const data = this.runFilter(value)
+    value = String(value || '').trim()
 
     this.setState({
       skipHighlight: false,
       _listenForPropChanges: false
     })
-    this.context.drawerList.setData(data)
 
+    let data = this.runFilter(value, options) // do not skip the filter here
+
+    // this is a backup, in case everything is empty, we fill the data
+    if (fillDataIfEmpty && data.length === 0 && value === '') {
+      data = this.context.drawerList.original_data
+    }
+
+    this.context.drawerList.setData(this.wrapWithShowAll(data))
     this.context.drawerList.setState({
-      cache_hash: value + data.length,
-      ignore_events: false
+      cache_hash: value + this.countData(data)
     })
 
     this.setAriaLiveUpdate()
@@ -468,12 +522,43 @@ class AutocompleteInstance extends React.PureComponent {
     return data
   }
 
+  wrapWithShowAll = (data) => {
+    if (!this.hasFilterActive(data)) {
+      return data
+    }
+
+    const lastItem = data.slice(-1)[0]
+    if (lastItem && !lastItem.show_all) {
+      const { show_all } = this._props
+
+      // NB: here we could use unshift, but this has to be implemented different places as well
+      data.push({
+        __id: lastItem.__id + 1,
+        class_name: 'dnb-autocomplete__show-all',
+        show_all: true,
+        active_item: false,
+        selected_item: false,
+        content: (
+          <>
+            <IconPrimary icon="arrow_down" aria-hidden />
+            {show_all}
+          </>
+        )
+      })
+    }
+
+    return data
+  }
+
   emptyData = () => {
+    this._rC = {}
+
     this.setState({
       inputValue: '',
       typedInputValue: null,
       _listenForPropChanges: false
     })
+
     this.context.drawerList.setData(
       () => [],
       () => {
@@ -492,6 +577,7 @@ class AutocompleteInstance extends React.PureComponent {
     this.ignoreEvents()
     this.context.drawerList.setData([
       {
+        class_name: 'dnb-autocomplete__no-options',
         content: this._props.no_options,
         ignore_events: true,
         __id: 'no_options'
@@ -508,6 +594,7 @@ class AutocompleteInstance extends React.PureComponent {
     this.ignoreEvents()
     this.context.drawerList.setData([
       {
+        class_name: 'dnb-autocomplete__indicator',
         content: <ProgressIndicator label={this._props.indicator_label} />,
         ignore_events: true,
         __id: 'indicator'
@@ -535,11 +622,6 @@ class AutocompleteInstance extends React.PureComponent {
     })
   }
 
-  showAllItems = () => {
-    this.showAll()
-    this.scrollToSelectedItem()
-  }
-
   setMode = (mode) => {
     this.setState({
       mode,
@@ -547,31 +629,31 @@ class AutocompleteInstance extends React.PureComponent {
     })
   }
 
-  updateData = (data) => {
+  updateData = (rawData) => {
     this.context.drawerList.setData(
-      () => data, // set data as a function, so it gets re-evaluate
-      () => {
-        this.setSearchIndex({ overwriteSearchIndex: true }, () => {
-          const { typedInputValue } = this.state
+      () => rawData, // set data as a function, so it gets re-evaluated with normalizeData
+      (newData) => {
+        this.setSearchIndex(
+          { overwriteSearchIndex: true, data: newData },
+          () => {
+            const { typedInputValue } = this.state
 
-          if (typedInputValue?.length > 0) {
-            // run with side effects, to get preselection of active_item
-            const data = this.runFilterWithSideEffects(typedInputValue)
-            if (data.length === 0) {
-              this.showNoOptionsItem()
+            if (typedInputValue?.length > 0) {
+              // run with side effects, to get preselection of active_item
+              const filteredData = this.runFilterWithSideEffects(
+                typedInputValue
+              )
+              if (this.countData(filteredData) === 0) {
+                this.showNoOptionsItem()
+              }
+            } else {
+              this.resetSelections()
+              this.context.drawerList.setState({
+                active_item: -1
+              })
             }
-          } else {
-            this.resetSelections()
-            this.context.drawerList.setState({
-              active_item: -1,
-              ignore_events: false
-            })
-
-            // Was used before to enhance UX, but looks like we now are good without
-            // this.showAll()
-            // this.scrollToSelectedItem()
           }
-        })
+        )
       },
       {
         overwriteOriginalData: true
@@ -581,20 +663,33 @@ class AutocompleteInstance extends React.PureComponent {
     return this
   }
 
+  onInputKeyDownHandler = ({ event: e }) => {
+    const key = keycode(e)
+    switch (key) {
+      case 'page up':
+      case 'page down':
+      case 'up':
+      case 'down':
+      case 'home':
+      case 'end':
+        e.preventDefault()
+        break
+    }
+  }
+
   onInputClickHandler = (e) => {
-    const value = e.target.value
-    this.runFilterToHighlight(value)
-    this.showAll()
-    this.setVisible()
+    const { value } = e.target
+    this.setVisibleByContext({ value })
   }
 
   onInputFocusHandler = (event) => {
     if (this.state.skipFocus) {
       return // stop here
     }
+
     if (isTrue(this.props.open_on_focus)) {
-      this.showAll()
-      this.setVisible()
+      const { value } = event.target
+      this.setVisibleByContext({ value })
     } else {
       this.setSearchIndex()
     }
@@ -606,12 +701,18 @@ class AutocompleteInstance extends React.PureComponent {
   }
 
   onBlurHandler = (event) => {
+    const {
+      input_value,
+      open_on_focus,
+      keep_value,
+      prevent_selection
+    } = this.props
     this.setState({
       typedInputValue: null,
       _listenForPropChanges: false
     })
 
-    if (isTrue(this.props.open_on_focus)) {
+    if (isTrue(open_on_focus)) {
       this.setHidden()
     }
 
@@ -620,7 +721,7 @@ class AutocompleteInstance extends React.PureComponent {
       ...this.getEventObjects('on_blur')
     })
 
-    if (!isTrue(this.props.prevent_selection)) {
+    if (!isTrue(prevent_selection)) {
       const inputValue = AutocompleteInstance.getCurrentDataTitle(
         this.context.drawerList.selected_item,
         this.context.drawerList.original_data
@@ -633,13 +734,121 @@ class AutocompleteInstance extends React.PureComponent {
             inputValue,
             _listenForPropChanges: false
           })
-        } else {
+        } else if (
+          !(input_value !== 'initval' && input_value.length > 0) &&
+          !isTrue(keep_value)
+        ) {
           this.setState({
             inputValue: '',
             _listenForPropChanges: false
           })
         }
-      }, 1)
+      }, 1) // to make sure we actually are after the Input state handling -> "input placeholder reset"
+    }
+  }
+
+  onTriggerKeyDownHandler = (e) => {
+    const key = keycode(e)
+
+    switch (key) {
+      case 'space':
+        {
+          this.setVisible()
+        }
+        break
+    }
+
+    switch (key) {
+      case 'space':
+      case 'enter':
+      case 'page up':
+      case 'page down':
+      case 'down':
+      case 'up':
+        {
+          e.preventDefault()
+          // const hasFilter = this.hasFilterActive()
+          // if (hasFilter) {
+          //   this.showAll()
+          // }
+          try {
+            this._refInput.current._ref.current.focus()
+          } catch (e) {
+            warn(e)
+          }
+        }
+        break
+    }
+  }
+
+  onSubmit = () => {
+    this.toggleVisible()
+  }
+
+  onShellKeyDownHandler = (e) => {
+    const key = keycode(e)
+
+    switch (key) {
+      case 'up':
+      case 'down':
+        e.preventDefault()
+
+        this.setVisible()
+
+        break
+
+      case 'esc':
+        this.setState({
+          showAllNextTime: true,
+          _listenForPropChanges: false
+        })
+
+        break
+
+      case 'enter':
+        e.preventDefault()
+
+        if (!this.context.drawerList.opened && this.hasFilterActive()) {
+          this.ignoreEvents()
+          this.showAll()
+        }
+        if (
+          (!this.hasValidData() || !this.hasSelectedItem()) &&
+          !this.hasActiveItem()
+        ) {
+          clearTimeout(this._toggleVisibleTimeout)
+          this._toggleVisibleTimeout = setTimeout(this.toggleVisible, 1) // to make sure we first handle the DrawerList key enter, before we update the state with a toggle/visible. Else the submit is not set properly
+        } else {
+          this.setVisible()
+        }
+
+        break
+    }
+
+    // This is used for the announced ctrl+alt+space key activation
+    if (IS_MAC) {
+      switch (key) {
+        case 'enter':
+          // Do this, so screen readers get a NEW focus later on
+          // So we first need a blur of the input basically (therefore the Shell has an tabIndex / dnb-no-focus)
+          try {
+            this._refShell.current.focus({
+              preventScroll: true
+            })
+          } catch (e) {
+            // do nothing
+          }
+
+          clearTimeout(this._focusTimeout)
+          this._focusTimeout = setTimeout(() => {
+            try {
+              this._refInput.current._ref.current.focus()
+            } catch (e) {
+              // do nothing
+            }
+          }, 200) // so we propely can set the focus "again" we have to have this amount of delay
+          break
+      }
     }
   }
 
@@ -669,29 +878,23 @@ class AutocompleteInstance extends React.PureComponent {
     }
   }
 
-  toggleVisible = ({ hasFilter = false } = {}) => {
-    if (
-      !hasFilter &&
-      !isTrue(this.props.prevent_close) &&
-      !this.context.drawerList.hidden &&
-      this.context.drawerList.opened
-    ) {
-      this.setHidden()
-    } else {
-      this.setVisible()
-    }
+  hasShowMore = (data = this.context.drawerList.data) => {
+    const lastItem = data.slice(-1)[0]
+    return lastItem?.show_all === true
   }
 
-  onSubmitHandler = () => {
-    const hasFilter = this.hasFilterActive()
-    this.showAll()
-    this.toggleVisible({ hasFilter })
+  countData = (data = this.context.drawerList.data) => {
+    const count = data.length
+    return count > 0 && this.hasShowMore(data) ? count - 1 : count
   }
 
   hasValidData = (data = this.context.drawerList.data) => {
-    if (data.length > 0) {
+    if (this.countData(data) > 0) {
       const first = data[0]
-      if (!['no_options', 'indicator'].includes(first.__id)) {
+      if (
+        !first.show_all &&
+        !['no_options', 'indicator'].includes(first.__id)
+      ) {
         return true
       }
     }
@@ -701,64 +904,32 @@ class AutocompleteInstance extends React.PureComponent {
   hasSelectedItem = () => {
     return parseFloat(this.context.drawerList.selected_item) > -1
   }
+
   hasActiveItem = () => {
     return parseFloat(this.context.drawerList.active_item) > -1
   }
 
-  hasFilterActive = () => {
+  hasFilterActive = (data = this.context.drawerList.data) => {
     return (
-      this.context.drawerList.data.length !==
+      this.countData(data) !==
       this.context.drawerList.original_data?.length
     )
   }
 
-  onTriggerKeyDownHandler = ({ event: e }) => {
-    const key = keycode(e)
-    switch (key) {
-      case 'up':
-      case 'down':
-        e.preventDefault()
+  setSearchIndex(
+    {
+      overwriteSearchIndex = false,
+      data = this.context.drawerList.original_data
+    } = {},
+    cb
+  ) {
+    this._rC = {}
 
-        if (this.hasFilterActive()) {
-          this.ignoreEvents()
-          this.showAll()
-          this.setVisible()
-          this.scrollToActiveItem()
-        } else {
-          this.setVisible()
-        }
-
-        break
-
-      case 'enter':
-        e.preventDefault()
-
-        if (!this.context.drawerList.opened && this.hasFilterActive()) {
-          this.ignoreEvents()
-          this.showAll()
-        }
-        if (
-          (!this.hasValidData() || !this.hasSelectedItem()) &&
-          !this.hasActiveItem()
-        ) {
-          clearTimeout(this._toggleVisibleTimeout)
-          this._toggleVisibleTimeout = setTimeout(this.toggleVisible, 1) // to make sure we first handle the DrawerList key enter, before we update the state with a toggle/visible. Else the submit is not set properly
-        } else {
-          this.setVisible()
-        }
-
-        break
-    }
-  }
-
-  setSearchIndex({ overwriteSearchIndex = false } = {}, cb) {
     if (!overwriteSearchIndex && this.state.searchIndex) {
       return this.state.searchIndex
     }
 
-    const searchIndex = AutocompleteInstance.createSearchIndex(
-      this.context.drawerList.original_data
-    )
+    const searchIndex = AutocompleteInstance.createSearchIndex(data)
 
     this.setState(
       {
@@ -790,18 +961,29 @@ class AutocompleteInstance extends React.PureComponent {
 
   showAll = () => {
     this.resetFilter()
-    this.setState({
-      localActiveItem: null,
-      _listenForPropChanges: false
-    })
+
     this.context.drawerList.setState({
       cache_hash: 'all'
     })
+
+    this.runFilterToHighlight({ skipFilter: true, fillDataIfEmpty: true })
+  }
+
+  showAllItems = () => {
+    this.resetFilter()
+    this.context.drawerList.setState({
+      cache_hash: 'all'
+    })
+    this.scrollToSelectedItem()
   }
 
   totalReset = () => {
+    if (!isTrue(this.props.keep_value)) {
+      this.setState({
+        inputValue: undefined
+      })
+    }
     this.setState({
-      inputValue: undefined,
       typedInputValue: undefined,
       _listenForPropChanges: false
     })
@@ -812,8 +994,7 @@ class AutocompleteInstance extends React.PureComponent {
 
   resetSelections = () => {
     this.context.drawerList.setState({
-      active_item: null,
-      ignore_events: false
+      active_item: null
     })
   }
 
@@ -821,157 +1002,191 @@ class AutocompleteInstance extends React.PureComponent {
     this.context.drawerList.setData(this.context.drawerList.original_data)
   }
 
-  runFilter = (value, { skipHighlight = false } = {}) => {
+  runFilter = (
+    value,
+    {
+      data = null, // rawData
+      searchIndex = this.state.searchIndex,
+      skipHighlight = false,
+      skipFilter = false,
+      skipReorder = false
+    } = {}
+  ) => {
     const words = value.split(/\s+/g).filter(Boolean)
     const wordsCount = words.length
+    const wordCond = '^|\\s'
 
     const findWords = (item) =>
       words
         .map((word, wordIndex) => ({
           word,
+          wordIndex,
           score: wordsCount - wordIndex
         }))
         .filter(
-          ({ word }, wordIndex) =>
+          ({ word, wordIndex }) =>
             // if the uses reached word 3, then we go inside words as well
             typeof item === 'string' &&
-            (wordIndex > 1
-              ? new RegExp(`${word}`, 'i').test(item)
-              : new RegExp(`^${word}|\\s${word}`, 'i').test(item))
+            new RegExp(
+              wordIndex > this.inWordIndex
+                ? `${word}`
+                : `(${wordCond})${word}`,
+              'i'
+            ).test(item)
         )
 
+    if (data) {
+      searchIndex = this.setSearchIndex({ data })
+    }
     // get the search index
-    let searchIndex = this.state.searchIndex
-    if (!searchIndex) {
+    else if (!searchIndex) {
       searchIndex = this.setSearchIndex()
     }
     if (typeof searchIndex === 'undefined') {
       return []
     }
 
-    const startTag =
-      '<span class="dnb-drawer-list__option__item--highlight">'
-    const endTag = '</span>'
+    const S = '\uFFFE'
+    const E = '\uFFFF'
+    const tagS = '<span class="dnb-drawer-list__option__item--highlight">'
+    const tagE = '</span>'
 
-    return (
-      searchIndex
-        .map((item, itemIndex) => {
-          const listOfFoundWords = findWords(item.searchChunk)
+    searchIndex = searchIndex.map((item) => {
+      const listOfFoundWords = findWords(item.searchChunk)
 
-          if (typeof item.dataItem === 'string') {
-            item.dataItem = { content: item.dataItem }
+      if (typeof item.dataItem === 'string') {
+        item.dataItem = { content: item.dataItem }
+      }
+
+      // Only make a copy if render is not set
+      // If we don't make a copy of the item, we risk that we manipulate data outside
+      if (!item.dataItem.render) {
+        item.dataItem = { ...item.dataItem }
+      }
+
+      // this function gets called once the items are rendered / in view
+      // this part is used for the highlighting
+      item.dataItem.render = (children, id) => {
+        // if the ID and the content is the same, use the cached version
+        const cacheHash = id + value
+        this._rC = this._rC || {}
+        if (this._rC[cacheHash]) {
+          return this._rC[cacheHash]
+        }
+
+        let Component = null
+
+        // it can be an object, React element or an array
+        if (typeof children !== 'string') {
+          if (!Array.isArray(children)) {
+            children = [children]
           }
 
-          // this function gets called once the items are rendered / in view
-          item.dataItem.render = (children) => {
-            let Component = null
+          // keep the original for later
+          Component = children
 
-            // it can be an object, React element or an array
-            if (typeof children !== 'string') {
-              if (!Array.isArray(children)) {
-                children = [children]
+          // make string out of it
+          children = children.map((child) => convertJsxToString(child))
+        }
+
+        if (typeof children === 'string') {
+          children = [children] // for a while we had split this into seperate words children.split(' ') but this is not needed anymore
+        }
+
+        children = children
+          .map((segment, sIndex) => {
+            if (skipHighlight || this.state.skipHighlight) {
+              return segment
+            }
+
+            listOfFoundWords.forEach(({ word, wordIndex }) => {
+              if (wordIndex > this.inWordIndex) {
+                segment = segment.replace(
+                  new RegExp(`(${word})`, 'gi'),
+                  `${S}$1${E}`
+                )
+              } else {
+                segment = segment.replace(
+                  new RegExp(`(${wordCond})(${word})`, 'gi'),
+                  `$1${S}$2${E}`
+                )
               }
+            })
 
-              // keep the original for later
-              Component = children
+            if (segment.includes(S)) {
+              // to make sure we don't have several in a row
+              const __html = segment
+                .replace(new RegExp(`(${S})+`, 'g'), S)
+                .replace(new RegExp(`(${E})+`, 'g'), E)
+                .replace(new RegExp(`(${E}${S})`, 'g'), '')
+                .replace(new RegExp(S, 'g'), tagS)
+                .replace(new RegExp(E, 'g'), tagE)
 
-              // make string out of it
-              children = children.map((child) =>
-                grabStringFromReact(child)
+              return (
+                <span
+                  key={cacheHash + sIndex}
+                  dangerouslySetInnerHTML={{
+                    __html
+                  }}
+                />
               )
             }
 
-            if (typeof children === 'string') {
-              children = [children] // for a while we had split this into seperate words children.split(' ') but this is not needed anymore
-            }
+            return segment
+          })
+          .map((c, i, a) => (i < a.length - 1 ? [c, ' '] : c)) // add back the skiped spaces
 
-            children = children
-              .map((child) => {
-                if (skipHighlight || this.state.skipHighlight) {
-                  return child
-                }
+        if (Component) {
+          children = Array.isArray(Component)
+            ? Component.map((Comp, i) =>
+                React.cloneElement(
+                  Comp,
+                  { key: 'clone' + cacheHash + i },
+                  children[i]
+                )
+              )
+            : React.cloneElement(
+                Component,
+                { key: 'clone' + cacheHash },
+                children
+              )
+        }
 
-                const formatted = listOfFoundWords
-                  .reverse()
-                  .map(({ word }) => {
-                    const charStart = child
-                      .toLowerCase()
-                      .indexOf(word.toLowerCase())
-                    const charEnd = word.length + charStart
+        return (this._rC[cacheHash] = children)
+      }
 
-                    if (charStart === -1) {
-                      return null
-                    }
+      // this prioritizes the first written words
+      const totalScore = listOfFoundWords.reduce(
+        (acc, { score }) => (acc += score),
+        0
+      )
 
-                    const ret = {
-                      a: child.substring(0, charStart),
-                      b: child.substring(charStart, charEnd),
-                      c: child.substring(charEnd, child.length)
-                    }
+      if (this.skipFilter || skipFilter) {
+        return item.dataItem
+      }
 
-                    return ret
-                  })
-                  .filter(Boolean)
-                  .reduce((acc, { a, b, c }) => {
-                    if (acc.includes('š')) {
-                      return acc.replace(
-                        new RegExp(`(${b})`, 'gi'),
-                        'š$1Ÿ'
-                      )
-                    }
+      return {
+        countFindings: listOfFoundWords.length + totalScore,
+        item
+      }
+    })
 
-                    return `${a}š${b}Ÿ${c}`
-                  }, child)
+    if (!this.skipFilter && !skipFilter) {
+      // This removes items with 0 findings
+      searchIndex = searchIndex.filter(
+        ({ countFindings }) => countFindings
+      )
 
-                if (formatted.includes('š')) {
-                  return (
-                    <span
-                      key={itemIndex + child}
-                      dangerouslySetInnerHTML={{
-                        __html: formatted
-                          .replace(/š/g, startTag)
-                          .replace(/Ÿ/g, endTag)
-                      }}
-                    />
-                  )
-                }
+      if (!this.skipReorder && !skipReorder) {
+        searchIndex = searchIndex.sort(
+          ({ countFindings: a }, { countFindings: b }) => b - a
+        )
+      }
 
-                return formatted
-              })
-              .map((c, i, a) => (i < a.length - 1 ? [c, ' '] : c)) // add back the skiped spaces
+      searchIndex = searchIndex.map(({ item }) => item.dataItem)
+    }
 
-            if (Component) {
-              children = Array.isArray(Component)
-                ? Component.map((Comp, i) =>
-                    React.cloneElement(
-                      Comp,
-                      { key: itemIndex + i },
-                      children[i]
-                    )
-                  )
-                : React.cloneElement(Component, null, children)
-            }
-
-            return children
-          }
-
-          // this prioritizes the first written words
-          const totalScore = listOfFoundWords.reduce(
-            (acc, { score }) => (acc += score),
-            0
-          )
-
-          return {
-            countFindings: listOfFoundWords.length + totalScore,
-            item
-          }
-        })
-
-        // This removes items with 0 findings
-        .filter(({ countFindings }) => countFindings)
-        .sort(({ countFindings: a }, { countFindings: b }) => b - a)
-        .map(({ item }) => item.dataItem)
-    )
+    return searchIndex
   }
 
   onSelectHandler = (args) => {
@@ -983,42 +1198,78 @@ class AutocompleteInstance extends React.PureComponent {
     }
   }
 
+  onPreChangeHandler = ({ data, selected_item }) => {
+    if (data && data.show_all) {
+      this.showAll()
+
+      if (parseFloat(selected_item) > -1) {
+        const active_item = selected_item - 1
+        clearTimeout(this._selectTimeout)
+        this._selectTimeout = setTimeout(() => {
+          this.context.drawerList.setState({
+            active_item
+          })
+          this.scrollToActiveItem()
+        }, 1)
+      }
+
+      return false
+    }
+  }
+
   onChangeHandler = (args) => {
     const selected_item = args.selected_item
 
-    const inputValue = AutocompleteInstance.getCurrentDataTitle(
-      selected_item,
-      this.context.drawerList.data
-    )
+    if (!isTrue(this.props.keep_open)) {
+      this.setState({
+        skipFocus: true,
+        skipHighlight: true,
+        _listenForPropChanges: false
+      })
 
-    this.setState({
-      skipFocus: true,
-      skipHighlight: true,
-      inputValue,
-      _listenForPropChanges: false
-    })
+      this.setHidden()
+
+      // Do this, so screen readers get a NEW focus later on
+      // So we first need a blur of the input basically
+      try {
+        this.context.drawerList._refUl.current.focus({
+          preventScroll: true
+        })
+      } catch (e) {
+        // do nothing
+      }
+
+      clearTimeout(this._selectTimeout)
+      this._selectTimeout = setTimeout(() => {
+        this.setState({
+          inputValue: AutocompleteInstance.getCurrentDataTitle(
+            selected_item,
+            this.context.drawerList.data
+          ),
+          skipFocus: false,
+          _listenForPropChanges: false
+        })
+
+        try {
+          this._refInput.current._ref.current.focus()
+        } catch (e) {
+          // do nothing
+        }
+      }, 200) // so we propely can set the focus "again" we have to have this amount of delay
+    } else {
+      this.setState({
+        inputValue: AutocompleteInstance.getCurrentDataTitle(
+          selected_item,
+          this.context.drawerList.data
+        ),
+        _listenForPropChanges: false
+      })
+    }
 
     dispatchCustomElementEvent(this, 'on_change', {
       ...args,
       ...this.getEventObjects('on_change')
     })
-
-    this.setHidden()
-
-    clearTimeout(this._selectTimeout)
-    this._selectTimeout = setTimeout(() => {
-      if (!isTrue(this.props.keep_open)) {
-        try {
-          this._refInput.current._ref.current.focus()
-          this.setState({
-            skipFocus: false,
-            _listenForPropChanges: false
-          })
-        } catch (e) {
-          // do nothing
-        }
-      }
-    }, 1) // because of state updates we need 1 tick delay here
   }
 
   setAriaLiveUpdate() {
@@ -1031,11 +1282,10 @@ class AutocompleteInstance extends React.PureComponent {
       this._ariaLiveUpdateTiemout = setTimeout(() => {
         let newString = null
 
-        if (this.hasValidData()) {
-          newString = String(aria_live_options).replace(
-            '%s',
-            this.context.drawerList.data.length
-          )
+        const count = this.countData()
+
+        if (count > 0) {
+          newString = String(aria_live_options).replace('%s', count)
         } else {
           newString = no_options
         }
@@ -1067,6 +1317,7 @@ class AutocompleteInstance extends React.PureComponent {
 
     const {
       title,
+      placeholder,
       label,
       label_direction,
       label_sr_only,
@@ -1075,6 +1326,7 @@ class AutocompleteInstance extends React.PureComponent {
       input_icon,
       size,
       align_autocomplete,
+      fixed_position,
       status,
       status_state,
       status_animation,
@@ -1086,37 +1338,42 @@ class AutocompleteInstance extends React.PureComponent {
       prevent_close,
       no_animation,
       no_scroll_animation,
-      show_drawer_button,
+      show_submit_button,
       input_component: CustomInput,
       options_render,
       prevent_selection,
       max_height,
       default_value,
       submit_button_title,
+      drawer_class,
       className,
       class: _className,
       disabled,
       triangle_position,
+      icon_position,
+      skip_portal,
 
       mode: _mode, // eslint-disable-line
       data: _data, // eslint-disable-line
-      no_options: _no_options, // eslint-disable-line
-      aria_live_options: _aria_live_options, // eslint-disable-line
       children: _children, // eslint-disable-line
       direction: _direction, // eslint-disable-line
-      skip_highlight: _skip_highlight, // eslint-disable-line
       id: _id, // eslint-disable-line
       opened: _opened, // eslint-disable-line
       value: _value, // eslint-disable-line
-      indicator_label: _indicator_label, // eslint-disable-line
+
+      indicator_label, // eslint-disable-line
+      no_options, // eslint-disable-line
+      show_all, // eslint-disable-line
+      aria_live_options, // eslint-disable-line
+      disable_highlighting, // eslint-disable-line
 
       ...attributes
     } = props
 
-    let { icon_position } = props
-    if (!icon_position && align_autocomplete === 'right') {
-      icon_position = 'right'
-    }
+    // let { icon_position } = props
+    // if (icon_position !== 'right' && align_autocomplete === 'right') {
+    //   icon_position = 'right'
+    // }
 
     const id = this._id
     const showStatus = status && status !== 'error'
@@ -1125,10 +1382,13 @@ class AutocompleteInstance extends React.PureComponent {
 
     const {
       selected_item,
+      active_item,
       direction,
       opened,
       hidden
     } = this.context.drawerList
+
+    const isExpanded = Boolean(opened) && this.hasValidData()
 
     // make it pissible to grab the rest attributes and return it with all events
     Object.assign(
@@ -1143,9 +1403,10 @@ class AutocompleteInstance extends React.PureComponent {
         opened && 'dnb-autocomplete--opened',
         label_direction && `dnb-autocomplete--${label_direction}`,
         icon_position &&
-          `dnb-autocomplete--icon-position-${icon_position || 'left'}`,
+          `dnb-autocomplete--icon-position-${icon_position}`,
         align_autocomplete && `dnb-autocomplete--${align_autocomplete}`,
         visibleIndicator && 'dnb-autocomplete--show-indicator',
+        // isTrue(show_submit_button) && 'dnb-autocomplete--submit-buton',
         size && `dnb-autocomplete--${size}`,
         status && `dnb-autocomplete__status--${status_state}`,
         showStatus && 'dnb-autocomplete__form-status',
@@ -1156,10 +1417,18 @@ class AutocompleteInstance extends React.PureComponent {
       )
     }
 
-    const triggerParams = {
-      ['aria-owns']: `${id}-ul`, // better would be "-ul" - but it is not in the DOM if hidden
-      ['aria-haspopup']: 'listbox',
-      ['aria-expanded']: opened
+    const shellParams = {
+      className: 'dnb-autocomplete__shell dnb-no-focus',
+      ref: this._refShell,
+      onKeyDown: this.onShellKeyDownHandler
+    }
+
+    if (IS_MAC && !this.isTouchDevice) {
+      // we need combobox twice to make it properly work on VO
+      // else key down will not work properly anymore!
+      shellParams.role = 'combobox'
+      shellParams['aria-owns'] = `${id}-ul`
+      shellParams.tabIndex = '-1'
     }
 
     const inputParams = {
@@ -1168,26 +1437,79 @@ class AutocompleteInstance extends React.PureComponent {
         opened && 'dnb-button--active'
       ),
       id,
+      value: inputValue,
+      autoCapitalize: 'none',
+      spellCheck: 'false',
+
+      // ARIA
+      role: 'combobox', // we need combobox twice to make it properly work on VO
+      'aria-autocomplete': 'both', // list, both
+      'aria-controls': `${id}-ul`,
+      'aria-haspopup': 'listbox',
+      'aria-expanded': isExpanded, // is needed for semantics
+      // 'aria-roledescription': 'autocomplete', // is not needed by now
+
+      onMouseDown: this.onInputClickHandler,
+      onTouchStart: this.onInputClickHandler,
+      onKeyDown: this.onInputKeyDownHandler,
+      onChange: this.onInputChangeHandler,
+      onFocus: this.onInputFocusHandler,
+      onBlur: this.onBlurHandler,
+      icon_position,
       disabled,
-      placeholder: title,
-      // role: 'combobox', // does not work nicely with VO (focus)
-      ['aria-autocomplete']: 'list', // list, both
-      ['aria-controls']: `${id}-ul`,
-      ['aria-haspopup']: 'listbox', // true, listbox
-      ['aria-expanded']: opened,
       ...attributes
     }
-    if (
-      !isTrue(prevent_selection) &&
+
+    if (!(parseFloat(selected_item) > -1)) {
+      inputParams.placeholder = placeholder || title
+      if (!(IS_WIN && (IS_IE11 || IS_EDGE))) {
+        inputParams['aria-placeholder'] = undefined
+      }
+    }
+
+    const triggerParams = isTrue(show_submit_button)
+      ? {
+          icon: icon,
+          icon_size:
+            icon_size || (size === 'large' ? 'medium' : 'default'),
+          status: !opened && status ? status_state : null,
+          title: submit_button_title,
+          variant: 'secondary',
+          disabled: disabled,
+          size: size === 'default' ? 'medium' : size,
+          onKeyDown: this.onTriggerKeyDownHandler,
+          onSubmit: this.onSubmit,
+          'aria-haspopup': 'listbox',
+          'aria-expanded': isExpanded
+        }
+      : {}
+
+    // Handling of activedescendant
+    if (!hidden && parseFloat(active_item) > -1) {
+      inputParams['aria-activedescendant'] = `option-${id}-${active_item}`
+
+      // for some reason, only old Edge and NVDA needs this
+      if (IS_WIN && (IS_IE11 || IS_EDGE)) {
+        shellParams[
+          'aria-activedescendant'
+        ] = `option-${id}-${active_item}`
+      }
+    } else if (
       !hidden &&
+      !isTrue(prevent_selection) &&
       parseFloat(selected_item) > -1
     ) {
       inputParams[
         'aria-activedescendant'
       ] = `option-${id}-${selected_item}`
-    }
 
-    inputParams.value = inputValue
+      // for some reason, only old Edge and NVDA needs this
+      if (IS_WIN && (IS_IE11 || IS_EDGE)) {
+        shellParams[
+          'aria-activedescendant'
+        ] = `option-${id}-${selected_item}`
+      }
+    }
 
     if (showStatus || suffix) {
       inputParams['aria-describedby'] = `${
@@ -1197,7 +1519,7 @@ class AutocompleteInstance extends React.PureComponent {
 
     // also used for code markup simulation
     validateDOMAttributes(null, mainParams)
-    validateDOMAttributes(this.props, inputParams)
+    validateDOMAttributes(null, shellParams)
 
     // make it pissible to grab the rest attributes and return it with all events
     this.attributes = validateDOMAttributes(null, attributes)
@@ -1231,7 +1553,7 @@ class AutocompleteInstance extends React.PureComponent {
           )}
 
           <span className="dnb-autocomplete__row">
-            <span className="dnb-autocomplete__shell" ref={this._refShell}>
+            <span {...shellParams}>
               {CustomInput ? (
                 <CustomInput {...inputParams} />
               ) : (
@@ -1250,39 +1572,24 @@ class AutocompleteInstance extends React.PureComponent {
                   status={!opened && status ? status_state : null}
                   type="search" // gives us also autoComplete=off
                   submit_element={
-                    isTrue(show_drawer_button) ? (
-                      <SubmitButton
-                        id={this._id + '-button'}
-                        icon={icon}
-                        icon_size={
-                          icon_size ||
-                          (size === 'large' ? 'medium' : 'default')
-                        }
-                        status={!opened && status ? status_state : null}
-                        title={submit_button_title}
-                        variant="secondary"
-                        disabled={disabled}
-                        size={size === 'default' ? 'medium' : size}
-                        on_submit={this.onSubmitHandler}
-                        onKeyDown={this.onTriggerKeyDownHandler}
-                        {...triggerParams}
-                      />
+                    isTrue(show_submit_button) ? (
+                      <SubmitButton {...triggerParams} />
                     ) : (
                       false
                     )
                   }
+                  input_state={this.state.skipFocus ? 'focus' : undefined} // because of the short blur / focus during select
                   ref={this._refInput}
-                  onMouseDown={this.onInputClickHandler}
-                  on_key_down={this.onTriggerKeyDownHandler}
-                  on_change={this.onInputChangeHandler}
-                  on_focus={this.onInputFocusHandler}
-                  on_blur={this.onBlurHandler}
                   {...inputParams}
                 />
               )}
 
               <DrawerList
                 id={id}
+                className={classnames(
+                  'dnb-autocomplete__root',
+                  drawer_class
+                )}
                 inner_class="dnb-autocomplete__list"
                 value={selected_item}
                 default_value={default_value}
@@ -1290,13 +1597,13 @@ class AutocompleteInstance extends React.PureComponent {
                 focusable={focusable}
                 no_animation={no_animation}
                 no_scroll_animation={no_scroll_animation}
+                skip_portal={skip_portal}
                 prevent_selection={prevent_selection}
-                triangle_position={
-                  triangle_position || icon_position || 'left'
-                }
+                triangle_position={triangle_position || icon_position}
                 keep_open={keep_open}
                 prevent_close={prevent_close}
                 align_drawer={align_autocomplete}
+                fixed_position={fixed_position}
                 disabled={disabled}
                 max_height={max_height}
                 direction={direction}
@@ -1304,6 +1611,7 @@ class AutocompleteInstance extends React.PureComponent {
                 options_render={options_render}
                 on_change={this.onChangeHandler}
                 on_select={this.onSelectHandler}
+                on_pre_change={this.onPreChangeHandler}
               />
             </span>
 

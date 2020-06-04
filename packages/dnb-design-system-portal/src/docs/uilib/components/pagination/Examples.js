@@ -65,9 +65,11 @@ class Example extends React.PureComponent {
 >
   {({ page, setContent }) => {
     // simulate server communication delay
-    setTimeout(() => {
+    const timeout = setTimeout(() => {
       setContent(page, <LargePage>{page}</LargePage>)
     }, Math.ceil(Math.random() * 500))
+
+    return () => clearTimeout(timeout)
   }}
 </Pagination>
           `
@@ -88,13 +90,15 @@ class Example extends React.PureComponent {
     min_wait_time={0}
     on_load={({ page, setContent }) => {
       // simulate server communication delay
-      setTimeout(() => {
+      const timeout = setTimeout(() => {
         setContent(page, (
           <LargePage>
             {page}
           </LargePage>)
         )
       }, Math.ceil(Math.random() * 500))
+      
+      return () => clearTimeout(timeout)
     }}
   />
 </HeightLimit>
@@ -118,13 +122,15 @@ class Example extends React.PureComponent {
     min_wait_time={0}
     on_load={({ page, setContent }) => {
       // simulate server communication delay
-      setTimeout(() => {
+      const timeout = setTimeout(() => {
         setContent(page, (
           <LargePage>
             {page}
           </LargePage>)
         )
       }, Math.ceil(Math.random() * 500))
+
+      return () => clearTimeout(timeout)
     }}
     on_end={({ page, setContent }) => {
       setContent(page, <LargePage color="lightgreen">End</LargePage>)
@@ -147,7 +153,7 @@ class Example extends React.PureComponent {
     min_wait_time={0}
     on_load={({ page, setContent, endInfinity }) => {
       // simulate server communication delay
-      setTimeout(() => {
+      const timeout = setTimeout(() => {
         if(page > 10){
           endInfinity()
         }
@@ -159,6 +165,8 @@ class Example extends React.PureComponent {
           )
         }
       }, Math.ceil(Math.random() * 1e3))
+
+      return () => clearTimeout(timeout)
     }}
     on_end={({ page, setContent }) => {
       setContent(page,

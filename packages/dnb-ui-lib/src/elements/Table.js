@@ -5,7 +5,7 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import { isTrue, registerElement } from '../shared/component-helper'
+import { warn, isTrue, registerElement } from '../shared/component-helper'
 
 import E from './Element'
 
@@ -166,7 +166,7 @@ export default class Table extends React.PureComponent {
   }
 
   stickyWarning(e = '') {
-    console.warn('Could not enable Sticky mode in table:', e)
+    warn('Could not enable Sticky mode in table:', e)
   }
 
   render() {

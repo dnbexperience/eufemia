@@ -3,6 +3,66 @@
  *
  */
 
+import {
+  warn,
+  PLATFORM_MAC,
+  PLATFORM_WIN,
+  PLATFORM_LINUX,
+  PLATFORM_IOS
+} from './component-helper'
+
+export let IS_IE11 = false
+export let IS_EDGE = false
+export let IS_IOS = false
+export let IS_SAFARI = false
+export let IS_WIN = false
+export let IS_MAC = false
+export let IS_LINUX = false
+
+export const isMac = () =>
+  (IS_MAC =
+    typeof navigator !== 'undefined' &&
+    new RegExp(PLATFORM_MAC, 'i').test(navigator?.platform))
+
+export const isWin = () =>
+  (IS_WIN =
+    typeof navigator !== 'undefined' &&
+    new RegExp(PLATFORM_WIN, 'i').test(navigator?.platform))
+
+export const isLinux = () =>
+  (IS_LINUX =
+    typeof navigator !== 'undefined' &&
+    new RegExp(PLATFORM_LINUX, 'i').test(navigator?.platform))
+
+export const isiOS = () =>
+  (IS_IOS =
+    typeof navigator !== 'undefined' &&
+    new RegExp(PLATFORM_IOS, 'i').test(navigator?.platform))
+
+export const isSafari = () =>
+  (IS_SAFARI =
+    typeof navigator !== 'undefined' &&
+    /safari/i.test(navigator?.userAgent) &&
+    !/chrome/i.test(navigator?.userAgent))
+
+export const isIE11 = () =>
+  (IS_IE11 =
+    typeof window !== 'undefined' && typeof document !== 'undefined'
+      ? !!window.MSInputMethodContext && !!document.documentMode
+      : false)
+
+export const isEdge = () =>
+  (IS_EDGE =
+    typeof navigator !== 'undefined' && /edge/i.test(navigator?.userAgent))
+
+isIE11()
+isEdge()
+isiOS()
+isSafari()
+isWin()
+isMac()
+isLinux()
+
 const pageFocusElements = {}
 export function setPageFocusElement(selectorOrElement, key = 'default') {
   return (pageFocusElements[key] = selectorOrElement)
@@ -53,7 +113,7 @@ export function applyPageFocus(key = 'default', callback = null) {
       }
     }
   } catch (e) {
-    console.warn('Error on applyPageFocus:', e)
+    warn('Error on applyPageFocus:', e)
   }
 }
 
@@ -67,7 +127,11 @@ export function getOffsetTop(elem) {
   return offsetTop
 }
 
-export function scrollToLocationHashId({ offset = 0, delay = null } = {}) {
+export function scrollToLocationHashId({
+  offset = 0,
+  delay = null,
+  onCompletion = null
+} = {}) {
   if (
     typeof document !== 'undefined' &&
     typeof window !== 'undefined' &&
@@ -81,6 +145,22 @@ export function scrollToLocationHashId({ offset = 0, delay = null } = {}) {
           const runScroll = () => {
             const top = getOffsetTop(elem) - offset
             try {
+              if (typeof IntersectionObserver !== 'undefined') {
+                const intersectionObserver = new IntersectionObserver(
+                  (entries) => {
+                    const [entry] = entries
+                    if (entry.isIntersecting) {
+                      intersectionObserver.unobserve(elem)
+                      if (typeof onCompletion === 'function') {
+                        onCompletion(elem)
+                      }
+                    }
+                  }
+                )
+                // start observing
+                intersectionObserver.observe(elem)
+              }
+
               if (window.scrollTo) {
                 window.scrollTo({
                   top,
@@ -90,7 +170,7 @@ export function scrollToLocationHashId({ offset = 0, delay = null } = {}) {
                 window.scrollTop = top
               }
             } catch (e) {
-              console.warn('Error on scrollToLocationHashId:', e)
+              warn('Error on scrollToLocationHashId:', e)
             }
           }
 
@@ -113,9 +193,11 @@ export function scrollToLocationHashId({ offset = 0, delay = null } = {}) {
             handleScroll()
           }
         }
+
+        return elem
       }
     } catch (e) {
-      console.warn('Error on scrollToLocationHashId:', e)
+      warn('Error on scrollToLocationHashId:', e)
     }
   }
 }
@@ -145,8 +227,6 @@ export function debounce(
     if (typeof recall === 'function') {
       recall()
     }
-
-    // console.log('timeout!!!', timeout)
 
     // The function to be called after
     // the debounce time has elapsed
@@ -182,14 +262,136 @@ export function debounce(
   }
 }
 
-export const isIE11 =
-  typeof window !== 'undefined' && typeof document !== 'undefined'
-    ? !!window.MSInputMethodContext && !!document.documentMode
-    : false
+export function insertElementBeforeSelection(elem) {
+  // try {
+  const selection = window.getSelection()
+  const range = selection.getRangeAt(0)
+  range.cloneRange().insertNode(elem)
+  selection.addRange(range) // Restore the original selection - this is a Safari fix!
 
-export const isEdge =
-  typeof navigator !== 'undefined' &&
-  navigator.userAgent &&
-  navigator.userAgent.indexOf
-    ? navigator.userAgent.indexOf('Edge') >= 0
-    : false
+  // For now I (Tobias) could not find any reason for supporting document.selection as well
+  // const range = document.selection.createRange()
+  // range.collapse(true)
+  // range.pasteHTML(elem.outerHTML)
+  // } catch (e) {
+  //   //
+  // }
+}
+
+export function getSelectedText() {
+  try {
+    return window.getSelection().toString()
+
+    // For now I (Tobias) could not find any reason for supporting document.selection as well
+    // return document.selection.createRange().text
+  } catch (e) {
+    //
+  }
+  return ''
+}
+
+export function hasSelectedText() {
+  return getSelectedText().length > 0
+}
+
+export function getSelectedElement() {
+  try {
+    const selection = window.getSelection()
+    if (selection.rangeCount > 0) {
+      return selection.getRangeAt(0).startContainer.parentNode
+    }
+
+    // For now I (Tobias) could not find any reason for supporting document.selection as well
+    // return document.selection.createRange().parentElement()
+  } catch (e) {
+    //
+  }
+
+  return null
+}
+
+export async function copyToClipboard(string) {
+  if (typeof window === 'undefined' || typeof document === 'undefined') {
+    return false
+  }
+
+  // get the selection range
+  const selection = window.getSelection()
+  const range =
+    selection.rangeCount > 0 // Check if there is any content selected previously
+      ? selection.getRangeAt(0) // Store selection if found
+      : false // Mark as false to know no selection existed before
+
+  const resetSelection = () => {
+    try {
+      // If a selection existed before copying
+      selection.removeAllRanges() // Unselect everything on the HTML document
+      selection.addRange(range) // Restore the original selection
+    } catch (e) {
+      //
+    }
+  }
+
+  const copyFallback = () => {
+    try {
+      // create the focusable element
+      const elem = document.createElement('textarea')
+      elem.value = String(string)
+      elem.contentEditable = true
+      elem.readOnly = false
+      elem.style.position = 'fixed'
+      elem.style.top = '-1000px'
+      document.body.appendChild(elem)
+
+      // iOS helper
+      // But right now, we do not use that
+      // if (IS_IOS) {
+      //   const newRange = document.createRange()
+      //   newRange.selectNodeContents(elem)
+      //   const sel = window.getSelection()
+      //   sel.removeAllRanges()
+      //   sel.addRange(newRange)
+      //   elem.setSelectionRange(0, 999999)
+      // } else {
+      //   elem.select()
+      // }
+
+      // NB: copy only works as a result of a user action (e.g. click events)
+      const success = document.execCommand('copy')
+
+      // Cleanup
+      document.body.removeChild(elem)
+
+      resetSelection()
+
+      if (success) {
+        return true
+      }
+    } catch (e) {
+      return e
+    }
+
+    return `Could not copy! Unknown reason. ${string}`
+  }
+
+  let success
+
+  if (typeof navigator !== 'undefined' && navigator?.clipboard) {
+    try {
+      await navigator.clipboard.writeText(String(string))
+      success = true
+      resetSelection()
+    } catch (e) {
+      success = e
+      const newTry = copyFallback()
+      if (newTry === true) {
+        success = newTry
+      }
+    }
+  } else {
+    // use the fallback as the primary, because we get
+    success = copyFallback()
+  }
+
+  return success
+}

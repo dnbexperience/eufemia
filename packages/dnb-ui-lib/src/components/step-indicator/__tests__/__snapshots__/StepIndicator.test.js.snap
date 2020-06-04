@@ -22,16 +22,19 @@ exports[`StepIndicator component with buttons have to match snapshot 1`] = `
   hide_numbers={false}
   on_change={null}
   on_item_render={null}
+  step_title="%step"
   use_navigation={true}
 >
-  <div
+  <nav
+    aria-label="progress"
     className="dnb-step-indicator"
   >
-    <ul
+    <ol
       className="dnb-step-indicator__list"
     >
       <StepItem
         activeItem={1}
+        countSteps={3}
         currentItem={0}
         hasReached={
           Array [
@@ -47,6 +50,7 @@ exports[`StepIndicator component with buttons have to match snapshot 1`] = `
         on_item_render={null}
         on_render={null}
         setActimeItem={[Function]}
+        step_title="Steg %step av %count"
         title="Aa"
         url={null}
         url_future={null}
@@ -63,6 +67,7 @@ exports[`StepIndicator component with buttons have to match snapshot 1`] = `
           >
             <StepItemWrapper>
               <span
+                aria-label="Steg 1 av 3"
                 className="dnb-step-indicator__item-content--number"
               >
                 1. 
@@ -78,6 +83,7 @@ exports[`StepIndicator component with buttons have to match snapshot 1`] = `
       </StepItem>
       <StepItem
         activeItem={1}
+        countSteps={3}
         currentItem={1}
         hasReached={
           Array [
@@ -93,6 +99,7 @@ exports[`StepIndicator component with buttons have to match snapshot 1`] = `
         on_item_render={null}
         on_render={null}
         setActimeItem={[Function]}
+        step_title="Steg %step av %count"
         title="Bb"
         url={null}
         url_future={null}
@@ -110,6 +117,7 @@ exports[`StepIndicator component with buttons have to match snapshot 1`] = `
           >
             <StepItemWrapper>
               <span
+                aria-label="Steg 2 av 3"
                 className="dnb-step-indicator__item-content--number"
               >
                 2. 
@@ -125,6 +133,7 @@ exports[`StepIndicator component with buttons have to match snapshot 1`] = `
       </StepItem>
       <StepItem
         activeItem={1}
+        countSteps={3}
         currentItem={2}
         hasReached={
           Array [
@@ -140,6 +149,7 @@ exports[`StepIndicator component with buttons have to match snapshot 1`] = `
         on_item_render={null}
         on_render={null}
         setActimeItem={[Function]}
+        step_title="Steg %step av %count"
         title="Cc"
         url={null}
         url_future={null}
@@ -158,6 +168,7 @@ exports[`StepIndicator component with buttons have to match snapshot 1`] = `
           >
             <StepItemWrapper>
               <span
+                aria-label="Steg 3 av 3"
                 className="dnb-step-indicator__item-content--number"
               >
                 3. 
@@ -171,8 +182,8 @@ exports[`StepIndicator component with buttons have to match snapshot 1`] = `
           </button>
         </li>
       </StepItem>
-    </ul>
-  </div>
+    </ol>
+  </nav>
 </StepIndicator>
 `;
 
@@ -202,16 +213,20 @@ exports[`StepIndicator component with urls have to match snapshot 1`] = `
   hide_numbers="hide_numbers"
   on_change={[Function]}
   on_item_render={null}
+  step_title="step_title"
   use_navigation="use_navigation"
 >
   <div
+    aria-label="progress"
     className="dnb-step-indicator className class"
+    role="group"
   >
-    <ul
+    <ol
       className="dnb-step-indicator__list"
     >
       <StepItem
         activeItem={1}
+        countSteps={3}
         currentItem={0}
         hasReached={
           Array [
@@ -227,6 +242,7 @@ exports[`StepIndicator component with urls have to match snapshot 1`] = `
         on_item_render={null}
         on_render={null}
         setActimeItem={[Function]}
+        step_title="step_title"
         title="Aa"
         url="?a"
         url_future={null}
@@ -243,6 +259,7 @@ exports[`StepIndicator component with urls have to match snapshot 1`] = `
           >
             <StepItemWrapper>
               <span
+                aria-label="step_title"
                 className="dnb-step-indicator__item-content--number"
               >
                 1. 
@@ -258,6 +275,7 @@ exports[`StepIndicator component with urls have to match snapshot 1`] = `
       </StepItem>
       <StepItem
         activeItem={1}
+        countSteps={3}
         currentItem={1}
         hasReached={
           Array [
@@ -273,6 +291,7 @@ exports[`StepIndicator component with urls have to match snapshot 1`] = `
         on_item_render={null}
         on_render={null}
         setActimeItem={[Function]}
+        step_title="step_title"
         title="Bb"
         url="?b"
         url_future={null}
@@ -290,6 +309,7 @@ exports[`StepIndicator component with urls have to match snapshot 1`] = `
           >
             <StepItemWrapper>
               <span
+                aria-label="step_title"
                 className="dnb-step-indicator__item-content--number"
               >
                 2. 
@@ -305,6 +325,7 @@ exports[`StepIndicator component with urls have to match snapshot 1`] = `
       </StepItem>
       <StepItem
         activeItem={1}
+        countSteps={3}
         currentItem={2}
         hasReached={
           Array [
@@ -320,6 +341,7 @@ exports[`StepIndicator component with urls have to match snapshot 1`] = `
         on_item_render={null}
         on_render={null}
         setActimeItem={[Function]}
+        step_title="step_title"
         title="Cc"
         url="?c"
         url_future=""
@@ -334,6 +356,7 @@ exports[`StepIndicator component with urls have to match snapshot 1`] = `
           >
             <StepItemWrapper>
               <span
+                aria-label="step_title"
                 className="dnb-step-indicator__item-content--number"
               >
                 3. 
@@ -347,7 +370,7 @@ exports[`StepIndicator component with urls have to match snapshot 1`] = `
           </span>
         </li>
       </StepItem>
-    </ul>
+    </ol>
   </div>
 </StepIndicator>
 `;
@@ -488,18 +511,18 @@ exports[`StepIndicator scss have to match snapshot 1`] = `
     .dnb-step-indicator__item-content--link.dnb-anchor {
       line-height: var(--line-height-basis); }
     .dnb-step-indicator__item-content--link:focus[disabled],
-    html:not([data-is-touch]) .dnb-step-indicator__item-content--link:focus[disabled] {
+    html:not([data-whatintent='touch']) .dnb-step-indicator__item-content--link:focus[disabled] {
       cursor: not-allowed; }
     .dnb-step-indicator__item-content--link:focus:not([disabled]),
-    html:not([data-is-touch]) .dnb-step-indicator__item-content--link:focus:not([disabled]) {
+    html:not([data-whatintent='touch']) .dnb-step-indicator__item-content--link:focus:not([disabled]) {
       outline: none; }
       html[data-whatinput='keyboard'] .dnb-step-indicator__item-content--link:focus:not([disabled]), html[data-whatinput='keyboard']
-      html:not([data-is-touch]) .dnb-step-indicator__item-content--link:focus:not([disabled]) {
+      html:not([data-whatintent='touch']) .dnb-step-indicator__item-content--link:focus:not([disabled]) {
         box-shadow: 0 0 0 0.125rem var(--color-emerald-green);
         /* IE11 fix */
         border-color: transparent; }
       .dnb-step-indicator__item-content--link:focus:not([disabled])::after,
-      html:not([data-is-touch]) .dnb-step-indicator__item-content--link:focus:not([disabled])::after {
+      html:not([data-whatintent='touch']) .dnb-step-indicator__item-content--link:focus:not([disabled])::after {
         content: none; }
     .dnb-step-indicator__item-content--number {
       padding-right: 0.25rem;

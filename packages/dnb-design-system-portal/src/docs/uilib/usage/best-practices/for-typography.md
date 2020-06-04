@@ -16,7 +16,7 @@ Use headings where you think that someone with a **screen reader** would have th
 
 Heading levels should have their logical hierarchy and only **increase by one**: `<h1>` followed by `<h2>` followed by `<h3>` and so on.
 
-For styling purposes only, use these classes `.dnb-h1` , `.dnb-h2` or `.dnb-lead` or style your typography according to the UX prototypes.
+For styling purposes, use these classes `.dnb-h--xx-large`, `.dnb-h--x-large`, `.dnb-h--large`, `.dnb-h--medium` (`.dnb-lead`) or style your typography according to the UX prototypes.
 
 ## Disable local fonts
 

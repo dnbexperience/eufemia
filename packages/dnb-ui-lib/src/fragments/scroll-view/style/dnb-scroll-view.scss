@@ -1,0 +1,14 @@
+/*
+* DNB ScrollView
+*
+*/
+
+@import '../../../style/components/imports.scss';
+
+// import dependencies
+
+.dnb-scroll-view {
+  @include componentReset();
+}
+
+@import './_scroll-view.scss';

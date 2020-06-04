@@ -190,7 +190,8 @@
     user-select: none;
     -webkit-user-select: none; // Safari / Touch fix
 
-    @media (max-width: 40em) {
+    // Wrap aleady on 50em, because 40em is too narrow in range mode
+    @media screen and (max-width: 50em) {
       flex-direction: column;
     }
   }
@@ -410,6 +411,7 @@
   > .dnb-form-label {
     line-height: var(--line-height-basis);
   }
+  @include formLabelWrap();
 
   &[class*='__status'] {
     align-items: flex-start;
@@ -420,7 +422,7 @@
   }
 
   .dnb-responsive-component & {
-    @media (max-width: 40em) {
+    @media screen and (max-width: 40em) {
       display: flex;
       flex-direction: column;
       align-items: flex-start;

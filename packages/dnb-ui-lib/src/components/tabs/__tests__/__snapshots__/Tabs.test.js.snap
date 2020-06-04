@@ -256,12 +256,12 @@ exports[`Tabs scss have to match default theme snapshot 1`] = `
     text-align: left;
     padding: 0.5rem 1rem; } }
 
-html:not([data-is-touch]) .dnb-tabs__button:hover[disabled] {
+html:not([data-whatintent='touch']) .dnb-tabs__button:hover[disabled] {
   cursor: not-allowed; }
 
-html:not([data-is-touch]) .dnb-tabs__button:hover:not([disabled]) {
+html:not([data-whatintent='touch']) .dnb-tabs__button:hover:not([disabled]) {
   background-color: var(--color-mint-green-50); }
-  html:not([data-is-touch]) .dnb-tabs__button:hover:not([disabled])::after {
+  html:not([data-whatintent='touch']) .dnb-tabs__button:hover:not([disabled])::after {
     height: 3px;
     border-radius: 1.5px;
     background-color: var(--color-sea-green); }
@@ -384,7 +384,7 @@ exports[`Tabs scss have to match snapshot 1`] = `
     line-height: var(--line-height-basis); }
     .dnb-tabs__tabs .dnb-tabs__button__title,
     .dnb-core-style .dnb-tabs__tabs .dnb-tabs__button__title {
-      white-space: nowrap; }
+      word-break: normal; }
       .dnb-tabs__tabs .dnb-tabs__button__title .dnb-icon,
       .dnb-core-style .dnb-tabs__tabs .dnb-tabs__button__title .dnb-icon {
         font-size: var(--font-size-small);
@@ -426,7 +426,7 @@ exports[`Tabs scss have to match snapshot 1`] = `
   @media screen and (max-width: 40em) {
     .dnb-tabs__tabs__tablist {
       flex-direction: column;
-      flex-grow: 1;
+      align-items: flex-start;
       margin: 0; }
     .dnb-tabs__tabs .dnb-tabs__button,
     .dnb-core-style .dnb-tabs__tabs .dnb-tabs__button {

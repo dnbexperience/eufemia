@@ -15,7 +15,7 @@ exports[`GlobalError scss have to match default theme snapshot 1`] = `
  */
 .dnb-global-error {
   background-color: var(--color-white); }
-  .dnb-global-error .dnb-h1 {
+  .dnb-global-error .dnb-h--xx-large {
     color: var(--color-fire-red); }
   .dnb-global-error .dnb-p {
     color: var(--color-ocean-green); }
@@ -165,6 +165,8 @@ exports[`GlobalError scss have to match snapshot 1`] = `
     color: inherit;
     line-height: var(--line-height-basis);
     white-space: normal; }
+    .dnb-form-status--text .dnb-anchor {
+      font-size: inherit; }
   .dnb-icon + .dnb-form-status--text {
     padding-left: 0.5rem; }
   .dnb-form-status__shell > .dnb-icon {
@@ -176,8 +178,7 @@ exports[`GlobalError scss have to match snapshot 1`] = `
     margin-top: 0.25em;
     margin-left: 0.5em;
     color: inherit;
-    font-size: var(--font-size-basis);
-    transform: translateY(-0.125rem); }
+    font-size: var(--font-size-small); }
   .dnb-form-status[hidden] {
     display: none; }
   .dnb-form-status--fade-in {
@@ -280,6 +281,8 @@ exports[`GlobalError scss have to match snapshot 1`] = `
     line-height: var(--line-height-basis);
     color: inherit;
     transform: translateY(-0.03125rem); }
+    .dnb-button__text [data-os='linux'] {
+      transform: translateY(-0.035rem); }
   .dnb-button__alignment {
     display: inline-block;
     width: 0; }
@@ -377,9 +380,9 @@ exports[`GlobalError scss have to match snapshot 1`] = `
     font: inherit;
     text-align: inherit;
     line-height: inherit; }
-    html:not([data-is-touch]) .dnb-button--reset:hover[disabled] {
+    html:not([data-whatintent='touch']) .dnb-button--reset:hover[disabled] {
       cursor: not-allowed; }
-    html:not([data-is-touch]) .dnb-button--reset:hover:not([disabled]) {
+    html:not([data-whatintent='touch']) .dnb-button--reset:hover:not([disabled]) {
       box-shadow: none;
       border: none; }
     .dnb-button--reset:not([disabled]):focus, .dnb-button--reset:not([disabled]):active {
@@ -409,7 +412,7 @@ exports[`GlobalError scss have to match snapshot 1`] = `
     .dnb-button {
       flex: none; }
       .dnb-button__icon, .dnb-button__text {
-        transform: translateY(-0.0625rem) !important; } }
+        transform: translateY(-0.0625rem); } }
 
 /* Firefox includes a hidden border which messes up button dimensions */
 button.dnb-button::-moz-focus-inner {
@@ -469,7 +472,7 @@ button.dnb-button::-moz-focus-inner {
     max-width: var(--layout-large);
     padding: var(--spacing-large);
     text-align: center; }
-    @media (max-width: 40em) {
+    @media screen and (max-width: 40em) {
       .dnb-global-error__inner {
         padding: 0 var(--spacing-x-small); } }
     .dnb-global-error__inner__content {
@@ -479,21 +482,21 @@ button.dnb-button::-moz-focus-inner {
     z-index: 1;
     top: var(--spacing-large);
     left: var(--spacing-large); }
-    @media (max-width: 90em) {
+    @media screen and (max-width: 90em) {
       .dnb-global-error__back.dnb-button--tertiary {
         left: var(--spacing-x-small); } }
   .dnb-global-error__gfx {
     margin-top: 9rem; }
-    @media (max-width: 90em) {
+    @media screen and (max-width: 90em) {
       .dnb-global-error__gfx {
         margin-top: 8vw;
         margin-top: calc(4vw + 4vh); } }
-    @media (max-width: 40em) {
+    @media screen and (max-width: 40em) {
       .dnb-global-error__gfx {
         margin-top: 0;
         transform: scale(0.8); } }
-  @media (max-width: 40em) {
-    .dnb-global-error .dnb-h1.dnb-space__top--xx-large.dnb-space__top--x-small {
+  @media screen and (max-width: 40em) {
+    .dnb-global-error .dnb-h--xx-large.dnb-space__top--xx-large.dnb-space__top--x-small {
       margin-top: 0;
       font-size: var(--font-size-x-large); } }
 "
@@ -551,7 +554,6 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
           disabled={false}
           href="href"
           onClick={[Function]}
-          onMouseOut={[Function]}
           type="button"
         >
           <Content
@@ -778,38 +780,50 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
       >
         <H1
           bottom="large"
-          className={null}
-          style_type={null}
           top="4"
         >
-          <ForwardRef
+          <H
             bottom="large"
-            class={null}
             className={null}
-            css={null}
             is="h1"
+            level={null}
+            size="xx-large"
+            style_type={null}
             top="4"
-            useClass={null}
           >
-            <h1
-              className="dnb-h1 dnb-space__top--xx-large dnb-space__top--x-small dnb-space__bottom--large"
+            <ForwardRef
+              bottom="large"
+              class={null}
+              className="dnb-h--xx-large"
+              css={null}
+              hasTagClass={true}
+              is="h1"
+              top="4"
             >
-              title
-            </h1>
-          </ForwardRef>
+              <h1
+                className="dnb-h--xx-large dnb-space__top--xx-large dnb-space__top--x-small dnb-space__bottom--large"
+              >
+                title
+              </h1>
+            </ForwardRef>
+          </H>
         </H1>
         <P
+          bold={null}
           bottom="large"
           className={null}
+          medium={null}
+          modifier={null}
+          small={null}
           style_type={null}
         >
           <ForwardRef
             bottom="large"
             class={null}
-            className={null}
+            className="dnb-p"
             css={null}
+            hasTagClass={false}
             is="p"
-            useClass={null}
           >
             <p
               className="dnb-p dnb-space__bottom--large"

@@ -8,6 +8,7 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import keycode from 'keycode'
 import {
+  warn,
   isTrue,
   makeUniqueId,
   extendPropsWithContext,
@@ -15,7 +16,7 @@ import {
   validateDOMAttributes,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
-// import AlignmentHelper from '../../shared/AlignmentHelper'
+import AlignmentHelper from '../../shared/AlignmentHelper'
 import { createSpacingClasses } from '../space/SpacingHelper'
 
 import Suffix from '../../shared/helpers/Suffix'
@@ -49,8 +50,8 @@ const propTypes = {
     PropTypes.func
   ]),
   icon_size: PropTypes.string,
-  icon_position: PropTypes.string,
-  triangle_position: PropTypes.string,
+  icon_position: PropTypes.oneOf(['left', 'right']),
+  triangle_position: PropTypes.oneOf(['left', 'right']),
   label: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.func,
@@ -75,6 +76,7 @@ const propTypes = {
   focusable: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   direction: PropTypes.oneOf(['auto', 'top', 'bottom']),
   max_height: PropTypes.number,
+  skip_portal: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   no_animation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   no_scroll_animation: PropTypes.oneOfType([
     PropTypes.string,
@@ -161,12 +163,13 @@ const defaultProps = {
   focusable: false,
   max_height: null,
   direction: 'auto',
+  skip_portal: null,
   no_animation: false,
   no_scroll_animation: false,
   prevent_selection: false,
   more_menu: false,
   size: 'default',
-  align_dropdown: null,
+  align_dropdown: 'left',
   trigger_component: null,
   data: null,
   default_value: null,
@@ -206,6 +209,9 @@ export default class Dropdown extends React.PureComponent {
         opened={null}
         tagName="dnb-dropdown"
         ignore_events={false}
+        prevent_selection={
+          this.props.more_menu || this.props.prevent_selection
+        }
       >
         <DropdownInstance {...this.props} />
       </DrawerListProvider>
@@ -233,7 +239,7 @@ class DropdownInstance extends React.PureComponent {
     // deprecated, use value instad
     const dep = 'selected_item'
     if (typeof props[dep] !== 'undefined') {
-      console.warn(`Dropdown: Please use "value" instead of "${dep}".`)
+      warn(`Dropdown: Please use "value" instead of "${dep}".`)
     }
   }
 
@@ -246,7 +252,7 @@ class DropdownInstance extends React.PureComponent {
   componentWillUnmount() {
     this.setHidden()
     clearTimeout(this._hideTimeout)
-    clearTimeout(this._selectTimeout)
+    clearTimeout(this._focusTimeout)
   }
 
   setVisible = () => {
@@ -255,21 +261,8 @@ class DropdownInstance extends React.PureComponent {
       .setVisible()
   }
 
-  setHidden = ({ setFocus = false } = {}) => {
-    this.context.drawerList.setHidden(null, () => {
-      if (setFocus) {
-        setTimeout(() => {
-          try {
-            const elem = this._refButton.current._ref.current
-            if (elem && typeof elem.focus === 'function') {
-              elem.focus()
-            }
-          } catch (e) {
-            // do noting
-          }
-        }, 1) // NVDA / Firefox needs a dealy to set this focus
-      }
-    })
+  setHidden = (...args) => {
+    this.context.drawerList.setHidden(...args)
   }
 
   onFocusHandler = () => {
@@ -311,9 +304,39 @@ class DropdownInstance extends React.PureComponent {
         e.preventDefault()
         this.setVisible()
         break
+
       case 'esc':
         this.setHidden()
         break
+
+      case 'home':
+      case 'end':
+      case 'page down':
+      case 'page up':
+        e.preventDefault()
+        break
+    }
+  }
+
+  onHideHandler = ({ setFocus, ...args } = {}) => {
+    if (setFocus) {
+      const attributes = this.attributes || {}
+      dispatchCustomElementEvent(this, 'on_hide', {
+        ...args,
+        attributes
+      })
+
+      clearTimeout(this._focusTimeout)
+      this._focusTimeout = setTimeout(() => {
+        try {
+          const elem = this._refButton.current._ref.current
+          if (elem && typeof elem.focus === 'function') {
+            elem.focus()
+          }
+        } catch (e) {
+          // do noting
+        }
+      }, 1) // NVDA / Firefox needs a dealy to set this focus
     }
   }
 
@@ -334,13 +357,6 @@ class DropdownInstance extends React.PureComponent {
       ...args,
       attributes
     })
-
-    clearTimeout(this._selectTimeout)
-    this._selectTimeout = setTimeout(() => {
-      if (!isTrue(this.props.keep_open)) {
-        this.setHidden({ setFocus: true })
-      }
-    }, 1) // because of state updates we need 1 tick delay here
   }
 
   getTitle(title = null) {
@@ -375,6 +391,8 @@ class DropdownInstance extends React.PureComponent {
       icon_size,
       size,
       align_dropdown,
+      fixed_position,
+      use_mobile_view,
       status,
       status_state,
       status_animation,
@@ -387,6 +405,7 @@ class DropdownInstance extends React.PureComponent {
       no_animation,
       no_scroll_animation,
       triangle_position,
+      skip_portal,
       trigger_component: CustomTrigger,
       more_menu,
       prevent_selection,
@@ -415,7 +434,7 @@ class DropdownInstance extends React.PureComponent {
     const isPopupMenu = isTrue(more_menu) || isTrue(prevent_selection)
     if (isPopupMenu) {
       icon = icon || (isTrue(more_menu) ? 'more' : 'chevron_down')
-      if (!icon_position && align_dropdown !== 'right') {
+      if (icon_position !== 'right' && align_dropdown !== 'right') {
         icon_position = 'left'
       }
     }
@@ -502,7 +521,7 @@ class DropdownInstance extends React.PureComponent {
         )}
 
         <span className="dnb-dropdown__inner" ref={this._ref}>
-          {/* <AlignmentHelper /> */}
+          <AlignmentHelper />
 
           {showStatus && (
             <FormStatus
@@ -565,20 +584,24 @@ class DropdownInstance extends React.PureComponent {
                 focusable={focusable}
                 no_animation={no_animation}
                 no_scroll_animation={no_scroll_animation}
-                prevent_selection={prevent_selection}
+                skip_portal={skip_portal}
+                prevent_selection={more_menu || prevent_selection}
                 triangle_position={
                   triangle_position || icon_position || 'right'
                 }
                 keep_open={keep_open}
                 prevent_close={prevent_close}
-                button_only={isPopupMenu}
+                independent_width={isPopupMenu}
                 align_drawer={align_dropdown}
+                fixed_position={fixed_position}
+                use_mobile_view={use_mobile_view}
                 disabled={disabled}
                 max_height={max_height}
                 direction={direction}
                 size={size}
                 on_change={this.onChangeHandler}
                 on_select={this.onSelectHandler}
+                on_hide={this.onHideHandler}
               />
             </span>
 

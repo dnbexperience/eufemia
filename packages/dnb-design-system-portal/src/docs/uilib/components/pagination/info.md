@@ -195,7 +195,7 @@ Also, it adds an indicator at the bottom until next render, and as long as `page
 import { createPagination } from 'dnb-ui-lib/components/Pagination'
 
 // create our Component instance
-const { InfinityMarker, endInfinity, resetPagination } = React.useState(
+const { InfinityMarker, endInfinity, resetInfinity } = React.useState(
   createPagination
 )
 

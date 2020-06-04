@@ -78,11 +78,15 @@
   .dnb-spacing & h1,
   .dnb-spacing & h2,
   .dnb-spacing & h3,
-  .dnb-spacing & .dnb-h1,
-  .dnb-spacing & .dnb-h2,
-  .dnb-spacing & .dnb-h3,
+  .dnb-spacing & .dnb-h--xx-large,
+  .dnb-spacing & .dnb-h--large,
+  .dnb-spacing & .dnb-h--medium,
   .dnb-spacing & .dnb-lead {
     margin: 0;
+  }
+
+  .dnb-anchor {
+    font-size: inherit;
   }
 
   // make contrast
@@ -95,9 +99,9 @@
     h1,
     h2,
     h3,
-    .dnb-h1,
-    .dnb-h2,
-    .dnb-h3,
+    .dnb-h--xx-large,
+    .dnb-h--large,
+    .dnb-h--medium,
     .dnb-lead {
       color: var(--color-mint-green);
     }

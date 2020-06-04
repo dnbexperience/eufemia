@@ -10,7 +10,6 @@ exports[`Dropdown markup have to match snapshot 1`] = `
   data={
     Array [
       Object {
-        "__id": 0,
         "content": Array [
           "1234 56 78901",
           "Brukskonto - Kari Nordmann",
@@ -18,7 +17,6 @@ exports[`Dropdown markup have to match snapshot 1`] = `
         "selected_value": "Brukskonto - Kari Nordmann",
       },
       Object {
-        "__id": 1,
         "content": Array [
           "1234 56 78902",
           "Sparekonto - Ole Nordmann",
@@ -26,7 +24,6 @@ exports[`Dropdown markup have to match snapshot 1`] = `
         "selected_value": "Sparekonto - Ole Nordmann",
       },
       Object {
-        "__id": 2,
         "content": Array [
           "1134 56 78962",
           "Feriekonto - Kari Nordmann med et kjempelangt etternavnsen",
@@ -34,7 +31,6 @@ exports[`Dropdown markup have to match snapshot 1`] = `
         "selected_value": "Feriekonto - Kari Nordmann med et kjempelangt etternavnsen",
       },
       Object {
-        "__id": 3,
         "content": Array [
           "1534 96 48901",
           "Oppussing - Ole Nordmann",
@@ -42,7 +38,6 @@ exports[`Dropdown markup have to match snapshot 1`] = `
         "selected_value": "Oppussing - Ole Nordmann",
       },
       Object {
-        "__id": 4,
         "content": <React.Fragment>
           Custom content 
           123
@@ -66,7 +61,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
   focusable="focusable"
   global_status_id="global_status_id"
   icon="icon"
-  icon_position="icon_position"
+  icon_position={null}
   icon_size="icon_size"
   id="dropdown-id"
   keep_open="keep_open"
@@ -88,17 +83,17 @@ exports[`Dropdown markup have to match snapshot 1`] = `
   prevent_selection={null}
   scrollable="scrollable"
   size={null}
+  skip_portal={true}
   status="status"
   status_animation="status_animation"
   status_state="error"
   suffix="suffix"
   title="title"
-  triangle_position="triangle_position"
+  triangle_position={null}
   trigger_component={null}
   value={2}
 >
   <DrawerListProvider
-    align_drawer={null}
     align_dropdown={null}
     class="class"
     className="className"
@@ -107,7 +102,6 @@ exports[`Dropdown markup have to match snapshot 1`] = `
     data={
       Array [
         Object {
-          "__id": 0,
           "content": Array [
             "1234 56 78901",
             "Brukskonto - Kari Nordmann",
@@ -115,7 +109,6 @@ exports[`Dropdown markup have to match snapshot 1`] = `
           "selected_value": "Brukskonto - Kari Nordmann",
         },
         Object {
-          "__id": 1,
           "content": Array [
             "1234 56 78902",
             "Sparekonto - Ole Nordmann",
@@ -123,7 +116,6 @@ exports[`Dropdown markup have to match snapshot 1`] = `
           "selected_value": "Sparekonto - Ole Nordmann",
         },
         Object {
-          "__id": 2,
           "content": Array [
             "1134 56 78962",
             "Feriekonto - Kari Nordmann med et kjempelangt etternavnsen",
@@ -131,7 +123,6 @@ exports[`Dropdown markup have to match snapshot 1`] = `
           "selected_value": "Feriekonto - Kari Nordmann med et kjempelangt etternavnsen",
         },
         Object {
-          "__id": 3,
           "content": Array [
             "1534 96 48901",
             "Oppussing - Ole Nordmann",
@@ -139,7 +130,6 @@ exports[`Dropdown markup have to match snapshot 1`] = `
           "selected_value": "Oppussing - Ole Nordmann",
         },
         Object {
-          "__id": 4,
           "content": <React.Fragment>
             Custom content 
             123
@@ -163,7 +153,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
     focusable="focusable"
     global_status_id="global_status_id"
     icon="icon"
-    icon_position="icon_position"
+    icon_position={null}
     icon_size="icon_size"
     id="dropdown-id"
     ignore_events={false}
@@ -192,14 +182,16 @@ exports[`Dropdown markup have to match snapshot 1`] = `
     scrollable="scrollable"
     size={null}
     skip_keysearch={false}
+    skip_portal={true}
     status="status"
     status_animation="status_animation"
     status_state="error"
     suffix="suffix"
     tagName="dnb-dropdown"
     title="title"
-    triangle_position="triangle_position"
+    triangle_position={null}
     trigger_component={null}
+    use_mobile_view={null}
     value={2}
     wrapper_element={null}
   >
@@ -212,7 +204,6 @@ exports[`Dropdown markup have to match snapshot 1`] = `
       data={
         Array [
           Object {
-            "__id": 0,
             "content": Array [
               "1234 56 78901",
               "Brukskonto - Kari Nordmann",
@@ -220,7 +211,6 @@ exports[`Dropdown markup have to match snapshot 1`] = `
             "selected_value": "Brukskonto - Kari Nordmann",
           },
           Object {
-            "__id": 1,
             "content": Array [
               "1234 56 78902",
               "Sparekonto - Ole Nordmann",
@@ -228,7 +218,6 @@ exports[`Dropdown markup have to match snapshot 1`] = `
             "selected_value": "Sparekonto - Ole Nordmann",
           },
           Object {
-            "__id": 2,
             "content": Array [
               "1134 56 78962",
               "Feriekonto - Kari Nordmann med et kjempelangt etternavnsen",
@@ -236,7 +225,6 @@ exports[`Dropdown markup have to match snapshot 1`] = `
             "selected_value": "Feriekonto - Kari Nordmann med et kjempelangt etternavnsen",
           },
           Object {
-            "__id": 3,
             "content": Array [
               "1534 96 48901",
               "Oppussing - Ole Nordmann",
@@ -244,7 +232,6 @@ exports[`Dropdown markup have to match snapshot 1`] = `
             "selected_value": "Oppussing - Ole Nordmann",
           },
           Object {
-            "__id": 4,
             "content": <React.Fragment>
               Custom content 
               123
@@ -268,7 +255,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
       focusable="focusable"
       global_status_id="global_status_id"
       icon="icon"
-      icon_position="icon_position"
+      icon_position={null}
       icon_size="icon_size"
       id="dropdown-id"
       keep_open="keep_open"
@@ -290,17 +277,18 @@ exports[`Dropdown markup have to match snapshot 1`] = `
       prevent_selection={null}
       scrollable="scrollable"
       size={null}
+      skip_portal={true}
       status="status"
       status_animation="status_animation"
       status_state="error"
       suffix="suffix"
       title="title"
-      triangle_position="triangle_position"
+      triangle_position={null}
       trigger_component={null}
       value={2}
     >
       <span
-        className="dnb-dropdown dnb-dropdown--bottom dnb-form-component class className dnb-dropdown--opened dnb-dropdown--horizontal dnb-dropdown--icon-position-icon_position dnb-dropdown__status--error dnb-dropdown__form-status"
+        className="dnb-dropdown dnb-dropdown--bottom dnb-form-component class className dnb-dropdown--opened dnb-dropdown--horizontal dnb-dropdown__status--error dnb-dropdown__form-status"
       >
         <FormLabel
           class={null}
@@ -340,6 +328,14 @@ exports[`Dropdown markup have to match snapshot 1`] = `
         <span
           className="dnb-dropdown__inner"
         >
+          <AlignmentHelper
+            className={null}
+          >
+            <span
+              aria-hidden={true}
+              className="dnb-alignment-helper"
+            />
+          </AlignmentHelper>
           <FormStatus
             animation="status_animation"
             class={null}
@@ -492,7 +488,6 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                   onFocus={[Function]}
                   onKeyDown={[Function]}
                   onMouseDown={[Function]}
-                  onMouseOut={[Function]}
                   type="button"
                 >
                   <Content
@@ -597,7 +592,6 @@ exports[`Dropdown markup have to match snapshot 1`] = `
               </Button>
               <DrawerList
                 align_drawer={null}
-                button_only={false}
                 cache_hash={null}
                 class={null}
                 className={null}
@@ -607,16 +601,19 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                 default_value="default_value"
                 direction="bottom"
                 disabled="disabled"
+                fixed_position={false}
                 focusable="focusable"
                 id="dropdown-id"
                 ignore_events={null}
+                independent_width={false}
                 inner_class="dnb-dropdown__list"
                 keep_open="keep_open"
                 max_height={1}
                 no_animation={true}
                 no_scroll_animation="no_scroll_animation"
                 on_change={[Function]}
-                on_hide={null}
+                on_hide={[Function]}
+                on_pre_change={null}
                 on_resize={null}
                 on_select={[Function]}
                 on_show={null}
@@ -631,13 +628,14 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                 scrollable="scrollable"
                 size={null}
                 skip_keysearch={false}
-                triangle_position="triangle_position"
+                skip_portal={true}
+                triangle_position="right"
+                use_mobile_view={false}
                 value={2}
                 wrapper_element={null}
               >
                 <DrawerListInstance
                   align_drawer={null}
-                  button_only={false}
                   cache_hash={null}
                   class={null}
                   className={null}
@@ -647,16 +645,19 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                   default_value="default_value"
                   direction="bottom"
                   disabled="disabled"
+                  fixed_position={false}
                   focusable="focusable"
                   id="dropdown-id"
                   ignore_events={null}
+                  independent_width={false}
                   inner_class="dnb-dropdown__list"
                   keep_open="keep_open"
                   max_height={1}
                   no_animation={true}
                   no_scroll_animation="no_scroll_animation"
                   on_change={[Function]}
-                  on_hide={null}
+                  on_hide={[Function]}
+                  on_pre_change={null}
                   on_resize={null}
                   on_select={[Function]}
                   on_show={null}
@@ -671,45 +672,31 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                   scrollable="scrollable"
                   size={null}
                   skip_keysearch={false}
-                  triangle_position="triangle_position"
+                  skip_portal={true}
+                  triangle_position="right"
+                  use_mobile_view={false}
                   value={2}
                   wrapper_element={null}
                 >
                   <span
-                    className="dnb-drawer-list dnb-drawer-list--bottom dnb-drawer-list--opened dnb-drawer-list--icon-position-triangle_position"
-                    disabled="disabled"
-                    id="dropdown-id-drawer-list"
+                    className="dnb-drawer-list__root"
                   >
                     <span
-                      className="dnb-drawer-list__list dnb-dropdown__list dnb-drawer-list__list--no-animation"
-                      id="dropdown-id-listbox"
+                      className="dnb-drawer-list dnb-drawer-list--bottom dnb-drawer-list--opened dnb-drawer-list--triangle-position-right"
+                      disabled="disabled"
+                      id="dropdown-id-drawer-list"
                     >
-                      <ForwardRef
-                        aria-activedescendant="option-dropdown-id-2"
-                        aria-labelledby="dropdown-id-label"
-                        cache_hash="2266bottom1"
-                        className={null}
-                        id="dropdown-id-ul"
-                        role="listbox"
-                        style={
-                          Object {
-                            "maxHeight": "1rem",
-                          }
-                        }
-                        tabIndex="-1"
-                        triangleRef={
-                          Object {
-                            "current": <li
-                              aria-hidden="true"
-                              class="dnb-drawer-list__triangle"
-                            />,
-                          }
-                        }
+                      <span
+                        className="dnb-drawer-list__list dnb-dropdown__list dnb-drawer-list__list--no-animation"
+                        id="dropdown-id-listbox"
                       >
-                        <ul
+                        <ForwardRef
                           aria-activedescendant="option-dropdown-id-2"
+                          aria-expanded={true}
                           aria-labelledby="dropdown-id-label"
-                          className="dnb-drawer-list__options"
+                          cache_hash="2266bottom1"
+                          class={null}
+                          className={null}
                           id="dropdown-id-ul"
                           role="listbox"
                           style={
@@ -718,292 +705,343 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                             }
                           }
                           tabIndex="-1"
+                          triangleRef={
+                            Object {
+                              "current": <li
+                                aria-hidden="true"
+                                class="dnb-drawer-list__triangle"
+                              />,
+                            }
+                          }
                         >
-                          <Items>
-                            <ForwardRef
-                              active={false}
-                              cache_hash=""
-                              className=""
-                              data-item={0}
-                              id="option-dropdown-id-0"
-                              key="0"
-                              onClick={[Function]}
-                              onKeyDown={[Function]}
-                              on_click={null}
-                              selected={false}
-                              value={null}
-                            >
-                              <li
-                                aria-selected="false"
-                                className="dnb-drawer-list__option"
+                          <ul
+                            aria-activedescendant="option-dropdown-id-2"
+                            aria-expanded={true}
+                            aria-labelledby="dropdown-id-label"
+                            className="dnb-drawer-list__options"
+                            id="dropdown-id-ul"
+                            role="listbox"
+                            style={
+                              Object {
+                                "maxHeight": "1rem",
+                              }
+                            }
+                            tabIndex="-1"
+                          >
+                            <Items>
+                              <DrawerList.Item
+                                active={false}
+                                class={null}
+                                className="first-of-type"
                                 data-item={0}
+                                hash="option-dropdown-id-0-0"
                                 id="option-dropdown-id-0"
+                                key="option-dropdown-id-0-0"
                                 onClick={[Function]}
                                 onKeyDown={[Function]}
-                                role="option"
-                                tabIndex="-1"
+                                on_click={null}
+                                selected={false}
+                                value={null}
                               >
-                                <span
-                                  className="dnb-drawer-list__option__inner"
+                                <li
+                                  aria-selected={false}
+                                  className="first-of-type dnb-drawer-list__option"
+                                  data-item={0}
+                                  id="option-dropdown-id-0"
+                                  key="lioption-dropdown-id-0-0"
+                                  onClick={[Function]}
+                                  onKeyDown={[Function]}
+                                  role="option"
+                                  tabIndex="-1"
                                 >
-                                  <ItemContent>
-                                    <span
-                                      className="dnb-drawer-list__option__item"
-                                      key="0"
+                                  <span
+                                    className="dnb-drawer-list__option__inner"
+                                  >
+                                    <ItemContent
+                                      hash="option-dropdown-id-0-0"
                                     >
-                                      1234 56 78901
-                                    </span>
-                                    <span
-                                      className="dnb-drawer-list__option__item"
-                                      key="1"
-                                    >
-                                      Brukskonto - Kari Nordmann
-                                    </span>
-                                  </ItemContent>
-                                </span>
-                              </li>
-                            </ForwardRef>
-                            <ForwardRef
-                              active={false}
-                              cache_hash=""
-                              className=""
-                              data-item={1}
-                              id="option-dropdown-id-1"
-                              key="1"
-                              onClick={[Function]}
-                              onKeyDown={[Function]}
-                              on_click={null}
-                              selected={false}
-                              value={null}
-                            >
-                              <li
-                                aria-selected="false"
-                                className="dnb-drawer-list__option"
+                                      <span
+                                        className="dnb-drawer-list__option__item"
+                                        key="option-dropdown-id-0-00"
+                                      >
+                                        1234 56 78901
+                                      </span>
+                                      <span
+                                        className="dnb-drawer-list__option__item"
+                                        key="option-dropdown-id-0-01"
+                                      >
+                                        Brukskonto - Kari Nordmann
+                                      </span>
+                                    </ItemContent>
+                                  </span>
+                                </li>
+                              </DrawerList.Item>
+                              <DrawerList.Item
+                                active={false}
+                                class={null}
+                                className=""
                                 data-item={1}
+                                hash="option-dropdown-id-1-1"
                                 id="option-dropdown-id-1"
+                                key="option-dropdown-id-1-1"
                                 onClick={[Function]}
                                 onKeyDown={[Function]}
-                                role="option"
-                                tabIndex="-1"
+                                on_click={null}
+                                selected={false}
+                                value={null}
                               >
-                                <span
-                                  className="dnb-drawer-list__option__inner"
+                                <li
+                                  aria-selected={false}
+                                  className="dnb-drawer-list__option"
+                                  data-item={1}
+                                  id="option-dropdown-id-1"
+                                  key="lioption-dropdown-id-1-1"
+                                  onClick={[Function]}
+                                  onKeyDown={[Function]}
+                                  role="option"
+                                  tabIndex="-1"
                                 >
-                                  <ItemContent>
-                                    <span
-                                      className="dnb-drawer-list__option__item"
-                                      key="0"
+                                  <span
+                                    className="dnb-drawer-list__option__inner"
+                                  >
+                                    <ItemContent
+                                      hash="option-dropdown-id-1-1"
                                     >
-                                      1234 56 78902
-                                    </span>
-                                    <span
-                                      className="dnb-drawer-list__option__item"
-                                      key="1"
-                                    >
-                                      Sparekonto - Ole Nordmann
-                                    </span>
-                                  </ItemContent>
-                                </span>
-                              </li>
-                            </ForwardRef>
-                            <ForwardRef
-                              active={true}
-                              cache_hash=""
-                              className=""
-                              data-item={2}
-                              id="option-dropdown-id-2"
-                              key="2"
-                              onClick={[Function]}
-                              onKeyDown={[Function]}
-                              on_click={null}
-                              selected={true}
-                              value={null}
-                            >
-                              <li
-                                aria-current={true}
-                                aria-selected={true}
-                                className="dnb-drawer-list__option dnb-drawer-list__option--selected dnb-drawer-list__option--focus"
+                                      <span
+                                        className="dnb-drawer-list__option__item"
+                                        key="option-dropdown-id-1-10"
+                                      >
+                                        1234 56 78902
+                                      </span>
+                                      <span
+                                        className="dnb-drawer-list__option__item"
+                                        key="option-dropdown-id-1-11"
+                                      >
+                                        Sparekonto - Ole Nordmann
+                                      </span>
+                                    </ItemContent>
+                                  </span>
+                                </li>
+                              </DrawerList.Item>
+                              <DrawerList.Item
+                                active={true}
+                                class={null}
+                                className=""
                                 data-item={2}
+                                hash="option-dropdown-id-2-2"
                                 id="option-dropdown-id-2"
+                                key="option-dropdown-id-2-2"
                                 onClick={[Function]}
                                 onKeyDown={[Function]}
-                                role="option"
-                                tabIndex="-1"
+                                on_click={null}
+                                selected={true}
+                                value={null}
                               >
-                                <span
-                                  className="dnb-drawer-list__option__inner"
+                                <li
+                                  aria-current={true}
+                                  aria-selected={true}
+                                  className="dnb-drawer-list__option dnb-drawer-list__option--selected dnb-drawer-list__option--focus"
+                                  data-item={2}
+                                  id="option-dropdown-id-2"
+                                  key="lioption-dropdown-id-2-2"
+                                  onClick={[Function]}
+                                  onKeyDown={[Function]}
+                                  role="option"
+                                  tabIndex="-1"
                                 >
-                                  <ItemContent>
-                                    <span
-                                      className="dnb-drawer-list__option__item"
-                                      key="0"
+                                  <span
+                                    className="dnb-drawer-list__option__inner"
+                                  >
+                                    <ItemContent
+                                      hash="option-dropdown-id-2-2"
                                     >
-                                      1134 56 78962
-                                    </span>
-                                    <span
-                                      className="dnb-drawer-list__option__item"
-                                      key="1"
-                                    >
-                                      Feriekonto - Kari Nordmann med et kjempelangt etternavnsen
-                                    </span>
-                                  </ItemContent>
-                                </span>
-                              </li>
-                            </ForwardRef>
-                            <ForwardRef
-                              active={false}
-                              cache_hash=""
-                              className=""
-                              data-item={3}
-                              id="option-dropdown-id-3"
-                              key="3"
-                              onClick={[Function]}
-                              onKeyDown={[Function]}
-                              on_click={null}
-                              selected={false}
-                              value={null}
-                            >
-                              <li
-                                aria-selected="false"
-                                className="dnb-drawer-list__option"
+                                      <span
+                                        className="dnb-drawer-list__option__item"
+                                        key="option-dropdown-id-2-20"
+                                      >
+                                        1134 56 78962
+                                      </span>
+                                      <span
+                                        className="dnb-drawer-list__option__item"
+                                        key="option-dropdown-id-2-21"
+                                      >
+                                        Feriekonto - Kari Nordmann med et kjempelangt etternavnsen
+                                      </span>
+                                    </ItemContent>
+                                  </span>
+                                </li>
+                              </DrawerList.Item>
+                              <DrawerList.Item
+                                active={false}
+                                class={null}
+                                className=""
                                 data-item={3}
+                                hash="option-dropdown-id-3-3"
                                 id="option-dropdown-id-3"
+                                key="option-dropdown-id-3-3"
                                 onClick={[Function]}
                                 onKeyDown={[Function]}
-                                role="option"
-                                tabIndex="-1"
+                                on_click={null}
+                                selected={false}
+                                value={null}
                               >
-                                <span
-                                  className="dnb-drawer-list__option__inner"
+                                <li
+                                  aria-selected={false}
+                                  className="dnb-drawer-list__option"
+                                  data-item={3}
+                                  id="option-dropdown-id-3"
+                                  key="lioption-dropdown-id-3-3"
+                                  onClick={[Function]}
+                                  onKeyDown={[Function]}
+                                  role="option"
+                                  tabIndex="-1"
                                 >
-                                  <ItemContent>
-                                    <span
-                                      className="dnb-drawer-list__option__item"
-                                      key="0"
+                                  <span
+                                    className="dnb-drawer-list__option__inner"
+                                  >
+                                    <ItemContent
+                                      hash="option-dropdown-id-3-3"
                                     >
-                                      1534 96 48901
-                                    </span>
-                                    <span
-                                      className="dnb-drawer-list__option__item"
-                                      key="1"
-                                    >
-                                      Oppussing - Ole Nordmann
-                                    </span>
-                                  </ItemContent>
-                                </span>
-                              </li>
-                            </ForwardRef>
-                            <ForwardRef
-                              active={false}
-                              cache_hash=""
-                              className=""
-                              data-item={4}
-                              id="option-dropdown-id-4"
-                              key="4"
-                              onClick={[Function]}
-                              onKeyDown={[Function]}
-                              on_click={null}
-                              selected={false}
-                              value={null}
-                            >
-                              <li
-                                aria-selected="false"
-                                className="dnb-drawer-list__option"
+                                      <span
+                                        className="dnb-drawer-list__option__item"
+                                        key="option-dropdown-id-3-30"
+                                      >
+                                        1534 96 48901
+                                      </span>
+                                      <span
+                                        className="dnb-drawer-list__option__item"
+                                        key="option-dropdown-id-3-31"
+                                      >
+                                        Oppussing - Ole Nordmann
+                                      </span>
+                                    </ItemContent>
+                                  </span>
+                                </li>
+                              </DrawerList.Item>
+                              <DrawerList.Item
+                                active={false}
+                                class={null}
+                                className=""
                                 data-item={4}
+                                hash="option-dropdown-id-4-4"
                                 id="option-dropdown-id-4"
+                                key="option-dropdown-id-4-4"
                                 onClick={[Function]}
                                 onKeyDown={[Function]}
-                                role="option"
-                                tabIndex="-1"
+                                on_click={null}
+                                selected={false}
+                                value={null}
                               >
-                                <span
-                                  className="dnb-drawer-list__option__inner"
+                                <li
+                                  aria-selected={false}
+                                  className="dnb-drawer-list__option"
+                                  data-item={4}
+                                  id="option-dropdown-id-4"
+                                  key="lioption-dropdown-id-4-4"
+                                  onClick={[Function]}
+                                  onKeyDown={[Function]}
+                                  role="option"
+                                  tabIndex="-1"
                                 >
-                                  <ItemContent>
-                                    Custom content 
-                                    123
-                                  </ItemContent>
-                                </span>
-                              </li>
-                            </ForwardRef>
-                            <ForwardRef
-                              active={false}
-                              cache_hash=""
-                              className=""
-                              data-item={5}
-                              id="option-dropdown-id-5"
-                              key="5"
-                              onClick={[Function]}
-                              onKeyDown={[Function]}
-                              on_click={null}
-                              selected={false}
-                              value={null}
-                            >
-                              <li
-                                aria-selected="false"
-                                className="dnb-drawer-list__option"
-                                data-item={5}
-                                id="option-dropdown-id-5"
-                                onClick={[Function]}
-                                onKeyDown={[Function]}
-                                role="option"
-                                tabIndex="-1"
-                              >
-                                <span
-                                  className="dnb-drawer-list__option__inner"
-                                >
-                                  <ItemContent>
-                                    Custom content 
-                                    123
-                                  </ItemContent>
-                                </span>
-                              </li>
-                            </ForwardRef>
-                            <ForwardRef
-                              active={false}
-                              cache_hash=""
-                              className="closest-to-top closest-to-bottom last-of-type"
-                              data-item={6}
-                              id="option-dropdown-id-6"
-                              key="6"
-                              onClick={[Function]}
-                              onKeyDown={[Function]}
-                              on_click={null}
-                              selected={false}
-                              value={null}
-                            >
-                              <li
-                                aria-selected="false"
-                                className="closest-to-top closest-to-bottom last-of-type dnb-drawer-list__option"
-                                data-item={6}
-                                id="option-dropdown-id-6"
-                                onClick={[Function]}
-                                onKeyDown={[Function]}
-                                role="option"
-                                tabIndex="-1"
-                              >
-                                <span
-                                  className="dnb-drawer-list__option__inner"
-                                >
-                                  <ItemContent>
-                                    <span
-                                      className="dnb-drawer-list__option__item"
-                                      key="0"
+                                  <span
+                                    className="dnb-drawer-list__option__inner"
+                                  >
+                                    <ItemContent
+                                      hash="option-dropdown-id-4-4"
                                     >
                                       Custom content 
                                       123
-                                    </span>
-                                  </ItemContent>
-                                </span>
-                              </li>
-                            </ForwardRef>
-                          </Items>
-                          <li
-                            aria-hidden={true}
-                            className="dnb-drawer-list__triangle"
-                          />
-                        </ul>
-                      </ForwardRef>
+                                    </ItemContent>
+                                  </span>
+                                </li>
+                              </DrawerList.Item>
+                              <DrawerList.Item
+                                active={false}
+                                class={null}
+                                className=""
+                                data-item={5}
+                                hash="option-dropdown-id-5-5"
+                                id="option-dropdown-id-5"
+                                key="option-dropdown-id-5-5"
+                                onClick={[Function]}
+                                onKeyDown={[Function]}
+                                on_click={null}
+                                selected={false}
+                                value={null}
+                              >
+                                <li
+                                  aria-selected={false}
+                                  className="dnb-drawer-list__option"
+                                  data-item={5}
+                                  id="option-dropdown-id-5"
+                                  key="lioption-dropdown-id-5-5"
+                                  onClick={[Function]}
+                                  onKeyDown={[Function]}
+                                  role="option"
+                                  tabIndex="-1"
+                                >
+                                  <span
+                                    className="dnb-drawer-list__option__inner"
+                                  >
+                                    <ItemContent
+                                      hash="option-dropdown-id-5-5"
+                                    >
+                                      Custom content 
+                                      123
+                                    </ItemContent>
+                                  </span>
+                                </li>
+                              </DrawerList.Item>
+                              <DrawerList.Item
+                                active={false}
+                                class={null}
+                                className="closest-to-top closest-to-bottom last-of-type"
+                                data-item={6}
+                                hash="option-dropdown-id-6-6"
+                                id="option-dropdown-id-6"
+                                key="option-dropdown-id-6-6"
+                                onClick={[Function]}
+                                onKeyDown={[Function]}
+                                on_click={null}
+                                selected={false}
+                                value={null}
+                              >
+                                <li
+                                  aria-selected={false}
+                                  className="closest-to-top closest-to-bottom last-of-type dnb-drawer-list__option"
+                                  data-item={6}
+                                  id="option-dropdown-id-6"
+                                  key="lioption-dropdown-id-6-6"
+                                  onClick={[Function]}
+                                  onKeyDown={[Function]}
+                                  role="option"
+                                  tabIndex="-1"
+                                >
+                                  <span
+                                    className="dnb-drawer-list__option__inner"
+                                  >
+                                    <ItemContent
+                                      hash="option-dropdown-id-6-6"
+                                    >
+                                      <span
+                                        className="dnb-drawer-list__option__item"
+                                        key="option-dropdown-id-6-60"
+                                      >
+                                        Custom content 
+                                        123
+                                      </span>
+                                    </ItemContent>
+                                  </span>
+                                </li>
+                              </DrawerList.Item>
+                            </Items>
+                            <li
+                              aria-hidden={true}
+                              className="dnb-drawer-list__triangle"
+                            />
+                          </ul>
+                        </ForwardRef>
+                      </span>
                     </span>
                   </span>
                 </DrawerListInstance>
@@ -1022,7 +1060,6 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                 data={
                   Array [
                     Object {
-                      "__id": 0,
                       "content": Array [
                         "1234 56 78901",
                         "Brukskonto - Kari Nordmann",
@@ -1030,7 +1067,6 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                       "selected_value": "Brukskonto - Kari Nordmann",
                     },
                     Object {
-                      "__id": 1,
                       "content": Array [
                         "1234 56 78902",
                         "Sparekonto - Ole Nordmann",
@@ -1038,7 +1074,6 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                       "selected_value": "Sparekonto - Ole Nordmann",
                     },
                     Object {
-                      "__id": 2,
                       "content": Array [
                         "1134 56 78962",
                         "Feriekonto - Kari Nordmann med et kjempelangt etternavnsen",
@@ -1046,7 +1081,6 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                       "selected_value": "Feriekonto - Kari Nordmann med et kjempelangt etternavnsen",
                     },
                     Object {
-                      "__id": 3,
                       "content": Array [
                         "1534 96 48901",
                         "Oppussing - Ole Nordmann",
@@ -1054,7 +1088,6 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                       "selected_value": "Oppussing - Ole Nordmann",
                     },
                     Object {
-                      "__id": 4,
                       "content": <React.Fragment>
                         Custom content 
                         123
@@ -1078,7 +1111,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                 focusable="focusable"
                 global_status_id="global_status_id"
                 icon="icon"
-                icon_position="icon_position"
+                icon_position={null}
                 icon_size="icon_size"
                 id="dropdown-id"
                 keep_open="keep_open"
@@ -1100,12 +1133,13 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                 prevent_selection={null}
                 scrollable="scrollable"
                 size={null}
+                skip_portal={true}
                 status="status"
                 status_animation="status_animation"
                 status_state="error"
                 suffix="suffix"
                 title="title"
-                triangle_position="triangle_position"
+                triangle_position={null}
                 trigger_component={null}
                 value={2}
               >
@@ -1133,150 +1167,6 @@ exports[`Dropdown scss have to match default theme snapshot 1`] = `
 /*
  * Utilities
  */
-/*
-* Dropdown theme
-*
-*/
-:root {
-  --drawer-list-text-color: var(--color-emerald-green);
-  --drawer-list-text-color--disabled: var(--color-sea-green-30);
-  --drawer-list-border-color: var(--color-sea-green);
-  --drawer-list-border-color--selected: var(--color-emerald-green);
-  --drawer-list-options-border-radius: 0.25rem;
-  --drawer-list-option-color: var(--color-black-80);
-  --drawer-list-option-color--hover: var(--color-sea-green);
-  --drawer-list-option-background-color: var(--color-white);
-  --drawer-list-option-background-color--hover: var(--color-mint-green-12);
-  --drawer-list-option-color--selected: var(--color-white);
-  --drawer-list-option-background-color--selected: var(
-    --color-emerald-green
-  );
-  --drawer-list-option-border-width: 0.0625rem;
-  --drawer-list-option-border-color: var(--color-mint-green-25); }
-
-.dnb-drawer-list {
-  color: var(--drawer-list-text-color); }
-  .dnb-drawer-list__list {
-    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.16);
-    border-radius: var(--drawer-list-options-border-radius);
-    background-color: var(--drawer-list-option-background-color); }
-  .dnb-drawer-list__options {
-    border: none;
-    background-color: var(--drawer-list-option-background-color);
-    border-radius: var(--drawer-list-options-border-radius); }
-    .dnb-drawer-list__options:focus {
-      outline: none; }
-      html[data-whatinput='keyboard'] .dnb-drawer-list__options:focus {
-        box-shadow: 0 0 0 0.125rem var(--color-emerald-green);
-        /* IE11 fix */
-        border-color: transparent; }
-  .dnb-drawer-list__option {
-    position: relative;
-    color: var(--drawer-list-option-color);
-    background-color: var(--drawer-list-option-background-color); }
-    .dnb-drawer-list__option::before {
-      pointer-events: none;
-      content: '';
-      position: absolute;
-      z-index: 2;
-      top: auto;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      height: var(--drawer-list-option-border-width);
-      background-color: var(--drawer-list-option-border-color); }
-    .dnb-drawer-list__option__item:nth-of-type(1) {
-      font-weight: var(--font-weight-medium); }
-    .dnb-drawer-list__option__inner {
-      padding-right: 2rem;
-      background-color: var(--drawer-list-option-background-color); }
-    html:not([data-is-touch]) .dnb-drawer-list__option:hover[disabled] {
-      cursor: not-allowed; }
-    html:not([data-is-touch]) .dnb-drawer-list__option:hover:not([disabled]) {
-      background-color: var(--drawer-list-option-background-color--hover); }
-      html:not([data-is-touch]) .dnb-drawer-list__option:hover:not([disabled]) .dnb-drawer-list__option__inner {
-        color: var(--drawer-list-option-color--hover);
-        background-color: var(--drawer-list-option-background-color--hover); }
-    .dnb-drawer-list__option--focus::before {
-      z-index: 3;
-      top: var(--drawer-list-focus-border-width);
-      left: var(--drawer-list-focus-border-width);
-      right: var(--drawer-list-focus-border-width);
-      bottom: var(--drawer-list-focus-border-width);
-      height: auto;
-      background-color: transparent;
-      box-shadow: 0 0 0 var(--drawer-list-focus-border-width) var(--drawer-list-border-color--selected);
-      /* IE11 fix */
-      border-color: transparent; }
-    .dnb-drawer-list__option--selected {
-      color: var(--drawer-list-option-color--selected);
-      background-color: var(--drawer-list-option-background-color--selected); }
-      .dnb-drawer-list__option--selected .dnb-drawer-list__option__inner {
-        color: inherit;
-        background-color: inherit; }
-      html:not([data-is-touch]) .dnb-drawer-list__option--selected:hover[disabled] {
-        cursor: not-allowed; }
-      html:not([data-is-touch]) .dnb-drawer-list__option--selected:hover:not([disabled]) {
-        color: var(--drawer-list-option-color--selected);
-        background-color: var(--drawer-list-option-background-color--selected); }
-        html:not([data-is-touch]) .dnb-drawer-list__option--selected:hover:not([disabled]) .dnb-drawer-list__option__inner {
-          color: inherit;
-          background-color: inherit; }
-      .dnb-drawer-list__option--selected::after {
-        content: '';
-        position: absolute;
-        z-index: 1;
-        top: calc(50% - 0.5rem);
-        right: 1rem;
-        width: 1rem;
-        height: 1rem;
-        background-size: cover;
-        background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgZmlsbD0ibm9uZSI+ICA8cGF0aCAgICBmaWxsPSIjRTlGOEY0IiAgICBkPSJNMyA4LjhhLjc1Ljc1IDAgMSAwLTEuMjIuODZMMyA4Ljc5em0xLjg0IDMuOWwuNjMtLjQxdi0uMDFoLS4wMWwtLjYyLjQyem0xLjcxLjA1bC0uNTktLjQ2di4wMWwuNTkuNDV6bTguNDMtOS40NWEuNzUuNzUgMCAwIDAtMS4xOC0uOTNsMS4xOC45M3pNMS43OCA5LjY2bDIuNDUgMy40OCAxLjIzLS44N0wzIDguOGwtMS4yMy44N3ptMi40NCAzLjQ2Yy4zMi40OC44Ni43OCAxLjQ0LjhsLjA1LTEuNWEuMy4zIDAgMCAxLS4yNC0uMTNsLTEuMjUuODN6bTEuNDQuOGExLjggMS44IDAgMCAwIDEuNDktLjcxbC0xLjItLjlhLjMuMyAwIDAgMS0uMjQuMWwtLjA1IDEuNXptMS40OC0uN2w3Ljg0LTkuOTItMS4xOC0uOTMtNy44NCA5LjkyIDEuMTguOTN6Ii8+PC9zdmc+); }
-      .dnb-drawer-list__option--selected::before {
-        content: none; }
-    .dnb-drawer-list__option--ignore .dnb-drawer-list__option__inner {
-      color: var(--drawer-list-option-color);
-      background-color: var(--drawer-list-option-background-color); }
-    .dnb-drawer-list__option--focus:not(.dnb-drawer-list__option--selected) .dnb-drawer-list__option__inner {
-      color: var(--drawer-list-option-color--hover);
-      background-color: var(--drawer-list-option-background-color--hover); }
-    .dnb-drawer-list__option:first-of-type,
-    .dnb-drawer-list__option--focus:first-of-type .dnb-drawer-list__option__inner, .dnb-drawer-list__option--focus:first-of-type::before {
-      border-radius: var(--drawer-list-options-border-radius) var(--drawer-list-options-border-radius) 0 0; }
-    .dnb-drawer-list__option.last-of-type,
-    .dnb-drawer-list__option--focus.last-of-type .dnb-drawer-list__option__inner, .dnb-drawer-list__option--focus.last-of-type::before {
-      border-radius: 0 0 var(--drawer-list-options-border-radius) var(--drawer-list-options-border-radius); }
-    .dnb-drawer-list__option.last-of-type:not(.dnb-drawer-list__option--focus)::before {
-      content: none; }
-  .dnb-drawer-list--scroll .dnb-drawer-list__option:not(.dnb-drawer-list__option--focus)::before {
-    left: 0.5rem;
-    right: 0.5rem; }
-  .dnb-drawer-list--bottom .dnb-drawer-list__option--focus.closest-to-top .dnb-drawer-list__option__inner {
-    border-radius: var(--drawer-list-options-border-radius) var(--drawer-list-options-border-radius) 0 0; }
-  .dnb-drawer-list--bottom .dnb-drawer-list__option--focus.closest-to-bottom .dnb-drawer-list__option__inner {
-    border-radius: 0 0 var(--drawer-list-options-border-radius) var(--drawer-list-options-border-radius); }
-  .dnb-drawer-list--top .dnb-drawer-list__option--focus.closest-to-bottom .dnb-drawer-list__option__inner {
-    border-radius: 0 0 var(--drawer-list-options-border-radius) var(--drawer-list-options-border-radius); }
-  .dnb-drawer-list--top .dnb-drawer-list__option--focus.closest-to-top .dnb-drawer-list__option__inner {
-    border-radius: var(--drawer-list-options-border-radius) var(--drawer-list-options-border-radius) 0 0; }
-  .dnb-drawer-list__status--error:not(.dnb-drawer-list--opened) .dnb-drawer-list__icon {
-    color: var(--color-fire-red); }
-  .dnb-drawer-list__triangle::before {
-    border: none;
-    background-color: var(--color-white);
-    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.16); }
-  .dnb-drawer-list__option:first-of-type:hover ~ .dnb-drawer-list__triangle::before,
-  .dnb-drawer-list--bottom .dnb-drawer-list__option.closest-to-top:hover ~ .dnb-drawer-list__triangle::before,
-  .dnb-drawer-list--top .dnb-drawer-list__option.closest-to-bottom:hover ~ .dnb-drawer-list__triangle::before {
-    background-color: var(--drawer-list-option-background-color--hover); }
-  .dnb-drawer-list--bottom .dnb-drawer-list__option.closest-to-top.dnb-drawer-list__option--selected ~ .dnb-drawer-list__triangle::before,
-  .dnb-drawer-list--bottom .dnb-drawer-list__option.closest-to-top.dnb-drawer-list__option--focus ~ .dnb-drawer-list__triangle::before,
-  .dnb-drawer-list--top .dnb-drawer-list__option.closest-to-bottom.dnb-drawer-list__option--selected ~ .dnb-drawer-list__triangle::before,
-  .dnb-drawer-list--top .dnb-drawer-list__option.closest-to-bottom.dnb-drawer-list__option--focus ~ .dnb-drawer-list__triangle::before {
-    background-color: var(--drawer-list-option-background-color--selected); }
-  .dnb-drawer-list > .dnb-form-status {
-    transform: translateY(-0.4375rem); }
-
 :root {
   --dropdown-text-color: var(--color-emerald-green); }
 
@@ -1284,9 +1174,9 @@ exports[`Dropdown scss have to match default theme snapshot 1`] = `
   color: var(--dropdown-text-color); }
   .dnb-dropdown__trigger {
     color: var(--dropdown-text-color); }
-    html:not([data-is-touch]) .dnb-dropdown__trigger:hover[disabled] {
+    html:not([data-whatintent='touch']) .dnb-dropdown__trigger:hover[disabled] {
       cursor: not-allowed; }
-    html:not([data-is-touch]) .dnb-dropdown__trigger:hover:not([disabled]) {
+    html:not([data-whatintent='touch']) .dnb-dropdown__trigger:hover:not([disabled]) {
       color: var(--dropdown-text-color); }
   .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger {
     box-shadow: 0 0 0 0.125rem var(--color-fire-red) !important;
@@ -1295,16 +1185,16 @@ exports[`Dropdown scss have to match default theme snapshot 1`] = `
     @media screen and (-ms-high-contrast: none) {
       .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger {
         box-shadow: 0 0 0 1px var(--color-fire-red) !important; } }
-    html:not([data-is-touch]) .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger:hover[disabled] {
+    html:not([data-whatintent='touch']) .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger:hover[disabled] {
       cursor: not-allowed; }
-    html:not([data-is-touch]) .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger:hover:not([disabled]) {
+    html:not([data-whatintent='touch']) .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger:hover:not([disabled]) {
       box-shadow: 0 0 0 0.125rem var(--color-fire-red) !important;
       /* IE11 fix */
       border-color: transparent; }
       @media screen and (-ms-high-contrast: none) {
-        html:not([data-is-touch]) .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger:hover:not([disabled]) {
+        html:not([data-whatintent='touch']) .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger:hover:not([disabled]) {
           box-shadow: 0 0 0 1px var(--color-fire-red) !important; } }
-      html:not([data-is-touch]) .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger:hover:not([disabled]) .dnb-dropdown__icon .dnb-icon {
+      html:not([data-whatintent='touch']) .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger:hover:not([disabled]) .dnb-dropdown__icon .dnb-icon {
         color: var(--color-fire-red); }
   .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger,
   .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__icon {
@@ -1457,6 +1347,8 @@ exports[`Dropdown scss have to match snapshot 1`] = `
     color: inherit;
     line-height: var(--line-height-basis);
     white-space: normal; }
+    .dnb-form-status--text .dnb-anchor {
+      font-size: inherit; }
   .dnb-icon + .dnb-form-status--text {
     padding-left: 0.5rem; }
   .dnb-form-status__shell > .dnb-icon {
@@ -1468,8 +1360,7 @@ exports[`Dropdown scss have to match snapshot 1`] = `
     margin-top: 0.25em;
     margin-left: 0.5em;
     color: inherit;
-    font-size: var(--font-size-basis);
-    transform: translateY(-0.125rem); }
+    font-size: var(--font-size-small); }
   .dnb-form-status[hidden] {
     display: none; }
   .dnb-form-status--fade-in {
@@ -1572,6 +1463,8 @@ exports[`Dropdown scss have to match snapshot 1`] = `
     line-height: var(--line-height-basis);
     color: inherit;
     transform: translateY(-0.03125rem); }
+    .dnb-button__text [data-os='linux'] {
+      transform: translateY(-0.035rem); }
   .dnb-button__alignment {
     display: inline-block;
     width: 0; }
@@ -1669,9 +1562,9 @@ exports[`Dropdown scss have to match snapshot 1`] = `
     font: inherit;
     text-align: inherit;
     line-height: inherit; }
-    html:not([data-is-touch]) .dnb-button--reset:hover[disabled] {
+    html:not([data-whatintent='touch']) .dnb-button--reset:hover[disabled] {
       cursor: not-allowed; }
-    html:not([data-is-touch]) .dnb-button--reset:hover:not([disabled]) {
+    html:not([data-whatintent='touch']) .dnb-button--reset:hover:not([disabled]) {
       box-shadow: none;
       border: none; }
     .dnb-button--reset:not([disabled]):focus, .dnb-button--reset:not([disabled]):active {
@@ -1701,7 +1594,7 @@ exports[`Dropdown scss have to match snapshot 1`] = `
     .dnb-button {
       flex: none; }
       .dnb-button__icon, .dnb-button__text {
-        transform: translateY(-0.0625rem) !important; } }
+        transform: translateY(-0.0625rem); } }
 
 /* Firefox includes a hidden border which messes up button dimensions */
 button.dnb-button::-moz-focus-inner {
@@ -1757,6 +1650,7 @@ button.dnb-button::-moz-focus-inner {
   text-align: left;
   vertical-align: baseline;
   white-space: pre-wrap;
+  word-break: normal;
   font-size: var(--font-size-basis);
   color: inherit; }
   .dnb-form-label--vertical {
@@ -1831,197 +1725,11 @@ legend.dnb-form-label {
   --dropdown-focus-border-width: 0.125rem;
   --dropdown-text-padding: 0.5rem; }
 
-/*
-* DrawerList component
-*
-*/
-:root {
-  --drawer-list-width: 16rem;
-  --drawer-list-height: 2rem;
-  --drawer-list-padding-horizontal: 1rem;
-  --drawer-list-focus-border-width: 0.125rem;
-  --drawer-list-text-padding: 0.5rem;
-  --drawer-list-height--small: 1.5rem;
-  --drawer-list-height--medium: 2.5rem;
-  --drawer-list-height--large: 3rem; }
-
-.dnb-drawer-list {
-  display: block;
-  position: relative;
-  font-size: var(--font-size-small); }
-  .dnb-drawer-list__content {
-    width: 100%;
-    padding: 0; }
-  .dnb-drawer-list__list {
-    position: absolute;
-    z-index: 3;
-    top: 0;
-    bottom: auto;
-    left: 0;
-    right: 0;
-    width: 100%;
-    margin: 0;
-    padding: 0;
-    font-size: var(--font-size-basis);
-    line-height: var(--line-height-basis);
-    background-color: transparent;
-    transform: translateY(0);
-    transition: transform 200ms, opacity 160ms ease-out; }
-  .dnb-drawer-list--top .dnb-drawer-list__list {
-    top: auto;
-    bottom: 0; }
-  .dnb-drawer-list--is-popup .dnb-drawer-list__list {
-    left: -0.5rem; }
-  .dnb-drawer-list--is-popup.dnb-drawer-list--right .dnb-drawer-list__list {
-    right: -0.5rem; }
-  .dnb-drawer-list--small .dnb-drawer-list__list {
-    top: var(--drawer-list-height--small); }
-  .dnb-drawer-list--small.dnb-drawer-list--top .dnb-drawer-list__list {
-    top: auto;
-    bottom: var(--drawer-list-height--small); }
-  .dnb-drawer-list--small.dnb-drawer-list--is-popup .dnb-drawer-list__list {
-    left: -0.75rem; }
-  .dnb-drawer-list--small.dnb-drawer-list--is-popup.dnb-drawer-list--right .dnb-drawer-list__list {
-    right: -0.75rem; }
-  .dnb-drawer-list--medium .dnb-drawer-list__list {
-    top: var(--drawer-list-height--medium); }
-  .dnb-drawer-list--medium.dnb-drawer-list--top .dnb-drawer-list__list {
-    top: auto;
-    bottom: var(--drawer-list-height--medium); }
-  .dnb-drawer-list--medium.dnb-drawer-list--is-popup .dnb-drawer-list__list {
-    left: -0.25rem; }
-  .dnb-drawer-list--medium.dnb-drawer-list--is-popup.dnb-drawer-list--right .dnb-drawer-list__list {
-    right: -0.25rem; }
-  .dnb-drawer-list--large .dnb-drawer-list__list {
-    top: var(--drawer-list-height--large); }
-  .dnb-drawer-list--large.dnb-drawer-list--top .dnb-drawer-list__list {
-    top: auto;
-    bottom: var(--drawer-list-height--large); }
-  .dnb-drawer-list--large.dnb-drawer-list--is-popup .dnb-drawer-list__list {
-    left: -0.25rem; }
-  .dnb-drawer-list--large.dnb-drawer-list--is-popup.dnb-drawer-list--right .dnb-drawer-list__list {
-    right: -0.25rem; }
-  .dnb-drawer-list--right .dnb-drawer-list__list {
-    left: auto; }
-  .dnb-drawer-list__options {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    margin: 0;
-    max-height: 90vh;
-    padding: 0;
-    list-style: none;
-    background-color: transparent; }
-    .dnb-spacing .dnb-drawer-list__options li.dnb-drawer-list__option {
-      margin: 0; }
-  .dnb-drawer-list--scroll .dnb-drawer-list__options {
-    min-height: 2rem;
-    max-height: 50vh;
-    overflow-y: scroll;
-    overscroll-behavior: contain;
-    -webkit-overflow-scrolling: touch;
-    -ms-overflow-style: auto; }
-  .dnb-drawer-list--opened .dnb-drawer-list__options {
-    scroll-behavior: smooth; }
-  .dnb-drawer-list--no-scroll-animation .dnb-drawer-list__options {
-    scroll-behavior: auto; }
-  .dnb-drawer-list__option {
-    position: relative;
-    cursor: pointer;
-    margin: 0;
-    padding: 0;
-    color: inherit;
-    background-color: var(--color-white); }
-    .dnb-drawer-list__option__inner {
-      position: relative;
-      z-index: 1;
-      display: block;
-      outline: none;
-      width: 100%;
-      margin: 0;
-      padding: 1rem;
-      color: inherit;
-      background-color: var(--color-white); }
-    .dnb-drawer-list__option__item {
-      display: block;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      width: 100%; }
-    .dnb-drawer-list__option--ignore {
-      cursor: default;
-      pointer-events: none; }
-  .dnb-drawer-list__triangle {
-    position: absolute;
-    top: calc( var(--drawer-list-focus-border-width) - var(--drawer-list-height) / 2);
-    left: auto;
-    right: 0;
-    pointer-events: none;
-    margin: 0 var(--drawer-list-padding-horizontal);
-    width: calc(var(--drawer-list-height) / 2);
-    height: calc(var(--drawer-list-height) / 2);
-    overflow: hidden; }
-    .dnb-drawer-list__triangle::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: calc(var(--drawer-list-height) / 2);
-      height: calc(var(--drawer-list-height) / 2);
-      transform: translateY(60%) rotate(45deg);
-      border: 1px solid var(--color-black-border);
-      background-color: var(--color-white); }
-  .dnb-drawer-list--icon-position-left .dnb-drawer-list__triangle {
-    left: 0;
-    right: auto; }
-  .dnb-drawer-list--top .dnb-drawer-list__triangle {
-    top: auto;
-    bottom: calc( var(--drawer-list-focus-border-width) - var(--drawer-list-height) / 2 - 2px);
-    transform: rotate(180deg); }
-    .dnb-drawer-list--top .dnb-drawer-list__triangle::before {
-      transform: translateY(65%) rotate(45deg); }
-  .dnb-drawer-list--opened .dnb-drawer-list__list {
-    z-index: 100;
-    display: flex;
-    flex-direction: column; }
-    .dnb-drawer-list--opened .dnb-drawer-list__list {
-      animation: drawer-list-slide-down 200ms ease-out 1 forwards; }
-    html[data-dnb-test] .dnb-drawer-list--opened .dnb-drawer-list__list, .dnb-drawer-list--opened .dnb-drawer-list__list--no-animation {
-      animation: drawer-list-slide-down 1ms ease-out 1 forwards; }
-  .dnb-drawer-list--hidden .dnb-drawer-list__list {
-    display: none; }
-  .dnb-drawer-list:not(.dnb-drawer-list--opened) .dnb-drawer-list__list {
-    animation: drawer-list-slide-up 150ms ease-out 1 forwards; }
-  html[data-dnb-test] .dnb-drawer-list:not(.dnb-drawer-list--opened) .dnb-drawer-list__list, .dnb-drawer-list:not(.dnb-drawer-list--opened) .dnb-drawer-list__list--no-animation {
-    animation: drawer-list-slide-up 1ms ease-out 1 forwards; }
-  @media screen and (-ms-high-contrast: none) {
-    .dnb-drawer-list {
-      flex: none;
-      vertical-align: baseline; }
-      .dnb-drawer-list__shell {
-        top: 0; }
-      .dnb-drawer-list__options {
-        display: block; } }
-
-@keyframes drawer-list-slide-down {
-  from {
-    opacity: 0;
-    transform: translateY(calc(1px - var(--drawer-list-height))); }
-  to {
-    opacity: 1;
-    transform: translateY(0); } }
-
-@keyframes drawer-list-slide-up {
-  from {
-    opacity: 1;
-    transform: translateY(0); }
-  to {
-    opacity: 0;
-    transform: translateY(calc(1px - var(--drawer-list-height))); } }
-
 .dnb-dropdown {
   display: inline-flex;
   align-items: center;
-  font-size: var(--font-size-small); }
+  font-size: var(--font-size-small);
+  line-height: var(--dropdown-height); }
   .dnb-dropdown__inner {
     display: inline-flex;
     flex-direction: column;
@@ -2042,14 +1750,6 @@ legend.dnb-form-label {
   .dnb-dropdown__suffix {
     padding-left: 0.5rem;
     line-height: var(--line-height-basis); }
-  .dnb-dropdown .dnb-drawer-list {
-    position: static; }
-  .dnb-dropdown--default .dnb-drawer-list__list {
-    top: var(--dropdown-height);
-    bottom: auto; }
-  .dnb-dropdown--default.dnb-dropdown--top .dnb-drawer-list__list {
-    bottom: var(--dropdown-height);
-    top: auto; }
   .dnb-dropdown--large .dnb-drawer-list__triangle {
     margin-left: calc(var(--dropdown-padding-horizontal) - 0.25rem); }
   .dnb-dropdown--icon-position-left.dnb-dropdown--large .dnb-drawer-list__triangle {
@@ -2068,7 +1768,7 @@ legend.dnb-form-label {
     width: 100%; }
     .dnb-dropdown__trigger.dnb-button {
       padding: 0 1rem; }
-  .dnb-dropdown--is-popup .dnb-dropdown__shell,
+  .dnb-dropdown--default.dnb-dropdown--is-popup .dnb-dropdown__shell,
   .dnb-dropdown--is-popup .dnb-dropdown__trigger {
     padding: 0;
     width: var(--dropdown-height);
@@ -2077,8 +1777,8 @@ legend.dnb-form-label {
     width: 100%; }
   .dnb-dropdown--is-popup.dnb-dropdown--scroll .dnb-dropdown__options {
     min-height: 1rem; }
-  .dnb-dropdown--is-popup .dnb-drawer-list__list {
-    min-width: var(--dropdown-width); }
+  .dnb-dropdown--is-popup .dnb-drawer-list__root {
+    width: var(--dropdown-width); }
   .dnb-dropdown--small.dnb-dropdown--is-popup .dnb-dropdown__shell,
   .dnb-dropdown--small.dnb-dropdown--is-popup .dnb-dropdown__trigger {
     width: var(--dropdown-height--small); }
@@ -2138,12 +1838,15 @@ legend.dnb-form-label {
     order: 2;
     padding-right: 0;
     padding-left: var(--dropdown-text-padding); }
-  .dnb-dropdown__outside-value {
-    display: block;
-    padding: 0.5rem 0 1rem var(--dropdown-padding-horizontal); }
   .dnb-dropdown > .dnb-form-label {
     margin-right: 1rem;
     line-height: var(--line-height-basis); }
+  @media screen and (max-width: 40em) {
+    .dnb-dropdown {
+      flex-wrap: wrap; }
+      .dnb-dropdown > .dnb-form-label {
+        margin-bottom: 0.5rem;
+        margin-top: 0.5rem; } }
   label + .dnb-dropdown[class*='__form-status'] {
     vertical-align: top; }
     label + .dnb-dropdown[class*='__form-status'] .dnb-dropdown__shell {
@@ -2159,7 +1862,7 @@ legend.dnb-form-label {
     align-items: flex-start; }
     .dnb-dropdown[class*='__status'] > .dnb-form-label {
       margin-top: 0.25rem; }
-  @media (max-width: 40em) {
+  @media screen and (max-width: 40em) {
     .dnb-responsive-component .dnb-dropdown {
       display: flex;
       flex-direction: column;

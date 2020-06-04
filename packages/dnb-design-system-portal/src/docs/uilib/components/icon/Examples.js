@@ -28,11 +28,13 @@ class Example extends React.PureComponent {
           scope={{ Bell, BellMedium }}
           title="Default and Medium sized icons (Responsive)"
         >
-          {/* @jsx */ `
+          {
+            /* @jsx */ `
 <Icon icon={Bell} title="Give Icons a Title, or ..." />
 <Icon icon={BellMedium} aria-hidden />
 <Bell title="I'm not responsive!" />{/* <- Not responsive! */}
-          `}
+          `
+          }
         </ComponentBox>
 
         <ComponentBox
@@ -40,7 +42,8 @@ class Example extends React.PureComponent {
           scope={{ Bell, BellMedium }}
           title="Icons with border. **NB:** Use it with caution. It should not be used where the usage can confuse users to be a clickable button."
         >
-          {/* @jsx */ `
+          {
+            /* @jsx */ `
 <P>
   <Icon border="true" icon={Bell} right />
   <Icon border="true" icon={BellMedium} size="medium" right />
@@ -51,7 +54,8 @@ class Example extends React.PureComponent {
     text="Button"
   />
 </P>
-          `}
+          `
+          }
         </ComponentBox>
 
         <ComponentBox
@@ -59,13 +63,15 @@ class Example extends React.PureComponent {
           scope={{ Bell, BellMedium }}
           title="Responsive to its inherited `font-size`"
         >
-          {/* @jsx */ `
-<h1 className="dnb-h1">
+          {
+            /* @jsx */ `
+<h1 className="dnb-h--xx-large">
   h1 with auto sized{' '}
   <Icon icon={BellMedium} size="auto" aria-hidden />{' '}
   icon
 </h1>
-          `}
+          `
+          }
         </ComponentBox>
         {typeof window !== 'undefined' && window.IS_TEST && (
           <ComponentBox
@@ -73,7 +79,8 @@ class Example extends React.PureComponent {
             scope={{ Bell, BellMedium }}
             title="Explicit defined size: medium"
           >
-            {/* @jsx */ `
+            {
+              /* @jsx */ `
 <Icon icon={BellMedium} size="16" title="force default size" />
 <Icon icon={BellMedium} title="is medium anyway" />
 <Icon icon={Bell} size="medium" title="force medium size" />
@@ -84,7 +91,8 @@ class Example extends React.PureComponent {
   height="24"
   title="not responsive"
 />
-              `}
+              `
+            }
           </ComponentBox>
         )}
         {typeof window !== 'undefined' && window.IS_TEST && (
@@ -94,7 +102,8 @@ class Example extends React.PureComponent {
             title="All **primary** icons listed as medium sized icons"
             noFragments={false}
           >
-            {/* @jsx */ `
+            {
+              /* @jsx */ `
 () => {
   const Icons = () => Object.entries(PrimaryIconsMedium).map(
     ([name, SvgMedium]) => (
@@ -110,7 +119,8 @@ class Example extends React.PureComponent {
   )
   return <Icons />
 }
-          `}
+          `
+            }
           </ComponentBox>
         )}
         {typeof window !== 'undefined' && window.IS_TEST && (
@@ -120,7 +130,8 @@ class Example extends React.PureComponent {
             title="All **secondary** icons listed as medium sized icons"
             noFragments={false}
           >
-            {/* @jsx */ `
+            {
+              /* @jsx */ `
 () => {
   const Icons = () => Object.entries(SecondaryIconsMedium).map(
     ([name, SvgMedium]) => (
@@ -136,7 +147,8 @@ class Example extends React.PureComponent {
   )
   return <Icons />
 }
-          `}
+          `
+            }
           </ComponentBox>
         )}
       </React.Fragment>

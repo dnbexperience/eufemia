@@ -59,6 +59,7 @@ const snapshotProps = {
   id: 'drawer-list-id',
   direction: 'bottom',
   value: 2,
+  skip_portal: true,
   opened: true,
   no_animation: true,
   prevent_selection: null,
@@ -67,9 +68,13 @@ const snapshotProps = {
 }
 
 // use no_animation so we don't need to wait
+const mockProps = {
+  skip_portal: true
+}
 const props = {
   id: 'drawer-list-id',
   value: 2,
+  skip_portal: true,
   opened: true,
   no_animation: true
 }
@@ -127,6 +132,7 @@ describe('DrawerList component', () => {
         no_animation
         data={mockData}
         default_value={props.value}
+        {...mockProps}
       />
     )
     let elem
@@ -202,14 +208,14 @@ describe('DrawerList component', () => {
     keydown(Comp, 32) // space
 
     const notChangedItem = mockData[props.value]
-    expect(on_select.mock.calls[0][0].data).toBe(notChangedItem)
+    expect(on_select.mock.calls[0][0].data).toStrictEqual(notChangedItem)
 
     await wait(100)
 
     keydown(Comp, 40) // down
 
     const selectedItem = mockData[props.value + 1]
-    expect(on_select.mock.calls[1][0].data).toBe(selectedItem) // second call!
+    expect(on_select.mock.calls[1][0].data).toStrictEqual(selectedItem) // second call!
   })
 
   it('has valid on_change callback', async () => {
@@ -232,8 +238,8 @@ describe('DrawerList component', () => {
     keydown(Comp, 32) // space
 
     selectedItem = mockData[props.value + 1]
-    expect(on_change.mock.calls[0][0].data).toBe(selectedItem)
-    expect(on_select.mock.calls[1][0].data).toBe(selectedItem)
+    expect(on_change.mock.calls[0][0].data).toStrictEqual(selectedItem)
+    expect(on_select.mock.calls[1][0].data).toStrictEqual(selectedItem)
 
     await wait(100)
 
@@ -242,8 +248,8 @@ describe('DrawerList component', () => {
     keydown(Comp, 13) // enter
 
     selectedItem = mockData[props.value + 2]
-    expect(on_change.mock.calls[1][0].data).toBe(selectedItem) // second call!
-    expect(on_select.mock.calls[3][0].data).toBe(selectedItem) // second call!
+    expect(on_change.mock.calls[1][0].data).toStrictEqual(selectedItem) // second call!
+    expect(on_select.mock.calls[3][0].data).toStrictEqual(selectedItem) // second call!
   })
 
   it('has correct direction prop', () => {
@@ -263,20 +269,20 @@ describe('DrawerList component', () => {
       Comp.find('.dnb-drawer-list__options')
         .instance()
         .getAttribute('style')
-    ).toBe('max-height: 46rem;')
+    ).toBe('max-height: 33.5rem;')
   })
 
   it('has working direction observer', async () => {
     const Comp = mount(<Component {...props} data={mockData} />)
     expect(Comp.props().direction).toBe('auto')
 
-    // the setDirectionObserver fn is chaning this
+    // the setDirectionObserver fn is changing this
     expect(Comp.exists('.dnb-drawer-list--bottom')).toBe(true)
     expect(
       Comp.find('.dnb-drawer-list__options')
         .instance()
         .getAttribute('style')
-    ).toBe('max-height: 46rem;') // jsdom defualt is 768 innerHeight
+    ).toBe('max-height: 33.5rem;') // jsdom defualt is 768 innerHeight
 
     window.resizeTo({
       height: 640 // change innerHeight
@@ -288,7 +294,7 @@ describe('DrawerList component', () => {
       Comp.find('.dnb-drawer-list__options')
         .instance()
         .getAttribute('style')
-    ).toBe('max-height: 38rem;')
+    ).toBe('max-height: 28rem;')
 
     window.scrollTo({
       top: -640
@@ -303,7 +309,7 @@ describe('DrawerList component', () => {
       Comp.find('.dnb-drawer-list__options')
         .instance()
         .getAttribute('style')
-    ).toBe('max-height: 36rem;') // is now min_height
+    ).toBe('max-height: 28rem;') // is now min_height
   })
 
   it('will call on_hide after "esc" key', () => {
@@ -345,6 +351,7 @@ describe('DrawerList component', () => {
         on_change={on_change}
         on_select={on_select}
         data={() => ({ a: 'A', b: 'B', c: 'C' })}
+        {...mockProps}
       />
     )
 
@@ -357,14 +364,6 @@ describe('DrawerList component', () => {
 
     // then open again
     keydown(Comp, 32) // space
-    // await wait(100)
-    //
-    // // then simulate changes
-    // keydown(Comp, 40 ) // down
-    // expect(on_select.mock.calls[2][0].active_item).toBe(1)
-    //
-    // keydown(Comp, 13 ) // enter
-    // expect(on_change.mock.calls[1][0].value).toBe('b')
   })
 
   it('has to return all additional attributes the event return', () => {

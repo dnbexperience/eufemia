@@ -8,6 +8,7 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import keycode from 'keycode'
 import {
+  warn,
   isTrue,
   makeUniqueId,
   registerElement,
@@ -199,32 +200,38 @@ export default class Slider extends React.PureComponent {
     let value = -1
 
     switch (keycode(event)) {
-      case 'home':
+      case 'end':
         value = isReverse ? max : min
         break
-      case 'end':
+
+      case 'home':
         value = isReverse ? min : max
         break
+
       case 'page up':
         value = isReverse
           ? currentValue - onePercent
           : currentValue + onePercent * 10
         break
+
       case 'page down':
         value = isReverse
           ? currentValue + onePercent
           : currentValue - onePercent * 10
         break
+
       case 'numpad +':
       case 'right':
       case 'up':
         value = isReverse ? currentValue - step : currentValue + step
         break
+
       case 'numpad -':
       case 'left':
       case 'down':
         value = isReverse ? currentValue + step : currentValue - step
         break
+
       default:
         break
     }
@@ -285,7 +292,7 @@ export default class Slider extends React.PureComponent {
         )
         document.body.addEventListener('mouseup', this.onMouseUpHandler)
       } catch (e) {
-        console.warn(e)
+        warn(e)
       }
     }
 
@@ -319,7 +326,7 @@ export default class Slider extends React.PureComponent {
         )
         document.body.removeEventListener('mouseup', this.onMouseUpHandler)
       } catch (e) {
-        console.warn(e)
+        warn(e)
       }
     }
 
@@ -464,7 +471,7 @@ export default class Slider extends React.PureComponent {
         )
         document.body.removeEventListener('mouseup', this.onMouseUpHandler)
       } catch (e) {
-        console.warn(e)
+        warn(e)
       }
     }
     clearTimeout(this.resetStateTimeoutId)
@@ -536,11 +543,11 @@ export default class Slider extends React.PureComponent {
     const percent = clamp(((value - min) * 100) / (max - min))
 
     const inlineStyleBefore = {
-      [vertical ? 'height' : 'width']: `${percent}%`
+      [`${vertical ? 'height' : 'width'}`]: `${percent}%`
     }
 
     const inlineThumbStyles = {
-      [vertical ? 'top' : 'left']: `${percent}%`
+      [`${vertical ? 'top' : 'left'}`]: `${percent}%`
     }
 
     const trackParams = {
@@ -604,6 +611,7 @@ export default class Slider extends React.PureComponent {
         className="dnb-slider__button dnb-slider__button--subtract"
         variant="secondary"
         icon="subtract"
+        size="small"
         aria-label={subtract_title}
         on_click={this.onSubtractClickHandler}
         {...buttonParams}
@@ -615,6 +623,7 @@ export default class Slider extends React.PureComponent {
         className="dnb-slider__button dnb-slider__button--add"
         variant="secondary"
         icon="add"
+        size="small"
         aria-label={add_title}
         on_click={this.onAddClickHandler}
         {...buttonParams}

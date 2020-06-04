@@ -7,6 +7,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import {
+  warn,
   isTrue,
   makeUniqueId,
   extendPropsWithContext,
@@ -338,7 +339,7 @@ export default class DatePicker extends React.PureComponent {
     }, [])
 
     if (props.end_date && !isTrue(props.range)) {
-      console.warn(
+      warn(
         `The DatePicker got a "end_date". You have to set range={true} as well!.`
       )
     }
@@ -374,7 +375,7 @@ export default class DatePicker extends React.PureComponent {
           }rem`
         }
       } catch (e) {
-        console.warn(e)
+        warn(e)
       }
     }
   }
@@ -559,7 +560,7 @@ export default class DatePicker extends React.PureComponent {
     try {
       this._submitButtonRef.current.focus({ preventScroll: true })
     } catch (e) {
-      console.warn(e)
+      warn(e)
     }
 
     dispatchCustomElementEvent(this, 'on_hide', this.getReturnObject(args))

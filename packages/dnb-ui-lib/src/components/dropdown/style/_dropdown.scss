@@ -14,14 +14,12 @@
   --dropdown-text-padding: 0.5rem;
 }
 
-@import '../../../fragments/drawer-list/style/_drawer-list.scss';
-
 .dnb-dropdown {
   display: inline-flex;
   align-items: center;
 
   font-size: var(--font-size-small);
-  // line-height: var(--dropdown-height);
+  line-height: var(--dropdown-height);
 
   &__inner {
     display: inline-flex;
@@ -57,18 +55,15 @@
     line-height: var(--line-height-basis);
   }
 
-  .dnb-drawer-list {
-    position: static;
-  }
-
-  &--default .dnb-drawer-list__list {
-    top: var(--dropdown-height);
-    bottom: auto;
-  }
-  &--default#{&}--top .dnb-drawer-list__list {
-    bottom: var(--dropdown-height);
-    top: auto;
-  }
+  // NB: looks like we dont need this anymore!
+  // &--default .dnb-drawer-list__list {
+  //   top: var(--dropdown-height);
+  //   bottom: auto;
+  // }
+  // &--default#{&}--top .dnb-drawer-list__list {
+  //   bottom: var(--dropdown-height);
+  //   top: auto;
+  // }
 
   &--large .dnb-drawer-list__triangle {
     margin-left: calc(var(--dropdown-padding-horizontal) - 0.25rem);
@@ -103,7 +98,7 @@
   }
 
   // Button only menu
-  &--is-popup &__shell,
+  &--default#{&}--is-popup &__shell,
   &--is-popup &__trigger {
     padding: 0;
     width: var(--dropdown-height);
@@ -115,8 +110,8 @@
   &--is-popup#{&}--scroll &__options {
     min-height: 1rem;
   }
-  &--is-popup .dnb-drawer-list__list {
-    min-width: var(--dropdown-width);
+  &--is-popup .dnb-drawer-list__root {
+    width: var(--dropdown-width); // only a fallback
   }
 
   // size--small
@@ -223,15 +218,11 @@
     padding-left: var(--dropdown-text-padding);
   }
 
-  &__outside-value {
-    display: block;
-    padding: 0.5rem 0 1rem var(--dropdown-padding-horizontal);
-  }
-
-  & > .dnb-form-label {
+  > .dnb-form-label {
     margin-right: 1rem;
     line-height: var(--line-height-basis);
   }
+  @include formLabelWrap();
 
   label + &[class*='__form-status'] {
     vertical-align: top;
@@ -259,7 +250,7 @@
   }
 
   .dnb-responsive-component & {
-    @media (max-width: 40em) {
+    @media screen and (max-width: 40em) {
       display: flex;
       flex-direction: column;
       align-items: flex-start;

@@ -3,13 +3,17 @@
  *
  */
 
-import { registerElement } from './custom-element'
-export { registerElement }
+import React from 'react'
 import keycode from 'keycode'
 import whatInput from 'what-input'
+import { registerElement } from './custom-element'
+
+export { registerElement }
 
 export const PLATFORM_MAC = 'Mac|iPad|iPhone|iPod'
 export const PLATFORM_WIN = 'Win'
+export const PLATFORM_LINUX = 'Linux'
+export const PLATFORM_IOS = 'iOS|iPhone|iPad|iPod'
 
 if (
   typeof process !== 'undefined' &&
@@ -21,157 +25,22 @@ if (
 
 // run component helper functions
 whatInput.specificKeys([9])
-defineIsTouch()
 defineNavigator()
-
-export const isMac = () =>
-  typeof navigator !== 'undefined' &&
-  navigator.platform.match(new RegExp(PLATFORM_MAC)) !== null
-
-export const isWin = () =>
-  typeof navigator !== 'undefined' &&
-  navigator.platform.match(new RegExp(PLATFORM_WIN)) !== null
 
 /**
  * Check if device is touch device or not
  */
-
-let IS_TOUCH_DEVICE = undefined
 export function isTouchDevice() {
-  if (typeof IS_TOUCH_DEVICE !== 'undefined') {
-    if (typeof window !== 'undefined') {
-      window.IS_TOUCH_DEVICE = IS_TOUCH_DEVICE
+  if (typeof document !== 'undefined') {
+    let intent = false
+    try {
+      intent = document.documentElement.getAttribute('data-whatintent')
+    } catch (e) {
+      //
     }
-    return IS_TOUCH_DEVICE
+    return intent === 'touch'
   }
-
-  return IS_TOUCH_DEVICE
-}
-
-/**
- * Detects if device supports touches
- *
- * @param  {[type]} [interactive=true}] [Makes it posible that the state changes interactive]
- * @return {[type]} [void]
- */
-export function defineIsTouch({ interactive = true } = {}) {
-  const handleDefineTouch = () => {
-    if (typeof document === 'undefined' || typeof window === 'undefined') {
-      return
-    }
-
-    // to give it a change to have isTouch from the very beginning
-    if (unsafeIsTouchDeviceCheck()) {
-      document.documentElement.setAttribute('data-is-touch', true)
-      IS_TOUCH_DEVICE = true
-    }
-
-    function onMouseOver() {
-      try {
-        if (IS_TOUCH_DEVICE === true) {
-          document.documentElement.removeAttribute('data-is-touch')
-        }
-        IS_TOUCH_DEVICE = false
-      } catch (e) {
-        console.warn(e)
-      }
-      if (!interactive) {
-        window.removeEventListener('mouseover', onMouseOver, false)
-      }
-    }
-    window.addEventListener('mouseover', onMouseOver, false)
-
-    // both the "touchstart" and "touchend" is there to support devices supporting both a mouse and a touchpad
-    let touchendTimeout
-    window.addEventListener(
-      'touchstart',
-      function onTouchStart() {
-        try {
-          clearTimeout(touchendTimeout)
-          window.removeEventListener('mouseover', onMouseOver, false)
-          if (IS_TOUCH_DEVICE !== true) {
-            document.documentElement.setAttribute('data-is-touch', true)
-          }
-          IS_TOUCH_DEVICE = true
-        } catch (e) {
-          console.warn(e)
-        }
-
-        if (!interactive) {
-          window.removeEventListener('touchstart', onTouchStart, false)
-        }
-      },
-      false
-    )
-
-    // since iOS fires "mousemove" on the first click,
-    // we to make sure to add the "data-is-touch" back again
-    if (interactive) {
-      window.addEventListener(
-        'touchend',
-        function onTouchEnd() {
-          touchendTimeout = setTimeout(() => {
-            try {
-              window.addEventListener('mouseover', onMouseOver, false)
-              if (IS_TOUCH_DEVICE !== true) {
-                document.documentElement.setAttribute(
-                  'data-is-touch',
-                  true
-                )
-                IS_TOUCH_DEVICE = true
-              }
-            } catch (e) {
-              console.warn(e)
-            }
-          }, 50) // so we actually call this after blur
-        },
-        false
-      )
-    }
-
-    document.removeEventListener('DOMContentLoaded', handleDefineTouch)
-  }
-
-  if (
-    typeof document !== 'undefined' &&
-    document.readyState === 'loading'
-  ) {
-    document.addEventListener('DOMContentLoaded', handleDefineTouch)
-  } else {
-    handleDefineTouch()
-  }
-}
-
-function unsafeIsTouchDeviceCheck() {
-  if (typeof document === 'undefined' || typeof window === 'undefined') {
-    return false
-  }
-  let result = false
-
-  try {
-    if (window.PointerEvent && 'maxTouchPoints' in navigator) {
-      // IE gives 1, even on no touch systems, therefore we check for 1 or more
-      if (navigator.maxTouchPoints > 1) {
-        result = true
-      }
-    } else {
-      if (
-        window.matchMedia &&
-        window.matchMedia('(any-pointer: coarse)').matches
-      ) {
-        result = true
-      } else if (
-        'ontouchstart' in window &&
-        document.createEvent('TouchEvent')
-      ) {
-        result = true
-      }
-    }
-  } catch (e) {
-    result = false
-  }
-
-  return result
+  return false
 }
 
 export function defineNavigator() {
@@ -192,12 +61,16 @@ export function defineNavigator() {
           navigator.platform.match(new RegExp(PLATFORM_WIN)) !== null
         ) {
           document.documentElement.setAttribute('data-os', 'win')
+        } else if (
+          navigator.platform.match(new RegExp(PLATFORM_LINUX)) !== null
+        ) {
+          document.documentElement.setAttribute('data-os', 'linux')
         }
       } else {
         document.documentElement.setAttribute('data-os', 'other')
       }
     } catch (e) {
-      console.warn(e)
+      warn(e)
     }
 
     document.removeEventListener('DOMContentLoaded', handleNavigator)
@@ -243,6 +116,9 @@ export const validateDOMAttributes = (props, params) => {
   }
   if (typeof params.left !== 'undefined') {
     delete params.left
+  }
+  if (typeof params.no_collapse !== 'undefined') {
+    delete params.no_collapse
   }
 
   // in case disabled is a string, it its enabled, send it in as a true (this is for web components support)
@@ -294,7 +170,7 @@ export const processChildren = (props) => {
       ? props.children(props)
       : props.children
 
-  // if we get several react children witch representates only a text
+  // if we get several react children which representates only a text
   if (Array.isArray(res)) {
     const onlyTexts = res.reduce((pV, cV) => {
       if (typeof cV === 'string' || typeof cV === 'number') {
@@ -431,7 +307,7 @@ export const dispatchCustomElementEvent = (
           }
         }
       } catch (e) {
-        console.warn('Error on handling dataset:', e)
+        warn('Error on handling dataset:', e)
       }
     }
   }
@@ -605,7 +481,7 @@ export class DetectOutsideClickClass {
         onSuccess()
       }
     } catch (e) {
-      console.warn(e)
+      warn(e)
     }
   }
 
@@ -677,20 +553,75 @@ export const matchAll = (string, regex) => {
 /**
  * [getPreviousSibling traverses down the DOM tree until it finds the wanted element]
  * @param  {[string]} className [CSS class]
- * @param  {[HTMLElement]} elem      [starting HTMLElement]
+ * @param  {[HTMLElement]} element      [starting HTMLElement]
  * @return {[HTMLElement]}           [HTMLElement]
  */
-export const getPreviousSibling = (className, elem) => {
+export const getPreviousSibling = (className, element) => {
   try {
-    const contains = (elem) => elem && elem.classList.contains(className)
+    const contains = (element) =>
+      element && element.classList.contains(className)
 
-    if (contains(elem)) {
-      return elem
+    if (contains(element)) {
+      return element
     }
 
-    while ((elem = elem && elem.parentElement) && !contains(elem));
+    while (
+      (element = element && element.parentElement) &&
+      !contains(element)
+    );
   } catch (e) {
-    console.warn(e)
+    warn(e)
   }
-  return elem
+  return element
+}
+
+// Round number to nearest target number
+export const roundToNearest = (num, target) => {
+  const diff = num % target
+  return diff > target / 2 ? num - diff + target : num - diff
+}
+
+export const isInsideScrollView = (
+  currentElement,
+  returnElement = false
+) => {
+  const elem = getPreviousSibling('dnb-scroll-view', currentElement)
+  if (returnElement) {
+    return elem == window ? null : elem
+  }
+  return elem == window ? false : Boolean(elem)
+}
+
+export const warn = (...e) => {
+  if (typeof console !== 'undefined') {
+    console.warn(...e)
+  }
+}
+
+export const convertJsxToString = (elements, separator = undefined) => {
+  if (!Array.isArray(elements)) {
+    elements = [elements]
+  }
+
+  return elements
+    .map((word) => {
+      if (React.isValidElement(word)) {
+        if (typeof word.props.children === 'string') {
+          word = word.props.children
+        } else if (Array.isArray(word.props.children)) {
+          word = word.props.children.reduce((acc, word) => {
+            if (typeof word === 'string') {
+              acc = acc + word
+            }
+            return acc
+          }, '')
+        } else {
+          return null
+        }
+      }
+
+      return word
+    })
+    .filter(Boolean)
+    .join(separator)
 }

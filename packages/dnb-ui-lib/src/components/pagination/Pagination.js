@@ -288,7 +288,7 @@ export const createPagination = (initProps = {}) => {
   const rerender = React.createRef(null)
   const _setContent = React.createRef(null)
   const _resetContent = React.createRef(null)
-  const _resetPagination = React.createRef(null)
+  const _resetInfinity = React.createRef(null)
   const _endInfinity = React.createRef(null)
 
   const setContent = (pageNo, content) => {
@@ -300,8 +300,8 @@ export const createPagination = (initProps = {}) => {
   const resetContent = () => {
     _resetContent.current && _resetContent.current()
   }
-  const resetPagination = () => {
-    _resetPagination.current && _resetPagination.current()
+  const resetInfinity = () => {
+    _resetInfinity.current && _resetInfinity.current()
   }
   const endInfinity = () => {
     _endInfinity.current && _endInfinity.current()
@@ -313,7 +313,7 @@ export const createPagination = (initProps = {}) => {
     rerender: rerender,
     set_content_handler: (fn) => (_setContent.current = fn),
     reset_content_handler: (fn) => (_resetContent.current = fn),
-    reset_pagination_handler: (fn) => (_resetPagination.current = fn),
+    reset_pagination_handler: (fn) => (_resetInfinity.current = fn),
     end_infinity_handler: (fn) => (_endInfinity.current = fn)
   })
 
@@ -336,7 +336,7 @@ export const createPagination = (initProps = {}) => {
     InfinityMarker,
     setContent,
     resetContent,
-    resetPagination,
+    resetInfinity,
     endInfinity
   }
 }

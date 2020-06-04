@@ -86,13 +86,12 @@
     color: var(--color-sea-green);
     background-color: transparent;
 
+    // create underline (::after)
     .dnb-button__text {
       position: relative; // because of the underline
 
       @include drawUnderlineBorder() {
         bottom: -0.0625rem;
-        left: -0.5rem;
-        right: -0.5rem;
         color: transparent;
         opacity: 0;
         transition: opacity 200ms ease-out, color 200ms ease-out;
@@ -100,6 +99,17 @@
           transition: none;
         }
       }
+    }
+
+    &.dnb-button--has-text {
+      padding-left: 0.5rem;
+      padding-right: 0.5rem;
+    }
+
+    // change underline if has icon
+    &.dnb-button--has-icon .dnb-button__text::after {
+      left: -0.5rem;
+      right: -0.5rem;
     }
 
     @include focus() {
@@ -126,13 +136,13 @@
 
       // underline
       .dnb-button__text::after {
-        html[data-is-touch] & {
+        html[data-whatintent='touch'] & {
           transition: none;
           visibility: visible;
           opacity: 1;
           color: var(--color-emerald-green);
         }
-        html:not([data-is-touch]) & {
+        html:not([data-whatintent='touch']) & {
           visibility: hidden;
         }
       }
@@ -247,7 +257,7 @@
     );
 
     // touch helper
-    // html[data-is-touch] &:active {
+    // html[data-whatintent='touch']  &:active {
     //   @include fakeBorder(var(--color-emerald-green), 0.125rem /*2px*/);
     // }
 

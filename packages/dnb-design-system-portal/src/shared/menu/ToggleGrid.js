@@ -34,7 +34,7 @@ const globalStyle = css`
 `
 
 const ToggleWrapper = styled.span`
-  @media (max-width: 50em) {
+  @media screen and (max-width: 50em) {
     display: none;
   }
 `

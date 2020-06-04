@@ -3,7 +3,7 @@
  *
  */
 
-import { isIE11 } from '../src/shared/helpers'
+import { IS_IE11 } from '../src/shared/helpers'
 import { css } from '@emotion/core'
 
 export const gridStyle = ({
@@ -13,7 +13,7 @@ export const gridStyle = ({
   returnOnlyVars = false
 } = {}) => {
   // sorry IE user, here is nothing funn to get
-  if (isIE11) {
+  if (IS_IE11) {
     return ''
   }
 

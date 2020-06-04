@@ -10,6 +10,7 @@ import styled from '@emotion/styled'
 import { Section, Space, Button } from 'dnb-ui-lib/src/components'
 import { Table, H1, P, Ul } from 'dnb-ui-lib/src/elements'
 import { StickyHelper } from 'dnb-ui-lib/src/elements/Table'
+import { hasSelectedText } from 'dnb-ui-lib/src/shared/helpers'
 
 import { createPagination } from 'dnb-ui-lib/src/components/Pagination'
 
@@ -47,7 +48,7 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
 
   // create our Pagination instance
   const [
-    { Pagination, setContent, resetContent, endInfinity }
+    { Pagination, setContent, resetContent, resetInfinity, endInfinity }
   ] = React.useState(createPagination)
   const [orderDirection, setOrderDirection] = React.useState('asc')
   const [currentPage, setLocalPage] = React.useState(null)
@@ -108,6 +109,8 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
   )
 
   setContent(currentPage, content)
+  let serverDelayTimeout
+  React.useEffect(() => () => clearTimeout(serverDelayTimeout))
 
   return (
     <StyledTable sticky>
@@ -120,6 +123,9 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
               icon_position="left"
               variant="secondary"
               on_click={() => {
+                clearTimeout(serverDelayTimeout) // stop the server delay simulation
+
+                resetInfinity()
                 resetContent()
 
                 // rerender our component to get back the default state
@@ -174,11 +180,13 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
             console.log('on_startup: with page', page)
 
             // simulate server delay
-            setTimeout(() => {
+            clearTimeout(serverDelayTimeout)
+            serverDelayTimeout = setTimeout(() => {
               // once we set current page, we force a rerender, and sync of data
               setLocalPage(page)
 
-              // since currentPage already is the same
+              // since currentPage already is the same - used for reoder
+              clearTimeout(serverDelayTimeout)
               forceRerender(new Date().getTime())
             }, Math.ceil(Math.random() * 1e3)) // simulate random delay
           }}
@@ -189,7 +197,8 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
             console.log('on_change: with page', page)
 
             // simulate server delay
-            setTimeout(() => {
+            clearTimeout(serverDelayTimeout)
+            serverDelayTimeout = setTimeout(() => {
               // once we set current page, we force a rerender, and sync of data
               setLocalPage(page)
             }, Math.ceil(Math.random() * 1e3)) // simulate random delay
@@ -382,8 +391,10 @@ const TableData = styled.td`
     font-size: var(--font-size-large);
 
     /** reset css specificity */
-    .dnb-spacing &.dnb-h2:not([class*='space__bottom']),
-    .dnb-core-style .dnb-spacing &.dnb-h2:not([class*='space__bottom']) {
+    .dnb-spacing &.dnb-h--large:not([class*='space__bottom']),
+    .dnb-core-style
+      .dnb-spacing
+      &.dnb-h--large:not([class*='space__bottom']) {
       margin: 0;
     }
   }
@@ -419,22 +430,6 @@ const setHeight = ({
       )
     })
   }
-}
-
-const hasSelectedText = () => {
-  let selectedText = ''
-
-  try {
-    if (typeof window.getSelection === 'function') {
-      selectedText = window.getSelection().toString()
-    } else if (document.selection?.type !== 'Control') {
-      selectedText = document.selection.createRange().text
-    }
-  } catch (e) {
-    //
-  }
-
-  return selectedText !== ''
 }
 
 const reorderDirection = (items, dir) =>

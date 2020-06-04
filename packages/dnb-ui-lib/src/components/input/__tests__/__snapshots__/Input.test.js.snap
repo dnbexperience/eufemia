@@ -383,7 +383,6 @@ exports[`Input component have to match type="search" snapshot 1`] = `
                     onBlur={[Function]}
                     onClick={[Function]}
                     onFocus={[Function]}
-                    onMouseOut={[Function]}
                     type="submit"
                     value="test"
                   >
@@ -882,6 +881,8 @@ exports[`Input scss have to match snapshot 1`] = `
     color: inherit;
     line-height: var(--line-height-basis);
     white-space: normal; }
+    .dnb-form-status--text .dnb-anchor {
+      font-size: inherit; }
   .dnb-icon + .dnb-form-status--text {
     padding-left: 0.5rem; }
   .dnb-form-status__shell > .dnb-icon {
@@ -893,8 +894,7 @@ exports[`Input scss have to match snapshot 1`] = `
     margin-top: 0.25em;
     margin-left: 0.5em;
     color: inherit;
-    font-size: var(--font-size-basis);
-    transform: translateY(-0.125rem); }
+    font-size: var(--font-size-small); }
   .dnb-form-status[hidden] {
     display: none; }
   .dnb-form-status--fade-in {
@@ -997,6 +997,8 @@ exports[`Input scss have to match snapshot 1`] = `
     line-height: var(--line-height-basis);
     color: inherit;
     transform: translateY(-0.03125rem); }
+    .dnb-button__text [data-os='linux'] {
+      transform: translateY(-0.035rem); }
   .dnb-button__alignment {
     display: inline-block;
     width: 0; }
@@ -1094,9 +1096,9 @@ exports[`Input scss have to match snapshot 1`] = `
     font: inherit;
     text-align: inherit;
     line-height: inherit; }
-    html:not([data-is-touch]) .dnb-button--reset:hover[disabled] {
+    html:not([data-whatintent='touch']) .dnb-button--reset:hover[disabled] {
       cursor: not-allowed; }
-    html:not([data-is-touch]) .dnb-button--reset:hover:not([disabled]) {
+    html:not([data-whatintent='touch']) .dnb-button--reset:hover:not([disabled]) {
       box-shadow: none;
       border: none; }
     .dnb-button--reset:not([disabled]):focus, .dnb-button--reset:not([disabled]):active {
@@ -1126,7 +1128,7 @@ exports[`Input scss have to match snapshot 1`] = `
     .dnb-button {
       flex: none; }
       .dnb-button__icon, .dnb-button__text {
-        transform: translateY(-0.0625rem) !important; } }
+        transform: translateY(-0.0625rem); } }
 
 /* Firefox includes a hidden border which messes up button dimensions */
 button.dnb-button::-moz-focus-inner {
@@ -1182,6 +1184,7 @@ button.dnb-button::-moz-focus-inner {
   text-align: left;
   vertical-align: baseline;
   white-space: pre-wrap;
+  word-break: normal;
   font-size: var(--font-size-basis);
   color: inherit; }
   .dnb-form-label--vertical {
@@ -1428,7 +1431,10 @@ legend.dnb-form-label {
     order: 0;
     position: absolute;
     left: 1rem;
-    right: auto; }
+    right: auto;
+    top: 0;
+    bottom: 0;
+    margin: auto; }
   .dnb-input--icon-position-right .dnb-input__icon {
     order: 1;
     left: auto;
@@ -1450,11 +1456,17 @@ legend.dnb-form-label {
     padding-right: 3rem; }
   .dnb-input > .dnb-form-label {
     line-height: var(--line-height-basis); }
+  @media screen and (max-width: 40em) {
+    .dnb-input {
+      flex-wrap: wrap; }
+      .dnb-input > .dnb-form-label {
+        margin-bottom: 0.5rem;
+        margin-top: 0.5rem; } }
   .dnb-input[class*='__status'] {
     align-items: flex-start; }
     .dnb-input[class*='__status'] > .dnb-form-label {
       margin-top: 0.25rem; }
-  @media (max-width: 40em) {
+  @media screen and (max-width: 40em) {
     .dnb-responsive-component .dnb-input {
       display: flex;
       flex-direction: column;

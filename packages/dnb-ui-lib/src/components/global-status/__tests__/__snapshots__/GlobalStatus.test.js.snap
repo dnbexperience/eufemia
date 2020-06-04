@@ -36,11 +36,11 @@ exports[`GlobalStatus scss have to match default theme snapshot 1`] = `
 
 .dnb-global-status__close-button, .dnb-global-status__close-button.dnb-button--tertiary {
   color: var(--color-white); }
-  html:not([data-is-touch]) .dnb-global-status__close-button:hover[disabled], html:not([data-is-touch]) .dnb-global-status__close-button.dnb-button--tertiary:hover[disabled] {
+  html:not([data-whatintent='touch']) .dnb-global-status__close-button:hover[disabled], html:not([data-whatintent='touch']) .dnb-global-status__close-button.dnb-button--tertiary:hover[disabled] {
     cursor: not-allowed; }
-  html:not([data-is-touch]) .dnb-global-status__close-button:hover:not([disabled]) .dnb-button__text, html:not([data-is-touch]) .dnb-global-status__close-button.dnb-button--tertiary:hover:not([disabled]) .dnb-button__text {
+  html:not([data-whatintent='touch']) .dnb-global-status__close-button:hover:not([disabled]) .dnb-button__text, html:not([data-whatintent='touch']) .dnb-global-status__close-button.dnb-button--tertiary:hover:not([disabled]) .dnb-button__text {
     color: inherit; }
-    html:not([data-is-touch]) .dnb-global-status__close-button:hover:not([disabled]) .dnb-button__text::after, html:not([data-is-touch]) .dnb-global-status__close-button.dnb-button--tertiary:hover:not([disabled]) .dnb-button__text::after {
+    html:not([data-whatintent='touch']) .dnb-global-status__close-button:hover:not([disabled]) .dnb-button__text::after, html:not([data-whatintent='touch']) .dnb-global-status__close-button.dnb-button--tertiary:hover:not([disabled]) .dnb-button__text::after {
       color: inherit; }
   .dnb-global-status__close-button:not([disabled]):focus::before, .dnb-global-status__close-button.dnb-button--tertiary:not([disabled]):focus::before {
     outline: none; }
@@ -200,6 +200,8 @@ exports[`GlobalStatus scss have to match snapshot 1`] = `
     color: inherit;
     line-height: var(--line-height-basis);
     white-space: normal; }
+    .dnb-form-status--text .dnb-anchor {
+      font-size: inherit; }
   .dnb-icon + .dnb-form-status--text {
     padding-left: 0.5rem; }
   .dnb-form-status__shell > .dnb-icon {
@@ -211,8 +213,7 @@ exports[`GlobalStatus scss have to match snapshot 1`] = `
     margin-top: 0.25em;
     margin-left: 0.5em;
     color: inherit;
-    font-size: var(--font-size-basis);
-    transform: translateY(-0.125rem); }
+    font-size: var(--font-size-small); }
   .dnb-form-status[hidden] {
     display: none; }
   .dnb-form-status--fade-in {
@@ -315,6 +316,8 @@ exports[`GlobalStatus scss have to match snapshot 1`] = `
     line-height: var(--line-height-basis);
     color: inherit;
     transform: translateY(-0.03125rem); }
+    .dnb-button__text [data-os='linux'] {
+      transform: translateY(-0.035rem); }
   .dnb-button__alignment {
     display: inline-block;
     width: 0; }
@@ -412,9 +415,9 @@ exports[`GlobalStatus scss have to match snapshot 1`] = `
     font: inherit;
     text-align: inherit;
     line-height: inherit; }
-    html:not([data-is-touch]) .dnb-button--reset:hover[disabled] {
+    html:not([data-whatintent='touch']) .dnb-button--reset:hover[disabled] {
       cursor: not-allowed; }
-    html:not([data-is-touch]) .dnb-button--reset:hover:not([disabled]) {
+    html:not([data-whatintent='touch']) .dnb-button--reset:hover:not([disabled]) {
       box-shadow: none;
       border: none; }
     .dnb-button--reset:not([disabled]):focus, .dnb-button--reset:not([disabled]):active {
@@ -444,7 +447,7 @@ exports[`GlobalStatus scss have to match snapshot 1`] = `
     .dnb-button {
       flex: none; }
       .dnb-button__icon, .dnb-button__text {
-        transform: translateY(-0.0625rem) !important; } }
+        transform: translateY(-0.0625rem); } }
 
 /* Firefox includes a hidden border which messes up button dimensions */
 button.dnb-button::-moz-focus-inner {
@@ -598,7 +601,8 @@ button.dnb-button::-moz-focus-inner {
     padding: 1rem 6rem 1rem 3rem;
     padding-top: calc(1rem - 0.125rem);
     padding-bottom: calc(1rem - 0.375rem); }
-  .dnb-spacing .dnb-global-status__title.dnb-p {
+  .dnb-spacing .dnb-global-status__title.dnb-p,
+  .dnb-spacing .dnb-global-status__title.dnb-p:not([class*='dnb-space']) {
     margin: 0; }
 
 .dnb-global-status__message {
@@ -606,7 +610,8 @@ button.dnb-button::-moz-focus-inner {
   z-index: 1;
   padding: 2rem 0 2.5rem; }
   .dnb-global-status__message .dnb-p,
-  .dnb-spacing .dnb-global-status__message .dnb-p {
+  .dnb-spacing .dnb-global-status__message .dnb-p,
+  .dnb-spacing .dnb-global-status__message .dnb-p:not([class*='dnb-space']) {
     display: inline-block;
     margin: 0;
     padding: 0; }
@@ -632,16 +637,19 @@ button.dnb-button::-moz-focus-inner {
   width: 100%;
   transform: translate3d(0, -1px, 0); }
   .dnb-global-status__content .dnb-ul,
-  .dnb-spacing .dnb-global-status__content .dnb-ul {
+  .dnb-spacing .dnb-global-status__content .dnb-ul,
+  .dnb-spacing .dnb-global-status__content .dnb-ul:not([class*='dnb-space']) {
     margin: 0;
     margin-top: 0.5rem;
     padding-left: 1rem; }
     .dnb-global-status__content .dnb-ul > li,
-    .dnb-spacing .dnb-global-status__content .dnb-ul > li {
+    .dnb-spacing .dnb-global-status__content .dnb-ul > li,
+    .dnb-spacing .dnb-global-status__content .dnb-ul:not([class*='dnb-space']) > li {
       margin: 0;
       padding-left: 0; }
       .dnb-global-status__content .dnb-ul > li .dnb-anchor:last-of-type,
-      .dnb-spacing .dnb-global-status__content .dnb-ul > li .dnb-anchor:last-of-type {
+      .dnb-spacing .dnb-global-status__content .dnb-ul > li .dnb-anchor:last-of-type,
+      .dnb-spacing .dnb-global-status__content .dnb-ul:not([class*='dnb-space']) > li .dnb-anchor:last-of-type {
         margin-left: 0.5rem; }
 
 .dnb-global-status:not(.dnb-global-status--no-animation).dnb-global-status--fade-in .dnb-global-status__title {
@@ -937,7 +945,6 @@ exports[`GlobalStatus snapshot have to match component snapshot 1`] = `
                       className="dnb-button dnb-button--tertiary dnb-button--has-text dnb-global-status__close-button dnb-button--icon-position-left dnb-button--has-icon dnb-button--icon-size-medium dnb-button--size-medium"
                       disabled={false}
                       onClick={[Function]}
-                      onMouseOut={[Function]}
                       type="button"
                     >
                       <Content

@@ -15,7 +15,8 @@ class Example extends React.PureComponent {
           title="Placeholder text"
           data-dnb-test="textarea-default"
         >
-          {/* @jsx */ `
+          {
+            /* @jsx */ `
 <Textarea
   label="Default:"
   rows="2"
@@ -25,18 +26,22 @@ class Example extends React.PureComponent {
   on_focus={() => { console.log('on_focus') }}
   on_blur={() => { console.log('on_blur') }}
 />
-          `}
+          `
+          }
         </ComponentBox>
         <ComponentBox title="Placeholder text">
-          {/* @jsx */ `
+          {
+            /* @jsx */ `
 <Textarea
   label="Placeholder:"
   placeholder="Placeholder text"
 />
-          `}
+          `
+          }
         </ComponentBox>
         <ComponentBox title="Vertical placed label">
-          {/* @jsx */ `
+          {
+            /* @jsx */ `
 <Textarea
   label="Vertical:"
   label_direction="vertical"
@@ -44,23 +49,27 @@ class Example extends React.PureComponent {
   cols="33"
   value="Textarea value with more than 3 lines\\nNewline\\nNewline\\nNewline\\nNewline"
 />
-          `}
+          `
+          }
         </ComponentBox>
         <ComponentBox
           title="Stretched horizontal placed label"
           data-dnb-test="textarea-stretch"
         >
-          {/* @jsx */ `
+          {
+            /* @jsx */ `
 <Textarea
   label="Horizontal:"
   stretch="true"
   rows="3"
   value="Nec litora inceptos vestibulum id interdum donec gravida."
 />
-          `}
+          `
+          }
         </ComponentBox>
         <ComponentBox title="Max length usage">
-          {/* @jsx */ `
+          {
+            /* @jsx */ `
 <Textarea
   label="Length limit:"
   rows="3"
@@ -69,47 +78,56 @@ class Example extends React.PureComponent {
   required
   value="Nec litora inceptos vestibulum id interdum donec gravida."
 />
-          `}
+          `
+          }
         </ComponentBox>
         <ComponentBox
           title="With FormStatus failure message"
           data-dnb-test="textarea-error"
         >
-          {/* @jsx */ `
+          {
+            /* @jsx */ `
 <Textarea
   label="Error Message:"
   cols="33"
   value="Nec litora inceptos vestibulum id interdum donec gravida."
   status="Message to the user"
 />
-          `}
+          `
+          }
         </ComponentBox>
         <ComponentBox title="Show failure status">
-          {/* @jsx */ `
+          {
+            /* @jsx */ `
 <Textarea
   label="Show status:"
   status="error"
   value="Shows status with border only"
 />
-`}
+`
+          }
         </ComponentBox>
         <ComponentBox title="Disabled textarea">
-          {/* @jsx */ `
+          {
+            /* @jsx */ `
 <Textarea
   label="Disabled:"
   disabled
   value="Nec litora inceptos vestibulum id interdum donec gravida."
 />
-          `}
+          `
+          }
         </ComponentBox>
         <ComponentBox title="Textarea with suffix">
-          {/* @jsx */ `
+          {
+            /* @jsx */ `
 <Textarea
   label="Textarea with suffix:"
   value="Nec litora inceptos vestibulum id interdum donec gravida."
   suffix={<Modal title="Modal Title">Modal content</Modal>}
 />
-          `}
+          `
+          }
         </ComponentBox>
       </React.Fragment>
     )
@@ -129,8 +147,10 @@ const Wrapper = styled.div`
 `
 
 export { Example }
-export default () => (
-  <Wrapper>
-    <Example />
-  </Wrapper>
-)
+export default function StyledExample() {
+  return (
+    <Wrapper>
+      <Example />
+    </Wrapper>
+  )
+}

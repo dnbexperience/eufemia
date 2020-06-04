@@ -8,23 +8,25 @@ import { LOCALE, CURRENCY, CURRENCY_DISPLAY } from './defaults'
 import defaultLocales from './locales'
 import { extend } from './component-helper'
 
-export const defaultContext = (props = {}) => {
+export const prepareContext = (props = {}) => {
   const locales = props.locales
     ? extend(defaultLocales, props.locales)
     : defaultLocales
 
+  const translation =
+    locales[props.locale || LOCALE] || defaultLocales[LOCALE] || {}
+
   return {
     locale: LOCALE,
-    locales,
-    translation:
-      locales[props.locale || LOCALE] || defaultLocales[LOCALE] || {},
     currency: CURRENCY,
     currency_display: CURRENCY_DISPLAY,
-    ...props
+    locales,
+    ...props,
+    translation // make sure we set this after props, since we update this one!
   }
 }
 
 // If no provider is given, we use the default context from here
-const Context = React.createContext(defaultContext())
+const Context = React.createContext(prepareContext())
 
 export default Context

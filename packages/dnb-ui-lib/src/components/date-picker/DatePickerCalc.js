@@ -23,6 +23,8 @@ import toDate from 'date-fns/toDate'
 import parseISO from 'date-fns/parseISO'
 import parse from 'date-fns/parse'
 
+import { warn } from '../../shared/component-helper'
+
 // Is used as DatePickerCalc
 export const makeDayObject = (
   date,
@@ -198,7 +200,7 @@ export const correctV1Format = (date) => {
   // for backwords compatibility
   // TODO: Remvoe this in next major version
   if (/YYYY/.test(date) && /DD/.test(date)) {
-    console.warn(
+    warn(
       'You are using "YYYY-MM-DD" as the date_format or return_format? Please use "yyyy-MM-dd" instead!'
     )
     date = date.replace(/DD/, 'dd').replace(/YYYY/, 'yyyy')
@@ -222,7 +224,7 @@ export const convertStringToDate = (date, { date_format = null } = {}) => {
 
   // rather return null than an invalid date
   if (!isValid(dateObject)) {
-    console.warn('convertStringToDate got invalid date:', date)
+    warn('convertStringToDate got invalid date:', date)
     return null
   }
 

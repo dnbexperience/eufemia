@@ -12,7 +12,8 @@ class Example extends React.PureComponent {
       <React.Fragment>
         <UseOnTests />
         <ComponentBox title="Radio group" data-dnb-test="radio-group">
-          {/* @jsx */ `
+          {
+            /* @jsx */ `
 <Radio.Group
   label="Radio Group:"
   on_change={({ value }) => { console.log('on_change', value) }}
@@ -25,13 +26,15 @@ class Example extends React.PureComponent {
     value="third"
   />
 </Radio.Group>
-          `}
+          `
+          }
         </ComponentBox>
         <ComponentBox
           title="Vertical aligned Radio group"
           data-dnb-test="radio-group-vertical"
         >
-          {/* @jsx */ `
+          {
+            /* @jsx */ `
 <Radio.Group
   label="Vertical Group:"
   layout_direction="column"
@@ -45,13 +48,15 @@ class Example extends React.PureComponent {
     checked
   />
 </Radio.Group>
-          `}
+          `
+          }
         </ComponentBox>
         <ComponentBox
           title="Radio group with status messages"
           data-dnb-test="radio-group-status"
         >
-          {/* @jsx */ `
+          {
+            /* @jsx */ `
 <Radio.Group
   label="Radio Group with status:"
   layout_direction="column"
@@ -75,21 +80,23 @@ class Example extends React.PureComponent {
     status_state="info"
   />
 </Radio.Group>
-          `}
+          `
+          }
         </ComponentBox>
         <ComponentBox
           title="Plain Radio group without `<Radio.Group>`. It is recomended to use the `<Radio.Group>` if You are using **React**."
           data-dnb-test="radio-group-plain"
         >
-          {/* @jsx */ `
-<p className="dnb-p dnb-radio-group">
-  <FormLabel id="MyRadioGroup">Plain Radio group:</FormLabel>
+          {
+            /* @jsx */ `
+<FormRow label="Plain Radio group:">
   <Radio
     value="first"
     label="First"
     group="MyRadioGroup"
     labelledby="MyRadioGroup"
     on_change={({ value, checked }) => { console.log('on_change', value, checked) }}
+    right
   />
   <Radio
     checked
@@ -98,6 +105,7 @@ class Example extends React.PureComponent {
     group="MyRadioGroup"
     labelledby="MyRadioGroup"
     on_change={({ value, checked }) => { console.log('on_change', value, checked) }}
+    right
   />
   <Radio
     checked
@@ -106,15 +114,18 @@ class Example extends React.PureComponent {
     group="MyRadioGroup"
     labelledby="MyRadioGroup"
     on_change={({ value, checked }) => { console.log('on_change', value, checked) }}
+    right
   />
-</p>
-          `}
+</FormRow>
+          `
+          }
         </ComponentBox>
         <ComponentBox
           title="Disabled Radio group with `label_position` set to left"
           data-dnb-test="radio-group-disabled"
         >
-          {/* @jsx */ `
+          {
+            /* @jsx */ `
 <Radio.Group
   label="Disabled Group:"
   disabled
@@ -129,10 +140,12 @@ class Example extends React.PureComponent {
     checked
   />
 </Radio.Group>
-          `}
+          `
+          }
         </ComponentBox>
         <ComponentBox title="Radio Buttons with suffix">
-          {/* @jsx */ `
+          {
+            /* @jsx */ `
 <Radio.Group
   label="With suffixes:"
   label_position="left"
@@ -151,9 +164,9 @@ class Example extends React.PureComponent {
     checked
   />
 </Radio.Group>
-          `}
+          `
+          }
         </ComponentBox>
-        <StateDemo />
       </React.Fragment>
     )
   }
@@ -167,64 +180,31 @@ class UseOnTests extends React.PureComponent {
           title="Unchecked Radio (Single Radio buttons should not be used)"
           data-dnb-test="radio-default"
         >
-          {/* @jsx */ `
+          {
+            /* @jsx */ `
       <Radio
       label="Single Radio"
       />
-        `}
+        `
+          }
         </ComponentBox>
         <ComponentBox
           title="Checked Radio (Single Radio buttons should not be used)"
           data-dnb-test="radio-checked"
         >
-          {/* @jsx */ `
+          {
+            /* @jsx */ `
       <Radio
       label="Checked Radio"
       checked
       on_change={({ checked }) => console.log(checked)}
       />
-        `}
+        `
+          }
         </ComponentBox>
       </>
     ) : (
       <></>
-    )
-  }
-}
-
-class StateDemo extends React.PureComponent {
-  render() {
-    return typeof window !== 'undefined' && window.IS_TEST ? (
-      <></>
-    ) : (
-      <ComponentBox
-        title="External state update with possible event **on_state_update**"
-        noFragments={false}
-      >
-        {/* @jsx */ `
-() => {
-  const [radioIsEnabled, setState] = React.useState(false)
-  React.useEffect(() => {
-    const timer = setInterval(() => setState(!radioIsEnabled), 1e3)
-    return () => clearTimeout(timer)
-  })
-  return (<>
-    <FormLabel
-      id="radio-1-label"
-      for_id="radio-1"
-      text="Radio label:"
-    />
-    <Radio
-      id="radio-1"
-      aria-labelledby="radio-1-label"
-      checked={radioIsEnabled}
-      on_state_update={({checked}) => {}}
-      readOnly
-    />
-  </>)
-}
-        `}
-      </ComponentBox>
     )
   }
 }

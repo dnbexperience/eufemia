@@ -51,6 +51,7 @@ export default {
       title: 'Skriv og velg',
       submit_button_title: 'Vis alternativer',
       no_options: 'Ingen alternativer',
+      show_all: 'Vis alt',
       aria_live_options: '%s alternativer',
       indicator_label: 'Henter data ...'
     },
@@ -68,6 +69,9 @@ export default {
       more_pages: '%s flere sider',
       is_loading_text: 'Laster nytt innhold',
       load_button_text: 'Vis mer innhold'
+    },
+    StepIndicator: {
+      step_title: 'Steg %step av %count'
     },
     Logo: {
       alt: 'DNB Logo'

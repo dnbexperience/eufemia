@@ -13,12 +13,14 @@ import {
   clearAllBodyScrollLocks
 } from '../../shared/libs/bodyScrollLock'
 import {
+  warn,
   isTrue,
   makeUniqueId,
   isTouchDevice,
   validateDOMAttributes
 } from '../../shared/component-helper'
 import Button from '../button/Button'
+import ScrollView from '../../fragments/scroll-view/ScrollView'
 
 export default class ModalContent extends React.PureComponent {
   static propTypes = {
@@ -39,12 +41,18 @@ export default class ModalContent extends React.PureComponent {
       PropTypes.bool
     ]),
     no_animation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    min_width: PropTypes.string,
-    max_width: PropTypes.string,
+    no_animation_on_mobile: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool
+    ]),
+    min_width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    max_width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     fullscreen: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     align_content: PropTypes.string,
     container_placement: PropTypes.string,
     class: PropTypes.string,
+    content_class: PropTypes.string,
+    overlay_class: PropTypes.string,
 
     // React props
     closeModal: PropTypes.func.isRequired,
@@ -67,12 +75,15 @@ export default class ModalContent extends React.PureComponent {
     prevent_close: null,
     prevent_core_style: null,
     no_animation: null,
+    no_animation_on_mobile: null,
     min_width: null,
     max_width: null,
     fullscreen: null,
     align_content: null,
     container_placement: null,
     class: null,
+    overlay_class: null,
+    content_class: null,
 
     // React props
     closeModal: null,
@@ -107,13 +118,13 @@ export default class ModalContent extends React.PureComponent {
         try {
           this._contentRef.current.focus() // in case the button is disabled
           const focusElement = this._contentRef.current.querySelector(
-            '.dnb-h1:first-of-type, .dnb-h2:first-of-type, .dnb-modal__close-button'
+            '.dnb-h--xx-large:first-of-type, .dnb-h--large:first-of-type, .dnb-modal__close-button'
           )
           if (focusElement) {
             focusElement.focus()
           }
         } catch (e) {
-          console.warn(e)
+          warn(e)
         }
       }, 300) // with this delay, the user can  press esc without an focus action first
     }
@@ -177,7 +188,7 @@ export default class ModalContent extends React.PureComponent {
         // @see https://www.sitepoint.com/when-do-elements-take-the-focus/
         node.style.outline = 'none'
       } catch (e) {
-        console.warn(e)
+        warn(e)
       }
     })
   }
@@ -200,7 +211,7 @@ export default class ModalContent extends React.PureComponent {
         }
         node.style.outline = null
       } catch (e) {
-        console.warn(e)
+        warn(e)
       }
     })
     this.nonModalNodes = null
@@ -234,14 +245,17 @@ export default class ModalContent extends React.PureComponent {
       open_delay, // eslint-disable-line
       prevent_core_style,
       no_animation,
-      min_width: minWidth,
-      max_width: maxWidth,
+      no_animation_on_mobile,
+      min_width,
+      max_width,
       fullscreen,
       align_content,
       container_placement,
       closeModal,
       className,
       class: _className,
+      content_class,
+      overlay_class,
       content_id, // eslint-disable-line
       toggleOpenClose, // eslint-disable-line
       children, // eslint-disable-line
@@ -249,6 +263,15 @@ export default class ModalContent extends React.PureComponent {
     } = this.props
 
     const id = this._id
+
+    // ensure the min/max dont conflict
+    let minWidth = min_width
+    let maxWidth = max_width
+    if (minWidth && !maxWidth && parseFloat(minWidth) > 0) {
+      maxWidth = 0
+    } else if (maxWidth && !minWidth && parseFloat(maxWidth) > 0) {
+      minWidth = 0
+    }
 
     const contentParams = {
       role: 'dialog',
@@ -262,7 +285,10 @@ export default class ModalContent extends React.PureComponent {
           `dnb-modal__content--${container_placement}`,
         (fullscreen || mode === 'drawer') &&
           'dnb-modal__content--fullscreen',
-        isTrue(no_animation) && 'dnb-modal__content--no-animation'
+        isTrue(no_animation) && 'dnb-modal__content--no-animation',
+        isTrue(no_animation_on_mobile) &&
+          'dnb-modal__content--no-animation-on-mobile',
+        content_class
       ),
       onClick: closeModal
     }
@@ -292,7 +318,11 @@ export default class ModalContent extends React.PureComponent {
       className: classnames(
         'dnb-modal__overlay',
         hide && 'dnb-modal__overlay--hide',
-        mode && `dnb-modal__overlay--${mode}`
+        mode && `dnb-modal__overlay--${mode}`,
+        isTrue(no_animation) && 'dnb-modal__overlay--no-animation',
+        isTrue(no_animation_on_mobile) &&
+          'dnb-modal__overlay--no-animation-on-mobile',
+        overlay_class
       )
     }
 
@@ -302,13 +332,15 @@ export default class ModalContent extends React.PureComponent {
     return (
       <>
         <div {...contentParams}>
-          <div {...innerParams} ref={this._contentRef}>
-            {title && <h1 className="dnb-modal__title dnb-h2">{title}</h1>}
+          <ScrollView {...innerParams} ref={this._contentRef}>
+            {title && (
+              <h1 className="dnb-modal__title dnb-h--large">{title}</h1>
+            )}
             {isTrue(hide_close_button) !== true && (
               <CloseButton on_click={closeModal} title={close_title} />
             )}
             <div className="dnb-modal__wrapper">{modal_content}</div>
-          </div>
+          </ScrollView>
         </div>
         <span {...overlayParams} aria-hidden="true" />
       </>

@@ -6,6 +6,8 @@
  *
  */
 
+import { warn } from '../../shared/component-helper'
+
 export default class Animation {
   stack = []
   events = []
@@ -13,7 +15,7 @@ export default class Animation {
   // Main methodes
   add(animation) {
     if (!animation.type) {
-      console.warn('You should define an animation type.')
+      warn('You should define an animation type.')
     }
 
     // same animation in process, so do nothing

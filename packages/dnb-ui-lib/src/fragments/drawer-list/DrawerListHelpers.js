@@ -6,7 +6,8 @@
 import React from 'react'
 import {
   isTrue,
-  dispatchCustomElementEvent
+  dispatchCustomElementEvent,
+  convertJsxToString
 } from '../../shared/component-helper'
 
 export const parseContentTitle = (
@@ -33,7 +34,7 @@ export const parseContentTitle = (
     ret = dataItem.content
       .reduce((acc, cur) => {
         // check if we have React inside, with strings we can use
-        cur = grabStringFromReact(cur, ' ')
+        cur = convertJsxToString(cur, ' ')
         if (cur === false) {
           return acc
         }
@@ -47,7 +48,7 @@ export const parseContentTitle = (
       }, [])
       .join(separator)
   } else {
-    ret = grabStringFromReact(
+    ret = convertJsxToString(
       (dataItem && dataItem.content) || dataItem,
       ' '
     )
@@ -55,9 +56,12 @@ export const parseContentTitle = (
 
   if (hasValue) {
     if (preferSelectedValue) {
-      ret = String(dataItem.selected_value)
+      ret = String(convertJsxToString(dataItem.selected_value))
     } else if (!onlyNumericRegex.test(dataItem.selected_value)) {
-      ret = String(dataItem.selected_value) + separator + ret
+      ret =
+        String(convertJsxToString(dataItem.selected_value)) +
+        separator +
+        ret
     }
   }
 
@@ -102,19 +106,16 @@ export const normalizeData = (props) => {
     data = list
   }
 
-  return (data || []).map((item, i) => {
-    if (typeof item === 'string') {
+  return (data || []).map((item, __id) => {
+    if (
+      typeof item === 'string' ||
+      Array.isArray(item) ||
+      React.isValidElement(item)
+    ) {
       item = { content: item, __isTransformed: true }
     }
-    if (typeof item.__id !== 'undefined') {
-      return item
-    }
-    if (Object.isExtensible(item)) {
-      item.__id = i
-      return item
-    } else {
-      return { ...item, __id: i }
-    }
+
+    return typeof item.__id !== 'undefined' ? item : { ...item, __id }
   })
 }
 
@@ -156,6 +157,19 @@ export const getSelectedItemValue = (value, state) => {
 
 export const parseCurrentValue = (current) => {
   return current?.selected_key || current?.content || current
+}
+
+export const getEventData = (item_index, data) => {
+  data = getCurrentData(item_index, data)
+
+  // cleanup
+  if (data && data.__id) {
+    data = { ...data }
+    delete data.__id
+    delete data.__isTransformed
+  }
+
+  return data
 }
 
 export const getCurrentData = (item_index, data) => {
@@ -223,6 +237,9 @@ export const prepareDerivedState = (props, state) => {
       state.data = getData(props)
     }
 
+    state.usePortal =
+      props.skip_portal !== null ? !isTrue(props.skip_portal) : true
+
     if (
       typeof props.wrapper_element === 'string' &&
       typeof document !== 'undefined'
@@ -246,7 +263,7 @@ export const prepareDerivedState = (props, state) => {
         dispatchCustomElementEvent({ props }, 'on_state_update', {
           selected_item: state.selected_item,
           value: getSelectedItemValue(state.selected_item, state),
-          data: getCurrentData(state.selected_item, state.data)
+          data: getEventData(state.selected_item, state.data)
         })
       }
     }
@@ -280,34 +297,6 @@ export const getCurrentDataTitle = (selected_item, data) => {
     separator: ' ',
     preferSelectedValue: true
   })
-}
-
-export const grabStringFromReact = (elements, separator = undefined) => {
-  if (!Array.isArray(elements)) {
-    elements = [elements]
-  }
-
-  return elements
-    .map((word) => {
-      if (React.isValidElement(word)) {
-        if (typeof word.props.children === 'string') {
-          word = word.props.children
-        } else if (Array.isArray(word.props.children)) {
-          word = word.props.children.reduce((acc, word) => {
-            if (typeof word === 'string') {
-              acc = acc + word
-            }
-            return acc
-          }, '')
-        } else {
-          return null
-        }
-      }
-
-      return word
-    })
-    .filter(Boolean)
-    .join(separator)
 }
 
 export const findClosest = (arr, val) =>

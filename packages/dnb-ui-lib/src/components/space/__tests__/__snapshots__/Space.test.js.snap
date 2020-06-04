@@ -5,28 +5,24 @@ exports[`Space component have to match snapshot 1`] = `
   bottom="bottom"
   class="class"
   className="className"
-  collapse={false}
   element="div"
   id="space"
   inline="inline"
   left="left"
+  no_collapse={false}
   render_content={[Function]}
   right="right"
   top="top"
 >
   <Element
     className="dnb-space className class"
-    collapse={false}
     element="div"
+    no_collapse={false}
   >
     <div
-      className="dnb-space--no-collapse"
+      className="dnb-space className class"
     >
-      <div
-        className="dnb-space className class"
-      >
-        children
-      </div>
+      children
     </div>
   </Element>
 </Space>
@@ -366,14 +362,14 @@ exports[`Space scss have to match snapshot 1`] = `
   margin-left: 10rem; }
 
 /* stylelint-disable */
-.dnb-space--inline {
-  display: inline-block; }
-
 .dnb-space--no-collapse {
   display: flow-root; }
   @media screen and (-ms-high-contrast: none) {
     .dnb-space--no-collapse {
       overflow: auto; } }
+
+.dnb-space--inline {
+  display: inline-block; }
 
 .dnb-space__top--zero {
   margin-top: 0; }

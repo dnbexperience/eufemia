@@ -33,6 +33,7 @@ import FormStatus from './components/FormStatus'
 import GlobalStatus from './components/GlobalStatus'
 import GlobalError from './components/GlobalError'
 import Number from './components/Number'
+import Headings from './components/Headings'
 import Icons from './components/Icons'
 import Experiments from './components/Experiments'
 import Pagination from './components/Pagination'
@@ -69,6 +70,7 @@ stories.push(FormStatus)
 stories.push(GlobalStatus)
 stories.push(GlobalError)
 stories.push(Number)
+stories.push(Headings)
 stories.push(Icons)
 stories.push(Experiments)
 stories.push(Pagination)
@@ -83,7 +85,7 @@ stories.push([
         <Logo size="80" style={{ color: 'var(--color-fire-red)' }} />
       </Box>
       <Box>
-        <h1 className="dnb-h1">
+        <h1 className="dnb-h--xx-large">
           H1 with the DNB Logo <Logo size="auto" />
         </h1>
         <p className="dnb-p">

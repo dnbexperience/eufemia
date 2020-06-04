@@ -1,0 +1,12 @@
+/*
+* ScrollView component
+*
+*/
+
+// :root {
+// }
+
+.dnb-scroll-view {
+  overflow-x: auto;
+  @include scrollY();
+}

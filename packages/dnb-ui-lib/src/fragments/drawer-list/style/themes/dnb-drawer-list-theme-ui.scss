@@ -1,5 +1,5 @@
 /*
-* Dropdown theme
+* ScrollView theme
 *
 */
 
@@ -35,6 +35,11 @@
     border-radius: var(--drawer-list-options-border-radius);
     background-color: var(--drawer-list-option-background-color);
   }
+  @media screen and (max-width: 40em) {
+    &__portal &--mobile-view &__list {
+      border-radius: 0;
+    }
+  }
 
   // ul element
   &__options {
@@ -45,12 +50,21 @@
       @include fakeFocus();
     }
   }
+  @media screen and (max-width: 40em) {
+    &__portal &--mobile-view &__options {
+      border-radius: 0;
+    }
+  }
 
   // li element inner
   &__option {
     position: relative;
     color: var(--drawer-list-option-color);
     background-color: var(--drawer-list-option-background-color);
+
+    &.ignore-events {
+      pointer-events: none;
+    }
 
     // This is our border, instead of border-bottom: var(--drawer-list-option-border-width) solid
     &::before {
@@ -85,6 +99,12 @@
         background-color: var(
           --drawer-list-option-background-color--hover
         );
+      }
+    }
+
+    @include active() {
+      .dnb-drawer-list__option__inner {
+        color: var(--color-black);
       }
     }
 
@@ -208,6 +228,12 @@
       var(--drawer-list-options-border-radius) 0 0;
   }
 
+  @media screen and (max-width: 40em) {
+    &__portal &--mobile-view &__option__inner {
+      border-radius: 0;
+    }
+  }
+
   // error status
   &__status--error:not(#{&}--opened) &__icon {
     color: var(--color-fire-red);
@@ -227,17 +253,24 @@
   }
 
   // selected
+  // The code below makrs the triangle on focus only, becuas of the focus ring, it can make sence
+  // &--bottom
+  //   &__option.closest-to-top#{&}__option--focus
+  //   ~ &__triangle::before,
+  // &--top
+  //   &__option.closest-to-bottom#{&}__option--focus
+  //   ~ &__triangle::before,
+  &--bottom
+    &__option.first-of-type#{&}__option--selected
+    ~ &__triangle::before,
+  &--top
+    &__option.last-of-type#{&}__option--selected
+    ~ &__triangle::before,
   &--bottom
     &__option.closest-to-top#{&}__option--selected
     ~ &__triangle::before,
-  &--bottom
-    &__option.closest-to-top#{&}__option--focus
-    ~ &__triangle::before,
   &--top
     &__option.closest-to-bottom#{&}__option--selected
-    ~ &__triangle::before,
-  &--top
-    &__option.closest-to-bottom#{&}__option--focus
     ~ &__triangle::before {
     background-color: var(--drawer-list-option-background-color--selected);
   }

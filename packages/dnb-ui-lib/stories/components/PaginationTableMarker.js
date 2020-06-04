@@ -10,6 +10,7 @@ import styled from '@emotion/styled'
 import { Section, Space, Button } from '../../src/components'
 import { Table, H1, P, Ul } from '../../src/elements'
 import { StickyHelper } from '../../src/elements/Table'
+import { hasSelectedText } from '../../src/shared/helpers'
 
 import { createPagination } from '../../src/components/Pagination'
 
@@ -47,9 +48,9 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
   const perPageCount = 10 // how many items per page
 
   // create our Pagination instance
-  const [
-    { InfinityMarker, endInfinity, resetPagination }
-  ] = React.useState(createPagination)
+  const [{ InfinityMarker, endInfinity, resetInfinity }] = React.useState(
+    createPagination
+  )
   const [orderDirection, setOrderDirection] = React.useState('asc')
   const [cacheHash, forceRerender] = React.useState(null) // eslint-disable-line
   const [currentPage, setCurrentPage] = React.useState(startupPage)
@@ -98,10 +99,13 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
     )
   }
 
+  let serverDelayTimeout
+  React.useEffect(() => () => clearTimeout(serverDelayTimeout))
   const resetHandler = () => {
+    clearTimeout(serverDelayTimeout)
     localStack.current = {}
     setCurrentPage(startupPage)
-    resetPagination()
+    resetInfinity()
   }
 
   return (
@@ -172,7 +176,8 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
               endInfinity()
             } else {
               // simulate server delay
-              setTimeout(() => {
+              clearTimeout(serverDelayTimeout)
+              serverDelayTimeout = setTimeout(() => {
                 // once we set current page, we force a rerender, and sync of data
                 setCurrentPage(page)
               }, Math.ceil(Math.random() * 1e3)) // simulate random delay
@@ -291,8 +296,10 @@ const TableData = styled.td`
     font-size: var(--font-size-large);
 
     /** reset css specificity */
-    .dnb-spacing &.dnb-h2:not([class*='space__bottom']),
-    .dnb-core-style .dnb-spacing &.dnb-h2:not([class*='space__bottom']) {
+    .dnb-spacing &.dnb-h--large:not([class*='space__bottom']),
+    .dnb-core-style
+      .dnb-spacing
+      &.dnb-h--large:not([class*='space__bottom']) {
       margin: 0;
     }
   }
@@ -328,22 +335,6 @@ const setHeight = ({
       )
     })
   }
-}
-
-const hasSelectedText = () => {
-  let selectedText = ''
-
-  try {
-    if (typeof window.getSelection === 'function') {
-      selectedText = window.getSelection().toString()
-    } else if (document.selection?.type !== 'Control') {
-      selectedText = document.selection.createRange().text
-    }
-  } catch (e) {
-    //
-  }
-
-  return selectedText !== ''
 }
 
 const reorderDirection = (items, dir) =>

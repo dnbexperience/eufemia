@@ -10,7 +10,7 @@ import styled from '@emotion/styled'
 import { H2, H3 } from '../../src/elements'
 import AllComponents from '../../src/components/form-row/AllComponents'
 
-// import Provider from '../../src/shared/Provider'
+import Provider from '../../src/shared/Provider'
 import {
   Checkbox,
   Radio,
@@ -26,8 +26,8 @@ const Center = styled.div`
   ${'' /* > div {
     max-width: 60rem;
   } */}
-  .dnb-h2,
-  .dnb-h3 {
+  .dnb-h--large,
+  .dnb-h--medium {
     margin: 0 0 2rem;
     line-height: 1.5rem;
   }
@@ -45,14 +45,23 @@ export default [
 
         <Box>
           <H3 bottom="large">Horizontal label</H3>
-          <FormRow
-            // indent
-            // indent_offset="large"
-            label="Horizontal Legend Aptent:"
-            direction="horizontal"
+          <Provider
+            formRow={{
+              // indent: true,
+              // indent_offset: 'large',
+              direction: 'horizontal'
+              //  vertical: true
+            }}
           >
-            <AllComponents showText horizontal />
-          </FormRow>
+            <FormRow
+              // indent
+              // indent_offset="large"
+              label="Horizontal Legend Aptent:"
+              // direction="horizontal"
+            >
+              <AllComponents showText horizontal />
+            </FormRow>
+          </Provider>
         </Box>
 
         <Box>

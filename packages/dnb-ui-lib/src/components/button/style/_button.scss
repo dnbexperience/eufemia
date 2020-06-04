@@ -67,6 +67,10 @@
 
     // vertical alignment
     transform: translateY(-0.03125rem); // 0.5px
+
+    [data-os='linux'] {
+      transform: translateY(-0.035rem); // 0.5px
+    }
   }
 
   &__alignment {
@@ -282,7 +286,7 @@
     flex: none;
     &__icon,
     &__text {
-      transform: translateY(-0.0625rem) !important;
+      transform: translateY(-0.0625rem);
     }
   }
 }

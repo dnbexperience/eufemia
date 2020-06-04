@@ -8,6 +8,7 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import keycode from 'keycode'
 import {
+  warn,
   isTrue,
   makeUniqueId,
   registerElement,
@@ -96,7 +97,7 @@ const defaultProps = {
   label_direction: null,
   label_sr_only: null,
   title: null,
-  checked: null,
+  checked: undefined,
   variant: null,
   left_component: null,
   disabled: null,
@@ -128,7 +129,7 @@ const defaultProps = {
 /**
  * The toggle-button component is our enhancement of the classic toggle-button button.
  */
-export default class ToggleButton extends React.Component {
+export default class ToggleButton extends React.PureComponent {
   static tagName = 'dnb-toggle-button'
   static propTypes = propTypes
   static defaultProps = defaultProps
@@ -144,9 +145,25 @@ export default class ToggleButton extends React.Component {
 
   static getDerivedStateFromProps(props, state) {
     if (state._listenForPropChanges) {
-      state.checked = ToggleButton.parseChecked(props.checked)
+      if (props.checked !== state._checked) {
+        state.checked = ToggleButton.parseChecked(props.checked)
+      }
+      if (typeof props.checked !== 'undefined') {
+        state._checked = props.checked
+      }
     }
     state._listenForPropChanges = true
+
+    if (state.checked !== state.__checked) {
+      dispatchCustomElementEvent({ props }, 'on_state_update', {
+        checked: state.checked
+      })
+    }
+
+    if (typeof state.checked === 'undefined') {
+      state.checked = false
+    }
+    state.__checked = state.checked
 
     return state
   }
@@ -192,17 +209,6 @@ export default class ToggleButton extends React.Component {
         }
       }
     }
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    if (
-      ToggleButton.parseChecked(this.props.checked) !==
-      ToggleButton.parseChecked(nextProps.checked)
-    ) {
-      const { checked } = nextState
-      dispatchCustomElementEvent(this, 'on_state_update', { checked })
-    }
-    return true
   }
 
   onKeyDownHandler = (event) => {
@@ -251,7 +257,7 @@ export default class ToggleButton extends React.Component {
       try {
         this._refButton.current._ref.current.focus()
       } catch (e) {
-        console.warn(e)
+        warn(e)
       }
     }
   }

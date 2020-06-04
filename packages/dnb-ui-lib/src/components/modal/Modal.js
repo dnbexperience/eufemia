@@ -10,6 +10,7 @@ import classnames from 'classnames'
 import { SuffixContext } from '../../shared/helpers/Suffix'
 import Context from '../../shared/Context'
 import {
+  warn,
   isTrue,
   makeUniqueId,
   extendPropsWithContext,
@@ -60,6 +61,10 @@ const propTypes = {
     PropTypes.bool
   ]),
   no_animation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  no_animation_on_mobile: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.bool
+  ]),
   fullscreen: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   align_content: PropTypes.oneOf(['left', 'center', 'centered', 'right']),
   container_placement: PropTypes.oneOf(['left', 'right']),
@@ -115,6 +120,7 @@ const defaultProps = {
   prevent_close: false,
   prevent_core_style: false,
   no_animation: false,
+  no_animation_on_mobile: false,
   fullscreen: false,
   align_content: 'left',
   container_placement: 'right',
@@ -167,7 +173,7 @@ export default class Modal extends React.PureComponent {
         )
       }
     } catch (e) {
-      console.warn('Modal: Could not insert dnb-modal-root', e)
+      warn('Modal: Could not insert dnb-modal-root', e)
     }
 
     return window.modalRoot
@@ -224,10 +230,14 @@ export default class Modal extends React.PureComponent {
         fn()
       }
     })
+    this.setState({
+      hide: true,
+      modalActive: false,
+      _listenForPropChanges: false
+    })
     clearTimeout(this._openTimeout)
     clearTimeout(this._closeTimeout)
     clearTimeout(this._sideEffectsTimeout)
-    this.toggleOpenClose(null, false)
   }
 
   toggleOpenClose = (event = null, showModal = null) => {
@@ -286,7 +296,7 @@ export default class Modal extends React.PureComponent {
             modalActive ? 'true' : 'false'
           )
         } catch (e) {
-          console.warn(
+          warn(
             'Modal: Error on set "data-dnb-modal-active" by using element.setAttribute()',
             e
           )
@@ -448,7 +458,6 @@ export default class Modal extends React.PureComponent {
                   innerRef={this._triggerRef}
                 />
               )}
-
               {modalActive && modal_content && (
                 <ModalRoot
                   {...rest}
@@ -502,7 +511,7 @@ class ModalRoot extends React.PureComponent {
           window.modalRoot.appendChild(this.node)
         }
       } catch (e) {
-        console.warn(e)
+        warn(e)
       }
       this.setState({ isMonted: true })
     }

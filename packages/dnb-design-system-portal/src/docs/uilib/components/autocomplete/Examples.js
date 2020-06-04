@@ -12,36 +12,41 @@ class Example extends React.PureComponent {
     return (
       <React.Fragment>
         <ComponentBox title="Default autocomplete" scope={{ topMovies }}>
-          {/* @jsx */ `
+          {
+            /* @jsx */ `
 <Autocomplete
   data={topMovies}
   label="Label:"
 />
-          `}
+          `
+          }
         </ComponentBox>
         <ComponentBox
           title="Autocomplete with a custom title"
           data-dnb-test="autocomplete-closed"
           scope={{ topMovies }}
         >
-          {/* @jsx */ `
+          {
+            /* @jsx */ `
 <Autocomplete
   data={topMovies}
   label="Label:"
-  title="Find cc ..."
+  placeholder="Custom placeholder ..."
   on_change={({ data }) => {
     console.log('on_change', data)
   }}
 />
-          `}
+          `
+          }
         </ComponentBox>
         <ComponentBox
           title="Async usage, dynamically update data during typing"
-          description="**Notes:** 1. Simualte server delay and 2. If it gets debounced, we cancel this timeout"
+          description="This example simulates server delay with a timeout and - if it gets debounced, we cancel the timeout.<br /><br />Also, you may consider of using `disable_filter` if you have a backend doing the search operation."
           scope={{ topMovies }}
           useRender
         >
-          {/* @jsx */ `
+          {
+            /* @jsx */ `
 const onTypeHandler = ({
   value,
   showIndicator,
@@ -75,18 +80,21 @@ const onTypeHandler = ({
 }
 render(<Autocomplete
   mode="async"
-  no_scroll_animation="true"
   prevent_selection="true"
   on_type={onTypeHandler}
+  no_scroll_animation="true"
+  placeholder="Search ..."
 />)
-          `}
+          `
+          }
         </ComponentBox>
         <ComponentBox
           title="Update data dynamically on first focus"
           scope={{ topMovies }}
           useRender
         >
-          {/* @jsx */ `
+          {
+            /* @jsx */ `
 const onFocusHandler = ({ updateData, dataList, showIndicatorItem }) => {
   if(!dataList.length){
     showIndicatorItem()
@@ -104,7 +112,8 @@ render(<Autocomplete
   }}
   on_focus={onFocusHandler}
 />)
-          `}
+          `
+          }
         </ComponentBox>
         <ComponentBox
           title="With a Button to toggle the open / close state"
@@ -112,17 +121,39 @@ render(<Autocomplete
           data-dnb-test="autocomplete-drawer-button"
           scope={{ topMovies }}
         >
-          {/* @jsx */ `
+          {
+            /* @jsx */ `
 <Autocomplete
   label="Label:"
-  show_drawer_button="true"
+  show_submit_button="true"
   on_change={({ data }) => {
     console.log('on_change', data)
   }}
 >
   {() => (topMovies)}
 </Autocomplete>
-          `}
+          `
+          }
+        </ComponentBox>
+        <ComponentBox
+          title="With a predefined input/search value"
+          data-dnb-test="autocomplete-drawer-search"
+          scope={{ topMovies }}
+        >
+          {
+            /* @jsx */ `
+<Autocomplete
+  label="Label:"
+  input_value="the pa ther"
+  no_animation
+  on_change={({ data }) => {
+    console.log('on_change', data)
+  }}
+>
+  {() => (topMovies)}
+</Autocomplete>
+          `
+          }
         </ComponentBox>
         <ComponentBox
           title="Different sizes"
@@ -130,7 +161,8 @@ render(<Autocomplete
           data-dnb-test="autocomplete-sizes"
           scope={{ topMovies }}
         >
-          {/* @jsx */ `
+          {
+            /* @jsx */ `
 <FormRow direction="vertical">
   <Autocomplete
     label="Label:"
@@ -151,7 +183,64 @@ render(<Autocomplete
     data={() => (topMovies)}
   />
 </FormRow>
-          `}
+          `
+          }
+        </ComponentBox>
+        <ComponentBox
+          title="Custom width"
+          // data-dnb-test="autocomplete-width"
+          scope={{ topMovies }}
+          useRender
+        >
+          {
+            /* @jsx */ `
+const CustomWidthOne = styled(Autocomplete)\`
+  .dnb-autocomplete__shell {
+    width: 10rem;
+  }
+\`
+const CustomWidthTwo = styled(Autocomplete)\`
+  &.dnb-autocomplete--is-popup .dnb-drawer-list__root {
+    width: 8rem;
+  }
+\`
+const CustomWidthThree = styled(Autocomplete)\`
+  /** Change the "__shell" width */
+  .dnb-autocomplete__shell {
+    width: 12rem;
+  }
+
+  /** Change the "__list" width */
+  .dnb-drawer-list__root {
+    width: 20rem;
+  }
+\`
+render(<FormRow direction="vertical">
+  <CustomWidthOne
+    label="Label:"
+    size="default"
+    icon_position="left"
+    bottom
+    data={topMovies}
+  />
+  <CustomWidthTwo
+    label="Label:"
+    size="medium"
+    bottom
+    data={topMovies}
+  />
+  <CustomWidthThree
+    label="Label:"
+    size="large"
+    align_autocomplete="right"
+    icon_position="right"
+    input_icon="chevron_down"
+    bottom
+    data={topMovies}
+  />
+</FormRow>)
+          `
+          }
         </ComponentBox>
       </React.Fragment>
     )
@@ -167,11 +256,13 @@ const Wrapper = styled.div`
 `
 
 export { Example }
-export default () => (
-  <Wrapper>
-    <Example />
-  </Wrapper>
-)
+export default function StyledExample() {
+  return (
+    <Wrapper>
+      <Example />
+    </Wrapper>
+  )
+}
 
 const topMovies = [
   { content: 'The Shawshank Redemption', year: 1994 },

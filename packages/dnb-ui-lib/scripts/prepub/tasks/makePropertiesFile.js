@@ -9,7 +9,7 @@ import transform from 'gulp-transform'
 import prettier from 'prettier'
 import { log } from '../../lib'
 
-export default async () => {
+export default async function makePropertiesFile() {
   await runFactory()
 
   log.succeed(

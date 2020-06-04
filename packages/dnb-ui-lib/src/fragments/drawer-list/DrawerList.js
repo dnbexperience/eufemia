@@ -19,11 +19,13 @@ import { createSpacingClasses } from '../../components/space/SpacingHelper'
 
 import DrawerListContext from './DrawerListContext'
 import DrawerListProvider from './DrawerListProvider'
+import DrawerListPortal from './DrawerListPortal'
 
 const renderProps = {
   on_show: null,
   on_hide: null,
   on_change: null,
+  on_pre_change: null,
   on_resize: null,
   on_select: null,
   on_state_update: null,
@@ -45,6 +47,7 @@ export const propTypes = {
     PropTypes.string,
     PropTypes.bool
   ]),
+  use_mobile_view: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   prevent_selection: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.bool
@@ -62,8 +65,13 @@ export const propTypes = {
   ]),
   default_value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  skip_portal: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   prevent_close: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  button_only: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  independent_width: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.bool
+  ]),
+  fixed_position: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   keep_open: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   prevent_focus: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   skip_keysearch: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -119,6 +127,7 @@ export const propTypes = {
   on_show: PropTypes.func,
   on_hide: PropTypes.func,
   on_change: PropTypes.func,
+  on_pre_change: PropTypes.func,
   on_resize: PropTypes.func,
   on_select: PropTypes.func,
   on_state_update: PropTypes.func
@@ -135,15 +144,18 @@ export const defaultProps = {
   size: 'default',
   no_animation: false,
   no_scroll_animation: false,
+  use_mobile_view: false,
   prevent_selection: false,
-  align_drawer: null,
+  align_drawer: 'left',
   wrapper_element: null,
   default_value: null,
   value: 'initval',
+  skip_portal: null,
   prevent_close: false,
   keep_open: false,
   prevent_focus: false,
-  button_only: false,
+  fixed_position: false,
+  independent_width: false,
   skip_keysearch: false,
   opened: null,
   class: null,
@@ -220,7 +232,12 @@ class DrawerListInstance extends React.PureComponent {
   preventTab = (e) => {
     switch (keycode(e)) {
       case 'tab':
-        this.setHidden()
+        this.context.drawerList.setHidden()
+        break
+
+      case 'page down':
+      case 'page up':
+        e.preventDefault()
         break
     }
   }
@@ -248,7 +265,9 @@ class DrawerListInstance extends React.PureComponent {
 
     const {
       align_drawer,
-      button_only,
+      fixed_position,
+      use_mobile_view,
+      independent_width,
       scrollable,
       focusable,
       size,
@@ -300,13 +319,15 @@ class DrawerListInstance extends React.PureComponent {
         hidden && 'dnb-drawer-list--hidden',
         `dnb-drawer-list--${direction}`,
         triangle_position &&
-          `dnb-drawer-list--icon-position-${triangle_position}`,
+          `dnb-drawer-list--triangle-position-${triangle_position}`,
         align_drawer && `dnb-drawer-list--${align_drawer}`,
         size && `dnb-drawer-list--${size}`,
-        button_only && 'dnb-drawer-list--is-popup',
+        // isTrue(fixed_position) && 'dnb-drawer-list--fixed',
+        isTrue(independent_width) && 'dnb-drawer-list--independent-width',
         isTrue(scrollable) && 'dnb-drawer-list--scroll',
         isTrue(no_scroll_animation) &&
           'dnb-drawer-list--no-scroll-animation',
+        isTrue(use_mobile_view) && 'dnb-drawer-list--mobile-view',
         createSpacingClasses(props),
         _className,
         className
@@ -326,11 +347,13 @@ class DrawerListInstance extends React.PureComponent {
     const ulParams = {
       id: `${id}-ul`,
       role: 'listbox',
-      ['aria-labelledby']: `${id}-label`,
+      'aria-expanded': opened,
+      'aria-labelledby': `${id}-label`,
       tabIndex: '-1',
       style: {
         maxHeight: max_height > 0 ? `${max_height}rem` : null
-      }
+      },
+      ref: this.context.drawerList._refUl
     }
     if (
       !isTrue(prevent_selection) &&
@@ -357,25 +380,33 @@ class DrawerListInstance extends React.PureComponent {
     const ignoreEvents = isTrue(ignore_events)
 
     const Items = () =>
-      data.map((dataItem) => {
+      data.map((dataItem, i) => {
         const _id = dataItem.__id
+        const hash = `option-${id}-${_id}-${i}`
         const liParams = {
-          id: `option-${id}-${_id}`, // we could use _id here
+          'data-item': _id,
+          id: `option-${id}-${_id}`,
+          hash,
           className: classnames(
             // helper classes
-            _id == closestToTop && 'closest-to-top',
-            _id == closestToBottom && 'closest-to-bottom',
-            _id == data.length - 1 && 'last-of-type' // because of the triangle element
+            i === closestToTop && 'closest-to-top',
+            i === closestToBottom && 'closest-to-bottom',
+            i === 0 && 'first-of-type', // because of the triangle element
+            i === data.length - 1 && 'last-of-type', // because of the triangle element
+            ignoreEvents || (dataItem.ignore_events && 'ignore-events'),
+            dataItem.class_name
           ),
+          active: _id == active_item,
+          selected: !dataItem.ignore_events && _id == selected_item,
           onClick: this.selectItemHandler,
-          onKeyDown: this.preventTab,
-          'data-item': _id
+          onKeyDown: this.preventTab
         }
 
         if (ignoreEvents) {
+          liParams.active = null
           liParams.selected = null
           liParams.onClick = null
-          liParams.onClick = null
+          liParams.onKeyDown = null
           liParams.className = classnames(
             liParams.className,
             'dnb-drawer-list__option--ignore'
@@ -383,25 +414,17 @@ class DrawerListInstance extends React.PureComponent {
         }
 
         return (
-          <DrawerList.Item
-            key={_id}
-            cache_hash={cache_hash}
-            selected={_id == selected_item}
-            active={!ignoreEvents && _id == active_item}
-            {...liParams}
-          >
+          <DrawerList.Item key={hash} {...liParams}>
             {dataItem}
           </DrawerList.Item>
         )
       })
 
-    return (
+    const mainList = (
       <span {...mainParams} ref={this.context.drawerList._refShell}>
         <span {...listParams}>
           {hidden === false && data && data.length > 0 ? (
             <DrawerList.Options
-              {...ulParams}
-              ref={this.context.drawerList._refUl}
               cache_hash={
                 cache_hash +
                 active_item +
@@ -411,6 +434,7 @@ class DrawerListInstance extends React.PureComponent {
                 direction +
                 max_height
               }
+              {...ulParams}
               triangleRef={this.context.drawerList._refTriangle}
             >
               {typeof options_render === 'function' ? (
@@ -420,22 +444,51 @@ class DrawerListInstance extends React.PureComponent {
               )}
             </DrawerList.Options>
           ) : (
-            (children && (
+            children && (
               <span className="dnb-drawer-list__content">
                 {children}
                 <span className="dnb-drawer-list__triangle"></span>
               </span>
-            )) || (
-              <ul {...ulParams} hidden>
-                <li
-                  role="option"
-                  id={`option-${id}-${selected_item}`}
-                  aria-selected="true"
-                ></li>
-              </ul>
-            )
+            ) /*|| (
+        <ul {...ulParams} hidden>
+          <li
+            role="option"
+            id={`option-${id}-${selected_item}`}
+            aria-selected="true"
+          >
+            blabla
+          </li>
+        </ul>
+      ) - is semanticall good, but not good for NVDA screen reader, as it reads out that there is only one item in there */
           )}
         </span>
+      </span>
+    )
+
+    // Gets set as "skip_portal"
+    return (
+      <span
+        className={classnames(
+          'dnb-drawer-list__root',
+          this.context.drawerList.usePortal &&
+            'dnb-drawer-list__root--portal'
+        )}
+        ref={this.context.drawerList._refRoot}
+      >
+        {this.context.drawerList.usePortal ? (
+          <DrawerListPortal
+            id={this._id}
+            rootRef={this.context.drawerList._refRoot}
+            opened={hidden === false}
+            useWidthAddition={align_drawer === 'right'}
+            fixedPosition={isTrue(fixed_position)}
+            useMobileView={isTrue(use_mobile_view)}
+          >
+            {mainList}
+          </DrawerListPortal>
+        ) : (
+          mainList
+        )}
       </span>
     )
   }
@@ -447,13 +500,18 @@ DrawerList.Options = React.memo(
     const {
       children,
       className,
+      class: _className,
       triangleRef = null,
-      cache_hash: _cache_hash, // eslint-disable-line
+      cache_hash, // eslint-disable-line
       ...rest
     } = props
     return (
       <ul
-        className={classnames('dnb-drawer-list__options', className)}
+        className={classnames(
+          'dnb-drawer-list__options',
+          className,
+          _className
+        )}
         {...rest}
         ref={ref}
       >
@@ -477,124 +535,111 @@ DrawerList.Options.displayName = 'DrawerList.Options'
 DrawerList.Options.propTypes = {
   children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
   className: PropTypes.string,
+  class: PropTypes.string,
   triangleRef: PropTypes.object
 }
 DrawerList.Options.defaultProps = {
   children: null,
   className: null,
+  class: null,
   triangleRef: null
 }
 
 // DrawerList Item
-DrawerList.Item = React.memo(
-  React.forwardRef((props, ref) => {
-    const {
-      cache_hash: _cache_hash, // eslint-disable-line
-      children,
+DrawerList.Item = React.forwardRef((props, ref) => {
+  const {
+    hash, // eslint-disable-line
+    children, // eslint-disable-line
+    className, // eslint-disable-line
+    class: _className, // eslint-disable-line
+    on_click, // eslint-disable-line
+    selected, // eslint-disable-line
+    active, // eslint-disable-line
+    value, // eslint-disable-line
+    ...rest
+  } = props
+
+  const params = {
+    className: classnames(
       className,
-      on_click,
-      selected,
-      active,
-      value,
-      ...rest
-    } = props
-
-    const params = {}
-    if (selected) {
-      params['aria-current'] = true // has best support on NVDA
-      params['aria-selected'] = true // has best support on VO
-    }
-
-    if (on_click) {
-      params.onClick = () =>
-        dispatchCustomElementEvent(
-          {
-            props: { ...props, displayName: DrawerList.Item.displayName }
-          },
-          'on_click',
-          {
-            selected,
-            value,
-            ...rest
-          }
-        )
-    }
-
-    return (
-      <li
-        className={classnames(
-          className,
-          'dnb-drawer-list__option',
-          selected && 'dnb-drawer-list__option--selected',
-          active && 'dnb-drawer-list__option--focus'
-        )}
-        role="option" // presentation / option / menuitem
-        aria-selected="false"
-        tabIndex="-1"
-        {...rest}
-        {...params}
-        ref={ref}
-      >
-        <span className="dnb-drawer-list__option__inner">
-          <ItemContent>{children}</ItemContent>
-        </span>
-      </li>
-    )
-  }),
-  (prevProps, nextProps) => {
-    if (!prevProps.cache_hash) {
-      return null
-    }
-    if (
-      prevProps.cache_hash === nextProps.cache_hash &&
-      prevProps.className === nextProps.className &&
-      prevProps.content === nextProps.content &&
-      prevProps.selected === nextProps.selected &&
-      prevProps.active === nextProps.active
-    ) {
-      return true
-    }
-    return false
+      _className,
+      'dnb-drawer-list__option',
+      selected && 'dnb-drawer-list__option--selected',
+      active && 'dnb-drawer-list__option--focus'
+    ),
+    role: 'option', // presentation / option / menuitem
+    tabIndex: '-1',
+    'aria-selected': active
   }
-)
+  if (selected) {
+    params['aria-current'] = true // has best support on NVDA
+  }
+
+  if (on_click) {
+    params.onClick = () =>
+      dispatchCustomElementEvent(
+        {
+          props: { ...props, displayName: DrawerList.Item.displayName }
+        },
+        'on_click',
+        {
+          selected,
+          value,
+          ...rest
+        }
+      )
+  }
+
+  return (
+    <li {...params} {...rest} ref={ref} key={'li' + hash}>
+      <span className="dnb-drawer-list__option__inner">
+        <ItemContent hash={hash}>{children}</ItemContent>
+      </span>
+    </li>
+  )
+})
 DrawerList.Item.displayName = 'DrawerList.Item'
 DrawerList.Item.propTypes = {
+  hash: PropTypes.string,
   children: PropTypes.oneOfType([
     PropTypes.node,
     PropTypes.func,
     PropTypes.object
-  ]),
+  ]).isRequired,
   className: PropTypes.string,
+  class: PropTypes.string,
   on_click: PropTypes.func,
   selected: PropTypes.bool,
   active: PropTypes.bool,
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
 }
 DrawerList.Item.defaultProps = {
-  children: null,
+  hash: '',
   className: null,
+  class: null,
   on_click: null,
   selected: null,
   active: null,
   value: null
 }
 
-const ItemContent = ({ children }) => {
+const ItemContent = ({ hash, children }) => {
   if (Array.isArray(children.content || children)) {
     return (children.content || children).map((item, n) => (
-      <span key={n} className="dnb-drawer-list__option__item">
-        {children.render ? children.render(item) : item}
+      <span key={hash + n} className="dnb-drawer-list__option__item">
+        {children.render ? children.render(item, hash + n) : item}
       </span>
     ))
   } else if (children.content) {
     return children.render
-      ? children.render(children.content)
+      ? children.render(children.content, hash)
       : children.content
   }
 
   return children
 }
 ItemContent.propTypes = {
+  hash: PropTypes.string.isRequired,
   children: PropTypes.oneOfType([
     PropTypes.node,
     PropTypes.func,

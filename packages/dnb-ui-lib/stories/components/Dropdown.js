@@ -14,19 +14,13 @@ import {
   FormLabel,
   FormSet,
   FormRow,
-  Number
+  Number,
+  Modal
   // Checkbox
 } from '../../src/components'
 
 const CustomStyle = styled.div`
-  ${'' /* --dropdown-width: 20rem; */}
-  ${'' /* .dnb-dropdown:not(.dnb-dropdown--is-popup) .dnb-dropdown__shell {
-    width: 20rem;
-  }
-  .dnb-dropdown:not(.dnb-dropdown--is-popup) .dnb-dropdown__list {
-    min-width: 20rem;
-  } */}
-   [data-dnb-test='dropdown-list'].dnb-drawer-list__list {
+  [data-dnb-test='dropdown-list'].dnb-drawer-list__list {
     display: block;
     visibility: visible;
     position: relative;
@@ -34,49 +28,186 @@ const CustomStyle = styled.div`
     width: var(--dropdown-width);
   }
 `
+const CustomWidth = styled.div`
+  /** Because regarding the included label/status etc. we target the "__shell" */
+  .dnb-dropdown__shell {
+    width: 10rem;
+  }
+
+  /** In order to change only the "__list" width */
+  .dnb-drawer-list__root {
+    width: 8rem;
+  }
+
+  /** In Portal mode */
+  .dnb-dropdown--is-popup .dnb-drawer-list__root {
+    width: 8rem;
+  }
+`
+
+const direction = 'auto'
+const label = 'Label'
+const align_dropdown = 'right'
+const opened = false
 
 const DropdownStory = () => {
   const [data, setData] = React.useState(dropdownData)
   const [value, setSelectedItem] = React.useState(0)
   return (
     <Wrapper>
-      <Box>
-        <Dropdown
-          // opened
-          // no_animation
-          // value="0"
-          value="b"
-          // data={['A', 'B']}
-          data={() => ({
-            a: 'AA',
-            b: 'BB'
-          })}
-          on_select={(e) => {
-            console.log('on_select', e)
-          }}
-          on_change={(e) => {
-            console.log('on_change', e)
-          }}
-        ></Dropdown>
-        <Dropdown
-          // opened
-          // no_animation
-          // value="0"
-          // value="b"
-          // data={['A', 'B']}
-          on_select={(e) => {
-            console.log('on_select', e)
-          }}
-          on_change={(e) => {
-            console.log('on_change', e)
-          }}
-        >
-          {() => ({
-            a: 'AA',
-            b: 'BB'
-          })}
-        </Dropdown>
-      </Box>
+      <CustomWidth>
+        <Box>
+          <Modal mode="drawer">
+            <Dropdown
+              use_mobile_view
+              label={label}
+              data={dropdownDataScrollable}
+            />
+          </Modal>
+        </Box>
+        <Box>
+          <Dropdown
+            size="small"
+            skip_portal
+            opened={opened}
+            no_animation
+            direction={direction}
+            align_dropdown={align_dropdown}
+            // icon_position="left"
+            label={label}
+            data={['A', 'B']}
+            right
+          />
+          <Dropdown
+            size="small"
+            opened={opened}
+            use_mobile_view
+            no_animation
+            direction={direction}
+            align_dropdown={align_dropdown}
+            label={label}
+            data={['A', 'B']}
+            right
+          />
+        </Box>
+        <Box top={opened ? 'x-large x-large' : 0}>
+          <Dropdown
+            skip_portal
+            opened={opened}
+            no_animation
+            direction={direction}
+            align_dropdown={align_dropdown}
+            label={label}
+            data={['A', 'B']}
+            right
+          />
+          <Dropdown
+            opened={opened}
+            no_animation
+            direction={direction}
+            align_dropdown={align_dropdown}
+            label={label}
+            data={['A', 'B']}
+            right
+          />
+        </Box>
+        <Box top={opened ? 'x-large x-large' : 0}>
+          <Dropdown
+            size="medium"
+            skip_portal
+            opened={opened}
+            no_animation
+            direction={direction}
+            align_dropdown={align_dropdown}
+            label={label}
+            data={['A', 'B']}
+            right
+          />
+          <Dropdown
+            size="medium"
+            opened={opened}
+            no_animation
+            direction={direction}
+            align_dropdown={align_dropdown}
+            label={label}
+            data={['A', 'B']}
+            right
+          />
+        </Box>
+        <Box top={opened ? 'x-large x-large' : 0}>
+          <Dropdown
+            size="large"
+            skip_portal
+            opened={opened}
+            no_animation
+            direction={direction}
+            align_dropdown={align_dropdown}
+            label={label}
+            data={['A', 'B']}
+            right
+          />
+          <Dropdown
+            size="large"
+            opened={opened}
+            // opened
+            no_animation
+            align_dropdown={align_dropdown}
+            direction={direction}
+            label={label}
+            data={['A', 'B']}
+            right
+          />
+        </Box>
+        <Box top={opened ? 'x-large x-large' : 0}>
+          <Box>
+            <Dropdown
+              size="small"
+              opened={opened}
+              // opened
+              label={label}
+              no_animation
+              direction={direction}
+              align_dropdown={align_dropdown}
+              more_menu={true}
+              data={['Go this this Link', 'Or to this one']}
+              right="x-large x-large"
+              skip_portal
+            />
+            <Dropdown
+              more_menu="true"
+              opened={opened}
+              label={label}
+              no_animation
+              direction={direction}
+              align_dropdown={align_dropdown}
+              data={['Go this this Link', 'Or to this one']}
+              right="x-large x-large"
+            />
+            <Dropdown
+              size="medium"
+              prevent_selection="true"
+              opened={opened}
+              label={label}
+              no_animation
+              direction={direction}
+              align_dropdown={align_dropdown}
+              data={['Go this this Link', 'Or to this one']}
+              right="x-large x-large"
+            />
+            <Dropdown
+              size="large"
+              prevent_selection
+              opened={opened}
+              label={label}
+              no_animation
+              direction={direction}
+              align_dropdown={align_dropdown}
+              data={['Go this this Link', 'Or to this one']}
+              right="x-large x-large"
+            />
+          </Box>
+        </Box>
+      </CustomWidth>
       <Box>
         <CurrencyDropdown />
       </Box>
@@ -211,64 +342,7 @@ const DropdownStory = () => {
         </FormRow>
       </Box>
       <Box>
-        Popup Menu
-        <Dropdown
-          left
-          right
-          size="small"
-          // align_dropdown="right"
-          more_menu={true}
-          title="Choose an item"
-          data={['Go this this Link', 'Or to this one']}
-          on_change={({ value }) => {
-            console.log('on_change', value)
-          }}
-          on_select={({ active_item }) => {
-            console.log('on_select', active_item)
-          }}
-        />
-        <Dropdown
-          right
-          more_menu="true"
-          // align_dropdown="right"
-          title="Choose an item"
-          data={['Go this this Link', 'Or to this one']}
-          on_change={({ value }) => {
-            console.log('on_change', value)
-          }}
-          on_select={({ active_item }) => {
-            console.log('on_select', active_item)
-          }}
-        />
-        <Dropdown
-          right
-          size="medium"
-          prevent_selection="true"
-          // align_dropdown="right"
-          title="Choose an item"
-          data={['Go this this Link', 'Or to this one']}
-          on_change={({ value }) => {
-            console.log('on_change', value)
-          }}
-          on_select={({ active_item }) => {
-            console.log('on_select', active_item)
-          }}
-        />
-        <Dropdown
-          size="large"
-          prevent_selection="true"
-          // align_dropdown="right"
-          title="Choose an item"
-          data={['Go this this Link', 'Or to this one']}
-          on_change={({ value }) => {
-            console.log('on_change', value)
-          }}
-          on_select={({ active_item }) => {
-            console.log('on_select', active_item)
-          }}
-        />
-      </Box>
-      <Box>
+        <span className="dnb-p">Eros semper</span>
         <Dropdown
           label="Label:"
           // direction="top"
@@ -276,14 +350,12 @@ const DropdownStory = () => {
           value={4}
           no_scroll_animation="true"
           status="Message to the user"
+          right
         />
-        <p className="dnb-p">
-          Eros semper blandit tellus mollis primis quisque platea
-          sollicitudin ipsum
-        </p>
+        <span className="dnb-p">Eros semper</span>
       </Box>
       <Box>
-        <FormLabel for_id="text-dropdown-1" text="Label:" />
+        <FormLabel for_id="text-dropdown-1" text="FormLabel Label:" />
         <Dropdown
           data={dropdownData}
           id="text-dropdown-1"
@@ -537,6 +609,7 @@ function DropdownStates() {
       <Dropdown
         data={dropdownDataScrollable}
         title="Dropdown 1"
+        use_mobile_view
         on_change={handleOnChange}
       />
       <Dropdown

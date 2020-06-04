@@ -33,7 +33,6 @@ exports[`Button component have to match default button snapshot 1`] = `
     disabled={false}
     id="button"
     onClick={[Function]}
-    onMouseOut={[Function]}
     title="This is a button title"
     type="type"
   >
@@ -155,7 +154,6 @@ exports[`Button component have to match href="..." snapshot 1`] = `
     href="https://url"
     id="button"
     onClick={[Function]}
-    onMouseOut={[Function]}
     title="This is a button title"
     type="type"
   >
@@ -267,42 +265,42 @@ exports[`Button scss have to match default theme snapshot 1`] = `
   .dnb-button--primary {
     color: var(--color-white);
     background-color: var(--color-sea-green); }
-    html:not([data-is-touch]) .dnb-button--primary:hover[disabled] {
+    html:not([data-whatintent='touch']) .dnb-button--primary:hover[disabled] {
       cursor: not-allowed; }
-    html:not([data-is-touch]) .dnb-button--primary:hover:not([disabled]) {
+    html:not([data-whatintent='touch']) .dnb-button--primary:hover:not([disabled]) {
       color: var(--color-sea-green);
       background-color: var(--color-white);
       box-shadow: 0 0 0 0.125rem var(--color-emerald-green);
       /* IE11 fix */
       border-color: transparent; }
       @media screen and (-ms-high-contrast: none) {
-        html:not([data-is-touch]) .dnb-button--primary:hover:not([disabled]) {
+        html:not([data-whatintent='touch']) .dnb-button--primary:hover:not([disabled]) {
           opacity: 1; } }
     .dnb-button--primary:focus[disabled],
-    html:not([data-is-touch]) .dnb-button--primary:focus[disabled] {
+    html:not([data-whatintent='touch']) .dnb-button--primary:focus[disabled] {
       cursor: not-allowed; }
     .dnb-button--primary:focus:not([disabled]),
-    html:not([data-is-touch]) .dnb-button--primary:focus:not([disabled]) {
+    html:not([data-whatintent='touch']) .dnb-button--primary:focus:not([disabled]) {
       outline: none; }
-      html:not([data-is-touch]) .dnb-button--primary:focus:not([disabled]), html:not([data-is-touch])
-      html:not([data-is-touch]) .dnb-button--primary:focus:not([disabled]) {
+      html[data-whatinput='keyboard'] .dnb-button--primary:focus:not([disabled]), html[data-whatinput='keyboard']
+      html:not([data-whatintent='touch']) .dnb-button--primary:focus:not([disabled]) {
         color: var(--color-sea-green);
         background-color: var(--color-white); }
       html[data-whatinput='keyboard'] .dnb-button--primary:focus:not([disabled]), html[data-whatinput='keyboard']
-      html:not([data-is-touch]) .dnb-button--primary:focus:not([disabled]) {
+      html:not([data-whatintent='touch']) .dnb-button--primary:focus:not([disabled]) {
         box-shadow: inset 0 0 0 0.125rem var(--color-emerald-green);
         /* IE11 fix */
         /* iOS fix - because \\"inset\\" works not fine with border-radius and rem unit */
         border-color: transparent; }
         @supports (-webkit-touch-callout: none) {
           html[data-whatinput='keyboard'] .dnb-button--primary:focus:not([disabled]), html[data-whatinput='keyboard']
-          html:not([data-is-touch]) .dnb-button--primary:focus:not([disabled]) {
+          html:not([data-whatintent='touch']) .dnb-button--primary:focus:not([disabled]) {
             box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
     .dnb-button--primary:active[disabled],
-    html:not([data-is-touch]) .dnb-button--primary:active[disabled] {
+    html:not([data-whatintent='touch']) .dnb-button--primary:active[disabled] {
       cursor: not-allowed; }
     .dnb-button--primary:active:not([disabled]),
-    html:not([data-is-touch]) .dnb-button--primary:active:not([disabled]) {
+    html:not([data-whatintent='touch']) .dnb-button--primary:active:not([disabled]) {
       color: var(--color-sea-green);
       background-color: var(--color-mint-green-50);
       box-shadow: 0 0 0 0.0625rem transparent;
@@ -326,42 +324,42 @@ exports[`Button scss have to match default theme snapshot 1`] = `
     @supports (-webkit-touch-callout: none) {
       .dnb-button--secondary {
         box-shadow: 0 0 0 0.0625rem var(--color-sea-green); } }
-    html:not([data-is-touch]) .dnb-button--secondary:hover[disabled] {
+    html:not([data-whatintent='touch']) .dnb-button--secondary:hover[disabled] {
       cursor: not-allowed; }
-    html:not([data-is-touch]) .dnb-button--secondary:hover:not([disabled]) {
+    html:not([data-whatintent='touch']) .dnb-button--secondary:hover:not([disabled]) {
       color: var(--color-sea-green);
       background-color: var(--color-white);
       box-shadow: 0 0 0 0.125rem var(--color-emerald-green);
       /* IE11 fix */
       border-color: transparent; }
       @media screen and (-ms-high-contrast: none) {
-        html:not([data-is-touch]) .dnb-button--secondary:hover:not([disabled]) {
+        html:not([data-whatintent='touch']) .dnb-button--secondary:hover:not([disabled]) {
           opacity: 1; } }
     .dnb-button--secondary:focus[disabled],
-    html:not([data-is-touch]) .dnb-button--secondary:focus[disabled] {
+    html:not([data-whatintent='touch']) .dnb-button--secondary:focus[disabled] {
       cursor: not-allowed; }
     .dnb-button--secondary:focus:not([disabled]),
-    html:not([data-is-touch]) .dnb-button--secondary:focus:not([disabled]) {
+    html:not([data-whatintent='touch']) .dnb-button--secondary:focus:not([disabled]) {
       outline: none; }
-      html:not([data-is-touch]) .dnb-button--secondary:focus:not([disabled]), html:not([data-is-touch])
-      html:not([data-is-touch]) .dnb-button--secondary:focus:not([disabled]) {
+      html[data-whatinput='keyboard'] .dnb-button--secondary:focus:not([disabled]), html[data-whatinput='keyboard']
+      html:not([data-whatintent='touch']) .dnb-button--secondary:focus:not([disabled]) {
         color: var(--color-sea-green);
         background-color: var(--color-white); }
       html[data-whatinput='keyboard'] .dnb-button--secondary:focus:not([disabled]), html[data-whatinput='keyboard']
-      html:not([data-is-touch]) .dnb-button--secondary:focus:not([disabled]) {
+      html:not([data-whatintent='touch']) .dnb-button--secondary:focus:not([disabled]) {
         box-shadow: inset 0 0 0 0.125rem var(--color-emerald-green);
         /* IE11 fix */
         /* iOS fix - because \\"inset\\" works not fine with border-radius and rem unit */
         border-color: transparent; }
         @supports (-webkit-touch-callout: none) {
           html[data-whatinput='keyboard'] .dnb-button--secondary:focus:not([disabled]), html[data-whatinput='keyboard']
-          html:not([data-is-touch]) .dnb-button--secondary:focus:not([disabled]) {
+          html:not([data-whatintent='touch']) .dnb-button--secondary:focus:not([disabled]) {
             box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
     .dnb-button--secondary:active[disabled],
-    html:not([data-is-touch]) .dnb-button--secondary:active[disabled] {
+    html:not([data-whatintent='touch']) .dnb-button--secondary:active[disabled] {
       cursor: not-allowed; }
     .dnb-button--secondary:active:not([disabled]),
-    html:not([data-is-touch]) .dnb-button--secondary:active:not([disabled]) {
+    html:not([data-whatintent='touch']) .dnb-button--secondary:active:not([disabled]) {
       color: var(--color-sea-green);
       background-color: var(--color-mint-green-50);
       box-shadow: 0 0 0 0.0625rem transparent;
@@ -417,8 +415,6 @@ exports[`Button scss have to match default theme snapshot 1`] = `
         color: var(--color-sea-green);
         background-color: currentColor;
         bottom: -0.0625rem;
-        left: -0.5rem;
-        right: -0.5rem;
         color: transparent;
         opacity: 0;
         transition: opacity 200ms ease-out, color 200ms ease-out; }
@@ -428,17 +424,23 @@ exports[`Button scss have to match default theme snapshot 1`] = `
             border-radius: 0.5px; } }
         [data-dnb-test-wrapper] .dnb-button--tertiary .dnb-button__text::after {
           transition: none; }
+    .dnb-button--tertiary.dnb-button--has-text {
+      padding-left: 0.5rem;
+      padding-right: 0.5rem; }
+    .dnb-button--tertiary.dnb-button--has-icon .dnb-button__text::after {
+      left: -0.5rem;
+      right: -0.5rem; }
     .dnb-button--tertiary:focus[disabled],
-    html:not([data-is-touch]) .dnb-button--tertiary:focus[disabled] {
+    html:not([data-whatintent='touch']) .dnb-button--tertiary:focus[disabled] {
       cursor: not-allowed; }
     .dnb-button--tertiary:focus:not([disabled]),
-    html:not([data-is-touch]) .dnb-button--tertiary:focus:not([disabled]) {
+    html:not([data-whatintent='touch']) .dnb-button--tertiary:focus:not([disabled]) {
       outline: initial; }
       html[data-whatinput='keyboard'] .dnb-button--tertiary:focus:not([disabled]), html[data-whatinput='keyboard']
-      html:not([data-is-touch]) .dnb-button--tertiary:focus:not([disabled]) {
+      html:not([data-whatintent='touch']) .dnb-button--tertiary:focus:not([disabled]) {
         box-shadow: none; }
       .dnb-button--tertiary:focus:not([disabled])::before,
-      html:not([data-is-touch]) .dnb-button--tertiary:focus:not([disabled])::before {
+      html:not([data-whatintent='touch']) .dnb-button--tertiary:focus:not([disabled])::before {
         content: '';
         position: absolute;
         z-index: 1;
@@ -450,36 +452,36 @@ exports[`Button scss have to match default theme snapshot 1`] = `
         border-radius: inherit;
         outline: none; }
         html[data-whatinput='keyboard'] .dnb-button--tertiary:focus:not([disabled])::before, html[data-whatinput='keyboard']
-        html:not([data-is-touch]) .dnb-button--tertiary:focus:not([disabled])::before {
+        html:not([data-whatintent='touch']) .dnb-button--tertiary:focus:not([disabled])::before {
           box-shadow: 0 0 0 0.125rem var(--color-emerald-green);
           /* IE11 fix */
           border-color: transparent; }
       .dnb-button--tertiary:focus:not([disabled]) .dnb-button__text::after,
-      html:not([data-is-touch]) .dnb-button--tertiary:focus:not([disabled]) .dnb-button__text::after {
+      html:not([data-whatintent='touch']) .dnb-button--tertiary:focus:not([disabled]) .dnb-button__text::after {
         visibility: hidden; }
-    html:not([data-is-touch]) .dnb-button--tertiary:hover[disabled] {
+    html:not([data-whatintent='touch']) .dnb-button--tertiary:hover[disabled] {
       cursor: not-allowed; }
-    html:not([data-is-touch]) .dnb-button--tertiary:hover:not([disabled]) .dnb-button__text::after {
+    html:not([data-whatintent='touch']) .dnb-button--tertiary:hover:not([disabled]) .dnb-button__text::after {
       visibility: visible;
       opacity: 1;
       color: var(--color-emerald-green); }
     .dnb-button--tertiary:active[disabled],
-    html:not([data-is-touch]) .dnb-button--tertiary:active[disabled] {
+    html:not([data-whatintent='touch']) .dnb-button--tertiary:active[disabled] {
       cursor: not-allowed; }
     .dnb-button--tertiary:active:not([disabled]),
-    html:not([data-is-touch]) .dnb-button--tertiary:active:not([disabled]) {
+    html:not([data-whatintent='touch']) .dnb-button--tertiary:active:not([disabled]) {
       outline: initial; }
       html[data-whatinput='keyboard'] .dnb-button--tertiary:active:not([disabled]), html[data-whatinput='keyboard']
-      html:not([data-is-touch]) .dnb-button--tertiary:active:not([disabled]) {
+      html:not([data-whatintent='touch']) .dnb-button--tertiary:active:not([disabled]) {
         box-shadow: none; }
-      html[data-is-touch] .dnb-button--tertiary:active:not([disabled]) .dnb-button__text::after, html[data-is-touch]
-      html:not([data-is-touch]) .dnb-button--tertiary:active:not([disabled]) .dnb-button__text::after {
+      html[data-whatintent='touch'] .dnb-button--tertiary:active:not([disabled]) .dnb-button__text::after, html[data-whatintent='touch']
+      html:not([data-whatintent='touch']) .dnb-button--tertiary:active:not([disabled]) .dnb-button__text::after {
         transition: none;
         visibility: visible;
         opacity: 1;
         color: var(--color-emerald-green); }
-      html:not([data-is-touch]) .dnb-button--tertiary:active:not([disabled]) .dnb-button__text::after, html:not([data-is-touch])
-      html:not([data-is-touch]) .dnb-button--tertiary:active:not([disabled]) .dnb-button__text::after {
+      html:not([data-whatintent='touch']) .dnb-button--tertiary:active:not([disabled]) .dnb-button__text::after, html:not([data-whatintent='touch'])
+      html:not([data-whatintent='touch']) .dnb-button--tertiary:active:not([disabled]) .dnb-button__text::after {
         visibility: hidden; }
     .dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-left {
       padding-left: 0;
@@ -512,23 +514,23 @@ exports[`Button scss have to match default theme snapshot 1`] = `
         .dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-right.dnb-button--icon-size-medium .dnb-button__text::after, .dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-right.dnb-button--icon-size-large .dnb-button__text::after {
           right: 0; }
     .dnb-button--tertiary.dnb-button--has-icon:not(.dnb-button--has-text):focus[disabled],
-    html:not([data-is-touch]) .dnb-button--tertiary.dnb-button--has-icon:not(.dnb-button--has-text):focus[disabled] {
+    html:not([data-whatintent='touch']) .dnb-button--tertiary.dnb-button--has-icon:not(.dnb-button--has-text):focus[disabled] {
       cursor: not-allowed; }
     .dnb-button--tertiary.dnb-button--has-icon:not(.dnb-button--has-text):focus:not([disabled])::before,
-    html:not([data-is-touch]) .dnb-button--tertiary.dnb-button--has-icon:not(.dnb-button--has-text):focus:not([disabled])::before {
+    html:not([data-whatintent='touch']) .dnb-button--tertiary.dnb-button--has-icon:not(.dnb-button--has-text):focus:not([disabled])::before {
       left: 0;
       right: 0; }
-    html:not([data-is-touch]) .dnb-button--tertiary.dnb-button--has-icon:not(.dnb-button--has-text):hover[disabled] {
+    html:not([data-whatintent='touch']) .dnb-button--tertiary.dnb-button--has-icon:not(.dnb-button--has-text):hover[disabled] {
       cursor: not-allowed; }
-    html:not([data-is-touch]) .dnb-button--tertiary.dnb-button--has-icon:not(.dnb-button--has-text):hover:not([disabled]) {
+    html:not([data-whatintent='touch']) .dnb-button--tertiary.dnb-button--has-icon:not(.dnb-button--has-text):hover:not([disabled]) {
       box-shadow: 0 0 0 0.0625rem var(--color-sea-green);
       /* IE11 fix */
       border-color: transparent; }
     .dnb-button--tertiary.dnb-button--has-icon:not(.dnb-button--has-text):active[disabled],
-    html:not([data-is-touch]) .dnb-button--tertiary.dnb-button--has-icon:not(.dnb-button--has-text):active[disabled] {
+    html:not([data-whatintent='touch']) .dnb-button--tertiary.dnb-button--has-icon:not(.dnb-button--has-text):active[disabled] {
       cursor: not-allowed; }
     .dnb-button--tertiary.dnb-button--has-icon:not(.dnb-button--has-text):active:not([disabled]),
-    html:not([data-is-touch]) .dnb-button--tertiary.dnb-button--has-icon:not(.dnb-button--has-text):active:not([disabled]) {
+    html:not([data-whatintent='touch']) .dnb-button--tertiary.dnb-button--has-icon:not(.dnb-button--has-text):active:not([disabled]) {
       box-shadow: 0 0 0 0.0625rem var(--color-sea-green-30);
       /* IE11 fix */
       border-color: transparent; }
@@ -540,52 +542,52 @@ exports[`Button scss have to match default theme snapshot 1`] = `
   .dnb-button--signal {
     color: var(--color-ocean-green);
     background-color: var(--color-accent-yellow); }
-    html:not([data-is-touch]) .dnb-button--signal:hover[disabled] {
+    html:not([data-whatintent='touch']) .dnb-button--signal:hover[disabled] {
       cursor: not-allowed; }
-    html:not([data-is-touch]) .dnb-button--signal:hover:not([disabled]) {
+    html:not([data-whatintent='touch']) .dnb-button--signal:hover:not([disabled]) {
       color: var(--color-ocean-green);
       background-color: var(--color-accent-yellow);
       box-shadow: 0 0 0 0.125rem var(--color-emerald-green);
       /* IE11 fix */
       border-color: transparent; }
       @media screen and (-ms-high-contrast: none) {
-        html:not([data-is-touch]) .dnb-button--signal:hover:not([disabled]) {
+        html:not([data-whatintent='touch']) .dnb-button--signal:hover:not([disabled]) {
           opacity: 1; } }
-    html[data-is-touch] .dnb-button--signal:active[disabled],
-    html:not([data-is-touch]) html[data-is-touch] .dnb-button--signal:active[disabled] {
+    html[data-whatintent='touch'] .dnb-button--signal:active[disabled],
+    html:not([data-whatintent='touch']) html[data-whatintent='touch'] .dnb-button--signal:active[disabled] {
       cursor: not-allowed; }
-    html[data-is-touch] .dnb-button--signal:active:not([disabled]),
-    html:not([data-is-touch]) html[data-is-touch] .dnb-button--signal:active:not([disabled]) {
+    html[data-whatintent='touch'] .dnb-button--signal:active:not([disabled]),
+    html:not([data-whatintent='touch']) html[data-whatintent='touch'] .dnb-button--signal:active:not([disabled]) {
       color: var(--color-ocean-green);
       background-color: var(--color-accent-yellow);
       box-shadow: 0 0 0 0.125rem var(--color-emerald-green);
       /* IE11 fix */
       border-color: transparent; }
     .dnb-button--signal:focus[disabled],
-    html:not([data-is-touch]) .dnb-button--signal:focus[disabled] {
+    html:not([data-whatintent='touch']) .dnb-button--signal:focus[disabled] {
       cursor: not-allowed; }
     .dnb-button--signal:focus:not([disabled]),
-    html:not([data-is-touch]) .dnb-button--signal:focus:not([disabled]) {
+    html:not([data-whatintent='touch']) .dnb-button--signal:focus:not([disabled]) {
       outline: none; }
-      html:not([data-is-touch]) .dnb-button--signal:focus:not([disabled]), html:not([data-is-touch])
-      html:not([data-is-touch]) .dnb-button--signal:focus:not([disabled]) {
+      html[data-whatinput='keyboard'] .dnb-button--signal:focus:not([disabled]), html[data-whatinput='keyboard']
+      html:not([data-whatintent='touch']) .dnb-button--signal:focus:not([disabled]) {
         color: var(--color-ocean-green);
         background-color: var(--color-accent-yellow); }
       html[data-whatinput='keyboard'] .dnb-button--signal:focus:not([disabled]), html[data-whatinput='keyboard']
-      html:not([data-is-touch]) .dnb-button--signal:focus:not([disabled]) {
+      html:not([data-whatintent='touch']) .dnb-button--signal:focus:not([disabled]) {
         box-shadow: inset 0 0 0 0.125rem var(--color-emerald-green);
         /* IE11 fix */
         /* iOS fix - because \\"inset\\" works not fine with border-radius and rem unit */
         border-color: transparent; }
         @supports (-webkit-touch-callout: none) {
           html[data-whatinput='keyboard'] .dnb-button--signal:focus:not([disabled]), html[data-whatinput='keyboard']
-          html:not([data-is-touch]) .dnb-button--signal:focus:not([disabled]) {
+          html:not([data-whatintent='touch']) .dnb-button--signal:focus:not([disabled]) {
             box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
     .dnb-button--signal:active[disabled],
-    html:not([data-is-touch]) .dnb-button--signal:active[disabled] {
+    html:not([data-whatintent='touch']) .dnb-button--signal:active[disabled] {
       cursor: not-allowed; }
     .dnb-button--signal:active:not([disabled]),
-    html:not([data-is-touch]) .dnb-button--signal:active:not([disabled]) {
+    html:not([data-whatintent='touch']) .dnb-button--signal:active:not([disabled]) {
       color: var(--color-ocean-green);
       background-color: var(--color-accent-yellow);
       box-shadow: 0 0 0 0.0625rem transparent;
@@ -736,6 +738,8 @@ exports[`Button scss have to match snapshot 1`] = `
     color: inherit;
     line-height: var(--line-height-basis);
     white-space: normal; }
+    .dnb-form-status--text .dnb-anchor {
+      font-size: inherit; }
   .dnb-icon + .dnb-form-status--text {
     padding-left: 0.5rem; }
   .dnb-form-status__shell > .dnb-icon {
@@ -747,8 +751,7 @@ exports[`Button scss have to match snapshot 1`] = `
     margin-top: 0.25em;
     margin-left: 0.5em;
     color: inherit;
-    font-size: var(--font-size-basis);
-    transform: translateY(-0.125rem); }
+    font-size: var(--font-size-small); }
   .dnb-form-status[hidden] {
     display: none; }
   .dnb-form-status--fade-in {
@@ -851,6 +854,8 @@ exports[`Button scss have to match snapshot 1`] = `
     line-height: var(--line-height-basis);
     color: inherit;
     transform: translateY(-0.03125rem); }
+    .dnb-button__text [data-os='linux'] {
+      transform: translateY(-0.035rem); }
   .dnb-button__alignment {
     display: inline-block;
     width: 0; }
@@ -948,9 +953,9 @@ exports[`Button scss have to match snapshot 1`] = `
     font: inherit;
     text-align: inherit;
     line-height: inherit; }
-    html:not([data-is-touch]) .dnb-button--reset:hover[disabled] {
+    html:not([data-whatintent='touch']) .dnb-button--reset:hover[disabled] {
       cursor: not-allowed; }
-    html:not([data-is-touch]) .dnb-button--reset:hover:not([disabled]) {
+    html:not([data-whatintent='touch']) .dnb-button--reset:hover:not([disabled]) {
       box-shadow: none;
       border: none; }
     .dnb-button--reset:not([disabled]):focus, .dnb-button--reset:not([disabled]):active {
@@ -980,7 +985,7 @@ exports[`Button scss have to match snapshot 1`] = `
     .dnb-button {
       flex: none; }
       .dnb-button__icon, .dnb-button__text {
-        transform: translateY(-0.0625rem) !important; } }
+        transform: translateY(-0.0625rem); } }
 
 /* Firefox includes a hidden border which messes up button dimensions */
 button.dnb-button::-moz-focus-inner {

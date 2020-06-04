@@ -66,7 +66,7 @@ const MainWrapperStyled = styled.nav`
   width: 100vw;
   height: 100vh;
 
-  @media (max-width: 40em), (max-height: 55em) {
+  @media screen and (max-width: 40em), (max-height: 55em) {
     height: auto;
   }
 
@@ -118,7 +118,7 @@ const ContentWrapper = styled.div`
     color: #fff;
   }
 
-  @media (max-width: 40em) {
+  @media screen and (max-width: 40em) {
     .dnb-drawer-list__list {
       left: auto;
       right: -20vw;
@@ -149,7 +149,7 @@ const CardsWrapper = styled.div`
 
   max-width: 60rem;
 
-  @media (max-width: 40em), (max-height: 55em) {
+  @media screen and (max-width: 40em), (max-height: 55em) {
     margin-top: 16vh;
   }
 `
