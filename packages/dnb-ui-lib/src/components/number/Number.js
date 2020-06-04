@@ -23,7 +23,7 @@ import {
   getSelectedElement,
   copyToClipboard,
   hasSelectedText,
-  // IS_IOS,
+  IS_IOS,
   IS_MAC,
   IS_WIN,
   IS_IE11
@@ -120,7 +120,6 @@ export default class Number extends React.PureComponent {
 
   constructor(props) {
     super(props)
-
     this._ref = React.createRef()
   }
 
@@ -133,11 +132,23 @@ export default class Number extends React.PureComponent {
         // Firefox sometimes don't respond on the onCopy event
         // But more importanly, Safari does not supprt onCopy event and custom copy at the same time
         // therefore we use shortcuts as well
-        window._shortcuts.add(this.osShortcut, this.shortcutHandler)
+        window._shortcuts.add(
+          this.osShortcut,
+          this.shortcutHandler
+          // null,
+          // this._ref.current
+        )
         window._shortcuts._number = 1
       } else {
         window._shortcuts._number++
       }
+    }
+
+    // NB: This h ack may be removed in future iOS versions
+    // in order that iOS v13 can select someting on the first try, we run this add range trick
+    if (IS_IOS && !hasiOSFix) {
+      hasiOSFix = true
+      runIOSSelectionFix()
     }
   }
   componentWillUnmount() {
@@ -162,9 +173,9 @@ export default class Number extends React.PureComponent {
     if (!hasSelectedText()) {
       try {
         const selection = window.getSelection()
-        selection.removeAllRanges()
         const range = document.createRange()
         range.selectNodeContents(this._ref.current)
+        selection.removeAllRanges()
         selection.addRange(range)
 
         // Could work on IS_IOS, becaus of the user event
@@ -272,7 +283,6 @@ export default class Number extends React.PureComponent {
     const attributes = {
       ref: this._ref,
       onCopy: this.onCopyHandler,
-      onTouchStart: this.onClickHandler,
       onClick: this.onClickHandler,
       className: classnames(
         'dnb-number',
@@ -1063,4 +1073,16 @@ export function cleanNumber(num) {
 
   // Remove all invalid chars
   return num.replace(new RegExp(`([^${NUMBER_CHARS}])`, 'g'), '')
+}
+
+let hasiOSFix = false
+export function runIOSSelectionFix() {
+  try {
+    const selection = window.getSelection()
+    const range = document.createRange()
+    selection.removeAllRanges()
+    selection.addRange(range)
+  } catch (e) {
+    //
+  }
 }
