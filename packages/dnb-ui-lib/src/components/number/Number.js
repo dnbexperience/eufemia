@@ -809,12 +809,10 @@ export const formatNIN = (number, locale = null) => {
   return { number: display, aria }
 }
 
-export function copySelectedNumber(e) {
+export async function copySelectedNumber(e) {
   const cleanedValue = getCleanedSelection(e)
 
   if (cleanedValue) {
-    e?.preventDefault && e.preventDefault() // works on macOS, prevents the actuall copy
-
     // If it is a currency, we could do that, but for other numbers like NIN, it does not do a good job
     // if (
     //   String(cleanedValue).indexOf('.') === -1 &&
@@ -823,20 +821,36 @@ export function copySelectedNumber(e) {
     //   cleanedValue = `${cleanedValue}.0`
     // }
 
-    copyNumber(cleanedValue)
+    if (e && typeof e.persist === 'function') {
+      e.persist()
+    }
+
+    const success = await copyNumber(cleanedValue)
+
+    // prevents the actuall copy
+    if (success === true && e && typeof e.preventDefault === 'function') {
+      e.preventDefault()
+    }
   }
 }
 
-export function copyNumber(string) {
+export async function copyNumber(string) {
+  let success = null
+
   if (string) {
-    const fx = createSelectionFX(string)
-    copyToClipboard(string)
-      .then(() => {
+    try {
+      const fx = createSelectionFX(string)
+      success = await copyToClipboard(string)
+      if (success === true) {
         fx.run()
-        // console.info('Copy:', string) // debug
-      })
-      .catch(warn)
+      }
+    } catch (e) {
+      warn(e)
+      success = e
+    }
   }
+
+  return success
 }
 
 function getCleanedSelection() {
