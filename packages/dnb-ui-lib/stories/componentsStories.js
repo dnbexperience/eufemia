@@ -26,6 +26,7 @@ import FormSetStory from './components/FormSet'
 import Dropdown from './components/Dropdown'
 import Autocomplete from './components/Autocomplete'
 import Drawer from './components/Drawer'
+import Tooltip from './components/Tooltip'
 import Space from './components/Space'
 import Tabs from './components/Tabs'
 import FormStatus from './components/FormStatus'
@@ -62,6 +63,7 @@ stories.push(FormSetStory)
 stories.push(Dropdown)
 stories.push(Autocomplete)
 stories.push(Drawer)
+stories.push(Tooltip)
 stories.push(Space)
 stories.push(Tabs)
 stories.push(FormStatus)
