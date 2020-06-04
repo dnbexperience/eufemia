@@ -384,7 +384,7 @@ export async function copyToClipboard(string) {
     } catch (e) {
       success = e
       const newTry = copyFallback()
-      if (newTry) {
+      if (newTry === true) {
         success = newTry
       }
     }

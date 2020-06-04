@@ -827,9 +827,13 @@ export async function copySelectedNumber(e) {
 
     const success = await copyNumber(cleanedValue)
 
-    // prevents the actuall copy
-    if (success === true && e && typeof e.preventDefault === 'function') {
-      e.preventDefault()
+    if (success === true) {
+      if (e && typeof e.preventDefault === 'function') {
+        // prevents the actuall copy
+        e.preventDefault()
+      }
+    } else {
+      warn(success)
     }
   }
 }
