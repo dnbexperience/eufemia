@@ -195,8 +195,9 @@ describe('Heading component', () => {
   it('have to match after level state update', () => {
     const warn = jest.fn()
 
-    resetLevels(1)
+    // resetLevels(1)
     // resetAllLevels()
+    Heading.resetLevels(1)
     const Comp = mount(<Heading debug={warn}>Heading #1</Heading>)
 
     expect(Comp.find('.dnb-heading').at(0).text()).toBe('[h1] Heading #1')
@@ -232,7 +233,7 @@ describe('Heading component', () => {
     resetLevels(1)
     const Comp1 = mount(<Heading debug={warn}>h1</Heading>)
 
-    setNextLevel(2)
+    Heading.setNextLevel(2)
     const Comp2 = mount(<Heading debug={warn}>h2</Heading>)
 
     setNextLevel(3)

@@ -103,7 +103,7 @@ import { resetLevels, setNextLevel } from 'dnb-ui-lib/components/Heading'
 
 // e.g. during Gatsby route change
 export const onRouteUpdate = () => {
-  resetLevels(1)
+  resetLevels(1) // you can also call this method like this: Heading.resetLevels(1)
 }
 
 // e.g. if you for some reason have to force setting a new level

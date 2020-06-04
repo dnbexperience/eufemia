@@ -81,8 +81,6 @@ export class createShortcut {
               timeout.id = setTimeout(onDone, 10)
             }
           }
-
-          return false
         } catch (e) {
           warn(e)
         }

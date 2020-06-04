@@ -310,83 +310,88 @@ export function getSelectedElement() {
   return null
 }
 
-export function copyToClipboard(string) {
-  return new Promise((resolve, reject) => {
-    if (typeof window === 'undefined' || typeof document === 'undefined') {
-      return reject()
+export async function copyToClipboard(string) {
+  if (typeof window === 'undefined' || typeof document === 'undefined') {
+    return false
+  }
+
+  // get the selection range
+  const selection = window.getSelection()
+  const range =
+    selection.rangeCount > 0 // Check if there is any content selected previously
+      ? selection.getRangeAt(0) // Store selection if found
+      : false // Mark as false to know no selection existed before
+
+  const resetSelection = () => {
+    try {
+      // If a selection existed before copying
+      selection.removeAllRanges() // Unselect everything on the HTML document
+      selection.addRange(range) // Restore the original selection
+    } catch (e) {
+      //
+    }
+  }
+
+  const copyFallback = () => {
+    try {
+      // create the focusable element
+      const elem = document.createElement('textarea')
+      elem.value = String(string)
+      elem.contentEditable = true
+      elem.readOnly = false
+      elem.style.position = 'fixed'
+      elem.style.top = '-1000px'
+      document.body.appendChild(elem)
+
+      // iOS helper
+      // But right now, we do not use that
+      // if (IS_IOS) {
+      //   const newRange = document.createRange()
+      //   newRange.selectNodeContents(elem)
+      //   const sel = window.getSelection()
+      //   sel.removeAllRanges()
+      //   sel.addRange(newRange)
+      //   elem.setSelectionRange(0, 999999)
+      // } else {
+      //   elem.select()
+      // }
+
+      // NB: copy only works as a result of a user action (e.g. click events)
+      const success = document.execCommand('copy')
+
+      // Cleanup
+      document.body.removeChild(elem)
+
+      resetSelection()
+
+      if (success) {
+        return true
+      }
+    } catch (e) {
+      return e
     }
 
-    // get the selection range
-    const selection = window.getSelection()
-    const range =
-      selection.rangeCount > 0 // Check if there is any content selected previously
-        ? selection.getRangeAt(0) // Store selection if found
-        : false // Mark as false to know no selection existed before
+    return `Could not copy! Unknown reason. ${string}`
+  }
 
-    const resetSelection = () => {
-      try {
-        // If a selection existed before copying
-        selection.removeAllRanges() // Unselect everything on the HTML document
-        selection.addRange(range) // Restore the original selection
-      } catch (e) {
-        //
+  let success
+
+  if (typeof navigator !== 'undefined' && navigator?.clipboard) {
+    try {
+      await navigator.clipboard.writeText(String(string))
+      success = true
+      resetSelection()
+    } catch (e) {
+      success = e
+      const newTry = copyFallback()
+      if (newTry === true) {
+        success = newTry
       }
     }
+  } else {
+    // use the fallback as the primary, because we get
+    success = copyFallback()
+  }
 
-    const copyFallback = () => {
-      try {
-        // create the focusable element
-        const elem = document.createElement('textarea')
-        elem.value = String(string)
-        elem.contentEditable = true
-        elem.readOnly = false
-        elem.style.position = 'fixed'
-        elem.style.top = '-1000px'
-        document.body.appendChild(elem)
-
-        // iOS helper
-        if (IS_IOS) {
-          const newRange = document.createRange()
-          newRange.selectNodeContents(elem)
-          const sel = window.getSelection()
-          sel.removeAllRanges()
-          sel.addRange(newRange)
-          elem.setSelectionRange(0, 999999)
-        } else {
-          elem.select()
-        }
-
-        // NB: copy only works as a result of a user action (e.g. click events)
-        const successful = document.execCommand('copy')
-
-        // Cleanup
-        document.body.removeChild(elem)
-
-        resetSelection()
-
-        if (successful) {
-          return resolve()
-        }
-
-        reject(`Could not copy! Unknown reason. ${string}`)
-      } catch (e) {
-        reject(e)
-      }
-    }
-
-    if (typeof navigator !== 'undefined' && navigator?.clipboard) {
-      return navigator.clipboard
-        .writeText(String(string))
-        .then(() => {
-          resetSelection()
-          resolve()
-        })
-        .catch((e) => {
-          reject(e)
-          copyFallback()
-        })
-    } else {
-      return copyFallback()
-    }
-  })
+  return success
 }

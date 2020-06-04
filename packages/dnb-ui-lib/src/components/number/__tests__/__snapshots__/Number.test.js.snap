@@ -27,7 +27,6 @@ exports[`Number component have to match default number snapshot 1`] = `
     lang="nb-NO"
     onClick={[Function]}
     onCopy={[Function]}
-    onTouchStart={[Function]}
     role="text"
   >
     <span
@@ -35,7 +34,6 @@ exports[`Number component have to match default number snapshot 1`] = `
       lang="nb-NO"
       onClick={[Function]}
       onCopy={[Function]}
-      onTouchStart={[Function]}
       role="text"
     >
       12 345 678,9876
