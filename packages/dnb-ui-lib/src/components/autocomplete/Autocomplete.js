@@ -1573,7 +1573,10 @@ class AutocompleteInstance extends React.PureComponent {
                   type="search" // gives us also autoComplete=off
                   submit_element={
                     isTrue(show_submit_button) ? (
-                      <SubmitButton {...triggerParams} />
+                      <SubmitButton
+                        id={id + '-submit-button'}
+                        {...triggerParams}
+                      />
                     ) : (
                       false
                     )
