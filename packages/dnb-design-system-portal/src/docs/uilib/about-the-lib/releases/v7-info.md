@@ -49,13 +49,13 @@ We hope with that change we embrace [better accessibility](/uilib/usage/accessib
 - [Heading](/uilib/components/heading) component to automated semantic headings.
 - [Autocomplete](/uilib/components/autocomplete) component.
 - [Pagination](/uilib/components/pagination) component including **infinity scroller**.
-- New element [Horizontal Rule (Hr)](/uilib/elements/horizontal-rule).
+- New element [Horizontal Rule (Hr)](/uilib/elements/horizontal-rule), called `hr-line` in Figma.
 - New fragment [ScrollView](/uilib/components/fragments/scroll-view), used in [Modal](/uilib/components/modal) to fulfill the new Portal mode in the DrawerList scroll dependency inside of a Modal / Drawer.
 
 ## New features
 
 - Icons inside of [Input](/uilib/components/input#input-icon) fields.
-- [Number](/uilib/components/number) got more useful properties, like `decimals="0"` and `currency_position="after"` and also a neat [copy & paste](/uilib/components/number#accessibility) feature, where a unformatted number gets copied, instead of the visual number.
+- [Number](/uilib/components/number) got more useful properties, like `decimals="0"` and `currency_position="after"` and also a neat [copy & paste](/uilib/components/number#accessibility) feature, where a unformatted number gets copied, instead of the visual number. Also, Norwegian organization numbers (`org`) are now supported.
 - [Buttons](/uilib/components/button) now supports overflow text to wrap (break-word) by using `wrap="true"`.
 - [Modal](/uilib/components/modal#drawer-mode) has now a **Drawer** mode inside the Modal component `mode="drawer"`.
 - Also, the [Modal](/uilib/components/modal#drawer-mode) has now a dark background color and both open and close animation

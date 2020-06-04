@@ -1,6 +1,6 @@
 ---
-title: 'Releases'
-developers: 'Articles giving a periodically overview of the changes lately released.'
+title: 'Releases / Upgrade'
+developers: 'Overview of all major releases and changes, including migration guides.'
 redirect_from:
   - /uilib/releases
 ---
@@ -11,7 +11,7 @@ import { Icon } from 'dnb-ui-lib/src'
 
 # Releases
 
-Here you find small articles and notes giving you a periodically overview of the changes lately released.
+Here you find an Overview of all major releases and changes, including migration guides.
 
 You may also have a look at the [<Icon icon={GithubLogo} size="default" /> **GitHub Releases**](https://github.com/dnbexperience/eufemia/releases) for versioning of the [dnb-ui-lib](/uilib/).
 

@@ -1,6 +1,5 @@
 ---
 showTabs: true
-# import { Heading } from 'dnb-ui-lib/src'
 ---
 
 ## Description
@@ -34,7 +33,14 @@ render(
 
 **NB:** Instead of `increase` and `decrease` you can use `up` and `down` as well.
 
-### Defining heading styles
+### Heading level core-concept
+
+- A **heading** will inherit its level from its previous sibling.
+- A **level provider** will create an isolated level context (`Heading.Level`).
+- A heading, nested inside a context (`Heading.Level`) will likewise inherit the previous context level.
+- A heading can have a set of different [size](/uilib/typography/heading#headings) properties. More details below.
+
+### Defining heading styles / sizes
 
 For the visual part, we simply use [typography styles](/uilib/typography/heading) with the `size` property, e.g. `size="x-large"`
 
@@ -47,12 +53,6 @@ render(
   </Heading>
 )
 ```
-
-### Heading leveling core-concept
-
-- A **heading** will inherit its level from its previous sibling.
-- A **level provider** will create an isolated level context (`Heading.Level`).
-- A heading, nested inside a context (`Heading.Level`) will likewise inherit the context level.
 
 ### Heading level rules and corrections
 
@@ -91,6 +91,8 @@ render(
   </article>
 )
 ```
+
+_TODO:_ Integrationn with the [global Provider](/uilib/usage/customisation/provider).
 
 ### Skip auto correction and warnings
 
