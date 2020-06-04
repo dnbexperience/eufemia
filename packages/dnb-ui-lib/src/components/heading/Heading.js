@@ -299,6 +299,8 @@ Heading.Reset = () => {
   globalHeadingCounter.current?.reset()
   return <></>
 }
+Heading.resetLevels = resetLevels
+Heading.setNextLevel = setNextLevel
 
 // Interceptor to reset leveling
 export { resetAllLevels, resetLevels, setNextLevel }
