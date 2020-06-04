@@ -1,3 +1,5 @@
+## Properties
+
 | Properties            | Description                                                                    |
 | --------------------- | ------------------------------------------------------------------------------ |
 | `notification_amount` | _(mandatory)_ the amount of notifications                                      |

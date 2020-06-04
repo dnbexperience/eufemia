@@ -1,3 +1,5 @@
+## Properties
+
 | Properties | Description                                                                              |
 | ---------- | ---------------------------------------------------------------------------------------- |
 | `modifier` | _(optional)_ any extra modifying class.                                                  |

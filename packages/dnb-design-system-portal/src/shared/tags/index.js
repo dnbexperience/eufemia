@@ -5,9 +5,18 @@
 import React from 'react'
 import CodeBlock from './CodeBlock'
 import { Checkbox, Input } from 'dnb-ui-lib/src/components'
+import {
+  Ul,
+  Ol,
+  Dl,
+  P,
+  Hr,
+  Blockquote,
+  Code
+} from 'dnb-ui-lib/src/elements'
 import Table from './Table'
 // import Img from './Img'
-import Tag from './Tag'
+// import Tag from './Tag' // use it like so: <Tag is="p" {...props} />
 import Tabbar from './Tabbar'
 import Anchor from './Anchor'
 import Intro, { IntroFooter } from './Intro'
@@ -41,14 +50,14 @@ export default {
   code: (...args) => CodeBlock(...args),
   inlineCode: (props) => (
     <Copy>
-      <Tag is="code" {...props} />
+      <Code {...props} />
     </Copy>
   ),
-  ul: (props) => <Tag is="ul" {...props} />,
-  ol: (props) => <Tag is="ol" {...props} />,
-  dl: (props) => <Tag is="dl" {...props} />,
-  p: (props) => <Tag is="p" {...props} />,
-  paragraph: (props) => <Tag is="p" {...props} />,
-  blockquote: (props) => <Tag is="blockquote" {...props} />,
-  hr: (props) => <Tag is="hr" className="dnb-hr--fullscreen" {...props} />
+  ul: (props) => <Ul {...props} />,
+  ol: (props) => <Ol {...props} />,
+  dl: (props) => <Dl {...props} />,
+  p: (props) => <P {...props} />,
+  paragraph: (props) => <P {...props} />,
+  blockquote: (props) => <Blockquote {...props} />,
+  hr: (props) => <Hr light {...props} />
 }

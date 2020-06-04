@@ -11,7 +11,7 @@ import FigmaLibrary from 'Pages/quickguide-designer/assets/figma-library.svg'
 
 # QuickStart - Designers
 
-### Contents
+## Contents
 
 1.  Design tools - recommended applications
 1.  Fonts - downloads and links to other resources

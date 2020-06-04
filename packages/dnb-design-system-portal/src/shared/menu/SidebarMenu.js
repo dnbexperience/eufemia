@@ -10,6 +10,7 @@ import Link from '../parts/Link'
 import { StaticQuery, graphql } from 'gatsby'
 import { css, Global } from '@emotion/core'
 import styled from '@emotion/styled'
+import { resetLevels } from 'dnb-ui-lib/src/components/Heading'
 import { SidebarMenuContext } from './SidebarMenuContext'
 // import { MainMenuToggleButton } from './ToggleMainMenu'
 import { Icon } from 'dnb-ui-lib/src/components'
@@ -671,6 +672,9 @@ class ListItem extends React.PureComponent {
       >
         <Link
           to={to}
+          onClick={() => {
+            resetLevels(1)
+          }}
           className={classnames(
             'dnb-anchor',
             'dnb-anchor--no-underline',
