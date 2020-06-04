@@ -140,7 +140,15 @@ export default class PerformanceTest extends React.Component {
 // all the components we use are below
 
 const ButtonWrap = React.forwardRef(
-  ({ webComponentsEnabled, ...props }, ref) =>
+  (
+    {
+      webComponentsEnabled,
+      isActive /* eslint-disable-line */,
+      testSpeed /* eslint-disable-line */,
+      ...props
+    },
+    ref
+  ) =>
     webComponentsEnabled ? (
       <dnb-button title="Title" {...props} ref={ref} />
     ) : (
@@ -237,7 +245,15 @@ class ButtonTest extends React.Component {
 }
 
 const InputWrap = React.forwardRef(
-  ({ webComponentsEnabled, ...props }, ref) =>
+  (
+    {
+      webComponentsEnabled,
+      isActive /* eslint-disable-line */,
+      testSpeed /* eslint-disable-line */,
+      ...props
+    },
+    ref
+  ) =>
     webComponentsEnabled ? (
       <dnb-input {...props} ref={ref} />
     ) : (
@@ -342,7 +358,12 @@ class InputTest extends React.Component {
   }
 }
 
-const IconWrap = ({ webComponentsEnabled, ...props }) =>
+const IconWrap = ({
+  webComponentsEnabled,
+  isActive /* eslint-disable-line */,
+  testSpeed /* eslint-disable-line */,
+  ...props
+}) =>
   webComponentsEnabled ? (
     <dnb-icon-primary {...props} />
   ) : (

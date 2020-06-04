@@ -1,5 +1,5 @@
 ---
-title: 'Hr'
+title: 'Hr-line'
 redirect_from:
   - /uilib/elements/hr
 ---

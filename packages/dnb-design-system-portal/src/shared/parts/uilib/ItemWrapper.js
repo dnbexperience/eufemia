@@ -3,7 +3,7 @@
  *
  */
 
-import { Button, Tabs } from 'dnb-ui-lib/src'
+import { Heading, Button, Tabs } from 'dnb-ui-lib/src'
 import Code, { CodeRenderer } from './Code'
 import React from 'react'
 import ReactDOMServer from 'react-dom/server'
@@ -112,6 +112,9 @@ class ItemWrapper extends React.PureComponent {
         wasFullscreen: /fullscreen/.test(location.search)
       })
   }
+  // componentWillUnmount() {
+  //   Heading.resetLevels(1)
+  // }
   openFullscreen = () => {
     const location = getLocation()
     if (location)
@@ -218,13 +221,15 @@ class ItemWrapper extends React.PureComponent {
     return (
       <div className="wrapped-item">
         {!hideTabs ? (
-          <h1 className="dnb-h--xx-large">{title}</h1>
+          <Heading level={1} skip_correction>
+            {title}
+          </Heading>
         ) : (
-          <h4 className="dnb-h--basis">
+          <Heading size="basis">
             <Link to={`/uilib/components/${id}`} className="dnb-anchor">
               {title}
             </Link>
-          </h4>
+          </Heading>
         )}
         {!hideTabs && (
           <Tabs
@@ -233,6 +238,7 @@ class ItemWrapper extends React.PureComponent {
             data={tabsUsed}
             on_change={this.openTab}
             render={({ Wrapper, TabsList, Content, Tabs }) => {
+              Heading.resetLevels(2)
               return (
                 <Wrapper css={tabsWrapperStyle}>
                   <TabsList>

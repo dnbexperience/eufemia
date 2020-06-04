@@ -1,0 +1,12 @@
+/*
+* DNB Tooltip
+*
+*/
+
+@import '../../../style/components/imports.scss';
+
+.dnb-tooltip {
+  @include componentReset();
+}
+
+@import './_tooltip.scss';
