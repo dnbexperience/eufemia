@@ -318,26 +318,24 @@ class DropdownInstance extends React.PureComponent {
     }
   }
 
-  onHideHandler = ({ setFocus, ...args } = {}) => {
-    if (setFocus) {
-      const attributes = this.attributes || {}
-      dispatchCustomElementEvent(this, 'on_hide', {
-        ...args,
-        attributes
-      })
+  onHideHandler = (args = {}) => {
+    const attributes = this.attributes || {}
+    dispatchCustomElementEvent(this, 'on_hide', {
+      ...args,
+      attributes
+    })
 
-      clearTimeout(this._focusTimeout)
-      this._focusTimeout = setTimeout(() => {
-        try {
-          const elem = this._refButton.current._ref.current
-          if (elem && typeof elem.focus === 'function') {
-            elem.focus()
-          }
-        } catch (e) {
-          // do noting
+    clearTimeout(this._focusTimeout)
+    this._focusTimeout = setTimeout(() => {
+      try {
+        const elem = this._refButton.current._ref.current
+        if (elem && typeof elem.focus === 'function') {
+          elem.focus()
         }
-      }, 1) // NVDA / Firefox needs a dealy to set this focus
-    }
+      } catch (e) {
+        // do noting
+      }
+    }, 1) // NVDA / Firefox needs a dealy to set this focus
   }
 
   onSelectHandler = (args) => {
