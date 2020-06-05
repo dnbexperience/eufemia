@@ -11,19 +11,19 @@ import { Icon } from 'dnb-ui-lib/src'
 
 For more development details you may have a look at the confluence pages about [development details](confluence.tech.dnb.no/display/EDS/).
 
-## NPM Library structure
+## Development environment and defaults
 
-These folders/files will be a part of the npm [package](https://unpkg.com/dnb-ui-lib@latest/):
+Many defaults are given by the linting and prettier configurations. But to keep the code base consistent and clean, we have set a certain set of rules:
 
-- /assets
-- /components
-- /elements
-- /patterns
-- /icons
-- /style
-- /es
-- /umd
-- /shared
-- /web-components
-- index.js
-- package.json
+- Use [Volta](https://volta.sh/) for [Node.js](https://nodejs.org/) and [yarn](https://yarnpkg.com/) version handling.
+- Use only [Function and Class Components](https://reactjs.org/docs/components-and-props.html#function-and-class-components) for components, elements, fragments and patterns - no [Hooks](https://reactjs.org/docs/hooks-overview.html).
+- Use strictly the [naming conventions](/uilib/development/naming).
+- Use correct [message decoration](/uilib/development/commit) to insure correct versioning.
+- Use best practices for [CSS style structures](/uilib/usage/best-practices/for-styling#structure).
+- Use [nested CSS class selectors](https://medium.com/@andrew_barnes/bem-and-sass-a-perfect-match-5e48d9bc3894) with SASS (SCSS) and BEM (Block Element Modifier).
+
+## How to publish a new version to NPM?
+
+Create a Fork, make your changes and create a _Pull Request_) - or commit your changes to a new branch. From there an admin will create a _Pull Request_ into the `origin/develop` branch. Once Your commits got approved on CI, we will create a _Pull Request_ to merge the changes in to the `origin/release` branch.
+
+As soon as the _Pull Request_ gets merged into `origin/release`, a CI/CD server will check all commits and figure out the new NPM **Version Number** and publish a new version based on the message decorations.

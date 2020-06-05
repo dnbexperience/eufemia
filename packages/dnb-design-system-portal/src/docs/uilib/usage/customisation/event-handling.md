@@ -69,7 +69,7 @@ export default class MyComponent extends React.Component {
 Use either the `@click` or `v-on:click` event binding property.
 Or else you could also use the imperative **ref** method.
 
-#### Declarative
+### Declarative
 
 ```jsx
 // Template
@@ -86,7 +86,7 @@ components
 ...
 ```
 
-#### Imperative
+### Imperative
 
 ```jsx
 // Template

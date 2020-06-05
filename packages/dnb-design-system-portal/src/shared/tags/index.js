@@ -48,11 +48,16 @@ export default {
   },
   table: Table,
   code: (...args) => CodeBlock(...args),
-  inlineCode: (props) => (
-    <Copy>
-      <Code {...props} />
-    </Copy>
-  ),
+  inlineCode: ({ ...props }) => {
+    if (props.inline) {
+      props.inline = props.inline.toString()
+    }
+    return (
+      <Copy>
+        <Code {...props} />
+      </Copy>
+    )
+  },
   ul: (props) => <Ul {...props} />,
   ol: (props) => <Ol {...props} />,
   dl: (props) => <Dl {...props} />,

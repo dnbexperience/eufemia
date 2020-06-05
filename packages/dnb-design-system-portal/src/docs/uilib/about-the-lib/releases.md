@@ -1,5 +1,5 @@
 ---
-title: 'Releases / Upgrade'
+title: 'Releases and versions'
 developers: 'Overview of all major releases and changes, including migration guides.'
 redirect_from:
   - /uilib/releases
@@ -9,9 +9,9 @@ import WelcomeAdvice from 'Pages/welcome-advice.md'
 import GithubLogo from 'Pages/uilib/development/assets/github-logo.js'
 import { Icon } from 'dnb-ui-lib/src'
 
-# Releases
+# Releases and versions
 
-Here you find an Overview of all major releases and changes, including migration guides.
+Here you find an overview of all major releases (versions) and changes, including migration guides.
 
 You may also have a look at the [<Icon icon={GithubLogo} size="default" /> **GitHub Releases**](https://github.com/dnbexperience/eufemia/releases) for versioning of the [dnb-ui-lib](/uilib/).
 

@@ -7,4 +7,4 @@ order: 20
 
 # Accordion
 
-**Coming soon**
+**Under development**
