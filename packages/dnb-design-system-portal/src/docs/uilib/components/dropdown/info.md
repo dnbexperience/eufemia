@@ -16,9 +16,13 @@ When you need to provide a considerable amount of options to the user and do not
 
 ### When not to use it:
 
-1. do not use this if you have only a few 'menu' options which could otherwise be shown such as tabs or buttons
+1. do not use this if you have only a few _menu_ options which could otherwise be shown such as [Radio buttons](/uilib/components/radio) or [ToggleButtons](/uilib/components/toggle-button).
 
 **NB:** This pattern can be constructed in a number of ways to achieve a similar effect - from using the HTML 'select' element to custom building with divs, spans and javascript.
+
+## Menu Button
+
+The Dropdown component can easily be used as a so called **menu button** by setting the prop `prevent_selection="true"` (or `more_menu="true"` which shows then the [more](/icons/primary#icon-more) icon, appears as dots).
 
 ## Custom size
 
@@ -33,10 +37,18 @@ Changing the **width** of the Dropdown component by CSS is easy done by doing:
 You can also set the width directly, but then it has to be defined like so (including `min-width`):
 
 ```css
+/** Because of the included label/status etc. we target the "__shell" */
 .dnb-dropdown__shell {
-  width: 20rem; /* custom width */
+  width: 10rem;
 }
-.dnb-dropdown__list {
-  min-width: 20rem; /* custom width */
+
+/** In order to change only the drawer-list width */
+.dnb-dropdown .dnb-drawer-list__root {
+  width: 10rem;
+}
+
+/** If more_menu="true" is used */
+.dnb-dropdown--is-popup .dnb-drawer-list__root {
+  width: 10rem;
 }
 ```

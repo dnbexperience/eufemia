@@ -3,7 +3,7 @@
  *
  */
 
-import React, { useState } from 'react'
+import React from 'react'
 import { Wrapper, Box } from '../helpers'
 // import styled from '@emotion/styled'
 
@@ -242,8 +242,12 @@ export default [
 ]
 
 const RadioGroupsWithStatus = () => {
-  const [currentValueForGorupA, setValueForGorupA] = useState('first')
-  const [currentValueForGorupB, setValueForGorupB] = useState('second')
+  const [currentValueForGorupA, setValueForGorupA] = React.useState(
+    'first'
+  )
+  const [currentValueForGorupB, setValueForGorupB] = React.useState(
+    'second'
+  )
 
   return (
     <FormSet>
@@ -285,8 +289,8 @@ const RadioGroupsWithStatus = () => {
     </FormSet>
   )
 }
-const shuffleArray = arr =>
+const shuffleArray = (arr) =>
   arr
-    .map(a => [Math.random(), a])
+    .map((a) => [Math.random(), a])
     .sort((a, b) => a[0] - b[0])
-    .map(a => a[1])
+    .map((a) => a[1])

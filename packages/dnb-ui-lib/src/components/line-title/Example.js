@@ -3,13 +3,13 @@
  *
  */
 
-import React, { PureComponent, Fragment } from 'react'
+import React from 'react'
 import LineTitle from './LineTitle'
 
-class Example extends PureComponent {
+class Example extends React.PureComponent {
   render() {
     return (
-      <Fragment>
+      <React.Fragment>
         <div className="example-box">
           <LineTitle>This is the default line title component</LineTitle>
           <LineTitle
@@ -19,10 +19,10 @@ class Example extends PureComponent {
           />
           <p className="example-caption">Large and small examples</p>
         </div>
-      </Fragment>
+      </React.Fragment>
     )
   }
 }
 
 export { Example }
-export default () => <Example />
+export default Example

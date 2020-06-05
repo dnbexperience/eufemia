@@ -18,6 +18,30 @@ Of course, we can still overwrite the functional layout properties to customize 
 
 Simply do not import **dnb-theme-ui** and create your own visual styles for every component you use in your App.
 
+### Using `postcss-replace`
+
+If your applications only need new colors or other CSS properties, you could simply replace all the properties with [postcss-replace](https://www.npmjs.com/package/postcss-replace) using this config scheme:
+
+```js
+{
+  resolve: 'gatsby-plugin-postcss',
+  options: {
+    postCssPlugins: [
+      require('postcss-replace')({
+        pattern: /#([A-Fa-f0-9]+)/,
+        data: {
+          '007272': '#YOUR_COLOR' // sea-green
+        }
+      })
+    ]
+  }
+}
+```
+
+### Using CSS (vars) Custom Properties
+
+This is for sure a very nice and powerful solution, but lacks Internet Explorer support.
+
 ## The hard way
 
 Maybe the most common ways would be:

@@ -25,7 +25,7 @@ const WidthWrapperInner = styled.div`
   padding: 0 1rem;
 
   /* for small screesn */
-  @media (max-width: 40em) {
+  @media screen and (max-width: 40em) {
     width: 95vw;
     padding: 0;
   }
@@ -40,7 +40,7 @@ stories.push([
           <a
             className="dnb-skip-link-demo"
             href="#dnb-app-content"
-            onClick={e => e.preventDefault()}
+            onClick={(e) => e.preventDefault()}
           >
             Skip to content
           </a>

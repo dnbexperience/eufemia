@@ -72,7 +72,7 @@ const FormOne = () => {
 }
 
 // 3. And the logic, providing the Context
-const FormLogic = props => {
+const FormLogic = (props) => {
   // Here we have our logic
   function clickHandler() {}
 

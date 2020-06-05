@@ -70,7 +70,7 @@ describe('Slider scss', () => {
   })
 })
 
-const simulateMouseMove = props => {
+const simulateMouseMove = (props) => {
   const mouseMove = new CustomEvent('mousemove', {
     detail: props
   })

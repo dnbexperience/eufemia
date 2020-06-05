@@ -6,6 +6,7 @@
 @mixin modalFullscreen() {
   width: 100vw;
   height: 100vh;
+  height: calc(100vh - var(--modal-height-offset));
 
   max-width: 100%; // fixes overflow issue on some browsers
   max-height: 100%;
@@ -14,7 +15,17 @@
 :root {
   --modal-z-index: 3000;
   --modal-spacing: 2rem; // should reflect --spacing-large
-  --modal-max-width: 60rem;
+
+  // we do this because SCSS fails by using min(100vw, 50rem) = "Incompatible units: 'rem' and 'vw'"
+  --modal-min-width: 20rem; // under 40em, because of spacing and later mobile fullscreen
+  --modal-avg-width: 60vw; // content defines the size
+  --modal-max-width: 60rem; // because of our default width --layout-large
+  --modal-height-offset: 0.0001rem;
+
+  // Drawer mode
+  --modal-drawer-width: 40vw;
+  --modal-drawer-min-width: 25rem;
+  --modal-drawer-max-width: 40rem;
 }
 
 [data-dnb-modal-active='true'] {
@@ -44,6 +55,8 @@
     width: 100%;
     height: 100%;
 
+    max-width: 100vw;
+
     user-select: none;
     -webkit-user-select: none; // Safari / Touch fix
 
@@ -56,22 +69,19 @@
         padding: calc(var(--modal-spacing) / 2) var(--modal-spacing) 0;
       }
 
-      width: auto;
-      height: auto;
-
+      // width: auto;
+      width: var(--modal-avg-width);
+      min-width: var(--modal-min-width);
       max-width: var(--modal-max-width);
+
+      height: auto;
       max-height: calc(
         100vh - var(--modal-spacing) * 2
       ); // minus vertical padding
 
-      overflow-x: hidden;
-      overflow-y: auto;
-
       user-select: text;
       -webkit-user-select: text; // Safari / Touch fix
       border: none;
-
-      background: var(--color-white);
 
       @include allAbove(small) {
         padding: var(--modal-spacing) var(--modal-spacing)
@@ -85,6 +95,8 @@
         padding: calc(var(--modal-spacing) / 2)
           calc(var(--modal-spacing) / 2) 0;
       }
+
+      -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
     }
 
     &--fullscreen {
@@ -93,12 +105,80 @@
     }
     &--fullscreen &__inner {
       @include modalFullscreen();
+      border-radius: 0;
+    }
+
+    &__align--center &__inner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    &__align--right &__inner {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+    }
+    &__align--centered &__inner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    // Drawer mode
+    &--drawer &__inner {
+      width: var(--modal-drawer-width);
+      min-width: var(--modal-drawer-min-width);
+      max-width: var(--modal-drawer-max-width);
+
+      @media screen and (max-width: 40em) {
+        width: 100vw;
+        min-width: auto;
+        max-width: auto;
+      }
+    }
+    html:not([data-dnb-test]) &--drawer#{&}--left &__inner {
+      transform: translate3d(-20rem, 0, 0);
+    }
+    html:not([data-dnb-test]) &--drawer#{&}--right &__inner {
+      transform: translate3d(20rem, 0, 0);
+    }
+    html:not([data-dnb-test]) &--drawer#{&}--right {
+      justify-content: flex-end;
+    }
+    html:not([data-dnb-test]) &--drawer &__inner {
+      opacity: 0.1;
+      animation: show-drawer 300ms ease-out forwards;
+    }
+    html:not([data-dnb-test]) &--drawer#{&}--hide#{&}--left &__inner {
+      animation: hide-drawer-left 300ms ease-in-out forwards;
+    }
+    html:not([data-dnb-test]) &--drawer#{&}--hide#{&}--right &__inner {
+      animation: hide-drawer-right 300ms ease-in-out forwards;
+    }
+
+    // Modal mode
+    html:not([data-dnb-test]) &--modal &__inner {
+      animation: show-modal 300ms ease-out forwards;
+    }
+    html:not([data-dnb-test]) &--modal#{&}--hide &__inner {
+      animation: hide-modal 220ms ease-in-out forwards;
+    }
+
+    /* stylelint-disable-next-line */
+    &--no-animation &__inner {
+      animation-duration: 0ms !important;
+    }
+    @media screen and (max-width: 40em) {
+      &--no-animation-on-mobile &__inner {
+        animation-duration: 0ms !important;
+      }
     }
   }
 
   &__title {
-    &.dnb-h2,
-    .dnb-core-style &.dnb-h2:not([class*='dnb-space']) {
+    &.dnb-h--large,
+    .dnb-core-style &.dnb-h--large:not([class*='dnb-space']) {
       margin: 0;
       padding: 0 2rem 0 0; // because of the close button
     }
@@ -118,15 +198,10 @@
     // For testing large scrollable content
     // height: 200vh;
     // background: blue;
-
-    // Firefox Section fix
-    .dnb-section::after {
-      left: calc(1px - 1px - var(--modal-spacing));
-    }
   }
 
   &__close-button {
-    // NB: as the specificity is several levels deep: html:not([data-is-touch]) .dnb-button--secondary:hover:not([disabled])
+    // NB: as the specificity is several levels deep: html:not([data-whatintent='touch'] ) .dnb-button--secondary:hover:not([disabled])
     // we use !important in case we define position="relative" on hover
     position: absolute;
     top: var(--modal-spacing);
@@ -151,6 +226,113 @@
     width: 100%;
     height: 100%;
 
-    background-color: rgba(255, 255, 255, 0.85);
+    background: rgba(0, 0, 0, 0.4);
+    box-shadow: 0 100vh 0 0 rgba(0, 0, 0, 0.4);
+
+    html:not([data-dnb-test]) &--modal {
+      animation: show-modal-overlay 300ms ease-out forwards;
+    }
+    html:not([data-dnb-test]) &--modal#{&}--hide {
+      animation: hide-modal-overlay 300ms ease-in-out forwards;
+    }
+
+    // Drawer mode
+    html:not([data-dnb-test]) &--drawer {
+      animation: show-drawer-overlay 300ms ease-out forwards;
+    }
+    html:not([data-dnb-test]) &--drawer#{&}--hide {
+      animation: hide-drawer-overlay 300ms ease-in-out forwards;
+    }
+
+    /* stylelint-disable-next-line */
+    &--no-animation {
+      animation-duration: 0ms !important;
+    }
+    @media screen and (max-width: 40em) {
+      &--no-animation-on-mobile {
+        animation-duration: 0ms !important;
+      }
+    }
+  }
+}
+
+@keyframes show-modal {
+  from {
+    opacity: 0.1;
+    transform: translate3d(0, -1rem, 0);
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+}
+@keyframes hide-modal {
+  from {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+  to {
+    transform: translate3d(0, 1rem, 0);
+    opacity: 0;
+  }
+}
+
+@keyframes show-drawer {
+  to {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+}
+@keyframes hide-drawer-left {
+  from {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+  to {
+    transform: translate3d(-20rem, 0, 0);
+    opacity: 0;
+  }
+}
+@keyframes hide-drawer-right {
+  from {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+  to {
+    transform: translate3d(20rem, 0, 0);
+    opacity: 0;
+  }
+}
+
+@keyframes show-modal-overlay {
+  from {
+    background: transparent;
+  }
+  to {
+    background: rgba(0, 0, 0, 0.4);
+  }
+}
+@keyframes hide-modal-overlay {
+  from {
+    background: rgba(0, 0, 0, 0.4);
+  }
+  to {
+    background: transparent;
+  }
+}
+@keyframes show-drawer-overlay {
+  from {
+    background: transparent;
+  }
+  to {
+    background: rgba(0, 0, 0, 0.4);
+  }
+}
+@keyframes hide-drawer-overlay {
+  from {
+    background: rgba(0, 0, 0, 0.4);
+  }
+  to {
+    background: transparent;
   }
 }

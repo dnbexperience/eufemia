@@ -9,7 +9,7 @@ import {
 } from '../../../core/jest/jestSetupScreenshots'
 
 describe('Input screenshot', () => {
-  const extend = selector => ({
+  const extend = (selector) => ({
     style: {
       width: '200px' // make sure our input gets an explicit width, because of mac/linux rendering differences
     },

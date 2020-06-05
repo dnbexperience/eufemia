@@ -10,6 +10,7 @@
  */
 
 // import all the aviable components and patterns
+import Autocomplete from './components/autocomplete/Autocomplete'
 import Button from './components/button/Button'
 import Checkbox from './components/checkbox/Checkbox'
 import DatePicker from './components/date-picker/DatePicker'
@@ -20,6 +21,7 @@ import FormSet from './components/form-set/FormSet'
 import FormStatus from './components/form-status/FormStatus'
 import GlobalError from './components/global-error/GlobalError'
 import GlobalStatus from './components/global-status/GlobalStatus'
+import Heading from './components/heading/Heading'
 import Icon from './components/icon/Icon'
 import IconPrimary from './components/icon-primary/IconPrimary'
 import Input from './components/input/Input'
@@ -29,6 +31,7 @@ import Logo from './components/logo/Logo'
 import Modal from './components/modal/Modal'
 import Notification from './components/notification/Notification'
 import Number from './components/number/Number'
+import Pagination from './components/pagination/Pagination'
 import ProgressIndicator from './components/progress-indicator/ProgressIndicator'
 import Radio from './components/radio/Radio'
 import Section from './components/section/Section'
@@ -44,6 +47,7 @@ import Anchor from './elements/Anchor'
 import Blockquote from './elements/Blockquote'
 import Code from './elements/Code'
 import Dl from './elements/Dl'
+import H from './elements/H'
 import H1 from './elements/H1'
 import H2 from './elements/H2'
 import H3 from './elements/H3'
@@ -63,6 +67,7 @@ import Ul from './elements/Ul'
 
 // define / export all the aviable components
 export {
+  Autocomplete,
   Button,
   Checkbox,
   DatePicker,
@@ -73,6 +78,7 @@ export {
   FormStatus,
   GlobalError,
   GlobalStatus,
+  Heading,
   Icon,
   IconPrimary,
   Input,
@@ -82,6 +88,7 @@ export {
   Modal,
   Notification,
   Number,
+  Pagination,
   ProgressIndicator,
   Radio,
   Section,
@@ -97,6 +104,7 @@ export {
   Blockquote,
   Code,
   Dl,
+  H,
   H1,
   H2,
   H3,

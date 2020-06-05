@@ -7,7 +7,7 @@ import React from 'react'
 
 export const SuffixContext = React.createContext()
 
-const Suffix = props => {
+const Suffix = (props) => {
   if (!(props && props.suffix)) {
     return null
   }

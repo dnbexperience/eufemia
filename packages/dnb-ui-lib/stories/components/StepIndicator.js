@@ -23,7 +23,7 @@ export default [
           on_item_render={({ StepItem }) => {
             return (
               <StepItem
-                onClick={e => {
+                onClick={(e) => {
                   console.log('on_item_render.onClick', e)
                 }}
               />

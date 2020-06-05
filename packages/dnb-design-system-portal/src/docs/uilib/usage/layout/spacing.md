@@ -1,6 +1,5 @@
 ---
 title: 'Spacing'
-
 ---
 
 import SpacingTable from 'Pages/uilib/usage/layout/spacing-table.md'

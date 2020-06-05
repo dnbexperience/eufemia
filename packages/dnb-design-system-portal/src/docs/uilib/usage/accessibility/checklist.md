@@ -1,7 +1,6 @@
 ---
 title: 'Checklist'
 description: 'Accessibility checklist to help you remember the most important tasks you have to follow during front end development.'
-
 ---
 
 # Accessibility Checklist
@@ -44,20 +43,20 @@ Example usage of HTML5 `landmarks` (e.g. `<nav>` or `<section>` etc.):
   <main>
 
     <section aria-label="I'm now a region">
-      <h1 class="dnb-h2">h1 styled as h2</h1>
+      <h1 class="dnb-h--large">h1 styled as h2</h1>
       <p class="dnb-o">text</p>
     </section>
 
     <article>
-      <h2 class="dnb-h1">h2 styled as h1</h2>
-      <h3 class="dnb-h3">h3</h2>
-      <h4 class="dnb-h4">h4</h2>
+      <h2 class="dnb-h--xx-large">h2 styled as h1</h2>
+      <h3 class="dnb-h--medium">h3</h2>
+      <h4 class="dnb-h--basis">h4</h2>
       ...
     </article>
 
     <article>
       <header>I'm not a landmark anymore, because I'm inside article</header>
-      <h2 class="dnb-h2">Another article h2</h2>
+      <h2 class="dnb-h--large">Another article h2</h2>
       ...
       <footer>I'm not a landmark anymore, because I'm inside article</footer>
     </article>

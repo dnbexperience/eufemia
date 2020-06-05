@@ -3,7 +3,7 @@
  *
  */
 
-import React, { PureComponent, Fragment } from 'react'
+import React from 'react'
 import ComponentBox from 'Src/shared/tags/ComponentBox'
 
 import Input from 'dnb-ui-lib/src/components/input/Input'
@@ -11,13 +11,13 @@ import styled from '@emotion/styled'
 import { Location, Router, navigate } from '@reach/router'
 import { BrowserRouter, Route, withRouter } from 'react-router-dom'
 
-class Example extends PureComponent {
+class Example extends React.PureComponent {
   static AdditionalCallback = {
     info: ({ CodeRenderer }) => (
-      <Fragment>
+      <React.Fragment>
         <h3>Data Structure</h3>
         <CodeRenderer language="json">{dataBlob}</CodeRenderer>
-      </Fragment>
+      </React.Fragment>
     )
   }
   state = { activeTabKey: 'second' }
@@ -34,7 +34,7 @@ class Example extends PureComponent {
     const { activeTabKey } = this.state
     const openTab = this.openTab
     return (
-      <Fragment>
+      <React.Fragment>
         <ComponentBox
           title="Left aligned tabs, using both 'data' property and content object"
           scope={{ exampleContent }}
@@ -42,7 +42,8 @@ class Example extends PureComponent {
           useRender
           hideSyntaxButton
         >
-          {/* @jsx */ `
+          {
+            /* @jsx */ `
 const data = [
   { title: 'First', key: 'first' },
   { title: 'Second', key: 'second' },
@@ -52,13 +53,15 @@ const data = [
 render(<Tabs data={data}>
   { exampleContent /* See Example Content below */ }
 </Tabs>)
-          `}
+          `
+          }
         </ComponentBox>
         <ComponentBox
           title="Left aligned tabs, using 'data' property only"
           scope={{ exampleContent }}
         >
-          {/* @jsx */ `
+          {
+            /* @jsx */ `
 <Tabs
   data={{
     first: {
@@ -71,10 +74,12 @@ render(<Tabs data={data}>
     }
   }}
 />
-          `}
+          `
+          }
         </ComponentBox>
         <ComponentBox title="Left aligned tabs, using React Components only">
-          {/* @jsx */ `
+          {
+            /* @jsx */ `
 <Tabs section_style="mint-green">
   <Tabs.Content title="First">
     <H2>First</H2>
@@ -83,13 +88,15 @@ render(<Tabs data={data}>
     <H2>Second</H2>
   </Tabs.Content>
 </Tabs>
-          `}
+          `
+          }
         </ComponentBox>
         <ComponentBox
           title="Right aligned tabs"
           scope={{ exampleContent, activeTabKey, openTab, data }}
         >
-          {/* @jsx */ `
+          {
+            /* @jsx */ `
 <Tabs
   selected_key={activeTabKey}
   align="right"
@@ -112,7 +119,8 @@ render(<Tabs data={data}>
 >
   { exampleContent /* See Example Content below */ }
 </Tabs>
-          `}
+          `
+          }
         </ComponentBox>
         {typeof window !== 'undefined' && (
           <>
@@ -122,7 +130,8 @@ render(<Tabs data={data}>
               useRender
               hideSyntaxButton
             >
-              {/* @jsx */ `
+              {
+                /* @jsx */ `
 // import { Router, Route, withRouter } from 'react-router-dom'
 const tabsData = [
   { title: 'Home', key: 'home' },
@@ -154,7 +163,8 @@ const TabsNav = withRouter(({ history, location }) => (
   )
 )
 render(<BrowserRouter><TabsNav /></BrowserRouter>)
-          `}
+          `
+              }
             </ComponentBox>
             <ComponentBox
               title="Router navigation example using `@reach/router`. More [examples on CodeSandbox](https://codesandbox.io/embed/8z8xov7xyj)"
@@ -162,7 +172,8 @@ render(<BrowserRouter><TabsNav /></BrowserRouter>)
               useRender
               hideSyntaxButton
             >
-              {/* @jsx */ `
+              {
+                /* @jsx */ `
 // import { Location, Router, navigate } from '@reach/router'
 const Home = () => <H2>Home</H2>
 const About = () => <H2>About</H2>
@@ -193,17 +204,18 @@ render(
     }}
   </Location>
 )
-          `}
+          `
+              }
             </ComponentBox>
           </>
         )}
-      </Fragment>
+      </React.Fragment>
     )
   }
 }
 
 const exampleContent = {
-  first: () => <h2 className="dnb-h2">First</h2>,
+  first: () => <h2 className="dnb-h--large">First</h2>,
   second: () => <Input label="Label:">Focus me with next Tab key</Input>,
   third: () => (
     <>
@@ -223,11 +235,13 @@ const data = [
 const dataBlob = JSON.stringify(data, null, 2)
 
 export { Example }
-export default () => (
-  <Wrapper>
-    <Example />
-  </Wrapper>
-)
+export default function StyledExample() {
+  return (
+    <Wrapper>
+      <Example />
+    </Wrapper>
+  )
+}
 
 const Wrapper = styled.div`
   .dnb-tabs {

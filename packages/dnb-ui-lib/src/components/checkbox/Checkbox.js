@@ -3,7 +3,7 @@
  *
  */
 
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import keycode from 'keycode'
@@ -73,8 +73,8 @@ const defaultProps = {
   label: null,
   label_position: null,
   title: null,
-  default_state: null,
-  checked: 'default', //we have to send this as a string
+  default_state: undefined,
+  checked: undefined,
   disabled: null,
   id: null,
   status: null,
@@ -100,7 +100,7 @@ const defaultProps = {
 /**
  * The checkbox component is our enhancement of the classic checkbox button. It acts like a checkbox. Example: On/off, yes/no.
  */
-export default class Checkbox extends Component {
+export default class Checkbox extends React.PureComponent {
   static tagName = 'dnb-checkbox'
   static propTypes = propTypes
   static defaultProps = defaultProps
@@ -111,18 +111,34 @@ export default class Checkbox extends Component {
     registerElement(Checkbox.tagName, Checkbox, defaultProps)
   }
 
-  static parseChecked = state => /true|on/.test(String(state))
+  static parseChecked = (state) => /true|on/.test(String(state))
 
   static getDerivedStateFromProps(props, state) {
     if (state._listenForPropChanges) {
-      if (state.hasDefaultState) {
+      if (
+        typeof props.default_state !== 'undefined' &&
+        typeof state.checked === 'undefined'
+      ) {
         state.checked = Checkbox.parseChecked(props.default_state)
-        state.hasDefaultState = false
-      } else if (props.checked !== 'default') {
+      } else if (props.checked !== state._checked) {
         state.checked = Checkbox.parseChecked(props.checked)
+      }
+      if (typeof props.checked !== 'undefined') {
+        state._checked = props.checked
       }
     }
     state._listenForPropChanges = true
+
+    if (state.checked !== state.__checked) {
+      dispatchCustomElementEvent({ props }, 'on_state_update', {
+        checked: state.checked
+      })
+    }
+
+    if (typeof state.checked === 'undefined') {
+      state.checked = false
+    }
+    state.__checked = state.checked
 
     return state
   }
@@ -132,24 +148,11 @@ export default class Checkbox extends Component {
     this._refInput = React.createRef()
     this._id = props.id || makeUniqueId() // cause we need an id anyway
     this.state = {
-      _listenForPropChanges: true,
-      hasDefaultState: props.default_state !== null,
-      checked: Checkbox.parseChecked(props.default_state || props.checked)
+      _listenForPropChanges: true
     }
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
-    if (
-      Checkbox.parseChecked(this.props.checked) !==
-      Checkbox.parseChecked(nextProps.checked)
-    ) {
-      const { checked } = nextState
-      dispatchCustomElementEvent(this, 'on_state_update', { checked })
-    }
-    return true
-  }
-
-  onKeyDownHandler = event => {
+  onKeyDownHandler = (event) => {
     switch (keycode(event)) {
       case 'enter':
         this.onChangeHandler(event)
@@ -157,7 +160,7 @@ export default class Checkbox extends Component {
     }
   }
 
-  onChangeHandler = event => {
+  onChangeHandler = (event) => {
     if (isTrue(this.props.readOnly)) {
       return event.preventDefault()
     }
@@ -168,16 +171,6 @@ export default class Checkbox extends Component {
     // help firefox and safari to have an correct state after a click
     if (this._refInput.current) {
       this._refInput.current.focus()
-    }
-  }
-
-  onMouseOutHandler = () => {
-    // this way we keep the new state after the user changed the state, without getting the error state back vissually
-    if (this.props.status && this.props.status_state === 'error') {
-      return
-    }
-    if (this._refInput.current) {
-      this._refInput.current.blur()
     }
   }
 
@@ -239,7 +232,6 @@ export default class Checkbox extends Component {
     const inputParams = {
       disabled,
       checked,
-      onMouseOut: this.onMouseOutHandler, // for resetting the button to the default state
       ...rest
     }
 
@@ -324,7 +316,7 @@ export default class Checkbox extends Component {
   }
 }
 
-export const CheckSVG = props => (
+export const CheckSVG = (props) => (
   <svg
     width="24"
     height="24"

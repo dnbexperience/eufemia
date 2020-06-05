@@ -2,7 +2,7 @@
  * List all the Icons available
  */
 
-import React, { PureComponent } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import Icon from 'dnb-ui-lib/src/components/icon/Icon'
 import * as PrimaryIcons from 'dnb-ui-lib/src/icons/primary_icons'
@@ -10,8 +10,9 @@ import * as SecondaryIcons from 'dnb-ui-lib/src/icons/secondary_icons'
 import * as PrimaryIconsMedium from 'dnb-ui-lib/src/icons/primary_icons_medium'
 import * as SecondaryIconsMedium from 'dnb-ui-lib/src/icons/secondary_icons_medium'
 import styled from '@emotion/styled'
+import AutoLinkHeader from '../../tags/AutoLinkHeader'
 
-export default class Icons extends PureComponent {
+export default class Icons extends React.PureComponent {
   state = { iconsToRender: [] }
   static propTypes = {
     type: PropTypes.string
@@ -36,14 +37,21 @@ export default class Icons extends PureComponent {
         return (
           <ListItem key={`icon${name}`}>
             <ListItemInner>
-              <figure aria-labelledby={`id${name}`} aria-hidden>
+              <figure aria-labelledby={`icon-${name}`} aria-hidden>
                 {(SvgMedium && (
                   <Icon icon={SvgMedium} size="medium" />
                 )) || <Icon icon={Svg} />}
               </figure>
-              <figcaption className="dnb-h3" id={`id${name}`}>
+
+              <AutoLinkHeader
+                level={3}
+                element="figcaption"
+                // className="dnb-h--medium"
+                useSlug={`icon-${name}`}
+              >
                 {humanFormat(name)}
-              </figcaption>
+              </AutoLinkHeader>
+
               <p className="dnb-p" aria-hidden>
                 ({name})
               </p>
@@ -82,8 +90,8 @@ const ListItemInner = styled.div`
 
   padding: 0.5rem 0;
 
-  .dnb-h3,
-  .dnb-spacing & .dnb-h3 {
+  .dnb-h--medium,
+  .dnb-spacing & .dnb-h--medium {
     margin: 1rem 0 0;
     white-space: nowrap;
   }
@@ -110,7 +118,7 @@ const ListItem = styled.li`
     flex-grow: 0;
   } */}
 
-  ${'' /* @media (min-width: 60em) {
+  ${'' /* @media screen and (min-width: 60em) {
     max-width: 15rem;
   } */}
 
@@ -118,9 +126,9 @@ const ListItem = styled.li`
   box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
 `
 
-const humanFormat = title =>
+const humanFormat = (title) =>
   title
     .replace(/_/g, ' ')
     .split(/\s/g)
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join(' ')

@@ -4,6 +4,7 @@
  */
 
 import { addParameters, addDecorator, configure } from '@storybook/react'
+import stories from '../stories'
 
 addParameters({
   options: {
@@ -16,4 +17,4 @@ addParameters({
   }
 })
 
-configure(() => require('../stories'), module)
+configure(() => stories, module)

@@ -34,27 +34,32 @@ FontUsageExample.defaultProps = {
   typo_class: null
 }
 
-export default () => (
-  <Wrapper>
-    {/* Regular */}
-    <FontUsageExample
-      font_family="DNB Regular"
-      typo_class="dnb-typo-regular"
-    />
+export default function StyledExample() {
+  return (
+    <Wrapper>
+      {/* Regular */}
+      <FontUsageExample
+        font_family="DNB Regular"
+        typo_class="dnb-typo-regular"
+      />
 
-    {/* Medium */}
-    <FontUsageExample
-      font_family="DNB Medium"
-      typo_class="dnb-typo-medium"
-    />
+      {/* Medium */}
+      <FontUsageExample
+        font_family="DNB Medium"
+        typo_class="dnb-typo-medium"
+      />
 
-    {/* Bold */}
-    <FontUsageExample font_family="DNB Bold" typo_class="dnb-typo-bold" />
+      {/* Bold */}
+      <FontUsageExample
+        font_family="DNB Bold"
+        typo_class="dnb-typo-bold"
+      />
 
-    {/* Mono Regular */}
-    <FontUsageExample
-      font_family="DNB Mono Regular"
-      typo_class="dnb-typo-mono-regular"
-    />
-  </Wrapper>
-)
+      {/* Mono Regular */}
+      <FontUsageExample
+        font_family="DNB Mono Regular"
+        typo_class="dnb-typo-mono-regular"
+      />
+    </Wrapper>
+  )
+}

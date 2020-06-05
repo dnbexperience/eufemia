@@ -113,15 +113,24 @@
 
 /* stylelint-disable */
 .dnb-space {
-  &--inline {
-    display: inline-block;
-  }
   &--no-collapse {
     display: flow-root;
+
+    // &::after {
+    //   content: '\200C';
+    //   display: table;
+    //   clear: both;
+    //   font-size: 0;
+    //   line-height: 0;
+    // }
+
     // IE fix
     @media screen and (-ms-high-contrast: none) {
       overflow: auto;
     }
+  }
+  &--inline {
+    display: inline-block;
   }
   &__top {
     @include direction(top);

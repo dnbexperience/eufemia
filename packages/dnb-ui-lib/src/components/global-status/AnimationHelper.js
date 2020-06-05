@@ -6,6 +6,8 @@
  *
  */
 
+import { warn } from '../../shared/component-helper'
+
 export default class Animation {
   stack = []
   events = []
@@ -13,7 +15,7 @@ export default class Animation {
   // Main methodes
   add(animation) {
     if (!animation.type) {
-      console.warn('You should define an animation type.')
+      warn('You should define an animation type.')
     }
 
     // same animation in process, so do nothing
@@ -30,7 +32,7 @@ export default class Animation {
     return this.runNext()
   }
   unbind() {
-    this.stack.forEach(animation => {
+    this.stack.forEach((animation) => {
       animation.onReset = null
       this.reset(animation)
     })
@@ -46,7 +48,7 @@ export default class Animation {
     if (typeof animation.onReset === 'function') {
       animation.onReset(animation)
     }
-    this.stack = this.stack.filter(a => a !== animation)
+    this.stack = this.stack.filter((a) => a !== animation)
   }
 
   // Helpers
@@ -83,7 +85,7 @@ export default class Animation {
         this.runGlobalEvents(animation, 'onComplete')
 
         // now, remove the one we have processed
-        this.stack = this.stack.filter(a => a !== animation)
+        this.stack = this.stack.filter((a) => a !== animation)
         this.runNext()
       }
       clearTimeout(animation._durationId)
@@ -111,7 +113,7 @@ export default class Animation {
     this.events.push({ callback, type: 'onComplete' })
   }
   runGlobalEvents(animation, type) {
-    this.events.forEach(event => {
+    this.events.forEach((event) => {
       if (type === event.type && typeof event.callback === 'function') {
         event.callback(animation)
       }

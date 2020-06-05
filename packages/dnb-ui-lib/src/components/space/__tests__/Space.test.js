@@ -17,31 +17,28 @@ import _form_row from '../style/_space.scss' // eslint-disable-line
 import dnb_form_row from '../style/dnb-space.scss' // eslint-disable-line
 import dnb_form_row_theme_ui from '../style/themes/dnb-space-theme-ui.scss' // eslint-disable-line
 
-const props = fakeProps(require.resolve('../Space'), {
+const snapshotProps = fakeProps(require.resolve('../Space'), {
   optional: true
 })
-props.id = 'space'
-props.element = 'div'
-props.collapse = false
+snapshotProps.id = 'space'
+snapshotProps.element = 'div'
+snapshotProps.no_collapse = false
 
 describe('Space component', () => {
-  const Comp = mount(<Component {...props} />)
-
   it('have to match snapshot', () => {
+    const Comp = mount(<Component {...snapshotProps} />)
     expect(toJson(Comp)).toMatchSnapshot()
   })
 
   it('should have correct CSS classes', () => {
-    const Comp = mount(<Component {...props} element="span" top="large" />)
+    const Comp = mount(<Component element="span" top="large" />)
     expect(
       Comp.find('span.dnb-space').hasClass('dnb-space__top--large')
     ).toBe(true)
   })
 
   it('should have collapse CSS classe', () => {
-    const Comp = mount(
-      <Component {...props} top="large" collapse={false} />
-    )
+    const Comp = mount(<Component top="large" no_collapse={true} />)
     expect(Comp.find('.dnb-space--no-collapse').exists()).toBe(true)
   })
 })

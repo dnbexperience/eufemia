@@ -1,10 +1,13 @@
 ---
 title: 'Pagination'
-status: 'wip'
-order: 20
-# showTabs: true
+description: 'The Pagination component supports both classical pagination and infinity scrolling.'
+order: 12
+showTabs: true
+status: 'new'
 ---
 
-# Pagination
+import PaginationInfo from 'Pages/uilib/components/pagination/info'
+import PaginationDemos from 'Pages/uilib/components/pagination/demos'
 
-**Under development**
+<PaginationInfo />
+<PaginationDemos />

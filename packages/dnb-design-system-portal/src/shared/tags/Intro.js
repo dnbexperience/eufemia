@@ -3,7 +3,7 @@
  *
  */
 
-import React, { useEffect } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { navigate } from 'gatsby'
 import styled from '@emotion/styled'
@@ -15,8 +15,8 @@ import { Button } from 'dnb-ui-lib/src/components'
 
 const ref = React.createRef()
 const Intro = ({ children }) => {
-  useEffect(() => {
-    const onKeyDownHandler = e => {
+  React.useEffect(() => {
+    const onKeyDownHandler = (e) => {
       if (/textarea|input/i.test(document.activeElement.tagName)) {
         return
       }
@@ -97,7 +97,7 @@ const Inner = styled.div`
   width: 70vw;
   min-height: 50vh;
 `
-export const Next = props => (
+export const Next = (props) => (
   <>
     {/* <Hr /> */}
     <div className="dnb-section dnb-section--spacing">

@@ -19,6 +19,8 @@ completions.json
 .history
 .cache
 *not_in_use*
+recipe-client.log
+recipe-server.log
 
 # enviroment
 .env

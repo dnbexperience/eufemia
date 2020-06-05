@@ -55,9 +55,7 @@ describe('FormStatus component', () => {
 
     // now, setMaxWidth should have set an inline style with an "max-width as rem"
     expect(
-      Comp.find('.dnb-form-status')
-        .instance()
-        .getAttribute('style')
+      Comp.find('.dnb-form-status').instance().getAttribute('style')
     ).toBe('max-width: 6rem;') // 4rem + 2rem
   })
 

@@ -3,7 +3,7 @@
  *
  */
 
-import React, { PureComponent } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import Button from '../button/Button'
 
@@ -29,25 +29,25 @@ const defaultProps = {
   onReset: null
 }
 
-export default class DatePickerFooter extends PureComponent {
+export default class DatePickerFooter extends React.PureComponent {
   static propTypes = propTypes
   static defaultProps = defaultProps
 
-  onSubmitHandler = args => {
+  onSubmitHandler = (args) => {
     const { onSubmit } = this.props
     if (onSubmit) {
       onSubmit(args)
     }
   }
 
-  onCancelHandler = args => {
+  onCancelHandler = (args) => {
     const { onCancel } = this.props
     if (onCancel) {
       onCancel(args)
     }
   }
 
-  onResetHandler = args => {
+  onResetHandler = (args) => {
     const { onReset } = this.props
     if (onReset) {
       onReset(args)

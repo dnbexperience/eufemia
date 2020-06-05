@@ -3,11 +3,12 @@
  *
  */
 
-import React, { PureComponent } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import keycode from 'keycode'
 import {
+  warn,
   isTrue,
   makeUniqueId,
   registerElement,
@@ -117,7 +118,7 @@ const defaultProps = {
 /**
  * The slider component is our enhancement of the classic radio button. It acts like a slider. Example: On/off, yes/no.
  */
-export default class Slider extends PureComponent {
+export default class Slider extends React.PureComponent {
   static tagName = 'dnb-slider'
   static propTypes = propTypes
   static defaultProps = defaultProps
@@ -190,7 +191,7 @@ export default class Slider extends PureComponent {
     }
   }
 
-  onKeyDownHandler = event => {
+  onKeyDownHandler = (event) => {
     const { min, max, reverse, vertical, value: currentValue } = this.state
     const isReverse = vertical ? !reverse : reverse
 
@@ -199,32 +200,38 @@ export default class Slider extends PureComponent {
     let value = -1
 
     switch (keycode(event)) {
-      case 'home':
+      case 'end':
         value = isReverse ? max : min
         break
-      case 'end':
+
+      case 'home':
         value = isReverse ? min : max
         break
+
       case 'page up':
         value = isReverse
           ? currentValue - onePercent
           : currentValue + onePercent * 10
         break
+
       case 'page down':
         value = isReverse
           ? currentValue + onePercent
           : currentValue - onePercent * 10
         break
+
       case 'numpad +':
       case 'right':
       case 'up':
         value = isReverse ? currentValue - step : currentValue + step
         break
+
       case 'numpad -':
       case 'left':
       case 'down':
         value = isReverse ? currentValue + step : currentValue - step
         break
+
       default:
         break
     }
@@ -247,7 +254,7 @@ export default class Slider extends PureComponent {
     this.setState({ _listenForPropChanges: false, currentState: 'normal' })
   }
 
-  onClickHandler = event => {
+  onClickHandler = (event) => {
     const { min, max, reverse, vertical } = this.state
     const percent = calculatePercent(
       this._trackRef.current,
@@ -260,18 +267,18 @@ export default class Slider extends PureComponent {
     this.emitChange(event, value, () => this.setToResetState())
   }
 
-  onSubtractClickHandler = event => {
+  onSubtractClickHandler = (event) => {
     let { step } = this.props
     let { min, max, value } = this.state
     this.emitChange(event, clamp(value - (step || 1), min, max))
   }
-  onAddClickHandler = event => {
+  onAddClickHandler = (event) => {
     let { step } = this.props
     let { min, max, value } = this.state
     this.emitChange(event, clamp(value + (step || 1), min, max))
   }
 
-  onMouseDownHandler = event => {
+  onMouseDownHandler = (event) => {
     if (typeof document !== 'undefined') {
       try {
         document.body.addEventListener(
@@ -285,7 +292,7 @@ export default class Slider extends PureComponent {
         )
         document.body.addEventListener('mouseup', this.onMouseUpHandler)
       } catch (e) {
-        console.warn(e)
+        warn(e)
       }
     }
 
@@ -301,8 +308,8 @@ export default class Slider extends PureComponent {
     }
   }
 
-  onTouchEndHandler = event => this.onMouseUpHandler(event)
-  onMouseUpHandler = event => {
+  onTouchEndHandler = (event) => this.onMouseUpHandler(event)
+  onMouseUpHandler = (event) => {
     if (typeof document !== 'undefined') {
       try {
         document.body.removeEventListener(
@@ -319,7 +326,7 @@ export default class Slider extends PureComponent {
         )
         document.body.removeEventListener('mouseup', this.onMouseUpHandler)
       } catch (e) {
-        console.warn(e)
+        warn(e)
       }
     }
 
@@ -332,7 +339,7 @@ export default class Slider extends PureComponent {
     }
   }
 
-  onRangeChangeHandler = event => {
+  onRangeChangeHandler = (event) => {
     const value = event.currentTarget.value
     this.setState({
       value,
@@ -340,8 +347,8 @@ export default class Slider extends PureComponent {
     })
   }
 
-  onTouchMoveHandler = event => this.onMouseMoveHandler(event)
-  onMouseMoveHandler = event => {
+  onTouchMoveHandler = (event) => this.onMouseMoveHandler(event)
+  onMouseMoveHandler = (event) => {
     let elem = this._trackRef.current
 
     // we have to mock this for jsdom.
@@ -421,7 +428,7 @@ export default class Slider extends PureComponent {
     if (this._trackRef.current) {
       if (isTrue(this.props.use_scrollwheel)) {
         const { min, max, reverse, vertical } = this.state
-        this._trackRef.current.addEventListener('wheel', event => {
+        this._trackRef.current.addEventListener('wheel', (event) => {
           event.preventDefault()
           // Could be handy to use: Math.sign(event.deltaY)
           this.emitChange(
@@ -464,7 +471,7 @@ export default class Slider extends PureComponent {
         )
         document.body.removeEventListener('mouseup', this.onMouseUpHandler)
       } catch (e) {
-        console.warn(e)
+        warn(e)
       }
     }
     clearTimeout(this.resetStateTimeoutId)
@@ -536,11 +543,11 @@ export default class Slider extends PureComponent {
     const percent = clamp(((value - min) * 100) / (max - min))
 
     const inlineStyleBefore = {
-      [vertical ? 'height' : 'width']: `${percent}%`
+      [`${vertical ? 'height' : 'width'}`]: `${percent}%`
     }
 
     const inlineThumbStyles = {
-      [vertical ? 'top' : 'left']: `${percent}%`
+      [`${vertical ? 'top' : 'left'}`]: `${percent}%`
     }
 
     const trackParams = {
@@ -604,6 +611,7 @@ export default class Slider extends PureComponent {
         className="dnb-slider__button dnb-slider__button--subtract"
         variant="secondary"
         icon="subtract"
+        size="small"
         aria-label={subtract_title}
         on_click={this.onSubtractClickHandler}
         {...buttonParams}
@@ -615,6 +623,7 @@ export default class Slider extends PureComponent {
         className="dnb-slider__button dnb-slider__button--add"
         variant="secondary"
         icon="add"
+        size="small"
         aria-label={add_title}
         on_click={this.onAddClickHandler}
         {...buttonParams}
@@ -706,7 +715,7 @@ const percentToValue = (percent, min, max) =>
 
 const roundToStep = (number, step) => Math.round(number / step) * step
 
-const getOffset = node => {
+const getOffset = (node) => {
   const { pageYOffset, pageXOffset } = global
   const { left, top } = node.getBoundingClientRect()
 
@@ -716,7 +725,7 @@ const getOffset = node => {
   }
 }
 
-const getMousePosition = event => {
+const getMousePosition = (event) => {
   if (event.changedTouches && event.changedTouches[0]) {
     return {
       x: event.changedTouches[0].pageX,

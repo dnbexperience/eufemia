@@ -7,4 +7,4 @@ order: 20
 
 # Upload
 
-**Under development**
+**Coming soon**

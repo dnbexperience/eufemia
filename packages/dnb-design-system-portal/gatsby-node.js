@@ -31,13 +31,13 @@ function createMdxNode({
     value: slug
   })
 
-  // to make sure we get nodes witch has not been thenre during the run
+  // to make sure we get nodes which has not been thenre during the run
   // we cound for the length of all nodes
 
   // get all nodes
   const nodes = getNodesByType('Mdx')
   nodes.forEach(
-    node =>
+    (node) =>
       (global.nodesCache[node.fileAbsolutePath.replace('.md', '')] = node)
   )
 
@@ -63,7 +63,11 @@ function createMdxNode({
   const motherDir = node.fileAbsolutePath.replace('.md', '')
 
   // have this check in place only to skip not needed parts
-  if (/uilib\/(components|patterns|elements|helpers)/.test(motherDir)) {
+  if (
+    /uilib\/(components|patterns|elements|helpers|typography)/.test(
+      motherDir
+    )
+  ) {
     const parts = motherDir.split('/')
     parts.shift() // do not search on empty parts
 
@@ -78,7 +82,7 @@ function createMdxNode({
         motherMdx &&
         motherMdx.frontmatter &&
         motherMdx.frontmatter.title &&
-        motherMdx.frontmatter.title.length > 0 // we dont need to crawler nodes witch has a title
+        motherMdx.frontmatter.title.length > 0 // we dont need to crawler nodes which has a title
       ) {
         break
       }
@@ -105,7 +109,7 @@ function createMdxNode({
   }
 }
 
-exports.createPages = async params => {
+exports.createPages = async (params) => {
   await createPages(params)
   await createRedirects(params)
 }
@@ -197,7 +201,7 @@ async function createRedirects({ graphql, actions }) {
 
   // Create redirects from the constructed array
   redirects.forEach(({ fromItems, toPath }) => {
-    fromItems.forEach(fromPath => {
+    fromItems.forEach((fromPath) => {
       const config = {
         fromPath,
         toPath: `/${toPath}`,

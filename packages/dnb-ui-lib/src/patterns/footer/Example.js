@@ -3,19 +3,19 @@
  *
  */
 
-import React, { PureComponent, Fragment } from 'react'
+import React from 'react'
 
-class Example extends PureComponent {
+class Example extends React.PureComponent {
   render() {
     return (
-      <Fragment>
+      <React.Fragment>
         <div className="example-box">
           <p>TODO: Make footer Example</p>
         </div>
-      </Fragment>
+      </React.Fragment>
     )
   }
 }
 
 export { Example }
-export default () => <Example />
+export default Example

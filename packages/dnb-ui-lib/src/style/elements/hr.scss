@@ -7,11 +7,10 @@
   position: relative;
   margin: 0;
   padding: 0;
-  height: 1px;
-  margin-top: -1px;
+  height: 0;
 
   border: 0;
-  color: var(--color-black-border);
+  color: var(--color-black-80);
 
   &::after {
     content: '';
@@ -20,8 +19,10 @@
     left: 0;
     right: 0;
     top: 0;
+
     width: 100%;
     height: 1px;
+
     color: inherit;
     background-color: currentColor;
     border-radius: 0.5px;
@@ -38,12 +39,41 @@
 
 .dnb-hr {
   @include hrStyle();
-}
-.dnb-hr--fullscreen {
-  &::after {
+
+  &--fullscreen::after {
     left: -50vw;
     right: -50vw;
     width: 200vw;
+  }
+
+  &--light::after {
+    border-radius: 0.25px;
+
+    /* 
+    * 60% and 65% for best result on low res screens, like on Chromebook (Acer)
+    * Else the line will dissapear!
+    */
+    background-image: linear-gradient(
+      to bottom,
+      currentColor 60%,
+      transparent 65%
+    );
+    background-size: 100% 1px;
+    background-color: transparent;
+  }
+
+  &--medium::after {
+    height: 2px;
+    border-radius: 0.75px;
+
+    /* Revert the hairline halv */
+    background-image: linear-gradient(
+      to bottom,
+      currentColor 51%,
+      transparent 51%
+    );
+    background-size: 100% 3px;
+    background-color: transparent;
   }
 }
 .dnb-spacing .dnb-hr {

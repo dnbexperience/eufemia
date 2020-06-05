@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import styled from '@emotion/styled'
 import { gridStyle } from './GridStyle'
 import classnames from 'classnames'
+import { Space } from '../src/components'
 
 const WrapperDiv = styled.div`
   min-height: 100vh;
@@ -44,7 +45,7 @@ Wrapper.defaultProps = {
   showOverflow: null
 }
 
-export const Box = styled.div`
+export const Box = styled(Space)`
   position: relative;
 
   margin: 0;

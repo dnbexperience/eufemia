@@ -9,7 +9,7 @@ import { getComponents } from './lib'
 export * from './index'
 
 export default {
-  getComponents: Vue => {
+  getComponents: (Vue) => {
     Vue.use(VuePlugin)
     const ret = {}
     const components = getComponents()
@@ -20,7 +20,7 @@ export default {
     }
     return ret
   },
-  setIgnoredPatterns: Vue => {
+  setIgnoredPatterns: (Vue) => {
     const customPatterns = []
     const components = getComponents()
     for (const c in components) {

@@ -19,6 +19,7 @@ const docsQuery = /* GraphQL */ `
             title
             description
             search
+            skipSearch
           }
           headings {
             value
@@ -42,25 +43,43 @@ const docsQuery = /* GraphQL */ `
   }
 `
 
-const flatten = arr =>
+const flatten = (arr) =>
   arr
     .filter(
       ({
         node: {
           fields: { slug },
-          frontmatter: { search }
+          frontmatter: { skipSearch }
         }
-      }) => !slug.includes('not_in_use') && search !== false
+      }) => !slug.includes('not_in_use') && skipSearch !== true
     )
     .map(
       ({ node: { children, fields, frontmatter, headings, ...rest } }) => {
         if (headings && Array.isArray(headings)) {
-          headings = headings.map(item => ({
+          headings = headings.map((item) => ({
             ...item,
             slug: makeSlug(item.value)
           }))
+
+          // bacuse we need also pages form Tabs, we use here the h2 to make the title
+          // also, h1 is there an object
+          const first = headings[0]
+
+          // has an empty, not valid title, then we grap the first heading (h1)
+          if (
+            !hasTitle(frontmatter) &&
+            first &&
+            (first.depth === 1 || first.depth === 2)
+          ) {
+            headings.shift()
+            frontmatter = {
+              ...frontmatter,
+              title: first.value
+            }
+          }
         }
 
+        // bundle our whole request
         const result = {
           ...fields,
           ...frontmatter,
@@ -68,6 +87,11 @@ const flatten = arr =>
           headings
         }
 
+        if (!hasTitle(result) && !hasDescription(result)) {
+          return null
+        }
+
+        // handle category
         if (children[0]) {
           const { fields, frontmatter, ...rest } = children[0]
           result.category = {
@@ -80,19 +104,27 @@ const flatten = arr =>
         return result
       }
     )
+    .filter(Boolean)
 
+const hasTitle = (r) => String(r.title || '').length > 0
+const hasDescription = (r) => String(r.description || '').length > 0
+
+const dev = false
 const currentBranch = getCurrentBranchName()
-const queries = /^(release|beta)$/.test(currentBranch)
-  ? [
-      {
-        query: docsQuery,
-        transformer: ({ data }) => flatten(data.pages.edges),
-        indexName:
-          process.env.NODE_ENV === 'production'
-            ? 'prod_eufemia_docs'
-            : 'dev_eufemia_docs'
-      }
-    ]
-  : null
+const queries =
+  dev || /^(release|beta)$/.test(currentBranch)
+    ? [
+        {
+          query: docsQuery,
+          transformer: ({ data }) => flatten(data.pages.edges),
+          indexName:
+            dev || process.env.NODE_ENV !== 'production'
+              ? 'dev_eufemia_docs'
+              : /^(beta)$/.test(currentBranch)
+              ? 'beta_eufemia_docs'
+              : 'prod_eufemia_docs'
+        }
+      ]
+    : null
 
 module.exports = queries

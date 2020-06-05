@@ -3,13 +3,14 @@
  *
  */
 
-import React, { PureComponent } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import Link from '../parts/Link'
 import { StaticQuery, graphql } from 'gatsby'
 import { css, Global } from '@emotion/core'
 import styled from '@emotion/styled'
+import { resetLevels } from 'dnb-ui-lib/src/components/Heading'
 import { SidebarMenuContext } from './SidebarMenuContext'
 // import { MainMenuToggleButton } from './ToggleMainMenu'
 import { Icon } from 'dnb-ui-lib/src/components'
@@ -24,7 +25,7 @@ const StyledListItem = styled.li`
   list-style: none;
   margin: 0;
 
-  a {
+  .dnb-anchor {
     position: relative;
     padding: 0;
     height: 2.5rem;
@@ -37,6 +38,7 @@ const StyledListItem = styled.li`
     transform: translateY(1px);
     color: var(--color-emerald-green);
     background-color: inherit;
+    font-size: inherit;
 
     &:hover {
       color: var(--color-black);
@@ -65,7 +67,7 @@ const StyledListItem = styled.li`
     background-color: var(--color-white);
   }
 
-  &.l-1 a {
+  &.l-1 .dnb-anchor {
     margin-left: var(--level-icon-adjust);
     padding-left: calc(var(--level-offset) + var(--level) * 2);
     height: 4rem;
@@ -74,7 +76,7 @@ const StyledListItem = styled.li`
     font-size: var(--font-size-large);
   }
   &.l-2 {
-    a {
+    .dnb-anchor {
       padding-left: calc(var(--level-offset) + var(--level) * 2);
       height: 3.5rem;
 
@@ -94,24 +96,24 @@ const StyledListItem = styled.li`
 
   &.l-3 {
     font-size: var(--font-size-small); /* small size */
-    a {
+    .dnb-anchor {
       padding-left: calc(var(--level-offset) + var(--level) * 3);
     }
     &.is-inside {
       html:not([dev-grid]) & {
-        background-color: var(--color-sea-green-alt-30);
+        background-color: var(--color-sea-green-30);
       }
       font-weight: var(--font-weight-medium);
     }
   }
 
-  &.l-4 a {
+  &.l-4 .dnb-anchor {
     padding-left: calc(var(--level-offset) + var(--level) * 4);
   }
-  &.l-5 a {
+  &.l-5 .dnb-anchor {
     padding-left: calc(var(--level-offset) + var(--level) * 5);
   }
-  &.l-6 a {
+  &.l-6 .dnb-anchor {
     padding-left: calc(var(--level-offset) + var(--level) * 6);
   }
 
@@ -139,7 +141,7 @@ const StyledListItem = styled.li`
     }
   }
 
-  a:focus:not(:active) {
+  .dnb-anchor:focus:not(:active) {
     color: var(--color-white);
     svg {
       color: var(--color-white);
@@ -207,7 +209,7 @@ const StyledListItem = styled.li`
     background-color: var(--color-fire-red-8);
   }
   &.status-new .status-badge {
-    color: var(--color-sea-green-alt);
+    color: var(--color-sea-green);
     background-color: transparent;
   }
   &.status-beta .status-badge {
@@ -237,7 +239,7 @@ const Navigation = styled.nav`
   -ms-overflow-style: none;
 
   /* make the sidemenu accsible for screenreaders on mobile devices  */
-  @media (max-width: 50em) {
+  @media screen and (max-width: 50em) {
     position: relative;
     height: auto;
     overflow: auto;
@@ -258,13 +260,13 @@ const Navigation = styled.nav`
     God for a mobile menu insted
     make sure that Content main "styled.main" gets the same max-width
   */
-  @media (max-width: 50em) {
+  @media screen and (max-width: 50em) {
     &:not(.show-mobile-menu) {
       display: none;
     }
   }
 
-  @media (max-width: 50em) {
+  @media screen and (max-width: 50em) {
     position: relative;
     ul {
       width: 100vw;
@@ -303,7 +305,7 @@ const Navigation = styled.nav`
 
 const showAlwaysMenuItems = [] // like "uilib" som someting like that
 
-export default class SidebarLayout extends PureComponent {
+export default class SidebarLayout extends React.PureComponent {
   static propTypes = {
     location: PropTypes.object.isRequired,
     showAll: PropTypes.bool
@@ -326,7 +328,7 @@ export default class SidebarLayout extends PureComponent {
         let delayBuff
         this.scrollToLastPosition()
 
-        this._scrollRef.current.onscroll = e => {
+        this._scrollRef.current.onscroll = (e) => {
           if (this.bussyOnSettingNewPos) return
           clearTimeout(delayBuff)
           delayBuff = setTimeout(() => {
@@ -400,7 +402,7 @@ export default class SidebarLayout extends PureComponent {
     document.removeEventListener('keydown', this.handleKeyDown)
   }
 
-  handleKeyDown = e => {
+  handleKeyDown = (e) => {
     switch (keycode(e)) {
       case 'esc':
         if (this.isOpen) {
@@ -419,7 +421,7 @@ export default class SidebarLayout extends PureComponent {
           styles={css`
             :root {
               --level-offset: 3vw;
-              @media (max-width: 50em) {
+              @media screen and (max-width: 50em) {
                 --level-offset: 2rem;
               }
 
@@ -431,7 +433,7 @@ export default class SidebarLayout extends PureComponent {
               --level-icon-adjust: -40px;
               --level: 2vw;
 
-              @media (max-width: 50em) {
+              @media screen and (max-width: 50em) {
                 --level: 1.3rem;
               }
             }
@@ -471,7 +473,7 @@ export default class SidebarLayout extends PureComponent {
             const currentPathname = location.pathname.replace(/(\/)$/, '')
             const currentPathnameList = currentPathname
               .split('/')
-              .filter(i => i)
+              .filter((i) => i)
 
             const nav = prepareNav({
               location,
@@ -481,7 +483,7 @@ export default class SidebarLayout extends PureComponent {
             })
               .filter(({ title, menuTitle }) => title || menuTitle)
 
-              .map(props => {
+              .map((props) => {
                 const path = `/${props.path}`
 
                 // get the active item
@@ -492,8 +494,8 @@ export default class SidebarLayout extends PureComponent {
                 // check if a item path is inside another
                 const inside = path
                   .split('/')
-                  .filter(i => i)
-                  .every(i => currentPathnameList.includes(i))
+                  .filter((i) => i)
+                  .every((i) => currentPathnameList.includes(i))
 
                 return { ...props, active, inside }
               })
@@ -530,7 +532,8 @@ export default class SidebarLayout extends PureComponent {
                     active,
                     inside,
                     to: path,
-                    onOffsetTop: offsetTop => (this.offsetTop = offsetTop)
+                    onOffsetTop: (offsetTop) =>
+                      (this.offsetTop = offsetTop)
                   }
 
                   return (
@@ -588,7 +591,7 @@ export default class SidebarLayout extends PureComponent {
   }
 }
 
-class ListItem extends PureComponent {
+class ListItem extends React.PureComponent {
   static propTypes = {
     onOffsetTop: PropTypes.func,
     children: PropTypes.node.isRequired,
@@ -669,6 +672,9 @@ class ListItem extends PureComponent {
       >
         <Link
           to={to}
+          onClick={() => {
+            resetLevels(1)
+          }}
           className={classnames(
             'dnb-anchor',
             'dnb-anchor--no-underline',
@@ -709,7 +715,7 @@ const prepareNav = ({ location, allMdx, showAll, pathPrefix }) => {
   let first = null
   if (showAll === false) {
     const prefix = pathPrefix ? pathPrefix.replace(/^(\/)/, '') : null
-    first = pathname.split('/').filter(p => p && p !== prefix)[0]
+    first = pathname.split('/').filter((p) => p && p !== prefix)[0]
   }
 
   const navItems = allMdx.edges
@@ -720,12 +726,12 @@ const prepareNav = ({ location, allMdx, showAll, pathPrefix }) => {
         }
       }) => slug
     )
-    .filter(slug => slug !== '/')
+    .filter((slug) => slug !== '/')
     // preorder
     .sort()
     .reduce(
       (acc, cur) => {
-        const prefix = cur.split('/').filter(p => p)[0]
+        const prefix = cur.split('/').filter((p) => p)[0]
 
         if (showAll === false) {
           if (prefix === first) {
@@ -734,13 +740,13 @@ const prepareNav = ({ location, allMdx, showAll, pathPrefix }) => {
             return { ...acc, [cur]: [cur] }
           }
         } else {
-          if (showAlwaysMenuItems.find(url => url === cur)) {
+          if (showAlwaysMenuItems.find((url) => url === cur)) {
             return { ...acc, [cur]: [cur] }
           }
 
           if (
             prefix &&
-            showAlwaysMenuItems.find(url => url === `/${prefix}`)
+            showAlwaysMenuItems.find((url) => url === `/${prefix}`)
           ) {
             return {
               ...acc,
@@ -762,7 +768,7 @@ const prepareNav = ({ location, allMdx, showAll, pathPrefix }) => {
     .reduce((acc, cur) => acc.concat(navItems[cur]), []) // put in the sub parts
     .concat(navItems.items) // put inn the main parts
     // make items
-    .map(slugPath => {
+    .map((slugPath) => {
       const {
         node: {
           fields: { slug },
@@ -776,15 +782,15 @@ const prepareNav = ({ location, allMdx, showAll, pathPrefix }) => {
         }) => slug === slugPath
       )
 
-      const level = slug.split('/').filter(p => p).length
+      const level = slug.split('/').filter((p) => p).length
       level > countLevels ? (countLevels = level) : countLevels
 
       return { title, path: slug, level, order, _order: slug, ...rest }
     })
 
     // prepare items, make sure we forward order for sub paths, if needed
-    .map(item => {
-      const parts = item.path.split('/').filter(p => p)
+    .map((item) => {
+      const parts = item.path.split('/').filter((p) => p)
       const sub = parts.slice(0, parts.length - 1).join('/')
 
       subCache[sub] = subCache[sub] || {

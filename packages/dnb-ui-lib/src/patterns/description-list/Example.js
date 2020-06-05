@@ -3,13 +3,13 @@
  *
  */
 
-import React, { PureComponent, Fragment } from 'react'
+import React from 'react'
 import DescriptionList from './DescriptionList'
 
-class Example extends PureComponent {
+class Example extends React.PureComponent {
   render() {
     return (
-      <Fragment>
+      <React.Fragment>
         <div className="example-box">
           <DescriptionList
             info="* Du må alltid ta høyde for en renteøkning på 5%. Samtidig må du også vurdere hvordan lånekostnadene vil påvirke din økonomi."
@@ -26,10 +26,10 @@ class Example extends PureComponent {
           />
           <p className="example-caption">Description List</p>
         </div>
-      </Fragment>
+      </React.Fragment>
     )
   }
 }
 
 export { Example }
-export default () => <Example />
+export default Example

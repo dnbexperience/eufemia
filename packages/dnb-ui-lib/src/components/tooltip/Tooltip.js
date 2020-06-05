@@ -3,11 +3,12 @@
  *
  */
 
-import React, { PureComponent } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import Context from '../../shared/Context'
 import {
+  makeUniqueId,
   extendPropsWithContext,
   registerElement,
   validateDOMAttributes,
@@ -24,11 +25,25 @@ import TooltipPortal from './TooltipPortal'
 
 const propTypes = {
   id: PropTypes.string,
-  position: PropTypes.string,
-  arrow: PropTypes.string,
-  align: PropTypes.string,
-
+  group: PropTypes.string,
+  active: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  position: PropTypes.oneOf(['top', 'right', 'bottom', 'left']),
+  arrow: PropTypes.oneOf([
+    null,
+    'center',
+    'top',
+    'right',
+    'bottom',
+    'left'
+  ]),
+  align: PropTypes.oneOf([null, 'center', 'right', 'left']),
   class: PropTypes.string,
+  animate_position: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.bool
+  ]),
+  show_delay: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  hide_delay: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 
   // React props
   className: PropTypes.string,
@@ -45,9 +60,14 @@ const propTypes = {
 
 const defaultProps = {
   id: null,
+  group: 'main',
+  active: undefined,
   position: 'top',
   arrow: 'center',
   align: null,
+  animate_position: false,
+  show_delay: 300,
+  hide_delay: 500,
 
   // React props
   class: null,
@@ -62,7 +82,7 @@ const defaultProps = {
 /**
  * The tooltip component should be used as the call-to-action in a form, or as a user interaction mechanism. Generally speaking, a tooltip should not be used when a link would do the trick. Exceptions are made at times when it is used as a navigation element in the action-nav element.
  */
-export default class Tooltip extends PureComponent {
+export default class Tooltip extends React.PureComponent {
   static tagName = 'dnb-tooltip'
   static propTypes = propTypes
   static defaultProps = defaultProps
@@ -75,6 +95,11 @@ export default class Tooltip extends PureComponent {
 
   static getContent(props) {
     return processChildren(props)
+  }
+
+  constructor(props) {
+    super(props)
+    this._id = props.id || makeUniqueId() // cause we need an id anyway
   }
 
   // constructor(props) {
@@ -97,6 +122,9 @@ export default class Tooltip extends PureComponent {
       class: class_name,
       className,
       group, // eslint-disable-line
+      animate_position, // eslint-disable-line
+      show_delay, // eslint-disable-line
+      hide_delay, // eslint-disable-line
       active, // eslint-disable-line
       position, // eslint-disable-line
       arrow, // eslint-disable-line
@@ -123,26 +151,35 @@ export default class Tooltip extends PureComponent {
     // also used for code markup simulation
     validateDOMAttributes(this.props, attributes)
 
-    const newProps = { group: group || this.props.id, ...this.props }
+    const newProps = {
+      ...this.props,
+      internal_id: this._id,
+      group: this.props.id || group
+    }
+    if (typeof newProps.active === 'undefined') {
+      delete newProps.active
+    }
 
     return (
       <>
         {component ? (
           <TooltipWithEvents
-            parent={component}
+            target={component}
             attributes={attributes}
             {...newProps}
           >
             {content}
           </TooltipWithEvents>
         ) : (
-          <TooltipPortal
-            parent={target}
-            attributes={attributes}
-            {...newProps}
-          >
-            {content}
-          </TooltipPortal>
+          target && (
+            <TooltipPortal
+              target={target}
+              attributes={attributes}
+              {...newProps}
+            >
+              {content}
+            </TooltipPortal>
+          )
         )}
       </>
     )

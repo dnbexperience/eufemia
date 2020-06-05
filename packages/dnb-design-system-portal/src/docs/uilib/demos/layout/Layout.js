@@ -24,7 +24,7 @@ const WrapperInner = styled.div`
   padding: 0 1rem;
 
   /* for small screesn */
-  @media (max-width: 40em) {
+  @media screen and (max-width: 40em) {
     padding: 0 0.5rem;
   }
 `

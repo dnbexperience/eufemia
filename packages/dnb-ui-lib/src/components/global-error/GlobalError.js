@@ -3,11 +3,12 @@
  *
  */
 
-import React, { PureComponent, Fragment } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import Context from '../../shared/Context'
 import {
+  warn,
   registerElement,
   processChildren
 } from '../../shared/component-helper'
@@ -65,7 +66,7 @@ const defaultProps = {
   ...renderProps
 }
 
-export default class GlobalError extends PureComponent {
+export default class GlobalError extends React.PureComponent {
   static tagName = 'dnb-global-error'
   static propTypes = propTypes
   static defaultProps = defaultProps
@@ -143,7 +144,7 @@ export default class GlobalError extends PureComponent {
       try {
         let parts = useText.split(/\[(.*)\](\(\/back\))/g)
         if (parts.length > 1) {
-          const backIndex = parts.findIndex(v => /\/back/.test(v))
+          const backIndex = parts.findIndex((v) => /\/back/.test(v))
           if (backIndex !== -1) {
             // the first one will be
             parts[backIndex - 1] = (
@@ -153,12 +154,12 @@ export default class GlobalError extends PureComponent {
             )
 
             useText = parts
-              .filter(v => v && !/\/back/.test(v))
-              .map((c, i) => <Fragment key={i}>{c}</Fragment>)
+              .filter((v) => v && !/\/back/.test(v))
+              .map((c, i) => <React.Fragment key={i}>{c}</React.Fragment>)
           }
         }
       } catch (e) {
-        console.warn(e)
+        warn(e)
       }
     }
 
@@ -215,7 +216,7 @@ export default class GlobalError extends PureComponent {
   }
 }
 
-const renderOrNot = C => (typeof C === 'function' ? C() : C)
+const renderOrNot = (C) => (typeof C === 'function' ? C() : C)
 
 const Svg = ({ status, ...props }) => {
   switch (parseFloat(status)) {

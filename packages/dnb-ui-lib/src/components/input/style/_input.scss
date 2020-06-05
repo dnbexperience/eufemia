@@ -5,16 +5,20 @@
 
 :root {
   --input-font-size: var(--font-size-basis);
+  --input-font-size--small: var(--font-size-basis);
   --input-font-size--medium: var(--font-size-basis);
   --input-font-size--large: var(--font-size-medium);
   --input-padding: 1rem;
+  --input-padding--small: 1rem;
   --input-padding--medium: 1rem;
   --input-padding--large: 1rem;
   --input-height: 2rem;
+  --input-height--small: 1.5rem;
   --input-height--medium: 2.5rem;
   --input-height--large: 3rem;
   --input-border-width: 0.0625rem;
   --input-border-radius: calc(var(--input-height) / 2);
+  --input-border-radius--small: calc(var(--input-height--small) / 2);
   --input-border-radius--medium: calc(var(--input-height--medium) / 2);
   --input-border-radius--large: calc(var(--input-height--large) / 2);
 }
@@ -39,7 +43,7 @@
     display: flex;
     align-items: center;
 
-    border: var(--input-border-width) solid var(--color-sea-green-alt);
+    border: var(--input-border-width) solid var(--color-sea-green);
   }
 
   &__input {
@@ -159,6 +163,33 @@
     }
   }
 
+  &--small {
+    line-height: var(--input-height--small);
+    .dnb-input__shell,
+    .dnb-input__input {
+      height: var(--input-height--small);
+      border-radius: var(--input-border-radius--small);
+    }
+    .dnb-input__placeholder,
+    .dnb-input__input {
+      padding-left: var(--input-padding--small);
+      padding-right: var(--input-padding--small);
+      font-size: var(--input-font-size--small);
+    }
+    .dnb-input__submit-element {
+      margin-left: calc(1px - 1px - var(--input-height--small));
+      .dnb-button {
+        width: var(--input-height--small);
+        height: var(--input-height--small);
+        line-height: var(--input-height--small);
+      }
+    }
+  }
+  &--small#{&}--has-submit-element &__placeholder,
+  &--small#{&}--has-submit-element &__input {
+    padding-right: calc(var(--input-padding--small) * 3);
+  }
+
   &--medium {
     line-height: var(--input-height--medium);
     .dnb-input__shell,
@@ -263,6 +294,11 @@
     position: absolute;
     left: 1rem;
     right: auto;
+
+    // IE fix
+    top: 0;
+    bottom: 0;
+    margin: auto;
   }
   &--icon-position-right &__icon {
     order: 1;
@@ -290,9 +326,10 @@
     padding-right: 3rem;
   }
 
-  & > .dnb-form-label {
+  > .dnb-form-label {
     line-height: var(--line-height-basis);
   }
+  @include formLabelWrap();
 
   &[class*='__status'] {
     align-items: flex-start;
@@ -304,7 +341,7 @@
   }
 
   .dnb-responsive-component & {
-    @media (max-width: 40em) {
+    @media screen and (max-width: 40em) {
       display: flex;
       flex-direction: column;
       align-items: flex-start;

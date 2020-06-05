@@ -3,10 +3,11 @@
  *
  */
 
-import React, { PureComponent } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import {
+  warn,
   isTrue,
   makeUniqueId,
   extendPropsWithContext,
@@ -234,7 +235,7 @@ const defaultProps = {
   ...renderProps
 }
 
-export default class DatePicker extends PureComponent {
+export default class DatePicker extends React.PureComponent {
   static tagName = 'dnb-date-picker'
   static propTypes = propTypes
   static defaultProps = defaultProps
@@ -247,7 +248,7 @@ export default class DatePicker extends PureComponent {
     registerElement(DatePicker.tagName, DatePicker, defaultProps)
   }
 
-  static parseOpened = state => /true|on/.test(String(state))
+  static parseOpened = (state) => /true|on/.test(String(state))
 
   static getDerivedStateFromProps(props, state) {
     if (state._listenForPropChanges) {
@@ -338,7 +339,7 @@ export default class DatePicker extends PureComponent {
     }, [])
 
     if (props.end_date && !isTrue(props.range)) {
-      console.warn(
+      warn(
         `The DatePicker got a "end_date". You have to set range={true} as well!.`
       )
     }
@@ -364,15 +365,17 @@ export default class DatePicker extends PureComponent {
           .getBoundingClientRect().width
         if (align_picker === 'right') {
           const distance = buttonWidth / 2 - 8
-          this._triangleRef.current.style.marginRight = `${distance /
-            16}rem`
+          this._triangleRef.current.style.marginRight = `${
+            distance / 16
+          }rem`
         } else {
           const distance = shellWidth - buttonWidth / 2 - 8
-          this._triangleRef.current.style.marginLeft = `${distance /
-            16}rem`
+          this._triangleRef.current.style.marginLeft = `${
+            distance / 16
+          }rem`
         }
       } catch (e) {
-        console.warn(e)
+        warn(e)
       }
     }
   }
@@ -401,7 +404,7 @@ export default class DatePicker extends PureComponent {
     })
   }
 
-  onInputChange = args => {
+  onInputChange = (args) => {
     let { startDate, endDate } = args
     // make sure endDate is same as startDate if we don't use range
     if (!isTrue(this.props.range)) {
@@ -456,7 +459,7 @@ export default class DatePicker extends PureComponent {
     }
   }
 
-  onSubmitHandler = args => {
+  onSubmitHandler = (args) => {
     this.hidePicker(args)
     dispatchCustomElementEvent(
       this,
@@ -465,7 +468,7 @@ export default class DatePicker extends PureComponent {
     )
   }
 
-  onCancelHandler = args => {
+  onCancelHandler = (args) => {
     const { date_format } = this.props
     if (args && args.event) {
       args.event.persist()
@@ -494,7 +497,7 @@ export default class DatePicker extends PureComponent {
     )
   }
 
-  onResetHandler = args => {
+  onResetHandler = (args) => {
     if (args && args.event) {
       args.event.persist()
     }
@@ -522,7 +525,7 @@ export default class DatePicker extends PureComponent {
     }
   }
 
-  showPicker = args => {
+  showPicker = (args) => {
     if (this._hideTimeout) {
       clearTimeout(this._hideTimeout)
     }
@@ -538,7 +541,7 @@ export default class DatePicker extends PureComponent {
     this.setOutsideClickHandler()
   }
 
-  hidePicker = args => {
+  hidePicker = (args) => {
     this.setState({
       opened: false,
       _listenForPropChanges: false
@@ -555,22 +558,22 @@ export default class DatePicker extends PureComponent {
     ) // wait until animation is over
 
     try {
-      this._submitButtonRef.current.focus()
+      this._submitButtonRef.current.focus({ preventScroll: true })
     } catch (e) {
-      console.warn(e)
+      warn(e)
     }
 
     dispatchCustomElementEvent(this, 'on_hide', this.getReturnObject(args))
     this.removeOutsideClickHandler()
   }
 
-  togglePicker = args => {
+  togglePicker = (args) => {
     !this.state.opened
       ? this.showPicker((args && args.event) || args)
       : this.hidePicker((args && args.event) || args)
   }
 
-  callOnChangeHandler = args => {
+  callOnChangeHandler = (args) => {
     const returnObject = this.getReturnObject(args)
 
     if (this.returnObject) {

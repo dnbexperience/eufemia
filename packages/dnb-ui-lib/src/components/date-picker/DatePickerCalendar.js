@@ -3,7 +3,7 @@
  *
  */
 
-import React, { PureComponent } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import Context from '../../shared/Context'
@@ -101,7 +101,7 @@ const defaultProps = {
   onKeyDown: null
 }
 
-export default class DatePickerCalendar extends PureComponent {
+export default class DatePickerCalendar extends React.PureComponent {
   static propTypes = propTypes
   static defaultProps = defaultProps
   static contextType = Context
@@ -117,20 +117,20 @@ export default class DatePickerCalendar extends PureComponent {
       // because we block screen reader nav by providing the arrow key feature
       // we set the focus on the label instead
       if (this.props.enableKeyboardNav && this._listRef.current) {
-        this._listRef.current.focus()
+        this._listRef.current.focus({ preventScroll: true })
       } else if (this._labelRef.current) {
-        this._labelRef.current.focus()
+        this._labelRef.current.focus({ preventScroll: true })
       }
     }
   }
 
-  onKeyDownHandler = event => {
+  onKeyDownHandler = (event) => {
     if (typeof this.props.onKeyDown === 'function') {
       this.props.onKeyDown(event, this._listRef, this.props.nr)
     }
   }
 
-  buildClassNames = day =>
+  buildClassNames = (day) =>
     classnames({
       'dnb-date-picker__day--start-date': day.isStartDate,
       'dnb-date-picker__day--end-date': day.isEndDate,
@@ -186,7 +186,7 @@ export default class DatePickerCalendar extends PureComponent {
       month || new Date(),
       dayOffset(firstDayOfWeek),
       { onlyMonth, hideNextMonthWeek }
-    ).map(date =>
+    ).map((date) =>
       makeDayObject(date, {
         startDate,
         endDate,
@@ -384,7 +384,7 @@ const PrevButton = ({
   return (
     <Button
       className={classnames('dnb-date-picker__prev', { disabled })}
-      icon="chevron-left"
+      icon="chevron_left"
       size="small"
       aria-label={title}
       onClick={onClick}
@@ -439,7 +439,7 @@ const NextButton = ({
     nextBtn && (
       <Button
         className={classnames('dnb-date-picker__next', { disabled })}
-        icon="chevron-right"
+        icon="chevron_right"
         size="small"
         aria-label={title}
         onClick={onClick}

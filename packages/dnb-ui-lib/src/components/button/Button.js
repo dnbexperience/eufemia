@@ -3,11 +3,12 @@
  *
  */
 
-import React, { PureComponent } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import Context from '../../shared/Context'
 import {
+  makeUniqueId,
   isTrue,
   extendPropsWithContext,
   registerElement,
@@ -19,6 +20,7 @@ import {
 import { createSpacingClasses } from '../space/SpacingHelper'
 import IconPrimary from '../icon-primary/IconPrimary'
 import FormStatus from '../form-status/FormStatus'
+import Tooltip from '../tooltip/Tooltip'
 
 const renderProps = { on_click: null }
 
@@ -37,6 +39,11 @@ const propTypes = {
   ]),
   icon_position: PropTypes.oneOf(['left', 'right']),
   icon_size: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  tooltip: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.func,
+    PropTypes.node
+  ]),
   status: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.func,
@@ -48,6 +55,7 @@ const propTypes = {
   id: PropTypes.string,
   class: PropTypes.string,
   href: PropTypes.string,
+  wrap: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   bounding: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
 
@@ -81,8 +89,10 @@ const defaultProps = {
   href: null,
   id: null,
   class: null,
+  wrap: false,
   bounding: false,
   disabled: null,
+  tooltip: null,
   status: null,
   status_state: 'error',
   status_animation: null,
@@ -105,7 +115,7 @@ const defaultProps = {
 /**
  * The button component should be used as the call-to-action in a form, or as a user interaction mechanism. Generally speaking, a button should not be used when a link would do the trick. Exceptions are made at times when it is used as a navigation element in the action-nav element.
  */
-export default class Button extends PureComponent {
+export default class Button extends React.PureComponent {
   static tagName = 'dnb-button'
   static propTypes = propTypes
   static defaultProps = defaultProps
@@ -123,6 +133,8 @@ export default class Button extends PureComponent {
   constructor(props) {
     super(props)
 
+    this._id =
+      props.id || ((props.status || props.tooltip) && makeUniqueId()) // cause we need an id anyway
     this._ref = React.createRef()
 
     // pass along all props we wish to have as params
@@ -140,12 +152,7 @@ export default class Button extends PureComponent {
     }
   }
 
-  onMouseOutHandler = () => {
-    if (this._ref.current) {
-      this._ref.current.blur()
-    }
-  }
-  onClickHandler = event => {
+  onClickHandler = (event) => {
     const afterContent = dispatchCustomElementEvent(this, 'on_click', {
       event
     })
@@ -170,29 +177,67 @@ export default class Button extends PureComponent {
       variant,
       size,
       title,
+      tooltip,
       status,
       status_state,
       status_animation,
       global_status_id,
-      id,
+      id, // eslint-disable-line
       disabled,
-      text,
-      icon,
-      icon_position,
+      text: _text, // eslint-disable-line
+      icon: _icon, // eslint-disable-line
+      icon_position: _icon_position, // eslint-disable-line
       icon_size,
       href,
+      wrap,
       bounding, // eslint-disable-line
       innerRef, // eslint-disable-line
       ...attributes
     } = props
 
-    let usedVariant = variant
-    let usedSize = size
-    const content = Button.getContent(this.props) || text
     const showStatus = status && status !== 'error'
 
+    let { text, icon, icon_position: iconPosition } = props
+    let usedVariant = variant
+    let usedSize = size
+    let content = Button.getContent(this.props) || text
+
+    // NB: Nice API, but will create way too much code to maintain in future
+    // therefore we do not use this fro now
+    // if (content && React.isValidElement(content)) {
+    //   content = [content]
+    // }
+    // if (Array.isArray(content)) {
+    //   const res = content.reduce(
+    //     (acc, cur, i) => {
+    //       if (
+    //         React.isValidElement(cur) &&
+    //         /Icon/i.test(String(cur.type))
+    //       ) {
+    //         acc.icon = cur
+    //         if (i === 0) {
+    //           acc.iconPosition = 'left'
+    //         }
+    //       } else {
+    //         if (!acc.text) {
+    //           acc.text = []
+    //         }
+    //         acc.text.push(cur)
+    //       }
+    //       return acc
+    //     },
+    //     { text: null, icon, iconPosition }
+    //   )
+    //   if (res.icon) {
+    //     text = res.text || text
+    //     icon = res.icon
+    //     iconPosition = res.iconPosition
+    //     content = null
+    //   }
+    // }
+
     // if only has Icon, then resize it and define it as secondary
-    const isIconOnly = Boolean(!content && icon)
+    const isIconOnly = Boolean(!text && !content && icon)
     if (isIconOnly) {
       if (!usedVariant) {
         usedVariant = 'secondary'
@@ -219,10 +264,11 @@ export default class Button extends PureComponent {
       'dnb-button',
       `dnb-button--${usedVariant || 'primary'}`,
       usedSize && usedSize !== 'default' && `dnb-button--size-${usedSize}`,
-      icon && `dnb-button--icon-position-${icon_position}`,
+      icon && `dnb-button--icon-position-${iconPosition}`,
       icon && iconSize && `dnb-button--icon-size-${iconSize}`,
-      content && 'dnb-button--has-text',
+      (text || content) && 'dnb-button--has-text',
       icon && 'dnb-button--has-icon',
+      wrap && 'dnb-button--wrap',
       status && `dnb-button__status--${status_state}`,
       createSpacingClasses(props),
       class_name,
@@ -235,10 +281,9 @@ export default class Button extends PureComponent {
       className: classes,
       type,
       title,
-      id,
+      id: this._id,
       disabled: isTrue(disabled),
       ...attributes,
-      onMouseOut: this.onMouseOutHandler, // for resetting the button to the default state
       onClick: this.onClickHandler
     }
 
@@ -251,6 +296,8 @@ export default class Button extends PureComponent {
           <a href={href} ref={this._ref} {...params}>
             <Content
               {...this.props}
+              icon={icon}
+              text={text}
               icon_size={iconSize}
               content={content}
               isIconOnly={isIconOnly}
@@ -260,6 +307,8 @@ export default class Button extends PureComponent {
           <button ref={this._ref} {...params}>
             <Content
               {...this.props}
+              icon={icon}
+              text={text}
               icon_size={iconSize}
               content={content}
               isIconOnly={isIconOnly}
@@ -269,12 +318,22 @@ export default class Button extends PureComponent {
         {this.state.afterContent}
         {showStatus && (
           <FormStatus
-            id={id + '-form-status'}
+            id={this._id + '-form-status'}
             global_status_id={global_status_id}
             text={status}
             status={status_state}
-            text_id={id + '-status'} // used for "aria-describedby"
+            text_id={this._id + '-status'} // used for "aria-describedby"
             animation={status_animation}
+          />
+        )}
+
+        {tooltip && this._ref && (
+          <Tooltip
+            id={this._id + '-tooltip'}
+            component={this._ref}
+            {...(React.isValidElement(tooltip) && tooltip.props
+              ? tooltip.props
+              : { children: tooltip })}
           />
         )}
       </>
@@ -282,10 +341,10 @@ export default class Button extends PureComponent {
   }
 }
 
-class Content extends PureComponent {
+class Content extends React.PureComponent {
   static propTypes = {
-    text: PropTypes.string,
     title: PropTypes.string,
+    text: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
     content: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
     icon: PropTypes.oneOfType([
       PropTypes.string,
@@ -324,14 +383,21 @@ class Content extends PureComponent {
       )
     }
 
-    if (typeof content === 'string') {
+    if (
+      typeof content === 'string'
+      // ||
+      // (Array.isArray(content) && typeof content[0] === 'string')
+    ) {
       text = content
-    } else {
+    } else if (content) {
       ret.push(content)
     }
 
     if (text) {
       ret.push(
+        <span key="button-text-empty" className="dnb-button__alignment">
+          &zwnj;
+        </span>,
         <span key="button-text" className="dnb-button__text">
           {text}
         </span>
@@ -341,7 +407,7 @@ class Content extends PureComponent {
       // so the icon button gets vertical aligned
       // we need the dnb-button__text for alignment
       ret.push(
-        <span key="button-text-empty" className="dnb-button__text">
+        <span key="button-text-empty" className="dnb-button__alignment">
           &zwnj;
         </span>
       )
@@ -349,13 +415,20 @@ class Content extends PureComponent {
 
     if (icon) {
       ret.push(
-        <IconPrimary
-          key="button-icon"
-          className="dnb-button__icon"
-          icon={icon}
-          size={icon_size}
-          aria-hidden={isIconOnly && !title ? null : true}
-        />
+        React.isValidElement(icon) && /Icon/i.test(String(icon.type)) ? (
+          React.cloneElement(icon, {
+            key: 'button-icon',
+            className: `dnb-button__icon ${icon.props.className || ''}`
+          })
+        ) : (
+          <IconPrimary
+            key="button-icon"
+            className="dnb-button__icon"
+            icon={icon}
+            size={icon_size}
+            aria-hidden={isIconOnly && !title ? null : true}
+          />
+        )
       )
     }
 

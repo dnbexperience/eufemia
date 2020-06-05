@@ -3,7 +3,7 @@
  *
  */
 
-import React, { PureComponent, Fragment } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 
 // date-fns
@@ -20,7 +20,7 @@ import classnames from 'classnames'
 import MaskedInput from 'react-text-mask' // https://github.com/text-mask/text-mask
 import Input, { SubmitButton } from '../input/Input'
 import keycode from 'keycode'
-import { validateDOMAttributes } from '../../shared/component-helper'
+import { warn, validateDOMAttributes } from '../../shared/component-helper'
 import { isDisabled } from './DatePickerCalc'
 import Context from '../../shared/Context'
 
@@ -78,7 +78,7 @@ const defaultProps = {
   onFocus: null
 }
 
-export default class DatePickerInput extends PureComponent {
+export default class DatePickerInput extends React.PureComponent {
   static propTypes = propTypes
   static defaultProps = defaultProps
   static contextType = Context
@@ -187,7 +187,7 @@ export default class DatePickerInput extends PureComponent {
           elem.focus()
           elem.select()
         } catch (e) {
-          console.warn(e)
+          warn(e)
         }
       }, 100)
     }
@@ -280,18 +280,18 @@ export default class DatePickerInput extends PureComponent {
     target.setSelectionRange(0, endPos)
   }
 
-  onFocusHandler = event => {
+  onFocusHandler = (event) => {
     try {
       const target = event.target
       const endPos = target.value.length
       target.focus()
       target.setSelectionRange(0, endPos)
     } catch (e) {
-      console.warn(e)
+      warn(e)
     }
   }
 
-  onKeyDownHandler = async event => {
+  onKeyDownHandler = async (event) => {
     const keyCode = keycode(event)
     const target = event.target
 
@@ -339,7 +339,7 @@ export default class DatePickerInput extends PureComponent {
           nextSibling.setSelectionRange(0, 0)
         }
       } catch (e) {
-        console.warn(e)
+        warn(e)
       }
     } else if (firstSelectionStart === 0 && index > 0) {
       switch (keyCode) {
@@ -354,34 +354,34 @@ export default class DatePickerInput extends PureComponent {
               prevSibling.setSelectionRange(endPos, endPos)
             }
           } catch (e) {
-            console.warn(e)
+            warn(e)
           }
           break
       }
     }
   }
 
-  set_startDay = event => {
+  set_startDay = (event) => {
     this.setDate(event, 2, 'start', 'Day', setDate)
   }
 
-  set_startMonth = event => {
+  set_startMonth = (event) => {
     this.setDate(event, 2, 'start', 'Month', setMonth)
   }
 
-  set_startYear = event => {
+  set_startYear = (event) => {
     this.setDate(event, 4, 'start', 'Year', setYear)
   }
 
-  set_endDay = event => {
+  set_endDay = (event) => {
     this.setDate(event, 2, 'end', 'Day', setDate)
   }
 
-  set_endMonth = event => {
+  set_endMonth = (event) => {
     this.setDate(event, 2, 'end', 'Month', setMonth)
   }
 
-  set_endYear = event => {
+  set_endYear = (event) => {
     this.setDate(event, 4, 'end', 'Year', setYear)
   }
 
@@ -426,11 +426,11 @@ export default class DatePickerInput extends PureComponent {
         })
       }
     } catch (e) {
-      console.warn(e)
+      warn(e)
     }
   }
 
-  renderInputElement = params => {
+  renderInputElement = (params) => {
     const { id, range } = this.props
     this.refList = []
     const startDateList = this.generateDateList(params, 'start')
@@ -465,7 +465,7 @@ export default class DatePickerInput extends PureComponent {
             ...params,
             onKeyDown: this.onKeyDownHandler,
             onMouseUp: selectInput,
-            onFocus: e => {
+            onFocus: (e) => {
               this.onFocusHandler(e)
               this.setState({
                 focusState: 'focus',
@@ -491,7 +491,7 @@ export default class DatePickerInput extends PureComponent {
             this.refList.push(this[`_${mode}DayRef`])
 
             return (
-              <Fragment key={'dd' + i}>
+              <React.Fragment key={'dd' + i}>
                 <Input
                   {...params}
                   id={`${this.props.id}-${mode}-day`}
@@ -515,13 +515,13 @@ export default class DatePickerInput extends PureComponent {
                 >
                   {rangeLabe + day}
                 </label>
-              </Fragment>
+              </React.Fragment>
             )
           case 'm':
             this.refList.push(this[`_${mode}MonthRef`])
 
             return (
-              <Fragment key={'mm' + i}>
+              <React.Fragment key={'mm' + i}>
                 <Input
                   {...params}
                   id={`${this.props.id}-${mode}-month`}
@@ -545,13 +545,13 @@ export default class DatePickerInput extends PureComponent {
                 >
                   {rangeLabe + month}
                 </label>
-              </Fragment>
+              </React.Fragment>
             )
           case 'y':
             this.refList.push(this[`_${mode}YearRef`])
 
             return (
-              <Fragment key={'yy' + i}>
+              <React.Fragment key={'yy' + i}>
                 <Input
                   {...params}
                   id={`${this.props.id}-${mode}-year`}
@@ -575,7 +575,7 @@ export default class DatePickerInput extends PureComponent {
                 >
                   {rangeLabe + year}
                 </label>
-              </Fragment>
+              </React.Fragment>
             )
         }
       }
@@ -671,7 +671,7 @@ export default class DatePickerInput extends PureComponent {
   }
 }
 
-const selectInput = e => {
+const selectInput = (e) => {
   e.target.focus()
   e.target.select()
 }
@@ -688,4 +688,4 @@ const InputElement = React.forwardRef((props, innerRef) => (
 ))
 
 const pad = (num, size) => ('000000000' + num).substr(-size)
-const wait = t => new Promise(r => setTimeout(r, t))
+const wait = (t) => new Promise((r) => setTimeout(r, t))

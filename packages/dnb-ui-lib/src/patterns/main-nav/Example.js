@@ -3,14 +3,14 @@
  *
  */
 
-import React, { PureComponent, Fragment } from 'react'
+import React from 'react'
 import MainNav from './MainNav'
 import styled from '@emotion/styled'
 
-class Example extends PureComponent {
+class Example extends React.PureComponent {
   render() {
     return (
-      <Fragment>
+      <React.Fragment>
         <MainNav
           data={[
             { title: 'Title 1', url: '?url1' },
@@ -23,7 +23,7 @@ class Example extends PureComponent {
           notification_amount="3"
           baseurl="https://www.dnb.no"
         />
-      </Fragment>
+      </React.Fragment>
     )
   }
 }
@@ -34,8 +34,10 @@ const Wrapper = styled.div`
 `
 
 export { Example }
-export default () => (
-  <Wrapper>
-    <Example />
-  </Wrapper>
-)
+export default function StyledExample() {
+  return (
+    <Wrapper>
+      <Example />
+    </Wrapper>
+  )
+}

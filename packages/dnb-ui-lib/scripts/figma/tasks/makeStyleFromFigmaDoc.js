@@ -14,7 +14,7 @@ export const makeScssVarsFromFigmaDoc = ({
   const res = {}
   const existingKeys = Object.keys(existingSassVars)
   newStylesFromDoc.forEach(([key, value]) => {
-    const foundKey = existingKeys.find(k => {
+    const foundKey = existingKeys.find((k) => {
       return (
         k === `${prependKey}-${key}` ||
         k === `${prependKey}-${prependSubKey}-${key}`

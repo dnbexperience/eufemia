@@ -3,7 +3,7 @@
  *
  */
 
-import React, { PureComponent } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import {
@@ -64,7 +64,7 @@ const defaultProps = {
   ...renderProps
 }
 
-export default class FormSet extends PureComponent {
+export default class FormSet extends React.PureComponent {
   static tagName = 'dnb-form-set'
   static propTypes = propTypes
   static defaultProps = defaultProps
@@ -85,7 +85,7 @@ export default class FormSet extends PureComponent {
     this._id = props.id || makeUniqueId() // cause we need an id anyway
   }
 
-  onSubmitHandler = event => {
+  onSubmitHandler = (event) => {
     const { prevent_submit } = this.props
     if (isTrue(prevent_submit)) {
       event.preventDefault()

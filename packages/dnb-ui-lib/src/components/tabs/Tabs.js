@@ -3,12 +3,13 @@
  *
  */
 
-import React, { PureComponent } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import keycode from 'keycode'
 import Context from '../../shared/Context'
 import {
+  warn,
   slugify,
   isTrue,
   makeUniqueId,
@@ -99,7 +100,7 @@ const defaultProps = {
   ...renderProps
 }
 
-export default class Tabs extends PureComponent {
+export default class Tabs extends React.PureComponent {
   static tagName = 'dnb-tabs'
   static propTypes = propTypes
   static defaultProps = defaultProps
@@ -262,7 +263,7 @@ export default class Tabs extends PureComponent {
     this._tablistRef = React.createRef()
   }
 
-  onKeyDownHandler = e => {
+  onKeyDownHandler = (e) => {
     switch (keycode(e)) {
       case 'up':
       case 'page up':
@@ -281,10 +282,10 @@ export default class Tabs extends PureComponent {
     }
   }
 
-  prevTab = e => {
+  prevTab = (e) => {
     this.openTab(-1, e, 'step')
   }
-  nextTab = e => {
+  nextTab = (e) => {
     this.openTab(+1, e, 'step')
   }
 
@@ -310,9 +311,9 @@ export default class Tabs extends PureComponent {
     }
   }
 
-  openTabByDOM = e => {
+  openTabByDOM = (e) => {
     try {
-      const selected_key = (function(elem) {
+      const selected_key = (function (elem) {
         return (
           getPreviousSibling('dnb-tabs__button', elem) || { dataset: {} }
         )
@@ -321,7 +322,7 @@ export default class Tabs extends PureComponent {
       this.openTab(selected_key, e)
       this.setFocusOnTablist()
     } catch (e) {
-      console.warn('Tabs Error:', e)
+      warn('Tabs Error:', e)
     }
   }
 
@@ -376,7 +377,7 @@ export default class Tabs extends PureComponent {
           `#${selected_key}`
         )
       } catch (e) {
-        console.warn('Tabs Error:', e)
+        warn('Tabs Error:', e)
       }
     }
   }
@@ -618,7 +619,7 @@ export default class Tabs extends PureComponent {
   }
 }
 
-class ContentWrapper extends PureComponent {
+class ContentWrapper extends React.PureComponent {
   static propTypes = {
     id: PropTypes.string.isRequired,
     selected_key: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
@@ -654,7 +655,7 @@ class ContentWrapper extends PureComponent {
     <Tabs.Content title="second">second</Tabs.Content>
   </Tabs>
  */
-class CustomContent extends PureComponent {
+class CustomContent extends React.PureComponent {
   static propTypes = {
     displayName: PropTypes.string,
     title: PropTypes.oneOfType([

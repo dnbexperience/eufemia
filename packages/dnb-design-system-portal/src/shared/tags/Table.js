@@ -3,11 +3,11 @@
  *
  */
 
-import React, { PureComponent } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 // import Color from 'color'
 
-export default class Table extends PureComponent {
+export default class Table extends React.PureComponent {
   static propTypes = {
     children: PropTypes.node.isRequired,
     selectable: PropTypes.bool
@@ -18,7 +18,7 @@ export default class Table extends PureComponent {
   render() {
     // make sure we get the table children
     let children =
-      recursiveFind(this.props.children, child =>
+      recursiveFind(this.props.children, (child) =>
         child.type === 'table' ? child.props.children : false
       ) || this.props.children
 
@@ -66,7 +66,7 @@ export default class Table extends PureComponent {
         } else if (this.props.selectable) {
           return (
             <td className="selectable">
-              {recursiveMap(child.props.children, child => child)}
+              {recursiveMap(child.props.children, (child) => child)}
             </td>
           )
         }
@@ -81,7 +81,7 @@ export default class Table extends PureComponent {
 const recursiveFind = (children, func) => {
   let found = null
   if (children) {
-    React.Children.forEach(children, child => {
+    React.Children.forEach(children, (child) => {
       found = func(child)
       if (found) {
         return found
@@ -97,7 +97,7 @@ const recursiveFind = (children, func) => {
 }
 
 const recursiveMap = (children, func = null) => {
-  return React.Children.map(children, child => {
+  return React.Children.map(children, (child) => {
     if (!React.isValidElement(child)) {
       return func ? func(child, false) : child
     }
@@ -112,7 +112,7 @@ const recursiveMap = (children, func = null) => {
   })
 }
 
-const prepareWithSameColor = hex => ({
+const prepareWithSameColor = (hex) => ({
   color: hex,
   background: hex
 })

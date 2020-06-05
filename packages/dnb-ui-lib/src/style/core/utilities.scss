@@ -13,11 +13,11 @@
   box-shadow: 0 1px 6px rgba(0, 0, 0, 0.16);
 }
 
-// Uses html:not([data-is-touch])
+// Uses html:not([data-whatintent='touch'] )
 // classes on <html> element
 // based on js touch device test
 @mixin hover() {
-  html:not([data-is-touch]) &:hover {
+  html:not([data-whatintent='touch']) &:hover {
     &[disabled] {
       cursor: not-allowed;
     }
@@ -28,7 +28,7 @@
 }
 @mixin active() {
   &:active,
-  html:not([data-is-touch]) &:active {
+  html:not([data-whatintent='touch']) &:active {
     &[disabled] {
       cursor: not-allowed;
     }
@@ -40,7 +40,7 @@
 }
 @mixin focus() {
   &:focus,
-  html:not([data-is-touch]) &:focus {
+  html:not([data-whatintent='touch']) &:focus {
     &[disabled] {
       cursor: not-allowed;
     }
@@ -106,6 +106,18 @@ $focusRingColor: var(--color-emerald-green);
     }
   }
 
+  @if $inset {
+    /* iOS fix - because "inset" works not fine with border-radius and rem unit */
+    @supports (-webkit-touch-callout: none) {
+      // remove inset on iOS - this makes the border outside
+      box-shadow: 0 0 0 $width $color $important;
+
+      // This also works, but then we move content for 1px, if they don't have a border from before
+      // box-shadow: none;
+      // border: $width solid $color $important;
+    }
+  }
+
   @if $color != null {
     border-color: transparent;
   }
@@ -135,6 +147,18 @@ $focusRingColor: var(--color-emerald-green);
     visibility: hidden;
     overflow: hidden;
   }
+}
+
+@mixin scrollY($mode: scroll) {
+  overflow-y: $mode;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+
+  // older iOS safari
+  -webkit-overflow-scrolling: touch;
+
+  // show scrollbar on IE
+  -ms-overflow-style: auto;
 }
 
 $breakpoints: (
@@ -185,6 +209,10 @@ $breakpoints: (
 
 // Screen reader only helper
 @mixin srOnly() {
+  user-select: none;
+  -webkit-touch-callout: none; // iOS
+  pointer-events: none;
+
   position: absolute;
 
   clip: rect(1px, 1px, 1px, 1px);
@@ -200,21 +228,18 @@ $breakpoints: (
 }
 
 @mixin srOnlyInline() {
+  @include srOnly();
+
   // since we do use it also as positioning helper
   // we then do not want it absolute positioned
   position: static;
+  display: inline-block;
 
   visibility: visible; // should not be hidden!
   opacity: 0;
 
   font-size: 0;
   line-height: 0;
-
-  overflow: hidden; // older IEs
-
-  padding: 0;
-  margin: 0;
-  border: 0;
 }
 
 // This "negates" the srOnly() helper; useful if
@@ -248,4 +273,14 @@ $breakpoints: (
   }
 
   @return $string;
+}
+
+@mixin formLabelWrap() {
+  @media screen and (max-width: 40em) {
+    flex-wrap: wrap;
+    & > .dnb-form-label {
+      margin-bottom: 0.5rem;
+      margin-top: 0.5rem;
+    }
+  }
 }

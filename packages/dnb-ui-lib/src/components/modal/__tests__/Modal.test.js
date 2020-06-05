@@ -28,6 +28,7 @@ props.content_id = 'modal_content_id'
 props.modal_content = 'unique_modal_content'
 props.close_title = 'close_title'
 props.direct_dom_return = true
+props.no_animation = true
 props.preventSetTriggerRef = true // we set preventSetTriggerRef to true, cause jest gives us an error
 
 describe('Modal component', () => {
@@ -188,4 +189,4 @@ describe('Modal scss', () => {
   })
 })
 
-const wait = t => new Promise(r => setTimeout(r, t))
+const wait = (t) => new Promise((r) => setTimeout(r, t))

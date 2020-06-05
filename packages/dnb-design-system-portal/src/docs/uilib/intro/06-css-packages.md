@@ -1,6 +1,6 @@
 ---
 fullscreen: true
-
+search: 'Intro'
 ---
 
 import { Next } from 'Tags/Intro'

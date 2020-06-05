@@ -9,8 +9,6 @@ import Input from '../../../components/input/Input'
 import Modal from '../../../components/modal/Modal'
 import Context from '../../Context'
 
-const Wrapper = ({ children }) => children(React.useContext(Context))
-
 describe('Suffix context', () => {
   it('works as expeted with the Modal component', () => {
     const inputValue = 'Input Value'
@@ -19,8 +17,8 @@ describe('Suffix context', () => {
     let more_info
 
     const Comp = mount(
-      <Wrapper>
-        {context => {
+      <Context.Consumer>
+        {(context) => {
           more_info = context.translation.Modal.more_info
           return (
             <Input
@@ -31,7 +29,7 @@ describe('Suffix context', () => {
             </Input>
           )
         }}
-      </Wrapper>
+      </Context.Consumer>
     )
 
     expect(

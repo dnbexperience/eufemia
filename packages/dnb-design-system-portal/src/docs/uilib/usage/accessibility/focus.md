@@ -20,7 +20,7 @@ From the technical side, we have to assign an _invisible_ focus, so the user can
   <nav><!-- focusable navigation --></nav>
   <main>
     <!-- more markup with focusable HTMLElements -->
-    <h1 class="dnb-no-focus" tabindex="-1">Main Title</h1>
+    <h1 class="dnb-h--xx-large dnb-no-focus" tabindex="-1">Main Title</h1>
     <a href="/path">I'm now focusable on next tab</a>
   </main>
 </body>
@@ -30,7 +30,7 @@ From the technical side, we have to assign an _invisible_ focus, so the user can
 
 Make sure You ...
 
-- set the focus on the content (e.g. `<h1 class="dnb-h1">`) after a navigation action, initiated by the user.
+- set the focus on the content (e.g. `<h1 class="dnb-h--xx-large">`) after a navigation action, initiated by the user.
 - set the focus into a _menu or navigation_ area, if it has an opening mechanism.
 - also set the focus back to the content, once the menu or navigation area gets closed.
 
@@ -56,7 +56,7 @@ import {
 setPageFocusElement('.css-selector', 'MyCustomName')
 
 // 2. Later You can call this action, once it's time to activate the new focus state
-applyPageFocus('MyCustomName', element => {
+applyPageFocus('MyCustomName', (element) => {
   /* optional callback */
 })
 ```
@@ -92,3 +92,13 @@ Our solution is CSS only and should work for all kinds of application setups. De
 ```
 
 That's it. The styles are included in both the **dnb-ui-basis** and **dnb-ui-core** styling packages.
+
+**NP:** If you link the anchor to only a `<div id="content-id">`, then you have to make sure you also add a tabindex.
+
+```html
+...
+<div id="content-id" tabindex="-1" class="dnb-no-focus">
+  <!-- Content goes here -->
+</div>
+...
+```

@@ -145,11 +145,9 @@ describe('Input component', () => {
     expect(Comp.state().value).toBe(emptyValue)
 
     Comp.setProps({ value: zeroValue })
-    expect(
-      Comp.find('input')
-        .instance()
-        .getAttribute('value')
-    ).toBe(String(zeroValue))
+    expect(Comp.find('input').instance().getAttribute('value')).toBe(
+      String(zeroValue)
+    )
   })
 
   it('has correct medium input size', () => {
@@ -159,38 +157,24 @@ describe('Input component', () => {
 
   it('uses children as the value', () => {
     const Comp = mount(<Component>children</Component>)
-    expect(
-      Comp.find('input')
-        .instance()
-        .getAttribute('value')
-    ).toBe('children')
+    expect(Comp.find('input').instance().getAttribute('value')).toBe(
+      'children'
+    )
   })
 
   it('has correct size attribute (chars length) on input by int number', () => {
     const Comp = mount(<Component size={2} />)
-    expect(
-      Comp.find('input')
-        .instance()
-        .getAttribute('size')
-    ).toBe('2')
+    expect(Comp.find('input').instance().getAttribute('size')).toBe('2')
   })
 
   it('has correct size attribute (chars length) on input by using input_attributes', () => {
     const Comp = mount(<Component input_attributes={{ size: 2 }} />)
-    expect(
-      Comp.find('input')
-        .instance()
-        .getAttribute('size')
-    ).toBe('2')
+    expect(Comp.find('input').instance().getAttribute('size')).toBe('2')
   })
 
   it('has correct size attribute (chars length) on input by using input_attributes and a JSON object', () => {
     const Comp = mount(<Component input_attributes='{"size": "2"}' />)
-    expect(
-      Comp.find('input')
-        .instance()
-        .getAttribute('size')
-    ).toBe('2')
+    expect(Comp.find('input').instance().getAttribute('size')).toBe('2')
   })
 
   it('has to to have a prop value like value', () => {
@@ -218,11 +202,9 @@ describe('Input component', () => {
     Comp.setProps({
       disabled: true
     })
-    expect(
-      Comp.find('input')
-        .instance()
-        .hasAttribute('disabled')
-    ).toBe(true)
+    expect(Comp.find('input').instance().hasAttribute('disabled')).toBe(
+      true
+    )
   })
 
   it('has a submit button on prop type="search"', () => {

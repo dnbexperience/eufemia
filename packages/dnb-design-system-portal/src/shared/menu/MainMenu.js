@@ -3,11 +3,11 @@
  *
  */
 
-import React, { PureComponent } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { css, Global } from '@emotion/core'
 import { StaticQuery, graphql } from 'gatsby'
-import { Helmet as Head } from 'react-helmet-async'
+import { Helmet as Head } from 'react-helmet'
 import styled from '@emotion/styled'
 import classnames from 'classnames'
 import Card, { focusRing } from './Card'
@@ -28,8 +28,9 @@ import {
   setPageFocusElement,
   applyPageFocus
 } from 'dnb-ui-lib/src/shared/helpers'
+import { SearchBarInput } from './SearchBar'
 
-class MainWrapper extends PureComponent {
+class MainWrapper extends React.PureComponent {
   static propTypes = {
     isOpen: PropTypes.bool.isRequired,
     className: PropTypes.string.isRequired,
@@ -65,7 +66,7 @@ const MainWrapperStyled = styled.nav`
   width: 100vw;
   height: 100vh;
 
-  @media (max-width: 40em), (max-height: 55em) {
+  @media screen and (max-width: 40em), (max-height: 55em) {
     height: auto;
   }
 
@@ -98,23 +99,17 @@ const MainWrapperStyled = styled.nav`
   }
 `
 
-const LogoWrapper = styled.div`
+const ContentWrapper = styled.div`
   position: absolute;
   z-index: 4;
   top: 5vh;
 
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
   width: 100%;
 
-  color: var(--color-white);
-
-  .dnb-logo {
-    margin-right: 1rem;
-    color: inherit;
-  }
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 
   /* IE11 fix */
   @media screen and (-ms-high-contrast: none) {
@@ -122,6 +117,29 @@ const LogoWrapper = styled.div`
     left: 48%;
     color: #fff;
   }
+
+  @media screen and (max-width: 40em) {
+    .dnb-drawer-list__list {
+      left: auto;
+      right: -20vw;
+      width: 90vw;
+    }
+  }
+`
+
+const LogoWrapper = styled.div`
+  color: var(--color-white);
+
+  .dnb-logo {
+    margin-right: 1rem;
+    color: inherit;
+  }
+
+  @media (max-height: 55em) {
+    display: none;
+  }
+
+  margin-bottom: 2vh;
 `
 
 const CardsWrapper = styled.div`
@@ -131,8 +149,8 @@ const CardsWrapper = styled.div`
 
   max-width: 60rem;
 
-  @media (max-width: 40em), (max-height: 55em) {
-    margin-top: 14vh;
+  @media screen and (max-width: 40em), (max-height: 55em) {
+    margin-top: 16vh;
   }
 `
 
@@ -183,7 +201,7 @@ const toggleContent = css`
   }
 `
 
-export default class MainMenu extends PureComponent {
+export default class MainMenu extends React.PureComponent {
   static propTypes = {
     enableOverlay: PropTypes.bool
   }
@@ -205,7 +223,7 @@ export default class MainMenu extends PureComponent {
       document.removeEventListener('keydown', this.onKeyDownHandler)
     }
   }
-  onKeyDownHandler = e => {
+  onKeyDownHandler = (e) => {
     switch (keycode(e)) {
       case 'esc':
         if (this.context.isOpen) {
@@ -279,85 +297,86 @@ export default class MainMenu extends PureComponent {
                   <title>Eufemia - DNB Design System</title>
                 </Head>
                 <h1 className="dnb-sr-only">Welcome to Eufemia</h1>
-                {
-                  <>
-                    <Global styles={customBodyStyle} />
-                    {isOpen && !isClosing && (
-                      <Global styles={toggleContent} />
-                    )}
-                    {(enableOverlay && (
-                      <Toolbar
-                        className={classnames(isClosing && 'is-closing')}
-                      >
-                        {isOpen && !isClosing && (
-                          <Button
-                            variant="secondary"
-                            className="close-button dnb-always-focus"
-                            on_click={closeMenu}
-                            icon="close"
-                            icon_position="left"
-                            text="Close"
-                            aria-label="Close Main Menu"
-                          />
-                        )}
-                      </Toolbar>
-                    )) ||
-                      (!enableOverlay && (
+                <>
+                  <Global styles={customBodyStyle} />
+                  {isOpen && !isClosing && (
+                    <Global styles={toggleContent} />
+                  )}
+                  {(enableOverlay && (
+                    <Toolbar
+                      className={classnames(isClosing && 'is-closing')}
+                    >
+                      {isOpen && !isClosing && (
+                        <Button
+                          variant="secondary"
+                          className="close-button dnb-always-focus"
+                          on_click={closeMenu}
+                          icon="close"
+                          icon_position="left"
+                          text="Close"
+                          aria-label="Close Main Menu"
+                        />
+                      )}
+                    </Toolbar>
+                  )) ||
+                    (!enableOverlay && (
+                      <ContentWrapper>
                         <LogoWrapper aria-hidden>
                           <Logo size="48" />
                           Eufemia
                         </LogoWrapper>
-                      ))}
-                    <CardsWrapper
-                      // id="portal-main-menu"
-                      aria-labelledby="toggle-main-menu"
-                    >
-                      <Card
-                        url={items['design-system'].url}
-                        title={items['design-system'].title}
-                        about={
-                          <>
-                            {items['design-system'].description}
-                            <LastUpadted title="Last Change log update">
-                              Updated: {buildVersion}
-                            </LastUpadted>
-                          </>
-                        }
-                        icon={DesignSystemSvg}
-                      />
-                      <Card
-                        url={items['uilib'].url}
-                        title={items['uilib'].title}
-                        about={items['uilib'].description}
-                        icon={UilibSvg}
-                      />
-                      <Card
-                        url={items['quickguide-designer'].url}
-                        title={items['quickguide-designer'].title}
-                        about={items['quickguide-designer'].description}
-                        icon={QuickguideDesignerSvg}
-                      />
-                      <Card
-                        url={items['icons'].url}
-                        title={items['icons'].title}
-                        about={items['icons'].description}
-                        icon={IconsSvg}
-                      />
-                      <Card
-                        url={items['brand'].url}
-                        title={items['brand'].title}
-                        about={items['brand'].description}
-                        icon={BrandSvg}
-                      />
-                      <Card
-                        url={items['principles'].url}
-                        title={items['principles'].title}
-                        about={items['principles'].description}
-                        icon={PrinciplesSvg}
-                      />
-                    </CardsWrapper>
-                  </>
-                }
+                        <SearchBarInput />
+                      </ContentWrapper>
+                    ))}
+                  <CardsWrapper
+                    // id="portal-main-menu"
+                    aria-labelledby="toggle-main-menu"
+                  >
+                    <Card
+                      url={items['design-system'].url}
+                      title={items['design-system'].title}
+                      about={
+                        <>
+                          {items['design-system'].description}
+                          <LastUpadted title="Last Change log update">
+                            Updated: {buildVersion}
+                          </LastUpadted>
+                        </>
+                      }
+                      icon={DesignSystemSvg}
+                    />
+                    <Card
+                      url={items['uilib'].url}
+                      title={items['uilib'].title}
+                      about={items['uilib'].description}
+                      icon={UilibSvg}
+                    />
+                    <Card
+                      url={items['quickguide-designer'].url}
+                      title={items['quickguide-designer'].title}
+                      about={items['quickguide-designer'].description}
+                      icon={QuickguideDesignerSvg}
+                    />
+                    <Card
+                      url={items['icons'].url}
+                      title={items['icons'].title}
+                      about={items['icons'].description}
+                      icon={IconsSvg}
+                    />
+                    <Card
+                      url={items['brand'].url}
+                      title={items['brand'].title}
+                      about={items['brand'].description}
+                      icon={BrandSvg}
+                    />
+                    <Card
+                      url={items['principles'].url}
+                      title={items['principles'].title}
+                      about={items['principles'].description}
+                      icon={PrinciplesSvg}
+                    />
+                  </CardsWrapper>
+                </>
               </MainWrapper>
             )
           )

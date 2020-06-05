@@ -1,7 +1,6 @@
 ---
 title: 'UI Guides'
 icon: 'ui_guides'
-
 ---
 
 # UI guides

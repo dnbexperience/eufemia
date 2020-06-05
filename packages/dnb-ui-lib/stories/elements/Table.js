@@ -3,7 +3,7 @@
  *
  */
 
-import React, { Fragment } from 'react'
+import React from 'react'
 import { Wrapper, Box } from '../helpers'
 import styled from '@emotion/styled'
 
@@ -31,29 +31,39 @@ export default [
   () => (
     <CustomWrapper className="dnb-spacing">
       <Box>
-        <table className="dnb-table">
+        <table className="dnb-table dnb-table--small">
           <thead>
-            <tr>
-              <th colSpan="2" className="dnb-table--no-wrap-2">
+            <tr
+            // className="dnb-table--small"
+            >
+              <th
+                colSpan="2"
+                align="right"
+                // className="dnb-table--right"
+                // className="dnb-table--small"
+              >
                 Only text In nam at lacinia blandit risus turpis cras
                 sagittis et Id adipiscing per diam quam volutpat sed turpis
                 odio donec Phasellus odio magnis sit neque commodo nisl
                 hendrerit viverra consectetur tortor risus faucibus lacus
                 erat egestas felis rhoncus lobortis dis
               </th>
-              <th className="dnb-table--sortable dnb-table--reversed">
-                Donec Phasellus odio magnis sit neque commodo nisl
-                hendrerit viverra consectet{' '}
+              <th
+                align="right"
+                className="dnb-table--sortable dnb-table--reversed"
+              >
                 <Button
                   variant="tertiary"
-                  icon="chevron-down"
-                  text="Sortable"
+                  icon="arrow_down"
+                  text="Donec Phasellus odio magnis sit neque commodo nisl
+                hendrerit viverra consectet Sortable"
+                  wrap
                 />
               </th>
               <th className="dnb-table--sortable dnb-table--active">
                 <Button
                   variant="tertiary"
-                  icon="chevron-down"
+                  icon="arrow_down"
                   text="Active"
                 />
               </th>
@@ -122,13 +132,13 @@ export default [
                 Column 2 <Button icon="close" variant="secondary" />
               </td>
               <td>
-                Column 3 <Button icon="chevron_down" variant="tertiary" />
+                Column 3 <Button icon="arrow_down" variant="tertiary" />
               </td>
               <td>
                 Column 4
                 <Button
                   text="Button"
-                  icon="chevron_down"
+                  icon="arrow_down"
                   variant="tertiary"
                 />
               </td>
@@ -154,7 +164,7 @@ export default [
               >
                 <Button
                   variant="tertiary"
-                  icon="chevron-down"
+                  icon="arrow_down"
                   text="dnb-table--reversed"
                   title="dnb-table__th dnb-table--sortable dnb-table--reversed"
                 />
@@ -165,7 +175,7 @@ export default [
               >
                 <Button
                   variant="tertiary"
-                  icon="chevron-down"
+                  icon="arrow_down"
                   text="dnb-table--active"
                   title="dnb-table__th dnb-table--sortable dnb-table--active"
                 />
@@ -244,10 +254,10 @@ const data = [
     ]
   },
   {
-    content: <Fragment>E</Fragment>
+    content: <React.Fragment>E</React.Fragment>
   },
-  <Fragment key="key1">Custom content {'🔥'}</Fragment>,
-  [<Fragment key="key2">Custom content X {'🔥'}</Fragment>],
+  <>Custom content {'🔥'}</>,
+  [<React.Fragment key="key2">Custom content X {'🔥'}</React.Fragment>],
   {
     content: 'EE'
   },

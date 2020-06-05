@@ -3,11 +3,11 @@
  *
  */
 
-import React, { PureComponent } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { GlobalError } from 'dnb-ui-lib/src/components'
 
-export default class PageNotFound extends PureComponent {
+export default class PageNotFound extends React.PureComponent {
   static propTypes = {
     location: PropTypes.object.isRequired
   }

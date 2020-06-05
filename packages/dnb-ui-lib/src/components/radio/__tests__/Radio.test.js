@@ -56,7 +56,7 @@ describe('Radio component', () => {
     expect(Comp.find('input').props().value).toBe(value)
   })
 
-  it('has "on_change" event witch will trigger on a input change', () => {
+  it('has "on_change" event which will trigger on a input change', () => {
     const my_event = jest.fn()
     const myEvent = jest.fn()
     const Comp = mount(
@@ -80,11 +80,9 @@ describe('Radio component', () => {
     Comp.setProps({
       disabled: true
     })
-    expect(
-      Comp.find('input')
-        .instance()
-        .hasAttribute('disabled')
-    ).toBe(true)
+    expect(Comp.find('input').instance().hasAttribute('disabled')).toBe(
+      true
+    )
   })
 
   it('should validate with ARIA rules', async () => {

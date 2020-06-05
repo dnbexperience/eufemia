@@ -2,7 +2,7 @@
  * MDX Template
  */
 
-import React, { PureComponent } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 
 import { MDXProvider } from '@mdx-js/react'
@@ -10,12 +10,12 @@ import { MDXRenderer } from 'gatsby-plugin-mdx'
 import { graphql } from 'gatsby'
 
 import Layout from '../shared/parts/Layout'
-import { Helmet as Head } from 'react-helmet-async'
+import { Helmet as Head } from 'react-helmet'
 import tags from '../shared/tags'
 
 const Tabbar = tags.Tabbar
 
-export default class MdxTemplate extends PureComponent {
+export default class MdxTemplate extends React.PureComponent {
   render() {
     const {
       location,

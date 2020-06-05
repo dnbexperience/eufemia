@@ -105,19 +105,20 @@ exports[`ToggleButton component have to match snapshot 1`] = `
           status_state="error"
           text="text"
           title="title"
+          tooltip={null}
           type="button"
           variant="secondary"
+          wrap={false}
         >
           <button
             aria-describedby=" toggle-button-suffix"
             aria-pressed="false"
-            className="dnb-button dnb-button--secondary dnb-toggle-button__button dnb-button--icon-position-left dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--has-text"
+            className="dnb-button dnb-button--secondary dnb-button--has-text dnb-toggle-button__button dnb-button--icon-position-left dnb-button--has-icon dnb-button--icon-size-icon_size"
             disabled={false}
             id="toggle-button"
             onClick={[Function]}
             onKeyDown={[Function]}
             onKeyUp={[Function]}
-            onMouseOut={[Function]}
             title="title"
             type="button"
           >
@@ -139,7 +140,6 @@ exports[`ToggleButton component have to match snapshot 1`] = `
                     className={null}
                     custom_element={null}
                     custom_method={null}
-                    default_state={null}
                     disabled="disabled"
                     global_status_id={null}
                     id="toggle-button-checkbox"
@@ -179,8 +179,10 @@ exports[`ToggleButton component have to match snapshot 1`] = `
               status_state="error"
               text="text"
               title="title"
+              tooltip={null}
               type="button"
               variant="secondary"
+              wrap={false}
             >
               <span
                 className="dnb-toggle-button__component"
@@ -193,7 +195,6 @@ exports[`ToggleButton component have to match snapshot 1`] = `
                   className={null}
                   custom_element={null}
                   custom_method={null}
-                  default_state={null}
                   disabled="disabled"
                   global_status_id={null}
                   id="toggle-button-checkbox"
@@ -240,7 +241,6 @@ exports[`ToggleButton component have to match snapshot 1`] = `
                             name="toggle-button-checkbox"
                             onChange={[Function]}
                             onKeyDown={[Function]}
-                            onMouseOut={[Function]}
                             tabIndex="-1"
                             title={null}
                             type="checkbox"
@@ -273,6 +273,12 @@ exports[`ToggleButton component have to match snapshot 1`] = `
                     </span>
                   </span>
                 </Checkbox>
+              </span>
+              <span
+                className="dnb-button__alignment"
+                key="button-text-empty"
+              >
+                ‌
               </span>
               <span
                 className="dnb-button__text"
@@ -458,7 +464,6 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
                 >
                   <ToggleButton
                     attributes={null}
-                    checked={null}
                     class={null}
                     className={null}
                     custom_element={null}
@@ -527,18 +532,19 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
                             status_state="error"
                             text="ToggleButton 1"
                             title={null}
+                            tooltip={null}
                             type="button"
                             variant="secondary"
+                            wrap={false}
                           >
                             <button
                               aria-pressed="true"
-                              className="dnb-button dnb-button--secondary dnb-toggle-button__button dnb-button--has-text"
+                              className="dnb-button dnb-button--secondary dnb-button--has-text dnb-toggle-button__button"
                               disabled={false}
                               id="toggle-button-1"
                               onClick={[Function]}
                               onKeyDown={[Function]}
                               onKeyUp={[Function]}
-                              onMouseOut={[Function]}
                               type="button"
                             >
                               <Content
@@ -568,9 +574,17 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
                                 status_state="error"
                                 text="ToggleButton 1"
                                 title={null}
+                                tooltip={null}
                                 type="button"
                                 variant="secondary"
+                                wrap={false}
                               >
+                                <span
+                                  className="dnb-button__alignment"
+                                  key="button-text-empty"
+                                >
+                                  ‌
+                                </span>
                                 <span
                                   className="dnb-button__text"
                                   key="button-text"
@@ -655,18 +669,19 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
                             status_state="error"
                             text="ToggleButton 2"
                             title={null}
+                            tooltip={null}
                             type="button"
                             variant="secondary"
+                            wrap={false}
                           >
                             <button
                               aria-pressed="true"
-                              className="dnb-button dnb-button--secondary dnb-toggle-button__button dnb-button--has-text"
+                              className="dnb-button dnb-button--secondary dnb-button--has-text dnb-toggle-button__button"
                               disabled={false}
                               id="toggle-button-2"
                               onClick={[Function]}
                               onKeyDown={[Function]}
                               onKeyUp={[Function]}
-                              onMouseOut={[Function]}
                               type="button"
                             >
                               <Content
@@ -696,9 +711,17 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
                                 status_state="error"
                                 text="ToggleButton 2"
                                 title={null}
+                                tooltip={null}
                                 type="button"
                                 variant="secondary"
+                                wrap={false}
                               >
+                                <span
+                                  className="dnb-button__alignment"
+                                  key="button-text-empty"
+                                >
+                                  ‌
+                                </span>
                                 <span
                                   className="dnb-button__text"
                                   key="button-text"
@@ -755,12 +778,18 @@ exports[`ToggleButton scss have to match default theme snapshot 1`] = `
     .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]):not(:active):not(:hover) {
       box-shadow: inset 0 0 0 0.0625rem var(--color-emerald-green);
       /* IE11 fix */
+      /* iOS fix - because \\"inset\\" works not fine with border-radius and rem unit */
       border-color: transparent; }
       @media screen and (-ms-high-contrast: none) {
         .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:active):not(:hover),
         .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]):not(:active):not(:hover),
         .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]):not(:active):not(:hover) {
           box-shadow: inset 0 0 0 1px var(--color-emerald-green); } }
+      @supports (-webkit-touch-callout: none) {
+        .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:active):not(:hover),
+        .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]):not(:active):not(:hover),
+        .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]):not(:active):not(:hover) {
+          box-shadow: 0 0 0 0.0625rem var(--color-emerald-green); } }
   .dnb-toggle-button--checked .dnb-toggle-button__button .dnb-icon,
   .dnb-toggle-button--checked .dnb-toggle-button__button:focus .dnb-icon,
   .dnb-toggle-button--checked .dnb-toggle-button__button:hover .dnb-icon {
@@ -790,11 +819,15 @@ exports[`ToggleButton scss have to match default theme snapshot 1`] = `
   .dnb-toggle-button--checked .dnb-toggle-button__button:hover[disabled] .dnb-radio__button,
   .dnb-toggle-button--checked .dnb-toggle-button__button:hover[disabled] .dnb-checkbox__button {
     box-shadow: none; }
+  html[data-whatinput='keyboard']
+.dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:active):not(:hover):focus, html[data-whatinput='keyboard']
+  .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]):not(:active):not(:hover):focus, html[data-whatinput='keyboard']
+  .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]):not(:active):not(:hover):focus {
+    color: var(--color-emerald-green);
+    background-color: var(--color-mint-green); }
   .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:active):not(:hover):focus,
   .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]):not(:active):not(:hover):focus,
   .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]):not(:active):not(:hover):focus {
-    color: var(--color-emerald-green);
-    background-color: var(--color-mint-green);
     outline: none; }
     html[data-whatinput='keyboard'] .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:active):not(:hover):focus, html[data-whatinput='keyboard']
     .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]):not(:active):not(:hover):focus, html[data-whatinput='keyboard']
@@ -805,28 +838,32 @@ exports[`ToggleButton scss have to match default theme snapshot 1`] = `
   .dnb-toggle-button__button:not([disabled]):active .dnb-radio__button,
   .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):active .dnb-radio__button {
     background-color: transparent;
-    border-color: var(--color-sea-green-alt);
-    box-shadow: 0 0 0 0.0318rem var(--color-sea-green-alt); }
+    border-color: var(--color-sea-green);
+    box-shadow: 0 0 0 0.0318rem var(--color-sea-green); }
   .dnb-toggle-button__button:not([disabled]):active .dnb-radio__dot,
   .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):active .dnb-radio__dot {
-    background-color: var(--color-sea-green-alt); }
+    background-color: var(--color-sea-green); }
   .dnb-toggle-button__button:not([disabled]):active .dnb-checkbox__button,
   .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):active .dnb-checkbox__button {
     background-color: transparent;
-    border-color: var(--color-sea-green-alt);
-    box-shadow: 0 0 0 0.0318rem var(--color-sea-green-alt); }
+    border-color: var(--color-sea-green);
+    box-shadow: 0 0 0 0.0318rem var(--color-sea-green); }
   .dnb-toggle-button__button:not([disabled]):active .dnb-checkbox__gfx,
   .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):active .dnb-checkbox__gfx {
-    color: var(--color-sea-green-alt); }
+    color: var(--color-sea-green); }
   .dnb-toggle-button__status--error .dnb-toggle-button__button:not([disabled]):not(:focus):not(:active) {
     background-color: var(--color-white);
     color: var(--color-fire-red);
     box-shadow: inset 0 0 0 0.0625rem var(--color-fire-red);
     /* IE11 fix */
+    /* iOS fix - because \\"inset\\" works not fine with border-radius and rem unit */
     border-color: transparent; }
     @media screen and (-ms-high-contrast: none) {
       .dnb-toggle-button__status--error .dnb-toggle-button__button:not([disabled]):not(:focus):not(:active) {
         box-shadow: inset 0 0 0 1px var(--color-fire-red); } }
+    @supports (-webkit-touch-callout: none) {
+      .dnb-toggle-button__status--error .dnb-toggle-button__button:not([disabled]):not(:focus):not(:active) {
+        box-shadow: 0 0 0 0.0625rem var(--color-fire-red); } }
     .dnb-toggle-button__status--error .dnb-toggle-button__button:not([disabled]):not(:focus):not(:active):hover {
       box-shadow: 0 0 0 0.125rem var(--color-fire-red); }
   .dnb-toggle-button--checked.dnb-toggle-button__status--error .dnb-toggle-button__button:not([disabled]):not(:focus):not(:active) {
@@ -916,6 +953,7 @@ exports[`ToggleButton scss have to match snapshot 1`] = `
   text-align: left;
   vertical-align: baseline;
   white-space: pre-wrap;
+  word-break: normal;
   font-size: var(--font-size-basis);
   color: inherit; }
   .dnb-form-label--vertical {
@@ -1062,7 +1100,10 @@ legend.dnb-form-label {
     padding: calc(0.5rem / 2) 1rem;
     cursor: text;
     color: inherit;
-    line-height: var(--line-height-basis); }
+    line-height: var(--line-height-basis);
+    white-space: normal; }
+    .dnb-form-status--text .dnb-anchor {
+      font-size: inherit; }
   .dnb-icon + .dnb-form-status--text {
     padding-left: 0.5rem; }
   .dnb-form-status__shell > .dnb-icon {
@@ -1074,8 +1115,7 @@ legend.dnb-form-label {
     margin-top: 0.25em;
     margin-left: 0.5em;
     color: inherit;
-    font-size: var(--font-size-basis);
-    transform: translateY(-0.125rem); }
+    font-size: var(--font-size-small); }
   .dnb-form-status[hidden] {
     display: none; }
   .dnb-form-status--fade-in {
@@ -1159,21 +1199,30 @@ legend.dnb-form-label {
   align-items: center;
   justify-content: center;
   width: var(--button-width);
-  height: var(--button-height);
+  height: auto;
   padding: 0;
   border: var(--button-border-width) solid transparent;
   border-radius: var(--button-border-radius);
   text-decoration: none;
-  font-size: var(--font-size-small); }
+  font-size: var(--font-size-small);
+  /* stylelint-disable-next-line */ }
+  .dnb-button--wrap {
+    overflow-wrap: break-word;
+    white-space: normal; }
   .dnb-button,
   .dnb-core-style .dnb-button {
     line-height: var(--button-height); }
   .dnb-button__text {
+    margin: 0.5rem 0;
     font-size: var(--button-font-size);
-    line-height: var(--line-height-xx-small--em);
+    line-height: var(--line-height-basis);
     color: inherit;
-    background-color: inherit;
     transform: translateY(-0.03125rem); }
+    .dnb-button__text [data-os='linux'] {
+      transform: translateY(-0.035rem); }
+  .dnb-button__alignment {
+    display: inline-block;
+    width: 0; }
   .dnb-button__bounding {
     position: absolute;
     top: 0;
@@ -1183,14 +1232,18 @@ legend.dnb-form-label {
     transform: scale(1.1, 1.4);
     background-color: transparent;
     border-radius: var(--button-border-radius); }
+  .dnb-button--has-text {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem; }
   .dnb-button--size-small {
     width: var(--button-width--small);
-    height: var(--button-height--small);
     font-size: var(--button-font-size-small);
     border-radius: var(--button-border-radius--small); }
     .dnb-button--size-small,
     .dnb-core-style .dnb-button--size-small {
       line-height: var(--button-height--small); }
+  .dnb-button--size-small .dnb-button__text {
+    margin: 0; }
   .dnb-button--has-text.dnb-button--size-small {
     padding-left: 1rem;
     padding-right: 1rem; }
@@ -1200,11 +1253,12 @@ legend.dnb-form-label {
     padding-right: 0.5rem; }
   .dnb-button--size-medium {
     width: var(--button-width--medium);
-    height: var(--button-height--medium);
     border-radius: var(--button-border-radius--medium); }
     .dnb-button--size-medium,
     .dnb-core-style .dnb-button--size-medium {
       line-height: var(--button-height--medium); }
+  .dnb-button--size-medium .dnb-button__text {
+    margin: 0; }
   .dnb-button--has-text.dnb-button--size-medium {
     padding-left: 1rem;
     padding-right: 1rem; }
@@ -1214,7 +1268,6 @@ legend.dnb-form-label {
     padding-right: 0.5rem; }
   .dnb-button--size-large {
     width: var(--button-width--large);
-    height: var(--button-height--large);
     border-radius: var(--button-border-radius--large); }
     .dnb-button--size-large,
     .dnb-core-style .dnb-button--size-large {
@@ -1227,8 +1280,6 @@ legend.dnb-form-label {
   .dnb-button--has-text.dnb-button--icon-position-right.dnb-button--size-large {
     padding-right: 1rem; }
   .dnb-button--has-text {
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
     width: auto; }
   .dnb-button--has-text .dnb-button__icon {
     margin: 0 calc(var(--button-icon-size) / 2); }
@@ -1266,9 +1317,9 @@ legend.dnb-form-label {
     font: inherit;
     text-align: inherit;
     line-height: inherit; }
-    html:not([data-is-touch]) .dnb-button--reset:hover[disabled] {
+    html:not([data-whatintent='touch']) .dnb-button--reset:hover[disabled] {
       cursor: not-allowed; }
-    html:not([data-is-touch]) .dnb-button--reset:hover:not([disabled]) {
+    html:not([data-whatintent='touch']) .dnb-button--reset:hover:not([disabled]) {
       box-shadow: none;
       border: none; }
     .dnb-button--reset:not([disabled]):focus, .dnb-button--reset:not([disabled]):active {
@@ -1290,13 +1341,15 @@ legend.dnb-form-label {
     cursor: not-allowed; }
   .dnb-form-row--vertical .dnb-form-row__content > .dnb-button {
     align-self: flex-start; }
+  .dnb-form-row--horizontal .dnb-form-row__content .dnb-button__text {
+    white-space: nowrap; }
   .dnb-button + .dnb-form-status {
     margin-top: 0.5rem; }
   @media screen and (-ms-high-contrast: none) {
     .dnb-button {
       flex: none; }
       .dnb-button__icon, .dnb-button__text {
-        transform: translateY(-0.0625rem) !important; } }
+        transform: translateY(-0.0625rem); } }
 
 /* Firefox includes a hidden border which messes up button dimensions */
 button.dnb-button::-moz-focus-inner {
@@ -1704,7 +1757,7 @@ button.dnb-button::-moz-focus-inner {
         width: calc(var(--checkbox-width) - 0.5rem);
         height: calc(var(--checkbox-width) - 0.5rem);
         border-width: 0.0625rem;
-        box-shadow: 0 0 0 0.0318rem var(--color-sea-green-alt); }
+        box-shadow: 0 0 0 0.0318rem var(--color-sea-green); }
       .dnb-toggle-button__button .dnb-checkbox__dot {
         width: calc(var(--checkbox-width) - 1rem);
         height: calc(var(--checkbox-width) - 1rem); }
@@ -1719,7 +1772,7 @@ button.dnb-button::-moz-focus-inner {
         width: calc(var(--radio-width) - 0.5rem);
         height: calc(var(--radio-width) - 0.5rem);
         border-width: 0.0625rem;
-        box-shadow: 0 0 0 0.0318rem var(--color-sea-green-alt); }
+        box-shadow: 0 0 0 0.0318rem var(--color-sea-green); }
       .dnb-toggle-button__button .dnb-radio__dot {
         width: calc(var(--radio-width) - 1rem);
         height: calc(var(--radio-width) - 1rem); }
@@ -1759,11 +1812,13 @@ button.dnb-button::-moz-focus-inner {
     .dnb-toggle-button-group .dnb-form-row {
       align-items: baseline;
       margin-bottom: calc(1px - 1px - var(--toggle-button-margin-bottom)); }
+      .dnb-toggle-button-group .dnb-form-row--vertical-label {
+        align-items: flex-start; }
       .dnb-toggle-button-group .dnb-form-row::before {
         font-size: var(--font-size-basis); }
     .dnb-toggle-button-group--no-label .dnb-form-row {
       line-height: var(--button-height); }
-  @media (min-width: 40em) {
+  @media screen and (min-width: 40em) {
     .dnb-form-label + .dnb-toggle-button {
       transform: translateY(-0.5rem); } }
   @media screen and (-ms-high-contrast: none) {

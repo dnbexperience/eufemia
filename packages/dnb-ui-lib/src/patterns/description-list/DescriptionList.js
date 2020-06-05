@@ -3,7 +3,7 @@
  *
  */
 
-import React, { PureComponent, Fragment } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import {
@@ -48,7 +48,7 @@ const defaultProps = {
   ...renderProps
 }
 
-export default class DescriptionList extends PureComponent {
+export default class DescriptionList extends React.PureComponent {
   static tagName = 'dnb-description-list'
   static propTypes = propTypes
   static defaultProps = defaultProps
@@ -107,10 +107,10 @@ export default class DescriptionList extends PureComponent {
         {data.length > 0 && (
           <dl className="dnb-description-list__dl typo-light">
             {data.map(({ title, value }, i) => (
-              <Fragment key={`dl${i}`}>
+              <React.Fragment key={`dl${i}`}>
                 <dt className="dnb-description-list__dt">{title}</dt>
                 <dd className="dnb-description-list__dd">{value}</dd>
-              </Fragment>
+              </React.Fragment>
             ))}
           </dl>
         )}

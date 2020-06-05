@@ -107,11 +107,7 @@ describe('Textarea component', () => {
 
   it('has correct size attribute (chars length) on textarea by using textarea_attributes', () => {
     const Comp = mount(<Component textarea_attributes={{ size: 2 }} />)
-    expect(
-      Comp.find('textarea')
-        .instance()
-        .getAttribute('size')
-    ).toBe('2')
+    expect(Comp.find('textarea').instance().getAttribute('size')).toBe('2')
   })
 
   it('has to to have a prop value like value', () => {
@@ -139,11 +135,9 @@ describe('Textarea component', () => {
     Comp.setProps({
       disabled: true
     })
-    expect(
-      Comp.find('textarea')
-        .instance()
-        .hasAttribute('disabled')
-    ).toBe(true)
+    expect(Comp.find('textarea').instance().hasAttribute('disabled')).toBe(
+      true
+    )
   })
 
   it('should validate with ARIA rules as a textarea with a label', async () => {

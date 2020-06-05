@@ -1,3 +1,5 @@
+## Properties
+
 | Properties | Description                                                                                      |
 | ---------- | ------------------------------------------------------------------------------------------------ |
 | `data`     | _(mandatory)_ defines the data structure to load as a JSON. e.g. `[{title: '...',value: '...'}]` |

@@ -2,7 +2,7 @@
 showTabs: true
 ---
 
-## ToggleButton button
+## ToggleButton (button) properties
 
 | Properties                                  | Description                                                                                                                                                                     |
 | ------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -11,7 +11,7 @@ showTabs: true
 | `checked`                                   | _(optional)_ determine whether the ToggleButton is checked or not. Default will be `false`.                                                                                     |
 | `title`                                     | _(optional)_ the `title` of the input - describing it a bit further for accessibility reasons.                                                                                  |
 | `label`                                     | _(optional)_ use either the `label` property or provide custom one.                                                                                                             |
-| `icon`                                      | _(optional)_ name of icon to be included in the toggle button.                                                                                                                  |
+| `icon`                                      | _(optional)_ icon to be included in the toggle button.                                                                                                                          |
 | `icon_position`                             | _(optional)_ position of icon inside the toggle button. Set to `left` or `right`. Defaults to `right` if not set.                                                               |
 | `icon_size`                                 | _(optional)_ define icon width and height. Defaults to 16px                                                                                                                     |
 | `status`                                    | _(optional)_ text with a status message. The style defaults to an error message.                                                                                                |
@@ -20,7 +20,7 @@ showTabs: true
 | `suffix`                                    | _(optional)_ text describing the content of the ToggleButton more than the label. You can also send in a React component, so it gets wrapped inside the ToggleButton component. |
 | [Space](/uilib/components/space/properties) | _(optional)_ spacing properties like `top` or `bottom` are supported.                                                                                                           |
 
-## ToggleButton group
+## ToggleButton (group) properties
 
 | Properties                                  | Description                                                                                                                                                                                     |
 | ------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |

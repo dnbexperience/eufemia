@@ -3,10 +3,10 @@
  *
  */
 
-import React, { PureComponent } from 'react'
+import React from 'react'
 import { GlobalError } from 'dnb-ui-lib/src/components'
 
-export default class Error500 extends PureComponent {
+export default class Error500 extends React.PureComponent {
   render() {
     return (
       <GlobalError

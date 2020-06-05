@@ -37,7 +37,7 @@
 
       // TODO: We may considder to wrap horizontal direction to vertical
       // overwrite display to be block on small screens
-      // @media (max-width: 40em) {
+      // @media screen and (max-width: 40em) {
       //   flex-direction: column;
       // }
       // justify-self: start;
@@ -63,7 +63,7 @@
         }
 
         // if not mobile
-        @media (min-width: 40em) {
+        @media screen and (min-width: 40em) {
           &--default {
             margin-top: -1.5rem;
           }
@@ -96,7 +96,7 @@
         }
 
         // if mobile
-        @media (max-width: 40em) {
+        @media screen and (max-width: 40em) {
           // use important, sice we want to overwrite the inline style "marginTop" set by "setLabelOffset"
           margin-top: 0.5rem !important;
         }
@@ -111,13 +111,13 @@
 
         margin-right: 1rem;
 
-        @media (min-width: 40em) {
+        @media screen and (min-width: 40em) {
           text-align: right;
         }
       }
 
       // overwrite display to be block on small screens
-      @media (max-width: 40em) {
+      @media screen and (max-width: 40em) {
         display: block;
       }
 
@@ -126,7 +126,7 @@
       }
     }
 
-    @media (max-width: 40em) {
+    @media screen and (max-width: 40em) {
       flex-direction: column;
       align-items: flex-start;
       & > .dnb-form-label {
@@ -144,7 +144,7 @@
   // This is currently not needed
   // &--nested#{&}:not(#{&}--vertical)#{&}:not(#{&}--vertical-label)
   //   > .dnb-form-label {
-  //   @media (max-width: 40em) {
+  //   @media screen and (max-width: 40em) {
   //     margin-bottom: 1rem;
   //     margin-right: 0;
   //   }
