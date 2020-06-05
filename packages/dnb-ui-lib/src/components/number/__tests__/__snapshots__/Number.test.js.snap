@@ -17,12 +17,12 @@ exports[`Number component have to match default number snapshot 1`] = `
   org={null}
   phone={null}
   prefix={null}
-  selectall={null}
+  selectall={true}
   sufix={null}
   value={12345678.9876}
 >
   <ForwardRef
-    className="dnb-number"
+    className="dnb-number dnb-number--selectall"
     is="span"
     lang="nb-NO"
     onClick={[Function]}
@@ -30,7 +30,7 @@ exports[`Number component have to match default number snapshot 1`] = `
     role="text"
   >
     <span
-      className="dnb-number"
+      className="dnb-number dnb-number--selectall"
       lang="nb-NO"
       onClick={[Function]}
       onCopy={[Function]}
@@ -73,8 +73,7 @@ exports[`Number scss have to match snapshot 1`] = `
  */
 .dnb-number {
   speak-as: numbers;
-  color: inherit;
-  cursor: text; }
+  color: inherit; }
   .dnb-number.dnb-anchor {
     cursor: pointer; }
   .dnb-number__fx {
@@ -92,7 +91,7 @@ exports[`Number scss have to match snapshot 1`] = `
       font-size: 0;
       line-height: 0; }
   .dnb-number--selectall {
-    user-select: all; }
+    cursor: text; }
 
 @keyframes number-fx-scale-out {
   0% {

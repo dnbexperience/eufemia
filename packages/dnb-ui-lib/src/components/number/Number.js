@@ -96,7 +96,7 @@ const defaultProps = {
 
   options: null,
   decimals: null,
-  selectall: null,
+  selectall: true,
   element: 'span', // span or abbr
   class: null,
 
@@ -283,7 +283,6 @@ export default class Number extends React.PureComponent {
     const attributes = {
       ref: this._ref,
       onCopy: this.onCopyHandler,
-      onClick: this.onClickHandler,
       className: classnames(
         'dnb-number',
         className,
@@ -295,6 +294,10 @@ export default class Number extends React.PureComponent {
         createSpacingClasses(this.props)
       ),
       ...rest
+    }
+
+    if (isTrue(selectall)) {
+      attributes.onClick = this.onClickHandler
     }
 
     if (IS_MAC) {

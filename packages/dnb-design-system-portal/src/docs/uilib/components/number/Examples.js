@@ -44,7 +44,11 @@ class Example extends React.PureComponent {
           `
           }
         </ComponentBox>
-        <ComponentBox title="Phone number" data-dnb-test="number-phone">
+        <ComponentBox
+          title="Phone number"
+          caption="By using selectall={false} you disable the auto select all feature"
+          data-dnb-test="number-phone"
+        >
           {
             /* @jsx */ `
 <P>
@@ -52,7 +56,7 @@ class Example extends React.PureComponent {
   <Number value="4799999999" phone />
   <Number value="++4799999999" phone />
   <Number value="+4780022222" phone link="sms" />
-  <Number value="+47116000" phone />
+  <Number value="+47116000" phone selectall="false" />
   <Number value="+4702000" phone />
 </P>
           `
