@@ -107,19 +107,14 @@ describe('StepIndicator component with buttons', () => {
 
   it('has a "aria-current" attribute on correct item', () => {
     expect(
-      Comp.find('li')
-        .at(1)
-        .hasClass('dnb-step-indicator--active')
+      Comp.find('li').at(1).hasClass('dnb-step-indicator--active')
     ).toBe(true)
   })
 
   it('has a "aria-disabled" attribute on correct item', () => {
-    expect(
-      Comp.find('li')
-        .last()
-        .find('[aria-disabled]')
-        .exists()
-    ).toBe(true)
+    expect(Comp.find('li').last().find('[aria-disabled]').exists()).toBe(
+      true
+    )
   })
 
   it('has a "aria-current" attribute on correct item', () => {

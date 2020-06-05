@@ -3,7 +3,7 @@
  *
  */
 
-import React, { PureComponent } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import {
@@ -115,7 +115,7 @@ const defaultProps = {
   ...renderProps
 }
 
-export default class ToggleButtonGroup extends PureComponent {
+export default class ToggleButtonGroup extends React.PureComponent {
   static tagName = 'dnb-toggle-button-group'
   static propTypes = propTypes
   static defaultProps = defaultProps
@@ -130,15 +130,19 @@ export default class ToggleButtonGroup extends PureComponent {
     )
   }
 
-  static parseChecked = state => /true|on/.test(String(state))
-
   static getDerivedStateFromProps(props, state) {
     if (state._listenForPropChanges) {
-      if (typeof props.value !== 'undefined') {
+      if (props.value !== state._value) {
         state.value = props.value
       }
-      if (typeof props.values !== 'undefined') {
+      if (typeof props.value !== 'undefined') {
+        state._value = props.value
+      }
+      if (props.values !== state._values) {
         state.values = ToggleButtonGroup.getValues(props)
+      }
+      if (typeof props.values !== 'undefined') {
+        state._values = props.values
       }
     }
     state._listenForPropChanges = true
@@ -165,7 +169,7 @@ export default class ToggleButtonGroup extends PureComponent {
 
   onChangeHandler = ({ value, event }) => {
     const { multiselect } = this.props
-    const { values } = this.state
+    const values = this.state.values || []
     if (isTrue(multiselect)) {
       if (!values.includes(value)) {
         values.push(value)
@@ -267,7 +271,7 @@ export default class ToggleButtonGroup extends PureComponent {
       variant,
       left_component,
       disabled,
-      setContext: context => {
+      setContext: (context) => {
         // also look for a fuctions, we we are able to fill old values
         // this is ued in the "constructor" inside the ToggleButton.js component
         if (typeof context === 'function') {

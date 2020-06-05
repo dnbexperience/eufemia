@@ -78,6 +78,12 @@ describe('Button secondary screenshot', () => {
 
 describe('Button tertiary screenshot', () => {
   setupPageScreenshot({ url: '/uilib/components/button/demos' })
+  it('have to match "dnb-button--tertiary" without icon', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-dnb-test="button-tertiary-no-icon"]'
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
   it('have to match "dnb-button--tertiary"', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-dnb-test="button-tertiary"]'

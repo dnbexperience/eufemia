@@ -91,7 +91,6 @@ exports[`Switch component have to match snapshot 1`] = `
               name="id"
               onChange={[Function]}
               onKeyDown={[Function]}
-              onMouseOut={[Function]}
               role="switch"
               title="title"
               type="checkbox"
@@ -187,34 +186,32 @@ exports[`Switch scss have to match default theme snapshot 1`] = `
     *
     */
   /*
+    * On focus
+    *
+    */
+  /* stylelint-disable-next-line */
+  /*
     * On hover
     *
     */
+  /* stylelint-disable-next-line */
   /*
     * On active
     *
     */
-  /* stylelint-disable */
-  /* stylelint-enable */
-  /*
-    * On focus
-    *
-    */
-  /* stylelint-disable */
-  /* stylelint-enable */
-  /* stylelint-disable */
-  /* stylelint-enable */
+  /* stylelint-disable-next-line */
   /*
     * On error state
     *
-    */ }
+    */
+  /* stylelint-disable-next-line */ }
   .dnb-switch__background {
     position: relative;
     display: flex;
     flex-direction: row;
     align-items: center;
     overflow: hidden;
-    background-color: var(--color-sea-green-alt-30); }
+    background-color: var(--color-sea-green-30); }
     .dnb-switch__background::after {
       content: '';
       position: absolute;
@@ -224,7 +221,7 @@ exports[`Switch scss have to match default theme snapshot 1`] = `
           top: 0.25rem; } }
   .dnb-switch__input:not(:checked) ~ .dnb-switch__button {
     background-color: var(--color-white);
-    border-color: var(--color-sea-green-alt); }
+    border-color: var(--color-sea-green); }
   .dnb-switch__input:checked ~ .dnb-switch__button {
     background-color: var(--color-sea-green); }
   .dnb-switch__input:not(:checked) ~ .dnb-switch__background::after {
@@ -244,21 +241,17 @@ exports[`Switch scss have to match default theme snapshot 1`] = `
   .dnb-switch__input[disabled] ~ .dnb-switch__background {
     background-color: var(--color-mint-green-25); }
   .dnb-switch__input[disabled]:checked ~ .dnb-switch__background::after {
-    background-color: var(--color-sea-green-alt-30); }
+    background-color: var(--color-sea-green-30); }
   .dnb-switch__input[disabled]:not(:checked) ~ .dnb-switch__background::after {
-    border-color: var(--color-sea-green-alt-30); }
+    border-color: var(--color-sea-green-30); }
   .dnb-switch__input[disabled] ~ .dnb-switch__button {
-    border-color: var(--color-sea-green-alt-30); }
+    border-color: var(--color-sea-green-30); }
   .dnb-switch__input[disabled]:checked ~ .dnb-switch__button {
-    background-color: var(--color-sea-green-alt-30); }
-  .dnb-switch__input:not([disabled]):not(:focus):not(:active):hover ~ .dnb-switch__button {
-    border-color: var(--color-sea-green);
-    background-color: var(--color-mint-green-50); }
-  .dnb-switch__input:not([disabled]):active ~ .dnb-switch__button {
-    background-color: var(--color-mint-green-50);
-    border-color: transparent; }
+    background-color: var(--color-sea-green-30); }
   html[data-whatinput='keyboard'] .dnb-switch__input:not([disabled]):focus ~ .dnb-switch__button {
     border: none; }
+  html[data-whatinput='keyboard'] .dnb-switch__input:not([disabled]):not(:checked):focus ~ .dnb-switch__button {
+    background-color: var(--color-mint-green-50); }
   .dnb-switch__input:not([disabled]):focus ~ .dnb-switch__background,
   .dnb-switch__input:not([disabled]):active ~ .dnb-switch__background {
     outline: none; }
@@ -272,9 +265,12 @@ exports[`Switch scss have to match default theme snapshot 1`] = `
     display: block; }
   .dnb-switch__input:not([disabled]):checked ~ .dnb-switch__button .dnb-switch__focus {
     transform: rotate(180deg); }
-  .dnb-switch__input:not([disabled]):not(:checked):focus ~ .dnb-switch__button,
-  .dnb-switch__input:not([disabled]):not(:checked):active ~ .dnb-switch__button {
+  .dnb-switch__input:not([disabled]):not(:focus):not(:active):hover ~ .dnb-switch__button {
+    border-color: var(--color-sea-green);
     background-color: var(--color-mint-green-50); }
+  .dnb-switch__input:not([disabled]):active ~ .dnb-switch__button {
+    background-color: var(--color-mint-green-50);
+    border-color: transparent; }
   .dnb-switch__status--error .dnb-switch__input:not([disabled]):not(:focus):hover ~ .dnb-switch__button {
     border-color: var(--color-fire-red);
     background-color: var(--color-fire-red-8); }
@@ -374,6 +370,7 @@ exports[`Switch scss have to match snapshot 1`] = `
   text-align: left;
   vertical-align: baseline;
   white-space: pre-wrap;
+  word-break: normal;
   font-size: var(--font-size-basis);
   color: inherit; }
   .dnb-form-label--vertical {
@@ -453,7 +450,10 @@ legend.dnb-form-label {
     padding: calc(0.5rem / 2) 1rem;
     cursor: text;
     color: inherit;
-    line-height: var(--line-height-basis); }
+    line-height: var(--line-height-basis);
+    white-space: normal; }
+    .dnb-form-status--text .dnb-anchor {
+      font-size: inherit; }
   .dnb-icon + .dnb-form-status--text {
     padding-left: 0.5rem; }
   .dnb-form-status__shell > .dnb-icon {
@@ -465,8 +465,7 @@ legend.dnb-form-label {
     margin-top: 0.25em;
     margin-left: 0.5em;
     color: inherit;
-    font-size: var(--font-size-basis);
-    transform: translateY(-0.125rem); }
+    font-size: var(--font-size-small); }
   .dnb-form-status[hidden] {
     display: none; }
   .dnb-form-status--fade-in {

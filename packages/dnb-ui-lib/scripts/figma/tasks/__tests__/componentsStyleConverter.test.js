@@ -23,8 +23,9 @@ describe('FigmaTestDoc', () => {
   })
 })
 
-describe('ComponentsStyleConverter', () => {
-  it('has to convert correctly from a figma doc', async () => {
+describe.skip('ComponentsStyleConverter', () => {
+  // not used anymore
+  it.skip('has to convert correctly from a figma doc', async () => {
     const figmaDoc = await getFigmaDoc({
       forceRefetch: false,
       preventUpdate: true,
@@ -45,11 +46,11 @@ describe('ComponentsStyleConverter', () => {
       expect(result[name]).toHaveProperty('replaceScssVars')
       expect(result[name].scssStyle).toBeType('string')
       expect(result[name].scssVars).toEqual({
-        asymmetricMatch: actual =>
+        asymmetricMatch: (actual) =>
           typeof actual === 'string' || actual === null
       })
       expect(result[name].replaceScssVars).toEqual({
-        asymmetricMatch: actual =>
+        asymmetricMatch: (actual) =>
           typeof actual === 'string' || actual === null
       })
     }

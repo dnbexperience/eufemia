@@ -3,6 +3,8 @@
  *
  */
 
+import { warn } from '../../shared/component-helper'
+
 // IMPORTANT: Keep the shorthand after the long type names
 export const spacePatterns = {
   'xx-small': 0.25,
@@ -15,7 +17,7 @@ export const spacePatterns = {
   'xx-large-x2': 7
 }
 
-export const translateSpace = type => {
+export const translateSpace = (type) => {
   if (/-x2$/.test(type)) {
     return spacePatterns[type.replace(/-x2$/, '')] * 2
   }
@@ -23,7 +25,7 @@ export const translateSpace = type => {
 }
 
 // Splits a string of: "large x-small" into an array of the same
-export const splitTypes = types => {
+export const splitTypes = (types) => {
   if (typeof types === 'string') {
     types = types.split(/ /g)
   } else if (typeof types === 'boolean') {
@@ -31,13 +33,13 @@ export const splitTypes = types => {
   } else if (typeof types === 'number') {
     return [types]
   }
-  return types ? types.filter(r => r && r.length > 0) : null
+  return types ? types.filter((r) => r && r.length > 0) : null
 }
 
 // Sums e.g. "large" + "x-small" to be = 2.5rem
-export const sumTypes = types =>
+export const sumTypes = (types) =>
   splitTypes(types)
-    .map(type => translateSpace(type))
+    .map((type) => translateSpace(type))
     .reduce((acc, cur) => {
       if (cur > 0) {
         acc += cur
@@ -48,7 +50,7 @@ export const sumTypes = types =>
     }, 0)
 
 // Returns an array with modifyers e.g. ["--large" + "--x-small"]
-export const createTypeModifyers = types => {
+export const createTypeModifyers = (types) => {
   return splitTypes(types).reduce((acc, type) => {
     if (type) {
       const firstLetter = type[0]
@@ -68,7 +70,7 @@ export const createTypeModifyers = types => {
         if (foundType) {
           type = foundType
         } else {
-          findNearestTypes(num).forEach(type => {
+          findNearestTypes(num).forEach((type) => {
             if (type) {
               acc.push(type)
             }
@@ -102,7 +104,7 @@ export const findType = (num, { returnObject = false } = {}) => {
 }
 
 // Finds from e.g. a value of "2.5rem" the nearest type = ["large", "x-small"]
-export const findNearestTypes = num => {
+export const findNearestTypes = (num) => {
   let res = []
 
   const near = Object.entries(spacePatterns)
@@ -119,7 +121,7 @@ export const findNearestTypes = num => {
     const foundMoreTypes = findNearestTypes(leftOver)
 
     // if the value already exists, then replace it with an x2
-    foundMoreTypes.forEach(type => {
+    foundMoreTypes.forEach((type) => {
       const index = res.indexOf(type)
       if (index !== -1) {
         res[index] = `${type}-x2`
@@ -133,11 +135,11 @@ export const findNearestTypes = num => {
 }
 
 // Checks if a space prop is a valid string like "top"
-export const isValidSpaceProp = prop =>
+export const isValidSpaceProp = (prop) =>
   prop && ['top', 'right', 'bottom', 'left'].includes(prop)
 
 // Creates a valid space CSS class out from given space types
-export const createSpacingClasses = props =>
+export const createSpacingClasses = (props, Element = null) =>
   Object.entries(props).reduce((acc, [direction, cur]) => {
     if (isValidSpaceProp(direction)) {
       if (String(cur) === '0' || String(cur) === 'false') {
@@ -148,7 +150,7 @@ export const createSpacingClasses = props =>
         // get the total sum
         const sum = sumTypes(typeModifyers)
         if (sum > 10) {
-          console.warn(
+          warn(
             `Spacing of more than 10rem is not supported! You used ${sum} / (${typeModifyers.join(
               ','
             )})`
@@ -159,9 +161,16 @@ export const createSpacingClasses = props =>
 
           acc = [
             ...acc,
-            ...nearestTypes.map(type => `dnb-space__${direction}--${type}`)
+            ...nearestTypes.map(
+              (type) => `dnb-space__${direction}--${type}`
+            )
           ]
         }
+      }
+    } else if (direction === 'no_collapse') {
+      acc.push('dnb-space--no-collapse')
+      if (Element && isInline(Element)) {
+        acc.push('dnb-space--inline')
       }
     }
 
@@ -169,7 +178,7 @@ export const createSpacingClasses = props =>
   }, [])
 
 // Creates a CSS Style Object out from given space types
-export const createStyleObject = props => {
+export const createStyleObject = (props) => {
   if (props.top && !(parseFloat(props.top) > 0)) {
     props.top = sumTypes(props.top)
   }
@@ -195,4 +204,21 @@ export const createStyleObject = props => {
     }
     return acc
   }, {})
+}
+
+export const isInline = (Element) => {
+  let inline = false
+  switch (Element) {
+    case 'h1':
+    case 'h2':
+    case 'h3':
+    case 'h4':
+    case 'h5':
+    case 'h6':
+    case 'p':
+      inline = true
+      break
+  }
+
+  return inline
 }

@@ -1,6 +1,6 @@
 ---
 title: 'Welcome Info'
-search: false
+skipSearch: true
 ---
 
 ## Please Contribute

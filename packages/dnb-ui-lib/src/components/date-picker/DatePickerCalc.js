@@ -23,6 +23,8 @@ import toDate from 'date-fns/toDate'
 import parseISO from 'date-fns/parseISO'
 import parse from 'date-fns/parse'
 
+import { warn } from '../../shared/component-helper'
+
 // Is used as DatePickerCalc
 export const makeDayObject = (
   date,
@@ -88,7 +90,7 @@ export const getCalendar = (
 const calendarCache = {}
 
 // calculates offset from sunday, eg monday is +1
-export const dayOffset = dayName => {
+export const dayOffset = (dayName) => {
   const week = [
     'sunday',
     'monday',
@@ -126,7 +128,7 @@ const getRange = (startDate, endDate, hoverDate) => {
 
 // returns an array of dates for each day of the current week
 // weekStartsOn is a number, use dayOffset to convert from a string
-export const getWeek = weekStartsOn => {
+export const getWeek = (weekStartsOn) => {
   const startDay = startOfWeek(new Date(), { weekStartsOn })
   return Array(7)
     .fill(1)
@@ -194,11 +196,11 @@ const isPreview = (date, startDate, endDate, hoverDate) => {
   )
 }
 
-export const correctV1Format = date => {
+export const correctV1Format = (date) => {
   // for backwords compatibility
   // TODO: Remvoe this in next major version
   if (/YYYY/.test(date) && /DD/.test(date)) {
-    console.warn(
+    warn(
       'You are using "YYYY-MM-DD" as the date_format or return_format? Please use "yyyy-MM-dd" instead!'
     )
     date = date.replace(/DD/, 'dd').replace(/YYYY/, 'yyyy')
@@ -222,7 +224,7 @@ export const convertStringToDate = (date, { date_format = null } = {}) => {
 
   // rather return null than an invalid date
   if (!isValid(dateObject)) {
-    console.warn('convertStringToDate got invalid date:', date)
+    warn('convertStringToDate got invalid date:', date)
     return null
   }
 

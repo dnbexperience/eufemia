@@ -4,8 +4,9 @@
  */
 
 import React from 'react'
-import E from './Element'
+import H from './H'
 
-const H6 = p => <E is="h6" {...p} />
+const H6 = (props) => <H is="h6" size="x-small" {...props} />
 H6.tagName = 'dnb-h6'
+
 export default H6

@@ -3,24 +3,28 @@
  *
  */
 
-import React, { PureComponent, Fragment } from 'react'
+import React from 'react'
 import ComponentBox from 'Src/shared/tags/ComponentBox'
 import styled from '@emotion/styled'
 
-class Example extends PureComponent {
+class Example extends React.PureComponent {
   render() {
     return (
-      <Fragment>
+      <React.Fragment>
         <ComponentBox
           title="Default DrawerList, triggered by a ToggleButton"
           useRender
           scope={{ data }}
         >
-          {/* @jsx */ `
+          {
+            /* @jsx */ `
 const DrawerListWithState = props => {
   const [opened, setOpened] = React.useState(false)
+  const Relative = styled.span\`
+    position: relative;
+  \`
   return (
-    <>
+    <Relative>
       <ToggleButton
         text="Toggle"
         checked={opened}
@@ -29,16 +33,18 @@ const DrawerListWithState = props => {
         on_change={({ checked }) => setOpened(checked)}
       />
       <DrawerList
+        skip_portal
         data={data}
         opened={opened}
         on_hide={() => setOpened(false)}
         {...props}
       />
-    </>
+    </Relative>
   )
 }
 render(<DrawerListWithState />)
-          `}
+          `
+          }
         </ComponentBox>
         <ComponentBox
           title="DrawerList list - only to vissualize"
@@ -46,7 +52,8 @@ render(<DrawerListWithState />)
           scope={{ data }}
           hideCode
         >
-          {/* @jsx */ `
+          {
+            /* @jsx */ `
 <span className="dnb-drawer-list__list">
   <ul className="dnb-drawer-list__options">
     <li className="dnb-drawer-list__option">
@@ -73,18 +80,21 @@ render(<DrawerListWithState />)
     <li className="dnb-drawer-list__triangle" />
   </ul>
 </span>
-          `}
+          `
+          }
         </ComponentBox>
         <ComponentBox
           title="Default DrawerList"
           scope={{ data }}
           data-dnb-test="drawer-list-default"
         >
-          {/* @jsx */ `
+          {
+            /* @jsx */ `
 <DrawerList
-  opened="true"
+  skip_portal
+  opened
   prevent_close
-  icon_position="left"
+  triangle_position="left"
   data={data}
   value={3}
   on_change={({ data: selectedDataItem }) => {
@@ -94,7 +104,8 @@ render(<DrawerListWithState />)
     console.log('on_show')
   }}
 />
-          `}
+          `
+          }
         </ComponentBox>
         <ComponentBox
           title="Custom event and link on single item"
@@ -102,7 +113,8 @@ render(<DrawerListWithState />)
           useRender
           data-dnb-test="drawer-list-events"
         >
-          {/* @jsx */ `
+          {
+            /* @jsx */ `
 const CustomComponent = () => (
   <CustomComponentInner
     onTouchStart={preventDefault}
@@ -123,9 +135,15 @@ const preventDefault = e => {
   e.stopPropagation()
   e.preventDefault()
 }
+const CustomWidth = styled(DrawerList)\`
+  .dnb-drawer-list__list {
+    width: var(--drawer-list-width);
+  }
+\`
 render(
-  <DrawerList
-    opened="true"
+  <CustomWidth
+    skip_portal
+    opened
     prevent_close
     more_menu
     right
@@ -141,7 +159,8 @@ render(
     suffix={<Modal title="Modal Title">Modal content</Modal>}
   />
 )
-          `}
+          `
+          }
         </ComponentBox>
         <ComponentBox
           title="Using List and Items markup"
@@ -149,21 +168,28 @@ render(
           data-dnb-test="drawer-items"
           useRender
         >
-          {/* @jsx */ `
+          {
+            /* @jsx */ `
 const list = [
   { value: 'A' },
   { value: 'B' },
   { value: 'C' }
 ]
+const CustomWidth = styled(DrawerList)\`
+  .dnb-drawer-list__list {
+    width: var(--drawer-list-width);
+  }
+\`
 const DrawerListWithState = props => {
   const [selected, setSelected] = React.useState('C')
 
   return (
-    <DrawerList
+    <CustomWidth
+      skip_portal
       opened
       prevent_close
     >
-      <DrawerList.List>
+      <DrawerList.Options>
         {list.map(({ value, ...props }, i) => (
           <DrawerList.Item
             key={i}
@@ -176,14 +202,15 @@ const DrawerListWithState = props => {
             {value}
           </DrawerList.Item>
         ))}
-      </DrawerList.List>
-    </DrawerList>
+      </DrawerList.Options>
+    </CustomWidth>
   )
 }
 render(<DrawerListWithState />)
-          `}
+          `
+          }
         </ComponentBox>
-      </Fragment>
+      </React.Fragment>
     )
   }
 }
@@ -204,11 +231,13 @@ const Wrapper = styled.div`
 `
 
 export { Example }
-export default () => (
-  <Wrapper>
-    <Example />
-  </Wrapper>
-)
+export default function StyledExample() {
+  return (
+    <Wrapper>
+      <Example />
+    </Wrapper>
+  )
+}
 
 const data = [
   // Every data item can, beside "content" - contain what ever

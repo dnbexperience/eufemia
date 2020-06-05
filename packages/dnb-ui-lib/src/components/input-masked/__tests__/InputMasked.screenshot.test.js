@@ -20,4 +20,18 @@ describe('InputMasked screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+  it('have to match currency_mask', async () => {
+    const screenshot = await testPageScreenshot({
+      // style,
+      selector: '[data-dnb-test="input-masked-currency_mask"]'
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+  it('have to match number_mask', async () => {
+    const screenshot = await testPageScreenshot({
+      // style,
+      selector: '[data-dnb-test="input-masked-number_mask"]'
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
 })

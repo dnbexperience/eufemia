@@ -49,7 +49,7 @@ const startStaticServer = async () => {
   }
 }
 
-module.exports = async function() {
+module.exports = async function () {
   console.log(chalk.green('Setup Puppeteer'))
   await startStaticServer()
 

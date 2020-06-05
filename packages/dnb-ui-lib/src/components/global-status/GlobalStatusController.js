@@ -3,13 +3,13 @@
  *
  */
 
-import React, { PureComponent } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import GlobalStatusProvider from './GlobalStatusProvider'
 import { isTrue } from '../../shared/component-helper'
 
 // This is the Update controller
-class GlobalStatusController extends PureComponent {
+class GlobalStatusController extends React.PureComponent {
   static propTypes = {
     id: PropTypes.string, // Provider id
     status_id: PropTypes.string, // Status Item id
@@ -37,7 +37,7 @@ class GlobalStatusController extends PureComponent {
       GSP = window.GlobalStatusProvider
     }
 
-    this.provider = GSP.init(props.id, provider => {
+    this.provider = GSP.init(props.id, (provider) => {
       const { status_id } = provider.add(props)
 
       // current status id
@@ -64,7 +64,7 @@ class GlobalStatusController extends PureComponent {
   }
 }
 
-class GlobalStatusRemove extends PureComponent {
+class GlobalStatusRemove extends React.PureComponent {
   static propTypes = {
     id: PropTypes.string, // Provider id
     status_id: PropTypes.string, // Status Item id
@@ -88,7 +88,7 @@ class GlobalStatusRemove extends PureComponent {
     if (!GSP && typeof window !== 'undefined') {
       GSP = window.GlobalStatusProvider
     }
-    this.provider = GSP.init(props.id, provider => {
+    this.provider = GSP.init(props.id, (provider) => {
       if (props.status_id) {
         provider.remove(props.status_id, {
           buffer_delay: props.buffer_delay

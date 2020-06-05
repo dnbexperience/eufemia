@@ -3,14 +3,14 @@
  *
  */
 
-import React, { PureComponent, Fragment } from 'react'
+import React from 'react'
 import ActionNav from './ActionNav'
 import Button from '../../components/button/Button'
 
-class Example extends PureComponent {
+class Example extends React.PureComponent {
   render() {
     return (
-      <Fragment>
+      <React.Fragment>
         <div className="example-box">
           {/* <ActionNav prev_href="?prev" next_href="?next" /> */}
           <ActionNav prev_href="?prev" next_href="?next">
@@ -37,10 +37,10 @@ class Example extends PureComponent {
             </div>
           </ActionNav>
         </div>
-      </Fragment>
+      </React.Fragment>
     )
   }
 }
 
 export { Example }
-export default () => <Example />
+export default Example

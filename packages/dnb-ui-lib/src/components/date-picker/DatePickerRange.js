@@ -3,7 +3,7 @@
  *
  */
 
-import React, { PureComponent } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import keycode from 'keycode'
 
@@ -75,7 +75,7 @@ const defaultProps = {
   onSelect: null // {startDate: Date, endDate: Date | null}
 }
 
-export default class DatePickerRange extends PureComponent {
+export default class DatePickerRange extends React.PureComponent {
   static propTypes = propTypes
   static defaultProps = defaultProps
 
@@ -206,7 +206,7 @@ export default class DatePickerRange extends PureComponent {
   }
 
   onNext = ({ nr }) => {
-    const views = this.state.views.map(c => {
+    const views = this.state.views.map((c) => {
       if (c.nr === nr) {
         const month = addMonths(c.month, 1)
         this.setState({
@@ -231,7 +231,7 @@ export default class DatePickerRange extends PureComponent {
   }
 
   onPrev = ({ nr }) => {
-    const views = this.state.views.map(c => {
+    const views = this.state.views.map((c) => {
       if (c.nr === nr) {
         const month = subMonths(c.month, 1)
         this.setState({
@@ -255,7 +255,7 @@ export default class DatePickerRange extends PureComponent {
     })
   }
 
-  onHover = date => {
+  onHover = (date) => {
     this.setState({ hoverDate: date, _listenForPropChanges: false })
   }
 
@@ -406,7 +406,7 @@ export default class DatePickerRange extends PureComponent {
 
         // and set the focus back again
         if (ref && ref.current) {
-          ref.current.focus()
+          ref.current.focus({ preventScroll: true })
         }
       })
     }

@@ -3,7 +3,7 @@
  *
  */
 
-import React, { PureComponent } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'gatsby'
 import classnames from 'classnames'
@@ -23,22 +23,55 @@ import {
 } from 'dnb-ui-lib/src/shared/helpers'
 import { Logo, GlobalStatus } from 'dnb-ui-lib/src/components'
 
-class Layout extends PureComponent {
+class Layout extends React.PureComponent {
   static propTypes = {
     fullscreen: PropTypes.bool,
     children: PropTypes.node.isRequired,
     location: PropTypes.object.isRequired
   }
+
   static defaultProps = {
     fullscreen: false
   }
+
+  constructor(props) {
+    super(props)
+    this._mainRef = React.createRef()
+  }
+
   componentDidMount() {
     // gets aplyed on "onRouteUpdate"
     setPageFocusElement('.dnb-app-content h1:nth-of-type(1)', 'content')
 
     // if url hash is defined, scroll to the id
-    scrollToLocationHashId({ offset: 100 })
+    scrollToLocationHashId({
+      offset: 100,
+      delay: 100,
+      onCompletion: (elem) => {
+        try {
+          // elem.classList.add('focus')// run link-attention-focus animation
+          elem.parentElement.classList.add('focus') // run parent-attention-focus animation
+        } catch (e) {
+          //
+        }
+      }
+    })
   }
+
+  skipToContentHandler = (event) => {
+    // because we want to avoid that the hash get's set (#dnb-app-content)
+    // we prevent the default and set it manually. The DOM elements have tabIndex="-1" and className="dnb-no-focus" in place
+    try {
+      event.preventDefault()
+      const elem = this._mainRef.current
+      elem.setAttribute('tabindex', '-1')
+      elem.focus()
+      elem.removeAttribute('tabindex') // don't keep tabindex arround, Chrome fucks up the selection / focus feature
+    } catch (e) {
+      console.warn(e)
+    }
+  }
+
   render() {
     const { children, location, fullscreen } = this.props
 
@@ -53,7 +86,11 @@ class Layout extends PureComponent {
     return (
       <MainMenuProvider>
         <SidebarMenuProvider>
-          <a className="dnb-skip-link" href="#dnb-app-content">
+          <a
+            className="dnb-skip-link"
+            href="#dnb-app-content"
+            onClick={this.skipToContentHandler}
+          >
             Skip to content
           </a>
 
@@ -63,8 +100,15 @@ class Layout extends PureComponent {
           <Wrapper className="content-wrapper">
             {!fs && <Sidebar location={location} showAll={false} />}
 
-            <Content fullscreen={fullscreen}>
-              <ContentInner className="dnb-app-content-inner">
+            <Content
+              fullscreen={fullscreen}
+              className="dnb-app-content-inner"
+            >
+              <ContentInner
+                id="dnb-app-content"
+                className="dnb-no-focus"
+                ref={this._mainRef}
+              >
                 <GlobalStatus id="main-status" />
                 <div className="dev-grid">{children}</div>
               </ContentInner>
@@ -88,14 +132,13 @@ const Wrapper = styled.div`
   display: flex;
   justify-content: space-between; /* pos Footer at the bottom */
 
-  @media (max-width: 50em) {
+  @media screen and (max-width: 50em) {
     display: block;
   }
 `
 
 const Content = ({ className, fullscreen, children }) => (
   <ContentWrapper
-    id="dnb-app-content"
     className={classnames(
       'dnb-spacing',
       'dnb-app-content',
@@ -121,7 +164,6 @@ const ContentWrapper = styled.div`
   z-index: 2; /* heigher than styled.aside */
 
   width: 100%;
-  overflow: visible;
 
   margin-left: 30vw; /* fallback */
   margin-left: var(--aside-width);
@@ -145,7 +187,7 @@ const ContentWrapper = styled.div`
   border-left: 1px solid var(--color-black-border);
 
   /* make sure that Sidebar aside "styled.aside" gets the same max-width */
-  @media (max-width: 50em) {
+  @media screen and (max-width: 50em) {
     margin-left: 0;
     padding-left: 0;
   }
@@ -159,7 +201,7 @@ const ContentWrapper = styled.div`
   /* for whider screens */
   &:not(.fullscreen-page) {
     .dnb-app-content-inner > div:first-of-type {
-      @media (min-width: 70em) {
+      @media screen and (min-width: 70em) {
         max-width: 70rem;
       }
     }
@@ -168,6 +210,7 @@ const ContentWrapper = styled.div`
 
 const ContentInner = styled.main`
   width: 100%;
+  min-height: 85vh;
   padding: 0 2rem;
 `
 

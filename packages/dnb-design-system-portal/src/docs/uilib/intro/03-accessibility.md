@@ -1,6 +1,6 @@
 ---
 fullscreen: true
-
+search: 'Intro'
 ---
 
 <Intro>
@@ -38,7 +38,7 @@ All form components includes a `label` property to bind automatically the FormLa
 <Input label="Input label:" />
 ```
 
-And all form components includes the [FormStatus](!/uilib/components/form-status) component witch is coupled to the component by using `aria-describedby`.
+And all form components includes the [FormStatus](!/uilib/components/form-status) component which is coupled to the component by using `aria-describedby`.
 
 ```jsx
 <Input status="Status message:" />

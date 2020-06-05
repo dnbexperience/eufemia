@@ -32,15 +32,45 @@ import {
 
 ### General helpers
 
-```js
-import { scrollToLocationHashId, isIE11 } from 'dnb-ui-lib/shared/helpers'
-```
+| Function                 | Description                                                                                                                     | Parameters                                                    | Return    |
+| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------- | --------- |
+| `scrollToLocationHashId` | Enhance the native anchor scroll handling by providing additional features like a custom offset.                                | `{ offset: Integer, delay: Integer, onCompletion: Function }` | `Element` |
+| `getOffsetTop`           | Get the HTML Element offset to the top of the browser window, minus `offset`.                                                   | `{ offset: Integer }`                                         | `Number`  |
+| `applyPageFocus`         | More info about that function in the [focus section about better accessibility](/uilib/usage/accessibility/focus#focus-helper). | `[optional key as String]`                                    | `Void`    |
+| `setPageFocusElement`    | More info about that function in the [focus section about better accessibility](/uilib/usage/accessibility/focus#focus-helper). | `[CSS selector or HTML element, optional key as String]`      | `Void`    |
+| `isIE11`                 | Returns true or false, depending on the detection.                                                                              | none                                                          | `Boolean` |
+| `isEdge`                 | Returns true or false, depending on the detection.                                                                              | none                                                          | `Boolean` |
+| `isSafari`               | Returns true or false, depending on the detection.                                                                              | none                                                          | `Boolean` |
+| `isiOS`                  | Returns true or false, depending on the detection.                                                                              | none                                                          | `Boolean` |
+| `isMac`                  | Returns true or false, depending on the detection.                                                                              | none                                                          | `Boolean` |
+| `isWin`                  | Returns true or false, depending on the detection.                                                                              | none                                                          | `Boolean` |
+| `isLinux`                | Returns true or false, depending on the detection.                                                                              | none                                                          | `Boolean` |
 
-| Function                 | Description                                                                                                                     | Parameters                                               | Return    |
-| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------- | --------- |
-| `isIE11`                 | Check if the browser is Microsoft Internet Explorer.                                                                            | none                                                     | `Boolean` |
-| `isEdge`                 | Check if the browser is Microsoft Edge.                                                                                         | none                                                     | `Boolean` |
-| `scrollToLocationHashId` | Check if the browser is Microsoft Edge.                                                                                         | `{ offset: Integer }`                                    | `Void`    |
-| `getOffsetTop`           | Get the HTML Element offset to the top of the browser window, minus `offset`.                                                   | `{ offset: Integer }`                                    | `Number`  |
-| `applyPageFocus`         | More info about that function in the [focus section about better accessibility](/uilib/usage/accessibility/focus#focus-helper). | `[optional key as String]`                               | `Void`    |
-| `setPageFocusElement`    | More info about that function in the [focus section about better accessibility](/uilib/usage/accessibility/focus#focus-helper). | `[CSS selector or HTML element, optional key as String]` | `Void`    |
+| Constant    | Description                                                         | Value     |
+| ----------- | ------------------------------------------------------------------- | --------- |
+| `IS_IE11`   | Gives you true or false, depending on the detection during startup. | `Boolean` |
+| `IS_EDGE`   | Gives you true or false, depending on the detection during startup. | `Boolean` |
+| `IS_SAFARI` | Gives you true or false, depending on the detection during startup. | `Boolean` |
+| `IS_IOS`    | Gives you true or false, depending on the detection during startup. | `Boolean` |
+| `IS_MAC`    | Gives you true or false, depending on the detection during startup. | `Boolean` |
+| `IS_WIN`    | Gives you true or false, depending on the detection during startup. | `Boolean` |
+| `IS_LINUX`  | Gives you true or false, depending on the detection during startup. | `Boolean` |
+
+#### `scrollToLocationHashId` Example
+
+```js
+import { scrollToLocationHashId } from 'dnb-ui-lib/shared/helpers'
+
+// in case there is a #hash in the url
+const elem = scrollToLocationHashId({
+  offset: 100,
+  delay: 100,
+  onCompletion: (elem) => {
+    try {
+      elem.classList.add('focus')
+    } catch (e) {
+      //
+    }
+  }
+})
+```

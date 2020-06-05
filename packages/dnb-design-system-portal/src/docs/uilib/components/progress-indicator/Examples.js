@@ -3,16 +3,25 @@
  *
  */
 
-import React, { PureComponent, Fragment } from 'react'
+import React from 'react'
 import ComponentBox from 'Src/shared/tags/ComponentBox'
 
-class Example extends PureComponent {
+class Example extends React.PureComponent {
   render() {
     return (
-      <Fragment>
+      <React.Fragment>
         <ComponentBox title="Default Circular ProgressIndicator">
           {/* @jsx */ `
 <ProgressIndicator />
+          `}
+        </ComponentBox>
+        <ComponentBox title="Circular ProgressIndicator with a label">
+          {/* @jsx */ `
+<ProgressIndicator
+  // label="Custom label ..."
+  show_label="true"
+  label_direction="horizontal"
+/>
           `}
         </ComponentBox>
         <ComponentBox
@@ -73,7 +82,7 @@ class Example extends PureComponent {
 }
           `}
         </ComponentBox>
-      </Fragment>
+      </React.Fragment>
     )
   }
 }

@@ -52,7 +52,7 @@ describe('ToggleButton component', () => {
     expect(Comp.state().checked).toBe(true)
   })
 
-  it('has "on_change" event witch will trigger on a button click', () => {
+  it('has "on_change" event which will trigger on a button click', () => {
     const my_event = jest.fn()
     const myEvent = jest.fn()
     const Comp = mount(
@@ -78,11 +78,9 @@ describe('ToggleButton component', () => {
     Comp.setProps({
       disabled: true
     })
-    expect(
-      Comp.find('button')
-        .instance()
-        .hasAttribute('disabled')
-    ).toBe(true)
+    expect(Comp.find('button').instance().hasAttribute('disabled')).toBe(
+      true
+    )
   })
 
   it('should validate with ARIA rules', async () => {
@@ -107,7 +105,7 @@ describe('ToggleButton group component', () => {
     ).toBe(true)
   })
 
-  it('has "on_change" event witch will trigger on a button click', () => {
+  it('has "on_change" event which will trigger on a button click', () => {
     const my_event = jest.fn()
     const myEvent = jest.fn()
     const Comp = mount(
@@ -157,7 +155,7 @@ describe('ToggleButton group component', () => {
     })
   })
 
-  it('has multiselect "on_change" event witch will trigger on a button click', () => {
+  it('has multiselect "on_change" event which will trigger on a button click', () => {
     const my_event = jest.fn()
     const myEvent = jest.fn()
     const Comp = mount(

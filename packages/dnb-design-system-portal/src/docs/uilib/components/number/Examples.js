@@ -3,7 +3,7 @@
  *
  */
 
-import React, { PureComponent } from 'react'
+import React from 'react'
 import ComponentBox from 'Src/shared/tags/ComponentBox'
 import styled from '@emotion/styled'
 
@@ -13,68 +13,97 @@ const Style = styled.div`
   }
 `
 
-class Example extends PureComponent {
+class Example extends React.PureComponent {
   render() {
     return (
       <Style>
         <ComponentBox
-          title="Defualt numbers"
+          title="Default numbers"
           data-dnb-test="number-default"
         >
-          {/* @jsx */ `
+          {
+            /* @jsx */ `
 <P>
   <Number value="12345" />
   <Number>-12345678.9</Number>
-  <Number options={{ maximumFractionDigits: 0 }}>-1234.5</Number>
+  <Number prefix={<b>prefix</b>} suffix="suffix">-12345678.9</Number>
+  <Number options={{ maximumFractionDigits: 1 }}>-1234.54321</Number>
 </P>
-          `}
+          `
+          }
         </ComponentBox>
         <ComponentBox title="Currency" data-dnb-test="number-currency">
-          {/* @jsx */ `
+          {
+            /* @jsx */ `
 <P>
   <Number currency>12345</Number>
-  <Number currency value={-12345678.9} />
+  <Number currency currency_position="after" value={-12345678.9} />
+  <Number currency value={-12345678.95} decimals={0} />
   <Number currency value={-12345678.9} currency_display="code" />
 </P>
-          `}
+          `
+          }
         </ComponentBox>
-        <ComponentBox title="Phone number" data-dnb-test="number-phone">
-          {/* @jsx */ `
+        <ComponentBox
+          title="Phone number"
+          caption="By using selectall={false} you disable the auto select all feature"
+          data-dnb-test="number-phone"
+        >
+          {
+            /* @jsx */ `
 <P>
   <Number value="99999999" phone />
   <Number value="4799999999" phone />
   <Number value="++4799999999" phone />
   <Number value="+4780022222" phone link="sms" />
-  <Number value="+47116000" phone />
+  <Number value="+47116000" phone selectall="false" />
   <Number value="+4702000" phone />
 </P>
-          `}
+          `
+          }
         </ComponentBox>
         <ComponentBox
           title="Bank Account number (Kontonummer)"
           data-dnb-test="number-ban"
         >
-          {/* @jsx */ `
+          {
+            /* @jsx */ `
 <P>
   <Number value="20001234567" ban />
 </P>
-          `}
+          `
+          }
         </ComponentBox>
         <ComponentBox
           title="National Identification number (Fødselsnummer)"
           data-dnb-test="number-nin"
         >
-          {/* @jsx */ `
+          {
+            /* @jsx */ `
 <P>
   <Number value="18089212345" nin />
 </P>
-          `}
+          `
+          }
+        </ComponentBox>
+        <ComponentBox
+          title="Organization number (Organisasjonsnummer)"
+          data-dnb-test="number-org"
+        >
+          {
+            /* @jsx */ `
+<P>
+  <Number value="123456789" org suffix="MVA" />
+</P>
+          `
+          }
         </ComponentBox>
         <ComponentBox
           title="Numbers and currencies in different locales"
           data-dnb-test="number-locales"
         >
-          {/* @jsx */ `
+          {
+            /* @jsx */ `
 <H3>Numbers</H3>
 <P>
   <Number locale="nb-NO" value="-12345678.9" />
@@ -94,7 +123,8 @@ class Example extends PureComponent {
 </P>
 
 <br/>
-          `}
+          `
+          }
         </ComponentBox>
       </Style>
     )

@@ -3,7 +3,7 @@
  *
  */
 
-import React, { PureComponent } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import {
@@ -54,7 +54,7 @@ const defaultProps = {
   ...renderProps
 }
 
-export default class MainNav extends PureComponent {
+export default class MainNav extends React.PureComponent {
   static tagName = 'dnb-main-nav'
   static propTypes = propTypes
   static defaultProps = defaultProps
@@ -207,7 +207,7 @@ export default class MainNav extends PureComponent {
   }
 }
 
-const MainNavTrigger = props => {
+const MainNavTrigger = (props) => {
   const { text, className, modifier } = props
 
   const params = {
@@ -246,7 +246,7 @@ MainNavTrigger.defaultProps = {
   onTrigger: null
 }
 
-const Search = props => {
+const Search = (props) => {
   return (
     <Input
       type="search"

@@ -75,14 +75,14 @@ const extractJSXFromRender = ({
   try {
     // extract jsx - there has to be a Fragment
     const result = new RegExp(
-      `${nameOfClass}<Fragment.*[\n]+([^]*)</Fragment>`,
+      `${nameOfClass}<React.Fragment.*[\n]+([^]*)</React.Fragment>`,
       'gm'
     ).exec(content)
 
     let jsxCode = result && result[1] ? cleanCode(result[1]) : result
 
     // add Fragment to run prettier on it
-    jsxCode = `<Fragment>${String(jsxCode).trim()}</Fragment>`
+    jsxCode = `<React.Fragment>${String(jsxCode).trim()}</React.Fragment>`
 
     try {
       jsxCode = prettier.format(jsxCode, {
@@ -102,9 +102,10 @@ const extractJSXFromRender = ({
     }
 
     // remove Fragment again
-    jsxCode = new RegExp(`<Fragment>[\n]+([^]*)<\\/Fragment>`, 'gm').exec(
-      jsxCode
-    )
+    jsxCode = new RegExp(
+      `<React.Fragment>[\n]+([^]*)<\\/React.Fragment>`,
+      'gm'
+    ).exec(jsxCode)
 
     // also remove spaces on the beginning
     if (jsxCode) {
@@ -130,8 +131,8 @@ export const cleanCode = (
   if (removeTag && new RegExp(removeTag).test(jsxCode)) {
     jsxCode = jsxCode
       .split(new RegExp(removeTag, 'g'))
-      .filter(row => row.trim().length > 0)
-      .map(row =>
+      .filter((row) => row.trim().length > 0)
+      .map((row) =>
         row
           .trim()
           .replace(/<\/div>$/g, '')

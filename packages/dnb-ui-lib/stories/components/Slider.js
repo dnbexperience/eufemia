@@ -3,7 +3,7 @@
  *
  */
 
-import React, { useState } from 'react'
+import React from 'react'
 import { Wrapper, Box } from '../helpers'
 import styled from '@emotion/styled'
 
@@ -29,7 +29,7 @@ const VerticalWrapper = styled.div`
 `
 
 const SliderStory = () => {
-  const [value, setValue] = useState(70)
+  const [value, setValue] = React.useState(70)
   return (
     <Wrapper>
       <Box>
@@ -102,7 +102,7 @@ const SliderStory = () => {
             max="100"
             step="5"
             defaultValue="20"
-            onChange={event => {
+            onChange={(event) => {
               console.log('range-slider:', event.currentTarget.value)
             }}
           />

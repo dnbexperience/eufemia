@@ -1,92 +1,116 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Tooltip component with component have to match default tooltip snapshot 1`] = `
-<Component
-  align="align"
-  arrow="arrow"
-  class="class"
-  className="className"
-  id="id"
-  onClick={[Function]}
-  on_click="on_click"
-  position="position"
->
+<Component>
   <Tooltip
     align={null}
+    animate_position={false}
     arrow="center"
     class={null}
     className={null}
     component={
-      <button
-        id="button"
-      >
+      <button>
         Button
       </button>
     }
-    id={null}
+    group="main"
+    hide_delay={500}
+    id="tooltip"
     onClick={null}
     on_click={null}
     position="top"
+    show_delay={300}
   >
     <TooltipWithEvents
       align={null}
+      animate_position={false}
       arrow="center"
       attributes={
         Object {
           "children": "Text",
           "className": "dnb-tooltip dnb-core-style",
+          "id": "tooltip",
         }
       }
       class={null}
       className={null}
       component={
-        <button
-          id="button"
-        >
+        <button>
           Button
         </button>
       }
-      group={null}
-      id={null}
+      group="tooltip"
+      hide_delay={500}
+      id="tooltip"
+      internal_id="tooltip"
       onClick={null}
       on_click={null}
-      parent={
-        <button
-          id="button"
-        >
+      position="top"
+      show_delay={300}
+      target={
+        <button>
           Button
         </button>
       }
-      position="top"
     >
       <span
         className={null}
-        key="parent-wrapper"
+        key="target-wrapper"
         onMouseEnter={[Function]}
         onMouseLeave={[Function]}
       >
         <button
-          id="button"
+          aria-describedby="tooltip"
         >
           Button
         </button>
       </span>
+      <TooltipPortal
+        active={false}
+        align={null}
+        animate_position={false}
+        arrow="center"
+        attributes={
+          Object {
+            "children": "Text",
+            "className": "dnb-tooltip dnb-core-style",
+            "id": "tooltip",
+          }
+        }
+        class={null}
+        component={
+          <button>
+            Button
+          </button>
+        }
+        group="tooltip"
+        hide_delay={500}
+        id="tooltip"
+        internal_id="tooltip"
+        key="tooltip"
+        onClick={null}
+        on_click={null}
+        position="top"
+        show_delay={300}
+        target={
+          <span
+            aria-describedby="tooltip"
+          >
+            <button
+              aria-describedby="tooltip"
+            >
+              Button
+            </button>
+          </span>
+        }
+      />
     </TooltipWithEvents>
   </Tooltip>
 </Component>
 `;
 
 exports[`Tooltip component with target have to match default tooltip snapshot 1`] = `
-<Component
-  align="align"
-  arrow="arrow"
-  class="class"
-  className="className"
-  id="id"
-  onClick={[Function]}
-  on_click="on_click"
-  position="position"
->
+<Component>
   <button
     id="button"
   >
@@ -94,34 +118,43 @@ exports[`Tooltip component with target have to match default tooltip snapshot 1`
   </button>
   <Tooltip
     align={null}
+    animate_position={false}
     arrow="center"
     class={null}
     className={null}
-    id={null}
+    component={null}
+    group="main"
+    hide_delay={500}
+    id="tooltip"
     onClick={null}
     on_click={null}
     position="top"
+    show_delay={300}
     target="#button"
   >
     <TooltipPortal
       active={false}
       align={null}
+      animate_position={false}
       arrow="center"
       attributes={
         Object {
           "children": "Text",
           "className": "dnb-tooltip dnb-core-style",
+          "id": "tooltip",
         }
       }
       class={null}
       className={null}
-      group={null}
+      component={null}
+      group="tooltip"
       hide_delay={500}
-      id={null}
+      id="tooltip"
+      internal_id="tooltip"
       onClick={null}
       on_click={null}
-      parent="#button"
       position="top"
+      show_delay={300}
       target="#button"
     />
   </Tooltip>
@@ -146,6 +179,9 @@ exports[`Tooltip scss have to match default theme snapshot 1`] = `
   color: var(--color-white);
   background-color: var(--color-emerald-green);
   box-shadow: 0 1px 6px rgba(0, 0, 0, 0.16); }
+  .dnb-tooltip__arrow::before {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    background-color: var(--color-emerald-green); }
 "
 `;
 
@@ -209,7 +245,6 @@ exports[`Tooltip scss have to match snapshot 1`] = `
 *
 */
 .dnb-tooltip {
-  pointer-events: none;
   position: absolute;
   z-index: 3100;
   display: flex;
@@ -218,13 +253,27 @@ exports[`Tooltip scss have to match snapshot 1`] = `
   align-items: center;
   padding: 0 1rem;
   opacity: 0;
-  transition: all 100ms ease-in-out, opacity 300ms ease-in-out; }
+  visibility: hidden;
+  transition: opacity 200ms ease-out; }
+  .dnb-tooltip--animate_position {
+    transition: all 300ms ease-in-out, opacity 200ms ease-out; }
   .dnb-tooltip--active {
-    opacity: 1; }
+    visibility: visible;
+    /*
+      because of the first \\"show\\" we also use animation
+      also, use forwards becuase of the usage of visibility
+    */
+    animation: show-tooltip 200ms ease-out forwards; }
+  .dnb-tooltip--hide {
+    visibility: visible;
+    animation: hide-tooltip 200ms ease-in-out forwards; }
   .dnb-tooltip__content {
+    min-width: 2rem;
+    min-height: 1.5rem;
     padding: 0; }
   .dnb-tooltip__arrow {
     position: absolute;
+    pointer-events: none;
     margin: 0;
     width: 1rem;
     height: 0.5rem;
@@ -236,9 +285,7 @@ exports[`Tooltip scss have to match snapshot 1`] = `
       left: 0;
       width: 1rem;
       height: 1rem;
-      transform: translateY(70%) rotate(45deg);
-      border: 1px solid var(--color-black-border);
-      background-color: var(--color-emerald-green); }
+      transform: translateY(70%) rotate(45deg); }
     .dnb-tooltip__arrow__position--bottom {
       top: -0.5rem; }
     .dnb-tooltip__arrow__position--top {
@@ -256,5 +303,18 @@ exports[`Tooltip scss have to match snapshot 1`] = `
       align-self: flex-start; }
     .dnb-tooltip__arrow__arrow--right {
       align-self: flex-end; }
+
+@keyframes show-tooltip {
+  from {
+    opacity: 0; }
+  to {
+    opacity: 1; } }
+
+@keyframes hide-tooltip {
+  from {
+    opacity: 1; }
+  to {
+    opacity: 0;
+    visibility: hidden; } }
 "
 `;

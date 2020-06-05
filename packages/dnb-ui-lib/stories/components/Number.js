@@ -9,9 +9,10 @@ import styled from '@emotion/styled'
 import { P } from '../../src/elements'
 import Provider from '../../src/shared/Provider'
 import Number from '../../src/components/Number'
+import Dropdown from '../../src/components/Dropdown'
 
 // import { format } from '../../src/components/Number'
-// import Context from '../../src/shared/Context'
+import Context from '../../src/shared/Context'
 
 const CustomStyle = styled.div`
   .dnb-number {
@@ -24,29 +25,29 @@ const CustomStyle = styled.div`
   }
 `
 
-// const ChangeLocale = () => {
-//   const props = React.useContext(Context)
-//   console.log('ChangeLocale', props)
-//   const { update, locale } = React.useContext(Context)
-//
-//   React.useEffect(() => {
-//     setTimeout(() => {
-//       // update({ locale: 'en-US' })
-//       update({ currency: 'USD' })
-//     }, 3e3)
-//   }, [])
-//
-//   return (
-//     <>
-//       {/* Can be e.g. a Dropdown */}
-//       {format(12345678.9, {
-//         locale,
-//         currency: true
-//       })}{' '}
-//       {/* text */}
-//     </>
-//   )
-// }
+const ChangeLocale = () => {
+  const {
+    setLocale,
+    // setCurrentLocale,// to update only the current context
+    locale
+  } = React.useContext(Context)
+
+  return (
+    <Dropdown
+      value={locale}
+      data={{ 'en-US': 'English', 'nb-NO': 'Norsk' }}
+      on_change={({ data: { selected_key: locale } }) => {
+        setLocale(locale)
+      }}
+    />
+  )
+}
+
+const Prefix = styled.b`
+  color: red;
+`
+
+// new Intl.NumberFormat('nb-NO', { minimumFractionDigits: 4, maximumFractionDigits: 4, style: 'currency', currency: 'NOK' }).format(-12345)
 
 export default [
   'Number',
@@ -54,18 +55,67 @@ export default [
     return (
       <CustomStyle>
         <Provider
-        // locale={'en'}
+          // locale="nb-NO"
+          locale="en-US"
         >
           <Wrapper>
             <Box>
-              <P>
-                text <Number currency>12 345</Number> text{' '}
-                <Number currency="USD" value="12345" /> text{' '}
-                <Number currency>12 345 678</Number> text{' '}
-                <Number currency>12345.0</Number> text{' '}
-                <Number currency="EUR">-12345,68</Number> text{' '}
-                {/* <ChangeLocale /> */}
-              </P>
+              <Provider
+                // locale="de-DE"
+                locale="nb-NO"
+                // locale="en-US"
+              >
+                <Number
+                  prefix={() => <i>S</i>}
+                  suffix={<b>E</b>}
+                  value={'-12 345,99'}
+                  currency
+                  decimals={2}
+                  // locale={'nb-NO'}
+                  currency_position="after"
+                  // currency_display="name"
+                  // options={{
+                  //   // minimumSignificantDigits: 1,
+                  //   // maximumSignificantDigits: 6,
+                  //   // minimumIntegerDigits: 0
+                  //   minimumFractionDigits: 1,
+                  //   maximumFractionDigits: 1
+                  //   // maximumFractionDigits: 1
+                  // }}
+                />
+                <br />
+                <Number
+                  prefix={<Prefix className="custom">S</Prefix>}
+                  suffix="E"
+                  // value={'-12 623,988'}
+                  // value={'-12.623,988'}
+                  value={'-12,623.988'}
+                  decimals={3}
+                  // currency
+                />
+              </Provider>
+            </Box>
+            <Box>
+              <Provider locale="nb-NO">
+                <P>
+                  <Number>12345.987654321</Number> text{' '}
+                  <Number>-12345678.9834523</Number> text{' '}
+                </P>
+              </Provider>
+            </Box>
+            <Box>
+              <Provider
+              //  locale="en-US"
+              >
+                <ChangeLocale />
+                <P>
+                  text <Number currency>12 345</Number> text{' '}
+                  <Number currency="USD" value="12345" /> text{' '}
+                  <Number currency>12 345 678</Number> text{' '}
+                  <Number currency>12345.0</Number> text{' '}
+                  <Number currency="EUR">-12345,68</Number> text{' '}
+                </P>
+              </Provider>
             </Box>
             <Box>
               <P>

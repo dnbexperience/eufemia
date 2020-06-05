@@ -3,11 +3,11 @@
  *
  */
 
-import React, { PureComponent } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import Code from '../parts/uilib/Code'
 
-export default class Markup extends PureComponent {
+export default class Markup extends React.PureComponent {
   static propTypes = {
     children: PropTypes.oneOfType([PropTypes.func, PropTypes.node])
   }

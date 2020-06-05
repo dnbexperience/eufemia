@@ -3,10 +3,10 @@
  *
  */
 
-import React, { PureComponent } from 'react'
+import React from 'react'
 import ComponentBox from 'Src/shared/tags/ComponentBox'
 
-class Example extends PureComponent {
+class Example extends React.PureComponent {
   render() {
     return (
       <>

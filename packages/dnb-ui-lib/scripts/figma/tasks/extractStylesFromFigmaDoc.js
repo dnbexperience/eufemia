@@ -29,7 +29,7 @@ export const getComponentsDocs = async (
   return componentsDocs
 }
 
-export const extractFigmaStylesFromComponents = async componentsDocs => {
+export const extractFigmaStylesFromComponents = async (componentsDocs) => {
   const res = {}
 
   await asyncForEach(
@@ -45,7 +45,7 @@ export const extractFigmaStylesFromComponents = async componentsDocs => {
         }
       )
 
-      await asyncForEach(componentsDocs, async componentDoc => {
+      await asyncForEach(componentsDocs, async (componentDoc) => {
         // setting up definitions
         if (/#skip/.test(componentDoc.name)) return
         let doForceScssOutput = false
@@ -74,9 +74,9 @@ export const extractFigmaStylesFromComponents = async componentsDocs => {
         res[componentName].scssVars = res[componentName].scssVars || {}
 
         // place the data inside
-        res[componentName].scssStyle = `${
-          res[componentName].scssStyle
-        }\n${scssStyle}`
+        res[
+          componentName
+        ].scssStyle = `${res[componentName].scssStyle}\n${scssStyle}`
         res[componentName].scssVars = {
           ...res[componentName].scssVars,
           ...scssVars
@@ -100,7 +100,7 @@ export const composeFigmaStyleFromComponent = async (
       [])[1] || null
   const existingSassVars = await extractSassVars({
     file: `./src/components/${componentName}/style/_${componentName}.scss`,
-    replaceCallback: scssContent =>
+    replaceCallback: (scssContent) =>
       String(scssContent).replace(
         /(@import '\.\/)/g,
         `@import './components/${componentName}/style/`

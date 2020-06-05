@@ -3,19 +3,20 @@
  *
  */
 
-import React, { PureComponent, Fragment } from 'react'
+import React from 'react'
 import ComponentBox from 'Src/shared/tags/ComponentBox'
 import { bell_medium as Bell, question } from 'dnb-ui-lib/src/icons'
 
-class Example extends PureComponent {
+class Example extends React.PureComponent {
   clickHandler = () => {
     alert('You clicked a button with a click function attached to it')
   }
   render() {
     return (
-      <Fragment>
+      <React.Fragment>
         <ComponentBox>
-          {/* @jsx */ `
+          {
+            /* @jsx */ `
 <Button
   text="Primary button with text only"
   on_click={() => {
@@ -23,10 +24,12 @@ class Example extends PureComponent {
   }}
   data-dnb-test="button-primary"
 />
-          `}
+          `
+          }
         </ComponentBox>
         <ComponentBox>
-          {/* @jsx */ `
+          {
+            /* @jsx */ `
 <Button
   variant="secondary"
   onClick={() => {
@@ -36,44 +39,55 @@ class Example extends PureComponent {
 >
   Secondary button with text only
 </Button>
-          `}
+          `
+          }
         </ComponentBox>
         <ComponentBox>
-          {/* @jsx */ `
+          {
+            /* @jsx */ `
 <Button
   text="Disabled primary button"
   disabled
 />
-          `}
+          `
+          }
         </ComponentBox>
         <ComponentBox>
-          {/* @jsx */ `
+          {
+            /* @jsx */ `
 <Button
   text="Disabled secondary button"
   variant="secondary"
   disabled
 />
-          `}
+          `
+          }
         </ComponentBox>
         <ComponentBox>
-          {/* @jsx */ `
+          {
+            /* @jsx */ `
 <Button
   text="Primary button with icon"
   icon="chevron_right"
 />
-          `}
+          `
+          }
         </ComponentBox>
         <ComponentBox>
-          {/* @jsx */ `
+          {
+            /* @jsx */ `
 <Button
-  text="Primary button with icon on left"
   icon_position="left"
   icon="chevron_left"
-/>
-          `}
+>
+  Primary button with icon on left
+</Button>
+          `
+          }
         </ComponentBox>
         <ComponentBox>
-          {/* @jsx */ `
+          {
+            /* @jsx */ `
 <Button
   variant="tertiary"
   text="Tertiary button with icon on left"
@@ -87,10 +101,21 @@ class Example extends PureComponent {
   icon="chevron_right"
   icon_size="medium"
 />
-          `}
+          `
+          }
         </ComponentBox>
+        {typeof window !== 'undefined' && window.IS_TEST && (
+          <ComponentBox data-dnb-test="button-tertiary-no-icon">
+            {
+              /* @jsx */ `
+<Button text="Tertiary button with no icon" variant="tertiary" />
+          `
+            }
+          </ComponentBox>
+        )}
         <ComponentBox data-dnb-test="button-anchor">
-          {/* @jsx */ `
+          {
+            /* @jsx */ `
 <Button
   text="Primary with href"
   href="?no-cache=1"
@@ -110,26 +135,30 @@ class Example extends PureComponent {
   icon="chevron_right"
   size="default"
 />
-          `}
+          `
+          }
         </ComponentBox>
         <ComponentBox
           scope={{ Bell }}
           title="Medium is equalent to 24, but responsive. To import custom icons, use: `import { bell_medium as Bell } from 'dnb-ui-lib/icons'`"
         >
-          {/* @jsx */ `
+          {
+            /* @jsx */ `
 <Button
   variant="signal"
   text="Signal Button"
   icon={Bell}
   data-dnb-test="button-signal"
 />
-          `}
+          `
+          }
         </ComponentBox>
         <ComponentBox
           scope={{ Bell }}
           title="Large Signal button with medium sized icon. To import custom icons, use: `import { bell_medium as Bell } from 'dnb-ui-lib/icons'`"
         >
-          {/* @jsx */ `
+          {
+            /* @jsx */ `
 <Button
   variant="signal"
   text="Large Signal Button"
@@ -137,10 +166,12 @@ class Example extends PureComponent {
   size="large"
   icon_size="medium"
 />
-          `}
+          `
+          }
         </ComponentBox>
         <ComponentBox scope={{ question }} title="Button with Icon only">
-          {/* @jsx */ `
+          {
+            /* @jsx */ `
 <Button
   title="Disabled Icon only Button"
   icon="calendar"
@@ -168,9 +199,10 @@ class Example extends PureComponent {
   icon={question}
   status="error"
 />
-          `}
+          `
+          }
         </ComponentBox>
-      </Fragment>
+      </React.Fragment>
     )
   }
 }

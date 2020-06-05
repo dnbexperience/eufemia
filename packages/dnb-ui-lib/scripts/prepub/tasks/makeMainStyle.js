@@ -18,14 +18,14 @@ import { asyncForEach } from '../../tools/index'
 // import the post css config
 import postcssConfig from '../config/postcssConfig'
 
-export default async () => {
+export default async function makeMainStyle() {
   // info: use this aproach to process files because:
   // this way we avoid cross "includePaths" and the result is:
   // Now a custom theme can overwrite existing CSS Custom Properties
   const listWithThemesToProcess = await globby(
     './src/style/themes/theme-*/dnb-theme-*.scss'
   )
-  await asyncForEach(listWithThemesToProcess, async themeFile => {
+  await asyncForEach(listWithThemesToProcess, async (themeFile) => {
     // in order to keep the foder structure, we have to add these asteix
     themeFile = themeFile.replace('/style/themes/', '/style/**/themes/')
     await runFactory(themeFile, {
@@ -36,7 +36,7 @@ export default async () => {
   const listWithPackagesToProcess = await globby(
     './src/style/dnb-ui-*.scss'
   )
-  await asyncForEach(listWithPackagesToProcess, async packageFile => {
+  await asyncForEach(listWithPackagesToProcess, async (packageFile) => {
     // in order to keep the foder structure, we have to add these asteix
     packageFile = packageFile.replace('/style/', '/style/**/')
     await runFactory(packageFile)
@@ -108,7 +108,7 @@ export const runFactory = (
         )
         .pipe(
           returnResult
-            ? transform('utf8', result => resolve(result))
+            ? transform('utf8', (result) => resolve(result))
             : gulp.dest('./build/style', {
                 cwd: process.env.ROOT_DIR
               })
@@ -120,5 +120,5 @@ export const runFactory = (
     }
   })
 
-const transformPaths = (from, to) => content =>
+const transformPaths = (from, to) => (content) =>
   content.replace(new RegExp(from, 'g'), to)

@@ -31,7 +31,7 @@ const prismStyle = /* @css */ `
   }
 
   &.tag {
-    color: var(--color-sea-green-alt);
+    color: var(--color-sea-green);
   }
 
   &.selector,

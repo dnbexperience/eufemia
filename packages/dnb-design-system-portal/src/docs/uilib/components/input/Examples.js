@@ -3,31 +3,34 @@
  *
  */
 
-import React, { PureComponent, Fragment } from 'react'
+import React from 'react'
 import ComponentBox from 'Src/shared/tags/ComponentBox'
 import styled from '@emotion/styled'
 
-class Example extends PureComponent {
+class Example extends React.PureComponent {
   render() {
     return (
-      <Fragment>
+      <React.Fragment>
         <ScreenshotTests />
         <ComponentBox
           title="Placeholder text"
           data-dnb-test="input-placeholder"
         >
-          {/* @jsx */ `
+          {
+            /* @jsx */ `
 <Input
   label="Label:"
   placeholder="Placeholder text"
 />
-          `}
+          `
+          }
         </ComponentBox>
         <ComponentBox
           title="Search text placeholder"
           data-dnb-test="input-search"
         >
-          {/* @jsx */ `
+          {
+            /* @jsx */ `
 <Input
   label="Search:"
   type="search"
@@ -40,13 +43,15 @@ class Example extends PureComponent {
     console.log('Submit:', value)
   }}
 />
-          `}
+          `
+          }
         </ComponentBox>
         <ComponentBox
           title="Medium and stretched search input"
           data-dnb-test="input-medium"
         >
-          {/* @jsx */ `
+          {
+            /* @jsx */ `
 <Input
   size="medium"
   type="search"
@@ -56,17 +61,22 @@ class Example extends PureComponent {
     console.log('on_change', value)
   }}
 />
-          `}
+          `
+          }
         </ComponentBox>
-        <ComponentBox title="Input with icon" data-dnb-test="input-icon">
-          {/* @jsx */ `
+        <ComponentBox
+          title="Input with icon"
+          description="With left / right aligned text"
+          data-dnb-test="input-icon"
+        >
+          {
+            /* @jsx */ `
 <Input
   label="Input with icon:"
   placeholder="Input"
   label_direction="vertical"
   icon="check"
   bottom
-  align="right"
 />
 <Input
   label="Input with icon:"
@@ -76,40 +86,48 @@ class Example extends PureComponent {
   icon="check"
   align="right"
 />
-          `}
+          `
+          }
         </ComponentBox>
         <ComponentBox
           title="Disabled input"
           data-dnb-test="input-disabled"
         >
-          {/* @jsx */ `
+          {
+            /* @jsx */ `
 <Input
   disabled
   label="Disabled input:"
   placeholder="Disabled Input with a placeholder"
 />
-          `}
+          `
+          }
         </ComponentBox>
         <ComponentBox title="Show failure status">
-          {/* @jsx */ `
+          {
+            /* @jsx */ `
 <Input
   label="Show status:"
   status="error"
   value="Shows status with border only"
 />
-          `}
+          `
+          }
         </ComponentBox>
         <ComponentBox title="With FormStatus" data-dnb-test="input-error">
-          {/* @jsx */ `
+          {
+            /* @jsx */ `
 <Input
   label="With FormStatus:"
   status="You have to fill in this field"
   value="Input value with error"
 />
-          `}
+          `
+          }
         </ComponentBox>
         <ComponentBox title="Input with suffix (additional description)">
-          {/* @jsx */ `
+          {
+            /* @jsx */ `
 <Input
   label="Short Label:"
   autocomplete="on"
@@ -119,10 +137,12 @@ class Example extends PureComponent {
     console.log('on_change', value)
   }}
 />
-          `}
+          `
+          }
         </ComponentBox>
         <ComponentBox title="Stretched `Input` in horizontal wrapping `FormRow` and a long label">
-          {/* @jsx */ `
+          {
+            /* @jsx */ `
 <FormRow
   label="Long label labwl Adipiscing mauris dis proin nec:"
   indent="true"
@@ -131,10 +151,12 @@ class Example extends PureComponent {
 >
   <Input value="I stretch ..." stretch />
 </FormRow>
-          `}
+          `
+          }
         </ComponentBox>
         <ComponentBox title="Numbers are ligned by using Proportional Lining">
-          {/* @jsx */ `
+          {
+            /* @jsx */ `
 <Input
   label="My Status:"
   autocomplete="on"
@@ -147,10 +169,12 @@ class Example extends PureComponent {
     console.log('on_change', value)
   }}
 />
-          `}
+          `
+          }
         </ComponentBox>
         <ComponentBox title="Submit Form with Input. Pressing the enter key will trigger a submit.">
-          {/* @jsx */ `
+          {
+            /* @jsx */ `
 <FormSet
   prevent_submit={true}
   on_submit={(event) => {
@@ -178,9 +202,10 @@ class Example extends PureComponent {
     <Button text="Submit" type="submit" />
   </FormRow>
 </FormSet>
-          `}
+          `
+          }
         </ComponentBox>
-      </Fragment>
+      </React.Fragment>
     )
   }
 }
@@ -191,7 +216,8 @@ const ScreenshotTests = () => {
   }
   return (
     <ComponentBox data-dnb-test="input-align">
-      {/* @jsx */ `
+      {
+        /* @jsx */ `
 <FormRow label="Left aligned" vertical>
   <Input value="Plain" />
   <Input value="Search" type="search" />
@@ -272,7 +298,8 @@ const ScreenshotTests = () => {
     align="right"
   />
 </FormRow>
-            `}
+            `
+      }
     </ComponentBox>
   )
 }
@@ -290,8 +317,10 @@ const Wrapper = styled.div`
 `
 
 export { Example }
-export default () => (
-  <Wrapper>
-    <Example />
-  </Wrapper>
-)
+export default function StyledExample() {
+  return (
+    <Wrapper>
+      <Example />
+    </Wrapper>
+  )
+}

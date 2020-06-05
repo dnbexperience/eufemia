@@ -115,10 +115,10 @@
       }
     }
 
-    html:not([data-is-touch])
+    html:not([data-whatintent='touch'])
       &--start-date#{&}--within-selection
       .dnb-button:hover:not([disabled]),
-    html:not([data-is-touch])
+    html:not([data-whatintent='touch'])
       &--end-date#{&}--within-selection
       .dnb-button:hover:not([disabled]) {
       color: var(--date-picker-selected-color);
@@ -132,7 +132,7 @@
       }
     }
 
-    html:not([data-is-touch]) &--inactive .dnb-button[disabled] {
+    html:not([data-whatintent='touch']) &--inactive .dnb-button[disabled] {
       cursor: default;
     }
   }

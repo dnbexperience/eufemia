@@ -32,6 +32,7 @@ const runStyleFactory = async () => {
     ),
     customContent: `
 @import './core/utilities.scss';
+@import './dnb-ui-fragments.scss';
 `,
     scssTemplateToFill: `@import '../components/{name}/style/_{name}.scss';`,
     processToNamesList: [
@@ -44,6 +45,30 @@ const runStyleFactory = async () => {
     if (require.main === module) {
       log.succeed(
         '> PrePublish: "styleFactory" Created the style file with all the components'
+      )
+    }
+  })
+
+  // fragments
+  await runFactory({
+    scssOutputFile: path.resolve(
+      __dirname,
+      '../../../src/style/dnb-ui-fragments.scss'
+    ),
+    customContent: `
+@import './core/utilities.scss';
+`,
+    scssTemplateToFill: `@import '../fragments/{name}/style/_{name}.scss';`,
+    processToNamesList: [
+      path.resolve(__dirname, '../../../src/fragments/*')
+    ].concat(processToNamesIgnoreList),
+    processOnlyList: [
+      path.resolve(__dirname, '../../../src/fragments/**/style/*.scss')
+    ]
+  }).then(() => {
+    if (require.main === module) {
+      log.succeed(
+        '> PrePublish: "styleFactory" Created the style file with all the fragments'
       )
     }
   })
@@ -89,15 +114,15 @@ const runFactory = async ({
     processToNamesList.sort()
     if (processOnlyList) {
       const processdList = await globby(processOnlyList)
-      processToNamesList = processToNamesList.filter(source =>
-        processdList.some(file => file.indexOf(source) !== -1)
+      processToNamesList = processToNamesList.filter((source) =>
+        processdList.some((file) => file.indexOf(source) !== -1)
       )
     }
   } catch (e) {
     console.log('Error', e)
   }
 
-  processToNamesList = processToNamesList.map(source => ({
+  processToNamesList = processToNamesList.map((source) => ({
     source,
     name: basename(source)
   }))

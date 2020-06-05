@@ -11,6 +11,7 @@
 
 // import all the aviable components
 import DrawerList from './drawer-list/DrawerList'
+import ScrollView from './scroll-view/ScrollView'
 
 // define / export all the aviable components
-export { DrawerList }
+export { DrawerList, ScrollView }

@@ -3,7 +3,7 @@
  *
  */
 
-import React, { PureComponent } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 
 import { css } from '@emotion/core'
@@ -44,7 +44,7 @@ const tabsWrapperStyle = css`
   }
 `
 
-class CustomTabs extends PureComponent {
+class CustomTabs extends React.PureComponent {
   static propTypes = {
     children: PropTypes.node.isRequired,
     tabs: PropTypes.array

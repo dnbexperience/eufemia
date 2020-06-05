@@ -158,7 +158,7 @@ function getTopLevelDomain(
 function convertToMask(str, noDots) {
   return str
     .split(emptyString)
-    .map(char =>
+    .map((char) =>
       char === space
         ? char
         : noDots

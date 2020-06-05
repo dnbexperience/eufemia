@@ -24,8 +24,10 @@ const Wrapper = styled.div`
 `
 
 export { Example }
-export default () => (
-  <Wrapper className="dnb-spacing">
-    <Example />
-  </Wrapper>
-)
+export default function StyledExample() {
+  return (
+    <Wrapper className="dnb-spacing">
+      <Example />
+    </Wrapper>
+  )
+}

@@ -3,20 +3,20 @@
  *
  */
 
-import React, { PureComponent, Fragment } from 'react'
+import React from 'react'
 import FieldsetDescription from './FieldsetDescription'
 
-class Example extends PureComponent {
+class Example extends React.PureComponent {
   render() {
     return (
-      <Fragment>
+      <React.Fragment>
         <div className="example-box">
           <FieldsetDescription text="Some Fieldset Description" />
         </div>
-      </Fragment>
+      </React.Fragment>
     )
   }
 }
 
 export { Example }
-export default () => <Example />
+export default Example

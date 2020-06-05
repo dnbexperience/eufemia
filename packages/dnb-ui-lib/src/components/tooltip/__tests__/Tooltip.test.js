@@ -6,7 +6,7 @@
 import React from 'react'
 import {
   mount,
-  fakeProps,
+  // fakeProps,
   toJson,
   axeComponent,
   loadScss
@@ -18,49 +18,68 @@ import _tooltip from '../style/_tooltip.scss' // eslint-disable-line
 import dnb_tooltip from '../style/dnb-tooltip.scss' // eslint-disable-line
 import dnb_tooltiptheme_ui from '../style/themes/dnb-tooltip-theme-ui.scss' // eslint-disable-line
 
-const props = fakeProps(require.resolve('../Tooltip'), {
-  optional: true
-})
+// const snapshotProps = fakeProps(require.resolve('../Tooltip'), {
+//   optional: true
+// })
+
+const defaultProps = {
+  component: null,
+  id: 'tooltip'
+}
 
 describe('Tooltip component with component', () => {
-  const Component = () => (
-    <Tooltip component={<button id="button">Button</button>}>Text</Tooltip>
+  const Component = (props = {}) => (
+    <Tooltip
+      // {...snapshotProps}
+      {...defaultProps}
+      {...props}
+      component={<button>Button</button>}
+    >
+      Text
+    </Tooltip>
   )
   it('have to match default tooltip snapshot', () => {
-    const Comp = mount(<Component {...props} />)
+    const Comp = mount(<Component />)
     expect(toJson(Comp)).toMatchSnapshot()
   })
 
   it('should validate with ARIA rules as a tooltip', async () => {
-    const Comp = mount(<Component {...props} />)
+    const Comp = mount(<Component />)
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 
   it('should validate with ARIA rules as a anchor', async () => {
-    const Comp = mount(<Component {...props} />)
+    const Comp = mount(<Component />)
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 })
 
 describe('Tooltip component with target', () => {
-  const Component = () => (
+  const Component = (props = {}) => (
     <>
       <button id="button">Button</button>
-      <Tooltip target="#button">Text</Tooltip>
+      <Tooltip
+        // {...snapshotProps}
+        {...defaultProps}
+        {...props}
+        target="#button"
+      >
+        Text
+      </Tooltip>
     </>
   )
   it('have to match default tooltip snapshot', () => {
-    const Comp = mount(<Component {...props} />)
+    const Comp = mount(<Component />)
     expect(toJson(Comp)).toMatchSnapshot()
   })
 
   it('should validate with ARIA rules as a tooltip', async () => {
-    const Comp = mount(<Component {...props} />)
+    const Comp = mount(<Component />)
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 
   it('should validate with ARIA rules as a anchor', async () => {
-    const Comp = mount(<Component {...props} />)
+    const Comp = mount(<Component />)
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 })

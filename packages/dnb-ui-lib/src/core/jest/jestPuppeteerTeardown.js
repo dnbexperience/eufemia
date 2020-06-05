@@ -17,7 +17,7 @@ import {
 } from '../../../scripts/prepub/commitToBranch'
 const { DIR } = require('./jestSetupScreenshots').config
 
-module.exports = async function() {
+module.exports = async function () {
   if (isCI) {
     console.log(chalk.yellow('Teardown Puppeteer.'))
   }

@@ -1,5 +1,6 @@
 ---
 fullscreen: true
+search: 'Intro'
 redirect_from:
   - /uilib/intro/14-helper-classes
 ---
@@ -38,7 +39,7 @@ render(
 
 ## More helpers
 
-You may have a look on all the CSS and JavaScript [helpers](!/uilib/helpers) witch comes included in the package.
+You may have a look on all the CSS and JavaScript [helpers](!/uilib/helpers) which comes included in the package.
 
 ---
 

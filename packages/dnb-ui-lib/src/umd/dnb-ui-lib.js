@@ -3,7 +3,5 @@
  *
  */
 
-import * as dnbLib from '../components/web-components'
-
-// we have to export
-export { dnbLib }
+export * from '../components/lib'
+export * from '../elements/lib'

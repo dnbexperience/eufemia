@@ -9,6 +9,7 @@ import classnames from 'classnames'
 import keycode from 'keycode'
 import Context from '../../shared/Context'
 import {
+  warn,
   isTrue,
   makeUniqueId,
   registerElement,
@@ -25,7 +26,7 @@ import { InfoIcon, ErrorIcon } from '../form-status/FormStatus'
 import Button from '../button/Button'
 import Section from '../section/Section'
 import Animation from './AnimationHelper'
-import { isIE11 } from '../../shared/helpers'
+import { IS_IE11 } from '../../shared/helpers'
 
 const renderProps = {
   on_open: null,
@@ -420,7 +421,7 @@ export default class GlobalStatus extends React.PureComponent {
     })
   }
 
-  onKeyDownHandler = e => {
+  onKeyDownHandler = (e) => {
     switch (keycode(e)) {
       case 'esc':
         e.preventDefault()
@@ -449,8 +450,9 @@ export default class GlobalStatus extends React.PureComponent {
                   const currentHeight = parseFloat(_mainRef.style.height)
                   if (!(currentHeight > 0)) {
                     _mainRef.style.height = 0
-                    _mainRef.style.transition = `height ${height *
-                      3}ms ease-in-out`
+                    _mainRef.style.transition = `height ${
+                      height * 3
+                    }ms ease-in-out`
                   } else {
                     const diff = Math.abs(currentHeight - height)
                     const speed = height * 3 - diff
@@ -470,7 +472,7 @@ export default class GlobalStatus extends React.PureComponent {
           }
         }
       } catch (e) {
-        console.warn('GlobalStatus: Could not set height!', e)
+        warn('GlobalStatus: Could not set height!', e)
       }
     }
 
@@ -498,7 +500,7 @@ export default class GlobalStatus extends React.PureComponent {
         this.initialActiveElement.focus()
         this.initialActiveElement = null
       } catch (e) {
-        console.warn(e)
+        warn(e)
       }
     }
     dispatchCustomElementEvent(
@@ -513,7 +515,7 @@ export default class GlobalStatus extends React.PureComponent {
       // dispatchCustomElementEvent(this.state.globalStatus, 'on_scroll_to')
       const element = this._shellRef.current
       this._scrollToStatusId = isElementVisible(element, isDone)
-      if (element && !isIE11) {
+      if (element && !IS_IE11) {
         element.scrollIntoView({
           block: 'center',
           behavior: 'smooth'
@@ -530,7 +532,7 @@ export default class GlobalStatus extends React.PureComponent {
         }
       }
     } catch (e) {
-      console.warn('GlobalStatus: Could not scroll into view!', e)
+      warn('GlobalStatus: Could not scroll into view!', e)
     }
   }
 
@@ -552,10 +554,10 @@ export default class GlobalStatus extends React.PureComponent {
           return
         }
 
-        isElementVisible(element, elem => {
+        isElementVisible(element, (elem) => {
           try {
             // remove the blink animation again
-            elem.addEventListener('blur', e => {
+            elem.addEventListener('blur', (e) => {
               if (e.target.classList) {
                 e.target.removeAttribute('tabindex')
               }
@@ -571,12 +573,12 @@ export default class GlobalStatus extends React.PureComponent {
             // we use "attention-focus" in #form-status theme
             elem.focus({ preventScroll: true })
           } catch (e) {
-            console.warn(e)
+            warn(e)
           }
         })
 
         // block: 'center' is not suported on IE - now we se the element above
-        if (isIE11) {
+        if (IS_IE11) {
           window.scrollTop = element.offsetTop
         } else {
           // then go there
@@ -586,7 +588,7 @@ export default class GlobalStatus extends React.PureComponent {
           })
         }
       } catch (e) {
-        console.warn(e)
+        warn(e)
       }
     }
   }
@@ -749,8 +751,8 @@ export default class GlobalStatus extends React.PureComponent {
                       ? `#${item.status_id}`
                       : item.status_anchor_url
                   }
-                  onClick={e => this.gotoItem(e, item)}
-                  onKeyDown={e => this.gotoItem(e, item)}
+                  onClick={(e) => this.gotoItem(e, item)}
+                  onKeyDown={(e) => this.gotoItem(e, item)}
                 >
                   {link}
                 </a>
@@ -848,7 +850,7 @@ GlobalStatus.Remove = GlobalStatusController.Remove
 
 const isElementVisible = (elem, callback, delayFallback = 1e3) => {
   if (typeof IntersectionObserver !== 'undefined') {
-    const intersectionObserver = new IntersectionObserver(entries => {
+    const intersectionObserver = new IntersectionObserver((entries) => {
       const [entry] = entries
       if (entry.isIntersecting) {
         intersectionObserver.unobserve(elem)

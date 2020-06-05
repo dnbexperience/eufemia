@@ -3,7 +3,7 @@
  *
  */
 
-import React, { PureComponent } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 
 let lastScrollPosition = 0
@@ -18,7 +18,7 @@ export const MainMenuContext = React.createContext({
   isActive: false
 })
 
-export class MainMenuProvider extends PureComponent {
+export class MainMenuProvider extends React.PureComponent {
   static propTypes = {
     children: PropTypes.node.isRequired
   }

@@ -3,9 +3,9 @@
  *
  */
 
-import { Button, Tabs } from 'dnb-ui-lib/src'
+import { Heading, Button, Tabs } from 'dnb-ui-lib/src'
 import Code, { CodeRenderer } from './Code'
-import React, { PureComponent, Fragment } from 'react'
+import React from 'react'
 import ReactDOMServer from 'react-dom/server'
 
 import { CloseButton } from 'dnb-ui-lib/src/components/modal'
@@ -52,7 +52,7 @@ const tabsWrapperStyle = css`
   }
 `
 
-class ItemWrapper extends PureComponent {
+class ItemWrapper extends React.PureComponent {
   static propTypes = {
     ExampleCode: PropTypes.string,
     Description: PropTypes.func.isRequired,
@@ -112,6 +112,9 @@ class ItemWrapper extends PureComponent {
         wasFullscreen: /fullscreen/.test(location.search)
       })
   }
+  // componentWillUnmount() {
+  //   Heading.resetLevels(1)
+  // }
   openFullscreen = () => {
     const location = getLocation()
     if (location)
@@ -159,7 +162,7 @@ class ItemWrapper extends PureComponent {
         <Tabs.ContentWrapper key="demo" selected_key="demo" id={this._id}>
           {!hideTabs && <Description />}
           <DemoWrapper>
-            <h2 className="dnb-h2">Demos</h2>
+            <h2 className="dnb-h--large">Demos</h2>
             <DemoComponent />
           </DemoWrapper>
           {Additional && Additional.demo && (
@@ -187,10 +190,10 @@ class ItemWrapper extends PureComponent {
               <Additional.info CodeRenderer={CodeRenderer} />
             )}
             {ExampleCode && (
-              <Fragment>
+              <React.Fragment>
                 <h3>JSX Example</h3>
                 <CodeRenderer language="jsx">{ExampleCode}</CodeRenderer>
-              </Fragment>
+              </React.Fragment>
             )}
           </Tabs.ContentWrapper>
         )
@@ -218,13 +221,15 @@ class ItemWrapper extends PureComponent {
     return (
       <div className="wrapped-item">
         {!hideTabs ? (
-          <h1 className="dnb-h1">{title}</h1>
+          <Heading level={1} skip_correction>
+            {title}
+          </Heading>
         ) : (
-          <h4 className="dnb-h4">
+          <Heading size="basis">
             <Link to={`/uilib/components/${id}`} className="dnb-anchor">
               {title}
             </Link>
-          </h4>
+          </Heading>
         )}
         {!hideTabs && (
           <Tabs
@@ -233,6 +238,7 @@ class ItemWrapper extends PureComponent {
             data={tabsUsed}
             on_change={this.openTab}
             render={({ Wrapper, TabsList, Content, Tabs }) => {
+              Heading.resetLevels(2)
               return (
                 <Wrapper css={tabsWrapperStyle}>
                   <TabsList>

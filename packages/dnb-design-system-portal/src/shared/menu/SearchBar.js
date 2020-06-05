@@ -4,116 +4,253 @@
  */
 
 import React from 'react'
+// import ReactDOMServer from 'react-dom/server'
 import styled from '@emotion/styled'
-import { Input } from 'dnb-ui-lib/src'
-import isCI from 'is-ci'
-
-import {
-  InstantSearch,
-  Index,
-  Hits,
-  connectSearchBox,
-  connectStateResults
-} from 'react-instantsearch-dom'
+import { ClassNames } from '@emotion/core'
 import algoliasearch from 'algoliasearch/lite'
-
-const HitsWrapper = styled.span`
-  position: absolute;
-  z-index: 10;
-  top: 4rem;
-  left: 0;
-  bottom: 0;
-  height: 100%;
-  width: 30rem;
-  background: hotpink;
-`
-const SearchWrapper = styled.span`
-  @media (max-width: 50em) {
-    input {
-      max-width: 60vw;
-    }
-  }
-`
-
-// const Summary = ({ children, ...rest }) => {
-//   return children
-// }
-
-const Stats = connectStateResults(
-  ({ searchResults: res }) =>
-    res &&
-    res.nbHits > 0 &&
-    `${res.nbHits} result${res.nbHits > 1 ? `s` : ``}`
-)
+import { Autocomplete } from 'dnb-ui-lib/src/components'
+import { Anchor } from 'dnb-ui-lib/src/elements'
+import { navigate } from 'gatsby'
 
 const indexName =
   process.env.NODE_ENV === 'production'
-    ? 'prod_eufemia_docs'
+    ? typeof window !== 'undefined' && /-beta/.test(window.location.href)
+      ? 'beta_eufemia_docs'
+      : 'prod_eufemia_docs'
     : 'dev_eufemia_docs'
-const searchClient = algoliasearch(
-  'SLD6KEYMQ9',
-  '6cf238b7456ffd9f7a400d8de37318a3'
-)
 
-export const SearchBarProvider = props => {
+const algoliaApplicationID = 'SLD6KEYMQ9'
+const algoliaAPIKey = '6cf238b7456ffd9f7a400d8de37318a3'
+
+export const SearchBarInput = () => {
+  const searchIndex = React.useRef(null)
+  const [status, setStatus] = React.useState(null)
+
+  const onTypeHandler = ({
+    value,
+    showIndicator,
+    hideIndicator,
+    updateData,
+    debounce
+  }) => {
+    debounce(
+      ({ value }) => {
+        searchIndex.current
+          .search(value)
+          .then(({ hits }) => {
+            updateData(makeHitsHumanFriendly(hits))
+            hideIndicator()
+
+            /* NB: Other option to add the logo */
+            // showLogo()
+          })
+          .catch((err) => {
+            setStatus(err.message || err)
+            hideIndicator()
+          })
+      },
+      { value }
+    )
+    showIndicator()
+  }
+
+  const onChangeHandler = ({ data }) => {
+    try {
+      navigate(data.hit.slug)
+    } catch (e) {
+      setStatus(e.message)
+    }
+  }
+
+  const onFocusHandler = () => {
+    const searchClient = algoliasearch(algoliaApplicationID, algoliaAPIKey)
+    searchIndex.current = searchClient.initIndex(indexName)
+  }
+
   return (
-    <InstantSearch
-      searchClient={searchClient}
-      indexName={indexName}
-      // onSearchStateChange={({ query }) => (searchQuery = query)}
-      // root={{ Root, props: { ref } }}
-      {...props}
-    />
+    <ClassNames>
+      {({ css }) => (
+        <StyledAutocomplete
+          right
+          mode="async"
+          no_scroll_animation
+          prevent_selection
+          disable_filter
+          fixed_position
+          size="medium"
+          align_autocomplete="right"
+          // triangle_position="left"
+          placeholder="Search ..."
+          status={status}
+          drawer_class={css`
+            .dnb-drawer-list__option__inner {
+              .dnb-drawer-list__option__item {
+                white-space: normal;
+                font-size: var(--font-size-small);
+
+                padding-bottom: 0.5rem;
+
+                .dnb-anchor {
+                  display: inline-block;
+                  margin-right: 0.5rem;
+                  word-break: break-word;
+                  white-space: nowrap;
+
+                  font-size: inherit;
+                }
+              }
+
+              .dnb-drawer-list__option__item:first-of-type {
+                color: var(--color-sea-green);
+                font-weight: var(--font-weight-default);
+                font-size: var(--font-size-medium);
+                padding-bottom: 0.5rem;
+              }
+            }
+
+            .dnb-drawer-list__list {
+              @media screen and (max-width: 40em) {
+                left: 10vw;
+              }
+              @media screen and (max-width: 30em) {
+                left: 15vw;
+              }
+            }
+
+            .dnb-drawer-list__triangle {
+              left: 10vw;
+              transform: translateX(0.25rem);
+              @media screen and (max-width: 60em) {
+                left: 30vw;
+              }
+              @media screen and (max-width: 40em) {
+                left: 20vw;
+              }
+            }
+
+            .search-logo {
+              min-width: 4rem;
+              height: 1rem;
+              margin: 1rem;
+
+              filter: grayscale(1);
+            }
+          `}
+          on_type={onTypeHandler}
+          on_change={onChangeHandler}
+          on_focus={onFocusHandler}
+          className="portal-search"
+          page_offset={0} // drawer-list property
+          options_render={({ Items, data }) => (
+            <>
+              <Items />
+              {data.length > 1 && (
+                <li align="right">
+                  <SearchLogo />
+                </li>
+              )}
+            </>
+          )}
+        />
+      )}
+    </ClassNames>
   )
 }
 
-export const SearchBarInput = connectSearchBox(({ refine }) => {
-  if (isCI) {
-    return <></>
+const StyledAutocomplete = styled(Autocomplete)`
+  .dnb-autocomplete__shell {
+    &,
+    input {
+      width: 40vw;
+      @media screen and (max-width: 40em) {
+        width: 60vw;
+      }
+    }
   }
-  return (
-    <Input
-      right
-      type="search"
-      placeholder="Search ..."
-      id="portal-search"
-      on_change={({ value }) => {
-        console.log('on_change', value)
-        refine(value)
-      }}
+
+  .dnb-drawer-list__root {
+    width: 50vw;
+    @media screen and (max-width: 60em) {
+      width: 70vw;
+    }
+    @media screen and (max-width: 40em) {
+      width: 90vw;
+    }
+  }
+`
+
+/* NB: Other option to add the logo */
+// const showLogo = () => {
+//   try {
+//     const elem = document.querySelector('.portal-search')
+//     const listElem = elem.querySelector('.dnb-drawer-list__options')
+//     const logoAsString = ReactDOMServer.renderToString(<SearchLogo />)
+//     const base64 = window.btoa(logoAsString)
+//     listElem.setAttribute(
+//       'style',
+//       `--search-logo: url(data:image/svg+xml;base64,${base64})`
+//     )
+//   } catch (e) {
+//     console.warn(e)
+//   }
+// }
+
+const SearchLogo = (props) => (
+  <svg
+    width="40"
+    height="10"
+    viewBox="0 0 40 10"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    className="search-logo"
+    {...props}
+  >
+    <title>The search index is powered by Algolia</title>
+    <path
+      d="M1.4 0h7.3c.7 0 1.3.5 1.3 1.2v7.4c0 .7-.6 1.3-1.3 1.3H1.4C.7 10 0 9.3 0 8.6V1.2C0 .5.7 0 1.4 0"
+      fill="#5468FF"
     />
-  )
-})
+    <path
+      d="M6 2.1v-.3-.3l-.4-.1h-1l-.3.1-.1.3v.4a3.1 3.1 0 011.8 0zm-2.7.5l-.2-.2a.4.4 0 00-.4 0h-.2l-.2.2a.4.4 0 000 .6l.2.2a3.3 3.3 0 01.8-.7v-.1zm1.8 1v1.6h.1l1.3-.7c-.2-.5-.7-.8-1.3-.9zm0 3.7c-1 0-2-1-2-2 0-1.1 1-2 2-2 1.1 0 2 .9 2 2a2 2 0 01-2 2zm0-4.9a2.8 2.8 0 00-2.8 2.9C2.3 6.8 3.6 8 5.1 8a2.8 2.8 0 000-5.7"
+      fill="#fff"
+    />
+    <path
+      d="M19.8 7.8c-2 0-2-1.5-2-1.8V.1l1.3-.2v5.9c0 .1 0 1 .7 1v1zm-4.8-1h.9V5.6a2.4 2.4 0 00-.7 0h-.8l-.2.3-.1.3c0 .3 0 .4.2.5l.7.2zm0-4.2l1 .1.6.4.3.7v3.8a14 14 0 01-2 .3l-.8-.1-.6-.3L13 7a2 2 0 01-.1-.8c0-.3 0-.5.2-.7 0-.2.2-.3.4-.5l.7-.2a3.8 3.8 0 011.7 0v-.2-.4l-.3-.3c0-.1-.1-.2-.3-.2l-.5-.1a4.2 4.2 0 00-1.3.2l-.1-1 .6-.1 1-.1zm23.2 4.2h.8V5.6a2.4 2.4 0 00-.7-.1h-.4l-.4.1-.2.2-.1.3c0 .3 0 .5.3.6l.7.1zM38 2.5c.3 0 .7 0 1 .2.2 0 .4.2.6.4l.3.7.1.8v3a14.3 14.3 0 01-2 .2h-.9l-.6-.3-.4-.5a2 2 0 01-.2-.8c0-.3 0-.5.2-.7 0-.2.2-.4.4-.5l.7-.3a3.8 3.8 0 011.7 0v-.1-.4l-.2-.3-.4-.3H38a4.3 4.3 0 00-1.3.2l-.1-1a4.6 4.6 0 011.6-.3zM34.5 2a.7.7 0 000-1.5c-.4 0-.7.4-.7.8s.3.7.7.7zm.6 5.8H34v-5l1.2-.3v5.3zm-2 0c-2 0-2-1.5-2-1.8V.1l1.2-.2v5.9c0 .1 0 1 .8 1v1zm-3.9-2.6c0-.5 0-1-.3-1.2a1 1 0 00-.9-.5 1 1 0 00-1 .5l-.2 1.2c0 .5 0 .9.3 1.2.2.3.5.4.9.4a1 1 0 001-.4l.2-1.2zm1.2 0a2.9 2.9 0 01-.6 2l-.8.4c-.3.2-.8.2-1 .2a3 3 0 01-1-.2 2.2 2.2 0 01-1.3-1.3l-.1-1 .1-1.2.5-.8a2.3 2.3 0 011.8-.8l1 .2.7.6c.3.2.4.5.5.8.2.3.2.7.2 1.1zm-8.8 0c0 .5 0 1 .3 1.3.2.2.5.4.8.4a1.8 1.8 0 001-.3v-3h-.8c-.4 0-.7.1-1 .4-.2.3-.3.8-.3 1.2zm3.3 2.4c0 .8-.3 1.4-.7 1.7-.4.4-1 .6-1.9.6-.3 0-.9 0-1.4-.2l.2-1c.4.2 1 .2 1.3.2.4 0 .8 0 1-.3.2-.2.3-.5.3-.8v-.2l-.5.1-.6.1-1-.1-.6-.5a2 2 0 01-.5-.7 4.4 4.4 0 010-2.4 2.2 2.2 0 011.3-1.3c.3-.2.7-.2 1.1-.2h1l1 .3v4.7z"
+      fill="#5468FF"
+    />
+  </svg>
+)
 
-export const SearchBarResults = connectStateResults(
-  ({ searchResults: result }) => {
-    // console.log('state', state)
-    // const result = response.results[0]
-    // console.log('results', result)
+const makeHitsHumanFriendly = (hits) => {
+  const data = []
 
-    if (!result) {
-      return <></>
+  hits.forEach((hit) => {
+    const { slug, title, description, search } = hit
+
+    const content = [title, description, search].filter(Boolean)
+
+    const notes = hit.headings
+      ?.map(({ value, slug: hash /* depth, slug */ }, i) => {
+        if (value === title) {
+          return null
+        }
+        return (
+          <Anchor key={slug + hash + i} href={`/${slug}#${hash}`}>
+            {value}
+          </Anchor>
+        )
+      })
+      .filter(Boolean)
+
+    if (notes?.length > 0) {
+      content.push(notes)
     }
 
-    return (
-      <SearchWrapper>
-        <HitsWrapper
-          hidden={!(result.query.length > 0 && result.nbHits > 0)}
-        >
-          <Index key={indexName} indexName={indexName}>
-            <Stats />
-            <Hits
-            // hitComponent={Summary()}
-            />
-          </Index>
-          {/* <PoweredBy /> */}
-        </HitsWrapper>
-      </SearchWrapper>
-    )
-  }
-)
+    data.push({
+      hit,
+      content
+    })
+  })
 
-const response = JSON.parse(
-  '{"results":[{"hits":[{"slug":"uilib/components/input","title":"Input","description":"The input component is an umbrella component for all inputs which share the same style as the classic text input field.","search":null,"headings":[],"category":{"slug":"uilib","tag":"category","title":"UI Library"},"objectID":"49e612d9-c2de-5a2e-a834-9f3790c9fd50","_highlightResult":{"title":{"value":"<ais-highlight-0000000000>Input</ais-highlight-0000000000>","matchLevel":"full","fullyHighlighted":true,"matchedWords":["input"]},"description":{"value":"The <ais-highlight-0000000000>input</ais-highlight-0000000000> component is an umbrella component for all inputs which share the same style as the classic text <ais-highlight-0000000000>input</ais-highlight-0000000000> field.","matchLevel":"full","fullyHighlighted":false,"matchedWords":["input"]},"category":{"title":{"value":"UI Library","matchLevel":"none","matchedWords":[]}}}},{"slug":"uilib/components/input-masked","title":"InputMasked","description":"The InputMasked component uses the basic input component, but with some additional masking functionality.","search":null,"headings":[],"category":{"slug":"uilib","tag":"category","title":"UI Library"},"objectID":"a5ac4c37-b89e-5dc3-b251-c68a50612d23","_highlightResult":{"title":{"value":"<ais-highlight-0000000000>Input</ais-highlight-0000000000>Masked","matchLevel":"full","fullyHighlighted":false,"matchedWords":["input"]},"description":{"value":"The <ais-highlight-0000000000>Input</ais-highlight-0000000000>Masked component uses the basic <ais-highlight-0000000000>input</ais-highlight-0000000000> component, but with some additional masking functionality.","matchLevel":"full","fullyHighlighted":false,"matchedWords":["input"]},"category":{"title":{"value":"UI Library","matchLevel":"none","matchedWords":[]}}}},{"slug":"uilib","title":"UI Library","description":"Buttons, dropdowns, input fields, components etc.","search":null,"headings":[{"value":"UI Library","depth":1,"slug":"ui-library"}],"category":{"slug":"uilib","tag":"category","title":"UI Library"},"objectID":"a196deef-568d-5650-8bff-6dd33f542447","_highlightResult":{"title":{"value":"UI Library","matchLevel":"none","matchedWords":[]},"description":{"value":"Buttons, dropdowns, <ais-highlight-0000000000>input</ais-highlight-0000000000> fields, components etc.","matchLevel":"full","fullyHighlighted":false,"matchedWords":["input"]},"headings":[{"value":{"value":"UI Library","matchLevel":"none","matchedWords":[]}}],"category":{"title":{"value":"UI Library","matchLevel":"none","matchedWords":[]}}}},{"slug":"uilib/components/textarea","title":"Textarea","description":"The Textarea component has to be used as a multi-line text input control with an unlimited number of characters possible.","search":null,"headings":[],"category":{"slug":"uilib","tag":"category","title":"UI Library"},"objectID":"24c3a74d-5bbf-572b-8c4c-f45aef7fd6b4","_highlightResult":{"title":{"value":"Textarea","matchLevel":"none","matchedWords":[]},"description":{"value":"The Textarea component has to be used as a multi-line text <ais-highlight-0000000000>input</ais-highlight-0000000000> control with an unlimited number of characters possible.","matchLevel":"full","fullyHighlighted":false,"matchedWords":["input"]},"category":{"title":{"value":"UI Library","matchLevel":"none","matchedWords":[]}}}},{"slug":"uilib/usage/first-steps/web-components","title":"Web Components","description":null,"search":null,"headings":[{"value":"Web Components","depth":1,"slug":"web-components"},{"value":"Example usage","depth":2,"slug":"example-usage"},{"value":"Button","depth":3,"slug":"button"},{"value":"Input","depth":3,"slug":"input"},{"value":"Events","depth":2,"slug":"events"},{"value":"Example","depth":2,"slug":"example"}],"category":{"slug":"uilib","tag":"category","title":"UI Library"},"objectID":"0e3180af-5173-5f83-afea-7ab0a6d1a86d","_highlightResult":{"title":{"value":"Web Components","matchLevel":"none","matchedWords":[]},"headings":[{"value":{"value":"Web Components","matchLevel":"none","matchedWords":[]}},{"value":{"value":"Example usage","matchLevel":"none","matchedWords":[]}},{"value":{"value":"Button","matchLevel":"none","matchedWords":[]}},{"value":{"value":"<ais-highlight-0000000000>Input</ais-highlight-0000000000>","matchLevel":"full","fullyHighlighted":true,"matchedWords":["input"]}},{"value":{"value":"Events","matchLevel":"none","matchedWords":[]}},{"value":{"value":"Example","matchLevel":"none","matchedWords":[]}}],"category":{"title":{"value":"UI Library","matchLevel":"none","matchedWords":[]}}}},{"slug":"uilib/components","title":"Components","description":null,"search":null,"headings":[{"value":"Components","depth":1,"slug":"components"},{"value":"Button","depth":2,"slug":"button"},{"value":"Checkbox","depth":2,"slug":"checkbox"},{"value":"DatePicker","depth":2,"slug":"datepicker"},{"value":"Dropdown","depth":2,"slug":"dropdown"},{"value":"FormLabel","depth":2,"slug":"formlabel"},{"value":"FormRow","depth":2,"slug":"formrow"},{"value":"FormSet","depth":2,"slug":"formset"},{"value":"FormStatus","depth":2,"slug":"formstatus"},{"value":"GlobalError","depth":2,"slug":"globalerror"},{"value":"GlobalStatus","depth":2,"slug":"globalstatus"},{"value":"Icon","depth":2,"slug":"icon"},{"value":"IconPrimary","depth":2,"slug":"iconprimary"},{"value":"Input","depth":2,"slug":"input"},{"value":"InputMasked","depth":2,"slug":"inputmasked"},{"value":"Logo","depth":2,"slug":"logo"},{"value":"Modal","depth":2,"slug":"modal"},{"value":"Number","depth":2,"slug":"number"},{"value":"ProgressIndicator","depth":2,"slug":"progressindicator"},{"value":"StepIndicator","depth":2,"slug":"stepindicator"},{"value":"Notification","depth":2,"slug":"notification"},{"value":"Radio","depth":2,"slug":"radio"},{"value":"Slider","depth":2,"slug":"slider"},{"value":"Space","depth":2,"slug":"space"},{"value":"Switch","depth":2,"slug":"switch"},{"value":"Tabs","depth":2,"slug":"tabs"},{"value":"Textarea","depth":2,"slug":"textarea"},{"value":"ToggleButton","depth":2,"slug":"togglebutton"}],"category":{"slug":"uilib","tag":"category","title":"UI Library"},"objectID":"727c2c11-557a-581a-870a-5f6d38d54c87","_highlightResult":{"title":{"value":"Components","matchLevel":"none","matchedWords":[]},"headings":[{"value":{"value":"Components","matchLevel":"none","matchedWords":[]}},{"value":{"value":"Button","matchLevel":"none","matchedWords":[]}},{"value":{"value":"Checkbox","matchLevel":"none","matchedWords":[]}},{"value":{"value":"DatePicker","matchLevel":"none","matchedWords":[]}},{"value":{"value":"Dropdown","matchLevel":"none","matchedWords":[]}},{"value":{"value":"FormLabel","matchLevel":"none","matchedWords":[]}},{"value":{"value":"FormRow","matchLevel":"none","matchedWords":[]}},{"value":{"value":"FormSet","matchLevel":"none","matchedWords":[]}},{"value":{"value":"FormStatus","matchLevel":"none","matchedWords":[]}},{"value":{"value":"GlobalError","matchLevel":"none","matchedWords":[]}},{"value":{"value":"GlobalStatus","matchLevel":"none","matchedWords":[]}},{"value":{"value":"Icon","matchLevel":"none","matchedWords":[]}},{"value":{"value":"IconPrimary","matchLevel":"none","matchedWords":[]}},{"value":{"value":"<ais-highlight-0000000000>Input</ais-highlight-0000000000>","matchLevel":"full","fullyHighlighted":true,"matchedWords":["input"]}},{"value":{"value":"InputMasked","matchLevel":"none","matchedWords":[]}},{"value":{"value":"Logo","matchLevel":"none","matchedWords":[]}},{"value":{"value":"Modal","matchLevel":"none","matchedWords":[]}},{"value":{"value":"Number","matchLevel":"none","matchedWords":[]}},{"value":{"value":"ProgressIndicator","matchLevel":"none","matchedWords":[]}},{"value":{"value":"StepIndicator","matchLevel":"none","matchedWords":[]}},{"value":{"value":"Notification","matchLevel":"none","matchedWords":[]}},{"value":{"value":"Radio","matchLevel":"none","matchedWords":[]}},{"value":{"value":"Slider","matchLevel":"none","matchedWords":[]}},{"value":{"value":"Space","matchLevel":"none","matchedWords":[]}},{"value":{"value":"Switch","matchLevel":"none","matchedWords":[]}},{"value":{"value":"Tabs","matchLevel":"none","matchedWords":[]}},{"value":{"value":"Textarea","matchLevel":"none","matchedWords":[]}},{"value":{"value":"ToggleButton","matchLevel":"none","matchedWords":[]}}],"category":{"title":{"value":"UI Library","matchLevel":"none","matchedWords":[]}}}}],"nbHits":6,"page":0,"nbPages":1,"hitsPerPage":20,"exhaustiveNbHits":true,"query":"input","params":"highlightPreTag=%3Cais-highlight-0000000000%3E&highlightPostTag=%3C%2Fais-highlight-0000000000%3E&query=input&facets=%5B%5D&tagFilters=","index":"dev_eufemia_docs","processingTimeMS":1}]}'
-)
-console.log('response', response)
+  return data
+}

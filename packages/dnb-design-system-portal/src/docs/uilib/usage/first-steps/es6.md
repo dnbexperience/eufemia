@@ -1,10 +1,10 @@
 ---
-title: 'SSR / ES6'
+title: 'ES6 and SSR'
 description: 'Eufemia uses ESM as their default module format. More info on this topic below.'
-order: 9
+order: 8
 ---
 
-# SSR and ES6
+# ES6 and SSR
 
 To support every modern front end environment, the `dnb-ui-lib` supports different module formats:
 
@@ -63,7 +63,15 @@ You can easily use [ESM](https://nodejs.org/api/esm.html) in Node.js environment
 "start": "NODE_OPTIONS='-r esm' next start ./src"
 ```
 
-## ES6
+#### Jest and ESM (Node testing environments)
+
+Older Jest versions uses still CommonJS as the default module format. If you use the default `dnb-ui-lib` imports, then you get a missmatch between ES module and CommonJS formats. To ensure that Jest transforms your code in to CSJ, you can use the following Jest configuration `--transformIgnorePatterns`
+
+```bash
+jest --transformIgnorePatterns \"node_modules/(?!(dnb-ui-lib))/\"
+```
+
+## Pure ES6
 
 In some cases you may want to import an ES6 version.
 

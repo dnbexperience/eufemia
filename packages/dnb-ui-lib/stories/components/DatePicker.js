@@ -68,19 +68,19 @@ export default [
             // sync={false}
             opened={true}
             show_input={true}
-            on_show={props => {
+            on_show={(props) => {
               console.log('on_show', props)
             }}
-            on_hide={props => {
+            on_hide={(props) => {
               console.log('on_hide', props)
             }}
-            on_change={props => {
+            on_change={(props) => {
               console.log('on_change', props)
             }}
-            on_submit={props => {
+            on_submit={(props) => {
               console.log('on_submit', props)
             }}
-            on_cancel={props => {
+            on_cancel={(props) => {
               console.log('on_cancel', props)
             }}
             status="Please select a valid date"
@@ -162,21 +162,21 @@ export default [
             return_format="dd/MM/yyyy"
             date="1981-01-15"
             data-foo="bar"
-            on_show={props => {
+            on_show={(props) => {
               console.log(
                 'on_show',
                 // props,
                 props.event
               )
             }}
-            on_hide={props => {
+            on_hide={(props) => {
               console.log(
                 'on_hide',
                 // props,
                 props.event
               )
             }}
-            on_change={props => {
+            on_change={(props) => {
               console.log(
                 'on_change',
                 // props,
@@ -240,13 +240,13 @@ export default [
           range={true}
           opened={false}
           show_input={true}
-          on_change={props => {
+          on_change={(props) => {
             console.log('on_change', props)
           }}
-          on_submit={props => {
+          on_submit={(props) => {
             console.log('on_submit', props)
           }}
-          on_cancel={props => {
+          on_cancel={(props) => {
             console.log('on_cancel', props)
           }}
         />
@@ -258,7 +258,7 @@ export default [
           show_input={true}
           // show_submit_button={true}
           show_cancel_button={true}
-          on_change={props => {
+          on_change={(props) => {
             console.log('on_change', props)
           }}
         />

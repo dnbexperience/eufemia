@@ -3,21 +3,21 @@
  *
  */
 
-import React, { PureComponent, Fragment } from 'react'
+import React from 'react'
 import ComponentBox from 'Src/shared/tags/ComponentBox'
 import styled from '@emotion/styled'
 import addDays from 'date-fns/addDays'
 import startOfMonth from 'date-fns/startOfMonth'
 import lastDayOfMonth from 'date-fns/lastDayOfMonth'
 
-class Example extends PureComponent {
+class Example extends React.PureComponent {
   render() {
     const IS_TEST = typeof window !== 'undefined' && window.IS_TEST
     if (IS_TEST) {
       return <ScreenshotTests />
     }
     return (
-      <Fragment>
+      <React.Fragment>
         <ComponentBox scope={{ addDays, startOfMonth, lastDayOfMonth }}>
           {/* @jsx */ `
 <DatePicker
@@ -146,7 +146,7 @@ class Example extends PureComponent {
         </ComponentBox>
 
         <ScreenshotTests />
-      </Fragment>
+      </React.Fragment>
     )
   }
 }

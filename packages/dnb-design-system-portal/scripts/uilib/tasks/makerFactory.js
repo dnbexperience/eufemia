@@ -20,7 +20,7 @@ export default async function runFactory({
   templateNameToRename,
   tempalteFilePath = null,
   processDestFilePath,
-  processDestFileFilter = v => v,
+  processDestFileFilter = (v) => v,
   preprocessContent = null,
   processDestFileExt = '.js',
   processDestFileContent = null,
@@ -50,13 +50,13 @@ export default async function runFactory({
     const __orig__processToNamesList = processToNamesList
     processToNamesList = await fs.readdir(processToNamesList)
     processToNamesList = processToNamesList
-      .filter(file => {
+      .filter((file) => {
         if (/not_in_use|__tests__/g.test(file)) {
           return false
         }
         return !processToNamesIgnoreList.includes(file)
       })
-      .map(file => ({
+      .map((file) => ({
         source: joinPath(__orig__processToNamesList, file),
         file
       }))
@@ -70,7 +70,7 @@ export default async function runFactory({
       )
     }
   } else if (Array.isArray(processToNamesList)) {
-    processToNamesList = processToNamesList.map(file => ({
+    processToNamesList = processToNamesList.map((file) => ({
       source: joinPath(
         processDestFilePath,
         `${file}${processDestFileExt}`
@@ -95,7 +95,7 @@ export default async function runFactory({
       const descriptionString = fs.readFileSync(descriptionPath, 'utf-8')
       const descFrontMatters = fm(descriptionString)
 
-      Object.keys(templateFrontMatters.attributes).forEach(key => {
+      Object.keys(templateFrontMatters.attributes).forEach((key) => {
         if (descFrontMatters.attributes[key]) {
           const exp = `(${key}:)\\s{0,}(.*)`
           individualTemplate = individualTemplate.replace(

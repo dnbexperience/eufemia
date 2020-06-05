@@ -4,7 +4,7 @@
  */
 
 import React from 'react'
-import { render, unmountComponentAtNode } from 'react-dom'
+import ReactDOM from 'react-dom'
 import { ErrorHandler } from './error-helper'
 
 // import "custom-element-polyfill" - insted of import 'document-register-element' // https://github.com/WebReflection/document-register-element
@@ -66,7 +66,7 @@ export const registerElement = (
     }
     // adoptedCallback: Invoked when the custom element is moved to a new document.
     detachedCallback() {
-      unmountComponentAtNode(this)
+      ReactDOM.unmountComponentAtNode(this)
       if (this._children) delete this._children
       if (this._isConnected) delete this._isConnected
       if (this._elementRef) delete this._elementRef
@@ -108,7 +108,7 @@ export const registerElement = (
       }
 
       if (events.length > 0) {
-        events.forEach(eventDef => {
+        events.forEach((eventDef) => {
           // extract the prop name and callback function
           let [type, func] = eventDef.split('=')
           type = EVENT_TRANSLATIONS[type] || type
@@ -122,10 +122,10 @@ export const registerElement = (
                 if (Array.isArray(args[0])) {
                   const elems = []
                   // we have to overwrite the first arg like this - and cant use map/reduce here
-                  args[0].forEach(elem => {
+                  args[0].forEach((elem) => {
                     if (React.isValidElement(elem)) {
                       const rootEl = document.createElement('div') // createDocumentFragment
-                      render(elem, rootEl)
+                      ReactDOM.render(elem, rootEl)
                       elems.push(rootEl)
                     }
                   })
@@ -179,7 +179,7 @@ export const registerElement = (
       return props
     }
     addEvent(eventName, eventCallback) {
-      const eventWrapper = event => eventCallback.apply(this, [event])
+      const eventWrapper = (event) => eventCallback.apply(this, [event])
       this._customEvents.push({ eventName, eventCallback, eventWrapper })
       return eventWrapper
     }
@@ -244,18 +244,18 @@ export const registerElement = (
         }
       }
 
-      render(<ReactComponent {...props} />, this)
+      ReactDOM.render(<ReactComponent {...props} />, this)
     }
   }
 
   return window.customElements.define(tagName, HtmlClass)
 }
 
-// remove react props witch has uppercase chars
-const filterProps = key =>
+// remove react props which has uppercase chars
+const filterProps = (key) =>
   key && !/[A-Z]/.test(key) && !/children/.test(key)
 
-export const prepareDefaultProps = defaultProps =>
+export const prepareDefaultProps = (defaultProps) =>
   Array.isArray(defaultProps)
     ? defaultProps.filter(filterProps)
     : Object.entries(defaultProps || {})

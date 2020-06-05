@@ -3,7 +3,7 @@
  *
  */
 
-import React, { PureComponent } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import Context from '../../shared/Context'
@@ -51,7 +51,7 @@ const defaultProps = {
   ...renderProps
 }
 
-export default class Section extends PureComponent {
+export default class Section extends React.PureComponent {
   static tagName = 'dnb-section'
   static propTypes = propTypes
   static defaultProps = defaultProps

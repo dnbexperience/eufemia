@@ -3,7 +3,7 @@
  *
  */
 
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { Wrapper, Box } from '../helpers'
 import styled from '@emotion/styled'
@@ -36,7 +36,7 @@ export default [
       <Box>
         <Provider
           space={{
-            collapse: false
+            no_collapse: true
           }}
         >
           <Collapsing bottom="small">
@@ -48,7 +48,7 @@ export default [
         </Provider>
       </Box>
       <Box>
-        <Collapsing bottom="small" collapse={false}>
+        <Collapsing bottom="small" no_collapse={true}>
           <div>
             I have <code className="dnb-code">bottom="small"</code>
           </div>
@@ -210,11 +210,11 @@ const Label = styled.label`
 const MagicBox = ({ label, ...rest }) => {
   const ref = React.createRef()
 
-  const [spaceInRem, setLabel] = useState(label)
-  const [title, setTitle] = useState(null)
+  const [spaceInRem, setLabel] = React.useState(label)
+  const [title, setTitle] = React.useState(null)
 
   if (!label) {
-    useEffect(() => {
+    React.useEffect(() => {
       const spaceInPixels = window
         .getComputedStyle(ref.current.parentElement)
         .getPropertyValue('margin-top')
@@ -247,11 +247,11 @@ MagicBox.defaultProps = {
 const VisualSpace = ({ label, children, ...rest }) => {
   const ref = React.createRef()
 
-  const [spaceInRem, setLabel] = useState(label)
-  const [title, setTitle] = useState(null)
+  const [spaceInRem, setLabel] = React.useState(label)
+  const [title, setTitle] = React.useState(null)
 
   if (!label) {
-    useEffect(() => {
+    React.useEffect(() => {
       const spaceInPixels = window
         .getComputedStyle(ref.current.children[0])
         .getPropertyValue('margin-top')

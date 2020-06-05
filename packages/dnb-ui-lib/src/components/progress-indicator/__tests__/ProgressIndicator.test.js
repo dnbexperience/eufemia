@@ -36,9 +36,7 @@ describe('Circular ProgressIndicator component', () => {
 
   it('has to have a stroke-dashoffset of 44 on 50%', () => {
     expect(
-      Comp.find(mainLineSelector)
-        .instance()
-        .getAttribute('style')
+      Comp.find(mainLineSelector).instance().getAttribute('style')
     ).toBe('stroke-dashoffset: 44;')
   })
 
@@ -60,9 +58,7 @@ describe('Circular ProgressIndicator component', () => {
         .getAttribute('aria-label')
     ).toBe('80%')
     expect(
-      Comp.find(mainLineSelector)
-        .instance()
-        .getAttribute('style')
+      Comp.find(mainLineSelector).instance().getAttribute('style')
     ).toBe('stroke-dashoffset: 17.599999999999994;')
     Comp.setProps({
       progress: 50

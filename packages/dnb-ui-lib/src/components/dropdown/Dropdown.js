@@ -3,11 +3,12 @@
  *
  */
 
-import React, { PureComponent } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import keycode from 'keycode'
 import {
+  warn,
   isTrue,
   makeUniqueId,
   extendPropsWithContext,
@@ -18,15 +19,18 @@ import {
 import AlignmentHelper from '../../shared/AlignmentHelper'
 import { createSpacingClasses } from '../space/SpacingHelper'
 
-import Context from '../../shared/Context'
 import Suffix from '../../shared/helpers/Suffix'
 import Icon from '../icon-primary/IconPrimary'
 import FormLabel from '../form-label/FormLabel'
 import FormStatus from '../form-status/FormStatus'
 import Button from '../button/Button'
-import DrawerList, {
-  propTypes as DrawerPropTypes
-} from '../../fragments/drawer-list/DrawerList'
+import DrawerList from '../../fragments/drawer-list/DrawerList'
+import DrawerListContext from '../../fragments/drawer-list/DrawerListContext'
+import DrawerListProvider from '../../fragments/drawer-list/DrawerListProvider'
+import {
+  parseContentTitle,
+  getCurrentData
+} from '../../fragments/drawer-list/DrawerListHelpers'
 
 const renderProps = {
   on_show: null,
@@ -46,7 +50,8 @@ const propTypes = {
     PropTypes.func
   ]),
   icon_size: PropTypes.string,
-  icon_position: PropTypes.string,
+  icon_position: PropTypes.oneOf(['left', 'right']),
+  triangle_position: PropTypes.oneOf(['left', 'right']),
   label: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.func,
@@ -71,6 +76,7 @@ const propTypes = {
   focusable: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   direction: PropTypes.oneOf(['auto', 'top', 'bottom']),
   max_height: PropTypes.number,
+  skip_portal: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   no_animation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   no_scroll_animation: PropTypes.oneOfType([
     PropTypes.string,
@@ -84,7 +90,30 @@ const propTypes = {
   size: PropTypes.oneOf(['default', 'small', 'medium', 'large']),
   align_dropdown: PropTypes.oneOf(['left', 'right']),
   trigger_component: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
-  data: DrawerPropTypes.data,
+  data: PropTypes.oneOfType([
+    PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.func,
+      PropTypes.node,
+      PropTypes.object
+    ]),
+    PropTypes.arrayOf(
+      PropTypes.oneOfType([
+        PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
+        PropTypes.shape({
+          selected_value: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.node
+          ]),
+          content: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.node,
+            PropTypes.arrayOf(PropTypes.string)
+          ])
+        })
+      ])
+    )
+  ]),
   default_value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   open_on_focus: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -96,7 +125,13 @@ const propTypes = {
 
   // React
   className: PropTypes.string,
-  children: DrawerPropTypes.data,
+  children: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.func,
+    PropTypes.node,
+    PropTypes.object,
+    PropTypes.array
+  ]),
 
   // Web Component props
   custom_element: PropTypes.object,
@@ -114,7 +149,8 @@ const defaultProps = {
   title: 'Option Menu',
   icon: null,
   icon_size: null,
-  icon_position: 'right',
+  icon_position: null,
+  triangle_position: null,
   label: null,
   label_direction: null,
   label_sr_only: null,
@@ -127,12 +163,13 @@ const defaultProps = {
   focusable: false,
   max_height: null,
   direction: 'auto',
+  skip_portal: null,
   no_animation: false,
   no_scroll_animation: false,
   prevent_selection: false,
   more_menu: false,
-  size: null,
-  align_dropdown: null,
+  size: 'default',
+  align_dropdown: 'left',
   trigger_component: null,
   data: null,
   default_value: null,
@@ -154,72 +191,46 @@ const defaultProps = {
   ...renderProps
 }
 
-export default class Dropdown extends PureComponent {
+export default class Dropdown extends React.PureComponent {
   static tagName = 'dnb-dropdown'
   static propTypes = propTypes
   static defaultProps = defaultProps
   static renderProps = renderProps
-  static contextType = Context
-
-  static blurDelay = 201 // some ms more than "dropdownSlideDown 200ms"
 
   static enableWebComponent() {
     registerElement(Dropdown.tagName, Dropdown, defaultProps)
   }
 
-  static parseContentTitle = (
-    dataItem,
-    { separator = '\n', removeNumericOnlyValues = false } = {}
-  ) => {
-    let ret = ''
-    const onlyNumericRegex = /[0-9.,-\s]+/
-    if (Array.isArray(dataItem) && dataItem.length > 0) {
-      dataItem = { content: dataItem }
-    }
-    if (dataItem && Array.isArray(dataItem.content)) {
-      ret = dataItem.content
-        .reduce((acc, cur) => {
-          // check if we have React inside, with strings we can use
-          cur = grabStringFromReact(cur)
-          if (cur === false) {
-            return acc
-          }
-          // remove only numbers
-          const found =
-            removeNumericOnlyValues && cur && cur.match(onlyNumericRegex)
-          if (!(found && found[0].length === cur.length)) {
-            acc.push(cur)
-          }
-          return acc
-        }, [])
-        .join(separator)
-    } else {
-      ret = grabStringFromReact((dataItem && dataItem.content) || dataItem)
-    }
-    if (
-      dataItem &&
-      dataItem.selected_value &&
-      !onlyNumericRegex.test(dataItem.selected_value)
-    ) {
-      ret = dataItem.selected_value + separator + ret
-    }
-    // make sure we don't return empty strings
-    if (Array.isArray(dataItem) && dataItem.length === 0) {
-      ret = null
-    }
-    return ret
+  render() {
+    return (
+      <DrawerListProvider
+        {...this.props}
+        data={this.props.data || this.props.children}
+        opened={null}
+        tagName="dnb-dropdown"
+        ignore_events={false}
+        prevent_selection={
+          this.props.more_menu || this.props.prevent_selection
+        }
+      >
+        <DropdownInstance {...this.props} />
+      </DrawerListProvider>
+    )
   }
+}
 
-  static getDerivedStateFromProps(props, state) {
-    return DrawerList.prepareDerivedState(props, state)
-  }
+class DropdownInstance extends React.PureComponent {
+  static propTypes = propTypes
+  static defaultProps = defaultProps
+  static contextType = DrawerListContext
 
   constructor(props) {
     super(props)
 
     this._id = props.id || makeUniqueId()
 
-    this.state = DrawerList.prepareStartupState(props)
+    this.attributes = {}
+    this.state = this.state || {}
 
     this._ref = React.createRef()
     this._refShell = React.createRef()
@@ -228,12 +239,12 @@ export default class Dropdown extends PureComponent {
     // deprecated, use value instad
     const dep = 'selected_item'
     if (typeof props[dep] !== 'undefined') {
-      console.warn(`Dropdown: Please use "value" instead of "${dep}".`)
+      warn(`Dropdown: Please use "value" instead of "${dep}".`)
     }
   }
 
   componentDidMount() {
-    if (this.state.opened) {
+    if (isTrue(this.props.opened)) {
       this.setVisible()
     }
   }
@@ -241,80 +252,17 @@ export default class Dropdown extends PureComponent {
   componentWillUnmount() {
     this.setHidden()
     clearTimeout(this._hideTimeout)
-    clearTimeout(this._selectTimeout)
+    clearTimeout(this._focusTimeout)
   }
 
   setVisible = () => {
-    if (this.state.opened && this.state.hidden === false) {
-      return
-    }
-
-    clearTimeout(this._hideTimeout)
-    const { selected_item } = this.state
-
-    this.setState({
-      hidden: false,
-      opened: true,
-      _listenForPropChanges: false
-    })
-
-    dispatchCustomElementEvent(this, 'on_show', {
-      data: DrawerList.getCurrentData(selected_item, this.state.data),
-      attributes: this.attributes || {}
-    })
+    this.context.drawerList
+      .setWrapperElement(this._refShell.current)
+      .setVisible()
   }
 
-  setHidden = ({ setFocus = false } = {}) => {
-    if (!this.state.opened) {
-      return
-    }
-
-    this.setState(
-      {
-        opened: false,
-        _listenForPropChanges: false
-      },
-      () => {
-        const execState = () =>
-          this.setState(
-            {
-              hidden: true,
-              _listenForPropChanges: false
-            },
-            () => {
-              if (setFocus) {
-                setTimeout(() => {
-                  try {
-                    const elem = this._refButton.current._ref.current
-                    if (elem && elem.focus) {
-                      elem.focus()
-                    }
-                  } catch (e) {
-                    // do noting
-                  }
-                }, 1) // NVDA / Firefox needs a dealy to set this focus
-              }
-            }
-          )
-        clearTimeout(this._hideTimeout)
-        if (isTrue(this.props.no_animation)) {
-          execState()
-        } else {
-          this._hideTimeout = setTimeout(execState, Dropdown.blurDelay) // wait until animation is over
-        }
-      }
-    )
-    if (typeof this.modalScrollLock === 'function') {
-      this.modalScrollLock()
-    }
-
-    dispatchCustomElementEvent(this, 'on_hide', {
-      data: DrawerList.getCurrentData(
-        this.state.selected_item,
-        this.state.data
-      ),
-      attributes: this.attributes || {}
-    })
+  setHidden = (...args) => {
+    this.context.drawerList.setHidden(...args)
   }
 
   onFocusHandler = () => {
@@ -328,7 +276,10 @@ export default class Dropdown extends PureComponent {
     }
   }
   toggleVisible = () => {
-    if (!this.state.hidden && this.state.opened) {
+    if (
+      !this.context.drawerList.hidden &&
+      this.context.drawerList.opened
+    ) {
       this.setHidden()
     } else {
       this.setVisible()
@@ -336,17 +287,15 @@ export default class Dropdown extends PureComponent {
   }
   onMouseDownHandler = () => {
     if (
-      !this.state.hidden &&
-      this.state.opened
-      // &&  !this.state.blockDoubleClick
+      !this.context.drawerList.hidden &&
+      this.context.drawerList.opened
     ) {
       this.setHidden()
     } else {
       this.setVisible()
     }
   }
-
-  onTriggerKeyDownHandler = e => {
+  onTriggerKeyDownHandler = (e) => {
     switch (keycode(e)) {
       case 'enter':
       case 'space':
@@ -355,57 +304,75 @@ export default class Dropdown extends PureComponent {
         e.preventDefault()
         this.setVisible()
         break
+
       case 'esc':
         this.setHidden()
+        break
+
+      case 'home':
+      case 'end':
+      case 'page down':
+      case 'page up':
+        e.preventDefault()
         break
     }
   }
 
-  onSetDirectionHandler = props => {
-    this.setState({
-      // set the state like:
-      // direction:
-      ...props,
-      _listenForPropChanges: false
-    })
+  onHideHandler = ({ setFocus, ...args } = {}) => {
+    if (setFocus) {
+      const attributes = this.attributes || {}
+      dispatchCustomElementEvent(this, 'on_hide', {
+        ...args,
+        attributes
+      })
+
+      clearTimeout(this._focusTimeout)
+      this._focusTimeout = setTimeout(() => {
+        try {
+          const elem = this._refButton.current._ref.current
+          if (elem && typeof elem.focus === 'function') {
+            elem.focus()
+          }
+        } catch (e) {
+          // do noting
+        }
+      }, 1) // NVDA / Firefox needs a dealy to set this focus
+    }
   }
 
-  onSelectHandler = args => {
-    this.setState({
-      active_item: args.value,
-      _listenForPropChanges: false
-    })
-    const attributes = this.attributes || {}
-    dispatchCustomElementEvent(this, 'on_select', {
-      ...args,
-      selected_item: args.value, // deprecated
-      attributes
-    })
+  onSelectHandler = (args) => {
+    if (parseFloat(args.active_item) > -1) {
+      const attributes = this.attributes || {}
+      dispatchCustomElementEvent(this, 'on_select', {
+        ...args,
+        // selected_item: args.value, // deprecated
+        attributes
+      })
+    }
   }
 
-  onChangeHandler = args => {
-    const selected_item = DrawerList.getCurrentIndex(
-      args.value,
-      this.state.data
-    )
-    this.setState({
-      selected_item,
-      _listenForPropChanges: false
-    })
+  onChangeHandler = (args) => {
     const attributes = this.attributes || {}
     dispatchCustomElementEvent(this, 'on_change', {
       ...args,
-      selected_item, // deprecated
       attributes
     })
-    if (this._selectTimeout) {
-      clearTimeout(this._selectTimeout)
-    }
-    this._selectTimeout = setTimeout(() => {
-      if (!isTrue(this.props.keep_open)) {
-        this.setHidden({ setFocus: true })
+  }
+
+  getTitle(title = null) {
+    const { data } = this.context.drawerList
+    if (data?.length > 0) {
+      const currentOptionData = getCurrentData(
+        this.context.drawerList.selected_item,
+        data
+      )
+      if (currentOptionData) {
+        title =
+          currentOptionData.selected_value ||
+          parseContentTitle(currentOptionData)
       }
-    }, 1) // because of state updates we need 1 tick delay here
+    }
+    return title
   }
 
   render() {
@@ -417,16 +384,15 @@ export default class Dropdown extends PureComponent {
       this.context.translation.Dropdown
     )
 
-    let { icon, icon_position } = props
-
     const {
-      title: titleProp,
       label,
       label_direction,
       label_sr_only,
       icon_size,
       size,
       align_dropdown,
+      fixed_position,
+      use_mobile_view,
       status,
       status_state,
       status_animation,
@@ -434,8 +400,12 @@ export default class Dropdown extends PureComponent {
       suffix,
       scrollable,
       focusable,
+      keep_open,
+      prevent_close,
       no_animation,
       no_scroll_animation,
+      triangle_position,
+      skip_portal,
       trigger_component: CustomTrigger,
       more_menu,
       prevent_selection,
@@ -445,6 +415,7 @@ export default class Dropdown extends PureComponent {
       class: _className,
       disabled,
 
+      title: titleProp,
       icon: _icon, // eslint-disable-line
       icon_position: _icon_position, // eslint-disable-line
       data: _data, // eslint-disable-line
@@ -457,45 +428,41 @@ export default class Dropdown extends PureComponent {
       ...attributes
     } = props
 
+    let { icon, icon_position } = props
     const id = this._id
 
     const isPopupMenu = isTrue(more_menu) || isTrue(prevent_selection)
     if (isPopupMenu) {
-      if (icon === null && isTrue(more_menu)) {
-        icon = 'more'
-      }
-      if (icon_position === 'right' && align_dropdown !== 'right') {
+      icon = icon || (isTrue(more_menu) ? 'more' : 'chevron_down')
+      if (icon_position !== 'right' && align_dropdown !== 'right') {
         icon_position = 'left'
       }
     }
 
-    const { data, direction, opened, selected_item, use_key } = this.state
+    const { selected_item, direction, opened } = this.context.drawerList
     const showStatus = status && status !== 'error'
+    const title = this.getTitle(titleProp)
 
-    const currentOptionData = DrawerList.getCurrentData(
-      selected_item,
-      data
+    // make it pissible to grab the rest attributes and return it with all events
+    Object.assign(
+      this.context.drawerList.attributes,
+      validateDOMAttributes(null, attributes)
     )
-    const title =
-      data && data.length > 0
-        ? currentOptionData.selected_value ||
-          Dropdown.parseContentTitle(currentOptionData) ||
-          titleProp
-        : titleProp
 
     const mainParams = {
       className: classnames(
         'dnb-dropdown',
-        `dnb-dropdown--direction-${direction}`,
+        `dnb-dropdown--${direction}`,
         opened && 'dnb-dropdown--opened',
         label_direction && `dnb-dropdown--${label_direction}`,
-        icon_position && `dnb-dropdown--icon-position-${icon_position}`,
+        icon_position &&
+          `dnb-dropdown--icon-position-${icon_position || 'right'}`,
         isPopupMenu && 'dnb-dropdown--is-popup',
         isPopupMenu &&
           typeof more_menu === 'string' &&
-          `dnb-dropdown__more_menu`,
-        size && `dnb-dropdown__size--${size}`,
-        align_dropdown && `dnb-dropdown__align--${align_dropdown}`,
+          `dnb-dropdown--more_menu`,
+        size && `dnb-dropdown--${size}`,
+        align_dropdown && `dnb-drawer-list--${align_dropdown}`,
         status && `dnb-dropdown__status--${status_state}`,
         showStatus && 'dnb-dropdown__form-status',
         'dnb-form-component',
@@ -512,8 +479,9 @@ export default class Dropdown extends PureComponent {
       ),
       id,
       disabled,
-      ['aria-haspopup']: true, //listbox
+      ['aria-haspopup']: 'listbox',
       ['aria-expanded']: opened,
+      ['aria-controls']: `${id}-drawer-list`,
       ...attributes,
       onFocus: this.onFocusHandler,
       onBlur: this.onBlurHandler,
@@ -573,7 +541,8 @@ export default class Dropdown extends PureComponent {
               ) : (
                 <Button
                   variant="secondary"
-                  size="medium"
+                  // size="medium"
+                  size={size === 'default' ? 'medium' : size}
                   ref={this._refButton}
                   {...triggerParams}
                 >
@@ -595,7 +564,7 @@ export default class Dropdown extends PureComponent {
                     {icon !== false && (
                       <Icon
                         aria-hidden
-                        icon={icon || 'chevron-down'}
+                        icon={icon || 'chevron_down'}
                         size={
                           icon_size ||
                           (size === 'large' ? 'medium' : 'default')
@@ -609,27 +578,30 @@ export default class Dropdown extends PureComponent {
               <DrawerList
                 id={id}
                 inner_class="dnb-dropdown__list"
-                preparedData={data}
-                use_key={use_key}
                 value={selected_item}
                 default_value={default_value}
                 scrollable={scrollable}
                 focusable={focusable}
                 no_animation={no_animation}
                 no_scroll_animation={no_scroll_animation}
-                prevent_selection={prevent_selection}
-                icon_position={icon_position}
+                skip_portal={skip_portal}
+                prevent_selection={more_menu || prevent_selection}
+                triangle_position={
+                  triangle_position || icon_position || 'right'
+                }
+                keep_open={keep_open}
+                prevent_close={prevent_close}
+                independent_width={isPopupMenu}
                 align_drawer={align_dropdown}
+                fixed_position={fixed_position}
+                use_mobile_view={use_mobile_view}
                 disabled={disabled}
                 max_height={max_height}
-                direction={_direction}
-                opened={opened}
+                direction={direction}
+                size={size}
                 on_change={this.onChangeHandler}
                 on_select={this.onSelectHandler}
-                on_resize={this.onSetDirectionHandler}
-                on_show={this.setVisible}
-                on_hide={this.setHidden}
-                wrapper_element={this._refShell.current}
+                on_hide={this.onHideHandler}
               />
             </span>
 
@@ -646,27 +618,4 @@ export default class Dropdown extends PureComponent {
       </span>
     )
   }
-}
-
-// Dropdown.Drawer = DrawerList
-// Dropdown.List = DrawerList.List
-// Dropdown.Item = DrawerList.Item
-
-function grabStringFromReact(cur) {
-  if (React.isValidElement(cur)) {
-    if (typeof cur.props.children === 'string') {
-      cur = cur.props.children
-    } else if (Array.isArray(cur.props.children)) {
-      cur = cur.props.children.reduce((acc, cur) => {
-        if (typeof cur === 'string') {
-          acc = acc + cur
-        }
-        return acc
-      }, '')
-    } else {
-      return false
-    }
-  }
-
-  return cur
 }

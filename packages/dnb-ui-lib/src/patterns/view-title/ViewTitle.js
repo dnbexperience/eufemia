@@ -3,7 +3,7 @@
  *
  */
 
-import React, { PureComponent } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import {
@@ -43,7 +43,7 @@ const defaultProps = {
   ...renderProps
 }
 
-export default class ViewTitle extends PureComponent {
+export default class ViewTitle extends React.PureComponent {
   static tagName = 'dnb-view-title'
   static propTypes = propTypes
   static defaultProps = defaultProps

@@ -38,7 +38,7 @@ const plugins = [
   },
   'gatsby-plugin-meta-redirect',
   'gatsby-plugin-catch-links',
-  'gatsby-plugin-react-helmet-async',
+  'gatsby-plugin-react-helmet',
   'gatsby-plugin-sharp', // is used by gatsby-remark-images
   {
     resolve: 'gatsby-plugin-page-creator',

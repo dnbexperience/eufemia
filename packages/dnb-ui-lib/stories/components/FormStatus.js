@@ -64,7 +64,7 @@ export default [
         <FormSet
           label_direction="vertical"
           prevent_submit
-          on_submit={event => {
+          on_submit={(event) => {
             console.log('onSubmit', event)
           }}
         >

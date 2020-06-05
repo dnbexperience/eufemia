@@ -15,7 +15,7 @@ import { log } from '../../lib'
 // import the post css config
 import postcssConfig from '../config/postcssConfig'
 
-export default async () => {
+export default async function makeLibStyles() {
   log.info('> PrePublish: converting sass to css')
 
   try {
@@ -97,7 +97,7 @@ export const runFactory = (src, { returnResult = false } = {}) =>
         )
         .pipe(
           returnResult
-            ? transform('utf8', result => resolve(result))
+            ? transform('utf8', (result) => resolve(result))
             : gulp.dest(`./build/${dest}/`, {
                 cwd: process.env.ROOT_DIR
               })

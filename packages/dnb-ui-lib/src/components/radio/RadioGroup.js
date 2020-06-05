@@ -3,7 +3,7 @@
  *
  */
 
-import React, { PureComponent } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import {
@@ -89,7 +89,7 @@ const defaultProps = {
   suffix: null,
   vertical: null,
   layout_direction: 'row',
-  value: null,
+  value: undefined,
   attributes: null,
   class: null,
 
@@ -106,7 +106,7 @@ const defaultProps = {
 /**
  * The radio component is our enhancement of the classic radio button. It acts like a radio. Example: On/off, yes/no.
  */
-export default class RadioGroup extends PureComponent {
+export default class RadioGroup extends React.PureComponent {
   static tagName = 'dnb-radio-group'
   static propTypes = propTypes
   static defaultProps = defaultProps
@@ -117,12 +117,15 @@ export default class RadioGroup extends PureComponent {
     registerElement(RadioGroup.tagName, RadioGroup, defaultProps)
   }
 
-  static parseChecked = state => /true|on/.test(String(state))
+  static parseChecked = (state) => /true|on/.test(String(state))
 
   static getDerivedStateFromProps(props, state) {
     if (state._listenForPropChanges) {
-      if (typeof props.value !== 'undefined') {
+      if (props.value !== state._value) {
         state.value = props.value
+      }
+      if (typeof props.value !== 'undefined') {
+        state._value = props.value
       }
     }
     state._listenForPropChanges = true

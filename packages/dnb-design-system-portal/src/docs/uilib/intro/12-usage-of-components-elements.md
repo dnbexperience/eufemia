@@ -1,6 +1,6 @@
 ---
 fullscreen: true
-
+search: 'Intro'
 ---
 
 <Intro>
@@ -36,7 +36,7 @@ import MyButton from 'dnb-ui-lib/components/Button'
 
 ```html
 <!-- Classic HTML syntax with CSS class definition -->
-<h1 class="dnb-h1">Title</h1>
+<h4 class="dnb-h--xx-large">Title</h4>
 ```
 
 ```js

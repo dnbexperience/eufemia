@@ -3,20 +3,20 @@
  *
  */
 
-import React, { Component, Fragment } from 'react'
+import React from 'react'
 import ReactTestUtils from 'react-dom/test-utils' // ES6
 import PropTypes from 'prop-types'
 import styled from '@emotion/styled'
 
 // UI Components
-import dnb from 'dnb-ui-lib/src/components/lib'
 import {
+  enableWebComponents,
   Button,
   Input,
   IconPrimary as Icon,
   Switch,
   FormLabel
-} from 'dnb-ui-lib/src/components'
+} from 'dnb-ui-lib/src/components/lib'
 import { H2, P, Hr } from 'dnb-ui-lib/src/elements'
 
 // Content
@@ -26,7 +26,7 @@ const FormRow = styled.div`
   margin-bottom: 1.5rem;
 `
 
-export default class PerformanceTest extends Component {
+export default class PerformanceTest extends React.Component {
   state = {
     isActive: false,
     countToRender: 20,
@@ -35,13 +35,13 @@ export default class PerformanceTest extends Component {
   }
   componentDidMount() {
     if (this.state.webComponentsEnabled) {
-      dnb.enableWebComponents()
+      enableWebComponents()
     }
   }
   toggleActiveState = () => {
     const isActive = !this.state.isActive
     if (isActive && this.state.webComponentsEnabled) {
-      dnb.enableWebComponents()
+      enableWebComponents()
     }
     this.setState({
       isActive
@@ -50,7 +50,7 @@ export default class PerformanceTest extends Component {
   switchMode = () => {
     const webComponentsEnabled = !this.state.webComponentsEnabled
     if (webComponentsEnabled) {
-      dnb.enableWebComponents()
+      enableWebComponents()
     }
     this.setState({
       webComponentsEnabled
@@ -140,14 +140,22 @@ export default class PerformanceTest extends Component {
 // all the components we use are below
 
 const ButtonWrap = React.forwardRef(
-  ({ webComponentsEnabled, ...props }, ref) =>
+  (
+    {
+      webComponentsEnabled,
+      isActive /* eslint-disable-line */,
+      testSpeed /* eslint-disable-line */,
+      ...props
+    },
+    ref
+  ) =>
     webComponentsEnabled ? (
       <dnb-button title="Title" {...props} ref={ref} />
     ) : (
       <Button title="Title" {...props} ref={ref} />
     )
 )
-class ButtonTest extends Component {
+class ButtonTest extends React.Component {
   state = {
     icon: 'question',
     text: 'Custom Element with icon',
@@ -222,7 +230,7 @@ class ButtonTest extends Component {
   }
   render() {
     return (
-      <Fragment>
+      <React.Fragment>
         <ButtonWrap
           ref={this._ref}
           text={this.state.text}
@@ -231,20 +239,28 @@ class ButtonTest extends Component {
           on_click={this.onClick}
           {...this.props}
         />
-      </Fragment>
+      </React.Fragment>
     )
   }
 }
 
 const InputWrap = React.forwardRef(
-  ({ webComponentsEnabled, ...props }, ref) =>
+  (
+    {
+      webComponentsEnabled,
+      isActive /* eslint-disable-line */,
+      testSpeed /* eslint-disable-line */,
+      ...props
+    },
+    ref
+  ) =>
     webComponentsEnabled ? (
       <dnb-input {...props} ref={ref} />
     ) : (
       <Input {...props} ref={ref} />
     )
 )
-class InputTest extends Component {
+class InputTest extends React.Component {
   state = {
     value: '0',
     placeholder: 'Write someting',
@@ -326,7 +342,7 @@ class InputTest extends Component {
   }
   render() {
     return (
-      <Fragment>
+      <React.Fragment>
         <InputWrap
           ref={this._ref}
           value={this.state.value}
@@ -337,12 +353,17 @@ class InputTest extends Component {
           onBlur={this.onBlur}
           {...this.props}
         />
-      </Fragment>
+      </React.Fragment>
     )
   }
 }
 
-const IconWrap = ({ webComponentsEnabled, ...props }) =>
+const IconWrap = ({
+  webComponentsEnabled,
+  isActive /* eslint-disable-line */,
+  testSpeed /* eslint-disable-line */,
+  ...props
+}) =>
   webComponentsEnabled ? (
     <dnb-icon-primary {...props} />
   ) : (
@@ -352,7 +373,7 @@ const listOfIcons = ['chevron-right', 'question', 'chevron-left']
 IconWrap.propTypes = {
   webComponentsEnabled: PropTypes.bool.isRequired
 }
-class IconTest extends Component {
+class IconTest extends React.Component {
   state = {
     icon: 'chevron-right',
     size: 200
@@ -391,13 +412,13 @@ class IconTest extends Component {
   }
   render() {
     return (
-      <Fragment>
+      <React.Fragment>
         <IconWrap
           icon={this.state.icon}
           size={this.state.size}
           {...this.props}
         />
-      </Fragment>
+      </React.Fragment>
     )
   }
 }

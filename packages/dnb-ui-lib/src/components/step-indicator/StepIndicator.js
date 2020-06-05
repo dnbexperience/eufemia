@@ -3,12 +3,13 @@
  *
  */
 
-import React, { PureComponent } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import Context from '../../shared/Context'
 import {
-  // isTrue,
+  warn,
+  isTrue,
   registerElement,
   validateDOMAttributes,
   processChildren,
@@ -42,6 +43,7 @@ const propTypes = {
       })
     )
   ]).isRequired,
+  step_title: PropTypes.string,
   active_item: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   active_url: PropTypes.string,
   hide_numbers: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -63,6 +65,7 @@ const propTypes = {
 
 const defaultProps = {
   data: [],
+  step_title: '%step',
   active_item: null,
   active_url: null,
   hide_numbers: false,
@@ -78,7 +81,7 @@ const defaultProps = {
   ...renderProps
 }
 
-export default class StepIndicator extends PureComponent {
+export default class StepIndicator extends React.PureComponent {
   static tagName = 'dnb-step-indicator'
   static propTypes = propTypes
   static defaultProps = defaultProps
@@ -144,13 +147,13 @@ export default class StepIndicator extends PureComponent {
 
     const sn = 'show_numbers'
     if (typeof props[sn] !== 'undefined') {
-      console.warn(
+      warn(
         'StepIndicator: "show_numbers" is deprecated. Use "hide_numbers" instead.'
       )
     }
   }
 
-  setActimeItem = activeItem => {
+  setActimeItem = (activeItem) => {
     this.setState({
       activeItem,
       _listenForPropChanges: false
@@ -172,6 +175,7 @@ export default class StepIndicator extends PureComponent {
       hide_numbers,
       use_navigation,
       on_item_render,
+      step_title,
       on_change,
       className,
       class: _className,
@@ -184,6 +188,7 @@ export default class StepIndicator extends PureComponent {
     const { activeItem } = this.state
 
     const params = {
+      'aria-label': 'progress',
       className: classnames(
         'dnb-step-indicator',
         createSpacingClasses(props),
@@ -193,6 +198,13 @@ export default class StepIndicator extends PureComponent {
       ...attributes
     }
 
+    let Element = 'div'
+    if (isTrue(use_navigation)) {
+      Element = 'nav'
+    } else {
+      params.role = 'group'
+    }
+
     // also used for code markup simulation
     validateDOMAttributes(this.props, params)
 
@@ -200,20 +212,23 @@ export default class StepIndicator extends PureComponent {
       this.state.hasReached.push(activeItem)
     }
 
+    const countSteps = data.length
     return (
-      <div {...params}>
-        {data.length > 0 && (
-          <ul className="dnb-step-indicator__list">
+      <Element {...params}>
+        {countSteps > 0 && (
+          <ol className="dnb-step-indicator__list">
             {data.map((props, i) => {
               if (typeof props === 'string') {
                 props = { title: props }
               }
               const params = {
+                countSteps,
                 currentItem: i,
                 activeItem,
                 hide_numbers,
                 use_navigation,
                 on_item_render,
+                step_title,
                 on_change,
                 ...props
               }
@@ -226,9 +241,9 @@ export default class StepIndicator extends PureComponent {
                 />
               )
             })}
-          </ul>
+          </ol>
         )}
-      </div>
+      </Element>
     )
   }
 }

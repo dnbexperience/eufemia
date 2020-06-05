@@ -62,10 +62,7 @@ describe('DatePicker component', () => {
       disabled: true
     })
     expect(
-      Comp.find('input')
-        .first()
-        .instance()
-        .hasAttribute('disabled')
+      Comp.find('input').first().instance().hasAttribute('disabled')
     ).toBe(true)
   })
 
@@ -81,9 +78,7 @@ describe('DatePicker component', () => {
     ).toBe('true')
 
     expect(
-      Comp.find('.dnb-date-picker')
-        .instance()
-        .getAttribute('class')
+      Comp.find('.dnb-date-picker').instance().getAttribute('class')
     ).toContain('dnb-date-picker--opened')
 
     expect(
@@ -100,9 +95,8 @@ describe('DatePicker component', () => {
       .simulate('click')
 
     expect(
-      Comp.find('input.dnb-date-picker__input--year')
-        .at(1)
-        .instance().value
+      Comp.find('input.dnb-date-picker__input--year').at(1).instance()
+        .value
     ).toBe('åååå')
   })
 
@@ -227,22 +221,14 @@ describe('DatePicker component', () => {
     Comp.setProps({
       start_date: null
     })
-    expect(
-      Comp.find('input')
-        .first()
-        .instance().value
-    ).toBe('dd')
+    expect(Comp.find('input').first().instance().value).toBe('dd')
     expect(Comp.state().startDate).toBe(undefined)
     expect(Comp.state().endDate).not.toBe(undefined) // dirty check
 
     Comp.setProps({
       end_date: null
     })
-    expect(
-      Comp.find('input')
-        .last()
-        .instance().value
-    ).toBe('åååå')
+    expect(Comp.find('input').last().instance().value).toBe('åååå')
 
     expect(Comp.state().endDate).toBe(undefined)
   })
@@ -273,11 +259,7 @@ describe('DatePicker component', () => {
     Comp.setProps({
       start_date: null
     })
-    expect(
-      Comp.find('input')
-        .first()
-        .instance().value
-    ).toBe('dd')
+    expect(Comp.find('input').first().instance().value).toBe('dd')
 
     // change the date
     const value = '16'
@@ -317,9 +299,7 @@ describe('DatePicker component', () => {
 
   it('is displaying correct month', () => {
     expect(
-      Comp.find('.dnb-date-picker__header__title')
-        .first()
-        .text()
+      Comp.find('.dnb-date-picker__header__title').first().text()
     ).toBe('januar 2019')
 
     expect(
@@ -341,11 +321,9 @@ describe('DatePicker component', () => {
       .find('.dnb-date-picker__next button')
       .simulate('click')
 
-    expect(
-      Comp.find('.dnb-date-picker__header__title')
-        .at(1)
-        .text()
-    ).toBe('mars 2019')
+    expect(Comp.find('.dnb-date-picker__header__title').at(1).text()).toBe(
+      'mars 2019'
+    )
   })
 
   it('has to react on keydown events', async () => {
@@ -522,4 +500,4 @@ describe('DatePicker scss', () => {
   })
 })
 
-const wait = t => new Promise(r => setTimeout(r, t))
+const wait = (t) => new Promise((r) => setTimeout(r, t))

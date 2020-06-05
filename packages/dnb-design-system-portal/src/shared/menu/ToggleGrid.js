@@ -3,7 +3,7 @@
  *
  */
 
-import React, { PureComponent } from 'react'
+import React from 'react'
 import { css, Global } from '@emotion/core'
 import styled from '@emotion/styled'
 import { Switch } from 'dnb-ui-lib/src'
@@ -34,12 +34,12 @@ const globalStyle = css`
 `
 
 const ToggleWrapper = styled.span`
-  @media (max-width: 50em) {
+  @media screen and (max-width: 50em) {
     display: none;
   }
 `
 
-export default class ToggleGrid extends PureComponent {
+export default class ToggleGrid extends React.PureComponent {
   state = {
     showGrid: null
   }
@@ -58,7 +58,7 @@ export default class ToggleGrid extends PureComponent {
     this.showGrid(!this.state.showGrid)
     this.setState({ showGrid: !this.state.showGrid })
   }
-  showGrid = showGrid => {
+  showGrid = (showGrid) => {
     if (typeof document !== 'undefined') {
       if (showGrid) {
         document.documentElement.setAttribute('dev-grid', true)

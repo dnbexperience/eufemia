@@ -3,11 +3,11 @@
  *
  */
 
-import React, { PureComponent } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import { validateDOMAttributes } from '../../shared/component-helper'
-import { isIE11, isEdge } from '../../shared/helpers'
+import { IS_IE11, IS_EDGE } from '../../shared/helpers'
 
 const propTypes = {
   size: PropTypes.string,
@@ -28,7 +28,7 @@ const defaultProps = {
   callOnCompleteHandler: null
 }
 
-export default class ProgressIndicatorCircular extends PureComponent {
+export default class ProgressIndicatorCircular extends React.PureComponent {
   static propTypes = propTypes
   static defaultProps = defaultProps
   static getDerivedStateFromProps(props, state) {
@@ -40,7 +40,7 @@ export default class ProgressIndicatorCircular extends PureComponent {
   constructor(props) {
     super(props)
     this.useAnimationFrame =
-      typeof props.onComplete === 'function' || isIE11 || isEdge
+      typeof props.onComplete === 'function' || IS_IE11 || IS_EDGE
     this._refDark = React.createRef()
     this._refLight = React.createRef()
     this.state = { animate: false }
@@ -88,7 +88,7 @@ export default class ProgressIndicatorCircular extends PureComponent {
       completeCalled = false,
       stopNextRound = false
 
-    const step = timestamp => {
+    const step = (timestamp) => {
       if (!start) {
         start = timestamp
       }

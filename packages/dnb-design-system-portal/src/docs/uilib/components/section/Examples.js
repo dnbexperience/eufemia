@@ -3,14 +3,14 @@
  *
  */
 
-import React, { PureComponent, Fragment } from 'react'
+import React from 'react'
 import ComponentBox from 'Src/shared/tags/ComponentBox'
 // import CodeBlock from 'Src/shared/tags/ComponentBox'
 
-class Example extends PureComponent {
+class Example extends React.PureComponent {
   render() {
     return (
-      <Fragment>
+      <React.Fragment>
         <ComponentBox
           hideCode
           title="Default Section"
@@ -117,7 +117,7 @@ class Example extends PureComponent {
 </Section>
         `}
         </ComponentBox>
-      </Fragment>
+      </React.Fragment>
     )
   }
 }

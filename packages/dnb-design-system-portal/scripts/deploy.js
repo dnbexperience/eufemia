@@ -19,9 +19,7 @@ const run = () => {
 
   const config = process.env.GH_NAME
     ? {
-        repo: `https://${
-          process.env.GH_TOKEN
-        }@github.com/dnbexperience/eufemia.git`,
+        repo: `https://${process.env.GH_TOKEN}@github.com/dnbexperience/eufemia.git`,
         user: {
           name: process.env.GH_NAME,
           email: process.env.GH_EMAIL
@@ -35,12 +33,13 @@ const run = () => {
   ghpages.publish(
     'public',
     {
-      message: `Auto-generated deploy commit by ${CIName ||
-        'localhost'} ${currentVersion} [CI SKIP]`,
+      message: `Auto-generated deploy commit by ${
+        CIName || 'localhost'
+      } ${currentVersion} [CI SKIP]`,
       branch: 'gh-pages',
       ...config
     },
-    error => {
+    (error) => {
       if (error) {
         return log.fail(`Failed to deploy! \n${error.message}`)
       }

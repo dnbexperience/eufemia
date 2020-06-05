@@ -10,7 +10,7 @@ import WelcomeAdvice from 'Pages/welcome-advice'
 
 ## The Goal
 
-Eufemia is DNB Design System witch consist of resources for designers and developers in order to maintain consistency and efficiency when building web applications.
+Eufemia is DNB Design System which consist of resources for designers and developers in order to maintain consistency and efficiency when building web applications.
 
 The goal is to have a single source of truth for design through color, typography and layout guidelines as well as fully coded components to use in applications.
 
@@ -29,9 +29,9 @@ The goal is to have a single source of truth for design through color, typograph
 Thank You for all who as contributed to build Eufemia. People who has contributed heavily to Eufemia are:
 
 - [Jens Thuland](https://dnb.enterprise.slack.com/user/@WE4QCR6PQ)
+- [Tobias Høegh](https://dnb.enterprise.slack.com/user/@WE2M4E65N)
 - [Sindre Marken](https://dnb.enterprise.slack.com/user/@WDUUEJNVC)
 - [Casper Brekke](https://dnb.enterprise.slack.com/user/@WDU4VCEP5)
-- [Tobias Høegh](https://dnb.enterprise.slack.com/user/@WE2M4E65N)
 - Kevin Murphy
 - Hans Kristian Smedsrød
 
@@ -40,3 +40,7 @@ The DNB ASA Design System (Eufemia) is build together with [EGGS Design](https:/
 ## More People to thank
 
 - [Nicolai Rygh](https://dnb.enterprise.slack.com/user/@WDY36GXKM)
+
+## Credits
+
+The Eufemia Portal includes [third party services](/design-system/credits).

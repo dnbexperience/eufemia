@@ -10,9 +10,9 @@
     content: '';
     position: absolute;
     top: -0.5rem;
+    bottom: -0.5rem;
     left: -1rem;
     right: 0.5rem;
-    height: 2.5rem;
   }
 }
 
@@ -28,6 +28,13 @@
   border-spacing: 0;
   border-collapse: collapse;
 
+  &__sticky-helper > td {
+    display: block;
+    overflow: hidden;
+    padding: 0 !important;
+    height: 0;
+  }
+
   & > tr > th,
   & > tr > td,
   & > thead > tr > th,
@@ -42,8 +49,8 @@
     border-spacing: 0;
 
     word-break: keep-all;
-    text-align: left;
   }
+
   /* stylelint-disable-next-line */
   & > tr > th,
   & > thead > tr > th,
@@ -76,9 +83,6 @@
     .dnb-anchor,
     .dnb-button {
       > .dnb-icon {
-        position: absolute;
-        right: 0.25rem;
-        left: auto;
         opacity: 0;
         transition: opacity 200ms ease-out, transform 500ms ease-out;
         [data-dnb-test-wrapper] & {
@@ -88,12 +92,11 @@
 
       position: relative;
       z-index: 1;
-      display: inline-block;
+      align-items: flex-end;
 
       // reset anchor
       box-shadow: none;
 
-      height: 1.5rem;
       line-height: var(--line-height-basis);
 
       margin: 0;
@@ -102,16 +105,22 @@
 
       color: inherit;
       font-weight: var(--font-weight-medium);
-      text-align: left;
-      // white-space: normal;// we don't support multiline buttons in table headers
+      text-align: inherit;
+      font-size: inherit;
 
       .dnb-button__text {
-        padding-right: 1rem;
+        margin: 0;
+        font-size: inherit;
 
         // underline
         &::after {
           right: 1rem;
         }
+      }
+
+      // because of the "align-items: flex-end;"
+      .dnb-button__icon {
+        margin-bottom: 0.25rem;
       }
 
       // underline
@@ -171,7 +180,6 @@
     .dnb-button {
       // hide underline
       &:not(:hover) .dnb-button__text::after {
-        right: 0;
         opacity: 0;
       }
       .dnb-icon {
@@ -181,15 +189,9 @@
       // and underline on hover
       @include hover() {
         .dnb-button__text::after {
-          right: 0;
-          color: var(--color-sea-green-alt);
+          color: var(--color-sea-green);
           opacity: 1;
         }
-      }
-
-      // focus ring
-      &:focus::before {
-        right: -0.5rem;
       }
 
       // webkit fix
@@ -229,19 +231,30 @@
     padding-top: 1.25rem;
     padding-bottom: 1.188rem; /* 19/16 */
   }
-  & > tbody > tr,
-  & &__tr,
-  & &--odd {
+  & > tbody > tr:not(#{&}--ignore),
+  & &__tr:not(#{&}--ignore),
+  & &--odd:not(#{&}--ignore) {
     background-color: var(--color-white);
   }
-  & > tbody > tr:not(#{&}--odd):nth-of-type(2n),
-  & &__tr:not(#{&}--odd):nth-of-type(2n),
-  & &--even {
+  & > tbody > tr:not(#{&}--odd):nth-of-type(2n):not(#{&}--ignore),
+  & &__tr:not(#{&}--odd):nth-of-type(2n):not(#{&}--ignore),
+  & &--even:not(#{&}--ignore) {
     background-color: var(--color-mint-green-12);
   }
   & > tbody > tr:last-of-type > td,
   & &__tr:last-of-type &__td {
     border-bottom: 1px solid var(--color-mint-green-50);
+  }
+
+  &,
+  &--left {
+    text-align: left;
+  }
+  &--right {
+    text-align: right;
+  }
+  &--center {
+    text-align: center;
   }
 
   & > caption {
@@ -250,6 +263,88 @@
     margin-top: 0.5rem;
     caption-side: bottom;
   }
+
+  tr.sticky {
+    top: 0;
+  }
+  tr.sticky th {
+    position: sticky;
+    top: inherit;
+    z-index: 2;
+
+    &::after {
+      content: '';
+      position: absolute;
+      opacity: 0;
+      left: -2px;
+      right: -2px;
+      bottom: 0;
+      height: 6px;
+      box-shadow: 0 3px 3px -2px rgba(0, 0, 0, 0.5);
+
+      // old shadow
+      // @mixin bottomDropShadow() {
+      //   box-shadow: 0 6px 6px -6px rgba(0, 0, 0, 0.16);
+      // }
+
+      transition: opacity 300ms ease-out;
+    }
+  }
+  tr.sticky.show-shadow th::after {
+    opacity: 1;
+  }
+
+  /* stylelint-disable */
+
+  &--small,
+  &--small > tr > th,
+  &--small > tr > td,
+  &--small > thead > tr > th,
+  &--small > tbody > tr > td {
+    font-size: var(--font-size-small);
+  }
+
+  & > tr#{&}--small > th,
+  & > tr#{&}--small > td,
+  & > thead > tr#{&}--small > th,
+  & > tbody > tr#{&}--small > td {
+    font-size: var(--font-size-small);
+  }
+
+  & > tr > th#{&}--small,
+  & > tr > td#{&}--small,
+  & > thead > tr > th#{&}--small,
+  & > tbody > tr > td#{&}--small,
+  &__th#{&}--small,
+  &__td#{&}--small {
+    font-size: var(--font-size-small);
+  }
+
+  &--x-small,
+  &--x-small > tr > th,
+  &--x-small > tr > td,
+  &--x-small > thead > tr > th,
+  &--x-small > tbody > tr > td {
+    font-size: var(--font-size-x-small);
+  }
+
+  & > tr#{&}--x-small > th,
+  & > tr#{&}--x-small > td,
+  & > thead > tr#{&}--x-small > th,
+  & > tbody > tr#{&}--x-small > td {
+    font-size: var(--font-size-x-small);
+  }
+
+  & > tr > th#{&}--x-small,
+  & > tr > td#{&}--x-small,
+  & > thead > tr > th#{&}--x-small,
+  & > tbody > tr > td#{&}--x-small,
+  &__th#{&}--x-small,
+  &__td#{&}--x-small {
+    font-size: var(--font-size-x-small);
+  }
+
+  /* stylelint-enable */
 }
 
 @mixin resetTableSpacing() {

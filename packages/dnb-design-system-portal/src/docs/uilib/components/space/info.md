@@ -48,3 +48,7 @@ Is `margin` not giving the expected spacing? That may be the reason due to **Mar
 - Parent and first or last child element
 
 The best solution is to only use once direction of margins e.g. `bottom`. Or You can set the [collapse property](/uilib/components/space/properties) to `false`.
+
+### Margin collapsing
+
+In order to help out to handle unwanted margin collapsing in typography elements, se [this example](/uilib/typography/heading#example-of-margin-collapsing)

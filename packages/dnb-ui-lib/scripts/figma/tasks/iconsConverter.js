@@ -56,7 +56,7 @@ export const IconsConverter = async ({
 
   const listOfProcessedIcons = await asyncForEach(
     framesInTheCanvas,
-    async frameDoc =>
+    async (frameDoc) =>
       await runFrameIconsFactory({
         frameDoc,
         figmaFile,
@@ -94,12 +94,8 @@ const runFrameIconsFactory = async ({
   const iconNameAdditions = String(originalFrameName)
     .split(sizeSeperator)
     .slice(1)
-    .map(n =>
-      String(n)
-        .trim()
-        .toLowerCase()
-    ) // remove space arround the names
-    .filter(n => n !== 'default') // we don't use default size once we save it to size
+    .map((n) => String(n).trim().toLowerCase()) // remove space arround the names
+    .filter((n) => n !== 'default') // we don't use default size once we save it to size
 
   // select all icons in the frame
   const frameDocChildren = iconSelector
@@ -147,7 +143,7 @@ const runFrameIconsFactory = async ({
 
   // remove the IDs if they are in the lock file so we dont need to refetch the urls
   const iconIdsToFetchFrom = iconIdsFromDoc.filter(
-    refId => !listOfIconUrls.some(([id]) => id === refId)
+    (refId) => !listOfIconUrls.some(([id]) => id === refId)
   )
 
   log.start(
@@ -203,8 +199,8 @@ const runFrameIconsFactory = async ({
           lockFileFrameContent &&
           lockFileFrameContent.id === id &&
           // and also compare for the frameId, as they may have been upadted
-          (lockFileFrameContent &&
-            lockFileFrameContent.slug === md5(figmaFile + frameId)) &&
+          lockFileFrameContent &&
+          lockFileFrameContent.slug === md5(figmaFile + frameId) &&
           fs.existsSync(file)
         ) {
           log.info(`> Figma: File already exists: ${iconName}`)
@@ -275,7 +271,7 @@ const prerenderIconName = (name, iconNameAdditions = []) => {
 }
 
 const optimizeSVG = ({ file }) => {
-  const transformSvg = async content => {
+  const transformSvg = async (content) => {
     // Figma has an issue where 16px icons gets exported as 17px
     // This is a fix for that issue
     content = content.replace(/="17"/g, '="16"')
@@ -337,7 +333,7 @@ const getIconCanvasDoc = ({ figmaDoc }) =>
     type: 'CANVAS'
   })
 
-const formatIconName = n =>
+const formatIconName = (n) =>
   String(n)
     .trim()
     .toLowerCase()
@@ -359,5 +355,5 @@ export const readLockFile = async () => {
   return {}
 }
 
-export const saveLockFile = async data =>
+export const saveLockFile = async (data) =>
   await saveToFile(lockFileDest, JSON.stringify(data))

@@ -3,11 +3,12 @@
  *
  */
 
-import React, { PureComponent } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import Context from '../../shared/Context'
 import {
+  warn,
   isTrue,
   registerElement,
   makeUniqueId,
@@ -91,7 +92,7 @@ const defaultProps = {
   ...renderProps
 }
 
-export default class FormStatus extends PureComponent {
+export default class FormStatus extends React.PureComponent {
   static tagName = 'dnb-form-status'
   static propTypes = propTypes
   static defaultProps = defaultProps
@@ -148,7 +149,7 @@ export default class FormStatus extends PureComponent {
     if (props.status !== 'info') {
       this.gsProvider = GlobalStatusProvider.init(
         props.global_status_id || 'main',
-        provider => {
+        (provider) => {
           // gets called once ready
           const { text, state } = this.props
           const status_id = this._id
@@ -199,12 +200,12 @@ export default class FormStatus extends PureComponent {
           this._ref.current
         )
         if (width >= 64) {
-          this._ref.current.style.maxWidth = `${(width +
-            (width < 128 ? 32 : 0)) /
-            16}rem`
+          this._ref.current.style.maxWidth = `${
+            (width + (width < 128 ? 32 : 0)) / 16
+          }rem`
         }
       } catch (e) {
-        console.warn(e)
+        warn(e)
       }
     }
   }
@@ -219,7 +220,7 @@ export default class FormStatus extends PureComponent {
       if (selector && selector.offsetWidth) {
         width = selector.offsetWidth
       } else {
-        // beside "width_selector" - witch is straight forward, we
+        // beside "width_selector" - which is straight forward, we
         // also check if we can get an ID given by text_id
         const ids = /,/.test(selector) ? selector.split(', ') : [selector]
 
@@ -245,7 +246,7 @@ export default class FormStatus extends PureComponent {
       // and show it again
       targetElement.style.display = display
     } catch (e) {
-      console.warn(e)
+      warn(e)
     }
 
     return width
@@ -320,7 +321,7 @@ export default class FormStatus extends PureComponent {
       params['aria-hidden'] = hidden
       // Deprecated: use the GlobalStatus and aria-live
       // } else if (hasStringContent) {
-      //   // in case we send in a React component, witchs has its own state, then we dont want to have aria-live all the time active
+      //   // in case we send in a React component, whichs has its own state, then we dont want to have aria-live all the time active
       //   params['aria-live'] = 'assertive'
     }
 
@@ -339,7 +340,7 @@ export default class FormStatus extends PureComponent {
   }
 }
 
-export const ErrorIcon = props => (
+export const ErrorIcon = (props) => (
   <svg
     width="32"
     height="32"
@@ -380,7 +381,7 @@ ErrorIcon.defaultProps = {
   title: 'error'
 }
 
-export const InfoIcon = props => (
+export const InfoIcon = (props) => (
   <svg
     width="32"
     height="32"

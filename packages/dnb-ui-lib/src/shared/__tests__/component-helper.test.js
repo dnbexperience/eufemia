@@ -9,7 +9,6 @@ import {
   isTrue,
   extend,
   extendPropsWithContext,
-  defineIsTouch,
   defineNavigator,
   validateDOMAttributes,
   processChildren,
@@ -19,14 +18,15 @@ import {
   detectOutsideClick,
   makeUniqueId,
   filterProps,
+  isTouchDevice,
   slugify,
+  roundToNearest,
   matchAll
 } from '../component-helper'
 
 beforeAll(() => {
   window.PointerEvent = new CustomEvent('ontouchstart')
   navigator.maxTouchPoints = 2 // mocking touch
-  defineIsTouch()
   defineNavigator()
 })
 afterAll(() => {
@@ -35,11 +35,14 @@ afterAll(() => {
   navigator.maxTouchPoints = 0
 })
 
-describe('"defineIsTouch" should', () => {
-  it('add "data-is-touch" as an attribute to the HTML tag', () => {
-    expect(document.documentElement.getAttribute('data-is-touch')).toBe(
-      'true'
-    )
+describe('"isTouchDevice" should', () => {
+  it('return false if what-input did not run', () => {
+    expect(isTouchDevice()).toBe(false)
+  })
+  it('return true if device is touch', () => {
+    document.documentElement.setAttribute('data-whatintent', 'touch')
+    expect(isTouchDevice()).toBe(true)
+    document.documentElement.removeAttribute('data-whatintent')
   })
 })
 
@@ -231,7 +234,7 @@ describe('"extendPropsWithContext" should', () => {
     expect(
       extendPropsWithContext(
         { key: { x: 'y' }, foo: null }, // given props
-        { key: { x: 'y' }, foo: null }, // defualt props
+        { key: { x: 'y' }, foo: null }, // default props
         { key: 'I cant replace You', foo: 'bar' }
       )
     ).toMatchObject({
@@ -321,7 +324,7 @@ describe('"toPascalCase" should', () => {
 })
 
 describe('"pickRenderProps" should', () => {
-  it('only pass function props witch dont exists in renderProps', () => {
+  it('only pass function props which dont exists in renderProps', () => {
     const renderProp = jest.fn()
     const customRenderer = jest.fn()
     const children = jest.fn()
@@ -403,6 +406,27 @@ describe('"slugify" should', () => {
   })
   it('or other types', () => {
     expect(slugify({ foo: 'bar' })).toEqual('object-object')
+  })
+})
+
+describe('"roundToNearest" should', () => {
+  it('round to 8 if under is given', () => {
+    expect(roundToNearest(7, 8)).toEqual(8)
+  })
+  it('round to 8 if over is given', () => {
+    expect(roundToNearest(9, 8)).toEqual(8)
+  })
+  it('round to 16 if too much over is given', () => {
+    expect(roundToNearest(13, 8)).toEqual(16)
+  })
+  it('round to 16 if under is given', () => {
+    expect(roundToNearest(9, 16)).toEqual(16)
+  })
+  it('round to 16 if over is given', () => {
+    expect(roundToNearest(20, 16)).toEqual(16)
+  })
+  it('round to 0 if too much under is given', () => {
+    expect(roundToNearest(7, 16)).toEqual(0)
   })
 })
 

@@ -54,7 +54,7 @@ describe('GlobalError component', () => {
     const elem = Comp.find('.dnb-global-error__inner__content').find(
       '.dnb-p'
     )
-    expect(elem.text()).toBe('text link text')
+    expect(elem.at(0).text()).toBe('text link text')
     expect(elem.find('a.dnb-anchor').text()).toBe('link')
   })
 

@@ -11,15 +11,18 @@ import { createSpacingClasses } from '../components/space/SpacingHelper'
 
 const Element = React.forwardRef(
   (
-    { className, class: _className, useClass, css, is: Tag, ...rest },
+    { className, class: _className, css, is: Tag, hasTagClass, ...rest },
     ref
   ) => {
+    const tagClass = `dnb-${Tag}`
     rest.className = classnames(
-      useClass ? useClass : `dnb-${Tag}`,
-      createSpacingClasses(rest),
+      !hasTagClass &&
+        !new RegExp(`${tagClass}(\\s|$)`).test(String(className)) &&
+        tagClass,
       className,
       _className,
-      css
+      css,
+      createSpacingClasses(rest, Tag)
     )
     validateDOMAttributes(null, rest)
     return <Tag ref={ref} {...rest} />
@@ -27,19 +30,19 @@ const Element = React.forwardRef(
 )
 Element.propTypes = {
   is: PropTypes.string.isRequired,
+  hasTagClass: PropTypes.bool,
   className: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.object,
     PropTypes.array
   ]),
   class: PropTypes.string,
-  useClass: PropTypes.string,
   css: PropTypes.oneOfType([PropTypes.string, PropTypes.object])
 }
 Element.defaultProps = {
   className: null,
+  hasTagClass: false,
   class: null,
-  useClass: null,
   css: null
 }
 

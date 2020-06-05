@@ -26,7 +26,7 @@ To get prepared for these changes, you can today already (since `v4.24`) use the
 - [font-size](/uilib/typography/font-size)
 - [line-heigh](/uilib/typography/line-height)
 
-From before we had [font-weight](/uilib/typography/font-weights).
+From before we had [font-weight](/uilib/typography/font-weight).
 
 Read more on how to make CSS vars (Custom Properties) [work on IE](/uilib/usage/customisation/styling/polyfill).
 

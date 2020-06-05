@@ -39,7 +39,7 @@ const copyStylePackages = (
         .pipe(transform('utf8', transformPaths('/assets/', '/resources/')))
         .pipe(
           returnResult
-            ? transform('utf8', result => resolve(result))
+            ? transform('utf8', (result) => resolve(result))
             : gulp.dest('./dnb-ui-resources/style', {
                 cwd: process.env.ROOT_DIR
               })
@@ -153,7 +153,7 @@ const cleanup = async () => {
   await fs.remove(path.resolve(__dirname, '../../../dnb-ui-resources'))
 }
 
-const transformPaths = (from, to) => content =>
+const transformPaths = (from, to) => (content) =>
   content.replace(new RegExp(from, 'g'), to)
 
 makeResourcesPackage()

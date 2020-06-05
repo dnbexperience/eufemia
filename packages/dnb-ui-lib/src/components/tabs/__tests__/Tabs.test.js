@@ -86,11 +86,9 @@ describe('TabList component', () => {
   it('has to have the right content on a "click event"', () => {
     Comp.find('button[data-tab-key="third"]').simulate('click')
     expect(Comp.state().selected_key).toBe(tablistData[2].key) // get the third key
-    expect(
-      Comp.find('div[role="tabpanel"]')
-        .children()
-        .html()
-    ).toBe(mount(contentWrapperData.third).html())
+    expect(Comp.find('div[role="tabpanel"]').children().html()).toBe(
+      mount(contentWrapperData.third).html()
+    )
   })
 })
 
@@ -123,20 +121,14 @@ describe('A single Tab component', () => {
       key: 'ArrowRight',
       keyCode: 39
     })
-    expect(
-      Comp.find('div[role="tabpanel"]')
-        .children()
-        .html()
-    ).toBe(mount(contentWrapperData.third).html())
+    expect(Comp.find('div[role="tabpanel"]').children().html()).toBe(
+      mount(contentWrapperData.third).html()
+    )
   })
 
   it('has to work with "data only" property containing a "content"', () => {
     const Comp = mount(<Component data={tablistDataWithContent} />)
-    expect(
-      Comp.find('button')
-        .first()
-        .hasClass('selected')
-    ).toBe(true)
+    expect(Comp.find('button').first().hasClass('selected')).toBe(true)
     expect(Comp.find('div.dnb-tabs__content').text()).toBe('First')
 
     // then click on tab two
@@ -211,15 +203,10 @@ describe('A single Tab component', () => {
       </Component>
     )
     expect(
-      Comp.find('button.selected')
-        .instance()
-        .getAttribute('data-tab-key')
+      Comp.find('button.selected').instance().getAttribute('data-tab-key')
     ).toBe('second-title')
     expect(
-      Comp.find('button')
-        .at(1)
-        .instance()
-        .getAttribute('data-tab-key')
+      Comp.find('button').at(1).instance().getAttribute('data-tab-key')
     ).toBe('second-title')
     expect(Comp.find('div.dnb-tabs__content').text()).toBe('second')
     expect(

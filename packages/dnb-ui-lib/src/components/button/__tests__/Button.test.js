@@ -21,11 +21,13 @@ import dnb_button_theme_ui from '../style/themes/dnb-button-theme-ui.scss' // es
 const props = fakeProps(require.resolve('../Button'), {
   optional: true
 })
+props.id = 'button'
 props.variant = 'primary'
 props.icon = 'question'
 props.title = 'This is a button title'
 props.size = null
 props.status = null
+props.tooltip = null
 props.icon_position = 'right'
 
 describe('Button component', () => {
@@ -87,14 +89,12 @@ describe('Button component', () => {
     Comp.setProps({
       disabled: true
     })
-    expect(
-      Comp.find('button')
-        .instance()
-        .hasAttribute('disabled')
-    ).toBe(true)
+    expect(Comp.find('button').instance().hasAttribute('disabled')).toBe(
+      true
+    )
   })
 
-  it('has "on_click" event witch will trigger on a click', () => {
+  it('has "on_click" event which will trigger on a click', () => {
     const my_event = jest.fn()
     const myEvent = jest.fn()
     const Comp = mount(<Component on_click={my_event} onClick={myEvent} />)

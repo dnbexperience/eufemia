@@ -16,7 +16,7 @@ if (require.main === module) {
       'icons.lock'
     ],
     // Skip CI if files are only one or both
-    skipCI: files => files.length < 4, // in case we only update the "version.lock"
+    skipCI: (files) => files.length < 4, // in case we only update the "version.lock"
     // is feature if there are more than 4 files
     isFeature: false
     // isFeature: files => files.length >= 4 // of there are other files than theese, mark it as a feature

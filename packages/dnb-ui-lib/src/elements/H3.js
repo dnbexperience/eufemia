@@ -4,8 +4,9 @@
  */
 
 import React from 'react'
-import E from './Element'
+import H from './H'
 
-const H3 = p => <E is="h3" {...p} />
+const H3 = (props) => <H is="h3" size="medium" {...props} />
 H3.tagName = 'dnb-h3'
+
 export default H3

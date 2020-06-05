@@ -5,6 +5,8 @@
  */
 
 @import './core/utilities.scss';
+@import './dnb-ui-fragments.scss';
+@import '../components/autocomplete/style/_autocomplete.scss';
 @import '../components/button/style/_button.scss';
 @import '../components/checkbox/style/_checkbox.scss';
 @import '../components/date-picker/style/_date-picker.scss';
@@ -15,6 +17,7 @@
 @import '../components/form-status/style/_form-status.scss';
 @import '../components/global-error/style/_global-error.scss';
 @import '../components/global-status/style/_global-status.scss';
+@import '../components/heading/style/_heading.scss';
 @import '../components/icon/style/_icon.scss';
 @import '../components/input/style/_input.scss';
 @import '../components/input-masked/style/_input-masked.scss';
@@ -23,6 +26,7 @@
 @import '../components/modal/style/_modal.scss';
 @import '../components/notification/style/_notification.scss';
 @import '../components/number/style/_number.scss';
+@import '../components/pagination/style/_pagination.scss';
 @import '../components/progress-indicator/style/_progress-indicator.scss';
 @import '../components/radio/style/_radio.scss';
 @import '../components/section/style/_section.scss';

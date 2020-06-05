@@ -125,15 +125,11 @@ describe('GlobalStatus component', () => {
     )
 
     expect(
-      Comp.first()
-        .find('div.dnb-global-status__message > .dnb-p')
-        .text()
+      Comp.first().find('div.dnb-global-status__message > .dnb-p').text()
     ).toBe(newText)
 
     expect(
-      Comp.first()
-        .find('div.dnb-global-status__message > .dnb-ul')
-        .text()
+      Comp.first().find('div.dnb-global-status__message > .dnb-ul').text()
     ).toBe('item#1item#3')
   })
 
@@ -163,9 +159,7 @@ describe('GlobalStatus component', () => {
     )
 
     expect(
-      Comp.first()
-        .find('div.dnb-global-status__message')
-        .text()
+      Comp.first().find('div.dnb-global-status__message').text()
     ).toBe(startupText)
   })
 

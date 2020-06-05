@@ -1,0 +1,80 @@
+/*
+* Pagination theme
+*
+*/
+
+@import '../../../../style/themes/imports.scss';
+
+.dnb-pagination {
+  &__page,
+  &__loadbar {
+    min-height: 6rem;
+  }
+
+  &__bar {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  &__indicator {
+    min-height: inherit;
+
+    &__inner {
+      animation: show-page 300ms ease-out forwards;
+    }
+  }
+
+  // active/checked - like toggle-button
+  @at-root .dnb-core-style &__button.dnb-button--primary,
+    &__button.dnb-button--primary {
+    &,
+    &:not([disabled]):not(:active):hover {
+      background-color: var(--color-emerald-green);
+      color: var(--color-mint-green);
+    }
+
+    &:not([disabled]):not(:active):not(:hover):focus {
+      color: var(--color-emerald-green);
+      background-color: var(--color-mint-green);
+      @include fakeFocus(null, var(--color-emerald-green));
+    }
+  }
+
+  &__dots > div {
+    background-color: var(--color-emerald-green);
+  }
+
+  // Do not hide the dots
+  // @media screen and (max-width: 30em) {
+  //   &__dots {
+  //     width: 0;
+  //     margin: 0;
+  //   }
+  // }
+
+  @media screen and (max-width: 40em) {
+    &--many-pages
+      &__bar__inner
+      &__button:not([aria-current]):nth-of-type(2),
+    &--many-pages
+      &__bar__inner
+      &__button:not([aria-current]):nth-last-of-type(2) {
+      width: 0;
+      overflow: hidden;
+      margin: 0;
+      padding: 0;
+      box-shadow: none; // because on iOS we force an outer "fakeBorder" on secondary button
+    }
+  }
+}
+
+@keyframes show-page {
+  from {
+    transform: translate3d(0, -8px, 0);
+    opacity: 0.1;
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+}

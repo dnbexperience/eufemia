@@ -10,7 +10,7 @@ import AngularAppScreenshot from 'Pages/uilib/usage/first-steps/assets/example-a
 
 ## Angular v2 and above
 
-Eufemia may have an example code soon of using this [React adapter solution, used by Microsoft](https://microsoft.github.io/angular-react/).
+Eufemia may have an example code soon of using this [React adapter solution, used by Microsoft](https://github.com/microsoft/angular-react/).
 
 ## Angular v1
 
@@ -25,10 +25,10 @@ import { bell_medium as Bell } from 'dnb-ui-lib/icons'
 
 ngEufemiaButton.directive('eufemiaButtonDirective', () => {
   return {
-    controller: $scope => {
+    controller: ($scope) => {
       $scope.text = 'Button'
       $scope.icon = Bell
-      $scope.onClick = event => console.log('onClick', event)
+      $scope.onClick = (event) => console.log('onClick', event)
     },
     template: /* @html */ `
   <eufemia-button

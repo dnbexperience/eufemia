@@ -34,4 +34,11 @@ describe('FormStatus screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+  it('have to match icons used in the icon component', async () => {
+    const screenshot = await testPageScreenshot({
+      style,
+      selector: '[data-dnb-test="form-status-icons"]'
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
 })

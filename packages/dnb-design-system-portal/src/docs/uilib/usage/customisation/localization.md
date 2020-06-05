@@ -26,7 +26,7 @@ render(
 
 ## How change the locale
 
-You can even change the locale during runtime.
+You can even change the locale during runtime. Find more info in the [Provider docs](/uilib/usage/customisation/provider).
 
 ```jsx
 import Provider from 'dnb-ui-lib/shared/Provider'
@@ -35,11 +35,13 @@ import Context from 'dnb-ui-lib/shared/Context'
 const ChangeLocale = () => {
   const { setLocale, locale } = React.useContext(Context)
 
-  React.useEffect(() => {
-    setLocale('en-US')
-  }, [])
-
-  return <>{/* e.g. a Dropdown */}</>
+  return <Dropdown
+    value={locale}
+    data={{ 'en-US': 'English', 'nb-NO': 'Norsk' }}
+    on_change={({ data: { selected_key } }) => {
+      setLocale(selected_key)
+    }}
+  />
 }
 
 render(

@@ -1,7 +1,6 @@
 ---
 title: 'Design Tools'
 icon: 'tools'
-
 ---
 
 # Tools

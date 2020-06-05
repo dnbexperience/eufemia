@@ -12,7 +12,7 @@ import * as elementsIndex from './elements/lib'
 export * from './index'
 
 export default {
-  getComponents: Vue => {
+  getComponents: (Vue) => {
     Vue.use(VuePlugin)
     const ret = {}
     const components = { ...componentsIndex, ...elementsIndex }
@@ -23,7 +23,7 @@ export default {
     }
     return ret
   },
-  setIgnoredPatterns: Vue => {
+  setIgnoredPatterns: (Vue) => {
     const customPatterns = []
     const components = { ...componentsIndex, ...elementsIndex }
     for (const c in components) {

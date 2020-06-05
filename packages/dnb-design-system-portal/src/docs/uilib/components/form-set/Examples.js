@@ -3,13 +3,13 @@
  *
  */
 
-import React, { PureComponent, Fragment } from 'react'
+import React from 'react'
 import ComponentBox from 'Src/shared/tags/ComponentBox'
 
-class Example extends PureComponent {
+class Example extends React.PureComponent {
   render() {
     return (
-      <Fragment>
+      <React.Fragment>
         <ComponentBox
           title="Use the `FormSet` as a Provider for `FormRow`"
           data-dnb-test="form-set-default"
@@ -61,7 +61,7 @@ class Example extends PureComponent {
 </FormSet>
           `}
         </ComponentBox>
-      </Fragment>
+      </React.Fragment>
     )
   }
 }
