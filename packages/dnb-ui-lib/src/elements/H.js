@@ -12,7 +12,7 @@ import { setNextLevel } from '../components/heading/HeadingHelpers'
 class H extends React.PureComponent {
   constructor(props) {
     super(props)
-    if (props.level === 'auto') {
+    if (props.level === 'use') {
       setNextLevel(parseFloat(props.is.substr(1)))
     }
   }

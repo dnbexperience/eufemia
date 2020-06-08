@@ -112,6 +112,14 @@ export const onRouteUpdate = () => {
 setNextLevel(3)
 ```
 
+**Limitations:** `resetLevels` and `setNextLevel` does not change contexts with an entry level highter than one (1).
+In order to change also contexts, you can set `overwriteContext` to true:
+
+```js
+resetLevels(1, { overwriteContext: true })
+setNextLevel(4, { overwriteContext: true })
+```
+
 ### Basic heading elements
 
 You may still consider of using the basic elements. But keep in mind, you have to define headings responsibly.

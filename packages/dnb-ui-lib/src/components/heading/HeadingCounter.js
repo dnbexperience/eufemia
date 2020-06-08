@@ -284,8 +284,7 @@ export class Counter {
   reset(toLevel = null) {
     toLevel = parseFloat(toLevel) || 2
 
-    this.level = toLevel
-    this.entry = toLevel
+    this.level = this.entry = this.lastResetLevel = toLevel
 
     if (this.contextCounter) {
       this.contextCounter.level = this.contextCounter.entry

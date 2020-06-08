@@ -111,7 +111,6 @@ export default class HeadingProvider extends React.PureComponent {
     }
 
     const existingContext = context.heading
-    // console.log('existingContext', existingContext)
 
     // Here we create a new counter, but use the last global level
     state.counter = initCounter(props) // in here we use isContext prop
