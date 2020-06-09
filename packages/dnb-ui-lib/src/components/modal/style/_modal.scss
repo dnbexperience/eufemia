@@ -137,6 +137,21 @@
         max-width: auto;
       }
     }
+
+    &--drawer#{&}--top &__inner,
+    &--drawer#{&}--bottom &__inner {
+      max-width: 100%; // fixes overflow issue on some browsers
+      max-height: 100%;
+      width: 100vw;
+      height: 40vh;
+
+      @media screen and (max-height: 40em) {
+        height: 100vw;
+        min-height: auto;
+        max-height: auto;
+      }
+    }
+
     html:not([data-dnb-test]) &--drawer#{&}--left &__inner {
       transform: translate3d(-20rem, 0, 0);
     }
@@ -145,6 +160,12 @@
     }
     html:not([data-dnb-test]) &--drawer#{&}--right {
       justify-content: flex-end;
+    }
+    html:not([data-dnb-test]) &--drawer#{&}--top &__inner {
+      transform: translate3d(0, -20rem, 0);
+    }
+    html:not([data-dnb-test]) &--drawer#{&}--bottom &__inner {
+      transform: translate3d(0, 20rem, 0);
     }
     html:not([data-dnb-test]) &--drawer &__inner {
       opacity: 0.1;
@@ -155,6 +176,15 @@
     }
     html:not([data-dnb-test]) &--drawer#{&}--hide#{&}--right &__inner {
       animation: hide-drawer-right 300ms ease-in-out forwards;
+    }
+    html:not([data-dnb-test]) &--drawer#{&}--hide#{&}--top &__inner {
+      animation: hide-drawer-top 300ms ease-in-out forwards;
+    }
+    html:not([data-dnb-test]) &--drawer#{&}--hide#{&}--bottom &__inner {
+      animation: hide-drawer-bottom 300ms ease-in-out forwards;
+    }
+    html:not([data-dnb-test]) &--drawer#{&}--bottom {
+      align-items: flex-end;
     }
 
     // Modal mode
@@ -290,6 +320,26 @@
   }
   to {
     transform: translate3d(-20rem, 0, 0);
+    opacity: 0;
+  }
+}
+@keyframes hide-drawer-top {
+  from {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+  to {
+    transform: translate3d(0, -20rem, 0);
+    opacity: 0;
+  }
+}
+@keyframes hide-drawer-bottom {
+  from {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+  to {
+    transform: translate3d(0, 20rem, 0);
     opacity: 0;
   }
 }

@@ -67,7 +67,7 @@ const propTypes = {
   ]),
   fullscreen: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   align_content: PropTypes.oneOf(['left', 'center', 'centered', 'right']),
-  container_placement: PropTypes.oneOf(['left', 'right']),
+  container_placement: PropTypes.oneOf(['left', 'right', 'top', 'bottom']),
   open_state: PropTypes.oneOf(['opened', 'closed']),
   direct_dom_return: PropTypes.oneOfType([
     PropTypes.string,
