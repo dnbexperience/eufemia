@@ -48,10 +48,6 @@ export default class PaginationBar extends React.PureComponent {
     )
   }
 
-  componentWillUnmount() {
-    clearTimeout(this.prepareTimeout)
-  }
-
   hasChildrenCallabck() {
     return typeof this.props.children === 'function'
   }
@@ -74,17 +70,8 @@ export default class PaginationBar extends React.PureComponent {
         ...this.context.pagination
       })
 
-      if (
-        potentialElement &&
-        (React.isValidElement(potentialElement) ||
-          typeof potentialElement === 'function')
-      ) {
-        clearTimeout(this.prepareTimeout)
-        this.prepareTimeout = setTimeout(
-          () =>
-            this.context.pagination.setContent([pageNo, potentialElement]),
-          1 // after first render
-        )
+      if (potentialElement && React.isValidElement(potentialElement)) {
+        this.context.pagination.setContent([pageNo, potentialElement])
       }
     }
   }

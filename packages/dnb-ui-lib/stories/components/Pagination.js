@@ -43,10 +43,16 @@ export default [
       <Box>
         <Pagination page_count={2}>
           {({ page, setContent }) => {
-            setContent(page, <>Hello {page}</>)
+            // simulate server communication delay
+            const timeout = setTimeout(() => {
+              setContent(page, <LargePage>{page}</LargePage>)
+            }, Math.ceil(Math.random() * 500))
+
+            return () => clearTimeout(timeout)
           }}
         </Pagination>
       </Box>
+
       <Box>
         <Pagination
           page_count={30}
