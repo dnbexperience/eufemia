@@ -105,10 +105,13 @@ import { resetLevels, setNextLevel } from 'dnb-ui-lib/components/Heading'
 
 // e.g. during Gatsby route change
 export const onRouteUpdate = () => {
-  resetLevels(1) // you can also call this method like this: Heading.resetLevels(1)
+  resetLevels(1)
+
+  // You can also call this method like this:
+  Heading.resetLevels(1)
 }
 
-// e.g. if you for some reason have to force setting a new level
+// e.g. if you for some reason have to force setting a new level (Heading.setNextLevel)
 setNextLevel(3)
 ```
 
@@ -116,9 +119,15 @@ setNextLevel(3)
 In order to change also contexts, you can set `overwriteContext` to true:
 
 ```js
-resetLevels(1, { overwriteContext: true })
-setNextLevel(4, { overwriteContext: true })
+Heading.resetLevels(1, { overwriteContext: true })
+Heading.setNextLevel(4, { overwriteContext: true })
 ```
+
+#### Heading and routers
+
+In order to reset the leveling during a page transition on using `react-router-dom` v5, you can make use of `withRouter`.
+In v6 or `@reach/router`, you just cal it in the correct "page" component.
+You could additionally define "what is a page change" and what not, by using the `location: { pathname }` property you get inside these routing components.
 
 ### Basic heading elements
 
