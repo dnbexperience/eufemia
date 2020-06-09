@@ -45,7 +45,7 @@ import { hamburger as hamburgerIcon } from 'dnb-ui-lib/icons/secondary_icons'
 
 Now, let's jump to the [Button Docs](/uilib/components/button) for more details.
 
-Also, you may be interested in more code examples? Have a look at the [Demo App on GitHub](https://github.com/dnbexperience/eufemia-demo/blob/master/src/pages/form-demo-01.js) or [Example for React](https://github.com/dnbexperience/eufemia-examples/tree/master/packages/example-react).
+Also, you may be interested in more code examples? Have a look at the [Demo App on GitHub](https://github.com/dnbexperience/eufemia-demo/blob/master/src/form-demos/form-demo-01.js) or [Example for React](https://github.com/dnbexperience/eufemia-examples/tree/master/packages/example-react).
 
 ## Examples
 
