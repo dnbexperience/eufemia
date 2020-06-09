@@ -33,8 +33,9 @@ const props = {
 }
 
 describe('Pagination bar component', () => {
+  const Comp = mount(<Component {...props} />)
+
   it('has correct state at startup', () => {
-    const Comp = mount(<Component {...props} />)
     const innerElem = Comp.find('.dnb-pagination__bar__inner')
 
     expect(innerElem.find('button.dnb-pagination__button').length).toBe(7)
@@ -43,7 +44,7 @@ describe('Pagination bar component', () => {
   })
 
   it('reacts to prop changes', () => {
-    const Comp = mount(<Component {...props} />)
+    // const Comp = mount(<Component {...props} />)
 
     Comp.setProps({
       current_page: 1
@@ -75,6 +76,36 @@ describe('Pagination bar component', () => {
     ).toBe('chevron left')
   })
 
+  it('accepts element in the function return', () => {
+    const Comp = mount(
+      <Component page_count={3} current_page={2}>
+        {({ pageNo }) => <div>{pageNo}</div>}
+      </Component>
+    )
+    expect(Comp.find('.dnb-pagination__content').text()).toBe('2')
+  })
+
+  it('sets content with setContent', () => {
+    const Comp = mount(
+      <Component page_count={3} current_page={2}>
+        {({ pageNo, setContent }) => {
+          setContent(pageNo, <div>{pageNo}</div>)
+        }}
+      </Component>
+    )
+    expect(Comp.find('.dnb-pagination__content').text()).toBe('2')
+
+    const nextButton = Comp.find('div.dnb-pagination__bar')
+      .find('button.dnb-pagination__button')
+      .find('.dnb-button--size-small')
+      .at(1)
+
+    expect(nextButton.instance().getAttribute('title')).toBe('Neste side')
+
+    nextButton.simulate('click')
+    expect(Comp.find('.dnb-pagination__content').text()).toBe('3')
+  })
+
   it('has valid on_change callback', () => {
     const on_change = jest.fn()
 
@@ -84,8 +115,8 @@ describe('Pagination bar component', () => {
       .find('button.dnb-pagination__button')
       .find('.dnb-button--size-small')
       .at(1)
-    nextButton.simulate('click')
 
+    nextButton.simulate('click')
     expect(on_change).toHaveBeenCalledTimes(1)
     expect(on_change.mock.calls[0][0].page).toBe(16)
 

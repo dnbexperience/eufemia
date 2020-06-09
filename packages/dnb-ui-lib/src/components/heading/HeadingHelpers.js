@@ -60,25 +60,46 @@ export const correctHeadingLevel = ({
     }
   }
 
-  if (globalNextLevel.current > 0) {
-    level = globalNextLevel.current
-    globalNextLevel.current = null
-    counter.enableBypassChecks()
-    update(level)
-    counter.disableBypassChecks()
-  } else if (globalResetNextTime.current > 0) {
-    const resetLevel = globalResetNextTime.current
+  let skipThisTime = false
+  const canBeManipulatedNextTime = (overwriteContext) => {
+    return (
+      counter.contextCounter.isGlobal ||
+      counter.contextCounter.entry === 1 ||
+      overwriteContext
+    )
+  }
+
+  if (globalResetNextTime.current) {
+    const {
+      level: resetLevel,
+      overwriteContext
+    } = globalResetNextTime.current
     globalResetNextTime.current = null
-    counter.makeMeReady()
-    counter.reset(resetLevel)
-  } else if (
-    reset === true ||
-    reset === 'true' ||
-    parseFloat(reset) > -1
-  ) {
-    counter.reset(reset)
-  } else {
-    update(level)
+    if (
+      canBeManipulatedNextTime(overwriteContext) ||
+      counter.lastResetLevel === resetLevel
+    ) {
+      counter.makeMeReady()
+      counter.reset(resetLevel)
+      skipThisTime = true
+    }
+  } else if (globalNextLevel.current) {
+    const { level: nextLevel, overwriteContext } = globalNextLevel.current
+    globalNextLevel.current = null
+    if (canBeManipulatedNextTime(overwriteContext)) {
+      counter.enableBypassChecks()
+      update(nextLevel)
+      counter.disableBypassChecks()
+      skipThisTime = true
+    }
+  }
+
+  if (!skipThisTime) {
+    if (reset === true || reset === 'true' || parseFloat(reset) > -1) {
+      counter.reset(reset)
+    } else {
+      update(level)
+    }
   }
 
   const hasReport = counter.useLastReport()
@@ -119,17 +140,19 @@ function report(debug, source, ...reports) {
 // Interceptor to reset leveling -
 export function resetAllLevels() {
   countHeadings = 0
+  resetLevels(1, { overwriteContext: false })
   teardownHeadings()
 }
 export const globalResetNextTime = React.createRef(false)
-export function resetLevels(level = 1) {
-  globalResetNextTime.current = level
-  globalNextLevel.current = null
+export function resetLevels(level, { overwriteContext = false } = {}) {
+  globalResetNextTime.current = { level, overwriteContext }
 }
 export const globalNextLevel = React.createRef(null)
-export function setNextLevel(level) {
-  globalNextLevel.current = parseFloat(level)
-  globalResetNextTime.current = null
+export function setNextLevel(level, { overwriteContext = false } = {}) {
+  globalNextLevel.current = {
+    level,
+    overwriteContext
+  }
 }
 
 let countHeadings = 0

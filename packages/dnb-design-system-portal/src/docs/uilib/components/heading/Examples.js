@@ -119,7 +119,7 @@ render(<App />)
   <Heading>h1</Heading>
   <Heading>h2</Heading>
 
-  <H3 level="auto">Increase to h3</H3>
+  <H3 level="use">Increase to h3</H3>
   <Heading>h3</Heading>
 </Heading.Level>
         `

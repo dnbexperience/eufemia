@@ -271,7 +271,10 @@ describe('Dropdown component', () => {
 
     const elem = Comp.find('span.dnb-dropdown')
     expect(
-      elem.find('button').instance().getAttribute('aria-expanded')
+      elem
+        .find('button.dnb-dropdown__trigger')
+        .instance()
+        .getAttribute('aria-expanded')
     ).toBe('true')
 
     expect(elem.instance().getAttribute('class')).toContain(
@@ -301,6 +304,18 @@ describe('Dropdown component', () => {
     open(Comp)
     expect(on_show.mock.calls.length).toBe(1)
     expect(on_show.mock.calls[0][0].attributes).toMatchObject(params)
+  })
+
+  it('has to set correct focus after tab key usage in opened state', () => {
+    const on_hide = jest.fn()
+
+    const Comp = mount(
+      <Component no_animation on_hide={on_hide} data={mockData} />
+    )
+    open(Comp)
+    keydown(Comp, 9) // tab, JSDOM does not support keyboard handling, so we can not check document.activeElement
+
+    expect(on_hide.mock.calls.length).toBe(1)
   })
 
   it('has correct selected value', () => {
@@ -403,11 +418,11 @@ describe('Dropdown scss', () => {
 const keydown = (Comp, keyCode) => {
   document.dispatchEvent(new KeyboardEvent('keydown', { keyCode }))
 
-  Comp.find('button').simulate('keydown', {
+  Comp.find('button.dnb-dropdown__trigger').simulate('keydown', {
     keyCode
   })
 }
 const open = (Comp) => {
-  Comp.find('button').simulate('mousedown')
+  Comp.find('button.dnb-dropdown__trigger').simulate('mousedown')
 }
 // const wait = t => new Promise(r => setTimeout(r, t))

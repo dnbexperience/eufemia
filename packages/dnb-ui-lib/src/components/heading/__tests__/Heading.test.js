@@ -176,7 +176,7 @@ describe('Heading component', () => {
         <Heading.Level debug={warn} reset={1}>
           <Heading>Heading #1</Heading>
           <Heading>Heading #2</Heading>
-          <H3 level="auto">Heading #3</H3>
+          <H3 level="use">Heading #3</H3>
           <Heading>Heading #4</Heading>
         </Heading.Level>
       </>
@@ -195,9 +195,9 @@ describe('Heading component', () => {
   it('have to match after level state update', () => {
     const warn = jest.fn()
 
-    // resetLevels(1)
+    // resetLevels(1,{overwriteContext:true})
     // resetAllLevels()
-    Heading.resetLevels(1)
+    Heading.resetLevels(1, { overwriteContext: true })
     const Comp = mount(<Heading debug={warn}>Heading #1</Heading>)
 
     expect(Comp.find('.dnb-heading').at(0).text()).toBe('[h1] Heading #1')
@@ -228,15 +228,15 @@ describe('Heading component', () => {
   })
 
   it('have to have correct leveling after using setNextLevel', () => {
-    setNextLevel(4)
+    setNextLevel(4, { overwriteContext: true })
 
-    resetLevels(1)
+    resetLevels(1, { overwriteContext: true })
     const Comp1 = mount(<Heading debug={warn}>h1</Heading>)
 
-    Heading.setNextLevel(2)
+    Heading.setNextLevel(2, { overwriteContext: true })
     const Comp2 = mount(<Heading debug={warn}>h2</Heading>)
 
-    setNextLevel(3)
+    setNextLevel(3, { overwriteContext: true })
     const Comp3 = mount(
       <Heading.Level debug={warn}>
         <Heading>h3</Heading>
@@ -252,16 +252,16 @@ describe('Heading component', () => {
     })
     expect(Comp2.find('.dnb-heading').at(0).text()).toBe('[h4] h2')
 
-    resetLevels(1)
+    resetLevels(1, { overwriteContext: true })
     Comp2.setProps({ relevel: true })
     expect(Comp2.find('.dnb-heading').at(0).text()).toBe('[h1] h2')
 
-    setNextLevel(2)
+    setNextLevel(2, { overwriteContext: true })
     Comp1.setProps({ relevel: true })
     expect(Comp1.find('.dnb-heading').at(0).text()).toBe('[h2] h1')
 
-    // setNextLevel(4)
-    // resetLevels(4)
+    // setNextLevel(4, {overwriteContext:true})
+    // resetLevels(4, {overwriteContext:true})
     // Comp3.setProps({ relevel: true })
     // expect(Comp3.find('.dnb-heading').at(0).text()).toBe('[h4] h3')
   })
@@ -320,7 +320,7 @@ describe('Heading component', () => {
   })
 
   it('should not increase level above 6', () => {
-    resetLevels(1)
+    resetLevels(1, { overwriteContext: true })
     const Comp = mount(
       <>
         <Heading.Level debug={warn}>
@@ -385,6 +385,33 @@ describe('Heading component', () => {
     expect(elem.at(++i).text()).toBe('[h4] h4 2')
     expect(elem.at(++i).text()).toBe('[h5] h5 1')
     expect(elem.at(++i).text()).toBe('[h2] h2')
+
+    Comp.setState({
+      showHeading4: false
+    })
+
+    // also test to reset the context, as this should be truthy
+    resetLevels(1)
+    setNextLevel(1)
+
+    Comp.setState({
+      showHeading4: true
+    })
+
+    i = -1
+    elem = Comp.find('.dnb-heading')
+    expect(elem.at(++i).text()).toBe('[h1] h1')
+    expect(elem.at(++i).text()).toBe('[h2] h2')
+    expect(elem.at(++i).text()).toBe('[h3] h3')
+    expect(elem.at(++i).text()).toBe('[h3] h3 before')
+    expect(elem.at(++i).text()).toBe('[h4] h4 1')
+    expect(elem.at(++i).text()).toBe('[h4] h4 2')
+    expect(elem.at(++i).text()).toBe('[h5] h5 1')
+    expect(elem.at(++i).text()).toBe('[h3] h3 after')
+    expect(elem.at(++i).text()).toBe('[h4] h4 1')
+    expect(elem.at(++i).text()).toBe('[h4] h4 2')
+    expect(elem.at(++i).text()).toBe('[h5] h5 1')
+    expect(elem.at(++i).text()).toBe('[h2] h2')
   })
 
   it('have to match default leveling', () => {
@@ -420,7 +447,7 @@ describe('Heading component', () => {
 
 let gComp
 function makeComp() {
-  // resetLevels(1)
+  // resetLevels(1,{overwriteContext:true})
   gComp =
     gComp ||
     mount(

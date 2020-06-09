@@ -127,9 +127,16 @@ You may also take a look at the [example-html](https://github.com/dnbexperience/
 <!-- Imperative -->
 <dnb-button text="Imperative" />
 <script>
-  var elem = document.querySelector('dnb-button[text=Imperative]')
-  var eventId = elem.addEvent('on_click', function (event) {})
+  const elem = document.querySelector('dnb-button[text=Imperative]')
+  const eventId = elem.addEvent('on_click', function (event) {})
   elem.removeEvent(eventId)
+</script>
+
+<!-- Imperative by using setProps -->
+<dnb-button text="Imperative" />
+<script>
+  const elem = document.querySelector('dnb-button[text=Imperative]')
+  elem.setProps('on_click', function (event) {})
 </script>
 ```
 

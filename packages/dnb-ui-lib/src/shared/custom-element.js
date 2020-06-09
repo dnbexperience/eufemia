@@ -51,6 +51,7 @@ export const registerElement = (
       this._customMethodes = {}
       this._customEvents = []
       this._isConnected = false
+      this._props = {}
     }
     connectedCallback() {
       this.updateChildren()
@@ -72,6 +73,9 @@ export const registerElement = (
       if (this._elementRef) delete this._elementRef
       if (this._customMethodes) delete this._customMethodes
       if (this._customEvents) delete this._customEvents
+
+      this._props = null
+      this._ref = null
     }
     updateChildren() {
       this._children = []
@@ -135,7 +139,7 @@ export const registerElement = (
 
               // call the function, either it in a class or not
               let [scope, fn] = func.split('.')
-              fn = fn ? window[scope][fn] : window[scope] // TODO: remove this because of security notation
+              fn = fn ? window[scope][fn] : window[scope]
               const ret = fn.apply(scope, [...args])
 
               // convert to react if we get an HTMLElement
@@ -147,14 +151,14 @@ export const registerElement = (
                   props = {}
 
                 for (let i = cn.length; i--; ) {
-                  children.push(toVdom(cn[i])) // TODO: remove this because of security notation
+                  children.push(toVdom(cn[i]))
                   // TODO: we may remove this child - need more testing
                   // cn[i].remove()
                 }
 
                 for (let i = a.length; i--; ) {
                   props[PROP_TRANSLATIONS[a[i].name] || a[i].name] =
-                    a[i].value // TODO: remove this because of security notation
+                    a[i].value
                 }
 
                 const nodeName = ret.nodeName.toLowerCase()
@@ -176,7 +180,17 @@ export const registerElement = (
         // do send this event to the react props
         delete props.event
       }
+
       return props
+    }
+    setProps(props, value) {
+      if (typeof props === 'string') {
+        props = { [props]: value }
+      }
+      return this.renderElement(props)
+    }
+    getRef() {
+      return this._ref
     }
     addEvent(eventName, eventCallback) {
       const eventWrapper = (event) => eventCallback.apply(this, [event])
@@ -209,22 +223,18 @@ export const registerElement = (
         }
       })
     }
-    renderElement() {
-      let props = {},
-        i = 0,
-        a = this.attributes
-
-      for (i = a.length; i--; ) {
-        props[a[i].name] = a[i].value // TODO: remove this because of security notation
+    renderElement(props = {}) {
+      const attr = {}
+      for (let i = this.attributes.length; i--; ) {
+        attr[this.attributes[i].name] = this.attributes[i].value
       }
 
-      props = this.connectEvents(props)
+      props = { ...this._props, ...this.connectEvents(attr), ...props }
 
       // we dont allow ids
-      for (i = attributesBlacklist.length; i--; ) {
+      for (let i = attributesBlacklist.length; i--; ) {
         if (props[attributesBlacklist[i]]) {
-          // TODO: remove this because of security notation
-          this.removeAttribute(attributesBlacklist[i]) // TODO: remove this because of security notation
+          this.removeAttribute(attributesBlacklist[i])
         }
       }
 
@@ -244,7 +254,11 @@ export const registerElement = (
         }
       }
 
-      ReactDOM.render(<ReactComponent {...props} />, this)
+      this._props = props
+      this._ref = <ReactComponent {...props} />
+      ReactDOM.render(this._ref, this)
+
+      return this
     }
   }
 
@@ -277,10 +291,10 @@ const toVdom = (elem, name = null) => {
 
   for (i = a.length; i--; ) {
     // a[i].name = PROP_TRANSLATIONS[a[i].name]||a[i].name
-    props[a[i].name] = a[i].value // TODO: remove this because of security notation
+    props[a[i].name] = a[i].value
   }
   for (i = cn.length; i--; ) {
-    children[i] = toVdom(cn[i]) // TODO: remove this because of security notation
+    children[i] = toVdom(cn[i])
   }
   props.key = `key${Math.random() * 1000}`
 

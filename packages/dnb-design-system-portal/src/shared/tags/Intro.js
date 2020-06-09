@@ -11,7 +11,7 @@ import {
   Link
   // Hr
 } from 'dnb-ui-lib/src/elements'
-import { Button } from 'dnb-ui-lib/src/components'
+import { Button, Space } from 'dnb-ui-lib/src/components'
 
 const ref = React.createRef()
 const Intro = ({ children }) => {
@@ -54,7 +54,7 @@ Intro.propTypes = {
 Intro.defaultProps = {}
 
 export const IntroFooter = ({ href, text }) => (
-  <Footer>
+  <Footer top no_collapse>
     <Button href={href} text={text} icon="chevron_right" />
     <Button
       href="/uilib/getting-started"
@@ -71,7 +71,7 @@ IntroFooter.propTypes = {
 }
 IntroFooter.defaultProps = {}
 
-const Footer = styled.div`
+const Footer = styled(Space)`
   display: flex;
   justify-content: space-between;
 `

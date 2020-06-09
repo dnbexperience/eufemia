@@ -248,8 +248,6 @@ export default class DatePicker extends React.PureComponent {
     registerElement(DatePicker.tagName, DatePicker, defaultProps)
   }
 
-  static parseOpened = (state) => /true|on/.test(String(state))
-
   static getDerivedStateFromProps(props, state) {
     if (state._listenForPropChanges) {
       let startDate = undefined
@@ -315,7 +313,7 @@ export default class DatePicker extends React.PureComponent {
 
     this._id = props.id || makeUniqueId() // cause we need an id anyway
 
-    const opened = DatePicker.parseOpened(props.opened)
+    const opened = isTrue(props.opened)
     this.state = {
       userUsesKeyboard: false,
       startDate: null,
