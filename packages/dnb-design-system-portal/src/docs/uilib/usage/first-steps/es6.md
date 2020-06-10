@@ -1,12 +1,12 @@
 ---
-title: 'ES6 and SSR'
+title: 'ESM / SSR'
 description: 'Eufemia uses ESM as their default module format. More info on this topic below.'
 order: 8
 ---
 
-# ES6 and SSR
+# ESM and transpiling
 
-To support every modern front end environment, the `dnb-ui-lib` supports different module formats:
+To support every modern front end environment, the `dnb-ui-lib` supports different transpiled module formats:
 
 - `ESM` with ES5 (**default**)
 - `ES` with ES6
