@@ -2,6 +2,8 @@
 title: 'ESM / SSR'
 description: 'Eufemia uses ESM as their default module format. More info on this topic below.'
 order: 8
+redirect_from:
+  - /uilib/usage/first-steps/es6
 ---
 
 # ESM and transpiling
