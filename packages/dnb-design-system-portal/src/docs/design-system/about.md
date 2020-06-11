@@ -10,19 +10,28 @@ import WelcomeAdvice from 'Pages/welcome-advice'
 
 ## The Goal
 
-Eufemia is DNB Design System which consist of resources for designers and developers in order to maintain consistency and efficiency when building web applications.
+Eufemia is [DNB's](https://www.dnb.no/) design system, which consist of resources for designers and developers in order to maintain consistency and efficiency when building accessible web applications.
 
 The goal is to have a single source of truth for design through color, typography and layout guidelines as well as fully coded components to use in applications.
 
-<WelcomeAdvice />
+With Eufemia, DNB can continually increase the product quality for both visual users and users relying on assistive technologies.
 
 ### More aspects
 
+- Accessibility
 - Collaboration
 - Master files
-- Versioning
+- Versioning / system thinking
 - Patterns
 - Overall documentation
+
+### Standards
+
+Eufemia follows the industry and regulatory standards [UU](uu.difi.no) (by Digitaliseringsdirektoratet) alongside with [WCAG 2.1](www.w3.org/TR/WCAG21/).
+
+You can read more about what we at DNB UX expect and define as the minimal [accessibility requirements](/uilib/usage/accessibility) for our web applications.
+
+<WelcomeAdvice />
 
 ## Special Thanks
 
