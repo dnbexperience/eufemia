@@ -11,7 +11,7 @@ import { css, Global } from '@emotion/core'
 
 The following table has a default style. But in future, there will be several patterns and styles to choose from.
 
-You may consider using `table-layout: fixed;`
+You may consider using `table-layout: fixed;`. You can use the modifier class in doing so: `.dnb-table--fixed`
 
 ### Working Demo
 
@@ -23,6 +23,7 @@ Check out a [working example on CodeSandbox](https://codesandbox.io/embed/eufemi
 
 To enhance or manipulate the the table style, you can make use of a couple helper classes:
 
+- `.dnb-table--fixed` Table Layout
 - `.dnb-table__th` Table Header
 - `.dnb-table__td` Table Data
 - `.dnb-table__tr` Table Row
@@ -32,8 +33,8 @@ To enhance or manipulate the the table style, you can make use of a couple helpe
 - `.dnb-table--sortable` Use this on a `th` - sortable column
 - `.dnb-table--active` Use this on a `th` - current column is sorted
 - `.dnb-table--reversed` Use this on a `th` - defines the order
-- `.dnb-table--right` Use this on a `th`, `td` or `tr` - alignes the content to the right (or use `align="right"`)
-- `.dnb-table--center` Use this on a `th`, `td` or `tr` - alignes the content to the left (or use `align="center"`)
+- `.dnb-table--right` Use this on a `th`, `td` or `tr` - align the content to the right (or use `align="right"`)
+- `.dnb-table--center` Use this on a `th`, `td` or `tr` - align the content to the left (or use `align="center"`)
 
 <!-- - `.dnb-table--small` Use this on a `th`, `td` or `tr` - [font-size](/uilib/typography/font-size) is then `small` (`x-small` is also supported, but should generally be avoided due to bad accessibility) -->
 
@@ -147,7 +148,7 @@ To enhance or manipulate the the table style, you can make use of a couple helpe
 
 <ComponentBox hideCode data-dnb-test="table-sticky">
 {`
-<Table sticky="true" sticky_offset="4rem">
+<Table sticky="true" sticky_offset="4rem" className="dnb-table--fixed">
   <caption className="dnb-sr-only">A Table Caption</caption>
   <thead>
     <tr>

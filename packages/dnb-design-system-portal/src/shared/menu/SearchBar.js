@@ -56,7 +56,7 @@ export const SearchBarInput = () => {
 
   const onChangeHandler = ({ data }) => {
     try {
-      navigate(data.hit.slug)
+      navigate(`/${data.hit.slug}`.replace('//', '/'))
     } catch (e) {
       setStatus(e.message)
     }

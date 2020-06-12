@@ -9,7 +9,7 @@ HTML elements are by default good at accessibility. Eufemia components and its b
 
 [From year 2021](https://uu.difi.no/krav-og-regelverk/webdirektivet-og-wcag-21), all new and existing web solutions has to follow [WCAG 2.1](https://www.w3.org/TR/WCAG21/).
 
-On _difi.no_ you find an easy to read [ WCAG guide (Norwegian)](https://uu.difi.no/krav-og-regelverk/wcag-20-standarden).
+On _difi.no_ you find an easy to read [WCAG guide (Norwegian)](https://uu.difi.no/krav-og-regelverk/wcag-20-standarden).
 
 ## Main focus
 
