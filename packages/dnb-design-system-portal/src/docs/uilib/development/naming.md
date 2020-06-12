@@ -47,6 +47,9 @@ The DNB Design System Eufemia uses the following naming conventions.
 - Icon names use **snake case**.
 - They have to describe what they are aiming to meant for. Like: `chevron_right`
 - Sizes are added as a postfix. Like: `chevron_right_medium`
+- Only alphabetic characters (a to z) without special chars, due to import statements.
+- Figma icon naming has to match the same (icon archive) as they will define the import names.
+- Figma page and frame names (icon archive) do have to consist the same, due to the automated import mechanism.
 
 ## Documentation
 
