@@ -50,16 +50,21 @@ export default class HTML extends React.PureComponent {
             href={withPrefix('/apple-touch-icon.png')}
           />
           <link
+            rel="shortcut icon"
+            type="image/x-icon"
+            href={withPrefix('/favicon.ico')}
+          />
+          <link
             rel="icon"
             type="image/png"
             sizes="32x32"
-            href={withPrefix('/avicon-32x32.png')}
+            href={withPrefix('/favicon-32x32.png')}
           />
           <link
             rel="icon"
             type="image/png"
             sizes="16x16"
-            href={withPrefix('/avicon-16x16.png')}
+            href={withPrefix('/favicon-16x16.png')}
           />
           <link
             rel="mask-icon"
