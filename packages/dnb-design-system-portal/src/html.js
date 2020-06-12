@@ -5,13 +5,25 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import { withPrefix } from 'gatsby'
 
 // preload our default fonts
 import fontRegular from 'dnb-ui-lib/assets/fonts/DNB-Regular.woff2'
 import fontMedium from 'dnb-ui-lib/assets/fonts/DNB-Medium.woff2'
-import fontBold from 'dnb-ui-lib/assets/fonts/DNB-Bold.woff2'
+// import fontBold from 'dnb-ui-lib/assets/fonts/DNB-Bold.woff2'// we do not use bold for now
 import fontMonoRegular from 'dnb-ui-lib/assets/fonts/DNBMono-Regular.woff2'
+
+// load icons
+import { withPrefix } from 'gatsby' // use it like this: withPrefix('/safari-pinned-tab.svg')
+// import appleTouchIcon from 'dnb-ui-lib/assets/browser/apple-touch-icon.png'
+// import favicon32 from 'dnb-ui-lib/assets/browser/favicon-32x32.png'
+// import favicon16 from 'dnb-ui-lib/assets/browser/favicon-16x16.png'
+// import safariPinnedTab from 'dnb-ui-lib/assets/browser/safari-pinned-tab.svg'
+
+// load properties
+import properties from 'dnb-ui-lib/src/style/properties.js'
+const mainColor = properties['--color-sea-green']
+
+exports.mainColor = mainColor
 
 export default class HTML extends React.PureComponent {
   render() {
@@ -41,33 +53,32 @@ export default class HTML extends React.PureComponent {
             rel="icon"
             type="image/png"
             sizes="32x32"
-            href={withPrefix('/favicon-32x32.png')}
+            href={withPrefix('/avicon-32x32.png')}
           />
           <link
             rel="icon"
             type="image/png"
             sizes="16x16"
-            href={withPrefix('/favicon-16x16.png')}
+            href={withPrefix('/avicon-16x16.png')}
           />
           <link
             rel="mask-icon"
+            // href={safariPinnedTab}
             href={withPrefix('/safari-pinned-tab.svg')}
-            color="#007272"
+            color={mainColor}
           />
-          <meta name="msapplication-TileColor" content="#007272" />
-          <meta name="theme-color" content="#007272" />
-          {[fontRegular, fontMedium, fontBold, fontMonoRegular].map(
-            (font) => (
-              <link
-                key={font}
-                rel="preload"
-                as="font"
-                type="font/woff2"
-                href={font}
-                crossOrigin="anonymous"
-              />
-            )
-          )}
+          <meta name="msapplication-TileColor" content={mainColor} />
+          <meta name="theme-color" content={mainColor} />
+          {[fontRegular, fontMedium, fontMonoRegular].map((font) => (
+            <link
+              key={font}
+              rel="preload"
+              as="font"
+              type="font/woff2"
+              href={font}
+              crossOrigin="anonymous"
+            />
+          ))}
           {headComponents}
         </head>
         <body {...bodyAttributes}>
