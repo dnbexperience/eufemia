@@ -66,7 +66,7 @@ export const registerElement = (
       return newAttr
     }
     // adoptedCallback: Invoked when the custom element is moved to a new document.
-    detachedCallback() {
+    disconnectedCallback() {
       ReactDOM.unmountComponentAtNode(this)
       if (this._children) delete this._children
       if (this._isConnected) delete this._isConnected
@@ -120,34 +120,40 @@ export const registerElement = (
           // add a react function prop or event callback
           props[type] = (...args) => {
             try {
-              // check if there is a element returned, convert it to html then
-              if (args[0]) {
-                if (React.isValidElement(args[0])) args[0] = [args[0]]
-                if (Array.isArray(args[0])) {
-                  const elems = []
-                  // we have to overwrite the first arg like this - and cant use map/reduce here
-                  args[0].forEach((elem) => {
-                    if (React.isValidElement(elem)) {
-                      const rootEl = document.createElement('div') // createDocumentFragment
-                      ReactDOM.render(elem, rootEl)
-                      elems.push(rootEl)
-                    }
-                  })
-                  if (elems.length > 0) args[0] = elems
-                }
-              }
+              // NB: This code is not documented and not used
+              // Removed june 12, 2020
+              // // check if there is a element returned, convert it to html then
+              // if (args[0]) {
+              //   if (React.isValidElement(args[0])) {
+              //     args[0] = [args[0]]
+              //   }
+              //   if (Array.isArray(args[0])) {
+              //     const elems = []
+              //     // we have to overwrite the first arg like this - and cant use map/reduce here
+              //     args[0].forEach((elem) => {
+              //       if (React.isValidElement(elem)) {
+              //         const rootEl = document.createElement('div') // createDocumentFragment
+              //         ReactDOM.render(elem, rootEl)
+              //         elems.push(rootEl)
+              //       }
+              //     })
+              //     if (elems.length > 0) {
+              //       args[0] = elems
+              //     }
+              //   }
+              // }
 
               // call the function, either it in a class or not
               let [scope, fn] = func.split('.')
               fn = fn ? window[scope][fn] : window[scope]
-              const ret = fn.apply(scope, [...args])
+              const component = fn.apply(scope, [...args])
 
               // convert to react if we get an HTMLElement
               // this is used for custom renderer
-              if (ret instanceof HTMLElement) {
+              if (component instanceof HTMLElement) {
                 const children = [],
-                  cn = ret.childNodes,
-                  a = ret.attributes,
+                  cn = component.childNodes,
+                  a = component.attributes,
                   props = {}
 
                 for (let i = cn.length; i--; ) {
@@ -161,13 +167,13 @@ export const registerElement = (
                     a[i].value
                 }
 
-                const nodeName = ret.nodeName.toLowerCase()
-                ret.remove()
+                const nodeName = component.nodeName.toLowerCase()
+                component.remove()
 
                 return React.createElement(nodeName, props, children)
               }
 
-              return ret
+              return component
             } catch (error) {
               new ErrorHandler(
                 `The '${type}' event has failed. '${func}' has to exist on a 'window' scope!`,
@@ -194,7 +200,7 @@ export const registerElement = (
     }
     addEvent(eventName, eventCallback) {
       const eventWrapper = (event) => eventCallback.apply(this, [event])
-      this._customEvents.push({ eventName, eventCallback, eventWrapper })
+      this._customEvents?.push({ eventName, eventCallback, eventWrapper })
       return eventWrapper
     }
     removeEvent(eventId, removeCallback = null) {
