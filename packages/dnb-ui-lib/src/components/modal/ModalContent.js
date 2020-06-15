@@ -29,7 +29,11 @@ export default class ModalContent extends React.PureComponent {
     mode: PropTypes.string,
     labelled_by: PropTypes.string,
     content_id: PropTypes.string,
-    title: PropTypes.string,
+    title: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.node,
+      PropTypes.func
+    ]),
     close_title: PropTypes.string,
     hide_close_button: PropTypes.oneOfType([
       PropTypes.string,
@@ -336,7 +340,7 @@ export default class ModalContent extends React.PureComponent {
             {title && (
               <h1 className="dnb-modal__title dnb-h--large">{title}</h1>
             )}
-            {isTrue(hide_close_button) !== true && (
+            {!isTrue(hide_close_button) && (
               <CloseButton on_click={closeModal} title={close_title} />
             )}
             <div className="dnb-modal__wrapper">{modal_content}</div>

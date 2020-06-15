@@ -35,7 +35,11 @@ const propTypes = {
   id: PropTypes.string,
   mode: PropTypes.oneOf(['modal', 'drawer']),
   labelled_by: PropTypes.string,
-  title: PropTypes.string,
+  title: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.node,
+    PropTypes.func
+  ]),
   disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   trigger_hidden: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   trigger_disabled: PropTypes.oneOfType([
