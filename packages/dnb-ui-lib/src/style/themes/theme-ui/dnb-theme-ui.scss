@@ -25,6 +25,7 @@
   All the themes get auto generated in here
 */
 
+@import '../../../components/accordion/style/themes/dnb-accordion-theme-ui.scss';
 @import '../../../components/autocomplete/style/themes/dnb-autocomplete-theme-ui.scss';
 @import '../../../components/button/style/themes/dnb-button-theme-ui.scss';
 @import '../../../components/checkbox/style/themes/dnb-checkbox-theme-ui.scss';
@@ -50,6 +51,6 @@
 @import '../../../components/tabs/style/themes/dnb-tabs-theme-ui.scss';
 @import '../../../components/textarea/style/themes/dnb-textarea-theme-ui.scss';
 @import '../../../components/toggle-button/style/themes/dnb-toggle-button-theme-ui.scss';
+@import '../../../components/tooltip/style/themes/dnb-tooltip-theme-ui.scss';
 @import '../../../fragments/drawer-list/style/themes/dnb-drawer-list-theme-ui.scss';
 @import '../../../fragments/scroll-view/style/themes/dnb-scroll-view-theme-ui.scss';
-@import '../../../components/tooltip/style/themes/dnb-tooltip-theme-ui.scss';
