@@ -119,16 +119,26 @@ render(<WidthLimit>
 
 ### Definition Lists
 
+Use Definition Lists when ever you have to tie together any items that have a direct relationship with each other (name/value sets).
+
+You can use multiples of `<dt>` and `<dd>` within a definition list.
+
+You can also use block level elements in the definition description, such as the `<p>` and `<ul>` elements. But you cannot use block level elements inside a definition term.
+
+Any styling can be applied.
+
 <ComponentBox hideCode useRender data-dnb-test="lists-dl">
 {`
 // import { Dl } from 'dnb-ui-lib/elements'
-render(<Dl className="dnb-dl">
-  <dt>Title</dt>
+render(<Dl>
+  <dt>Term</dt>
   <dd>Description</dd>
-  <dt>Title</dt>
-  <dd>Description</dd>
+  <dt>Term</dt>
+  <dd>Description 1</dd>
+  <dd>Description 2</dd>
+  <dd>Description 3</dd>
   <dl className="dnb-dl">
-    <dt>Sub Title</dt>
+    <dt>Sub Term</dt>
     <dd>Sub Description</dd>
   </dl>
 </Dl>)
