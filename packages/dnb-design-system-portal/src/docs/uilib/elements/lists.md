@@ -126,7 +126,9 @@ render(<Dl>
   <dt>Title</dt>
   <dd>Description</dd>
   <dt>Title</dt>
-  <dd>Description</dd>
+  <dd>Description 1</dd>
+  <dd>Description 2</dd>
+  <dd>Description 3</dd>
   <dl className="dnb-dl">
     <dt>Sub Title</dt>
     <dd>Sub Description</dd>
