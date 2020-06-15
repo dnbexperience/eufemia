@@ -122,7 +122,7 @@ render(<WidthLimit>
 <ComponentBox hideCode useRender data-dnb-test="lists-dl">
 {`
 // import { Dl } from 'dnb-ui-lib/elements'
-render(<Dl className="dnb-dl">
+render(<Dl>
   <dt>Title</dt>
   <dd>Description</dd>
   <dt>Title</dt>
