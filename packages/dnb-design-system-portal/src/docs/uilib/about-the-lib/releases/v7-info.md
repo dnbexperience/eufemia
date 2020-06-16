@@ -25,6 +25,7 @@ v7 contains a couple of _braking changes_. As a migration process, you can simpl
 1. Find `dnb-h4` and replace it with `dnb-h--basis`
 1. Find `dnb-h5` and replace it with `dnb-h--small`
 1. Find `dnb-h6` and replace it with `dnb-h--x-small`
+1. Find `prevent_selection` and replace it with `more_menu` (you may have to define a different icon as well)
 1. If you used `style_type`, like `<H1 style_type="small">` before, use rather `<H1 size="x-large">` and the same applies to `<P style_type="small">`, so use the `modifier` prop here `<P modifier="small">`
 1. **For UMD usage only** find `dnb-ui-lib.min.js` replace it with `dnb-ui-web-components.min.js`
 1. The [Anchor (Text link)](/uilib/elements/anchor) has now also the defualt font-size of 18px (basis) - this means, you may have places where you would rather inherit the font-size by: `.dnb-anchor { font-size: inherit; }`

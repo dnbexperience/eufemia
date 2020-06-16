@@ -151,7 +151,8 @@ render(
   prevent_selection="true"
   align_dropdown="right"
   size="small"
-  title="Choose an item"
+  title={null}
+  aria-label="Choose an item"
   data={() => ['Go this this Link', 'Or press on me', <>Custom component</>]}
   right="small"
 />
@@ -164,7 +165,8 @@ render(
 <Dropdown
   prevent_selection="true"
   align_dropdown="right"
-  title="Choose an item"
+  title={null}
+  aria-label="Choose an item"
   data={['Go this this Link', 'Or press on me', <>Custom component</>]}
   on_change={({ value }) => {
     console.log('on_change', value)

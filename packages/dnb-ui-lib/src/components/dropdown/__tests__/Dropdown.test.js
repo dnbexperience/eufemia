@@ -161,12 +161,14 @@ describe('Dropdown component', () => {
   it('has no selected items on using prevent_selection', async () => {
     let selectedItem
     const on_change = jest.fn()
+    const title = 'custom title'
 
     const Comp = mount(
       <Component
         {...props}
         value={null}
         data={mockData}
+        title={title}
         on_change={on_change}
         prevent_selection
       />
@@ -199,11 +201,20 @@ describe('Dropdown component', () => {
     expect(event.selected_item).toBe(1)
     expect(event.active_item).toBe(undefined)
     expect(event.data).toStrictEqual(selectedItem)
+
+    expect(Comp.find('.dnb-dropdown__text').text()).toBe(title)
   })
 
   it('has no selected items on using more_menu', async () => {
+    const title = 'custom title'
     const Comp = mount(
-      <Component {...props} value={null} data={mockData} more_menu />
+      <Component
+        {...props}
+        value={null}
+        data={mockData}
+        title={title}
+        more_menu
+      />
     )
 
     // open first
@@ -226,6 +237,8 @@ describe('Dropdown component', () => {
     expect(Comp.find('.dnb-icon').instance().getAttribute('alt')).toBe(
       'more'
     )
+
+    expect(Comp.exists('.dnb-dropdown__text')).toBe(false)
   })
 
   it('has valid on_change callback', async () => {
