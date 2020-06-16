@@ -6,6 +6,7 @@ You can manipulate the used data dynamically, either by changing the `data` prop
 
 - `updateData` replace all data entries.
 - `emptyData` remove all data entries.
+- `setInputValue` update the input value.
 - `showIndicator` shows a progress indicator instead of the icon (inside the input).
 - `hideIndicator` hides the progress indicator inside the input.
 - `showIndicatorItem` shows an item with a [ProgressIndicator](/uilib/components/progress-indicator) status as an data option item.

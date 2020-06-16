@@ -19,6 +19,7 @@ import {
 import { getOffsetTop, hasSelectedText } from '../../shared/helpers'
 import {
   getData,
+  normalizeData,
   findClosest,
   getSelectedItemValue,
   parseContentTitle,
@@ -930,13 +931,14 @@ export default class DrawerListProvider extends React.PureComponent {
       data = getData(data)
     }
 
+    data = normalizeData(data)
+
     this.setState(
       {
         data,
-        original_data:
-          !overwriteOriginalData && this.state.original_data
-            ? this.state.original_data
-            : data,
+        original_data: overwriteOriginalData
+          ? data
+          : this.state.original_data,
         _listenForPropChanges: false
       },
       () => typeof cb === 'function' && cb(data)

@@ -9,6 +9,7 @@ import { Wrapper, Box } from '../helpers'
 import styled from '@emotion/styled'
 
 import {
+  // Autocomplete,
   Dropdown,
   Button,
   FormLabel,
@@ -56,6 +57,9 @@ const DropdownStory = () => {
   return (
     <Wrapper>
       <CustomWidth>
+        <Box>
+          <UpdateDataExample></UpdateDataExample>
+        </Box>
         <Box>
           <Modal mode="drawer">
             <Dropdown
@@ -701,4 +705,69 @@ const termsCurrencies = ['SEK', 'NOK']
 
 const strings = {
   currencyBlankLabel: '-- Choose Currency --'
+}
+
+const initialData = [
+  { selected_value: '1', content: '1' },
+  { selected_value: '2', content: '2' },
+  { selected_value: '3', content: '3' },
+  { selected_value: '4', content: '4' }
+]
+
+function UpdateDataExample() {
+  const [choiceData, setChoiceData] = React.useState(initialData)
+  const [selectedData, setSelectedData] = React.useState([])
+
+  return (
+    <>
+      <pre>
+        Selected data:{' '}
+        {selectedData.map((item) => (
+          <Button
+            key={item.selected_value}
+            size="small"
+            on_click={() => {
+              const updatedSelectedData = selectedData.filter(
+                ({ selected_value }) =>
+                  item.selected_value !== selected_value
+              )
+              setSelectedData(updatedSelectedData)
+              setChoiceData(
+                initialData.filter(
+                  ({ selected_value }) =>
+                    updatedSelectedData.findIndex(
+                      ({ selected_value: updatedValue }) =>
+                        updatedValue === selected_value
+                    ) === -1
+                )
+              )
+            }}
+          >
+            {item.content}
+          </Button>
+        ))}
+      </pre>
+
+      <Dropdown
+        title="Choose an item"
+        prevent_selection
+        data={choiceData}
+        on_change={({ data }) => {
+          setChoiceData(
+            choiceData.filter(
+              (item) => item.selected_value !== data.selected_value
+            )
+          )
+          if (
+            selectedData.findIndex(
+              ({ selected_value }) =>
+                selected_value === data.selected_value
+            ) === -1
+          ) {
+            setSelectedData([...selectedData, data])
+          }
+        }}
+      />
+    </>
+  )
 }

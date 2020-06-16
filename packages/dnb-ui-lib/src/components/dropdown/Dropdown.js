@@ -202,16 +202,16 @@ export default class Dropdown extends React.PureComponent {
   }
 
   render() {
+    const { more_menu, prevent_selection, children, data } = this.props
+
     return (
       <DrawerListProvider
         {...this.props}
-        data={this.props.data || this.props.children}
+        data={data || children}
         opened={null}
         tagName="dnb-dropdown"
         ignore_events={false}
-        prevent_selection={
-          this.props.more_menu || this.props.prevent_selection
-        }
+        prevent_selection={more_menu || prevent_selection}
       >
         <DropdownInstance {...this.props} />
       </DrawerListProvider>
@@ -429,7 +429,8 @@ class DropdownInstance extends React.PureComponent {
     let { icon, icon_position } = props
     const id = this._id
 
-    const isPopupMenu = isTrue(more_menu) || isTrue(prevent_selection)
+    const isPopupMenu =
+      isTrue(more_menu) || !(titleProp && titleProp.length > 0)
     if (isPopupMenu) {
       icon = icon || (isTrue(more_menu) ? 'more' : 'chevron_down')
       if (icon_position !== 'right' && align_dropdown !== 'right') {
