@@ -321,9 +321,7 @@ class AutocompleteInstance extends React.PureComponent {
       }
 
       if (props.data !== state.init_data) {
-        state.context.drawerList.setData(props.data, null, {
-          overwriteOriginalData: true
-        })
+        state.updateData(props.data)
         state.init_data = props.data
       }
     }
@@ -343,7 +341,7 @@ class AutocompleteInstance extends React.PureComponent {
     this.state._listenForPropChanges = true
     this.state.mode = props.mode
     this.state.init_data = props.data // only to compare agains new data
-    this.state.context = context // only so we can call setData
+    this.state.updateData = this.updateData // only so we can call setData
 
     if (context.drawerList?.current_title) {
       this.state.inputValue = context.drawerList.current_title
