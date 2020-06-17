@@ -356,7 +356,35 @@ describe('Autocomplete component', () => {
     ).toBe(result)
   })
 
-  it('has to replace all data properly', () => {
+  it('and new data has to replace all data properly in sync mode', () => {
+    const replaceData = ['aaa']
+
+    const Comp = mount(<Component data={mockData} {...mockProps} />)
+
+    keydown(Comp, 40) // down
+
+    Comp.find('.dnb-input__input').simulate('change', {
+      target: { value: 'aa' }
+    })
+
+    expect(Comp.find('li.dnb-drawer-list__option').length).toBe(2)
+
+    // update data
+    Comp.setProps({
+      data: replaceData
+    })
+
+    Comp.find('.dnb-input__input').simulate('change', {
+      target: { value: 'a' }
+    })
+
+    expect(Comp.find('li.dnb-drawer-list__option').length).toBe(1)
+    expect(Comp.find('li.dnb-drawer-list__option').at(0).text()).toBe(
+      'aaa'
+    )
+  })
+
+  it('and updateData has to replace all data properly in asyc mode', () => {
     const on_type = jest.fn()
     const replaceData = ['aaa']
 
@@ -366,7 +394,6 @@ describe('Autocomplete component', () => {
         disable_filter
         on_type={on_type}
         data={mockData}
-        // show_submit_button
         {...mockProps}
       />
     )
@@ -377,15 +404,10 @@ describe('Autocomplete component', () => {
       target: { value: 'aa' }
     })
 
-    // const result = Comp.find('.dnb-drawer-list__list').html()
-    // console.log('result 1:\n', result)
-
     let callOne = on_type.mock.calls[0][0]
     expect(Comp.find('li.dnb-drawer-list__option').length).toBe(3)
     expect(on_type.mock.calls.length).toBe(1)
     expect(callOne.dataList.length).toBe(3)
-
-    // console.log('callOne 1:\n', callOne.dataList)
 
     // update data
     callOne.updateData(replaceData)
@@ -394,14 +416,10 @@ describe('Autocomplete component', () => {
       target: { value: 'a' }
     })
 
-    // const result = Comp.find('.dnb-drawer-list__list').html()
-    // console.log('result 2:\n', result)
-
     const callTwo = on_type.mock.calls[1][0]
     expect(Comp.find('li.dnb-drawer-list__option').length).toBe(1)
     expect(on_type.mock.calls.length).toBe(2)
     expect(callTwo.dataList.length).toBe(1)
-    // console.log('event 2:\n', callTwo.dataList)
     expect(callOne.dataList).not.toBe(callTwo.dataList)
 
     Comp.find('.dnb-input__input').simulate('change', {
@@ -409,7 +427,6 @@ describe('Autocomplete component', () => {
     })
 
     const callThree = on_type.mock.calls[2][0]
-    // console.log('event 3:\n', callThree.dataList)
     expect(callThree.dataList).toStrictEqual(callTwo.dataList)
   })
 

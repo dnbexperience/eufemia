@@ -203,6 +203,14 @@ describe('Dropdown component', () => {
     expect(event.data).toStrictEqual(selectedItem)
 
     expect(Comp.find('.dnb-dropdown__text').text()).toBe(title)
+    expect(Comp.exists('.dnb-dropdown--is-popup')).toBe(false)
+
+    Comp.setProps({
+      title: null
+    })
+
+    expect(Comp.exists('.dnb-dropdown__text')).toBe(false)
+    expect(Comp.exists('.dnb-dropdown--is-popup')).toBe(true)
   })
 
   it('has no selected items on using more_menu', async () => {
@@ -239,6 +247,7 @@ describe('Dropdown component', () => {
     )
 
     expect(Comp.exists('.dnb-dropdown__text')).toBe(false)
+    expect(Comp.exists('.dnb-dropdown--is-popup')).toBe(true)
   })
 
   it('has valid on_change callback', async () => {
