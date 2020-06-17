@@ -11,7 +11,7 @@ import { makeUniqueId } from './component-helper'
 // fill with data
 import { prepareFormRowContext } from '../components/form-row/FormRow'
 
-class Provider extends React.PureComponent {
+export default class Provider extends React.PureComponent {
   static contextType = Context
   static propTypes = {
     children: PropTypes.node.isRequired
@@ -118,5 +118,3 @@ class Provider extends React.PureComponent {
     return <Context.Provider value={context}>{children}</Context.Provider>
   }
 }
-
-export default Provider

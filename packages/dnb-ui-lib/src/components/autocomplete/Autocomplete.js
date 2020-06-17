@@ -455,10 +455,11 @@ class AutocompleteInstance extends React.PureComponent {
   runFilterWithSideEffects = (value, options = {}) => {
     // run the filter also on invalid values, so we reset the highlight
     const data = this.runFilter(value, options)
+    const count = this.countData(data)
 
     this.context.drawerList.setState(
       {
-        cache_hash: value + this.countData(data)
+        cache_hash: value + count
       },
       () =>
         typeof options?.afterSetState === 'function' &&
@@ -467,14 +468,14 @@ class AutocompleteInstance extends React.PureComponent {
 
     if (value && value.length > 0) {
       // show the "no_options" message
-      if (this.countData(data) === 0) {
+      if (count === 0) {
         if (this.state.mode !== 'async') {
           this.showNoOptionsItem()
         }
-      } else if (this.countData(data) > 0) {
+      } else if (count > 0) {
         this.context.drawerList.setData(this.wrapWithShowAll(data))
 
-        if (this.countData(data) === 1) {
+        if (count === 1) {
           this.context.drawerList.setState({
             active_item: data[0].__id
           })

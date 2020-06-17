@@ -88,3 +88,14 @@ render(
   </Provider>
 )
 ```
+
+## Provider and context troubleshooting
+
+If there is a module format deviation, components do not share anymore the same provider and context. So, make sure you have a consistent import routine, not like this:
+
+```js
+// NB: Example of deviant module formats
+import Provider from 'dnb-ui-lib/shared/Provider' // like /esm
+import { Button } from 'dnb-ui-lib/es'
+import { Number } from 'dnb-ui-lib/cjs/components'
+```
