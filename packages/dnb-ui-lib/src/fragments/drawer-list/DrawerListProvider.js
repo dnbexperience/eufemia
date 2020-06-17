@@ -50,7 +50,14 @@ const propTypes = {
   keep_open: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   prevent_focus: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   skip_keysearch: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  use_mobile_view: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  use_drawer_on_mobile: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.bool
+  ]),
+  enable_body_lock: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.bool
+  ]),
   page_offset: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   observer_element: PropTypes.oneOfType([
     PropTypes.string,
@@ -81,7 +88,8 @@ const defaultProps = {
   keep_open: false,
   prevent_focus: false,
   skip_keysearch: false,
-  use_mobile_view: null,
+  use_drawer_on_mobile: null,
+  enable_body_lock: null,
   page_offset: null,
   observer_element: null,
   opened: null,
@@ -123,8 +131,6 @@ export default class DrawerListProvider extends React.PureComponent {
     this._refShell = React.createRef()
     this._refUl = React.createRef()
     this._refTriangle = React.createRef()
-
-    this.mobileViewIsEnabled = null
   }
 
   // NB: Not sure if this is needed anymore!
@@ -224,20 +230,20 @@ export default class DrawerListProvider extends React.PureComponent {
     }
   }
 
-  enableMobileView = () => {
-    this.mobileViewIsEnabled = true
+  enableBodyLock = () => {
+    this._bodyLockIsEnabled = true
 
     // wait unitl render is complete and we have a valid this._refUl.current
-    clearTimeout(this._mobileViewTimeout)
-    this._mobileViewTimeout = setTimeout(
+    clearTimeout(this._drawerTimeout)
+    this._drawerTimeout = setTimeout(
       () => disableBodyScroll(this._refUl.current),
       1
     )
   }
 
-  disableMobileView = () => {
-    this.mobileViewIsEnabled = null
-    clearTimeout(this._mobileViewTimeout)
+  disableBodyLock = () => {
+    this._bodyLockIsEnabled = null
+    clearTimeout(this._drawerTimeout)
     enableBodyScroll(this._refUl.current)
   }
 
@@ -251,8 +257,8 @@ export default class DrawerListProvider extends React.PureComponent {
     }
 
     const {
-      // skip_portal,
-      use_mobile_view,
+      enable_body_lock,
+      use_drawer_on_mobile,
       scrollable,
       min_height,
       max_height,
@@ -262,7 +268,8 @@ export default class DrawerListProvider extends React.PureComponent {
     } = this.props
 
     // const skipPortal = isTrue(skip_portal)
-    const useMobileView = isTrue(use_mobile_view)
+    const useBodyLock = isTrue(enable_body_lock)
+    const useDrawer = isTrue(use_drawer_on_mobile)
     const isScrollable = isTrue(scrollable)
     const customMinHeight = parseFloat(min_height) * 16
     const customMaxHeight = parseFloat(max_height) || 0
@@ -357,28 +364,28 @@ export default class DrawerListProvider extends React.PureComponent {
             max_height
           })
         }
-
-        if (useMobileView) {
-          // Like @media screen and (max-width: 40em) { ...
-          if (
-            (window.innerWidth / 16 <= 40 ||
-              window.innerHeight / 16 <= 40) &&
-            this.mobileViewIsEnabled === null
-          ) {
-            this.enableMobileView()
-          } else if (this.mobileViewIsEnabled) {
-            this.disableMobileView()
-          }
-        }
       } catch (e) {
         warn('List could not set onResize:', e)
       }
     }
 
     // debounce
-    this.setDirection = () => {
+    this.setDirection = (e) => {
       clearTimeout(this._ddt)
       this._ddt = setTimeout(renderDirection, 30)
+
+      if (useDrawer && e.type === 'resize') {
+        console.log('window.innerWidth / 16', window.innerWidth / 16)
+        if (
+          !this._bodyLockIsEnabled &&
+          // Like @media screen and (max-width: 40em) { ...
+          (window.innerWidth / 16 <= 40 || window.innerHeight / 16 <= 40)
+        ) {
+          this.enableBodyLock()
+        } else if (this._bodyLockIsEnabled && !useBodyLock) {
+          this.disableBodyLock()
+        }
+      }
     }
 
     // customElem can be a modal etc.
@@ -394,6 +401,14 @@ export default class DrawerListProvider extends React.PureComponent {
     }
 
     renderDirection()
+
+    if (
+      useBodyLock ||
+      (useDrawer && // Like @media screen and (max-width: 40em) { ...
+        (window.innerWidth / 16 <= 40 || window.innerHeight / 16 <= 40))
+    ) {
+      this.enableBodyLock()
+    }
   }
 
   // this gives us the possibility to quickly search for an item
@@ -524,7 +539,7 @@ export default class DrawerListProvider extends React.PureComponent {
   }
 
   removeDirectionObserver() {
-    this.disableMobileView()
+    this.disableBodyLock()
 
     clearTimeout(this._ddt)
     if (typeof window !== 'undefined' && this.setDirection) {

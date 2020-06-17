@@ -47,7 +47,10 @@ export const propTypes = {
     PropTypes.string,
     PropTypes.bool
   ]),
-  use_mobile_view: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  use_drawer_on_mobile: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.bool
+  ]),
   prevent_selection: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.bool
@@ -144,7 +147,7 @@ export const defaultProps = {
   size: 'default',
   no_animation: false,
   no_scroll_animation: false,
-  use_mobile_view: false,
+  use_drawer_on_mobile: false,
   prevent_selection: false,
   align_drawer: 'left',
   wrapper_element: null,
@@ -266,7 +269,7 @@ class DrawerListInstance extends React.PureComponent {
     const {
       align_drawer,
       fixed_position,
-      use_mobile_view,
+      use_drawer_on_mobile,
       independent_width,
       scrollable,
       focusable,
@@ -327,7 +330,7 @@ class DrawerListInstance extends React.PureComponent {
         isTrue(scrollable) && 'dnb-drawer-list--scroll',
         isTrue(no_scroll_animation) &&
           'dnb-drawer-list--no-scroll-animation',
-        isTrue(use_mobile_view) && 'dnb-drawer-list--mobile-view',
+        isTrue(use_drawer_on_mobile) && 'dnb-drawer-list--mobile-view',
         createSpacingClasses(props),
         _className,
         className
@@ -482,7 +485,7 @@ class DrawerListInstance extends React.PureComponent {
             opened={hidden === false}
             useWidthAddition={align_drawer === 'right'}
             fixedPosition={isTrue(fixed_position)}
-            useMobileView={isTrue(use_mobile_view)}
+            useMobileView={isTrue(use_drawer_on_mobile)}
           >
             {mainList}
           </DrawerListPortal>

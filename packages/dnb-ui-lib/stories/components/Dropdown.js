@@ -56,14 +56,14 @@ const DropdownStory = () => {
   const [value, setSelectedItem] = React.useState(0)
   return (
     <Wrapper>
-      <CustomWidth>
-        <Box>
-          <UpdateDataExample></UpdateDataExample>
-        </Box>
+      <Box>
+        <UpdateDataExample></UpdateDataExample>
+      </Box>
+      <CustomWidth hidden>
         <Box>
           <Modal mode="drawer">
             <Dropdown
-              use_mobile_view
+              use_drawer_on_mobile
               label={label}
               data={dropdownDataScrollable}
             />
@@ -85,8 +85,8 @@ const DropdownStory = () => {
           <Dropdown
             size="small"
             opened={opened}
-            use_mobile_view
-            no_animation
+            use_drawer_on_mobile
+            // no_animation
             direction={direction}
             align_dropdown={align_dropdown}
             label={label}
@@ -612,8 +612,8 @@ function DropdownStates() {
       <>{JSON.stringify(state)}</>
       <Dropdown
         data={dropdownDataScrollable}
-        title="Dropdown 1"
-        use_mobile_view
+        title="use_drawer_on_mobile"
+        use_drawer_on_mobile
         on_change={handleOnChange}
       />
       <Dropdown
@@ -724,6 +724,7 @@ function UpdateDataExample() {
         Selected data:{' '}
         {selectedData.map((item) => (
           <Button
+            tooltip="Scelerisque ligula porta nam vitae nunc aptent cubilia felis duis sollicitudin cras purus posuere facilisis est dui congue aenean adipiscing"
             key={item.selected_value}
             size="small"
             on_click={() => {
@@ -751,6 +752,7 @@ function UpdateDataExample() {
       <Dropdown
         title="Choose an item"
         prevent_selection
+        enable_body_lock
         data={choiceData}
         on_change={({ data }) => {
           setChoiceData(
