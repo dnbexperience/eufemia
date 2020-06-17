@@ -209,6 +209,7 @@ export const prepareStartupState = (props) => {
   return {
     opened,
     data,
+    init_data: props.data,
     original_data: data, // used to reset in case we reorder data etc.
     raw_data, // to have a backup to look up what we got in the first place (array vs object)
     direction: props.direction,
@@ -229,12 +230,9 @@ export const prepareDerivedState = (props, state) => {
   }
 
   if (state._listenForPropChanges) {
-    if (
-      ((props.data || props.prepared_data) &&
-        typeof props.data !== 'function') ||
-      props.children
-    ) {
+    if (props.data && props.data !== state.init_data) {
       state.data = getData(props)
+      state.init_data = props.data
     }
 
     state.usePortal =
