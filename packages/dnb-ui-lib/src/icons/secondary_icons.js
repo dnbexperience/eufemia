@@ -17,6 +17,7 @@ import login from './login.js'
 import logout from './logout.js'
 import pay_from from './pay_from.js'
 import pencil from './pencil.js'
+import person from './person.js'
 import print from './print.js'
 import redo from './redo.js'
 import refresh from './refresh.js'
@@ -48,6 +49,7 @@ export {
   logout,
   pay_from,
   pencil,
+  person,
   print,
   redo,
   refresh,
