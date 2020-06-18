@@ -1,4 +1,4 @@
-## November, 30. 2019
+## June, 18. 2020
 
 New [Icons](/icons/secondary):
 
@@ -6,6 +6,7 @@ New [Icons](/icons/secondary):
 - secondary `bankid_on_mobile`
 - secondary `bankid_with_qr`
 - secondary `without_bankid`
+- secondary `person`
 
 ## June, 4. 2020
 
