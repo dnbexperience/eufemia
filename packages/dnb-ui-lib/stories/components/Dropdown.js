@@ -45,6 +45,10 @@ const CustomWidth = styled.div`
     width: 8rem;
   }
 `
+const RightAligned = styled.div`
+  display: flex;
+  justify-content: space-between;
+`
 
 const direction = 'auto'
 const label = 'Label'
@@ -57,9 +61,29 @@ const DropdownStory = () => {
   return (
     <Wrapper>
       <Box>
+        <RightAligned>
+          <Dropdown
+            size="small"
+            opened
+            more_menu
+            data={['Go this this Link', 'Or to this one']}
+            // skip_portal
+            align_dropdown="right"
+          />
+          <Dropdown
+            size="small"
+            opened
+            more_menu
+            data={['Go this this Link', 'Or to this one']}
+            // skip_portal
+            // align_dropdown="right"
+          />
+        </RightAligned>
+      </Box>
+      <Box>
         <UpdateDataExample></UpdateDataExample>
       </Box>
-      <CustomWidth hidden>
+      <CustomWidth>
         <Box>
           <Modal mode="drawer">
             <Dropdown
@@ -189,7 +213,7 @@ const DropdownStory = () => {
             />
             <Dropdown
               size="medium"
-              prevent_selection="true"
+              more_menu="true"
               opened={opened}
               label={label}
               no_animation
@@ -200,7 +224,7 @@ const DropdownStory = () => {
             />
             <Dropdown
               size="large"
-              prevent_selection
+              more_menu
               opened={opened}
               label={label}
               no_animation
@@ -724,7 +748,6 @@ function UpdateDataExample() {
         Selected data:{' '}
         {selectedData.map((item) => (
           <Button
-            tooltip="Scelerisque ligula porta nam vitae nunc aptent cubilia felis duis sollicitudin cras purus posuere facilisis est dui congue aenean adipiscing"
             key={item.selected_value}
             size="small"
             on_click={() => {

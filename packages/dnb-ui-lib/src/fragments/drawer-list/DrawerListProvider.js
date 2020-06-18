@@ -16,7 +16,11 @@ import {
   getPreviousSibling,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
-import { getOffsetTop, hasSelectedText } from '../../shared/helpers'
+import {
+  getOffsetTop,
+  getOffsetLeft,
+  hasSelectedText
+} from '../../shared/helpers'
 import {
   getData,
   normalizeData,
@@ -158,28 +162,33 @@ export default class DrawerListProvider extends React.PureComponent {
     this.removeOutsideClickObserver()
   }
 
+  refreshScrollObserver() {
+    if (typeof window === 'undefined' || !this._refUl.current) {
+      return
+    }
+
+    this.itemSpots = this.state.data.reduce((acc, cur, i) => {
+      const element = this._refUl.current?.querySelector(
+        `li.dnb-drawer-list__option:nth-of-type(${i + 1})`
+      )
+      if (element) {
+        acc[element.offsetTop] = {
+          i
+        }
+      }
+      return acc
+    }, {})
+  }
+
   setScrollObserver() {
     if (typeof window === 'undefined' || !this._refUl.current) {
       return
     }
 
     this.removeScrollObserver()
+    this.refreshScrollObserver()
 
     try {
-      const itemSpots = this.state.data.reduce((acc, cur, i) => {
-        const element = this._refUl.current?.querySelector(
-          `li.dnb-drawer-list__option:nth-of-type(${i + 1})`
-        )
-        if (element) {
-          acc[element.offsetTop] = {
-            i
-          }
-        }
-        return acc
-      }, {})
-
-      const counts = Object.keys(itemSpots)
-
       let closestToTop = null,
         closestToBottom = null,
         tmpToTop,
@@ -190,14 +199,15 @@ export default class DrawerListProvider extends React.PureComponent {
           return // stop here
         }
 
+        const counts = Object.keys(this.itemSpots)
         closestToBottom = findClosest(
           counts,
           this._refUl.current.scrollTop + this._refUl.current.offsetHeight
         )
         closestToTop = findClosest(counts, this._refUl.current.scrollTop)
-        if (itemSpots[closestToTop] && closestToTop !== tmpToTop) {
+        if (this.itemSpots[closestToTop] && closestToTop !== tmpToTop) {
           this.setState({
-            closestToTop: itemSpots[closestToTop].i,
+            closestToTop: this.itemSpots[closestToTop].i,
             _listenForPropChanges: false
           })
         }
@@ -205,10 +215,10 @@ export default class DrawerListProvider extends React.PureComponent {
         // to change visually
         if (
           closestToBottom !== tmpToBottom &&
-          itemSpots[closestToBottom]
+          this.itemSpots[closestToBottom]
         ) {
           this.setState({
-            closestToBottom: itemSpots[closestToBottom].i,
+            closestToBottom: this.itemSpots[closestToBottom].i,
             _listenForPropChanges: false
           })
         }
@@ -231,20 +241,17 @@ export default class DrawerListProvider extends React.PureComponent {
   }
 
   enableBodyLock = () => {
-    this._bodyLockIsEnabled = true
-
-    // wait unitl render is complete and we have a valid this._refUl.current
-    clearTimeout(this._drawerTimeout)
-    this._drawerTimeout = setTimeout(
-      () => disableBodyScroll(this._refUl.current),
-      1
-    )
+    if (this._refUl.current) {
+      this._bodyLockIsEnabled = true
+      disableBodyScroll(this._refUl.current)
+    }
   }
 
   disableBodyLock = () => {
-    this._bodyLockIsEnabled = null
-    clearTimeout(this._drawerTimeout)
-    enableBodyScroll(this._refUl.current)
+    if (this._bodyLockIsEnabled && this._refUl.current) {
+      this._bodyLockIsEnabled = null
+      enableBodyScroll(this._refUl.current)
+    }
   }
 
   setDirectionObserver() {
@@ -375,7 +382,6 @@ export default class DrawerListProvider extends React.PureComponent {
       this._ddt = setTimeout(renderDirection, 30)
 
       if (useDrawer && e.type === 'resize') {
-        console.log('window.innerWidth / 16', window.innerWidth / 16)
         if (
           !this._bodyLockIsEnabled &&
           // Like @media screen and (max-width: 40em) { ...
@@ -385,6 +391,10 @@ export default class DrawerListProvider extends React.PureComponent {
         } else if (this._bodyLockIsEnabled && !useBodyLock) {
           this.disableBodyLock()
         }
+      }
+
+      if (e.type === 'resize') {
+        this.correctHiddenView()
       }
     }
 
@@ -400,14 +410,52 @@ export default class DrawerListProvider extends React.PureComponent {
       window.addEventListener('resize', this.setDirection)
     }
 
-    renderDirection()
+    // wait unitl render is complete and we have a valid this._refUl.current
+    this._ddt = setTimeout(() => {
+      if (
+        useBodyLock ||
+        (useDrawer && // Like @media screen and (max-width: 40em) { ...
+          (window.innerWidth / 16 <= 40 || window.innerHeight / 16 <= 40))
+      ) {
+        this.enableBodyLock()
+      }
 
-    if (
-      useBodyLock ||
-      (useDrawer && // Like @media screen and (max-width: 40em) { ...
-        (window.innerWidth / 16 <= 40 || window.innerHeight / 16 <= 40))
-    ) {
-      this.enableBodyLock()
+      this.correctHiddenView()
+      this.setScrollObserver() // because, now we have _refUl!
+    }, 1)
+
+    renderDirection()
+  }
+
+  correctHiddenView() {
+    // We use "style.transform", because it is a independent "and quick" solution
+    // we could send down spaceToLeft and spaceToRight and set it with React's "style" prop in future
+    try {
+      const spaceToLeft = getOffsetLeft(this._refUl.current)
+      const spaceToRight =
+        window.innerWidth -
+        (getOffsetLeft(this._refUl.current) +
+          this._refUl.current.offsetWidth)
+
+      // correct left side
+      if (spaceToLeft < 0) {
+        this._refShell.current.style.transform = `translateX(${Math.abs(
+          spaceToLeft
+        )}px)`
+        this._refTriangle.current.style.transform = `translateX(${spaceToLeft}px)`
+
+        // correct right side
+      } else if (spaceToRight < 0) {
+        this._refShell.current.style.transform = `translateX(${spaceToRight}px)`
+        this._refTriangle.current.style.transform = `translateX(${-spaceToRight}px)`
+      } else {
+        if (this._refShell.current.style.transform) {
+          this._refShell.current.style.transform = ''
+          this._refTriangle.current.style.transform = ''
+        }
+      }
+    } catch (e) {
+      //
     }
   }
 
@@ -956,7 +1004,10 @@ export default class DrawerListProvider extends React.PureComponent {
           : this.state.original_data,
         _listenForPropChanges: false
       },
-      () => typeof cb === 'function' && cb(data)
+      () => {
+        this.refreshScrollObserver()
+        typeof cb === 'function' && cb(data)
+      }
     )
 
     return this

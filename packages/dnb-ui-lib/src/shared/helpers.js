@@ -127,6 +127,16 @@ export function getOffsetTop(elem) {
   return offsetTop
 }
 
+export function getOffsetLeft(elem) {
+  let offsetLeft = 0
+  do {
+    if (!isNaN(elem.offsetLeft)) {
+      offsetLeft += elem.offsetLeft
+    }
+  } while ((elem = elem.offsetParent))
+  return offsetLeft
+}
+
 export function scrollToLocationHashId({
   offset = 0,
   delay = null,

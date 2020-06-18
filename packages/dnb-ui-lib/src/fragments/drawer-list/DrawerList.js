@@ -311,7 +311,12 @@ class DrawerListInstance extends React.PureComponent {
       selected_item,
       active_item,
       closestToTop,
-      closestToBottom
+      closestToBottom,
+      _refShell,
+      _refTriangle,
+      _refUl,
+      usePortal,
+      _refRoot
     } = this.context.drawerList
 
     const mainParams = {
@@ -356,7 +361,7 @@ class DrawerListInstance extends React.PureComponent {
       style: {
         maxHeight: max_height > 0 ? `${max_height}rem` : null
       },
-      ref: this.context.drawerList._refUl
+      ref: _refUl
     }
     if (
       !isTrue(prevent_selection) &&
@@ -424,33 +429,40 @@ class DrawerListInstance extends React.PureComponent {
       })
 
     const mainList = (
-      <span {...mainParams} ref={this.context.drawerList._refShell}>
+      <span {...mainParams} ref={_refShell}>
         <span {...listParams}>
           {hidden === false && data && data.length > 0 ? (
-            <DrawerList.Options
-              cache_hash={
-                cache_hash +
-                active_item +
-                selected_item +
-                closestToTop +
-                closestToBottom +
-                direction +
-                max_height
-              }
-              {...ulParams}
-              triangleRef={this.context.drawerList._refTriangle}
-            >
-              {typeof options_render === 'function' ? (
-                options_render({ data, Items, Item: DrawerList.Item })
-              ) : (
-                <Items />
-              )}
-            </DrawerList.Options>
+            <>
+              <DrawerList.Options
+                cache_hash={
+                  cache_hash +
+                  active_item +
+                  selected_item +
+                  closestToTop +
+                  closestToBottom +
+                  direction +
+                  max_height
+                }
+                {...ulParams}
+                triangleRef={_refTriangle}
+              >
+                {typeof options_render === 'function' ? (
+                  options_render({ data, Items, Item: DrawerList.Item })
+                ) : (
+                  <Items />
+                )}
+              </DrawerList.Options>
+              {/* <Triangle /> */}
+            </>
           ) : (
             children && (
               <span className="dnb-drawer-list__content">
                 {children}
-                <span className="dnb-drawer-list__triangle"></span>
+                {/* <Triangle /> */}
+                <span
+                  className="dnb-drawer-list__triangle"
+                  ref={_refTriangle}
+                />
               </span>
             ) /*|| (
         <ul {...ulParams} hidden>
@@ -473,15 +485,14 @@ class DrawerListInstance extends React.PureComponent {
       <span
         className={classnames(
           'dnb-drawer-list__root',
-          this.context.drawerList.usePortal &&
-            'dnb-drawer-list__root--portal'
+          usePortal && 'dnb-drawer-list__root--portal'
         )}
-        ref={this.context.drawerList._refRoot}
+        ref={_refRoot}
       >
-        {this.context.drawerList.usePortal ? (
+        {usePortal ? (
           <DrawerListPortal
             id={this._id}
-            rootRef={this.context.drawerList._refRoot}
+            rootRef={_refRoot}
             opened={hidden === false}
             useWidthAddition={align_drawer === 'right'}
             fixedPosition={isTrue(fixed_position)}
