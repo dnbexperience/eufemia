@@ -45,6 +45,10 @@ const CustomWidth = styled.div`
     width: 8rem;
   }
 `
+const RightAligned = styled.div`
+  display: flex;
+  justify-content: space-between;
+`
 
 const direction = 'auto'
 const label = 'Label'
@@ -56,14 +60,34 @@ const DropdownStory = () => {
   const [value, setSelectedItem] = React.useState(0)
   return (
     <Wrapper>
+      <Box>
+        <RightAligned>
+          <Dropdown
+            size="small"
+            opened
+            more_menu
+            data={['Go this this Link', 'Or to this one']}
+            // skip_portal
+            align_dropdown="right"
+          />
+          <Dropdown
+            size="small"
+            opened
+            more_menu
+            data={['Go this this Link', 'Or to this one']}
+            // skip_portal
+            // align_dropdown="right"
+          />
+        </RightAligned>
+      </Box>
+      <Box>
+        <UpdateDataExample></UpdateDataExample>
+      </Box>
       <CustomWidth>
-        <Box>
-          <UpdateDataExample></UpdateDataExample>
-        </Box>
         <Box>
           <Modal mode="drawer">
             <Dropdown
-              use_mobile_view
+              use_drawer_on_mobile
               label={label}
               data={dropdownDataScrollable}
             />
@@ -85,8 +109,8 @@ const DropdownStory = () => {
           <Dropdown
             size="small"
             opened={opened}
-            use_mobile_view
-            no_animation
+            use_drawer_on_mobile
+            // no_animation
             direction={direction}
             align_dropdown={align_dropdown}
             label={label}
@@ -189,7 +213,7 @@ const DropdownStory = () => {
             />
             <Dropdown
               size="medium"
-              prevent_selection="true"
+              more_menu="true"
               opened={opened}
               label={label}
               no_animation
@@ -200,7 +224,7 @@ const DropdownStory = () => {
             />
             <Dropdown
               size="large"
-              prevent_selection
+              more_menu
               opened={opened}
               label={label}
               no_animation
@@ -612,8 +636,8 @@ function DropdownStates() {
       <>{JSON.stringify(state)}</>
       <Dropdown
         data={dropdownDataScrollable}
-        title="Dropdown 1"
-        use_mobile_view
+        title="use_drawer_on_mobile"
+        use_drawer_on_mobile
         on_change={handleOnChange}
       />
       <Dropdown
@@ -751,6 +775,7 @@ function UpdateDataExample() {
       <Dropdown
         title="Choose an item"
         prevent_selection
+        enable_body_lock
         data={choiceData}
         on_change={({ data }) => {
           setChoiceData(

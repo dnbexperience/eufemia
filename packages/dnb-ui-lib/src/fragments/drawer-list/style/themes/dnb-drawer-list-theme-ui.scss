@@ -32,8 +32,10 @@
 
   &__list {
     @include defaultDropShadow();
-    border-radius: var(--drawer-list-options-border-radius);
     background-color: var(--drawer-list-option-background-color);
+    border-radius: calc(
+      var(--drawer-list-options-border-radius) + 0.15rem
+    );
   }
   @media screen and (max-width: 40em) {
     &__portal &--mobile-view &__list {
@@ -45,7 +47,9 @@
   &__options {
     border: none;
     background-color: var(--drawer-list-option-background-color);
-    border-radius: var(--drawer-list-options-border-radius);
+    border-radius: calc(
+      var(--drawer-list-options-border-radius) + 0.15rem
+    );
     &:focus {
       @include fakeFocus();
     }
@@ -126,6 +130,8 @@
           var(--drawer-list-border-color--selected),
           var(--drawer-list-focus-border-width)
         );
+
+        // border-radius: inherit;
       }
     }
 
@@ -211,19 +217,19 @@
     right: 0.5rem;
   }
 
-  &--bottom &__option--focus.closest-to-top &__option__inner {
+  &--bottom &__option--focus.closest-to-top::before {
     border-radius: var(--drawer-list-options-border-radius)
       var(--drawer-list-options-border-radius) 0 0;
   }
-  &--bottom &__option--focus.closest-to-bottom &__option__inner {
+  &--bottom &__option--focus.closest-to-bottom::before {
     border-radius: 0 0 var(--drawer-list-options-border-radius)
       var(--drawer-list-options-border-radius);
   }
-  &--top &__option--focus.closest-to-bottom &__option__inner {
+  &--top &__option--focus.closest-to-bottom::before {
     border-radius: 0 0 var(--drawer-list-options-border-radius)
       var(--drawer-list-options-border-radius);
   }
-  &--top &__option--focus.closest-to-top &__option__inner {
+  &--top &__option--focus.closest-to-top::before {
     border-radius: var(--drawer-list-options-border-radius)
       var(--drawer-list-options-border-radius) 0 0;
   }
@@ -248,7 +254,13 @@
   // hover
   &__option:first-of-type:hover ~ &__triangle::before,/* only for the vissual demo */
   &--bottom &__option.closest-to-top:hover ~ &__triangle::before ,
-  &--top &__option.closest-to-bottom:hover ~ &__triangle::before {
+  &--top &__option.closest-to-bottom:hover ~ &__triangle::before,
+    &--bottom
+    &__option.closest-to-top#{&}__option--focus
+    ~ &__triangle::before,
+  &--top
+    &__option.closest-to-bottom#{&}__option--focus
+    ~ &__triangle::before {
     background-color: var(--drawer-list-option-background-color--hover);
   }
 
@@ -274,6 +286,11 @@
     ~ &__triangle::before {
     background-color: var(--drawer-list-option-background-color--selected);
   }
+
+  // &--bottom &__triangle.selected-top::before,
+  // &--top &__triangle.selected-bottom::before {
+  //   background-color: var(--drawer-list-option-background-color--selected);
+  // }
 
   // ajust the form-status to the inner border for 2px
   > .dnb-form-status {

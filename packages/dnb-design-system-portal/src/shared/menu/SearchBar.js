@@ -108,16 +108,16 @@ export const SearchBarInput = () => {
               }
             }
 
-            .dnb-drawer-list__list {
+            /* .dnb-drawer-list__list {
               @media screen and (max-width: 40em) {
                 left: 10vw;
               }
               @media screen and (max-width: 30em) {
                 left: 15vw;
               }
-            }
+            } */
 
-            .dnb-drawer-list__triangle {
+            /* .dnb-drawer-list__triangle {
               left: 10vw;
               transform: translateX(0.25rem);
               @media screen and (max-width: 60em) {
@@ -126,7 +126,7 @@ export const SearchBarInput = () => {
               @media screen and (max-width: 40em) {
                 left: 20vw;
               }
-            }
+            } */
 
             .search-logo {
               min-width: 4rem;
@@ -168,7 +168,7 @@ const StyledAutocomplete = styled(Autocomplete)`
     }
   }
 
-  .dnb-drawer-list__root {
+  /* &.dnb-autocomplete .dnb-drawer-list__root {
     width: 50vw;
     @media screen and (max-width: 60em) {
       width: 70vw;
@@ -176,7 +176,7 @@ const StyledAutocomplete = styled(Autocomplete)`
     @media screen and (max-width: 40em) {
       width: 90vw;
     }
-  }
+  } */
 `
 
 /* NB: Other option to add the logo */
