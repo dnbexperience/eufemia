@@ -13,7 +13,6 @@ function bankid_with_qr(props) {
           fill="#333"
         />
       </g>
-      <defs />
     </svg>
   )
 }
