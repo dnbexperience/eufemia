@@ -143,6 +143,11 @@ export default class Tabs extends React.PureComponent {
           state._data = props.data
           state.data = Tabs.getData(props)
         }
+      } else if (props.children) {
+        if (state._data !== props.children) {
+          state._data = props.children
+          state.data = Tabs.getData(props)
+        }
       }
       if (
         props.selected_key &&
@@ -258,7 +263,7 @@ export default class Tabs extends React.PureComponent {
       _listenForPropChanges: true,
       selected_key,
       _selected_key: selected_key,
-      _data: props.data,
+      _data: props.data || props.children,
       data
     }
 

@@ -24,17 +24,19 @@ export const Wrapper = ({
   className,
   ...rest
 }) => (
-  <MainWrapper
-    className={classnames(
-      'dnb-core-style',
-      showOverflow && 'show-overflow',
-      className
-    )}
-    {...rest}
-  >
-    <h1 className="dnb-sr-only">hidden content</h1>
-    <Grid>{children}</Grid>
-  </MainWrapper>
+  <React.StrictMode>
+    <MainWrapper
+      className={classnames(
+        'dnb-core-style',
+        showOverflow && 'show-overflow',
+        className
+      )}
+      {...rest}
+    >
+      <h1 className="dnb-sr-only">hidden content</h1>
+      <Grid>{children}</Grid>
+    </MainWrapper>
+  </React.StrictMode>
 )
 Wrapper.propTypes = {
   children: PropTypes.node.isRequired,
