@@ -60,6 +60,7 @@ const propTypes = {
   section_style: PropTypes.string,
   section_spacing: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   use_hash: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  prerender: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   prevent_rerender: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.bool
@@ -88,6 +89,7 @@ const defaultProps = {
   section_style: null,
   section_spacing: null,
   use_hash: false,
+  prerender: false,
   prevent_rerender: false,
   id: null,
   class: null,
@@ -387,9 +389,19 @@ export default class Tabs extends React.PureComponent {
   }
 
   renderCachedContent(selected_key, content = null) {
-    if (content) {
+    if (content && isTrue(this.props.prerender)) {
+      this._cache = Object.entries(this.state.data).reduce(
+        /* eslint-disable-next-line */
+        (acc, [idx, cur]) => {
+          acc[cur.key] = cur
+          return acc
+        },
+        {}
+      )
+    } else if (content) {
       this._cache = { ...(this._cache || {}), [selected_key]: { content } }
     }
+
     return Object.entries(this._cache).map(([key, { content }]) => {
       const params = {}
       if (key !== selected_key) {
@@ -405,7 +417,13 @@ export default class Tabs extends React.PureComponent {
   }
 
   renderContent() {
-    const { children, content: _content, prevent_rerender } = this.props
+    const {
+      children,
+      content: _content,
+      prevent_rerender,
+      prerender
+    } = this.props
+
     const contentToRender = children || _content
     const { selected_key } = this.state
 
@@ -458,7 +476,7 @@ export default class Tabs extends React.PureComponent {
       content = <Component />
     }
 
-    if (isTrue(prevent_rerender)) {
+    if (isTrue(prevent_rerender) || isTrue(prerender)) {
       return this.renderCachedContent(selected_key, content)
     }
 

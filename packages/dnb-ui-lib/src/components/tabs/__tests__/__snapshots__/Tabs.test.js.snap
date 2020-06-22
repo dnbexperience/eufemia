@@ -14,6 +14,7 @@ exports[`Tabs component have to match snapshot 1`] = `
         "data": "data",
         "id": "id",
         "label": "label",
+        "prerender": "prerender",
         "prevent_rerender": "prevent_rerender",
         "render": [Function],
         "section_spacing": "section_spacing",
@@ -78,6 +79,7 @@ exports[`Tabs component have to match snapshot 1`] = `
   }
   id="id"
   label={null}
+  prerender={false}
   prevent_rerender={false}
   render={null}
   section_spacing={null}
