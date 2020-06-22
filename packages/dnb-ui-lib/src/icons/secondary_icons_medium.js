@@ -17,6 +17,7 @@ import login_medium from './login_medium.js'
 import logout_medium from './logout_medium.js'
 import pay_from_medium from './pay_from_medium.js'
 import pencil_medium from './pencil_medium.js'
+import person_medium from './person_medium.js'
 import print_medium from './print_medium.js'
 import redo_medium from './redo_medium.js'
 import refresh_medium from './refresh_medium.js'
@@ -48,6 +49,7 @@ export {
   logout_medium,
   pay_from_medium,
   pencil_medium,
+  person_medium,
   print_medium,
   redo_medium,
   refresh_medium,

@@ -70,6 +70,8 @@ import pay_from from './pay_from.js'
 import pay_from_medium from './pay_from_medium.js'
 import pencil from './pencil.js'
 import pencil_medium from './pencil_medium.js'
+import person from './person.js'
+import person_medium from './person_medium.js'
 import print from './print.js'
 import print_medium from './print_medium.js'
 import question from './question.js'
@@ -176,6 +178,8 @@ export {
   pay_from_medium,
   pencil,
   pencil_medium,
+  person,
+  person_medium,
   print,
   print_medium,
   question,

@@ -15,61 +15,83 @@ import TabsNavigation from './TabsNavigation'
 
 export default [
   'Tabs',
-  () => (
-    <Wrapper>
-      <Box>
-        <TabsAndRerender />
-      </Box>
-      <Box>
-        <TabsNavigation />
-      </Box>
-      <Box>
-        <Tabs data={tabsData}>{exampleTabsContent}</Tabs>
-      </Box>
-      <Box>
-        <Tabs data={tablistDataWithContent} />
-      </Box>
-      <Box>
-        <Tabs
-          selected_key="second"
-          data={{
-            first: { title: 'First', content: () => <H2>First</H2> },
-            second: { title: 'Second', content: () => <H2>Second</H2> }
-          }}
-        />
-      </Box>
-      <Box>
-        <Tabs section_style="mint-green">
-          <Tabs.Content title="First">
-            <H2>First</H2>
-          </Tabs.Content>
-          <Tabs.Content title={<>Second as component</>} selected>
-            <H2>Second</H2>
-          </Tabs.Content>
-        </Tabs>
-      </Box>
-      <Box>
-        <Tabs
-          align="right"
-          label="Some Tabs label"
-          data={tabsData}
-          render={({ Wrapper, Content, TabsList, Tabs }) => {
-            return (
-              <Wrapper>
-                <TabsList className="dnb-section">
-                  <small>I'm on the left side</small>
-                  <Tabs />
-                </TabsList>
-                <Content />
-              </Wrapper>
-            )
-          }}
-        >
-          {exampleTabsContent}
-        </Tabs>
-      </Box>
-    </Wrapper>
-  )
+  () => {
+    const [value, setValue] = React.useState('test')
+
+    return (
+      <Wrapper>
+        <Box>
+          <Input
+            label="Change state"
+            value={value}
+            onChange={({ value }) => setValue(value)}
+          />
+
+          <pre>I am changing!: {value}</pre>
+
+          <Tabs bottom prerender>
+            <Tabs.Content title="Tab 1">
+              <div>Change me 1: {value}</div>
+            </Tabs.Content>
+            <Tabs.Content title="Tab 2">
+              <div>Change me 2: {value}</div>
+            </Tabs.Content>
+          </Tabs>
+        </Box>
+        <Box>
+          <TabsAndRerender />
+        </Box>
+        <Box>
+          <TabsNavigation />
+        </Box>
+        <Box>
+          <Tabs data={tabsData}>{exampleTabsContent}</Tabs>
+        </Box>
+        <Box>
+          <Tabs data={tablistDataWithContent} />
+        </Box>
+        <Box>
+          <Tabs
+            selected_key="second"
+            data={{
+              first: { title: 'First', content: () => <H2>First</H2> },
+              second: { title: 'Second', content: () => <H2>Second</H2> }
+            }}
+          />
+        </Box>
+        <Box>
+          <Tabs section_style="mint-green">
+            <Tabs.Content title="First">
+              <H2>First</H2>
+            </Tabs.Content>
+            <Tabs.Content title={<>Second as component</>} selected>
+              <H2>Second</H2>
+            </Tabs.Content>
+          </Tabs>
+        </Box>
+        <Box>
+          <Tabs
+            align="right"
+            label="Some Tabs label"
+            data={tabsData}
+            render={({ Wrapper, Content, TabsList, Tabs }) => {
+              return (
+                <Wrapper>
+                  <TabsList className="dnb-section">
+                    <small>I'm on the left side</small>
+                    <Tabs />
+                  </TabsList>
+                  <Content />
+                </Wrapper>
+              )
+            }}
+          >
+            {exampleTabsContent}
+          </Tabs>
+        </Box>
+      </Wrapper>
+    )
+  }
 ]
 
 const tablistDataWithContent = [
