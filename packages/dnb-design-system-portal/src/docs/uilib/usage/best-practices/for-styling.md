@@ -12,7 +12,7 @@ One can be forgiven for assuming that CSS is easy. After all, your stylesheets w
 
 Otherwise you will find yourself making a fix of a fix, and so on. Also, refactoring and enhancements will often effect code deeper down as well.
 
-## Structure
+## Styling structure
 
 To write more structured and uniform CSS code, stick with the following approach:
 
@@ -31,10 +31,10 @@ This helps coworkers quickly find and understand the sentence and meaning of the
   display: block;
 
   /* -- 2. Sizes & Spaces -- */
-  width: 0.5em;
-  height: 0.5em;
+  width: 0.5rem;
+  height: 0.5rem;
   /* will be the same as our local font-size of 1.5rem */
-  padding: 1em;
+  padding: 1rem;
 
   /* -- 3. Fonts & Typography -- */
   font-family: var(--font-family-default);
@@ -52,11 +52,13 @@ This helps coworkers quickly find and understand the sentence and meaning of the
 }
 ```
 
-## Units
+## CSS Units
 
 Here is a list of what we should use as layout and styling units to embrace the best possible accessibility experience and visual correctness.
 
 - **`rem`**: Use _rem_ as a default sizing unit - as long as no other unit if preferred.
-- **`em`**: Use _em_ only on complex layouts, whenever you need the sizes to respond to constraints. But use _em_ for CSS `@media` queries for the best browser compatibility.
+- **`em`**: Use _em_ only on complex layouts, whenever you need the sizes to respond to constraints.
 - **`px`**: Use _pixels_ on visual helper lines and borders. Borders don't need necessarily to be responsive.
 - **`viewport units and percentage`**: Use these units to make layout and component widths responsive. Use also for placing and positioning layout wrappers which can give a better user experience.
+
+Use _em_ for CSS `@media` queries for the best browser compatibility. Read more about [viewport units, Media Queries and breakpoints](/uilib/usage/layout#media-queries-and-breakpoints).

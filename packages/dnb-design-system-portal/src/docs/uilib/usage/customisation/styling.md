@@ -157,3 +157,12 @@ import 'dnb-ui-lib/style/elements'
 ## A list of all CSS properties
 
 Beside the portal documentation with related tables and additional information, you may have a look at the [CSS file](https://unpkg.com/browse/dnb-ui-lib@latest/style/dnb-ui-properties.css), containing the custom properties (CSS variables), as well as a[ JavaScript file](https://unpkg.com/browse/dnb-ui-lib@latest/style/properties.js), which is auto generated from the CSS data.
+
+### Access CSS properties in JavaScript
+
+```js
+import properties from 'dnb-ui-lib/style/ddnb-ui-properties.css'
+
+const seaGreenColor = properties['--color-sea-green']
+const basisFontSize = properties['--font-size-basis']
+```
