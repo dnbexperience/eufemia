@@ -9,49 +9,152 @@ import { Wrapper, Box } from '../helpers'
 
 import Provider from '../../src/shared/Provider'
 import {
-  Accordion,
+  Accordion
   // Button,
   // FormSet,
-  FormRow
+  // FormRow
 } from '../../src/components'
 
-// import { H2 } from '../../src/elements'
+import { P, H2 } from '../../src/elements'
 
 export default [
   'Accordion',
   () => (
     <Wrapper>
       <Box>
+        <Accordion expanded title="Accordion title" icon="bell">
+          Accordion content
+        </Accordion>
+      </Box>
+
+      <Box>
+        <Accordion.Group expanded>
+          <Accordion expanded={false}>
+            <Accordion.Header>Accordion title</Accordion.Header>
+            <Accordion.Content>
+              <P>
+                Sociis sapien sociosqu vel sollicitudin accumsan laoreet
+                gravida himenaeos nostra mollis volutpat bibendum convallis
+                cum condimentum dictumst blandit rutrum vehicula
+              </P>
+            </Accordion.Content>
+          </Accordion>
+          <Accordion>
+            <Accordion.Header>Accordion title</Accordion.Header>
+            <Accordion.Content>
+              <P>
+                Nec sit mattis natoque interdum sagittis cubilia nibh
+                nullam etiam
+              </P>
+            </Accordion.Content>
+          </Accordion>
+        </Accordion.Group>
+      </Box>
+
+      <Box>
+        <Accordion.Provider expanded prerender>
+          <Accordion expanded={false}>
+            <Accordion.Header>
+              Accordion title (prerender)
+            </Accordion.Header>
+            <Accordion.Content>
+              <P>
+                Sociis sapien sociosqu vel sollicitudin accumsan laoreet
+                gravida himenaeos nostra mollis volutpat bibendum convallis
+                cum condimentum dictumst blandit rutrum vehicula
+              </P>
+            </Accordion.Content>
+          </Accordion>
+          <Accordion>
+            <Accordion.Header>
+              Accordion title (prerender)
+            </Accordion.Header>
+            <Accordion.Content>
+              <P>
+                Nec sit mattis natoque interdum sagittis cubilia nibh
+                nullam etiam
+              </P>
+            </Accordion.Content>
+          </Accordion>
+        </Accordion.Provider>
+      </Box>
+
+      <Box>
+        <Provider accordion={{ expanded: true }}>
+          <Accordion expanded={false}>
+            <Accordion.Header>Accordion title</Accordion.Header>
+            <Accordion.Content>
+              <P>
+                Sociis sapien sociosqu vel sollicitudin accumsan laoreet
+                gravida himenaeos nostra mollis volutpat bibendum convallis
+                cum condimentum dictumst blandit rutrum vehicula
+              </P>
+            </Accordion.Content>
+          </Accordion>
+          <Accordion>
+            <Accordion.Header>Accordion title</Accordion.Header>
+            <Accordion.Content>
+              <P>
+                Nec sit mattis natoque interdum sagittis cubilia nibh
+                nullam etiam
+              </P>
+            </Accordion.Content>
+          </Accordion>
+        </Provider>
+      </Box>
+
+      <Box>
+        <Accordion group="unique-id">
+          <Accordion.Header>Accordion title</Accordion.Header>
+          <Accordion.Content>
+            <P>
+              Sociis sapien sociosqu vel sollicitudin accumsan laoreet
+              gravida himenaeos nostra mollis volutpat bibendum convallis
+              cum condimentum dictumst blandit rutrum vehicula
+            </P>
+          </Accordion.Content>
+        </Accordion>
+        <Accordion expanded={true} group="unique-id">
+          <Accordion.Header>Accordion title</Accordion.Header>
+          <Accordion.Content>
+            <P>
+              Nec sit mattis natoque interdum sagittis cubilia nibh nullam
+              etiam
+            </P>
+          </Accordion.Content>
+        </Accordion>
+      </Box>
+
+      {/* <Box>
         <Provider formRow={{ vertical: true }}>
           <FormRow disabled>
             <Accordion.Group>
               <Accordion
-                text="First"
-                value="first"
+                title="First"
                 suffix="123"
                 status="error message"
                 disabled={false}
               />
-              <Accordion text="Second" value="second" disabled={false} />
-              <Accordion text="Third A" value="thirdA" />
-              <Accordion text="Third B" value="thirdB" />
-              <Accordion text="Third C" value="thirdC" />
-              <Accordion text="Third D" value="thirdD" />
-              <Accordion text="Third E" value="thirdE" />
-              <Accordion text="Third F" value="thirdF" />
-              <Accordion text="Third G" value="thirdG" />
-              <Accordion text="Third H" value="thirdH" />
-              <Accordion text="Third I" value="thirdI" />
-              <Accordion text="Third J" value="thirdJ" />
-              <Accordion text="Third K" value="thirdK" />
-              <Accordion text="Third L" value="thirdL" />
-              <Accordion text="Third M" value="thirdM" />
-              <Accordion text="Third N" value="thirdN" />
-              <Accordion text="Last" value="last" />
+              <Accordion title="Second"disabled={false} />
+              <Accordion title="Third A"  />
+              <Accordion title="Third B"  />
+              <Accordion title="Third C"  />
+              <Accordion title="Third D"  />
+              <Accordion title="Third E"  />
+              <Accordion title="Third F"  />
+              <Accordion title="Third G"  />
+              <Accordion title="Third H"  />
+              <Accordion title="Third I"  />
+              <Accordion title="Third J"  />
+              <Accordion title="Third K"  />
+              <Accordion title="Third L"  />
+              <Accordion title="Third M"  />
+              <Accordion title="Third N"  />
+              <Accordion title="Last"  />
             </Accordion.Group>
           </FormRow>
         </Provider>
-      </Box>
+      </Box> */}
     </Wrapper>
   )
 ]

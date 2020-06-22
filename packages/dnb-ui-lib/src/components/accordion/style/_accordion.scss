@@ -9,41 +9,64 @@
 // }
 
 .dnb-accordion {
-  display: inline-flex;
-  align-items: center; // because, with this we v align it to the label
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+  // align-items: center; // because, with this we v align it to the label
 
   font-size: var(--font-size-small);
   line-height: var(--line-height-basis);
 
-  &__inner {
-    display: inline-flex;
-    flex-direction: column;
+  &__header {
+    cursor: pointer;
+    // outline: none;
+
+    display: flex;
+
+    list-style: none;
+  }
+  &__content {
+    display: flex;
+    overflow: hidden;
+    // max-height: 4rem;
+    background: lightseagreen;
+
+    transition: height 400ms cubic-bezier(0.58, 0.01, 0.3, 0.99),
+      opacity 600ms ease-out, transform 400ms ease-out;
+
+    // list-style: none;
   }
 
-  &__shell {
-    position: relative;
-    left: 0;
-
-    user-select: none;
-    -webkit-user-select: none; // Safari / Touch fix
-  }
-
-  // &--vertical {
+  // &__inner {
+  //   display: inline-flex;
   //   flex-direction: column;
-  //   align-items: flex-start;
   // }
 
-  &__component {
-    padding-right: 0.25rem;
+  // &__shell {
+  //   position: relative;
+  //   left: 0;
 
-    display: inline-flex;
-    align-items: center;
-  }
+  //   user-select: none;
+  //   -webkit-user-select: none; // Safari / Touch fix
+  // }
 
-  &__button {
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
-  }
+  // // &--vertical {
+  // //   flex-direction: column;
+  // //   align-items: flex-start;
+  // // }
+
+  // &__component {
+  //   padding-right: 0.25rem;
+
+  //   display: inline-flex;
+  //   align-items: center;
+  // }
+
+  // &__button {
+  //   padding-left: 1.5rem;
+  //   padding-right: 1.5rem;
+  // }
 
   // IE fix
   // @media screen and (-ms-high-contrast: none) {
