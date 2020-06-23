@@ -83,6 +83,7 @@ export default class DatePickerRange extends React.PureComponent {
     if (state._listenForPropChanges) {
       if (
         !state.views ||
+        (typeof props.startDate !== 'undefined' && !state.startDate) ||
         (props.sync &&
           // 1. check if current start state matches with the new start date
           ((props.startDate &&

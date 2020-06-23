@@ -100,6 +100,22 @@ describe('DatePicker component', () => {
     ).toBe('åååå')
   })
 
+  it('has to work with shortcuts', () => {
+    const Comp = mount(
+      <Component shortcuts={[{ title: 'Set date', date: '2020-05-23' }]} />
+    )
+
+    Comp.find('button.dnb-input__submit-button__button').simulate('click')
+    Comp.find('span.dnb-toggle-button')
+      .at(0)
+      .find('button.dnb-button')
+      .simulate('click')
+
+    expect(Comp.find('label.dnb-date-picker__header__title').text()).toBe(
+      'mai 2020'
+    )
+  })
+
   it('has two calendar views', () => {
     Comp.find('button.dnb-input__submit-button__button').simulate('click')
     expect(Comp.find('.dnb-date-picker__views').exists()).toBe(true)
