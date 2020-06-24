@@ -115,6 +115,7 @@ export default class AccordionHeader extends React.PureComponent {
     switch (keycode(event)) {
       case 'enter':
       case 'space':
+        event.preventDefault()
         this.onClickHandler(event)
         break
     }

@@ -24,6 +24,10 @@
     cursor: pointer;
     outline: none;
 
+    &:focus {
+      user-select: none;
+    }
+
     background: honeydew;
 
     &__wrapper {
