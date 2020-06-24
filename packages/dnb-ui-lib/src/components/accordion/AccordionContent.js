@@ -14,13 +14,12 @@ import {
   // validateDOMAttributes,
   // dispatchCustomElementEvent
 } from '../../shared/component-helper'
-// import { IS_IE11, IS_EDGE } from '../../shared/helpers'
 import classnames from 'classnames'
 import AccordionContext from './AccordionContext'
 import { createSpacingClasses } from '../space/SpacingHelper'
 
 const propTypes = {
-  /// React props
+  // React props
   className: PropTypes.string,
   children: PropTypes.oneOfType([
     PropTypes.string,
@@ -35,15 +34,10 @@ const defaultProps = {
   children: null
 }
 
-/**
- * The accordion component is our enhancement of the classic accordion button.
- */
 export default class AccordionContent extends React.PureComponent {
   static propTypes = propTypes
   static defaultProps = defaultProps
-  // static renderProps = renderProps
   static contextType = AccordionContext
-  // static Group = AccordionGroup
 
   constructor(props, context) {
     super(props)
@@ -53,15 +47,9 @@ export default class AccordionContent extends React.PureComponent {
       _gotOpened: context.gotOpened
     }
 
-    if (context.expanded) {
-      // this.state.keepContentVisible = true
-      // this.state.openFromBeginning = true
-    }
-
     this.anim = new HeightAnim()
     this.anim.onEnd(() => {
       // checking additional for  && state === 'close' makes it more "safe"
-      // && state === 'close'
       if (!this.context.expanded) {
         this.setState({
           keepContentVisible: false
@@ -78,36 +66,14 @@ export default class AccordionContent extends React.PureComponent {
     this.anim.setElem(this._ref.current)
     if (this.context.expanded) {
       this.anim.open(false)
-      // this.setState({
-      //   keepContentVisible: true
-      //   // openFromBeginning: true
-      // })
-      //   this.anim.setAsOpened()
     }
   }
 
   componentWillUnmount() {
-    this.anim.remove() //this._ref.current
+    this.anim.remove()
   }
 
-  componentDidUpdate(props) {
-    // console.log('props', props)
-    // const { gotOpened } = this.context
-    // if (this._ref.current && gotOpened !== this.state._gotOpened) {
-    // this._ref.current.focus()
-
-    // console.log('this.context', this.context.expanded, this.context.open)
-    // if (this.context.expanded === this.context.open && !this.isAnimating) {
-
-    // if (!this.isAnimating && !this.state.animating) {
-    // if (!this.state.animating) {
-    // this.setState({
-    //   animating: true
-    // })
-    // this.isAnimating = true
-
-    // console.log('this.context.expanded', this.context.expanded)
-
+  componentDidUpdate() {
     if (this.context.expanded) {
       this.anim.open()
       this.setState({
@@ -116,31 +82,10 @@ export default class AccordionContent extends React.PureComponent {
     } else {
       this.anim.close()
     }
-    // setHeight({
-    //   element: this._ref.current,
-    //   expanded: this.context.expanded
-    // })
-
-    // setTimeout(() => {
-    //   this.setState({
-    //     animating: false
-    //   })
-    //   this.isAnimating = false
-    // }, 1e3)
-    // }
-
-    // }
-
-    // this.setState({
-    //   _gotOpened: gotOpened
-    // })
-    // }
   }
 
   render() {
     const { children, className, ...rest } = this.props
-
-    // const { animating } = this.state
 
     const {
       id,
@@ -149,11 +94,7 @@ export default class AccordionContent extends React.PureComponent {
       disabled // eslint-disable-line
     } = this.context
 
-    // const expanded = isTrue(expanded)
-    // const doPrerender = isTrue(prerender)
-
     const wrapperParams = {
-      // 'aria-hidden': !expanded,
       className: classnames(
         'dnb-accordion__content',
         !expanded && prerender && 'dnb-accordion__content--hidden',
@@ -166,29 +107,17 @@ export default class AccordionContent extends React.PureComponent {
     const innerParams = {}
 
     // legacy borwer support
-    // if (1 || IS_IE11 || IS_EDGE) {
     innerParams.id = `${id}-content`
     innerParams.role = 'region'
-    // innerParams.tabIndex = '-1'
     innerParams['aria-labelledby'] = `${id}-header`
 
     if (isTrue(expanded)) {
       innerParams['aria-expanded'] = true
     }
-    // }
 
     if (prerender && !expanded) {
       innerParams['aria-hidden'] = true
     }
-
-    // if (!expanded) {
-    //   return null
-    // }
-    // if (!(expanded || this.state.keepContentVisible)) {
-    //   return null
-    // }
-
-    // console.log('this.context', this.context.expanded, this.context.open)
 
     let content = children
     if (typeof content === 'string') {
@@ -197,8 +126,8 @@ export default class AccordionContent extends React.PureComponent {
 
     return (
       <div {...wrapperParams} ref={this._ref}>
-        {prerender ? 'prerender' : null}
         {(expanded ||
+          prerender ||
           this.state.keepContentVisible ||
           this.anim.isAnimating) && <div {...innerParams}>{children}</div>}
       </div>

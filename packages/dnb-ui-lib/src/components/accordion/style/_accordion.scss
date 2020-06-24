@@ -24,18 +24,21 @@
 
     display: flex;
 
-    list-style: none;
+    // list-style: none;
   }
+
   &__content {
     display: flex;
     overflow: hidden;
-    // max-height: 4rem;
     background: lightseagreen;
 
     transition: height 400ms cubic-bezier(0.58, 0.01, 0.3, 0.99),
       opacity 600ms ease-out, transform 400ms ease-out;
 
-    // list-style: none;
+    &--hidden {
+      visibility: hidden;
+      height: 0;
+    }
   }
 
   // &__inner {

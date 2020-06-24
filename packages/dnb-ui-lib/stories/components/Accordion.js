@@ -15,7 +15,7 @@ import {
   // FormRow
 } from '../../src/components'
 
-import { P, H2 } from '../../src/elements'
+import { P } from '../../src/elements'
 
 export default [
   'Accordion',
