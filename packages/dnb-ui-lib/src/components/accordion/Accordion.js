@@ -177,7 +177,10 @@ export default class Accordion extends React.PureComponent {
     }
 
     if (isTrue(context.remember_state)) {
-      this.state.expanded = this.getState()
+      const state = this.getState()
+      if (state !== null) {
+        this.state.expanded = state
+      }
     }
 
     if (this.state.group) {
