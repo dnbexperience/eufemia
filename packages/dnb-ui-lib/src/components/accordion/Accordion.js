@@ -42,6 +42,7 @@ const propTypes = {
     PropTypes.string,
     PropTypes.bool
   ]),
+  remember_state: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   single_container: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.bool
@@ -82,6 +83,7 @@ const defaultProps = {
   expanded: null,
   prerender: null,
   prevent_rerender: null,
+  remember_state: null,
   single_container: null,
   variant: null,
   // left_component: null,
@@ -268,6 +270,7 @@ export default class Accordion extends React.PureComponent {
                 prerender,
                 prevent_rerender,
                 single_container,
+                remember_state,
                 disabled,
                 // variant,
                 // left_component,
@@ -295,12 +298,9 @@ export default class Accordion extends React.PureComponent {
                 id,
                 className: classnames(
                   'dnb-accordion',
-                  // status && `dnb-accordion__status--${status_state}`,
                   // variant && `dnb-accordion__variant--${variant}`,
                   expanded && 'dnb-accordion--expanded',
                   isTrue(prerender) && 'dnb-accordion--prerender',
-                  // isTrue(single_container) &&
-                  //   'dnb-accordion--single-container',
                   createSpacingClasses(props),
                   className,
                   _className
@@ -322,6 +322,7 @@ export default class Accordion extends React.PureComponent {
                 prerender: isTrue(prerender),
                 prevent_rerender: isTrue(prevent_rerender),
                 single_container: isTrue(single_container),
+                remember_state: isTrue(remember_state),
                 disabled: isTrue(disabled),
                 callOnChange: (...params) => {
                   this.callOnChange(...params)

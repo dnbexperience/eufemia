@@ -23,7 +23,13 @@ export default [
   () => (
     <Wrapper>
       <Box>
-        <Accordion.Provider expanded prevent_rerender single_container>
+        <Accordion.Provider
+          expanded
+          prevent_rerender
+          single_container
+          remember_state
+          id="remembered_state"
+        >
           <Accordion expanded={false} bottom>
             <Accordion.Header>Accordion title</Accordion.Header>
             <Accordion.Content>

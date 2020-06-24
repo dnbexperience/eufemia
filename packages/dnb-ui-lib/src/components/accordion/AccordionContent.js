@@ -207,8 +207,8 @@ class HeightAnim {
     // this.openHeight = parseFloat(window.getComputedStyle(this.elem).height)
 
     this.elem.parentElement.style.position =
-      position !== 'static' ? position : null
-    this.elem.style.position = null
+      position !== 'static' ? position : ''
+    this.elem.style.position = ''
     this.elem.style.height = '0'
     this.elem.style.visibility = 'visible'
 
