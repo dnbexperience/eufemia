@@ -37,20 +37,25 @@
       margin-right: 2rem;
     }
 
-    &__title {
-      font-size: var(--font-size-basis);
-      line-height: var(--line-height-basis);
-    }
     &__icon {
       transition: transform 400ms var(--accordion-easing);
       margin: 1.5rem 1rem;
     }
 
-    &__description {
-      margin-top: 0.25rem;
+    &__title {
+      font-size: var(--font-size-basis);
+      line-height: var(--line-height-basis);
+    }
 
+    &__description {
       font-size: var(--font-size-small);
       line-height: var(--line-height-small);
+    }
+    &__title + &__description {
+      margin-top: 0.25rem;
+    }
+    &__description + &__title {
+      margin-top: 0.25rem;
     }
   }
 

@@ -94,10 +94,12 @@ AccordionHeaderIcon.propTypes = {
     PropTypes.string,
     PropTypes.node,
     PropTypes.func
-  ])
+  ]),
+  size: PropTypes.string
 }
 AccordionHeaderIcon.defaultProps = {
-  icon: 'chevron-down'
+  icon: 'chevron-down',
+  size: 'medium'
 }
 
 export default class AccordionHeader extends React.PureComponent {
