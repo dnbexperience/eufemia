@@ -84,25 +84,16 @@ export default class AccordionContent extends React.PureComponent {
     }
   }
 
-  render() {
-    const { children, className, ...rest } = this.props
+  renderContent() {
+    const { children } = this.props
 
     const {
       id,
       expanded,
-      prerender,
-      disabled // eslint-disable-line
+      prerender
+      // prevent_rerender, // eslint-disable-line
+      // disabled // eslint-disable-line
     } = this.context
-
-    const wrapperParams = {
-      className: classnames(
-        'dnb-accordion__content',
-        !expanded && prerender && 'dnb-accordion__content--hidden',
-        createSpacingClasses(rest),
-        className
-      ),
-      ...rest
-    }
 
     const innerParams = {}
 
@@ -111,7 +102,7 @@ export default class AccordionContent extends React.PureComponent {
     innerParams.role = 'region'
     innerParams['aria-labelledby'] = `${id}-header`
 
-    if (isTrue(expanded)) {
+    if (expanded) {
       innerParams['aria-expanded'] = true
     }
 
@@ -124,14 +115,49 @@ export default class AccordionContent extends React.PureComponent {
       content = <p className="dnb-p">{content}</p>
     }
 
+    content = (expanded ||
+      prerender ||
+      this.state.keepContentVisible ||
+      this.anim.isAnimating) && <div {...innerParams}>{children}</div>
+
+    return content
+  }
+
+  getContent(cache = null) {
+    const { className, ...rest } = this.props
+
+    const {
+      expanded,
+      prerender
+      // prevent_rerender, // eslint-disable-line
+      // disabled // eslint-disable-line
+    } = this.context
+
+    const wrapperParams = {
+      className: classnames(
+        'dnb-accordion__content',
+        !expanded && prerender && 'dnb-accordion__content--hidden',
+        createSpacingClasses(rest),
+        className
+      ),
+      ...rest
+    }
+
     return (
       <div {...wrapperParams} ref={this._ref}>
-        {(expanded ||
-          prerender ||
-          this.state.keepContentVisible ||
-          this.anim.isAnimating) && <div {...innerParams}>{children}</div>}
+        {cache || (this._cache = this.renderContent())}
       </div>
     )
+  }
+
+  render() {
+    const { prevent_rerender } = this.context
+
+    if (isTrue(prevent_rerender) && this._cache) {
+      return this.getContent(this._cache)
+    }
+
+    return this.getContent()
   }
 }
 
@@ -141,7 +167,9 @@ class HeightAnim {
     this.cbStack = []
   }
   setElem(elem) {
-    this.elem = elem
+    this.elem =
+      elem ||
+      (typeof document !== 'undefined' && document.createElement('div'))
 
     // get tr element
     if (String(this.elem?.nodeName).toLowerCase() === 'td') {
@@ -167,8 +195,10 @@ class HeightAnim {
     this.openHeight = null
   }
   geOpentHeight() {
-    const position = window.getComputedStyle(this.elem).position
+    const position = window.getComputedStyle(this.elem.parentElement)
+      .position
 
+    this.elem.parentElement.style.position = 'relative'
     this.elem.style.position = 'absolute'
     this.elem.style.visibility = 'hidden'
     this.elem.style.height = 'auto'
@@ -176,7 +206,9 @@ class HeightAnim {
     this.openHeight = parseFloat(this.elem.clientHeight)
     // this.openHeight = parseFloat(window.getComputedStyle(this.elem).height)
 
-    this.elem.style.position = position
+    this.elem.parentElement.style.position =
+      position !== 'static' ? position : null
+    this.elem.style.position = null
     this.elem.style.height = '0'
     this.elem.style.visibility = 'visible'
 

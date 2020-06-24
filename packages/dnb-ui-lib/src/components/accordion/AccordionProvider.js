@@ -7,7 +7,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import {
-  // isTrue,
+  isTrue,
   makeUniqueId,
   extendPropsWithContext,
   registerElement,
@@ -26,6 +26,18 @@ const renderProps = {
 const propTypes = {
   expanded: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   prerender: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  prevent_rerender: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.bool
+  ]),
+  single_container: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.bool
+  ]),
+  responsive_single_container: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.bool
+  ]),
   disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   id: PropTypes.string,
   group: PropTypes.string
@@ -34,6 +46,9 @@ const propTypes = {
 const defaultProps = {
   expanded: null,
   prerender: null,
+  prevent_rerender: null,
+  single_container: null,
+  responsive_single_container: null,
   disabled: null,
   id: null,
   group: null
@@ -50,24 +65,6 @@ export default class AccordionGroup extends React.PureComponent {
   static enableWebComponent() {
     registerElement(AccordionGroup.tagName, AccordionGroup, defaultProps)
   }
-
-  // static getDerivedStateFromProps(props, state) {
-  //   if (state._listenForPropChanges) {
-  //     // if (props.value !== state._value) {
-  //     //   state.value = props.value
-  //     // }
-  //   }
-  //   state._listenForPropChanges = true
-
-  //   return state
-  // }
-
-  // static getValues(props) {
-  //   if (typeof props.values === 'string' && props.values[0] === '[') {
-  //     return JSON.parse(props.values)
-  //   }
-  //   return props.values
-  // }
 
   constructor(props) {
     super(props)
@@ -93,6 +90,8 @@ export default class AccordionGroup extends React.PureComponent {
     const {
       expanded, // eslint-disable-line
       prerender, // eslint-disable-line
+      prevent_rerender, // eslint-disable-line
+      single_container, // eslint-disable-line
       disabled, // eslint-disable-line
       className,
       class: _className,
@@ -107,6 +106,7 @@ export default class AccordionGroup extends React.PureComponent {
 
     const classes = classnames(
       'dnb-accordion-group',
+      isTrue(single_container) && 'dnb-accordion-group--single-container',
       createSpacingClasses(props),
       className,
       _className
@@ -118,6 +118,10 @@ export default class AccordionGroup extends React.PureComponent {
 
     // also used for code markup simulation
     validateDOMAttributes(this.props, params)
+
+    if (!props.group && isTrue(props.single_container)) {
+      props.group = makeUniqueId()
+    }
 
     const context = {
       ...props,

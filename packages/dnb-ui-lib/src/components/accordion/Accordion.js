@@ -38,7 +38,15 @@ const propTypes = {
   title: PropTypes.string,
   expanded: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   prerender: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  variant: PropTypes.oneOf(['default', 'checkbox', 'radio']),
+  prevent_rerender: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.bool
+  ]),
+  single_container: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.bool
+  ]),
+  variant: PropTypes.oneOf(['default', 'outlined']),
   // left_component: PropTypes.node,
   disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   id: PropTypes.string,
@@ -73,6 +81,8 @@ const defaultProps = {
   title: null,
   expanded: null,
   prerender: null,
+  prevent_rerender: null,
+  single_container: null,
   variant: null,
   // left_component: null,
   disabled: null,
@@ -256,6 +266,8 @@ export default class Accordion extends React.PureComponent {
                 className,
                 class: _className,
                 prerender,
+                prevent_rerender,
+                single_container,
                 disabled,
                 // variant,
                 // left_component,
@@ -286,8 +298,9 @@ export default class Accordion extends React.PureComponent {
                   // status && `dnb-accordion__status--${status_state}`,
                   // variant && `dnb-accordion__variant--${variant}`,
                   expanded && 'dnb-accordion--expanded',
-                  prerender && 'dnb-accordion--prerender',
-                  // label_direction && `dnb-accordion--${label_direction}`,
+                  isTrue(prerender) && 'dnb-accordion--prerender',
+                  // isTrue(single_container) &&
+                  //   'dnb-accordion--single-container',
                   createSpacingClasses(props),
                   className,
                   _className
@@ -303,9 +316,12 @@ export default class Accordion extends React.PureComponent {
 
               const context = {
                 ...this.state,
-                expanded,
+                ...this.context,
                 id,
+                expanded,
                 prerender: isTrue(prerender),
+                prevent_rerender: isTrue(prevent_rerender),
+                single_container: isTrue(single_container),
                 disabled: isTrue(disabled),
                 callOnChange: (...params) => {
                   this.callOnChange(...params)

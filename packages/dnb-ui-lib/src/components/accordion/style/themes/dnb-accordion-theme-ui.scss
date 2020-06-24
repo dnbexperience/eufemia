@@ -5,5 +5,8 @@
 
 @import '../../../../style/themes/imports.scss';
 
-// .dnb-accordion {
-// }
+.dnb-accordion {
+  &--expanded &__button__title {
+    font-weight: var(--font-weight-medium);
+  }
+}

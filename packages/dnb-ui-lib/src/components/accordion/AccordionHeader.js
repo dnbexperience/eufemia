@@ -5,10 +5,7 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import {
-  // warn,
-  isTrue
-} from '../../shared/component-helper'
+// import { warn, isTrue } from '../../shared/component-helper'
 // import { IS_IE11, IS_EDGE } from '../../shared/helpers'
 import classnames from 'classnames'
 import keycode from 'keycode'
@@ -61,9 +58,11 @@ export default class AccordionHeader extends React.PureComponent {
 
   onClickHandler = (event) => {
     const { id, group } = this.context
-    const expanded = !this.context.expanded
 
-    this.context.callOnChange({ id, group, expanded, event })
+    if (!group || (group && !this.context.expanded)) {
+      const expanded = !this.context.expanded
+      this.context.callOnChange({ id, group, expanded, event })
+    }
   }
 
   render() {
@@ -73,7 +72,7 @@ export default class AccordionHeader extends React.PureComponent {
       id,
       expanded,
       disabled,
-      prerendered // eslint-disable-line
+      prerender // eslint-disable-line
     } = this.context
 
     const headerParams = {
@@ -95,11 +94,11 @@ export default class AccordionHeader extends React.PureComponent {
     headerParams.role = 'button'
     headerParams.tabIndex = '0'
 
-    if (isTrue(expanded)) {
+    if (expanded) {
       headerParams['aria-expanded'] = true
     }
 
-    if (isTrue(disabled)) {
+    if (disabled) {
       headerParams.tabIndex = '-1' // make the "button" not accessible for keyboard?
       headerParams.disabled = true
       headerParams['aria-disabled'] = true
@@ -110,7 +109,10 @@ export default class AccordionHeader extends React.PureComponent {
 
     return (
       <div {...headerParams}>
-        <span className="dnb-tabs__button__title">{children}</span>
+        <span className="dnb-accordion__button__title">
+          {children}
+          {prerender ? ' (prerendered)' : null}
+        </span>
       </div>
     )
   }
