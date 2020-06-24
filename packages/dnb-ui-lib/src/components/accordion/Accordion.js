@@ -7,7 +7,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import {
-  // warn,
+  warn,
   isTrue,
   makeUniqueId,
   registerElement,
@@ -173,8 +173,11 @@ export default class Accordion extends React.PureComponent {
       isTrue(context?.expanded) &&
       props.expanded === null
     ) {
-      this.state.open = true
       this.state.expanded = true
+    }
+
+    if (isTrue(context.remember_state)) {
+      this.state.expanded = this.getState()
     }
 
     if (this.state.group) {
@@ -215,10 +218,46 @@ export default class Accordion extends React.PureComponent {
       expanded,
       _listenForPropChanges: false
     })
+
+    // check if a event exists, becaus, then it's a user click
+    if (isTrue(this.context.remember_state)) {
+      this.saveState(expanded)
+    }
+  }
+
+  _storeId() {
+    const { id } = this.props
+    return `dnb-accordion-${id}`
+  }
+
+  saveState(expanded) {
+    const { id } = this.props
+    if (id) {
+      try {
+        window.localStorage.setItem(this._storeId(), String(expanded))
+      } catch (e) {
+        //
+      }
+    } else {
+      warn('No id prop is provided in order to store the accordion state!')
+    }
+  }
+
+  getState() {
+    let state = null
+    try {
+      if (window.localStorage.hasOwnProperty(this._storeId())) {
+        state = isTrue(window.localStorage.getItem(this._storeId()))
+      }
+    } catch (e) {
+      //
+    }
+
+    return state
   }
 
   callOnChange = ({ expanded, event }) => {
-    this.changeOpened(expanded)
+    this.changeOpened(expanded, event)
 
     dispatchCustomElementEvent(this, 'on_change', {
       expanded,
@@ -336,11 +375,6 @@ export default class Accordion extends React.PureComponent {
                   }
                 }
               }
-
-              // Some articles states that summary/details will act as a button and buttons cannot have a heading
-              // My tests shows that this is not true, and it works very well to have headings inside summary
-              // Both on VoiceOver and NVDA I could navigate by headings only just fine
-              // https://daverupert.com/2019/12/why-details-is-not-an-accordion/
 
               if (isTrue(disabled)) {
                 mainParams.onClick = (e) => {

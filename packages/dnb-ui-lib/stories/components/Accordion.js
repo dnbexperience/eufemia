@@ -28,9 +28,8 @@ export default [
           prevent_rerender
           single_container
           remember_state
-          id="remembered_state"
         >
-          <Accordion expanded={false} bottom>
+          <Accordion expanded={false} bottom id="remembered_state-1">
             <Accordion.Header>Accordion title</Accordion.Header>
             <Accordion.Content>
               <P>
@@ -41,7 +40,7 @@ export default [
               </P>
             </Accordion.Content>
           </Accordion>
-          <Accordion bottom>
+          <Accordion bottom id="remembered_state-2">
             <Accordion.Header>Accordion title</Accordion.Header>
             <Accordion.Content>
               <P>
