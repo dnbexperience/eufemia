@@ -30,7 +30,16 @@ export default [
           remember_state
         >
           <Accordion expanded={false} bottom id="remembered_state-1">
-            <Accordion.Header>Accordion title</Accordion.Header>
+            <Accordion.Header description="Description">
+              {/* Accordion title Duis platea quisque */}
+              <Accordion.Header.Title>
+                Accordion title Duis platea quisque
+              </Accordion.Header.Title>
+              <Accordion.Header.Description>
+                Accordion description Duis platea quisque
+              </Accordion.Header.Description>
+              <Accordion.Header.Icon icon="bell" />
+            </Accordion.Header>
             <Accordion.Content>
               <P>
                 Sociis sapien sociosqu vel sollicitudin accumsan laoreet

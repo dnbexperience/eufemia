@@ -6,8 +6,16 @@
 @import '../../../../style/themes/imports.scss';
 
 .dnb-accordion {
-  &--expanded &__button__title {
-    font-weight: bolder;
-    font-weight: var(--font-weight-medium);
+  &__header {
+    &__icon {
+      color: var(--color-emerald-green);
+    }
+  }
+
+  &--expanded &__header {
+    &__title {
+      font-weight: bolder;
+      font-weight: var(--font-weight-medium);
+    }
   }
 }
