@@ -36,7 +36,6 @@ const propTypes = {
   sync: PropTypes.bool,
   onlyMonth: PropTypes.bool,
   hideNav: PropTypes.bool,
-  enableKeyboardNav: PropTypes.bool,
   views: PropTypes.oneOfType([
     PropTypes.number,
     PropTypes.arrayOf(PropTypes.object)
@@ -65,7 +64,6 @@ const defaultProps = {
   sync: null,
   onlyMonth: null,
   hideNav: null,
-  enableKeyboardNav: false,
   views: null,
   // views: [{ nextBtn: false }, { prevBtn: false }],
 
@@ -261,21 +259,16 @@ export default class DatePickerRange extends React.PureComponent {
   }
 
   onKeyDownHandler = (event, ref, nr) => {
-    // also, only continue if user uses keyboard
-    if (!this.props.enableKeyboardNav) {
-      return
-    }
-
     const keyCode = keycode(event)
 
     // only continue of key is one of these
     switch (keyCode) {
+      case 'enter':
+      case 'space':
       case 'left':
       case 'right':
       case 'up':
       case 'down':
-      case 'enter':
-      case 'space':
         event.preventDefault()
         event.persist() // since we use the event after setState
         break

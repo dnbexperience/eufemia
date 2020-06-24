@@ -69,17 +69,22 @@ export default class DatePickerFooter extends React.PureComponent {
     }
     return (
       <div className="dnb-date-picker__footer">
+        <p className="dnb-sr-only" aria-live="assertive">
+          {selectedDateTitle}
+        </p>
+
         {(onSubmit && (
           <Button
             text={submit_button_text}
-            aria-label={
-              selectedDateTitle
-                ? `${submit_button_text}, ${selectedDateTitle}`
-                : submit_button_text
-            }
+            // aria-label={
+            // selectedDateTitle
+            // ? `${submit_button_text}, ${selectedDateTitle}`
+            // : submit_button_text
+            // }
             onClick={this.onSubmitHandler}
           />
         )) || <span />}
+
         <span>
           {(onReset && (
             <Button
