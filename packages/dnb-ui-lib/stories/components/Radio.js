@@ -36,7 +36,7 @@ export default [
             // suffix="Suffix message"
             suffix={<Modal title="Modal Title">Modal content</Modal>}
           />
-          <Radio label="Third" value="third" checked />
+          <Radio label="Third" value="third" />
         </Radio.Group>
       </Box>
       <Box>
@@ -174,7 +174,7 @@ export default [
         <Radio.Group label="Vertical group:" layout_direction="column">
           <Radio label="First" value="first" />
           <Radio label="Second" value="second" />
-          <Radio label="Third" value="third" checked />
+          <Radio label="Third" value="third" />
         </Radio.Group>
       </Box>
       <Box>
