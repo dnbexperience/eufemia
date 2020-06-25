@@ -48,7 +48,11 @@ const propTypes = {
     PropTypes.bool
   ]),
   variant: PropTypes.oneOf(['default', 'outlined']),
-  // left_component: PropTypes.node,
+  left_component: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.node,
+    PropTypes.func
+  ]),
   disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   id: PropTypes.string,
   group: PropTypes.string,
@@ -86,13 +90,13 @@ const defaultProps = {
   remember_state: null,
   single_container: null,
   variant: null,
-  // left_component: null,
+  left_component: null,
   disabled: null,
   id: null,
   group: null,
   icon: null,
-  icon_position: 'right',
-  icon_size: null,
+  icon_position: null,
+  icon_size: 'medium',
   attributes: null,
   class: null,
 
@@ -268,17 +272,26 @@ export default class Accordion extends React.PureComponent {
     })
   }
 
+  hasAccordionHeader(children) {
+    if (!Array.isArray(children)) {
+      children = [children]
+    }
+    return (
+      children.findIndex(
+        (cur) => React.isValidElement(cur) && cur.type === AccordionHeader
+      ) !== -1
+    )
+  }
+
   hasAccordionContent(children) {
     if (!Array.isArray(children)) {
       children = [children]
     }
-
-    return children.reduce((acc, cur) => {
-      if (React.isValidElement(cur) && cur.type === AccordionContent) {
-        return true
-      }
-      return acc
-    }, false)
+    return (
+      children.findIndex(
+        (cur) => React.isValidElement(cur) && cur.type === AccordionContent
+      ) !== -1
+    )
   }
 
   render() {
@@ -306,7 +319,7 @@ export default class Accordion extends React.PureComponent {
               }
 
               const {
-                title,
+                // variant,
                 className,
                 class: _className,
                 prerender,
@@ -314,18 +327,19 @@ export default class Accordion extends React.PureComponent {
                 single_container,
                 remember_state,
                 disabled,
-                // variant,
-                // left_component,
-                // icon,
-                // icon_size,
-                // icon_position,
-                // value: propValue,
+                children,
 
                 id: _id, // eslint-disable-line
                 group: _group, // eslint-disable-line
                 expanded: _expanded, // eslint-disable-line
+
+                title, // eslint-disable-line
+                description, // eslint-disable-line
+                left_component, // eslint-disable-line
+                icon, // eslint-disable-line
+                icon_position, // eslint-disable-line
+                icon_size, // eslint-disable-line
                 attributes, // eslint-disable-line
-                children,
                 on_change, // eslint-disable-line
                 on_state_update, // eslint-disable-line
                 custom_method, // eslint-disable-line
@@ -357,8 +371,9 @@ export default class Accordion extends React.PureComponent {
               validateDOMAttributes(this.props, rest)
 
               const context = {
-                ...this.state,
                 ...this.context,
+                ...this.state,
+                ...this.props,
                 id,
                 expanded,
                 prerender: isTrue(prerender),
@@ -389,7 +404,9 @@ export default class Accordion extends React.PureComponent {
               return (
                 <AccordionContext.Provider value={context}>
                   <div {...mainParams}>
-                    {title && <AccordionHeader>{title}</AccordionHeader>}
+                    {this.hasAccordionHeader(children) ? null : (
+                      <AccordionHeader />
+                    )}
                     {this.hasAccordionContent(children) ? (
                       children
                     ) : (

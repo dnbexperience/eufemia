@@ -10,7 +10,8 @@ import { Wrapper, Box } from '../helpers'
 import Provider from '../../src/shared/Provider'
 import {
   Accordion,
-  Input
+  Input,
+  IconPrimary
   // Button,
   // FormSet,
   // FormRow
@@ -30,16 +31,22 @@ export default [
           remember_state
           allow_close_all
         >
-          <Accordion expanded={false} bottom id="remembered_state-1">
-            <Accordion.Header description="Description">
-              {/* Accordion title Duis platea quisque */}
-              <Accordion.Header.Title>
-                Accordion title Duis platea quisque
+          <Accordion
+            expanded={false}
+            bottom
+            id="remembered_state-1"
+            title="Title1"
+            description="Description1"
+          >
+            <Accordion.Header title="Title2" description="Description2">
+              {/* Title 3 string */}
+              <Accordion.Header.Title key="title">
+                Title 3
               </Accordion.Header.Title>
               <Accordion.Header.Description>
-                Accordion description Duis platea quisque
+                Description 3
               </Accordion.Header.Description>
-              <Accordion.Header.Icon icon="bell" />
+              {/* <Accordion.Header.Icon key="icon" /> */}
             </Accordion.Header>
             <Accordion.Content>
               <P>
@@ -50,8 +57,16 @@ export default [
               </P>
             </Accordion.Content>
           </Accordion>
-          <Accordion bottom id="remembered_state-2">
-            <Accordion.Header>Accordion title</Accordion.Header>
+
+          <Accordion bottom icon_position="right" id="remembered_state-2">
+            <Accordion.Header>
+              <Accordion.Header.Container>
+                <IconPrimary icon="bell" />
+              </Accordion.Header.Container>
+              <Accordion.Header.Title>
+                Accordion title
+              </Accordion.Header.Title>
+            </Accordion.Header>
             <Accordion.Content>
               <P>
                 Nec sit mattis natoque interdum sagittis cubilia nibh
@@ -64,7 +79,12 @@ export default [
       </Box>
 
       <Box>
-        <Accordion expanded title="Accordion title" icon="bell">
+        <Accordion
+          expanded
+          title="Accordion title"
+          icon="bell"
+          icon_position="right"
+        >
           Accordion content
         </Accordion>
       </Box>
@@ -118,7 +138,10 @@ export default [
       </Box>
 
       <Box>
-        <Accordion group="unique-id">
+        <Accordion
+          group="unique-id"
+          left_component={<IconPrimary icon="bell" />}
+        >
           <Accordion.Header>Accordion title</Accordion.Header>
           <Accordion.Content>
             <P>

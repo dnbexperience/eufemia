@@ -12,7 +12,7 @@
 
   display: flex;
   flex-direction: column;
-  flex: 1;
+  flex: 1; // TODO: why should we use this again?
 
   font-size: var(--font-size-small);
   line-height: var(--line-height-basis);
@@ -33,6 +33,7 @@
     &__wrapper {
       display: flex;
       flex-direction: column;
+      width: 100%; // this pushes the &__container to the right
 
       margin: 1.5rem 0 1.5rem 2rem;
     }
@@ -41,9 +42,32 @@
       margin-right: 2rem;
     }
 
+    &__container {
+      margin: 0 1rem;
+    }
     &__icon {
       transition: transform 400ms var(--accordion-easing);
       margin: 1.5rem 1rem;
+    }
+    &__icon--right {
+      justify-content: space-between;
+    }
+    &__icon--right &__icon {
+      order: 3;
+    }
+    &__icon--right &__container {
+      order: 1;
+    }
+    &__icon--right &__wrapper {
+      order: 2;
+      margin-left: 1rem;
+      margin-right: 1rem;
+    }
+    &__icon--right &__wrapper + &__container {
+      margin-right: 0;
+    }
+    &__icon--right &__container + &__wrapper {
+      margin-left: 0;
     }
 
     &__title {

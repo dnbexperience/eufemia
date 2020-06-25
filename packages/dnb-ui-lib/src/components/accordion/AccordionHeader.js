@@ -5,7 +5,10 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import { isTrue } from '../../shared/component-helper'
+import {
+  isTrue,
+  extendPropsWithContext
+} from '../../shared/component-helper'
 import IconPrimary from '../../components/icon-primary/IconPrimary'
 import classnames from 'classnames'
 import keycode from 'keycode'
@@ -19,6 +22,11 @@ const propTypes = {
     PropTypes.func
   ]),
   description: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.node,
+    PropTypes.func
+  ]),
+  left_component: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.node,
     PropTypes.func
@@ -41,11 +49,13 @@ const propTypes = {
 }
 
 const defaultProps = {
+  id: null, // make sure we have id here, so it gets picked up by extendPropsWithContext
   title: null,
   description: null,
+  left_component: null,
   icon: null,
   icon_position: null,
-  icon_size: null,
+  icon_size: 'medium',
 
   // React props
   className: null,
@@ -82,10 +92,32 @@ AccordionHeaderDescription.defaultProps = {
   children: null
 }
 
-function AccordionHeaderIcon(props) {
+function AccordionHeaderContainer({ children }) {
+  return children ? (
+    <span className="dnb-accordion__header__container">{children}</span>
+  ) : null
+}
+AccordionHeaderContainer.propTypes = {
+  children: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.node,
+    PropTypes.func
+  ])
+}
+AccordionHeaderContainer.defaultProps = {
+  children: null
+}
+
+function AccordionHeaderIcon({ icon, ...props }) {
   return (
     <span className="dnb-accordion__header__icon">
-      <IconPrimary {...props} />
+      {
+        <IconPrimary
+          {...props}
+          icon={icon || 'chevron-down'}
+          aria-hidden
+        />
+      }
     </span>
   )
 }
@@ -98,7 +130,7 @@ AccordionHeaderIcon.propTypes = {
   size: PropTypes.string
 }
 AccordionHeaderIcon.defaultProps = {
-  icon: 'chevron-down',
+  icon: null,
   size: 'medium'
 }
 
@@ -107,9 +139,10 @@ export default class AccordionHeader extends React.PureComponent {
   static defaultProps = defaultProps
   static contextType = AccordionContext
 
+  static Container = AccordionHeaderContainer
+  static Icon = AccordionHeaderIcon
   static Title = AccordionHeaderTitle
   static Description = AccordionHeaderDescription
-  static Icon = AccordionHeaderIcon
 
   onKeyDownHandler = (event) => {
     switch (keycode(event)) {
@@ -134,62 +167,54 @@ export default class AccordionHeader extends React.PureComponent {
     }
   }
 
-  hasHeaderTitle(children) {
-    if (!Array.isArray(children)) {
-      children = [children]
-    }
-
-    return children.reduce((acc, cur) => {
-      if (React.isValidElement(cur) && cur.type === AccordionHeaderTitle) {
-        return true
-      }
-      return acc
-    }, false)
-  }
-
   render() {
-    const { children, description, className, ...rest } = this.props
+    const props = extendPropsWithContext(
+      this.props,
+      defaultProps,
+      this.context
+    )
 
-    const { id, expanded, disabled } = this.context
+    const {
+      id,
 
-    const headerParams = {
-      disabled,
-      className: classnames(
-        'dnb-accordion__header',
-        // expanded && 'dnb-accordion__content--expanded',
-        createSpacingClasses(rest),
-        className
-      ),
+      // 1. these props should be the same as ...
+      left_component,
+      expanded,
+      title,
+      description,
+      icon,
+      icon_size,
+      disabled
+    } = props
+
+    const {
+      children,
+      className,
+
+      // 2. ... these
+      left_component: _left_component, // eslint-disable-line
+      expanded: _expanded, // eslint-disable-line
+      title: _title, // eslint-disable-line
+      description: _description, // eslint-disable-line
+      icon: _icon, // eslint-disable-line
+      icon_size: _icon_size, // eslint-disable-line
+      disabled: _disabled, // eslint-disable-line
+
       ...rest
-    }
+    } = this.props
 
-    // legacy borwer support
-    headerParams.id = `${id}-header`
-    headerParams['aria-controls'] = `${id}-content`
-
-    // use div, only to make it easier to style (legacy borwer support)
-    headerParams.role = 'button'
-    headerParams.tabIndex = '0'
-
-    if (expanded) {
-      headerParams['aria-expanded'] = true
-    }
-
-    if (disabled) {
-      headerParams.tabIndex = '-1' // make the "button" not accessible for keyboard?
-      headerParams.disabled = true
-      headerParams['aria-disabled'] = true
-    } else {
-      headerParams.onClick = this.onClickHandler
-      headerParams.onKeyDown = this.onKeyDownHandler
-    }
+    let { icon_position } = props
 
     const defaultParts = [
-      <AccordionHeaderIcon key="icon" />,
+      <AccordionHeaderIcon key="icon" icon={icon} size={icon_size} />,
+      <AccordionHeaderContainer key="container">
+        {left_component}
+      </AccordionHeaderContainer>,
       <AccordionHeaderTitle key="title">
-        {Array.isArray(children)
-          ? children.filter((cur) => !React.isValidElement(cur))
-          : children}
+        {title ||
+          (Array.isArray(children)
+            ? children.filter((cur) => !React.isValidElement(cur))
+            : children)}
       </AccordionHeaderTitle>,
       <AccordionHeaderDescription key="description">
         {description}
@@ -199,12 +224,20 @@ export default class AccordionHeader extends React.PureComponent {
     if (Array.isArray(children)) {
       const removeParts = []
       children.forEach((cur) => {
-        defaultParts.forEach((part) => {
-          if (React.isValidElement(cur) && cur.type === part.type) {
+        if (React.isValidElement(cur)) {
+          const part = defaultParts.find((c) => c.type === cur.type)
+          if (part) {
             removeParts.push(part)
-            defaultParts.push(cur)
           }
-        })
+
+          // if (cur.type === AccordionHeaderTitle) {
+          //   defaultParts.unshift(cur)
+          // } else {
+          //   defaultParts.push(cur)
+          // }
+
+          defaultParts.push(cur)
+        }
       })
       removeParts.forEach((part) => {
         const index = defaultParts.findIndex((c) => c === part)
@@ -236,6 +269,61 @@ export default class AccordionHeader extends React.PureComponent {
         partsToRender.push(part)
       }
     })
+
+    // position the icon to the right, if the element is not in the beginning
+    if (icon_position === null) {
+      const iconIndex = partsToRender.findIndex(
+        (c) => c.type === AccordionHeaderIcon
+      )
+      // because of the container at the beginning, we use 1
+      if (iconIndex > 1) {
+        icon_position = 'right'
+      }
+
+      // if (
+      //   Array.isArray(children) &&
+      //   children.findIndex((c) => c.type === AccordionHeaderContainer) !==
+      //     -1
+      // ) {
+      // icon_position = 'right'
+      // }
+
+      if (left_component) {
+        icon_position = 'right'
+      }
+    }
+
+    const headerParams = {
+      className: classnames(
+        'dnb-accordion__header',
+        icon_position && `dnb-accordion__header__icon--${icon_position}`,
+        createSpacingClasses(rest),
+        className
+      ),
+      disabled,
+      ...rest
+    }
+
+    // legacy borwer support
+    headerParams.id = `${id}-header`
+    headerParams['aria-controls'] = `${id}-content`
+
+    // use div, only to make it easier to style (legacy borwer support)
+    headerParams.role = 'button'
+    headerParams.tabIndex = '0'
+
+    if (expanded) {
+      headerParams['aria-expanded'] = true
+    }
+
+    if (disabled) {
+      headerParams.tabIndex = '-1' // make the "button" not accessible for keyboard?
+      headerParams.disabled = true
+      headerParams['aria-disabled'] = true
+    } else {
+      headerParams.onClick = this.onClickHandler
+      headerParams.onKeyDown = this.onKeyDownHandler
+    }
 
     return <div {...headerParams}>{partsToRender}</div>
   }
