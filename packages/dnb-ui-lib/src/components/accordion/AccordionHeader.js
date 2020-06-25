@@ -5,7 +5,7 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
-// import { warn, isTrue } from '../../shared/component-helper'
+import { isTrue } from '../../shared/component-helper'
 import IconPrimary from '../../components/icon-primary/IconPrimary'
 import classnames from 'classnames'
 import keycode from 'keycode'
@@ -124,7 +124,11 @@ export default class AccordionHeader extends React.PureComponent {
   onClickHandler = (event) => {
     const { id, group } = this.context
 
-    if (!group || (group && !this.context.expanded)) {
+    if (
+      !group ||
+      (group && !this.context.expanded) ||
+      isTrue(this.context.allow_close_all)
+    ) {
       const expanded = !this.context.expanded
       this.context.callOnChange({ id, group, expanded, event })
     }

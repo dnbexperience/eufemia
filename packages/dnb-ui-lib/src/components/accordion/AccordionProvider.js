@@ -34,10 +34,7 @@ const propTypes = {
     PropTypes.string,
     PropTypes.bool
   ]),
-  responsive_single_container: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.bool
-  ]),
+  allow_close_all: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   id: PropTypes.string,
   group: PropTypes.string
@@ -48,7 +45,7 @@ const defaultProps = {
   prerender: null,
   prevent_rerender: null,
   single_container: null,
-  responsive_single_container: null,
+  allow_close_all: null,
   disabled: null,
   id: null,
   group: null
@@ -92,6 +89,7 @@ export default class AccordionGroup extends React.PureComponent {
       prerender, // eslint-disable-line
       prevent_rerender, // eslint-disable-line
       single_container, // eslint-disable-line
+      allow_close_all, // eslint-disable-line
       remember_state, // eslint-disable-line
       disabled, // eslint-disable-line
       className,

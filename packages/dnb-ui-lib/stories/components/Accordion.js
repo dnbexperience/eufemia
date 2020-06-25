@@ -28,6 +28,7 @@ export default [
           prevent_rerender
           single_container
           remember_state
+          allow_close_all
         >
           <Accordion expanded={false} bottom id="remembered_state-1">
             <Accordion.Header description="Description">
