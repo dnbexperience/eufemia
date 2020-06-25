@@ -112,8 +112,8 @@ export default class DatePickerCalendar extends React.PureComponent {
 
   componentDidMount() {
     if (!this.props.noAutofocus && this.props.nr === 0) {
-      if (this._labelRef.current) {
-        this._labelRef.current.focus({ preventScroll: true })
+      if (this._listRef.current) {
+        this._listRef.current.focus({ preventScroll: true })
       }
     }
   }

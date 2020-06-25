@@ -397,9 +397,10 @@ export default class DatePicker extends React.PureComponent {
   }
 
   onSubmitButtonFocus = () => {
-    this.setState({
-      showInput: true
-    })
+    // Removed, because the keyboard support has been improved since
+    // this.setState({
+    //   showInput: true
+    // })
   }
 
   onInputChange = (args) => {
