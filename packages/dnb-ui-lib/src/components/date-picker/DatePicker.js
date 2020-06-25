@@ -397,9 +397,10 @@ export default class DatePicker extends React.PureComponent {
   }
 
   onSubmitButtonFocus = () => {
-    this.setState({
-      showInput: true
-    })
+    // Removed, because the keyboard support has been improved since
+    // this.setState({
+    //   showInput: true
+    // })
   }
 
   onInputChange = (args) => {
@@ -672,7 +673,7 @@ export default class DatePicker extends React.PureComponent {
       only_month,
       hide_last_week,
       disable_autofocus,
-      enable_keyboard_nav,
+      enable_keyboard_nav, // eslint-disable-line
       hide_navigation_buttons,
       show_input, // eslint-disable-line
       range,
@@ -779,6 +780,10 @@ export default class DatePicker extends React.PureComponent {
       )
     }
 
+    if (locale?.code) {
+      mainParams.lang = locale.code
+    }
+
     validateDOMAttributes(this.props, inputParams)
     validateDOMAttributes(null, submitParams)
     validateDOMAttributes(null, pickerParams)
@@ -877,10 +882,6 @@ export default class DatePicker extends React.PureComponent {
                       endMonth={endMonth}
                       startDate={startDate}
                       endDate={endDate}
-                      enableKeyboardNav={
-                        isTrue(enable_keyboard_nav)
-                        // || userUsesKeyboard // NB: We could extend this in future to be more smart
-                      }
                     />
                     {(addon_element || shortcuts) && (
                       <DatePickerAddon

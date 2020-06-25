@@ -164,7 +164,34 @@ exports[`Radio group component have to match group snapshot 1`] = `
   layout_direction="row"
   name="group"
   no_fieldset={true}
-  on_change={null}
+  on_change={
+    [MockFunction] {
+      "calls": Array [
+        Array [
+          Object {
+            "event": undefined,
+            "value": "first",
+          },
+        ],
+        Array [
+          Object {
+            "event": undefined,
+            "value": "second",
+          },
+        ],
+      ],
+      "results": Array [
+        Object {
+          "type": "return",
+          "value": undefined,
+        },
+        Object {
+          "type": "return",
+          "value": undefined,
+        },
+      ],
+    }
+  }
   status={null}
   status_animation={null}
   status_state="error"
@@ -280,7 +307,7 @@ exports[`Radio group component have to match group snapshot 1`] = `
                   status_animation={null}
                   status_state="error"
                   suffix={null}
-                  value=""
+                  value="first"
                 >
                   <span
                     className="dnb-radio dnb-radio--label-position-right"
@@ -311,12 +338,13 @@ exports[`Radio group component have to match group snapshot 1`] = `
                               className="dnb-radio__input"
                               disabled={false}
                               id="radio-1"
-                              name={null}
+                              name="group"
                               onChange={[Function]}
                               onClick={[Function]}
                               onKeyDown={[Function]}
                               role="radio"
-                              type="checkbox"
+                              type="radio"
+                              value="first"
                             />
                             <span
                               aria-hidden={true}
@@ -335,7 +363,7 @@ exports[`Radio group component have to match group snapshot 1`] = `
                             class={null}
                             className={null}
                             direction={null}
-                            disabled={null}
+                            disabled={false}
                             element="label"
                             for_id="radio-1"
                             id="radio-1-label"
@@ -389,7 +417,7 @@ exports[`Radio group component have to match group snapshot 1`] = `
                   status_animation={null}
                   status_state="error"
                   suffix={null}
-                  value=""
+                  value="second"
                 >
                   <span
                     className="dnb-radio dnb-radio--label-position-right"
@@ -420,12 +448,13 @@ exports[`Radio group component have to match group snapshot 1`] = `
                               className="dnb-radio__input"
                               disabled={false}
                               id="radio-2"
-                              name={null}
+                              name="group"
                               onChange={[Function]}
                               onClick={[Function]}
                               onKeyDown={[Function]}
                               role="radio"
-                              type="checkbox"
+                              type="radio"
+                              value="second"
                             />
                             <span
                               aria-hidden={true}
@@ -444,7 +473,7 @@ exports[`Radio group component have to match group snapshot 1`] = `
                             class={null}
                             className={null}
                             direction={null}
-                            disabled={null}
+                            disabled={false}
                             element="label"
                             for_id="radio-2"
                             id="radio-2-label"

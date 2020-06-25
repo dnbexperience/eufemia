@@ -13,9 +13,12 @@ import {
 export const globalSyncCounter = React.createRef()
 export const globalHeadingCounter = React.createRef(null)
 
+const refs = React.createRef()
+
 export const correctHeadingLevel = ({
   counter,
   level,
+  ref = null,
   reset = null,
   inherit = null,
   increase = false,
@@ -24,6 +27,18 @@ export const correctHeadingLevel = ({
   bypassChecks = false,
   debug = null
 }) => {
+  // Do that only to make shure we run the correction only if props has changed
+  if (ref && refs.current) {
+    const foundRef = refs.current.find((cur) => cur.ref === ref)
+    if (foundRef) {
+      // double check, if level is provided
+      // if (ref.level && ref.level !== foundRef.ref.level) {
+      // } else {
+      // }
+      return foundRef.counter
+    }
+  }
+
   if (bypassChecks) {
     counter.enableBypassChecks()
   }
@@ -109,6 +124,12 @@ export const correctHeadingLevel = ({
 
   if (bypassChecks) {
     counter.disableBypassChecks()
+  }
+
+  // Do that only to make shure we run the correction only if props has changed
+  if (ref) {
+    refs.current = refs.current || []
+    refs.current.push({ ref, counter })
   }
 
   return counter

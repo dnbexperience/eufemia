@@ -156,8 +156,6 @@ export default class Heading extends React.PureComponent {
   constructor(props, context) {
     super(props)
 
-    // this._id = props.id || makeUniqueId()
-
     this._ref = React.createRef()
 
     const state = {
@@ -177,7 +175,8 @@ export default class Heading extends React.PureComponent {
       state.counter.isHeading = true
     }
 
-    const { level: newLevel } = correctHeadingLevel({
+    state.counter = correctHeadingLevel({
+      ref: props, // Do that only to make shure we run the correction only if props has changed
       counter: state.counter,
       level: parseFloat(props.level),
       inherit: isTrue(props.inherit),
@@ -193,7 +192,7 @@ export default class Heading extends React.PureComponent {
 
     globalSyncCounter.current = state.counter
 
-    state.level = newLevel
+    state.level = state.counter.level
     state.prevLevel = props.level
 
     this.state = state
@@ -233,6 +232,7 @@ export default class Heading extends React.PureComponent {
 
     let { size, element } = this.props
     const { level } = this.state
+
     const debug = _debug || this.context.heading?.debug
     const debug_counter =
       _debug_counter || this.context.heading?.debug_counter
@@ -295,9 +295,9 @@ Heading.Increase = (props) => <HeadingProvider increase {...props} />
 Heading.Decrease = (props) => <HeadingProvider decrease {...props} />
 Heading.Up = (props) => <HeadingProvider increase {...props} />
 Heading.Down = (props) => <HeadingProvider decrease {...props} />
-Heading.Reset = () => {
+Heading.Reset = (props) => {
   globalHeadingCounter.current?.reset()
-  return <></>
+  return <HeadingProvider {...props} />
 }
 Heading.resetLevels = resetLevels
 Heading.setNextLevel = setNextLevel

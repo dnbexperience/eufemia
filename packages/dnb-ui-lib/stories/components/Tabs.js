@@ -31,10 +31,24 @@ export default [
 
           <Tabs bottom prerender>
             <Tabs.Content title="Tab 1">
-              <div>Change me 1: {value}</div>
+              <>
+                Change me 1: {value}{' '}
+                <Input
+                  label="Change state"
+                  value={value}
+                  onChange={({ value }) => setValue(value)}
+                />
+              </>
             </Tabs.Content>
             <Tabs.Content title="Tab 2">
-              <div>Change me 2: {value}</div>
+              <>
+                Change me 2: {value}{' '}
+                <Input
+                  label="Change state"
+                  value={value}
+                  onChange={({ value }) => setValue(value)}
+                />
+              </>
             </Tabs.Content>
           </Tabs>
         </Box>
@@ -45,7 +59,37 @@ export default [
           <TabsNavigation />
         </Box>
         <Box>
-          <Tabs data={tabsData}>{exampleTabsContent}</Tabs>
+          <Tabs prevent_rerender data={tabsData}>
+            {{
+              first: (
+                <>
+                  Change me 1: {value}{' '}
+                  <Input
+                    label="Change state"
+                    // value={value}
+                    onChange={({ value }) => setValue(value)}
+                  />
+                </>
+              ),
+              second: () => (
+                <>
+                  Change me 2: {value}{' '}
+                  <Input
+                    label="Change state"
+                    // value={value}
+                    onChange={({ value }) => setValue(value)}
+                  />
+                </>
+              ),
+              third: () => (
+                <p className="dnb-p">
+                  Eros semper blandit tellus mollis primis quisque platea
+                  sollicitudin ipsum
+                </p>
+              ),
+              fourth: () => <H2>Fourth</H2>
+            }}
+          </Tabs>
         </Box>
         <Box>
           <Tabs data={tablistDataWithContent} />
@@ -101,7 +145,7 @@ const tablistDataWithContent = [
 
 const exampleTabsContent = {
   first: () => <H2>First</H2>,
-  second: () => <Input>Focus me with next Tab key</Input>,
+  second: () => <Input>Value</Input>,
   third: () => (
     <p className="dnb-p">
       Eros semper blandit tellus mollis primis quisque platea sollicitudin

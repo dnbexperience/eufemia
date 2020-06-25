@@ -91,6 +91,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
 >
   <span
     className="dnb-date-picker dnb-form-component dnb-date-picker--show-footer dnb-date-picker__status--error dnb-date-picker--hidden dnb-date-picker--show-input"
+    lang="nb"
   >
     <span
       aria-describedby="date-picker-id-status "

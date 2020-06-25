@@ -393,52 +393,61 @@ export default class Tabs extends React.PureComponent {
     return this.state.selected_key == tabKey
   }
 
-  renderCachedContent(selected_key, content = null) {
-    if (content && isTrue(this.props.prerender)) {
-      this._cache = Object.entries(this.state.data).reduce(
+  renderCachedContent() {
+    const { selected_key, data } = this.state
+    const { prevent_rerender, prerender } = this.props
+
+    if (isTrue(prerender)) {
+      this._cache = Object.entries(data).reduce(
         /* eslint-disable-next-line */
         (acc, [idx, cur]) => {
-          acc[cur.key] = cur
+          acc[cur.key] = {
+            ...cur,
+            content: this.getContent(cur.key)
+          }
           return acc
         },
         {}
       )
-    } else if (content) {
-      this._cache = { ...(this._cache || {}), [selected_key]: { content } }
+    } else if (isTrue(prevent_rerender)) {
+      this._cache = {
+        ...(this._cache || {}),
+        [selected_key]: { content: this.getContent(selected_key) }
+      }
     }
 
-    return Object.entries(this._cache).map(([key, { content }]) => {
-      const params = {}
-      if (key !== selected_key) {
-        params.hidden = true
-        params['aria-hidden'] = true
+    const cachedContent = Object.entries(this._cache).map(
+      ([key, { content }]) => {
+        const params = {}
+        if (key !== selected_key) {
+          params.hidden = true
+          params['aria-hidden'] = true
+        }
+        return (
+          <div key={key} className="dnb-tabs__cached" {...params}>
+            {content}
+          </div>
+        )
       }
-      return (
-        <div key={key} className="dnb-tabs__cached" {...params}>
-          {content}
-        </div>
-      )
-    })
+    )
+
+    return cachedContent
   }
 
   renderContent() {
-    const {
-      children,
-      content: _content,
-      prevent_rerender,
-      prerender
-    } = this.props
+    const { prevent_rerender, prerender } = this.props
+
+    if (isTrue(prevent_rerender) || isTrue(prerender)) {
+      return this.renderCachedContent()
+    }
+
+    return this.getContent(this.state.selected_key)
+  }
+
+  getContent = (selected_key) => {
+    const { children, content: _content } = this.props
 
     const contentToRender = children || _content
-    const { selected_key } = this.state
-
-    if (
-      isTrue(prevent_rerender) &&
-      this._cache &&
-      this._cache[selected_key]
-    ) {
-      return this.renderCachedContent(selected_key)
-    }
 
     let content = null
 
@@ -479,10 +488,6 @@ export default class Tabs extends React.PureComponent {
     if (typeof content === 'function') {
       const Component = content
       content = <Component />
-    }
-
-    if (isTrue(prevent_rerender) || isTrue(prerender)) {
-      return this.renderCachedContent(selected_key, content)
     }
 
     return content

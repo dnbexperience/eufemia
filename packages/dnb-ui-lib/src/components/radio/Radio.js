@@ -295,9 +295,10 @@ export default class Radio extends React.PureComponent {
           let { checked } = this.state
           let { value, group, disabled } = props // get it from context also
 
-          const hasContext = typeof this.context.value !== 'undefined'
+          const hasContext = typeof this.context.name !== 'undefined'
+
           if (hasContext) {
-            if (this.context.value !== null) {
+            if (typeof this.context.value !== 'undefined') {
               checked = this.context.value === value
             }
             group = this.context.name
