@@ -1,0 +1,182 @@
+/*
+* Accordion component
+*
+*/
+
+:root {
+  // Temp
+  --color-outline-grey: #ebebeb;
+  --color-dark-grey: #757575;
+
+  // Props
+  --accordion-border-width: 0.0625rem;
+  --accordion-border-radius: 0.25rem;
+  --accordion-easing: cubic-bezier(0.42, 0, 0, 1);
+}
+
+.dnb-accordion {
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+  flex: 1; // TODO: why should we use this again?
+
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-basis);
+
+  &__header {
+    display: flex;
+    align-items: center;
+
+    cursor: pointer;
+    outline: none;
+
+    &:focus {
+      user-select: none;
+    }
+
+    // ensure that onMouseOutHander works properly
+    * {
+      pointer-events: none;
+    }
+
+    border: var(--accordion-border-width) solid transparent;
+    border-radius: var(--accordion-border-radius);
+
+    // background-color: var(--color-white);
+
+    &__wrapper {
+      display: flex;
+      flex-direction: column;
+      width: 100%; // this pushes the &__container to the right
+
+      margin: 1.5rem 0 1.5rem 2rem;
+    }
+    &__icon + &__wrapper {
+      margin-left: 0;
+      margin-right: 2rem;
+    }
+
+    &__container {
+      margin: 0 1rem;
+    }
+    &__icon {
+      transition: transform 400ms var(--accordion-easing);
+      margin: 1.5rem 1rem;
+    }
+    &__icon--right {
+      justify-content: space-between;
+    }
+    &__icon--right &__icon {
+      order: 3;
+    }
+    &__icon--right &__container {
+      order: 1;
+    }
+    &__icon--right &__wrapper {
+      order: 2;
+      margin-left: 1rem;
+      margin-right: 1rem;
+    }
+    &__icon--right &__wrapper + &__container {
+      margin-right: 0;
+    }
+    &__icon--right &__container + &__wrapper {
+      margin-left: 0;
+    }
+
+    &__title {
+      font-size: var(--font-size-basis);
+      line-height: var(--line-height-basis);
+    }
+
+    &__description {
+      font-size: var(--font-size-small);
+      line-height: var(--line-height-small);
+    }
+    &__title + &__description {
+      margin-top: 0.25rem;
+    }
+    &__description + &__title {
+      margin-top: 0.25rem;
+    }
+  }
+
+  &--expanded &__header {
+    &__icon {
+      transform: rotate(-180deg);
+    }
+  }
+
+  &__content {
+    display: flex;
+    overflow: hidden;
+
+    will-change: height;
+    transition: height 400ms var(--accordion-easing);
+
+    &--hidden {
+      visibility: hidden;
+      height: 0;
+    }
+
+    &__inner {
+      margin-top: 1rem;
+
+      &--remove-content {
+        display: none;
+      }
+    }
+  }
+
+  &-group--single-container & {
+    position: static;
+
+    &__content {
+      &__inner {
+        padding-top: 0;
+        margin-top: 0;
+      }
+    }
+
+    @media screen and (min-width: 40em) {
+      &__header {
+        width: 40vw;
+      }
+    }
+    @media screen and (min-width: 80em) {
+      &__header {
+        width: 44rem;
+      }
+    }
+  }
+
+  &-group {
+    &--single-container & {
+      &__children {
+        @media screen and (min-width: 40em) {
+          position: relative;
+          display: flex;
+          flex-direction: column;
+
+          .dnb-accordion__content {
+            position: absolute;
+            z-index: 10;
+            left: 40vw;
+            top: 0;
+            right: 0;
+          }
+        }
+        @media screen and (min-width: 80em) {
+          .dnb-accordion__content {
+            left: 44rem;
+          }
+        }
+      }
+    }
+  }
+
+  // IE fix
+  // @media screen and (-ms-high-contrast: none) {
+  // }
+}

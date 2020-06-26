@@ -1,0 +1,12 @@
+/*
+* DNB Accordion
+*
+*/
+
+@import '../../../style/components/imports.scss';
+
+.dnb-accordion {
+  @include componentReset();
+}
+
+@import './_accordion.scss';
