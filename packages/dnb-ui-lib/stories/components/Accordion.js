@@ -38,6 +38,7 @@ export default [
             id="remembered_state-1"
             title="Title1"
             description="Description1"
+            element="h2"
           >
             <Accordion.Header title="Title2" description="Description2">
               {/* Title 3 string */}
@@ -132,7 +133,7 @@ export default [
               </P>
             </Accordion.Content>
           </Accordion>
-          <Accordion>
+          <Accordion top>
             <Accordion.Header>Accordion title</Accordion.Header>
             <Accordion.Content>
               <P>
@@ -159,7 +160,7 @@ export default [
             </P>
           </Accordion.Content>
         </Accordion>
-        <Accordion expanded={true} group="unique-id">
+        <Accordion top expanded={true} group="unique-id">
           <Accordion.Header>Accordion title</Accordion.Header>
           <Accordion.Content>
             <P>
