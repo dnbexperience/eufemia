@@ -8,7 +8,6 @@ import PropTypes from 'prop-types'
 import {
   isTrue,
   validateDOMAttributes
-  // InteractionInvalidation
 } from '../../shared/component-helper'
 import classnames from 'classnames'
 import AccordionContext from './AccordionContext'
@@ -50,16 +49,12 @@ export default class AccordionContent extends React.PureComponent {
         this.setState({
           keepContentVisible: true
         })
-        // this._ii.revert()
       } else {
         this.setState({
           keepContentVisible: false
         })
-        // this._ii.active(this._ref.current)
       }
     })
-
-    // this._ii = new InteractionInvalidation()
   }
 
   componentDidMount() {
@@ -71,7 +66,6 @@ export default class AccordionContent extends React.PureComponent {
 
   componentWillUnmount() {
     this.anim.remove()
-    // this._ii.revert()
   }
 
   componentDidUpdate() {
@@ -117,7 +111,6 @@ export default class AccordionContent extends React.PureComponent {
       className: classnames(
         'dnb-accordion__content',
         !expanded && 'dnb-accordion__content--hidden',
-        // createSpacingClasses(rest),
         className
       ),
       ...rest
@@ -244,8 +237,6 @@ class HeightAnim {
         fn(this.state)
       }
     })
-
-    // this.state = null
   }
   start(height = 0, before = '0px', { animate = true } = {}) {
     if (typeof window !== 'undefined' && window.requestAnimationFrame) {
