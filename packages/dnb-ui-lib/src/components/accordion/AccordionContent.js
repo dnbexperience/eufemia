@@ -6,13 +6,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {
-  // warn,
-  isTrue
-  // makeUniqueId,
-  // registerElement,
-  // extendPropsWithContext,
-  // validateDOMAttributes,
-  // dispatchCustomElementEvent
+  isTrue,
+  InteractionInvalidation
 } from '../../shared/component-helper'
 import classnames from 'classnames'
 import AccordionContext from './AccordionContext'
@@ -49,17 +44,27 @@ export default class AccordionContent extends React.PureComponent {
 
     this.anim = new HeightAnim()
     this.anim.onEnd(() => {
-      // checking additional for  && state === 'close' makes it more "safe"
-      if (!this.context.expanded) {
-        this.setState({
-          keepContentVisible: false
-        })
-      } else {
+      // checking additional for  && state === 'closing' makes it more "safe"
+      if (this.context.expanded) {
         this.setState({
           keepContentVisible: true
         })
+        this._ii.revert()
+        // const { prerender, prevent_rerender } = this.context
+        // if (isTrue(prerender) || isTrue(prevent_rerender)) {
+        // }
+      } else {
+        this.setState({
+          keepContentVisible: false
+        })
+        this._ii.active(this._ref.current)
+        // const { prerender, prevent_rerender } = this.context
+        // if (isTrue(prerender) || isTrue(prevent_rerender)) {
+        // }
       }
     })
+
+    this._ii = new InteractionInvalidation()
   }
 
   componentDidMount() {
@@ -71,11 +76,13 @@ export default class AccordionContent extends React.PureComponent {
 
   componentWillUnmount() {
     this.anim.remove()
+    this._ii.revert()
   }
 
   componentDidUpdate() {
     if (this.context.expanded) {
       this.anim.open()
+
       this.setState({
         keepContentVisible: true
       })
@@ -88,37 +95,23 @@ export default class AccordionContent extends React.PureComponent {
     const { children } = this.props
 
     const {
-      id,
       expanded,
       prerender
       // prevent_rerender, // eslint-disable-line
       // disabled // eslint-disable-line
     } = this.context
 
-    const innerParams = {}
-
-    // legacy borwer support
-    innerParams.id = `${id}-content`
-    innerParams.role = 'region'
-    innerParams['aria-labelledby'] = `${id}-header`
-
-    if (expanded) {
-      innerParams['aria-expanded'] = true
-    }
-
-    if (prerender && !expanded) {
-      innerParams['aria-hidden'] = true
-    }
-
     let content = children
     if (typeof content === 'string') {
       content = <p className="dnb-p">{content}</p>
     }
 
-    content = (expanded ||
-      prerender ||
-      this.state.keepContentVisible ||
-      this.anim.isAnimating) && <div {...innerParams}>{children}</div>
+    content =
+      (expanded ||
+        prerender ||
+        this.state.keepContentVisible ||
+        this.anim.isAnimating) &&
+      children
 
     return content
   }
@@ -127,20 +120,33 @@ export default class AccordionContent extends React.PureComponent {
     const { className, ...rest } = this.props
 
     const {
+      id,
       expanded,
-      prerender
-      // prevent_rerender, // eslint-disable-line
-      // disabled // eslint-disable-line
+      // prerender,
+      // prevent_rerender,
+      disabled
     } = this.context
 
     const wrapperParams = {
+      id: `${id}-content`,
+      role: 'region',
+      'aria-labelledby': `${id}-header`,
       className: classnames(
         'dnb-accordion__content',
-        !expanded && prerender && 'dnb-accordion__content--hidden',
+        !expanded && 'dnb-accordion__content--hidden',
         createSpacingClasses(rest),
         className
       ),
       ...rest
+    }
+
+    if (expanded) {
+      wrapperParams['aria-expanded'] = true
+    }
+
+    if (!expanded || disabled) {
+      wrapperParams.disabled = true
+      wrapperParams['aria-hidden'] = true
     }
 
     return (
@@ -192,6 +198,7 @@ class HeightAnim {
     this.cbStack = null
     this.stop()
     this.elem = null
+    this.state = 'init'
     this.openHeight = null
   }
   geOpentHeight() {
@@ -238,7 +245,7 @@ class HeightAnim {
       }
     })
 
-    this.state = null
+    // this.state = null
   }
   start(height = 0, before = '0px', { animate = true } = {}) {
     if (typeof window !== 'undefined' && window.requestAnimationFrame) {
@@ -274,10 +281,10 @@ class HeightAnim {
     this.elem.style.transitionDuration = '1ms'
   }
   open(animate = true) {
-    if (this.state === 'open') {
+    if (this.state === 'opened' || this.state === 'opening') {
       return
     }
-    this.state = 'open'
+    this.state = 'opening'
     this.removeEndEvents() // also, remove events on every open (but not on close!)
 
     if (!this.onOpenEnd) {
@@ -286,6 +293,7 @@ class HeightAnim {
         (this.onOpenEnd = () => {
           this.elem.style.height = 'auto'
           this.callOnEnd()
+          this.state = 'opened'
         })
       )
     }
@@ -294,16 +302,18 @@ class HeightAnim {
     this.start(height, 0, { animate })
   }
   close(animate = true) {
-    if (this.state === 'close') {
+    if (this.state === 'closed' || this.state === 'closing') {
       return
     }
-    this.state = 'close'
+    this.state = 'closing'
+    this.removeEndEvents() // also, remove events on every open (but not on close!)
 
     if (!this.onCloseEnd) {
       this.elem.addEventListener(
         'transitionend',
         (this.onCloseEnd = () => {
           this.callOnEnd()
+          this.state = 'closed'
         })
       )
     }

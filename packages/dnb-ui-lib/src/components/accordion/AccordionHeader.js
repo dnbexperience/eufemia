@@ -38,6 +38,7 @@ const propTypes = {
   ]),
   icon_position: PropTypes.string,
   icon_size: PropTypes.string,
+  disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
 
   /// React props
   className: PropTypes.string,
@@ -56,6 +57,7 @@ const defaultProps = {
   icon: null,
   icon_position: null,
   icon_size: 'medium',
+  disabled: null,
 
   // React props
   className: null,
@@ -144,6 +146,11 @@ export default class AccordionHeader extends React.PureComponent {
   static Title = AccordionHeaderTitle
   static Description = AccordionHeaderDescription
 
+  constructor(props) {
+    super(props)
+    this.state = {}
+  }
+
   onKeyDownHandler = (event) => {
     switch (keycode(event)) {
       case 'enter':
@@ -165,6 +172,23 @@ export default class AccordionHeader extends React.PureComponent {
       const expanded = !this.context.expanded
       this.context.callOnChange({ id, group, expanded, event })
     }
+
+    this.setState({
+      hadClick: true
+    })
+  }
+
+  onMouseOverHandler = () => {
+    this.setState({
+      hover: true
+    })
+  }
+
+  onMouseOutHander = () => {
+    this.setState({
+      hover: false,
+      hadClick: false
+    })
   }
 
   render() {
@@ -203,6 +227,7 @@ export default class AccordionHeader extends React.PureComponent {
       ...rest
     } = this.props
 
+    const { hover, hadClick } = this.state
     let { icon_position } = props
 
     const defaultParts = [
@@ -294,9 +319,14 @@ export default class AccordionHeader extends React.PureComponent {
     }
 
     const headerParams = {
+      id: `${id}-header`,
+      'aria-controls': `${id}-content`,
+      role: 'button',
+      tabIndex: '0',
       className: classnames(
         'dnb-accordion__header',
         icon_position && `dnb-accordion__header__icon--${icon_position}`,
+        hover && hadClick && 'dnb-accordion--hover',
         createSpacingClasses(rest),
         className
       ),
@@ -304,13 +334,7 @@ export default class AccordionHeader extends React.PureComponent {
       ...rest
     }
 
-    // legacy borwer support
-    headerParams.id = `${id}-header`
-    headerParams['aria-controls'] = `${id}-content`
-
-    // use div, only to make it easier to style (legacy borwer support)
-    headerParams.role = 'button'
-    headerParams.tabIndex = '0'
+    console.log('disabled', disabled)
 
     if (expanded) {
       headerParams['aria-expanded'] = true
@@ -323,6 +347,8 @@ export default class AccordionHeader extends React.PureComponent {
     } else {
       headerParams.onClick = this.onClickHandler
       headerParams.onKeyDown = this.onKeyDownHandler
+      headerParams.onMouseOver = this.onMouseOverHandler
+      headerParams.onMouseOut = this.onMouseOutHander
     }
 
     return <div {...headerParams}>{partsToRender}</div>

@@ -4,6 +4,13 @@
 */
 
 :root {
+  // Temp
+  --color-outline-grey: #ebebeb;
+  --color-dark-grey: #757575;
+
+  // Props
+  --accordion-border-width: 0.0625rem;
+  --accordion-border-radius: 0.25rem;
   --accordion-easing: cubic-bezier(0.42, 0, 0, 1);
 }
 
@@ -28,7 +35,15 @@
       user-select: none;
     }
 
-    background: honeydew;
+    // ensure that onMouseOutHander works properly
+    * {
+      pointer-events: none;
+    }
+
+    border: var(--accordion-border-width) solid transparent;
+    border-radius: var(--accordion-border-radius);
+
+    // background-color: var(--color-white);
 
     &__wrapper {
       display: flex;
@@ -96,7 +111,6 @@
   &__content {
     display: flex;
     overflow: hidden;
-    background: lightseagreen;
 
     will-change: height;
     transition: height 400ms var(--accordion-easing);
@@ -146,36 +160,6 @@
       }
     }
   }
-
-  // &__inner {
-  //   display: inline-flex;
-  //   flex-direction: column;
-  // }
-
-  // &__shell {
-  //   position: relative;
-  //   left: 0;
-
-  //   user-select: none;
-  //   -webkit-user-select: none; // Safari / Touch fix
-  // }
-
-  // // &--vertical {
-  // //   flex-direction: column;
-  // //   align-items: flex-start;
-  // // }
-
-  // &__component {
-  //   padding-right: 0.25rem;
-
-  //   display: inline-flex;
-  //   align-items: center;
-  // }
-
-  // &__button {
-  //   padding-left: 1.5rem;
-  //   padding-right: 1.5rem;
-  // }
 
   // IE fix
   // @media screen and (-ms-high-contrast: none) {

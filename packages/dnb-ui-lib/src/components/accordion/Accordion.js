@@ -47,7 +47,7 @@ const propTypes = {
     PropTypes.string,
     PropTypes.bool
   ]),
-  variant: PropTypes.oneOf(['default', 'outlined']),
+  variant: PropTypes.oneOf(['default', 'outlined', 'filled']),
   left_component: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.node,
@@ -89,7 +89,7 @@ const defaultProps = {
   prevent_rerender: null,
   remember_state: null,
   single_container: null,
-  variant: null,
+  variant: 'outlined',
   left_component: null,
   disabled: null,
   id: null,
@@ -263,6 +263,11 @@ export default class Accordion extends React.PureComponent {
     return state
   }
 
+  handleDisabledClick = (e) => {
+    e.preventDefault()
+    return false
+  }
+
   callOnChange = ({ expanded, event }) => {
     this.changeOpened(expanded, event)
 
@@ -319,7 +324,7 @@ export default class Accordion extends React.PureComponent {
               }
 
               const {
-                // variant,
+                variant,
                 className,
                 class: _className,
                 prerender,
@@ -354,8 +359,8 @@ export default class Accordion extends React.PureComponent {
                 id,
                 className: classnames(
                   'dnb-accordion',
-                  // variant && `dnb-accordion__variant--${variant}`,
                   expanded && 'dnb-accordion--expanded',
+                  variant && `dnb-accordion__variant--${variant}`,
                   isTrue(prerender) && 'dnb-accordion--prerender',
                   createSpacingClasses(props),
                   className,
@@ -395,10 +400,7 @@ export default class Accordion extends React.PureComponent {
               }
 
               if (isTrue(disabled)) {
-                mainParams.onClick = (e) => {
-                  e.preventDefault()
-                  return false
-                }
+                mainParams.onClick = this.handleDisabledClick
               }
 
               return (

@@ -26,10 +26,12 @@ export default [
       <Box>
         <Accordion.Provider
           expanded
-          prevent_rerender
+          prerender
+          // prevent_rerender
           single_container
           remember_state
           allow_close_all
+          disabled
         >
           <Accordion
             expanded={false}
