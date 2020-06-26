@@ -124,7 +124,7 @@ export default [
       </Box>
 
       <Box>
-        <Provider accordion={{ expanded: true }}>
+        <Provider accordion={{ expanded: true, disabled: true }}>
           <Accordion expanded={false}>
             <Accordion.Header>Accordion title</Accordion.Header>
             <Accordion.Content>
@@ -151,7 +151,6 @@ export default [
         <Accordion
           group="unique-id"
           left_component={<IconPrimary icon="bell" />}
-          disabled
         >
           <Accordion.Header>Accordion title</Accordion.Header>
           <Accordion.Content>
