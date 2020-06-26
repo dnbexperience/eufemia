@@ -79,8 +79,8 @@
     }
   }
 
-  &__variant--outlined#{&}--expanded:not(:hover)
-    &__header:not([disabled]) {
+  &__variant--outlined#{&}--expanded
+    &__header:not(:hover):not([disabled]) {
     * {
       color: var(--color-white);
     }
