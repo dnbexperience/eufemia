@@ -164,7 +164,9 @@
       position: relative;
       z-index: 1; // only to go over &__triangle
 
-      display: block;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
 
       outline: none;
 
