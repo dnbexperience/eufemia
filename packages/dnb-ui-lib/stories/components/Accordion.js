@@ -11,10 +11,8 @@ import Provider from '../../src/shared/Provider'
 import {
   Accordion,
   Input,
-  IconPrimary
-  // Button,
-  // FormSet,
-  // FormRow
+  IconPrimary,
+  Heading
 } from '../../src/components'
 
 import { P } from '../../src/elements'
@@ -24,6 +22,7 @@ export default [
   () => (
     <Wrapper>
       <Box>
+        <Heading>Accordion</Heading>
         <Accordion.Provider
           expanded
           prerender
@@ -38,7 +37,10 @@ export default [
             id="remembered_state-1"
             title="Title1"
             description="Description1"
-            element="h2"
+            // element="h2"
+            // heading
+            heading={Heading}
+            heading_level="3"
           >
             <Accordion.Header title="Title2" description="Description2">
               {/* Title 3 string */}

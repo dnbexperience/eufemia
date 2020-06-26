@@ -56,6 +56,18 @@ const propTypes = {
   disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   id: PropTypes.string,
   group: PropTypes.string,
+  element: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.node,
+    PropTypes.func
+  ]),
+  heading: PropTypes.oneOfType([
+    PropTypes.bool,
+    PropTypes.string,
+    PropTypes.node,
+    PropTypes.func
+  ]),
+  heading_level: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   icon: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.node,
@@ -94,6 +106,9 @@ const defaultProps = {
   disabled: null,
   id: null,
   group: null,
+  element: null,
+  heading: null,
+  heading_level: null,
   icon: null,
   icon_position: null,
   icon_size: 'medium',

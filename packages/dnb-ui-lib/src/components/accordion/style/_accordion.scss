@@ -61,8 +61,11 @@
       margin: 0 1rem;
     }
     &__icon {
-      transition: transform 400ms var(--accordion-easing);
       margin: 1.5rem 1rem;
+
+      font-size: var(--font-size-small);
+      line-height: var(--line-height-basis);
+      transition: transform 400ms var(--accordion-easing);
     }
     &__icon--right {
       justify-content: space-between;
@@ -93,6 +96,7 @@
     &__description {
       font-size: var(--font-size-small);
       line-height: var(--line-height-small);
+      font-weight: var(--font-weight-default);
     }
     &__title + &__description {
       margin-top: 0.25rem;

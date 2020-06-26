@@ -32,6 +32,18 @@ const propTypes = {
     PropTypes.node,
     PropTypes.func
   ]),
+  element: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.node,
+    PropTypes.func
+  ]),
+  heading: PropTypes.oneOfType([
+    PropTypes.bool,
+    PropTypes.string,
+    PropTypes.node,
+    PropTypes.func
+  ]),
+  heading_level: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   icon: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.node,
@@ -55,6 +67,9 @@ const defaultProps = {
   title: null,
   description: null,
   left_component: null,
+  element: null,
+  heading: null,
+  heading_level: null,
   icon: null,
   icon_position: null,
   icon_size: 'medium',
@@ -224,6 +239,9 @@ export default class AccordionHeader extends React.PureComponent {
       expanded,
       title,
       description,
+      element,
+      heading,
+      heading_level,
       icon,
       icon_size,
       disabled
@@ -369,6 +387,20 @@ export default class AccordionHeader extends React.PureComponent {
 
     validateDOMAttributes(this.props, headerParams)
 
-    return <div {...headerParams}>{partsToRender}</div>
+    let Element = 'div'
+    if (isTrue(heading)) {
+      headerParams.role = 'heading'
+      headerParams['aria-level'] = heading_level
+        ? String(heading_level)
+        : 'h2'
+    } else if (heading) {
+      headerParams.role = null
+      Element = heading
+    } else if (element) {
+      headerParams.role = null
+      Element = element
+    }
+
+    return <Element {...headerParams}>{partsToRender}</Element>
   }
 }
