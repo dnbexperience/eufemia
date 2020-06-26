@@ -86,6 +86,8 @@ export default [
       <Box>
         <Accordion
           expanded
+          remember_state
+          id="single-accordion"
           title="Accordion title"
           icon="bell"
           icon_position="right"

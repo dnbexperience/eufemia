@@ -180,7 +180,7 @@ export default class Accordion extends React.PureComponent {
       this.state.expanded = true
     }
 
-    if (isTrue(context.remember_state)) {
+    if (isTrue(props.remember_state) || isTrue(context.remember_state)) {
       const state = this.getState()
       if (state !== null) {
         this.state.expanded = state
@@ -227,7 +227,10 @@ export default class Accordion extends React.PureComponent {
     })
 
     // check if a event exists, becaus, then it's a user click
-    if (isTrue(this.context.remember_state)) {
+    if (
+      isTrue(this.props.remember_state) ||
+      isTrue(this.context.remember_state)
+    ) {
       this.saveState(expanded)
     }
   }
