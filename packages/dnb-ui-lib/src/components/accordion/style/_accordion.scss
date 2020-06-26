@@ -119,10 +119,25 @@
       visibility: hidden;
       height: 0;
     }
+
+    &__inner {
+      margin-top: 1rem;
+
+      &--remove-content {
+        display: none;
+      }
+    }
   }
 
   &-group--single-container & {
     position: static;
+
+    &__content {
+      &__inner {
+        padding-top: 0;
+        margin-top: 0;
+      }
+    }
 
     @media screen and (min-width: 40em) {
       &__header {

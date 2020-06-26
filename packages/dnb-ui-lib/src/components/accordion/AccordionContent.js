@@ -7,7 +7,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {
   isTrue,
-  InteractionInvalidation
+  validateDOMAttributes
+  // InteractionInvalidation
 } from '../../shared/component-helper'
 import classnames from 'classnames'
 import AccordionContext from './AccordionContext'
@@ -49,22 +50,16 @@ export default class AccordionContent extends React.PureComponent {
         this.setState({
           keepContentVisible: true
         })
-        this._ii.revert()
-        // const { prerender, prevent_rerender } = this.context
-        // if (isTrue(prerender) || isTrue(prevent_rerender)) {
-        // }
+        // this._ii.revert()
       } else {
         this.setState({
           keepContentVisible: false
         })
-        this._ii.active(this._ref.current)
-        // const { prerender, prevent_rerender } = this.context
-        // if (isTrue(prerender) || isTrue(prevent_rerender)) {
-        // }
+        // this._ii.active(this._ref.current)
       }
     })
 
-    this._ii = new InteractionInvalidation()
+    // this._ii = new InteractionInvalidation()
   }
 
   componentDidMount() {
@@ -76,16 +71,17 @@ export default class AccordionContent extends React.PureComponent {
 
   componentWillUnmount() {
     this.anim.remove()
-    this._ii.revert()
+    // this._ii.revert()
   }
 
   componentDidUpdate() {
     if (this.context.expanded) {
-      this.anim.open()
-
-      this.setState({
-        keepContentVisible: true
-      })
+      this.setState(
+        {
+          keepContentVisible: true
+        },
+        () => this.anim.open()
+      )
     } else {
       this.anim.close()
     }
@@ -94,12 +90,7 @@ export default class AccordionContent extends React.PureComponent {
   renderContent() {
     const { children } = this.props
 
-    const {
-      expanded,
-      prerender
-      // prevent_rerender, // eslint-disable-line
-      // disabled // eslint-disable-line
-    } = this.context
+    const { expanded, prerender } = this.context
 
     let content = children
     if (typeof content === 'string') {
@@ -118,40 +109,49 @@ export default class AccordionContent extends React.PureComponent {
 
   getContent(cache = null) {
     const { className, ...rest } = this.props
+    const { keepContentVisible } = this.state
 
-    const {
-      id,
-      expanded,
-      // prerender,
-      // prevent_rerender,
-      disabled
-    } = this.context
+    const { id, expanded, disabled } = this.context
 
     const wrapperParams = {
-      id: `${id}-content`,
-      role: 'region',
-      'aria-labelledby': `${id}-header`,
       className: classnames(
         'dnb-accordion__content',
         !expanded && 'dnb-accordion__content--hidden',
-        createSpacingClasses(rest),
+        // createSpacingClasses(rest),
         className
       ),
       ...rest
     }
+    const innerParams = {
+      id: `${id}-content`,
+      role: 'region',
+      'aria-labelledby': `${id}-header`,
+      className: classnames(
+        'dnb-accordion__content__inner',
+        keepContentVisible === false &&
+          'dnb-accordion__content__inner--remove-content',
+        createSpacingClasses(rest)
+      )
+    }
 
     if (expanded) {
-      wrapperParams['aria-expanded'] = true
+      innerParams['aria-expanded'] = true
     }
 
     if (!expanded || disabled) {
-      wrapperParams.disabled = true
-      wrapperParams['aria-hidden'] = true
+      innerParams.disabled = true
+      innerParams['aria-hidden'] = true
     }
+
+    // to remove spacing props
+    validateDOMAttributes(this.props, wrapperParams)
+    validateDOMAttributes(null, innerParams)
 
     return (
       <div {...wrapperParams} ref={this._ref}>
-        {cache || (this._cache = this.renderContent())}
+        <div {...innerParams}>
+          {cache || (this._cache = this.renderContent())}
+        </div>
       </div>
     )
   }

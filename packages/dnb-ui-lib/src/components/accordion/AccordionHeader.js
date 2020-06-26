@@ -7,6 +7,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {
   isTrue,
+  validateDOMAttributes,
   extendPropsWithContext
 } from '../../shared/component-helper'
 import IconPrimary from '../../components/icon-primary/IconPrimary'
@@ -64,8 +65,17 @@ const defaultProps = {
   children: null
 }
 
-function AccordionHeaderTitle({ children }) {
-  return <span className="dnb-accordion__header__title">{children}</span>
+function AccordionHeaderTitle({ children, ...rest }) {
+  return (
+    <span
+      className={classnames(
+        'dnb-accordion__header__title',
+        createSpacingClasses(rest)
+      )}
+    >
+      {children}
+    </span>
+  )
 }
 AccordionHeaderTitle.propTypes = {
   children: PropTypes.oneOfType([
@@ -78,9 +88,16 @@ AccordionHeaderTitle.defaultProps = {
   children: null
 }
 
-function AccordionHeaderDescription({ children }) {
+function AccordionHeaderDescription({ children, ...rest }) {
   return children ? (
-    <span className="dnb-accordion__header__description">{children}</span>
+    <span
+      className={classnames(
+        'dnb-accordion__header__description',
+        createSpacingClasses(rest)
+      )}
+    >
+      {children}
+    </span>
   ) : null
 }
 AccordionHeaderDescription.propTypes = {
@@ -94,9 +111,16 @@ AccordionHeaderDescription.defaultProps = {
   children: null
 }
 
-function AccordionHeaderContainer({ children }) {
+function AccordionHeaderContainer({ children, ...rest }) {
   return children ? (
-    <span className="dnb-accordion__header__container">{children}</span>
+    <span
+      className={classnames(
+        'dnb-accordion__header__container',
+        createSpacingClasses(rest)
+      )}
+    >
+      {children}
+    </span>
   ) : null
 }
 AccordionHeaderContainer.propTypes = {
@@ -110,16 +134,10 @@ AccordionHeaderContainer.defaultProps = {
   children: null
 }
 
-function AccordionHeaderIcon({ icon, ...props }) {
+function AccordionHeaderIcon({ icon, ...rest }) {
   return (
     <span className="dnb-accordion__header__icon">
-      {
-        <IconPrimary
-          {...props}
-          icon={icon || 'chevron-down'}
-          aria-hidden
-        />
-      }
+      {<IconPrimary {...rest} icon={icon || 'chevron-down'} aria-hidden />}
     </span>
   )
 }
@@ -334,14 +352,12 @@ export default class AccordionHeader extends React.PureComponent {
       ...rest
     }
 
-    console.log('disabled', disabled)
-
     if (expanded) {
       headerParams['aria-expanded'] = true
     }
 
     if (disabled) {
-      headerParams.tabIndex = '-1' // make the "button" not accessible for keyboard?
+      headerParams.tabIndex = '-1'
       headerParams.disabled = true
       headerParams['aria-disabled'] = true
     } else {
@@ -350,6 +366,8 @@ export default class AccordionHeader extends React.PureComponent {
       headerParams.onMouseOver = this.onMouseOverHandler
       headerParams.onMouseOut = this.onMouseOutHander
     }
+
+    validateDOMAttributes(this.props, headerParams)
 
     return <div {...headerParams}>{partsToRender}</div>
   }

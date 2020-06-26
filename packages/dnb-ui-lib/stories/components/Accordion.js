@@ -31,7 +31,6 @@ export default [
           single_container
           remember_state
           allow_close_all
-          disabled
         >
           <Accordion
             expanded={false}
@@ -60,7 +59,11 @@ export default [
             </Accordion.Content>
           </Accordion>
 
-          <Accordion bottom icon_position="right" id="remembered_state-2">
+          <Accordion
+            // top="x-large"
+            icon_position="right"
+            id="remembered_state-2"
+          >
             <Accordion.Header>
               <Accordion.Header.Container>
                 <IconPrimary icon="bell" />
@@ -95,7 +98,7 @@ export default [
         <Accordion.Group expanded>
           <Accordion expanded={false}>
             <Accordion.Header>Accordion title</Accordion.Header>
-            <Accordion.Content>
+            <Accordion.Content top="x-large">
               <P>
                 Sociis sapien sociosqu vel sollicitudin accumsan laoreet
                 gravida himenaeos nostra mollis volutpat bibendum convallis
@@ -103,7 +106,7 @@ export default [
               </P>
             </Accordion.Content>
           </Accordion>
-          <Accordion>
+          <Accordion top>
             <Accordion.Header>Accordion title</Accordion.Header>
             <Accordion.Content>
               <P>
@@ -143,6 +146,7 @@ export default [
         <Accordion
           group="unique-id"
           left_component={<IconPrimary icon="bell" />}
+          disabled
         >
           <Accordion.Header>Accordion title</Accordion.Header>
           <Accordion.Content>
