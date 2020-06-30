@@ -56,6 +56,9 @@
 
       margin: 1.5rem 0 1.5rem 2rem;
     }
+    &--description &__wrapper {
+      margin: 1rem 0 1rem 2rem;
+    }
     &__icon + &__wrapper {
       margin-left: 0;
       margin-right: 2rem;

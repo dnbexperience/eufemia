@@ -365,6 +365,7 @@ export default class AccordionHeader extends React.PureComponent {
         icon_position && `dnb-accordion__header__icon--${icon_position}`,
         hover && hadClick && 'dnb-accordion--hover',
         !this.canClick() && 'dnb-accordion__header--prevent-click',
+        description && 'dnb-accordion__header--description',
         createSpacingClasses(rest),
         className
       ),
