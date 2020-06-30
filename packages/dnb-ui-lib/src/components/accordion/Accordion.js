@@ -53,6 +53,7 @@ const propTypes = {
     PropTypes.node,
     PropTypes.func
   ]),
+  allow_close_all: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   id: PropTypes.string,
   group: PropTypes.string,
@@ -103,6 +104,7 @@ const defaultProps = {
   single_container: null,
   variant: 'outlined',
   left_component: null,
+  allow_close_all: null,
   disabled: null,
   id: null,
   group: null,
@@ -393,10 +395,15 @@ export default class Accordion extends React.PureComponent {
               // to remove spacing props
               validateDOMAttributes(this.props, rest)
 
+              const extendProps = extendPropsWithContext(
+                this.props,
+                defaultProps,
+                this.state,
+                this.context
+              )
+
               const context = {
-                ...this.context,
-                ...this.state,
-                ...this.props,
+                ...extendProps,
                 id,
                 expanded,
                 prerender: isTrue(prerender),

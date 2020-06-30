@@ -197,18 +197,14 @@ export default class AccordionHeader extends React.PureComponent {
   onClickHandler = (event) => {
     const { id, group } = this.context
 
-    if (
-      !group ||
-      (group && !this.context.expanded) ||
-      isTrue(this.context.allow_close_all)
-    ) {
+    if (this.canClick()) {
       const expanded = !this.context.expanded
       this.context.callOnChange({ id, group, expanded, event })
-    }
 
-    this.setState({
-      hadClick: true
-    })
+      this.setState({
+        hadClick: true
+      })
+    }
   }
 
   onMouseOverHandler = () => {
@@ -222,6 +218,11 @@ export default class AccordionHeader extends React.PureComponent {
       hover: false,
       hadClick: false
     })
+  }
+
+  canClick() {
+    const { expanded, allow_close_all, group } = this.context
+    return !group || (group && !expanded) || isTrue(allow_close_all)
   }
 
   render() {
@@ -363,6 +364,7 @@ export default class AccordionHeader extends React.PureComponent {
         'dnb-accordion__header',
         icon_position && `dnb-accordion__header__icon--${icon_position}`,
         hover && hadClick && 'dnb-accordion--hover',
+        !this.canClick() && 'dnb-accordion__header--prevent-click',
         createSpacingClasses(rest),
         className
       ),

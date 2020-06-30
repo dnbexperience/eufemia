@@ -40,6 +40,11 @@
       pointer-events: none;
     }
 
+    &--prevent-click {
+      user-select: none;
+      pointer-events: none;
+    }
+
     border: var(--accordion-border-width) solid transparent;
     border-radius: var(--accordion-border-radius);
 
