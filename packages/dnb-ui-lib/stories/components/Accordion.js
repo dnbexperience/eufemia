@@ -24,6 +24,7 @@ export default [
       <Box>
         <Heading size="xx-large">Accordion</Heading>
         <Accordion.Group
+          variant="outlined"
           // expanded
           // prerender
           prevent_rerender
