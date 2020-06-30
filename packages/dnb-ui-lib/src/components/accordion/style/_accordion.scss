@@ -153,11 +153,12 @@
       }
     }
 
-    @media screen and (min-width: 80em) {
-      &__header {
-        width: 44rem;
-      }
-    }
+    // NB: This has a negative side effect once it is integrated in a 60rem max-width container
+    // @media screen and (min-width: 80em) {
+    //   &__header {
+    //     width: 44rem;
+    //   }
+    // }
   }
 
   &-group {
@@ -176,11 +177,13 @@
             right: 0;
           }
         }
-        @media screen and (min-width: 80em) {
-          .dnb-accordion__content {
-            left: 44rem;
-          }
-        }
+
+        // NB: This has a negative side effect once it is integrated in a 60rem max-width container
+        // @media screen and (min-width: 80em) {
+        //   .dnb-accordion__content {
+        //     left: 44rem;
+        //   }
+        // }
       }
     }
   }

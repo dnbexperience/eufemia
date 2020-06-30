@@ -22,17 +22,17 @@ export default [
   () => (
     <Wrapper>
       <Box>
-        <Heading>Accordion</Heading>
-        <Accordion.Provider
-          expanded
-          prerender
-          // prevent_rerender
+        <Heading size="xx-large">Accordion</Heading>
+        <Accordion.Group
+          // expanded
+          // prerender
+          prevent_rerender
           single_container
           remember_state
-          allow_close_all
+          // allow_close_all
         >
           <Accordion
-            expanded={false}
+            // expanded={false}
             bottom
             id="remembered_state-1"
             title="Title1"
@@ -40,7 +40,7 @@ export default [
             // element="h2"
             // heading
             heading={Heading}
-            heading_level="3"
+            // heading_level="3"
           >
             <Accordion.Header title="Title2" description="Description2">
               {/* Title 3 string */}
@@ -52,7 +52,7 @@ export default [
               </Accordion.Header.Description>
               {/* <Accordion.Header.Icon key="icon" /> */}
             </Accordion.Header>
-            <Accordion.Content>
+            <Accordion.Content left="xx-large" top="medium">
               <P>
                 Sociis sapien sociosqu vel sollicitudin accumsan laoreet
                 gravida himenaeos nostra mollis volutpat bibendum convallis
@@ -83,7 +83,7 @@ export default [
               </P>
             </Accordion.Content>
           </Accordion>
-        </Accordion.Provider>
+        </Accordion.Group>
       </Box>
 
       <Box>
