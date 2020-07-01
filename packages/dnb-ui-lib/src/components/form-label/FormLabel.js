@@ -32,6 +32,7 @@ const propTypes = {
   id: PropTypes.string,
   class: PropTypes.string,
   disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   label_direction: PropTypes.oneOf(['vertical', 'horizontal']),
   direction: PropTypes.oneOf(['vertical', 'horizontal']),
   vertical: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -57,6 +58,7 @@ const defaultProps = {
   id: null,
   class: null,
   disabled: null,
+  skeleton: null,
   label_direction: null,
   direction: null,
   vertical: null,
@@ -92,6 +94,7 @@ export default class FormLabel extends React.PureComponent {
     const props = extendPropsWithContext(
       this.props,
       defaultProps,
+      { skeleton: this.context?.skeleton },
       this.context.formRow
     )
 
@@ -102,6 +105,7 @@ export default class FormLabel extends React.PureComponent {
       className,
       id,
       disabled,
+      skeleton,
       label_direction,
       direction, // eslint-disable-line
       vertical,
@@ -120,6 +124,7 @@ export default class FormLabel extends React.PureComponent {
         'dnb-form-label',
         (isTrue(vertical) || label_direction === 'vertical') &&
           `dnb-form-label--vertical`,
+        skeleton && 'dnb-skeleton',
         // "direction" is not in use
         // direction && `dnb-form-label--${direction}`,
         // we set and use "label_direction" above
@@ -134,6 +139,11 @@ export default class FormLabel extends React.PureComponent {
       title,
       disabled: isTrue(disabled),
       ...attributes
+    }
+
+    if (disabled || isTrue(skeleton)) {
+      params['aria-busy'] = true
+      params.disabled = true
     }
 
     // also used for code markup simulation

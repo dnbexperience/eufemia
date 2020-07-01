@@ -6,7 +6,7 @@
 import React from 'react'
 
 import { registerElement, registeredElements } from '../custom-element'
-import { toJson } from '../../core/jest/jestSetup'
+import { toJson, mount } from '../../core/jest/jestSetup'
 
 // IMPORTANT: The tests requires that the custom element is polyfilled by using "document-register-element"
 
@@ -25,6 +25,9 @@ class CustomElementComponent extends React.Component {
   constructor(props) {
     super(props)
     this.state.content = CustomElementComponentContent
+  }
+  update() {
+    this.setState({ content: this.props.value })
   }
   render() {
     return <div>{this.state.content}</div>
@@ -85,6 +88,36 @@ describe('"registerElement" should', () => {
     expect(eventCallback.mock.calls[0][0]).toBe(eventParams)
     const eventId2 = customElement[0].addEvent('on_change', jest.fn())
     expect(eventId).not.toBe(eventId2)
+  })
+
+  it('handle "setProps" as expected', () => {
+    customElement[0].setProps('value', 456)
+    expect(customElement[0]._props.value).toBe(456)
+
+    customElement[0].setProps({
+      value: 789
+    })
+    expect(customElement[0]._props.value).toBe(789)
+  })
+
+  it('handle "getRef" as expected', () => {
+    const ref = customElement[0].getRef()
+    expect(React.isValidElement(ref)).toBe(true)
+
+    const mouted = mount(ref)
+    expect(mouted.find('div').text()).toBe('new-value')
+
+    customElement[0].setProps('value', 456)
+
+    // mouted.setProps({
+    //   value: '456'
+    // })
+    // mouted.setState({
+    //   content: '456'
+    // })
+
+    // mouted.instance().update()
+    // expect(mouted.find('div').text()).toBe(456) // we get here new-value
   })
 
   it('handle "native event" (CustomEvent) as expected', () => {

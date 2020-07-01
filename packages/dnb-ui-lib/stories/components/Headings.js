@@ -167,7 +167,7 @@ export default [
               </Heading.Level> */}
             </Box>
             <Box>
-              <H2 level="auto">Heading #1</H2>
+              <H2 level="use">Heading #1</H2>
               <Heading debug increase>
                 Heading #2
               </Heading>
@@ -202,7 +202,7 @@ export default [
               <Heading.Level reset debug={warn}>
                 <Heading>Heading #1</Heading>
                 <Heading>Heading #2</Heading>
-                <H3 level="auto">Heading #3</H3>
+                <H3 level="use">Heading #3</H3>
                 <Heading>Heading #4</Heading>
               </Heading.Level>
               ---
@@ -263,7 +263,7 @@ export default [
               </Heading.Level> */}
             </Box>
             {/* <Box>
-              <H2 level="auto">Heading #1</H2>
+              <H2 level="use">Heading #1</H2>
               <Heading debug increase>
                 Heading #2
               </Heading>

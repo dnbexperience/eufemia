@@ -60,6 +60,7 @@ const propTypes = {
   section_style: PropTypes.string,
   section_spacing: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   use_hash: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  prerender: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   prevent_rerender: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.bool
@@ -88,6 +89,7 @@ const defaultProps = {
   section_style: null,
   section_spacing: null,
   use_hash: false,
+  prerender: false,
   prevent_rerender: false,
   id: null,
   class: null,
@@ -139,6 +141,11 @@ export default class Tabs extends React.PureComponent {
       if (props.data) {
         if (state._data !== props.data) {
           state._data = props.data
+          state.data = Tabs.getData(props)
+        }
+      } else if (props.children) {
+        if (state._data !== props.children) {
+          state._data = props.children
           state.data = Tabs.getData(props)
         }
       }
@@ -256,7 +263,7 @@ export default class Tabs extends React.PureComponent {
       _listenForPropChanges: true,
       selected_key,
       _selected_key: selected_key,
-      _data: props.data,
+      _data: props.data || props.children,
       data
     }
 
@@ -386,36 +393,61 @@ export default class Tabs extends React.PureComponent {
     return this.state.selected_key == tabKey
   }
 
-  renderCachedContent(selected_key, content = null) {
-    if (content) {
-      this._cache = { ...(this._cache || {}), [selected_key]: { content } }
-    }
-    return Object.entries(this._cache).map(([key, { content }]) => {
-      const params = {}
-      if (key !== selected_key) {
-        params.hidden = true
-        params['aria-hidden'] = true
-      }
-      return (
-        <div key={key} className="dnb-tabs__cached" {...params}>
-          {content}
-        </div>
+  renderCachedContent() {
+    const { selected_key, data } = this.state
+    const { prevent_rerender, prerender } = this.props
+
+    if (isTrue(prerender)) {
+      this._cache = Object.entries(data).reduce(
+        /* eslint-disable-next-line */
+        (acc, [idx, cur]) => {
+          acc[cur.key] = {
+            ...cur,
+            content: this.getContent(cur.key)
+          }
+          return acc
+        },
+        {}
       )
-    })
+    } else if (isTrue(prevent_rerender)) {
+      this._cache = {
+        ...(this._cache || {}),
+        [selected_key]: { content: this.getContent(selected_key) }
+      }
+    }
+
+    const cachedContent = Object.entries(this._cache).map(
+      ([key, { content }]) => {
+        const params = {}
+        if (key !== selected_key) {
+          params.hidden = true
+          params['aria-hidden'] = true
+        }
+        return (
+          <div key={key} className="dnb-tabs__cached" {...params}>
+            {content}
+          </div>
+        )
+      }
+    )
+
+    return cachedContent
   }
 
   renderContent() {
-    const { children, content: _content, prevent_rerender } = this.props
-    const contentToRender = children || _content
-    const { selected_key } = this.state
+    const { prevent_rerender, prerender } = this.props
 
-    if (
-      isTrue(prevent_rerender) &&
-      this._cache &&
-      this._cache[selected_key]
-    ) {
-      return this.renderCachedContent(selected_key)
+    if (isTrue(prevent_rerender) || isTrue(prerender)) {
+      return this.renderCachedContent()
     }
+
+    return this.getContent(this.state.selected_key)
+  }
+
+  getContent = (selected_key) => {
+    const { children, content: _content } = this.props
+
+    const contentToRender = children || _content
 
     let content = null
 
@@ -456,10 +488,6 @@ export default class Tabs extends React.PureComponent {
     if (typeof content === 'function') {
       const Component = content
       content = <Component />
-    }
-
-    if (isTrue(prevent_rerender)) {
-      return this.renderCachedContent(selected_key, content)
     }
 
     return content

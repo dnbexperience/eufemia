@@ -1,3 +1,13 @@
+## June, 18. 2020
+
+New [Icons](/icons/secondary):
+
+- secondary `bankid`
+- secondary `bankid_on_mobile`
+- secondary `bankid_with_qr`
+- secondary `without_bankid`
+- secondary `person`
+
 ## June, 4. 2020
 
 - The [color](/quickguide-designer/colors) `Sea green alt` is removed and got replaced by `Sea green`

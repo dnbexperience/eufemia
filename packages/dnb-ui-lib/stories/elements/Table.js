@@ -29,7 +29,16 @@ const CustomWrapper = styled(Wrapper)`
 export default [
   'Table',
   () => (
-    <CustomWrapper className="dnb-spacing">
+    <CustomWrapper className="dnb-spacing show-overflow">
+      <Box>
+        <Button
+          variant="tertiary"
+          icon="arrow_down"
+          text="Donec Phasellus odio magnis sit neque commodo nisl
+                hendrerit viverra consectet Sortable"
+          wrap
+        />
+      </Box>
       <Box>
         <table className="dnb-table dnb-table--small">
           <thead>
@@ -38,8 +47,8 @@ export default [
             >
               <th
                 colSpan="2"
-                align="right"
-                // className="dnb-table--right"
+                // align="right"
+                className="dnb-table--right"
                 // className="dnb-table--small"
               >
                 Only text In nam at lacinia blandit risus turpis cras
@@ -49,8 +58,9 @@ export default [
                 erat egestas felis rhoncus lobortis dis
               </th>
               <th
-                align="right"
-                className="dnb-table--sortable dnb-table--reversed"
+                // align="right"
+                className="dnb-table--right dnb-table--sortable dnb-table--reversed"
+                // className="dnb-table--sortable dnb-table--reversed"
               >
                 <Button
                   variant="tertiary"

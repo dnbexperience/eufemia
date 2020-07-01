@@ -51,6 +51,7 @@ export const registerElement = (
       this._customMethodes = {}
       this._customEvents = []
       this._isConnected = false
+      this._props = {}
     }
     connectedCallback() {
       this.updateChildren()
@@ -65,13 +66,16 @@ export const registerElement = (
       return newAttr
     }
     // adoptedCallback: Invoked when the custom element is moved to a new document.
-    detachedCallback() {
+    disconnectedCallback() {
       ReactDOM.unmountComponentAtNode(this)
       if (this._children) delete this._children
       if (this._isConnected) delete this._isConnected
       if (this._elementRef) delete this._elementRef
       if (this._customMethodes) delete this._customMethodes
       if (this._customEvents) delete this._customEvents
+
+      this._props = null
+      this._ref = null
     }
     updateChildren() {
       this._children = []
@@ -116,54 +120,60 @@ export const registerElement = (
           // add a react function prop or event callback
           props[type] = (...args) => {
             try {
-              // check if there is a element returned, convert it to html then
-              if (args[0]) {
-                if (React.isValidElement(args[0])) args[0] = [args[0]]
-                if (Array.isArray(args[0])) {
-                  const elems = []
-                  // we have to overwrite the first arg like this - and cant use map/reduce here
-                  args[0].forEach((elem) => {
-                    if (React.isValidElement(elem)) {
-                      const rootEl = document.createElement('div') // createDocumentFragment
-                      ReactDOM.render(elem, rootEl)
-                      elems.push(rootEl)
-                    }
-                  })
-                  if (elems.length > 0) args[0] = elems
-                }
-              }
+              // NB: This code is not documented and not used
+              // Removed june 12, 2020
+              // // check if there is a element returned, convert it to html then
+              // if (args[0]) {
+              //   if (React.isValidElement(args[0])) {
+              //     args[0] = [args[0]]
+              //   }
+              //   if (Array.isArray(args[0])) {
+              //     const elems = []
+              //     // we have to overwrite the first arg like this - and cant use map/reduce here
+              //     args[0].forEach((elem) => {
+              //       if (React.isValidElement(elem)) {
+              //         const rootEl = document.createElement('div') // createDocumentFragment
+              //         ReactDOM.render(elem, rootEl)
+              //         elems.push(rootEl)
+              //       }
+              //     })
+              //     if (elems.length > 0) {
+              //       args[0] = elems
+              //     }
+              //   }
+              // }
 
               // call the function, either it in a class or not
               let [scope, fn] = func.split('.')
-              fn = fn ? window[scope][fn] : window[scope] // TODO: remove this because of security notation
-              const ret = fn.apply(scope, [...args])
+              fn = fn ? window[scope][fn] : window[scope]
+              const component = fn.apply(scope, [...args])
 
               // convert to react if we get an HTMLElement
               // this is used for custom renderer
-              if (ret instanceof HTMLElement) {
+              if (component instanceof HTMLElement) {
                 const children = [],
-                  cn = ret.childNodes,
-                  a = ret.attributes,
+                  cn = component.childNodes,
+                  a = component.attributes,
                   props = {}
 
                 for (let i = cn.length; i--; ) {
-                  children.push(toVdom(cn[i])) // TODO: remove this because of security notation
+                  children.push(toVdom(cn[i]))
                   // TODO: we may remove this child - need more testing
                   // cn[i].remove()
                 }
 
                 for (let i = a.length; i--; ) {
                   props[PROP_TRANSLATIONS[a[i].name] || a[i].name] =
-                    a[i].value // TODO: remove this because of security notation
+                    a[i].value
                 }
 
-                const nodeName = ret.nodeName.toLowerCase()
-                ret.remove()
+                const nodeName = component.nodeName.toLowerCase()
+                component.remove()
 
                 return React.createElement(nodeName, props, children)
               }
 
-              return ret
+              return component
             } catch (error) {
               new ErrorHandler(
                 `The '${type}' event has failed. '${func}' has to exist on a 'window' scope!`,
@@ -176,11 +186,21 @@ export const registerElement = (
         // do send this event to the react props
         delete props.event
       }
+
       return props
+    }
+    setProps(props, value) {
+      if (typeof props === 'string') {
+        props = { [props]: value }
+      }
+      return this.renderElement(props)
+    }
+    getRef() {
+      return this._ref
     }
     addEvent(eventName, eventCallback) {
       const eventWrapper = (event) => eventCallback.apply(this, [event])
-      this._customEvents.push({ eventName, eventCallback, eventWrapper })
+      this._customEvents?.push({ eventName, eventCallback, eventWrapper })
       return eventWrapper
     }
     removeEvent(eventId, removeCallback = null) {
@@ -209,22 +229,18 @@ export const registerElement = (
         }
       })
     }
-    renderElement() {
-      let props = {},
-        i = 0,
-        a = this.attributes
-
-      for (i = a.length; i--; ) {
-        props[a[i].name] = a[i].value // TODO: remove this because of security notation
+    renderElement(props = {}) {
+      const attr = {}
+      for (let i = this.attributes.length; i--; ) {
+        attr[this.attributes[i].name] = this.attributes[i].value
       }
 
-      props = this.connectEvents(props)
+      props = { ...this._props, ...this.connectEvents(attr), ...props }
 
       // we dont allow ids
-      for (i = attributesBlacklist.length; i--; ) {
+      for (let i = attributesBlacklist.length; i--; ) {
         if (props[attributesBlacklist[i]]) {
-          // TODO: remove this because of security notation
-          this.removeAttribute(attributesBlacklist[i]) // TODO: remove this because of security notation
+          this.removeAttribute(attributesBlacklist[i])
         }
       }
 
@@ -244,7 +260,11 @@ export const registerElement = (
         }
       }
 
-      ReactDOM.render(<ReactComponent {...props} />, this)
+      this._props = props
+      this._ref = <ReactComponent {...props} />
+      ReactDOM.render(this._ref, this)
+
+      return this
     }
   }
 
@@ -277,10 +297,10 @@ const toVdom = (elem, name = null) => {
 
   for (i = a.length; i--; ) {
     // a[i].name = PROP_TRANSLATIONS[a[i].name]||a[i].name
-    props[a[i].name] = a[i].value // TODO: remove this because of security notation
+    props[a[i].name] = a[i].value
   }
   for (i = cn.length; i--; ) {
-    children[i] = toVdom(cn[i]) // TODO: remove this because of security notation
+    children[i] = toVdom(cn[i])
   }
   props.key = `key${Math.random() * 1000}`
 

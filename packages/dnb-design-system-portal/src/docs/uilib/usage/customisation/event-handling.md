@@ -69,7 +69,7 @@ export default class MyComponent extends React.Component {
 Use either the `@click` or `v-on:click` event binding property.
 Or else you could also use the imperative **ref** method.
 
-#### Declarative
+### Declarative
 
 ```jsx
 // Template
@@ -86,7 +86,7 @@ components
 ...
 ```
 
-#### Imperative
+### Imperative
 
 ```jsx
 // Template
@@ -127,9 +127,16 @@ You may also take a look at the [example-html](https://github.com/dnbexperience/
 <!-- Imperative -->
 <dnb-button text="Imperative" />
 <script>
-  var elem = document.querySelector('dnb-button[text=Imperative]')
-  var eventId = elem.addEvent('on_click', function (event) {})
+  const elem = document.querySelector('dnb-button[text=Imperative]')
+  const eventId = elem.addEvent('on_click', function (event) {})
   elem.removeEvent(eventId)
+</script>
+
+<!-- Imperative by using setProps -->
+<dnb-button text="Imperative" />
+<script>
+  const elem = document.querySelector('dnb-button[text=Imperative]')
+  elem.setProps('on_click', function (event) {})
 </script>
 ```
 

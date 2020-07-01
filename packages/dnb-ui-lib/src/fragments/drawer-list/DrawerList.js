@@ -47,7 +47,10 @@ export const propTypes = {
     PropTypes.string,
     PropTypes.bool
   ]),
-  use_mobile_view: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  use_drawer_on_mobile: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.bool
+  ]),
   prevent_selection: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.bool
@@ -144,7 +147,7 @@ export const defaultProps = {
   size: 'default',
   no_animation: false,
   no_scroll_animation: false,
-  use_mobile_view: false,
+  use_drawer_on_mobile: false,
   prevent_selection: false,
   align_drawer: 'left',
   wrapper_element: null,
@@ -266,7 +269,7 @@ class DrawerListInstance extends React.PureComponent {
     const {
       align_drawer,
       fixed_position,
-      use_mobile_view,
+      use_drawer_on_mobile,
       independent_width,
       scrollable,
       focusable,
@@ -308,7 +311,12 @@ class DrawerListInstance extends React.PureComponent {
       selected_item,
       active_item,
       closestToTop,
-      closestToBottom
+      closestToBottom,
+      _refShell,
+      _refTriangle,
+      _refUl,
+      usePortal,
+      _refRoot
     } = this.context.drawerList
 
     const mainParams = {
@@ -327,7 +335,7 @@ class DrawerListInstance extends React.PureComponent {
         isTrue(scrollable) && 'dnb-drawer-list--scroll',
         isTrue(no_scroll_animation) &&
           'dnb-drawer-list--no-scroll-animation',
-        isTrue(use_mobile_view) && 'dnb-drawer-list--mobile-view',
+        isTrue(use_drawer_on_mobile) && 'dnb-drawer-list--mobile-view',
         createSpacingClasses(props),
         _className,
         className
@@ -353,7 +361,7 @@ class DrawerListInstance extends React.PureComponent {
       style: {
         maxHeight: max_height > 0 ? `${max_height}rem` : null
       },
-      ref: this.context.drawerList._refUl
+      ref: _refUl
     }
     if (
       !isTrue(prevent_selection) &&
@@ -421,33 +429,40 @@ class DrawerListInstance extends React.PureComponent {
       })
 
     const mainList = (
-      <span {...mainParams} ref={this.context.drawerList._refShell}>
+      <span {...mainParams} ref={_refShell}>
         <span {...listParams}>
           {hidden === false && data && data.length > 0 ? (
-            <DrawerList.Options
-              cache_hash={
-                cache_hash +
-                active_item +
-                selected_item +
-                closestToTop +
-                closestToBottom +
-                direction +
-                max_height
-              }
-              {...ulParams}
-              triangleRef={this.context.drawerList._refTriangle}
-            >
-              {typeof options_render === 'function' ? (
-                options_render({ data, Items, Item: DrawerList.Item })
-              ) : (
-                <Items />
-              )}
-            </DrawerList.Options>
+            <>
+              <DrawerList.Options
+                cache_hash={
+                  cache_hash +
+                  active_item +
+                  selected_item +
+                  closestToTop +
+                  closestToBottom +
+                  direction +
+                  max_height
+                }
+                {...ulParams}
+                triangleRef={_refTriangle}
+              >
+                {typeof options_render === 'function' ? (
+                  options_render({ data, Items, Item: DrawerList.Item })
+                ) : (
+                  <Items />
+                )}
+              </DrawerList.Options>
+              {/* <Triangle /> */}
+            </>
           ) : (
             children && (
               <span className="dnb-drawer-list__content">
                 {children}
-                <span className="dnb-drawer-list__triangle"></span>
+                {/* <Triangle /> */}
+                <span
+                  className="dnb-drawer-list__triangle"
+                  ref={_refTriangle}
+                />
               </span>
             ) /*|| (
         <ul {...ulParams} hidden>
@@ -470,19 +485,18 @@ class DrawerListInstance extends React.PureComponent {
       <span
         className={classnames(
           'dnb-drawer-list__root',
-          this.context.drawerList.usePortal &&
-            'dnb-drawer-list__root--portal'
+          usePortal && 'dnb-drawer-list__root--portal'
         )}
-        ref={this.context.drawerList._refRoot}
+        ref={_refRoot}
       >
-        {this.context.drawerList.usePortal ? (
+        {usePortal ? (
           <DrawerListPortal
             id={this._id}
-            rootRef={this.context.drawerList._refRoot}
+            rootRef={_refRoot}
             opened={hidden === false}
             useWidthAddition={align_drawer === 'right'}
             fixedPosition={isTrue(fixed_position)}
-            useMobileView={isTrue(use_mobile_view)}
+            useMobileView={isTrue(use_drawer_on_mobile)}
           >
             {mainList}
           </DrawerListPortal>

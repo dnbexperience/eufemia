@@ -161,12 +161,14 @@ describe('Dropdown component', () => {
   it('has no selected items on using prevent_selection', async () => {
     let selectedItem
     const on_change = jest.fn()
+    const title = 'custom title'
 
     const Comp = mount(
       <Component
         {...props}
         value={null}
         data={mockData}
+        title={title}
         on_change={on_change}
         prevent_selection
       />
@@ -199,11 +201,28 @@ describe('Dropdown component', () => {
     expect(event.selected_item).toBe(1)
     expect(event.active_item).toBe(undefined)
     expect(event.data).toStrictEqual(selectedItem)
+
+    expect(Comp.find('.dnb-dropdown__text').text()).toBe(title)
+    expect(Comp.exists('.dnb-dropdown--is-popup')).toBe(false)
+
+    Comp.setProps({
+      title: null
+    })
+
+    expect(Comp.exists('.dnb-dropdown__text')).toBe(false)
+    expect(Comp.exists('.dnb-dropdown--is-popup')).toBe(true)
   })
 
   it('has no selected items on using more_menu', async () => {
+    const title = 'custom title'
     const Comp = mount(
-      <Component {...props} value={null} data={mockData} more_menu />
+      <Component
+        {...props}
+        value={null}
+        data={mockData}
+        title={title}
+        more_menu
+      />
     )
 
     // open first
@@ -226,6 +245,9 @@ describe('Dropdown component', () => {
     expect(Comp.find('.dnb-icon').instance().getAttribute('alt')).toBe(
       'more'
     )
+
+    expect(Comp.exists('.dnb-dropdown__text')).toBe(false)
+    expect(Comp.exists('.dnb-dropdown--is-popup')).toBe(true)
   })
 
   it('has valid on_change callback', async () => {
@@ -271,7 +293,10 @@ describe('Dropdown component', () => {
 
     const elem = Comp.find('span.dnb-dropdown')
     expect(
-      elem.find('button').instance().getAttribute('aria-expanded')
+      elem
+        .find('button.dnb-dropdown__trigger')
+        .instance()
+        .getAttribute('aria-expanded')
     ).toBe('true')
 
     expect(elem.instance().getAttribute('class')).toContain(
@@ -301,6 +326,18 @@ describe('Dropdown component', () => {
     open(Comp)
     expect(on_show.mock.calls.length).toBe(1)
     expect(on_show.mock.calls[0][0].attributes).toMatchObject(params)
+  })
+
+  it('has to set correct focus after tab key usage in opened state', () => {
+    const on_hide = jest.fn()
+
+    const Comp = mount(
+      <Component no_animation on_hide={on_hide} data={mockData} />
+    )
+    open(Comp)
+    keydown(Comp, 9) // tab, JSDOM does not support keyboard handling, so we can not check document.activeElement
+
+    expect(on_hide.mock.calls.length).toBe(1)
   })
 
   it('has correct selected value', () => {
@@ -403,11 +440,11 @@ describe('Dropdown scss', () => {
 const keydown = (Comp, keyCode) => {
   document.dispatchEvent(new KeyboardEvent('keydown', { keyCode }))
 
-  Comp.find('button').simulate('keydown', {
+  Comp.find('button.dnb-dropdown__trigger').simulate('keydown', {
     keyCode
   })
 }
 const open = (Comp) => {
-  Comp.find('button').simulate('mousedown')
+  Comp.find('button.dnb-dropdown__trigger').simulate('mousedown')
 }
 // const wait = t => new Promise(r => setTimeout(r, t))

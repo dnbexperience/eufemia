@@ -12,6 +12,38 @@ So called [Custom Elements](https://www.w3.org/TR/custom-elements/) running as a
 
 **Limitations:** Both nested Web Components and the usage of React Context is not supported. But can be implemented if needed.
 
+## Update Properties
+
+There are two ways of updating properties:
+
+- You can change the HTML attributes
+- You can use a method called `setProps`
+
+### Change HTML attributes
+
+```html
+<dnb-button text="Primary"></dnb-button>
+<script>
+  const myElem = document.querySelector('.my-component')
+  myElem.setAttribute('text', 'secondary')
+</script>
+```
+
+### Using `setProps`
+
+With that approach, you would not change the actual attributes, only the underlaying React properties. But this gives you the possibility to also pass `function` properties.
+
+```html
+<dnb-button text="Button"></dnb-button>
+<script>
+  const myElem = document.querySelector('.my-component')
+  myElem.setProps('text', 'updated text')
+  myElem.setProps({
+    on_change: function (event) {}
+  })
+</script>
+```
+
 ## Example usage
 
 Once the method `enableWebComponents` is executed, we can use our web components right away in our HTML markup.

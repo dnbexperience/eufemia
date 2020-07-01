@@ -33,12 +33,16 @@ import FormStatus from './components/FormStatus'
 import GlobalStatus from './components/GlobalStatus'
 import GlobalError from './components/GlobalError'
 import Number from './components/Number'
+import Provider from './components/Provider'
 import Headings from './components/Headings'
 import Icons from './components/Icons'
 import Experiments from './components/Experiments'
 import Pagination from './components/Pagination'
 import PaginationTable from './components/PaginationTable'
 import PaginationTableMarker from './components/PaginationTableMarker'
+import Skeleton from './components/Skeleton'
+import WebComponent from './components/WebComponent'
+import Accordion from './components/Accordion'
 import { Logo } from '../src/components'
 
 const stories = []
@@ -70,12 +74,16 @@ stories.push(FormStatus)
 stories.push(GlobalStatus)
 stories.push(GlobalError)
 stories.push(Number)
+stories.push(Provider)
 stories.push(Headings)
 stories.push(Icons)
 stories.push(Experiments)
 stories.push(Pagination)
 stories.push(PaginationTable)
 stories.push(PaginationTableMarker)
+stories.push(Skeleton)
+stories.push(WebComponent)
+stories.push(Accordion)
 
 stories.push([
   'Logo',

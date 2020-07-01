@@ -36,6 +36,7 @@ const scrollableData = [
     content: 'E'
   },
   {
+    selected_key: 'key_1',
     selected_value: 'Find me by keypress',
     content: ['F', 'F', 'F', 'F']
   },
@@ -49,8 +50,8 @@ const scrollableData = [
 render(
   <Dropdown
     data={scrollableData}
-    value={5}
-    use_mobile_view={true}
+    value="key_1"// use either index (5) or selected_key: 'key_1'
+    use_drawer_on_mobile={true}
     label="Label:"
   />
 )
@@ -151,7 +152,8 @@ render(
   prevent_selection="true"
   align_dropdown="right"
   size="small"
-  title="Choose an item"
+  title={null}
+  aria-label="Choose an item"
   data={() => ['Go this this Link', 'Or press on me', <>Custom component</>]}
   right="small"
 />
@@ -164,7 +166,8 @@ render(
 <Dropdown
   prevent_selection="true"
   align_dropdown="right"
-  title="Choose an item"
+  title={null}
+  aria-label="Choose an item"
   data={['Go this this Link', 'Or press on me', <>Custom component</>]}
   on_change={({ value }) => {
     console.log('on_change', value)

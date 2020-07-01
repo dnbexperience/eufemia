@@ -15,7 +15,7 @@ The purpose of having Eufemia Demos is that You as a developer can see the code 
 
 ## Form Demo #1
 
-The [code](https://github.com/dnbexperience/eufemia-demo/blob/master/src/pages/form-demo-01.js) for this little demo app is to show how to make a form layout with Eufemia. It is mainly to demonstrate the visual part, but includes also some event handling - but no state management.
+The [code](https://github.com/dnbexperience/eufemia-demo/blob/master/src/form-demos/form-demo-01.js) for this little demo app is to show how to make a form layout with Eufemia. It is mainly to demonstrate the visual part, but includes also some event handling - but no state management.
 
 <Button href="/uilib/demos/eufemia-demo/form-demo-01" target="_blank" text="View Demo" variant="secondary" className="margin-bottom" />
 

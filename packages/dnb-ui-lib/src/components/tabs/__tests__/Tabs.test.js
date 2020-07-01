@@ -156,7 +156,7 @@ describe('A single Tab component', () => {
 
     expect(Comp.find('div.dnb-tabs__cached').exists()).toBe(true)
 
-    // also check a real live rerender senario
+    // also check a real live rerender scenario
     const value = 'value'
     Comp.find('.dnb-input__input').simulate('change', {
       target: { value }
@@ -191,6 +191,44 @@ describe('A single Tab component', () => {
         .instance()
         .getAttribute('aria-hidden')
     ).toBe('true')
+  })
+
+  it('has to run "prerender" as supposed', () => {
+    const Comp = mount(
+      <Component
+        prerender
+        data={[
+          {
+            title: 'One',
+            key: 'one',
+            content: 'Content one'
+          },
+          { title: 'Two', key: 'two', content: 'Content two' }
+        ]}
+      />
+    )
+
+    expect(Comp.find('div.dnb-tabs__cached').exists()).toBe(true)
+
+    expect(
+      Comp.find('div.dnb-tabs__cached')
+        .at(0)
+        .instance()
+        .hasAttribute('aria-hidden')
+    ).toBe(false)
+    expect(
+      Comp.find('div.dnb-tabs__cached')
+        .at(1)
+        .instance()
+        .getAttribute('aria-hidden')
+    ).toBe('true')
+
+    expect(Comp.find('div.dnb-tabs__cached').at(0).text()).toBe(
+      'Content one'
+    )
+    expect(Comp.find('div.dnb-tabs__cached').at(1).text()).toBe(
+      'Content two'
+    )
   })
 
   it('has to work with "Tabs.Content" as children Components', () => {

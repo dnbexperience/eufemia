@@ -5,7 +5,7 @@ import { gridStyle } from './GridStyle'
 import classnames from 'classnames'
 import { Space } from '../src/components'
 
-const WrapperDiv = styled.div`
+const MainWrapper = styled.main`
   min-height: 100vh;
   margin: 0;
 
@@ -24,16 +24,19 @@ export const Wrapper = ({
   className,
   ...rest
 }) => (
-  <WrapperDiv
-    className={classnames(
-      'dnb-core-style',
-      showOverflow && 'show-overflow',
-      className
-    )}
-    {...rest}
-  >
-    <Grid>{children}</Grid>
-  </WrapperDiv>
+  <React.StrictMode>
+    <MainWrapper
+      className={classnames(
+        'dnb-core-style',
+        showOverflow && 'show-overflow',
+        className
+      )}
+      {...rest}
+    >
+      <h1 className="dnb-sr-only">hidden content</h1>
+      <Grid>{children}</Grid>
+    </MainWrapper>
+  </React.StrictMode>
 )
 Wrapper.propTypes = {
   children: PropTypes.node.isRequired,

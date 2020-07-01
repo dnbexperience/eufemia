@@ -8,7 +8,6 @@
 .dnb-number {
   speak-as: numbers;
   color: inherit;
-  cursor: text;
 
   &.dnb-anchor {
     cursor: pointer;
@@ -37,7 +36,7 @@
   }
 
   &--selectall {
-    user-select: all;
+    cursor: text;
   }
 
   // NB: Is not  active right now

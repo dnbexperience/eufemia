@@ -12,6 +12,12 @@ import arrow_up from './arrow_up.js'
 import arrow_up_medium from './arrow_up_medium.js'
 import attachment from './attachment.js'
 import attachment_medium from './attachment_medium.js'
+import bankid from './bankid.js'
+import bankid_medium from './bankid_medium.js'
+import bankid_on_mobile from './bankid_on_mobile.js'
+import bankid_on_mobile_medium from './bankid_on_mobile_medium.js'
+import bankid_with_qr from './bankid_with_qr.js'
+import bankid_with_qr_medium from './bankid_with_qr_medium.js'
 import bell from './bell.js'
 import bell_medium from './bell_medium.js'
 import bubble from './bubble.js'
@@ -64,6 +70,8 @@ import pay_from from './pay_from.js'
 import pay_from_medium from './pay_from_medium.js'
 import pencil from './pencil.js'
 import pencil_medium from './pencil_medium.js'
+import person from './person.js'
+import person_medium from './person_medium.js'
 import print from './print.js'
 import print_medium from './print_medium.js'
 import question from './question.js'
@@ -96,6 +104,8 @@ import view from './view.js'
 import view_medium from './view_medium.js'
 import view_off from './view_off.js'
 import view_off_medium from './view_off_medium.js'
+import without_bankid from './without_bankid.js'
+import without_bankid_medium from './without_bankid_medium.js'
 
 export {
   add,
@@ -110,6 +120,12 @@ export {
   arrow_up_medium,
   attachment,
   attachment_medium,
+  bankid,
+  bankid_medium,
+  bankid_on_mobile,
+  bankid_on_mobile_medium,
+  bankid_with_qr,
+  bankid_with_qr_medium,
   bell,
   bell_medium,
   bubble,
@@ -162,6 +178,8 @@ export {
   pay_from_medium,
   pencil,
   pencil_medium,
+  person,
+  person_medium,
   print,
   print_medium,
   question,
@@ -193,5 +211,7 @@ export {
   view,
   view_medium,
   view_off,
-  view_off_medium
+  view_off_medium,
+  without_bankid,
+  without_bankid_medium
 }

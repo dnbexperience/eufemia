@@ -6,25 +6,21 @@ order: 4
 
 # NPM Library
 
-These folders/files will be a part of the npm [package](https://unpkg.com/dnb-ui-lib@latest/):
+These folders/files will be a part of the NPM [package](https://unpkg.com/dnb-ui-lib@latest/):
 
 - /assets
 - /components
 - /elements
 - /patterns
+- /fragments
 - /icons
 - /style
+- /cjs
 - /es
+- /esm
 - /umd
 - /shared
-- /web-components
+- web-components.js
+- lib.js
 - index.js
 - package.json
-
-## How to publish a new version to NPM?
-
-Make sure You use a correct **[message decoration](/uilib/development/commit)** to insure correct versioning.
-
-You have to commit (or Pull Request merge) your changes to the `origin/develop` branch. Once Your commits gets approved by the CI Server, You can make a _Pull Request_ to the `origin/release`.
-
-As soon as the _Pull Request_ gets merged into `origin/release`, the CI Server will check all commits and figure out the new NPM **Version Number** and publish a new version based on the message decorations.

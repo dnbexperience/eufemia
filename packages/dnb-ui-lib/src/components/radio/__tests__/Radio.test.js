@@ -99,13 +99,31 @@ describe('Radio component', () => {
 })
 
 describe('Radio group component', () => {
+  const my_event = jest.fn()
+
   // then test the state management
   const Comp = mount(
-    <Component.Group label="Label" name="group" id="group" no_fieldset>
-      <Component id="radio-1" label="Radio 1" />
-      <Component id="radio-2" label="Radio 2" checked />
+    <Component.Group
+      label="Label"
+      name="group"
+      id="group"
+      no_fieldset
+      on_change={my_event}
+    >
+      <Component id="radio-1" label="Radio 1" value="first" />
+      <Component id="radio-2" label="Radio 2" value="second" checked />
     </Component.Group>
   )
+
+  it('has to set correct value using keys', () => {
+    Comp.find('input').at(0).simulate('change')
+    expect(my_event.mock.calls.length).toBe(1)
+    expect(my_event.mock.calls[0][0].value).toBe('first')
+
+    Comp.find('input').at(1).simulate('change')
+    expect(my_event.mock.calls.length).toBe(2)
+    expect(my_event.mock.calls[1][0].value).toBe('second')
+  })
 
   // mount compare the snapshot
   it('have to match group snapshot', () => {

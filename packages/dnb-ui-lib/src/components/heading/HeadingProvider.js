@@ -103,15 +103,12 @@ export default class HeadingProvider extends React.PureComponent {
   constructor(props, context) {
     super(props)
 
-    // this._id = props.id || makeUniqueId()
-
     const state = {
       context,
       _listenForPropChanges: true
     }
 
     const existingContext = context.heading
-    // console.log('existingContext', existingContext)
 
     // Here we create a new counter, but use the last global level
     state.counter = initCounter(props) // in here we use isContext prop
@@ -129,9 +126,8 @@ export default class HeadingProvider extends React.PureComponent {
       state.counter.setContextCounter(globalHeadingCounter.current)
     }
 
-    // state.counter.rerender = this.rerender
-
-    const { level: newLevel } = correctHeadingLevel({
+    state.counter = correctHeadingLevel({
+      ref: props,
       counter: state.counter,
       level: parseFloat(props.level),
       inherit: isTrue(props.inherit),
@@ -148,8 +144,8 @@ export default class HeadingProvider extends React.PureComponent {
     // Set the current level here, and keep it, so a heading, comming later in, will inherit it
     // This will require a new Counter "group" - not the global.
     // We basically start again counting from this one.
-    state.level = newLevel
-    state.prevLevel = state.newProps.level || newLevel
+    state.level = state.counter.level
+    state.prevLevel = state.newProps.level || state.counter.level
     this.state = state
   }
 

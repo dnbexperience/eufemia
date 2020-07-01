@@ -116,7 +116,10 @@
   }
 
   b,
-  strong,
+  strong {
+    font-weight: var(--font-weight-medium);
+  }
+
   &--bold {
     font-weight: var(--font-weight-bold);
   }

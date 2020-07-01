@@ -6,6 +6,7 @@
 
 @import './core/utilities.scss';
 @import './dnb-ui-fragments.scss';
+@import '../components/accordion/style/_accordion.scss';
 @import '../components/autocomplete/style/_autocomplete.scss';
 @import '../components/button/style/_button.scss';
 @import '../components/checkbox/style/_checkbox.scss';
@@ -30,6 +31,7 @@
 @import '../components/progress-indicator/style/_progress-indicator.scss';
 @import '../components/radio/style/_radio.scss';
 @import '../components/section/style/_section.scss';
+@import '../components/skeleton/style/_skeleton.scss';
 @import '../components/slider/style/_slider.scss';
 @import '../components/space/style/_space.scss';
 @import '../components/step-indicator/style/_step-indicator.scss';

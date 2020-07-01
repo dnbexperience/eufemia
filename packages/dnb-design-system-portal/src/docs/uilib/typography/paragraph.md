@@ -9,11 +9,9 @@ import ComponentBox from 'Tags/ComponentBox'
 Paragraph comes in several variants. You can use these classes:
 
 - `.dnb-p` (Text basis)
-- `.dnb-p--medium`
-- `.dnb-p--bold`
 - `.dnb-p--small`
-
-<!-- - `.dnb-p--ingress` -->
+- `.dnb-p--medium`
+- `.dnb-p--bold` (Currently not supported by DNB UX)
 
 ### Paragraphs in React
 
@@ -27,12 +25,13 @@ import { Lead, P, Link, ... } from 'dnb-ui-lib/elements'
 
 <ComponentBox data-dnb-test="paragraph-modifiers" caption="Default paragraph typography using React JSX">
 {`
-<P bottom="small">Paragraph (Default)</P>
-<P modifier="medium">Paragraph (Medium weight)</P>
-<P modifier="bold">Paragraph (Bold weight)</P>
-<P modifier="small">Paragraph Small</P>
-<P modifier="small medium">Paragraph Small (Medium weight)</P>
-<P modifier="small bold">Paragraph Small (Bold weight)</P>
+<P>Default paragraph</P>
+<P modifier="medium">Medium weight paragraph</P>
+<P modifier="small">Small paragraph</P>
+<P modifier="small medium">Small paragraph with medium weight</P>
+{/*(Bold is currently not supported by DNB UX)*/}
+{/*<P modifier="bold">Bold weight paragraph</P>*/}
+{/*<P modifier="small bold">Small paragraph with bold weight</P>*/}
 `}
 </ComponentBox>
 
@@ -43,10 +42,10 @@ import { Lead, P, Link, ... } from 'dnb-ui-lib/elements'
 <p className="dnb-p">
   Here is a paragraph text<br />
   <a href="/" className="dnb-anchor">Anchor / Text Link</a><br />
-  <b>Bold paragraph</b><br />
-  <strong>Strong paragraph</strong><br />
-  <i>Italic paragraph</i><br />
-  <u>Underline paragraph</u><br />
+  <b>Bold paragraph (medium weight)</b><br />
+  <strong>Strong paragraph (medium weight)</strong><br />
+  {/*<i>Italic paragraph (Currently not supported by DNB UX)</i><br />*/}
+  {/*<u>Underline paragraph (Currently not supported by DNB UX)</u><br />*/}
   Numbers 0123456789<br />
   <code className="dnb-code">Code paragraph</code><br />
   <cite>Cite paragraph</cite><br />
@@ -59,10 +58,10 @@ import { Lead, P, Link, ... } from 'dnb-ui-lib/elements'
 <p className="dnb-p dnb-p--small">
   Here is a small paragraph text<br />
   <a href="/" className="dnb-anchor">Anchor / Text Link</a><br />
-  <b>Bold paragraph</b><br />
-  <strong>Strong paragraph</strong><br />
-  <i>Italic paragraph</i><br />
-  <u>Underline paragraph</u><br />
+  <b>Bold paragraph (medium weight)</b><br />
+  <strong>Strong paragraph (medium weight)</strong><br />
+  {/*<i>Italic paragraph</i><br />*/}
+  {/*<u>Underline paragraph</u><br />*/}
   Numbers 0123456789<br />
   <code className="dnb-code">Code paragraph</code><br />
   <cite>Cite paragraph</cite><br />
@@ -77,6 +76,8 @@ import { Lead, P, Link, ... } from 'dnb-ui-lib/elements'
 <ComponentBox hideCode data-dnb-test="paragraph-additional" caption="Additional Paragraph formatting (not defined yet)">
 {`
 <p className="dnb-p">
+  <i>Italic paragraph</i><br />
+  <u>Underline paragraph</u><br />
   <del>Deleted paragraph</del><br />
   <mark>Marked paragraph</mark><br />
   <ins>Inserted paragraph</ins><br />

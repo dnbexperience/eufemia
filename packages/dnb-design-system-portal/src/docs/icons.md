@@ -22,15 +22,14 @@ The sources are located in the [assets folder](https://unpkg.com/dnb-ui-lib@late
 
 They also exists as [React Components](/uilib/components/icon) to be easily integrated, without need of an additional SVG file loader.
 
-## Color
+## Icon color
 
-The icons SVG format have to satisfy the requirement to colorize the CSS fill- and stoke colors by simply using the inherited color.
+Eufemia SVG icons do simply inherit the used color. In case you don't can use the [Icon component](/uilib/components/icon), you have to handle colors by yourself.
 
-This is taken care of by using the [DNB Icon Component](/uilib/components/icon)
-
-**Example usage of CSS**
+**Example color usage of CSS**
 
 ```css
+color: var(--custom-color);
 svg {
   color: inherit;
   fill: currentColor;
@@ -42,8 +41,8 @@ svg {
 
 Eufemia icons come in **two** sizes:
 
-- **Default Size** 16px with 1.5px stroke weight
-- **Medium Size** 24px with 1.5px stroke weight
+- **Default Size** 1.0rem with 1.5px stroke weight
+- **Medium Size** 1.5rem with 1.5px stroke weight
 
 The reason why there are two sizes, is mainly do to the SVG artifact, that the Icons, alongside with the strokes, will scale up, once we use them with a larger width and height.
 
@@ -51,13 +50,15 @@ The reason why there are two sizes, is mainly do to the SVG artifact, that the I
 
 To ensure that the relative size of the SVG icons are scalable by the inherited CSS font size, do not explicitly specify the SVG, unless for older browsers like Internet Explorer.
 
-**Example usage of CSS**
+**Example size definition by CSS**
 
 ```css
+font-size: 1.5rem;
 svg {
-  font-size: inherit;
   width: 1em;
   height: 1em;
+
+  font-size: inherit;
 }
 ```
 

@@ -33,6 +33,7 @@ The other tags you place inside the head tag. But make sure to customize it, dep
 ### Good to have
 
 ```html
+<!-- e.g. Firefox needs this -->
 <link
   rel="icon"
   type="image/png"
@@ -45,6 +46,9 @@ The other tags you place inside the head tag. But make sure to customize it, dep
   sizes="16x16"
   href="/favicon-16x16.png"
 />
+
+<!-- Optional, browsers do load ico file as long as the name is like "favicon.ico" -->
+<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
 
 <!-- More often used Safari feature -->
 <link

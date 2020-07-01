@@ -68,6 +68,7 @@ const propTypes = {
     PropTypes.string,
     PropTypes.bool
   ]),
+  skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   suffix: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.func,
@@ -139,6 +140,7 @@ const defaultProps = {
   autocomplete: 'off',
   placeholder: null,
   keep_placeholder: null,
+  skeleton: null,
   suffix: null,
   align: null,
   selectall: null,
@@ -291,6 +293,7 @@ export default class Input extends React.PureComponent {
     const props = extendPropsWithContext(
       this.props,
       defaultProps,
+      { skeleton: this.context?.skeleton },
       this.context.formRow,
       this.context.translation.Input
     )
@@ -309,6 +312,7 @@ export default class Input extends React.PureComponent {
       placeholder,
       keep_placeholder,
       suffix,
+      skeleton,
       align,
       input_class,
       submit_button_title,
@@ -430,8 +434,16 @@ export default class Input extends React.PureComponent {
     }
 
     const shellParams = {
+      className: classnames(
+        'dnb-input__shell',
+        skeleton && 'dnb-skeleton'
+      ),
       'data-input-state': inputState,
       'data-has-content': hasValue ? 'true' : 'false'
+    }
+    if (isTrue(skeleton)) {
+      shellParams['aria-busy'] = true
+      inputParams.disabled = true
     }
     if (isTrue(disabled)) {
       shellParams['aria-disabled'] = true
@@ -457,6 +469,7 @@ export default class Input extends React.PureComponent {
             label_direction={label_direction}
             sr_only={label_sr_only}
             disabled={disabled}
+            skeleton={skeleton}
           />
         )}
 
@@ -474,7 +487,7 @@ export default class Input extends React.PureComponent {
           )}
 
           <span className="dnb-input__row">
-            <span className="dnb-input__shell" {...shellParams}>
+            <span {...shellParams}>
               {InputElement || <input ref={this._ref} {...inputParams} />}
 
               {icon && (
@@ -502,7 +515,7 @@ export default class Input extends React.PureComponent {
               )}
             </span>
 
-            {hasSubmitButton && (
+            {hasSubmitButton && !skeleton && (
               <span className="dnb-input__submit-element">
                 {submit_element ? (
                   submit_element

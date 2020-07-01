@@ -42,21 +42,26 @@ exports[`Switch component have to match snapshot 1`] = `
         id="id-label"
         label_direction={null}
         render_content={null}
+        skeleton={null}
         sr_only={null}
         text="label"
         title={null}
         vertical={null}
       >
         <Element
+          aria-busy={true}
+          aria-disabled={true}
           className="dnb-form-label"
-          disabled={false}
+          disabled={true}
           htmlFor="id"
           id="id-label"
           is="label"
         >
           <label
+            aria-busy={true}
+            aria-disabled={true}
             className="dnb-form-label"
-            disabled={false}
+            disabled={true}
             htmlFor="id"
             id="id-label"
           >

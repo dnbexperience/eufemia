@@ -150,6 +150,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
     default_value="default_value"
     direction="bottom"
     disabled="disabled"
+    enable_body_lock={null}
     focusable="focusable"
     global_status_id="global_status_id"
     icon="icon"
@@ -191,7 +192,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
     title="title"
     triangle_position={null}
     trigger_component={null}
-    use_mobile_view={null}
+    use_drawer_on_mobile={null}
     value={2}
     wrapper_element={null}
   >
@@ -301,22 +302,27 @@ exports[`Dropdown markup have to match snapshot 1`] = `
           label_direction="horizontal"
           onMouseDown={[Function]}
           render_content={null}
+          skeleton={null}
           sr_only="label_sr_only"
           text="label"
           title={null}
           vertical={null}
         >
           <Element
+            aria-busy={true}
+            aria-disabled={true}
             className="dnb-form-label"
-            disabled={false}
+            disabled={true}
             htmlFor="dropdown-id"
             id="dropdown-id-label"
             is="label"
             onMouseDown={[Function]}
           >
             <label
+              aria-busy={true}
+              aria-disabled={true}
               className="dnb-form-label"
-              disabled={false}
+              disabled={true}
               htmlFor="dropdown-id"
               id="dropdown-id-label"
               onMouseDown={[Function]}
@@ -630,7 +636,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                 skip_keysearch={false}
                 skip_portal={true}
                 triangle_position="right"
-                use_mobile_view={false}
+                use_drawer_on_mobile={false}
                 value={2}
                 wrapper_element={null}
               >
@@ -674,7 +680,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                   skip_keysearch={false}
                   skip_portal={true}
                   triangle_position="right"
-                  use_mobile_view={false}
+                  use_drawer_on_mobile={false}
                   value={2}
                   wrapper_element={null}
                 >

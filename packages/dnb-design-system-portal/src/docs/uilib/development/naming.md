@@ -47,6 +47,9 @@ The DNB Design System Eufemia uses the following naming conventions.
 - Icon names use **snake case**.
 - They have to describe what they are aiming to meant for. Like: `chevron_right`
 - Sizes are added as a postfix. Like: `chevron_right_medium`
+- Only alphabetic characters (a to z) without special chars, due to import statements.
+- Figma icon naming has to match the same (icon archive) as they will define the import names.
+- Figma page and frame names (icon archive) do have to consist the same, due to the automated import mechanism.
 
 ## Documentation
 
@@ -54,7 +57,7 @@ The DNB Design System Eufemia uses the following naming conventions.
 
 ---
 
-## Why `snake_case`
+## Why `snake_case` property naming
 
 The decision to use `snake_case` was made to not just adopt React terms (`PascalCase`), because we wanted to be open for future changes in the front end world.
 
@@ -62,8 +65,8 @@ But also the technical limitation that **Web Components** do not support `Pascal
 
 HTML attributes uses `lisp-case`, so we needed something between.
 
-The aspect to distinguish between case styles will also make code easier to read and support future code changes and refactoring we assume.
+The aspect to distinguish between case styles will also make code easier to read and support future code changes and refactoring.
 
 ```jsx
-<Component aria-hidden="true" myReactProp={...} on_click={} />
+<Component aria-hidden="true" myReactProp={...} on_click={...} />
 ```

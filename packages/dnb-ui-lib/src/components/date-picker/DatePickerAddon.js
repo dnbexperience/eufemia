@@ -95,7 +95,7 @@ export default class DatePickerAddon extends React.PureComponent {
   }
 
   callOnChange({ startDate, endDate, event = null, ...args } = {}) {
-    this.props.onChange &&
+    if (this.props.onChange) {
       this.props.onChange(
         {
           date: startDate,
@@ -105,6 +105,7 @@ export default class DatePickerAddon extends React.PureComponent {
         },
         { hidePicker: false, callOnlyOnChangeHandler: false, ...args }
       )
+    }
   }
 
   render() {

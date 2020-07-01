@@ -55,6 +55,7 @@ exports[`FormRow component have to match snapshot 1`] = `
           id="label_id"
           label_direction="horizontal"
           render_content={null}
+          skeleton={null}
           sr_only="label_sr_only"
           text="label"
           title={null}
