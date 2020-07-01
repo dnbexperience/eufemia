@@ -304,6 +304,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
               readOnly={false}
               selectall={null}
               size={null}
+              skeleton={null}
               status="error"
               status_animation={null}
               status_state="error"
