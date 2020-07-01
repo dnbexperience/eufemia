@@ -10,6 +10,7 @@
  */
 
 // import all the aviable components
+import Accordion from './accordion/Accordion'
 import Autocomplete from './autocomplete/Autocomplete'
 import Button from './button/Button'
 import Checkbox from './checkbox/Checkbox'
@@ -46,6 +47,7 @@ import Tooltip from './tooltip/Tooltip'
 
 // define / export all the aviable components
 export {
+  Accordion,
   Autocomplete,
   Button,
   Checkbox,
