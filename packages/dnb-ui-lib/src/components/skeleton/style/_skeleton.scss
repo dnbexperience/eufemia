@@ -12,7 +12,9 @@
     overflow: hidden;
 
     // display: inline-flex;// do not change the display!
-    border-radius: 0.25rem;
+    &:not(.dnb-input__shell) {
+      border-radius: 0.25rem;
+    }
 
     pointer-events: none;
     // cursor: progress;// does not show if pointer-events is set to none
@@ -53,12 +55,7 @@
   // }
 
   &::after {
-    width: 50%;
-
-    background: radial-gradient(black 9%, transparent 10%);
-    background-size: 0.5rem 0.5rem;
-
-    animation: skeletonAnimation 1.5s linear infinite;
+    width: 100%;
   }
 
   &--20 {
@@ -81,20 +78,5 @@
   }
   &--80 {
     width: 80%;
-  }
-
-  @keyframes skeletonAnimation {
-    0% {
-      opacity: 0.5;
-      transform: translate3d(0%, 0, 0);
-    }
-    40% {
-      opacity: 1;
-      transform: translate3d(250%, 0, 0);
-    }
-    100% {
-      opacity: 0;
-      transform: translate3d(800%, 0, 0);
-    }
   }
 }

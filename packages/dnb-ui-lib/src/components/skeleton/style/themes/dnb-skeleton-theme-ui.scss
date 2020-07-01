@@ -4,9 +4,9 @@
  */
 
 .dnb-skeleton {
-  &.dnb-input {
-    box-shadow: 0 0 0 0.0625rem var(--color-sea-green-30) !important; // use !important to overwrite error state
-  }
+  // box-shadow: 0 0 0 1px var(--color-sea-green-30) !important; // use !important to overwrite error state
+  // &.dnb-input__shell {
+  // }
 
   &::before {
     background-color: var(
@@ -14,10 +14,44 @@
     ) !important; // to take presence
   }
   &::after {
+    // Dots
     background: radial-gradient(
-      var(--color-black) 9%,
-      transparent 10%
+      circle closest-side,
+      white 50%,
+      transparent 50%
     ) !important; // to take presence
-    background-size: 0.5rem 0.5rem !important; // to take presence
+    background-size: 0.25rem 0.25rem !important; // to take presence
+    animation: skeletonAnimation 1.5s linear infinite;
+  }
+
+  &--shine#{&}::after {
+    // Shine
+    background: radial-gradient(
+      white 0%,
+      transparent 50%,
+      transparent 100%
+    ) !important;
+    background-size: 100% 500% !important;
+    background-position-y: 50% !important;
+    background-repeat: no-repeat;
+    animation: skeletonAnimation 1.5s ease-out infinite;
+  }
+}
+
+@keyframes skeletonAnimation {
+  0% {
+    opacity: 0.2;
+    transform: translate3d(-100%, 0, 0);
+    // transform: translate3d(-25rem, 0, 0);
+  }
+  70% {
+    opacity: 1;
+    transform: translate3d(100%, 0, 0);
+    // transform: translate3d(25rem, 0, 0);
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(200rem, 0, 0);
+    // transform: translate3d(50rem, 0, 0);
   }
 }

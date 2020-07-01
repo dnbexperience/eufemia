@@ -39,8 +39,8 @@ import Provider from 'dnb-ui-lib/src/shared/Provider'
 
 <ComponentBox scope={{Provider}}>
 {`
-<Skeleton bottom show className="dnb-h--xx-large" width={20} />
-<Skeleton top show className="dnb-p" width={40} />
+<Skeleton bottom show className="dnb-skeleton--shine dnb-h--xx-large" width={20} />
+<Skeleton top show className="dnb-skeleton--shine dnb-p" width={40} />
 <Provider
 	skeleton={true}
 >
