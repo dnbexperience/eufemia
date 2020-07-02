@@ -7,7 +7,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {
   isTrue,
-  validateDOMAttributes
+  validateDOMAttributes,
+  getPreviousSibling
 } from '../../shared/component-helper'
 import classnames from 'classnames'
 import AccordionContext from './AccordionContext'
@@ -174,6 +175,36 @@ class HeightAnim {
     if (String(this.elem?.nodeName).toLowerCase() === 'td') {
       this.elem = this.elem.parentElement
     }
+
+    this.container = getPreviousSibling(
+      'dnb-accordion-group--single-container',
+      this.elem
+    )
+
+    if (this.container) {
+      this.onResize = () => {
+        clearTimeout(this.resizeTimeout)
+        this.resizeTimeout = setTimeout(() => {
+          try {
+            const contentElem = getPreviousSibling(
+              'dnb-accordion__content',
+              this.elem
+            )
+            if (
+              !contentElem.classList.contains(
+                'dnb-accordion__content--hidden'
+              )
+            ) {
+              const height = parseFloat(this.elem.clientHeight)
+              this.container.style.minHeight = `${height}px`
+            }
+          } catch (e) {
+            //
+          }
+        }, 300)
+      }
+      window.addEventListener('resize', this.onResize)
+    }
   }
   removeEndEvents() {
     if (this.onOpenEnd) {
@@ -193,8 +224,12 @@ class HeightAnim {
     this.elem = null
     this.state = 'init'
     this.openHeight = null
+    if (this.onResize) {
+      clearTimeout(this.resizeTimeout)
+      window.removeEventListener('resize', this.onResize)
+    }
   }
-  geOpentHeight() {
+  getOpentHeight() {
     const position = window.getComputedStyle(this.elem.parentElement)
       .position
 
@@ -252,9 +287,15 @@ class HeightAnim {
       this.reqId1 = window.requestAnimationFrame(() => {
         if (before) {
           this.elem.style.height = `${before}px`
+          if (this.container) {
+            this.container.style.minHeight = `${before}px`
+          }
         }
         this.reqId2 = window.requestAnimationFrame(() => {
           this.elem.style.height = `${height}px`
+          if (this.container) {
+            this.container.style.minHeight = `${height}px`
+          }
         })
       })
     }
@@ -289,7 +330,7 @@ class HeightAnim {
       )
     }
 
-    const height = this.geOpentHeight()
+    const height = this.getOpentHeight()
     this.start(height, 0, { animate })
   }
   close(animate = true) {

@@ -140,12 +140,17 @@
     }
   }
 
+  &-group--single-container {
+    transition: min-height 400ms var(--accordion-easing);
+  }
+
   &-group--single-container & {
     position: static;
+    max-width: 60rem;
 
     @media screen and (min-width: 40em) {
       &__header {
-        width: 40vw;
+        width: 40%; // 40% / 60%
 
         &__icon {
           transform: rotate(-90deg);
@@ -172,6 +177,8 @@
   &-group {
     &--single-container & {
       &__children {
+        max-width: 60rem;
+
         @media screen and (min-width: 40em) {
           position: relative;
           display: flex;
@@ -180,9 +187,10 @@
           .dnb-accordion__content {
             position: absolute;
             z-index: 10;
-            left: 40vw;
             top: 0;
             right: 0;
+
+            width: 60%; // 40% / 60%
           }
         }
 
