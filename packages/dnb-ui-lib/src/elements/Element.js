@@ -26,11 +26,12 @@ class ElemComponent extends React.PureComponent {
   }
 
   render() {
-    const props = this.context?.skeleton
-      ? extendPropsWithContext(this.props, Element.defaultProps, {
-          skeleton: this.context?.skeleton
-        })
-      : this.props
+    const props =
+      typeof this.context?.skeleton !== 'undefined'
+        ? extendPropsWithContext(this.props, Element.defaultProps, {
+            skeleton: this.context?.skeleton
+          })
+        : this.props
 
     const {
       className,

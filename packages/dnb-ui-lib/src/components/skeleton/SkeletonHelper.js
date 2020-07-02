@@ -17,18 +17,18 @@ const propTypes = {
     PropTypes.string,
     PropTypes.func,
     PropTypes.node
+  ]),
+  skeleton: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.bool
+    // PropTypes.func,
+    // PropTypes.node
   ])
-  //   skeleton: PropTypes.oneOfType([
-  //     PropTypes.string,
-  //     PropTypes.bool,
-  //     PropTypes.func,
-  //     PropTypes.node
-  //   ]),
   //   elementRef: PropTypes.object
 }
 const defaultProps = {
-  children: null
-  //   skeleton: null,
+  children: null,
+  skeleton: null
   //   elementRef: null
 }
 
@@ -38,6 +38,14 @@ export class AutoSize extends React.PureComponent {
   static contextType = Context
 
   componentDidMount() {
+    this.add()
+  }
+
+  componentWillUnmount() {
+    this.remove()
+  }
+
+  add() {
     const { skeleton, elementRef, children } = this.getProps()
 
     const elem = elementRef.current
@@ -71,11 +79,10 @@ export class AutoSize extends React.PureComponent {
     }
   }
 
-  componentWillUnmount() {
-    const { skeleton, elementRef } = this.getProps()
+  remove() {
+    const { elementRef } = this.getProps()
     const elem = elementRef.current
-
-    if (skeleton && elem) {
+    if (elem) {
       try {
         elem.removeAttribute('data-skeleton-chars')
         elem.removeChild(this.skeletonElem)
@@ -85,20 +92,25 @@ export class AutoSize extends React.PureComponent {
     }
   }
 
-  //   componentDidUpdate(prevProps) {
-  //     if (this.props.skeleton !== prevProps.skeleton) {
-  //     }
-  //   }
+  componentDidUpdate(prevProps) {
+    if (this.props.skeleton !== prevProps.skeleton) {
+      if (this.props.skeleton) {
+        this.add()
+      } else {
+        this.remove()
+      }
+    }
+  }
 
-  getProps() {
+  getProps(props = this.props) {
     return this.context?.skeleton
       ? extendPropsWithContext(
-          this.props,
+          props,
           defaultProps,
-          this.context.skeleton,
+          // this.context.skeleton,
           { skeleton: this.context.skeleton }
         )
-      : this.props
+      : props
   }
 
   render() {
