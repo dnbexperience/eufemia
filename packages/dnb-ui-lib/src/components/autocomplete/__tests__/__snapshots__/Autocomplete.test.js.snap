@@ -242,22 +242,27 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
           label_direction="horizontal"
           onMouseDown={[Function]}
           render_content={null}
+          skeleton={null}
           sr_only="label_sr_only"
           text="Autocomplete Label:"
           title={null}
           vertical={null}
         >
           <Element
+            aria-busy={true}
+            aria-disabled={true}
             className="dnb-form-label"
-            disabled={false}
+            disabled={true}
             htmlFor="autocomplete-id"
             id="autocomplete-id-label"
             is="label"
             onMouseDown={[Function]}
           >
             <label
+              aria-busy={true}
+              aria-disabled={true}
               className="dnb-form-label"
-              disabled={false}
+              disabled={true}
               htmlFor="autocomplete-id"
               id="autocomplete-id-label"
               onMouseDown={[Function]}
@@ -427,6 +432,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                 role="combobox"
                 selectall={null}
                 size={null}
+                skeleton={null}
                 spellCheck="false"
                 status={null}
                 status_animation={null}

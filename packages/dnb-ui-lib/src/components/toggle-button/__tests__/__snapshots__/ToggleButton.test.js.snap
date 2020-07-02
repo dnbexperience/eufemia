@@ -43,21 +43,26 @@ exports[`ToggleButton component have to match snapshot 1`] = `
       id="toggle-button-label"
       label_direction="horizontal"
       render_content={null}
+      skeleton={null}
       sr_only="label_sr_only"
       text="label"
       title={null}
       vertical={null}
     >
       <Element
+        aria-busy={true}
+        aria-disabled={true}
         className="dnb-form-label"
-        disabled={false}
+        disabled={true}
         htmlFor="toggle-button"
         id="toggle-button-label"
         is="label"
       >
         <label
+          aria-busy={true}
+          aria-disabled={true}
           className="dnb-form-label"
-          disabled={false}
+          disabled={true}
           htmlFor="toggle-button"
           id="toggle-button-label"
         >
@@ -430,6 +435,7 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
               id="group-label"
               label_direction={null}
               render_content={null}
+              skeleton={null}
               sr_only={null}
               text="Label"
               title={null}

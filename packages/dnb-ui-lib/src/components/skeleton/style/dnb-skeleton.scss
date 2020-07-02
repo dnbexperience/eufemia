@@ -1,0 +1,12 @@
+/*
+* DNB Skeleton
+*
+*/
+
+@import '../../../style/components/imports.scss';
+
+.dnb-skeleton {
+  @include componentReset();
+}
+
+@import './_skeleton.scss';
