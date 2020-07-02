@@ -10,6 +10,7 @@
  */
 
 // import all the aviable components and patterns
+import Accordion from './components/accordion/Accordion'
 import Autocomplete from './components/autocomplete/Autocomplete'
 import Button from './components/button/Button'
 import Checkbox from './components/checkbox/Checkbox'
@@ -68,6 +69,7 @@ import Ul from './elements/Ul'
 
 // define / export all the aviable components
 export {
+  Accordion,
   Autocomplete,
   Button,
   Checkbox,
