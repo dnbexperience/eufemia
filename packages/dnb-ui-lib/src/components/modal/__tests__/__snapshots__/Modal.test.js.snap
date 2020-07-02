@@ -39,6 +39,7 @@ exports[`Modal component have to match snapshot 1`] = `
         "trigger_hidden": "trigger_hidden",
         "trigger_icon": "trigger_icon",
         "trigger_icon_position": "trigger_icon_position",
+        "trigger_size": "trigger_size",
         "trigger_text": "trigger_text",
         "trigger_title": "trigger_title",
         "trigger_variant": "custom type not supported, please set the correct value for trigger_variant prop",
@@ -86,6 +87,7 @@ exports[`Modal component have to match snapshot 1`] = `
   trigger_hidden={false}
   trigger_icon="question"
   trigger_icon_position="left"
+  trigger_size={null}
   trigger_text={null}
   trigger_title={null}
   trigger_variant="secondary"
@@ -244,6 +246,7 @@ exports[`Modal component have to match snapshot 1`] = `
             "trigger_hidden": "trigger_hidden",
             "trigger_icon": "trigger_icon",
             "trigger_icon_position": "trigger_icon_position",
+            "trigger_size": "trigger_size",
             "trigger_text": "trigger_text",
             "trigger_title": "trigger_title",
             "trigger_variant": "custom type not supported, please set the correct value for trigger_variant prop",
@@ -323,6 +326,7 @@ exports[`Modal component have to match snapshot 1`] = `
               "trigger_hidden": "trigger_hidden",
               "trigger_icon": "trigger_icon",
               "trigger_icon_position": "trigger_icon_position",
+              "trigger_size": "trigger_size",
               "trigger_text": "trigger_text",
               "trigger_title": "trigger_title",
               "trigger_variant": "custom type not supported, please set the correct value for trigger_variant prop",
