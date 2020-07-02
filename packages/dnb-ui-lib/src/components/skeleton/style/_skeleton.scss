@@ -1,0 +1,82 @@
+/*
+ * Skeleton component
+ *
+ * Skeleton
+ *
+ */
+
+.dnb-skeleton {
+  &,
+  &__wrapper {
+    position: relative;
+    overflow: hidden;
+
+    // display: inline-flex;// do not change the display!
+    &:not(.dnb-input__shell) {
+      border-radius: 0.25rem;
+    }
+
+    pointer-events: none;
+    // cursor: progress;// does not show if pointer-events is set to none
+  }
+
+  &--block {
+    display: block;
+  }
+
+  &__figure {
+    position: relative;
+    border-radius: 0.25rem;
+  }
+
+  &__inner {
+    position: absolute;
+    z-index: 100;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    width: var(--skeleton-chars);
+  }
+
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    z-index: 100;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+  }
+
+  // &::before {
+  //   // border-radius: inherit; // because we use "overflow: hidden;" this is not needed
+  // }
+
+  &::after {
+    width: 100%;
+  }
+
+  &--20 {
+    width: 20%;
+  }
+  &--30 {
+    width: 30%;
+  }
+  &--40 {
+    width: 40%;
+  }
+  &--50 {
+    width: 50%;
+  }
+  &--60 {
+    width: 60%;
+  }
+  &--70 {
+    width: 70%;
+  }
+  &--80 {
+    width: 80%;
+  }
+}

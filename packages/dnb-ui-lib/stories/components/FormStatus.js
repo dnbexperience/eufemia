@@ -68,7 +68,10 @@ export default [
             console.log('onSubmit', event)
           }}
         >
-          <FormRow top="small" label={<H2>Legend:</H2>}>
+          <FormRow
+            top="small"
+            label={<span className="dnb-h--large">Legend:</span>}
+          >
             <DatePicker
               show_input
               right="small"

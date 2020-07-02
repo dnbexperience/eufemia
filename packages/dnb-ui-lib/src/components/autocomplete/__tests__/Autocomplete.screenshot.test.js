@@ -9,7 +9,13 @@ import {
 } from '../../../core/jest/jestSetupScreenshots'
 
 describe('Autocomplete screenshot', () => {
-  setupPageScreenshot({ url: '/uilib/components/autocomplete/demos' })
+  setupPageScreenshot({
+    url: '/uilib/components/autocomplete/demos',
+    screenshotConfig: {
+      // use 0.04%on CI because of the cursor in the input field
+      pixelThresholdRelative: 0.04
+    }
+  })
   it('have to match different sizes', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-dnb-test="autocomplete-sizes"]'

@@ -36,6 +36,7 @@ import Pagination from './components/pagination/Pagination'
 import ProgressIndicator from './components/progress-indicator/ProgressIndicator'
 import Radio from './components/radio/Radio'
 import Section from './components/section/Section'
+import Skeleton from './components/skeleton/Skeleton'
 import Slider from './components/slider/Slider'
 import Space from './components/space/Space'
 import StepIndicator from './components/step-indicator/StepIndicator'
@@ -94,6 +95,7 @@ export {
   ProgressIndicator,
   Radio,
   Section,
+  Skeleton,
   Slider,
   Space,
   StepIndicator,
