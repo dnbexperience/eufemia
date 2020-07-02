@@ -70,7 +70,7 @@
       background-color: var(--color-mint-green);
     }
     &:not([disabled]):not(:active):not(:hover):focus {
-      @include fakeFocus(null, var(--color-emerald-green));
+      @include fakeFocus(null, var(--color-emerald-green), inset);
     }
   }
 

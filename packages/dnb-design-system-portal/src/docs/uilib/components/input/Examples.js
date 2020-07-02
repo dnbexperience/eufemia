@@ -129,10 +129,11 @@ class Example extends React.PureComponent {
           {
             /* @jsx */ `
 <Input
-  label="Short Label:"
+  label={<span className="dnb-h--large">Fødselsnummer</span>}
+  label_direction="vertical"
   autocomplete="on"
   placeholder="Placeholder text"
-  suffix={<Modal title="Info">Some content</Modal>}
+  suffix={<Modal title="Info" trigger_size="large">Some content</Modal>}
   on_change={({ value }) => {
     console.log('on_change', value)
   }}

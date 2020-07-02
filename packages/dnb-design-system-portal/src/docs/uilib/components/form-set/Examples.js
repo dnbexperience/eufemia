@@ -14,10 +14,11 @@ class Example extends React.PureComponent {
           title="Use the `FormSet` as a Provider for `FormRow`"
           data-dnb-test="form-set-default"
         >
-          {/* @jsx */ `
+          {
+            /* @jsx */ `
 <FormSet indent="true">
   <FormRow no_label>
-    <H2>A h2 in a FormRow without a label</H2>
+    <H2>A semantic h2 in a FormRow without a label</H2>
   </FormRow>
   <FormRow section_style="default" section_spacing label="Long Group name Vitae dapibus eros viverra torquent euismod at dignissim vel mattis:">
     <Radio.Group
@@ -29,26 +30,30 @@ class Example extends React.PureComponent {
     </Radio.Group>
   </FormRow>
 </FormSet>
-          `}
+          `
+          }
         </ComponentBox>
         <ComponentBox
           title="FormSet where FormRow inherits the direction"
           data-dnb-test="form-set-vertical"
         >
-          {/* @jsx */ `
+          {
+            /* @jsx */ `
 <FormSet direction="vertical">
-  <FormRow label={<H2>Custom Legend:</H2>}>
+  <FormRow label={<span className="dnb-h--large">Custom Legend:</span>}>
     <Input label="Label:" bottom />
     <Input label="Label:" />
   </FormRow>
 </FormSet>
-          `}
+          `
+          }
         </ComponentBox>
         <ComponentBox
           title="FormSet with `on_submit` event and `prevent_submit` set to true"
           data-dnb-test="form-set-submit"
         >
-          {/* @jsx */ `
+          {
+            /* @jsx */ `
 <FormSet
     direction="horizontal"
     on_submit={({ event }) => console.log('on_submit', event)}
@@ -59,7 +64,8 @@ class Example extends React.PureComponent {
     <Button type="submit" text="Trigger submit" />
   </FormRow>
 </FormSet>
-          `}
+          `
+          }
         </ComponentBox>
       </React.Fragment>
     )
