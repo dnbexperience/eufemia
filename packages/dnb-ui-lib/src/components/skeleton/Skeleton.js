@@ -43,6 +43,7 @@ const defaultProps = {
   id: null,
   element: 'span',
   show: null,
+  skeleton: null, // only to make sure we process extendPropsWithContext
   figure: null,
   width: null,
   class: null,
@@ -67,15 +68,16 @@ export default class Skeleton extends React.PureComponent {
 
   render() {
     // consume the skeleton context
-    const props = this.context?.skeleton
-      ? // use only the props from context, who are available here anyway
-        extendPropsWithContext(
-          this.props,
-          defaultProps,
-          this.context.skeleton,
-          { skeleton: this.context.skeleton }
-        )
-      : this.props
+    const props =
+      typeof this.context?.skeleton !== 'undefined'
+        ? // use only the props from context, who are available here anyway
+          extendPropsWithContext(
+            this.props,
+            defaultProps,
+            // this.context.skeleton,
+            { skeleton: this.context.skeleton }
+          )
+        : this.props
 
     const {
       element,
@@ -114,24 +116,32 @@ export default class Skeleton extends React.PureComponent {
     return (
       <Element {...params}>
         {children}
-        {figure && <Figure figure={figure} />}
-        {(isTrue(show) || skeleton) && <>&zwnj;</>}
+        {figure && (
+          <Figure figure={figure} show={isTrue(show) || skeleton} />
+        )}
+        &zwnj;
       </Element>
     )
   }
 }
 
-function Figure({ figure }) {
+function Figure({ figure, show }) {
   switch (figure) {
     case 'article': {
-      const style =
-        'dnb-p dnb-space__top--x-small dnb-skeleton dnb-skeleton'
+      const style = (p) =>
+        `dnb-space__top--x-small dnb-skeleton dnb-skeleton--${p}`
       return (
-        <div className="dnb-skeleton__figure">
-          <div className={`dnb-h--xx-large ${style}--50`}>&zwnj;</div>
-          <div className={`${style}--70`}>&zwnj;</div>
-          <div className={`${style}--80`}>&zwnj;</div>
-          <div className={`${style}--60`}>&zwnj;</div>
+        <div
+          className={classnames(
+            'dnb-skeleton__figure',
+            show && 'dnb-skeleton__figure--show'
+          )}
+          aria-busy={show ? true : null}
+        >
+          <div className={`dnb-h--xx-large ${style(50)}`}>&zwnj;</div>
+          <div className={`dnb-p ${style(70)}`}>&zwnj;</div>
+          <div className={`dnb-p ${style(80)}`}>&zwnj;</div>
+          <div className={`dnb-p ${style(60)}`}>&zwnj;</div>
         </div>
       )
     }
