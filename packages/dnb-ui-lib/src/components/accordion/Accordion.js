@@ -204,7 +204,7 @@ export default class Accordion extends React.PureComponent {
       }
     }
 
-    if (this.state.group) {
+    if (this.state.group && typeof window !== 'undefined') {
       window.__dnbAccordion = window.__dnbAccordion || {}
       window.__dnbAccordion[this.state.group] =
         window.__dnbAccordion[this.state.group] ||
@@ -224,7 +224,7 @@ export default class Accordion extends React.PureComponent {
     clearTimeout(this._openTimeout)
     clearTimeout(this._changeOpenState)
 
-    if (this.state.group) {
+    if (this.state.group && typeof window !== 'undefined') {
       window?.__dnbAccordion[this.state.group]?.removeInstance(this)
     }
   }
@@ -416,7 +416,7 @@ export default class Accordion extends React.PureComponent {
                   if (this.context?.onChange) {
                     this.context?.onChange(...params)
                   }
-                  if (this.state.group) {
+                  if (this.state.group && typeof window !== 'undefined') {
                     window?.__dnbAccordion[this.state.group]?.onChange(
                       ...params
                     )
