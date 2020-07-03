@@ -1,3 +1,12 @@
+## July, 3. 2020
+
+New [Icons](/icons/secondary):
+
+- secondary `chatbot`
+- secondary `location`
+- secondary `contract`
+- secondary `support`
+
 ## June, 18. 2020
 
 New [Icons](/icons/secondary):
