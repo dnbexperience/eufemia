@@ -160,6 +160,10 @@
       // Only to make sure we have a spacing. But would be typcally project spesific
       &__content {
         margin-left: 1rem;
+
+        // Disable the animation if single container is used
+        transition-duration: 1ms;
+
         &__inner {
           margin-top: 0;
         }
@@ -189,6 +193,7 @@
             z-index: 10;
             top: 0;
             right: 0;
+            bottom: 0;
 
             width: 60%; // 40% / 60%
           }
