@@ -16,7 +16,7 @@ import {
   warn,
   isTrue,
   makeUniqueId,
-  isTouchDevice,
+  InteractionInvalidation,
   validateDOMAttributes
 } from '../../shared/component-helper'
 import Button from '../button/Button'
@@ -99,20 +99,19 @@ export default class ModalContent extends React.PureComponent {
     super(props)
     this._contentRef = React.createRef()
     this._id = props.content_id || makeUniqueId()
+    this._ii = new InteractionInvalidation()
   }
 
   componentDidMount() {
     this.removeScrollPossibility()
-    this.preventScreenReaderPossibility()
-    this.removeFocusPossibility()
+    this._ii.active()
     this.setFocus()
   }
 
   componentWillUnmount() {
     clearTimeout(this._focusTimeout)
     this.revertScrollPossibility()
-    this.revertScreenReaderPossibility()
-    this.revertFocusPossibility()
+    this._ii.revert()
   }
 
   setFocus() {
@@ -134,23 +133,6 @@ export default class ModalContent extends React.PureComponent {
     }
   }
 
-  preventScreenReaderPossibility() {
-    this.nonScreenReaderNodes = Array.from(
-      document.querySelectorAll('body > div:not(#dnb-modal-root)')
-    )
-    this.nonScreenReaderNodes.forEach((node) => {
-      node.setAttribute('aria-hidden', true)
-    })
-  }
-
-  revertScreenReaderPossibility() {
-    if (this.nonScreenReaderNodes) {
-      this.nonScreenReaderNodes.forEach((node) => {
-        node.removeAttribute('aria-hidden')
-      })
-    }
-  }
-
   removeScrollPossibility() {
     if (this._contentRef.current) {
       disableBodyScroll(this._contentRef.current)
@@ -160,65 +142,6 @@ export default class ModalContent extends React.PureComponent {
   revertScrollPossibility() {
     enableBodyScroll(this._contentRef.current)
     clearAllBodyScrollLocks()
-  }
-
-  removeFocusPossibility() {
-    // since touch devices works diffrent, and we also use preventScreenReaderPossibility
-    // we dont set the tabindex by using removeFocusPossibility
-    if (typeof document === 'undefined' || isTouchDevice()) {
-      return
-    }
-    const modalNodes = Array.from(
-      document.querySelectorAll('.dnb-modal__content *')
-    )
-
-    // by only finding elements that do not have tabindex="-1" we ensure we don't
-    // corrupt the previous state of the element if a modal was already open
-    this.nonModalNodes = Array.from(
-      document.querySelectorAll(
-        'body *:not(.dnb-modal__content):not([tabindex="-1"]):not(script)'
-      )
-    ).filter((node) => !modalNodes.includes(node))
-
-    this.nonModalNodes.forEach((node) => {
-      try {
-        // save the previous tabindex state so we can restore it on close
-        node._prevTabindex = node.getAttribute('tabindex')
-        node.setAttribute('tabindex', -1)
-
-        // tabindex=-1 does not prevent the mouse from focusing the node (which
-        // would show a focus outline around the element). prevent this by disabling
-        // outline styles while the modal is open
-        // @see https://www.sitepoint.com/when-do-elements-take-the-focus/
-        node.style.outline = 'none'
-      } catch (e) {
-        warn(e)
-      }
-    })
-  }
-
-  revertFocusPossibility() {
-    // since touch devices works diffrent, and we also use preventScreenReaderPossibility
-    // we dont set the tabindex by using removeFocusPossibility
-    if (!this.nonModalNodes || isTouchDevice()) {
-      return
-    }
-    // restore or remove tabindex from nodes
-    this.nonModalNodes.forEach((node) => {
-      try {
-        if (node && node._prevTabindex) {
-          node.setAttribute('tabindex', node._prevTabindex)
-          node._prevTabindex = null
-          delete node._prevTabindex
-        } else {
-          node.removeAttribute('tabindex')
-        }
-        node.style.outline = null
-      } catch (e) {
-        warn(e)
-      }
-    })
-    this.nonModalNodes = null
   }
 
   preventClick = (e) => {

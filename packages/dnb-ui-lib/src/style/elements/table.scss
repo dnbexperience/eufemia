@@ -3,7 +3,7 @@
  *
  */
 
-@import '../../components/button/style/button-mixins.scss';
+@import '../../components/button/style/themes/button-mixins.scss';
 
 @mixin tableFocusRing() {
   &::before {

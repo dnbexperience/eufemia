@@ -23,8 +23,6 @@ import { withPrefix } from 'gatsby' // use it like this: withPrefix('/safari-pin
 import properties from 'dnb-ui-lib/src/style/properties.js'
 const mainColor = properties['--color-sea-green']
 
-exports.mainColor = mainColor
-
 export default class HTML extends React.PureComponent {
   render() {
     const {

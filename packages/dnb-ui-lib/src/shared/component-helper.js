@@ -625,3 +625,98 @@ export const convertJsxToString = (elements, separator = undefined) => {
     .filter(Boolean)
     .join(separator)
 }
+
+export class InteractionInvalidation {
+  active(element = null) {
+    this.preventScreenReaderPossibility(element)
+    this.removeFocusPossibility(element)
+  }
+  revert() {
+    this.revertScreenReaderPossibility()
+    this.revertFocusPossibility()
+  }
+
+  removeFocusPossibility(element = null) {
+    // since touch devices works diffrent, and we also use preventScreenReaderPossibility
+    // we dont set the tabindex by using removeFocusPossibility
+    if (typeof document === 'undefined' || isTouchDevice()) {
+      return // stop here
+    }
+
+    const modalNodes = Array.from(
+      (element || document).querySelectorAll('.dnb-modal__content *')
+    )
+
+    // by only finding elements that do not have tabindex="-1" we ensure we don't
+    // corrupt the previous state of the element if a modal was already open
+    this.nonModalNodes = Array.from(
+      (element || document).querySelectorAll(
+        'body *:not(.dnb-modal__content):not([tabindex="-1"]):not(script)'
+      )
+    ).filter((node) => !modalNodes.includes(node))
+
+    this.nonModalNodes.forEach((node) => {
+      try {
+        // save the previous tabindex state so we can restore it on close
+        node._prevTabindex = node.getAttribute('tabindex')
+        node.setAttribute('tabindex', -1)
+
+        // tabindex=-1 does not prevent the mouse from focusing the node (which
+        // would show a focus outline around the element). prevent this by disabling
+        // outline styles while the modal is open
+        node.style.outline = 'none'
+      } catch (e) {
+        warn(e)
+      }
+    })
+  }
+
+  revertFocusPossibility() {
+    // since touch devices works diffrent, and we also use preventScreenReaderPossibility
+    // we dont set the tabindex by using removeFocusPossibility
+    if (!this.nonModalNodes) {
+      return // stop here
+    }
+    // restore or remove tabindex from nodes
+    this.nonModalNodes.forEach((node) => {
+      try {
+        if (node && node._prevTabindex) {
+          node.setAttribute('tabindex', node._prevTabindex)
+          node._prevTabindex = null
+          delete node._prevTabindex
+        } else {
+          node.removeAttribute('tabindex')
+        }
+        node.style.outline = null
+      } catch (e) {
+        warn(e)
+      }
+    })
+    this.nonModalNodes = null
+  }
+
+  preventScreenReaderPossibility(element = null) {
+    if (typeof document === 'undefined') {
+      return // stop here
+    }
+
+    this.nonScreenReaderNodes = Array.from(
+      (element || document).querySelectorAll(
+        'body > div:not(#dnb-modal-root)'
+      )
+    )
+    this.nonScreenReaderNodes.forEach((node) => {
+      node.setAttribute('aria-hidden', true)
+    })
+  }
+
+  revertScreenReaderPossibility() {
+    if (!this.nonScreenReaderNodes) {
+      return // stop here
+    }
+
+    this.nonScreenReaderNodes.forEach((node) => {
+      node.removeAttribute('aria-hidden')
+    })
+  }
+}
