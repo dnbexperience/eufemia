@@ -32,7 +32,10 @@ export default class Provider extends React.PureComponent {
       if (state._startupProps !== updatedProps) {
         let hasChanges = false
         for (const i in state._startupProps) {
-          if (state._startupProps[i] !== updatedProps[i]) {
+          if (
+            state._startupProps[i] !== updatedProps[i] ||
+            typeof updatedProps[i] === 'boolean'
+          ) {
             hasChanges = true
             break
           }

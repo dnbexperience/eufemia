@@ -27,6 +27,10 @@
   &__figure {
     position: relative;
     border-radius: 0.25rem;
+    visibility: hidden;
+    &--show {
+      visibility: visible;
+    }
   }
 
   &__inner {
