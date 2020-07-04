@@ -791,7 +791,7 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
             style_type={null}
             top="4"
           >
-            <ForwardRef
+            <Element
               bottom="large"
               class={null}
               className="dnb-h--xx-large"
@@ -801,37 +801,12 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
               skeleton={false}
               top="4"
             >
-              <ElemComponent
-                bottom="large"
-                class={null}
-                className="dnb-h--xx-large"
-                css={null}
-                hasTagClass={true}
-                innerRef={null}
-                is="h1"
-                skeleton={false}
-                top="4"
+              <h1
+                className="dnb-h--xx-large dnb-space__top--xx-large dnb-space__top--x-small dnb-space__bottom--large"
               >
-                <AutoSize
-                  elementRef={
-                    Object {
-                      "current": <h1
-                        class="dnb-h--xx-large dnb-space__top--xx-large dnb-space__top--x-small dnb-space__bottom--large"
-                      >
-                        title
-                      </h1>,
-                    }
-                  }
-                  skeleton={false}
-                >
-                  <h1
-                    className="dnb-h--xx-large dnb-space__top--xx-large dnb-space__top--x-small dnb-space__bottom--large"
-                  >
-                    title
-                  </h1>
-                </AutoSize>
-              </ElemComponent>
-            </ForwardRef>
+                title
+              </h1>
+            </Element>
           </H>
         </H1>
         <P
@@ -843,7 +818,7 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
           small={null}
           style_type={null}
         >
-          <ForwardRef
+          <Element
             bottom="large"
             class={null}
             className="dnb-p"
@@ -852,51 +827,20 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
             is="p"
             skeleton={false}
           >
-            <ElemComponent
-              bottom="large"
-              class={null}
-              className="dnb-p"
-              css={null}
-              hasTagClass={false}
-              innerRef={null}
-              is="p"
-              skeleton={false}
+            <p
+              className="dnb-p dnb-space__bottom--large"
             >
-              <AutoSize
-                elementRef={
-                  Object {
-                    "current": <p
-                      class="dnb-p dnb-space__bottom--large"
-                    >
-                      text 
-                      <a
-                        class="dnb-anchor"
-                        href=";"
-                      >
-                        link
-                      </a>
-                       text
-                    </p>,
-                  }
-                }
-                skeleton={false}
+              text 
+              <a
+                className="dnb-anchor"
+                href=";"
+                onClick={[Function]}
               >
-                <p
-                  className="dnb-p dnb-space__bottom--large"
-                >
-                  text 
-                  <a
-                    className="dnb-anchor"
-                    href=";"
-                    onClick={[Function]}
-                  >
-                    link
-                  </a>
-                   text
-                </p>
-              </AutoSize>
-            </ElemComponent>
-          </ForwardRef>
+                link
+              </a>
+               text
+            </p>
+          </Element>
         </P>
       </div>
     </div>
