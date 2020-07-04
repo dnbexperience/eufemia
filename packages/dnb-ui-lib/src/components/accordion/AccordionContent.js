@@ -60,9 +60,10 @@ export default class AccordionContent extends React.PureComponent {
 
   componentDidMount() {
     this.anim.setElem(this._ref.current)
-    if (this.context.expanded) {
-      this.anim.open(false)
-    }
+    // We open the expanded in the main component for now
+    // if (this.context.expanded) {
+    //   this.anim.open(false)
+    // }
   }
 
   componentWillUnmount() {

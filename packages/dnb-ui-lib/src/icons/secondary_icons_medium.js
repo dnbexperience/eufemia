@@ -5,7 +5,9 @@ import bankid_medium from './bankid_medium.js'
 import bankid_on_mobile_medium from './bankid_on_mobile_medium.js'
 import bankid_with_qr_medium from './bankid_with_qr_medium.js'
 import bubble_medium from './bubble_medium.js'
+import chatbot_medium from './chatbot_medium.js'
 import check_alt_01_medium from './check_alt_01_medium.js'
+import contract_medium from './contract_medium.js'
 import file_add_medium from './file_add_medium.js'
 import file_medium from './file_medium.js'
 import fullscreen_medium from './fullscreen_medium.js'
@@ -13,6 +15,7 @@ import hamburger_medium from './hamburger_medium.js'
 import home_medium from './home_medium.js'
 import link_out_medium from './link_out_medium.js'
 import list_medium from './list_medium.js'
+import location_medium from './location_medium.js'
 import login_medium from './login_medium.js'
 import logout_medium from './logout_medium.js'
 import pay_from_medium from './pay_from_medium.js'
@@ -23,6 +26,7 @@ import redo_medium from './redo_medium.js'
 import refresh_medium from './refresh_medium.js'
 import send_medium from './send_medium.js'
 import settings_medium from './settings_medium.js'
+import support_medium from './support_medium.js'
 import transfer_to_medium from './transfer_to_medium.js'
 import trash_medium from './trash_medium.js'
 import undo_medium from './undo_medium.js'
@@ -37,7 +41,9 @@ export {
   bankid_on_mobile_medium,
   bankid_with_qr_medium,
   bubble_medium,
+  chatbot_medium,
   check_alt_01_medium,
+  contract_medium,
   file_add_medium,
   file_medium,
   fullscreen_medium,
@@ -45,6 +51,7 @@ export {
   home_medium,
   link_out_medium,
   list_medium,
+  location_medium,
   login_medium,
   logout_medium,
   pay_from_medium,
@@ -55,6 +62,7 @@ export {
   refresh_medium,
   send_medium,
   settings_medium,
+  support_medium,
   transfer_to_medium,
   trash_medium,
   undo_medium,

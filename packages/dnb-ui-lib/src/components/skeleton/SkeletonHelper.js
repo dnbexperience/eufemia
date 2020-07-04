@@ -56,22 +56,8 @@ export class AutoSize extends React.PureComponent {
         const countChars = string.length
 
         try {
-          this.skeletonElem = document.createElement('span')
-          this.skeletonElem.classList.add(
-            'dnb-skeleton',
-            'dnb-skeleton__inner'
-          )
-
-          this.skeletonElem.setAttribute(
-            'data-skeleton-chars',
-            String(countChars)
-          )
-          this.skeletonElem.style.setProperty(
-            '--skeleton-chars',
-            `${countChars}ch`
-          )
-
-          elem.appendChild(this.skeletonElem)
+          elem.setAttribute('data-skeleton-chars', String(countChars))
+          elem.style.setProperty('--skeleton-chars', `${countChars}ch`)
         } catch (e) {
           //
         }
@@ -85,7 +71,6 @@ export class AutoSize extends React.PureComponent {
     if (elem) {
       try {
         elem.removeAttribute('data-skeleton-chars')
-        elem.removeChild(this.skeletonElem)
       } catch (e) {
         //
       }

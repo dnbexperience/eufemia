@@ -103,7 +103,7 @@ export default [
       <Box>
         <Accordion.Group expanded>
           <Accordion expanded={false}>
-            <Accordion.Header>Accordion title</Accordion.Header>
+            <Accordion.Header>Accordion title 1</Accordion.Header>
             <Accordion.Content top="x-large">
               <P>
                 Sociis sapien sociosqu vel sollicitudin accumsan laoreet
@@ -113,7 +113,7 @@ export default [
             </Accordion.Content>
           </Accordion>
           <Accordion top>
-            <Accordion.Header>Accordion title</Accordion.Header>
+            <Accordion.Header>Accordion title 2</Accordion.Header>
             <Accordion.Content>
               <P>
                 Nec sit mattis natoque interdum sagittis cubilia nibh
