@@ -37,6 +37,8 @@ const propTypes = {
   ]),
   title: PropTypes.string,
   expanded: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  no_animation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  expanded_ssr: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   prerender: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   prevent_rerender: PropTypes.oneOfType([
     PropTypes.string,
@@ -98,6 +100,8 @@ const defaultProps = {
   label: null,
   title: null,
   expanded: null,
+  no_animation: null,
+  expanded_ssr: null,
   prerender: null,
   prevent_rerender: null,
   remember_state: null,
@@ -182,26 +186,21 @@ export default class Accordion extends React.PureComponent {
     this._id = props.id || makeUniqueId() // cause we need an id anyway
 
     this.state = {
-      expanded: props.expanded !== null ? isTrue(props.expanded) : null,
       _expanded: props.expanded,
+      expanded:
+        props.expanded !== null
+          ? isTrue(props.expanded)
+          : isTrue(context?.expanded),
+      group: props.group || context?.group,
+      no_animation: isTrue(props.no_animation || context?.no_animation),
       _listenForPropChanges: false // make sure to not run DerivedState
     }
 
-    this.state.group = props.group || context?.group
-
     if (
-      (this.state.group || context?.id) &&
-      isTrue(context?.expanded) &&
-      props.expanded === null
+      typeof window === 'undefined' &&
+      isTrue(props.expanded_ssr || context?.expanded_ssr)
     ) {
       this.state.expanded = true
-    }
-
-    if (isTrue(props.remember_state) || isTrue(context.remember_state)) {
-      const state = this.getState()
-      if (state !== null) {
-        this.state.expanded = state
-      }
     }
 
     if (this.state.group && typeof window !== 'undefined') {
@@ -216,11 +215,40 @@ export default class Accordion extends React.PureComponent {
 
   componentDidMount() {
     this._isMounted = true
+
+    if (
+      typeof window !== 'undefined' &&
+      isTrue(this.props.expanded_ssr || this.context?.expanded_ssr)
+    ) {
+      this.setExpandedState(false)
+    }
+
+    if (isTrue(this.props.remember_state || this.context.remember_state)) {
+      this.setExpandedState(this.getState())
+    }
+  }
+
+  setExpandedState(expanded) {
+    if (expanded !== null) {
+      this.setState({
+        expanded,
+        no_animation: true,
+        _listenForPropChanges: false
+      })
+      const no_animation = this.state.no_animation
+      this._animationState = setTimeout(() => {
+        this.setState({
+          no_animation,
+          _listenForPropChanges: false
+        })
+      }, 600)
+    }
   }
 
   componentWillUnmount() {
     this._isMounted = false
 
+    clearTimeout(this._animationState)
     clearTimeout(this._openTimeout)
     clearTimeout(this._changeOpenState)
 
@@ -325,6 +353,7 @@ export default class Accordion extends React.PureComponent {
         {(globalContext) => (
           <AccordionContext.Consumer>
             {(nestedContext) => {
+              const { no_animation } = this.state
               let { expanded } = this.state
 
               // use only the props from context, who are available here anyway
@@ -339,7 +368,7 @@ export default class Accordion extends React.PureComponent {
 
               if (expanded === null && globalContext.accordion) {
                 if (globalContext.accordion.expanded) {
-                  expanded = props.expanded
+                  expanded = isTrue(props.expanded)
                 }
               }
 
@@ -352,6 +381,8 @@ export default class Accordion extends React.PureComponent {
                 single_container,
                 remember_state,
                 disabled,
+                no_animation: _no_animation, // eslint-disable-line
+                expanded_ssr: _expanded_ssr, // eslint-disable-line
                 children,
 
                 id: _id, // eslint-disable-line
@@ -380,6 +411,7 @@ export default class Accordion extends React.PureComponent {
                 className: classnames(
                   'dnb-accordion',
                   expanded && 'dnb-accordion--expanded',
+                  no_animation && 'dnb-accordion--no-animation',
                   variant && `dnb-accordion__variant--${variant}`,
                   isTrue(prerender) && 'dnb-accordion--prerender',
                   createSpacingClasses(props),
