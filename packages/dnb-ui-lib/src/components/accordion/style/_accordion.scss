@@ -118,6 +118,11 @@
       transform: rotate(-180deg);
     }
   }
+  &--no-animation &__header {
+    &__icon {
+      transition-duration: 1ms;
+    }
+  }
 
   &__content {
     display: flex;
@@ -138,6 +143,9 @@
         display: none;
       }
     }
+  }
+  &--no-animation &__content {
+    transition-duration: 1ms;
   }
 
   &-group--single-container {
