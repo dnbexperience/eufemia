@@ -15,7 +15,7 @@ import {
 import { createSpacingClasses } from '../components/space/SpacingHelper'
 import { AutoSize } from '../components/skeleton/SkeletonHelper'
 
-class ElemComponent extends React.PureComponent {
+class Element extends React.PureComponent {
   // static propTypes = propTypes
   // static defaultProps = defaultProps
   // static renderProps = renderProps
@@ -39,43 +39,30 @@ class ElemComponent extends React.PureComponent {
       css,
       is: Tag,
       hasTagClass,
-      skeleton, //eslint-disable-line
-      innerRef,
+      skeleton,
       ...rest
     } = props
-
-    this.innerRef = innerRef || this.innerRef || React.createRef()
 
     const tagClass = `dnb-${Tag}`
     rest.className = classnames(
       !hasTagClass &&
         !new RegExp(`${tagClass}(\\s|$)`).test(String(className)) &&
         tagClass,
-      // skeleton && 'dnb-skeleton__wrapper',
-      isTrue(skeleton) && 'dnb-skeleton',
       className,
       _className,
       css,
       createSpacingClasses(rest, Tag)
     )
 
-    if (isTrue(skeleton)) {
-      rest['aria-busy'] = true
-    }
-
     validateDOMAttributes(null, rest)
 
-    return (
-      <AutoSize skeleton={skeleton} elementRef={this.innerRef}>
-        <Tag ref={this.innerRef} {...rest} />
-      </AutoSize>
-    )
+    if (isTrue(skeleton)) {
+      return <AutoSize __element={Tag} {...rest} />
+    }
+
+    return <Tag {...rest} />
   }
 }
-
-const Element = React.forwardRef((props, ref) => (
-  <ElemComponent innerRef={ref} {...props} />
-))
 Element.propTypes = {
   is: PropTypes.string.isRequired,
   hasTagClass: PropTypes.bool,
