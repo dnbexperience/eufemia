@@ -49,7 +49,12 @@ const propTypes = {
   trigger_variant: Button.propTypes.variant,
   trigger_text: PropTypes.string,
   trigger_title: PropTypes.string,
-  trigger_icon: PropTypes.string,
+  trigger_size: PropTypes.string,
+  trigger_icon: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.node,
+    PropTypes.func
+  ]),
   trigger_icon_position: PropTypes.string,
   trigger_class: PropTypes.string,
   open_delay: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
@@ -114,6 +119,7 @@ const defaultProps = {
   trigger_variant: 'secondary',
   trigger_text: null,
   trigger_title: null,
+  trigger_size: null,
   trigger_icon: 'question',
   trigger_icon_position: 'left',
   trigger_class: null,
@@ -398,6 +404,7 @@ export default class Modal extends React.PureComponent {
       trigger_variant,
       trigger_text,
       trigger_title,
+      trigger_size,
       trigger_icon,
       trigger_icon_position,
       trigger_class,
@@ -452,6 +459,7 @@ export default class Modal extends React.PureComponent {
                   }
                   disabled={isTrue(disabled) || isTrue(trigger_disabled)}
                   icon={icon}
+                  size={trigger_size}
                   icon_position={trigger_icon_position}
                   on_click={this.toggleOpenClose}
                   className={classnames(
