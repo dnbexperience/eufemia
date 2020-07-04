@@ -6,19 +6,16 @@
  */
 
 .dnb-skeleton {
-  &,
-  &__wrapper {
-    position: relative;
-    overflow: hidden;
+  position: relative;
+  overflow: hidden;
 
-    // display: inline-flex;// do not change the display!
-    &:not(.dnb-input__shell) {
-      border-radius: 0.25rem;
-    }
-
-    pointer-events: none;
-    // cursor: progress;// does not show if pointer-events is set to none
+  // display: inline-flex;// do not change the display!
+  &:not(.dnb-input__shell) {
+    border-radius: 0.25rem;
   }
+
+  pointer-events: none;
+  // cursor: progress;// does not show if pointer-events is set to none
 
   &--block {
     display: block;
@@ -33,14 +30,8 @@
     }
   }
 
-  &__inner {
-    position: absolute;
-    z-index: 100;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    right: 0;
-    width: var(--skeleton-chars);
+  &[data-skeleton-chars] {
+    max-width: var(--skeleton-chars);
   }
 
   &::before,
