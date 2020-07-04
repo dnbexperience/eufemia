@@ -64,10 +64,6 @@ export class AutoSize extends React.PureComponent {
       )
     }
 
-    return (
-      <Comp {...props} className={className} style={style}>
-        {children}
-      </Comp>
-    )
+    return <Comp {...props} className={className} style={style} />
   }
 }
