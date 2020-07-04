@@ -436,7 +436,7 @@ export default class Input extends React.PureComponent {
     const shellParams = {
       className: classnames(
         'dnb-input__shell',
-        skeleton && 'dnb-skeleton'
+        isTrue(skeleton) && 'dnb-skeleton'
       ),
       'data-input-state': inputState,
       'data-has-content': hasValue ? 'true' : 'false'

@@ -51,7 +51,8 @@ class ElemComponent extends React.PureComponent {
       !hasTagClass &&
         !new RegExp(`${tagClass}(\\s|$)`).test(String(className)) &&
         tagClass,
-      skeleton && 'dnb-skeleton__wrapper',
+      // skeleton && 'dnb-skeleton__wrapper',
+      isTrue(skeleton) && 'dnb-skeleton',
       className,
       _className,
       css,
