@@ -5,7 +5,9 @@ import bankid from './bankid.js'
 import bankid_on_mobile from './bankid_on_mobile.js'
 import bankid_with_qr from './bankid_with_qr.js'
 import bubble from './bubble.js'
+import chatbot from './chatbot.js'
 import check_alt_01 from './check_alt_01.js'
+import contract from './contract.js'
 import file from './file.js'
 import file_add from './file_add.js'
 import fullscreen from './fullscreen.js'
@@ -13,6 +15,7 @@ import hamburger from './hamburger.js'
 import home from './home.js'
 import link_out from './link_out.js'
 import list from './list.js'
+import location from './location.js'
 import login from './login.js'
 import logout from './logout.js'
 import pay_from from './pay_from.js'
@@ -23,6 +26,7 @@ import redo from './redo.js'
 import refresh from './refresh.js'
 import send from './send.js'
 import settings from './settings.js'
+import support from './support.js'
 import transfer_to from './transfer_to.js'
 import trash from './trash.js'
 import undo from './undo.js'
@@ -37,7 +41,9 @@ export {
   bankid_on_mobile,
   bankid_with_qr,
   bubble,
+  chatbot,
   check_alt_01,
+  contract,
   file,
   file_add,
   fullscreen,
@@ -45,6 +51,7 @@ export {
   home,
   link_out,
   list,
+  location,
   login,
   logout,
   pay_from,
@@ -55,6 +62,7 @@ export {
   refresh,
   send,
   settings,
+  support,
   transfer_to,
   trash,
   undo,

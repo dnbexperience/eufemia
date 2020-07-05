@@ -24,6 +24,8 @@ import bubble from './bubble.js'
 import bubble_medium from './bubble_medium.js'
 import calendar from './calendar.js'
 import calendar_medium from './calendar_medium.js'
+import chatbot from './chatbot.js'
+import chatbot_medium from './chatbot_medium.js'
 import check from './check.js'
 import check_alt_01 from './check_alt_01.js'
 import check_alt_01_medium from './check_alt_01_medium.js'
@@ -38,6 +40,8 @@ import chevron_up from './chevron_up.js'
 import chevron_up_medium from './chevron_up_medium.js'
 import close from './close.js'
 import close_medium from './close_medium.js'
+import contract from './contract.js'
+import contract_medium from './contract_medium.js'
 import download from './download.js'
 import download_medium from './download_medium.js'
 import exclamation from './exclamation.js'
@@ -58,6 +62,8 @@ import link_out from './link_out.js'
 import link_out_medium from './link_out_medium.js'
 import list from './list.js'
 import list_medium from './list_medium.js'
+import location from './location.js'
+import location_medium from './location_medium.js'
 import log_in from './log_in.js'
 import log_in_medium from './log_in_medium.js'
 import login from './login.js'
@@ -92,6 +98,8 @@ import settings from './settings.js'
 import settings_medium from './settings_medium.js'
 import subtract from './subtract.js'
 import subtract_medium from './subtract_medium.js'
+import support from './support.js'
+import support_medium from './support_medium.js'
 import transfer_to from './transfer_to.js'
 import transfer_to_medium from './transfer_to_medium.js'
 import trash from './trash.js'
@@ -132,6 +140,8 @@ export {
   bubble_medium,
   calendar,
   calendar_medium,
+  chatbot,
+  chatbot_medium,
   check,
   check_alt_01,
   check_alt_01_medium,
@@ -146,6 +156,8 @@ export {
   chevron_up_medium,
   close,
   close_medium,
+  contract,
+  contract_medium,
   download,
   download_medium,
   exclamation,
@@ -166,6 +178,8 @@ export {
   link_out_medium,
   list,
   list_medium,
+  location,
+  location_medium,
   log_in,
   log_in_medium,
   login,
@@ -200,6 +214,8 @@ export {
   settings_medium,
   subtract,
   subtract_medium,
+  support,
+  support_medium,
   transfer_to,
   transfer_to_medium,
   trash,
