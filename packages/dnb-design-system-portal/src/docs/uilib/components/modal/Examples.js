@@ -38,7 +38,7 @@ class Example extends React.PureComponent {
   mode="drawer"
   container_placement="left"
   align_content="center"
-  title="Drawer title"
+  title={<span className="dnb-sr-only">"Hidden" Drawer title</span>}
   trigger_text="Open Drawer"
 >
   <P>This is the left aligned Drawer content.</P>

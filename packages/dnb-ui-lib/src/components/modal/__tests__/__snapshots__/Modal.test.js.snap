@@ -1096,16 +1096,6 @@ button.dnb-button::-moz-focus-inner {
           max-width: 100%;
           max-height: 100%;
           padding: calc(var(--modal-spacing) / 2) calc(var(--modal-spacing) / 2) 0; } }
-    .dnb-modal__content--fullscreen {
-      align-items: flex-start;
-      justify-content: flex-start; }
-    .dnb-modal__content--fullscreen .dnb-modal__content__inner {
-      width: 100vw;
-      height: 100vh;
-      height: calc(100vh - var(--modal-height-offset));
-      max-width: 100%;
-      max-height: 100%;
-      border-radius: 0; }
     .dnb-modal__content__align--center .dnb-modal__content__inner {
       display: flex;
       flex-direction: column;
@@ -1119,10 +1109,19 @@ button.dnb-button::-moz-focus-inner {
       flex-direction: column;
       align-items: center;
       justify-content: center; }
+    .dnb-modal__content--drawer {
+      align-items: flex-start;
+      justify-content: flex-start; }
     .dnb-modal__content--drawer .dnb-modal__content__inner {
+      width: 100vw;
+      height: 100vh;
+      height: calc(100vh - var(--modal-height-offset));
+      max-width: 100%;
+      max-height: 100%;
       width: var(--modal-drawer-width);
       min-width: var(--modal-drawer-min-width);
-      max-width: var(--modal-drawer-max-width); }
+      max-width: var(--modal-drawer-max-width);
+      border-radius: 0; }
       @media screen and (max-width: 40em) {
         .dnb-modal__content--drawer .dnb-modal__content__inner {
           width: 100vw;
@@ -1140,6 +1139,16 @@ button.dnb-button::-moz-focus-inner {
           height: 100vw;
           min-height: auto;
           max-height: auto; } }
+    .dnb-modal__content--fullscreen {
+      align-items: flex-start;
+      justify-content: flex-start; }
+    .dnb-modal__content--fullscreen .dnb-modal__content__inner {
+      width: 100vw;
+      height: 100vh;
+      height: calc(100vh - var(--modal-height-offset));
+      max-width: 100%;
+      max-height: 100%;
+      border-radius: 0; }
     html:not([data-dnb-test]) .dnb-modal__content--drawer.dnb-modal__content--left .dnb-modal__content__inner {
       transform: translate3d(-20rem, 0, 0); }
     html:not([data-dnb-test]) .dnb-modal__content--drawer.dnb-modal__content--right .dnb-modal__content__inner {
