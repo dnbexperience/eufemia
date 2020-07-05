@@ -210,8 +210,7 @@ export default class ModalContent extends React.PureComponent {
         align_content && `dnb-modal__content__align--${align_content}`,
         container_placement &&
           `dnb-modal__content--${container_placement}`,
-        (fullscreen || mode === 'drawer') &&
-          'dnb-modal__content--fullscreen',
+        fullscreen && 'dnb-modal__content--fullscreen',
         isTrue(no_animation) && 'dnb-modal__content--no-animation',
         isTrue(no_animation_on_mobile) &&
           'dnb-modal__content--no-animation-on-mobile',
@@ -260,13 +259,9 @@ export default class ModalContent extends React.PureComponent {
       <>
         <div {...contentParams}>
           <ScrollView {...innerParams} ref={this._contentRef}>
-            {React.isValidElement(title)
-              ? title
-              : title && (
-                  <h1 className="dnb-modal__title dnb-h--large">
-                    {title}
-                  </h1>
-                )}
+            {title && (
+              <h1 className="dnb-modal__title dnb-h--large">{title}</h1>
+            )}
             {!isTrue(hide_close_button) && (
               <CloseButton on_click={closeModal} title={close_title} />
             )}
