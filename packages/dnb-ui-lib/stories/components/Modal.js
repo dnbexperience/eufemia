@@ -40,11 +40,13 @@ export default [
           // no_animation
           // open_state="opened"
           mode="drawer"
+          // fullscreen
           container_placement="left"
           align_content="right"
           // align_content="center"
           // drawer_offset={}
-          title="Tertiary test"
+          // title="Tertiary test"
+          title={<span className="dnb-sr-only">Test</span>}
           // min_width="20vw"
           // max_width="40vw"
           overlay_class="overlay_class"

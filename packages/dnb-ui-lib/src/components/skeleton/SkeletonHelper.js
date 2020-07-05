@@ -7,6 +7,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { convertJsxToString } from '../../shared/component-helper'
 import classnames from 'classnames'
+import { IS_IE11 } from '../../shared/helpers'
 
 const propTypes = {
   __element: PropTypes.oneOfType([
@@ -45,23 +46,25 @@ export class AutoSize extends React.PureComponent {
     const string = convertJsxToString(children)
 
     if (typeof string === 'string') {
-      const countChars = string.length
+      const countChars = string.trim().length
 
-      return React.createElement(
-        Comp,
-        {
-          className: classnames(className, 'dnb-skeleton'),
-          'data-skeleton-chars': String(countChars),
-          style: {
-            ...(style || {}),
-            ...{
-              '--skeleton-chars': `${countChars}ch`
-            }
+      if (countChars > 0) {
+        return React.createElement(
+          Comp,
+          {
+            className: classnames(className, 'dnb-skeleton'),
+            'data-skeleton-chars': String(countChars),
+            style: {
+              ...(style || {}),
+              [IS_IE11
+                ? 'maxWidth'
+                : '--skeleton-chars']: `${countChars}ch`
+            },
+            ...props
           },
-          ...props
-        },
-        children
-      )
+          children
+        )
+      }
     }
 
     return <Comp {...props} className={className} style={style} />
