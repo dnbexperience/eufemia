@@ -57,9 +57,9 @@ export default [
               >
                 Toggle Skeleton
               </ToggleButton>
-              <H2 top bottom>
-                Heading
-              </H2>
+              <H1 top bottom>
+                Big heading
+              </H1>
               {/* <P top bottom>
                 Paragraph Non habitasse ut nisi dictum laoreet ridiculus
                 dui.
@@ -69,7 +69,7 @@ export default [
             <Box>
               <WidthLimit vertical>
                 {/* <div className="dnb-skeleton dnb-h--large">y</div> */}
-                <H1>H1</H1>
+                <H2>H2</H2>
                 <P top>
                   Paragraph Non habitasse ut nisi dictum laoreet ridiculus
                   dui varius per nullam vel consectetur malesuada platea
