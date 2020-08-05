@@ -141,5 +141,8 @@
   "buildVersion": "[LOCAL BUILD]",
   "resolutions": {
     "eslint": "^5"
+  },
+  "volta": {
+    "extends": "../../package.json"
   }
 }
