@@ -210,8 +210,7 @@ export default class ModalContent extends React.PureComponent {
         align_content && `dnb-modal__content__align--${align_content}`,
         container_placement &&
           `dnb-modal__content--${container_placement}`,
-        (fullscreen || mode === 'drawer') &&
-          'dnb-modal__content--fullscreen',
+        fullscreen && 'dnb-modal__content--fullscreen',
         isTrue(no_animation) && 'dnb-modal__content--no-animation',
         isTrue(no_animation_on_mobile) &&
           'dnb-modal__content--no-animation-on-mobile',

@@ -99,15 +99,6 @@
       -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
     }
 
-    &--fullscreen {
-      align-items: flex-start;
-      justify-content: flex-start;
-    }
-    &--fullscreen &__inner {
-      @include modalFullscreen();
-      border-radius: 0;
-    }
-
     &__align--center &__inner {
       display: flex;
       flex-direction: column;
@@ -126,10 +117,18 @@
     }
 
     // Drawer mode
+    &--drawer {
+      align-items: flex-start;
+      justify-content: flex-start;
+    }
     &--drawer &__inner {
+      @include modalFullscreen();
+
       width: var(--modal-drawer-width);
       min-width: var(--modal-drawer-min-width);
       max-width: var(--modal-drawer-max-width);
+
+      border-radius: 0;
 
       @media screen and (max-width: 40em) {
         width: 100vw;
@@ -151,15 +150,31 @@
         max-height: auto;
       }
     }
+    &--drawer#{&}--right {
+      justify-content: flex-end;
+    }
+    &--drawer#{&}--bottom {
+      align-items: flex-end;
+    }
 
+    &--fullscreen {
+      align-items: flex-start;
+      justify-content: flex-start;
+    }
+    // Not sure why we need to check for "data-dnb-test" here
+    // But it helps to get fullscreen on "drawer top" placement
+    // Else we have to use !important in order to overwrite height: 40vh;
+    html:not([data-dnb-test]) &--fullscreen &__inner {
+      @include modalFullscreen();
+      border-radius: 0;
+    }
+
+    // Drawer animation
     html:not([data-dnb-test]) &--drawer#{&}--left &__inner {
       transform: translate3d(-20rem, 0, 0);
     }
     html:not([data-dnb-test]) &--drawer#{&}--right &__inner {
       transform: translate3d(20rem, 0, 0);
-    }
-    html:not([data-dnb-test]) &--drawer#{&}--right {
-      justify-content: flex-end;
     }
     html:not([data-dnb-test]) &--drawer#{&}--top &__inner {
       transform: translate3d(0, -20rem, 0);
@@ -182,9 +197,6 @@
     }
     html:not([data-dnb-test]) &--drawer#{&}--hide#{&}--bottom &__inner {
       animation: hide-drawer-bottom 300ms ease-in-out forwards;
-    }
-    html:not([data-dnb-test]) &--drawer#{&}--bottom {
-      align-items: flex-end;
     }
 
     // Modal mode
