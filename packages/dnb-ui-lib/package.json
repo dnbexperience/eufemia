@@ -120,6 +120,7 @@
     "@emotion/core": "^10.0.28",
     "@emotion/styled": "^10.0.27",
     "@emotion/styled-base": "^10.0.31",
+    "@mdx-js/react": "1.6.6",
     "@semantic-release/changelog": "^3.0.6",
     "@semantic-release/commit-analyzer": "^6.3.3",
     "@semantic-release/github": "^5.5.8",
