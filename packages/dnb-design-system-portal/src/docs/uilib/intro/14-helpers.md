@@ -1,6 +1,6 @@
 ---
 fullscreen: true
-search: 'Intro'
+search: 'Intro - Good to know'
 redirect_from:
   - /uilib/intro/14-helper-classes
 ---

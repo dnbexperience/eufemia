@@ -1,6 +1,6 @@
 ---
 fullscreen: true
-search: 'Intro'
+search: 'Intro - What forms the system?'
 ---
 
 import Img from 'Tags/Img'

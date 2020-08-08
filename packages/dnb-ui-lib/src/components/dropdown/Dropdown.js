@@ -329,7 +329,7 @@ class DropdownInstance extends React.PureComponent {
       attributes
     })
 
-    if (args?.setFocus) {
+    if (args && args.setFocus) {
       clearTimeout(this._focusTimeout)
       this._focusTimeout = setTimeout(() => {
         try {
@@ -365,7 +365,7 @@ class DropdownInstance extends React.PureComponent {
 
   getTitle(title = null) {
     const { data } = this.context.drawerList
-    if (data?.length > 0) {
+    if (data && data.length > 0) {
       const currentOptionData = getCurrentData(
         this.context.drawerList.selected_item,
         data
