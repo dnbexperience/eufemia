@@ -67,16 +67,16 @@ const flatten = (arr) =>
 
           // has an empty, not valid title, then we grap the first heading (h1)
           if (!hasTitle(frontmatter)) {
-            if (first && first.depth === 1) {
+            if (hasSearch(frontmatter)) {
+              frontmatter = {
+                ...frontmatter,
+                title: frontmatter.search
+              }
+            } else if (first && first.depth === 1) {
               headings.shift()
               frontmatter = {
                 ...frontmatter,
                 title: first.value
-              }
-            } else if (hasSearch(frontmatter)) {
-              frontmatter = {
-                ...frontmatter,
-                title: frontmatter.search
               }
             } else if (Array.isArray(children)) {
               const category = children
