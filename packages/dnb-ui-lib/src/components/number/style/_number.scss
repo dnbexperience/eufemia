@@ -8,6 +8,12 @@
 .dnb-number {
   speak-as: numbers;
   color: inherit;
+  white-space: nowrap;
+
+  &__prefix,
+  &__suffix {
+    white-space: normal;
+  }
 
   &.dnb-anchor {
     cursor: pointer;
