@@ -133,7 +133,7 @@ const hasDescription = (r) => String(r.description || '').length > 0
 const dev = false
 const currentBranch = getCurrentBranchName()
 const queries =
-  dev || /^(release|beta)$/.test(currentBranch)
+  dev || /^(release|beta|portal)$/.test(currentBranch)
     ? [
         {
           query: docsQuery,
