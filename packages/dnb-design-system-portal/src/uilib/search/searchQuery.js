@@ -66,15 +66,30 @@ const flatten = (arr) =>
           const first = headings[0]
 
           // has an empty, not valid title, then we grap the first heading (h1)
-          if (
-            !hasTitle(frontmatter) &&
-            first &&
-            (first.depth === 1 || first.depth === 2)
-          ) {
-            headings.shift()
-            frontmatter = {
-              ...frontmatter,
-              title: first.value
+          if (!hasTitle(frontmatter)) {
+            if (first && first.depth === 1) {
+              headings.shift()
+              frontmatter = {
+                ...frontmatter,
+                title: first.value
+              }
+            } else if (hasSearch(frontmatter)) {
+              frontmatter = {
+                ...frontmatter,
+                title: frontmatter.search
+              }
+            } else if (children[0]) {
+              try {
+                const {
+                  frontmatter: { title }
+                } = children[0]
+                frontmatter = {
+                  ...frontmatter,
+                  title
+                }
+              } catch (e) {
+                //
+              }
             }
           }
         }
@@ -107,6 +122,7 @@ const flatten = (arr) =>
     .filter(Boolean)
 
 const hasTitle = (r) => String(r.title || '').length > 0
+const hasSearch = (r) => String(r.search || '').length > 0
 const hasDescription = (r) => String(r.description || '').length > 0
 
 const dev = false

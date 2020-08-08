@@ -1,6 +1,6 @@
 ---
 fullscreen: true
-search: 'Intro'
+search: 'Intro - Quality and Tests'
 ---
 
 <Intro>

@@ -1,6 +1,6 @@
 ---
 fullscreen: true
-search: 'Intro'
+search: 'Intro - Usage of components and elements'
 ---
 
 <Intro>
