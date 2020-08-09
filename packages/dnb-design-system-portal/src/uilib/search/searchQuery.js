@@ -70,7 +70,8 @@ const flatten = (arr) =>
             if (hasSearch(frontmatter)) {
               frontmatter = {
                 ...frontmatter,
-                title: frontmatter.search
+                title: frontmatter.search,
+                search: null
               }
             } else if (first && first.depth === 1) {
               headings.shift()
@@ -82,18 +83,21 @@ const flatten = (arr) =>
               const category = children
                 .reverse()
                 .find(({ fields: { slug } }) => fields.slug.includes(slug))
-              let {
+
+              const {
                 frontmatter: { title, search }
               } = category
 
+              let newTitle = title || search
+
               if (first && first.depth === 2) {
                 headings.shift()
-                title = `${title || search} > ${first.value}`
+                newTitle = `${newTitle} > ${first.value}`
               }
 
               frontmatter = {
                 ...frontmatter,
-                title
+                title: newTitle
               }
             }
           }
