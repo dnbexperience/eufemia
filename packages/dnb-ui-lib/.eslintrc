@@ -5,17 +5,32 @@
     "browser": true,
     "node": true
   },
+  "parser": "babel-eslint",
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "ecmaFeatures": {
+      "modules": true,
+      "jsx": true
+    },
+    "sourceType": "module"
+  },
   "extends": [
     "eslint:recommended",
+    "plugin:import/warnings",
     "plugin:react/recommended",
+    "plugin:react-hooks/recommended",
     "plugin:jsx-a11y/recommended",
     "plugin:security/recommended"
   ],
-  "parser": "babel-eslint",
-  "parserOptions": {
-    "sourceType": "module"
-  },
-  "plugins": ["import", "jsx-a11y", "react", "react-hooks", "security"],
+  "plugins": [
+    "import",
+    "prettier",
+    "react",
+    "react-hooks",
+    "jsx-a11y",
+    "tree-shaking",
+    "security"
+  ],
   "rules": {
     "no-console": "off",
     "import/no-anonymous-default-export": [
@@ -25,7 +40,7 @@
         "allowArrowFunction": false,
         "allowAnonymousClass": false,
         "allowAnonymousFunction": false,
-        "allowCallExpression": true, // The true value here is for backward compatibility
+        "allowCallExpression": true,
         "allowLiteral": true,
         "allowObject": true
       }
@@ -65,11 +80,12 @@
     ],
     "security/detect-non-literal-fs-filename": "off",
     "security/detect-object-injection": "off",
-    "security/detect-non-literal-regexp": "off"
+    "security/detect-non-literal-regexp": "off",
+    "tree-shaking/no-side-effects-in-initialization": 1
   },
   "settings": {
     "react": {
-      "version": "^16.12"
+      "version": ">=16.12"
     }
   }
 }

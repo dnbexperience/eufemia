@@ -80,7 +80,7 @@ const getBranchName = async ({ repo = null, requiredBranch = null }) => {
 const commitToBranch = async ({
   requiredBranch = 'develop',
   what = 'files',
-  filePathsWhitelist = [],
+  filePathsIncludelist = [],
   skipCI = false,
   isFeature = false
 } = {}) => {
@@ -103,9 +103,9 @@ const commitToBranch = async ({
       ...status.not_added
     ].filter((f) =>
       new RegExp(
-        Array.isArray(filePathsWhitelist)
-          ? filePathsWhitelist.join('|')
-          : filePathsWhitelist,
+        Array.isArray(filePathsIncludelist)
+          ? filePathsIncludelist.join('|')
+          : filePathsIncludelist,
         'g'
       ).test(f)
     )

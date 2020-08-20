@@ -33,14 +33,14 @@ let hasiOSFix = false
 const Copy = ({ children, className, ...rest }) => {
   const ref = React.useRef()
 
-  if (IS_IOS) {
-    React.useEffect(() => {
+  React.useEffect(() => {
+    if (IS_IOS) {
       if (!hasiOSFix) {
         hasiOSFix = true
         runIOSSelectionFix()
       }
-    }, [])
-  }
+    }
+  }, [])
 
   const onClickHandler = () => {
     if (!hasSelectedText()) {

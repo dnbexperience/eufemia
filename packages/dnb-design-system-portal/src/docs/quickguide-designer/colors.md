@@ -24,7 +24,7 @@ The DNB brand consists mainly of solid fill colors. Gradients should be avoided 
 
 Shadows are used to depict depth along the z-axis. Typical use cases are interface components which are laid 'above' the main interface such as calendar widgets. Currently Android development for DNB use Google Material Design Guidelines regarding shadow color, depth, blur etc.
 
-See the DNB Figma master guide for shadow specifications.
+See the DNB Figma main guide for shadow specifications.
 
 ### Tints and Shades
 

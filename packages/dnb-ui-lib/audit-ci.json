@@ -1,7 +1,5 @@
 {
-  "hight": true,
-  "moderate": false,
-  "whitelist": [
+  "allowlist": [
     "js-yaml",
     "lodash",
     "lodash.merge",
@@ -9,5 +7,7 @@
     "tar",
     "fstream",
     "handlebars"
-  ]
+  ],
+  "hight": true,
+  "moderate": false
 }

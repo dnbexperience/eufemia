@@ -60,7 +60,7 @@ module.exports = async function () {
           'ftr/*'
         ],
         what: 'reports',
-        filePathsWhitelist: [file]
+        filePathsIncludelist: [file]
       })
     } else {
       console.log(
