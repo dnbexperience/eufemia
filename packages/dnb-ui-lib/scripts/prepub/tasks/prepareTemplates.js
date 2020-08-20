@@ -222,11 +222,7 @@ const prepareTemplates = async () => {
       '../../../src/core/templates/main-index-template.js'
     ),
     destFile: path.resolve(__dirname, '../../../src/index.js'),
-    processToNamesList: [
-      ...components,
-      // ...fragments,
-      ...elements
-    ],
+    processToNamesList: [...components, ...elements],
     transformNamesList: ({ result }) => {
       // because elements don't have a folder, we remove the last part of the path
       if (/\/elements\//.test(result)) {
@@ -258,12 +254,12 @@ const runFactory = async ({
 }) => {
   if (typeof processToNamesList === 'string') {
     const __orig__processToNamesList = processToNamesList
-    processToNamesList = (await fs.readdir(processToNamesList)).map(
-      (file) => ({
+    processToNamesList = (await fs.readdir(processToNamesList))
+      .filter((file) => !/\.cjs$/.test(file))
+      .map((file) => ({
         source: joinPath(__orig__processToNamesList, file),
         file
-      })
-    )
+      }))
     if (processToNamesListByUsingFolders) {
       processToNamesList = processToNamesList.filter(({ source }) =>
         fs.lstatSync(source).isDirectory()
