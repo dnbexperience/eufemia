@@ -153,12 +153,14 @@
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.3",
     "enzyme-to-json": "^3.5.0",
-    "eslint": "^5.16.0",
+    "eslint": "^7.7.0",
     "eslint-plugin-import": "^2.22.0",
     "eslint-plugin-jsx-a11y": "^6.3.1",
-    "eslint-plugin-react": "^7.20.5",
-    "eslint-plugin-react-hooks": "^4.0.8",
+    "eslint-plugin-prettier": "^3.1.4",
+    "eslint-plugin-react": "^7.20.6",
+    "eslint-plugin-react-hooks": "^4.1.0",
     "eslint-plugin-security": "^1.4.0",
+    "eslint-plugin-tree-shaking": "^1.8.0",
     "figma-js": "^1.11.0",
     "files-exist": "^1.1.0",
     "fs-extra": "^9.0.1",
@@ -225,9 +227,6 @@
   },
   "publishConfig": {
     "access": "public"
-  },
-  "resolutions": {
-    "eslint": "^5"
   },
   "volta": {
     "extends": "../../package.json"
