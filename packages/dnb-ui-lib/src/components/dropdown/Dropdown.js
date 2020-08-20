@@ -270,11 +270,13 @@ class DropdownInstance extends React.PureComponent {
       this.setVisible()
     }
   }
+
   onBlurHandler = () => {
     if (isTrue(this.props.open_on_focus)) {
       this.setHidden()
     }
   }
+
   toggleVisible = () => {
     if (
       !this.context.drawerList.hidden &&
@@ -285,6 +287,7 @@ class DropdownInstance extends React.PureComponent {
       this.setVisible()
     }
   }
+
   onMouseDownHandler = () => {
     if (
       !this.context.drawerList.hidden &&
@@ -295,6 +298,7 @@ class DropdownInstance extends React.PureComponent {
       this.setVisible()
     }
   }
+
   onTriggerKeyDownHandler = (e) => {
     switch (keycode(e)) {
       case 'enter':
@@ -325,17 +329,19 @@ class DropdownInstance extends React.PureComponent {
       attributes
     })
 
-    clearTimeout(this._focusTimeout)
-    this._focusTimeout = setTimeout(() => {
-      try {
-        const elem = this._refButton.current._ref.current
-        if (elem && typeof elem.focus === 'function') {
-          elem.focus()
+    if (args && args.setFocus) {
+      clearTimeout(this._focusTimeout)
+      this._focusTimeout = setTimeout(() => {
+        try {
+          const elem = this._refButton.current._ref.current
+          if (elem && typeof elem.focus === 'function') {
+            elem.focus({ preventScroll: true })
+          }
+        } catch (e) {
+          // do noting
         }
-      } catch (e) {
-        // do noting
-      }
-    }, 1) // NVDA / Firefox needs a dealy to set this focus
+      }, 1) // NVDA / Firefox needs a dealy to set this focus
+    }
   }
 
   onSelectHandler = (args) => {
@@ -359,7 +365,7 @@ class DropdownInstance extends React.PureComponent {
 
   getTitle(title = null) {
     const { data } = this.context.drawerList
-    if (data?.length > 0) {
+    if (data && data.length > 0) {
       const currentOptionData = getCurrentData(
         this.context.drawerList.selected_item,
         data
@@ -479,9 +485,9 @@ class DropdownInstance extends React.PureComponent {
       ),
       id,
       disabled,
-      ['aria-haspopup']: 'listbox',
-      ['aria-expanded']: opened,
-      ['aria-controls']: `${id}-drawer-list`,
+      'aria-haspopup': 'listbox',
+      'aria-expanded': opened,
+      'aria-controls': `${id}-drawer-list`,
       ...attributes,
       onFocus: this.onFocusHandler,
       onBlur: this.onBlurHandler,

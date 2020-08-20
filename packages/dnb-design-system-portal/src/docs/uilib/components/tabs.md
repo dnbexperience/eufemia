@@ -4,8 +4,6 @@ description: 'Tabs are a set of buttons which allow navigation between content t
 status: null
 order: 16
 showTabs: true
-hideTabs:
-  - title: Events
 ---
 
 import TabsInfo from 'Pages/uilib/components/tabs/info'

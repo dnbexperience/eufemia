@@ -78,4 +78,4 @@ Example of a Figma component name:
 date picker
 </div>
 
-If in doubt, look at the master Eufemia file **Eufemia - Web**.
+If in doubt, look at the main Eufemia file **Eufemia - Web**.

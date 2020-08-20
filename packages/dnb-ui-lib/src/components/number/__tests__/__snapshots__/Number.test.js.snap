@@ -73,7 +73,10 @@ exports[`Number scss have to match snapshot 1`] = `
  */
 .dnb-number {
   speak-as: numbers;
-  color: inherit; }
+  color: inherit;
+  white-space: nowrap; }
+  .dnb-number__prefix, .dnb-number__suffix {
+    white-space: normal; }
   .dnb-number.dnb-anchor {
     cursor: pointer; }
   .dnb-number__fx {

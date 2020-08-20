@@ -1,6 +1,6 @@
 ---
 fullscreen: true
-search: 'Intro'
+search: 'Intro - CSS Packages'
 ---
 
 import { Next } from 'Tags/Intro'

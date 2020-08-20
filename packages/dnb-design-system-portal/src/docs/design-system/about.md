@@ -20,7 +20,7 @@ With Eufemia, DNB can continually increase the product quality for both visual u
 
 - Accessibility
 - Collaboration
-- Master files
+- Original files
 - Versioning / system thinking
 - Patterns
 - Overall documentation
