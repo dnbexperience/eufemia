@@ -228,6 +228,10 @@
   "publishConfig": {
     "access": "public"
   },
+  "exports": {
+    "import": "./index.js",
+    "require": "./cjs/index.cjs"
+  },
   "volta": {
     "extends": "../../package.json"
   }
