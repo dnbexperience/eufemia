@@ -271,7 +271,7 @@ export default class Accordion extends React.PureComponent {
       _listenForPropChanges: false
     })
 
-    // check if a event exists, becaus, then it's a user click
+    // check if a event exists, because, then it's a user click
     if (
       isTrue(this.props.remember_state) ||
       isTrue(this.context.remember_state)
@@ -301,7 +301,12 @@ export default class Accordion extends React.PureComponent {
   getState() {
     let state = null
     try {
-      if (window.localStorage.hasOwnProperty(this._storeId())) {
+      if (
+        Object.prototype.hasOwnProperty.call(
+          window.localStorage,
+          this._storeId()
+        )
+      ) {
         state = isTrue(window.localStorage.getItem(this._storeId()))
       }
     } catch (e) {
