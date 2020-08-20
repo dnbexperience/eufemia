@@ -26,7 +26,7 @@
 **/test-files/dist
 /docs
 /vue.js
-/index.js
+/index.*
 /lib.js
 /web-components.*
 /web-components
