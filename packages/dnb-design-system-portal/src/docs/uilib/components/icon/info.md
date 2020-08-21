@@ -45,18 +45,32 @@ To optimize your SVG icons to be used with Eufemia, you can follow these steps o
 1. **Copy** the SVG markup (in Figma, `right click` -> `Copy as` -> `Copy as SVG`).
 1. **Declutter** and remove ID attributes in the markup, so they don't appear twice in your web application DOM. In most cases you don't need `<defs ... />` and the corresponding ids anyway.
 1. **Optimize** the SVG. Use e.g. [Online SVGOMG](https://jakearchibald.github.io/svgomg/) by using `Paste markup`.
-1. **NB:** Do not remove `viewBox`! The viewBox will together with some CSS ensure that the icon scales based on the root font-size.
-1. Copy again the optimized markup and paste it into your component og SVG file.
+1. **NB:** Do not remove `viewBox`! The `viewBox` will together with some CSS ensure that the icon scales based on the root font-size.
+1. Copy again the optimized markup and paste it into your JSX component (inline) og SVG file.
 1. Consume the custom icons with either dynamic imports (`import(...)`) if you have many icons, or use static imports, like so:
 
+#### If you have a SVG loader
+
 ```jsx
-// If you have a SVG loader
-import CustomIcon from 'my-icons/custom_icon.svg'
+import ImportedSVGIcon from 'my-icons/custom_icon.svg'
 
-// else, inline the SVG in your JSX
-import CustomIcon from 'my-icons/custom_icon.js'
+render(<Icon icon={ImportedSVGIcon} />)
+```
 
-// React JSX usage
-<Icon icon={CustomIcon} />
-<Button icon={CustomIcon} />
+#### Inline the SVG in your JSX
+
+```jsx
+function CustomSVGIcon(props) {
+  return <svg {...props}>...</svg>
+}
+
+render(<Button icon={CustomSVGIcon} />)
+```
+
+#### SVG import in Create React App
+
+```jsx
+import { ReactComponent as CustomIcon } from './custom_icon.svg'
+
+render(<Icon size="medium">{CustomIcon}</Icon>)
 ```
