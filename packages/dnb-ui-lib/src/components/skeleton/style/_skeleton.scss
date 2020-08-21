@@ -103,6 +103,11 @@
     visibility: hidden;
   }
 
+  &.dnb-button,
+  &.dnb-input__shell {
+    overflow: hidden;
+  }
+
   // &::maker {
   //   visibility: hidden;
   // }

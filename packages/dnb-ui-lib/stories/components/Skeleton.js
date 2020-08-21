@@ -11,8 +11,9 @@ import {
   Input,
   // InputMasked,
   // Modal,
-  // Button,
+  Button,
   // FormSet,
+  DatePicker,
   FormRow,
   ToggleButton,
   Skeleton
@@ -58,6 +59,7 @@ export default [
               >
                 Toggle Skeleton
               </ToggleButton>
+              <Button>Button</Button>
               <H1 top bottom>
                 Big heading
               </H1>
@@ -67,6 +69,12 @@ export default [
               </P> */}
               {/* <Input label_direction="vertical" label="Input" /> */}
             </Box>
+
+            <Box>
+              <DatePicker />
+              <DatePicker show_input />
+            </Box>
+
             <Box>
               <WidthLimit vertical>
                 {/* <div className="dnb-skeleton dnb-h--large">y</div> */}
