@@ -1,5 +1,5 @@
 /**
- * This is mainly a Wrapper, to bulid more easely HTML Elements
+ * This is mainly a Wrapper, to build more easily HTML Elements
  *
  */
 
@@ -27,6 +27,7 @@ class Element extends React.PureComponent {
 
   render() {
     const props =
+      this.props.skeleton !== false &&
       typeof this.context?.skeleton !== 'undefined'
         ? extendPropsWithContext(this.props, Element.defaultProps, {
             skeleton: this.context?.skeleton
@@ -77,7 +78,7 @@ Element.propTypes = {
 }
 Element.defaultProps = {
   hasTagClass: false,
-  skeleton: false,
+  skeleton: null,
   className: null,
   class: null,
   css: null

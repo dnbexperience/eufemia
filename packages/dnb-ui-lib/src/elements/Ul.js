@@ -19,7 +19,7 @@ const Ul = ({ nested, inside, outside, ...p } = {}) => {
     p.className = classnames(p.className, 'dnb-ul--outside')
   }
 
-  return <E is="ul" {...p} />
+  return <E is="ul" {...p} skeleton={false} />
 }
 Ul.tagName = 'dnb-ul'
 Ul.propTypes = {

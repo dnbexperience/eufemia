@@ -12,7 +12,7 @@
   & ol {
     margin-top: 0;
     margin-bottom: 1.5rem;
-    padding-left: 2rem; // to ajust the left spacing of child lists
+    padding-left: 2rem; // to adjust the left spacing of child lists
   }
 
   & li,
@@ -97,10 +97,9 @@
     font-weight: var(--font-weight-medium);
   }
   & > dd {
-    margin: 0;
-    padding: 0.5rem 0;
+    margin: 0.5rem 0;
 
-    // In case we really want / need to have a indented definotion content
+    // In case we really want / need to have a indented definition content
     // margin-left: 2rem;
   }
   & > dl {
@@ -177,7 +176,7 @@
 // *:not([class^='dnb-']) > {
 // }
 
-// Unstyled list helper
+// Un-styled list helper
 @mixin unstyledList() {
   margin: 0;
   list-style-type: none;

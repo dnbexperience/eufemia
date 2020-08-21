@@ -13,7 +13,9 @@
 import Anchor from './Anchor'
 import Blockquote from './Blockquote'
 import Code from './Code'
+import Dd from './Dd'
 import Dl from './Dl'
+import Dt from './Dt'
 import H from './H'
 import H1 from './H1'
 import H2 from './H2'
@@ -25,6 +27,7 @@ import Hr from './Hr'
 import Img from './Img'
 import Ingress from './Ingress'
 import Lead from './Lead'
+import Li from './Li'
 import Link from './Link'
 import Ol from './Ol'
 import P from './P'
@@ -37,7 +40,9 @@ export {
   Anchor,
   Blockquote,
   Code,
+  Dd,
   Dl,
+  Dt,
   H,
   H1,
   H2,
@@ -49,6 +54,7 @@ export {
   Img,
   Ingress,
   Lead,
+  Li,
   Link,
   Ol,
   P,

@@ -28,22 +28,22 @@ render(
 
 <ComponentBox hideCode useRender data-dnb-test="lists-ul">
 {`
-// import { Ul } from 'dnb-ui-lib/elements'
+// import { Ul, Li } from 'dnb-ui-lib/elements'
 // Instead of using className="dnb-ul", we use Ul
 render(<Ul>
-  <li>Item 1</li>
-  <li>Item 2</li>
-  <li>
+  <Li>Item 1</Li>
+  <Li>Item 2</Li>
+  <Li>
     Item 3
-    <ul>
-      <li>
+    <Ul>
+      <Li>
         Item 1 <br />
         Break with a <a className="dnb-anchor" href="/">Anchor (Text Link</a>
-      </li>
-      <li>Item 2</li>
-    </ul>
-  </li>
-  <li>Item 4</li>
+      </Li>
+      <Li>Item 2</Li>
+    </Ul>
+  </Li>
+  <Li>Item 4</Li>
 </Ul>)
 `}
 </ComponentBox>
@@ -52,29 +52,29 @@ render(<Ul>
 
 <ComponentBox hideCode useRender data-dnb-test="lists-ol" caption="Nested ol list by using `.dnb-ol--nested`">
 {`
-// import { Ol } from 'dnb-ui-lib/elements'
-// Instead of using className="dnb-ol", we use Ol
+// import { Ol, Li } from 'dnb-ui-lib/elements'
+// Instead of using className="dnb-ol", we use Ol (and Li)
 render(<Ol nested>
-  <li>Item</li>
-  <li>
+  <Li>Item</Li>
+  <Li>
     Item
-    <ol>
-      <li>
+    <Ol>
+      <Li>
         Item
-        <ol>
-          <li>Item</li>
-          <li>Item</li>
-        </ol>
-      </li>
-      <li>Item
-        <ol>
-          <li>Item</li>
-          <li>Item</li>
-        </ol>
-      </li>
-    </ol>
-  </li>
-  <li>Item</li>
+        <Ol>
+          <Li>Item</Li>
+          <Li>Item</Li>
+        </Ol>
+      </Li>
+      <Li>Item
+        <Ol>
+          <Li>Item</Li>
+          <Li>Item</Li>
+        </Ol>
+      </Li>
+    </Ol>
+  </Li>
+  <Li>Item</Li>
 </Ol>)
 `}
 </ComponentBox>
@@ -85,7 +85,7 @@ The list marker will be inside of wrapped text / text with newlines.
 
 <ComponentBox hideCode useRender data-dnb-test="lists-ol-style-position" caption="Nested ol with inside modifier `.dnb-ol--inside`">
 {`
-// import { Ol } from 'dnb-ui-lib/elements'
+// import { Ol, Li } from 'dnb-ui-lib/elements'
 const WidthLimit = styled.div\`
   max-width: 22rem;
   .dnb-ol li::before {
@@ -94,24 +94,24 @@ const WidthLimit = styled.div\`
 \`
 render(<WidthLimit>
 <Ol nested className="dnb-ol--outside">
-  <li>
+  <Li>
     Using <code className="dnb-code">dnb-ol--outside</code> (default): Using Porta commodo tempus interdum habitant urna magna aliquet quam nisl
-    <ol>
-      <li>
+    <Ol>
+      <Li>
         Porta commodo tempus interdum habitant urna magna aliquet quam nisl
-      </li>
-    </ol>
-  </li>
+      </Li>
+    </Ol>
+  </Li>
 </Ol>
 <Ol nested className="dnb-ol--inside">
-  <li>
+  <Li>
     New ol, using <code className="dnb-code">dnb-ol--inside</code>: Porta commodo tempus interdum habitant urna magna aliquet quam nisl
-    <ol>
-      <li>
+    <Ol>
+      <Li>
         Porta commodo tempus interdum habitant urna magna aliquet quam nisl
-      </li>
-    </ol>
-  </li>
+      </Li>
+    </Ol>
+  </Li>
 </Ol>
 </WidthLimit>)
 `}
@@ -129,17 +129,17 @@ Any styling can be applied.
 
 <ComponentBox hideCode useRender data-dnb-test="lists-dl">
 {`
-// import { Dl } from 'dnb-ui-lib/elements'
+// import { Dl, Dt, Dd } from 'dnb-ui-lib/elements'
 render(<Dl>
-  <dt>Term</dt>
-  <dd>Description</dd>
-  <dt>Term</dt>
-  <dd>Description 1</dd>
-  <dd>Description 2</dd>
-  <dd>Description 3</dd>
+  <Dt>Term</Dt>
+  <Dd>Description</Dd>
+  <Dt>Term</Dt>
+  <Dd>Description 1</Dd>
+  <Dd>Description 2</Dd>
+  <Dd>Description 3</Dd>
   <dl className="dnb-dl">
-    <dt>Sub Term</dt>
-    <dd>Sub Description</dd>
+    <Dt>Sub Term</Dt>
+    <Dd>Sub Description</Dd>
   </dl>
 </Dl>)
 `}
