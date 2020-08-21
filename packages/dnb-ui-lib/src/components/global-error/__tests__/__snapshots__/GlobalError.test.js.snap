@@ -539,6 +539,7 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
         onClick={null}
         on_click={[Function]}
         size={null}
+        skeleton={null}
         status={null}
         status_animation={null}
         status_state="error"
@@ -575,6 +576,7 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
             onClick={null}
             on_click={[Function]}
             size={null}
+            skeleton={null}
             status={null}
             status_animation={null}
             status_state="error"
@@ -798,7 +800,7 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
               css={null}
               hasTagClass={true}
               is="h1"
-              skeleton={false}
+              skeleton={null}
               top="4"
             >
               <h1
@@ -825,7 +827,7 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
             css={null}
             hasTagClass={false}
             is="p"
-            skeleton={false}
+            skeleton={null}
           >
             <p
               className="dnb-p dnb-space__bottom--large"

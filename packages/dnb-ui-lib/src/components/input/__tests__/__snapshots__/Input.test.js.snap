@@ -365,6 +365,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
                   onFocus={[Function]}
                   on_click={null}
                   size={null}
+                  skeleton={null}
                   status={null}
                   status_animation={null}
                   status_state="error"
@@ -408,6 +409,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
                       onFocus={[Function]}
                       on_click={null}
                       size={null}
+                      skeleton={null}
                       status={null}
                       status_animation={null}
                       status_state="error"
