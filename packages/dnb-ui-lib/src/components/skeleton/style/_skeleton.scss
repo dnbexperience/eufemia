@@ -41,8 +41,10 @@
     top: 0 !important;
     bottom: 0 !important;
     right: 0 !important;
+    background: none;
 
     width: 100% !important; // lists needs that overwrite
+    height: auto !important;
 
     margin: 0 !important;
     padding: 0 !important;
