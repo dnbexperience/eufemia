@@ -793,22 +793,31 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
             style_type={null}
             top="4"
           >
-            <Element
+            <ForwardRef
               bottom="large"
-              class={null}
               className="dnb-h--xx-large"
-              css={null}
               hasTagClass={true}
               is="h1"
-              skeleton={null}
               top="4"
             >
-              <h1
-                className="dnb-h--xx-large dnb-space__top--xx-large dnb-space__top--x-small dnb-space__bottom--large"
+              <Elem
+                _ref={null}
+                bottom="large"
+                class={null}
+                className="dnb-h--xx-large"
+                css={null}
+                hasTagClass={true}
+                is="h1"
+                skeleton={null}
+                top="4"
               >
-                title
-              </h1>
-            </Element>
+                <h1
+                  className="dnb-h--xx-large dnb-space__top--xx-large dnb-space__top--x-small dnb-space__bottom--large"
+                >
+                  title
+                </h1>
+              </Elem>
+            </ForwardRef>
           </H>
         </H1>
         <P
@@ -820,29 +829,36 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
           small={null}
           style_type={null}
         >
-          <Element
+          <ForwardRef
             bottom="large"
-            class={null}
             className="dnb-p"
-            css={null}
-            hasTagClass={false}
             is="p"
-            skeleton={null}
           >
-            <p
-              className="dnb-p dnb-space__bottom--large"
+            <Elem
+              _ref={null}
+              bottom="large"
+              class={null}
+              className="dnb-p"
+              css={null}
+              hasTagClass={false}
+              is="p"
+              skeleton={null}
             >
-              text 
-              <a
-                className="dnb-anchor"
-                href=";"
-                onClick={[Function]}
+              <p
+                className="dnb-p dnb-space__bottom--large"
               >
-                link
-              </a>
-               text
-            </p>
-          </Element>
+                text 
+                <a
+                  className="dnb-anchor"
+                  href=";"
+                  onClick={[Function]}
+                >
+                  link
+                </a>
+                 text
+              </p>
+            </Elem>
+          </ForwardRef>
         </P>
       </div>
     </div>

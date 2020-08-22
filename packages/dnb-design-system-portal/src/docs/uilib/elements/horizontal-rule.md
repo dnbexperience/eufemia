@@ -54,17 +54,21 @@ Use the modifier `dnb-hr--light` to get a `0.5px` rule. You can also set just `l
 // import { Hr } from 'dnb-ui-lib/elements'
 render(<>
   <Dl>
-    <dt>Light 0.5px</dt>
-    <dd><Hr light /></dd>
+    <Dt>Light 0.5px</Dt>
+    <Dd><Hr light /></Dd>
+    <Dd>{' '}</Dd>
   </Dl>
   <Dl>
-    <dt>Default 1px</dt>
-    <dd><Hr /></dd>
+    <Dt>Default 1px</Dt>
+    <Dd><Hr /></Dd>
+    <Dd>{' '}</Dd>
   </Dl>
   <Dl>
-    <dt>Medium 1.5px</dt>
-    <dd><Hr medium /></dd>
+    <Dt>Medium 1.5px</Dt>
+    <Dd><Hr medium /></Dd>
+    <Dd>{' '}</Dd>
   </Dl>
+  {' '}
 </>)
 `}
 </ComponentBox>

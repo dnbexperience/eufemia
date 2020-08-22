@@ -15,10 +15,7 @@ import {
 import { createSpacingClasses } from '../components/space/SpacingHelper'
 import { AutoSize } from '../components/skeleton/SkeletonHelper'
 
-class Element extends React.PureComponent {
-  // static propTypes = propTypes
-  // static defaultProps = defaultProps
-  // static renderProps = renderProps
+class Elem extends React.PureComponent {
   static contextType = Context
 
   constructor(props) {
@@ -29,7 +26,7 @@ class Element extends React.PureComponent {
     const props =
       this.props.skeleton !== false &&
       typeof this.context?.skeleton !== 'undefined'
-        ? extendPropsWithContext(this.props, Element.defaultProps, {
+        ? extendPropsWithContext(this.props, Elem.defaultProps, {
             skeleton: this.context?.skeleton
           })
         : this.props
@@ -39,6 +36,7 @@ class Element extends React.PureComponent {
       class: _className,
       css,
       is: Tag,
+      _ref,
       hasTagClass,
       skeleton,
       ...rest
@@ -58,13 +56,13 @@ class Element extends React.PureComponent {
     validateDOMAttributes(null, rest)
 
     if (isTrue(skeleton)) {
-      return <AutoSize __element={Tag} {...rest} />
+      return <AutoSize __element={Tag} ref={_ref} {...rest} />
     }
 
-    return <Tag {...rest} />
+    return <Tag ref={_ref} {...rest} />
   }
 }
-Element.propTypes = {
+Elem.propTypes = {
   is: PropTypes.string.isRequired,
   hasTagClass: PropTypes.bool,
   skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -73,15 +71,21 @@ Element.propTypes = {
     PropTypes.object,
     PropTypes.array
   ]),
+  _ref: PropTypes.object,
   class: PropTypes.string,
   css: PropTypes.oneOfType([PropTypes.string, PropTypes.object])
 }
-Element.defaultProps = {
+Elem.defaultProps = {
   hasTagClass: false,
   skeleton: null,
   className: null,
+  _ref: null,
   class: null,
   css: null
 }
+
+const Element = React.forwardRef((props, ref) => {
+  return <Elem _ref={ref} {...props} />
+})
 
 export default Element
