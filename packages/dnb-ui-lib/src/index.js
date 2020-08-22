@@ -48,7 +48,9 @@ import Tooltip from './components/tooltip/Tooltip'
 import Anchor from './elements/Anchor'
 import Blockquote from './elements/Blockquote'
 import Code from './elements/Code'
+import Dd from './elements/Dd'
 import Dl from './elements/Dl'
+import Dt from './elements/Dt'
 import H from './elements/H'
 import H1 from './elements/H1'
 import H2 from './elements/H2'
@@ -60,6 +62,7 @@ import Hr from './elements/Hr'
 import Img from './elements/Img'
 import Ingress from './elements/Ingress'
 import Lead from './elements/Lead'
+import Li from './elements/Li'
 import Link from './elements/Link'
 import Ol from './elements/Ol'
 import P from './elements/P'
@@ -107,7 +110,9 @@ export {
   Anchor,
   Blockquote,
   Code,
+  Dd,
   Dl,
+  Dt,
   H,
   H1,
   H2,
@@ -119,6 +124,7 @@ export {
   Img,
   Ingress,
   Lead,
+  Li,
   Link,
   Ol,
   P,

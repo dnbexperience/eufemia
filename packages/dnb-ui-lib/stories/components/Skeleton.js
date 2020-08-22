@@ -11,14 +11,15 @@ import {
   Input,
   // InputMasked,
   // Modal,
-  // Button,
+  Button,
   // FormSet,
+  DatePicker,
   FormRow,
   ToggleButton,
   Skeleton
   // FormLabel
 } from '../../src/components'
-import { H1, H2, P } from '../../src/elements'
+import { H1, H2, P, Ol, Li, Ul, Dl, Dt, Dd } from '../../src/elements'
 import Provider from '../../src/shared/Provider'
 
 const CustomStyle = styled.div`
@@ -52,11 +53,13 @@ export default [
           <Wrapper>
             <Box>
               <ToggleButton
+                skeleton={false}
                 checked={showSkeleton}
                 on_change={() => setSkeletonState((s) => !s)}
               >
                 Toggle Skeleton
               </ToggleButton>
+              <Button>Button</Button>
               <H1 top bottom>
                 Big heading
               </H1>
@@ -66,6 +69,12 @@ export default [
               </P> */}
               {/* <Input label_direction="vertical" label="Input" /> */}
             </Box>
+
+            <Box>
+              <DatePicker />
+              <DatePicker show_input />
+            </Box>
+
             <Box>
               <WidthLimit vertical>
                 {/* <div className="dnb-skeleton dnb-h--large">y</div> */}
@@ -101,12 +110,110 @@ export default [
                 {/* <Skeleton show top>
                   <P>Paragraph</P>
                 </Skeleton> */}
-                end
               </WidthLimit>
+            </Box>
+
+            <Box>
+              <Ul>
+                <Li>Item 1</Li>
+                <Li>Item 2</Li>
+                <Li>
+                  Item 3
+                  <Ul>
+                    <Li>
+                      Item 1 <br />
+                      Break with a{' '}
+                      <a className="dnb-anchor" href="/">
+                        Anchor (Text Link
+                      </a>
+                    </Li>
+                    <Li>Item 2</Li>
+                  </Ul>
+                </Li>
+                <Li>Item 4</Li>
+              </Ul>
+            </Box>
+            <Box>
+              <Ol nested>
+                <Li>Item</Li>
+                <Li>
+                  Item
+                  <Ol>
+                    <Li>
+                      Item
+                      <Ol>
+                        <Li>Item</Li>
+                        <Li>Item</Li>
+                      </Ol>
+                    </Li>
+                    <Li>
+                      Item
+                      <Ol>
+                        <Li>Item</Li>
+                        <Li>Item</Li>
+                      </Ol>
+                    </Li>
+                  </Ol>
+                </Li>
+                <Li>Item</Li>
+              </Ol>
+            </Box>
+            <Box>
+              <ListWidthLimit>
+                <Ol nested className="dnb-ol--outside">
+                  <Li>
+                    Using <code className="dnb-code">dnb-ol--outside</code>{' '}
+                    (default): Using Porta commodo tempus interdum habitant
+                    urna magna aliquet quam nisl
+                    <Ol>
+                      <Li>
+                        Porta commodo tempus interdum habitant urna magna
+                        aliquet quam nisl
+                      </Li>
+                    </Ol>
+                  </Li>
+                </Ol>
+                <Ol nested className="dnb-ol--inside">
+                  <Li>
+                    New ol, using{' '}
+                    <code className="dnb-code">dnb-ol--inside</code>: Porta
+                    commodo tempus interdum habitant urna magna aliquet
+                    quam nisl
+                    <Ol>
+                      <Li>
+                        Porta commodo tempus interdum habitant urna magna
+                        aliquet quam nisl
+                      </Li>
+                    </Ol>
+                  </Li>
+                </Ol>
+              </ListWidthLimit>
+            </Box>
+            <Box>
+              <Dl>
+                <Dt>Term</Dt>
+                <Dd>Description</Dd>
+                <Dt>Term</Dt>
+                <Dd>Description 1</Dd>
+                <Dd>Description 2</Dd>
+                <Dd>Description 3</Dd>
+                <dl className="dnb-dl">
+                  <Dt>Sub Term</Dt>
+                  <Dd>Sub Description</Dd>
+                </dl>
+              </Dl>
             </Box>
           </Wrapper>
         </CustomStyle>
+        end
       </Provider>
     )
   }
 ]
+
+const ListWidthLimit = styled.div`
+  max-width: 22rem;
+  .dnb-ol li::before {
+    font-weight: var(--font-weight-bold);
+  }
+`

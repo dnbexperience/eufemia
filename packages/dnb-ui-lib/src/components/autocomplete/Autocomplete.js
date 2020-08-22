@@ -315,7 +315,8 @@ class AutocompleteInstance extends React.PureComponent {
       if (
         props.input_value !== 'initval' &&
         typeof state.inputValue === 'undefined' &&
-        props.input_value?.length > 0
+        props.input_value &&
+        props.input_value.length > 0
       ) {
         state.inputValue = props.input_value
       }
@@ -343,7 +344,7 @@ class AutocompleteInstance extends React.PureComponent {
     this.state.init_data = props.data // only to compare agains new data
     this.state.updateData = this.updateData // only so we can call setData
 
-    if (context.drawerList?.current_title) {
+    if (context.drawerList && context.drawerList.current_title) {
       this.state.inputValue = context.drawerList.current_title
     }
 
@@ -462,8 +463,9 @@ class AutocompleteInstance extends React.PureComponent {
         cache_hash: value + count
       },
       () =>
-        typeof options?.afterSetState === 'function' &&
-        options?.afterSetState(data)
+        options &&
+        typeof options.afterSetState === 'function' &&
+        options.afterSetState(data)
     )
 
     if (value && value.length > 0) {
@@ -653,7 +655,7 @@ class AutocompleteInstance extends React.PureComponent {
           () => {
             const { typedInputValue } = this.state
 
-            if (typedInputValue?.length > 0) {
+            if (typedInputValue && typedInputValue.length > 0) {
               // run with side effects, to get preselection of active_item
               const filteredData = this.runFilterWithSideEffects(
                 typedInputValue
@@ -897,7 +899,7 @@ class AutocompleteInstance extends React.PureComponent {
 
   hasShowMore = (data = this.context.drawerList.data) => {
     const lastItem = data.slice(-1)[0]
-    return lastItem?.show_all === true
+    return lastItem && lastItem.show_all === true
   }
 
   countData = (data = this.context.drawerList.data) => {
@@ -927,9 +929,9 @@ class AutocompleteInstance extends React.PureComponent {
   }
 
   hasFilterActive = (data = this.context.drawerList.data) => {
-    return (
-      this.countData(data) !==
-      this.context.drawerList.original_data?.length
+    return !(
+      this.context.drawerList.original_data &&
+      this.context.drawerList.original_data.length === this.countData(data)
     )
   }
 
@@ -968,9 +970,11 @@ class AutocompleteInstance extends React.PureComponent {
       () => {
         // but we reset it right after the rerender
         this.showAllTimeout = setTimeout(() => {
-          this.context?.drawerList?.setState({
-            ignore_events: false // we also have to reset this one
-          })
+          this.context &&
+            this.context.drawerList &&
+            this.context.drawerList.setState({
+              ignore_events: false // we also have to reset this one
+            })
         }, 10) // make sure we reset once the rerender of DrawerList is done, because then we keep the active_item at it's position by using key="down"
       }
     )

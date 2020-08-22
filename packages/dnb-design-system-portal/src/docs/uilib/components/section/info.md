@@ -12,9 +12,36 @@ In the following example shows form sections with different styling. The helper 
 
 ## Customize color
 
+Example of how to change the background color and by using a custom color. Yes, we use the `color` property for that.
+
+### Define a custom Section color
+
+1. Create a custom CSS style declaration
+
 ```css
-/* Example of how to change the background color */
-.dnb-section:after {
+.dnb-section--custom-section::after {
   color: var(--color-ocean-green);
 }
+```
+
+2. and use that custom CSS class
+
+```jsx
+<Section style_type="custom-section">...</Section>
+```
+
+### Custom Section color in plain HTML
+
+1. Create a custom CSS style declaration
+
+```css
+.custom-section::after {
+  color: var(--color-ocean-green);
+}
+```
+
+2. and use that custom CSS class
+
+```html
+<div className="dnb-section custom-section">...</div>
 ```

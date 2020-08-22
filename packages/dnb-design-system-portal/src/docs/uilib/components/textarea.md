@@ -4,8 +4,6 @@ description: 'The Textarea component has to be used as a multi-line text input c
 status: null
 order: 17
 showTabs: true
-hideTabs:
-  - title: Events
 ---
 
 import TextareaInfo from 'Pages/uilib/components/textarea/info'

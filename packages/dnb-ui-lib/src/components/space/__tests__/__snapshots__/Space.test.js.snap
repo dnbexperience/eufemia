@@ -12,6 +12,7 @@ exports[`Space component have to match snapshot 1`] = `
   no_collapse={false}
   render_content={[Function]}
   right="right"
+  skeleton="skeleton"
   top="top"
 >
   <Element

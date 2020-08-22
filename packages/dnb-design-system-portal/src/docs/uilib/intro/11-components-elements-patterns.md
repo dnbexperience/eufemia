@@ -1,6 +1,6 @@
 ---
 fullscreen: true
-search: 'Intro'
+search: 'Intro - Components, Elements and Patterns'
 ---
 
 import { Button } from 'dnb-ui-lib/src'

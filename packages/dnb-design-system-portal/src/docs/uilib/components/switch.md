@@ -2,8 +2,6 @@
 title: 'Switch'
 order: 15
 showTabs: true
-hideTabs:
-  - title: Events
 ---
 
 import SwitchInfo from 'Pages/uilib/components/switch/info'

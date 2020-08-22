@@ -20,7 +20,7 @@ Merges from a Pull Request and other pushes to the development branch `origin/de
 ### The Release Branch
 
 Make sure You only make Pull Request from `origin/develop` into `origin/release`.
-The Release Branch is more kind of a **slave branch**. It reflects the latest version, but is actually only used to publish new versions and to make builds for the Portal.
+The Release Branch is more kind of a **secondary branch**. It reflects the latest version, but is actually only used to publish new versions and to make builds for the Portal.
 
 **TODO:** GitFlow and CI structure graphics
 

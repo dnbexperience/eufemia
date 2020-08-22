@@ -43,13 +43,13 @@ export const sumTypes = (types) =>
     .reduce((acc, cur) => {
       if (cur > 0) {
         acc += cur
-      } else if (cur > 0) {
+      } else if (cur < 0) {
         acc -= cur
       }
       return acc
     }, 0)
 
-// Returns an array with modifyers e.g. ["--large" + "--x-small"]
+// Returns an array with modifiers e.g. ["--large" + "--x-small"]
 export const createTypeModifyers = (types) => {
   return splitTypes(types).reduce((acc, type) => {
     if (type) {

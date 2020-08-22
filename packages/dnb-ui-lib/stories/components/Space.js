@@ -213,8 +213,8 @@ const MagicBox = ({ label, ...rest }) => {
   const [spaceInRem, setLabel] = React.useState(label)
   const [title, setTitle] = React.useState(null)
 
-  if (!label) {
-    React.useEffect(() => {
+  React.useEffect(() => {
+    if (!label) {
       const spaceInPixels = window
         .getComputedStyle(ref.current.parentElement)
         .getPropertyValue('margin-top')
@@ -223,8 +223,8 @@ const MagicBox = ({ label, ...rest }) => {
 
       const title = ref.current.parentElement.getAttribute('class')
       setTitle(title)
-    })
-  }
+    }
+  }, [label, ref])
 
   return (
     <Block {...rest} ref={ref} title={title}>
@@ -250,8 +250,8 @@ const VisualSpace = ({ label, children, ...rest }) => {
   const [spaceInRem, setLabel] = React.useState(label)
   const [title, setTitle] = React.useState(null)
 
-  if (!label) {
-    React.useEffect(() => {
+  React.useEffect(() => {
+    if (!label) {
       const spaceInPixels = window
         .getComputedStyle(ref.current.children[0])
         .getPropertyValue('margin-top')
@@ -260,8 +260,8 @@ const VisualSpace = ({ label, children, ...rest }) => {
 
       const title = ref.current.parentElement.getAttribute('class')
       setTitle(title)
-    })
-  }
+    }
+  }, [label, ref])
 
   return (
     <Space {...rest} title={title}>

@@ -19,7 +19,7 @@ export const registerElement = (
   ReactComponent,
   propNames = null,
   // remove id, because we never can have more than one of the same id
-  { attributesBlacklist = ['id'] } = {}
+  { attributesExcludelist = ['id'] } = {}
 ) => {
   if (!tagName) tagName = ReactComponent.displayName || ReactComponent.name
 
@@ -238,9 +238,9 @@ export const registerElement = (
       props = { ...this._props, ...this.connectEvents(attr), ...props }
 
       // we dont allow ids
-      for (let i = attributesBlacklist.length; i--; ) {
-        if (props[attributesBlacklist[i]]) {
-          this.removeAttribute(attributesBlacklist[i])
+      for (let i = attributesExcludelist.length; i--; ) {
+        if (props[attributesExcludelist[i]]) {
+          this.removeAttribute(attributesExcludelist[i])
         }
       }
 

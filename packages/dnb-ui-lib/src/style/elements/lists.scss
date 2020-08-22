@@ -12,7 +12,7 @@
   & ol {
     margin-top: 0;
     margin-bottom: 1.5rem;
-    padding-left: 2rem; // to ajust the left spacing of child lists
+    padding-left: 2rem; // to adjust the left spacing of child lists
   }
 
   & li,
@@ -96,16 +96,6 @@
     padding: 0;
     font-weight: var(--font-weight-medium);
   }
-  & > dd {
-    margin: 0;
-    padding: 0.5rem 0;
-
-    // In case we really want / need to have a indented definotion content
-    // margin-left: 2rem;
-  }
-  & > dl {
-    margin-left: 2rem;
-  }
 }
 @mixin listSpacing() {
   @include defaultSpacing();
@@ -118,11 +108,32 @@
       margin-top: 1rem;
     }
   }
+  & li > ul,
+  &:not([class*='dnb-space']) li > ul,
+  & li > ol,
+  &:not([class*='dnb-space']) li > ol {
+    margin-top: -0.5rem;
+  }
 }
 @mixin dlSpacing() {
   @include defaultSpacing();
   & dt {
     margin-top: 1rem;
+  }
+  & dd ~ dt {
+    margin-top: 1.5rem;
+  }
+  & > dd {
+    padding: 0;
+    margin: 0.5rem 0 1rem;
+
+    // In case we really want / need to have a indented definition content
+    // margin-left: 2rem;
+  }
+  & > dl,
+  &:not([class*='dnb-space']) > dl {
+    margin-top: 1.5rem;
+    margin-left: 2rem;
   }
 }
 @mixin ulTag() {
@@ -146,10 +157,6 @@
     @include dlStyle();
   }
   .dnb-spacing {
-    ul,
-    ol {
-      @include listSpacing();
-    }
     dl {
       @include dlSpacing();
     }
@@ -177,7 +184,7 @@
 // *:not([class^='dnb-']) > {
 // }
 
-// Unstyled list helper
+// Un-styled list helper
 @mixin unstyledList() {
   margin: 0;
   list-style-type: none;

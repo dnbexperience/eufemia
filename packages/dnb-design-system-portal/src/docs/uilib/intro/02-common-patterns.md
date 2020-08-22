@@ -1,6 +1,6 @@
 ---
 fullscreen: true
-search: 'Intro'
+search: 'Intro - Common Design Patterns'
 ---
 
 <Intro>

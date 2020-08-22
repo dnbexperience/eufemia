@@ -34,6 +34,7 @@ export async function cleanupPackage({ packageJsonString, filepath }) {
   delete packageJson.devDependencies
   delete packageJson.resolutions
   delete packageJson.publishConfig
+  delete packageJson.volta
 
   const prettierrc = JSON.parse(
     await fs.readFile(

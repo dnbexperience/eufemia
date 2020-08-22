@@ -9,7 +9,7 @@ if (require.main === module) {
   commitToBranch({
     requiredBranch: 'develop|icons',
     what: 'icons/assets',
-    filePathsWhitelist: [
+    filePathsIncludelist: [
       '/src/icons/',
       '/assets/icons/',
       'version.lock',

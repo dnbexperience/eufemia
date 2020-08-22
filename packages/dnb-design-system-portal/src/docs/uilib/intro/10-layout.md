@@ -1,6 +1,6 @@
 ---
 fullscreen: true
-search: 'Intro'
+search: 'Intro - Layout'
 ---
 
 import ComponentBox from 'Tags/ComponentBox'

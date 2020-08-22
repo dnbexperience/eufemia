@@ -53,7 +53,16 @@ import 'dnb-ui-lib/cjs/style'
 require('dnb-ui-lib/cjs/style')
 ```
 
-### Use ESM in Node.js anyway
+### Next.js and Node.js version 12 and above
+
+**NB:** If you use Next.js with Node.js version 12 and above, we may have to define explicitly that we want to use CommonJS:
+
+```js
+import { Button } from 'dnb-ui-lib/cjs/index.cjs'
+const { Button } = require('dnb-ui-lib/cjs/components/index.cjs')
+```
+
+### ESM in Node.js version 10
 
 You can easily use [ESM](https://nodejs.org/api/esm.html) in Node.js environment. Have a look at the [Next.js example](https://github.com/dnbexperience/eufemia-examples/tree/master/packages/example-next).
 
