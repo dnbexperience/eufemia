@@ -19,7 +19,7 @@ const Ol = ({ nested, inside, outside, ...p } = {}) => {
     p.className = classnames(p.className, 'dnb-ol--outside')
   }
 
-  return <E is="ul" {...p} skeleton={false} />
+  return <E is="ol" {...p} skeleton={false} />
 }
 Ol.tagName = 'dnb-ol'
 Ol.propTypes = {

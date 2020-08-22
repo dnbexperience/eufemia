@@ -108,6 +108,12 @@
       margin-top: 1rem;
     }
   }
+  & li > ul,
+  &:not([class*='dnb-space']) li > ul,
+  & li > ol,
+  &:not([class*='dnb-space']) li > ol {
+    margin-top: -0.5rem;
+  }
 }
 @mixin dlSpacing() {
   @include defaultSpacing();
@@ -151,10 +157,6 @@
     @include dlStyle();
   }
   .dnb-spacing {
-    ul,
-    ol {
-      @include listSpacing();
-    }
     dl {
       @include dlSpacing();
     }
