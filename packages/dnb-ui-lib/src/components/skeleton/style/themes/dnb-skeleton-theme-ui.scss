@@ -17,8 +17,8 @@
   // Dots
   &::after {
     background-image: radial-gradient(
-      circle,
-      white 40%,
+      circle closest-side,
+      white 50%,
       transparent 80%
     ) !important; // to take presence
     background-repeat: repeat;
