@@ -96,15 +96,6 @@
     padding: 0;
     font-weight: var(--font-weight-medium);
   }
-  & > dd {
-    margin: 0.5rem 0;
-
-    // In case we really want / need to have a indented definition content
-    // margin-left: 2rem;
-  }
-  & > dl {
-    margin-left: 2rem;
-  }
 }
 @mixin listSpacing() {
   @include defaultSpacing();
@@ -122,6 +113,21 @@
   @include defaultSpacing();
   & dt {
     margin-top: 1rem;
+  }
+  & dd ~ dt {
+    margin-top: 1.5rem;
+  }
+  & > dd {
+    padding: 0;
+    margin: 0.5rem 0 1rem;
+
+    // In case we really want / need to have a indented definition content
+    // margin-left: 2rem;
+  }
+  & > dl,
+  &:not([class*='dnb-space']) > dl {
+    margin-top: 1.5rem;
+    margin-left: 2rem;
   }
 }
 @mixin ulTag() {
