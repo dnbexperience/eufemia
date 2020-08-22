@@ -8,7 +8,7 @@
 .dnb-skeleton {
   position: relative;
 
-  // overflow: hidden; // has a bad influence to correct hight
+  overflow-x: hidden;
   // &:not(.dnb-input__shell) {
   //   border-radius: 0.25rem;
   // }
