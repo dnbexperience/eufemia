@@ -13,28 +13,32 @@
       --color-sea-green-30
     ) !important; // to take presence
   }
+
+  // Dots
   &::after {
-    // Dots
-    background: radial-gradient(
+    background-image: radial-gradient(
       circle closest-side,
       white 50%,
-      transparent 50%
+      transparent 80%
     ) !important; // to take presence
+    background-repeat: repeat;
     background-size: 0.25rem 0.25rem !important; // to take presence
-    animation: skeletonAnimation 1.5s linear infinite;
+    animation: skeletonAnimation 2s linear infinite;
+    opacity: 0;
   }
 
+  // Shine
+  // &::after {
   &--shine#{&}::after {
-    // Shine
-    background: radial-gradient(
+    background-image: radial-gradient(
       white 0%,
-      transparent 50%,
+      transparent 70%,
       transparent 100%
     ) !important;
-    background-size: 100% 500% !important;
     background-position-y: 50% !important;
-    background-repeat: no-repeat;
-    animation: skeletonAnimation 1.5s ease-out infinite;
+    background-size: 100% 700% !important;
+    animation: skeletonShineAnimation 2s ease-out infinite;
+    opacity: 1;
   }
 }
 
@@ -42,16 +46,67 @@
   0% {
     opacity: 0.2;
     transform: translate3d(-100%, 0, 0);
-    // transform: translate3d(-25rem, 0, 0);
+    clip-path: polygon(0 0, 20% 0, 20% 100%, 0 100%);
   }
-  70% {
+  50% {
     opacity: 1;
-    transform: translate3d(100%, 0, 0);
-    // transform: translate3d(25rem, 0, 0);
+    transform: translate3d(0%, 0, 0);
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
   }
   100% {
     opacity: 0;
-    transform: translate3d(200rem, 0, 0);
-    // transform: translate3d(50rem, 0, 0);
+    transform: translate3d(0%, 0, 0);
+    clip-path: polygon(100% 0, 100% 0, 100% 100%, 100% 100%);
   }
 }
+
+// More splashy animation
+// @keyframes skeletonAnimation {
+//   0% {
+//     opacity: 0;
+//     clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+//     transform: translate3d(-180%, 0, 0);
+//   }
+//   80% {
+//     opacity: 1;
+//   }
+//   60% {
+//     transform: translate3d(-10%, 0, 0);
+//   }
+//   100% {
+//     opacity: 0;
+//     clip-path: polygon(30% 0, 100% 0, 100% 100%, 30% 100%);
+//     transform: translate3d(0%, 0, 0);
+//   }
+// }
+
+@keyframes skeletonShineAnimation {
+  0% {
+    opacity: 0;
+    transform: translate3d(-200%, 0, 0);
+  }
+  70% {
+    opacity: 1;
+    transform: translate3d(-20%, 0, 0);
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(0%, 0, 0);
+  }
+}
+
+// Old method, but breaks, as we want to avoid overflow hidden
+// @keyframes skeletonAnimation {
+//   0% {
+//     opacity: 0.2;
+//     transform: translate3d(-100%, 0, 0);
+//   }
+//   70% {
+//     opacity: 1;
+//     transform: translate3d(100%, 0, 0);
+//   }
+//   100% {
+//     opacity: 0;
+//     transform: translate3d(280%, 0, 0);
+//   }
+// }

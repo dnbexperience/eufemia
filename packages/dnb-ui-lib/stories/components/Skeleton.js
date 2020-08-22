@@ -23,6 +23,7 @@ import { H1, H2, P, Ol, Li, Ul, Dl, Dt, Dd } from '../../src/elements'
 import Provider from '../../src/shared/Provider'
 
 const CustomStyle = styled.div`
+  /* background: var(--color-ocean-green); */
   p {
     background-color: rgba(213, 30, 149, 0.25);
   }
@@ -59,20 +60,25 @@ export default [
               >
                 Toggle Skeleton
               </ToggleButton>
+            </Box>
+
+            <Box>
               <Button>Button</Button>
-              <H1 top bottom>
-                Big heading
-              </H1>
+            </Box>
+
+            <Box>
+              <DatePicker label="Date" />
+              <br />
+              <DatePicker label="Date with input" show_input />
+            </Box>
+
+            <Box>
+              <H1>Big heading</H1>
               {/* <P top bottom>
                 Paragraph Non habitasse ut nisi dictum laoreet ridiculus
                 dui.
               </P> */}
               {/* <Input label_direction="vertical" label="Input" /> */}
-            </Box>
-
-            <Box>
-              <DatePicker />
-              <DatePicker show_input />
             </Box>
 
             <Box>

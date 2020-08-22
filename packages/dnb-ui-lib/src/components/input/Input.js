@@ -515,7 +515,7 @@ export default class Input extends React.PureComponent {
               )}
             </span>
 
-            {hasSubmitButton && !skeleton && (
+            {hasSubmitButton && (
               <span className="dnb-input__submit-element">
                 {submit_element ? (
                   submit_element
