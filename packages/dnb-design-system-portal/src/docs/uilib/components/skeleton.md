@@ -7,6 +7,7 @@ order: 20
 
 import ComponentBox from 'Tags/ComponentBox'
 import Provider from 'dnb-ui-lib/src/shared/Provider'
+import { Article } from 'dnb-ui-lib/src/components/skeleton/figures'
 
 # Skeleton
 
@@ -20,6 +21,20 @@ import Provider from 'dnb-ui-lib/src/shared/Provider'
 `}
 </ComponentBox>
 
+## Skeleton using the Skeleton Provider
+
+<ComponentBox scope={{Provider}}>
+{`
+<Skeleton
+	show={true}
+>
+	<H2 top bottom>Heading</H2>
+	<P top bottom>Paragraph Non habitasse ut nisi dictum laoreet ridiculus dui.</P>
+	<Input label_direction="vertical" label="Input" />
+</Skeleton>
+`}
+</ComponentBox>
+
 ## Skeleton using Eufemia Provider
 
 <ComponentBox scope={{Provider}}>
@@ -30,21 +45,27 @@ import Provider from 'dnb-ui-lib/src/shared/Provider'
 >
 	<H2 top bottom>Heading</H2>
 	<P top bottom>Paragraph Non habitasse ut nisi dictum laoreet ridiculus dui.</P>
-	<Input label_direction="vertical" label="Input" />
+	<Button>Button</Button>
 </Provider>
 `}
 </ComponentBox>
 
-## Skeleton component example
+## Skeleton figures
 
-<ComponentBox scope={{Provider}}>
+You may import a given figure, or create your own.
+
+```js
+import { Article } from 'dnb-ui-lib/components/skeleton/figures'
+```
+
+<ComponentBox scope={{Article}}>
 {`
-<Skeleton bottom show className="dnb-skeleton--shine dnb-h--xx-large" width={20} />
-<Skeleton top show className="dnb-skeleton--shine dnb-p" width={40} />
-<Provider
-	skeleton={true}
+<Skeleton
+	show
+	style_type="shine"
+	figure={() => <Article rows={5} />}
 >
-<Skeleton figure="article" />
-</Provider>
+	hidden content
+</Skeleton>
 `}
 </ComponentBox>

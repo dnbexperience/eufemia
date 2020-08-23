@@ -19,17 +19,6 @@
     display: block;
   }
 
-  &__figure {
-    position: relative;
-    visibility: hidden;
-
-    border-radius: 0.25rem;
-
-    &--show {
-      visibility: visible;
-    }
-  }
-
   &::before,
   &::after {
     content: '' !important; // because of list markers, we use important here as well
@@ -61,28 +50,6 @@
     }
   }
 
-  &--20 {
-    width: 20%;
-  }
-  &--30 {
-    width: 30%;
-  }
-  &--40 {
-    width: 40%;
-  }
-  &--50 {
-    width: 50%;
-  }
-  &--60 {
-    width: 60%;
-  }
-  &--70 {
-    width: 70%;
-  }
-  &--80 {
-    width: 80%;
-  }
-
   // because of the underline, we hide anchors
   .dnb-anchor {
     visibility: hidden;
@@ -95,13 +62,28 @@
     }
   }
 
-  // &.dnb-button,
-  // &.dnb-input__shell {
-  //   overflow: hidden;
-  // }
+  // &.dnb-input__shell,// Have already overflow
+  &.dnb-button {
+    overflow: hidden;
+  }
 
-  // & > ul > li.dnb-skeleton,
-  // & > ol > li.dnb-skeleton {
-  //   visibility: hidden;
-  // }
+  &__figure {
+    position: relative;
+    border-radius: 0.25rem;
+
+    &--circle {
+      width: 4rem;
+      height: 4rem;
+      border-radius: 50%;
+    }
+
+    &--product {
+      display: flex;
+      align-items: center;
+    }
+    &--product &--circle + div {
+      width: 50%;
+      margin-left: 1rem;
+    }
+  }
 }
