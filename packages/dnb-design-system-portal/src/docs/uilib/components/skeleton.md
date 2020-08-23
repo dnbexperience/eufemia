@@ -54,7 +54,7 @@ import { Article } from 'dnb-ui-lib/src/components/skeleton/figures'
 
 You may import a given figure, or create your own.
 
-```js
+```jsx
 import { Article } from 'dnb-ui-lib/components/skeleton/figures'
 ```
 
