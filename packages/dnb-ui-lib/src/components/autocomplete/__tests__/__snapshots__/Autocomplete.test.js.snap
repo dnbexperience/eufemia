@@ -482,7 +482,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                       <span
                         className="dnb-input__shell"
                         data-has-content="true"
-                        data-input-state="disabled"
+                        data-input-state="virgin"
                       >
                         <input
                           aria-activedescendant="option-autocomplete-id-2"

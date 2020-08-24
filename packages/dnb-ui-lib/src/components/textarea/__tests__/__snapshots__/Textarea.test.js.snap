@@ -26,6 +26,7 @@ exports[`Textarea component have to match snapshot 1`] = `
         "placeholder": "placeholder",
         "readOnly": "readOnly",
         "rows": 1,
+        "skeleton": "skeleton",
         "status": "status",
         "status_animation": "status_animation",
         "status_state": "status_state",
@@ -58,6 +59,7 @@ exports[`Textarea component have to match snapshot 1`] = `
   placeholder={null}
   readOnly={false}
   rows={null}
+  skeleton={null}
   status={null}
   status_animation={null}
   status_state="error"
