@@ -28,7 +28,6 @@
     "react",
     "react-hooks",
     "jsx-a11y",
-    "tree-shaking",
     "security"
   ],
   "rules": {
@@ -80,8 +79,7 @@
     ],
     "security/detect-non-literal-fs-filename": "off",
     "security/detect-object-injection": "off",
-    "security/detect-non-literal-regexp": "off",
-    "tree-shaking/no-side-effects-in-initialization": 1
+    "security/detect-non-literal-regexp": "off"
   },
   "settings": {
     "react": {

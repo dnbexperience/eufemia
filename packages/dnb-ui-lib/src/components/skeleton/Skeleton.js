@@ -8,12 +8,12 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import {
   extendPropsWithContext,
-  registerElement,
   validateDOMAttributes,
   isTrue
 } from '../../shared/component-helper'
 import Context from '../../shared/Context'
-import { createSpacingClasses } from '../space/SpacingHelper'
+import Provider from '../../shared/Provider'
+import Space from '../space/Space'
 
 const renderProps = {
   render_content: null
@@ -23,8 +23,15 @@ const propTypes = {
   id: PropTypes.string,
   element: PropTypes.string,
   show: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  figure: PropTypes.oneOf(['article']),
-  width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  style_type: PropTypes.oneOfType([
+    PropTypes.oneOf(['dots', 'shine']),
+    PropTypes.string
+  ]),
+  figure: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.func,
+    PropTypes.node
+  ]),
   class: PropTypes.string,
 
   /** React props */
@@ -41,11 +48,10 @@ const propTypes = {
 
 const defaultProps = {
   id: null,
-  element: 'span',
   show: null,
   skeleton: null, // only to make sure we process extendPropsWithContext
+  style_type: 'dots',
   figure: null,
-  width: null,
   class: null,
 
   /** React props */
@@ -57,14 +63,9 @@ const defaultProps = {
 }
 
 export default class Skeleton extends React.PureComponent {
-  static tagName = 'dnb-skeleton'
   static propTypes = propTypes
   static defaultProps = defaultProps
   static contextType = Context
-
-  static enableWebComponent() {
-    registerElement(Skeleton.tagName, Skeleton, defaultProps)
-  }
 
   render() {
     // consume the skeleton context
@@ -80,10 +81,9 @@ export default class Skeleton extends React.PureComponent {
         : this.props
 
     const {
-      element,
       show,
+      style_type,
       figure,
-      width,
       skeleton,
       className,
       class: _className,
@@ -92,60 +92,30 @@ export default class Skeleton extends React.PureComponent {
       ...attributes
     } = props
 
+    const showSkeleton =
+      typeof show === 'boolean' || typeof show === 'string'
+        ? isTrue(show)
+        : skeleton
+
     const params = {
       className: classnames(
-        (isTrue(show) || skeleton) &&
-          !figure &&
-          'dnb-skeleton dnb-skeleton--block',
-        createSpacingClasses(props),
+        showSkeleton && style_type && `dnb-skeleton--${style_type}`,
         className,
         _className
       ),
       ...attributes
     }
 
-    if (width) {
-      params.style = { width: `${parseFloat(width)}%` }
-    }
-
-    // also used for code markup simulation
     validateDOMAttributes(this.props, params)
 
-    const Element = element
-
     return (
-      <Element {...params}>
-        {children}
-        {figure && (
-          <Figure figure={figure} show={isTrue(show) || skeleton} />
+      <Space {...params}>
+        {figure && showSkeleton ? (
+          figure
+        ) : (
+          <Provider skeleton={showSkeleton}>{children}</Provider>
         )}
-        &zwnj;
-      </Element>
+      </Space>
     )
   }
-}
-
-function Figure({ figure, show }) {
-  switch (figure) {
-    case 'article': {
-      const style = (p) =>
-        `dnb-space__top--x-small dnb-skeleton dnb-skeleton--${p}`
-      return (
-        <div
-          className={classnames(
-            'dnb-skeleton__figure',
-            show && 'dnb-skeleton__figure--show'
-          )}
-          aria-busy={show ? true : null}
-        >
-          <div className={`dnb-h--xx-large ${style(50)}`}>&zwnj;</div>
-          <div className={`dnb-p ${style(70)}`}>&zwnj;</div>
-          <div className={`dnb-p ${style(80)}`}>&zwnj;</div>
-          <div className={`dnb-p ${style(60)}`}>&zwnj;</div>
-        </div>
-      )
-    }
-  }
-
-  return null
 }

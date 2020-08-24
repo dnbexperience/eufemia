@@ -68,7 +68,6 @@ const propTypes = {
     PropTypes.string,
     PropTypes.bool
   ]),
-  skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   suffix: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.func,
@@ -78,6 +77,7 @@ const propTypes = {
   selectall: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   stretch: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   class: PropTypes.string,
   input_class: PropTypes.string,
   input_attributes: PropTypes.oneOfType([
@@ -140,12 +140,12 @@ const defaultProps = {
   autocomplete: 'off',
   placeholder: null,
   keep_placeholder: null,
-  skeleton: null,
   suffix: null,
   align: null,
   selectall: null,
   stretch: null,
   disabled: null,
+  skeleton: null,
   input_class: null,
   class: null,
   input_attributes: null,
@@ -309,10 +309,10 @@ export default class Input extends React.PureComponent {
       status_animation,
       global_status_id,
       disabled,
+      skeleton,
       placeholder,
       keep_placeholder,
       suffix,
-      skeleton,
       align,
       input_class,
       submit_button_title,
@@ -342,7 +342,7 @@ export default class Input extends React.PureComponent {
 
     let { value, focusState, inputState } = this.state
 
-    if (disabled) {
+    if (isTrue(disabled) || isTrue(skeleton)) {
       inputState = 'disabled'
     }
     const sizeIsNumber = parseFloat(size) > 0
@@ -402,7 +402,7 @@ export default class Input extends React.PureComponent {
       value: hasValue ? value : '',
       type,
       id,
-      disabled: isTrue(disabled),
+      disabled: isTrue(disabled) || isTrue(skeleton),
       name: id,
       'aria-placeholder': placeholder, // NVDA just reads out the placeholder twice
       ...attributes,
@@ -443,9 +443,8 @@ export default class Input extends React.PureComponent {
     }
     if (isTrue(skeleton)) {
       shellParams['aria-busy'] = true
-      inputParams.disabled = true
     }
-    if (isTrue(disabled)) {
+    if (isTrue(disabled) || isTrue(skeleton)) {
       shellParams['aria-disabled'] = true
     }
 
@@ -469,7 +468,6 @@ export default class Input extends React.PureComponent {
             label_direction={label_direction}
             sr_only={label_sr_only}
             disabled={disabled}
-            skeleton={skeleton}
           />
         )}
 
@@ -532,7 +530,7 @@ export default class Input extends React.PureComponent {
                     }
                     title={submit_button_title}
                     variant={submit_button_variant}
-                    disabled={disabled}
+                    disabled={isTrue(disabled) || isTrue(skeleton)}
                     size={size}
                     on_submit={on_submit}
                   />

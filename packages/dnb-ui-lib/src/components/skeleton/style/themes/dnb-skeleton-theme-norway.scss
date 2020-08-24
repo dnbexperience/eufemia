@@ -1,0 +1,56 @@
+/*
+ * Skeleton Theme
+ *
+ */
+
+@function cross($first, $second, $third) {
+  @return linear-gradient(
+      90deg,
+      transparent 28%,
+      $second 28%,
+      $second 34%,
+      transparent 34%
+    ),
+    linear-gradient(
+      transparent 42%,
+      $third 42%,
+      $third 46%,
+      $second 46%,
+      $second 58%,
+      $third 58%,
+      $third 62%,
+      transparent 62%
+    ),
+    linear-gradient(
+      90deg,
+      $first 25%,
+      $third 25%,
+      $third 28%,
+      $second 28%,
+      $second 34%,
+      $third 34%,
+      $third 37%,
+      $first 37%
+    );
+}
+
+.dnb-skeleton {
+  &--norway &,
+  &--norway {
+    &::before {
+      background-color: var(
+        --color-sea-green-30
+      ) !important; // to take presence
+    }
+
+    &::after {
+      background-image: cross(#ef2b2d, #002868, white) !important;
+
+      background-repeat: repeat !important;
+      background-size: 4rem 100% !important;
+      background-position: center !important;
+
+      animation: skeletonFancyAnimation 2s linear infinite;
+    }
+  }
+}

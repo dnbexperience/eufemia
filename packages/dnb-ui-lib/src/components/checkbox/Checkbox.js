@@ -56,6 +56,7 @@ const propTypes = {
   value: PropTypes.string,
   attributes: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   readOnly: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   class: PropTypes.string,
 
   /// React props
@@ -85,6 +86,7 @@ const defaultProps = {
   value: null,
   attributes: null,
   readOnly: false,
+  skeleton: null,
   class: null,
 
   // React props
@@ -179,6 +181,7 @@ export default class Checkbox extends React.PureComponent {
     const props = extendPropsWithContext(
       this.props,
       defaultProps,
+      { skeleton: this.context && this.context.skeleton },
       this.context.formRow
     )
 
@@ -193,8 +196,9 @@ export default class Checkbox extends React.PureComponent {
       label_position,
       label_sr_only,
       title,
-      disabled,
+      disabled: _disabled, // eslint-disable-line
       readOnly,
+      skeleton,
       className,
       class: _className,
 
@@ -212,9 +216,14 @@ export default class Checkbox extends React.PureComponent {
     } = props
 
     const { checked } = this.state
+    let { disabled } = props
 
     const id = this._id
     const showStatus = status && status !== 'error'
+
+    if (isTrue(skeleton)) {
+      disabled = true
+    }
 
     const mainParams = {
       className: classnames(
@@ -292,7 +301,13 @@ export default class Checkbox extends React.PureComponent {
                 ref={this._refInput}
               />
 
-              <span className="dnb-checkbox__button" aria-hidden>
+              <span
+                className={classnames(
+                  'dnb-checkbox__button',
+                  isTrue(skeleton) && 'dnb-skeleton'
+                )}
+                aria-hidden
+              >
                 <span className="dnb-checkbox__focus" />
               </span>
 
