@@ -55,15 +55,37 @@
     visibility: hidden;
   }
 
-  &:not(.dnb-input__shell):not(.dnb-button):not(.dnb-slider__shell):not(.dnb-switch__shell):not(.dnb-textarea__shell) {
+  &:not(.dnb-input__shell):not(.dnb-button):not(.dnb-checkbox__button):not(.dnb-textarea__inner) {
     &::before,
     &::after {
       border-radius: 0.25rem;
     }
   }
 
+  &.dnb-checkbox__button {
+    &::before,
+    &::after {
+      border-radius: 0;
+    }
+  }
+
+  &.dnb-textarea__inner {
+    margin: 0;
+
+    &::before,
+    &::after {
+      border-radius: 1rem;
+    }
+
+    .dnb-textarea__shell {
+      margin-bottom: calc(var(--textarea-padding-width) * 2);
+      margin-right: calc(var(--textarea-padding-width) * 2);
+    }
+  }
+
   // &.dnb-input__shell,// Have already overflow
-  &.dnb-button {
+  &.dnb-button,
+  &.dnb-slider {
     overflow: hidden;
   }
 

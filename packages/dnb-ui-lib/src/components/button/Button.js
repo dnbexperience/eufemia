@@ -173,6 +173,7 @@ export default class Button extends React.PureComponent {
       { skeleton: this.context?.skeleton },
       this.context.formRow
     )
+
     const {
       class: class_name,
       className,

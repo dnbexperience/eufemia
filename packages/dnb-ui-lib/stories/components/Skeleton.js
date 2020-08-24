@@ -9,15 +9,17 @@ import styled from '@emotion/styled'
 
 import {
   Input,
-  // InputMasked,
-  // Modal,
+  Textarea,
+  Modal,
   Button,
-  // FormSet,
+  Slider,
+  Switch,
+  Checkbox,
+  Radio,
   DatePicker,
   FormRow,
   ToggleButton,
   Skeleton
-  // FormLabel
 } from '../../src/components'
 import { H1, H2, P, Ol, Li, Ul, Dl, Dt, Dd } from '../../src/elements'
 import Provider from '../../src/shared/Provider'
@@ -48,7 +50,7 @@ export default [
     //   // myRef.current.focus()
     // })
 
-    const [showSkeleton, setSkeletonState] = React.useState(false)
+    const [showSkeleton, setSkeletonState] = React.useState(true)
     // console.log('showSkeleton', showSkeleton)
 
     return (
@@ -67,40 +69,6 @@ export default [
           <CustomStyle>
             <Wrapper>
               <Box>
-                <Skeleton
-                  show
-                  figure={() => <SkeletonArticle rows={5} />}
-                  // style_type="rainbow"
-                  // style_type="norway"
-                  // style_type="shine"
-                >
-                  <Input
-                    top
-                    label="Input"
-                    size="large"
-                    placeholder="Placeholder"
-                    icon_position="right"
-                    icon="calendar"
-                    align="right"
-                  />
-                </Skeleton>
-
-                {/* <SkeletonFigure top className="dnb-h--xx-large" width={20}>
-                </SkeletonFigure> */}
-                {/* <SkeletonFigure top className="dnb-p" width={20} />
-                <SkeletonFigure top figure="article" />
-                <SkeletonFigure top figure="circle" />
-                <SkeletonFigure top figure="product" />
-                <SkeletonFigure
-                  top
-                  figure="product"
-                  className="dnb-skeleton-rainbow"
-                /> */}
-                {/* <Skeleton show top>
-                  <P>Paragraph</P>
-                </Skeleton> */}
-              </Box>
-              <Box>
                 <ToggleButton
                   skeleton={false}
                   checked={showSkeleton}
@@ -112,6 +80,34 @@ export default [
 
               <Box>
                 <Button>Button</Button>
+                <Slider
+                  label="Vertical slider:"
+                  vertical={false}
+                  // disabled
+                  top
+                />
+                <Modal top>123</Modal>
+                <Checkbox
+                  label="Checkbox:"
+                  // disabled
+                  left
+                />
+                <Switch
+                  label="Switch:"
+                  // disabled
+                  left
+                />
+                <Radio
+                  label="Radio:"
+                  // disabled
+                  left
+                />
+                <Input top label_direction="vertical" label="Input" />
+                <Textarea
+                  top
+                  label_direction="vertical"
+                  label="Textarea"
+                />
               </Box>
 
               <Box>
@@ -126,7 +122,6 @@ export default [
                 Paragraph Non habitasse ut nisi dictum laoreet ridiculus
                 dui.
               </P> */}
-                {/* <Input label_direction="vertical" label="Input" /> */}
               </Box>
 
               <Box>
@@ -179,6 +174,7 @@ export default [
                   <Li>Item 4</Li>
                 </Ul>
               </Box>
+
               <Box>
                 <Ol nested>
                   <Li>Item</Li>
@@ -204,6 +200,7 @@ export default [
                   <Li>Item</Li>
                 </Ol>
               </Box>
+
               <Box>
                 <ListWidthLimit>
                   <Ol nested className="dnb-ol--outside">
@@ -236,6 +233,7 @@ export default [
                   </Ol>
                 </ListWidthLimit>
               </Box>
+
               <Box>
                 <Dl>
                   <Dt>Term</Dt>
@@ -249,6 +247,41 @@ export default [
                     <Dd>Sub Description</Dd>
                   </dl>
                 </Dl>
+              </Box>
+
+              <Box>
+                <Skeleton
+                  show
+                  figure={() => <SkeletonArticle rows={5} />}
+                  // style_type="rainbow"
+                  // style_type="norway"
+                  // style_type="shine"
+                >
+                  <Input
+                    top
+                    label="Input"
+                    size="large"
+                    placeholder="Placeholder"
+                    icon_position="right"
+                    icon="calendar"
+                    align="right"
+                  />
+                </Skeleton>
+
+                {/* <SkeletonFigure top className="dnb-h--xx-large" width={20}>
+                </SkeletonFigure> */}
+                {/* <SkeletonFigure top className="dnb-p" width={20} />
+                <SkeletonFigure top figure="article" />
+                <SkeletonFigure top figure="circle" />
+                <SkeletonFigure top figure="product" />
+                <SkeletonFigure
+                  top
+                  figure="product"
+                  className="dnb-skeleton-rainbow"
+                /> */}
+                {/* <Skeleton show top>
+                  <P>Paragraph</P>
+                </Skeleton> */}
               </Box>
             </Wrapper>
           </CustomStyle>

@@ -57,6 +57,7 @@ const propTypes = {
   ]),
   value: PropTypes.string,
   attributes: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+  skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   readOnly: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   class: PropTypes.string,
 
@@ -87,6 +88,7 @@ const defaultProps = {
   value: '',
   attributes: null,
   readOnly: false,
+  skeleton: null,
   class: null,
 
   // React props
@@ -262,6 +264,7 @@ export default class Radio extends React.PureComponent {
             this.props,
             defaultProps,
             this.context, // internal context
+            { skeleton: context?.skeleton },
             context.formRow
           )
 
@@ -275,6 +278,7 @@ export default class Radio extends React.PureComponent {
             label_sr_only,
             label_position,
             readOnly,
+            skeleton,
             className,
             class: _className,
             id: _id, // eslint-disable-line
@@ -295,6 +299,10 @@ export default class Radio extends React.PureComponent {
           let { checked } = this.state
           let { value, group, disabled } = props // get it from context also
 
+          if (isTrue(skeleton)) {
+            disabled = true
+          }
+
           const hasContext = typeof this.context.name !== 'undefined'
 
           if (hasContext) {
@@ -302,7 +310,9 @@ export default class Radio extends React.PureComponent {
               checked = this.context.value === value
             }
             group = this.context.name
-            disabled = isTrue(this.context.disabled)
+            disabled =
+              isTrue(this.context.disabled) ||
+              isTrue(this.context.skeleton)
           } else if (typeof rest.name !== 'undefined') {
             group = rest.name
           }
@@ -393,7 +403,13 @@ export default class Radio extends React.PureComponent {
                         onKeyDown={this.onKeyDownHandler}
                       />
 
-                      <span className="dnb-radio__button" aria-hidden />
+                      <span
+                        className={classnames(
+                          'dnb-radio__button',
+                          isTrue(skeleton) && 'dnb-skeleton'
+                        )}
+                        aria-hidden
+                      />
                       <span className="dnb-radio__focus" aria-hidden />
                       <span className="dnb-radio__dot" aria-hidden />
                     </span>
