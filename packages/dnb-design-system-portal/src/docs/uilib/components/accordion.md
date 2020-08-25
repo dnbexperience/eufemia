@@ -40,63 +40,6 @@ import ComponentBox from 'Tags/ComponentBox'
 `}
 </ComponentBox>
 
-## Grouped Accordion
-
-<ComponentBox>
-{`
-<Accordion.Group expanded allow_close_all>
-	<Accordion expanded={false}>
-	<Accordion.Header>Accordion title</Accordion.Header>
-	<Accordion.Content top="x-large">
-		<P>
-		Sociis sapien sociosqu vel sollicitudin accumsan laoreet
-		gravida himenaeos nostra mollis volutpat bibendum convallis
-		cum condimentum dictumst blandit rutrum vehicula
-		</P>
-	</Accordion.Content>
-	</Accordion>
-	<Accordion top>
-	<Accordion.Header>Accordion title</Accordion.Header>
-	<Accordion.Content>
-		<P>
-		Nec sit mattis natoque interdum sagittis cubilia nibh
-		nullam etiam
-		</P>
-	</Accordion.Content>
-	</Accordion>
-</Accordion.Group>
-`}
-</ComponentBox>
-
-## By prop Grouped Accordion
-
-<ComponentBox>
-{`
-<Accordion
-	group="unique-id"
-	left_component={<IconPrimary icon="bell" />}
->
-	<Accordion.Header>Accordion title</Accordion.Header>
-	<Accordion.Content>
-	<P>
-		Sociis sapien sociosqu vel sollicitudin accumsan laoreet
-		gravida himenaeos nostra mollis volutpat bibendum convallis
-		cum condimentum dictumst blandit rutrum vehicula
-	</P>
-	</Accordion.Content>
-</Accordion>
-<Accordion top expanded={true} group="unique-id">
-	<Accordion.Header>Accordion title</Accordion.Header>
-	<Accordion.Content>
-	<P>
-		Nec sit mattis natoque interdum sagittis cubilia nibh nullam
-		etiam
-	</P>
-	</Accordion.Content>
-</Accordion>
-`}
-</ComponentBox>
-
 ## Accordion with a single container
 
 A single container is used only for wider screens (desktop).
@@ -160,6 +103,36 @@ A single container is used only for wider screens (desktop).
 			</P>
 		</Accordion.Content>
     </Accordion>
+</Accordion.Group>
+`}
+</ComponentBox>
+
+## Grouped Accordion
+
+**NB:** Please to avoid using a group, because it initiate an unexpected result, something the user not would expect to happen. It is an automated out of context UI execution.
+
+<ComponentBox>
+{`
+<Accordion.Group expanded allow_close_all>
+	<Accordion expanded={false}>
+	<Accordion.Header>Accordion title</Accordion.Header>
+	<Accordion.Content top="x-large">
+		<P>
+		Sociis sapien sociosqu vel sollicitudin accumsan laoreet
+		gravida himenaeos nostra mollis volutpat bibendum convallis
+		cum condimentum dictumst blandit rutrum vehicula
+		</P>
+	</Accordion.Content>
+	</Accordion>
+	<Accordion top>
+	<Accordion.Header>Accordion title</Accordion.Header>
+	<Accordion.Content>
+		<P>
+		Nec sit mattis natoque interdum sagittis cubilia nibh
+		nullam etiam
+		</P>
+	</Accordion.Content>
+	</Accordion>
 </Accordion.Group>
 `}
 </ComponentBox>
