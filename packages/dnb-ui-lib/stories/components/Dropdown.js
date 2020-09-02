@@ -64,7 +64,7 @@ const DropdownStory = () => {
         <RightAligned>
           <Dropdown
             size="small"
-            opened
+            // opened
             more_menu
             data={['Go this this Link', 'Or to this one']}
             // skip_portal
@@ -72,7 +72,7 @@ const DropdownStory = () => {
           />
           <Dropdown
             size="small"
-            opened
+            // opened
             more_menu
             data={['Go this this Link', 'Or to this one']}
             // skip_portal
@@ -746,30 +746,32 @@ function UpdateDataExample() {
     <>
       <pre>
         Selected data:{' '}
-        {selectedData.map((item) => (
-          <Button
-            key={item.selected_value}
-            size="small"
-            on_click={() => {
-              const updatedSelectedData = selectedData.filter(
-                ({ selected_value }) =>
-                  item.selected_value !== selected_value
-              )
-              setSelectedData(updatedSelectedData)
-              setChoiceData(
-                initialData.filter(
+        {selectedData.map((item, i) => {
+          return (
+            <Button
+              key={i}
+              size="small"
+              on_click={() => {
+                const updatedSelectedData = selectedData.filter(
                   ({ selected_value }) =>
-                    updatedSelectedData.findIndex(
-                      ({ selected_value: updatedValue }) =>
-                        updatedValue === selected_value
-                    ) === -1
+                    item?.selected_value !== selected_value
                 )
-              )
-            }}
-          >
-            {item.content}
-          </Button>
-        ))}
+                setSelectedData(updatedSelectedData)
+                setChoiceData(
+                  initialData.filter(
+                    ({ selected_value }) =>
+                      updatedSelectedData.findIndex(
+                        ({ selected_value: updatedValue }) =>
+                          updatedValue === selected_value
+                      ) === -1
+                  )
+                )
+              }}
+            >
+              {item?.content}
+            </Button>
+          )
+        })}
       </pre>
 
       <Dropdown
@@ -778,18 +780,23 @@ function UpdateDataExample() {
         enable_body_lock
         data={choiceData}
         on_change={({ data }) => {
-          setChoiceData(
-            choiceData.filter(
-              (item) => item.selected_value !== data.selected_value
+          console.log('data', data)
+          if (data) {
+            setChoiceData(
+              choiceData.filter((item) => {
+                return (
+                  data && item?.selected_value !== data?.selected_value
+                )
+              })
             )
-          )
-          if (
-            selectedData.findIndex(
-              ({ selected_value }) =>
-                selected_value === data.selected_value
-            ) === -1
-          ) {
-            setSelectedData([...selectedData, data])
+            if (
+              selectedData.findIndex(
+                ({ selected_value }) =>
+                  selected_value === data.selected_value
+              ) === -1
+            ) {
+              setSelectedData([...selectedData, data])
+            }
           }
         }}
       />

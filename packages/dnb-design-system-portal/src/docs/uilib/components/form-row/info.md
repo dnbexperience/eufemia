@@ -6,7 +6,11 @@ import ComponentBox from 'Tags/ComponentBox'
 
 ## Description
 
-The FormRow component is a helper to archive more easily often used DNB form layout setups. By default a `FormRow` is using the `<fieldset>` and `<legend>` HTML elements - if a label property is provided.
+The FormRow component is a helper to archive more easily often used DNB form layout setups.
+
+### Fieldset and Legend
+
+By default a `FormRow` is using the `<fieldset>` and `<legend>` HTML elements - if a label property is provided.
 
 ## Layout direction
 

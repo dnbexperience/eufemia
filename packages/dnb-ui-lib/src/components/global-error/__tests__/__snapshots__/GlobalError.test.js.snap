@@ -615,10 +615,10 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
               width={null}
             >
               <span
-                alt="chevron left"
                 aria-hidden={true}
+                aria-label="chevron left icon"
                 className="dnb-icon dnb-icon--default dnb-button__icon"
-                role="img"
+                role="presentation"
               >
                 <chevron_left>
                   <svg
@@ -642,20 +642,20 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
       </Button>
       <Svg
         className="dnb-global-error__gfx"
-        role="img"
+        role="presentation"
         status="404"
         title="alt"
       >
         <Svg404
           className="dnb-global-error__gfx"
-          role="img"
+          role="presentation"
           title="alt"
         >
           <svg
             className="dnb-global-error__gfx"
             fill="none"
             height="360"
-            role="img"
+            role="presentation"
             width="339"
             xmlns="http://www.w3.org/2000/svg"
           >

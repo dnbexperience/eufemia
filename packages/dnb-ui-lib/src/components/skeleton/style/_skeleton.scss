@@ -54,6 +54,9 @@
   .dnb-anchor {
     visibility: hidden;
   }
+  &.dnb-anchor {
+    box-shadow: none;
+  }
 
   &:not(.dnb-input__shell):not(.dnb-button):not(.dnb-checkbox__button):not(.dnb-textarea__inner) {
     &::before,

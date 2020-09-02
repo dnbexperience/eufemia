@@ -82,12 +82,12 @@ class DrawerListPortal extends React.PureComponent {
   createPortal() {
     if (typeof document !== 'undefined') {
       try {
-        drawerListPortal[this.props.id] = {
+        const elem = (drawerListPortal[this.props.id] = {
           node: document.createElement('div')
-        }
-        drawerListPortal[this.props.id].node.className =
-          'dnb-drawer-list__portal dnb-core-style'
-        document.body.appendChild(drawerListPortal[this.props.id].node)
+        })
+        elem.node.setAttribute('role', 'presentation')
+        elem.node.className = 'dnb-drawer-list__portal dnb-core-style'
+        document.body.appendChild(elem.node)
       } catch (e) {
         warn('Could not create DrawerListPortal!', e)
       }

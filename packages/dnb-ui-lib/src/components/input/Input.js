@@ -493,8 +493,6 @@ export default class Input extends React.PureComponent {
                   className="dnb-input__icon"
                   icon={icon}
                   size={iconSize}
-                  role="presentation"
-                  aria-hidden
                 />
               )}
 

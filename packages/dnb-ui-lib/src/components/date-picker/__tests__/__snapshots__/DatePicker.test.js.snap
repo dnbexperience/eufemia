@@ -132,7 +132,6 @@ exports[`DatePicker component have to match snapshot 1`] = `
           >
             <Icon
               alt={null}
-              aria-hidden={true}
               attributes={null}
               border={null}
               className={null}
@@ -149,9 +148,8 @@ exports[`DatePicker component have to match snapshot 1`] = `
               width={null}
             >
               <span
-                aria-hidden={true}
                 className="dnb-icon dnb-icon--large"
-                role="img"
+                role="presentation"
               >
                 <Component>
                   <ErrorIcon
@@ -160,7 +158,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                     <svg
                       fill="none"
                       height="32"
-                      role="img"
+                      role="presentation"
                       title={null}
                       viewBox="0 0 32 32"
                       width="32"
@@ -246,10 +244,9 @@ exports[`DatePicker component have to match snapshot 1`] = `
                       ‌
                     </span>
                     <span
-                      alt="calendar"
-                      aria-label="calendar"
+                      aria-label="calendar icon"
                       class="dnb-icon dnb-icon--default dnb-button__icon"
-                      role="img"
+                      role="presentation"
                     >
                       <svg
                         fill="none"
@@ -915,10 +912,9 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                   ‌
                                 </span>
                                 <span
-                                  alt="calendar"
-                                  aria-label="calendar"
+                                  aria-label="calendar icon"
                                   class="dnb-icon dnb-icon--default dnb-button__icon"
-                                  role="img"
+                                  role="presentation"
                                 >
                                   <svg
                                     fill="none"
@@ -980,10 +976,9 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                       ‌
                                     </span>
                                     <span
-                                      alt="calendar"
-                                      aria-label="calendar"
+                                      aria-label="calendar icon"
                                       class="dnb-icon dnb-icon--default dnb-button__icon"
-                                      role="img"
+                                      role="presentation"
                                     >
                                       <svg
                                         fill="none"
@@ -1062,10 +1057,9 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                           ‌
                                         </span>
                                         <span
-                                          alt="calendar"
-                                          aria-label="calendar"
+                                          aria-label="calendar icon"
                                           class="dnb-icon dnb-icon--default dnb-button__icon"
-                                          role="img"
+                                          role="presentation"
                                         >
                                           <svg
                                             fill="none"
@@ -1124,10 +1118,9 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                     width={null}
                                   >
                                     <span
-                                      alt="calendar"
-                                      aria-label="calendar"
+                                      aria-label="calendar icon"
                                       className="dnb-icon dnb-icon--default dnb-button__icon"
-                                      role="img"
+                                      role="presentation"
                                     >
                                       <calendar>
                                         <svg

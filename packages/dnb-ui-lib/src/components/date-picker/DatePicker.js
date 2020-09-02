@@ -788,7 +788,7 @@ export default class DatePicker extends React.PureComponent {
     validateDOMAttributes(null, submitParams)
     validateDOMAttributes(null, pickerParams)
 
-    // make it pissible to grapt the rest attributes and return it with all events
+    // make it possible to grapt the rest attributes and return it with all events
     this.attributes = inputParams
 
     return (

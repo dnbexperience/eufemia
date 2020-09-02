@@ -150,13 +150,7 @@ export default class GlobalStatus extends React.PureComponent {
           IconToLoad = ErrorIcon
       }
 
-      icon = (
-        <Icon
-          icon={<IconToLoad title={null} />}
-          size={icon_size}
-          aria-hidden
-        />
-      )
+      icon = <Icon icon={<IconToLoad title={null} />} size={icon_size} />
     }
 
     return icon

@@ -379,7 +379,7 @@ class DrawerListInstance extends React.PureComponent {
     validateDOMAttributes(null, listParams)
     validateDOMAttributes(null, ulParams)
 
-    // make it pissible to grab the rest attributes and return it with all events
+    // make it possible to grab the rest attributes and return it with all events
     Object.assign(
       this.context.drawerList.attributes,
       validateDOMAttributes(null, attributes)
@@ -582,7 +582,7 @@ DrawerList.Item = React.forwardRef((props, ref) => {
       active && 'dnb-drawer-list__option--focus'
     ),
     role: 'option', // presentation / option / menuitem
-    tabIndex: '-1',
+    tabIndex: selected ? '0' : '-1',
     'aria-selected': active
   }
   if (selected) {

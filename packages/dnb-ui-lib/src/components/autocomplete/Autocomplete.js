@@ -550,7 +550,7 @@ class AutocompleteInstance extends React.PureComponent {
         selected_item: false,
         content: (
           <>
-            <IconPrimary icon="arrow_down" aria-hidden />
+            <IconPrimary icon="arrow_down" />
             {show_all}
           </>
         )
@@ -1415,7 +1415,7 @@ class AutocompleteInstance extends React.PureComponent {
 
     const isExpanded = Boolean(opened) && this.hasValidData()
 
-    // make it pissible to grab the rest attributes and return it with all events
+    // make it possible to grab the rest attributes and return it with all events
     Object.assign(
       this.context.drawerList.attributes,
       validateDOMAttributes(null, attributes)
@@ -1546,7 +1546,7 @@ class AutocompleteInstance extends React.PureComponent {
     validateDOMAttributes(null, mainParams)
     validateDOMAttributes(null, shellParams)
 
-    // make it pissible to grab the rest attributes and return it with all events
+    // make it possible to grab the rest attributes and return it with all events
     this.attributes = validateDOMAttributes(null, attributes)
 
     return (
