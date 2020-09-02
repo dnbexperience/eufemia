@@ -158,12 +158,7 @@ export default class StickyMenuBar extends React.PureComponent {
                   <HeaderInner>
                     <MainMenuToggleButton />
                     <CenterWrapper aria-hidden>
-                      <Icon
-                        icon={PortalLogo}
-                        size={48}
-                        alt={`${slogan} logo`}
-                        right="x-small"
-                      />
+                      <Icon icon={PortalLogo} size={48} right="x-small" />
                       <Slogan>{slogan}</Slogan>
                     </CenterWrapper>
                     <Tools>

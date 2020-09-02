@@ -569,7 +569,6 @@ class DropdownInstance extends React.PureComponent {
                   >
                     {icon !== false && (
                       <Icon
-                        aria-hidden
                         icon={icon || 'chevron_down'}
                         size={
                           icon_size ||

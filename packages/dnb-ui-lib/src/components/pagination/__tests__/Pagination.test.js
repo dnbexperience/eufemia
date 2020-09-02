@@ -73,7 +73,7 @@ describe('Pagination bar component', () => {
         .find('span.dnb-icon')
         .instance()
         .getAttribute('aria-label')
-    ).toBe('chevron left')
+    ).toBe('chevron left icon')
   })
 
   it('accepts element in the function return', () => {

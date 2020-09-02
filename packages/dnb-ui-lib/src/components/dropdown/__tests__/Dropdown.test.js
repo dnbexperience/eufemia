@@ -191,9 +191,9 @@ describe('Dropdown component', () => {
         .hasClass('dnb-drawer-list__option--selected')
     ).toBe(false)
 
-    expect(Comp.find('.dnb-icon').instance().getAttribute('alt')).toBe(
-      'chevron down'
-    )
+    expect(
+      Comp.find('.dnb-icon').instance().getAttribute('aria-label')
+    ).toBe('chevron down icon')
 
     const event = on_change.mock.calls[0][0]
     selectedItem = mockData[event.value]
@@ -242,9 +242,9 @@ describe('Dropdown component', () => {
         .hasClass('dnb-drawer-list__option--selected')
     ).toBe(false)
 
-    expect(Comp.find('.dnb-icon').instance().getAttribute('alt')).toBe(
-      'more'
-    )
+    expect(
+      Comp.find('.dnb-icon').instance().getAttribute('aria-label')
+    ).toBe('more icon')
 
     expect(Comp.exists('.dnb-dropdown__text')).toBe(false)
     expect(Comp.exists('.dnb-dropdown--is-popup')).toBe(true)

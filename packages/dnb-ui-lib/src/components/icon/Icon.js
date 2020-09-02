@@ -301,7 +301,7 @@ export const prepareIcon = (props) => {
     width,
     color,
     modifier,
-    alt: _alt,
+    alt,
     title,
     class: _className,
     className,
@@ -319,20 +319,14 @@ export const prepareIcon = (props) => {
     iconParams.color = color
   }
 
-  // get the alt
-  let alt = _alt || title
-
-  if (!(alt && alt.length > 0)) {
-    alt = getIconNameFromComponent(icon)
-    alt = alt ? String(alt).replace(/_/g, ' ') : null
-  }
+  const label = icon ? getIconNameFromComponent(icon) : null
 
   // some wrapper params
   // also used for code markup simulation
   const wrapperParams = validateDOMAttributes(props, {
-    role: 'img',
+    role: alt ? 'img' : 'presentation',
     alt, // in case the image don't shows up (because we define the role to be img)
-    ['aria-label']: !attributes['aria-hidden'] ? alt : null, // for screen readers only
+    'aria-label': label ? label.replace(/_/g, ' ') + ' icon' : null, // for screen readers only
     title, // to show on hover, if defined
     ...attributes
   })

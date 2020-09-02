@@ -93,10 +93,10 @@ exports[`Button component have to match default button snapshot 1`] = `
         width={null}
       >
         <span
-          alt="question"
           aria-hidden={true}
+          aria-label="question icon"
           className="dnb-icon dnb-icon--default dnb-button__icon"
-          role="img"
+          role="presentation"
         >
           <question>
             <svg
@@ -214,10 +214,10 @@ exports[`Button component have to match href="..." snapshot 1`] = `
         width={null}
       >
         <span
-          alt="question"
           aria-hidden={true}
+          aria-label="question icon"
           className="dnb-icon dnb-icon--default dnb-button__icon"
-          role="img"
+          role="presentation"
         >
           <question>
             <svg
