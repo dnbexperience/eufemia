@@ -550,7 +550,7 @@ class AutocompleteInstance extends React.PureComponent {
         selected_item: false,
         content: (
           <>
-            <IconPrimary icon="arrow_down" aria-hidden />
+            <IconPrimary icon="arrow_down" />
             {show_all}
           </>
         )

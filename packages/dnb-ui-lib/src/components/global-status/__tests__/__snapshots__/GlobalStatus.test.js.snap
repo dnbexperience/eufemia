@@ -844,7 +844,6 @@ exports[`GlobalStatus snapshot have to match component snapshot 1`] = `
                 >
                   <Icon
                     alt={null}
-                    aria-hidden={true}
                     attributes={null}
                     border={null}
                     className={null}
@@ -861,9 +860,8 @@ exports[`GlobalStatus snapshot have to match component snapshot 1`] = `
                     width={null}
                   >
                     <span
-                      aria-hidden={true}
                       className="dnb-icon dnb-icon--default"
-                      role="img"
+                      role="presentation"
                     >
                       <Component>
                         <ErrorIcon
@@ -872,7 +870,7 @@ exports[`GlobalStatus snapshot have to match component snapshot 1`] = `
                           <svg
                             fill="none"
                             height="32"
-                            role="img"
+                            role="presentation"
                             title={null}
                             viewBox="0 0 32 32"
                             width="32"
@@ -1007,10 +1005,10 @@ exports[`GlobalStatus snapshot have to match component snapshot 1`] = `
                           width={null}
                         >
                           <span
-                            alt="close"
                             aria-hidden={true}
+                            aria-label="close icon"
                             className="dnb-icon dnb-icon--medium dnb-button__icon"
-                            role="img"
+                            role="presentation"
                           >
                             <close_medium>
                               <svg

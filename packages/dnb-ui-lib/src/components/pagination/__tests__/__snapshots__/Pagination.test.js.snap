@@ -524,10 +524,9 @@ exports[`Pagination bar component have to match snapshot 1`] = `
                     width={null}
                   >
                     <span
-                      alt="chevron left"
-                      aria-label="chevron left"
+                      aria-label="chevron left icon"
                       className="dnb-icon dnb-icon--default dnb-button__icon"
-                      role="img"
+                      role="presentation"
                     >
                       <chevron_left>
                         <svg
@@ -640,10 +639,10 @@ exports[`Pagination bar component have to match snapshot 1`] = `
                     width={null}
                   >
                     <span
-                      alt="chevron right"
                       aria-hidden={true}
+                      aria-label="chevron right icon"
                       className="dnb-icon dnb-icon--default dnb-button__icon"
-                      role="img"
+                      role="presentation"
                     >
                       <chevron_right>
                         <svg

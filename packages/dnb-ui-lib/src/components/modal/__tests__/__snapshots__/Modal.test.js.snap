@@ -185,10 +185,9 @@ exports[`Modal component have to match snapshot 1`] = `
             width={null}
           >
             <span
-              alt="question"
-              aria-label="question"
+              aria-label="question icon"
               className="dnb-icon dnb-icon--default dnb-button__icon"
-              role="img"
+              role="presentation"
             >
               <question>
                 <svg
@@ -416,10 +415,9 @@ exports[`Modal component have to match snapshot 1`] = `
                         ‌
                       </span>
                       <span
-                        alt="close"
-                        aria-label="close"
+                        aria-label="close icon"
                         class="dnb-icon dnb-icon--medium dnb-button__icon"
-                        role="img"
+                        role="presentation"
                       >
                         <svg
                           fill="none"
@@ -557,10 +555,9 @@ exports[`Modal component have to match snapshot 1`] = `
                           width={null}
                         >
                           <span
-                            alt="close"
-                            aria-label="close"
+                            aria-label="close icon"
                             className="dnb-icon dnb-icon--medium dnb-button__icon"
-                            role="img"
+                            role="presentation"
                           >
                             <close_medium>
                               <svg
