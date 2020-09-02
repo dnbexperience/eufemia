@@ -9,7 +9,6 @@ package-lock.json
 completions.json
 .DS_Store
 .history
-.huskyrc
 *not_in_use*
 
 # pkm

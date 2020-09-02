@@ -34,7 +34,7 @@
   },
   "devDependencies": {
     "git-branch-is": "^3.0.0",
-    "husky": "^3.0.9"
+    "husky": "^3.1.0"
   },
   "release": {
     "analyzeCommits": "simple-commit-message",

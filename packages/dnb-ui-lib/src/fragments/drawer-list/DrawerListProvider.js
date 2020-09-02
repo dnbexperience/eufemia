@@ -422,6 +422,15 @@ export default class DrawerListProvider extends React.PureComponent {
 
       this.correctHiddenView()
       this.setScrollObserver() // because, now we have _refUl!
+
+      const { selected_item, active_item } = this.state
+
+      this.scrollToAndSetActiveItem(
+        parseFloat(active_item) > -1 ? active_item : selected_item,
+        {
+          scrollTo: false
+        }
+      )
     }, 1)
 
     renderDirection()
@@ -916,16 +925,7 @@ export default class DrawerListProvider extends React.PureComponent {
       },
       () => {
         this.setWrapperElement()
-        this.assignObservers() // do not add a delay here!
-
-        const { selected_item, active_item } = this.state
-
-        this.scrollToAndSetActiveItem(
-          parseFloat(active_item) > -1 ? active_item : selected_item,
-          {
-            scrollTo: false
-          }
-        )
+        this.assignObservers()
       }
     )
 
