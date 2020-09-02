@@ -8,6 +8,7 @@ import { Wrapper, Box } from '../helpers'
 import styled from '@emotion/styled'
 
 import {
+  Heading,
   Input,
   Textarea,
   Modal,
@@ -79,6 +80,7 @@ export default [
               </Box>
 
               <Box>
+                <Heading>Heading</Heading>
                 <Button>Button</Button>
                 <Slider
                   label="Vertical slider:"
