@@ -848,7 +848,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                                   onClick={[Function]}
                                   onKeyDown={[Function]}
                                   role="option"
-                                  tabIndex="-1"
+                                  tabIndex="0"
                                 >
                                   <span
                                     className="dnb-drawer-list__option__inner"
