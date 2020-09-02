@@ -198,6 +198,7 @@ const AutocompleteStory = () => {
         />
         <Autocomplete
           mode="async"
+          enable_closest_observer
           // label="Search"
           // label_sr_only="true"
           keep_value
@@ -215,7 +216,7 @@ const AutocompleteStory = () => {
               setTimeout(() => {
                 updateData(topMovies)
                 setMode('sync')
-              }, 1e3)
+              }, 100)
             }
           }}
           no_scroll_animation="true"
