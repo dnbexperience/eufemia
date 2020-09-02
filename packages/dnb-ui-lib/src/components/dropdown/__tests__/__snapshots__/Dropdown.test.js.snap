@@ -364,7 +364,6 @@ exports[`Dropdown markup have to match snapshot 1`] = `
               >
                 <Icon
                   alt={null}
-                  aria-hidden={true}
                   attributes={null}
                   border={null}
                   className={null}
@@ -381,9 +380,8 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                   width={null}
                 >
                   <span
-                    aria-hidden={true}
                     className="dnb-icon dnb-icon--large"
-                    role="img"
+                    role="presentation"
                   >
                     <Component>
                       <ErrorIcon
@@ -392,7 +390,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                         <svg
                           fill="none"
                           height="32"
-                          role="img"
+                          role="presentation"
                           title={null}
                           viewBox="0 0 32 32"
                           width="32"
@@ -517,7 +515,6 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                         >
                           <IconPrimary
                             alt={null}
-                            aria-hidden={true}
                             attributes={null}
                             border={null}
                             className={null}
@@ -575,7 +572,6 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                     >
                       <IconPrimary
                         alt={null}
-                        aria-hidden={true}
                         attributes={null}
                         border={null}
                         className={null}
@@ -848,7 +844,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                                   onClick={[Function]}
                                   onKeyDown={[Function]}
                                   role="option"
-                                  tabIndex="-1"
+                                  tabIndex="0"
                                 >
                                   <span
                                     className="dnb-drawer-list__option__inner"

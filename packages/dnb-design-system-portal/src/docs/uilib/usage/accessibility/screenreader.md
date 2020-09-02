@@ -36,11 +36,11 @@ Some random examples of image and illustration usage:
   </svg>
 </a>
 
-<img role="presentation" alt="descriptive text" src="..." />
+<img role="presentation" aria-label="descriptive text" src="..." />
 
 <svg role="img" alt="descriptive text" src="..." />
 
-<figure role="group">
+<figure>
   <img alt="image alt" src="..." aria-hidden="true" />
   <figcaption>Descriptive text <cite>reference etc.</cite></figcaption>
 </figure>

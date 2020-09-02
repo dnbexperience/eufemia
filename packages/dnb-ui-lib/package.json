@@ -162,7 +162,6 @@
     "eslint-plugin-react": "^7.20.6",
     "eslint-plugin-react-hooks": "^4.1.0",
     "eslint-plugin-security": "^1.4.0",
-    "eslint-plugin-tree-shaking": "^1.8.0",
     "figma-js": "^1.11.0",
     "files-exist": "^1.1.0",
     "fs-extra": "^9.0.1",

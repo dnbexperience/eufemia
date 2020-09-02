@@ -686,12 +686,7 @@ class ListItem extends React.PureComponent {
         >
           <span>
             {icon && graphics[icon] && (
-              <Icon
-                icon={graphics[icon]}
-                size="medium"
-                alt={`${icon} graphic`}
-                aria-hidden
-              />
+              <Icon icon={graphics[icon]} size="medium" />
             )}
             {children}
           </span>

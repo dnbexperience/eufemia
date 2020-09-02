@@ -128,13 +128,7 @@ export default class FormStatus extends React.PureComponent {
           IconToLoad = ErrorIcon
       }
 
-      icon = (
-        <Icon
-          icon={<IconToLoad title={null} />}
-          size={icon_size}
-          aria-hidden
-        />
-      )
+      icon = <Icon icon={<IconToLoad title={null} />} size={icon_size} />
     }
 
     return icon
@@ -347,7 +341,7 @@ export const ErrorIcon = (props) => (
     viewBox="0 0 32 32"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
-    role="img"
+    role="presentation"
     {...props}
   >
     {props && props.title && <title>{props.title}</title>}
@@ -388,7 +382,7 @@ export const InfoIcon = (props) => (
     viewBox="0 0 32 32"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
-    role="img"
+    role="presentation"
     {...props}
   >
     {props && props.title && <title>{props.title}</title>}

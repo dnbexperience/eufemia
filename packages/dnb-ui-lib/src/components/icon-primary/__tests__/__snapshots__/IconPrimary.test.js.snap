@@ -15,10 +15,9 @@ exports[`IconPrimary component have to match snapshot 1`] = `
   width={null}
 >
   <span
-    alt="question"
-    aria-label="question"
+    aria-label="question icon"
     className="dnb-icon dnb-icon--default"
-    role="img"
+    role="presentation"
   >
     <question>
       <svg

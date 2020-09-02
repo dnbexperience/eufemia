@@ -449,7 +449,7 @@ class DropdownInstance extends React.PureComponent {
     const showStatus = status && status !== 'error'
     const title = this.getTitle(titleProp)
 
-    // make it pissible to grab the rest attributes and return it with all events
+    // make it possible to grab the rest attributes and return it with all events
     Object.assign(
       this.context.drawerList.attributes,
       validateDOMAttributes(null, attributes)
@@ -509,7 +509,7 @@ class DropdownInstance extends React.PureComponent {
     validateDOMAttributes(null, mainParams)
     validateDOMAttributes(this.props, triggerParams)
 
-    // make it pissible to grab the rest attributes and return it with all events
+    // make it possible to grab the rest attributes and return it with all events
     this.attributes = validateDOMAttributes(null, attributes)
 
     return (
@@ -569,7 +569,6 @@ class DropdownInstance extends React.PureComponent {
                   >
                     {icon !== false && (
                       <Icon
-                        aria-hidden
                         icon={icon || 'chevron_down'}
                         size={
                           icon_size ||

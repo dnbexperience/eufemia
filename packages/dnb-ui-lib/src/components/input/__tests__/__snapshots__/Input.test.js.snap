@@ -437,10 +437,9 @@ exports[`Input component have to match type="search" snapshot 1`] = `
                         width={null}
                       >
                         <span
-                          alt="search"
-                          aria-label="search"
+                          aria-label="search icon"
                           className="dnb-icon dnb-icon--default dnb-button__icon"
-                          role="img"
+                          role="presentation"
                         >
                           <search>
                             <svg
