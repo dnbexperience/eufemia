@@ -11,7 +11,6 @@ import { Article } from 'dnb-ui-lib/src/components/skeleton/figures'
 import 'dnb-ui-lib/src/components/skeleton/style/themes/rainbow'
 import 'dnb-ui-lib/src/components/skeleton/style/themes/norway'
 import 'dnb-ui-lib/src/components/skeleton/style/themes/brand'
-import 'dnb-ui-lib/src/components/skeleton/style/themes/lines'
 
 # Skeleton
 
