@@ -665,9 +665,9 @@ class AutocompleteInstance extends React.PureComponent {
               }
             } else {
               this.resetSelections()
-              this.context.drawerList.setState({
-                active_item: -1
-              })
+              if (this.context.drawerList.opened) {
+                this.showAllItems()
+              }
             }
           }
         )

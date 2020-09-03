@@ -151,6 +151,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
     direction="bottom"
     disabled="disabled"
     enable_body_lock={null}
+    enable_closest_observer={null}
     focusable="focusable"
     global_status_id="global_status_id"
     icon="icon"
@@ -691,7 +692,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                           aria-activedescendant="option-dropdown-id-2"
                           aria-expanded={true}
                           aria-labelledby="dropdown-id-label"
-                          cache_hash="2266bottom1"
+                          cache_hash="22undefinedundefinedbottom1"
                           class={null}
                           className={null}
                           id="dropdown-id-ul"
@@ -992,7 +993,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                               <DrawerList.Item
                                 active={false}
                                 class={null}
-                                className="closest-to-top closest-to-bottom last-of-type"
+                                className="last-of-type"
                                 data-item={6}
                                 hash="option-dropdown-id-6-6"
                                 id="option-dropdown-id-6"
@@ -1005,7 +1006,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                               >
                                 <li
                                   aria-selected={false}
-                                  className="closest-to-top closest-to-bottom last-of-type dnb-drawer-list__option"
+                                  className="last-of-type dnb-drawer-list__option"
                                   data-item={6}
                                   id="option-dropdown-id-6"
                                   key="lioption-dropdown-id-6-6"

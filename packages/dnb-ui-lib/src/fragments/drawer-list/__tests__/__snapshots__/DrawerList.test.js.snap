@@ -148,6 +148,7 @@ exports[`DrawerList markup have to match snapshot 1`] = `
     default_value="default_value"
     direction="bottom"
     enable_body_lock={null}
+    enable_closest_observer={null}
     fixed_position="fixed_position"
     focusable="focusable"
     id="drawer-list-id"
