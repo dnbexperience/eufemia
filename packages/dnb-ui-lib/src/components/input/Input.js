@@ -634,7 +634,6 @@ class InputSubmitButton extends React.PureComponent {
     if (isTrue(skeleton)) {
       skeletonElement(params)
     }
-    console.log('params', params)
 
     // also used for code markup simulation
     validateDOMAttributes(this.props, params)

@@ -790,7 +790,6 @@ export default class DatePicker extends React.PureComponent {
     }
 
     if (isTrue(skeleton)) {
-      console.log('skeleton', skeleton)
       skeletonElement(pickerParams)
     }
 
