@@ -11,6 +11,7 @@ import {
   isTrue,
   registerElement,
   validateDOMAttributes,
+  skeletonElement,
   processChildren
 } from '../../shared/component-helper'
 import { createSpacingClasses } from '../space/SpacingHelper'
@@ -141,9 +142,11 @@ export default class FormLabel extends React.PureComponent {
       ...attributes
     }
 
-    if (disabled || isTrue(skeleton)) {
-      params['aria-busy'] = true
+    if (disabled) {
       params.disabled = true
+    }
+    if (isTrue(skeleton)) {
+      skeletonElement(params)
     }
 
     // also used for code markup simulation

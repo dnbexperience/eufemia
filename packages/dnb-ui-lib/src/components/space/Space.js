@@ -10,6 +10,7 @@ import {
   isTrue,
   extendPropsWithContext,
   registerElement,
+  skeletonElement,
   validateDOMAttributes
 } from '../../shared/component-helper'
 import Context from '../../shared/Context'
@@ -139,6 +140,10 @@ export default class Space extends React.PureComponent {
         _className
       ),
       ...attributes
+    }
+
+    if (isTrue(skeleton)) {
+      skeletonElement(params)
     }
 
     // also used for code markup simulation

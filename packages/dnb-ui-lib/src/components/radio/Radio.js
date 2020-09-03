@@ -13,6 +13,7 @@ import {
   extendPropsWithContext,
   registerElement,
   validateDOMAttributes,
+  skeletonElement,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
@@ -299,10 +300,6 @@ export default class Radio extends React.PureComponent {
           let { checked } = this.state
           let { value, group, disabled } = props // get it from context also
 
-          if (isTrue(skeleton)) {
-            disabled = true
-          }
-
           const hasContext = typeof this.context.name !== 'undefined'
 
           if (hasContext) {
@@ -310,9 +307,7 @@ export default class Radio extends React.PureComponent {
               checked = this.context.value === value
             }
             group = this.context.name
-            disabled =
-              isTrue(this.context.disabled) ||
-              isTrue(this.context.skeleton)
+            disabled = isTrue(this.context.disabled)
           } else if (typeof rest.name !== 'undefined') {
             group = rest.name
           }
@@ -350,6 +345,10 @@ export default class Radio extends React.PureComponent {
           if (!group) {
             inputParams.type = 'checkbox'
             inputParams.role = 'radio' // breaks axe test
+          }
+
+          if (isTrue(skeleton)) {
+            skeletonElement(inputParams)
           }
 
           // also used for code markup simulation

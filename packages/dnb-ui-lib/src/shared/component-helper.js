@@ -86,6 +86,15 @@ export function defineNavigator() {
   }
 }
 
+export const skeletonElement = (params) => {
+  params.disabled = true
+  params['aria-disabled'] = true
+  params['aria-hidden'] = true
+  params['aria-busy'] = true
+
+  return params
+}
+
 export const validateDOMAttributes = (props, params) => {
   // if there is an "attributes" prop, prepare these
   // mostly used for prop example usage

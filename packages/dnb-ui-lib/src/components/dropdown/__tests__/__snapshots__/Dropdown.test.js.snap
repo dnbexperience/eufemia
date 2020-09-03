@@ -310,7 +310,6 @@ exports[`Dropdown markup have to match snapshot 1`] = `
           vertical={null}
         >
           <Element
-            aria-busy={true}
             aria-disabled={true}
             className="dnb-form-label"
             disabled={true}
@@ -320,7 +319,6 @@ exports[`Dropdown markup have to match snapshot 1`] = `
             onMouseDown={[Function]}
           >
             <label
-              aria-busy={true}
               aria-disabled={true}
               className="dnb-form-label"
               disabled={true}

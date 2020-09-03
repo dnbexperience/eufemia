@@ -6,12 +6,6 @@
 .dnb-skeleton {
   &--rainbow &,
   &--rainbow {
-    &::before {
-      background-color: var(
-        --color-sea-green-30
-      ) !important; // to take presence
-    }
-
     &::after {
       background-image: linear-gradient(
         to left,

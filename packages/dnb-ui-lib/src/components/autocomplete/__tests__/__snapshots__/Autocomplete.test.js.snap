@@ -250,7 +250,6 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
           vertical={null}
         >
           <Element
-            aria-busy={true}
             aria-disabled={true}
             className="dnb-form-label"
             disabled={true}
@@ -260,7 +259,6 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
             onMouseDown={[Function]}
           >
             <label
-              aria-busy={true}
               aria-disabled={true}
               className="dnb-form-label"
               disabled={true}
@@ -559,6 +557,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                             on_submit_blur={null}
                             on_submit_focus={null}
                             size={null}
+                            skeleton={false}
                             status={null}
                             title="submit_button_title"
                             value={null}

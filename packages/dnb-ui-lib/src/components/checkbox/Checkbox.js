@@ -13,6 +13,7 @@ import {
   extendPropsWithContext,
   registerElement,
   validateDOMAttributes,
+  skeletonElement,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
@@ -196,7 +197,7 @@ export default class Checkbox extends React.PureComponent {
       label_position,
       label_sr_only,
       title,
-      disabled: _disabled, // eslint-disable-line
+      disabled,
       readOnly,
       skeleton,
       className,
@@ -216,14 +217,9 @@ export default class Checkbox extends React.PureComponent {
     } = props
 
     const { checked } = this.state
-    let { disabled } = props
 
     const id = this._id
     const showStatus = status && status !== 'error'
-
-    if (isTrue(skeleton)) {
-      disabled = true
-    }
 
     const mainParams = {
       className: classnames(
@@ -251,6 +247,10 @@ export default class Checkbox extends React.PureComponent {
     }
     if (readOnly) {
       inputParams['aria-readonly'] = inputParams.readOnly = true
+    }
+
+    if (isTrue(skeleton)) {
+      skeletonElement(inputParams)
     }
 
     // also used for code markup simulation

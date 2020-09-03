@@ -28,6 +28,7 @@ import Provider from '../../src/shared/Provider'
 // Customize
 import '../../src/components/skeleton/style/themes/rainbow'
 import '../../src/components/skeleton/style/themes/norway'
+import '../../src/components/skeleton/style/themes/brand'
 // import SkeletonArticle from '../../src/components/skeleton/figures/Article'
 import { Article as SkeletonArticle } from '../../src/components/skeleton/figures'
 
@@ -66,6 +67,9 @@ export default [
           // style_type="rainbow"
           // style_type="norway"
           // style_type="shine"
+          style_type="dots"
+          // style_type="dots"
+          // style_type="brand"
         >
           <CustomStyle>
             <Wrapper>

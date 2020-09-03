@@ -697,7 +697,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
                         visible={true}
                       >
                         <div
-                          aria-busy="true"
+                          aria-busy={true}
                           className="dnb-progress-indicator dnb-progress-indicator--visible dnb-progress-indicator--horizontal"
                           role="alert"
                         >

@@ -13,6 +13,7 @@ import {
   extendPropsWithContext,
   registerElement,
   validateDOMAttributes,
+  skeletonElement,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
@@ -255,9 +256,13 @@ export default class Switch extends React.PureComponent {
     }
 
     const inputParams = {
-      disabled: isTrue(disabled) || isTrue(skeleton),
+      disabled: isTrue(disabled),
       checked,
       ...rest
+    }
+
+    if (isTrue(skeleton)) {
+      skeletonElement(inputParams)
     }
 
     if (showStatus || suffix) {

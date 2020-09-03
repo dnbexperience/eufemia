@@ -18,7 +18,6 @@ exports[`FormLabel component have to match snapshot 1`] = `
   vertical="vertical"
 >
   <Element
-    aria-busy={true}
     aria-disabled={true}
     className="dnb-form-label className class dnb-skeleton"
     disabled={true}
@@ -28,7 +27,6 @@ exports[`FormLabel component have to match snapshot 1`] = `
     title="title"
   >
     <label
-      aria-busy={true}
       aria-disabled={true}
       className="dnb-form-label className class dnb-skeleton"
       disabled={true}
