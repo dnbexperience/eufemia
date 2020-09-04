@@ -17,26 +17,10 @@ import AccordionContext from './AccordionContext'
 import { createSpacingClasses } from '../space/SpacingHelper'
 
 const propTypes = {
-  title: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.node,
-    PropTypes.func
-  ]),
-  description: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.node,
-    PropTypes.func
-  ]),
-  left_component: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.node,
-    PropTypes.func
-  ]),
-  element: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.node,
-    PropTypes.func
-  ]),
+  title: PropTypes.node,
+  description: PropTypes.node,
+  left_component: PropTypes.node,
+  element: PropTypes.node,
   heading: PropTypes.oneOfType([
     PropTypes.bool,
     PropTypes.string,
@@ -55,11 +39,7 @@ const propTypes = {
 
   /// React props
   className: PropTypes.string,
-  children: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.node,
-    PropTypes.func
-  ])
+  children: PropTypes.oneOfType([PropTypes.node, PropTypes.func])
 }
 
 const defaultProps = {
@@ -93,11 +73,7 @@ function AccordionHeaderTitle({ children, ...rest }) {
   )
 }
 AccordionHeaderTitle.propTypes = {
-  children: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.node,
-    PropTypes.func
-  ])
+  children: PropTypes.oneOfType([PropTypes.node, PropTypes.func])
 }
 AccordionHeaderTitle.defaultProps = {
   children: null
@@ -116,11 +92,7 @@ function AccordionHeaderDescription({ children, ...rest }) {
   ) : null
 }
 AccordionHeaderDescription.propTypes = {
-  children: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.node,
-    PropTypes.func
-  ])
+  children: PropTypes.oneOfType([PropTypes.node, PropTypes.func])
 }
 AccordionHeaderDescription.defaultProps = {
   children: null
@@ -139,11 +111,7 @@ function AccordionHeaderContainer({ children, ...rest }) {
   ) : null
 }
 AccordionHeaderContainer.propTypes = {
-  children: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.node,
-    PropTypes.func
-  ])
+  children: PropTypes.oneOfType([PropTypes.node, PropTypes.func])
 }
 AccordionHeaderContainer.defaultProps = {
   children: null

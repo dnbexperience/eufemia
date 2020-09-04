@@ -38,16 +38,8 @@ const renderProps = {}
 const propTypes = {
   value: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   locale: PropTypes.string,
-  prefix: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.node,
-    PropTypes.func
-  ]),
-  suffix: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.node,
-    PropTypes.func
-  ]),
+  prefix: PropTypes.node,
+  suffix: PropTypes.node,
 
   // currency
   currency: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
