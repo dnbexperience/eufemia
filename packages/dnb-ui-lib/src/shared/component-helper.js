@@ -174,6 +174,42 @@ export const validateDOMAttributes = (props, params) => {
 }
 
 export const processChildren = (props) => {
+  if (!props) {
+    return null
+  }
+
+  // If used in WB, call functions who starts with "render_"
+  if (
+    typeof global !== 'undefined' &&
+    Array.isArray(global.registeredElements) &&
+    global.registeredElements.length > 0
+  ) {
+    let cache = null
+    Object.entries(props)
+      .reverse()
+      .map(([key, cb]) => {
+        if (key.includes('render_') && /^render_/.test(key)) {
+          if (typeof cb === 'function') {
+            if (cache) {
+              if (Object.isFrozen(props)) {
+                props = { ...props }
+              }
+              props.children = cache
+            }
+            return (cache = (
+              <React.Fragment key={key}>{cb(props)}</React.Fragment>
+            ))
+          }
+        }
+
+        return null
+      })
+      .filter(Boolean)
+    if (cache) {
+      return cache
+    }
+  }
+
   const res =
     typeof props.children === 'function'
       ? props.children(props)

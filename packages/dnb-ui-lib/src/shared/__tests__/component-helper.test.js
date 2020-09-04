@@ -5,6 +5,7 @@
 
 import React from 'react'
 import { mount } from '../../core/jest/jestSetup'
+import { registerElement } from '../custom-element'
 import {
   isTrue,
   extend,
@@ -171,23 +172,50 @@ describe('"validateDOMAttributes" should', () => {
 })
 
 describe('"processChildren" should', () => {
+  registerElement('custom-element', () => {})
+
+  it('a given amount of registered custom elements', () => {
+    expect(global.registeredElements).toBeType('array')
+    expect(global.registeredElements.length).toBe(1)
+  })
+
   it('return a joined string if we send in a children property with an array', () => {
     const children = ['foo', 'bar', 123]
     const props = { children }
     const res = processChildren(props)
     expect(res).toMatch(children.join(''))
   })
+
+  it('return a joined string if we send in a children property with an array', () => {
+    const children = ['foo', 'bar', 123]
+    const props = { children }
+    const res = processChildren(props)
+    expect(res).toMatch(children.join(''))
+  })
+
   it('return a joined string if we send in a children property with as a function returning an array', () => {
     const children = ['foo', 'bar', 123]
     const props = { children: () => children }
     const res = processChildren(props)
     expect(res).toMatch(children.join(''))
   })
+
   it('return a joined string, even with only one child', () => {
     const children = ['foo']
     const props = { children }
     const res = processChildren(props)
     expect(res).toMatch(children.join(''))
+  })
+
+  it('return a joined string, even with only one child', () => {
+    const props = {
+      content: 'foo',
+      render_func: (props) => {
+        return props.content + ' new content'
+      }
+    }
+    const res = processChildren(props)
+    expect(res.props).toMatchObject({ children: 'foo new content' })
   })
 })
 

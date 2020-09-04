@@ -91,25 +91,28 @@ export const registerElement = (
         // cn[i].remove()
       }
     }
-    connectEvents(props) {
+    connectEvents() {
+      const props = {}
+      for (let i = this.attributes.length; i--; ) {
+        props[this.attributes[i].name] = this.attributes[i].value
+      }
+
       if (props.events) {
         props.event = props.events
         delete props.events
       }
 
-      // check if there are more than one events
-      let events = props.event ? props.event.split(',') : []
-
-      // check if there are custom renderer, if so, add them as well
-      if (ReactComponent.renderProps) {
-        events = Object.entries(ReactComponent.renderProps)
-          .filter(([key]) => key && props[key])
-          .reduce((events, [key]) => {
-            events.push(key + '=' + props[key])
-            delete props[key]
-            return events
-          }, events)
-      }
+      const events = [
+        ...(props.event ? props.event.split(',') : []),
+        ...Object.entries(props)
+          .map(([key, value]) => {
+            if (key && /^(on_|on[A-Z]|render_)/.test(key)) {
+              return key + '=' + value
+            }
+            return null
+          })
+          .filter(Boolean)
+      ]
 
       if (events.length > 0) {
         events.forEach((eventDef) => {
@@ -230,14 +233,23 @@ export const registerElement = (
       })
     }
     renderElement(props = {}) {
-      const attr = {}
-      for (let i = this.attributes.length; i--; ) {
-        attr[this.attributes[i].name] = this.attributes[i].value
+      props = { ...this._props, ...this.connectEvents(), ...props }
+
+      for (let p in props) {
+        if (props[p] === 'true') {
+          props[p] = true
+        } else if (props[p] === 'false') {
+          props[p] = false
+        } else if (
+          typeof props[p] !== 'undefined' &&
+          props[p] !== null &&
+          !isNaN(Number(props[p]))
+        ) {
+          props[p] = Number(props[p])
+        }
       }
 
-      props = { ...this._props, ...this.connectEvents(attr), ...props }
-
-      // we dont allow ids
+      // we don't allow ids
       for (let i = attributesExcludelist.length; i--; ) {
         if (props[attributesExcludelist[i]]) {
           this.removeAttribute(attributesExcludelist[i])
