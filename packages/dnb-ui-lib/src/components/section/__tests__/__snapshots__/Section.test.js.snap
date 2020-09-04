@@ -5,21 +5,15 @@ exports[`Section component have to match snapshot 1`] = `
   class="class"
   className="className"
   element={null}
-  render_content={[Function]}
-  spacing="spacing"
+  spacing={true}
   style={null}
   style_type="mint-green-12"
 >
-  <ForwardRef
-    className="dnb-section dnb-section--mint-green-12 dnb-section--spacing-spacing className class"
-    is="section"
+  <section
+    className="dnb-section dnb-section--mint-green-12 dnb-section--spacing className class"
   >
-    <section
-      className="dnb-section dnb-section--mint-green-12 dnb-section--spacing-spacing className class"
-    >
-      children
-    </section>
-  </ForwardRef>
+    children
+  </section>
 </Section>
 `;
 

@@ -16,39 +16,29 @@ import {
 } from '../../shared/component-helper'
 import { createSpacingClasses } from '../space/SpacingHelper'
 
-const renderProps = {
-  render_content: null
-}
-
 const propTypes = {
   style_type: PropTypes.string,
-  spacing: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  spacing: PropTypes.oneOfType([
+    PropTypes.bool,
+    PropTypes.oneOf(['large', 'medium', 'small', 'default'])
+  ]),
   element: PropTypes.string,
   class: PropTypes.string,
 
   /** React props */
   className: PropTypes.string,
-  children: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-    PropTypes.node
-  ]),
-
-  // Web Component props
-  render_content: PropTypes.func
+  children: PropTypes.oneOfType([PropTypes.node, PropTypes.func])
 }
 
 const defaultProps = {
   style_type: null,
   element: 'section',
+  spacing: null,
   class: null,
 
   /** React props */
   className: null,
-  children: null,
-
-  // Web Component props
-  ...renderProps
+  children: null
 }
 
 export default class Section extends React.PureComponent {
@@ -62,9 +52,6 @@ export default class Section extends React.PureComponent {
   }
 
   static getContent(props) {
-    if (props.text) return props.text
-    if (typeof props.render_content === 'function')
-      props.render_content(props)
     return processChildren(props)
   }
 
@@ -111,22 +98,12 @@ export default class Section extends React.PureComponent {
     // also used for code markup simulation
     validateDOMAttributes(this.props, params)
 
+    const Element = element || 'section'
+
     return (
-      <Element is={element || 'section'} {...params} ref={this._ref}>
+      <Element {...params} ref={this._ref}>
         {content}
       </Element>
     )
   }
-}
-
-const Element = React.forwardRef(
-  ({ is: Element, children, ...rest }, ref) => (
-    <Element {...rest} ref={ref}>
-      {children}
-    </Element>
-  )
-)
-Element.propTypes = {
-  is: PropTypes.string.isRequired,
-  children: PropTypes.node.isRequired
 }
