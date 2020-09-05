@@ -16,39 +16,33 @@ import {
 } from '../../shared/component-helper'
 import { createSpacingClasses } from '../space/SpacingHelper'
 
-const propTypes = {
-  style_type: PropTypes.string,
-  spacing: PropTypes.oneOfType([
-    PropTypes.bool,
-    PropTypes.oneOf(['large', 'medium', 'small', 'default'])
-  ]),
-  element: PropTypes.string,
-  class: PropTypes.string,
-
-  /** React props */
-  className: PropTypes.string,
-  children: PropTypes.oneOfType([PropTypes.node, PropTypes.func])
-}
-
-const defaultProps = {
-  style_type: null,
-  element: 'section',
-  spacing: null,
-  class: null,
-
-  /** React props */
-  className: null,
-  children: null
-}
-
 export default class Section extends React.PureComponent {
   static tagName = 'dnb-section'
-  static propTypes = propTypes
-  static defaultProps = defaultProps
   static contextType = Context
 
+  static propTypes = {
+    style_type: PropTypes.string,
+    spacing: PropTypes.oneOfType([
+      PropTypes.bool,
+      PropTypes.oneOf(['large', 'medium', 'small', 'default'])
+    ]),
+    element: PropTypes.string,
+    class: PropTypes.string,
+    className: PropTypes.string,
+    children: PropTypes.oneOfType([PropTypes.node, PropTypes.func])
+  }
+
+  static defaultProps = {
+    style_type: null,
+    element: 'section',
+    spacing: null,
+    class: null,
+    className: null,
+    children: null
+  }
+
   static enableWebComponent() {
-    registerElement(Section.tagName, Section, defaultProps)
+    registerElement(Section.tagName, Section, Section.defaultProps)
   }
 
   static getContent(props) {
@@ -64,7 +58,7 @@ export default class Section extends React.PureComponent {
     // use only the props from context, who are available here anyway
     const props = extendPropsWithContext(
       this.props,
-      defaultProps,
+      Section.defaultProps,
       this.context.formRow
     )
 

@@ -76,6 +76,7 @@ module.exports = {
     ['@babel/plugin-proposal-object-rest-spread', { loose: true }],
     ['@babel/plugin-proposal-class-properties', { loose: true }],
     '@babel/plugin-transform-runtime',
+    '@babel/plugin-proposal-optional-chaining',
     '@babel/plugin-transform-object-assign' // for IE support
   ],
   sourceMaps: true,

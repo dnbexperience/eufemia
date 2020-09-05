@@ -43,6 +43,7 @@ import PaginationTableMarker from './components/PaginationTableMarker'
 import Skeleton from './components/Skeleton'
 import WebComponent from './components/WebComponent'
 import Accordion from './components/Accordion'
+import Section from './components/Section'
 import { Logo } from '../src/components'
 
 const stories = []
@@ -84,6 +85,7 @@ stories.push(PaginationTableMarker)
 stories.push(Skeleton)
 stories.push(WebComponent)
 stories.push(Accordion)
+stories.push(Section)
 
 stories.push([
   'Logo',
