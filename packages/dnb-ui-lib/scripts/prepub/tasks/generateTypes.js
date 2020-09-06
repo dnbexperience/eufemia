@@ -12,11 +12,15 @@ import { asyncForEach } from '../../tools'
 import { log } from '../../lib'
 import { generateFromSource } from 'react-to-typescript-definitions'
 import * as babel from '@babel/core'
+import { fetchPropertiesFromDocs } from './fetchPropertiesFromDocs'
 
 export default async function generateTypes({
   globes = [
-    './src/components/section/Section.js'
-    // './src/components/**/**/*.js',
+    // './src/components/number/Number.js',
+    './src/components/section/Section.js',
+    './src/elements/Anchor.js'
+
+    // './src/components/**/**/*.js'
     // './src/patterns/**/**/*.js',
     // './src/fragments/**/**/*.js',
     // './src/elements/*.js'
@@ -39,7 +43,6 @@ export default async function generateTypes({
 
 const createTypes = async (listOfAllFiles) => {
   try {
-    // const srcPath = path.resolve(packpath.self(), './src')
     const prettierrc = JSON.parse(
       await fs.readFile(
         path.resolve(packpath.self(), '.prettierrc'),
@@ -57,6 +60,8 @@ const createTypes = async (listOfAllFiles) => {
         !file.includes('__tests__') &&
         (await fileContains(file, 'PropTypes'))
       ) {
+        const docs = await fetchPropertiesFromDocs({ file, filename })
+
         /**
          * 1. Why do we use babel here?
          *    Because some components uses optional-chaining,
@@ -71,12 +76,11 @@ const createTypes = async (listOfAllFiles) => {
          *    like special comments/definition we may need to customize our generated type definitions.
          */
         const { code } = await babel.transformFileAsync(file, {
-          babelrc: false,
+          configFile: false,
           presets: [
             [
               '@babel/preset-env',
               {
-                // loose: true,
                 modules: false,
                 ignoreBrowserslistConfig: true,
                 targets: {
@@ -87,32 +91,32 @@ const createTypes = async (listOfAllFiles) => {
             '@babel/preset-react'
           ],
           plugins: [
-            '@babel/plugin-proposal-export-default-from',
+            docs
+              ? [
+                  babelPluginIncludeDocs,
+                  {
+                    docs
+                  }
+                ]
+              : null,
             ['@babel/plugin-proposal-object-rest-spread', { loose: true }],
             ['@babel/plugin-proposal-class-properties', { loose: true }],
             '@babel/plugin-proposal-optional-chaining'
-          ],
+          ].filter(Boolean),
           sourceMaps: false,
           comments: true,
           ignore: ['node_modules/**']
         })
 
-        const definitionContent = generateFromSource(
-          filename,
-          prepareCode(code),
-          {}
-        )
+        const definitionContent = generateFromSource(filename, code, {})
 
         const prettyDefinitionContent = prettier.format(
           definitionContent,
           {
             ...prettierrc,
-            // parser: 'babel',
             filepath: destFile
           }
         )
-
-        // console.log('\n\n--\n', file, '\n', prettyDefinitionContent)
 
         await fs.writeFile(destFile, prettyDefinitionContent)
       }
@@ -122,19 +126,74 @@ const createTypes = async (listOfAllFiles) => {
   }
 }
 
-const prepareCode = (code) => {
-  /**
-   * Use the React based PropTypes,
-   * because "react-to-typescript-definitions" needs that.
-   * Probably because of the type defintions found in there.
-   */
-  code = code.replace(
-    /import PropTypes from 'prop-types'/g,
-    `import { PropTypes } from 'react'`
-  )
-
-  return code
-}
-
 const fileContains = async (file, find) =>
   (await fs.readFile(file, 'utf-8')).includes(find)
+
+function babelPluginIncludeDocs() {
+  return {
+    visitor: {
+      ImportDeclaration(path) {
+        const root = path
+        path.traverse({
+          Identifier(path) {
+            if (path.node.name === 'PropTypes') {
+              const ImportDefaultSpecifier = path.node
+              ImportDefaultSpecifier.name = '{ PropTypes }'
+              path.replaceWith(ImportDefaultSpecifier)
+
+              const StringLiteral = root.node
+              StringLiteral.source.value = 'react'
+              root.replaceWith(StringLiteral)
+            }
+          }
+        })
+      },
+
+      ClassDeclaration(path, state) {
+        const { docs } = state.opts
+        path.traverse({
+          ClassProperty(path) {
+            if (path.node.key && path.node.key.name === 'propTypes') {
+              path.traverse({
+                ObjectProperty(path) {
+                  if (path.node.key.name === 'propTypes') {
+                    if (path.node.key) {
+                      inserDocs(path, docs)
+                    }
+                  }
+                }
+              })
+            }
+          }
+        })
+      },
+
+      AssignmentExpression(path, state) {
+        const { docs } = state.opts
+        path.traverse({
+          MemberExpression(path) {
+            if (
+              path.node.property &&
+              path.node.property.name === 'propTypes'
+            ) {
+              path.parentPath.traverse({
+                ObjectProperty(path) {
+                  if (path.node.key) {
+                    inserDocs(path, docs)
+                  }
+                }
+              })
+            }
+          }
+        })
+      }
+    }
+  }
+}
+
+function inserDocs(path, docs) {
+  if (typeof docs[path.node.key.name] !== 'undefined') {
+    const comment = docs[path.node.key.name]
+    path.insertBefore(path.addComment('leading', `*\n * ${comment}\n `))
+  }
+}

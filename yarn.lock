@@ -16257,6 +16257,13 @@ markdown-table@^2.0.0:
   dependencies:
     repeat-string "^1.0.0"
 
+markdown-tables-to-json@^0.1.4:
+  version "0.1.4"
+  resolved "https://registry.yarnpkg.com/markdown-tables-to-json/-/markdown-tables-to-json-0.1.4.tgz#46801c7421adc708cf82cbc2120e6ce361dd3d2b"
+  integrity sha512-cxNADKU0S6BN1bgy31dNJqaRQq1yZkt/RXUHV/3mmVfrN3I3Kjm9FaFR5rQ6ZkKesQDCLwE4IPYFcNGKHx0CjQ==
+  dependencies:
+    marked-ts "^1.0.0-beta.4"
+
 markdown-to-jsx@^6.11.4:
   version "6.11.4"
   resolved "https://registry.yarnpkg.com/markdown-to-jsx/-/markdown-to-jsx-6.11.4.tgz#b4528b1ab668aef7fe61c1535c27e837819392c5"
@@ -16276,6 +16283,13 @@ marked-terminal@^3.2.0:
     cli-table "^0.3.1"
     node-emoji "^1.4.1"
     supports-hyperlinks "^1.0.1"
+
+marked-ts@^1.0.0-beta.4:
+  version "1.0.0-beta.5"
+  resolved "https://registry.yarnpkg.com/marked-ts/-/marked-ts-1.0.0-beta.5.tgz#016db6642dfc5465074c905f6d498836160b15aa"
+  integrity sha512-XzolFEmLus3KQcXKgb1ARt4iCkScB+saAu6OHxIQhk1Hrypxskk7WEQw8/cjPijnWGISM0G+SmpGa3FmOFDgDg==
+  optionalDependencies:
+    typescript "^2.6.2"
 
 marked@^0.8.0:
   version "0.8.2"
@@ -24666,6 +24680,11 @@ typedarray@^0.0.6:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
   integrity sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
+
+typescript@^2.6.2:
+  version "2.9.2"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-2.9.2.tgz#1cbf61d05d6b96269244eb6a3bce4bd914e0f00c"
+  integrity sha512-Gr4p6nFNaoufRIY4NMdpQRNmgxVIGMs4Fcu/ujdYk3nAZqk7supzBE9idmvfZIlH/Cuj//dvi+019qEue9lV0w==
 
 ua-parser-js@^0.7.18:
   version "0.7.21"
