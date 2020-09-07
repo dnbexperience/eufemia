@@ -9,7 +9,6 @@ import classnames from 'classnames'
 import Context from '../../shared/Context'
 import {
   warn,
-  isTrue,
   registerElement,
   validateDOMAttributes,
   processChildren,
@@ -198,13 +197,6 @@ export default class StepIndicator extends React.PureComponent {
       ...attributes
     }
 
-    let Element = 'div'
-    if (isTrue(use_navigation)) {
-      Element = 'nav'
-    } else {
-      params.role = 'group'
-    }
-
     // also used for code markup simulation
     validateDOMAttributes(this.props, params)
 
@@ -214,7 +206,7 @@ export default class StepIndicator extends React.PureComponent {
 
     const countSteps = data.length
     return (
-      <Element {...params}>
+      <nav {...params}>
         {countSteps > 0 && (
           <ol className="dnb-step-indicator__list">
             {data.map((props, i) => {
@@ -243,7 +235,7 @@ export default class StepIndicator extends React.PureComponent {
             })}
           </ol>
         )}
-      </Element>
+      </nav>
     )
   }
 }
