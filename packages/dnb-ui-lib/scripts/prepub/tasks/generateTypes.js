@@ -93,7 +93,7 @@ const createTypes = async (listOfAllFiles) => {
           plugins: [
             docs
               ? [
-                  babelPluginIncludeDocs,
+                  babelPluginPrepareAST,
                   {
                     docs
                   }
@@ -129,7 +129,7 @@ const createTypes = async (listOfAllFiles) => {
 const fileContains = async (file, find) =>
   (await fs.readFile(file, 'utf-8')).includes(find)
 
-function babelPluginIncludeDocs() {
+function babelPluginPrepareAST() {
   return {
     visitor: {
       ImportDeclaration(path) {
