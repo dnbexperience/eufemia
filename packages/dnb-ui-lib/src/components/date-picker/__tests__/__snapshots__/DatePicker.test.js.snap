@@ -2479,7 +2479,7 @@ legend.dnb-form-label {
     flex-direction: column;
     align-items: flex-start; }
   .dnb-toggle-button__component {
-    padding-right: 0.25rem;
+    padding-right: 0.5rem;
     display: inline-flex;
     align-items: center; }
   .dnb-toggle-button__button {
@@ -2489,7 +2489,7 @@ legend.dnb-form-label {
     .dnb-toggle-button__button .dnb-radio__shell {
       transform: translateY(0); }
     .dnb-toggle-button__button .dnb-checkbox {
-      margin-left: -0.75rem; }
+      margin-left: -0.5rem; }
       .dnb-toggle-button__button .dnb-checkbox__input {
         pointer-events: none; }
       .dnb-toggle-button__button .dnb-checkbox__focus, .dnb-toggle-button__button .dnb-checkbox__button {
@@ -2504,7 +2504,7 @@ legend.dnb-form-label {
         width: calc(var(--checkbox-width) - 0.25rem);
         height: calc(var(--checkbox-width) - 0.25rem); }
     .dnb-toggle-button__button .dnb-radio {
-      margin-left: -0.75rem; }
+      margin-left: -0.5rem; }
       .dnb-toggle-button__button .dnb-radio__input {
         pointer-events: none; }
       .dnb-toggle-button__button .dnb-radio__focus, .dnb-toggle-button__button .dnb-radio__button {
