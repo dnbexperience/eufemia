@@ -38,16 +38,14 @@ export async function fetchPropertiesFromDocs({ file, filename } = {}) {
     for (let key in json) {
       let description = json[key]?.Properties || json[key]
       if (description) {
-        description = String(description).replace(
-          /<em>\(optional\)<\/em> /,
-          ''
-        )
+        description = String(description)
+          .replace(/<em>\((optional|mandatory)\)<\/em> /, '')
+          .replace(/<strong>([^<]*)<\/strong>/g, '"$1"')
+          .replace(/<code>([^<]*)<\/code>/g, '`$1`')
+        description = htmlDecode(description)
+
         description =
           description.charAt(0).toUpperCase() + description.slice(1)
-
-        description = htmlDecode(
-          description.replace(/<code>([^<]*)<\/code>/g, '`$1`')
-        )
       }
 
       key = key.replace(/<code>([^<]*)<\/code>/g, '$1')
