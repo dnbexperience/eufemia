@@ -58,8 +58,8 @@ require('dnb-ui-lib/cjs/style')
 **NB:** If you use Next.js with Node.js version 12 and above, we may have to define explicitly that we want to use CommonJS:
 
 ```js
-import { Button } from 'dnb-ui-lib/cjs/index.cjs'
-const { Button } = require('dnb-ui-lib/cjs/components/index.cjs')
+import { Button } from 'dnb-ui-lib/cjs'
+const { Button } = require('dnb-ui-lib/cjs/components')
 ```
 
 ### ESM in Node.js version 10
