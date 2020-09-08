@@ -5,7 +5,6 @@
 
 import fs from 'fs-extra'
 import path from 'path'
-import packpath from 'packpath'
 import prettier from 'prettier'
 import globby from 'globby'
 import { asyncForEach } from '../../tools'
@@ -51,13 +50,6 @@ export default async function generateTypes({
 
 const createTypes = async (listOfAllFiles) => {
   try {
-    const prettierrc = JSON.parse(
-      await fs.readFile(
-        path.resolve(packpath.self(), '.prettierrc'),
-        'utf-8'
-      )
-    )
-
     await asyncForEach(listOfAllFiles, async (file) => {
       const basename = path.basename(file)
       const filename = basename.replace(path.extname(file), '')
@@ -160,7 +152,6 @@ const createTypes = async (listOfAllFiles) => {
         const prettyDefinitionContent = prettier.format(
           definitionContent,
           {
-            ...prettierrc,
             filepath: destFile
           }
         )
