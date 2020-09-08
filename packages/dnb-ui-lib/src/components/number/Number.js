@@ -33,81 +33,71 @@ import { createShortcut } from '../../shared/libs/Shortcuts'
 
 const NUMBER_CHARS = '-0-9,.'
 
-const renderProps = {}
-
-const propTypes = {
-  value: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  locale: PropTypes.string,
-  prefix: PropTypes.node,
-  suffix: PropTypes.node,
-
-  // currency
-  currency: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
-  currency_display: PropTypes.string,
-  currency_position: PropTypes.oneOf(['auto', 'before', 'after']),
-
-  // bank account number
-  ban: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
-
-  // national identification number
-  nin: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
-
-  // phone number
-  phone: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
-
-  // organization number
-  org: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
-
-  // can be tel or sms
-  link: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
-
-  options: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
-  decimals: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  selectall: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
-  element: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
-  class: PropTypes.string,
-
-  // React props
-  className: PropTypes.string,
-  children: PropTypes.oneOfType([PropTypes.node, PropTypes.func])
-}
-
-const defaultProps = {
-  value: null,
-  locale: null,
-  prefix: null,
-  sufix: null,
-  currency: null,
-  currency_display: null, // code, name, symbol
-  currency_position: null, // null, before, after
-  ban: null,
-  nin: null,
-  phone: null,
-  org: null,
-  link: null,
-
-  options: null,
-  decimals: null,
-  selectall: true,
-  element: 'span', // span or abbr
-  class: null,
-
-  // React props
-  className: null,
-  children: null,
-
-  // Web Component props
-  ...renderProps
-}
-
 export default class Number extends React.PureComponent {
   static tagName = 'dnb-number'
-  static propTypes = propTypes
-  static defaultProps = defaultProps
   static contextType = Context
+  static propTypes = {
+    value: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    locale: PropTypes.string,
+    prefix: PropTypes.node,
+    suffix: PropTypes.node,
+
+    // currency
+    currency: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    currency_display: PropTypes.string,
+    currency_position: PropTypes.oneOf(['auto', 'before', 'after']),
+
+    // bank account number
+    ban: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+
+    // national identification number
+    nin: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+
+    // phone number
+    phone: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+
+    // organization number
+    org: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+
+    // can be tel or sms
+    link: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+
+    options: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
+    decimals: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    selectall: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    element: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    class: PropTypes.string,
+
+    // React props
+    className: PropTypes.string,
+    children: PropTypes.oneOfType([PropTypes.node, PropTypes.func])
+  }
+  static defaultProps = {
+    value: null,
+    locale: null,
+    prefix: null,
+    suffix: null,
+    currency: null,
+    currency_display: null, // code, name, symbol
+    currency_position: null, // null, before, after
+    ban: null,
+    nin: null,
+    phone: null,
+    org: null,
+    link: null,
+    options: null,
+    decimals: null,
+    selectall: true,
+    element: 'span', // span or abbr
+    class: null,
+
+    // React props
+    className: null,
+    children: null
+  }
 
   static enableWebComponent() {
-    registerElement(Number.tagName, Number, defaultProps)
+    registerElement(Number.tagName, Number, Number.defaultProps)
   }
 
   constructor(props) {
@@ -359,44 +349,16 @@ export default class Number extends React.PureComponent {
       )
     }
 
+    const Element = element
+
     return IS_WIN ? (
       <NVDAFriendly />
     ) : (
-      <Element
-        is={element}
-        lang={lang}
-        {...additionalAttr}
-        {...attributes}
-      >
+      <Element lang={lang} {...additionalAttr} {...attributes}>
         {display}
       </Element>
     )
   }
-}
-
-const Element = React.forwardRef(
-  ({ is: Element, children, ...rest }, ref) => (
-    <Element {...rest} ref={ref}>
-      {children}
-    </Element>
-
-    // Possible solution, but what about word wrapping?
-    // <input
-    //   {...rest}
-    //   size={children.length}
-    //   ref={ref}
-    //   readOnly
-    //   type="text"
-    //   defaultValue={children}
-    // />
-  )
-)
-Element.propTypes = {
-  is: PropTypes.string.isRequired,
-  children: PropTypes.node
-}
-Element.defaultProps = {
-  children: null
 }
 
 export const format = (
