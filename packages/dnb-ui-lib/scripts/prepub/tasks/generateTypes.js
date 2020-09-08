@@ -10,7 +10,7 @@ import prettier from 'prettier'
 import globby from 'globby'
 import { asyncForEach } from '../../tools'
 import { log } from '../../lib'
-import { generateFromCode } from 'react-to-typescript-definitions'
+import { generateFromSource } from 'react-to-typescript-definitions'
 import * as babel from '@babel/core'
 import { fetchPropertiesFromDocs } from './fetchPropertiesFromDocs'
 
@@ -135,7 +135,7 @@ const createTypes = async (listOfAllFiles) => {
             ignore: ['node_modules/**']
           })
 
-          definitionContent = generateFromCode(filename, code)
+          definitionContent = generateFromSource(filename, code)
         }
 
         const prettyDefinitionContent = prettier.format(
