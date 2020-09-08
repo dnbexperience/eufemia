@@ -18,8 +18,10 @@ export default async function generateTypes({
   globes = [
     // './src/components/number/Number.js',
     './src/components/section/Section.js',
-    './src/elements/Anchor.js'
+    './src/elements/Anchor.js',
+    './src/components/index.js'
 
+    // './src/**/index.js'
     // './src/components/**/**/*.js'
     // './src/patterns/**/**/*.js',
     // './src/fragments/**/**/*.js',
@@ -55,7 +57,9 @@ const createTypes = async (listOfAllFiles) => {
       const filename = basename.replace(path.extname(file), '')
       const destFile = file.replace(path.extname(file), '.d.ts')
 
-      if (
+      if (/^index/.test(basename)) {
+        await fs.copyFile(file, destFile)
+      } else if (
         /^[A-Z]/.test(basename) &&
         !file.includes('__tests__') &&
         (await fileContains(file, 'PropTypes'))
