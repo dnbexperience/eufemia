@@ -5,7 +5,6 @@
 
 import fs from 'fs-extra'
 import path from 'path'
-import prettier from 'prettier'
 import globby from 'globby'
 import { asyncForEach } from '../../tools'
 import { log } from '../../lib'
@@ -28,9 +27,9 @@ export default async function generateTypes({
     // For testing only
     './src/components/section/Section.js',
     // './src/components/{section,button}/*.js',
-    './src/elements/Anchor.js'
+    './src/elements/Anchor.js',
     // './src/components/index.js',
-    // './src/components/number/Number.js'
+    './src/components/number/Number.js'
   ]
 } = {}) {
   log.start('> PrePublish: generating types')
@@ -130,7 +129,12 @@ const createTypes = async (listOfAllFiles) => {
                 ? [
                     babelPluginPrepareAST,
                     {
-                      docs
+                      docs,
+                      /**
+                       * If strictMode is enabled,
+                       * it will transform "string + bool" or "string + number" in to string or bool only
+                       */
+                      strictMode: true
                     }
                   ]
                 : null,
@@ -149,14 +153,7 @@ const createTypes = async (listOfAllFiles) => {
           definitionContent = generateFromSource(filename, code)
         }
 
-        const prettyDefinitionContent = prettier.format(
-          definitionContent,
-          {
-            filepath: destFile
-          }
-        )
-
-        await fs.writeFile(destFile, prettyDefinitionContent)
+        await fs.writeFile(destFile, definitionContent)
       }
     })
   } catch (e) {
@@ -249,6 +246,42 @@ function babelPluginPrepareAST() {
             }
           }
         })
+      },
+
+      ObjectProperty(path, state) {
+        if (state.opts.strictMode) {
+          path.traverse({
+            MemberExpression(path) {
+              const pathToReplace = path.parentPath
+
+              if (path.node.property.name === 'oneOfType') {
+                const collection = []
+                let nodeToUse = null
+
+                path.parentPath.traverse({
+                  MemberExpression(path) {
+                    if (path.node.property.name !== 'oneOfType') {
+                      collection.push(path.node.property.name)
+                    }
+                    if (path.node.property.name !== 'string') {
+                      nodeToUse = path.node
+                    }
+                  }
+                })
+
+                if (
+                  nodeToUse &&
+                  collection.length === 2 &&
+                  collection.includes('string') &&
+                  (collection.includes('bool') ||
+                    collection.includes('number'))
+                ) {
+                  pathToReplace.replaceWith(nodeToUse)
+                }
+              }
+            }
+          })
+        }
       }
     }
   }
