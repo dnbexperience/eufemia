@@ -39,8 +39,8 @@ export default class Number extends React.PureComponent {
   static propTypes = {
     value: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     locale: PropTypes.string,
-    prefix: PropTypes.node,
-    suffix: PropTypes.node,
+    prefix: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
+    suffix: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
 
     // currency
     currency: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
