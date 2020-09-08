@@ -8,8 +8,11 @@ import path from 'path'
 import { log } from '../../lib'
 import { Extractor } from 'markdown-tables-to-json'
 
-export async function fetchPropertiesFromDocs({ file, filename } = {}) {
+export async function fetchPropertiesFromDocs({ file } = {}) {
   log.start('> PrePublish: generating types')
+
+  const basename = path.basename(file)
+  const filename = basename.replace(path.extname(file), '')
 
   try {
     const parts = file

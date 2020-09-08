@@ -10,7 +10,7 @@ import prettier from 'prettier'
 import globby from 'globby'
 import { asyncForEach } from '../../tools'
 import { log } from '../../lib'
-import { generateFromSource } from 'react-to-typescript-definitions'
+import { generateFromCode } from 'react-to-typescript-definitions'
 import * as babel from '@babel/core'
 import { fetchPropertiesFromDocs } from './fetchPropertiesFromDocs'
 
@@ -60,7 +60,9 @@ const createTypes = async (listOfAllFiles) => {
         !file.includes('__tests__') &&
         (await fileContains(file, 'PropTypes'))
       ) {
-        const docs = await fetchPropertiesFromDocs({ file, filename })
+        const docs = await fetchPropertiesFromDocs({ file })
+
+        let definitionContent
 
         /**
          * 1. Why do we use babel here?
@@ -75,40 +77,66 @@ const createTypes = async (listOfAllFiles) => {
          *    with that we can easily extract/use interesting parts,
          *    like special comments/definition we may need to customize our generated type definitions.
          */
-        const { code } = await babel.transformFileAsync(file, {
-          configFile: false,
-          presets: [
-            [
-              '@babel/preset-env',
-              {
-                modules: false,
-                ignoreBrowserslistConfig: true,
-                targets: {
-                  esmodules: true
-                }
-              }
-            ],
-            '@babel/preset-react'
-          ],
-          plugins: [
-            docs
-              ? [
-                  babelPluginPrepareAST,
-                  {
-                    docs
-                  }
-                ]
-              : null,
-            ['@babel/plugin-proposal-object-rest-spread', { loose: true }],
-            ['@babel/plugin-proposal-class-properties', { loose: true }],
-            '@babel/plugin-proposal-optional-chaining'
-          ].filter(Boolean),
-          sourceMaps: false,
-          comments: true,
-          ignore: ['node_modules/**']
-        })
 
-        const definitionContent = generateFromSource(filename, code, {})
+        if (await fs.exists(destFile)) {
+          const { code } = await babel.transformFileAsync(destFile, {
+            configFile: false,
+            plugins: [
+              docs
+                ? [
+                    babelPluginPrepareAST,
+                    {
+                      docs
+                    }
+                  ]
+                : null,
+              ['@babel/plugin-syntax-typescript', {}]
+            ].filter(Boolean),
+            sourceMaps: false,
+            comments: true,
+            ignore: ['node_modules/**']
+          })
+
+          definitionContent = code
+        } else {
+          const { code } = await babel.transformFileAsync(file, {
+            configFile: false,
+            presets: [
+              [
+                '@babel/preset-env',
+                {
+                  modules: false,
+                  ignoreBrowserslistConfig: true,
+                  targets: {
+                    esmodules: true
+                  }
+                }
+              ],
+              '@babel/preset-react'
+            ],
+            plugins: [
+              docs
+                ? [
+                    babelPluginPrepareAST,
+                    {
+                      docs
+                    }
+                  ]
+                : null,
+              [
+                '@babel/plugin-proposal-object-rest-spread',
+                { loose: true }
+              ],
+              ['@babel/plugin-proposal-class-properties', { loose: true }],
+              '@babel/plugin-proposal-optional-chaining'
+            ].filter(Boolean),
+            sourceMaps: false,
+            comments: true,
+            ignore: ['node_modules/**']
+          })
+
+          definitionContent = generateFromCode(filename, code)
+        }
 
         const prettyDefinitionContent = prettier.format(
           definitionContent,
@@ -149,6 +177,31 @@ function babelPluginPrepareAST() {
         })
       },
 
+      ModuleDeclaration(path, state) {
+        const { docs } = state.opts
+        path.traverse({
+          Identifier(path) {
+            if (path.parent.type === 'TSInterfaceDeclaration') {
+              if (!path.parentPath.parentPath.node.leadingComments) {
+                path.parentPath.parentPath.insertBefore(
+                  path.parentPath.parentPath.addComment(
+                    'leading',
+                    `*\n * NB: Do not change the docs (comments) in here. The docs are updated during build time by "generateTypes.js" and "fetchPropertiesFromDocs.js".\n `
+                  )
+                )
+              }
+            }
+            if (path.parent.type === 'TSPropertySignature') {
+              if (path.node.name) {
+                path.parent.trailingComments = null
+                path.parent.leadingComments = null
+                inserDocs(path, path.node.name, docs)
+              }
+            }
+          }
+        })
+      },
+
       ClassDeclaration(path, state) {
         const { docs } = state.opts
         path.traverse({
@@ -158,7 +211,7 @@ function babelPluginPrepareAST() {
                 ObjectProperty(path) {
                   if (path.node.key.name === 'propTypes') {
                     if (path.node.key) {
-                      inserDocs(path, docs)
+                      inserDocs(path, path.node.key.name, docs)
                     }
                   }
                 }
@@ -179,7 +232,7 @@ function babelPluginPrepareAST() {
               path.parentPath.traverse({
                 ObjectProperty(path) {
                   if (path.node.key) {
-                    inserDocs(path, docs)
+                    inserDocs(path, path.node.key.name, docs)
                   }
                 }
               })
@@ -191,9 +244,9 @@ function babelPluginPrepareAST() {
   }
 }
 
-function inserDocs(path, docs) {
-  if (typeof docs[path.node.key.name] !== 'undefined') {
-    const comment = docs[path.node.key.name]
+function inserDocs(path, name, docs) {
+  if (typeof docs[name] !== 'undefined') {
+    const comment = docs[name]
     path.insertBefore(path.addComment('leading', `*\n * ${comment}\n `))
   }
 }
