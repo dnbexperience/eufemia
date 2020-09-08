@@ -81,7 +81,7 @@ module.exports = {
   ],
   sourceMaps: true,
   comments: false,
-  ignore: ['node_modules/**'],
+  ignore: ['node_modules/**', '__tests__/**'],
   env: {
     cjs: {
       presets: legacy,

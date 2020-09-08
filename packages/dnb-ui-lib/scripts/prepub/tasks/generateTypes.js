@@ -16,16 +16,22 @@ import { fetchPropertiesFromDocs } from './fetchPropertiesFromDocs'
 
 export default async function generateTypes({
   globes = [
-    // './src/components/number/Number.js',
-    './src/components/section/Section.js',
-    './src/elements/Anchor.js',
-    './src/components/index.js'
-
-    // './src/**/index.js'
-    // './src/components/**/**/*.js'
+    // './src/index.js',
+    // './src/**/index.js',
+    // './src/components/*.js',
+    // './src/patterns/*.js',
+    // './src/fragments/*.js',
+    // './src/components/**/**/*.js',
     // './src/patterns/**/**/*.js',
     // './src/fragments/**/**/*.js',
-    // './src/elements/*.js'
+    // './src/elements/*.js',
+
+    // For testing only
+    './src/components/section/Section.js',
+    // './src/components/{section,button}/*.js',
+    './src/elements/Anchor.js'
+    // './src/components/index.js',
+    // './src/components/number/Number.js'
   ]
 } = {}) {
   log.start('> PrePublish: generating types')
@@ -57,11 +63,20 @@ const createTypes = async (listOfAllFiles) => {
       const filename = basename.replace(path.extname(file), '')
       const destFile = file.replace(path.extname(file), '.d.ts')
 
-      if (/^index/.test(basename)) {
-        await fs.copyFile(file, destFile)
+      if (file.includes('__tests__')) {
+        return
+      }
+
+      if (
+        /^index/.test(basename) ||
+        (/^[A-Z]/.test(basename) &&
+          !(await fileContains(file, 'PropTypes')))
+      ) {
+        if (!(await fs.exists(destFile))) {
+          await fs.copyFile(file, destFile)
+        }
       } else if (
         /^[A-Z]/.test(basename) &&
-        !file.includes('__tests__') &&
         (await fileContains(file, 'PropTypes'))
       ) {
         const docs = await fetchPropertiesFromDocs({ file })

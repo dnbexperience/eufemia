@@ -255,7 +255,7 @@ const runFactory = async ({
   if (typeof processToNamesList === 'string') {
     const __orig__processToNamesList = processToNamesList
     processToNamesList = (await fs.readdir(processToNamesList))
-      .filter((file) => !/\.cjs$/.test(file))
+      .filter((file) => !/\.(cjs|ts)$/.test(file))
       .map((file) => ({
         source: joinPath(__orig__processToNamesList, file),
         file
