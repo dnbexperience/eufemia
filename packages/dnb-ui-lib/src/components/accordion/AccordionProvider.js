@@ -92,6 +92,7 @@ export default class AccordionGroup extends React.PureComponent {
       allow_close_all, // eslint-disable-line
       remember_state, // eslint-disable-line
       disabled, // eslint-disable-line
+      group, // eslint-disable-line
       className,
       class: _className,
 

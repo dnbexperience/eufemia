@@ -44,7 +44,15 @@ export default class AccordionContent extends React.PureComponent {
     }
 
     this.anim = new HeightAnim()
+    this.anim.onStart(() => {
+      this.setState({
+        isAnimating: true
+      })
+    })
     this.anim.onEnd(() => {
+      this.setState({
+        isAnimating: false
+      })
       // checking additional for  && state === 'closing' makes it more "safe"
       if (this.context.expanded) {
         this.setState({
@@ -97,6 +105,7 @@ export default class AccordionContent extends React.PureComponent {
       (expanded ||
         prerender ||
         this.state.keepContentVisible ||
+        // we do check that directly (this.anim.isAnimating), rather than check this.state.isAnimating, because of the instant feedback
         this.anim.isAnimating) &&
       children
 
@@ -113,10 +122,12 @@ export default class AccordionContent extends React.PureComponent {
       className: classnames(
         'dnb-accordion__content',
         !expanded && 'dnb-accordion__content--hidden',
+        this.state.isAnimating && 'dnb-accordion__content--is-animating',
         className
       ),
       ...rest
     }
+
     const innerParams = {
       id: `${id}-content`,
       role: 'region',
@@ -165,7 +176,8 @@ export default class AccordionContent extends React.PureComponent {
 class HeightAnim {
   constructor() {
     this.state = 'init'
-    this.cbStack = []
+    this.onStartStack = []
+    this.onEndStack = []
   }
   setElem(elem) {
     this.elem =
@@ -185,24 +197,10 @@ class HeightAnim {
     if (this.container) {
       this.onResize = () => {
         clearTimeout(this.resizeTimeout)
-        this.resizeTimeout = setTimeout(() => {
-          try {
-            const contentElem = getPreviousSibling(
-              'dnb-accordion__content',
-              this.elem
-            )
-            if (
-              !contentElem.classList.contains(
-                'dnb-accordion__content--hidden'
-              )
-            ) {
-              const height = parseFloat(this.elem.clientHeight)
-              this.container.style.minHeight = `${height}px`
-            }
-          } catch (e) {
-            //
-          }
-        }, 300)
+        this.resizeTimeout = setTimeout(
+          () => this.setContainerHeight(),
+          300
+        )
       }
       window.addEventListener('resize', this.onResize)
     }
@@ -220,7 +218,8 @@ class HeightAnim {
   remove() {
     this.removeEndEvents()
     this.isAnimating = false
-    this.cbStack = null
+    this.onStartStack = null
+    this.onEndStack = null
     this.stop()
     this.elem = null
     this.state = 'init'
@@ -246,6 +245,7 @@ class HeightAnim {
       position !== 'static' ? position : ''
     this.elem.style.position = ''
     this.elem.style.height = '0'
+    this.elem.style.opacity = '0'
     this.elem.style.visibility = 'visible'
 
     return this.openHeight
@@ -256,8 +256,11 @@ class HeightAnim {
 
     return this.closeHeight
   }
+  onStart(fn) {
+    this.onStartStack.push(fn)
+  }
   onEnd(fn) {
-    this.cbStack.push(fn)
+    this.onEndStack.push(fn)
   }
   callOnEnd() {
     this.isAnimating = false
@@ -268,7 +271,7 @@ class HeightAnim {
       this.transitionDuration = null
     }
 
-    this.cbStack.forEach((fn) => {
+    this.onEndStack.forEach((fn) => {
       if (typeof fn === 'function') {
         fn(this.state)
       }
@@ -284,21 +287,38 @@ class HeightAnim {
         this.oppressAnimation()
       }
 
+      // call the callbacks here, because then we do not call this during startup. This way we get an instant startup
+      this.onStartStack.forEach((fn) => {
+        if (typeof fn === 'function') {
+          fn(this.state)
+        }
+      })
+
       // make the animation
       this.reqId1 = window.requestAnimationFrame(() => {
         if (before) {
           this.elem.style.height = `${before}px`
+          this.elem.style.opacity = String(before > 0 ? 1 : 0)
           if (this.container) {
             this.container.style.minHeight = `${before}px`
           }
         }
         this.reqId2 = window.requestAnimationFrame(() => {
           this.elem.style.height = `${height}px`
-          if (this.container) {
-            this.container.style.minHeight = `${height}px`
-          }
+          this.elem.style.opacity = String(height > 0 ? 1 : 0)
+          this.setContainerHeight()
         })
       })
+    }
+  }
+  setContainerHeight() {
+    if (this.container) {
+      const contentElem = this.elem
+      if (contentElem.offsetHeight > 0) {
+        this.container.style.minHeight = `${
+          contentElem.offsetHeight + contentElem.offsetTop
+        }px`
+      }
     }
   }
   stop() {
@@ -327,6 +347,8 @@ class HeightAnim {
           this.elem.style.height = 'auto'
           this.callOnEnd()
           this.state = 'opened'
+
+          this.setContainerHeight()
         })
       )
     }
