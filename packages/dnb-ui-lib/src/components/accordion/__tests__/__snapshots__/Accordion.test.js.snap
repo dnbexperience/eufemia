@@ -1,0 +1,456 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Accordion component have to match snapshot 1`] = `
+<Accordion
+  allow_close_all="allow_close_all"
+  attributes="attributes"
+  class="class"
+  className="className"
+  custom_element={Object {}}
+  custom_method={[Function]}
+  disabled="disabled"
+  element={null}
+  expanded="expanded"
+  expanded_ssr={false}
+  group="group"
+  heading={null}
+  heading_level="heading_level"
+  icon="icon"
+  icon_position="icon_position"
+  icon_size="icon_size"
+  id="accordion"
+  label="label"
+  left_component="left_component"
+  no_animation={true}
+  on_change={[Function]}
+  on_state_update={[Function]}
+  prerender="prerender"
+  prevent_rerender="prevent_rerender"
+  remember_state={false}
+  single_container="single_container"
+  title="title"
+  variant="default"
+>
+  <div
+    className="dnb-accordion className class dnb-accordion--no-animation dnb-accordion__variant--default"
+    id="accordion"
+  >
+    <AccordionHeader
+      className={null}
+      description={null}
+      disabled={null}
+      element={null}
+      heading={null}
+      heading_level={null}
+      icon={null}
+      icon_position={null}
+      icon_size="medium"
+      id={null}
+      left_component={null}
+      title={null}
+    >
+      <div
+        aria-controls="accordion-content"
+        className="dnb-accordion__header dnb-accordion__header__icon--icon_position"
+        disabled={false}
+        onClick={[Function]}
+        onKeyDown={[Function]}
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
+        role="button"
+        tabIndex="0"
+      >
+        <AccordionHeaderIcon
+          icon="icon"
+          key="icon"
+          size="icon_size"
+        >
+          <span
+            className="dnb-accordion__header__icon"
+          >
+            <IconPrimary
+              alt={null}
+              aria-hidden={true}
+              attributes={null}
+              border={null}
+              className={null}
+              color={null}
+              height={null}
+              icon="icon"
+              modifier={null}
+              size="icon_size"
+              title={null}
+              width={null}
+            />
+          </span>
+        </AccordionHeaderIcon>
+        <AccordionHeaderContainer
+          key="container"
+        >
+          <span
+            className="dnb-accordion__header__container"
+          >
+            left_component
+          </span>
+        </AccordionHeaderContainer>
+        <span
+          className="dnb-accordion__header__wrapper"
+          key="wrapper"
+        >
+          <AccordionHeaderTitle
+            key="title"
+          >
+            <span
+              className="dnb-accordion__header__title"
+            >
+              title
+            </span>
+          </AccordionHeaderTitle>
+          <AccordionHeaderDescription
+            key="description"
+          />
+        </span>
+      </div>
+    </AccordionHeader>
+    <AccordionContent
+      className={null}
+    >
+      <div
+        className="dnb-accordion__content dnb-accordion__content--hidden"
+      >
+        <div
+          aria-disabled={true}
+          aria-hidden={true}
+          aria-labelledby="accordion-header"
+          className="dnb-accordion__content__inner"
+          disabled={true}
+          id="accordion-content"
+          role="region"
+        />
+      </div>
+    </AccordionContent>
+  </div>
+</Accordion>
+`;
+
+exports[`Accordion scss have to match default theme snapshot 1`] = `
+"/*
+* Accordion theme
+*
+*/
+/**
+ * This file is only used to make themes independent
+ * so that they can get imported individually, without the core styles
+ *
+ */
+/*
+ * Utilities
+ */
+/*
+* Button mixins
+*
+*/
+.dnb-accordion__header {
+  border: none; }
+  .dnb-accordion__header__icon, .dnb-accordion__header__container {
+    color: var(--color-emerald-green); }
+  .dnb-accordion__header__description {
+    color: var(--color-dark-grey); }
+
+.dnb-accordion--expanded .dnb-accordion__header__title {
+  font-weight: var(--font-weight-medium); }
+
+.dnb-accordion__variant--outlined .dnb-accordion__header {
+  color: var(--color-black-80);
+  background-color: var(--color-white);
+  box-shadow: inset 0 0 0 0.0625rem var(--color-outline-grey);
+  /* IE11 fix */
+  /* iOS fix - because \\"inset\\" works not fine with border-radius and rem unit */
+  border-color: transparent; }
+  @media screen and (-ms-high-contrast: none) {
+    .dnb-accordion__variant--outlined .dnb-accordion__header {
+      box-shadow: inset 0 0 0 1px var(--color-outline-grey); } }
+  @supports (-webkit-touch-callout: none) {
+    .dnb-accordion__variant--outlined .dnb-accordion__header {
+      box-shadow: 0 0 0 0.0625rem var(--color-outline-grey); } }
+  .dnb-accordion__variant--outlined .dnb-accordion__header:focus[disabled],
+  html:not([data-whatintent='touch']) .dnb-accordion__variant--outlined .dnb-accordion__header:focus[disabled] {
+    cursor: not-allowed; }
+  .dnb-accordion__variant--outlined .dnb-accordion__header:focus:not([disabled]),
+  html:not([data-whatintent='touch']) .dnb-accordion__variant--outlined .dnb-accordion__header:focus:not([disabled]) {
+    outline: none; }
+    html[data-whatinput='keyboard'] .dnb-accordion__variant--outlined .dnb-accordion__header:focus:not([disabled]), html[data-whatinput='keyboard']
+    html:not([data-whatintent='touch']) .dnb-accordion__variant--outlined .dnb-accordion__header:focus:not([disabled]) {
+      color: var(--color-emerald-green);
+      background-color: var(--color-white); }
+    html[data-whatinput='keyboard'] .dnb-accordion__variant--outlined .dnb-accordion__header:focus:not([disabled]), html[data-whatinput='keyboard']
+    html:not([data-whatintent='touch']) .dnb-accordion__variant--outlined .dnb-accordion__header:focus:not([disabled]) {
+      box-shadow: inset 0 0 0 0.125rem var(--color-emerald-green);
+      /* IE11 fix */
+      /* iOS fix - because \\"inset\\" works not fine with border-radius and rem unit */
+      border-color: transparent; }
+      @supports (-webkit-touch-callout: none) {
+        html[data-whatinput='keyboard'] .dnb-accordion__variant--outlined .dnb-accordion__header:focus:not([disabled]), html[data-whatinput='keyboard']
+        html:not([data-whatintent='touch']) .dnb-accordion__variant--outlined .dnb-accordion__header:focus:not([disabled]) {
+          box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
+  html:not([data-whatintent='touch']) .dnb-accordion__variant--outlined .dnb-accordion__header:hover[disabled] {
+    cursor: not-allowed; }
+  html:not([data-whatintent='touch']) .dnb-accordion__variant--outlined .dnb-accordion__header:hover:not([disabled]) {
+    color: var(--color-emerald-green);
+    background-color: var(--color-white);
+    box-shadow: 0 0 0 0.125rem var(--color-emerald-green);
+    /* IE11 fix */
+    border-color: transparent; }
+    @media screen and (-ms-high-contrast: none) {
+      html:not([data-whatintent='touch']) .dnb-accordion__variant--outlined .dnb-accordion__header:hover:not([disabled]) {
+        opacity: 1; } }
+  .dnb-accordion__variant--outlined .dnb-accordion__header:active[disabled],
+  html:not([data-whatintent='touch']) .dnb-accordion__variant--outlined .dnb-accordion__header:active[disabled] {
+    cursor: not-allowed; }
+  .dnb-accordion__variant--outlined .dnb-accordion__header:active:not([disabled]),
+  html:not([data-whatintent='touch']) .dnb-accordion__variant--outlined .dnb-accordion__header:active:not([disabled]) {
+    color: var(--color-emerald-green);
+    background-color: var(--color-pistachio);
+    box-shadow: 0 0 0 0.0625rem var(--color-emerald-green);
+    /* IE11 fix */
+    border-color: transparent; }
+  .dnb-accordion__variant--outlined .dnb-accordion__header[disabled] {
+    background-color: var(--color-white);
+    box-shadow: 0 0 0 0.0625rem var(--color-sea-green-30);
+    /* IE11 fix */
+    border-color: transparent; }
+    .dnb-accordion__variant--outlined .dnb-accordion__header[disabled] * {
+      color: var(--color-sea-green-30); }
+
+.dnb-accordion__variant--outlined.dnb-accordion--expanded .dnb-accordion__header {
+  color: var(--color-white);
+  background-color: var(--color-sea-green);
+  box-shadow: 0 0 0 0.0625rem transparent;
+  /* IE11 fix */
+  border-color: transparent; }
+  .dnb-accordion__variant--outlined.dnb-accordion--expanded .dnb-accordion__header[disabled] {
+    background-color: var(--color-sea-green-30); }
+    .dnb-accordion__variant--outlined.dnb-accordion--expanded .dnb-accordion__header[disabled] * {
+      color: var(--color-white); }
+  html[data-whatinput='keyboard']
+.dnb-accordion__variant--outlined.dnb-accordion--expanded .dnb-accordion__header:not([disabled]):not(:active):not(:hover):focus {
+    background-color: var(--color-mint-green); }
+    html[data-whatinput='keyboard']
+.dnb-accordion__variant--outlined.dnb-accordion--expanded .dnb-accordion__header:not([disabled]):not(:active):not(:hover):focus * {
+      color: var(--color-emerald-green); }
+  .dnb-accordion__variant--outlined.dnb-accordion--expanded .dnb-accordion__header:not([disabled]):not(:active):not(:hover):focus {
+    outline: none; }
+    html[data-whatinput='keyboard'] .dnb-accordion__variant--outlined.dnb-accordion--expanded .dnb-accordion__header:not([disabled]):not(:active):not(:hover):focus {
+      box-shadow: inset 0 0 0 0.125rem var(--color-emerald-green);
+      /* IE11 fix */
+      /* iOS fix - because \\"inset\\" works not fine with border-radius and rem unit */
+      border-color: transparent; }
+      @supports (-webkit-touch-callout: none) {
+        html[data-whatinput='keyboard'] .dnb-accordion__variant--outlined.dnb-accordion--expanded .dnb-accordion__header:not([disabled]):not(:active):not(:hover):focus {
+          box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
+
+.dnb-accordion__variant--outlined.dnb-accordion--expanded .dnb-accordion__header:not(:hover):not([disabled]) * {
+  color: var(--color-white); }
+
+html:not([data-whatintent='touch']) .dnb-accordion__variant--outlined.dnb-accordion--expanded .dnb-accordion__header.dnb-accordion--hover:not(:active):hover[disabled] {
+  cursor: not-allowed; }
+
+html:not([data-whatintent='touch']) .dnb-accordion__variant--outlined.dnb-accordion--expanded .dnb-accordion__header.dnb-accordion--hover:not(:active):hover:not([disabled]) {
+  color: var(--color-white);
+  background-color: var(--color-sea-green);
+  box-shadow: 0 0 0 0.0625rem var(--color-sea-green);
+  /* IE11 fix */
+  border-color: transparent; }
+
+.dnb-accordion__variant--outlined.dnb-accordion--expanded .dnb-accordion__header.dnb-accordion--hover:not(:active) * {
+  color: var(--color-white); }
+"
+`;
+
+exports[`Accordion scss have to match snapshot 1`] = `
+"/*
+* DNB Accordion
+*
+*/
+/**
+ * This file is only used to make components independent
+ * so that they can get imported individually, without the core styles
+ *
+ */
+/*
+ * Utilities
+ */
+/*
+ * Scopes
+ *
+ */
+/*
+ * Document Reset
+ *
+ */
+.dnb-accordion {
+  font-family: var(--font-family-default);
+  font-weight: var(--font-weight-default);
+  font-size: var(--font-size-small);
+  font-style: normal;
+  line-height: var(--line-height-basis);
+  color: var(--color-black-80, #333);
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  /**
+  * Ensure consistency and use the same as HTML reset -> html {...}
+  * between base and code package
+  */
+  -moz-tab-size: 4;
+  tab-size: 4;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  word-break: break-word;
+  /**
+  * 1. Remove repeating backgrounds in all browsers (opinionated).
+  * 2. Add border box sizing in all browsers (opinionated).
+  */
+  /**
+  * 1. Add text decoration inheritance in all browsers (opinionated).
+  * 2. Add vertical alignment inheritance in all browsers (opinionated).
+  */
+  margin: 0;
+  padding: 0; }
+  .dnb-accordion *,
+  .dnb-accordion ::before,
+  .dnb-accordion ::after {
+    background-repeat: no-repeat;
+    /* 1 */
+    box-sizing: border-box;
+    /* 2 */ }
+  .dnb-accordion ::before,
+  .dnb-accordion ::after {
+    text-decoration: inherit;
+    /* 1 */
+    vertical-align: inherit;
+    /* 2 */ }
+
+/*
+* Accordion component
+*
+*/
+:root {
+  --color-outline-grey: #ebebeb;
+  --color-dark-grey: #757575;
+  --accordion-border-width: 0.0625rem;
+  --accordion-border-radius: 0.25rem;
+  --accordion-easing: cubic-bezier(0.42, 0, 0, 1); }
+
+.dnb-accordion {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-basis); }
+  .dnb-accordion__header {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    outline: none;
+    border: var(--accordion-border-width) solid transparent;
+    border-radius: var(--accordion-border-radius); }
+    .dnb-accordion__header:focus {
+      user-select: none; }
+    .dnb-accordion__header * {
+      pointer-events: none; }
+    .dnb-accordion__header--prevent-click {
+      user-select: none;
+      pointer-events: none; }
+    .dnb-accordion__header__wrapper {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      margin: 1.5rem 0 1.5rem 2rem; }
+    .dnb-accordion__header--description .dnb-accordion__header__wrapper {
+      margin: 1rem 0 1rem 2rem; }
+    .dnb-accordion__header__icon + .dnb-accordion__header__wrapper {
+      margin-left: 0;
+      margin-right: 2rem; }
+    .dnb-accordion__header__container {
+      margin: 0 1rem; }
+    .dnb-accordion__header__icon {
+      margin: 1.5rem 1rem;
+      font-size: var(--font-size-small);
+      line-height: var(--line-height-basis);
+      transition: transform 400ms var(--accordion-easing); }
+    .dnb-accordion__header__icon--right {
+      justify-content: space-between; }
+    .dnb-accordion__header__icon--right .dnb-accordion__header__icon {
+      order: 3; }
+    .dnb-accordion__header__icon--right .dnb-accordion__header__container {
+      order: 1; }
+    .dnb-accordion__header__icon--right .dnb-accordion__header__wrapper {
+      order: 2;
+      margin-left: 1rem;
+      margin-right: 1rem; }
+    .dnb-accordion__header__icon--right .dnb-accordion__header__wrapper + .dnb-accordion__header__container {
+      margin-right: 0; }
+    .dnb-accordion__header__icon--right .dnb-accordion__header__container + .dnb-accordion__header__wrapper {
+      margin-left: 0; }
+    .dnb-accordion__header__title {
+      font-size: var(--font-size-basis);
+      line-height: var(--line-height-basis); }
+    .dnb-accordion__header__description {
+      font-size: var(--font-size-small);
+      line-height: var(--line-height-small);
+      font-weight: var(--font-weight-default); }
+    .dnb-accordion__header__title + .dnb-accordion__header__description {
+      margin-top: 0.25rem; }
+    .dnb-accordion__header__description + .dnb-accordion__header__title {
+      margin-top: 0.25rem; }
+  .dnb-accordion--expanded .dnb-accordion__header__icon {
+    transform: rotate(-180deg); }
+  .dnb-accordion--no-animation .dnb-accordion__header__icon {
+    transition-duration: 1ms; }
+  .dnb-accordion__content {
+    display: flex;
+    will-change: height;
+    transition: height 400ms var(--accordion-easing), opacity 600ms var(--accordion-easing); }
+    .dnb-accordion__content--hidden {
+      visibility: hidden;
+      height: 0; }
+    .dnb-accordion__content--is-animating {
+      opacity: 0.2;
+      overflow: hidden; }
+    .dnb-accordion__content__inner {
+      margin-top: 1rem; }
+      .dnb-accordion__content__inner--remove-content {
+        display: none; }
+  .dnb-accordion--no-animation .dnb-accordion__content {
+    transition-duration: 1ms; }
+  .dnb-accordion-group--single-container {
+    transition: min-height 1000ms var(--accordion-easing); }
+  .dnb-accordion-group--single-container .dnb-accordion {
+    position: static;
+    max-width: 60rem; }
+    @media screen and (min-width: 40em) {
+      .dnb-accordion-group--single-container .dnb-accordion__header {
+        width: 40%; }
+        .dnb-accordion-group--single-container .dnb-accordion__header__icon {
+          transform: rotate(-90deg); }
+      .dnb-accordion-group--single-container .dnb-accordion__content {
+        margin-left: 1rem;
+        transition: opacity 2000ms var(--accordion-easing); }
+        .dnb-accordion-group--single-container .dnb-accordion__content__inner {
+          margin-top: 0; } }
+  .dnb-accordion-group--single-container .dnb-accordion-group__children {
+    max-width: 60rem; }
+    @media screen and (min-width: 40em) {
+      .dnb-accordion-group--single-container .dnb-accordion-group__children {
+        position: relative;
+        display: flex;
+        flex-direction: column; }
+        .dnb-accordion-group--single-container .dnb-accordion-group__children .dnb-accordion__content {
+          position: absolute;
+          z-index: 10;
+          top: 0;
+          right: 0;
+          width: 60%; } }
+"
+`;

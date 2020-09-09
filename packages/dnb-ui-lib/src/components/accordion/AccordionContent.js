@@ -67,18 +67,20 @@ export default class AccordionContent extends React.PureComponent {
   }
 
   componentDidMount() {
-    this.anim.setElem(this._ref.current)
-    // We open the expanded in the main component for now
-    // if (this.context.expanded) {
-    //   this.anim.open(false)
-    // }
+    this.anim.setElem(
+      this._ref.current,
+      getPreviousSibling(
+        'dnb-accordion-group--single-container',
+        this._ref.current
+      )
+    )
   }
 
   componentWillUnmount() {
     this.anim.remove()
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
     if (this.context.expanded) {
       this.setState(
         {
@@ -89,14 +91,19 @@ export default class AccordionContent extends React.PureComponent {
     } else {
       this.anim.close()
     }
+
+    if (prevProps.children !== this.props.children) {
+      this.anim.setContainerHeight()
+      console.log('componentDidUpdate')
+    }
   }
 
   renderContent() {
     const { children } = this.props
-
-    const { expanded, prerender } = this.context
+    const { expanded, prerender, prevent_rerender } = this.context
 
     let content = children
+
     if (typeof content === 'string') {
       content = <p className="dnb-p">{content}</p>
     }
@@ -109,14 +116,29 @@ export default class AccordionContent extends React.PureComponent {
         this.anim.isAnimating) &&
       children
 
+    if (isTrue(prevent_rerender)) {
+      // update the cache if children is not the same anymore
+      if (this._cache !== content) {
+        this._cache = content
+      }
+
+      if (this._cache) {
+        content = this._cache
+      } else {
+        this._cache = content
+      }
+    }
+
     return content
   }
 
-  getContent(cache = null) {
+  render() {
     const { className, ...rest } = this.props
     const { keepContentVisible } = this.state
 
     const { id, expanded, disabled } = this.context
+
+    const content = this.renderContent()
 
     const wrapperParams = {
       className: classnames(
@@ -155,21 +177,9 @@ export default class AccordionContent extends React.PureComponent {
 
     return (
       <div {...wrapperParams} ref={this._ref}>
-        <div {...innerParams}>
-          {cache || (this._cache = this.renderContent())}
-        </div>
+        <div {...innerParams}>{content}</div>
       </div>
     )
-  }
-
-  render() {
-    const { prevent_rerender } = this.context
-
-    if (isTrue(prevent_rerender) && this._cache) {
-      return this.getContent(this._cache)
-    }
-
-    return this.getContent()
   }
 }
 
@@ -179,7 +189,7 @@ class HeightAnim {
     this.onStartStack = []
     this.onEndStack = []
   }
-  setElem(elem) {
+  setElem(elem, container = null) {
     this.elem =
       elem ||
       (typeof document !== 'undefined' && document.createElement('div'))
@@ -189,10 +199,7 @@ class HeightAnim {
       this.elem = this.elem.parentElement
     }
 
-    this.container = getPreviousSibling(
-      'dnb-accordion-group--single-container',
-      this.elem
-    )
+    this.container = container
 
     if (this.container) {
       this.onResize = () => {
@@ -239,7 +246,6 @@ class HeightAnim {
     this.elem.style.height = 'auto'
 
     this.openHeight = parseFloat(this.elem.clientHeight)
-    // this.openHeight = parseFloat(window.getComputedStyle(this.elem).height)
 
     this.elem.parentElement.style.position =
       position !== 'static' ? position : ''
@@ -252,7 +258,6 @@ class HeightAnim {
   }
   getCloseHeight() {
     this.closeHeight = parseFloat(this.elem.clientHeight)
-    // this.closeHeight = parseFloat(window.getComputedStyle(this.elem).height)
 
     return this.closeHeight
   }
@@ -299,6 +304,7 @@ class HeightAnim {
         if (before) {
           this.elem.style.height = `${before}px`
           this.elem.style.opacity = String(before > 0 ? 1 : 0)
+
           if (this.container) {
             this.container.style.minHeight = `${before}px`
           }
