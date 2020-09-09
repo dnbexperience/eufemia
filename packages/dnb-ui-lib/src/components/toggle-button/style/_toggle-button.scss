@@ -34,7 +34,7 @@
   }
 
   &__component {
-    padding-right: 0.25rem;
+    padding-right: 0.5rem;
 
     display: inline-flex;
     align-items: center;
@@ -52,7 +52,7 @@
 
     // checkbox button
     .dnb-checkbox {
-      margin-left: -0.75rem;
+      margin-left: -0.5rem;
       &__input {
         pointer-events: none;
       }
@@ -76,7 +76,7 @@
 
     // radio button
     .dnb-radio {
-      margin-left: -0.75rem;
+      margin-left: -0.5rem;
       &__input {
         pointer-events: none;
       }

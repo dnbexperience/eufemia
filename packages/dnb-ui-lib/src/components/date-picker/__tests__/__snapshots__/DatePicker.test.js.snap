@@ -376,6 +376,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                           onFocus={[Function]}
                           onKeyDown={[Function]}
                           onMouseUp={[Function]}
+                          onPaste={[Function]}
                           placeholderChar="d"
                           size="2"
                           type="text"
@@ -402,6 +403,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                             onFocus={[Function]}
                             onKeyDown={[Function]}
                             onMouseUp={[Function]}
+                            onPaste={[Function]}
                             placeholderChar="d"
                             render={[Function]}
                             showMask={true}
@@ -423,6 +425,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                               onFocus={[Function]}
                               onKeyDown={[Function]}
                               onMouseUp={[Function]}
+                              onPaste={[Function]}
                               size="2"
                               type="text"
                             />
@@ -462,6 +465,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                           onFocus={[Function]}
                           onKeyDown={[Function]}
                           onMouseUp={[Function]}
+                          onPaste={[Function]}
                           placeholderChar="m"
                           size="2"
                           type="text"
@@ -488,6 +492,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                             onFocus={[Function]}
                             onKeyDown={[Function]}
                             onMouseUp={[Function]}
+                            onPaste={[Function]}
                             placeholderChar="m"
                             render={[Function]}
                             showMask={true}
@@ -509,6 +514,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                               onFocus={[Function]}
                               onKeyDown={[Function]}
                               onMouseUp={[Function]}
+                              onPaste={[Function]}
                               size="2"
                               type="text"
                             />
@@ -550,6 +556,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                           onFocus={[Function]}
                           onKeyDown={[Function]}
                           onMouseUp={[Function]}
+                          onPaste={[Function]}
                           placeholderChar="å"
                           size="4"
                           type="text"
@@ -578,6 +585,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                             onFocus={[Function]}
                             onKeyDown={[Function]}
                             onMouseUp={[Function]}
+                            onPaste={[Function]}
                             placeholderChar="å"
                             render={[Function]}
                             showMask={true}
@@ -599,6 +607,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                               onFocus={[Function]}
                               onKeyDown={[Function]}
                               onMouseUp={[Function]}
+                              onPaste={[Function]}
                               size="4"
                               type="text"
                             />
@@ -615,7 +624,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                           aria-hidden={true}
                           className="dnb-date-picker--separator"
                         >
-                           – 
+                           – 
                         </span>
                         <ForwardRef
                           aria-labelledby="date-picker-id-end-day-label"
@@ -637,6 +646,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                           onFocus={[Function]}
                           onKeyDown={[Function]}
                           onMouseUp={[Function]}
+                          onPaste={[Function]}
                           placeholderChar="d"
                           size="2"
                           type="text"
@@ -663,6 +673,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                             onFocus={[Function]}
                             onKeyDown={[Function]}
                             onMouseUp={[Function]}
+                            onPaste={[Function]}
                             placeholderChar="d"
                             render={[Function]}
                             showMask={true}
@@ -684,6 +695,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                               onFocus={[Function]}
                               onKeyDown={[Function]}
                               onMouseUp={[Function]}
+                              onPaste={[Function]}
                               size="2"
                               type="text"
                             />
@@ -723,6 +735,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                           onFocus={[Function]}
                           onKeyDown={[Function]}
                           onMouseUp={[Function]}
+                          onPaste={[Function]}
                           placeholderChar="m"
                           size="2"
                           type="text"
@@ -749,6 +762,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                             onFocus={[Function]}
                             onKeyDown={[Function]}
                             onMouseUp={[Function]}
+                            onPaste={[Function]}
                             placeholderChar="m"
                             render={[Function]}
                             showMask={true}
@@ -770,6 +784,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                               onFocus={[Function]}
                               onKeyDown={[Function]}
                               onMouseUp={[Function]}
+                              onPaste={[Function]}
                               size="2"
                               type="text"
                             />
@@ -811,6 +826,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                           onFocus={[Function]}
                           onKeyDown={[Function]}
                           onMouseUp={[Function]}
+                          onPaste={[Function]}
                           placeholderChar="å"
                           size="4"
                           type="text"
@@ -839,6 +855,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                             onFocus={[Function]}
                             onKeyDown={[Function]}
                             onMouseUp={[Function]}
+                            onPaste={[Function]}
                             placeholderChar="å"
                             render={[Function]}
                             showMask={true}
@@ -860,6 +877,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                               onFocus={[Function]}
                               onKeyDown={[Function]}
                               onMouseUp={[Function]}
+                              onPaste={[Function]}
                               size="4"
                               type="text"
                             />
@@ -1224,6 +1242,8 @@ exports[`DatePicker scss have to match default theme snapshot 1`] = `
     color: var(--date-picker-labels-day-color); }
   .dnb-date-picker__day, .dnb-date-picker__labels__day {
     text-align: center; }
+  .dnb-date-picker__day--today .dnb-button {
+    font-weight: var(--font-weight-medium); }
   .dnb-date-picker__day--preview .dnb-button,
   .dnb-date-picker__day--inactive .dnb-button,
   .dnb-date-picker__day--within-selection:not(.dnb-date-picker__day--start-date):not(.dnb-date-picker__day--end-date) .dnb-button:not(:hover) {
@@ -2464,7 +2484,7 @@ legend.dnb-form-label {
     flex-direction: column;
     align-items: flex-start; }
   .dnb-toggle-button__component {
-    padding-right: 0.25rem;
+    padding-right: 0.5rem;
     display: inline-flex;
     align-items: center; }
   .dnb-toggle-button__button {
@@ -2474,7 +2494,7 @@ legend.dnb-form-label {
     .dnb-toggle-button__button .dnb-radio__shell {
       transform: translateY(0); }
     .dnb-toggle-button__button .dnb-checkbox {
-      margin-left: -0.75rem; }
+      margin-left: -0.5rem; }
       .dnb-toggle-button__button .dnb-checkbox__input {
         pointer-events: none; }
       .dnb-toggle-button__button .dnb-checkbox__focus, .dnb-toggle-button__button .dnb-checkbox__button {
@@ -2489,7 +2509,7 @@ legend.dnb-form-label {
         width: calc(var(--checkbox-width) - 0.25rem);
         height: calc(var(--checkbox-width) - 0.25rem); }
     .dnb-toggle-button__button .dnb-radio {
-      margin-left: -0.75rem; }
+      margin-left: -0.5rem; }
       .dnb-toggle-button__button .dnb-radio__input {
         pointer-events: none; }
       .dnb-toggle-button__button .dnb-radio__focus, .dnb-toggle-button__button .dnb-radio__button {
@@ -2675,22 +2695,21 @@ legend.dnb-form-label {
     background: transparent;
     overflow: visible;
     white-space: nowrap; }
-    @supports (-moz-appearance: meterbar) and (background-blend-mode: difference, normal) {
-      .dnb-date-picker__input,
-      .dnb-date-picker .dnb-input__input.dnb-date-picker__input,
-      .dnb-core-style .dnb-date-picker__input {
-        margin: 0 2px; } }
     @supports (-webkit-appearance: none) and (not (overflow: -webkit-marquee)) and (not (-ms-ime-align: auto)) and (not (-moz-appearance: none)) {
       .dnb-date-picker__input,
       .dnb-date-picker .dnb-input__input.dnb-date-picker__input,
       .dnb-core-style .dnb-date-picker__input {
-        margin: 0 -1px; } }
+        margin: 0 -4px; } }
     @supports (-ms-ime-align: auto) {
       .dnb-date-picker__input,
       .dnb-date-picker .dnb-input__input.dnb-date-picker__input,
       .dnb-core-style .dnb-date-picker__input {
-        margin: 0 -4px; } }
+        margin: 0 -5px; } }
     @media not all and (min-resolution: 0.001dpcm) {
+      .dnb-date-picker__input:not(*:root),
+      .dnb-date-picker .dnb-input__input.dnb-date-picker__input:not(*:root),
+      .dnb-core-style .dnb-date-picker__input:not(*:root) {
+        margin: 0; }
       @supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-overflow-scrolling: touch)) {
         .dnb-date-picker__input:not(*:root),
         .dnb-date-picker .dnb-input__input.dnb-date-picker__input:not(*:root),
@@ -2720,8 +2739,6 @@ legend.dnb-form-label {
   .dnb-date-picker:not(.dnb-date-picker--show-input) .dnb-input__submit-element,
   .dnb-input__submit-element > .dnb-date-picker .dnb-input__submit-element {
     margin-left: 0; }
-  .dnb-date-picker--separator {
-    margin: 0 -0.2rem; }
   .dnb-date-picker__views {
     display: flex;
     user-select: none;
