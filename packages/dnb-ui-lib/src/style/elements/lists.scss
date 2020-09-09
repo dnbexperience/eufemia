@@ -84,6 +84,18 @@
       counter-increment: item;
     }
   }
+
+  &[type] {
+    li {
+      display: list-item;
+      list-style-type: inherit;
+
+      &::before,
+      & li::before {
+        content: none;
+      }
+    }
+  }
 }
 @mixin dlStyle() {
   margin: 0;

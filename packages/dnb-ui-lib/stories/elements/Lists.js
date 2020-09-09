@@ -71,6 +71,24 @@ export default [
             </Ol>
           </Box>
           <Box>
+            <Ol nested type="A">
+              <Li>Item</Li>
+              <Li>
+                Item
+                <Ol type="I" start="3">
+                  <Li>
+                    Item
+                    <Ol type="i">
+                      <Li>Item</Li>
+                      <Li>Item</Li>
+                    </Ol>
+                  </Li>
+                </Ol>
+              </Li>
+              <Li>Item</Li>
+            </Ol>
+          </Box>
+          <Box>
             <WidthLimit>
               <Ol nested className="dnb-ol--outside">
                 <Li>
