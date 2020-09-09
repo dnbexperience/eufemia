@@ -16,6 +16,7 @@ import {
   processChildren,
   extendPropsWithContext,
   dispatchCustomElementEvent,
+  skeletonElement,
   isTouchDevice
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
@@ -533,11 +534,6 @@ export default class Slider extends React.PureComponent {
     const showStatus = status && status !== 'error'
     const showButtons = !isTrue(hide_buttons)
 
-    if (isTrue(skeleton)) {
-      disabled = true
-      currentState = 'disabled'
-    }
-
     const id = this._id
     const mainParams = {
       className: classnames(
@@ -564,6 +560,12 @@ export default class Slider extends React.PureComponent {
 
     const inlineThumbStyles = {
       [`${vertical ? 'top' : 'left'}`]: `${percent}%`
+    }
+
+    if (isTrue(skeleton)) {
+      disabled = true
+      currentState = 'disabled'
+      skeletonElement(mainParams)
     }
 
     const trackParams = {

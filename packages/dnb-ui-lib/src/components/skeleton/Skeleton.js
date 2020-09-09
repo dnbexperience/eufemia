@@ -24,7 +24,7 @@ const propTypes = {
   element: PropTypes.string,
   show: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   style_type: PropTypes.oneOfType([
-    PropTypes.oneOf(['dots', 'shine']),
+    PropTypes.oneOf(['lines', 'dots', 'shine']),
     PropTypes.string
   ]),
   figure: PropTypes.oneOfType([
@@ -50,7 +50,7 @@ const defaultProps = {
   id: null,
   show: null,
   skeleton: null, // only to make sure we process extendPropsWithContext
-  style_type: 'dots',
+  style_type: 'lines',
   figure: null,
   class: null,
 
@@ -72,12 +72,10 @@ export default class Skeleton extends React.PureComponent {
     const props =
       typeof this.context?.skeleton !== 'undefined'
         ? // use only the props from context, who are available here anyway
-          extendPropsWithContext(
-            this.props,
-            defaultProps,
-            // this.context.skeleton,
-            { skeleton: this.context.skeleton }
-          )
+          extendPropsWithContext(this.props, defaultProps, {
+            skeleton: this.context.skeleton,
+            style_type: this.context.skeleton_style_type
+          })
         : this.props
 
     const {
@@ -113,7 +111,12 @@ export default class Skeleton extends React.PureComponent {
         {figure && showSkeleton ? (
           figure
         ) : (
-          <Provider skeleton={showSkeleton}>{children}</Provider>
+          <Provider
+            skeleton={showSkeleton}
+            skeleton_style_type={style_type}
+          >
+            {children}
+          </Provider>
         )}
       </Space>
     )

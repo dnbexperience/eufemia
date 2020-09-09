@@ -11,56 +11,57 @@ import {
   makeUniqueId,
   extendPropsWithContext,
   registerElement,
-  validateDOMAttributes
-  // dispatchCustomElementEvent
+  validateDOMAttributes,
+  dispatchCustomElementEvent
 } from '../../shared/component-helper'
 import { createSpacingClasses } from '../space/SpacingHelper'
 
 import Context from '../../shared/Context'
 import AccordionGroupContext from './AccordionProviderContext'
 
-const renderProps = {
-  // on_change: null
-}
-
-const propTypes = {
-  expanded: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  prerender: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  prevent_rerender: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.bool
-  ]),
-  single_container: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.bool
-  ]),
-  allow_close_all: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  id: PropTypes.string,
-  group: PropTypes.string
-}
-
-const defaultProps = {
-  expanded: null,
-  prerender: null,
-  prevent_rerender: null,
-  single_container: null,
-  allow_close_all: null,
-  disabled: null,
-  id: null,
-  group: null
-  // ...renderProps
-}
-
 export default class AccordionGroup extends React.PureComponent {
   static tagName = 'dnb-accordion-group'
-  static propTypes = propTypes
-  static defaultProps = defaultProps
-  static renderProps = renderProps
   static contextType = Context
 
+  static propTypes = {
+    expanded: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    prerender: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    prevent_rerender: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool
+    ]),
+    single_container: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool
+    ]),
+    allow_close_all: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool
+    ]),
+    on_change: PropTypes.func,
+    disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    id: PropTypes.string,
+    group: PropTypes.string
+  }
+
+  static defaultProps = {
+    expanded: null,
+    prerender: null,
+    prevent_rerender: null,
+    single_container: null,
+    allow_close_all: null,
+    on_change: null,
+    disabled: null,
+    id: null,
+    group: null
+  }
+
   static enableWebComponent() {
-    registerElement(AccordionGroup.tagName, AccordionGroup, defaultProps)
+    registerElement(
+      AccordionGroup.tagName,
+      AccordionGroup,
+      AccordionGroup.defaultProps
+    )
   }
 
   constructor(props) {
@@ -71,15 +72,20 @@ export default class AccordionGroup extends React.PureComponent {
     }
   }
 
-  onChangeHandler = () => {
-    // console.log('onChangeHandler', params)
+  onChangeHandler = (event) => {
+    // console.log('this.context', this.context)
+    dispatchCustomElementEvent(this, 'on_change', {
+      id: event.id,
+      expanded: event.expanded,
+      event
+    })
   }
 
   render() {
     // use only the props from context, who are available here anyway
     const props = extendPropsWithContext(
       this.props,
-      defaultProps,
+      AccordionGroup.defaultProps,
       this.context.formRow,
       this.context.translation.Accordion
     )
@@ -92,6 +98,7 @@ export default class AccordionGroup extends React.PureComponent {
       allow_close_all, // eslint-disable-line
       remember_state, // eslint-disable-line
       disabled, // eslint-disable-line
+      group, // eslint-disable-line
       className,
       class: _className,
 

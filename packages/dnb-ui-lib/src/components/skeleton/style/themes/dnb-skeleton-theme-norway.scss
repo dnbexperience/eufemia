@@ -37,12 +37,6 @@
 .dnb-skeleton {
   &--norway &,
   &--norway {
-    &::before {
-      background-color: var(
-        --color-sea-green-30
-      ) !important; // to take presence
-    }
-
     &::after {
       background-image: cross(#ef2b2d, #002868, white) !important;
 

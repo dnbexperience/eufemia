@@ -151,6 +151,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
     direction="bottom"
     disabled="disabled"
     enable_body_lock={null}
+    enable_closest_observer={null}
     focusable="focusable"
     global_status_id="global_status_id"
     icon="icon"
@@ -309,7 +310,6 @@ exports[`Dropdown markup have to match snapshot 1`] = `
           vertical={null}
         >
           <Element
-            aria-busy={true}
             aria-disabled={true}
             className="dnb-form-label"
             disabled={true}
@@ -319,7 +319,6 @@ exports[`Dropdown markup have to match snapshot 1`] = `
             onMouseDown={[Function]}
           >
             <label
-              aria-busy={true}
               aria-disabled={true}
               className="dnb-form-label"
               disabled={true}
@@ -698,7 +697,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                           aria-activedescendant="option-dropdown-id-2"
                           aria-expanded={true}
                           aria-labelledby="dropdown-id-label"
-                          cache_hash="2266bottom1"
+                          cache_hash="22undefinedundefinedbottom1"
                           class={null}
                           className={null}
                           id="dropdown-id-ul"
@@ -999,7 +998,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                               <DrawerList.Item
                                 active={false}
                                 class={null}
-                                className="closest-to-top closest-to-bottom last-of-type"
+                                className="last-of-type"
                                 data-item={6}
                                 hash="option-dropdown-id-6-6"
                                 id="option-dropdown-id-6"
@@ -1012,7 +1011,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                               >
                                 <li
                                   aria-selected={false}
-                                  className="closest-to-top closest-to-bottom last-of-type dnb-drawer-list__option"
+                                  className="last-of-type dnb-drawer-list__option"
                                   data-item={6}
                                   id="option-dropdown-id-6"
                                   key="lioption-dropdown-id-6-6"
@@ -1311,6 +1310,15 @@ exports[`Dropdown scss have to match snapshot 1`] = `
   -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   /**
+  * Ensure consistency and use the same as HTML reset -> html {...}
+  * between base and code package
+  */
+  -moz-tab-size: 4;
+  tab-size: 4;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  word-break: break-word;
+  /**
   * 1. Remove repeating backgrounds in all browsers (opinionated).
   * 2. Add border box sizing in all browsers (opinionated).
   */
@@ -1391,6 +1399,15 @@ exports[`Dropdown scss have to match snapshot 1`] = `
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  /**
+  * Ensure consistency and use the same as HTML reset -> html {...}
+  * between base and code package
+  */
+  -moz-tab-size: 4;
+  tab-size: 4;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  word-break: break-word;
   /**
   * 1. Remove repeating backgrounds in all browsers (opinionated).
   * 2. Add border box sizing in all browsers (opinionated).
@@ -1619,6 +1636,15 @@ button.dnb-button::-moz-focus-inner {
   -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   /**
+  * Ensure consistency and use the same as HTML reset -> html {...}
+  * between base and code package
+  */
+  -moz-tab-size: 4;
+  tab-size: 4;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  word-break: break-word;
+  /**
   * 1. Remove repeating backgrounds in all browsers (opinionated).
   * 2. Add border box sizing in all browsers (opinionated).
   */
@@ -1691,6 +1717,15 @@ legend.dnb-form-label {
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  /**
+  * Ensure consistency and use the same as HTML reset -> html {...}
+  * between base and code package
+  */
+  -moz-tab-size: 4;
+  tab-size: 4;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  word-break: break-word;
   /**
   * 1. Remove repeating backgrounds in all browsers (opinionated).
   * 2. Add border box sizing in all browsers (opinionated).

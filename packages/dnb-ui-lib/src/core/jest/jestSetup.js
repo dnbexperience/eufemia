@@ -41,7 +41,7 @@ export const loadScss = (file, options = {}) => {
     })
     return String(sassResult.css)
   } catch (e) {
-    console.log('Error', e)
+    console.error('loadScss error:', e)
     return e
   }
 }

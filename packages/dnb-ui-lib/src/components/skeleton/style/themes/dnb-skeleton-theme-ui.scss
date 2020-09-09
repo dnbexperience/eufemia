@@ -4,30 +4,51 @@
  */
 
 .dnb-skeleton {
-  // box-shadow: 0 0 0 1px var(--color-sea-green-30) !important; // use !important to overwrite error state
-  // &.dnb-input__shell {
-  // }
-
   &::before {
     background-color: var(
       --color-sea-green-30
     ) !important; // to take presence
+
+    // Using a so called DNB background color causes conflicts
+    // background-color: var(--color-lavender) !important; // to take presence
+
+    // Boring color
+    // background-color: #ebebeb !important; // to take presence
+  }
+
+  // Lines
+  &::after,
+  &--lines &::after,
+  &--lines#{&}::after {
+    background-image: repeating-linear-gradient(
+      -45deg,
+      white 0 1px,
+      transparent 0 6px
+    ) !important;
+    background-repeat: repeat !important;
+    background-size: 100% !important; // to take presence
+
+    animation: skeletonLinearAnimation 2s linear infinite;
+    // animation: skeletonFancyAnimation 2s linear infinite;
+
+    // For better performance
+    // animation: skeletonShineAnimation 2s linear infinite;
   }
 
   // Dots
-  // @at-root *:not([class*='dnb-skeleton--']) &::after,
-  &::after,
+  // &::after,
   &--dots &::after,
   &--dots#{&}::after {
     background-image: radial-gradient(
-      circle closest-side,
-      white 50%,
-      transparent 80%
+      circle,
+      white 1px,
+      transparent 1px /* Having 2px makes it add lookin in Safari */
     ) !important; // to take presence
+    background-position-y: 50% !important;
     background-repeat: repeat !important;
-    background-size: 0.25rem 0.25rem !important; // to take presence
+    background-size: 5px 5px !important; // to take presence
 
-    animation: skeletonSmoothAnimation 2s linear infinite;
+    animation: skeletonLinearAnimation 2s linear infinite;
   }
 
   // Shine
@@ -39,9 +60,8 @@
       transparent 100%
     ) !important;
     background-position-y: 50% !important;
-    // background-position-x: 100% !important;
-    background-size: 100% 3000% !important;
     background-repeat: no-repeat !important;
+    background-size: 100% 3000% !important;
 
     animation: skeletonShineAnimation 2s linear infinite;
   }
@@ -50,16 +70,16 @@
   &--overflow {
     overflow: hidden;
   }
-  &--overflow &::after {
-    animation: skeletonOverflowAnimation 2s linear infinite;
-  }
+  // &--overflow &::after {
+  //   animation: skeletonOverflowAnimation 2s linear infinite;
+  // }
 
-  &--fancy &::after {
-    animation: skeletonFancyAnimation 2s linear infinite;
-  }
+  // &--fancy &::after {
+  // animation: skeletonFancyAnimation 2s linear infinite;
+  // }
 }
 
-@keyframes skeletonSmoothAnimation {
+@keyframes skeletonLinearAnimation {
   0% {
     clip-path: polygon(0 0, 0% 0, 0% 100%, 0 100%);
   }
@@ -81,8 +101,8 @@
     clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
   }
   100% {
-    transform: translate3d(0%, 0, 0);
-    clip-path: polygon(100% 0, 100% 0, 100% 100%, 100% 100%);
+    transform: translate3d(50%, 0, 0);
+    clip-path: polygon(50% 0, 50% 0, 50% 100%, 50% 100%);
   }
 }
 
@@ -101,14 +121,14 @@
   }
 }
 
-@keyframes skeletonOverflowAnimation {
-  0% {
-    transform: translate3d(-100%, 0, 0);
-  }
-  50% {
-    transform: translate3d(0%, 0, 0);
-  }
-  100% {
-    transform: translate3d(100%, 0, 0);
-  }
-}
+// @keyframes skeletonOverflowAnimation {
+//   0% {
+//     transform: translate3d(-100%, 0, 0);
+//   }
+//   50% {
+//     transform: translate3d(0%, 0, 0);
+//   }
+//   100% {
+//     transform: translate3d(100%, 0, 0);
+//   }
+// }

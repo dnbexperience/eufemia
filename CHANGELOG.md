@@ -1,3 +1,9 @@
+## September, 20. 2020
+
+New component [Skeleton](/uilib/components/skeleton)
+
+**Ol Lists** do now support the `type` HTML attribute in order to use like _letters_ and _roman numerals_
+
 ## July, 3. 2020
 
 New [Icons](/icons/secondary):

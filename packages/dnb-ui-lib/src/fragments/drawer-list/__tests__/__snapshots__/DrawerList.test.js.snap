@@ -148,6 +148,7 @@ exports[`DrawerList markup have to match snapshot 1`] = `
     default_value="default_value"
     direction="bottom"
     enable_body_lock={null}
+    enable_closest_observer={null}
     fixed_position="fixed_position"
     focusable="focusable"
     id="drawer-list-id"
@@ -504,6 +505,15 @@ exports[`DrawerList scss have to match snapshot 1`] = `
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  /**
+  * Ensure consistency and use the same as HTML reset -> html {...}
+  * between base and code package
+  */
+  -moz-tab-size: 4;
+  tab-size: 4;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  word-break: break-word;
   /**
   * 1. Remove repeating backgrounds in all browsers (opinionated).
   * 2. Add border box sizing in all browsers (opinionated).

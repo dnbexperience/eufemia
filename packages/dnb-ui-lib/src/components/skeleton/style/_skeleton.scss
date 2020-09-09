@@ -111,4 +111,11 @@
       margin-left: 1rem;
     }
   }
+
+  &.dnb-li.is-nested {
+    &::before,
+    &::after {
+      max-height: var(--line-height-basis);
+    }
+  }
 }

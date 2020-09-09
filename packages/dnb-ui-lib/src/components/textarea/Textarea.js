@@ -16,6 +16,7 @@ import {
   validateDOMAttributes,
   processChildren,
   pickRenderProps,
+  skeletonElement,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
@@ -301,10 +302,7 @@ export default class Textarea extends React.PureComponent {
     }
 
     const shellParams = {
-      className: classnames(
-        'dnb-textarea__shell'
-        // isTrue(skeleton) && 'dnb-skeleton'
-      )
+      className: classnames('dnb-textarea__shell')
     }
     if (isTrue(skeleton)) {
       shellParams['aria-busy'] = true
@@ -334,6 +332,10 @@ export default class Textarea extends React.PureComponent {
         'dnb-textarea__inner',
         isTrue(skeleton) && 'dnb-skeleton'
       )
+    }
+
+    if (isTrue(skeleton)) {
+      skeletonElement(innerParams)
     }
 
     // to show the ending dots on a placeholder, if the text is longer

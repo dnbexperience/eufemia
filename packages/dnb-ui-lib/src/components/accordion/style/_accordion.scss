@@ -126,14 +126,20 @@
 
   &__content {
     display: flex;
-    overflow: hidden;
 
     will-change: height;
-    transition: height 400ms var(--accordion-easing);
+    transition: height 400ms var(--accordion-easing),
+      opacity 600ms var(--accordion-easing);
 
     &--hidden {
       visibility: hidden;
       height: 0;
+    }
+
+    // &--is-animating &__inner {
+    &--is-animating {
+      opacity: 0.2;
+      overflow: hidden; // Is needed in order to have a smooth animation, hiding the content nicely.
     }
 
     &__inner {
@@ -149,7 +155,7 @@
   }
 
   &-group--single-container {
-    transition: min-height 400ms var(--accordion-easing);
+    transition: min-height 1e3ms var(--accordion-easing);
   }
 
   &-group--single-container & {
@@ -169,8 +175,8 @@
       &__content {
         margin-left: 1rem;
 
-        // Disable the animation if single container is used
-        transition-duration: 1ms;
+        // Slower down the animation if single container is used
+        transition: opacity 2e3ms var(--accordion-easing);
 
         &__inner {
           margin-top: 0;
@@ -201,7 +207,7 @@
             z-index: 10;
             top: 0;
             right: 0;
-            bottom: 0;
+            // Do not set bottom here, it messes up the offsetHeight in JS
 
             width: 60%; // 40% / 60%
           }

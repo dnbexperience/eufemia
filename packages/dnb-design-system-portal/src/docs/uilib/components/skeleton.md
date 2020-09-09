@@ -8,6 +8,9 @@ order: 20
 import ComponentBox from 'Tags/ComponentBox'
 import Provider from 'dnb-ui-lib/src/shared/Provider'
 import { Article } from 'dnb-ui-lib/src/components/skeleton/figures'
+import 'dnb-ui-lib/src/components/skeleton/style/themes/rainbow'
+import 'dnb-ui-lib/src/components/skeleton/style/themes/norway'
+import 'dnb-ui-lib/src/components/skeleton/style/themes/brand'
 
 # Skeleton
 

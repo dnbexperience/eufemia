@@ -10,6 +10,7 @@ import Context from '../shared/Context'
 import {
   isTrue,
   validateDOMAttributes,
+  skeletonElement,
   extendPropsWithContext
 } from '../shared/component-helper'
 import { createSpacingClasses } from '../components/space/SpacingHelper'
@@ -56,6 +57,7 @@ class Elem extends React.PureComponent {
     validateDOMAttributes(null, rest)
 
     if (isTrue(skeleton)) {
+      skeletonElement(rest)
       return <AutoSize __element={Tag} ref={_ref} {...rest} />
     }
 

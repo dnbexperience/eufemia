@@ -12,6 +12,7 @@ import {
   isTrue,
   extendPropsWithContext,
   registerElement,
+  skeletonElement,
   validateDOMAttributes,
   processChildren,
   pickRenderProps,
@@ -291,6 +292,10 @@ export default class Button extends React.PureComponent {
       disabled: isTrue(disabled),
       ...attributes,
       onClick: this.onClickHandler
+    }
+
+    if (isTrue(skeleton)) {
+      skeletonElement(params)
     }
 
     // also used for code markup simulation
