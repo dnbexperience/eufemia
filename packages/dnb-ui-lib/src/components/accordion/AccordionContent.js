@@ -305,8 +305,8 @@ class HeightAnim {
         }
         this.reqId2 = window.requestAnimationFrame(() => {
           this.elem.style.height = `${height}px`
-          this.elem.style.opacity = String(height > 0 ? 1 : 0)
           this.setContainerHeight()
+          this.elem.style.opacity = String(height > 0 ? 1 : 0)
         })
       })
     }
