@@ -44,66 +44,102 @@ import ComponentBox from 'Tags/ComponentBox'
 
 A single container is used only for wider screens (desktop).
 
-<ComponentBox>
+<ComponentBox useRender hideCode>
 {`
-<Accordion.Group
-	variant="outlined"
-	// prerender
-	prevent_rerender
-	single_container
-	remember_state
-	// allow_close_all
->
-	<Accordion
-		// expanded={false}
-		bottom
-		id="remembered_state-1"
-		title="Title1"
-		description="Description1"
-		// element="h2"
-		// heading
-		// heading={Heading}
-		// heading_level="3"
-	>
-	<Accordion.Header title="Title2" description="Description2">
-		{/* Title 3 string */}
-		<Accordion.Header.Title key="title">
-			Title 3
-		</Accordion.Header.Title>
-		<Accordion.Header.Description>
-			Description 3
-		</Accordion.Header.Description>
-		{/* <Accordion.Header.Icon key="icon" /> */}
-	</Accordion.Header>
-	<Accordion.Content left="xx-large" top="medium">
-		<P>Sociis sapien sociosqu vel sollicitudin accumsan laoreet
-			gravida himenaeos nostra mollis volutpat bibendum convallis
-			cum condimentum dictumst blandit rutrum vehicula
-		<Input /></P>
-	</Accordion.Content>
-	</Accordion>
-    <Accordion
-		// top="x-large"
-		icon_position="right"
-		id="remembered_state-2"
+function AccordionWithContainer() {
+  const changeHeight = React.useRef()
+  return (
+    <Accordion.Group
+      variant="outlined"
+      prevent_rerender
+      single_container
+      remember_state
+      // prerender
+      // allow_close_all
     >
-		<Accordion.Header>
-			<Accordion.Header.Container>
-				<IconPrimary icon="bell" />
-			</Accordion.Header.Container>
-			<Accordion.Header.Title>
-				Accordion title
-			</Accordion.Header.Title>
-		</Accordion.Header>
-		<Accordion.Content>
-			<P>
-				Nec sit mattis natoque interdum sagittis cubilia nibh
-				nullam etiam
-				<Input />
-			</P>
-		</Accordion.Content>
-    </Accordion>
-</Accordion.Group>
+      <Accordion
+        bottom
+        id="remembered-state-1"
+        title="Title1"
+        description="Description1"
+        // expanded={false}
+        // element="h2"
+        // heading
+        // heading={Heading}
+        // heading_level="3"
+      >
+        <Accordion.Header title="Title2" description="Description2">
+          {/* Title 3 string */}
+          <Accordion.Header.Title key="title">
+            Title 3
+          </Accordion.Header.Title>
+          <Accordion.Header.Description>
+            Description 3
+          </Accordion.Header.Description>
+          {/* <Accordion.Header.Icon key="icon" /> */}
+        </Accordion.Header>
+        <Accordion.Content left="xx-large" top="medium">
+          <P>
+            Sociis sapien sociosqu vel sollicitudin accumsan laoreet
+            gravida himenaeos nostra mollis volutpat bibendum convallis cum
+            condimentum dictumst blandit rutrum vehicula
+          </P>
+          <Input label="Prevent rerender" label_direction="vertical" top bottom="xx-large" />
+        </Accordion.Content>
+      </Accordion>
+      <Accordion
+        icon_position="right"
+        id="remembered-state-2"
+        // top="x-large"
+      >
+        <Accordion.Header>
+          <Accordion.Header.Container>
+            <IconPrimary icon="bell" />
+          </Accordion.Header.Container>
+          <Accordion.Header.Title>Accordion title</Accordion.Header.Title>
+        </Accordion.Header>
+        <Accordion.Content instance={changeHeight} left="xx-large" top="medium">
+          <ChangingContent changeHeight={changeHeight} />
+        </Accordion.Content>
+      </Accordion>
+    </Accordion.Group>
+  )
+}
+function ChangingContent({ changeHeight }) {
+  const [contentSize, changeContentSize] = React.useState(false)
+  React.useEffect(() => {
+    changeHeight.current.setContainerHeight()
+  }, [contentSize])
+  return (
+    <>
+      <ToggleButton
+        checked={contentSize}
+        on_change={() => {
+          changeContentSize((s) => !s)
+        }}
+      >
+        Toggle content size
+      </ToggleButton>
+      <P top bottom="xx-large">
+        {contentSize ? (
+          <>
+            Sociis sapien sociosqu vel sollicitudin accumsan laoreet
+            gravida himenaeos nostra mollis volutpat bibendum convallis cum
+            condimentum dictumst blandit rutrum vehicula Placerat nascetur
+            vestibulum ligula nunc fusce consectetur tortor tristique
+            aptent nostra posuere ante suscipit mattis egestas praesent
+            integer conubia dignissim Etiam dui rutrum quis facilisi
+            suscipit ornare mus vestibulum nec cubilia platea in senectus
+            curabitur leo dictum metus est lorem
+          </>
+        ) : (
+          <>Small content</>
+        )}
+      </P>
+    </>
+  )
+}
+render(<AccordionWithContainer />)
 `}
 </ComponentBox>
 

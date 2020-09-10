@@ -114,6 +114,7 @@ exports[`Accordion component have to match snapshot 1`] = `
     </AccordionHeader>
     <AccordionContent
       className={null}
+      instance={null}
     >
       <div
         className="dnb-accordion__content dnb-accordion__content--hidden"

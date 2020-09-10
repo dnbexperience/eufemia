@@ -16,6 +16,7 @@ import { createSpacingClasses } from '../space/SpacingHelper'
 
 const propTypes = {
   // React props
+  instance: PropTypes.object,
   className: PropTypes.string,
   children: PropTypes.oneOfType([
     PropTypes.string,
@@ -26,6 +27,7 @@ const propTypes = {
 
 const defaultProps = {
   // React props
+  instance: null,
   className: null,
   children: null
 }
@@ -64,6 +66,13 @@ export default class AccordionContent extends React.PureComponent {
         })
       }
     })
+
+    if (
+      props.instance &&
+      Object.prototype.hasOwnProperty.call(props.instance, 'current')
+    ) {
+      props.instance.current = this
+    }
   }
 
   componentDidMount() {
@@ -94,8 +103,11 @@ export default class AccordionContent extends React.PureComponent {
 
     if (prevProps.children !== this.props.children) {
       this.anim.setContainerHeight()
-      console.log('componentDidUpdate')
     }
+  }
+
+  setContainerHeight() {
+    this.anim?.setContainerHeight()
   }
 
   renderContent() {
@@ -133,7 +145,11 @@ export default class AccordionContent extends React.PureComponent {
   }
 
   render() {
-    const { className, ...rest } = this.props
+    const {
+      className,
+      instance, // eslint-disable-line
+      ...rest
+    } = this.props
     const { keepContentVisible } = this.state
 
     const { id, expanded, disabled } = this.context
