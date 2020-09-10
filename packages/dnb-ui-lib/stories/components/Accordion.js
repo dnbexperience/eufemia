@@ -80,7 +80,7 @@ export default [
               // allow_close_all
             >
               <Accordion
-                // expanded={false}
+                expanded
                 bottom
                 id="remembered_state-1"
                 title="Title1"

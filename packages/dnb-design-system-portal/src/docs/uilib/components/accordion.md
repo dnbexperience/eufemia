@@ -62,7 +62,7 @@ function AccordionWithContainer() {
         id="remembered-state-1"
         title="Title1"
         description="Description1"
-        // expanded={false}
+        expanded={true}
         // element="h2"
         // heading
         // heading={Heading}
