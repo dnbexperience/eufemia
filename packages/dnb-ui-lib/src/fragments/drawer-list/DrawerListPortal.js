@@ -29,18 +29,20 @@ class DrawerListPortal extends React.PureComponent {
     rootRef: PropTypes.shape({
       current: PropTypes.oneOfType([PropTypes.node, PropTypes.object])
     }).isRequired,
-    useWidthAddition: PropTypes.bool,
-    fixedPosition: PropTypes.bool,
-    useMobileView: PropTypes.bool,
+    include_owner_width: PropTypes.bool,
+    independent_width: PropTypes.bool,
+    fixed_position: PropTypes.bool,
+    use_drawer_on_mobile: PropTypes.bool,
     inactive: PropTypes.bool
   }
 
   static defaultProps = {
     rootRef: { current: null },
     innerRef: null,
-    useWidthAddition: false,
-    fixedPosition: false,
-    useMobileView: false,
+    include_owner_width: false,
+    independent_width: false,
+    fixed_position: false,
+    use_drawer_on_mobile: false,
     inactive: false
   }
 
@@ -96,7 +98,12 @@ class DrawerListPortal extends React.PureComponent {
 
   makeStyle() {
     try {
-      const { rootRef, useWidthAddition, fixedPosition } = this.props
+      const {
+        rootRef,
+        include_owner_width,
+        independent_width,
+        fixed_position
+      } = this.props
 
       const rootElem = rootRef.current
       const ownerElem = rootElem.parentElement
@@ -107,8 +114,8 @@ class DrawerListPortal extends React.PureComponent {
       // Handle width
       const { width: ownerWidth } = window.getComputedStyle(ownerElem)
 
-      // fallback for too norrow width - in case there is not width -> e.g. "--is-popup"
-      if (parseFloat(ownerWidth) < 64) {
+      // fallback for too narrow width - in case there is not width -> e.g. "--is-popup"
+      if (independent_width || parseFloat(ownerWidth) < 64) {
         // get min-width from CSS property
         const minWidth = parseFloat(
           window
@@ -126,12 +133,12 @@ class DrawerListPortal extends React.PureComponent {
 
       // Handle positions
       const rect = rootElem.getBoundingClientRect()
-      const scrollY = fixedPosition
+      const scrollY = fixed_position
         ? 0
         : window.scrollY !== undefined
         ? window.scrollY
         : window.pageYOffset
-      const scrollX = fixedPosition
+      const scrollX = fixed_position
         ? 0
         : window.scrollX !== undefined
         ? window.scrollX
@@ -141,7 +148,7 @@ class DrawerListPortal extends React.PureComponent {
       const left =
         scrollX +
         rect.left +
-        (useWidthAddition ? parseFloat(ownerWidth) : 0)
+        (include_owner_width ? parseFloat(ownerWidth) : 0)
 
       // NB:  before we recalculated the values to REM, but iOS rounds this and we get a wrong total value out of that!
       const style = {
@@ -200,8 +207,8 @@ class DrawerListPortal extends React.PureComponent {
       inactive,
       id,
       opened,
-      fixedPosition,
-      useMobileView,
+      fixed_position,
+      use_drawer_on_mobile,
       children
     } = this.props
     if (inactive) {
@@ -221,8 +228,9 @@ class DrawerListPortal extends React.PureComponent {
       <span
         className={classnames(
           'dnb-drawer-list__portal__style',
-          fixedPosition && 'dnb-drawer-list__portal__style--fixed',
-          useMobileView && 'dnb-drawer-list__portal__style--mobile-view'
+          fixed_position && 'dnb-drawer-list__portal__style--fixed',
+          use_drawer_on_mobile &&
+            'dnb-drawer-list__portal__style--mobile-view'
         )}
         style={style}
         ref={this.ref}

@@ -679,6 +679,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                 </span>
               </Input>
               <DrawerList
+                action_menu={false}
                 align_drawer={null}
                 cache_hash={null}
                 class={null}
@@ -695,6 +696,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                 ignore_events={null}
                 independent_width={false}
                 inner_class="dnb-autocomplete__list"
+                is_popup={false}
                 keep_open="keep_open"
                 max_height={1}
                 no_animation={true}
@@ -723,6 +725,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                 wrapper_element={null}
               >
                 <DrawerListInstance
+                  action_menu={false}
                   align_drawer={null}
                   cache_hash={null}
                   class={null}
@@ -739,6 +742,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                   ignore_events={null}
                   independent_width={false}
                   inner_class="dnb-autocomplete__list"
+                  is_popup={false}
                   keep_open="keep_open"
                   max_height={1}
                   no_animation={true}
