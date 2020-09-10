@@ -9,6 +9,7 @@ import styled from '@emotion/styled'
 
 import Provider from '../../src/shared/Provider'
 import {
+  ToggleButton,
   Accordion,
   Input,
   IconPrimary,
@@ -23,19 +24,47 @@ const TestStyles = styled.div`
   }
 `
 
+function ChangingContent({ changeHeight }) {
+  const [contentSize, changeContentSize] = React.useState(false)
+
+  React.useEffect(() => {
+    changeHeight.current.setContainerHeight()
+  }, [contentSize])
+
+  return (
+    <>
+      <ToggleButton
+        checked={contentSize}
+        on_change={() => {
+          changeContentSize((s) => !s)
+        }}
+      >
+        Toggle content size
+      </ToggleButton>
+      <P top>
+        {contentSize ? (
+          <>
+            Sociis sapien sociosqu vel sollicitudin accumsan laoreet
+            gravida himenaeos nostra mollis volutpat bibendum convallis cum
+            condimentum dictumst blandit rutrum vehicula Placerat nascetur
+            vestibulum ligula nunc fusce consectetur tortor tristique
+            aptent nostra posuere ante suscipit mattis egestas praesent
+            integer conubia dignissim Etiam dui rutrum quis facilisi
+            suscipit ornare mus vestibulum nec cubilia platea in senectus
+            curabitur leo dictum metus est lorem
+          </>
+        ) : (
+          <>Small content</>
+        )}
+      </P>
+    </>
+  )
+}
+
 export default [
   'Accordion',
   () => {
-    const [contentSize, toggleContentSize] = React.useState(true)
-
-    React.useEffect(() => {
-      const interval = setInterval(() => {
-        toggleContentSize((s) => !s)
-      }, 5e3)
-
-      return () => clearInterval(interval)
-    }, [])
-
+    const changeHeight = React.useRef()
     return (
       <Wrapper>
         <Box>
@@ -74,25 +103,12 @@ export default [
                   </Accordion.Header.Description>
                   {/* <Accordion.Header.Icon key="icon" /> */}
                 </Accordion.Header>
-                <Accordion.Content left="xx-large" top="medium">
-                  <P>
-                    {contentSize ? (
-                      <>
-                        Sociis sapien sociosqu vel sollicitudin accumsan
-                        laoreet gravida himenaeos nostra mollis volutpat
-                        bibendum convallis cum condimentum dictumst blandit
-                        rutrum vehicula Placerat nascetur vestibulum ligula
-                        nunc fusce consectetur tortor tristique aptent
-                        nostra posuere ante suscipit mattis egestas
-                        praesent integer conubia dignissim Etiam dui rutrum
-                        quis facilisi suscipit ornare mus vestibulum nec
-                        cubilia platea in senectus curabitur leo dictum
-                        metus est lorem
-                      </>
-                    ) : (
-                      <>small content</>
-                    )}
-                  </P>
+                <Accordion.Content
+                  instance={changeHeight}
+                  left="xx-large"
+                  top="medium"
+                >
+                  <ChangingContent changeHeight={changeHeight} />
                   <Input top="x-large" />
                 </Accordion.Content>
               </Accordion>
