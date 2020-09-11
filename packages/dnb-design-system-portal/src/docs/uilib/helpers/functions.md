@@ -38,22 +38,23 @@ import {
 import {
   isIE11,
   ...
-} from 'dnb-ui-lib/shared/component-helper'
+} from 'dnb-ui-lib/shared/helpers'
 ```
 
-| Function                 | Description                                                                                                                     | Parameters                                                    | Return    |
-| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------- | --------- |
-| `scrollToLocationHashId` | Enhance the native anchor scroll handling by providing additional features like a custom offset.                                | `{ offset: Integer, delay: Integer, onCompletion: Function }` | `Element` |
-| `getOffsetTop`           | Get the HTML Element offset to the top of the browser window, minus `offset`.                                                   | `{ offset: Integer }`                                         | `Number`  |
-| `applyPageFocus`         | More info about that function in the [focus section about better accessibility](/uilib/usage/accessibility/focus#focus-helper). | `[optional key as String]`                                    | `Void`    |
-| `setPageFocusElement`    | More info about that function in the [focus section about better accessibility](/uilib/usage/accessibility/focus#focus-helper). | `[CSS selector or HTML element, optional key as String]`      | `Void`    |
-| `isIE11`                 | Returns true or false, depending on the detection.                                                                              | none                                                          | `Boolean` |
-| `isEdge`                 | Returns true or false, depending on the detection.                                                                              | none                                                          | `Boolean` |
-| `isSafari`               | Returns true or false, depending on the detection.                                                                              | none                                                          | `Boolean` |
-| `isiOS`                  | Returns true or false, depending on the detection.                                                                              | none                                                          | `Boolean` |
-| `isMac`                  | Returns true or false, depending on the detection.                                                                              | none                                                          | `Boolean` |
-| `isWin`                  | Returns true or false, depending on the detection.                                                                              | none                                                          | `Boolean` |
-| `isLinux`                | Returns true or false, depending on the detection.                                                                              | none                                                          | `Boolean` |
+| Function                 | Description                                                                                                                     | Parameters                                                               | Return     |
+| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------ | ---------- |
+| `scrollToLocationHashId` | Enhance the native anchor scroll handling by providing additional features like a custom offset.                                | `{ offset: Integer, delay: Integer, onCompletion: Function }`            | `Element`  |
+| `getOffsetTop`           | Get the HTML Element offset to the top of the browser window, minus `offset`.                                                   | `{ offset: Integer }`                                                    | `Number`   |
+| `applyPageFocus`         | More info about that function in the [focus section about better accessibility](/uilib/usage/accessibility/focus#focus-helper). | `[optional key as String]`                                               | `Void`     |
+| `setPageFocusElement`    | More info about that function in the [focus section about better accessibility](/uilib/usage/accessibility/focus#focus-helper). | `[CSS selector or HTML element, optional key as String]`                 | `Void`     |
+| `debounce`               | A debounce method with a cancel invocation method on repeating calls.                                                           | `debounce(func, wait = 250, { immediate = false, context = null } = {})` | `Function` |
+| `isIE11`                 | Returns true or false, depending on the detection.                                                                              | none                                                                     | `Boolean`  |
+| `isEdge`                 | Returns true or false, depending on the detection.                                                                              | none                                                                     | `Boolean`  |
+| `isSafari`               | Returns true or false, depending on the detection.                                                                              | none                                                                     | `Boolean`  |
+| `isiOS`                  | Returns true or false, depending on the detection.                                                                              | none                                                                     | `Boolean`  |
+| `isMac`                  | Returns true or false, depending on the detection.                                                                              | none                                                                     | `Boolean`  |
+| `isWin`                  | Returns true or false, depending on the detection.                                                                              | none                                                                     | `Boolean`  |
+| `isLinux`                | Returns true or false, depending on the detection.                                                                              | none                                                                     | `Boolean`  |
 
 | Constant    | Description                                                         | Value     |
 | ----------- | ------------------------------------------------------------------- | --------- |
@@ -68,7 +69,7 @@ import {
 #### InteractionInvalidation example
 
 ```js
-import { InteractionInvalidation } from 'dnb-ui-lib/shared/helpers'
+import { InteractionInvalidation } from 'dnb-ui-lib/shared/component-helper'
 
 const instance = new InteractionInvalidation()
 
