@@ -16,21 +16,30 @@ All components have various function helpers, you also can use in projects. This
 ```js
 import {
   makeUniqueId,
-  toPascalCase
+  toPascalCase,
+  ...
 } from 'dnb-ui-lib/shared/component-helper'
 ```
 
-| Function             | Description                                                                                      | Parameters                                                                       | Return            |
-| -------------------- | ------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------- | ----------------- |
-| `isTrue`             | Checks if a value is Truthy or Falsy.                                                            | `[String or Boolean or Number]`                                                  | `Boolean`         |
-| `isTouchDevice`      | Checks if the target device has touch support.                                                   |                                                                                  | `Boolean`         |
-| `toPascalCase`       | Transforms a string containing several words to a [pascalCase](!/uilib/development/naming).      | `[String]`                                                                       | `String`          |
-| `detectOutsideClick` | Detects an click outside of the defined target HTML `element` and will then emit the `callback`. | `[element, callback({ event })]`                                                 | `Void`            |
-| `filterProps`        | Filters out unwanted entries from either an object or array.                                     | `[props={object or array}, remove={object or array}, allowed={object or array}]` | `object or array` |
-| `makeUniqueId`       | Creates a truly unique hash.                                                                     | `[prefix='', length=8]`                                                          | `String`          |
-| `slugify`            | Breaks down phrases of words to be URI compatible. Removes special characters.                   | `[String]`                                                                       | `String`          |
+| Function                  | Description                                                                                                                   | Parameters                                                                       | Return            |
+| ------------------------- | ----------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- | ----------------- |
+| `InteractionInvalidation` | Invalidates DOM elements to be accessible for a keyboard or a screen reader. Is used by the [Modal](/uilib/components/modal). | [See example](#interactioninvalidation-example)                                  | `Void`            |
+| `isTrue`                  | Checks if a value is Truthy or Falsy.                                                                                         | `[String or Boolean or Number]`                                                  | `Boolean`         |
+| `isTouchDevice`           | Checks if the target device has touch support.                                                                                |                                                                                  | `Boolean`         |
+| `toPascalCase`            | Transforms a string containing several words to a [pascalCase](!/uilib/development/naming).                                   | `[String]`                                                                       | `String`          |
+| `detectOutsideClick`      | Detects an click outside of the defined target HTML `element` and will then emit the `callback`.                              | `[element, callback({ event })]`                                                 | `Void`            |
+| `filterProps`             | Filters out unwanted entries from either an object or array.                                                                  | `[props={object or array}, remove={object or array}, allowed={object or array}]` | `object or array` |
+| `makeUniqueId`            | Creates a truly unique hash.                                                                                                  | `[prefix='', length=8]`                                                          | `String`          |
+| `slugify`                 | Breaks down phrases of words to be URI compatible. Removes special characters.                                                | `[String]`                                                                       | `String`          |
 
 ### General helpers
+
+```js
+import {
+  isIE11,
+  ...
+} from 'dnb-ui-lib/shared/component-helper'
+```
 
 | Function                 | Description                                                                                                                     | Parameters                                                    | Return    |
 | ------------------------ | ------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------- | --------- |
@@ -56,7 +65,27 @@ import {
 | `IS_WIN`    | Gives you true or false, depending on the detection during startup. | `Boolean` |
 | `IS_LINUX`  | Gives you true or false, depending on the detection during startup. | `Boolean` |
 
-#### `scrollToLocationHashId` Example
+#### InteractionInvalidation example
+
+```js
+import { InteractionInvalidation } from 'dnb-ui-lib/shared/helpers'
+
+const instance = new InteractionInvalidation()
+
+// do not invalidate inside here
+instance.setBypassSelector('.dnb-modal__content')
+
+// Enable the invalidation
+instance.activate()
+
+// Optionally – you set a element selector – instead effecting everything inside the body
+instance.activate('.selector')
+
+// Remove the invalidation
+instance.revert()
+```
+
+#### `scrollToLocationHashId` example
 
 ```js
 import { scrollToLocationHashId } from 'dnb-ui-lib/shared/helpers'
