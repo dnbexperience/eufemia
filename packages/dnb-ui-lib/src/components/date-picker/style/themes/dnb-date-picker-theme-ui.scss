@@ -79,10 +79,9 @@
   }
 
   &__day {
-    // The DNB UX team has desiced to not show today diffrently
-    // &--today .dnb-button {
-    //   color: var(--color-);
-    // }
+    &--today .dnb-button {
+      font-weight: var(--font-weight-medium);
+    }
 
     &--preview .dnb-button,
     &--inactive .dnb-button,
