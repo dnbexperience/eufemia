@@ -18,10 +18,14 @@ class Example extends React.PureComponent {
     }
     return (
       <React.Fragment>
-        <ComponentBox scope={{ addDays, startOfMonth, lastDayOfMonth }}>
-          {/* @jsx */ `
+        <ComponentBox
+          title="Range DatePicker"
+          scope={{ addDays, startOfMonth, lastDayOfMonth }}
+        >
+          {
+            /* @jsx */ `
 <DatePicker
-  label="Range DatePicker:"
+  label="DatePicker:"
   start_date="2019-04-01"
   end_date="2019-05-17"
   range={true}
@@ -53,12 +57,14 @@ class Example extends React.PureComponent {
     }
   ]}
 />
-          `}
+          `
+          }
         </ComponentBox>
-        <ComponentBox>
-          {/* @jsx */ `
+        <ComponentBox title="Default DatePicker with Input">
+          {
+            /* @jsx */ `
 <DatePicker
-  label="Default DatePicker with Input:"
+  label="DatePicker:"
   date={new Date()}
   show_input={true}
   show_cancel_button={true}
@@ -70,12 +76,14 @@ class Example extends React.PureComponent {
     console.log('on_cancel', date)
   }}
 />
-          `}
+          `
+          }
         </ComponentBox>
-        <ComponentBox>
-          {/* @jsx */ `
+        <ComponentBox title="Hidden Nav:">
+          {
+            /* @jsx */ `
 <DatePicker
-  label="Hidden Nav:"
+  label="DatePicker:"
   date="2022/05/05"
   min_date="2022/05/01"
   max_date="2022/05/17"
@@ -90,59 +98,70 @@ class Example extends React.PureComponent {
     console.log('on_hide', date)
   }}
 />
-          `}
+          `
+          }
         </ComponentBox>
-        <ComponentBox>
-          {/* @jsx */ `
+        <ComponentBox title="Show month only">
+          {
+            /* @jsx */ `
 <DatePicker
-  label="Show month only:"
+  label="DatePicker:"
   date="05/02/2019"
   date_format="MM/dd/yyyy"
   only_month={true}
 />
-          `}
+          `
+          }
         </ComponentBox>
-        <ComponentBox>
-          {/* @jsx */ `
+        <ComponentBox title="DatePicker with error message">
+          {
+            /* @jsx */ `
 <DatePicker
-  label="DatePicker with error message:"
+  label="DatePicker:"
   date={new Date()}
   show_input={true}
   show_submit_button={true}
   status="Please select a valid date"
 />
-          `}
+          `
+          }
         </ComponentBox>
-        <ComponentBox>
-          {/* @jsx */ `
+        <ComponentBox title="">
+          {
+            /* @jsx */ `
 <DatePicker
-  label="DatePicker with error status:"
+  label="DatePicker:"
   date={new Date()}
   hide_navigation={true}
   status="error"
 />
-          `}
+          `
+          }
         </ComponentBox>
-        <ComponentBox>
-          {/* @jsx */ `
+        <ComponentBox title="Disabled with info message">
+          {
+            /* @jsx */ `
 <DatePicker
-  label="Disabled with info message:"
+  label="DatePicker:"
   date={new Date()}
   show_input={true}
   status="Please select a valid date"
   status_state="info"
 />
-          `}
+          `
+          }
         </ComponentBox>
-        <ComponentBox>
-          {/* @jsx */ `
+        <ComponentBox title="With suffix">
+          {
+            /* @jsx */ `
 <DatePicker
-  label="With suffix:"
+  label="DatePicker:"
   date={new Date()}
   show_input
   suffix={<Modal title="Modal Title">Modal content</Modal>}
 />
-          `}
+          `
+          }
         </ComponentBox>
 
         <ScreenshotTests />
@@ -156,10 +175,14 @@ export default Example
 const ScreenshotTests = () => {
   return (
     <Wrapper>
-      <ComponentBox data-dnb-test="date-picker-trigger-default">
-        {/* @jsx */ `
+      <ComponentBox
+        title="Default DatePicker"
+        data-dnb-test="date-picker-trigger-default"
+      >
+        {
+          /* @jsx */ `
 <DatePicker
-  label="Default DatePicker:"
+  label="DatePicker:"
   date="2019-05-05"
   return_format="dd-MM-yyyy"
   on_change={({ date }) => {
@@ -169,44 +192,61 @@ const ScreenshotTests = () => {
     console.log('on_show', date)
   }}
 />
-        `}
+        `
+        }
       </ComponentBox>
-      <ComponentBox data-dnb-test="date-picker-input">
-        {/* @jsx */ `
+      <ComponentBox
+        title="Linked DatePickers"
+        data-dnb-test="date-picker-input"
+      >
+        {
+          /* @jsx */ `
 <DatePicker
-  label="Linked DatePickers:"
+  label="DatePicker:"
   range
   link
   show_input
 />
-        `}
+        `
+        }
       </ComponentBox>
-      <ComponentBox data-dnb-test="date-picker-trigger-error">
-        {/* @jsx */ `
+      <ComponentBox
+        title="DatePicker with error status"
+        data-dnb-test="date-picker-trigger-error"
+      >
+        {
+          /* @jsx */ `
 <DatePicker
-  label="DatePicker with error status:"
+  label="DatePicker:"
   date="2019-05-05"
   hide_navigation={true}
   status="Please select a valid date"
 />
-    `}
+    `
+        }
       </ComponentBox>
-      <ComponentBox data-dnb-test="date-picker-input-error">
-        {/* @jsx */ `
+      <ComponentBox
+        title="DatePicker with error message"
+        data-dnb-test="date-picker-input-error"
+      >
+        {
+          /* @jsx */ `
 <DatePicker
-  label="DatePicker with error message:"
+  label="DatePicker:"
   date="2019-05-05"
   show_input={true}
   show_submit_button={true}
   status="Please select a valid date"
 />
-        `}
+        `
+        }
       </ComponentBox>
       <ComponentBox
         data-dnb-test="date-picker-calendar"
         title="Opened DatePicker (also used for screenshot tests)"
       >
-        {/* @jsx */ `
+        {
+          /* @jsx */ `
 <DatePicker
   opened="true"
   disable_autofocus="true"
@@ -214,7 +254,8 @@ const ScreenshotTests = () => {
   start_date="2019-05-05"
   end_date="2019-06-05"
 />
-    `}
+    `
+        }
       </ComponentBox>
     </Wrapper>
   )
