@@ -200,10 +200,10 @@ describe('A single Tab component', () => {
         data={[
           {
             title: 'One',
-            key: 'one',
+            key: 1,
             content: 'Content one'
           },
-          { title: 'Two', key: 'two', content: 'Content two' }
+          { title: 'Two', key: 2, content: 'Content two' }
         ]}
       />
     )

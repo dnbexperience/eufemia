@@ -21,6 +21,7 @@ import {
   isTouchDevice,
   slugify,
   roundToNearest,
+  InteractionInvalidation,
   matchAll
 } from '../component-helper'
 
@@ -427,6 +428,138 @@ describe('"roundToNearest" should', () => {
   })
   it('round to 0 if too much under is given', () => {
     expect(roundToNearest(7, 16)).toEqual(0)
+  })
+})
+
+let ii
+beforeAll(() => {
+  ii = new InteractionInvalidation()
+
+  const effected = document.createElement('div')
+  effected.classList.add('effected')
+
+  const bypass = document.createElement('div')
+  bypass.classList.add('bypass')
+
+  const h1 = document.createElement('h1')
+  h1.setAttribute('tabindex', '0')
+  h1.setAttribute('aria-hidden', 'true')
+  effected.appendChild(h1.cloneNode())
+  bypass.appendChild(h1.cloneNode())
+
+  const h2 = document.createElement('h2')
+  h2.setAttribute('tabindex', '-1')
+  h2.setAttribute('aria-hidden', 'false')
+  effected.appendChild(h2.cloneNode())
+  bypass.appendChild(h2.cloneNode())
+
+  const h3 = document.createElement('h3')
+  effected.appendChild(h3.cloneNode())
+  bypass.appendChild(h3.cloneNode())
+
+  document.body.appendChild(effected)
+  document.body.appendChild(bypass)
+})
+
+describe('"InteractionInvalidation" should', () => {
+  const hasDefaultState = (selector) => {
+    expect(
+      document
+        .querySelector(`${selector} > h1`)
+        .getAttribute('aria-hidden')
+    ).toBe('true')
+    expect(
+      document.querySelector(`${selector} > h1`).getAttribute('tabindex')
+    ).toBe('0')
+
+    expect(
+      document
+        .querySelector(`${selector} > h2`)
+        .getAttribute('aria-hidden')
+    ).toBe('false')
+    expect(
+      document.querySelector(`${selector} > h2`).getAttribute('tabindex')
+    ).toBe('-1')
+
+    expect(
+      document
+        .querySelector(`${selector} > h3`)
+        .hasAttribute('aria-hidden')
+    ).toBe(false)
+    expect(
+      document.querySelector(`${selector} > h3`).hasAttribute('tabindex')
+    ).toBe(false)
+  }
+
+  const hasInvalidatedState = (selector) => {
+    expect(
+      document
+        .querySelector(`${selector} > h1`)
+        .getAttribute('aria-hidden')
+    ).toBe('true')
+    expect(
+      document.querySelector(`${selector} > h1`).getAttribute('tabindex')
+    ).toBe('-1')
+
+    expect(
+      document
+        .querySelector(`${selector} > h2`)
+        .getAttribute('aria-hidden')
+    ).toBe('true')
+    expect(
+      document.querySelector(`${selector} > h2`).getAttribute('tabindex')
+    ).toBe('-1')
+
+    expect(
+      document
+        .querySelector(`${selector} > h3`)
+        .getAttribute('aria-hidden')
+    ).toBe('true')
+    expect(
+      document.querySelector(`${selector} > h3`).getAttribute('tabindex')
+    ).toBe('-1')
+  }
+
+  it('be in its original state', () => {
+    hasDefaultState('.effected')
+  })
+
+  it('have invalidated everything', () => {
+    ii.activate()
+
+    hasInvalidatedState('.effected')
+  })
+
+  it('have reverted the invalidation', () => {
+    ii.revert()
+
+    hasDefaultState('.effected')
+  })
+
+  it('have invalidated everything, even with a bypassed selector', () => {
+    ii.setBypassSelector('.bypass-invalid')
+    ii.activate()
+
+    hasInvalidatedState('.bypass')
+    hasInvalidatedState('.effected')
+  })
+
+  it('have invalidated only .effected', () => {
+    ii.revert()
+    ii.setBypassSelector('.bypass')
+    ii.activate()
+
+    hasDefaultState('.bypass')
+    hasInvalidatedState('.effected')
+  })
+
+  it('have invalidated only .effected', () => {
+    ii.revert()
+    ii.setBypassSelector(null)
+    ii.activate('.effected')
+
+    hasDefaultState('.bypass')
+    hasInvalidatedState('.effected')
   })
 })
 

@@ -9,7 +9,10 @@ import {
 } from '../../../core/jest/jestSetupScreenshots'
 
 describe('Dropdown screenshot', () => {
-  setupPageScreenshot({ url: '/uilib/components/dropdown/demos' })
+  setupPageScreenshot({
+    url: '/uilib/components/dropdown/demos',
+    timeout: 300e3
+  })
   it('have to match the closed dropdown', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-dnb-test="dropdown-closed"] .dnb-dropdown__inner'
@@ -38,6 +41,19 @@ describe('Dropdown screenshot', () => {
   it('have to match the dropdown as more_menu', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-dnb-test="dropdown-more_menu"]'
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+  it('have to match the dropdown with tertiary button', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-dnb-test="dropdown-tertiary"] .dnb-dropdown__inner'
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+  it('have to match the dropdown as action menu', async () => {
+    const screenshot = await testPageScreenshot({
+      selector:
+        '[data-dnb-test="dropdown-action_menu"] .dnb-dropdown__inner'
     })
     expect(screenshot).toMatchImageSnapshot()
   })

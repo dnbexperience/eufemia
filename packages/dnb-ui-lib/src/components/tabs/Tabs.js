@@ -419,7 +419,7 @@ export default class Tabs extends React.PureComponent {
     const cachedContent = Object.entries(this._cache).map(
       ([key, { content }]) => {
         const params = {}
-        if (key !== selected_key) {
+        if (key !== String(selected_key)) {
           params.hidden = true
           params['aria-hidden'] = true
         }

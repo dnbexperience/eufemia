@@ -11,8 +11,11 @@ import { ErrorHandler } from './error-helper'
 // This way we can controll the execution of the polyfill with customElementPolyfill()
 import customElementPolyfill from './custom-element-polyfill'
 
-export const registeredElements = (global.registeredElements =
-  global.registeredElements || [])
+export const registeredElements =
+  (typeof global !== 'undefined'
+    ? (global.registeredElements = global.registeredElements || [])
+    : typeof window !== 'undefined' &&
+      (window.registeredElements = window.registeredElements || [])) || []
 
 export const registerElement = (
   tagName,
@@ -32,8 +35,8 @@ export const registerElement = (
   }
 
   //always run the customElementPolyfill unlress we are in the build process
-  if (!global.registeredElements.hasPolyfill) {
-    global.registeredElements.hasPolyfill = true
+  if (!registeredElements.hasPolyfill) {
+    registeredElements.hasPolyfill = true
     customElementPolyfill(window)
   }
 

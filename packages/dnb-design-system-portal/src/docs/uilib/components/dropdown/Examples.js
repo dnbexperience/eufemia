@@ -136,6 +136,50 @@ render(
           }
         </ComponentBox>
         <ComponentBox
+          title="ActionMenu"
+          description="The ActionMenu will change its characteristics in mobile view. It will hide the title, and the DrawerList will be placed on the bottom of the page."
+          scope={{ data }}
+          data-dnb-test="dropdown-action_menu"
+        >
+          {
+            /* @jsx */ `
+<Dropdown
+  title="ActionMenu"
+  action_menu={true}
+  icon_position="left"
+  align_dropdown="left"
+  data={[
+    <>
+      <IconPrimary icon="check" right />
+      Save
+    </>,
+    <>
+      <IconPrimary icon="download" right />
+      Download
+    </>
+  ]}
+/>
+          `
+          }
+        </ComponentBox>
+        <ComponentBox
+          title="Dropdown as tertiary variant"
+          scope={{ data }}
+          data-dnb-test="dropdown-tertiary"
+        >
+          {
+            /* @jsx */ `
+<Dropdown
+  variant="tertiary"
+  independent_width={true}
+  icon_position="left"
+  align_dropdown="left"
+  data={data}
+/>
+          `
+          }
+        </ComponentBox>
+        <ComponentBox
           title="As **Popup Menu** - no lasting selection will be made"
           data-dnb-test="dropdown-more_menu"
         >
@@ -215,7 +259,7 @@ const preventDefault = e => {
 }
 render(
   <Dropdown
-    more_menu
+    action_menu
     right
     label="Label:"
     title="Choose an item"
@@ -384,7 +428,8 @@ const Wrapper = styled.div`
     margin-right: 1rem;
   }
   [data-dnb-test] {
-    > :not(.dnb-dropdown--is-popup) .dnb-dropdown__shell {
+    > :not(.dnb-dropdown--is-popup):not(.dnb-dropdown--independent-width)
+      .dnb-dropdown__shell {
       width: var(--dropdown-width);
     }
   }
