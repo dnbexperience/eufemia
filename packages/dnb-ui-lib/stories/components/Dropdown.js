@@ -64,8 +64,29 @@ const DropdownStory = () => {
       <Box>
         <RightAligned>
           <Dropdown
+            size="small"
+            independent_width
+            icon_position="left"
+            align_dropdown="left"
+            variant="tertiary"
+            title="Tertiary"
+            data={['Go this this Link', 'Or to this one']}
+          />
+          <Dropdown
+            size="small"
+            independent_width
+            // icon_position="right"
+            // align_dropdown="right"
+            variant="tertiary"
+            title="Tertiary"
+            data={['Go this this Link', 'Or to this one']}
+          />
+        </RightAligned>
+      </Box>
+      <Box>
+        <RightAligned>
+          <Dropdown
             action_menu
-            // size="medium"
             title="Action Menu"
             data={[
               <>
@@ -80,7 +101,8 @@ const DropdownStory = () => {
           />
           <Dropdown
             action_menu
-            // icon_position="right"
+            icon_position="right"
+            align_dropdown="right"
             title="Action Menu"
             data={[
               <>

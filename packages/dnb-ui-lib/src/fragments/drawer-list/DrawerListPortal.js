@@ -112,7 +112,7 @@ class DrawerListPortal extends React.PureComponent {
       let width = 64
 
       // Handle width
-      const { width: ownerWidth } = window.getComputedStyle(ownerElem)
+      const ownerWidth = window.getComputedStyle(ownerElem).width
 
       // fallback for too narrow width - in case there is not width -> e.g. "--is-popup"
       if (independent_width || parseFloat(ownerWidth) < 64) {
@@ -126,8 +126,8 @@ class DrawerListPortal extends React.PureComponent {
       }
 
       // also check if root "has a custom width"
-      const { width: customWidth } = rootElem.getBoundingClientRect()
-      if (parseFloat(customWidth) >= 64) {
+      const customWidth = rootElem.getBoundingClientRect().width
+      if (parseFloat(customWidth || 0) >= 64) {
         width = customWidth
       }
 
@@ -148,7 +148,7 @@ class DrawerListPortal extends React.PureComponent {
       const left =
         scrollX +
         rect.left +
-        (include_owner_width ? parseFloat(ownerWidth) : 0)
+        (include_owner_width ? parseFloat(ownerWidth || 0) : 0)
 
       // NB:  before we recalculated the values to REM, but iOS rounds this and we get a wrong total value out of that!
       const style = {

@@ -88,6 +88,10 @@ const propTypes = {
   ]),
   more_menu: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   action_menu: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  independent_width: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.bool
+  ]),
   size: PropTypes.oneOf(['default', 'small', 'medium', 'large']),
   align_dropdown: PropTypes.oneOf(['left', 'right']),
   trigger_component: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
@@ -170,8 +174,9 @@ const defaultProps = {
   prevent_selection: false,
   more_menu: false,
   action_menu: false,
+  independent_width: false,
   size: 'default',
-  align_dropdown: 'left',
+  align_dropdown: null,
   trigger_component: null,
   data: null,
   default_value: null,
@@ -425,6 +430,7 @@ class DropdownInstance extends React.PureComponent {
       trigger_component: CustomTrigger,
       more_menu,
       action_menu,
+      independent_width,
       prevent_selection,
       max_height,
       default_value,
@@ -476,12 +482,13 @@ class DropdownInstance extends React.PureComponent {
         `dnb-dropdown--${direction}`,
         opened && 'dnb-dropdown--opened',
         label_direction && `dnb-dropdown--${label_direction}`,
-        icon_position &&
-          `dnb-dropdown--icon-position-${icon_position || 'right'}`,
+        `dnb-dropdown--icon-position-${icon_position || 'right'}`,
         isPopupMenu && 'dnb-dropdown--is-popup',
         isTrue(action_menu) && `dnb-dropdown--action-menu`,
+        (isTrue(independent_width) || isTrue(action_menu)) &&
+          'dnb-dropdown--independent-width',
         size && `dnb-dropdown--${size}`,
-        align_dropdown && `dnb-drawer-list--${align_dropdown}`,
+        `dnb-dropdown--${align_dropdown || 'right'}`,
         status && `dnb-dropdown__status--${status_state}`,
         showStatus && 'dnb-dropdown__form-status',
         'dnb-form-component',
@@ -560,13 +567,12 @@ class DropdownInstance extends React.PureComponent {
               ) : (
                 <Button
                   variant="secondary"
-                  // size="medium"
                   size={size === 'default' ? 'medium' : size}
                   ref={this._refButton}
                   {...triggerParams}
                 >
                   {!isPopupMenu && (
-                    <span className="dnb-dropdown__text">
+                    <span className="dnb-dropdown__text dnb-button__text">
                       <span className="dnb-dropdown__text__inner">
                         {title}
                       </span>
@@ -606,15 +612,17 @@ class DropdownInstance extends React.PureComponent {
                 prevent_selection={
                   action_menu || more_menu || prevent_selection
                 }
-                action_menu={action_menu || more_menu}
+                action_menu={action_menu}
                 triangle_position={
                   triangle_position || icon_position || 'right'
                 }
                 keep_open={keep_open}
                 prevent_close={prevent_close}
-                independent_width={isPopupMenu || action_menu}
+                independent_width={
+                  isTrue(independent_width) || isPopupMenu || action_menu
+                }
                 is_popup={isPopupMenu || action_menu}
-                align_drawer={align_dropdown}
+                align_drawer={align_dropdown || 'right'}
                 fixed_position={fixed_position}
                 use_drawer_on_mobile={use_drawer_on_mobile || action_menu}
                 enable_body_lock={enable_body_lock}

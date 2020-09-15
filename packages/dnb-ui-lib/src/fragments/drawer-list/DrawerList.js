@@ -339,7 +339,8 @@ class DrawerListInstance extends React.PureComponent {
         // isTrue(fixed_position) && 'dnb-drawer-list--fixed',
         isTrue(action_menu) && `dnb-drawer-list--action-menu`,
         isTrue(is_popup) && 'dnb-drawer-list--is-popup',
-        // isTrue(independent_width) && 'dnb-drawer-list--independent-width',
+        isTrue(independent_width) ||
+          (isTrue(action_menu) && 'dnb-drawer-list--independent-width'),
         isTrue(scrollable) && 'dnb-drawer-list--scroll',
         isTrue(no_scroll_animation) &&
           'dnb-drawer-list--no-scroll-animation',

@@ -17,6 +17,7 @@ const config = {
   testScreenshotOnHost: 'localhost',
   testScreenshotOnPort: 8000,
   headless: true,
+  timeout: 300e3,
   blockFontRequest: false,
   allowedFonts: [], // e.g. 'LiberationMono'
   pixelGrid: 8,
@@ -262,8 +263,8 @@ module.exports.testPageScreenshot = async ({
       })
     }
 
-    if (!config.headless) {
-      waitBeforeFinish = 10e3
+    if (config.headless !== true) {
+      waitBeforeFinish = config.timeout
     }
 
     // before we had: just to make sure we dont resolve, before the delayed click happened

@@ -771,6 +771,8 @@ exports[`DrawerList scss have to match snapshot 1`] = `
     flex-direction: row;
     justify-content: flex-start;
     align-items: center; }
+  .dnb-drawer-list--action-menu .dnb-drawer-list__options {
+    border-radius: 0; }
   @media screen and (min-width: 40em) {
     .dnb-drawer-list--action-menu.dnb-drawer-list--is-popup.dnb-drawer-list--left .dnb-drawer-list__list {
       left: 0; }
