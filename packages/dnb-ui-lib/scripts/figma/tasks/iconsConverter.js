@@ -22,8 +22,7 @@ import {
   defaultFigmaFile
 } from '../helpers/docHelpers'
 
-const canvasName =
-  process.env.FIGMA_ICONS_PAGE_SELECTOR || /^[0-9]+[_\- ]Icons$/
+const canvasName = process.env.FIGMA_ICONS_PAGE_SELECTOR || /^Icons$/ // before we have used: ^[0-9]+[_\- ]Icons$
 const sizeSeperator = process.env.FIGMA_ICONS_FRAME_SIZE_SEPERATOR || '-'
 const iconSelector = process.env.FIGMA_ICONS_SELECTOR || null
 const iconsDest = path.resolve(__dirname, `../../../assets/icons`)

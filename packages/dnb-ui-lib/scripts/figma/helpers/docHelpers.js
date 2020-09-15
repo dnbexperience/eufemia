@@ -23,7 +23,8 @@ dotenv.config()
 process.env.ROOT_DIR = packpath.self()
 
 export const defaultFigmaToken = process.env.FIGMA_TOKEN
-export const defaultFigmaFile = process.env.FIGMA_MAIN_FILE
+// export const defaultFigmaFile = process.env.FIGMA_MAIN_FILE
+export const defaultFigmaFile = '2aNwT4Lbyt9hFmDv8k34yN'
 
 const Figma = Client({
   personalAccessToken: defaultFigmaToken
@@ -307,10 +308,8 @@ export const getFigmaDoc = async ({
 
 export const getFigmaUrlByImageIds = async ({
   figmaFile,
-  // frameId = 'frame',
   ids,
   params = {}
-  // doRefetch = null
 }) => {
   try {
     if (ids.length === 0) {
