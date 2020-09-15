@@ -25,7 +25,7 @@
     "build:cjs": "cross-env NODE_ENV=production BABEL_ENV=cjs babel ./src --extensions .cjs,.js --keep-file-extension --config-file ./babel.config.cjs --out-dir ./build/cjs --copy-files --no-copy-ignored --ignore 'src/esm,src/umd,src/core,**/*.test.js,**/__tests__/**/*'",
     "build:clean": "rm -rf build/**",
     "build:component": "cross-env NODE_ENV=production BABEL_ENV=esm babel ./src/components/global-status --extensions .js --config-file ./babel.config.cjs --out-dir ./build/esm/components/global-status",
-    "build:copy": "rm -rf build/**/{__tests__,cjs} && cp -R build/esm/* ./build && cp -R ./assets/ ./build/assets && cp ./{README,README.md,LICENSE} ./build && rm -f ./build/dnb-ui-*.min.*",
+    "build:copy": "rm -rf build/**/{__tests__,cjs} && cp -R build/esm/* ./build && cp -R ./assets/ ./build/assets && cp README README.md LICENSE ./build && rm -f ./build/dnb-ui-*.min.*",
     "build:es": "cross-env NODE_ENV=production BABEL_ENV=es babel ./src --extensions .js --config-file ./babel.config.cjs --out-dir ./build/es --copy-files --no-copy-ignored --ignore 'src/cjs,src/esm,src/umd,src/core,**/*.test.js,**/__tests__/**/*'",
     "build:esm": "cross-env NODE_ENV=production BABEL_ENV=esm babel ./src --extensions .js --config-file ./babel.config.cjs --out-dir ./build/esm --copy-files --no-copy-ignored --ignore 'src/cjs,src/esm,src/umd,src/core,**/*.test.js,**/__tests__/**/*'",
     "build:prebuild": "babel-node ./scripts/prepub/runPrepub.js",
