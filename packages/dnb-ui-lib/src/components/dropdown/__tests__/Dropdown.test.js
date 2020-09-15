@@ -334,10 +334,18 @@ describe('Dropdown component', () => {
     const Comp = mount(
       <Component no_animation on_hide={on_hide} data={mockData} />
     )
+    const focus_element = Comp.find('.dnb-button').instance()
+
     open(Comp)
     keydown(Comp, 9) // tab, JSDOM does not support keyboard handling, so we can not check document.activeElement
 
-    expect(on_hide.mock.calls.length).toBe(1)
+    // expect(on_hide.mock.calls.length).toBe(1)
+    expect(on_hide).toBeCalledTimes(1)
+    expect(on_hide).toHaveBeenCalledWith({
+      attributes: {},
+      data: null,
+      focus_element
+    })
   })
 
   it('has correct selected value', () => {
