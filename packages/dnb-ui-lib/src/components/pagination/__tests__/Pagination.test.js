@@ -13,22 +13,15 @@ import {
 } from '../../../core/jest/jestSetup'
 import Component from '../Pagination'
 
-// just to make sure we re-run the test in watch mode due to changes in theese files
-import _pagination from '../style/_pagination.scss' // eslint-disable-line
-import dnb_pagination from '../style/dnb-pagination.scss' // eslint-disable-line
-import dnb_pagination_theme_ui from '../style/themes/dnb-pagination-theme-ui.scss' // eslint-disable-line
-
 const snapshotProps = {
   ...fakeProps(require.resolve('../Pagination'), {
     all: true,
     optional: true
   })
-  // starutp_page: null
 }
 
 const props = {
   page_count: 30,
-  // starutp_page: null,
   current_page: 15
 }
 

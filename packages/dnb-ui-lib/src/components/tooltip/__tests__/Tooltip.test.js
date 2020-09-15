@@ -13,11 +13,6 @@ import {
 } from '../../../core/jest/jestSetup'
 import Tooltip from '../Tooltip'
 
-// just to make sure we re-run the test in watch mode due to changes in theese files
-import _tooltip from '../style/_tooltip.scss' // eslint-disable-line
-import dnb_tooltip from '../style/dnb-tooltip.scss' // eslint-disable-line
-import dnb_tooltiptheme_ui from '../style/themes/dnb-tooltip-theme-ui.scss' // eslint-disable-line
-
 // const snapshotProps = fakeProps(require.resolve('../Tooltip'), {
 //   optional: true
 // })

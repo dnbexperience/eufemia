@@ -13,11 +13,6 @@ import {
 } from '../../../core/jest/jestSetup'
 import Component from '../Checkbox'
 
-// just to make sure we re-run the test in watch mode due to changes in theese files
-import _checkbox from '../style/_checkbox.scss' // eslint-disable-line
-import dnb_checkbox from '../style/dnb-checkbox.scss' // eslint-disable-line
-import dnb_checkbox_theme_ui from '../style/themes/dnb-checkbox-theme-ui.scss' // eslint-disable-line
-
 const props = fakeProps(require.resolve('../Checkbox'), {
   all: true,
   optional: true

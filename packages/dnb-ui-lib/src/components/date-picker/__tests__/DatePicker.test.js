@@ -26,11 +26,6 @@ import {
   getCalendar
 } from '../DatePickerCalc'
 
-// just to make sure we re-run the test in watch mode due to changes in theese files
-import _DatePicker from '../style/_date-picker.scss' // eslint-disable-line
-import dnb_DatePicker from '../style/dnb-date-picker.scss' // eslint-disable-line
-import dnb_DatePicker_theme_ui from '../style/themes/dnb-date-picker-theme-ui.scss' // eslint-disable-line
-
 describe('DatePicker component', () => {
   // for the integration tests
   const defaultProps = {
@@ -41,7 +36,8 @@ describe('DatePicker component', () => {
     start_date: '2019-01-01T00:00:00.000Z',
     end_date: '2019-02-15T00:00:00.000Z',
     status: 'status',
-    status_state: 'error'
+    status_state: 'error',
+    separatorRexExp: null
   }
 
   const Comp = mount(<Component {...defaultProps} />)

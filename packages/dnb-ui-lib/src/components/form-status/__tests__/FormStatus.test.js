@@ -14,11 +14,6 @@ import {
 import Component from '../FormStatus'
 import Input from '../../Input'
 
-// just to make sure we re-run the test in watch mode due to changes in theese files
-import _form_status from '../style/_form-status.scss' // eslint-disable-line
-import dnb_form_status from '../style/dnb-form-status.scss' // eslint-disable-line
-import dnb_form_status_theme_ui from '../style/themes/dnb-form-status-theme-ui.scss' // eslint-disable-line
-
 const props = fakeProps(require.resolve('../FormStatus'), {
   optional: true,
   all: true

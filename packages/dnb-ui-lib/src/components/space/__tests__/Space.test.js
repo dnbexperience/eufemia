@@ -12,11 +12,6 @@ import {
 } from '../../../core/jest/jestSetup'
 import Component from '../Space'
 
-// just to make sure we re-run the test in watch mode due to changes in theese files
-import _form_row from '../style/_space.scss' // eslint-disable-line
-import dnb_form_row from '../style/dnb-space.scss' // eslint-disable-line
-import dnb_form_row_theme_ui from '../style/themes/dnb-space-theme-ui.scss' // eslint-disable-line
-
 const snapshotProps = fakeProps(require.resolve('../Space'), {
   optional: true
 })

@@ -13,11 +13,6 @@ import {
 } from '../../../core/jest/jestSetup'
 import Component from '../ToggleButton'
 
-// just to make sure we re-run the test in watch mode due to changes in theese files
-import _toggle_button from '../style/_toggle-button.scss' // eslint-disable-line
-import dnb_toggle_button from '../style/dnb-toggle-button.scss' // eslint-disable-line
-import dnb_toggle_button_theme_ui from '../style/themes/dnb-toggle-button-theme-ui.scss' // eslint-disable-line
-
 const props = fakeProps(require.resolve('../ToggleButton'), {
   optional: true
 })

@@ -13,11 +13,6 @@ import {
 } from '../../../core/jest/jestSetup'
 import Component from '../Radio'
 
-// just to make sure we re-run the test in watch mode due to changes in theese files
-import _radio from '../style/_radio.scss' // eslint-disable-line
-import dnb_radio from '../style/dnb-radio.scss' // eslint-disable-line
-import dnb_radio_theme_ui from '../style/themes/dnb-radio-theme-ui.scss' // eslint-disable-line
-
 const props = fakeProps(require.resolve('../Radio'), {
   optional: true
 })

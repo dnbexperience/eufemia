@@ -20,13 +20,6 @@ import Component, {
   copySelectedNumber
 } from '../Number'
 
-// import intl from 'intl'
-// import nb from 'intl/locale-data/jsonp/nb-NO.js'
-
-// just to make sure we re-run the test in watch mode due to changes in theese files
-import _number from '../style/_number.scss' // eslint-disable-line
-import dnb_number from '../style/dnb-number.scss' // eslint-disable-line
-
 const element = Component.defaultProps.element
 const locale = LOCALE
 const value = 12345678.9876
