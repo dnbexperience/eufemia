@@ -218,6 +218,25 @@
     padding-left: var(--dropdown-text-padding);
   }
 
+  &--action-menu &__shell {
+    width: auto;
+  }
+  &--action-menu &__trigger.dnb-button {
+    @media screen and (max-width: 40em) {
+      padding-left: 0.5rem;
+      padding-right: 0.5rem;
+    }
+  }
+  &--action-menu &__shell &__text {
+    padding-right: 0.5rem;
+
+    @media screen and (max-width: 40em) {
+      width: 0;
+      padding: 0;
+      opacity: 0.2;
+    }
+  }
+
   > .dnb-form-label {
     margin-right: 1rem;
     line-height: var(--line-height-basis);

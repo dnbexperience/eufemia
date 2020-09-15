@@ -55,6 +55,8 @@ export const propTypes = {
     PropTypes.string,
     PropTypes.bool
   ]),
+  action_menu: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  is_popup: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   align_drawer: PropTypes.oneOf(['left', 'right']),
   options_render: PropTypes.oneOfType([
     PropTypes.object,
@@ -149,6 +151,8 @@ export const defaultProps = {
   no_scroll_animation: false,
   use_drawer_on_mobile: false,
   prevent_selection: false,
+  action_menu: false,
+  is_popup: false,
   align_drawer: 'left',
   wrapper_element: null,
   default_value: null,
@@ -277,6 +281,8 @@ class DrawerListInstance extends React.PureComponent {
       no_animation,
       no_scroll_animation,
       prevent_selection,
+      action_menu,
+      is_popup,
       inner_class,
       ignore_events,
       options_render,
@@ -331,7 +337,9 @@ class DrawerListInstance extends React.PureComponent {
         align_drawer && `dnb-drawer-list--${align_drawer}`,
         size && `dnb-drawer-list--${size}`,
         // isTrue(fixed_position) && 'dnb-drawer-list--fixed',
-        isTrue(independent_width) && 'dnb-drawer-list--independent-width',
+        isTrue(action_menu) && `dnb-drawer-list--action-menu`,
+        isTrue(is_popup) && 'dnb-drawer-list--is-popup',
+        // isTrue(independent_width) && 'dnb-drawer-list--independent-width',
         isTrue(scrollable) && 'dnb-drawer-list--scroll',
         isTrue(no_scroll_animation) &&
           'dnb-drawer-list--no-scroll-animation',
@@ -494,9 +502,10 @@ class DrawerListInstance extends React.PureComponent {
             id={this._id}
             rootRef={_refRoot}
             opened={hidden === false}
-            useWidthAddition={align_drawer === 'right'}
-            fixedPosition={isTrue(fixed_position)}
-            useMobileView={isTrue(use_drawer_on_mobile)}
+            include_owner_width={align_drawer === 'right'}
+            independent_width={isTrue(independent_width)}
+            fixed_position={isTrue(fixed_position)}
+            use_drawer_on_mobile={isTrue(use_drawer_on_mobile)}
           >
             {mainList}
           </DrawerListPortal>

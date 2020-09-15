@@ -2,6 +2,7 @@
 
 exports[`Dropdown markup have to match snapshot 1`] = `
 <Dropdown
+  action_menu="action_menu"
   align_dropdown={null}
   class="class"
   className="className"
@@ -94,6 +95,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
   value={2}
 >
   <DrawerListProvider
+    action_menu="action_menu"
     align_dropdown={null}
     class="class"
     className="className"
@@ -180,7 +182,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
     page_offset={null}
     prevent_close="prevent_close"
     prevent_focus={false}
-    prevent_selection={null}
+    prevent_selection={false}
     scrollable="scrollable"
     size={null}
     skip_keysearch={false}
@@ -198,6 +200,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
     wrapper_element={null}
   >
     <DropdownInstance
+      action_menu="action_menu"
       align_dropdown={null}
       class="class"
       className="className"
@@ -594,6 +597,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                 </button>
               </Button>
               <DrawerList
+                action_menu="action_menu"
                 align_drawer={null}
                 cache_hash={null}
                 class={null}
@@ -608,8 +612,9 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                 focusable="focusable"
                 id="dropdown-id"
                 ignore_events={null}
-                independent_width={false}
+                independent_width="action_menu"
                 inner_class="dnb-dropdown__list"
+                is_popup="action_menu"
                 keep_open="keep_open"
                 max_height={1}
                 no_animation={true}
@@ -626,18 +631,19 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                 prepared_data={null}
                 prevent_close="prevent_close"
                 prevent_focus={false}
-                prevent_selection={null}
+                prevent_selection="action_menu"
                 raw_data={null}
                 scrollable="scrollable"
                 size={null}
                 skip_keysearch={false}
                 skip_portal={true}
                 triangle_position="right"
-                use_drawer_on_mobile={false}
+                use_drawer_on_mobile="action_menu"
                 value={2}
                 wrapper_element={null}
               >
                 <DrawerListInstance
+                  action_menu="action_menu"
                   align_drawer={null}
                   cache_hash={null}
                   class={null}
@@ -652,8 +658,9 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                   focusable="focusable"
                   id="dropdown-id"
                   ignore_events={null}
-                  independent_width={false}
+                  independent_width="action_menu"
                   inner_class="dnb-dropdown__list"
+                  is_popup="action_menu"
                   keep_open="keep_open"
                   max_height={1}
                   no_animation={true}
@@ -670,14 +677,14 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                   prepared_data={null}
                   prevent_close="prevent_close"
                   prevent_focus={false}
-                  prevent_selection={null}
+                  prevent_selection="action_menu"
                   raw_data={null}
                   scrollable="scrollable"
                   size={null}
                   skip_keysearch={false}
                   skip_portal={true}
                   triangle_position="right"
-                  use_drawer_on_mobile={false}
+                  use_drawer_on_mobile="action_menu"
                   value={2}
                   wrapper_element={null}
                 >
@@ -1055,6 +1062,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
               id="dropdown-id-suffix"
             >
               <Suffix
+                action_menu="action_menu"
                 align_dropdown={null}
                 class="class"
                 className="className"
@@ -1877,6 +1885,19 @@ legend.dnb-form-label {
     order: 2;
     padding-right: 0;
     padding-left: var(--dropdown-text-padding); }
+  .dnb-dropdown--action-menu .dnb-dropdown__shell {
+    width: auto; }
+  @media screen and (max-width: 40em) {
+    .dnb-dropdown--action-menu .dnb-dropdown__trigger.dnb-button {
+      padding-left: 0.5rem;
+      padding-right: 0.5rem; } }
+  .dnb-dropdown--action-menu .dnb-dropdown__shell .dnb-dropdown__text {
+    padding-right: 0.5rem; }
+    @media screen and (max-width: 40em) {
+      .dnb-dropdown--action-menu .dnb-dropdown__shell .dnb-dropdown__text {
+        width: 0;
+        padding: 0;
+        opacity: 0.2; } }
   .dnb-dropdown > .dnb-form-label {
     margin-right: 1rem;
     line-height: var(--line-height-basis); }
