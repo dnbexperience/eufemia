@@ -804,7 +804,7 @@ export default class DrawerListProvider extends React.PureComponent {
       case 'esc':
         {
           e.preventDefault() // on edge, we need this prevent to not loose focus after close
-          this.setHidden({ setFocus: true })
+          this.setHidden()
         }
         break
 
@@ -1094,7 +1094,7 @@ export default class DrawerListProvider extends React.PureComponent {
 
         const { keep_open } = this.props
         if (!isTrue(keep_open)) {
-          this.setHidden({ setFocus: true })
+          this.setHidden()
         }
       }
 
