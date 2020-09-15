@@ -213,7 +213,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
             id="date-picker-id"
             input_element={null}
             maskOrder="dd/mm/yyyy"
-            maskPlaceholder="dd/mm/åååå"
+            maskPlaceholder="dd.mm.åååå"
             maxDate={null}
             minDate={null}
             onChange={[Function]}
@@ -443,7 +443,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                           className="dnb-date-picker--separator"
                           key="s1"
                         >
-                          /
+                          .
                         </span>
                         <ForwardRef
                           aria-labelledby="date-picker-id-start-month-label"
@@ -532,7 +532,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                           className="dnb-date-picker--separator"
                           key="s3"
                         >
-                          /
+                          .
                         </span>
                         <ForwardRef
                           aria-labelledby="date-picker-id-start-year-label"
@@ -713,7 +713,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                           className="dnb-date-picker--separator"
                           key="s1"
                         >
-                          /
+                          .
                         </span>
                         <ForwardRef
                           aria-labelledby="date-picker-id-end-month-label"
@@ -802,7 +802,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                           className="dnb-date-picker--separator"
                           key="s3"
                         >
-                          /
+                          .
                         </span>
                         <ForwardRef
                           aria-labelledby="date-picker-id-end-year-label"

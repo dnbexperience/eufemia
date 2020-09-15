@@ -190,11 +190,11 @@ export default class DatePickerInput extends React.PureComponent {
       if (success) {
         e.preventDefault()
         try {
-          const seperators = ['.', '/']
+          const separators = ['.', '/']
           const possibleFormats = ['yyyy-MM-dd']
 
           possibleFormats.forEach((date) => {
-            seperators.forEach((sep) => {
+            separators.forEach((sep) => {
               possibleFormats.push(date.replace(/-/g, sep))
             })
           })
@@ -533,7 +533,7 @@ export default class DatePickerInput extends React.PureComponent {
                 _listenForPropChanges: false
               })
             },
-            placeholderChar: placeholderChar
+            placeholderChar
           }
         }
 
