@@ -36,7 +36,7 @@ const LegacyCodeStyling = () => (
         Check out the{' '}
         <a
           className="dnb-anchor"
-          href="https://github.com/dnbexperience/eufemia-examples/tree/master/packages/example-styling/src/App.jsx"
+          href="https://github.com/dnbexperience/eufemia-examples/tree/main/packages/example-styling/src/App.jsx"
         >
           source code for further explanation
         </a>

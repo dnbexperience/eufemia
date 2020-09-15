@@ -66,7 +66,7 @@ Alternatively, you can make use of [next-transpile-modules](https://www.npmjs.co
 
 ### ESM in Node.js version 10
 
-You can easily use [ESM](https://nodejs.org/api/esm.html) in Node.js environment. Have a look at the [Next.js example](https://github.com/dnbexperience/eufemia-examples/tree/master/packages/example-next).
+You can easily use [ESM](https://nodejs.org/api/esm.html) in Node.js environment. Have a look at the [Next.js example](https://github.com/dnbexperience/eufemia-examples/tree/main/packages/example-next).
 
 1. Install the `esm` package: `npm i esm -D`
 2. Call Node with an environment variable: `NODE_OPTIONS='-r esm' node ...`
