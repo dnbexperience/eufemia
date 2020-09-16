@@ -614,7 +614,8 @@ exports[`Radio scss have to match default theme snapshot 1`] = `
     border: none; }
   .dnb-radio__status--error .dnb-radio__input:not([disabled]):not(:focus):not(:active) ~ .dnb-radio__focus {
     display: block;
-    box-shadow: 0 0 0 0.125rem var(--color-fire-red);
+    --border-color: var(--color-fire-red);
+    box-shadow: 0 0 0 0.125rem var(--border-color);
     /* IE11 fix */
     border-color: transparent; }
   .dnb-radio__status--error .dnb-radio__input:not([disabled]):not(:focus):not(:checked):hover ~ .dnb-radio__button {
@@ -911,7 +912,8 @@ legend.dnb-form-label {
     display: none;
     outline: none; }
     html[data-whatinput='keyboard'] .dnb-radio__focus {
-      box-shadow: 0 0 0 0.125rem var(--color-emerald-green);
+      --border-color: var(--color-emerald-green);
+      box-shadow: 0 0 0 0.125rem var(--border-color);
       /* IE11 fix */
       border-color: transparent; }
   .dnb-radio__focus, .dnb-radio__button {

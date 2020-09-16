@@ -1663,7 +1663,8 @@ exports[`DatePicker scss have to match snapshot 1`] = `
     .dnb-button--reset:not([disabled]):focus, .dnb-button--reset:not([disabled]):active {
       outline: none; }
       html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):focus, html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):active {
-        box-shadow: 0 0 0 0.125rem var(--color-emerald-green);
+        --border-color: var(--color-emerald-green);
+        box-shadow: 0 0 0 0.125rem var(--border-color);
         /* IE11 fix */
         border-color: transparent; }
     html[data-whatinput='mouse'] .dnb-button--reset:not([disabled]):focus,
@@ -2153,7 +2154,8 @@ legend.dnb-form-label {
     display: none;
     outline: none; }
     html[data-whatinput='keyboard'] .dnb-checkbox__focus {
-      box-shadow: 0 0 0 0.125rem var(--color-emerald-green);
+      --border-color: var(--color-emerald-green);
+      box-shadow: 0 0 0 0.125rem var(--border-color);
       /* IE11 fix */
       border-color: transparent; }
   .dnb-checkbox__gfx {
@@ -2305,7 +2307,8 @@ legend.dnb-form-label {
     display: none;
     outline: none; }
     html[data-whatinput='keyboard'] .dnb-radio__focus {
-      box-shadow: 0 0 0 0.125rem var(--color-emerald-green);
+      --border-color: var(--color-emerald-green);
+      box-shadow: 0 0 0 0.125rem var(--border-color);
       /* IE11 fix */
       border-color: transparent; }
   .dnb-radio__focus, .dnb-radio__button {
@@ -2649,6 +2652,10 @@ legend.dnb-form-label {
     top: 0;
     display: inline-flex;
     flex-direction: column; }
+  .dnb-date-picker__input__wrapper {
+    display: inline-flex;
+    white-space: nowrap;
+    height: inherit; }
   .dnb-date-picker__container {
     position: absolute;
     display: block;
@@ -2722,11 +2729,10 @@ legend.dnb-form-label {
     margin-left: 0.8rem; }
   .dnb-date-picker .dnb-input__input.dnb-date-picker__input:last-of-type, .dnb-date-picker__input:last-of-type {
     margin-right: 2.2rem; }
-  .dnb-date-picker__input__wrapper {
+  .dnb-date-picker .dnb-input__shell {
     display: none; }
-  .dnb-date-picker--show-input .dnb-date-picker__input__wrapper {
-    display: inline-flex;
-    align-items: center; }
+  .dnb-date-picker--show-input .dnb-input__shell {
+    display: flex; }
   .dnb-date-picker:not(.dnb-date-picker--show-input) .dnb-input__status--error .dnb-input__shell {
     box-shadow: none; }
   .dnb-input__submit-button button:focus ~ .dnb-date-picker__input__wrapper {
@@ -2795,7 +2801,8 @@ legend.dnb-form-label {
     .dnb-date-picker table.dnb-no-focus:focus {
       outline: none; }
       html[data-whatinput='keyboard'] .dnb-date-picker table.dnb-no-focus:focus {
-        box-shadow: 0 0 0 0.125rem var(--color-emerald-green);
+        --border-color: var(--color-emerald-green);
+        box-shadow: 0 0 0 0.125rem var(--border-color);
         /* IE11 fix */
         border-color: transparent; }
   .dnb-date-picker__day, .dnb-date-picker__labels__day {

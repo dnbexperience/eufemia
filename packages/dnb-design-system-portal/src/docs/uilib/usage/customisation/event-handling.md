@@ -108,7 +108,7 @@ components
 
 ## HTML & ES5
 
-You may also take a look at the [example-html](https://github.com/dnbexperience/eufemia-examples/tree/master/packages/example-html) project:
+You may also take a look at the [example-html](https://github.com/dnbexperience/eufemia-examples/tree/main/packages/example-html) project:
 
 ```html
 <!-- Declarative -->

@@ -270,7 +270,8 @@ exports[`Button scss have to match default theme snapshot 1`] = `
     html:not([data-whatintent='touch']) .dnb-button--primary:hover:not([disabled]) {
       color: var(--color-sea-green);
       background-color: var(--color-white);
-      box-shadow: 0 0 0 0.125rem var(--color-emerald-green);
+      --border-color: var(--color-emerald-green);
+      box-shadow: 0 0 0 0.125rem var(--border-color);
       /* IE11 fix */
       border-color: transparent; }
       @media screen and (-ms-high-contrast: none) {
@@ -288,14 +289,21 @@ exports[`Button scss have to match default theme snapshot 1`] = `
         background-color: var(--color-white); }
       html[data-whatinput='keyboard'] .dnb-button--primary:focus:not([disabled]), html[data-whatinput='keyboard']
       html:not([data-whatintent='touch']) .dnb-button--primary:focus:not([disabled]) {
-        box-shadow: inset 0 0 0 0.125rem var(--color-emerald-green);
+        --border-color: var(--color-emerald-green);
+        box-shadow: inset 0 0 0 0.125rem var(--border-color);
         /* IE11 fix */
-        /* iOS fix - because \\"inset\\" works not fine with border-radius and rem unit */
+        /* iOS fix - because \\"inset\\" works not fine with border-radius */
+        /* Safari fix - because \\"inset\\" works not fine with border-radius if the user zooms the page */
         border-color: transparent; }
         @supports (-webkit-touch-callout: none) {
           html[data-whatinput='keyboard'] .dnb-button--primary:focus:not([disabled]), html[data-whatinput='keyboard']
           html:not([data-whatintent='touch']) .dnb-button--primary:focus:not([disabled]) {
-            box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
+            box-shadow: 0 0 0 0.125rem var(--border-color); } }
+        @media not all and (min-resolution: 0.001dpcm) {
+          @supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-overflow-scrolling: touch)) {
+            html[data-whatinput='keyboard'] .dnb-button--primary:focus:not([disabled]), html[data-whatinput='keyboard']
+            html:not([data-whatintent='touch']) .dnb-button--primary:focus:not([disabled]) {
+              box-shadow: 0 0 0 0.125rem var(--border-color); } } }
     .dnb-button--primary:active[disabled],
     html:not([data-whatintent='touch']) .dnb-button--primary:active[disabled] {
       cursor: not-allowed; }
@@ -303,7 +311,8 @@ exports[`Button scss have to match default theme snapshot 1`] = `
     html:not([data-whatintent='touch']) .dnb-button--primary:active:not([disabled]) {
       color: var(--color-sea-green);
       background-color: var(--color-mint-green-50);
-      box-shadow: 0 0 0 0.0625rem transparent;
+      --border-color: transparent;
+      box-shadow: 0 0 0 0.0625rem var(--border-color);
       /* IE11 fix */
       border-color: transparent; }
     .dnb-button--primary[disabled] {
@@ -312,24 +321,31 @@ exports[`Button scss have to match default theme snapshot 1`] = `
   .dnb-button--secondary {
     color: var(--color-sea-green);
     background-color: var(--color-white);
-    box-shadow: inset 0 0 0 0.0625rem var(--color-sea-green);
+    --border-color: var(--color-sea-green);
+    box-shadow: inset 0 0 0 0.0625rem var(--border-color);
     /* IE11 fix */
-    /* iOS fix - because \\"inset\\" works not fine with border-radius and rem unit */
+    /* iOS fix - because \\"inset\\" works not fine with border-radius */
+    /* Safari fix - because \\"inset\\" works not fine with border-radius if the user zooms the page */
     border-color: transparent; }
     .dnb-button--secondary:not([disabled]) .dnb-button__icon {
       color: var(--color-emerald-green); }
     @media screen and (-ms-high-contrast: none) {
       .dnb-button--secondary {
-        box-shadow: inset 0 0 0 1px var(--color-sea-green); } }
+        box-shadow: inset 0 0 0 1px var(--border-color); } }
     @supports (-webkit-touch-callout: none) {
       .dnb-button--secondary {
-        box-shadow: 0 0 0 0.0625rem var(--color-sea-green); } }
+        box-shadow: 0 0 0 0.0625rem var(--border-color); } }
+    @media not all and (min-resolution: 0.001dpcm) {
+      @supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-overflow-scrolling: touch)) {
+        .dnb-button--secondary {
+          box-shadow: 0 0 0 0.0625rem var(--border-color); } } }
     html:not([data-whatintent='touch']) .dnb-button--secondary:hover[disabled] {
       cursor: not-allowed; }
     html:not([data-whatintent='touch']) .dnb-button--secondary:hover:not([disabled]) {
       color: var(--color-sea-green);
       background-color: var(--color-white);
-      box-shadow: 0 0 0 0.125rem var(--color-emerald-green);
+      --border-color: var(--color-emerald-green);
+      box-shadow: 0 0 0 0.125rem var(--border-color);
       /* IE11 fix */
       border-color: transparent; }
       @media screen and (-ms-high-contrast: none) {
@@ -347,14 +363,21 @@ exports[`Button scss have to match default theme snapshot 1`] = `
         background-color: var(--color-white); }
       html[data-whatinput='keyboard'] .dnb-button--secondary:focus:not([disabled]), html[data-whatinput='keyboard']
       html:not([data-whatintent='touch']) .dnb-button--secondary:focus:not([disabled]) {
-        box-shadow: inset 0 0 0 0.125rem var(--color-emerald-green);
+        --border-color: var(--color-emerald-green);
+        box-shadow: inset 0 0 0 0.125rem var(--border-color);
         /* IE11 fix */
-        /* iOS fix - because \\"inset\\" works not fine with border-radius and rem unit */
+        /* iOS fix - because \\"inset\\" works not fine with border-radius */
+        /* Safari fix - because \\"inset\\" works not fine with border-radius if the user zooms the page */
         border-color: transparent; }
         @supports (-webkit-touch-callout: none) {
           html[data-whatinput='keyboard'] .dnb-button--secondary:focus:not([disabled]), html[data-whatinput='keyboard']
           html:not([data-whatintent='touch']) .dnb-button--secondary:focus:not([disabled]) {
-            box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
+            box-shadow: 0 0 0 0.125rem var(--border-color); } }
+        @media not all and (min-resolution: 0.001dpcm) {
+          @supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-overflow-scrolling: touch)) {
+            html[data-whatinput='keyboard'] .dnb-button--secondary:focus:not([disabled]), html[data-whatinput='keyboard']
+            html:not([data-whatintent='touch']) .dnb-button--secondary:focus:not([disabled]) {
+              box-shadow: 0 0 0 0.125rem var(--border-color); } } }
     .dnb-button--secondary:active[disabled],
     html:not([data-whatintent='touch']) .dnb-button--secondary:active[disabled] {
       cursor: not-allowed; }
@@ -362,38 +385,52 @@ exports[`Button scss have to match default theme snapshot 1`] = `
     html:not([data-whatintent='touch']) .dnb-button--secondary:active:not([disabled]) {
       color: var(--color-sea-green);
       background-color: var(--color-mint-green-50);
-      box-shadow: 0 0 0 0.0625rem transparent;
+      --border-color: transparent;
+      box-shadow: 0 0 0 0.0625rem var(--border-color);
       /* IE11 fix */
       border-color: transparent; }
     .dnb-button--secondary[disabled], .dnb-button--secondary[disabled]:focus {
       color: var(--color-sea-green-30);
       background-color: var(--color-white);
-      box-shadow: inset 0 0 0 0.0625rem var(--color-sea-green-30);
+      --border-color: var(--color-sea-green-30);
+      box-shadow: inset 0 0 0 0.0625rem var(--border-color);
       /* IE11 fix */
-      /* iOS fix - because \\"inset\\" works not fine with border-radius and rem unit */
+      /* iOS fix - because \\"inset\\" works not fine with border-radius */
+      /* Safari fix - because \\"inset\\" works not fine with border-radius if the user zooms the page */
       border-color: transparent; }
       @media screen and (-ms-high-contrast: none) {
         .dnb-button--secondary[disabled], .dnb-button--secondary[disabled]:focus {
-          box-shadow: inset 0 0 0 1px var(--color-sea-green-30); } }
+          box-shadow: inset 0 0 0 1px var(--border-color); } }
       @supports (-webkit-touch-callout: none) {
         .dnb-button--secondary[disabled], .dnb-button--secondary[disabled]:focus {
-          box-shadow: 0 0 0 0.0625rem var(--color-sea-green-30); } }
+          box-shadow: 0 0 0 0.0625rem var(--border-color); } }
+      @media not all and (min-resolution: 0.001dpcm) {
+        @supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-overflow-scrolling: touch)) {
+          .dnb-button--secondary[disabled], .dnb-button--secondary[disabled]:focus {
+            box-shadow: 0 0 0 0.0625rem var(--border-color); } } }
   .dnb-button:not([disabled]).dnb-button--secondary.dnb-button__status--error {
     color: var(--color-fire-red);
-    box-shadow: inset 0 0 0 0.0625rem var(--color-fire-red);
+    --border-color: var(--color-fire-red);
+    box-shadow: inset 0 0 0 0.0625rem var(--border-color);
     /* IE11 fix */
-    /* iOS fix - because \\"inset\\" works not fine with border-radius and rem unit */
+    /* iOS fix - because \\"inset\\" works not fine with border-radius */
+    /* Safari fix - because \\"inset\\" works not fine with border-radius if the user zooms the page */
     border-color: transparent; }
     @media screen and (-ms-high-contrast: none) {
       .dnb-button:not([disabled]).dnb-button--secondary.dnb-button__status--error {
-        box-shadow: inset 0 0 0 1px var(--color-fire-red); } }
+        box-shadow: inset 0 0 0 1px var(--border-color); } }
     @supports (-webkit-touch-callout: none) {
       .dnb-button:not([disabled]).dnb-button--secondary.dnb-button__status--error {
-        box-shadow: 0 0 0 0.0625rem var(--color-fire-red); } }
+        box-shadow: 0 0 0 0.0625rem var(--border-color); } }
+    @media not all and (min-resolution: 0.001dpcm) {
+      @supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-overflow-scrolling: touch)) {
+        .dnb-button:not([disabled]).dnb-button--secondary.dnb-button__status--error {
+          box-shadow: 0 0 0 0.0625rem var(--border-color); } } }
     .dnb-button:not([disabled]).dnb-button--secondary.dnb-button__status--error .dnb-button__icon {
       color: inherit; }
   .dnb-button--active {
-    box-shadow: 0 0 0 0.125rem var(--color-emerald-green);
+    --border-color: var(--color-emerald-green);
+    box-shadow: 0 0 0 0.125rem var(--border-color);
     /* IE11 fix */
     border-color: transparent; }
   .dnb-button--tertiary {
@@ -453,7 +490,8 @@ exports[`Button scss have to match default theme snapshot 1`] = `
         outline: none; }
         html[data-whatinput='keyboard'] .dnb-button--tertiary:focus:not([disabled])::before, html[data-whatinput='keyboard']
         html:not([data-whatintent='touch']) .dnb-button--tertiary:focus:not([disabled])::before {
-          box-shadow: 0 0 0 0.125rem var(--color-emerald-green);
+          --border-color: var(--color-emerald-green);
+          box-shadow: 0 0 0 0.125rem var(--border-color);
           /* IE11 fix */
           border-color: transparent; }
       .dnb-button--tertiary:focus:not([disabled]) .dnb-button__text::after,
@@ -523,7 +561,8 @@ exports[`Button scss have to match default theme snapshot 1`] = `
     html:not([data-whatintent='touch']) .dnb-button--tertiary.dnb-button--has-icon:not(.dnb-button--has-text):hover[disabled] {
       cursor: not-allowed; }
     html:not([data-whatintent='touch']) .dnb-button--tertiary.dnb-button--has-icon:not(.dnb-button--has-text):hover:not([disabled]) {
-      box-shadow: 0 0 0 0.0625rem var(--color-sea-green);
+      --border-color: var(--color-sea-green);
+      box-shadow: 0 0 0 0.0625rem var(--border-color);
       /* IE11 fix */
       border-color: transparent; }
     .dnb-button--tertiary.dnb-button--has-icon:not(.dnb-button--has-text):active[disabled],
@@ -531,7 +570,8 @@ exports[`Button scss have to match default theme snapshot 1`] = `
       cursor: not-allowed; }
     .dnb-button--tertiary.dnb-button--has-icon:not(.dnb-button--has-text):active:not([disabled]),
     html:not([data-whatintent='touch']) .dnb-button--tertiary.dnb-button--has-icon:not(.dnb-button--has-text):active:not([disabled]) {
-      box-shadow: 0 0 0 0.0625rem var(--color-sea-green-30);
+      --border-color: var(--color-sea-green-30);
+      box-shadow: 0 0 0 0.0625rem var(--border-color);
       /* IE11 fix */
       border-color: transparent; }
     html[data-whatinput='keyboard']
@@ -547,7 +587,8 @@ exports[`Button scss have to match default theme snapshot 1`] = `
     html:not([data-whatintent='touch']) .dnb-button--signal:hover:not([disabled]) {
       color: var(--color-ocean-green);
       background-color: var(--color-accent-yellow);
-      box-shadow: 0 0 0 0.125rem var(--color-emerald-green);
+      --border-color: var(--color-emerald-green);
+      box-shadow: 0 0 0 0.125rem var(--border-color);
       /* IE11 fix */
       border-color: transparent; }
       @media screen and (-ms-high-contrast: none) {
@@ -560,7 +601,8 @@ exports[`Button scss have to match default theme snapshot 1`] = `
     html:not([data-whatintent='touch']) html[data-whatintent='touch'] .dnb-button--signal:active:not([disabled]) {
       color: var(--color-ocean-green);
       background-color: var(--color-accent-yellow);
-      box-shadow: 0 0 0 0.125rem var(--color-emerald-green);
+      --border-color: var(--color-emerald-green);
+      box-shadow: 0 0 0 0.125rem var(--border-color);
       /* IE11 fix */
       border-color: transparent; }
     .dnb-button--signal:focus[disabled],
@@ -575,14 +617,21 @@ exports[`Button scss have to match default theme snapshot 1`] = `
         background-color: var(--color-accent-yellow); }
       html[data-whatinput='keyboard'] .dnb-button--signal:focus:not([disabled]), html[data-whatinput='keyboard']
       html:not([data-whatintent='touch']) .dnb-button--signal:focus:not([disabled]) {
-        box-shadow: inset 0 0 0 0.125rem var(--color-emerald-green);
+        --border-color: var(--color-emerald-green);
+        box-shadow: inset 0 0 0 0.125rem var(--border-color);
         /* IE11 fix */
-        /* iOS fix - because \\"inset\\" works not fine with border-radius and rem unit */
+        /* iOS fix - because \\"inset\\" works not fine with border-radius */
+        /* Safari fix - because \\"inset\\" works not fine with border-radius if the user zooms the page */
         border-color: transparent; }
         @supports (-webkit-touch-callout: none) {
           html[data-whatinput='keyboard'] .dnb-button--signal:focus:not([disabled]), html[data-whatinput='keyboard']
           html:not([data-whatintent='touch']) .dnb-button--signal:focus:not([disabled]) {
-            box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
+            box-shadow: 0 0 0 0.125rem var(--border-color); } }
+        @media not all and (min-resolution: 0.001dpcm) {
+          @supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-overflow-scrolling: touch)) {
+            html[data-whatinput='keyboard'] .dnb-button--signal:focus:not([disabled]), html[data-whatinput='keyboard']
+            html:not([data-whatintent='touch']) .dnb-button--signal:focus:not([disabled]) {
+              box-shadow: 0 0 0 0.125rem var(--border-color); } } }
     .dnb-button--signal:active[disabled],
     html:not([data-whatintent='touch']) .dnb-button--signal:active[disabled] {
       cursor: not-allowed; }
@@ -590,7 +639,8 @@ exports[`Button scss have to match default theme snapshot 1`] = `
     html:not([data-whatintent='touch']) .dnb-button--signal:active:not([disabled]) {
       color: var(--color-ocean-green);
       background-color: var(--color-accent-yellow);
-      box-shadow: 0 0 0 0.0625rem transparent;
+      --border-color: transparent;
+      box-shadow: 0 0 0 0.0625rem var(--border-color);
       /* IE11 fix */
       border-color: transparent; }
     .dnb-button--signal[disabled] {
@@ -979,7 +1029,8 @@ exports[`Button scss have to match snapshot 1`] = `
     .dnb-button--reset:not([disabled]):focus, .dnb-button--reset:not([disabled]):active {
       outline: none; }
       html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):focus, html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):active {
-        box-shadow: 0 0 0 0.125rem var(--color-emerald-green);
+        --border-color: var(--color-emerald-green);
+        box-shadow: 0 0 0 0.125rem var(--border-color);
         /* IE11 fix */
         border-color: transparent; }
     html[data-whatinput='mouse'] .dnb-button--reset:not([disabled]):focus,

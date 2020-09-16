@@ -166,3 +166,7 @@ import properties from 'dnb-ui-lib/style/ddnb-ui-properties.css'
 const seaGreenColor = properties['--color-sea-green']
 const basisFontSize = properties['--font-size-basis']
 ```
+
+## Known styling and CSS issues
+
+- Safari, both on mobile and desktop has a problem where we combine `border-radius` with the usage of `inset` in a `box-shadow`. The solution for now is to not use `inset` – which results in an outer border, which is not ideal as we then not do follow the UX guidelines for these browsers. We have a SASS function handling this for us: `@mixin fakeBorder`.

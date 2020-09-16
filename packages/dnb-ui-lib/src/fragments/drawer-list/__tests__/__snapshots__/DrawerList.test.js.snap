@@ -346,7 +346,8 @@ exports[`DrawerList scss have to match default theme snapshot 1`] = `
     .dnb-drawer-list__options:focus {
       outline: none; }
       html[data-whatinput='keyboard'] .dnb-drawer-list__options:focus {
-        box-shadow: 0 0 0 0.125rem var(--color-emerald-green);
+        --border-color: var(--color-emerald-green);
+        box-shadow: 0 0 0 0.125rem var(--border-color);
         /* IE11 fix */
         border-color: transparent; }
   @media screen and (max-width: 40em) {
@@ -395,7 +396,8 @@ exports[`DrawerList scss have to match default theme snapshot 1`] = `
       bottom: var(--drawer-list-focus-border-width);
       height: auto;
       background-color: transparent;
-      box-shadow: 0 0 0 var(--drawer-list-focus-border-width) var(--drawer-list-border-color--selected);
+      --border-color: var(--drawer-list-border-color--selected);
+      box-shadow: 0 0 0 var(--drawer-list-focus-border-width) var(--border-color);
       /* IE11 fix */
       border-color: transparent; }
     .dnb-drawer-list__option--selected {
