@@ -266,7 +266,11 @@ exports[`ToggleButton component have to match snapshot 1`] = `
                               width="24"
                             >
                               <path
-                                d="M5.86 12.95a.75.75 0 1 0-1.22.86l1.22-.86zm2.15 4.34l.62-.42-.01-.01-.61.43zm.94.52l.02-.75-.02.75zm.98-.46l-.6-.47v.01l.6.46zm9.4-10.7a.75.75 0 0 0-1.17-.93l1.18.93zm-14.7 7.16l2.76 3.91 1.23-.86-2.76-3.91-1.22.86zm2.75 3.9c.35.52.93.84 1.55.85l.04-1.5a.43.43 0 0 1-.34-.19l-1.25.84zm1.55.85c.62.02 1.22-.26 1.6-.76l-1.2-.9a.43.43 0 0 1-.36.16l-.04 1.5zm1.59-.75l8.82-11.16-1.18-.93-8.82 11.16 1.18.93z"
+                                d="M1.5 15L7.5 21L22.5 3"
+                                stroke="currentColor"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth="2"
                               />
                             </svg>
                           </CheckSVG>
@@ -1520,15 +1524,14 @@ button.dnb-button::-moz-focus-inner {
     z-index: 5;
     top: auto;
     left: auto;
-    width: var(--checkbox-width--medium);
-    height: var(--checkbox-height--medium);
-    fill: currentColor;
+    width: calc(var(--checkbox-width--medium) - 0.5rem);
+    height: calc(var(--checkbox-height--medium) - 0.5rem);
     shape-rendering: geometricPrecision; }
   .dnb-checkbox--large {
     line-height: var(--checkbox-height--large); }
   .dnb-checkbox--large .dnb-checkbox__gfx {
-    width: var(--checkbox-width--large);
-    height: var(--checkbox-height--large); }
+    width: calc(var(--checkbox-width--large) - 0.5rem);
+    height: calc(var(--checkbox-height--large) - 0.5rem); }
   .dnb-checkbox__input {
     opacity: 0;
     position: absolute;
@@ -1886,8 +1889,8 @@ button.dnb-button::-moz-focus-inner {
         width: calc(var(--checkbox-width--medium) - 1rem);
         height: calc(var(--checkbox-height--medium) - 1rem); }
       .dnb-toggle-button__button .dnb-checkbox__gfx {
-        width: calc(var(--checkbox-width--medium) - 0.25rem);
-        height: calc(var(--checkbox-height--medium) - 0.25rem); }
+        width: calc(var(--checkbox-width--medium) - 0.75rem);
+        height: calc(var(--checkbox-height--medium) - 0.75rem); }
     .dnb-toggle-button__button .dnb-radio {
       margin-left: -0.5rem; }
       .dnb-toggle-button__button .dnb-radio__input {

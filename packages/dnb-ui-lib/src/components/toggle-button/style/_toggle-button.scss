@@ -68,8 +68,10 @@
         height: calc(var(--checkbox-height--medium) - 1rem);
       }
       &__gfx {
-        width: calc(var(--checkbox-width--medium) - 0.25rem);
-        height: calc(var(--checkbox-height--medium) - 0.25rem);
+        // width: calc(var(--checkbox-width--medium) - 0.25rem);// old svg size
+        // height: calc(var(--checkbox-height--medium) - 0.25rem);// old svg size
+        width: calc(var(--checkbox-width--medium) - 0.75rem);
+        height: calc(var(--checkbox-height--medium) - 0.75rem);
       }
     }
 
