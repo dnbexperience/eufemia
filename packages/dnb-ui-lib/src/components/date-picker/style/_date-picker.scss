@@ -65,6 +65,10 @@
     display: inline-flex;
     flex-direction: column;
   }
+  &__input__wrapper {
+    display: inline-flex;
+    height: inherit;
+  }
 
   &__container {
     position: absolute;
@@ -160,12 +164,11 @@
   &__input:last-of-type {
     margin-right: 2.2rem;
   }
-  &__input__wrapper {
+  .dnb-input__shell {
     display: none;
   }
-  &--show-input &__input__wrapper {
-    display: inline-flex;
-    align-items: center;
+  &--show-input .dnb-input__shell {
+    display: flex;
   }
   &:not(#{&}--show-input) .dnb-input__status--error .dnb-input__shell {
     box-shadow: none;
