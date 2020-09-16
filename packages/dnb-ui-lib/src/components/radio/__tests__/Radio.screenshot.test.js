@@ -88,4 +88,16 @@ describe('Radio checked screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+  it('have to match radio group plain', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-dnb-test="radio-group-plain"]'
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+  it('have to match radio button in different sizes', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-dnb-test="radio-sizes"]'
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
 })

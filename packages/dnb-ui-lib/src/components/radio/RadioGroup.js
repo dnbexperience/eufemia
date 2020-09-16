@@ -39,6 +39,7 @@ const propTypes = {
   disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   id: PropTypes.string,
   name: PropTypes.string,
+  size: PropTypes.oneOf(['default', 'medium', 'large']),
   status: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.func,
@@ -82,6 +83,7 @@ const defaultProps = {
   disabled: null,
   id: null,
   name: null,
+  size: null,
   status: null,
   status_state: 'error',
   status_animation: null,
@@ -172,6 +174,7 @@ export default class RadioGroup extends React.PureComponent {
       vertical,
       layout_direction,
       no_fieldset,
+      size,
       disabled,
       className,
       class: _className,
@@ -222,6 +225,7 @@ export default class RadioGroup extends React.PureComponent {
     const context = {
       name: this._name,
       value,
+      size,
       disabled,
       label_position,
       onChange: this.onChangeHandler
