@@ -776,20 +776,28 @@ exports[`ToggleButton scss have to match default theme snapshot 1`] = `
     .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:active):not(:hover),
     .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]):not(:active):not(:hover),
     .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]):not(:active):not(:hover) {
-      box-shadow: inset 0 0 0 0.0625rem var(--color-emerald-green);
+      --border-color: var(--color-emerald-green);
+      box-shadow: inset 0 0 0 0.0625rem var(--border-color);
       /* IE11 fix */
-      /* iOS fix - because \\"inset\\" works not fine with border-radius and rem unit */
+      /* iOS fix - because \\"inset\\" works not fine with border-radius */
+      /* Safari fix - because \\"inset\\" works not fine with border-radius if the user zooms the page */
       border-color: transparent; }
       @media screen and (-ms-high-contrast: none) {
         .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:active):not(:hover),
         .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]):not(:active):not(:hover),
         .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]):not(:active):not(:hover) {
-          box-shadow: inset 0 0 0 1px var(--color-emerald-green); } }
+          box-shadow: inset 0 0 0 1px var(--border-color); } }
       @supports (-webkit-touch-callout: none) {
         .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:active):not(:hover),
         .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]):not(:active):not(:hover),
         .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]):not(:active):not(:hover) {
-          box-shadow: 0 0 0 0.0625rem var(--color-emerald-green); } }
+          box-shadow: 0 0 0 0.0625rem var(--border-color); } }
+      @media not all and (min-resolution: 0.001dpcm) {
+        @supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-overflow-scrolling: touch)) {
+          .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:active):not(:hover),
+          .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]):not(:active):not(:hover),
+          .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]):not(:active):not(:hover) {
+            box-shadow: 0 0 0 0.0625rem var(--border-color); } } }
   .dnb-toggle-button--checked .dnb-toggle-button__button .dnb-icon,
   .dnb-toggle-button--checked .dnb-toggle-button__button:focus .dnb-icon,
   .dnb-toggle-button--checked .dnb-toggle-button__button:hover .dnb-icon {
@@ -832,15 +840,23 @@ exports[`ToggleButton scss have to match default theme snapshot 1`] = `
     html[data-whatinput='keyboard'] .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:active):not(:hover):focus, html[data-whatinput='keyboard']
     .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]):not(:active):not(:hover):focus, html[data-whatinput='keyboard']
     .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]):not(:active):not(:hover):focus {
-      box-shadow: inset 0 0 0 0.125rem var(--color-emerald-green);
+      --border-color: var(--color-emerald-green);
+      box-shadow: inset 0 0 0 0.125rem var(--border-color);
       /* IE11 fix */
-      /* iOS fix - because \\"inset\\" works not fine with border-radius and rem unit */
+      /* iOS fix - because \\"inset\\" works not fine with border-radius */
+      /* Safari fix - because \\"inset\\" works not fine with border-radius if the user zooms the page */
       border-color: transparent; }
       @supports (-webkit-touch-callout: none) {
         html[data-whatinput='keyboard'] .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:active):not(:hover):focus, html[data-whatinput='keyboard']
         .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]):not(:active):not(:hover):focus, html[data-whatinput='keyboard']
         .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]):not(:active):not(:hover):focus {
-          box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
+          box-shadow: 0 0 0 0.125rem var(--border-color); } }
+      @media not all and (min-resolution: 0.001dpcm) {
+        @supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-overflow-scrolling: touch)) {
+          html[data-whatinput='keyboard'] .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:active):not(:hover):focus, html[data-whatinput='keyboard']
+          .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]):not(:active):not(:hover):focus, html[data-whatinput='keyboard']
+          .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]):not(:active):not(:hover):focus {
+            box-shadow: 0 0 0 0.125rem var(--border-color); } } }
   .dnb-toggle-button__button:not([disabled]):active .dnb-radio__button,
   .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):active .dnb-radio__button {
     background-color: transparent;
@@ -860,16 +876,22 @@ exports[`ToggleButton scss have to match default theme snapshot 1`] = `
   .dnb-toggle-button__status--error .dnb-toggle-button__button:not([disabled]):not(:focus):not(:active) {
     background-color: var(--color-white);
     color: var(--color-fire-red);
-    box-shadow: inset 0 0 0 0.0625rem var(--color-fire-red);
+    --border-color: var(--color-fire-red);
+    box-shadow: inset 0 0 0 0.0625rem var(--border-color);
     /* IE11 fix */
-    /* iOS fix - because \\"inset\\" works not fine with border-radius and rem unit */
+    /* iOS fix - because \\"inset\\" works not fine with border-radius */
+    /* Safari fix - because \\"inset\\" works not fine with border-radius if the user zooms the page */
     border-color: transparent; }
     @media screen and (-ms-high-contrast: none) {
       .dnb-toggle-button__status--error .dnb-toggle-button__button:not([disabled]):not(:focus):not(:active) {
-        box-shadow: inset 0 0 0 1px var(--color-fire-red); } }
+        box-shadow: inset 0 0 0 1px var(--border-color); } }
     @supports (-webkit-touch-callout: none) {
       .dnb-toggle-button__status--error .dnb-toggle-button__button:not([disabled]):not(:focus):not(:active) {
-        box-shadow: 0 0 0 0.0625rem var(--color-fire-red); } }
+        box-shadow: 0 0 0 0.0625rem var(--border-color); } }
+    @media not all and (min-resolution: 0.001dpcm) {
+      @supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-overflow-scrolling: touch)) {
+        .dnb-toggle-button__status--error .dnb-toggle-button__button:not([disabled]):not(:focus):not(:active) {
+          box-shadow: 0 0 0 0.0625rem var(--border-color); } } }
     .dnb-toggle-button__status--error .dnb-toggle-button__button:not([disabled]):not(:focus):not(:active):hover {
       box-shadow: 0 0 0 0.125rem var(--color-fire-red); }
   .dnb-toggle-button--checked.dnb-toggle-button__status--error .dnb-toggle-button__button:not([disabled]):not(:focus):not(:active) {
@@ -1358,7 +1380,8 @@ legend.dnb-form-label {
     .dnb-button--reset:not([disabled]):focus, .dnb-button--reset:not([disabled]):active {
       outline: none; }
       html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):focus, html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):active {
-        box-shadow: 0 0 0 0.125rem var(--color-emerald-green);
+        --border-color: var(--color-emerald-green);
+        box-shadow: 0 0 0 0.125rem var(--border-color);
         /* IE11 fix */
         border-color: transparent; }
     html[data-whatinput='mouse'] .dnb-button--reset:not([disabled]):focus,
@@ -1474,7 +1497,8 @@ button.dnb-button::-moz-focus-inner {
     display: none;
     outline: none; }
     html[data-whatinput='keyboard'] .dnb-checkbox__focus {
-      box-shadow: 0 0 0 0.125rem var(--color-emerald-green);
+      --border-color: var(--color-emerald-green);
+      box-shadow: 0 0 0 0.125rem var(--border-color);
       /* IE11 fix */
       border-color: transparent; }
   .dnb-checkbox__gfx {
@@ -1626,7 +1650,8 @@ button.dnb-button::-moz-focus-inner {
     display: none;
     outline: none; }
     html[data-whatinput='keyboard'] .dnb-radio__focus {
-      box-shadow: 0 0 0 0.125rem var(--color-emerald-green);
+      --border-color: var(--color-emerald-green);
+      box-shadow: 0 0 0 0.125rem var(--border-color);
       /* IE11 fix */
       border-color: transparent; }
   .dnb-radio__focus, .dnb-radio__button {
