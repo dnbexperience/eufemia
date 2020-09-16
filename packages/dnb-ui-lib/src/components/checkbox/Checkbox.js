@@ -40,6 +40,7 @@ const propTypes = {
   checked: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   id: PropTypes.string,
+  size: PropTypes.oneOf(['default', 'medium', 'large']),
   status: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.func,
@@ -77,6 +78,7 @@ const defaultProps = {
   checked: undefined,
   disabled: null,
   id: null,
+  size: null,
   status: null,
   status_state: 'error',
   status_animation: null,
@@ -189,6 +191,7 @@ export default class Checkbox extends React.PureComponent {
       status_animation,
       global_status_id,
       suffix,
+      size,
       label,
       label_position,
       label_sr_only,
@@ -220,6 +223,7 @@ export default class Checkbox extends React.PureComponent {
       className: classnames(
         'dnb-checkbox',
         status && `dnb-checkbox__status--${status_state}`,
+        size && `dnb-checkbox--${size}`,
         label &&
           `dnb-checkbox--label-position-${label_position || 'right'}`,
         'dnb-form-component',
@@ -315,6 +319,31 @@ export default class Checkbox extends React.PureComponent {
     )
   }
 }
+
+// The new checkbox has too low contrast, as it is too thin on web
+// export const CheckSVG_new = (props) => (
+// <svg
+// width="24"
+// height="24"
+// viewBox="0 0 24 24"
+// fill="none"
+// className="dnb-checkbox__gfx"
+// aria-hidden
+// {...props}
+// >
+{
+  /* <path */
+}
+// d="M1.5 15L7.5 21L22.5 3"
+// stroke="currentColor"
+// strokeWidth="1.5"
+// strokeLinecap="round"
+// strokeLinejoin="round"
+// />
+{
+  /* </svg> */
+}
+// )
 
 export const CheckSVG = (props) => (
   <svg

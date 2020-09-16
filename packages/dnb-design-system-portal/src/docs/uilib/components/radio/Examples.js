@@ -127,8 +127,8 @@ class Example extends React.PureComponent {
         >
           {
             /* @jsx */ `
-<Radio size="medium" label="Medium" right="large" />
-<Radio size="large" label="Large" />
+<Radio size="medium" label="Medium" right="large" checked />
+<Radio size="large" label="Large" checked />
           `
           }
         </ComponentBox>
