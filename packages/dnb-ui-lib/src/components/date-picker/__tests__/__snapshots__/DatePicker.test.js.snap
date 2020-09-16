@@ -2529,13 +2529,13 @@ legend.dnb-form-label {
       .dnb-toggle-button__button .dnb-radio__input {
         pointer-events: none; }
       .dnb-toggle-button__button .dnb-radio__focus, .dnb-toggle-button__button .dnb-radio__button {
-        width: calc(var(--radio-width) - 0.5rem);
-        height: calc(var(--radio-width) - 0.5rem);
+        width: calc(var(--radio-width--medium) - 0.5rem);
+        height: calc(var(--radio-height--medium) - 0.5rem);
         border-width: 0.0625rem;
         box-shadow: 0 0 0 0.0318rem var(--color-sea-green); }
       .dnb-toggle-button__button .dnb-radio__dot {
-        width: calc(var(--radio-width) - 1rem);
-        height: calc(var(--radio-width) - 1rem); }
+        width: calc(var(--radio-width--medium) - 1rem);
+        height: calc(var(--radio-height--medium) - 1rem); }
   .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:active) {
     background-color: var(--color-emerald-green);
     color: var(--color-mint-green); }
