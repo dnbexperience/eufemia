@@ -1863,6 +1863,8 @@ legend.dnb-form-label {
   .dnb-dropdown--icon-position-right .dnb-button--tertiary
 ~ .dnb-drawer-list__root--portal {
     left: 0.5rem; }
+  .dnb-dropdown .dnb-button--tertiary.dnb-button--active {
+    box-shadow: none; }
   .dnb-dropdown .dnb-button--tertiary .dnb-button__text {
     margin: 0 0.5rem; }
     .dnb-dropdown .dnb-button--tertiary .dnb-button__text::after {
