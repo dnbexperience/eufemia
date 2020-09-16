@@ -3,14 +3,14 @@
  *
  */
 
-import React /* , { useState, useEffect } */ from 'react'
+import React from 'react'
 import { Wrapper, Box } from '../helpers'
 // import styled from '@emotion/styled'
 
 import Provider from '../../src/shared/Provider'
 import {
   ToggleButton,
-  // Button,
+  Space,
   // FormSet,
   FormRow,
   FormLabel
@@ -18,10 +18,80 @@ import {
 
 import { H2 } from '../../src/elements'
 
+function ToggleButtonGroup() {
+  const [button1, setButton1] = React.useState(false)
+  const [button2, setButton2] = React.useState(false)
+  const [button3, setButton3] = React.useState(false)
+
+  return (
+    <>
+      <ToggleButton.Group
+        multiselect
+        on_change={({ values }) => {
+          console.log('values', values)
+        }}
+      >
+        <ToggleButton
+          checked={button1}
+          variant="checkbox"
+          text="Item 1"
+          value="item_1"
+          on_change={() => setButton1((s) => !s)}
+        />
+        <ToggleButton
+          checked={button2}
+          variant="checkbox"
+          text="Item 2"
+          value="item_2"
+          on_change={() => setButton2((s) => !s)}
+        />
+        <ToggleButton
+          checked={button3}
+          variant="checkbox"
+          text="Item 3"
+          value="item_3"
+          on_change={() => setButton3((s) => !s)}
+        />
+      </ToggleButton.Group>
+
+      <Space top>
+        <button
+          onClick={() => {
+            setButton1(true)
+            setButton2(true)
+            setButton3(true)
+          }}
+        >
+          Check all
+        </button>
+        <button
+          onClick={() => {
+            setButton1(false)
+            setButton2(false)
+            setButton3(false)
+          }}
+        >
+          Uncheck all
+        </button>
+      </Space>
+      <Space element="pre" top>
+        <div>State contents:</div>
+        <div>Button1 state: {button1 ? 'true' : 'false'}</div>
+        <div>Button2 state: {button2 ? 'true' : 'false'}</div>
+        <div>Button3 state: {button3 ? 'true' : 'false'}</div>
+      </Space>
+    </>
+  )
+}
+
 export default [
   'ToggleButton',
   () => (
     <Wrapper>
+      <Box>
+        <ToggleButtonGroup />
+      </Box>
+
       <Box>
         <Provider formRow={{ vertical: true }}>
           <FormRow disabled>

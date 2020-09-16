@@ -97,6 +97,15 @@ describe('ToggleButton group component', () => {
     </Component.Group>
   )
 
+  // mount compare the snapshot
+  it('have to match group snapshot', () => {
+    expect(toJson(Comp)).toMatchSnapshot()
+  })
+
+  it('should validate with ARIA rules', async () => {
+    expect(await axeComponent(Comp)).toHaveNoViolations()
+  })
+
   it('has to have correct aria-pressed', () => {
     expect(
       Comp.find('button#toggle-button-2')
@@ -157,12 +166,10 @@ describe('ToggleButton group component', () => {
 
   it('has multiselect "on_change" event which will trigger on a button click', () => {
     const my_event = jest.fn()
-    const myEvent = jest.fn()
     const Comp = mount(
       <Component.Group
         id="group"
         on_change={my_event}
-        onChange={myEvent}
         values={['second']}
         multiselect="true"
       >
@@ -181,25 +188,82 @@ describe('ToggleButton group component', () => {
 
     // first click
     Comp.find('button#toggle-button-1').simulate('click')
-    expect(my_event.mock.calls.length).toBe(1)
-    expect(my_event.mock.calls[0][0].values).toEqual(['second', 'first'])
 
-    expect(myEvent).toHaveBeenCalled()
-    expect(myEvent.mock.calls[0][0]).toHaveProperty('values')
-    expect(myEvent.mock.calls[0][0].values).toEqual(['second', 'first'])
+    expect(my_event).toHaveBeenCalled()
+    expect(my_event.mock.calls.length).toBe(1)
+    expect(my_event.mock.calls[0][0]).toHaveProperty('values')
+    expect(my_event.mock.calls[0][0].values).toEqual(['second', 'first'])
+    expect(Comp.state().values).toEqual(['second', 'first'])
 
     // second click
     Comp.find('button#toggle-button-1').simulate('click')
     expect(my_event.mock.calls[1][0].values).toEqual(['second'])
+    expect(Comp.state().values).toEqual(['second'])
+
+    // third click
+    Comp.find('button#toggle-button-2').simulate('click')
+    expect(my_event.mock.calls[2][0].values).toEqual([])
   })
 
-  // mount compare the snapshot
-  it('have to match group snapshot', () => {
-    expect(toJson(Comp)).toMatchSnapshot()
-  })
+  it('will let their items to be check/uncheck by external state', () => {
+    const Items = ({
+      fist = { checked: false },
+      second = { checked: false }
+    }) => (
+      <>
+        <Component
+          id="toggle-button-1"
+          text="ToggleButton 1"
+          value="first"
+          {...fist}
+        />
+        <Component
+          id="toggle-button-2"
+          text="ToggleButton 2"
+          value="second"
+          {...second}
+        />
+      </>
+    )
 
-  it('should validate with ARIA rules', async () => {
-    expect(await axeComponent(Comp)).toHaveNoViolations()
+    const Comp = mount(
+      <Component.Group id="group" multiselect="true">
+        <Items />
+      </Component.Group>
+    )
+
+    expect(Comp.state().values).toEqual(undefined)
+
+    expect(
+      Comp.find('button#toggle-button-2')
+        .instance()
+        .getAttribute('aria-pressed')
+    ).toBe('false')
+
+    Comp.find('button#toggle-button-2').simulate('click')
+
+    expect(
+      Comp.find('button#toggle-button-2')
+        .instance()
+        .getAttribute('aria-pressed')
+    ).toBe('true')
+    expect(
+      Comp.find('.dnb-toggle-button--checked').exists(
+        'button#toggle-button-2'
+      )
+    ).toBe(true)
+
+    expect(Comp.state().values).toEqual(['second'])
+
+    Comp.setProps({
+      children: <Items second={{ checked: false }} />
+    })
+
+    expect(
+      Comp.find('button#toggle-button-2')
+        .instance()
+        .getAttribute('aria-pressed')
+    ).toBe('false')
   })
 })
 
