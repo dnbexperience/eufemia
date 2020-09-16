@@ -92,29 +92,40 @@ $focusRingColor: var(--color-emerald-green);
     $width: 0.0625rem;
   }
 
+  --border-color: #{$color};
+
   // we use !important, cause we have no changes to select the selctor right
   // in some cases we have another state where we use box-shadow
   // but with important, we take care of that we actually can use use it
-  box-shadow: $inset 0 0 0 $width $color $important;
+  box-shadow: $inset 0 0 0 $width var(--border-color) $important;
 
   /* IE11 fix */
   @if $is1px {
     @media screen and (-ms-high-contrast: none) {
       // Since 0.0625rem gets not rendered correctly
       // and gives an artifact, we do use px instead
-      box-shadow: $inset 0 0 0 1px $color $important;
+      box-shadow: $inset 0 0 0 1px var(--border-color) $important;
     }
   }
 
   @if $inset {
-    /* iOS fix - because "inset" works not fine with border-radius and rem unit */
+    /* iOS fix - because "inset" works not fine with border-radius */
     @supports (-webkit-touch-callout: none) {
-      // remove inset on iOS - this makes the border outside
-      box-shadow: 0 0 0 $width $color $important;
+      // remove inset on webkit - this makes the border outside
+      box-shadow: 0 0 0 $width var(--border-color) $important;
 
       // This also works, but then we move content for 1px, if they don't have a border from before
       // box-shadow: none;
-      // border: $width solid $color $important;
+      // border: $width solid var(--border-color) $important;
+    }
+
+    /* Safari fix - because "inset" works not fine with border-radius if the user zooms the page */
+    @media not all and (min-resolution: 0.001dpcm) {
+      @supports (-webkit-appearance: none) and (stroke-color: transparent)
+        and (not (-webkit-overflow-scrolling: touch)) {
+        // remove inset on webkit - this makes the border outside
+        box-shadow: 0 0 0 $width var(--border-color) $important;
+      }
     }
   }
 

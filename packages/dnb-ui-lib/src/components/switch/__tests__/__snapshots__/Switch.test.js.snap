@@ -262,7 +262,8 @@ exports[`Switch scss have to match default theme snapshot 1`] = `
     outline: none; }
     html[data-whatinput='keyboard'] .dnb-switch__input:not([disabled]):focus ~ .dnb-switch__background, html[data-whatinput='keyboard']
     .dnb-switch__input:not([disabled]):active ~ .dnb-switch__background {
-      box-shadow: 0 0 0 0.125rem var(--color-emerald-green);
+      --border-color: var(--color-emerald-green);
+      box-shadow: 0 0 0 0.125rem var(--border-color);
       /* IE11 fix */
       border-color: transparent; }
   .dnb-switch__input:not([disabled]):focus ~ .dnb-switch__button .dnb-switch__focus,
@@ -285,7 +286,8 @@ exports[`Switch scss have to match default theme snapshot 1`] = `
     background-color: var(--color-fire-red); }
   .dnb-switch__status--error .dnb-switch__input:not([disabled]):not(:focus):not(:active) ~ .dnb-switch__background {
     background-color: var(--color-fire-red-8);
-    box-shadow: 0 0 0 0.125rem var(--color-fire-red);
+    --border-color: var(--color-fire-red);
+    box-shadow: 0 0 0 0.125rem var(--border-color);
     /* IE11 fix */
     border-color: transparent; }
   .dnb-switch__status--error .dnb-switch__input:not(:focus):not([disabled]):not(:active):checked ~ .dnb-switch__background::after {
@@ -294,7 +296,8 @@ exports[`Switch scss have to match default theme snapshot 1`] = `
     border-color: var(--color-fire-red); }
   .dnb-switch__status--error .dnb-switch__input:not([disabled]):not(:focus):not(:active) ~ .dnb-switch__button .dnb-switch__focus {
     display: block;
-    box-shadow: 0 0 0 0.125rem var(--color-fire-red);
+    --border-color: var(--color-fire-red);
+    box-shadow: 0 0 0 0.125rem var(--border-color);
     /* IE11 fix */
     border-color: transparent; }
   .dnb-switch__status--error .dnb-switch__input:not([disabled]):not(:focus):not(:active):checked ~ .dnb-switch__button .dnb-switch__focus {
@@ -617,7 +620,8 @@ legend.dnb-form-label {
     clip-path: polygon(50% 15%, 110% 15%, 110% -10%, -10% -10%, -10% 110%, 110% 110%, 110% 85%, 50% 85%);
     outline: none; }
     html[data-whatinput='keyboard'] .dnb-switch__focus {
-      box-shadow: 0 0 0 0.125rem var(--color-emerald-green);
+      --border-color: var(--color-emerald-green);
+      box-shadow: 0 0 0 0.125rem var(--border-color);
       /* IE11 fix */
       border-color: transparent; }
   .dnb-switch__input {

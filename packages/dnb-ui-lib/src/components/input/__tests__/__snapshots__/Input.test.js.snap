@@ -682,37 +682,50 @@ exports[`Input scss have to match default theme snapshot 1`] = `
     color: inherit;
     background-color: var(--input-background-color);
     border: none;
-    box-shadow: inset 0 0 0 var(--input-border-width) var(--input-border-color);
+    --border-color: var(--input-border-color);
+    box-shadow: inset 0 0 0 var(--input-border-width) var(--border-color);
     /* IE11 fix */
-    /* iOS fix - because \\"inset\\" works not fine with border-radius and rem unit */
+    /* iOS fix - because \\"inset\\" works not fine with border-radius */
+    /* Safari fix - because \\"inset\\" works not fine with border-radius if the user zooms the page */
     border-color: transparent; }
     @media screen and (-ms-high-contrast: none) {
       .dnb-input__shell {
-        box-shadow: inset 0 0 0 1px var(--input-border-color); } }
+        box-shadow: inset 0 0 0 1px var(--border-color); } }
     @supports (-webkit-touch-callout: none) {
       .dnb-input__shell {
-        box-shadow: 0 0 0 var(--input-border-width) var(--input-border-color); } }
+        box-shadow: 0 0 0 var(--input-border-width) var(--border-color); } }
+    @media not all and (min-resolution: 0.001dpcm) {
+      @supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-overflow-scrolling: touch)) {
+        .dnb-input__shell {
+          box-shadow: 0 0 0 var(--input-border-width) var(--border-color); } } }
     .dnb-input__shell[data-input-state='dirty'] {
       color: var(--input-text-color--changed);
       background-color: var(--input-background-color--changed); }
     .dnb-input__shell[data-input-state='disabled'] {
       color: var(--input-text-color--disabled);
       -webkit-text-fill-color: currentColor;
-      box-shadow: inset 0 0 0 var(--input-border-width) var(--input-border-color--disabled);
+      --border-color: var(--input-border-color--disabled);
+      box-shadow: inset 0 0 0 var(--input-border-width) var(--border-color);
       /* IE11 fix */
-      /* iOS fix - because \\"inset\\" works not fine with border-radius and rem unit */
+      /* iOS fix - because \\"inset\\" works not fine with border-radius */
+      /* Safari fix - because \\"inset\\" works not fine with border-radius if the user zooms the page */
       border-color: transparent;
       background-color: var(--input-background-color--disabled); }
       @media screen and (-ms-high-contrast: none) {
         .dnb-input__shell[data-input-state='disabled'] {
-          box-shadow: inset 0 0 0 1px var(--input-border-color--disabled); } }
+          box-shadow: inset 0 0 0 1px var(--border-color); } }
       @supports (-webkit-touch-callout: none) {
         .dnb-input__shell[data-input-state='disabled'] {
-          box-shadow: 0 0 0 var(--input-border-width) var(--input-border-color--disabled); } }
+          box-shadow: 0 0 0 var(--input-border-width) var(--border-color); } }
+      @media not all and (min-resolution: 0.001dpcm) {
+        @supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-overflow-scrolling: touch)) {
+          .dnb-input__shell[data-input-state='disabled'] {
+            box-shadow: 0 0 0 var(--input-border-width) var(--border-color); } } }
     .dnb-input__shell:not([data-input-state='disabled']):hover, .dnb-input__shell[data-input-state='focus'] {
       color: var(--input-text-color--focus);
       background-color: var(--input-background-color--focus);
-      box-shadow: 0 0 0 0.125rem var(--input-border-color--focus);
+      --border-color: var(--input-border-color--focus);
+      box-shadow: 0 0 0 0.125rem var(--border-color);
       /* IE11 fix */
       border-color: transparent; }
   .dnb-input:not([data-input-state='disabled']).dnb-input__submit-button svg {
@@ -720,14 +733,16 @@ exports[`Input scss have to match default theme snapshot 1`] = `
   .dnb-input__icon {
     color: var(--color-emerald-green); }
   .dnb-input__status--error .dnb-input__shell:not([data-input-state='focus']) {
-    box-shadow: 0 0 0 0.125rem var(--color-fire-red);
+    --border-color: var(--color-fire-red);
+    box-shadow: 0 0 0 0.125rem var(--border-color);
     /* IE11 fix */
     border-color: transparent; }
   .dnb-input__status--error .dnb-input__shell:not([data-input-state='focus']) ~ .dnb-input__submit-element .dnb-button__icon,
   .dnb-input__status--error .dnb-input__shell:not([data-input-state='focus']) ~ .dnb-input__submit-element .dnb-button--secondary .dnb-button__icon {
     color: var(--color-fire-red); }
   .dnb-input__status--error .dnb-input__shell:not([data-input-state='focus']) ~ .dnb-input__submit-element .dnb-button {
-    box-shadow: 0 0 0 0.125rem var(--color-fire-red);
+    --border-color: var(--color-fire-red);
+    box-shadow: 0 0 0 0.125rem var(--border-color);
     /* IE11 fix */
     border-color: transparent; }
   .dnb-input__status--error,
@@ -1129,7 +1144,8 @@ exports[`Input scss have to match snapshot 1`] = `
     .dnb-button--reset:not([disabled]):focus, .dnb-button--reset:not([disabled]):active {
       outline: none; }
       html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):focus, html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):active {
-        box-shadow: 0 0 0 0.125rem var(--color-emerald-green);
+        --border-color: var(--color-emerald-green);
+        box-shadow: 0 0 0 0.125rem var(--border-color);
         /* IE11 fix */
         border-color: transparent; }
     html[data-whatinput='mouse'] .dnb-button--reset:not([disabled]):focus,
