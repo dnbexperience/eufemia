@@ -109,58 +109,6 @@ exports[`Tooltip component with component have to match default tooltip snapshot
 </Component>
 `;
 
-exports[`Tooltip component with target have to match default tooltip snapshot 1`] = `
-<Component>
-  <button
-    id="button"
-  >
-    Button
-  </button>
-  <Tooltip
-    align={null}
-    animate_position={false}
-    arrow="center"
-    class={null}
-    className={null}
-    component={null}
-    group="main"
-    hide_delay={500}
-    id="tooltip"
-    onClick={null}
-    on_click={null}
-    position="top"
-    show_delay={300}
-    target="#button"
-  >
-    <TooltipPortal
-      active={false}
-      align={null}
-      animate_position={false}
-      arrow="center"
-      attributes={
-        Object {
-          "children": "Text",
-          "className": "dnb-tooltip dnb-core-style",
-          "id": "tooltip",
-        }
-      }
-      class={null}
-      className={null}
-      component={null}
-      group="tooltip"
-      hide_delay={500}
-      id="tooltip"
-      internal_id="tooltip"
-      onClick={null}
-      on_click={null}
-      position="top"
-      show_delay={300}
-      target="#button"
-    />
-  </Tooltip>
-</Component>
-`;
-
 exports[`Tooltip scss have to match default theme snapshot 1`] = `
 "/*
 * Tooltip theme

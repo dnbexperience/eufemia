@@ -19,7 +19,7 @@ exports[`Radio component have to match snapshot 1`] = `
   on_change={[Function]}
   on_state_update={[Function]}
   readOnly={false}
-  size="'default'"
+  size={null}
   skeleton="skeleton"
   status={null}
   status_animation="status_animation"
@@ -28,7 +28,7 @@ exports[`Radio component have to match snapshot 1`] = `
   value="value"
 >
   <span
-    className="dnb-radio className class dnb-radio--'default' dnb-radio--label-position-left"
+    className="dnb-radio className class dnb-radio--label-position-left"
   >
     <span
       className="dnb-radio__order"
@@ -136,7 +136,7 @@ exports[`Radio component have to match snapshot 1`] = `
               on_change={[Function]}
               on_state_update={[Function]}
               readOnly={false}
-              size="'default'"
+              size={null}
               skeleton="skeleton"
               status={null}
               status_animation="status_animation"

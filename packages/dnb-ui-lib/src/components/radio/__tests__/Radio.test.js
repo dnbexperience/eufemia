@@ -19,6 +19,7 @@ const props = fakeProps(require.resolve('../Radio'), {
 props.id = 'radio'
 props.group = null
 props.status = null
+props.size = null
 props.readOnly = false
 props.label_position = 'left'
 props.direction = 'horizontal'
