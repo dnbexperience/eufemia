@@ -117,6 +117,31 @@ render(<WidthLimit>
 `}
 </ComponentBox>
 
+#### Ordered list with other types
+
+Ordered lists do support natively other types, like _letters_ and _roman numerals_. You can define that by using the `type` HTML attribute.
+
+<ComponentBox hideCode data-dnb-test="lists-ol-types" caption="ol with custom type">
+{`
+ <Ol type="A">
+  <Li>Item</Li>
+  <Li>
+    Item
+    <Ol type="I" start="3">
+      <Li>
+        Item
+        <Ol type="i">
+          <Li>Item</Li>
+          <Li>Item</Li>
+        </Ol>
+      </Li>
+    </Ol>
+  </Li>
+  <Li>Item</Li>
+</Ol>
+`}
+</ComponentBox>
+
 ### Definition Lists
 
 Use Definition Lists when ever you have to tie together any items that have a direct relationship with each other (name/value sets).

@@ -13,15 +13,11 @@ import {
 } from '../../../core/jest/jestSetup'
 import Component from '../Switch'
 
-// just to make sure we re-run the test in watch mode due to changes in theese files
-import _switch from '../style/_switch.scss' // eslint-disable-line
-import dnb_switch from '../style/dnb-switch.scss' // eslint-disable-line
-import dnb_switch_theme_ui from '../style/themes/dnb-switch-theme-ui.scss' // eslint-disable-line
-
 const props = fakeProps(require.resolve('../Switch'), {
   optional: true
 })
 props.status = null
+props.size = 'default'
 props.label_position = 'left'
 props.readOnly = false
 props.label_direction = 'horizontal'

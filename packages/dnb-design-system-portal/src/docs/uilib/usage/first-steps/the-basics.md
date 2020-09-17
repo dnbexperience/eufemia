@@ -96,9 +96,57 @@ And finally bind an [event listener](/uilib/usage/customisation/event-handling):
 <Button text="Button" on_click={myClickHandler} />
 ```
 
+## Importing components, elements and patterns
+
+By default, you can import `components` and `elements` from the root:
+
+```js
+import { Button } from 'dnb-ui-lib'
+```
+
+As the `dnb-ui-lib` uses [ESM](/uilib/usage/first-steps/module-formats#default-module-format) as its default module format, we get a good tree shaking with most of the bundler tools commonly used.
+
+But you can be more specific if you want to:
+
+```js
+import { Button } from 'dnb-ui-lib/components'
+import { Anchor } from 'dnb-ui-lib/elements'
+```
+
+And even go further:
+
+```js
+import Button from 'dnb-ui-lib/components/Button'
+
+// or
+
+import Button from 'dnb-ui-lib/components/button/Button'
+```
+
+### Importing patterns
+
+Patterns you would have to import explicitly from `/patterns`
+
+```js
+import { ... } from 'dnb-ui-lib/patterns'
+```
+
+### Importing icons
+
+The same applies to icons, you would have to import them explicitly from `/icons`
+
+```js
+import { bell_medium as Bell } from 'dnb-ui-lib/icons'
+
+// or
+
+import Bell from 'dnb-ui-lib/icons/bell'
+import BellMedium from 'dnb-ui-lib/icons/bell_medium'
+```
+
 ## UMD
 
-In case you don't have a compiling/build process, You can use the UMD packed version of the `dnb-ui-lib`. Take a look into this repo and the [UMD example usage](https://github.com/dnbexperience/eufemia-examples/tree/master/packages/example-html/static). But this will not optimize your code for the best user experience.
+In case you don't have a compiling/build process, You can use the UMD packed version of the `dnb-ui-lib`. Take a look into this repo and the [UMD example usage](https://github.com/dnbexperience/eufemia-examples/tree/main/packages/example-html/static). But this will not optimize your code for the best user experience.
 
 ```html
 <html>

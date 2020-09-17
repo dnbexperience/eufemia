@@ -53,4 +53,4 @@ Besides `vue` and `vuera`, you may also install, `dnb-ui-lib`, `react` and `reac
 
 ## Example
 
-Have a look at [this VUE example app](https://github.com/dnbexperience/eufemia-examples/tree/master/packages/example-vue).
+Have a look at [this VUE example app](https://github.com/dnbexperience/eufemia-examples/tree/main/packages/example-vue).

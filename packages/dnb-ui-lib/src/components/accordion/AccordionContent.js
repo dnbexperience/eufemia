@@ -16,12 +16,14 @@ import { createSpacingClasses } from '../space/SpacingHelper'
 
 const propTypes = {
   // React props
+  instance: PropTypes.object,
   className: PropTypes.string,
   children: PropTypes.oneOfType([PropTypes.node, PropTypes.func])
 }
 
 const defaultProps = {
   // React props
+  instance: null,
   className: null,
   children: null
 }
@@ -40,7 +42,15 @@ export default class AccordionContent extends React.PureComponent {
     }
 
     this.anim = new HeightAnim()
+    this.anim.onStart(() => {
+      this.setState({
+        isAnimating: true
+      })
+    })
     this.anim.onEnd(() => {
+      this.setState({
+        isAnimating: false
+      })
       // checking additional for  && state === 'closing' makes it more "safe"
       if (this.context.expanded) {
         this.setState({
@@ -52,21 +62,30 @@ export default class AccordionContent extends React.PureComponent {
         })
       }
     })
+
+    if (
+      props.instance &&
+      Object.prototype.hasOwnProperty.call(props.instance, 'current')
+    ) {
+      props.instance.current = this
+    }
   }
 
   componentDidMount() {
-    this.anim.setElem(this._ref.current)
-    // We open the expanded in the main component for now
-    // if (this.context.expanded) {
-    //   this.anim.open(false)
-    // }
+    this.anim.setElem(
+      this._ref.current,
+      getPreviousSibling(
+        'dnb-accordion-group--single-container',
+        this._ref.current
+      )
+    )
   }
 
   componentWillUnmount() {
     this.anim.remove()
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
     if (this.context.expanded) {
       this.setState(
         {
@@ -77,14 +96,22 @@ export default class AccordionContent extends React.PureComponent {
     } else {
       this.anim.close()
     }
+
+    if (prevProps.children !== this.props.children) {
+      this.anim.setContainerHeight()
+    }
+  }
+
+  setContainerHeight() {
+    this.anim?.setContainerHeight()
   }
 
   renderContent() {
     const { children } = this.props
-
-    const { expanded, prerender } = this.context
+    const { expanded, prerender, prevent_rerender } = this.context
 
     let content = children
+
     if (typeof content === 'string') {
       content = <p className="dnb-p">{content}</p>
     }
@@ -93,26 +120,48 @@ export default class AccordionContent extends React.PureComponent {
       (expanded ||
         prerender ||
         this.state.keepContentVisible ||
+        // we do check that directly (this.anim.isAnimating), rather than check this.state.isAnimating, because of the instant feedback
         this.anim.isAnimating) &&
       children
+
+    if (isTrue(prevent_rerender)) {
+      // update the cache if children is not the same anymore
+      if (this._cache !== content) {
+        this._cache = content
+      }
+
+      if (this._cache) {
+        content = this._cache
+      } else {
+        this._cache = content
+      }
+    }
 
     return content
   }
 
-  getContent(cache = null) {
-    const { className, ...rest } = this.props
+  render() {
+    const {
+      className,
+      instance, // eslint-disable-line
+      ...rest
+    } = this.props
     const { keepContentVisible } = this.state
 
     const { id, expanded, disabled } = this.context
+
+    const content = this.renderContent()
 
     const wrapperParams = {
       className: classnames(
         'dnb-accordion__content',
         !expanded && 'dnb-accordion__content--hidden',
+        this.state.isAnimating && 'dnb-accordion__content--is-animating',
         className
       ),
       ...rest
     }
+
     const innerParams = {
       id: `${id}-content`,
       role: 'region',
@@ -140,30 +189,19 @@ export default class AccordionContent extends React.PureComponent {
 
     return (
       <div {...wrapperParams} ref={this._ref}>
-        <div {...innerParams}>
-          {cache || (this._cache = this.renderContent())}
-        </div>
+        <div {...innerParams}>{content}</div>
       </div>
     )
-  }
-
-  render() {
-    const { prevent_rerender } = this.context
-
-    if (isTrue(prevent_rerender) && this._cache) {
-      return this.getContent(this._cache)
-    }
-
-    return this.getContent()
   }
 }
 
 class HeightAnim {
   constructor() {
     this.state = 'init'
-    this.cbStack = []
+    this.onStartStack = []
+    this.onEndStack = []
   }
-  setElem(elem) {
+  setElem(elem, container = null) {
     this.elem =
       elem ||
       (typeof document !== 'undefined' && document.createElement('div'))
@@ -173,32 +211,15 @@ class HeightAnim {
       this.elem = this.elem.parentElement
     }
 
-    this.container = getPreviousSibling(
-      'dnb-accordion-group--single-container',
-      this.elem
-    )
+    this.container = container
 
     if (this.container) {
       this.onResize = () => {
         clearTimeout(this.resizeTimeout)
-        this.resizeTimeout = setTimeout(() => {
-          try {
-            const contentElem = getPreviousSibling(
-              'dnb-accordion__content',
-              this.elem
-            )
-            if (
-              !contentElem.classList.contains(
-                'dnb-accordion__content--hidden'
-              )
-            ) {
-              const height = parseFloat(this.elem.clientHeight)
-              this.container.style.minHeight = `${height}px`
-            }
-          } catch (e) {
-            //
-          }
-        }, 300)
+        this.resizeTimeout = setTimeout(
+          () => this.setContainerHeight(),
+          300
+        )
       }
       window.addEventListener('resize', this.onResize)
     }
@@ -216,7 +237,8 @@ class HeightAnim {
   remove() {
     this.removeEndEvents()
     this.isAnimating = false
-    this.cbStack = null
+    this.onStartStack = null
+    this.onEndStack = null
     this.stop()
     this.elem = null
     this.state = 'init'
@@ -236,24 +258,26 @@ class HeightAnim {
     this.elem.style.height = 'auto'
 
     this.openHeight = parseFloat(this.elem.clientHeight)
-    // this.openHeight = parseFloat(window.getComputedStyle(this.elem).height)
 
     this.elem.parentElement.style.position =
       position !== 'static' ? position : ''
     this.elem.style.position = ''
     this.elem.style.height = '0'
+    this.elem.style.opacity = '0'
     this.elem.style.visibility = 'visible'
 
     return this.openHeight
   }
   getCloseHeight() {
     this.closeHeight = parseFloat(this.elem.clientHeight)
-    // this.closeHeight = parseFloat(window.getComputedStyle(this.elem).height)
 
     return this.closeHeight
   }
+  onStart(fn) {
+    this.onStartStack.push(fn)
+  }
   onEnd(fn) {
-    this.cbStack.push(fn)
+    this.onEndStack.push(fn)
   }
   callOnEnd() {
     this.isAnimating = false
@@ -264,7 +288,7 @@ class HeightAnim {
       this.transitionDuration = null
     }
 
-    this.cbStack.forEach((fn) => {
+    this.onEndStack.forEach((fn) => {
       if (typeof fn === 'function') {
         fn(this.state)
       }
@@ -280,21 +304,39 @@ class HeightAnim {
         this.oppressAnimation()
       }
 
+      // call the callbacks here, because then we do not call this during startup. This way we get an instant startup
+      this.onStartStack.forEach((fn) => {
+        if (typeof fn === 'function') {
+          fn(this.state)
+        }
+      })
+
       // make the animation
       this.reqId1 = window.requestAnimationFrame(() => {
         if (before) {
           this.elem.style.height = `${before}px`
+          this.elem.style.opacity = String(before > 0 ? 1 : 0)
+
           if (this.container) {
             this.container.style.minHeight = `${before}px`
           }
         }
         this.reqId2 = window.requestAnimationFrame(() => {
           this.elem.style.height = `${height}px`
-          if (this.container) {
-            this.container.style.minHeight = `${height}px`
-          }
+          this.setContainerHeight()
+          this.elem.style.opacity = String(height > 0 ? 1 : 0)
         })
       })
+    }
+  }
+  setContainerHeight() {
+    if (this.container) {
+      const contentElem = this.elem
+      if (contentElem.offsetHeight > 0) {
+        this.container.style.minHeight = `${
+          contentElem.offsetHeight + contentElem.offsetTop
+        }px`
+      }
     }
   }
   stop() {
@@ -323,6 +365,8 @@ class HeightAnim {
           this.elem.style.height = 'auto'
           this.callOnEnd()
           this.state = 'opened'
+
+          this.setContainerHeight()
         })
       )
     }

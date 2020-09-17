@@ -113,6 +113,6 @@ Because `importmap` is still not supported by the majority of browsers, we use a
 
 _Note:_ Because React don't delivers an ESM bundle right now, we have to create our own.
 
-Have a look at [this UDM example app](https://github.com/dnbexperience/eufemia-examples/tree/master/packages/example-umd-bundle) as well as the [this ESM example app](https://github.com/dnbexperience/eufemia-examples/tree/master/packages/example-esm-bundle).
+Have a look at [this UDM example app](https://github.com/dnbexperience/eufemia-examples/tree/main/packages/example-umd-bundle) as well as the [this ESM example app](https://github.com/dnbexperience/eufemia-examples/tree/main/packages/example-esm-bundle).
 
 Read more about [Web Components](/uilib/usage/first-steps/web-components#web-components-with-esm-mjs) usage in ESM.

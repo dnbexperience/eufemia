@@ -87,6 +87,11 @@ const propTypes = {
     PropTypes.bool
   ]),
   more_menu: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  action_menu: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  independent_width: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.bool
+  ]),
   size: PropTypes.oneOf(['default', 'small', 'medium', 'large']),
   align_dropdown: PropTypes.oneOf(['left', 'right']),
   trigger_component: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
@@ -168,8 +173,10 @@ const defaultProps = {
   no_scroll_animation: false,
   prevent_selection: false,
   more_menu: false,
+  action_menu: false,
+  independent_width: false,
   size: 'default',
-  align_dropdown: 'left',
+  align_dropdown: null,
   trigger_component: null,
   data: null,
   default_value: null,
@@ -202,7 +209,13 @@ export default class Dropdown extends React.PureComponent {
   }
 
   render() {
-    const { more_menu, prevent_selection, children, data } = this.props
+    const {
+      more_menu,
+      action_menu,
+      prevent_selection,
+      children,
+      data
+    } = this.props
 
     return (
       <DrawerListProvider
@@ -211,7 +224,11 @@ export default class Dropdown extends React.PureComponent {
         opened={null}
         tagName="dnb-dropdown"
         ignore_events={false}
-        prevent_selection={more_menu || prevent_selection}
+        prevent_selection={
+          isTrue(more_menu) ||
+          isTrue(action_menu) ||
+          isTrue(prevent_selection)
+        }
       >
         <DropdownInstance {...this.props} />
       </DrawerListProvider>
@@ -323,25 +340,29 @@ class DropdownInstance extends React.PureComponent {
   }
 
   onHideHandler = (args = {}) => {
+    let focus_element
+    try {
+      focus_element = this._refButton.current._ref.current
+    } catch (e) {
+      // do noting
+    }
     const attributes = this.attributes || {}
     dispatchCustomElementEvent(this, 'on_hide', {
       ...args,
-      attributes
+      attributes,
+      focus_element
     })
 
-    if (args && args.setFocus) {
-      clearTimeout(this._focusTimeout)
-      this._focusTimeout = setTimeout(() => {
-        try {
-          const elem = this._refButton.current._ref.current
-          if (elem && typeof elem.focus === 'function') {
-            elem.focus({ preventScroll: true })
-          }
-        } catch (e) {
-          // do noting
+    clearTimeout(this._focusTimeout)
+    this._focusTimeout = setTimeout(() => {
+      try {
+        if (focus_element && typeof focus_element.focus === 'function') {
+          focus_element.focus({ preventScroll: true })
         }
-      }, 1) // NVDA / Firefox needs a dealy to set this focus
-    }
+      } catch (e) {
+        // do noting
+      }
+    }, 1) // NVDA / Firefox needs a dealy to set this focus
   }
 
   onSelectHandler = (args) => {
@@ -394,7 +415,6 @@ class DropdownInstance extends React.PureComponent {
       label_sr_only,
       icon_size,
       size,
-      align_dropdown,
       fixed_position,
       use_drawer_on_mobile,
       enable_body_lock,
@@ -413,6 +433,8 @@ class DropdownInstance extends React.PureComponent {
       skip_portal,
       trigger_component: CustomTrigger,
       more_menu,
+      action_menu,
+      independent_width,
       prevent_selection,
       max_height,
       default_value,
@@ -420,8 +442,9 @@ class DropdownInstance extends React.PureComponent {
       class: _className,
       disabled,
 
-      title: titleProp,
+      title: _title,
       icon: _icon, // eslint-disable-line
+      align_dropdown: _align_dropdown, // eslint-disable-line
       icon_position: _icon_position, // eslint-disable-line
       data: _data, // eslint-disable-line
       children: _children, // eslint-disable-line
@@ -433,21 +456,23 @@ class DropdownInstance extends React.PureComponent {
       ...attributes
     } = props
 
-    let { icon, icon_position } = props
+    let { icon, icon_position, align_dropdown } = props
     const id = this._id
 
-    const isPopupMenu =
-      isTrue(more_menu) || !(titleProp && titleProp.length > 0)
+    const isPopupMenu = isTrue(more_menu) || !(_title && _title.length > 0)
     if (isPopupMenu) {
       icon = icon || (isTrue(more_menu) ? 'more' : 'chevron_down')
+    }
+    if (isPopupMenu || isTrue(action_menu)) {
       if (icon_position !== 'right' && align_dropdown !== 'right') {
         icon_position = 'left'
+        align_dropdown = 'left'
       }
     }
 
     const { selected_item, direction, opened } = this.context.drawerList
     const showStatus = status && status !== 'error'
-    const title = this.getTitle(titleProp)
+    const title = this.getTitle(_title)
 
     // make it possible to grab the rest attributes and return it with all events
     Object.assign(
@@ -461,14 +486,13 @@ class DropdownInstance extends React.PureComponent {
         `dnb-dropdown--${direction}`,
         opened && 'dnb-dropdown--opened',
         label_direction && `dnb-dropdown--${label_direction}`,
-        icon_position &&
-          `dnb-dropdown--icon-position-${icon_position || 'right'}`,
+        `dnb-dropdown--icon-position-${icon_position || 'right'}`,
         isPopupMenu && 'dnb-dropdown--is-popup',
-        isPopupMenu &&
-          typeof more_menu === 'string' &&
-          `dnb-dropdown--more_menu`,
+        isTrue(action_menu) && `dnb-dropdown--action-menu`,
+        (isTrue(independent_width) || isTrue(action_menu)) &&
+          'dnb-dropdown--independent-width',
         size && `dnb-dropdown--${size}`,
-        align_dropdown && `dnb-drawer-list--${align_dropdown}`,
+        `dnb-dropdown--${align_dropdown || 'right'}`,
         status && `dnb-dropdown__status--${status_state}`,
         showStatus && 'dnb-dropdown__form-status',
         'dnb-form-component',
@@ -547,13 +571,12 @@ class DropdownInstance extends React.PureComponent {
               ) : (
                 <Button
                   variant="secondary"
-                  // size="medium"
                   size={size === 'default' ? 'medium' : size}
                   ref={this._refButton}
                   {...triggerParams}
                 >
                   {!isPopupMenu && (
-                    <span className="dnb-dropdown__text">
+                    <span className="dnb-dropdown__text dnb-button__text">
                       <span className="dnb-dropdown__text__inner">
                         {title}
                       </span>
@@ -590,16 +613,22 @@ class DropdownInstance extends React.PureComponent {
                 no_animation={no_animation}
                 no_scroll_animation={no_scroll_animation}
                 skip_portal={skip_portal}
-                prevent_selection={more_menu || prevent_selection}
+                prevent_selection={
+                  action_menu || more_menu || prevent_selection
+                }
+                action_menu={action_menu}
                 triangle_position={
                   triangle_position || icon_position || 'right'
                 }
                 keep_open={keep_open}
                 prevent_close={prevent_close}
-                independent_width={isPopupMenu}
-                align_drawer={align_dropdown}
+                independent_width={
+                  isTrue(independent_width) || isPopupMenu || action_menu
+                }
+                is_popup={isPopupMenu || action_menu}
+                align_drawer={align_dropdown || 'right'}
                 fixed_position={fixed_position}
-                use_drawer_on_mobile={use_drawer_on_mobile}
+                use_drawer_on_mobile={use_drawer_on_mobile || action_menu}
                 enable_body_lock={enable_body_lock}
                 disabled={disabled}
                 max_height={max_height}

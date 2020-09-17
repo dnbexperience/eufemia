@@ -14,6 +14,19 @@ NB! Modal dialogs interrupt users and demand an action. They are appropriate whe
 
 The modal can be triggered from either a button or by using the `open_state` property. Triggering a modal will activate the opaque overlay and display the contents.
 
+### Accessibility
+
+In order to make modals accessible, a lot of things are considered.
+
+Entering a Modal / Drawer will:
+
+1. Set focus on the heading or close button.
+2. Enable escape key listener.
+3. Invalidate every DOM element outside of the Modal / Drawer, so they are not accessible to keyboard and screen reader users. For doing that, there is a [helper function](/uilib/helpers/functions#interactioninvalidation-example) to be used in your application as well.
+4. Disable the body scroll possibility.
+5. Make the Modal / Drawer scrollable if needed.
+6. Dim the body / background with an overlay
+
 ### Structure and content
 
 Typically an opaque cover over the main content (fullscreen) and a small centered box containing information and interactive elements (buttons, forms etc.)

@@ -4,7 +4,6 @@
  */
 
 import path from 'path'
-import { isCI } from 'ci-info'
 import fs from 'fs-extra'
 import packpath from 'packpath'
 import prettier from 'prettier'
@@ -16,14 +15,13 @@ if (require.main === module) {
 
 export default async function prepareForRelease() {
   const filepath = path.resolve(packpath.self(), './package.json')
+  const dest = path.resolve(packpath.self(), 'build', './package.json')
   const packageJsonString = await fs.readFile(filepath, 'utf-8')
   const formattedPackageJson = await cleanupPackage({
     packageJsonString,
     filepath
   })
-  if (isCI) {
-    await fs.writeFile(filepath, formattedPackageJson)
-  }
+  await fs.writeFile(dest, formattedPackageJson)
 }
 
 // export for testing
@@ -35,6 +33,9 @@ export async function cleanupPackage({ packageJsonString, filepath }) {
   delete packageJson.resolutions
   delete packageJson.publishConfig
   delete packageJson.volta
+
+  // Add required fields
+  packageJson.type = 'module'
 
   const prettierrc = JSON.parse(
     await fs.readFile(

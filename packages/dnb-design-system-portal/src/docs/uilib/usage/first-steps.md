@@ -18,7 +18,7 @@ Check out the `dnb-ui-lib` **[Installation documentation](/uilib/usage/#installa
 
 ## Demo Apps
 
-You find some [Demo Apps](/uilib/getting-started/demos) as well as some setup examples: [<Icon icon={GithubLogo} size="default" /> **eufemia-examples**/packages/...](https://github.com/dnbexperience/eufemia-examples/tree/master/packages)
+You find some [Demo Apps](/uilib/getting-started/demos) as well as some setup examples: [<Icon icon={GithubLogo} size="default" /> **eufemia-examples**/packages/...](https://github.com/dnbexperience/eufemia-examples/tree/main/packages)
 
 ## Be continued
 

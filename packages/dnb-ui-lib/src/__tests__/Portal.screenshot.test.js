@@ -9,6 +9,7 @@ import {
   isCI
 } from './../core/jest/jestSetupScreenshots'
 
+// not used for now
 describe.skip('Portal screenshot', () => {
   if (isCI) {
     return it('skipping portal screenshot tests', () => {})

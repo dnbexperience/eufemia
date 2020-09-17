@@ -13,11 +13,6 @@ import {
 } from '../../../core/jest/jestSetup'
 import Component from '../GlobalStatus'
 
-// just to make sure we re-run the test in watch mode due to changes in theese files
-import _form_status from '../style/_global-status.scss' // eslint-disable-line
-import dnb_form_status from '../style/dnb-global-status.scss' // eslint-disable-line
-import dnb_form_status_theme_ui from '../style/themes/dnb-global-status-theme-ui.scss' // eslint-disable-line
-
 const id = 'main'
 const status_id = null
 const state = 'error'

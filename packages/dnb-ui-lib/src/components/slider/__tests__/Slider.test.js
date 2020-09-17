@@ -13,10 +13,6 @@ import {
 } from '../../../core/jest/jestSetup'
 import Component from '../Slider'
 
-// just to make sure we re-run the test in watch mode due to changes in theese files
-import _slider from '../style/_slider.scss' // eslint-disable-line
-import dnb_slider from '../style/dnb-slider.scss' // eslint-disable-line
-
 const props = fakeProps(require.resolve('../Slider'), {
   optional: true
 })

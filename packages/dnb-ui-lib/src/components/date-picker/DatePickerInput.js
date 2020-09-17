@@ -21,7 +21,7 @@ import MaskedInput from 'react-text-mask' // https://github.com/text-mask/text-m
 import Input, { SubmitButton } from '../input/Input'
 import keycode from 'keycode'
 import { warn, validateDOMAttributes } from '../../shared/component-helper'
-import { isDisabled } from './DatePickerCalc'
+import { isDisabled, convertStringToDate } from './DatePickerCalc'
 import Context from '../../shared/Context'
 
 const propTypes = {
@@ -176,6 +176,56 @@ export default class DatePickerInput extends React.PureComponent {
     return state
   }
 
+  componentWillUnmount() {
+    if (this._shortcuts) {
+      this._shortcuts.remove(this.osShortcut)
+    }
+  }
+
+  shortcutHandler = async (e) => {
+    if (this.hasFocusOn) {
+      const success = (e.clipboardData || window?.clipboardData).getData(
+        'text'
+      )
+      if (success) {
+        e.preventDefault()
+        try {
+          const separators = ['.', '/']
+          const possibleFormats = ['yyyy-MM-dd']
+
+          possibleFormats.forEach((date) => {
+            separators.forEach((sep) => {
+              possibleFormats.push(date.replace(/-/g, sep))
+            })
+          })
+          possibleFormats.forEach((date) => {
+            possibleFormats.push(date.split('').reverse().join(''))
+          })
+
+          let date
+          for (let i = 0, l = possibleFormats.length; i < l; ++i) {
+            date = convertStringToDate(success, {
+              date_format: possibleFormats[i]
+            })
+            if (date) {
+              break
+            }
+          }
+          const mode =
+            this.hasFocusOn === 'start' ? 'startDate' : 'endDate'
+          if (date && !this.state[mode]) {
+            this.setState({
+              [mode]: date,
+              _listenForPropChanges: false
+            })
+          }
+        } catch (e) {
+          warn(e)
+        }
+      }
+    }
+  }
+
   onKeyUpHandler = () => {
     if (this.props.showInput) {
       return
@@ -297,6 +347,8 @@ export default class DatePickerInput extends React.PureComponent {
 
     // only to process key up and down press
     switch (keyCode) {
+      case 'backspace':
+        return false
       case 'up':
       case 'down':
         event.persist()
@@ -440,7 +492,7 @@ export default class DatePickerInput extends React.PureComponent {
         {startDateList}
         {range && (
           <span className="dnb-date-picker--separator" aria-hidden>
-            {' – '}
+            {' – '}
           </span>
         )}
         {range && endDateList}
@@ -465,7 +517,9 @@ export default class DatePickerInput extends React.PureComponent {
             ...params,
             onKeyDown: this.onKeyDownHandler,
             onMouseUp: selectInput,
+            onPaste: this.shortcutHandler,
             onFocus: (e) => {
+              this.hasFocusOn = mode
               this.onFocusHandler(e)
               this.setState({
                 focusState: 'focus',
@@ -473,12 +527,13 @@ export default class DatePickerInput extends React.PureComponent {
               })
             },
             onBlur: () => {
+              this.hasFocusOn = null
               this.setState({
                 focusState: 'blur',
                 _listenForPropChanges: false
               })
             },
-            placeholderChar: placeholderChar
+            placeholderChar
           }
         }
 

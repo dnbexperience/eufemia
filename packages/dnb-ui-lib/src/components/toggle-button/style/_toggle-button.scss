@@ -34,7 +34,7 @@
   }
 
   &__component {
-    padding-right: 0.25rem;
+    padding-right: 0.5rem;
 
     display: inline-flex;
     align-items: center;
@@ -44,53 +44,54 @@
     padding-left: 1.5rem;
     padding-right: 1.5rem;
 
-    // reset translateY
-    .dnb-checkbox__shell,
-    .dnb-radio__shell {
-      transform: translateY(0);
-    }
-
-    // checkbox button
+    // checkbox
     .dnb-checkbox {
-      margin-left: -0.75rem;
+      margin-left: -0.5rem;
       &__input {
         pointer-events: none;
       }
+      &__button {
+        display: unset;
+      }
       &__focus,
       &__button {
-        width: calc(var(--checkbox-width) - 0.5rem);
-        height: calc(var(--checkbox-width) - 0.5rem);
+        width: calc(var(--checkbox-width--medium) - 0.5rem);
+        height: calc(var(--checkbox-height--medium) - 0.5rem);
+
+        // We used this before for more precise sizing
         border-width: 0.0625rem; // to get 1.5px we use 1px here, and 0.5px with box-shadow
         box-shadow: 0 0 0 0.0318rem var(--color-sea-green);
       }
 
       &__dot {
-        width: calc(var(--checkbox-width) - 1rem);
-        height: calc(var(--checkbox-width) - 1rem);
+        width: calc(var(--checkbox-width--medium) - 1rem);
+        height: calc(var(--checkbox-height--medium) - 1rem);
       }
       &__gfx {
-        width: calc(var(--checkbox-width) - 0.25rem);
-        height: calc(var(--checkbox-width) - 0.25rem);
+        // width: calc(var(--checkbox-width--medium) - 0.25rem);// old svg size
+        // height: calc(var(--checkbox-height--medium) - 0.25rem);// old svg size
+        width: calc(var(--checkbox-width--medium) - 0.75rem);
+        height: calc(var(--checkbox-height--medium) - 0.75rem);
       }
     }
 
     // radio button
     .dnb-radio {
-      margin-left: -0.75rem;
+      margin-left: -0.5rem;
       &__input {
         pointer-events: none;
       }
       &__focus,
       &__button {
-        width: calc(var(--radio-width) - 0.5rem);
-        height: calc(var(--radio-width) - 0.5rem);
+        width: calc(var(--radio-width--medium) - 0.5rem);
+        height: calc(var(--radio-height--medium) - 0.5rem);
         border-width: 0.0625rem; // to get 1.5px we use 1px here, and 0.5px with box-shadow
         // extend the broder to be 1.5px (use .0318rem instead of .03125rem because of Windows)
         box-shadow: 0 0 0 0.0318rem var(--color-sea-green);
       }
       &__dot {
-        width: calc(var(--radio-width) - 1rem);
-        height: calc(var(--radio-width) - 1rem);
+        width: calc(var(--radio-width--medium) - 1rem);
+        height: calc(var(--radio-height--medium) - 1rem);
       }
     }
   }

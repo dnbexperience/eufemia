@@ -13,11 +13,6 @@ import {
 } from '../../../core/jest/jestSetup'
 import Component from '../Dropdown'
 
-// just to make sure we re-run the test in watch mode due to changes in theese files
-import _dropdown from '../style/_dropdown.scss' // eslint-disable-line
-import dnb_dropdown from '../style/dnb-dropdown.scss' // eslint-disable-line
-import dnb_dropdown_theme_ui from '../style/themes/dnb-dropdown-theme-ui.scss' // eslint-disable-line
-
 const snapshotProps = {
   ...fakeProps(require.resolve('../Dropdown'), {
     optional: true
@@ -334,10 +329,18 @@ describe('Dropdown component', () => {
     const Comp = mount(
       <Component no_animation on_hide={on_hide} data={mockData} />
     )
+    const focus_element = Comp.find('.dnb-button').instance()
+
     open(Comp)
     keydown(Comp, 9) // tab, JSDOM does not support keyboard handling, so we can not check document.activeElement
 
-    expect(on_hide.mock.calls.length).toBe(1)
+    // expect(on_hide.mock.calls.length).toBe(1)
+    expect(on_hide).toBeCalledTimes(1)
+    expect(on_hide).toHaveBeenCalledWith({
+      attributes: {},
+      data: null,
+      focus_element
+    })
   })
 
   it('has correct selected value', () => {

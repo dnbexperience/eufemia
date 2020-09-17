@@ -2,6 +2,7 @@
 
 exports[`DrawerList markup have to match snapshot 1`] = `
 <DrawerList
+  action_menu="action_menu"
   align_drawer={null}
   cache_hash="cache_hash"
   class="class"
@@ -63,6 +64,7 @@ exports[`DrawerList markup have to match snapshot 1`] = `
   id="drawer-list-id"
   ignore_events="ignore_events"
   independent_width="independent_width"
+  is_popup="is_popup"
   keep_open="keep_open"
   max_height={1}
   no_animation={true}
@@ -91,6 +93,7 @@ exports[`DrawerList markup have to match snapshot 1`] = `
   wrapper_element={Object {}}
 >
   <DrawerListProvider
+    action_menu="action_menu"
     align_drawer={null}
     cache_hash="cache_hash"
     class="class"
@@ -154,6 +157,7 @@ exports[`DrawerList markup have to match snapshot 1`] = `
     id="drawer-list-id"
     ignore_events="ignore_events"
     independent_width="independent_width"
+    is_popup="is_popup"
     keep_open="keep_open"
     max_height={1}
     min_height={10}
@@ -185,6 +189,7 @@ exports[`DrawerList markup have to match snapshot 1`] = `
     wrapper_element={Object {}}
   >
     <DrawerListInstance
+      action_menu="action_menu"
       align_drawer={null}
       cache_hash="cache_hash"
       class="class"
@@ -246,6 +251,7 @@ exports[`DrawerList markup have to match snapshot 1`] = `
       id="drawer-list-id"
       ignore_events="ignore_events"
       independent_width="independent_width"
+      is_popup="is_popup"
       keep_open="keep_open"
       max_height={1}
       no_animation={true}
@@ -346,7 +352,8 @@ exports[`DrawerList scss have to match default theme snapshot 1`] = `
     .dnb-drawer-list__options:focus {
       outline: none; }
       html[data-whatinput='keyboard'] .dnb-drawer-list__options:focus {
-        box-shadow: 0 0 0 0.125rem var(--color-emerald-green);
+        --border-color: var(--color-emerald-green);
+        box-shadow: 0 0 0 0.125rem var(--border-color);
         /* IE11 fix */
         border-color: transparent; }
   @media screen and (max-width: 40em) {
@@ -395,7 +402,8 @@ exports[`DrawerList scss have to match default theme snapshot 1`] = `
       bottom: var(--drawer-list-focus-border-width);
       height: auto;
       background-color: transparent;
-      box-shadow: 0 0 0 var(--drawer-list-focus-border-width) var(--drawer-list-border-color--selected);
+      --border-color: var(--drawer-list-border-color--selected);
+      box-shadow: 0 0 0 var(--drawer-list-focus-border-width) var(--border-color);
       /* IE11 fix */
       border-color: transparent; }
     .dnb-drawer-list__option--selected {
@@ -672,22 +680,22 @@ exports[`DrawerList scss have to match snapshot 1`] = `
     transform: rotate(180deg); }
     .dnb-drawer-list--top .dnb-drawer-list__triangle::before {
       transform: translateY(65%) rotate(45deg); }
-  .dnb-drawer-list--independent-width.dnb-drawer-list--right {
+  .dnb-drawer-list--is-popup.dnb-drawer-list--right {
     position: absolute;
     left: auto;
     right: 0; }
-  .dnb-drawer-list--independent-width.dnb-drawer-list--left .dnb-drawer-list__list {
+  .dnb-drawer-list--is-popup.dnb-drawer-list--left .dnb-drawer-list__list {
     left: -0.5rem; }
-  .dnb-drawer-list--independent-width.dnb-drawer-list--right .dnb-drawer-list__list {
+  .dnb-drawer-list--is-popup.dnb-drawer-list--right .dnb-drawer-list__list {
     right: -0.5rem; }
   .dnb-drawer-list--opened .dnb-drawer-list__list {
     z-index: 100;
     display: flex;
     flex-direction: column; }
     .dnb-drawer-list--opened .dnb-drawer-list__list {
-      animation: drawer-list-slide-down 200ms ease-out 1 forwards; }
+      animation: drawer-list-slide-top-down 200ms ease-out 1 forwards; }
     html[data-dnb-test] .dnb-drawer-list--opened .dnb-drawer-list__list, .dnb-drawer-list--opened .dnb-drawer-list__list--no-animation {
-      animation: drawer-list-slide-down 1ms ease-out 1 forwards; }
+      animation: drawer-list-slide-top-down 1ms ease-out 1 forwards; }
   @media screen and (max-width: 40em), screen and (max-height: 40em) {
     .dnb-drawer-list__portal .dnb-drawer-list--mobile-view.dnb-drawer-list--opened .dnb-drawer-list__list {
       z-index: 100;
@@ -709,17 +717,17 @@ exports[`DrawerList scss have to match snapshot 1`] = `
     top: var(--drawer-list-height--small); }
   .dnb-drawer-list--small.dnb-drawer-list--top .dnb-drawer-list__list {
     bottom: var(--drawer-list-height--small); }
-  .dnb-drawer-list--small.dnb-drawer-list--independent-width.dnb-drawer-list--left .dnb-drawer-list__list {
+  .dnb-drawer-list--small.dnb-drawer-list--is-popup.dnb-drawer-list--left .dnb-drawer-list__list {
     left: -0.75rem; }
-  .dnb-drawer-list--small.dnb-drawer-list--independent-width.dnb-drawer-list--right .dnb-drawer-list__list {
+  .dnb-drawer-list--small.dnb-drawer-list--is-popup.dnb-drawer-list--right .dnb-drawer-list__list {
     right: -0.75rem; }
   .dnb-drawer-list__portal .dnb-drawer-list--medium .dnb-drawer-list__list {
     top: var(--drawer-list-height--medium); }
   .dnb-drawer-list--medium.dnb-drawer-list--top .dnb-drawer-list__list {
     bottom: var(--drawer-list-height--medium); }
-  .dnb-drawer-list--medium.dnb-drawer-list--independent-width.dnb-drawer-list--left .dnb-drawer-list__list {
+  .dnb-drawer-list--medium.dnb-drawer-list--is-popup.dnb-drawer-list--left .dnb-drawer-list__list {
     left: -0.25rem; }
-  .dnb-drawer-list--medium.dnb-drawer-list--independent-width.dnb-drawer-list--right .dnb-drawer-list__list {
+  .dnb-drawer-list--medium.dnb-drawer-list--is-popup.dnb-drawer-list--right .dnb-drawer-list__list {
     right: -0.25rem; }
   .dnb-drawer-list__portal .dnb-drawer-list--large .dnb-drawer-list__list {
     top: var(--drawer-list-height--large); }
@@ -727,11 +735,11 @@ exports[`DrawerList scss have to match snapshot 1`] = `
     bottom: var(--drawer-list-height--large); }
   .dnb-drawer-list--large .dnb-drawer-list__triangle {
     margin: 0 1.25rem; }
-  .dnb-drawer-list--large.dnb-drawer-list--independent-width.dnb-drawer-list--left .dnb-drawer-list__list {
+  .dnb-drawer-list--large.dnb-drawer-list--is-popup.dnb-drawer-list--left .dnb-drawer-list__list {
     left: -0.25rem; }
-  .dnb-drawer-list--large.dnb-drawer-list--independent-width.dnb-drawer-list--right .dnb-drawer-list__list {
+  .dnb-drawer-list--large.dnb-drawer-list--is-popup.dnb-drawer-list--right .dnb-drawer-list__list {
     right: -0.25rem; }
-  .dnb-drawer-list--independent-width.dnb-drawer-list--right .dnb-drawer-list__list {
+  .dnb-drawer-list--is-popup.dnb-drawer-list--right .dnb-drawer-list__list {
     left: auto; }
   .dnb-drawer-list__root > .dnb-drawer-list--right {
     position: absolute;
@@ -755,12 +763,41 @@ exports[`DrawerList scss have to match snapshot 1`] = `
       top: 0 !important;
       max-height: 100vh !important; } }
   .dnb-drawer-list:not(.dnb-drawer-list--opened) .dnb-drawer-list__list {
-    animation: drawer-list-slide-up 150ms ease-out 1 forwards; }
+    animation: drawer-list-slide-top-up 150ms ease-out 1 forwards; }
   html[data-dnb-test] .dnb-drawer-list:not(.dnb-drawer-list--opened) .dnb-drawer-list__list, .dnb-drawer-list:not(.dnb-drawer-list--opened) .dnb-drawer-list__list--no-animation {
-    animation: drawer-list-slide-up 1ms ease-out 1 forwards; }
+    animation: drawer-list-slide-top-up 1ms ease-out 1 forwards; }
   @media screen and (max-width: 40em), screen and (max-height: 40em) {
     .dnb-drawer-list__portal .dnb-drawer-list--mobile-view.dnb-drawer-list:not(.dnb-drawer-list--opened) .dnb-drawer-list__list {
       animation: drawer-list-scale-out 150ms ease-out 1 forwards; } }
+  .dnb-drawer-list--action-menu .dnb-drawer-list__option__inner {
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center; }
+  .dnb-drawer-list--action-menu .dnb-drawer-list__options {
+    border-radius: 0; }
+  @media screen and (min-width: 40em) {
+    .dnb-drawer-list--action-menu.dnb-drawer-list--is-popup.dnb-drawer-list--left .dnb-drawer-list__list {
+      left: 0; }
+    .dnb-drawer-list--action-menu.dnb-drawer-list--is-popup.dnb-drawer-list--right .dnb-drawer-list__list {
+      right: 0; } }
+  @media screen and (max-width: 40em), screen and (max-height: 40em) {
+    .dnb-drawer-list__portal .dnb-drawer-list--mobile-view.dnb-drawer-list--action-menu .dnb-drawer-list__list {
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+      animation: drawer-list-slide-bottom-up 200ms ease-out 1 forwards; }
+    .dnb-drawer-list__portal .dnb-drawer-list--mobile-view.dnb-drawer-list--action-menu.dnb-drawer-list:not(.dnb-drawer-list--opened) .dnb-drawer-list__list {
+      animation: drawer-list-slide-bottom-down 200ms ease-out 1 forwards; }
+    .dnb-drawer-list__portal .dnb-drawer-list--mobile-view.dnb-drawer-list--action-menu .dnb-drawer-list__list,
+    .dnb-drawer-list__portal .dnb-drawer-list--mobile-view.dnb-drawer-list--action-menu .dnb-drawer-list__options {
+      position: fixed;
+      top: auto !important;
+      right: 0 !important;
+      left: 0 !important;
+      bottom: 0 !important;
+      height: auto !important;
+      width: 100vw !important;
+      box-shadow: 0 -4px 4px rgba(0, 0, 0, 0.16); } }
   @media screen and (-ms-high-contrast: none) {
     .dnb-drawer-list {
       flex: none;
@@ -786,7 +823,7 @@ exports[`DrawerList scss have to match snapshot 1`] = `
     opacity: 0;
     transform: scale(0.8) translateX(calc(1px - var(--drawer-list-width))); } }
 
-@keyframes drawer-list-slide-down {
+@keyframes drawer-list-slide-top-down {
   from {
     opacity: 0;
     transform: translateY(calc(1px - var(--drawer-list-height))); }
@@ -794,12 +831,28 @@ exports[`DrawerList scss have to match snapshot 1`] = `
     opacity: 1;
     transform: translateY(0); } }
 
-@keyframes drawer-list-slide-up {
+@keyframes drawer-list-slide-top-up {
   from {
     opacity: 1;
     transform: translateY(0); }
   to {
     opacity: 0;
     transform: translateY(calc(1px - var(--drawer-list-height))); } }
+
+@keyframes drawer-list-slide-bottom-down {
+  from {
+    opacity: 1;
+    transform: translateY(0); }
+  to {
+    opacity: 0;
+    transform: translateY(calc(1px + var(--drawer-list-height))); } }
+
+@keyframes drawer-list-slide-bottom-up {
+  from {
+    opacity: 0;
+    transform: translateY(calc(1px + var(--drawer-list-height))); }
+  to {
+    opacity: 1;
+    transform: translateY(0); } }
 "
 `;

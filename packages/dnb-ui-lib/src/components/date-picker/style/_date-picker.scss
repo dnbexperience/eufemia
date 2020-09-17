@@ -65,6 +65,11 @@
     display: inline-flex;
     flex-direction: column;
   }
+  &__input__wrapper {
+    display: inline-flex;
+    white-space: nowrap;
+    height: inherit;
+  }
 
   &__container {
     position: absolute;
@@ -120,26 +125,23 @@
     overflow: visible;
     white-space: nowrap;
 
-    // Firefox fix
-    @supports (-moz-appearance: meterbar) and
-      (background-blend-mode: difference, normal) {
-      margin: 0 2px;
-    }
-
     // Chrome fix
     @supports (-webkit-appearance: none) and
       (not (overflow: -webkit-marquee)) and (not (-ms-ime-align: auto)) and
       (not (-moz-appearance: none)) {
-      margin: 0 -1px;
+      margin: 0 -4px;
     }
 
     // Edge fix
     @supports (-ms-ime-align: auto) {
-      margin: 0 -4px;
+      margin: 0 -5px;
     }
 
     // Safari fix
     @media not all and (min-resolution: 0.001dpcm) {
+      &:not(*:root) {
+        margin: 0;
+      }
       @supports (-webkit-appearance: none) and (stroke-color: transparent)
         and (not (-webkit-overflow-scrolling: touch)) {
         &:not(*:root) {
@@ -163,12 +165,11 @@
   &__input:last-of-type {
     margin-right: 2.2rem;
   }
-  &__input__wrapper {
+  .dnb-input__shell {
     display: none;
   }
-  &--show-input &__input__wrapper {
-    display: inline-flex;
-    align-items: center;
+  &--show-input .dnb-input__shell {
+    display: flex;
   }
   &:not(#{&}--show-input) .dnb-input__status--error .dnb-input__shell {
     box-shadow: none;
@@ -181,9 +182,9 @@
     margin-left: 0;
   }
 
-  &--separator {
-    margin: 0 -0.2rem;
-  }
+  // &--separator {
+  //   margin: 0 -0.2rem;
+  // }
 
   &__views {
     display: flex;

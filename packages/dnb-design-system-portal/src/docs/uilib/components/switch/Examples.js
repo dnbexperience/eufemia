@@ -71,6 +71,19 @@ class Example extends React.PureComponent {
           `
           }
         </ComponentBox>
+        <ComponentBox
+          title="With different sizes"
+          desciption="As for now, there are two sizes. `medium` is the default size."
+          data-dnb-test="switch-sizes"
+        >
+          {
+            /* @jsx */ `
+<Switch size="medium" label="Medium" right="large" checked />
+<Switch size="large" label="Large" right="large" checked />
+<Switch size="large" label="Large" />
+          `
+          }
+        </ComponentBox>
         <ComponentBox data-dnb-test="switch-disabled">
           {
             /* @jsx */ `

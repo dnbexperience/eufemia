@@ -47,7 +47,7 @@
         }
       }
 
-      // checkbox button
+      // checkbox
       .dnb-checkbox {
         &__button {
           background-color: var(--color-mint-green);
@@ -90,7 +90,7 @@
         }
       }
 
-      // checkbox button
+      // checkbox
       .dnb-checkbox {
         &__button {
           background-color: transparent;
@@ -145,12 +145,12 @@
       }
     }
 
-    // checkbox button
+    // checkbox
     .dnb-checkbox {
       &__input:not([disabled]):not(:focus):not(:active) {
-        // & ~ .dnb-checkbox__button .dnb-checkbox__focus {
-        //   box-shadow: 0 0 0 0.125rem /* 2px */ var(--color-white);
-        // }
+        & ~ .dnb-checkbox__button .dnb-checkbox__focus {
+          box-shadow: 0 0 0 0.0625rem /* 1px */ var(--color-white);
+        }
         &:not(:hover) ~ .dnb-checkbox__gfx path {
           stroke: var(--color-white);
         }

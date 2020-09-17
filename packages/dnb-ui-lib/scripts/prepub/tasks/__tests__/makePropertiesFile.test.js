@@ -5,9 +5,6 @@
 
 import { runFactory } from '../makePropertiesFile'
 
-// just to make sure we re-run the test in watch mode due to changes in theese files
-import properties from '../../../../src/style/core/properties.scss' // eslint-disable-line
-
 beforeAll(async () => {
   global.content = await runFactory({
     returnResult: true

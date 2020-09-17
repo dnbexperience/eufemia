@@ -9,7 +9,7 @@ import { Wrapper, Box } from '../helpers'
 import styled from '@emotion/styled'
 
 import {
-  // Autocomplete,
+  IconPrimary,
   Dropdown,
   Button,
   FormLabel,
@@ -53,6 +53,7 @@ const RightAligned = styled.div`
 const direction = 'auto'
 const label = 'Label'
 const align_dropdown = 'right'
+const icon_position = 'right'
 const opened = false
 
 const DropdownStory = () => {
@@ -60,6 +61,62 @@ const DropdownStory = () => {
   const [value, setSelectedItem] = React.useState(0)
   return (
     <Wrapper>
+      <Box>
+        <RightAligned>
+          <Dropdown
+            size="small"
+            independent_width
+            icon_position="left"
+            align_dropdown="left"
+            variant="tertiary"
+            title="Tertiary"
+            data={['Go this this Link', 'Or to this one']}
+          />
+          <Dropdown
+            size="small"
+            independent_width
+            // icon_position="right"
+            // align_dropdown="right"
+            variant="tertiary"
+            title="Tertiary"
+            data={['Go this this Link', 'Or to this one']}
+          />
+        </RightAligned>
+      </Box>
+      <Box>
+        <RightAligned>
+          <Dropdown
+            action_menu
+            title="Action Menu"
+            data={[
+              <>
+                <IconPrimary icon="check" right />
+                Save
+              </>,
+              <>
+                <IconPrimary icon="download" right />
+                Download
+              </>
+            ]}
+          />
+          <Dropdown
+            action_menu
+            icon_position="right"
+            align_dropdown="right"
+            title="Action Menu"
+            data={[
+              <>
+                <IconPrimary icon="check" right />
+                Save
+              </>,
+              <>
+                <IconPrimary icon="download" right />
+                Download
+              </>
+            ]}
+          />
+        </RightAligned>
+      </Box>
       <Box>
         <RightAligned>
           <Dropdown
@@ -101,7 +158,7 @@ const DropdownStory = () => {
             no_animation
             direction={direction}
             align_dropdown={align_dropdown}
-            // icon_position="left"
+            icon_position={icon_position}
             label={label}
             data={['A', 'B']}
             right
@@ -113,6 +170,7 @@ const DropdownStory = () => {
             // no_animation
             direction={direction}
             align_dropdown={align_dropdown}
+            icon_position={icon_position}
             label={label}
             data={['A', 'B']}
             right
@@ -125,6 +183,7 @@ const DropdownStory = () => {
             no_animation
             direction={direction}
             align_dropdown={align_dropdown}
+            icon_position={icon_position}
             label={label}
             data={['A', 'B']}
             right
@@ -134,6 +193,7 @@ const DropdownStory = () => {
             no_animation
             direction={direction}
             align_dropdown={align_dropdown}
+            icon_position={icon_position}
             label={label}
             data={['A', 'B']}
             right
@@ -147,6 +207,7 @@ const DropdownStory = () => {
             no_animation
             direction={direction}
             align_dropdown={align_dropdown}
+            icon_position={icon_position}
             label={label}
             data={['A', 'B']}
             right
@@ -157,6 +218,7 @@ const DropdownStory = () => {
             no_animation
             direction={direction}
             align_dropdown={align_dropdown}
+            icon_position={icon_position}
             label={label}
             data={['A', 'B']}
             right
@@ -170,6 +232,7 @@ const DropdownStory = () => {
             no_animation
             direction={direction}
             align_dropdown={align_dropdown}
+            icon_position={icon_position}
             label={label}
             data={['A', 'B']}
             right
@@ -180,6 +243,7 @@ const DropdownStory = () => {
             // opened
             no_animation
             align_dropdown={align_dropdown}
+            icon_position={icon_position}
             direction={direction}
             label={label}
             data={['A', 'B']}
@@ -196,6 +260,7 @@ const DropdownStory = () => {
               no_animation
               direction={direction}
               align_dropdown={align_dropdown}
+              icon_position={icon_position}
               more_menu={true}
               data={['Go this this Link', 'Or to this one']}
               right="x-large x-large"
@@ -208,6 +273,7 @@ const DropdownStory = () => {
               no_animation
               direction={direction}
               align_dropdown={align_dropdown}
+              icon_position={icon_position}
               data={['Go this this Link', 'Or to this one']}
               right="x-large x-large"
             />
@@ -219,6 +285,7 @@ const DropdownStory = () => {
               no_animation
               direction={direction}
               align_dropdown={align_dropdown}
+              icon_position={icon_position}
               data={['Go this this Link', 'Or to this one']}
               right="x-large x-large"
             />
@@ -230,6 +297,7 @@ const DropdownStory = () => {
               no_animation
               direction={direction}
               align_dropdown={align_dropdown}
+              icon_position={icon_position}
               data={['Go this this Link', 'Or to this one']}
               right="x-large x-large"
             />

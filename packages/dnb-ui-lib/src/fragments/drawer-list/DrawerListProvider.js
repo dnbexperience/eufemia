@@ -458,27 +458,28 @@ export default class DrawerListProvider extends React.PureComponent {
     // We use "style.transform", because it is a independent "and quick" solution
     // we could send down spaceToLeft and spaceToRight and set it with React's "style" prop in future
     try {
-      const spaceToLeft = getOffsetLeft(this._refUl.current)
+      const ui = this._refUl.current
+      const spaceToLeft = getOffsetLeft(ui)
       const spaceToRight =
-        window.innerWidth -
-        (getOffsetLeft(this._refUl.current) +
-          this._refUl.current.offsetWidth)
+        window.innerWidth - (getOffsetLeft(ui) + ui.offsetWidth)
+
+      const tri = this._refTriangle.current.style
+      const shell = this._refShell.current.style
 
       // correct left side
       if (spaceToLeft < 0) {
-        this._refShell.current.style.transform = `translateX(${Math.abs(
-          spaceToLeft
-        )}px)`
-        this._refTriangle.current.style.transform = `translateX(${spaceToLeft}px)`
+        shell.transform = `translateX(${Math.abs(spaceToLeft)}px)`
+        tri.right = `${Math.abs(spaceToLeft)}px`
 
         // correct right side
       } else if (spaceToRight < 0) {
-        this._refShell.current.style.transform = `translateX(${spaceToRight}px)`
-        this._refTriangle.current.style.transform = `translateX(${-spaceToRight}px)`
+        shell.transform = `translateX(${spaceToRight}px)`
+        tri.left = `${Math.abs(spaceToRight)}px`
       } else {
-        if (this._refShell.current.style.transform) {
-          this._refShell.current.style.transform = ''
-          this._refTriangle.current.style.transform = ''
+        if (shell.transform) {
+          shell.transform = ''
+          tri.left = 'auto'
+          tri.right = 'auto'
         }
       }
     } catch (e) {
@@ -804,7 +805,7 @@ export default class DrawerListProvider extends React.PureComponent {
       case 'esc':
         {
           e.preventDefault() // on edge, we need this prevent to not loose focus after close
-          this.setHidden({ setFocus: true })
+          this.setHidden()
         }
         break
 
@@ -1094,7 +1095,7 @@ export default class DrawerListProvider extends React.PureComponent {
 
         const { keep_open } = this.props
         if (!isTrue(keep_open)) {
-          this.setHidden({ setFocus: true })
+          this.setHidden()
         }
       }
 
