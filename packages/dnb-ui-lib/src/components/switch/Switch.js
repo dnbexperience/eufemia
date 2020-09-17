@@ -41,6 +41,7 @@ const propTypes = {
   checked: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   id: PropTypes.string,
+  size: PropTypes.oneOf(['default', 'medium', 'large']),
   status: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.func,
@@ -79,6 +80,7 @@ const defaultProps = {
   checked: undefined,
   disabled: null,
   id: null,
+  size: null,
   status: null,
   status_state: 'error',
   status_animation: null,
@@ -207,6 +209,7 @@ export default class Switch extends React.PureComponent {
 
     const {
       value,
+      size,
       status,
       status_state,
       status_animation,
@@ -241,6 +244,7 @@ export default class Switch extends React.PureComponent {
     const mainParams = {
       className: classnames(
         'dnb-switch',
+        size && `dnb-switch--${size}`,
         status && `dnb-switch__status--${status_state}`,
         `dnb-switch--label-position-${label_position || 'right'}`,
         'dnb-form-component',

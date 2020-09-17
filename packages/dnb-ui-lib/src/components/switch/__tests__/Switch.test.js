@@ -22,6 +22,7 @@ const props = fakeProps(require.resolve('../Switch'), {
   optional: true
 })
 props.status = null
+props.size = 'default'
 props.label_position = 'left'
 props.readOnly = false
 props.label_direction = 'horizontal'
