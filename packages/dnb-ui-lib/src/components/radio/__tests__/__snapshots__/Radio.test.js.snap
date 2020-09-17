@@ -21,7 +21,6 @@ exports[`Radio component have to match snapshot 1`] = `
   readOnly={false}
   size="'default'"
   skeleton="skeleton"
-
   status={null}
   status_animation="status_animation"
   status_state="status_state"
