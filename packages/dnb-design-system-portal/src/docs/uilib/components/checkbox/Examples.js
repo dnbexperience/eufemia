@@ -71,6 +71,18 @@ class Example extends React.PureComponent {
           `
           }
         </ComponentBox>
+        <ComponentBox
+          title="With different sizes"
+          desciption="As for now, there are two sizes. `medium` is the default size."
+          data-dnb-test="checkbox-sizes"
+        >
+          {
+            /* @jsx */ `
+<Checkbox size="medium" label="Medium" right="large" checked />
+<Checkbox size="large" label="Large" checked />
+          `
+          }
+        </ComponentBox>
         <ComponentBox data-dnb-test="checkbox-disabled">
           {
             /* @jsx */ `

@@ -64,6 +64,12 @@ describe('Checkbox checked screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+  it('have to match different checkbox sizes', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-dnb-test="checkbox-sizes"]'
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
   it('have to match disabled checkbox', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-dnb-test="checkbox-disabled"] .dnb-checkbox'

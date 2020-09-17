@@ -4,9 +4,12 @@
 */
 
 :root {
-  --switch-height: 1.5rem;
-  --switch-width: 2.5rem;
-  --switch-border-width: 0.0625rem;
+  --switch-width--medium: 2.5rem;
+  --switch-height--medium: 1.5rem;
+  --switch-width--large: 3.5rem;
+  --switch-height--large: 2rem;
+  --switch-border-width--medium: 0.0625rem;
+  --switch-border-width--large: 0.125rem;
 }
 
 .dnb-switch {
@@ -32,7 +35,13 @@
     display: flex;
     align-items: center;
 
-    height: var(--switch-height);
+    height: var(--switch-height--medium);
+  }
+  &--large {
+    line-height: var(--switch-height--large);
+  }
+  &--large &__shell {
+    height: var(--switch-height--large);
   }
 
   &__row {
@@ -45,42 +54,26 @@
     position: absolute;
     z-index: 4;
 
-    width: var(--switch-height);
-    height: var(--switch-height);
-
     border-radius: 50%;
   }
 
   &__button {
     left: 0;
 
+    width: var(--switch-height--medium);
+    height: var(--switch-height--medium);
+
     transform: translateX(0);
     transition: transform 160ms ease-out 125ms;
-    border: var(--switch-border-width) solid transparent;
-  }
 
-  /*
-    * When switched OFF
-    * aka when the switch is not :checked
-    */
-  &__input:not(:checked) ~ &__button {
-    transform: translateX(0); // IE fix
-    transform: translateX(calc(1px - 1px - var(--switch-border-width)));
-  }
+    border: var(--switch-border-width--medium) solid transparent;
 
-  /*
-    * When switched ON
-    * aka when the switch is :checked
-    */
-  &__input:checked ~ &__button {
-    transform: translateX(1rem); // IE fix
-    transform: translateX(calc(1rem + var(--switch-border-width)));
-  }
+    .dnb-switch--large & {
+      width: var(--switch-height--large);
+      height: var(--switch-height--large);
 
-  &__background {
-    width: var(--switch-width);
-    height: 1rem;
-    border-radius: 0.8125rem;
+      border-width: var(--switch-border-width--large);
+    }
   }
 
   &__focus {
@@ -110,15 +103,77 @@
     @include fakeFocus();
   }
 
+  /*
+    * When switched OFF
+    * aka when the switch is not :checked
+    */
+  &__input:not(:checked) ~ &__button {
+    transform: translateX(0); // IE fix
+    transform: translateX(
+      calc(1px - 1px - var(--switch-border-width--medium))
+    );
+  }
+
+  /*
+  * When switched ON
+  * aka when the switch is :checked
+  */
+  &__input:checked ~ &__button {
+    transform: translateX(1rem); // IE fix
+    transform: translateX(
+      calc(
+        var(--switch-width--medium) - 1.5rem +
+          var(--switch-border-width--medium)
+      )
+    );
+  }
+
+  &--large &__input:not(:checked) ~ &__button {
+    transform: translateX(
+      calc(1px - 1px - var(--switch-border-width--large))
+    );
+  }
+  &--large &__input:checked ~ &__button {
+    transform: translateX(
+      calc(
+        var(--switch-width--large) - 2rem +
+          var(--switch-border-width--large)
+      )
+    );
+  }
+
+  &__background {
+    width: var(--switch-width--medium);
+    height: calc(var(--switch-height--medium) - 0.5rem);
+
+    border-radius: calc(var(--switch-height--medium) - 0.5rem / 2);
+
+    .dnb-switch--large & {
+      width: var(--switch-width--large);
+      height: calc(var(--switch-height--large) - 0.75rem);
+
+      border-radius: calc(var(--switch-height--large) - 0.75rem / 2);
+    }
+  }
+
   &__input {
     opacity: 0;
 
     position: absolute;
     left: 0;
+    right: 0;
     z-index: 5;
 
-    width: 100%;
-    height: var(--switch-height);
+    display: block;
+
+    // width: 100%;
+    width: var(--switch-width--medium);
+    height: var(--switch-height--medium);
+
+    .dnb-switch--large & {
+      width: var(--switch-width--large);
+      height: var(--switch-height--large);
+    }
 
     margin: 0;
     padding: 0;
@@ -141,9 +196,12 @@
   }
 
   &__suffix {
-    padding-left: 0.5rem;
+    margin-left: 0.5rem;
     order: 4;
     line-height: var(--line-height-basis);
+  }
+  &--label-position-left &__suffix {
+    margin-left: 1rem;
   }
 
   &--label-position-left &__order {
@@ -166,7 +224,7 @@
     }
     .dnb-form-label {
       order: 2;
-      margin-left: 1rem;
+      margin-left: 0.5rem;
     }
     .dnb-form-status {
       order: 3;
@@ -202,7 +260,7 @@
 
     // fix are a problem with transition and complex transforms
     &__input:checked ~ &__button {
-      transform: translateX(1rem);
+      transform: translateX(calc(var(--switch-width--medium) - 1.5rem));
     }
   }
 }

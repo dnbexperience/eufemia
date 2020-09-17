@@ -62,7 +62,7 @@ const propTypes = {
   status_animation: PropTypes.string,
   input_state: PropTypes.string,
   global_status_id: PropTypes.string,
-  autocomplete: PropTypes.oneOf(['on', 'off']),
+  autocomplete: PropTypes.string,
   submit_button_title: PropTypes.string,
   placeholder: PropTypes.string,
   keep_placeholder: PropTypes.oneOfType([
@@ -423,9 +423,6 @@ export default class Input extends React.PureComponent {
       inputParams['aria-describedby'] = `${
         showStatus ? id + '-status' : ''
       } ${suffix ? id + '-suffix' : ''}`
-    }
-    if (type === 'search') {
-      inputParams.autoComplete = 'off'
     }
     if (readOnly) {
       inputParams['aria-readonly'] = inputParams.readOnly = true

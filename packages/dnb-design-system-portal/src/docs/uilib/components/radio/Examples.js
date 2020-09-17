@@ -121,6 +121,18 @@ class Example extends React.PureComponent {
           }
         </ComponentBox>
         <ComponentBox
+          title="With different sizes"
+          desciption="As for now, there are two sizes. `medium` is the default size."
+          data-dnb-test="radio-sizes"
+        >
+          {
+            /* @jsx */ `
+<Radio size="medium" label="Medium" right="large" checked />
+<Radio size="large" label="Large" checked />
+          `
+          }
+        </ComponentBox>
+        <ComponentBox
           title="Disabled Radio group with `label_position` set to left"
           data-dnb-test="radio-group-disabled"
         >

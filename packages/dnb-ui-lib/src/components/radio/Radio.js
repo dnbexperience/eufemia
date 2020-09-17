@@ -43,6 +43,7 @@ const propTypes = {
   disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   id: PropTypes.string,
   group: PropTypes.string,
+  size: PropTypes.oneOf(['default', 'medium', 'large']),
   status: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.func,
@@ -80,6 +81,7 @@ const defaultProps = {
   checked: undefined,
   disabled: false,
   id: null,
+  size: null,
   group: null,
   status: null,
   status_state: 'error',
@@ -278,6 +280,7 @@ export default class Radio extends React.PureComponent {
             label,
             label_sr_only,
             label_position,
+            size,
             readOnly,
             skeleton,
             className,
@@ -319,6 +322,7 @@ export default class Radio extends React.PureComponent {
             className: classnames(
               'dnb-radio',
               status && `dnb-radio__status--${status_state}`,
+              size && `dnb-radio--${size}`,
               label &&
                 `dnb-radio--label-position-${label_position || 'right'}`,
               createSpacingClasses(props),

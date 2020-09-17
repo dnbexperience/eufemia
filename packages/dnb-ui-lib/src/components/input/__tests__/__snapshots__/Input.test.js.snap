@@ -7,7 +7,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
       "displayName": "Input",
       "props": Object {
         "align": "align",
-        "autocomplete": "'on'",
+        "autocomplete": "autocomplete",
         "children": "children",
         "class": "class",
         "className": "className",
@@ -163,7 +163,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
                 "displayName": "Input",
                 "props": Object {
                   "align": "align",
-                  "autocomplete": "'on'",
+                  "autocomplete": "autocomplete",
                   "children": "children",
                   "class": "class",
                   "className": "className",
@@ -256,7 +256,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
                   "displayName": "Input",
                   "props": Object {
                     "align": "align",
-                    "autocomplete": "'on'",
+                    "autocomplete": "autocomplete",
                     "children": "children",
                     "class": "class",
                     "className": "className",
@@ -494,7 +494,7 @@ exports[`Input component have to match type="text" snapshot 1`] = `
       "displayName": "Input",
       "props": Object {
         "align": "align",
-        "autocomplete": "'on'",
+        "autocomplete": "autocomplete",
         "children": "children",
         "class": "class",
         "className": "className",

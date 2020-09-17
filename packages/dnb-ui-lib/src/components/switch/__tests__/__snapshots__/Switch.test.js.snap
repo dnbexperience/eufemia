@@ -19,6 +19,7 @@ exports[`Switch component have to match snapshot 1`] = `
   on_change_end={[Function]}
   on_state_update={[Function]}
   readOnly={false}
+  size="default"
   skeleton="skeleton"
   status={null}
   status_animation="status_animation"
@@ -28,7 +29,7 @@ exports[`Switch component have to match snapshot 1`] = `
   value="value"
 >
   <span
-    className="dnb-switch dnb-switch--label-position-left dnb-form-component className class"
+    className="dnb-switch dnb-switch--label-position-left dnb-form-component className class dnb-switch--default"
   >
     <span
       className="dnb-switch__order"
@@ -119,39 +120,40 @@ exports[`Switch component have to match snapshot 1`] = `
                 />
               </span>
             </span>
-            <span
-              className="dnb-switch__suffix"
-              id="id-suffix"
+          </span>
+          <span
+            className="dnb-switch__suffix"
+            id="id-suffix"
+          >
+            <Suffix
+              attributes="attributes"
+              checked="checked"
+              class="class"
+              className="className"
+              custom_element={Object {}}
+              custom_method={[Function]}
+              default_state="default_state"
+              disabled="disabled"
+              global_status_id="global_status_id"
+              id="id"
+              label="label"
+              label_direction="horizontal"
+              label_position="left"
+              on_change={[Function]}
+              on_change_end={[Function]}
+              on_state_update={[Function]}
+              readOnly={false}
+              size="default"
+              skeleton="skeleton"
+              status={null}
+              status_animation="status_animation"
+              status_state="status_state"
+              suffix="suffix"
+              title="title"
+              value="value"
             >
-              <Suffix
-                attributes="attributes"
-                checked="checked"
-                class="class"
-                className="className"
-                custom_element={Object {}}
-                custom_method={[Function]}
-                default_state="default_state"
-                disabled="disabled"
-                global_status_id="global_status_id"
-                id="id"
-                label="label"
-                label_direction="horizontal"
-                label_position="left"
-                on_change={[Function]}
-                on_change_end={[Function]}
-                on_state_update={[Function]}
-                readOnly={false}
-                skeleton="skeleton"
-                status={null}
-                status_animation="status_animation"
-                status_state="status_state"
-                suffix="suffix"
-                title="title"
-                value="value"
-              >
-                suffix
-              </Suffix>
-            </span>
+              suffix
+            </Suffix>
           </span>
         </span>
       </span>
@@ -231,18 +233,25 @@ exports[`Switch scss have to match default theme snapshot 1`] = `
     background-color: var(--color-sea-green); }
   .dnb-switch__input:not(:checked) ~ .dnb-switch__background::after {
     right: 0;
-    transform: translateX(-0.3125rem);
+    transform: translateX(calc(var(--switch-width--medium) - 2.8rem));
     width: 0.5rem;
     height: 0.5rem;
     border-radius: 50%;
     border: 0.0625rem solid var(--color-sea-green); }
   .dnb-switch__input:checked ~ .dnb-switch__background::after {
     left: 0;
-    transform: translateX(calc(0.5rem + 0.125rem));
+    transform: translateX(calc(var(--switch-width--medium) - 1.87rem));
     width: 0.0625rem;
     height: 0.5rem;
     border-radius: 0.0625rem;
     background-color: var(--color-sea-green); }
+  .dnb-switch--large .dnb-switch__input:not(:checked) ~ .dnb-switch__background::after {
+    width: 0.625rem;
+    height: 0.625rem;
+    transform: translateX(calc(var(--switch-width--large) - 4rem)); }
+  .dnb-switch--large .dnb-switch__input:checked ~ .dnb-switch__background::after {
+    height: 0.625rem;
+    transform: translateX(calc(var(--switch-width--large) - 2.7rem)); }
   .dnb-switch__input[disabled] ~ .dnb-switch__background {
     background-color: var(--color-mint-green-25); }
   .dnb-switch__input[disabled]:checked ~ .dnb-switch__background::after {
@@ -556,9 +565,12 @@ legend.dnb-form-label {
 *
 */
 :root {
-  --switch-height: 1.5rem;
-  --switch-width: 2.5rem;
-  --switch-border-width: 0.0625rem; }
+  --switch-width--medium: 2.5rem;
+  --switch-height--medium: 1.5rem;
+  --switch-width--large: 3.5rem;
+  --switch-height--large: 2rem;
+  --switch-border-width--medium: 0.0625rem;
+  --switch-border-width--large: 0.125rem; }
 
 .dnb-switch {
   display: inline-flex;
@@ -570,9 +582,9 @@ legend.dnb-form-label {
     * aka when the switch is not :checked
     */
   /*
-    * When switched ON
-    * aka when the switch is :checked
-    */ }
+  * When switched ON
+  * aka when the switch is :checked
+  */ }
   .dnb-switch__inner {
     display: inline-flex;
     flex-direction: column;
@@ -584,31 +596,29 @@ legend.dnb-form-label {
     position: relative;
     display: flex;
     align-items: center;
-    height: var(--switch-height); }
+    height: var(--switch-height--medium); }
+  .dnb-switch--large {
+    line-height: var(--switch-height--large); }
+  .dnb-switch--large .dnb-switch__shell {
+    height: var(--switch-height--large); }
   .dnb-switch__row {
     display: inline-flex;
     align-items: center; }
   .dnb-switch__focus, .dnb-switch__button {
     position: absolute;
     z-index: 4;
-    width: var(--switch-height);
-    height: var(--switch-height);
     border-radius: 50%; }
   .dnb-switch__button {
     left: 0;
+    width: var(--switch-height--medium);
+    height: var(--switch-height--medium);
     transform: translateX(0);
     transition: transform 160ms ease-out 125ms;
-    border: var(--switch-border-width) solid transparent; }
-  .dnb-switch__input:not(:checked) ~ .dnb-switch__button {
-    transform: translateX(0);
-    transform: translateX(calc(1px - 1px - var(--switch-border-width))); }
-  .dnb-switch__input:checked ~ .dnb-switch__button {
-    transform: translateX(1rem);
-    transform: translateX(calc(1rem + var(--switch-border-width))); }
-  .dnb-switch__background {
-    width: var(--switch-width);
-    height: 1rem;
-    border-radius: 0.8125rem; }
+    border: var(--switch-border-width--medium) solid transparent; }
+    .dnb-switch--large .dnb-switch__button {
+      width: var(--switch-height--large);
+      height: var(--switch-height--large);
+      border-width: var(--switch-border-width--large); }
   .dnb-switch__focus {
     display: none;
     position: absolute;
@@ -624,16 +634,39 @@ legend.dnb-form-label {
       box-shadow: 0 0 0 0.125rem var(--border-color);
       /* IE11 fix */
       border-color: transparent; }
+  .dnb-switch__input:not(:checked) ~ .dnb-switch__button {
+    transform: translateX(0);
+    transform: translateX(calc(1px - 1px - var(--switch-border-width--medium))); }
+  .dnb-switch__input:checked ~ .dnb-switch__button {
+    transform: translateX(1rem);
+    transform: translateX(calc( var(--switch-width--medium) - 1.5rem + var(--switch-border-width--medium))); }
+  .dnb-switch--large .dnb-switch__input:not(:checked) ~ .dnb-switch__button {
+    transform: translateX(calc(1px - 1px - var(--switch-border-width--large))); }
+  .dnb-switch--large .dnb-switch__input:checked ~ .dnb-switch__button {
+    transform: translateX(calc( var(--switch-width--large) - 2rem + var(--switch-border-width--large))); }
+  .dnb-switch__background {
+    width: var(--switch-width--medium);
+    height: calc(var(--switch-height--medium) - 0.5rem);
+    border-radius: calc(var(--switch-height--medium) - 0.5rem / 2); }
+    .dnb-switch--large .dnb-switch__background {
+      width: var(--switch-width--large);
+      height: calc(var(--switch-height--large) - 0.75rem);
+      border-radius: calc(var(--switch-height--large) - 0.75rem / 2); }
   .dnb-switch__input {
     opacity: 0;
     position: absolute;
     left: 0;
+    right: 0;
     z-index: 5;
-    width: 100%;
-    height: var(--switch-height);
+    display: block;
+    width: var(--switch-width--medium);
+    height: var(--switch-height--medium);
     margin: 0;
     padding: 0;
     border: 0; }
+    .dnb-switch--large .dnb-switch__input {
+      width: var(--switch-width--large);
+      height: var(--switch-height--large); }
   .dnb-switch__input:not([disabled]) {
     cursor: pointer; }
   .dnb-switch .dnb-form-label {
@@ -642,9 +675,11 @@ legend.dnb-form-label {
   .dnb-switch__order {
     display: inline-flex; }
   .dnb-switch__suffix {
-    padding-left: 0.5rem;
+    margin-left: 0.5rem;
     order: 4;
     line-height: var(--line-height-basis); }
+  .dnb-switch--label-position-left .dnb-switch__suffix {
+    margin-left: 1rem; }
   .dnb-switch--label-position-left .dnb-switch__order .dnb-switch__inner {
     order: 2; }
   .dnb-switch--label-position-left .dnb-switch__order .dnb-form-label {
@@ -657,7 +692,7 @@ legend.dnb-form-label {
     order: 1; }
   .dnb-switch--label-position-right .dnb-switch__order .dnb-form-label {
     order: 2;
-    margin-left: 1rem; }
+    margin-left: 0.5rem; }
   .dnb-switch--label-position-right .dnb-switch__order .dnb-form-status {
     order: 3;
     margin-top: 0.5rem; }
@@ -676,6 +711,6 @@ legend.dnb-form-label {
     .dnb-switch__input:not(:checked) ~ .dnb-switch__button {
       transform: translateX(0); }
     .dnb-switch__input:checked ~ .dnb-switch__button {
-      transform: translateX(1rem); } }
+      transform: translateX(calc(var(--switch-width--medium) - 1.5rem)); } }
 "
 `;
