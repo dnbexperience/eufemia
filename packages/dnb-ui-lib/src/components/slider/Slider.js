@@ -16,6 +16,7 @@ import {
   processChildren,
   extendPropsWithContext,
   dispatchCustomElementEvent,
+  skeletonElement,
   isTouchDevice
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
@@ -69,6 +70,7 @@ const propTypes = {
   disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   hide_buttons: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   use_scrollwheel: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   class: PropTypes.string,
 
   /// React props
@@ -105,6 +107,7 @@ const defaultProps = {
   disabled: false,
   hide_buttons: false,
   use_scrollwheel: false,
+  skeleton: null,
   class: null,
 
   // React props
@@ -380,7 +383,11 @@ export default class Slider extends React.PureComponent {
   emitChange(event, rawValue, callback) {
     const { value: previousValue, disabled } = this.state
 
-    if (disabled) {
+    if (
+      disabled ||
+      isTrue(this.props.skeleton) ||
+      isTrue(this.context?.skeleton)
+    ) {
       return
     }
 
@@ -478,12 +485,14 @@ export default class Slider extends React.PureComponent {
   }
 
   render() {
-    const { currentState, value } = this.state
+    const { value } = this.state
+    let { currentState } = this.state
 
     // use only the props from context, who are available here anyway
     const props = extendPropsWithContext(
       this.props,
       defaultProps,
+      { skeleton: this.context?.skeleton },
       this.context.formRow,
       this.context.translation.Slider
     )
@@ -501,6 +510,7 @@ export default class Slider extends React.PureComponent {
       subtract_title,
       add_title,
       hide_buttons,
+      skeleton,
       className,
       class: _className,
 
@@ -518,7 +528,9 @@ export default class Slider extends React.PureComponent {
       ...attributes
     } = props
 
-    const { min, max, reverse, vertical, disabled } = this.state
+    // const { min, max, reverse, vertical, disabled } = this.state
+    const { min, max, reverse, vertical } = this.state
+    let { disabled } = this.state
     const showStatus = status && status !== 'error'
     const showButtons = !isTrue(hide_buttons)
 
@@ -548,6 +560,12 @@ export default class Slider extends React.PureComponent {
 
     const inlineThumbStyles = {
       [`${vertical ? 'top' : 'left'}`]: `${percent}%`
+    }
+
+    if (isTrue(skeleton)) {
+      disabled = true
+      currentState = 'disabled'
+      skeletonElement(mainParams)
     }
 
     const trackParams = {
@@ -597,14 +615,9 @@ export default class Slider extends React.PureComponent {
         : 'horizontal'
     }
 
-    const buttonParams = {
-      disabled
-    }
-
     // also used for code markup simulation
     validateDOMAttributes(this.props, trackParams)
     validateDOMAttributes(null, rangeParams)
-    validateDOMAttributes(null, buttonParams)
 
     const subtractButton = (
       <Button
@@ -614,7 +627,7 @@ export default class Slider extends React.PureComponent {
         size="small"
         aria-label={subtract_title}
         on_click={this.onSubtractClickHandler}
-        {...buttonParams}
+        disabled={disabled}
       />
     )
 
@@ -626,7 +639,7 @@ export default class Slider extends React.PureComponent {
         size="small"
         aria-label={add_title}
         on_click={this.onAddClickHandler}
-        {...buttonParams}
+        disabled={disabled}
       />
     )
 
@@ -685,6 +698,7 @@ export default class Slider extends React.PureComponent {
                   {...(isTouchDevice()
                     ? rangeParams
                     : { 'aria-hidden': true })}
+                  disabled={disabled}
                 />
               </span>
               <span
@@ -693,6 +707,7 @@ export default class Slider extends React.PureComponent {
               />
               <span className="dnb-slider__line dnb-slider__line__after" />
             </span>
+
             {showButtons && (reverse ? subtractButton : addButton)}
 
             {suffix && (

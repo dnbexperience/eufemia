@@ -15,6 +15,7 @@ import {
   validateDOMAttributes,
   processChildren,
   pickRenderProps,
+  skeletonElement,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
@@ -77,6 +78,7 @@ const propTypes = {
   selectall: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   stretch: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   class: PropTypes.string,
   input_class: PropTypes.string,
   input_attributes: PropTypes.oneOfType([
@@ -144,6 +146,7 @@ const defaultProps = {
   selectall: null,
   stretch: null,
   disabled: null,
+  skeleton: null,
   input_class: null,
   class: null,
   input_attributes: null,
@@ -291,6 +294,7 @@ export default class Input extends React.PureComponent {
     const props = extendPropsWithContext(
       this.props,
       defaultProps,
+      { skeleton: this.context?.skeleton },
       this.context.formRow,
       this.context.translation.Input
     )
@@ -306,6 +310,7 @@ export default class Input extends React.PureComponent {
       status_animation,
       global_status_id,
       disabled,
+      skeleton,
       placeholder,
       keep_placeholder,
       suffix,
@@ -338,7 +343,7 @@ export default class Input extends React.PureComponent {
 
     let { value, focusState, inputState } = this.state
 
-    if (disabled) {
+    if (isTrue(disabled)) {
       inputState = 'disabled'
     }
     const sizeIsNumber = parseFloat(size) > 0
@@ -398,7 +403,7 @@ export default class Input extends React.PureComponent {
       value: hasValue ? value : '',
       type,
       id,
-      disabled: isTrue(disabled),
+      disabled: isTrue(disabled) || isTrue(skeleton),
       name: id,
       'aria-placeholder': placeholder, // NVDA just reads out the placeholder twice
       ...attributes,
@@ -413,7 +418,7 @@ export default class Input extends React.PureComponent {
       inputParams.size = size
     }
 
-    // we may considder using: aria-details
+    // we may consider using: aria-details
     if (showStatus || suffix) {
       inputParams['aria-describedby'] = `${
         showStatus ? id + '-status' : ''
@@ -427,11 +432,16 @@ export default class Input extends React.PureComponent {
     }
 
     const shellParams = {
+      className: classnames(
+        'dnb-input__shell',
+        isTrue(skeleton) && 'dnb-skeleton'
+      ),
       'data-input-state': inputState,
       'data-has-content': hasValue ? 'true' : 'false'
     }
-    if (isTrue(disabled)) {
-      shellParams['aria-disabled'] = true
+
+    if (isTrue(skeleton)) {
+      skeletonElement(inputParams)
     }
 
     // also used for code markup simulation
@@ -471,7 +481,7 @@ export default class Input extends React.PureComponent {
           )}
 
           <span className="dnb-input__row">
-            <span className="dnb-input__shell" {...shellParams}>
+            <span {...shellParams}>
               {InputElement || <input ref={this._ref} {...inputParams} />}
 
               {icon && (
@@ -514,13 +524,15 @@ export default class Input extends React.PureComponent {
                     }
                     title={submit_button_title}
                     variant={submit_button_variant}
-                    disabled={disabled}
+                    disabled={isTrue(disabled)}
+                    skeleton={isTrue(skeleton)}
                     size={size}
                     on_submit={on_submit}
                   />
                 )}
               </span>
             )}
+
             {suffix && (
               <span
                 className="dnb-input__suffix"
@@ -543,6 +555,7 @@ class InputSubmitButton extends React.PureComponent {
     title: PropTypes.string,
     variant: Button.propTypes.variant,
     disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     icon: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.node,
@@ -562,6 +575,7 @@ class InputSubmitButton extends React.PureComponent {
     value: null,
     title: null,
     disabled: false,
+    skeleton: false,
     variant: 'secondary',
     icon: 'search',
     icon_size: null,
@@ -598,6 +612,7 @@ class InputSubmitButton extends React.PureComponent {
       id,
       title,
       disabled,
+      skeleton,
       variant,
       icon,
       icon_size,
@@ -611,6 +626,10 @@ class InputSubmitButton extends React.PureComponent {
       'aria-label': title,
       disabled,
       ...rest
+    }
+
+    if (isTrue(skeleton)) {
+      skeletonElement(params)
     }
 
     // also used for code markup simulation

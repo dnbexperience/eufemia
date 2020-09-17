@@ -13,6 +13,7 @@ import {
   extendPropsWithContext,
   registerElement,
   validateDOMAttributes,
+  skeletonElement,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
@@ -58,6 +59,7 @@ const propTypes = {
   value: PropTypes.string,
   attributes: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   readOnly: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   class: PropTypes.string,
 
   /// React props
@@ -89,6 +91,7 @@ const defaultProps = {
   value: null,
   attributes: null,
   readOnly: false,
+  skeleton: null,
   class: null,
 
   // React props
@@ -204,6 +207,7 @@ export default class Switch extends React.PureComponent {
       this.props,
       defaultProps,
       this.context.formRow,
+      { skeleton: this.context?.skeleton },
       this.context.translation.Switch
     )
 
@@ -221,6 +225,7 @@ export default class Switch extends React.PureComponent {
       title,
       disabled,
       readOnly,
+      skeleton,
       className,
       class: _className,
 
@@ -258,6 +263,10 @@ export default class Switch extends React.PureComponent {
       disabled: isTrue(disabled),
       checked,
       ...rest
+    }
+
+    if (isTrue(skeleton)) {
+      skeletonElement(inputParams)
     }
 
     if (showStatus || suffix) {
@@ -328,7 +337,13 @@ export default class Switch extends React.PureComponent {
                   onDragStart={this.onChangeHandler}
                   {...this.helperParams}
                 />
-                <span className="dnb-switch__button" aria-hidden>
+                <span
+                  className={classnames(
+                    'dnb-switch__button',
+                    isTrue(skeleton) && 'dnb-skeleton'
+                  )}
+                  aria-hidden
+                >
                   <span className="dnb-switch__focus">
                     <span className="dnb-switch__focus__inner" />
                   </span>

@@ -1,0 +1,121 @@
+/*
+ * Skeleton component
+ *
+ * Skeleton
+ *
+ */
+
+.dnb-skeleton {
+  position: relative;
+
+  overflow-x: hidden;
+
+  pointer-events: none;
+  color: transparent; // make text invisible
+  background: transparent; // make backgrounds invisible
+  // cursor: progress;// does not show if pointer-events is set to none
+
+  &--block {
+    display: block;
+  }
+
+  &::before,
+  &::after {
+    content: '' !important; // because of list markers, we use important here as well
+    position: absolute !important;
+    z-index: 100 !important;
+    left: 0 !important;
+    top: 0 !important;
+    bottom: 0 !important;
+    right: 0 !important;
+
+    width: 100% !important; // lists needs that overwrite
+    height: auto !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+
+    border-radius: inherit;
+    background: none !important;
+  }
+
+  &[data-skeleton-chars] {
+    // Since the ch unit is using the size of the 0,
+    // it is not that good to also change the size afterwards
+    // max-width: calc(var(--skeleton-chars) / 1.2);
+
+    &::before,
+    &::after {
+      max-width: var(--skeleton-chars);
+    }
+  }
+
+  // because of the underline, we hide anchors
+  .dnb-anchor {
+    visibility: hidden;
+  }
+  &.dnb-anchor {
+    box-shadow: none;
+  }
+
+  &:not(.dnb-input__shell):not(.dnb-button):not(.dnb-checkbox__button):not(.dnb-textarea__inner) {
+    &::before,
+    &::after {
+      border-radius: 0.25rem;
+    }
+  }
+
+  &.dnb-checkbox__button {
+    &::before,
+    &::after {
+      border-radius: 0;
+    }
+  }
+
+  &.dnb-textarea__inner {
+    margin: 0;
+
+    &::before,
+    &::after {
+      border-radius: 1rem;
+    }
+
+    .dnb-textarea__shell {
+      margin-bottom: calc(var(--textarea-padding-width) * 2);
+      margin-right: calc(var(--textarea-padding-width) * 2);
+    }
+  }
+
+  // &.dnb-input__shell,// Have already overflow
+  &.dnb-button,
+  &.dnb-slider {
+    overflow: hidden;
+  }
+
+  &__figure {
+    position: relative;
+    border-radius: 0.25rem;
+
+    &--circle {
+      width: 4rem;
+      height: 4rem;
+      border-radius: 50%;
+    }
+
+    &--product {
+      display: flex;
+      align-items: center;
+    }
+    &--product &--circle + div {
+      width: 50%;
+      margin-left: 1rem;
+    }
+  }
+
+  &.dnb-li.is-nested {
+    &::before,
+    &::after {
+      max-height: var(--line-height-basis);
+    }
+  }
+}

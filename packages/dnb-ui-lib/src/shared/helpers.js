@@ -273,19 +273,19 @@ export function debounce(
 }
 
 export function insertElementBeforeSelection(elem) {
-  // try {
-  const selection = window.getSelection()
-  const range = selection.getRangeAt(0)
-  range.cloneRange().insertNode(elem)
-  selection.addRange(range) // Restore the original selection - this is a Safari fix!
+  try {
+    const selection = window.getSelection()
+    const range = selection.getRangeAt(0)
+    range.cloneRange().insertNode(elem)
+    selection.addRange(range) // Restore the original selection - this is a Safari fix!
 
-  // For now I (Tobias) could not find any reason for supporting document.selection as well
-  // const range = document.selection.createRange()
-  // range.collapse(true)
-  // range.pasteHTML(elem.outerHTML)
-  // } catch (e) {
-  //   //
-  // }
+    // For now I (Tobias) could not find any reason for supporting document.selection as well
+    // const range = document.selection.createRange()
+    // range.collapse(true)
+    // range.pasteHTML(elem.outerHTML)
+  } catch (e) {
+    //
+  }
 }
 
 export function getSelectedText() {

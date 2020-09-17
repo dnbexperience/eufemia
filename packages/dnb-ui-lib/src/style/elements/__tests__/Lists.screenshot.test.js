@@ -36,6 +36,12 @@ describe('List screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+  it('have to match ol list with custom types', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-dnb-test="lists-ol-types"]'
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
   it('have to match dl list', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-dnb-test="lists-dl"]'

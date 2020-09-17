@@ -10,6 +10,7 @@ import {
   isTrue,
   extendPropsWithContext,
   registerElement,
+  skeletonElement,
   validateDOMAttributes
 } from '../../shared/component-helper'
 import Context from '../../shared/Context'
@@ -44,6 +45,7 @@ const propTypes = {
     PropTypes.number,
     PropTypes.bool
   ]),
+  skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   class: PropTypes.string,
 
   /** React props */
@@ -67,6 +69,7 @@ const defaultProps = {
   right: null,
   bottom: null,
   left: null,
+  skeleton: null,
   class: null,
 
   /** React props */
@@ -103,6 +106,7 @@ export default class Space extends React.PureComponent {
         extendPropsWithContext(
           this.props,
           defaultProps,
+          { skeleton: this.context?.skeleton },
           this.context.space
         )
       : this.props
@@ -115,6 +119,7 @@ export default class Space extends React.PureComponent {
       right,
       bottom,
       left,
+      skeleton,
       id: _id, // eslint-disable-line
       className,
       class: _className,
@@ -129,11 +134,16 @@ export default class Space extends React.PureComponent {
       className: classnames(
         'dnb-space',
         isTrue(inline) && 'dnb-space--inline',
+        isTrue(skeleton) && 'dnb-skeleton',
         createSpacingClasses({ top, right, bottom, left }),
         className,
         _className
       ),
       ...attributes
+    }
+
+    if (isTrue(skeleton)) {
+      skeletonElement(params)
     }
 
     // also used for code markup simulation

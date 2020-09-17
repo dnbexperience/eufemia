@@ -13,6 +13,7 @@ import {
   extendPropsWithContext,
   registerElement,
   validateDOMAttributes,
+  skeletonElement,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
@@ -58,6 +59,7 @@ const propTypes = {
   ]),
   value: PropTypes.string,
   attributes: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+  skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   readOnly: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   class: PropTypes.string,
 
@@ -89,6 +91,7 @@ const defaultProps = {
   value: '',
   attributes: null,
   readOnly: false,
+  skeleton: null,
   class: null,
 
   // React props
@@ -264,6 +267,7 @@ export default class Radio extends React.PureComponent {
             this.props,
             defaultProps,
             this.context, // internal context
+            { skeleton: context?.skeleton },
             context.formRow
           )
 
@@ -278,6 +282,7 @@ export default class Radio extends React.PureComponent {
             label_position,
             size,
             readOnly,
+            skeleton,
             className,
             class: _className,
             id: _id, // eslint-disable-line
@@ -346,6 +351,10 @@ export default class Radio extends React.PureComponent {
             inputParams.role = 'radio' // breaks axe test
           }
 
+          if (isTrue(skeleton)) {
+            skeletonElement(inputParams)
+          }
+
           // also used for code markup simulation
           validateDOMAttributes(this.props, inputParams)
 
@@ -397,7 +406,13 @@ export default class Radio extends React.PureComponent {
                         onKeyDown={this.onKeyDownHandler}
                       />
 
-                      <span className="dnb-radio__button" aria-hidden />
+                      <span
+                        className={classnames(
+                          'dnb-radio__button',
+                          isTrue(skeleton) && 'dnb-skeleton'
+                        )}
+                        aria-hidden
+                      />
                       <span className="dnb-radio__focus" aria-hidden />
                       <span className="dnb-radio__dot" aria-hidden />
                     </span>

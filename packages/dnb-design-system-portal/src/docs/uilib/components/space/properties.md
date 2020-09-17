@@ -23,7 +23,7 @@ Use either `0` or `false` (as a number/boolean os string) to set a `margin` of 0
 Also, Provider is supporting the `collapse` property.
 
 ```jsx
-import Provider from `dnb-ui-lib/shared/Provider`
+import Provider from 'dnb-ui-lib/shared/Provider'
 
 render(
   <Provider space={{ no_collapse: true }}>

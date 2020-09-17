@@ -11,22 +11,25 @@ exports[`FormLabel component have to match snapshot 1`] = `
   id="id"
   label_direction="horizontal"
   render_content={[Function]}
+  skeleton="skeleton"
   sr_only="sr_only"
   text="text"
   title="title"
   vertical="vertical"
 >
   <Element
-    className="dnb-form-label className class"
-    disabled={false}
+    aria-disabled={true}
+    className="dnb-form-label className class dnb-skeleton"
+    disabled={true}
     htmlFor="for_id"
     id="id"
     is="label"
     title="title"
   >
     <label
-      className="dnb-form-label className class"
-      disabled={false}
+      aria-disabled={true}
+      className="dnb-form-label className class dnb-skeleton"
+      disabled={true}
       htmlFor="for_id"
       id="id"
       title="title"

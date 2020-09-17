@@ -34,6 +34,16 @@ export default [
         `}
       />
 
+      {/* <Box>
+        <h1 tabIndex="0" aria-hidden="true">
+          h1
+        </h1>
+        <h2 tabIndex="-1" aria-hidden="false">
+          h2
+        </h2>
+        <h3>h3</h3>
+      </Box> */}
+
       <Box>
         <Button variant="tertiary" text="Button" />
         <Modal

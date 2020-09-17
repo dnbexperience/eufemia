@@ -86,6 +86,15 @@ export function defineNavigator() {
   }
 }
 
+export const skeletonElement = (params) => {
+  params.disabled = true
+  params['aria-disabled'] = true
+  params['aria-hidden'] = true
+  params['aria-busy'] = true
+
+  return params
+}
+
 export const validateDOMAttributes = (props, params) => {
   // if there is an "attributes" prop, prepare these
   // mostly used for prop example usage
@@ -627,96 +636,138 @@ export const convertJsxToString = (elements, separator = undefined) => {
 }
 
 export class InteractionInvalidation {
-  active(element = null) {
-    this.preventScreenReaderPossibility(element)
-    this.removeFocusPossibility(element)
+  constructor() {
+    this.bypassSelector = '.not-specified'
+    return this
   }
+
+  setBypassSelector(bypassSelector = null) {
+    if (bypassSelector instanceof HTMLElement) {
+      this.bypassElement = bypassSelector
+    } else {
+      this.bypassElement = null
+      this.bypassSelector = bypassSelector || '.not-specified'
+    }
+    return this
+  }
+
+  activate(TargetElement = null) {
+    if (!this.nodesToInvalidate) {
+      this._runInvalidaiton(TargetElement)
+    }
+  }
+
   revert() {
-    this.revertScreenReaderPossibility()
-    this.revertFocusPossibility()
+    this._revertInvalidation()
+    this.nodesToInvalidate = null
   }
 
-  removeFocusPossibility(element = null) {
-    // since touch devices works diffrent, and we also use preventScreenReaderPossibility
-    // we dont set the tabindex by using removeFocusPossibility
-    if (typeof document === 'undefined' || isTouchDevice()) {
+  _runInvalidaiton(TargetElement) {
+    if (
+      typeof document === 'undefined'
+      // || isTouchDevice() // as for now, we do the same on touch devices
+    ) {
       return // stop here
     }
 
-    const modalNodes = Array.from(
-      (element || document).querySelectorAll('.dnb-modal__content *')
-    )
+    this._setNodesToInvalidate(TargetElement)
 
-    // by only finding elements that do not have tabindex="-1" we ensure we don't
-    // corrupt the previous state of the element if a modal was already open
-    this.nonModalNodes = Array.from(
-      (element || document).querySelectorAll(
-        'body *:not(.dnb-modal__content):not([tabindex="-1"]):not(script)'
-      )
-    ).filter((node) => !modalNodes.includes(node))
+    if (Array.isArray(this.nodesToInvalidate)) {
+      this.nodesToInvalidate.forEach((node) => {
+        try {
+          // save the previous tabindex state so we can restore it on close
+          if (
+            node &&
+            typeof node._orig_tabindex === 'undefined' &&
+            node.hasAttribute('tabindex')
+          ) {
+            node._orig_tabindex = node.getAttribute('tabindex')
+          }
+          if (
+            node &&
+            typeof node._orig_ariahidden === 'undefined' &&
+            node.hasAttribute('aria-hidden')
+          ) {
+            node._orig_ariahidden = node.getAttribute('aria-hidden')
+          }
+          if (
+            node &&
+            typeof node._orig_style === 'undefined' &&
+            node.hasAttribute('style')
+          ) {
+            node._orig_style = node.getAttribute('style')
+          }
 
-    this.nonModalNodes.forEach((node) => {
-      try {
-        // save the previous tabindex state so we can restore it on close
-        node._prevTabindex = node.getAttribute('tabindex')
-        node.setAttribute('tabindex', -1)
+          node.setAttribute('tabindex', '-1')
+          node.setAttribute('aria-hidden', 'true')
 
-        // tabindex=-1 does not prevent the mouse from focusing the node (which
-        // would show a focus outline around the element). prevent this by disabling
-        // outline styles while the modal is open
-        node.style.outline = 'none'
-      } catch (e) {
-        warn(e)
-      }
-    })
+          // tabindex=-1 does not prevent the mouse from focusing the node (which
+          // would show a focus outline around the element). prevent this by disabling
+          // outline styles while the modal is open
+          node.style.outline = 'none'
+        } catch (e) {
+          //
+        }
+      })
+    }
   }
 
-  revertFocusPossibility() {
-    // since touch devices works diffrent, and we also use preventScreenReaderPossibility
-    // we dont set the tabindex by using removeFocusPossibility
-    if (!this.nonModalNodes) {
+  _revertInvalidation() {
+    if (!this.nodesToInvalidate) {
       return // stop here
     }
-    // restore or remove tabindex from nodes
-    this.nonModalNodes.forEach((node) => {
+
+    // restore or remove tabindex and aria-hidden from nodes
+    this.nodesToInvalidate.forEach((node) => {
       try {
-        if (node && node._prevTabindex) {
-          node.setAttribute('tabindex', node._prevTabindex)
-          node._prevTabindex = null
-          delete node._prevTabindex
+        if (node && typeof node._orig_tabindex !== 'undefined') {
+          node.setAttribute('tabindex', node._orig_tabindex)
+          node._orig_tabindex = null
+          delete node._orig_tabindex
         } else {
           node.removeAttribute('tabindex')
         }
-        node.style.outline = null
+        if (node && typeof node._orig_ariahidden !== 'undefined') {
+          node.setAttribute('aria-hidden', node._orig_ariahidden)
+          node._orig_ariahidden = null
+          delete node._orig_ariahidden
+        } else {
+          node.removeAttribute('aria-hidden')
+        }
+        if (node && typeof node._orig_style !== 'undefined') {
+          node.setAttribute('style', node._orig_style)
+          node._orig_style = null
+          delete node._orig_style
+        } else {
+          node.removeAttribute('style')
+        }
       } catch (e) {
-        warn(e)
+        //
       }
     })
-    this.nonModalNodes = null
   }
 
-  preventScreenReaderPossibility(element = null) {
+  _setNodesToInvalidate(TargetElement = null) {
     if (typeof document === 'undefined') {
       return // stop here
     }
 
-    this.nonScreenReaderNodes = Array.from(
-      (element || document).querySelectorAll(
-        'body > div:not(#dnb-modal-root)'
-      )
-    )
-    this.nonScreenReaderNodes.forEach((node) => {
-      node.setAttribute('aria-hidden', true)
-    })
-  }
-
-  revertScreenReaderPossibility() {
-    if (!this.nonScreenReaderNodes) {
-      return // stop here
+    if (typeof TargetElement === 'string') {
+      TargetElement = document.querySelector(TargetElement)
     }
 
-    this.nonScreenReaderNodes.forEach((node) => {
-      node.removeAttribute('aria-hidden')
-    })
+    const skipTheseNodes = Array.from(
+      (this.bypassElement || document).querySelectorAll(
+        this.bypassSelector ? `${this.bypassSelector} *` : '*'
+      )
+    )
+
+    // by only finding elements that do not have tabindex="-1" we ensure we don't
+    // corrupt the previous state of the element if a modal was already open
+    this.nodesToInvalidate = Array.from(
+      (TargetElement || document).querySelectorAll(
+        `body *:not(${this.bypassSelector}):not(script)`
+      )
+    ).filter((node) => !skipTheseNodes.includes(node))
   }
 }

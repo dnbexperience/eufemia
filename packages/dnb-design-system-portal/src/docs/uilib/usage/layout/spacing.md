@@ -32,7 +32,7 @@ Also, have a look at the [Space](/uilib/components/space) component and the fact
 ### CSS Custom Property
 
 ```css
-margin-top: var(--spacing-large);
+margin-top: calc(var(--spacing-large) + var(--spacing-small));
 ```
 
 ### The Space component and Space Components (Emotion)

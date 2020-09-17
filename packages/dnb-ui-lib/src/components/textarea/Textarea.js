@@ -16,6 +16,7 @@ import {
   validateDOMAttributes,
   processChildren,
   pickRenderProps,
+  skeletonElement,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
@@ -59,6 +60,7 @@ const propTypes = {
   align: PropTypes.oneOf(['left', 'right']),
   stretch: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   class: PropTypes.string,
   textarea_class: PropTypes.string,
   textarea_attributes: PropTypes.oneOfType([
@@ -103,6 +105,7 @@ const defaultProps = {
   align: null,
   stretch: null,
   disabled: null,
+  skeleton: null,
   textarea_class: null,
   class: null,
   textarea_attributes: null,
@@ -221,6 +224,7 @@ export default class Textarea extends React.PureComponent {
     const props = extendPropsWithContext(
       this.props,
       defaultProps,
+      { skeleton: this.context?.skeleton },
       this.context.formRow,
       this.context.translation.Textarea
     )
@@ -235,6 +239,7 @@ export default class Textarea extends React.PureComponent {
       global_status_id,
       suffix,
       disabled,
+      skeleton,
       stretch,
       placeholder,
       align,
@@ -276,7 +281,7 @@ export default class Textarea extends React.PureComponent {
       role: 'textbox',
       value: hasValue ? value : '',
       id,
-      disabled,
+      disabled: isTrue(disabled) || isTrue(skeleton),
       name: id,
       'aria-placeholder': placeholder,
       ...attributes,
@@ -297,9 +302,12 @@ export default class Textarea extends React.PureComponent {
     }
 
     const shellParams = {
-      className: 'dnb-textarea__shell'
+      className: classnames('dnb-textarea__shell')
     }
-    if (isTrue(disabled)) {
+    if (isTrue(skeleton)) {
+      shellParams['aria-busy'] = true
+    }
+    if (isTrue(disabled) || isTrue(skeleton)) {
       shellParams['aria-disabled'] = true
     }
 
@@ -320,7 +328,14 @@ export default class Textarea extends React.PureComponent {
     }
 
     const innerParams = {
-      className: 'dnb-textarea__inner'
+      className: classnames(
+        'dnb-textarea__inner',
+        isTrue(skeleton) && 'dnb-skeleton'
+      )
+    }
+
+    if (isTrue(skeleton)) {
+      skeletonElement(innerParams)
     }
 
     // to show the ending dots on a placeholder, if the text is longer

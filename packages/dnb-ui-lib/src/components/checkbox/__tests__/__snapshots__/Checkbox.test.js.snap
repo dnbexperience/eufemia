@@ -23,6 +23,7 @@ exports[`Checkbox component have to match snapshot 1`] = `
         "on_state_update": [Function],
         "readOnly": "readOnly",
         "size": "'default'",
+        "skeleton": "skeleton",
         "status": "status",
         "status_animation": "status_animation",
         "status_state": "status_state",
@@ -52,6 +53,7 @@ exports[`Checkbox component have to match snapshot 1`] = `
   on_state_update={null}
   readOnly={false}
   size={null}
+  skeleton={null}
   status={null}
   status_animation={null}
   status_state="error"
@@ -75,6 +77,7 @@ exports[`Checkbox component have to match snapshot 1`] = `
         id="checkbox-label"
         label_direction={null}
         render_content={null}
+        skeleton={null}
         sr_only={null}
         text="checkbox"
         title={null}

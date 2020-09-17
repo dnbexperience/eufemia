@@ -12,6 +12,7 @@
 import { registerElement } from '../shared/component-helper'
 
 // import all the aviable components
+import Accordion from './accordion/Accordion'
 import Autocomplete from './autocomplete/Autocomplete'
 import Button from './button/Button'
 import Checkbox from './checkbox/Checkbox'
@@ -37,6 +38,7 @@ import Pagination from './pagination/Pagination'
 import ProgressIndicator from './progress-indicator/ProgressIndicator'
 import Radio from './radio/Radio'
 import Section from './section/Section'
+import Skeleton from './skeleton/Skeleton'
 import Slider from './slider/Slider'
 import Space from './space/Space'
 import StepIndicator from './step-indicator/StepIndicator'
@@ -48,6 +50,7 @@ import Tooltip from './tooltip/Tooltip'
 
 // define / export all the aviable components
 export {
+  Accordion,
   Autocomplete,
   Button,
   Checkbox,
@@ -73,6 +76,7 @@ export {
   ProgressIndicator,
   Radio,
   Section,
+  Skeleton,
   Slider,
   Space,
   StepIndicator,
@@ -85,6 +89,7 @@ export {
 
 export const getComponents = () => {
   return {
+    Accordion,
     Autocomplete,
     Button,
     Checkbox,
@@ -110,6 +115,7 @@ export const getComponents = () => {
     ProgressIndicator,
     Radio,
     Section,
+    Skeleton,
     Slider,
     Space,
     StepIndicator,

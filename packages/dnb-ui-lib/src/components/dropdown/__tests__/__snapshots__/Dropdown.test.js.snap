@@ -2,6 +2,7 @@
 
 exports[`Dropdown markup have to match snapshot 1`] = `
 <Dropdown
+  action_menu="action_menu"
   align_dropdown={null}
   class="class"
   className="className"
@@ -64,6 +65,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
   icon_position={null}
   icon_size="icon_size"
   id="dropdown-id"
+  independent_width="independent_width"
   keep_open="keep_open"
   label="label"
   label_direction="horizontal"
@@ -94,6 +96,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
   value={2}
 >
   <DrawerListProvider
+    action_menu="action_menu"
     align_dropdown={null}
     class="class"
     className="className"
@@ -159,6 +162,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
     icon_size="icon_size"
     id="dropdown-id"
     ignore_events={false}
+    independent_width="independent_width"
     keep_open="keep_open"
     label="label"
     label_direction="horizontal"
@@ -180,7 +184,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
     page_offset={null}
     prevent_close="prevent_close"
     prevent_focus={false}
-    prevent_selection={null}
+    prevent_selection={false}
     scrollable="scrollable"
     size={null}
     skip_keysearch={false}
@@ -198,6 +202,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
     wrapper_element={null}
   >
     <DropdownInstance
+      action_menu="action_menu"
       align_dropdown={null}
       class="class"
       className="className"
@@ -260,6 +265,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
       icon_position={null}
       icon_size="icon_size"
       id="dropdown-id"
+      independent_width="independent_width"
       keep_open="keep_open"
       label="label"
       label_direction="horizontal"
@@ -290,7 +296,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
       value={2}
     >
       <span
-        className="dnb-dropdown dnb-dropdown--bottom dnb-form-component class className dnb-dropdown--opened dnb-dropdown--horizontal dnb-dropdown__status--error dnb-dropdown__form-status"
+        className="dnb-dropdown dnb-dropdown--bottom dnb-dropdown--icon-position-right dnb-dropdown--right dnb-form-component class className dnb-dropdown--opened dnb-dropdown--horizontal dnb-dropdown__status--error dnb-dropdown__form-status"
       >
         <FormLabel
           class={null}
@@ -303,22 +309,25 @@ exports[`Dropdown markup have to match snapshot 1`] = `
           label_direction="horizontal"
           onMouseDown={[Function]}
           render_content={null}
+          skeleton={null}
           sr_only="label_sr_only"
           text="label"
           title={null}
           vertical={null}
         >
           <Element
+            aria-disabled={true}
             className="dnb-form-label"
-            disabled={false}
+            disabled={true}
             htmlFor="dropdown-id"
             id="dropdown-id-label"
             is="label"
             onMouseDown={[Function]}
           >
             <label
+              aria-disabled={true}
               className="dnb-form-label"
-              disabled={false}
+              disabled={true}
               htmlFor="dropdown-id"
               id="dropdown-id-label"
               onMouseDown={[Function]}
@@ -464,6 +473,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                 onMouseDown={[Function]}
                 on_click={null}
                 size={null}
+                skeleton={null}
                 status={null}
                 status_animation={null}
                 status_state="error"
@@ -502,7 +512,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                     content={
                       Array [
                         <span
-                          className="dnb-dropdown__text"
+                          className="dnb-dropdown__text dnb-button__text"
                         >
                           <span
                             className="dnb-dropdown__text__inner"
@@ -548,6 +558,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                     onMouseDown={[Function]}
                     on_click={null}
                     size={null}
+                    skeleton={null}
                     status={null}
                     status_animation={null}
                     status_state="error"
@@ -559,7 +570,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                     wrap={false}
                   >
                     <span
-                      className="dnb-dropdown__text"
+                      className="dnb-dropdown__text dnb-button__text"
                     >
                       <span
                         className="dnb-dropdown__text__inner"
@@ -589,7 +600,8 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                 </button>
               </Button>
               <DrawerList
-                align_drawer={null}
+                action_menu="action_menu"
+                align_drawer="right"
                 cache_hash={null}
                 class={null}
                 className={null}
@@ -603,8 +615,9 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                 focusable="focusable"
                 id="dropdown-id"
                 ignore_events={null}
-                independent_width={false}
+                independent_width="action_menu"
                 inner_class="dnb-dropdown__list"
+                is_popup="action_menu"
                 keep_open="keep_open"
                 max_height={1}
                 no_animation={true}
@@ -621,19 +634,20 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                 prepared_data={null}
                 prevent_close="prevent_close"
                 prevent_focus={false}
-                prevent_selection={null}
+                prevent_selection="action_menu"
                 raw_data={null}
                 scrollable="scrollable"
                 size={null}
                 skip_keysearch={false}
                 skip_portal={true}
                 triangle_position="right"
-                use_drawer_on_mobile={false}
+                use_drawer_on_mobile="action_menu"
                 value={2}
                 wrapper_element={null}
               >
                 <DrawerListInstance
-                  align_drawer={null}
+                  action_menu="action_menu"
+                  align_drawer="right"
                   cache_hash={null}
                   class={null}
                   className={null}
@@ -647,8 +661,9 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                   focusable="focusable"
                   id="dropdown-id"
                   ignore_events={null}
-                  independent_width={false}
+                  independent_width="action_menu"
                   inner_class="dnb-dropdown__list"
+                  is_popup="action_menu"
                   keep_open="keep_open"
                   max_height={1}
                   no_animation={true}
@@ -665,14 +680,14 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                   prepared_data={null}
                   prevent_close="prevent_close"
                   prevent_focus={false}
-                  prevent_selection={null}
+                  prevent_selection="action_menu"
                   raw_data={null}
                   scrollable="scrollable"
                   size={null}
                   skip_keysearch={false}
                   skip_portal={true}
                   triangle_position="right"
-                  use_drawer_on_mobile={false}
+                  use_drawer_on_mobile="action_menu"
                   value={2}
                   wrapper_element={null}
                 >
@@ -680,7 +695,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                     className="dnb-drawer-list__root"
                   >
                     <span
-                      className="dnb-drawer-list dnb-drawer-list--bottom dnb-drawer-list--opened dnb-drawer-list--triangle-position-right"
+                      className="dnb-drawer-list dnb-drawer-list--bottom dnb-drawer-list--opened dnb-drawer-list--triangle-position-right dnb-drawer-list--right"
                       disabled="disabled"
                       id="dropdown-id-drawer-list"
                     >
@@ -1050,6 +1065,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
               id="dropdown-id-suffix"
             >
               <Suffix
+                action_menu="action_menu"
                 align_dropdown={null}
                 class="class"
                 className="className"
@@ -1112,6 +1128,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                 icon_position={null}
                 icon_size="icon_size"
                 id="dropdown-id"
+                independent_width="independent_width"
                 keep_open="keep_open"
                 label="label"
                 label_direction="horizontal"
@@ -1805,6 +1822,59 @@ legend.dnb-form-label {
     width: 100%; }
     .dnb-dropdown__trigger.dnb-button {
       padding: 0 1rem; }
+  .dnb-dropdown__text {
+    order: 1;
+    position: relative;
+    z-index: 4;
+    display: inline-flex;
+    width: 100%;
+    overflow: hidden;
+    color: inherit;
+    text-align: left;
+    text-overflow: ellipsis;
+    line-height: inherit;
+    font-size: var(--font-size-basis); }
+    .dnb-dropdown__text__inner {
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: inherit; }
+  .dnb-dropdown--icon-position-left .dnb-dropdown__text {
+    order: 2;
+    padding-right: 0;
+    padding-left: var(--dropdown-text-padding); }
+  .dnb-dropdown--icon-position-left .dnb-dropdown__icon {
+    order: 1; }
+  .dnb-dropdown--independent-width .dnb-dropdown__shell {
+    width: auto; }
+  @media screen and (max-width: 40em) {
+    .dnb-dropdown--action-menu .dnb-dropdown__trigger.dnb-button {
+      padding-left: 0.5rem;
+      padding-right: 0.5rem; } }
+  @media screen and (min-width: 40em) {
+    .dnb-dropdown--action-menu .dnb-dropdown__shell .dnb-dropdown__text {
+      padding: 0 0.5rem; } }
+  @media screen and (max-width: 40em) {
+    .dnb-dropdown--action-menu .dnb-dropdown__shell .dnb-dropdown__text {
+      width: 0;
+      padding: 0; } }
+  .dnb-dropdown--icon-position-left .dnb-button--tertiary
+~ .dnb-drawer-list__root--portal {
+    left: -0.5rem; }
+  .dnb-dropdown--icon-position-right .dnb-button--tertiary
+~ .dnb-drawer-list__root--portal {
+    left: 0.5rem; }
+  .dnb-dropdown .dnb-button--tertiary.dnb-button--active {
+    box-shadow: none; }
+  .dnb-dropdown .dnb-button--tertiary .dnb-button__text {
+    margin: 0 0.5rem; }
+    .dnb-dropdown .dnb-button--tertiary .dnb-button__text::after {
+      bottom: 0; }
+  .dnb-dropdown--icon-position-left .dnb-button--tertiary .dnb-dropdown__text,
+  .dnb-dropdown--icon-position-right .dnb-button--tertiary .dnb-dropdown__text {
+    padding: 0; }
+  .dnb-dropdown .dnb-button--tertiary:focus::before {
+    left: 0 !important;
+    right: 0 !important; }
   .dnb-dropdown--default.dnb-dropdown--is-popup .dnb-dropdown__shell,
   .dnb-dropdown--is-popup .dnb-dropdown__trigger {
     padding: 0;
@@ -1825,56 +1895,30 @@ legend.dnb-form-label {
   .dnb-dropdown--large.dnb-dropdown--is-popup .dnb-dropdown__shell,
   .dnb-dropdown--large.dnb-dropdown--is-popup .dnb-dropdown__trigger {
     width: var(--dropdown-height--large); }
-  .dnb-dropdown--small {
-    line-height: var(--dropdown-height--small); }
   .dnb-dropdown--small .dnb-dropdown__shell,
   .dnb-dropdown--small .dnb-dropdown__trigger {
     height: var(--dropdown-height--small); }
+  .dnb-dropdown--small,
   .dnb-dropdown--small .dnb-dropdown__trigger.dnb-button {
     line-height: var(--dropdown-height--small); }
-  .dnb-dropdown--medium {
-    line-height: var(--dropdown-height--medium); }
   .dnb-dropdown--medium .dnb-dropdown__shell,
   .dnb-dropdown--medium .dnb-dropdown__trigger {
     height: var(--dropdown-height--medium);
     border-radius: var(--dropdown-height--medium); }
+  .dnb-dropdown--medium,
   .dnb-dropdown--medium .dnb-dropdown__trigger.dnb-button {
     line-height: var(--dropdown-height--medium); }
-  .dnb-dropdown--large {
-    line-height: var(--dropdown-height--large); }
   .dnb-dropdown--large .dnb-dropdown__shell,
   .dnb-dropdown--large .dnb-dropdown__trigger {
     height: var(--dropdown-height--large);
     border-radius: var(--dropdown-height--large); }
+  .dnb-dropdown--large,
   .dnb-dropdown--large .dnb-dropdown__trigger.dnb-button {
     line-height: var(--dropdown-height--large); }
+  .dnb-dropdown--large .dnb-dropdown__trigger.dnb-button .dnb-dropdown__text {
+    line-height: var(--line-height-basis); }
   .dnb-dropdown--is-popup .dnb-dropdown__trigger.dnb-button {
     padding: 0; }
-  .dnb-dropdown__text {
-    order: 1;
-    position: relative;
-    z-index: 4;
-    display: inline-flex;
-    width: 100%;
-    overflow: hidden;
-    color: inherit;
-    text-align: left;
-    text-overflow: ellipsis;
-    font-size: var(--font-size-basis); }
-    .dnb-dropdown__text__inner {
-      display: inline-block;
-      width: 100%;
-      overflow: hidden;
-      white-space: nowrap;
-      color: inherit;
-      text-overflow: inherit;
-      text-align: inherit; }
-  .dnb-dropdown--icon-position-left .dnb-dropdown__icon {
-    order: 1; }
-  .dnb-dropdown--icon-position-left .dnb-dropdown__text {
-    order: 2;
-    padding-right: 0;
-    padding-left: var(--dropdown-text-padding); }
   .dnb-dropdown > .dnb-form-label {
     margin-right: 1rem;
     line-height: var(--line-height-basis); }

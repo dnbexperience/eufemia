@@ -111,17 +111,21 @@ export default class Table extends React.PureComponent {
     }
 
     const tableElem = this._ref.current
-    const trElem = tableElem.querySelector(
-      'thead > tr:first-of-type, thead > .dnb-table__tr:first-of-type'
-    )
 
-    const thElem = this.getThElement(tableElem)
-    const tdElem = this.getTdElement(tableElem)
+    let trElem
+    let thElem
+    let tdElem
     let thHeight = 80
     let tdHeight = 64
     let offsetTop = 0
 
     try {
+      trElem = tableElem.querySelector(
+        'thead > tr:first-of-type, thead > .dnb-table__tr:first-of-type'
+      )
+      thElem = this.getThElement(tableElem)
+      tdElem = this.getTdElement(tableElem)
+
       offsetTop = parseFloat(this.props.sticky_offset) || offsetTop
 
       if (offsetTop > 0) {
@@ -149,7 +153,6 @@ export default class Table extends React.PureComponent {
       (entries) => {
         const [entry] = entries
         try {
-          // console.log('entry.isIntersecting', entry.isIntersecting, trElem)
           if (entry.isIntersecting) {
             trElem.classList.remove('show-shadow')
           } else {

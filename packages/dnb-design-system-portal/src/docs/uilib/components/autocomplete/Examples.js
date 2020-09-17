@@ -74,8 +74,8 @@ const onTypeHandler = ({
       // cancel invocation method
       return () => clearTimeout(timeout)
     },
-    250,
-    { value }
+    { value },
+    250
   )
 }
 render(<Autocomplete

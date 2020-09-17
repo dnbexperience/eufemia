@@ -8,14 +8,16 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import {
   isTrue,
-  // makeUniqueId,
   validateDOMAttributes,
+  skeletonElement,
   registerElement
 } from '../../shared/component-helper'
 import '../../shared/helpers'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import HeadingContext from './HeadingContext'
+import Context from '../../shared/Context'
 import HeadingProvider from './HeadingProvider'
+import { AutoSize } from '../../components/skeleton/SkeletonHelper'
 import {
   correctHeadingLevel,
   resetLevels,
@@ -73,6 +75,7 @@ const propTypes = {
     PropTypes.bool
   ]),
 
+  skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   element: PropTypes.string,
   class: PropTypes.string,
 
@@ -100,6 +103,7 @@ const defaultProps = {
   reset: null,
   inherit: null,
 
+  skeleton: null,
   element: 'auto', // e.g h1
   class: null,
 
@@ -223,6 +227,7 @@ export default class Heading extends React.PureComponent {
       inherit: _inherit, // eslint-disable-line
       level: _level, // eslint-disable-line
       size: _size, // eslint-disable-line
+      skeleton: _skeleton, // eslint-disable-line
       element: _element, // eslint-disable-line
       class: _className,
       className,
@@ -230,7 +235,7 @@ export default class Heading extends React.PureComponent {
       ...rest
     } = this.props
 
-    let { size, element } = this.props
+    let { size, element, skeleton } = this.props
     const { level } = this.state
 
     const debug = _debug || this.context.heading?.debug
@@ -256,36 +261,59 @@ export default class Heading extends React.PureComponent {
       }
     }
 
-    attributes.ref = this._ref
-    attributes.className = classnames(
-      'dnb-heading',
-      `dnb-h--${size}`,
-      className,
-      _className,
-      createSpacingClasses(this.props)
-    )
-
     validateDOMAttributes(this.props, attributes)
 
     const Element = element
 
     return (
-      <Element {...attributes}>
-        {debug && (
-          <span className="dnb-heading__debug">
-            {`[h${level || '6'}] `}
-            {debug_counter && (
-              <>
-                {' '}
-                <span className="dnb-code">
-                  {debugCounter(this.state.counter)}
+      <Context.Consumer>
+        {(context) => {
+          if (typeof context?.skeleton !== 'undefined') {
+            skeleton = context.skeleton
+          }
+
+          attributes.className = classnames(
+            'dnb-heading',
+            `dnb-h--${size}`,
+            isTrue(skeleton) && 'dnb-skeleton',
+            className,
+            _className,
+            createSpacingClasses(this.props)
+          )
+
+          attributes.children = (
+            <>
+              {debug && (
+                <span className="dnb-heading__debug">
+                  {`[h${level || '6'}] `}
+                  {debug_counter && (
+                    <>
+                      {' '}
+                      <span className="dnb-code">
+                        {debugCounter(this.state.counter)}
+                      </span>
+                    </>
+                  )}
                 </span>
-              </>
-            )}
-          </span>
-        )}
-        {text || children}
-      </Element>
+              )}
+              {text || children}
+            </>
+          )
+
+          if (isTrue(skeleton)) {
+            skeletonElement(attributes)
+            return (
+              <AutoSize
+                __element={Element}
+                ref={this._ref}
+                {...attributes}
+              />
+            )
+          }
+
+          return <Element ref={this._ref} {...attributes} />
+        }}
+      </Context.Consumer>
     )
   }
 }
