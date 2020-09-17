@@ -5,12 +5,6 @@
     "core-js",
     "jest",
     "babel-jest",
-    "puppeteer",
-    "semantic-release",
-    "@semantic-release/changelog",
-    "@semantic-release/commit-analyzer",
-    "@semantic-release/github",
-    "@semantic-release/npm",
-    "@semantic-release/release-notes-generator"
+    "puppeteer"
   ]
 }
