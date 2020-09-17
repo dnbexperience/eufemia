@@ -3,13 +3,17 @@
  *
  */
 
-import { addParameters, addDecorator, configure } from '@storybook/react'
+import { create } from '@storybook/theming/create'
+import { addParameters, configure } from '@storybook/react'
 import stories from '../stories'
 
 addParameters({
   options: {
-    brandTitle: 'Eufemia',
-    brandUrl: 'https://eufemia.dnb.no',
+    theme: create({
+      base: 'light',
+      brandTitle: 'Eufemia dev',
+      brandUrl: 'http://localhost:8000/'
+    }),
     isFullscreen: true,
     showNav: false,
     showPanel: false,
