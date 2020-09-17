@@ -20,6 +20,7 @@ export default [
           checked
           status="Error message"
           status_state="info"
+          size="large"
         />
       </Box>
       <Box>

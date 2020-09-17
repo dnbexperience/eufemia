@@ -74,11 +74,11 @@
   &--large &__input:not(:checked) ~ &__background::after {
     width: 0.625rem;
     height: 0.625rem;
-    transform: translateX(calc(var(--switch-width--large) - 4rem));
+    transform: translateX(calc(var(--switch-width--large) - 3.7rem));
   }
   &--large &__input:checked ~ &__background::after {
     height: 0.625rem;
-    transform: translateX(calc(var(--switch-width--large) - 2.7rem));
+    transform: translateX(calc(var(--switch-width--large) - 2.5rem));
   }
 
   /*
