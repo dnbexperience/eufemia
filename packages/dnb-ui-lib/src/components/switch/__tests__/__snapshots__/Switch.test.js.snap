@@ -243,10 +243,10 @@ exports[`Switch scss have to match default theme snapshot 1`] = `
   .dnb-switch--large .dnb-switch__input:not(:checked) ~ .dnb-switch__background::after {
     width: 0.625rem;
     height: 0.625rem;
-    transform: translateX(calc(var(--switch-width--large) - 3.35rem)); }
+    transform: translateX(calc(var(--switch-width--large) - 3.7rem)); }
   .dnb-switch--large .dnb-switch__input:checked ~ .dnb-switch__background::after {
     height: 0.625rem;
-    transform: translateX(calc(var(--switch-width--large) - 2.35rem)); }
+    transform: translateX(calc(var(--switch-width--large) - 2.5rem)); }
   .dnb-switch__input[disabled] ~ .dnb-switch__background {
     background-color: var(--color-mint-green-25); }
   .dnb-switch__input[disabled]:checked ~ .dnb-switch__background::after {
@@ -562,7 +562,7 @@ legend.dnb-form-label {
 :root {
   --switch-width--medium: 2.5rem;
   --switch-height--medium: 1.5rem;
-  --switch-width--large: 3rem;
+  --switch-width--large: 3.25rem;
   --switch-height--large: 2rem;
   --switch-border-width--medium: 0.0625rem;
   --switch-border-width--large: 0.125rem; }
