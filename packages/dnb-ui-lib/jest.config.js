@@ -1,7 +1,13 @@
 const config = {
   testURL: 'http://localhost',
   testRegex: '(/__tests__/\\.js|(\\.|/)(test|spec))\\.js?$',
-  modulePathIgnorePatterns: ['not_in_use', '/dist/', 'screenshot'],
+  modulePathIgnorePatterns: [
+    'not_in_use',
+    '<rootDir>/build/',
+    '<rootDir>/assets/',
+    '<rootDir>/stories/',
+    'screenshot'
+  ],
   transformIgnorePatterns: ['node_modules'],
   // globalTeardown: './src/core/jest/jestGlobalTeardown.js',
   transform: {

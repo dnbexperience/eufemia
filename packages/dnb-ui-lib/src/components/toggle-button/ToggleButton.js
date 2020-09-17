@@ -145,11 +145,11 @@ export default class ToggleButton extends React.PureComponent {
 
   static getDerivedStateFromProps(props, state) {
     if (state._listenForPropChanges) {
-      if (props.checked !== state._checked) {
+      if (
+        typeof props.checked !== 'undefined' &&
+        props.checked !== state.checked
+      ) {
         state.checked = ToggleButton.parseChecked(props.checked)
-      }
-      if (typeof props.checked !== 'undefined') {
-        state._checked = props.checked
       }
     }
     state._listenForPropChanges = true

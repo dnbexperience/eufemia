@@ -132,17 +132,17 @@ export default class ToggleButtonGroup extends React.PureComponent {
 
   static getDerivedStateFromProps(props, state) {
     if (state._listenForPropChanges) {
-      if (props.value !== state._value) {
+      if (
+        typeof props.value !== 'undefined' &&
+        props.value !== state.value
+      ) {
         state.value = props.value
       }
-      if (typeof props.value !== 'undefined') {
-        state._value = props.value
-      }
-      if (props.values !== state._values) {
+      if (
+        typeof props.values !== 'undefined' &&
+        props.values !== state.values
+      ) {
         state.values = ToggleButtonGroup.getValues(props)
-      }
-      if (typeof props.values !== 'undefined') {
-        state._values = props.values
       }
     }
     state._listenForPropChanges = true
@@ -163,6 +163,7 @@ export default class ToggleButtonGroup extends React.PureComponent {
     this._id = props.id || makeUniqueId() // cause we need an id anyway
     this._name = props.name || makeUniqueId() // cause we need an id anyway
     this.state = {
+      // do not set the value here, else get true in this check } else if (context.values && Array.isArray(context.values)) {
       _listenForPropChanges: true
     }
   }
@@ -170,19 +171,21 @@ export default class ToggleButtonGroup extends React.PureComponent {
   onChangeHandler = ({ value, event }) => {
     const { multiselect } = this.props
     const values = this.state.values || []
+
     if (isTrue(multiselect)) {
       if (!values.includes(value)) {
         values.push(value)
       } else {
         values.splice(values.indexOf(value), 1)
       }
-    } else {
-      this.setState({
-        value,
-        values,
-        _listenForPropChanges: false
-      })
     }
+
+    this.setState({
+      value,
+      values,
+      _listenForPropChanges: false
+    })
+
     dispatchCustomElementEvent(this, 'on_change', {
       value,
       values,

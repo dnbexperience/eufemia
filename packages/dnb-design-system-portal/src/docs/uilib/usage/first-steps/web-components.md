@@ -186,4 +186,4 @@ You may have a look at [HTML & ES5 event handling](/uilib/usage/customisation/ev
 
 ## More Web Component examples
 
-Have a look at [this UDM example app](https://github.com/dnbexperience/eufemia-examples/tree/master/packages/example-html) as well as the [Web Component example](https://github.com/dnbexperience/eufemia-examples/tree/master/packages/example-web-components).
+Have a look at [this UDM example app](https://github.com/dnbexperience/eufemia-examples/tree/main/packages/example-html) as well as the [Web Component example](https://github.com/dnbexperience/eufemia-examples/tree/main/packages/example-web-components).
