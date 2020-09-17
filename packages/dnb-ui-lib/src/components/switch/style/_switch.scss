@@ -6,7 +6,7 @@
 :root {
   --switch-width--medium: 2.5rem;
   --switch-height--medium: 1.5rem;
-  --switch-width--large: 3.5rem;
+  --switch-width--large: 3.25rem;
   --switch-height--large: 2rem;
   --switch-border-width--medium: 0.0625rem;
   --switch-border-width--large: 0.125rem;
@@ -196,9 +196,12 @@
   }
 
   &__suffix {
-    padding-left: 0.5rem;
+    margin-left: 0.5rem;
     order: 4;
     line-height: var(--line-height-basis);
+  }
+  &--label-position-left &__suffix {
+    margin-left: 1rem;
   }
 
   &--label-position-left &__order {
@@ -221,7 +224,7 @@
     }
     .dnb-form-label {
       order: 2;
-      margin-left: 1rem;
+      margin-left: 0.5rem;
     }
     .dnb-form-status {
       order: 3;

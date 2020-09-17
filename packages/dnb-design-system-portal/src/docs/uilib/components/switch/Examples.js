@@ -79,7 +79,8 @@ class Example extends React.PureComponent {
           {
             /* @jsx */ `
 <Switch size="medium" label="Medium" right="large" checked />
-<Switch size="large" label="Large" checked />
+<Switch size="large" label="Large" right="large" checked />
+<Switch size="large" label="Large" />
           `
           }
         </ComponentBox>
