@@ -13,11 +13,6 @@ import {
 } from '../../../core/jest/jestSetup'
 import Component from '../Textarea'
 
-// just to make sure we re-run the test in watch mode due to changes in theese files
-import _textarea from '../style/_textarea.scss' // eslint-disable-line
-import dnb_textarea from '../style/dnb-textarea.scss' // eslint-disable-line
-import dnb_textarea_theme_ui from '../style/themes/dnb-textarea-theme-ui.scss' // eslint-disable-line
-
 const props = {
   ...fakeProps(require.resolve('../Textarea'), {
     all: true,

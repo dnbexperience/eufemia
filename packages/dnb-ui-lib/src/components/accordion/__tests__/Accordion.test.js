@@ -13,11 +13,6 @@ import {
 } from '../../../core/jest/jestSetup'
 import Component from '../Accordion'
 
-// just to make sure we re-run the test in watch mode due to changes in theese files
-import _toggle_button from '../style/_accordion.scss' // eslint-disable-line
-import dnb_toggle_button from '../style/dnb-accordion.scss' // eslint-disable-line
-import dnb_toggle_button_theme_ui from '../style/themes/dnb-accordion-theme-ui.scss' // eslint-disable-line
-
 const props = fakeProps(require.resolve('../Accordion'), {
   optional: true
 })

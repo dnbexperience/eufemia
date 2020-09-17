@@ -12,10 +12,6 @@ import {
 } from '../../../core/jest/jestSetup'
 import Component from '../ViewTitle'
 
-// just to make sure we re-run the test in watch mode due to changes in theese files
-import _view_title from '../style/_view-title.scss' // eslint-disable-line
-import dnb_view_title from '../style/dnb-view-title.scss' // eslint-disable-line
-
 const props = fakeProps(require.resolve('../ViewTitle'), {
   optional: true
 })

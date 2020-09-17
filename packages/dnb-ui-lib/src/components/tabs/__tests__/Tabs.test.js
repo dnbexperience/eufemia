@@ -14,11 +14,6 @@ import {
 import Component from '../Tabs'
 import Input from '../../Input'
 
-// just to make sure we re-run the test in watch mode due to changes in theese files
-import _tabs from '../style/_tabs.scss' // eslint-disable-line
-import dnb_tabs from '../style/dnb-tabs.scss' // eslint-disable-line
-import dnb_tabs_theme_ui from '../style/themes/dnb-tabs-theme-ui.scss' // eslint-disable-line
-
 const props = fakeProps(require.resolve('../Tabs'), {
   all: true,
   optional: true
