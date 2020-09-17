@@ -3,8 +3,6 @@
     "react",
     "react-dom",
     "core-js",
-    "jest",
-    "babel-jest",
     "puppeteer"
   ]
 }
