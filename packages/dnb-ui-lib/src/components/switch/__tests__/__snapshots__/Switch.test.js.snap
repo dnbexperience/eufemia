@@ -120,40 +120,40 @@ exports[`Switch component have to match snapshot 1`] = `
                 />
               </span>
             </span>
-            <span
-              className="dnb-switch__suffix"
-              id="id-suffix"
+          </span>
+          <span
+            className="dnb-switch__suffix"
+            id="id-suffix"
+          >
+            <Suffix
+              attributes="attributes"
+              checked="checked"
+              class="class"
+              className="className"
+              custom_element={Object {}}
+              custom_method={[Function]}
+              default_state="default_state"
+              disabled="disabled"
+              global_status_id="global_status_id"
+              id="id"
+              label="label"
+              label_direction="horizontal"
+              label_position="left"
+              on_change={[Function]}
+              on_change_end={[Function]}
+              on_state_update={[Function]}
+              readOnly={false}
+              size="default"
+              skeleton="skeleton"
+              status={null}
+              status_animation="status_animation"
+              status_state="status_state"
+              suffix="suffix"
+              title="title"
+              value="value"
             >
-              <Suffix
-                attributes="attributes"
-                checked="checked"
-                class="class"
-                className="className"
-                custom_element={Object {}}
-                custom_method={[Function]}
-                default_state="default_state"
-                disabled="disabled"
-                global_status_id="global_status_id"
-                id="id"
-                label="label"
-                label_direction="horizontal"
-                label_position="left"
-                on_change={[Function]}
-                on_change_end={[Function]}
-                on_state_update={[Function]}
-                readOnly={false}
-                size="default"
-                skeleton="skeleton"
-                status={null}
-                status_animation="status_animation"
-                status_state="status_state"
-                suffix="suffix"
-                title="title"
-                value="value"
-              >
-                suffix
-              </Suffix>
-            </span>
+              suffix
+            </Suffix>
           </span>
         </span>
       </span>
@@ -675,9 +675,11 @@ legend.dnb-form-label {
   .dnb-switch__order {
     display: inline-flex; }
   .dnb-switch__suffix {
-    padding-left: 0.5rem;
+    margin-left: 0.5rem;
     order: 4;
     line-height: var(--line-height-basis); }
+  .dnb-switch--label-position-left .dnb-switch__suffix {
+    margin-left: 1rem; }
   .dnb-switch--label-position-left .dnb-switch__order .dnb-switch__inner {
     order: 2; }
   .dnb-switch--label-position-left .dnb-switch__order .dnb-form-label {
@@ -690,7 +692,7 @@ legend.dnb-form-label {
     order: 1; }
   .dnb-switch--label-position-right .dnb-switch__order .dnb-form-label {
     order: 2;
-    margin-left: 1rem; }
+    margin-left: 0.5rem; }
   .dnb-switch--label-position-right .dnb-switch__order .dnb-form-status {
     order: 3;
     margin-top: 0.5rem; }
