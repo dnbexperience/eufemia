@@ -64,6 +64,12 @@ describe('Switch checked screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+  it('have to match switch in different sizes', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-dnb-test="switch-sizes"]'
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
   it('have to match disabled switch', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-dnb-test="switch-disabled"] .dnb-switch'
