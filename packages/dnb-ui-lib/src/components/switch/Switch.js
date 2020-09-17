@@ -333,16 +333,16 @@ export default class Switch extends React.PureComponent {
                     <span className="dnb-switch__focus__inner" />
                   </span>
                 </span>
-
-                {suffix && (
-                  <span
-                    className="dnb-switch__suffix"
-                    id={id + '-suffix'} // used for "aria-describedby"
-                  >
-                    <Suffix {...props}>{suffix}</Suffix>
-                  </span>
-                )}
               </span>
+
+              {suffix && (
+                <span
+                  className="dnb-switch__suffix"
+                  id={id + '-suffix'} // used for "aria-describedby"
+                >
+                  <Suffix {...props}>{suffix}</Suffix>
+                </span>
+              )}
             </span>
           </span>
         </span>
