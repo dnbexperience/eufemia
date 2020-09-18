@@ -16,14 +16,29 @@ class Example extends React.PureComponent {
         >
           {
             /* @jsx */ `
-<Modal
-  title="Modal Title"
-  trigger_title="Click me"
-  modal_content={() => (
-    <Section spacing style_type="mint-green">
-      <P>This is the modal text. Triggered by a icon button.</P>
-    </Section>
-  )}
+<Modal title="Modal Title">
+  <Section spacing style_type="mint-green">
+    <P>This is the modal text. Triggered by a icon button.</P>
+  </Section>
+</Modal>
+          `
+          }
+        </ComponentBox>
+        <ComponentBox
+          title="Help button and suffix"
+          description="Most of the components do have a `suffix` property you can make use of."
+          data-dnb-test="modal-help-button"
+        >
+          {
+            /* @jsx */ `
+<Input
+  label="Input"
+  placeholder="Placeholder ..."
+  suffix={
+    <Modal>
+      Help text
+    </Modal>
+  }
 />
           `
           }
@@ -40,9 +55,11 @@ class Example extends React.PureComponent {
   align_content="center"
   title={<span className="dnb-sr-only">"Hidden" Drawer title</span>}
   trigger_text="Open Drawer"
->
-  <P>This is the left aligned Drawer content.</P>
-</Modal>
+  trigger_title="Click me"
+  modal_content={() => (
+    <P>This is the left aligned Drawer content.</P>
+  )}
+/>
           `
           }
         </ComponentBox>
