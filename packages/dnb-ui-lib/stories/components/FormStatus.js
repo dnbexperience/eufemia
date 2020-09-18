@@ -15,7 +15,8 @@ import {
   DatePicker,
   Modal,
   Switch,
-  Button
+  Button,
+  Space
 } from '../../src/components'
 import { H2, Link } from '../../src/elements'
 
@@ -70,7 +71,11 @@ export default [
         >
           <FormRow
             top="small"
-            label={<span className="dnb-h--large">Legend:</span>}
+            label={
+              <Space element="span" className="dnb-h--large">
+                Legend:
+              </Space>
+            }
           >
             <DatePicker
               show_input

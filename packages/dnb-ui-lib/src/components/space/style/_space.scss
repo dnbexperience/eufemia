@@ -96,33 +96,9 @@
   }
 }
 
-.dnb-core-style .dnb-space {
-  &__top {
-    @include direction(top);
-  }
-  &__right {
-    @include direction(right);
-  }
-  &__bottom {
-    @include direction(bottom);
-  }
-  &__left {
-    @include direction(left);
-  }
-}
-
-/* stylelint-disable */
 .dnb-space {
   &--no-collapse {
     display: flow-root;
-
-    // &::after {
-    //   content: '\200C';
-    //   display: table;
-    //   clear: both;
-    //   font-size: 0;
-    //   line-height: 0;
-    // }
 
     // IE fix
     @media screen and (-ms-high-contrast: none) {
@@ -145,4 +121,21 @@
     @include direction(left);
   }
 }
-/* stylelint-enable */
+span.dnb-space--no-collapse > span {
+  display: block;
+}
+
+.dnb-core-style .dnb-space {
+  &__top {
+    @include direction(top);
+  }
+  &__right {
+    @include direction(right);
+  }
+  &__bottom {
+    @include direction(bottom);
+  }
+  &__left {
+    @include direction(left);
+  }
+}
