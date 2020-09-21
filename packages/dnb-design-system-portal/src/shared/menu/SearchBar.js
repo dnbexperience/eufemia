@@ -235,7 +235,14 @@ const makeHitsHumanFriendly = (hits) => {
           return null
         }
         return (
-          <Anchor key={slug + hash + i} href={`/${slug}#${hash}`}>
+          <Anchor
+            key={slug + hash + i}
+            href={`/${slug}#${hash}`}
+            onClick={(e) => {
+              e.preventDefault()
+              navigate(`/${slug}#${hash}`)
+            }}
+          >
             {value}
           </Anchor>
         )
