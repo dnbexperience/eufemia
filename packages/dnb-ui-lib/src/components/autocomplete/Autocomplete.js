@@ -458,16 +458,6 @@ class AutocompleteInstance extends React.PureComponent {
     const data = this.runFilter(value, options)
     const count = this.countData(data)
 
-    this.context.drawerList.setState(
-      {
-        cache_hash: value + count
-      },
-      () =>
-        options &&
-        typeof options.afterSetState === 'function' &&
-        options.afterSetState(data)
-    )
-
     if (value && value.length > 0) {
       // show the "no_options" message
       if (count === 0) {
@@ -476,6 +466,15 @@ class AutocompleteInstance extends React.PureComponent {
         }
       } else if (count > 0) {
         this.context.drawerList.setData(this.wrapWithShowAll(data))
+        this.context.drawerList.setState(
+          {
+            cache_hash: value + count
+          }
+          // () =>
+          //   options &&
+          //   typeof options.afterSetState === 'function' &&
+          //   options.afterSetState(data)
+        )
 
         if (count === 1) {
           this.context.drawerList.setState({
@@ -647,6 +646,12 @@ class AutocompleteInstance extends React.PureComponent {
   }
 
   updateData = (rawData) => {
+    // invalidate the local cache now,
+    // because we get else the same after we show the new result
+    this.context.drawerList.setState({
+      cache_hash: 'updateData'
+    })
+
     this.context.drawerList.setData(
       () => rawData, // set data as a function, so it gets re-evaluated with normalizeData
       (newData) => {
