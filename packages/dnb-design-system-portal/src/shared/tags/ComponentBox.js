@@ -27,6 +27,11 @@ const ComponentBox = ({ children, hideOnTest, scope = {}, ...rest }) => {
         ...scope
       }}
       {...rest}
+      // addToSearchIndex={({ title, hash, location }) => {
+      //   if (hash !== 'demos') {
+      //     console.log('>', title, hash, location.pathname)
+      //   }
+      // }}
     >
       {children}
     </CodeBlock>
