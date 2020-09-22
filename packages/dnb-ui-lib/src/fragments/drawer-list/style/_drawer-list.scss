@@ -180,6 +180,8 @@
 
     &__item {
       display: block;
+      // If we use overflow and have an anchor, we cut the focus outline
+      // So it has to be handled by project case
       overflow: hidden;
       text-overflow: ellipsis;
       width: 100%;
