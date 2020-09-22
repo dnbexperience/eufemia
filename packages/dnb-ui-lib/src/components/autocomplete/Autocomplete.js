@@ -503,6 +503,7 @@ class AutocompleteInstance extends React.PureComponent {
       this.context.drawerList.selected_item,
       this.context.drawerList.original_data
     )
+
     if (value === possibleTitle) {
       return // stop here
     }
@@ -690,11 +691,11 @@ class AutocompleteInstance extends React.PureComponent {
     switch (key) {
       case 'page up':
       case 'page down':
-      case 'up':
-      case 'down':
       case 'home':
       case 'end':
-        e.preventDefault()
+      case 'down':
+      case 'up':
+        e.preventDefault() // has to be there for VO, one the drawer is closed
         break
     }
   }
@@ -790,10 +791,6 @@ class AutocompleteInstance extends React.PureComponent {
       case 'up':
         {
           e.preventDefault()
-          // const hasFilter = this.hasFilterActive()
-          // if (hasFilter) {
-          //   this.showAll()
-          // }
           try {
             this._refInput.current._ref.current.focus()
           } catch (e) {
@@ -814,9 +811,10 @@ class AutocompleteInstance extends React.PureComponent {
     switch (key) {
       case 'up':
       case 'down':
-        e.preventDefault()
-
-        this.setVisible()
+        if (!this.context.drawerList.opened) {
+          e.preventDefault()
+          this.setVisible()
+        }
 
         break
 
@@ -846,32 +844,6 @@ class AutocompleteInstance extends React.PureComponent {
         }
 
         break
-    }
-
-    // This is used for the announced ctrl+alt+space key activation
-    if (IS_MAC) {
-      switch (key) {
-        case 'enter':
-          // Do this, so screen readers get a NEW focus later on
-          // So we first need a blur of the input basically (therefore the Shell has an tabIndex / dnb-no-focus)
-          try {
-            this._refShell.current.focus({
-              preventScroll: true
-            })
-          } catch (e) {
-            // do nothing
-          }
-
-          clearTimeout(this._focusTimeout)
-          this._focusTimeout = setTimeout(() => {
-            try {
-              this._refInput.current._ref.current.focus()
-            } catch (e) {
-              // do nothing
-            }
-          }, 200) // so we propely can set the focus "again" we have to have this amount of delay
-          break
-      }
     }
   }
 
@@ -1006,11 +978,11 @@ class AutocompleteInstance extends React.PureComponent {
   totalReset = () => {
     if (!isTrue(this.props.keep_value)) {
       this.setState({
-        inputValue: undefined
+        inputValue: null
       })
     }
     this.setState({
-      typedInputValue: undefined,
+      typedInputValue: null,
       _listenForPropChanges: false
     })
     this.context.drawerList.setState({
@@ -1215,6 +1187,16 @@ class AutocompleteInstance extends React.PureComponent {
     return searchIndex
   }
 
+  onHideHandler = () => {
+    try {
+      this._refInput.current._ref.current.focus({
+        preventScroll: true
+      })
+    } catch (e) {
+      // do nothing
+    }
+  }
+
   onSelectHandler = (args) => {
     if (parseFloat(args.active_item) > -1) {
       dispatchCustomElementEvent(this, 'on_select', {
@@ -1280,11 +1262,13 @@ class AutocompleteInstance extends React.PureComponent {
           })
 
           try {
-            this._refInput.current._ref.current.focus()
+            this._refInput.current._ref.current.focus({
+              preventScroll: true
+            })
           } catch (e) {
             // do nothing
           }
-        }, 200) // so we propely can set the focus "again" we have to have this amount of delay
+        }, 200) // so we properly can set the focus "again" we have to have this amount of delay
       } else {
         this.setState({
           inputValue: AutocompleteInstance.getCurrentDataTitle(
@@ -1307,9 +1291,9 @@ class AutocompleteInstance extends React.PureComponent {
     const { aria_live_options, no_options } = this._props
 
     // this is only to make a better screen reader ux
-    if (opened) {
-      clearTimeout(this._ariaLiveUpdateTiemout)
-      this._ariaLiveUpdateTiemout = setTimeout(() => {
+    clearTimeout(this._ariaLiveUpdateTiemout)
+    this._ariaLiveUpdateTiemout = setTimeout(() => {
+      if (opened) {
         let newString = null
 
         const count = this.countData()
@@ -1332,8 +1316,8 @@ class AutocompleteInstance extends React.PureComponent {
             })
           }, 1e3)
         }
-      }, 1e3) // so that the input gets read out first, and then the results
-    }
+      }
+    }, 1e3) // so that the input gets read out first, and then the results
   }
 
   render() {
@@ -1390,6 +1374,7 @@ class AutocompleteInstance extends React.PureComponent {
       id: _id, // eslint-disable-line
       opened: _opened, // eslint-disable-line
       value: _value, // eslint-disable-line
+      input_value: _input_value, // eslint-disable-line
 
       indicator_label, // eslint-disable-line
       no_options, // eslint-disable-line
@@ -1411,11 +1396,11 @@ class AutocompleteInstance extends React.PureComponent {
     const { inputValue, visibleIndicator, ariaLiveUpdate } = this.state
 
     const {
+      hidden,
       selected_item,
       active_item,
       direction,
-      opened,
-      hidden
+      opened
     } = this.context.drawerList
 
     const isExpanded = Boolean(opened) && this.hasValidData()
@@ -1436,7 +1421,6 @@ class AutocompleteInstance extends React.PureComponent {
           `dnb-autocomplete--icon-position-${icon_position}`,
         align_autocomplete && `dnb-autocomplete--${align_autocomplete}`,
         visibleIndicator && 'dnb-autocomplete--show-indicator',
-        // isTrue(show_submit_button) && 'dnb-autocomplete--submit-buton',
         size && `dnb-autocomplete--${size}`,
         status && `dnb-autocomplete__status--${status_state}`,
         showStatus && 'dnb-autocomplete__form-status',
@@ -1451,14 +1435,6 @@ class AutocompleteInstance extends React.PureComponent {
       className: 'dnb-autocomplete__shell dnb-no-focus',
       ref: this._refShell,
       onKeyDown: this.onShellKeyDownHandler
-    }
-
-    if (IS_MAC && !this.isTouchDevice) {
-      // we need combobox twice to make it properly work on VO
-      // else key down will not work properly anymore!
-      shellParams.role = 'combobox'
-      shellParams['aria-owns'] = `${id}-ul`
-      shellParams.tabIndex = '-1'
     }
 
     const inputParams = {
@@ -1514,28 +1490,17 @@ class AutocompleteInstance extends React.PureComponent {
         }
       : {}
 
-    // Handling of activedescendant
-    if (!hidden && parseFloat(active_item) > -1) {
-      inputParams['aria-activedescendant'] = `option-${id}-${active_item}`
-
-      // for some reason, only old Edge and NVDA needs this
-      if (IS_WIN && (IS_IE11 || IS_EDGE)) {
-        shellParams[
+    // Handling of activedescendant – required by NVDA
+    if (!hidden) {
+      if (parseFloat(active_item) > -1) {
+        inputParams[
           'aria-activedescendant'
         ] = `option-${id}-${active_item}`
-      }
-    } else if (
-      !hidden &&
-      !isTrue(prevent_selection) &&
-      parseFloat(selected_item) > -1
-    ) {
-      inputParams[
-        'aria-activedescendant'
-      ] = `option-${id}-${selected_item}`
-
-      // for some reason, only old Edge and NVDA needs this
-      if (IS_WIN && (IS_IE11 || IS_EDGE)) {
-        shellParams[
+      } else if (
+        !isTrue(prevent_selection) &&
+        parseFloat(selected_item) > -1
+      ) {
+        inputParams[
           'aria-activedescendant'
         ] = `option-${id}-${selected_item}`
       }
@@ -1600,7 +1565,8 @@ class AutocompleteInstance extends React.PureComponent {
                   }
                   size={size}
                   status={!opened && status ? status_state : null}
-                  type="search" // gives us also autoComplete=off
+                  autoComplete="off"
+                  type={null}
                   submit_element={
                     isTrue(show_submit_button) ? (
                       <SubmitButton
@@ -1644,6 +1610,7 @@ class AutocompleteInstance extends React.PureComponent {
                 options_render={options_render}
                 on_change={this.onChangeHandler}
                 on_select={this.onSelectHandler}
+                on_hide={this.onHideHandler}
                 on_pre_change={this.onPreChangeHandler}
               />
             </span>
@@ -1658,6 +1625,16 @@ class AutocompleteInstance extends React.PureComponent {
             )}
           </span>
         </span>
+
+        {/* Help VO to read the list, as long as no input changes are made we need that (&& _input_value === inputValue) */}
+        {IS_MAC && (
+          <span className="dnb-sr-only" aria-live="assertive">
+            {AutocompleteInstance.getCurrentDataTitle(
+              active_item,
+              this.context.drawerList.original_data
+            )}
+          </span>
+        )}
 
         <span className="dnb-sr-only" aria-live="assertive">
           {ariaLiveUpdate}

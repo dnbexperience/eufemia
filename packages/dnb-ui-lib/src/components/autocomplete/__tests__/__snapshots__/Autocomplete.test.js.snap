@@ -321,6 +321,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                   width={null}
                 >
                   <span
+                    aria-hidden={true}
                     className="dnb-icon dnb-icon--large"
                     role="presentation"
                   >
@@ -388,6 +389,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                 aria-expanded={true}
                 aria-haspopup="listbox"
                 autoCapitalize="none"
+                autoComplete="off"
                 autocomplete="off"
                 class={null}
                 className="dnb-autocomplete__input dnb-button--active"
@@ -452,11 +454,11 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                   />
                 }
                 suffix={null}
-                type="search"
+                type={null}
                 value="CC cc"
               >
                 <span
-                  className="dnb-input dnb-input--search dnb-form-component dnb-autocomplete__input dnb-button--active dnb-input--icon-position-null dnb-input--has-icon dnb-input--icon-size-icon_size dnb-input--has-submit-element"
+                  className="dnb-input dnb-input--null dnb-form-component dnb-autocomplete__input dnb-button--active dnb-input--icon-position-null dnb-input--has-icon dnb-input--icon-size-icon_size dnb-input--has-submit-element"
                 >
                   <span
                     className="dnb-input__inner"
@@ -498,7 +500,6 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                           onTouchStart={[Function]}
                           role="combobox"
                           spellCheck="false"
-                          type="search"
                           value="CC cc"
                         />
                         <Component
@@ -700,7 +701,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                 no_animation={true}
                 no_scroll_animation="no_scroll_animation"
                 on_change={[Function]}
-                on_hide={null}
+                on_hide={[Function]}
                 on_pre_change={[Function]}
                 on_resize={null}
                 on_select={[Function]}
@@ -744,7 +745,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                   no_animation={true}
                   no_scroll_animation="no_scroll_animation"
                   on_change={[Function]}
-                  on_hide={null}
+                  on_hide={[Function]}
                   on_pre_change={[Function]}
                   on_resize={null}
                   on_select={[Function]}
