@@ -14,6 +14,7 @@ import { H1, H2, P, Link } from '../src/elements'
 
 import Table from './elements/Table'
 import Anchor from './elements/Anchor'
+import Lists from './elements/Lists'
 import Blockquote from './elements/Blockquote'
 
 const stories = []
@@ -21,6 +22,7 @@ export default stories
 
 stories.push(Table)
 stories.push(Anchor)
+stories.push(Lists)
 stories.push(Blockquote)
 
 const CustomStyles = styled.div`

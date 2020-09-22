@@ -1,0 +1,134 @@
+/*
+ * Skeleton Theme
+ *
+ */
+
+.dnb-skeleton {
+  &::before {
+    background-color: var(
+      --color-sea-green-30
+    ) !important; // to take presence
+
+    // Using a so called DNB background color causes conflicts
+    // background-color: var(--color-lavender) !important; // to take presence
+
+    // Boring color
+    // background-color: #ebebeb !important; // to take presence
+  }
+
+  // Lines
+  &::after,
+  &--lines &::after,
+  &--lines#{&}::after {
+    background-image: repeating-linear-gradient(
+      -45deg,
+      white 0 1px,
+      transparent 0 6px
+    ) !important;
+    background-repeat: repeat !important;
+    background-size: 100% !important; // to take presence
+
+    animation: skeletonLinearAnimation 2s linear infinite;
+    // animation: skeletonFancyAnimation 2s linear infinite;
+
+    // For better performance
+    // animation: skeletonShineAnimation 2s linear infinite;
+  }
+
+  // Dots
+  // &::after,
+  &--dots &::after,
+  &--dots#{&}::after {
+    background-image: radial-gradient(
+      circle,
+      white 1px,
+      transparent 1px /* Having 2px makes it add lookin in Safari */
+    ) !important; // to take presence
+    background-position-y: 50% !important;
+    background-repeat: repeat !important;
+    background-size: 5px 5px !important; // to take presence
+
+    animation: skeletonLinearAnimation 2s linear infinite;
+  }
+
+  // Shine
+  &--shine &::after,
+  &--shine#{&}::after {
+    background-image: radial-gradient(
+      white 0%,
+      transparent 50%,
+      transparent 100%
+    ) !important;
+    background-position-y: 50% !important;
+    background-repeat: no-repeat !important;
+    background-size: 100% 3000% !important;
+
+    animation: skeletonShineAnimation 2s linear infinite;
+  }
+
+  // Nicer animation, but requires an hidden overflow
+  &--overflow {
+    overflow: hidden;
+  }
+  // &--overflow &::after {
+  //   animation: skeletonOverflowAnimation 2s linear infinite;
+  // }
+
+  // &--fancy &::after {
+  // animation: skeletonFancyAnimation 2s linear infinite;
+  // }
+}
+
+@keyframes skeletonLinearAnimation {
+  0% {
+    clip-path: polygon(0 0, 0% 0, 0% 100%, 0 100%);
+  }
+  50% {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+  }
+  100% {
+    clip-path: polygon(100% 0, 100% 0, 100% 100%, 100% 100%);
+  }
+}
+
+@keyframes skeletonFancyAnimation {
+  0% {
+    transform: translate3d(-100%, 0, 0);
+    clip-path: polygon(0 0, 20% 0, 20% 100%, 0 100%);
+  }
+  60% {
+    transform: translate3d(0%, 0, 0);
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+  }
+  100% {
+    transform: translate3d(50%, 0, 0);
+    clip-path: polygon(50% 0, 50% 0, 50% 100%, 50% 100%);
+  }
+}
+
+@keyframes skeletonShineAnimation {
+  0% {
+    opacity: 0.2;
+    transform: translate3d(-120%, 0, 0);
+  }
+  70% {
+    opacity: 1;
+    transform: translate3d(-10%, 0, 0);
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(20%, 0, 0);
+  }
+}
+
+// @keyframes skeletonOverflowAnimation {
+//   0% {
+//     transform: translate3d(-100%, 0, 0);
+//   }
+//   50% {
+//     transform: translate3d(0%, 0, 0);
+//   }
+//   100% {
+//     transform: translate3d(100%, 0, 0);
+//   }
+// }

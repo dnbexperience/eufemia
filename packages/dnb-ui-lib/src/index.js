@@ -10,6 +10,7 @@
  */
 
 // import all the aviable components and patterns
+import Accordion from './components/accordion/Accordion'
 import Autocomplete from './components/autocomplete/Autocomplete'
 import Button from './components/button/Button'
 import Checkbox from './components/checkbox/Checkbox'
@@ -35,6 +36,7 @@ import Pagination from './components/pagination/Pagination'
 import ProgressIndicator from './components/progress-indicator/ProgressIndicator'
 import Radio from './components/radio/Radio'
 import Section from './components/section/Section'
+import Skeleton from './components/skeleton/Skeleton'
 import Slider from './components/slider/Slider'
 import Space from './components/space/Space'
 import StepIndicator from './components/step-indicator/StepIndicator'
@@ -46,7 +48,9 @@ import Tooltip from './components/tooltip/Tooltip'
 import Anchor from './elements/Anchor'
 import Blockquote from './elements/Blockquote'
 import Code from './elements/Code'
+import Dd from './elements/Dd'
 import Dl from './elements/Dl'
+import Dt from './elements/Dt'
 import H from './elements/H'
 import H1 from './elements/H1'
 import H2 from './elements/H2'
@@ -58,6 +62,7 @@ import Hr from './elements/Hr'
 import Img from './elements/Img'
 import Ingress from './elements/Ingress'
 import Lead from './elements/Lead'
+import Li from './elements/Li'
 import Link from './elements/Link'
 import Ol from './elements/Ol'
 import P from './elements/P'
@@ -67,6 +72,7 @@ import Ul from './elements/Ul'
 
 // define / export all the aviable components
 export {
+  Accordion,
   Autocomplete,
   Button,
   Checkbox,
@@ -92,6 +98,7 @@ export {
   ProgressIndicator,
   Radio,
   Section,
+  Skeleton,
   Slider,
   Space,
   StepIndicator,
@@ -103,7 +110,9 @@ export {
   Anchor,
   Blockquote,
   Code,
+  Dd,
   Dl,
+  Dt,
   H,
   H1,
   H2,
@@ -115,6 +124,7 @@ export {
   Img,
   Ingress,
   Lead,
+  Li,
   Link,
   Ol,
   P,

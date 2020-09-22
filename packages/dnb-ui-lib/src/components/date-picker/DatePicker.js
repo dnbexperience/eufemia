@@ -14,6 +14,7 @@ import {
   registerElement,
   dispatchCustomElementEvent,
   detectOutsideClick,
+  skeletonElement,
   validateDOMAttributes
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
@@ -140,6 +141,7 @@ const propTypes = {
   addon_element: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
   shortcuts: PropTypes.oneOfType([PropTypes.array, PropTypes.func]),
   disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   status: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.func,
@@ -215,6 +217,7 @@ const defaultProps = {
   addon_element: null,
   shortcuts: null,
   disabled: null,
+  skeleton: null,
   status: null,
   status_state: 'error',
   status_animation: null,
@@ -657,6 +660,7 @@ export default class DatePicker extends React.PureComponent {
     const props = extendPropsWithContext(
       this.props,
       defaultProps,
+      { skeleton: this.context?.skeleton },
       this.context.formRow,
       this.context.translation.DatePicker
     )
@@ -686,6 +690,7 @@ export default class DatePicker extends React.PureComponent {
       addon_element,
       shortcuts,
       disabled,
+      skeleton,
       status,
       status_state,
       status_animation,
@@ -784,11 +789,15 @@ export default class DatePicker extends React.PureComponent {
       mainParams.lang = locale.code
     }
 
+    if (isTrue(skeleton)) {
+      skeletonElement(pickerParams)
+    }
+
     validateDOMAttributes(this.props, inputParams)
     validateDOMAttributes(null, submitParams)
     validateDOMAttributes(null, pickerParams)
 
-    // make it possible to grapt the rest attributes and return it with all events
+    // make it possible to grab the rest attributes and return it with all events
     this.attributes = inputParams
 
     return (

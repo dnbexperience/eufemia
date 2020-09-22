@@ -13,11 +13,6 @@ import {
 } from '../../../core/jest/jestSetup'
 import Component from '../Input'
 
-// just to make sure we re-run the test in watch mode due to changes in theese files
-import _input from '../style/_input.scss' // eslint-disable-line
-import dnb_input from '../style/dnb-input.scss' // eslint-disable-line
-import dnb_input_theme_ui from '../style/themes/dnb-input-theme-ui.scss' // eslint-disable-line
-
 const props = {
   ...fakeProps(require.resolve('../Input'), {
     all: true,

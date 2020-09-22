@@ -7,12 +7,6 @@ import { loadScss } from '../../../../src/core/jest/jestSetup'
 import { runFactory } from '../makeMainStyle'
 import isCI from 'is-ci'
 
-// just to make sure we re-run the test in watch mode due to changes in theese files
-import dnb_ui_core from '../../../../src/style/dnb-ui-core.scss' // eslint-disable-line
-import dnb_ui_components from '../../../../src/style/dnb-ui-components.scss' // eslint-disable-line
-import dnb_ui_elements from '../../../../src/style/dnb-ui-elements.scss' // eslint-disable-line
-import dnb_theme_ui from '../../../../src/style/themes/theme-ui/dnb-theme-ui.scss' // eslint-disable-line
-
 if (isCI) {
   jest.setTimeout(30e3)
 

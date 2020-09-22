@@ -52,7 +52,8 @@ const AutocompleteWithState = () => {
             // 2. if it gets debounced, we cancel this timeout
             return () => clearTimeout(timeout)
           },
-          { value, results }
+          { value, results },
+          1e3
         )
       }}
     />

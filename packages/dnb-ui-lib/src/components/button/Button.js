@@ -12,6 +12,7 @@ import {
   isTrue,
   extendPropsWithContext,
   registerElement,
+  skeletonElement,
   validateDOMAttributes,
   processChildren,
   pickRenderProps,
@@ -57,6 +58,7 @@ const propTypes = {
   href: PropTypes.string,
   wrap: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   bounding: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
 
   // React props
@@ -91,6 +93,7 @@ const defaultProps = {
   class: null,
   wrap: false,
   bounding: false,
+  skeleton: null,
   disabled: null,
   tooltip: null,
   status: null,
@@ -168,8 +171,10 @@ export default class Button extends React.PureComponent {
     const props = extendPropsWithContext(
       this.props,
       defaultProps,
+      { skeleton: this.context?.skeleton },
       this.context.formRow
     )
+
     const {
       class: class_name,
       className,
@@ -191,6 +196,7 @@ export default class Button extends React.PureComponent {
       href,
       wrap,
       bounding, // eslint-disable-line
+      skeleton,
       innerRef, // eslint-disable-line
       ...attributes
     } = props
@@ -270,6 +276,7 @@ export default class Button extends React.PureComponent {
       icon && 'dnb-button--has-icon',
       wrap && 'dnb-button--wrap',
       status && `dnb-button__status--${status_state}`,
+      isTrue(skeleton) && 'dnb-skeleton',
       createSpacingClasses(props),
       class_name,
       className,
@@ -285,6 +292,10 @@ export default class Button extends React.PureComponent {
       disabled: isTrue(disabled),
       ...attributes,
       onClick: this.onClickHandler
+    }
+
+    if (isTrue(skeleton)) {
+      skeletonElement(params)
     }
 
     // also used for code markup simulation

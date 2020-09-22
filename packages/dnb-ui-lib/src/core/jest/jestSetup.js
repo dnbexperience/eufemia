@@ -41,7 +41,7 @@ export const loadScss = (file, options = {}) => {
     })
     return String(sassResult.css)
   } catch (e) {
-    console.log('Error', e)
+    console.error('loadScss error:', e)
     return e
   }
 }
@@ -115,6 +115,12 @@ export const axeComponent = async (...components) => {
     `<main>${html}</main>`,
     typeof components[1] === 'object' ? components[1] : null
   )
+}
+
+export function attachToBody() {
+  let container = document.createElement('div')
+  document.body.append(container)
+  return container
 }
 
 function jestSetup() {}

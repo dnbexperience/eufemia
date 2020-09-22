@@ -99,12 +99,14 @@ export default class ModalContent extends React.PureComponent {
     super(props)
     this._contentRef = React.createRef()
     this._id = props.content_id || makeUniqueId()
-    this._ii = new InteractionInvalidation()
+    this._ii = new InteractionInvalidation().setBypassSelector(
+      '.dnb-modal__content'
+    )
   }
 
   componentDidMount() {
     this.removeScrollPossibility()
-    this._ii.active()
+    this._ii.activate()
     this.setFocus()
   }
 

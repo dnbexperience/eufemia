@@ -243,22 +243,25 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
           label_direction="horizontal"
           onMouseDown={[Function]}
           render_content={null}
+          skeleton={null}
           sr_only="label_sr_only"
           text="Autocomplete Label:"
           title={null}
           vertical={null}
         >
           <Element
+            aria-disabled={true}
             className="dnb-form-label"
-            disabled={false}
+            disabled={true}
             htmlFor="autocomplete-id"
             id="autocomplete-id-label"
             is="label"
             onMouseDown={[Function]}
           >
             <label
+              aria-disabled={true}
               className="dnb-form-label"
-              disabled={false}
+              disabled={true}
               htmlFor="autocomplete-id"
               id="autocomplete-id-label"
               onMouseDown={[Function]}
@@ -428,6 +431,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                 role="combobox"
                 selectall={null}
                 size={null}
+                skeleton={null}
                 spellCheck="false"
                 status={null}
                 status_animation={null}
@@ -477,7 +481,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                       <span
                         className="dnb-input__shell"
                         data-has-content="true"
-                        data-input-state="disabled"
+                        data-input-state="virgin"
                       >
                         <input
                           aria-activedescendant="option-autocomplete-id-2"
@@ -554,6 +558,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                             on_submit_blur={null}
                             on_submit_focus={null}
                             size={null}
+                            skeleton={false}
                             status={null}
                             title="submit_button_title"
                             value={null}
@@ -587,6 +592,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                                 onSubmit={[Function]}
                                 on_click={null}
                                 size={null}
+                                skeleton={null}
                                 status={null}
                                 status_animation={null}
                                 status_state="error"
@@ -637,6 +643,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                                     onSubmit={[Function]}
                                     on_click={null}
                                     size={null}
+                                    skeleton={null}
                                     status={null}
                                     status_animation={null}
                                     status_state="error"
@@ -680,6 +687,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                 </span>
               </Input>
               <DrawerList
+                action_menu={false}
                 align_drawer={null}
                 cache_hash={null}
                 class={null}
@@ -696,6 +704,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                 ignore_events={null}
                 independent_width={false}
                 inner_class="dnb-autocomplete__list"
+                is_popup={false}
                 keep_open="keep_open"
                 max_height={1}
                 no_animation={true}
@@ -724,6 +733,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                 wrapper_element={null}
               >
                 <DrawerListInstance
+                  action_menu={false}
                   align_drawer={null}
                   cache_hash={null}
                   class={null}
@@ -740,6 +750,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                   ignore_events={null}
                   independent_width={false}
                   inner_class="dnb-autocomplete__list"
+                  is_popup={false}
                   keep_open="keep_open"
                   max_height={1}
                   no_animation={true}

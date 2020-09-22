@@ -13,6 +13,7 @@ import {
   extendPropsWithContext,
   registerElement,
   validateDOMAttributes,
+  skeletonElement,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
@@ -57,6 +58,7 @@ const propTypes = {
   value: PropTypes.string,
   attributes: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   readOnly: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   class: PropTypes.string,
 
   /// React props
@@ -87,6 +89,7 @@ const defaultProps = {
   value: null,
   attributes: null,
   readOnly: false,
+  skeleton: null,
   class: null,
 
   // React props
@@ -181,6 +184,7 @@ export default class Checkbox extends React.PureComponent {
     const props = extendPropsWithContext(
       this.props,
       defaultProps,
+      { skeleton: this.context && this.context.skeleton },
       this.context.formRow
     )
 
@@ -198,6 +202,7 @@ export default class Checkbox extends React.PureComponent {
       title,
       disabled,
       readOnly,
+      skeleton,
       className,
       class: _className,
 
@@ -248,6 +253,10 @@ export default class Checkbox extends React.PureComponent {
       inputParams['aria-readonly'] = inputParams.readOnly = true
     }
 
+    if (isTrue(skeleton)) {
+      skeletonElement(inputParams)
+    }
+
     // also used for code markup simulation
     validateDOMAttributes(this.props, inputParams)
 
@@ -296,7 +305,13 @@ export default class Checkbox extends React.PureComponent {
                 ref={this._refInput}
               />
 
-              <span className="dnb-checkbox__button" aria-hidden>
+              <span
+                className={classnames(
+                  'dnb-checkbox__button',
+                  isTrue(skeleton) && 'dnb-skeleton'
+                )}
+                aria-hidden
+              >
                 <span className="dnb-checkbox__focus" />
               </span>
 

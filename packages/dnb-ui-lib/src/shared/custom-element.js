@@ -11,11 +11,13 @@ import { ErrorHandler } from './error-helper'
 // This way we can controll the execution of the polyfill with customElementPolyfill()
 import customElementPolyfill from './custom-element-polyfill'
 
+const isTest = process.env.NODE_ENV === 'test'
+let hasPolyfill = isTest
+
 export const registeredElements =
-  (typeof global !== 'undefined'
-    ? (global.registeredElements = global.registeredElements || [])
-    : typeof window !== 'undefined' &&
-      (window.registeredElements = window.registeredElements || [])) || []
+  (typeof window !== 'undefined' &&
+    (window.registeredElements = window.registeredElements || [])) ||
+  []
 
 export const registerElement = (
   tagName,
@@ -35,8 +37,8 @@ export const registerElement = (
   }
 
   //always run the customElementPolyfill unlress we are in the build process
-  if (!registeredElements.hasPolyfill) {
-    registeredElements.hasPolyfill = true
+  if (!hasPolyfill) {
+    hasPolyfill = true
     customElementPolyfill(window)
   }
 
@@ -70,7 +72,9 @@ export const registerElement = (
     }
     // adoptedCallback: Invoked when the custom element is moved to a new document.
     disconnectedCallback() {
-      ReactDOM.unmountComponentAtNode(this)
+      if (!isTest) {
+        ReactDOM.unmountComponentAtNode(this)
+      }
       if (this._children) delete this._children
       if (this._isConnected) delete this._isConnected
       if (this._elementRef) delete this._elementRef

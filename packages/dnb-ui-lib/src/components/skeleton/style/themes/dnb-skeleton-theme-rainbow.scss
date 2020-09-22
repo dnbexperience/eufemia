@@ -1,0 +1,32 @@
+/*
+ * Skeleton Theme
+ *
+ */
+
+.dnb-skeleton {
+  &--rainbow &,
+  &--rainbow {
+    &::after {
+      background-image: linear-gradient(
+        to left,
+        violet,
+        violet 14%,
+        indigo 14%,
+        indigo 28%,
+        blue 28%,
+        blue 42%,
+        green 42%,
+        green 56%,
+        yellow 56%,
+        yellow 70%,
+        orange 70%,
+        orange 84%,
+        red 84%,
+        red 100%
+      ) !important;
+      background-repeat: no-repeat !important;
+      background-size: auto !important;
+      animation: skeletonSmoothAnimation 2s linear infinite;
+    }
+  }
+}

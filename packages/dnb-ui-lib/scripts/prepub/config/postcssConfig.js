@@ -70,6 +70,6 @@ function extractCSSProperties(file, opts = {}) {
     fs.writeFileSync(tmpFile, String(sassResult.css))
     return tmpFile
   } catch (e) {
-    console.log('Error in postcssConfig (extractCSSProperties):', e)
+    console.error('Error in postcssConfig (extractCSSProperties):', e)
   }
 }

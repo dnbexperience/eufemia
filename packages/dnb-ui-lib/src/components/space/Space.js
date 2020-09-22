@@ -10,6 +10,7 @@ import {
   isTrue,
   extendPropsWithContext,
   registerElement,
+  skeletonElement,
   validateDOMAttributes
 } from '../../shared/component-helper'
 import Context from '../../shared/Context'
@@ -44,6 +45,7 @@ const propTypes = {
     PropTypes.number,
     PropTypes.bool
   ]),
+  skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   class: PropTypes.string,
 
   /** React props */
@@ -67,6 +69,7 @@ const defaultProps = {
   right: null,
   bottom: null,
   left: null,
+  skeleton: null,
   class: null,
 
   /** React props */
@@ -103,6 +106,7 @@ export default class Space extends React.PureComponent {
         extendPropsWithContext(
           this.props,
           defaultProps,
+          { skeleton: this.context?.skeleton },
           this.context.space
         )
       : this.props
@@ -115,6 +119,7 @@ export default class Space extends React.PureComponent {
       right,
       bottom,
       left,
+      skeleton,
       id: _id, // eslint-disable-line
       className,
       class: _className,
@@ -129,11 +134,16 @@ export default class Space extends React.PureComponent {
       className: classnames(
         'dnb-space',
         isTrue(inline) && 'dnb-space--inline',
+        isTrue(skeleton) && 'dnb-skeleton',
         createSpacingClasses({ top, right, bottom, left }),
         className,
         _className
       ),
       ...attributes
+    }
+
+    if (isTrue(skeleton)) {
+      skeletonElement(params)
     }
 
     // also used for code markup simulation
@@ -148,21 +158,21 @@ export default class Space extends React.PureComponent {
 }
 
 const Element = ({ element: E, no_collapse, children, ...props }) => {
-  const doCollaps = isTrue(no_collapse)
+  if (isTrue(no_collapse)) {
+    const R = E === 'span' || isInline(Element) ? 'span' : 'div'
+    return (
+      <R
+        className={classnames(
+          'dnb-space--no-collapse',
+          isInline(Element) && 'dnb-space--inline'
+        )}
+      >
+        <E {...props}>{children}</E>
+      </R>
+    )
+  }
 
-  return doCollaps ? (
-    <E
-      element={isInline(Element) ? 'span' : 'div'}
-      className={classnames(
-        'dnb-space--no-collapse',
-        isInline(Element) && 'dnb-space--inline'
-      )}
-    >
-      <E {...props}>{children}</E>
-    </E>
-  ) : (
-    <E {...props}>{children}</E>
-  )
+  return <E {...props}>{children}</E>
 }
 Element.propTypes = {
   children: PropTypes.node,

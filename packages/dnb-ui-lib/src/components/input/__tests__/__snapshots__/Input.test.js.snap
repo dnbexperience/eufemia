@@ -38,6 +38,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
         "readOnly": "readOnly",
         "selectall": "selectall",
         "size": "'default'",
+        "skeleton": "skeleton",
         "status": "status",
         "status_animation": "status_animation",
         "status_state": "status_state",
@@ -65,6 +66,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
         "on_submit": [Function],
         "on_submit_blur": [Function],
         "on_submit_focus": [Function],
+        "skeleton": "skeleton",
         "title": "title",
         "value": "value",
         "variant": "custom type not supported, please set the correct value for variant prop",
@@ -102,6 +104,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
   readOnly={false}
   selectall={null}
   size={null}
+  skeleton={null}
   status={null}
   status_animation={null}
   status_state="error"
@@ -191,6 +194,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
                   "readOnly": "readOnly",
                   "selectall": "selectall",
                   "size": "'default'",
+                  "skeleton": "skeleton",
                   "status": "status",
                   "status_animation": "status_animation",
                   "status_state": "status_state",
@@ -218,6 +222,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
                   "on_submit": [Function],
                   "on_submit_blur": [Function],
                   "on_submit_focus": [Function],
+                  "skeleton": "skeleton",
                   "title": "title",
                   "value": "value",
                   "variant": "custom type not supported, please set the correct value for variant prop",
@@ -239,6 +244,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
             on_submit_blur={null}
             on_submit_focus={null}
             size={null}
+            skeleton={false}
             status={null}
             title="Send knapp"
             value="test"
@@ -281,6 +287,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
                     "readOnly": "readOnly",
                     "selectall": "selectall",
                     "size": "'default'",
+                    "skeleton": "skeleton",
                     "status": "status",
                     "status_animation": "status_animation",
                     "status_state": "status_state",
@@ -308,6 +315,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
                     "on_submit": [Function],
                     "on_submit_blur": [Function],
                     "on_submit_focus": [Function],
+                    "skeleton": "skeleton",
                     "title": "title",
                     "value": "value",
                     "variant": "custom type not supported, please set the correct value for variant prop",
@@ -332,6 +340,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
               on_submit_blur={null}
               on_submit_focus={null}
               size={null}
+              skeleton={false}
               status={null}
               title="Send knapp"
               value="test"
@@ -361,6 +370,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
                   onFocus={[Function]}
                   on_click={null}
                   size={null}
+                  skeleton={null}
                   status={null}
                   status_animation={null}
                   status_state="error"
@@ -404,6 +414,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
                       onFocus={[Function]}
                       on_click={null}
                       size={null}
+                      skeleton={null}
                       status={null}
                       status_animation={null}
                       status_state="error"
@@ -515,6 +526,7 @@ exports[`Input component have to match type="text" snapshot 1`] = `
         "readOnly": "readOnly",
         "selectall": "selectall",
         "size": "'default'",
+        "skeleton": "skeleton",
         "status": "status",
         "status_animation": "status_animation",
         "status_state": "status_state",
@@ -542,6 +554,7 @@ exports[`Input component have to match type="text" snapshot 1`] = `
         "on_submit": [Function],
         "on_submit_blur": [Function],
         "on_submit_focus": [Function],
+        "skeleton": "skeleton",
         "title": "title",
         "value": "value",
         "variant": "custom type not supported, please set the correct value for variant prop",
@@ -579,6 +592,7 @@ exports[`Input component have to match type="text" snapshot 1`] = `
   readOnly={false}
   selectall={null}
   size={null}
+  skeleton={null}
   status={null}
   status_animation={null}
   status_state="error"

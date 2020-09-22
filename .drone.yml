@@ -8,18 +8,18 @@ trigger:
 
 steps:
   # - name: setup
-  #   image: tujoworker/docker-node-puppeteer
+  #   image: tujoworker/docker-node-puppeteer:next
   #   commands:
   #     - curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.16.0
   #     - export PATH="$HOME/.yarn/bin:$PATH"
 
   - name: install dependencies
-    image: tujoworker/docker-node-puppeteer
+    image: tujoworker/docker-node-puppeteer:next
     commands:
       - CYPRESS_INSTALL_BINARY=0 yarn install
 
   - name: dependencies audit
-    image: tujoworker/docker-node-puppeteer
+    image: tujoworker/docker-node-puppeteer:next
     commands:
       - yarn audit-ci
     when:
@@ -30,13 +30,13 @@ steps:
           - rc/*
 
   - name: run integration tests
-    image: tujoworker/docker-node-puppeteer
+    image: tujoworker/docker-node-puppeteer:next
     commands:
       - yarn lint-ci
       - yarn test-ci
 
   - name: prebuild
-    image: tujoworker/docker-node-puppeteer
+    image: tujoworker/docker-node-puppeteer:next
     environment:
       FIGMA_MAIN_FILE:
         from_secret: FIGMA_MAIN_FILE
@@ -64,7 +64,7 @@ steps:
           - rc/*
 
   - name: make build of portal
-    image: tujoworker/docker-node-puppeteer
+    image: tujoworker/docker-node-puppeteer:next
     environment:
       FIGMA_MAIN_FILE:
         from_secret: FIGMA_MAIN_FILE
@@ -100,7 +100,7 @@ steps:
           - rc/*
 
   - name: run screenshot tests
-    image: tujoworker/docker-node-puppeteer
+    image: tujoworker/docker-node-puppeteer:next
     environment:
       FIGMA_MAIN_FILE:
         from_secret: FIGMA_MAIN_FILE
@@ -128,7 +128,7 @@ steps:
           - rc/*
 
   - name: deploy portal
-    image: tujoworker/docker-node-puppeteer
+    image: tujoworker/docker-node-puppeteer:next
     environment:
       GH_EMAIL:
         from_secret: GH_EMAIL
@@ -157,7 +157,7 @@ steps:
           - portal
 
   - name: publish release
-    image: tujoworker/docker-node-puppeteer
+    image: tujoworker/docker-node-puppeteer:next
     environment:
       GH_EMAIL:
         from_secret: GH_EMAIL
