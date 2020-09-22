@@ -183,6 +183,7 @@ exports[`Modal component have to match snapshot 1`] = `
             width={null}
           >
             <span
+              aria-hidden={true}
               aria-label="question icon"
               className="dnb-icon dnb-icon--default dnb-button__icon"
               role="presentation"
@@ -413,6 +414,7 @@ exports[`Modal component have to match snapshot 1`] = `
                         ‌
                       </span>
                       <span
+                        aria-hidden="true"
                         aria-label="close icon"
                         class="dnb-icon dnb-icon--medium dnb-button__icon"
                         role="presentation"
@@ -551,6 +553,7 @@ exports[`Modal component have to match snapshot 1`] = `
                           width={null}
                         >
                           <span
+                            aria-hidden={true}
                             aria-label="close icon"
                             className="dnb-icon dnb-icon--medium dnb-button__icon"
                             role="presentation"

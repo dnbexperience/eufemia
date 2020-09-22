@@ -148,6 +148,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
               width={null}
             >
               <span
+                aria-hidden={true}
                 className="dnb-icon dnb-icon--large"
                 role="presentation"
               >
@@ -244,6 +245,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                       ‌
                     </span>
                     <span
+                      aria-hidden="true"
                       aria-label="calendar icon"
                       class="dnb-icon dnb-icon--default dnb-button__icon"
                       role="presentation"
@@ -929,6 +931,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                   ‌
                                 </span>
                                 <span
+                                  aria-hidden="true"
                                   aria-label="calendar icon"
                                   class="dnb-icon dnb-icon--default dnb-button__icon"
                                   role="presentation"
@@ -993,6 +996,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                       ‌
                                     </span>
                                     <span
+                                      aria-hidden="true"
                                       aria-label="calendar icon"
                                       class="dnb-icon dnb-icon--default dnb-button__icon"
                                       role="presentation"
@@ -1073,6 +1077,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                           ‌
                                         </span>
                                         <span
+                                          aria-hidden="true"
                                           aria-label="calendar icon"
                                           class="dnb-icon dnb-icon--default dnb-button__icon"
                                           role="presentation"
@@ -1133,6 +1138,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                     width={null}
                                   >
                                     <span
+                                      aria-hidden={true}
                                       aria-label="calendar icon"
                                       className="dnb-icon dnb-icon--default dnb-button__icon"
                                       role="presentation"

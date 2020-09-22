@@ -165,6 +165,7 @@ exports[`Slider component have to match snapshot 1`] = `
                 width={null}
               >
                 <span
+                  aria-hidden={true}
                   aria-label="subtract icon"
                   className="dnb-icon dnb-icon--default dnb-button__icon"
                   role="presentation"
@@ -395,6 +396,7 @@ exports[`Slider component have to match snapshot 1`] = `
                 width={null}
               >
                 <span
+                  aria-hidden={true}
                   aria-label="add icon"
                   className="dnb-icon dnb-icon--default dnb-button__icon"
                   role="presentation"

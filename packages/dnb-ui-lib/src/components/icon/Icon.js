@@ -330,6 +330,9 @@ export const prepareIcon = (props) => {
     title, // to show on hover, if defined
     ...attributes
   })
+  if (!alt && typeof wrapperParams['aria-hidden'] === 'undefined') {
+    wrapperParams['aria-hidden'] = true
+  }
 
   wrapperParams.className = classnames(
     'dnb-icon',

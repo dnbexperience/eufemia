@@ -522,6 +522,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
                     width={null}
                   >
                     <span
+                      aria-hidden={true}
                       aria-label="chevron left icon"
                       className="dnb-icon dnb-icon--default dnb-button__icon"
                       role="presentation"

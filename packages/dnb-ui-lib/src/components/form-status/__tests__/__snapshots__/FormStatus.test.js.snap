@@ -83,6 +83,7 @@ exports[`FormStatus component have to match snapshot 1`] = `
         width={null}
       >
         <span
+          aria-hidden={true}
           className="dnb-icon dnb-icon--large"
           role="presentation"
         >

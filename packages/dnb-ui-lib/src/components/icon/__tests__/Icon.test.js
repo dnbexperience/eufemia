@@ -61,6 +61,13 @@ describe('Icon component', () => {
     )
   })
 
+  it('should not be hidden, given aria-hidden="false"', () => {
+    const Comp = mount(<Component {...props} aria-hidden={false} />)
+    expect(
+      Comp.find('span.dnb-icon').instance().getAttribute('aria-hidden')
+    ).toBe('false')
+  })
+
   it('should work with custom size', () => {
     const Comp = mount(<Component {...props} size="100" />)
     expect(
