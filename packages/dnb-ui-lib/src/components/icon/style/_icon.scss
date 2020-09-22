@@ -85,8 +85,7 @@
     vertical-align: middle;
   }
 
-  // IE fix
-  @media screen and (-ms-high-contrast: none) {
+  @include IS_IE {
     flex: none;
   }
 }

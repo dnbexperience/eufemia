@@ -126,34 +126,33 @@
     white-space: nowrap;
 
     // Chrome fix
-    @supports (-webkit-appearance: none) and
-      (not (overflow: -webkit-marquee)) and (not (-ms-ime-align: auto)) and
-      (not (-moz-appearance: none)) {
+    @include IS_CHROME {
       margin: 0 -4px;
     }
 
     // Edge fix
-    @supports (-ms-ime-align: auto) {
+    @include IS_EDGE {
       margin: 0 -5px;
     }
 
-    // Safari fix
-    @media not all and (min-resolution: 0.001dpcm) {
+    // Safari Mobile fix
+    @include IS_SAFARI_MOBILE {
       &:not(*:root) {
         margin: 0;
       }
-      @supports (-webkit-appearance: none) and (stroke-color: transparent)
-        and (not (-webkit-overflow-scrolling: touch)) {
-        &:not(*:root) {
-          margin: 0 -4px;
-        }
-        &:first-of-type:not(*:root) {
-          margin-left: 0.8rem;
-        }
-        // stylelint-disable-next-line
-        &:last-of-type:not(*:root) {
-          margin-right: 2.2rem;
-        }
+    }
+
+    // Safari Desktop fix
+    @include IS_SAFARI_DESKTOP {
+      &:not(*:root) {
+        margin: 0 -4px;
+      }
+      &:first-of-type:not(*:root) {
+        margin-left: 0.8rem;
+      }
+      // stylelint-disable-next-line
+      &:last-of-type:not(*:root) {
+        margin-right: 2.2rem;
       }
     }
   }
@@ -439,8 +438,7 @@
     }
   }
 
-  // IE fix
-  @media screen and (-ms-high-contrast: none) {
+  @include IS_IE {
     flex: none;
 
     &__day,

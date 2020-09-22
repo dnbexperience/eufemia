@@ -376,8 +376,7 @@
     }
   }
 
-  // IE fix
-  @media screen and (-ms-high-contrast: none) {
+  @include IS_IE {
     flex: none;
     vertical-align: baseline;
 
@@ -385,7 +384,7 @@
       top: 0;
     }
     &__options {
-      // IE has bug where the height can't be calculated propery
+      // IE has bug where the height can't be calculated property
       display: block;
     }
   }

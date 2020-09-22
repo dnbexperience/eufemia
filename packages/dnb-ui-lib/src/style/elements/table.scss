@@ -70,9 +70,7 @@
       text-align: inherit;
     }
 
-    // Firefox fix
-    @supports (-moz-appearance: meterbar) and
-      (background-blend-mode: difference, normal) {
+    @include IS_FF {
       // to get the perfect height of pixles, to this:
       padding-bottom: calc(0.5rem - 0.5px);
     }
