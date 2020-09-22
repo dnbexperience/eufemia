@@ -89,6 +89,7 @@ export const SearchBarInput = () => {
                 font-size: var(--font-size-small);
 
                 padding-bottom: 0.5rem;
+                overflow: visible;
 
                 .dnb-anchor {
                   display: inline-block;
