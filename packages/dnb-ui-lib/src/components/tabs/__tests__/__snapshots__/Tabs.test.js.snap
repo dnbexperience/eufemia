@@ -369,8 +369,10 @@ exports[`Tabs scss have to match snapshot 1`] = `
       html[data-whatinput='keyboard'] .dnb-tabs__tabs__tablist:focus {
         --border-color: var(--color-emerald-green);
         box-shadow: 0 0 0 0.125rem var(--border-color);
-        /* IE11 fix */
         border-color: transparent; }
+        @media screen and (-ms-high-contrast: none) {
+          html[data-whatinput='keyboard'] .dnb-tabs__tabs__tablist:focus {
+            box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
   .dnb-tabs__tabs--left .dnb-tabs__tabs__tablist {
     justify-content: flex-start; }
   .dnb-tabs__tabs--right .dnb-tabs__tabs__tablist {

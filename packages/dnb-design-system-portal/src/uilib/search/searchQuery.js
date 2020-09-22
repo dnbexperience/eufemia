@@ -61,11 +61,11 @@ const flatten = (arr) =>
             slug: makeSlug(item.value)
           }))
 
-          // bacuse we need also pages form Tabs, we use here the h2 to make the title
+          // because we need also pages form Tabs, we use here the h2 to make the title
           // also, h1 is there an object
           const first = headings[0]
 
-          // has an empty, not valid title, then we grap the first heading (h1)
+          // has an empty, not valid title, then we grab the first heading (h1)
           if (!hasTitle(frontmatter)) {
             if (hasSearch(frontmatter)) {
               frontmatter = {

@@ -100,8 +100,7 @@
   &--no-collapse {
     display: flow-root;
 
-    // IE fix
-    @media screen and (-ms-high-contrast: none) {
+    @include IS_IE {
       overflow: auto;
     }
   }

@@ -193,8 +193,7 @@
     right: 0;
   }
 
-  // IE fix
-  @media screen and (-ms-high-contrast: none) {
+  @include IS_IE {
     &__icon > .dnb-icon {
       border-width: 1px;
     }
