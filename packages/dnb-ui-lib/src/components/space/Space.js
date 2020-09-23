@@ -158,21 +158,21 @@ export default class Space extends React.PureComponent {
 }
 
 const Element = ({ element: E, no_collapse, children, ...props }) => {
-  const doCollaps = isTrue(no_collapse)
+  if (isTrue(no_collapse)) {
+    const R = E === 'span' || isInline(Element) ? 'span' : 'div'
+    return (
+      <R
+        className={classnames(
+          'dnb-space--no-collapse',
+          isInline(Element) && 'dnb-space--inline'
+        )}
+      >
+        <E {...props}>{children}</E>
+      </R>
+    )
+  }
 
-  return doCollaps ? (
-    <E
-      element={isInline(Element) ? 'span' : 'div'}
-      className={classnames(
-        'dnb-space--no-collapse',
-        isInline(Element) && 'dnb-space--inline'
-      )}
-    >
-      <E {...props}>{children}</E>
-    </E>
-  ) : (
-    <E {...props}>{children}</E>
-  )
+  return <E {...props}>{children}</E>
 }
 Element.propTypes = {
   children: PropTypes.node,

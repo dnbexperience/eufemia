@@ -601,9 +601,14 @@ export const isInsideScrollView = (
   return elem == window ? false : Boolean(elem)
 }
 
+const isTest = process.env.NODE_ENV === 'test'
 export const warn = (...e) => {
   if (typeof console !== 'undefined') {
-    console.warn(...e)
+    if (isTest) {
+      console.log(...e)
+    } else if (typeof console.warn === 'function') {
+      console.warn(...e)
+    }
   }
 }
 

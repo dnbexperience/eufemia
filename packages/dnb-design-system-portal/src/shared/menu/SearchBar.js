@@ -89,6 +89,7 @@ export const SearchBarInput = () => {
                 font-size: var(--font-size-small);
 
                 padding-bottom: 0.5rem;
+                overflow: visible;
 
                 .dnb-anchor {
                   display: inline-block;
@@ -235,7 +236,14 @@ const makeHitsHumanFriendly = (hits) => {
           return null
         }
         return (
-          <Anchor key={slug + hash + i} href={`/${slug}#${hash}`}>
+          <Anchor
+            key={slug + hash + i}
+            href={`/${slug}#${hash}`}
+            onClick={(e) => {
+              e.preventDefault()
+              navigate(`/${slug}#${hash}`)
+            }}
+          >
             {value}
           </Anchor>
         )

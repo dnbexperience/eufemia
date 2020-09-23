@@ -14,6 +14,20 @@ NB! Modal dialogs interrupt users and demand an action. They are appropriate whe
 
 The modal can be triggered from either a button or by using the `open_state` property. Triggering a modal will activate the opaque overlay and display the contents.
 
+### Help button
+
+As the Modal is very often used in combination with other components and often as a enhancement of contextual content, it comes with a trigger button ([help button example](/uilib/components/modal/demos?fullscreen#modal-help-button)) with a question mark by default. You can for sure disable that behavior by using `trigger_hidden="true"`.
+
+You can also used the broadly available `suffix` property, like so:
+
+```jsx
+<Input
+  label="Input"
+  placeholder="Placeholder ..."
+  suffix={<Modal>Help text</Modal>}
+/>
+```
+
 ### Accessibility
 
 In order to make modals accessible, a lot of things are considered.

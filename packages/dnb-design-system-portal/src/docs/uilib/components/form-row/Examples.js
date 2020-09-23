@@ -85,9 +85,9 @@ class Example extends React.PureComponent {
 render(
   <FormRow
     label={
-      <span className="dnb-h--large" top={false} bottom="large">
+      <Space element="span" className="dnb-h--large" top={false} bottom="large" no_collapse={true} >
         Custom vertical legend:
-      </span>
+      </Space>
     }
     vertical
   >
@@ -166,7 +166,7 @@ const CustomRow = styled(FormRow)\`
 \`
 render(
 <CustomRow
-  label={ <span className="dnb-h--large" top="0" bottom="0">Legend</span> }
+  label={ <Space element="span" className="dnb-h--large" top="0" bottom="0">Legend</Space> }
   label_direction="vertical"
 >
   <Input label="Vertical input label" value="Input" right="small" />

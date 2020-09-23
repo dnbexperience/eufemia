@@ -281,8 +281,7 @@
     margin-top: 0.5rem;
   }
 
-  // IE fix
-  @media screen and (-ms-high-contrast: none) {
+  @include IS_IE {
     flex: none;
     &__icon,
     &__text {

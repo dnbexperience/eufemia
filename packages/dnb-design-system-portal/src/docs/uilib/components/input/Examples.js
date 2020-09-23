@@ -129,7 +129,7 @@ class Example extends React.PureComponent {
           {
             /* @jsx */ `
 <Input
-  label={<span className="dnb-h--large">Fødselsnummer</span>}
+  label={<Space element="span" className="dnb-h--large">Fødselsnummer</Space>}
   label_direction="vertical"
   autocomplete="on"
   placeholder="Placeholder text"
