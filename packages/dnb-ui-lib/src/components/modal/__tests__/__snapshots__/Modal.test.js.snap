@@ -97,6 +97,7 @@ exports[`Modal component have to match snapshot 1`] = `
   >
     <Button
       aria-label="modal_title"
+      aria-roledescription="Hjelp-knapp"
       bounding={false}
       class={null}
       className="dnb-modal__trigger"
@@ -125,6 +126,7 @@ exports[`Modal component have to match snapshot 1`] = `
     >
       <button
         aria-label="modal_title"
+        aria-roledescription="Hjelp-knapp"
         className="dnb-button dnb-button--secondary dnb-modal__trigger dnb-button--icon-position-left dnb-button--has-icon dnb-button--size-medium"
         disabled={false}
         id="modal_id"
@@ -133,6 +135,7 @@ exports[`Modal component have to match snapshot 1`] = `
       >
         <Content
           aria-label="modal_title"
+          aria-roledescription="Hjelp-knapp"
           bounding={false}
           class={null}
           className="dnb-modal__trigger"

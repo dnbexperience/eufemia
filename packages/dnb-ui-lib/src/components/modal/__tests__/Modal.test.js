@@ -12,6 +12,7 @@ import {
   loadScss
 } from '../../../core/jest/jestSetup'
 
+import Input from '../../input/Input'
 import Component from '../Modal'
 
 // just to make sure we re-run the test in watch mode due to changes in theese files
@@ -50,6 +51,25 @@ describe('Modal component', () => {
     Comp.setProps({
       trigger_hidden: false
     })
+  })
+  it('should act as a help button by default', () => {
+    const Comp = mount(
+      <Input
+        label="Input"
+        placeholder="Placeholder ..."
+        suffix={<Component title={props.title}>Help text</Component>}
+      />
+    )
+    expect(
+      Comp.find('button.dnb-modal__trigger')
+        .instance()
+        .hasAttribute('aria-roledescription')
+    ).toBe(true)
+    expect(
+      Comp.find('button.dnb-modal__trigger')
+        .instance()
+        .getAttribute('aria-label')
+    ).toBe(props.title)
   })
   it('has a disabled trigger button once we set trigger_disabled to true', () => {
     Comp.setProps({
