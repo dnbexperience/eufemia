@@ -1507,9 +1507,12 @@ class AutocompleteInstance extends React.PureComponent {
     }
 
     if (showStatus || suffix) {
-      inputParams['aria-describedby'] = `${
-        showStatus ? id + '-status' : ''
-      } ${suffix ? id + '-suffix' : ''}`
+      inputParams['aria-describedby'] = [
+        showStatus ? id + '-status' : null,
+        suffix ? id + '-suffix' : null
+      ]
+        .filter(Boolean)
+        .join(' ')
     }
 
     // also used for code markup simulation

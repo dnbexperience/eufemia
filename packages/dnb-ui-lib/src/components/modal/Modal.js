@@ -16,7 +16,8 @@ import {
   extendPropsWithContext,
   registerElement,
   processChildren,
-  dispatchCustomElementEvent
+  dispatchCustomElementEvent,
+  convertJsxToString
 } from '../../shared/component-helper'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import Button from '../button/Button'
@@ -429,6 +430,7 @@ export default class Modal extends React.PureComponent {
     return (
       <SuffixContext.Consumer>
         {(suffixProps) => {
+          const trigger_attributes = {}
           const additional = {}
 
           const icon =
@@ -437,10 +439,29 @@ export default class Modal extends React.PureComponent {
               : (!trigger_text || trigger_variant === 'tertiary') &&
                 trigger_icon
 
+          if (icon === 'question' && !isTrue(trigger_hidden)) {
+            trigger_attributes[
+              'aria-roledescription'
+            ] = this.context.translation.Modal.help_button
+
+            // Rather use aria-roledescription
+            //trigger_attributes['aria-describedby'] = `${this._id}-help`
+          }
+
           // in case the modal is used in suffix and no title is given
           // suffixProps.label is also available, so we could use that too
           if (!rest.title && icon === 'question' && suffixProps) {
             additional.title = this.context.translation.Modal.more_info
+          }
+
+          let ariaLabel =
+            props['aria-label'] ||
+            trigger_title ||
+            props.title ||
+            additional.title
+
+          if (React.isValidElement(ariaLabel)) {
+            ariaLabel = convertJsxToString(ariaLabel)
           }
 
           return (
@@ -451,12 +472,7 @@ export default class Modal extends React.PureComponent {
                   type="button"
                   variant={trigger_variant}
                   text={trigger_text}
-                  aria-label={
-                    props['aria-label'] ||
-                    trigger_title ||
-                    props.title ||
-                    additional.title
-                  }
+                  aria-label={ariaLabel}
                   disabled={isTrue(disabled) || isTrue(trigger_disabled)}
                   icon={icon}
                   size={trigger_size}
@@ -468,8 +484,14 @@ export default class Modal extends React.PureComponent {
                     trigger_class
                   )}
                   innerRef={this._triggerRef}
+                  {...trigger_attributes}
                 />
               )}
+              {/* We now use "aria-roledescription" {showHelpButton && (
+                <span id={`${this._id}-help`} hidden>
+                  {this.context.translation.Modal.more_info}
+                </span>
+              )} */}
               {modalActive && modal_content && (
                 <ModalRoot
                   {...rest}

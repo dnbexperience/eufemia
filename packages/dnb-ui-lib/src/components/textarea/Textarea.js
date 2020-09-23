@@ -293,9 +293,12 @@ export default class Textarea extends React.PureComponent {
 
     // we may considder using: aria-details
     if (showStatus || suffix) {
-      textareaParams['aria-describedby'] = `${
-        showStatus ? id + '-status' : ''
-      } ${suffix ? id + '-suffix' : ''}`
+      textareaParams['aria-describedby'] = [
+        showStatus ? id + '-status' : null,
+        suffix ? id + '-suffix' : null
+      ]
+        .filter(Boolean)
+        .join(' ')
     }
     if (readOnly) {
       textareaParams['aria-readonly'] = textareaParams.readOnly = true

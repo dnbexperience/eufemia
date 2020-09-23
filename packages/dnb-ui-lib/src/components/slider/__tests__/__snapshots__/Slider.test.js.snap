@@ -211,7 +211,7 @@ exports[`Slider component have to match snapshot 1`] = `
             }
           >
             <input
-              aria-describedby=" id-suffix"
+              aria-describedby="id-suffix"
               aria-labelledby="id-label"
               className="dnb-slider__button-helper"
               disabled={false}

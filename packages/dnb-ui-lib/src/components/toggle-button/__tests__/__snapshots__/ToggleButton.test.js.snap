@@ -83,7 +83,7 @@ exports[`ToggleButton component have to match snapshot 1`] = `
           />
         </AlignmentHelper>
         <Button
-          aria-describedby=" toggle-button-suffix"
+          aria-describedby="toggle-button-suffix"
           aria-pressed="false"
           bounding={false}
           class={null}
@@ -115,7 +115,7 @@ exports[`ToggleButton component have to match snapshot 1`] = `
           wrap={false}
         >
           <button
-            aria-describedby=" toggle-button-suffix"
+            aria-describedby="toggle-button-suffix"
             aria-pressed="false"
             className="dnb-button dnb-button--secondary dnb-button--has-text dnb-toggle-button__button dnb-button--icon-position-left dnb-button--has-icon dnb-button--icon-size-icon_size"
             disabled={false}
@@ -127,7 +127,7 @@ exports[`ToggleButton component have to match snapshot 1`] = `
             type="button"
           >
             <Content
-              aria-describedby=" toggle-button-suffix"
+              aria-describedby="toggle-button-suffix"
               aria-pressed="false"
               bounding={false}
               class={null}

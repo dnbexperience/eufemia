@@ -595,13 +595,14 @@ export default class Slider extends React.PureComponent {
       }
     }
     if (showStatus || suffix) {
-      rangeParams['aria-describedby'] = `${
-        showStatus ? id + '-status' : ''
-      } ${suffix ? id + '-suffix' : ''}`
+      rangeParams['aria-describedby'] = [
+        showStatus ? id + '-status' : null,
+        suffix ? id + '-suffix' : null
+      ]
+        .filter(Boolean)
+        .join(' ')
       if (isTouchDevice()) {
-        trackParams['aria-describedby'] = `${
-          showStatus ? id + '-status' : ''
-        } ${suffix ? id + '-suffix' : ''}`
+        trackParams['aria-describedby'] = rangeParams['aria-describedby']
       }
     }
 

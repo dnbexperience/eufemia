@@ -524,9 +524,12 @@ class DropdownInstance extends React.PureComponent {
       triggerParams['aria-label'] = title
     }
     if (showStatus || suffix) {
-      triggerParams['aria-describedby'] = `${
-        showStatus ? id + '-status' : ''
-      } ${suffix ? id + '-suffix' : ''}`
+      triggerParams['aria-describedby'] = [
+        showStatus ? id + '-status' : null,
+        suffix ? id + '-suffix' : null
+      ]
+        .filter(Boolean)
+        .join(' ')
     }
 
     // also used for code markup simulation

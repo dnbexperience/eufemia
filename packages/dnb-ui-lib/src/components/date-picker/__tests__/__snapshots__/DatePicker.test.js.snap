@@ -96,7 +96,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
     lang="nb"
   >
     <span
-      aria-describedby="date-picker-id-status "
+      aria-describedby="date-picker-id-status"
       className="dnb-date-picker__inner"
     >
       <AlignmentHelper

@@ -391,9 +391,12 @@ export default class ToggleButton extends React.PureComponent {
           }
 
           if (showStatus || suffix) {
-            buttonParams['aria-describedby'] = `${
-              showStatus ? id + '-status' : ''
-            } ${suffix ? id + '-suffix' : ''}`
+            buttonParams['aria-describedby'] = [
+              showStatus ? id + '-status' : null,
+              suffix ? id + '-suffix' : null
+            ]
+              .filter(Boolean)
+              .join(' ')
           }
           if (readOnly) {
             buttonParams['aria-readonly'] = buttonParams.readOnly = true

@@ -45,6 +45,14 @@ export default [
       </Box> */}
 
       <Box>
+        <Input
+          label="Input"
+          placeholder="Placeholder ..."
+          suffix={<Modal>Help text</Modal>}
+        />
+      </Box>
+
+      <Box>
         <Button variant="tertiary" text="Button" />
         <Modal
           // no_animation
