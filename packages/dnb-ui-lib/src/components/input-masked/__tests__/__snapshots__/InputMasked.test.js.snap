@@ -531,8 +531,10 @@ exports[`InputMasked scss have to match snapshot 1`] = `
       html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):focus, html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):active {
         --border-color: var(--color-emerald-green);
         box-shadow: 0 0 0 0.125rem var(--border-color);
-        /* IE11 fix */
         border-color: transparent; }
+        @media screen and (-ms-high-contrast: none) {
+          html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):focus, html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):active {
+            box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
     html[data-whatinput='mouse'] .dnb-button--reset:not([disabled]):focus,
     html[data-whatinput='mouse'] .dnb-button--reset:not([disabled]):active {
       box-shadow: none;

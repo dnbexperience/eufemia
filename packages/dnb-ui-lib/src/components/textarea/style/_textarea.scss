@@ -26,13 +26,12 @@
   // );
   // padding-bottom: var(--textarea-vertical-correction);
 
-  /* IE11 fix */
-  @media screen and (-ms-high-contrast: none) {
+  @include IS_IE {
     padding: var(--textarea-padding-width);
   }
 
   // Edge fix
-  @supports (-ms-ime-align: auto) {
+  @include IS_EDGE {
     padding: var(--textarea-padding-width);
   }
 }
@@ -166,8 +165,7 @@
     }
   }
 
-  // IE fix
-  @media screen and (-ms-high-contrast: none) {
+  @include IS_IE {
     &__inner {
       margin: 0;
     }

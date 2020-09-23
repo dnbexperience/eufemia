@@ -47,13 +47,12 @@
           0 0 0 calc(var(--textarea-padding-width) + 0.125rem)
             var(--color-emerald-green);
 
-        /* IE11 fix */
-        @media screen and (-ms-high-contrast: none) {
+        @include IS_IE {
           box-shadow: 0 0 0 0.125rem var(--color-emerald-green);
         }
 
         // Edge fix
-        @supports (-ms-ime-align: auto) {
+        @include IS_EDGE {
           box-shadow: 0 0 0 0.125rem var(--color-emerald-green);
         }
       }
@@ -86,13 +85,12 @@
       0 0 0 calc(var(--textarea-padding-width) + 0.125rem)
         var(--color-fire-red);
 
-    /* IE11 fix */
-    @media screen and (-ms-high-contrast: none) {
+    @include IS_IE {
       box-shadow: 0 0 0 1px var(--color-fire-red);
     }
 
     // Edge fix
-    @supports (-ms-ime-align: auto) {
+    @include IS_EDGE {
       box-shadow: 0 0 0 1px var(--color-fire-red);
     }
   }
@@ -103,14 +101,13 @@
     text-shadow: none;
   }
 
-  /* IE11 fix */
-  @media screen and (-ms-high-contrast: none) {
+  @include IS_IE {
     -ms-overflow-style: -ms-autohiding-scrollbar;
     box-shadow: 0 0 0 1px var(--color-sea-green);
   }
 
   // Edge fix
-  @supports (-ms-ime-align: auto) {
+  @include IS_EDGE {
     -ms-overflow-style: -ms-autohiding-scrollbar;
     box-shadow: 0 0 0 1px var(--color-sea-green);
   }
@@ -140,13 +137,12 @@
         0 0 0 calc(var(--textarea-padding-width) + 0.125rem)
           var(--color-fire-red);
 
-      /* IE11 fix */
-      @media screen and (-ms-high-contrast: none) {
+      @include IS_IE {
         box-shadow: 0 0 0 0.125rem var(--color-fire-red);
       }
 
       // Edge fix
-      @supports (-ms-ime-align: auto) {
+      @include IS_EDGE {
         box-shadow: 0 0 0 0.125rem var(--color-fire-red);
       }
     }

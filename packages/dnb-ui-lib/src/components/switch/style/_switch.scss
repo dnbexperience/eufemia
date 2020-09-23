@@ -232,8 +232,7 @@
     }
   }
 
-  // IE fix
-  @media screen and (-ms-high-contrast: none) {
+  @include IS_IE {
     vertical-align: text-bottom;
 
     &__order {
@@ -252,7 +251,7 @@
   }
 
   // Edge fix
-  @supports (-ms-ime-align: auto) {
+  @include IS_EDGE {
     // fix are a problem with transition and complex transforms
     &__input:not(:checked) ~ &__button {
       transform: translateX(0);

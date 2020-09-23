@@ -381,6 +381,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                   width={null}
                 >
                   <span
+                    aria-hidden={true}
                     className="dnb-icon dnb-icon--large"
                     role="presentation"
                   >
@@ -1179,21 +1180,19 @@ exports[`Dropdown scss have to match default theme snapshot 1`] = `
   .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger {
     --border-color: var(--color-fire-red);
     box-shadow: 0 0 0 0.125rem var(--border-color) !important;
-    /* IE11 fix */
     border-color: transparent; }
     @media screen and (-ms-high-contrast: none) {
       .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger {
-        box-shadow: 0 0 0 1px var(--border-color) !important; } }
+        box-shadow: 0 0 0 1px var(--color-fire-red) !important; } }
     html:not([data-whatintent='touch']) .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger:hover[disabled] {
       cursor: not-allowed; }
     html:not([data-whatintent='touch']) .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger:hover:not([disabled]) {
       --border-color: var(--color-fire-red);
       box-shadow: 0 0 0 0.125rem var(--border-color) !important;
-      /* IE11 fix */
       border-color: transparent; }
       @media screen and (-ms-high-contrast: none) {
         html:not([data-whatintent='touch']) .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger:hover:not([disabled]) {
-          box-shadow: 0 0 0 1px var(--border-color) !important; } }
+          box-shadow: 0 0 0 1px var(--color-fire-red) !important; } }
       html:not([data-whatintent='touch']) .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger:hover:not([disabled]) .dnb-dropdown__icon .dnb-icon {
         color: var(--color-fire-red); }
   .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger,
@@ -1590,8 +1589,10 @@ exports[`Dropdown scss have to match snapshot 1`] = `
       html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):focus, html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):active {
         --border-color: var(--color-emerald-green);
         box-shadow: 0 0 0 0.125rem var(--border-color);
-        /* IE11 fix */
         border-color: transparent; }
+        @media screen and (-ms-high-contrast: none) {
+          html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):focus, html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):active {
+            box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
     html[data-whatinput='mouse'] .dnb-button--reset:not([disabled]):focus,
     html[data-whatinput='mouse'] .dnb-button--reset:not([disabled]):active {
       box-shadow: none;

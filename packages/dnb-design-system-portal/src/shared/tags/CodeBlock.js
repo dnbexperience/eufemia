@@ -91,6 +91,7 @@ class LiveCode extends React.PureComponent {
     caption: PropTypes.string,
     useRender: PropTypes.bool,
     noFragments: PropTypes.bool,
+    addToSearchIndex: PropTypes.func,
     hideToolbar: PropTypes.bool,
     hideCode: PropTypes.bool,
     hidePreview: PropTypes.bool,
@@ -105,6 +106,7 @@ class LiveCode extends React.PureComponent {
     caption: null,
     useRender: false,
     noFragments: true,
+    addToSearchIndex: null,
     hideToolbar: false,
     hideCode: false,
     hidePreview: false,
@@ -172,6 +174,7 @@ class LiveCode extends React.PureComponent {
       useRender,
       noFragments,
       language,
+      addToSearchIndex,
 
       code: _code, // eslint-disable-line
       hideToolbar: _hideToolbar, // eslint-disable-line
@@ -227,6 +230,8 @@ class LiveCode extends React.PureComponent {
                   level={3}
                   // is="h3"
                   useSlug={dnbTest}
+                  title={title}
+                  addToSearchIndex={addToSearchIndex}
                 >
                   <ReactMarkdown
                     source={title}

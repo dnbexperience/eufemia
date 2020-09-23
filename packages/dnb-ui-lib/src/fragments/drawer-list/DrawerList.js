@@ -330,7 +330,6 @@ class DrawerListInstance extends React.PureComponent {
           `dnb-drawer-list--triangle-position-${triangle_position}`,
         align_drawer && `dnb-drawer-list--${align_drawer}`,
         size && `dnb-drawer-list--${size}`,
-        // isTrue(fixed_position) && 'dnb-drawer-list--fixed',
         isTrue(independent_width) && 'dnb-drawer-list--independent-width',
         isTrue(scrollable) && 'dnb-drawer-list--scroll',
         isTrue(no_scroll_animation) &&
@@ -363,13 +362,17 @@ class DrawerListInstance extends React.PureComponent {
       },
       ref: _refUl
     }
-    if (
+
+    if (!hidden && parseFloat(active_item) > -1) {
+      ulParams['aria-activedescendant'] = `option-${id}-${active_item}`
+    } else if (
       !isTrue(prevent_selection) &&
       !hidden &&
       parseFloat(selected_item) > -1
     ) {
       ulParams['aria-activedescendant'] = `option-${id}-${selected_item}`
     }
+
     if (isTrue(focusable)) {
       ulParams.tabIndex = '0'
     }
@@ -452,7 +455,6 @@ class DrawerListInstance extends React.PureComponent {
                   <Items />
                 )}
               </DrawerList.Options>
-              {/* <Triangle /> */}
             </>
           ) : (
             children && (
@@ -464,17 +466,7 @@ class DrawerListInstance extends React.PureComponent {
                   ref={_refTriangle}
                 />
               </span>
-            ) /*|| (
-        <ul {...ulParams} hidden>
-          <li
-            role="option"
-            id={`option-${id}-${selected_item}`}
-            aria-selected="true"
-          >
-            blabla
-          </li>
-        </ul>
-      ) - is semanticall good, but not good for NVDA screen reader, as it reads out that there is only one item in there */
+            )
           )}
         </span>
       </span>

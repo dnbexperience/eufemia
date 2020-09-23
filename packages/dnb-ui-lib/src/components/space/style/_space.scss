@@ -124,8 +124,7 @@
     //   line-height: 0;
     // }
 
-    // IE fix
-    @media screen and (-ms-high-contrast: none) {
+    @include IS_IE {
       overflow: auto;
     }
   }
