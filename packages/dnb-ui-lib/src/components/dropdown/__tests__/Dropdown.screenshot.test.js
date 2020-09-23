@@ -84,6 +84,19 @@ describe('Dropdown screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+  it('have to match different item direactions', async () => {
+    const screenshot = await testPageScreenshot({
+      style: {
+        height: '16rem'
+      },
+      selector:
+        '[data-dnb-test="dropdown-item-directions"] .dnb-dropdown__inner',
+      simulateSelector:
+        '[data-dnb-test="dropdown-item-directions"] .dnb-dropdown__trigger',
+      simulate: 'click'
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
   it('have to match the dropdown with click', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-dnb-test="dropdown-closed"] .dnb-dropdown__inner',

@@ -113,6 +113,24 @@ render(
           }
         </ComponentBox>
         <ComponentBox
+          title="Dropdown with different item content directions"
+          data-dnb-test="dropdown-item-directions"
+        >
+          {
+            /* @jsx */ `
+<Dropdown
+  label="Label:"
+  data={[
+    ['Vertical', 'text'],
+    <><span className="dnb-p--medium">Vertical</span> text</>,
+    <Dropdown.HorizontalItem><span className="dnb-p--medium">Horizontal</span> text</Dropdown.HorizontalItem>
+  ]}
+  skip_portal
+/>
+          `
+          }
+        </ComponentBox>
+        <ComponentBox
           title="Default dropdown, icon on left side"
           scope={{ data }}
           data-dnb-test="dropdown-left-icon"

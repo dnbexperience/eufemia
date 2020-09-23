@@ -445,7 +445,7 @@ class DrawerListInstance extends React.PureComponent {
         <span {...listParams}>
           {hidden === false && data && data.length > 0 ? (
             <>
-              <DrawerList.Options
+              <DrawerList.OptionItems
                 cache_hash={
                   cache_hash +
                   active_item +
@@ -463,7 +463,7 @@ class DrawerListInstance extends React.PureComponent {
                 ) : (
                   <Items />
                 )}
-              </DrawerList.Options>
+              </DrawerList.OptionItems>
             </>
           ) : (
             children && (
@@ -511,7 +511,7 @@ class DrawerListInstance extends React.PureComponent {
 }
 
 // DrawerList List
-DrawerList.Options = React.memo(
+DrawerList.OptionItems = React.memo(
   React.forwardRef((props, ref) => {
     const {
       children,
@@ -547,14 +547,14 @@ DrawerList.Options = React.memo(
     return prevProps.cache_hash === nextProps.cache_hash
   }
 )
-DrawerList.Options.displayName = 'DrawerList.Options'
-DrawerList.Options.propTypes = {
+DrawerList.OptionItems.displayName = 'DrawerList.OptionItems'
+DrawerList.OptionItems.propTypes = {
   children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
   className: PropTypes.string,
   class: PropTypes.string,
   triangleRef: PropTypes.object
 }
-DrawerList.Options.defaultProps = {
+DrawerList.OptionItems.defaultProps = {
   children: null,
   className: null,
   class: null,
@@ -661,4 +661,20 @@ ItemContent.propTypes = {
     PropTypes.func,
     PropTypes.object
   ]).isRequired
+}
+
+DrawerList.HorizontalItem = ({ className, ...props }) => (
+  <span
+    className={classnames([
+      'dnb-drawer-list__option__inner__item',
+      className
+    ])}
+    {...props}
+  />
+)
+DrawerList.HorizontalItem.propTypes = {
+  className: PropTypes.string
+}
+DrawerList.HorizontalItem.defaultProps = {
+  className: null
 }
