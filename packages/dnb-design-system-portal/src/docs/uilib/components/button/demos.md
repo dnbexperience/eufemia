@@ -224,7 +224,7 @@ Large Signal button with medium sized icon. To import custom icons, use: `import
 
 export const TertiaryWithNoIcon = () => {
   if(!(typeof window !== 'undefined' && window.IS_TEST)){
-    return null
+    return <></>
   }
   return (
     <ComponentBox
