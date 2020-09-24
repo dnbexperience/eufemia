@@ -57,8 +57,11 @@ export default {
     },
     Modal: {
       close_title: 'Close',
-      more_info: 'Help text',
-      help_button: 'Help button'
+      more_info: 'Help text'
+    },
+    HelpButton: {
+      title: 'Help text',
+      aria_role: 'Help button'
     },
     Input: {
       submit_button_title: 'Submit button'

@@ -117,20 +117,8 @@ import { bell_medium as Bell, question } from 'dnb-ui-lib/src/icons'
 	`
 	}
 </ComponentBox>
-        {typeof window !== 'undefined' && window.IS_TEST && (
-	<ComponentBox
-            title="Tertiary button with no icon"
-            data-dnb-test="button-tertiary-no-icon"
-          >
-	{
-		/* @jsx */ `
-<Button text="Tertiary button with no icon" variant="tertiary" />
-	`
-	}
-	</ComponentBox>
-		)}
-		
-### Icon button
+
+### Anchor button
 
 <ComponentBox data-dnb-test="button-anchor">
 	{
@@ -195,12 +183,12 @@ Large Signal button with medium sized icon. To import custom icons, use: `import
 	}
 </ComponentBox>
 
-### Button with Icon only
+### Icon button
 
 <!-- prettier-ignore -->
 <ComponentBox scope={{ question }}>
 	{
-	/* @jsx */ `
+    /* @jsx */ `
 <Button
   title="Disabled Icon only Button"
   icon="calendar"
@@ -231,3 +219,25 @@ Large Signal button with medium sized icon. To import custom icons, use: `import
 	`
 	}
 </ComponentBox>
+
+<!-- prettier-ignore-start -->
+
+export const TertiaryWithNoIcon = () => {
+  if(!(typeof window !== 'undefined' && window.IS_TEST)){
+    return null
+  }
+  return (
+    <ComponentBox
+      title="Tertiary button with no icon"
+      data-dnb-test="button-tertiary-no-icon"
+    >
+    {/* @jsx */ `
+<Button text="Tertiary button with no icon" variant="tertiary" />
+    `}
+    </ComponentBox>
+  )
+}
+
+<TertiaryWithNoIcon />
+
+<!-- prettier-ignore-end -->

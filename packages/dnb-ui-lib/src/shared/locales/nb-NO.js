@@ -57,8 +57,11 @@ export default {
     },
     Modal: {
       close_title: 'Lukk',
-      more_info: 'Hjelpetekst',
-      help_button: 'Hjelp-knapp'
+      more_info: 'Hjelpetekst'
+    },
+    HelpButton: {
+      title: 'Hjelpetekst',
+      aria_role: 'Hjelp-knapp'
     },
     Input: {
       submit_button_title: 'Send knapp'

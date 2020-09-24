@@ -95,124 +95,140 @@ exports[`Modal component have to match snapshot 1`] = `
   <div
     className="dnb-modal"
   >
-    <Button
-      aria-label="modal_title"
-      aria-roledescription="Hjelp-knapp"
-      bounding={false}
+    <HelpButton
       class={null}
       className="dnb-modal__trigger"
-      custom_element={null}
-      custom_method={null}
-      disabled={false}
-      global_status_id={null}
-      href={null}
+      disabled={null}
       icon="question"
       icon_position="left"
       icon_size={null}
       id="modal_id"
-      innerRef={null}
-      onClick={null}
       on_click={[Function]}
       size={null}
-      skeleton={null}
-      status={null}
-      status_animation={null}
-      status_state="error"
       text={null}
-      title={null}
-      tooltip={null}
-      type="button"
+      title="modal_title"
       variant="secondary"
-      wrap={false}
     >
-      <button
+      <Button
         aria-label="modal_title"
         aria-roledescription="Hjelp-knapp"
-        className="dnb-button dnb-button--secondary dnb-modal__trigger dnb-button--icon-position-left dnb-button--has-icon dnb-button--size-medium"
-        disabled={false}
+        bounding={false}
+        class={null}
+        className="dnb-help-button dnb-modal__trigger"
+        custom_element={null}
+        custom_method={null}
+        disabled={null}
+        global_status_id={null}
+        href={null}
+        icon="question"
+        icon_position="left"
+        icon_size={null}
         id="modal_id"
-        onClick={[Function]}
+        innerRef={null}
+        onClick={null}
+        on_click={[Function]}
+        size={null}
+        skeleton={null}
+        status={null}
+        status_animation={null}
+        status_state="error"
+        text={null}
+        title="modal_title"
+        tooltip={null}
         type="button"
+        variant="secondary"
+        wrap={false}
       >
-        <Content
+        <button
           aria-label="modal_title"
           aria-roledescription="Hjelp-knapp"
-          bounding={false}
-          class={null}
-          className="dnb-modal__trigger"
-          content={null}
-          custom_element={null}
-          custom_method={null}
+          className="dnb-button dnb-button--secondary dnb-help-button dnb-modal__trigger dnb-button--icon-position-left dnb-button--has-icon dnb-button--size-medium"
           disabled={false}
-          global_status_id={null}
-          href={null}
-          icon="question"
-          icon_position="left"
-          icon_size={null}
           id="modal_id"
-          innerRef={null}
-          isIconOnly={true}
-          onClick={null}
-          on_click={[Function]}
-          size={null}
-          skeleton={null}
-          status={null}
-          status_animation={null}
-          status_state="error"
-          text={null}
-          title={null}
-          tooltip={null}
+          onClick={[Function]}
+          title="modal_title"
           type="button"
-          variant="secondary"
-          wrap={false}
         >
-          <span
-            className="dnb-button__alignment"
-            key="button-text-empty"
-          >
-            ‌
-          </span>
-          <IconPrimary
-            alt={null}
-            aria-hidden={null}
-            attributes={null}
-            border={null}
-            className="dnb-button__icon"
-            color={null}
-            height={null}
+          <Content
+            aria-label="modal_title"
+            aria-roledescription="Hjelp-knapp"
+            bounding={false}
+            class={null}
+            className="dnb-help-button dnb-modal__trigger"
+            content={null}
+            custom_element={null}
+            custom_method={null}
+            disabled={null}
+            global_status_id={null}
+            href={null}
             icon="question"
-            key="button-icon"
-            modifier={null}
+            icon_position="left"
+            icon_size={null}
+            id="modal_id"
+            innerRef={null}
+            isIconOnly={true}
+            onClick={null}
+            on_click={[Function]}
             size={null}
-            title={null}
-            width={null}
+            skeleton={null}
+            status={null}
+            status_animation={null}
+            status_state="error"
+            text={null}
+            title="modal_title"
+            tooltip={null}
+            type="button"
+            variant="secondary"
+            wrap={false}
           >
             <span
-              aria-hidden={true}
-              aria-label="question icon"
-              className="dnb-icon dnb-icon--default dnb-button__icon"
-              role="presentation"
+              className="dnb-button__alignment"
+              key="button-text-empty"
             >
-              <question>
-                <svg
-                  fill="none"
-                  height={16}
-                  viewBox="0 0 16 16"
-                  width={16}
-                >
-                  <path
-                    clipRule="evenodd"
-                    d="M4.352 5.1c0-2.05 1.55-3.6 3.6-3.6 2.052 0 3.601 1.55 3.601 3.6 0 2.051-1.55 3.6-3.6 3.6a.75.75 0 00-.75.75v2.666a.75.75 0 001.5 0V10.15c2.506-.348 4.35-2.425 4.35-5.049 0-2.879-2.22-5.1-5.1-5.1-2.88 0-5.1 2.221-5.1 5.1a.75.75 0 001.5 0zm3.6 10.898c.659 0 1.098-.439 1.098-1.097 0-.658-.44-1.097-1.097-1.097-.658 0-1.097.44-1.097 1.097 0 .658.439 1.097 1.097 1.097z"
-                    fill="#000"
-                    fillRule="evenodd"
-                  />
-                </svg>
-              </question>
+              ‌
             </span>
-          </IconPrimary>
-        </Content>
-      </button>
-    </Button>
+            <IconPrimary
+              alt={null}
+              aria-hidden={true}
+              attributes={null}
+              border={null}
+              className="dnb-button__icon"
+              color={null}
+              height={null}
+              icon="question"
+              key="button-icon"
+              modifier={null}
+              size={null}
+              title={null}
+              width={null}
+            >
+              <span
+                aria-hidden={true}
+                aria-label="question icon"
+                className="dnb-icon dnb-icon--default dnb-button__icon"
+                role="presentation"
+              >
+                <question>
+                  <svg
+                    fill="none"
+                    height={16}
+                    viewBox="0 0 16 16"
+                    width={16}
+                  >
+                    <path
+                      clipRule="evenodd"
+                      d="M4.352 5.1c0-2.05 1.55-3.6 3.6-3.6 2.052 0 3.601 1.55 3.601 3.6 0 2.051-1.55 3.6-3.6 3.6a.75.75 0 00-.75.75v2.666a.75.75 0 001.5 0V10.15c2.506-.348 4.35-2.425 4.35-5.049 0-2.879-2.22-5.1-5.1-5.1-2.88 0-5.1 2.221-5.1 5.1a.75.75 0 001.5 0zm3.6 10.898c.659 0 1.098-.439 1.098-1.097 0-.658-.44-1.097-1.097-1.097-.658 0-1.097.44-1.097 1.097 0 .658.439 1.097 1.097 1.097z"
+                      fill="#000"
+                      fillRule="evenodd"
+                    />
+                  </svg>
+                </question>
+              </span>
+            </IconPrimary>
+          </Content>
+        </button>
+      </Button>
+    </HelpButton>
     <ModalRoot
       0={
         Object {

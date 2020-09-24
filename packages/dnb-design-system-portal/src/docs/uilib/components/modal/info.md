@@ -16,7 +16,7 @@ The modal can be triggered from either a button or by using the `open_state` pro
 
 ### Help button
 
-As the Modal is very often used in combination with other components and often as a enhancement of contextual content, it comes with a trigger button ([help button example](/uilib/components/modal/demos?fullscreen#modal-help-button)) with a question mark by default. You can for sure disable that behavior by using `trigger_hidden="true"`.
+As the Modal is very often used in combination with other components and often as a enhancement of contextual content, it comes with a trigger button ([HelpButton](/uilib/components/help-button)) with a question mark icon by default. You can for sure disable that behavior by using `trigger_hidden="true"`.
 
 You can also used the broadly available `suffix` property, like so:
 
