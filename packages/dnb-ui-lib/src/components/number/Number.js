@@ -72,7 +72,7 @@ const propTypes = {
   options: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
   clean: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   decimals: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  omit_round: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
+  omit_rounding: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   selectall: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   element: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   class: PropTypes.string,
@@ -99,7 +99,7 @@ const defaultProps = {
   options: null,
   clean: null,
   decimals: null,
-  omit_round: null,
+  omit_rounding: null,
   selectall: true,
   element: 'span', // span or abbr
   class: null,
@@ -227,7 +227,7 @@ export default class Number extends React.PureComponent {
       options,
       locale,
       decimals,
-      omit_round,
+      omit_rounding,
       clean,
       selectall,
       element,
@@ -253,7 +253,7 @@ export default class Number extends React.PureComponent {
       phone,
       org,
       decimals,
-      omit_round: isTrue(omit_round),
+      omit_rounding: isTrue(omit_rounding),
       options,
       clean: isTrue(clean),
       returnAria: true
@@ -428,7 +428,7 @@ export const format = (
     currency_display = CURRENCY_DISPLAY,
     currency_position = null,
     decimals = null,
-    omit_round = null,
+    omit_rounding = null,
     options = null,
     returnAria = false
   } = {}
@@ -463,7 +463,7 @@ export const format = (
     opts.maximumFractionDigits = deci
     value = String(clean ? cleanNumber(value) : value)
     const pos = value.indexOf('.')
-    if (pos > 0 && omit_round === true) {
+    if (pos > 0 && omit_rounding === true) {
       value = String(value).substr(0, pos + 1 + deci)
     }
     if (isNumber) {

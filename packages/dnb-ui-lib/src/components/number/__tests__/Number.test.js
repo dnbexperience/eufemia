@@ -224,7 +224,7 @@ describe('Decimals format', () => {
       'kr -12 345,6789'
     )
     expect(
-      format(num, { currency: true, decimals: 3, omit_round: true })
+      format(num, { currency: true, decimals: 3, omit_rounding: true })
     ).toBe('kr -12 345,678')
   })
 })
