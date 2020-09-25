@@ -23,6 +23,22 @@ import {
 } from 'dnb-ui-lib/src/shared/helpers'
 import { Logo, GlobalStatus } from 'dnb-ui-lib/src/components'
 
+export function scrollToAnimation() {
+  // if url hash is defined, scroll to the id
+  scrollToLocationHashId({
+    offset: 100,
+    delay: 100,
+    onCompletion: (elem) => {
+      try {
+        // elem.classList.add('focus')// run link-attention-focus animation
+        elem.parentElement.classList.add('focus') // run parent-attention-focus animation
+      } catch (e) {
+        //
+      }
+    }
+  })
+}
+
 class Layout extends React.PureComponent {
   static propTypes = {
     fullscreen: PropTypes.bool,
@@ -40,22 +56,10 @@ class Layout extends React.PureComponent {
   }
 
   componentDidMount() {
-    // gets aplyed on "onRouteUpdate"
+    // gets applied on "onRouteUpdate"
     setPageFocusElement('.dnb-app-content h1:nth-of-type(1)', 'content')
 
-    // if url hash is defined, scroll to the id
-    scrollToLocationHashId({
-      offset: 100,
-      delay: 100,
-      onCompletion: (elem) => {
-        try {
-          // elem.classList.add('focus')// run link-attention-focus animation
-          elem.parentElement.classList.add('focus') // run parent-attention-focus animation
-        } catch (e) {
-          //
-        }
-      }
-    })
+    scrollToAnimation()
   }
 
   skipToContentHandler = (event) => {

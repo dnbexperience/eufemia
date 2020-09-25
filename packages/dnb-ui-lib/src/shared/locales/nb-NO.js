@@ -57,7 +57,8 @@ export default {
     },
     Modal: {
       close_title: 'Lukk',
-      more_info: 'Mer informasjon'
+      more_info: 'Hjelpetekst',
+      help_button: 'Hjelp-knapp'
     },
     Input: {
       submit_button_title: 'Send knapp'

@@ -57,7 +57,8 @@ export default {
     },
     Modal: {
       close_title: 'Close',
-      more_info: 'More information'
+      more_info: 'Help text',
+      help_button: 'Help button'
     },
     Input: {
       submit_button_title: 'Submit button'

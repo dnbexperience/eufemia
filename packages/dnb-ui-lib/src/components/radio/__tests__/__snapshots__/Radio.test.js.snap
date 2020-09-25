@@ -83,7 +83,7 @@ exports[`Radio component have to match snapshot 1`] = `
           >
             <input
               aria-checked={false}
-              aria-describedby=" radio-suffix"
+              aria-describedby="radio-suffix"
               checked={false}
               className="dnb-radio__input"
               direction="horizontal"

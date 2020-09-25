@@ -261,9 +261,12 @@ export default class Switch extends React.PureComponent {
     }
 
     if (showStatus || suffix) {
-      inputParams['aria-describedby'] = `${
-        showStatus ? id + '-status' : ''
-      } ${suffix ? id + '-suffix' : ''}`
+      inputParams['aria-describedby'] = [
+        showStatus ? id + '-status' : null,
+        suffix ? id + '-suffix' : null
+      ]
+        .filter(Boolean)
+        .join(' ')
     }
     if (readOnly) {
       inputParams['aria-readonly'] = inputParams.readOnly = true
