@@ -70,7 +70,9 @@ const propTypes = {
   link: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
 
   options: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
+  clean: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   decimals: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  omit_round: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   selectall: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   element: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   class: PropTypes.string,
@@ -95,7 +97,9 @@ const defaultProps = {
   link: null,
 
   options: null,
+  clean: null,
   decimals: null,
+  omit_round: null,
   selectall: true,
   element: 'span', // span or abbr
   class: null,
@@ -223,6 +227,8 @@ export default class Number extends React.PureComponent {
       options,
       locale,
       decimals,
+      omit_round,
+      clean,
       selectall,
       element,
       class: _className,
@@ -247,7 +253,9 @@ export default class Number extends React.PureComponent {
       phone,
       org,
       decimals,
+      omit_round: isTrue(omit_round),
       options,
+      clean: isTrue(clean),
       returnAria: true
     }
 
@@ -411,6 +419,7 @@ export const format = (
   value,
   {
     locale = null, // can be "auto"
+    clean = false,
     phone = null,
     org = null,
     ban = null,
@@ -419,6 +428,7 @@ export const format = (
     currency_display = CURRENCY_DISPLAY,
     currency_position = null,
     decimals = null,
+    omit_round = null,
     options = null,
     returnAria = false
   } = {}
@@ -448,12 +458,16 @@ export const format = (
     deci = 2
   }
   if (deci >= 0) {
+    const isNumber = typeof value === 'number'
     opts.minimumFractionDigits = deci
     opts.maximumFractionDigits = deci
-    value = String(cleanNumber(value))
+    value = String(clean ? cleanNumber(value) : value)
     const pos = value.indexOf('.')
-    if (pos > 0) {
+    if (pos > 0 && omit_round === true) {
       value = String(value).substr(0, pos + 1 + deci)
+    }
+    if (isNumber) {
+      value = parseFloat(value)
     }
   } else {
     opts.maximumFractionDigits = 20
@@ -481,8 +495,9 @@ export const format = (
     display = _number
     aria = _aria
   } else if (isCurrency) {
-    // cleanup
-    let cleanedNumber = parseFloat(cleanNumber(value))
+    // cleanup, but only if it not got cleaned up already
+    let cleanedNumber =
+      deci >= 0 ? value : clean ? cleanNumber(value) : value
 
     // set currency options
     opts.currency =
@@ -508,7 +523,7 @@ export const format = (
     aria = formatNumber(cleanedNumber, locale, {
       ...opts,
       minimumFractionDigits: 2,
-      maximumFractionDigits: 20,
+      maximumFractionDigits: 2,
       currencyDisplay: 'name'
     })
     aria = enhanceSR(cleanedNumber, aria, locale) // also calls cleanupMinus
@@ -1040,24 +1055,26 @@ export function cleanNumber(num) {
   }
 
   // Find valid decimals
-  let usesThousand = '\\.'
-  let usesDecimal = ','
+  let usesThousand = ','
+  let usesDecimal = '\\.'
 
   // -12 345,678
   if (/(\s)([0-9]{3})/.test(num)) {
     usesThousand = '\\s'
     usesDecimal = ','
+  }
 
-    // -12.345,678
-  } else if (
+  // -12.345,678
+  else if (
     /(\.)([0-9]{3})/.test(num) &&
     !/([,'][0-9]{3})(\.)([0-9]{3})/.test(num) // just an additioanl check, for support with more
   ) {
     usesThousand = '\\.'
     usesDecimal = ",|·|'" // also support Spain and CH
+  }
 
-    // -1,234,567.891
-  } else if (/(,)([0-9]{3})/.test(num)) {
+  // -1,234,567.891
+  else if (/(,)([0-9]{3})/.test(num)) {
     usesThousand = ','
     usesDecimal = '\\.|·' // also support Spain
   }
@@ -1068,7 +1085,7 @@ export function cleanNumber(num) {
     usesDecimal = '\\.|,'
   }
 
-  // 3. Remove invalid thousand seperators
+  // 3. Remove invalid thousand separators
   const thousandReg = new RegExp(
     `([0-9]|)(${usesThousand})([0-9]{3})`,
     'g'
