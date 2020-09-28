@@ -1,5 +1,12 @@
 ## September, 20. 2020
 
+New [grey colors](/uilib/usage/customisation/colors):
+
+- `black-55` (#737373)
+- `black-20` (#cccccc) which replaces `black-30` (~~#b3b3b3~~)
+- `black-8` (#ebebeb)
+- `black-3` (#f8f8f8)
+
 New docs about [maintainability](/uilib/getting-started/maintainability).
 
 New component [Skeleton](/uilib/components/skeleton)

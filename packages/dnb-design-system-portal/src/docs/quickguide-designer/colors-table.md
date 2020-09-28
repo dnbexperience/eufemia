@@ -222,19 +222,46 @@ import Table from 'Tags/Table'
       <td>--color-black-80</td>
     </tr>
     <tr>
-      <td color="#B3B3B3"></td>
+      <td color="#737373"></td>
       <td>UX</td>
-      <td>Black 30%</td>
-      <td>#B3B3B3</td>
-      <td>179 179 179</td>
-      <td>Black 30%</td>
-      <td>--color-black-30</td>
+      <td>Black 55%</td>
+      <td>#737373</td>
+      <td>115 115 115</td>
+      <td>Black 55%</td>
+      <td>--color-black-55</td>
     </tr>
     <tr>
-      <td color="#ffffff"></td>
+      <td color="#CCCCCC"></td>
+      <td>UX</td>
+      <td>Black 20%</td>
+      <td>#CCCCCC</td>
+      <td>204 204 204</td>
+      <td>Black 20%</td>
+      <td>--color-black-20</td>
+    </tr>
+    <tr>
+      <td color="#EBEBEB"></td>
+      <td>UX</td>
+      <td>Black 8%</td>
+      <td>#EBEBEB</td>
+      <td>235 235 235</td>
+      <td>Black 8%</td>
+      <td>--color-black-8</td>
+    </tr>
+    <tr>
+      <td color="#F8F8F8"></td>
+      <td>UX</td>
+      <td>Black 3%</td>
+      <td>#F8F8F8</td>
+      <td>248 248 248</td>
+      <td>Black 3%</td>
+      <td>--color-black-3</td>
+    </tr>
+    <tr>
+      <td color="#FFFFFF"></td>
       <td>UX</td>
       <td>White</td>
-      <td>#ffffff</td>
+      <td>#FFFFFF</td>
       <td>255 255 255</td>
       <td>White</td>
       <td>--color-white</td>
