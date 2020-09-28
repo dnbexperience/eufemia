@@ -1,5 +1,7 @@
 ## September, 20. 2020
 
+New docs about [maintainability](/uilib/getting-started/maintainability).
+
 New component [Skeleton](/uilib/components/skeleton)
 
 **Ol Lists** do now support the `type` HTML attribute in order to use like _letters_ and _roman numerals_
