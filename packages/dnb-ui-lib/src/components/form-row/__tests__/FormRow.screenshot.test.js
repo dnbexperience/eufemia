@@ -34,6 +34,12 @@ describe('FormRow screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+  it('have to match legend usage', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-dnb-test="form-row-legend"]'
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
   it('have to match vertical form-row label with a button', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-dnb-test="form-row-vertical-label-button"]'
@@ -49,6 +55,12 @@ describe('FormRow screenshot', () => {
   it('have to match horizontal form-row', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-dnb-test="form-row-horizontal-no_wrap"]'
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+  it('have to match horizontal wrap', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-dnb-test="form-row-horizontal-wrap"]'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
