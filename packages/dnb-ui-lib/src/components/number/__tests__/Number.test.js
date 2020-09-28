@@ -216,9 +216,30 @@ describe('Decimals format', () => {
     expect(format(num, { currency: true, decimals: 4 })).toBe(
       'kr -12 345,6789'
     )
+  })
+
+  it('should handle omit rounding', () => {
+    expect(
+      format(num, { currency: true, decimals: 0, omit_rounding: true })
+    ).toBe('kr -12 345')
+    expect(
+      format(num, { currency: true, decimals: 1, omit_rounding: true })
+    ).toBe('kr -12 345,6')
+    expect(
+      format(num, { currency: true, decimals: 2, omit_rounding: true })
+    ).toBe('kr -12 345,67')
     expect(
       format(num, { currency: true, decimals: 3, omit_rounding: true })
     ).toBe('kr -12 345,678')
+    expect(
+      format(num, { currency: true, decimals: 4, omit_rounding: true })
+    ).toBe('kr -12 345,6789')
+    expect(
+      format(num, { currency: true, decimals: 5, omit_rounding: true })
+    ).toBe('kr -12 345,67890')
+    expect(
+      format(num, { currency: true, decimals: 6, omit_rounding: true })
+    ).toBe('kr -12 345,678900')
   })
 })
 
