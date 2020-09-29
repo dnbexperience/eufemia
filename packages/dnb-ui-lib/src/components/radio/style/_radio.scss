@@ -234,6 +234,10 @@
     }
   }
 
+  .dnb-skeleton--visible &__input[disabled] ~ &__button {
+    border-color: var(--skeleton-color);
+  }
+
   @include IS_IE {
     vertical-align: text-bottom;
 

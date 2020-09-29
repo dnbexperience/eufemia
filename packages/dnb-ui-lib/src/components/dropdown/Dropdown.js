@@ -126,6 +126,7 @@ const propTypes = {
   keep_open: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   opened: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   class: PropTypes.string,
 
   // React
@@ -186,6 +187,7 @@ const defaultProps = {
   keep_open: false,
   opened: false,
   disabled: null,
+  skeleton: null,
   class: null,
 
   // React props
@@ -441,6 +443,7 @@ class DropdownInstance extends React.PureComponent {
       className,
       class: _className,
       disabled,
+      skeleton,
 
       title: _title,
       icon: _icon, // eslint-disable-line
@@ -549,6 +552,7 @@ class DropdownInstance extends React.PureComponent {
             label_direction={label_direction}
             sr_only={label_sr_only}
             disabled={disabled}
+            skeleton={skeleton}
             onMouseDown={this.toggleVisible}
           />
         )}

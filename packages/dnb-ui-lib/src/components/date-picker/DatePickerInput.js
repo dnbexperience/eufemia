@@ -47,6 +47,7 @@ const propTypes = {
     PropTypes.node
   ]),
   disabled: PropTypes.bool,
+  skeleton: PropTypes.bool,
   opened: PropTypes.bool,
   showInput: PropTypes.bool,
   onChange: PropTypes.func,
@@ -70,6 +71,7 @@ const defaultProps = {
   maxDate: null,
   input_element: null,
   disabled: null,
+  skeleton: null,
   opened: false,
   showInput: null,
   onChange: null,
@@ -679,6 +681,7 @@ export default class DatePickerInput extends React.PureComponent {
       showInput, // eslint-disable-line
       input_element,
       disabled,
+      skeleton,
       opened,
       status,
       status_state,
@@ -703,12 +706,14 @@ export default class DatePickerInput extends React.PureComponent {
             : this.renderInputElement
         }
         disabled={disabled}
+        skeleton={skeleton}
         status={!opened ? status : null}
         status_state={status_state}
         submit_element={
           <SubmitButton
             id={id}
             disabled={disabled}
+            skeleton={skeleton}
             className={opened ? 'dnb-button--active' : null}
             aria-label={this.formatDate()}
             title={title}

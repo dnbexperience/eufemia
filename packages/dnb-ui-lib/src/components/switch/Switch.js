@@ -290,6 +290,7 @@ export default class Switch extends React.PureComponent {
         for_id={id}
         text={label}
         disabled={disabled}
+        skeleton={skeleton}
         sr_only={label_sr_only}
       />
     )

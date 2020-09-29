@@ -85,6 +85,14 @@
     vertical-align: middle;
   }
 
+  .dnb-skeleton--visible & {
+    color: var(--color-black-20);
+    &::before,
+    &::after {
+      content: none !important;
+    }
+  }
+
   @include IS_IE {
     flex: none;
   }

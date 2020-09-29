@@ -467,6 +467,7 @@ export default class Input extends React.PureComponent {
             label_direction={label_direction}
             sr_only={label_sr_only}
             disabled={disabled}
+            skeleton={skeleton}
           />
         )}
 

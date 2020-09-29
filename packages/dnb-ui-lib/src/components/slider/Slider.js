@@ -629,6 +629,7 @@ export default class Slider extends React.PureComponent {
         aria-label={subtract_title}
         on_click={this.onSubtractClickHandler}
         disabled={disabled}
+        skeleton={skeleton}
       />
     )
 
@@ -641,6 +642,7 @@ export default class Slider extends React.PureComponent {
         aria-label={add_title}
         on_click={this.onAddClickHandler}
         disabled={disabled}
+        skeleton={skeleton}
       />
     )
 
@@ -652,6 +654,7 @@ export default class Slider extends React.PureComponent {
             id={id + '-label'}
             text={label}
             disabled={disabled}
+            skeleton={skeleton}
             label_direction={label_direction}
             sr_only={label_sr_only}
           />
@@ -700,6 +703,7 @@ export default class Slider extends React.PureComponent {
                     ? rangeParams
                     : { 'aria-hidden': true })}
                   disabled={disabled}
+                  skeleton={skeleton}
                 />
               </span>
               <span

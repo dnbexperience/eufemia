@@ -812,7 +812,8 @@ export default class DatePicker extends React.PureComponent {
             text={label}
             label_direction={label_direction}
             sr_only={label_sr_only}
-            disabled={isTrue(disabled)}
+            disabled={disabled}
+            skeleton={skeleton}
           />
         )}
 
@@ -839,6 +840,7 @@ export default class DatePicker extends React.PureComponent {
                 id={id}
                 title={title}
                 disabled={isTrue(disabled)}
+                skeleton={isTrue(skeleton)}
                 maskOrder={mask_order}
                 maskPlaceholder={mask_placeholder}
                 range={isTrue(range)}

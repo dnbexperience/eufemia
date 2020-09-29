@@ -238,13 +238,16 @@
   }
 
   > .dnb-form-label {
-    align-self: flex-end;
+    align-self: flex-start;
     margin-right: 1rem;
     line-height: var(--slider-thumb-size);
   }
+  > .dnb-form-label--vertical {
+    margin-right: 0;
+    line-height: var(--line-height-basis);
+  }
   &__label--vertical {
     flex-direction: column;
-    line-height: var(--line-height-basis);
   }
   &__label--vertical#{&}--vertical {
     align-items: center;
@@ -276,6 +279,18 @@
       > .dnb-form-label {
         margin-bottom: 0.5rem;
       }
+    }
+  }
+
+  .dnb-skeleton--visible &__line,
+  .dnb-skeleton--visible &__state--disabled &__line {
+    background-color: var(--skeleton-color);
+  }
+  .dnb-skeleton--visible &__track,
+  .dnb-skeleton--visible &__state--disabled#{&}__track {
+    &::before,
+    &::after {
+      background-color: var(--skeleton-color);
     }
   }
 
