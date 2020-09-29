@@ -14,6 +14,7 @@ import {
   isTrue,
   makeUniqueId,
   registerElement,
+  extendPropsWithContext,
   validateDOMAttributes,
   dispatchCustomElementEvent,
   getPreviousSibling,
@@ -65,6 +66,7 @@ const propTypes = {
     PropTypes.string,
     PropTypes.bool
   ]),
+  skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   id: PropTypes.string,
   class: PropTypes.string,
 
@@ -91,6 +93,7 @@ const defaultProps = {
   use_hash: false,
   prerender: false,
   prevent_rerender: false,
+  skeleton: null,
   id: null,
   class: null,
 
@@ -554,7 +557,7 @@ export default class Tabs extends React.PureComponent {
   }
 
   TabsHandler = () => {
-    const { label } = this.props
+    const { label, skeleton } = this._props
     const { selected_key } = this.state
 
     const tabs = this.state.data.map(
@@ -581,6 +584,7 @@ export default class Tabs extends React.PureComponent {
             aria-selected={isSelected}
             className={classnames(
               'dnb-tabs__button',
+              isTrue(skeleton) && 'dnb-skeleton',
               isSelected && 'selected'
             )}
             onClick={this.openTabByDOM}
@@ -617,7 +621,13 @@ export default class Tabs extends React.PureComponent {
   }
 
   render() {
-    const { render: customRenderer } = this.props
+    const props = (this._props = extendPropsWithContext(
+      this.props,
+      defaultProps,
+      { skeleton: this.context?.skeleton }
+    ))
+
+    const { render: customRenderer } = props
 
     const Tabs = this.TabsHandler
     Tabs.displayName = 'Tabs'
