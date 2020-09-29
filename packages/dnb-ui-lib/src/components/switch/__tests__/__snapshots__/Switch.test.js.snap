@@ -44,7 +44,7 @@ exports[`Switch component have to match snapshot 1`] = `
         id="id-label"
         label_direction={null}
         render_content={null}
-        skeleton={null}
+        skeleton="skeleton"
         sr_only={null}
         text="label"
         title={null}
@@ -52,7 +52,7 @@ exports[`Switch component have to match snapshot 1`] = `
       >
         <Element
           aria-disabled={true}
-          className="dnb-form-label"
+          className="dnb-form-label dnb-skeleton"
           disabled={true}
           htmlFor="id"
           id="id-label"
@@ -60,7 +60,7 @@ exports[`Switch component have to match snapshot 1`] = `
         >
           <label
             aria-disabled={true}
-            className="dnb-form-label"
+            className="dnb-form-label dnb-skeleton"
             disabled={true}
             htmlFor="id"
             id="id-label"
@@ -705,6 +705,14 @@ legend.dnb-form-label {
   .dnb-switch--label-position-right .dnb-switch__order .dnb-form-status {
     order: 3;
     margin-top: 0.5rem; }
+  .dnb-skeleton--visible .dnb-switch__input[disabled] ~ .dnb-switch__button,
+  .dnb-skeleton--visible .dnb-switch__input[disabled] ~ .dnb-switch__background::after {
+    border-color: var(--skeleton-color); }
+  .dnb-skeleton--visible .dnb-switch__input[disabled] ~ .dnb-switch__background {
+    background-color: var(--skeleton-color); }
+  .dnb-skeleton--visible
+.dnb-switch__input[disabled]:not(:checked) ~ .dnb-switch__background::after {
+    border-color: var(--skeleton-color--contrast); }
   @media screen and (-ms-high-contrast: none) {
     .dnb-switch {
       vertical-align: text-bottom; }

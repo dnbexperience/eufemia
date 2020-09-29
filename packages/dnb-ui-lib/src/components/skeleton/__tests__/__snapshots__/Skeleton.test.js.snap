@@ -1,0 +1,177 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Skeleton component have to match snapshot 1`] = `
+<Skeleton
+  class={null}
+  className={null}
+  element={null}
+  figure={null}
+  no_animation={null}
+  show={null}
+  skeleton={null}
+  style_type={null}
+>
+  <Space
+    bottom={null}
+    class={null}
+    className="dnb-skeleton__root"
+    element="div"
+    id={null}
+    inline={null}
+    left={null}
+    no_collapse={null}
+    render_content={null}
+    right={null}
+    skeleton={null}
+    top={null}
+  >
+    <Element
+      className="dnb-space dnb-skeleton__root"
+      element="div"
+      no_collapse={null}
+    >
+      <div
+        className="dnb-space dnb-skeleton__root"
+      >
+        <Provider
+          skeleton={null}
+          skeleton_no_animation={null}
+          skeleton_style_type={null}
+        />
+      </div>
+    </Element>
+  </Space>
+</Skeleton>
+`;
+
+exports[`Skeleton scss have to match snapshot 1`] = `
+"/*
+* DNB Skeleton
+*
+*/
+/**
+ * This file is only used to make components independent
+ * so that they can get imported individually, without the core styles
+ *
+ */
+/*
+ * Utilities
+ */
+/*
+ * Scopes
+ *
+ */
+/*
+ * Document Reset
+ *
+ */
+.dnb-skeleton {
+  font-family: var(--font-family-default);
+  font-weight: var(--font-weight-default);
+  font-size: var(--font-size-small);
+  font-style: normal;
+  line-height: var(--line-height-basis);
+  color: var(--color-black-80, #333);
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  /**
+  * Ensure consistency and use the same as HTML reset -> html {...}
+  * between base and code package
+  */
+  -moz-tab-size: 4;
+  tab-size: 4;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  word-break: break-word;
+  /**
+  * 1. Remove repeating backgrounds in all browsers (opinionated).
+  * 2. Add border box sizing in all browsers (opinionated).
+  */
+  /**
+  * 1. Add text decoration inheritance in all browsers (opinionated).
+  * 2. Add vertical alignment inheritance in all browsers (opinionated).
+  */
+  margin: 0;
+  padding: 0; }
+  .dnb-skeleton *,
+  .dnb-skeleton ::before,
+  .dnb-skeleton ::after {
+    background-repeat: no-repeat;
+    /* 1 */
+    box-sizing: border-box;
+    /* 2 */ }
+  .dnb-skeleton ::before,
+  .dnb-skeleton ::after {
+    text-decoration: inherit;
+    /* 1 */
+    vertical-align: inherit;
+    /* 2 */ }
+
+/*
+ * Skeleton component
+ *
+ * Skeleton
+ *
+ */
+.dnb-skeleton {
+  position: relative;
+  overflow-x: hidden;
+  pointer-events: none;
+  color: transparent;
+  background: transparent; }
+  .dnb-skeleton--block {
+    display: block; }
+  .dnb-skeleton::before, .dnb-skeleton::after {
+    content: '' !important;
+    position: absolute !important;
+    z-index: 100 !important;
+    left: 0 !important;
+    top: 0 !important;
+    bottom: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    height: auto !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border-radius: inherit;
+    background: none !important; }
+  .dnb-skeleton[data-skeleton-chars]::before, .dnb-skeleton[data-skeleton-chars]::after {
+    max-width: var(--skeleton-chars); }
+  .dnb-skeleton--no-animation .dnb-skeleton::after,
+  html[data-dnb-test] .dnb-skeleton::after {
+    animation: none !important; }
+  .dnb-skeleton .dnb-anchor {
+    visibility: hidden; }
+  .dnb-skeleton.dnb-anchor {
+    box-shadow: none; }
+  .dnb-skeleton:not(.dnb-input__shell):not(.dnb-button):not(.dnb-checkbox__button):not(.dnb-textarea__inner)::before, .dnb-skeleton:not(.dnb-input__shell):not(.dnb-button):not(.dnb-checkbox__button):not(.dnb-textarea__inner)::after {
+    border-radius: 0.25rem; }
+  .dnb-skeleton.dnb-checkbox__button::before, .dnb-skeleton.dnb-checkbox__button::after {
+    border-radius: 0; }
+  .dnb-skeleton.dnb-textarea__inner {
+    margin: 0; }
+    .dnb-skeleton.dnb-textarea__inner::before, .dnb-skeleton.dnb-textarea__inner::after {
+      border-radius: 1rem; }
+    .dnb-skeleton.dnb-textarea__inner .dnb-textarea__shell {
+      margin-bottom: calc(var(--textarea-padding-width) * 2);
+      margin-right: calc(var(--textarea-padding-width) * 2); }
+  .dnb-skeleton.dnb-button, .dnb-skeleton.dnb-slider {
+    overflow: hidden; }
+  .dnb-skeleton__figure {
+    position: relative;
+    border-radius: 0.25rem; }
+    .dnb-skeleton__figure--circle {
+      width: 4rem;
+      height: 4rem;
+      border-radius: 50%; }
+    .dnb-skeleton__figure--product {
+      display: flex;
+      align-items: center; }
+    .dnb-skeleton__figure--product .dnb-skeleton__figure--circle + div {
+      width: 50%;
+      margin-left: 1rem; }
+  .dnb-skeleton.dnb-li.is-nested::before, .dnb-skeleton.dnb-li.is-nested::after {
+    max-height: var(--line-height-basis); }
+"
+`;

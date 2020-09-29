@@ -85,6 +85,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
   prevent_selection={null}
   scrollable="scrollable"
   size={null}
+  skeleton="skeleton"
   skip_portal={true}
   status="status"
   status_animation="status_animation"
@@ -187,6 +188,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
     prevent_selection={false}
     scrollable="scrollable"
     size={null}
+    skeleton="skeleton"
     skip_keysearch={false}
     skip_portal={true}
     status="status"
@@ -285,6 +287,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
       prevent_selection={null}
       scrollable="scrollable"
       size={null}
+      skeleton="skeleton"
       skip_portal={true}
       status="status"
       status_animation="status_animation"
@@ -309,7 +312,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
           label_direction="horizontal"
           onMouseDown={[Function]}
           render_content={null}
-          skeleton={null}
+          skeleton="skeleton"
           sr_only="label_sr_only"
           text="label"
           title={null}
@@ -317,7 +320,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
         >
           <Element
             aria-disabled={true}
-            className="dnb-form-label"
+            className="dnb-form-label dnb-skeleton"
             disabled={true}
             htmlFor="dropdown-id"
             id="dropdown-id-label"
@@ -326,7 +329,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
           >
             <label
               aria-disabled={true}
-              className="dnb-form-label"
+              className="dnb-form-label dnb-skeleton"
               disabled={true}
               htmlFor="dropdown-id"
               id="dropdown-id-label"
@@ -1152,6 +1155,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                 prevent_selection={null}
                 scrollable="scrollable"
                 size={null}
+                skeleton="skeleton"
                 skip_portal={true}
                 status="status"
                 status_animation="status_animation"
@@ -1303,6 +1307,10 @@ exports[`Dropdown scss have to match snapshot 1`] = `
   h5 .dnb-icon,
   h6 .dnb-icon {
     vertical-align: middle; }
+  .dnb-skeleton--visible .dnb-icon {
+    color: var(--color-black-20); }
+    .dnb-skeleton--visible .dnb-icon::before, .dnb-skeleton--visible .dnb-icon::after {
+      content: none !important; }
   @media screen and (-ms-high-contrast: none) {
     .dnb-icon {
       flex: none; } }

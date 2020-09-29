@@ -633,6 +633,8 @@ legend.dnb-form-label {
     order: 3;
     vertical-align: top;
     margin-top: 0.5rem; }
+  .dnb-skeleton--visible .dnb-checkbox__input[disabled] ~ .dnb-checkbox__button {
+    border-color: var(--skeleton-color); }
   @media screen and (-ms-high-contrast: none) {
     .dnb-checkbox {
       vertical-align: text-bottom; }

@@ -228,6 +228,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
             selectedDateTitle="Valgt dato: fra Tuesday, January 1st, 2019 - til Friday, February 15th, 2019"
             separatorRexExp={/\\[-/ \\]/g}
             showInput={true}
+            skeleton={false}
             startDate={2019-01-01T00:00:00.000Z}
             status="error"
             status_state="error"
@@ -306,7 +307,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
               readOnly={false}
               selectall={null}
               size={null}
-              skeleton={null}
+              skeleton={false}
               status="error"
               status_animation={null}
               status_state="error"
@@ -325,6 +326,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                   id="date-picker-id"
                   onKeyUp={[Function]}
                   on_submit={[Function]}
+                  skeleton={false}
                   title={null}
                   type="button"
                   variant="secondary"
@@ -908,6 +910,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                         id="date-picker-id"
                         onKeyUp={[Function]}
                         on_submit={[Function]}
+                        skeleton={false}
                         title={null}
                         type="button"
                         variant="secondary"
@@ -1377,6 +1380,10 @@ exports[`DatePicker scss have to match snapshot 1`] = `
   h5 .dnb-icon,
   h6 .dnb-icon {
     vertical-align: middle; }
+  .dnb-skeleton--visible .dnb-icon {
+    color: var(--color-black-20); }
+    .dnb-skeleton--visible .dnb-icon::before, .dnb-skeleton--visible .dnb-icon::after {
+      content: none !important; }
   @media screen and (-ms-high-contrast: none) {
     .dnb-icon {
       flex: none; } }
@@ -2243,6 +2250,8 @@ legend.dnb-form-label {
     order: 3;
     vertical-align: top;
     margin-top: 0.5rem; }
+  .dnb-skeleton--visible .dnb-checkbox__input[disabled] ~ .dnb-checkbox__button {
+    border-color: var(--skeleton-color); }
   @media screen and (-ms-high-contrast: none) {
     .dnb-checkbox {
       vertical-align: text-bottom; }
@@ -2453,6 +2462,8 @@ legend.dnb-form-label {
       margin-bottom: calc(1px - 1px - var(--radio-margin-bottom)); }
       .dnb-radio-group .dnb-form-row::before {
         font-size: var(--font-size-basis); }
+  .dnb-skeleton--visible .dnb-radio__input[disabled] ~ .dnb-radio__button {
+    border-color: var(--skeleton-color); }
   @media screen and (-ms-high-contrast: none) {
     .dnb-radio {
       vertical-align: text-bottom; }

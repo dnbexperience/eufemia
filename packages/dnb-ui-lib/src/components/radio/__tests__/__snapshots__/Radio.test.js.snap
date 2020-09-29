@@ -43,7 +43,7 @@ exports[`Radio component have to match snapshot 1`] = `
         id="radio-label"
         label_direction={null}
         render_content={null}
-        skeleton={null}
+        skeleton="skeleton"
         sr_only="label_sr_only"
         text="label"
         title={null}
@@ -51,7 +51,7 @@ exports[`Radio component have to match snapshot 1`] = `
       >
         <Element
           aria-disabled={true}
-          className="dnb-form-label"
+          className="dnb-form-label dnb-skeleton"
           disabled={true}
           htmlFor="radio"
           id="radio-label"
@@ -59,7 +59,7 @@ exports[`Radio component have to match snapshot 1`] = `
         >
           <label
             aria-disabled={true}
-            className="dnb-form-label"
+            className="dnb-form-label dnb-skeleton"
             disabled={true}
             htmlFor="radio"
             id="radio-label"
@@ -232,6 +232,7 @@ exports[`Radio group component have to match group snapshot 1`] = `
       responsive={null}
       section_spacing={null}
       section_style={null}
+      skeleton={null}
       skipContentWrapperIfNested={true}
       vertical={null}
       wrap={null}
@@ -258,7 +259,7 @@ exports[`Radio group component have to match group snapshot 1`] = `
               class={null}
               className="dnb-form-row__label"
               direction={null}
-              disabled={false}
+              disabled={null}
               element="label"
               for_id="group"
               id="group-label"
@@ -1040,6 +1041,8 @@ legend.dnb-form-label {
       margin-bottom: calc(1px - 1px - var(--radio-margin-bottom)); }
       .dnb-radio-group .dnb-form-row::before {
         font-size: var(--font-size-basis); }
+  .dnb-skeleton--visible .dnb-radio__input[disabled] ~ .dnb-radio__button {
+    border-color: var(--skeleton-color); }
   @media screen and (-ms-high-contrast: none) {
     .dnb-radio {
       vertical-align: text-bottom; }

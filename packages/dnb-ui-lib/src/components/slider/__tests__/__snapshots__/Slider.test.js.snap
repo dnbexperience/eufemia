@@ -45,20 +45,20 @@ exports[`Slider component have to match snapshot 1`] = `
       id="id-label"
       label_direction="horizontal"
       render_content={null}
-      skeleton={null}
+      skeleton="skeleton"
       sr_only="label_sr_only"
       text="label"
       title={null}
       vertical={null}
     >
       <Element
-        className="dnb-form-label"
+        className="dnb-form-label dnb-skeleton"
         disabled={false}
         id="id-label"
         is="label"
       >
         <label
-          className="dnb-form-label"
+          className="dnb-form-label dnb-skeleton"
           disabled={false}
           id="id-label"
         >
@@ -98,7 +98,7 @@ exports[`Slider component have to match snapshot 1`] = `
           onClick={null}
           on_click={[Function]}
           size="small"
-          skeleton={null}
+          skeleton="skeleton"
           status={null}
           status_animation={null}
           status_state="error"
@@ -136,7 +136,7 @@ exports[`Slider component have to match snapshot 1`] = `
               onClick={null}
               on_click={[Function]}
               size="small"
-              skeleton={null}
+              skeleton="skeleton"
               status={null}
               status_animation={null}
               status_state="error"
@@ -247,7 +247,7 @@ exports[`Slider component have to match snapshot 1`] = `
               onMouseDown={[Function]}
               on_click={null}
               size={null}
-              skeleton={null}
+              skeleton="skeleton"
               status={null}
               status_animation={null}
               status_state="error"
@@ -289,7 +289,7 @@ exports[`Slider component have to match snapshot 1`] = `
                   onMouseDown={[Function]}
                   on_click={null}
                   size={null}
-                  skeleton={null}
+                  skeleton="skeleton"
                   status={null}
                   status_animation={null}
                   status_state="error"
@@ -334,7 +334,7 @@ exports[`Slider component have to match snapshot 1`] = `
           onClick={null}
           on_click={[Function]}
           size="small"
-          skeleton={null}
+          skeleton="skeleton"
           status={null}
           status_animation={null}
           status_state="error"
@@ -372,7 +372,7 @@ exports[`Slider component have to match snapshot 1`] = `
               onClick={null}
               on_click={[Function]}
               size="small"
-              skeleton={null}
+              skeleton="skeleton"
               status={null}
               status_animation={null}
               status_state="error"
@@ -559,6 +559,10 @@ exports[`Slider scss have to match snapshot 1`] = `
   h5 .dnb-icon,
   h6 .dnb-icon {
     vertical-align: middle; }
+  .dnb-skeleton--visible .dnb-icon {
+    color: var(--color-black-20); }
+    .dnb-skeleton--visible .dnb-icon::before, .dnb-skeleton--visible .dnb-icon::after {
+      content: none !important; }
   @media screen and (-ms-high-contrast: none) {
     .dnb-icon {
       flex: none; } }
@@ -1179,12 +1183,14 @@ legend.dnb-form-label {
         html[data-whatinput='keyboard'] .dnb-slider__button-helper:not(:disabled):focus ~ .dnb-button {
           box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
   .dnb-slider > .dnb-form-label {
-    align-self: flex-end;
+    align-self: flex-start;
     margin-right: 1rem;
     line-height: var(--slider-thumb-size); }
-  .dnb-slider__label--vertical {
-    flex-direction: column;
+  .dnb-slider > .dnb-form-label--vertical {
+    margin-right: 0;
     line-height: var(--line-height-basis); }
+  .dnb-slider__label--vertical {
+    flex-direction: column; }
   .dnb-slider__label--vertical.dnb-slider--vertical {
     align-items: center; }
     .dnb-slider__label--vertical.dnb-slider--vertical .dnb-form-label {
@@ -1205,6 +1211,13 @@ legend.dnb-form-label {
       margin-bottom: 0.5rem; }
       .dnb-responsive-component .dnb-slider > .dnb-form-label {
         margin-bottom: 0.5rem; } }
+  .dnb-skeleton--visible .dnb-slider__line,
+  .dnb-skeleton--visible .dnb-slider__state--disabled .dnb-slider__line {
+    background-color: var(--skeleton-color); }
+  .dnb-skeleton--visible .dnb-slider__track::before, .dnb-skeleton--visible .dnb-slider__track::after,
+  .dnb-skeleton--visible .dnb-slider__state--disabled.dnb-slider__track::before,
+  .dnb-skeleton--visible .dnb-slider__state--disabled.dnb-slider__track::after {
+    background-color: var(--skeleton-color); }
   @media screen and (-ms-high-contrast: none) {
     .dnb-slider__wrapper {
       flex: none; } }

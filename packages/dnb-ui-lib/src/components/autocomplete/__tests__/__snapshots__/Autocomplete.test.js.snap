@@ -63,6 +63,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
   show_all="show_all"
   show_submit_button={true}
   size={null}
+  skeleton="skeleton"
   skip_portal={true}
   status="status"
   status_animation="status_animation"
@@ -143,6 +144,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
     show_all="show_all"
     show_submit_button={true}
     size={null}
+    skeleton="skeleton"
     skip_keysearch={true}
     skip_portal={true}
     status="status"
@@ -219,6 +221,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
       show_all="show_all"
       show_submit_button={true}
       size={null}
+      skeleton="skeleton"
       skip_portal={true}
       status="status"
       status_animation="status_animation"
@@ -243,7 +246,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
           label_direction="horizontal"
           onMouseDown={[Function]}
           render_content={null}
-          skeleton={null}
+          skeleton="skeleton"
           sr_only="label_sr_only"
           text="Autocomplete Label:"
           title={null}
@@ -251,7 +254,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
         >
           <Element
             aria-disabled={true}
-            className="dnb-form-label"
+            className="dnb-form-label dnb-skeleton"
             disabled={true}
             htmlFor="autocomplete-id"
             id="autocomplete-id-label"
@@ -260,7 +263,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
           >
             <label
               aria-disabled={true}
-              className="dnb-form-label"
+              className="dnb-form-label dnb-skeleton"
               disabled={true}
               htmlFor="autocomplete-id"
               id="autocomplete-id-label"
@@ -432,7 +435,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                 role="combobox"
                 selectall={null}
                 size={null}
-                skeleton={null}
+                skeleton="skeleton"
                 spellCheck="false"
                 status={null}
                 status_animation={null}
@@ -1031,6 +1034,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                 show_all="show_all"
                 show_submit_button={true}
                 size={null}
+                skeleton="skeleton"
                 skip_portal={true}
                 status="status"
                 status_animation="status_animation"
@@ -1180,6 +1184,10 @@ exports[`Autocomplete scss have to match snapshot 1`] = `
   h5 .dnb-icon,
   h6 .dnb-icon {
     vertical-align: middle; }
+  .dnb-skeleton--visible .dnb-icon {
+    color: var(--color-black-20); }
+    .dnb-skeleton--visible .dnb-icon::before, .dnb-skeleton--visible .dnb-icon::after {
+      content: none !important; }
   @media screen and (-ms-high-contrast: none) {
     .dnb-icon {
       flex: none; } }

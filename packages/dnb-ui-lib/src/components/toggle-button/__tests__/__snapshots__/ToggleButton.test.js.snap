@@ -21,6 +21,7 @@ exports[`ToggleButton component have to match snapshot 1`] = `
   on_change={[Function]}
   on_state_update={[Function]}
   readOnly={false}
+  skeleton="skeleton"
   status={null}
   status_animation="status_animation"
   status_state="status_state"
@@ -43,7 +44,7 @@ exports[`ToggleButton component have to match snapshot 1`] = `
       id="toggle-button-label"
       label_direction="horizontal"
       render_content={null}
-      skeleton={null}
+      skeleton="skeleton"
       sr_only="label_sr_only"
       text="label"
       title={null}
@@ -51,7 +52,7 @@ exports[`ToggleButton component have to match snapshot 1`] = `
     >
       <Element
         aria-disabled={true}
-        className="dnb-form-label"
+        className="dnb-form-label dnb-skeleton"
         disabled={true}
         htmlFor="toggle-button"
         id="toggle-button-label"
@@ -59,7 +60,7 @@ exports[`ToggleButton component have to match snapshot 1`] = `
       >
         <label
           aria-disabled={true}
-          className="dnb-form-label"
+          className="dnb-form-label dnb-skeleton"
           disabled={true}
           htmlFor="toggle-button"
           id="toggle-button-label"
@@ -103,7 +104,7 @@ exports[`ToggleButton component have to match snapshot 1`] = `
           onKeyUp={[Function]}
           on_click={null}
           size={null}
-          skeleton={null}
+          skeleton="skeleton"
           status={null}
           status_animation={null}
           status_state="error"
@@ -180,7 +181,7 @@ exports[`ToggleButton component have to match snapshot 1`] = `
               onKeyUp={[Function]}
               on_click={null}
               size={null}
-              skeleton={null}
+              skeleton="skeleton"
               status={null}
               status_animation={null}
               status_state="error"
@@ -342,6 +343,7 @@ exports[`ToggleButton component have to match snapshot 1`] = `
             on_change={[Function]}
             on_state_update={[Function]}
             readOnly={false}
+            skeleton="skeleton"
             status={null}
             status_animation="status_animation"
             status_state="status_state"
@@ -412,6 +414,7 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
       responsive={null}
       section_spacing={null}
       section_style={null}
+      skeleton={null}
       skipContentWrapperIfNested={true}
       vertical={null}
       wrap={null}
@@ -438,7 +441,7 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
               class={null}
               className="dnb-form-row__label"
               direction={null}
-              disabled={false}
+              disabled={null}
               element="legend"
               for_id={null}
               id="group-label"
@@ -496,6 +499,7 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
                     on_change={null}
                     on_state_update={null}
                     readOnly={false}
+                    skeleton={null}
                     status={null}
                     status_animation={null}
                     status_state="error"
@@ -635,6 +639,7 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
                     on_change={null}
                     on_state_update={null}
                     readOnly={false}
+                    skeleton={null}
                     status={null}
                     status_animation={null}
                     status_state="error"
@@ -1103,6 +1108,10 @@ legend.dnb-form-label {
   h5 .dnb-icon,
   h6 .dnb-icon {
     vertical-align: middle; }
+  .dnb-skeleton--visible .dnb-icon {
+    color: var(--color-black-20); }
+    .dnb-skeleton--visible .dnb-icon::before, .dnb-skeleton--visible .dnb-icon::after {
+      content: none !important; }
   @media screen and (-ms-high-contrast: none) {
     .dnb-icon {
       flex: none; } }
@@ -1595,6 +1604,8 @@ button.dnb-button::-moz-focus-inner {
     order: 3;
     vertical-align: top;
     margin-top: 0.5rem; }
+  .dnb-skeleton--visible .dnb-checkbox__input[disabled] ~ .dnb-checkbox__button {
+    border-color: var(--skeleton-color); }
   @media screen and (-ms-high-contrast: none) {
     .dnb-checkbox {
       vertical-align: text-bottom; }
@@ -1805,6 +1816,8 @@ button.dnb-button::-moz-focus-inner {
       margin-bottom: calc(1px - 1px - var(--radio-margin-bottom)); }
       .dnb-radio-group .dnb-form-row::before {
         font-size: var(--font-size-basis); }
+  .dnb-skeleton--visible .dnb-radio__input[disabled] ~ .dnb-radio__button {
+    border-color: var(--skeleton-color); }
   @media screen and (-ms-high-contrast: none) {
     .dnb-radio {
       vertical-align: text-bottom; }
