@@ -5,6 +5,8 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
+import Context from '../../shared/Context'
+import { extendPropsWithContext } from '../../shared/component-helper'
 import DefaultIcon, {
   DefaultIconSize,
   prerenderIcon,
@@ -18,23 +20,22 @@ import * as primary_icons_medium from '../../icons/primary_icons_medium.js'
 const icons = { ...primary_icons, ...primary_icons_medium }
 
 export { DefaultIconSize }
-const propTypes = {
-  ...DefaultIcon.propTypes,
-  ...{
-    icon: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.node,
-      PropTypes.func
-    ])
-  }
-}
-
-const defaultProps = { ...DefaultIcon.defaultProps }
 
 export default class IconPrimary extends React.PureComponent {
   static tagName = 'dnb-icon-primary'
-  static propTypes = propTypes
-  static defaultProps = defaultProps
+  static contextType = Context
+
+  static propTypes = {
+    ...DefaultIcon.propTypes,
+    ...{
+      icon: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.node,
+        PropTypes.func
+      ])
+    }
+  }
+  static defaultProps = { ...DefaultIcon.defaultProps }
 
   static enableWebComponent() {
     DefaultIcon.enableWebComponent(IconPrimary.tagName, IconPrimary)
@@ -45,8 +46,16 @@ export default class IconPrimary extends React.PureComponent {
   }
 
   render() {
+    // use only the props from context, who are available here anyway
+    const props = extendPropsWithContext(
+      this.props,
+      IconPrimary.defaultProps,
+      { skeleton: this.context?.skeleton },
+      this.context.formRow
+    )
+
     const { icon, size, wrapperParams, iconParams, alt } = prepareIcon(
-      this.props
+      props
     )
 
     const IconContainer = prerenderIcon({

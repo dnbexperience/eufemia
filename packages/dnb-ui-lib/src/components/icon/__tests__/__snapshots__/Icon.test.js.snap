@@ -11,6 +11,7 @@ exports[`Icon component have to match snapshot 1`] = `
   icon={[Function]}
   modifier="modifier"
   size="size"
+  skeleton="skeleton"
   title="title"
   width="width"
 >

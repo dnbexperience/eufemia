@@ -901,6 +901,7 @@ exports[`GlobalStatus snapshot have to match component snapshot 1`] = `
                     }
                     modifier={null}
                     size="icon_size"
+                    skeleton={null}
                     title={null}
                     width={null}
                   >
@@ -1047,6 +1048,7 @@ exports[`GlobalStatus snapshot have to match component snapshot 1`] = `
                           key="button-icon"
                           modifier={null}
                           size="medium"
+                          skeleton={null}
                           title={null}
                           width={null}
                         >

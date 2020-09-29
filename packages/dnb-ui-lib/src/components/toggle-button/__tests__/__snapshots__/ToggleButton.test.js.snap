@@ -311,6 +311,7 @@ exports[`ToggleButton component have to match snapshot 1`] = `
                 key="button-icon"
                 modifier={null}
                 size="icon_size"
+                skeleton={null}
                 title={null}
                 width={null}
               />

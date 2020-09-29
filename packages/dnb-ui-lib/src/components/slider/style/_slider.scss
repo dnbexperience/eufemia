@@ -238,11 +238,13 @@
   }
 
   > .dnb-form-label {
+    align-self: flex-end;
     margin-right: 1rem;
     line-height: var(--slider-thumb-size);
   }
   &__label--vertical {
     flex-direction: column;
+    line-height: var(--line-height-basis);
   }
   &__label--vertical#{&}--vertical {
     align-items: center;

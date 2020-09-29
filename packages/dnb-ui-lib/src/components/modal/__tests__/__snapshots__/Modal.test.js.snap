@@ -199,6 +199,7 @@ exports[`Modal component have to match snapshot 1`] = `
               key="button-icon"
               modifier={null}
               size={null}
+              skeleton={null}
               title={null}
               width={null}
             >
@@ -572,6 +573,7 @@ exports[`Modal component have to match snapshot 1`] = `
                           key="button-icon"
                           modifier={null}
                           size="medium"
+                          skeleton={null}
                           title={null}
                           width={null}
                         >

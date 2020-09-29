@@ -641,6 +641,7 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
               key="button-icon"
               modifier={null}
               size={null}
+              skeleton={null}
               title={null}
               width={null}
             >

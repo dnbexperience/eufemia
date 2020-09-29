@@ -79,6 +79,7 @@ exports[`Accordion component have to match snapshot 1`] = `
               icon="icon"
               modifier={null}
               size="icon_size"
+              skeleton={null}
               title={null}
               width={null}
             />
