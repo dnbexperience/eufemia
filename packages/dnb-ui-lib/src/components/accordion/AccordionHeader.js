@@ -8,7 +8,8 @@ import PropTypes from 'prop-types'
 import {
   isTrue,
   validateDOMAttributes,
-  extendPropsWithContext
+  extendPropsWithContext,
+  skeletonElement
 } from '../../shared/component-helper'
 import IconPrimary from '../../components/icon-primary/IconPrimary'
 import classnames from 'classnames'
@@ -52,6 +53,7 @@ const propTypes = {
   icon_position: PropTypes.string,
   icon_size: PropTypes.string,
   disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
 
   /// React props
   className: PropTypes.string,
@@ -74,6 +76,7 @@ const defaultProps = {
   icon_position: null,
   icon_size: 'medium',
   disabled: null,
+  skeleton: null,
 
   // React props
   className: null,
@@ -245,7 +248,8 @@ export default class AccordionHeader extends React.PureComponent {
       heading_level,
       icon,
       icon_size,
-      disabled
+      disabled,
+      skeleton
     } = props
 
     const {
@@ -366,6 +370,7 @@ export default class AccordionHeader extends React.PureComponent {
         hover && hadClick && 'dnb-accordion--hover',
         !this.canClick() && 'dnb-accordion__header--prevent-click',
         description && 'dnb-accordion__header--description',
+        isTrue(skeleton) && 'dnb-skeleton',
         createSpacingClasses(rest),
         className
       ),
@@ -373,11 +378,13 @@ export default class AccordionHeader extends React.PureComponent {
       ...rest
     }
 
+    skeletonElement(headerParams, this.context)
+
     if (expanded) {
       headerParams['aria-expanded'] = true
     }
 
-    if (disabled) {
+    if (disabled || skeleton) {
       headerParams.tabIndex = '-1'
       headerParams.disabled = true
       headerParams['aria-disabled'] = true

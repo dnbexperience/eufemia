@@ -272,7 +272,8 @@ exports[`Skeleton scss have to match snapshot 1`] = `
   overflow-x: hidden;
   pointer-events: none;
   color: transparent;
-  background: transparent; }
+  background: transparent;
+  box-shadow: none !important; }
   .dnb-skeleton--block {
     display: block; }
   .dnb-skeleton::before, .dnb-skeleton::after {

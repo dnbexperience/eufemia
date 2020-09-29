@@ -20,6 +20,7 @@ import {
   DatePicker,
   FormRow,
   ToggleButton,
+  Accordion,
   Skeleton
 } from '../../src/components'
 import { H1, H2, P, Ol, Li, Ul, Dl, Dt, Dd } from '../../src/elements'
@@ -74,6 +75,30 @@ export default [
         >
           <CustomStyle>
             <Wrapper>
+              <Box>
+                <Accordion
+                  remember_state
+                  id="single-accordion"
+                  variant="outlined"
+                  title="Accordion title"
+                >
+                  Accordion content
+                </Accordion>
+                <Accordion.Provider
+                  top
+                  remember_state
+                  icon="bell"
+                  icon_position="right"
+                  variant="outlined"
+                >
+                  <Accordion
+                    id="single-provider-accordion"
+                    title="Accordion title"
+                  >
+                    Accordion content
+                  </Accordion>
+                </Accordion.Provider>
+              </Box>
               <Box>
                 <ToggleButton
                   skeleton={false}

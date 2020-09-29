@@ -28,6 +28,7 @@ exports[`Accordion component have to match snapshot 1`] = `
   prevent_rerender="prevent_rerender"
   remember_state={false}
   single_container="single_container"
+  skeleton="skeleton"
   title="title"
   variant="default"
 >
@@ -47,12 +48,14 @@ exports[`Accordion component have to match snapshot 1`] = `
       icon_size="medium"
       id={null}
       left_component={null}
+      skeleton={null}
       title={null}
     >
       <div
         aria-controls="accordion-content"
+        aria-disabled={true}
         className="dnb-accordion__header dnb-accordion__header__icon--icon_position"
-        disabled={false}
+        disabled={true}
         onClick={[Function]}
         onKeyDown={[Function]}
         onMouseOut={[Function]}
