@@ -53,9 +53,8 @@ exports[`Accordion component have to match snapshot 1`] = `
     >
       <div
         aria-controls="accordion-content"
-        aria-disabled={true}
         className="dnb-accordion__header dnb-accordion__header__icon--icon_position"
-        disabled={true}
+        disabled={false}
         onClick={[Function]}
         onKeyDown={[Function]}
         onMouseOut={[Function]}

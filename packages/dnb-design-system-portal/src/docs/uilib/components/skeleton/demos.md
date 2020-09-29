@@ -20,9 +20,9 @@ import 'dnb-ui-lib/src/components/skeleton/style/themes/brand'
 `}
 </ComponentBox>
 
-## Skeleton using the Skeleton Provider
+## Toggle skeleton on/off
 
-<ComponentBox scope={{Provider}} useRender>
+<ComponentBox data-dnb-test="skeleton-exclude" scope={{Provider}} useRender>
 {`
 const UserData = () => {
 	const [state, setState] = React.useState(true)
@@ -32,8 +32,10 @@ const UserData = () => {
 				<H2 top bottom>Heading</H2>
 				<P top bottom>Paragraph Non habitasse ut nisi dictum laoreet ridiculus dui.</P>
 				<Input label_direction="vertical" label="Input" />
+				<Skeleton.Exclude>
+					<ToggleButton checked={state} on_change={({ checked }) => setState(checked)} top="large">Toggle</ToggleButton>
+				</Skeleton.Exclude>
 			</Skeleton>
-			<ToggleButton checked={state} on_change={({ checked }) => setState(checked)} top="large">Toggle</ToggleButton>
 		</>
 	)
 }

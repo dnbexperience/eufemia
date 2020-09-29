@@ -24,4 +24,10 @@ describe('Skeleton screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+  it('have to match excluded components', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-dnb-test="skeleton-exclude"]'
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
 })

@@ -378,13 +378,11 @@ export default class AccordionHeader extends React.PureComponent {
       ...rest
     }
 
-    skeletonElement(headerParams, this.context)
-
     if (expanded) {
       headerParams['aria-expanded'] = true
     }
 
-    if (disabled || skeleton) {
+    if (disabled || isTrue(skeleton)) {
       headerParams.tabIndex = '-1'
       headerParams.disabled = true
       headerParams['aria-disabled'] = true
@@ -393,6 +391,10 @@ export default class AccordionHeader extends React.PureComponent {
       headerParams.onKeyDown = this.onKeyDownHandler
       headerParams.onMouseOver = this.onMouseOverHandler
       headerParams.onMouseOut = this.onMouseOutHander
+    }
+
+    if (isTrue(skeleton)) {
+      skeletonElement(headerParams, this.context)
     }
 
     validateDOMAttributes(this.props, headerParams)

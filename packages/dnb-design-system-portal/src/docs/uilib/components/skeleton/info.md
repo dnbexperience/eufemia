@@ -87,6 +87,20 @@ You can also use the global [Eufemia Provider](/uilib/usage/customisation/provid
 </Provider>
 ```
 
+### Exclude a part
+
+You can easily exclude a part from being transformed to a skeleton by using `Skeleton.Exclude`.
+
+```jsx
+<Skeleton show={true}>
+  <Input>I'm hidden behind the skeleton</Input>
+
+  <Skeleton.Exclude>
+    <Input>I'm NOT hidden</Input>
+  </Skeleton.Exclude>
+</Skeleton>
+```
+
 ### Suspense
 
 You can take advantage of an async component by using the React Suspense with a skeleton fallback.
