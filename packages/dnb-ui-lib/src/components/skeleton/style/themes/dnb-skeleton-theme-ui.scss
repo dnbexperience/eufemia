@@ -3,17 +3,23 @@
  *
  */
 
+:root {
+  --skeleton-color: var(--color-black-8);
+  --skeleton-color--contrast: var(--color-white);
+
+  // Nice color as well. But very colorful!
+  // --skeleton-color: var(
+  //   --color-sea-green-30
+  // ) !important; // to take presence
+
+  // Using a so called DNB background color, could quickly cause conflicts
+  // --skeleton-color: var(--color-lavender) !important; // to take presence
+  // --skeleton-color: var(--color-pistachio) !important; // to take presence
+}
+
 .dnb-skeleton {
   &::before {
-    background-color: var(
-      --color-sea-green-30
-    ) !important; // to take presence
-
-    // Using a so called DNB background color causes conflicts
-    // background-color: var(--color-lavender) !important; // to take presence
-
-    // Boring color
-    // background-color: #ebebeb !important; // to take presence
+    background-color: var(--skeleton-color) !important; // to take presence
   }
 
   // Lines
@@ -22,14 +28,13 @@
   &--lines#{&}::after {
     background-image: repeating-linear-gradient(
       -45deg,
-      white 0 1px,
+      var(--skeleton-color--contrast) 0 1px,
       transparent 0 6px
     ) !important;
     background-repeat: repeat !important;
     background-size: 100% !important; // to take presence
 
     animation: skeletonLinearAnimation 2s linear infinite;
-    // animation: skeletonFancyAnimation 2s linear infinite;
 
     // For better performance
     // animation: skeletonShineAnimation 2s linear infinite;
@@ -41,7 +46,7 @@
   &--dots#{&}::after {
     background-image: radial-gradient(
       circle,
-      white 1px,
+      var(--skeleton-color--contrast) 1px,
       transparent 1px /* Having 2px makes it add lookin in Safari */
     ) !important; // to take presence
     background-position-y: 50% !important;
@@ -54,14 +59,15 @@
   // Shine
   &--shine &::after,
   &--shine#{&}::after {
-    background-image: radial-gradient(
-      white 0%,
-      transparent 50%,
-      transparent 100%
+    background-image: linear-gradient(
+      90deg,
+      transparent 10%,
+      var(--skeleton-color--contrast) 60%,
+      transparent 85%
     ) !important;
     background-position-y: 50% !important;
     background-repeat: no-repeat !important;
-    background-size: 100% 3000% !important;
+    background-size: 100% 100% !important;
 
     animation: skeletonShineAnimation 2s linear infinite;
   }

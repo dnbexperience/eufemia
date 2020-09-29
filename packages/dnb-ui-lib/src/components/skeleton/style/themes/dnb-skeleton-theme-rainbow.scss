@@ -26,7 +26,8 @@
       ) !important;
       background-repeat: no-repeat !important;
       background-size: auto !important;
-      animation: skeletonSmoothAnimation 2s linear infinite;
+
+      animation: skeletonLinearAnimation 2s linear infinite;
     }
   }
 }

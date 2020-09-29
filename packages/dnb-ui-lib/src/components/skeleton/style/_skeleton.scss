@@ -50,6 +50,11 @@
     }
   }
 
+  &--no-animation &::after,
+  html[data-dnb-test] &::after {
+    animation: none !important;
+  }
+
   // because of the underline, we hide anchors
   .dnb-anchor {
     visibility: hidden;

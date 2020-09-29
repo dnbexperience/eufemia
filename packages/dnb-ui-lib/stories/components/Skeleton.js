@@ -62,12 +62,13 @@ export default [
       >
         <Skeleton
           show={showSkeleton}
+          // no_animation
           // show
           // figure={() => <SkeletonArticle rows={2} />}
           // style_type="rainbow"
           // style_type="norway"
           // style_type="shine"
-          style_type="dots"
+          style_type="lines"
           // style_type="dots"
           // style_type="brand"
         >
