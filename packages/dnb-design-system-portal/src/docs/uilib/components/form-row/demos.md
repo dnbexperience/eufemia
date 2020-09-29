@@ -2,7 +2,7 @@
 showTabs: true
 ---
 
-import FormRowTextingExamples, {
+import FormRowVisualTests, {
 FormRowVerticalAlignedLabels,
 FormRowLegendIndentUsage,
 FormRowSectionStyle,
@@ -80,4 +80,4 @@ Customize the `.dnb-form-row` styles. Instead of using the build in `indent` pro
 
 <FormRowCustomIndentLayout />
 
-<FormRowTextingExamples />
+<FormRowVisualTests />

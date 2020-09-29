@@ -310,7 +310,7 @@ render(
   </TestStyles>
 )
 
-export default class FormRowTextingExamples extends React.PureComponent {
+export default class FormRowVisualTests extends React.PureComponent {
   render() {
     const IS_TEST = typeof window !== 'undefined' && window.IS_TEST
     return (
