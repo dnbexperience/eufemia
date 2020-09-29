@@ -257,7 +257,7 @@ export default class Checkbox extends React.PureComponent {
     }
 
     if (isTrue(skeleton)) {
-      skeletonElement(inputParams)
+      skeletonElement(inputParams, this.context)
     }
 
     // also used for code markup simulation

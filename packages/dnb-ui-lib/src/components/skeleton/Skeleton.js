@@ -11,6 +11,7 @@ import {
   validateDOMAttributes,
   isTrue
 } from '../../shared/component-helper'
+import { LOCALE } from '../../shared/defaults'
 import Space from '../space/Space'
 import Context from '../../shared/Context'
 import Provider from '../../shared/Provider'
@@ -19,11 +20,6 @@ export default class Skeleton extends React.PureComponent {
   static contextType = Context
 
   static propTypes = {
-    element: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.node,
-      PropTypes.bool
-    ]),
     show: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     no_animation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     style_type: PropTypes.oneOfType([
@@ -45,36 +41,85 @@ export default class Skeleton extends React.PureComponent {
   }
 
   static defaultProps = {
-    element: null,
     show: null,
     skeleton: null, // only to make sure we process extendPropsWithContext
     style_type: null,
     no_animation: null,
     figure: null,
+    aria_bussy: null,
+    aria_ready: null,
     class: null,
     className: null,
     children: null
   }
 
+  constructor(props) {
+    super(props)
+    this.state = { ariaLiveUpdate: null }
+  }
+
+  componentWillUnmount() {
+    clearTimeout(this._ariaLiveUpdateTiemout)
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.show !== this.props.show) {
+      this.setAriaLiveUpdate()
+    }
+  }
+
+  getProps(props = this.props, context = this.context) {
+    return extendPropsWithContext(
+      props,
+      Skeleton.defaultProps,
+      {
+        skeleton: context.skeleton,
+        style_type: context.skeleton_style_type,
+        no_animation: context.skeleton_no_animation
+      },
+      context.translation.Skeleton
+    )
+  }
+
+  setAriaLiveUpdate() {
+    // this is only to make a better screen reader ux
+    clearTimeout(this._ariaLiveUpdateTiemout)
+    this._ariaLiveUpdateTiemout = setTimeout(() => {
+      const { aria_bussy, aria_ready } = this.getProps()
+
+      let newString = null
+
+      if (isTrue(this.props.show)) {
+        newString = aria_bussy
+      } else {
+        newString = aria_ready
+      }
+
+      if (newString) {
+        this.setState({
+          ariaLiveUpdate: newString
+        })
+        this._ariaLiveUpdateTiemout = setTimeout(() => {
+          this.setState({
+            ariaLiveUpdate: null
+          })
+        }, 1e3)
+      }
+    }, 1e3) // so that the input gets read out first, and then the results
+  }
+
   render() {
     // consume the skeleton context
-    const props =
-      typeof this.context?.skeleton !== 'undefined'
-        ? // use only the props from context, who are available here anyway
-          extendPropsWithContext(this.props, Skeleton.defaultProps, {
-            skeleton: this.context.skeleton,
-            style_type: this.context.skeleton_style_type,
-            no_animation: this.context.skeleton_no_animation
-          })
-        : this.props
+    const props = this.getProps()
 
     const {
-      element,
       show,
       style_type,
       no_animation,
       figure,
       skeleton,
+      aria_bussy,
+      aria_ready, // eslint-disable-line
       className,
       class: _className,
       children,
@@ -82,12 +127,14 @@ export default class Skeleton extends React.PureComponent {
       ...attributes
     } = props
 
+    const { ariaLiveUpdate } = this.state
+
     const showSkeleton =
       typeof show === 'boolean' || typeof show === 'string'
         ? isTrue(show)
         : skeleton
 
-    let params = {
+    const params = {
       className: classnames(
         figure ? 'dnb-skeleton__figure' : 'dnb-skeleton__root',
         isTrue(showSkeleton) && 'dnb-skeleton--visible',
@@ -96,23 +143,20 @@ export default class Skeleton extends React.PureComponent {
         className,
         _className
       ),
+      // role: 'status',// is not needed as for now
+      'aria-busy': showSkeleton,
+      'aria-label': showSkeleton ? aria_bussy : undefined,
+      lang: this.context.locale || LOCALE,
       ...attributes
     }
 
     validateDOMAttributes(props, params)
 
-    // Avoid using a wrapper, as long as possible
-    let Elem = Space
-    if (element === false || element === 'false') {
-      Elem = React.Fragment
-      params = {}
-    }
-
     return (
-      <Elem {...params}>
-        {figure ? (
+      <Space {...params}>
+        {typeof figure === 'function' ? (
           showSkeleton ? (
-            figure
+            figure()
           ) : null
         ) : (
           <Provider
@@ -123,7 +167,10 @@ export default class Skeleton extends React.PureComponent {
             {children}
           </Provider>
         )}
-      </Elem>
+        <span className="dnb-sr-only" aria-live="assertive">
+          {ariaLiveUpdate}
+        </span>
+      </Space>
     )
   }
 }

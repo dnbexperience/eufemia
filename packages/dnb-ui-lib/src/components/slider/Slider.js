@@ -565,7 +565,7 @@ export default class Slider extends React.PureComponent {
     if (isTrue(skeleton)) {
       disabled = true
       currentState = 'disabled'
-      skeletonElement(mainParams)
+      skeletonElement(mainParams, this.context)
     }
 
     const trackParams = {

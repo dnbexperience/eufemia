@@ -338,7 +338,7 @@ export default class Textarea extends React.PureComponent {
     }
 
     if (isTrue(skeleton)) {
-      skeletonElement(innerParams)
+      skeletonElement(innerParams, this.context)
     }
 
     // to show the ending dots on a placeholder, if the text is longer

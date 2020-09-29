@@ -301,7 +301,7 @@ export default class Heading extends React.PureComponent {
           )
 
           if (isTrue(skeleton)) {
-            skeletonElement(attributes)
+            skeletonElement(attributes, this.context)
             return (
               <AutoSize
                 __element={Element}

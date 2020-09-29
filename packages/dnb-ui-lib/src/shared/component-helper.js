@@ -86,11 +86,10 @@ export function defineNavigator() {
   }
 }
 
-export const skeletonElement = (params) => {
+export const skeletonElement = (params, context) => {
   params.disabled = true
   params['aria-disabled'] = true
-  params['aria-hidden'] = true
-  params['aria-busy'] = true
+  params['aria-label'] = context?.translation?.Skeleton?.aria_bussy
 
   return params
 }

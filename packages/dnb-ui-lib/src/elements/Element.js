@@ -57,7 +57,7 @@ class Elem extends React.PureComponent {
     validateDOMAttributes(null, rest)
 
     if (isTrue(skeleton)) {
-      skeletonElement(rest)
+      skeletonElement(rest, this.context)
       return <AutoSize __element={Tag} ref={_ref} {...rest} />
     }
 

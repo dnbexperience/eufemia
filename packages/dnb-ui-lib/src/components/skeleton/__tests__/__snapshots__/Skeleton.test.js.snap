@@ -2,9 +2,10 @@
 
 exports[`Skeleton component have to match snapshot 1`] = `
 <Skeleton
+  aria_bussy={null}
+  aria_ready={null}
   class={null}
   className={null}
-  element={null}
   figure={null}
   no_animation={null}
   show={null}
@@ -18,6 +19,7 @@ exports[`Skeleton component have to match snapshot 1`] = `
     element="div"
     id={null}
     inline={null}
+    lang="nb-NO"
     left={null}
     no_collapse={null}
     render_content={null}
@@ -28,16 +30,14 @@ exports[`Skeleton component have to match snapshot 1`] = `
     <Element
       className="dnb-space dnb-skeleton__root"
       element="div"
+      lang="nb-NO"
       no_collapse={null}
     >
       <div
         className="dnb-space dnb-skeleton__root"
+        lang="nb-NO"
       >
-        <Provider
-          skeleton={null}
-          skeleton_no_animation={null}
-          skeleton_style_type={null}
-        >
+        <Provider>
           <P
             bold={null}
             className={null}
@@ -187,6 +187,10 @@ exports[`Skeleton component have to match snapshot 1`] = `
             </span>
           </Input>
         </Provider>
+        <span
+          aria-live="assertive"
+          className="dnb-sr-only"
+        />
       </div>
     </Element>
   </Space>
@@ -284,7 +288,8 @@ exports[`Skeleton scss have to match snapshot 1`] = `
     margin: 0 !important;
     padding: 0 !important;
     border-radius: inherit;
-    background: none !important; }
+    background: none !important;
+    box-shadow: none !important; }
   .dnb-skeleton[data-skeleton-chars]::before, .dnb-skeleton[data-skeleton-chars]::after {
     max-width: var(--skeleton-chars); }
   .dnb-skeleton--no-animation .dnb-skeleton::after,

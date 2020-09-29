@@ -444,7 +444,7 @@ export default class Input extends React.PureComponent {
     }
 
     if (isTrue(skeleton)) {
-      skeletonElement(inputParams)
+      skeletonElement(inputParams, this.context)
     }
 
     // also used for code markup simulation
@@ -633,7 +633,7 @@ class InputSubmitButton extends React.PureComponent {
     }
 
     if (isTrue(skeleton)) {
-      skeletonElement(params)
+      skeletonElement(params, this.context)
     }
 
     // also used for code markup simulation

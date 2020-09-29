@@ -63,6 +63,10 @@ export default {
       title: 'Help text',
       aria_role: 'Help button'
     },
+    Skeleton: {
+      aria_bussy: 'In progress ...',
+      aria_ready: 'Ready to interact'
+    },
     Input: {
       submit_button_title: 'Submit button'
     },

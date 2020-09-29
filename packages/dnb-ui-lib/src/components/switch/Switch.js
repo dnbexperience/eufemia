@@ -266,7 +266,7 @@ export default class Switch extends React.PureComponent {
     }
 
     if (isTrue(skeleton)) {
-      skeletonElement(inputParams)
+      skeletonElement(inputParams, this.context)
     }
 
     if (showStatus || suffix) {

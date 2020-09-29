@@ -146,7 +146,7 @@ export default class FormLabel extends React.PureComponent {
       params.disabled = true
     }
     if (isTrue(skeleton)) {
-      skeletonElement(params)
+      skeletonElement(params, this.context)
     }
 
     // also used for code markup simulation
