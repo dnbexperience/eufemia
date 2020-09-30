@@ -261,7 +261,11 @@ exports[`Skeleton scss have to match snapshot 1`] = `
  */
 .dnb-skeleton {
   pointer-events: none; }
-  .dnb-skeleton:not(.dnb-skeleton--font) {
+  .dnb-skeleton--block {
+    display: block; }
+  .dnb-skeleton--overflow {
+    overflow: hidden; }
+  .dnb-skeleton--grey, .dnb-skeleton--shape {
     filter: grayscale(100%); }
   .dnb-skeleton--shape {
     position: relative;
@@ -284,22 +288,12 @@ exports[`Skeleton scss have to match snapshot 1`] = `
     border-radius: inherit;
     background: none !important;
     box-shadow: none !important; }
-  .dnb-skeleton--block {
-    display: block; }
-  .dnb-skeleton[data-skeleton-chars]::before, .dnb-skeleton[data-skeleton-chars]::after {
-    max-width: var(--skeleton-chars); }
-  .dnb-skeleton--no-animation .dnb-skeleton::after,
-  html[data-dnb-test] .dnb-skeleton::after {
-    animation: none !important; }
-  .dnb-skeleton--font,
-  .dnb-skeleton--font .dnb-skeleton {
+  .dnb-skeleton--font {
     --font-family-book: 'DNBSkeleton' !important;
     --font-family-demi: 'DNBSkeleton' !important;
     --font-family-default: 'DNBSkeleton' !important;
     font-family: var(--font-family-default) !important;
-    background-image: repeating-linear-gradient(-45deg, white 0 1px, transparent 0 6px);
-    --border-color: var(--skeleton-color);
-    background-color: var(--skeleton-color);
+    font-style: unset;
     background-position-y: 50%;
     background-repeat: no-repeat;
     background-size: 30rem 100%;
@@ -308,14 +302,21 @@ exports[`Skeleton scss have to match snapshot 1`] = `
     background-clip: text;
     -webkit-background-clip: text;
     animation: skeletonFontAnimation 2s linear infinite; }
-  .dnb-skeleton--font.dnb-skeleton::before, .dnb-skeleton--font.dnb-skeleton::after {
-    content: none !important; }
-  .dnb-skeleton pre,
-  .dnb-skeleton pre *,
-  .dnb-skeleton code,
-  .dnb-skeleton code * {
+  .dnb-skeleton--code pre,
+  .dnb-skeleton--code pre *,
+  .dnb-skeleton--code code,
+  .dnb-skeleton--code code *, .dnb-skeleton--font pre,
+  .dnb-skeleton--font pre *,
+  .dnb-skeleton--font code,
+  .dnb-skeleton--font code * {
     --font-family-monospace: 'DNBMonoSkeleton' !important;
-    font-family: var(--font-family-monospace) !important; }
+    font-family: var(--font-family-monospace) !important;
+    font-style: unset !important; }
+  .dnb-skeleton[data-skeleton-chars]::before, .dnb-skeleton[data-skeleton-chars]::after {
+    max-width: var(--skeleton-chars); }
+  .dnb-skeleton--no-animation .dnb-skeleton::after,
+  html[data-dnb-test] .dnb-skeleton::after {
+    animation: none !important; }
   .dnb-skeleton.dnb-anchor,
   .dnb-skeleton > .dnb-anchor {
     box-shadow: none; }
@@ -342,6 +343,12 @@ exports[`Skeleton scss have to match snapshot 1`] = `
     .dnb-skeleton__figure--product .dnb-skeleton__figure--circle + div {
       width: 50%;
       margin-left: 1rem; }
+
+@keyframes skeletonFontAnimation {
+  0% {
+    background-position-x: -30rem; }
+  100% {
+    background-position-x: 30rem; } }
 
 @font-face {
   font-family: DNBSkeleton;

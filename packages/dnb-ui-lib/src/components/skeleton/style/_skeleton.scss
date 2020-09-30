@@ -8,9 +8,22 @@
 .dnb-skeleton {
   pointer-events: none;
 
-  &:not(.dnb-skeleton--font) {
+  &--block {
+    display: block;
+  }
+
+  // Nicer animation, but requires an hidden overflow
+  &--overflow {
+    overflow: hidden;
+  }
+
+  &--grey,
+  &--shape {
     filter: grayscale(100%);
   }
+  // &:not(.dnb-skeleton--font) {
+  //   filter: grayscale(100%);
+  // }
 
   &--shape {
     position: relative;
@@ -43,8 +56,37 @@
     box-shadow: none !important;
   }
 
-  &--block {
-    display: block;
+  &--font {
+    --font-family-book: 'DNBSkeleton' !important; // Deprecated
+    --font-family-demi: 'DNBSkeleton' !important; // Deprecated
+    --font-family-default: 'DNBSkeleton' !important;
+
+    font-family: var(--font-family-default) !important;
+    font-style: unset;
+
+    background-position-y: 50%;
+    background-repeat: no-repeat;
+    background-size: 30rem 100%;
+
+    -moz-text-fill-color: transparent;
+    -webkit-text-fill-color: transparent;
+
+    background-clip: text;
+    -webkit-background-clip: text;
+
+    animation: skeletonFontAnimation 2s linear infinite;
+  }
+
+  &--code,
+  &--font {
+    pre,
+    pre *,
+    code,
+    code * {
+      --font-family-monospace: 'DNBMonoSkeleton' !important;
+      font-family: var(--font-family-monospace) !important;
+      font-style: unset !important;
+    }
   }
 
   &[data-skeleton-chars] {
@@ -61,55 +103,6 @@
     animation: none !important;
   }
 
-  &--font,
-  &--font & {
-    --font-family-book: 'DNBSkeleton' !important; // Deprecated
-    --font-family-demi: 'DNBSkeleton' !important; // Deprecated
-    --font-family-default: 'DNBSkeleton' !important;
-    font-family: var(--font-family-default) !important;
-
-    background-image: repeating-linear-gradient(
-      -45deg,
-      white 0 1px,
-      transparent 0 6px
-    );
-
-    // background-image: linear-gradient(
-    //   90deg,
-    //   transparent 10%,
-    //   rgba(0, 0, 0, 0.2) 60%,
-    //   transparent 85%
-    // );
-
-    --border-color: var(--skeleton-color);
-    background-color: var(--skeleton-color);
-
-    background-position-y: 50%;
-    background-repeat: no-repeat;
-    background-size: 30rem 100%;
-
-    -moz-text-fill-color: transparent;
-    -webkit-text-fill-color: transparent;
-
-    background-clip: text;
-    -webkit-background-clip: text;
-
-    animation: skeletonFontAnimation 2s linear infinite;
-  }
-
-  &--font#{&}::before,
-  &--font#{&}::after {
-    content: none !important;
-  }
-
-  pre,
-  pre *,
-  code,
-  code * {
-    --font-family-monospace: 'DNBMonoSkeleton' !important;
-    font-family: var(--font-family-monospace) !important;
-  }
-
   // because of the underline, we hide anchors
   &.dnb-anchor,
   > .dnb-anchor {
@@ -120,7 +113,6 @@
     filter: grayscale(100%) opacity(0.3);
   }
   > .dnb-code {
-    // background-color: inherit;
     background-color: transparent;
   }
 
@@ -181,6 +173,15 @@
       width: 50%;
       margin-left: 1rem;
     }
+  }
+}
+
+@keyframes skeletonFontAnimation {
+  0% {
+    background-position-x: -30rem;
+  }
+  100% {
+    background-position-x: 30rem;
   }
 }
 
