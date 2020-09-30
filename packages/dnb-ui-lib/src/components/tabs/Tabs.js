@@ -18,6 +18,7 @@ import {
   validateDOMAttributes,
   dispatchCustomElementEvent,
   getPreviousSibling,
+  skeletonElement,
   filterProps
 } from '../../shared/component-helper'
 import { createSpacingClasses } from '../space/SpacingHelper'
@@ -575,6 +576,11 @@ export default class Tabs extends React.PureComponent {
           itemParams.disabled = true
           itemParams['aria-disabled'] = true
         }
+
+        if (isTrue(skeleton)) {
+          skeletonElement(itemParams, this.context)
+        }
+
         return (
           <button
             type="button"
@@ -584,7 +590,7 @@ export default class Tabs extends React.PureComponent {
             aria-selected={isSelected}
             className={classnames(
               'dnb-tabs__button',
-              isTrue(skeleton) && 'dnb-skeleton',
+              // isTrue(skeleton) && 'dnb-skeleton dnb-skeleton--font',
               isSelected && 'selected'
             )}
             onClick={this.openTabByDOM}
@@ -592,7 +598,14 @@ export default class Tabs extends React.PureComponent {
             data-tab-key={key}
             {...itemParams}
           >
-            <span className="dnb-tabs__button__title">{title}</span>
+            <span
+              className={classnames(
+                'dnb-tabs__button__title',
+                isTrue(skeleton) && 'dnb-skeleton dnb-skeleton--font'
+              )}
+            >
+              {title}
+            </span>
             <Dummy>{title}</Dummy>
           </button>
         )
