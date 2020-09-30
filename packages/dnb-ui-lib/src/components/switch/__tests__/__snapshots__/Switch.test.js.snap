@@ -50,24 +50,15 @@ exports[`Switch component have to match snapshot 1`] = `
         title={null}
         vertical={null}
       >
-        <Element
+        <label
           aria-disabled={true}
-          className="dnb-form-label dnb-skeleton"
+          className="dnb-form-label"
           disabled={true}
           htmlFor="id"
           id="id-label"
-          is="label"
         >
-          <label
-            aria-disabled={true}
-            className="dnb-form-label dnb-skeleton"
-            disabled={true}
-            htmlFor="id"
-            id="id-label"
-          >
-            label
-          </label>
-        </Element>
+          label
+        </label>
       </FormLabel>
       <span
         className="dnb-switch__inner"
@@ -643,6 +634,8 @@ legend.dnb-form-label {
       @media screen and (-ms-high-contrast: none) {
         html[data-whatinput='keyboard'] .dnb-switch__focus {
           box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
+  .dnb-switch__button.dnb-skeleton {
+    position: absolute; }
   .dnb-switch__input:not(:checked) ~ .dnb-switch__button {
     transform: translateX(0);
     transform: translateX(calc(1px - 1px - var(--switch-border-width--medium))); }

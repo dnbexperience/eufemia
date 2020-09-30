@@ -49,24 +49,15 @@ exports[`Radio component have to match snapshot 1`] = `
         title={null}
         vertical={null}
       >
-        <Element
+        <label
           aria-disabled={true}
-          className="dnb-form-label dnb-skeleton"
+          className="dnb-form-label"
           disabled={true}
           htmlFor="radio"
           id="radio-label"
-          is="label"
         >
-          <label
-            aria-disabled={true}
-            className="dnb-form-label dnb-skeleton"
-            disabled={true}
-            htmlFor="radio"
-            id="radio-label"
-          >
-            label
-          </label>
-        </Element>
+          label
+        </label>
       </FormLabel>
       <span
         className="dnb-radio__inner"
@@ -271,22 +262,14 @@ exports[`Radio group component have to match group snapshot 1`] = `
               title={null}
               vertical={null}
             >
-              <Element
+              <label
                 className="dnb-form-label dnb-form-row__label"
                 disabled={false}
                 htmlFor="group"
                 id="group-label"
-                is="label"
               >
-                <label
-                  className="dnb-form-label dnb-form-row__label"
-                  disabled={false}
-                  htmlFor="group"
-                  id="group-label"
-                >
-                  Label
-                </label>
-              </Element>
+                Label
+              </label>
             </FormLabel>
             <div
               className="dnb-form-row__content dnb-form-row__content--default"
@@ -387,22 +370,14 @@ exports[`Radio group component have to match group snapshot 1`] = `
                             title={null}
                             vertical={null}
                           >
-                            <Element
+                            <label
                               className="dnb-form-label"
                               disabled={false}
                               htmlFor="radio-1"
                               id="radio-1-label"
-                              is="label"
                             >
-                              <label
-                                className="dnb-form-label"
-                                disabled={false}
-                                htmlFor="radio-1"
-                                id="radio-1-label"
-                              >
-                                Radio 1
-                              </label>
-                            </Element>
+                              Radio 1
+                            </label>
                           </FormLabel>
                         </span>
                       </span>
@@ -500,22 +475,14 @@ exports[`Radio group component have to match group snapshot 1`] = `
                             title={null}
                             vertical={null}
                           >
-                            <Element
+                            <label
                               className="dnb-form-label"
                               disabled={false}
                               htmlFor="radio-2"
                               id="radio-2-label"
-                              is="label"
                             >
-                              <label
-                                className="dnb-form-label"
-                                disabled={false}
-                                htmlFor="radio-2"
-                                id="radio-2-label"
-                              >
-                                Radio 2
-                              </label>
-                            </Element>
+                              Radio 2
+                            </label>
                           </FormLabel>
                         </span>
                       </span>

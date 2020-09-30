@@ -318,26 +318,16 @@ exports[`Dropdown markup have to match snapshot 1`] = `
           title={null}
           vertical={null}
         >
-          <Element
+          <label
             aria-disabled={true}
-            className="dnb-form-label dnb-skeleton"
+            className="dnb-form-label"
             disabled={true}
             htmlFor="dropdown-id"
             id="dropdown-id-label"
-            is="label"
             onMouseDown={[Function]}
           >
-            <label
-              aria-disabled={true}
-              className="dnb-form-label dnb-skeleton"
-              disabled={true}
-              htmlFor="dropdown-id"
-              id="dropdown-id-label"
-              onMouseDown={[Function]}
-            >
-              label
-            </label>
-          </Element>
+            label
+          </label>
         </FormLabel>
         <span
           className="dnb-dropdown__inner"
@@ -1307,10 +1297,6 @@ exports[`Dropdown scss have to match snapshot 1`] = `
   h5 .dnb-icon,
   h6 .dnb-icon {
     vertical-align: middle; }
-  .dnb-skeleton--visible .dnb-icon {
-    color: var(--color-black-20); }
-    .dnb-skeleton--visible .dnb-icon::before, .dnb-skeleton--visible .dnb-icon::after {
-      content: none !important; }
   @media screen and (-ms-high-contrast: none) {
     .dnb-icon {
       flex: none; } }

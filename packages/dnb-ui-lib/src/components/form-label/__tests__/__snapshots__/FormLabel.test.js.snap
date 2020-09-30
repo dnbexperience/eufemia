@@ -17,26 +17,16 @@ exports[`FormLabel component have to match snapshot 1`] = `
   title="title"
   vertical="vertical"
 >
-  <Element
+  <label
     aria-disabled={true}
-    className="dnb-form-label className class dnb-skeleton"
+    className="dnb-form-label className class"
     disabled={true}
     htmlFor="for_id"
     id="id"
-    is="label"
     title="title"
   >
-    <label
-      aria-disabled={true}
-      className="dnb-form-label className class dnb-skeleton"
-      disabled={true}
-      htmlFor="for_id"
-      id="id"
-      title="title"
-    >
-      text
-    </label>
-  </Element>
+    text
+  </label>
 </FormLabel>
 `;
 

@@ -1380,10 +1380,6 @@ exports[`DatePicker scss have to match snapshot 1`] = `
   h5 .dnb-icon,
   h6 .dnb-icon {
     vertical-align: middle; }
-  .dnb-skeleton--visible .dnb-icon {
-    color: var(--color-black-20); }
-    .dnb-skeleton--visible .dnb-icon::before, .dnb-skeleton--visible .dnb-icon::after {
-      content: none !important; }
   @media screen and (-ms-high-contrast: none) {
     .dnb-icon {
       flex: none; } }
@@ -2250,6 +2246,8 @@ legend.dnb-form-label {
     order: 3;
     vertical-align: top;
     margin-top: 0.5rem; }
+  .dnb-skeleton--visible .dnb-checkbox__button::before, .dnb-skeleton--visible .dnb-checkbox__button::after {
+    border-radius: 0; }
   .dnb-skeleton--visible .dnb-checkbox__input[disabled] ~ .dnb-checkbox__button {
     border-color: var(--skeleton-color); }
   @media screen and (-ms-high-contrast: none) {

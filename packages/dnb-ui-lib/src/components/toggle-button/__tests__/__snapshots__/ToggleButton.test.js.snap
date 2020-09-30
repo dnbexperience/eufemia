@@ -50,24 +50,15 @@ exports[`ToggleButton component have to match snapshot 1`] = `
       title={null}
       vertical={null}
     >
-      <Element
+      <label
         aria-disabled={true}
-        className="dnb-form-label dnb-skeleton"
+        className="dnb-form-label"
         disabled={true}
         htmlFor="toggle-button"
         id="toggle-button-label"
-        is="label"
       >
-        <label
-          aria-disabled={true}
-          className="dnb-form-label dnb-skeleton"
-          disabled={true}
-          htmlFor="toggle-button"
-          id="toggle-button-label"
-        >
-          label
-        </label>
-      </Element>
+        label
+      </label>
     </FormLabel>
     <span
       className="dnb-toggle-button__inner"
@@ -453,20 +444,13 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
               title={null}
               vertical={null}
             >
-              <Element
+              <legend
                 className="dnb-form-label dnb-form-row__label"
                 disabled={false}
                 id="group-label"
-                is="legend"
               >
-                <legend
-                  className="dnb-form-label dnb-form-row__label"
-                  disabled={false}
-                  id="group-label"
-                >
-                  Label
-                </legend>
-              </Element>
+                Label
+              </legend>
             </FormLabel>
             <div
               className="dnb-form-row__content dnb-form-row__content--default"
@@ -1108,10 +1092,6 @@ legend.dnb-form-label {
   h5 .dnb-icon,
   h6 .dnb-icon {
     vertical-align: middle; }
-  .dnb-skeleton--visible .dnb-icon {
-    color: var(--color-black-20); }
-    .dnb-skeleton--visible .dnb-icon::before, .dnb-skeleton--visible .dnb-icon::after {
-      content: none !important; }
   @media screen and (-ms-high-contrast: none) {
     .dnb-icon {
       flex: none; } }
@@ -1604,6 +1584,8 @@ button.dnb-button::-moz-focus-inner {
     order: 3;
     vertical-align: top;
     margin-top: 0.5rem; }
+  .dnb-skeleton--visible .dnb-checkbox__button::before, .dnb-skeleton--visible .dnb-checkbox__button::after {
+    border-radius: 0; }
   .dnb-skeleton--visible .dnb-checkbox__input[disabled] ~ .dnb-checkbox__button {
     border-color: var(--skeleton-color); }
   @media screen and (-ms-high-contrast: none) {

@@ -252,26 +252,16 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
           title={null}
           vertical={null}
         >
-          <Element
+          <label
             aria-disabled={true}
-            className="dnb-form-label dnb-skeleton"
+            className="dnb-form-label"
             disabled={true}
             htmlFor="autocomplete-id"
             id="autocomplete-id-label"
-            is="label"
             onMouseDown={[Function]}
           >
-            <label
-              aria-disabled={true}
-              className="dnb-form-label dnb-skeleton"
-              disabled={true}
-              htmlFor="autocomplete-id"
-              id="autocomplete-id-label"
-              onMouseDown={[Function]}
-            >
-              Autocomplete Label:
-            </label>
-          </Element>
+            Autocomplete Label:
+          </label>
         </FormLabel>
         <span
           className="dnb-autocomplete__inner"
@@ -1184,10 +1174,6 @@ exports[`Autocomplete scss have to match snapshot 1`] = `
   h5 .dnb-icon,
   h6 .dnb-icon {
     vertical-align: middle; }
-  .dnb-skeleton--visible .dnb-icon {
-    color: var(--color-black-20); }
-    .dnb-skeleton--visible .dnb-icon::before, .dnb-skeleton--visible .dnb-icon::after {
-      content: none !important; }
   @media screen and (-ms-high-contrast: none) {
     .dnb-icon {
       flex: none; } }

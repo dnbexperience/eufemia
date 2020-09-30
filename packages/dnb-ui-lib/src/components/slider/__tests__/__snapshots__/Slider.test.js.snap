@@ -51,20 +51,13 @@ exports[`Slider component have to match snapshot 1`] = `
       title={null}
       vertical={null}
     >
-      <Element
-        className="dnb-form-label dnb-skeleton"
+      <label
+        className="dnb-form-label"
         disabled={false}
         id="id-label"
-        is="label"
       >
-        <label
-          className="dnb-form-label dnb-skeleton"
-          disabled={false}
-          id="id-label"
-        >
-          label
-        </label>
-      </Element>
+        label
+      </label>
     </FormLabel>
     <span
       className="dnb-slider__wrapper"
@@ -559,10 +552,6 @@ exports[`Slider scss have to match snapshot 1`] = `
   h5 .dnb-icon,
   h6 .dnb-icon {
     vertical-align: middle; }
-  .dnb-skeleton--visible .dnb-icon {
-    color: var(--color-black-20); }
-    .dnb-skeleton--visible .dnb-icon::before, .dnb-skeleton--visible .dnb-icon::after {
-      content: none !important; }
   @media screen and (-ms-high-contrast: none) {
     .dnb-icon {
       flex: none; } }

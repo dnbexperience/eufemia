@@ -62,22 +62,14 @@ exports[`FormRow component have to match snapshot 1`] = `
           title={null}
           vertical={null}
         >
-          <Element
+          <legend
             aria-disabled={true}
-            className="dnb-form-label dnb-form-row__label label_class dnb-skeleton"
+            className="dnb-form-label dnb-form-row__label label_class"
             disabled={true}
             id="label_id"
-            is="legend"
           >
-            <legend
-              aria-disabled={true}
-              className="dnb-form-label dnb-form-row__label label_class dnb-skeleton"
-              disabled={true}
-              id="label_id"
-            >
-              label
-            </legend>
-          </Element>
+            label
+          </legend>
         </FormLabel>
         <div
           className="dnb-form-row__content dnb-form-row__content--indent_offset dnb-responsive-component"

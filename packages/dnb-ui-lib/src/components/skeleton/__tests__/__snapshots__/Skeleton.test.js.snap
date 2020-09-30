@@ -132,22 +132,14 @@ exports[`Skeleton component have to match snapshot 1`] = `
                 title={null}
                 vertical={null}
               >
-                <Element
+                <label
                   className="dnb-form-label"
                   disabled={false}
                   htmlFor="input"
                   id="input-label"
-                  is="label"
                 >
-                  <label
-                    className="dnb-form-label"
-                    disabled={false}
-                    htmlFor="input"
-                    id="input-label"
-                  >
-                    label
-                  </label>
-                </Element>
+                  label
+                </label>
               </FormLabel>
               <span
                 className="dnb-input__inner"
@@ -268,15 +260,16 @@ exports[`Skeleton scss have to match snapshot 1`] = `
  *
  */
 .dnb-skeleton {
-  position: relative;
-  overflow-x: hidden;
-  pointer-events: none;
-  color: transparent;
-  background: transparent;
-  box-shadow: none !important; }
-  .dnb-skeleton--block {
-    display: block; }
-  .dnb-skeleton::before, .dnb-skeleton::after {
+  pointer-events: none; }
+  .dnb-skeleton:not(.dnb-skeleton--font) {
+    filter: grayscale(100%); }
+  .dnb-skeleton--shape {
+    position: relative;
+    overflow-x: hidden;
+    color: transparent;
+    background: transparent;
+    box-shadow: none !important; }
+  .dnb-skeleton--shape.dnb-skeleton::before, .dnb-skeleton--shape.dnb-skeleton::after {
     content: '' !important;
     position: absolute !important;
     z-index: 100 !important;
@@ -291,28 +284,51 @@ exports[`Skeleton scss have to match snapshot 1`] = `
     border-radius: inherit;
     background: none !important;
     box-shadow: none !important; }
+  .dnb-skeleton--block {
+    display: block; }
   .dnb-skeleton[data-skeleton-chars]::before, .dnb-skeleton[data-skeleton-chars]::after {
     max-width: var(--skeleton-chars); }
   .dnb-skeleton--no-animation .dnb-skeleton::after,
   html[data-dnb-test] .dnb-skeleton::after {
     animation: none !important; }
-  .dnb-skeleton .dnb-anchor {
-    visibility: hidden; }
-  .dnb-skeleton.dnb-anchor {
+  .dnb-skeleton--font,
+  .dnb-skeleton--font .dnb-skeleton {
+    --font-family-book: 'DNBSkeleton' !important;
+    --font-family-demi: 'DNBSkeleton' !important;
+    --font-family-default: 'DNBSkeleton' !important;
+    font-family: var(--font-family-default) !important;
+    background-image: repeating-linear-gradient(-45deg, white 0 1px, transparent 0 6px);
+    --border-color: var(--skeleton-color);
+    background-color: var(--skeleton-color);
+    background-position-y: 50%;
+    background-repeat: no-repeat;
+    background-size: 30rem 100%;
+    -moz-text-fill-color: transparent;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    -webkit-background-clip: text;
+    animation: skeletonFontAnimation 2s linear infinite; }
+  .dnb-skeleton--font.dnb-skeleton::before, .dnb-skeleton--font.dnb-skeleton::after {
+    content: none !important; }
+  .dnb-skeleton pre,
+  .dnb-skeleton pre *,
+  .dnb-skeleton code,
+  .dnb-skeleton code * {
+    --font-family-monospace: 'DNBMonoSkeleton' !important;
+    font-family: var(--font-family-monospace) !important; }
+  .dnb-skeleton.dnb-anchor,
+  .dnb-skeleton > .dnb-anchor {
     box-shadow: none; }
+  .dnb-skeleton > .dnb-anchor::after {
+    filter: grayscale(100%) opacity(0.3); }
+  .dnb-skeleton > .dnb-code {
+    background-color: transparent; }
   .dnb-skeleton:not(.dnb-input__shell):not(.dnb-button):not(.dnb-checkbox__button):not(.dnb-textarea__inner)::before, .dnb-skeleton:not(.dnb-input__shell):not(.dnb-button):not(.dnb-checkbox__button):not(.dnb-textarea__inner)::after {
     border-radius: 0.25rem; }
-  .dnb-skeleton.dnb-checkbox__button::before, .dnb-skeleton.dnb-checkbox__button::after {
-    border-radius: 0; }
-  .dnb-skeleton.dnb-textarea__inner {
-    margin: 0; }
-    .dnb-skeleton.dnb-textarea__inner::before, .dnb-skeleton.dnb-textarea__inner::after {
-      border-radius: 1rem; }
-    .dnb-skeleton.dnb-textarea__inner .dnb-textarea__shell {
-      margin-bottom: calc(var(--textarea-padding-width) * 2);
-      margin-right: calc(var(--textarea-padding-width) * 2); }
   .dnb-skeleton.dnb-button, .dnb-skeleton.dnb-slider {
     overflow: hidden; }
+  .dnb-skeleton.dnb-li.is-nested::before, .dnb-skeleton.dnb-li.is-nested::after {
+    max-height: var(--line-height-basis); }
   .dnb-skeleton__figure {
     position: relative;
     border-radius: 0.25rem; }
@@ -326,7 +342,33 @@ exports[`Skeleton scss have to match snapshot 1`] = `
     .dnb-skeleton__figure--product .dnb-skeleton__figure--circle + div {
       width: 50%;
       margin-left: 1rem; }
-  .dnb-skeleton.dnb-li.is-nested::before, .dnb-skeleton.dnb-li.is-nested::after {
-    max-height: var(--line-height-basis); }
+
+@font-face {
+  font-family: DNBSkeleton;
+  src: url(\\"../../assets/fonts/skeleton/DNB-Skeleton-Regular.woff2\\") format(\\"woff2\\"), url(\\"../../assets/fonts/skeleton/DNB-Skeleton-Regular.woff\\") format(\\"woff\\"), url(\\"../../assets/fonts/skeleton/DNB-Skeleton-Regular.ttf\\") format(\\"truetype\\");
+  font-weight: normal;
+  font-style: normal;
+  font-display: fallback; }
+
+@font-face {
+  font-family: DNBSkeleton;
+  src: url(\\"../../assets/fonts/skeleton/DNB-Skeleton-Medium.woff2\\") format(\\"woff2\\"), url(\\"../../assets/fonts/skeleton/DNB-Skeleton-Medium.woff\\") format(\\"woff\\"), url(\\"../../assets/fonts/skeleton/DNB-Skeleton-Medium.ttf\\") format(\\"truetype\\");
+  font-weight: 500;
+  font-style: normal;
+  font-display: fallback; }
+
+@font-face {
+  font-family: DNBSkeleton;
+  src: url(\\"../../assets/fonts/skeleton/DNB-Skeleton-Bold.woff2\\") format(\\"woff2\\"), url(\\"../../assets/fonts/skeleton/DNB-Skeleton-Bold.woff\\") format(\\"woff\\"), url(\\"../../assets/fonts/skeleton/DNB-Skeleton-Bold.ttf\\") format(\\"truetype\\");
+  font-weight: 600;
+  font-style: normal;
+  font-display: fallback; }
+
+@font-face {
+  font-family: DNBMonoSkeleton;
+  src: url(\\"../../assets/fonts/skeleton/DNBMono-Skeleton-Regular.woff2\\") format(\\"woff2\\"), url(\\"../../assets/fonts/skeleton/DNBMono-Skeleton-Regular.woff\\") format(\\"woff\\"), url(\\"../../assets/fonts/skeleton/DNBMono-Skeleton-Regular.ttf\\") format(\\"truetype\\");
+  font-weight: normal;
+  font-style: normal;
+  font-display: fallback; }
 "
 `;
