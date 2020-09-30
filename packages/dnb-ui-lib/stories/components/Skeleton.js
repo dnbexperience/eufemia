@@ -77,11 +77,10 @@ export default [
           // no_animation
           // show
           // figure={() => <SkeletonArticle rows={2} />}
-          // style_type="rainbow"
-          // style_type="norway"
           // style_type="shine"
-          // style_type="font"
-          // style_type="dots"
+          style_type="dots"
+          // style_type="norway"
+          // style_type="rainbow"
           // style_type="brand"
         >
           <CustomStyle>
@@ -124,7 +123,7 @@ export default [
               </Box>
 
               <Box>
-                <Heading>Heading</Heading>
+                <Heading>Heading Æ',;[]()."`Ø</Heading>
                 <Anchor>Anchor</Anchor>
                 <br />
                 <Button>Button</Button>

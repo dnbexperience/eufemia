@@ -15,6 +15,7 @@ import Code from '../parts/uilib/Code'
 import { Button } from 'dnb-ui-lib/src/components'
 import { P } from 'dnb-ui-lib/src/elements'
 import { makeUniqueId } from 'dnb-ui-lib/src/shared/component-helper'
+import { Context } from 'dnb-ui-lib/src/shared'
 import AutoLinkHeader from './AutoLinkHeader'
 
 import {
@@ -83,6 +84,8 @@ const CodeBlock = ({
 export default CodeBlock
 
 class LiveCode extends React.PureComponent {
+  static contextType = Context
+
   static propTypes = {
     code: PropTypes.string.isRequired,
     scope: PropTypes.object,
@@ -99,6 +102,7 @@ class LiveCode extends React.PureComponent {
     hideSyntaxButton: PropTypes.bool,
     language: PropTypes.string
   }
+
   static defaultProps = {
     scope: {},
     title: null,
@@ -196,6 +200,8 @@ class LiveCode extends React.PureComponent {
       hideSyntaxButton
     } = this.state
 
+    const { skeleton } = this.context
+
     const codeToUse =
       typeof code === 'string' ? this.prepareCode(code) : null
 
@@ -271,7 +277,11 @@ class LiveCode extends React.PureComponent {
           )}
           {!IS_TEST && !hideCode && (
             <div
-              className={classnames('dnb-pre', 'dnb-live-editor')}
+              className={classnames(
+                'dnb-pre',
+                'dnb-live-editor',
+                skeleton && 'dnb-skeleton dnb-skeleton--code'
+              )}
               ref={this._refEditor}
             >
               <label className="dnb-sr-only" htmlFor={id}>

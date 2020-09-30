@@ -2,15 +2,19 @@
 showTabs: true
 ---
 
+import PortalSkeleton from 'Pages/uilib/components/skeleton/PortalSkeleton'
 import AllComponents from 'dnb-ui-lib/src/components/form-row/AllComponents'
 import ComponentBox from 'Tags/ComponentBox'
 import Provider from 'dnb-ui-lib/src/shared/Provider'
+import Context from 'dnb-ui-lib/src/shared/Context'
 import { Article } from 'dnb-ui-lib/src/components/skeleton/figures'
 import 'dnb-ui-lib/src/components/skeleton/style/themes/rainbow'
 import 'dnb-ui-lib/src/components/skeleton/style/themes/norway'
 import 'dnb-ui-lib/src/components/skeleton/style/themes/brand'
 
 ## Demos
+
+<PortalSkeleton />
 
 ## Input with Skeleton
 
@@ -84,7 +88,7 @@ import { Article } from 'dnb-ui-lib/components/skeleton/figures'
 <Skeleton
 	show
 	style_type="shine"
-	figure={() => <Article rows={5} />}
+	figure={<Article rows={5} />}
 >
 	hidden content
 </Skeleton>

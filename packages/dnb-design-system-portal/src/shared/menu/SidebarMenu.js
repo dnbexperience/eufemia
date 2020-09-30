@@ -11,6 +11,7 @@ import { StaticQuery, graphql } from 'gatsby'
 import { css, Global } from '@emotion/core'
 import styled from '@emotion/styled'
 import { resetLevels } from 'dnb-ui-lib/src/components/Heading'
+import Context from 'dnb-ui-lib/src/shared/Context'
 import { SidebarMenuContext } from './SidebarMenuContext'
 // import { MainMenuToggleButton } from './ToggleMainMenu'
 import { Icon } from 'dnb-ui-lib/src/components'
@@ -592,6 +593,8 @@ export default class SidebarLayout extends React.PureComponent {
 }
 
 class ListItem extends React.PureComponent {
+  static contextType = Context
+
   static propTypes = {
     onOffsetTop: PropTypes.func,
     children: PropTypes.node.isRequired,
@@ -688,11 +691,21 @@ class ListItem extends React.PureComponent {
             {icon && graphics[icon] && (
               <Icon icon={graphics[icon]} size="medium" />
             )}
-            {children}
+            <span
+              className={classnames(
+                this.context.skeleton && 'dnb-skeleton dnb-skeleton--font'
+              )}
+            >
+              {children}
+            </span>
           </span>
           {status && (
             <span
-              className="status-badge"
+              className={classnames(
+                'status-badge',
+                this.context.skeleton
+                  && 'dnb-skeleton dnb-skeleton--font'
+              )}
               title={statusTitle}
               aria-label={statusTitle}
             >

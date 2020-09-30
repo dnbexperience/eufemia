@@ -12,6 +12,7 @@ import { Button } from 'dnb-ui-lib/src'
 import { IS_IE11 } from 'dnb-ui-lib/src/shared/helpers'
 import { MainMenuContext } from './MainMenuContext'
 import classnames from 'classnames'
+import { P } from 'dnb-ui-lib/src/elements'
 
 const CardWrapper = styled.div`
   width: calc(33.333333% - 1rem);
@@ -125,7 +126,7 @@ const LinkInner = styled.span`
   align-items: center;
 `
 
-const Header = styled.span`
+const Header = styled(P)`
   margin: 0;
 
   text-align: center;
@@ -133,7 +134,7 @@ const Header = styled.span`
   color: var(--color-black-80);
 `
 
-const About = styled.p`
+const About = styled(P)`
   margin: 0.5rem 0 0;
   padding: 0 1rem;
 
@@ -224,7 +225,9 @@ export default class Card extends React.PureComponent {
               <LinkInner>
                 <Box>
                   <Svg {...svgParams} />
-                  <Header className="dnb-lead">{title}</Header>
+                  <Header className={classnames('dnb-lead')}>
+                    {title}
+                  </Header>
                   <About>{about}</About>
                 </Box>
 

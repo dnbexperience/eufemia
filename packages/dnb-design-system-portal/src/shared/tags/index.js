@@ -9,6 +9,7 @@ import {
   Ul,
   Ol,
   Dl,
+  Li,
   P,
   Hr,
   Blockquote,
@@ -58,6 +59,7 @@ export default {
       </Copy>
     )
   },
+  li: (props) => <Li {...props} />,
   ul: (props) => <Ul {...props} />,
   ol: (props) => <Ol {...props} />,
   dl: (props) => <Dl {...props} />,

@@ -24,7 +24,13 @@ const emotionCache = createEmotionCache({
 // Optional, use a Provider
 export const rootElement = ({ element }) => (
   <CacheProvider value={emotionCache}>
-    <EufemiaProvider locale={getLang()}>{element}</EufemiaProvider>
+    <EufemiaProvider
+      // To simulate a whole page skeleton
+      // skeleton={true}
+      locale={getLang()}
+    >
+      {element}
+    </EufemiaProvider>
   </CacheProvider>
 )
 rootElement.propTypes = {
