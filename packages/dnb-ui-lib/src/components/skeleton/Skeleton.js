@@ -154,10 +154,16 @@ export default class Skeleton extends React.PureComponent {
 
     return (
       <Space {...params}>
-        {typeof figure === 'function' ? (
+        {figure ? (
           showSkeleton ? (
-            figure()
-          ) : null
+            typeof figure === 'function' ? (
+              figure()
+            ) : (
+              figure
+            )
+          ) : (
+            children
+          )
         ) : (
           <Provider
             skeleton={showSkeleton}
