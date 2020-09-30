@@ -23,7 +23,18 @@ import {
   Accordion,
   Skeleton
 } from '../../src/components'
-import { H1, H2, P, Ol, Li, Ul, Dl, Dt, Dd } from '../../src/elements'
+import {
+  H1,
+  H2,
+  P,
+  Ol,
+  Li,
+  Ul,
+  Dl,
+  Dt,
+  Dd,
+  Anchor
+} from '../../src/elements'
 import Provider from '../../src/shared/Provider'
 
 // Customize
@@ -69,7 +80,7 @@ export default [
           // style_type="rainbow"
           // style_type="norway"
           // style_type="shine"
-          style_type="lines"
+          // style_type="font"
           // style_type="dots"
           // style_type="brand"
         >
@@ -101,6 +112,7 @@ export default [
                   </Accordion.Provider>
                 </Skeleton.Exclude>
               </Box>
+
               <Box>
                 <ToggleButton
                   skeleton={false}
@@ -113,6 +125,8 @@ export default [
 
               <Box>
                 <Heading>Heading</Heading>
+                <Anchor>Anchor</Anchor>
+                <br />
                 <Button>Button</Button>
                 <Slider
                   label="Vertical slider:"

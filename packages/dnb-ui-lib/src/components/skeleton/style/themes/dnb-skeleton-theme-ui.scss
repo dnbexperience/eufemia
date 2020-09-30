@@ -18,14 +18,14 @@
 }
 
 .dnb-skeleton {
-  &::before {
+  &--shape#{&}::before {
     background-color: var(--skeleton-color) !important; // to take presence
   }
 
   // Lines
-  &::after,
-  &--lines &::after,
-  &--lines#{&}::after {
+  &--shape#{&}::after,
+  &--lines &--shape#{&}::after,
+  &--lines#{&}--shape#{&}::after {
     background-image: repeating-linear-gradient(
       -45deg,
       var(--skeleton-color--contrast) 0 1px,
@@ -34,16 +34,16 @@
     background-repeat: repeat !important;
     background-size: 100% !important; // to take presence
 
-    animation: skeletonLinearAnimation 2s linear infinite;
+    animation: skeletonLinearAnimation 1.5s linear infinite;
 
     // For better performance
-    // animation: skeletonShineAnimation 2s linear infinite;
+    // animation: skeletonShineAnimation 1.5s linear infinite;
   }
 
   // Dots
   // &::after,
-  &--dots &::after,
-  &--dots#{&}::after {
+  &--dots &--shape#{&}::after,
+  &--dots#{&}--shape#{&}::after {
     background-image: radial-gradient(
       circle,
       var(--skeleton-color--contrast) 1px,
@@ -53,12 +53,12 @@
     background-repeat: repeat !important;
     background-size: 5px 5px !important; // to take presence
 
-    animation: skeletonLinearAnimation 2s linear infinite;
+    animation: skeletonLinearAnimation 1.5s linear infinite;
   }
 
   // Shine
-  &--shine &::after,
-  &--shine#{&}::after {
+  &--shine &--shape#{&}::after,
+  &--shine#{&}--shape#{&}::after {
     background-image: linear-gradient(
       90deg,
       transparent 10%,
@@ -69,20 +69,27 @@
     background-repeat: no-repeat !important;
     background-size: 100% 100% !important;
 
-    animation: skeletonShineAnimation 2s linear infinite;
+    animation: skeletonShineAnimation 1.5s linear infinite;
   }
 
   // Nicer animation, but requires an hidden overflow
   &--overflow {
     overflow: hidden;
   }
-  // &--overflow &::after {
-  //   animation: skeletonOverflowAnimation 2s linear infinite;
-  // }
 
-  // &--fancy &::after {
-  // animation: skeletonFancyAnimation 2s linear infinite;
-  // }
+  img,
+  video {
+    filter: brightness(0%) contrast(0%) opacity(0.5);
+  }
+}
+
+@keyframes skeletonFontAnimation {
+  0% {
+    background-position-x: -30rem;
+  }
+  100% {
+    background-position-x: 30rem;
+  }
 }
 
 @keyframes skeletonLinearAnimation {
@@ -126,15 +133,3 @@
     transform: translate3d(20%, 0, 0);
   }
 }
-
-// @keyframes skeletonOverflowAnimation {
-//   0% {
-//     transform: translate3d(-100%, 0, 0);
-//   }
-//   50% {
-//     transform: translate3d(0%, 0, 0);
-//   }
-//   100% {
-//     transform: translate3d(100%, 0, 0);
-//   }
-// }

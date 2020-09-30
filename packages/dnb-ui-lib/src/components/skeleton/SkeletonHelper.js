@@ -52,7 +52,11 @@ export class AutoSize extends React.PureComponent {
         return React.createElement(
           Comp,
           {
-            className: classnames(className, 'dnb-skeleton'),
+            className: classnames(
+              className,
+              'dnb-skeleton',
+              'dnb-skeleton--font'
+            ),
             'data-skeleton-chars': String(countChars),
             style: {
               ...(style || {}),

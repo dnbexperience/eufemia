@@ -17,7 +17,7 @@ import { createSpacingClasses } from '../space/SpacingHelper'
 import HeadingContext from './HeadingContext'
 import Context from '../../shared/Context'
 import HeadingProvider from './HeadingProvider'
-import { AutoSize } from '../../components/skeleton/SkeletonHelper'
+// import { AutoSize } from '../../components/skeleton/SkeletonHelper'
 import {
   correctHeadingLevel,
   resetLevels,
@@ -275,7 +275,7 @@ export default class Heading extends React.PureComponent {
           attributes.className = classnames(
             'dnb-heading',
             `dnb-h--${size}`,
-            isTrue(skeleton) && 'dnb-skeleton',
+            isTrue(skeleton) && 'dnb-skeleton dnb-skeleton--font',
             className,
             _className,
             createSpacingClasses(this.props)
@@ -302,13 +302,13 @@ export default class Heading extends React.PureComponent {
 
           if (isTrue(skeleton)) {
             skeletonElement(attributes, this.context)
-            return (
-              <AutoSize
-                __element={Element}
-                ref={this._ref}
-                {...attributes}
-              />
-            )
+            // return (
+            //   <AutoSize
+            //     __element={Element}
+            //     ref={this._ref}
+            //     {...attributes}
+            //   />
+            // )
           }
 
           return <Element ref={this._ref} {...attributes} />
