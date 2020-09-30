@@ -35,8 +35,8 @@
 }
 
 .dnb-skeleton {
-  &--norway &,
-  &--norway {
+  &--norway &--shape,
+  &--norway#{&}--shape {
     &::after {
       background-image: cross(#ef2b2d, #002868, white) !important;
 
@@ -46,5 +46,10 @@
 
       animation: skeletonFancyAnimation 2s linear infinite;
     }
+  }
+
+  &--norway &--font,
+  &--norway#{&}--font {
+    background-image: cross(#ef2b2d, #002868, white) !important;
   }
 }

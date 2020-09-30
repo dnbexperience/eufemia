@@ -4,30 +4,37 @@
  */
 
 .dnb-skeleton {
-  &--rainbow &,
-  &--rainbow {
+  --rainbow-skeleton-background: linear-gradient(
+    to left,
+    violet,
+    violet 14%,
+    indigo 14%,
+    indigo 28%,
+    blue 28%,
+    blue 42%,
+    green 42%,
+    green 56%,
+    yellow 56%,
+    yellow 70%,
+    orange 70%,
+    orange 84%,
+    red 84%,
+    red 100%
+  );
+
+  &--rainbow &--shape,
+  &--rainbow#{&}--shape {
     &::after {
-      background-image: linear-gradient(
-        to left,
-        violet,
-        violet 14%,
-        indigo 14%,
-        indigo 28%,
-        blue 28%,
-        blue 42%,
-        green 42%,
-        green 56%,
-        yellow 56%,
-        yellow 70%,
-        orange 70%,
-        orange 84%,
-        red 84%,
-        red 100%
-      ) !important;
+      background-image: var(--rainbow-skeleton-background) !important;
       background-repeat: no-repeat !important;
       background-size: auto !important;
 
       animation: skeletonLinearAnimation 2s linear infinite;
     }
+  }
+
+  &--rainbow &--font,
+  &--rainbow#{&}--font {
+    background-image: var(--rainbow-skeleton-background) !important;
   }
 }
