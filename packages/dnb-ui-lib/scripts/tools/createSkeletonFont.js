@@ -1,9 +1,17 @@
 import path from 'path'
+import fs from 'fs-extra'
 import opentype from 'opentype.js'
 import Fontmin from 'fontmin'
 import { asyncForEach } from './'
+import { makeUniqueId } from 'dnb-ui-lib/src/shared/component-helper'
+import ora from 'ora'
 
-const widthOffset = 24
+const log = ora()
+
+const leftOffset = -24 // e.g. -24
+const rightOffset = 24 // e.g. 24
+const topOffset = -100 // e.g. -100
+const bottomOffset = 100 // e.g. 100
 
 asyncForEach(
   [
@@ -25,14 +33,37 @@ asyncForEach(
     const fileName = `${fontName}-Skeleton`
     const font = await opentype.load(sourcePath)
 
-    const newFont = createFont(font, {
-      styleName,
-      familyName
-    })
+    log.start()
+    log.info(`Converting ${styleName}`)
 
-    newFont.download(`assets/fonts/skeleton/${fileName}-${styleName}.otf`)
+    try {
+      const newFont = createFont(font, {
+        styleName,
+        familyName
+      })
 
-    minify()
+      log.info(`Created new font: ${familyName}`)
+
+      const cachedFileName = `./assets/fonts/skeleton/${fileName}-${styleName}-${makeUniqueId()}.otf`
+      const destFileName = `./assets/fonts/skeleton/${fileName}-${styleName}.otf`
+
+      if (fs.existsSync(destFileName)) {
+        await fs.remove(destFileName)
+      }
+
+      await newFont.download(cachedFileName)
+
+      log.info(`Downloaded ${familyName}`)
+
+      await fs.rename(cachedFileName, destFileName)
+
+      await minifyFonts()
+
+      log.succeed(`Success: ${fileName}-${styleName}`)
+    } catch (e) {
+      log.fail(`Failed: ${fileName}-${styleName}`)
+      console.error(e)
+    }
   }
 )
 
@@ -48,9 +79,18 @@ function createFont(font, { styleName, familyName }) {
 
   const changedGlyphs = glyphs
     .map((g) => {
+      // console.log('glyphs', g)
       // Heres a list of the most used (Basic Latin) chars: https://en.wikipedia.org/wiki/List_of_Unicode_characters
       // But as for now, we convert all chars
-      // if (!(g.unicode >= 0 && g.unicode <= 126)) {
+      // if (
+      //   // typeof g.unicode === 'undefined'
+      //   // ||
+      //   !(
+      //     typeof g.unicode !== 'undefined' &&
+      //     g.unicode >= 0 &&
+      //     g.unicode <= 126
+      //   )
+      // ) {
       //   return null
       // }
       return changePath(g, h)
@@ -73,10 +113,11 @@ function changePath(glyph, bottom) {
   const aPath = new opentype.Path()
 
   if (!excludeChars.includes(glyph.unicode)) {
-    aPath.moveTo(-widthOffset, 0)
-    aPath.lineTo(-widthOffset, bottom)
-    aPath.lineTo(glyph.advanceWidth + widthOffset, bottom)
-    aPath.lineTo(glyph.advanceWidth + widthOffset, 0)
+    // NB: top and bottom are opposite. Wired. But true.
+    aPath.moveTo(leftOffset, -bottomOffset)
+    aPath.lineTo(leftOffset, bottom - topOffset)
+    aPath.lineTo(glyph.advanceWidth + rightOffset, bottom - topOffset)
+    aPath.lineTo(glyph.advanceWidth + rightOffset, -bottomOffset)
     aPath.close()
   }
 
@@ -85,20 +126,24 @@ function changePath(glyph, bottom) {
   return glyph
 }
 
-function minify() {
-  const fontmin = new Fontmin()
+async function minifyFonts() {
+  return new Promise((resolve, reject) => {
+    const fontmin = new Fontmin()
 
-  fontmin.src(path.resolve(__dirname, '../../assets/fonts/skeleton/*.otf'))
+    fontmin.src(
+      path.resolve(__dirname, '../../assets/fonts/skeleton/*.otf')
+    )
 
-  fontmin.use(Fontmin.otf2ttf())
-  fontmin.use(Fontmin.ttf2woff())
-  fontmin.use(Fontmin.ttf2woff2())
+    fontmin.use(Fontmin.otf2ttf())
+    fontmin.use(Fontmin.ttf2woff())
+    fontmin.use(Fontmin.ttf2woff2())
 
-  fontmin.dest(path.resolve(__dirname, '../../assets/fonts/skeleton/'))
+    fontmin.dest(path.resolve(__dirname, '../../assets/fonts/skeleton/'))
 
-  fontmin.run(function (err) {
-    if (err) {
-      throw err
-    }
+    fontmin.run(function (err) {
+      reject(err)
+    })
+
+    resolve()
   })
 }
