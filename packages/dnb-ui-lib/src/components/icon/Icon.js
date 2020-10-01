@@ -15,6 +15,10 @@ import {
   extendPropsWithContext
 } from '../../shared/component-helper'
 import { createSpacingClasses } from '../space/SpacingHelper'
+import {
+  // skeletonDOMAttributes,
+  createSkeletonClass
+} from '../skeleton/SkeletonHelper'
 import Context from '../../shared/Context'
 
 export const DefaultIconSize = 16
@@ -341,7 +345,7 @@ export const prepareIcon = (props) => {
     modifier ? `dnb-icon--${modifier}` : null,
     isTrue(border) ? 'dnb-icon--border' : null,
     sizeAsString ? `dnb-icon--${sizeAsString}` : `dnb-icon--default`,
-    isTrue(skeleton) && 'dnb-skeleton',
+    createSkeletonClass(null, skeleton),
     createSpacingClasses(props),
     _className,
     className

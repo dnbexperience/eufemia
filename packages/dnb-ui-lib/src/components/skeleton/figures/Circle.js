@@ -22,7 +22,7 @@ const defaultProps = {
   children: null
 }
 
-export default class SkeletonArticle extends React.PureComponent {
+export default class SkeletonCircle extends React.PureComponent {
   static contextType = Context
   static propTypes = propTypes
   static defaultProps = defaultProps
@@ -64,6 +64,7 @@ export default class SkeletonArticle extends React.PureComponent {
           className={classnames(
             'dnb-h--xx-large',
             'dnb-skeleton',
+            'dnb-skeleton--shape',
             'dnb-space__bottom--large'
           )}
           style={{
@@ -76,7 +77,12 @@ export default class SkeletonArticle extends React.PureComponent {
         {this.rowsLength.map((p, i) => (
           <div
             key={`figure-${i}`}
-            className="dnb-p dnb-skeleton dnb-space__top--x-small"
+            className={classnames(
+              'dnb-p',
+              'dnb-skeleton',
+              'dnb-skeleton--shape',
+              'dnb-space__top--x-small'
+            )}
             style={{
               width: `${p}%`
             }}

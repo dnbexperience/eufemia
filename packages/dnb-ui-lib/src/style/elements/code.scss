@@ -72,3 +72,10 @@
 .dnb-spacing .dnb-pre {
   @include defaultSpacing();
 }
+
+.dnb-skeleton {
+  > .dnb-code,
+  > .dnb-pre {
+    background-color: transparent;
+  }
+}

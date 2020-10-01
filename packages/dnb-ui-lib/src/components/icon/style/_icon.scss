@@ -85,12 +85,12 @@
     vertical-align: middle;
   }
 
-  .dnb-skeleton--visible & {
-    color: var(--color-black-20);
+  &.dnb-skeleton {
     &::before,
     &::after {
       content: none !important;
     }
+    color: var(--skeleton-color);
   }
 
   @include IS_IE {

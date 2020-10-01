@@ -21,7 +21,8 @@ import {
   FormRow,
   ToggleButton,
   Accordion,
-  Skeleton
+  Skeleton,
+  IconPrimary
 } from '../../src/components'
 import {
   H1,
@@ -78,7 +79,7 @@ export default [
           // show
           // figure={() => <SkeletonArticle rows={2} />}
           // style_type="shine"
-          style_type="dots"
+          // style_type="dots"
           // style_type="norway"
           // style_type="rainbow"
           // style_type="brand"
@@ -113,18 +114,21 @@ export default [
               </Box>
 
               <Box>
-                <ToggleButton
-                  skeleton={false}
-                  checked={showSkeleton}
-                  on_change={() => setSkeletonState((s) => !s)}
-                >
-                  Toggle Skeleton
-                </ToggleButton>
+                <Skeleton.Exclude>
+                  <ToggleButton
+                    skeleton={false}
+                    checked={showSkeleton}
+                    on_change={() => setSkeletonState((s) => !s)}
+                  >
+                    Toggle Skeleton
+                  </ToggleButton>
+                </Skeleton.Exclude>
               </Box>
 
               <Box>
                 <Heading>Heading Æ',;[]()."`Ø</Heading>
                 <Anchor>Anchor</Anchor>
+                <IconPrimary>bell</IconPrimary>
                 <br />
                 <Button>Button</Button>
                 <Slider

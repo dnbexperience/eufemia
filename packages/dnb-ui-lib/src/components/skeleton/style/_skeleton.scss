@@ -6,8 +6,6 @@
  */
 
 .dnb-skeleton {
-  pointer-events: none;
-
   &--block {
     display: block;
   }
@@ -17,15 +15,12 @@
     overflow: hidden;
   }
 
-  &--grey,
-  &--shape {
+  &--grey {
     filter: grayscale(100%);
   }
-  // &:not(.dnb-skeleton--font) {
-  //   filter: grayscale(100%);
-  // }
 
   &--shape {
+    pointer-events: none;
     position: relative;
     overflow-x: hidden;
     color: transparent; // make text invisible
@@ -57,6 +52,10 @@
   }
 
   &--font {
+    pointer-events: none;
+    // ::selection {
+    // }
+
     --font-family-book: 'DNBSkeleton' !important; // Deprecated
     --font-family-demi: 'DNBSkeleton' !important; // Deprecated
     --font-family-default: 'DNBSkeleton' !important;
@@ -102,58 +101,6 @@
   html[data-dnb-test] &::after {
     animation: none !important;
   }
-
-  // because of the underline, we hide anchors
-  &.dnb-anchor,
-  > .dnb-anchor {
-    box-shadow: none;
-  }
-  > .dnb-anchor::after {
-    // filter: brightness(0%) contrast(0%) opacity(0.3);
-    filter: grayscale(100%) opacity(0.3);
-  }
-  > .dnb-code {
-    background-color: transparent;
-  }
-
-  &:not(.dnb-input__shell):not(.dnb-button):not(.dnb-checkbox__button):not(.dnb-textarea__inner) {
-    &::before,
-    &::after {
-      border-radius: 0.25rem;
-    }
-  }
-  &.dnb-button,
-  &.dnb-slider {
-    overflow: hidden;
-  }
-
-  &.dnb-li.is-nested {
-    &::before,
-    &::after {
-      max-height: var(--line-height-basis);
-    }
-  }
-
-  // &.dnb-checkbox__button {
-  //   &::before,
-  //   &::after {
-  //     border-radius: 0;
-  //   }
-  // }
-
-  // &.dnb-textarea__inner {
-  //   margin: 0;
-
-  //   &::before,
-  //   &::after {
-  //     border-radius: 1rem;
-  //   }
-
-  //   .dnb-textarea__shell {
-  //     margin-bottom: calc(var(--textarea-padding-width) * 2);
-  //     margin-right: calc(var(--textarea-padding-width) * 2);
-  //   }
-  // }
 
   &__figure {
     position: relative;
@@ -220,7 +167,6 @@ $fonts-path: '../../assets/fonts' !default;
       format('woff2'),
     url('#{$fonts-path}/skeleton/DNB-Skeleton-Bold.woff') format('woff'),
     url('#{$fonts-path}/skeleton/DNB-Skeleton-Bold.ttf') format('truetype');
-  // font-weight: normal;
   font-weight: 600;
   font-style: normal;
   font-display: fallback;

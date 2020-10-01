@@ -705,7 +705,7 @@ export default class DatePickerInput extends React.PureComponent {
               : input_element
             : this.renderInputElement
         }
-        disabled={disabled}
+        disabled={disabled || skeleton}
         skeleton={skeleton}
         status={!opened ? status : null}
         status_state={status_state}

@@ -12,13 +12,16 @@ import {
   isTrue,
   extendPropsWithContext,
   registerElement,
-  skeletonElement,
   validateDOMAttributes,
   processChildren,
   pickRenderProps,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
 import { createSpacingClasses } from '../space/SpacingHelper'
+import {
+  skeletonDOMAttributes,
+  createSkeletonClass
+} from '../skeleton/SkeletonHelper'
 import IconPrimary from '../icon-primary/IconPrimary'
 import FormStatus from '../form-status/FormStatus'
 import Tooltip from '../tooltip/Tooltip'
@@ -276,7 +279,7 @@ export default class Button extends React.PureComponent {
       icon && 'dnb-button--has-icon',
       wrap && 'dnb-button--wrap',
       status && `dnb-button__status--${status_state}`,
-      isTrue(skeleton) && 'dnb-skeleton',
+      createSkeletonClass('shape', skeleton, this.context),
       createSpacingClasses(props),
       class_name,
       className,
@@ -294,9 +297,7 @@ export default class Button extends React.PureComponent {
       onClick: this.onClickHandler
     }
 
-    if (isTrue(skeleton)) {
-      skeletonElement(params, this.context)
-    }
+    skeletonDOMAttributes(params, skeleton, this.context)
 
     // also used for code markup simulation
     validateDOMAttributes(this.props, params)

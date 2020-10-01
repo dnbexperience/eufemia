@@ -16,11 +16,14 @@ import {
   validateDOMAttributes,
   processChildren,
   pickRenderProps,
-  skeletonElement,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
 import { createSpacingClasses } from '../space/SpacingHelper'
+import {
+  skeletonDOMAttributes,
+  createSkeletonClass
+} from '../skeleton/SkeletonHelper'
 
 import Context from '../../shared/Context'
 import Suffix from '../../shared/helpers/Suffix'
@@ -304,16 +307,6 @@ export default class Textarea extends React.PureComponent {
       textareaParams['aria-readonly'] = textareaParams.readOnly = true
     }
 
-    const shellParams = {
-      className: classnames('dnb-textarea__shell')
-    }
-    if (isTrue(skeleton)) {
-      shellParams['aria-busy'] = true
-    }
-    if (isTrue(disabled) || isTrue(skeleton)) {
-      shellParams['aria-disabled'] = true
-    }
-
     const mainParams = {
       className: classnames(
         'dnb-textarea',
@@ -324,6 +317,7 @@ export default class Textarea extends React.PureComponent {
         label_direction && `dnb-textarea--${label_direction}`,
         isTrue(stretch) && `dnb-textarea--stretch`,
         'dnb-form-component',
+        createSkeletonClass(null, skeleton),
         createSpacingClasses(props),
         _className,
         className
@@ -333,12 +327,16 @@ export default class Textarea extends React.PureComponent {
     const innerParams = {
       className: classnames(
         'dnb-textarea__inner',
-        isTrue(skeleton) && 'dnb-skeleton'
+        createSkeletonClass('shape', skeleton, this.context)
       )
     }
 
-    if (isTrue(skeleton)) {
-      skeletonElement(innerParams, this.context)
+    const shellParams = {
+      className: classnames('dnb-textarea__shell')
+    }
+
+    if (isTrue(disabled) || isTrue(skeleton)) {
+      shellParams['aria-disabled'] = true
     }
 
     // to show the ending dots on a placeholder, if the text is longer
@@ -350,8 +348,11 @@ export default class Textarea extends React.PureComponent {
           }
         : null
 
+    skeletonDOMAttributes(innerParams, skeleton, this.context)
+
     // also used for code markup simulation
     validateDOMAttributes(this.props, textareaParams)
+    validateDOMAttributes(null, innerParams)
     validateDOMAttributes(null, shellParams)
 
     if (TextareaElement && typeof TextareaElement === 'function') {

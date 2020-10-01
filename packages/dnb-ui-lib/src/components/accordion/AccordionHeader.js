@@ -8,14 +8,17 @@ import PropTypes from 'prop-types'
 import {
   isTrue,
   validateDOMAttributes,
-  extendPropsWithContext,
-  skeletonElement
+  extendPropsWithContext
 } from '../../shared/component-helper'
 import IconPrimary from '../../components/icon-primary/IconPrimary'
 import classnames from 'classnames'
 import keycode from 'keycode'
 import AccordionContext from './AccordionContext'
 import { createSpacingClasses } from '../space/SpacingHelper'
+import {
+  skeletonDOMAttributes,
+  createSkeletonClass
+} from '../skeleton/SkeletonHelper'
 
 const propTypes = {
   title: PropTypes.oneOfType([
@@ -370,7 +373,7 @@ export default class AccordionHeader extends React.PureComponent {
         hover && hadClick && 'dnb-accordion--hover',
         !this.canClick() && 'dnb-accordion__header--prevent-click',
         description && 'dnb-accordion__header--description',
-        isTrue(skeleton) && 'dnb-skeleton',
+        createSkeletonClass('shape', skeleton, this.context),
         createSpacingClasses(rest),
         className
       ),
@@ -393,9 +396,7 @@ export default class AccordionHeader extends React.PureComponent {
       headerParams.onMouseOut = this.onMouseOutHander
     }
 
-    if (isTrue(skeleton)) {
-      skeletonElement(headerParams, this.context)
-    }
+    skeletonDOMAttributes(headerParams, skeleton, this.context)
 
     validateDOMAttributes(this.props, headerParams)
 

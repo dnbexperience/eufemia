@@ -282,12 +282,12 @@
     }
   }
 
-  .dnb-skeleton--visible &__line,
-  .dnb-skeleton--visible &__state--disabled &__line {
+  &.dnb-skeleton &__line,
+  &.dnb-skeleton &__state--disabled &__line {
     background-color: var(--skeleton-color);
   }
-  .dnb-skeleton--visible &__track,
-  .dnb-skeleton--visible &__state--disabled#{&}__track {
+  &.dnb-skeleton &__track,
+  &.dnb-skeleton &__state--disabled#{&}__track {
     &::before,
     &::after {
       background-color: var(--skeleton-color);

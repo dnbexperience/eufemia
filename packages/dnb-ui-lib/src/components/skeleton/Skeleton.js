@@ -137,7 +137,7 @@ export default class Skeleton extends React.PureComponent {
     const params = {
       className: classnames(
         figure ? 'dnb-skeleton__figure' : 'dnb-skeleton__root',
-        isTrue(showSkeleton) && 'dnb-skeleton--visible',
+        isTrue(showSkeleton) && 'dnb-skeleton',
         showSkeleton && style_type && `dnb-skeleton--${style_type}`,
         isTrue(no_animation) && 'dnb-skeleton--no-animation',
         className,

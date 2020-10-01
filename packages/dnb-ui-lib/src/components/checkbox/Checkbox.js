@@ -13,11 +13,14 @@ import {
   extendPropsWithContext,
   registerElement,
   validateDOMAttributes,
-  skeletonElement,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
 import { createSpacingClasses } from '../space/SpacingHelper'
+import {
+  skeletonDOMAttributes,
+  createSkeletonClass
+} from '../skeleton/SkeletonHelper'
 
 import Context from '../../shared/Context'
 import Suffix from '../../shared/helpers/Suffix'
@@ -232,6 +235,7 @@ export default class Checkbox extends React.PureComponent {
         label &&
           `dnb-checkbox--label-position-${label_position || 'right'}`,
         'dnb-form-component',
+        createSkeletonClass(null, skeleton),
         createSpacingClasses(props),
         className,
         _className
@@ -256,9 +260,7 @@ export default class Checkbox extends React.PureComponent {
       inputParams['aria-readonly'] = inputParams.readOnly = true
     }
 
-    if (isTrue(skeleton)) {
-      skeletonElement(inputParams, this.context)
-    }
+    skeletonDOMAttributes(inputParams, skeleton, this.context)
 
     // also used for code markup simulation
     validateDOMAttributes(this.props, inputParams)
@@ -312,7 +314,7 @@ export default class Checkbox extends React.PureComponent {
               <span
                 className={classnames(
                   'dnb-checkbox__button',
-                  isTrue(skeleton) && 'dnb-skeleton'
+                  createSkeletonClass('shape', skeleton, this.context)
                 )}
                 aria-hidden
               >

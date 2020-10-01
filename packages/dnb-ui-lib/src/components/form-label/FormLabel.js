@@ -11,11 +11,14 @@ import {
   isTrue,
   registerElement,
   validateDOMAttributes,
-  skeletonElement,
   processChildren
 } from '../../shared/component-helper'
 import { createSpacingClasses } from '../space/SpacingHelper'
-// import { AutoSize } from '../skeleton/SkeletonHelper'
+import {
+  // AutoSize,
+  createSkeletonClass,
+  skeletonDOMAttributes
+} from '../skeleton/SkeletonHelper'
 import Context from '../../shared/Context'
 
 const renderProps = {
@@ -131,12 +134,12 @@ export default class FormLabel extends React.PureComponent {
         'dnb-form-label',
         (isTrue(vertical) || label_direction === 'vertical') &&
           `dnb-form-label--vertical`,
-        isTrue(skeleton) && 'dnb-skeleton dnb-skeleton--font',
         // "direction" is not in use
         // direction && `dnb-form-label--${direction}`,
         // we set and use "label_direction" above
         // label_direction && `dnb-form-label--${label_direction}-label`,
         isTrue(sr_only) && 'dnb-form-label--sr-only',
+        createSkeletonClass('font', skeleton, this.context),
         createSpacingClasses(props),
         className,
         _className
@@ -151,9 +154,8 @@ export default class FormLabel extends React.PureComponent {
     if (disabled) {
       params.disabled = true
     }
-    if (isTrue(skeleton)) {
-      skeletonElement(params, this.context)
-    }
+
+    skeletonDOMAttributes(params, skeleton, this.context)
 
     // also used for code markup simulation
     validateDOMAttributes(this.props, params)
@@ -164,7 +166,7 @@ export default class FormLabel extends React.PureComponent {
 
     // Use the font-swap feature dnb-skeleton--font
     // if (isTrue(skeleton)) {
-    //   // skeletonElement(attributes, this.context)
+    //   // skeletonDOMAttributes(attributes, skeleton, this.context)
     //   return <AutoSize __element={Element} ref={this._ref} {...params} />
     // }
 

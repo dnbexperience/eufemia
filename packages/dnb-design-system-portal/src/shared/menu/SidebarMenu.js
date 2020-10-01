@@ -14,6 +14,7 @@ import { resetLevels } from 'dnb-ui-lib/src/components/Heading'
 import Context from 'dnb-ui-lib/src/shared/Context'
 import { SidebarMenuContext } from './SidebarMenuContext'
 // import { MainMenuToggleButton } from './ToggleMainMenu'
+import { createSkeletonClass } from 'dnb-ui-lib/src/components/skeleton/SkeletonHelper'
 import { Icon } from 'dnb-ui-lib/src/components'
 import graphics from './SidebarGraphics'
 import keycode from 'keycode'
@@ -693,7 +694,7 @@ class ListItem extends React.PureComponent {
             )}
             <span
               className={classnames(
-                this.context.skeleton && 'dnb-skeleton dnb-skeleton--font'
+                createSkeletonClass('font', this.context.skeleton)
               )}
             >
               {children}
@@ -703,8 +704,7 @@ class ListItem extends React.PureComponent {
             <span
               className={classnames(
                 'status-badge',
-                this.context.skeleton
-                  && 'dnb-skeleton dnb-skeleton--font'
+                createSkeletonClass('font', this.context.skeleton)
               )}
               title={statusTitle}
               aria-label={statusTitle}

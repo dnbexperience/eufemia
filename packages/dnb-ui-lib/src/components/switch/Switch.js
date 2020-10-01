@@ -13,11 +13,14 @@ import {
   extendPropsWithContext,
   registerElement,
   validateDOMAttributes,
-  skeletonElement,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
 import { createSpacingClasses } from '../space/SpacingHelper'
+import {
+  skeletonDOMAttributes,
+  createSkeletonClass
+} from '../skeleton/SkeletonHelper'
 
 import Context from '../../shared/Context'
 import Suffix from '../../shared/helpers/Suffix'
@@ -253,6 +256,7 @@ export default class Switch extends React.PureComponent {
         status && `dnb-switch__status--${status_state}`,
         `dnb-switch--label-position-${label_position || 'right'}`,
         'dnb-form-component',
+        createSkeletonClass(null, skeleton),
         createSpacingClasses(props),
         className,
         _className
@@ -265,9 +269,7 @@ export default class Switch extends React.PureComponent {
       ...rest
     }
 
-    if (isTrue(skeleton)) {
-      skeletonElement(inputParams, this.context)
-    }
+    skeletonDOMAttributes(inputParams, skeleton, this.context)
 
     if (showStatus || suffix) {
       inputParams['aria-describedby'] = [
@@ -344,7 +346,7 @@ export default class Switch extends React.PureComponent {
                 <span
                   className={classnames(
                     'dnb-switch__button',
-                    isTrue(skeleton) && 'dnb-skeleton'
+                    createSkeletonClass('shape', skeleton, this.context)
                   )}
                   aria-hidden
                 >

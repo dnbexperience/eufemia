@@ -14,11 +14,14 @@ import {
   registerElement,
   dispatchCustomElementEvent,
   detectOutsideClick,
-  skeletonElement,
   validateDOMAttributes
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
 import { createSpacingClasses } from '../space/SpacingHelper'
+import {
+  // createSkeletonClass,
+  skeletonDOMAttributes
+} from '../skeleton/SkeletonHelper'
 
 // date-fns
 import format from 'date-fns/format'
@@ -792,9 +795,7 @@ export default class DatePicker extends React.PureComponent {
       mainParams.lang = locale.code
     }
 
-    if (isTrue(skeleton)) {
-      skeletonElement(pickerParams, this.context)
-    }
+    skeletonDOMAttributes(pickerParams, skeleton, this.context)
 
     validateDOMAttributes(this.props, inputParams)
     validateDOMAttributes(null, submitParams)

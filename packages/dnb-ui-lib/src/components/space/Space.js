@@ -10,11 +10,14 @@ import {
   isTrue,
   extendPropsWithContext,
   registerElement,
-  skeletonElement,
   validateDOMAttributes
 } from '../../shared/component-helper'
 import Context from '../../shared/Context'
 import { createSpacingClasses, isInline } from './SpacingHelper'
+import {
+  skeletonDOMAttributes,
+  createSkeletonClass
+} from '../skeleton/SkeletonHelper'
 
 const renderProps = {
   render_content: null
@@ -134,7 +137,7 @@ export default class Space extends React.PureComponent {
       className: classnames(
         'dnb-space',
         isTrue(inline) && 'dnb-space--inline',
-        isTrue(skeleton) && 'dnb-skeleton',
+        createSkeletonClass(null, skeleton), // do not send along this.context
         createSpacingClasses({ top, right, bottom, left }),
         className,
         _className
@@ -142,9 +145,7 @@ export default class Space extends React.PureComponent {
       ...attributes
     }
 
-    if (isTrue(skeleton)) {
-      skeletonElement(params, this.context)
-    }
+    skeletonDOMAttributes(params, skeleton) // do not send along this.context
 
     // also used for code markup simulation
     validateDOMAttributes(this.props, params)

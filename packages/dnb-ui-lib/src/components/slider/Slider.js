@@ -16,11 +16,14 @@ import {
   processChildren,
   extendPropsWithContext,
   dispatchCustomElementEvent,
-  skeletonElement,
   isTouchDevice
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
 import { createSpacingClasses } from '../space/SpacingHelper'
+import {
+  createSkeletonClass,
+  skeletonDOMAttributes
+} from '../skeleton/SkeletonHelper'
 
 import Context from '../../shared/Context'
 import Suffix from '../../shared/helpers/Suffix'
@@ -546,6 +549,7 @@ export default class Slider extends React.PureComponent {
         showStatus && 'dnb-slider__form-status',
         status && `dnb-slider__status--${status_state}`,
         'dnb-form-component',
+        createSkeletonClass(null, skeleton),
         createSpacingClasses(props),
         className,
         _className
@@ -565,8 +569,9 @@ export default class Slider extends React.PureComponent {
     if (isTrue(skeleton)) {
       disabled = true
       currentState = 'disabled'
-      skeletonElement(mainParams, this.context)
     }
+
+    skeletonDOMAttributes(mainParams, skeleton, this.context)
 
     const trackParams = {
       className: classnames(

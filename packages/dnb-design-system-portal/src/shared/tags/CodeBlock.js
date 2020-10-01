@@ -17,6 +17,7 @@ import { P } from 'dnb-ui-lib/src/elements'
 import { makeUniqueId } from 'dnb-ui-lib/src/shared/component-helper'
 import { Context } from 'dnb-ui-lib/src/shared'
 import AutoLinkHeader from './AutoLinkHeader'
+import { createSkeletonClass } from 'dnb-ui-lib/src/components/skeleton/SkeletonHelper'
 
 import {
   generateElement,
@@ -200,8 +201,6 @@ class LiveCode extends React.PureComponent {
       hideSyntaxButton
     } = this.state
 
-    const { skeleton } = this.context
-
     const codeToUse =
       typeof code === 'string' ? this.prepareCode(code) : null
 
@@ -280,7 +279,7 @@ class LiveCode extends React.PureComponent {
               className={classnames(
                 'dnb-pre',
                 'dnb-live-editor',
-                skeleton && 'dnb-skeleton dnb-skeleton--code'
+                createSkeletonClass('code', this.context.skeleton)
               )}
               ref={this._refEditor}
             >
