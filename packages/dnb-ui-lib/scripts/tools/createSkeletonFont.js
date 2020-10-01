@@ -68,7 +68,7 @@ asyncForEach(
 )
 
 const createChar = (s) => s.charCodeAt(0)
-const excludeChars = ''.split('').map(createChar) // special chars    \',;[]()."`
+const excludeChars = ''.split('').map(createChar) // special chars   \',;[]()."`
 
 function createFont(font, { styleName, familyName }) {
   const glyphs = Object.values(font.glyphs.glyphs)
