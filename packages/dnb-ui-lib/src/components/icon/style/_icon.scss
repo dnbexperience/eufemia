@@ -90,7 +90,7 @@
     &::after {
       content: none !important;
     }
-    color: var(--skeleton-color);
+    color: var(--skeleton-color) !important;
   }
 
   @include IS_IE {

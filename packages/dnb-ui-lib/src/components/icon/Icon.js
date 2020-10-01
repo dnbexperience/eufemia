@@ -121,7 +121,8 @@ export default class Icon extends React.PureComponent {
     )
 
     const { icon, size, wrapperParams, iconParams, alt } = prepareIcon(
-      props
+      props,
+      this.context
     )
 
     const IconContainer = prerenderIcon({ icon, size, alt })
@@ -297,7 +298,7 @@ const prepareIconParams = ({ sizeAsString, ...rest }) => {
   return { params, sizeAsString }
 }
 
-export const prepareIcon = (props) => {
+export const prepareIcon = (props, context) => {
   const {
     icon,
     size, // eslint-disable-line
@@ -345,7 +346,7 @@ export const prepareIcon = (props) => {
     modifier ? `dnb-icon--${modifier}` : null,
     isTrue(border) ? 'dnb-icon--border' : null,
     sizeAsString ? `dnb-icon--${sizeAsString}` : `dnb-icon--default`,
-    createSkeletonClass(null, skeleton),
+    createSkeletonClass(null, skeleton, context),
     createSpacingClasses(props),
     _className,
     className

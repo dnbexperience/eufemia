@@ -61,7 +61,10 @@
     --font-family-default: 'DNBSkeleton' !important;
 
     font-family: var(--font-family-default) !important;
-    font-style: unset;
+    &,
+    * {
+      font-style: unset !important;
+    }
 
     background-position-y: 50%;
     background-repeat: no-repeat;

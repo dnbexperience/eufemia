@@ -55,7 +55,8 @@ export default class IconPrimary extends React.PureComponent {
     )
 
     const { icon, size, wrapperParams, iconParams, alt } = prepareIcon(
-      props
+      props,
+      this.context
     )
 
     const IconContainer = prerenderIcon({

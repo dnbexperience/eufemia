@@ -770,7 +770,7 @@ exports[`Button scss have to match snapshot 1`] = `
   h6 .dnb-icon {
     vertical-align: middle; }
   .dnb-icon.dnb-skeleton {
-    color: var(--skeleton-color); }
+    color: var(--skeleton-color) !important; }
     .dnb-icon.dnb-skeleton::before, .dnb-icon.dnb-skeleton::after {
       content: none !important; }
   @media screen and (-ms-high-contrast: none) {
