@@ -625,10 +625,10 @@ legend.dnb-form-label {
     order: 3;
     vertical-align: top;
     margin-top: 0.5rem; }
-  .dnb-skeleton--visible .dnb-checkbox__button::before, .dnb-skeleton--visible .dnb-checkbox__button::after {
-    border-radius: 0; }
-  .dnb-skeleton--visible .dnb-checkbox__input[disabled] ~ .dnb-checkbox__button {
+  .dnb-checkbox.dnb-skeleton .dnb-checkbox__input[disabled] ~ .dnb-checkbox__button {
     border-color: var(--skeleton-color); }
+    .dnb-checkbox.dnb-skeleton .dnb-checkbox__input[disabled] ~ .dnb-checkbox__button::before {
+      border-radius: 0; }
   @media screen and (-ms-high-contrast: none) {
     .dnb-checkbox {
       vertical-align: text-bottom; }

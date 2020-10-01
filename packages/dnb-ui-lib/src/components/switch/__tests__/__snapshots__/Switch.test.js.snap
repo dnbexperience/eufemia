@@ -634,8 +634,6 @@ legend.dnb-form-label {
       @media screen and (-ms-high-contrast: none) {
         html[data-whatinput='keyboard'] .dnb-switch__focus {
           box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
-  .dnb-switch__button.dnb-skeleton {
-    position: absolute; }
   .dnb-switch__input:not(:checked) ~ .dnb-switch__button {
     transform: translateX(0);
     transform: translateX(calc(1px - 1px - var(--switch-border-width--medium))); }
@@ -698,13 +696,12 @@ legend.dnb-form-label {
   .dnb-switch--label-position-right .dnb-switch__order .dnb-form-status {
     order: 3;
     margin-top: 0.5rem; }
-  .dnb-skeleton--visible .dnb-switch__input[disabled] ~ .dnb-switch__button,
-  .dnb-skeleton--visible .dnb-switch__input[disabled] ~ .dnb-switch__background::after {
+  .dnb-switch.dnb-skeleton .dnb-switch__input[disabled] ~ .dnb-switch__button,
+  .dnb-switch.dnb-skeleton .dnb-switch__input[disabled] ~ .dnb-switch__background::after {
     border-color: var(--skeleton-color); }
-  .dnb-skeleton--visible .dnb-switch__input[disabled] ~ .dnb-switch__background {
+  .dnb-switch.dnb-skeleton .dnb-switch__input[disabled] ~ .dnb-switch__background {
     background-color: var(--skeleton-color); }
-  .dnb-skeleton--visible
-.dnb-switch__input[disabled]:not(:checked) ~ .dnb-switch__background::after {
+  .dnb-switch.dnb-skeleton .dnb-switch__input[disabled]:not(:checked) ~ .dnb-switch__background::after {
     border-color: var(--skeleton-color--contrast); }
   @media screen and (-ms-high-contrast: none) {
     .dnb-switch {

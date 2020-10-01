@@ -1092,6 +1092,10 @@ legend.dnb-form-label {
   h5 .dnb-icon,
   h6 .dnb-icon {
     vertical-align: middle; }
+  .dnb-icon.dnb-skeleton {
+    color: var(--skeleton-color); }
+    .dnb-icon.dnb-skeleton::before, .dnb-icon.dnb-skeleton::after {
+      content: none !important; }
   @media screen and (-ms-high-contrast: none) {
     .dnb-icon {
       flex: none; } }
@@ -1415,6 +1419,8 @@ legend.dnb-form-label {
     white-space: nowrap; }
   .dnb-button + .dnb-form-status {
     margin-top: 0.5rem; }
+  .dnb-button.dnb-skeleton .dnb-icon {
+    visibility: hidden; }
   @media screen and (-ms-high-contrast: none) {
     .dnb-button {
       flex: none; }
@@ -1584,10 +1590,10 @@ button.dnb-button::-moz-focus-inner {
     order: 3;
     vertical-align: top;
     margin-top: 0.5rem; }
-  .dnb-skeleton--visible .dnb-checkbox__button::before, .dnb-skeleton--visible .dnb-checkbox__button::after {
-    border-radius: 0; }
-  .dnb-skeleton--visible .dnb-checkbox__input[disabled] ~ .dnb-checkbox__button {
+  .dnb-checkbox.dnb-skeleton .dnb-checkbox__input[disabled] ~ .dnb-checkbox__button {
     border-color: var(--skeleton-color); }
+    .dnb-checkbox.dnb-skeleton .dnb-checkbox__input[disabled] ~ .dnb-checkbox__button::before {
+      border-radius: 0; }
   @media screen and (-ms-high-contrast: none) {
     .dnb-checkbox {
       vertical-align: text-bottom; }
@@ -1798,7 +1804,7 @@ button.dnb-button::-moz-focus-inner {
       margin-bottom: calc(1px - 1px - var(--radio-margin-bottom)); }
       .dnb-radio-group .dnb-form-row::before {
         font-size: var(--font-size-basis); }
-  .dnb-skeleton--visible .dnb-radio__input[disabled] ~ .dnb-radio__button {
+  .dnb-skeleton .dnb-radio__input[disabled] ~ .dnb-radio__button {
     border-color: var(--skeleton-color); }
   @media screen and (-ms-high-contrast: none) {
     .dnb-radio {

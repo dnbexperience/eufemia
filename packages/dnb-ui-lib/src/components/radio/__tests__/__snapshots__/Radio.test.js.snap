@@ -1008,7 +1008,7 @@ legend.dnb-form-label {
       margin-bottom: calc(1px - 1px - var(--radio-margin-bottom)); }
       .dnb-radio-group .dnb-form-row::before {
         font-size: var(--font-size-basis); }
-  .dnb-skeleton--visible .dnb-radio__input[disabled] ~ .dnb-radio__button {
+  .dnb-skeleton .dnb-radio__input[disabled] ~ .dnb-radio__button {
     border-color: var(--skeleton-color); }
   @media screen and (-ms-high-contrast: none) {
     .dnb-radio {
