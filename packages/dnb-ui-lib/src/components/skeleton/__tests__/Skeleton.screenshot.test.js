@@ -12,14 +12,14 @@ describe('Skeleton screenshot', () => {
   setupPageScreenshot({ url: '/uilib/components/skeleton/demos' })
   it('have to match excluded components', async () => {
     const screenshot = await testPageScreenshot({
-      style: { width: '30rem' },
+      style: { width: '20rem', height: '20rem' },
       selector: '[data-dnb-test="skeleton-exclude"]'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
   it('have to match a removed skeleton', async () => {
     const screenshot = await testPageScreenshot({
-      style: { width: '30rem' },
+      style: { width: '20rem', height: '20rem' },
       selector: '[data-dnb-test="skeleton-exclude"]',
       simulateSelector: '[data-dnb-test="skeleton-exclude"] .dnb-button',
       simulate: 'click'
