@@ -324,6 +324,8 @@ exports[`Skeleton scss have to match snapshot 1`] = `
 .dnb-skeleton[data-skeleton-chars]::before, .dnb-skeleton[data-skeleton-chars]::after {
   max-width: var(--skeleton-chars); }
 
+.dnb-skeleton--no-animation .dnb-skeleton,
+html[data-dnb-test] .dnb-skeleton,
 .dnb-skeleton--no-animation .dnb-skeleton::after,
 html[data-dnb-test] .dnb-skeleton::after {
   animation: none !important; }
