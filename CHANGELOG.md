@@ -1,4 +1,4 @@
-## September, 20. 2020
+## October, 20. 2020
 
 New [grey colors](/uilib/usage/customisation/colors):
 
