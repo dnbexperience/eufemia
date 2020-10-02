@@ -11,10 +11,14 @@ import {
   isTrue,
   registerElement,
   validateDOMAttributes,
-  skeletonElement,
   processChildren
 } from '../../shared/component-helper'
 import { createSpacingClasses } from '../space/SpacingHelper'
+import {
+  // AutoSize,
+  createSkeletonClass,
+  skeletonDOMAttributes
+} from '../skeleton/SkeletonHelper'
 import Context from '../../shared/Context'
 
 const renderProps = {
@@ -79,6 +83,11 @@ export default class FormLabel extends React.PureComponent {
   static defaultProps = defaultProps
   static contextType = Context
 
+  // constructor(props) {
+  //   super(props)
+  //   this._ref = React.createRef()
+  // }
+
   static enableWebComponent() {
     registerElement(FormLabel.tagName, FormLabel, defaultProps)
   }
@@ -125,12 +134,12 @@ export default class FormLabel extends React.PureComponent {
         'dnb-form-label',
         (isTrue(vertical) || label_direction === 'vertical') &&
           `dnb-form-label--vertical`,
-        skeleton && 'dnb-skeleton',
         // "direction" is not in use
         // direction && `dnb-form-label--${direction}`,
         // we set and use "label_direction" above
         // label_direction && `dnb-form-label--${label_direction}-label`,
         isTrue(sr_only) && 'dnb-form-label--sr-only',
+        createSkeletonClass('font', skeleton, this.context),
         createSpacingClasses(props),
         className,
         _className
@@ -145,33 +154,22 @@ export default class FormLabel extends React.PureComponent {
     if (disabled) {
       params.disabled = true
     }
-    if (isTrue(skeleton)) {
-      skeletonElement(params)
-    }
+
+    skeletonDOMAttributes(params, skeleton, this.context)
 
     // also used for code markup simulation
     validateDOMAttributes(this.props, params)
 
-    if (isTrue(sr_only)) {
-      return (
-        <Element is={element} {...params}>
-          {content}
-        </Element>
-      )
-    }
+    params.children = content
 
-    return (
-      <Element is={element} {...params}>
-        {content}
-      </Element>
-    )
+    const Element = element
+
+    // Use the font-swap feature dnb-skeleton--font
+    // if (isTrue(skeleton)) {
+    //   // skeletonDOMAttributes(attributes, skeleton, this.context)
+    //   return <AutoSize __element={Element} ref={this._ref} {...params} />
+    // }
+
+    return <Element {...params} />
   }
-}
-
-const Element = ({ is: Element, children, ...rest }) => (
-  <Element {...rest}>{children}</Element>
-)
-Element.propTypes = {
-  is: PropTypes.string.isRequired,
-  children: PropTypes.node.isRequired
 }

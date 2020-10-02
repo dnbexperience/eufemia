@@ -57,7 +57,15 @@ export default {
     },
     Modal: {
       close_title: 'Close',
-      more_info: 'More information'
+      more_info: 'Help text'
+    },
+    HelpButton: {
+      title: 'Help text',
+      aria_role: 'Help button'
+    },
+    Skeleton: {
+      aria_bussy: 'In progress ...',
+      aria_ready: 'Ready to interact'
     },
     Input: {
       submit_button_title: 'Submit button'

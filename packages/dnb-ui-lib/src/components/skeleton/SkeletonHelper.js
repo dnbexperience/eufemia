@@ -5,34 +5,54 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import { convertJsxToString } from '../../shared/component-helper'
+import { convertJsxToString, isTrue } from '../../shared/component-helper'
 import classnames from 'classnames'
 import { IS_IE11 } from '../../shared/helpers'
 
-const propTypes = {
-  __element: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-    PropTypes.node
-  ]),
-  children: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-    PropTypes.node
-  ]),
-  className: PropTypes.string,
-  style: PropTypes.object
+export const skeletonDOMAttributes = (params, skeleton, context) => {
+  if (isTrue(skeleton) || context?.skeleton) {
+    params.disabled = true
+    params['aria-disabled'] = true
+    params['aria-label'] = context?.translation?.Skeleton?.aria_bussy
+  }
+
+  return params
 }
-const defaultProps = {
-  __element: null,
-  children: null,
-  className: null,
-  style: null
+
+export const createSkeletonClass = (method, skeleton, context = null) => {
+  // We could extend this like so:
+  // if (method === 'auto' && typeof skeleton === 'string') {
+  //   method = skeleton
+  // }
+
+  if (isTrue(skeleton) || context?.skeleton) {
+    return classnames('dnb-skeleton', method && `dnb-skeleton--${method}`)
+  }
+
+  return null
 }
 
 export class AutoSize extends React.PureComponent {
-  static propTypes = propTypes
-  static defaultProps = defaultProps
+  static propTypes = {
+    __element: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.func,
+      PropTypes.node
+    ]),
+    children: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.func,
+      PropTypes.node
+    ]),
+    className: PropTypes.string,
+    style: PropTypes.object
+  }
+  static defaultProps = {
+    __element: null,
+    children: null,
+    className: null,
+    style: null
+  }
 
   render() {
     const {
@@ -52,7 +72,11 @@ export class AutoSize extends React.PureComponent {
         return React.createElement(
           Comp,
           {
-            className: classnames(className, 'dnb-skeleton'),
+            className: classnames(
+              className,
+              'dnb-skeleton',
+              'dnb-skeleton--font'
+            ),
             'data-skeleton-chars': String(countChars),
             style: {
               ...(style || {}),

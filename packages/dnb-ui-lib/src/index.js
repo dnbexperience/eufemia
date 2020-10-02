@@ -23,6 +23,7 @@ import FormStatus from './components/form-status/FormStatus'
 import GlobalError from './components/global-error/GlobalError'
 import GlobalStatus from './components/global-status/GlobalStatus'
 import Heading from './components/heading/Heading'
+import HelpButton from './components/help-button/HelpButton'
 import Icon from './components/icon/Icon'
 import IconPrimary from './components/icon-primary/IconPrimary'
 import Input from './components/input/Input'
@@ -85,6 +86,7 @@ export {
   GlobalError,
   GlobalStatus,
   Heading,
+  HelpButton,
   Icon,
   IconPrimary,
   Input,

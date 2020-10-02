@@ -48,6 +48,7 @@ export const propTypes = {
   global_status_id: PropTypes.string,
   responsive: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   class: PropTypes.string,
 
   /** React props */
@@ -84,6 +85,7 @@ const defaultProps = {
   global_status_id: null,
   responsive: null,
   disabled: null,
+  skeleton: null,
   class: null,
 
   /** React props */
@@ -165,6 +167,7 @@ export default class FormRow extends React.PureComponent {
       global_status_id,
       responsive,
       disabled,
+      skeleton,
       wrap,
       id: _id, // eslint-disable-line
       className,
@@ -253,7 +256,8 @@ export default class FormRow extends React.PureComponent {
         vertical,
         label_direction: isTrue(vertical) ? 'vertical' : label_direction,
         responsive,
-        disabled
+        disabled,
+        skeleton
       }
       this._contextWeUse = extend(this.context, {
         formRow
@@ -277,7 +281,8 @@ export default class FormRow extends React.PureComponent {
                 element={useFieldset ? 'legend' : 'label'}
                 label_direction={label_direction}
                 sr_only={label_sr_only}
-                disabled={isTrue(disabled)}
+                disabled={disabled}
+                skeleton={skeleton}
               />
             )}
 

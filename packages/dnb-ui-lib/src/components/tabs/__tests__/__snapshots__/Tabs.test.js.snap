@@ -20,6 +20,7 @@ exports[`Tabs component have to match snapshot 1`] = `
         "section_spacing": "section_spacing",
         "section_style": "section_style",
         "selected_key": "selected_key",
+        "skeleton": "skeleton",
         "use_hash": "use_hash",
       },
     }
@@ -85,6 +86,7 @@ exports[`Tabs component have to match snapshot 1`] = `
   section_spacing={null}
   section_style={null}
   selected_key="second"
+  skeleton={null}
   use_hash={false}
 >
   <TabsWrapper>

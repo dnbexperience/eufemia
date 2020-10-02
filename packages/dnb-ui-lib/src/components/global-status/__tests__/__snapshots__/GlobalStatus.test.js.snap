@@ -147,6 +147,10 @@ exports[`GlobalStatus scss have to match snapshot 1`] = `
   h5 .dnb-icon,
   h6 .dnb-icon {
     vertical-align: middle; }
+  .dnb-icon.dnb-skeleton {
+    color: var(--skeleton-color) !important; }
+    .dnb-icon.dnb-skeleton::before, .dnb-icon.dnb-skeleton::after {
+      content: none !important; }
   @media screen and (-ms-high-contrast: none) {
     .dnb-icon {
       flex: none; } }
@@ -470,6 +474,8 @@ exports[`GlobalStatus scss have to match snapshot 1`] = `
     white-space: nowrap; }
   .dnb-button + .dnb-form-status {
     margin-top: 0.5rem; }
+  .dnb-button.dnb-skeleton .dnb-icon {
+    visibility: hidden; }
   @media screen and (-ms-high-contrast: none) {
     .dnb-button {
       flex: none; }
@@ -901,6 +907,7 @@ exports[`GlobalStatus snapshot have to match component snapshot 1`] = `
                     }
                     modifier={null}
                     size="icon_size"
+                    skeleton={null}
                     title={null}
                     width={null}
                   >
@@ -1047,6 +1054,7 @@ exports[`GlobalStatus snapshot have to match component snapshot 1`] = `
                           key="button-icon"
                           modifier={null}
                           size="medium"
+                          skeleton={null}
                           title={null}
                           width={null}
                         >

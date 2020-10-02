@@ -16,11 +16,14 @@ import {
   processChildren,
   extendPropsWithContext,
   dispatchCustomElementEvent,
-  skeletonElement,
   isTouchDevice
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
 import { createSpacingClasses } from '../space/SpacingHelper'
+import {
+  createSkeletonClass,
+  skeletonDOMAttributes
+} from '../skeleton/SkeletonHelper'
 
 import Context from '../../shared/Context'
 import Suffix from '../../shared/helpers/Suffix'
@@ -546,6 +549,7 @@ export default class Slider extends React.PureComponent {
         showStatus && 'dnb-slider__form-status',
         status && `dnb-slider__status--${status_state}`,
         'dnb-form-component',
+        createSkeletonClass(null, skeleton),
         createSpacingClasses(props),
         className,
         _className
@@ -565,8 +569,9 @@ export default class Slider extends React.PureComponent {
     if (isTrue(skeleton)) {
       disabled = true
       currentState = 'disabled'
-      skeletonElement(mainParams)
     }
+
+    skeletonDOMAttributes(mainParams, skeleton, this.context)
 
     const trackParams = {
       className: classnames(
@@ -595,13 +600,14 @@ export default class Slider extends React.PureComponent {
       }
     }
     if (showStatus || suffix) {
-      rangeParams['aria-describedby'] = `${
-        showStatus ? id + '-status' : ''
-      } ${suffix ? id + '-suffix' : ''}`
+      rangeParams['aria-describedby'] = [
+        showStatus ? id + '-status' : null,
+        suffix ? id + '-suffix' : null
+      ]
+        .filter(Boolean)
+        .join(' ')
       if (isTouchDevice()) {
-        trackParams['aria-describedby'] = `${
-          showStatus ? id + '-status' : ''
-        } ${suffix ? id + '-suffix' : ''}`
+        trackParams['aria-describedby'] = rangeParams['aria-describedby']
       }
     }
 
@@ -628,6 +634,7 @@ export default class Slider extends React.PureComponent {
         aria-label={subtract_title}
         on_click={this.onSubtractClickHandler}
         disabled={disabled}
+        skeleton={skeleton}
       />
     )
 
@@ -640,6 +647,7 @@ export default class Slider extends React.PureComponent {
         aria-label={add_title}
         on_click={this.onAddClickHandler}
         disabled={disabled}
+        skeleton={skeleton}
       />
     )
 
@@ -651,6 +659,7 @@ export default class Slider extends React.PureComponent {
             id={id + '-label'}
             text={label}
             disabled={disabled}
+            skeleton={skeleton}
             label_direction={label_direction}
             sr_only={label_sr_only}
           />
@@ -699,6 +708,7 @@ export default class Slider extends React.PureComponent {
                     ? rangeParams
                     : { 'aria-hidden': true })}
                   disabled={disabled}
+                  skeleton={skeleton}
                 />
               </span>
               <span

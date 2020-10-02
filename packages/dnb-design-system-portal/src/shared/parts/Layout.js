@@ -21,7 +21,25 @@ import {
   setPageFocusElement,
   scrollToLocationHashId
 } from 'dnb-ui-lib/src/shared/helpers'
+import { Context } from 'dnb-ui-lib/src/shared'
 import { Logo, GlobalStatus } from 'dnb-ui-lib/src/components'
+import { createSkeletonClass } from 'dnb-ui-lib/src/components/skeleton/SkeletonHelper'
+
+export function scrollToAnimation() {
+  // if url hash is defined, scroll to the id
+  scrollToLocationHashId({
+    offset: 100,
+    delay: 100,
+    onCompletion: (elem) => {
+      try {
+        // elem.classList.add('focus')// run link-attention-focus animation
+        elem.parentElement.classList.add('focus') // run parent-attention-focus animation
+      } catch (e) {
+        //
+      }
+    }
+  })
+}
 
 class Layout extends React.PureComponent {
   static propTypes = {
@@ -40,22 +58,10 @@ class Layout extends React.PureComponent {
   }
 
   componentDidMount() {
-    // gets aplyed on "onRouteUpdate"
+    // gets applied on "onRouteUpdate"
     setPageFocusElement('.dnb-app-content h1:nth-of-type(1)', 'content')
 
-    // if url hash is defined, scroll to the id
-    scrollToLocationHashId({
-      offset: 100,
-      delay: 100,
-      onCompletion: (elem) => {
-        try {
-          // elem.classList.add('focus')// run link-attention-focus animation
-          elem.parentElement.classList.add('focus') // run parent-attention-focus animation
-        } catch (e) {
-          //
-        }
-      }
-    })
+    scrollToAnimation()
   }
 
   skipToContentHandler = (event) => {
@@ -239,18 +245,21 @@ const FooterWrapper = styled.footer`
     margin-left: 1rem;
   }
 `
-const Footer = () => (
-  <FooterWrapper>
-    <Logo height="40" color="white" />
-    <small>
-      Last Portal update: {buildVersion}
-      <Link
-        to="/license"
-        className="dnb-anchor dnb-anchor--contrast dnb-anchor--no-underline"
-      >
-        Copyright (c) 2018-present DNB.no
-      </Link>
-    </small>
-    <span />
-  </FooterWrapper>
-)
+const Footer = () => {
+  const { skeleton } = React.useContext(Context)
+  return (
+    <FooterWrapper>
+      <Logo height="40" color="white" />
+      <small className={createSkeletonClass('font', skeleton)}>
+        Last Portal update: {buildVersion}
+        <Link
+          to="/license"
+          className="dnb-anchor dnb-anchor--contrast dnb-anchor--no-underline"
+        >
+          Copyright (c) 2018-present DNB.no
+        </Link>
+      </small>
+      <span />
+    </FooterWrapper>
+  )
+}

@@ -79,6 +79,7 @@ exports[`FormStatus component have to match snapshot 1`] = `
         }
         modifier={null}
         size="large"
+        skeleton={null}
         title={null}
         width={null}
       >

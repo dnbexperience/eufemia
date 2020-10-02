@@ -15,6 +15,10 @@ import classnames from 'classnames'
 import keycode from 'keycode'
 import AccordionContext from './AccordionContext'
 import { createSpacingClasses } from '../space/SpacingHelper'
+import {
+  skeletonDOMAttributes,
+  createSkeletonClass
+} from '../skeleton/SkeletonHelper'
 
 const propTypes = {
   title: PropTypes.oneOfType([
@@ -52,6 +56,7 @@ const propTypes = {
   icon_position: PropTypes.string,
   icon_size: PropTypes.string,
   disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
 
   /// React props
   className: PropTypes.string,
@@ -74,6 +79,7 @@ const defaultProps = {
   icon_position: null,
   icon_size: 'medium',
   disabled: null,
+  skeleton: null,
 
   // React props
   className: null,
@@ -245,7 +251,8 @@ export default class AccordionHeader extends React.PureComponent {
       heading_level,
       icon,
       icon_size,
-      disabled
+      disabled,
+      skeleton
     } = props
 
     const {
@@ -366,6 +373,7 @@ export default class AccordionHeader extends React.PureComponent {
         hover && hadClick && 'dnb-accordion--hover',
         !this.canClick() && 'dnb-accordion__header--prevent-click',
         description && 'dnb-accordion__header--description',
+        createSkeletonClass('shape', skeleton, this.context),
         createSpacingClasses(rest),
         className
       ),
@@ -377,7 +385,7 @@ export default class AccordionHeader extends React.PureComponent {
       headerParams['aria-expanded'] = true
     }
 
-    if (disabled) {
+    if (disabled || isTrue(skeleton)) {
       headerParams.tabIndex = '-1'
       headerParams.disabled = true
       headerParams['aria-disabled'] = true
@@ -387,6 +395,8 @@ export default class AccordionHeader extends React.PureComponent {
       headerParams.onMouseOver = this.onMouseOverHandler
       headerParams.onMouseOut = this.onMouseOutHander
     }
+
+    skeletonDOMAttributes(headerParams, skeleton, this.context)
 
     validateDOMAttributes(this.props, headerParams)
 

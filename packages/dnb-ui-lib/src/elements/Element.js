@@ -8,13 +8,15 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import Context from '../shared/Context'
 import {
-  isTrue,
   validateDOMAttributes,
-  skeletonElement,
   extendPropsWithContext
 } from '../shared/component-helper'
 import { createSpacingClasses } from '../components/space/SpacingHelper'
-import { AutoSize } from '../components/skeleton/SkeletonHelper'
+import {
+  // AutoSize,
+  createSkeletonClass,
+  skeletonDOMAttributes
+} from '../components/skeleton/SkeletonHelper'
 
 class Elem extends React.PureComponent {
   static contextType = Context
@@ -51,15 +53,18 @@ class Elem extends React.PureComponent {
       className,
       _className,
       css,
+      createSkeletonClass('font', skeleton, this.context),
       createSpacingClasses(rest, Tag)
     )
 
     validateDOMAttributes(null, rest)
 
-    if (isTrue(skeleton)) {
-      skeletonElement(rest)
-      return <AutoSize __element={Tag} ref={_ref} {...rest} />
-    }
+    skeletonDOMAttributes(rest, skeleton, this.context)
+
+    // Use the font-swap feature dnb-skeleton--font
+    // if (isTrue(skeleton)) {
+    //   return <AutoSize __element={Tag} ref={_ref} {...rest} />
+    // }
 
     return <Tag ref={_ref} {...rest} />
   }

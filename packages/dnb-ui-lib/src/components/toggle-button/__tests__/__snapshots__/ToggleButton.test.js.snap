@@ -21,6 +21,7 @@ exports[`ToggleButton component have to match snapshot 1`] = `
   on_change={[Function]}
   on_state_update={[Function]}
   readOnly={false}
+  skeleton="skeleton"
   status={null}
   status_animation="status_animation"
   status_state="status_state"
@@ -43,30 +44,21 @@ exports[`ToggleButton component have to match snapshot 1`] = `
       id="toggle-button-label"
       label_direction="horizontal"
       render_content={null}
-      skeleton={null}
+      skeleton="skeleton"
       sr_only="label_sr_only"
       text="label"
       title={null}
       vertical={null}
     >
-      <Element
+      <label
         aria-disabled={true}
         className="dnb-form-label"
         disabled={true}
         htmlFor="toggle-button"
         id="toggle-button-label"
-        is="label"
       >
-        <label
-          aria-disabled={true}
-          className="dnb-form-label"
-          disabled={true}
-          htmlFor="toggle-button"
-          id="toggle-button-label"
-        >
-          label
-        </label>
-      </Element>
+        label
+      </label>
     </FormLabel>
     <span
       className="dnb-toggle-button__inner"
@@ -83,7 +75,7 @@ exports[`ToggleButton component have to match snapshot 1`] = `
           />
         </AlignmentHelper>
         <Button
-          aria-describedby=" toggle-button-suffix"
+          aria-describedby="toggle-button-suffix"
           aria-pressed="false"
           bounding={false}
           class={null}
@@ -103,7 +95,7 @@ exports[`ToggleButton component have to match snapshot 1`] = `
           onKeyUp={[Function]}
           on_click={null}
           size={null}
-          skeleton={null}
+          skeleton="skeleton"
           status={null}
           status_animation={null}
           status_state="error"
@@ -115,7 +107,7 @@ exports[`ToggleButton component have to match snapshot 1`] = `
           wrap={false}
         >
           <button
-            aria-describedby=" toggle-button-suffix"
+            aria-describedby="toggle-button-suffix"
             aria-pressed="false"
             className="dnb-button dnb-button--secondary dnb-button--has-text dnb-toggle-button__button dnb-button--icon-position-left dnb-button--has-icon dnb-button--icon-size-icon_size"
             disabled={false}
@@ -127,7 +119,7 @@ exports[`ToggleButton component have to match snapshot 1`] = `
             type="button"
           >
             <Content
-              aria-describedby=" toggle-button-suffix"
+              aria-describedby="toggle-button-suffix"
               aria-pressed="false"
               bounding={false}
               class={null}
@@ -180,7 +172,7 @@ exports[`ToggleButton component have to match snapshot 1`] = `
               onKeyUp={[Function]}
               on_click={null}
               size={null}
-              skeleton={null}
+              skeleton="skeleton"
               status={null}
               status_animation={null}
               status_state="error"
@@ -311,6 +303,7 @@ exports[`ToggleButton component have to match snapshot 1`] = `
                 key="button-icon"
                 modifier={null}
                 size="icon_size"
+                skeleton={null}
                 title={null}
                 width={null}
               />
@@ -341,6 +334,7 @@ exports[`ToggleButton component have to match snapshot 1`] = `
             on_change={[Function]}
             on_state_update={[Function]}
             readOnly={false}
+            skeleton="skeleton"
             status={null}
             status_animation="status_animation"
             status_state="status_state"
@@ -411,6 +405,7 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
       responsive={null}
       section_spacing={null}
       section_style={null}
+      skeleton={null}
       skipContentWrapperIfNested={true}
       vertical={null}
       wrap={null}
@@ -437,7 +432,7 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
               class={null}
               className="dnb-form-row__label"
               direction={null}
-              disabled={false}
+              disabled={null}
               element="legend"
               for_id={null}
               id="group-label"
@@ -449,20 +444,13 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
               title={null}
               vertical={null}
             >
-              <Element
+              <legend
                 className="dnb-form-label dnb-form-row__label"
                 disabled={false}
                 id="group-label"
-                is="legend"
               >
-                <legend
-                  className="dnb-form-label dnb-form-row__label"
-                  disabled={false}
-                  id="group-label"
-                >
-                  Label
-                </legend>
-              </Element>
+                Label
+              </legend>
             </FormLabel>
             <div
               className="dnb-form-row__content dnb-form-row__content--default"
@@ -495,6 +483,7 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
                     on_change={null}
                     on_state_update={null}
                     readOnly={false}
+                    skeleton={null}
                     status={null}
                     status_animation={null}
                     status_state="error"
@@ -634,6 +623,7 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
                     on_change={null}
                     on_state_update={null}
                     readOnly={false}
+                    skeleton={null}
                     status={null}
                     status_animation={null}
                     status_state="error"
@@ -1102,6 +1092,10 @@ legend.dnb-form-label {
   h5 .dnb-icon,
   h6 .dnb-icon {
     vertical-align: middle; }
+  .dnb-icon.dnb-skeleton {
+    color: var(--skeleton-color) !important; }
+    .dnb-icon.dnb-skeleton::before, .dnb-icon.dnb-skeleton::after {
+      content: none !important; }
   @media screen and (-ms-high-contrast: none) {
     .dnb-icon {
       flex: none; } }
@@ -1425,6 +1419,8 @@ legend.dnb-form-label {
     white-space: nowrap; }
   .dnb-button + .dnb-form-status {
     margin-top: 0.5rem; }
+  .dnb-button.dnb-skeleton .dnb-icon {
+    visibility: hidden; }
   @media screen and (-ms-high-contrast: none) {
     .dnb-button {
       flex: none; }
@@ -1594,6 +1590,10 @@ button.dnb-button::-moz-focus-inner {
     order: 3;
     vertical-align: top;
     margin-top: 0.5rem; }
+  .dnb-checkbox.dnb-skeleton .dnb-checkbox__input[disabled] ~ .dnb-checkbox__button {
+    border-color: var(--skeleton-color); }
+    .dnb-checkbox.dnb-skeleton .dnb-checkbox__input[disabled] ~ .dnb-checkbox__button::before {
+      border-radius: 0; }
   @media screen and (-ms-high-contrast: none) {
     .dnb-checkbox {
       vertical-align: text-bottom; }
@@ -1804,6 +1804,8 @@ button.dnb-button::-moz-focus-inner {
       margin-bottom: calc(1px - 1px - var(--radio-margin-bottom)); }
       .dnb-radio-group .dnb-form-row::before {
         font-size: var(--font-size-basis); }
+  .dnb-skeleton .dnb-radio__input[disabled] ~ .dnb-radio__button {
+    border-color: var(--skeleton-color); }
   @media screen and (-ms-high-contrast: none) {
     .dnb-radio {
       vertical-align: text-bottom; }

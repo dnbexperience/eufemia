@@ -85,6 +85,14 @@
     vertical-align: middle;
   }
 
+  &.dnb-skeleton {
+    &::before,
+    &::after {
+      content: none !important;
+    }
+    color: var(--skeleton-color) !important;
+  }
+
   @include IS_IE {
     flex: none;
   }

@@ -2,8 +2,53 @@
 showTabs: true
 ---
 
-import AutocompleteExamples from 'Pages/uilib/components/autocomplete/Examples'
+import {
+AutocompleteDefaultExample,
+AutocompleteWithCustomTitle,
+AutocompleteDynamicallyUpdatedData,
+AutocompleteFirstFocusUpdate,
+AutocompleteToggleExample,
+AutocompletePredefinedInput,
+AutocompleteDifferentSizes,
+AutocompleteCustomWidth
+} from 'Pages/uilib/components/autocomplete/Examples'
 
 ## Demos
 
-<AutocompleteExamples />
+### Default autocomplete
+
+<AutocompleteDefaultExample />
+
+### Autocomplete with a custom title
+
+<AutocompleteWithCustomTitle />
+
+### Async usage, dynamically update data during typing
+
+This example simulates server delay with a timeout and - if it gets debounced, we cancel the timeout.<br /><br />Also, you may consider of using `disable_filter` if you have a backend doing the search operation.
+
+<AutocompleteDynamicallyUpdatedData />
+
+### Update data dynamically on first focus
+
+<AutocompleteFirstFocusUpdate />
+
+### With a Button to toggle the open / close state
+
+**NB:** The data is given as a function and as children.
+
+<AutocompleteToggleExample />
+
+### With a predefined input/search value
+
+<AutocompletePredefinedInput />
+
+### Different sizes
+
+Four sizes are available: `small`, `default`, `medium` and `large`.
+
+<AutocompleteDifferentSizes />
+
+### Custom width
+
+<AutocompleteCustomWidth />

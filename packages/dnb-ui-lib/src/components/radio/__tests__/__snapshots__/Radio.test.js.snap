@@ -43,30 +43,21 @@ exports[`Radio component have to match snapshot 1`] = `
         id="radio-label"
         label_direction={null}
         render_content={null}
-        skeleton={null}
+        skeleton="skeleton"
         sr_only="label_sr_only"
         text="label"
         title={null}
         vertical={null}
       >
-        <Element
+        <label
           aria-disabled={true}
           className="dnb-form-label"
           disabled={true}
           htmlFor="radio"
           id="radio-label"
-          is="label"
         >
-          <label
-            aria-disabled={true}
-            className="dnb-form-label"
-            disabled={true}
-            htmlFor="radio"
-            id="radio-label"
-          >
-            label
-          </label>
-        </Element>
+          label
+        </label>
       </FormLabel>
       <span
         className="dnb-radio__inner"
@@ -87,7 +78,7 @@ exports[`Radio component have to match snapshot 1`] = `
           >
             <input
               aria-checked={false}
-              aria-describedby=" radio-suffix"
+              aria-describedby="radio-suffix"
               checked={false}
               className="dnb-radio__input"
               direction="horizontal"
@@ -232,6 +223,7 @@ exports[`Radio group component have to match group snapshot 1`] = `
       responsive={null}
       section_spacing={null}
       section_style={null}
+      skeleton={null}
       skipContentWrapperIfNested={true}
       vertical={null}
       wrap={null}
@@ -258,7 +250,7 @@ exports[`Radio group component have to match group snapshot 1`] = `
               class={null}
               className="dnb-form-row__label"
               direction={null}
-              disabled={false}
+              disabled={null}
               element="label"
               for_id="group"
               id="group-label"
@@ -270,22 +262,14 @@ exports[`Radio group component have to match group snapshot 1`] = `
               title={null}
               vertical={null}
             >
-              <Element
+              <label
                 className="dnb-form-label dnb-form-row__label"
                 disabled={false}
                 htmlFor="group"
                 id="group-label"
-                is="label"
               >
-                <label
-                  className="dnb-form-label dnb-form-row__label"
-                  disabled={false}
-                  htmlFor="group"
-                  id="group-label"
-                >
-                  Label
-                </label>
-              </Element>
+                Label
+              </label>
             </FormLabel>
             <div
               className="dnb-form-row__content dnb-form-row__content--default"
@@ -386,22 +370,14 @@ exports[`Radio group component have to match group snapshot 1`] = `
                             title={null}
                             vertical={null}
                           >
-                            <Element
+                            <label
                               className="dnb-form-label"
                               disabled={false}
                               htmlFor="radio-1"
                               id="radio-1-label"
-                              is="label"
                             >
-                              <label
-                                className="dnb-form-label"
-                                disabled={false}
-                                htmlFor="radio-1"
-                                id="radio-1-label"
-                              >
-                                Radio 1
-                              </label>
-                            </Element>
+                              Radio 1
+                            </label>
                           </FormLabel>
                         </span>
                       </span>
@@ -499,22 +475,14 @@ exports[`Radio group component have to match group snapshot 1`] = `
                             title={null}
                             vertical={null}
                           >
-                            <Element
+                            <label
                               className="dnb-form-label"
                               disabled={false}
                               htmlFor="radio-2"
                               id="radio-2-label"
-                              is="label"
                             >
-                              <label
-                                className="dnb-form-label"
-                                disabled={false}
-                                htmlFor="radio-2"
-                                id="radio-2-label"
-                              >
-                                Radio 2
-                              </label>
-                            </Element>
+                              Radio 2
+                            </label>
                           </FormLabel>
                         </span>
                       </span>
@@ -1040,6 +1008,8 @@ legend.dnb-form-label {
       margin-bottom: calc(1px - 1px - var(--radio-margin-bottom)); }
       .dnb-radio-group .dnb-form-row::before {
         font-size: var(--font-size-basis); }
+  .dnb-skeleton .dnb-radio__input[disabled] ~ .dnb-radio__button {
+    border-color: var(--skeleton-color); }
   @media screen and (-ms-high-contrast: none) {
     .dnb-radio {
       vertical-align: text-bottom; }

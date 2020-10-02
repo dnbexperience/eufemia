@@ -83,22 +83,14 @@ exports[`Checkbox component have to match snapshot 1`] = `
         title={null}
         vertical={null}
       >
-        <Element
+        <label
           className="dnb-form-label"
           disabled={false}
           htmlFor="checkbox"
           id="checkbox-label"
-          is="label"
         >
-          <label
-            className="dnb-form-label"
-            disabled={false}
-            htmlFor="checkbox"
-            id="checkbox-label"
-          >
-            checkbox
-          </label>
-        </Element>
+          checkbox
+        </label>
       </FormLabel>
       <span
         className="dnb-checkbox__inner"
@@ -633,6 +625,10 @@ legend.dnb-form-label {
     order: 3;
     vertical-align: top;
     margin-top: 0.5rem; }
+  .dnb-checkbox.dnb-skeleton .dnb-checkbox__input[disabled] ~ .dnb-checkbox__button {
+    border-color: var(--skeleton-color); }
+    .dnb-checkbox.dnb-skeleton .dnb-checkbox__input[disabled] ~ .dnb-checkbox__button::before {
+      border-radius: 0; }
   @media screen and (-ms-high-contrast: none) {
     .dnb-checkbox {
       vertical-align: text-bottom; }

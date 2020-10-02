@@ -768,6 +768,15 @@ textarea.dnb-textarea {
       margin-bottom: 0.5rem; }
       .dnb-responsive-component .dnb-textarea > .dnb-form-label {
         margin-bottom: 0.5rem; } }
+  .dnb-textarea.dnb-skeleton .dnb-textarea__inner {
+    margin: 0; }
+    .dnb-textarea.dnb-skeleton .dnb-textarea__inner::before, .dnb-textarea.dnb-skeleton .dnb-textarea__inner::after {
+      border-radius: 1rem; }
+  .dnb-textarea.dnb-skeleton .dnb-textarea__inner .dnb-textarea__shell {
+    margin-bottom: calc(var(--textarea-padding-width) * 2);
+    margin-right: calc(var(--textarea-padding-width) * 2); }
+  .dnb-textarea.dnb-skeleton .dnb-textarea__textarea {
+    visibility: hidden; }
   @media screen and (-ms-high-contrast: none) {
     .dnb-textarea__inner {
       margin: 0; }

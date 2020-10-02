@@ -14,11 +14,14 @@ import {
   registerElement,
   dispatchCustomElementEvent,
   detectOutsideClick,
-  skeletonElement,
   validateDOMAttributes
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
 import { createSpacingClasses } from '../space/SpacingHelper'
+import {
+  // createSkeletonClass,
+  skeletonDOMAttributes
+} from '../skeleton/SkeletonHelper'
 
 // date-fns
 import format from 'date-fns/format'
@@ -749,9 +752,12 @@ export default class DatePicker extends React.PureComponent {
 
     const pickerParams = {}
     if (showStatus || suffix) {
-      pickerParams['aria-describedby'] = `${
-        showStatus ? id + '-status' : ''
-      } ${suffix ? id + '-suffix' : ''}`
+      pickerParams['aria-describedby'] = [
+        showStatus ? id + '-status' : null,
+        suffix ? id + '-suffix' : null
+      ]
+        .filter(Boolean)
+        .join(' ')
     }
     if (label) {
       pickerParams['aria-labelledby'] = id + '-label'
@@ -789,9 +795,7 @@ export default class DatePicker extends React.PureComponent {
       mainParams.lang = locale.code
     }
 
-    if (isTrue(skeleton)) {
-      skeletonElement(pickerParams)
-    }
+    skeletonDOMAttributes(pickerParams, skeleton, this.context)
 
     validateDOMAttributes(this.props, inputParams)
     validateDOMAttributes(null, submitParams)
@@ -809,7 +813,8 @@ export default class DatePicker extends React.PureComponent {
             text={label}
             label_direction={label_direction}
             sr_only={label_sr_only}
-            disabled={isTrue(disabled)}
+            disabled={disabled}
+            skeleton={skeleton}
           />
         )}
 
@@ -836,6 +841,7 @@ export default class DatePicker extends React.PureComponent {
                 id={id}
                 title={title}
                 disabled={isTrue(disabled)}
+                skeleton={isTrue(skeleton)}
                 maskOrder={mask_order}
                 maskPlaceholder={mask_placeholder}
                 range={isTrue(range)}

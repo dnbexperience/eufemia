@@ -662,3 +662,19 @@ ItemContent.propTypes = {
     PropTypes.object
   ]).isRequired
 }
+
+DrawerList.HorizontalItem = ({ className, ...props }) => (
+  <span
+    className={classnames([
+      'dnb-drawer-list__option__inner__item',
+      className
+    ])}
+    {...props}
+  />
+)
+DrawerList.HorizontalItem.propTypes = {
+  className: PropTypes.string
+}
+DrawerList.HorizontalItem.defaultProps = {
+  className: null
+}

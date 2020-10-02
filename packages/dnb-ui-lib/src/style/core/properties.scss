@@ -59,7 +59,11 @@
   --color-fire-red-8: #fdeeee;
   --color-black: #000;
   --color-black-80: #333;
-  --color-black-30: #b3b3b3;
+  --color-black-55: #737373;
+  --color-black-30: #b3b3b3; // Deprecated
+  --color-black-20: #ccc;
+  --color-black-8: #ebebeb;
+  --color-black-3: #f8f8f8;
   --color-white: #fff;
 
   // Undefined
@@ -90,17 +94,6 @@
   --color-violet-light: #cfb9d7;
   --color-sky-blue-medium: #87d2e1;
   --color-sky-blue-light: #c3ebf0;
-
-  // Colors used in mobile
-  // --color-light-grey: #fafafa;
-  // --color-dark-grey: #757575;
-  // --color-outline-grey: #ebebeb;
-
-  // + new grey definitions
-  // --color-subtle-grey: #f8f8f8;
-  // --color-soft-grey: #ccc;
-  // --color-charcoal-grey: #333;
-  // --color-dark-grey: #737373;
 
   // Spacing
   --spacing-xx-small: 0.25rem;

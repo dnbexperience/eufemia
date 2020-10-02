@@ -166,6 +166,7 @@ const propTypes = {
   keep_open: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   opened: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   drawer_class: PropTypes.string,
   class: PropTypes.string,
 
@@ -238,6 +239,7 @@ const defaultProps = {
   keep_open: false,
   opened: null,
   disabled: null,
+  skeleton: null,
   drawer_class: null,
   class: null,
 
@@ -1363,6 +1365,7 @@ class AutocompleteInstance extends React.PureComponent {
       className,
       class: _className,
       disabled,
+      skeleton,
       triangle_position,
       icon_position,
       skip_portal,
@@ -1463,6 +1466,7 @@ class AutocompleteInstance extends React.PureComponent {
       onBlur: this.onBlurHandler,
       icon_position,
       disabled,
+      skeleton,
       ...attributes
     }
 
@@ -1507,9 +1511,12 @@ class AutocompleteInstance extends React.PureComponent {
     }
 
     if (showStatus || suffix) {
-      inputParams['aria-describedby'] = `${
-        showStatus ? id + '-status' : ''
-      } ${suffix ? id + '-suffix' : ''}`
+      inputParams['aria-describedby'] = [
+        showStatus ? id + '-status' : null,
+        suffix ? id + '-suffix' : null
+      ]
+        .filter(Boolean)
+        .join(' ')
     }
 
     // also used for code markup simulation
@@ -1529,6 +1536,7 @@ class AutocompleteInstance extends React.PureComponent {
             label_direction={label_direction}
             sr_only={label_sr_only}
             disabled={disabled}
+            skeleton={skeleton}
             onMouseDown={this.toggleVisible}
           />
         )}

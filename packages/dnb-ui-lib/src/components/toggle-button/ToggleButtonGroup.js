@@ -255,9 +255,12 @@ export default class ToggleButtonGroup extends React.PureComponent {
     }
 
     if (showStatus || suffix) {
-      params['aria-describedby'] = `${showStatus ? id + '-status' : ''} ${
-        suffix ? id + '-suffix' : ''
-      }`
+      params['aria-describedby'] = [
+        showStatus ? id + '-status' : null,
+        suffix ? id + '-suffix' : null
+      ]
+        .filter(Boolean)
+        .join(' ')
     }
     if (label) {
       params['aria-labelledby'] = id + '-label'
