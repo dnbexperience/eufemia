@@ -33,7 +33,7 @@
   &--lines#{&}--shape#{&}::after {
     background-image: repeating-linear-gradient(
       -45deg,
-      var(--skeleton-color--contrast) 0 1px,
+      var(--skeleton-color--contrast) 1px 2px,
       transparent 0 6px
     ) !important;
     background-repeat: repeat !important;
@@ -80,7 +80,7 @@
   &--font {
     background-image: repeating-linear-gradient(
       -45deg,
-      var(--skeleton-color--contrast) 0 1px,
+      var(--skeleton-color--contrast) 1px 2px,
       transparent 0 6px
     ) !important;
 
