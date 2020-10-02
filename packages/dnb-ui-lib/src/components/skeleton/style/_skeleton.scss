@@ -66,15 +66,14 @@
       font-style: unset !important;
     }
 
-    background-position-y: 50%;
-    background-repeat: no-repeat;
-    background-size: 30rem 100%;
+    background-position-y: 50% !important;
+    background-repeat: no-repeat !important;
+    background-size: 30rem 100% !important;
 
-    -moz-text-fill-color: transparent;
-    -webkit-text-fill-color: transparent;
+    -webkit-text-fill-color: transparent !important;
 
-    background-clip: text;
-    -webkit-background-clip: text;
+    background-clip: text !important;
+    -webkit-background-clip: text !important;
 
     animation: skeletonFontAnimation 2s linear infinite;
   }
