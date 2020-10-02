@@ -321,15 +321,6 @@ exports[`Skeleton scss have to match snapshot 1`] = `
   font-family: var(--font-family-monospace) !important;
   font-style: unset !important; }
 
-.dnb-skeleton[data-skeleton-chars]::before, .dnb-skeleton[data-skeleton-chars]::after {
-  max-width: var(--skeleton-chars); }
-
-.dnb-skeleton--no-animation .dnb-skeleton,
-html[data-dnb-test] .dnb-skeleton,
-.dnb-skeleton--no-animation .dnb-skeleton::after,
-html[data-dnb-test] .dnb-skeleton::after {
-  animation: none !important; }
-
 .dnb-skeleton__figure {
   position: relative;
   border-radius: 0.25rem; }
@@ -343,6 +334,16 @@ html[data-dnb-test] .dnb-skeleton::after {
   .dnb-skeleton__figure--product .dnb-skeleton__figure--circle + div {
     width: 50%;
     margin-left: 1rem; }
+
+.dnb-skeleton--no-animation .dnb-skeleton,
+.dnb-skeleton--no-animation .dnb-skeleton::after {
+  animation: none !important; }
+
+html[data-dnb-test] .dnb-skeleton,
+html[data-dnb-test] .dnb-skeleton::after,
+html[data-dnb-test] .dnb-skeleton--shine .dnb-skeleton::after {
+  animation: none !important;
+  background-image: none !important; }
 
 @keyframes skeletonFontAnimation {
   0% {
