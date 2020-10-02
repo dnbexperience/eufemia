@@ -298,13 +298,12 @@ exports[`Skeleton scss have to match snapshot 1`] = `
   --font-family-demi: 'DNBSkeleton' !important;
   --font-family-default: 'DNBSkeleton' !important;
   font-family: var(--font-family-default) !important;
-  background-position-y: 50%;
-  background-repeat: no-repeat;
-  background-size: 30rem 100%;
-  -moz-text-fill-color: transparent;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  -webkit-background-clip: text;
+  background-position-y: 50% !important;
+  background-repeat: no-repeat !important;
+  background-size: 30rem 100% !important;
+  -webkit-text-fill-color: transparent !important;
+  background-clip: text !important;
+  -webkit-background-clip: text !important;
   animation: skeletonFontAnimation 2s linear infinite; }
   .dnb-skeleton--font,
   .dnb-skeleton--font * {
