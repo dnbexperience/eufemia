@@ -263,7 +263,7 @@ class LiveCode extends React.PureComponent {
                   data-dnb-test={dnbTest}
                   className="dnb-live-preview"
                 />
-                {caption && (
+                {!IS_TEST && caption && (
                   <ReactMarkdown
                     source={caption}
                     escapeHtml={false}
