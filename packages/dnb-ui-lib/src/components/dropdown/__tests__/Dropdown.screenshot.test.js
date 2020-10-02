@@ -124,17 +124,4 @@ describe('Dropdown screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
-  it('have to match the dropdown as small more_menu', async () => {
-    const screenshot = await testPageScreenshot({
-      style: {
-        width: '2rem',
-        height: '2rem'
-      },
-      selector: '[data-dnb-test="dropdown-more_menu"]',
-      simulateSelector:
-        '[data-dnb-test="dropdown-more_menu"] .dnb-dropdown:nth-of-type(1) .dnb-dropdown__trigger',
-      simulate: 'focusclick' // use focusclick because of the delayed positioning of the drawer
-    })
-    expect(screenshot).toMatchImageSnapshot()
-  })
 })

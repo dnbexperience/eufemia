@@ -88,13 +88,17 @@ export function setLang(locale) {
   }
 }
 
-export function getSkeletonEnabled(skeleton) {
+const isTest = () => typeof window !== 'undefined' && window.IS_TEST
+export function getSkeletonEnabled() {
+  if (isTest()) {
+    return false
+  }
   try {
     return isTrue(window.localStorage.getItem('skeleton-enabled'))
   } catch (e) {
     //
   }
-  return skeleton
+  return false
 }
 export function setSkeletonEnabled(skeleton) {
   try {
