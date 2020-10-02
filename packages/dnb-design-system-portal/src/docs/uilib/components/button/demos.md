@@ -194,7 +194,7 @@ Large Signal button with medium sized icon. To import custom icons, use: `import
   icon="calendar"
   disabled
 />
-<Button title="Button with Icon only" icon="calendar" />
+<Button title="Button with Icon only" icon="calendar" data-dnb-test="button-icon" />
 <Button
   title="Small sized button with default Icon"
   icon="add"
