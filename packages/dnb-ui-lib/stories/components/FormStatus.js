@@ -5,7 +5,7 @@
 
 import React /* , { useState, useEffect } */ from 'react'
 import { Wrapper, Box } from '../helpers'
-// import styled from '@emotion/styled'
+import styled from '@emotion/styled'
 
 import {
   FormStatus,
@@ -17,19 +17,50 @@ import {
   Switch,
   Button
 } from '../../src/components'
-import { H2, Link } from '../../src/elements'
+import { Link } from '../../src/elements'
 
 const CustomStatus = () => (
   <>
-    <H2>Custom Status</H2>
+    {/* <H2>Custom Status</H2> */}
     <Link href="/">Goto</Link> more text itae tortor metus nulla nunc
     habitasse
   </>
 )
+
+const SmallWidth = styled(Input)`
+  /* .dnb-form-status {
+      max-width: 16rem;
+    } */
+  .dnb-input__input {
+    width: 4rem;
+    text-align: center;
+  }
+`
+// const CustomStatus = () => (
+//   <>
+//     My info <Link href="/">with a link</Link> and more text
+//   </>
+// )
+
 export default [
   'FormStatus',
   () => (
     <Wrapper>
+      <Box>
+        <Input
+          label="Input with custom status:"
+          status={<CustomStatus />}
+          status_state="info"
+          value="Input value"
+        />
+      </Box>
+      <Box>
+        <SmallWidth
+          label="Small width input:"
+          value="4"
+          status="Adipiscing etiam laoreet et egestas dis massa quis dapibus nam diam est non curae ad hac dictumst"
+        />
+      </Box>
       <Box>
         <FormStatus>Status</FormStatus>
       </Box>
