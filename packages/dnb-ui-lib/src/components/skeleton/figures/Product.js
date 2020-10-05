@@ -76,7 +76,7 @@ export default class SkeletonProduct extends React.PureComponent {
 
         {this.rowsLength.map((p, i) => (
           <div
-            key={`figure-${i}`}
+            key={i}
             className={classnames(
               'dnb-p',
               'dnb-skeleton',

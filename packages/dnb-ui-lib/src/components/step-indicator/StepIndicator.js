@@ -237,7 +237,7 @@ export default class StepIndicator extends React.PureComponent {
               }
               return (
                 <StepItem
-                  key={`bc${i}`}
+                  key={i}
                   {...params}
                   setActimeItem={this.setActimeItem}
                   hasReached={this.state.hasReached}
