@@ -372,6 +372,7 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
   name={null}
   no_fieldset={null}
   on_change={null}
+  skeleton={null}
   status={null}
   status_animation={null}
   status_state="error"
@@ -1157,6 +1158,7 @@ legend.dnb-form-label {
     display: flex;
     justify-content: flex-start;
     align-items: flex-start;
+    min-width: inherit;
     border-radius: var(--input-border-radius); }
   .dnb-form-status--text {
     padding: calc(0.5rem / 2) 1rem;
