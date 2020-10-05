@@ -676,6 +676,7 @@ export default class Slider extends React.PureComponent {
               text={status}
               status={status_state}
               animation={status_animation}
+              skeleton={skeleton}
             />
           )}
 

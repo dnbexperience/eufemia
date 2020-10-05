@@ -482,6 +482,7 @@ export default class Input extends React.PureComponent {
               status={status_state}
               text_id={id + '-status'} // used for "aria-describedby"
               animation={status_animation}
+              skeleton={skeleton}
             />
           )}
 

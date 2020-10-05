@@ -1552,6 +1552,7 @@ class AutocompleteInstance extends React.PureComponent {
               text={status}
               status={status_state}
               animation={status_animation}
+              skeleton={skeleton}
             />
           )}
 

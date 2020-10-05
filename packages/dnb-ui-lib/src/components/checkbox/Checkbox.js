@@ -274,6 +274,7 @@ export default class Checkbox extends React.PureComponent {
         text={status}
         status={status_state}
         animation={status_animation}
+        skeleton={skeleton}
       />
     )
 

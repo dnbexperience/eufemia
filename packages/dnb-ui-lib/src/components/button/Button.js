@@ -336,6 +336,7 @@ export default class Button extends React.PureComponent {
             status={status_state}
             text_id={this._id + '-status'} // used for "aria-describedby"
             animation={status_animation}
+            skeleton={skeleton}
           />
         )}
 

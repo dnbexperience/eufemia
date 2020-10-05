@@ -390,6 +390,7 @@ export default class Radio extends React.PureComponent {
                       text={status}
                       status={status_state}
                       animation={status_animation}
+                      skeleton={skeleton}
                     />
                   )}
 

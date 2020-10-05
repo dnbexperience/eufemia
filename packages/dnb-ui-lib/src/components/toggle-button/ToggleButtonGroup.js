@@ -40,6 +40,7 @@ const propTypes = {
   left_component: PropTypes.node,
   no_fieldset: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   id: PropTypes.string,
   name: PropTypes.string,
   status: PropTypes.oneOfType([
@@ -91,6 +92,7 @@ const defaultProps = {
   left_component: null,
   no_fieldset: null,
   disabled: null,
+  skeleton: null,
   id: null,
   name: null,
   status: null,
@@ -217,6 +219,7 @@ export default class ToggleButtonGroup extends React.PureComponent {
       left_component,
       no_fieldset,
       disabled,
+      skeleton,
       className,
       class: _className,
 
@@ -277,9 +280,10 @@ export default class ToggleButtonGroup extends React.PureComponent {
       variant,
       left_component,
       disabled,
+      skeleton,
       setContext: (context) => {
         // also look for a fuctions, we we are able to fill old values
-        // this is ued in the "constructor" inside the ToggleButton.js component
+        // this is used in the "constructor" inside the ToggleButton.js component
         if (typeof context === 'function') {
           context = context(this._tmp)
         }
@@ -301,6 +305,7 @@ export default class ToggleButtonGroup extends React.PureComponent {
       direction: label_direction,
       vertical,
       disabled,
+      skeleton,
       no_fieldset,
       skipContentWrapperIfNested: true
       // status,
@@ -325,6 +330,7 @@ export default class ToggleButtonGroup extends React.PureComponent {
                   text={status}
                   status={status_state}
                   animation={status_animation}
+                  skeleton={skeleton}
                 />
               )}
 

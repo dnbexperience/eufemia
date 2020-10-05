@@ -833,6 +833,7 @@ export default class DatePicker extends React.PureComponent {
               text={status}
               status={status_state}
               animation={status_animation}
+              skeleton={skeleton}
             />
           )}
           <span className="dnb-date-picker__row">

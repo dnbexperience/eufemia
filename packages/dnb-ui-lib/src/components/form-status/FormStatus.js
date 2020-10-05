@@ -18,6 +18,10 @@ import {
 import { createSpacingClasses } from '../space/SpacingHelper'
 import Icon from '../icon/Icon'
 import GlobalStatusProvider from '../global-status/GlobalStatusProvider'
+import {
+  skeletonDOMAttributes,
+  createSkeletonClass
+} from '../skeleton/SkeletonHelper'
 
 const renderProps = {
   render_content: null
@@ -55,6 +59,7 @@ const propTypes = {
   width_selector: PropTypes.string,
   class: PropTypes.string,
   animation: PropTypes.string,
+  skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
 
   /** React props */
   className: PropTypes.string,
@@ -82,6 +87,7 @@ const defaultProps = {
   width_selector: null,
   class: null,
   animation: null, // could be 'fade-in'
+  skeleton: null,
 
   /** React props */
   className: null,
@@ -262,6 +268,7 @@ export default class FormStatus extends React.PureComponent {
     const props = extendPropsWithContext(
       this.props,
       defaultProps,
+      { skeleton: this.context && this.context.skeleton },
       this.context.formRow
     )
 
@@ -280,6 +287,7 @@ export default class FormStatus extends React.PureComponent {
       text, // eslint-disable-line
       icon, // eslint-disable-line
       icon_size, // eslint-disable-line
+      skeleton, // eslint-disable-line
       children, // eslint-disable-line
 
       ...attributes
@@ -309,6 +317,7 @@ export default class FormStatus extends React.PureComponent {
         `dnb-form-status--${state}`,
         animation ? `dnb-form-status--${animation}` : null,
         hasStringContent ? 'dnb-form-status--has-content' : null,
+        // createSkeletonClass(null, skeleton, this.context),
         createSpacingClasses(props),
         className,
         _className
@@ -318,7 +327,10 @@ export default class FormStatus extends React.PureComponent {
       ...attributes
     }
     const textParams = {
-      className: classnames('dnb-form-status--text'),
+      className: classnames(
+        'dnb-form-status--text',
+        createSkeletonClass('font', skeleton, this.context)
+      ),
       id: text_id
     }
 
@@ -329,6 +341,8 @@ export default class FormStatus extends React.PureComponent {
       //   // in case we send in a React component, whichs has its own state, then we dont want to have aria-live all the time active
       //   params['aria-live'] = 'assertive'
     }
+
+    skeletonDOMAttributes(params, skeleton, this.context)
 
     // also used for code markup simulation
     validateDOMAttributes(this.props, params)

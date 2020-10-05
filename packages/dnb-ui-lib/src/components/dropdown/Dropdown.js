@@ -407,6 +407,7 @@ class DropdownInstance extends React.PureComponent {
     const props = extendPropsWithContext(
       this.props,
       defaultProps,
+      { skeleton: this.context?.skeleton },
       this.context.formRow,
       this.context.translation.Dropdown
     )
@@ -568,6 +569,7 @@ class DropdownInstance extends React.PureComponent {
               text={status}
               status={status_state}
               animation={status_animation}
+              skeleton={skeleton}
             />
           )}
 
