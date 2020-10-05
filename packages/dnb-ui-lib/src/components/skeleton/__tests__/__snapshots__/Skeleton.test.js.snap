@@ -341,8 +341,7 @@ exports[`Skeleton scss have to match snapshot 1`] = `
 html[data-dnb-test] .dnb-skeleton,
 html[data-dnb-test] .dnb-skeleton::after,
 html[data-dnb-test] .dnb-skeleton--shine .dnb-skeleton::after {
-  animation: none !important;
-  background-image: none !important; }
+  animation: none !important; }
 
 @keyframes skeletonFontAnimation {
   0% {

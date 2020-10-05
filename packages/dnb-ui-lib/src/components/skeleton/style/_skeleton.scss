@@ -119,9 +119,6 @@
   html[data-dnb-test] &::after,
   html[data-dnb-test] &--shine &::after {
     animation: none !important;
-
-    // Looks like on CI (Linux) the lines do not work? Skip then for now
-    background-image: none !important;
   }
 
   // Not used right now!
