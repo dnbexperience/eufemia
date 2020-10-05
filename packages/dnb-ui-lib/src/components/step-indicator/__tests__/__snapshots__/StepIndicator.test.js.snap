@@ -22,6 +22,7 @@ exports[`StepIndicator component with buttons have to match snapshot 1`] = `
   hide_numbers={false}
   on_change={null}
   on_item_render={null}
+  skeleton={false}
   step_title="%step"
   use_navigation={true}
 >
@@ -213,6 +214,7 @@ exports[`StepIndicator component with urls have to match snapshot 1`] = `
   hide_numbers="hide_numbers"
   on_change={[Function]}
   on_item_render={null}
+  skeleton="skeleton"
   step_title="step_title"
   use_navigation="use_navigation"
 >

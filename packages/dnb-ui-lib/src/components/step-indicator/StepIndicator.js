@@ -15,6 +15,10 @@ import {
   extendPropsWithContext
 } from '../../shared/component-helper'
 import { createSpacingClasses } from '../space/SpacingHelper'
+import {
+  skeletonDOMAttributes,
+  createSkeletonClass
+} from '../skeleton/SkeletonHelper'
 
 import StepItem from './StepIndicatorItem'
 
@@ -48,6 +52,7 @@ const propTypes = {
   hide_numbers: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   use_navigation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   on_item_render: PropTypes.func,
+  skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   class: PropTypes.string,
 
   /** React props */
@@ -70,6 +75,7 @@ const defaultProps = {
   hide_numbers: false,
   use_navigation: false,
   on_item_render: null,
+  skeleton: false,
   class: null,
 
   /** React props */
@@ -164,6 +170,7 @@ export default class StepIndicator extends React.PureComponent {
     const props = extendPropsWithContext(
       this.props,
       defaultProps,
+      { skeleton: this.context?.skeleton },
       this.context.formRow,
       this.context.translation.StepIndicator
     )
@@ -176,6 +183,7 @@ export default class StepIndicator extends React.PureComponent {
       on_item_render,
       step_title,
       on_change,
+      skeleton,
       className,
       class: _className,
       data: _data, //eslint-disable-line
@@ -190,12 +198,15 @@ export default class StepIndicator extends React.PureComponent {
       'aria-label': 'progress',
       className: classnames(
         'dnb-step-indicator',
+        createSkeletonClass('font', skeleton, this.context),
         createSpacingClasses(props),
         className,
         _className
       ),
       ...attributes
     }
+
+    skeletonDOMAttributes(params, skeleton, this.context)
 
     // also used for code markup simulation
     validateDOMAttributes(this.props, params)
