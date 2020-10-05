@@ -1430,6 +1430,7 @@ exports[`DatePicker scss have to match snapshot 1`] = `
     display: flex;
     justify-content: flex-start;
     align-items: flex-start;
+    min-width: inherit;
     border-radius: var(--input-border-radius); }
   .dnb-form-status--text {
     padding: calc(0.5rem / 2) 1rem;
@@ -1858,7 +1859,8 @@ legend.dnb-form-label {
   display: inline-flex;
   align-items: center;
   font-size: var(--input-font-small);
-  line-height: var(--input-height); }
+  line-height: var(--input-height);
+  text-align: left; }
   .dnb-input__inner {
     display: inline-flex;
     flex-direction: column;
@@ -1888,7 +1890,7 @@ legend.dnb-form-label {
     width: 100%;
     padding-left: var(--input-padding);
     padding-right: var(--input-padding);
-    text-align: left;
+    text-align: inherit;
     color: inherit;
     background-color: transparent;
     font-size: var(--input-font-size); }
