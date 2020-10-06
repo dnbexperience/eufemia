@@ -108,7 +108,7 @@ render(<Component />)
 />
 	`}
 </ComponentBox>
-		
+
 ### Native Range Slider
 
 In order to get the styles, import also: `dnb-ui-lib/components/slider/style/dnb-range.min.css`
