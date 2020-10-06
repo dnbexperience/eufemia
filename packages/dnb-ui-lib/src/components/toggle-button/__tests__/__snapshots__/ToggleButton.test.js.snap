@@ -255,24 +255,26 @@ exports[`ToggleButton component have to match snapshot 1`] = `
                               className="dnb-checkbox__focus"
                             />
                           </span>
-                          <CheckSVG>
+                          <CheckIcon
+                            size={null}
+                          >
                             <svg
                               aria-hidden={true}
                               className="dnb-checkbox__gfx"
                               fill="none"
-                              height="24"
-                              viewBox="0 0 24 24"
-                              width="24"
+                              height={16}
+                              viewBox="0 0 16 16"
+                              width={16}
                             >
                               <path
-                                d="M1.5 15L7.5 21L22.5 3"
+                                d="M1 10L5 14L15 2"
                                 stroke="currentColor"
                                 strokeLinecap="round"
                                 strokeLinejoin="round"
-                                strokeWidth="2"
+                                strokeWidth="1.5"
                               />
                             </svg>
-                          </CheckSVG>
+                          </CheckIcon>
                         </span>
                       </span>
                     </span>
