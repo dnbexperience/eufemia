@@ -7,27 +7,37 @@ import React from 'react'
 import ComponentBox from 'Src/shared/tags/ComponentBox'
 import styled from '@emotion/styled'
 
-class Example extends React.PureComponent {
-  render() {
-    return (
-      <React.Fragment>
-        <ComponentBox title="Default autocomplete" scope={{ topMovies }}>
-          {
-            /* @jsx */ `
+const Wrapper = styled.div`
+  [data-dnb-test] {
+    > :not(.dnb-autocomplete--is-popup) .dnb-autocomplete__shell {
+      width: var(--autocomplete-width);
+    }
+  }
+`
+
+export const AutocompleteDefaultExample = () => (
+  <Wrapper>
+    <ComponentBox scope={{ topMovies }}>
+      {
+        /* @jsx */ `
 <Autocomplete
   data={topMovies}
   label="Label:"
 />
           `
-          }
-        </ComponentBox>
-        <ComponentBox
-          title="Autocomplete with a custom title"
-          data-dnb-test="autocomplete-closed"
-          scope={{ topMovies }}
-        >
-          {
-            /* @jsx */ `
+      }
+    </ComponentBox>
+  </Wrapper>
+)
+
+export const AutocompleteWithCustomTitle = () => (
+  <Wrapper>
+    <ComponentBox
+      data-dnb-test="autocomplete-closed"
+      scope={{ topMovies }}
+    >
+      {
+        /* @jsx */ `
 <Autocomplete
   data={topMovies}
   label="Label:"
@@ -37,16 +47,16 @@ class Example extends React.PureComponent {
   }}
 />
           `
-          }
-        </ComponentBox>
-        <ComponentBox
-          title="Async usage, dynamically update data during typing"
-          description="This example simulates server delay with a timeout and - if it gets debounced, we cancel the timeout.<br /><br />Also, you may consider of using `disable_filter` if you have a backend doing the search operation."
-          scope={{ topMovies }}
-          useRender
-        >
-          {
-            /* @jsx */ `
+      }
+    </ComponentBox>
+  </Wrapper>
+)
+
+export const AutocompleteDynamicallyUpdatedData = () => (
+  <Wrapper>
+    <ComponentBox scope={{ topMovies }} useRender>
+      {
+        /* @jsx */ `
 const onTypeHandler = ({
   value,
   showIndicator,
@@ -86,15 +96,16 @@ render(<Autocomplete
   placeholder="Search ..."
 />)
           `
-          }
-        </ComponentBox>
-        <ComponentBox
-          title="Update data dynamically on first focus"
-          scope={{ topMovies }}
-          useRender
-        >
-          {
-            /* @jsx */ `
+      }
+    </ComponentBox>
+  </Wrapper>
+)
+
+export const AutocompleteFirstFocusUpdate = () => (
+  <Wrapper>
+    <ComponentBox scope={{ topMovies }} useRender>
+      {
+        /* @jsx */ `
 const onFocusHandler = ({ updateData, dataList, showIndicatorItem }) => {
   if(!dataList.length){
     showIndicatorItem()
@@ -113,16 +124,19 @@ render(<Autocomplete
   on_focus={onFocusHandler}
 />)
           `
-          }
-        </ComponentBox>
-        <ComponentBox
-          title="With a Button to toggle the open / close state"
-          description="**NB:** The data is given as a function and as children."
-          data-dnb-test="autocomplete-drawer-button"
-          scope={{ topMovies }}
-        >
-          {
-            /* @jsx */ `
+      }
+    </ComponentBox>
+  </Wrapper>
+)
+
+export const AutocompleteToggleExample = () => (
+  <Wrapper>
+    <ComponentBox
+      data-dnb-test="autocomplete-drawer-button"
+      scope={{ topMovies }}
+    >
+      {
+        /* @jsx */ `
 <Autocomplete
   label="Label:"
   show_submit_button="true"
@@ -133,15 +147,19 @@ render(<Autocomplete
   {() => (topMovies)}
 </Autocomplete>
           `
-          }
-        </ComponentBox>
-        <ComponentBox
-          title="With a predefined input/search value"
-          data-dnb-test="autocomplete-drawer-search"
-          scope={{ topMovies }}
-        >
-          {
-            /* @jsx */ `
+      }
+    </ComponentBox>
+  </Wrapper>
+)
+
+export const AutocompletePredefinedInput = () => (
+  <Wrapper>
+    <ComponentBox
+      data-dnb-test="autocomplete-drawer-search"
+      scope={{ topMovies }}
+    >
+      {
+        /* @jsx */ `
 <Autocomplete
   label="Label:"
   input_value="the pa ther"
@@ -153,16 +171,16 @@ render(<Autocomplete
   {() => (topMovies)}
 </Autocomplete>
           `
-          }
-        </ComponentBox>
-        <ComponentBox
-          title="Different sizes"
-          description="Four sizes are available: `small`, `default`, `medium` and `large`"
-          data-dnb-test="autocomplete-sizes"
-          scope={{ topMovies }}
-        >
-          {
-            /* @jsx */ `
+      }
+    </ComponentBox>
+  </Wrapper>
+)
+
+export const AutocompleteDifferentSizes = () => (
+  <Wrapper>
+    <ComponentBox data-dnb-test="autocomplete-sizes" scope={{ topMovies }}>
+      {
+        /* @jsx */ `
 <FormRow direction="vertical">
   <Autocomplete
     label="Label:"
@@ -184,16 +202,20 @@ render(<Autocomplete
   />
 </FormRow>
           `
-          }
-        </ComponentBox>
-        <ComponentBox
-          title="Custom width"
-          // data-dnb-test="autocomplete-width"
-          scope={{ topMovies }}
-          useRender
-        >
-          {
-            /* @jsx */ `
+      }
+    </ComponentBox>
+  </Wrapper>
+)
+
+export const AutocompleteCustomWidth = () => (
+  <Wrapper>
+    <ComponentBox
+      // data-dnb-test="autocomplete-width"
+      scope={{ topMovies }}
+      useRender
+    >
+      {
+        /* @jsx */ `
 const CustomWidthOne = styled(Autocomplete)\`
   .dnb-autocomplete__shell {
     width: 10rem;
@@ -240,29 +262,10 @@ render(<FormRow direction="vertical">
   />
 </FormRow>)
           `
-          }
-        </ComponentBox>
-      </React.Fragment>
-    )
-  }
-}
-
-const Wrapper = styled.div`
-  [data-dnb-test] {
-    > :not(.dnb-autocomplete--is-popup) .dnb-autocomplete__shell {
-      width: var(--autocomplete-width);
-    }
-  }
-`
-
-export { Example }
-export default function StyledExample() {
-  return (
-    <Wrapper>
-      <Example />
-    </Wrapper>
-  )
-}
+      }
+    </ComponentBox>
+  </Wrapper>
+)
 
 const topMovies = [
   { content: 'The Shawshank Redemption', year: 1994 },

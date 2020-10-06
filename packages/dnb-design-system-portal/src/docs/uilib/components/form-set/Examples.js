@@ -40,7 +40,7 @@ class Example extends React.PureComponent {
           {
             /* @jsx */ `
 <FormSet direction="vertical">
-  <FormRow label={<span className="dnb-h--large">Custom Legend:</span>}>
+  <FormRow label={<Space element="span" className="dnb-h--large">Custom Legend:</Space>}>
     <Input label="Label:" bottom />
     <Input label="Label:" />
   </FormRow>

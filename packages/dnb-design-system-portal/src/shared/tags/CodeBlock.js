@@ -15,7 +15,9 @@ import Code from '../parts/uilib/Code'
 import { Button } from 'dnb-ui-lib/src/components'
 import { P } from 'dnb-ui-lib/src/elements'
 import { makeUniqueId } from 'dnb-ui-lib/src/shared/component-helper'
+import { Context } from 'dnb-ui-lib/src/shared'
 import AutoLinkHeader from './AutoLinkHeader'
+import { createSkeletonClass } from 'dnb-ui-lib/src/components/skeleton/SkeletonHelper'
 
 import {
   generateElement,
@@ -83,6 +85,8 @@ const CodeBlock = ({
 export default CodeBlock
 
 class LiveCode extends React.PureComponent {
+  static contextType = Context
+
   static propTypes = {
     code: PropTypes.string.isRequired,
     scope: PropTypes.object,
@@ -91,6 +95,7 @@ class LiveCode extends React.PureComponent {
     caption: PropTypes.string,
     useRender: PropTypes.bool,
     noFragments: PropTypes.bool,
+    addToSearchIndex: PropTypes.func,
     hideToolbar: PropTypes.bool,
     hideCode: PropTypes.bool,
     hidePreview: PropTypes.bool,
@@ -98,6 +103,7 @@ class LiveCode extends React.PureComponent {
     hideSyntaxButton: PropTypes.bool,
     language: PropTypes.string
   }
+
   static defaultProps = {
     scope: {},
     title: null,
@@ -105,6 +111,7 @@ class LiveCode extends React.PureComponent {
     caption: null,
     useRender: false,
     noFragments: true,
+    addToSearchIndex: null,
     hideToolbar: false,
     hideCode: false,
     hidePreview: false,
@@ -172,6 +179,7 @@ class LiveCode extends React.PureComponent {
       useRender,
       noFragments,
       language,
+      addToSearchIndex,
 
       code: _code, // eslint-disable-line
       hideToolbar: _hideToolbar, // eslint-disable-line
@@ -227,6 +235,8 @@ class LiveCode extends React.PureComponent {
                   level={3}
                   // is="h3"
                   useSlug={dnbTest}
+                  title={title}
+                  addToSearchIndex={addToSearchIndex}
                 >
                   <ReactMarkdown
                     source={title}
@@ -253,7 +263,7 @@ class LiveCode extends React.PureComponent {
                   data-dnb-test={dnbTest}
                   className="dnb-live-preview"
                 />
-                {caption && (
+                {!IS_TEST && caption && (
                   <ReactMarkdown
                     source={caption}
                     escapeHtml={false}
@@ -266,7 +276,11 @@ class LiveCode extends React.PureComponent {
           )}
           {!IS_TEST && !hideCode && (
             <div
-              className={classnames('dnb-pre', 'dnb-live-editor')}
+              className={classnames(
+                'dnb-pre',
+                'dnb-live-editor',
+                createSkeletonClass('code', this.context.skeleton)
+              )}
               ref={this._refEditor}
             >
               <label className="dnb-sr-only" htmlFor={id}>

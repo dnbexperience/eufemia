@@ -53,6 +53,7 @@ const propTypes = {
   left_component: PropTypes.node,
   allow_close_all: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   id: PropTypes.string,
   group: PropTypes.string,
   element: PropTypes.node,
@@ -98,6 +99,7 @@ const defaultProps = {
   left_component: null,
   allow_close_all: null,
   disabled: null,
+  skeleton: null,
   id: null,
   group: null,
   element: null,
@@ -355,6 +357,7 @@ export default class Accordion extends React.PureComponent {
                 defaultProps,
                 this.context, // group context
                 nestedContext, // internal context
+                { skeleton: globalContext?.skeleton },
                 globalContext.accordion, // global context
                 globalContext.translation.Accordion
               )
@@ -374,6 +377,7 @@ export default class Accordion extends React.PureComponent {
                 single_container,
                 remember_state,
                 disabled,
+                skeleton,
                 no_animation: _no_animation, // eslint-disable-line
                 expanded_ssr: _expanded_ssr, // eslint-disable-line
                 children,
@@ -436,6 +440,7 @@ export default class Accordion extends React.PureComponent {
                 single_container: isTrue(single_container),
                 remember_state: isTrue(remember_state),
                 disabled: isTrue(disabled),
+                skeleton: isTrue(skeleton),
                 callOnChange: (...params) => {
                   this.callOnChange(...params)
                   if (this.context?.onChange) {

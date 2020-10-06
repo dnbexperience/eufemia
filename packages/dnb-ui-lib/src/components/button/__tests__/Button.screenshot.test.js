@@ -76,6 +76,37 @@ describe('Button secondary screenshot', () => {
   })
 })
 
+describe('Button icon screenshot', () => {
+  setupPageScreenshot({ url: '/uilib/components/button/demos' })
+  it('have to match icon button', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-dnb-test="button-icon"]'
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+  it('have to match icon button with focus state', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-dnb-test="button-icon"]',
+      simulate: 'focus' // should be tested first
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+  it('have to match icon button with hover state', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-dnb-test="button-icon"]',
+      simulate: 'hover'
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+  it('have to match icon button with active state', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-dnb-test="button-icon"]',
+      simulate: 'active'
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+})
+
 describe('Button tertiary screenshot', () => {
   setupPageScreenshot({ url: '/uilib/components/button/demos' })
   it('have to match "dnb-button--tertiary" without icon', async () => {

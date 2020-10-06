@@ -10,11 +10,14 @@ import {
   isTrue,
   extendPropsWithContext,
   registerElement,
-  skeletonElement,
   validateDOMAttributes
 } from '../../shared/component-helper'
 import Context from '../../shared/Context'
 import { createSpacingClasses, isInline } from './SpacingHelper'
+import {
+  skeletonDOMAttributes,
+  createSkeletonClass
+} from '../skeleton/SkeletonHelper'
 
 const renderProps = {
   render_content: null
@@ -134,7 +137,7 @@ export default class Space extends React.PureComponent {
       className: classnames(
         'dnb-space',
         isTrue(inline) && 'dnb-space--inline',
-        isTrue(skeleton) && 'dnb-skeleton',
+        createSkeletonClass(null, skeleton), // do not send along this.context
         createSpacingClasses({ top, right, bottom, left }),
         className,
         _className
@@ -142,9 +145,7 @@ export default class Space extends React.PureComponent {
       ...attributes
     }
 
-    if (isTrue(skeleton)) {
-      skeletonElement(params)
-    }
+    skeletonDOMAttributes(params, skeleton) // do not send along this.context
 
     // also used for code markup simulation
     validateDOMAttributes(this.props, params)
@@ -158,21 +159,21 @@ export default class Space extends React.PureComponent {
 }
 
 const Element = ({ element: E, no_collapse, children, ...props }) => {
-  const doCollaps = isTrue(no_collapse)
+  if (isTrue(no_collapse)) {
+    const R = E === 'span' || isInline(Element) ? 'span' : 'div'
+    return (
+      <R
+        className={classnames(
+          'dnb-space--no-collapse',
+          isInline(Element) && 'dnb-space--inline'
+        )}
+      >
+        <E {...props}>{children}</E>
+      </R>
+    )
+  }
 
-  return doCollaps ? (
-    <E
-      element={isInline(Element) ? 'span' : 'div'}
-      className={classnames(
-        'dnb-space--no-collapse',
-        isInline(Element) && 'dnb-space--inline'
-      )}
-    >
-      <E {...props}>{children}</E>
-    </E>
-  ) : (
-    <E {...props}>{children}</E>
-  )
+  return <E {...props}>{children}</E>
 }
 Element.propTypes = {
   children: PropTypes.node,

@@ -37,6 +37,7 @@ const propTypes = {
   title: PropTypes.string,
   no_fieldset: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   id: PropTypes.string,
   name: PropTypes.string,
   size: PropTypes.oneOf(['default', 'medium', 'large']),
@@ -81,6 +82,7 @@ const defaultProps = {
   title: null,
   no_fieldset: null,
   disabled: null,
+  skeleton: null,
   id: null,
   name: null,
   size: null,
@@ -176,6 +178,7 @@ export default class RadioGroup extends React.PureComponent {
       no_fieldset,
       size,
       disabled,
+      skeleton,
       className,
       class: _className,
 
@@ -211,9 +214,13 @@ export default class RadioGroup extends React.PureComponent {
     }
 
     if (showStatus || suffix) {
-      params['aria-describedby'] = `${showStatus ? id + '-status' : ''} ${
-        suffix ? id + '-suffix' : ''
-      }`
+      params['aria-describedby'] = [
+        params['aria-describedby'],
+        showStatus ? id + '-status' : null,
+        suffix ? id + '-suffix' : null
+      ]
+        .filter(Boolean)
+        .join(' ')
     }
     if (label) {
       params['aria-labelledby'] = id + '-label'
@@ -240,6 +247,7 @@ export default class RadioGroup extends React.PureComponent {
       direction: label_direction,
       vertical,
       disabled,
+      skeleton,
       no_fieldset,
       skipContentWrapperIfNested: true
     }
@@ -274,6 +282,7 @@ export default class RadioGroup extends React.PureComponent {
                   text_id={id + '-status'} // used for "aria-describedby"
                   width_selector={id + ', ' + id + '-label'}
                   animation={status_animation}
+                  skeleton={skeleton}
                 />
               )}
             </span>

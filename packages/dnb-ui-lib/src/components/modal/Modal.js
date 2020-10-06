@@ -16,10 +16,12 @@ import {
   extendPropsWithContext,
   registerElement,
   processChildren,
-  dispatchCustomElementEvent
+  dispatchCustomElementEvent,
+  convertJsxToString
 } from '../../shared/component-helper'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import Button from '../button/Button'
+import HelpButton from '../help-button/HelpButton'
 import ModalContent, { CloseButton } from './ModalContent'
 
 const renderProps = {
@@ -414,13 +416,14 @@ export default class Modal extends React.PureComponent {
 
       clearTimeout(this._sideEffectsTimeout)
       this._sideEffectsTimeout = setTimeout(this.handleSideEffects, 1)
-      // delay the dispatch to make sure we are after the render cyclus
-      // this way have the content insted by the time we call this event
+      // delay the dispatch to make sure we are after the render cycles
+      // this way have the content instead by the time we call this event
     }
 
     return (
       <SuffixContext.Consumer>
         {(suffixProps) => {
+          const trigger_attributes = {}
           const additional = {}
 
           const icon =
@@ -429,27 +432,38 @@ export default class Modal extends React.PureComponent {
               : (!trigger_text || trigger_variant === 'tertiary') &&
                 trigger_icon
 
+          const useHelpButton =
+            (icon === 'question' || icon === 'information') &&
+            !isTrue(trigger_hidden)
+
           // in case the modal is used in suffix and no title is given
           // suffixProps.label is also available, so we could use that too
-          if (!rest.title && icon === 'question' && suffixProps) {
+          if (!rest.title && useHelpButton && suffixProps) {
             additional.title = this.context.translation.Modal.more_info
+          }
+
+          let ariaLabel = null
+          if (useHelpButton) {
+            ariaLabel =
+              props['aria-label'] ||
+              trigger_title ||
+              props.title ||
+              additional.title
+
+            if (React.isValidElement(ariaLabel)) {
+              ariaLabel = convertJsxToString(ariaLabel)
+            }
           }
 
           return (
             <div className="dnb-modal">
               {!isTrue(trigger_hidden) && (
-                <Button
+                <HelpButton
                   id={this._id}
-                  type="button"
                   variant={trigger_variant}
                   text={trigger_text}
-                  aria-label={
-                    props['aria-label'] ||
-                    trigger_title ||
-                    props.title ||
-                    additional.title
-                  }
-                  disabled={isTrue(disabled) || isTrue(trigger_disabled)}
+                  title={ariaLabel}
+                  disabled={disabled || trigger_disabled}
                   icon={icon}
                   size={trigger_size}
                   icon_position={trigger_icon_position}
@@ -460,6 +474,7 @@ export default class Modal extends React.PureComponent {
                     trigger_class
                   )}
                   innerRef={this._triggerRef}
+                  {...trigger_attributes}
                 />
               )}
               {modalActive && modal_content && (
@@ -480,6 +495,8 @@ export default class Modal extends React.PureComponent {
     )
   }
 }
+
+Modal.HelpButton = HelpButton
 
 class ModalRoot extends React.PureComponent {
   static propTypes = {

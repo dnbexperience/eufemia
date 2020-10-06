@@ -83,22 +83,14 @@ exports[`Checkbox component have to match snapshot 1`] = `
         title={null}
         vertical={null}
       >
-        <Element
+        <label
           className="dnb-form-label"
           disabled={false}
           htmlFor="checkbox"
           id="checkbox-label"
-          is="label"
         >
-          <label
-            className="dnb-form-label"
-            disabled={false}
-            htmlFor="checkbox"
-            id="checkbox-label"
-          >
-            checkbox
-          </label>
-        </Element>
+          checkbox
+        </label>
       </FormLabel>
       <span
         className="dnb-checkbox__inner"
@@ -259,8 +251,10 @@ exports[`Checkbox scss have to match default theme snapshot 1`] = `
     display: block;
     --border-color: var(--color-fire-red);
     box-shadow: 0 0 0 0.125rem var(--border-color);
-    /* IE11 fix */
     border-color: transparent; }
+    @media screen and (-ms-high-contrast: none) {
+      .dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):not(:focus):not(:active) ~ .dnb-checkbox__button .dnb-checkbox__focus {
+        box-shadow: 0 0 0 0.125rem var(--color-fire-red); } }
   .dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):not(:focus):hover ~ .dnb-checkbox__button {
     border-color: var(--color-fire-red);
     background-color: var(--color-fire-red-8); }
@@ -439,6 +433,7 @@ legend.dnb-form-label {
     display: flex;
     justify-content: flex-start;
     align-items: flex-start;
+    min-width: inherit;
     border-radius: var(--input-border-radius); }
   .dnb-form-status--text {
     padding: calc(0.5rem / 2) 1rem;
@@ -560,8 +555,10 @@ legend.dnb-form-label {
     html[data-whatinput='keyboard'] .dnb-checkbox__focus {
       --border-color: var(--color-emerald-green);
       box-shadow: 0 0 0 0.125rem var(--border-color);
-      /* IE11 fix */
       border-color: transparent; }
+      @media screen and (-ms-high-contrast: none) {
+        html[data-whatinput='keyboard'] .dnb-checkbox__focus {
+          box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
   .dnb-checkbox__focus, .dnb-checkbox__button {
     position: relative;
     z-index: 4;
@@ -629,6 +626,10 @@ legend.dnb-form-label {
     order: 3;
     vertical-align: top;
     margin-top: 0.5rem; }
+  .dnb-checkbox.dnb-skeleton .dnb-checkbox__input[disabled] ~ .dnb-checkbox__button {
+    border-color: var(--skeleton-color); }
+    .dnb-checkbox.dnb-skeleton .dnb-checkbox__input[disabled] ~ .dnb-checkbox__button::before {
+      border-radius: 0; }
   @media screen and (-ms-high-contrast: none) {
     .dnb-checkbox {
       vertical-align: text-bottom; }

@@ -20,6 +20,7 @@ exports[`Tabs component have to match snapshot 1`] = `
         "section_spacing": "section_spacing",
         "section_style": "section_style",
         "selected_key": "selected_key",
+        "skeleton": "skeleton",
         "use_hash": "use_hash",
       },
     }
@@ -85,6 +86,7 @@ exports[`Tabs component have to match snapshot 1`] = `
   section_spacing={null}
   section_style={null}
   selected_key="second"
+  skeleton={null}
   use_hash={false}
 >
   <TabsWrapper>
@@ -369,8 +371,10 @@ exports[`Tabs scss have to match snapshot 1`] = `
       html[data-whatinput='keyboard'] .dnb-tabs__tabs__tablist:focus {
         --border-color: var(--color-emerald-green);
         box-shadow: 0 0 0 0.125rem var(--border-color);
-        /* IE11 fix */
         border-color: transparent; }
+        @media screen and (-ms-high-contrast: none) {
+          html[data-whatinput='keyboard'] .dnb-tabs__tabs__tablist:focus {
+            box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
   .dnb-tabs__tabs--left .dnb-tabs__tabs__tablist {
     justify-content: flex-start; }
   .dnb-tabs__tabs--right .dnb-tabs__tabs__tablist {

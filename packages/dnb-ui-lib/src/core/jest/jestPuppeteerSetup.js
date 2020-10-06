@@ -17,6 +17,7 @@ const packpath = require('packpath')
 const {
   DIR,
   headless,
+  defaultViewport,
   testScreenshotOnHost,
   testScreenshotOnPort
 } = require('./jestSetupScreenshots').config
@@ -54,6 +55,7 @@ module.exports = async function () {
   await startStaticServer()
 
   const browser = await puppeteer.launch({
+    defaultViewport,
     headless,
     devtools: !headless,
     // to get rid of the "libX11-xcb.so" missing problem, we set these flags

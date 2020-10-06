@@ -96,7 +96,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
     lang="nb"
   >
     <span
-      aria-describedby="date-picker-id-status "
+      aria-describedby="date-picker-id-status"
       className="dnb-date-picker__inner"
     >
       <AlignmentHelper
@@ -117,6 +117,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
         icon_size="large"
         id="date-picker-id-form-status"
         render_content={null}
+        skeleton={null}
         state="error"
         status="error"
         text="status"
@@ -146,10 +147,12 @@ exports[`DatePicker component have to match snapshot 1`] = `
               }
               modifier={null}
               size="large"
+              skeleton={null}
               title={null}
               width={null}
             >
               <span
+                aria-hidden={true}
                 className="dnb-icon dnb-icon--large"
                 role="presentation"
               >
@@ -226,6 +229,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
             selectedDateTitle="Valgt dato: fra Tuesday, January 1st, 2019 - til Friday, February 15th, 2019"
             separatorRexExp={/\\[-/ \\]/g}
             showInput={true}
+            skeleton={false}
             startDate={2019-01-01T00:00:00.000Z}
             status="error"
             status_state="error"
@@ -246,6 +250,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                       ‌
                     </span>
                     <span
+                      aria-hidden="true"
                       aria-label="calendar icon"
                       class="dnb-icon dnb-icon--default dnb-button__icon"
                       role="presentation"
@@ -303,7 +308,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
               readOnly={false}
               selectall={null}
               size={null}
-              skeleton={null}
+              skeleton={false}
               status="error"
               status_animation={null}
               status_state="error"
@@ -322,6 +327,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                   id="date-picker-id"
                   onKeyUp={[Function]}
                   on_submit={[Function]}
+                  skeleton={false}
                   title={null}
                   type="button"
                   variant="secondary"
@@ -905,6 +911,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                         id="date-picker-id"
                         onKeyUp={[Function]}
                         on_submit={[Function]}
+                        skeleton={false}
                         title={null}
                         type="button"
                         variant="secondary"
@@ -932,6 +939,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                   ‌
                                 </span>
                                 <span
+                                  aria-hidden="true"
                                   aria-label="calendar icon"
                                   class="dnb-icon dnb-icon--default dnb-button__icon"
                                   role="presentation"
@@ -997,6 +1005,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                       ‌
                                     </span>
                                     <span
+                                      aria-hidden="true"
                                       aria-label="calendar icon"
                                       class="dnb-icon dnb-icon--default dnb-button__icon"
                                       role="presentation"
@@ -1078,6 +1087,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                           ‌
                                         </span>
                                         <span
+                                          aria-hidden="true"
                                           aria-label="calendar icon"
                                           class="dnb-icon dnb-icon--default dnb-button__icon"
                                           role="presentation"
@@ -1135,10 +1145,12 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                     key="button-icon"
                                     modifier={null}
                                     size={null}
+                                    skeleton={null}
                                     title={null}
                                     width={null}
                                   >
                                     <span
+                                      aria-hidden={true}
                                       aria-label="calendar icon"
                                       className="dnb-icon dnb-icon--default dnb-button__icon"
                                       role="presentation"
@@ -1369,6 +1381,10 @@ exports[`DatePicker scss have to match snapshot 1`] = `
   h5 .dnb-icon,
   h6 .dnb-icon {
     vertical-align: middle; }
+  .dnb-icon.dnb-skeleton {
+    color: var(--skeleton-color) !important; }
+    .dnb-icon.dnb-skeleton::before, .dnb-icon.dnb-skeleton::after {
+      content: none !important; }
   @media screen and (-ms-high-contrast: none) {
     .dnb-icon {
       flex: none; } }
@@ -1430,6 +1446,7 @@ exports[`DatePicker scss have to match snapshot 1`] = `
     display: flex;
     justify-content: flex-start;
     align-items: flex-start;
+    min-width: inherit;
     border-radius: var(--input-border-radius); }
   .dnb-form-status--text {
     padding: calc(0.5rem / 2) 1rem;
@@ -1671,8 +1688,10 @@ exports[`DatePicker scss have to match snapshot 1`] = `
       html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):focus, html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):active {
         --border-color: var(--color-emerald-green);
         box-shadow: 0 0 0 0.125rem var(--border-color);
-        /* IE11 fix */
         border-color: transparent; }
+        @media screen and (-ms-high-contrast: none) {
+          html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):focus, html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):active {
+            box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
     html[data-whatinput='mouse'] .dnb-button--reset:not([disabled]):focus,
     html[data-whatinput='mouse'] .dnb-button--reset:not([disabled]):active {
       box-shadow: none;
@@ -1690,6 +1709,8 @@ exports[`DatePicker scss have to match snapshot 1`] = `
     white-space: nowrap; }
   .dnb-button + .dnb-form-status {
     margin-top: 0.5rem; }
+  .dnb-button.dnb-skeleton .dnb-icon {
+    visibility: hidden; }
   @media screen and (-ms-high-contrast: none) {
     .dnb-button {
       flex: none; }
@@ -1856,7 +1877,8 @@ legend.dnb-form-label {
   display: inline-flex;
   align-items: center;
   font-size: var(--input-font-small);
-  line-height: var(--input-height); }
+  line-height: var(--input-height);
+  text-align: left; }
   .dnb-input__inner {
     display: inline-flex;
     flex-direction: column;
@@ -1886,7 +1908,7 @@ legend.dnb-form-label {
     width: 100%;
     padding-left: var(--input-padding);
     padding-right: var(--input-padding);
-    text-align: left;
+    text-align: inherit;
     color: inherit;
     background-color: transparent;
     font-size: var(--input-font-size); }
@@ -2162,8 +2184,10 @@ legend.dnb-form-label {
     html[data-whatinput='keyboard'] .dnb-checkbox__focus {
       --border-color: var(--color-emerald-green);
       box-shadow: 0 0 0 0.125rem var(--border-color);
-      /* IE11 fix */
       border-color: transparent; }
+      @media screen and (-ms-high-contrast: none) {
+        html[data-whatinput='keyboard'] .dnb-checkbox__focus {
+          box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
   .dnb-checkbox__focus, .dnb-checkbox__button {
     position: relative;
     z-index: 4;
@@ -2231,6 +2255,10 @@ legend.dnb-form-label {
     order: 3;
     vertical-align: top;
     margin-top: 0.5rem; }
+  .dnb-checkbox.dnb-skeleton .dnb-checkbox__input[disabled] ~ .dnb-checkbox__button {
+    border-color: var(--skeleton-color); }
+    .dnb-checkbox.dnb-skeleton .dnb-checkbox__input[disabled] ~ .dnb-checkbox__button::before {
+      border-radius: 0; }
   @media screen and (-ms-high-contrast: none) {
     .dnb-checkbox {
       vertical-align: text-bottom; }
@@ -2334,8 +2362,10 @@ legend.dnb-form-label {
     html[data-whatinput='keyboard'] .dnb-radio__focus {
       --border-color: var(--color-emerald-green);
       box-shadow: 0 0 0 0.125rem var(--border-color);
-      /* IE11 fix */
       border-color: transparent; }
+      @media screen and (-ms-high-contrast: none) {
+        html[data-whatinput='keyboard'] .dnb-radio__focus {
+          box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
   .dnb-radio__focus, .dnb-radio__button {
     width: calc(var(--radio-width--medium) - 0.25rem);
     height: calc(var(--radio-height--medium) - 0.25rem);
@@ -2439,6 +2469,8 @@ legend.dnb-form-label {
       margin-bottom: calc(1px - 1px - var(--radio-margin-bottom)); }
       .dnb-radio-group .dnb-form-row::before {
         font-size: var(--font-size-basis); }
+  .dnb-skeleton .dnb-radio__input[disabled] ~ .dnb-radio__button {
+    border-color: var(--skeleton-color); }
   @media screen and (-ms-high-contrast: none) {
     .dnb-radio {
       vertical-align: text-bottom; }
@@ -2747,11 +2779,12 @@ legend.dnb-form-label {
       .dnb-date-picker .dnb-input__input.dnb-date-picker__input,
       .dnb-core-style .dnb-date-picker__input {
         margin: 0 -5px; } }
-    @media not all and (min-resolution: 0.001dpcm) {
+    @supports (-webkit-touch-callout: none) {
       .dnb-date-picker__input:not(*:root),
       .dnb-date-picker .dnb-input__input.dnb-date-picker__input:not(*:root),
       .dnb-core-style .dnb-date-picker__input:not(*:root) {
-        margin: 0; }
+        margin: 0; } }
+    @media not all and (min-resolution: 0.001dpcm) {
       @supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-overflow-scrolling: touch)) {
         .dnb-date-picker__input:not(*:root),
         .dnb-date-picker .dnb-input__input.dnb-date-picker__input:not(*:root),
@@ -2843,8 +2876,10 @@ legend.dnb-form-label {
       html[data-whatinput='keyboard'] .dnb-date-picker table.dnb-no-focus:focus {
         --border-color: var(--color-emerald-green);
         box-shadow: 0 0 0 0.125rem var(--border-color);
-        /* IE11 fix */
         border-color: transparent; }
+        @media screen and (-ms-high-contrast: none) {
+          html[data-whatinput='keyboard'] .dnb-date-picker table.dnb-no-focus:focus {
+            box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
   .dnb-date-picker__day, .dnb-date-picker__labels__day {
     display: flex;
     flex-basis: 14.28571%;
@@ -2945,6 +2980,8 @@ legend.dnb-form-label {
         margin-bottom: 0.5rem; }
       .dnb-responsive-component .dnb-date-picker__helper {
         display: none; } }
+  .dnb-date-picker .dnb-input__submit-button .dnb-button.dnb-skeleton {
+    visibility: hidden; }
   @media screen and (-ms-high-contrast: none) {
     .dnb-date-picker {
       flex: none; }

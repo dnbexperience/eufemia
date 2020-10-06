@@ -84,15 +84,25 @@ describe('Dropdown screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+  it('have to match different item direactions', async () => {
+    const screenshot = await testPageScreenshot({
+      style: {
+        height: '16rem'
+      },
+      selector:
+        '[data-dnb-test="dropdown-item-directions"] .dnb-dropdown__inner',
+      simulateSelector:
+        '[data-dnb-test="dropdown-item-directions"] .dnb-dropdown__trigger',
+      simulate: 'click'
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
   it('have to match the dropdown with click', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-dnb-test="dropdown-closed"] .dnb-dropdown__inner',
       simulateSelector:
         '[data-dnb-test="dropdown-closed"] .dnb-dropdown__trigger',
-      simulate: 'click'
-      // waitAfterSimulateSelector:
-      //   '[data-dnb-test="dropdown-closed"] .dnb-drawer-list__options',
-      // waitAfterSimulate: 100 // to make sure we make the screenshot afte the animation is show
+      simulate: 'focusclick' // use focusclick because of the delayed positioning of the drawer
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -101,7 +111,7 @@ describe('Dropdown screenshot', () => {
       selector: '[data-dnb-test="dropdown-more_menu"]',
       simulateSelector:
         '[data-dnb-test="dropdown-more_menu"] .dnb-dropdown:nth-of-type(1) .dnb-dropdown__trigger',
-      simulate: 'click'
+      simulate: 'focusclick' // use focusclick because of the delayed positioning of the drawer
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -110,23 +120,7 @@ describe('Dropdown screenshot', () => {
       selector: '[data-dnb-test="dropdown-more_menu"]',
       simulateSelector:
         '[data-dnb-test="dropdown-more_menu"] .dnb-dropdown:nth-of-type(2) .dnb-dropdown__trigger',
-      simulate: 'click'
-    })
-    expect(screenshot).toMatchImageSnapshot()
-  })
-  it('have to match the dropdown as small more_menu', async () => {
-    const screenshot = await testPageScreenshot({
-      style: {
-        width: '2rem',
-        height: '2rem'
-      },
-      selector: '[data-dnb-test="dropdown-more_menu"]',
-      simulateSelector:
-        '[data-dnb-test="dropdown-more_menu"] .dnb-dropdown:nth-of-type(1) .dnb-dropdown__trigger',
-      simulate: 'click'
-      // waitAfterSimulateSelector:
-      //   '[data-dnb-test="dropdown-more_menu"] .dnb-dropdown:nth-of-type(1) .dnb-drawer-list__options',
-      // waitAfterSimulate: 100 // to make sure we make the screenshot afte the animation is show
+      simulate: 'focusclick' // use focusclick because of the delayed positioning of the drawer
     })
     expect(screenshot).toMatchImageSnapshot()
   })

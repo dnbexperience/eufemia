@@ -23,6 +23,7 @@ exports[`FormRow component have to match snapshot 1`] = `
   responsive="responsive"
   section_spacing="section_spacing"
   section_style="section_style"
+  skeleton="skeleton"
   skipContentWrapperIfNested={true}
   vertical="vertical"
   wrap="wrap"
@@ -49,32 +50,26 @@ exports[`FormRow component have to match snapshot 1`] = `
           class={null}
           className="dnb-form-row__label label_class"
           direction={null}
-          disabled={false}
+          disabled="disabled"
           element="legend"
           for_id={null}
           id="label_id"
           label_direction="horizontal"
           render_content={null}
-          skeleton={null}
+          skeleton="skeleton"
           sr_only="label_sr_only"
           text="label"
           title={null}
           vertical={null}
         >
-          <Element
+          <legend
+            aria-disabled={true}
             className="dnb-form-label dnb-form-row__label label_class"
-            disabled={false}
+            disabled={true}
             id="label_id"
-            is="legend"
           >
-            <legend
-              className="dnb-form-label dnb-form-row__label label_class"
-              disabled={false}
-              id="label_id"
-            >
-              label
-            </legend>
-          </Element>
+            label
+          </legend>
         </FormLabel>
         <div
           className="dnb-form-row__content dnb-form-row__content--indent_offset dnb-responsive-component"

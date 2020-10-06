@@ -15,11 +15,14 @@ import {
   validateDOMAttributes,
   processChildren,
   pickRenderProps,
-  skeletonElement,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
 import { createSpacingClasses } from '../space/SpacingHelper'
+import {
+  skeletonDOMAttributes,
+  createSkeletonClass
+} from '../skeleton/SkeletonHelper'
 import Button from '../button/Button'
 import FormLabel from '../form-label/FormLabel'
 import FormStatus from '../form-status/FormStatus'
@@ -339,7 +342,7 @@ export default class Input extends React.PureComponent {
 
     let { value, focusState, inputState } = this.state
 
-    if (isTrue(disabled)) {
+    if (isTrue(disabled) || isTrue(skeleton)) {
       inputState = 'disabled'
     }
     const sizeIsNumber = parseFloat(size) > 0
@@ -399,7 +402,7 @@ export default class Input extends React.PureComponent {
       value: hasValue ? value : '',
       type,
       id,
-      disabled: isTrue(disabled) || isTrue(skeleton),
+      disabled: isTrue(disabled),
       name: id,
       'aria-placeholder': placeholder, // NVDA just reads out the placeholder twice
       ...attributes,
@@ -416,9 +419,13 @@ export default class Input extends React.PureComponent {
 
     // we may consider using: aria-details
     if (showStatus || suffix) {
-      inputParams['aria-describedby'] = `${
-        showStatus ? id + '-status' : ''
-      } ${suffix ? id + '-suffix' : ''}`
+      inputParams['aria-describedby'] = [
+        inputParams['aria-describedby'],
+        showStatus ? id + '-status' : null,
+        suffix ? id + '-suffix' : null
+      ]
+        .filter(Boolean)
+        .join(' ')
     }
     if (readOnly) {
       inputParams['aria-readonly'] = inputParams.readOnly = true
@@ -430,15 +437,13 @@ export default class Input extends React.PureComponent {
     const shellParams = {
       className: classnames(
         'dnb-input__shell',
-        isTrue(skeleton) && 'dnb-skeleton'
+        createSkeletonClass('shape', skeleton, this.context)
       ),
       'data-input-state': inputState,
       'data-has-content': hasValue ? 'true' : 'false'
     }
 
-    if (isTrue(skeleton)) {
-      skeletonElement(inputParams)
-    }
+    skeletonDOMAttributes(inputParams, skeleton, this.context)
 
     // also used for code markup simulation
     validateDOMAttributes(this.props, inputParams)
@@ -460,6 +465,7 @@ export default class Input extends React.PureComponent {
             label_direction={label_direction}
             sr_only={label_sr_only}
             disabled={disabled}
+            skeleton={skeleton}
           />
         )}
 
@@ -473,6 +479,7 @@ export default class Input extends React.PureComponent {
               status={status_state}
               text_id={id + '-status'} // used for "aria-describedby"
               animation={status_animation}
+              skeleton={skeleton}
             />
           )}
 
@@ -624,9 +631,7 @@ class InputSubmitButton extends React.PureComponent {
       ...rest
     }
 
-    if (isTrue(skeleton)) {
-      skeletonElement(params)
-    }
+    skeletonDOMAttributes(params, skeleton, this.context)
 
     // also used for code markup simulation
     validateDOMAttributes(this.props, params)

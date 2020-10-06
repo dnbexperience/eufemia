@@ -85,8 +85,15 @@
     vertical-align: middle;
   }
 
-  // IE fix
-  @media screen and (-ms-high-contrast: none) {
+  &.dnb-skeleton {
+    &::before,
+    &::after {
+      content: none !important;
+    }
+    color: var(--skeleton-color) !important;
+  }
+
+  @include IS_IE {
     flex: none;
   }
 }

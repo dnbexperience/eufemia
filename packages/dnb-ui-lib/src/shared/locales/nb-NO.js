@@ -57,7 +57,11 @@ export default {
     },
     Modal: {
       close_title: 'Lukk',
-      more_info: 'Mer informasjon'
+      more_info: 'Hjelpetekst'
+    },
+    HelpButton: {
+      title: 'Hjelpetekst',
+      aria_role: 'Hjelp-knapp'
     },
     Input: {
       submit_button_title: 'Send knapp'
@@ -70,8 +74,16 @@ export default {
       is_loading_text: 'Laster nytt innhold',
       load_button_text: 'Vis mer innhold'
     },
+    Skeleton: {
+      aria_bussy: 'Behandler data ...',
+      aria_ready: 'Klar til å samhandle'
+    },
     StepIndicator: {
       step_title: 'Steg %step av %count'
+    },
+    Slider: {
+      add_title: 'Øk glider verdi %s%',
+      subtract_title: 'Reduser glider verdi %s%'
     },
     Logo: {
       alt: 'DNB Logo'

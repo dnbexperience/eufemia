@@ -16,6 +16,7 @@ exports[`FormStatus component have to match snapshot 1`] = `
         "icon_size": "icon_size",
         "id": "id",
         "render_content": [Function],
+        "skeleton": "skeleton",
         "state": true,
         "status": true,
         "text": "text",
@@ -50,6 +51,7 @@ exports[`FormStatus component have to match snapshot 1`] = `
   icon_size="large"
   id="form-status"
   render_content={null}
+  skeleton={null}
   state="error"
   status={null}
   text="text"
@@ -79,10 +81,12 @@ exports[`FormStatus component have to match snapshot 1`] = `
         }
         modifier={null}
         size="large"
+        skeleton={null}
         title={null}
         width={null}
       >
         <span
+          aria-hidden={true}
           className="dnb-icon dnb-icon--large"
           role="presentation"
         >
@@ -251,6 +255,7 @@ exports[`FormStatus scss have to match snapshot 1`] = `
     display: flex;
     justify-content: flex-start;
     align-items: flex-start;
+    min-width: inherit;
     border-radius: var(--input-border-radius); }
   .dnb-form-status--text {
     padding: calc(0.5rem / 2) 1rem;

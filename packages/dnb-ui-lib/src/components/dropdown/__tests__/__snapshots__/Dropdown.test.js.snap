@@ -85,6 +85,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
   prevent_selection={null}
   scrollable="scrollable"
   size={null}
+  skeleton="skeleton"
   skip_portal={true}
   status="status"
   status_animation="status_animation"
@@ -187,6 +188,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
     prevent_selection={false}
     scrollable="scrollable"
     size={null}
+    skeleton="skeleton"
     skip_keysearch={false}
     skip_portal={true}
     status="status"
@@ -285,6 +287,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
       prevent_selection={null}
       scrollable="scrollable"
       size={null}
+      skeleton="skeleton"
       skip_portal={true}
       status="status"
       status_animation="status_animation"
@@ -309,32 +312,22 @@ exports[`Dropdown markup have to match snapshot 1`] = `
           label_direction="horizontal"
           onMouseDown={[Function]}
           render_content={null}
-          skeleton={null}
+          skeleton="skeleton"
           sr_only="label_sr_only"
           text="label"
           title={null}
           vertical={null}
         >
-          <Element
+          <label
             aria-disabled={true}
             className="dnb-form-label"
             disabled={true}
             htmlFor="dropdown-id"
             id="dropdown-id-label"
-            is="label"
             onMouseDown={[Function]}
           >
-            <label
-              aria-disabled={true}
-              className="dnb-form-label"
-              disabled={true}
-              htmlFor="dropdown-id"
-              id="dropdown-id-label"
-              onMouseDown={[Function]}
-            >
-              label
-            </label>
-          </Element>
+            label
+          </label>
         </FormLabel>
         <span
           className="dnb-dropdown__inner"
@@ -357,6 +350,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
             icon_size="large"
             id="dropdown-id-form-status"
             render_content={null}
+            skeleton="skeleton"
             state="error"
             status="error"
             text="status"
@@ -386,10 +380,12 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                   }
                   modifier={null}
                   size="large"
+                  skeleton={null}
                   title={null}
                   width={null}
                 >
                   <span
+                    aria-hidden={true}
                     className="dnb-icon dnb-icon--large"
                     role="presentation"
                   >
@@ -534,6 +530,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                             icon="icon"
                             modifier={null}
                             size="icon_size"
+                            skeleton={null}
                             title={null}
                             width={null}
                           />
@@ -592,6 +589,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                         icon="icon"
                         modifier={null}
                         size="icon_size"
+                        skeleton={null}
                         title={null}
                         width={null}
                       />
@@ -1148,6 +1146,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                 prevent_selection={null}
                 scrollable="scrollable"
                 size={null}
+                skeleton="skeleton"
                 skip_portal={true}
                 status="status"
                 status_animation="status_animation"
@@ -1196,21 +1195,19 @@ exports[`Dropdown scss have to match default theme snapshot 1`] = `
   .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger {
     --border-color: var(--color-fire-red);
     box-shadow: 0 0 0 0.125rem var(--border-color) !important;
-    /* IE11 fix */
     border-color: transparent; }
     @media screen and (-ms-high-contrast: none) {
       .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger {
-        box-shadow: 0 0 0 1px var(--border-color) !important; } }
+        box-shadow: 0 0 0 1px var(--color-fire-red) !important; } }
     html:not([data-whatintent='touch']) .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger:hover[disabled] {
       cursor: not-allowed; }
     html:not([data-whatintent='touch']) .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger:hover:not([disabled]) {
       --border-color: var(--color-fire-red);
       box-shadow: 0 0 0 0.125rem var(--border-color) !important;
-      /* IE11 fix */
       border-color: transparent; }
       @media screen and (-ms-high-contrast: none) {
         html:not([data-whatintent='touch']) .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger:hover:not([disabled]) {
-          box-shadow: 0 0 0 1px var(--border-color) !important; } }
+          box-shadow: 0 0 0 1px var(--color-fire-red) !important; } }
       html:not([data-whatintent='touch']) .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger:hover:not([disabled]) .dnb-dropdown__icon .dnb-icon {
         color: var(--color-fire-red); }
   .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger,
@@ -1301,6 +1298,10 @@ exports[`Dropdown scss have to match snapshot 1`] = `
   h5 .dnb-icon,
   h6 .dnb-icon {
     vertical-align: middle; }
+  .dnb-icon.dnb-skeleton {
+    color: var(--skeleton-color) !important; }
+    .dnb-icon.dnb-skeleton::before, .dnb-icon.dnb-skeleton::after {
+      content: none !important; }
   @media screen and (-ms-high-contrast: none) {
     .dnb-icon {
       flex: none; } }
@@ -1366,6 +1367,7 @@ exports[`Dropdown scss have to match snapshot 1`] = `
     display: flex;
     justify-content: flex-start;
     align-items: flex-start;
+    min-width: inherit;
     border-radius: var(--input-border-radius); }
   .dnb-form-status--text {
     padding: calc(0.5rem / 2) 1rem;
@@ -1607,8 +1609,10 @@ exports[`Dropdown scss have to match snapshot 1`] = `
       html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):focus, html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):active {
         --border-color: var(--color-emerald-green);
         box-shadow: 0 0 0 0.125rem var(--border-color);
-        /* IE11 fix */
         border-color: transparent; }
+        @media screen and (-ms-high-contrast: none) {
+          html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):focus, html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):active {
+            box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
     html[data-whatinput='mouse'] .dnb-button--reset:not([disabled]):focus,
     html[data-whatinput='mouse'] .dnb-button--reset:not([disabled]):active {
       box-shadow: none;
@@ -1626,6 +1630,8 @@ exports[`Dropdown scss have to match snapshot 1`] = `
     white-space: nowrap; }
   .dnb-button + .dnb-form-status {
     margin-top: 0.5rem; }
+  .dnb-button.dnb-skeleton .dnb-icon {
+    visibility: hidden; }
   @media screen and (-ms-high-contrast: none) {
     .dnb-button {
       flex: none; }

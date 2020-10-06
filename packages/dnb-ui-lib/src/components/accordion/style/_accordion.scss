@@ -4,10 +4,6 @@
 */
 
 :root {
-  // Temp
-  --color-outline-grey: #ebebeb;
-  --color-dark-grey: #757575;
-
   // Props
   --accordion-border-width: 0.0625rem;
   --accordion-border-radius: 0.25rem;
@@ -71,7 +67,9 @@
       margin: 1.5rem 1rem;
 
       font-size: var(--font-size-small);
-      line-height: var(--line-height-basis);
+      line-height: var(
+        --line-height-small
+      ); // to ensure correct icon height
       transition: transform 400ms var(--accordion-easing);
     }
     &__icon--right {

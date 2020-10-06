@@ -8,7 +8,10 @@ const path = require('path')
 const isCI = require('is-ci')
 const os = require('os')
 const { setupJestScreenshot } = require('jest-screenshot')
-const { warn, makeUniqueId } = require('../../shared/component-helper')
+const { makeUniqueId } = require('../../shared/component-helper')
+const ora = require('ora')
+
+const log = ora()
 
 const config = {
   DIR: path.join(os.tmpdir(), 'jest_puppeteer_global_setup'),
@@ -21,7 +24,19 @@ const config = {
   blockFontRequest: false,
   allowedFonts: [], // e.g. 'LiberationMono'
   pixelGrid: 8,
-  pageSettings: {
+  defaultViewport: {
+    /**
+     * For some reason, puppeteer.launch({ defaultViewport, ... does not take the config in account
+     * so we use pageViewport instead
+     */
+    // width: 1280,
+    // height: 1024,
+    // isMobile: false,
+    // hasTouch: false,
+    // isLandscape: false,
+    // deviceScaleFactor: 1
+  },
+  pageViewport: {
     width: 1280,
     height: 1024,
     isMobile: false,
@@ -44,6 +59,7 @@ module.exports.testPageScreenshot = async ({
   simulate = null,
   waitBeforeFinish = null,
   waitAfterSimulate = null,
+  waitBeforeSimulate = null,
   waitAfterSimulateSelector = null,
   secreenshotSelector = null,
   styleSelector = null,
@@ -62,6 +78,10 @@ module.exports.testPageScreenshot = async ({
 
     if (url) {
       await page.goto(createUrl(url, fullscreen))
+
+      // await page.waitForNavigation({
+      //   waitUntil: 'domcontentloaded'
+      // })
     }
 
     await page.waitForSelector(selector)
@@ -156,6 +176,11 @@ module.exports.testPageScreenshot = async ({
       )
     }
 
+    if (parseFloat(waitBeforeSimulate) > 0) {
+      console.log('waitBeforeSimulate', waitBeforeSimulate)
+      await page.waitFor(waitBeforeSimulate)
+    }
+
     let elementToSimulate = null
     if (simulate) {
       if (simulateSelector) {
@@ -173,6 +198,12 @@ module.exports.testPageScreenshot = async ({
         }
 
         case 'click': {
+          await elementToSimulate.click()
+          break
+        }
+
+        case 'focusclick': {
+          await elementToSimulate.focus()
           await elementToSimulate.click()
           break
         }
@@ -239,7 +270,7 @@ module.exports.testPageScreenshot = async ({
       const off = howManyPixeToNextEight(heightInPixelsFloat)
       if (off > 0) {
         const inRem = Math.round(heightInPixelsFloat / (pixelGrid * 2))
-        warn(
+        log.warn(
           `"${measureElement}" is <${off}px off to ${
             heightInPixelsFloat + off
           }rem (${heightInPixels}) which corresponds to a rem value of ${inRem}rem.`
@@ -282,7 +313,7 @@ module.exports.testPageScreenshot = async ({
 const setupPageScreenshot = ({
   url,
   fullscreen = true,
-  pageSettings = null,
+  pageViewport = null,
   screenshotConfig = null,
   timeout = null
 } = {}) => {
@@ -295,7 +326,7 @@ const setupPageScreenshot = ({
       (global.__PAGE__ = await setupBeforeAll({
         url,
         fullscreen,
-        pageSettings
+        pageViewport
       })),
     timeout
   )
@@ -307,7 +338,7 @@ module.exports.setupPageScreenshot = setupPageScreenshot
 const setupBeforeAll = async ({
   url,
   fullscreen = true,
-  pageSettings = null
+  pageViewport = null
 }) => {
   const page = await global.__BROWSER__.newPage()
 
@@ -315,13 +346,13 @@ const setupBeforeAll = async ({
   // const context = await global.__BROWSER__.createIncognitoBrowserContext()
   // const page = await context.newPage()
 
-  if (pageSettings || (pageSettings !== false && config.pageSettings)) {
-    if (pageSettings && config.pageSettings) {
-      pageSettings = { ...config.pageSettings, ...pageSettings }
+  if (pageViewport || (pageViewport !== false && config.pageViewport)) {
+    if (pageViewport && config.pageViewport) {
+      pageViewport = { ...config.pageViewport, ...pageViewport }
     } else {
-      pageSettings = config.pageSettings
+      pageViewport = config.pageViewport
     }
-    await page.setViewport(pageSettings)
+    await page.setViewport(pageViewport)
   }
 
   if (config.blockFontRequest) {
@@ -350,6 +381,10 @@ const setupBeforeAll = async ({
 
   if (url) {
     await page.goto(createUrl(url, fullscreen))
+
+    // await page.waitForNavigation({
+    //   waitUntil: 'domcontentloaded'
+    // })
   }
 
   // just to make sure we get the latest version

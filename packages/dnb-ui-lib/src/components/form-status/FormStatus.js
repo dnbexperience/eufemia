@@ -8,7 +8,6 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import Context from '../../shared/Context'
 import {
-  warn,
   isTrue,
   registerElement,
   makeUniqueId,
@@ -19,6 +18,10 @@ import {
 import { createSpacingClasses } from '../space/SpacingHelper'
 import Icon from '../icon/Icon'
 import GlobalStatusProvider from '../global-status/GlobalStatusProvider'
+import {
+  skeletonDOMAttributes,
+  createSkeletonClass
+} from '../skeleton/SkeletonHelper'
 
 const renderProps = {
   render_content: null
@@ -56,6 +59,7 @@ const propTypes = {
   width_selector: PropTypes.string,
   class: PropTypes.string,
   animation: PropTypes.string,
+  skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
 
   /** React props */
   className: PropTypes.string,
@@ -83,6 +87,7 @@ const defaultProps = {
   width_selector: null,
   class: null,
   animation: null, // could be 'fade-in'
+  skeleton: null,
 
   /** React props */
   className: null,
@@ -187,19 +192,31 @@ export default class FormStatus extends React.PureComponent {
     const { text_id, width_selector } = this.props
     if (text_id && this._ref.current && typeof document !== 'undefined') {
       try {
-        const width = this.sumElementWidth(
+        let width = this.sumElementWidth(
           elem ||
             width_selector ||
             (text_id.match(/^([a-z0-9]+)/) || [])[1],
           this._ref.current
         )
-        if (width >= 64) {
-          this._ref.current.style.maxWidth = `${
-            (width + (width < 128 ? 32 : 0)) / 16
-          }rem`
+
+        const minWidth = 12 * 16 // use 12rem, because thats the default width in chrome for an input
+        if (width < minWidth) {
+          width = minWidth
+        }
+
+        const remWidth = `${width / 16}rem`
+
+        const cS = window.getComputedStyle(this._ref.current)
+        const hasCustomWidth = this._ref.current.style.maxWidth
+          ? false
+          : (cS.minWidth !== '' && cS.minWidth !== 'auto') ||
+            (cS.maxWidth !== '' && cS.maxWidth !== 'none')
+
+        if (!hasCustomWidth) {
+          this._ref.current.style.maxWidth = remWidth
         }
       } catch (e) {
-        warn(e)
+        // skip logging
       }
     }
   }
@@ -240,7 +257,7 @@ export default class FormStatus extends React.PureComponent {
       // and show it again
       targetElement.style.display = display
     } catch (e) {
-      warn(e)
+      // skip logging
     }
 
     return width
@@ -251,6 +268,7 @@ export default class FormStatus extends React.PureComponent {
     const props = extendPropsWithContext(
       this.props,
       defaultProps,
+      { skeleton: this.context && this.context.skeleton },
       this.context.formRow
     )
 
@@ -269,6 +287,7 @@ export default class FormStatus extends React.PureComponent {
       text, // eslint-disable-line
       icon, // eslint-disable-line
       icon_size, // eslint-disable-line
+      skeleton, // eslint-disable-line
       children, // eslint-disable-line
 
       ...attributes
@@ -298,6 +317,7 @@ export default class FormStatus extends React.PureComponent {
         `dnb-form-status--${state}`,
         animation ? `dnb-form-status--${animation}` : null,
         hasStringContent ? 'dnb-form-status--has-content' : null,
+        // createSkeletonClass(null, skeleton, this.context),
         createSpacingClasses(props),
         className,
         _className
@@ -307,7 +327,10 @@ export default class FormStatus extends React.PureComponent {
       ...attributes
     }
     const textParams = {
-      className: 'dnb-form-status--text',
+      className: classnames(
+        'dnb-form-status--text',
+        createSkeletonClass('font', skeleton, this.context)
+      ),
       id: text_id
     }
 
@@ -318,6 +341,8 @@ export default class FormStatus extends React.PureComponent {
       //   // in case we send in a React component, whichs has its own state, then we dont want to have aria-live all the time active
       //   params['aria-live'] = 'assertive'
     }
+
+    skeletonDOMAttributes(params, skeleton, this.context)
 
     // also used for code markup simulation
     validateDOMAttributes(this.props, params)

@@ -20,9 +20,22 @@ import {
   DatePicker,
   FormRow,
   ToggleButton,
-  Skeleton
+  Accordion,
+  Skeleton,
+  IconPrimary
 } from '../../src/components'
-import { H1, H2, P, Ol, Li, Ul, Dl, Dt, Dd } from '../../src/elements'
+import {
+  H1,
+  H2,
+  P,
+  Ol,
+  Li,
+  Ul,
+  Dl,
+  Dt,
+  Dd,
+  Anchor
+} from '../../src/elements'
 import Provider from '../../src/shared/Provider'
 
 // Customize
@@ -62,29 +75,61 @@ export default [
       >
         <Skeleton
           show={showSkeleton}
+          // no_animation
           // show
           // figure={() => <SkeletonArticle rows={2} />}
-          // style_type="rainbow"
-          // style_type="norway"
           // style_type="shine"
-          style_type="dots"
           // style_type="dots"
+          // style_type="norway"
+          // style_type="rainbow"
           // style_type="brand"
         >
           <CustomStyle>
             <Wrapper>
               <Box>
-                <ToggleButton
-                  skeleton={false}
-                  checked={showSkeleton}
-                  on_change={() => setSkeletonState((s) => !s)}
-                >
-                  Toggle Skeleton
-                </ToggleButton>
+                <Skeleton.Exclude>
+                  <Accordion
+                    remember_state
+                    id="single-accordion"
+                    variant="outlined"
+                    title="Accordion title"
+                  >
+                    Accordion content
+                  </Accordion>
+                  <Accordion.Provider
+                    top
+                    remember_state
+                    icon="bell"
+                    icon_position="right"
+                    variant="outlined"
+                  >
+                    <Accordion
+                      id="single-provider-accordion"
+                      title="Accordion title"
+                    >
+                      Accordion content
+                    </Accordion>
+                  </Accordion.Provider>
+                </Skeleton.Exclude>
               </Box>
 
               <Box>
-                <Heading>Heading</Heading>
+                <Skeleton.Exclude>
+                  <ToggleButton
+                    skeleton={false}
+                    checked={showSkeleton}
+                    on_change={() => setSkeletonState((s) => !s)}
+                  >
+                    Toggle Skeleton
+                  </ToggleButton>
+                </Skeleton.Exclude>
+              </Box>
+
+              <Box>
+                <Heading>Heading Æ',;[]()."`Ø</Heading>
+                <Anchor>Anchor</Anchor>
+                <IconPrimary>bell</IconPrimary>
+                <br />
                 <Button>Button</Button>
                 <Slider
                   label="Vertical slider:"

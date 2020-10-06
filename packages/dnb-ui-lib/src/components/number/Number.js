@@ -36,6 +36,7 @@ const NUMBER_CHARS = '-0-9,.'
 export default class Number extends React.PureComponent {
   static tagName = 'dnb-number'
   static contextType = Context
+
   static propTypes = {
     value: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     locale: PropTypes.string,
@@ -112,7 +113,7 @@ export default class Number extends React.PureComponent {
       if (!window._shortcuts) {
         window._shortcuts = new createShortcut()
         // Firefox sometimes don't respond on the onCopy event
-        // But more importanly, Safari does not supprt onCopy event and custom copy at the same time
+        // But more importantly, Safari does not support onCopy event and custom copy at the same time
         // therefore we use shortcuts as well
         window._shortcuts.add(
           this.osShortcut,
@@ -126,8 +127,8 @@ export default class Number extends React.PureComponent {
       }
     }
 
-    // NB: This h ack may be removed in future iOS versions
-    // in order that iOS v13 can select someting on the first try, we run this add range trick
+    // NB: This hack may be removed in future iOS versions
+    // in order that iOS v13 can select something on the first try, we run this add range trick
     if (IS_IOS && !hasiOSFix) {
       hasiOSFix = true
       runIOSSelectionFix()
@@ -160,7 +161,7 @@ export default class Number extends React.PureComponent {
         selection.removeAllRanges()
         selection.addRange(range)
 
-        // Could work on IS_IOS, becaus of the user event
+        // Could work on IS_IOS, because of the user event
         // if (IS_IOS) {
         //   let { value, children } = this.props
         //   if (children !== null) {
@@ -205,6 +206,8 @@ export default class Number extends React.PureComponent {
       options,
       locale,
       decimals,
+      omit_rounding,
+      clean,
       selectall,
       element,
       class: _className,
@@ -229,7 +232,9 @@ export default class Number extends React.PureComponent {
       phone,
       org,
       decimals,
+      omit_rounding: isTrue(omit_rounding),
       options,
+      clean: isTrue(clean),
       returnAria: true
     }
 
@@ -365,6 +370,7 @@ export const format = (
   value,
   {
     locale = null, // can be "auto"
+    clean = false,
     phone = null,
     org = null,
     ban = null,
@@ -373,6 +379,7 @@ export const format = (
     currency_display = CURRENCY_DISPLAY,
     currency_position = null,
     decimals = null,
+    omit_rounding = null,
     options = null,
     returnAria = false
   } = {}
@@ -402,12 +409,16 @@ export const format = (
     deci = 2
   }
   if (deci >= 0) {
+    const isNumber = typeof value === 'number'
     opts.minimumFractionDigits = deci
     opts.maximumFractionDigits = deci
-    value = String(cleanNumber(value))
+    value = String(clean ? cleanNumber(value) : value)
     const pos = value.indexOf('.')
-    if (pos > 0) {
+    if (pos > 0 && omit_rounding === true) {
       value = String(value).substr(0, pos + 1 + deci)
+    }
+    if (isNumber) {
+      value = parseFloat(value)
     }
   } else {
     opts.maximumFractionDigits = 20
@@ -435,8 +446,9 @@ export const format = (
     display = _number
     aria = _aria
   } else if (isCurrency) {
-    // cleanup
-    let cleanedNumber = parseFloat(cleanNumber(value))
+    // cleanup, but only if it not got cleaned up already
+    let cleanedNumber =
+      deci >= 0 ? value : clean ? cleanNumber(value) : value
 
     // set currency options
     opts.currency =
@@ -462,12 +474,12 @@ export const format = (
     aria = formatNumber(cleanedNumber, locale, {
       ...opts,
       minimumFractionDigits: 2,
-      maximumFractionDigits: 20,
+      maximumFractionDigits: 2,
       currencyDisplay: 'name'
     })
     aria = enhanceSR(cleanedNumber, aria, locale) // also calls cleanupMinus
 
-    // IE has a bug, where negative numbers has a parantese arround the number
+    // IE has a bug, where negative numbers has a parentese around the number
     if (IS_IE11) {
       display = display.replace(/^\((.*)\)$/, '-$1')
       aria = aria.replace(/^\((.*)\)$/, '-$1')
@@ -483,7 +495,7 @@ export const format = (
     display = formatNumber(value, locale, opts)
     display = cleanupMinus(display)
 
-    // fix for NDVA to make sure we read the number, we add a minium fraction digit (decimal)
+    // fix for NDVA to make sure we read the number, we add a minimum fraction digit (decimal)
     // NVDA fix
     aria = formatNumber(value, locale, {
       ...opts,
@@ -573,7 +585,7 @@ const enhanceSR = (value, aria) => {
   // Enhance VO support on mobile devices
   // Numbers under 99.999 are read out correctly, but only if we remove the spaces
   // Potential we could also check for locale: && /no|nb|nn/.test(locale)
-  // but leave it for now without this ectra check
+  // but leave it for now without this extra check
   if (IS_MAC && Math.abs(parseFloat(value)) <= 99999) {
     aria = String(aria).replace(/\s([0-9])/g, '$1')
   }
@@ -749,7 +761,7 @@ export const formatNIN = (number, locale = null) => {
         .filter((s) => s)
         .join(' ')
 
-      // correct nim for screen redaers
+      // correct nim for screen readers
       aria = display
         .split(
           /([0-9]{2})([0-9]{2})([0-9]{2}) ([0-9]{1})([0-9]{1})([0-9]{1})([0-9]{1})([0-9]{1})/
@@ -786,7 +798,7 @@ export async function copySelectedNumber(e) {
 
     if (success === true) {
       if (e && typeof e.preventDefault === 'function') {
-        // prevents the actuall copy
+        // prevents the actual copy
         e.preventDefault()
       }
     } else {
@@ -825,7 +837,7 @@ export function createSelectionFX(string) {
   let top = 0
   let elem // portalElem
 
-  // do that becuase getClientRects from selection is an experimental browser API
+  // do that because getClientRects from selection is an experimental browser API
   try {
     // getClientRects
     const cR = window.getSelection().getRangeAt(0).getClientRects()
@@ -840,7 +852,7 @@ export function createSelectionFX(string) {
   try {
     // create backup to get the position from
     if (!(top > 0) && !(left > 0)) {
-      // get a more precize position by inserting this empty node
+      // get a more precise position by inserting this empty node
       const posElem = document.createElement('span')
       posElem.setAttribute('class', 'dnb-number__fx__selection')
       insertElementBeforeSelection(posElem)
@@ -944,9 +956,9 @@ export function cleanDirtyNumber(value) {
     value = value.replace(remvoeSuffix, '').trim()
   }
 
-  // now, also opt out if we have someting else then a number on both sides
+  // now, also opt out if we have something else then a number on both sides
   if (new RegExp(`^[^${NUMBER_CHARS}].*[^${NUMBER_CHARS}]$`).test(value)) {
-    // console.info('Selection starts and ends with someting else than a number', value) // debug
+    // console.info('Selection starts and ends with something else than a number', value) // debug
     return false // invalid
   }
 
@@ -958,7 +970,7 @@ export function cleanDirtyNumber(value) {
 
   let cleanedValue = cleanNumber(value)
 
-  // contoll number
+  // control number
   const num = parseFloat(cleanedValue)
   if (isNaN(num)) {
     // console.info('Number was invalid', cleanedValue) // debug
@@ -972,12 +984,12 @@ export function cleanDirtyNumber(value) {
   //   }
   // }
 
-  // Ff the number not starts with 0, then use the controll number
+  // Ff the number not starts with 0, then use the control number
   if (/^0/.test(cleanedValue)) {
     return cleanedValue
   }
 
-  // This is the defualt return
+  // This is the default return
   return cleanedValue
 }
 
@@ -994,24 +1006,26 @@ export function cleanNumber(num) {
   }
 
   // Find valid decimals
-  let usesThousand = '\\.'
-  let usesDecimal = ','
+  let usesThousand = ','
+  let usesDecimal = '\\.'
 
   // -12 345,678
   if (/(\s)([0-9]{3})/.test(num)) {
     usesThousand = '\\s'
     usesDecimal = ','
+  }
 
-    // -12.345,678
-  } else if (
+  // -12.345,678
+  else if (
     /(\.)([0-9]{3})/.test(num) &&
     !/([,'][0-9]{3})(\.)([0-9]{3})/.test(num) // just an additioanl check, for support with more
   ) {
     usesThousand = '\\.'
     usesDecimal = ",|·|'" // also support Spain and CH
+  }
 
-    // -1,234,567.891
-  } else if (/(,)([0-9]{3})/.test(num)) {
+  // -1,234,567.891
+  else if (/(,)([0-9]{3})/.test(num)) {
     usesThousand = ','
     usesDecimal = '\\.|·' // also support Spain
   }
@@ -1022,7 +1036,7 @@ export function cleanNumber(num) {
     usesDecimal = '\\.|,'
   }
 
-  // 3. Remove invalid thousand seperators
+  // 3. Remove invalid thousand separators
   const thousandReg = new RegExp(
     `([0-9]|)(${usesThousand})([0-9]{3})`,
     'g'
@@ -1033,8 +1047,8 @@ export function cleanNumber(num) {
 
   // 2. Rename invalid decimal separator
   // Make sure that there are only two digits after the coma, then we clean that up.
-  // else we dont, because it can be a US number
-  // therefore, check first, is there a chance of beeing a decimal?
+  // else we don't, because it can be a US number
+  // therefore, check first, is there a chance of being a decimal?
   const decimalReg = new RegExp(`(${usesDecimal})([0-9]{1,2})`, 'g')
   if (decimalReg.test(num)) {
     num = num.replace(decimalReg, '.$2')

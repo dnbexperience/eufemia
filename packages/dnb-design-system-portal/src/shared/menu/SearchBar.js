@@ -11,6 +11,7 @@ import algoliasearch from 'algoliasearch/lite'
 import { Autocomplete } from 'dnb-ui-lib/src/components'
 import { Anchor } from 'dnb-ui-lib/src/elements'
 import { navigate } from 'gatsby'
+import { scrollToAnimation } from '../parts/Layout'
 
 const indexName =
   process.env.NODE_ENV === 'production'
@@ -28,6 +29,8 @@ export const SearchBarInput = () => {
 
   const onTypeHandler = ({
     value,
+    setHidden,
+    emptyData,
     showIndicator,
     hideIndicator,
     updateData,
@@ -38,7 +41,9 @@ export const SearchBarInput = () => {
         searchIndex.current
           .search(value)
           .then(({ hits }) => {
-            updateData(makeHitsHumanFriendly(hits))
+            updateData(
+              makeHitsHumanFriendly({ hits, setHidden, emptyData })
+            )
             hideIndicator()
 
             /* NB: Other option to add the logo */
@@ -89,6 +94,7 @@ export const SearchBarInput = () => {
                 font-size: var(--font-size-small);
 
                 padding-bottom: 0.5rem;
+                overflow: visible;
 
                 .dnb-anchor {
                   display: inline-block;
@@ -221,7 +227,11 @@ const SearchLogo = (props) => (
   </svg>
 )
 
-const makeHitsHumanFriendly = (hits) => {
+const makeHitsHumanFriendly = ({
+  hits,
+  setHidden
+  // , emptyData
+}) => {
   const data = []
 
   hits.forEach((hit) => {
@@ -235,7 +245,18 @@ const makeHitsHumanFriendly = (hits) => {
           return null
         }
         return (
-          <Anchor key={slug + hash + i} href={`/${slug}#${hash}`}>
+          <Anchor
+            key={slug + hash + i}
+            href={`/${slug}#${hash}`}
+            onClick={(e) => {
+              e.preventDefault()
+              e.stopPropagation()
+              setHidden()
+              // emptyData()
+              navigate(`/${slug}#${hash}`)
+              scrollToAnimation()
+            }}
+          >
             {value}
           </Anchor>
         )

@@ -8,6 +8,7 @@ import {
   mount,
   axeComponent,
   toJson,
+  attachToBody, // in order to use document.activeElement properly
   loadScss
 } from '../../../core/jest/jestSetup'
 import Component from '../DatePicker'
@@ -345,7 +346,8 @@ describe('DatePicker component', () => {
         range
         start_date={defaultProps.start_date}
         end_date={defaultProps.end_date}
-      />
+      />,
+      { attachTo: attachToBody() }
     )
 
     const dayElem = Comp.find('input.dnb-date-picker__input--day').at(0)
@@ -354,10 +356,10 @@ describe('DatePicker component', () => {
     )
     const yearElem = Comp.find('input.dnb-date-picker__input--year').at(0)
 
-    // set the curstor to the end of the input
+    // set the cursor to the end of the input
     dayElem.instance().setSelectionRange(2, 2)
 
-    // and simualte a right keydown
+    // and simulate a right keydown
     dayElem.simulate('keydown', { key: 'Right', keyCode: 39 })
 
     // wait for the logic to complete
@@ -367,9 +369,9 @@ describe('DatePicker component', () => {
     let focusedElement = document.activeElement
 
     // and check the class of that element
-    expect(focusedElement.getAttribute('class')).toContain(
-      'dnb-date-picker__input--month'
-    )
+    expect(
+      focusedElement.classList.contains('dnb-date-picker__input--month')
+    ).toBe(true)
 
     // also test the key up to change the value on the month input
     expect(monthElem.instance().value).toBe('01')
@@ -386,7 +388,7 @@ describe('DatePicker component', () => {
     focusedElement = document.activeElement
 
     // and check the class of that element
-    expect(focusedElement.getAttribute('class')).toContain(
+    expect(focusedElement.classList).toContain(
       'dnb-date-picker__input--day'
     )
 

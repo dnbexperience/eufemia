@@ -11,6 +11,8 @@
     justify-content: flex-start;
     align-items: flex-start;
 
+    min-width: inherit;
+
     border-radius: var(--input-border-radius);
   }
 
@@ -66,8 +68,7 @@
     animation: form-status-fade-in 2s ease-out 400ms forwards;
   }
 
-  // IE fix
-  @media screen and (-ms-high-contrast: none) {
+  @include IS_IE {
     &__shell > .dnb-icon {
       border-width: 1px;
     }

@@ -11,8 +11,10 @@ import { StaticQuery, graphql } from 'gatsby'
 import { css, Global } from '@emotion/core'
 import styled from '@emotion/styled'
 import { resetLevels } from 'dnb-ui-lib/src/components/Heading'
+import Context from 'dnb-ui-lib/src/shared/Context'
 import { SidebarMenuContext } from './SidebarMenuContext'
 // import { MainMenuToggleButton } from './ToggleMainMenu'
+import { createSkeletonClass } from 'dnb-ui-lib/src/components/skeleton/SkeletonHelper'
 import { Icon } from 'dnb-ui-lib/src/components'
 import graphics from './SidebarGraphics'
 import keycode from 'keycode'
@@ -592,6 +594,8 @@ export default class SidebarLayout extends React.PureComponent {
 }
 
 class ListItem extends React.PureComponent {
+  static contextType = Context
+
   static propTypes = {
     onOffsetTop: PropTypes.func,
     children: PropTypes.node.isRequired,
@@ -688,11 +692,20 @@ class ListItem extends React.PureComponent {
             {icon && graphics[icon] && (
               <Icon icon={graphics[icon]} size="medium" />
             )}
-            {children}
+            <span
+              className={classnames(
+                createSkeletonClass('font', this.context.skeleton)
+              )}
+            >
+              {children}
+            </span>
           </span>
           {status && (
             <span
-              className="status-badge"
+              className={classnames(
+                'status-badge',
+                createSkeletonClass('font', this.context.skeleton)
+              )}
               title={statusTitle}
               aria-label={statusTitle}
             >

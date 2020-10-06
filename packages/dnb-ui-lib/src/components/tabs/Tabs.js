@@ -14,12 +14,17 @@ import {
   isTrue,
   makeUniqueId,
   registerElement,
+  extendPropsWithContext,
   validateDOMAttributes,
   dispatchCustomElementEvent,
   getPreviousSibling,
   filterProps
 } from '../../shared/component-helper'
 import { createSpacingClasses } from '../space/SpacingHelper'
+import {
+  createSkeletonClass,
+  skeletonDOMAttributes
+} from '../skeleton/SkeletonHelper'
 
 const renderProps = {
   render: null
@@ -65,6 +70,7 @@ const propTypes = {
     PropTypes.string,
     PropTypes.bool
   ]),
+  skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   id: PropTypes.string,
   class: PropTypes.string,
 
@@ -91,6 +97,7 @@ const defaultProps = {
   use_hash: false,
   prerender: false,
   prevent_rerender: false,
+  skeleton: null,
   id: null,
   class: null,
 
@@ -554,7 +561,7 @@ export default class Tabs extends React.PureComponent {
   }
 
   TabsHandler = () => {
-    const { label } = this.props
+    const { label, skeleton } = this._props
     const { selected_key } = this.state
 
     const tabs = this.state.data.map(
@@ -572,6 +579,9 @@ export default class Tabs extends React.PureComponent {
           itemParams.disabled = true
           itemParams['aria-disabled'] = true
         }
+
+        skeletonDOMAttributes(itemParams, skeleton, this.context)
+
         return (
           <button
             type="button"
@@ -581,6 +591,7 @@ export default class Tabs extends React.PureComponent {
             aria-selected={isSelected}
             className={classnames(
               'dnb-tabs__button',
+              // createSkeletonClass('font', skeleton, this.context),
               isSelected && 'selected'
             )}
             onClick={this.openTabByDOM}
@@ -588,7 +599,14 @@ export default class Tabs extends React.PureComponent {
             data-tab-key={key}
             {...itemParams}
           >
-            <span className="dnb-tabs__button__title">{title}</span>
+            <span
+              className={classnames(
+                'dnb-tabs__button__title',
+                createSkeletonClass('font', skeleton, this.context)
+              )}
+            >
+              {title}
+            </span>
             <Dummy>{title}</Dummy>
           </button>
         )
@@ -617,7 +635,13 @@ export default class Tabs extends React.PureComponent {
   }
 
   render() {
-    const { render: customRenderer } = this.props
+    const props = (this._props = extendPropsWithContext(
+      this.props,
+      defaultProps,
+      { skeleton: this.context?.skeleton }
+    ))
+
+    const { render: customRenderer } = props
 
     const Tabs = this.TabsHandler
     Tabs.displayName = 'Tabs'

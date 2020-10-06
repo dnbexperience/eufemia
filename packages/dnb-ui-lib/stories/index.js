@@ -19,12 +19,12 @@ import '../src/style/components'
 import '../src/style/themes/ui'
 
 /* ATTENTION: for testing with IE11, we have to use the build version - make sure to run `yarn build` first */
-// import '../style/dnb-ui-basis.css'
-// import '../style/dnb-ui-components.css'
-// // import '../style/theme-ui/dnb-theme-ui.css'
-// // import '../style/basis'
-// // import '../style/components'
-// import '../style/themes/ui'
+// import '../build/style/dnb-ui-basis.css'
+// import '../build/style/dnb-ui-components.css'
+// // import '../build/style/theme-ui/dnb-theme-ui.css'
+// // import '../build/style/basis'
+// // import '../build/style/components'
+// import '../build/style/themes/ui'
 
 /* UI style + theme */
 // import '../src/style'
@@ -35,10 +35,10 @@ import '../src/style/themes/ui'
 // import '../src/components/button/style/themes/ui'
 // import '../src/style/themes/ui'
 /* or use the compiled version */
-// import '../style/basis'
+// import '../build/style/basis'
 // import '../components/button/style/dnb-button.css'
 // import '../components/button/style/themes/dnb-button-theme-ui.css'
-// import '../style/themes/dnb-theme-ui.css'
+// import '../build/style/themes/dnb-theme-ui.css'
 
 components
   .sort(([a], [b]) => (a > b ? 1 : -1))

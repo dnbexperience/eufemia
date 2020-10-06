@@ -11,10 +11,12 @@ exports[`IconPrimary component have to match snapshot 1`] = `
   icon="question"
   modifier={null}
   size={null}
+  skeleton={null}
   title={null}
   width={null}
 >
   <span
+    aria-hidden={true}
     aria-label="question icon"
     className="dnb-icon dnb-icon--default"
     role="presentation"

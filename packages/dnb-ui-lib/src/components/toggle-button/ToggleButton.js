@@ -48,6 +48,7 @@ const propTypes = {
   variant: PropTypes.oneOf(['default', 'checkbox', 'radio']),
   left_component: PropTypes.node,
   disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   id: PropTypes.string,
   // group: PropTypes.string,
   status: PropTypes.oneOfType([
@@ -101,6 +102,7 @@ const defaultProps = {
   variant: null,
   left_component: null,
   disabled: null,
+  skeleton: null,
   id: null,
   // group: null,
   status: null,
@@ -305,6 +307,7 @@ export default class ToggleButton extends React.PureComponent {
             className,
             class: _className,
             disabled,
+            skeleton,
             variant,
             left_component,
             icon,
@@ -365,6 +368,7 @@ export default class ToggleButton extends React.PureComponent {
           const buttonParams = {
             id,
             disabled,
+            skeleton,
             text: text || children,
             title,
             icon,
@@ -391,9 +395,13 @@ export default class ToggleButton extends React.PureComponent {
           }
 
           if (showStatus || suffix) {
-            buttonParams['aria-describedby'] = `${
-              showStatus ? id + '-status' : ''
-            } ${suffix ? id + '-suffix' : ''}`
+            buttonParams['aria-describedby'] = [
+              buttonParams['aria-describedby'],
+              showStatus ? id + '-status' : null,
+              suffix ? id + '-suffix' : null
+            ]
+              .filter(Boolean)
+              .join(' ')
           }
           if (readOnly) {
             buttonParams['aria-readonly'] = buttonParams.readOnly = true
@@ -427,6 +435,7 @@ export default class ToggleButton extends React.PureComponent {
                   for_id={id}
                   text={label}
                   disabled={disabled}
+                  skeleton={skeleton}
                   label_direction={label_direction}
                   sr_only={label_sr_only}
                 />
@@ -440,6 +449,7 @@ export default class ToggleButton extends React.PureComponent {
                     text={status}
                     status={status_state}
                     animation={status_animation}
+                    skeleton={skeleton}
                   />
                 )}
 

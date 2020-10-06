@@ -234,8 +234,11 @@
     }
   }
 
-  // IE fix
-  @media screen and (-ms-high-contrast: none) {
+  .dnb-skeleton &__input[disabled] ~ &__button {
+    border-color: var(--skeleton-color);
+  }
+
+  @include IS_IE {
     vertical-align: text-bottom;
 
     &__input,

@@ -232,8 +232,20 @@
     }
   }
 
-  // IE fix
-  @media screen and (-ms-high-contrast: none) {
+  &.dnb-skeleton &__input[disabled] ~ &__button,
+  &.dnb-skeleton &__input[disabled] ~ &__background::after {
+    border-color: var(--skeleton-color);
+  }
+  &.dnb-skeleton &__input[disabled] ~ &__background {
+    background-color: var(--skeleton-color);
+  }
+  &.dnb-skeleton
+    &__input[disabled]:not(:checked)
+    ~ .dnb-switch__background::after {
+    border-color: var(--skeleton-color--contrast);
+  }
+
+  @include IS_IE {
     vertical-align: text-bottom;
 
     &__order {
@@ -252,7 +264,7 @@
   }
 
   // Edge fix
-  @supports (-ms-ime-align: auto) {
+  @include IS_EDGE {
     // fix are a problem with transition and complex transforms
     &__input:not(:checked) ~ &__button {
       transform: translateX(0);

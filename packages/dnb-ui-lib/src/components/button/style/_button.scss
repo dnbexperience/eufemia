@@ -281,8 +281,11 @@
     margin-top: 0.5rem;
   }
 
-  // IE fix
-  @media screen and (-ms-high-contrast: none) {
+  &.dnb-skeleton .dnb-icon {
+    visibility: hidden; // because the text corner (as boxes) are visible
+  }
+
+  @include IS_IE {
     flex: none;
     &__icon,
     &__text {

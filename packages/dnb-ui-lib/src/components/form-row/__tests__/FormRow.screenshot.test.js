@@ -12,6 +12,11 @@ import {
 describe('FormRow screenshot', () => {
   setupPageScreenshot({
     url: '/uilib/components/form-row/demos'
+    // pageViewport: !isCI
+    //   ? {
+    //       width: 20000, // because of the large amount if horizontal stacked components
+    //     }
+    //   : null
     // screenshotConfig: {
     //   // use 7% on CI because of the font rendering differences
     //   pixelThresholdRelative: isCI ? 0.07 : 0
@@ -26,6 +31,12 @@ describe('FormRow screenshot', () => {
   it('have to match vertical form-row label', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-dnb-test="form-row-vertical-label"]'
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+  it('have to match legend usage', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-dnb-test="form-row-legend"]'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -44,6 +55,12 @@ describe('FormRow screenshot', () => {
   it('have to match horizontal form-row', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-dnb-test="form-row-horizontal-no_wrap"]'
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+  it('have to match horizontal wrap', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-dnb-test="form-row-horizontal-wrap"]'
     })
     expect(screenshot).toMatchImageSnapshot()
   })

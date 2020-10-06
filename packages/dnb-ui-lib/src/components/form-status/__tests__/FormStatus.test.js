@@ -45,13 +45,13 @@ describe('FormStatus component', () => {
     // mock call the setMaxWidth since document.getElementById is not an option
     const instance = Comp.find('FormStatus').instance()
     instance.setMaxWidth({
-      offsetWidth: 64 // pixels
+      offsetWidth: 256 + 16 // 16rem + 1rem pixels
     })
 
     // now, setMaxWidth should have set an inline style with an "max-width as rem"
     expect(
       Comp.find('.dnb-form-status').instance().getAttribute('style')
-    ).toBe('max-width: 6rem;') // 4rem + 2rem
+    ).toBe('max-width: 17rem;') // 16rem (min-width) + 1rem
   })
 
   it('should have correact attributes once the "hidden" prop changes', async () => {

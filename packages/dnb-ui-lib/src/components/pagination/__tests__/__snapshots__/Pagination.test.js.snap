@@ -520,10 +520,12 @@ exports[`Pagination bar component have to match snapshot 1`] = `
                     key="button-icon"
                     modifier={null}
                     size={null}
+                    skeleton={null}
                     title={null}
                     width={null}
                   >
                     <span
+                      aria-hidden={true}
                       aria-label="chevron left icon"
                       className="dnb-icon dnb-icon--default dnb-button__icon"
                       role="presentation"
@@ -635,6 +637,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
                     key="button-icon"
                     modifier={null}
                     size={null}
+                    skeleton={null}
                     title={null}
                     width={null}
                   >
@@ -824,8 +827,10 @@ exports[`Pagination scss have to match default theme snapshot 1`] = `
   html[data-whatinput='keyboard'] .dnb-core-style .dnb-pagination__button.dnb-button--primary:not([disabled]):not(:active):not(:hover):focus, html[data-whatinput='keyboard'] .dnb-pagination__button.dnb-button--primary:not([disabled]):not(:active):not(:hover):focus {
     --border-color: var(--color-emerald-green);
     box-shadow: 0 0 0 0.125rem var(--border-color);
-    /* IE11 fix */
     border-color: transparent; }
+    @media screen and (-ms-high-contrast: none) {
+      html[data-whatinput='keyboard'] .dnb-core-style .dnb-pagination__button.dnb-button--primary:not([disabled]):not(:active):not(:hover):focus, html[data-whatinput='keyboard'] .dnb-pagination__button.dnb-button--primary:not([disabled]):not(:active):not(:hover):focus {
+        box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
 
 .dnb-pagination__dots > div {
   background-color: var(--color-emerald-green); }
@@ -933,6 +938,10 @@ exports[`Pagination scss have to match snapshot 1`] = `
   h5 .dnb-icon,
   h6 .dnb-icon {
     vertical-align: middle; }
+  .dnb-icon.dnb-skeleton {
+    color: var(--skeleton-color) !important; }
+    .dnb-icon.dnb-skeleton::before, .dnb-icon.dnb-skeleton::after {
+      content: none !important; }
   @media screen and (-ms-high-contrast: none) {
     .dnb-icon {
       flex: none; } }
@@ -994,6 +1003,7 @@ exports[`Pagination scss have to match snapshot 1`] = `
     display: flex;
     justify-content: flex-start;
     align-items: flex-start;
+    min-width: inherit;
     border-radius: var(--input-border-radius); }
   .dnb-form-status--text {
     padding: calc(0.5rem / 2) 1rem;
@@ -1235,8 +1245,10 @@ exports[`Pagination scss have to match snapshot 1`] = `
       html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):focus, html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):active {
         --border-color: var(--color-emerald-green);
         box-shadow: 0 0 0 0.125rem var(--border-color);
-        /* IE11 fix */
         border-color: transparent; }
+        @media screen and (-ms-high-contrast: none) {
+          html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):focus, html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):active {
+            box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
     html[data-whatinput='mouse'] .dnb-button--reset:not([disabled]):focus,
     html[data-whatinput='mouse'] .dnb-button--reset:not([disabled]):active {
       box-shadow: none;
@@ -1254,6 +1266,8 @@ exports[`Pagination scss have to match snapshot 1`] = `
     white-space: nowrap; }
   .dnb-button + .dnb-form-status {
     margin-top: 0.5rem; }
+  .dnb-button.dnb-skeleton .dnb-icon {
+    visibility: hidden; }
   @media screen and (-ms-high-contrast: none) {
     .dnb-button {
       flex: none; }

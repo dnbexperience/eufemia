@@ -444,10 +444,12 @@ exports[`Input component have to match type="search" snapshot 1`] = `
                         key="button-icon"
                         modifier={null}
                         size="default"
+                        skeleton={null}
                         title={null}
                         width={null}
                       >
                         <span
+                          aria-hidden={true}
                           aria-label="search icon"
                           className="dnb-icon dnb-icon--default dnb-button__icon"
                           role="presentation"
@@ -684,13 +686,9 @@ exports[`Input scss have to match default theme snapshot 1`] = `
     border: none;
     --border-color: var(--input-border-color);
     box-shadow: inset 0 0 0 var(--input-border-width) var(--border-color);
-    /* IE11 fix */
     /* iOS fix - because \\"inset\\" works not fine with border-radius */
     /* Safari fix - because \\"inset\\" works not fine with border-radius if the user zooms the page */
     border-color: transparent; }
-    @media screen and (-ms-high-contrast: none) {
-      .dnb-input__shell {
-        box-shadow: inset 0 0 0 1px var(--border-color); } }
     @supports (-webkit-touch-callout: none) {
       .dnb-input__shell {
         box-shadow: 0 0 0 var(--input-border-width) var(--border-color); } }
@@ -698,6 +696,9 @@ exports[`Input scss have to match default theme snapshot 1`] = `
       @supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-overflow-scrolling: touch)) {
         .dnb-input__shell {
           box-shadow: 0 0 0 var(--input-border-width) var(--border-color); } } }
+    @media screen and (-ms-high-contrast: none) {
+      .dnb-input__shell {
+        box-shadow: inset 0 0 0 1px var(--input-border-color); } }
     .dnb-input__shell[data-input-state='dirty'] {
       color: var(--input-text-color--changed);
       background-color: var(--input-background-color--changed); }
@@ -706,14 +707,10 @@ exports[`Input scss have to match default theme snapshot 1`] = `
       -webkit-text-fill-color: currentColor;
       --border-color: var(--input-border-color--disabled);
       box-shadow: inset 0 0 0 var(--input-border-width) var(--border-color);
-      /* IE11 fix */
       /* iOS fix - because \\"inset\\" works not fine with border-radius */
       /* Safari fix - because \\"inset\\" works not fine with border-radius if the user zooms the page */
       border-color: transparent;
       background-color: var(--input-background-color--disabled); }
-      @media screen and (-ms-high-contrast: none) {
-        .dnb-input__shell[data-input-state='disabled'] {
-          box-shadow: inset 0 0 0 1px var(--border-color); } }
       @supports (-webkit-touch-callout: none) {
         .dnb-input__shell[data-input-state='disabled'] {
           box-shadow: 0 0 0 var(--input-border-width) var(--border-color); } }
@@ -721,13 +718,18 @@ exports[`Input scss have to match default theme snapshot 1`] = `
         @supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-overflow-scrolling: touch)) {
           .dnb-input__shell[data-input-state='disabled'] {
             box-shadow: 0 0 0 var(--input-border-width) var(--border-color); } } }
+      @media screen and (-ms-high-contrast: none) {
+        .dnb-input__shell[data-input-state='disabled'] {
+          box-shadow: inset 0 0 0 1px var(--input-border-color--disabled); } }
     .dnb-input__shell:not([data-input-state='disabled']):hover, .dnb-input__shell[data-input-state='focus'] {
       color: var(--input-text-color--focus);
       background-color: var(--input-background-color--focus);
       --border-color: var(--input-border-color--focus);
       box-shadow: 0 0 0 0.125rem var(--border-color);
-      /* IE11 fix */
       border-color: transparent; }
+      @media screen and (-ms-high-contrast: none) {
+        .dnb-input__shell:not([data-input-state='disabled']):hover, .dnb-input__shell[data-input-state='focus'] {
+          box-shadow: 0 0 0 0.125rem var(--input-border-color--focus); } }
   .dnb-input:not([data-input-state='disabled']).dnb-input__submit-button svg {
     color: var(--color-sea-green); }
   .dnb-input__icon {
@@ -735,16 +737,20 @@ exports[`Input scss have to match default theme snapshot 1`] = `
   .dnb-input__status--error .dnb-input__shell:not([data-input-state='focus']) {
     --border-color: var(--color-fire-red);
     box-shadow: 0 0 0 0.125rem var(--border-color);
-    /* IE11 fix */
     border-color: transparent; }
+    @media screen and (-ms-high-contrast: none) {
+      .dnb-input__status--error .dnb-input__shell:not([data-input-state='focus']) {
+        box-shadow: 0 0 0 0.125rem var(--color-fire-red); } }
   .dnb-input__status--error .dnb-input__shell:not([data-input-state='focus']) ~ .dnb-input__submit-element .dnb-button__icon,
   .dnb-input__status--error .dnb-input__shell:not([data-input-state='focus']) ~ .dnb-input__submit-element .dnb-button--secondary .dnb-button__icon {
     color: var(--color-fire-red); }
   .dnb-input__status--error .dnb-input__shell:not([data-input-state='focus']) ~ .dnb-input__submit-element .dnb-button {
     --border-color: var(--color-fire-red);
     box-shadow: 0 0 0 0.125rem var(--border-color);
-    /* IE11 fix */
     border-color: transparent; }
+    @media screen and (-ms-high-contrast: none) {
+      .dnb-input__status--error .dnb-input__shell:not([data-input-state='focus']) ~ .dnb-input__submit-element .dnb-button {
+        box-shadow: 0 0 0 0.125rem var(--color-fire-red); } }
   .dnb-input__status--error,
   .dnb-input__status--error .dnb-input__shell[data-input-state='dirty'] {
     color: var(--color-fire-red); }
@@ -844,6 +850,10 @@ exports[`Input scss have to match snapshot 1`] = `
   h5 .dnb-icon,
   h6 .dnb-icon {
     vertical-align: middle; }
+  .dnb-icon.dnb-skeleton {
+    color: var(--skeleton-color) !important; }
+    .dnb-icon.dnb-skeleton::before, .dnb-icon.dnb-skeleton::after {
+      content: none !important; }
   @media screen and (-ms-high-contrast: none) {
     .dnb-icon {
       flex: none; } }
@@ -905,6 +915,7 @@ exports[`Input scss have to match snapshot 1`] = `
     display: flex;
     justify-content: flex-start;
     align-items: flex-start;
+    min-width: inherit;
     border-radius: var(--input-border-radius); }
   .dnb-form-status--text {
     padding: calc(0.5rem / 2) 1rem;
@@ -1146,8 +1157,10 @@ exports[`Input scss have to match snapshot 1`] = `
       html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):focus, html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):active {
         --border-color: var(--color-emerald-green);
         box-shadow: 0 0 0 0.125rem var(--border-color);
-        /* IE11 fix */
         border-color: transparent; }
+        @media screen and (-ms-high-contrast: none) {
+          html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):focus, html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):active {
+            box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
     html[data-whatinput='mouse'] .dnb-button--reset:not([disabled]):focus,
     html[data-whatinput='mouse'] .dnb-button--reset:not([disabled]):active {
       box-shadow: none;
@@ -1165,6 +1178,8 @@ exports[`Input scss have to match snapshot 1`] = `
     white-space: nowrap; }
   .dnb-button + .dnb-form-status {
     margin-top: 0.5rem; }
+  .dnb-button.dnb-skeleton .dnb-icon {
+    visibility: hidden; }
   @media screen and (-ms-high-contrast: none) {
     .dnb-button {
       flex: none; }
@@ -1331,7 +1346,8 @@ legend.dnb-form-label {
   display: inline-flex;
   align-items: center;
   font-size: var(--input-font-small);
-  line-height: var(--input-height); }
+  line-height: var(--input-height);
+  text-align: left; }
   .dnb-input__inner {
     display: inline-flex;
     flex-direction: column;
@@ -1361,7 +1377,7 @@ legend.dnb-form-label {
     width: 100%;
     padding-left: var(--input-padding);
     padding-right: var(--input-padding);
-    text-align: left;
+    text-align: inherit;
     color: inherit;
     background-color: transparent;
     font-size: var(--input-font-size); }

@@ -13,11 +13,14 @@ import {
   extendPropsWithContext,
   registerElement,
   validateDOMAttributes,
-  skeletonElement,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
 import { createSpacingClasses } from '../space/SpacingHelper'
+import {
+  skeletonDOMAttributes,
+  createSkeletonClass
+} from '../skeleton/SkeletonHelper'
 
 import Context from '../../shared/Context'
 import Suffix from '../../shared/helpers/Suffix'
@@ -232,6 +235,7 @@ export default class Checkbox extends React.PureComponent {
         label &&
           `dnb-checkbox--label-position-${label_position || 'right'}`,
         'dnb-form-component',
+        createSkeletonClass(null, skeleton),
         createSpacingClasses(props),
         className,
         _className
@@ -245,17 +249,19 @@ export default class Checkbox extends React.PureComponent {
     }
 
     if (showStatus || suffix) {
-      inputParams['aria-describedby'] = `${
-        showStatus ? id + '-status' : ''
-      } ${suffix ? id + '-suffix' : ''}`
+      inputParams['aria-describedby'] = [
+        inputParams['aria-describedby'],
+        showStatus ? id + '-status' : null,
+        suffix ? id + '-suffix' : null
+      ]
+        .filter(Boolean)
+        .join(' ')
     }
     if (readOnly) {
       inputParams['aria-readonly'] = inputParams.readOnly = true
     }
 
-    if (isTrue(skeleton)) {
-      skeletonElement(inputParams)
-    }
+    skeletonDOMAttributes(inputParams, skeleton, this.context)
 
     // also used for code markup simulation
     validateDOMAttributes(this.props, inputParams)
@@ -269,6 +275,7 @@ export default class Checkbox extends React.PureComponent {
         text={status}
         status={status_state}
         animation={status_animation}
+        skeleton={skeleton}
       />
     )
 
@@ -281,6 +288,7 @@ export default class Checkbox extends React.PureComponent {
               for_id={id}
               text={label}
               disabled={disabled}
+              skeleton={skeleton}
               sr_only={label_sr_only}
             />
           )}
@@ -308,7 +316,7 @@ export default class Checkbox extends React.PureComponent {
               <span
                 className={classnames(
                   'dnb-checkbox__button',
-                  isTrue(skeleton) && 'dnb-skeleton'
+                  createSkeletonClass('shape', skeleton, this.context)
                 )}
                 aria-hidden
               >

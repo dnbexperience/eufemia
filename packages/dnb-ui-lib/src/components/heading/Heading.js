@@ -9,7 +9,6 @@ import classnames from 'classnames'
 import {
   isTrue,
   validateDOMAttributes,
-  skeletonElement,
   registerElement
 } from '../../shared/component-helper'
 import '../../shared/helpers'
@@ -17,7 +16,11 @@ import { createSpacingClasses } from '../space/SpacingHelper'
 import HeadingContext from './HeadingContext'
 import Context from '../../shared/Context'
 import HeadingProvider from './HeadingProvider'
-import { AutoSize } from '../../components/skeleton/SkeletonHelper'
+import {
+  // AutoSize,
+  createSkeletonClass,
+  skeletonDOMAttributes
+} from '../skeleton/SkeletonHelper'
 import {
   correctHeadingLevel,
   resetLevels,
@@ -275,7 +278,7 @@ export default class Heading extends React.PureComponent {
           attributes.className = classnames(
             'dnb-heading',
             `dnb-h--${size}`,
-            isTrue(skeleton) && 'dnb-skeleton',
+            createSkeletonClass('font', skeleton, this.context),
             className,
             _className,
             createSpacingClasses(this.props)
@@ -300,16 +303,17 @@ export default class Heading extends React.PureComponent {
             </>
           )
 
-          if (isTrue(skeleton)) {
-            skeletonElement(attributes)
-            return (
-              <AutoSize
-                __element={Element}
-                ref={this._ref}
-                {...attributes}
-              />
-            )
-          }
+          skeletonDOMAttributes(attributes, skeleton, this.context)
+
+          // if (isTrue(skeleton)) {
+          // return (
+          //   <AutoSize
+          //     __element={Element}
+          //     ref={this._ref}
+          //     {...attributes}
+          //   />
+          // )
+          // }
 
           return <Element ref={this._ref} {...attributes} />
         }}

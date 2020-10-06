@@ -16,7 +16,7 @@
     }
 
     &__description {
-      color: var(--color-dark-grey);
+      color: var(--color-black-55);
     }
   }
 
@@ -34,7 +34,7 @@
     color: var(--color-black-80);
     background-color: var(--color-white);
 
-    @include fakeBorder(var(--color-outline-grey), 0.0625rem, inset, true);
+    @include fakeBorder(var(--color-black-8), 0.0625rem, inset, true);
 
     @include buttonFocus(var(--color-emerald-green), var(--color-white));
     @include buttonHover(var(--color-emerald-green), var(--color-white));

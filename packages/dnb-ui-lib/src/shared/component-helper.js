@@ -86,15 +86,6 @@ export function defineNavigator() {
   }
 }
 
-export const skeletonElement = (params) => {
-  params.disabled = true
-  params['aria-disabled'] = true
-  params['aria-hidden'] = true
-  params['aria-busy'] = true
-
-  return params
-}
-
 export const validateDOMAttributes = (props, params) => {
   // if there is an "attributes" prop, prepare these
   // mostly used for prop example usage
@@ -637,9 +628,14 @@ export const isInsideScrollView = (
   return elem == window ? false : Boolean(elem)
 }
 
+const isTest = process.env.NODE_ENV === 'test'
 export const warn = (...e) => {
   if (typeof console !== 'undefined') {
-    console.warn(...e)
+    if (isTest) {
+      console.log(...e)
+    } else if (typeof console.warn === 'function') {
+      console.warn(...e)
+    }
   }
 }
 
@@ -648,25 +644,30 @@ export const convertJsxToString = (elements, separator = undefined) => {
     elements = [elements]
   }
 
-  return elements
-    .map((word) => {
-      if (React.isValidElement(word)) {
-        if (typeof word.props.children === 'string') {
-          word = word.props.children
-        } else if (Array.isArray(word.props.children)) {
-          word = word.props.children.reduce((acc, word) => {
-            if (typeof word === 'string') {
-              acc = acc + word
-            }
-            return acc
-          }, '')
-        } else {
-          return null
-        }
+  const process = (word) => {
+    if (React.isValidElement(word)) {
+      if (typeof word.props.children === 'string') {
+        word = word.props.children
+      } else if (Array.isArray(word.props.children)) {
+        word = word.props.children.reduce((acc, word) => {
+          if (typeof word !== 'string') {
+            word = process(word)
+          }
+          if (typeof word === 'string') {
+            acc = acc + word
+          }
+          return acc
+        }, '')
+      } else {
+        return null
       }
+    }
 
-      return word
-    })
+    return word
+  }
+
+  return elements
+    .map((word) => process(word))
     .filter(Boolean)
     .join(separator)
 }

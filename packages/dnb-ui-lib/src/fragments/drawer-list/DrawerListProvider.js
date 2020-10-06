@@ -151,7 +151,7 @@ export default class DrawerListProvider extends React.PureComponent {
 
   componentWillUnmount() {
     clearTimeout(this._showTimeout)
-    clearTimeout(this._outsideClickTimeout)
+    clearInterval(this._outsideClickTimeout)
     clearTimeout(this._hideTimeout)
     clearTimeout(this._selectTimeout)
     clearTimeout(this._scrollTimeout)
@@ -694,21 +694,87 @@ export default class DrawerListProvider extends React.PureComponent {
     return this
   }
 
-  onKeyUpHandler = () => {
-    this.currentKey = null
+  getAnchorElem() {
+    try {
+      return this.getActiveElement().querySelector(
+        'a:not(:focus):first-of-type'
+      )
+    } catch (e) {
+      return null
+    }
+  }
+
+  anchorKeyDownHandler = (e) => {
+    const key = keycode(e)
+
+    switch (key) {
+      case 'tab':
+        try {
+          const nextEl = this.meta.shift
+            ? e.target.previousSibling
+            : e.target.nextSibling
+
+          e.stopPropagation()
+          e.preventDefault()
+
+          if (nextEl) {
+            this.focusAnchorElem(nextEl)
+          } else {
+            this.getActiveElement().focus()
+          }
+        } catch (e) {
+          // do nothing
+        }
+        break
+
+      case 'enter':
+      case 'space':
+        e.stopPropagation()
+        break
+
+      default:
+        break
+    }
+  }
+
+  focusAnchorElem(elem) {
+    if (elem) {
+      elem.focus({ preventScroll: true })
+
+      if (!elem._hkh) {
+        elem._hkh = true
+        elem.addEventListener('keydown', this.anchorKeyDownHandler)
+      }
+    }
+  }
+
+  setMetaKey = (e) => {
+    const we =
+      typeof window !== 'undefined' && window.event ? window.event : e
+    this.meta = {
+      cmd: we.metaKey,
+      ctrl: we.ctrlKey,
+      shift: we.shiftKey,
+      alt: we.altKey
+    }
+  }
+
+  onKeyUpHandler = (e) => {
+    this.setMetaKey(e)
   }
 
   onKeyDownHandler = (e) => {
     const key = keycode(e)
 
-    // to allow copy keycode
-    if (
-      this.currentKey &&
-      /command|alt|shift|ctrl/.test(this.currentKey)
-    ) {
-      return // stop here
+    if (/command|alt|shift|ctrl/.test(key)) {
+      this.setMetaKey(e)
     }
-    this.currentKey = key
+
+    // To allow copy
+    // But makes VO not reading our list items once command key is pressed
+    // if (this.meta.cmd || this.meta.ctrl || this.meta.shift || this.meta.alt) {
+    //   return // stop here
+    // }
 
     // stop here if the focus is not set
     // and the drawer is opened by default
@@ -739,10 +805,6 @@ export default class DrawerListProvider extends React.PureComponent {
     const total = this.state.data && this.state.data.length - 1
 
     switch (key) {
-      case 'shift':
-        e.preventDefault()
-        break
-
       case 'up':
         {
           e.preventDefault()
@@ -804,13 +866,24 @@ export default class DrawerListProvider extends React.PureComponent {
 
       case 'esc':
         {
-          e.preventDefault() // on edge, we need this prevent to not loose focus after close
           this.setHidden()
+          e.preventDefault()
         }
         break
 
       case 'tab':
-        this.setHidden()
+        {
+          if (this.state.opened && active_item > -1) {
+            const anchorElem = this.getAnchorElem()
+            if (anchorElem) {
+              e.preventDefault() // so we can set focus to an anchor inside
+              this.focusAnchorElem(anchorElem)
+              return
+            }
+          }
+
+          this.setHidden()
+        }
         break
 
       default:
@@ -885,17 +958,14 @@ export default class DrawerListProvider extends React.PureComponent {
   setOutsideClickObserver = () => {
     this.removeOutsideClickObserver()
 
-    clearTimeout(this._outsideClickTimeout)
-    this._outsideClickTimeout = setTimeout(() => {
-      this.outsideClick = detectOutsideClick(
-        [
-          this.state.wrapper_element,
-          this._refRoot.current,
-          this._refUl.current
-        ],
-        this.setHidden // hide if document.activeElement is not inside our elements
-      )
-    }, 1) // delay so we get a proper this._refUl.current used in setOutsideClickObserver
+    this.outsideClick = detectOutsideClick(
+      [
+        this.state.wrapper_element,
+        this._refRoot.current,
+        this._refUl.current
+      ],
+      this.setHidden // hide if document.activeElement is not inside our elements
+    )
 
     if (typeof document !== 'undefined') {
       document.addEventListener('keydown', this.onKeyDownHandler)
@@ -913,17 +983,30 @@ export default class DrawerListProvider extends React.PureComponent {
     }
   }
 
+  _assignObservers = () => {
+    // this.setTrianglePosition() // deprecated
+    this.setDirectionObserver()
+    this.setScrollObserver()
+    this.setOutsideClickObserver()
+  }
+
   assignObservers = () => {
     // this is the one which will be visible, so we depend on the _refUl
-    if (
-      !this._refUl.current ||
-      (this._refUl.current && !this.hasObservers)
-    ) {
-      // this.setTrianglePosition() // deprecated
-      this.setDirectionObserver()
-      this.setScrollObserver()
-      this.setOutsideClickObserver()
-      this.hasObservers = true
+    if (!this.waitUntilUlIsReady) {
+      this.waitUntilUlIsReady = true
+
+      this._assignObservers()
+
+      // in case we do not have the very much needed _refUl
+      if (!this._refUl.current) {
+        clearInterval(this._outsideClickTimeout)
+        this._outsideClickTimeout = setInterval(() => {
+          if (this._refUl.current) {
+            clearInterval(this._outsideClickTimeout)
+            this._assignObservers()
+          }
+        }, 200)
+      }
     }
   }
 
@@ -974,7 +1057,7 @@ export default class DrawerListProvider extends React.PureComponent {
         this._hideTimeout = setTimeout(
           () => {
             this.setState({
-              hidden: undefined, // only to idendify once we rerender
+              hidden: undefined, // only to identify once we re-render
               _listenForPropChanges: false
             })
             if (typeof onStateComplete === 'function') {
@@ -988,7 +1071,7 @@ export default class DrawerListProvider extends React.PureComponent {
       }
     )
 
-    this.hasObservers = false
+    this.waitUntilUlIsReady = false
     this.removeDirectionObserver()
     this.removeScrollObserver()
     this.removeOutsideClickObserver()
@@ -1048,8 +1131,8 @@ export default class DrawerListProvider extends React.PureComponent {
     itemToSelect,
     { fireSelectEvent = false, event = null } = {}
   ) => {
-    // because of our delay on despatching the event
-    // make a copy of it, so we don't break the syntetic event
+    // because of our delay on dispatching the event
+    // make a copy of it, so we don't break the synthetic event
     if (event && typeof event.persist === 'function') {
       event.persist()
     }
@@ -1160,6 +1243,7 @@ export default class DrawerListProvider extends React.PureComponent {
             _refUl: this._refUl,
             _refTriangle: this._refTriangle,
             _rootElem: this._rootElem,
+            getActiveElement: this.getActiveElement,
             setData: this.setDataHandler,
             setState: this.setStateHandler,
             setWrapperElement: this.setWrapperElement,

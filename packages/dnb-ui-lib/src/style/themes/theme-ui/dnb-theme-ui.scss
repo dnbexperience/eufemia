@@ -11,7 +11,7 @@
 
 // ::selection appearance helper
 [class^='dnb-'] ::selection {
-  // if not IE11
+  // if not IE11 / not IS_IE
   @supports not (-ms-ime-align: auto) {
     background-color: var(--color-mint-green);
     color: var(--color-black);
@@ -37,6 +37,7 @@
 @import '../../../components/form-status/style/themes/dnb-form-status-theme-ui.scss';
 @import '../../../components/global-error/style/themes/dnb-global-error-theme-ui.scss';
 @import '../../../components/global-status/style/themes/dnb-global-status-theme-ui.scss';
+@import '../../../components/help-button/style/themes/dnb-help-button-theme-ui.scss';
 @import '../../../components/icon/style/themes/dnb-icon-theme-ui.scss';
 @import '../../../components/input/style/themes/dnb-input-theme-ui.scss';
 @import '../../../components/modal/style/themes/dnb-modal-theme-ui.scss';

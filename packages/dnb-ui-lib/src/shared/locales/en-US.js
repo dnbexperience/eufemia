@@ -57,7 +57,15 @@ export default {
     },
     Modal: {
       close_title: 'Close',
-      more_info: 'More information'
+      more_info: 'Help text'
+    },
+    HelpButton: {
+      title: 'Help text',
+      aria_role: 'Help button'
+    },
+    Skeleton: {
+      aria_bussy: 'In progress ...',
+      aria_ready: 'Ready to interact'
     },
     Input: {
       submit_button_title: 'Submit button'
@@ -71,7 +79,11 @@ export default {
       load_button_text: 'Show more content'
     },
     StepIndicator: {
-      step_title: 'Step %step aofv %count'
+      step_title: 'Step %step of %count'
+    },
+    Slider: {
+      add_title: 'Increase Slider value %s%',
+      subtract_title: 'Decrease Slider value %s%'
     },
     Logo: {
       alt: 'DNB Logo'

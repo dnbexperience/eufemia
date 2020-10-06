@@ -117,6 +117,12 @@ export const axeComponent = async (...components) => {
   )
 }
 
+export function attachToBody() {
+  let container = document.createElement('div')
+  document.body.append(container)
+  return container
+}
+
 function jestSetup() {}
 
 export default jestSetup

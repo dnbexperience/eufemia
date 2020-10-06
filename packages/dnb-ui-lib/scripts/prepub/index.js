@@ -54,6 +54,7 @@ export const runPrepublishTasks = async ({
   preventDelete,
   doRefetch
 } = {}) => {
+  const mode = process.env.NODE_ENV
   process.env.NODE_ENV = 'production'
   log.start('Starting the prepublish process...', doRefetch)
   try {
@@ -71,7 +72,11 @@ export const runPrepublishTasks = async ({
     await makePropertiesFile()
 
     await prepareTemplates()
-    await generateTypes()
+
+    // Wait until v8 to generate types, as long as it is not locally run
+    if (mode === 'development') {
+      await generateTypes()
+    }
 
     // NB: Deprecated and replaced by Babel only build
     // await makeLibModules()
