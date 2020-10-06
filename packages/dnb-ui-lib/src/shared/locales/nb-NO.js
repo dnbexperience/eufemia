@@ -81,6 +81,10 @@ export default {
     StepIndicator: {
       step_title: 'Steg %step av %count'
     },
+    Slider: {
+      add_title: 'Øk glider verdi %s%',
+      subtract_title: 'Reduser glider verdi %s%'
+    },
     Logo: {
       alt: 'DNB Logo'
     }
