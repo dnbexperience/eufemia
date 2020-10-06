@@ -13,39 +13,33 @@ import {
 } from '../../shared/component-helper'
 // import './style/dnb-view-title.scss' // no good solution to import the style here
 
-const renderProps = {
-  // render_content: null
-}
-
-const propTypes = {
-  text: PropTypes.string,
-  tag: PropTypes.string,
-  class: PropTypes.string,
-  /** React props */
-  className: PropTypes.string,
-  children: PropTypes.oneOfType([PropTypes.node, PropTypes.func])
-  // Web Component props
-  // render_content: PropTypes.func
-}
-
-const defaultProps = {
-  text: null,
-  tag: 'h1',
-  class: null,
-  /** React props */
-  className: null,
-  children: null,
-  // Web Component props
-  ...renderProps
-}
-
 export default class ViewTitle extends React.PureComponent {
   static tagName = 'dnb-view-title'
-  static propTypes = propTypes
-  static defaultProps = defaultProps
+
+  static propTypes = {
+    text: PropTypes.string,
+    tag: PropTypes.string,
+    class: PropTypes.string,
+    /** React props */
+    className: PropTypes.string,
+    children: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.node,
+      PropTypes.func
+    ])
+  }
+
+  static defaultProps = {
+    text: null,
+    tag: 'h1',
+    class: null,
+    /** React props */
+    className: null,
+    children: null
+  }
 
   static enableWebComponent() {
-    registerElement(ViewTitle.tagName, ViewTitle, defaultProps)
+    registerElement(ViewTitle.tagName, ViewTitle, ViewTitle.defaultProps)
   }
 
   static getText(props) {

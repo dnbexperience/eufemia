@@ -22,21 +22,26 @@ export default class Section extends React.PureComponent {
 
   static propTypes = {
     style_type: PropTypes.string,
-    spacing: PropTypes.oneOfType([
-      PropTypes.bool,
-      PropTypes.oneOf(['large', 'medium', 'small', 'default'])
-    ]),
+    spacing: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     element: PropTypes.string,
     class: PropTypes.string,
+
+    /** React props */
     className: PropTypes.string,
-    children: PropTypes.oneOfType([PropTypes.node, PropTypes.func])
+    children: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.func,
+      PropTypes.node
+    ])
   }
 
   static defaultProps = {
     style_type: null,
-    element: 'section',
     spacing: null,
+    element: 'section',
     class: null,
+
+    /** React props */
     className: null,
     children: null
   }
@@ -46,6 +51,7 @@ export default class Section extends React.PureComponent {
   }
 
   static getContent(props) {
+    if (props.text) return props.text
     return processChildren(props)
   }
 

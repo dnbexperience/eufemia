@@ -20,54 +20,52 @@ import {
 } from './HeadingHelpers'
 import { initCounter } from './HeadingCounter'
 
-const propTypes = {
-  id: PropTypes.string,
-  group: PropTypes.string,
-  level: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  increase: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  decrease: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  up: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  down: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  inherit: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-
-  // Do not set these! Because we do not smart check the merge!
-  //   skip_correction: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  //   debug: PropTypes.oneOfType([PropTypes.bool, PropTypes.func]),
-
-  counter: PropTypes.any,
-  reset: PropTypes.oneOfType([
-    PropTypes.number,
-    PropTypes.string,
-    PropTypes.bool
-  ]),
-  text: PropTypes.any,
-  children: PropTypes.any
-}
-const defaultProps = {
-  id: null,
-  group: null,
-  level: null, // like auto
-  increase: null, // set increase as the default
-  decrease: null,
-  up: null, // set increase as the default
-  down: null,
-  inherit: null,
-
-  // Do not set these! Because we do not smart check the merge!
-  //   skip_correction: null,
-  //   debug: null,
-
-  counter: null,
-  reset: null,
-  text: null,
-  children: null
-}
-
 export default class HeadingProvider extends React.PureComponent {
-  static propTypes = propTypes
-  static defaultProps = defaultProps
   static contextType = HeadingContext
-  //   static contextType = Context// in order to get newProps, we use HeadingContext instead
+
+  static propTypes = {
+    id: PropTypes.string,
+    group: PropTypes.string,
+    level: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    increase: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    decrease: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    up: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    down: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    inherit: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+
+    // Do not set these! Because we do not smart check the merge!
+    //   skip_correction: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    //   debug: PropTypes.oneOfType([PropTypes.bool, PropTypes.func]),
+
+    counter: PropTypes.any,
+    reset: PropTypes.oneOfType([
+      PropTypes.number,
+      PropTypes.string,
+      PropTypes.bool
+    ]),
+    text: PropTypes.any,
+    children: PropTypes.any
+  }
+
+  static defaultProps = {
+    id: null,
+    group: null,
+    level: null, // like auto
+    increase: null, // set increase as the default
+    decrease: null,
+    up: null, // set increase as the default
+    down: null,
+    inherit: null,
+
+    // Do not set these! Because we do not smart check the merge!
+    //   skip_correction: null,
+    //   debug: null,
+
+    counter: null,
+    reset: null,
+    text: null,
+    children: null
+  }
 
   static getDerivedStateFromProps(props, state) {
     if (state._listenForPropChanges) {

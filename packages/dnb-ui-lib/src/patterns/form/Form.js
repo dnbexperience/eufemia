@@ -12,36 +12,29 @@ import {
 } from '../../shared/component-helper'
 // import './style/dnb-form.scss' // no good solution to import the style here
 
-const renderProps = {}
-
-const propTypes = {
-  class: PropTypes.string,
-  range_val: PropTypes.string,
-  /** React props */
-  className: PropTypes.string,
-  children: PropTypes.oneOfType([PropTypes.node, PropTypes.func])
-  // Web Component props
-}
-
-const defaultProps = {
-  class: null,
-  range_val: null,
-  /** React props */
-  className: null,
-  children: null,
-  // Web Component props
-  ...renderProps
-}
-
 export default class Form extends React.PureComponent {
   static tagName = 'dnb-form'
-  static propTypes = propTypes
-  static defaultProps = defaultProps
+
+  static propTypes = {
+    class: PropTypes.string,
+    range_val: PropTypes.string,
+    /** React props */
+    className: PropTypes.string,
+    children: PropTypes.oneOfType([PropTypes.node, PropTypes.func])
+  }
+
+  static defaultProps = {
+    class: null,
+    range_val: null,
+    /** React props */
+    className: null,
+    children: null
+  }
 
   state = { value: null }
 
   static enableWebComponent() {
-    registerElement(Form.tagName, Form, defaultProps)
+    registerElement(Form.tagName, Form, Form.defaultProps)
   }
 
   constructor(props) {

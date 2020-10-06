@@ -13,41 +13,32 @@ import {
 } from '../../shared/component-helper'
 // import './style/dnb-footer.scss' // no good solution to import the style here
 
-const renderProps = {
-  render_content: null
-}
-
-const propTypes = {
-  class: PropTypes.string,
-  /** React props */
-  className: PropTypes.string,
-  children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
-  // Web Component props
-  render_content: PropTypes.func
-}
-
-const defaultProps = {
-  class: null,
-  /** React props */
-  className: null,
-  children: null,
-  // Web Component props
-  ...renderProps
-}
-
 export default class Footer extends React.PureComponent {
   static tagName = 'dnb-footer'
-  static propTypes = propTypes
-  static defaultProps = defaultProps
+
+  static propTypes = {
+    class: PropTypes.string,
+    /** React props */
+    className: PropTypes.string,
+    children: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.node,
+      PropTypes.func
+    ])
+  }
+
+  static defaultProps = {
+    class: null,
+    /** React props */
+    className: null,
+    children: null
+  }
 
   static enableWebComponent() {
-    registerElement(Footer.tagName, Footer, defaultProps)
+    registerElement(Footer.tagName, Footer, Footer.defaultProps)
   }
 
   static getContent(props) {
-    if (typeof props.render_content === 'function') {
-      return props.render_content(props)
-    }
     return processChildren(props)
   }
 

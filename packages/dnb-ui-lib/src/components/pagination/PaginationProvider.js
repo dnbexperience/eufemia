@@ -17,43 +17,47 @@ import {
 
 import PaginationContext from './PaginationContext'
 
-const propTypes = {
-  startup_page: PropTypes.oneOfType([PropTypes.string, PropTypes.number]), // eslint-disable-line
-  current_page: PropTypes.oneOfType([PropTypes.string, PropTypes.number]), // eslint-disable-line
-  page_count: PropTypes.oneOfType([PropTypes.string, PropTypes.number]), // eslint-disable-line
-  set_content_handler: PropTypes.func,
-  reset_content_handler: PropTypes.func,
-  reset_pagination_handler: PropTypes.func,
-  end_infinity_handler: PropTypes.func,
-  rerender: PropTypes.object,
-  store: PropTypes.object,
-  useMarkerOnly: PropTypes.bool,
-  children: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-    PropTypes.node,
-    PropTypes.object,
-    PropTypes.array
-  ])
-}
-const defaultProps = {
-  startup_page: null,
-  current_page: null,
-  page_count: null,
-  set_content_handler: null,
-  reset_content_handler: null,
-  reset_pagination_handler: null,
-  end_infinity_handler: null,
-  rerender: null,
-  store: null,
-  useMarkerOnly: null,
-  children: null
-}
-
 export default class PaginationProvider extends React.PureComponent {
-  static propTypes = propTypes
-  static defaultProps = defaultProps
   static contextType = Context
+
+  static propTypes = {
+    startup_page: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number
+    ]), // eslint-disable-line
+    current_page: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number
+    ]), // eslint-disable-line
+    page_count: PropTypes.oneOfType([PropTypes.string, PropTypes.number]), // eslint-disable-line
+    set_content_handler: PropTypes.func,
+    reset_content_handler: PropTypes.func,
+    reset_pagination_handler: PropTypes.func,
+    end_infinity_handler: PropTypes.func,
+    rerender: PropTypes.object,
+    store: PropTypes.object,
+    useMarkerOnly: PropTypes.bool,
+    children: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.func,
+      PropTypes.node,
+      PropTypes.object,
+      PropTypes.array
+    ])
+  }
+  static defaultProps = {
+    startup_page: null,
+    current_page: null,
+    page_count: null,
+    set_content_handler: null,
+    reset_content_handler: null,
+    reset_pagination_handler: null,
+    end_infinity_handler: null,
+    rerender: null,
+    store: null,
+    useMarkerOnly: null,
+    children: null
+  }
 
   static getDerivedStateFromProps(props, state) {
     if (state._listenForPropChanges) {

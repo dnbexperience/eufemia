@@ -10,6 +10,7 @@ import {
   isTrue,
   extendPropsWithContext,
   registerElement,
+  processChildren,
   validateDOMAttributes
 } from '../../shared/component-helper'
 import Context from '../../shared/Context'
@@ -19,87 +20,70 @@ import {
   createSkeletonClass
 } from '../skeleton/SkeletonHelper'
 
-const renderProps = {
-  render_content: null
-}
-
-const propTypes = {
-  id: PropTypes.string,
-  element: PropTypes.string,
-  inline: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  no_collapse: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  top: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number,
-    PropTypes.bool
-  ]),
-  right: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number,
-    PropTypes.bool
-  ]),
-  bottom: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number,
-    PropTypes.bool
-  ]),
-  left: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number,
-    PropTypes.bool
-  ]),
-  skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  class: PropTypes.string,
-
-  /** React props */
-  className: PropTypes.string,
-  children: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-    PropTypes.node
-  ]),
-
-  // Web Component props
-  render_content: PropTypes.func
-}
-
-const defaultProps = {
-  id: null,
-  element: 'div',
-  inline: null,
-  no_collapse: null, // avoid margin collapsing
-  top: null,
-  right: null,
-  bottom: null,
-  left: null,
-  skeleton: null,
-  class: null,
-
-  /** React props */
-  className: null,
-  children: null,
-
-  // Web Component props
-  ...renderProps
-}
-
 export default class Space extends React.PureComponent {
   static tagName = 'dnb-space'
-  static propTypes = propTypes
-  static defaultProps = defaultProps
   static contextType = Context
 
+  static propTypes = {
+    id: PropTypes.string,
+    element: PropTypes.string,
+    inline: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    no_collapse: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    top: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number,
+      PropTypes.bool
+    ]),
+    right: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number,
+      PropTypes.bool
+    ]),
+    bottom: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number,
+      PropTypes.bool
+    ]),
+    left: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number,
+      PropTypes.bool
+    ]),
+    skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    class: PropTypes.string,
+
+    /** React props */
+    className: PropTypes.string,
+    children: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.func,
+      PropTypes.node
+    ])
+  }
+
+  static defaultProps = {
+    id: null,
+    element: 'div',
+    inline: null,
+    no_collapse: null, // avoid margin collapsing
+    top: null,
+    right: null,
+    bottom: null,
+    left: null,
+    skeleton: null,
+    class: null,
+
+    /** React props */
+    className: null,
+    children: null
+  }
+
   static enableWebComponent() {
-    registerElement(Space.tagName, Space, defaultProps)
+    registerElement(Space.tagName, Space, Space.defaultProps)
   }
 
   static getContent(props) {
-    if (typeof props.render_content === 'function')
-      props.render_content(props)
-
-    return typeof props.children === 'function'
-      ? props.children(props)
-      : props.children
+    return processChildren(props)
   }
 
   render() {
@@ -108,7 +92,7 @@ export default class Space extends React.PureComponent {
       ? // use only the props from context, who are available here anyway
         extendPropsWithContext(
           this.props,
-          defaultProps,
+          Space.defaultProps,
           { skeleton: this.context?.skeleton },
           this.context.space
         )

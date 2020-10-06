@@ -10,7 +10,6 @@ exports[`FormLabel component have to match snapshot 1`] = `
   for_id="for_id"
   id="id"
   label_direction="horizontal"
-  render_content={[Function]}
   skeleton="skeleton"
   sr_only="sr_only"
   text="text"

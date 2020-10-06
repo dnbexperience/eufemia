@@ -13,48 +13,41 @@ import {
 } from '../../shared/component-helper'
 // import './style/dnb-line-title.scss' // no good solution to import the style here
 
-const renderProps = {
-  render_content: null
-}
-
-const propTypes = {
-  content: PropTypes.string,
-  modifier: PropTypes.string,
-  tag: PropTypes.string,
-  class: PropTypes.string,
-  /** React props */
-  className: PropTypes.string,
-  children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
-  // Web Component props
-  render_content: PropTypes.func
-}
-
-const defaultProps = {
-  content: null,
-  modifier: null,
-  tag: 'h2',
-  class: null,
-  /** React props */
-  className: null,
-  children: null,
-  // Web Component props
-  ...renderProps
-}
-
 export default class LineTitle extends React.PureComponent {
   static tagName = 'dnb-line-title'
-  static propTypes = propTypes
-  static defaultProps = defaultProps
+
+  static propTypes = {
+    content: PropTypes.string,
+    modifier: PropTypes.string,
+    tag: PropTypes.string,
+    class: PropTypes.string,
+
+    className: PropTypes.string,
+    children: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.node,
+      PropTypes.func
+    ])
+  }
+
+  static defaultProps = {
+    content: null,
+    modifier: null,
+    tag: 'h2',
+    class: null,
+
+    /** React props */
+    className: null,
+    children: null
+  }
 
   static enableWebComponent() {
-    registerElement(LineTitle.tagName, LineTitle, defaultProps)
+    registerElement(LineTitle.tagName, LineTitle, LineTitle.defaultProps)
   }
 
   static getContent(props) {
     if (typeof props.content === 'string') {
       return props.content
-    } else if (typeof props.render_content === 'function') {
-      return props.render_content(props)
     }
     return processChildren(props)
   }

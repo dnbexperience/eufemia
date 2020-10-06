@@ -245,7 +245,6 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
           id="autocomplete-id-label"
           label_direction="horizontal"
           onMouseDown={[Function]}
-          render_content={null}
           skeleton="skeleton"
           sr_only="label_sr_only"
           text="Autocomplete Label:"
@@ -283,7 +282,6 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
             icon="error"
             icon_size="large"
             id="autocomplete-id-form-status"
-            render_content={null}
             skeleton="skeleton"
             state="error"
             status="error"
@@ -334,7 +332,6 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                           title={null}
                           viewBox="0 0 32 32"
                           width="32"
-                          xmlns="http://www.w3.org/2000/svg"
                         >
                           <path
                             d="M16 25a.5.5 0 100 1 .5.5 0 000-1v0"

@@ -20,63 +20,54 @@ import Context from '../../shared/Context'
 import hashSum from '../../shared/libs/HashSum'
 import { propTypes as availableFormRowProps } from '../form-row/FormRow'
 
-const renderProps = {
-  render_content: null
-}
-
-const propTypes = {
-  id: PropTypes.string,
-  element: PropTypes.string,
-  no_form: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  prevent_submit: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  class: PropTypes.string,
-
-  /** React props */
-  className: PropTypes.string,
-  children: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-    PropTypes.node
-  ]),
-
-  // Web Component props
-  custom_element: PropTypes.object,
-  custom_method: PropTypes.func,
-  render_content: PropTypes.func
-}
-
-const defaultProps = {
-  id: null,
-  element: 'form',
-  no_form: false,
-  prevent_submit: false,
-  disabled: null,
-  class: null,
-
-  /** React props */
-  className: null,
-  children: null,
-
-  // Web Component props
-  custom_element: null,
-  custom_method: null,
-  ...renderProps
-}
-
 export default class FormSet extends React.PureComponent {
   static tagName = 'dnb-form-set'
-  static propTypes = propTypes
-  static defaultProps = defaultProps
   static contextType = Context
 
+  static propTypes = {
+    id: PropTypes.string,
+    element: PropTypes.string,
+    no_form: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    prevent_submit: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool
+    ]),
+    disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    class: PropTypes.string,
+
+    /** React props */
+    className: PropTypes.string,
+    children: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.func,
+      PropTypes.node
+    ]),
+
+    custom_element: PropTypes.object,
+    custom_method: PropTypes.func
+  }
+
+  static defaultProps = {
+    id: null,
+    element: 'form',
+    no_form: false,
+    prevent_submit: false,
+    disabled: null,
+    class: null,
+
+    /** React props */
+    className: null,
+    children: null,
+
+    custom_element: null,
+    custom_method: null
+  }
+
   static enableWebComponent() {
-    registerElement(FormSet.tagName, FormSet, defaultProps)
+    registerElement(FormSet.tagName, FormSet, FormSet.defaultProps)
   }
 
   static getContent(props) {
-    if (typeof props.render_content === 'function')
-      props.render_content(props)
     return processChildren(props)
   }
 
@@ -111,8 +102,7 @@ export default class FormSet extends React.PureComponent {
         typeof availableFormRowProps[k] !== 'undefined' &&
         k !== 'id' &&
         k !== 'children' &&
-        k !== 'label' &&
-        k !== 'render_content'
+        k !== 'label'
       ) {
         acc[k] = v
       }

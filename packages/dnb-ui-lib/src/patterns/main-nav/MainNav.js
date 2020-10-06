@@ -18,55 +18,42 @@ import Button from '../../components/button/Button'
 import Logo from '../../components/logo/Logo'
 import Notification from '../../components/notification/Notification'
 
-const renderProps = {
-  // render_data: null,
-}
-
-const propTypes = {
-  data: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
-  baseurl: PropTypes.string,
-  notification_amount: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number
-  ]),
-  class: PropTypes.string,
-  /** React props */
-  className: PropTypes.string,
-  children: PropTypes.oneOfType([PropTypes.node, PropTypes.func])
-  // Web Component props
-  // render_data: PropTypes.func,
-}
-
-const defaultProps = {
-  data: [],
-  baseurl: '/uilib/demos',
-  // baseurl: null,
-  notification_amount: 0,
-  class: null,
-  /** React props */
-  className: null,
-  children: null,
-  // Web Component props
-  ...renderProps
-}
-
 export default class MainNav extends React.PureComponent {
   static tagName = 'dnb-main-nav'
-  static propTypes = propTypes
-  static defaultProps = defaultProps
+
+  static propTypes = {
+    data: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
+    baseurl: PropTypes.string,
+    notification_amount: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number
+    ]),
+    class: PropTypes.string,
+    /** React props */
+    className: PropTypes.string,
+    children: PropTypes.oneOfType([PropTypes.node, PropTypes.func])
+  }
+
+  static defaultProps = {
+    data: [],
+    baseurl: '/uilib/demos',
+    // baseurl: null,
+    notification_amount: 0,
+    class: null,
+    /** React props */
+    className: null,
+    children: null
+  }
 
   state = {
     isSubNavActive: false
   }
 
   static enableWebComponent() {
-    registerElement(MainNav.tagName, MainNav, defaultProps)
+    registerElement(MainNav.tagName, MainNav, MainNav.defaultProps)
   }
 
   static getData(props) {
-    // if (typeof props.render_data === 'function') {
-    //   return props.render_data(props)
-    // }
     let res = []
     if (props.data) res = props.data
     else res = processChildren(props)

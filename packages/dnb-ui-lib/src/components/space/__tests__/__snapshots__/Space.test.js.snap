@@ -10,7 +10,6 @@ exports[`Space component have to match snapshot 1`] = `
   inline="inline"
   left="left"
   no_collapse={false}
-  render_content={[Function]}
   right="right"
   skeleton="skeleton"
   top="top"

@@ -13,43 +13,40 @@ import {
 // import './style/dnb-form-summary.scss' // no good solution to import the style here
 import DescriptionList from '../description-list/DescriptionList'
 
-const renderProps = {}
-
-const propTypes = {
-  title: PropTypes.string,
-  text: PropTypes.string,
-  descriptionListData: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.array
-  ]),
-  descriptionListInfo: PropTypes.string,
-  class: PropTypes.string,
-  /** React props */
-  className: PropTypes.string,
-  children: PropTypes.oneOfType([PropTypes.node, PropTypes.func])
-  // Web Component props
-}
-
-const defaultProps = {
-  title: null,
-  text: null,
-  descriptionListData: null,
-  descriptionListInfo: null,
-  class: null,
-  /** React props */
-  className: null,
-  children: null,
-  // Web Component props
-  ...renderProps
-}
-
 export default class FormSummary extends React.PureComponent {
   static tagName = 'dnb-form-summary'
-  static propTypes = propTypes
-  static defaultProps = defaultProps
+
+  static propTypes = {
+    title: PropTypes.string,
+    text: PropTypes.string,
+    descriptionListData: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.array
+    ]),
+    descriptionListInfo: PropTypes.string,
+    class: PropTypes.string,
+    /** React props */
+    className: PropTypes.string,
+    children: PropTypes.oneOfType([PropTypes.node, PropTypes.func])
+  }
+
+  static defaultProps = {
+    title: null,
+    text: null,
+    descriptionListData: null,
+    descriptionListInfo: null,
+    class: null,
+    /** React props */
+    className: null,
+    children: null
+  }
 
   static enableWebComponent() {
-    registerElement(FormSummary.tagName, FormSummary, defaultProps)
+    registerElement(
+      FormSummary.tagName,
+      FormSummary,
+      FormSummary.defaultProps
+    )
   }
 
   render() {

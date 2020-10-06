@@ -20,15 +20,12 @@ import {
 } from './PaginationHelpers'
 import PaginationContext from './PaginationContext'
 
-const propTypes = {
-  children: PropTypes.oneOfType([PropTypes.node, PropTypes.func])
-}
-const defaultProps = { children: null }
-
 export default class InfinityScroller extends React.PureComponent {
   static contextType = PaginationContext
-  static propTypes = propTypes
-  static defaultProps = defaultProps
+  static propTypes = {
+    children: PropTypes.oneOfType([PropTypes.node, PropTypes.func])
+  }
+  static defaultProps = { children: null }
 
   constructor(props, context) {
     super(props)

@@ -23,88 +23,80 @@ import {
   createSkeletonClass
 } from '../skeleton/SkeletonHelper'
 
-const renderProps = {
-  render_content: null
-}
-
-const propTypes = {
-  id: PropTypes.string,
-  title: PropTypes.string,
-  text: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.bool,
-    PropTypes.func,
-    PropTypes.node
-  ]),
-  icon: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-    PropTypes.node
-  ]),
-  icon_size: PropTypes.string,
-  state: PropTypes.oneOfType([
-    PropTypes.bool,
-    PropTypes.string,
-    PropTypes.oneOf(['error', 'info'])
-  ]),
-  // status is Deprecated
-  status: PropTypes.oneOfType([
-    PropTypes.bool,
-    PropTypes.string,
-    PropTypes.oneOf(['error', 'info'])
-  ]),
-  global_status_id: PropTypes.string,
-  hidden: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  text_id: PropTypes.string,
-  width_selector: PropTypes.string,
-  class: PropTypes.string,
-  animation: PropTypes.string,
-  skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-
-  /** React props */
-  className: PropTypes.string,
-  children: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-    PropTypes.node
-  ]),
-
-  // Web Component props
-  render_content: PropTypes.func
-}
-
-const defaultProps = {
-  id: null,
-  title: null,
-  text: null,
-  icon: 'error',
-  icon_size: 'large',
-  state: 'error',
-  status: null, // Deprecated
-  global_status_id: null,
-  hidden: false,
-  text_id: null,
-  width_selector: null,
-  class: null,
-  animation: null, // could be 'fade-in'
-  skeleton: null,
-
-  /** React props */
-  className: null,
-  children: null,
-
-  // Web Component props
-  ...renderProps
-}
-
 export default class FormStatus extends React.PureComponent {
   static tagName = 'dnb-form-status'
-  static propTypes = propTypes
-  static defaultProps = defaultProps
   static contextType = Context
 
+  static propTypes = {
+    id: PropTypes.string,
+    title: PropTypes.string,
+    text: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool,
+      PropTypes.func,
+      PropTypes.node
+    ]),
+    icon: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.func,
+      PropTypes.node
+    ]),
+    icon_size: PropTypes.string,
+    state: PropTypes.oneOfType([
+      PropTypes.bool,
+      PropTypes.string,
+      PropTypes.oneOf(['error', 'info'])
+    ]),
+    // status is Deprecated
+    status: PropTypes.oneOfType([
+      PropTypes.bool,
+      PropTypes.string,
+      PropTypes.oneOf(['error', 'info'])
+    ]),
+    global_status_id: PropTypes.string,
+    hidden: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    text_id: PropTypes.string,
+    width_selector: PropTypes.string,
+    class: PropTypes.string,
+    animation: PropTypes.string,
+    skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+
+    /** React props */
+    className: PropTypes.string,
+    children: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.func,
+      PropTypes.node
+    ])
+  }
+
+  static defaultProps = {
+    id: null,
+    title: null,
+    text: null,
+    icon: 'error',
+    icon_size: 'large',
+    state: 'error',
+    status: null, // Deprecated
+    global_status_id: null,
+    hidden: false,
+    text_id: null,
+    width_selector: null,
+    class: null,
+    animation: null, // could be 'fade-in'
+    skeleton: null,
+
+    /** React props */
+    className: null,
+    children: null
+  }
+
   static enableWebComponent() {
-    registerElement(FormStatus.tagName, FormStatus, defaultProps)
+    registerElement(
+      FormStatus.tagName,
+      FormStatus,
+      FormStatus.defaultProps
+    )
   }
 
   static getContent(props) {
@@ -114,8 +106,6 @@ export default class FormStatus extends React.PureComponent {
       }
       return props.text
     }
-    if (typeof props.render_content === 'function')
-      props.render_content(props)
     return processChildren(props)
   }
 
@@ -267,7 +257,7 @@ export default class FormStatus extends React.PureComponent {
     // use only the props from context, who are available here anyway
     const props = extendPropsWithContext(
       this.props,
-      defaultProps,
+      FormStatus.defaultProps,
       { skeleton: this.context && this.context.skeleton },
       this.context.formRow
     )
@@ -365,7 +355,6 @@ export const ErrorIcon = (props) => (
     height="32"
     viewBox="0 0 32 32"
     fill="none"
-    xmlns="http://www.w3.org/2000/svg"
     role="presentation"
     {...props}
   >
@@ -406,7 +395,6 @@ export const InfoIcon = (props) => (
     height="32"
     viewBox="0 0 32 32"
     fill="none"
-    xmlns="http://www.w3.org/2000/svg"
     role="presentation"
     {...props}
   >

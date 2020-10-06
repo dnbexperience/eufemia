@@ -13,7 +13,6 @@ import {
   makeUniqueId,
   registerElement,
   validateDOMAttributes
-  // processChildren
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
 import Context from '../../shared/Context'
@@ -21,98 +20,88 @@ import hashSum from '../../shared/libs/HashSum'
 import FormLabel from '../form-label/FormLabel'
 import { createSpacingClasses } from '../space/SpacingHelper'
 
-const renderProps = {
-  render_content: null
-}
-
-export const propTypes = {
-  id: PropTypes.string,
-  label: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-    PropTypes.node
-  ]),
-  label_direction: PropTypes.oneOf(['vertical', 'horizontal']),
-  label_sr_only: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  label_id: PropTypes.string,
-  label_class: PropTypes.string,
-  no_label: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  no_fieldset: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  indent: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  wrap: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  direction: PropTypes.oneOf(['vertical', 'horizontal']),
-  vertical: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  indent_offset: PropTypes.string,
-  section_style: PropTypes.string,
-  section_spacing: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  global_status_id: PropTypes.string,
-  responsive: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  class: PropTypes.string,
-
-  /** React props */
-  skipContentWrapperIfNested: PropTypes.bool,
-  className: PropTypes.string,
-  children: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-    PropTypes.node
-  ]),
-
-  // Web Component props
-  custom_element: PropTypes.object,
-  custom_method: PropTypes.func,
-  render_content: PropTypes.func
-}
-
-const defaultProps = {
-  id: null,
-  label: null,
-  label_direction: null,
-  label_sr_only: null,
-  label_id: null,
-  label_class: null,
-  no_label: false,
-  no_fieldset: null,
-  indent: null,
-  wrap: null,
-  direction: null,
-  vertical: null,
-  indent_offset: null,
-  section_style: null,
-  section_spacing: null,
-  global_status_id: null,
-  responsive: null,
-  disabled: null,
-  skeleton: null,
-  class: null,
-
-  /** React props */
-  skipContentWrapperIfNested: false,
-  className: null,
-  children: null,
-
-  // Web Component props
-  custom_element: null,
-  custom_method: null,
-  ...renderProps
-}
-
 export default class FormRow extends React.PureComponent {
   static tagName = 'dnb-form-row'
-  static propTypes = propTypes
-  static defaultProps = defaultProps
   static contextType = Context
 
+  static propTypes = {
+    id: PropTypes.string,
+    label: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.func,
+      PropTypes.node
+    ]),
+    label_direction: PropTypes.oneOf(['vertical', 'horizontal']),
+    label_sr_only: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    label_id: PropTypes.string,
+    label_class: PropTypes.string,
+    no_label: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    no_fieldset: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    indent: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    wrap: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    direction: PropTypes.oneOf(['vertical', 'horizontal']),
+    vertical: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    indent_offset: PropTypes.string,
+    section_style: PropTypes.string,
+    section_spacing: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool
+    ]),
+    global_status_id: PropTypes.string,
+    responsive: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    class: PropTypes.string,
+
+    /** React props */
+    skipContentWrapperIfNested: PropTypes.bool,
+    className: PropTypes.string,
+    children: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.func,
+      PropTypes.node
+    ]),
+
+    custom_element: PropTypes.object,
+    custom_method: PropTypes.func
+  }
+
+  static defaultProps = {
+    id: null,
+    label: null,
+    label_direction: null,
+    label_sr_only: null,
+    label_id: null,
+    label_class: null,
+    no_label: false,
+    no_fieldset: null,
+    indent: null,
+    wrap: null,
+    direction: null,
+    vertical: null,
+    indent_offset: null,
+    section_style: null,
+    section_spacing: null,
+    global_status_id: null,
+    responsive: null,
+    disabled: null,
+    skeleton: null,
+    class: null,
+
+    /** React props */
+    skipContentWrapperIfNested: false,
+    className: null,
+    children: null,
+
+    custom_element: null,
+    custom_method: null
+  }
+
   static enableWebComponent() {
-    registerElement(FormRow.tagName, FormRow, defaultProps)
+    registerElement(FormRow.tagName, FormRow, FormRow.defaultProps)
   }
 
   static getContent(props) {
-    if (typeof props.render_content === 'function')
-      props.render_content(props)
-
     let label = null
     let children =
       typeof props.children === 'function'
@@ -146,7 +135,7 @@ export default class FormRow extends React.PureComponent {
     // use only the props from context, who are available here anyway
     const props = extendPropsWithContext(
       this.props,
-      defaultProps,
+      FormRow.defaultProps,
       this.context.formRow
     )
 
@@ -358,3 +347,5 @@ export const prepareFormRowContext = (props) => {
   }
   return props
 }
+
+export const propTypes = FormRow.propTypes

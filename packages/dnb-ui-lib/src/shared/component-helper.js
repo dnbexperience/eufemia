@@ -388,21 +388,22 @@ export const toPascalCase = (s) =>
       ''
     )
 
-export const pickRenderProps = (props, renderProps) =>
-  Object.entries(props)
-    .filter(([key, value]) => {
-      if (
-        typeof renderProps[key] !== 'undefined' || // TODO: remove this because of security notation
-        key === 'children' ||
-        key === 'custom_method'
-      )
-        return false
-      return typeof value === 'function'
-    })
-    .reduce((obj, [key, value]) => {
-      obj[key] = value // TODO: remove this because of security notation
-      return obj
-    }, {})
+// Removed as we now run function props from Web Components (custom-element)
+// export const pickRenderProps = (props, renderProps) =>
+//   Object.entries(props)
+//     .filter(([key, value]) => {
+//       if (
+//         typeof renderProps[key] !== 'undefined' || // TODO: remove this because of security notation
+//         key === 'children' ||
+//         key === 'custom_method'
+//       )
+//         return false
+//       return typeof value === 'function'
+//     })
+//     .reduce((obj, [key, value]) => {
+//       obj[key] = value // TODO: remove this because of security notation
+//       return obj
+//     }, {})
 
 /**
  * [detectOutsideClick Detects a click outside a given DOM element]

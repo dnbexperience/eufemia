@@ -17,51 +17,45 @@ import {
 import { createSpacingClasses } from '../space/SpacingHelper'
 import ProgressIndicatorCircular from './ProgressIndicatorCircular'
 
-const renderProps = { on_complete: null }
-
-const propTypes = {
-  visible: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  type: PropTypes.oneOf(['circular']),
-  no_animation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  size: PropTypes.oneOf(['small', 'medium', 'large', 'huge']),
-  progress: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  label: PropTypes.node,
-  label_direction: PropTypes.string,
-  show_label: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
-  indicator_label: PropTypes.string,
-
-  // Web Component props
-  on_complete: PropTypes.func
-}
-
-const defaultProps = {
-  visible: true,
-  type: 'circular',
-  no_animation: false,
-  size: 'medium',
-  progress: null,
-  label: null,
-  label_direction: 'horizontal',
-  show_label: false,
-  children: null,
-  indicator_label: null,
-
-  // Web Component props
-  ...renderProps
-}
-
 export default class ProgressIndicator extends React.PureComponent {
   static tagName = 'dnb-progress-indicator'
-  static propTypes = propTypes
-  static defaultProps = defaultProps
   static contextType = Context
+
+  static propTypes = {
+    visible: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    type: PropTypes.oneOf(['circular']),
+    no_animation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    size: PropTypes.oneOf(['small', 'medium', 'large', 'huge']),
+    progress: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    label: PropTypes.node,
+    label_direction: PropTypes.string,
+    show_label: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
+    indicator_label: PropTypes.string,
+
+    on_complete: PropTypes.func
+  }
+
+  static defaultProps = {
+    visible: true,
+    type: 'circular',
+    no_animation: false,
+    size: 'medium',
+    progress: null,
+    label: null,
+    label_direction: 'horizontal',
+    show_label: false,
+    children: null,
+    indicator_label: null,
+
+    on_complete: null
+  }
 
   static enableWebComponent() {
     registerElement(
       ProgressIndicator.tagName,
       ProgressIndicator,
-      defaultProps
+      ProgressIndicator.defaultProps
     )
   }
 
@@ -105,7 +99,7 @@ export default class ProgressIndicator extends React.PureComponent {
     // use only the props from context, who are available here anyway
     const props = extendPropsWithContext(
       this.props,
-      defaultProps,
+      ProgressIndicator.defaultProps,
       this.context.formRow,
       this.context.translation.ProgressIndicator
     )

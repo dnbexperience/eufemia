@@ -14,53 +14,43 @@ import {
 } from '../../shared/component-helper'
 import { createSpacingClasses } from '../space/SpacingHelper'
 
-// Web Component props
-const renderProps = {}
-
-const propTypes = {
-  size: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  ratio: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  height: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  alt: PropTypes.string,
-  color: PropTypes.string,
-  class: PropTypes.string,
-
-  // React props
-  className: PropTypes.string
-}
-
-const defaultProps = {
-  size: null,
-  ratio: 1.453690625,
-  width: null,
-  height: null,
-  alt: 'DNB Logo',
-  color: null,
-  class: null,
-
-  // React props
-  className: null,
-
-  // Web Component props
-  ...renderProps
-}
-
 export default class Logo extends React.PureComponent {
   static tagName = 'dnb-logo'
-  static propTypes = propTypes
-  static defaultProps = defaultProps
   static contextType = Context
 
+  static propTypes = {
+    size: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    ratio: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    height: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    alt: PropTypes.string,
+    color: PropTypes.string,
+    class: PropTypes.string,
+
+    className: PropTypes.string
+  }
+
+  static defaultProps = {
+    size: null,
+    ratio: 1.453690625,
+    width: null,
+    height: null,
+    alt: 'DNB Logo',
+    color: null,
+    class: null,
+
+    className: null
+  }
+
   static enableWebComponent() {
-    registerElement(Logo.tagName, Logo, defaultProps)
+    registerElement(Logo.tagName, Logo, Logo.defaultProps)
   }
 
   render() {
     // use only the props from context, who are available here anyway
     const props = extendPropsWithContext(
       this.props,
-      defaultProps,
+      Logo.defaultProps,
       this.context.formRow,
       this.context.translation.Logo
     )

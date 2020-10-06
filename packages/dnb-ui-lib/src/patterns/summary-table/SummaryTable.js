@@ -14,49 +14,47 @@ import {
 // import './style/dnb-summary-table.scss' // no good solution to import the style here
 import Button from '../../components/button/Button'
 
-const renderProps = {
-  render_left_content: null,
-  render_right_content: null
-}
-
-const propTypes = {
-  prev_href: PropTypes.string,
-  next_href: PropTypes.string,
-  prev_text: PropTypes.string,
-  next_text: PropTypes.string,
-  prev_title: PropTypes.string,
-  next_title: PropTypes.string,
-  class: PropTypes.string,
-  /** React props */
-  className: PropTypes.string,
-  children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
-  // Web Component props
-  render_left_content: PropTypes.func,
-  render_right_content: PropTypes.func
-}
-
-const defaultProps = {
-  prev_href: null,
-  next_href: null,
-  prev_text: 'Back',
-  next_text: 'Next',
-  prev_title: 'Go back',
-  next_title: 'Go next',
-  class: null,
-  /** React props */
-  className: null,
-  children: null,
-  // Web Component props
-  ...renderProps
-}
-
 export default class SummaryTable extends React.PureComponent {
   static tagName = 'dnb-summary-table'
-  static propTypes = propTypes
-  static defaultProps = defaultProps
+
+  static propTypes = {
+    prev_href: PropTypes.string,
+    next_href: PropTypes.string,
+    prev_text: PropTypes.string,
+    next_text: PropTypes.string,
+    prev_title: PropTypes.string,
+    next_title: PropTypes.string,
+    class: PropTypes.string,
+    /** React props */
+    className: PropTypes.string,
+    children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
+
+    render_left_content: PropTypes.func,
+    render_right_content: PropTypes.func
+  }
+
+  static defaultProps = {
+    prev_href: null,
+    next_href: null,
+    prev_text: 'Back',
+    next_text: 'Next',
+    prev_title: 'Go back',
+    next_title: 'Go next',
+    class: null,
+    /** React props */
+    className: null,
+    children: null,
+
+    render_left_content: null,
+    render_right_content: null
+  }
 
   static enableWebComponent() {
-    registerElement(SummaryTable.tagName, SummaryTable, defaultProps)
+    registerElement(
+      SummaryTable.tagName,
+      SummaryTable,
+      SummaryTable.defaultProps
+    )
   }
 
   static getLeftContent(props) {

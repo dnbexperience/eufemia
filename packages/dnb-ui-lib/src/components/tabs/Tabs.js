@@ -26,97 +26,92 @@ import {
   skeletonDOMAttributes
 } from '../skeleton/SkeletonHelper'
 
-const renderProps = {
-  render: null
-}
-
-const propTypes = {
-  data: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.arrayOf(
-      PropTypes.shape({
-        title: PropTypes.oneOfType([
-          PropTypes.string,
-          PropTypes.node,
-          PropTypes.func
-        ]).isRequired,
-        key: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
-          .isRequired,
-        selected: PropTypes.bool,
-        disabled: PropTypes.bool
-      })
-    ),
-    PropTypes.objectOf(
-      PropTypes.shape({
-        title: PropTypes.string.isRequired,
-        selected: PropTypes.bool,
-        disabled: PropTypes.bool
-      })
-    )
-  ]),
-  content: PropTypes.oneOfType([
-    PropTypes.object,
-    PropTypes.node,
-    PropTypes.func
-  ]),
-  label: PropTypes.string,
-  selected_key: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  align: PropTypes.oneOf(['left', 'center', 'right']),
-  section_style: PropTypes.string,
-  section_spacing: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  use_hash: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  prerender: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  prevent_rerender: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.bool
-  ]),
-  skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  id: PropTypes.string,
-  class: PropTypes.string,
-
-  // React props
-  className: PropTypes.string,
-  children: PropTypes.oneOfType([
-    PropTypes.object,
-    PropTypes.node,
-    PropTypes.func
-  ]),
-
-  // Web Component props
-  render: PropTypes.func
-}
-
-const defaultProps = {
-  data: null,
-  content: null,
-  label: null,
-  selected_key: null,
-  align: 'left',
-  section_style: null,
-  section_spacing: null,
-  use_hash: false,
-  prerender: false,
-  prevent_rerender: false,
-  skeleton: null,
-  id: null,
-  class: null,
-
-  // React props
-  className: null,
-  children: null,
-
-  // Web Component props
-  ...renderProps
-}
-
 export default class Tabs extends React.PureComponent {
   static tagName = 'dnb-tabs'
-  static propTypes = propTypes
-  static defaultProps = defaultProps
   static contextType = Context
 
+  static propTypes = {
+    data: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.arrayOf(
+        PropTypes.shape({
+          title: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.node,
+            PropTypes.func
+          ]).isRequired,
+          key: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+            .isRequired,
+          selected: PropTypes.bool,
+          disabled: PropTypes.bool
+        })
+      ),
+      PropTypes.objectOf(
+        PropTypes.shape({
+          title: PropTypes.string.isRequired,
+          selected: PropTypes.bool,
+          disabled: PropTypes.bool
+        })
+      )
+    ]),
+    content: PropTypes.oneOfType([
+      PropTypes.object,
+      PropTypes.node,
+      PropTypes.func
+    ]),
+    label: PropTypes.string,
+    selected_key: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number
+    ]),
+    align: PropTypes.oneOf(['left', 'center', 'right']),
+    section_style: PropTypes.string,
+    section_spacing: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool
+    ]),
+    use_hash: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    prerender: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    prevent_rerender: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool
+    ]),
+    skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    id: PropTypes.string,
+    class: PropTypes.string,
+
+    className: PropTypes.string,
+    children: PropTypes.oneOfType([
+      PropTypes.object,
+      PropTypes.node,
+      PropTypes.func
+    ]),
+
+    render: PropTypes.func
+  }
+
+  static defaultProps = {
+    data: null,
+    content: null,
+    label: null,
+    selected_key: null,
+    align: 'left',
+    section_style: null,
+    section_spacing: null,
+    use_hash: false,
+    prerender: false,
+    prevent_rerender: false,
+    skeleton: null,
+    id: null,
+    class: null,
+
+    className: null,
+    children: null,
+    render: null
+  }
+
   static enableWebComponent() {
-    registerElement(Tabs.tagName, Tabs, defaultProps)
+    registerElement(Tabs.tagName, Tabs, Tabs.defaultProps)
   }
 
   static getSelectedKeyOrFallback(selected_key, data) {
@@ -502,7 +497,7 @@ export default class Tabs extends React.PureComponent {
 
   TabsWrapperHandler = ({ children, ...rest }) => {
     const { className, class: _className } = this.props
-    const { ...attributes } = filterProps(this.props, propTypes)
+    const { ...attributes } = filterProps(this.props, Tabs.propTypes)
 
     const params = {
       ...attributes,
@@ -637,14 +632,14 @@ export default class Tabs extends React.PureComponent {
   render() {
     const props = (this._props = extendPropsWithContext(
       this.props,
-      defaultProps,
+      Tabs.defaultProps,
       { skeleton: this.context?.skeleton }
     ))
 
     const { render: customRenderer } = props
 
-    const Tabs = this.TabsHandler
-    Tabs.displayName = 'Tabs'
+    const TabItems = this.TabsHandler
+    TabItems.displayName = 'Tabs'
 
     const TabsList = this.TabsListHandler
     TabsList.displayName = 'TabsList'
@@ -657,13 +652,18 @@ export default class Tabs extends React.PureComponent {
 
     // here we reuse the component, if it has a custom renderer
     if (typeof customRenderer === 'function') {
-      return customRenderer({ Wrapper, Content, TabsList, Tabs })
+      return customRenderer({
+        Wrapper,
+        Content,
+        TabsList,
+        Tabs: TabItems
+      })
     }
 
     return (
       <Wrapper>
         <TabsList>
-          <Tabs />
+          <TabItems />
         </TabsList>
         <Content showEmptyMessage />
       </Wrapper>

@@ -14,48 +14,41 @@ import {
 // import './style/dnb-notification.scss' // no good solution to import the style here
 import Icon from '../../components/icon-primary/IconPrimary'
 
-const renderProps = {
-  // render_content: null
-}
-
-const propTypes = {
-  notification_amount: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number
-  ]),
-  title_text: PropTypes.string,
-  class: PropTypes.string,
-  /** React props */
-  className: PropTypes.string,
-  children: PropTypes.oneOfType([PropTypes.node, PropTypes.func])
-  // Web Component props
-  // render_content: PropTypes.func
-}
-
-const defaultProps = {
-  notification_amount: 0,
-  title_text: null,
-  class: null,
-  /** React props */
-  className: null,
-  children: null,
-  // Web Component props
-  ...renderProps
-}
-
 export default class Notification extends React.PureComponent {
   static tagName = 'dnb-notification'
-  static propTypes = propTypes
-  static defaultProps = defaultProps
+
+  static propTypes = {
+    notification_amount: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number
+    ]),
+    title_text: PropTypes.string,
+    class: PropTypes.string,
+    className: PropTypes.string,
+    children: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.node,
+      PropTypes.func
+    ])
+  }
+
+  static defaultProps = {
+    notification_amount: 0,
+    title_text: null,
+    class: null,
+    className: null,
+    children: null
+  }
 
   static enableWebComponent() {
-    registerElement(Notification.tagName, Notification, defaultProps)
+    registerElement(
+      Notification.tagName,
+      Notification,
+      Notification.defaultProps
+    )
   }
 
   // static getContent(props) {
-  //   if (typeof props.render_content === 'function') {
-  //     return props.render_content(props)
-  //   }
   //   return processChildren(props)
   // }
 

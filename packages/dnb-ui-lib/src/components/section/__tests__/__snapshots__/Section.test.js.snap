@@ -5,12 +5,12 @@ exports[`Section component have to match snapshot 1`] = `
   class="class"
   className="className"
   element={null}
-  spacing={true}
+  spacing="spacing"
   style={null}
   style_type="mint-green-12"
 >
   <section
-    className="dnb-section dnb-section--mint-green-12 dnb-section--spacing className class"
+    className="dnb-section dnb-section--mint-green-12 dnb-section--spacing-spacing className class"
   >
     children
   </section>

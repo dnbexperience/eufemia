@@ -69,7 +69,6 @@ export default class Icon extends React.PureComponent {
     skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     attributes: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
 
-    // React props
     className: PropTypes.string,
     children: PropTypes.oneOfType([PropTypes.node, PropTypes.func])
   }
@@ -87,7 +86,6 @@ export default class Icon extends React.PureComponent {
     skeleton: null,
     attributes: null,
 
-    // React props
     className: null,
     children: null
   }
