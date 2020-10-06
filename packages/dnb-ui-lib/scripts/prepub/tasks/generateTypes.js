@@ -13,29 +13,22 @@ import * as babel from '@babel/core'
 import { fetchPropertiesFromDocs } from './fetchPropertiesFromDocs'
 
 export default async function generateTypes({
-  globes = [
-    // './src/index.js',
-    // './src/**/index.js',
-    // './src/components/*.js',
-    // './src/patterns/*.js',
-    // './src/fragments/*.js',
-    // './src/components/**/**/*.js',
-    // './src/patterns/**/**/*.js',
-    // './src/fragments/**/**/*.js',
-    // './src/elements/*.js',
-
-    // For testing only
-    './src/components/section/Section.js',
-    // './src/components/{section,button}/*.js',
-    './src/elements/Anchor.js',
-    // './src/components/index.js',
-    './src/components/number/Number.js'
+  paths = [
+    './src/index.js',
+    './src/**/index.js',
+    './src/components/*.js',
+    './src/patterns/*.js',
+    './src/fragments/*.js',
+    './src/components/**/**/*.js',
+    './src/patterns/**/**/*.js',
+    './src/fragments/**/**/*.js',
+    './src/elements/*.js'
   ]
 } = {}) {
   log.start('> PrePublish: generating types')
 
   try {
-    await asyncForEach(globes, async (globe) => {
+    await asyncForEach(paths, async (globe) => {
       const files = await globby(globe)
       await createTypes(files)
     })
