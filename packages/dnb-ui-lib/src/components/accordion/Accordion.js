@@ -50,21 +50,13 @@ const propTypes = {
     PropTypes.bool
   ]),
   variant: PropTypes.oneOf(['default', 'outlined', 'filled']),
-  left_component: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.node,
-    PropTypes.func
-  ]),
+  left_component: PropTypes.node,
   allow_close_all: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   id: PropTypes.string,
   group: PropTypes.string,
-  element: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.node,
-    PropTypes.func
-  ]),
+  element: PropTypes.node,
   heading: PropTypes.oneOfType([
     PropTypes.bool,
     PropTypes.string,
@@ -84,11 +76,7 @@ const propTypes = {
 
   /// React props
   className: PropTypes.string,
-  children: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.node,
-    PropTypes.func
-  ]),
+  children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
 
   // Web Component props
   custom_element: PropTypes.object,

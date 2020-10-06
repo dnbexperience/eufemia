@@ -37,11 +37,7 @@ const propTypes = {
   id: PropTypes.string,
   mode: PropTypes.oneOf(['modal', 'drawer']),
   labelled_by: PropTypes.string,
-  title: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.node,
-    PropTypes.func
-  ]),
+  title: PropTypes.node,
   disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   trigger_hidden: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   trigger_disabled: PropTypes.oneOfType([
@@ -88,11 +84,7 @@ const propTypes = {
 
   // React props
   className: PropTypes.string,
-  children: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.node,
-    PropTypes.func
-  ]),
+  children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
 
   // Events and functions
   on_open: PropTypes.func,

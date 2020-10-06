@@ -57,11 +57,7 @@ const propTypes = {
 
   /** React props */
   className: PropTypes.string,
-  children: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.node,
-    PropTypes.func
-  ]),
+  children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
 
   // Web Component props
   on_change: PropTypes.func

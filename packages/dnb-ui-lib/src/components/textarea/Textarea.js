@@ -77,11 +77,7 @@ const propTypes = {
   // React props
   className: PropTypes.string,
   textarea_element: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
-  children: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.node,
-    PropTypes.func
-  ]),
+  children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
 
   // Web Component props
   custom_element: PropTypes.object,

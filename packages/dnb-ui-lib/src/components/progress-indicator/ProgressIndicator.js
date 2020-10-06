@@ -25,18 +25,10 @@ const propTypes = {
   no_animation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   size: PropTypes.oneOf(['small', 'medium', 'large', 'huge']),
   progress: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  label: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.node,
-    PropTypes.func
-  ]),
+  label: PropTypes.node,
   label_direction: PropTypes.string,
   show_label: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  children: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.node,
-    PropTypes.func
-  ]),
+  children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
   indicator_label: PropTypes.string,
 
   // Web Component props

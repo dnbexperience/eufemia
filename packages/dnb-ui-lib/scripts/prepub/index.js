@@ -24,6 +24,7 @@ import convertSvgToJsx from './tasks/convertSvgToJsx'
 import makeLibStyles from './tasks/makeLibStyles'
 import makeMainStyle from './tasks/makeMainStyle'
 import makePropertiesFile from './tasks/makePropertiesFile'
+import generateTypes from './tasks/generateTypes'
 
 // NB: Deprecated and replaced by Babel only build
 // import makeLibModules from './tasks/makeLibModules'
@@ -39,7 +40,8 @@ export {
   convertSvgToJsx,
   makeLibStyles,
   makeMainStyle,
-  makePropertiesFile
+  makePropertiesFile,
+  generateTypes
 
   // NB: Deprecated and replaced by Babel only build
   // makeLibModules,
@@ -69,6 +71,7 @@ export const runPrepublishTasks = async ({
     await makePropertiesFile()
 
     await prepareTemplates()
+    await generateTypes()
 
     // NB: Deprecated and replaced by Babel only build
     // await makeLibModules()

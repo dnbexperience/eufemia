@@ -18,11 +18,7 @@ const propTypes = {
   // React props
   instance: PropTypes.object,
   className: PropTypes.string,
-  children: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.node,
-    PropTypes.func
-  ])
+  children: PropTypes.oneOfType([PropTypes.node, PropTypes.func])
 }
 
 const defaultProps = {
