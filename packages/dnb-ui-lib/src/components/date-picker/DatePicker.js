@@ -753,6 +753,7 @@ export default class DatePicker extends React.PureComponent {
     const pickerParams = {}
     if (showStatus || suffix) {
       pickerParams['aria-describedby'] = [
+        pickerParams['aria-describedby'],
         showStatus ? id + '-status' : null,
         suffix ? id + '-suffix' : null
       ]

@@ -297,6 +297,7 @@ export default class Textarea extends React.PureComponent {
     // we may considder using: aria-details
     if (showStatus || suffix) {
       textareaParams['aria-describedby'] = [
+        textareaParams['aria-describedby'],
         showStatus ? id + '-status' : null,
         suffix ? id + '-suffix' : null
       ]

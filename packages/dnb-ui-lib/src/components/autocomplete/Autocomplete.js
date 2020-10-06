@@ -1512,6 +1512,7 @@ class AutocompleteInstance extends React.PureComponent {
 
     if (showStatus || suffix) {
       inputParams['aria-describedby'] = [
+        inputParams['aria-describedby'],
         showStatus ? id + '-status' : null,
         suffix ? id + '-suffix' : null
       ]

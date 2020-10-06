@@ -215,6 +215,7 @@ export default class RadioGroup extends React.PureComponent {
 
     if (showStatus || suffix) {
       params['aria-describedby'] = [
+        params['aria-describedby'],
         showStatus ? id + '-status' : null,
         suffix ? id + '-suffix' : null
       ]

@@ -607,6 +607,7 @@ export default class Slider extends React.PureComponent {
     }
     if (showStatus || suffix) {
       helperParams['aria-describedby'] = [
+        helperParams['aria-describedby'],
         showStatus ? id + '-status' : null,
         suffix ? id + '-suffix' : null
       ]
