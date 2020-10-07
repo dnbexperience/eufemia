@@ -167,6 +167,7 @@ const propTypes = {
   opened: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   drawer_class: PropTypes.string,
+  input_ref: PropTypes.object,
   class: PropTypes.string,
 
   // React
@@ -239,6 +240,7 @@ const defaultProps = {
   opened: null,
   disabled: null,
   drawer_class: null,
+  input_ref: null,
   class: null,
 
   // React props
@@ -1360,6 +1362,7 @@ class AutocompleteInstance extends React.PureComponent {
       default_value,
       submit_button_title,
       drawer_class,
+      input_ref, // eslint-disable-line
       className,
       class: _className,
       disabled,
@@ -1462,6 +1465,7 @@ class AutocompleteInstance extends React.PureComponent {
       onFocus: this.onInputFocusHandler,
       onBlur: this.onBlurHandler,
       icon_position,
+      inner_ref: input_ref,
       disabled,
       ...attributes
     }
