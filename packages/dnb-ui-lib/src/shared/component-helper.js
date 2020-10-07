@@ -553,7 +553,10 @@ export const filterProps = (props, remove = null, allowed = null) => {
     }, {})
   }
   return Object.entries(props).reduce((acc, [k, v]) => {
-    if ((remove && !remove[k]) || (allowed && allowed[k])) {
+    if (
+      (remove && typeof remove[k] === 'undefined') ||
+      (allowed && typeof allowed[k] !== 'undefined')
+    ) {
       acc[k] = v
     }
     return acc

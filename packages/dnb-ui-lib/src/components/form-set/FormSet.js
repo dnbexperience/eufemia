@@ -18,7 +18,7 @@ import {
 import { createSpacingClasses } from '../space/SpacingHelper'
 import Context from '../../shared/Context'
 import hashSum from '../../shared/libs/HashSum'
-import { propTypes as availableFormRowProps } from '../form-row/FormRow'
+import { defaultProps as formRowDefaultProps } from '../form-row/FormRow'
 
 export default class FormSet extends React.PureComponent {
   static tagName = 'dnb-form-set'
@@ -99,7 +99,7 @@ export default class FormSet extends React.PureComponent {
 
     const formRowProps = Object.entries(rest).reduce((acc, [k, v]) => {
       if (
-        typeof availableFormRowProps[k] !== 'undefined' &&
+        typeof formRowDefaultProps[k] !== 'undefined' &&
         k !== 'id' &&
         k !== 'children' &&
         k !== 'label'

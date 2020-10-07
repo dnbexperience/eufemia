@@ -348,4 +348,4 @@ export const prepareFormRowContext = (props) => {
   return props
 }
 
-export const propTypes = FormRow.propTypes
+export const defaultProps = FormRow.defaultProps

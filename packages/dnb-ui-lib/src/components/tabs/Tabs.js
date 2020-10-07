@@ -497,7 +497,7 @@ export default class Tabs extends React.PureComponent {
 
   TabsWrapperHandler = ({ children, ...rest }) => {
     const { className, class: _className } = this.props
-    const { ...attributes } = filterProps(this.props, Tabs.propTypes)
+    const { ...attributes } = filterProps(this.props, Tabs.defaultProps)
 
     const params = {
       ...attributes,
