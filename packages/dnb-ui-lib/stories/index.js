@@ -8,6 +8,7 @@ import { storiesOf } from '@storybook/react'
 import components from './componentsStories'
 import typography from './typographyStories'
 import elements from './elementsStories'
+import patterns from './patternsStories'
 import helpers from './helperStories'
 
 // only for testing
@@ -51,6 +52,10 @@ typography
 elements
   .sort(([a], [b]) => (a > b ? 1 : -1))
   .forEach((component) => storiesOf('Elements', module).add(...component))
+
+patterns
+  .sort(([a], [b]) => (a > b ? 1 : -1))
+  .forEach((component) => storiesOf('Patterns', module).add(...component))
 
 helpers
   .sort(([a], [b]) => (a > b ? 1 : -1))

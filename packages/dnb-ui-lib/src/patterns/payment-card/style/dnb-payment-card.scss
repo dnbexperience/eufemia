@@ -1,0 +1,12 @@
+/*
+* DNB PaymentCard
+*
+*/
+
+@import '../../../style/components/imports.scss';
+
+.dnb-payment-card {
+  @include componentReset();
+}
+
+@import './_payment-card.scss';
