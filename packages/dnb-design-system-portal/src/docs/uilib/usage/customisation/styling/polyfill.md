@@ -23,7 +23,7 @@ Use [postcss-preset-env](https://github.com/csstools/postcss-preset-env). Exampl
         stage: 0,
         preserve: true,
         browsers: ['last 2 versions', 'explorer >= 11'],
-        importFrom: [require.resolve('dnb-ui-lib/build/style/dnb-ui-properties.css')]
+        importFrom: [require.resolve('dnb-ui-lib/style/dnb-ui-properties.css')]
       })
     ]
   }
@@ -31,6 +31,10 @@ Use [postcss-preset-env](https://github.com/csstools/postcss-preset-env). Exampl
 ```
 
 _Notes_: Use `preserve: true` so we get the calc from vars `calc(var() + var())`, to get processed for IE later with [postcss-calc](https://github.com/postcss/postcss-calc) if this is needed.
+
+### Post CSS and Create React App
+
+Here's an example [CRA Codesandbox](https://codesandbox.io/s/eufemia-scss-polyfill-knfpz?file=/config-overrides.js) with `postcss` config and omit of file hashing.
 
 ## SASS (SCSS) / LESS
 
