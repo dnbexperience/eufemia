@@ -23,12 +23,7 @@ Use [postcss-preset-env](https://github.com/csstools/postcss-preset-env). Exampl
         stage: 0,
         preserve: true,
         browsers: ['last 2 versions', 'explorer >= 11'],
-        importFrom: [
-          path.resolve(
-            __dirname,
-            '../../node_modules/dnb-ui-lib/style/dnb-ui-properties.css'
-          )
-        ]
+        importFrom: [require.resolve('dnb-ui-lib/build/style/dnb-ui-properties.css')]
       })
     ]
   }
