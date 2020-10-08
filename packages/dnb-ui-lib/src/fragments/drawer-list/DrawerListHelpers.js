@@ -127,19 +127,18 @@ export const getData = (props) => {
   return normalizeData(props)
 }
 
-export const findCurrentIndex = (current_item, data) => {
-  return data.findIndex(({ __id }) => __id === current_item)
-}
+// export const findCurrentIndex = (current_item, data) => {
+//   return data.findIndex(({ __id }) => __id === current_item)
+// }
 
 export const getCurrentIndex = (value, data) => {
-  // is numeric
-  if (parseFloat(value) > -1) {
-    return value
-  }
-
-  // if a key is given as a string
-  else if (typeof value === 'string') {
+  // if a key is given as a not numeric value
+  if (/[^0-9]/.test(String(value))) {
     return data?.findIndex((cur) => parseCurrentValue(cur) === value)
+  }
+  // is numeric
+  else if (parseFloat(value) > -1) {
+    return value
   }
 
   return null
@@ -148,7 +147,7 @@ export const getCurrentIndex = (value, data) => {
 export const getSelectedItemValue = (value, state) => {
   if (hasObjectKeyAsValue(state)) {
     return parseCurrentValue(
-      state.data.filter((data, i) => i === parseFloat(value))[0]
+      state.data.filter((_, i) => i === parseFloat(value))[0]
     )
   }
 
@@ -156,7 +155,13 @@ export const getSelectedItemValue = (value, state) => {
 }
 
 export const parseCurrentValue = (current) => {
-  return current?.selected_key || current?.content || current
+  if (typeof current?.selected_key !== 'undefined') {
+    return current?.selected_key
+  }
+  if (typeof current?.content !== 'undefined') {
+    return current?.content
+  }
+  return current
 }
 
 export const getEventData = (item_index, data) => {
