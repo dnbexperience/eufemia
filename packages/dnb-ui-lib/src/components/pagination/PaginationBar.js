@@ -19,23 +19,21 @@ import PaginationContext from './PaginationContext'
 
 import Button from '../button/Button'
 
-const propTypes = {
-  contentRef: PropTypes.object,
-  children: PropTypes.oneOfType([PropTypes.node, PropTypes.func])
-}
-const defaultProps = {
-  contentRef: null,
-  children: null,
-  button_title: null,
-  prev_title: null,
-  next_title: null,
-  more_pages: null
-}
-
 export default class PaginationBar extends React.PureComponent {
   static contextType = PaginationContext
-  static propTypes = propTypes
-  static defaultProps = defaultProps
+
+  static propTypes = {
+    contentRef: PropTypes.object,
+    children: PropTypes.oneOfType([PropTypes.node, PropTypes.func])
+  }
+  static defaultProps = {
+    contentRef: null,
+    children: null,
+    button_title: null,
+    prev_title: null,
+    next_title: null,
+    more_pages: null
+  }
 
   componentDidMount() {
     const pgn = this.context.pagination
@@ -140,7 +138,7 @@ export default class PaginationBar extends React.PureComponent {
   render() {
     const props = extendPropsWithContext(
       this.props,
-      defaultProps,
+      PaginationBar.defaultProps,
       this.context.translation.Pagination
     )
 

@@ -15,54 +15,44 @@ import {
 import Context from '../../shared/Context'
 import { createSpacingClasses } from '../../components/space/SpacingHelper'
 
-const renderProps = {
-  render_content: null
-}
-
-const propTypes = {
-  // React props
-  className: PropTypes.string,
-  children: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-    PropTypes.node
-  ]),
-  innerRef: PropTypes.oneOfType([
-    PropTypes.func,
-    PropTypes.object,
-    PropTypes.node
-  ]),
-
-  // Web Component props
-  class: PropTypes.string,
-  render_content: PropTypes.func
-}
-
-const defaultProps = {
-  // React props
-  className: null,
-  children: null,
-  innerRef: null,
-
-  // Web Component props
-  class: null,
-  ...renderProps
-}
-
 class ScrollView extends React.PureComponent {
   static tagName = 'dnb-scroll-view'
-  static propTypes = propTypes
-  static defaultProps = defaultProps
   static contextType = Context
 
+  static propTypes = {
+    className: PropTypes.string,
+    children: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.func,
+      PropTypes.node
+    ]),
+    innerRef: PropTypes.oneOfType([
+      PropTypes.func,
+      PropTypes.object,
+      PropTypes.node
+    ]),
+
+    class: PropTypes.string
+  }
+
+  static defaultProps = {
+    className: null,
+    children: null,
+    innerRef: null,
+
+    class: null
+  }
+
   static enableWebComponent() {
-    registerElement(ScrollView.tagName, ScrollView, defaultProps)
+    registerElement(
+      ScrollView.tagName,
+      ScrollView,
+      ScrollView.defaultProps
+    )
   }
 
   static getContent(props) {
     if (props.text) return props.text
-    if (typeof props.render_content === 'function')
-      props.render_content(props)
     return processChildren(props)
   }
 
@@ -75,7 +65,7 @@ class ScrollView extends React.PureComponent {
     // use only the props from context, who are available here anyway
     const props = extendPropsWithContext(
       this.props,
-      defaultProps,
+      ScrollView.defaultProps,
       this.context.formRow
     )
 

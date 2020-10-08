@@ -9,28 +9,25 @@ import classnames from 'classnames'
 import { validateDOMAttributes } from '../../shared/component-helper'
 import { IS_IE11, IS_EDGE } from '../../shared/helpers'
 
-const propTypes = {
-  size: PropTypes.string,
-  visible: PropTypes.bool,
-  complete: PropTypes.bool,
-  progress: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  maxOffset: PropTypes.number,
-  onComplete: PropTypes.func,
-  callOnCompleteHandler: PropTypes.func
-}
-const defaultProps = {
-  size: null,
-  visible: true,
-  complete: false,
-  progress: null,
-  maxOffset: 88,
-  onComplete: null,
-  callOnCompleteHandler: null
-}
-
 export default class ProgressIndicatorCircular extends React.PureComponent {
-  static propTypes = propTypes
-  static defaultProps = defaultProps
+  static propTypes = {
+    size: PropTypes.string,
+    visible: PropTypes.bool,
+    complete: PropTypes.bool,
+    progress: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    maxOffset: PropTypes.number,
+    onComplete: PropTypes.func,
+    callOnCompleteHandler: PropTypes.func
+  }
+  static defaultProps = {
+    size: null,
+    visible: true,
+    complete: false,
+    progress: null,
+    maxOffset: 88,
+    onComplete: null,
+    callOnCompleteHandler: null
+  }
   static getDerivedStateFromProps(props, state) {
     state.progress = parseFloat(props.progress)
     state.visible = props.visible

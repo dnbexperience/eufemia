@@ -20,72 +20,6 @@ import {
   createSkeletonClass
 } from '../skeleton/SkeletonHelper'
 
-const propTypes = {
-  title: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.node,
-    PropTypes.func
-  ]),
-  description: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.node,
-    PropTypes.func
-  ]),
-  left_component: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.node,
-    PropTypes.func
-  ]),
-  element: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.node,
-    PropTypes.func
-  ]),
-  heading: PropTypes.oneOfType([
-    PropTypes.bool,
-    PropTypes.string,
-    PropTypes.node,
-    PropTypes.func
-  ]),
-  heading_level: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  icon: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.node,
-    PropTypes.func
-  ]),
-  icon_position: PropTypes.string,
-  icon_size: PropTypes.string,
-  disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-
-  /// React props
-  className: PropTypes.string,
-  children: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.node,
-    PropTypes.func
-  ])
-}
-
-const defaultProps = {
-  id: null, // make sure we have id here, so it gets picked up by extendPropsWithContext
-  title: null,
-  description: null,
-  left_component: null,
-  element: null,
-  heading: null,
-  heading_level: null,
-  icon: null,
-  icon_position: null,
-  icon_size: 'medium',
-  disabled: null,
-  skeleton: null,
-
-  // React props
-  className: null,
-  children: null
-}
-
 function AccordionHeaderTitle({ children, ...rest }) {
   return (
     <span
@@ -99,11 +33,7 @@ function AccordionHeaderTitle({ children, ...rest }) {
   )
 }
 AccordionHeaderTitle.propTypes = {
-  children: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.node,
-    PropTypes.func
-  ])
+  children: PropTypes.oneOfType([PropTypes.node, PropTypes.func])
 }
 AccordionHeaderTitle.defaultProps = {
   children: null
@@ -122,11 +52,7 @@ function AccordionHeaderDescription({ children, ...rest }) {
   ) : null
 }
 AccordionHeaderDescription.propTypes = {
-  children: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.node,
-    PropTypes.func
-  ])
+  children: PropTypes.oneOfType([PropTypes.node, PropTypes.func])
 }
 AccordionHeaderDescription.defaultProps = {
   children: null
@@ -145,11 +71,7 @@ function AccordionHeaderContainer({ children, ...rest }) {
   ) : null
 }
 AccordionHeaderContainer.propTypes = {
-  children: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.node,
-    PropTypes.func
-  ])
+  children: PropTypes.oneOfType([PropTypes.node, PropTypes.func])
 }
 AccordionHeaderContainer.defaultProps = {
   children: null
@@ -176,9 +98,75 @@ AccordionHeaderIcon.defaultProps = {
 }
 
 export default class AccordionHeader extends React.PureComponent {
-  static propTypes = propTypes
-  static defaultProps = defaultProps
   static contextType = AccordionContext
+
+  static propTypes = {
+    title: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.node,
+      PropTypes.func
+    ]),
+    description: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.node,
+      PropTypes.func
+    ]),
+    left_component: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.node,
+      PropTypes.func
+    ]),
+    element: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.node,
+      PropTypes.func
+    ]),
+    heading: PropTypes.oneOfType([
+      PropTypes.bool,
+      PropTypes.string,
+      PropTypes.node,
+      PropTypes.func
+    ]),
+    heading_level: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number
+    ]),
+    icon: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.node,
+      PropTypes.func
+    ]),
+    icon_position: PropTypes.string,
+    icon_size: PropTypes.string,
+    disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+
+    /// React props
+    className: PropTypes.string,
+    children: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.node,
+      PropTypes.func
+    ])
+  }
+
+  static defaultProps = {
+    id: null, // make sure we have id here, so it gets picked up by extendPropsWithContext
+    title: null,
+    description: null,
+    left_component: null,
+    element: null,
+    heading: null,
+    heading_level: null,
+    icon: null,
+    icon_position: null,
+    icon_size: 'medium',
+    disabled: null,
+    skeleton: null,
+
+    className: null,
+    children: null
+  }
 
   static Container = AccordionHeaderContainer
   static Icon = AccordionHeaderIcon
@@ -234,7 +222,7 @@ export default class AccordionHeader extends React.PureComponent {
   render() {
     const props = extendPropsWithContext(
       this.props,
-      defaultProps,
+      AccordionHeader.defaultProps,
       this.context
     )
 

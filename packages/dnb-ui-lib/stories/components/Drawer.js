@@ -147,11 +147,8 @@ const DrawerStory = () => {
   )
 }
 
-export default [
-  'Drawer',
-  () => (
-    <CustomStyle>
-      <DrawerStory />
-    </CustomStyle>
-  )
-]
+export const Drawers = () => (
+  <CustomStyle>
+    <DrawerStory />
+  </CustomStyle>
+)

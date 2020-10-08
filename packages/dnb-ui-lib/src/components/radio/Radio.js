@@ -29,97 +29,89 @@ import RadioGroupContext from './RadioGroupContext'
 import Context from '../../shared/Context'
 import Suffix from '../../shared/helpers/Suffix'
 
-const renderProps = {
-  on_change: null,
-  on_state_update: null
-}
-
-const propTypes = {
-  label: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-    PropTypes.node
-  ]),
-  label_sr_only: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  label_position: PropTypes.oneOf(['left', 'right']),
-  checked: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  id: PropTypes.string,
-  group: PropTypes.string,
-  size: PropTypes.oneOf(['default', 'medium', 'large']),
-  status: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-    PropTypes.node
-  ]),
-  status_state: PropTypes.string,
-  status_animation: PropTypes.string,
-  global_status_id: PropTypes.string,
-  suffix: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-    PropTypes.node
-  ]),
-  value: PropTypes.string,
-  attributes: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-  skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  readOnly: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  class: PropTypes.string,
-
-  /// React props
-  className: PropTypes.string,
-  children: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
-
-  // Web Component props
-  custom_element: PropTypes.object,
-  custom_method: PropTypes.func,
-  on_change: PropTypes.func,
-  on_state_update: PropTypes.func
-}
-
-const defaultProps = {
-  label: null,
-  label_sr_only: null,
-  label_position: null,
-  checked: undefined,
-  disabled: false,
-  id: null,
-  size: null,
-  group: null,
-  status: null,
-  status_state: 'error',
-  status_animation: null,
-  global_status_id: null,
-  suffix: null,
-  value: '',
-  attributes: null,
-  readOnly: false,
-  skeleton: null,
-  class: null,
-
-  // React props
-  className: null,
-  children: null,
-
-  // Web Component props
-  custom_element: null,
-  custom_method: null,
-  ...renderProps
-}
-
 /**
  * The radio component is our enhancement of the classic radio button.
  */
 export default class Radio extends React.PureComponent {
   static tagName = 'dnb-radio'
-  static propTypes = propTypes
-  static defaultProps = defaultProps
-  static renderProps = renderProps
   static contextType = RadioGroupContext
+
+  static propTypes = {
+    label: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.func,
+      PropTypes.node
+    ]),
+    label_sr_only: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    label_position: PropTypes.oneOf(['left', 'right']),
+    checked: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    id: PropTypes.string,
+    group: PropTypes.string,
+    size: PropTypes.oneOf(['default', 'medium', 'large']),
+    status: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.func,
+      PropTypes.node
+    ]),
+    status_state: PropTypes.string,
+    status_animation: PropTypes.string,
+    global_status_id: PropTypes.string,
+    suffix: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.func,
+      PropTypes.node
+    ]),
+    value: PropTypes.string,
+    attributes: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+    skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    readOnly: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    class: PropTypes.string,
+
+    /// React props
+    className: PropTypes.string,
+    children: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
+
+    custom_element: PropTypes.object,
+    custom_method: PropTypes.func,
+    on_change: PropTypes.func,
+    on_state_update: PropTypes.func
+  }
+
+  static defaultProps = {
+    label: null,
+    label_sr_only: null,
+    label_position: null,
+    checked: undefined,
+    disabled: false,
+    id: null,
+    size: null,
+    group: null,
+    status: null,
+    status_state: 'error',
+    status_animation: null,
+    global_status_id: null,
+    suffix: null,
+    value: '',
+    attributes: null,
+    readOnly: false,
+    skeleton: null,
+    class: null,
+
+    className: null,
+    children: null,
+
+    custom_element: null,
+    custom_method: null,
+
+    on_change: null,
+    on_state_update: null
+  }
+
   static Group = RadioGroup
 
   static enableWebComponent() {
-    registerElement(Radio.tagName, Radio, defaultProps)
+    registerElement(Radio.tagName, Radio, Radio.defaultProps)
   }
 
   static parseChecked = (state) => /true|on/.test(String(state))
@@ -268,7 +260,7 @@ export default class Radio extends React.PureComponent {
           // use only the props from context, who are available here anyway
           const props = extendPropsWithContext(
             this.props,
-            defaultProps,
+            Radio.defaultProps,
             this.context, // internal context
             { skeleton: context?.skeleton },
             context.formRow

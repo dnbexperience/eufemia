@@ -58,7 +58,6 @@ export default class ModalContent extends React.PureComponent {
     content_class: PropTypes.string,
     overlay_class: PropTypes.string,
 
-    // React props
     closeModal: PropTypes.func.isRequired,
     className: PropTypes.string,
     children: PropTypes.oneOfType([
@@ -89,7 +88,6 @@ export default class ModalContent extends React.PureComponent {
     overlay_class: null,
     content_class: null,
 
-    // React props
     closeModal: null,
     className: null,
     children: null

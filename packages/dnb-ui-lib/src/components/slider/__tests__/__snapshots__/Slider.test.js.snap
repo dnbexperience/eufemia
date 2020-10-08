@@ -44,7 +44,6 @@ exports[`Slider component have to match snapshot 1`] = `
       for_id={null}
       id="id-label"
       label_direction="horizontal"
-      render_content={null}
       skeleton="skeleton"
       sr_only="label_sr_only"
       text="label"

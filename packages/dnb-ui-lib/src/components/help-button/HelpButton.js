@@ -56,9 +56,6 @@ export default class HelpButton extends React.PureComponent {
   }
 
   static getContent(props) {
-    if (typeof props.render_content === 'function')
-      props.render_content(props)
-
     return typeof props.children === 'function'
       ? props.children(props)
       : props.children

@@ -13,48 +13,41 @@ import {
 } from '../../shared/component-helper'
 // import './style/dnb-description-list.scss' // no good solution to import the style here
 
-const renderProps = {}
-
-const propTypes = {
-  data: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.arrayOf(
-      PropTypes.exact({
-        title: PropTypes.string.isRequired,
-        value: PropTypes.string.isRequired
-      })
-    )
-  ]).isRequired,
-  info: PropTypes.string,
-  class: PropTypes.string,
-  /** React props */
-  className: PropTypes.string,
-  children: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.node,
-    PropTypes.func
-  ])
-  // Web Component props
-}
-
-const defaultProps = {
-  data: [],
-  info: null,
-  class: null,
-  /** React props */
-  className: null,
-  children: null,
-  // Web Component props
-  ...renderProps
-}
-
 export default class DescriptionList extends React.PureComponent {
   static tagName = 'dnb-description-list'
-  static propTypes = propTypes
-  static defaultProps = defaultProps
+
+  static propTypes = {
+    data: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.arrayOf(
+        PropTypes.exact({
+          title: PropTypes.string.isRequired,
+          value: PropTypes.string.isRequired
+        })
+      )
+    ]).isRequired,
+    info: PropTypes.string,
+    class: PropTypes.string,
+    /** React props */
+    className: PropTypes.string,
+    children: PropTypes.oneOfType([PropTypes.node, PropTypes.func])
+  }
+
+  static defaultProps = {
+    data: [],
+    info: null,
+    class: null,
+    /** React props */
+    className: null,
+    children: null
+  }
 
   static enableWebComponent() {
-    registerElement(DescriptionList.tagName, DescriptionList, defaultProps)
+    registerElement(
+      DescriptionList.tagName,
+      DescriptionList,
+      DescriptionList.defaultProps
+    )
   }
 
   static getData(props) {

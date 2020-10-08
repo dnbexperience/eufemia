@@ -9,30 +9,6 @@ import { warn, isTrue, registerElement } from '../shared/component-helper'
 
 import E from './Element'
 
-const renderProps = {}
-
-const propTypes = {
-  sticky: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  sticky_offset: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-
-  children: PropTypes.oneOfType([
-    PropTypes.node,
-    PropTypes.object,
-    PropTypes.func
-  ])
-}
-
-const defaultProps = {
-  sticky: false,
-  sticky_offset: null,
-
-  // React props
-  children: null,
-
-  // Web Component props
-  ...renderProps
-}
-
 export const StickyHelper = () => {
   return (
     <tr className="dnb-table__sticky-helper">
@@ -43,12 +19,30 @@ export const StickyHelper = () => {
 
 export default class Table extends React.PureComponent {
   static tagName = 'dnb-table'
-  static propTypes = propTypes
-  static defaultProps = defaultProps
-  static renderProps = renderProps
+
+  static propTypes = {
+    sticky: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    sticky_offset: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number
+    ]),
+
+    children: PropTypes.oneOfType([
+      PropTypes.node,
+      PropTypes.object,
+      PropTypes.func
+    ])
+  }
+
+  static defaultProps = {
+    sticky: false,
+    sticky_offset: null,
+
+    children: null
+  }
 
   static enableWebComponent() {
-    registerElement(Table.tagName, Table, defaultProps)
+    registerElement(Table.tagName, Table, Table.defaultProps)
   }
 
   constructor(props) {

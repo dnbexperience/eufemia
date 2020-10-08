@@ -12,12 +12,12 @@ exports[`InputMasked component have to match type="text" snapshot 1`] = `
     ]
   }
   number_mask="number_mask"
-  on_blur={null}
-  on_change={null}
-  on_focus={null}
-  on_submit={null}
-  on_submit_blur={null}
-  on_submit_focus={null}
+  on_blur={[Function]}
+  on_change={[Function]}
+  on_focus={[Function]}
+  on_submit={[Function]}
+  on_submit_blur={[Function]}
+  on_submit_focus={[Function]}
   pipe={null}
   placeholder_char="placeholder_char"
   show_guide="show_guide"
@@ -54,8 +54,8 @@ exports[`InputMasked component have to match type="text" snapshot 1`] = `
     on_key_down={[Function]}
     on_state_update={null}
     on_submit={[Function]}
-    on_submit_blur={null}
-    on_submit_focus={null}
+    on_submit_blur={[Function]}
+    on_submit_focus={[Function]}
     placeholder={null}
     readOnly={false}
     selectall={null}

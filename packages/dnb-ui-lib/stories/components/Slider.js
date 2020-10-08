@@ -112,4 +112,4 @@ const SliderStory = () => {
   )
 }
 
-export default ['Slider', () => <SliderStory />]
+export const Sliders = () => <SliderStory />

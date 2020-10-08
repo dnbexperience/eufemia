@@ -43,215 +43,213 @@ import DatePickerInput from './DatePickerInput'
 import DatePickerAddon from './DatePickerAddon'
 import DatePickerFooter from './DatePickerFooter'
 
-const renderProps = {
-  on_change: null,
-  on_show: null,
-  on_hide: null,
-  on_submit: null,
-  on_cancel: null,
-  on_reset: null
-}
-
-const propTypes = {
-  id: PropTypes.string,
-  title: PropTypes.string,
-  date: PropTypes.oneOfType([
-    PropTypes.instanceOf(Date),
-    PropTypes.string
-  ]), // e.g. 2019-04-03T00:00:00Z
-  start_date: PropTypes.oneOfType([
-    PropTypes.instanceOf(Date),
-    PropTypes.string
-  ]), // e.g. 2019-04-03T00:00:00Z
-  end_date: PropTypes.oneOfType([
-    PropTypes.instanceOf(Date),
-    PropTypes.string
-  ]), // e.g. 2019-04-03T00:00:00Z
-  month: PropTypes.oneOfType([
-    PropTypes.instanceOf(Date),
-    PropTypes.string
-  ]),
-  start_month: PropTypes.oneOfType([
-    PropTypes.instanceOf(Date),
-    PropTypes.string
-  ]),
-  end_month: PropTypes.oneOfType([
-    PropTypes.instanceOf(Date),
-    PropTypes.string
-  ]),
-  min_date: PropTypes.oneOfType([
-    PropTypes.instanceOf(Date),
-    PropTypes.string
-  ]),
-  max_date: PropTypes.oneOfType([
-    PropTypes.instanceOf(Date),
-    PropTypes.string
-  ]),
-  mask_order: PropTypes.string,
-  mask_placeholder: PropTypes.string,
-  date_format: PropTypes.string,
-  return_format: PropTypes.string,
-  hide_navigation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  hide_navigation_buttons: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.bool
-  ]),
-  hide_days: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  only_month: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  hide_last_week: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  disable_autofocus: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.bool
-  ]),
-  enable_keyboard_nav: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.bool
-  ]),
-  show_input: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  show_submit_button: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.bool
-  ]),
-  show_cancel_button: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.bool
-  ]),
-  show_reset_button: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.bool
-  ]),
-  submit_button_text: PropTypes.string,
-  cancel_button_text: PropTypes.string,
-  reset_button_text: PropTypes.string,
-  reset_date: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  first_day: PropTypes.string,
-  locale: PropTypes.object,
-  range: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  link: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  sync: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  label: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-    PropTypes.node
-  ]),
-  label_direction: PropTypes.oneOf(['horizontal', 'vertical']),
-  label_sr_only: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  input_element: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-    PropTypes.node
-  ]),
-  addon_element: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
-  shortcuts: PropTypes.oneOfType([PropTypes.array, PropTypes.func]),
-  disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  status: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-    PropTypes.node
-  ]),
-  status_state: PropTypes.string,
-  status_animation: PropTypes.string,
-  global_status_id: PropTypes.string,
-  suffix: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-    PropTypes.node
-  ]),
-  opened: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  no_animation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  direction: PropTypes.oneOf(['auto', 'top', 'bottom']),
-  align_picker: PropTypes.oneOf(['auto', 'left', 'right']),
-  class: PropTypes.string,
-
-  // React
-  className: PropTypes.string,
-
-  // Web Component props
-  custom_element: PropTypes.object,
-  custom_method: PropTypes.func,
-  on_change: PropTypes.func,
-  on_show: PropTypes.func,
-  on_hide: PropTypes.func,
-  on_submit: PropTypes.func,
-  on_cancel: PropTypes.func,
-  on_reset: PropTypes.func
-}
-
-const defaultProps = {
-  id: null,
-  title: null,
-  date: undefined,
-  start_date: undefined,
-  end_date: undefined,
-  month: undefined,
-  start_month: undefined,
-  end_month: undefined,
-  mask_order: 'dd/mm/yyyy',
-  mask_placeholder: 'dd/mm/åååå', // have to be same setup as "mask" - but can be like: dd/mm/åååå
-  date_format: 'yyyy-MM-dd', // in v1 of date-fns we where more flexible in terms of the format
-  return_format: 'yyyy-MM-dd', // used in date-fns v1: YYYY-MM-DD
-  hide_navigation: false,
-  hide_navigation_buttons: false,
-  hide_days: false,
-  only_month: false,
-  hide_last_week: false,
-  disable_autofocus: false,
-  enable_keyboard_nav: false,
-  show_input: false,
-  show_submit_button: null,
-  show_cancel_button: null,
-  show_reset_button: null,
-  submit_button_text: 'Ok',
-  cancel_button_text: 'Avbryt',
-  reset_button_text: 'Tilbakestill',
-  reset_date: true,
-  first_day: 'monday',
-  min_date: undefined,
-  max_date: undefined,
-  locale: nbLocale,
-  range: false,
-  link: false,
-  sync: true,
-  label: null,
-  label_direction: null,
-  label_sr_only: null,
-  input_element: null,
-  addon_element: null,
-  shortcuts: null,
-  disabled: null,
-  skeleton: null,
-  status: null,
-  status_state: 'error',
-  status_animation: null,
-  global_status_id: null,
-  suffix: null,
-  opened: false,
-  no_animation: false,
-  direction: 'auto',
-  align_picker: null,
-  class: null,
-
-  // React
-  className: null,
-
-  // Web Component props
-  custom_element: null,
-  custom_method: null,
-  ...renderProps
-}
-
 export default class DatePicker extends React.PureComponent {
   static tagName = 'dnb-date-picker'
-  static propTypes = propTypes
-  static defaultProps = defaultProps
-  static renderProps = renderProps
   static contextType = Context
+
+  static propTypes = {
+    id: PropTypes.string,
+    title: PropTypes.string,
+    date: PropTypes.oneOfType([
+      PropTypes.instanceOf(Date),
+      PropTypes.string
+    ]), // e.g. 2019-04-03T00:00:00Z
+    start_date: PropTypes.oneOfType([
+      PropTypes.instanceOf(Date),
+      PropTypes.string
+    ]), // e.g. 2019-04-03T00:00:00Z
+    end_date: PropTypes.oneOfType([
+      PropTypes.instanceOf(Date),
+      PropTypes.string
+    ]), // e.g. 2019-04-03T00:00:00Z
+    month: PropTypes.oneOfType([
+      PropTypes.instanceOf(Date),
+      PropTypes.string
+    ]),
+    start_month: PropTypes.oneOfType([
+      PropTypes.instanceOf(Date),
+      PropTypes.string
+    ]),
+    end_month: PropTypes.oneOfType([
+      PropTypes.instanceOf(Date),
+      PropTypes.string
+    ]),
+    min_date: PropTypes.oneOfType([
+      PropTypes.instanceOf(Date),
+      PropTypes.string
+    ]),
+    max_date: PropTypes.oneOfType([
+      PropTypes.instanceOf(Date),
+      PropTypes.string
+    ]),
+    mask_order: PropTypes.string,
+    mask_placeholder: PropTypes.string,
+    date_format: PropTypes.string,
+    return_format: PropTypes.string,
+    hide_navigation: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool
+    ]),
+    hide_navigation_buttons: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool
+    ]),
+    hide_days: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    only_month: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    hide_last_week: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool
+    ]),
+    disable_autofocus: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool
+    ]),
+    enable_keyboard_nav: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool
+    ]),
+    show_input: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    show_submit_button: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool
+    ]),
+    show_cancel_button: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool
+    ]),
+    show_reset_button: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool
+    ]),
+    submit_button_text: PropTypes.string,
+    cancel_button_text: PropTypes.string,
+    reset_button_text: PropTypes.string,
+    reset_date: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    first_day: PropTypes.string,
+    locale: PropTypes.object,
+    range: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    link: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    sync: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    label: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.func,
+      PropTypes.node
+    ]),
+    label_direction: PropTypes.oneOf(['horizontal', 'vertical']),
+    label_sr_only: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    input_element: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.func,
+      PropTypes.node
+    ]),
+    addon_element: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
+    shortcuts: PropTypes.oneOfType([PropTypes.array, PropTypes.func]),
+    disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    status: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.func,
+      PropTypes.node
+    ]),
+    status_state: PropTypes.string,
+    status_animation: PropTypes.string,
+    global_status_id: PropTypes.string,
+    suffix: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.func,
+      PropTypes.node
+    ]),
+    opened: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    no_animation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    direction: PropTypes.oneOf(['auto', 'top', 'bottom']),
+    align_picker: PropTypes.oneOf(['auto', 'left', 'right']),
+    class: PropTypes.string,
+    className: PropTypes.string,
+
+    custom_element: PropTypes.object,
+    custom_method: PropTypes.func,
+    on_change: PropTypes.func,
+    on_show: PropTypes.func,
+    on_hide: PropTypes.func,
+    on_submit: PropTypes.func,
+    on_cancel: PropTypes.func,
+    on_reset: PropTypes.func
+  }
+
+  static defaultProps = {
+    id: null,
+    title: null,
+    date: undefined,
+    start_date: undefined,
+    end_date: undefined,
+    month: undefined,
+    start_month: undefined,
+    end_month: undefined,
+    mask_order: 'dd/mm/yyyy',
+    mask_placeholder: 'dd/mm/åååå', // have to be same setup as "mask" - but can be like: dd/mm/åååå
+    date_format: 'yyyy-MM-dd', // in v1 of date-fns we where more flexible in terms of the format
+    return_format: 'yyyy-MM-dd', // used in date-fns v1: YYYY-MM-DD
+    hide_navigation: false,
+    hide_navigation_buttons: false,
+    hide_days: false,
+    only_month: false,
+    hide_last_week: false,
+    disable_autofocus: false,
+    enable_keyboard_nav: false,
+    show_input: false,
+    show_submit_button: null,
+    show_cancel_button: null,
+    show_reset_button: null,
+    submit_button_text: 'Ok',
+    cancel_button_text: 'Avbryt',
+    reset_button_text: 'Tilbakestill',
+    reset_date: true,
+    first_day: 'monday',
+    min_date: undefined,
+    max_date: undefined,
+    locale: nbLocale,
+    range: false,
+    link: false,
+    sync: true,
+    label: null,
+    label_direction: null,
+    label_sr_only: null,
+    input_element: null,
+    addon_element: null,
+    shortcuts: null,
+    disabled: null,
+    skeleton: null,
+    status: null,
+    status_state: 'error',
+    status_animation: null,
+    global_status_id: null,
+    suffix: null,
+    opened: false,
+    no_animation: false,
+    direction: 'auto',
+    align_picker: null,
+    class: null,
+    className: null,
+
+    custom_element: null,
+    custom_method: null,
+
+    on_change: null,
+    on_show: null,
+    on_hide: null,
+    on_submit: null,
+    on_cancel: null,
+    on_reset: null
+  }
 
   static blurDelay = 201 // some ms more than "dropdownSlideDown 200ms"
 
   static enableWebComponent() {
-    registerElement(DatePicker.tagName, DatePicker, defaultProps)
+    registerElement(
+      DatePicker.tagName,
+      DatePicker,
+      DatePicker.defaultProps
+    )
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -662,7 +660,7 @@ export default class DatePicker extends React.PureComponent {
     // use only the props from context, who are available here anyway
     const props = extendPropsWithContext(
       this.props,
-      defaultProps,
+      DatePicker.defaultProps,
       { skeleton: this.context?.skeleton },
       this.context.formRow,
       this.context.translation.DatePicker
