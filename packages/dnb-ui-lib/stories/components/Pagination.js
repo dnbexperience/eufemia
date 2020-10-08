@@ -36,112 +36,106 @@ for (let i = 1; i <= 300; i++) {
   tableItems.push({ ssn: i, text: String(i), expanded: false })
 }
 
-export default [
-  'Pagination',
-  () => (
-    <Wrapper>
-      <Box>
-        <Pagination page_count={2}>
-          {({ page, setContent }) => {
-            // simulate server communication delay
-            const timeout = setTimeout(() => {
-              setContent(page, <LargePage>{page}</LargePage>)
-            }, Math.ceil(Math.random() * 500))
+export const Paginations = () => (
+  <Wrapper>
+    <Box>
+      <Pagination page_count={2}>
+        {({ page, setContent }) => {
+          // simulate server communication delay
+          const timeout = setTimeout(() => {
+            setContent(page, <LargePage>{page}</LargePage>)
+          }, Math.ceil(Math.random() * 500))
 
-            return () => clearTimeout(timeout)
-          }}
-        </Pagination>
-      </Box>
+          return () => clearTimeout(timeout)
+        }}
+      </Pagination>
+    </Box>
 
-      <Box>
+    <Box>
+      <Pagination
+        page_count={30}
+        current_page={15}
+        on_change={(pageNo) => {
+          console.log('on_change:', pageNo)
+        }}
+      >
+        {({ pageNo }) => <div>Page {pageNo}</div>}
+      </Pagination>
+    </Box>
+
+    <Box>
+      <PaginationWithState
+        align="center"
+        on_change={(pageNo) => {
+          console.log('on_change:', pageNo)
+        }}
+      >
+        {(pageNo) => <LargePage color="HotPink">{pageNo}</LargePage>}
+      </PaginationWithState>
+    </Box>
+
+    <Box>
+      <HeightLimit>
+        <InfinityPagination use_load_button startup_page={5}>
+          {(pageNo, ref) => (
+            <LargePage ref={ref} color="LightCoral">
+              {pageNo}
+            </LargePage>
+          )}
+        </InfinityPagination>
+      </HeightLimit>
+    </Box>
+
+    <Box>
+      <HeightLimit>
+        <InfinityPagination
+          indicator_element={() => (
+            <CustomIndicator>Loading ...</CustomIndicator>
+          )}
+          startup_page={3}
+          page_count={10}
+          min_wait_time={0}
+        >
+          {(pageNo, ref) => (
+            <LargePage ref={ref} color="Indigo">
+              {pageNo}
+            </LargePage>
+          )}
+        </InfinityPagination>
+      </HeightLimit>
+    </Box>
+
+    <Box>
+      <HeightLimit>
         <Pagination
-          page_count={30}
-          current_page={15}
-          on_change={(pageNo) => {
-            console.log('on_change:', pageNo)
+          mode="infinity"
+          startup_count={2}
+          // parallel_load_count={1}
+          // page_count={10} // the last one we fill with "End"
+          min_wait_time={0}
+          on_load={({ page, setContent, endInfinity }) => {
+            console.log('on_load: ', page)
+            if (page > 10) {
+              endInfinity()
+            } else {
+              setContent(page, <LargePage>{page}</LargePage>)
+            }
           }}
-        >
-          {({ pageNo }) => <div>Page {pageNo}</div>}
-        </Pagination>
-      </Box>
-
-      <Box>
-        <PaginationWithState
-          align="center"
-          on_change={(pageNo) => {
-            console.log('on_change:', pageNo)
+          on_end={({ page, setContent }) => {
+            console.log('on_end: ', page)
+            setContent(page, <LargePage color="lightgreen">End</LargePage>)
           }}
-        >
-          {(pageNo) => <LargePage color="HotPink">{pageNo}</LargePage>}
-        </PaginationWithState>
-      </Box>
+        />
+      </HeightLimit>
+    </Box>
 
-      <Box>
-        <HeightLimit>
-          <InfinityPagination use_load_button startup_page={5}>
-            {(pageNo, ref) => (
-              <LargePage ref={ref} color="LightCoral">
-                {pageNo}
-              </LargePage>
-            )}
-          </InfinityPagination>
-        </HeightLimit>
-      </Box>
-
-      <Box>
-        <HeightLimit>
-          <InfinityPagination
-            indicator_element={() => (
-              <CustomIndicator>Loading ...</CustomIndicator>
-            )}
-            startup_page={3}
-            page_count={10}
-            min_wait_time={0}
-          >
-            {(pageNo, ref) => (
-              <LargePage ref={ref} color="Indigo">
-                {pageNo}
-              </LargePage>
-            )}
-          </InfinityPagination>
-        </HeightLimit>
-      </Box>
-
-      <Box>
-        <HeightLimit>
-          <Pagination
-            mode="infinity"
-            startup_count={2}
-            // parallel_load_count={1}
-            // page_count={10} // the last one we fill with "End"
-            min_wait_time={0}
-            on_load={({ page, setContent, endInfinity }) => {
-              console.log('on_load: ', page)
-              if (page > 10) {
-                endInfinity()
-              } else {
-                setContent(page, <LargePage>{page}</LargePage>)
-              }
-            }}
-            on_end={({ page, setContent }) => {
-              console.log('on_end: ', page)
-              setContent(
-                page,
-                <LargePage color="lightgreen">End</LargePage>
-              )
-            }}
-          />
-        </HeightLimit>
-      </Box>
-
-      <Box>
-        <HeightLimit>
-          <InfinityPaginationTable tableItems={tableItems} />
-        </HeightLimit>
-      </Box>
-    </Wrapper>
-  )
-]
+    <Box>
+      <HeightLimit>
+        <InfinityPaginationTable tableItems={tableItems} />
+      </HeightLimit>
+    </Box>
+  </Wrapper>
+)
 
 const HeightLimit = styled.div`
   height: 20rem;

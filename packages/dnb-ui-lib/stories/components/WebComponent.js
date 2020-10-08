@@ -9,39 +9,23 @@ import '../../src/components/date-picker/web-component'
 import '../../src/components/section/web-component'
 import Button from '../../src/components/button/web-component'
 
-class Scope {
-  render(props) {
-    return <>{props.children} + this 1</>
-  }
-  render2(props) {
-    return <>{props.children} + this 2</>
-  }
-  render3(props) {
-    return <>{props.children} + this 3</>
-  }
-}
-window.Scope = new Scope()
-
-export default [
-  'WebComponent',
-  () => (
-    <Wrapper>
-      <Box>
-        <dnb-section
-          spacing
-          camelCase="123"
-          render_content="Scope.render"
-          render_this="Scope.render2"
-          render_x="Scope.render3"
-        >
-          content
-        </dnb-section>
-        <Buttons></Buttons>
-        <DatePicker></DatePicker>
-      </Box>
-    </Wrapper>
-  )
-]
+export const WebComponent = () => (
+  <Wrapper>
+    <Box>
+      <dnb-section
+        spacing
+        camelCase="123"
+        render_content="Scope.render"
+        render_this="Scope.render2"
+        render_x="Scope.render3"
+      >
+        content
+      </dnb-section>
+      <Buttons></Buttons>
+      <DatePicker></DatePicker>
+    </Box>
+  </Wrapper>
+)
 
 const DatePicker = () => {
   const [show, setShow] = React.useState(true)

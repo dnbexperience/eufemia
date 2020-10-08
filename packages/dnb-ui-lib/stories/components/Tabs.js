@@ -11,132 +11,130 @@ import { Input, Tabs, Icon } from '../../src/components'
 import { bell as Bell } from '../../src/icons'
 
 import { H2 } from '../../src/elements'
-import TabsNavigation from './TabsNavigation'
+import { TabsNavigation } from './TabsNavigation'
 
-export default [
-  'Tabs',
-  () => {
-    const [value, setValue] = React.useState('test')
+export const TabsStories = () => {
+  const [value, setValue] = React.useState('test')
 
-    return (
-      <Wrapper>
-        <Box>
-          <Input
-            label="Change state"
-            value={value}
-            onChange={({ value }) => setValue(value)}
-          />
+  return (
+    <Wrapper>
+      <Box>
+        <Input
+          label="Change state"
+          value={value}
+          onChange={({ value }) => setValue(value)}
+        />
 
-          <pre>I am changing!: {value}</pre>
+        <pre>I am changing!: {value}</pre>
 
-          <Tabs bottom prerender>
-            <Tabs.Content title="Tab 1">
+        <Tabs bottom prerender>
+          <Tabs.Content title="Tab 1">
+            <>
+              Change me 1: {value}{' '}
+              <Input
+                label="Change state"
+                value={value}
+                onChange={({ value }) => setValue(value)}
+              />
+            </>
+          </Tabs.Content>
+          <Tabs.Content title="Tab 2">
+            <>
+              Change me 2: {value}{' '}
+              <Input
+                label="Change state"
+                value={value}
+                onChange={({ value }) => setValue(value)}
+              />
+            </>
+          </Tabs.Content>
+        </Tabs>
+      </Box>
+      <Box>
+        <TabsAndRerender />
+      </Box>
+      <Box>
+        <TabsNavigation />
+      </Box>
+      <Box>
+        <Tabs prevent_rerender data={tabsData}>
+          {{
+            first: (
               <>
                 Change me 1: {value}{' '}
                 <Input
                   label="Change state"
-                  value={value}
+                  // value={value}
                   onChange={({ value }) => setValue(value)}
                 />
               </>
-            </Tabs.Content>
-            <Tabs.Content title="Tab 2">
+            ),
+            second: () => (
               <>
                 Change me 2: {value}{' '}
                 <Input
                   label="Change state"
-                  value={value}
+                  // value={value}
                   onChange={({ value }) => setValue(value)}
                 />
               </>
-            </Tabs.Content>
-          </Tabs>
-        </Box>
-        <Box>
-          <TabsAndRerender />
-        </Box>
-        <Box>
-          <TabsNavigation />
-        </Box>
-        <Box>
-          <Tabs prevent_rerender data={tabsData}>
-            {{
-              first: (
-                <>
-                  Change me 1: {value}{' '}
-                  <Input
-                    label="Change state"
-                    // value={value}
-                    onChange={({ value }) => setValue(value)}
-                  />
-                </>
-              ),
-              second: () => (
-                <>
-                  Change me 2: {value}{' '}
-                  <Input
-                    label="Change state"
-                    // value={value}
-                    onChange={({ value }) => setValue(value)}
-                  />
-                </>
-              ),
-              third: () => (
-                <p className="dnb-p">
-                  Eros semper blandit tellus mollis primis quisque platea
-                  sollicitudin ipsum
-                </p>
-              ),
-              fourth: () => <H2>Fourth</H2>
-            }}
-          </Tabs>
-        </Box>
-        <Box>
-          <Tabs data={tablistDataWithContent} />
-        </Box>
-        <Box>
-          <Tabs
-            selected_key="second"
-            data={{
-              first: { title: 'First', content: () => <H2>First</H2> },
-              second: { title: 'Second', content: () => <H2>Second</H2> }
-            }}
-          />
-        </Box>
-        <Box>
-          <Tabs section_style="mint-green">
-            <Tabs.Content title="First">
-              <H2>First</H2>
-            </Tabs.Content>
-            <Tabs.Content title={<>Second as component</>} selected>
-              <H2>Second</H2>
-            </Tabs.Content>
-          </Tabs>
-        </Box>
-        <Box>
-          <Tabs
-            align="right"
-            label="Some Tabs label"
-            data={tabsData}
-            render={({ Wrapper, Content, TabsList, Tabs }) => {
-              return (
-                <Wrapper>
-                  <TabsList className="dnb-section">
-                    <small>I'm on the left side</small>
-                    <Tabs />
-                  </TabsList>
-                  <Content />
-                </Wrapper>
-              )
-            }}
-          >
-            {exampleTabsContent}
-          </Tabs>
-        </Box>
-      </Wrapper>
-    )
-  }
-]
+            ),
+            third: () => (
+              <p className="dnb-p">
+                Eros semper blandit tellus mollis primis quisque platea
+                sollicitudin ipsum
+              </p>
+            ),
+            fourth: () => <H2>Fourth</H2>
+          }}
+        </Tabs>
+      </Box>
+      <Box>
+        <Tabs data={tablistDataWithContent} />
+      </Box>
+      <Box>
+        <Tabs
+          selected_key="second"
+          data={{
+            first: { title: 'First', content: () => <H2>First</H2> },
+            second: { title: 'Second', content: () => <H2>Second</H2> }
+          }}
+        />
+      </Box>
+      <Box>
+        <Tabs section_style="mint-green">
+          <Tabs.Content title="First">
+            <H2>First</H2>
+          </Tabs.Content>
+          <Tabs.Content title={<>Second as component</>} selected>
+            <H2>Second</H2>
+          </Tabs.Content>
+        </Tabs>
+      </Box>
+      <Box>
+        <Tabs
+          align="right"
+          label="Some Tabs label"
+          data={tabsData}
+          render={({ Wrapper, Content, TabsList, Tabs }) => {
+            return (
+              <Wrapper>
+                <TabsList className="dnb-section">
+                  <small>I'm on the left side</small>
+                  <Tabs />
+                </TabsList>
+                <Content />
+              </Wrapper>
+            )
+          }}
+        >
+          {exampleTabsContent}
+        </Tabs>
+      </Box>
+    </Wrapper>
+  )
+}
+TabsStories.title = 'Tabs'
 
 const tablistDataWithContent = [
   { title: 'First', key: 1, content: <H2>First</H2> },

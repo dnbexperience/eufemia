@@ -161,7 +161,7 @@ Beside the portal documentation with related tables and additional information, 
 ### Access CSS properties in JavaScript
 
 ```js
-import properties from 'dnb-ui-lib/style/ddnb-ui-properties.css'
+import properties from 'dnb-ui-lib/style/properties.js'
 
 const seaGreenColor = properties['--color-sea-green']
 const basisFontSize = properties['--font-size-basis']

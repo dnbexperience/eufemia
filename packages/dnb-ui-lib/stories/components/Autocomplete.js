@@ -60,7 +60,7 @@ const AutocompleteWithState = () => {
   )
 }
 
-const AutocompleteStory = () => {
+export const Autocompletes = () => {
   // const [data, setData] = useState(autocompleteData)
   // const [value, setSelectedItem] = useState(0)
   return (
@@ -298,8 +298,6 @@ const AutocompleteStory = () => {
     </Wrapper>
   )
 }
-
-export default ['Autocomplete', AutocompleteStory]
 
 const testData = [
   {

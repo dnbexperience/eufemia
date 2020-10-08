@@ -23,8 +23,11 @@ Frontend code is changing and moving fast. So 100% code coverage should never be
 
 ### Integration tests
 
-Do not write unit tests in frontend code. But make integration tests.
+Do not write unit tests in frontend code. But make integration tests. Avoid testing implementation details, but rather thread front-end related components as an independent, changeable and maintainable individuals.
+
 Think as a user. Think how the user will interact with your application. Do not shallow test, but test components like a user would interact (use mount or render to also test their children).
+
+### Automatic accessibility testing
 
 There are several packages you can integrate in your test, so your can test your code for accessibility e.g. `axe` and `pa11y`.
 

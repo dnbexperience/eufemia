@@ -16,6 +16,14 @@ They differ from components in that they act more as a guide as to how a particu
 
 Patterns have not gotten too much attention during development of Eufemia. Nevertheless, they will get their shape over time.
 
+### Import pattern styles
+
+The styles for patterns are not a part of the default styles, so you have to import them explicitly.
+
+```js
+import 'dnb-ui-lib/style/patterns'
+```
+
 ## [ActionNav](/uilib/patterns/action-nav)
 
 The ActionNav provides a way to navigate through a form in a series of steps allowing the user to go backwards and forwards if necessary.
