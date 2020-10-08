@@ -75,7 +75,7 @@ export const runPrepublishTasks = async ({
     await prepareTemplates()
 
     // Wait until v8 to generate types, as long as it is not locally run
-    if (!isCI || /release|beta|rc\//.test(getCurrentBranchName())) {
+    if (!isCI || /beta|rc\//.test(getCurrentBranchName())) {
       await generateTypes()
     }
 
