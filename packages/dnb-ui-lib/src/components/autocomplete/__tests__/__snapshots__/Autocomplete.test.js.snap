@@ -245,7 +245,6 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
           id="autocomplete-id-label"
           label_direction="horizontal"
           onMouseDown={[Function]}
-          render_content={null}
           skeleton="skeleton"
           sr_only="label_sr_only"
           text="Autocomplete Label:"
@@ -283,7 +282,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
             icon="error"
             icon_size="large"
             id="autocomplete-id-form-status"
-            render_content={null}
+            skeleton="skeleton"
             state="error"
             status="error"
             text="status"
@@ -333,7 +332,6 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                           title={null}
                           viewBox="0 0 32 32"
                           width="32"
-                          xmlns="http://www.w3.org/2000/svg"
                         >
                           <path
                             d="M16 25a.5.5 0 100 1 .5.5 0 000-1v0"
@@ -1239,6 +1237,7 @@ exports[`Autocomplete scss have to match snapshot 1`] = `
     display: flex;
     justify-content: flex-start;
     align-items: flex-start;
+    min-width: inherit;
     border-radius: var(--input-border-radius); }
   .dnb-form-status--text {
     padding: calc(0.5rem / 2) 1rem;
@@ -1669,7 +1668,8 @@ legend.dnb-form-label {
   display: inline-flex;
   align-items: center;
   font-size: var(--input-font-small);
-  line-height: var(--input-height); }
+  line-height: var(--input-height);
+  text-align: left; }
   .dnb-input__inner {
     display: inline-flex;
     flex-direction: column;
@@ -1699,7 +1699,7 @@ legend.dnb-form-label {
     width: 100%;
     padding-left: var(--input-padding);
     padding-right: var(--input-padding);
-    text-align: left;
+    text-align: inherit;
     color: inherit;
     background-color: transparent;
     font-size: var(--input-font-size); }

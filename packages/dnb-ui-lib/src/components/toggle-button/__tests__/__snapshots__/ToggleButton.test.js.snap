@@ -43,7 +43,6 @@ exports[`ToggleButton component have to match snapshot 1`] = `
       for_id="toggle-button"
       id="toggle-button-label"
       label_direction="horizontal"
-      render_content={null}
       skeleton="skeleton"
       sr_only="label_sr_only"
       text="label"
@@ -255,24 +254,26 @@ exports[`ToggleButton component have to match snapshot 1`] = `
                               className="dnb-checkbox__focus"
                             />
                           </span>
-                          <CheckSVG>
+                          <CheckIcon
+                            size={null}
+                          >
                             <svg
                               aria-hidden={true}
                               className="dnb-checkbox__gfx"
                               fill="none"
-                              height="24"
-                              viewBox="0 0 24 24"
-                              width="24"
+                              height={16}
+                              viewBox="0 0 16 16"
+                              width={16}
                             >
                               <path
-                                d="M1.5 15L7.5 21L22.5 3"
+                                d="M1 10L5 14L15 2"
                                 stroke="currentColor"
                                 strokeLinecap="round"
                                 strokeLinejoin="round"
-                                strokeWidth="2"
+                                strokeWidth="1.5"
                               />
                             </svg>
-                          </CheckSVG>
+                          </CheckIcon>
                         </span>
                       </span>
                     </span>
@@ -372,6 +373,7 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
   name={null}
   no_fieldset={null}
   on_change={null}
+  skeleton={null}
   status={null}
   status_animation={null}
   status_state="error"
@@ -401,7 +403,6 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
       label_sr_only={null}
       no_fieldset={null}
       no_label={false}
-      render_content={null}
       responsive={null}
       section_spacing={null}
       section_style={null}
@@ -437,7 +438,6 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
               for_id={null}
               id="group-label"
               label_direction={null}
-              render_content={null}
               skeleton={null}
               sr_only={null}
               text="Label"
@@ -1157,6 +1157,7 @@ legend.dnb-form-label {
     display: flex;
     justify-content: flex-start;
     align-items: flex-start;
+    min-width: inherit;
     border-radius: var(--input-border-radius); }
   .dnb-form-status--text {
     padding: calc(0.5rem / 2) 1rem;

@@ -17,7 +17,7 @@ const StyledTooltip = styled(Tooltip)`
   margin-bottom: 4rem;
 `
 
-const TooltipStory = () => {
+export const Tooltips = () => {
   return (
     <Wrapper>
       <Box>
@@ -91,5 +91,3 @@ const TooltipStory = () => {
     </Wrapper>
   )
 }
-
-export default ['Tooltip', () => <TooltipStory />]

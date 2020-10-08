@@ -69,13 +69,8 @@ export default class Icon extends React.PureComponent {
     skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     attributes: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
 
-    // React props
     className: PropTypes.string,
-    children: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.node,
-      PropTypes.func
-    ])
+    children: PropTypes.oneOfType([PropTypes.node, PropTypes.func])
   }
 
   static defaultProps = {
@@ -91,7 +86,6 @@ export default class Icon extends React.PureComponent {
     skeleton: null,
     attributes: null,
 
-    // React props
     className: null,
     children: null
   }
@@ -150,7 +144,7 @@ export const getIconNameFromComponent = (icon) => {
 }
 
 export const calcSize = (props) => {
-  const { icon, size, height, width } = props
+  const { icon, size, width, height } = props
 
   let sizeAsInt = -1
   let sizeAsString = null
@@ -302,9 +296,9 @@ export const prepareIcon = (props, context) => {
   const {
     icon,
     size, // eslint-disable-line
+    width,
     height,
     border,
-    width,
     color,
     modifier,
     alt,
@@ -318,8 +312,8 @@ export const prepareIcon = (props, context) => {
   const { sizeAsString, iconParams } = calcSize({
     icon,
     size,
-    height,
-    width
+    width,
+    height
   })
 
   if (color) {
@@ -357,7 +351,16 @@ export const prepareIcon = (props, context) => {
   if (typeof iconToRender.defaultProps !== 'undefined') {
     iconToRender = React.createElement(
       iconToRender,
-      validateDOMAttributes({}, props)
+      validateDOMAttributes(
+        {},
+        {
+          color,
+          icon,
+          size,
+          width,
+          height
+        }
+      )
     )
   }
 

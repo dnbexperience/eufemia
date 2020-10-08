@@ -27,98 +27,89 @@ import Suffix from '../../shared/helpers/Suffix'
 import FormLabel from '../form-label/FormLabel'
 import FormStatus from '../form-status/FormStatus'
 
-const renderProps = {
-  on_change: null,
-  on_change_end: null,
-  on_state_update: null
-}
-
-const propTypes = {
-  label: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-    PropTypes.node
-  ]),
-  label_position: PropTypes.oneOf(['left', 'right']),
-  title: PropTypes.string,
-  default_state: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]), // Deprecated
-  checked: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  id: PropTypes.string,
-  size: PropTypes.oneOf(['default', 'medium', 'large']),
-  status: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-    PropTypes.node
-  ]),
-  status_state: PropTypes.string,
-  status_animation: PropTypes.string,
-  global_status_id: PropTypes.string,
-  suffix: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-    PropTypes.node
-  ]),
-  value: PropTypes.string,
-  attributes: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-  readOnly: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  class: PropTypes.string,
-
-  /// React props
-  className: PropTypes.string,
-  children: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
-
-  // Web Component props
-  custom_element: PropTypes.object,
-  custom_method: PropTypes.func,
-  on_change: PropTypes.func,
-  on_change_end: PropTypes.func,
-  on_state_update: PropTypes.func
-}
-
-const defaultProps = {
-  label: null,
-  label_position: null,
-  title: null,
-  default_state: undefined, // Deprecated
-  checked: undefined,
-  disabled: null,
-  id: null,
-  size: null,
-  status: null,
-  status_state: 'error',
-  status_animation: null,
-  global_status_id: null,
-  suffix: null,
-  value: null,
-  attributes: null,
-  readOnly: false,
-  skeleton: null,
-  class: null,
-
-  // React props
-  className: null,
-  children: null,
-
-  // Web Component props
-  custom_element: null,
-  custom_method: null,
-  ...renderProps
-}
-
 /**
  * The switch component is our enhancement of the classic radio button. It acts like a switch. Example: On/off, yes/no.
  */
 export default class Switch extends React.PureComponent {
   static tagName = 'dnb-switch'
-  static propTypes = propTypes
-  static defaultProps = defaultProps
-  static renderProps = renderProps
   static contextType = Context
 
+  static propTypes = {
+    label: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.func,
+      PropTypes.node
+    ]),
+    label_position: PropTypes.oneOf(['left', 'right']),
+    title: PropTypes.string,
+    default_state: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]), // Deprecated
+    checked: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    id: PropTypes.string,
+    size: PropTypes.oneOf(['default', 'medium', 'large']),
+    status: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.func,
+      PropTypes.node
+    ]),
+    status_state: PropTypes.string,
+    status_animation: PropTypes.string,
+    global_status_id: PropTypes.string,
+    suffix: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.func,
+      PropTypes.node
+    ]),
+    value: PropTypes.string,
+    attributes: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+    readOnly: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    class: PropTypes.string,
+
+    /// React props
+    className: PropTypes.string,
+    children: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
+
+    custom_element: PropTypes.object,
+    custom_method: PropTypes.func,
+    on_change: PropTypes.func,
+    on_change_end: PropTypes.func,
+    on_state_update: PropTypes.func
+  }
+
+  static defaultProps = {
+    label: null,
+    label_position: null,
+    title: null,
+    default_state: undefined, // Deprecated
+    checked: undefined,
+    disabled: null,
+    id: null,
+    size: null,
+    status: null,
+    status_state: 'error',
+    status_animation: null,
+    global_status_id: null,
+    suffix: null,
+    value: null,
+    attributes: null,
+    readOnly: false,
+    skeleton: null,
+    class: null,
+
+    className: null,
+    children: null,
+
+    custom_element: null,
+    custom_method: null,
+
+    on_change: null,
+    on_change_end: null,
+    on_state_update: null
+  }
+
   static enableWebComponent() {
-    registerElement(Switch.tagName, Switch, defaultProps)
+    registerElement(Switch.tagName, Switch, Switch.defaultProps)
   }
 
   static parseChecked = (state) => /true|on/.test(String(state))
@@ -208,7 +199,7 @@ export default class Switch extends React.PureComponent {
     // use only the props from context, who are available here anyway
     const props = extendPropsWithContext(
       this.props,
-      defaultProps,
+      Switch.defaultProps,
       this.context.formRow,
       { skeleton: this.context?.skeleton },
       this.context.translation.Switch
@@ -273,6 +264,7 @@ export default class Switch extends React.PureComponent {
 
     if (showStatus || suffix) {
       inputParams['aria-describedby'] = [
+        inputParams['aria-describedby'],
         showStatus ? id + '-status' : null,
         suffix ? id + '-suffix' : null
       ]
@@ -314,6 +306,7 @@ export default class Switch extends React.PureComponent {
                 text={status}
                 status={status_state}
                 animation={status_animation}
+                skeleton={skeleton}
               />
             )}
 

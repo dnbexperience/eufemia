@@ -8,24 +8,21 @@ import PropTypes from 'prop-types'
 import Context from '../../../shared/Context'
 import classnames from 'classnames'
 
-const propTypes = {
-  rows: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  children: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-    PropTypes.node
-  ])
-}
-
-const defaultProps = {
-  rows: 3,
-  children: null
-}
-
 export default class SkeletonArticle extends React.PureComponent {
   static contextType = Context
-  static propTypes = propTypes
-  static defaultProps = defaultProps
+  static propTypes = {
+    rows: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    children: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.func,
+      PropTypes.node
+    ])
+  }
+
+  static defaultProps = {
+    rows: 3,
+    children: null
+  }
 
   constructor(props) {
     super(props)
@@ -76,7 +73,7 @@ export default class SkeletonArticle extends React.PureComponent {
 
         {this.rowsLength.map((p, i) => (
           <div
-            key={`figure-${i}`}
+            key={i}
             className={classnames(
               'dnb-p',
               'dnb-skeleton',

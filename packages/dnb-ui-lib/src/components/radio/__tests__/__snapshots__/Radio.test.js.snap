@@ -42,7 +42,6 @@ exports[`Radio component have to match snapshot 1`] = `
         for_id="radio"
         id="radio-label"
         label_direction={null}
-        render_content={null}
         skeleton="skeleton"
         sr_only="label_sr_only"
         text="label"
@@ -191,6 +190,7 @@ exports[`Radio group component have to match group snapshot 1`] = `
     }
   }
   size={null}
+  skeleton={null}
   status={null}
   status_animation={null}
   status_state="error"
@@ -219,7 +219,6 @@ exports[`Radio group component have to match group snapshot 1`] = `
       label_sr_only={null}
       no_fieldset={true}
       no_label={false}
-      render_content={null}
       responsive={null}
       section_spacing={null}
       section_style={null}
@@ -255,7 +254,6 @@ exports[`Radio group component have to match group snapshot 1`] = `
               for_id="group"
               id="group-label"
               label_direction={null}
-              render_content={null}
               skeleton={null}
               sr_only={null}
               text="Label"
@@ -363,7 +361,6 @@ exports[`Radio group component have to match group snapshot 1`] = `
                             for_id="radio-1"
                             id="radio-1-label"
                             label_direction={null}
-                            render_content={null}
                             skeleton={null}
                             sr_only={null}
                             text="Radio 1"
@@ -468,7 +465,6 @@ exports[`Radio group component have to match group snapshot 1`] = `
                             for_id="radio-2"
                             id="radio-2-label"
                             label_direction={null}
-                            render_content={null}
                             skeleton={null}
                             sr_only={null}
                             text="Radio 2"
@@ -779,6 +775,7 @@ legend.dnb-form-label {
     display: flex;
     justify-content: flex-start;
     align-items: flex-start;
+    min-width: inherit;
     border-radius: var(--input-border-radius); }
   .dnb-form-status--text {
     padding: calc(0.5rem / 2) 1rem;

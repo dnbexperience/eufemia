@@ -22,19 +22,17 @@ import {
 // import { format } from '../../src/components/Number'
 import { H2, P, Hr } from '../../src/elements'
 
-export default [
-  'Modal',
-  () => (
-    <Wrapper>
-      <Global
-        styles={css`
-          :root {
-            --modal-height-offset: 3rem;
-          }
-        `}
-      />
+export const Modals = () => (
+  <Wrapper>
+    <Global
+      styles={css`
+        :root {
+          --modal-height-offset: 3rem;
+        }
+      `}
+    />
 
-      {/* <Box>
+    {/* <Box>
         <h1 tabIndex="0" aria-hidden="true">
           h1
         </h1>
@@ -44,87 +42,86 @@ export default [
         <h3>h3</h3>
       </Box> */}
 
-      <Box>
-        <Input
-          label="Input"
-          placeholder="Placeholder ..."
-          suffix={<Modal>Help text</Modal>}
-        />
-      </Box>
+    <Box>
+      <Input
+        label="Input"
+        placeholder="Placeholder ..."
+        suffix={<Modal>Help text</Modal>}
+      />
+    </Box>
 
-      <Box>
+    <Box>
+      <Button variant="tertiary" text="Button" />
+      <Modal
+        // no_animation
+        // open_state="opened"
+        mode="drawer"
+        // fullscreen
+        container_placement="left"
+        align_content="right"
+        // align_content="center"
+        // drawer_offset={}
+        // title="Tertiary test"
+        title={<span className="dnb-sr-only">Test</span>}
+        // min_width="20vw"
+        // max_width="40vw"
+        overlay_class="overlay_class"
+        content_class="content_class"
+        class="inner_class"
+      >
         <Button variant="tertiary" text="Button" />
-        <Modal
-          // no_animation
-          // open_state="opened"
-          mode="drawer"
-          // fullscreen
-          container_placement="left"
-          align_content="right"
-          // align_content="center"
-          // drawer_offset={}
-          // title="Tertiary test"
-          title={<span className="dnb-sr-only">Test</span>}
-          // min_width="20vw"
-          // max_width="40vw"
-          overlay_class="overlay_class"
-          content_class="content_class"
-          class="inner_class"
-        >
+        <Section>
           <Button variant="tertiary" text="Button" />
-          <Section>
-            <Button variant="tertiary" text="Button" />
-          </Section>
-          <FillContent />
-        </Modal>
-      </Box>
-      <Box>
-        <Modal
-          // min_width="90vw"
-          // max_width="2rem"
-          // open_state="opened"
-          fullscreen
-          title="Modal Title"
-          trigger_variant="tertiary"
-          trigger_icon={null}
-          trigger_text="Click me"
-        >
-          <FillContent />
-        </Modal>
-      </Box>
-      <Box>
-        <Modal
-          min_width="60vw"
-          trigger_text="Open Modal"
-          title="Modal Title"
-          on_close={(e) => {
-            console.log('on_close', e)
-          }}
-        >
-          <Hr />
-          <Box>
-            <H2>Some content</H2>
-            <Input>Focus me with Tab key</Input>
-          </Box>
-          <Box>
-            <P>
-              <Switch label="Checked:" checked />
-            </P>
-          </Box>
-        </Modal>
-      </Box>
-      <Box>
-        <ModalRerenderExample />
-      </Box>
-      <Box>
-        <ModalCloseExample />
-      </Box>
-      <Box>
-        <ModalTriggerExample />
-      </Box>
-    </Wrapper>
-  )
-]
+        </Section>
+        <FillContent />
+      </Modal>
+    </Box>
+    <Box>
+      <Modal
+        // min_width="90vw"
+        // max_width="2rem"
+        // open_state="opened"
+        fullscreen
+        title="Modal Title"
+        trigger_variant="tertiary"
+        trigger_icon={null}
+        trigger_text="Click me"
+      >
+        <FillContent />
+      </Modal>
+    </Box>
+    <Box>
+      <Modal
+        min_width="60vw"
+        trigger_text="Open Modal"
+        title="Modal Title"
+        on_close={(e) => {
+          console.log('on_close', e)
+        }}
+      >
+        <Hr />
+        <Box>
+          <H2>Some content</H2>
+          <Input>Focus me with Tab key</Input>
+        </Box>
+        <Box>
+          <P>
+            <Switch label="Checked:" checked />
+          </P>
+        </Box>
+      </Modal>
+    </Box>
+    <Box>
+      <ModalRerenderExample />
+    </Box>
+    <Box>
+      <ModalCloseExample />
+    </Box>
+    <Box>
+      <ModalTriggerExample />
+    </Box>
+  </Wrapper>
+)
 
 class ModalRerenderExample extends React.PureComponent {
   state = {

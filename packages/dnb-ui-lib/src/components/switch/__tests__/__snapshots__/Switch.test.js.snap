@@ -43,7 +43,6 @@ exports[`Switch component have to match snapshot 1`] = `
         for_id="id"
         id="id-label"
         label_direction={null}
-        render_content={null}
         skeleton="skeleton"
         sr_only={null}
         text="label"
@@ -478,6 +477,7 @@ legend.dnb-form-label {
     display: flex;
     justify-content: flex-start;
     align-items: flex-start;
+    min-width: inherit;
     border-radius: var(--input-border-radius); }
   .dnb-form-status--text {
     padding: calc(0.5rem / 2) 1rem;

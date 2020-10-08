@@ -44,7 +44,6 @@ exports[`Slider component have to match snapshot 1`] = `
       for_id={null}
       id="id-label"
       label_direction="horizontal"
-      render_content={null}
       skeleton="skeleton"
       sr_only="label_sr_only"
       text="label"
@@ -211,13 +210,9 @@ exports[`Slider component have to match snapshot 1`] = `
               disabled={false}
               max={100}
               min={0}
-              onBlur={[Function]}
               onChange={[Function]}
-              onFocus={[Function]}
-              onKeyDown={[Function]}
               orientation="horizontal"
               step={10}
-              title="thump_title"
               type="range"
               value={70}
             />
@@ -236,7 +231,9 @@ exports[`Slider component have to match snapshot 1`] = `
               icon_size={null}
               id={null}
               innerRef={null}
+              onBlur={[Function]}
               onClick={null}
+              onFocus={[Function]}
               onMouseDown={[Function]}
               on_click={null}
               size={null}
@@ -246,7 +243,7 @@ exports[`Slider component have to match snapshot 1`] = `
               status_state="error"
               tabIndex="-1"
               text={null}
-              title={null}
+              title="thump_title"
               tooltip={null}
               type="button"
               variant="secondary"
@@ -256,9 +253,12 @@ exports[`Slider component have to match snapshot 1`] = `
                 aria-hidden={true}
                 className="dnb-button dnb-button--secondary"
                 disabled={false}
+                onBlur={[Function]}
                 onClick={[Function]}
+                onFocus={[Function]}
                 onMouseDown={[Function]}
                 tabIndex="-1"
+                title="thump_title"
                 type="button"
               >
                 <Content
@@ -278,7 +278,9 @@ exports[`Slider component have to match snapshot 1`] = `
                   id={null}
                   innerRef={null}
                   isIconOnly={false}
+                  onBlur={[Function]}
                   onClick={null}
+                  onFocus={[Function]}
                   onMouseDown={[Function]}
                   on_click={null}
                   size={null}
@@ -288,7 +290,7 @@ exports[`Slider component have to match snapshot 1`] = `
                   status_state="error"
                   tabIndex="-1"
                   text={null}
-                  title={null}
+                  title="thump_title"
                   tooltip={null}
                   type="button"
                   variant="secondary"
@@ -617,6 +619,7 @@ exports[`Slider scss have to match snapshot 1`] = `
     display: flex;
     justify-content: flex-start;
     align-items: flex-start;
+    min-width: inherit;
     border-radius: var(--input-border-radius); }
   .dnb-form-status--text {
     padding: calc(0.5rem / 2) 1rem;

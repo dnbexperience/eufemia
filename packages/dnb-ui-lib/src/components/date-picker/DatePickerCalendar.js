@@ -28,82 +28,79 @@ import {
 } from './DatePickerCalc'
 import Button from '../button/Button'
 
-const propTypes = {
-  id: PropTypes.string,
-  nr: PropTypes.number,
-  month: PropTypes.instanceOf(Date), // What month will be displayed in the first calendar. Default: new Date()
-  prevBtn: PropTypes.bool,
-  nextBtn: PropTypes.bool,
-  titleFormat: PropTypes.string,
-  dayOfWeekFormat: PropTypes.string,
-  firstDayOfWeek: PropTypes.string,
-  hideNav: PropTypes.bool,
-  hideDays: PropTypes.bool,
-  onlyMonth: PropTypes.bool,
-  hideNextMonthWeek: PropTypes.bool,
-  noAutofocus: PropTypes.bool,
-
-  onHover: PropTypes.func,
-  onSelect: PropTypes.func,
-  onPrev: PropTypes.func,
-  onNext: PropTypes.func,
-
-  locale: PropTypes.object,
-  rtl: PropTypes.bool,
-
-  range: PropTypes.bool,
-  resetDate: PropTypes.bool,
-  hoverDate: PropTypes.instanceOf(Date),
-  startDate: PropTypes.instanceOf(Date),
-  endDate: PropTypes.instanceOf(Date),
-  minDate: PropTypes.instanceOf(Date),
-  maxDate: PropTypes.instanceOf(Date),
-  onKeyDown: PropTypes.func
-}
-
-const defaultProps = {
-  id: null,
-  nr: null,
-  month: null,
-  prevBtn: true,
-  nextBtn: true,
-  titleFormat: 'MMMM yyyy',
-  dayOfWeekFormat: 'EEEEEE',
-  firstDayOfWeek: 'monday',
-  hideNav: false,
-  hideDays: false,
-  onlyMonth: false,
-  hideNextMonthWeek: false,
-  noAutofocus: false,
-
-  // locale
-  locale: nbLocale,
-  rtl: false,
-
-  // events
-  onHover: null,
-  onSelect: null,
-  onPrev: null,
-  onNext: null,
-  hoverDate: null,
-
-  // dates
-  range: null,
-  resetDate: true, // reset start/end date once we already have them
-  startDate: null,
-  endDate: null,
-
-  // Limit selection with minDate and maxDate
-  minDate: null,
-  maxDate: null, // addDays(new Date(), 45)
-  onKeyDown: null
-}
-
 export default class DatePickerCalendar extends React.PureComponent {
-  static propTypes = propTypes
-  static defaultProps = defaultProps
   static contextType = Context
 
+  static propTypes = {
+    id: PropTypes.string,
+    nr: PropTypes.number,
+    month: PropTypes.instanceOf(Date), // What month will be displayed in the first calendar. Default: new Date()
+    prevBtn: PropTypes.bool,
+    nextBtn: PropTypes.bool,
+    titleFormat: PropTypes.string,
+    dayOfWeekFormat: PropTypes.string,
+    firstDayOfWeek: PropTypes.string,
+    hideNav: PropTypes.bool,
+    hideDays: PropTypes.bool,
+    onlyMonth: PropTypes.bool,
+    hideNextMonthWeek: PropTypes.bool,
+    noAutofocus: PropTypes.bool,
+
+    onHover: PropTypes.func,
+    onSelect: PropTypes.func,
+    onPrev: PropTypes.func,
+    onNext: PropTypes.func,
+
+    locale: PropTypes.object,
+    rtl: PropTypes.bool,
+
+    range: PropTypes.bool,
+    resetDate: PropTypes.bool,
+    hoverDate: PropTypes.instanceOf(Date),
+    startDate: PropTypes.instanceOf(Date),
+    endDate: PropTypes.instanceOf(Date),
+    minDate: PropTypes.instanceOf(Date),
+    maxDate: PropTypes.instanceOf(Date),
+    onKeyDown: PropTypes.func
+  }
+
+  static defaultProps = {
+    id: null,
+    nr: null,
+    month: null,
+    prevBtn: true,
+    nextBtn: true,
+    titleFormat: 'MMMM yyyy',
+    dayOfWeekFormat: 'EEEEEE',
+    firstDayOfWeek: 'monday',
+    hideNav: false,
+    hideDays: false,
+    onlyMonth: false,
+    hideNextMonthWeek: false,
+    noAutofocus: false,
+
+    // locale
+    locale: nbLocale,
+    rtl: false,
+
+    // events
+    onHover: null,
+    onSelect: null,
+    onPrev: null,
+    onNext: null,
+    hoverDate: null,
+
+    // dates
+    range: null,
+    resetDate: true, // reset start/end date once we already have them
+    startDate: null,
+    endDate: null,
+
+    // Limit selection with minDate and maxDate
+    minDate: null,
+    maxDate: null, // addDays(new Date(), 45)
+    onKeyDown: null
+  }
   constructor(props) {
     super(props)
     this._listRef = React.createRef()

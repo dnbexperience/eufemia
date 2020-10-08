@@ -1,6 +1,6 @@
 /**
  * Screenshot Test
- * This file will not run on "test:staged" because we dont require any related files
+ * This file will not run on "test:staged" because we don't require any related files
  */
 
 import {
@@ -10,6 +10,13 @@ import {
 
 describe('Skeleton screenshot', () => {
   setupPageScreenshot({ url: '/uilib/components/skeleton/demos' })
+  it('have to match shine effect', async () => {
+    const screenshot = await testPageScreenshot({
+      style: { width: '20rem', height: '20rem' },
+      selector: '[data-dnb-test="skeleton-shine"]'
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
   it('have to match excluded components', async () => {
     const screenshot = await testPageScreenshot({
       style: { width: '20rem', height: '20rem' },

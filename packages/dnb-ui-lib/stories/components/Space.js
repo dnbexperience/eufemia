@@ -291,4 +291,4 @@ const Collapsing = styled(Space)`
   border: 1px solid;
 `
 
-export { MagicBox, VisualSpace }
+// export { MagicBox, VisualSpace }

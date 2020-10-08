@@ -11,6 +11,8 @@
     justify-content: flex-start;
     align-items: flex-start;
 
+    min-width: inherit;
+
     border-radius: var(--input-border-radius);
   }
 

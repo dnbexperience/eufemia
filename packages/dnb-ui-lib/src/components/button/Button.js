@@ -14,7 +14,6 @@ import {
   registerElement,
   validateDOMAttributes,
   processChildren,
-  pickRenderProps,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
 import { createSpacingClasses } from '../space/SpacingHelper'
@@ -26,110 +25,102 @@ import IconPrimary from '../icon-primary/IconPrimary'
 import FormStatus from '../form-status/FormStatus'
 import Tooltip from '../tooltip/Tooltip'
 
-const renderProps = { on_click: null }
-
-const propTypes = {
-  /** the content of the button. */
-  text: PropTypes.string,
-  type: PropTypes.string,
-  title: PropTypes.string,
-  /* _(optional)_ defines the kind of button. Possible values are `primary`, `secondary`, `tertiary` and `signal`.  */
-  variant: PropTypes.oneOf(['primary', 'secondary', 'tertiary', 'signal']),
-  size: PropTypes.oneOf(['default', 'small', 'medium', 'large']),
-  icon: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.node,
-    PropTypes.func
-  ]),
-  icon_position: PropTypes.oneOf(['left', 'right']),
-  icon_size: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  tooltip: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-    PropTypes.node
-  ]),
-  status: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-    PropTypes.node
-  ]),
-  status_state: PropTypes.string,
-  status_animation: PropTypes.string,
-  global_status_id: PropTypes.string,
-  id: PropTypes.string,
-  class: PropTypes.string,
-  href: PropTypes.string,
-  wrap: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  bounding: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-
-  // React props
-  className: PropTypes.string,
-  innerRef: PropTypes.object,
-  children: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-    PropTypes.node
-  ]),
-
-  // Web Component props
-  custom_element: PropTypes.object,
-  custom_method: PropTypes.func,
-
-  // Events
-  onClick: PropTypes.func,
-  on_click: PropTypes.oneOfType([PropTypes.string, PropTypes.func])
-}
-
-const defaultProps = {
-  type: 'button',
-  text: null,
-  variant: null,
-  size: null,
-  title: null,
-  icon: null,
-  icon_position: 'right',
-  icon_size: null,
-  href: null,
-  id: null,
-  class: null,
-  wrap: false,
-  bounding: false,
-  skeleton: null,
-  disabled: null,
-  tooltip: null,
-  status: null,
-  status_state: 'error',
-  status_animation: null,
-  global_status_id: null,
-
-  // React props
-  className: null,
-  innerRef: null,
-  children: null,
-
-  // Web Component props
-  custom_element: null,
-  custom_method: null,
-
-  // Events
-  onClick: null,
-  on_click: null
-}
-
 /**
  * The button component should be used as the call-to-action in a form, or as a user interaction mechanism. Generally speaking, a button should not be used when a link would do the trick. Exceptions are made at times when it is used as a navigation element in the action-nav element.
  */
 export default class Button extends React.PureComponent {
   static tagName = 'dnb-button'
-  static propTypes = propTypes
-  static defaultProps = defaultProps
-  static renderProps = renderProps
   static contextType = Context
 
+  static propTypes = {
+    text: PropTypes.string,
+    type: PropTypes.string,
+    title: PropTypes.string,
+    variant: PropTypes.oneOf([
+      'primary',
+      'secondary',
+      'tertiary',
+      'signal'
+    ]),
+    size: PropTypes.oneOf(['default', 'small', 'medium', 'large']),
+    icon: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.node,
+      PropTypes.func
+    ]),
+    icon_position: PropTypes.oneOf(['left', 'right']),
+    icon_size: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    tooltip: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.func,
+      PropTypes.node
+    ]),
+    status: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.func,
+      PropTypes.node
+    ]),
+    status_state: PropTypes.string,
+    status_animation: PropTypes.string,
+    global_status_id: PropTypes.string,
+    id: PropTypes.string,
+    class: PropTypes.string,
+    href: PropTypes.string,
+    wrap: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    bounding: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+
+    className: PropTypes.string,
+    innerRef: PropTypes.object,
+    children: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.func,
+      PropTypes.node
+    ]),
+
+    custom_element: PropTypes.object,
+    custom_method: PropTypes.func,
+
+    onClick: PropTypes.func,
+    on_click: PropTypes.oneOfType([PropTypes.string, PropTypes.func])
+  }
+
+  static defaultProps = {
+    type: 'button',
+    text: null,
+    variant: null,
+    size: null,
+    title: null,
+    icon: null,
+    icon_position: 'right',
+    icon_size: null,
+    href: null,
+    id: null,
+    class: null,
+    wrap: false,
+    bounding: false,
+    skeleton: null,
+    disabled: null,
+    tooltip: null,
+    status: null,
+    status_state: 'error',
+    status_animation: null,
+    global_status_id: null,
+
+    className: null,
+    innerRef: null,
+    children: null,
+
+    custom_element: null,
+    custom_method: null,
+
+    onClick: null,
+    on_click: null
+  }
+
   static enableWebComponent() {
-    registerElement(Button.tagName, Button, defaultProps)
+    registerElement(Button.tagName, Button, Button.defaultProps)
   }
 
   static getContent(props) {
@@ -142,9 +133,6 @@ export default class Button extends React.PureComponent {
     this._id =
       props.id || ((props.status || props.tooltip) && makeUniqueId()) // cause we need an id anyway
     this._ref = React.createRef()
-
-    // pass along all props we wish to have as params
-    this.renderProps = pickRenderProps(props, renderProps)
 
     this.state = { afterContent: null }
   }
@@ -173,7 +161,7 @@ export default class Button extends React.PureComponent {
     // use only the props from context, who are available here anyway
     const props = extendPropsWithContext(
       this.props,
-      defaultProps,
+      Button.defaultProps,
       { skeleton: this.context?.skeleton },
       this.context.formRow
     )
@@ -287,7 +275,6 @@ export default class Button extends React.PureComponent {
     )
 
     const params = {
-      ...this.renderProps,
       className: classes,
       type,
       title,
@@ -336,6 +323,7 @@ export default class Button extends React.PureComponent {
             status={status_state}
             text_id={this._id + '-status'} // used for "aria-describedby"
             animation={status_animation}
+            skeleton={skeleton}
           />
         )}
 

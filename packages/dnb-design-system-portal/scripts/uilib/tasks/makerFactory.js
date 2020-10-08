@@ -50,7 +50,7 @@ export default async function runFactory({
     const __orig__processToNamesList = processToNamesList
     processToNamesList = await fs.readdir(processToNamesList)
     processToNamesList = processToNamesList
-      .filter((file) => !/\.cjs$/.test(file))
+      .filter((file) => !/\.(cjs|ts)$/.test(file))
       .filter((file) => {
         if (/not_in_use|__tests__/g.test(file)) {
           return false

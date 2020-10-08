@@ -32,69 +32,67 @@ const CustomStatus = () => (
   </>
 )
 
-export default [
-  'GlobalStatus',
-  () => (
-    <Wrapper>
-      <GlobalStatus />
+export const GlobalStatuses = () => (
+  <Wrapper>
+    <GlobalStatus />
+    <GlobalStatus
+      // title="Custom Title"
+      // text="Failure text"
+      // items={[
+      //   {
+      //     text: 'List item',
+      //     status_anchor_url: '/uilib/components/global-status'
+      //   }
+      // ]}
+      // show="true"
+      // no_animation="true"
+      // autoscroll="false"
+      id="demo-1"
+    />
+    <Box>
+      <DemoAnimation />
+    </Box>
+    <Box>
+      <NestedSections />
+    </Box>
+    <Box>
+      <ModalExample />
+    </Box>
+    <Box>
+      <SimulateSteps />
+    </Box>
+    <Box>
+      <InputWithError />
+    </Box>
+    <Box>
       <GlobalStatus
-        // title="Custom Title"
-        // text="Failure text"
-        // items={[
-        //   {
-        //     text: 'List item',
-        //     status_anchor_url: '/uilib/components/global-status'
-        //   }
-        // ]}
-        // show="true"
-        // no_animation="true"
-        // autoscroll="false"
-        id="demo-1"
+        show
+        no_animation
+        autoscroll="false"
+        state="info"
+        title="Custom Title"
+        id="custom-id"
+      >
+        <CustomStatus />
+      </GlobalStatus>
+    </Box>
+    <Box>
+      <Button
+        ref={scrollto_element}
+        text="Scroll To"
+        on_click={() => {
+          GlobalStatus.AddStatus({
+            id: 'demo-1',
+            // id: 'custom-status',
+            text:
+              'This is aDui consectetur viverra aenean vestibulum ac tristique sem ligula condimentum',
+            scrollto_element
+          })
+        }}
+        top="small"
       />
-      <Box>
-        <DemoAnimation />
-      </Box>
-      <Box>
-        <NestedSections />
-      </Box>
-      <Box>
-        <ModalExample />
-      </Box>
-      <Box>
-        <SimulateSteps />
-      </Box>
-      <Box>
-        <InputWithError />
-      </Box>
-      <Box>
-        <GlobalStatus
-          show
-          no_animation
-          autoscroll="false"
-          state="info"
-          title="Custom Title"
-          id="custom-id"
-        >
-          <CustomStatus />
-        </GlobalStatus>
-      </Box>
-      <Box>
-        <Button
-          ref={scrollto_element}
-          text="Scroll To"
-          on_click={() => {
-            GlobalStatus.AddStatus({
-              id: 'demo-1',
-              // id: 'custom-status',
-              text:
-                'This is aDui consectetur viverra aenean vestibulum ac tristique sem ligula condimentum',
-              scrollto_element
-            })
-          }}
-          top="small"
-        />
-      </Box>
-      {/* <Box>
+    </Box>
+    {/* <Box>
         {false && <UpdateGlobalStatus />}
         {true && (
         <GlobalStatus.Add
@@ -109,9 +107,8 @@ export default [
     </GlobalStatus.Add>
   )}
 </Box> */}
-    </Wrapper>
-  )
-]
+  </Wrapper>
+)
 
 const scrollto_element = React.createRef()
 

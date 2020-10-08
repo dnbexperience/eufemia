@@ -19,12 +19,20 @@ document.body.insertAdjacentHTML(
 class CustomElementComponent extends React.Component {
   state = {}
   static getDerivedStateFromProps(props, state) {
-    state.content = props['observed-attribute']
+    if (typeof props['observed-attribute'] !== 'undefined') {
+      state.content = props['observed-attribute']
+    }
     return state
   }
   constructor(props) {
     super(props)
     this.state.content = CustomElementComponentContent
+    if (typeof this.props.render_mock === 'function') {
+      this.state.content = this.props.render_mock('return this')
+    }
+    if (typeof this.props.render_method === 'function') {
+      this.state.content = this.props.render_method(this.props)
+    }
   }
   update() {
     this.setState({ content: this.props.value })
@@ -40,9 +48,14 @@ describe('"registerElement" should', () => {
   ])
   const customElement = document.getElementsByTagName('custom-element')
 
+  it('have correct amount of registered components', () => {
+    expect(global.registeredElements.length).toBe(1)
+  })
+
   it('have "registeredElements" with more than one element', () => {
     expect(registeredElements.length).toBeGreaterThanOrEqual(1)
   })
+
   it('have "registeredElements" with the correct tagName registered', () => {
     expect(registeredElements[0]).toBe('custom-element')
   })
@@ -57,10 +70,85 @@ describe('"registerElement" should', () => {
     )
   })
 
-  it('have a "custom-element" with the correct attribute value', () => {
-    expect(customElement[0].getAttribute('observed-attribute')).toBe(
-      CustomElementComponentContent
+  it('renders a mathod called render_', () => {
+    const render_mock = jest.fn()
+    const eventHandler = jest.fn()
+
+    const render_method = (props) => {
+      return (
+        <>
+          {props.children} + this{' '}
+          <button onClick={eventHandler}>button text</button>
+        </>
+      )
+    }
+    class Scope {
+      render_method = render_method
+      render_mock = render_mock
+    }
+    global.Scope = new Scope()
+    document.body.insertAdjacentHTML(
+      'afterbegin',
+      `<custom-element-render render_mock="Scope.render_mock" render_method="Scope.render_method">Startup Content</custom-element-render>`
     )
+
+    registerElement('custom-element-render', CustomElementComponent, [])
+    const customElementRendered = document.getElementsByTagName(
+      'custom-element-render'
+    )
+
+    expect(customElementRendered[0].textContent).toBe(
+      'Startup Content + this button text'
+    )
+
+    expect(render_mock).toBeCalledTimes(1)
+    expect(render_mock).toHaveBeenCalledWith('return this')
+
+    const ref = customElementRendered[0].getRef()
+    expect(React.isValidElement(ref)).toBe(true)
+
+    const mouted = mount(ref)
+    expect(mouted.find('button').text()).toBe('button text')
+
+    mouted.find('button').simulate('click')
+
+    expect(eventHandler).toBeCalledTimes(1)
+  })
+
+  it('handles booleans and numbers gracefully', () => {
+    const renderedWith = jest.fn()
+
+    class CustomElementComponent extends React.Component {
+      state = {}
+      static getDerivedStateFromProps(props, state) {
+        renderedWith(props.my_boolean, props.my_number)
+        return state
+      }
+      render() {
+        return <></>
+      }
+    }
+
+    document.body.insertAdjacentHTML(
+      'afterbegin',
+      `<custom-element-types my_boolean="false" my_number="1.1">Startup Content</custom-element-types>`
+    )
+
+    registerElement('custom-element-types', CustomElementComponent, [])
+    const customElementTypes = document.getElementsByTagName(
+      'custom-element-types'
+    )
+
+    expect(renderedWith).toBeCalledTimes(1)
+    expect(renderedWith).toHaveBeenCalledWith(false, 1.1)
+
+    customElementTypes[0].setProps({
+      my_boolean: 'true',
+      my_number: '1.2'
+    })
+
+    expect(renderedWith).toBeCalledTimes(2)
+    expect(renderedWith).toHaveBeenCalledWith(true, 1.2)
   })
 
   it('have a "custom-element" with the correct element content value, even after changing the attribute value', () => {

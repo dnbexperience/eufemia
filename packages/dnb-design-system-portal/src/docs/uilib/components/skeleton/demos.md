@@ -83,7 +83,7 @@ You may import a given figure, or create your own.
 import { Article } from 'dnb-ui-lib/components/skeleton/figures'
 ```
 
-<ComponentBox scope={{Article}}>
+<ComponentBox scope={{Article}} data-dnb-test="skeleton-shine">
 {`
 <Skeleton
 	show

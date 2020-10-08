@@ -24,66 +24,64 @@ import { warn, validateDOMAttributes } from '../../shared/component-helper'
 import { isDisabled, convertStringToDate } from './DatePickerCalc'
 import Context from '../../shared/Context'
 
-const propTypes = {
-  id: PropTypes.string,
-  title: PropTypes.string,
-  selectedDateTitle: PropTypes.string,
-  maskOrder: PropTypes.string,
-  maskPlaceholder: PropTypes.string,
-  separatorRexExp: PropTypes.instanceOf(RegExp),
-  minDate: PropTypes.instanceOf(Date),
-  maxDate: PropTypes.instanceOf(Date),
-  submitAttributes: PropTypes.object,
-  range: PropTypes.bool,
-  status: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-    PropTypes.node
-  ]),
-  status_state: PropTypes.string,
-  input_element: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-    PropTypes.node
-  ]),
-  disabled: PropTypes.bool,
-  skeleton: PropTypes.bool,
-  opened: PropTypes.bool,
-  showInput: PropTypes.bool,
-  onChange: PropTypes.func,
-  onSubmit: PropTypes.func,
-  onSubmitButtonFocus: PropTypes.func,
-  onFocus: PropTypes.func
-}
-
-const defaultProps = {
-  id: null,
-  title: null,
-  selectedDateTitle: null,
-  maskOrder: 'dd/mm/yyyy',
-  maskPlaceholder: 'dd/mm/åååå',
-  separatorRexExp: /[-/ ]/g,
-  submitAttributes: null,
-  range: null,
-  status: null,
-  status_state: 'error',
-  minDate: null,
-  maxDate: null,
-  input_element: null,
-  disabled: null,
-  skeleton: null,
-  opened: false,
-  showInput: null,
-  onChange: null,
-  onSubmit: null,
-  onSubmitButtonFocus: null,
-  onFocus: null
-}
-
 export default class DatePickerInput extends React.PureComponent {
-  static propTypes = propTypes
-  static defaultProps = defaultProps
   static contextType = Context
+
+  static propTypes = {
+    id: PropTypes.string,
+    title: PropTypes.string,
+    selectedDateTitle: PropTypes.string,
+    maskOrder: PropTypes.string,
+    maskPlaceholder: PropTypes.string,
+    separatorRexExp: PropTypes.instanceOf(RegExp),
+    minDate: PropTypes.instanceOf(Date),
+    maxDate: PropTypes.instanceOf(Date),
+    submitAttributes: PropTypes.object,
+    range: PropTypes.bool,
+    status: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.func,
+      PropTypes.node
+    ]),
+    status_state: PropTypes.string,
+    input_element: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.func,
+      PropTypes.node
+    ]),
+    disabled: PropTypes.bool,
+    skeleton: PropTypes.bool,
+    opened: PropTypes.bool,
+    showInput: PropTypes.bool,
+    onChange: PropTypes.func,
+    onSubmit: PropTypes.func,
+    onSubmitButtonFocus: PropTypes.func,
+    onFocus: PropTypes.func
+  }
+
+  static defaultProps = {
+    id: null,
+    title: null,
+    selectedDateTitle: null,
+    maskOrder: 'dd/mm/yyyy',
+    maskPlaceholder: 'dd/mm/åååå',
+    separatorRexExp: /[-/ ]/g,
+    submitAttributes: null,
+    range: null,
+    status: null,
+    status_state: 'error',
+    minDate: null,
+    maxDate: null,
+    input_element: null,
+    disabled: null,
+    skeleton: null,
+    opened: false,
+    showInput: null,
+    onChange: null,
+    onSubmit: null,
+    onSubmitButtonFocus: null,
+    onFocus: null
+  }
 
   state = {
     _listenForPropChanges: true,

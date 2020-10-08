@@ -3,7 +3,7 @@
  *
  */
 
-import { makeUniqueId } from '../../shared/component-helper'
+import { makeUniqueId, warn } from '../../shared/component-helper'
 
 // The meaning with this is that we can force a rerender without sharing the same context
 class GlobalStatusProvider {
@@ -29,6 +29,12 @@ class GlobalStatusProvider {
     }
 
     const newStatus = GlobalStatusProvider.create(id, props)
+
+    warn(
+      `No <GlobalStatus ${
+        id === 'main' ? '' : `id="${id}" `
+      }/> found. WCAG requires a summarization.`
+    )
 
     if (onReady) {
       newStatus.addOnReady(newStatus)

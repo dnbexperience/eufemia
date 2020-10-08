@@ -24,16 +24,13 @@ const Bg = styled.div`
   background: blue;
 `
 
-export default [
-  'GlobalError',
-  () => (
-    <Bg>
-      <Wrapper>
-        <GlobalError status="404" />
-        <GlobalError status="500">
-          <CustomStatus />
-        </GlobalError>
-      </Wrapper>
-    </Bg>
-  )
-]
+export const GlobalErrors = () => (
+  <Bg>
+    <Wrapper>
+      <GlobalError status="404" />
+      <GlobalError status="500">
+        <CustomStatus />
+      </GlobalError>
+    </Wrapper>
+  </Bg>
+)

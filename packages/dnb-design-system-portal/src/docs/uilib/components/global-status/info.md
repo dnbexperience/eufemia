@@ -28,13 +28,20 @@ Normally, You only want to have **one** `GlobalStatus` inside Your application. 
 - Or as a secondary summary of errors in a submit form. Keep in mind, by default, form components like [Input](/uilib/components/input) are using the ID `main`. To make sure the build in [FormStatus](/uilib/components/form-status) is sending along the message to another `GlobalStatus`, You have to set the `global_status_id`, like:
 
 ```jsx
+<GlobalStatus id="other-global-status" />
+...
 <Input global_status_id="other-global-status" ... />
 ```
 
-But You can also make use of the [FormSet](/uilib/components/form-set) or [FormRow](/uilib/components/form-row) (or FormSet) which will send along the `global_status_id` the underlaying/children components, like:
+But You can also make use of the [FormSet](/uilib/components/form-set) or [FormRow](/uilib/components/form-row) which will send along the `global_status_id` the underlaying/wrapped components, like:
 
 ```jsx
-<FormSet global_status_id="other-global-status">...</FormSet>
+<GlobalStatus id="other-global-status" />
+...
+<FormSet global_status_id="other-global-status">
+  <Input status="Message" />
+  ...
+</FormSet>
 ```
 
 ### Smooth scrolling

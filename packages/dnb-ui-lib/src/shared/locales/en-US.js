@@ -79,7 +79,11 @@ export default {
       load_button_text: 'Show more content'
     },
     StepIndicator: {
-      step_title: 'Step %step aofv %count'
+      step_title: 'Step %step of %count'
+    },
+    Slider: {
+      add_title: 'Increase Slider value %s%',
+      subtract_title: 'Decrease Slider value %s%'
     },
     Logo: {
       alt: 'DNB Logo'

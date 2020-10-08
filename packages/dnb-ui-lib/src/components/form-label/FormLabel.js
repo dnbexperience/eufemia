@@ -21,81 +21,62 @@ import {
 } from '../skeleton/SkeletonHelper'
 import Context from '../../shared/Context'
 
-const renderProps = {
-  render_content: null
-}
-
-const propTypes = {
-  for_id: PropTypes.string,
-  element: PropTypes.string,
-  title: PropTypes.string,
-  text: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-    PropTypes.node
-  ]),
-  id: PropTypes.string,
-  class: PropTypes.string,
-  disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  label_direction: PropTypes.oneOf(['vertical', 'horizontal']),
-  direction: PropTypes.oneOf(['vertical', 'horizontal']),
-  vertical: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  sr_only: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-
-  /** React props */
-  className: PropTypes.string,
-  children: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-    PropTypes.node
-  ]),
-
-  // Web Component props
-  render_content: PropTypes.func
-}
-
-const defaultProps = {
-  for_id: null,
-  element: 'label',
-  title: null,
-  text: null,
-  id: null,
-  class: null,
-  disabled: null,
-  skeleton: null,
-  label_direction: null,
-  direction: null,
-  vertical: null,
-  sr_only: null,
-
-  /** React props */
-  className: null,
-  children: null,
-
-  // Web Component props
-  ...renderProps
-}
-
 export default class FormLabel extends React.PureComponent {
   static tagName = 'dnb-form-label'
-  static propTypes = propTypes
-  static defaultProps = defaultProps
   static contextType = Context
 
-  // constructor(props) {
-  //   super(props)
-  //   this._ref = React.createRef()
-  // }
+  static propTypes = {
+    for_id: PropTypes.string,
+    element: PropTypes.string,
+    title: PropTypes.string,
+    text: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.func,
+      PropTypes.node
+    ]),
+    id: PropTypes.string,
+    class: PropTypes.string,
+    disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    label_direction: PropTypes.oneOf(['vertical', 'horizontal']),
+    direction: PropTypes.oneOf(['vertical', 'horizontal']),
+    vertical: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    sr_only: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+
+    /** React props */
+    className: PropTypes.string,
+    children: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.func,
+      PropTypes.node
+    ])
+  }
+
+  static defaultProps = {
+    for_id: null,
+    element: 'label',
+    title: null,
+    text: null,
+    id: null,
+    class: null,
+    disabled: null,
+    skeleton: null,
+    label_direction: null,
+    direction: null,
+    vertical: null,
+    sr_only: null,
+
+    /** React props */
+    className: null,
+    children: null
+  }
 
   static enableWebComponent() {
-    registerElement(FormLabel.tagName, FormLabel, defaultProps)
+    registerElement(FormLabel.tagName, FormLabel, FormLabel.defaultProps)
   }
 
   static getContent(props) {
     if (props.text) return props.text
-    if (typeof props.render_content === 'function')
-      props.render_content(props)
     return processChildren(props)
   }
 
@@ -103,7 +84,7 @@ export default class FormLabel extends React.PureComponent {
     // use only the props from context, who are available here anyway
     const props = extendPropsWithContext(
       this.props,
-      defaultProps,
+      FormLabel.defaultProps,
       { skeleton: this.context?.skeleton },
       this.context.formRow
     )

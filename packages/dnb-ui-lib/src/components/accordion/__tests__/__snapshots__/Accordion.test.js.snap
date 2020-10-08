@@ -418,7 +418,7 @@ exports[`Accordion scss have to match snapshot 1`] = `
     .dnb-accordion__header__icon {
       margin: 1.5rem 1rem;
       font-size: var(--font-size-small);
-      line-height: var(--line-height-basis);
+      line-height: var(--line-height-small);
       transition: transform 400ms var(--accordion-easing); }
     .dnb-accordion__header__icon--right {
       justify-content: space-between; }

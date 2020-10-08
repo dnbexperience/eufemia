@@ -24,115 +24,6 @@ import AccordionContext from './AccordionContext'
 import AccordionProviderContext from './AccordionProviderContext'
 import Context from '../../shared/Context'
 
-const renderProps = {
-  on_change: null,
-  on_state_update: null
-}
-
-const propTypes = {
-  label: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-    PropTypes.node
-  ]),
-  title: PropTypes.string,
-  expanded: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  no_animation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  expanded_ssr: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  prerender: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  prevent_rerender: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.bool
-  ]),
-  remember_state: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  single_container: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.bool
-  ]),
-  variant: PropTypes.oneOf(['default', 'outlined', 'filled']),
-  left_component: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.node,
-    PropTypes.func
-  ]),
-  allow_close_all: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  id: PropTypes.string,
-  group: PropTypes.string,
-  element: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.node,
-    PropTypes.func
-  ]),
-  heading: PropTypes.oneOfType([
-    PropTypes.bool,
-    PropTypes.string,
-    PropTypes.node,
-    PropTypes.func
-  ]),
-  heading_level: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  icon: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.node,
-    PropTypes.func
-  ]),
-  icon_position: PropTypes.string,
-  icon_size: PropTypes.string,
-  attributes: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-  class: PropTypes.string,
-
-  /// React props
-  className: PropTypes.string,
-  children: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.node,
-    PropTypes.func
-  ]),
-
-  // Web Component props
-  custom_element: PropTypes.object,
-  custom_method: PropTypes.func,
-  on_change: PropTypes.func,
-  on_state_update: PropTypes.func
-}
-
-const defaultProps = {
-  label: null,
-  title: null,
-  expanded: null,
-  no_animation: null,
-  expanded_ssr: null,
-  prerender: null,
-  prevent_rerender: null,
-  remember_state: null,
-  single_container: null,
-  variant: 'outlined',
-  left_component: null,
-  allow_close_all: null,
-  disabled: null,
-  skeleton: null,
-  id: null,
-  group: null,
-  element: null,
-  heading: null,
-  heading_level: null,
-  icon: null,
-  icon_position: null,
-  icon_size: 'medium',
-  attributes: null,
-  class: null,
-
-  // React props
-  className: null,
-  children: null,
-
-  // Web Component props
-  custom_element: null,
-  custom_method: null,
-  ...renderProps
-}
-
 class AccordionStore {
   constructor(id) {
     this._id = id
@@ -155,16 +46,125 @@ class AccordionStore {
 
 export default class Accordion extends React.PureComponent {
   static tagName = 'dnb-accordion'
-  static propTypes = propTypes
-  static defaultProps = defaultProps
-  static renderProps = renderProps
   static contextType = AccordionProviderContext
   static Provider = AccordionProvider
   static Header = AccordionHeader
   static Content = AccordionContent
 
+  static propTypes = {
+    label: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.func,
+      PropTypes.node
+    ]),
+    title: PropTypes.string,
+    expanded: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    no_animation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    expanded_ssr: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    prerender: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    prevent_rerender: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool
+    ]),
+    remember_state: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool
+    ]),
+    single_container: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool
+    ]),
+    variant: PropTypes.oneOf(['default', 'outlined', 'filled']),
+    left_component: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.node,
+      PropTypes.func
+    ]),
+    allow_close_all: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool
+    ]),
+    disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    id: PropTypes.string,
+    group: PropTypes.string,
+    element: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.node,
+      PropTypes.func
+    ]),
+    heading: PropTypes.oneOfType([
+      PropTypes.bool,
+      PropTypes.string,
+      PropTypes.node,
+      PropTypes.func
+    ]),
+    heading_level: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number
+    ]),
+    icon: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.node,
+      PropTypes.func
+    ]),
+    icon_position: PropTypes.string,
+    icon_size: PropTypes.string,
+    attributes: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+    class: PropTypes.string,
+
+    /// React props
+    className: PropTypes.string,
+    children: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.node,
+      PropTypes.func
+    ]),
+
+    custom_element: PropTypes.object,
+    custom_method: PropTypes.func,
+    on_change: PropTypes.func,
+    on_state_update: PropTypes.func
+  }
+
+  static defaultProps = {
+    label: null,
+    title: null,
+    expanded: null,
+    no_animation: null,
+    expanded_ssr: null,
+    prerender: null,
+    prevent_rerender: null,
+    remember_state: null,
+    single_container: null,
+    variant: 'outlined',
+    left_component: null,
+    allow_close_all: null,
+    disabled: null,
+    skeleton: null,
+    id: null,
+    group: null,
+    element: null,
+    heading: null,
+    heading_level: null,
+    icon: null,
+    icon_position: null,
+    icon_size: 'medium',
+    attributes: null,
+    class: null,
+
+    className: null,
+    children: null,
+
+    custom_element: null,
+    custom_method: null,
+
+    on_change: null,
+    on_state_update: null
+  }
+
   static enableWebComponent() {
-    registerElement(Accordion.tagName, Accordion, defaultProps)
+    registerElement(Accordion.tagName, Accordion, Accordion.defaultProps)
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -366,7 +366,7 @@ export default class Accordion extends React.PureComponent {
               // use only the props from context, who are available here anyway
               const props = extendPropsWithContext(
                 this.props,
-                defaultProps,
+                Accordion.defaultProps,
                 this.context, // group context
                 nestedContext, // internal context
                 { skeleton: globalContext?.skeleton },
@@ -438,7 +438,7 @@ export default class Accordion extends React.PureComponent {
 
               const extendProps = extendPropsWithContext(
                 this.props,
-                defaultProps,
+                Accordion.defaultProps,
                 this.state,
                 this.context
               )

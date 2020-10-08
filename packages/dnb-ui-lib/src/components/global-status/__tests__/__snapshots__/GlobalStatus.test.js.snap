@@ -212,6 +212,7 @@ exports[`GlobalStatus scss have to match snapshot 1`] = `
     display: flex;
     justify-content: flex-start;
     align-items: flex-start;
+    min-width: inherit;
     border-radius: var(--input-border-radius); }
   .dnb-form-status--text {
     padding: calc(0.5rem / 2) 1rem;
@@ -851,7 +852,6 @@ exports[`GlobalStatus snapshot have to match component snapshot 1`] = `
   on_hide={[Function]}
   on_open={[Function]}
   on_show={[Function]}
-  render_content={[Function]}
   show={true}
   state="error"
   status_anchor_text="status_anchor_text"
@@ -870,272 +870,261 @@ exports[`GlobalStatus snapshot have to match component snapshot 1`] = `
       class={null}
       className="dnb-global-status dnb-global-status--error dnb-global-status--no-animation"
       element="div"
-      render_content={null}
+      spacing={null}
       style_type="fire-red"
     >
-      <ForwardRef
+      <div
         className="dnb-section dnb-section--fire-red dnb-global-status dnb-global-status--error dnb-global-status--no-animation"
-        is="div"
       >
         <div
-          className="dnb-section dnb-section--fire-red dnb-global-status dnb-global-status--error dnb-global-status--no-animation"
+          className="dnb-global-status__shell"
         >
           <div
-            className="dnb-global-status__shell"
+            className="dnb-global-status__content"
           >
-            <div
-              className="dnb-global-status__content"
+            <p
+              className="dnb-p dnb-global-status__title"
+              lang="nb-NO"
             >
-              <p
-                className="dnb-p dnb-global-status__title"
-                lang="nb-NO"
+              <span
+                className="dnb-global-status__icon"
               >
-                <span
-                  className="dnb-global-status__icon"
+                <Icon
+                  alt={null}
+                  attributes={null}
+                  border={null}
+                  className={null}
+                  color={null}
+                  height={null}
+                  icon={
+                    <ErrorIcon
+                      title={null}
+                    />
+                  }
+                  modifier={null}
+                  size="icon_size"
+                  skeleton={null}
+                  title={null}
+                  width={null}
                 >
-                  <Icon
-                    alt={null}
-                    attributes={null}
-                    border={null}
-                    className={null}
-                    color={null}
-                    height={null}
-                    icon={
+                  <span
+                    aria-hidden={true}
+                    className="dnb-icon dnb-icon--default"
+                    role="presentation"
+                  >
+                    <Component>
                       <ErrorIcon
                         title={null}
-                      />
-                    }
-                    modifier={null}
-                    size="icon_size"
-                    skeleton={null}
-                    title={null}
-                    width={null}
-                  >
-                    <span
-                      aria-hidden={true}
-                      className="dnb-icon dnb-icon--default"
-                      role="presentation"
-                    >
-                      <Component>
-                        <ErrorIcon
+                      >
+                        <svg
+                          fill="none"
+                          height="32"
+                          role="presentation"
                           title={null}
+                          viewBox="0 0 32 32"
+                          width="32"
                         >
-                          <svg
-                            fill="none"
-                            height="32"
-                            role="presentation"
-                            title={null}
-                            viewBox="0 0 32 32"
-                            width="32"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path
-                              d="M16 25a.5.5 0 100 1 .5.5 0 000-1v0"
-                              stroke="#000"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth="1.5"
-                            />
-                            <path
-                              d="M16 21V11"
-                              stroke="#000"
-                              strokeLinecap="round"
-                              strokeWidth="1.5"
-                            />
-                            <path
-                              clipRule="evenodd"
-                              d="M18.161 2.347a2.408 2.408 0 00-4.322 0L1.208 28.077A2.028 2.028 0 003.029 31h25.942a2.028 2.028 0 001.821-2.923l-12.63-25.73z"
-                              stroke="#000"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth="1.5"
-                            />
-                          </svg>
-                        </ErrorIcon>
-                      </Component>
-                    </span>
-                  </Icon>
-                </span>
-                title
-                <CloseButton
-                  className={null}
+                          <path
+                            d="M16 25a.5.5 0 100 1 .5.5 0 000-1v0"
+                            stroke="#000"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="1.5"
+                          />
+                          <path
+                            d="M16 21V11"
+                            stroke="#000"
+                            strokeLinecap="round"
+                            strokeWidth="1.5"
+                          />
+                          <path
+                            clipRule="evenodd"
+                            d="M18.161 2.347a2.408 2.408 0 00-4.322 0L1.208 28.077A2.028 2.028 0 003.029 31h25.942a2.028 2.028 0 001.821-2.923l-12.63-25.73z"
+                            stroke="#000"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="1.5"
+                          />
+                        </svg>
+                      </ErrorIcon>
+                    </Component>
+                  </span>
+                </Icon>
+              </span>
+              title
+              <CloseButton
+                className={null}
+                on_click={[Function]}
+                text="close_text"
+                title="close_text"
+              >
+                <Button
+                  aria-label="close_text"
+                  bounding={false}
+                  class={null}
+                  className="dnb-global-status__close-button"
+                  custom_element={null}
+                  custom_method={null}
+                  disabled={null}
+                  global_status_id={null}
+                  href={null}
+                  icon="close"
+                  icon_position="left"
+                  icon_size="medium"
+                  id={null}
+                  innerRef={null}
+                  onClick={null}
                   on_click={[Function]}
+                  size="medium"
+                  skeleton={null}
+                  status={null}
+                  status_animation={null}
+                  status_state="error"
                   text="close_text"
-                  title="close_text"
+                  title={null}
+                  tooltip={null}
+                  type="button"
+                  variant="tertiary"
+                  wrap={false}
                 >
-                  <Button
+                  <button
                     aria-label="close_text"
-                    bounding={false}
-                    class={null}
-                    className="dnb-global-status__close-button"
-                    custom_element={null}
-                    custom_method={null}
-                    disabled={null}
-                    global_status_id={null}
-                    href={null}
-                    icon="close"
-                    icon_position="left"
-                    icon_size="medium"
-                    id={null}
-                    innerRef={null}
-                    onClick={null}
-                    on_click={[Function]}
-                    size="medium"
-                    skeleton={null}
-                    status={null}
-                    status_animation={null}
-                    status_state="error"
-                    text="close_text"
-                    title={null}
-                    tooltip={null}
+                    className="dnb-button dnb-button--tertiary dnb-button--has-text dnb-global-status__close-button dnb-button--icon-position-left dnb-button--has-icon dnb-button--icon-size-medium dnb-button--size-medium"
+                    disabled={false}
+                    onClick={[Function]}
                     type="button"
-                    variant="tertiary"
-                    wrap={false}
                   >
-                    <button
+                    <Content
                       aria-label="close_text"
-                      className="dnb-button dnb-button--tertiary dnb-button--has-text dnb-global-status__close-button dnb-button--icon-position-left dnb-button--has-icon dnb-button--icon-size-medium dnb-button--size-medium"
-                      disabled={false}
-                      onClick={[Function]}
+                      bounding={false}
+                      class={null}
+                      className="dnb-global-status__close-button"
+                      content="close_text"
+                      custom_element={null}
+                      custom_method={null}
+                      disabled={null}
+                      global_status_id={null}
+                      href={null}
+                      icon="close"
+                      icon_position="left"
+                      icon_size="medium"
+                      id={null}
+                      innerRef={null}
+                      isIconOnly={false}
+                      onClick={null}
+                      on_click={[Function]}
+                      size="medium"
+                      skeleton={null}
+                      status={null}
+                      status_animation={null}
+                      status_state="error"
+                      text="close_text"
+                      title={null}
+                      tooltip={null}
                       type="button"
+                      variant="tertiary"
+                      wrap={false}
                     >
-                      <Content
-                        aria-label="close_text"
-                        bounding={false}
-                        class={null}
-                        className="dnb-global-status__close-button"
-                        content="close_text"
-                        custom_element={null}
-                        custom_method={null}
-                        disabled={null}
-                        global_status_id={null}
-                        href={null}
+                      <span
+                        className="dnb-button__alignment"
+                        key="button-text-empty"
+                      >
+                        ‌
+                      </span>
+                      <span
+                        className="dnb-button__text"
+                        key="button-text"
+                      >
+                        close_text
+                      </span>
+                      <IconPrimary
+                        alt={null}
+                        aria-hidden={true}
+                        attributes={null}
+                        border={null}
+                        className="dnb-button__icon"
+                        color={null}
+                        height={null}
                         icon="close"
-                        icon_position="left"
-                        icon_size="medium"
-                        id={null}
-                        innerRef={null}
-                        isIconOnly={false}
-                        onClick={null}
-                        on_click={[Function]}
+                        key="button-icon"
+                        modifier={null}
                         size="medium"
                         skeleton={null}
-                        status={null}
-                        status_animation={null}
-                        status_state="error"
-                        text="close_text"
                         title={null}
-                        tooltip={null}
-                        type="button"
-                        variant="tertiary"
-                        wrap={false}
+                        width={null}
                       >
                         <span
-                          className="dnb-button__alignment"
-                          key="button-text-empty"
-                        >
-                          ‌
-                        </span>
-                        <span
-                          className="dnb-button__text"
-                          key="button-text"
-                        >
-                          close_text
-                        </span>
-                        <IconPrimary
-                          alt={null}
                           aria-hidden={true}
-                          attributes={null}
-                          border={null}
-                          className="dnb-button__icon"
-                          color={null}
-                          height={null}
-                          icon="close"
-                          key="button-icon"
-                          modifier={null}
-                          size="medium"
-                          skeleton={null}
-                          title={null}
-                          width={null}
+                          aria-label="close icon"
+                          className="dnb-icon dnb-icon--medium dnb-button__icon"
+                          role="presentation"
                         >
-                          <span
-                            aria-hidden={true}
-                            aria-label="close icon"
-                            className="dnb-icon dnb-icon--medium dnb-button__icon"
-                            role="presentation"
-                          >
-                            <close_medium>
-                              <svg
-                                fill="none"
-                                height={24}
-                                viewBox="0 0 24 24"
-                                width={24}
-                              >
-                                <path
-                                  clipRule="evenodd"
-                                  d="M4.78 3.914a.75.75 0 00-1.06 1.061l7.22 7.22-7.22 7.22a.75.75 0 001.06 1.06l7.22-7.22 7.22 7.22a.75.75 0 001.06-1.06l-7.22-7.22 7.22-7.22a.75.75 0 00-1.06-1.06L12 11.134l-7.22-7.22z"
-                                  fill="#000"
-                                  fillRule="evenodd"
-                                />
-                              </svg>
-                            </close_medium>
-                          </span>
-                        </IconPrimary>
-                      </Content>
-                    </button>
-                  </Button>
-                </CloseButton>
-              </p>
-              <Section
-                class={null}
-                className="dnb-global-status__message"
-                element="div"
-                render_content={null}
-                style_type="white"
+                          <close_medium>
+                            <svg
+                              fill="none"
+                              height={24}
+                              viewBox="0 0 24 24"
+                              width={24}
+                            >
+                              <path
+                                clipRule="evenodd"
+                                d="M4.78 3.914a.75.75 0 00-1.06 1.061l7.22 7.22-7.22 7.22a.75.75 0 001.06 1.06l7.22-7.22 7.22 7.22a.75.75 0 001.06-1.06l-7.22-7.22 7.22-7.22a.75.75 0 00-1.06-1.06L12 11.134l-7.22-7.22z"
+                                fill="#000"
+                                fillRule="evenodd"
+                              />
+                            </svg>
+                          </close_medium>
+                        </span>
+                      </IconPrimary>
+                    </Content>
+                  </button>
+                </Button>
+              </CloseButton>
+            </p>
+            <Section
+              class={null}
+              className="dnb-global-status__message"
+              element="div"
+              spacing={null}
+              style_type="white"
+            >
+              <div
+                className="dnb-section dnb-section--white dnb-global-status__message"
               >
-                <ForwardRef
-                  className="dnb-section dnb-section--white dnb-global-status__message"
-                  is="div"
+                <p
+                  className="dnb-p"
                 >
-                  <div
-                    className="dnb-section dnb-section--white dnb-global-status__message"
+                  text
+                </p>
+                <ul
+                  className="dnb-ul"
+                >
+                  <li
+                    key="0"
                   >
                     <p
                       className="dnb-p"
+                      id="id-1"
                     >
-                      text
+                      item #1
                     </p>
-                    <ul
-                      className="dnb-ul"
+                  </li>
+                  <li
+                    key="1"
+                  >
+                    <p
+                      className="dnb-p"
+                      id="id-2"
                     >
-                      <li
-                        key="0"
-                      >
-                        <p
-                          className="dnb-p"
-                          id="id-1"
-                        >
-                          item #1
-                        </p>
-                      </li>
-                      <li
-                        key="1"
-                      >
-                        <p
-                          className="dnb-p"
-                          id="id-2"
-                        >
-                          item #2
-                        </p>
-                      </li>
-                    </ul>
-                  </div>
-                </ForwardRef>
-              </Section>
-            </div>
+                      item #2
+                    </p>
+                  </li>
+                </ul>
+              </div>
+            </Section>
           </div>
         </div>
-      </ForwardRef>
+      </div>
     </Section>
   </div>
 </GlobalStatus>

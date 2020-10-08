@@ -171,6 +171,7 @@ exports[`GlobalError scss have to match snapshot 1`] = `
     display: flex;
     justify-content: flex-start;
     align-items: flex-start;
+    min-width: inherit;
     border-radius: var(--input-border-radius); }
   .dnb-form-status--text {
     padding: calc(0.5rem / 2) 1rem;
@@ -545,7 +546,6 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
   class="class"
   className="className"
   href="href"
-  render_content={[Function]}
   status="404"
   status_content={null}
   text="text [link](/back) text"

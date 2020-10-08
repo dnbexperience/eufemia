@@ -24,140 +24,135 @@ import Button from '../button/Button'
 import HelpButton from '../help-button/HelpButton'
 import ModalContent, { CloseButton } from './ModalContent'
 
-const renderProps = {
-  on_open: null,
-  on_close: null,
-  on_close_prevent: null,
-  open_modal: null,
-  close_modal: null,
-  modal_content: null
-}
-
-const propTypes = {
-  id: PropTypes.string,
-  mode: PropTypes.oneOf(['modal', 'drawer']),
-  labelled_by: PropTypes.string,
-  title: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.node,
-    PropTypes.func
-  ]),
-  disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  trigger_hidden: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  trigger_disabled: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.bool
-  ]),
-  trigger_variant: Button.propTypes.variant,
-  trigger_text: PropTypes.string,
-  trigger_title: PropTypes.string,
-  trigger_size: PropTypes.string,
-  trigger_icon: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.node,
-    PropTypes.func
-  ]),
-  trigger_icon_position: PropTypes.string,
-  trigger_class: PropTypes.string,
-  open_delay: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  content_id: PropTypes.string,
-  close_title: PropTypes.string,
-  hide_close_button: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.bool
-  ]),
-  prevent_close: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  prevent_core_style: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.bool
-  ]),
-  no_animation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  no_animation_on_mobile: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.bool
-  ]),
-  fullscreen: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  align_content: PropTypes.oneOf(['left', 'center', 'centered', 'right']),
-  container_placement: PropTypes.oneOf(['left', 'right', 'top', 'bottom']),
-  open_state: PropTypes.oneOf(['opened', 'closed']),
-  direct_dom_return: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.bool
-  ]),
-  class: PropTypes.string,
-
-  // React props
-  className: PropTypes.string,
-  children: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.node,
-    PropTypes.func
-  ]),
-
-  // Events and functions
-  on_open: PropTypes.func,
-  on_close: PropTypes.func,
-  on_close_prevent: PropTypes.func,
-  open_modal: PropTypes.func,
-  close_modal: PropTypes.func,
-
-  // Web Component props
-  preventSetTriggerRef: PropTypes.bool,
-  modal_content: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.node,
-    PropTypes.func
-  ])
-}
-
-const defaultProps = {
-  id: null,
-  mode: 'modal',
-  labelled_by: null,
-  title: null,
-  disabled: null,
-  trigger_hidden: false,
-  trigger_disabled: null,
-  trigger_variant: 'secondary',
-  trigger_text: null,
-  trigger_title: null,
-  trigger_size: null,
-  trigger_icon: 'question',
-  trigger_icon_position: 'left',
-  trigger_class: null,
-  open_delay: null,
-  content_id: null,
-  close_title: 'Lukk', // Close Modal Window
-  hide_close_button: false,
-  prevent_close: false,
-  prevent_core_style: false,
-  no_animation: false,
-  no_animation_on_mobile: false,
-  fullscreen: false,
-  align_content: 'left',
-  container_placement: 'right',
-  open_state: null,
-  direct_dom_return: false,
-  class: null,
-
-  // React props
-  className: null,
-  children: null,
-
-  // Web Component props
-  preventSetTriggerRef: false,
-  ...renderProps
-}
-
 export default class Modal extends React.PureComponent {
   static tagName = 'dnb-modal'
-  static propTypes = propTypes
-  static defaultProps = defaultProps
   static contextType = Context
   static modalRoot = null // gets later '.dnb-modal-root'
 
+  static propTypes = {
+    id: PropTypes.string,
+    mode: PropTypes.oneOf(['modal', 'drawer']),
+    labelled_by: PropTypes.string,
+    title: PropTypes.node,
+    disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    trigger_hidden: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool
+    ]),
+    trigger_disabled: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool
+    ]),
+    trigger_variant: Button.propTypes.variant,
+    trigger_text: PropTypes.string,
+    trigger_title: PropTypes.string,
+    trigger_size: PropTypes.string,
+    trigger_icon: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.node,
+      PropTypes.func
+    ]),
+    trigger_icon_position: PropTypes.string,
+    trigger_class: PropTypes.string,
+    open_delay: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    content_id: PropTypes.string,
+    close_title: PropTypes.string,
+    hide_close_button: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool
+    ]),
+    prevent_close: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    prevent_core_style: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool
+    ]),
+    no_animation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    no_animation_on_mobile: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool
+    ]),
+    fullscreen: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    align_content: PropTypes.oneOf([
+      'left',
+      'center',
+      'centered',
+      'right'
+    ]),
+    container_placement: PropTypes.oneOf([
+      'left',
+      'right',
+      'top',
+      'bottom'
+    ]),
+    open_state: PropTypes.oneOf(['opened', 'closed']),
+    direct_dom_return: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool
+    ]),
+    class: PropTypes.string,
+
+    className: PropTypes.string,
+    children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
+
+    on_open: PropTypes.func,
+    on_close: PropTypes.func,
+    on_close_prevent: PropTypes.func,
+    open_modal: PropTypes.func,
+    close_modal: PropTypes.func,
+
+    preventSetTriggerRef: PropTypes.bool,
+    modal_content: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.node,
+      PropTypes.func
+    ])
+  }
+
+  static defaultProps = {
+    id: null,
+    mode: 'modal',
+    labelled_by: null,
+    title: null,
+    disabled: null,
+    trigger_hidden: false,
+    trigger_disabled: null,
+    trigger_variant: 'secondary',
+    trigger_text: null,
+    trigger_title: null,
+    trigger_size: null,
+    trigger_icon: 'question',
+    trigger_icon_position: 'left',
+    trigger_class: null,
+    open_delay: null,
+    content_id: null,
+    close_title: 'Lukk', // Close Modal Window
+    hide_close_button: false,
+    prevent_close: false,
+    prevent_core_style: false,
+    no_animation: false,
+    no_animation_on_mobile: false,
+    fullscreen: false,
+    align_content: 'left',
+    container_placement: 'right',
+    open_state: null,
+    direct_dom_return: false,
+    class: null,
+
+    className: null,
+    children: null,
+
+    preventSetTriggerRef: false,
+
+    on_open: null,
+    on_close: null,
+    on_close_prevent: null,
+    open_modal: null,
+    close_modal: null,
+    modal_content: null
+  }
+
   static enableWebComponent() {
-    registerElement(Modal.tagName, Modal, defaultProps)
+    registerElement(Modal.tagName, Modal, Modal.defaultProps)
   }
 
   static getContent(props) {
@@ -389,7 +384,7 @@ export default class Modal extends React.PureComponent {
     // use only the props from context, who are available here anyway
     const props = extendPropsWithContext(
       this.props,
-      defaultProps,
+      Modal.defaultProps,
       this.context.formRow,
       this.context.translation.Modal
     )

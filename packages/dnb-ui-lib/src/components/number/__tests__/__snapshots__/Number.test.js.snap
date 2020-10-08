@@ -5,7 +5,6 @@ exports[`Number component have to match default number snapshot 1`] = `
   ban={null}
   class={null}
   className={null}
-  clean={null}
   currency={null}
   currency_display={null}
   currency_position={null}
@@ -14,33 +13,23 @@ exports[`Number component have to match default number snapshot 1`] = `
   link={null}
   locale="nb-NO"
   nin={null}
-  omit_rounding={null}
   options={null}
   org={null}
   phone={null}
   prefix={null}
   selectall={true}
-  sufix={null}
+  suffix={null}
   value={12345678.9876}
 >
-  <ForwardRef
+  <span
     className="dnb-number dnb-number--selectall"
-    is="span"
     lang="nb-NO"
     onClick={[Function]}
     onCopy={[Function]}
     role="text"
   >
-    <span
-      className="dnb-number dnb-number--selectall"
-      lang="nb-NO"
-      onClick={[Function]}
-      onCopy={[Function]}
-      role="text"
-    >
-      12 345 678,9876
-    </span>
-  </ForwardRef>
+    12 345 678,9876
+  </span>
 </Number>
 `;
 

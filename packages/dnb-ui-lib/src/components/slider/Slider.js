@@ -6,7 +6,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import keycode from 'keycode'
+// import keycode from 'keycode'
 import {
   warn,
   isTrue,
@@ -15,8 +15,7 @@ import {
   validateDOMAttributes,
   processChildren,
   extendPropsWithContext,
-  dispatchCustomElementEvent,
-  isTouchDevice
+  dispatchCustomElementEvent
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
 import { createSpacingClasses } from '../space/SpacingHelper'
@@ -31,110 +30,103 @@ import Button from '../button/Button'
 import FormLabel from '../form-label/FormLabel'
 import FormStatus from '../form-status/FormStatus'
 
-const renderProps = {
-  on_init: null,
-  on_change: null,
-  on_drag_start: null,
-  on_drag_end: null,
-  on_state_update: null
-}
-
-const propTypes = {
-  id: PropTypes.string,
-  label: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-    PropTypes.node
-  ]),
-  label_direction: PropTypes.oneOf(['horizontal', 'vertical']),
-  label_sr_only: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  status: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-    PropTypes.node
-  ]),
-  status_state: PropTypes.string,
-  status_animation: PropTypes.string,
-  global_status_id: PropTypes.string,
-  suffix: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-    PropTypes.node
-  ]),
-  thump_title: PropTypes.string,
-  add_title: PropTypes.string,
-  subtract_title: PropTypes.string,
-  min: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  max: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  step: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  vertical: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  reverse: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  hide_buttons: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  use_scrollwheel: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  class: PropTypes.string,
-
-  /// React props
-  className: PropTypes.string,
-  children: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
-
-  // Web Component props
-  on_init: PropTypes.func,
-  on_change: PropTypes.func,
-  on_drag_start: PropTypes.func,
-  on_drag_end: PropTypes.func,
-  on_state_update: PropTypes.func
-}
-
-const defaultProps = {
-  id: null,
-  label: null,
-  label_direction: null,
-  label_sr_only: null,
-  status: null,
-  status_state: 'error',
-  status_animation: null,
-  global_status_id: null,
-  suffix: null,
-  thump_title: null,
-  add_title: '+',
-  subtract_title: '−',
-  min: 0,
-  max: 100,
-  value: -1,
-  step: null,
-  vertical: false,
-  reverse: false,
-  disabled: false,
-  hide_buttons: false,
-  use_scrollwheel: false,
-  skeleton: null,
-  class: null,
-
-  // React props
-  className: null,
-  children: null,
-
-  // Web Component props
-  ...renderProps
-}
-
 /**
  * The slider component is our enhancement of the classic radio button. It acts like a slider. Example: On/off, yes/no.
  */
 export default class Slider extends React.PureComponent {
   static tagName = 'dnb-slider'
-  static propTypes = propTypes
-  static defaultProps = defaultProps
-  static renderProps = renderProps
   static contextType = Context
+
+  static propTypes = {
+    id: PropTypes.string,
+    label: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.func,
+      PropTypes.node
+    ]),
+    label_direction: PropTypes.oneOf(['horizontal', 'vertical']),
+    label_sr_only: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    status: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.func,
+      PropTypes.node
+    ]),
+    status_state: PropTypes.string,
+    status_animation: PropTypes.string,
+    global_status_id: PropTypes.string,
+    suffix: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.func,
+      PropTypes.node
+    ]),
+    thump_title: PropTypes.string,
+    add_title: PropTypes.string,
+    subtract_title: PropTypes.string,
+    min: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    max: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    step: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    vertical: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    reverse: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    hide_buttons: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    use_scrollwheel: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool
+    ]),
+    skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    class: PropTypes.string,
+
+    /// React props
+    className: PropTypes.string,
+    children: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
+
+    on_init: PropTypes.func,
+    on_change: PropTypes.func,
+    on_drag_start: PropTypes.func,
+    on_drag_end: PropTypes.func,
+    on_state_update: PropTypes.func
+  }
+
+  static defaultProps = {
+    id: null,
+    label: null,
+    label_direction: null,
+    label_sr_only: null,
+    status: null,
+    status_state: 'error',
+    status_animation: null,
+    global_status_id: null,
+    suffix: null,
+    thump_title: null,
+    add_title: '+',
+    subtract_title: '−',
+    min: 0,
+    max: 100,
+    value: -1,
+    step: null,
+    vertical: false,
+    reverse: false,
+    disabled: false,
+    hide_buttons: false,
+    use_scrollwheel: false,
+    skeleton: null,
+    class: null,
+
+    className: null,
+    children: null,
+
+    on_init: null,
+    on_change: null,
+    on_drag_start: null,
+    on_drag_end: null,
+    on_state_update: null
+  }
 
   state = { currentState: 'initial', value: null }
 
   static enableWebComponent() {
-    registerElement(Slider.tagName, Slider, defaultProps)
+    registerElement(Slider.tagName, Slider, Slider.defaultProps)
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -158,16 +150,18 @@ export default class Slider extends React.PureComponent {
         state.max = parseFloat(props.max)
       }
 
-      if (props.value !== -1 && state.value !== props.value) {
-        const value = Slider.getValue(props)
-        if (value >= -1) {
-          state.value = value
-          if (typeof props.on_state_update === 'function') {
-            dispatchCustomElementEvent({ ...props }, 'on_state_update', {
-              value
-            })
-          }
-        }
+      const value = Slider.getValue(props)
+      if (value !== state.value && value !== state._value && value >= -1) {
+        state.value = value
+      }
+
+      if (
+        state.value !== state.__value &&
+        typeof props.on_state_update === 'function'
+      ) {
+        dispatchCustomElementEvent({ ...props }, 'on_state_update', {
+          value
+        })
       }
     }
     if (state.disabled) {
@@ -176,6 +170,8 @@ export default class Slider extends React.PureComponent {
       return { currentState: 'normal' }
     }
     state._listenForPropChanges = true
+    state._value = state.value
+    state.__value = state.value
 
     return state
   }
@@ -191,63 +187,71 @@ export default class Slider extends React.PureComponent {
     super(props)
     this._id = props.id || makeUniqueId() // cause we need an id anyway
     this._trackRef = React.createRef()
+
+    const value = Slider.getValue(props) // so on_state_update not gets called
     this.state = {
       _listenForPropChanges: true,
-      value: Slider.getValue(props) // so on_state_update not gets called
+      value,
+      _value: value,
+      __value: value
     }
   }
 
-  onKeyDownHandler = (event) => {
-    const { min, max, reverse, vertical, value: currentValue } = this.state
-    const isReverse = vertical ? !reverse : reverse
+  /**
+   * From okt. 6 we use only the native slider for better screen reader / touch compatibility
+   * Therefore, we do not use they custom key handling anymore – for now.
+   */
+  // onKeyDownHandler = (event) => {
+  //   const { min, max, reverse, vertical, value: currentValue } = this.state
+  //   const isReverse = vertical ? !reverse : reverse
 
-    const onePercent = Math.abs((max - min) / 100)
-    const step = this.props.step || onePercent
-    let value = -1
+  //   const onePercent = Math.abs((max - min) / 100)
+  //   const step = this.props.step || onePercent
+  //   let value = -1
 
-    switch (keycode(event)) {
-      case 'end':
-        value = isReverse ? max : min
-        break
+  //   switch (keycode(event)) {
+  //     case 'end':
+  //       value = isReverse ? max : min
+  //       break
 
-      case 'home':
-        value = isReverse ? min : max
-        break
+  //     case 'home':
+  //       value = isReverse ? min : max
+  //       break
 
-      case 'page up':
-        value = isReverse
-          ? currentValue - onePercent
-          : currentValue + onePercent * 10
-        break
+  //     case 'page up':
+  //       value = isReverse
+  //         ? currentValue - onePercent
+  //         : currentValue + onePercent * 10
+  //       break
 
-      case 'page down':
-        value = isReverse
-          ? currentValue + onePercent
-          : currentValue - onePercent * 10
-        break
+  //     case 'page down':
+  //       value = isReverse
+  //         ? currentValue + onePercent
+  //         : currentValue - onePercent * 10
+  //       break
 
-      case 'numpad +':
-      case 'right':
-      case 'up':
-        value = isReverse ? currentValue - step : currentValue + step
-        break
+  //     case 'numpad +':
+  //     case 'right':
+  //     case 'up':
+  //       value = isReverse ? currentValue - step : currentValue + step
+  //       break
 
-      case 'numpad -':
-      case 'left':
-      case 'down':
-        value = isReverse ? currentValue + step : currentValue - step
-        break
+  //     case 'numpad -':
+  //     case 'left':
+  //     case 'down':
+  //       value = isReverse ? currentValue + step : currentValue - step
+  //       break
 
-      default:
-        break
-    }
+  //     default:
+  //       break
+  //   }
 
-    if (value !== -1) {
-      event.preventDefault()
-      value = clamp(value, min, max)
-      this.emitChange(event, value)
-    }
-  }
+  //   if (value !== -1) {
+  //     event.preventDefault()
+  //     value = clamp(value, min, max)
+  //     this.emitChange(event, value)
+  //   }
+  // }
 
   onFocusHandler = () => {
     this.setState({
@@ -346,11 +350,15 @@ export default class Slider extends React.PureComponent {
   }
 
   onRangeChangeHandler = (event) => {
-    const value = event.currentTarget.value
-    this.setState({
-      value,
-      _listenForPropChanges: false
-    })
+    const value = parseFloat(event.currentTarget.value)
+    this.setState(
+      {
+        value,
+        _listenForPropChanges: false
+      },
+      () => {}
+    )
+    this.emitChange(event, value)
   }
 
   onTouchMoveHandler = (event) => this.onMouseMoveHandler(event)
@@ -488,13 +496,10 @@ export default class Slider extends React.PureComponent {
   }
 
   render() {
-    const { value } = this.state
-    let { currentState } = this.state
-
     // use only the props from context, who are available here anyway
     const props = extendPropsWithContext(
       this.props,
-      defaultProps,
+      Slider.defaultProps,
       { skeleton: this.context?.skeleton },
       this.context.formRow,
       this.context.translation.Slider
@@ -532,8 +537,8 @@ export default class Slider extends React.PureComponent {
     } = props
 
     // const { min, max, reverse, vertical, disabled } = this.state
-    const { min, max, reverse, vertical } = this.state
-    let { disabled } = this.state
+    const { min, max, reverse, vertical, value } = this.state
+    let { disabled, currentState } = this.state
     const showStatus = status && status !== 'error'
     const showButtons = !isTrue(hide_buttons)
 
@@ -573,6 +578,8 @@ export default class Slider extends React.PureComponent {
 
     skeletonDOMAttributes(mainParams, skeleton, this.context)
 
+    const helperParams = {}
+
     const trackParams = {
       className: classnames(
         'dnb-slider__track',
@@ -584,46 +591,40 @@ export default class Slider extends React.PureComponent {
       onMouseDownCapture: this.onMouseDownHandler
     }
 
-    const rangeParams = {
+    const thumbParams = {
       title,
-      disabled,
       ...attributes,
       onBlur: this.onBlurHandler,
-      onKeyDown: this.onKeyDownHandler,
       onFocus: this.onFocusHandler
+      // onKeyDown: this.onKeyDownHandler,
     }
 
     if (label) {
-      rangeParams['aria-labelledby'] = id + '-label'
-      if (isTouchDevice()) {
-        trackParams['aria-labelledby'] = id + '-label'
-      }
+      helperParams['aria-labelledby'] = id + '-label'
     }
     if (showStatus || suffix) {
-      rangeParams['aria-describedby'] = [
+      helperParams['aria-describedby'] = [
+        helperParams['aria-describedby'],
         showStatus ? id + '-status' : null,
         suffix ? id + '-suffix' : null
       ]
         .filter(Boolean)
         .join(' ')
-      if (isTouchDevice()) {
-        trackParams['aria-describedby'] = rangeParams['aria-describedby']
-      }
     }
 
-    if (isTouchDevice()) {
-      trackParams.role = 'slider'
-      trackParams['aria-valuenow'] = this.roundValue(value)
-      trackParams['aria-valuemin'] = min
-      trackParams['aria-valuemax'] = max
-      trackParams['aria-orientation'] = vertical
-        ? 'vertical'
-        : 'horizontal'
+    const subtractParams = {}
+    const addParams = {}
+
+    if (typeof thumbParams['aria-hidden'] !== 'undefined') {
+      helperParams['aria-hidden'] = addParams[
+        'aria-hidden'
+      ] = subtractParams['aria-hidden'] = thumbParams['aria-hidden']
     }
 
     // also used for code markup simulation
-    validateDOMAttributes(this.props, trackParams)
-    validateDOMAttributes(null, rangeParams)
+    validateDOMAttributes(this.props, thumbParams)
+    validateDOMAttributes(null, trackParams)
+    validateDOMAttributes(null, helperParams)
 
     const subtractButton = (
       <Button
@@ -631,7 +632,7 @@ export default class Slider extends React.PureComponent {
         variant="secondary"
         icon="subtract"
         size="small"
-        aria-label={subtract_title}
+        aria-label={subtract_title.replace('%s', value)}
         on_click={this.onSubtractClickHandler}
         disabled={disabled}
         skeleton={skeleton}
@@ -644,7 +645,7 @@ export default class Slider extends React.PureComponent {
         variant="secondary"
         icon="add"
         size="small"
-        aria-label={add_title}
+        aria-label={add_title.replace('%s', value)}
         on_click={this.onAddClickHandler}
         disabled={disabled}
         skeleton={skeleton}
@@ -676,6 +677,7 @@ export default class Slider extends React.PureComponent {
               text={status}
               status={status_state}
               animation={status_animation}
+              skeleton={skeleton}
             />
           )}
 
@@ -686,29 +688,26 @@ export default class Slider extends React.PureComponent {
                 className="dnb-slider__thumb"
                 style={inlineThumbStyles}
               >
-                {/* Keep the possibility open to use a native slider inside */}
-                {!isTouchDevice() && (
-                  <input
-                    type="range"
-                    className="dnb-slider__button-helper"
-                    min={min}
-                    max={max}
-                    step={_step}
-                    value={value}
-                    orientation={vertical ? 'vertical' : 'horizontal'}
-                    {...rangeParams}
-                    onChange={this.onRangeChangeHandler}
-                  />
-                )}
+                <input
+                  type="range"
+                  className="dnb-slider__button-helper"
+                  min={min}
+                  max={max}
+                  step={_step}
+                  value={value}
+                  disabled={disabled}
+                  orientation={vertical ? 'vertical' : 'horizontal'}
+                  onChange={this.onRangeChangeHandler}
+                  {...helperParams}
+                />
                 <Button
-                  variant="secondary"
                   tabIndex="-1"
-                  onMouseDown={this.onMouseDownHandler}
-                  {...(isTouchDevice()
-                    ? rangeParams
-                    : { 'aria-hidden': true })}
+                  aria-hidden
+                  variant="secondary"
                   disabled={disabled}
                   skeleton={skeleton}
+                  onMouseDown={this.onMouseDownHandler}
+                  {...thumbParams}
                 />
               </span>
               <span
