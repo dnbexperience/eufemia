@@ -5,6 +5,7 @@
 
 import React from 'react'
 import { mount } from '../../core/jest/jestSetup'
+import { registerElement } from '../custom-element'
 import {
   isTrue,
   extend,
@@ -14,7 +15,7 @@ import {
   processChildren,
   dispatchCustomElementEvent,
   toPascalCase,
-  pickRenderProps,
+  // pickRenderProps,
   detectOutsideClick,
   makeUniqueId,
   filterProps,
@@ -172,23 +173,50 @@ describe('"validateDOMAttributes" should', () => {
 })
 
 describe('"processChildren" should', () => {
+  registerElement('custom-element', () => {})
+
+  it('a given amount of registered custom elements', () => {
+    expect(global.registeredElements).toBeType('array')
+    expect(global.registeredElements.length).toBe(1)
+  })
+
   it('return a joined string if we send in a children property with an array', () => {
     const children = ['foo', 'bar', 123]
     const props = { children }
     const res = processChildren(props)
     expect(res).toMatch(children.join(''))
   })
+
+  it('return a joined string if we send in a children property with an array', () => {
+    const children = ['foo', 'bar', 123]
+    const props = { children }
+    const res = processChildren(props)
+    expect(res).toMatch(children.join(''))
+  })
+
   it('return a joined string if we send in a children property with as a function returning an array', () => {
     const children = ['foo', 'bar', 123]
     const props = { children: () => children }
     const res = processChildren(props)
     expect(res).toMatch(children.join(''))
   })
+
   it('return a joined string, even with only one child', () => {
     const children = ['foo']
     const props = { children }
     const res = processChildren(props)
     expect(res).toMatch(children.join(''))
+  })
+
+  it('return a joined string, even with only one child', () => {
+    const props = {
+      content: 'foo',
+      render_func: (props) => {
+        return props.content + ' new content'
+      }
+    }
+    const res = processChildren(props)
+    expect(res.props).toMatchObject({ children: 'foo new content' })
   })
 })
 
@@ -324,57 +352,58 @@ describe('"toPascalCase" should', () => {
   })
 })
 
-describe('"pickRenderProps" should', () => {
-  it('only pass function props which dont exists in renderProps', () => {
-    const renderProp = jest.fn()
-    const customRenderer = jest.fn()
-    const children = jest.fn()
-    const custom_method = jest.fn()
-    const props = {
-      foo: 'bar',
-      renderProp,
-      customRenderer,
-      children,
-      custom_method
-    }
-    const renderProps = {
-      customRenderer
-    }
-    const res = pickRenderProps(props, renderProps)
+// Removed as we now run function props from Web Components (custom-element)
+// describe('"pickRenderProps" should', () => {
+//   it('only pass function props which dont exists in renderProps', () => {
+//     const renderProp = jest.fn()
+//     const customRenderer = jest.fn()
+//     const children = jest.fn()
+//     const custom_method = jest.fn()
+//     const props = {
+//       foo: 'bar',
+//       renderProp,
+//       customRenderer,
+//       children,
+//       custom_method
+//     }
+//     const renderProps = {
+//       customRenderer
+//     }
+//     const res = pickRenderProps(props, renderProps)
 
-    expect(res).not.toHaveProperty([
-      'custom_method',
-      'children',
-      'customRenderer',
-      'foo'
-    ])
-    expect(res).toHaveProperty(['renderProp'])
-    expect(res.renderProp).toBe(renderProp)
-  })
-})
+//     expect(res).not.toHaveProperty([
+//       'custom_method',
+//       'children',
+//       'customRenderer',
+//       'foo'
+//     ])
+//     expect(res).toHaveProperty(['renderProp'])
+//     expect(res.renderProp).toBe(renderProp)
+//   })
+// })
 
 describe('"filterProps" should', () => {
   const attributes = {
     key1: 'value1',
     key2: 'value2',
     attr1: 'value1',
-    attr2: 'value2'
+    attr2: false
   }
-  const propTypes = {
+  const defaultProps = {
     key1: 'value1',
-    key2: 'value2'
+    key2: false
   }
   it('remove all unwanted properties', () => {
-    expect(filterProps(attributes, propTypes)).toEqual({
+    expect(filterProps(attributes, defaultProps)).toEqual({
       attr1: 'value1',
-      attr2: 'value2'
+      attr2: false
     })
   })
   it('remove all unwanted properties except "allowed"', () => {
-    expect(filterProps(attributes, propTypes, ['key1'])).toEqual({
+    expect(filterProps(attributes, defaultProps, ['key1'])).toEqual({
       key1: 'value1',
       attr1: 'value1',
-      attr2: 'value2'
+      attr2: false
     })
   })
 })

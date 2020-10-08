@@ -21,61 +21,58 @@ import differenceInMonths from 'date-fns/differenceInMonths'
 import DatePickerCalendar from './DatePickerCalendar'
 import { isDisabled } from './DatePickerCalc'
 
-const propTypes = {
-  id: PropTypes.string,
-  month: PropTypes.instanceOf(Date),
-  startMonth: PropTypes.instanceOf(Date),
-  endMonth: PropTypes.instanceOf(Date),
-  startDate: PropTypes.instanceOf(Date),
-  endDate: PropTypes.instanceOf(Date),
-  minDate: PropTypes.instanceOf(Date),
-  maxDate: PropTypes.instanceOf(Date),
-
-  range: PropTypes.bool,
-  link: PropTypes.bool,
-  sync: PropTypes.bool,
-  onlyMonth: PropTypes.bool,
-  hideNav: PropTypes.bool,
-  views: PropTypes.oneOfType([
-    PropTypes.number,
-    PropTypes.arrayOf(PropTypes.object)
-  ]),
-
-  onChange: PropTypes.func,
-  onNav: PropTypes.func,
-  onSelect: PropTypes.func
-}
-
-const defaultProps = {
-  id: null,
-
-  // formats
-  month: null, // What month will be displayed in the first calendar
-  startMonth: null, // What month will be displayed in the first calendar
-  endMonth: null, // What month will be displayed in the first calendar
-  startDate: null,
-  endDate: null,
-  minDate: null,
-  maxDate: null,
-
-  // apperance
-  range: null,
-  link: null,
-  sync: null,
-  onlyMonth: null,
-  hideNav: null,
-  views: null,
-  // views: [{ nextBtn: false }, { prevBtn: false }],
-
-  // events
-  onChange: null, // fires when user makes a selection or navigates
-  onNav: null, // [{'id': 0, 'month': Date}, {'id': 1, 'month': Date}]
-  onSelect: null // {startDate: Date, endDate: Date | null}
-}
-
 export default class DatePickerRange extends React.PureComponent {
-  static propTypes = propTypes
-  static defaultProps = defaultProps
+  static propTypes = {
+    id: PropTypes.string,
+    month: PropTypes.instanceOf(Date),
+    startMonth: PropTypes.instanceOf(Date),
+    endMonth: PropTypes.instanceOf(Date),
+    startDate: PropTypes.instanceOf(Date),
+    endDate: PropTypes.instanceOf(Date),
+    minDate: PropTypes.instanceOf(Date),
+    maxDate: PropTypes.instanceOf(Date),
+
+    range: PropTypes.bool,
+    link: PropTypes.bool,
+    sync: PropTypes.bool,
+    onlyMonth: PropTypes.bool,
+    hideNav: PropTypes.bool,
+    views: PropTypes.oneOfType([
+      PropTypes.number,
+      PropTypes.arrayOf(PropTypes.object)
+    ]),
+
+    onChange: PropTypes.func,
+    onNav: PropTypes.func,
+    onSelect: PropTypes.func
+  }
+
+  static defaultProps = {
+    id: null,
+
+    // formats
+    month: null, // What month will be displayed in the first calendar
+    startMonth: null, // What month will be displayed in the first calendar
+    endMonth: null, // What month will be displayed in the first calendar
+    startDate: null,
+    endDate: null,
+    minDate: null,
+    maxDate: null,
+
+    // apperance
+    range: null,
+    link: null,
+    sync: null,
+    onlyMonth: null,
+    hideNav: null,
+    views: null,
+    // views: [{ nextBtn: false }, { prevBtn: false }],
+
+    // events
+    onChange: null, // fires when user makes a selection or navigates
+    onNav: null, // [{'id': 0, 'month': Date}, {'id': 1, 'month': Date}]
+    onSelect: null // {startDate: Date, endDate: Date | null}
+  }
 
   static getDerivedStateFromProps(props, state) {
     if (state._listenForPropChanges) {

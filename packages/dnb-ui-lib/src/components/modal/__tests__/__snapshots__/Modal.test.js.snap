@@ -467,7 +467,6 @@ exports[`Modal component have to match snapshot 1`] = `
               onClick={[Function]}
               onKeyDown={[Function]}
               onTouchStart={[Function]}
-              render_content={null}
               tabIndex={-1}
             >
               <div

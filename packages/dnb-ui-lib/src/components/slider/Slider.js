@@ -81,7 +81,6 @@ export default class Slider extends React.PureComponent {
     className: PropTypes.string,
     children: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
 
-    // Web Component props
     on_init: PropTypes.func,
     on_change: PropTypes.func,
     on_drag_start: PropTypes.func,
@@ -114,11 +113,9 @@ export default class Slider extends React.PureComponent {
     skeleton: null,
     class: null,
 
-    // React props
     className: null,
     children: null,
 
-    // Web Component props
     on_init: null,
     on_change: null,
     on_drag_start: null,

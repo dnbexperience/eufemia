@@ -16,51 +16,44 @@ import Input from '../../components/input/Input'
 import Modal from '../../components/modal/Modal'
 import FormLabel from '../../components/form-label/FormLabel'
 
-const renderProps = {}
-
-const propTypes = {
-  label_text: PropTypes.string.isRequired,
-  range_min: PropTypes.number.isRequired,
-  range_max: PropTypes.number.isRequired,
-  range_val: PropTypes.number.isRequired,
-  range_step: PropTypes.number.isRequired,
-  range_output_description: PropTypes.string.isRequired,
-  range_output_extra_information: PropTypes.string.isRequired,
-  range_trigger_text: PropTypes.string.isRequired,
-  range_modal_text: PropTypes.string.isRequired,
-  class: PropTypes.string,
-  /** React props */
-  className: PropTypes.string,
-  children: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.node,
-    PropTypes.func
-  ])
-  // Web Component props
-}
-
-const defaultProps = {
-  title: null,
-  text: null,
-  descriptionListData: null,
-  descriptionListInfo: null,
-  class: null,
-  /** React props */
-  className: null,
-  children: null,
-  // Web Component props
-  ...renderProps
-}
-
 export default class RangeSlider extends React.PureComponent {
   static tagName = 'dnb-range-slider'
-  static propTypes = propTypes
-  static defaultProps = defaultProps
+
+  static propTypes = {
+    label_text: PropTypes.string.isRequired,
+    range_min: PropTypes.number.isRequired,
+    range_max: PropTypes.number.isRequired,
+    range_val: PropTypes.number.isRequired,
+    range_step: PropTypes.number.isRequired,
+    range_output_description: PropTypes.string.isRequired,
+    range_output_extra_information: PropTypes.string.isRequired,
+    range_trigger_text: PropTypes.string.isRequired,
+    range_modal_text: PropTypes.string.isRequired,
+    class: PropTypes.string,
+    /** React props */
+    className: PropTypes.string,
+    children: PropTypes.oneOfType([PropTypes.node, PropTypes.func])
+  }
+
+  static defaultProps = {
+    title: null,
+    text: null,
+    descriptionListData: null,
+    descriptionListInfo: null,
+    class: null,
+    /** React props */
+    className: null,
+    children: null
+  }
 
   state = { value: null }
 
   static enableWebComponent() {
-    registerElement(RangeSlider.tagName, RangeSlider, defaultProps)
+    registerElement(
+      RangeSlider.tagName,
+      RangeSlider,
+      RangeSlider.defaultProps
+    )
   }
 
   constructor(props) {

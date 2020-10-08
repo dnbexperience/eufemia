@@ -15,7 +15,8 @@ import {
   // runStyleFactory,
   // convertSvgToJsx,
   // makeLibStyles
-  makeMainStyle
+  // makeMainStyle
+  generateTypes
   // makePropertiesFile
   // prepareTemplates
   // makeLibModules
@@ -34,7 +35,17 @@ const dev = async () => {
   // await runStyleFactory()
   // await convertSvgToJsx({ preventDelete })
   // await makeLibStyles()
-  await makeMainStyle()
+  // await makeMainStyle()
+  await generateTypes({
+    paths: [
+      // For testing only
+      './src/components/section/Section.js',
+      // './src/components/{section,button}/*.js',
+      './src/elements/Anchor.js',
+      // './src/components/index.js',
+      './src/components/number/Number.js'
+    ]
+  })
   // await makePropertiesFile()
   // await prepareTemplates()
   // await makeLibModules()

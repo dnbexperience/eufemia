@@ -15,61 +15,66 @@ import MaskedInput from 'react-text-mask' // https://github.com/text-mask/text-m
 import createNumberMask from './addons/createNumberMask'
 import classnames from 'classnames'
 
-const renderProps = {
-  on_change: null,
-  on_submit: null,
-  on_focus: null,
-  on_blur: null,
-  on_submit_focus: null,
-  on_submit_blur: null
-}
-
-const propTypes = {
-  mask: PropTypes.oneOfType([
-    PropTypes.object,
-    PropTypes.array,
-    PropTypes.func
-  ]),
-  number_mask: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.bool,
-    PropTypes.object
-  ]),
-  currency_mask: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.bool,
-    PropTypes.object
-  ]),
-  show_mask: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  show_guide: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  pipe: PropTypes.func,
-  keep_char_positions: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.bool
-  ]),
-  placeholder_char: PropTypes.string
-}
-
-const defaultProps = {
-  mask: [],
-  number_mask: null,
-  currency_mask: null,
-  show_mask: false,
-  show_guide: true,
-  pipe: null,
-  keep_char_positions: false,
-  placeholder_char: '_',
-  ...renderProps
-}
-
 export default class InputMasked extends React.PureComponent {
   static tagName = 'dnb-input-masked'
-  static propTypes = propTypes
-  static defaultProps = defaultProps
-  static renderProps = renderProps
+
+  static propTypes = {
+    mask: PropTypes.oneOfType([
+      PropTypes.object,
+      PropTypes.array,
+      PropTypes.func
+    ]),
+    number_mask: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool,
+      PropTypes.object
+    ]),
+    currency_mask: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool,
+      PropTypes.object
+    ]),
+    show_mask: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    show_guide: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    pipe: PropTypes.func,
+    keep_char_positions: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool
+    ]),
+    placeholder_char: PropTypes.string,
+
+    on_change: PropTypes.func,
+    on_submit: PropTypes.func,
+    on_focus: PropTypes.func,
+    on_blur: PropTypes.func,
+    on_submit_focus: PropTypes.func,
+    on_submit_blur: PropTypes.func
+  }
+
+  static defaultProps = {
+    mask: [],
+    number_mask: null,
+    currency_mask: null,
+    show_mask: false,
+    show_guide: true,
+    pipe: null,
+    keep_char_positions: false,
+    placeholder_char: '_',
+
+    on_change: null,
+    on_submit: null,
+    on_focus: null,
+    on_blur: null,
+    on_submit_focus: null,
+    on_submit_blur: null
+  }
 
   static enableWebComponent() {
-    registerElement(InputMasked.tagName, InputMasked, defaultProps)
+    registerElement(
+      InputMasked.tagName,
+      InputMasked,
+      InputMasked.defaultProps
+    )
   }
 
   componentWillUnmount() {

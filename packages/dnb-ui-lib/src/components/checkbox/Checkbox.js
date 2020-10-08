@@ -27,96 +27,87 @@ import Suffix from '../../shared/helpers/Suffix'
 import FormLabel from '../form-label/FormLabel'
 import FormStatus from '../form-status/FormStatus'
 
-const renderProps = {
-  on_change: null,
-  on_state_update: null
-}
-
-const propTypes = {
-  label: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-    PropTypes.node
-  ]),
-  label_position: PropTypes.oneOf(['left', 'right']),
-  title: PropTypes.string,
-  default_state: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  checked: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  id: PropTypes.string,
-  size: PropTypes.oneOf(['default', 'medium', 'large']),
-  status: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-    PropTypes.node
-  ]),
-  status_state: PropTypes.string,
-  status_animation: PropTypes.string,
-  global_status_id: PropTypes.string,
-  suffix: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-    PropTypes.node
-  ]),
-  value: PropTypes.string,
-  attributes: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-  readOnly: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  class: PropTypes.string,
-
-  /// React props
-  className: PropTypes.string,
-  children: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
-
-  // Web Component props
-  custom_element: PropTypes.object,
-  custom_method: PropTypes.func,
-  on_change: PropTypes.func,
-  on_state_update: PropTypes.func
-}
-
-const defaultProps = {
-  label: null,
-  label_position: null,
-  title: null,
-  default_state: undefined,
-  checked: undefined,
-  disabled: null,
-  id: null,
-  size: null,
-  status: null,
-  status_state: 'error',
-  status_animation: null,
-  global_status_id: null,
-  suffix: null,
-  value: null,
-  attributes: null,
-  readOnly: false,
-  skeleton: null,
-  class: null,
-
-  // React props
-  className: null,
-  children: null,
-
-  // Web Component props
-  custom_element: null,
-  custom_method: null,
-  ...renderProps
-}
-
 /**
  * The checkbox component is our enhancement of the classic checkbox button. It acts like a checkbox. Example: On/off, yes/no.
  */
 export default class Checkbox extends React.PureComponent {
   static tagName = 'dnb-checkbox'
-  static propTypes = propTypes
-  static defaultProps = defaultProps
-  static renderProps = renderProps
   static contextType = Context
 
+  static propTypes = {
+    label: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.func,
+      PropTypes.node
+    ]),
+    label_position: PropTypes.oneOf(['left', 'right']),
+    title: PropTypes.string,
+    default_state: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    checked: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    id: PropTypes.string,
+    size: PropTypes.oneOf(['default', 'medium', 'large']),
+    status: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.func,
+      PropTypes.node
+    ]),
+    status_state: PropTypes.string,
+    status_animation: PropTypes.string,
+    global_status_id: PropTypes.string,
+    suffix: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.func,
+      PropTypes.node
+    ]),
+    value: PropTypes.string,
+    attributes: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+    readOnly: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    class: PropTypes.string,
+
+    /// React props
+    className: PropTypes.string,
+    children: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
+
+    custom_element: PropTypes.object,
+    custom_method: PropTypes.func,
+    on_change: PropTypes.func,
+    on_state_update: PropTypes.func
+  }
+
+  static defaultProps = {
+    label: null,
+    label_position: null,
+    title: null,
+    default_state: undefined,
+    checked: undefined,
+    disabled: null,
+    id: null,
+    size: null,
+    status: null,
+    status_state: 'error',
+    status_animation: null,
+    global_status_id: null,
+    suffix: null,
+    value: null,
+    attributes: null,
+    readOnly: false,
+    skeleton: null,
+    class: null,
+
+    className: null,
+    children: null,
+
+    custom_element: null,
+    custom_method: null,
+
+    on_change: null,
+    on_state_update: null
+  }
+
   static enableWebComponent() {
-    registerElement(Checkbox.tagName, Checkbox, defaultProps)
+    registerElement(Checkbox.tagName, Checkbox, Checkbox.defaultProps)
   }
 
   static parseChecked = (state) => /true|on/.test(String(state))
@@ -186,7 +177,7 @@ export default class Checkbox extends React.PureComponent {
     // use only the props from context, who are available here anyway
     const props = extendPropsWithContext(
       this.props,
-      defaultProps,
+      Checkbox.defaultProps,
       { skeleton: this.context && this.context.skeleton },
       this.context.formRow
     )

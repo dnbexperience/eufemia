@@ -28,111 +28,103 @@ import Section from '../section/Section'
 import Animation from './AnimationHelper'
 import { IS_IE11 } from '../../shared/helpers'
 
-const renderProps = {
-  on_open: null,
-  on_show: null,
-  on_close: null,
-  on_hide: null,
-  render_content: null
-}
-
-const propTypes = {
-  id: PropTypes.string,
-  status_id: PropTypes.string,
-  title: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  default_title: PropTypes.string,
-  text: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-    PropTypes.node
-  ]),
-  items: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-    PropTypes.array
-  ]),
-  icon: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-    PropTypes.node
-  ]),
-  icon_size: PropTypes.string,
-  state: PropTypes.oneOf(['error', 'info']),
-  show: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  autoscroll: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  autoclose: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  no_animation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  delay: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  duration: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  close_text: PropTypes.string,
-  hide_close_button: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.bool
-  ]),
-  status_anchor_text: PropTypes.string,
-  class: PropTypes.string,
-  demo: PropTypes.bool,
-
-  /** React props */
-  className: PropTypes.string,
-  children: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-    PropTypes.node
-  ]),
-
-  // Web Component props
-  on_open: PropTypes.func,
-  on_show: PropTypes.func,
-  on_close: PropTypes.func,
-  on_hide: PropTypes.func,
-  render_content: PropTypes.func
-}
-
-const defaultProps = {
-  id: 'main',
-  status_id: 'status-main',
-  title: null,
-  default_title: null,
-  text: null,
-  items: [],
-  icon: 'error',
-  icon_size: 'large',
-  state: 'error',
-  show: null,
-  autoscroll: true,
-  autoclose: true,
-  no_animation: false,
-  close_text: 'Lukk',
-  hide_close_button: false,
-  delay: 10,
-  duration: 1e3,
-  status_anchor_text: null,
-  class: null,
-  demo: false,
-
-  /** React props */
-  className: null,
-  children: null,
-
-  // Web Component props
-  ...renderProps
-}
-
 export default class GlobalStatus extends React.PureComponent {
   static tagName = 'dnb-global-status'
-  static propTypes = propTypes
-  static defaultProps = defaultProps
   static contextType = Context
 
+  static propTypes = {
+    id: PropTypes.string,
+    status_id: PropTypes.string,
+    title: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    default_title: PropTypes.string,
+    text: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.func,
+      PropTypes.node
+    ]),
+    items: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.func,
+      PropTypes.array
+    ]),
+    icon: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.func,
+      PropTypes.node
+    ]),
+    icon_size: PropTypes.string,
+    state: PropTypes.oneOf(['error', 'info']),
+    show: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    autoscroll: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    autoclose: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    no_animation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    delay: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    duration: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    close_text: PropTypes.string,
+    hide_close_button: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool
+    ]),
+    status_anchor_text: PropTypes.string,
+    class: PropTypes.string,
+    demo: PropTypes.bool,
+
+    /** React props */
+    className: PropTypes.string,
+    children: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.func,
+      PropTypes.node
+    ]),
+
+    on_open: PropTypes.func,
+    on_show: PropTypes.func,
+    on_close: PropTypes.func,
+    on_hide: PropTypes.func
+  }
+
+  static defaultProps = {
+    id: 'main',
+    status_id: 'status-main',
+    title: null,
+    default_title: null,
+    text: null,
+    items: [],
+    icon: 'error',
+    icon_size: 'large',
+    state: 'error',
+    show: null,
+    autoscroll: true,
+    autoclose: true,
+    no_animation: false,
+    close_text: 'Lukk',
+    hide_close_button: false,
+    delay: 10,
+    duration: 1e3,
+    status_anchor_text: null,
+    class: null,
+    demo: false,
+
+    /** React props */
+    className: null,
+    children: null,
+
+    on_open: null,
+    on_show: null,
+    on_close: null,
+    on_hide: null
+  }
+
   static enableWebComponent() {
-    registerElement(GlobalStatus.tagName, GlobalStatus, defaultProps)
+    registerElement(
+      GlobalStatus.tagName,
+      GlobalStatus,
+      GlobalStatus.defaultProps
+    )
   }
 
   static getContent(props) {
     if (props.text) return props.text
-    if (typeof props.render_content === 'function')
-      props.render_content(props)
     return processChildren(props)
   }
 
@@ -620,7 +612,7 @@ export default class GlobalStatus extends React.PureComponent {
 
     const stateProps = extendPropsWithContext(
       this.state.globalStatus,
-      defaultProps,
+      GlobalStatus.defaultProps,
       this.context.translation.GlobalStatus
     )
 
@@ -832,7 +824,7 @@ CloseButton.propTypes = {
 }
 CloseButton.defaultProps = {
   className: null,
-  text: defaultProps.close_text
+  text: GlobalStatus.defaultProps.close_text
 }
 
 // Extend our component with controllers

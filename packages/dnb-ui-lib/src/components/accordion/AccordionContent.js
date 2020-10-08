@@ -14,28 +14,24 @@ import classnames from 'classnames'
 import AccordionContext from './AccordionContext'
 import { createSpacingClasses } from '../space/SpacingHelper'
 
-const propTypes = {
-  // React props
-  instance: PropTypes.object,
-  className: PropTypes.string,
-  children: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.node,
-    PropTypes.func
-  ])
-}
-
-const defaultProps = {
-  // React props
-  instance: null,
-  className: null,
-  children: null
-}
-
 export default class AccordionContent extends React.PureComponent {
-  static propTypes = propTypes
-  static defaultProps = defaultProps
   static contextType = AccordionContext
+
+  static propTypes = {
+    instance: PropTypes.object,
+    className: PropTypes.string,
+    children: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.node,
+      PropTypes.func
+    ])
+  }
+
+  static defaultProps = {
+    instance: null,
+    className: null,
+    children: null
+  }
 
   constructor(props, context) {
     super(props)

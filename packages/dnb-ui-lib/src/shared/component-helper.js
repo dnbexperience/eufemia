@@ -165,6 +165,42 @@ export const validateDOMAttributes = (props, params) => {
 }
 
 export const processChildren = (props) => {
+  if (!props) {
+    return null
+  }
+
+  // If used in WB, call functions who starts with "render_"
+  if (
+    typeof global !== 'undefined' &&
+    Array.isArray(global.registeredElements) &&
+    global.registeredElements.length > 0
+  ) {
+    let cache = null
+    Object.entries(props)
+      .reverse()
+      .map(([key, cb]) => {
+        if (key.includes('render_') && /^render_/.test(key)) {
+          if (typeof cb === 'function') {
+            if (cache) {
+              if (Object.isFrozen(props)) {
+                props = { ...props }
+              }
+              props.children = cache
+            }
+            return (cache = (
+              <React.Fragment key={key}>{cb(props)}</React.Fragment>
+            ))
+          }
+        }
+
+        return null
+      })
+      .filter(Boolean)
+    if (cache) {
+      return cache
+    }
+  }
+
   const res =
     typeof props.children === 'function'
       ? props.children(props)
@@ -352,21 +388,22 @@ export const toPascalCase = (s) =>
       ''
     )
 
-export const pickRenderProps = (props, renderProps) =>
-  Object.entries(props)
-    .filter(([key, value]) => {
-      if (
-        typeof renderProps[key] !== 'undefined' || // TODO: remove this because of security notation
-        key === 'children' ||
-        key === 'custom_method'
-      )
-        return false
-      return typeof value === 'function'
-    })
-    .reduce((obj, [key, value]) => {
-      obj[key] = value // TODO: remove this because of security notation
-      return obj
-    }, {})
+// Removed as we now run function props from Web Components (custom-element)
+// export const pickRenderProps = (props, renderProps) =>
+//   Object.entries(props)
+//     .filter(([key, value]) => {
+//       if (
+//         typeof renderProps[key] !== 'undefined' || // TODO: remove this because of security notation
+//         key === 'children' ||
+//         key === 'custom_method'
+//       )
+//         return false
+//       return typeof value === 'function'
+//     })
+//     .reduce((obj, [key, value]) => {
+//       obj[key] = value // TODO: remove this because of security notation
+//       return obj
+//     }, {})
 
 /**
  * [detectOutsideClick Detects a click outside a given DOM element]
@@ -516,7 +553,10 @@ export const filterProps = (props, remove = null, allowed = null) => {
     }, {})
   }
   return Object.entries(props).reduce((acc, [k, v]) => {
-    if ((remove && !remove[k]) || (allowed && allowed[k])) {
+    if (
+      (remove && typeof remove[k] === 'undefined') ||
+      (allowed && typeof allowed[k] !== 'undefined')
+    ) {
       acc[k] = v
     }
     return acc

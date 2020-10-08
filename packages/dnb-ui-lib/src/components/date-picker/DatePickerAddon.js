@@ -9,25 +9,22 @@ import isSameDay from 'date-fns/isSameDay'
 import { convertStringToDate } from './DatePickerCalc'
 import ToggleButton from '../toggle-button/ToggleButton'
 
-const propTypes = {
-  shortcuts: PropTypes.oneOfType([PropTypes.array, PropTypes.func]),
-  renderElement: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
-  startDate: PropTypes.instanceOf(Date),
-  endDate: PropTypes.instanceOf(Date),
-  onChange: PropTypes.func
-}
-
-const defaultProps = {
-  shortcuts: null,
-  renderElement: null,
-  startDate: null,
-  endDate: null,
-  onChange: null
-}
-
 export default class DatePickerAddon extends React.PureComponent {
-  static propTypes = propTypes
-  static defaultProps = defaultProps
+  static propTypes = {
+    shortcuts: PropTypes.oneOfType([PropTypes.array, PropTypes.func]),
+    renderElement: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
+    startDate: PropTypes.instanceOf(Date),
+    endDate: PropTypes.instanceOf(Date),
+    onChange: PropTypes.func
+  }
+
+  static defaultProps = {
+    shortcuts: null,
+    renderElement: null,
+    startDate: null,
+    endDate: null,
+    onChange: null
+  }
 
   static getDerivedStateFromProps(props, state) {
     if (state._listenForPropChanges) {

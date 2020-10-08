@@ -7,31 +7,28 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Button from '../button/Button'
 
-const propTypes = {
-  submit_button_text: PropTypes.string,
-  cancel_button_text: PropTypes.string,
-  reset_button_text: PropTypes.string,
-  selectedDateTitle: PropTypes.string,
-  onSubmit: PropTypes.oneOfType([PropTypes.bool, PropTypes.func]),
-  onCancel: PropTypes.oneOfType([PropTypes.bool, PropTypes.func]),
-  onReset: PropTypes.oneOfType([PropTypes.bool, PropTypes.func])
-}
-
-const defaultProps = {
-  submit_button_text: null,
-  cancel_button_text: null,
-  reset_button_text: null,
-  selectedDateTitle: null,
-
-  // events
-  onSubmit: null,
-  onCancel: null,
-  onReset: null
-}
-
 export default class DatePickerFooter extends React.PureComponent {
-  static propTypes = propTypes
-  static defaultProps = defaultProps
+  static propTypes = {
+    submit_button_text: PropTypes.string,
+    cancel_button_text: PropTypes.string,
+    reset_button_text: PropTypes.string,
+    selectedDateTitle: PropTypes.string,
+    onSubmit: PropTypes.oneOfType([PropTypes.bool, PropTypes.func]),
+    onCancel: PropTypes.oneOfType([PropTypes.bool, PropTypes.func]),
+    onReset: PropTypes.oneOfType([PropTypes.bool, PropTypes.func])
+  }
+
+  static defaultProps = {
+    submit_button_text: null,
+    cancel_button_text: null,
+    reset_button_text: null,
+    selectedDateTitle: null,
+
+    // events
+    onSubmit: null,
+    onCancel: null,
+    onReset: null
+  }
 
   onSubmitHandler = (args) => {
     const { onSubmit } = this.props

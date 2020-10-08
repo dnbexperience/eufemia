@@ -29,118 +29,113 @@ import ToggleButtonGroupContext from './ToggleButtonGroupContext'
 import Context from '../../shared/Context'
 import Suffix from '../../shared/helpers/Suffix'
 
-const renderProps = {
-  on_change: null,
-  on_state_update: null
-}
-
-const propTypes = {
-  text: PropTypes.string,
-  label: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-    PropTypes.node
-  ]),
-  label_direction: PropTypes.oneOf(['horizontal', 'vertical']),
-  label_sr_only: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  title: PropTypes.string,
-  checked: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  variant: PropTypes.oneOf(['default', 'checkbox', 'radio']),
-  left_component: PropTypes.node,
-  disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  id: PropTypes.string,
-  // group: PropTypes.string,
-  status: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-    PropTypes.node
-  ]),
-  status_state: PropTypes.string,
-  status_animation: PropTypes.string,
-  global_status_id: PropTypes.string,
-  suffix: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-    PropTypes.node
-  ]),
-  value: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number,
-    PropTypes.object,
-    PropTypes.array
-  ]),
-  icon: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.node,
-    PropTypes.func
-  ]),
-  icon_position: PropTypes.string,
-  icon_size: PropTypes.string,
-  attributes: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-  readOnly: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  class: PropTypes.string,
-
-  /// React props
-  className: PropTypes.string,
-  children: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
-
-  // Web Component props
-  custom_element: PropTypes.object,
-  custom_method: PropTypes.func,
-  on_change: PropTypes.func,
-  on_state_update: PropTypes.func
-}
-
-const defaultProps = {
-  text: null,
-  label: null,
-  label_direction: null,
-  label_sr_only: null,
-  title: null,
-  checked: undefined,
-  variant: null,
-  left_component: null,
-  disabled: null,
-  skeleton: null,
-  id: null,
-  // group: null,
-  status: null,
-  status_state: 'error',
-  status_animation: null,
-  global_status_id: null,
-  suffix: null,
-  value: '',
-  icon: null,
-  icon_position: 'right',
-  icon_size: null,
-  attributes: null,
-  readOnly: false,
-  class: null,
-
-  // React props
-  className: null,
-  children: null,
-
-  // Web Component props
-  custom_element: null,
-  custom_method: null,
-  ...renderProps
-}
-
 /**
  * The toggle-button component is our enhancement of the classic toggle-button button.
  */
 export default class ToggleButton extends React.PureComponent {
-  static tagName = 'dnb-toggle-button'
-  static propTypes = propTypes
-  static defaultProps = defaultProps
-  static renderProps = renderProps
-  static contextType = ToggleButtonGroupContext
   static Group = ToggleButtonGroup
+  static tagName = 'dnb-toggle-button'
+  static contextType = ToggleButtonGroupContext
+
+  static propTypes = {
+    text: PropTypes.string,
+    label: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.func,
+      PropTypes.node
+    ]),
+    label_direction: PropTypes.oneOf(['horizontal', 'vertical']),
+    label_sr_only: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    title: PropTypes.string,
+    checked: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    variant: PropTypes.oneOf(['default', 'checkbox', 'radio']),
+    left_component: PropTypes.node,
+    disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    id: PropTypes.string,
+    // group: PropTypes.string,
+    status: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.func,
+      PropTypes.node
+    ]),
+    status_state: PropTypes.string,
+    status_animation: PropTypes.string,
+    global_status_id: PropTypes.string,
+    suffix: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.func,
+      PropTypes.node
+    ]),
+    value: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number,
+      PropTypes.object,
+      PropTypes.array
+    ]),
+    icon: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.node,
+      PropTypes.func
+    ]),
+    icon_position: PropTypes.string,
+    icon_size: PropTypes.string,
+    attributes: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+    readOnly: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    class: PropTypes.string,
+
+    /// React props
+    className: PropTypes.string,
+    children: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
+
+    custom_element: PropTypes.object,
+    custom_method: PropTypes.func,
+    on_change: PropTypes.func,
+    on_state_update: PropTypes.func
+  }
+
+  static defaultProps = {
+    text: null,
+    label: null,
+    label_direction: null,
+    label_sr_only: null,
+    title: null,
+    checked: undefined,
+    variant: null,
+    left_component: null,
+    disabled: null,
+    skeleton: null,
+    id: null,
+    // group: null,
+    status: null,
+    status_state: 'error',
+    status_animation: null,
+    global_status_id: null,
+    suffix: null,
+    value: '',
+    icon: null,
+    icon_position: 'right',
+    icon_size: null,
+    attributes: null,
+    readOnly: false,
+    class: null,
+
+    className: null,
+    children: null,
+
+    custom_element: null,
+    custom_method: null,
+
+    on_change: null,
+    on_state_update: null
+  }
 
   static enableWebComponent() {
-    registerElement(ToggleButton.tagName, ToggleButton, defaultProps)
+    registerElement(
+      ToggleButton.tagName,
+      ToggleButton,
+      ToggleButton.defaultProps
+    )
   }
 
   static parseChecked = (state) => /true|on/.test(String(state))
@@ -286,7 +281,7 @@ export default class ToggleButton extends React.PureComponent {
           // use only the props from context, who are available here anyway
           const props = extendPropsWithContext(
             this.props,
-            defaultProps,
+            ToggleButton.defaultProps,
             this.context, // internal context
             context.formRow,
             context.translation.ToggleButton

@@ -16,55 +16,42 @@ import {
 } from '../../shared/component-helper'
 import { createSpacingClasses } from '../space/SpacingHelper'
 
-const renderProps = {
-  render_content: null
-}
-
-const propTypes = {
-  style_type: PropTypes.string,
-  spacing: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  element: PropTypes.string,
-  class: PropTypes.string,
-
-  /** React props */
-  className: PropTypes.string,
-  children: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-    PropTypes.node
-  ]),
-
-  // Web Component props
-  render_content: PropTypes.func
-}
-
-const defaultProps = {
-  style_type: null,
-  element: 'section',
-  class: null,
-
-  /** React props */
-  className: null,
-  children: null,
-
-  // Web Component props
-  ...renderProps
-}
-
 export default class Section extends React.PureComponent {
   static tagName = 'dnb-section'
-  static propTypes = propTypes
-  static defaultProps = defaultProps
   static contextType = Context
 
+  static propTypes = {
+    style_type: PropTypes.string,
+    spacing: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    element: PropTypes.string,
+    class: PropTypes.string,
+
+    /** React props */
+    className: PropTypes.string,
+    children: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.func,
+      PropTypes.node
+    ])
+  }
+
+  static defaultProps = {
+    style_type: null,
+    spacing: null,
+    element: 'section',
+    class: null,
+
+    /** React props */
+    className: null,
+    children: null
+  }
+
   static enableWebComponent() {
-    registerElement(Section.tagName, Section, defaultProps)
+    registerElement(Section.tagName, Section, Section.defaultProps)
   }
 
   static getContent(props) {
     if (props.text) return props.text
-    if (typeof props.render_content === 'function')
-      props.render_content(props)
     return processChildren(props)
   }
 
@@ -77,7 +64,7 @@ export default class Section extends React.PureComponent {
     // use only the props from context, who are available here anyway
     const props = extendPropsWithContext(
       this.props,
-      defaultProps,
+      Section.defaultProps,
       this.context.formRow
     )
 
@@ -111,22 +98,12 @@ export default class Section extends React.PureComponent {
     // also used for code markup simulation
     validateDOMAttributes(this.props, params)
 
+    const Element = element || 'section'
+
     return (
-      <Element is={element || 'section'} {...params} ref={this._ref}>
+      <Element {...params} ref={this._ref}>
         {content}
       </Element>
     )
   }
-}
-
-const Element = React.forwardRef(
-  ({ is: Element, children, ...rest }, ref) => (
-    <Element {...rest} ref={ref}>
-      {children}
-    </Element>
-  )
-)
-Element.propTypes = {
-  is: PropTypes.string.isRequired,
-  children: PropTypes.node.isRequired
 }

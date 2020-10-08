@@ -77,7 +77,6 @@ const propTypes = {
   max_height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   on_resize: PropTypes.func,
 
-  // React
   children: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.func,
@@ -107,7 +106,6 @@ const defaultProps = {
   max_height: null,
   on_resize: null,
 
-  // React props
   children: null
 }
 
