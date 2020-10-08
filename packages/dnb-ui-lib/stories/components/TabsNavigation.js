@@ -8,7 +8,7 @@ import { Location, Router, navigate } from '@reach/router'
 
 import { Tabs } from '../../src/components'
 
-const TabsNavigation = () => (
+export const TabsNavigation = () => (
   <Location>
     {({ location: { pathname } }) => {
       return (
@@ -36,8 +36,6 @@ const TabsNavigation = () => (
     }}
   </Location>
 )
-
-export default TabsNavigation
 
 const Home = () => <>Home</>
 const Form1 = () => <>Form1</>

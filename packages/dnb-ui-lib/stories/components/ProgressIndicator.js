@@ -9,22 +9,20 @@ import { Wrapper, Box } from '../helpers'
 
 import { ProgressIndicator } from '../../src/components'
 
-export default [
-  'ProgressIndicator',
-  () => (
-    <Wrapper>
-      <Box>
-        <ProgressIndicator progress={60} no_animation />
-      </Box>
-      <Box>
-        <ProgressIndicator size="large" />
-      </Box>
-      <Box>
-        <ProgressIndicatorCircular />
-      </Box>
-    </Wrapper>
-  )
-]
+export const ProgressIndicators = () => (
+  <Wrapper>
+    <Box>
+      <ProgressIndicator progress={60} no_animation />
+    </Box>
+    <Box>
+      <ProgressIndicator size="large" />
+    </Box>
+    <Box>
+      <ProgressIndicatorCircular />
+    </Box>
+  </Wrapper>
+)
+
 const ProgressIndicatorCircular = () => {
   const [visible, setVisibe] = React.useState(true)
   React.useEffect(() => {

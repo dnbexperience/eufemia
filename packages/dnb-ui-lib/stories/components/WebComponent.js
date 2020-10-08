@@ -9,17 +9,14 @@ import '../../src/components/date-picker/web-component'
 import '../../src/components/section/web-component'
 import Button from '../../src/components/button/web-component'
 
-export default [
-  'WebComponent',
-  () => (
-    <Wrapper>
-      <Box>
-        <Buttons></Buttons>
-        <DatePicker></DatePicker>
-      </Box>
-    </Wrapper>
-  )
-]
+export const WebComponent = () => (
+  <Wrapper>
+    <Box>
+      <Buttons></Buttons>
+      <DatePicker></DatePicker>
+    </Box>
+  </Wrapper>
+)
 
 const DatePicker = () => {
   const [show, setShow] = React.useState(true)

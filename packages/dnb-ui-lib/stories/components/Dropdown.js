@@ -550,14 +550,11 @@ const DropdownStory = () => {
   )
 }
 
-export default [
-  'Dropdown',
-  () => (
-    <CustomStyle>
-      <DropdownStory />
-    </CustomStyle>
-  )
-]
+export const Dropdowns = () => (
+  <CustomStyle>
+    <DropdownStory />
+  </CustomStyle>
+)
 
 let dropdownData = [
   {
