@@ -59,7 +59,7 @@ export default class DatePickerRange extends React.PureComponent {
     minDate: null,
     maxDate: null,
 
-    // apperance
+    // appearance
     range: null,
     link: null,
     sync: null,
@@ -77,39 +77,43 @@ export default class DatePickerRange extends React.PureComponent {
   static getDerivedStateFromProps(props, state) {
     if (state._listenForPropChanges) {
       if (
-        !state.views ||
-        (typeof props.startDate !== 'undefined' && !state.startDate) ||
-        (props.sync &&
-          // 1. check if current start state matches with the new start date
-          ((props.startDate &&
-            state.startDate &&
-            (!isSameMonth(props.startDate, state.startDate) ||
-              !isSameYear(props.startDate, state.startDate))) ||
-            // 2. check if current end state matches with the new end date
-            (props.endDate &&
-              state.endDate &&
-              (!isSameMonth(props.endDate, state.endDate) ||
-                !isSameYear(props.endDate, state.endDate)))))
+        (props.startDate !== state._startDate ||
+          props.endDate !== state._endDate) &&
+        (!state.views ||
+          (typeof props.startDate !== 'undefined' && !state.startDate) ||
+          (props.sync &&
+            // 1. check if current start state matches with the new start date
+            ((props.startDate &&
+              state.startDate &&
+              (!isSameMonth(props.startDate, state.startDate) ||
+                !isSameYear(props.startDate, state.startDate))) ||
+              // 2. check if current end state matches with the new end date
+              (props.endDate &&
+                state.endDate &&
+                (!isSameMonth(props.endDate, state.endDate) ||
+                  !isSameYear(props.endDate, state.endDate))))))
       ) {
         state.views = DatePickerRange.getViews(props, props.range)
       }
-      if (typeof props.startDate !== 'undefined') {
+
+      if (
+        typeof props.startDate !== 'undefined' &&
+        props.startDate !== state._startDate
+      ) {
         state.startDate = props.startDate
       }
-      if (typeof props.endDate !== 'undefined') {
+      if (
+        typeof props.endDate !== 'undefined' &&
+        props.endDate !== state._endDate
+      ) {
         state.endDate = props.endDate
       }
-      if (typeof props.month !== 'undefined') {
-        state.startMonth = props.month
-      }
-      if (typeof props.startMonth !== 'undefined') {
-        state.startMonth = props.startMonth
-      }
-      if (typeof props.endMonth !== 'undefined') {
-        state.endMonth = props.endMonth
-      }
     }
+
     state._listenForPropChanges = true
+    state._startDate = props.startDate
+    state._endDate = props.endDate
+
     return state
   }
 

@@ -257,10 +257,16 @@ export default class DatePicker extends React.PureComponent {
       let startDate = undefined
       const date_format = props.date_format
 
-      if (typeof props.date !== 'undefined') {
+      if (
+        typeof props.date !== 'undefined' &&
+        props.date !== state._date
+      ) {
         startDate = props.date
       }
-      if (typeof props.start_date !== 'undefined') {
+      if (
+        typeof props.start_date !== 'undefined' &&
+        props.start_date !== state._startDate
+      ) {
         startDate = props.start_date
       }
       if (
@@ -276,39 +282,68 @@ export default class DatePicker extends React.PureComponent {
           state.endDate = state.startDate
         }
       }
-      if (typeof props.end_date !== 'undefined' && isTrue(props.range)) {
+      if (
+        typeof props.end_date !== 'undefined' &&
+        isTrue(props.range) &&
+        props.end_date !== state._endDate
+      ) {
         state.endDate =
           convertStringToDate(props.end_date, {
             date_format
           }) || undefined
       }
-      if (typeof props.month !== 'undefined') {
+      if (
+        typeof props.month !== 'undefined' &&
+        props.month !== state._month
+      ) {
         state.month = convertStringToDate(props.month, {
           date_format
         })
       }
-      if (typeof props.start_month !== 'undefined') {
+      if (
+        typeof props.start_month !== 'undefined' &&
+        props.start_month !== state._startMonth
+      ) {
         state.startMonth = convertStringToDate(props.start_month, {
           date_format
         })
       }
-      if (typeof props.end_month !== 'undefined') {
+      if (
+        typeof props.end_month !== 'undefined' &&
+        props.end_month !== state._endMonth
+      ) {
         state.endMonth = convertStringToDate(props.end_month, {
           date_format
         })
       }
-      if (typeof props.min_date !== 'undefined') {
+      if (
+        typeof props.min_date !== 'undefined' &&
+        props.min_date !== state._minDate
+      ) {
         state.minDate = convertStringToDate(props.min_date, {
           date_format
         })
       }
-      if (typeof props.max_date !== 'undefined') {
+      if (
+        typeof props.max_date !== 'undefined' &&
+        props.max_date !== state._maxDate
+      ) {
         state.maxDate = convertStringToDate(props.max_date, {
           date_format
         })
       }
     }
+
     state._listenForPropChanges = true
+    state._date = props.date
+    state._startDate = props.start_date
+    state._endDate = props.end_date
+    state._startMonth = props.start_month
+    state._endMonth = props.end_month
+    state._month = props.month
+    state._minDate = props.min_date
+    state._maxDate = props.max_date
+
     return state
   }
 
@@ -320,10 +355,6 @@ export default class DatePicker extends React.PureComponent {
     const opened = isTrue(props.opened)
     this.state = {
       userUsesKeyboard: false,
-      startDate: null,
-      endDate: null,
-      _startDate: props.start_date,
-      _endDate: props.end_date,
       showInput: isTrue(props.show_input),
       opened,
       hidden: !opened,
