@@ -13,28 +13,22 @@ import addDays from 'date-fns/addDays'
 import addWeeks from 'date-fns/addWeeks'
 import addMonths from 'date-fns/addMonths'
 import isSameMonth from 'date-fns/isSameMonth'
-import isSameYear from 'date-fns/isSameYear'
 import setDate from 'date-fns/setDate'
 import lastDayOfMonth from 'date-fns/lastDayOfMonth'
 import differenceInMonths from 'date-fns/differenceInMonths'
 
 import DatePickerCalendar from './DatePickerCalendar'
 import { isDisabled } from './DatePickerCalc'
+import DatePickerContext from './DatePickerContext'
 
 export default class DatePickerRange extends React.PureComponent {
+  static contextType = DatePickerContext
+
   static propTypes = {
     id: PropTypes.string,
-    month: PropTypes.instanceOf(Date),
-    startMonth: PropTypes.instanceOf(Date),
-    endMonth: PropTypes.instanceOf(Date),
-    startDate: PropTypes.instanceOf(Date),
-    endDate: PropTypes.instanceOf(Date),
-    minDate: PropTypes.instanceOf(Date),
-    maxDate: PropTypes.instanceOf(Date),
-
-    range: PropTypes.bool,
-    link: PropTypes.bool,
-    sync: PropTypes.bool,
+    isRange: PropTypes.bool,
+    isLink: PropTypes.bool,
+    isSync: PropTypes.bool,
     onlyMonth: PropTypes.bool,
     hideNav: PropTypes.bool,
     views: PropTypes.oneOfType([
@@ -50,19 +44,10 @@ export default class DatePickerRange extends React.PureComponent {
   static defaultProps = {
     id: null,
 
-    // formats
-    month: null, // What month will be displayed in the first calendar
-    startMonth: null, // What month will be displayed in the first calendar
-    endMonth: null, // What month will be displayed in the first calendar
-    startDate: null,
-    endDate: null,
-    minDate: null,
-    maxDate: null,
-
     // appearance
-    range: null,
-    link: null,
-    sync: null,
+    isRange: null,
+    isLink: null,
+    isSync: null,
     onlyMonth: null,
     hideNav: null,
     views: null,
@@ -74,126 +59,47 @@ export default class DatePickerRange extends React.PureComponent {
     onSelect: null // {startDate: Date, endDate: Date | null}
   }
 
-  static getDerivedStateFromProps(props, state) {
-    if (state._listenForPropChanges) {
-      if (
-        (props.startDate !== state._startDate ||
-          props.endDate !== state._endDate) &&
-        (!state.views ||
-          (typeof props.startDate !== 'undefined' && !state.startDate) ||
-          (props.sync &&
-            // 1. check if current start state matches with the new start date
-            ((props.startDate &&
-              state.startDate &&
-              (!isSameMonth(props.startDate, state.startDate) ||
-                !isSameYear(props.startDate, state.startDate))) ||
-              // 2. check if current end state matches with the new end date
-              (props.endDate &&
-                state.endDate &&
-                (!isSameMonth(props.endDate, state.endDate) ||
-                  !isSameYear(props.endDate, state.endDate))))))
-      ) {
-        state.views = DatePickerRange.getViews(props, props.range)
-      }
-
-      if (
-        typeof props.startDate !== 'undefined' &&
-        props.startDate !== state._startDate
-      ) {
-        state.startDate = props.startDate
-      }
-      if (
-        typeof props.endDate !== 'undefined' &&
-        props.endDate !== state._endDate
-      ) {
-        state.endDate = props.endDate
-      }
-    }
-
-    state._listenForPropChanges = true
-    state._startDate = props.startDate
-    state._endDate = props.endDate
-
-    return state
-  }
-
   state = {
     views: null,
     startDate: null,
     endDate: null,
-    startMonth: null,
-    endMonth: null,
     _listenForPropChanges: true
   }
 
-  constructor(props) {
-    super(props)
-
-    // we need startMonth/endMonth to compare in getDerivedStateFromProps
-    if (!props.startMonth) {
-      this.state.startMonth = DatePickerRange.getFallbackMonth(props)
-    }
-    if (!props.endMonth) {
-      this.state.endDate =
-        this.state.startMonth || DatePickerRange.getFallbackMonth(props)
-    }
-  }
-
-  static getViews(state, isRange) {
-    // fill the views with the calendar data getMonth()
-    return (Array.isArray(state.views)
-      ? state.views
-      : Array(
-          isRange
-            ? 2 // set default range calendars
-            : state.views
-        ).fill(1)
-    ).map((view, i) => ({
-      ...view,
-      month: DatePickerRange.getMonth(i, state),
-      nr: i
-    }))
-  }
-
-  static getMonth(viewCount, state) {
-    if ((state.startMonth || state.startDate) && viewCount === 0) {
-      return state.startMonth || state.startDate
-    }
-    if ((state.endMonth || state.endDate) && viewCount === 1) {
-      return state.endMonth || state.endDate
-    }
-    return addMonths(DatePickerRange.getFallbackMonth(state), viewCount)
-  }
-
-  static getFallbackMonth(state) {
-    return state.startMonth || state.startDate || new Date()
-  }
-
   callOnChange({ event = null, ...args } = {}) {
-    const { startDate, endDate, views } = this.state
+    const { startDate, endDate } = this.state
+
+    if (this.props.isRange && endDate === null) {
+      // Do that only to make a better UX, remove
+      this.context.setDate({
+        startDate,
+        endDate: undefined
+      })
+    } else {
+      this.context.setDate({
+        startDate,
+        endDate
+      })
+    }
+
+    this.context.callOnChangeHandler({ startDate, endDate, event })
+
     this.props.onChange &&
-      this.props.onChange(
-        {
-          startDate,
-          endDate,
-          views,
-          event
-        },
-        {
-          hidePicker: !this.props.range,
-          callOnlyOnChangeHandler: false,
-          ...args
-        }
-      )
+      this.props.onChange({
+        hidePicker: !this.props.isRange,
+        event,
+        ...args
+      })
   }
 
-  callOnNav() {
-    this.props.onNav && this.props.onNav(this.state.views)
+  callOnNav = () => {
+    this.props.onNav && this.props.onNav(this.context.views)
   }
 
-  onSelect = ({ event: e, ...args } = {}) => {
-    const event = { ...e } // to make sure we have currentTarget later on
-    this.setState({ ...args, _listenForPropChanges: false }, () => {
+  onSelect = ({ event, ...states } = {}, nr) => {
+    // const event = { ...e } // to make sure we have currentTarget later on
+    event.persist()
+    this.setState({ ...states, _listenForPropChanges: false }, () => {
       const { startDate, endDate } = this.state
       this.props.onSelect &&
         this.props.onSelect({
@@ -201,62 +107,66 @@ export default class DatePickerRange extends React.PureComponent {
           endDate,
           event
         })
-      this.callOnChange({ event })
+      this.callOnChange({ event, nr })
     })
+  }
+
+  setNavState = (state) => {
+    this.setState({
+      state,
+      _listenForPropChanges: false
+    })
+    this.context.updateState(state)
   }
 
   onNext = ({ nr }) => {
-    const views = this.state.views.map((c) => {
+    const views = this.context.views.map((c) => {
       if (c.nr === nr) {
         const month = addMonths(c.month, 1)
-        this.setState({
-          [`${nr === 0 ? 'start' : 'end'}Month`]: month,
-          _listenForPropChanges: false
+        this.setNavState({
+          nr,
+          [`${nr === 0 ? 'start' : 'end'}Month`]: month
         })
         return { ...c, month }
       }
-      if (this.props.link && c.nr === 1) {
+      if (this.props.isLink && c.nr === 1) {
         const month = addMonths(c.month, 1)
-        this.setState({
-          [`${nr !== 0 ? 'start' : 'end'}Month`]: month,
-          _listenForPropChanges: false
+        this.setNavState({
+          nr,
+          [`${nr !== 0 ? 'start' : 'end'}Month`]: month
         })
         return { ...c, month }
       }
       return c
     })
-    this.setState({ views, _listenForPropChanges: false }, () => {
-      this.callOnNav()
-    })
+    this.context.setViews(views, this.callOnNav)
   }
 
   onPrev = ({ nr }) => {
-    const views = this.state.views.map((c) => {
+    const views = this.context.views.map((c) => {
       if (c.nr === nr) {
         const month = subMonths(c.month, 1)
-        this.setState({
-          [`${nr === 0 ? 'start' : 'end'}Month`]: month,
-          _listenForPropChanges: false
+        this.setNavState({
+          nr,
+          [`${nr === 0 ? 'start' : 'end'}Month`]: month
         })
         return { ...c, month }
       }
-      if (this.props.link && c.nr === 1) {
+      if (this.props.isLink && c.nr === 1) {
         const month = subMonths(c.month, 1)
-        this.setState({
-          [`${nr !== 0 ? 'start' : 'end'}Month`]: month,
-          _listenForPropChanges: false
+        this.setNavState({
+          nr,
+          [`${nr !== 0 ? 'start' : 'end'}Month`]: month
         })
         return { ...c, month }
       }
       return c
     })
-    this.setState({ views, _listenForPropChanges: false }, () => {
-      this.callOnNav()
-    })
+    this.context.setViews(views, this.callOnNav)
   }
 
-  onHover = (date) => {
-    this.setState({ hoverDate: date, _listenForPropChanges: false })
+  onHover = (hoverDate) => {
+    this.context.updateState({ hoverDate })
   }
 
   onKeyDownHandler = (event, ref, nr) => {
@@ -278,7 +188,7 @@ export default class DatePickerRange extends React.PureComponent {
     }
 
     let type = nr === 0 ? 'start' : 'end'
-    if (!this.props.range) {
+    if (!this.props.isRange) {
       type = 'start'
     }
     let newDate = this.state[`${type}Date`]
@@ -303,7 +213,7 @@ export default class DatePickerRange extends React.PureComponent {
       // use the date picker month, if provided
       newDate =
         this.state[`${type}Month`] ||
-        (this.props.range && nr === 1
+        (this.props.isRange && nr === 1
           ? addMonths(new Date(), 1)
           : new Date())
     }
@@ -314,6 +224,7 @@ export default class DatePickerRange extends React.PureComponent {
         case 'space':
           this.callOnChange({
             event,
+            nr,
             hidePicker: true
           })
           break
@@ -330,7 +241,7 @@ export default class DatePickerRange extends React.PureComponent {
         (currentMonth &&
           Math.abs(differenceInMonths(newDate, currentMonth)) > 1)
       ) {
-        if (!this.props.range) {
+        if (!this.props.isRange) {
           newDate = currentMonth
         } else {
           newDate =
@@ -349,13 +260,13 @@ export default class DatePickerRange extends React.PureComponent {
       state[`${type}Date`] = newDate
 
       // set fallbacks
-      if (!this.props.range) {
+      if (!this.props.isRange) {
         state.endDate = newDate
       } else {
-        if (!this.state.startDate) {
+        if (!this.context.startDate) {
           state.startDate = newDate
         }
-        if (!this.state.endDate) {
+        if (!this.context.endDate) {
           state.endDate = newDate
         }
       }
@@ -363,8 +274,8 @@ export default class DatePickerRange extends React.PureComponent {
       // make sure we stay on the same month
       if (this.props.onlyMonth || this.props.hideNav) {
         if (
-          !isSameMonth(state.startDate, this.state.startDate) ||
-          !isSameMonth(state.endDate, this.state.startDate)
+          !isSameMonth(state.startDate, this.context.startDate) ||
+          !isSameMonth(state.endDate, this.context.startDate)
         ) {
           return
         }
@@ -372,23 +283,27 @@ export default class DatePickerRange extends React.PureComponent {
       if (
         isDisabled(
           state.startDate,
-          this.props.minDate,
-          this.props.maxDate
+          this.context.minDate,
+          this.context.maxDate
         ) ||
-        isDisabled(state.endDate, this.props.minDate, this.props.maxDate)
+        isDisabled(
+          state.endDate,
+          this.context.minDate,
+          this.context.maxDate
+        )
       ) {
         return
       }
 
       // make sure we also navigate the view
-      if (this.props.sync) {
+      if (this.props.isSync) {
         state.startMonth = state.startDate
         state.endMonth = state.endDate
 
-        state.views = this.state.views
-        state.views[nr] = DatePickerRange.getViews(
+        state.views = this.context.views
+        state.views[nr] = getViews(
           { ...this.state, ...state },
-          this.props.range
+          this.props.isRange
         )[nr]
       }
 
@@ -396,6 +311,7 @@ export default class DatePickerRange extends React.PureComponent {
         // call after state update, so the input get's the latest state as well
         this.callOnChange({
           event,
+          nr,
           hidePicker: false
         })
 
@@ -408,20 +324,16 @@ export default class DatePickerRange extends React.PureComponent {
   }
 
   render() {
-    const { views, startDate, endDate, hoverDate } = this.state
     const { id, ...props } = this.props
     return (
       <div className="dnb-date-picker__views">
-        {views.map((calendar, i) => (
+        {this.context.views.map((calendar, i) => (
           <DatePickerCalendar
             key={calendar.nr}
             id={`${id}-${i}-`}
             {...props}
             {...calendar}
-            startDate={startDate}
-            endDate={endDate}
-            hoverDate={hoverDate}
-            onSelect={this.onSelect}
+            onSelect={(state) => this.onSelect(state, calendar.nr)}
             onHover={this.onHover}
             onPrev={this.onPrev}
             onNext={this.onNext}
@@ -431,4 +343,37 @@ export default class DatePickerRange extends React.PureComponent {
       </div>
     )
   }
+}
+
+export const getViews = (state, isRange) => {
+  // fill the views with the calendar data getMonth()
+  return (Array.isArray(state.views)
+    ? state.views
+    : Array(
+        isRange
+          ? 2 // set default range calendars
+          : state.views
+      ).fill(1)
+  ).map((view, nr) => ({
+    ...view,
+    month: getMonthView(state, nr),
+    nr
+  }))
+}
+
+const getMonthView = (state, nr) => {
+  if ((state.startMonth || state.startDate) && nr === 0) {
+    return state.startMonth || state.startDate
+  }
+  if ((state.endMonth || state.endDate) && nr === 1) {
+    return state.endMonth || state.endDate
+  }
+
+  // Here we add that default offset to every new calendar added,
+  // the first will get 0, the next one 1, and so forth
+  return addMonths(getFallbackMonth(state), nr)
+}
+
+const getFallbackMonth = (state) => {
+  return state.startMonth || state.startDate || new Date()
 }

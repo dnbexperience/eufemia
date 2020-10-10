@@ -18,14 +18,10 @@ import {
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
 import { createSpacingClasses } from '../space/SpacingHelper'
-import {
-  // createSkeletonClass,
-  skeletonDOMAttributes
-} from '../skeleton/SkeletonHelper'
+import { skeletonDOMAttributes } from '../skeleton/SkeletonHelper'
 
 // date-fns
 import format from 'date-fns/format'
-import differenceInCalendarDays from 'date-fns/differenceInCalendarDays'
 import nbLocale from 'date-fns/locale/nb'
 import enLocale from 'date-fns/locale/en-US'
 
@@ -33,11 +29,7 @@ import Context from '../../shared/Context'
 import Suffix from '../../shared/helpers/Suffix'
 import FormLabel from '../form-label/FormLabel'
 import FormStatus from '../form-status/FormStatus'
-import {
-  convertStringToDate,
-  correctV1Format,
-  isDisabled
-} from './DatePickerCalc'
+import DatePickerProvider from './DatePickerProvider'
 import DatePickerRange from './DatePickerRange'
 import DatePickerInput from './DatePickerInput'
 import DatePickerAddon from './DatePickerAddon'
@@ -252,101 +244,6 @@ export default class DatePicker extends React.PureComponent {
     )
   }
 
-  static getDerivedStateFromProps(props, state) {
-    if (state._listenForPropChanges) {
-      let startDate = undefined
-      const date_format = props.date_format
-
-      if (
-        typeof props.date !== 'undefined' &&
-        props.date !== state._date
-      ) {
-        startDate = props.date
-      }
-      if (
-        typeof props.start_date !== 'undefined' &&
-        props.start_date !== state._startDate
-      ) {
-        startDate = props.start_date
-      }
-      if (
-        typeof startDate !== 'undefined' &&
-        startDate !== state.startDate
-      ) {
-        state.startDate =
-          convertStringToDate(startDate, {
-            date_format
-          }) || undefined
-
-        if (!isTrue(props.range)) {
-          state.endDate = state.startDate
-        }
-      }
-      if (
-        typeof props.end_date !== 'undefined' &&
-        isTrue(props.range) &&
-        props.end_date !== state._endDate
-      ) {
-        state.endDate =
-          convertStringToDate(props.end_date, {
-            date_format
-          }) || undefined
-      }
-      if (
-        typeof props.month !== 'undefined' &&
-        props.month !== state._month
-      ) {
-        state.month = convertStringToDate(props.month, {
-          date_format
-        })
-      }
-      if (
-        typeof props.start_month !== 'undefined' &&
-        props.start_month !== state._startMonth
-      ) {
-        state.startMonth = convertStringToDate(props.start_month, {
-          date_format
-        })
-      }
-      if (
-        typeof props.end_month !== 'undefined' &&
-        props.end_month !== state._endMonth
-      ) {
-        state.endMonth = convertStringToDate(props.end_month, {
-          date_format
-        })
-      }
-      if (
-        typeof props.min_date !== 'undefined' &&
-        props.min_date !== state._minDate
-      ) {
-        state.minDate = convertStringToDate(props.min_date, {
-          date_format
-        })
-      }
-      if (
-        typeof props.max_date !== 'undefined' &&
-        props.max_date !== state._maxDate
-      ) {
-        state.maxDate = convertStringToDate(props.max_date, {
-          date_format
-        })
-      }
-    }
-
-    state._listenForPropChanges = true
-    state._date = props.date
-    state._startDate = props.start_date
-    state._endDate = props.end_date
-    state._startMonth = props.start_month
-    state._endMonth = props.end_month
-    state._month = props.month
-    state._minDate = props.min_date
-    state._maxDate = props.max_date
-
-    return state
-  }
-
   constructor(props) {
     super(props)
 
@@ -354,7 +251,6 @@ export default class DatePicker extends React.PureComponent {
 
     const opened = isTrue(props.opened)
     this.state = {
-      userUsesKeyboard: false,
       showInput: isTrue(props.show_input),
       opened,
       hidden: !opened,
@@ -431,59 +327,7 @@ export default class DatePicker extends React.PureComponent {
     this.removeOutsideClickHandler()
   }
 
-  onSubmitButtonFocus = () => {
-    // Removed, because the keyboard support has been improved since
-    // this.setState({
-    //   showInput: true
-    // })
-  }
-
-  onInputChange = (args) => {
-    let { startDate, endDate } = args
-    // make sure endDate is same as startDate if we don't use range
-    if (!isTrue(this.props.range)) {
-      endDate = startDate
-    }
-    if (typeof startDate !== 'undefined') {
-      this.setState(
-        {
-          startDate,
-          _listenForPropChanges: false
-        },
-        () => this.callOnChangeHandler(args)
-      )
-    }
-    if (typeof endDate !== 'undefined') {
-      this.setState(
-        {
-          endDate,
-          _listenForPropChanges: false
-        },
-        () => !startDate && this.callOnChangeHandler(args)
-      )
-    }
-  }
-
-  onPickerChange = (
-    { startDate, endDate, ...args },
-    { hidePicker = true, callOnlyOnChangeHandler = false } = {}
-  ) => {
-    if (callOnlyOnChangeHandler) {
-      return this.callOnChangeHandler(args)
-    }
-    // While the user starts changing the date range
-    // we reset the endDate also in the "DatePickerInput" end date
-    if (endDate === null) {
-      endDate = undefined
-    }
-    this.setState(
-      {
-        startDate,
-        endDate,
-        _listenForPropChanges: false
-      },
-      () => this.callOnChangeHandler(args)
-    )
+  onPickerChange = ({ hidePicker = true, ...args }) => {
     if (
       hidePicker &&
       !isTrue(this.props.show_submit_button) &&
@@ -503,53 +347,19 @@ export default class DatePicker extends React.PureComponent {
   }
 
   onCancelHandler = (args) => {
-    const { date_format } = this.props
-    if (args && args.event) {
-      args.event.persist()
-    }
-    this.setState(
-      {
-        startDate: this.state._startDate
-          ? convertStringToDate(this.state._startDate, {
-              date_format
-            })
-          : null,
-        endDate: this.state._endDate
-          ? convertStringToDate(this.state._endDate, {
-              date_format
-            })
-          : null
-      },
-      () => {
-        this.hidePicker(args)
-        dispatchCustomElementEvent(
-          this,
-          'on_cancel',
-          this.getReturnObject(args)
-        )
-      }
+    this.hidePicker(args)
+    dispatchCustomElementEvent(
+      this,
+      'on_cancel',
+      this.getReturnObject(args)
     )
   }
 
   onResetHandler = (args) => {
-    if (args && args.event) {
-      args.event.persist()
-    }
-    this.setState(
-      {
-        date: undefined,
-        startDate: undefined,
-        endDate: undefined,
-        _listenForPropChanges: false
-      },
-      () => {
-        this.callOnChangeHandler(args)
-        dispatchCustomElementEvent(
-          this,
-          'on_reset',
-          this.getReturnObject(args)
-        )
-      }
+    dispatchCustomElementEvent(
+      this,
+      'on_reset',
+      this.getReturnObject(args)
     )
   }
 
@@ -564,7 +374,6 @@ export default class DatePicker extends React.PureComponent {
       clearTimeout(this._hideTimeout)
     }
     this.setState({
-      userUsesKeyboard: true,
       opened: true,
       hidden: false,
       _listenForPropChanges: false
@@ -605,65 +414,6 @@ export default class DatePicker extends React.PureComponent {
     !this.state.opened
       ? this.showPicker((args && args.event) || args)
       : this.hidePicker((args && args.event) || args)
-  }
-
-  callOnChangeHandler = (args) => {
-    const returnObject = this.getReturnObject(args)
-
-    if (this.returnObject) {
-      if (isTrue(this.props.range)) {
-        if (
-          this.returnObject.start_date === returnObject.start_date &&
-          this.returnObject.end_date === returnObject.end_date
-        ) {
-          return
-        }
-      } else {
-        if (this.returnObject.date === returnObject.date) {
-          return
-        }
-      }
-    }
-    this.returnObject = returnObject
-    dispatchCustomElementEvent(this, 'on_change', returnObject)
-  }
-
-  getReturnObject({ event = null } = {}) {
-    const { startDate, endDate } = this.state
-    const attributes = this.attributes || {}
-    const return_format = correctV1Format(this.props.return_format)
-
-    const ret = isTrue(this.props.range)
-      ? {
-          event,
-          attributes,
-          days_between:
-            startDate && endDate
-              ? differenceInCalendarDays(endDate, startDate)
-              : null,
-          start_date: startDate ? format(startDate, return_format) : null,
-          end_date: endDate ? format(endDate, return_format) : null
-        }
-      : {
-          event,
-          attributes,
-          date: (startDate && format(startDate, return_format)) || null
-        }
-
-    if (this.props.min_date || this.props.max_date) {
-      ret.is_valid_start_date = !isDisabled(
-        startDate,
-        this.state.minDate,
-        this.state.maxDate
-      )
-      ret.is_valid_end_date = !isDisabled(
-        endDate,
-        this.state.minDate,
-        this.state.maxDate
-      )
-    }
-
-    return ret
   }
 
   formatSelectedDateTitle() {
@@ -756,25 +506,13 @@ export default class DatePicker extends React.PureComponent {
 
     let { hide_navigation, hide_days } = this.props
 
-    // never hsow days and navigation
+    // never show days and navigation
     if (isTrue(only_month)) {
       hide_days = true
       hide_navigation = isTrue(hide_navigation_buttons) ? false : true
     }
 
-    const {
-      month,
-      startDate,
-      endDate,
-      startMonth,
-      endMonth,
-      minDate,
-      maxDate,
-      opened,
-      hidden,
-      // userUsesKeyboard,// not in use
-      showInput
-    } = this.state
+    const { opened, hidden, showInput } = this.state
 
     const id = this._id
     const showStatus = status && status !== 'error'
@@ -793,7 +531,6 @@ export default class DatePicker extends React.PureComponent {
       pickerParams['aria-labelledby'] = id + '-label'
     }
 
-    const inputParams = { ...attributes }
     const submitParams = {
       ['aria-expanded']: opened,
       ref: this._submitButtonRef
@@ -827,149 +564,129 @@ export default class DatePicker extends React.PureComponent {
 
     skeletonDOMAttributes(pickerParams, skeleton, this.context)
 
-    validateDOMAttributes(this.props, inputParams)
+    validateDOMAttributes(this.props, attributes)
     validateDOMAttributes(null, submitParams)
     validateDOMAttributes(null, pickerParams)
 
-    // make it possible to grab the rest attributes and return it with all events
-    this.attributes = inputParams
-
     return (
-      <span {...mainParams}>
-        {label && (
-          <FormLabel
-            id={id + '-label'}
-            for_id={id}
-            text={label}
-            label_direction={label_direction}
-            sr_only={label_sr_only}
-            disabled={disabled}
-            skeleton={skeleton}
-          />
-        )}
-
-        <span
-          className="dnb-date-picker__inner"
-          ref={this._innerRef}
-          {...pickerParams}
-        >
-          <AlignmentHelper />
-          {showStatus && (
-            <FormStatus
-              id={id + '-form-status'}
-              global_status_id={global_status_id}
-              text_id={id + '-status'} // used for "aria-describedby"
-              width_selector={id + '-input'}
-              text={status}
-              status={status_state}
-              animation={status_animation}
+      <DatePickerProvider
+        {...this.props}
+        attributes={attributes}
+        setReturnObject={(fn) => (this.getReturnObject = fn)}
+      >
+        <span {...mainParams}>
+          {label && (
+            <FormLabel
+              id={id + '-label'}
+              for_id={id}
+              text={label}
+              label_direction={label_direction}
+              sr_only={label_sr_only}
+              disabled={disabled}
               skeleton={skeleton}
             />
           )}
-          <span className="dnb-date-picker__row">
-            <span className="dnb-date-picker__shell">
-              <DatePickerInput
-                id={id}
-                title={title}
-                disabled={isTrue(disabled)}
-                skeleton={isTrue(skeleton)}
-                maskOrder={mask_order}
-                maskPlaceholder={mask_placeholder}
-                range={isTrue(range)}
-                startDate={startDate}
-                endDate={endDate}
-                minDate={minDate}
-                maxDate={maxDate}
-                showInput={showInput}
-                selectedDateTitle={selectedDateTitle}
-                input_element={input_element}
-                opened={opened}
-                hidden={hidden}
-                status={status ? 'error' : null}
-                status_state={status_state}
-                // status_animation={status_animation}
-                {...inputParams}
-                submitAttributes={submitParams}
-                onChange={this.onInputChange}
-                onFocus={this.showPicker}
-                onSubmit={this.togglePicker}
-                onSubmitButtonFocus={this.onSubmitButtonFocus}
+
+          <span
+            className="dnb-date-picker__inner"
+            ref={this._innerRef}
+            {...pickerParams}
+          >
+            <AlignmentHelper />
+            {showStatus && (
+              <FormStatus
+                id={id + '-form-status'}
+                global_status_id={global_status_id}
+                text_id={id + '-status'} // used for "aria-describedby"
+                width_selector={id + '-input'}
+                text={status}
+                status={status_state}
+                animation={status_animation}
+                skeleton={skeleton}
               />
-              <span className="dnb-date-picker__container">
-                <span
-                  className="dnb-date-picker__triangle"
-                  ref={this._triangleRef}
-                />
-                {!hidden && (
-                  <>
-                    <DatePickerRange
-                      id={id}
-                      range={isTrue(range)}
-                      firstDayOfWeek={first_day}
-                      minDate={minDate}
-                      maxDate={maxDate}
-                      locale={locale}
-                      resetDate={isTrue(reset_date)}
-                      link={isTrue(link)}
-                      sync={isTrue(sync)}
-                      hideDays={isTrue(hide_days)}
-                      hideNav={isTrue(hide_navigation)}
-                      views={
-                        isTrue(hide_navigation_buttons)
-                          ? [{ nextBtn: false, prevBtn: false }]
-                          : null
-                      }
-                      onlyMonth={isTrue(only_month)}
-                      hideNextMonthWeek={isTrue(hide_last_week)}
-                      noAutofocus={isTrue(disable_autofocus)}
-                      onChange={this.onPickerChange}
-                      month={month}
-                      startMonth={startMonth}
-                      endMonth={endMonth}
-                      startDate={startDate}
-                      endDate={endDate}
-                    />
-                    {(addon_element || shortcuts) && (
-                      <DatePickerAddon
-                        {...props}
-                        startDate={startDate}
-                        endDate={endDate}
-                        onChange={this.onPickerChange}
-                        renderElement={addon_element}
-                        shortcuts={shortcuts}
-                      />
-                    )}
-                    <DatePickerFooter
-                      {...props}
-                      range={isTrue(range)}
-                      selectedDateTitle={selectedDateTitle}
-                      onSubmit={
-                        (isTrue(range) || isTrue(show_submit_button)) &&
-                        this.onSubmitHandler
-                      }
-                      onCancel={
-                        (isTrue(range) || isTrue(show_cancel_button)) &&
-                        this.onCancelHandler
-                      }
-                      onReset={
-                        isTrue(show_reset_button) && this.onResetHandler
-                      }
-                    />
-                  </>
-                )}
-              </span>
-            </span>
-            {suffix && (
-              <span
-                className="dnb-date-picker__suffix"
-                id={id + '-suffix'} // used for "aria-describedby"
-              >
-                <Suffix {...props}>{suffix}</Suffix>
-              </span>
             )}
+            <span className="dnb-date-picker__row">
+              <span className="dnb-date-picker__shell">
+                <DatePickerInput
+                  id={id}
+                  title={title}
+                  disabled={isTrue(disabled)}
+                  skeleton={isTrue(skeleton)}
+                  maskOrder={mask_order}
+                  maskPlaceholder={mask_placeholder}
+                  isRange={isTrue(range)}
+                  showInput={showInput}
+                  selectedDateTitle={selectedDateTitle}
+                  input_element={input_element}
+                  opened={opened}
+                  hidden={hidden}
+                  status={status ? 'error' : null}
+                  status_state={status_state}
+                  {...attributes}
+                  submitAttributes={submitParams}
+                  onFocus={this.showPicker}
+                  onSubmit={this.togglePicker}
+                />
+                <span className="dnb-date-picker__container">
+                  <span
+                    className="dnb-date-picker__triangle"
+                    ref={this._triangleRef}
+                  />
+                  {!hidden && (
+                    <>
+                      <DatePickerRange
+                        id={id}
+                        firstDayOfWeek={first_day}
+                        locale={locale}
+                        resetDate={isTrue(reset_date)}
+                        isRange={isTrue(range)}
+                        isLink={isTrue(link)}
+                        isSync={isTrue(sync)}
+                        hideDays={isTrue(hide_days)}
+                        hideNav={isTrue(hide_navigation)}
+                        views={
+                          isTrue(hide_navigation_buttons)
+                            ? [{ nextBtn: false, prevBtn: false }]
+                            : null
+                        }
+                        onlyMonth={isTrue(only_month)}
+                        hideNextMonthWeek={isTrue(hide_last_week)}
+                        noAutofocus={isTrue(disable_autofocus)}
+                        onChange={this.onPickerChange}
+                      />
+                      {(addon_element || shortcuts) && (
+                        <DatePickerAddon
+                          {...props}
+                          renderElement={addon_element}
+                          shortcuts={shortcuts}
+                        />
+                      )}
+                      <DatePickerFooter
+                        isRange={isTrue(range)}
+                        onSubmit={this.onSubmitHandler}
+                        onCancel={this.onCancelHandler}
+                        onReset={this.onResetHandler}
+                      />
+                    </>
+                  )}
+                </span>
+              </span>
+              {suffix && (
+                <span
+                  className="dnb-date-picker__suffix"
+                  id={id + '-suffix'} // used for "aria-describedby"
+                >
+                  <Suffix {...props}>{suffix}</Suffix>
+                </span>
+              )}
+            </span>
           </span>
+
+          <p className="dnb-sr-only" aria-live="assertive">
+            {selectedDateTitle}
+          </p>
         </span>
-      </span>
+      </DatePickerProvider>
     )
   }
 }
