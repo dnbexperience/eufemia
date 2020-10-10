@@ -141,7 +141,6 @@
     "babel-plugin-optimize-clsx": "^2.6.1",
     "babel-plugin-react-remove-properties": "^0.3.0",
     "babel-plugin-search-and-replace": "^1.1.0",
-    "babel-plugin-transform-dev-warning": "^0.1.1",
     "babel-plugin-transform-dynamic-import": "^2.1.0",
     "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
     "camelcase": "^6.0.0",
