@@ -127,7 +127,8 @@ class Example extends React.PureComponent {
     /\\d/,
     /\\d/
   ]}
-  show_mask="true"
+  show_mask
+  keep_char_positions
   on_change={(e) => {
     console.log('e', e)
   }}
