@@ -11,11 +11,11 @@
 
 import { registerElement } from '../shared/component-helper'
 
-// import all the aviable fragments
+// import all the available fragments
 import DrawerList from './drawer-list/DrawerList'
 import ScrollView from './scroll-view/ScrollView'
 
-// define / export all the aviable fragments
+// define / export all the available fragments
 export { DrawerList, ScrollView }
 
 export const getFragments = () => {
