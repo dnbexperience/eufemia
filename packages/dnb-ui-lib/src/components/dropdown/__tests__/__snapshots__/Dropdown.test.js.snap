@@ -29,6 +29,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
           "1134 56 78962",
           "Feriekonto - Kari Nordmann med et kjempelangt etternavnsen",
         ],
+        "selected_key": 1,
         "selected_value": "Feriekonto - Kari Nordmann med et kjempelangt etternavnsen",
       },
       Object {
@@ -36,6 +37,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
           "1534 96 48901",
           "Oppussing - Ole Nordmann",
         ],
+        "selected_key": "0x",
         "selected_value": "Oppussing - Ole Nordmann",
       },
       Object {
@@ -54,6 +56,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
           123
         </React.Fragment>,
       ],
+      "0y",
     ]
   }
   default_value="default_value"
@@ -124,6 +127,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
             "1134 56 78962",
             "Feriekonto - Kari Nordmann med et kjempelangt etternavnsen",
           ],
+          "selected_key": 1,
           "selected_value": "Feriekonto - Kari Nordmann med et kjempelangt etternavnsen",
         },
         Object {
@@ -131,6 +135,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
             "1534 96 48901",
             "Oppussing - Ole Nordmann",
           ],
+          "selected_key": "0x",
           "selected_value": "Oppussing - Ole Nordmann",
         },
         Object {
@@ -149,6 +154,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
             123
           </React.Fragment>,
         ],
+        "0y",
       ]
     }
     default_value="default_value"
@@ -231,6 +237,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
               "1134 56 78962",
               "Feriekonto - Kari Nordmann med et kjempelangt etternavnsen",
             ],
+            "selected_key": 1,
             "selected_value": "Feriekonto - Kari Nordmann med et kjempelangt etternavnsen",
           },
           Object {
@@ -238,6 +245,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
               "1534 96 48901",
               "Oppussing - Ole Nordmann",
             ],
+            "selected_key": "0x",
             "selected_value": "Oppussing - Ole Nordmann",
           },
           Object {
@@ -256,6 +264,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
               123
             </React.Fragment>,
           ],
+          "0y",
         ]
       }
       default_value="default_value"
@@ -1003,7 +1012,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                               <DrawerList.Item
                                 active={false}
                                 class={null}
-                                className="last-of-type"
+                                className=""
                                 data-item={6}
                                 hash="option-dropdown-id-6-6"
                                 id="option-dropdown-id-6"
@@ -1016,7 +1025,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                               >
                                 <li
                                   aria-selected={false}
-                                  className="last-of-type dnb-drawer-list__option"
+                                  className="dnb-drawer-list__option"
                                   data-item={6}
                                   id="option-dropdown-id-6"
                                   key="lioption-dropdown-id-6-6"
@@ -1038,6 +1047,42 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                                         Custom content 
                                         123
                                       </span>
+                                    </ItemContent>
+                                  </span>
+                                </li>
+                              </DrawerList.Item>
+                              <DrawerList.Item
+                                active={false}
+                                class={null}
+                                className="last-of-type"
+                                data-item={7}
+                                hash="option-dropdown-id-7-7"
+                                id="option-dropdown-id-7"
+                                key="option-dropdown-id-7-7"
+                                onClick={[Function]}
+                                onKeyDown={[Function]}
+                                on_click={null}
+                                selected={false}
+                                value={null}
+                              >
+                                <li
+                                  aria-selected={false}
+                                  className="last-of-type dnb-drawer-list__option"
+                                  data-item={7}
+                                  id="option-dropdown-id-7"
+                                  key="lioption-dropdown-id-7-7"
+                                  onClick={[Function]}
+                                  onKeyDown={[Function]}
+                                  role="option"
+                                  tabIndex="-1"
+                                >
+                                  <span
+                                    className="dnb-drawer-list__option__inner"
+                                  >
+                                    <ItemContent
+                                      hash="option-dropdown-id-7-7"
+                                    >
+                                      0y
                                     </ItemContent>
                                   </span>
                                 </li>
@@ -1087,6 +1132,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                         "1134 56 78962",
                         "Feriekonto - Kari Nordmann med et kjempelangt etternavnsen",
                       ],
+                      "selected_key": 1,
                       "selected_value": "Feriekonto - Kari Nordmann med et kjempelangt etternavnsen",
                     },
                     Object {
@@ -1094,6 +1140,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                         "1534 96 48901",
                         "Oppussing - Ole Nordmann",
                       ],
+                      "selected_key": "0x",
                       "selected_value": "Oppussing - Ole Nordmann",
                     },
                     Object {
@@ -1112,6 +1159,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                         123
                       </React.Fragment>,
                     ],
+                    "0y",
                   ]
                 }
                 default_value="default_value"

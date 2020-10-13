@@ -66,6 +66,10 @@ export default class Accordion extends React.PureComponent {
       PropTypes.string,
       PropTypes.bool
     ]),
+    prevent_rerender_conditional: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool
+    ]),
     remember_state: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.bool
@@ -135,6 +139,7 @@ export default class Accordion extends React.PureComponent {
     expanded_ssr: null,
     prerender: null,
     prevent_rerender: null,
+    prevent_rerender_conditional: null,
     remember_state: null,
     single_container: null,
     variant: 'outlined',
@@ -174,7 +179,7 @@ export default class Accordion extends React.PureComponent {
         state._expanded = props.expanded
       }
 
-      if (props.group) {
+      if (props.group && !state.group) {
         state.group = props.group
       }
     }
@@ -213,6 +218,12 @@ export default class Accordion extends React.PureComponent {
 
       window.__dnbAccordion[this.state.group].addInstance(this)
     }
+
+    this.store = new Store({ id: props.id, group: this.state.group })
+
+    if (context && typeof context?.onInit === 'function') {
+      context.onInit(this)
+    }
   }
 
   componentDidMount() {
@@ -226,7 +237,33 @@ export default class Accordion extends React.PureComponent {
     }
 
     if (isTrue(this.props.remember_state || this.context.remember_state)) {
-      this.setExpandedState(this.getState())
+      const expanded = this.store.getState()
+      if (typeof expanded === 'boolean') {
+        this.setExpandedState(expanded)
+      }
+    }
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false
+
+    clearTimeout(this._animationState)
+    clearTimeout(this._openTimeout)
+    clearTimeout(this._changeOpenState)
+
+    if (this.state.group && typeof window !== 'undefined') {
+      window?.__dnbAccordion[this.state.group]?.removeInstance(this)
+    }
+  }
+
+  componentDidUpdate(props) {
+    if (
+      this.context?.expanded_id &&
+      this.context.expanded_id === props.id
+    ) {
+      this.setState({
+        expanded: true
+      })
     }
   }
 
@@ -244,18 +281,6 @@ export default class Accordion extends React.PureComponent {
           _listenForPropChanges: false
         })
       }, 600)
-    }
-  }
-
-  componentWillUnmount() {
-    this._isMounted = false
-
-    clearTimeout(this._animationState)
-    clearTimeout(this._openTimeout)
-    clearTimeout(this._changeOpenState)
-
-    if (this.state.group && typeof window !== 'undefined') {
-      window?.__dnbAccordion[this.state.group]?.removeInstance(this)
     }
   }
 
@@ -278,49 +303,23 @@ export default class Accordion extends React.PureComponent {
       isTrue(this.props.remember_state) ||
       isTrue(this.context.remember_state)
     ) {
-      this.saveState(expanded)
+      this.store.saveState(expanded)
     }
-  }
-
-  _storeId() {
-    const { id } = this.props
-    return `dnb-accordion-${id}`
-  }
-
-  saveState(expanded) {
-    const { id } = this.props
-    if (id) {
-      try {
-        window.localStorage.setItem(this._storeId(), String(expanded))
-      } catch (e) {
-        //
-      }
-    } else {
-      warn('No id prop is provided in order to store the accordion state!')
-    }
-  }
-
-  getState() {
-    let state = null
-    try {
-      if (
-        Object.prototype.hasOwnProperty.call(
-          window.localStorage,
-          this._storeId()
-        )
-      ) {
-        state = isTrue(window.localStorage.getItem(this._storeId()))
-      }
-    } catch (e) {
-      //
-    }
-
-    return state
   }
 
   handleDisabledClick = (e) => {
     e.preventDefault()
     return false
+  }
+
+  callOnChangeHandler = (...params) => {
+    this.callOnChange(...params)
+    if (this.context?.onChange) {
+      this.context?.onChange(...params)
+    }
+    if (this.state.group && typeof window !== 'undefined') {
+      window?.__dnbAccordion[this.state.group]?.onChange(...params)
+    }
   }
 
   callOnChange = ({ expanded, event }) => {
@@ -386,6 +385,7 @@ export default class Accordion extends React.PureComponent {
                 class: _className,
                 prerender,
                 prevent_rerender,
+                prevent_rerender_conditional,
                 single_container,
                 remember_state,
                 disabled,
@@ -449,21 +449,14 @@ export default class Accordion extends React.PureComponent {
                 expanded,
                 prerender: isTrue(prerender),
                 prevent_rerender: isTrue(prevent_rerender),
+                prevent_rerender_conditional: isTrue(
+                  prevent_rerender_conditional
+                ),
                 single_container: isTrue(single_container),
                 remember_state: isTrue(remember_state),
                 disabled: isTrue(disabled),
                 skeleton: isTrue(skeleton),
-                callOnChange: (...params) => {
-                  this.callOnChange(...params)
-                  if (this.context?.onChange) {
-                    this.context?.onChange(...params)
-                  }
-                  if (this.state.group && typeof window !== 'undefined') {
-                    window?.__dnbAccordion[this.state.group]?.onChange(
-                      ...params
-                    )
-                  }
-                }
+                callOnChange: this.callOnChangeHandler
               }
 
               if (isTrue(disabled)) {
@@ -492,13 +485,161 @@ export default class Accordion extends React.PureComponent {
   }
 }
 
-Accordion.Group = ({ ...props }) => {
-  props.group = props.group || makeUniqueId()
-  return <AccordionProvider {...props} />
+class Group extends React.PureComponent {
+  static propTypes = {
+    id: PropTypes.string,
+    group: PropTypes.string
+  }
+
+  static defaultProps = {
+    id: null,
+    group: null
+  }
+
+  state = {}
+
+  constructor(props) {
+    super(props)
+
+    let group
+
+    if (props.id) {
+      group = props.id
+    } else if (!props.group) {
+      group = '#' + makeUniqueId()
+    }
+    this.state.group = group
+
+    this.store = new Store({ group })
+    this._IDs = []
+  }
+
+  onInit = (instance) => {
+    if (instance.props.id && !this._IDs.includes(instance.props.id)) {
+      this._IDs.push(instance.props.id)
+    }
+  }
+
+  componentDidMount() {
+    const storedData = this.store.getStoredData()
+    if (storedData?.id) {
+      if (!this._IDs.includes(storedData.id)) {
+        // 1. get the fallback id
+        const expanded_id = this._IDs[0]
+
+        if (expanded_id) {
+          // 2. set the fallback id
+          this.setState(
+            {
+              expanded_id
+            },
+            () => {
+              // 3. save the fallback id
+              this.store.saveState(true, expanded_id)
+
+              // 4. and reset the fallback id
+              this.setState({
+                expanded_id: null
+              })
+            }
+          )
+        }
+      }
+    }
+  }
+
+  render() {
+    return (
+      <AccordionProvider
+        onInit={this.onInit}
+        {...this.props}
+        {...this.state}
+      />
+    )
+  }
 }
-Accordion.Group.propTypes = {
-  group: PropTypes.string
-}
-Accordion.Group.defaultProps = {
-  group: null
+
+Accordion.Group = Group
+
+class Store {
+  constructor({ id, group }) {
+    this.id = id
+    this.group = group
+  }
+
+  storeId() {
+    let id = this.id
+    if (this.group) {
+      // Skip using the random ID
+      if (this.group[0] === '#') {
+        return null
+      }
+      id = this.group
+    }
+    return `dnb-accordion-${id}`
+  }
+
+  saveState(expanded, id = this.id) {
+    if (id) {
+      try {
+        const store = this.getStoredData() || {}
+
+        if (this.group) {
+          if (expanded) {
+            store.id = id
+          }
+        } else {
+          store.expanded = expanded
+        }
+
+        const storeId = this.storeId()
+        if (storeId) {
+          window.localStorage.setItem(storeId, JSON.stringify(store))
+        }
+      } catch (e) {
+        //
+      }
+    } else {
+      warn('No id prop is provided in order to store the accordion state!')
+    }
+  }
+
+  getStoredData() {
+    const storeId = this.storeId()
+
+    if (storeId) {
+      try {
+        if (
+          Object.prototype.hasOwnProperty.call(
+            window.localStorage,
+            storeId
+          )
+        ) {
+          return JSON.parse(window.localStorage.getItem(storeId))
+        }
+      } catch (e) {
+        //
+      }
+    }
+
+    return null
+  }
+
+  getState() {
+    let state = null
+
+    const store = this.getStoredData()
+
+    if (store) {
+      const id = this.id
+
+      if (typeof store.id !== 'undefined') {
+        state = id === store.id
+      } else if (store.expanded !== 'undefined') {
+        state = isTrue(store.expanded)
+      }
+    }
+
+    return state
+  }
 }

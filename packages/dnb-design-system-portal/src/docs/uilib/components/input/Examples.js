@@ -1,3 +1,4 @@
+Wrapper
 /**
  * UI lib Component Example
  *
@@ -7,30 +8,38 @@ import React from 'react'
 import ComponentBox from 'Src/shared/tags/ComponentBox'
 import styled from '@emotion/styled'
 
-class Example extends React.PureComponent {
-  render() {
-    return (
-      <React.Fragment>
-        <ScreenshotTests />
-        <ComponentBox
-          title="Placeholder text"
-          data-dnb-test="input-placeholder"
-        >
-          {
-            /* @jsx */ `
+const Wrapper = styled.div`
+  display: block;
+  width: 100%;
+
+  .dnb-input input {
+    min-width: 10rem;
+  }
+  .dnb-form-label + .dnb-input {
+    margin-top: 0;
+  }
+`
+
+export const InputDefault = () => (
+  <Wrapper>
+    <ComponentBox data-dnb-test="input-placeholder">
+      {
+        /* @jsx */ `
 <Input
   label="Label:"
   placeholder="Placeholder text"
 />
-          `
-          }
-        </ComponentBox>
-        <ComponentBox
-          title="Search text placeholder"
-          data-dnb-test="input-search"
-        >
-          {
-            /* @jsx */ `
+`
+      }
+    </ComponentBox>
+  </Wrapper>
+)
+
+export const InputSearch = () => (
+  <Wrapper>
+    <ComponentBox data-dnb-test="input-search">
+      {
+        /* @jsx */ `
 <Input
   label="Search:"
   type="search"
@@ -43,15 +52,17 @@ class Example extends React.PureComponent {
     console.log('Submit:', value)
   }}
 />
-          `
-          }
-        </ComponentBox>
-        <ComponentBox
-          title="Medium and stretched search input"
-          data-dnb-test="input-medium"
-        >
-          {
-            /* @jsx */ `
+`
+      }
+    </ComponentBox>
+  </Wrapper>
+)
+
+export const InputMedium = () => (
+  <Wrapper>
+    <ComponentBox data-dnb-test="input-medium">
+      {
+        /* @jsx */ `
 <Input
   size="medium"
   type="search"
@@ -61,16 +72,17 @@ class Example extends React.PureComponent {
     console.log('on_change', value)
   }}
 />
-          `
-          }
-        </ComponentBox>
-        <ComponentBox
-          title="Input with icon"
-          description="With left / right aligned text"
-          data-dnb-test="input-icon"
-        >
-          {
-            /* @jsx */ `
+`
+      }
+    </ComponentBox>
+  </Wrapper>
+)
+
+export const InputWithIcon = () => (
+  <Wrapper>
+    <ComponentBox data-dnb-test="input-icon">
+      {
+        /* @jsx */ `
 <Input
   label="Input with icon:"
   placeholder="Input"
@@ -86,48 +98,65 @@ class Example extends React.PureComponent {
   icon="check"
   align="right"
 />
-          `
-          }
-        </ComponentBox>
-        <ComponentBox
-          title="Disabled input"
-          data-dnb-test="input-disabled"
-        >
-          {
-            /* @jsx */ `
+`
+      }
+    </ComponentBox>
+  </Wrapper>
+)
+
+export const InputDisabled = () => (
+  <Wrapper>
+    <ComponentBox data-dnb-test="input-disabled">
+      {
+        /* @jsx */ `
 <Input
   disabled
   label="Disabled input:"
   placeholder="Disabled Input with a placeholder"
 />
-          `
-          }
-        </ComponentBox>
-        <ComponentBox title="Show failure status">
-          {
-            /* @jsx */ `
+`
+      }
+    </ComponentBox>
+  </Wrapper>
+)
+
+export const InputFailureStatus = () => (
+  <Wrapper>
+    <ComponentBox>
+      {
+        /* @jsx */ `
 <Input
   label="Show status:"
   status="error"
   value="Shows status with border only"
 />
-          `
-          }
-        </ComponentBox>
-        <ComponentBox title="With FormStatus" data-dnb-test="input-error">
-          {
-            /* @jsx */ `
+`
+      }
+    </ComponentBox>
+  </Wrapper>
+)
+
+export const InputFormStatus = () => (
+  <Wrapper>
+    <ComponentBox data-dnb-test="input-error">
+      {
+        /* @jsx */ `
 <Input
   label="With FormStatus:"
   status="You have to fill in this field"
   value="Input value with error"
 />
-          `
-          }
-        </ComponentBox>
-        <ComponentBox title="Input with suffix (additional description)">
-          {
-            /* @jsx */ `
+`
+      }
+    </ComponentBox>
+  </Wrapper>
+)
+
+export const InputSuffix = () => (
+  <Wrapper>
+    <ComponentBox>
+      {
+        /* @jsx */ `
 <Input
   label={<Space element="span" className="dnb-h--large">Fødselsnummer</Space>}
   label_direction="vertical"
@@ -138,12 +167,17 @@ class Example extends React.PureComponent {
     console.log('on_change', value)
   }}
 />
-          `
-          }
-        </ComponentBox>
-        <ComponentBox title="Stretched `Input` in horizontal wrapping `FormRow` and a long label">
-          {
-            /* @jsx */ `
+`
+      }
+    </ComponentBox>
+  </Wrapper>
+)
+
+export const InputStretched = () => (
+  <Wrapper>
+    <ComponentBox>
+      {
+        /* @jsx */ `
 <FormRow
   label="Long label labwl Adipiscing mauris dis proin nec:"
   indent="true"
@@ -152,12 +186,17 @@ class Example extends React.PureComponent {
 >
   <Input value="I stretch ..." stretch />
 </FormRow>
-          `
-          }
-        </ComponentBox>
-        <ComponentBox title="Numbers are ligned by using Proportional Lining">
-          {
-            /* @jsx */ `
+`
+      }
+    </ComponentBox>
+  </Wrapper>
+)
+
+export const InputNumbers = () => (
+  <Wrapper>
+    <ComponentBox>
+      {
+        /* @jsx */ `
 <Input
   label="My Status:"
   autocomplete="on"
@@ -170,12 +209,17 @@ class Example extends React.PureComponent {
     console.log('on_change', value)
   }}
 />
-          `
-          }
-        </ComponentBox>
-        <ComponentBox title="Submit Form with Input. Pressing the enter key will trigger a submit.">
-          {
-            /* @jsx */ `
+`
+      }
+    </ComponentBox>
+  </Wrapper>
+)
+
+export const InputSubmit = () => (
+  <Wrapper>
+    <ComponentBox>
+      {
+        /* @jsx */ `
 <FormSet
   prevent_submit={true}
   on_submit={(event) => {
@@ -203,22 +247,21 @@ class Example extends React.PureComponent {
     <Button text="Submit" type="submit" />
   </FormRow>
 </FormSet>
-          `
-          }
-        </ComponentBox>
-      </React.Fragment>
-    )
-  }
-}
+`
+      }
+    </ComponentBox>
+  </Wrapper>
+)
 
-const ScreenshotTests = () => {
+export const ScreenshotTests = () => {
   if (!(typeof window !== 'undefined' && window.IS_TEST)) {
     return <></>
   }
   return (
-    <ComponentBox data-dnb-test="input-align">
-      {
-        /* @jsx */ `
+    <Wrapper>
+      <ComponentBox data-dnb-test="input-align">
+        {
+          /* @jsx */ `
 <FormRow label="Left aligned" vertical>
   <Input value="Plain" />
   <Input value="Search" type="search" />
@@ -299,29 +342,9 @@ const ScreenshotTests = () => {
     align="right"
   />
 </FormRow>
-            `
-      }
-    </ComponentBox>
-  )
-}
-
-const Wrapper = styled.div`
-  display: block;
-  width: 100%;
-
-  .dnb-input input {
-    min-width: 10rem;
-  }
-  .dnb-form-label + .dnb-input {
-    margin-top: 0;
-  }
 `
-
-export { Example }
-export default function StyledExample() {
-  return (
-    <Wrapper>
-      <Example />
+        }
+      </ComponentBox>
     </Wrapper>
   )
 }

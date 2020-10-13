@@ -12,7 +12,6 @@ import {
   loadScss
 } from '../../../core/jest/jestSetup'
 import Component from '../DatePicker'
-import DatePickerInput from '../DatePickerInput'
 
 // for the unit calc tests
 // import { addDays, addMonths, getDaysInMonth } from 'date-fns'
@@ -31,6 +30,7 @@ describe('DatePicker component', () => {
   // for the integration tests
   const defaultProps = {
     id: 'date-picker-id',
+    no_animation: true,
     range: true,
     show_input: true,
     date: '1970-01-01T00:00:00.000Z',
@@ -83,23 +83,12 @@ describe('DatePicker component', () => {
     ).toBe(false)
   })
 
-  it('has to reset second input fields to blank during new date selection', () => {
-    const Comp = mount(<Component {...defaultProps} />)
-    Comp.find('button.dnb-input__submit-button__button').simulate('click')
-
-    Comp.find('table tbody button.dnb-button--secondary')
-      .at(10)
-      .simulate('click')
-
-    expect(
-      Comp.find('input.dnb-date-picker__input--year').at(1).instance()
-        .value
-    ).toBe('åååå')
-  })
-
   it('has to work with shortcuts', () => {
     const Comp = mount(
-      <Component shortcuts={[{ title: 'Set date', date: '2020-05-23' }]} />
+      <Component
+        no_animation
+        shortcuts={[{ title: 'Set date', date: '2020-05-23' }]}
+      />
     )
 
     Comp.find('button.dnb-input__submit-button__button').simulate('click')
@@ -158,6 +147,83 @@ describe('DatePicker component', () => {
     Comp.setProps({
       start_date: defaultProps.start_date
     })
+  })
+
+  it('has to reset second input fields to blank during new date selection', () => {
+    const Comp = mount(<Component {...defaultProps} />)
+    Comp.find('button.dnb-input__submit-button__button').simulate('click')
+
+    Comp.find('table tbody button.dnb-button--secondary')
+      .at(10)
+      .simulate('click')
+
+    expect(
+      Comp.find('input.dnb-date-picker__input--year').at(1).instance()
+        .value
+    ).toBe('åååå')
+  })
+
+  it('footer buttons work properly', () => {
+    const on_submit = jest.fn()
+    const on_cancel = jest.fn()
+    const on_reset = jest.fn()
+
+    const date = '2020-10-20'
+
+    const Comp = mount(
+      <Component
+        date={date}
+        opened
+        no_animation
+        show_reset_button
+        show_cancel_button
+        show_submit_button
+        on_submit={on_submit}
+        on_cancel={on_cancel}
+        on_reset={on_reset}
+      />
+    )
+
+    const resetElem = Comp.find('button[data-dnb-test="reset"]')
+    expect(resetElem.exists()).toBe(true)
+
+    const cancelElem = Comp.find('button[data-dnb-test="cancel"]')
+    expect(cancelElem.exists()).toBe(true)
+
+    const submitElem = Comp.find('button[data-dnb-test="submit"]')
+    expect(submitElem.exists()).toBe(true)
+
+    expect(
+      Comp.find('input.dnb-date-picker__input--year').instance().value
+    ).toBe('2020')
+
+    resetElem.simulate('click')
+
+    expect(on_reset).toHaveBeenCalled()
+    expect(on_reset.mock.calls[0][0].date).toBe(null)
+
+    expect(
+      Comp.find('input.dnb-date-picker__input--year').instance().value
+    ).toBe('åååå')
+
+    cancelElem.simulate('click')
+
+    expect(
+      Comp.find('input.dnb-date-picker__input--year').instance().value
+    ).toBe('2020')
+
+    expect(on_cancel).toHaveBeenCalled()
+    expect(on_cancel.mock.calls[0][0].date).toBe(date)
+
+    Comp.find('button.dnb-input__submit-button__button').simulate('click')
+    submitElem.simulate('click')
+
+    expect(
+      Comp.find('input.dnb-date-picker__input--year').instance().value
+    ).toBe('2020')
+
+    expect(on_submit).toHaveBeenCalled()
+    expect(on_submit.mock.calls[0][0].date).toBe(date)
   })
 
   it('has a warking month correction', () => {
@@ -220,6 +286,20 @@ describe('DatePicker component', () => {
     })
 
     expect(on_change.mock.calls[1][0].is_valid_start_date).toBe(false)
+
+    Comp.find('button').simulate('click')
+    const invalidDayElem = Comp.find('.dnb-date-picker__day button').at(1)
+    expect(invalidDayElem.instance().getAttribute('aria-label')).toBe(
+      'tirsdag 1. januar 2019'
+    )
+    expect(invalidDayElem.exists()).toBe(true)
+    expect(invalidDayElem.instance().hasAttribute('disabled')).toBe(true)
+    expect(
+      Comp.find('.dnb-date-picker__day button')
+        .at(2)
+        .instance()
+        .hasAttribute('disabled')
+    ).toBe(false)
   })
 
   it('will reset on setting value to null', () => {
@@ -231,19 +311,23 @@ describe('DatePicker component', () => {
         end_date={defaultProps.end_date}
       />
     )
+
     Comp.setProps({
       start_date: null
     })
-    expect(Comp.find('input').first().instance().value).toBe('dd')
-    expect(Comp.state().startDate).toBe(undefined)
-    expect(Comp.state().endDate).not.toBe(undefined) // dirty check
+    expect(
+      Comp.find('input.dnb-input__input').at(0).instance().value
+    ).toBe('dd')
+    expect(
+      Comp.find('input.dnb-input__input').at(3).instance().value
+    ).toBe('15')
 
     Comp.setProps({
       end_date: null
     })
-    expect(Comp.find('input').last().instance().value).toBe('åååå')
-
-    expect(Comp.state().endDate).toBe(undefined)
+    expect(
+      Comp.find('input.dnb-input__input').at(5).instance().value
+    ).toBe('åååå')
   })
 
   it('has a reacting end date input with valid value', () => {
@@ -311,6 +395,22 @@ describe('DatePicker component', () => {
   })
 
   it('is displaying correct month', () => {
+    const Comp = mount(
+      <Component
+        show_input
+        range
+        start_date={defaultProps.start_date}
+        end_date={defaultProps.end_date}
+      />
+    )
+
+    Comp.find('button').simulate('click')
+
+    const elem = Comp.find('input.dnb-date-picker__input--day').at(1)
+    elem.simulate('change', {
+      target: { value: '15' }
+    })
+
     expect(
       Comp.find('.dnb-date-picker__header__title').first().text()
     ).toBe('januar 2019')
@@ -416,14 +516,6 @@ describe('DatePicker component', () => {
       />
     )
     expect(await axeComponent(Comp)).toHaveNoViolations()
-  })
-})
-
-describe('DatePicker input', () => {
-  it('has correct working date check', () => {
-    expect(DatePickerInput.isValidDate(1971)).toBe(true)
-    expect(DatePickerInput.isValidDate(new Date(1971, 1, 1))).toBe(true)
-    expect(DatePickerInput.isValidDate(new Date(1111, 1, 1))).toBe(false)
   })
 })
 

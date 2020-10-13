@@ -5396,11 +5396,6 @@ babel-plugin-syntax-object-rest-spread@^6.8.0:
   resolved "https://registry.yarnpkg.com/babel-plugin-syntax-object-rest-spread/-/babel-plugin-syntax-object-rest-spread-6.13.0.tgz#fd6536f2bce13836ffa3a5458c4903a597bb3bf5"
   integrity sha1-/WU28rzhODb/o6VFjEkDpZe7O/U=
 
-babel-plugin-transform-dev-warning@^0.1.1:
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/babel-plugin-transform-dev-warning/-/babel-plugin-transform-dev-warning-0.1.1.tgz#9e3cca7c22b27a667486fda11bbce29c0c59e76e"
-  integrity sha512-3n6ptKAU1KqhfzmrQuI4Blyvt0T6vHCeaOpULKjAbU+5+JSePSeVorB+24SHe58/zxXsP4sm1q3crsDFD+UHYQ==
-
 babel-plugin-transform-dynamic-import@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/babel-plugin-transform-dynamic-import/-/babel-plugin-transform-dynamic-import-2.1.0.tgz#3ce618dd983c072b6e2135f527d46092fb45d80e"

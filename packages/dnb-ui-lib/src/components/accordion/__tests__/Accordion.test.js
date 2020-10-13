@@ -6,23 +6,17 @@
 import React from 'react'
 import {
   mount,
-  fakeProps,
   axeComponent,
   toJson,
   loadScss
 } from '../../../core/jest/jestSetup'
 import Component from '../Accordion'
 
-const props = fakeProps(require.resolve('../Accordion'), {
-  optional: true
-})
+const props = {}
 props.id = 'accordion'
 props.variant = 'default'
 props.no_animation = true
-props.remember_state = false
-props.expanded_ssr = false
-props.heading = null
-props.element = null
+props.title = 'title'
 
 describe('Accordion component', () => {
   // then test the state management

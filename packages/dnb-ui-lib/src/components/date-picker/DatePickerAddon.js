@@ -5,43 +5,21 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import isSameDay from 'date-fns/isSameDay'
 import { convertStringToDate } from './DatePickerCalc'
 import ToggleButton from '../toggle-button/ToggleButton'
+import DatePickerContext from './DatePickerContext'
 
 export default class DatePickerAddon extends React.PureComponent {
+  static contextType = DatePickerContext
+
   static propTypes = {
     shortcuts: PropTypes.oneOfType([PropTypes.array, PropTypes.func]),
-    renderElement: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
-    startDate: PropTypes.instanceOf(Date),
-    endDate: PropTypes.instanceOf(Date),
-    onChange: PropTypes.func
+    renderElement: PropTypes.oneOfType([PropTypes.node, PropTypes.func])
   }
 
   static defaultProps = {
     shortcuts: null,
-    renderElement: null,
-    startDate: null,
-    endDate: null,
-    onChange: null
-  }
-
-  static getDerivedStateFromProps(props, state) {
-    if (state._listenForPropChanges) {
-      // to reset all toggle buttons
-      if (
-        props.startDate &&
-        !isSameDay(props.startDate, state.startDate)
-      ) {
-        state.currentShortcut = null
-      }
-
-      // add theese as cached
-      state.startDate = props.startDate
-      state.endDate = props.endDate
-    }
-    state._listenForPropChanges = true
-    return state
+    renderElement: null
   }
 
   state = {
@@ -70,11 +48,6 @@ export default class DatePickerAddon extends React.PureComponent {
         ? convertStringToDate(end_date)
         : null
 
-    this.setState({
-      startDate,
-      endDate: endDate || startDate
-    })
-
     this.callOnChange({
       startDate,
       endDate: endDate || startDate,
@@ -83,7 +56,7 @@ export default class DatePickerAddon extends React.PureComponent {
   }
 
   getCurrentDates() {
-    const { startDate, endDate } = this.props
+    const { startDate, endDate } = this.context
     return {
       date: startDate,
       start_date: startDate,
@@ -91,18 +64,9 @@ export default class DatePickerAddon extends React.PureComponent {
     }
   }
 
-  callOnChange({ startDate, endDate, event = null, ...args } = {}) {
-    if (this.props.onChange) {
-      this.props.onChange(
-        {
-          date: startDate,
-          startDate,
-          endDate,
-          event
-        },
-        { hidePicker: false, callOnlyOnChangeHandler: false, ...args }
-      )
-    }
+  callOnChange({ startDate, endDate, event = null } = {}) {
+    this.context.setDate({ startDate, endDate, changeMonthViews: true })
+    this.context.callOnChangeHandler({ startDate, endDate, event })
   }
 
   render() {

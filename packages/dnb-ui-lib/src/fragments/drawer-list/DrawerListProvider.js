@@ -37,82 +37,83 @@ import {
   enableBodyScroll
 } from '../../shared/libs/bodyScrollLock'
 
-const propTypes = {
-  no_animation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  prevent_selection: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.bool
-  ]),
-  direction: PropTypes.oneOf(['auto', 'top', 'bottom']),
-  // align_drawer: PropTypes.oneOf(['left', 'right']),
-  wrapper_element: PropTypes.oneOfType([
-    PropTypes.object,
-    PropTypes.func,
-    PropTypes.node
-  ]),
-  prevent_close: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  keep_open: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  prevent_focus: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  skip_keysearch: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  use_drawer_on_mobile: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.bool
-  ]),
-  enable_body_lock: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.bool
-  ]),
-  page_offset: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  observer_element: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.node
-  ]),
-  enable_closest_observer: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.bool
-  ]),
-  opened: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  scrollable: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  min_height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  max_height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  on_resize: PropTypes.func,
-
-  children: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-    PropTypes.node,
-    PropTypes.object,
-    PropTypes.array
-  ])
-}
-const defaultProps = {
-  no_animation: false,
-  prevent_selection: false,
-  direction: 'auto',
-  // align_drawer: null,
-  wrapper_element: null,
-  prevent_close: false,
-  keep_open: false,
-  prevent_focus: false,
-  skip_keysearch: false,
-  use_drawer_on_mobile: null,
-  enable_body_lock: null,
-  page_offset: null,
-  observer_element: null,
-  enable_closest_observer: null,
-  opened: null,
-  scrollable: null,
-  min_height: 10, // 10rem = 10x16=160,
-  max_height: null,
-  on_resize: null,
-
-  children: null
-}
-
 export default class DrawerListProvider extends React.PureComponent {
-  static propTypes = propTypes
-  static defaultProps = defaultProps
   static contextType = Context
+
+  static propTypes = {
+    no_animation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    prevent_selection: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool
+    ]),
+    direction: PropTypes.oneOf(['auto', 'top', 'bottom']),
+    // align_drawer: PropTypes.oneOf(['left', 'right']),
+    wrapper_element: PropTypes.oneOfType([
+      PropTypes.object,
+      PropTypes.func,
+      PropTypes.node
+    ]),
+    prevent_close: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    keep_open: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    prevent_focus: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    skip_keysearch: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool
+    ]),
+    use_drawer_on_mobile: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool
+    ]),
+    enable_body_lock: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool
+    ]),
+    page_offset: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    observer_element: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.node
+    ]),
+    enable_closest_observer: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool
+    ]),
+    opened: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    scrollable: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    min_height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    max_height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    on_resize: PropTypes.func,
+
+    children: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.func,
+      PropTypes.node,
+      PropTypes.object,
+      PropTypes.array
+    ])
+  }
+  static defaultProps = {
+    no_animation: false,
+    prevent_selection: false,
+    direction: 'auto',
+    // align_drawer: null,
+    wrapper_element: null,
+    prevent_close: false,
+    keep_open: false,
+    prevent_focus: false,
+    skip_keysearch: false,
+    use_drawer_on_mobile: null,
+    enable_body_lock: null,
+    page_offset: null,
+    observer_element: null,
+    enable_closest_observer: null,
+    opened: null,
+    scrollable: null,
+    min_height: 10, // 10rem = 10x16=160,
+    max_height: null,
+    on_resize: null,
+
+    children: null
+  }
 
   static blurDelay = 201 // some ms more than "DrawerListSlideDown 200ms"
 

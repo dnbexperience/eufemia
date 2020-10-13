@@ -58,6 +58,7 @@ const mockData = [
   {
     selected_value:
       'Feriekonto - Kari Nordmann med et kjempelangt etternavnsen',
+    selected_key: 1,
     content: [
       '1134 56 78962',
       'Feriekonto - Kari Nordmann med et kjempelangt etternavnsen'
@@ -65,13 +66,15 @@ const mockData = [
   },
   {
     selected_value: 'Oppussing - Ole Nordmann',
+    selected_key: '0x',
     content: ['1534 96 48901', 'Oppussing - Ole Nordmann']
   },
   {
     content: <>Custom content {'123'}</>
   },
   <>Custom content {'123'}</>,
-  [<React.Fragment key="key1">Custom content {'123'}</React.Fragment>]
+  [<React.Fragment key="key1">Custom content {'123'}</React.Fragment>],
+  '0y'
 ]
 
 describe('Dropdown component', () => {
@@ -206,6 +209,40 @@ describe('Dropdown component', () => {
 
     expect(Comp.exists('.dnb-dropdown__text')).toBe(false)
     expect(Comp.exists('.dnb-dropdown--is-popup')).toBe(true)
+  })
+
+  it('has correct selected value', () => {
+    let value
+    let Comp
+
+    // Uses Index
+    value = 2
+    Comp = mount(<Component value={value} data={mockData} />)
+    expect(Comp.find('.dnb-dropdown__text').text()).toBe(
+      mockData[value].selected_value
+    )
+
+    // Uses Index
+    value = '0'
+    Comp = mount(<Component value={value} data={mockData} />)
+    expect(Comp.find('.dnb-dropdown__text').text()).toBe(
+      mockData[parseFloat(value)].selected_value
+    )
+
+    // Uses findIndex
+    value = '0x'
+    Comp = mount(<Component value={value} data={mockData} />)
+    expect(Comp.find('.dnb-dropdown__text').text()).toBe(
+      mockData.find(({ selected_key }) => selected_key === value)
+        .selected_value
+    )
+
+    // Uses findIndex
+    value = '0y'
+    Comp = mount(<Component value={value} data={mockData} />)
+    expect(Comp.find('.dnb-dropdown__text').text()).toBe(
+      mockData.find((x) => x === value)
+    )
   })
 
   it('has no selected items on using more_menu', async () => {

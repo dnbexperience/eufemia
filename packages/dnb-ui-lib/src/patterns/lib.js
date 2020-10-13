@@ -11,7 +11,7 @@
 
 import { registerElement } from '../shared/component-helper'
 
-// import all the aviable components
+// import all the available components
 import ActionNav from './action-nav/ActionNav'
 import DescriptionList from './description-list/DescriptionList'
 import FieldsetDescription from './fieldset-description/FieldsetDescription'
@@ -24,7 +24,7 @@ import RangeSlider from './range-slider/RangeSlider'
 import SummaryTable from './summary-table/SummaryTable'
 import ViewTitle from './view-title/ViewTitle'
 
-// define / export all the aviable components
+// define / export all the available components
 export {
   ActionNav,
   DescriptionList,

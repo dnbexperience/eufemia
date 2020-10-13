@@ -10,10 +10,6 @@ import PropTypes from 'prop-types'
 import addDays from 'date-fns/addDays'
 import addMonths from 'date-fns/addMonths'
 import addYears from 'date-fns/addYears'
-import setDate from 'date-fns/setDate'
-import setMonth from 'date-fns/setMonth'
-import setYear from 'date-fns/setYear'
-import format from 'date-fns/format'
 import isValid from 'date-fns/isValid'
 
 import classnames from 'classnames'
@@ -21,11 +17,11 @@ import MaskedInput from 'react-text-mask' // https://github.com/text-mask/text-m
 import Input, { SubmitButton } from '../input/Input'
 import keycode from 'keycode'
 import { warn, validateDOMAttributes } from '../../shared/component-helper'
-import { isDisabled, convertStringToDate } from './DatePickerCalc'
-import Context from '../../shared/Context'
+import { convertStringToDate } from './DatePickerCalc'
+import DatePickerContext from './DatePickerContext'
 
 export default class DatePickerInput extends React.PureComponent {
-  static contextType = Context
+  static contextType = DatePickerContext
 
   static propTypes = {
     id: PropTypes.string,
@@ -34,10 +30,8 @@ export default class DatePickerInput extends React.PureComponent {
     maskOrder: PropTypes.string,
     maskPlaceholder: PropTypes.string,
     separatorRexExp: PropTypes.instanceOf(RegExp),
-    minDate: PropTypes.instanceOf(Date),
-    maxDate: PropTypes.instanceOf(Date),
     submitAttributes: PropTypes.object,
-    range: PropTypes.bool,
+    isRange: PropTypes.bool,
     status: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.func,
@@ -67,11 +61,9 @@ export default class DatePickerInput extends React.PureComponent {
     maskPlaceholder: 'dd/mm/åååå',
     separatorRexExp: /[-/ ]/g,
     submitAttributes: null,
-    range: null,
+    isRange: null,
     status: null,
     status_state: 'error',
-    minDate: null,
-    maxDate: null,
     input_element: null,
     disabled: null,
     skeleton: null,
@@ -85,15 +77,7 @@ export default class DatePickerInput extends React.PureComponent {
 
   state = {
     _listenForPropChanges: true,
-    focusState: 'virgin',
-    startDate: null,
-    endDate: null,
-    _startDay: null,
-    _startMonth: null,
-    _startYear: null,
-    _endDay: null,
-    _endMonth: null,
-    _endYear: null
+    focusState: 'virgin'
   }
 
   constructor(props) {
@@ -116,64 +100,6 @@ export default class DatePickerInput extends React.PureComponent {
     this._endDayRef = React.createRef()
     this._endMonthRef = React.createRef()
     this._endYearRef = React.createRef()
-  }
-
-  static isValidDate(date) {
-    return (
-      date &&
-      isValid(date) &&
-      (date instanceof Date ? date : new Date(date)).getFullYear() !== 1111
-    )
-  }
-
-  static getDerivedStateFromProps(props, state) {
-    if (state._listenForPropChanges) {
-      // watch for updates from the range calendar
-      if (typeof props.startDate !== 'undefined') {
-        state.startDate = props.startDate
-      }
-      if (typeof props.endDate !== 'undefined') {
-        state.endDate = props.endDate
-      }
-
-      if (isDisabled(state.startDate, props.minDate, props.maxDate)) {
-        state.startDate = props.minDate
-      }
-      if (isDisabled(state.endDate, props.minDate, props.maxDate)) {
-        state.endDate = props.maxDate
-      }
-
-      if (
-        typeof props.startDate === 'undefined' &&
-        state.startDate !== null
-      ) {
-        state.startDate = null
-        state._startDay = null
-        state._startMonth = null
-        state._startYear = null
-      }
-
-      if (typeof props.endDate === 'undefined' && state.endDate !== null) {
-        state.endDate = null
-        state._endDay = null
-        state._endMonth = null
-        state._endYear = null
-      }
-    }
-    state._listenForPropChanges = true
-
-    if (DatePickerInput.isValidDate(state.startDate)) {
-      state._startDay = pad(format(state.startDate, 'dd'), 2)
-      state._startMonth = pad(format(state.startDate, 'MM'), 2)
-      state._startYear = format(state.startDate, 'yyyy')
-    }
-
-    if (DatePickerInput.isValidDate(state.endDate)) {
-      state._endDay = pad(format(state.endDate, 'dd'), 2)
-      state._endMonth = pad(format(state.endDate, 'MM'), 2)
-      state._endYear = format(state.endDate, 'yyyy')
-    }
-    return state
   }
 
   componentWillUnmount() {
@@ -214,9 +140,8 @@ export default class DatePickerInput extends React.PureComponent {
           const mode =
             this.hasFocusOn === 'start' ? 'startDate' : 'endDate'
           if (date && !this.state[mode]) {
-            this.setState({
-              [mode]: date,
-              _listenForPropChanges: false
+            this.context.setState({
+              [mode]: date
             })
           }
         } catch (e) {
@@ -247,42 +172,23 @@ export default class DatePickerInput extends React.PureComponent {
     this.onKeyUpHandler = null
   }
 
-  callOnChange = ({ startDate, endDate, event }, onState = null) => {
-    if (
-      typeof startDate !== 'undefined' &&
-      DatePickerInput.isValidDate(startDate)
-    ) {
-      this.setState(
-        {
-          startDate,
-          _listenForPropChanges: false
-        },
-        onState
-      )
-      if (typeof this.props.onChange === 'function') {
-        this.props.onChange({
-          startDate,
-          event
-        })
-      }
+  callOnChangeAsInvalid = (state) => {
+    const { startDate, endDate, event } = { ...this.context, ...state }
+    this.context.updateState({ hoverDate: null })
+    this.context.callOnChangeHandler({ startDate, endDate, event })
+  }
+
+  callOnChange = ({ startDate, endDate, event }) => {
+    if (typeof startDate !== 'undefined' && isValid(startDate)) {
+      this.context.setDate({ startDate, changeMonthViews: true })
+      this.context.callOnChangeHandler({ startDate, event })
     }
-    if (
-      typeof endDate !== 'undefined' &&
-      DatePickerInput.isValidDate(endDate)
-    ) {
-      this.setState(
-        {
-          endDate,
-          _listenForPropChanges: false
-        },
-        onState
-      )
-      if (typeof this.props.onChange === 'function') {
-        this.props.onChange({
-          endDate,
-          event
-        })
-      }
+    if (!this.props.isRange) {
+      endDate = startDate
+    }
+    if (typeof endDate !== 'undefined' && isValid(endDate)) {
+      this.context.setDate({ endDate, changeMonthViews: true })
+      this.context.callOnChangeHandler({ endDate, event })
     }
   }
 
@@ -295,7 +201,7 @@ export default class DatePickerInput extends React.PureComponent {
       .match(/[0-9]-([start|end]+)-/)[1]
 
     let date =
-      isInRange === 'start' ? this.state.startDate : this.state.endDate
+      isInRange === 'start' ? this.context.startDate : this.context.endDate
 
     // do nothing if date is not set yet
     if (!date) {
@@ -347,8 +253,6 @@ export default class DatePickerInput extends React.PureComponent {
 
     // only to process key up and down press
     switch (keyCode) {
-      case 'backspace':
-        return false
       case 'up':
       case 'down':
         event.persist()
@@ -356,6 +260,7 @@ export default class DatePickerInput extends React.PureComponent {
         this.prepareCounting({ event, keyCode, target })
         return false
       case 'tab':
+        // case 'backspace': // We need backspace down here
         return false
     }
 
@@ -414,88 +319,96 @@ export default class DatePickerInput extends React.PureComponent {
   }
 
   set_startDay = (event) => {
-    this.setDate(event, 2, 'start', 'Day', setDate)
+    this.setDate(event, 'start', 'Day')
   }
 
   set_startMonth = (event) => {
-    this.setDate(event, 2, 'start', 'Month', setMonth)
+    this.setDate(event, 'start', 'Month')
   }
 
   set_startYear = (event) => {
-    this.setDate(event, 4, 'start', 'Year', setYear)
+    this.setDate(event, 'start', 'Year')
   }
 
   set_endDay = (event) => {
-    this.setDate(event, 2, 'end', 'Day', setDate)
+    this.setDate(event, 'end', 'Day')
   }
 
   set_endMonth = (event) => {
-    this.setDate(event, 2, 'end', 'Month', setMonth)
+    this.setDate(event, 'end', 'Month')
   }
 
   set_endYear = (event) => {
-    this.setDate(event, 4, 'end', 'Year', setYear)
+    this.setDate(event, 'end', 'Year')
   }
 
-  setDate = (event, count, mode, type, fn) => {
+  setDate = (event, mode, type) => {
     event.persist() // since we have later a state update and afterwards the callback
-    try {
-      let value = event.target.value
 
-      // update internal state
-      this.setState({
-        [`_${mode}${type}`]: value,
-        _listenForPropChanges: false
+    const value = event.target.value
+
+    this[`_${mode}${type}`] = value
+
+    if (this.context[`${mode}Date`]) {
+      this[`tmp_${mode}Date`] = this.context[`${mode}Date`]
+    }
+
+    const fallback = this[`tmp_${mode}Date`]
+
+    // provide fallbacks to create a temp fallback
+    const year =
+      this[`_${mode}Year`] || (fallback && fallback.getFullYear())
+    const month =
+      this[`_${mode}Month`] || (fallback && fallback.getMonth() + 1)
+    const day = this[`_${mode}Day`] || (fallback && fallback.getDate())
+
+    // calculate new date
+    const date = new Date(
+      parseFloat(year),
+      parseFloat(month) - 1,
+      parseFloat(day)
+    )
+
+    const isValidDate =
+      !/[^0-9]/.test(day) &&
+      !/[^0-9]/.test(month) &&
+      !/[^0-9]/.test(year) &&
+      isValid(date) &&
+      date.getDate() == parseFloat(day) &&
+      date.getMonth() + 1 == parseFloat(month) &&
+      date.getFullYear() == parseFloat(year)
+
+    // update the date
+    if (isValidDate) {
+      this.callOnChange({
+        [`${mode}Date`]: date,
+        event
       })
+    } else {
+      this.context.setDate({ [`${mode}Date`]: null })
+      this.context.updateState({ [`__${mode}${type}`]: value })
 
-      if (
-        parseFloat(value) > 0 &&
-        new RegExp(`[0-9]{${count}}`).test(value)
-      ) {
-        value = parseFloat(value)
-
-        // months have to be decented
-        if (type === 'Month') {
-          value--
-        }
-
-        // provide fallbacks to create a temp date
-        const year = parseFloat(this.state[`_${mode}Year`])
-        const month = parseFloat(this.state[`_${mode}Month`])
-        const day = parseFloat(this.state[`_${mode}Day`])
-
-        // calculate new date
-        const date = fn(
-          this.state[`${mode}Date`] ||
-            new Date(year || 1111, month > 0 ? month - 1 : 1, day || 1),
-          value
-        )
-
-        // update the date
-        this.callOnChange({
-          [`${mode}Date`]: date,
-          event
-        })
-      }
-    } catch (e) {
-      warn(e)
+      this.callOnChangeAsInvalid({
+        [`${mode}Date`]: null,
+        event
+      })
     }
   }
 
   renderInputElement = (params) => {
-    const { id, range } = this.props
+    const { id, isRange } = this.props
     this.refList = []
     const startDateList = this.generateDateList(params, 'start')
     const endDateList = this.generateDateList(params, 'end')
     return (
       <span id={`${id}-input`} className="dnb-date-picker__input__wrapper">
         {startDateList}
-        {range && (
+        {isRange && (
           <span className="dnb-date-picker--separator" aria-hidden>
             {' – '}
           </span>
         )}
-        {range && endDateList}
+        {isRange && endDateList}
       </span>
     )
   }
@@ -505,9 +418,9 @@ export default class DatePickerInput extends React.PureComponent {
       const state = value.slice(0, 1)
       const index = this.props.maskOrder.indexOf(value)
       const placeholderChar = this.props.maskPlaceholder[index]
-      const { input_element, separatorRexExp, range } = this.props
+      const { input_element, separatorRexExp, isRange } = this.props
       const { day, month, year } = this.context.translation.DatePicker
-      const rangeLabe = range
+      const isRangeLabe = isRange
         ? `${this.context.translation.DatePicker[mode]} `
         : ''
 
@@ -560,7 +473,7 @@ export default class DatePickerInput extends React.PureComponent {
                   mask={[/[0-3]/, /[0-9]/]}
                   ref={this[`_${mode}DayRef`]}
                   onChange={this[`set_${mode}Day`]}
-                  value={this.state[`_${mode}Day`]}
+                  value={this.context[`__${mode}Day`]}
                   aria-labelledby={`${this.props.id}-${mode}-day-label`}
                 />
                 <label
@@ -568,7 +481,7 @@ export default class DatePickerInput extends React.PureComponent {
                   hidden
                   id={`${this.props.id}-${mode}-day-label`}
                 >
-                  {rangeLabe + day}
+                  {isRangeLabe + day}
                 </label>
               </React.Fragment>
             )
@@ -590,7 +503,7 @@ export default class DatePickerInput extends React.PureComponent {
                   mask={[/[0-1]/, /[0-9]/]}
                   ref={this[`_${mode}MonthRef`]}
                   onChange={this[`set_${mode}Month`]}
-                  value={this.state[`_${mode}Month`]}
+                  value={this.context[`__${mode}Month`]}
                   aria-labelledby={`${this.props.id}-${mode}-month-label`}
                 />
                 <label
@@ -598,7 +511,7 @@ export default class DatePickerInput extends React.PureComponent {
                   hidden
                   id={`${this.props.id}-${mode}-month-label`}
                 >
-                  {rangeLabe + month}
+                  {isRangeLabe + month}
                 </label>
               </React.Fragment>
             )
@@ -620,7 +533,7 @@ export default class DatePickerInput extends React.PureComponent {
                   mask={[/[1-2]/, /[0-9]/, /[0-9]/, /[0-9]/]}
                   ref={this[`_${mode}YearRef`]}
                   onChange={this[`set_${mode}Year`]}
-                  value={this.state[`_${mode}Year`]}
+                  value={this.context[`__${mode}Year`]}
                   aria-labelledby={`${this.props.id}-${mode}-year-label`}
                 />
                 <label
@@ -628,7 +541,7 @@ export default class DatePickerInput extends React.PureComponent {
                   hidden
                   id={`${this.props.id}-${mode}-year-label`}
                 >
-                  {rangeLabe + year}
+                  {isRangeLabe + year}
                 </label>
               </React.Fragment>
             )
@@ -662,15 +575,10 @@ export default class DatePickerInput extends React.PureComponent {
       title,
 
       submitAttributes,
-      range, // eslint-disable-line
+      isRange, // eslint-disable-line
       maskOrder, // eslint-disable-line
       maskPlaceholder, // eslint-disable-line
       separatorRexExp, // eslint-disable-line
-      date, // eslint-disable-line
-      endDate, // eslint-disable-line
-      startDate, // eslint-disable-line
-      minDate, // eslint-disable-line
-      maxDate, // eslint-disable-line
       onChange, // eslint-disable-line
       onFocus, // eslint-disable-line
       onSubmit, // eslint-disable-line
@@ -734,16 +642,20 @@ const selectInput = (e) => {
   e.target.select()
 }
 
-const InputElement = React.forwardRef((props, innerRef) => (
-  <MaskedInput
-    guide={true}
-    showMask={true}
-    keepCharPositions={false} // so we can overwrite next value, if it already exists
-    autoComplete="off"
-    ref={innerRef}
-    {...props}
-  />
-))
+const InputElement = React.forwardRef((props, innerRef) => {
+  return (
+    <MaskedInput
+      guide={true}
+      showMask={true}
+      keepCharPositions={false} // so we can overwrite next value, if it already exists
+      autoComplete="off"
+      autoCapitalize="none"
+      spellCheck={false}
+      ref={innerRef}
+      {...props}
+    />
+  )
+})
 
-const pad = (num, size) => ('000000000' + num).substr(-size)
+// const pad = (num, size) => ('000000000' + num).substr(-size)
 const wait = (t) => new Promise((r) => setTimeout(r, t))

@@ -108,7 +108,12 @@ export default class AccordionContent extends React.PureComponent {
 
   renderContent() {
     const { children } = this.props
-    const { expanded, prerender, prevent_rerender } = this.context
+    const {
+      expanded,
+      prerender,
+      prevent_rerender,
+      prevent_rerender_conditional
+    } = this.context
 
     let content = children
 
@@ -126,7 +131,10 @@ export default class AccordionContent extends React.PureComponent {
 
     if (isTrue(prevent_rerender)) {
       // update the cache if children is not the same anymore
-      if (this._cache !== content) {
+      if (
+        isTrue(prevent_rerender_conditional) &&
+        this._cache !== content
+      ) {
         this._cache = content
       }
 

@@ -6,7 +6,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import Context from '../../shared/Context'
 
 // date-fns
 import format from 'date-fns/format'
@@ -27,9 +26,10 @@ import {
   getCalendar
 } from './DatePickerCalc'
 import Button from '../button/Button'
+import DatePickerContext from './DatePickerContext'
 
 export default class DatePickerCalendar extends React.PureComponent {
-  static contextType = Context
+  static contextType = DatePickerContext
 
   static propTypes = {
     id: PropTypes.string,
@@ -54,13 +54,8 @@ export default class DatePickerCalendar extends React.PureComponent {
     locale: PropTypes.object,
     rtl: PropTypes.bool,
 
-    range: PropTypes.bool,
+    isRange: PropTypes.bool,
     resetDate: PropTypes.bool,
-    hoverDate: PropTypes.instanceOf(Date),
-    startDate: PropTypes.instanceOf(Date),
-    endDate: PropTypes.instanceOf(Date),
-    minDate: PropTypes.instanceOf(Date),
-    maxDate: PropTypes.instanceOf(Date),
     onKeyDown: PropTypes.func
   }
 
@@ -88,17 +83,13 @@ export default class DatePickerCalendar extends React.PureComponent {
     onSelect: null,
     onPrev: null,
     onNext: null,
-    hoverDate: null,
 
     // dates
-    range: null,
+    isRange: null,
     resetDate: true, // reset start/end date once we already have them
-    startDate: null,
-    endDate: null,
 
     // Limit selection with minDate and maxDate
-    minDate: null,
-    maxDate: null, // addDays(new Date(), 45)
+    // maxDate: null, // addDays(new Date(), 45)
     onKeyDown: null
   }
   constructor(props) {
@@ -152,7 +143,7 @@ export default class DatePickerCalendar extends React.PureComponent {
       nr,
       rtl,
       month,
-      range,
+      isRange,
       titleFormat,
       locale,
       firstDayOfWeek,
@@ -167,15 +158,15 @@ export default class DatePickerCalendar extends React.PureComponent {
       resetDate,
       onHover,
       prevBtn,
-      nextBtn,
-      maxDate,
-      minDate,
-      hoverDate,
-      startDate,
-      endDate
+      nextBtn
     } = this.props
 
     const {
+      startDate,
+      endDate,
+      hoverDate,
+      maxDate,
+      minDate,
       translation: {
         DatePicker: { selected_month }
       }
@@ -350,7 +341,7 @@ export default class DatePickerCalendar extends React.PureComponent {
                             !day.isDisabled &&
                             onSelectRange({
                               day,
-                              range,
+                              isRange,
                               startDate,
                               endDate,
                               onSelect,
@@ -490,7 +481,7 @@ NextButton.defaultProps = {
 
 const onSelectRange = ({
   day,
-  range,
+  isRange,
   startDate,
   endDate,
   onSelect,
@@ -498,7 +489,7 @@ const onSelectRange = ({
   event
 }) => {
   if (onSelect) {
-    if (!range) {
+    if (!isRange) {
       // set only date
       onSelect({
         startDate: startOfDay(day.date),
