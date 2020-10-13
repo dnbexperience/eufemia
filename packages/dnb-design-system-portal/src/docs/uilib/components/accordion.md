@@ -148,11 +148,9 @@ function ChangingContent({ changeHeight, children }) {
       >
         Toggle content size
       </ToggleButton>
-
       {contentSize ? children : null}
     </>
-
-)
+  )
 }
 render(<AccordionWithContainer />)
 `}
