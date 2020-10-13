@@ -25,6 +25,7 @@ export default class AccordionGroup extends React.PureComponent {
 
   static propTypes = {
     expanded: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    expanded_id: PropTypes.string,
     prerender: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     prevent_rerender: PropTypes.oneOfType([
       PropTypes.string,
@@ -41,11 +42,13 @@ export default class AccordionGroup extends React.PureComponent {
     on_change: PropTypes.func,
     disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     id: PropTypes.string,
-    group: PropTypes.string
+    group: PropTypes.string,
+    onInit: PropTypes.func
   }
 
   static defaultProps = {
     expanded: null,
+    expanded_id: null,
     prerender: null,
     prevent_rerender: null,
     single_container: null,
@@ -53,7 +56,8 @@ export default class AccordionGroup extends React.PureComponent {
     on_change: null,
     disabled: null,
     id: null,
-    group: null
+    group: null,
+    onInit: null
   }
 
   static enableWebComponent() {
@@ -92,6 +96,7 @@ export default class AccordionGroup extends React.PureComponent {
 
     const {
       expanded, // eslint-disable-line
+      expanded_id, // eslint-disable-line
       prerender, // eslint-disable-line
       prevent_rerender, // eslint-disable-line
       single_container, // eslint-disable-line
@@ -99,6 +104,7 @@ export default class AccordionGroup extends React.PureComponent {
       remember_state, // eslint-disable-line
       disabled, // eslint-disable-line
       group, // eslint-disable-line
+      onInit, // eslint-disable-line
       className,
       class: _className,
 

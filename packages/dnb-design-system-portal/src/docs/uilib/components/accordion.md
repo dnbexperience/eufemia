@@ -47,7 +47,9 @@ A single container is used only for wider screens (desktop).
 <ComponentBox useRender hideCode>
 {`
 function AccordionWithContainer() {
-  const changeHeight = React.useRef()
+  const ref1 = React.useRef()
+  const ref2 = React.useRef()
+  const [changeHeight] = React.useState(() => ({ ref1, ref2 }))
   return (
     <Accordion.Group
       variant="outlined"
@@ -78,13 +80,23 @@ function AccordionWithContainer() {
           </Accordion.Header.Description>
           {/* <Accordion.Header.Icon key="icon" /> */}
         </Accordion.Header>
-        <Accordion.Content left="xx-large" top="medium">
-          <P>
-            Sociis sapien sociosqu vel sollicitudin accumsan laoreet
-            gravida himenaeos nostra mollis volutpat bibendum convallis cum
-            condimentum dictumst blandit rutrum vehicula
-          </P>
-          <Input label="Prevent rerender" label_direction="vertical" top bottom="xx-large" />
+        <Accordion.Content
+          left="xx-large"
+          top="medium"
+          instance={changeHeight.ref1}
+        >
+          <ChangingContent changeHeight={changeHeight.ref1}>
+            <div
+              style={{
+                height: '10rem',
+                background: 'var(--color-sea-green-30)'
+              }}
+            >
+              <P top bottom="xx-large">
+                Simulation of content height
+              </P>
+            </div>
+          </ChangingContent>
         </Accordion.Content>
       </Accordion>
       <Accordion
@@ -98,18 +110,33 @@ function AccordionWithContainer() {
           </Accordion.Header.Container>
           <Accordion.Header.Title>Accordion title</Accordion.Header.Title>
         </Accordion.Header>
-        <Accordion.Content instance={changeHeight} left="xx-large" top="medium">
-          <ChangingContent changeHeight={changeHeight} />
+        <Accordion.Content
+          left="xx-large"
+          top="medium"
+          instance={changeHeight.ref2}
+        >
+          <ChangingContent changeHeight={changeHeight.ref2}>
+            <div
+              style={{
+                height: '20rem',
+                background: 'var(--color-sand-yellow)'
+              }}
+            >
+              <P top bottom="xx-large">
+                Simulation of content height
+              </P>
+            </div>
+          </ChangingContent>
         </Accordion.Content>
       </Accordion>
     </Accordion.Group>
   )
 }
-function ChangingContent({ changeHeight }) {
+function ChangingContent({ changeHeight, children }) {
   const [contentSize, changeContentSize] = React.useState(false)
   React.useEffect(() => {
     changeHeight.current.setContainerHeight()
-  }, [contentSize])
+  }, [changeHeight, contentSize])
   return (
     <>
       <ToggleButton
@@ -117,27 +144,15 @@ function ChangingContent({ changeHeight }) {
         on_change={() => {
           changeContentSize((s) => !s)
         }}
+        bottom
       >
         Toggle content size
       </ToggleButton>
-      <P top bottom="xx-large">
-        {contentSize ? (
-          <>
-            Sociis sapien sociosqu vel sollicitudin accumsan laoreet
-            gravida himenaeos nostra mollis volutpat bibendum convallis cum
-            condimentum dictumst blandit rutrum vehicula Placerat nascetur
-            vestibulum ligula nunc fusce consectetur tortor tristique
-            aptent nostra posuere ante suscipit mattis egestas praesent
-            integer conubia dignissim Etiam dui rutrum quis facilisi
-            suscipit ornare mus vestibulum nec cubilia platea in senectus
-            curabitur leo dictum metus est lorem
-          </>
-        ) : (
-          <>Small content</>
-        )}
-      </P>
+
+      {contentSize ? children : null}
     </>
-  )
+
+)
 }
 render(<AccordionWithContainer />)
 `}
