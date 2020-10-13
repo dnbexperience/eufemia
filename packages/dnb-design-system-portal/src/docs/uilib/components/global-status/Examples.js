@@ -6,14 +6,10 @@
 import React from 'react'
 import ComponentBox from 'Src/shared/tags/ComponentBox'
 
-export default function Example() {
-  return (
-    <>
-      <ComponentBox
-        title="GlobalStatus displaying error status"
-        data-dnb-test="global-status"
-      >
-        {/* @jsx */ `
+export const GlobalStatusError = () => (
+  <ComponentBox data-dnb-test="global-status">
+    {
+      /* @jsx */ `
 <GlobalStatus
   title="Custom Title"
   text="Failure text"
@@ -28,13 +24,15 @@ export default function Example() {
   autoscroll="false"
   id="demo-1"
 />
-          `}
-      </ComponentBox>
-      <ComponentBox
-        title="GlobalStatus displaying info status"
-        data-dnb-test="global-status-info"
-      >
-        {/* @jsx */ `
+    `
+    }
+  </ComponentBox>
+)
+
+export const GlobalStatusInfo = () => (
+  <ComponentBox data-dnb-test="global-status-info">
+    {
+      /* @jsx */ `
 <GlobalStatus
   state="info"
   title="Custom info title ..."
@@ -45,13 +43,15 @@ export default function Example() {
   autoscroll="false"
   id="demo-4"
 />
-          `}
-      </ComponentBox>
-      <ComponentBox
-        title="To showcase the automated coupling between **FormStatus** and **GlobalStatus**"
-        useRender
-      >
-        {/* @jsx */ `
+    `
+    }
+  </ComponentBox>
+)
+
+export const GlobalStatusCoupling = () => (
+  <ComponentBox useRender>
+    {
+      /* @jsx */ `
 const InputWithError = () => {
   const [errorMessage, setErrorMessage] = React.useState(null)
   return (
@@ -70,13 +70,15 @@ const InputWithError = () => {
 render(
   <InputWithError />
 )
-          `}
-      </ComponentBox>
-      <ComponentBox
-        title="To showcase the custom **Update** and **Remove** posibility"
-        noFragments={false}
-      >
-        {/* @jsx */ `
+    `
+    }
+  </ComponentBox>
+)
+
+export const GlobalStatusAddRemoveItems = () => (
+  <ComponentBox noFragments={false}>
+    {
+      /* @jsx */ `
 () => {
   const [count, toggleUpdateStatus] = React.useState(0)
   return (
@@ -128,13 +130,15 @@ render(
     </>
   )
 }
-          `}
-      </ComponentBox>
-      <ComponentBox
-        title="To showcase the scrolling"
-        caption="Some browsers (Safari, Edge) will need a polyfill like `smoothscroll-polyfill`"
-      >
-        {/* @jsx */ `
+    `
+    }
+  </ComponentBox>
+)
+
+export const GlobalStatusScrolling = () => (
+  <ComponentBox caption="Some browsers (Safari, Edge) will need a polyfill like `smoothscroll-polyfill`">
+    {
+      /* @jsx */ `
 <Button
   text="Scroll to main GlobalStatus"
   on_click={() => {
@@ -145,8 +149,7 @@ render(
     })
   }}
 />
-           `}
-      </ComponentBox>
-    </>
-  )
-}
+      `
+    }
+  </ComponentBox>
+)
