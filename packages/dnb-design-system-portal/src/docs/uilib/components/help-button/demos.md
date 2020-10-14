@@ -23,14 +23,11 @@ import ComponentBox from 'Tags/ComponentBox'
 
 ### Help button using information icon
 
-<ComponentBox data-dnb-test="help-button-information">
+<ComponentBox data-dnb-test="help-button-sizes">
 	{
 	/* @jsx */ `
+<HelpButton />
 <HelpButton
-  icon="information"
-/>
-<HelpButton
-  icon="information"
   size="small"
   left
 />

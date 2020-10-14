@@ -20,7 +20,7 @@ describe('HelpButton screenshot', () => {
   })
   it('have to match help button with information icon', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-dnb-test="help-button-information"]'
+      selector: '[data-dnb-test="help-button-sizes"]'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
