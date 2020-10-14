@@ -47,7 +47,7 @@ render(<DrawerListWithState />)
           }
         </ComponentBox>
         <ComponentBox
-          title="DrawerList list - only to vissualize"
+          title="DrawerList list - only to visualize"
           data-dnb-test="drawer-list"
           scope={{ data }}
           hideCode
@@ -56,7 +56,7 @@ render(<DrawerListWithState />)
             /* @jsx */ `
 <span className="dnb-drawer-list__list">
   <ul className="dnb-drawer-list__options">
-    <li className="dnb-drawer-list__option">
+    <li className="dnb-drawer-list__option first-of-type">
       <span className="dnb-drawer-list__option__inner">Brukskonto - Kari Nordmann</span>
     </li>
     <li className="dnb-drawer-list__option dnb-drawer-list__option--selected">

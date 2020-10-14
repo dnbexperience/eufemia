@@ -23,6 +23,7 @@ const snapshotProps = {
   direction: 'bottom',
   label_direction: 'horizontal',
   value: 2,
+  action_menu: null,
   more_menu: null,
   icon_position: null,
   triangle_position: null,
@@ -360,24 +361,50 @@ describe('Dropdown component', () => {
     expect(on_show.mock.calls[0][0].attributes).toMatchObject(params)
   })
 
-  it('has to set correct focus after tab key usage in opened state', () => {
+  it('has to set correct focus during open and close', async () => {
+    const on_show = jest.fn()
     const on_hide = jest.fn()
+    const on_show_focus = jest.fn()
+    const on_hide_focus = jest.fn()
 
     const Comp = mount(
-      <Component no_animation on_hide={on_hide} data={mockData} />
+      <Component
+        no_animation
+        on_show={on_show}
+        on_hide={on_hide}
+        on_show_focus={on_show_focus}
+        on_hide_focus={on_hide_focus}
+        data={mockData}
+      />
     )
-    const focus_element = Comp.find('.dnb-button').instance()
 
+    // 1. open the dropdown
     open(Comp)
-    keydown(Comp, 9) // tab, JSDOM does not support keyboard handling, so we can not check document.activeElement
 
-    // expect(on_hide.mock.calls.length).toBe(1)
+    expect(on_show).toBeCalledTimes(1)
+
+    await wait(50) // ensure that we have this._refUl.current – the check is in "assignObservers"
+
+    expect(on_show_focus).toBeCalledTimes(1)
+    expect(on_show_focus.mock.calls[0][0].element).toBe(
+      document.activeElement
+    )
+
+    // 2. close the dropdown with tab
+    keydown(Comp, 9) // tab – because JSDOM does not support keyboard handling, so we can not check document.activeElement
+
+    // delay because we want to wait to have the DOM focus to be called
+    await wait(5)
+
     expect(on_hide).toBeCalledTimes(1)
     expect(on_hide).toHaveBeenCalledWith({
       attributes: {},
-      data: null,
-      focus_element
+      data: null
     })
+    expect(on_hide_focus).toBeCalledTimes(1)
+    expect(on_hide_focus.mock.calls[0][0].element).toBe(
+      Comp.find('.dnb-button').instance()
+    )
   })
 
   it('has correct selected value', () => {
@@ -487,4 +514,4 @@ const keydown = (Comp, keyCode) => {
 const open = (Comp) => {
   Comp.find('button.dnb-dropdown__trigger').simulate('mousedown')
 }
-// const wait = t => new Promise(r => setTimeout(r, t))
+const wait = (t) => new Promise((r) => setTimeout(r, t))

@@ -28,6 +28,10 @@ The Dropdown component can easily be used as a so called **action button** by se
 
 The Dropdown component can easily be used as a so called **menu button** by setting the prop `more_menu="true"` which shows then the [more](/icons/primary#icon-more) icon, appears as dots. You also could use `prevent_selection="true"` together with an empty title `title=""` and `aria-label="Choose an item"`.
 
+## Accessibility
+
+Both the Action Menu and the Menu Button (and if `prevent_selection` is true), the Dropdown will use `role="menu"`, instead of `role="menuitems"` for better screen reader support.
+
 ## Custom size
 
 Changing the **width** of the Dropdown component by CSS is easy done by doing:
