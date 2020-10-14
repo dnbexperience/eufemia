@@ -592,7 +592,6 @@ export default class Slider extends React.PureComponent {
       ...attributes,
       onBlur: this.onBlurHandler,
       onFocus: this.onFocusHandler
-      // onKeyDown: this.onKeyDownHandler,
     }
 
     if (label) {

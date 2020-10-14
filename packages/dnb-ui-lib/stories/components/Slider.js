@@ -136,31 +136,11 @@ const DisabledState = () => {
         min={0}
         max={100}
         value={70}
-        // label="Default Slider:"
+        label="Default Slider:"
         disabled={isDisabled}
-        // on_change={({ value }) => console.log('on_change:', value)}
       />
     </FormRow>
   )
-  // return (
-  //   <FormRow direction="horizontal" centered>
-  //     <ToggleButton
-  //       checked={isDisabled}
-  //       right
-  //       on_change={() => setDisabled((s) => !s)}
-  //     >
-  //       Set as disabled
-  //     </ToggleButton>
-  //     <Slider
-  //       min={0}
-  //       max={100}
-  //       value={70}
-  //       // label="Default Slider:"
-  //       disabled={isDisabled}
-  //       // on_change={({ value }) => console.log('on_change:', value)}
-  //     />
-  //   </FormRow>
-  // )
 }
 
 export const Sliders = () => <SliderStory />

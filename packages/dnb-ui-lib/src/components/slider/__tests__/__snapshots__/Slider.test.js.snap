@@ -1039,7 +1039,7 @@ legend.dnb-form-label {
   display: flex;
   width: 100%;
   font-size: var(--font-size-small);
-  line-height: var(--line-height-basis); }
+  line-height: var(--slider-thumb-size); }
   .dnb-slider--vertical {
     display: flex;
     width: auto;

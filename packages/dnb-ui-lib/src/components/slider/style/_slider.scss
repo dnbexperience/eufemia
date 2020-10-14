@@ -19,7 +19,8 @@
   width: 100%;
 
   font-size: var(--font-size-small);
-  line-height: var(--line-height-basis);
+  // line-height: var(--line-height-basis);
+  line-height: var(--slider-thumb-size);
 
   &--vertical {
     display: flex;
