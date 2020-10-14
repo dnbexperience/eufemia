@@ -16,6 +16,7 @@
 
   // use flex to make sure we have the whole space available
   display: flex;
+  width: 100%;
 
   font-size: var(--font-size-small);
   line-height: var(--line-height-basis);
@@ -67,7 +68,7 @@
     position: relative;
     flex: 1;
 
-    // makre room again for the negative line manipulation
+    // make room again for the negative line manipulation
     margin: 0 calc(var(--slider-space) * 1.5);
 
     // only to make sure we have a visible track
