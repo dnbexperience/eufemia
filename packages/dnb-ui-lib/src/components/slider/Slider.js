@@ -68,6 +68,7 @@ export default class Slider extends React.PureComponent {
     step: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     vertical: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     reverse: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    stretch: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     hide_buttons: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     use_scrollwheel: PropTypes.oneOfType([
@@ -107,6 +108,7 @@ export default class Slider extends React.PureComponent {
     step: null,
     vertical: false,
     reverse: false,
+    stretch: false,
     disabled: false,
     hide_buttons: false,
     use_scrollwheel: false,
@@ -507,6 +509,7 @@ export default class Slider extends React.PureComponent {
       status_state,
       status_animation,
       global_status_id,
+      stretch,
       suffix,
       thump_title: title,
       subtract_title,
@@ -549,6 +552,7 @@ export default class Slider extends React.PureComponent {
         'dnb-slider',
         reverse && 'dnb-slider--reverse',
         vertical && 'dnb-slider--vertical',
+        isTrue(stretch) && 'dnb-slider--stretch',
         label &&
           label_direction &&
           `dnb-slider__label--${label_direction}`,

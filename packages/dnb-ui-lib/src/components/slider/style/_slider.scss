@@ -16,11 +16,13 @@
 
   // use flex to make sure we have the whole space available
   display: flex;
-  width: 100%;
 
   font-size: var(--font-size-small);
-  // line-height: var(--line-height-basis);
   line-height: var(--slider-thumb-size);
+
+  &--stretch {
+    width: 100%;
+  }
 
   &--vertical {
     display: flex;
