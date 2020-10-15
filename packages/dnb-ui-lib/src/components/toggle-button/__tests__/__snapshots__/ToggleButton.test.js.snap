@@ -386,6 +386,7 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
     className="dnb-toggle-button-group dnb-toggle-button-group--row dnb-form-component"
   >
     <FormRow
+      centered={null}
       class={null}
       className={null}
       custom_element={null}

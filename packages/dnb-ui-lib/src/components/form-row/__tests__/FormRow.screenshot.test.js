@@ -111,5 +111,11 @@ describe('FormRow screenshot', () => {
       })
       expect(screenshot).toMatchImageSnapshot()
     })
+    it('have to match centered form-row', async () => {
+      const screenshot = await testPageScreenshot({
+        selector: '[data-dnb-test="form-row-centered"]'
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
   }
 })

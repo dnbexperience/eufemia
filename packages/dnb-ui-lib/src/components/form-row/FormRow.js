@@ -41,6 +41,7 @@ export default class FormRow extends React.PureComponent {
     wrap: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     direction: PropTypes.oneOf(['vertical', 'horizontal']),
     vertical: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    centered: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     indent_offset: PropTypes.string,
     section_style: PropTypes.string,
     section_spacing: PropTypes.oneOfType([
@@ -79,6 +80,7 @@ export default class FormRow extends React.PureComponent {
     wrap: null,
     direction: null,
     vertical: null,
+    centered: null,
     indent_offset: null,
     section_style: null,
     section_spacing: null,
@@ -150,6 +152,7 @@ export default class FormRow extends React.PureComponent {
       indent,
       direction,
       vertical,
+      centered,
       indent_offset,
       section_style,
       section_spacing,
@@ -196,6 +199,7 @@ export default class FormRow extends React.PureComponent {
             this.context.formRow.indent
           ) &&
           `dnb-form-row__indent--${isTrue(indent) ? 'default' : indent}`,
+        centered && 'dnb-form-row--centered',
         isNested && 'dnb-form-row--nested',
         section_style ? `dnb-section dnb-section--${section_style}` : null,
         section_spacing
