@@ -15,7 +15,6 @@ import {
 } from '../../shared/component-helper'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import {
-  // AutoSize,
   createSkeletonClass,
   skeletonDOMAttributes
 } from '../skeleton/SkeletonHelper'
@@ -39,7 +38,6 @@ export default class FormLabel extends React.PureComponent {
     disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     label_direction: PropTypes.oneOf(['vertical', 'horizontal']),
-    direction: PropTypes.oneOf(['vertical', 'horizontal']),
     vertical: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     sr_only: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
 
@@ -62,7 +60,6 @@ export default class FormLabel extends React.PureComponent {
     disabled: null,
     skeleton: null,
     label_direction: null,
-    direction: null,
     vertical: null,
     sr_only: null,
 
@@ -98,11 +95,9 @@ export default class FormLabel extends React.PureComponent {
       disabled,
       skeleton,
       label_direction,
-      direction, // eslint-disable-line
       vertical,
       sr_only,
       class: _className,
-
       text: _text, // eslint-disable-line
 
       ...attributes
@@ -115,10 +110,6 @@ export default class FormLabel extends React.PureComponent {
         'dnb-form-label',
         (isTrue(vertical) || label_direction === 'vertical') &&
           `dnb-form-label--vertical`,
-        // "direction" is not in use
-        // direction && `dnb-form-label--${direction}`,
-        // we set and use "label_direction" above
-        // label_direction && `dnb-form-label--${label_direction}-label`,
         isTrue(sr_only) && 'dnb-form-label--sr-only',
         createSkeletonClass('font', skeleton, this.context),
         createSpacingClasses(props),

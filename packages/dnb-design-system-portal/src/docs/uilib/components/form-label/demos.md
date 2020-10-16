@@ -21,7 +21,7 @@ import ComponentBox from 'Src/shared/tags/ComponentBox'
 
 <ComponentBox data-dnb-test="form-label-vertical">
 	{/* @jsx */ `
-<FormLabel for_id="alone-2" direction="vertical">
+<FormLabel for_id="alone-2" label_direction="vertical">
   Vertical FormLabel:
 </FormLabel>
 <Checkbox id="alone-2" label="Checkbox" />

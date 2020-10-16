@@ -37,7 +37,6 @@ exports[`ToggleButton component have to match snapshot 1`] = `
     <FormLabel
       class={null}
       className={null}
-      direction={null}
       disabled="disabled"
       element="label"
       for_id="toggle-button"
@@ -433,7 +432,6 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
             <FormLabel
               class={null}
               className="dnb-form-row__label"
-              direction={null}
               disabled={null}
               element="legend"
               for_id={null}

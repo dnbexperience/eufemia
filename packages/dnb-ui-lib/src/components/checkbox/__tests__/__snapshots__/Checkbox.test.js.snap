@@ -72,7 +72,6 @@ exports[`Checkbox component have to match snapshot 1`] = `
       <FormLabel
         class={null}
         className={null}
-        direction={null}
         disabled={null}
         element="label"
         for_id="checkbox"
