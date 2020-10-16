@@ -14,6 +14,10 @@ import { hasSelectedText } from '../../src/shared/helpers'
 
 import { createPagination } from '../../src/components/Pagination'
 
+export default {
+  title: 'Eufemia/Components/Pagination'
+}
+
 export const PaginationTable = () => (
   <Wrapper className="dnb-core-style" spacing>
     <Space left>

@@ -25,6 +25,10 @@ import {
 } from '../../src/elements'
 // import { GlobalStatusProvider } from '../../src/components/global-status/GlobalStatusContext'
 
+export default {
+  title: 'Eufemia/Components/GlobalStatus'
+}
+
 const CustomStatus = () => (
   <>
     <H2>Custom Status</H2>
@@ -32,8 +36,39 @@ const CustomStatus = () => (
   </>
 )
 
-export const GlobalStatuses = () => (
+function App() {
+  const [error, setError] = React.useState()
+
+  return (
+    <>
+      <GlobalStatus
+        no_animation
+        title="Custom Title"
+        text="Failure text"
+        id="demo-2"
+        omit_set_focus
+        omit_set_focus_on_update
+      />
+      <Input
+        top="x-large"
+        label="Label:"
+        placeholder="Placeholder text"
+        status={error}
+        global_status_id="demo-2"
+        on_change={({ value }) => {
+          console.log('on_change', value)
+          setError(value)
+        }}
+      />
+    </>
+  )
+}
+
+export const GlobalStatuseSandbox = () => (
   <Wrapper>
+    <Box>
+      <App />
+    </Box>
     <GlobalStatus />
     <GlobalStatus
       // title="Custom Title"

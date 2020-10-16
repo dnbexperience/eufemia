@@ -9,9 +9,13 @@ import { Wrapper, Box } from '../helpers'
 import { css } from '@emotion/core'
 import styled from '@emotion/styled'
 
-import { FormStatus, FormRow } from '../src/components'
-import { H1, H2, P, Link } from '../src/elements'
-// import Link from '../src/elements/Link'
+import { FormStatus, FormRow } from '../../src/components'
+import { H1, H2, P, Link } from '../../src/elements'
+// import Link from '../../src/elements/Link'
+
+export default {
+  title: 'Eufemia/Elements/Other'
+}
 
 const CustomStyles = styled.div`
   .dnb-form-row {
@@ -50,7 +54,7 @@ const CustomStyles = styled.div`
   } */}
 `
 
-export const OtherElements = () => (
+export const OtherElementSandbox = () => (
   <Wrapper className="dnb-spacing">
     <Box>
       <CustomStyles>
@@ -72,7 +76,7 @@ export const OtherElements = () => (
   </Wrapper>
 )
 
-export const ULLists = () => (
+export const ULListSandbox = () => (
   <Wrapper className="dnb-spacing">
     <CustomStyles>
       <Box>
@@ -115,7 +119,7 @@ export const ULLists = () => (
   </Wrapper>
 )
 
-export const OLLists = () => (
+export const OLListSandbox = () => (
   <Wrapper className="dnb-spacing">
     <CustomStyles>
       <Box>
@@ -138,7 +142,7 @@ export const OLLists = () => (
   </Wrapper>
 )
 
-export const DLLists = () => (
+export const DLListSandbox = () => (
   <Wrapper className="dnb-spacing">
     <CustomStyles>
       <Box>

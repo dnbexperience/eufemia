@@ -16,7 +16,11 @@ const WrappedButton = styled(Button)`
   /* width: 10rem; */
 `
 
-export const Buttons = () => (
+export default {
+  title: 'Eufemia/Components/Button'
+}
+
+export const ButtonSandbox = () => (
   <Wrapper>
     {/* <Box>
         <Button right bottom>

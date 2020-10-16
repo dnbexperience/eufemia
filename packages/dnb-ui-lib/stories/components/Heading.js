@@ -14,6 +14,10 @@ import Heading, {
   resetLevels
 } from '../../src/components/Heading'
 
+export default {
+  title: 'Eufemia/Components/Heading'
+}
+
 const CustomStyle = styled.div`
   /* .dnb-heading {
   } */
@@ -30,7 +34,7 @@ const warn = (...log) => {
   console.log(...log)
 }
 
-export const Headings = () => {
+export const HeadingSandbox = () => {
   const [showHeading, setShowHeading] = React.useState(false)
 
   React.useEffect(() => {

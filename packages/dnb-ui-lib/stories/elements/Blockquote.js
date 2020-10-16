@@ -21,7 +21,11 @@ const CustomStyles = styled.div`
   }
 `
 
-export const Blockquotes = () => (
+export default {
+  title: 'Eufemia/Elements/Blockquote'
+}
+
+export const BlockquoteSandbox = () => (
   <Wrapper className="dnb-spacing">
     <CustomStyles>
       <Box>

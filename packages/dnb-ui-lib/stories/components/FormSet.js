@@ -18,6 +18,10 @@ import {
 
 import { H2 } from '../../src/elements'
 
+export default {
+  title: 'Eufemia/Components/FormSet'
+}
+
 const Center = styled.div`
   display: flex;
   justify-content: center;
@@ -26,7 +30,7 @@ const Center = styled.div`
   }
 `
 
-export const FormSets = () => (
+export const FormSetSandbox = () => (
   <Center>
     <Wrapper>
       <Provider formRow={{ indent: true, vertical: false }}>

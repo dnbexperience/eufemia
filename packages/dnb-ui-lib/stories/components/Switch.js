@@ -9,7 +9,11 @@ import { Wrapper, Box } from '../helpers'
 
 import { Switch, FormLabel, Modal } from '../../src/components'
 
-export const Switches = () => (
+export default {
+  title: 'Eufemia/Components/Switch'
+}
+
+export const SwitcheSandbox = () => (
   <Wrapper>
     <Box>
       <Switch

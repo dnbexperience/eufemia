@@ -553,7 +553,7 @@ const DropdownStory = () => {
   )
 }
 
-export const Dropdowns = () => (
+export const DropdownSandbox = () => (
   <CustomStyle>
     <DropdownStory />
   </CustomStyle>

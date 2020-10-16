@@ -19,7 +19,11 @@ const WidthLimit = styled.div`
   }
 `
 
-export const Lists = () => (
+export default {
+  title: 'Eufemia/Elements/Lists'
+}
+
+export const ListSandbox = () => (
   <Wrapper className="dnb-spacing">
     <Provider>
       <CustomStyles>

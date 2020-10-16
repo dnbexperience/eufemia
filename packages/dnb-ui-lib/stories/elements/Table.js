@@ -17,6 +17,10 @@ import {
   Number
 } from '../../src/components'
 
+export default {
+  title: 'Eufemia/Elements/Table'
+}
+
 const CustomWrapper = styled(Wrapper)`
   .mint_col {
     background-color: var(--color-mint-green-12);
@@ -26,7 +30,7 @@ const CustomWrapper = styled(Wrapper)`
   }
 `
 
-export const Tables = () => (
+export const TableSandbox = () => (
   <CustomWrapper className="dnb-spacing show-overflow">
     <Box>
       <Button

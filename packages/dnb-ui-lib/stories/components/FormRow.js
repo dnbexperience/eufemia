@@ -20,6 +20,10 @@ import {
   FormRow
 } from '../../src/components'
 
+export default {
+  title: 'Eufemia/Components/FormRow'
+}
+
 const Center = styled.div`
   display: flex;
   ${'' /* justify-content: center; */}
@@ -33,7 +37,7 @@ const Center = styled.div`
   }
 `
 
-export const FormRows = () => (
+export const FormRowSandbox = () => (
   <Center>
     <Wrapper showOverflow>
       <Box>

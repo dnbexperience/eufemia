@@ -18,13 +18,17 @@ import {
 
 import { P } from '../../src/elements'
 
+export default {
+  title: 'Eufemia/Components/Accordion'
+}
+
 const TestStyles = styled.div`
   .dnb-accordion-group--single-container {
     background-color: turquoise;
   }
 `
 
-export const Accordions = () => {
+export const AccordionSandbox = () => {
   return (
     <Wrapper>
       <Box>

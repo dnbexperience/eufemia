@@ -20,6 +20,10 @@ import {
 } from '../../src/components'
 import { Link } from '../../src/elements'
 
+export default {
+  title: 'Eufemia/Components/FormStatus'
+}
+
 const CustomStatus = () => (
   <>
     {/* <H2>Custom Status</H2> */}
@@ -37,13 +41,13 @@ const SmallWidth = styled(Input)`
     text-align: center;
   }
 `
-// const CustomStatus = () => (
+// const CustomStatuSandbox = () => (
 //   <>
 //     My info <Link href="/">with a link</Link> and more text
 //   </>
 // )
 
-export const FormStatuses = () => (
+export const FormStatuseSandbox = () => (
   <Wrapper>
     <Box>
       <Input

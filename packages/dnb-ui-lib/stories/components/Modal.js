@@ -22,7 +22,11 @@ import {
 // import { format } from '../../src/components/Number'
 import { H2, P, Hr } from '../../src/elements'
 
-export const Modals = () => (
+export default {
+  title: 'Eufemia/Components/Modal'
+}
+
+export const ModalSandbox = () => (
   <Wrapper>
     <Global
       styles={css`
@@ -55,7 +59,7 @@ export const Modals = () => (
       <Modal
         // no_animation
         // open_state="opened"
-        mode="drawer"
+        // mode="drawer"
         // fullscreen
         container_placement="left"
         align_content="right"
@@ -119,6 +123,45 @@ export const Modals = () => (
     </Box>
     <Box>
       <ModalTriggerExample />
+    </Box>
+  </Wrapper>
+)
+
+export const DrawerSandbox = () => (
+  <Wrapper>
+    <Global
+      styles={css`
+        :root {
+          --modal-height-offset: 3rem;
+        }
+      `}
+    />
+
+    <Box>
+      <Button variant="tertiary" text="Button" />
+      <Modal
+        // no_animation
+        // open_state="opened"
+        mode="drawer"
+        // fullscreen
+        container_placement="left"
+        align_content="right"
+        // align_content="center"
+        // drawer_offset={}
+        // title="Tertiary test"
+        title={<span className="dnb-sr-only">Test</span>}
+        // min_width="20vw"
+        // max_width="40vw"
+        overlay_class="overlay_class"
+        content_class="content_class"
+        class="inner_class"
+      >
+        <Button variant="tertiary" text="Button" />
+        <Section>
+          <Button variant="tertiary" text="Button" />
+        </Section>
+        <FillContent />
+      </Modal>
     </Box>
   </Wrapper>
 )

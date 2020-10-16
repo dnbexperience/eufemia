@@ -10,7 +10,11 @@ import { Wrapper, Box } from '../helpers'
 import Provider from '../../src/shared/Provider'
 import { Textarea, FormRow } from '../../src/components'
 
-export const Textareas = () => (
+export default {
+  title: 'Eufemia/Components/Textarea'
+}
+
+export const TextareaSandbox = () => (
   <Wrapper className="dnb-spacing">
     <Box>
       <Provider formRow={{ vertical: true }}>

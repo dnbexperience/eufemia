@@ -17,6 +17,10 @@ import {
   FormLabel
 } from '../../src/components'
 
+export default {
+  title: 'Eufemia/Components/Input'
+}
+
 const CustomStyle = styled.div`
   p {
     background-color: rgba(213, 30, 149, 0.25);
@@ -33,7 +37,7 @@ const myRef = React.createRef()
 //   title: 'Components'
 // }
 
-export const Inputs = () => {
+export const InputSandbox = () => {
   // React.useEffect(() => {
   //   console.log('myRef', myRef.current)
   //   // console.log('myRef', Input, myRef.current)

@@ -12,6 +12,10 @@ import { Input, InputMasked } from '../../src/components'
 // import emailMask from 'text-mask-addons/dist/emailMask'
 import emailMask from '../../src/components/input-masked/addons/emailMask'
 
+export default {
+  title: 'Eufemia/Components/InputMasked'
+}
+
 const CustomStyle = styled.div`
   p {
     background-color: rgba(213, 30, 149, 0.25);

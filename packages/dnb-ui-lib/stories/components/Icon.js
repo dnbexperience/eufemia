@@ -11,7 +11,11 @@ import { Button, Icon, IconPrimary } from '../../src/components'
 import { add as Svg } from '../../src/icons'
 import { P, H1, H4 } from '../../src/elements'
 
-export const Icons = () => (
+export default {
+  title: 'Eufemia/Components/Icon'
+}
+
+export const IconSandbox = () => (
   <Wrapper>
     <Box>
       text
