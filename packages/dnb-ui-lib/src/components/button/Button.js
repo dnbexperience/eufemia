@@ -319,6 +319,7 @@ export default class Button extends React.PureComponent {
           <FormStatus
             id={this._id + '-form-status'}
             global_status_id={global_status_id}
+            label={text}
             text={status}
             status={status_state}
             text_id={this._id + '-status'} // used for "aria-describedby"

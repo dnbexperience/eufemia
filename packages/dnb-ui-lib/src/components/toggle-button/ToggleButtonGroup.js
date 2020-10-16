@@ -317,6 +317,7 @@ export default class ToggleButtonGroup extends React.PureComponent {
                 <FormStatus
                   id={id + '-form-status'}
                   global_status_id={global_status_id}
+                  label={label}
                   text_id={id + '-status'} // used for "aria-describedby"
                   text={status}
                   status={status_state}

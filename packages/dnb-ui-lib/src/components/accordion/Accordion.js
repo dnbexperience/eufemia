@@ -488,12 +488,14 @@ export default class Accordion extends React.PureComponent {
 class Group extends React.PureComponent {
   static propTypes = {
     id: PropTypes.string,
-    group: PropTypes.string
+    group: PropTypes.string,
+    remember_state: PropTypes.oneOfType([PropTypes.string, PropTypes.bool])
   }
 
   static defaultProps = {
     id: null,
-    group: null
+    group: null,
+    remember_state: null
   }
 
   state = {}
@@ -512,6 +514,10 @@ class Group extends React.PureComponent {
 
     this.store = new Store({ group })
     this._IDs = []
+
+    if (isTrue(props.remember_state) && !props.id) {
+      rememberWarning('accordion group')
+    }
   }
 
   onInit = (instance) => {
@@ -561,6 +567,10 @@ class Group extends React.PureComponent {
 
 Accordion.Group = Group
 
+function rememberWarning(type = 'accordion') {
+  warn(`Missing "id" prop the ${type}! "remember_state" is enabled.`)
+}
+
 class Store {
   constructor({ id, group }) {
     this.id = id
@@ -600,7 +610,7 @@ class Store {
         //
       }
     } else {
-      warn('No id prop is provided in order to store the accordion state!')
+      rememberWarning()
     }
   }
 

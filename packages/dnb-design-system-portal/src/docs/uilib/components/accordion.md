@@ -56,6 +56,7 @@ function AccordionWithContainer() {
       prevent_rerender
       single_container
       remember_state
+      id="remembered-state"
       // prerender
       // allow_close_all
     >

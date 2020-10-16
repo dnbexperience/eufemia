@@ -30,15 +30,16 @@ class GlobalStatusProvider {
 
     const newStatus = GlobalStatusProvider.create(id, props)
 
+    if (onReady) {
+      // send along the new status
+      newStatus.addOnReady(newStatus, onReady)
+    }
+
     warn(
       `No <GlobalStatus ${
         id === 'main' ? '' : `id="${id}" `
       }/> found. WCAG requires a summarization.`
     )
-
-    if (onReady) {
-      newStatus.addOnReady(newStatus)
-    }
 
     return newStatus
   }
@@ -111,8 +112,12 @@ class GlobalStatusProvider {
     }, {})
 
     // no items? remove them then
-    if (globalStatus.items && globalStatus.items.length === 0) {
-      delete globalStatus.items
+    // if (globalStatus.items && globalStatus.items.length === 0) {
+    //   delete globalStatus.items
+    // }
+
+    if (!(globalStatus.items && globalStatus.items.length > 0)) {
+      globalStatus.items = []
     }
 
     return globalStatus
@@ -134,7 +139,7 @@ class GlobalStatusProviderItem {
     }
   }
 
-  // force rerender of the given GlobalStatus component
+  // force re-render of the given GlobalStatus component
   forceRerender(
     globalStatus,
     props,
@@ -147,6 +152,7 @@ class GlobalStatusProviderItem {
         }
       })
     }
+
     if (buffer_delay > 0) {
       clearTimeout(this._bufferDelayId)
       this._bufferDelayId = setTimeout(run, buffer_delay) // delay the sum & rerender, in case we change the state in the same frame
@@ -190,12 +196,12 @@ class GlobalStatusProviderItem {
       this.stack.push(newProps)
     }
 
-    const globalStatus = GlobalStatusProvider.combineMessages(
-      this.stack,
-      opts
-    )
+    const globalStatus = GlobalStatusProvider.combineMessages(this.stack)
+
     if (!opts.preventRerender) {
-      this.forceRerender(globalStatus, props)
+      this.forceRerender(globalStatus, props, {
+        buffer_delay: props?.buffer_delay > -1 ? props.buffer_delay : 0
+      })
     }
 
     return globalStatus
@@ -205,15 +211,33 @@ class GlobalStatusProviderItem {
     return this.stack.find((cur) => cur.status_id === status_id)
   }
 
-  remove(status_id, { buffer_delay = 10, empty_offset = 1 } = {}) {
+  update(status_id, newProps) {
+    this.stack = this.stack.map((cur, i, arr) => {
+      if (
+        !status_id ? i === arr.length - 1 : cur.status_id === status_id
+      ) {
+        if (!status_id) {
+          newProps = { ...newProps }
+          delete newProps.status_id
+        }
+        return { ...cur, ...newProps }
+      }
+
+      return cur
+    })
+
+    const globalStatus = GlobalStatusProvider.combineMessages(this.stack)
+    this.forceRerender(globalStatus, null, {
+      buffer_delay: newProps?.buffer_delay > -1 ? newProps.buffer_delay : 0
+    })
+  }
+
+  remove(status_id, props) {
     if (status_id) {
       this.stack = this.stack.filter((cur) => cur.status_id !== status_id)
-
       const globalStatus = GlobalStatusProvider.combineMessages(this.stack)
-
       this.forceRerender(globalStatus, null, {
-        buffer_delay,
-        isEmpty: this.stack && this.stack.length - empty_offset === 0 // because we have by default a main, we
+        buffer_delay: props?.buffer_delay > -1 ? props.buffer_delay : 10
       })
     }
   }
@@ -236,17 +260,21 @@ class GlobalStatusProviderItem {
   }
 
   isReady() {
-    this._onReadyEvents = this._onReadyEvents.filter((cb, i) => {
-      if (typeof cb === 'function') [cb()]
-      this._onReadyEvents[i] = null
-      return false
-    })
+    this._onReadyEvents = this._onReadyEvents.filter(
+      ({ status, cb }, i) => {
+        if (typeof cb === 'function') {
+          cb(status)
+        }
+        this._onReadyEvents[i] = null
+        return false
+      }
+    )
 
     return true
   }
 
-  addOnReady(cb) {
-    this._onReadyEvents.push(cb)
+  addOnReady(status, cb) {
+    this._onReadyEvents.push({ status, cb })
   }
 
   stack = [] // the "layers" with

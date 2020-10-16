@@ -98,6 +98,9 @@ const DropdownStory = () => {
                 Download
               </>
             ]}
+            on_hide={(e) => {
+              console.log(e)
+            }}
           />
           <Dropdown
             action_menu

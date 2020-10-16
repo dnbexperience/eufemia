@@ -36,6 +36,7 @@ export default class FormStatus extends React.PureComponent {
       PropTypes.func,
       PropTypes.node
     ]),
+    label: PropTypes.node,
     icon: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.func,
@@ -74,6 +75,7 @@ export default class FormStatus extends React.PureComponent {
     id: null,
     title: null,
     text: null,
+    label: null,
     icon: 'error',
     icon_size: 'large',
     state: 'error',
@@ -140,12 +142,17 @@ export default class FormStatus extends React.PureComponent {
         props.global_status_id || 'main',
         (provider) => {
           // gets called once ready
-          const { text, state } = this.props
-          const status_id = this._id
+          const { state, text, label } = this.props
+          const status_id = `${this._id}-gs`
           provider.add({
             state,
             status_id,
-            item: { text, status_id, status_anchor_url: true }
+            item: {
+              status_id,
+              text,
+              status_anchor_label: label,
+              status_anchor_url: true
+            }
           })
         }
       )
@@ -172,9 +179,29 @@ export default class FormStatus extends React.PureComponent {
     this.setMaxWidth()
   }
 
+  componentDidUpdate(props) {
+    if (
+      this.gsProvider &&
+      (props.text !== this.props.text || props.state !== this.props.state)
+    ) {
+      const { state, text, label } = this.props
+      const status_id = `${this._id}-gs`
+      this.gsProvider.update(status_id, {
+        state,
+        item: {
+          status_id,
+          text,
+          status_anchor_label: label,
+          status_anchor_url: true
+        }
+      })
+    }
+  }
+
   componentWillUnmount() {
     if (this.gsProvider) {
-      this.gsProvider.remove(this._id)
+      const status_id = `${this._id}-gs`
+      this.gsProvider.remove(status_id)
     }
   }
 

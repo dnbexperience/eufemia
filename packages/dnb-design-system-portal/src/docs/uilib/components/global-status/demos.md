@@ -14,6 +14,8 @@ GlobalStatusScrolling,
 
 ### GlobalStatus displaying error status
 
+**NB:** Keep in mind, the `items` are handled automatically by all form components! This here is just an example on how to can defined the content manually.
+
 <GlobalStatusError />
 
 ### GlobalStatus displaying info status

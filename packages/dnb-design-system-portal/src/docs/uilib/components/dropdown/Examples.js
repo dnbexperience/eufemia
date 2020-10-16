@@ -481,7 +481,7 @@ export const DropdownListOpened = () =>
           /* @jsx */ `
 <span className="dnb-drawer-list__list">
   <ul className="dnb-drawer-list__options">
-    <li className="dnb-drawer-list__option">
+    <li className="dnb-drawer-list__option first-of-type">
       <span className="dnb-drawer-list__option__inner">Brukskonto - Kari Nordmann</span>
     </li>
     <li className="dnb-drawer-list__option dnb-drawer-list__option--selected">

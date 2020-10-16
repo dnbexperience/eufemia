@@ -15,6 +15,7 @@ exports[`FormStatus component have to match snapshot 1`] = `
         "icon": "icon",
         "icon_size": "icon_size",
         "id": "id",
+        "label": "label",
         "skeleton": "skeleton",
         "state": true,
         "status": true,
@@ -49,6 +50,7 @@ exports[`FormStatus component have to match snapshot 1`] = `
   icon="exclamation"
   icon_size="large"
   id="form-status"
+  label={null}
   skeleton={null}
   state="error"
   status={null}

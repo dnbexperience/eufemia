@@ -18,7 +18,11 @@
   display: flex;
 
   font-size: var(--font-size-small);
-  line-height: var(--line-height-basis);
+  line-height: var(--slider-thumb-size);
+
+  &--stretch {
+    width: 100%;
+  }
 
   &--vertical {
     display: flex;
@@ -67,7 +71,7 @@
     position: relative;
     flex: 1;
 
-    // makre room again for the negative line manipulation
+    // make room again for the negative line manipulation
     margin: 0 calc(var(--slider-space) * 1.5);
 
     // only to make sure we have a visible track

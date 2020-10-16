@@ -202,6 +202,7 @@ exports[`Radio group component have to match group snapshot 1`] = `
     className="dnb-radio-group dnb-radio-group--row dnb-form-component"
   >
     <FormRow
+      centered={null}
       class={null}
       className={null}
       custom_element={null}

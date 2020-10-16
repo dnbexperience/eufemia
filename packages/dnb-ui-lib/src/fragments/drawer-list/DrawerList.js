@@ -39,6 +39,7 @@ export default class DrawerList extends React.PureComponent {
 
   static propTypes = {
     id: PropTypes.string,
+    role: PropTypes.string,
     cache_hash: PropTypes.string,
     triangle_position: PropTypes.string,
     scrollable: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -150,6 +151,7 @@ export default class DrawerList extends React.PureComponent {
 
   static defaultProps = {
     id: null,
+    role: 'listbox',
     cache_hash: null,
     triangle_position: 'left',
     scrollable: true,
@@ -284,6 +286,7 @@ class DrawerListInstance extends React.PureComponent {
     )
 
     const {
+      role,
       align_drawer,
       fixed_position,
       use_drawer_on_mobile,
@@ -366,6 +369,11 @@ class DrawerListInstance extends React.PureComponent {
 
     const listParams = {
       id: `${id}-listbox`,
+      /**
+       * We may considder to use the hidden attribute in future
+       * Or we may add an prop to put the HTML in the DOM, if needed
+       */
+      // hidden: hidden !== false,
       className: classnames(
         'dnb-drawer-list__list',
         isTrue(no_animation) && 'dnb-drawer-list__list--no-animation',
@@ -374,8 +382,8 @@ class DrawerListInstance extends React.PureComponent {
     }
 
     const ulParams = {
+      role,
       id: `${id}-ul`,
-      role: 'listbox',
       'aria-expanded': opened,
       'aria-labelledby': `${id}-label`,
       tabIndex: '-1',
@@ -417,6 +425,7 @@ class DrawerListInstance extends React.PureComponent {
         const _id = dataItem.__id
         const hash = `option-${id}-${_id}-${i}`
         const liParams = {
+          role: role === 'menu' ? 'menuitem' : 'option',
           'data-item': _id,
           id: `option-${id}-${_id}`,
           hash,
@@ -577,6 +586,7 @@ DrawerList.Options.defaultProps = {
 // DrawerList Item
 DrawerList.Item = React.forwardRef((props, ref) => {
   const {
+    role, // eslint-disable-line
     hash, // eslint-disable-line
     children, // eslint-disable-line
     className, // eslint-disable-line
@@ -596,7 +606,7 @@ DrawerList.Item = React.forwardRef((props, ref) => {
       selected && 'dnb-drawer-list__option--selected',
       active && 'dnb-drawer-list__option--focus'
     ),
-    role: 'option', // presentation / option / menuitem
+    role,
     tabIndex: selected ? '0' : '-1',
     'aria-selected': active
   }
@@ -629,6 +639,7 @@ DrawerList.Item = React.forwardRef((props, ref) => {
 })
 DrawerList.Item.displayName = 'DrawerList.Item'
 DrawerList.Item.propTypes = {
+  role: PropTypes.string,
   hash: PropTypes.string,
   children: PropTypes.oneOfType([
     PropTypes.node,
@@ -643,6 +654,7 @@ DrawerList.Item.propTypes = {
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
 }
 DrawerList.Item.defaultProps = {
+  role: 'option',
   hash: '',
   className: null,
   class: null,

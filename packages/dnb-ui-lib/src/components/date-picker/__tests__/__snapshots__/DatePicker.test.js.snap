@@ -210,6 +210,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
           icon="error"
           icon_size="large"
           id="date-picker-id-form-status"
+          label={null}
           skeleton={null}
           state="error"
           status="error"

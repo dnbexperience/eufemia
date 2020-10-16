@@ -154,7 +154,8 @@ export default class DrawerListProvider extends React.PureComponent {
     clearTimeout(this._hideTimeout)
     clearTimeout(this._selectTimeout)
     clearTimeout(this._scrollTimeout)
-    clearTimeout(this._ddt)
+    clearTimeout(this._ddTimeout)
+    clearTimeout(this._doTimeout)
 
     // NB: do not use setHidden here
     this.setState({
@@ -393,8 +394,8 @@ export default class DrawerListProvider extends React.PureComponent {
 
     // debounce
     this.setDirection = (e) => {
-      clearTimeout(this._ddt)
-      this._ddt = setTimeout(renderDirection, 30)
+      clearTimeout(this._ddTimeout)
+      this._ddTimeout = setTimeout(renderDirection, 30)
 
       if (useDrawer && e.type === 'resize') {
         if (
@@ -425,8 +426,9 @@ export default class DrawerListProvider extends React.PureComponent {
       window.addEventListener('resize', this.setDirection)
     }
 
-    // wait unitl render is complete and we have a valid this._refUl.current
-    this._ddt = setTimeout(() => {
+    // wait until render is complete and we have a valid this._refUl.current
+    clearTimeout(this._doTimeout)
+    this._doTimeout = setTimeout(() => {
       if (
         useBodyLock ||
         (useDrawer && // Like @media screen and (max-width: 40em) { ...
@@ -436,10 +438,7 @@ export default class DrawerListProvider extends React.PureComponent {
       }
 
       this.correctHiddenView()
-      this.setScrollObserver() // because, now we have _refUl!
-      // setTimeout(() => {
-      //   this.refreshScrollObserver()
-      // }, 1)
+      this.refreshScrollObserver()
 
       const { selected_item, active_item } = this.state
       this.scrollToAndSetActiveItem(
@@ -528,7 +527,7 @@ export default class DrawerListProvider extends React.PureComponent {
       const found = this.searchCache[value]
       index = found && found[0] && found[0].i > -1 ? found[0].i : -1
 
-      // if ther eare several of the same type
+      // if there are several of the same type
       if (found && found.length > 1) {
         found.push(found.shift())
         this.changedOrderFor = value
@@ -563,6 +562,9 @@ export default class DrawerListProvider extends React.PureComponent {
             }
             if (!isTrue(this.props.prevent_focus) && liElement) {
               liElement.focus()
+              dispatchCustomElementEvent(this, 'on_show_focus', {
+                element: liElement
+              })
             }
           }
         } catch (e) {
@@ -609,6 +611,9 @@ export default class DrawerListProvider extends React.PureComponent {
     } else if (!isTrue(this.props.prevent_focus)) {
       if (this._refUl.current) {
         this._refUl.current.focus({ preventScroll: true })
+        dispatchCustomElementEvent(this, 'on_show_focus', {
+          element: this._refUl.current
+        })
       }
     }
   }
@@ -616,7 +621,7 @@ export default class DrawerListProvider extends React.PureComponent {
   removeDirectionObserver() {
     this.disableBodyLock()
 
-    clearTimeout(this._ddt)
+    clearTimeout(this._ddTimeout)
     if (typeof window !== 'undefined' && this.setDirection) {
       this._rootElem?.removeEventListener('scroll', this.setDirection)
 
@@ -994,8 +999,6 @@ export default class DrawerListProvider extends React.PureComponent {
     if (!this.waitUntilUlIsReady) {
       this.waitUntilUlIsReady = true
 
-      this._assignObservers()
-
       // in case we do not have the very much needed _refUl
       if (!this._refUl.current) {
         clearInterval(this._outsideClickTimeout)
@@ -1004,18 +1007,21 @@ export default class DrawerListProvider extends React.PureComponent {
             clearInterval(this._outsideClickTimeout)
             this._assignObservers()
           }
-        }, 200)
+        }, 10)
+      } else {
+        this._assignObservers()
       }
     }
   }
 
   setVisible = () => {
+    clearTimeout(this._hideTimeout)
+
     if (this.state.opened && this.state.hidden === false) {
       this.assignObservers()
       return
     }
 
-    clearTimeout(this._hideTimeout)
     this.searchCache = null
 
     this.setState(
@@ -1033,7 +1039,8 @@ export default class DrawerListProvider extends React.PureComponent {
     const { selected_item } = this.state
     dispatchCustomElementEvent(this.state, 'on_show', {
       data: getEventData(selected_item, this.state.data),
-      attributes: this.attributes
+      attributes: this.attributes,
+      ui_element: this._refUl.current
     })
   }
 
