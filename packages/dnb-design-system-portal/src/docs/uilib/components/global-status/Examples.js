@@ -17,6 +17,7 @@ export const GlobalStatusError = () => (
       {
         text:'List item',
         status_anchor_url: '/uilib/components/global-status',
+        status_anchor_label: 'eksempel',
       }
   ]}
   show="true"

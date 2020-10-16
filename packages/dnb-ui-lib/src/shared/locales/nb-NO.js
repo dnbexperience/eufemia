@@ -25,7 +25,7 @@ export default {
     GlobalStatus: {
       default_title: 'En feil har skjedd',
       close_text: 'Lukk',
-      status_anchor_text: 'Gå til'
+      status_anchor_text: 'Gå til %s'
     },
     GlobalError: {
       404: {

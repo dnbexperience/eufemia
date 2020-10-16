@@ -759,7 +759,11 @@ export default class GlobalStatus extends React.PureComponent {
         {itemsToRender.map((item, i) => {
           const id = item.id || makeUniqueId()
           const text = (item && item.text) || item
-          const link = status_anchor_text || item.status_anchor_text
+          const anchorText = String(
+            item.status_anchor_text || status_anchor_text
+          )
+            .replace('%s', item.status_anchor_label || '')
+            .replace(/[: ]$/g, '')
           const useAutolink =
             item.status_id && isTrue(item.status_anchor_url)
           return (
@@ -781,7 +785,7 @@ export default class GlobalStatus extends React.PureComponent {
                   onClick={(e) => this.gotoItem(e, item)}
                   onKeyDown={(e) => this.gotoItem(e, item)}
                 >
-                  {link}
+                  {anchorText}
                 </a>
               )}
             </li>

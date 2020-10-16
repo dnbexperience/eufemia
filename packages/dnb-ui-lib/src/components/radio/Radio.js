@@ -378,6 +378,7 @@ export default class Radio extends React.PureComponent {
                     <FormStatus
                       id={id + '-form-status'}
                       global_status_id={global_status_id}
+                      label={label}
                       text_id={id + '-status'} // used for "aria-describedby"
                       width_selector={id + ', ' + id + '-label'}
                       text={status}

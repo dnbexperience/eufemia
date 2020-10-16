@@ -357,6 +357,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
             icon="error"
             icon_size="large"
             id="dropdown-id-form-status"
+            label="label"
             skeleton="skeleton"
             state="error"
             status="error"
@@ -369,6 +370,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
               className="dnb-form-status dnb-form-status--error dnb-form-status--status_animation dnb-form-status--has-content"
               hidden={false}
               id="dropdown-id-form-status"
+              label="label"
             >
               <span
                 className="dnb-form-status__shell"

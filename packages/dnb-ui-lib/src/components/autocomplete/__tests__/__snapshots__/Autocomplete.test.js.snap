@@ -282,6 +282,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
             icon="error"
             icon_size="large"
             id="autocomplete-id-form-status"
+            label="Autocomplete Label:"
             skeleton="skeleton"
             state="error"
             status="error"
@@ -294,6 +295,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
               className="dnb-form-status dnb-form-status--error dnb-form-status--status_animation dnb-form-status--has-content"
               hidden={false}
               id="autocomplete-id-form-status"
+              label="Autocomplete Label:"
             >
               <span
                 className="dnb-form-status__shell"
