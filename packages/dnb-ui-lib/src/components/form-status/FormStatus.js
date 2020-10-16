@@ -140,8 +140,8 @@ export default class FormStatus extends React.PureComponent {
         props.global_status_id || 'main',
         (provider) => {
           // gets called once ready
-          const { text, state } = this.props
-          const status_id = this._id
+          const { state, text } = this.props
+          const status_id = `${this._id}-gs`
           provider.add({
             state,
             status_id,
@@ -172,9 +172,24 @@ export default class FormStatus extends React.PureComponent {
     this.setMaxWidth()
   }
 
+  componentDidUpdate(props) {
+    if (
+      this.gsProvider &&
+      (props.text !== this.props.text || props.state !== this.props.state)
+    ) {
+      const { state, text } = this.props
+      const status_id = `${this._id}-gs`
+      this.gsProvider.update(status_id, {
+        state,
+        item: { text, status_id, status_anchor_url: true }
+      })
+    }
+  }
+
   componentWillUnmount() {
     if (this.gsProvider) {
-      this.gsProvider.remove(this._id)
+      const status_id = `${this._id}-gs`
+      this.gsProvider.remove(status_id)
     }
   }
 

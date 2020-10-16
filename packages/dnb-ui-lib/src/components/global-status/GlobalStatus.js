@@ -65,6 +65,14 @@ export default class GlobalStatus extends React.PureComponent {
       PropTypes.string,
       PropTypes.bool
     ]),
+    omit_set_focus: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool
+    ]),
+    omit_set_focus_on_update: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool
+    ]),
     status_anchor_text: PropTypes.string,
     class: PropTypes.string,
     demo: PropTypes.bool,
@@ -99,6 +107,8 @@ export default class GlobalStatus extends React.PureComponent {
     no_animation: false,
     close_text: 'Lukk',
     hide_close_button: false,
+    omit_set_focus: false,
+    omit_set_focus_on_update: false,
     delay: 10,
     duration: 1e3,
     status_anchor_text: null,
@@ -361,6 +371,8 @@ export default class GlobalStatus extends React.PureComponent {
     const { demo: isDemo, no_animation } = this.props
     const noAnimation = isTrue(no_animation)
 
+    this.hadFocus = false
+
     if (noAnimation) {
       this.setState({
         isActive: false,
@@ -483,11 +495,19 @@ export default class GlobalStatus extends React.PureComponent {
   }
 
   setFocus() {
-    if (this._shellRef.current) {
-      if (document.activeElement !== this._shellRef.current) {
+    if (this._shellRef.current && !isTrue(this.props.omit_set_focus)) {
+      if (
+        isTrue(this.props.omit_set_focus_on_update) ? !this.hadFocus : true
+      ) {
+        this._shellRef.current.focus({ preventScroll: true })
+        this.hadFocus = true
+      }
+      if (
+        typeof document !== 'undefined' &&
+        document.activeElement !== this._shellRef.current
+      ) {
         this.initialActiveElement = document.activeElement
       }
-      this._shellRef.current.focus({ preventScroll: true })
     }
   }
 
@@ -689,7 +709,7 @@ export default class GlobalStatus extends React.PureComponent {
       // because of screen readers will else read the content on page load, if:
       // 1. if "show" is true from beginning, then we never come here
       // to make sure we double check that situation
-      return <div {...wrapperParams}></div>
+      return <div {...wrapperParams} />
     }
 
     const state = this.correctStatus(rawState)
