@@ -289,19 +289,14 @@ export default class DatePickerCalendar extends React.PureComponent {
                     })
                     const isDisabled =
                       day.isLastMonth || day.isNextMonth || day.isDisabled
-                    const isInactive = day.isLastMonth || day.isNextMonth
 
                     // cell params
                     const paramsCell = {}
-                    if (isInactive) {
-                      paramsCell['aria-hidden'] = true
-                    } else {
-                      paramsCell.tabIndex = '-1'
-                      if (day.isStartDate) {
-                        paramsCell.id = id + '--button-start'
-                      } else if (day.isEndDate) {
-                        paramsCell.id = id + '--button-end'
-                      }
+                    paramsCell.tabIndex = '-1'
+                    if (day.isStartDate) {
+                      paramsCell.id = id + '--button-start'
+                    } else if (day.isEndDate) {
+                      paramsCell.id = id + '--button-end'
                     }
 
                     // cell + button params
@@ -321,7 +316,6 @@ export default class DatePickerCalendar extends React.PureComponent {
                           this.buildClassNames(day)
                         )}
                         onFocus={this.onKeyDownHandler}
-                        aria-label={title}
                         {...paramsCell}
                       >
                         <Button
@@ -331,7 +325,6 @@ export default class DatePickerCalendar extends React.PureComponent {
                           bounding={true}
                           disabled={isDisabled}
                           tabIndex={isDisabled ? '0' : '-1'} // fix for NVDA
-                          aria-hidden={isInactive ? true : null}
                           aria-disabled={isDisabled}
                           aria-label={title}
                           {...paramsButton}

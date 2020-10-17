@@ -19,6 +19,7 @@ import {
   DatePicker,
   Button,
   FormRow,
+  Dropdown,
   Input,
   Section
 } from '../../src/components'
@@ -41,17 +42,27 @@ const ScrollbarInner = styled.div`
 `
 
 const ChangeLocale = () => {
-  const { setLocale, translation } = React.useContext(Context)
+  const {
+    setLocale,
+    // setCurrentLocale,// to update only the current context
+    locale
+  } = React.useContext(Context)
 
-  // console.log('translation 1', translation)
+  // React.useEffect(() => {
+  //   setTimeout(() => {
+  //     setLocale('en-US')
+  //   }, 2e3)
+  // }, [])
 
-  React.useEffect(() => {
-    setTimeout(() => {
-      setLocale('en-US')
-    }, 2e3)
-  }, [])
-
-  return translation.myString || 'empty'
+  return (
+    <Dropdown
+      value={locale}
+      data={{ 'en-US': 'English', 'nb-NO': 'Norsk' }}
+      on_change={({ data: { selected_key: locale } }) => {
+        setLocale(locale)
+      }}
+    />
+  )
 }
 
 export const DatePickerSandbox = () => (
