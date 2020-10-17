@@ -1455,6 +1455,7 @@ class AutocompleteInstance extends React.PureComponent {
       value: inputValue,
       autoCapitalize: 'none',
       spellCheck: 'false',
+      autoCorrect: 'off',
 
       // ARIA
       role: 'combobox', // we need combobox twice to make it properly work on VO
