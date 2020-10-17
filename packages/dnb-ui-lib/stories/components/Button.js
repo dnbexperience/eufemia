@@ -265,3 +265,43 @@ export const ButtonSandbox = () => (
     </Box>
   </Wrapper>
 )
+
+const Template = (props) => {
+  return (
+    <>
+      <Button icon="chevron_right" size="small" {...props} />
+      <Button icon="chevron_right" size="medium" {...props} />
+      <Button icon="chevron_right" size="default" {...props} />
+      <Button icon="chevron_right" size="large" {...props} />
+    </>
+  )
+}
+
+export const Primary = Template.bind({})
+Primary.args = {
+  text: 'Button',
+  variant: 'primary'
+}
+
+export const Secondary = Template.bind({})
+Secondary.args = {
+  text: 'Button',
+  variant: 'secondary'
+}
+
+export const Tertiary = Template.bind({})
+Tertiary.args = {
+  text: 'Button',
+  variant: 'tertiary'
+}
+
+export const Signal = Template.bind({})
+Signal.args = {
+  text: 'Button',
+  variant: 'signal'
+}
+
+export const IconButton = Template.bind({})
+IconButton.args = {
+  icon: 'bell'
+}
