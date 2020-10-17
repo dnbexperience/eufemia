@@ -1393,9 +1393,10 @@ exports[`DatePicker scss have to match default theme snapshot 1`] = `
  * Utilities
  */
 :root {
-  --date-picker-header-color: var(--color-emerald-green);
+  --date-picker-header-color: var(--color-black-80);
   --date-picker-labels-day-color: var(--color-emerald-green);
   --date-picker-selected-color: var(--color-mint-green-25);
+  --date-picker-inactive-color: var(--color-black-55);
   --date-picker-selected-bg-color: var(--color-emerald-green);
   --date-picker-selected-bg-color-hover: var(--color-emerald-green);
   --date-picker-within-selection-bg-color: var(--color-mint-green-50); }
@@ -1420,9 +1421,9 @@ exports[`DatePicker scss have to match default theme snapshot 1`] = `
     border-radius: 0.25rem;
     background-color: var(--color-white); }
   .dnb-date-picker__addon::after, .dnb-date-picker__calendar::after {
-    background-color: var(--color-mint-green-50); }
+    background-color: var(--color-black-8); }
   .dnb-date-picker__header::after {
-    background-color: var(--color-mint-green-50); }
+    background-color: var(--color-black-8); }
   .dnb-date-picker__header__nav .dnb-button {
     box-shadow: none; }
   .dnb-date-picker__header__title {
@@ -1457,6 +1458,10 @@ exports[`DatePicker scss have to match default theme snapshot 1`] = `
 .dnb-date-picker__day--end-date.dnb-date-picker__day--within-selection .dnb-button:hover:not([disabled]) {
     color: var(--date-picker-selected-color);
     background-color: var(--date-picker-selected-bg-color-hover); }
+  .dnb-date-picker__day--disabled .dnb-button {
+    text-decoration: line-through; }
+  .dnb-date-picker__day--inactive .dnb-button {
+    color: var(--date-picker-inactive-color); }
   .dnb-date-picker__day--inactive .dnb-button[disabled],
   .dnb-date-picker__day--disabled .dnb-button[disabled] {
     box-shadow: none; }
