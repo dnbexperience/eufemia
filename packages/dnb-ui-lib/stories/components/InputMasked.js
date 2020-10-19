@@ -27,6 +27,7 @@ export const InputsMasked = () => (
     <Wrapper>
       <Box>
         <InputMasked
+          selectall
           label="Amount:"
           currency_mask="kr"
           on_change={(e) => {

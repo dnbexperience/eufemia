@@ -177,7 +177,17 @@ export default class InputMasked extends React.PureComponent {
           keepCharPositions: isTrue(keep_char_positions),
           placeholderChar
         }
-        return <MaskedInput ref={innerRef} {...params} />
+        return (
+          <MaskedInput
+            render={(setRef, props) => (
+              <input
+                ref={(ref) => setRef((innerRef.current = ref))}
+                {...props}
+              />
+            )}
+            {...params}
+          />
+        )
       }
     }
 
