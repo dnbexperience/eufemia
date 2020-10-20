@@ -49,8 +49,8 @@ function ToggleSkeleton(props) {
 
   const params = {
     onMouseDown: (e) => {
-      const x = e.nativeEvent.offsetX
-      const y = e.nativeEvent.offsetY
+      const x = e.clientX
+      const y = e.clientY
       if (x < 20 && y < 20) {
         skeletonCount++
         clearTimeout(skeletonTimeout)
