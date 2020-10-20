@@ -381,6 +381,8 @@ describe('Dropdown component', () => {
     // 1. open the dropdown
     open(Comp)
 
+    await wait(10)
+
     expect(on_show).toBeCalledTimes(1)
 
     await wait(50) // ensure that we have this._refUl.current – the check is in "assignObservers"
