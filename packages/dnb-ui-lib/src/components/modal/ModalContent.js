@@ -237,7 +237,6 @@ export default class ModalContent extends React.PureComponent {
     }
 
     if (labelled_by) {
-      contentParams['aria-labelledby'] = labelled_by
       contentParams['aria-describedby'] = labelled_by
     }
     const overlayParams = {

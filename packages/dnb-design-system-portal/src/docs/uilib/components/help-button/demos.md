@@ -11,12 +11,9 @@ import ComponentBox from 'Tags/ComponentBox'
 <ComponentBox data-dnb-test="help-button-default">
 	{
 	/* @jsx */ `
-<HelpButton
-  title="Additional details"
-  on_click={() => {
-    console.log('on_click')
-  }}
-/>
+<HelpButton>
+	Text
+</HelpButton>
 	`
 	}
 </ComponentBox>
@@ -26,10 +23,13 @@ import ComponentBox from 'Tags/ComponentBox'
 <ComponentBox data-dnb-test="help-button-sizes">
 	{
 	/* @jsx */ `
-<HelpButton />
+<HelpButton title="Custom title">Text</HelpButton>
 <HelpButton
-  size="small"
-  left
+	size="small"
+	left
+	on_click={() => {
+    	console.log('on_click')
+	}}
 />
 	`
 	}

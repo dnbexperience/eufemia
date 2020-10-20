@@ -26,7 +26,6 @@ props.modal_content = 'unique_modal_content'
 props.close_title = 'close_title'
 props.direct_dom_return = true
 props.no_animation = true
-props.preventSetTriggerRef = true // we set preventSetTriggerRef to true, cause jest gives us an error
 
 describe('Modal component', () => {
   const Comp = mount(<Component {...props} />)
@@ -110,6 +109,27 @@ describe('Modal component', () => {
     Comp.setProps({ open_state: 'closed' })
     await wait(10) // wait for the render to be finished
     expect(on_close).toHaveBeenCalled()
+  })
+  it('should handle the portal correctly', () => {
+    const modalContent = 'Modal Content'
+
+    const Comp = mount(
+      <Component
+        {...props}
+        title={null}
+        modal_content={null}
+        direct_dom_return={false}
+      >
+        {modalContent}
+      </Component>
+    )
+
+    Comp.find('button.dnb-modal__trigger').simulate('click')
+
+    const id = `#dnb-modal-${props.id}`
+    const modalElem = document.querySelector(id)
+
+    expect(modalElem.textContent).toContain(modalContent)
   })
   it('runs expected side effects', async () => {
     const Comp = mount(<Component {...props} />)

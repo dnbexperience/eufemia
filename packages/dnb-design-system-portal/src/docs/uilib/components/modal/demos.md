@@ -106,7 +106,9 @@ With placement on the left side.
 	}
 </ComponentBox>
 
-### Triggered by custom trigger button
+### Open Modal by state only
+
+While the trigger button is not used anymore by using `trigger_hidden`.
 
 <ComponentBox>
 	{
@@ -117,9 +119,9 @@ With placement on the left side.
   on_click={() => (
     <Modal
       title="Modal Title"
-      trigger_hidden="true"
+      trigger_hidden
       open_state="opened"
-      labelled_by="custom-triggerer"
+      //labelled_by="custom-triggerer"
     >
       <Section spacing style_type="divider">
         <P>This Modal was opened by a custom trigger button.</P>

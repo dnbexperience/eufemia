@@ -7,6 +7,7 @@ exports[`Modal component have to match snapshot 1`] = `
       "displayName": "Modal",
       "props": Object {
         "align_content": "'left'",
+        "as_help_button": "as_help_button",
         "children": "children",
         "class": "class",
         "className": "className",
@@ -30,7 +31,6 @@ exports[`Modal component have to match snapshot 1`] = `
         "open_delay": "open_delay",
         "open_modal": [Function],
         "open_state": "'opened'",
-        "preventSetTriggerRef": true,
         "prevent_close": "prevent_close",
         "prevent_core_style": "prevent_core_style",
         "title": "title",
@@ -52,10 +52,12 @@ exports[`Modal component have to match snapshot 1`] = `
       "props": Object {
         "children": "children",
         "direct_dom_return": "direct_dom_return",
+        "id": "id",
       },
     }
   }
   align_content="left"
+  as_help_button={false}
   class={null}
   className={null}
   close_modal={null}
@@ -78,7 +80,6 @@ exports[`Modal component have to match snapshot 1`] = `
   open_delay={null}
   open_modal={null}
   open_state={null}
-  preventSetTriggerRef={true}
   prevent_close={false}
   prevent_core_style={false}
   title="modal_title"
@@ -95,14 +96,51 @@ exports[`Modal component have to match snapshot 1`] = `
   <div
     className="dnb-modal"
   >
-    <HelpButton
+    <HelpButtonInstance
       class={null}
       className="dnb-modal__trigger"
       disabled={null}
       icon="question"
       icon_position="left"
-      icon_size={null}
       id="modal_id"
+      innerRef={
+        Object {
+          "current": <button
+            aria-label="modal_title"
+            aria-roledescription="Hjelp-knapp"
+            class="dnb-button dnb-button--secondary dnb-help-button dnb-modal__trigger dnb-button--icon-position-right dnb-button--has-icon dnb-button--size-medium"
+            id="modal_id"
+            title="modal_title"
+            type="button"
+          >
+            <span
+              class="dnb-button__alignment"
+            >
+              ‌
+            </span>
+            <span
+              aria-hidden="true"
+              aria-label="question icon"
+              class="dnb-icon dnb-icon--default dnb-button__icon"
+              role="presentation"
+            >
+              <svg
+                fill="none"
+                height="16"
+                viewBox="0 0 16 16"
+                width="16"
+              >
+                <path
+                  clip-rule="evenodd"
+                  d="M4.352 5.1c0-2.05 1.55-3.6 3.6-3.6 2.052 0 3.601 1.55 3.601 3.6 0 2.051-1.55 3.6-3.6 3.6a.75.75 0 00-.75.75v2.666a.75.75 0 001.5 0V10.15c2.506-.348 4.35-2.425 4.35-5.049 0-2.879-2.22-5.1-5.1-5.1-2.88 0-5.1 2.221-5.1 5.1a.75.75 0 001.5 0zm3.6 10.898c.659 0 1.098-.439 1.098-1.097 0-.658-.44-1.097-1.097-1.097-.658 0-1.097.44-1.097 1.097 0 .658.439 1.097 1.097 1.097z"
+                  fill="#000"
+                  fill-rule="evenodd"
+                />
+              </svg>
+            </span>
+          </button>,
+        }
+      }
       on_click={[Function]}
       size={null}
       text={null}
@@ -121,10 +159,47 @@ exports[`Modal component have to match snapshot 1`] = `
         global_status_id={null}
         href={null}
         icon="question"
-        icon_position="left"
+        icon_position="right"
         icon_size={null}
         id="modal_id"
-        innerRef={null}
+        innerRef={
+          Object {
+            "current": <button
+              aria-label="modal_title"
+              aria-roledescription="Hjelp-knapp"
+              class="dnb-button dnb-button--secondary dnb-help-button dnb-modal__trigger dnb-button--icon-position-right dnb-button--has-icon dnb-button--size-medium"
+              id="modal_id"
+              title="modal_title"
+              type="button"
+            >
+              <span
+                class="dnb-button__alignment"
+              >
+                ‌
+              </span>
+              <span
+                aria-hidden="true"
+                aria-label="question icon"
+                class="dnb-icon dnb-icon--default dnb-button__icon"
+                role="presentation"
+              >
+                <svg
+                  fill="none"
+                  height="16"
+                  viewBox="0 0 16 16"
+                  width="16"
+                >
+                  <path
+                    clip-rule="evenodd"
+                    d="M4.352 5.1c0-2.05 1.55-3.6 3.6-3.6 2.052 0 3.601 1.55 3.601 3.6 0 2.051-1.55 3.6-3.6 3.6a.75.75 0 00-.75.75v2.666a.75.75 0 001.5 0V10.15c2.506-.348 4.35-2.425 4.35-5.049 0-2.879-2.22-5.1-5.1-5.1-2.88 0-5.1 2.221-5.1 5.1a.75.75 0 001.5 0zm3.6 10.898c.659 0 1.098-.439 1.098-1.097 0-.658-.44-1.097-1.097-1.097-.658 0-1.097.44-1.097 1.097 0 .658.439 1.097 1.097 1.097z"
+                    fill="#000"
+                    fill-rule="evenodd"
+                  />
+                </svg>
+              </span>
+            </button>,
+          }
+        }
         onClick={null}
         on_click={[Function]}
         size={null}
@@ -142,7 +217,7 @@ exports[`Modal component have to match snapshot 1`] = `
         <button
           aria-label="modal_title"
           aria-roledescription="Hjelp-knapp"
-          className="dnb-button dnb-button--secondary dnb-help-button dnb-modal__trigger dnb-button--icon-position-left dnb-button--has-icon dnb-button--size-medium"
+          className="dnb-button dnb-button--secondary dnb-help-button dnb-modal__trigger dnb-button--icon-position-right dnb-button--has-icon dnb-button--size-medium"
           disabled={false}
           id="modal_id"
           onClick={[Function]}
@@ -162,10 +237,47 @@ exports[`Modal component have to match snapshot 1`] = `
             global_status_id={null}
             href={null}
             icon="question"
-            icon_position="left"
+            icon_position="right"
             icon_size={null}
             id="modal_id"
-            innerRef={null}
+            innerRef={
+              Object {
+                "current": <button
+                  aria-label="modal_title"
+                  aria-roledescription="Hjelp-knapp"
+                  class="dnb-button dnb-button--secondary dnb-help-button dnb-modal__trigger dnb-button--icon-position-right dnb-button--has-icon dnb-button--size-medium"
+                  id="modal_id"
+                  title="modal_title"
+                  type="button"
+                >
+                  <span
+                    class="dnb-button__alignment"
+                  >
+                    ‌
+                  </span>
+                  <span
+                    aria-hidden="true"
+                    aria-label="question icon"
+                    class="dnb-icon dnb-icon--default dnb-button__icon"
+                    role="presentation"
+                  >
+                    <svg
+                      fill="none"
+                      height="16"
+                      viewBox="0 0 16 16"
+                      width="16"
+                    >
+                      <path
+                        clip-rule="evenodd"
+                        d="M4.352 5.1c0-2.05 1.55-3.6 3.6-3.6 2.052 0 3.601 1.55 3.601 3.6 0 2.051-1.55 3.6-3.6 3.6a.75.75 0 00-.75.75v2.666a.75.75 0 001.5 0V10.15c2.506-.348 4.35-2.425 4.35-5.049 0-2.879-2.22-5.1-5.1-5.1-2.88 0-5.1 2.221-5.1 5.1a.75.75 0 001.5 0zm3.6 10.898c.659 0 1.098-.439 1.098-1.097 0-.658-.44-1.097-1.097-1.097-.658 0-1.097.44-1.097 1.097 0 .658.439 1.097 1.097 1.097z"
+                        fill="#000"
+                        fill-rule="evenodd"
+                      />
+                    </svg>
+                  </span>
+                </button>,
+              }
+            }
             isIconOnly={true}
             onClick={null}
             on_click={[Function]}
@@ -229,13 +341,14 @@ exports[`Modal component have to match snapshot 1`] = `
           </Content>
         </button>
       </Button>
-    </HelpButton>
+    </HelpButtonInstance>
     <ModalRoot
       0={
         Object {
           "displayName": "Modal",
           "props": Object {
             "align_content": "'left'",
+            "as_help_button": "as_help_button",
             "children": "children",
             "class": "class",
             "className": "className",
@@ -259,7 +372,6 @@ exports[`Modal component have to match snapshot 1`] = `
             "open_delay": "open_delay",
             "open_modal": [Function],
             "open_state": "'opened'",
-            "preventSetTriggerRef": true,
             "prevent_close": "prevent_close",
             "prevent_core_style": "prevent_core_style",
             "title": "title",
@@ -281,6 +393,7 @@ exports[`Modal component have to match snapshot 1`] = `
           "props": Object {
             "children": "children",
             "direct_dom_return": "direct_dom_return",
+            "id": "id",
           },
         }
       }
@@ -296,6 +409,7 @@ exports[`Modal component have to match snapshot 1`] = `
       fullscreen={false}
       hide={false}
       hide_close_button={false}
+      id="modal_id"
       labelled_by="modal_id"
       modal_content="unique_modal_content"
       mode="modal"
@@ -316,6 +430,7 @@ exports[`Modal component have to match snapshot 1`] = `
             "displayName": "Modal",
             "props": Object {
               "align_content": "'left'",
+              "as_help_button": "as_help_button",
               "children": "children",
               "class": "class",
               "className": "className",
@@ -339,7 +454,6 @@ exports[`Modal component have to match snapshot 1`] = `
               "open_delay": "open_delay",
               "open_modal": [Function],
               "open_state": "'opened'",
-              "preventSetTriggerRef": true,
               "prevent_close": "prevent_close",
               "prevent_core_style": "prevent_core_style",
               "title": "title",
@@ -361,6 +475,7 @@ exports[`Modal component have to match snapshot 1`] = `
             "props": Object {
               "children": "children",
               "direct_dom_return": "direct_dom_return",
+              "id": "id",
             },
           }
         }
@@ -376,6 +491,7 @@ exports[`Modal component have to match snapshot 1`] = `
         fullscreen={false}
         hide={false}
         hide_close_button={false}
+        id="modal_id"
         labelled_by="modal_id"
         max_width={null}
         min_width={null}
@@ -395,7 +511,6 @@ exports[`Modal component have to match snapshot 1`] = `
       >
         <div
           aria-describedby="modal_id"
-          aria-labelledby="modal_id"
           aria-modal="true"
           className="dnb-modal__content dnb-modal__content--modal dnb-modal__content__align--left dnb-modal__content--right dnb-modal__content--no-animation"
           onClick={[Function]}
@@ -403,7 +518,7 @@ exports[`Modal component have to match snapshot 1`] = `
         >
           <ForwardRef(ScrollViewRef)
             className="dnb-modal__content__inner dnb-no-focus dnb-core-style"
-            id="modal_content_id"
+            id="modal_id"
             onClick={[Function]}
             onKeyDown={[Function]}
             onTouchStart={[Function]}
@@ -412,12 +527,12 @@ exports[`Modal component have to match snapshot 1`] = `
             <ScrollView
               class={null}
               className="dnb-modal__content__inner dnb-no-focus dnb-core-style"
-              id="modal_content_id"
+              id="modal_id"
               innerRef={
                 Object {
                   "current": <div
                     class="dnb-scroll-view dnb-modal__content__inner dnb-no-focus dnb-core-style"
-                    id="modal_content_id"
+                    id="modal_id"
                     tabindex="-1"
                   >
                     <h1
@@ -471,7 +586,7 @@ exports[`Modal component have to match snapshot 1`] = `
             >
               <div
                 className="dnb-scroll-view dnb-modal__content__inner dnb-no-focus dnb-core-style"
-                id="modal_content_id"
+                id="modal_id"
                 onClick={[Function]}
                 onKeyDown={[Function]}
                 onTouchStart={[Function]}
