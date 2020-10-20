@@ -17,6 +17,7 @@ import {
   DatePicker,
   FormSet,
   FormRow,
+  // Space,
   Number
 } from '../../src/components'
 // import { format } from '../../src/components/Number'
@@ -31,7 +32,7 @@ export const ModalSandbox = () => (
     <Global
       styles={css`
         :root {
-          --modal-height-offset: 1rem;
+          --modal-height-offset: 7rem;
         }
       `}
     />
@@ -58,7 +59,7 @@ export const ModalSandbox = () => (
       <Button variant="tertiary" text="Button" />
       <Modal
         // no_animation
-        // open_state="opened"
+        open_state="opened"
         // mode="drawer"
         // fullscreen
         container_placement="left"
@@ -133,35 +134,37 @@ export const DrawerSandbox = () => (
     <Global
       styles={css`
         :root {
-          --modal-height-offset: 3rem;
+          /* --modal-height-offset: 10rem; */
+        }
+        .custom-inner {
+          padding-top: 1.5rem;
         }
       `}
     />
 
     <Box>
-      <Button variant="tertiary" text="Button" />
+      {/* <Button variant="tertiary" text="Button" /> */}
       <Modal
         // no_animation
-        // open_state="opened"
+        open_state="opened"
         mode="drawer"
         // fullscreen
-        container_placement="left"
-        align_content="right"
+        // container_placement="left"
+        // align_content="right"
         // align_content="center"
         // drawer_offset={}
-        // title="Tertiary test"
-        title={<span className="dnb-sr-only">Test</span>}
+        title="Tertiary test"
+        // title={<span className="dnb-sr-only">Test</span>}
         // min_width="20vw"
         // max_width="40vw"
-        overlay_class="overlay_class"
-        content_class="content_class"
-        class="inner_class"
+        // overlay_class="overlay_class"
+        // content_class="content_class"
+        // class="inner_class"
       >
-        <Button variant="tertiary" text="Button" />
-        <Section>
-          <Button variant="tertiary" text="Button" />
-        </Section>
-        <FillContent />
+        <Modal.Inner style_type="pistachio">
+          Modal.Inner
+          {/* <FillContent /> */}
+        </Modal.Inner>
       </Modal>
     </Box>
   </Wrapper>

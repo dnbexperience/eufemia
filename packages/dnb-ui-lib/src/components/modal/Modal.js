@@ -21,6 +21,7 @@ import {
 } from '../../shared/component-helper'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import Button from '../button/Button'
+import Section from '../section/Section'
 import HelpButton from '../help-button/HelpButtonInstance'
 import ModalContent, { CloseButton } from './ModalContent'
 
@@ -242,8 +243,6 @@ export default class Modal extends React.PureComponent {
         fn()
       }
     })
-
-    console.log('componentWillUnmount')
 
     clearTimeout(this._openTimeout)
     clearTimeout(this._closeTimeout)
@@ -581,3 +580,20 @@ class ModalRoot extends React.PureComponent {
 }
 
 export { CloseButton }
+
+function Inner({ className, ...props }) {
+  return (
+    <Section
+      style_type="black-3"
+      className={classnames('dnb-modal__wrapper__inner', className)}
+      {...props}
+    />
+  )
+}
+Inner.propTypes = {
+  className: PropTypes.string
+}
+Inner.defaultProps = {
+  className: null
+}
+Modal.Inner = Inner

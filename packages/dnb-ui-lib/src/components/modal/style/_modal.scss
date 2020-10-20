@@ -3,14 +3,7 @@
  *
  */
 
-@mixin modalFullscreen() {
-  width: 100vw;
-  height: 100vh;
-  height: calc(100vh - var(--modal-height-offset, 0.0001rem));
-
-  max-width: 100%; // fixes overflow issue on some browsers
-  max-height: 100%;
-}
+@import './modal-mixins';
 
 :root {
   --modal-z-index: 3000;
@@ -21,11 +14,13 @@
   --modal-avg-width: 60vw; // content defines the size
   --modal-max-width: 60rem; // because of our default width --layout-large
   --modal-height-offset: 0.0001rem;
+  --modal-content-top: 7rem;
 
   // Drawer mode
   --modal-drawer-width: 40vw;
   --modal-drawer-min-width: 25rem;
   --modal-drawer-max-width: 40rem;
+  --modal-drawer-content-top: 10rem;
 
   // Overlay
   --modal-overlay-bg: rgba(0, 0, 0, 0.32);
@@ -66,10 +61,17 @@
     &__inner {
       position: relative;
 
-      padding: var(--modal-spacing) var(--modal-spacing) 0;
+      padding: var(--modal-content-top) var(--modal-spacing) 0;
 
       @include allBelow(small) {
-        padding: calc(var(--modal-spacing) / 2) var(--modal-spacing) 0;
+        padding: var(--modal-content-top) calc(var(--modal-spacing) * 0.75)
+          0;
+        @include modalFullscreen();
+      }
+
+      @include allAbove(small) {
+        @include defaultDropShadow();
+        border-radius: 0.5rem;
       }
 
       // width: auto;
@@ -85,19 +87,6 @@
       user-select: text;
       -webkit-user-select: text; // Safari / Touch fix
       border: none;
-
-      @include allAbove(small) {
-        padding: var(--modal-spacing) var(--modal-spacing)
-          calc(var(--modal-spacing) / 2);
-        @include defaultDropShadow();
-        border-radius: 0.5rem;
-      }
-
-      @include allBelow(small) {
-        @include modalFullscreen();
-        padding: calc(var(--modal-spacing) / 2)
-          calc(var(--modal-spacing) / 2) 0;
-      }
 
       -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
     }
@@ -125,11 +114,18 @@
       justify-content: flex-start;
     }
     &--drawer &__inner {
-      @include modalFullscreen();
+      @include modalFullscreen('drawer');
 
       width: var(--modal-drawer-width);
       min-width: var(--modal-drawer-min-width);
       max-width: var(--modal-drawer-max-width);
+
+      padding: var(--modal-drawer-content-top)
+        calc(var(--modal-spacing) * 1.75) 0;
+
+      // @include allBelow(small) {
+      //   padding: calc(var(--modal-spacing) / 2) var(--modal-spacing) 0;
+      // }
 
       border-radius: 0;
 
@@ -225,20 +221,12 @@
     &.dnb-h--large,
     .dnb-core-style &.dnb-h--large:not([class*='dnb-space']) {
       margin: 0;
-      margin-top: 4rem;
-      padding: 0 2rem 0 0; // because of the close button
+      padding: 0;
     }
   }
   &__wrapper {
     position: relative;
     z-index: 1;
-
-    // margin-top: calc(var(--modal-spacing) / 2);
-    // margin-bottom: var(--modal-spacing);
-
-    // @include allBelow(small) {
-    //   margin-bottom: calc(var(--modal-spacing) / 2);
-    // }
 
     padding-top: calc(var(--modal-spacing) / 2);
     padding-bottom: calc(var(--modal-spacing) * 1.75);
@@ -251,10 +239,38 @@
     // height: 200vh;
     // background: blue;
   }
+  &__content--drawer &__wrapper {
+    padding-top: calc(var(--modal-spacing) * 0.75);
+    padding-bottom: calc(var(--modal-spacing) * 2);
+  }
+
+  &__wrapper__inner {
+    padding-bottom: calc(var(--modal-spacing) * 2);
+    margin-bottom: calc(1px - 1px - calc(var(--modal-spacing) * 1.75));
+
+    @include allBelow(small) {
+      &.dnb-section::after {
+        min-height: calc(
+          100vh - var(--modal-content-top) - var(--modal-spacing) * 1.5 -
+            var(--modal-height-offset, 0.0001rem)
+        );
+      }
+    }
+  }
+  &__content--drawer &__wrapper__inner {
+    margin-bottom: calc(1px - 1px - calc(var(--modal-spacing) * 2));
+
+    &.dnb-section::after {
+      min-height: calc(
+        100vh - var(--modal-drawer-content-top) - var(--modal-spacing) * 2 -
+          var(--modal-height-offset, 0.0001rem)
+      );
+    }
+  }
 
   &__close-button {
     position: absolute;
-    top: calc(var(--modal-spacing) - 0.5rem);
+    top: calc(var(--modal-spacing) * 0.75);
     right: var(--modal-spacing);
 
     // set a hight z-index because when font-size is 200%+
@@ -267,13 +283,15 @@
 
     &--cross {
       top: var(--modal-spacing);
-      right: var(--modal-spacing);
 
       @include allBelow(small) {
         top: calc(var(--modal-spacing) / 2);
-        right: calc(var(--modal-spacing) / 2);
       }
     }
+  }
+  &__content--drawer &__close-button {
+    top: calc(var(--modal-spacing) * 1.75);
+    right: calc(var(--modal-spacing) * 1.75);
   }
 
   &__overlay {
@@ -312,106 +330,5 @@
         animation-duration: 0ms !important;
       }
     }
-  }
-}
-
-@keyframes show-modal {
-  from {
-    opacity: 0.1;
-    transform: translate3d(0, -1rem, 0);
-  }
-  to {
-    transform: translate3d(0, 0, 0);
-    opacity: 1;
-  }
-}
-@keyframes hide-modal {
-  from {
-    transform: translate3d(0, 0, 0);
-    opacity: 1;
-  }
-  to {
-    transform: translate3d(0, 1rem, 0);
-    opacity: 0;
-  }
-}
-
-@keyframes show-drawer {
-  to {
-    transform: translate3d(0, 0, 0);
-    opacity: 1;
-  }
-}
-@keyframes hide-drawer-left {
-  from {
-    transform: translate3d(0, 0, 0);
-    opacity: 1;
-  }
-  to {
-    transform: translate3d(-20rem, 0, 0);
-    opacity: 0;
-  }
-}
-@keyframes hide-drawer-top {
-  from {
-    transform: translate3d(0, 0, 0);
-    opacity: 1;
-  }
-  to {
-    transform: translate3d(0, -20rem, 0);
-    opacity: 0;
-  }
-}
-@keyframes hide-drawer-bottom {
-  from {
-    transform: translate3d(0, 0, 0);
-    opacity: 1;
-  }
-  to {
-    transform: translate3d(0, 20rem, 0);
-    opacity: 0;
-  }
-}
-@keyframes hide-drawer-right {
-  from {
-    transform: translate3d(0, 0, 0);
-    opacity: 1;
-  }
-  to {
-    transform: translate3d(20rem, 0, 0);
-    opacity: 0;
-  }
-}
-
-@keyframes show-modal-overlay {
-  from {
-    background: transparent;
-  }
-  to {
-    background: var(--modal-overlay-bg);
-  }
-}
-@keyframes hide-modal-overlay {
-  from {
-    background: var(--modal-overlay-bg);
-  }
-  to {
-    background: transparent;
-  }
-}
-@keyframes show-drawer-overlay {
-  from {
-    background: transparent;
-  }
-  to {
-    background: var(--modal-overlay-bg);
-  }
-}
-@keyframes hide-drawer-overlay {
-  from {
-    background: var(--modal-overlay-bg);
-  }
-  to {
-    background: transparent;
   }
 }

@@ -257,7 +257,14 @@ export default class ModalContent extends React.PureComponent {
         <div {...contentParams}>
           <ScrollView {...innerParams} ref={this._contentRef}>
             {title && (
-              <h1 className="dnb-modal__title dnb-h--large">{title}</h1>
+              <h1
+                className={classnames(
+                  'dnb-modal__title',
+                  mode === 'drawer' ? 'dnb-h--x-large' : 'dnb-h--large'
+                )}
+              >
+                {title}
+              </h1>
             )}
             {!isTrue(hide_close_button) && (
               <CloseButton

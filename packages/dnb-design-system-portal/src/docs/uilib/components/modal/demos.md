@@ -12,9 +12,9 @@ import ComponentBox from 'Tags/ComponentBox'
 	{
 	/* @jsx */ `
 <Modal title="Modal Title">
-  <Section spacing style_type="mint-green">
+  <Modal.Inner spacing style_type="mint-green">
     <P>This is the modal text. Triggered by the help button.</P>
-  </Section>
+  </Modal.Inner>
 </Modal>
 	`
 	}
@@ -32,7 +32,9 @@ Most of the components do have a `suffix` property you can make use of.
   placeholder="Placeholder ..."
   suffix={
     <Modal>
-      Help text
+      <Modal.Inner spacing style_type="pistachio">
+        <P>Help text</P>
+      </Modal.Inner>
     </Modal>
   }
 />
@@ -44,20 +46,19 @@ Most of the components do have a `suffix` property you can make use of.
 
 With placement on the left side.
 
-<ComponentBox>
+<ComponentBox data-dnb-test="modal-drawer">
 	{
 	/* @jsx */ `
 <Modal
   mode="drawer"
-  container_placement="left"
-  align_content="center"
-  title={<span className="dnb-sr-only">"Hidden" Drawer title</span>}
+  title="Drawer Title"
   trigger_text="Open Drawer"
   trigger_title="Click me"
-  modal_content={() => (
-    <P>This is the left aligned Drawer content.</P>
-  )}
-/>
+>
+  <Modal.Inner>
+    <P>This is a left aligned Drawer content.</P>
+  </Modal.Inner>
+</Modal>
 	`
 	}
 </ComponentBox>
@@ -68,7 +69,7 @@ With placement on the left side.
 	{
 	/* @jsx */ `
 <Modal
-  title="Modal Title"
+  title={<span className="dnb-sr-only">"Hidden" Modal title</span>}
   fullscreen="true"
   trigger_variant="tertiary"
   trigger_text="Click me"

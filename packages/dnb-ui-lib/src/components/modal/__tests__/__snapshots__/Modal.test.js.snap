@@ -56,6 +56,14 @@ exports[`Modal component have to match snapshot 1`] = `
       },
     }
   }
+  2={
+    Object {
+      "displayName": "Inner",
+      "props": Object {
+        "className": "className",
+      },
+    }
+  }
   align_content="left"
   as_help_button={false}
   class={null}
@@ -398,6 +406,14 @@ exports[`Modal component have to match snapshot 1`] = `
           },
         }
       }
+      2={
+        Object {
+          "displayName": "Inner",
+          "props": Object {
+            "className": "className",
+          },
+        }
+      }
       align_content="left"
       class={null}
       className={null}
@@ -478,6 +494,14 @@ exports[`Modal component have to match snapshot 1`] = `
               "children": "children",
               "direct_dom_return": "direct_dom_return",
               "id": "id",
+            },
+          }
+        }
+        2={
+          Object {
+            "displayName": "Inner",
+            "props": Object {
+              "className": "className",
             },
           }
         }
@@ -1219,208 +1243,10 @@ button.dnb-button::-moz-focus-inner {
  * Modal component
  *
  */
-:root {
-  --modal-z-index: 3000;
-  --modal-spacing: 2rem;
-  --modal-min-width: 20rem;
-  --modal-avg-width: 60vw;
-  --modal-max-width: 60rem;
-  --modal-height-offset: 0.0001rem;
-  --modal-drawer-width: 40vw;
-  --modal-drawer-min-width: 25rem;
-  --modal-drawer-max-width: 40rem;
-  --modal-overlay-bg: rgba(0, 0, 0, 0.32); }
-
-[data-dnb-modal-active='true'] {
-  user-select: none;
-  -webkit-user-select: none; }
-
-#dnb-modal-root {
-  position: absolute;
-  top: 0;
-  left: 0; }
-
-.dnb-modal {
-  display: inline-flex; }
-  .dnb-modal__content {
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: calc(var(--modal-z-index) + 1);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
-    max-width: 100vw;
-    user-select: none;
-    -webkit-user-select: none;
-    /* stylelint-disable-next-line */ }
-    .dnb-modal__content__inner {
-      position: relative;
-      padding: var(--modal-spacing) var(--modal-spacing) 0;
-      width: var(--modal-avg-width);
-      min-width: var(--modal-min-width);
-      max-width: var(--modal-max-width);
-      height: auto;
-      max-height: calc( 100vh - var(--modal-spacing) * 2);
-      user-select: text;
-      -webkit-user-select: text;
-      border: none;
-      -webkit-tap-highlight-color: rgba(0, 0, 0, 0); }
-      @media screen and (max-width: 40em) {
-        .dnb-modal__content__inner {
-          padding: calc(var(--modal-spacing) / 2) var(--modal-spacing) 0; } }
-      @media screen and (min-width: 40em) {
-        .dnb-modal__content__inner {
-          padding: var(--modal-spacing) var(--modal-spacing) calc(var(--modal-spacing) / 2);
-          box-shadow: 0 1px 6px rgba(0, 0, 0, 0.16);
-          border-radius: 0.5rem; } }
-      @media screen and (max-width: 40em) {
-        .dnb-modal__content__inner {
-          width: 100vw;
-          height: 100vh;
-          height: calc(100vh - var(--modal-height-offset, 0.0001rem));
-          max-width: 100%;
-          max-height: 100%;
-          padding: calc(var(--modal-spacing) / 2) calc(var(--modal-spacing) / 2) 0; } }
-    .dnb-modal__content__align--center .dnb-modal__content__inner {
-      display: flex;
-      flex-direction: column;
-      align-items: center; }
-    .dnb-modal__content__align--right .dnb-modal__content__inner {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-end; }
-    .dnb-modal__content__align--centered .dnb-modal__content__inner {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center; }
-    .dnb-modal__content--drawer {
-      align-items: flex-start;
-      justify-content: flex-start; }
-    .dnb-modal__content--drawer .dnb-modal__content__inner {
-      width: 100vw;
-      height: 100vh;
-      height: calc(100vh - var(--modal-height-offset, 0.0001rem));
-      max-width: 100%;
-      max-height: 100%;
-      width: var(--modal-drawer-width);
-      min-width: var(--modal-drawer-min-width);
-      max-width: var(--modal-drawer-max-width);
-      border-radius: 0; }
-      @media screen and (max-width: 40em) {
-        .dnb-modal__content--drawer .dnb-modal__content__inner {
-          width: 100vw;
-          min-width: auto;
-          max-width: auto; } }
-    .dnb-modal__content--drawer.dnb-modal__content--top .dnb-modal__content__inner,
-    .dnb-modal__content--drawer.dnb-modal__content--bottom .dnb-modal__content__inner {
-      max-width: 100%;
-      max-height: 100%;
-      width: 100vw;
-      height: 40vh; }
-      @media screen and (max-height: 40em) {
-        .dnb-modal__content--drawer.dnb-modal__content--top .dnb-modal__content__inner,
-        .dnb-modal__content--drawer.dnb-modal__content--bottom .dnb-modal__content__inner {
-          height: 100vw;
-          min-height: auto;
-          max-height: auto; } }
-    .dnb-modal__content--drawer.dnb-modal__content--right {
-      justify-content: flex-end; }
-    .dnb-modal__content--drawer.dnb-modal__content--bottom {
-      align-items: flex-end; }
-    .dnb-modal__content--fullscreen {
-      align-items: flex-start;
-      justify-content: flex-start; }
-    html:not([data-dnb-test]) .dnb-modal__content--fullscreen .dnb-modal__content__inner {
-      width: 100vw;
-      height: 100vh;
-      height: calc(100vh - var(--modal-height-offset, 0.0001rem));
-      max-width: 100%;
-      max-height: 100%;
-      border-radius: 0; }
-    html:not([data-dnb-test]) .dnb-modal__content--drawer.dnb-modal__content--left .dnb-modal__content__inner {
-      transform: translate3d(-20rem, 0, 0); }
-    html:not([data-dnb-test]) .dnb-modal__content--drawer.dnb-modal__content--right .dnb-modal__content__inner {
-      transform: translate3d(20rem, 0, 0); }
-    html:not([data-dnb-test]) .dnb-modal__content--drawer.dnb-modal__content--top .dnb-modal__content__inner {
-      transform: translate3d(0, -20rem, 0); }
-    html:not([data-dnb-test]) .dnb-modal__content--drawer.dnb-modal__content--bottom .dnb-modal__content__inner {
-      transform: translate3d(0, 20rem, 0); }
-    html:not([data-dnb-test]) .dnb-modal__content--drawer .dnb-modal__content__inner {
-      opacity: 0.1;
-      animation: show-drawer 300ms ease-out forwards; }
-    html:not([data-dnb-test]) .dnb-modal__content--drawer.dnb-modal__content--hide.dnb-modal__content--left .dnb-modal__content__inner {
-      animation: hide-drawer-left 300ms ease-in-out forwards; }
-    html:not([data-dnb-test]) .dnb-modal__content--drawer.dnb-modal__content--hide.dnb-modal__content--right .dnb-modal__content__inner {
-      animation: hide-drawer-right 300ms ease-in-out forwards; }
-    html:not([data-dnb-test]) .dnb-modal__content--drawer.dnb-modal__content--hide.dnb-modal__content--top .dnb-modal__content__inner {
-      animation: hide-drawer-top 300ms ease-in-out forwards; }
-    html:not([data-dnb-test]) .dnb-modal__content--drawer.dnb-modal__content--hide.dnb-modal__content--bottom .dnb-modal__content__inner {
-      animation: hide-drawer-bottom 300ms ease-in-out forwards; }
-    html:not([data-dnb-test]) .dnb-modal__content--modal .dnb-modal__content__inner {
-      animation: show-modal 300ms ease-out forwards; }
-    html:not([data-dnb-test]) .dnb-modal__content--modal.dnb-modal__content--hide .dnb-modal__content__inner {
-      animation: hide-modal 220ms ease-in-out forwards; }
-    .dnb-modal__content--no-animation .dnb-modal__content__inner {
-      animation-duration: 0ms !important; }
-    @media screen and (max-width: 40em) {
-      .dnb-modal__content--no-animation-on-mobile .dnb-modal__content__inner {
-        animation-duration: 0ms !important; } }
-  .dnb-modal__title.dnb-h--large,
-  .dnb-core-style .dnb-modal__title.dnb-h--large:not([class*='dnb-space']) {
-    margin: 0;
-    margin-top: 4rem;
-    padding: 0 2rem 0 0; }
-  .dnb-modal__wrapper {
-    position: relative;
-    z-index: 1;
-    padding-top: calc(var(--modal-spacing) / 2);
-    padding-bottom: calc(var(--modal-spacing) * 1.75); }
-    @media screen and (max-width: 40em) {
-      .dnb-modal__wrapper {
-        padding-bottom: calc(var(--modal-spacing) * 1.25); } }
-  .dnb-modal__close-button {
-    position: absolute;
-    top: calc(var(--modal-spacing) - 0.5rem);
-    right: var(--modal-spacing);
-    z-index: 1; }
-    @media screen and (max-width: 40em) {
-      .dnb-modal__close-button {
-        right: calc(var(--modal-spacing) / 2); } }
-    .dnb-modal__close-button--cross {
-      top: var(--modal-spacing);
-      right: var(--modal-spacing); }
-      @media screen and (max-width: 40em) {
-        .dnb-modal__close-button--cross {
-          top: calc(var(--modal-spacing) / 2);
-          right: calc(var(--modal-spacing) / 2); } }
-  .dnb-modal__overlay {
-    position: fixed;
-    z-index: var(--modal-z-index);
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background: var(--modal-overlay-bg);
-    box-shadow: 0 100vh 0 0 var(--modal-overlay-bg);
-    /* stylelint-disable-next-line */ }
-    html:not([data-dnb-test]) .dnb-modal__overlay--modal {
-      animation: show-modal-overlay 300ms ease-out forwards; }
-    html:not([data-dnb-test]) .dnb-modal__overlay--modal.dnb-modal__overlay--hide {
-      animation: hide-modal-overlay 300ms ease-in-out forwards; }
-    html:not([data-dnb-test]) .dnb-modal__overlay--drawer {
-      animation: show-drawer-overlay 300ms ease-out forwards; }
-    html:not([data-dnb-test]) .dnb-modal__overlay--drawer.dnb-modal__overlay--hide {
-      animation: hide-drawer-overlay 300ms ease-in-out forwards; }
-    .dnb-modal__overlay--no-animation {
-      animation-duration: 0ms !important; }
-    @media screen and (max-width: 40em) {
-      .dnb-modal__overlay--no-animation-on-mobile {
-        animation-duration: 0ms !important; } }
-
+/*
+ * Modal component
+ *
+ */
 @keyframes show-modal {
   from {
     opacity: 0.1;
@@ -1497,5 +1323,220 @@ button.dnb-button::-moz-focus-inner {
     background: var(--modal-overlay-bg); }
   to {
     background: transparent; } }
+
+:root {
+  --modal-z-index: 3000;
+  --modal-spacing: 2rem;
+  --modal-min-width: 20rem;
+  --modal-avg-width: 60vw;
+  --modal-max-width: 60rem;
+  --modal-height-offset: 0.0001rem;
+  --modal-content-top: 7rem;
+  --modal-drawer-width: 40vw;
+  --modal-drawer-min-width: 25rem;
+  --modal-drawer-max-width: 40rem;
+  --modal-drawer-content-top: 10rem;
+  --modal-overlay-bg: rgba(0, 0, 0, 0.32); }
+
+[data-dnb-modal-active='true'] {
+  user-select: none;
+  -webkit-user-select: none; }
+
+#dnb-modal-root {
+  position: absolute;
+  top: 0;
+  left: 0; }
+
+.dnb-modal {
+  display: inline-flex; }
+  .dnb-modal__content {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: calc(var(--modal-z-index) + 1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    max-width: 100vw;
+    user-select: none;
+    -webkit-user-select: none;
+    /* stylelint-disable-next-line */ }
+    .dnb-modal__content__inner {
+      position: relative;
+      padding: var(--modal-content-top) var(--modal-spacing) 0;
+      width: var(--modal-avg-width);
+      min-width: var(--modal-min-width);
+      max-width: var(--modal-max-width);
+      height: auto;
+      max-height: calc( 100vh - var(--modal-spacing) * 2);
+      user-select: text;
+      -webkit-user-select: text;
+      border: none;
+      -webkit-tap-highlight-color: rgba(0, 0, 0, 0); }
+      @media screen and (max-width: 40em) {
+        .dnb-modal__content__inner {
+          padding: var(--modal-content-top) calc(var(--modal-spacing) * 0.75) 0;
+          width: 100vw;
+          height: 100vh;
+          height: calc(100vh - var(--modal-height-offset, 0.0001rem));
+          max-width: 100%;
+          max-height: 100%; } }
+      @media screen and (min-width: 40em) {
+        .dnb-modal__content__inner {
+          box-shadow: 0 1px 6px rgba(0, 0, 0, 0.16);
+          border-radius: 0.5rem; } }
+    .dnb-modal__content__align--center .dnb-modal__content__inner {
+      display: flex;
+      flex-direction: column;
+      align-items: center; }
+    .dnb-modal__content__align--right .dnb-modal__content__inner {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end; }
+    .dnb-modal__content__align--centered .dnb-modal__content__inner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center; }
+    .dnb-modal__content--drawer {
+      align-items: flex-start;
+      justify-content: flex-start; }
+    .dnb-modal__content--drawer .dnb-modal__content__inner {
+      width: 100vw;
+      height: 100vh;
+      height: calc(100vh - var(--modal-height-offset, 0.0001rem));
+      height: calc(100vh - var(--modal-height-offset, 0.0001rem));
+      max-width: 100%;
+      max-height: 100%;
+      width: var(--modal-drawer-width);
+      min-width: var(--modal-drawer-min-width);
+      max-width: var(--modal-drawer-max-width);
+      padding: var(--modal-drawer-content-top) calc(var(--modal-spacing) * 1.75) 0;
+      border-radius: 0; }
+      @media screen and (max-width: 40em) {
+        .dnb-modal__content--drawer .dnb-modal__content__inner {
+          width: 100vw;
+          min-width: auto;
+          max-width: auto; } }
+    .dnb-modal__content--drawer.dnb-modal__content--top .dnb-modal__content__inner,
+    .dnb-modal__content--drawer.dnb-modal__content--bottom .dnb-modal__content__inner {
+      max-width: 100%;
+      max-height: 100%;
+      width: 100vw;
+      height: 40vh; }
+      @media screen and (max-height: 40em) {
+        .dnb-modal__content--drawer.dnb-modal__content--top .dnb-modal__content__inner,
+        .dnb-modal__content--drawer.dnb-modal__content--bottom .dnb-modal__content__inner {
+          height: 100vw;
+          min-height: auto;
+          max-height: auto; } }
+    .dnb-modal__content--drawer.dnb-modal__content--right {
+      justify-content: flex-end; }
+    .dnb-modal__content--drawer.dnb-modal__content--bottom {
+      align-items: flex-end; }
+    .dnb-modal__content--fullscreen {
+      align-items: flex-start;
+      justify-content: flex-start; }
+    html:not([data-dnb-test]) .dnb-modal__content--fullscreen .dnb-modal__content__inner {
+      width: 100vw;
+      height: 100vh;
+      height: calc(100vh - var(--modal-height-offset, 0.0001rem));
+      max-width: 100%;
+      max-height: 100%;
+      border-radius: 0; }
+    html:not([data-dnb-test]) .dnb-modal__content--drawer.dnb-modal__content--left .dnb-modal__content__inner {
+      transform: translate3d(-20rem, 0, 0); }
+    html:not([data-dnb-test]) .dnb-modal__content--drawer.dnb-modal__content--right .dnb-modal__content__inner {
+      transform: translate3d(20rem, 0, 0); }
+    html:not([data-dnb-test]) .dnb-modal__content--drawer.dnb-modal__content--top .dnb-modal__content__inner {
+      transform: translate3d(0, -20rem, 0); }
+    html:not([data-dnb-test]) .dnb-modal__content--drawer.dnb-modal__content--bottom .dnb-modal__content__inner {
+      transform: translate3d(0, 20rem, 0); }
+    html:not([data-dnb-test]) .dnb-modal__content--drawer .dnb-modal__content__inner {
+      opacity: 0.1;
+      animation: show-drawer 300ms ease-out forwards; }
+    html:not([data-dnb-test]) .dnb-modal__content--drawer.dnb-modal__content--hide.dnb-modal__content--left .dnb-modal__content__inner {
+      animation: hide-drawer-left 300ms ease-in-out forwards; }
+    html:not([data-dnb-test]) .dnb-modal__content--drawer.dnb-modal__content--hide.dnb-modal__content--right .dnb-modal__content__inner {
+      animation: hide-drawer-right 300ms ease-in-out forwards; }
+    html:not([data-dnb-test]) .dnb-modal__content--drawer.dnb-modal__content--hide.dnb-modal__content--top .dnb-modal__content__inner {
+      animation: hide-drawer-top 300ms ease-in-out forwards; }
+    html:not([data-dnb-test]) .dnb-modal__content--drawer.dnb-modal__content--hide.dnb-modal__content--bottom .dnb-modal__content__inner {
+      animation: hide-drawer-bottom 300ms ease-in-out forwards; }
+    html:not([data-dnb-test]) .dnb-modal__content--modal .dnb-modal__content__inner {
+      animation: show-modal 300ms ease-out forwards; }
+    html:not([data-dnb-test]) .dnb-modal__content--modal.dnb-modal__content--hide .dnb-modal__content__inner {
+      animation: hide-modal 220ms ease-in-out forwards; }
+    .dnb-modal__content--no-animation .dnb-modal__content__inner {
+      animation-duration: 0ms !important; }
+    @media screen and (max-width: 40em) {
+      .dnb-modal__content--no-animation-on-mobile .dnb-modal__content__inner {
+        animation-duration: 0ms !important; } }
+  .dnb-modal__title.dnb-h--large,
+  .dnb-core-style .dnb-modal__title.dnb-h--large:not([class*='dnb-space']) {
+    margin: 0;
+    padding: 0; }
+  .dnb-modal__wrapper {
+    position: relative;
+    z-index: 1;
+    padding-top: calc(var(--modal-spacing) / 2);
+    padding-bottom: calc(var(--modal-spacing) * 1.75); }
+    @media screen and (max-width: 40em) {
+      .dnb-modal__wrapper {
+        padding-bottom: calc(var(--modal-spacing) * 1.25); } }
+  .dnb-modal__content--drawer .dnb-modal__wrapper {
+    padding-top: calc(var(--modal-spacing) * 0.75);
+    padding-bottom: calc(var(--modal-spacing) * 2); }
+  .dnb-modal__wrapper__inner {
+    padding-bottom: calc(var(--modal-spacing) * 2);
+    margin-bottom: calc(1px - 1px - calc(var(--modal-spacing) * 1.75)); }
+    @media screen and (max-width: 40em) {
+      .dnb-modal__wrapper__inner.dnb-section::after {
+        min-height: calc( 100vh - var(--modal-content-top) - var(--modal-spacing) * 1.5 - var(--modal-height-offset, 0.0001rem)); } }
+  .dnb-modal__content--drawer .dnb-modal__wrapper__inner {
+    margin-bottom: calc(1px - 1px - calc(var(--modal-spacing) * 2)); }
+    .dnb-modal__content--drawer .dnb-modal__wrapper__inner.dnb-section::after {
+      min-height: calc( 100vh - var(--modal-drawer-content-top) - var(--modal-spacing) * 2 - var(--modal-height-offset, 0.0001rem)); }
+  .dnb-modal__close-button {
+    position: absolute;
+    top: calc(var(--modal-spacing) * 0.75);
+    right: var(--modal-spacing);
+    z-index: 1; }
+    @media screen and (max-width: 40em) {
+      .dnb-modal__close-button {
+        right: calc(var(--modal-spacing) / 2); } }
+    .dnb-modal__close-button--cross {
+      top: var(--modal-spacing); }
+      @media screen and (max-width: 40em) {
+        .dnb-modal__close-button--cross {
+          top: calc(var(--modal-spacing) / 2); } }
+  .dnb-modal__content--drawer .dnb-modal__close-button {
+    top: calc(var(--modal-spacing) * 1.75);
+    right: calc(var(--modal-spacing) * 1.75); }
+  .dnb-modal__overlay {
+    position: fixed;
+    z-index: var(--modal-z-index);
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--modal-overlay-bg);
+    box-shadow: 0 100vh 0 0 var(--modal-overlay-bg);
+    /* stylelint-disable-next-line */ }
+    html:not([data-dnb-test]) .dnb-modal__overlay--modal {
+      animation: show-modal-overlay 300ms ease-out forwards; }
+    html:not([data-dnb-test]) .dnb-modal__overlay--modal.dnb-modal__overlay--hide {
+      animation: hide-modal-overlay 300ms ease-in-out forwards; }
+    html:not([data-dnb-test]) .dnb-modal__overlay--drawer {
+      animation: show-drawer-overlay 300ms ease-out forwards; }
+    html:not([data-dnb-test]) .dnb-modal__overlay--drawer.dnb-modal__overlay--hide {
+      animation: hide-drawer-overlay 300ms ease-in-out forwards; }
+    .dnb-modal__overlay--no-animation {
+      animation-duration: 0ms !important; }
+    @media screen and (max-width: 40em) {
+      .dnb-modal__overlay--no-animation-on-mobile {
+        animation-duration: 0ms !important; } }
 "
 `;
