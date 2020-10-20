@@ -20,6 +20,10 @@ You can easily [customize the color](/uilib/components/section#customize-color).
 | `mint-green-12` | _(default)_ uses `--color-mint-green-12`.                                           |
 | `white`         | uses `--color-white`.                                                               |
 | `mint-green`    | uses `--color-mint-green`.                                                          |
+| `lavender`      | uses `--color-lavender`.                                                            |
+| `sand-yellow`   | uses `--color-sand-yellow`.                                                         |
+| `pistachio`     | uses `--color-pistachio`.                                                           |
+| `black-3`       | uses `--color-black-3`.                                                             |
 | `emerald-green` | uses `--color-emerald-green`.                                                       |
 | `signal-orange` | uses `--color-signal-orange`.                                                       |
 | `fire-red`      | uses `--color-fire-red`. Is used by [GlobalStatus](/uilib/components/global-status) |
