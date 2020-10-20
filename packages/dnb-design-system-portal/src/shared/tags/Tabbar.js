@@ -115,8 +115,9 @@ export default function Tabbar({
                 <Tabs />
                 {wasFullscreen ? (
                   <CloseButton
-                    on_click={quitFullscreen}
                     title="Quit Fullscreen"
+                    on_click={quitFullscreen}
+                    style_type="cross"
                   />
                 ) : (
                   <Button

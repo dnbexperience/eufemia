@@ -245,8 +245,9 @@ class ItemWrapper extends React.PureComponent {
                     <Tabs />
                     {this.state.wasFullscreen ? (
                       <CloseButton
-                        on_click={this.quitFullscreen}
+                        style_type="cross"
                         title="Quit Fullscreen"
+                        on_click={this.quitFullscreen}
                       />
                     ) : (
                       <Button
