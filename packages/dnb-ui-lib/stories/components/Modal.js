@@ -31,7 +31,7 @@ export const ModalSandbox = () => (
     <Global
       styles={css`
         :root {
-          --modal-height-offset: 3rem;
+          --modal-height-offset: 1rem;
         }
       `}
     />
@@ -96,7 +96,8 @@ export const ModalSandbox = () => (
     </Box>
     <Box>
       <Modal
-        min_width="60vw"
+        // min_width="60vw"
+        max_width="40rem"
         trigger_text="Open Modal"
         title="Modal Title"
         on_close={(e) => {
@@ -104,15 +105,15 @@ export const ModalSandbox = () => (
         }}
       >
         <Hr />
-        <Box>
+        <Section spacing>
           <H2>Some content</H2>
           <Input>Focus me with Tab key</Input>
-        </Box>
-        <Box>
+        </Section>
+        <Section spacing>
           <P>
             <Switch label="Checked:" checked />
           </P>
-        </Box>
+        </Section>
       </Modal>
     </Box>
     <Box>
@@ -329,15 +330,15 @@ const ModalCloseExample = () => {
         }}
       >
         <Hr />
-        <Box>
+        <Section spacing>
           <H2>Some content {count}</H2>
           <Input>Focus me with Tab key</Input>
-        </Box>
-        <Box>
+        </Section>
+        <Section spacing>
           <P>
             <Switch label="Checked:" checked />
           </P>
-        </Box>
+        </Section>
       </Modal>
     </>
   )

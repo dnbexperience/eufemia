@@ -6,7 +6,7 @@
 @mixin modalFullscreen() {
   width: 100vw;
   height: 100vh;
-  height: calc(100vh - var(--modal-height-offset));
+  height: calc(100vh - var(--modal-height-offset, 0.0001rem));
 
   max-width: 100%; // fixes overflow issue on some browsers
   max-height: 100%;
@@ -222,6 +222,7 @@
     &.dnb-h--large,
     .dnb-core-style &.dnb-h--large:not([class*='dnb-space']) {
       margin: 0;
+      margin-top: 4rem;
       padding: 0 2rem 0 0; // because of the close button
     }
   }
@@ -229,12 +230,18 @@
     position: relative;
     z-index: 1;
 
-    margin-top: calc(var(--modal-spacing) - 0.5rem);
-    margin-bottom: var(--modal-spacing);
+    // margin-top: calc(var(--modal-spacing) / 2);
+    // margin-bottom: var(--modal-spacing);
+
+    // @include allBelow(small) {
+    //   margin-bottom: calc(var(--modal-spacing) / 2);
+    // }
+
+    padding-top: calc(var(--modal-spacing) / 2);
+    padding-bottom: calc(var(--modal-spacing) * 1.75);
 
     @include allBelow(small) {
-      margin-top: calc(var(--modal-spacing) / 2);
-      margin-bottom: calc(var(--modal-spacing) / 2);
+      padding-bottom: calc(var(--modal-spacing) * 1.25);
     }
 
     // For testing large scrollable content
@@ -243,19 +250,26 @@
   }
 
   &__close-button {
-    // NB: as the specificity is several levels deep: html:not([data-whatintent='touch'] ) .dnb-button--secondary:hover:not([disabled])
-    // we use !important in case we define position="relative" on hover
     position: absolute;
-    top: var(--modal-spacing);
+    top: calc(var(--modal-spacing) - 0.5rem);
     right: var(--modal-spacing);
 
     // set a hight z-index because when font-size is 200%+
-    // then it is possible that someting else will come in front
+    // then it is possible that something else will come in front
     z-index: 1; // below #dropdown and #date-picker
 
     @include allBelow(small) {
-      top: calc(var(--modal-spacing) / 2);
       right: calc(var(--modal-spacing) / 2);
+    }
+
+    &--cross {
+      top: var(--modal-spacing);
+      right: var(--modal-spacing);
+
+      @include allBelow(small) {
+        top: calc(var(--modal-spacing) / 2);
+        right: calc(var(--modal-spacing) / 2);
+      }
     }
   }
 

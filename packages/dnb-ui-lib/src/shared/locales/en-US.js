@@ -56,8 +56,7 @@ export default {
       indicator_label: 'Getting data ...'
     },
     Modal: {
-      close_title: 'Close',
-      more_info: 'Help text'
+      close_title: 'Close'
     },
     HelpButton: {
       title: 'Help text',

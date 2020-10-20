@@ -191,16 +191,20 @@ export default class Modal extends React.PureComponent {
 
   static getDerivedStateFromProps(props, state) {
     if (state._listenForPropChanges) {
-      switch (props.open_state) {
-        case 'opened':
-          state.modalActive = true
-          break
-        case 'closed':
-          state.modalActive = false
-          break
+      if (props.open_state !== state._open_state) {
+        switch (props.open_state) {
+          case 'opened':
+            state.modalActive = true
+            break
+          case 'closed':
+            state.modalActive = false
+            break
+        }
       }
     }
     state._listenForPropChanges = true
+    state._open_state = props.open_state
+
     return state
   }
 
@@ -238,14 +242,19 @@ export default class Modal extends React.PureComponent {
         fn()
       }
     })
-    this.setState({
-      hide: true,
-      modalActive: false,
-      _listenForPropChanges: false
-    })
+
+    console.log('componentWillUnmount')
+
     clearTimeout(this._openTimeout)
     clearTimeout(this._closeTimeout)
     clearTimeout(this._sideEffectsTimeout)
+
+    this.setState({
+      hide: true,
+      modalActive: true,
+      _open_state: 'closed',
+      _listenForPropChanges: false
+    })
   }
 
   toggleOpenClose = (event = null, showModal = null) => {
@@ -447,7 +456,7 @@ export default class Modal extends React.PureComponent {
             useHelpButton &&
             (suffixProps || isTrue(as_help_button))
           ) {
-            additional.title = this.context.translation.Modal.more_info
+            additional.title = this.context.translation.HelpButton.title
           }
 
           let ariaLabel = null

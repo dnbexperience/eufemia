@@ -135,6 +135,8 @@ While the trigger button is not used anymore by using `trigger_hidden`.
 
 ### Close Modal by handlers
 
+With a `max_width` of `40rem`.
+
 <ComponentBox>
 	{
 	/* @jsx */ `
@@ -142,6 +144,7 @@ While the trigger button is not used anymore by using `trigger_hidden`.
   title="Auto close"
   trigger_text="Click me"
   align_content="center"
+  max_width="40rem"
   close_modal={close => {
     const timeout = setTimeout(close, 3e3)
     return () => clearTimeout(timeout) // clear timeout on unmount

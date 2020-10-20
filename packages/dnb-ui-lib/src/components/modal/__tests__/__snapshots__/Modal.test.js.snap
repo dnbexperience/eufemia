@@ -82,6 +82,7 @@ exports[`Modal component have to match snapshot 1`] = `
   open_state={null}
   prevent_close={false}
   prevent_core_style={false}
+  style_type="button"
   title="modal_title"
   trigger_class={null}
   trigger_disabled={null}
@@ -421,6 +422,7 @@ exports[`Modal component have to match snapshot 1`] = `
       open_modal={null}
       prevent_close={false}
       prevent_core_style={false}
+      style_type="button"
       title="modal_title"
       toggleOpenClose={[Function]}
     >
@@ -506,6 +508,7 @@ exports[`Modal component have to match snapshot 1`] = `
         overlay_class={null}
         prevent_close={false}
         prevent_core_style={false}
+        style_type="button"
         title="modal_title"
         toggleOpenClose={[Function]}
       >
@@ -541,8 +544,7 @@ exports[`Modal component have to match snapshot 1`] = `
                       modal_title
                     </h1>
                     <button
-                      aria-label="close_title"
-                      class="dnb-button dnb-button--secondary dnb-modal__close-button dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-medium dnb-button--size-medium"
+                      class="dnb-button dnb-button--secondary dnb-button--has-text dnb-modal__close-button dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-basis dnb-button--size-large"
                       type="button"
                     >
                       <span
@@ -551,20 +553,25 @@ exports[`Modal component have to match snapshot 1`] = `
                         ‌
                       </span>
                       <span
+                        class="dnb-button__text"
+                      >
+                        close_title
+                      </span>
+                      <span
                         aria-hidden="true"
                         aria-label="close icon"
-                        class="dnb-icon dnb-icon--medium dnb-button__icon"
+                        class="dnb-icon dnb-icon--default dnb-button__icon"
                         role="presentation"
                       >
                         <svg
                           fill="none"
-                          height="24"
-                          viewBox="0 0 24 24"
-                          width="24"
+                          height="16"
+                          viewBox="0 0 16 16"
+                          width="16"
                         >
                           <path
                             clip-rule="evenodd"
-                            d="M4.78 3.914a.75.75 0 00-1.06 1.061l7.22 7.22-7.22 7.22a.75.75 0 001.06 1.06l7.22-7.22 7.22 7.22a.75.75 0 001.06-1.06l-7.22-7.22 7.22-7.22a.75.75 0 00-1.06-1.06L12 11.134l-7.22-7.22z"
+                            d="M4.03 3.1a.75.75 0 10-1.06 1.06l3.97 3.97-3.97 3.97a.75.75 0 101.06 1.06L8 9.19l3.97 3.97a.75.75 0 101.06-1.06L9.06 8.13l3.97-3.97a.75.75 0 00-1.06-1.06L8 7.07 4.03 3.1z"
                             fill="#000"
                             fill-rule="evenodd"
                           />
@@ -599,11 +606,11 @@ exports[`Modal component have to match snapshot 1`] = `
                 </h1>
                 <CloseButton
                   className={null}
+                  close_title="close_title"
                   on_click={[Function]}
-                  title="close_title"
+                  style_type={null}
                 >
                   <Button
-                    aria-label="close_title"
                     bounding={false}
                     class={null}
                     className="dnb-modal__close-button"
@@ -614,17 +621,17 @@ exports[`Modal component have to match snapshot 1`] = `
                     href={null}
                     icon="close"
                     icon_position="right"
-                    icon_size="medium"
+                    icon_size="basis"
                     id={null}
                     innerRef={null}
                     onClick={null}
                     on_click={[Function]}
-                    size="medium"
+                    size="large"
                     skeleton={null}
                     status={null}
                     status_animation={null}
                     status_state="error"
-                    text={null}
+                    text="close_title"
                     title={null}
                     tooltip={null}
                     type="button"
@@ -632,18 +639,16 @@ exports[`Modal component have to match snapshot 1`] = `
                     wrap={false}
                   >
                     <button
-                      aria-label="close_title"
-                      className="dnb-button dnb-button--secondary dnb-modal__close-button dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-medium dnb-button--size-medium"
+                      className="dnb-button dnb-button--secondary dnb-button--has-text dnb-modal__close-button dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-basis dnb-button--size-large"
                       disabled={false}
                       onClick={[Function]}
                       type="button"
                     >
                       <Content
-                        aria-label="close_title"
                         bounding={false}
                         class={null}
                         className="dnb-modal__close-button"
-                        content={null}
+                        content="close_title"
                         custom_element={null}
                         custom_method={null}
                         disabled={null}
@@ -651,18 +656,18 @@ exports[`Modal component have to match snapshot 1`] = `
                         href={null}
                         icon="close"
                         icon_position="right"
-                        icon_size="medium"
+                        icon_size="basis"
                         id={null}
                         innerRef={null}
-                        isIconOnly={true}
+                        isIconOnly={false}
                         onClick={null}
                         on_click={[Function]}
-                        size="medium"
+                        size="large"
                         skeleton={null}
                         status={null}
                         status_animation={null}
                         status_state="error"
-                        text={null}
+                        text="close_title"
                         title={null}
                         tooltip={null}
                         type="button"
@@ -675,9 +680,15 @@ exports[`Modal component have to match snapshot 1`] = `
                         >
                           ‌
                         </span>
+                        <span
+                          className="dnb-button__text"
+                          key="button-text"
+                        >
+                          close_title
+                        </span>
                         <IconPrimary
                           alt={null}
-                          aria-hidden={null}
+                          aria-hidden={true}
                           attributes={null}
                           border={null}
                           className="dnb-button__icon"
@@ -686,7 +697,7 @@ exports[`Modal component have to match snapshot 1`] = `
                           icon="close"
                           key="button-icon"
                           modifier={null}
-                          size="medium"
+                          size="basis"
                           skeleton={null}
                           title={null}
                           width={null}
@@ -694,24 +705,24 @@ exports[`Modal component have to match snapshot 1`] = `
                           <span
                             aria-hidden={true}
                             aria-label="close icon"
-                            className="dnb-icon dnb-icon--medium dnb-button__icon"
+                            className="dnb-icon dnb-icon--default dnb-button__icon"
                             role="presentation"
                           >
-                            <close_medium>
+                            <close>
                               <svg
                                 fill="none"
-                                height={24}
-                                viewBox="0 0 24 24"
-                                width={24}
+                                height={16}
+                                viewBox="0 0 16 16"
+                                width={16}
                               >
                                 <path
                                   clipRule="evenodd"
-                                  d="M4.78 3.914a.75.75 0 00-1.06 1.061l7.22 7.22-7.22 7.22a.75.75 0 001.06 1.06l7.22-7.22 7.22 7.22a.75.75 0 001.06-1.06l-7.22-7.22 7.22-7.22a.75.75 0 00-1.06-1.06L12 11.134l-7.22-7.22z"
+                                  d="M4.03 3.1a.75.75 0 10-1.06 1.06l3.97 3.97-3.97 3.97a.75.75 0 101.06 1.06L8 9.19l3.97 3.97a.75.75 0 101.06-1.06L9.06 8.13l3.97-3.97a.75.75 0 00-1.06-1.06L8 7.07 4.03 3.1z"
                                   fill="#000"
                                   fillRule="evenodd"
                                 />
                               </svg>
-                            </close_medium>
+                            </close>
                           </span>
                         </IconPrimary>
                       </Content>
@@ -1268,7 +1279,7 @@ button.dnb-button::-moz-focus-inner {
         .dnb-modal__content__inner {
           width: 100vw;
           height: 100vh;
-          height: calc(100vh - var(--modal-height-offset));
+          height: calc(100vh - var(--modal-height-offset, 0.0001rem));
           max-width: 100%;
           max-height: 100%;
           padding: calc(var(--modal-spacing) / 2) calc(var(--modal-spacing) / 2) 0; } }
@@ -1291,7 +1302,7 @@ button.dnb-button::-moz-focus-inner {
     .dnb-modal__content--drawer .dnb-modal__content__inner {
       width: 100vw;
       height: 100vh;
-      height: calc(100vh - var(--modal-height-offset));
+      height: calc(100vh - var(--modal-height-offset, 0.0001rem));
       max-width: 100%;
       max-height: 100%;
       width: var(--modal-drawer-width);
@@ -1325,7 +1336,7 @@ button.dnb-button::-moz-focus-inner {
     html:not([data-dnb-test]) .dnb-modal__content--fullscreen .dnb-modal__content__inner {
       width: 100vw;
       height: 100vh;
-      height: calc(100vh - var(--modal-height-offset));
+      height: calc(100vh - var(--modal-height-offset, 0.0001rem));
       max-width: 100%;
       max-height: 100%;
       border-radius: 0; }
@@ -1360,25 +1371,31 @@ button.dnb-button::-moz-focus-inner {
   .dnb-modal__title.dnb-h--large,
   .dnb-core-style .dnb-modal__title.dnb-h--large:not([class*='dnb-space']) {
     margin: 0;
+    margin-top: 4rem;
     padding: 0 2rem 0 0; }
   .dnb-modal__wrapper {
     position: relative;
     z-index: 1;
-    margin-top: calc(var(--modal-spacing) - 0.5rem);
-    margin-bottom: var(--modal-spacing); }
+    padding-top: calc(var(--modal-spacing) / 2);
+    padding-bottom: calc(var(--modal-spacing) * 1.75); }
     @media screen and (max-width: 40em) {
       .dnb-modal__wrapper {
-        margin-top: calc(var(--modal-spacing) / 2);
-        margin-bottom: calc(var(--modal-spacing) / 2); } }
+        padding-bottom: calc(var(--modal-spacing) * 1.25); } }
   .dnb-modal__close-button {
     position: absolute;
-    top: var(--modal-spacing);
+    top: calc(var(--modal-spacing) - 0.5rem);
     right: var(--modal-spacing);
     z-index: 1; }
     @media screen and (max-width: 40em) {
       .dnb-modal__close-button {
-        top: calc(var(--modal-spacing) / 2);
         right: calc(var(--modal-spacing) / 2); } }
+    .dnb-modal__close-button--cross {
+      top: var(--modal-spacing);
+      right: var(--modal-spacing); }
+      @media screen and (max-width: 40em) {
+        .dnb-modal__close-button--cross {
+          top: calc(var(--modal-spacing) / 2);
+          right: calc(var(--modal-spacing) / 2); } }
   .dnb-modal__overlay {
     position: fixed;
     z-index: var(--modal-z-index);

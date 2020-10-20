@@ -56,8 +56,7 @@ export default {
       indicator_label: 'Henter data ...'
     },
     Modal: {
-      close_title: 'Lukk',
-      more_info: 'Hjelpetekst'
+      close_title: 'Lukk'
     },
     HelpButton: {
       title: 'Hjelpetekst',

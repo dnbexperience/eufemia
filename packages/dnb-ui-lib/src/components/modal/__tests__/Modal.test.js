@@ -22,6 +22,7 @@ const props = fakeProps(require.resolve('../Modal'), {
 props.title = 'modal_title'
 props.id = 'modal_id'
 props.content_id = 'modal_content_id'
+props.style_type = 'button'
 props.modal_content = 'unique_modal_content'
 props.close_title = 'close_title'
 props.direct_dom_return = true
@@ -186,9 +187,9 @@ describe('Modal component', () => {
   })
   it('has to have a close button', () => {
     expect(
-      Comp.find(`button[aria-label="${props.close_title}"]`).props()[
-        'aria-label'
-      ]
+      String(
+        Comp.find('button.dnb-modal__close-button').instance().textContent
+      ).replace(/\u200C/g, '')
     ).toBe(props.close_title)
   })
   it('has to have no icon', () => {
