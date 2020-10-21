@@ -60,7 +60,6 @@
     "make-properties": "babel-node ./scripts/prepub/makeProperties",
     "publish-ci": "babel-node ./scripts/release/prepareForRelease.js && cd ./build && dotenv semantic-release",
     "publish:dry": "yarn publish-ci --no-ci --dry-run --debug",
-    "publish:postpack": "yarn pack && nodemon --exec 'babel-node ./scripts/release/postpack.js' ",
     "reset": "rm -rf ./node_modules ./components ./elements ./es ./icons ./patterns ./shared ./style ./umd",
     "skeleton:font": "nodemon --exec 'babel-node ./scripts/tools/createSkeletonFont.js'",
     "start": "start-storybook -s / -p 8002 --ci --no-release-notes --no-version-updates",
