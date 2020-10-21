@@ -52,11 +52,7 @@ export default class Accordion extends React.PureComponent {
   static Content = AccordionContent
 
   static propTypes = {
-    label: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.func,
-      PropTypes.node
-    ]),
+    label: PropTypes.node,
     title: PropTypes.string,
     expanded: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     no_animation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -79,11 +75,7 @@ export default class Accordion extends React.PureComponent {
       PropTypes.bool
     ]),
     variant: PropTypes.oneOf(['default', 'outlined', 'filled']),
-    left_component: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.node,
-      PropTypes.func
-    ]),
+    left_component: PropTypes.node,
     allow_close_all: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.bool
@@ -92,26 +84,13 @@ export default class Accordion extends React.PureComponent {
     skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     id: PropTypes.string,
     group: PropTypes.string,
-    element: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.node,
-      PropTypes.func
-    ]),
-    heading: PropTypes.oneOfType([
-      PropTypes.bool,
-      PropTypes.string,
-      PropTypes.node,
-      PropTypes.func
-    ]),
+    element: PropTypes.node,
+    heading: PropTypes.oneOfType([PropTypes.bool, PropTypes.node]),
     heading_level: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.number
     ]),
-    icon: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.node,
-      PropTypes.func
-    ]),
+    icon: PropTypes.node,
     icon_position: PropTypes.string,
     icon_size: PropTypes.string,
     attributes: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
@@ -119,11 +98,7 @@ export default class Accordion extends React.PureComponent {
 
     /// React props
     className: PropTypes.string,
-    children: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.node,
-      PropTypes.func
-    ]),
+    children: PropTypes.node,
 
     custom_element: PropTypes.object,
     custom_method: PropTypes.func,
@@ -220,6 +195,16 @@ export default class Accordion extends React.PureComponent {
     }
 
     this.store = new Store({ id: props.id, group: this.state.group })
+
+    if (
+      isTrue(props.remember_state || context.remember_state) &&
+      isTrue(props.expanded)
+    ) {
+      const expanded = this.store.getState()
+      if (expanded === false) {
+        this.state.expanded = false
+      }
+    }
 
     if (context && typeof context?.onInit === 'function') {
       context.onInit(this)

@@ -33,7 +33,7 @@ function AccordionHeaderTitle({ children, ...rest }) {
   )
 }
 AccordionHeaderTitle.propTypes = {
-  children: PropTypes.oneOfType([PropTypes.node, PropTypes.func])
+  children: PropTypes.node
 }
 AccordionHeaderTitle.defaultProps = {
   children: null
@@ -52,7 +52,7 @@ function AccordionHeaderDescription({ children, ...rest }) {
   ) : null
 }
 AccordionHeaderDescription.propTypes = {
-  children: PropTypes.oneOfType([PropTypes.node, PropTypes.func])
+  children: PropTypes.node
 }
 AccordionHeaderDescription.defaultProps = {
   children: null
@@ -71,7 +71,7 @@ function AccordionHeaderContainer({ children, ...rest }) {
   ) : null
 }
 AccordionHeaderContainer.propTypes = {
-  children: PropTypes.oneOfType([PropTypes.node, PropTypes.func])
+  children: PropTypes.node
 }
 AccordionHeaderContainer.defaultProps = {
   children: null

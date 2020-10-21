@@ -28,6 +28,22 @@ const TestStyles = styled.div`
   }
 `
 
+const DidRender = ({ message }) => {
+  React.useEffect(() => {
+    console.log('DidRender', message)
+  }, [])
+  return <></>
+}
+
+class DidRender2 extends React.PureComponent {
+  componentDidMount() {
+    console.log('DidRender2', this.props.message)
+  }
+  render() {
+    return <></>
+  }
+}
+
 export const AccordionSandbox = () => {
   return (
     <Wrapper>
@@ -66,10 +82,14 @@ export const AccordionSandbox = () => {
           <Accordion top>
             <Accordion.Header>Accordion title 2</Accordion.Header>
             <Accordion.Content>
-              <P>
-                Nec sit mattis natoque interdum sagittis cubilia nibh
-                nullam etiam
-              </P>
+              {() => {
+                return (
+                  <P>
+                    Nec sit mattis natoque interdum sagittis cubilia nibh
+                    nullam etiam
+                  </P>
+                )
+              }}
             </Accordion.Content>
           </Accordion>
         </Accordion.Group>
@@ -168,6 +188,8 @@ function AccordionWithContainer() {
           top="medium"
           instance={changeHeight.ref1}
         >
+          <DidRender message="one" />
+          <DidRender2 message="one" />
           <ChangingContent changeHeight={changeHeight.ref1}>
             <div
               style={{
@@ -198,6 +220,8 @@ function AccordionWithContainer() {
           top="medium"
           instance={changeHeight.ref2}
         >
+          <DidRender message="two" />
+          <DidRender2 message="two" />
           <ChangingContent changeHeight={changeHeight.ref2}>
             <div
               style={{
