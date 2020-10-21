@@ -495,7 +495,7 @@ exports[`Accordion scss have to match snapshot 1`] = `
           transform: rotate(-90deg); }
       .dnb-accordion-group--single-container .dnb-accordion__content {
         margin-left: 1rem;
-        transition: opacity 2000ms var(--accordion-easing); }
+        transition: opacity 2s var(--accordion-easing); }
         .dnb-accordion-group--single-container .dnb-accordion__content__inner {
           margin-top: 0; } }
   .dnb-accordion-group--single-container .dnb-accordion-group__children {
