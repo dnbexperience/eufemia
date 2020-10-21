@@ -32,20 +32,18 @@ export const ModalSandbox = () => (
     <Global
       styles={css`
         :root {
-          /* --modal-height-offset: 7rem; */
+          --modal-height-offset: 7rem;
         }
       `}
     />
 
-    {/* <Box>
-        <h1 tabIndex="0" aria-hidden="true">
-          h1
-        </h1>
-        <h2 tabIndex="-1" aria-hidden="false">
-          h2
-        </h2>
-        <h3>h3</h3>
-      </Box> */}
+    <Box>
+      <Modal title="Modal Title" open_state="opened">
+        <Modal.Inner spacing style_type="mint-green">
+          <P>This is the modal text. Triggered by the help button.</P>
+        </Modal.Inner>
+      </Modal>
+    </Box>
 
     <Box>
       <Input
@@ -59,7 +57,7 @@ export const ModalSandbox = () => (
       {/* <Button variant="tertiary" text="Button" /> */}
       <Modal
         // no_animation
-        open_state="opened"
+        // open_state="opened"
         // mode="drawer"
         // fullscreen
         // container_placement="left"
@@ -108,16 +106,16 @@ export const ModalSandbox = () => (
           console.log('on_close', e)
         }}
       >
-        <Hr />
-        <Section spacing>
-          <H2>Some content</H2>
+        <Modal.Inner spacing>
+          <Hr />
+          <H2 top>Some content</H2>
           <Input>Focus me with Tab key</Input>
-        </Section>
-        <Section spacing>
-          <P>
-            <Switch label="Checked:" checked />
-          </P>
-        </Section>
+          <Section top spacing>
+            <P>
+              <Switch label="Checked:" checked />
+            </P>
+          </Section>
+        </Modal.Inner>
       </Modal>
     </Box>
     <Box>
@@ -149,7 +147,7 @@ export const DrawerSandbox = () => (
       {/* <Button variant="tertiary" text="Button" /> */}
       <Modal
         // no_animation
-        open_state="opened"
+        // open_state="opened"
         mode="drawer"
         // fullscreen
         // container_placement="left"
@@ -229,19 +227,21 @@ class ModalRerenderExample extends React.PureComponent {
         // trigger_disabled
         // trigger_hidden
       >
-        {/* <Hr /> */}
-        {/* <Box>
+        <Modal.Inner spacing>
+          {/* <Hr /> */}
+          {/* <Box>
           <H2>Some content</H2>
           <Input>Focus me with Tab key</Input>
         </Box> */}
-        <DatePicker label="DatePicker" right />
-        <Dropdown
-          label="Dropdown"
-          data={dropdownData}
-          right
-          direction="top"
-        />
-        {/* <Switch label="Checked:" checked right /> */}
+          <DatePicker label="DatePicker" right />
+          <Dropdown
+            label="Dropdown"
+            data={dropdownData}
+            right
+            direction="top"
+          />
+          {/* <Switch label="Checked:" checked right /> */}
+        </Modal.Inner>
       </Modal>
     )
   }

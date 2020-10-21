@@ -246,25 +246,19 @@
 
   &__wrapper__inner {
     padding-bottom: calc(var(--modal-spacing) * 2);
-    margin-bottom: calc(1px - 1px - calc(var(--modal-spacing) * 1.75));
+    margin-bottom: calc(-1px - calc(var(--modal-spacing) * 1.75) + 1px);
 
     @include allBelow(small) {
       &.dnb-section::after {
-        min-height: calc(
-          100vh - var(--modal-content-top) - var(--modal-spacing) * 1.5 -
-            var(--modal-height-offset, 0.0001rem)
-        );
+        min-height: calc(100vh - var(--modal-content-top));
       }
     }
   }
   &__content--drawer &__wrapper__inner {
-    margin-bottom: calc(1px - 1px - calc(var(--modal-spacing) * 2));
+    margin-bottom: calc(-1px - calc(var(--modal-spacing) * 2) + 1px);
 
     &.dnb-section::after {
-      min-height: calc(
-        100vh - var(--modal-drawer-content-top) - var(--modal-spacing) * 2 -
-          var(--modal-height-offset, 0.0001rem)
-      );
+      min-height: calc(100vh - var(--modal-drawer-content-top));
     }
   }
 
