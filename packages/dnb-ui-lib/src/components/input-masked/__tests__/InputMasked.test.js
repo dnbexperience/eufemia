@@ -43,6 +43,14 @@ describe('InputMasked component', () => {
 
     expect(Comp.find('input').instance().value).toBe('NOK 1 000 000,- kr.')
   })
+
+  it('gets valid ref element', () => {
+    const ref = React.createRef()
+    mount(<Component {...props} inner_ref={ref} />)
+
+    expect(ref.current instanceof window.HTMLInputElement).toBe(true)
+    expect(ref.current.id).toBe(props.id)
+  })
 })
 
 describe('InputMasked scss', () => {

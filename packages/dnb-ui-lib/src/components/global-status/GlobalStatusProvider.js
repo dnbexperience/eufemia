@@ -35,11 +35,9 @@ class GlobalStatusProvider {
       newStatus.addOnReady(newStatus, onReady)
     }
 
-    warn(
-      `No <GlobalStatus ${
-        id === 'main' ? '' : `id="${id}" `
-      }/> found. WCAG requires a summarization.`
-    )
+    if (id !== 'main') {
+      warn(`No <GlobalStatus ${`id="${id}"`} /> found.`)
+    }
 
     return newStatus
   }

@@ -13,7 +13,11 @@ import { bell as Bell } from '../../src/icons'
 import { H2 } from '../../src/elements'
 import { TabsNavigation } from './TabsNavigation'
 
-export const TabsStories = () => {
+export default {
+  title: 'Eufemia/Components/Tabs'
+}
+
+export const TabsSandbox = () => {
   const [value, setValue] = React.useState('test')
 
   return (
@@ -134,7 +138,6 @@ export const TabsStories = () => {
     </Wrapper>
   )
 }
-TabsStories.title = 'Tabs'
 
 const tablistDataWithContent = [
   { title: 'First', key: 1, content: <H2>First</H2> },

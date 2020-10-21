@@ -8,7 +8,11 @@ import { Wrapper, Box } from '../helpers'
 
 import { Logo } from 'dnb-ui-lib/src/components'
 
-export const Logos = () => {
+export default {
+  title: 'Eufemia/Components/Logo'
+}
+
+export const LogoSandbox = () => {
   return (
     <Wrapper>
       <Box>

@@ -19,10 +19,15 @@ import {
   DatePicker,
   Button,
   FormRow,
+  Dropdown,
   Input,
   Section
 } from '../../src/components'
 // import { H2 } from '../../src/elements'
+
+export default {
+  title: 'Eufemia/Components/DatePicker'
+}
 
 const Scrollbar = styled.div`
   height: 10rem;
@@ -37,78 +42,30 @@ const ScrollbarInner = styled.div`
 `
 
 const ChangeLocale = () => {
-  const { setLocale, translation } = React.useContext(Context)
+  const {
+    setLocale,
+    // setCurrentLocale,// to update only the current context
+    locale
+  } = React.useContext(Context)
 
-  // console.log('translation 1', translation)
+  // React.useEffect(() => {
+  //   setTimeout(() => {
+  //     setLocale('en-US')
+  //   }, 2e3)
+  // }, [])
 
-  React.useEffect(() => {
-    setTimeout(() => {
-      setLocale('en-US')
-    }, 2e3)
-  }, [])
-
-  return translation.myString || 'empty'
+  return (
+    <Dropdown
+      value={locale}
+      data={{ 'en-US': 'English', 'nb-NO': 'Norsk' }}
+      on_change={({ data: { selected_key: locale } }) => {
+        setLocale(locale)
+      }}
+    />
+  )
 }
 
-export const SingleDatePicker = () => (
-  <DatePicker
-    label="DatePicker:"
-    // label_direction="vertical"
-    // date={new Date()}
-    // start_date={new Date()}
-    // start_date="1981-01-15"
-    start_date="2019-01-15"
-    end_date="2019-06-15"
-    range
-    // link
-    // sync={false}
-    // opened={true}
-    show_input
-    // on_show={(props) => {
-    //   console.log('on_show', props)
-    // }}
-    // on_hide={(props) => {
-    //   console.log('on_hide', props)
-    // }}
-    on_change={(props) => {
-      console.log('on_change', props)
-    }}
-    // on_submit={(props) => {
-    //   console.log('on_submit', props)
-    // }}
-    // on_cancel={(props) => {
-    //   console.log('on_cancel', props)
-    // }}
-    // status="Please select a valid date"
-    // shortcuts={[
-    //   { title: 'Set date', date: '2019-11-15' },
-    //   {
-    //     title: 'Relative +3 days',
-    //     date: ({ date }) => date && addDays(date, 3)
-    //   }
-    // ]}
-
-    shortcuts={[
-      {
-        title: 'Set date period',
-        start_date: '1969-07-15',
-        end_date: '1969-08-15'
-      },
-      {
-        title: 'This month',
-        start_date: startOfMonth(new Date()),
-        end_date: lastDayOfMonth(new Date())
-      },
-      {
-        title: 'Relative +3 days',
-        start_date: ({ start_date }) => start_date || new Date(),
-        end_date: ({ end_date }) => addDays(end_date || new Date(), 3)
-      }
-    ]}
-  />
-)
-
-export const DatePickers = () => (
+export const DatePickerSandbox = () => (
   <Wrapper>
     <Box>
       <FormRow vertical>

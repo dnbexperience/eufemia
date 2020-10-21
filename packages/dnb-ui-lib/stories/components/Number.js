@@ -14,6 +14,10 @@ import Dropdown from '../../src/components/Dropdown'
 // import { format } from '../../src/components/Number'
 import Context from '../../src/shared/Context'
 
+export default {
+  title: 'Eufemia/Components/Number'
+}
+
 const CustomStyle = styled.div`
   .dnb-number {
     ${'' /* display: block; */}
@@ -49,7 +53,7 @@ const Prefix = styled.b`
 
 // new Intl.NumberFormat('nb-NO', { minimumFractionDigits: 4, maximumFractionDigits: 4, style: 'currency', currency: 'NOK' }).format(-12345)
 
-export const Numbers = () => {
+export const NumberSandbox = () => {
   return (
     <CustomStyle>
       <Provider

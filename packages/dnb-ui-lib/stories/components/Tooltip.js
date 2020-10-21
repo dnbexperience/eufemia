@@ -17,7 +17,11 @@ const StyledTooltip = styled(Tooltip)`
   margin-bottom: 4rem;
 `
 
-export const Tooltips = () => {
+export default {
+  title: 'Eufemia/Components/Tooltip'
+}
+
+export const TooltipSandbox = () => {
   return (
     <Wrapper>
       <Box>

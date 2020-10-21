@@ -15,6 +15,10 @@ import Component from '../HelpButton'
 const snapshotProps = fakeProps(require.resolve('../HelpButton'), {})
 snapshotProps.id = 'help-button'
 
+const props = {}
+props.id = 'help-button'
+props.no_animation = true
+
 describe('HelpButton component', () => {
   it('have to match snapshot', () => {
     const Comp = mount(<Component {...snapshotProps} />)
@@ -22,10 +26,35 @@ describe('HelpButton component', () => {
   })
 
   it('should have correct default icon', () => {
-    const Comp = mount(<Component />)
+    const Comp = mount(<Component {...props} />)
     expect(
       Comp.find('.dnb-icon').instance().getAttribute('aria-label')
     ).toBe('question icon')
+  })
+
+  it('should have correct role description', () => {
+    const Comp = mount(<Component {...props} />)
+    expect(
+      Comp.find('.dnb-button')
+        .instance()
+        .getAttribute('aria-roledescription')
+    ).toBe('Hjelp-knapp')
+  })
+
+  it('should open a modal if children are given', () => {
+    const modalContent = 'Modal Content'
+    const Comp = mount(<Component {...props}>{modalContent}</Component>)
+
+    Comp.find('button.dnb-modal__trigger').simulate('click')
+
+    const id = `#dnb-modal-${props.id}`
+    const modalElem = document.querySelector(id)
+    const textContent = String(modalElem.textContent).replace(
+      /\u200C/g,
+      ''
+    )
+
+    expect(textContent).toContain(modalContent)
   })
 })
 

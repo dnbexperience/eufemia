@@ -11,6 +11,7 @@ import Provider from '../../src/shared/Provider'
 import {
   ToggleButton,
   Accordion,
+  Button,
   // Input,
   IconPrimary,
   Heading
@@ -18,13 +19,33 @@ import {
 
 import { P } from '../../src/elements'
 
+export default {
+  title: 'Eufemia/Components/Accordion'
+}
+
 const TestStyles = styled.div`
   .dnb-accordion-group--single-container {
     background-color: turquoise;
   }
 `
 
-export const Accordions = () => {
+const DidRender = ({ message }) => {
+  React.useEffect(() => {
+    console.log('DidRender', message)
+  }, [])
+  return <></>
+}
+
+class DidRender2 extends React.PureComponent {
+  componentDidMount() {
+    console.log('DidRender2', this.props.message)
+  }
+  render() {
+    return <></>
+  }
+}
+
+export const AccordionSandbox = () => {
   return (
     <Wrapper>
       <Box>
@@ -62,10 +83,14 @@ export const Accordions = () => {
           <Accordion top>
             <Accordion.Header>Accordion title 2</Accordion.Header>
             <Accordion.Content>
-              <P>
-                Nec sit mattis natoque interdum sagittis cubilia nibh
-                nullam etiam
-              </P>
+              {() => {
+                return (
+                  <P>
+                    Nec sit mattis natoque interdum sagittis cubilia nibh
+                    nullam etiam
+                  </P>
+                )
+              }}
             </Accordion.Content>
           </Accordion>
         </Accordion.Group>
@@ -127,6 +152,8 @@ function AccordionWithContainer() {
   const ref1 = React.useRef()
   const ref2 = React.useRef()
   const [changeHeight] = React.useState(() => ({ ref1, ref2 }))
+  const [flushCache, flushCacheNow] = React.useState(false)
+  console.log('flushCache', flushCache)
   return (
     <Accordion.Group
       variant="outlined"
@@ -134,6 +161,7 @@ function AccordionWithContainer() {
       // prevent_rerender_conditional
       single_container
       remember_state
+      flush_remembered_state={flushCache}
       // prerender
       // allow_close_all
       id="gorup-id"
@@ -164,6 +192,8 @@ function AccordionWithContainer() {
           top="medium"
           instance={changeHeight.ref1}
         >
+          <DidRender message="one" />
+          <DidRender2 message="one" />
           <ChangingContent changeHeight={changeHeight.ref1}>
             <div
               style={{
@@ -194,6 +224,18 @@ function AccordionWithContainer() {
           top="medium"
           instance={changeHeight.ref2}
         >
+          <DidRender message="two" />
+          <DidRender2 message="two" />
+          <Button
+            on_click={() => {
+              flushCacheNow(!flushCache)
+              setTimeout(() => {
+                flushCacheNow(flushCache)
+              }, 1e3)
+            }}
+          >
+            Flush Remembered State
+          </Button>
           <ChangingContent changeHeight={changeHeight.ref2}>
             <div
               style={{

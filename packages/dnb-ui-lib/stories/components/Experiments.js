@@ -19,6 +19,10 @@ import {
   FormRow
 } from '../../src/components'
 
+export default {
+  title: 'Eufemia/Components/Experiments'
+}
+
 const Center = styled.div`
   display: flex;
   justify-content: center;
@@ -35,7 +39,7 @@ const PhoneRow = styled(FormRow)`
   }
 `
 
-export const Experiments = () => (
+export const ExperimentsSandbox = () => (
   <Center>
     <Wrapper>
       <Box>

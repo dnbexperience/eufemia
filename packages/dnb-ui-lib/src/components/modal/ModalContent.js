@@ -17,10 +17,12 @@ import {
   isTrue,
   makeUniqueId,
   InteractionInvalidation,
+  extendPropsWithContext,
   validateDOMAttributes
 } from '../../shared/component-helper'
 import Button from '../button/Button'
 import ScrollView from '../../fragments/scroll-view/ScrollView'
+import Context from '../../shared/Context'
 
 export default class ModalContent extends React.PureComponent {
   static propTypes = {
@@ -29,11 +31,7 @@ export default class ModalContent extends React.PureComponent {
     mode: PropTypes.string,
     labelled_by: PropTypes.string,
     content_id: PropTypes.string,
-    title: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.node,
-      PropTypes.func
-    ]),
+    title: PropTypes.node,
     close_title: PropTypes.string,
     hide_close_button: PropTypes.oneOfType([
       PropTypes.string,
@@ -72,8 +70,8 @@ export default class ModalContent extends React.PureComponent {
     hide: false,
     labelled_by: null,
     content_id: null,
-    title: 'Lukk',
-    close_title: 'Lukk',
+    title: null,
+    close_title: null,
     hide_close_button: false,
     prevent_close: null,
     prevent_core_style: null,
@@ -237,7 +235,6 @@ export default class ModalContent extends React.PureComponent {
     }
 
     if (labelled_by) {
-      contentParams['aria-labelledby'] = labelled_by
       contentParams['aria-describedby'] = labelled_by
     }
     const overlayParams = {
@@ -260,10 +257,20 @@ export default class ModalContent extends React.PureComponent {
         <div {...contentParams}>
           <ScrollView {...innerParams} ref={this._contentRef}>
             {title && (
-              <h1 className="dnb-modal__title dnb-h--large">{title}</h1>
+              <h1
+                className={classnames(
+                  'dnb-modal__title',
+                  mode === 'drawer' ? 'dnb-h--x-large' : 'dnb-h--large'
+                )}
+              >
+                {title}
+              </h1>
             )}
             {!isTrue(hide_close_button) && (
-              <CloseButton on_click={closeModal} title={close_title} />
+              <CloseButton
+                on_click={closeModal}
+                close_title={close_title}
+              />
             )}
             <div className="dnb-modal__wrapper">{modal_content}</div>
           </ScrollView>
@@ -274,24 +281,56 @@ export default class ModalContent extends React.PureComponent {
   }
 }
 
-export const CloseButton = ({ on_click, title, className = null }) => (
-  <Button
-    type="button"
-    variant="secondary"
-    size="medium"
-    className={classnames('dnb-modal__close-button', className)}
-    icon="close"
-    icon_size="medium"
-    aria-label={title}
-    on_click={on_click}
-  />
-)
-CloseButton.propTypes = {
-  on_click: PropTypes.func.isRequired,
-  className: PropTypes.string,
-  title: PropTypes.string
-}
-CloseButton.defaultProps = {
-  className: null,
-  title: 'Lukk'
+export class CloseButton extends React.PureComponent {
+  static contextType = Context
+  static propTypes = {
+    style_type: PropTypes.oneOf(['button', 'cross']),
+    on_click: PropTypes.func.isRequired,
+    close_title: PropTypes.string,
+    className: PropTypes.string
+  }
+  static defaultProps = {
+    style_type: null,
+    close_title: null,
+    className: null
+  }
+
+  render() {
+    // use only the props from context, who are available here anyway
+    const {
+      on_click,
+      style_type,
+      close_title,
+      className = null,
+      ...rest
+    } = extendPropsWithContext(
+      this.props,
+      CloseButton.defaultProps,
+      this.context.formRow,
+      this.context.translation.Modal
+    )
+
+    if (style_type === 'cross') {
+      rest.icon_size = 'medium'
+    } else {
+      rest.size = 'large'
+      rest.icon_size = 'basis'
+      rest.text = close_title
+    }
+
+    return (
+      <Button
+        type="button"
+        variant="secondary"
+        className={classnames(
+          'dnb-modal__close-button',
+          style_type && `dnb-modal__close-button--${style_type}`,
+          className
+        )}
+        icon="close"
+        on_click={on_click}
+        {...rest}
+      />
+    )
+  }
 }

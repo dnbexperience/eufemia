@@ -216,7 +216,7 @@ export default class Input extends React.PureComponent {
   constructor(props, context) {
     super(props)
 
-    this._ref = this.props.inner_ref || React.createRef()
+    this._ref = props.inner_ref || React.createRef()
 
     this._id =
       props.id ||
@@ -229,6 +229,9 @@ export default class Input extends React.PureComponent {
     this.state._listenForPropChanges = true
     this.state._value = props.value
   }
+  componentWillUnmount() {
+    clearTimeout(this._selectallTimeout)
+  }
   onFocusHandler = (event) => {
     const { value } = event.target
     this.setState({
@@ -237,8 +240,11 @@ export default class Input extends React.PureComponent {
       _listenForPropChanges: false
     })
 
+    dispatchCustomElementEvent(this, 'on_focus', { value, event })
+
     if (isTrue(this.props.selectall) && this._ref.current) {
-      setTimeout(() => {
+      clearTimeout(this._selectallTimeout)
+      this._selectallTimeout = setTimeout(() => {
         try {
           this._ref.current.select()
         } catch (e) {
@@ -246,8 +252,6 @@ export default class Input extends React.PureComponent {
         }
       }, 1) // safari needs a delay
     }
-
-    dispatchCustomElementEvent(this, 'on_focus', { value, event })
   }
   onBlurHandler = (event) => {
     const { value } = event.target

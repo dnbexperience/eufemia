@@ -4,10 +4,12 @@
  */
 
 import React from 'react'
-import { Wrapper, Box } from './helpers'
+import { Wrapper, Box } from '../helpers'
 import styled from '@emotion/styled'
 
-export default { title: 'Typography' }
+export default {
+  title: 'Eufemia/Elements/Typography'
+}
 
 const CustomStyle = styled.div`
   h1,
@@ -37,7 +39,7 @@ const CustomStyle = styled.div`
   }
 `
 
-const Typography = () => (
+const HeadingsWithStyles = () => (
   <CustomStyle>
     <h1 className="dnb-h--xx-large">H1</h1>
     <h2 className="dnb-h--large">H2</h2>
@@ -58,7 +60,15 @@ const Typography = () => (
   </CustomStyle>
 )
 
-export const Paragraphs = () => (
+export const Headings = () => (
+  <Wrapper className="dnb-spacing">
+    <Box>
+      <HeadingsWithStyles />
+    </Box>
+  </Wrapper>
+)
+
+export const Paragraph = () => (
   <Wrapper className="dnb-spacing">
     <CustomStyle>
       <Box>
@@ -77,14 +87,6 @@ export const Paragraphs = () => (
         <h2 className="dnb-h--large">H3</h2>
       </Box>
     </CustomStyle>
-  </Wrapper>
-)
-
-export const Headings = () => (
-  <Wrapper className="dnb-spacing">
-    <Box>
-      <Typography />
-    </Box>
   </Wrapper>
 )
 
@@ -162,7 +164,7 @@ export const Small = () => (
 export const HeadingsOutside = () => (
   <Wrapper>
     <Box>
-      <Typography />
+      <HeadingsWithStyles />
     </Box>
   </Wrapper>
 )

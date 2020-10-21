@@ -17,6 +17,10 @@ import {
 
 import '../../src/components/slider/style/dnb-range.scss'
 
+export default {
+  title: 'Eufemia/Components/Slider'
+}
+
 const VerticalWrapper = styled.div`
   display: inline-flex;
   align-items: center;

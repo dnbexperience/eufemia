@@ -16,7 +16,11 @@ import {
   Section
 } from '../../src'
 
-export const Providers = () => {
+export default {
+  title: 'Eufemia/Components/Provider'
+}
+
+export const ProviderSandbox = () => {
   return (
     <Wrapper>
       <Box>

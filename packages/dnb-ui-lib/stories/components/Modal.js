@@ -17,30 +17,33 @@ import {
   DatePicker,
   FormSet,
   FormRow,
+  // Space,
   Number
 } from '../../src/components'
 // import { format } from '../../src/components/Number'
 import { H2, P, Hr } from '../../src/elements'
 
-export const Modals = () => (
+export default {
+  title: 'Eufemia/Components/Modal'
+}
+
+export const ModalSandbox = () => (
   <Wrapper>
     <Global
       styles={css`
         :root {
-          --modal-height-offset: 3rem;
+          --modal-height-offset: 7rem;
         }
       `}
     />
 
-    {/* <Box>
-        <h1 tabIndex="0" aria-hidden="true">
-          h1
-        </h1>
-        <h2 tabIndex="-1" aria-hidden="false">
-          h2
-        </h2>
-        <h3>h3</h3>
-      </Box> */}
+    <Box>
+      <Modal title="Modal Title" open_state="opened">
+        <Modal.Inner spacing style_type="mint-green">
+          <P>This is the modal text. Triggered by the help button.</P>
+        </Modal.Inner>
+      </Modal>
+    </Box>
 
     <Box>
       <Input
@@ -51,28 +54,31 @@ export const Modals = () => (
     </Box>
 
     <Box>
-      <Button variant="tertiary" text="Button" />
+      {/* <Button variant="tertiary" text="Button" /> */}
       <Modal
         // no_animation
         // open_state="opened"
-        mode="drawer"
+        // mode="drawer"
         // fullscreen
-        container_placement="left"
-        align_content="right"
+        // container_placement="left"
+        // align_content="right"
         // align_content="center"
         // drawer_offset={}
-        // title="Tertiary test"
-        title={<span className="dnb-sr-only">Test</span>}
+        title="Title 1"
+        trigger_text="Modal in modal"
+        // title={<span className="dnb-sr-only">Test</span>}
         // min_width="20vw"
         // max_width="40vw"
-        overlay_class="overlay_class"
-        content_class="content_class"
-        class="inner_class"
+        // overlay_class="overlay_class"
+        // content_class="content_class"
+        // class="inner_class"
       >
-        <Button variant="tertiary" text="Button" />
-        <Section>
+        <Modal title="Title 2" open_state="opened">
+          New content 2 <Modal title="Title 3">New content 3</Modal>
+        </Modal>
+        {/* <Section>
           <Button variant="tertiary" text="Button" />
-        </Section>
+        </Section> */}
         <FillContent />
       </Modal>
     </Box>
@@ -92,23 +98,24 @@ export const Modals = () => (
     </Box>
     <Box>
       <Modal
-        min_width="60vw"
+        // min_width="60vw"
+        max_width="40rem"
         trigger_text="Open Modal"
         title="Modal Title"
         on_close={(e) => {
           console.log('on_close', e)
         }}
       >
-        <Hr />
-        <Box>
-          <H2>Some content</H2>
+        <Modal.Inner spacing>
+          <Hr />
+          <H2 top>Some content</H2>
           <Input>Focus me with Tab key</Input>
-        </Box>
-        <Box>
-          <P>
-            <Switch label="Checked:" checked />
-          </P>
-        </Box>
+          <Section top spacing>
+            <P>
+              <Switch label="Checked:" checked />
+            </P>
+          </Section>
+        </Modal.Inner>
       </Modal>
     </Box>
     <Box>
@@ -119,6 +126,77 @@ export const Modals = () => (
     </Box>
     <Box>
       <ModalTriggerExample />
+    </Box>
+  </Wrapper>
+)
+
+export const DrawerSandbox = () => (
+  <Wrapper>
+    <Global
+      styles={css`
+        :root {
+          /* --modal-height-offset: 10rem; */
+        }
+        .custom-inner {
+          padding-top: 1.5rem;
+        }
+      `}
+    />
+
+    <Box>
+      {/* <Button variant="tertiary" text="Button" /> */}
+      <Modal
+        // no_animation
+        // open_state="opened"
+        mode="drawer"
+        // fullscreen
+        // container_placement="left"
+        // align_content="right"
+        // align_content="center"
+        // drawer_offset={}
+        title="Tertiary test"
+        // title={<span className="dnb-sr-only">Test</span>}
+        // min_width="20vw"
+        // max_width="40vw"
+        // overlay_class="overlay_class"
+        // content_class="content_class"
+        // class="inner_class"
+      >
+        <Modal.Inner style_type="pistachio">
+          Modal.Inner
+          {/* <FillContent /> */}
+        </Modal.Inner>
+      </Modal>
+    </Box>
+
+    <Box>
+      {/* <Button variant="tertiary" text="Button" /> */}
+      <Modal
+        // no_animation
+        open_state="opened"
+        mode="drawer"
+        trigger_text="Drawer in Drawer"
+        // fullscreen
+        // container_placement="left"
+        // align_content="right"
+        // align_content="center"
+        // drawer_offset={}
+        title="Tertiary test"
+        // title={<span className="dnb-sr-only">Test</span>}
+        // min_width="20vw"
+        // max_width="40vw"
+        // overlay_class="overlay_class"
+        // content_class="content_class"
+        // class="inner_class"
+      >
+        <Modal.Inner style_type="pistachio">
+          Modal.Inner
+          <Modal mode="drawer" title="Title 2" open_state="opened">
+            New content 2 <Modal title="Title 3">New content 3</Modal>
+          </Modal>
+          {/* <FillContent /> */}
+        </Modal.Inner>
+      </Modal>
     </Box>
   </Wrapper>
 )
@@ -149,19 +227,21 @@ class ModalRerenderExample extends React.PureComponent {
         // trigger_disabled
         // trigger_hidden
       >
-        {/* <Hr /> */}
-        {/* <Box>
+        <Modal.Inner spacing>
+          {/* <Hr /> */}
+          {/* <Box>
           <H2>Some content</H2>
           <Input>Focus me with Tab key</Input>
         </Box> */}
-        <DatePicker label="DatePicker" right />
-        <Dropdown
-          label="Dropdown"
-          data={dropdownData}
-          right
-          direction="top"
-        />
-        {/* <Switch label="Checked:" checked right /> */}
+          <DatePicker label="DatePicker" right />
+          <Dropdown
+            label="Dropdown"
+            data={dropdownData}
+            right
+            direction="top"
+          />
+          {/* <Switch label="Checked:" checked right /> */}
+        </Modal.Inner>
       </Modal>
     )
   }
@@ -286,15 +366,15 @@ const ModalCloseExample = () => {
         }}
       >
         <Hr />
-        <Box>
+        <Section spacing>
           <H2>Some content {count}</H2>
           <Input>Focus me with Tab key</Input>
-        </Box>
-        <Box>
+        </Section>
+        <Section spacing>
           <P>
             <Switch label="Checked:" checked />
           </P>
-        </Box>
+        </Section>
       </Modal>
     </>
   )

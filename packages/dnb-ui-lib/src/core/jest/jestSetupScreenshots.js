@@ -177,7 +177,6 @@ module.exports.testPageScreenshot = async ({
     }
 
     if (parseFloat(waitBeforeSimulate) > 0) {
-      console.log('waitBeforeSimulate', waitBeforeSimulate)
       await page.waitFor(waitBeforeSimulate)
     }
 

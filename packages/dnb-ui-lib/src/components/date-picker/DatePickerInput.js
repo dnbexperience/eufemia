@@ -43,6 +43,7 @@ export default class DatePickerInput extends React.PureComponent {
       PropTypes.func,
       PropTypes.node
     ]),
+    locale: PropTypes.object,
     disabled: PropTypes.bool,
     skeleton: PropTypes.bool,
     opened: PropTypes.bool,
@@ -66,6 +67,7 @@ export default class DatePickerInput extends React.PureComponent {
     status_state: 'error',
     input_element: null,
     disabled: null,
+    locale: null,
     skeleton: null,
     opened: false,
     showInput: null,
@@ -586,6 +588,7 @@ export default class DatePickerInput extends React.PureComponent {
       selectedDateTitle, // eslint-disable-line
       showInput, // eslint-disable-line
       input_element,
+      locale,
       disabled,
       skeleton,
       opened,
@@ -631,6 +634,7 @@ export default class DatePickerInput extends React.PureComponent {
             {...submitAttributes}
           />
         }
+        lang={locale?.code}
         {...attributes}
       />
     )
@@ -651,6 +655,7 @@ const InputElement = React.forwardRef((props, innerRef) => {
       autoComplete="off"
       autoCapitalize="none"
       spellCheck={false}
+      autoCorrect="off"
       ref={innerRef}
       {...props}
     />

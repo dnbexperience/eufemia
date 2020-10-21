@@ -18,7 +18,11 @@ import {
 
 import { H2 } from '../../src/elements'
 
-export const RadioButtons = () => (
+export default {
+  title: 'Eufemia/Components/Radio'
+}
+
+export const RadioButtonSandbox = () => (
   <Wrapper>
     <Box>
       <Radio.Group

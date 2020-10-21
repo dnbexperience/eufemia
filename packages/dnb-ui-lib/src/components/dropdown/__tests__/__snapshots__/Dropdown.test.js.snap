@@ -313,7 +313,6 @@ exports[`Dropdown markup have to match snapshot 1`] = `
         <FormLabel
           class={null}
           className={null}
-          direction={null}
           disabled="disabled"
           element="label"
           for_id="dropdown-id"

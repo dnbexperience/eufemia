@@ -19,7 +19,7 @@ describe('Suffix context', () => {
     const Comp = mount(
       <Context.Consumer>
         {(context) => {
-          more_info = context.translation.Modal.more_info
+          more_info = context.translation.HelpButton.title
           return (
             <Input
               label={inputLabel}

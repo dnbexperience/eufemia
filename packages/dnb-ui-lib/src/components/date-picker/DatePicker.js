@@ -623,6 +623,7 @@ export default class DatePicker extends React.PureComponent {
                   hidden={hidden}
                   status={status ? 'error' : null}
                   status_state={status_state}
+                  locale={locale}
                   {...attributes}
                   submitAttributes={submitParams}
                   onFocus={this.showPicker}

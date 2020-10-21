@@ -10,6 +10,10 @@ import styled from '@emotion/styled'
 import { Autocomplete, Number, Button } from '../../src/components'
 import { Anchor } from '../../src/elements'
 
+export default {
+  title: 'Eufemia/Components/Autocomplete'
+}
+
 const CustomStyle = styled.div`
   .dnb-autocomplete__shell {
     width: 10rem; /* custom width */
@@ -60,7 +64,7 @@ const AutocompleteWithState = () => {
   )
 }
 
-export const Autocompletes = () => {
+export const AutocompleteSandbox = () => {
   // const [data, setData] = useState(autocompleteData)
   // const [value, setSelectedItem] = useState(0)
   return (

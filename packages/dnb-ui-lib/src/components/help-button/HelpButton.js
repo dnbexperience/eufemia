@@ -5,46 +5,32 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import classnames from 'classnames'
 import {
-  extendPropsWithContext,
-  registerElement,
-  validateDOMAttributes
+  registerElement
+  // extendPropsWithContext
 } from '../../shared/component-helper'
 import Context from '../../shared/Context'
-import { createSpacingClasses } from '../space/SpacingHelper'
-import Button from '../button/Button'
-// import Modal from '../modal/Modal'
+import Modal from '../modal/Modal'
+import HelpButtonInstance from './HelpButtonInstance'
 
 export default class HelpButton extends React.PureComponent {
-  static tagName = 'dnb-help-button'
   static contextType = Context
+  static tagName = 'dnb-help-button'
 
   static propTypes = {
     id: PropTypes.string,
-    variant: Button.propTypes.variant,
-    text: PropTypes.string,
-    size: PropTypes.string,
-    title: PropTypes.string,
-    icon: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.node,
-      PropTypes.func
-    ]),
-    icon_position: PropTypes.string,
-    class: PropTypes.string
+    title: PropTypes.node,
+    text: PropTypes.node,
+    modal_content: PropTypes.node,
+    children: PropTypes.oneOfType([PropTypes.node, PropTypes.func])
   }
 
   static defaultProps = {
     id: null,
-    variant: 'secondary',
-    text: null,
-    size: null,
     title: null,
-    icon: 'question',
-    icon_size: null,
-    icon_position: 'left',
-    class: null
+    text: null,
+    modal_content: null,
+    children: null
   }
 
   static enableWebComponent() {
@@ -56,80 +42,35 @@ export default class HelpButton extends React.PureComponent {
   }
 
   static getContent(props) {
+    if (props.modal_content) {
+      return props.modal_content
+    }
     return typeof props.children === 'function'
       ? props.children(props)
       : props.children
   }
 
   render() {
-    // use only the props from context, who are available here anyway
-    const props = extendPropsWithContext(
-      this.props,
-      HelpButton.defaultProps,
-      this.context.formRow
-    )
+    const {
+      modal_content, // eslint-disable-line
+      children, // eslint-disable-line
+      ...params
+    } = this.props
 
-    let {
-      text,
-      size,
-      icon,
-      icon_size,
-      icon_position,
-      on_click,
-      innerRef,
-      // id: _id, // eslint-disable-line
-      className,
-      class: _className,
+    const content = HelpButton.getContent(this.props)
 
-      ...attributes
-    } = props
+    if (content) {
+      if (!params.title) {
+        params.title = this.context.translation.HelpButton.title
+      }
 
-    const params = {
-      className: classnames(
-        'dnb-help-button',
-        createSpacingClasses(props),
-        className,
-        _className
-      ),
-      ...attributes
+      return (
+        <Modal as_help_button {...params}>
+          {content}
+        </Modal>
+      )
     }
 
-    if (!text) {
-      params[
-        'aria-roledescription'
-      ] = this.context.translation.HelpButton.aria_role
-    }
-
-    if (icon === 'information' && !size) {
-      icon_size = 'medium'
-    }
-
-    // also used for code markup simulation
-    validateDOMAttributes(this.props, params)
-
-    const label = props.title || this.context.translation.HelpButton.title
-
-    return (
-      <Button
-        // id={_id}
-        text={text}
-        size={size}
-        aria-label={label}
-        icon={icon}
-        icon_size={icon_size}
-        icon_position={icon_position}
-        on_click={on_click}
-        innerRef={innerRef}
-        {...params}
-      />
-    )
-
-    // We now use "aria-roledescription" {showHelpButton && (
-    // Rather use aria-roledescription
-    // trigger_attributes['aria-describedby'] = `${this._id}-help`
-    //   <span id={`${this._id}-help`} hidden>
-    //     {this.context.translation.HelpButton.title}
-    //   </span>
-    // )}
+    return <HelpButtonInstance {...params} />
   }
 }

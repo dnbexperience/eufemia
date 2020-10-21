@@ -309,6 +309,38 @@ exports[`DatePicker component have to match snapshot 1`] = `
               id="date-picker-id"
               input_element={null}
               isRange={true}
+              locale={
+                Object {
+                  "code": "nb",
+                  "formatDistance": [Function],
+                  "formatLong": Object {
+                    "date": [Function],
+                    "dateTime": [Function],
+                    "time": [Function],
+                  },
+                  "formatRelative": [Function],
+                  "localize": Object {
+                    "day": [Function],
+                    "dayPeriod": [Function],
+                    "era": [Function],
+                    "month": [Function],
+                    "ordinalNumber": [Function],
+                    "quarter": [Function],
+                  },
+                  "match": Object {
+                    "day": [Function],
+                    "dayPeriod": [Function],
+                    "era": [Function],
+                    "month": [Function],
+                    "ordinalNumber": [Function],
+                    "quarter": [Function],
+                  },
+                  "options": Object {
+                    "firstWeekContainsDate": 4,
+                    "weekStartsOn": 1,
+                  },
+                }
+              }
               maskOrder="dd/mm/yyyy"
               maskPlaceholder="dd.mm.åååå"
               onChange={null}
@@ -386,6 +418,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                 label={null}
                 label_direction={null}
                 label_sr_only={null}
+                lang="nb"
                 on_blur={null}
                 on_change={null}
                 on_focus={null}
@@ -460,6 +493,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                             hidden={true}
                             id="date-picker-id-start-day"
                             key="di0"
+                            lang="nb"
                             mask={
                               Array [
                                 /\\[0-3\\]/,
@@ -482,12 +516,14 @@ exports[`DatePicker component have to match snapshot 1`] = `
                               aria-labelledby="date-picker-id-start-day-label"
                               autoCapitalize="none"
                               autoComplete="off"
+                              autoCorrect="off"
                               className="dnb-date-picker__input dnb-date-picker__input--day dnb-input__input"
                               disabled={false}
                               guide={true}
                               hidden={true}
                               id="date-picker-id-start-day"
                               keepCharPositions={false}
+                              lang="nb"
                               mask={
                                 Array [
                                   /\\[0-3\\]/,
@@ -513,11 +549,13 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                 aria-labelledby="date-picker-id-start-day-label"
                                 autoCapitalize="none"
                                 autoComplete="off"
+                                autoCorrect="off"
                                 className="dnb-date-picker__input dnb-date-picker__input--day dnb-input__input"
                                 defaultValue="01"
                                 disabled={false}
                                 hidden={true}
                                 id="date-picker-id-start-day"
+                                lang="nb"
                                 name="date-picker-id__input"
                                 onBlur={[Function]}
                                 onChange={[Function]}
@@ -553,6 +591,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                             hidden={true}
                             id="date-picker-id-start-month"
                             key="mi2"
+                            lang="nb"
                             mask={
                               Array [
                                 /\\[0-1\\]/,
@@ -575,12 +614,14 @@ exports[`DatePicker component have to match snapshot 1`] = `
                               aria-labelledby="date-picker-id-start-month-label"
                               autoCapitalize="none"
                               autoComplete="off"
+                              autoCorrect="off"
                               className="dnb-date-picker__input dnb-date-picker__input--month dnb-input__input"
                               disabled={false}
                               guide={true}
                               hidden={true}
                               id="date-picker-id-start-month"
                               keepCharPositions={false}
+                              lang="nb"
                               mask={
                                 Array [
                                   /\\[0-1\\]/,
@@ -606,11 +647,13 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                 aria-labelledby="date-picker-id-start-month-label"
                                 autoCapitalize="none"
                                 autoComplete="off"
+                                autoCorrect="off"
                                 className="dnb-date-picker__input dnb-date-picker__input--month dnb-input__input"
                                 defaultValue="01"
                                 disabled={false}
                                 hidden={true}
                                 id="date-picker-id-start-month"
+                                lang="nb"
                                 name="date-picker-id__input"
                                 onBlur={[Function]}
                                 onChange={[Function]}
@@ -646,6 +689,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                             hidden={true}
                             id="date-picker-id-start-year"
                             key="yi4"
+                            lang="nb"
                             mask={
                               Array [
                                 /\\[1-2\\]/,
@@ -670,12 +714,14 @@ exports[`DatePicker component have to match snapshot 1`] = `
                               aria-labelledby="date-picker-id-start-year-label"
                               autoCapitalize="none"
                               autoComplete="off"
+                              autoCorrect="off"
                               className="dnb-date-picker__input dnb-date-picker__input--year dnb-input__input"
                               disabled={false}
                               guide={true}
                               hidden={true}
                               id="date-picker-id-start-year"
                               keepCharPositions={false}
+                              lang="nb"
                               mask={
                                 Array [
                                   /\\[1-2\\]/,
@@ -703,11 +749,13 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                 aria-labelledby="date-picker-id-start-year-label"
                                 autoCapitalize="none"
                                 autoComplete="off"
+                                autoCorrect="off"
                                 className="dnb-date-picker__input dnb-date-picker__input--year dnb-input__input"
                                 defaultValue="2019"
                                 disabled={false}
                                 hidden={true}
                                 id="date-picker-id-start-year"
+                                lang="nb"
                                 name="date-picker-id__input"
                                 onBlur={[Function]}
                                 onChange={[Function]}
@@ -742,6 +790,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                             hidden={true}
                             id="date-picker-id-end-day"
                             key="di0"
+                            lang="nb"
                             mask={
                               Array [
                                 /\\[0-3\\]/,
@@ -764,12 +813,14 @@ exports[`DatePicker component have to match snapshot 1`] = `
                               aria-labelledby="date-picker-id-end-day-label"
                               autoCapitalize="none"
                               autoComplete="off"
+                              autoCorrect="off"
                               className="dnb-date-picker__input dnb-date-picker__input--day dnb-input__input"
                               disabled={false}
                               guide={true}
                               hidden={true}
                               id="date-picker-id-end-day"
                               keepCharPositions={false}
+                              lang="nb"
                               mask={
                                 Array [
                                   /\\[0-3\\]/,
@@ -795,11 +846,13 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                 aria-labelledby="date-picker-id-end-day-label"
                                 autoCapitalize="none"
                                 autoComplete="off"
+                                autoCorrect="off"
                                 className="dnb-date-picker__input dnb-date-picker__input--day dnb-input__input"
                                 defaultValue="15"
                                 disabled={false}
                                 hidden={true}
                                 id="date-picker-id-end-day"
+                                lang="nb"
                                 name="date-picker-id__input"
                                 onBlur={[Function]}
                                 onChange={[Function]}
@@ -835,6 +888,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                             hidden={true}
                             id="date-picker-id-end-month"
                             key="mi2"
+                            lang="nb"
                             mask={
                               Array [
                                 /\\[0-1\\]/,
@@ -857,12 +911,14 @@ exports[`DatePicker component have to match snapshot 1`] = `
                               aria-labelledby="date-picker-id-end-month-label"
                               autoCapitalize="none"
                               autoComplete="off"
+                              autoCorrect="off"
                               className="dnb-date-picker__input dnb-date-picker__input--month dnb-input__input"
                               disabled={false}
                               guide={true}
                               hidden={true}
                               id="date-picker-id-end-month"
                               keepCharPositions={false}
+                              lang="nb"
                               mask={
                                 Array [
                                   /\\[0-1\\]/,
@@ -888,11 +944,13 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                 aria-labelledby="date-picker-id-end-month-label"
                                 autoCapitalize="none"
                                 autoComplete="off"
+                                autoCorrect="off"
                                 className="dnb-date-picker__input dnb-date-picker__input--month dnb-input__input"
                                 defaultValue="02"
                                 disabled={false}
                                 hidden={true}
                                 id="date-picker-id-end-month"
+                                lang="nb"
                                 name="date-picker-id__input"
                                 onBlur={[Function]}
                                 onChange={[Function]}
@@ -928,6 +986,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                             hidden={true}
                             id="date-picker-id-end-year"
                             key="yi4"
+                            lang="nb"
                             mask={
                               Array [
                                 /\\[1-2\\]/,
@@ -952,12 +1011,14 @@ exports[`DatePicker component have to match snapshot 1`] = `
                               aria-labelledby="date-picker-id-end-year-label"
                               autoCapitalize="none"
                               autoComplete="off"
+                              autoCorrect="off"
                               className="dnb-date-picker__input dnb-date-picker__input--year dnb-input__input"
                               disabled={false}
                               guide={true}
                               hidden={true}
                               id="date-picker-id-end-year"
                               keepCharPositions={false}
+                              lang="nb"
                               mask={
                                 Array [
                                   /\\[1-2\\]/,
@@ -985,11 +1046,13 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                 aria-labelledby="date-picker-id-end-year-label"
                                 autoCapitalize="none"
                                 autoComplete="off"
+                                autoCorrect="off"
                                 className="dnb-date-picker__input dnb-date-picker__input--year dnb-input__input"
                                 defaultValue="2019"
                                 disabled={false}
                                 hidden={true}
                                 id="date-picker-id-end-year"
+                                lang="nb"
                                 name="date-picker-id__input"
                                 onBlur={[Function]}
                                 onChange={[Function]}
@@ -1330,9 +1393,10 @@ exports[`DatePicker scss have to match default theme snapshot 1`] = `
  * Utilities
  */
 :root {
-  --date-picker-header-color: var(--color-emerald-green);
+  --date-picker-header-color: var(--color-black-80);
   --date-picker-labels-day-color: var(--color-emerald-green);
   --date-picker-selected-color: var(--color-mint-green-25);
+  --date-picker-inactive-color: var(--color-black-55);
   --date-picker-selected-bg-color: var(--color-emerald-green);
   --date-picker-selected-bg-color-hover: var(--color-emerald-green);
   --date-picker-within-selection-bg-color: var(--color-mint-green-50); }
@@ -1357,9 +1421,9 @@ exports[`DatePicker scss have to match default theme snapshot 1`] = `
     border-radius: 0.25rem;
     background-color: var(--color-white); }
   .dnb-date-picker__addon::after, .dnb-date-picker__calendar::after {
-    background-color: var(--color-mint-green-50); }
+    background-color: var(--color-black-8); }
   .dnb-date-picker__header::after {
-    background-color: var(--color-mint-green-50); }
+    background-color: var(--color-black-8); }
   .dnb-date-picker__header__nav .dnb-button {
     box-shadow: none; }
   .dnb-date-picker__header__title {
@@ -1394,6 +1458,10 @@ exports[`DatePicker scss have to match default theme snapshot 1`] = `
 .dnb-date-picker__day--end-date.dnb-date-picker__day--within-selection .dnb-button:hover:not([disabled]) {
     color: var(--date-picker-selected-color);
     background-color: var(--date-picker-selected-bg-color-hover); }
+  .dnb-date-picker__day--disabled .dnb-button {
+    text-decoration: line-through; }
+  .dnb-date-picker__day--inactive .dnb-button {
+    color: var(--date-picker-inactive-color); }
   .dnb-date-picker__day--inactive .dnb-button[disabled],
   .dnb-date-picker__day--disabled .dnb-button[disabled] {
     box-shadow: none; }

@@ -11,7 +11,7 @@ By default, the `GlobalStatus` is automatically connected together with the [For
 
 1. Once a **FormStatus** is show, the `main` **GlobalStatus** will show up.
 1. The page will scroll (if needed) to the dedicated **GlobalStatus**.
-1. But the focus will stay on the current place.
+1. Form components will send along both the status text, and it's label to show a good and accessible summary.
 1. Screen reader uses will automatically hear the whole content of the `GlobalStatus` once it shows up.
 
 ### Several Global statuses

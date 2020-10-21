@@ -21,7 +21,8 @@ import {
 } from '../../shared/component-helper'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import Button from '../button/Button'
-import HelpButton from '../help-button/HelpButton'
+import Section from '../section/Section'
+import HelpButton from '../help-button/HelpButtonInstance'
 import ModalContent, { CloseButton } from './ModalContent'
 
 export default class Modal extends React.PureComponent {
@@ -35,6 +36,10 @@ export default class Modal extends React.PureComponent {
     labelled_by: PropTypes.string,
     title: PropTypes.node,
     disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    as_help_button: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool
+    ]),
     trigger_hidden: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.bool
@@ -100,7 +105,6 @@ export default class Modal extends React.PureComponent {
     open_modal: PropTypes.func,
     close_modal: PropTypes.func,
 
-    preventSetTriggerRef: PropTypes.bool,
     modal_content: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.node,
@@ -114,6 +118,7 @@ export default class Modal extends React.PureComponent {
     labelled_by: null,
     title: null,
     disabled: null,
+    as_help_button: false,
     trigger_hidden: false,
     trigger_disabled: null,
     trigger_variant: 'secondary',
@@ -141,8 +146,6 @@ export default class Modal extends React.PureComponent {
     className: null,
     children: null,
 
-    preventSetTriggerRef: false,
-
     on_open: null,
     on_close: null,
     on_close_prevent: null,
@@ -164,16 +167,17 @@ export default class Modal extends React.PureComponent {
     return processChildren(props)
   }
 
-  static insertModalRoot() {
+  static insertModalRoot(id) {
     if (typeof window === 'undefined') {
       return false
     }
 
     try {
-      window.modalRoot = document.getElementById('dnb-modal-root') // document.querySelector('.dnb-modal-root')
+      id = `dnb-modal-${id || 'root'}`
+      window.modalRoot = document.getElementById(id)
       if (!window.modalRoot) {
         window.modalRoot = document.createElement('div')
-        window.modalRoot.setAttribute('id', 'dnb-modal-root')
+        window.modalRoot.setAttribute('id', id)
         document.body.insertBefore(
           window.modalRoot,
           document.body.firstChild
@@ -188,16 +192,20 @@ export default class Modal extends React.PureComponent {
 
   static getDerivedStateFromProps(props, state) {
     if (state._listenForPropChanges) {
-      switch (props.open_state) {
-        case 'opened':
-          state.modalActive = true
-          break
-        case 'closed':
-          state.modalActive = false
-          break
+      if (props.open_state !== state._open_state) {
+        switch (props.open_state) {
+          case 'opened':
+            state.modalActive = true
+            break
+          case 'closed':
+            state.modalActive = false
+            break
+        }
       }
     }
     state._listenForPropChanges = true
+    state._open_state = props.open_state
+
     return state
   }
 
@@ -212,9 +220,7 @@ export default class Modal extends React.PureComponent {
     super(props)
     this._id = props.id || makeUniqueId()
 
-    if (!props.preventSetTriggerRef) {
-      this._triggerRef = React.createRef()
-    }
+    this._triggerRef = React.createRef()
 
     this._onUnmount = []
   }
@@ -237,14 +243,17 @@ export default class Modal extends React.PureComponent {
         fn()
       }
     })
-    this.setState({
-      hide: true,
-      modalActive: false,
-      _listenForPropChanges: false
-    })
+
     clearTimeout(this._openTimeout)
     clearTimeout(this._closeTimeout)
     clearTimeout(this._sideEffectsTimeout)
+
+    this.setState({
+      hide: true,
+      modalActive: true,
+      _open_state: 'closed',
+      _listenForPropChanges: false
+    })
   }
 
   toggleOpenClose = (event = null, showModal = null) => {
@@ -288,7 +297,7 @@ export default class Modal extends React.PureComponent {
 
   handleSideEffects = () => {
     if (!isTrue(this.props.direct_dom_return)) {
-      Modal.insertModalRoot()
+      Modal.insertModalRoot(this.props.id)
     }
 
     const modalActive = this.state.modalActive
@@ -393,9 +402,9 @@ export default class Modal extends React.PureComponent {
       id, // eslint-disable-line
       open_state, // eslint-disable-line
       open_delay, // eslint-disable-line
-      preventSetTriggerRef, // eslint-disable-line
       disabled,
       labelled_by,
+      as_help_button,
       trigger_hidden,
       trigger_disabled,
       trigger_variant,
@@ -441,8 +450,12 @@ export default class Modal extends React.PureComponent {
 
           // in case the modal is used in suffix and no title is given
           // suffixProps.label is also available, so we could use that too
-          if (!rest.title && useHelpButton && suffixProps) {
-            additional.title = this.context.translation.Modal.more_info
+          if (
+            !rest.title &&
+            useHelpButton &&
+            (suffixProps || isTrue(as_help_button))
+          ) {
+            additional.title = this.context.translation.HelpButton.title
           }
 
           let ariaLabel = null
@@ -483,6 +496,7 @@ export default class Modal extends React.PureComponent {
               {modalActive && modal_content && (
                 <ModalRoot
                   {...rest}
+                  id={id}
                   labelled_by={labelled_by || this._id}
                   modal_content={modal_content}
                   closeModal={this.close}
@@ -503,6 +517,7 @@ Modal.HelpButton = HelpButton
 
 class ModalRoot extends React.PureComponent {
   static propTypes = {
+    id: PropTypes.string,
     direct_dom_return: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.bool
@@ -514,6 +529,7 @@ class ModalRoot extends React.PureComponent {
     ])
   }
   static defaultProps = {
+    id: null,
     direct_dom_return: false,
     children: null
   }
@@ -524,7 +540,7 @@ class ModalRoot extends React.PureComponent {
 
   componentDidMount() {
     if (!isTrue(this.props.direct_dom_return)) {
-      Modal.insertModalRoot()
+      Modal.insertModalRoot(this.props.id)
 
       try {
         if (!this.node) {
@@ -564,3 +580,20 @@ class ModalRoot extends React.PureComponent {
 }
 
 export { CloseButton }
+
+function Inner({ className, ...props }) {
+  return (
+    <Section
+      style_type="black-3"
+      className={classnames('dnb-modal__wrapper__inner', className)}
+      {...props}
+    />
+  )
+}
+Inner.propTypes = {
+  className: PropTypes.string
+}
+Inner.defaultProps = {
+  className: null
+}
+Modal.Inner = Inner

@@ -125,9 +125,13 @@ import { bell_medium as Bell, question } from 'dnb-ui-lib/src/icons'
 	/* @jsx */ `
 <Button
   text="Primary with href"
-  href="?no-cache=1"
+  href="/"
   icon_position="right"
   icon="chevron_right"
+  on_click={({ event }) => {
+    // history.push('/')
+    event.preventDefault()
+  }}
 />
 <Button
   variant="secondary"

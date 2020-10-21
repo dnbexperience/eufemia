@@ -10,6 +10,10 @@ import styled from '@emotion/styled'
 import { GlobalError } from '../../src/components'
 import { H2, P, Link } from '../../src/elements'
 
+export default {
+  title: 'Eufemia/Components/GlobalError'
+}
+
 const CustomStatus = () => (
   <>
     <H2>Custom Status</H2>
@@ -24,7 +28,7 @@ const Bg = styled.div`
   background: blue;
 `
 
-export const GlobalErrors = () => (
+export const GlobalErrorSandbox = () => (
   <Bg>
     <Wrapper>
       <GlobalError status="404" />

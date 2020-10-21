@@ -9,7 +9,11 @@ import { Wrapper, Box } from '../helpers'
 
 import { StepIndicator } from '../../src/components'
 
-export const StepIndicators = () => (
+export default {
+  title: 'Eufemia/Components/StepIndicator'
+}
+
+export const StepIndicatorSandbox = () => (
   <Wrapper>
     <Box>
       <StepIndicator

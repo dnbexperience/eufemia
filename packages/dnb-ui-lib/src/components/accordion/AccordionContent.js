@@ -8,6 +8,7 @@ import PropTypes from 'prop-types'
 import {
   isTrue,
   validateDOMAttributes,
+  processChildren,
   getPreviousSibling
 } from '../../shared/component-helper'
 import classnames from 'classnames'
@@ -20,17 +21,17 @@ export default class AccordionContent extends React.PureComponent {
   static propTypes = {
     instance: PropTypes.object,
     className: PropTypes.string,
-    children: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.node,
-      PropTypes.func
-    ])
+    children: PropTypes.oneOfType([PropTypes.node, PropTypes.func])
   }
 
   static defaultProps = {
     instance: null,
     className: null,
     children: null
+  }
+
+  static getContent(props) {
+    return processChildren(props)
   }
 
   constructor(props, context) {
@@ -43,9 +44,11 @@ export default class AccordionContent extends React.PureComponent {
 
     this.anim = new HeightAnim()
     this.anim.onStart(() => {
-      this.setState({
-        isAnimating: true
-      })
+      if (this.context.expanded) {
+        this.setState({
+          isAnimating: true
+        })
+      }
     })
     this.anim.onEnd(() => {
       this.setState({
@@ -87,6 +90,13 @@ export default class AccordionContent extends React.PureComponent {
 
   componentDidUpdate(prevProps) {
     if (this.context.expanded) {
+      /**
+       * In grouped mode, the first switch needs a close, before we call open
+       */
+      if (!this.state.keepContentVisible) {
+        this.anim.close()
+      }
+
       this.setState(
         {
           keepContentVisible: true
@@ -97,7 +107,10 @@ export default class AccordionContent extends React.PureComponent {
       this.anim.close()
     }
 
-    if (prevProps.children !== this.props.children) {
+    if (
+      AccordionContent.getContent(prevProps) !==
+      AccordionContent.getContent(this.props)
+    ) {
       this.anim.setContainerHeight()
     }
   }
@@ -107,7 +120,7 @@ export default class AccordionContent extends React.PureComponent {
   }
 
   renderContent() {
-    const { children } = this.props
+    const children = AccordionContent.getContent(this.props)
     const {
       expanded,
       prerender,
@@ -122,12 +135,12 @@ export default class AccordionContent extends React.PureComponent {
     }
 
     content =
-      (expanded ||
-        prerender ||
-        this.state.keepContentVisible ||
-        // we do check that directly (this.anim.isAnimating), rather than check this.state.isAnimating, because of the instant feedback
-        this.anim.isAnimating) &&
-      children
+      expanded ||
+      prerender ||
+      this.state.keepContentVisible ||
+      this.state.isAnimating
+        ? children
+        : null
 
     if (isTrue(prevent_rerender)) {
       // update the cache if children is not the same anymore

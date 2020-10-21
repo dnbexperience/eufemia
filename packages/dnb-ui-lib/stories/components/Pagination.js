@@ -13,6 +13,10 @@ import Pagination, {
 } from '../../src/components/pagination/Pagination'
 import { InfinityPaginationTable } from './PaginationTable'
 
+export default {
+  title: 'Eufemia/Components/Pagination'
+}
+
 const LargePage = styled.div`
   display: flex;
   justify-content: center;
@@ -36,7 +40,7 @@ for (let i = 1; i <= 300; i++) {
   tableItems.push({ ssn: i, text: String(i), expanded: false })
 }
 
-export const Paginations = () => (
+export const PaginationSandbox = () => (
   <Wrapper>
     <Box>
       <Pagination page_count={2}>

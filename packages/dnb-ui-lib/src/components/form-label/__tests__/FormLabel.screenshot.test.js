@@ -10,20 +10,18 @@ import {
 
 describe('FormLabel screenshot', () => {
   setupPageScreenshot({ url: '/uilib/components/form-label/demos' })
-  const style = {
-    // Flex makes the pixel height 100% correct
-    display: 'flex'
-  }
+  // const style = {
+  //   // Grid makes the pixel height 100% correct
+  //   display: 'grid'
+  // }
   it('have to match default form-label', async () => {
     const screenshot = await testPageScreenshot({
-      style,
       selector: '[data-dnb-test="form-label-default"]'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
   it('have to match default form-label with hover', async () => {
     const screenshot = await testPageScreenshot({
-      style,
       selector: '[data-dnb-test="form-label-default"]',
       simulate: 'hover'
     })
@@ -31,7 +29,6 @@ describe('FormLabel screenshot', () => {
   })
   it('have to match vertical form-label', async () => {
     const screenshot = await testPageScreenshot({
-      style,
       selector: '[data-dnb-test="form-label-vertical"]'
     })
     expect(screenshot).toMatchImageSnapshot()

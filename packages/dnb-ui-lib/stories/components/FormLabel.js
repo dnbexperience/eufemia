@@ -9,7 +9,11 @@ import { Wrapper, Box } from '../helpers'
 
 import { Checkbox, FormLabel } from '../../src/components'
 
-export const FormLabels = () => (
+export default {
+  title: 'Eufemia/Components/FormLabel'
+}
+
+export const FormLabelSandbox = () => (
   <Wrapper>
     <Box>
       <FormLabel for_id="alone-1">Default horizontal FormLabel:</FormLabel>
