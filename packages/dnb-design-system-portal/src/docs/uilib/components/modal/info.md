@@ -118,15 +118,25 @@ You have the properties `min_width` and `max_width`. But by using these, the wid
 }
 ```
 
+## Inner section wrapper
+
+In order to make it easier to have another colored area below the title, you can make use of the extra wrapper `<Modal.Inner>`. Underneath, the [Section](/uilib/components/section) is used, but with the color `black-3` as default. This extra "section" is also customized to work together with the Modal and Drawer component.
+
+```jsx
+<Modal mode="drawer">
+  <Modal.Inner spacing>Modal Content</Modal.Inner>
+</Modal>
+```
+
 ## Styles and `dnb-core-style`
 
-The Modal component comes with the `dnb-core-style` class predefined by default. If you don't want this behavior because of e.g. CSS specificity, you can opt out by setting this property `prevent_core_style="true"`.
+The Modal component comes with the `dnb-core-style` class predefined by default. If you don't want this behavior because of e.g. CSS specificity, you can opt out by setting this property `prevent_core_style` to true.
 
 ```jsx
 /* The CSS class is set by default */
 <Modal className="dnb-core-style">...</Modal>
 
-/* You have the option to set it like this as well */
+/* You have the option to set it like this as well as markup only */
 <body>
   <div id="app" />
   <div id="dnb-modal-root" class="dnb-core-style" />
