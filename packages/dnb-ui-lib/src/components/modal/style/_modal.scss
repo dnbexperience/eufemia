@@ -243,9 +243,7 @@
 
   &__wrapper__inner {
     padding-bottom: calc(var(--modal-spacing) * 2);
-    margin-bottom: calc(
-      0.0625rem - var(--modal-spacing) * 1.75 - 0.0625rem
-    );
+    margin-bottom: calc(var(--modal-spacing) * -1.75);
 
     @include allBelow(small) {
       &.dnb-section::after {
@@ -257,7 +255,7 @@
     }
   }
   &__content--drawer &__wrapper__inner {
-    margin-bottom: calc(0.0625rem - var(--modal-spacing) * 2 - 0.0625rem);
+    margin-bottom: calc(var(--modal-spacing) * -2);
 
     &.dnb-section::after {
       min-height: calc(
