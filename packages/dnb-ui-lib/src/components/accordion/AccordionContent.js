@@ -90,6 +90,13 @@ export default class AccordionContent extends React.PureComponent {
 
   componentDidUpdate(prevProps) {
     if (this.context.expanded) {
+      /**
+       * In grouped mode, the first switch needs a close, before we call open
+       */
+      if (!this.state.keepContentVisible) {
+        this.anim.close()
+      }
+
       this.setState(
         {
           keepContentVisible: true

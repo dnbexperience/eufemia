@@ -484,7 +484,7 @@ exports[`Accordion scss have to match snapshot 1`] = `
   .dnb-accordion--no-animation .dnb-accordion__content {
     transition-duration: 1ms; }
   .dnb-accordion-group--single-container {
-    transition: min-height 1000ms var(--accordion-easing); }
+    transition: min-height 1s var(--accordion-easing); }
   .dnb-accordion-group--single-container .dnb-accordion {
     position: static;
     max-width: 60rem; }
