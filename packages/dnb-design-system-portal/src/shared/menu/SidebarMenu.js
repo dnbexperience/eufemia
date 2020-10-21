@@ -809,11 +809,14 @@ const prepareNav = ({ location, allMdx, showAll, pathPrefix }) => {
 
       item._order = parts
         .reduce((acc, cur, i) => {
-          if (!levelCache[item.level][cur])
+          if (!levelCache[item.level][cur]) {
             levelCache[item.level][cur] = item.order
               ? parseFloat(item.order) + 1000 // push manual ordering to the top
               : count
-          acc.push(levelCache[i + 1][cur])
+          }
+          if (levelCache[i + 1]) {
+            acc.push(levelCache[i + 1][cur])
+          }
           return acc
         }, [])
         .join('/')
