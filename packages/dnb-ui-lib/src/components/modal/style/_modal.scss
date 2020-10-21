@@ -234,10 +234,6 @@
     @include allBelow(small) {
       padding-bottom: calc(var(--modal-spacing) * 1.25);
     }
-
-    // For testing large scrollable content
-    // height: 200vh;
-    // background: blue;
   }
   &__content--drawer &__wrapper {
     padding-top: calc(var(--modal-spacing) * 0.75);
@@ -246,7 +242,9 @@
 
   &__wrapper__inner {
     padding-bottom: calc(var(--modal-spacing) * 2);
-    margin-bottom: calc(-1px - calc(var(--modal-spacing) * 1.75) + 1px);
+    margin-bottom: calc(
+      0.0625rem - var(--modal-spacing) * 1.75 - 0.0625rem
+    );
 
     @include allBelow(small) {
       &.dnb-section::after {
@@ -255,7 +253,7 @@
     }
   }
   &__content--drawer &__wrapper__inner {
-    margin-bottom: calc(-1px - calc(var(--modal-spacing) * 2) + 1px);
+    margin-bottom: calc(0.0625rem - var(--modal-spacing) * 2 - 0.0625rem);
 
     &.dnb-section::after {
       min-height: calc(100vh - var(--modal-drawer-content-top));
