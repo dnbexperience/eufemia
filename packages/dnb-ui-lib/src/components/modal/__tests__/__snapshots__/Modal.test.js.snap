@@ -1363,6 +1363,9 @@ button.dnb-button::-moz-focus-inner {
     user-select: none;
     -webkit-user-select: none;
     /* stylelint-disable-next-line */ }
+    @media screen and (max-width: 40em) {
+      .dnb-modal__content {
+        height: auto; } }
     .dnb-modal__content__inner {
       position: relative;
       padding: var(--modal-content-top) var(--modal-spacing) 0;
@@ -1382,7 +1385,7 @@ button.dnb-button::-moz-focus-inner {
           height: 100vh;
           height: calc(100vh - var(--modal-height-offset, 0.0001rem));
           max-width: 100%;
-          max-height: 100%; } }
+          max-height: 100vh; } }
       @media screen and (min-width: 40em) {
         .dnb-modal__content__inner {
           box-shadow: 0 1px 6px rgba(0, 0, 0, 0.16);
@@ -1409,7 +1412,7 @@ button.dnb-button::-moz-focus-inner {
       height: calc(100vh - var(--modal-height-offset, 0.0001rem));
       height: calc(100vh - var(--modal-height-offset, 0.0001rem));
       max-width: 100%;
-      max-height: 100%;
+      max-height: 100vh;
       width: var(--modal-drawer-width);
       min-width: var(--modal-drawer-min-width);
       max-width: var(--modal-drawer-max-width);
@@ -1420,10 +1423,11 @@ button.dnb-button::-moz-focus-inner {
           width: 100vw;
           min-width: auto;
           max-width: auto; } }
+    .dnb-modal__content--fullscreen .dnb-modal__content__content {
+      height: auto; }
     .dnb-modal__content--drawer.dnb-modal__content--top .dnb-modal__content__inner,
     .dnb-modal__content--drawer.dnb-modal__content--bottom .dnb-modal__content__inner {
       max-width: 100%;
-      max-height: 100%;
       width: 100vw;
       height: 40vh; }
       @media screen and (max-height: 40em) {
@@ -1444,7 +1448,7 @@ button.dnb-button::-moz-focus-inner {
       height: 100vh;
       height: calc(100vh - var(--modal-height-offset, 0.0001rem));
       max-width: 100%;
-      max-height: 100%;
+      max-height: 100vh;
       border-radius: 0; }
     html:not([data-dnb-test]) .dnb-modal__content--drawer.dnb-modal__content--left .dnb-modal__content__inner {
       transform: translate3d(-20rem, 0, 0); }
@@ -1494,11 +1498,11 @@ button.dnb-button::-moz-focus-inner {
     margin-bottom: calc( 0.0625rem - var(--modal-spacing) * 1.75 - 0.0625rem); }
     @media screen and (max-width: 40em) {
       .dnb-modal__wrapper__inner.dnb-section::after {
-        min-height: calc(100vh - var(--modal-content-top)); } }
+        min-height: calc( 100vh - var(--modal-content-top) - calc(var(--modal-spacing) * 1.5)); } }
   .dnb-modal__content--drawer .dnb-modal__wrapper__inner {
     margin-bottom: calc(0.0625rem - var(--modal-spacing) * 2 - 0.0625rem); }
     .dnb-modal__content--drawer .dnb-modal__wrapper__inner.dnb-section::after {
-      min-height: calc(100vh - var(--modal-drawer-content-top)); }
+      min-height: calc( 100vh - var(--modal-drawer-content-top) - calc(var(--modal-spacing) * 2)); }
   .dnb-modal__close-button {
     position: absolute;
     top: calc(var(--modal-spacing) * 0.75);

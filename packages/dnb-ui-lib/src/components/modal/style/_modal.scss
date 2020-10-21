@@ -53,6 +53,10 @@
     width: 100%;
     height: 100%;
 
+    @include allBelow(small) {
+      height: auto;
+    }
+
     max-width: 100vw;
 
     user-select: none;
@@ -74,7 +78,6 @@
         border-radius: 0.5rem;
       }
 
-      // width: auto;
       width: var(--modal-avg-width);
       min-width: var(--modal-min-width);
       max-width: var(--modal-max-width);
@@ -123,10 +126,6 @@
       padding: var(--modal-drawer-content-top)
         calc(var(--modal-spacing) * 1.75) 0;
 
-      // @include allBelow(small) {
-      //   padding: calc(var(--modal-spacing) / 2) var(--modal-spacing) 0;
-      // }
-
       border-radius: 0;
 
       @media screen and (max-width: 40em) {
@@ -135,11 +134,13 @@
         max-width: auto;
       }
     }
+    &--fullscreen &__content {
+      height: auto;
+    }
 
     &--drawer#{&}--top &__inner,
     &--drawer#{&}--bottom &__inner {
       max-width: 100%; // fixes overflow issue on some browsers
-      max-height: 100%;
       width: 100vw;
       height: 40vh;
 
@@ -248,7 +249,10 @@
 
     @include allBelow(small) {
       &.dnb-section::after {
-        min-height: calc(100vh - var(--modal-content-top));
+        min-height: calc(
+          100vh - var(--modal-content-top) -
+            calc(var(--modal-spacing) * 1.5)
+        );
       }
     }
   }
@@ -256,7 +260,10 @@
     margin-bottom: calc(0.0625rem - var(--modal-spacing) * 2 - 0.0625rem);
 
     &.dnb-section::after {
-      min-height: calc(100vh - var(--modal-drawer-content-top));
+      min-height: calc(
+        100vh - var(--modal-drawer-content-top) -
+          calc(var(--modal-spacing) * 2)
+      );
     }
   }
 
