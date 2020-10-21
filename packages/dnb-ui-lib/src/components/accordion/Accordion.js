@@ -70,6 +70,10 @@ export default class Accordion extends React.PureComponent {
       PropTypes.string,
       PropTypes.bool
     ]),
+    flush_remembered_state: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool
+    ]),
     single_container: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.bool
@@ -116,6 +120,7 @@ export default class Accordion extends React.PureComponent {
     prevent_rerender: null,
     prevent_rerender_conditional: null,
     remember_state: null,
+    flush_remembered_state: null,
     single_container: null,
     variant: 'outlined',
     left_component: null,
@@ -198,7 +203,9 @@ export default class Accordion extends React.PureComponent {
 
     if (
       isTrue(props.remember_state || context.remember_state) &&
-      isTrue(props.expanded)
+      isTrue(props.expanded) &&
+      !isTrue(props.flush_remembered_state) &&
+      !isTrue(context.flush_remembered_state)
     ) {
       const expanded = this.store.getState()
       if (expanded === false) {
@@ -221,7 +228,11 @@ export default class Accordion extends React.PureComponent {
       this.setExpandedState(false)
     }
 
-    if (isTrue(this.props.remember_state || this.context.remember_state)) {
+    if (
+      isTrue(this.props.remember_state || this.context.remember_state) &&
+      !isTrue(this.props.flush_remembered_state) &&
+      !isTrue(this.context.flush_remembered_state)
+    ) {
       const expanded = this.store.getState()
       if (typeof expanded === 'boolean') {
         this.setExpandedState(expanded)
@@ -242,6 +253,13 @@ export default class Accordion extends React.PureComponent {
   }
 
   componentDidUpdate(props) {
+    if (isTrue(this.context.flush_remembered_state)) {
+      this.store.flush()
+      this.setState({
+        expanded: isTrue(this.props.expanded)
+      })
+    }
+
     if (
       this.context?.expanded_id &&
       this.context.expanded_id === props.id
@@ -636,5 +654,18 @@ class Store {
     }
 
     return state
+  }
+
+  flush(id = this.id) {
+    if (id) {
+      try {
+        const storeId = this.storeId()
+        if (storeId) {
+          window.localStorage.setItem(storeId, null)
+        }
+      } catch (e) {
+        //
+      }
+    }
   }
 }

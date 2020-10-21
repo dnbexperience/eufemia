@@ -12,6 +12,7 @@ exports[`Accordion component have to match snapshot 1`] = `
   element={null}
   expanded={null}
   expanded_ssr={null}
+  flush_remembered_state={null}
   group={null}
   heading={null}
   heading_level={null}

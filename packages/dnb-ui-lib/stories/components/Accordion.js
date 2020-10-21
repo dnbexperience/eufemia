@@ -11,6 +11,7 @@ import Provider from '../../src/shared/Provider'
 import {
   ToggleButton,
   Accordion,
+  Button,
   // Input,
   IconPrimary,
   Heading
@@ -151,6 +152,8 @@ function AccordionWithContainer() {
   const ref1 = React.useRef()
   const ref2 = React.useRef()
   const [changeHeight] = React.useState(() => ({ ref1, ref2 }))
+  const [flushCache, flushCacheNow] = React.useState(false)
+  console.log('flushCache', flushCache)
   return (
     <Accordion.Group
       variant="outlined"
@@ -158,6 +161,7 @@ function AccordionWithContainer() {
       // prevent_rerender_conditional
       single_container
       remember_state
+      flush_remembered_state={flushCache}
       // prerender
       // allow_close_all
       id="gorup-id"
@@ -222,6 +226,16 @@ function AccordionWithContainer() {
         >
           <DidRender message="two" />
           <DidRender2 message="two" />
+          <Button
+            on_click={() => {
+              flushCacheNow(!flushCache)
+              setTimeout(() => {
+                flushCacheNow(flushCache)
+              }, 1e3)
+            }}
+          >
+            Flush Remembered State
+          </Button>
           <ChangingContent changeHeight={changeHeight.ref2}>
             <div
               style={{
