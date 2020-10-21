@@ -32,7 +32,7 @@ export const ModalSandbox = () => (
     <Global
       styles={css`
         :root {
-          --modal-height-offset: 7rem;
+          /* --modal-height-offset: 7rem; */
         }
       `}
     />
@@ -56,28 +56,31 @@ export const ModalSandbox = () => (
     </Box>
 
     <Box>
-      <Button variant="tertiary" text="Button" />
+      {/* <Button variant="tertiary" text="Button" /> */}
       <Modal
         // no_animation
         open_state="opened"
         // mode="drawer"
         // fullscreen
-        container_placement="left"
-        align_content="right"
+        // container_placement="left"
+        // align_content="right"
         // align_content="center"
         // drawer_offset={}
-        // title="Tertiary test"
-        title={<span className="dnb-sr-only">Test</span>}
+        title="Title 1"
+        trigger_text="Modal in modal"
+        // title={<span className="dnb-sr-only">Test</span>}
         // min_width="20vw"
         // max_width="40vw"
-        overlay_class="overlay_class"
-        content_class="content_class"
-        class="inner_class"
+        // overlay_class="overlay_class"
+        // content_class="content_class"
+        // class="inner_class"
       >
-        <Button variant="tertiary" text="Button" />
-        <Section>
+        <Modal title="Title 2" open_state="opened">
+          New content 2 <Modal title="Title 3">New content 3</Modal>
+        </Modal>
+        {/* <Section>
           <Button variant="tertiary" text="Button" />
-        </Section>
+        </Section> */}
         <FillContent />
       </Modal>
     </Box>
@@ -163,6 +166,36 @@ export const DrawerSandbox = () => (
       >
         <Modal.Inner style_type="pistachio">
           Modal.Inner
+          {/* <FillContent /> */}
+        </Modal.Inner>
+      </Modal>
+    </Box>
+
+    <Box>
+      {/* <Button variant="tertiary" text="Button" /> */}
+      <Modal
+        // no_animation
+        open_state="opened"
+        mode="drawer"
+        trigger_text="Drawer in Drawer"
+        // fullscreen
+        // container_placement="left"
+        // align_content="right"
+        // align_content="center"
+        // drawer_offset={}
+        title="Tertiary test"
+        // title={<span className="dnb-sr-only">Test</span>}
+        // min_width="20vw"
+        // max_width="40vw"
+        // overlay_class="overlay_class"
+        // content_class="content_class"
+        // class="inner_class"
+      >
+        <Modal.Inner style_type="pistachio">
+          Modal.Inner
+          <Modal mode="drawer" title="Title 2" open_state="opened">
+            New content 2 <Modal title="Title 3">New content 3</Modal>
+          </Modal>
           {/* <FillContent /> */}
         </Modal.Inner>
       </Modal>

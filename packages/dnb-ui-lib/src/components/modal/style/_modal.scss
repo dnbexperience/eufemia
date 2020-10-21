@@ -331,4 +331,29 @@
       }
     }
   }
+
+  &-root__inner &__overlay {
+    opacity: 0;
+    transition: opacity 300ms ease-in-out;
+  }
+  &-root__inner:last-of-type &__overlay {
+    opacity: 1;
+  }
+  html[data-dnb-test] &-root__inner &__overlay {
+    transition: none;
+  }
+
+  &-root__inner {
+    position: relative;
+    z-index: calc(var(--modal-z-index) + 1);
+  }
+  &-root__inner ~ &-root__inner {
+    z-index: calc(var(--modal-z-index) + 2);
+  }
+  &-root__inner ~ &-root__inner ~ &-root__inner {
+    z-index: calc(var(--modal-z-index) + 3);
+  }
+  &-root__inner ~ &-root__inner ~ &-root__inner ~ &-root__inner {
+    z-index: calc(var(--modal-z-index) + 4);
+  }
 }

@@ -1538,5 +1538,21 @@ button.dnb-button::-moz-focus-inner {
     @media screen and (max-width: 40em) {
       .dnb-modal__overlay--no-animation-on-mobile {
         animation-duration: 0ms !important; } }
+  .dnb-modal-root__inner .dnb-modal__overlay {
+    opacity: 0;
+    transition: opacity 300ms ease-in-out; }
+  .dnb-modal-root__inner:last-of-type .dnb-modal__overlay {
+    opacity: 1; }
+  html[data-dnb-test] .dnb-modal-root__inner .dnb-modal__overlay {
+    transition: none; }
+  .dnb-modal-root__inner {
+    position: relative;
+    z-index: calc(var(--modal-z-index) + 1); }
+  .dnb-modal-root__inner ~ .dnb-modal-root__inner {
+    z-index: calc(var(--modal-z-index) + 2); }
+  .dnb-modal-root__inner ~ .dnb-modal-root__inner ~ .dnb-modal-root__inner {
+    z-index: calc(var(--modal-z-index) + 3); }
+  .dnb-modal-root__inner ~ .dnb-modal-root__inner ~ .dnb-modal-root__inner ~ .dnb-modal-root__inner {
+    z-index: calc(var(--modal-z-index) + 4); }
 "
 `;
