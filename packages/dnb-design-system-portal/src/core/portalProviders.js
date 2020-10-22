@@ -49,6 +49,8 @@ function ToggleSkeleton(props) {
 
   const params = {
     onMouseDown: (e) => {
+      e.preventDefault()
+      e.stopPropagation()
       const x = e.clientX
       const y = e.clientY
       if (x < 20 && y < 20) {
