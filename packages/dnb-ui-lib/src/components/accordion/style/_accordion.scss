@@ -174,7 +174,7 @@
         margin-left: 1rem;
 
         // Slower down the animation if single container is used
-        transition: opacity 2s var(--accordion-easing);
+        transition: opacity 1s var(--accordion-easing);
 
         &__inner {
           margin-top: 0;

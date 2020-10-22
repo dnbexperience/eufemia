@@ -43,18 +43,18 @@ export default class AccordionContent extends React.PureComponent {
     }
 
     this.anim = new HeightAnim()
+
     this.anim.onStart(() => {
-      if (this.context.expanded) {
-        this.setState({
-          isAnimating: true
-        })
-      }
+      this.setState({
+        isAnimating: true
+      })
     })
+
     this.anim.onEnd(() => {
       this.setState({
         isAnimating: false
       })
-      // checking additional for  && state === 'closing' makes it more "safe"
+
       if (this.context.expanded) {
         this.setState({
           keepContentVisible: true
@@ -89,22 +89,20 @@ export default class AccordionContent extends React.PureComponent {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.context.expanded) {
-      /**
-       * In grouped mode, the first switch needs a close, before we call open
-       */
-      if (!this.state.keepContentVisible) {
-        this.anim.close()
-      }
-
+    if (this.context.expanded !== this.context._expanded) {
       this.setState(
         {
+          _expanded: this.context.expanded,
           keepContentVisible: true
         },
-        () => this.anim.open()
+        () => {
+          if (this.context.expanded) {
+            this.anim.open()
+          } else {
+            this.anim.close()
+          }
+        }
       )
-    } else {
-      this.anim.close()
     }
 
     if (
@@ -167,7 +165,7 @@ export default class AccordionContent extends React.PureComponent {
       instance, // eslint-disable-line
       ...rest
     } = this.props
-    const { keepContentVisible } = this.state
+    const { keepContentVisible, isAnimating } = this.state
 
     const { id, expanded, disabled } = this.context
 
@@ -177,7 +175,7 @@ export default class AccordionContent extends React.PureComponent {
       className: classnames(
         'dnb-accordion__content',
         !expanded && 'dnb-accordion__content--hidden',
-        this.state.isAnimating && 'dnb-accordion__content--is-animating',
+        isAnimating && 'dnb-accordion__content--is-animating',
         className
       ),
       ...rest
@@ -263,13 +261,12 @@ class HeightAnim {
     this.stop()
     this.elem = null
     this.state = 'init'
-    this.openHeight = null
     if (this.onResize) {
       clearTimeout(this.resizeTimeout)
       window.removeEventListener('resize', this.onResize)
     }
   }
-  getOpentHeight() {
+  getOpenHeight() {
     const position = window.getComputedStyle(this.elem.parentElement)
       .position
 
@@ -278,7 +275,7 @@ class HeightAnim {
     this.elem.style.visibility = 'hidden'
     this.elem.style.height = 'auto'
 
-    this.openHeight = parseFloat(this.elem.clientHeight)
+    const openHeight = parseFloat(this.elem.clientHeight)
 
     this.elem.parentElement.style.position =
       position !== 'static' ? position : ''
@@ -287,12 +284,10 @@ class HeightAnim {
     this.elem.style.opacity = '0'
     this.elem.style.visibility = 'visible'
 
-    return this.openHeight
+    return openHeight
   }
   getCloseHeight() {
-    this.closeHeight = parseFloat(this.elem.clientHeight)
-
-    return this.closeHeight
+    return parseFloat(this.elem.clientHeight)
   }
   onStart(fn) {
     this.onStartStack.push(fn)
@@ -350,6 +345,7 @@ class HeightAnim {
       })
     }
   }
+  resetContainerHeight() {}
   setContainerHeight() {
     if (this.container) {
       const contentElem = this.elem
@@ -376,6 +372,7 @@ class HeightAnim {
     if (this.state === 'opened' || this.state === 'opening') {
       return
     }
+
     this.state = 'opening'
     this.removeEndEvents() // also, remove events on every open (but not on close!)
 
@@ -383,22 +380,30 @@ class HeightAnim {
       this.elem.addEventListener(
         'transitionend',
         (this.onOpenEnd = () => {
-          this.elem.style.height = 'auto'
-          this.callOnEnd()
-          this.state = 'opened'
+          if (this.elem) {
+            this.elem.style.height = 'auto'
+          }
 
+          this.callOnEnd()
           this.setContainerHeight()
+          this.state = 'opened'
         })
       )
     }
 
-    const height = this.getOpentHeight()
+    const height = this.getOpenHeight()
     this.start(height, 0, { animate })
   }
   close(animate = true) {
     if (this.state === 'closed' || this.state === 'closing') {
       return
     }
+
+    let height = this.getCloseHeight()
+    if (this.state === 'init') {
+      height = this.getOpenHeight()
+    }
+
     this.state = 'closing'
     this.removeEndEvents() // also, remove events on every open (but not on close!)
 
@@ -406,13 +411,16 @@ class HeightAnim {
       this.elem.addEventListener(
         'transitionend',
         (this.onCloseEnd = () => {
+          if (this.elem) {
+            this.elem.style.visibility = 'hidden'
+          }
+
           this.callOnEnd()
           this.state = 'closed'
         })
       )
     }
 
-    const height = this.getCloseHeight()
     this.start(0, height, { animate })
   }
 }

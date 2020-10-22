@@ -69,7 +69,7 @@ export const AccordionSandbox = () => {
       </Box>
 
       <Box>
-        <Accordion.Group expanded>
+        <Accordion.Group expanded allow_close_all>
           <Accordion expanded={false}>
             <Accordion.Header>Accordion title 1</Accordion.Header>
             <Accordion.Content top="x-large">
