@@ -55,6 +55,7 @@ exports[`Accordion component have to match snapshot 1`] = `
     >
       <div
         aria-controls="accordion-content"
+        aria-expanded={false}
         className="dnb-accordion__header"
         disabled={false}
         onClick={[Function]}
