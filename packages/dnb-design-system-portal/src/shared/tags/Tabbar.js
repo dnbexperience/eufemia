@@ -98,7 +98,7 @@ export default function Tabbar({
 
   return (
     <>
-      <AutoLinkHeader level={1} skip_correction>
+      <AutoLinkHeader className="dnb-no-focus" level={1} skip_correction>
         {title}
       </AutoLinkHeader>
       <Tabs
