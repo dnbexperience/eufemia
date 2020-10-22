@@ -16,11 +16,7 @@ import { createSpacingClasses } from '../space/SpacingHelper'
 import HeadingContext from './HeadingContext'
 import Context from '../../shared/Context'
 import HeadingProvider from './HeadingProvider'
-import {
-  // AutoSize,
-  createSkeletonClass,
-  skeletonDOMAttributes
-} from '../skeleton/SkeletonHelper'
+import { createSkeletonClass } from '../skeleton/SkeletonHelper'
 import {
   correctHeadingLevel,
   resetLevels,
@@ -292,18 +288,6 @@ export default class Heading extends React.PureComponent {
               {text || children}
             </>
           )
-
-          skeletonDOMAttributes(attributes, skeleton, this.context)
-
-          // if (isTrue(skeleton)) {
-          // return (
-          //   <AutoSize
-          //     __element={Element}
-          //     ref={this._ref}
-          //     {...attributes}
-          //   />
-          // )
-          // }
 
           return <Element ref={this._ref} {...attributes} />
         }}
