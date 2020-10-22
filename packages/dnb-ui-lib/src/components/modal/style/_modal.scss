@@ -8,6 +8,7 @@
 :root {
   --modal-z-index: 3000;
   --modal-spacing: 2rem; // should reflect --spacing-large
+  --modal-spacing-minus: -2rem; // should reflect --spacing-large
 
   // we do this because SCSS fails by using min(100vw, 50rem) = "Incompatible units: 'rem' and 'vw'"
   --modal-min-width: 20rem; // under 40em, because of spacing and later mobile fullscreen
@@ -247,7 +248,7 @@
 
   &__wrapper__inner {
     padding-bottom: calc(var(--modal-spacing) * 2);
-    margin-bottom: calc(var(--modal-spacing) * -1.75);
+    margin-bottom: calc(var(--modal-spacing-minus) * 1.75);
 
     @include allBelow(small) {
       &.dnb-section::after {
@@ -259,7 +260,7 @@
     }
   }
   &__content--drawer &__wrapper__inner {
-    margin-bottom: calc(var(--modal-spacing) * -2);
+    margin-bottom: calc(var(--modal-spacing-minus) * 2);
 
     &.dnb-section::after {
       min-height: calc(
