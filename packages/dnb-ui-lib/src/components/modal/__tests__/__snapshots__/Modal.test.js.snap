@@ -1485,14 +1485,16 @@ button.dnb-button::-moz-focus-inner {
   .dnb-modal__wrapper {
     position: relative;
     z-index: 1;
-    padding-top: calc(var(--modal-spacing) / 2);
     padding-bottom: calc(var(--modal-spacing) * 1.75); }
     @media screen and (max-width: 40em) {
       .dnb-modal__wrapper {
         padding-bottom: calc(var(--modal-spacing) * 1.25); } }
   .dnb-modal__content--drawer .dnb-modal__wrapper {
-    padding-top: calc(var(--modal-spacing) * 0.75);
     padding-bottom: calc(var(--modal-spacing) * 2); }
+  .dnb-modal__title ~ .dnb-modal__wrapper {
+    padding-top: calc(var(--modal-spacing) / 2); }
+  .dnb-modal__content--drawer .dnb-modal__title ~ .dnb-modal__wrapper {
+    padding-top: calc(var(--modal-spacing) * 0.75); }
   .dnb-modal__wrapper__inner {
     padding-bottom: calc(var(--modal-spacing) * 2);
     margin-bottom: calc(var(--modal-spacing) * -1.75); }
