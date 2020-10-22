@@ -76,7 +76,18 @@
     animation: skeletonShineAnimation 1.5s linear infinite;
   }
 
-  // Lines
+  // Font
+  &--font,
+  &--font-only {
+    *:not(.dnb-skeleton) {
+      -webkit-text-fill-color: var(--skeleton-color) !important;
+    }
+
+    // Additional changes
+    &::marker {
+      color: var(--skeleton-color);
+    }
+  }
   &--font {
     background-image: repeating-linear-gradient(
       -45deg,
@@ -86,11 +97,6 @@
 
     --border-color: var(--skeleton-color);
     background-color: var(--skeleton-color) !important;
-
-    // Additional changes
-    &::marker {
-      color: var(--skeleton-color);
-    }
   }
 
   // Dots – does not work well for now

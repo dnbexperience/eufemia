@@ -55,6 +55,7 @@ exports[`Accordion component have to match snapshot 1`] = `
     >
       <div
         aria-controls="accordion-content"
+        aria-expanded={false}
         className="dnb-accordion__header"
         disabled={false}
         onClick={[Function]}
@@ -496,7 +497,7 @@ exports[`Accordion scss have to match snapshot 1`] = `
           transform: rotate(-90deg); }
       .dnb-accordion-group--single-container .dnb-accordion__content {
         margin-left: 1rem;
-        transition: opacity 2s var(--accordion-easing); }
+        transition: opacity 1s var(--accordion-easing); }
         .dnb-accordion-group--single-container .dnb-accordion__content__inner {
           margin-top: 0; } }
   .dnb-accordion-group--single-container .dnb-accordion-group__children {

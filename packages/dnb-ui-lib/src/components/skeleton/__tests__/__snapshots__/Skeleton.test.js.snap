@@ -54,9 +54,10 @@ exports[`Skeleton component have to match snapshot 1`] = `
                 class={null}
                 className="dnb-p"
                 css={null}
-                hasTagClass={false}
+                internalClass={null}
                 is="p"
                 skeleton={null}
+                skeleton_method="font"
               >
                 <p
                   className="dnb-p"
@@ -289,12 +290,18 @@ exports[`Skeleton scss have to match snapshot 1`] = `
   background: none !important;
   box-shadow: none !important; }
 
-.dnb-skeleton--font {
+.dnb-skeleton--font, .dnb-skeleton--font-only {
   pointer-events: none;
   --font-family-book: 'DNBSkeleton' !important;
   --font-family-demi: 'DNBSkeleton' !important;
-  --font-family-default: 'DNBSkeleton' !important;
-  font-family: var(--font-family-default) !important;
+  --font-family-default: 'DNBSkeleton' !important; }
+  .dnb-skeleton--font,
+  .dnb-skeleton--font *, .dnb-skeleton--font-only,
+  .dnb-skeleton--font-only * {
+    font-family: var(--font-family-default) !important;
+    font-style: unset !important; }
+
+.dnb-skeleton--font {
   background-position-y: 50% !important;
   background-repeat: no-repeat !important;
   background-size: 30rem 100% !important;
@@ -302,9 +309,6 @@ exports[`Skeleton scss have to match snapshot 1`] = `
   background-clip: text !important;
   -webkit-background-clip: text !important;
   animation: skeletonFontAnimation 2s linear infinite; }
-  .dnb-skeleton--font,
-  .dnb-skeleton--font * {
-    font-style: unset !important; }
 
 .dnb-skeleton--code pre,
 .dnb-skeleton--code pre *,

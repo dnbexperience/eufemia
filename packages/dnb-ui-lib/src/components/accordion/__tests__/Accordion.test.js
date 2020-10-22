@@ -30,12 +30,26 @@ describe('Accordion component', () => {
   it('has correct state after "click" trigger', () => {
     // default expanded value has to be false
     expect(Comp.state().expanded).toBe(false)
+    expect(
+      Comp.find('.dnb-accordion__header')
+        .instance()
+        .getAttribute('aria-expanded')
+    ).toBe('false')
     Comp.find('.dnb-accordion__header').simulate('click') // we could send inn the event data structure like this: , { target: { expanded: true } }
     expect(Comp.state().expanded).toBe(true)
+    expect(
+      Comp.find('.dnb-accordion__header')
+        .instance()
+        .getAttribute('aria-expanded')
+    ).toBe('true')
     // Comp.find('.dnb-accordion__header').simulate('click')
     // expect(Comp.state().expanded).toBe(false)
     Comp.setProps({ expanded: false })
-    expect(Comp.state().expanded).toBe(false)
+    expect(
+      Comp.find('.dnb-accordion__header')
+        .instance()
+        .getAttribute('aria-expanded')
+    ).toBe('false')
   })
 
   it('has "on_change" event which will trigger on click', () => {

@@ -34,9 +34,8 @@ class H extends React.PureComponent {
     return (
       <E
         is={is}
+        internalClass={classnames(size && `dnb-h--${size}`, className)}
         {...props}
-        className={classnames(size && `dnb-h--${size}`, className)}
-        hasTagClass
       />
     )
   }

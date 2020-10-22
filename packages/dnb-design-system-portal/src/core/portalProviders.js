@@ -52,6 +52,8 @@ function ToggleSkeleton(props) {
       const x = e.clientX
       const y = e.clientY
       if (x < 20 && y < 20) {
+        e.preventDefault()
+        e.stopPropagation()
         skeletonCount++
         clearTimeout(skeletonTimeout)
         skeletonTimeout = setTimeout(() => {

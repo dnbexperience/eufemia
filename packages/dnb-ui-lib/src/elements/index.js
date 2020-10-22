@@ -33,6 +33,9 @@ import Ol from './Ol'
 import P from './P'
 import Paragraph from './Paragraph'
 import Table from './Table'
+import Td from './Td'
+import Th from './Th'
+import Tr from './Tr'
 import Ul from './Ul'
 
 // define / export all the aviable components
@@ -60,5 +63,8 @@ export {
   P,
   Paragraph,
   Table,
+  Td,
+  Th,
+  Tr,
   Ul
 }
