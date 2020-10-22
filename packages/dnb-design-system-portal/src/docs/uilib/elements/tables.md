@@ -42,7 +42,7 @@ To enhance or manipulate the the table style, you can make use of a couple helpe
 
 <ComponentBox hideCode data-dnb-test="table-classes" caption="Example usage of class helpers">
 {`
-<table className="dnb-table">
+<Table className="dnb-table">
   <thead>
     <tr className="dnb-table__tr">
       <th className="dnb-table__th">
@@ -76,7 +76,7 @@ To enhance or manipulate the the table style, you can make use of a couple helpe
       <td colSpan="3" className="dnb-table__td">.dnb-table__tr--odd > .dnb-table__td</td>
     </tr>
   </tbody>
-</table>
+</Table>
 `}
 </ComponentBox>
 
@@ -84,7 +84,7 @@ To enhance or manipulate the the table style, you can make use of a couple helpe
 
 <ComponentBox hideCode data-dnb-test="table-default">
 {`
-<table className="dnb-table">
+<Table className="dnb-table">
   <caption>A Table Caption</caption>
   <thead>
     <tr>
@@ -138,7 +138,7 @@ To enhance or manipulate the the table style, you can make use of a couple helpe
       <td align="right">Column 4</td>
     </tr>
   </tbody>
-</table>
+</Table>
 `}
 </ComponentBox>
 
