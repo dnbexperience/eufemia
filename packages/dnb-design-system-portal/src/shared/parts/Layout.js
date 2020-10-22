@@ -111,6 +111,7 @@ class Layout extends React.PureComponent {
               className="dnb-app-content-inner"
             >
               <ContentInner
+                role="main"
                 id="dnb-app-content"
                 className="dnb-no-focus"
                 ref={this._mainRef}
