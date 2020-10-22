@@ -40,7 +40,7 @@ Example usage of HTML5 `landmarks` (e.g. `<nav>` or `<section>` etc.):
   <header>Header</header>
   <nav>Main navigation</nav>
 
-  <main>
+  <main role="main">
 
     <section aria-label="I'm now a region">
       <h1 class="dnb-h--large">h1 styled as h2</h1>

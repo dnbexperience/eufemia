@@ -42,7 +42,7 @@ const Header = styled.header`
   }
 
   /*
-    God for a mobile menu insted
+    God for a mobile menu instead
     make sure that Content main "styled.main" gets the same max-width
    */
   @media screen and (max-width: 50em) {

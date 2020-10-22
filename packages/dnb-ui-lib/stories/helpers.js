@@ -26,6 +26,7 @@ export const VisualGrid = ({
 }) => (
   <React.StrictMode>
     <MainWrapper
+      role="main"
       className={classnames(
         'dnb-core-style',
         showOverflow && 'show-overflow',
