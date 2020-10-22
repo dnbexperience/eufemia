@@ -6,6 +6,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 // import Color from 'color'
+import { Table as TableElement } from 'dnb-ui-lib/src/elements'
 
 export default class Table extends React.PureComponent {
   static propTypes = {
@@ -74,7 +75,7 @@ export default class Table extends React.PureComponent {
 
       return child
     })
-    return <table className="dnb-table">{children}</table>
+    return <TableElement>{children}</TableElement>
   }
 }
 
