@@ -90,7 +90,7 @@ export default class Provider extends React.PureComponent {
       if (typeof context.update === 'function') {
         context.update({ locale })
       }
-      // make it posible to change the locale during runtime
+      // make it possible to change the locale during runtime
       this.setContext({ locale })
     }
 
