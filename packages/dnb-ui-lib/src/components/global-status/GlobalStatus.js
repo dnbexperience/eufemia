@@ -18,6 +18,10 @@ import {
   processChildren,
   extendPropsWithContext
 } from '../../shared/component-helper'
+import {
+  skeletonDOMAttributes,
+  createSkeletonClass
+} from '../skeleton/SkeletonHelper'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import GlobalStatusController from './GlobalStatusController'
 import GlobalStatusProvider from './GlobalStatusProvider'
@@ -74,6 +78,7 @@ export default class GlobalStatus extends React.PureComponent {
       PropTypes.bool
     ]),
     status_anchor_text: PropTypes.string,
+    skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     class: PropTypes.string,
     demo: PropTypes.bool,
 
@@ -112,6 +117,7 @@ export default class GlobalStatus extends React.PureComponent {
     delay: 10,
     duration: 1e3,
     status_anchor_text: null,
+    skeleton: null,
     class: null,
     demo: false,
 
@@ -673,6 +679,7 @@ export default class GlobalStatus extends React.PureComponent {
       close_text,
       class: _className,
       status_anchor_text,
+      skeleton,
 
       id, // eslint-disable-line
       demo, // eslint-disable-line
@@ -696,6 +703,7 @@ export default class GlobalStatus extends React.PureComponent {
       className: classnames(
         'dnb-global-status__wrapper',
         'dnb-no-focus',
+        createSkeletonClass('font', skeleton, this.context),
         createSpacingClasses(props),
         className,
         _className
@@ -750,6 +758,8 @@ export default class GlobalStatus extends React.PureComponent {
       ),
       ...attributes
     }
+
+    skeletonDOMAttributes(params, skeleton, this.context)
 
     // also used for code markup simulation
     validateDOMAttributes(this.props, params)

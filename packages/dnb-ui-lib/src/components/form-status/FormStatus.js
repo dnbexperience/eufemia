@@ -334,7 +334,6 @@ export default class FormStatus extends React.PureComponent {
         `dnb-form-status--${state}`,
         animation ? `dnb-form-status--${animation}` : null,
         hasStringContent ? 'dnb-form-status--has-content' : null,
-        // createSkeletonClass(null, skeleton, this.context),
         createSpacingClasses(props),
         className,
         _className
