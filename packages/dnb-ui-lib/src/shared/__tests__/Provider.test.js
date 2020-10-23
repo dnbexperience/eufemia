@@ -33,6 +33,48 @@ describe('Provider', () => {
     )
   }
 
+  const ChangeLocale = () => {
+    const { setLocale } = React.useContext(Context)
+
+    return (
+      <>
+        <button
+          className="nb-NO"
+          onClick={() => {
+            setLocale('nb-NO')
+          }}
+        >
+          nb-NO
+        </button>
+        <button
+          className="en-US"
+          onClick={() => {
+            setLocale('en-US')
+          }}
+        >
+          en-US
+        </button>
+      </>
+    )
+  }
+
+  const MagicProvider = ({ children, ...props }) => (
+    <LocalProvider {...props}>
+      <Context.Consumer>
+        {(context) => {
+          const close_title = context.translation.Modal.close_title
+          return (
+            <>
+              <p>{close_title}</p>
+              <ChangeLocale />
+              {children}
+            </>
+          )
+        }}
+      </Context.Consumer>
+    </LocalProvider>
+  )
+
   it('locales should translate component strings', () => {
     const Comp = mount(
       <LocalProvider>
@@ -62,16 +104,7 @@ describe('Provider', () => {
   })
 
   it('locales should react on locale change', () => {
-    const Comp = mount(
-      <LocalProvider>
-        <Context.Consumer>
-          {(context) => {
-            const close_title = context.translation.Modal.close_title
-            return <p>{close_title}</p>
-          }}
-        </Context.Consumer>
-      </LocalProvider>
-    )
+    const Comp = mount(<MagicProvider />)
 
     expect(String(Comp.find('p').text())).toBe(close_title_nb)
 
@@ -83,55 +116,39 @@ describe('Provider', () => {
   })
 
   it('locales should react on locale change', () => {
-    const ChangeLocale = () => {
-      const { setLocale } = React.useContext(Context)
-
-      return (
-        <>
-          <button
-            id="nb-NO"
-            onClick={() => {
-              setLocale('nb-NO')
-            }}
-          >
-            nb-NO
-          </button>
-          <button
-            id="en-US"
-            onClick={() => {
-              setLocale('en-US')
-            }}
-          >
-            en-US
-          </button>
-        </>
-      )
-    }
-
-    const Comp = mount(
-      <LocalProvider>
-        <Context.Consumer>
-          {(context) => {
-            const close_title = context.translation.Modal.close_title
-            return (
-              <>
-                <p>{close_title}</p>
-                <ChangeLocale />
-              </>
-            )
-          }}
-        </Context.Consumer>
-      </LocalProvider>
-    )
+    const Comp = mount(<MagicProvider />)
 
     expect(String(Comp.find('p').text())).toBe(close_title_nb)
 
-    Comp.find('button#en-US').simulate('click')
+    Comp.find('button.en-US').simulate('click')
 
     expect(String(Comp.find('p').text())).toBe(close_title_us)
 
-    Comp.find('button#nb-NO').simulate('click')
+    Comp.find('button.nb-NO').simulate('click')
 
     expect(String(Comp.find('p').text())).toBe(close_title_nb)
+  })
+
+  it('locales should support nested providers', () => {
+    const Comp = mount(
+      <MagicProvider>
+        <MagicProvider locale="en-US" />
+      </MagicProvider>
+    )
+
+    expect(String(Comp.find('p').at(0).text())).toBe(close_title_nb)
+    expect(String(Comp.find('p').at(1).text())).toBe(close_title_us)
+
+    Comp.find('button.nb-NO').at(1).simulate('click')
+    expect(String(Comp.find('p').at(1).text())).toBe(close_title_nb)
+
+    // should not have changed
+    expect(String(Comp.find('p').at(0).text())).toBe(close_title_nb)
+
+    Comp.find('button.en-US').at(0).simulate('click')
+    expect(String(Comp.find('p').at(0).text())).toBe(close_title_us)
+
+    // should not have changed
+    expect(String(Comp.find('p').at(1).text())).toBe(close_title_nb)
   })
 })
