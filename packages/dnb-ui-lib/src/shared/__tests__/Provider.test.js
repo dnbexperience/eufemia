@@ -5,28 +5,28 @@
 
 import React from 'react'
 import { mount } from '../../core/jest/jestSetup'
-import Modal from '../../components/modal/Modal'
+import HelpButton from '../../components/help-button/HelpButton'
 
 import Context from '../Context'
 import Provider from '../Provider'
 
 describe('Provider', () => {
-  const close_title_nb = 'Steng'
-  const close_title_us = 'Hide'
+  const title_nb = 'Tekst'
+  const title_us = 'Text'
 
   const nbNO = {
-    'Modal.close_title': close_title_nb
+    'HelpButton.title': title_nb
   }
   const enUS = {
-    'Modal.close_title': close_title_us
+    'HelpButton.title': title_us
   }
 
   const LocalProvider = (props) => {
     return (
       <Provider
         locales={{
-          'nb-NO': nbNO,
-          'en-US': enUS
+          'nb-NO': Object.freeze(nbNO),
+          'en-US': Object.freeze(enUS)
         }}
         {...props}
       />
@@ -62,10 +62,10 @@ describe('Provider', () => {
     <LocalProvider {...props}>
       <Context.Consumer>
         {(context) => {
-          const close_title = context.translation.Modal.close_title
+          const title = context.translation.HelpButton.title
           return (
             <>
-              <p>{close_title}</p>
+              <p>{title}</p>
               <ChangeLocale />
               {children}
             </>
@@ -78,55 +78,57 @@ describe('Provider', () => {
   it('locales should translate component strings', () => {
     const Comp = mount(
       <LocalProvider>
-        <Modal open_state="opened" no_animation>
-          content
-        </Modal>
+        <HelpButton>content</HelpButton>
       </LocalProvider>
     )
 
     expect(
-      String(Comp.find('button.dnb-modal__close-button').text()).replace(
-        /\u200C/g,
-        ''
-      )
-    ).toBe(close_title_nb)
+      Comp.find('button.dnb-help-button').instance().getAttribute('title')
+    ).toBe(title_nb)
+    expect(
+      Comp.find('button.dnb-help-button')
+        .instance()
+        .getAttribute('aria-roledescription')
+    ).toBe('Hjelp-knapp')
 
     Comp.setProps({
       locale: 'en-US'
     })
 
     expect(
-      String(Comp.find('button.dnb-modal__close-button').text()).replace(
-        /\u200C/g,
-        ''
-      )
-    ).toBe(close_title_us)
+      Comp.find('button.dnb-help-button').instance().getAttribute('title')
+    ).toBe(title_us)
+    expect(
+      Comp.find('button.dnb-help-button')
+        .instance()
+        .getAttribute('aria-roledescription')
+    ).toBe('Help button')
   })
 
   it('locales should react on locale change', () => {
     const Comp = mount(<MagicProvider />)
 
-    expect(String(Comp.find('p').text())).toBe(close_title_nb)
+    expect(Comp.find('p').text()).toBe(title_nb)
 
     Comp.setProps({
       locale: 'en-US'
     })
 
-    expect(String(Comp.find('p').text())).toBe(close_title_us)
+    expect(Comp.find('p').text()).toBe(title_us)
   })
 
   it('locales should react on locale change', () => {
     const Comp = mount(<MagicProvider />)
 
-    expect(String(Comp.find('p').text())).toBe(close_title_nb)
+    expect(Comp.find('p').text()).toBe(title_nb)
 
     Comp.find('button.en-US').simulate('click')
 
-    expect(String(Comp.find('p').text())).toBe(close_title_us)
+    expect(Comp.find('p').text()).toBe(title_us)
 
     Comp.find('button.nb-NO').simulate('click')
 
-    expect(String(Comp.find('p').text())).toBe(close_title_nb)
+    expect(Comp.find('p').text()).toBe(title_nb)
   })
 
   it('locales should support nested providers', () => {
@@ -136,19 +138,19 @@ describe('Provider', () => {
       </MagicProvider>
     )
 
-    expect(String(Comp.find('p').at(0).text())).toBe(close_title_nb)
-    expect(String(Comp.find('p').at(1).text())).toBe(close_title_us)
+    expect(Comp.find('p').at(0).text()).toBe(title_nb)
+    expect(Comp.find('p').at(1).text()).toBe(title_us)
 
     Comp.find('button.nb-NO').at(1).simulate('click')
-    expect(String(Comp.find('p').at(1).text())).toBe(close_title_nb)
+    expect(Comp.find('p').at(1).text()).toBe(title_nb)
 
     // should not have changed
-    expect(String(Comp.find('p').at(0).text())).toBe(close_title_nb)
+    expect(Comp.find('p').at(0).text()).toBe(title_nb)
 
     Comp.find('button.en-US').at(0).simulate('click')
-    expect(String(Comp.find('p').at(0).text())).toBe(close_title_us)
+    expect(Comp.find('p').at(0).text()).toBe(title_us)
 
     // should not have changed
-    expect(String(Comp.find('p').at(1).text())).toBe(close_title_nb)
+    expect(Comp.find('p').at(1).text()).toBe(title_nb)
   })
 })

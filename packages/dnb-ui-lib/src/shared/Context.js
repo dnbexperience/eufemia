@@ -14,7 +14,7 @@ export const prepareContext = (props = {}) => {
     : defaultLocales
 
   const key = props.locale || LOCALE
-  const translation = locales[key] || defaultLocales[LOCALE] || {}
+  const translation = locales[key] || defaultLocales[LOCALE] || {} // here we could use Object.freeze
 
   /**
    * The code above adds support for strings, defined like:
@@ -48,15 +48,19 @@ function destruct(source, validKeys) {
 
       if (validKeys[list[0]]) {
         const val = source[k]
-        const count = list.length - 1
+        const last = list.length - 1
 
-        let lastObj = source
         list.forEach((k, i) => {
-          lastObj[k] = i === count ? val : {}
-          lastObj = lastObj[k]
+          source[k] = i === last ? val : source[k]
+          source = source[k]
         })
 
-        delete source[k]
+        // If the root object is frozen, then use this
+        // let lastObj = { ...source }
+        // list.forEach((k, i) => {
+        //   lastObj[k] = i === last ? val : lastObj[k] // we may have to create a new object here instead?
+        //   lastObj = lastObj[k]
+        // })
       }
     }
   }
