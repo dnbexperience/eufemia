@@ -81,7 +81,7 @@ const mockData = [
 describe('Dropdown component', () => {
   const Comp = mount(<Component {...props} data={mockData} />)
 
-  it('has correct value on keydown "ArrowDown" and "Enter"', async () => {
+  it('has correct value on keydown "ArrowDown" and "Enter"', () => {
     const Comp = mount(<Component {...props} data={mockData} />)
     let elem
 
@@ -137,7 +137,7 @@ describe('Dropdown component', () => {
     ).toBe(true)
   })
 
-  it('has valid on_select callback', async () => {
+  it('has valid on_select callback', () => {
     const on_select = jest.fn()
 
     const Comp = mount(
@@ -157,7 +157,7 @@ describe('Dropdown component', () => {
     expect(on_select.mock.calls[1][0].data).toStrictEqual(selectedItem) // second call!
   })
 
-  it('has no selected items on using prevent_selection', async () => {
+  it('has no selected items on using prevent_selection', () => {
     let selectedItem
     const on_change = jest.fn()
     const title = 'custom title'
@@ -246,7 +246,7 @@ describe('Dropdown component', () => {
     )
   })
 
-  it('has no selected items on using more_menu', async () => {
+  it('has no selected items on using more_menu', () => {
     const title = 'custom title'
     const Comp = mount(
       <Component
@@ -283,7 +283,7 @@ describe('Dropdown component', () => {
     expect(Comp.exists('.dnb-dropdown--is-popup')).toBe(true)
   })
 
-  it('has valid on_change callback', async () => {
+  it('has valid on_change callback', () => {
     let selectedItem
     const on_change = jest.fn()
     const on_select = jest.fn()
