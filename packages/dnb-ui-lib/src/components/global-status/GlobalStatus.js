@@ -220,7 +220,6 @@ export default class GlobalStatus extends React.PureComponent {
       }
     }
 
-    // force re-render
     this.provider.onUpdate((globalStatus) => {
       // we need the on_close later during the close process
       // so we set this here, because it gets removed from the stack
@@ -228,6 +227,7 @@ export default class GlobalStatus extends React.PureComponent {
         this._globalStatus = globalStatus
       }
 
+      // force re-render
       this.setState({
         globalStatus,
         _listenForPropChanges: false
@@ -240,27 +240,19 @@ export default class GlobalStatus extends React.PureComponent {
 
       // make sure to show the new status, inc. scroll
       if (
-        globalStatus.items &&
-        globalStatus.items.length === 0 &&
         isTrue(this.props.autoclose) &&
+        this.hadContent &&
+        !this.hasContent(globalStatus) &&
         !isTrue(this.props.show)
       ) {
         this.setHidden({ delay: 0 })
       } else if (isTrue(this.props.show) || isTrue(globalStatus.show)) {
+        this.hadContent = this.hasContent(globalStatus)
         this.setVisible({ delay: 0 })
       }
     })
 
     this.initialActiveElement = null
-  }
-
-  correctStatus(state) {
-    switch (state) {
-      case 'information':
-        state = 'info'
-        break
-    }
-    return state
   }
 
   componentWillUnmount() {
@@ -278,6 +270,19 @@ export default class GlobalStatus extends React.PureComponent {
 
     // so we inly empty the events
     this.provider.empty()
+  }
+
+  hasContent(globalStatus) {
+    return globalStatus.items?.length > 0 || globalStatus.text
+  }
+
+  correctStatus(state) {
+    switch (state) {
+      case 'information':
+        state = 'info'
+        break
+    }
+    return state
   }
 
   setVisible = ({

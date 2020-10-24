@@ -109,15 +109,6 @@ class GlobalStatusProvider {
       return acc
     }, {})
 
-    // no items? remove them then
-    // if (globalStatus.items && globalStatus.items.length === 0) {
-    //   delete globalStatus.items
-    // }
-
-    if (!(globalStatus.items && globalStatus.items.length > 0)) {
-      globalStatus.items = []
-    }
-
     return globalStatus
   }
 }

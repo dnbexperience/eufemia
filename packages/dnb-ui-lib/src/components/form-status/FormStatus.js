@@ -143,12 +143,12 @@ export default class FormStatus extends React.PureComponent {
         (provider) => {
           // gets called once ready
           const { state, text, label } = this.props
-          const status_id = `${this._id}-gs`
           provider.add({
             state,
-            status_id,
+            status_id: `${this._id}-gs`,
+            // show: true,
             item: {
-              status_id,
+              status_id: this._id,
               text,
               status_anchor_label: label,
               status_anchor_url: true
@@ -189,7 +189,7 @@ export default class FormStatus extends React.PureComponent {
       this.gsProvider.update(status_id, {
         state,
         item: {
-          status_id,
+          status_id: this._id,
           text,
           status_anchor_label: label,
           status_anchor_url: true

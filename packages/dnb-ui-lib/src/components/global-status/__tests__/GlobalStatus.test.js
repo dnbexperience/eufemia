@@ -292,11 +292,32 @@ describe('GlobalStatus component', () => {
       <Component.Add
         id="custom-status-autoclose"
         status_id="status-autoclose-1"
-        items={['foo']}
+        text="text only"
       />
     )
 
     expect(on_open.mock.calls.length).toBe(1)
+    expect(Comp.state().isActive).toBe(true)
+
+    Comp.update()
+    expect(Comp.exists('div.dnb-global-status__message')).toBe(true)
+    expect(Comp.find('div.dnb-global-status__message').text()).toBe(
+      'text only'
+    )
+
+    mount(
+      <Component.Add
+        id="custom-status-autoclose"
+        status_id="status-autoclose-2"
+        // text="text only"
+        items={['foo']}
+      />
+    )
+
+    Comp.update()
+    expect(Comp.find('div.dnb-global-status__message').text()).toBe(
+      'text onlyfoo'
+    )
 
     mount(
       <Component.Remove
@@ -306,11 +327,23 @@ describe('GlobalStatus component', () => {
       />
     )
 
+    expect(on_close.mock.calls.length).toBe(0)
+
+    mount(
+      <Component.Remove
+        id="custom-status-autoclose"
+        status_id="status-autoclose-2"
+        buffer_delay={0}
+      />
+    )
+
     expect(on_close.mock.calls.length).toBe(1)
     expect(on_hide.mock.calls.length).toBe(0)
 
-    expect(Comp.exists('div.dnb-global-status__message')).toBe(false)
     expect(Comp.state().isActive).toBe(false)
+
+    Comp.update()
+    expect(Comp.exists('div.dnb-global-status__message')).toBe(false)
 
     mount(
       <Component.Add
