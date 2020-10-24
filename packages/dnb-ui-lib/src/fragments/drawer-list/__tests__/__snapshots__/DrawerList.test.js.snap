@@ -645,16 +645,16 @@ exports[`DrawerList scss have to match snapshot 1`] = `
       flex-direction: column;
       justify-content: center;
       outline: none;
-      width: 100%;
       margin: 0;
       padding: 1rem;
       color: inherit;
       background-color: var(--color-white); }
+      .dnb-drawer-list__option__inner > * {
+        align-self: self-start; }
     .dnb-drawer-list__option__item {
       display: block;
       overflow: hidden;
-      text-overflow: ellipsis;
-      width: 100%; }
+      text-overflow: ellipsis; }
     .dnb-drawer-list__option--ignore {
       cursor: default;
       pointer-events: none; }
