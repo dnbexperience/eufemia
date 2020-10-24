@@ -20,6 +20,10 @@ import {
   // Checkbox
 } from '../../src/components'
 
+export default {
+  title: 'Eufemia/Components/Dropdown'
+}
+
 const CustomStyle = styled.div`
   [data-dnb-test='dropdown-list'].dnb-drawer-list__list {
     display: block;
@@ -70,7 +74,7 @@ const DropdownStory = () => {
             align_dropdown="left"
             variant="tertiary"
             title="Tertiary"
-            data={['Go this this Link', 'Or to this one']}
+            data={['Go to this Link', 'Or to this one']}
           />
           <Dropdown
             size="small"
@@ -79,7 +83,7 @@ const DropdownStory = () => {
             // align_dropdown="right"
             variant="tertiary"
             title="Tertiary"
-            data={['Go this this Link', 'Or to this one']}
+            data={['Go to this Link', 'Or to this one']}
           />
         </RightAligned>
       </Box>
@@ -126,7 +130,7 @@ const DropdownStory = () => {
             size="small"
             // opened
             more_menu
-            data={['Go this this Link', 'Or to this one']}
+            data={['Go to this Link', 'Or to this one']}
             // skip_portal
             align_dropdown="right"
           />
@@ -134,7 +138,7 @@ const DropdownStory = () => {
             size="small"
             // opened
             more_menu
-            data={['Go this this Link', 'Or to this one']}
+            data={['Go to this Link', 'Or to this one']}
             // skip_portal
             // align_dropdown="right"
           />
@@ -265,7 +269,7 @@ const DropdownStory = () => {
               align_dropdown={align_dropdown}
               icon_position={icon_position}
               more_menu={true}
-              data={['Go this this Link', 'Or to this one']}
+              data={['Go to this Link', 'Or to this one']}
               right="x-large x-large"
               skip_portal
             />
@@ -277,7 +281,7 @@ const DropdownStory = () => {
               direction={direction}
               align_dropdown={align_dropdown}
               icon_position={icon_position}
-              data={['Go this this Link', 'Or to this one']}
+              data={['Go to this Link', 'Or to this one']}
               right="x-large x-large"
             />
             <Dropdown
@@ -289,7 +293,7 @@ const DropdownStory = () => {
               direction={direction}
               align_dropdown={align_dropdown}
               icon_position={icon_position}
-              data={['Go this this Link', 'Or to this one']}
+              data={['Go to this Link', 'Or to this one']}
               right="x-large x-large"
             />
             <Dropdown
@@ -301,7 +305,7 @@ const DropdownStory = () => {
               direction={direction}
               align_dropdown={align_dropdown}
               icon_position={icon_position}
-              data={['Go this this Link', 'Or to this one']}
+              data={['Go to this Link', 'Or to this one']}
               right="x-large x-large"
             />
           </Box>

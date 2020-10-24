@@ -223,7 +223,7 @@ const CustomWidthOne = styled(Autocomplete)\`
 \`
 const CustomWidthTwo = styled(Autocomplete)\`
   &.dnb-autocomplete--is-popup .dnb-drawer-list__root {
-    width: 8rem;
+    width: 12rem;
   }
 \`
 const CustomWidthThree = styled(Autocomplete)\`
