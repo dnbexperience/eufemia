@@ -60,37 +60,6 @@ render(
 )
 ```
 
-## How to combine with other tools
-
-You can easily combine the locales support it with other translation tools, like `react-intl`.
-
-Like, having the Eufemia components strings inside a JSON object/file `nb.json`:
-
-```json
-{
-  "Modal.close_title": "Overwrite",
-  "other.string": "{foo} ({bar} of {max})"
-}
-```
-
-and use it like this:
-
-```jsx
-import EufemiaProvider from 'dnb-ui-lib/shared/Provider'
-import nb from './nb.json' // Has to be an JavaScript object
-
-render(
-  <EufemiaProvider
-    locale="nb-NO"
-    locales={{
-      'nb-NO': nb
-    }}
-  >
-    <MyApp>Eufemia components</MyApp>
-  </EufemiaProvider>
-)
-```
-
 ## How change the locale during runtime
 
 You can even change the locale during runtime. Find more info in the [Provider docs](/uilib/usage/customisation/provider).
@@ -122,7 +91,85 @@ render(
 )
 ```
 
-## How add your own strings
+## How to combine with other tools
+
+You can easily combine the locales support it with other translation tools, like `react-intl`.
+
+Like, having the Eufemia components strings inside a JSON object/file `en.json`:
+
+```json
+{
+  "Modal.close_title": "Overwrite",
+  "other.string": "{foo} ({bar} of {max})"
+}
+```
+
+and use it like this:
+
+```jsx
+import EufemiaProvider from 'dnb-ui-lib/shared/Provider'
+import nb from './nb.json' // Has to be an JavaScript object
+
+render(
+  <EufemiaProvider
+    locale="nb-NO"
+    locales={{
+      'nb-NO': nb
+    }}
+  >
+    <MyApp>Eufemia components</MyApp>
+  </EufemiaProvider>
+)
+```
+
+## How to use your own translation strings
+
+You have even the option to extend the strings with your own and use it as an internationalization tool replacement for e.g. `react-intl`.
+
+### The useTranslation Hook
+
+Now, lets say you have your translation files as JSON object/files `en.json`:
+
+```json
+{
+  "Modal.close_title": "Overwrite",
+  "my.string": "string {foo}"
+}
+```
+
+and use it like this:
+
+```jsx
+import EufemiaProvider from 'dnb-ui-lib/shared/Provider'
+import useTranslation, {
+  Translation
+} from 'dnb-ui-lib/shared/useTranslation'
+import nb from './nb.json'
+import en from './en.json'
+
+const Component = () => {
+  const str = useTranslation('my.string', {
+    foo: 'bar'
+  })
+
+  return str
+}
+
+render(
+  <EufemiaProvider
+    locale="nb-NO"
+    locales={{
+      'nb-NO': nb,
+      'en-US': en
+    }}
+  >
+    <Component />
+    <Translation id="my.string" foo="bar" />
+  </EufemiaProvider>
+)
+```
+
+## Get the strings from Context
 
 It is possible to use the Eufemia shared Provider for your own project / App localization.
 
