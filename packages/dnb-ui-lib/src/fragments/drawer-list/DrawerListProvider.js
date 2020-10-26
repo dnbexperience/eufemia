@@ -682,12 +682,12 @@ export default class DrawerListProvider extends React.PureComponent {
 
   setWrapperElement = (wrapper_element = this.props.wrapper_element) => {
     if (
-      // !this.state.wrapper_element &&
       typeof wrapper_element === 'string' &&
       typeof document !== 'undefined'
     ) {
       wrapper_element = document.querySelector(wrapper_element)
     }
+
     if (wrapper_element) {
       this.setState({
         wrapper_element,
@@ -987,38 +987,16 @@ export default class DrawerListProvider extends React.PureComponent {
     }
   }
 
-  _assignObservers = () => {
-    // this.setTrianglePosition() // deprecated
+  assignObservers = () => {
     this.setDirectionObserver()
     this.setScrollObserver()
     this.setOutsideClickObserver()
-  }
-
-  assignObservers = () => {
-    // this is the one which will be visible, so we depend on the _refUl
-    if (!this.waitUntilUlIsReady) {
-      this.waitUntilUlIsReady = true
-
-      // in case we do not have the very much needed _refUl
-      if (!this._refUl.current) {
-        clearInterval(this._outsideClickTimeout)
-        this._outsideClickTimeout = setInterval(() => {
-          if (this._refUl.current) {
-            clearInterval(this._outsideClickTimeout)
-            this._assignObservers()
-          }
-        }, 10)
-      } else {
-        this._assignObservers()
-      }
-    }
   }
 
   setVisible = () => {
     clearTimeout(this._hideTimeout)
 
     if (this.state.opened && this.state.hidden === false) {
-      this.assignObservers()
       return
     }
 
@@ -1030,10 +1008,7 @@ export default class DrawerListProvider extends React.PureComponent {
         opened: true,
         _listenForPropChanges: false
       },
-      () => {
-        this.setWrapperElement()
-        this.assignObservers()
-      }
+      this.assignObservers
     )
 
     const { selected_item } = this.state
@@ -1253,6 +1228,7 @@ export default class DrawerListProvider extends React.PureComponent {
             setData: this.setDataHandler,
             setState: this.setStateHandler,
             setWrapperElement: this.setWrapperElement,
+            assignObservers: this.assignObservers,
             setVisible: this.setVisible,
             setHidden: this.setHidden,
             selectItem: this.selectItem,

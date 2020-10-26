@@ -17,7 +17,7 @@ exports[`Modal component have to match snapshot 1`] = `
         "content_id": "content_id",
         "direct_dom_return": "direct_dom_return",
         "disabled": "disabled",
-        "fullscreen": "fullscreen",
+        "fullscreen": "'auto'",
         "hide_close_button": "hide_close_button",
         "id": "id",
         "labelled_by": "labelled_by",
@@ -33,6 +33,7 @@ exports[`Modal component have to match snapshot 1`] = `
         "open_state": "'opened'",
         "prevent_close": "prevent_close",
         "prevent_core_style": "prevent_core_style",
+        "spacing": "spacing",
         "title": "title",
         "trigger_class": "trigger_class",
         "trigger_disabled": "trigger_disabled",
@@ -74,7 +75,7 @@ exports[`Modal component have to match snapshot 1`] = `
   content_id="modal_content_id"
   direct_dom_return={true}
   disabled={null}
-  fullscreen={false}
+  fullscreen="auto"
   hide_close_button={false}
   id="modal_id"
   labelled_by={null}
@@ -90,6 +91,7 @@ exports[`Modal component have to match snapshot 1`] = `
   open_state={null}
   prevent_close={false}
   prevent_core_style={false}
+  spacing={true}
   style_type="button"
   title="modal_title"
   trigger_class={null}
@@ -367,7 +369,7 @@ exports[`Modal component have to match snapshot 1`] = `
             "content_id": "content_id",
             "direct_dom_return": "direct_dom_return",
             "disabled": "disabled",
-            "fullscreen": "fullscreen",
+            "fullscreen": "'auto'",
             "hide_close_button": "hide_close_button",
             "id": "id",
             "labelled_by": "labelled_by",
@@ -383,6 +385,7 @@ exports[`Modal component have to match snapshot 1`] = `
             "open_state": "'opened'",
             "prevent_close": "prevent_close",
             "prevent_core_style": "prevent_core_style",
+            "spacing": "spacing",
             "title": "title",
             "trigger_class": "trigger_class",
             "trigger_disabled": "trigger_disabled",
@@ -423,7 +426,7 @@ exports[`Modal component have to match snapshot 1`] = `
       container_placement="right"
       content_id="modal_content_id"
       direct_dom_return={true}
-      fullscreen={false}
+      fullscreen="auto"
       hide={false}
       hide_close_button={false}
       id="modal_id"
@@ -438,6 +441,7 @@ exports[`Modal component have to match snapshot 1`] = `
       open_modal={null}
       prevent_close={false}
       prevent_core_style={false}
+      spacing={true}
       style_type="button"
       title="modal_title"
       toggleOpenClose={[Function]}
@@ -458,7 +462,7 @@ exports[`Modal component have to match snapshot 1`] = `
               "content_id": "content_id",
               "direct_dom_return": "direct_dom_return",
               "disabled": "disabled",
-              "fullscreen": "fullscreen",
+              "fullscreen": "'auto'",
               "hide_close_button": "hide_close_button",
               "id": "id",
               "labelled_by": "labelled_by",
@@ -474,6 +478,7 @@ exports[`Modal component have to match snapshot 1`] = `
               "open_state": "'opened'",
               "prevent_close": "prevent_close",
               "prevent_core_style": "prevent_core_style",
+              "spacing": "spacing",
               "title": "title",
               "trigger_class": "trigger_class",
               "trigger_disabled": "trigger_disabled",
@@ -514,7 +519,7 @@ exports[`Modal component have to match snapshot 1`] = `
         container_placement="right"
         content_class={null}
         content_id="modal_content_id"
-        fullscreen={false}
+        fullscreen="auto"
         hide={false}
         hide_close_button={false}
         id="modal_id"
@@ -532,6 +537,7 @@ exports[`Modal component have to match snapshot 1`] = `
         overlay_class={null}
         prevent_close={false}
         prevent_core_style={false}
+        spacing={true}
         style_type="button"
         title="modal_title"
         toggleOpenClose={[Function]}
@@ -539,7 +545,7 @@ exports[`Modal component have to match snapshot 1`] = `
         <div
           aria-describedby="modal_id"
           aria-modal="true"
-          className="dnb-modal__content dnb-modal__content--modal dnb-modal__content__align--left dnb-modal__content--right dnb-modal__content--no-animation"
+          className="dnb-modal__content dnb-modal__content--auto-fullscreen dnb-modal__content--modal dnb-modal__content--spacing dnb-modal__content__align--left dnb-modal__content--right dnb-modal__content--no-animation"
           onClick={[Function]}
           role="dialog"
         >
@@ -1365,32 +1371,35 @@ button.dnb-button::-moz-focus-inner {
     -webkit-user-select: none;
     /* stylelint-disable-next-line */ }
     @media screen and (max-width: 40em) {
-      .dnb-modal__content {
+      .dnb-modal__content--auto-fullscreen {
         height: auto; } }
     .dnb-modal__content__inner {
       position: relative;
-      padding: var(--modal-content-top) var(--modal-spacing) 0;
       width: var(--modal-avg-width);
       min-width: var(--modal-min-width);
       max-width: var(--modal-max-width);
       height: auto;
       max-height: calc( 100vh - var(--modal-spacing) * 2);
+      box-shadow: 0 1px 6px rgba(0, 0, 0, 0.16);
+      border-radius: 0.5rem;
       user-select: text;
       -webkit-user-select: text;
       border: none;
       -webkit-tap-highlight-color: rgba(0, 0, 0, 0); }
+    @media screen and (max-width: 40em) {
+      .dnb-modal__content--auto-fullscreen .dnb-modal__content__inner {
+        width: 100vw;
+        height: 100vh;
+        height: calc(100vh - var(--modal-height-offset, 0.0001rem));
+        max-width: 100%;
+        max-height: 100vh;
+        border-radius: 0;
+        box-shadow: none; } }
+    .dnb-modal__content--spacing .dnb-modal__content__inner {
+      padding: var(--modal-content-top) var(--modal-spacing) 0; }
       @media screen and (max-width: 40em) {
-        .dnb-modal__content__inner {
-          padding: var(--modal-content-top) calc(var(--modal-spacing) * 0.75) 0;
-          width: 100vw;
-          height: 100vh;
-          height: calc(100vh - var(--modal-height-offset, 0.0001rem));
-          max-width: 100%;
-          max-height: 100vh; } }
-      @media screen and (min-width: 40em) {
-        .dnb-modal__content__inner {
-          box-shadow: 0 1px 6px rgba(0, 0, 0, 0.16);
-          border-radius: 0.5rem; } }
+        .dnb-modal__content--spacing .dnb-modal__content__inner {
+          padding: var(--modal-content-top) calc(var(--modal-spacing) * 0.75) 0; } }
     .dnb-modal__content__align--center .dnb-modal__content__inner {
       display: flex;
       flex-direction: column;
@@ -1414,11 +1423,12 @@ button.dnb-button::-moz-focus-inner {
       height: calc(100vh - var(--modal-height-offset, 0.0001rem));
       max-width: 100%;
       max-height: 100vh;
+      border-radius: 0;
+      box-shadow: none;
       width: var(--modal-drawer-width);
       min-width: var(--modal-drawer-min-width);
       max-width: var(--modal-drawer-max-width);
-      padding: var(--modal-drawer-content-top) calc(var(--modal-spacing) * 1.75) 0;
-      border-radius: 0; }
+      padding: var(--modal-drawer-content-top) calc(var(--modal-spacing) * 1.75) 0; }
       @media screen and (max-width: 40em) {
         .dnb-modal__content--drawer .dnb-modal__content__inner {
           width: 100vw;
@@ -1426,6 +1436,9 @@ button.dnb-button::-moz-focus-inner {
           max-width: auto; } }
     .dnb-modal__content--fullscreen .dnb-modal__content__content {
       height: auto; }
+    @media screen and (max-width: 40em) {
+      .dnb-modal__content--auto-fullscreen .dnb-modal__content__content {
+        height: auto; } }
     .dnb-modal__content--drawer.dnb-modal__content--top .dnb-modal__content__inner,
     .dnb-modal__content--drawer.dnb-modal__content--bottom .dnb-modal__content__inner {
       max-width: 100%;
@@ -1444,13 +1457,14 @@ button.dnb-button::-moz-focus-inner {
     .dnb-modal__content--fullscreen {
       align-items: flex-start;
       justify-content: flex-start; }
-    html:not([data-dnb-test]) .dnb-modal__content--fullscreen .dnb-modal__content__inner {
+    .dnb-modal__content--fullscreen .dnb-modal__content__inner {
       width: 100vw;
       height: 100vh;
       height: calc(100vh - var(--modal-height-offset, 0.0001rem));
       max-width: 100%;
       max-height: 100vh;
-      border-radius: 0; }
+      border-radius: 0;
+      box-shadow: none; }
     html:not([data-dnb-test]) .dnb-modal__content--drawer.dnb-modal__content--left .dnb-modal__content__inner {
       transform: translate3d(-20rem, 0, 0); }
     html:not([data-dnb-test]) .dnb-modal__content--drawer.dnb-modal__content--right .dnb-modal__content__inner {
@@ -1485,10 +1499,11 @@ button.dnb-button::-moz-focus-inner {
     padding: 0; }
   .dnb-modal__wrapper {
     position: relative;
-    z-index: 1;
+    z-index: 1; }
+  .dnb-modal__content--spacing .dnb-modal__wrapper {
     padding-bottom: calc(var(--modal-spacing) * 1.75); }
     @media screen and (max-width: 40em) {
-      .dnb-modal__wrapper {
+      .dnb-modal__content--spacing .dnb-modal__wrapper {
         padding-bottom: calc(var(--modal-spacing) * 1.25); } }
   .dnb-modal__content--drawer .dnb-modal__wrapper {
     padding-bottom: calc(var(--modal-spacing) * 2); }

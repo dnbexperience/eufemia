@@ -334,6 +334,7 @@ class DrawerListInstance extends React.PureComponent {
       active_item,
       closestToTop,
       closestToBottom,
+      assignObservers,
       _refShell,
       _refTriangle,
       _refUl,
@@ -486,6 +487,7 @@ class DrawerListInstance extends React.PureComponent {
                   <Items />
                 )}
               </DrawerList.Options>
+              <OnMounted assignObservers={assignObservers} />
             </>
           ) : (
             children && (
@@ -704,5 +706,14 @@ DrawerList.HorizontalItem.defaultProps = {
   className: null
 }
 
-// export const propTypes = DrawerList.propTypes
-// export const defaultProps = DrawerList.defaultProps
+class OnMounted extends React.PureComponent {
+  static propTypes = {
+    assignObservers: PropTypes.func.isRequired
+  }
+  componentDidMount() {
+    this.props.assignObservers()
+  }
+  render() {
+    return null
+  }
+}

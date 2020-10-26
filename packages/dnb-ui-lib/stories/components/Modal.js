@@ -17,6 +17,7 @@ import {
   DatePicker,
   FormSet,
   FormRow,
+  ProgressIndicator,
   // Space,
   Number
 } from '../../src/components'
@@ -32,14 +33,36 @@ export const ModalSandbox = () => (
     <Global
       styles={css`
         :root {
-          --modal-height-offset: 7rem;
+          /* --modal-height-offset: 7rem; */
         }
       `}
     />
 
     <Box>
-      <Modal title="Modal Title" open_state="opened">
-        <Modal.Inner spacing style_type="mint-green">
+      <Modal
+        spacing={false}
+        fullscreen={false}
+        align_content="centered"
+        hide_close_button
+        trigger_text="Show"
+        // prevent_close
+      >
+        <ProgressIndicator
+          show_label
+          label_direction="vertical"
+          top="large"
+          bottom="large"
+          size="large"
+        />
+      </Modal>
+    </Box>
+
+    <Box>
+      <Modal
+        title="Modal Title"
+        // open_state="opened"
+      >
+        <Modal.Inner top spacing style_type="mint-green">
           <P>This is the modal text. Triggered by the help button.</P>
         </Modal.Inner>
       </Modal>

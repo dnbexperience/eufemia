@@ -855,6 +855,7 @@ exports[`GlobalStatus snapshot have to match component snapshot 1`] = `
   on_open={[Function]}
   on_show={[Function]}
   show={true}
+  skeleton="skeleton"
   state="error"
   status_anchor_text="status_anchor_text"
   status_id={null}

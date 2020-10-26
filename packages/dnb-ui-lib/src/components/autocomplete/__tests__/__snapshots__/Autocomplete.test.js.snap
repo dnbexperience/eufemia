@@ -958,6 +958,9 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                             />
                           </ul>
                         </ForwardRef>
+                        <OnMounted
+                          assignObservers={[Function]}
+                        />
                       </span>
                     </span>
                   </span>

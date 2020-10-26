@@ -106,12 +106,22 @@ describe('Dropdown screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+  it('have to match the dropdown action menu with custom items', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-dnb-test="dropdown-action_menu-custom"]',
+      simulateSelector:
+        '[data-dnb-test="dropdown-action_menu-custom"] .dnb-dropdown:nth-of-type(1) .dnb-dropdown__trigger',
+      simulate: 'focusclick' // use focusclick because of the delayed positioning of the drawer
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
   it('have to match the dropdown as more_menu opened on left side', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-dnb-test="dropdown-more_menu"]',
       simulateSelector:
         '[data-dnb-test="dropdown-more_menu"] .dnb-dropdown:nth-of-type(1) .dnb-dropdown__trigger',
-      simulate: 'focusclick' // use focusclick because of the delayed positioning of the drawer
+      waitAfterSimulate: 100,
+      simulate: 'click'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -120,7 +130,8 @@ describe('Dropdown screenshot', () => {
       selector: '[data-dnb-test="dropdown-more_menu"]',
       simulateSelector:
         '[data-dnb-test="dropdown-more_menu"] .dnb-dropdown:nth-of-type(2) .dnb-dropdown__trigger',
-      simulate: 'focusclick' // use focusclick because of the delayed positioning of the drawer
+      waitAfterSimulate: 100,
+      simulate: 'click'
     })
     expect(screenshot).toMatchImageSnapshot()
   })

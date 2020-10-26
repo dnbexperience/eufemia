@@ -14,6 +14,9 @@
 
   max-width: 100%; // fixes overflow issue on some browsers
   max-height: 100vh;
+
+  border-radius: 0;
+  box-shadow: none;
 }
 
 @keyframes show-modal {

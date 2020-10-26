@@ -37,6 +37,7 @@ export default class ModalContent extends React.PureComponent {
       PropTypes.string,
       PropTypes.bool
     ]),
+    spacing: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     prevent_close: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     prevent_core_style: PropTypes.oneOfType([
       PropTypes.string,
@@ -67,12 +68,13 @@ export default class ModalContent extends React.PureComponent {
 
   static defaultProps = {
     mode: null,
-    hide: false,
+    hide: null,
     labelled_by: null,
     content_id: null,
     title: null,
     close_title: null,
-    hide_close_button: false,
+    hide_close_button: null,
+    spacing: null,
     prevent_close: null,
     prevent_core_style: null,
     no_animation: null,
@@ -166,6 +168,7 @@ export default class ModalContent extends React.PureComponent {
       modal_content,
       close_title,
       hide_close_button,
+      spacing,
       prevent_close, // eslint-disable-line
       open_delay, // eslint-disable-line
       prevent_core_style,
@@ -204,11 +207,14 @@ export default class ModalContent extends React.PureComponent {
       className: classnames(
         'dnb-modal__content',
         mode && `dnb-modal__content--${mode}`,
-        hide && 'dnb-modal__content--hide',
+        isTrue(hide) && 'dnb-modal__content--hide',
+        isTrue(spacing) && 'dnb-modal__content--spacing',
         align_content && `dnb-modal__content__align--${align_content}`,
         container_placement &&
           `dnb-modal__content--${container_placement}`,
-        fullscreen && 'dnb-modal__content--fullscreen',
+        isTrue(fullscreen)
+          ? 'dnb-modal__content--fullscreen'
+          : fullscreen === 'auto' && 'dnb-modal__content--auto-fullscreen',
         isTrue(no_animation) && 'dnb-modal__content--no-animation',
         isTrue(no_animation_on_mobile) &&
           'dnb-modal__content--no-animation-on-mobile',

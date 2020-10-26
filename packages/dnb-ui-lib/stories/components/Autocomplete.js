@@ -30,7 +30,7 @@ const AutocompleteWithState = () => {
     <Autocomplete
       mode="async" // prevents showing no options message og typing
       no_scroll_animation
-      prevent_selection
+      // prevent_selection
       placeholder="Search ..."
       // label="Search"
       // label_sr_only="true"
@@ -175,7 +175,7 @@ export const AutocompleteSandbox = () => {
       <Box>
         <Autocomplete
           mode="async" // prevents showing no options message og typing
-          // label="Search"
+          label="No selection / no filter"
           // label_sr_only="true"
           prevent_selection
           disable_filter
@@ -251,7 +251,7 @@ export const AutocompleteSandbox = () => {
           // opened
           // prevent_close
           no_animation
-          prevent_selection
+          // prevent_selection
           // input_value="the g er"
           input_value="episode a I"
           mode="async"
@@ -593,7 +593,7 @@ function UpdateDataExample() {
 
       <Autocomplete
         title="Choose an item"
-        prevent_selection
+        // prevent_selection
         data={choiceData}
         on_change={({
           data,

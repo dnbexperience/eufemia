@@ -65,7 +65,7 @@ With placement on the left side.
 
 ### Fullscreen Modal, triggered by a tertiary button
 
-<ComponentBox>
+<ComponentBox data-dnb-test="modal-fullscreen">
 	{
 	/* @jsx */ `
 <Modal
@@ -99,7 +99,7 @@ With placement on the left side.
 >
   <P>This is a Modal Window with no close button.</P>
   <P>Click outside me, and I will be closed within 1 second.</P>
-  <Section spacing style_type="divider">
+  <Section top spacing style_type="divider">
     <Input label="Focus:">Focus me with Tab key</Input>
   </Section>
 </Modal>
@@ -157,4 +157,30 @@ With a `max_width` of `40rem`.
 </Modal>
 	`
 	}
+</ComponentBox>
+
+### ProgressIndicator inside a Modal
+
+Also, `fullscreen` and `spacing` is disabled and the `align_content` is centered.
+
+<ComponentBox data-dnb-test="modal-no-spacing">
+	{/* @jsx */ `
+<Modal
+  spacing={false}
+  fullscreen={false}
+  align_content="centered"
+  hide_close_button
+  trigger_text="Show"
+  prevent_close={false}
+  max_width="20rem"
+>
+  <ProgressIndicator
+    show_label
+    label_direction="vertical"
+    top="large"
+    bottom="large"
+    size="large"
+  />
+</Modal>
+	`}
 </ComponentBox>

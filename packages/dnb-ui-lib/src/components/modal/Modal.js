@@ -36,6 +36,7 @@ export default class Modal extends React.PureComponent {
     labelled_by: PropTypes.string,
     title: PropTypes.node,
     disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    spacing: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     as_help_button: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.bool
@@ -76,7 +77,7 @@ export default class Modal extends React.PureComponent {
       PropTypes.string,
       PropTypes.bool
     ]),
-    fullscreen: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    fullscreen: PropTypes.oneOf(['auto', true, false, 'true', 'false']),
     align_content: PropTypes.oneOf([
       'left',
       'center',
@@ -118,6 +119,7 @@ export default class Modal extends React.PureComponent {
     labelled_by: null,
     title: null,
     disabled: null,
+    spacing: true,
     as_help_button: false,
     trigger_hidden: false,
     trigger_disabled: null,
@@ -136,7 +138,7 @@ export default class Modal extends React.PureComponent {
     prevent_core_style: false,
     no_animation: false,
     no_animation_on_mobile: false,
-    fullscreen: false,
+    fullscreen: 'auto',
     align_content: 'left',
     container_placement: 'right',
     open_state: null,
@@ -403,6 +405,7 @@ export default class Modal extends React.PureComponent {
       open_state, // eslint-disable-line
       open_delay, // eslint-disable-line
       disabled,
+      spacing,
       labelled_by,
       as_help_button,
       trigger_hidden,
@@ -499,6 +502,7 @@ export default class Modal extends React.PureComponent {
                   id={id}
                   labelled_by={labelled_by || this._id}
                   modal_content={modal_content}
+                  spacing={spacing}
                   closeModal={this.close}
                   hide={this.state.hide}
                   toggleOpenClose={this.toggleOpenClose}

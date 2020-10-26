@@ -104,7 +104,6 @@
     left: 0;
     right: 0;
 
-    // width: 100%;
     width: inherit;
     min-width: inherit;
 
@@ -174,12 +173,16 @@
 
       outline: none;
 
-      width: 100%;
       margin: 0;
       padding: 1rem;
 
       color: inherit;
       background-color: var(--color-white);
+
+      // So e.g. an anchor gets aligned to left
+      > * {
+        align-self: self-start;
+      }
     }
 
     &__item {
@@ -188,7 +191,6 @@
       // So it has to be handled by project case
       overflow: hidden;
       text-overflow: ellipsis;
-      width: 100%;
     }
 
     &--ignore {
