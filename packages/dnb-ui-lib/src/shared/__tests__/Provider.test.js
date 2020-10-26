@@ -6,6 +6,7 @@
 import React from 'react'
 import { mount } from '../../core/jest/jestSetup'
 import HelpButton from '../../components/help-button/HelpButton'
+import ToggleButton from '../../components/toggle-button/ToggleButton'
 
 import Context from '../Context'
 import Provider from '../Provider'
@@ -34,46 +35,43 @@ describe('Provider', () => {
   }
 
   const ChangeLocale = () => {
-    const { setLocale } = React.useContext(Context)
+    const { setLocale, locale } = React.useContext(Context)
 
     return (
-      <>
-        <button
-          className="nb-NO"
-          onClick={() => {
-            setLocale('nb-NO')
-          }}
-        >
+      <ToggleButton.Group
+        value={locale}
+        on_change={({ value }) => {
+          setLocale(value)
+        }}
+      >
+        <ToggleButton value="nb-NO" className="nb-NO">
           nb-NO
-        </button>
-        <button
-          className="en-US"
-          onClick={() => {
-            setLocale('en-US')
-          }}
-        >
+        </ToggleButton>
+        <ToggleButton value="en-US" className="en-US">
           en-US
-        </button>
-      </>
+        </ToggleButton>
+      </ToggleButton.Group>
     )
   }
 
-  const MagicProvider = ({ children, ...props }) => (
-    <LocalProvider {...props}>
-      <Context.Consumer>
-        {(context) => {
-          const title = context.translation.HelpButton.title
-          return (
-            <>
-              <p>{title}</p>
-              <ChangeLocale />
-              {children}
-            </>
-          )
-        }}
-      </Context.Consumer>
-    </LocalProvider>
-  )
+  const MagicProvider = ({ children, ...props }) => {
+    return (
+      <LocalProvider {...props}>
+        <Context.Consumer>
+          {(context) => {
+            const title = context.translation.HelpButton.title
+            return (
+              <>
+                <p>{title}</p>
+                <ChangeLocale />
+                {children}
+              </>
+            )
+          }}
+        </Context.Consumer>
+      </LocalProvider>
+    )
+  }
 
   it('locales should translate component strings', () => {
     const Comp = mount(
@@ -122,18 +120,18 @@ describe('Provider', () => {
 
     expect(Comp.find('p').text()).toBe(title_nb)
 
-    Comp.find('button.en-US').simulate('click')
+    Comp.find('.en-US button').simulate('click')
 
     expect(Comp.find('p').text()).toBe(title_us)
 
-    Comp.find('button.nb-NO').simulate('click')
+    Comp.find('.nb-NO button').simulate('click')
 
     expect(Comp.find('p').text()).toBe(title_nb)
   })
 
   it('locales should support nested providers', () => {
     const Comp = mount(
-      <MagicProvider>
+      <MagicProvider locale="nb-NO">
         <MagicProvider locale="en-US" />
       </MagicProvider>
     )
@@ -141,16 +139,127 @@ describe('Provider', () => {
     expect(Comp.find('p').at(0).text()).toBe(title_nb)
     expect(Comp.find('p').at(1).text()).toBe(title_us)
 
-    Comp.find('button.nb-NO').at(1).simulate('click')
+    Comp.find('.nb-NO button').at(1).simulate('click')
+
     expect(Comp.find('p').at(1).text()).toBe(title_nb)
+    expect(
+      Comp.find('.nb-NO button')
+        .at(1)
+        .instance()
+        .getAttribute('aria-pressed')
+    ).toBe('true')
 
     // should not have changed
     expect(Comp.find('p').at(0).text()).toBe(title_nb)
 
-    Comp.find('button.en-US').at(0).simulate('click')
+    Comp.find('.en-US button').at(0).simulate('click')
+    expect(
+      Comp.find('.en-US button')
+        .at(0)
+        .instance()
+        .getAttribute('aria-pressed')
+    ).toBe('true')
     expect(Comp.find('p').at(0).text()).toBe(title_us)
 
     // should not have changed
     expect(Comp.find('p').at(1).text()).toBe(title_nb)
+  })
+
+  it('should support nested providers and update the root context', () => {
+    const Comp = mount(
+      <MagicProvider locale="en-US">
+        <MagicProvider locale="nb-NO" />
+      </MagicProvider>
+    )
+
+    expect(Comp.find('p').at(0).text()).toBe(title_us)
+    expect(
+      Comp.find('.en-US button')
+        .at(0)
+        .instance()
+        .getAttribute('aria-pressed')
+    ).toBe('true')
+    expect(Comp.find('p').at(1).text()).toBe(title_nb)
+    expect(
+      Comp.find('.nb-NO button')
+        .at(1)
+        .instance()
+        .getAttribute('aria-pressed')
+    ).toBe('true')
+
+    // First, let's change the inner
+
+    Comp.find('.nb-NO button').at(1).simulate('click')
+
+    expect(Comp.find('p').at(0).text()).toBe(title_us)
+    expect(
+      Comp.find('.en-US button')
+        .at(0)
+        .instance()
+        .getAttribute('aria-pressed')
+    ).toBe('true')
+    expect(Comp.find('p').at(1).text()).toBe(title_nb)
+    expect(
+      Comp.find('.nb-NO button')
+        .at(1)
+        .instance()
+        .getAttribute('aria-pressed')
+    ).toBe('true')
+
+    Comp.find('.en-US button').at(1).simulate('click')
+
+    expect(Comp.find('p').at(0).text()).toBe(title_us)
+    expect(
+      Comp.find('.en-US button')
+        .at(0)
+        .instance()
+        .getAttribute('aria-pressed')
+    ).toBe('true')
+    expect(Comp.find('p').at(1).text()).toBe(title_us)
+    expect(
+      Comp.find('.en-US button')
+        .at(1)
+        .instance()
+        .getAttribute('aria-pressed')
+    ).toBe('true')
+
+    Comp.find('.nb-NO button').at(1).simulate('click')
+
+    expect(Comp.find('p').at(0).text()).toBe(title_nb)
+    expect(
+      Comp.find('.nb-NO button')
+        .at(0)
+        .instance()
+        .getAttribute('aria-pressed')
+    ).toBe('true')
+    expect(Comp.find('p').at(1).text()).toBe(title_nb)
+    expect(
+      Comp.find('.nb-NO button')
+        .at(1)
+        .instance()
+        .getAttribute('aria-pressed')
+    ).toBe('true')
+
+    // Now, let's change the outer
+
+    Comp.find('.en-US button').at(0).simulate('click')
+    // Comp.setProps({
+    //   locale: 'en-US'
+    // })
+
+    expect(Comp.find('p').at(0).text()).toBe(title_us)
+    expect(
+      Comp.find('.en-US button')
+        .at(0)
+        .instance()
+        .getAttribute('aria-pressed')
+    ).toBe('true')
+    expect(Comp.find('p').at(1).text()).toBe(title_nb)
+    expect(
+      Comp.find('.nb-NO button')
+        .at(1)
+        .instance()
+        .getAttribute('aria-pressed')
+    ).toBe('true')
   })
 })

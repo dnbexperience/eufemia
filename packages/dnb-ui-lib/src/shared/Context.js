@@ -13,6 +13,11 @@ export const prepareContext = (props = {}) => {
     ? extend(defaultLocales, props.locales)
     : defaultLocales
 
+  if (props.__newContext) {
+    Object.assign(props, props.__newContext)
+    delete props.__newContext
+  }
+
   const key = props.locale || LOCALE
   const translation = locales[key] || defaultLocales[LOCALE] || {} // here we could use Object.freeze
 
@@ -27,9 +32,6 @@ export const prepareContext = (props = {}) => {
   }
 
   return {
-    locale: LOCALE,
-    currency: CURRENCY,
-    currency_display: CURRENCY_DISPLAY,
     locales,
     ...props,
     translation // make sure we set this after props, since we update this one!
@@ -37,7 +39,13 @@ export const prepareContext = (props = {}) => {
 }
 
 // If no provider is given, we use the default context from here
-const Context = React.createContext(prepareContext())
+const Context = React.createContext(
+  prepareContext({
+    locale: LOCALE,
+    currency: CURRENCY,
+    currency_display: CURRENCY_DISPLAY
+  })
+)
 
 export default Context
 
