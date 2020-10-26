@@ -310,6 +310,13 @@ describe('Dropdown component', () => {
     selectedItem = mockData[props.value + 1]
     expect(on_change.mock.calls[0][0].data).toStrictEqual(selectedItem)
     expect(on_select.mock.calls[1][0].data).toStrictEqual(selectedItem)
+    expect(on_change).toHaveBeenCalledWith({
+      attributes: {},
+      data: selectedItem,
+      event: new KeyboardEvent('keydown', {}),
+      selected_item: props.value + 1,
+      value: props.value + 1
+    })
 
     // then simulate changes
     keydown(Comp, 40) // down
@@ -318,6 +325,55 @@ describe('Dropdown component', () => {
     selectedItem = mockData[props.value + 2]
     expect(on_change.mock.calls[1][0].data).toStrictEqual(selectedItem) // second call!
     expect(on_select.mock.calls[3][0].data).toStrictEqual(selectedItem) // second call!
+  })
+
+  it('has valid on_change callback if object was given', () => {
+    // const selectedItem = 'nb-NO'
+    const on_change = jest.fn()
+
+    const Comp = mount(
+      <Component
+        {...props}
+        data={{ 'en-US': 'English', 'nb-NO': 'Norsk' }}
+        on_change={on_change}
+      />
+    )
+
+    open(Comp)
+    keydown(Comp, 40) // down
+    keydown(Comp, 32) // space
+
+    expect(on_change).toHaveBeenCalledWith({
+      attributes: {},
+      data: {
+        __id: 0,
+        content: 'English',
+        selected_key: 'en-US',
+        type: 'object',
+        value: 'en-US'
+      },
+      event: new KeyboardEvent('keydown', {}),
+      selected_item: 0,
+      value: 'en-US'
+    })
+
+    open(Comp)
+    keydown(Comp, 40) // down
+    keydown(Comp, 40) // down
+    keydown(Comp, 32) // space
+
+    expect(on_change).toHaveBeenLastCalledWith({
+      attributes: {},
+      data: {
+        content: 'Norsk',
+        selected_key: 'nb-NO',
+        type: 'object',
+        value: 'nb-NO'
+      },
+      event: new KeyboardEvent('keydown', {}),
+      selected_item: 1,
+      value: 'nb-NO'
+    })
   })
 
   it('has correct "aria-expanded"', () => {
