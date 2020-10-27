@@ -45,10 +45,10 @@ const ChangeLocale = () => {
       }}
     >
       <ToggleButton value="nb-NO" className="nb-NO">
-        English
+        Norsk
       </ToggleButton>
       <ToggleButton value="en-US" className="en-US">
-        Norsk
+        English
       </ToggleButton>
     </ToggleButton.Group>
   )
@@ -89,6 +89,7 @@ export const NumberSandbox = () => {
                 suffix={<b>E</b>}
                 value={'-12 345,99'}
                 currency
+                clean
                 decimals={2}
                 // locale={'nb-NO'}
                 currency_position="after"
@@ -128,10 +129,15 @@ export const NumberSandbox = () => {
             >
               <ChangeLocale />
               <P>
-                text <Number currency>12 345</Number> text{' '}
-                <Number currency="USD" value="12345" /> text{' '}
-                <Number currency>12 345 678</Number> text{' '}
-                <Number currency>12345.0</Number> text{' '}
+                text{' '}
+                <Number currency clean>
+                  12 345
+                </Number>{' '}
+                text <Number currency="USD" value="12345" /> text{' '}
+                <Number currency clean>
+                  12 345 678
+                </Number>{' '}
+                text <Number currency>12345.0</Number> text{' '}
                 <Number currency="EUR">-12345,68</Number> text{' '}
               </P>
             </Provider>
