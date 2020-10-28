@@ -29,9 +29,9 @@ const TestStyles = styled.div`
   }
 `
 
-const DidRender = ({ message }) => {
+const DidRender1 = ({ message }) => {
   React.useEffect(() => {
-    console.log('DidRender', message)
+    console.log('DidRender1', message)
   }, [])
   return <></>
 }
@@ -151,11 +151,13 @@ export const AccordionSandbox = () => {
 function AccordionWithContainer() {
   const ref1 = React.useRef()
   const ref2 = React.useRef()
-  const [changeHeight] = React.useState(() => ({ ref1, ref2 }))
+  const ref3 = React.useRef()
+  const [changeHeight] = React.useState(() => ({ ref1, ref2, ref3 }))
   const [flushCache, flushCacheNow] = React.useState(false)
   console.log('flushCache', flushCache)
   return (
     <Accordion.Group
+      // no_animation
       variant="outlined"
       prevent_rerender
       // prevent_rerender_conditional
@@ -192,12 +194,12 @@ function AccordionWithContainer() {
           top="medium"
           instance={changeHeight.ref1}
         >
-          <DidRender message="one" />
+          <DidRender1 message="one" />
           <DidRender2 message="one" />
           <ChangingContent changeHeight={changeHeight.ref1}>
             <div
               style={{
-                height: '10rem',
+                height: '50rem',
                 background: 'var(--color-sea-green-30)'
               }}
             >
@@ -209,6 +211,7 @@ function AccordionWithContainer() {
         </Accordion.Content>
       </Accordion>
       <Accordion
+        bottom
         icon_position="right"
         id="remembered-state-2"
         // top="x-large"
@@ -224,7 +227,7 @@ function AccordionWithContainer() {
           top="medium"
           instance={changeHeight.ref2}
         >
-          <DidRender message="two" />
+          <DidRender1 message="two" />
           <DidRender2 message="two" />
           <Button
             on_click={() => {
@@ -239,7 +242,39 @@ function AccordionWithContainer() {
           <ChangingContent changeHeight={changeHeight.ref2}>
             <div
               style={{
-                height: '20rem',
+                height: '60rem',
+                background: 'var(--color-sand-yellow)'
+              }}
+            >
+              <P top bottom="xx-large">
+                Simulation of content height
+              </P>
+            </div>
+          </ChangingContent>
+        </Accordion.Content>
+      </Accordion>
+      <Accordion
+        icon_position="right"
+        id="remembered-state-3"
+        // top="x-large"
+      >
+        <Accordion.Header>
+          <Accordion.Header.Container>
+            <IconPrimary icon="bell" />
+          </Accordion.Header.Container>
+          <Accordion.Header.Title>Accordion three</Accordion.Header.Title>
+        </Accordion.Header>
+        <Accordion.Content
+          left="xx-large"
+          top="medium"
+          instance={changeHeight.ref3}
+        >
+          <DidRender1 message="three" />
+          <DidRender2 message="three" />
+          <ChangingContent changeHeight={changeHeight.ref3}>
+            <div
+              style={{
+                height: '40rem',
                 background: 'var(--color-sand-yellow)'
               }}
             >

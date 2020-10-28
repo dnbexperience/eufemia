@@ -266,8 +266,13 @@ class HeightAnim {
       window.removeEventListener('resize', this.onResize)
     }
   }
-  getOpenHeight() {
-    const position = window.getComputedStyle(this.elem.parentElement)
+  getCloseHeight() {
+    return parseFloat(this.elem.clientHeight)
+  }
+  getOpenHeight(state) {
+    const currentHeight = window.getComputedStyle(this.elem).height
+    const currentPosition = window.getComputedStyle(this.elem).position
+    const parentPosition = window.getComputedStyle(this.elem.parentElement)
       .position
 
     this.elem.parentElement.style.position = 'relative'
@@ -275,19 +280,21 @@ class HeightAnim {
     this.elem.style.visibility = 'hidden'
     this.elem.style.height = 'auto'
 
-    const openHeight = parseFloat(this.elem.clientHeight)
+    const height = parseFloat(this.elem.clientHeight)
 
     this.elem.parentElement.style.position =
-      position !== 'static' ? position : ''
-    this.elem.style.position = ''
-    this.elem.style.height = '0'
-    this.elem.style.opacity = '0'
+      parentPosition !== 'static' ? parentPosition : ''
+    this.elem.style.position = currentPosition
     this.elem.style.visibility = 'visible'
 
-    return openHeight
-  }
-  getCloseHeight() {
-    return parseFloat(this.elem.clientHeight)
+    switch (state) {
+      case 'open':
+        this.elem.style.height =
+          this.state === 'init' ? '0' : currentHeight
+        break
+    }
+
+    return height
   }
   onStart(fn) {
     this.onStartStack.push(fn)
@@ -298,11 +305,7 @@ class HeightAnim {
   callOnEnd() {
     this.isAnimating = false
     this.removeEndEvents()
-
-    if (this.transitionDuration) {
-      this.elem.style.transitionDuration = this.transitionDuration
-      this.transitionDuration = null
-    }
+    this.resetSuppressAnimation()
 
     this.onEndStack.forEach((fn) => {
       if (typeof fn === 'function') {
@@ -310,14 +313,14 @@ class HeightAnim {
       }
     })
   }
-  start(height = 0, before = '0px', { animate = true } = {}) {
+  start(newHeight = 0, oldHeight = 0, { animate }) {
     if (typeof window !== 'undefined' && window.requestAnimationFrame) {
       this.stop()
 
       this.isAnimating = true
 
       if (animate === false) {
-        this.oppressAnimation()
+        this.suppressAnimation()
       }
 
       // call the callbacks here, because then we do not call this during startup. This way we get an instant startup
@@ -329,18 +332,15 @@ class HeightAnim {
 
       // make the animation
       this.reqId1 = window.requestAnimationFrame(() => {
-        if (before) {
-          this.elem.style.height = `${before}px`
-          this.elem.style.opacity = String(before > 0 ? 1 : 0)
+        this.elem.style.height = `${oldHeight}px`
 
-          if (this.container) {
-            this.container.style.minHeight = `${before}px`
-          }
+        if (this.container) {
+          this.container.style.minHeight = `${oldHeight}px`
         }
+
         this.reqId2 = window.requestAnimationFrame(() => {
-          this.elem.style.height = `${height}px`
+          this.elem.style.height = `${newHeight}px`
           this.setContainerHeight()
-          this.elem.style.opacity = String(height > 0 ? 1 : 0)
         })
       })
     }
@@ -362,16 +362,24 @@ class HeightAnim {
       window.cancelAnimationFrame(this.reqId2)
     }
   }
-  oppressAnimation() {
+  suppressAnimation() {
     this.transitionDuration = window.getComputedStyle(
       this.elem
     ).transitionDuration
     this.elem.style.transitionDuration = '1ms'
   }
-  open(animate = true) {
+  resetSuppressAnimation() {
+    if (this.transitionDuration) {
+      this.elem.style.transitionDuration = this.transitionDuration
+      this.transitionDuration = null
+    }
+  }
+  open({ animate = true } = {}) {
     if (this.state === 'opened' || this.state === 'opening') {
       return
     }
+
+    const height = this.getOpenHeight('open')
 
     this.state = 'opening'
     this.removeEndEvents() // also, remove events on every open (but not on close!)
@@ -391,10 +399,9 @@ class HeightAnim {
       )
     }
 
-    const height = this.getOpenHeight()
     this.start(height, 0, { animate })
   }
-  close(animate = true) {
+  close({ animate = true } = {}) {
     if (this.state === 'closed' || this.state === 'closing') {
       return
     }

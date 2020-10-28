@@ -77,7 +77,6 @@ export default class AccordionGroup extends React.PureComponent {
   }
 
   onChangeHandler = (event) => {
-    // console.log('this.context', this.context)
     dispatchCustomElementEvent(this, 'on_change', {
       id: event.id,
       expanded: event.expanded,
