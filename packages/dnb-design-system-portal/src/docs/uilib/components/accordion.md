@@ -9,7 +9,7 @@ import {
 AccordionDefaultExample,
 AccordionContainerExample,
 AccordionGroupExample
-} from 'Pages/uilib/components/accordion/Example'
+} from 'Pages/uilib/components/accordion/Examples'
 
 # Accordion
 

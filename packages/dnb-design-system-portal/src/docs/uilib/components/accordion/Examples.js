@@ -5,19 +5,10 @@
 
 import React from 'react'
 import ComponentBox from 'Src/shared/tags/ComponentBox'
-import styled from '@emotion/styled'
-
-const Wrapper = styled.div`
-  /* [data-dnb-test] {
-    .dnb-accordion-group--single-container {
-    }
-  } */
-`
 
 export const AccordionDefaultExample = () => (
-  <Wrapper>
-    <ComponentBox data-dnb-test="accordion-default">
-      {`
+  <ComponentBox data-dnb-test="accordion-default">
+    {`
 <Accordion
 	remember_state
 	id="single-accordion"
@@ -41,14 +32,12 @@ export const AccordionDefaultExample = () => (
 	</Accordion>
 </Accordion.Provider>
 `}
-    </ComponentBox>
-  </Wrapper>
+  </ComponentBox>
 )
 
 export const AccordionContainerExample = () => (
-  <Wrapper>
-    <ComponentBox useRender hideCode data-dnb-test="accordion-container">
-      {`
+  <ComponentBox useRender hideCode data-dnb-test="accordion-container">
+    {`
 function AccordionWithContainer() {
   const ref1 = React.useRef()
   const ref2 = React.useRef()
@@ -158,14 +147,12 @@ function ChangingContent({ changeHeight, children }) {
 }
 render(<AccordionWithContainer />)
 `}
-    </ComponentBox>
-  </Wrapper>
+  </ComponentBox>
 )
 
 export const AccordionGroupExample = () => (
-  <Wrapper>
-    <ComponentBox data-dnb-test="accordion-group">
-      {`
+  <ComponentBox data-dnb-test="accordion-group">
+    {`
 <Accordion.Group expanded allow_close_all>
 	<Accordion expanded={false}>
 	<Accordion.Header>Accordion title</Accordion.Header>
@@ -188,6 +175,5 @@ export const AccordionGroupExample = () => (
 	</Accordion>
 </Accordion.Group>
 `}
-    </ComponentBox>
-  </Wrapper>
+  </ComponentBox>
 )
