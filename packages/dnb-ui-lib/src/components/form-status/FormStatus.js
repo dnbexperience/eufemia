@@ -186,15 +186,21 @@ export default class FormStatus extends React.PureComponent {
     ) {
       const { state, text, label } = this.props
       const status_id = `${this._id}-gs`
-      this.gsProvider.update(status_id, {
-        state,
-        item: {
-          status_id: this._id,
-          text,
-          status_anchor_label: label,
-          status_anchor_url: true
+      this.gsProvider.update(
+        status_id,
+        {
+          state,
+          item: {
+            status_id: this._id,
+            text,
+            status_anchor_label: label,
+            status_anchor_url: true
+          }
+        },
+        {
+          preventRestack: true // because of the internal "close"
         }
-      })
+      )
     }
   }
 

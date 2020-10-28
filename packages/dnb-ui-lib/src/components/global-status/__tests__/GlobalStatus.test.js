@@ -70,17 +70,14 @@ describe('GlobalStatus component', () => {
   })
 
   it('should have correact attributes like "aria-live"', async () => {
-    const Comp = mount(
-      <Component autoscroll={false} delay={0} duration={0} />
-    )
+    const Comp = mount(<Component autoscroll={false} delay={0} />)
     expect(Comp.exists('[aria-live]')).toBe(true)
 
     Comp.setProps({
       show: true
     })
     Comp.setState({
-      isActive: true,
-      isVisible: true
+      isActive: true
     })
 
     expect(Comp.exists('[aria-live="assertive"]')).toBe(true)
@@ -88,7 +85,12 @@ describe('GlobalStatus component', () => {
     Comp.setProps({
       show: false
     })
-    expect(Comp.exists('[aria-live="off"]')).toBe(true)
+
+    expect(
+      Comp.find('.dnb-global-status__wrapper')
+        .instance()
+        .getAttribute('aria-live')
+    ).toBe('off')
   })
 
   it('has to to have correct content after a controller add', () => {
@@ -98,6 +100,8 @@ describe('GlobalStatus component', () => {
     const Comp = mount(
       <>
         <Component
+          autoscroll={false}
+          delay={0}
           no_animation={true}
           id="custom-status-update"
           text={startupText}
@@ -119,11 +123,11 @@ describe('GlobalStatus component', () => {
     )
 
     expect(
-      Comp.find('div.dnb-global-status__message > .dnb-p').text()
+      Comp.find('div.dnb-global-status__message__content > .dnb-p').text()
     ).toBe(newText)
 
     expect(
-      Comp.find('div.dnb-global-status__message > .dnb-ul').text()
+      Comp.find('div.dnb-global-status__message__content > .dnb-ul').text()
     ).toBe('item#1item#3')
 
     expect(
@@ -138,7 +142,12 @@ describe('GlobalStatus component', () => {
     const newItems = ['Item3', 'Item4']
 
     const Comp = mount(
-      <Component no_animation={true} id="custom-status-update" />
+      <Component
+        autoscroll={false}
+        delay={0}
+        no_animation={true}
+        id="custom-status-update"
+      />
     )
 
     mount(
@@ -160,7 +169,7 @@ describe('GlobalStatus component', () => {
     ).toBe(startupText)
 
     mount(
-      <Component.Update
+      <Component.Add
         id="custom-status-update"
         status_id="status-update-1"
         text={newText}
@@ -186,7 +195,6 @@ describe('GlobalStatus component', () => {
     Comp.update()
 
     expect(Comp.state().isActive).toBe(false)
-    expect(Comp.state().isVisible).toBe(false)
     expect(Comp.exists('div.dnb-global-status__message')).toBe(false)
   })
 
@@ -197,7 +205,12 @@ describe('GlobalStatus component', () => {
     const newItems = ['Item3', 'Item4']
 
     const Comp = mount(
-      <Component no_animation={true} id="custom-status-remove" />
+      <Component
+        autoscroll={false}
+        delay={0}
+        no_animation={true}
+        id="custom-status-remove"
+      />
     )
 
     mount(
@@ -268,7 +281,6 @@ describe('GlobalStatus component', () => {
     Comp.update()
 
     expect(Comp.state().isActive).toBe(false)
-    expect(Comp.state().isVisible).toBe(false)
     expect(Comp.exists('div.dnb-global-status__message')).toBe(false)
   })
 
@@ -279,8 +291,10 @@ describe('GlobalStatus component', () => {
 
     const Comp = mount(
       <Component
-        no_animation={true}
         autoclose={true}
+        no_animation={true}
+        autoscroll={false}
+        delay={0}
         id="custom-status-autoclose"
         on_open={on_open}
         on_close={on_close}

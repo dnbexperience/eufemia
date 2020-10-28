@@ -54,12 +54,15 @@ The goal is to update the content (properties/events) of the target GlobalStatus
 // Place the status where ever You have to
 <GlobalStatus id="custom-id" />
 
-// Update the status later on. Every property is optional
+// Manipu the status later on. Every property is optional.
 <GlobalStatus.Add id="custom-id" status_id="status-1" item="Item #1" text="New Text" />
 <GlobalStatus.Add id="custom-id" status_id="status-2" item="Item #2" title="New Titel" />
 <GlobalStatus.Add id="custom-id" status_id="status-3" item="Item #3" />
 
-// Later You can remove a resolved item
+// or update the status.
+<GlobalStatus.Update id="custom-id" show />
+
+// Later You can remove a resolved item.
 <GlobalStatus.Remove id="custom-id" status_id="status-3" />
 ```
 
