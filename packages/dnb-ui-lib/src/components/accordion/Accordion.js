@@ -234,8 +234,8 @@ export default class Accordion extends React.PureComponent {
       !isTrue(this.context.flush_remembered_state)
     ) {
       const expanded = this.store.getState()
-      if (typeof expanded === 'boolean') {
-        this.setExpandedState(expanded)
+      if (expanded) {
+        this.setExpandedState(true)
       }
     }
   }
@@ -271,20 +271,10 @@ export default class Accordion extends React.PureComponent {
   }
 
   setExpandedState(expanded) {
-    if (expanded !== null) {
-      this.setState({
-        expanded,
-        no_animation: true,
-        _listenForPropChanges: false
-      })
-      const no_animation = this.state.no_animation
-      this._animationState = setTimeout(() => {
-        this.setState({
-          no_animation,
-          _listenForPropChanges: false
-        })
-      }, 600)
-    }
+    this.setState({
+      expanded,
+      _listenForPropChanges: false
+    })
   }
 
   close() {

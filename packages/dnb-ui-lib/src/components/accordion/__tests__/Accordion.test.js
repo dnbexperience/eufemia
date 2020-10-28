@@ -158,8 +158,73 @@ describe('Accordion group component', () => {
       .at(0)
       .simulate('click')
     expect(my_event.mock.calls[2][0].expanded).toBe(true)
+  })
+})
 
-    // expect(Comp.state().expanded).toBe(false)
+describe('Accordion container component', () => {
+  class DidRender extends React.PureComponent {
+    state = { mounted: false }
+    componentDidMount() {
+      this.setState({ mounted: true })
+    }
+    render() {
+      return <div id={this.props.id}>{String(this.state.mounted)}</div>
+    }
+  }
+
+  const Comp = mount(
+    <Component.Group
+      label="Label"
+      id="container"
+      single_container
+      prevent_rerender
+      remember_state
+    >
+      <Component id="accordion-1" title="Accordion 1">
+        Accordion 1
+        <DidRender id="mounted-1" />
+      </Component>
+      <Component id="accordion-2" title="Accordion 2" expanded={true}>
+        Accordion 2
+        <DidRender id="mounted-2" />
+      </Component>
+      <Component id="accordion-3" title="Accordion 3">
+        Accordion 3
+        <DidRender id="mounted-3" />
+      </Component>
+    </Component.Group>
+  )
+
+  it('has only to render the expanded accordion content', () => {
+    expect(Comp.find('div#mounted-1').exists()).toBe(false)
+    expect(Comp.find('div#mounted-2').text()).toBe('true')
+    expect(Comp.find('div#mounted-3').exists()).toBe(false)
+    expect(
+      Comp.find('#accordion-2')
+        .find('.dnb-accordion__header')
+        .instance()
+        .getAttribute('aria-expanded')
+    ).toBe('true')
+
+    Comp.find('#accordion-1')
+      .find('.dnb-accordion__header')
+      .simulate('click')
+
+    expect(Comp.find('div#mounted-1').text()).toBe('true')
+    expect(Comp.find('div#mounted-2').text()).toBe('true')
+    expect(Comp.find('div#mounted-3').exists()).toBe(false)
+
+    Comp.find('#accordion-2')
+      .find('.dnb-accordion__header')
+      .simulate('click')
+
+    expect(Comp.find('div#mounted-3').exists()).toBe(false)
+
+    Comp.find('#accordion-3')
+      .find('.dnb-accordion__header')
+      .simulate('click')
+
+    expect(Comp.find('div#mounted-3').text()).toBe('true')
   })
 })
 

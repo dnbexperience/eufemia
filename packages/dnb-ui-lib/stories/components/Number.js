@@ -9,7 +9,8 @@ import styled from '@emotion/styled'
 import { P } from '../../src/elements'
 import Provider from '../../src/shared/Provider'
 import Number from '../../src/components/Number'
-import Dropdown from '../../src/components/Dropdown'
+// import Dropdown from '../../src/components/Dropdown'
+import ToggleButton from '../../src/components/ToggleButton'
 
 // import { format } from '../../src/components/Number'
 import Context from '../../src/shared/Context'
@@ -37,14 +38,30 @@ const ChangeLocale = () => {
   } = React.useContext(Context)
 
   return (
-    <Dropdown
+    <ToggleButton.Group
       value={locale}
-      data={{ 'en-US': 'English', 'nb-NO': 'Norsk' }}
-      on_change={({ data: { selected_key: locale } }) => {
-        setLocale(locale)
+      on_change={({ value }) => {
+        setLocale(value)
       }}
-    />
+    >
+      <ToggleButton value="nb-NO" className="nb-NO">
+        Norsk
+      </ToggleButton>
+      <ToggleButton value="en-US" className="en-US">
+        English
+      </ToggleButton>
+    </ToggleButton.Group>
   )
+
+  // return (
+  // <Dropdown
+  // value={locale}
+  // data={{ 'en-US': 'English', 'nb-NO': 'Norsk' }}
+  // on_change={({ data: { selected_key: locale } }) => {
+  // setLocale(locale)
+  // }}
+  // />
+  // )
 }
 
 const Prefix = styled.b`
@@ -72,6 +89,7 @@ export const NumberSandbox = () => {
                 suffix={<b>E</b>}
                 value={'-12 345,99'}
                 currency
+                clean
                 decimals={2}
                 // locale={'nb-NO'}
                 currency_position="after"
@@ -111,10 +129,15 @@ export const NumberSandbox = () => {
             >
               <ChangeLocale />
               <P>
-                text <Number currency>12 345</Number> text{' '}
-                <Number currency="USD" value="12345" /> text{' '}
-                <Number currency>12 345 678</Number> text{' '}
-                <Number currency>12345.0</Number> text{' '}
+                text{' '}
+                <Number currency clean>
+                  12 345
+                </Number>{' '}
+                text <Number currency="USD" value="12345" /> text{' '}
+                <Number currency clean>
+                  12 345 678
+                </Number>{' '}
+                text <Number currency>12345.0</Number> text{' '}
                 <Number currency="EUR">-12345,68</Number> text{' '}
               </P>
             </Provider>

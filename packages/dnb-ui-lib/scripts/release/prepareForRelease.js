@@ -23,7 +23,18 @@ export default async function prepareForRelease() {
     filepath
   })
   await fs.writeFile(dest, formattedPackageJson)
-  await writeLibVersion()
+
+  /**
+   * TODO:
+   *
+   * 1. Because "prepareForRelease" runs before the version is set,
+   * We could have to run a API provided by semantic-release,
+   * That can give us the next calculated version, so we can write it, before release.
+   *
+   * 2. We also would have to find a different method to make that available.
+   * Because in production, it looks like the "window.Eufemia" is not accessible.
+   */
+  // await writeLibVersion({ version: ...})
 }
 
 // export for testing

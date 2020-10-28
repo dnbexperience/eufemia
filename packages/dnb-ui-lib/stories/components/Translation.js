@@ -7,8 +7,8 @@ import React from 'react'
 import { Wrapper, Box } from '../helpers'
 // import { Global, css } from '@emotion/core'
 
-import { Modal } from '../../src/components'
-import { Provider } from '../../src/shared'
+import { Modal, Dropdown } from '../../src/components'
+import { Provider, Context } from '../../src/shared'
 // import { useTranslation as t } from '../../src/shared'
 // import t from '../../src/shared/useTranslation'
 import useTranslation, {
@@ -46,7 +46,32 @@ const UseTrans = () => {
   })
 }
 
-export const ModalSandbox = () => (
+const ChangeLocale = () => {
+  const {
+    setLocale,
+    // setCurrentLocale,// to update only the current context
+    locale
+  } = React.useContext(Context)
+  console.log('locale', locale)
+
+  // React.useEffect(() => {
+  //   setTimeout(() => {
+  //     setLocale('en-US')
+  //   }, 2e3)
+  // }, [])
+
+  return (
+    <Dropdown
+      value={locale}
+      data={{ 'en-US': 'English', 'nb-NO': 'Norsk' }}
+      on_change={({ data: { selected_key: locale } }) => {
+        setLocale(locale)
+      }}
+    />
+  )
+}
+
+export const TranslationSandbox = () => (
   <Wrapper>
     <Box>
       <Provider
@@ -56,6 +81,9 @@ export const ModalSandbox = () => (
           'en-US': enUS
         }}
       >
+        <ChangeLocale />
+        <br />
+        <br />
         <UseTrans />
         ---
         <Provider

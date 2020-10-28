@@ -468,23 +468,25 @@ exports[`Accordion scss have to match snapshot 1`] = `
   .dnb-accordion--expanded .dnb-accordion__header__icon {
     transform: rotate(-180deg); }
   .dnb-accordion--no-animation .dnb-accordion__header__icon {
-    transition-duration: 1ms; }
+    transition-duration: 1ms !important; }
   .dnb-accordion__content {
     display: flex;
+    opacity: 1;
+    visibility: visible;
     will-change: height;
     transition: height 400ms var(--accordion-easing), opacity 600ms var(--accordion-easing); }
     .dnb-accordion__content--hidden {
       visibility: hidden;
-      height: 0; }
+      height: 0;
+      opacity: 0; }
     .dnb-accordion__content--is-animating {
-      opacity: 0.2;
       overflow: hidden; }
     .dnb-accordion__content__inner {
       margin-top: 1rem; }
       .dnb-accordion__content__inner--remove-content {
         display: none; }
   .dnb-accordion--no-animation .dnb-accordion__content {
-    transition-duration: 1ms; }
+    transition-duration: 1ms !important; }
   .dnb-accordion-group--single-container {
     transition: min-height 1s var(--accordion-easing); }
   .dnb-accordion-group--single-container .dnb-accordion {

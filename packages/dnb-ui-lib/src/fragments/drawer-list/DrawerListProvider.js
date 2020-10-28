@@ -1144,6 +1144,8 @@ export default class DrawerListProvider extends React.PureComponent {
       return // stop here
     }
 
+    const { keep_open, no_animation, prevent_selection } = this.props
+
     const doCallOnChange = this.state.selected_item !== itemToSelect
     const onSelectionIsComplete = () => {
       const delayHandler = () => {
@@ -1157,13 +1159,12 @@ export default class DrawerListProvider extends React.PureComponent {
           })
         }
 
-        const { keep_open } = this.props
         if (!isTrue(keep_open)) {
           this.setHidden()
         }
       }
 
-      if (isTrue(this.props.no_animation)) {
+      if (isTrue(no_animation)) {
         delayHandler()
       } else {
         clearTimeout(this._selectTimeout)
@@ -1174,7 +1175,7 @@ export default class DrawerListProvider extends React.PureComponent {
       }
     }
 
-    if (isTrue(this.props.prevent_selection)) {
+    if (isTrue(prevent_selection)) {
       onSelectionIsComplete()
     } else {
       this.setState(

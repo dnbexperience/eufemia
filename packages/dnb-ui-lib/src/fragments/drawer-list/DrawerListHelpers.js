@@ -101,7 +101,12 @@ export const normalizeData = (props) => {
   if (data && typeof data === 'object' && !Array.isArray(data)) {
     const list = []
     for (let i in data) {
-      list.push({ selected_key: i, content: data[i], type: 'object' })
+      list.push({
+        selected_key: i,
+        value: i,
+        content: data[i],
+        type: 'object'
+      })
     }
     data = list
   }
