@@ -189,8 +189,8 @@
     //   }
     // }
   }
-  html[data-dnb-test] &,
-  &--no-animation &__content {
+  &--no-animation &__content,
+  html[data-dnb-test] &__content {
     transition-duration: 1ms !important;
   }
 

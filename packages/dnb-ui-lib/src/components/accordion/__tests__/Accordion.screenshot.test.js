@@ -53,7 +53,6 @@ describe('Accordion group screenshot', () => {
       selector: '[data-dnb-test="accordion-group"]',
       simulateSelector:
         '[data-dnb-test="accordion-group"] .dnb-accordion:first-of-type .dnb-accordion__header',
-      waitAfterSimulate: 30,
       simulate: 'click'
     })
     expect(screenshot).toMatchImageSnapshot()
@@ -89,8 +88,7 @@ describe('Accordion closed screenshot', () => {
       selector: '[data-dnb-test="accordion-default"]',
       simulateSelector:
         '[data-dnb-test="accordion-default"] .dnb-accordion__header',
-      simulate: 'focus',
-      waitAfterSimulate: 30
+      simulate: 'focus'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -100,8 +98,7 @@ describe('Accordion closed screenshot', () => {
       selector: '[data-dnb-test="accordion-default"]',
       simulateSelector:
         '[data-dnb-test="accordion-default"] .dnb-accordion__header',
-      simulate: 'focusclick',
-      waitAfterSimulate: 30
+      simulate: 'focusclick'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
