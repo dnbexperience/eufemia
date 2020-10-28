@@ -485,6 +485,7 @@ exports[`Accordion scss have to match snapshot 1`] = `
       margin-top: 1rem; }
       .dnb-accordion__content__inner--remove-content {
         display: none; }
+  [data-dnb-test-wrapper] .dnb-accordion,
   .dnb-accordion--no-animation .dnb-accordion__content {
     transition-duration: 1ms !important; }
   .dnb-accordion-group--single-container {

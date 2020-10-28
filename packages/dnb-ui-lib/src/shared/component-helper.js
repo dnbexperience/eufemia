@@ -814,10 +814,11 @@ export class InteractionInvalidation {
 }
 
 export class AnimateHeight {
-  constructor() {
+  constructor(opts = {}) {
     this.state = 'init'
     this.onStartStack = []
     this.onEndStack = []
+    this.opts = opts
   }
   setElem(elem, container = null) {
     this.elem =
@@ -846,6 +847,10 @@ export class AnimateHeight {
     if (this.onOpenEnd) {
       this.elem.removeEventListener('transitionend', this.onOpenEnd)
       this.onOpenEnd = null
+    }
+    if (this.onAdjustEnd) {
+      this.elem.removeEventListener('transitionend', this.onAdjustEnd)
+      this.onAdjustEnd = null
     }
     if (this.onCloseEnd) {
       this.elem.removeEventListener('transitionend', this.onCloseEnd)
@@ -901,6 +906,13 @@ export class AnimateHeight {
   onEnd(fn) {
     this.onEndStack.push(fn)
   }
+  callOnStart() {
+    this.onStartStack.forEach((fn) => {
+      if (typeof fn === 'function') {
+        fn(this.state)
+      }
+    })
+  }
   callOnEnd() {
     this.isAnimating = false
     this.removeEndEvents()
@@ -912,7 +924,20 @@ export class AnimateHeight {
       }
     })
   }
-  start(newHeight = 0, oldHeight = 0, { animate }) {
+  start(fromHeight, toHeight, { animate }) {
+    if (animate === false || this.opts?.animate === false) {
+      this.callOnStart()
+
+      try {
+        const event = new CustomEvent('transitionend')
+        this.elem.dispatchEvent(event)
+      } catch (e) {
+        warn(e)
+      }
+
+      return // stop here
+    }
+
     if (typeof window !== 'undefined' && window.requestAnimationFrame) {
       this.stop()
 
@@ -923,28 +948,23 @@ export class AnimateHeight {
       }
 
       // call the callbacks here, because then we do not call this during startup. This way we get an instant startup
-      this.onStartStack.forEach((fn) => {
-        if (typeof fn === 'function') {
-          fn(this.state)
-        }
-      })
+      this.callOnStart()
 
       // make the animation
       this.reqId1 = window.requestAnimationFrame(() => {
-        this.elem.style.height = `${oldHeight}px`
+        this.elem.style.height = `${fromHeight}px`
 
         if (this.container) {
-          this.container.style.minHeight = `${oldHeight}px`
+          this.container.style.minHeight = `${fromHeight}px`
         }
 
         this.reqId2 = window.requestAnimationFrame(() => {
-          this.elem.style.height = `${newHeight}px`
+          this.elem.style.height = `${toHeight}px`
           this.setContainerHeight()
         })
       })
     }
   }
-  resetContainerHeight() {}
   setContainerHeight() {
     if (this.container) {
       const contentElem = this.elem
@@ -973,6 +993,34 @@ export class AnimateHeight {
       this.transitionDuration = null
     }
   }
+  adjustFrom() {
+    const height = this.getCloseHeight()
+    this.elem.style.height = `${height}px`
+    return height
+  }
+  adjustTo(fromHeight, { animate = true } = {}) {
+    const toHeight = this.getOpenHeight('open')
+
+    this.state = 'adjusting'
+    this.removeEndEvents() // also, remove events on every open (but not on close!)
+
+    if (!this.onAdjustEnd) {
+      this.elem.addEventListener(
+        'transitionend',
+        (this.onAdjustEnd = () => {
+          if (this.elem) {
+            this.elem.style.height = 'auto'
+          }
+
+          this.state = 'adjusted'
+          this.callOnEnd()
+          this.setContainerHeight()
+        })
+      )
+    }
+
+    this.start(fromHeight, toHeight, { animate })
+  }
   open({ animate = true } = {}) {
     if (this.state === 'opened' || this.state === 'opening') {
       return
@@ -991,14 +1039,14 @@ export class AnimateHeight {
             this.elem.style.height = 'auto'
           }
 
+          this.state = 'opened'
           this.callOnEnd()
           this.setContainerHeight()
-          this.state = 'opened'
         })
       )
     }
 
-    this.start(height, 0, { animate })
+    this.start(0, height, { animate })
   }
   close({ animate = true } = {}) {
     if (this.state === 'closed' || this.state === 'closing') {
@@ -1021,12 +1069,12 @@ export class AnimateHeight {
             this.elem.style.visibility = 'hidden'
           }
 
-          this.callOnEnd()
           this.state = 'closed'
+          this.callOnEnd()
         })
       )
     }
 
-    this.start(0, height, { animate })
+    this.start(height, 0, { animate })
   }
 }

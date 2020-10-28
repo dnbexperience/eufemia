@@ -7,7 +7,7 @@
   // Props
   --accordion-border-width: 0.0625rem;
   --accordion-border-radius: 0.25rem;
-  --accordion-easing: cubic-bezier(0.42, 0, 0, 1);
+  --accordion-easing: #{$defaultEasing};
 }
 
 .dnb-accordion {
@@ -149,6 +149,7 @@
       }
     }
   }
+  [data-dnb-test-wrapper] &,
   &--no-animation &__content {
     transition-duration: 1ms !important;
   }
