@@ -256,38 +256,94 @@ describe('DatePicker component', () => {
     expect(yearElem.instance().value).toBe(year)
   })
 
-  it('has a working min and max date limitation', () => {
+  it('has to auto-correct invalid min/max dates', () => {
     const on_change = jest.fn()
 
     const Comp = mount(
       <Component
         {...defaultProps}
         on_change={on_change}
+        correct_invalid_date={true}
         min_date="2019-01-02"
         max_date="2019-03-01"
       />
     )
     const elem = Comp.find('input.dnb-date-picker__input--day').at(0)
 
-    // by default we have the start day
+    // by default we have the corrected start day
     expect(elem.instance().value).toBe('02')
 
-    // change the date
-    elem.simulate('change', {
-      target: { value: '03' }
-    })
-
-    expect(on_change).toHaveBeenCalled()
-    expect(on_change.mock.calls[0][0].is_valid_start_date).toBe(true)
-
-    // change to invalid date
+    // change the date to something invalid
     elem.simulate('change', {
       target: { value: '01' }
     })
 
-    expect(on_change.mock.calls[1][0].is_valid_start_date).toBe(false)
+    expect(on_change).toHaveBeenCalledTimes(1)
+    expect(on_change.mock.calls[0][0].is_valid_start_date).toBe(false)
+
+    // change the date to a valid date
+    elem.simulate('change', {
+      target: { value: '03' }
+    })
+
+    expect(on_change).toHaveBeenCalledTimes(2)
+    expect(on_change.mock.calls[1][0].is_valid_start_date).toBe(true)
+  })
+
+  it('has a working min and max date limitation', () => {
+    const on_type = jest.fn()
+    const on_change = jest.fn()
+
+    const Comp = mount(
+      <Component
+        {...defaultProps}
+        min_date="2019-01-02"
+        max_date="2019-02-04"
+        on_change={on_change}
+        on_type={on_type}
+      />
+    )
+    const startElem = Comp.find('input.dnb-date-picker__input--day').at(0)
+    const endElem = Comp.find('input.dnb-date-picker__input--day').at(1)
+
+    // by default we have the start day
+    expect(startElem.instance().value).toBe('01')
+
+    // // change to invalid date
+    startElem.simulate('change', {
+      target: { value: '01' }
+    })
+
+    expect(on_change).toHaveBeenCalledTimes(1)
+    expect(on_change.mock.calls[0][0].is_valid_start_date).toBe(false)
+    expect(on_type.mock.calls[0][0].is_valid_start_date).toBe(false)
+
+    // change the date to a valid date
+    startElem.simulate('change', {
+      target: { value: '03' }
+    })
+
+    expect(on_change).toHaveBeenCalledTimes(2)
+    expect(on_change.mock.calls[1][0].is_valid_start_date).toBe(true)
+    expect(on_type.mock.calls[1][0].is_valid_start_date).toBe(true)
+
+    // change the date to a valid date
+    endElem.simulate('change', {
+      target: { value: '05' }
+    })
+
+    expect(on_change.mock.calls[2][0].start_date).toBe('2019-01-03')
+    expect(on_change.mock.calls[2][0].end_date).toBe('2019-02-05')
+    expect(on_change.mock.calls[2][0].is_valid_start_date).toBe(true)
+    expect(on_change.mock.calls[2][0].is_valid_end_date).toBe(false)
+
+    expect(on_type.mock.calls[2][0].start_date).toBe('2019-01-03')
+    expect(on_type.mock.calls[2][0].end_date).toBe('2019-02-05')
+    expect(on_type.mock.calls[2][0].is_valid_start_date).toBe(true)
+    expect(on_type.mock.calls[2][0].is_valid_end_date).toBe(false)
 
     Comp.find('button').simulate('click')
+
     const invalidDayElem = Comp.find('.dnb-date-picker__day button').at(1)
     expect(invalidDayElem.instance().getAttribute('aria-label')).toBe(
       'tirsdag 1. januar 2019'
@@ -300,6 +356,34 @@ describe('DatePicker component', () => {
         .instance()
         .hasAttribute('disabled')
     ).toBe(false)
+
+    expect(on_change.mock.calls[2][0].date).toBe(undefined)
+    expect(on_change.mock.calls[2][0].is_valid).toBe(undefined)
+
+    Comp.setProps({
+      range: false
+    })
+
+    Comp.update()
+
+    // change the date to a valid date
+    startElem.simulate('change', {
+      target: { value: '01' }
+    })
+    // endElem.simulate('change', {
+    //   target: { value: '05' }
+    // })
+
+    expect(on_change.mock.calls[3][0].is_valid_start_date).toBe(undefined)
+    expect(on_change.mock.calls[3][0].is_valid_end_date).toBe(undefined)
+    expect(on_change.mock.calls[3][0].is_valid).toBe(false)
+
+    startElem.simulate('change', {
+      target: { value: '03' }
+    })
+
+    expect(on_change.mock.calls[4][0].date).toBe('2019-01-03')
+    expect(on_change.mock.calls[4][0].is_valid).toBe(true)
   })
 
   it('has valid event calls', () => {
@@ -354,7 +438,7 @@ describe('DatePicker component', () => {
       expect(dayElem.instance().value).toBe('03')
       expect(on_type).toHaveBeenCalledTimes(typeIndex + 1)
       expect(on_type.mock.calls[typeIndex][0][`${type}_date`]).toBe(
-        'åååå-mm-03'
+        'yyyy-mm-03'
       )
 
       typeIndex++
@@ -369,7 +453,7 @@ describe('DatePicker component', () => {
         on_type.mock.calls[typeIndex][0][`is_valid_${type}_date`]
       ).toBe(false)
       expect(on_type.mock.calls[typeIndex][0][`${type}_date`]).toBe(
-        'åååå-01-03'
+        'yyyy-01-03'
       )
       expect(on_change).toHaveBeenCalledTimes(changeIndex)
 

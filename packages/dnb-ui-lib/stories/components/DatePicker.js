@@ -74,9 +74,11 @@ export const DatePickerSandbox = () => (
           // label_direction="vertical"
           // start_date={new Date()}
           // start_date="2019-01-15"
-          // start_date="1981-01-15"
-          // end_date="2019-06-15"
-          range={true}
+          // start_date="2020-11-01"
+          // end_date="2020-11-02"
+          min_date="2020-10-28"
+          max_date="2020-11-03"
+          // range={true}
           link={true}
           // sync={false}
           // opened={true}

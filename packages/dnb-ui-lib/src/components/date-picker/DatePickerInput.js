@@ -55,7 +55,6 @@ export default class DatePickerInput extends React.PureComponent {
     showInput: PropTypes.bool,
     onChange: PropTypes.func,
     onSubmit: PropTypes.func,
-    onSubmitButtonFocus: PropTypes.func,
     onFocus: PropTypes.func
   }
 
@@ -78,7 +77,6 @@ export default class DatePickerInput extends React.PureComponent {
     showInput: null,
     onChange: null,
     onSubmit: null,
-    onSubmitButtonFocus: null,
     onFocus: null
   }
 
@@ -158,27 +156,6 @@ export default class DatePickerInput extends React.PureComponent {
     }
   }
 
-  onKeyUpHandler = () => {
-    if (this.props.showInput) {
-      return
-    }
-    if (this._startDayRef.current) {
-      setTimeout(() => {
-        try {
-          const elem = this._startDayRef.current.inputElement
-          elem.focus()
-          elem.select()
-        } catch (e) {
-          warn(e)
-        }
-      }, 100)
-    }
-    if (typeof this.props.onSubmitButtonFocus === 'function') {
-      this.props.onSubmitButtonFocus()
-    }
-    this.onKeyUpHandler = null
-  }
-
   callOnChangeAsInvalid = (state) => {
     const { startDate, endDate, event } = { ...this.context, ...state }
     this.context.updateState({ hoverDate: null })
@@ -211,23 +188,23 @@ export default class DatePickerInput extends React.PureComponent {
   }
 
   callOnType = ({ event }) => {
-    const localize = (id) =>
-      id.replace(new RegExp(id[0], 'g'), this.getPlaceholderChar(id))
-
-    const getDates = (localize) =>
+    const getDates = () =>
       ['start', 'end'].reduce((acc, mode) => {
         acc[`${mode}Date`] = [
-          this[`_${mode}Year`] || localize('yyyy'),
-          this[`_${mode}Month`] || localize('mm'),
-          this[`_${mode}Day`] || localize('dd')
+          this[`_${mode}Year`] || this.context[`__${mode}Year`] || 'yyyy',
+          this[`_${mode}Month`] || this.context[`__${mode}Month`] || 'mm',
+          this[`_${mode}Day`] || this.context[`__${mode}Day`] || 'dd'
         ].join('-')
         return acc
       }, {})
 
-    let { startDate, endDate } = getDates(() => null)
+    // Get the typed dates, so we can ...
+    let { startDate, endDate } = getDates()
+
     startDate = parseISO(startDate)
     endDate = parseISO(endDate)
 
+    // ... check if they where valid
     if (!isValid(startDate)) {
       startDate = null
     }
@@ -241,12 +218,14 @@ export default class DatePickerInput extends React.PureComponent {
       event
     })
 
+    // Now, lets correct
     if (
       returnObject.is_valid === false ||
       returnObject.is_valid_start_date === false ||
       returnObject.is_valid_end_date === false
     ) {
-      const { startDate, endDate } = getDates(localize)
+      const { startDate, endDate } = getDates()
+
       const typedDates = this.props.isRange
         ? {
             start_date: startDate,
@@ -661,7 +640,6 @@ export default class DatePickerInput extends React.PureComponent {
       onChange, // eslint-disable-line
       onFocus, // eslint-disable-line
       onSubmit, // eslint-disable-line
-      onSubmitButtonFocus, // eslint-disable-line
       selectedDateTitle, // eslint-disable-line
       showInput, // eslint-disable-line
       input_element,
@@ -707,7 +685,7 @@ export default class DatePickerInput extends React.PureComponent {
             icon="calendar"
             variant="secondary"
             on_submit={onSubmit}
-            onKeyUp={this.onKeyUpHandler}
+            // onKeyUp={this.onKeyUpHandler}
             {...submitAttributes}
           />
         }

@@ -43,13 +43,7 @@ export default class DatePickerProvider extends React.PureComponent {
     setReturnObject: PropTypes.func.isRequired,
 
     attributes: PropTypes.object,
-    children: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.func,
-      PropTypes.node,
-      PropTypes.object,
-      PropTypes.array
-    ]).isRequired
+    children: PropTypes.node.isRequired
   }
 
   static defaultProps = {
@@ -74,7 +68,6 @@ export default class DatePickerProvider extends React.PureComponent {
         props.date !== state._date
       ) {
         startDate = props.date
-        // state._startDate = props.date
       }
       if (
         typeof props.start_date !== 'undefined' &&
@@ -142,11 +135,17 @@ export default class DatePickerProvider extends React.PureComponent {
         })
       }
 
-      if (isDisabled(state.startDate, state.minDate, state.maxDate)) {
-        state.startDate = state.minDate
-      }
-      if (isDisabled(state.endDate, state.minDate, state.maxDate)) {
-        state.endDate = state.maxDate
+      /**
+       * Because now we do not any more relay on auto "correction",
+       * but rather return "is_valid_start_date=false"
+       */
+      if (isTrue(props.correct_invalid_date)) {
+        if (isDisabled(state.startDate, state.minDate, state.maxDate)) {
+          state.startDate = state.minDate
+        }
+        if (isDisabled(state.endDate, state.minDate, state.maxDate)) {
+          state.endDate = state.maxDate
+        }
       }
     }
 
@@ -274,35 +273,54 @@ export default class DatePickerProvider extends React.PureComponent {
     const startDateIsValid = Boolean(startDate && isValid(startDate))
     const endDateIsValid = Boolean(endDate && isValid(endDate))
 
-    const ret = isTrue(this.props.range)
-      ? {
-          event,
-          attributes,
-          days_between:
-            startDateIsValid && endDateIsValid
-              ? differenceInCalendarDays(endDate, startDate)
-              : null,
-          start_date: startDateIsValid
-            ? format(startDate, returnFormat)
+    let ret = null
+
+    if (isTrue(this.props.range)) {
+      ret = {
+        event,
+        attributes,
+        days_between:
+          startDateIsValid && endDateIsValid
+            ? differenceInCalendarDays(endDate, startDate)
             : null,
-          end_date: endDateIsValid ? format(endDate, returnFormat) : null,
-          is_valid_start_date: startDateIsValid,
-          is_valid_end_date: endDateIsValid
-        }
-      : {
-          event,
-          attributes,
-          date: startDateIsValid ? format(startDate, returnFormat) : null,
-          is_valid: startDateIsValid
-        }
+        start_date: startDateIsValid
+          ? format(startDate, returnFormat)
+          : null,
+        end_date: endDateIsValid ? format(endDate, returnFormat) : null,
+        is_valid_start_date: startDateIsValid,
+        is_valid_end_date: endDateIsValid
+      }
+    } else {
+      ret = {
+        event,
+        attributes,
+        date: startDateIsValid ? format(startDate, returnFormat) : null,
+        is_valid: startDateIsValid
+      }
+    }
 
     if (this.props.min_date || this.props.max_date) {
-      ret.is_valid_start_date = startDateIsValid
-        ? !isDisabled(startDate, this.state.minDate, this.state.maxDate)
-        : false
-      ret.is_valid_end_date = endDateIsValid
-        ? !isDisabled(endDate, this.state.minDate, this.state.maxDate)
-        : false
+      if (isTrue(this.props.range)) {
+        if (
+          startDateIsValid &&
+          isDisabled(startDate, this.state.minDate, this.state.maxDate)
+        ) {
+          ret.is_valid_start_date = false
+        }
+        if (
+          endDateIsValid &&
+          isDisabled(endDate, this.state.minDate, this.state.maxDate)
+        ) {
+          ret.is_valid_end_date = false
+        }
+      } else {
+        if (
+          startDateIsValid &&
+          isDisabled(startDate, this.state.minDate, this.state.maxDate)
+        ) {
+          ret.is_valid = false
+        }
+      }
     }
 
     return ret
@@ -330,4 +348,4 @@ export default class DatePickerProvider extends React.PureComponent {
   }
 }
 
-const pad = (num, size) => ('000000000' + num).substr(-size)
+export const pad = (num, size) => ('000000000' + num).substr(-size)
