@@ -5,6 +5,7 @@ showTabs: true
 import {
 GlobalStatusError,
 GlobalStatusInfo,
+GlobalStatusUpdate,
 GlobalStatusCoupling,
 GlobalStatusAddRemoveItems,
 GlobalStatusScrolling,
@@ -26,10 +27,16 @@ GlobalStatusScrolling,
 
 <GlobalStatusCoupling />
 
+### GlobalStatus and update routines
+
+<GlobalStatusUpdate />
+
 ### To showcase the custom **Update** and **Remove** possibility
 
 <GlobalStatusAddRemoveItems />
 
 ### To showcase the scrolling
+
+Some browsers (Safari, Edge) will need a polyfill like `smoothscroll-polyfill`.
 
 <GlobalStatusScrolling />

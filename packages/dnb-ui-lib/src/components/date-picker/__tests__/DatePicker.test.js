@@ -280,7 +280,7 @@ describe('DatePicker component', () => {
     expect(on_change).toHaveBeenCalled()
     expect(on_change.mock.calls[0][0].is_valid_start_date).toBe(true)
 
-    // change the date
+    // change to invalid date
     elem.simulate('change', {
       target: { value: '01' }
     })
@@ -300,6 +300,119 @@ describe('DatePicker component', () => {
         .instance()
         .hasAttribute('disabled')
     ).toBe(false)
+  })
+
+  it('has valid event calls', () => {
+    const on_type = jest.fn()
+    const on_change = jest.fn()
+
+    const Comp = mount(
+      <Component
+        id="date-picker-id"
+        no_animation={true}
+        range={true}
+        show_input={true}
+        on_type={on_type}
+        on_change={on_change}
+      />
+    )
+
+    const startDayElem = Comp.find('input.dnb-date-picker__input--day').at(
+      0
+    )
+    const startMonthElem = Comp.find(
+      'input.dnb-date-picker__input--month'
+    ).at(0)
+    const startYearElem = Comp.find(
+      'input.dnb-date-picker__input--year'
+    ).at(0)
+
+    const endDayElem = Comp.find('input.dnb-date-picker__input--day').at(1)
+    const endMonthElem = Comp.find(
+      'input.dnb-date-picker__input--month'
+    ).at(1)
+    const endYearElem = Comp.find('input.dnb-date-picker__input--year').at(
+      1
+    )
+
+    const testInteraction = ({
+      typeIndex,
+      changeIndex,
+      dayElem,
+      monthElem,
+      yearElem,
+      type
+    }) => {
+      // by default we have the start day
+      expect(dayElem.instance().value).toBe('dd')
+      expect(on_type).toHaveBeenCalledTimes(typeIndex)
+
+      // change the day
+      dayElem.simulate('change', {
+        target: { value: '03' }
+      })
+      expect(dayElem.instance().value).toBe('03')
+      expect(on_type).toHaveBeenCalledTimes(typeIndex + 1)
+      expect(on_type.mock.calls[typeIndex][0][`${type}_date`]).toBe(
+        'åååå-mm-03'
+      )
+
+      typeIndex++
+
+      // change the month
+      monthElem.simulate('change', {
+        target: { value: '01' }
+      })
+      expect(monthElem.instance().value).toBe('01')
+      expect(on_type).toHaveBeenCalledTimes(typeIndex + 1)
+      expect(
+        on_type.mock.calls[typeIndex][0][`is_valid_${type}_date`]
+      ).toBe(false)
+      expect(on_type.mock.calls[typeIndex][0][`${type}_date`]).toBe(
+        'åååå-01-03'
+      )
+      expect(on_change).toHaveBeenCalledTimes(changeIndex)
+
+      // change the year halfway
+      yearElem.simulate('change', {
+        target: { value: '202' }
+      })
+      expect(yearElem.instance().value).toBe('202å')
+      expect(on_type).toHaveBeenCalledTimes(typeIndex + 2)
+
+      expect(on_change).toHaveBeenCalledTimes(changeIndex + 1)
+      expect(
+        on_change.mock.calls[changeIndex][0][`is_valid_${type}_date`]
+      ).toBe(true)
+
+      changeIndex++
+
+      // change the year
+      yearElem.simulate('change', {
+        target: { value: '2020' }
+      })
+      expect(yearElem.instance().value).toBe('2020')
+      expect(on_type).toHaveBeenCalledTimes(typeIndex + 3)
+      expect(on_change).toHaveBeenCalledTimes(changeIndex + 1)
+    }
+
+    testInteraction({
+      type: 'start',
+      typeIndex: 0,
+      changeIndex: 0,
+      dayElem: startDayElem,
+      monthElem: startMonthElem,
+      yearElem: startYearElem
+    })
+
+    testInteraction({
+      type: 'end',
+      typeIndex: 4,
+      changeIndex: 2,
+      dayElem: endDayElem,
+      monthElem: endMonthElem,
+      yearElem: endYearElem
+    })
   })
 
   it('will reset on setting value to null', () => {

@@ -28,10 +28,12 @@
     font-size: 1rem;
   }
   &__message {
-    color: var(--color-black-80);
+    &__content {
+      color: var(--color-black-80);
 
-    & > .dnb-p {
-      font-weight: var(--font-weight-medium);
+      & > .dnb-p {
+        font-weight: var(--font-weight-medium);
+      }
     }
 
     &.dnb-section--white ::selection {

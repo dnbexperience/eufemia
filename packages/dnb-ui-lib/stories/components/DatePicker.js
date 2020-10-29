@@ -90,6 +90,9 @@ export const DatePickerSandbox = () => (
           on_change={(props) => {
             console.log('on_change', props)
           }}
+          on_type={(props) => {
+            console.log('on_type', props)
+          }}
           on_submit={(props) => {
             console.log('on_submit', props)
           }}

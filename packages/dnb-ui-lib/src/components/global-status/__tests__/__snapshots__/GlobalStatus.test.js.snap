@@ -27,12 +27,13 @@ exports[`GlobalStatus scss have to match default theme snapshot 1`] = `
 .dnb-global-status__icon {
   font-size: 1rem; }
 
-.dnb-global-status__message {
+.dnb-global-status__message__content {
   color: var(--color-black-80); }
-  .dnb-global-status__message > .dnb-p {
+  .dnb-global-status__message__content > .dnb-p {
     font-weight: var(--font-weight-medium); }
-  .dnb-global-status__message.dnb-section--white ::selection {
-    background-color: var(--color-mint-green); }
+
+.dnb-global-status__message.dnb-section--white ::selection {
+  background-color: var(--color-mint-green); }
 
 .dnb-global-status__close-button, .dnb-global-status__close-button.dnb-button--tertiary {
   color: var(--color-white); }
@@ -618,31 +619,38 @@ button.dnb-button::-moz-focus-inner {
  * GlobalStatus component
  *
  */
-@keyframes global-status-fade-in {
-  to {
-    opacity: 1;
-    transform: translate3d(0, 0, 0); } }
-
-@keyframes global-status-fade-out {
-  from {
-    opacity: 1;
-    transform: translate3d(0, 0, 0); }
-  to {
-    opacity: 0;
-    transform: translate3d(0, -2rem, 0); } }
+:root {
+  --global-status-easing: cubic-bezier(0.42, 0, 0, 1); }
 
 .dnb-global-status__wrapper {
   position: relative;
   z-index: 1; }
+
+.dnb-global-status__shell {
+  width: 100%;
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+  will-change: height;
+  transition: height 800ms var(--global-status-easing), opacity 600ms var(--global-status-easing), transform 600ms var(--global-status-easing); }
+
+.dnb-global-status--hidden .dnb-global-status__shell {
+  visibility: hidden;
+  height: 0;
+  opacity: 0; }
+
+.dnb-global-status--no-animation .dnb-global-status__shell,
+html[data-dnb-test] .dnb-global-status__shell {
+  transition-duration: 1ms !important; }
+
+.dnb-global-status--is-animating:not(.dnb-global-status--visible) .dnb-global-status__shell {
+  opacity: 0;
+  transform: translate3d(0, -20px, 0); }
 
 .dnb-global-status, .dnb-global-status--no-animation.dnb-global-status--visible {
   display: flex; }
 
 .dnb-global-status--no-animation.dnb-global-status--hidden {
   display: none; }
-
-.dnb-global-status__shell {
-  width: 100%; }
 
 .dnb-global-status__title {
   position: relative;
@@ -659,14 +667,15 @@ button.dnb-button::-moz-focus-inner {
 
 .dnb-global-status__message {
   cursor: text;
-  z-index: 1;
-  padding: 2rem 0 2.5rem; }
-  .dnb-global-status__message .dnb-p,
-  .dnb-spacing .dnb-global-status__message .dnb-p,
-  .dnb-spacing .dnb-global-status__message .dnb-p:not([class*='dnb-space']) {
-    display: inline-block;
-    margin: 0;
-    padding: 0; }
+  z-index: 1; }
+  .dnb-global-status__message__content {
+    padding: 2rem 0 2.5rem; }
+    .dnb-global-status__message__content .dnb-p,
+    .dnb-spacing .dnb-global-status__message__content .dnb-p,
+    .dnb-spacing .dnb-global-status__message__content .dnb-p:not([class*='dnb-space']) {
+      display: inline-block;
+      margin: 0;
+      padding: 0; }
 
 .dnb-global-status__icon {
   position: absolute;
@@ -704,114 +713,6 @@ button.dnb-button::-moz-focus-inner {
       .dnb-spacing .dnb-global-status__content .dnb-ul:not([class*='dnb-space']) > li .dnb-anchor:last-of-type {
         margin-left: 0.5rem; }
 
-.dnb-global-status:not(.dnb-global-status--no-animation).dnb-global-status--fade-in .dnb-global-status__title {
-  transform: translate3d(0, -2rem, 0);
-  opacity: 0;
-  animation-name: global-status-fade-in;
-  animation-duration: 800ms;
-  animation-fill-mode: forwards;
-  animation-timing-function: ease;
-  animation-delay: calc(30ms + 100ms); }
-
-.dnb-global-status:not(.dnb-global-status--no-animation).dnb-global-status--fade-in .dnb-global-status__message {
-  transform: translate3d(0, -2rem, 0);
-  opacity: 0;
-  animation-name: global-status-fade-in;
-  animation-duration: 800ms;
-  animation-fill-mode: forwards;
-  animation-timing-function: ease;
-  animation-delay: calc(100ms + 100ms); }
-
-.dnb-global-status:not(.dnb-global-status--no-animation).dnb-global-status--fade-in .dnb-global-status__message .dnb-ul {
-  /* stylelint-disable */
-  /* stylelint-enable */ }
-  .dnb-global-status:not(.dnb-global-status--no-animation).dnb-global-status--fade-in .dnb-global-status__message .dnb-ul > li:nth-of-type(1) {
-    transform: translate3d(0, -2rem, 0);
-    opacity: 0;
-    animation-name: global-status-fade-in;
-    animation-duration: 800ms;
-    animation-fill-mode: forwards;
-    animation-timing-function: ease;
-    animation-delay: calc(100ms + 100ms); }
-  .dnb-global-status:not(.dnb-global-status--no-animation).dnb-global-status--fade-in .dnb-global-status__message .dnb-ul > li:nth-of-type(2) {
-    transform: translate3d(0, -2rem, 0);
-    opacity: 0;
-    animation-name: global-status-fade-in;
-    animation-duration: 800ms;
-    animation-fill-mode: forwards;
-    animation-timing-function: ease;
-    animation-delay: calc(200ms + 100ms); }
-  .dnb-global-status:not(.dnb-global-status--no-animation).dnb-global-status--fade-in .dnb-global-status__message .dnb-ul > li:nth-of-type(3) {
-    transform: translate3d(0, -2rem, 0);
-    opacity: 0;
-    animation-name: global-status-fade-in;
-    animation-duration: 800ms;
-    animation-fill-mode: forwards;
-    animation-timing-function: ease;
-    animation-delay: calc(300ms + 100ms); }
-  .dnb-global-status:not(.dnb-global-status--no-animation).dnb-global-status--fade-in .dnb-global-status__message .dnb-ul > li:nth-of-type(1n + 4) {
-    transform: translate3d(0, -2rem, 0);
-    opacity: 0;
-    animation-name: global-status-fade-in;
-    animation-duration: 800ms;
-    animation-fill-mode: forwards;
-    animation-timing-function: ease;
-    animation-delay: calc(400ms + 100ms); }
-
-.dnb-global-status:not(.dnb-global-status--no-animation).dnb-global-status--fade-out .dnb-global-status__title {
-  animation-name: global-status-fade-out;
-  animation-duration: 800ms;
-  animation-fill-mode: forwards;
-  animation-timing-function: ease;
-  animation-delay: 50ms; }
-
-.dnb-global-status:not(.dnb-global-status--no-animation).dnb-global-status--fade-out .dnb-global-status__message {
-  animation-name: global-status-fade-out;
-  animation-duration: 800ms;
-  animation-fill-mode: forwards;
-  animation-timing-function: ease;
-  animation-delay: 100ms; }
-
-.dnb-global-status:not(.dnb-global-status--no-animation).dnb-global-status--fade-out .dnb-global-status__message .dnb-ul {
-  /* stylelint-disable */
-  /* stylelint-enable */ }
-  .dnb-global-status:not(.dnb-global-status--no-animation).dnb-global-status--fade-out .dnb-global-status__message .dnb-ul > li:nth-of-type(1) {
-    animation-name: global-status-fade-out;
-    animation-duration: 800ms;
-    animation-fill-mode: forwards;
-    animation-timing-function: ease;
-    animation-delay: 100ms; }
-  .dnb-global-status:not(.dnb-global-status--no-animation).dnb-global-status--fade-out .dnb-global-status__message .dnb-ul > li:nth-of-type(2) {
-    animation-name: global-status-fade-out;
-    animation-duration: 800ms;
-    animation-fill-mode: forwards;
-    animation-timing-function: ease;
-    animation-delay: 200ms; }
-  .dnb-global-status:not(.dnb-global-status--no-animation).dnb-global-status--fade-out .dnb-global-status__message .dnb-ul > li:nth-of-type(3) {
-    animation-name: global-status-fade-out;
-    animation-duration: 800ms;
-    animation-fill-mode: forwards;
-    animation-timing-function: ease;
-    animation-delay: 300ms; }
-  .dnb-global-status:not(.dnb-global-status--no-animation).dnb-global-status--fade-out .dnb-global-status__message .dnb-ul > li:nth-of-type(1n + 4) {
-    animation-name: global-status-fade-out;
-    animation-duration: 800ms;
-    animation-fill-mode: forwards;
-    animation-timing-function: ease;
-    animation-delay: 400ms; }
-
-.dnb-global-status:not(.dnb-global-status--no-animation).dnb-global-status--fade-in.dnb-global-status.dnb-section {
-  height: 0; }
-
-.dnb-global-status__fake {
-  opacity: 0;
-  visibility: hidden;
-  position: absolute;
-  width: 100%;
-  top: 0;
-  left: 0;
-  right: 0; }
-
 @media screen and (-ms-high-contrast: none) {
   .dnb-global-status__icon > .dnb-icon {
     border-width: 1px; } }
@@ -827,8 +728,6 @@ exports[`GlobalStatus snapshot have to match component snapshot 1`] = `
   close_text="close_text"
   default_title="default_title"
   delay="delay"
-  demo={true}
-  duration="duration"
   hide_close_button="hide_close_button"
   icon="error"
   icon_size="icon_size"
@@ -871,13 +770,13 @@ exports[`GlobalStatus snapshot have to match component snapshot 1`] = `
   >
     <Section
       class={null}
-      className="dnb-global-status dnb-global-status--error dnb-global-status--no-animation"
+      className="dnb-global-status dnb-global-status--error dnb-global-status--visible dnb-global-status--no-animation"
       element="div"
       spacing={null}
       style_type="fire-red"
     >
       <div
-        className="dnb-section dnb-section--fire-red dnb-global-status dnb-global-status--error dnb-global-status--no-animation"
+        className="dnb-section dnb-section--fire-red dnb-global-status dnb-global-status--error dnb-global-status--visible dnb-global-status--no-animation"
       >
         <div
           className="dnb-global-status__shell"
@@ -1094,35 +993,39 @@ exports[`GlobalStatus snapshot have to match component snapshot 1`] = `
               <div
                 className="dnb-section dnb-section--white dnb-global-status__message"
               >
-                <p
-                  className="dnb-p"
+                <div
+                  className="dnb-global-status__message__content"
                 >
-                  text
-                </p>
-                <ul
-                  className="dnb-ul"
-                >
-                  <li
-                    key="0"
+                  <p
+                    className="dnb-p"
                   >
-                    <p
-                      className="dnb-p"
-                      id="id-1"
-                    >
-                      item #1
-                    </p>
-                  </li>
-                  <li
-                    key="1"
+                    text
+                  </p>
+                  <ul
+                    className="dnb-ul"
                   >
-                    <p
-                      className="dnb-p"
-                      id="id-2"
+                    <li
+                      key="0"
                     >
-                      item #2
-                    </p>
-                  </li>
-                </ul>
+                      <p
+                        className="dnb-p"
+                        id="id-1"
+                      >
+                        item #1
+                      </p>
+                    </li>
+                    <li
+                      key="1"
+                    >
+                      <p
+                        className="dnb-p"
+                        id="id-2"
+                      >
+                        item #2
+                      </p>
+                    </li>
+                  </ul>
+                </div>
               </div>
             </Section>
           </div>
