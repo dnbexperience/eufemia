@@ -233,6 +233,15 @@ export default class DatePickerProvider extends React.PureComponent {
 
   setDate = (state, cb = null) => {
     this.setState({ ...state, _listenForPropChanges: false }, cb)
+
+    const startDateIsValid = Boolean(
+      state.startDate && isValid(state.startDate)
+    )
+    const endDateIsValid = Boolean(state.endDate && isValid(state.endDate))
+
+    this.setState({
+      hasHadValidDate: startDateIsValid || endDateIsValid
+    })
   }
 
   callOnChangeHandler = (args) => {
@@ -261,36 +270,39 @@ export default class DatePickerProvider extends React.PureComponent {
   getReturnObject = ({ event = null, ...rest } = {}) => {
     const { startDate, endDate } = { ...this.state, ...rest }
     const attributes = this.props.attributes || {}
-    const return_format = correctV1Format(this.props.return_format)
+    const returnFormat = correctV1Format(this.props.return_format)
+    const startDateIsValid = Boolean(startDate && isValid(startDate))
+    const endDateIsValid = Boolean(endDate && isValid(endDate))
 
     const ret = isTrue(this.props.range)
       ? {
           event,
           attributes,
           days_between:
-            startDate && endDate
+            startDateIsValid && endDateIsValid
               ? differenceInCalendarDays(endDate, startDate)
               : null,
-          start_date: startDate ? format(startDate, return_format) : null,
-          end_date: endDate ? format(endDate, return_format) : null
+          start_date: startDateIsValid
+            ? format(startDate, returnFormat)
+            : null,
+          end_date: endDateIsValid ? format(endDate, returnFormat) : null,
+          is_valid_start_date: startDateIsValid,
+          is_valid_end_date: endDateIsValid
         }
       : {
           event,
           attributes,
-          date: startDate ? format(startDate, return_format) : null
+          date: startDateIsValid ? format(startDate, returnFormat) : null,
+          is_valid: startDateIsValid
         }
 
     if (this.props.min_date || this.props.max_date) {
-      ret.is_valid_start_date = !isDisabled(
-        startDate,
-        this.state.minDate,
-        this.state.maxDate
-      )
-      ret.is_valid_end_date = !isDisabled(
-        endDate,
-        this.state.minDate,
-        this.state.maxDate
-      )
+      ret.is_valid_start_date = startDateIsValid
+        ? !isDisabled(startDate, this.state.minDate, this.state.maxDate)
+        : false
+      ret.is_valid_end_date = endDateIsValid
+        ? !isDisabled(endDate, this.state.minDate, this.state.maxDate)
+        : false
     }
 
     return ret
@@ -306,6 +318,7 @@ export default class DatePickerProvider extends React.PureComponent {
           setViews: this.setViews,
           setDate: this.setDate,
           updateState: this.updateState,
+          getReturnObject: this.getReturnObject,
           callOnChangeHandler: this.callOnChangeHandler,
           props: this.props,
           ...this.state

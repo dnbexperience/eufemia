@@ -161,6 +161,7 @@ export default class DatePicker extends React.PureComponent {
     custom_element: PropTypes.object,
     custom_method: PropTypes.func,
     on_change: PropTypes.func,
+    on_type: PropTypes.func,
     on_show: PropTypes.func,
     on_hide: PropTypes.func,
     on_submit: PropTypes.func,
@@ -227,6 +228,7 @@ export default class DatePicker extends React.PureComponent {
     custom_method: null,
 
     on_change: null,
+    on_type: null,
     on_show: null,
     on_hide: null,
     on_submit: null,
@@ -400,19 +402,22 @@ export default class DatePicker extends React.PureComponent {
 
     this._hideTimeout = setTimeout(
       () => {
-        this.setState({
-          hidden: true,
-          _listenForPropChanges: false
-        })
+        this.setState(
+          {
+            hidden: true,
+            _listenForPropChanges: false
+          },
+          () => {
+            try {
+              this._submitButtonRef.current.focus({ preventScroll: true })
+            } catch (e) {
+              warn(e)
+            }
+          }
+        )
       },
       isTrue(this.props.no_animation) ? 1 : DatePicker.blurDelay
     ) // wait until animation is over
-
-    try {
-      this._submitButtonRef.current.focus({ preventScroll: true })
-    } catch (e) {
-      warn(e)
-    }
 
     this.removeOutsideClickHandler()
   }

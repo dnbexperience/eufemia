@@ -11,12 +11,17 @@ import addDays from 'date-fns/addDays'
 import addMonths from 'date-fns/addMonths'
 import addYears from 'date-fns/addYears'
 import isValid from 'date-fns/isValid'
+import parseISO from 'date-fns/parseISO'
 
 import classnames from 'classnames'
 import MaskedInput from 'react-text-mask' // https://github.com/text-mask/text-mask
 import Input, { SubmitButton } from '../input/Input'
 import keycode from 'keycode'
-import { warn, validateDOMAttributes } from '../../shared/component-helper'
+import {
+  warn,
+  validateDOMAttributes,
+  dispatchCustomElementEvent
+} from '../../shared/component-helper'
 import { convertStringToDate } from './DatePickerCalc'
 import DatePickerContext from './DatePickerContext'
 
@@ -177,21 +182,85 @@ export default class DatePickerInput extends React.PureComponent {
   callOnChangeAsInvalid = (state) => {
     const { startDate, endDate, event } = { ...this.context, ...state }
     this.context.updateState({ hoverDate: null })
-    this.context.callOnChangeHandler({ startDate, endDate, event })
+    if (this.context.hasHadValidDate) {
+      this.context.callOnChangeHandler({ startDate, endDate, event })
+      this.context.updateState({ hasHadValidDate: false })
+    }
   }
 
   callOnChange = ({ startDate, endDate, event }) => {
+    const state = { changeMonthViews: true, hasHadValidDate: false }
     if (typeof startDate !== 'undefined' && isValid(startDate)) {
-      this.context.setDate({ startDate, changeMonthViews: true })
-      this.context.callOnChangeHandler({ startDate, event })
+      state.startDate = startDate
     }
     if (!this.props.isRange) {
       endDate = startDate
     }
     if (typeof endDate !== 'undefined' && isValid(endDate)) {
-      this.context.setDate({ endDate, changeMonthViews: true })
-      this.context.callOnChangeHandler({ endDate, event })
+      state.endDate = endDate
     }
+
+    this.context.setDate(state, () => {
+      if (
+        (typeof startDate !== 'undefined' && isValid(startDate)) ||
+        (typeof endDate !== 'undefined' && isValid(endDate))
+      ) {
+        this.context.callOnChangeHandler({ event })
+      }
+    })
+  }
+
+  callOnType = ({ event }) => {
+    const localize = (id) =>
+      id.replace(new RegExp(id[0], 'g'), this.getPlaceholderChar(id))
+
+    const getDates = (localize) =>
+      ['start', 'end'].reduce((acc, mode) => {
+        acc[`${mode}Date`] = [
+          this[`_${mode}Year`] || localize('yyyy'),
+          this[`_${mode}Month`] || localize('mm'),
+          this[`_${mode}Day`] || localize('dd')
+        ].join('-')
+        return acc
+      }, {})
+
+    let { startDate, endDate } = getDates(() => null)
+    startDate = parseISO(startDate)
+    endDate = parseISO(endDate)
+
+    if (!isValid(startDate)) {
+      startDate = null
+    }
+    if (!isValid(endDate)) {
+      endDate = null
+    }
+
+    let returnObject = this.context.getReturnObject({
+      startDate,
+      endDate,
+      event
+    })
+
+    if (
+      returnObject.is_valid === false ||
+      returnObject.is_valid_start_date === false ||
+      returnObject.is_valid_end_date === false
+    ) {
+      const { startDate, endDate } = getDates(localize)
+      const typedDates = this.props.isRange
+        ? {
+            start_date: startDate,
+            end_date: endDate
+          }
+        : { date: startDate }
+
+      returnObject = {
+        ...returnObject,
+        ...typedDates
+      }
+    }
+
+    dispatchCustomElementEvent(this.context, 'on_type', returnObject)
   }
 
   prepareCounting = async ({ keyCode, target, event }) => {
@@ -395,6 +464,10 @@ export default class DatePickerInput extends React.PureComponent {
         event
       })
     }
+
+    this.callOnType({
+      event
+    })
   }
 
   renderInputElement = (params) => {
@@ -415,11 +488,15 @@ export default class DatePickerInput extends React.PureComponent {
     )
   }
 
+  getPlaceholderChar(value) {
+    const index = this.props.maskOrder.indexOf(value)
+    return this.props.maskPlaceholder[index]
+  }
+
   generateDateList(params, mode) {
     return this.maskList.map((value, i) => {
       const state = value.slice(0, 1)
-      const index = this.props.maskOrder.indexOf(value)
-      const placeholderChar = this.props.maskPlaceholder[index]
+      const placeholderChar = this.getPlaceholderChar(value)
       const { input_element, separatorRexExp, isRange } = this.props
       const { day, month, year } = this.context.translation.DatePicker
       const isRangeLabe = isRange
