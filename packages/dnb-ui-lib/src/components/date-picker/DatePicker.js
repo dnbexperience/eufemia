@@ -385,10 +385,18 @@ export default class DatePicker extends React.PureComponent {
   }
 
   hidePicker = (args) => {
-    this.setState({
-      opened: false,
-      _listenForPropChanges: false
-    })
+    this.setState(
+      {
+        opened: false,
+        _listenForPropChanges: false
+      },
+      () =>
+        dispatchCustomElementEvent(
+          this,
+          'on_hide',
+          this.getReturnObject(args)
+        )
+    )
 
     this._hideTimeout = setTimeout(
       () => {
@@ -397,7 +405,7 @@ export default class DatePicker extends React.PureComponent {
           _listenForPropChanges: false
         })
       },
-      this.props.no_animation ? 1 : DatePicker.blurDelay
+      isTrue(this.props.no_animation) ? 1 : DatePicker.blurDelay
     ) // wait until animation is over
 
     try {
@@ -406,7 +414,6 @@ export default class DatePicker extends React.PureComponent {
       warn(e)
     }
 
-    dispatchCustomElementEvent(this, 'on_hide', this.getReturnObject(args))
     this.removeOutsideClickHandler()
   }
 
