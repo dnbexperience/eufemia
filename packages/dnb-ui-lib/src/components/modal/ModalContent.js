@@ -43,6 +43,10 @@ export default class ModalContent extends React.PureComponent {
       PropTypes.string,
       PropTypes.bool
     ]),
+    animation_duration: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number
+    ]),
     no_animation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     no_animation_on_mobile: PropTypes.oneOfType([
       PropTypes.string,
@@ -77,6 +81,7 @@ export default class ModalContent extends React.PureComponent {
     spacing: null,
     prevent_close: null,
     prevent_core_style: null,
+    animation_duration: null,
     no_animation: null,
     no_animation_on_mobile: null,
     min_width: null,
@@ -129,7 +134,7 @@ export default class ModalContent extends React.PureComponent {
         } catch (e) {
           warn(e)
         }
-      }, 300) // with this delay, the user can  press esc without an focus action first
+      }, parseFloat(this.props.animation_duration)) // with this delay, the user can press esc without an focus action first
     }
   }
 
@@ -154,7 +159,7 @@ export default class ModalContent extends React.PureComponent {
     switch (keycode(e)) {
       case 'esc':
         e.preventDefault()
-        this.props.closeModal(e)
+        this.props.closeModal(e, { ifIsLatest: true })
         break
     }
   }
@@ -172,6 +177,7 @@ export default class ModalContent extends React.PureComponent {
       prevent_close, // eslint-disable-line
       open_delay, // eslint-disable-line
       prevent_core_style,
+      animation_duration, // eslint-disable-line
       no_animation,
       no_animation_on_mobile,
       min_width,
@@ -192,7 +198,7 @@ export default class ModalContent extends React.PureComponent {
 
     const id = this._id
 
-    // ensure the min/max dont conflict
+    // ensure the min/max don't conflict
     let minWidth = min_width
     let maxWidth = max_width
     if (minWidth && !maxWidth && parseFloat(minWidth) > 0) {
