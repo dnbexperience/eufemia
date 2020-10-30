@@ -1393,7 +1393,7 @@ exports[`DatePicker scss have to match default theme snapshot 1`] = `
  */
 :root {
   --date-picker-header-color: var(--color-black-80);
-  --date-picker-labels-day-color: var(--color-emerald-green);
+  --date-picker-labels-day-color: var(--color-black-80);
   --date-picker-selected-color: var(--color-mint-green-25);
   --date-picker-inactive-color: var(--color-black-55);
   --date-picker-selected-bg-color: var(--color-emerald-green);
@@ -1429,6 +1429,7 @@ exports[`DatePicker scss have to match default theme snapshot 1`] = `
     text-transform: capitalize;
     text-align: center;
     font-size: var(--font-size-basis);
+    font-weight: var(--font-weight-medium);
     color: var(--date-picker-header-color); }
   .dnb-date-picker__labels__day {
     text-transform: capitalize;
