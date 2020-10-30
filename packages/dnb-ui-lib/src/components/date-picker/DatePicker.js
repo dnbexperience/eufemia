@@ -164,6 +164,7 @@ export default class DatePicker extends React.PureComponent {
 
     custom_element: PropTypes.object,
     custom_method: PropTypes.func,
+    on_days_render: PropTypes.func,
     on_change: PropTypes.func,
     on_type: PropTypes.func,
     on_show: PropTypes.func,
@@ -232,6 +233,7 @@ export default class DatePicker extends React.PureComponent {
     custom_element: null,
     custom_method: null,
 
+    on_days_render: null,
     on_change: null,
     on_type: null,
     on_show: null,
@@ -392,6 +394,9 @@ export default class DatePicker extends React.PureComponent {
   }
 
   hidePicker = (args) => {
+    if (args.event && args.event.persist) {
+      args.event.persist()
+    }
     this.setState(
       {
         opened: false,
