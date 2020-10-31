@@ -636,6 +636,46 @@ describe('DatePicker component', () => {
     )
   })
 
+  it('has to have a aria-describedby on first focus', async () => {
+    const label = 'Input Label'
+    const Comp = mount(
+      <Component
+        id="custom-id"
+        label={label}
+        show_input
+        range
+        start_date={defaultProps.start_date}
+        end_date={defaultProps.end_date}
+      />,
+      { attachTo: attachToBody() }
+    )
+
+    const dayElem = Comp.find('input.dnb-date-picker__input--day').at(0)
+    const monthElem = Comp.find('input.dnb-date-picker__input--month').at(
+      0
+    )
+    expect(dayElem.instance().hasAttribute('aria-describedby')).toBe(false)
+
+    dayElem.simulate('focus')
+
+    expect(dayElem.instance().hasAttribute('aria-describedby')).toBe(true)
+    const id = dayElem.instance().getAttribute('aria-describedby')
+    expect(id).toBe('custom-id-label')
+    expect(Comp.find(`label#${id}`).text()).toBe(label)
+
+    Comp.setProps({
+      label: undefined
+    })
+    expect(Comp.exists(`label#${id}`)).toBe(false)
+    expect(dayElem.instance().hasAttribute('aria-describedby')).toBe(false)
+
+    monthElem.simulate('focus')
+    expect(monthElem.instance().hasAttribute('aria-describedby')).toBe(
+      false
+    )
+    expect(dayElem.instance().hasAttribute('aria-describedby')).toBe(false)
+  })
+
   it('has to react on keydown events', async () => {
     const Comp = mount(
       <Component
@@ -702,7 +742,7 @@ describe('DatePicker component', () => {
     expect(yearElem.instance().value).toBe('2019')
   })
 
-  it('should validate with ARIA rules as a tabs', async () => {
+  it('should validate with ARIA rules', async () => {
     const Comp = mount(
       <Component
         range="true"

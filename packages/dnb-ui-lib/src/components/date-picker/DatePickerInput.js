@@ -82,6 +82,7 @@ export default class DatePickerInput extends React.PureComponent {
 
   state = {
     _listenForPropChanges: true,
+    firstFocus: 'virgin',
     focusState: 'virgin'
   }
 
@@ -108,13 +109,14 @@ export default class DatePickerInput extends React.PureComponent {
   }
 
   componentWillUnmount() {
+    clearTimeout(this._firstFocusTimeout)
     if (this._shortcuts) {
       this._shortcuts.remove(this.osShortcut)
     }
   }
 
   shortcutHandler = async (e) => {
-    if (this.hasFocusOn) {
+    if (this.focusMode) {
       const success = (e.clipboardData || window?.clipboardData).getData(
         'text'
       )
@@ -142,8 +144,7 @@ export default class DatePickerInput extends React.PureComponent {
               break
             }
           }
-          const mode =
-            this.hasFocusOn === 'start' ? 'startDate' : 'endDate'
+          const mode = this.focusMode === 'start' ? 'startDate' : 'endDate'
           if (date && !this.state[mode]) {
             this.context.setState({
               [mode]: date
@@ -295,6 +296,29 @@ export default class DatePickerInput extends React.PureComponent {
     } catch (e) {
       warn(e)
     }
+
+    this.setState({
+      focusState: 'focus',
+      firstFocus: this.state.firstFocus === 'virgin' ? 'active' : null,
+      _listenForPropChanges: false
+    })
+  }
+
+  onBlurHandler = () => {
+    this.focusMode = null
+    this.setState({
+      focusState: 'blur',
+      firstFocus: null,
+      _listenForPropChanges: false
+    })
+
+    clearTimeout(this._firstFocusTimeout)
+    this._firstFocusTimeout = setTimeout(() => {
+      this.setState({
+        firstFocus: 'virgin',
+        _listenForPropChanges: false
+      })
+    }, 2e3)
   }
 
   onKeyDownHandler = async (event) => {
@@ -490,22 +514,19 @@ export default class DatePickerInput extends React.PureComponent {
             onMouseUp: selectInput,
             onPaste: this.shortcutHandler,
             onFocus: (e) => {
-              this.hasFocusOn = mode
+              this.focusMode = mode
               this.onFocusHandler(e)
-              this.setState({
-                focusState: 'focus',
-                _listenForPropChanges: false
-              })
             },
-            onBlur: () => {
-              this.hasFocusOn = null
-              this.setState({
-                focusState: 'blur',
-                _listenForPropChanges: false
-              })
-            },
+            onBlur: this.onBlurHandler,
             placeholderChar
           }
+        }
+
+        if (
+          this.context.props.label &&
+          this.state.firstFocus === 'active'
+        ) {
+          params['aria-describedby'] = `${this.props.id}-label`
         }
 
         // this makes it possible to use a vanilla <input /> like: input_element="input"
@@ -685,7 +706,6 @@ export default class DatePickerInput extends React.PureComponent {
             icon="calendar"
             variant="secondary"
             on_submit={onSubmit}
-            // onKeyUp={this.onKeyUpHandler}
             {...submitAttributes}
           />
         }
