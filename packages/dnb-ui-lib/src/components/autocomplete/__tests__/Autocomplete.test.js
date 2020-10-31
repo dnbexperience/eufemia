@@ -504,7 +504,7 @@ describe('Autocomplete markup', () => {
     expect(toJson(CheckComponent)).toMatchSnapshot()
   })
 
-  it('should validate with ARIA rules as a tabs', async () => {
+  it('should validate with ARIA rules', async () => {
     expect(
       await axeComponent(CheckComponent, {
         rules: {
