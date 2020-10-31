@@ -496,15 +496,11 @@ export default class GlobalStatus extends React.PureComponent {
   scrollToStatus(isDone = null) {
     if (
       typeof window === 'undefined' ||
-      !isTrue(this.state.globalStatus.autoscroll)
+      isTrue(this.state.globalStatus.autoscroll) === false
     ) {
-      if (typeof isDone === 'function') {
-        isDone()
-      }
       return // stop here
     }
     try {
-      // dispatchCustomElementEvent(this.state.globalStatus, 'on_scroll_to')
       const element = this._wrapperRef.current
       this._scrollToStatusTimeout = isElementVisible(element, isDone)
       if (

@@ -74,6 +74,10 @@ export default class DatePicker extends React.PureComponent {
       PropTypes.instanceOf(Date),
       PropTypes.string
     ]),
+    correct_invalid_date: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool
+    ]),
     mask_order: PropTypes.string,
     mask_placeholder: PropTypes.string,
     date_format: PropTypes.string,
@@ -160,6 +164,7 @@ export default class DatePicker extends React.PureComponent {
 
     custom_element: PropTypes.object,
     custom_method: PropTypes.func,
+    on_days_render: PropTypes.func,
     on_change: PropTypes.func,
     on_type: PropTypes.func,
     on_show: PropTypes.func,
@@ -200,6 +205,7 @@ export default class DatePicker extends React.PureComponent {
     first_day: 'monday',
     min_date: undefined,
     max_date: undefined,
+    correct_invalid_date: null,
     locale: nbLocale,
     range: false,
     link: false,
@@ -227,6 +233,7 @@ export default class DatePicker extends React.PureComponent {
     custom_element: null,
     custom_method: null,
 
+    on_days_render: null,
     on_change: null,
     on_type: null,
     on_show: null,
@@ -387,6 +394,9 @@ export default class DatePicker extends React.PureComponent {
   }
 
   hidePicker = (args) => {
+    if (args.event && args.event.persist) {
+      args.event.persist()
+    }
     this.setState(
       {
         opened: false,
@@ -504,6 +514,7 @@ export default class DatePicker extends React.PureComponent {
       end_date: _end_date, // eslint-disable-line
       min_date: _min_date, // eslint-disable-line
       max_date: _max_date, // eslint-disable-line
+      correct_invalid_date: _correct_invalid_date, // eslint-disable-line
       opened: _opened, // eslint-disable-line
       direction: _direction, // eslint-disable-line
       id: _id, // eslint-disable-line

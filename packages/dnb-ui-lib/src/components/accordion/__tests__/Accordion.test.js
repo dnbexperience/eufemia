@@ -91,6 +91,40 @@ describe('Accordion component', () => {
   })
 })
 
+describe('Accordion store API', () => {
+  it('will save and read the states for a single accordion', () => {
+    const inst = Component.Store('accordion-id')
+
+    inst.saveState(true)
+    expect(inst.getState()).toBe(true)
+    expect(inst.getData()).toMatchObject({ expanded: true })
+
+    inst.saveState(false)
+    expect(inst.getState()).toBe(false)
+    expect(inst.getData()).toMatchObject({ expanded: false })
+
+    inst.flush()
+    expect(inst.getState()).toBe(null)
+    expect(inst.getData()).toBe(null)
+  })
+
+  it('will save and read the states for an accordion group', () => {
+    const inst = Component.Group.Store('group-id')
+
+    inst.saveState(true, 'remembered-state-2')
+    expect(inst.getState('remembered-state-2')).toBe(true)
+    expect(inst.getData()).toMatchObject({ id: 'remembered-state-2' })
+
+    inst.saveState(false, 'remembered-state-2')
+    expect(inst.getState('remembered-state-2')).toBe(false)
+    expect(inst.getData()).toMatchObject({ id: null })
+
+    inst.flush('remembered-state-2')
+    expect(inst.getState('remembered-state-2')).toBe(null)
+    expect(inst.getData()).toBe(null)
+  })
+})
+
 describe('Accordion group component', () => {
   const Comp = mount(
     <Component.Group label="Label" expanded id="group">

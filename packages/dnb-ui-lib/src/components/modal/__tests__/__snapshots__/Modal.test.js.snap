@@ -7,6 +7,7 @@ exports[`Modal component have to match snapshot 1`] = `
       "displayName": "Modal",
       "props": Object {
         "align_content": "'left'",
+        "animation_duration": "animation_duration",
         "as_help_button": "as_help_button",
         "children": "children",
         "class": "class",
@@ -66,6 +67,7 @@ exports[`Modal component have to match snapshot 1`] = `
     }
   }
   align_content="left"
+  animation_duration={300}
   as_help_button={false}
   class={null}
   className={null}
@@ -359,6 +361,7 @@ exports[`Modal component have to match snapshot 1`] = `
           "displayName": "Modal",
           "props": Object {
             "align_content": "'left'",
+            "animation_duration": "animation_duration",
             "as_help_button": "as_help_button",
             "children": "children",
             "class": "class",
@@ -418,6 +421,7 @@ exports[`Modal component have to match snapshot 1`] = `
         }
       }
       align_content="left"
+      animation_duration={300}
       class={null}
       className={null}
       closeModal={[Function]}
@@ -452,6 +456,7 @@ exports[`Modal component have to match snapshot 1`] = `
             "displayName": "Modal",
             "props": Object {
               "align_content": "'left'",
+              "animation_duration": "animation_duration",
               "as_help_button": "as_help_button",
               "children": "children",
               "class": "class",
@@ -511,6 +516,7 @@ exports[`Modal component have to match snapshot 1`] = `
           }
         }
         align_content="left"
+        animation_duration={300}
         class={null}
         className={null}
         closeModal={[Function]}
@@ -1332,6 +1338,7 @@ button.dnb-button::-moz-focus-inner {
 
 :root {
   --modal-z-index: 3000;
+  --modal-animation-duration: 300ms;
   --modal-spacing: 2rem;
   --modal-spacing-minus: -2rem;
   --modal-min-width: 20rem;
@@ -1475,17 +1482,17 @@ button.dnb-button::-moz-focus-inner {
       transform: translate3d(0, 20rem, 0); }
     html:not([data-dnb-test]) .dnb-modal__content--drawer .dnb-modal__content__inner {
       opacity: 0.1;
-      animation: show-drawer 300ms ease-out forwards; }
+      animation: show-drawer var(--modal-animation-duration) ease-out forwards; }
     html:not([data-dnb-test]) .dnb-modal__content--drawer.dnb-modal__content--hide.dnb-modal__content--left .dnb-modal__content__inner {
-      animation: hide-drawer-left 300ms ease-in-out forwards; }
+      animation: hide-drawer-left var(--modal-animation-duration) ease-in-out forwards; }
     html:not([data-dnb-test]) .dnb-modal__content--drawer.dnb-modal__content--hide.dnb-modal__content--right .dnb-modal__content__inner {
-      animation: hide-drawer-right 300ms ease-in-out forwards; }
+      animation: hide-drawer-right var(--modal-animation-duration) ease-in-out forwards; }
     html:not([data-dnb-test]) .dnb-modal__content--drawer.dnb-modal__content--hide.dnb-modal__content--top .dnb-modal__content__inner {
-      animation: hide-drawer-top 300ms ease-in-out forwards; }
+      animation: hide-drawer-top var(--modal-animation-duration) ease-in-out forwards; }
     html:not([data-dnb-test]) .dnb-modal__content--drawer.dnb-modal__content--hide.dnb-modal__content--bottom .dnb-modal__content__inner {
-      animation: hide-drawer-bottom 300ms ease-in-out forwards; }
+      animation: hide-drawer-bottom var(--modal-animation-duration) ease-in-out forwards; }
     html:not([data-dnb-test]) .dnb-modal__content--modal .dnb-modal__content__inner {
-      animation: show-modal 300ms ease-out forwards; }
+      animation: show-modal var(--modal-animation-duration) ease-out forwards; }
     html:not([data-dnb-test]) .dnb-modal__content--modal.dnb-modal__content--hide .dnb-modal__content__inner {
       animation: hide-modal 220ms ease-in-out forwards; }
     .dnb-modal__content--no-animation .dnb-modal__content__inner {
@@ -1548,13 +1555,13 @@ button.dnb-button::-moz-focus-inner {
     box-shadow: 0 100vh 0 0 var(--modal-overlay-bg);
     /* stylelint-disable-next-line */ }
     html:not([data-dnb-test]) .dnb-modal__overlay--modal {
-      animation: show-modal-overlay 300ms ease-out forwards; }
+      animation: show-modal-overlay var(--modal-animation-duration) ease-out forwards; }
     html:not([data-dnb-test]) .dnb-modal__overlay--modal.dnb-modal__overlay--hide {
-      animation: hide-modal-overlay 300ms ease-in-out forwards; }
+      animation: hide-modal-overlay var(--modal-animation-duration) ease-in-out forwards; }
     html:not([data-dnb-test]) .dnb-modal__overlay--drawer {
-      animation: show-drawer-overlay 300ms ease-out forwards; }
+      animation: show-drawer-overlay var(--modal-animation-duration) ease-out forwards; }
     html:not([data-dnb-test]) .dnb-modal__overlay--drawer.dnb-modal__overlay--hide {
-      animation: hide-drawer-overlay 300ms ease-in-out forwards; }
+      animation: hide-drawer-overlay var(--modal-animation-duration) ease-in-out forwards; }
     .dnb-modal__overlay--no-animation {
       animation-duration: 0ms !important; }
     @media screen and (max-width: 40em) {

@@ -72,6 +72,10 @@ export default class Modal extends React.PureComponent {
       PropTypes.string,
       PropTypes.bool
     ]),
+    animation_duration: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number
+    ]),
     no_animation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     no_animation_on_mobile: PropTypes.oneOfType([
       PropTypes.string,
@@ -136,6 +140,7 @@ export default class Modal extends React.PureComponent {
     hide_close_button: false,
     prevent_close: false,
     prevent_core_style: false,
+    animation_duration: 300, // Not documented!
     no_animation: false,
     no_animation_on_mobile: false,
     fullscreen: 'auto',
@@ -213,9 +218,9 @@ export default class Modal extends React.PureComponent {
 
   state = {
     hide: false,
-    _listenForPropChanges: true,
+    modalActive: false,
     currentActiveState: false,
-    modalActive: false
+    _listenForPropChanges: true
   }
 
   constructor(props) {
@@ -232,13 +237,14 @@ export default class Modal extends React.PureComponent {
 
     if (typeof open_modal === 'function') {
       const fn = open_modal(() => {
-        this.toggleOpenClose(null, true)
+        this.toggleOpenClose(true)
       }, this)
       if (fn) {
         this._onUnmount.push(fn)
       }
     }
   }
+
   componentWillUnmount() {
     this._onUnmount.forEach((fn) => {
       if (typeof fn === 'function') {
@@ -249,49 +255,114 @@ export default class Modal extends React.PureComponent {
     clearTimeout(this._openTimeout)
     clearTimeout(this._closeTimeout)
     clearTimeout(this._sideEffectsTimeout)
-
-    this.setState({
-      hide: true,
-      modalActive: true,
-      _open_state: 'closed',
-      _listenForPropChanges: false
-    })
+    clearTimeout(this._tryToOpenTimeout)
   }
 
-  toggleOpenClose = (event = null, showModal = null) => {
+  componentDidUpdate(props) {
+    const { modalActive, currentActiveState } = this.state
+
+    if (modalActive !== currentActiveState) {
+      // store the active element to set back the focus later on
+      if (!this.activeElement && typeof document !== 'undefined') {
+        this.activeElement = document.activeElement
+      }
+
+      if (isTrue(this.props.no_animation)) {
+        this.handleSideEffects()
+      } else {
+        clearTimeout(this._sideEffectsTimeout)
+        this._sideEffectsTimeout = setTimeout(
+          () => this.handleSideEffects(),
+          1
+        )
+        // delay the dispatch to make sure we are after the render cycles
+        // this way have the content instead by the time we call this event
+      }
+    } else {
+      if (
+        !this.isClosing &&
+        !modalActive &&
+        props.open_state === 'opened'
+      ) {
+        this.toggleOpenClose(true)
+      }
+    }
+  }
+
+  addToIndex() {
+    if (typeof window !== 'undefined') {
+      try {
+        window.modalRoot = window.modalRoot || {}
+        window.modalRoot.index = window.modalRoot.index || []
+        window.modalRoot.index.push(this)
+      } catch (e) {
+        warn(e)
+      }
+    }
+  }
+
+  removeFromIndex() {
+    if (typeof window !== 'undefined') {
+      try {
+        window.modalRoot.index = window.modalRoot.index.filter(
+          (cur) => cur !== this
+        )
+        if (!window.modalRoot.index.length) {
+          delete window.modalRoot.index
+        }
+      } catch (e) {
+        warn(e)
+      }
+    }
+  }
+
+  toggleOpenClose = (showModal = null, event = null) => {
     if (event && event.preventDefault) {
       event.preventDefault()
     }
 
     const toggleNow = () => {
-      const doItNow = () => {
-        this.setState({
-          hide: false,
-          modalActive,
-          _listenForPropChanges: false
-        })
-      }
-
       const modalActive =
         showModal !== null ? showModal : !this.state.modalActive
 
-      if (!isTrue(this.props.no_animation) && modalActive === false) {
+      this.isClosing = true
+
+      const doItNow = () => {
+        this.setState(
+          {
+            hide: false,
+            modalActive,
+            _listenForPropChanges: false
+          },
+          () => {
+            clearTimeout(this._closeTimeout)
+            this._closeTimeout = setTimeout(() => {
+              this.isClosing = false
+            }, 1) // delay because the hidden trigger, and close/open routine in "componentDidUpdate"
+          }
+        )
+      }
+
+      if (modalActive === false && !isTrue(this.props.no_animation)) {
         this.setState({
           hide: true,
           _listenForPropChanges: false
         })
 
         clearTimeout(this._closeTimeout)
-        this._closeTimeout = setTimeout(doItNow, 300)
+        this._closeTimeout = setTimeout(
+          doItNow,
+          parseFloat(this.props.animation_duration)
+        ) // delay because of the animation
       } else {
         doItNow()
       }
     }
 
     const delay = parseFloat(this.props.open_delay)
-    if (delay > 0) {
+    if (delay > 0 && !isTrue(this.props.no_animation)) {
       clearTimeout(this._openTimeout)
-      this._openTimeout = setTimeout(toggleNow, delay)
+      this._openTimeout = setTimeout(toggleNow, delay) // custom delay
     } else {
       toggleNow()
     }
@@ -324,8 +395,7 @@ export default class Modal extends React.PureComponent {
       if (modalActive) {
         if (typeof this.props.close_modal === 'function') {
           const fn = this.props.close_modal(() => {
-            this.isClosing = false
-            this.toggleOpenClose(null, false)
+            this.toggleOpenClose(false)
           }, this)
           if (fn) {
             this._onUnmount.push(fn)
@@ -334,13 +404,16 @@ export default class Modal extends React.PureComponent {
       }
 
       const id = this._id
-      if (modalActive) {
-        dispatchCustomElementEvent(this, 'on_open', { id })
-      } else if (this.wasActive) {
-        dispatchCustomElementEvent(this, 'on_close', { id })
-      }
-
+      const wasActive = this.wasActive
       this.wasActive = modalActive
+
+      if (modalActive) {
+        this.addToIndex()
+        dispatchCustomElementEvent(this, 'on_open', { id })
+      } else if (wasActive) {
+        dispatchCustomElementEvent(this, 'on_close', { id })
+        this.removeFromIndex()
+      }
 
       if (modalActive === false) {
         if (this._triggerRef && this._triggerRef.current) {
@@ -364,16 +437,17 @@ export default class Modal extends React.PureComponent {
         currentActiveState,
         _listenForPropChanges: false
       },
-      runSideEffect
+      () => runSideEffect()
     )
   }
 
   open = (e) => {
-    this.toggleOpenClose(e, true)
+    this.toggleOpenClose(true, e)
   }
 
-  close = (e) => {
+  close = (e, opts = {}) => {
     const { prevent_close } = this.props
+
     if (isTrue(prevent_close)) {
       if (!this.isClosing) {
         const id = this._id
@@ -381,13 +455,26 @@ export default class Modal extends React.PureComponent {
         dispatchCustomElementEvent(this, 'on_close_prevent', {
           id,
           close: (e) => {
-            this.isClosing = false
-            this.toggleOpenClose(e, false)
+            this.toggleOpenClose(false, e)
           }
         })
       }
     } else {
-      this.toggleOpenClose(e, false)
+      if (opts.ifIsLatest && typeof window !== 'undefined') {
+        try {
+          const index = window.modalRoot.index
+          if (index.length) {
+            const last = index[index.length - 1]
+            if (last !== this) {
+              return // stop here
+            }
+          }
+        } catch (e) {
+          warn(e)
+        }
+      }
+
+      this.toggleOpenClose(false, e)
     }
   }
 
@@ -420,20 +507,8 @@ export default class Modal extends React.PureComponent {
       ...rest
     } = props
 
-    const { modalActive, currentActiveState } = this.state
+    const { modalActive } = this.state
     const modal_content = Modal.getContent(this.props)
-
-    if (modalActive !== currentActiveState) {
-      // store the active element to set back the focus later on
-      if (!this.activeElement && typeof document !== 'undefined') {
-        this.activeElement = document.activeElement
-      }
-
-      clearTimeout(this._sideEffectsTimeout)
-      this._sideEffectsTimeout = setTimeout(this.handleSideEffects, 1)
-      // delay the dispatch to make sure we are after the render cycles
-      // this way have the content instead by the time we call this event
-    }
 
     return (
       <SuffixContext.Consumer>
@@ -547,12 +622,16 @@ class ModalRoot extends React.PureComponent {
       Modal.insertModalRoot(this.props.id)
 
       try {
-        if (!this.node) {
-          this.node = document.createElement('div')
-          this.node.className = 'dnb-modal-root__inner'
+        if (!this.portalElem) {
+          this.portalElem = document.createElement('div')
+          this.portalElem.className = 'dnb-modal-root__inner'
         }
-        if (window.modalRoot && this.node) {
-          window.modalRoot.appendChild(this.node)
+        if (
+          this.portalElem &&
+          typeof window !== 'undefined' &&
+          window.modalRoot
+        ) {
+          window.modalRoot.appendChild(this.portalElem)
         }
       } catch (e) {
         warn(e)
@@ -562,23 +641,40 @@ class ModalRoot extends React.PureComponent {
   }
 
   componentWillUnmount() {
-    if (window.modalRoot && this.node) {
-      this.setState({ isMonted: false })
-      window.modalRoot.removeChild(this.node)
-      this.node = null
+    try {
+      if (
+        this.portalElem &&
+        typeof window !== 'undefined' &&
+        window.modalRoot &&
+        window.modalRoot.removeChild
+      ) {
+        window.modalRoot.removeChild(this.portalElem)
+        this.portalElem = null
+      }
+    } catch (e) {
+      warn(e)
     }
   }
+
   render() {
     const { children, direct_dom_return, ...props } = this.props
+
     if (isTrue(direct_dom_return)) {
       return <ModalContent {...props}>{children}</ModalContent>
     }
-    if (this.state.isMonted && window.modalRoot && this.node) {
+
+    if (
+      this.portalElem &&
+      typeof window !== 'undefined' &&
+      window.modalRoot &&
+      this.state.isMonted
+    ) {
       return ReactDOM.createPortal(
         <ModalContent {...props}>{children}</ModalContent>,
-        this.node
+        this.portalElem
       )
     }
+
     return null
   }
 }

@@ -7,6 +7,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
   cancel_button_text="Avbryt"
   class={null}
   className={null}
+  correct_invalid_date={null}
   custom_element={null}
   custom_method={null}
   date="1970-01-01T00:00:00.000Z"
@@ -65,6 +66,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
   no_animation={true}
   on_cancel={null}
   on_change={null}
+  on_days_render={null}
   on_hide={null}
   on_reset={null}
   on_show={null}
@@ -99,6 +101,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
     cancel_button_text="Avbryt"
     class={null}
     className={null}
+    correct_invalid_date={null}
     custom_element={null}
     custom_method={null}
     date="1970-01-01T00:00:00.000Z"
@@ -159,6 +162,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
     no_animation={true}
     on_cancel={null}
     on_change={null}
+    on_days_render={null}
     on_hide={null}
     on_reset={null}
     on_show={null}
@@ -348,7 +352,6 @@ exports[`DatePicker component have to match snapshot 1`] = `
               onChange={null}
               onFocus={[Function]}
               onSubmit={[Function]}
-              onSubmitButtonFocus={null}
               opened={false}
               selectedDateTitle=""
               separatorRexExp={/\\[-/ \\]/g}
@@ -449,7 +452,6 @@ exports[`DatePicker component have to match snapshot 1`] = `
                     disabled={false}
                     icon="calendar"
                     id="date-picker-id"
-                    onKeyUp={[Function]}
                     on_submit={[Function]}
                     skeleton={false}
                     title={null}
@@ -1087,7 +1089,6 @@ exports[`DatePicker component have to match snapshot 1`] = `
                           disabled={false}
                           icon="calendar"
                           id="date-picker-id"
-                          onKeyUp={[Function]}
                           on_submit={[Function]}
                           skeleton={false}
                           title={null}
@@ -1139,7 +1140,6 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                 </button>,
                               }
                             }
-                            onKeyUp={[Function]}
                             on_submit={[Function]}
                             on_submit_blur={null}
                             on_submit_focus={null}
@@ -1208,7 +1208,6 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                 onBlur={[Function]}
                                 onClick={[Function]}
                                 onFocus={[Function]}
-                                onKeyUp={[Function]}
                                 on_click={null}
                                 size={null}
                                 skeleton={null}
@@ -1231,7 +1230,6 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                   onBlur={[Function]}
                                   onClick={[Function]}
                                   onFocus={[Function]}
-                                  onKeyUp={[Function]}
                                   type="button"
                                 >
                                   <Content
@@ -1291,7 +1289,6 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                     onBlur={[Function]}
                                     onClick={[Function]}
                                     onFocus={[Function]}
-                                    onKeyUp={[Function]}
                                     on_click={null}
                                     size={null}
                                     skeleton={null}
@@ -1396,7 +1393,7 @@ exports[`DatePicker scss have to match default theme snapshot 1`] = `
  */
 :root {
   --date-picker-header-color: var(--color-black-80);
-  --date-picker-labels-day-color: var(--color-emerald-green);
+  --date-picker-labels-day-color: var(--color-black-80);
   --date-picker-selected-color: var(--color-mint-green-25);
   --date-picker-inactive-color: var(--color-black-55);
   --date-picker-selected-bg-color: var(--color-emerald-green);
@@ -1432,6 +1429,7 @@ exports[`DatePicker scss have to match default theme snapshot 1`] = `
     text-transform: capitalize;
     text-align: center;
     font-size: var(--font-size-basis);
+    font-weight: var(--font-weight-medium);
     color: var(--date-picker-header-color); }
   .dnb-date-picker__labels__day {
     text-transform: capitalize;

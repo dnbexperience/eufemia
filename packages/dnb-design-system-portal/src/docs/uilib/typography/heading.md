@@ -8,8 +8,8 @@ import ComponentBox from 'Tags/ComponentBox'
 
 The DNB UX team has defined three levels of heading styles:
 
-- `.dnb-h-xx--large` (Heading xx-large)
-- `.dnb-h-x--large` (Heading x-large)
+- `.dnb-h--xx-large` (Heading xx-large)
+- `.dnb-h--x-large` (Heading x-large)
 - `.dnb-h--large` (Heading large)
 
 Also available are:

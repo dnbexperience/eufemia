@@ -77,32 +77,30 @@ export const ModalSandbox = () => (
     </Box>
 
     <Box>
-      {/* <Button variant="tertiary" text="Button" /> */}
       <Modal
-        // no_animation
-        // open_state="opened"
-        // mode="drawer"
-        // fullscreen
-        // container_placement="left"
-        // align_content="right"
-        // align_content="center"
-        // drawer_offset={}
         title="Title 1"
         trigger_text="Modal in modal"
-        // title={<span className="dnb-sr-only">Test</span>}
-        // min_width="20vw"
-        // max_width="40vw"
-        // overlay_class="overlay_class"
-        // content_class="content_class"
-        // class="inner_class"
+        style={{
+          minHeight: '25rem'
+        }}
       >
-        <Modal title="Title 2" open_state="opened">
-          New content 2 <Modal title="Title 3">New content 3</Modal>
+        <Modal
+          title="Title 2 a"
+          style={{
+            minHeight: '15rem'
+          }}
+        >
+          New content 2 a <Modal title="Title 3 a">New content 3 a</Modal>
         </Modal>
-        {/* <Section>
-          <Button variant="tertiary" text="Button" />
-        </Section> */}
-        <FillContent />
+        <Modal
+          title="Title 2 b"
+          style={{
+            minHeight: '15rem'
+          }}
+        >
+          New content 2 b <Modal title="Title 3 b">New content 3 b</Modal>
+        </Modal>
+        {/* <FillContent /> */}
       </Modal>
     </Box>
     <Box>
@@ -374,7 +372,7 @@ const ModalCloseExample = () => {
 
           if (open_state !== 'opened') {
             console.log('Modal was opened')
-            timeout = setTimeout(close, 1e3)
+            timeout = setTimeout(close, 3e3)
           }
 
           return () => clearTimeout(timeout)
@@ -416,7 +414,7 @@ const ModalTriggerExample = () => {
         />
 
         <Button
-          id="custom-triggerer"
+          // id="custom-triggerer"
           text="Custom trigger Button"
           on_click={(e) => {
             console.log('on_click', e)

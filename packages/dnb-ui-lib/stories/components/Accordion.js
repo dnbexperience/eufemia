@@ -36,6 +36,35 @@ const DidRender1 = ({ message }) => {
   return <></>
 }
 
+Accordion.Group.Store('group-id').saveState(true, 'remembered-state-2')
+const getState = Accordion.Group.Store('group-id').getState(
+  'remembered-state-2'
+)
+console.log('getState', getState)
+/**
+ * "getState" returns
+ * - true if it is saved as expanded
+ * - false if it is saved as not expanded
+ * - null if it is not saved
+ */
+
+const getData = Accordion.Group.Store('group-id').getData()?.id
+console.log('getData', getData)
+/**
+ * "getData" returns
+ * - object with the "id" that is saved
+ * - null if it is not saved
+ */
+
+// console.log(
+//   'single-accordion',
+//   Accordion.Store('single-accordion').getData()?.expanded
+// )
+// console.log(
+//   'single-accordion',
+//   Accordion.Store('single-accordion').getState()
+// )
+
 class DidRender2 extends React.PureComponent {
   componentDidMount() {
     console.log('DidRender2', this.props.message)
@@ -166,7 +195,7 @@ function AccordionWithContainer() {
       flush_remembered_state={flushCache}
       // prerender
       // allow_close_all
-      id="gorup-id"
+      id="group-id"
     >
       <Accordion
         bottom

@@ -92,6 +92,7 @@ export default class DatePickerCalendar extends React.PureComponent {
     // maxDate: null, // addDays(new Date(), 45)
     onKeyDown: null
   }
+
   constructor(props) {
     super(props)
     this._listRef = React.createRef()
@@ -121,21 +122,19 @@ export default class DatePickerCalendar extends React.PureComponent {
   }
 
   buildClassNames = (day) =>
-    classnames({
-      'dnb-date-picker__day--start-date': day.isStartDate,
-      'dnb-date-picker__day--end-date': day.isEndDate,
-      'dnb-date-picker__day--preview': day.isPreview,
-      'dnb-date-picker__day--within-selection': day.isWithinSelection,
-      'dnb-date-picker__day--selectable':
-        !day.isLastMonth && !day.isNextMonth && !day.isDisabled,
-      'dnb-date-picker__day--inactive':
-        day.isLastMonth || day.isNextMonth || day.isDisabled,
-      'dnb-date-picker__day--disabled': day.isDisabled,
-      'dnb-date-picker__day--today': day.isToday,
-      'dnb-date-picker__day--weekend': day.isWeekend,
-      'dnb-date-picker__day--last-month': day.isLastMonth,
-      'dnb-date-picker__day--next-month': day.isNextMonth
-    })
+    classnames(
+      {
+        'dnb-date-picker__day--start-date': day.isStartDate,
+        'dnb-date-picker__day--end-date': day.isEndDate,
+        'dnb-date-picker__day--preview': day.isPreview,
+        'dnb-date-picker__day--within-selection': day.isWithinSelection,
+        'dnb-date-picker__day--selectable': day.isSelectable,
+        'dnb-date-picker__day--inactive': day.isInactive,
+        'dnb-date-picker__day--disabled': day.isDisabled,
+        'dnb-date-picker__day--today': day.isToday
+      },
+      day.className
+    )
 
   render() {
     const {
@@ -173,29 +172,42 @@ export default class DatePickerCalendar extends React.PureComponent {
     } = this.context
 
     let count = 0
-    const days = getCalendar(
+    let days = getCalendar(
       month || new Date(),
       dayOffset(firstDayOfWeek),
-      { onlyMonth, hideNextMonthWeek }
+      {
+        onlyMonth,
+        hideNextMonthWeek
+      }
+    ).map((date) =>
+      makeDayObject(date, {
+        startDate,
+        endDate,
+        hoverDate,
+        minDate,
+        maxDate,
+        month
+      })
     )
-      .map((date) =>
-        makeDayObject(date, {
-          startDate,
-          endDate,
-          hoverDate,
-          minDate,
-          maxDate,
-          month
-        })
-      )
-      .reduce((acc, cur, i) => {
-        acc[count] = acc[count] || []
-        acc[count].push(cur)
-        if (i % 7 === 6) {
-          count++
-        }
-        return acc
-      }, {})
+
+    /**
+     * NB: There is sadly no way to just call the render callback on every new reconciliation
+     */
+    if (this.context.props.on_days_render) {
+      const changedDays = this.context.props.on_days_render(days, nr)
+      if (Array.isArray(changedDays)) {
+        days = changedDays
+      }
+    }
+
+    days = days.reduce((acc, cur, i) => {
+      acc[count] = acc[count] || []
+      acc[count].push(cur)
+      if (i % 7 === 6) {
+        count++
+      }
+      return acc
+    }, {})
 
     const weekDays = Object.values(days)
 
@@ -262,7 +274,12 @@ export default class DatePickerCalendar extends React.PureComponent {
                     key={i}
                     role="columnheader"
                     scope="col"
-                    className="dnb-date-picker__labels__day"
+                    className={classnames(
+                      'dnb-date-picker__labels__day',
+                      `dnb-date-picker__labels__day--${format(day, 'i', {
+                        locale
+                      })}`
+                    )}
                     aria-label={format(day, 'EEEE', {
                       locale
                     })}
@@ -287,8 +304,11 @@ export default class DatePickerCalendar extends React.PureComponent {
                     const title = format(day.date, 'PPPP', {
                       locale
                     })
-                    const isDisabled =
-                      day.isLastMonth || day.isNextMonth || day.isDisabled
+                    const handleAsDisabled =
+                      day.isLastMonth ||
+                      day.isNextMonth ||
+                      day.isDisabled ||
+                      day.isInactive
 
                     // cell params
                     const paramsCell = {}
@@ -323,30 +343,36 @@ export default class DatePickerCalendar extends React.PureComponent {
                           variant="secondary"
                           text={format(day.date, 'd', { locale })}
                           bounding={true}
-                          disabled={isDisabled}
-                          tabIndex={isDisabled ? '0' : '-1'} // fix for NVDA
-                          aria-disabled={isDisabled}
+                          disabled={handleAsDisabled}
+                          tabIndex={handleAsDisabled ? '0' : '-1'} // fix for NVDA
+                          aria-disabled={handleAsDisabled}
                           aria-label={title}
                           {...paramsButton}
-                          onClick={({ event }) =>
-                            !day.isLastMonth &&
-                            !day.isNextMonth &&
-                            !day.isDisabled &&
-                            onSelectRange({
-                              day,
-                              isRange,
-                              startDate,
-                              endDate,
-                              onSelect,
-                              resetDate,
-                              event
-                            })
+                          onClick={
+                            handleAsDisabled
+                              ? undefined
+                              : ({ event }) =>
+                                  onSelectRange({
+                                    day,
+                                    isRange,
+                                    startDate,
+                                    endDate,
+                                    onSelect,
+                                    resetDate,
+                                    event
+                                  })
                           }
-                          onMouseOver={() =>
-                            onHoverDay({ day, hoverDate, onHover })
+                          onMouseOver={
+                            handleAsDisabled
+                              ? undefined
+                              : () =>
+                                  onHoverDay({ day, hoverDate, onHover })
                           }
-                          onFocus={() =>
-                            onHoverDay({ day, hoverDate, onHover })
+                          onFocus={
+                            handleAsDisabled
+                              ? undefined
+                              : () =>
+                                  onHoverDay({ day, hoverDate, onHover })
                           }
                         />
                       </td>

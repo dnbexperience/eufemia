@@ -22,6 +22,7 @@ export const GlobalStatusError = () => (
   ]}
   show="true"
   autoscroll="false"
+  no_animation="true"
   id="demo-1"
 />
     `
@@ -40,6 +41,7 @@ export const GlobalStatusInfo = () => (
   items={['Status text 1', 'Status text 2']}
   show="true"
   autoscroll="false"
+  no_animation="true"
   id="demo-4"
 />
     `

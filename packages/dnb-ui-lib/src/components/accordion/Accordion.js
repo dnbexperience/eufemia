@@ -520,7 +520,7 @@ class Group extends React.PureComponent {
   }
 
   componentDidMount() {
-    const storedData = this.store.getStoredData()
+    const storedData = this.store.getData()
     if (storedData?.id) {
       if (!this._IDs.includes(storedData.id)) {
         // 1. get the fallback id
@@ -559,6 +559,12 @@ class Group extends React.PureComponent {
 }
 
 Accordion.Group = Group
+Accordion.Group.Store = (group, id = null) => {
+  return new Store({ group, id })
+}
+Accordion.Store = (id) => {
+  return new Store({ id })
+}
 
 function rememberWarning(type = 'accordion') {
   warn(`Missing "id" prop the ${type}! "remember_state" is enabled.`)
@@ -568,10 +574,10 @@ class Store {
   constructor({ id, group }) {
     this.id = id
     this.group = group
+    return this
   }
 
-  storeId() {
-    let id = this.id
+  storeId(id = this.id) {
     if (this.group) {
       // Skip using the random ID
       if (this.group[0] === '#') {
@@ -585,17 +591,15 @@ class Store {
   saveState(expanded, id = this.id) {
     if (id) {
       try {
-        const store = this.getStoredData() || {}
+        const store = this.getData() || {}
 
         if (this.group) {
-          if (expanded) {
-            store.id = id
-          }
+          store.id = expanded ? id : null
         } else {
           store.expanded = expanded
         }
 
-        const storeId = this.storeId()
+        const storeId = this.storeId(id)
         if (storeId) {
           window.localStorage.setItem(storeId, JSON.stringify(store))
         }
@@ -607,8 +611,8 @@ class Store {
     }
   }
 
-  getStoredData() {
-    const storeId = this.storeId()
+  getData(id = this.id) {
+    const storeId = this.storeId(id)
 
     if (storeId) {
       try {
@@ -628,14 +632,12 @@ class Store {
     return null
   }
 
-  getState() {
+  getState(id = this.id) {
     let state = null
 
-    const store = this.getStoredData()
+    const store = this.getData(id)
 
     if (store) {
-      const id = this.id
-
       if (typeof store.id !== 'undefined') {
         state = id === store.id
       } else if (store.expanded !== 'undefined') {
@@ -649,7 +651,7 @@ class Store {
   flush(id = this.id) {
     if (id) {
       try {
-        const storeId = this.storeId()
+        const storeId = this.storeId(id)
         if (storeId) {
           window.localStorage.setItem(storeId, null)
         }
