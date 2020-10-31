@@ -191,7 +191,7 @@ export default class DatePickerCalendar extends React.PureComponent {
     )
 
     /**
-     * NB: There is sadly no way to just call the render callback on every new
+     * NB: There is sadly no way to just call the render callback on every new reconciliation
      */
     if (this.context.props.on_days_render) {
       const changedDays = this.context.props.on_days_render(days, nr)
@@ -274,7 +274,12 @@ export default class DatePickerCalendar extends React.PureComponent {
                     key={i}
                     role="columnheader"
                     scope="col"
-                    className="dnb-date-picker__labels__day"
+                    className={classnames(
+                      'dnb-date-picker__labels__day',
+                      `dnb-date-picker__labels__day--${format(day, 'i', {
+                        locale
+                      })}`
+                    )}
                     aria-label={format(day, 'EEEE', {
                       locale
                     })}
