@@ -18,12 +18,14 @@ import Component from '../DatePicker'
 import addDays from 'date-fns/addDays'
 import addMonths from 'date-fns/addMonths'
 import getDaysInMonth from 'date-fns/getDaysInMonth'
+import isWeekend from 'date-fns/isWeekend'
 import {
   toRange,
   dayOffset,
   getWeek,
   getMonth,
-  getCalendar
+  getCalendar,
+  makeDayObject
 } from '../DatePickerCalc'
 
 describe('DatePicker component', () => {
@@ -81,6 +83,108 @@ describe('DatePicker component', () => {
     expect(
       Comp.find('.dnb-date-picker').hasClass('dnb-date-picker--closed')
     ).toBe(false)
+  })
+
+  it('will close the picker after selection', () => {
+    const on_change = jest.fn()
+    const Comp = mount(
+      <Component {...defaultProps} on_change={on_change} />
+    )
+
+    Comp.find('button.dnb-input__submit-button__button').simulate('click')
+
+    expect(
+      Comp.find('.dnb-date-picker').instance().getAttribute('class')
+    ).toContain('dnb-date-picker--opened')
+
+    const startTd = Comp.find('td.dnb-date-picker__day').at(10)
+    const startButton = startTd.find('button')
+    const startLabel = startButton.instance().getAttribute('aria-label')
+
+    const endTd = Comp.find('td.dnb-date-picker__day').at(60)
+    const endButton = endTd.find('button')
+    const endLabel = endButton.instance().getAttribute('aria-label')
+
+    expect(startLabel).toBe('torsdag 10. januar 2019')
+    expect(endLabel).toBe('fredag 15. februar 2019')
+
+    expect(on_change).not.toHaveBeenCalled()
+
+    startButton.simulate('click')
+    expect(on_change).toHaveBeenCalledTimes(1)
+    expect(on_change.mock.calls[0][0].start_date).toBe('2019-01-10')
+    expect(on_change.mock.calls[0][0].end_date).toBe(null)
+
+    endButton.simulate('click')
+    expect(on_change).toHaveBeenCalledTimes(2)
+    expect(on_change.mock.calls[1][0].start_date).toBe('2019-01-10')
+    expect(on_change.mock.calls[1][0].end_date).toBe('2019-02-15')
+
+    expect(
+      Comp.find('.dnb-date-picker').hasClass('dnb-date-picker--closed')
+    ).toBe(false)
+
+    Comp.setProps({
+      range: false
+    })
+
+    expect(on_change).toHaveBeenCalledTimes(2)
+
+    const singleTd = Comp.find('td.dnb-date-picker__day').at(11)
+    const singleButton = singleTd.find('button')
+    const singleLabel = singleButton.instance().getAttribute('aria-label')
+
+    expect(singleLabel).toBe('fredag 11. januar 2019')
+
+    singleButton.simulate('click')
+
+    expect(on_change).toHaveBeenCalledTimes(3)
+    expect(on_change.mock.calls[2][0].date).toBe('2019-01-11')
+    expect(on_change.mock.calls[2][0].start_date).toBe(undefined)
+    expect(on_change.mock.calls[2][0].end_date).toBe(undefined)
+
+    expect(
+      Comp.find('.dnb-date-picker').instance().getAttribute('class')
+    ).not.toContain('dnb-date-picker--opened')
+  })
+
+  it('will render the result of "on_days_render"', () => {
+    const customClassName = 'dnb-date-picker__day--weekend'
+    const on_days_render = jest.fn((days) => {
+      return days.map((dateObject) => {
+        if (isWeekend(dateObject.date)) {
+          dateObject.isInactive = true
+          dateObject.className = customClassName
+        }
+        return dateObject
+      })
+    })
+
+    const Comp = mount(
+      <Component
+        {...defaultProps}
+        on_days_render={on_days_render}
+        range={false}
+      />
+    )
+
+    Comp.find('button.dnb-input__submit-button__button').simulate('click')
+
+    expect(
+      Comp.find('.dnb-date-picker').instance().getAttribute('class')
+    ).toContain('dnb-date-picker--opened')
+
+    expect(on_days_render).toHaveBeenCalledTimes(1)
+    expect(on_days_render.mock.calls[0][0].length).toBe(42)
+    expect(on_days_render.mock.calls[0][1]).toBe(0)
+
+    const singleTd = Comp.find('td.dnb-date-picker__day').at(12)
+    const singleButton = singleTd.find('button')
+    const singleLabel = singleButton.instance().getAttribute('aria-label')
+
+    expect(singleLabel).toBe('lørdag 12. januar 2019')
+    expect(singleButton.instance().hasAttribute('disabled')).toBe(true)
+    expect(singleTd.instance().classList).toContain(customClassName)
   })
 
   it('has to work with shortcuts', () => {
@@ -650,30 +754,9 @@ describe('DatePicker component', () => {
       { attachTo: attachToBody() }
     )
 
-    const dayElem = Comp.find('input.dnb-date-picker__input--day').at(0)
-    const monthElem = Comp.find('input.dnb-date-picker__input--month').at(
-      0
-    )
-    expect(dayElem.instance().hasAttribute('aria-describedby')).toBe(false)
-
-    dayElem.simulate('focus')
-
-    expect(dayElem.instance().hasAttribute('aria-describedby')).toBe(true)
-    const id = dayElem.instance().getAttribute('aria-describedby')
-    expect(id).toBe('custom-id-label')
-    expect(Comp.find(`label#${id}`).text()).toBe(label)
-
-    Comp.setProps({
-      label: undefined
-    })
-    expect(Comp.exists(`label#${id}`)).toBe(false)
-    expect(dayElem.instance().hasAttribute('aria-describedby')).toBe(false)
-
-    monthElem.simulate('focus')
-    expect(monthElem.instance().hasAttribute('aria-describedby')).toBe(
-      false
-    )
-    expect(dayElem.instance().hasAttribute('aria-describedby')).toBe(false)
+    const legendElem = Comp.find('fieldset > legend')
+    expect(legendElem.text()).toBe(label)
+    expect(legendElem.instance().classList).toContain('dnb-sr-only')
   })
 
   it('has to react on keydown events', async () => {
@@ -715,7 +798,7 @@ describe('DatePicker component', () => {
     monthElem.simulate('keydown', { key: 'Up', keyCode: 38 })
     expect(monthElem.instance().value).toBe('02')
 
-    // and simualte a left keydown
+    // and simulate a left keydown
     monthElem.simulate('keydown', { key: 'Left', keyCode: 37 })
 
     // wait for the logic to complete
@@ -815,6 +898,42 @@ describe('DatePicker calc', () => {
           Math.min(limit, daysInMonth - skip)
         )
       }
+    })
+  })
+
+  describe('makeDayObject', () => {
+    const date = new Date('2020-02-20')
+
+    const startDate = new Date('2020-02-01')
+    const endDate = new Date('2020-03-31')
+    const hoverDate = null
+    const minDate = date
+    const maxDate = new Date('2020-04-20')
+    const month = date
+
+    const result = makeDayObject(date, {
+      startDate,
+      endDate,
+      hoverDate,
+      minDate,
+      maxDate,
+      month
+    })
+
+    it('has given properties', () => {
+      expect(result).toStrictEqual({
+        date,
+        isToday: false,
+        isLastMonth: false,
+        isNextMonth: false,
+        isStartDate: false,
+        isEndDate: false,
+        isWithinSelection: true,
+        isPreview: false,
+        isDisabled: false,
+        isSelectable: true,
+        isInactive: false
+      })
     })
   })
 

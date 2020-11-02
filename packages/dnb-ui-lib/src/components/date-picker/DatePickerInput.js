@@ -82,7 +82,6 @@ export default class DatePickerInput extends React.PureComponent {
 
   state = {
     _listenForPropChanges: true,
-    firstFocus: 'virgin',
     focusState: 'virgin'
   }
 
@@ -109,7 +108,6 @@ export default class DatePickerInput extends React.PureComponent {
   }
 
   componentWillUnmount() {
-    clearTimeout(this._firstFocusTimeout)
     if (this._shortcuts) {
       this._shortcuts.remove(this.osShortcut)
     }
@@ -299,7 +297,6 @@ export default class DatePickerInput extends React.PureComponent {
 
     this.setState({
       focusState: 'focus',
-      firstFocus: this.state.firstFocus === 'virgin' ? 'active' : null,
       _listenForPropChanges: false
     })
   }
@@ -308,17 +305,8 @@ export default class DatePickerInput extends React.PureComponent {
     this.focusMode = null
     this.setState({
       focusState: 'blur',
-      firstFocus: null,
       _listenForPropChanges: false
     })
-
-    clearTimeout(this._firstFocusTimeout)
-    this._firstFocusTimeout = setTimeout(() => {
-      this.setState({
-        firstFocus: 'virgin',
-        _listenForPropChanges: false
-      })
-    }, 2e3)
   }
 
   onKeyDownHandler = async (event) => {
@@ -522,13 +510,6 @@ export default class DatePickerInput extends React.PureComponent {
           }
         }
 
-        if (
-          this.context.props.label &&
-          this.state.firstFocus === 'active'
-        ) {
-          params['aria-describedby'] = `${this.props.id}-label`
-        }
-
         // this makes it possible to use a vanilla <input /> like: input_element="input"
         const Input =
           typeof input_element === 'string' ? input_element : InputElement
@@ -680,38 +661,45 @@ export default class DatePickerInput extends React.PureComponent {
     validateDOMAttributes(null, submitAttributes)
 
     return (
-      <Input
-        id={`${id}__input`}
-        input_state={disabled ? 'disabled' : focusState}
-        input_element={
-          input_element && typeof input_element !== 'string'
-            ? typeof input_element === 'function'
-              ? input_element(this.props)
-              : input_element
-            : this.renderInputElement
-        }
-        disabled={disabled || skeleton}
-        skeleton={skeleton}
-        status={!opened ? status : null}
-        status_state={status_state}
-        submit_element={
-          <SubmitButton
-            id={id}
-            disabled={disabled}
-            skeleton={skeleton}
-            className={opened ? 'dnb-button--active' : null}
-            aria-label={this.formatDate()}
-            title={title}
-            type="button"
-            icon="calendar"
-            variant="secondary"
-            on_submit={onSubmit}
-            {...submitAttributes}
-          />
-        }
-        lang={locale?.code}
-        {...attributes}
-      />
+      <fieldset className="dnb-date-picker__fieldset" lang={locale?.code}>
+        {this.context.props.label && (
+          <legend className="dnb-sr-only">
+            {this.context.props.label}
+          </legend>
+        )}
+        <Input
+          id={`${id}__input`}
+          input_state={disabled ? 'disabled' : focusState}
+          input_element={
+            input_element && typeof input_element !== 'string'
+              ? typeof input_element === 'function'
+                ? input_element(this.props)
+                : input_element
+              : this.renderInputElement
+          }
+          disabled={disabled || skeleton}
+          skeleton={skeleton}
+          status={!opened ? status : null}
+          status_state={status_state}
+          submit_element={
+            <SubmitButton
+              id={id}
+              disabled={disabled}
+              skeleton={skeleton}
+              className={opened ? 'dnb-button--active' : null}
+              aria-label={this.formatDate()}
+              title={title}
+              type="button"
+              icon="calendar"
+              variant="secondary"
+              on_submit={onSubmit}
+              {...submitAttributes}
+            />
+          }
+          lang={locale?.code}
+          {...attributes}
+        />{' '}
+      </fieldset>
     )
   }
 }
