@@ -115,7 +115,7 @@ describe('Accordion store API', () => {
     expect(inst.getState('remembered-state-2')).toBe(true)
     expect(inst.getData()).toMatchObject({ id: 'remembered-state-2' })
 
-    inst.saveState(false, 'remembered-state-2')
+    inst.saveState(false, 'remembered-state-2', { force: true })
     expect(inst.getState('remembered-state-2')).toBe(false)
     expect(inst.getData()).toMatchObject({ id: null })
 
