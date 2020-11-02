@@ -105,6 +105,7 @@ export default class DatePickerCalendar extends React.PureComponent {
     this._listRef = React.createRef()
     this._labelRef = React.createRef()
     this._days = {}
+    this._cache = {}
   }
 
   componentDidMount() {
@@ -330,6 +331,60 @@ export default class DatePickerCalendar extends React.PureComponent {
       day.className
     )
 
+  getCacheKey() {
+    const {
+      nr,
+      month,
+      firstDayOfWeek,
+      onlyMonth,
+      hideNextMonthWeek
+    } = this.props
+
+    const {
+      startDate,
+      endDate,
+      hoverDate,
+      maxDate,
+      minDate
+    } = this.context
+
+    return [
+      nr,
+      month,
+      firstDayOfWeek,
+      onlyMonth,
+      hideNextMonthWeek,
+      startDate,
+      endDate,
+      hoverDate,
+      maxDate,
+      minDate
+    ].join('|')
+  }
+
+  getMemorizedDays(month) {
+    // Cache the result, just because we then avoid at least double calc because of reconciliation,
+    // but we do not avoid calculating every day during hover or select
+    const key = this.getCacheKey()
+
+    if (this._cache[key]) {
+      return this._cache[key]
+    } else {
+      let count = 0
+      return (this._cache[key] = Object.values(
+        this.getDays(month).reduce((acc, cur, i) => {
+          // Normalize the data for table consumption
+          acc[count] = acc[count] || []
+          acc[count].push(cur)
+          if (i % 7 === 6) {
+            count++
+          }
+          return acc
+        }, {})
+      ))
+    }
+  }
+
   getDays(month) {
     const { nr, firstDayOfWeek, onlyMonth, hideNextMonthWeek } = this.props
 
@@ -359,9 +414,6 @@ export default class DatePickerCalendar extends React.PureComponent {
       })
     )
 
-    /**
-     * NB: There is sadly no way to just call the render callback on every new reconciliation
-     */
     if (this.context.props.on_days_render) {
       const changedDays = this.context.props.on_days_render(days, nr)
       if (Array.isArray(changedDays)) {
@@ -369,7 +421,7 @@ export default class DatePickerCalendar extends React.PureComponent {
       }
     }
 
-    // Save for later check agains disabled days during key navigation
+    // // Save for later check agains disabled days during key navigation
     this._days[format(month, 'yyyy-MM')] = days
 
     return days
@@ -407,17 +459,7 @@ export default class DatePickerCalendar extends React.PureComponent {
       }
     } = this.context
 
-    let count = 0
-    const days = this.getDays(month).reduce((acc, cur, i) => {
-      acc[count] = acc[count] || []
-      acc[count].push(cur)
-      if (i % 7 === 6) {
-        count++
-      }
-      return acc
-    }, {})
-
-    const weekDays = Object.values(days)
+    const weekDays = this.getMemorizedDays(month)
 
     return (
       <div

@@ -18,12 +18,14 @@ import Component from '../DatePicker'
 import addDays from 'date-fns/addDays'
 import addMonths from 'date-fns/addMonths'
 import getDaysInMonth from 'date-fns/getDaysInMonth'
+import isWeekend from 'date-fns/isWeekend'
 import {
   toRange,
   dayOffset,
   getWeek,
   getMonth,
-  getCalendar
+  getCalendar,
+  makeDayObject
 } from '../DatePickerCalc'
 
 describe('DatePicker component', () => {
@@ -83,7 +85,7 @@ describe('DatePicker component', () => {
     ).toBe(false)
   })
 
-  it('will close the picker after selection ', () => {
+  it('will close the picker after selection', () => {
     const on_change = jest.fn()
     const Comp = mount(
       <Component {...defaultProps} on_change={on_change} />
@@ -144,6 +146,45 @@ describe('DatePicker component', () => {
     expect(
       Comp.find('.dnb-date-picker').instance().getAttribute('class')
     ).not.toContain('dnb-date-picker--opened')
+  })
+
+  it('will render the result of "on_days_render"', () => {
+    const customClassName = 'dnb-date-picker__day--weekend'
+    const on_days_render = jest.fn((days) => {
+      return days.map((dateObject) => {
+        if (isWeekend(dateObject.date)) {
+          dateObject.isInactive = true
+          dateObject.className = customClassName
+        }
+        return dateObject
+      })
+    })
+
+    const Comp = mount(
+      <Component
+        {...defaultProps}
+        on_days_render={on_days_render}
+        range={false}
+      />
+    )
+
+    Comp.find('button.dnb-input__submit-button__button').simulate('click')
+
+    expect(
+      Comp.find('.dnb-date-picker').instance().getAttribute('class')
+    ).toContain('dnb-date-picker--opened')
+
+    expect(on_days_render).toHaveBeenCalledTimes(1)
+    expect(on_days_render.mock.calls[0][0].length).toBe(42)
+    expect(on_days_render.mock.calls[0][1]).toBe(0)
+
+    const singleTd = Comp.find('td.dnb-date-picker__day').at(12)
+    const singleButton = singleTd.find('button')
+    const singleLabel = singleButton.instance().getAttribute('aria-label')
+
+    expect(singleLabel).toBe('lørdag 12. januar 2019')
+    expect(singleButton.instance().hasAttribute('disabled')).toBe(true)
+    expect(singleTd.instance().classList).toContain(customClassName)
   })
 
   it('has to work with shortcuts', () => {
@@ -778,7 +819,7 @@ describe('DatePicker component', () => {
     monthElem.simulate('keydown', { key: 'Up', keyCode: 38 })
     expect(monthElem.instance().value).toBe('02')
 
-    // and simualte a left keydown
+    // and simulate a left keydown
     monthElem.simulate('keydown', { key: 'Left', keyCode: 37 })
 
     // wait for the logic to complete
@@ -878,6 +919,42 @@ describe('DatePicker calc', () => {
           Math.min(limit, daysInMonth - skip)
         )
       }
+    })
+  })
+
+  describe('makeDayObject', () => {
+    const date = new Date('2020-02-20')
+
+    const startDate = new Date('2020-02-01')
+    const endDate = new Date('2020-03-31')
+    const hoverDate = null
+    const minDate = date
+    const maxDate = new Date('2020-04-20')
+    const month = date
+
+    const result = makeDayObject(date, {
+      startDate,
+      endDate,
+      hoverDate,
+      minDate,
+      maxDate,
+      month
+    })
+
+    it('has given properties', () => {
+      expect(result).toStrictEqual({
+        date,
+        isToday: false,
+        isLastMonth: false,
+        isNextMonth: false,
+        isStartDate: false,
+        isEndDate: false,
+        isWithinSelection: true,
+        isPreview: false,
+        isDisabled: false,
+        isSelectable: true,
+        isInactive: false
+      })
     })
   })
 

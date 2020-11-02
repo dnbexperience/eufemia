@@ -80,7 +80,7 @@ export const DatePickerSandbox = () => (
           // min_date="2020-10-28"
           // max_date="2020-11-03"
           range={true}
-          link={true}
+          // link={true}
           // sync={false}
           // opened={true}
           show_input={true}

@@ -399,6 +399,9 @@ export default class DatePicker extends React.PureComponent {
     if (isTrue(this.props.prevent_close)) {
       return // stop here
     }
+    if (args.event && args.event.persist) {
+      args.event.persist()
+    }
     this.setState(
       {
         opened: false,
