@@ -74,9 +74,9 @@ export const DatePickerSandbox = () => (
           label="Linked Range DatePicker:"
           // label_direction="vertical"
           // start_date={new Date()}
-          // start_date="2019-01-15"
+          start_date="2019-01-15"
           // start_date="2020-11-01"
-          // end_date="2020-11-02"
+          end_date="2020-11-02"
           // min_date="2020-10-28"
           // max_date="2020-11-03"
           range={true}
@@ -87,13 +87,16 @@ export const DatePickerSandbox = () => (
           on_show={(props) => {
             console.log('on_show', props)
           }}
-          on_days_render={(days, nr) => {
-            console.log('on_days_render', nr, days)
+          on_days_render={(
+            days
+            // , nr
+          ) => {
+            // console.log('on_days_render', nr, days)
 
             return days.map((dateObject) => {
               // console.log('dateObject', dateObject)
               if (isWeekend(dateObject.date)) {
-                console.log('dateObject', dateObject)
+                // console.log('dateObject', dateObject)
                 dateObject.isInactive = true
                 // dateObject.isDisabled = true
                 // dateObject.isSelectable = false

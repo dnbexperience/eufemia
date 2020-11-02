@@ -318,7 +318,7 @@ export default class DatePickerInput extends React.PureComponent {
         firstFocus: 'virgin',
         _listenForPropChanges: false
       })
-    }, 2e3)
+    }, 1e3) // delay because we do want to show the "describedby" next time the whole date picker inputs gets their first focus. But not on a day to month jump.
   }
 
   onKeyDownHandler = async (event) => {
@@ -675,6 +675,10 @@ export default class DatePickerInput extends React.PureComponent {
     } = this.props
 
     const { focusState } = this.state
+
+    if (this.context.props.label && this.state.firstFocus !== null) {
+      submitAttributes['aria-describedby'] = `${this.props.id}-label`
+    }
 
     validateDOMAttributes(this.props, attributes)
     validateDOMAttributes(null, submitAttributes)

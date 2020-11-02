@@ -3,19 +3,13 @@
  *
  */
 
-import addDays from 'date-fns/addDays'
-import addMonths from 'date-fns/addMonths'
-import addWeeks from 'date-fns/addWeeks'
-import differenceInMonths from 'date-fns/differenceInMonths'
-import isSameMonth from 'date-fns/isSameMonth'
-import lastDayOfMonth from 'date-fns/lastDayOfMonth'
-import setDate from 'date-fns/setDate'
-// date-fns
-import subMonths from 'date-fns/subMonths'
-import keycode from 'keycode'
-import PropTypes from 'prop-types'
 import React from 'react'
-import { isDisabled } from './DatePickerCalc'
+import PropTypes from 'prop-types'
+
+// date-fns
+import addMonths from 'date-fns/addMonths'
+import subMonths from 'date-fns/subMonths'
+
 import DatePickerCalendar from './DatePickerCalendar'
 import DatePickerContext from './DatePickerContext'
 
@@ -35,8 +29,7 @@ export default class DatePickerRange extends React.PureComponent {
     ]),
 
     onChange: PropTypes.func,
-    onNav: PropTypes.func,
-    onSelect: PropTypes.func
+    onNav: PropTypes.func
   }
 
   static defaultProps = {
@@ -53,11 +46,10 @@ export default class DatePickerRange extends React.PureComponent {
 
     // events
     onChange: null, // fires when user makes a selection or navigates
-    onNav: null, // [{'id': 0, 'month': Date}, {'id': 1, 'month': Date}]
-    onSelect: null // {startDate: Date, endDate: Date | null}
+    onNav: null // [{'id': 0, 'month': Date}, {'id': 1, 'month': Date}]
   }
 
-  callOnChange(args) {
+  onSelectHandler = (args) => {
     this.context.callOnChangeHandler(args)
 
     this.props.onChange &&
@@ -69,21 +61,6 @@ export default class DatePickerRange extends React.PureComponent {
 
   callOnNav = () => {
     this.props.onNav && this.props.onNav(this.context.views)
-  }
-
-  onSelect = ({ event, ...newDates }, nr) => {
-    event.persist()
-    if (this.props.isRange && !newDates.endDate) {
-      newDates.endDate = undefined
-    }
-    this.context.setDate(newDates, () => {
-      this.props.onSelect &&
-        this.props.onSelect({
-          ...newDates,
-          event
-        })
-      this.callOnChange({ ...newDates, event, nr })
-    })
   }
 
   setNavState = (state) => {
@@ -140,150 +117,6 @@ export default class DatePickerRange extends React.PureComponent {
     this.context.updateState({ hoverDate })
   }
 
-  onKeyDownHandler = (event, ref, nr) => {
-    const keyCode = keycode(event)
-
-    // only continue of key is one of these
-    switch (keyCode) {
-      case 'enter':
-      case 'space':
-      case 'left':
-      case 'right':
-      case 'up':
-      case 'down':
-        event.preventDefault()
-        event.persist() // since we use the event after setState
-        break
-      default:
-        return
-    }
-
-    let type = nr === 0 ? 'start' : 'end'
-    if (!this.props.isRange) {
-      type = 'start'
-    }
-    let newDate = this.context[`${type}Date`]
-
-    if (newDate) {
-      // only to process key up and down press
-      switch (keyCode) {
-        case 'left':
-          newDate = addDays(newDate, -1)
-          break
-        case 'right':
-          newDate = addDays(newDate, 1)
-          break
-        case 'up':
-          newDate = addWeeks(newDate, -1)
-          break
-        case 'down':
-          newDate = addWeeks(newDate, 1)
-          break
-      }
-    } else {
-      // use the date picker month, if provided
-      newDate =
-        this.context[`${type}Month`] ||
-        (this.props.isRange && nr === 1
-          ? addMonths(new Date(), 1)
-          : new Date())
-    }
-
-    if (newDate === this.context[`${type}Date`]) {
-      switch (keyCode) {
-        case 'enter':
-        case 'space':
-          this.callOnChange({
-            event,
-            nr,
-            hidePicker: true
-          })
-          break
-      }
-    } else {
-      const state = {}
-
-      const currentMonth = this.context[`${type}Month`]
-
-      if (
-        // in case we dont have a start/end date, then we use the current month date
-        (currentMonth && !this.context[`${type}Date`]) ||
-        // if we have a larger gap between the new date and the curent month in the calendar
-        (currentMonth &&
-          Math.abs(differenceInMonths(newDate, currentMonth)) > 1)
-      ) {
-        if (!this.props.isRange) {
-          newDate = currentMonth
-        } else {
-          newDate =
-            nr === 0
-              ? setDate(currentMonth, 1)
-              : lastDayOfMonth(currentMonth)
-        }
-        // only to make sure we navigate the calendar to the new date
-      } else if (
-        currentMonth &&
-        !isSameMonth(this.context[`${type}Date`], currentMonth)
-      ) {
-        state[`${type}Month`] = newDate
-      }
-
-      state[`${type}Date`] = newDate
-
-      // set fallbacks
-      if (!this.props.isRange) {
-        state.endDate = newDate
-      } else {
-        if (!this.context.startDate) {
-          state.startDate = newDate
-        }
-        if (!this.context.endDate) {
-          state.endDate = newDate
-        }
-      }
-
-      // make sure we stay on the same month
-      if (this.props.onlyMonth || this.props.hideNav) {
-        if (
-          !isSameMonth(state.startDate, this.context.startDate) ||
-          !isSameMonth(state.endDate, this.context.startDate)
-        ) {
-          return
-        }
-      }
-      if (
-        isDisabled(
-          state.startDate,
-          this.context.minDate,
-          this.context.maxDate
-        ) ||
-        isDisabled(
-          state.endDate,
-          this.context.minDate,
-          this.context.maxDate
-        )
-      ) {
-        return
-      }
-
-      state.changeMonthViews = true
-
-      this.context.setDate(state, () => {
-        // call after state update, so the input get's the latest state as well
-        this.callOnChange({
-          event,
-          nr,
-          hidePicker: false
-        })
-
-        // and set the focus back again
-        if (ref && ref.current) {
-          ref.current.focus({ preventScroll: true })
-        }
-      })
-    }
-  }
-
   render() {
     const { id, ...props } = this.props
     return (
@@ -294,11 +127,10 @@ export default class DatePickerRange extends React.PureComponent {
             id={`${id}-${i}-`}
             {...props}
             {...calendar}
-            onSelect={(args) => this.onSelect(args, calendar.nr)}
+            onSelect={this.onSelectHandler}
             onHover={this.onHover}
             onPrev={this.onPrev}
             onNext={this.onNext}
-            onKeyDown={this.onKeyDownHandler}
           />
         ))}
       </div>
