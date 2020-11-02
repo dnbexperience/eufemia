@@ -156,6 +156,7 @@ export default class DatePicker extends React.PureComponent {
       PropTypes.node
     ]),
     opened: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    prevent_close: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     no_animation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     direction: PropTypes.oneOf(['auto', 'top', 'bottom']),
     align_picker: PropTypes.oneOf(['auto', 'left', 'right']),
@@ -224,6 +225,7 @@ export default class DatePicker extends React.PureComponent {
     global_status_id: null,
     suffix: null,
     opened: false,
+    prevent_close: null,
     no_animation: false,
     direction: 'auto',
     align_picker: null,
@@ -394,8 +396,8 @@ export default class DatePicker extends React.PureComponent {
   }
 
   hidePicker = (args) => {
-    if (args.event && args.event.persist) {
-      args.event.persist()
+    if (isTrue(this.props.prevent_close)) {
+      return // stop here
     }
     this.setState(
       {

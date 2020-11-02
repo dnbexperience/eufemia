@@ -272,6 +272,7 @@ export const DatePickerCalendar = () => (
         /* @jsx */ `
 <DatePicker
   opened="true"
+  prevent_close="true"
   disable_autofocus="true"
   range="true"
   start_date="2019-05-05"
