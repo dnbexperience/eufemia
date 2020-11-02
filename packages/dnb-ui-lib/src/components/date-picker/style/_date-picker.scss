@@ -442,6 +442,13 @@
     visibility: hidden;
   }
 
+  &__fieldset,
+  .dnb-core-style &__fieldset {
+    margin: 0;
+    padding: 0;
+    border: none;
+  }
+
   @include IS_IE {
     flex: none;
 

@@ -754,30 +754,9 @@ describe('DatePicker component', () => {
       { attachTo: attachToBody() }
     )
 
-    const dayElem = Comp.find('input.dnb-date-picker__input--day').at(0)
-    const monthElem = Comp.find('input.dnb-date-picker__input--month').at(
-      0
-    )
-    expect(dayElem.instance().hasAttribute('aria-describedby')).toBe(false)
-
-    dayElem.simulate('focus')
-
-    expect(dayElem.instance().hasAttribute('aria-describedby')).toBe(true)
-    const id = dayElem.instance().getAttribute('aria-describedby')
-    expect(id).toBe('custom-id-label')
-    expect(Comp.find(`label#${id}`).text()).toBe(label)
-
-    Comp.setProps({
-      label: undefined
-    })
-    expect(Comp.exists(`label#${id}`)).toBe(false)
-    expect(dayElem.instance().hasAttribute('aria-describedby')).toBe(false)
-
-    monthElem.simulate('focus')
-    expect(monthElem.instance().hasAttribute('aria-describedby')).toBe(
-      false
-    )
-    expect(dayElem.instance().hasAttribute('aria-describedby')).toBe(false)
+    const legendElem = Comp.find('fieldset > legend')
+    expect(legendElem.text()).toBe(label)
+    expect(legendElem.instance().classList).toContain('dnb-sr-only')
   })
 
   it('has to react on keydown events', async () => {

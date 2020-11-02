@@ -403,132 +403,106 @@ exports[`DatePicker component have to match snapshot 1`] = `
               }
               title={null}
             >
-              <Input
-                align={null}
-                autocomplete="off"
-                class={null}
-                className={null}
-                custom_element={null}
-                custom_method={null}
-                disabled={false}
-                global_status_id={null}
-                hidden={true}
-                icon={null}
-                icon_position="left"
-                id="date-picker-id__input"
-                inner_ref={null}
-                input_attributes={null}
-                input_class={null}
-                input_element={[Function]}
-                input_state="virgin"
-                keep_placeholder={null}
-                label={null}
-                label_direction={null}
-                label_sr_only={null}
+              <fieldset
+                className="dnb-date-picker__fieldset"
                 lang="nb"
-                on_blur={null}
-                on_change={null}
-                on_focus={null}
-                on_state_update={null}
-                on_submit={null}
-                on_submit_blur={null}
-                on_submit_focus={null}
-                placeholder={null}
-                readOnly={false}
-                selectall={null}
-                size={null}
-                skeleton={false}
-                status="error"
-                status_animation={null}
-                status_state="error"
-                stretch={null}
-                submit_button_icon="search"
-                submit_button_status={null}
-                submit_button_title={null}
-                submit_button_variant="secondary"
-                submit_element={
-                  <ForwardRef
-                    aria-expanded={false}
-                    aria-label="åpne datovelger"
-                    className={null}
-                    disabled={false}
-                    icon="calendar"
-                    id="date-picker-id"
-                    on_submit={[Function]}
-                    skeleton={false}
-                    title={null}
-                    type="button"
-                    variant="secondary"
-                  />
-                }
-                suffix={null}
-                type="text"
-                value="initval"
               >
-                <span
-                  className="dnb-input dnb-input--text dnb-form-component dnb-input--has-submit-element dnb-input__status--error"
+                <Input
+                  align={null}
+                  autocomplete="off"
+                  class={null}
+                  className={null}
+                  custom_element={null}
+                  custom_method={null}
+                  disabled={false}
+                  global_status_id={null}
+                  hidden={true}
+                  icon={null}
+                  icon_position="left"
+                  id="date-picker-id__input"
+                  inner_ref={null}
+                  input_attributes={null}
+                  input_class={null}
+                  input_element={[Function]}
+                  input_state="virgin"
+                  keep_placeholder={null}
+                  label={null}
+                  label_direction={null}
+                  label_sr_only={null}
+                  lang="nb"
+                  on_blur={null}
+                  on_change={null}
+                  on_focus={null}
+                  on_state_update={null}
+                  on_submit={null}
+                  on_submit_blur={null}
+                  on_submit_focus={null}
+                  placeholder={null}
+                  readOnly={false}
+                  selectall={null}
+                  size={null}
+                  skeleton={false}
+                  status="error"
+                  status_animation={null}
+                  status_state="error"
+                  stretch={null}
+                  submit_button_icon="search"
+                  submit_button_status={null}
+                  submit_button_title={null}
+                  submit_button_variant="secondary"
+                  submit_element={
+                    <ForwardRef
+                      aria-expanded={false}
+                      aria-label="åpne datovelger"
+                      className={null}
+                      disabled={false}
+                      icon="calendar"
+                      id="date-picker-id"
+                      on_submit={[Function]}
+                      skeleton={false}
+                      title={null}
+                      type="button"
+                      variant="secondary"
+                    />
+                  }
+                  suffix={null}
+                  type="text"
+                  value="initval"
                 >
                   <span
-                    className="dnb-input__inner"
+                    className="dnb-input dnb-input--text dnb-form-component dnb-input--has-submit-element dnb-input__status--error"
                   >
-                    <AlignmentHelper
-                      className={null}
-                    >
-                      <span
-                        aria-hidden={true}
-                        className="dnb-alignment-helper"
-                      />
-                    </AlignmentHelper>
                     <span
-                      className="dnb-input__row"
+                      className="dnb-input__inner"
                     >
-                      <span
-                        className="dnb-input__shell"
-                        data-has-content="false"
-                        data-input-state="virgin"
+                      <AlignmentHelper
+                        className={null}
                       >
                         <span
-                          className="dnb-date-picker__input__wrapper"
-                          id="date-picker-id-input"
+                          aria-hidden={true}
+                          className="dnb-alignment-helper"
+                        />
+                      </AlignmentHelper>
+                      <span
+                        className="dnb-input__row"
+                      >
+                        <span
+                          className="dnb-input__shell"
+                          data-has-content="false"
+                          data-input-state="virgin"
                         >
-                          <ForwardRef
-                            aria-labelledby="date-picker-id-start-day-label"
-                            autoComplete="off"
-                            className="dnb-date-picker__input dnb-date-picker__input--day dnb-input__input"
-                            disabled={false}
-                            hidden={true}
-                            id="date-picker-id-start-day"
-                            key="di0"
-                            lang="nb"
-                            mask={
-                              Array [
-                                /\\[0-3\\]/,
-                                /\\[0-9\\]/,
-                              ]
-                            }
-                            name="date-picker-id__input"
-                            onBlur={[Function]}
-                            onChange={[Function]}
-                            onFocus={[Function]}
-                            onKeyDown={[Function]}
-                            onMouseUp={[Function]}
-                            onPaste={[Function]}
-                            placeholderChar="d"
-                            size="2"
-                            type="text"
-                            value="01"
+                          <span
+                            className="dnb-date-picker__input__wrapper"
+                            id="date-picker-id-input"
                           >
-                            <t
+                            <ForwardRef
                               aria-labelledby="date-picker-id-start-day-label"
-                              autoCapitalize="none"
                               autoComplete="off"
-                              autoCorrect="off"
                               className="dnb-date-picker__input dnb-date-picker__input--day dnb-input__input"
                               disabled={false}
-                              guide={true}
                               hidden={true}
                               id="date-picker-id-start-day"
-                              keepCharPositions={false}
+                              key="di0"
                               lang="nb"
                               mask={
                                 Array [
@@ -544,24 +518,28 @@ exports[`DatePicker component have to match snapshot 1`] = `
                               onMouseUp={[Function]}
                               onPaste={[Function]}
                               placeholderChar="d"
-                              render={[Function]}
-                              showMask={true}
                               size="2"
-                              spellCheck={false}
                               type="text"
                               value="01"
                             >
-                              <input
+                              <t
                                 aria-labelledby="date-picker-id-start-day-label"
                                 autoCapitalize="none"
                                 autoComplete="off"
                                 autoCorrect="off"
                                 className="dnb-date-picker__input dnb-date-picker__input--day dnb-input__input"
-                                defaultValue="01"
                                 disabled={false}
+                                guide={true}
                                 hidden={true}
                                 id="date-picker-id-start-day"
+                                keepCharPositions={false}
                                 lang="nb"
+                                mask={
+                                  Array [
+                                    /\\[0-3\\]/,
+                                    /\\[0-9\\]/,
+                                  ]
+                                }
                                 name="date-picker-id__input"
                                 onBlur={[Function]}
                                 onChange={[Function]}
@@ -569,64 +547,60 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                 onKeyDown={[Function]}
                                 onMouseUp={[Function]}
                                 onPaste={[Function]}
+                                placeholderChar="d"
+                                render={[Function]}
+                                showMask={true}
                                 size="2"
                                 spellCheck={false}
                                 type="text"
-                              />
-                            </t>
-                          </ForwardRef>
-                          <label
-                            hidden={true}
-                            id="date-picker-id-start-day-label"
-                            key="dl0"
-                          >
-                            fra dag
-                          </label>
-                          <span
-                            aria-hidden={true}
-                            className="dnb-date-picker--separator"
-                            key="s1"
-                          >
-                            .
-                          </span>
-                          <ForwardRef
-                            aria-labelledby="date-picker-id-start-month-label"
-                            autoComplete="off"
-                            className="dnb-date-picker__input dnb-date-picker__input--month dnb-input__input"
-                            disabled={false}
-                            hidden={true}
-                            id="date-picker-id-start-month"
-                            key="mi2"
-                            lang="nb"
-                            mask={
-                              Array [
-                                /\\[0-1\\]/,
-                                /\\[0-9\\]/,
-                              ]
-                            }
-                            name="date-picker-id__input"
-                            onBlur={[Function]}
-                            onChange={[Function]}
-                            onFocus={[Function]}
-                            onKeyDown={[Function]}
-                            onMouseUp={[Function]}
-                            onPaste={[Function]}
-                            placeholderChar="m"
-                            size="2"
-                            type="text"
-                            value="01"
-                          >
-                            <t
+                                value="01"
+                              >
+                                <input
+                                  aria-labelledby="date-picker-id-start-day-label"
+                                  autoCapitalize="none"
+                                  autoComplete="off"
+                                  autoCorrect="off"
+                                  className="dnb-date-picker__input dnb-date-picker__input--day dnb-input__input"
+                                  defaultValue="01"
+                                  disabled={false}
+                                  hidden={true}
+                                  id="date-picker-id-start-day"
+                                  lang="nb"
+                                  name="date-picker-id__input"
+                                  onBlur={[Function]}
+                                  onChange={[Function]}
+                                  onFocus={[Function]}
+                                  onKeyDown={[Function]}
+                                  onMouseUp={[Function]}
+                                  onPaste={[Function]}
+                                  size="2"
+                                  spellCheck={false}
+                                  type="text"
+                                />
+                              </t>
+                            </ForwardRef>
+                            <label
+                              hidden={true}
+                              id="date-picker-id-start-day-label"
+                              key="dl0"
+                            >
+                              fra dag
+                            </label>
+                            <span
+                              aria-hidden={true}
+                              className="dnb-date-picker--separator"
+                              key="s1"
+                            >
+                              .
+                            </span>
+                            <ForwardRef
                               aria-labelledby="date-picker-id-start-month-label"
-                              autoCapitalize="none"
                               autoComplete="off"
-                              autoCorrect="off"
                               className="dnb-date-picker__input dnb-date-picker__input--month dnb-input__input"
                               disabled={false}
-                              guide={true}
                               hidden={true}
                               id="date-picker-id-start-month"
-                              keepCharPositions={false}
+                              key="mi2"
                               lang="nb"
                               mask={
                                 Array [
@@ -642,24 +616,28 @@ exports[`DatePicker component have to match snapshot 1`] = `
                               onMouseUp={[Function]}
                               onPaste={[Function]}
                               placeholderChar="m"
-                              render={[Function]}
-                              showMask={true}
                               size="2"
-                              spellCheck={false}
                               type="text"
                               value="01"
                             >
-                              <input
+                              <t
                                 aria-labelledby="date-picker-id-start-month-label"
                                 autoCapitalize="none"
                                 autoComplete="off"
                                 autoCorrect="off"
                                 className="dnb-date-picker__input dnb-date-picker__input--month dnb-input__input"
-                                defaultValue="01"
                                 disabled={false}
+                                guide={true}
                                 hidden={true}
                                 id="date-picker-id-start-month"
+                                keepCharPositions={false}
                                 lang="nb"
+                                mask={
+                                  Array [
+                                    /\\[0-1\\]/,
+                                    /\\[0-9\\]/,
+                                  ]
+                                }
                                 name="date-picker-id__input"
                                 onBlur={[Function]}
                                 onChange={[Function]}
@@ -667,66 +645,60 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                 onKeyDown={[Function]}
                                 onMouseUp={[Function]}
                                 onPaste={[Function]}
+                                placeholderChar="m"
+                                render={[Function]}
+                                showMask={true}
                                 size="2"
                                 spellCheck={false}
                                 type="text"
-                              />
-                            </t>
-                          </ForwardRef>
-                          <label
-                            hidden={true}
-                            id="date-picker-id-start-month-label"
-                            key="ml2"
-                          >
-                            fra måned
-                          </label>
-                          <span
-                            aria-hidden={true}
-                            className="dnb-date-picker--separator"
-                            key="s3"
-                          >
-                            .
-                          </span>
-                          <ForwardRef
-                            aria-labelledby="date-picker-id-start-year-label"
-                            autoComplete="off"
-                            className="dnb-date-picker__input dnb-date-picker__input--year dnb-input__input"
-                            disabled={false}
-                            hidden={true}
-                            id="date-picker-id-start-year"
-                            key="yi4"
-                            lang="nb"
-                            mask={
-                              Array [
-                                /\\[1-2\\]/,
-                                /\\[0-9\\]/,
-                                /\\[0-9\\]/,
-                                /\\[0-9\\]/,
-                              ]
-                            }
-                            name="date-picker-id__input"
-                            onBlur={[Function]}
-                            onChange={[Function]}
-                            onFocus={[Function]}
-                            onKeyDown={[Function]}
-                            onMouseUp={[Function]}
-                            onPaste={[Function]}
-                            placeholderChar="å"
-                            size="4"
-                            type="text"
-                            value="2019"
-                          >
-                            <t
+                                value="01"
+                              >
+                                <input
+                                  aria-labelledby="date-picker-id-start-month-label"
+                                  autoCapitalize="none"
+                                  autoComplete="off"
+                                  autoCorrect="off"
+                                  className="dnb-date-picker__input dnb-date-picker__input--month dnb-input__input"
+                                  defaultValue="01"
+                                  disabled={false}
+                                  hidden={true}
+                                  id="date-picker-id-start-month"
+                                  lang="nb"
+                                  name="date-picker-id__input"
+                                  onBlur={[Function]}
+                                  onChange={[Function]}
+                                  onFocus={[Function]}
+                                  onKeyDown={[Function]}
+                                  onMouseUp={[Function]}
+                                  onPaste={[Function]}
+                                  size="2"
+                                  spellCheck={false}
+                                  type="text"
+                                />
+                              </t>
+                            </ForwardRef>
+                            <label
+                              hidden={true}
+                              id="date-picker-id-start-month-label"
+                              key="ml2"
+                            >
+                              fra måned
+                            </label>
+                            <span
+                              aria-hidden={true}
+                              className="dnb-date-picker--separator"
+                              key="s3"
+                            >
+                              .
+                            </span>
+                            <ForwardRef
                               aria-labelledby="date-picker-id-start-year-label"
-                              autoCapitalize="none"
                               autoComplete="off"
-                              autoCorrect="off"
                               className="dnb-date-picker__input dnb-date-picker__input--year dnb-input__input"
                               disabled={false}
-                              guide={true}
                               hidden={true}
                               id="date-picker-id-start-year"
-                              keepCharPositions={false}
+                              key="yi4"
                               lang="nb"
                               mask={
                                 Array [
@@ -744,24 +716,30 @@ exports[`DatePicker component have to match snapshot 1`] = `
                               onMouseUp={[Function]}
                               onPaste={[Function]}
                               placeholderChar="å"
-                              render={[Function]}
-                              showMask={true}
                               size="4"
-                              spellCheck={false}
                               type="text"
                               value="2019"
                             >
-                              <input
+                              <t
                                 aria-labelledby="date-picker-id-start-year-label"
                                 autoCapitalize="none"
                                 autoComplete="off"
                                 autoCorrect="off"
                                 className="dnb-date-picker__input dnb-date-picker__input--year dnb-input__input"
-                                defaultValue="2019"
                                 disabled={false}
+                                guide={true}
                                 hidden={true}
                                 id="date-picker-id-start-year"
+                                keepCharPositions={false}
                                 lang="nb"
+                                mask={
+                                  Array [
+                                    /\\[1-2\\]/,
+                                    /\\[0-9\\]/,
+                                    /\\[0-9\\]/,
+                                    /\\[0-9\\]/,
+                                  ]
+                                }
                                 name="date-picker-id__input"
                                 onBlur={[Function]}
                                 onChange={[Function]}
@@ -769,63 +747,59 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                 onKeyDown={[Function]}
                                 onMouseUp={[Function]}
                                 onPaste={[Function]}
+                                placeholderChar="å"
+                                render={[Function]}
+                                showMask={true}
                                 size="4"
                                 spellCheck={false}
                                 type="text"
-                              />
-                            </t>
-                          </ForwardRef>
-                          <label
-                            hidden={true}
-                            id="date-picker-id-start-year-label"
-                            key="yl4"
-                          >
-                            fra år
-                          </label>
-                          <span
-                            aria-hidden={true}
-                            className="dnb-date-picker--separator"
-                          >
-                             – 
-                          </span>
-                          <ForwardRef
-                            aria-labelledby="date-picker-id-end-day-label"
-                            autoComplete="off"
-                            className="dnb-date-picker__input dnb-date-picker__input--day dnb-input__input"
-                            disabled={false}
-                            hidden={true}
-                            id="date-picker-id-end-day"
-                            key="di0"
-                            lang="nb"
-                            mask={
-                              Array [
-                                /\\[0-3\\]/,
-                                /\\[0-9\\]/,
-                              ]
-                            }
-                            name="date-picker-id__input"
-                            onBlur={[Function]}
-                            onChange={[Function]}
-                            onFocus={[Function]}
-                            onKeyDown={[Function]}
-                            onMouseUp={[Function]}
-                            onPaste={[Function]}
-                            placeholderChar="d"
-                            size="2"
-                            type="text"
-                            value="15"
-                          >
-                            <t
+                                value="2019"
+                              >
+                                <input
+                                  aria-labelledby="date-picker-id-start-year-label"
+                                  autoCapitalize="none"
+                                  autoComplete="off"
+                                  autoCorrect="off"
+                                  className="dnb-date-picker__input dnb-date-picker__input--year dnb-input__input"
+                                  defaultValue="2019"
+                                  disabled={false}
+                                  hidden={true}
+                                  id="date-picker-id-start-year"
+                                  lang="nb"
+                                  name="date-picker-id__input"
+                                  onBlur={[Function]}
+                                  onChange={[Function]}
+                                  onFocus={[Function]}
+                                  onKeyDown={[Function]}
+                                  onMouseUp={[Function]}
+                                  onPaste={[Function]}
+                                  size="4"
+                                  spellCheck={false}
+                                  type="text"
+                                />
+                              </t>
+                            </ForwardRef>
+                            <label
+                              hidden={true}
+                              id="date-picker-id-start-year-label"
+                              key="yl4"
+                            >
+                              fra år
+                            </label>
+                            <span
+                              aria-hidden={true}
+                              className="dnb-date-picker--separator"
+                            >
+                               – 
+                            </span>
+                            <ForwardRef
                               aria-labelledby="date-picker-id-end-day-label"
-                              autoCapitalize="none"
                               autoComplete="off"
-                              autoCorrect="off"
                               className="dnb-date-picker__input dnb-date-picker__input--day dnb-input__input"
                               disabled={false}
-                              guide={true}
                               hidden={true}
                               id="date-picker-id-end-day"
-                              keepCharPositions={false}
+                              key="di0"
                               lang="nb"
                               mask={
                                 Array [
@@ -841,24 +815,28 @@ exports[`DatePicker component have to match snapshot 1`] = `
                               onMouseUp={[Function]}
                               onPaste={[Function]}
                               placeholderChar="d"
-                              render={[Function]}
-                              showMask={true}
                               size="2"
-                              spellCheck={false}
                               type="text"
                               value="15"
                             >
-                              <input
+                              <t
                                 aria-labelledby="date-picker-id-end-day-label"
                                 autoCapitalize="none"
                                 autoComplete="off"
                                 autoCorrect="off"
                                 className="dnb-date-picker__input dnb-date-picker__input--day dnb-input__input"
-                                defaultValue="15"
                                 disabled={false}
+                                guide={true}
                                 hidden={true}
                                 id="date-picker-id-end-day"
+                                keepCharPositions={false}
                                 lang="nb"
+                                mask={
+                                  Array [
+                                    /\\[0-3\\]/,
+                                    /\\[0-9\\]/,
+                                  ]
+                                }
                                 name="date-picker-id__input"
                                 onBlur={[Function]}
                                 onChange={[Function]}
@@ -866,64 +844,60 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                 onKeyDown={[Function]}
                                 onMouseUp={[Function]}
                                 onPaste={[Function]}
+                                placeholderChar="d"
+                                render={[Function]}
+                                showMask={true}
                                 size="2"
                                 spellCheck={false}
                                 type="text"
-                              />
-                            </t>
-                          </ForwardRef>
-                          <label
-                            hidden={true}
-                            id="date-picker-id-end-day-label"
-                            key="dl0"
-                          >
-                            til dag
-                          </label>
-                          <span
-                            aria-hidden={true}
-                            className="dnb-date-picker--separator"
-                            key="s1"
-                          >
-                            .
-                          </span>
-                          <ForwardRef
-                            aria-labelledby="date-picker-id-end-month-label"
-                            autoComplete="off"
-                            className="dnb-date-picker__input dnb-date-picker__input--month dnb-input__input"
-                            disabled={false}
-                            hidden={true}
-                            id="date-picker-id-end-month"
-                            key="mi2"
-                            lang="nb"
-                            mask={
-                              Array [
-                                /\\[0-1\\]/,
-                                /\\[0-9\\]/,
-                              ]
-                            }
-                            name="date-picker-id__input"
-                            onBlur={[Function]}
-                            onChange={[Function]}
-                            onFocus={[Function]}
-                            onKeyDown={[Function]}
-                            onMouseUp={[Function]}
-                            onPaste={[Function]}
-                            placeholderChar="m"
-                            size="2"
-                            type="text"
-                            value="02"
-                          >
-                            <t
+                                value="15"
+                              >
+                                <input
+                                  aria-labelledby="date-picker-id-end-day-label"
+                                  autoCapitalize="none"
+                                  autoComplete="off"
+                                  autoCorrect="off"
+                                  className="dnb-date-picker__input dnb-date-picker__input--day dnb-input__input"
+                                  defaultValue="15"
+                                  disabled={false}
+                                  hidden={true}
+                                  id="date-picker-id-end-day"
+                                  lang="nb"
+                                  name="date-picker-id__input"
+                                  onBlur={[Function]}
+                                  onChange={[Function]}
+                                  onFocus={[Function]}
+                                  onKeyDown={[Function]}
+                                  onMouseUp={[Function]}
+                                  onPaste={[Function]}
+                                  size="2"
+                                  spellCheck={false}
+                                  type="text"
+                                />
+                              </t>
+                            </ForwardRef>
+                            <label
+                              hidden={true}
+                              id="date-picker-id-end-day-label"
+                              key="dl0"
+                            >
+                              til dag
+                            </label>
+                            <span
+                              aria-hidden={true}
+                              className="dnb-date-picker--separator"
+                              key="s1"
+                            >
+                              .
+                            </span>
+                            <ForwardRef
                               aria-labelledby="date-picker-id-end-month-label"
-                              autoCapitalize="none"
                               autoComplete="off"
-                              autoCorrect="off"
                               className="dnb-date-picker__input dnb-date-picker__input--month dnb-input__input"
                               disabled={false}
-                              guide={true}
                               hidden={true}
                               id="date-picker-id-end-month"
-                              keepCharPositions={false}
+                              key="mi2"
                               lang="nb"
                               mask={
                                 Array [
@@ -939,24 +913,28 @@ exports[`DatePicker component have to match snapshot 1`] = `
                               onMouseUp={[Function]}
                               onPaste={[Function]}
                               placeholderChar="m"
-                              render={[Function]}
-                              showMask={true}
                               size="2"
-                              spellCheck={false}
                               type="text"
                               value="02"
                             >
-                              <input
+                              <t
                                 aria-labelledby="date-picker-id-end-month-label"
                                 autoCapitalize="none"
                                 autoComplete="off"
                                 autoCorrect="off"
                                 className="dnb-date-picker__input dnb-date-picker__input--month dnb-input__input"
-                                defaultValue="02"
                                 disabled={false}
+                                guide={true}
                                 hidden={true}
                                 id="date-picker-id-end-month"
+                                keepCharPositions={false}
                                 lang="nb"
+                                mask={
+                                  Array [
+                                    /\\[0-1\\]/,
+                                    /\\[0-9\\]/,
+                                  ]
+                                }
                                 name="date-picker-id__input"
                                 onBlur={[Function]}
                                 onChange={[Function]}
@@ -964,66 +942,60 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                 onKeyDown={[Function]}
                                 onMouseUp={[Function]}
                                 onPaste={[Function]}
+                                placeholderChar="m"
+                                render={[Function]}
+                                showMask={true}
                                 size="2"
                                 spellCheck={false}
                                 type="text"
-                              />
-                            </t>
-                          </ForwardRef>
-                          <label
-                            hidden={true}
-                            id="date-picker-id-end-month-label"
-                            key="ml2"
-                          >
-                            til måned
-                          </label>
-                          <span
-                            aria-hidden={true}
-                            className="dnb-date-picker--separator"
-                            key="s3"
-                          >
-                            .
-                          </span>
-                          <ForwardRef
-                            aria-labelledby="date-picker-id-end-year-label"
-                            autoComplete="off"
-                            className="dnb-date-picker__input dnb-date-picker__input--year dnb-input__input"
-                            disabled={false}
-                            hidden={true}
-                            id="date-picker-id-end-year"
-                            key="yi4"
-                            lang="nb"
-                            mask={
-                              Array [
-                                /\\[1-2\\]/,
-                                /\\[0-9\\]/,
-                                /\\[0-9\\]/,
-                                /\\[0-9\\]/,
-                              ]
-                            }
-                            name="date-picker-id__input"
-                            onBlur={[Function]}
-                            onChange={[Function]}
-                            onFocus={[Function]}
-                            onKeyDown={[Function]}
-                            onMouseUp={[Function]}
-                            onPaste={[Function]}
-                            placeholderChar="å"
-                            size="4"
-                            type="text"
-                            value="2019"
-                          >
-                            <t
+                                value="02"
+                              >
+                                <input
+                                  aria-labelledby="date-picker-id-end-month-label"
+                                  autoCapitalize="none"
+                                  autoComplete="off"
+                                  autoCorrect="off"
+                                  className="dnb-date-picker__input dnb-date-picker__input--month dnb-input__input"
+                                  defaultValue="02"
+                                  disabled={false}
+                                  hidden={true}
+                                  id="date-picker-id-end-month"
+                                  lang="nb"
+                                  name="date-picker-id__input"
+                                  onBlur={[Function]}
+                                  onChange={[Function]}
+                                  onFocus={[Function]}
+                                  onKeyDown={[Function]}
+                                  onMouseUp={[Function]}
+                                  onPaste={[Function]}
+                                  size="2"
+                                  spellCheck={false}
+                                  type="text"
+                                />
+                              </t>
+                            </ForwardRef>
+                            <label
+                              hidden={true}
+                              id="date-picker-id-end-month-label"
+                              key="ml2"
+                            >
+                              til måned
+                            </label>
+                            <span
+                              aria-hidden={true}
+                              className="dnb-date-picker--separator"
+                              key="s3"
+                            >
+                              .
+                            </span>
+                            <ForwardRef
                               aria-labelledby="date-picker-id-end-year-label"
-                              autoCapitalize="none"
                               autoComplete="off"
-                              autoCorrect="off"
                               className="dnb-date-picker__input dnb-date-picker__input--year dnb-input__input"
                               disabled={false}
-                              guide={true}
                               hidden={true}
                               id="date-picker-id-end-year"
-                              keepCharPositions={false}
+                              key="yi4"
                               lang="nb"
                               mask={
                                 Array [
@@ -1041,24 +1013,30 @@ exports[`DatePicker component have to match snapshot 1`] = `
                               onMouseUp={[Function]}
                               onPaste={[Function]}
                               placeholderChar="å"
-                              render={[Function]}
-                              showMask={true}
                               size="4"
-                              spellCheck={false}
                               type="text"
                               value="2019"
                             >
-                              <input
+                              <t
                                 aria-labelledby="date-picker-id-end-year-label"
                                 autoCapitalize="none"
                                 autoComplete="off"
                                 autoCorrect="off"
                                 className="dnb-date-picker__input dnb-date-picker__input--year dnb-input__input"
-                                defaultValue="2019"
                                 disabled={false}
+                                guide={true}
                                 hidden={true}
                                 id="date-picker-id-end-year"
+                                keepCharPositions={false}
                                 lang="nb"
+                                mask={
+                                  Array [
+                                    /\\[1-2\\]/,
+                                    /\\[0-9\\]/,
+                                    /\\[0-9\\]/,
+                                    /\\[0-9\\]/,
+                                  ]
+                                }
                                 name="date-picker-id__input"
                                 onBlur={[Function]}
                                 onChange={[Function]}
@@ -1066,300 +1044,328 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                 onKeyDown={[Function]}
                                 onMouseUp={[Function]}
                                 onPaste={[Function]}
+                                placeholderChar="å"
+                                render={[Function]}
+                                showMask={true}
                                 size="4"
                                 spellCheck={false}
                                 type="text"
-                              />
-                            </t>
-                          </ForwardRef>
-                          <label
-                            hidden={true}
-                            id="date-picker-id-end-year-label"
-                            key="yl4"
-                          >
-                            til år
-                          </label>
+                                value="2019"
+                              >
+                                <input
+                                  aria-labelledby="date-picker-id-end-year-label"
+                                  autoCapitalize="none"
+                                  autoComplete="off"
+                                  autoCorrect="off"
+                                  className="dnb-date-picker__input dnb-date-picker__input--year dnb-input__input"
+                                  defaultValue="2019"
+                                  disabled={false}
+                                  hidden={true}
+                                  id="date-picker-id-end-year"
+                                  lang="nb"
+                                  name="date-picker-id__input"
+                                  onBlur={[Function]}
+                                  onChange={[Function]}
+                                  onFocus={[Function]}
+                                  onKeyDown={[Function]}
+                                  onMouseUp={[Function]}
+                                  onPaste={[Function]}
+                                  size="4"
+                                  spellCheck={false}
+                                  type="text"
+                                />
+                              </t>
+                            </ForwardRef>
+                            <label
+                              hidden={true}
+                              id="date-picker-id-end-year-label"
+                              key="yl4"
+                            >
+                              til år
+                            </label>
+                          </span>
                         </span>
-                      </span>
-                      <span
-                        className="dnb-input__submit-element"
-                      >
-                        <ForwardRef
-                          aria-expanded={false}
-                          aria-label="åpne datovelger"
-                          className={null}
-                          disabled={false}
-                          icon="calendar"
-                          id="date-picker-id"
-                          on_submit={[Function]}
-                          skeleton={false}
-                          title={null}
-                          type="button"
-                          variant="secondary"
+                        <span
+                          className="dnb-input__submit-element"
                         >
-                          <InputSubmitButton
+                          <ForwardRef
                             aria-expanded={false}
                             aria-label="åpne datovelger"
                             className={null}
                             disabled={false}
                             icon="calendar"
-                            icon_size={null}
                             id="date-picker-id"
-                            innerRef={
-                              Object {
-                                "current": <button
-                                  aria-expanded="false"
-                                  aria-label="åpne datovelger"
-                                  class="dnb-button dnb-button--secondary dnb-input__submit-button__button dnb-button--icon-position-right dnb-button--has-icon dnb-button--size-medium"
-                                  id="date-picker-id"
-                                  type="button"
-                                >
-                                  <span
-                                    class="dnb-button__alignment"
-                                  >
-                                    ‌
-                                  </span>
-                                  <span
-                                    aria-hidden="true"
-                                    aria-label="calendar icon"
-                                    class="dnb-icon dnb-icon--default dnb-button__icon"
-                                    role="presentation"
-                                  >
-                                    <svg
-                                      fill="none"
-                                      height="16"
-                                      viewBox="0 0 17 17"
-                                      width="16"
-                                    >
-                                      <path
-                                        clip-rule="evenodd"
-                                        d="M4.905 0c.44 0 .797.357.797.797v1.257h5.596V.797a.797.797 0 111.594 0v1.257h1.718A2.39 2.39 0 0117 4.444V14.61A2.39 2.39 0 0114.61 17H2.39A2.39 2.39 0 010 14.61V4.444a2.39 2.39 0 012.39-2.39h1.719V.797c0-.44.356-.797.796-.797zm6.393 3.648v.744a.797.797 0 101.594 0v-.744h1.718c.44 0 .797.356.797.796v1.719H1.593V4.444c0-.44.357-.796.797-.796h1.719v.744a.797.797 0 001.593 0v-.744h5.596zM1.593 7.756h13.814v6.854c0 .44-.357.797-.797.797H2.39a.797.797 0 01-.797-.797V7.756z"
-                                        fill="#000"
-                                        fill-rule="evenodd"
-                                      />
-                                    </svg>
-                                  </span>
-                                </button>,
-                              }
-                            }
                             on_submit={[Function]}
-                            on_submit_blur={null}
-                            on_submit_focus={null}
                             skeleton={false}
                             title={null}
                             type="button"
-                            value={null}
                             variant="secondary"
                           >
-                            <span
-                              className="dnb-input__submit-button"
-                              data-input-state="virgin"
-                            >
-                              <Button
-                                aria-expanded={false}
-                                aria-label="åpne datovelger"
-                                bounding={false}
-                                class={null}
-                                className="dnb-input__submit-button__button"
-                                custom_element={null}
-                                custom_method={null}
-                                disabled={false}
-                                global_status_id={null}
-                                href={null}
-                                icon="calendar"
-                                icon_position="right"
-                                icon_size={null}
-                                id="date-picker-id"
-                                innerRef={
-                                  Object {
-                                    "current": <button
-                                      aria-expanded="false"
-                                      aria-label="åpne datovelger"
-                                      class="dnb-button dnb-button--secondary dnb-input__submit-button__button dnb-button--icon-position-right dnb-button--has-icon dnb-button--size-medium"
-                                      id="date-picker-id"
-                                      type="button"
-                                    >
-                                      <span
-                                        class="dnb-button__alignment"
-                                      >
-                                        ‌
-                                      </span>
-                                      <span
-                                        aria-hidden="true"
-                                        aria-label="calendar icon"
-                                        class="dnb-icon dnb-icon--default dnb-button__icon"
-                                        role="presentation"
-                                      >
-                                        <svg
-                                          fill="none"
-                                          height="16"
-                                          viewBox="0 0 17 17"
-                                          width="16"
-                                        >
-                                          <path
-                                            clip-rule="evenodd"
-                                            d="M4.905 0c.44 0 .797.357.797.797v1.257h5.596V.797a.797.797 0 111.594 0v1.257h1.718A2.39 2.39 0 0117 4.444V14.61A2.39 2.39 0 0114.61 17H2.39A2.39 2.39 0 010 14.61V4.444a2.39 2.39 0 012.39-2.39h1.719V.797c0-.44.356-.797.796-.797zm6.393 3.648v.744a.797.797 0 101.594 0v-.744h1.718c.44 0 .797.356.797.796v1.719H1.593V4.444c0-.44.357-.796.797-.796h1.719v.744a.797.797 0 001.593 0v-.744h5.596zM1.593 7.756h13.814v6.854c0 .44-.357.797-.797.797H2.39a.797.797 0 01-.797-.797V7.756z"
-                                            fill="#000"
-                                            fill-rule="evenodd"
-                                          />
-                                        </svg>
-                                      </span>
-                                    </button>,
-                                  }
-                                }
-                                onBlur={[Function]}
-                                onClick={[Function]}
-                                onFocus={[Function]}
-                                on_click={null}
-                                size={null}
-                                skeleton={null}
-                                status={null}
-                                status_animation={null}
-                                status_state="error"
-                                text={null}
-                                title={null}
-                                tooltip={null}
-                                type="button"
-                                variant="secondary"
-                                wrap={false}
-                              >
-                                <button
-                                  aria-expanded={false}
-                                  aria-label="åpne datovelger"
-                                  className="dnb-button dnb-button--secondary dnb-input__submit-button__button dnb-button--icon-position-right dnb-button--has-icon dnb-button--size-medium"
-                                  disabled={false}
-                                  id="date-picker-id"
-                                  onBlur={[Function]}
-                                  onClick={[Function]}
-                                  onFocus={[Function]}
-                                  type="button"
-                                >
-                                  <Content
-                                    aria-expanded={false}
+                            <InputSubmitButton
+                              aria-expanded={false}
+                              aria-label="åpne datovelger"
+                              className={null}
+                              disabled={false}
+                              icon="calendar"
+                              icon_size={null}
+                              id="date-picker-id"
+                              innerRef={
+                                Object {
+                                  "current": <button
+                                    aria-expanded="false"
                                     aria-label="åpne datovelger"
-                                    bounding={false}
-                                    class={null}
-                                    className="dnb-input__submit-button__button"
-                                    content={null}
-                                    custom_element={null}
-                                    custom_method={null}
-                                    disabled={false}
-                                    global_status_id={null}
-                                    href={null}
-                                    icon="calendar"
-                                    icon_position="right"
-                                    icon_size={null}
+                                    class="dnb-button dnb-button--secondary dnb-input__submit-button__button dnb-button--icon-position-right dnb-button--has-icon dnb-button--size-medium"
                                     id="date-picker-id"
-                                    innerRef={
-                                      Object {
-                                        "current": <button
-                                          aria-expanded="false"
-                                          aria-label="åpne datovelger"
-                                          class="dnb-button dnb-button--secondary dnb-input__submit-button__button dnb-button--icon-position-right dnb-button--has-icon dnb-button--size-medium"
-                                          id="date-picker-id"
-                                          type="button"
-                                        >
-                                          <span
-                                            class="dnb-button__alignment"
-                                          >
-                                            ‌
-                                          </span>
-                                          <span
-                                            aria-hidden="true"
-                                            aria-label="calendar icon"
-                                            class="dnb-icon dnb-icon--default dnb-button__icon"
-                                            role="presentation"
-                                          >
-                                            <svg
-                                              fill="none"
-                                              height="16"
-                                              viewBox="0 0 17 17"
-                                              width="16"
-                                            >
-                                              <path
-                                                clip-rule="evenodd"
-                                                d="M4.905 0c.44 0 .797.357.797.797v1.257h5.596V.797a.797.797 0 111.594 0v1.257h1.718A2.39 2.39 0 0117 4.444V14.61A2.39 2.39 0 0114.61 17H2.39A2.39 2.39 0 010 14.61V4.444a2.39 2.39 0 012.39-2.39h1.719V.797c0-.44.356-.797.796-.797zm6.393 3.648v.744a.797.797 0 101.594 0v-.744h1.718c.44 0 .797.356.797.796v1.719H1.593V4.444c0-.44.357-.796.797-.796h1.719v.744a.797.797 0 001.593 0v-.744h5.596zM1.593 7.756h13.814v6.854c0 .44-.357.797-.797.797H2.39a.797.797 0 01-.797-.797V7.756z"
-                                                fill="#000"
-                                                fill-rule="evenodd"
-                                              />
-                                            </svg>
-                                          </span>
-                                        </button>,
-                                      }
-                                    }
-                                    isIconOnly={true}
-                                    onBlur={[Function]}
-                                    onClick={[Function]}
-                                    onFocus={[Function]}
-                                    on_click={null}
-                                    size={null}
-                                    skeleton={null}
-                                    status={null}
-                                    status_animation={null}
-                                    status_state="error"
-                                    text={null}
-                                    title={null}
-                                    tooltip={null}
                                     type="button"
-                                    variant="secondary"
-                                    wrap={false}
                                   >
                                     <span
-                                      className="dnb-button__alignment"
-                                      key="button-text-empty"
+                                      class="dnb-button__alignment"
                                     >
                                       ‌
                                     </span>
-                                    <IconPrimary
-                                      alt={null}
-                                      aria-hidden={null}
-                                      attributes={null}
-                                      border={null}
-                                      className="dnb-button__icon"
-                                      color={null}
-                                      height={null}
-                                      icon="calendar"
-                                      key="button-icon"
-                                      modifier={null}
-                                      size={null}
-                                      skeleton={null}
-                                      title={null}
-                                      width={null}
+                                    <span
+                                      aria-hidden="true"
+                                      aria-label="calendar icon"
+                                      class="dnb-icon dnb-icon--default dnb-button__icon"
+                                      role="presentation"
                                     >
-                                      <span
-                                        aria-hidden={true}
-                                        aria-label="calendar icon"
-                                        className="dnb-icon dnb-icon--default dnb-button__icon"
-                                        role="presentation"
+                                      <svg
+                                        fill="none"
+                                        height="16"
+                                        viewBox="0 0 17 17"
+                                        width="16"
                                       >
-                                        <calendar>
+                                        <path
+                                          clip-rule="evenodd"
+                                          d="M4.905 0c.44 0 .797.357.797.797v1.257h5.596V.797a.797.797 0 111.594 0v1.257h1.718A2.39 2.39 0 0117 4.444V14.61A2.39 2.39 0 0114.61 17H2.39A2.39 2.39 0 010 14.61V4.444a2.39 2.39 0 012.39-2.39h1.719V.797c0-.44.356-.797.796-.797zm6.393 3.648v.744a.797.797 0 101.594 0v-.744h1.718c.44 0 .797.356.797.796v1.719H1.593V4.444c0-.44.357-.796.797-.796h1.719v.744a.797.797 0 001.593 0v-.744h5.596zM1.593 7.756h13.814v6.854c0 .44-.357.797-.797.797H2.39a.797.797 0 01-.797-.797V7.756z"
+                                          fill="#000"
+                                          fill-rule="evenodd"
+                                        />
+                                      </svg>
+                                    </span>
+                                  </button>,
+                                }
+                              }
+                              on_submit={[Function]}
+                              on_submit_blur={null}
+                              on_submit_focus={null}
+                              skeleton={false}
+                              title={null}
+                              type="button"
+                              value={null}
+                              variant="secondary"
+                            >
+                              <span
+                                className="dnb-input__submit-button"
+                                data-input-state="virgin"
+                              >
+                                <Button
+                                  aria-expanded={false}
+                                  aria-label="åpne datovelger"
+                                  bounding={false}
+                                  class={null}
+                                  className="dnb-input__submit-button__button"
+                                  custom_element={null}
+                                  custom_method={null}
+                                  disabled={false}
+                                  global_status_id={null}
+                                  href={null}
+                                  icon="calendar"
+                                  icon_position="right"
+                                  icon_size={null}
+                                  id="date-picker-id"
+                                  innerRef={
+                                    Object {
+                                      "current": <button
+                                        aria-expanded="false"
+                                        aria-label="åpne datovelger"
+                                        class="dnb-button dnb-button--secondary dnb-input__submit-button__button dnb-button--icon-position-right dnb-button--has-icon dnb-button--size-medium"
+                                        id="date-picker-id"
+                                        type="button"
+                                      >
+                                        <span
+                                          class="dnb-button__alignment"
+                                        >
+                                          ‌
+                                        </span>
+                                        <span
+                                          aria-hidden="true"
+                                          aria-label="calendar icon"
+                                          class="dnb-icon dnb-icon--default dnb-button__icon"
+                                          role="presentation"
+                                        >
                                           <svg
                                             fill="none"
-                                            height={16}
+                                            height="16"
                                             viewBox="0 0 17 17"
-                                            width={16}
+                                            width="16"
                                           >
                                             <path
-                                              clipRule="evenodd"
+                                              clip-rule="evenodd"
                                               d="M4.905 0c.44 0 .797.357.797.797v1.257h5.596V.797a.797.797 0 111.594 0v1.257h1.718A2.39 2.39 0 0117 4.444V14.61A2.39 2.39 0 0114.61 17H2.39A2.39 2.39 0 010 14.61V4.444a2.39 2.39 0 012.39-2.39h1.719V.797c0-.44.356-.797.796-.797zm6.393 3.648v.744a.797.797 0 101.594 0v-.744h1.718c.44 0 .797.356.797.796v1.719H1.593V4.444c0-.44.357-.796.797-.796h1.719v.744a.797.797 0 001.593 0v-.744h5.596zM1.593 7.756h13.814v6.854c0 .44-.357.797-.797.797H2.39a.797.797 0 01-.797-.797V7.756z"
                                               fill="#000"
-                                              fillRule="evenodd"
+                                              fill-rule="evenodd"
                                             />
                                           </svg>
-                                        </calendar>
+                                        </span>
+                                      </button>,
+                                    }
+                                  }
+                                  onBlur={[Function]}
+                                  onClick={[Function]}
+                                  onFocus={[Function]}
+                                  on_click={null}
+                                  size={null}
+                                  skeleton={null}
+                                  status={null}
+                                  status_animation={null}
+                                  status_state="error"
+                                  text={null}
+                                  title={null}
+                                  tooltip={null}
+                                  type="button"
+                                  variant="secondary"
+                                  wrap={false}
+                                >
+                                  <button
+                                    aria-expanded={false}
+                                    aria-label="åpne datovelger"
+                                    className="dnb-button dnb-button--secondary dnb-input__submit-button__button dnb-button--icon-position-right dnb-button--has-icon dnb-button--size-medium"
+                                    disabled={false}
+                                    id="date-picker-id"
+                                    onBlur={[Function]}
+                                    onClick={[Function]}
+                                    onFocus={[Function]}
+                                    type="button"
+                                  >
+                                    <Content
+                                      aria-expanded={false}
+                                      aria-label="åpne datovelger"
+                                      bounding={false}
+                                      class={null}
+                                      className="dnb-input__submit-button__button"
+                                      content={null}
+                                      custom_element={null}
+                                      custom_method={null}
+                                      disabled={false}
+                                      global_status_id={null}
+                                      href={null}
+                                      icon="calendar"
+                                      icon_position="right"
+                                      icon_size={null}
+                                      id="date-picker-id"
+                                      innerRef={
+                                        Object {
+                                          "current": <button
+                                            aria-expanded="false"
+                                            aria-label="åpne datovelger"
+                                            class="dnb-button dnb-button--secondary dnb-input__submit-button__button dnb-button--icon-position-right dnb-button--has-icon dnb-button--size-medium"
+                                            id="date-picker-id"
+                                            type="button"
+                                          >
+                                            <span
+                                              class="dnb-button__alignment"
+                                            >
+                                              ‌
+                                            </span>
+                                            <span
+                                              aria-hidden="true"
+                                              aria-label="calendar icon"
+                                              class="dnb-icon dnb-icon--default dnb-button__icon"
+                                              role="presentation"
+                                            >
+                                              <svg
+                                                fill="none"
+                                                height="16"
+                                                viewBox="0 0 17 17"
+                                                width="16"
+                                              >
+                                                <path
+                                                  clip-rule="evenodd"
+                                                  d="M4.905 0c.44 0 .797.357.797.797v1.257h5.596V.797a.797.797 0 111.594 0v1.257h1.718A2.39 2.39 0 0117 4.444V14.61A2.39 2.39 0 0114.61 17H2.39A2.39 2.39 0 010 14.61V4.444a2.39 2.39 0 012.39-2.39h1.719V.797c0-.44.356-.797.796-.797zm6.393 3.648v.744a.797.797 0 101.594 0v-.744h1.718c.44 0 .797.356.797.796v1.719H1.593V4.444c0-.44.357-.796.797-.796h1.719v.744a.797.797 0 001.593 0v-.744h5.596zM1.593 7.756h13.814v6.854c0 .44-.357.797-.797.797H2.39a.797.797 0 01-.797-.797V7.756z"
+                                                  fill="#000"
+                                                  fill-rule="evenodd"
+                                                />
+                                              </svg>
+                                            </span>
+                                          </button>,
+                                        }
+                                      }
+                                      isIconOnly={true}
+                                      onBlur={[Function]}
+                                      onClick={[Function]}
+                                      onFocus={[Function]}
+                                      on_click={null}
+                                      size={null}
+                                      skeleton={null}
+                                      status={null}
+                                      status_animation={null}
+                                      status_state="error"
+                                      text={null}
+                                      title={null}
+                                      tooltip={null}
+                                      type="button"
+                                      variant="secondary"
+                                      wrap={false}
+                                    >
+                                      <span
+                                        className="dnb-button__alignment"
+                                        key="button-text-empty"
+                                      >
+                                        ‌
                                       </span>
-                                    </IconPrimary>
-                                  </Content>
-                                </button>
-                              </Button>
-                            </span>
-                          </InputSubmitButton>
-                        </ForwardRef>
+                                      <IconPrimary
+                                        alt={null}
+                                        aria-hidden={null}
+                                        attributes={null}
+                                        border={null}
+                                        className="dnb-button__icon"
+                                        color={null}
+                                        height={null}
+                                        icon="calendar"
+                                        key="button-icon"
+                                        modifier={null}
+                                        size={null}
+                                        skeleton={null}
+                                        title={null}
+                                        width={null}
+                                      >
+                                        <span
+                                          aria-hidden={true}
+                                          aria-label="calendar icon"
+                                          className="dnb-icon dnb-icon--default dnb-button__icon"
+                                          role="presentation"
+                                        >
+                                          <calendar>
+                                            <svg
+                                              fill="none"
+                                              height={16}
+                                              viewBox="0 0 17 17"
+                                              width={16}
+                                            >
+                                              <path
+                                                clipRule="evenodd"
+                                                d="M4.905 0c.44 0 .797.357.797.797v1.257h5.596V.797a.797.797 0 111.594 0v1.257h1.718A2.39 2.39 0 0117 4.444V14.61A2.39 2.39 0 0114.61 17H2.39A2.39 2.39 0 010 14.61V4.444a2.39 2.39 0 012.39-2.39h1.719V.797c0-.44.356-.797.796-.797zm6.393 3.648v.744a.797.797 0 101.594 0v-.744h1.718c.44 0 .797.356.797.796v1.719H1.593V4.444c0-.44.357-.796.797-.796h1.719v.744a.797.797 0 001.593 0v-.744h5.596zM1.593 7.756h13.814v6.854c0 .44-.357.797-.797.797H2.39a.797.797 0 01-.797-.797V7.756z"
+                                                fill="#000"
+                                                fillRule="evenodd"
+                                              />
+                                            </svg>
+                                          </calendar>
+                                        </span>
+                                      </IconPrimary>
+                                    </Content>
+                                  </button>
+                                </Button>
+                              </span>
+                            </InputSubmitButton>
+                          </ForwardRef>
+                        </span>
                       </span>
                     </span>
                   </span>
-                </span>
-              </Input>
+                </Input>
+                 
+              </fieldset>
             </DatePickerInput>
             <span
               className="dnb-date-picker__container"
@@ -3170,6 +3176,11 @@ legend.dnb-form-label {
         display: none; } }
   .dnb-date-picker .dnb-input__submit-button .dnb-button.dnb-skeleton {
     visibility: hidden; }
+  .dnb-date-picker__fieldset,
+  .dnb-core-style .dnb-date-picker__fieldset {
+    margin: 0;
+    padding: 0;
+    border: none; }
   @media screen and (-ms-high-contrast: none) {
     .dnb-date-picker {
       flex: none; }

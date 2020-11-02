@@ -555,9 +555,6 @@ export default class DatePicker extends React.PureComponent {
         .filter(Boolean)
         .join(' ')
     }
-    if (label) {
-      pickerParams['aria-labelledby'] = id + '-label'
-    }
 
     const submitParams = {
       ['aria-expanded']: opened,
