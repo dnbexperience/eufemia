@@ -166,7 +166,7 @@ export default class DatePickerCalendar extends React.PureComponent {
       switch (keyCode) {
         case 'enter':
         case 'space':
-          this.callOnChange({
+          this.callOnSelect({
             event,
             nr,
             hidePicker: true
@@ -236,7 +236,7 @@ export default class DatePickerCalendar extends React.PureComponent {
 
       this.context.setDate(state, () => {
         // call after state update, so the input get's the latest state as well
-        this.callOnChange({
+        this.callOnSelect({
           event,
           nr,
           hidePicker: false
@@ -250,7 +250,7 @@ export default class DatePickerCalendar extends React.PureComponent {
     }
   }
 
-  callOnChange(args) {
+  callOnSelect(args) {
     this.props.onSelect && this.props.onSelect(args)
   }
 
@@ -568,7 +568,13 @@ export default class DatePickerCalendar extends React.PureComponent {
                                     resetDate,
                                     event,
                                     onSelect: (state) =>
-                                      this.context.setDate(state)
+                                      this.context.setDate(state, () =>
+                                        this.callOnSelect({
+                                          event,
+                                          nr,
+                                          hidePicker: !isRange
+                                        })
+                                      )
                                   })
                           }
                           onMouseOver={

@@ -83,6 +83,69 @@ describe('DatePicker component', () => {
     ).toBe(false)
   })
 
+  it('will close the picker after selection ', () => {
+    const on_change = jest.fn()
+    const Comp = mount(
+      <Component {...defaultProps} on_change={on_change} />
+    )
+
+    Comp.find('button.dnb-input__submit-button__button').simulate('click')
+
+    expect(
+      Comp.find('.dnb-date-picker').instance().getAttribute('class')
+    ).toContain('dnb-date-picker--opened')
+
+    const startTd = Comp.find('td.dnb-date-picker__day').at(10)
+    const startButton = startTd.find('button')
+    const startLabel = startButton.instance().getAttribute('aria-label')
+
+    const endTd = Comp.find('td.dnb-date-picker__day').at(60)
+    const endButton = endTd.find('button')
+    const endLabel = endButton.instance().getAttribute('aria-label')
+
+    expect(startLabel).toBe('torsdag 10. januar 2019')
+    expect(endLabel).toBe('fredag 15. februar 2019')
+
+    expect(on_change).not.toHaveBeenCalled()
+
+    startButton.simulate('click')
+    expect(on_change).toHaveBeenCalledTimes(1)
+    expect(on_change.mock.calls[0][0].start_date).toBe('2019-01-10')
+    expect(on_change.mock.calls[0][0].end_date).toBe(null)
+
+    endButton.simulate('click')
+    expect(on_change).toHaveBeenCalledTimes(2)
+    expect(on_change.mock.calls[1][0].start_date).toBe('2019-01-10')
+    expect(on_change.mock.calls[1][0].end_date).toBe('2019-02-15')
+
+    expect(
+      Comp.find('.dnb-date-picker').hasClass('dnb-date-picker--closed')
+    ).toBe(false)
+
+    Comp.setProps({
+      range: false
+    })
+
+    expect(on_change).toHaveBeenCalledTimes(2)
+
+    const singleTd = Comp.find('td.dnb-date-picker__day').at(11)
+    const singleButton = singleTd.find('button')
+    const singleLabel = singleButton.instance().getAttribute('aria-label')
+
+    expect(singleLabel).toBe('fredag 11. januar 2019')
+
+    singleButton.simulate('click')
+
+    expect(on_change).toHaveBeenCalledTimes(3)
+    expect(on_change.mock.calls[2][0].date).toBe('2019-01-11')
+    expect(on_change.mock.calls[2][0].start_date).toBe(undefined)
+    expect(on_change.mock.calls[2][0].end_date).toBe(undefined)
+
+    expect(
+      Comp.find('.dnb-date-picker').instance().getAttribute('class')
+    ).not.toContain('dnb-date-picker--opened')
+  })
+
   it('has to work with shortcuts', () => {
     const Comp = mount(
       <Component
