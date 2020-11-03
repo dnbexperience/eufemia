@@ -203,9 +203,7 @@ export default class Accordion extends React.PureComponent {
 
     if (
       isTrue(props.remember_state || context.remember_state) &&
-      isTrue(props.expanded) &&
-      !isTrue(props.flush_remembered_state) &&
-      !isTrue(context.flush_remembered_state)
+      isTrue(props.expanded)
     ) {
       const expanded = this.store.getState()
       if (expanded === false) {
@@ -228,11 +226,7 @@ export default class Accordion extends React.PureComponent {
       this.setExpandedState(false)
     }
 
-    if (
-      isTrue(this.props.remember_state || this.context.remember_state) &&
-      !isTrue(this.props.flush_remembered_state) &&
-      !isTrue(this.context.flush_remembered_state)
-    ) {
+    if (isTrue(this.props.remember_state || this.context.remember_state)) {
       const expanded = this.store.getState()
       if (expanded) {
         this.setExpandedState(true)
@@ -588,13 +582,17 @@ class Store {
     return `dnb-accordion-${id}`
   }
 
-  saveState(expanded, id = this.id) {
+  saveState(expanded, id = this.id, opts = {}) {
     if (id) {
       try {
         const store = this.getData() || {}
 
         if (this.group) {
-          store.id = expanded ? id : null
+          if (expanded) {
+            store.id = id
+          } else if (opts && opts.force) {
+            store.id = null
+          }
         } else {
           store.expanded = expanded
         }
