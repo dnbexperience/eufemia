@@ -192,10 +192,23 @@ export const DrawerSandbox = () => (
     </Box>
 
     <Box>
+      <Modal
+        mode="drawer"
+        title="Drawer Title"
+        trigger_text="Open Drawer"
+        trigger_title="Click me"
+      >
+        <Modal.Inner>
+          <P>This is a left aligned Drawer content.</P>
+        </Modal.Inner>
+      </Modal>
+    </Box>
+
+    <Box>
       {/* <Button variant="tertiary" text="Button" /> */}
       <Modal
         // no_animation
-        open_state="opened"
+        // open_state="opened"
         mode="drawer"
         trigger_text="Drawer in Drawer"
         // fullscreen

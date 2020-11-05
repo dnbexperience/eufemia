@@ -545,7 +545,7 @@ export default class Modal extends React.PureComponent {
         this._id = triggerAttributes.id
       }
 
-      if (triggerAttributes.title) {
+      if (!rest.title && triggerAttributes.title) {
         modalProps.title = triggerAttributes.title
       }
       // in case the modal is used in suffix and no title is given
