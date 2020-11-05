@@ -8,7 +8,7 @@ import ComponentBox from 'Tags/ComponentBox'
 
 ### Default HelpButton
 
-<ComponentBox data-dnb-test="help-button-default">
+<ComponentBox data-visual-test="help-button-default">
 	{
 	/* @jsx */ `
 <HelpButton>
@@ -20,7 +20,7 @@ import ComponentBox from 'Tags/ComponentBox'
 
 ### Help button using information icon
 
-<ComponentBox data-dnb-test="help-button-sizes">
+<ComponentBox data-visual-test="help-button-sizes">
 	{
 	/* @jsx */ `
 <HelpButton title="Custom title">Text</HelpButton>

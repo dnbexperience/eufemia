@@ -14,7 +14,7 @@ Every visited step can be clicked.
 <!-- prettier-ignore-start -->
 
 <ComponentBox
-	data-dnb-test="step-indicator-buttons"
+	data-visual-test="step-indicator-buttons"
 	hideSyntaxButton
 >
 	{`
@@ -103,7 +103,7 @@ render(<CustomStepIndicator
 Using urls for visited steps only. 
 
 <ComponentBox
-	data-dnb-test="step-indicator-urls"
+	data-visual-test="step-indicator-urls"
 	scope={{ createBrowserHistory }}
 	hideSyntaxButton
 	hideCode
@@ -157,7 +157,7 @@ render(<>
 ### Default StepIndicator with no navigation
 
 <ComponentBox
-	data-dnb-test="step-indicator-default"
+	data-visual-test="step-indicator-default"
 >
 	{
 	/* @jsx */ `

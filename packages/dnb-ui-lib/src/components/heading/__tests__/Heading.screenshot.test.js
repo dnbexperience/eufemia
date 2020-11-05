@@ -19,19 +19,19 @@ describe('Heading screenshot', () => {
   })
   it('have to match default headings', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-dnb-test="heading-default"]'
+      selector: '[data-visual-test="heading-default"]'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
   it('have to match headings with context usage', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-dnb-test="heading-context"]'
+      selector: '[data-visual-test="heading-context"]'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
   it('have to match headings with manual mixin', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-dnb-test="heading-mixin"]'
+      selector: '[data-visual-test="heading-mixin"]'
     })
     expect(screenshot).toMatchImageSnapshot()
   })

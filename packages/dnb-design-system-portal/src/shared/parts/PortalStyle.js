@@ -8,46 +8,6 @@ import { gridStyle } from 'dnb-ui-lib/stories/GridStyle'
 
 export { gridStyle }
 
-// Screenshot Tests Setup
-let testWrapperStyle = ''
-if (typeof window !== 'undefined' && window.IS_TEST) {
-  testWrapperStyle = css`
-    [data-dnb-test-wrapper] {
-      position: relative;
-      z-index: 9999;
-
-      /* to get smaller width to the right (no white space) */
-      display: inline-block;
-
-      /* to get a space arround the element,
-      so we can include a box-shadow in the screenshot */
-      padding: 1rem;
-      margin: -1rem;
-
-      background: #fff;
-    }
-
-    /* stop scrolling */
-    html {
-      scroll-behavior: auto !important;
-    }
-
-    /* because the font-weight is differently on Arial, we have to redefine it to be bold */
-    ${'' /* :root {
-      --font-weight-medium: 600;
-      --font-weight-medium: 700;
-    } */}
-
-    ${'' /* body * {
-      font-family: Arial, Helvetica, sans-serif !important;
-      font-variant-numeric: normal;
-      font-feature-settings: normal;
-
-      -webkit-font-smoothing: antialiased;
-    } */}
-  `
-}
-
 export default css`
   ${'' /* .dnb-form-component {
     @media screen and (max-width: 40em) {
@@ -63,7 +23,7 @@ export default css`
     Make sure we cut the tab and seciton parts on the left side
     so it's not visible "over" the sidebar.
    */
-  .dnb-app-content-inner {
+  .dnb-app-content {
     overflow: hidden;
   }
 
@@ -297,7 +257,4 @@ export default css`
   .lh-32 {
     line-height: calc(var(--line-height-basis) + 1rem); /* 2rem */
   }
-
-  /* Do not delete, this is used for screenshot testing */
-  ${testWrapperStyle};
 `

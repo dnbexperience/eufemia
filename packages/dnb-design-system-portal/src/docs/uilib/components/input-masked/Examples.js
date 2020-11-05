@@ -17,7 +17,7 @@ class Example extends React.PureComponent {
       <React.Fragment>
         <ComponentBox
           title="Using the `currency_mask`"
-          data-dnb-test="input-masked-currency_mask"
+          data-visual-test="input-masked-currency_mask"
         >
           {
             /* @jsx */ `
@@ -64,7 +64,7 @@ class Example extends React.PureComponent {
         </ComponentBox>
         <ComponentBox
           title="Using the `number_mask` - combined suffix"
-          data-dnb-test="input-masked-number_mask"
+          data-visual-test="input-masked-number_mask"
         >
           {
             /* @jsx */ `
@@ -103,7 +103,7 @@ class Example extends React.PureComponent {
         </ComponentBox>
         <ComponentBox
           title="Phone Number, starting with 4"
-          data-dnb-test="input-masked-phone"
+          data-visual-test="input-masked-phone"
         >
           {
             /* @jsx */ `

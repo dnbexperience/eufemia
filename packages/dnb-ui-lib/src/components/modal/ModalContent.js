@@ -101,7 +101,7 @@ export default class ModalContent extends React.PureComponent {
   constructor(props) {
     super(props)
     this._contentRef = React.createRef()
-    this._id = props.content_id || makeUniqueId()
+    this._id = makeUniqueId()
     this._ii = new InteractionInvalidation().setBypassSelector(
       '.dnb-modal__content'
     )
@@ -190,13 +190,13 @@ export default class ModalContent extends React.PureComponent {
       class: _className,
       content_class,
       overlay_class,
-      content_id, // eslint-disable-line
+      content_id,
       toggleOpenClose, // eslint-disable-line
       children, // eslint-disable-line
       ...rest
     } = this.props
 
-    const id = this._id
+    const id = content_id || this._id
 
     // ensure the min/max don't conflict
     let minWidth = min_width
@@ -230,7 +230,6 @@ export default class ModalContent extends React.PureComponent {
     }
 
     const innerParams = {
-      id,
       tabIndex: -1,
       className: classnames(
         'dnb-modal__content__inner',
@@ -266,7 +265,7 @@ export default class ModalContent extends React.PureComponent {
 
     return (
       <>
-        <div {...contentParams}>
+        <div id={id} {...contentParams}>
           <ScrollView {...innerParams} ref={this._contentRef}>
             {title && (
               <h1

@@ -12,6 +12,7 @@ import {
 import Context from '../../shared/Context'
 import Modal from '../modal/Modal'
 import HelpButtonInstance from './HelpButtonInstance'
+import Button from '../button/Button'
 
 export default class HelpButton extends React.PureComponent {
   static contextType = Context
@@ -20,16 +21,28 @@ export default class HelpButton extends React.PureComponent {
   static propTypes = {
     id: PropTypes.string,
     title: PropTypes.node,
+    variant: Button.propTypes.variant,
+    icon: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.node,
+      PropTypes.func
+    ]),
+    icon_position: PropTypes.string,
     text: PropTypes.node,
     modal_content: PropTypes.node,
+    modal_props: PropTypes.object,
     children: PropTypes.oneOfType([PropTypes.node, PropTypes.func])
   }
 
   static defaultProps = {
     id: null,
     title: null,
+    variant: 'secondary',
+    icon: null,
+    icon_position: 'left',
     text: null,
     modal_content: null,
+    modal_props: null,
     children: null
   }
 
@@ -54,10 +67,15 @@ export default class HelpButton extends React.PureComponent {
     const {
       modal_content, // eslint-disable-line
       children, // eslint-disable-line
+      modal_props,
       ...params
     } = this.props
 
     const content = HelpButton.getContent(this.props)
+
+    if (params.icon === null) {
+      params.icon = 'question'
+    }
 
     if (content) {
       if (!params.title) {
@@ -65,7 +83,7 @@ export default class HelpButton extends React.PureComponent {
       }
 
       return (
-        <Modal as_help_button {...params}>
+        <Modal trigger_props={params} {...modal_props}>
           {content}
         </Modal>
       )

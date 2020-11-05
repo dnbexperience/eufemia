@@ -8,7 +8,7 @@ import ComponentBox from 'Src/shared/tags/ComponentBox'
 
 ### Default form-label
 
-<ComponentBox data-dnb-test="form-label-default">
+<ComponentBox data-visual-test="form-label-default">
 	{/* @jsx */ `
 <FormLabel for_id="alone-1">
   Default horizontal FormLabel:
@@ -19,7 +19,7 @@ import ComponentBox from 'Src/shared/tags/ComponentBox'
 
 ### Vertical form-label
 
-<ComponentBox data-dnb-test="form-label-vertical">
+<ComponentBox data-visual-test="form-label-vertical">
 	{/* @jsx */ `
 <FormLabel for_id="alone-2" label_direction="vertical">
   Vertical FormLabel:

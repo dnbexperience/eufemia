@@ -15,19 +15,19 @@ describe('List screenshot', () => {
   })
   it('have to match default horizontal rule', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-dnb-test="hr-default"]'
+      selector: '[data-visual-test="hr-default"]'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
   it('have to match fullscreen horizontal rule', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-dnb-test="hr-fullscreen"]'
+      selector: '[data-visual-test="hr-fullscreen"]'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
   it('have to match thickness horizontal rule', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-dnb-test="hr-thickness"]'
+      selector: '[data-visual-test="hr-thickness"]'
     })
     expect(screenshot).toMatchImageSnapshot()
   })

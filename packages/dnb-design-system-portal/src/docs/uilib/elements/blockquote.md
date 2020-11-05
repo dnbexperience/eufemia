@@ -10,7 +10,7 @@ import ComponentBox from 'Tags/ComponentBox'
 
 <ComponentBox hideCode>
 {`
-<Blockquote data-dnb-test="blockquote-default">
+<Blockquote data-visual-test="blockquote-default">
   Dis leo aliquam neque aptent nascetur metus ad ut eu Choro vivendum tractatos ei quo.
   <cite>Cite Referance</cite>
 </Blockquote>
@@ -21,7 +21,7 @@ import ComponentBox from 'Tags/ComponentBox'
 
 <ComponentBox hideCode>
 {`
-<Blockquote data-dnb-test="blockquote-top" className="dnb-blockquote--top">
+<Blockquote data-visual-test="blockquote-top" className="dnb-blockquote--top">
   Dis leo aliquam neque aptent nascetur metus ad ut eu Choro
   <a className="dnb-anchor" href="/uilib/elements#blockquote">
     vivendum tractatos
@@ -34,7 +34,7 @@ import ComponentBox from 'Tags/ComponentBox'
 
 <ComponentBox hideCode>
 {`
-<Blockquote data-dnb-test="blockquote-no-background" className="dnb-blockquote--no-background">
+<Blockquote data-visual-test="blockquote-no-background" className="dnb-blockquote--no-background">
   Dis leo aliquam neque aptent nascetur metus ad ut eu Choro vivendum tractatos ei quo. Luctus cursus odio hendrerit ullamcorper adipiscing est dis curabitur sit.
 
   <cite>
@@ -50,7 +50,7 @@ import ComponentBox from 'Tags/ComponentBox'
 
 <ComponentBox hideCode>
 {`
-<Blockquote data-dnb-test="blockquote-top-no-background" className="dnb-blockquote--no-background dnb-blockquote--top">
+<Blockquote data-visual-test="blockquote-top-no-background" className="dnb-blockquote--no-background dnb-blockquote--top">
   Dis leo aliquam neque aptent nascetur metus ad ut eu Choro
   <a className="dnb-anchor" href="/uilib/elements#blockquote">
     vivendum tractatos

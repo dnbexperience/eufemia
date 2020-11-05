@@ -15,7 +15,7 @@
   &:not(#{&}--no-animation) {
     animation: date-picker-slide-down 200ms ease-out 1 forwards;
   }
-  html[data-dnb-test] &,
+  html[data-visual-test] &,
   &--no-animation {
     animation: date-picker-slide-down 1ms ease-out 1 forwards;
   }
@@ -24,7 +24,7 @@
   &:not(#{&}--no-animation) {
     animation: date-picker-slide-up 150ms ease-out 1 forwards;
   }
-  html[data-dnb-test] &,
+  html[data-visual-test] &,
   &--no-animation {
     animation: date-picker-slide-up 1ms ease-out 1 forwards;
   }

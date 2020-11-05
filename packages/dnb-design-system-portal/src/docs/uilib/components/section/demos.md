@@ -8,7 +8,7 @@ import ComponentBox from 'Src/shared/tags/ComponentBox'
 
 ### Default Section
 
-<ComponentBox hideCode data-dnb-test="section-default">
+<ComponentBox hideCode data-visual-test="section-default">
 	{
 	/* @html */ `
 <Section>
@@ -20,7 +20,7 @@ import ComponentBox from 'Src/shared/tags/ComponentBox'
 
 ### Default Section with large spacing
 
-<ComponentBox hideCode data-dnb-test="section-spacing">
+<ComponentBox hideCode data-visual-test="section-spacing">
 	{
 	/* @html */ `
 <Section spacing="large">
@@ -32,7 +32,7 @@ import ComponentBox from 'Src/shared/tags/ComponentBox'
 
 ### White Section
 
-<ComponentBox hideCode data-dnb-test="section-white">
+<ComponentBox hideCode data-visual-test="section-white">
 	{
 	/* @html */ `
 <Section spacing="true" style_type="white">
@@ -44,7 +44,7 @@ import ComponentBox from 'Src/shared/tags/ComponentBox'
 
 ### Divider Section
 
-<ComponentBox hideCode data-dnb-test="section-divider">
+<ComponentBox hideCode data-visual-test="section-divider">
 	{
 	/* @html */ `
 <Section spacing="true" style_type="divider">
@@ -56,7 +56,7 @@ import ComponentBox from 'Src/shared/tags/ComponentBox'
 
 ### Mint-Green Section
 
-<ComponentBox hideCode data-dnb-test="section-mint-green">
+<ComponentBox hideCode data-visual-test="section-mint-green">
 	{
 	/* @html */ `
 <Section spacing="true" style_type="mint-green">
@@ -68,7 +68,7 @@ import ComponentBox from 'Src/shared/tags/ComponentBox'
 
 ### Emerald-Green Section
 
-<ComponentBox hideCode data-dnb-test="section-emerald-green">
+<ComponentBox hideCode data-visual-test="section-emerald-green">
 	{
 	/* @html */ `
 <Section spacing="true" style_type="emerald-green">
@@ -80,7 +80,7 @@ import ComponentBox from 'Src/shared/tags/ComponentBox'
 
 ### Lavender Section
 
-<ComponentBox data-dnb-test="section-lavender">
+<ComponentBox data-visual-test="section-lavender">
 	{
 	/* @html */ `
 <Section spacing="true" style_type="lavender">
@@ -92,7 +92,7 @@ import ComponentBox from 'Src/shared/tags/ComponentBox'
 
 ### Grey Section
 
-<ComponentBox data-dnb-test="section-black-3">
+<ComponentBox data-visual-test="section-black-3">
 	{
 	/* @html */ `
 <Section spacing="true" style_type="black-3">
@@ -104,7 +104,7 @@ import ComponentBox from 'Src/shared/tags/ComponentBox'
 
 ### Sand-Yellow Section
 
-<ComponentBox data-dnb-test="section-sand-yellow">
+<ComponentBox data-visual-test="section-sand-yellow">
 	{
 	/* @html */ `
 <Section spacing="true" style_type="sand-yellow">
@@ -116,7 +116,7 @@ import ComponentBox from 'Src/shared/tags/ComponentBox'
 
 ### Pistachio Section
 
-<ComponentBox data-dnb-test="section-pistachio">
+<ComponentBox data-visual-test="section-pistachio">
 	{
 	/* @html */ `
 <Section spacing="true" style_type="pistachio">
@@ -128,7 +128,7 @@ import ComponentBox from 'Src/shared/tags/ComponentBox'
 
 ### Fire-Red Section
 
-<ComponentBox data-dnb-test="section-fire-red">
+<ComponentBox data-visual-test="section-fire-red">
 	{
 	/* @html */ `
 <Section spacing="true" style_type="fire-red">

@@ -19,8 +19,6 @@ InputSubmit,
 
 ## Demos
 
-<ScreenshotTests />
-
 ### Placeholder text
 
 <InputDefault />
@@ -68,3 +66,5 @@ With left / right aligned text
 Pressing the enter key will trigger a submit.
 
 <InputSubmit />
+
+<ScreenshotTests />

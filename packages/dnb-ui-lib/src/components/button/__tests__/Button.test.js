@@ -98,6 +98,14 @@ describe('Button component', () => {
     expect(myEvent.mock.calls.length).toBe(1)
   })
 
+  it('has set innerRef if ref was given', () => {
+    const ref = React.createRef()
+    expect(ref.current).toBe(null)
+    mount(<Component {...props} innerRef={ref} />)
+    expect(ref.current).not.toBe(null)
+    expect(typeof ref.current).toBe('object')
+  })
+
   it('should validate with ARIA rules as a button', async () => {
     const Comp = mount(<Component {...props} />)
     expect(await axeComponent(Comp)).toHaveNoViolations()

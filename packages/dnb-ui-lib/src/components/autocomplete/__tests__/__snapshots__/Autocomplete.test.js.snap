@@ -288,6 +288,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
             text="status"
             text_id="autocomplete-id-status"
             title={null}
+            width_element={null}
             width_selector={null}
           >
             <span
@@ -2137,7 +2138,7 @@ legend.dnb-form-label {
     align-items: center;
     color: var(--color-sea-green); }
     .dnb-autocomplete__show-all .dnb-drawer-list__option__inner .dnb-icon {
-      margin-right: 0.5rem; }
+      align-self: center; }
   .dnb-autocomplete__input {
     display: inline-flex;
     align-items: center;

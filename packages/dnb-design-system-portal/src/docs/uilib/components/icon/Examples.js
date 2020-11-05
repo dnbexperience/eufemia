@@ -13,7 +13,10 @@ import * as PrimaryIconsMedium from 'dnb-ui-lib/src/icons/primary_icons_medium'
 import * as SecondaryIconsMedium from 'dnb-ui-lib/src/icons/secondary_icons_medium'
 
 export const IconDefault = () => (
-  <ComponentBox data-dnb-test="icon-default" scope={{ Bell, BellMedium }}>
+  <ComponentBox
+    data-visual-test="icon-default"
+    scope={{ Bell, BellMedium }}
+  >
     {
       /* @jsx */ `
 <Icon icon={Bell} title="Give Icons a Title, or ..." />
@@ -25,7 +28,10 @@ export const IconDefault = () => (
 )
 
 export const IconBorder = () => (
-  <ComponentBox data-dnb-test="icon-border" scope={{ Bell, BellMedium }}>
+  <ComponentBox
+    data-visual-test="icon-border"
+    scope={{ Bell, BellMedium }}
+  >
     {
       /* @jsx */ `
 <P>
@@ -45,7 +51,7 @@ export const IconBorder = () => (
 
 export const IconInheritSized = () => (
   <ComponentBox
-    data-dnb-test="icon-inherit-sized"
+    data-visual-test="icon-inherit-sized"
     scope={{ Bell, BellMedium }}
   >
     {
@@ -61,13 +67,13 @@ export const IconInheritSized = () => (
 )
 
 export const IconMedium = () => {
-  if (typeof window === 'undefined' || !window.IS_TEST) {
+  if (!global.IS_TEST) {
     return null
   }
 
   return (
     <ComponentBox
-      data-dnb-test="icon-medium"
+      data-visual-test="icon-medium"
       scope={{ Bell, BellMedium }}
       title="Explicit defined size: medium"
     >
@@ -90,13 +96,13 @@ export const IconMedium = () => {
 }
 
 export const IconPrimary = () => {
-  if (typeof window === 'undefined' || !window.IS_TEST) {
+  if (!global.IS_TEST) {
     return null
   }
 
   return (
     <ComponentBox
-      data-dnb-test="icon-all-primary"
+      data-visual-test="icon-all-primary"
       scope={{ PrimaryIconsMedium }}
       title="All **primary** icons listed as medium sized icons"
       noFragments={false}
@@ -125,13 +131,13 @@ export const IconPrimary = () => {
 }
 
 export const IconSecondary = () => {
-  if (typeof window === 'undefined' || !window.IS_TEST) {
+  if (!global.IS_TEST) {
     return null
   }
 
   return (
     <ComponentBox
-      data-dnb-test="icon-all-secondary"
+      data-visual-test="icon-all-secondary"
       scope={{ SecondaryIconsMedium }}
       title="All **secondary** icons listed as medium sized icons"
       noFragments={false}

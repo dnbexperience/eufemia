@@ -1,0 +1,33 @@
+/* stop scrolling */
+html[data-visual-test] {
+  scroll-behavior: auto !important;
+}
+
+html[data-visual-test] .dnb-tabbar,
+html[data-visual-test] .sticky-menu,
+html[data-visual-test] .dnb-live-editor,
+html[data-visual-test] .dnb-live-toolbar,
+html[data-visual-test] #portal-sidebar-menu {
+  display: none !important;
+  padding: 0 !important;
+}
+html[data-visual-test] .dnb-app-content {
+  margin-left: 0 !important;
+}
+
+[data-visual-test-wrapper] {
+  position: relative;
+  z-index: 9999;
+
+  /* to get smaller width to the right (no white space) */
+  display: inline-block;
+
+  /**
+	* to get a space around the element,
+	* so we can include a box-shadow in the screenshot
+	*/
+  padding: 1rem;
+  margin: -1rem;
+
+  background: #fff;
+}

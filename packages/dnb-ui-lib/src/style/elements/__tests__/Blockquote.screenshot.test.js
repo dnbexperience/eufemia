@@ -16,28 +16,28 @@ describe('Blockquote screenshot', () => {
   it('have to match default "blockquote"', async () => {
     const screenshot = await testPageScreenshot({
       style,
-      selector: '[data-dnb-test="blockquote-default"]'
+      selector: '[data-visual-test="blockquote-default"]'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
   it('have to match "blockquote" with top aligned graphic', async () => {
     const screenshot = await testPageScreenshot({
       style,
-      selector: '[data-dnb-test="blockquote-top"]'
+      selector: '[data-visual-test="blockquote-top"]'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
   it('have to match "blockquote" with top aligned graphic and no background', async () => {
     const screenshot = await testPageScreenshot({
       style,
-      selector: '[data-dnb-test="blockquote-top-no-background"]'
+      selector: '[data-visual-test="blockquote-top-no-background"]'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
   it('have to match "blockquote" with no background', async () => {
     const screenshot = await testPageScreenshot({
       style,
-      selector: '[data-dnb-test="blockquote-no-background"]'
+      selector: '[data-visual-test="blockquote-no-background"]'
     })
     expect(screenshot).toMatchImageSnapshot()
   })

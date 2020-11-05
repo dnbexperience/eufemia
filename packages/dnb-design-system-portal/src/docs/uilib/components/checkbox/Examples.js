@@ -7,7 +7,7 @@ import React from 'react'
 import ComponentBox from 'Src/shared/tags/ComponentBox'
 
 export const CheckboxUnchecked = () => (
-  <ComponentBox data-dnb-test="checkbox-default">
+  <ComponentBox data-visual-test="checkbox-default">
     {
       /* @jsx */ `
 <Checkbox
@@ -20,7 +20,7 @@ export const CheckboxUnchecked = () => (
 )
 
 export const CheckboxChecked = () => (
-  <ComponentBox data-dnb-test="checkbox-checked">
+  <ComponentBox data-visual-test="checkbox-checked">
     {
       /* @jsx */ `
 <Checkbox
@@ -35,7 +35,7 @@ export const CheckboxChecked = () => (
 )
 
 export const CheckboxWithError = () => (
-  <ComponentBox data-dnb-test="checkbox-error">
+  <ComponentBox data-visual-test="checkbox-error">
     {
       /* @jsx */ `
 <Checkbox
@@ -55,7 +55,7 @@ export const CheckboxSuffix = () => (
 <Checkbox
   label="Checkbox"
   checked
-  suffix={<Modal title="Modal Title">Modal content</Modal>}
+  suffix={<HelpButton title="Modal Title">Modal content</HelpButton>}
 />
           `
     }
@@ -63,7 +63,7 @@ export const CheckboxSuffix = () => (
 )
 
 export const CheckboxDifferentSizes = () => (
-  <ComponentBox data-dnb-test="checkbox-sizes">
+  <ComponentBox data-visual-test="checkbox-sizes">
     {
       /* @jsx */ `
 <Checkbox size="medium" label="Medium" right="large" checked />
@@ -74,7 +74,7 @@ export const CheckboxDifferentSizes = () => (
 )
 
 export const CheckboxDisabled = () => (
-  <ComponentBox data-dnb-test="checkbox-disabled">
+  <ComponentBox data-visual-test="checkbox-disabled">
     {
       /* @jsx */ `
 <Checkbox

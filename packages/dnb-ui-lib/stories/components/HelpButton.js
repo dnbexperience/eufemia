@@ -6,7 +6,13 @@
 import React from 'react'
 import { Wrapper, Box } from '../helpers'
 
-import { HelpButton, Modal, Button, Section } from '../../src/components'
+import {
+  HelpButton,
+  Modal,
+  Button,
+  Section,
+  Input
+} from '../../src/components'
 
 export default {
   title: 'Eufemia/Components/HelpButton'
@@ -24,7 +30,7 @@ export const HelpButtonSandbox = () => (
     </Box>
 
     <Box>
-      <HelpButton>
+      <HelpButton text="Help" icon="bell" id="test-help">
         <Button variant="tertiary" text="Button" />
         <Section>
           <Button variant="tertiary" text="Button" />
@@ -39,6 +45,14 @@ export const HelpButtonSandbox = () => (
           <Button variant="tertiary" text="Button" />
         </Section>
       </Modal>
+    </Box>
+
+    <Box>
+      <Input
+        label="Input"
+        placeholder="Placeholder ..."
+        suffix={<HelpButton>Help text</HelpButton>}
+      />
     </Box>
   </Wrapper>
 )

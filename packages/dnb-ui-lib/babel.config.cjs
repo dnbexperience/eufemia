@@ -41,7 +41,7 @@ const productionPlugins = [
   [
     'babel-plugin-react-remove-properties',
     {
-      properties: ['data-dnb-test', 'data-dnb-test-wrapper']
+      properties: ['data-visual-test', 'data-visual-test-wrapper']
     }
   ],
   [

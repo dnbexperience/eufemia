@@ -28,7 +28,7 @@ import ComponentBox from 'Src/shared/tags/ComponentBox'
 
 ### Shows a large Circular ProgressIndicator with a static 50% in progress
 
-<ComponentBox data-dnb-test="progress-indicator-circular--primary">
+<ComponentBox data-visual-test="progress-indicator-circular--primary">
 	{/* @jsx */ `
 <ProgressIndicator
   type="circular"

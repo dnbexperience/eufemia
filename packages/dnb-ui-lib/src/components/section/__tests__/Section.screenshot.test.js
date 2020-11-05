@@ -13,61 +13,61 @@ describe('Section screenshot', () => {
   // const style = { width: '8rem' }
   it('have to match default section', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-dnb-test="section-default"]'
+      selector: '[data-visual-test="section-default"]'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
   it('have to match white section', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-dnb-test="section-white"]'
+      selector: '[data-visual-test="section-white"]'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
   it('have to match divider section', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-dnb-test="section-divider"]'
+      selector: '[data-visual-test="section-divider"]'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
   it('have to match mint-green section', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-dnb-test="section-mint-green"]'
+      selector: '[data-visual-test="section-mint-green"]'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
   it('have to match black-3 section', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-dnb-test="section-black-3"]'
+      selector: '[data-visual-test="section-black-3"]'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
   it('have to match emerald-green section', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-dnb-test="section-emerald-green"]'
+      selector: '[data-visual-test="section-emerald-green"]'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
   it('have to match lavender section', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-dnb-test="section-lavender"]'
+      selector: '[data-visual-test="section-lavender"]'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
   it('have to match sand-yellow section', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-dnb-test="section-sand-yellow"]'
+      selector: '[data-visual-test="section-sand-yellow"]'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
   it('have to match pistachio section', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-dnb-test="section-pistachio"]'
+      selector: '[data-visual-test="section-pistachio"]'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
   it('have to match fire-red section', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-dnb-test="section-fire-red"]'
+      selector: '[data-visual-test="section-fire-red"]'
     })
     expect(screenshot).toMatchImageSnapshot()
   })

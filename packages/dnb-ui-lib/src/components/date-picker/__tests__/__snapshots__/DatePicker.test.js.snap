@@ -225,6 +225,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
           text="status"
           text_id="date-picker-id-status"
           title={null}
+          width_element={null}
           width_selector="date-picker-id-input"
         >
           <span
@@ -2940,13 +2941,13 @@ legend.dnb-form-label {
     z-index: 100; }
     .dnb-date-picker--opened .dnb-date-picker__container {
       animation: date-picker-slide-down 200ms ease-out 1 forwards; }
-    html[data-dnb-test] .dnb-date-picker--opened .dnb-date-picker__container, .dnb-date-picker--opened .dnb-date-picker__container--no-animation {
+    html[data-visual-test] .dnb-date-picker--opened .dnb-date-picker__container, .dnb-date-picker--opened .dnb-date-picker__container--no-animation {
       animation: date-picker-slide-down 1ms ease-out 1 forwards; }
   .dnb-date-picker--hidden .dnb-date-picker__container {
     display: none; }
   .dnb-date-picker:not(.dnb-date-picker--opened) .dnb-date-picker__container {
     animation: date-picker-slide-up 150ms ease-out 1 forwards; }
-  html[data-dnb-test] .dnb-date-picker:not(.dnb-date-picker--opened) .dnb-date-picker__container, .dnb-date-picker:not(.dnb-date-picker--opened) .dnb-date-picker__container--no-animation {
+  html[data-visual-test] .dnb-date-picker:not(.dnb-date-picker--opened) .dnb-date-picker__container, .dnb-date-picker:not(.dnb-date-picker--opened) .dnb-date-picker__container--no-animation {
     animation: date-picker-slide-up 1ms ease-out 1 forwards; }
   .dnb-date-picker__input,
   .dnb-date-picker .dnb-input__input.dnb-date-picker__input,

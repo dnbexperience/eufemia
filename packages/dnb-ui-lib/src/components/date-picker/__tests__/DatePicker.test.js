@@ -288,13 +288,13 @@ describe('DatePicker component', () => {
       />
     )
 
-    const resetElem = Comp.find('button[data-dnb-test="reset"]')
+    const resetElem = Comp.find('button[data-visual-test="reset"]')
     expect(resetElem.exists()).toBe(true)
 
-    const cancelElem = Comp.find('button[data-dnb-test="cancel"]')
+    const cancelElem = Comp.find('button[data-visual-test="cancel"]')
     expect(cancelElem.exists()).toBe(true)
 
-    const submitElem = Comp.find('button[data-dnb-test="submit"]')
+    const submitElem = Comp.find('button[data-visual-test="submit"]')
     expect(submitElem.exists()).toBe(true)
 
     expect(

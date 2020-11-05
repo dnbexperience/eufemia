@@ -16,21 +16,21 @@ describe('InputMasked screenshot', () => {
   it('have to match masked input', async () => {
     const screenshot = await testPageScreenshot({
       style,
-      selector: '[data-dnb-test="input-masked-phone"] .dnb-input__shell'
+      selector: '[data-visual-test="input-masked-phone"] .dnb-input__shell'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
   it('have to match currency_mask', async () => {
     const screenshot = await testPageScreenshot({
       // style,
-      selector: '[data-dnb-test="input-masked-currency_mask"]'
+      selector: '[data-visual-test="input-masked-currency_mask"]'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
   it('have to match number_mask', async () => {
     const screenshot = await testPageScreenshot({
       // style,
-      selector: '[data-dnb-test="input-masked-number_mask"]'
+      selector: '[data-visual-test="input-masked-number_mask"]'
     })
     expect(screenshot).toMatchImageSnapshot()
   })

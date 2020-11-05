@@ -468,7 +468,7 @@ exports[`Accordion scss have to match snapshot 1`] = `
   .dnb-accordion--expanded .dnb-accordion__header__icon {
     transform: rotate(-180deg); }
   .dnb-accordion--no-animation .dnb-accordion__header__icon,
-  html[data-dnb-test] .dnb-accordion__header__icon {
+  html[data-visual-test] .dnb-accordion__header__icon {
     transition-duration: 1ms !important; }
   .dnb-accordion__content {
     display: flex;
@@ -502,7 +502,7 @@ exports[`Accordion scss have to match snapshot 1`] = `
         .dnb-accordion-group--single-container .dnb-accordion__content__inner {
           margin-top: 0; } }
   .dnb-accordion--no-animation .dnb-accordion__content,
-  html[data-dnb-test] .dnb-accordion__content {
+  html[data-visual-test] .dnb-accordion__content {
     transition-duration: 1ms !important; }
   .dnb-accordion-group--single-container .dnb-accordion-group__children {
     max-width: 60rem; }

@@ -16,13 +16,12 @@ import {
   extendPropsWithContext,
   registerElement,
   processChildren,
-  dispatchCustomElementEvent,
-  convertJsxToString
+  dispatchCustomElementEvent
 } from '../../shared/component-helper'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import Button from '../button/Button'
 import Section from '../section/Section'
-import HelpButton from '../help-button/HelpButtonInstance'
+import HelpButtonInstance from '../help-button/HelpButtonInstance'
 import ModalContent, { CloseButton } from './ModalContent'
 
 export default class Modal extends React.PureComponent {
@@ -32,34 +31,12 @@ export default class Modal extends React.PureComponent {
 
   static propTypes = {
     id: PropTypes.string,
+    root_id: PropTypes.string,
     mode: PropTypes.oneOf(['modal', 'drawer']),
     labelled_by: PropTypes.string,
     title: PropTypes.node,
     disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     spacing: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    as_help_button: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.bool
-    ]),
-    trigger_hidden: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.bool
-    ]),
-    trigger_disabled: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.bool
-    ]),
-    trigger_variant: Button.propTypes.variant,
-    trigger_text: PropTypes.string,
-    trigger_title: PropTypes.string,
-    trigger_size: PropTypes.string,
-    trigger_icon: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.node,
-      PropTypes.func
-    ]),
-    trigger_icon_position: PropTypes.string,
-    trigger_class: PropTypes.string,
     open_delay: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     content_id: PropTypes.string,
     close_title: PropTypes.string,
@@ -110,6 +87,28 @@ export default class Modal extends React.PureComponent {
     open_modal: PropTypes.func,
     close_modal: PropTypes.func,
 
+    // All "trigger_" are deprecated
+    trigger_props: PropTypes.object,
+    trigger_hidden: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool
+    ]),
+    trigger_disabled: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool
+    ]),
+    trigger_variant: Button.propTypes.variant,
+    trigger_text: PropTypes.string,
+    trigger_title: PropTypes.string,
+    trigger_size: PropTypes.string,
+    trigger_icon: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.node,
+      PropTypes.func
+    ]),
+    trigger_icon_position: PropTypes.string,
+    trigger_class: PropTypes.string,
+
     modal_content: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.node,
@@ -119,21 +118,12 @@ export default class Modal extends React.PureComponent {
 
   static defaultProps = {
     id: null,
+    root_id: 'root',
     mode: 'modal',
     labelled_by: null,
     title: null,
     disabled: null,
     spacing: true,
-    as_help_button: false,
-    trigger_hidden: false,
-    trigger_disabled: null,
-    trigger_variant: 'secondary',
-    trigger_text: null,
-    trigger_title: null,
-    trigger_size: null,
-    trigger_icon: 'question',
-    trigger_icon_position: 'left',
-    trigger_class: null,
     open_delay: null,
     content_id: null,
     close_title: 'Lukk', // Close Modal Window
@@ -158,6 +148,19 @@ export default class Modal extends React.PureComponent {
     on_close_prevent: null,
     open_modal: null,
     close_modal: null,
+
+    // All "trigger_" are deprecated
+    trigger_props: null,
+    trigger_hidden: false,
+    trigger_disabled: null,
+    trigger_variant: 'secondary',
+    trigger_text: null,
+    trigger_title: null,
+    trigger_size: null,
+    trigger_icon: null,
+    trigger_icon_position: 'left',
+    trigger_class: null,
+
     modal_content: null
   }
 
@@ -370,7 +373,7 @@ export default class Modal extends React.PureComponent {
 
   handleSideEffects = () => {
     if (!isTrue(this.props.direct_dom_return)) {
-      Modal.insertModalRoot(this.props.id)
+      Modal.insertModalRoot(this.props.root_id)
     }
 
     const modalActive = this.state.modalActive
@@ -488,111 +491,117 @@ export default class Modal extends React.PureComponent {
     )
 
     const {
+      root_id,
+      content_id,
       id, // eslint-disable-line
       open_state, // eslint-disable-line
       open_delay, // eslint-disable-line
       disabled,
       spacing,
       labelled_by,
-      as_help_button,
+
+      // All "trigger_" are deprecated
+      trigger_props,
       trigger_hidden,
-      trigger_disabled,
-      trigger_variant,
-      trigger_text,
-      trigger_title,
-      trigger_size,
-      trigger_icon,
-      trigger_icon_position,
-      trigger_class,
+      trigger_disabled, // eslint-disable-line
+      trigger_variant, // eslint-disable-line
+      trigger_text, // eslint-disable-line
+      trigger_title, // eslint-disable-line
+      trigger_size, // eslint-disable-line
+      trigger_icon, // eslint-disable-line
+      trigger_icon_position, // eslint-disable-line
+      trigger_class, // eslint-disable-line
+
       ...rest
     } = props
 
     const { modalActive } = this.state
     const modal_content = Modal.getContent(this.props)
 
-    return (
-      <SuffixContext.Consumer>
-        {(suffixProps) => {
-          const trigger_attributes = {}
-          const additional = {}
+    const render = (suffixProps) => {
+      const modalProps = {}
+      const triggerAttributes = trigger_props ? { ...trigger_props } : {}
 
-          const icon =
-            trigger_icon !== 'question'
-              ? trigger_icon
-              : (!trigger_text || trigger_variant === 'tertiary') &&
-                trigger_icon
-
-          const useHelpButton =
-            (icon === 'question' || icon === 'information') &&
-            !isTrue(trigger_hidden)
-
-          // in case the modal is used in suffix and no title is given
-          // suffixProps.label is also available, so we could use that too
-          if (
-            !rest.title &&
-            useHelpButton &&
-            (suffixProps || isTrue(as_help_button))
-          ) {
-            additional.title = this.context.translation.HelpButton.title
+      // Deprecated - this is only to handle the legacy Modal trigger button
+      for (let prop in props) {
+        if (prop.includes('trigger_') && props[prop] !== null) {
+          const name = String(prop).replace('trigger_', '')
+          if (name !== 'props' && prop !== 'element') {
+            triggerAttributes[name] = props[prop]
           }
+        }
+      }
 
-          let ariaLabel = null
-          if (useHelpButton) {
-            ariaLabel =
-              props['aria-label'] ||
-              trigger_title ||
-              props.title ||
-              additional.title
+      const isHelpButton =
+        !isTrue(trigger_hidden) &&
+        (trigger_props ||
+          suffixProps ||
+          ['question', 'information'].includes(triggerAttributes.icon))
 
-            if (React.isValidElement(ariaLabel)) {
-              ariaLabel = convertJsxToString(ariaLabel)
-            }
-          }
+      if (isTrue(disabled)) {
+        triggerAttributes.disabled = true
+      }
+      if (triggerAttributes.id) {
+        this._id = triggerAttributes.id
+      }
 
-          return (
-            <div className="dnb-modal">
-              {!isTrue(trigger_hidden) && (
-                <HelpButton
-                  id={this._id}
-                  variant={trigger_variant}
-                  text={trigger_text}
-                  title={ariaLabel}
-                  disabled={disabled || trigger_disabled}
-                  icon={icon}
-                  size={trigger_size}
-                  icon_position={trigger_icon_position}
-                  on_click={this.toggleOpenClose}
-                  className={classnames(
-                    'dnb-modal__trigger',
-                    createSpacingClasses(props),
-                    trigger_class
-                  )}
-                  innerRef={this._triggerRef}
-                  {...trigger_attributes}
-                />
+      if (!rest.title && triggerAttributes.title) {
+        modalProps.title = triggerAttributes.title
+      }
+      // in case the modal is used in suffix and no title is given
+      // suffixProps.label is also available, so we could use that too
+      else if (!rest.title && isHelpButton && suffixProps) {
+        modalProps.title = this.context.translation.HelpButton.title
+      }
+
+      if (isHelpButton) {
+        triggerAttributes.title =
+          props['aria-label'] ||
+          triggerAttributes.title ||
+          props.title ||
+          modalProps.title
+      }
+
+      const TriggerButton = HelpButtonInstance
+
+      return (
+        <div className="dnb-modal">
+          {TriggerButton && !isTrue(trigger_hidden) && (
+            <TriggerButton
+              id={this._id}
+              onClick={this.toggleOpenClose}
+              {...triggerAttributes}
+              innerRef={this._triggerRef}
+              className={classnames(
+                'dnb-modal__trigger',
+                createSpacingClasses(props),
+                triggerAttributes.class,
+                triggerAttributes.className
               )}
-              {modalActive && modal_content && (
-                <ModalRoot
-                  {...rest}
-                  id={id}
-                  labelled_by={labelled_by || this._id}
-                  modal_content={modal_content}
-                  spacing={spacing}
-                  closeModal={this.close}
-                  hide={this.state.hide}
-                  toggleOpenClose={this.toggleOpenClose}
-                  {...additional}
-                />
-              )}
-            </div>
-          )
-        }}
-      </SuffixContext.Consumer>
-    )
+            />
+          )}
+
+          {modalActive && modal_content && (
+            <ModalRoot
+              {...rest}
+              root_id={root_id}
+              content_id={content_id || `dnb-modal-${this._id}`}
+              labelled_by={labelled_by || this._id}
+              modal_content={modal_content}
+              spacing={spacing}
+              closeModal={this.close}
+              hide={this.state.hide}
+              toggleOpenClose={this.toggleOpenClose}
+              {...modalProps}
+            />
+          )}
+        </div>
+      )
+    }
+
+    return <SuffixContext.Consumer>{render}</SuffixContext.Consumer>
   }
 }
-
-Modal.HelpButton = HelpButton
 
 class ModalRoot extends React.PureComponent {
   static propTypes = {
@@ -614,7 +623,7 @@ class ModalRoot extends React.PureComponent {
   }
 
   state = {
-    isMonted: false
+    isMounted: false
   }
 
   componentDidMount() {
@@ -636,7 +645,7 @@ class ModalRoot extends React.PureComponent {
       } catch (e) {
         warn(e)
       }
-      this.setState({ isMonted: true })
+      this.setState({ isMounted: true })
     }
   }
 
@@ -667,7 +676,7 @@ class ModalRoot extends React.PureComponent {
       this.portalElem &&
       typeof window !== 'undefined' &&
       window.modalRoot &&
-      this.state.isMonted
+      this.state.isMounted
     ) {
       return ReactDOM.createPortal(
         <ModalContent {...props}>{children}</ModalContent>,

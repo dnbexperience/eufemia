@@ -39,19 +39,40 @@ describe('FormStatus component', () => {
 
   it('should set correact max-width', () => {
     const Comp = mount(
-      <Input status="Long status pulvinar per ad varius nostra faucibus enim ante posuere in" />
+      <Input
+        id="custom-id"
+        style={{ width: '10rem' }}
+        status="Long status pulvinar per ad varius nostra faucibus enim ante posuere in"
+      />
     )
 
-    // mock call the setMaxWidth since document.getElementById is not an option
-    const instance = Comp.find('FormStatus').instance()
-    instance.setMaxWidth({
-      offsetWidth: 256 + 16 // 16rem + 1rem pixels
+    // mock call the setMaxWidthToElement since document.getElementById is not an option
+    const formStatusElement = Comp.find('.dnb-form-status').instance()
+    const inputElement = Comp.find('.dnb-input__input').instance()
+
+    Component.setMaxWidthToElement({
+      element: formStatusElement,
+      widthElement: inputElement
     })
 
-    // now, setMaxWidth should have set an inline style with an "max-width as rem"
+    // now, setMaxWidthToElement should have set an inline style with an "max-width as rem"
+    expect(
+      Comp.find('.dnb-input__input').instance().getAttribute('style')
+    ).toBe('width: 10rem;')
     expect(
       Comp.find('.dnb-form-status').instance().getAttribute('style')
-    ).toBe('max-width: 17rem;') // 16rem (min-width) + 1rem
+    ).toContain('max-width: 12rem;')
+  })
+
+  it('should set correact id', () => {
+    const Comp = mount(<Input id="custom-id" status="status text" />)
+
+    expect(
+      Comp.find('.dnb-form-status').instance().getAttribute('id')
+    ).toBe('custom-id-form-status')
+    expect(
+      Comp.find('.dnb-form-status--text').instance().getAttribute('id')
+    ).toBe('custom-id-status')
   })
 
   it('should have correact attributes once the "hidden" prop changes', async () => {

@@ -13,7 +13,6 @@ import {
   roundToNearest,
   isInsideScrollView,
   detectOutsideClick,
-  getPreviousSibling,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
 import {
@@ -787,10 +786,15 @@ export default class DrawerListProvider extends React.PureComponent {
       // TODO: Has to be worked on better!
       // !isTrue(this.props.prevent_focus)
     ) {
-      const isSameDrawer =
-        typeof document !== 'undefined' &&
-        getPreviousSibling('dnb-drawer-list', document.activeElement) ===
-          this._refRoot.current
+      let isSameDrawer = false
+      try {
+        isSameDrawer =
+          typeof document !== 'undefined' &&
+          `${document.activeElement.getAttribute('id')}-ul` ===
+            this._refUl.current.getAttribute('id')
+      } catch (e) {
+        warn(e)
+      }
       if (!isSameDrawer || key === 'tab') {
         return
       }

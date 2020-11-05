@@ -29,7 +29,7 @@
     opacity: 0;
   }
   &--no-animation &__shell,
-  html[data-dnb-test] &__shell {
+  html[data-visual-test] &__shell {
     transition-duration: 1ms !important;
   }
   &--is-animating:not(.dnb-global-status--visible) &__shell {

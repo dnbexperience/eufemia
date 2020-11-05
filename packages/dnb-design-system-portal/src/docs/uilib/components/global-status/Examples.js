@@ -7,7 +7,7 @@ import React from 'react'
 import ComponentBox from 'Src/shared/tags/ComponentBox'
 
 export const GlobalStatusError = () => (
-  <ComponentBox data-dnb-test="global-status">
+  <ComponentBox data-visual-test="global-status">
     {
       /* @jsx */ `
 <GlobalStatus
@@ -31,7 +31,7 @@ export const GlobalStatusError = () => (
 )
 
 export const GlobalStatusInfo = () => (
-  <ComponentBox data-dnb-test="global-status-info">
+  <ComponentBox data-visual-test="global-status-info">
     {
       /* @jsx */ `
 <GlobalStatus
