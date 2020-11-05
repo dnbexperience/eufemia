@@ -22,9 +22,7 @@ const Wrapper = styled.div`
 `
 
 export const DatePickerRange = () =>
-  global.IS_TEST ? (
-    null
-  ) : (
+  global.IS_TEST ? null : (
     <ComponentBox scope={{ addDays, startOfMonth, lastDayOfMonth }}>
       {
         /* @jsx */ `
@@ -67,9 +65,7 @@ export const DatePickerRange = () =>
   )
 
 export const DatePickerWithInput = () =>
-  global.IS_TEST ? (
-    null
-  ) : (
+  global.IS_TEST ? null : (
     <ComponentBox>
       {
         /* @jsx */ `
@@ -114,9 +110,7 @@ export const DatePickerTrigger = () => (
 )
 
 export const DatePickerHiddenNav = () =>
-  global.IS_TEST ? (
-    null
-  ) : (
+  global.IS_TEST ? null : (
     <ComponentBox>
       {
         /* @jsx */ `
@@ -142,9 +136,7 @@ export const DatePickerHiddenNav = () =>
   )
 
 export const DatePickerMonthOnly = () =>
-  global.IS_TEST ? (
-    null
-  ) : (
+  global.IS_TEST ? null : (
     <ComponentBox>
       {
         /* @jsx */ `
@@ -160,9 +152,7 @@ export const DatePickerMonthOnly = () =>
   )
 
 export const DatePickerDisabled = () =>
-  global.IS_TEST ? (
-    null
-  ) : (
+  global.IS_TEST ? null : (
     <ComponentBox>
       {
         /* @jsx */ `
@@ -179,9 +169,7 @@ export const DatePickerDisabled = () =>
   )
 
 export const DatePickerSuffix = () =>
-  global.IS_TEST ? (
-    null
-  ) : (
+  global.IS_TEST ? null : (
     <ComponentBox>
       {
         /* @jsx */ `
@@ -189,7 +177,7 @@ export const DatePickerSuffix = () =>
   label="DatePicker:"
   date={new Date()}
   show_input
-  suffix={<Modal title="Modal Title">Modal content</Modal>}
+  suffix={<HelpButton title="Modal Title">Modal content</HelpButton>}
 />
           `
       }

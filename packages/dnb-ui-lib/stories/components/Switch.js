@@ -7,7 +7,7 @@ import React /* , { useState, useEffect } */ from 'react'
 import { Wrapper, Box } from '../helpers'
 // import styled from '@emotion/styled'
 
-import { Switch, FormLabel, Modal } from '../../src/components'
+import { Switch, FormLabel, HelpButton } from '../../src/components'
 
 export default {
   title: 'Eufemia/Components/Switch'
@@ -26,13 +26,17 @@ export const SwitcheSandbox = () => (
       />
     </Box>
     <Box>
-      <Switch label="Checked" checked suffix={<Modal>Help</Modal>} />
+      <Switch
+        label="Checked"
+        checked
+        suffix={<HelpButton>Help</HelpButton>}
+      />
     </Box>
     <Box>
       <Switch
         label="Checked"
         label_position="left"
-        suffix={<Modal>Help</Modal>}
+        suffix={<HelpButton>Help</HelpButton>}
       />
     </Box>
     <Box>

@@ -156,7 +156,7 @@ render(
     on_change={({ value }) => {
       console.log('More menu:', value)
     }}
-    suffix={<Modal title="Modal Title">Modal content</Modal>}
+    suffix={<HelpButton title="Modal Title">Modal content</HelpButton>}
   />
 )
           `

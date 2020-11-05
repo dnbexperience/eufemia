@@ -9,6 +9,7 @@ import { Global, css } from '@emotion/core'
 
 import {
   Modal,
+  HelpButton,
   Switch,
   Button,
   Input,
@@ -72,7 +73,7 @@ export const ModalSandbox = () => (
       <Input
         label="Input"
         placeholder="Placeholder ..."
-        suffix={<Modal>Help text</Modal>}
+        suffix={<HelpButton>Help text</HelpButton>}
       />
     </Box>
 

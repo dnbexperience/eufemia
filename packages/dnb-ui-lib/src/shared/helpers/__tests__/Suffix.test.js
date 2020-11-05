@@ -6,7 +6,7 @@
 import React from 'react'
 import { mount } from '../../../core/jest/jestSetup'
 import Input from '../../../components/input/Input'
-import Modal from '../../../components/modal/Modal'
+import HelpButton from '../../../components/help-button/HelpButton'
 import Context from '../../Context'
 
 describe('Suffix context', () => {
@@ -23,7 +23,7 @@ describe('Suffix context', () => {
           return (
             <Input
               label={inputLabel}
-              suffix={<Modal>{modalContent}</Modal>}
+              suffix={<HelpButton>{modalContent}</HelpButton>}
             >
               {inputValue}
             </Input>

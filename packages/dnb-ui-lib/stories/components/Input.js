@@ -10,7 +10,7 @@ import styled from '@emotion/styled'
 import {
   Input,
   InputMasked,
-  Modal,
+  HelpButton,
   Button,
   FormSet,
   FormRow,
@@ -342,7 +342,7 @@ const CustomInput = () => {
           setValue(value)
         }}
         right
-        suffix={<Modal>123</Modal>}
+        suffix={<HelpButton>123</HelpButton>}
       />
       <Button
         text="Reset"

@@ -66,7 +66,7 @@ class Example extends React.PureComponent {
 <Switch
   label="Switch"
   checked
-  suffix={<Modal title="Modal Title">Modal content</Modal>}
+  suffix={<HelpButton title="Modal Title">Modal content</HelpButton>}
 />
           `
           }

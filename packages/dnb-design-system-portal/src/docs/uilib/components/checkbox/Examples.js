@@ -55,7 +55,7 @@ export const CheckboxSuffix = () => (
 <Checkbox
   label="Checkbox"
   checked
-  suffix={<Modal title="Modal Title">Modal content</Modal>}
+  suffix={<HelpButton title="Modal Title">Modal content</HelpButton>}
 />
           `
     }

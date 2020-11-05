@@ -164,13 +164,13 @@ export const RadioExampleSuffix = () => (
   <Radio
     label="Second"
     value="second"
-    suffix={<Modal title="Modal Title">Modal content</Modal>}
+    suffix={<HelpButton title="Modal Title">Modal content</HelpButton>}
   />
   <Radio
     label="Third"
     value="third"
     status="Error message"
-    suffix={<Modal title="Modal Title">Modal content</Modal>}
+    suffix={<HelpButton title="Modal Title">Modal content</HelpButton>}
     checked
   />
 </Radio.Group>

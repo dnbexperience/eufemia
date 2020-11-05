@@ -199,7 +199,7 @@ export const ToggleButtonSuffix = () => (
     text="Second"
     value="second"
     status="Error message"
-    suffix={<Modal title="Modal Title">Modal content</Modal>}
+    suffix={<HelpButton title="Modal Title">Modal content</HelpButton>}
   />
   <ToggleButton
     text="Third"

@@ -104,7 +104,7 @@ render(<Component />)
   max={100}
   value={70}
   label="Slider with suffix:"
-  suffix={<Modal title="Modal Title">Modal content</Modal>}
+  suffix={<HelpButton title="Modal Title">Modal content</HelpButton>}
 />
 	`}
 </ComponentBox>

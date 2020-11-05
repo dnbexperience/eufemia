@@ -24,7 +24,7 @@ You can also used the broadly available `suffix` property, like so:
 <Input
   label="Input"
   placeholder="Placeholder ..."
-  suffix={<Modal>Help text</Modal>}
+  suffix={<HelpButton>Help text</HelpButton>}
 />
 ```
 

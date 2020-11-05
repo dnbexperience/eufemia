@@ -124,7 +124,7 @@ class Example extends React.PureComponent {
 <Textarea
   label="Textarea with suffix:"
   value="Nec litora inceptos vestibulum id interdum donec gravida."
-  suffix={<Modal title="Modal Title">Modal content</Modal>}
+  suffix={<HelpButton title="Modal Title">Modal content</HelpButton>}
 />
           `
           }

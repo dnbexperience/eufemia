@@ -162,7 +162,7 @@ export const InputSuffix = () => (
   label_direction="vertical"
   autocomplete="on"
   placeholder="Placeholder text"
-  suffix={<Modal title="Info" trigger_size="large">Some content</Modal>}
+  suffix={<HelpButton title="Info" trigger_size="large">Some content</HelpButton>}
   on_change={({ value }) => {
     console.log('on_change', value)
   }}
