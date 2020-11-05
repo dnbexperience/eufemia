@@ -138,10 +138,7 @@ export default class Button extends React.PureComponent {
   }
 
   componentDidMount() {
-    if (
-      this.props.innerRef &&
-      typeof this.props.innerRef.current !== 'undefined'
-    ) {
+    if (this.props.innerRef) {
       this.props.innerRef.current = this._ref.current
     }
   }
