@@ -112,6 +112,32 @@ describe('Button component', () => {
     const Comp = mount(<Component {...props} href="https://url" />)
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
+
+  it('has variant set to primary as default', () => {
+    const Comp = mount(<Component />)
+    expect(Comp.find('.dnb-button--primary').exists()).toBe(true)
+  })
+
+  it('has variant set to secondary when only setting icon', () => {
+    const Comp = mount(<Component icon="question" />)
+    expect(Comp.find('.dnb-button--secondary').exists()).toBe(true)
+  })
+
+  it('has size set to medium when only setting icon', () => {
+    const Comp = mount(<Component icon="question" />)
+    expect(Comp.find('.dnb-button--size-medium').exists()).toBe(true)
+  })
+
+  it('has variant set to primary when only setting text', () => {
+    const Comp = mount(<Component text="Button" />)
+    expect(Comp.find('.dnb-button--primary').exists()).toBe(true)
+  })
+
+  it('has no size when only setting text', () => {
+    const Comp = mount(<Component text="Button" />)
+    expect(Comp.find('.dnb-button--size-medium').exists()).toBe(false)
+    expect(Comp.find('.dnb-button--size-large').exists()).toBe(false)
+  })
 })
 
 describe('Button scss', () => {
