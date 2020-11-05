@@ -13,6 +13,10 @@ const Wrapper = styled.div`
       width: var(--autocomplete-width);
     }
   }
+  [data-visual-test='autocomplete-opened'] {
+    width: 45rem;
+    height: 22rem !important;
+  }
 `
 
 export const AutocompleteDefaultExample = () => (
@@ -269,6 +273,45 @@ render(<FormRow direction="vertical">
     </ComponentBox>
   </Wrapper>
 )
+
+export const AutocompleteOpened = () => {
+  if (!(typeof window !== 'undefined' && window.IS_TEST)) {
+    return <></>
+  }
+  return (
+    <Wrapper>
+      <ComponentBox
+        data-visual-test="autocomplete-opened"
+        scope={{ topMovies }}
+        hideCode
+      >
+        {
+          /* @jsx */ `
+<Autocomplete
+  label="Label:"
+  input_value="lord"
+  opened
+  no_animation
+  prevent_close
+  data={topMovies}
+  right="large"
+/>
+<Autocomplete
+  label="Label:"
+  input_value="angry"
+  skip_portal
+  opened
+  no_animation
+  prevent_close
+  data={topMovies}
+  className="focus-trigger"
+/>
+        `
+        }
+      </ComponentBox>
+    </Wrapper>
+  )
+}
 
 const topMovies = [
   { content: 'The Shawshank Redemption', year: 1994 },

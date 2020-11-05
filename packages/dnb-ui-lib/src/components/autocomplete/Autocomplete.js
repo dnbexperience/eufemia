@@ -1661,3 +1661,5 @@ class AutocompleteInstance extends React.PureComponent {
     )
   }
 }
+
+Autocomplete.HorizontalItem = DrawerList.HorizontalItem

@@ -2138,7 +2138,7 @@ legend.dnb-form-label {
     align-items: center;
     color: var(--color-sea-green); }
     .dnb-autocomplete__show-all .dnb-drawer-list__option__inner .dnb-icon {
-      margin-right: 0.5rem; }
+      align-self: center; }
   .dnb-autocomplete__input {
     display: inline-flex;
     align-items: center;

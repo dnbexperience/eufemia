@@ -10,11 +10,7 @@ import {
 
 describe('Autocomplete screenshot', () => {
   setupPageScreenshot({
-    url: '/uilib/components/autocomplete/demos',
-    screenshotConfig: {
-      // use 0.04%on CI because of the cursor in the input field
-      pixelThresholdRelative: 0.04
-    }
+    url: '/uilib/components/autocomplete/demos'
   })
   it('have to match different sizes', async () => {
     const screenshot = await testPageScreenshot({
@@ -46,6 +42,15 @@ describe('Autocomplete screenshot', () => {
         '[data-visual-test="autocomplete-drawer-search"] .dnb-autocomplete .dnb-input',
       simulate: 'click', // should be tested first
       style
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+  it('have to match autocomplete opened list', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-visual-test="autocomplete-opened"]',
+      simulateSelector:
+        '[data-visual-test="autocomplete-opened"] .focus-trigger .dnb-drawer-list:last-of-type .first-of-type',
+      simulate: 'click'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
