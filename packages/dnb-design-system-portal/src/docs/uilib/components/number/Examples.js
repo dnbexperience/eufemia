@@ -11,14 +11,14 @@ const Style = styled.div`
   span.dnb-number {
     display: block;
   }
-  [data-dnb-test='number-locales'] .dnb-p:last-of-type {
+  [data-visual-test='number-locales'] .dnb-p:last-of-type {
     padding-bottom: 1rem;
   }
 `
 
 export const NumberDefault = () => (
   <Style>
-    <ComponentBox data-dnb-test="number-default">
+    <ComponentBox data-visual-test="number-default">
       {
         /* @jsx */ `
 <P>
@@ -35,7 +35,7 @@ export const NumberDefault = () => (
 
 export const NumberCurrency = () => (
   <Style>
-    <ComponentBox data-dnb-test="number-currency">
+    <ComponentBox data-visual-test="number-currency">
       {
         /* @jsx */ `
 <P>
@@ -52,7 +52,7 @@ export const NumberCurrency = () => (
 
 export const NumberPhone = () => (
   <Style>
-    <ComponentBox data-dnb-test="number-phone">
+    <ComponentBox data-visual-test="number-phone">
       {
         /* @jsx */ `
 <P>
@@ -71,7 +71,7 @@ export const NumberPhone = () => (
 
 export const NumberBankAccount = () => (
   <Style>
-    <ComponentBox data-dnb-test="number-ban">
+    <ComponentBox data-visual-test="number-ban">
       {
         /* @jsx */ `
 <P>
@@ -85,7 +85,7 @@ export const NumberBankAccount = () => (
 
 export const NumberNationalIdentification = () => (
   <Style>
-    <ComponentBox data-dnb-test="number-nin">
+    <ComponentBox data-visual-test="number-nin">
       {
         /* @jsx */ `
 <P>
@@ -99,7 +99,7 @@ export const NumberNationalIdentification = () => (
 
 export const NumberOrganization = () => (
   <Style>
-    <ComponentBox data-dnb-test="number-org">
+    <ComponentBox data-visual-test="number-org">
       {
         /* @jsx */ `
 <P>
@@ -113,7 +113,7 @@ export const NumberOrganization = () => (
 
 export const NumberLocales = () => (
   <Style>
-    <ComponentBox data-dnb-test="number-locales">
+    <ComponentBox data-visual-test="number-locales">
       {
         /* @jsx */ `
 <H3>Numbers</H3>

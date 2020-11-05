@@ -1472,28 +1472,28 @@ button.dnb-button::-moz-focus-inner {
       max-height: 100vh;
       border-radius: 0;
       box-shadow: none; }
-    html:not([data-dnb-test]) .dnb-modal__content--drawer.dnb-modal__content--left .dnb-modal__content__inner {
+    html:not([data-visual-test]) .dnb-modal__content--drawer.dnb-modal__content--left .dnb-modal__content__inner {
       transform: translate3d(-20rem, 0, 0); }
-    html:not([data-dnb-test]) .dnb-modal__content--drawer.dnb-modal__content--right .dnb-modal__content__inner {
+    html:not([data-visual-test]) .dnb-modal__content--drawer.dnb-modal__content--right .dnb-modal__content__inner {
       transform: translate3d(20rem, 0, 0); }
-    html:not([data-dnb-test]) .dnb-modal__content--drawer.dnb-modal__content--top .dnb-modal__content__inner {
+    html:not([data-visual-test]) .dnb-modal__content--drawer.dnb-modal__content--top .dnb-modal__content__inner {
       transform: translate3d(0, -20rem, 0); }
-    html:not([data-dnb-test]) .dnb-modal__content--drawer.dnb-modal__content--bottom .dnb-modal__content__inner {
+    html:not([data-visual-test]) .dnb-modal__content--drawer.dnb-modal__content--bottom .dnb-modal__content__inner {
       transform: translate3d(0, 20rem, 0); }
-    html:not([data-dnb-test]) .dnb-modal__content--drawer .dnb-modal__content__inner {
+    html:not([data-visual-test]) .dnb-modal__content--drawer .dnb-modal__content__inner {
       opacity: 0.1;
       animation: show-drawer var(--modal-animation-duration) ease-out forwards; }
-    html:not([data-dnb-test]) .dnb-modal__content--drawer.dnb-modal__content--hide.dnb-modal__content--left .dnb-modal__content__inner {
+    html:not([data-visual-test]) .dnb-modal__content--drawer.dnb-modal__content--hide.dnb-modal__content--left .dnb-modal__content__inner {
       animation: hide-drawer-left var(--modal-animation-duration) ease-in-out forwards; }
-    html:not([data-dnb-test]) .dnb-modal__content--drawer.dnb-modal__content--hide.dnb-modal__content--right .dnb-modal__content__inner {
+    html:not([data-visual-test]) .dnb-modal__content--drawer.dnb-modal__content--hide.dnb-modal__content--right .dnb-modal__content__inner {
       animation: hide-drawer-right var(--modal-animation-duration) ease-in-out forwards; }
-    html:not([data-dnb-test]) .dnb-modal__content--drawer.dnb-modal__content--hide.dnb-modal__content--top .dnb-modal__content__inner {
+    html:not([data-visual-test]) .dnb-modal__content--drawer.dnb-modal__content--hide.dnb-modal__content--top .dnb-modal__content__inner {
       animation: hide-drawer-top var(--modal-animation-duration) ease-in-out forwards; }
-    html:not([data-dnb-test]) .dnb-modal__content--drawer.dnb-modal__content--hide.dnb-modal__content--bottom .dnb-modal__content__inner {
+    html:not([data-visual-test]) .dnb-modal__content--drawer.dnb-modal__content--hide.dnb-modal__content--bottom .dnb-modal__content__inner {
       animation: hide-drawer-bottom var(--modal-animation-duration) ease-in-out forwards; }
-    html:not([data-dnb-test]) .dnb-modal__content--modal .dnb-modal__content__inner {
+    html:not([data-visual-test]) .dnb-modal__content--modal .dnb-modal__content__inner {
       animation: show-modal var(--modal-animation-duration) ease-out forwards; }
-    html:not([data-dnb-test]) .dnb-modal__content--modal.dnb-modal__content--hide .dnb-modal__content__inner {
+    html:not([data-visual-test]) .dnb-modal__content--modal.dnb-modal__content--hide .dnb-modal__content__inner {
       animation: hide-modal 220ms ease-in-out forwards; }
     .dnb-modal__content--no-animation .dnb-modal__content__inner {
       animation-duration: 0ms !important; }
@@ -1554,13 +1554,13 @@ button.dnb-button::-moz-focus-inner {
     background: var(--modal-overlay-bg);
     box-shadow: 0 100vh 0 0 var(--modal-overlay-bg);
     /* stylelint-disable-next-line */ }
-    html:not([data-dnb-test]) .dnb-modal__overlay--modal {
+    html:not([data-visual-test]) .dnb-modal__overlay--modal {
       animation: show-modal-overlay var(--modal-animation-duration) ease-out forwards; }
-    html:not([data-dnb-test]) .dnb-modal__overlay--modal.dnb-modal__overlay--hide {
+    html:not([data-visual-test]) .dnb-modal__overlay--modal.dnb-modal__overlay--hide {
       animation: hide-modal-overlay var(--modal-animation-duration) ease-in-out forwards; }
-    html:not([data-dnb-test]) .dnb-modal__overlay--drawer {
+    html:not([data-visual-test]) .dnb-modal__overlay--drawer {
       animation: show-drawer-overlay var(--modal-animation-duration) ease-out forwards; }
-    html:not([data-dnb-test]) .dnb-modal__overlay--drawer.dnb-modal__overlay--hide {
+    html:not([data-visual-test]) .dnb-modal__overlay--drawer.dnb-modal__overlay--hide {
       animation: hide-drawer-overlay var(--modal-animation-duration) ease-in-out forwards; }
     .dnb-modal__overlay--no-animation {
       animation-duration: 0ms !important; }
@@ -1572,7 +1572,7 @@ button.dnb-button::-moz-focus-inner {
     transition: opacity 300ms ease-in-out; }
   .dnb-modal-root__inner:last-of-type .dnb-modal__overlay {
     opacity: 1; }
-  html[data-dnb-test] .dnb-modal-root__inner .dnb-modal__overlay {
+  html[data-visual-test] .dnb-modal-root__inner .dnb-modal__overlay {
     transition: none; }
   .dnb-modal-root__inner {
     position: relative;

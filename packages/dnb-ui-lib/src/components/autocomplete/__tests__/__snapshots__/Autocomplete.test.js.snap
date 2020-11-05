@@ -288,6 +288,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
             text="status"
             text_id="autocomplete-id-status"
             title={null}
+            width_element={null}
             width_selector={null}
           >
             <span

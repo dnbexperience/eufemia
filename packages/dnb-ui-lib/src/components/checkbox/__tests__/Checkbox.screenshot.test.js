@@ -12,24 +12,24 @@ describe('Checkbox unchecked screenshot', () => {
   setupPageScreenshot({ url: '/uilib/components/checkbox/demos' })
   it('have to match checkbox in unchecked state', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-dnb-test="checkbox-default"] .dnb-checkbox'
+      selector: '[data-visual-test="checkbox-default"] .dnb-checkbox'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
   it('have to match checkbox in unchecked state with focus', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-dnb-test="checkbox-default"] .dnb-checkbox',
+      selector: '[data-visual-test="checkbox-default"] .dnb-checkbox',
       simulateSelector:
-        '[data-dnb-test="checkbox-default"] .dnb-checkbox__input',
+        '[data-visual-test="checkbox-default"] .dnb-checkbox__input',
       simulate: 'focus' // should be tested first
     })
     expect(screenshot).toMatchImageSnapshot()
   })
   it('have to match checkbox in unchecked state with hover', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-dnb-test="checkbox-default"] .dnb-checkbox',
+      selector: '[data-visual-test="checkbox-default"] .dnb-checkbox',
       simulateSelector:
-        '[data-dnb-test="checkbox-default"] .dnb-checkbox__input',
+        '[data-visual-test="checkbox-default"] .dnb-checkbox__input',
       simulate: 'hover'
     })
     expect(screenshot).toMatchImageSnapshot()
@@ -42,43 +42,43 @@ describe('Checkbox checked screenshot', () => {
   setupPageScreenshot({ url: '/uilib/components/checkbox/demos' })
   it('have to match checkbox in checked state', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-dnb-test="checkbox-checked"] .dnb-checkbox'
+      selector: '[data-visual-test="checkbox-checked"] .dnb-checkbox'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
   it('have to match checkbox in checked state with focus', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-dnb-test="checkbox-checked"] .dnb-checkbox',
+      selector: '[data-visual-test="checkbox-checked"] .dnb-checkbox',
       simulateSelector:
-        '[data-dnb-test="checkbox-checked"] .dnb-checkbox__input',
+        '[data-visual-test="checkbox-checked"] .dnb-checkbox__input',
       simulate: 'focus' // should be tested first
     })
     expect(screenshot).toMatchImageSnapshot()
   })
   it('have to match checkbox in checked state with hover', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-dnb-test="checkbox-checked"] .dnb-checkbox',
+      selector: '[data-visual-test="checkbox-checked"] .dnb-checkbox',
       simulateSelector:
-        '[data-dnb-test="checkbox-checked"] .dnb-checkbox__input',
+        '[data-visual-test="checkbox-checked"] .dnb-checkbox__input',
       simulate: 'hover'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
   it('have to match different checkbox sizes', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-dnb-test="checkbox-sizes"]'
+      selector: '[data-visual-test="checkbox-sizes"]'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
   it('have to match disabled checkbox', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-dnb-test="checkbox-disabled"] .dnb-checkbox'
+      selector: '[data-visual-test="checkbox-disabled"] .dnb-checkbox'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
   it('have to match checkbox in error state', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-dnb-test="checkbox-error"] .dnb-checkbox'
+      selector: '[data-visual-test="checkbox-error"] .dnb-checkbox'
     })
     expect(screenshot).toMatchImageSnapshot()
   })

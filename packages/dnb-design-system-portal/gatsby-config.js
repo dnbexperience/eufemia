@@ -86,17 +86,18 @@ const plugins = [
   },
   'gatsby-plugin-sass',
   'gatsby-plugin-emotion',
-  'gatsby-plugin-postcss',
+  'gatsby-plugin-postcss'
   // this (optional) plugin enables Progressive Web App + Offline functionality
   // To learn more, visit: https://gatsby.app/offline
-  {
-    resolve: 'gatsby-plugin-offline',
-    options: {
-      workboxConfig: {
-        maximumFileSizeToCacheInBytes: 4 * 1024 * 1024
-      }
-    }
-  }
+  // {
+  //   resolve: 'gatsby-plugin-offline',
+  //   options: {
+  //     workboxConfig: {
+  //       // NB: This config setting does currently not work with the latest Gatsby version
+  //       // maximumFileSizeToCacheInBytes: 4 * 1024 * 1024
+  //     }
+  //   }
+  // }
 ]
 
 // used for algolia search

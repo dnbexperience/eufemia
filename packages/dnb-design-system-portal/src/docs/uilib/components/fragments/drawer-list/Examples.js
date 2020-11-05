@@ -48,7 +48,7 @@ render(<DrawerListWithState />)
         </ComponentBox>
         <ComponentBox
           title="DrawerList list - only to visualize"
-          data-dnb-test="drawer-list"
+          data-visual-test="drawer-list"
           scope={{ data }}
           hideCode
         >
@@ -86,7 +86,7 @@ render(<DrawerListWithState />)
         <ComponentBox
           title="Default DrawerList"
           scope={{ data }}
-          data-dnb-test="drawer-list-default"
+          data-visual-test="drawer-list-default"
         >
           {
             /* @jsx */ `
@@ -111,7 +111,7 @@ render(<DrawerListWithState />)
           title="Custom event and link on single item"
           scope={{ data }}
           useRender
-          data-dnb-test="drawer-list-events"
+          data-visual-test="drawer-list-events"
         >
           {
             /* @jsx */ `
@@ -165,7 +165,7 @@ render(
         <ComponentBox
           title="Using List and Items markup"
           description="**NB:** By using this method you lose currently a lot of the core functionality like keyboard support and other accessibility features."
-          data-dnb-test="drawer-items"
+          data-visual-test="drawer-items"
           useRender
         >
           {
@@ -216,12 +216,12 @@ render(<DrawerListWithState />)
 }
 
 const Wrapper = styled.div`
-  [data-dnb-test] {
+  [data-visual-test] {
     .dnb-drawer-list__list {
       position: relative;
     }
   }
-  [data-dnb-test='drawer-list'] .dnb-drawer-list__list {
+  [data-visual-test='drawer-list'] .dnb-drawer-list__list {
     display: block;
     visibility: visible;
     position: relative;

@@ -639,7 +639,7 @@ button.dnb-button::-moz-focus-inner {
   opacity: 0; }
 
 .dnb-global-status--no-animation .dnb-global-status__shell,
-html[data-dnb-test] .dnb-global-status__shell {
+html[data-visual-test] .dnb-global-status__shell {
   transition-duration: 1ms !important; }
 
 .dnb-global-status--is-animating:not(.dnb-global-status--visible) .dnb-global-status__shell {

@@ -19,13 +19,13 @@ describe('Modal screenshot', () => {
   })
   it('have to match the default modal trigger button', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-dnb-test="modal-trigger-default"]'
+      selector: '[data-visual-test="modal-trigger-default"]'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
   it('have to match the suffix help button usage', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-dnb-test="modal-help-button"]'
+      selector: '[data-visual-test="modal-help-button"]'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -34,7 +34,7 @@ describe('Modal screenshot', () => {
       selector: 'body', // only to make sure we have a valid selector
       simulate: 'click',
       simulateSelector:
-        '[data-dnb-test="modal-trigger-default"] .dnb-modal button',
+        '[data-visual-test="modal-trigger-default"] .dnb-modal button',
       secreenshotSelector: '.dnb-modal__content__inner'
     })
     expect(screenshot).toMatchImageSnapshot()
@@ -51,7 +51,7 @@ describe('Modal screenshot', () => {
       selector: 'body', // only to make sure we have a valid selector
       simulate: 'click',
       simulateSelector:
-        '[data-dnb-test="modal-trigger-default"] .dnb-modal button',
+        '[data-visual-test="modal-trigger-default"] .dnb-modal button',
       secreenshotSelector: '.dnb-modal__content'
     })
     expect(screenshot).toMatchImageSnapshot()
@@ -67,7 +67,8 @@ describe('Drawer screenshot', () => {
     const screenshot = await testPageScreenshot({
       selector: 'body', // only to make sure we have a valid selector
       simulate: 'click',
-      simulateSelector: '[data-dnb-test="modal-drawer"] .dnb-modal button',
+      simulateSelector:
+        '[data-visual-test="modal-drawer"] .dnb-modal button',
       secreenshotSelector: '.dnb-modal__content'
     })
     expect(screenshot).toMatchImageSnapshot()
@@ -84,7 +85,7 @@ describe('Additional Modal screenshot', () => {
       selector: 'body', // only to make sure we have a valid selector
       simulate: 'click',
       simulateSelector:
-        '[data-dnb-test="modal-no-spacing"] .dnb-modal button',
+        '[data-visual-test="modal-no-spacing"] .dnb-modal button',
       secreenshotSelector: '.dnb-modal__content'
     })
     expect(screenshot).toMatchImageSnapshot()
@@ -105,7 +106,7 @@ describe('Additional Modal screenshot', () => {
       selector: 'body', // only to make sure we have a valid selector
       simulate: 'click',
       simulateSelector:
-        '[data-dnb-test="modal-fullscreen"] .dnb-modal button',
+        '[data-visual-test="modal-fullscreen"] .dnb-modal button',
       secreenshotSelector: '.dnb-modal__content'
     })
     expect(screenshot).toMatchImageSnapshot()

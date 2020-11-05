@@ -14,7 +14,7 @@ describe('DrawerList screenshot', () => {
   })
   it('have to match the default drawer-list', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-dnb-test="drawer-list"]'
+      selector: '[data-visual-test="drawer-list"]'
     })
     expect(screenshot).toMatchImageSnapshot()
   })

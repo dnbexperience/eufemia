@@ -12,7 +12,7 @@ import { getFragments } from 'dnb-ui-lib/src/fragments/lib'
 import { getElements } from 'dnb-ui-lib/src/elements/lib'
 
 const ComponentBox = ({ children, hideOnTest, scope = {}, ...rest }) => {
-  if (hideOnTest && typeof window !== 'undefined' && window.IS_TEST) {
+  if (hideOnTest && global.IS_TEST) {
     return <></>
   }
   return (
@@ -23,7 +23,7 @@ const ComponentBox = ({ children, hideOnTest, scope = {}, ...rest }) => {
         ...getElements(),
         styled,
         React,
-        TestWrapper,
+        // TestWrapper,// Not used as of now
         ...scope
       }}
       {...rest}
@@ -49,14 +49,15 @@ ComponentBox.defaultProps = {
 
 export default ComponentBox
 
-export const TestWrapper = ({ children, ...props }) => {
-  document.documentElement.setAttribute('data-dnb-test', true)
-  return (
-    <div data-dnb-test-wrapper {...props}>
-      {children}
-    </div>
-  )
-}
-TestWrapper.propTypes = {
-  children: PropTypes.node.isRequired
-}
+// Not used as of now
+// export const TestWrapper = ({ children, ...props }) => {
+//   document.documentElement.setAttribute('data-visual-test', true)
+//   return (
+//     <div data-visual-test-wrapper {...props}>
+//       {children}
+//     </div>
+//   )
+// }
+// TestWrapper.propTypes = {
+//   children: PropTypes.node.isRequired
+// }

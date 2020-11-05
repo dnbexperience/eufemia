@@ -11,7 +11,7 @@ import {
 } from 'dnb-ui-lib/src/components/form-status/FormStatus'
 
 export const FormStatusDefault = () => (
-  <ComponentBox data-dnb-test="form-status">
+  <ComponentBox data-visual-test="form-status">
     {
       /* @jsx */ `
 <FormStatus
@@ -23,7 +23,7 @@ export const FormStatusDefault = () => (
 )
 
 export const FormStatusWithInfo = () => (
-  <ComponentBox data-dnb-test="form-status-info">
+  <ComponentBox data-visual-test="form-status-info">
     {
       /* @jsx */ `
 <FormStatus
@@ -51,7 +51,7 @@ export const FormSetDefaultInput = () => (
 )
 
 export const FormStatusCustom = () => (
-  <ComponentBox data-dnb-test="form-status-custom" useRender>
+  <ComponentBox data-visual-test="form-status-custom" useRender>
     {
       /* @jsx */ `
 const CustomStatus = () => (
@@ -93,7 +93,7 @@ render(
 export const FormStatusWithIcons = () => (
   <ComponentBox
     scope={{ InfoIcon, ErrorIcon }}
-    data-dnb-test="form-status-icons"
+    data-visual-test="form-status-icons"
   >
     {`
 <Icon

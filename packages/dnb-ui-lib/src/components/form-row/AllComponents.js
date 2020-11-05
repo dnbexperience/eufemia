@@ -24,7 +24,6 @@ import {
   Input
 } from '../'
 
-// const IS_TEST = typeof window !== 'undefined' && window.IS_TEST
 
 const AllComponents = ({ horizontal, vertical, showText, hideLabel }) => {
   const params = {

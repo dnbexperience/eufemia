@@ -7,7 +7,7 @@ import React from 'react'
 import ComponentBox from 'Src/shared/tags/ComponentBox'
 
 export const AccordionDefaultExample = () => (
-  <ComponentBox data-dnb-test="accordion-default">
+  <ComponentBox data-visual-test="accordion-default">
     {`
 <Accordion
 	remember_state
@@ -36,7 +36,7 @@ export const AccordionDefaultExample = () => (
 )
 
 export const AccordionContainerExample = () => (
-  <ComponentBox useRender hideCode data-dnb-test="accordion-container">
+  <ComponentBox useRender hideCode data-visual-test="accordion-container">
     {`
 function AccordionWithContainer() {
   const ref1 = React.useRef()
@@ -151,7 +151,7 @@ render(<AccordionWithContainer />)
 )
 
 export const AccordionGroupExample = () => (
-  <ComponentBox data-dnb-test="accordion-group">
+  <ComponentBox data-visual-test="accordion-group">
     {`
 <Accordion.Group expanded allow_close_all>
 	<Accordion expanded={false}>

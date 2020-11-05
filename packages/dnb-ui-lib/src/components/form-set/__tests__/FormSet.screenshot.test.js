@@ -18,7 +18,7 @@ describe('FormSet screenshot', () => {
       style: {
         width: '40rem' // make sure our input gets an explicit width, because of mac/linux rendering differences
       },
-      selector: '[data-dnb-test="form-set-default"]'
+      selector: '[data-visual-test="form-set-default"]'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -27,7 +27,7 @@ describe('FormSet screenshot', () => {
       style: {
         width: '30rem' // make sure our input gets an explicit width, because of mac/linux rendering differences
       },
-      selector: '[data-dnb-test="form-set-vertical"]'
+      selector: '[data-visual-test="form-set-vertical"]'
     })
     expect(screenshot).toMatchImageSnapshot()
   })

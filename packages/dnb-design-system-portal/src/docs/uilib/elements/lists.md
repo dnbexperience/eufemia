@@ -26,7 +26,7 @@ render(
 
 ### Unordered Lists
 
-<ComponentBox hideCode useRender data-dnb-test="lists-ul">
+<ComponentBox hideCode useRender data-visual-test="lists-ul">
 {`
 // import { Ul, Li } from 'dnb-ui-lib/elements'
 // Instead of using className="dnb-ul", we use Ul
@@ -50,7 +50,7 @@ render(<Ul>
 
 ### Ordered Lists (nested)
 
-<ComponentBox hideCode useRender data-dnb-test="lists-ol" caption="Nested ol list by using `.dnb-ol--nested`">
+<ComponentBox hideCode useRender data-visual-test="lists-ol" caption="Nested ol list by using `.dnb-ol--nested`">
 {`
 // import { Ol, Li } from 'dnb-ui-lib/elements'
 // Instead of using className="dnb-ol", we use Ol (and Li)
@@ -83,7 +83,7 @@ render(<Ol nested>
 
 The list marker will be inside of wrapped text / text with newlines.
 
-<ComponentBox hideCode useRender data-dnb-test="lists-ol-style-position" caption="Nested ol with inside modifier `.dnb-ol--inside`">
+<ComponentBox hideCode useRender data-visual-test="lists-ol-style-position" caption="Nested ol with inside modifier `.dnb-ol--inside`">
 {`
 // import { Ol, Li } from 'dnb-ui-lib/elements'
 const WidthLimit = styled.div\`
@@ -121,7 +121,7 @@ render(<WidthLimit>
 
 Ordered lists do support natively other types, like _letters_ and _roman numerals_. You can define that by using the `type` HTML attribute.
 
-<ComponentBox hideCode data-dnb-test="lists-ol-types" caption="ol with custom type">
+<ComponentBox hideCode data-visual-test="lists-ol-types" caption="ol with custom type">
 {`
  <Ol type="A">
   <Li>Item</Li>
@@ -152,7 +152,7 @@ You can also use block level elements in the definition description, such as the
 
 Any styling can be applied.
 
-<ComponentBox hideCode useRender data-dnb-test="lists-dl">
+<ComponentBox hideCode useRender data-visual-test="lists-dl">
 {`
 // import { Dl, Dt, Dd } from 'dnb-ui-lib/elements'
 render(<Dl>
@@ -172,7 +172,7 @@ render(<Dl>
 
 ### Remove list styles
 
-<ComponentBox hideCode data-dnb-test="lists-reset">
+<ComponentBox hideCode data-visual-test="lists-reset">
 {`
 <ul className="dnb-ul dnb-unstyled-list">
   <li>ul Item</li>

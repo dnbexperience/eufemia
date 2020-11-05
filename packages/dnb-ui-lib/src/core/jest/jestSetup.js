@@ -24,6 +24,7 @@ export {
   toHaveNoViolations
 }
 
+global.IS_TEST = true
 if (typeof window !== 'undefined') {
   window.IS_TEST = true
 }

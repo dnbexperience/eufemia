@@ -10,22 +10,20 @@ import addDays from 'date-fns/addDays'
 import startOfMonth from 'date-fns/startOfMonth'
 import lastDayOfMonth from 'date-fns/lastDayOfMonth'
 
-const isTest = () => typeof window !== 'undefined' && window.IS_TEST
-
 const Wrapper = styled.div`
-  [data-dnb-test='date-picker-calendar'] .dnb-date-picker__container {
+  [data-visual-test='date-picker-calendar'] .dnb-date-picker__container {
     display: block;
     position: relative;
     top: 0;
   }
-  [data-dnb-test='date-picker-calendar'] .dnb-date-picker {
+  [data-visual-test='date-picker-calendar'] .dnb-date-picker {
     margin-left: 1rem;
   }
 `
 
 export const DatePickerRange = () =>
-  isTest() ? (
-    <></>
+  global.IS_TEST ? (
+    null
   ) : (
     <ComponentBox scope={{ addDays, startOfMonth, lastDayOfMonth }}>
       {
@@ -69,8 +67,8 @@ export const DatePickerRange = () =>
   )
 
 export const DatePickerWithInput = () =>
-  isTest() ? (
-    <></>
+  global.IS_TEST ? (
+    null
   ) : (
     <ComponentBox>
       {
@@ -95,7 +93,7 @@ export const DatePickerWithInput = () =>
 
 export const DatePickerTrigger = () => (
   <Wrapper>
-    <ComponentBox data-dnb-test="date-picker-trigger-default">
+    <ComponentBox data-visual-test="date-picker-trigger-default">
       {
         /* @jsx */ `
 <DatePicker
@@ -116,8 +114,8 @@ export const DatePickerTrigger = () => (
 )
 
 export const DatePickerHiddenNav = () =>
-  isTest() ? (
-    <></>
+  global.IS_TEST ? (
+    null
   ) : (
     <ComponentBox>
       {
@@ -144,8 +142,8 @@ export const DatePickerHiddenNav = () =>
   )
 
 export const DatePickerMonthOnly = () =>
-  isTest() ? (
-    <></>
+  global.IS_TEST ? (
+    null
   ) : (
     <ComponentBox>
       {
@@ -162,8 +160,8 @@ export const DatePickerMonthOnly = () =>
   )
 
 export const DatePickerDisabled = () =>
-  isTest() ? (
-    <></>
+  global.IS_TEST ? (
+    null
   ) : (
     <ComponentBox>
       {
@@ -181,8 +179,8 @@ export const DatePickerDisabled = () =>
   )
 
 export const DatePickerSuffix = () =>
-  isTest() ? (
-    <></>
+  global.IS_TEST ? (
+    null
   ) : (
     <ComponentBox>
       {
@@ -200,7 +198,7 @@ export const DatePickerSuffix = () =>
 
 export const DatePickerLinked = () => (
   <Wrapper>
-    <ComponentBox data-dnb-test="date-picker-input">
+    <ComponentBox data-visual-test="date-picker-input">
       {
         /* @jsx */ `
 <DatePicker
@@ -217,7 +215,7 @@ export const DatePickerLinked = () => (
 
 export const DatePickerNoInputStatus = () => (
   <Wrapper>
-    <ComponentBox data-dnb-test="date-picker-trigger-error">
+    <ComponentBox data-visual-test="date-picker-trigger-error">
       {
         /* @jsx */ `
 <DatePicker
@@ -234,7 +232,7 @@ export const DatePickerNoInputStatus = () => (
 
 export const DatePickerErrorMessage = () => (
   <Wrapper>
-    <ComponentBox data-dnb-test="date-picker-input-error">
+    <ComponentBox data-visual-test="date-picker-input-error">
       {
         /* @jsx */ `
 <DatePicker
@@ -267,7 +265,7 @@ export const DatePickerErrorStatus = () => (
 
 export const DatePickerCalendar = () => (
   <Wrapper>
-    <ComponentBox data-dnb-test="date-picker-calendar">
+    <ComponentBox data-visual-test="date-picker-calendar">
       {
         /* @jsx */ `
 <DatePicker

@@ -13,7 +13,7 @@ describe('Pagination screenshot', () => {
 
   it('have to match the default pagination bar', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-dnb-test="pagination-default"]'
+      selector: '[data-visual-test="pagination-default"]'
     })
     expect(screenshot).toMatchImageSnapshot()
   })

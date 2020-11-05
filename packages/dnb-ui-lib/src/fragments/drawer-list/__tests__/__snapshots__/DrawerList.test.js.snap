@@ -701,7 +701,7 @@ exports[`DrawerList scss have to match snapshot 1`] = `
     flex-direction: column; }
     .dnb-drawer-list--opened .dnb-drawer-list__list {
       animation: drawer-list-slide-top-down 200ms ease-out 1 forwards; }
-    html[data-dnb-test] .dnb-drawer-list--opened .dnb-drawer-list__list, .dnb-drawer-list--opened .dnb-drawer-list__list--no-animation {
+    html[data-visual-test] .dnb-drawer-list--opened .dnb-drawer-list__list, .dnb-drawer-list--opened .dnb-drawer-list__list--no-animation {
       animation: drawer-list-slide-top-down 1ms ease-out 1 forwards; }
   @media screen and (max-width: 40em), screen and (max-height: 40em) {
     .dnb-drawer-list__portal .dnb-drawer-list--mobile-view.dnb-drawer-list--opened .dnb-drawer-list__list {
@@ -772,7 +772,7 @@ exports[`DrawerList scss have to match snapshot 1`] = `
       border-radius: 0; } }
   .dnb-drawer-list:not(.dnb-drawer-list--opened) .dnb-drawer-list__list {
     animation: drawer-list-slide-top-up 150ms ease-out 1 forwards; }
-  html[data-dnb-test] .dnb-drawer-list:not(.dnb-drawer-list--opened) .dnb-drawer-list__list, .dnb-drawer-list:not(.dnb-drawer-list--opened) .dnb-drawer-list__list--no-animation {
+  html[data-visual-test] .dnb-drawer-list:not(.dnb-drawer-list--opened) .dnb-drawer-list__list, .dnb-drawer-list:not(.dnb-drawer-list--opened) .dnb-drawer-list__list--no-animation {
     animation: drawer-list-slide-top-up 1ms ease-out 1 forwards; }
   @media screen and (max-width: 40em), screen and (max-height: 40em) {
     .dnb-drawer-list__portal .dnb-drawer-list--mobile-view.dnb-drawer-list:not(.dnb-drawer-list--opened) .dnb-drawer-list__list {

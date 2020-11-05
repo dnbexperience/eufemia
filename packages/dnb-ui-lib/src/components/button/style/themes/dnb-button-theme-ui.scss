@@ -100,7 +100,7 @@
         color: transparent;
         opacity: 0;
         transition: opacity 200ms ease-out, color 200ms ease-out;
-        [data-dnb-test-wrapper] & {
+        [data-visual-test-wrapper] & {
           transition: none;
         }
       }

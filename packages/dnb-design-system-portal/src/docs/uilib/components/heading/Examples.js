@@ -16,7 +16,7 @@ const Style = styled.div`
 
 export const HeadingDefault = () => (
   <Style>
-    <ComponentBox data-dnb-test="heading-default">
+    <ComponentBox data-visual-test="heading-default">
       {
         /* @jsx */ `
 <Heading.Level debug reset={1}>
@@ -36,7 +36,7 @@ export const HeadingDefault = () => (
 
 export const HeadingContext = () => (
   <Style>
-    <ComponentBox data-dnb-test="heading-context">
+    <ComponentBox data-visual-test="heading-context">
       {
         /* @jsx */ `
 <Heading.Level debug reset={1}>
@@ -67,7 +67,7 @@ export const HeadingIsolation = () => (
   <Style>
     <ComponentBox
       useRender
-      // data-dnb-test="heading-level-isolation"
+      // data-visual-test="heading-level-isolation"
     >
       {
         /* @jsx */ `
@@ -110,7 +110,7 @@ render(<App />)
 
 export const HeadingMix = () => (
   <Style>
-    <ComponentBox data-dnb-test="heading-mixin">
+    <ComponentBox data-visual-test="heading-mixin">
       {
         /* @jsx */ `
 <Heading.Level debug reset={1}>

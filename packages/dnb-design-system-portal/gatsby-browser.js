@@ -8,7 +8,6 @@ import { resetLevels } from 'dnb-ui-lib/src/components/Heading'
 import { rootElement } from './src/core/portalProviders'
 import smoothscroll from 'smoothscroll-polyfill'
 
-// run the polifills
 smoothscroll.polyfill()
 
 export const wrapRootElement = rootElement
@@ -20,6 +19,8 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 function loadDevStyles() {
+  require('dnb-ui-lib/src/core/jest/jestSetupScreenshots.css') // import visual test styles
+
   // Only for testing legacy CSS code
   // require('dnb-ui-lib/stories/legacy')
 
@@ -52,30 +53,19 @@ function loadProdStyles() {
     loadDevStyles()
   }
 }
-
-// enable prefetching
-export const disableCorePrefetching = () => false
+export const disableCorePrefetching = () => {
+  return window.IS_TEST
+}
+export const registerServiceWorker = () => {
+  return !window.IS_TEST
+}
+export const onServiceWorkerUpdateFound = () => {
+  window.___swUpdated = true
+  disableServiceWorker()
+}
 
 // scroll to top on route change
 export const shouldUpdateScroll = () => true
-
-if (
-  typeof window !== 'undefined' &&
-  window.location.search.split(/\?|&/).includes('data-dnb-test')
-) {
-  window.IS_TEST = true
-}
-
-export const onPreRouteUpdate = ({ location }) => {
-  if (
-    location &&
-    location.search.split(/\?|&/).includes('data-dnb-test')
-  ) {
-    if (typeof window !== 'undefined') {
-      window.IS_TEST = true
-    }
-  }
-}
 
 export const onRouteUpdate = ({ prevLocation }) => {
   resetLevels(1)
@@ -84,11 +74,13 @@ export const onRouteUpdate = ({ prevLocation }) => {
     // we have to disable the focus management from Reach Router
     // More info: why we have to have the tabindex https://reach.tech/router/accessibility
     // More info: The div is necessary to manage focus https://github.com/reach/router/issues/63#issuecomment-395988602
-    document
-      .querySelector('#gatsby-focus-wrapper')
-      .removeAttribute('tabindex')
+    if (!window.IS_TEST) {
+      document
+        .querySelector('#gatsby-focus-wrapper')
+        .removeAttribute('tabindex')
+    }
   } catch (e) {
-    console.warn(e)
+    //
   }
 
   // if previous location is not null
@@ -96,5 +88,36 @@ export const onRouteUpdate = ({ prevLocation }) => {
   //  then we apply the page content focus for accissibility
   if (prevLocation) {
     applyPageFocus('content')
+  }
+}
+
+if (typeof window !== 'undefined') {
+  setIsTest(window.location)
+  if (window.IS_TEST) {
+    disableServiceWorker()
+  }
+}
+
+function setIsTest(location) {
+  if (location && location.href.includes('data-visual-test')) {
+    global.IS_TEST = true
+    window.IS_TEST = true
+    window.___swUpdated = true
+  }
+}
+
+function disableServiceWorker() {
+  // Because if visual test interruption, we disable the workbox / caching during the tests
+  if (window.IS_TEST && 'serviceWorker' in navigator) {
+    navigator.serviceWorker
+      .getRegistrations()
+      .then((registrations) => {
+        for (let r of registrations) {
+          r.unregister()
+        }
+      })
+      .catch((err) => {
+        console.error('Service Worker registration failed:', err)
+      })
   }
 }

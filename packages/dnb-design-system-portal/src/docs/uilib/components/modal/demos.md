@@ -8,7 +8,7 @@ import ComponentBox from 'Tags/ComponentBox'
 
 ### Triggered by the help button
 
-<ComponentBox data-dnb-test="modal-trigger-default">
+<ComponentBox data-visual-test="modal-trigger-default">
 	{
 	/* @jsx */ `
 <Modal title="Modal Title">
@@ -24,7 +24,7 @@ import ComponentBox from 'Tags/ComponentBox'
 
 Most of the components do have a `suffix` property you can make use of.
 
-<ComponentBox data-dnb-test="modal-help-button">
+<ComponentBox data-visual-test="modal-help-button">
 	{
 	/* @jsx */ `
 <Input
@@ -46,7 +46,7 @@ Most of the components do have a `suffix` property you can make use of.
 
 With placement on the left side.
 
-<ComponentBox data-dnb-test="modal-drawer">
+<ComponentBox data-visual-test="modal-drawer">
 	{
 	/* @jsx */ `
 <Modal
@@ -65,7 +65,7 @@ With placement on the left side.
 
 ### Fullscreen Modal, triggered by a tertiary button
 
-<ComponentBox data-dnb-test="modal-fullscreen">
+<ComponentBox data-visual-test="modal-fullscreen">
 	{
 	/* @jsx */ `
 <Modal
@@ -163,7 +163,7 @@ With a `max_width` of `40rem`.
 
 Also, `fullscreen` and `spacing` is disabled and the `align_content` is centered.
 
-<ComponentBox data-dnb-test="modal-no-spacing">
+<ComponentBox data-visual-test="modal-no-spacing">
 	{/* @jsx */ `
 <Modal
   spacing={false}

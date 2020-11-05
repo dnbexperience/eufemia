@@ -536,7 +536,7 @@ exports[`Button scss have to match default theme snapshot 1`] = `
           .dnb-button--tertiary .dnb-button__text::after {
             height: 1px;
             border-radius: 0.5px; } }
-        [data-dnb-test-wrapper] .dnb-button--tertiary .dnb-button__text::after {
+        [data-visual-test-wrapper] .dnb-button--tertiary .dnb-button__text::after {
           transition: none; }
     .dnb-button--tertiary.dnb-button--has-text {
       padding-left: 0.5rem;

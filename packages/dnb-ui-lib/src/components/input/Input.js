@@ -225,7 +225,7 @@ export default class Input extends React.PureComponent {
         context.formRow.useId()) ||
       makeUniqueId() // cause we need an id anyway
 
-    // make sure we dont trigger getDerivedStateFromProps on startup
+    // make sure we don't trigger getDerivedStateFromProps on startup
     this.state._listenForPropChanges = true
     this.state._value = props.value
   }

@@ -6,14 +6,10 @@
 import React from 'react'
 import ComponentBox from 'Src/shared/tags/ComponentBox'
 
-class Example extends React.PureComponent {
-  render() {
-    return (
-      <React.Fragment>
-        <UseOnTests />
-        <ComponentBox title="Radio group" data-dnb-test="radio-group">
-          {
-            /* @jsx */ `
+export const RadioExampleDefault = () => (
+  <ComponentBox data-visual-test="radio-group">
+    {
+      /* @jsx */ `
 <Radio.Group
   label="Radio Group:"
   on_change={({ value }) => { console.log('on_change', value) }}
@@ -26,15 +22,15 @@ class Example extends React.PureComponent {
     value="third"
   />
 </Radio.Group>
-          `
-          }
-        </ComponentBox>
-        <ComponentBox
-          title="Vertical aligned Radio group"
-          data-dnb-test="radio-group-vertical"
-        >
-          {
-            /* @jsx */ `
+  `
+    }
+  </ComponentBox>
+)
+
+export const RadioExampleVerticalGroup = () => (
+  <ComponentBox data-visual-test="radio-group-vertical">
+    {
+      /* @jsx */ `
 <Radio.Group
   label="Vertical Group:"
   layout_direction="column"
@@ -48,15 +44,15 @@ class Example extends React.PureComponent {
     checked
   />
 </Radio.Group>
-          `
-          }
-        </ComponentBox>
-        <ComponentBox
-          title="Radio group with status messages"
-          data-dnb-test="radio-group-status"
-        >
-          {
-            /* @jsx */ `
+  `
+    }
+  </ComponentBox>
+)
+
+export const RadioExampleGroupStatus = () => (
+  <ComponentBox data-visual-test="radio-group-status">
+    {
+      /* @jsx */ `
 <Radio.Group
   label="Radio Group with status:"
   layout_direction="column"
@@ -80,15 +76,15 @@ class Example extends React.PureComponent {
     status_state="info"
   />
 </Radio.Group>
-          `
-          }
-        </ComponentBox>
-        <ComponentBox
-          title="Plain Radio group without `<Radio.Group>`. It is recomended to use the `<Radio.Group>` if You are using **React**."
-          data-dnb-test="radio-group-plain"
-        >
-          {
-            /* @jsx */ `
+  `
+    }
+  </ComponentBox>
+)
+
+export const RadioExampleWithoutGroup = () => (
+  <ComponentBox data-visual-test="radio-group-plain">
+    {
+      /* @jsx */ `
 <FormRow label="Plain Radio group:">
   <Radio
     value="first"
@@ -117,27 +113,26 @@ class Example extends React.PureComponent {
     right
   />
 </FormRow>
-          `
-          }
-        </ComponentBox>
-        <ComponentBox
-          title="With different sizes"
-          desciption="As for now, there are two sizes. `medium` is the default size."
-          data-dnb-test="radio-sizes"
-        >
-          {
-            /* @jsx */ `
+  `
+    }
+  </ComponentBox>
+)
+
+export const RadioExampleSizes = () => (
+  <ComponentBox data-visual-test="radio-sizes">
+    {
+      /* @jsx */ `
 <Radio size="medium" label="Medium" right="large" checked />
 <Radio size="large" label="Large" checked />
-          `
-          }
-        </ComponentBox>
-        <ComponentBox
-          title="Disabled Radio group with `label_position` set to left"
-          data-dnb-test="radio-group-disabled"
-        >
-          {
-            /* @jsx */ `
+  `
+    }
+  </ComponentBox>
+)
+
+export const RadioExampleDisabled = () => (
+  <ComponentBox data-visual-test="radio-group-disabled">
+    {
+      /* @jsx */ `
 <Radio.Group
   label="Disabled Group:"
   disabled
@@ -152,12 +147,15 @@ class Example extends React.PureComponent {
     checked
   />
 </Radio.Group>
-          `
-          }
-        </ComponentBox>
-        <ComponentBox title="Radio Buttons with suffix">
-          {
-            /* @jsx */ `
+  `
+    }
+  </ComponentBox>
+)
+
+export const RadioExampleSuffix = () => (
+  <ComponentBox>
+    {
+      /* @jsx */ `
 <Radio.Group
   label="With suffixes:"
   label_position="left"
@@ -176,49 +174,40 @@ class Example extends React.PureComponent {
     checked
   />
 </Radio.Group>
-          `
-          }
-        </ComponentBox>
-      </React.Fragment>
-    )
-  }
-}
+  `
+    }
+  </ComponentBox>
+)
 
-class UseOnTests extends React.PureComponent {
-  render() {
-    return typeof window !== 'undefined' && window.IS_TEST ? (
-      <>
-        <ComponentBox
-          title="Unchecked Radio (Single Radio buttons should not be used)"
-          data-dnb-test="radio-default"
-        >
-          {
-            /* @jsx */ `
-      <Radio
-      label="Single Radio"
-      />
+export function RadioVisualTests() {
+  return !global.IS_TEST ? null : (
+    <>
+      <ComponentBox
+        title="Unchecked Radio (Single Radio buttons should not be used)"
+        data-visual-test="radio-default"
+      >
+        {
+          /* @jsx */ `
+<Radio
+  label="Single Radio"
+/>
         `
-          }
-        </ComponentBox>
-        <ComponentBox
-          title="Checked Radio (Single Radio buttons should not be used)"
-          data-dnb-test="radio-checked"
-        >
-          {
-            /* @jsx */ `
-      <Radio
-      label="Checked Radio"
-      checked
-      on_change={({ checked }) => console.log(checked)}
-      />
+        }
+      </ComponentBox>
+      <ComponentBox
+        title="Checked Radio (Single Radio buttons should not be used)"
+        data-visual-test="radio-checked"
+      >
+        {
+          /* @jsx */ `
+<Radio
+  label="Checked Radio"
+  checked
+  on_change={({ checked }) => console.log(checked)}
+/>
         `
-          }
-        </ComponentBox>
-      </>
-    ) : (
-      <></>
-    )
-  }
+        }
+      </ComponentBox>
+    </>
+  )
 }
-
-export default Example

@@ -8,7 +8,7 @@ import ComponentBox from 'Src/shared/tags/ComponentBox'
 import styled from '@emotion/styled'
 
 const Wrapper = styled.div`
-  [data-dnb-test] {
+  [data-visual-test] {
     > :not(.dnb-autocomplete--is-popup) .dnb-autocomplete__shell {
       width: var(--autocomplete-width);
     }
@@ -33,7 +33,7 @@ export const AutocompleteDefaultExample = () => (
 export const AutocompleteWithCustomTitle = () => (
   <Wrapper>
     <ComponentBox
-      data-dnb-test="autocomplete-closed"
+      data-visual-test="autocomplete-closed"
       scope={{ topMovies }}
     >
       {
@@ -132,7 +132,7 @@ render(<Autocomplete
 export const AutocompleteToggleExample = () => (
   <Wrapper>
     <ComponentBox
-      data-dnb-test="autocomplete-drawer-button"
+      data-visual-test="autocomplete-drawer-button"
       scope={{ topMovies }}
     >
       {
@@ -155,7 +155,7 @@ export const AutocompleteToggleExample = () => (
 export const AutocompletePredefinedInput = () => (
   <Wrapper>
     <ComponentBox
-      data-dnb-test="autocomplete-drawer-search"
+      data-visual-test="autocomplete-drawer-search"
       scope={{ topMovies }}
     >
       {
@@ -178,7 +178,10 @@ export const AutocompletePredefinedInput = () => (
 
 export const AutocompleteDifferentSizes = () => (
   <Wrapper>
-    <ComponentBox data-dnb-test="autocomplete-sizes" scope={{ topMovies }}>
+    <ComponentBox
+      data-visual-test="autocomplete-sizes"
+      scope={{ topMovies }}
+    >
       {
         /* @jsx */ `
 <FormRow direction="vertical">
@@ -210,7 +213,7 @@ export const AutocompleteDifferentSizes = () => (
 export const AutocompleteCustomWidth = () => (
   <Wrapper>
     <ComponentBox
-      // data-dnb-test="autocomplete-width"
+      // data-visual-test="autocomplete-width"
       scope={{ topMovies }}
       useRender
     >

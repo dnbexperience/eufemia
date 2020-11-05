@@ -7,7 +7,7 @@ import React from 'react'
 import ComponentBox from 'Src/shared/tags/ComponentBox'
 
 export const FormSetDefault = () => (
-  <ComponentBox data-dnb-test="form-set-default">
+  <ComponentBox data-visual-test="form-set-default">
     {
       /* @jsx */ `
 <FormSet indent="true">
@@ -30,7 +30,7 @@ export const FormSetDefault = () => (
 )
 
 export const FormSetVertical = () => (
-  <ComponentBox data-dnb-test="form-set-vertical">
+  <ComponentBox data-visual-test="form-set-vertical">
     {
       /* @jsx */ `
 <FormSet direction="vertical">
@@ -45,7 +45,7 @@ export const FormSetVertical = () => (
 )
 
 export const FormSetSubmit = () => (
-  <ComponentBox data-dnb-test="form-set-submit">
+  <ComponentBox data-visual-test="form-set-submit">
     {
       /* @jsx */ `
 <FormSet

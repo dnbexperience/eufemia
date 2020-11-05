@@ -118,7 +118,7 @@
   }
 
   &--no-animation &__header,
-  html[data-dnb-test] &__header {
+  html[data-visual-test] &__header {
     &__icon {
       transition-duration: 1ms !important;
     }
@@ -190,7 +190,7 @@
     // }
   }
   &--no-animation &__content,
-  html[data-dnb-test] &__content {
+  html[data-visual-test] &__content {
     transition-duration: 1ms !important;
   }
 

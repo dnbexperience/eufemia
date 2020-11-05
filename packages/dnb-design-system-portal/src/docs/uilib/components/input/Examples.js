@@ -22,7 +22,7 @@ const Wrapper = styled.div`
 
 export const InputDefault = () => (
   <Wrapper>
-    <ComponentBox data-dnb-test="input-placeholder">
+    <ComponentBox data-visual-test="input-placeholder">
       {
         /* @jsx */ `
 <Input
@@ -37,7 +37,7 @@ export const InputDefault = () => (
 
 export const InputSearch = () => (
   <Wrapper>
-    <ComponentBox data-dnb-test="input-search">
+    <ComponentBox data-visual-test="input-search">
       {
         /* @jsx */ `
 <Input
@@ -60,7 +60,7 @@ export const InputSearch = () => (
 
 export const InputMedium = () => (
   <Wrapper>
-    <ComponentBox data-dnb-test="input-medium">
+    <ComponentBox data-visual-test="input-medium">
       {
         /* @jsx */ `
 <Input
@@ -80,7 +80,7 @@ export const InputMedium = () => (
 
 export const InputWithIcon = () => (
   <Wrapper>
-    <ComponentBox data-dnb-test="input-icon">
+    <ComponentBox data-visual-test="input-icon">
       {
         /* @jsx */ `
 <Input
@@ -106,7 +106,7 @@ export const InputWithIcon = () => (
 
 export const InputDisabled = () => (
   <Wrapper>
-    <ComponentBox data-dnb-test="input-disabled">
+    <ComponentBox data-visual-test="input-disabled">
       {
         /* @jsx */ `
 <Input
@@ -138,7 +138,7 @@ export const InputFailureStatus = () => (
 
 export const InputFormStatus = () => (
   <Wrapper>
-    <ComponentBox data-dnb-test="input-error">
+    <ComponentBox data-visual-test="input-error">
       {
         /* @jsx */ `
 <Input
@@ -254,12 +254,12 @@ export const InputSubmit = () => (
 )
 
 export const ScreenshotTests = () => {
-  if (!(typeof window !== 'undefined' && window.IS_TEST)) {
-    return <></>
+  if (!global.IS_TEST) {
+    return null
   }
   return (
     <Wrapper>
-      <ComponentBox data-dnb-test="input-align">
+      <ComponentBox data-visual-test="input-align">
         {
           /* @jsx */ `
 <FormRow label="Left aligned" vertical>

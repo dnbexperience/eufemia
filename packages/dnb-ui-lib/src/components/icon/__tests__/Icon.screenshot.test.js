@@ -24,7 +24,7 @@ describe('Icon screenshot', () => {
         display: 'flex',
         'align-items': 'center'
       },
-      selector: '[data-dnb-test="icon-default"]'
+      selector: '[data-visual-test="icon-default"]'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -35,7 +35,7 @@ describe('Icon screenshot', () => {
         display: 'flex',
         'align-items': 'center'
       },
-      selector: '[data-dnb-test="icon-inherit-sized"]'
+      selector: '[data-visual-test="icon-inherit-sized"]'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -46,7 +46,7 @@ describe('Icon screenshot', () => {
         display: 'flex',
         'align-items': 'center'
       },
-      selector: '[data-dnb-test="icon-border"]'
+      selector: '[data-visual-test="icon-border"]'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -57,7 +57,7 @@ describe('Icon screenshot', () => {
         display: 'flex',
         'align-items': 'center'
       },
-      selector: '[data-dnb-test="icon-medium"]'
+      selector: '[data-visual-test="icon-medium"]'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -68,7 +68,7 @@ describe('Icon screenshot', () => {
         'flex-wrap': 'wrap',
         width: '30rem'
       },
-      selector: '[data-dnb-test="icon-all-primary"]'
+      selector: '[data-visual-test="icon-all-primary"]'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -79,7 +79,7 @@ describe('Icon screenshot', () => {
         'flex-wrap': 'wrap',
         width: '30rem'
       },
-      selector: '[data-dnb-test="icon-all-secondary"]'
+      selector: '[data-visual-test="icon-all-secondary"]'
     })
     expect(screenshot).toMatchImageSnapshot()
   })

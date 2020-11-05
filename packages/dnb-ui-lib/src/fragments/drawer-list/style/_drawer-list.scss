@@ -27,7 +27,7 @@
     &:not(#{&}--no-animation) {
       animation: drawer-list-slide-top-down 200ms ease-out 1 forwards;
     }
-    html[data-dnb-test] &,
+    html[data-visual-test] &,
     &--no-animation {
       animation: drawer-list-slide-top-down 1ms ease-out 1 forwards;
     }
@@ -42,7 +42,7 @@
     &:not(#{&}--no-animation) {
       animation: drawer-list-slide-top-up 150ms ease-out 1 forwards;
     }
-    html[data-dnb-test] &,
+    html[data-visual-test] &,
     &--no-animation {
       animation: drawer-list-slide-top-up 1ms ease-out 1 forwards;
     }

@@ -9,7 +9,7 @@ import 'dnb-ui-lib/src/components/slider/style/dnb-range.scss'
 
 ### Default Slider
 
-<ComponentBox data-dnb-test="slider-default">
+<ComponentBox data-visual-test="slider-default">
 	{/* @jsx */ `
 <Slider
   min={0}
@@ -23,7 +23,7 @@ import 'dnb-ui-lib/src/components/slider/style/dnb-range.scss'
 
 ### Vertical slider with steps of 10
 
-<ComponentBox data-dnb-test="slider-vertical" useRender>
+<ComponentBox data-visual-test="slider-vertical" useRender>
 	{/* @jsx */ `
 const VerticalWrapper = styled.div\`
   display: inline-flex;

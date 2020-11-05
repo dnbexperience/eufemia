@@ -179,46 +179,46 @@
     }
 
     // Drawer animation
-    html:not([data-dnb-test]) &--drawer#{&}--left &__inner {
+    html:not([data-visual-test]) &--drawer#{&}--left &__inner {
       transform: translate3d(-20rem, 0, 0);
     }
-    html:not([data-dnb-test]) &--drawer#{&}--right &__inner {
+    html:not([data-visual-test]) &--drawer#{&}--right &__inner {
       transform: translate3d(20rem, 0, 0);
     }
-    html:not([data-dnb-test]) &--drawer#{&}--top &__inner {
+    html:not([data-visual-test]) &--drawer#{&}--top &__inner {
       transform: translate3d(0, -20rem, 0);
     }
-    html:not([data-dnb-test]) &--drawer#{&}--bottom &__inner {
+    html:not([data-visual-test]) &--drawer#{&}--bottom &__inner {
       transform: translate3d(0, 20rem, 0);
     }
-    html:not([data-dnb-test]) &--drawer &__inner {
+    html:not([data-visual-test]) &--drawer &__inner {
       opacity: 0.1;
       animation: show-drawer var(--modal-animation-duration) ease-out
         forwards;
     }
-    html:not([data-dnb-test]) &--drawer#{&}--hide#{&}--left &__inner {
+    html:not([data-visual-test]) &--drawer#{&}--hide#{&}--left &__inner {
       animation: hide-drawer-left var(--modal-animation-duration)
         ease-in-out forwards;
     }
-    html:not([data-dnb-test]) &--drawer#{&}--hide#{&}--right &__inner {
+    html:not([data-visual-test]) &--drawer#{&}--hide#{&}--right &__inner {
       animation: hide-drawer-right var(--modal-animation-duration)
         ease-in-out forwards;
     }
-    html:not([data-dnb-test]) &--drawer#{&}--hide#{&}--top &__inner {
+    html:not([data-visual-test]) &--drawer#{&}--hide#{&}--top &__inner {
       animation: hide-drawer-top var(--modal-animation-duration)
         ease-in-out forwards;
     }
-    html:not([data-dnb-test]) &--drawer#{&}--hide#{&}--bottom &__inner {
+    html:not([data-visual-test]) &--drawer#{&}--hide#{&}--bottom &__inner {
       animation: hide-drawer-bottom var(--modal-animation-duration)
         ease-in-out forwards;
     }
 
     // Modal mode
-    html:not([data-dnb-test]) &--modal &__inner {
+    html:not([data-visual-test]) &--modal &__inner {
       animation: show-modal var(--modal-animation-duration) ease-out
         forwards;
     }
-    html:not([data-dnb-test]) &--modal#{&}--hide &__inner {
+    html:not([data-visual-test]) &--modal#{&}--hide &__inner {
       animation: hide-modal 220ms ease-in-out forwards;
     }
 
@@ -323,21 +323,21 @@
     background: var(--modal-overlay-bg);
     box-shadow: 0 100vh 0 0 var(--modal-overlay-bg);
 
-    html:not([data-dnb-test]) &--modal {
+    html:not([data-visual-test]) &--modal {
       animation: show-modal-overlay var(--modal-animation-duration)
         ease-out forwards;
     }
-    html:not([data-dnb-test]) &--modal#{&}--hide {
+    html:not([data-visual-test]) &--modal#{&}--hide {
       animation: hide-modal-overlay var(--modal-animation-duration)
         ease-in-out forwards;
     }
 
     // Drawer mode
-    html:not([data-dnb-test]) &--drawer {
+    html:not([data-visual-test]) &--drawer {
       animation: show-drawer-overlay var(--modal-animation-duration)
         ease-out forwards;
     }
-    html:not([data-dnb-test]) &--drawer#{&}--hide {
+    html:not([data-visual-test]) &--drawer#{&}--hide {
       animation: hide-drawer-overlay var(--modal-animation-duration)
         ease-in-out forwards;
     }
@@ -363,7 +363,7 @@
   &-root__inner:last-of-type &__overlay {
     opacity: 1;
   }
-  html[data-dnb-test] &-root__inner &__overlay {
+  html[data-visual-test] &-root__inner &__overlay {
     transition: none;
   }
 

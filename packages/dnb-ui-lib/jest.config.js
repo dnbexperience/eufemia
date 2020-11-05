@@ -6,10 +6,10 @@ const config = {
     '<rootDir>/build/',
     '<rootDir>/assets/',
     '<rootDir>/stories/',
+    '<rootDir>/jest-screenshot-report/',
     'screenshot'
   ],
   transformIgnorePatterns: ['node_modules'],
-  // globalTeardown: './src/core/jest/jestGlobalTeardown.js',
   transform: {
     '^.+\\.(js|jsx)$': 'babel-jest',
     '^.+\\.(md|txt|css|scss)$': 'jest-raw-loader'

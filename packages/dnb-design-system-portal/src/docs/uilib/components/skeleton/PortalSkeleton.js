@@ -1,7 +1,6 @@
 import React from 'react'
 import { Context } from 'dnb-ui-lib/src/shared'
 import { ToggleButton, Skeleton } from 'dnb-ui-lib/src/components'
-import { setSkeletonEnabled } from '../../../../core/portalProviders'
 
 export default function PortalSkeleton() {
   const { update, skeleton } = React.useContext(Context)
@@ -20,4 +19,15 @@ export default function PortalSkeleton() {
       </ToggleButton>
     </Skeleton.Exclude>
   )
+}
+
+export function setSkeletonEnabled(skeleton) {
+  try {
+    window.localStorage.setItem(
+      'skeleton-enabled',
+      skeleton ? true : false
+    )
+  } catch (e) {
+    //
+  }
 }

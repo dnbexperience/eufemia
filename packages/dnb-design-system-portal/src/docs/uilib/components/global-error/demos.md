@@ -8,7 +8,7 @@ import ComponentBox from 'Src/shared/tags/ComponentBox'
 
 ### To showcase the 404 status component
 
-<ComponentBox data-dnb-test="global-error-404">
+<ComponentBox data-visual-test="global-error-404">
 {/* @jsx */ `
 <GlobalError status="404" />
 `}
@@ -16,7 +16,7 @@ import ComponentBox from 'Src/shared/tags/ComponentBox'
 	  
 ### To showcase the 500 status component
 
-<ComponentBox data-dnb-test="global-error-500">
+<ComponentBox data-visual-test="global-error-500">
 {/* @jsx */ `
 <GlobalError status="500" />
 `}
