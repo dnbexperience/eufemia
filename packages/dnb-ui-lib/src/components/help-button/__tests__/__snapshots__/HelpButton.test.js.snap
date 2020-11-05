@@ -2,10 +2,14 @@
 
 exports[`HelpButton component have to match snapshot 1`] = `
 <HelpButton
+  icon={null}
+  icon_position="left"
   id="help-button"
   modal_content={null}
+  modal_props={null}
   text={null}
   title={null}
+  variant="secondary"
 >
   <HelpButtonInstance
     class={null}
@@ -28,7 +32,7 @@ exports[`HelpButton component have to match snapshot 1`] = `
       global_status_id={null}
       href={null}
       icon="question"
-      icon_position="right"
+      icon_position="left"
       icon_size={null}
       id="help-button"
       innerRef={null}
@@ -49,7 +53,7 @@ exports[`HelpButton component have to match snapshot 1`] = `
       <button
         aria-label="Hjelpetekst"
         aria-roledescription="Hjelp-knapp"
-        className="dnb-button dnb-button--secondary dnb-help-button dnb-button--icon-position-right dnb-button--has-icon dnb-button--size-medium"
+        className="dnb-button dnb-button--secondary dnb-help-button dnb-button--icon-position-left dnb-button--has-icon dnb-button--size-medium"
         disabled={false}
         id="help-button"
         onClick={[Function]}
@@ -68,7 +72,7 @@ exports[`HelpButton component have to match snapshot 1`] = `
           global_status_id={null}
           href={null}
           icon="question"
-          icon_position="right"
+          icon_position="left"
           icon_size={null}
           id="help-button"
           innerRef={null}

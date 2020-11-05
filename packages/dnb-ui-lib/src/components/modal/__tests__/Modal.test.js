@@ -22,7 +22,7 @@ const props = fakeProps(require.resolve('../Modal'), {
 })
 props.title = 'modal_title'
 props.id = 'modal_id'
-props.content_id = 'modal_content_id'
+props.content_id = null
 props.style_type = 'button'
 props.modal_content = 'unique_modal_content'
 props.close_title = 'close_title'
@@ -248,10 +248,10 @@ describe('Modal component', () => {
       <Component
         trigger_text="Open Modal"
         trigger_variant="tertiary"
-        trigger_icon={null}
+        trigger_icon={false}
       />
     )
-    expect(Comp2.find(`.dnb-icon`).exists()).toBe(false)
+    expect(Comp2.find('.dnb-icon').exists()).toBe(false)
   })
   it('has to have an icon', () => {
     const Comp1 = mount(

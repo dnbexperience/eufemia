@@ -8,8 +8,7 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import {
   convertJsxToString,
-  extendPropsWithContext,
-  validateDOMAttributes
+  extendPropsWithContext
 } from '../../shared/component-helper'
 import Context from '../../shared/Context'
 import { createSpacingClasses } from '../space/SpacingHelper'
@@ -33,7 +32,7 @@ export default class HelpButtonInstance extends React.PureComponent {
   static defaultProps = {
     id: null,
     variant: 'secondary',
-    icon: 'question',
+    icon: null,
     icon_position: 'left',
     class: null
   }
@@ -75,12 +74,16 @@ export default class HelpButtonInstance extends React.PureComponent {
       ...attributes
     }
 
+    if (
+      (!params.text || params.variant === 'tertiary') &&
+      params.icon === null
+    ) {
+      params.icon = 'question'
+    }
+
     if (icon === 'information' && !size) {
       params.icon_size = 'medium'
     }
-
-    // also used for code markup simulation
-    validateDOMAttributes(this.props, params)
 
     return <Button on_click={on_click} {...params} />
   }

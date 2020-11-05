@@ -15,9 +15,12 @@ import Component from '../HelpButton'
 const snapshotProps = fakeProps(require.resolve('../HelpButton'), {})
 snapshotProps.id = 'help-button'
 
-const props = {}
+const modal_props = {}
+modal_props.content_id = null
+modal_props.no_animation = true
+
+const props = { modal_props }
 props.id = 'help-button'
-props.no_animation = true
 
 describe('HelpButton component', () => {
   it('have to match snapshot', () => {
@@ -47,8 +50,8 @@ describe('HelpButton component', () => {
 
     Comp.find('button.dnb-modal__trigger').simulate('click')
 
-    const id = `#dnb-modal-${props.id}`
-    const modalElem = document.querySelector(id)
+    const id = `dnb-modal-${props.id}`
+    const modalElem = document.getElementById(id)
     const textContent = String(modalElem.textContent).replace(
       /\u200C/g,
       ''

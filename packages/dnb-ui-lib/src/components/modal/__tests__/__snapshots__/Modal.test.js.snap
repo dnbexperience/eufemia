@@ -8,7 +8,6 @@ exports[`Modal component have to match snapshot 1`] = `
       "props": Object {
         "align_content": "'left'",
         "animation_duration": "animation_duration",
-        "as_help_button": "as_help_button",
         "children": "children",
         "class": "class",
         "className": "className",
@@ -34,6 +33,7 @@ exports[`Modal component have to match snapshot 1`] = `
         "open_state": "'opened'",
         "prevent_close": "prevent_close",
         "prevent_core_style": "prevent_core_style",
+        "root_id": "root_id",
         "spacing": "spacing",
         "title": "title",
         "trigger_class": "trigger_class",
@@ -41,6 +41,7 @@ exports[`Modal component have to match snapshot 1`] = `
         "trigger_hidden": "trigger_hidden",
         "trigger_icon": "trigger_icon",
         "trigger_icon_position": "trigger_icon_position",
+        "trigger_props": Object {},
         "trigger_size": "trigger_size",
         "trigger_text": "trigger_text",
         "trigger_title": "trigger_title",
@@ -68,13 +69,12 @@ exports[`Modal component have to match snapshot 1`] = `
   }
   align_content="left"
   animation_duration={300}
-  as_help_button={false}
   class={null}
   className={null}
   close_modal={null}
   close_title="close_title"
   container_placement="right"
-  content_id="modal_content_id"
+  content_id={null}
   direct_dom_return={true}
   disabled={null}
   fullscreen="auto"
@@ -93,14 +93,16 @@ exports[`Modal component have to match snapshot 1`] = `
   open_state={null}
   prevent_close={false}
   prevent_core_style={false}
+  root_id="root"
   spacing={true}
   style_type="button"
   title="modal_title"
   trigger_class={null}
   trigger_disabled={null}
   trigger_hidden={false}
-  trigger_icon="question"
+  trigger_icon={null}
   trigger_icon_position="left"
+  trigger_props={null}
   trigger_size={null}
   trigger_text={null}
   trigger_title={null}
@@ -112,18 +114,17 @@ exports[`Modal component have to match snapshot 1`] = `
     <HelpButtonInstance
       class={null}
       className="dnb-modal__trigger"
-      disabled={null}
-      icon="question"
+      hidden={false}
+      icon={null}
       icon_position="left"
       id="modal_id"
       innerRef={
         Object {
           "current": <button
-            aria-label="modal_title"
+            aria-label="Hjelpetekst"
             aria-roledescription="Hjelp-knapp"
-            class="dnb-button dnb-button--secondary dnb-help-button dnb-modal__trigger dnb-button--icon-position-right dnb-button--has-icon dnb-button--size-medium"
+            class="dnb-button dnb-button--secondary dnb-help-button dnb-modal__trigger dnb-button--icon-position-left dnb-button--has-icon dnb-button--size-medium"
             id="modal_id"
-            title="modal_title"
             type="button"
           >
             <span
@@ -154,14 +155,11 @@ exports[`Modal component have to match snapshot 1`] = `
           </button>,
         }
       }
-      on_click={[Function]}
-      size={null}
-      text={null}
-      title="modal_title"
+      onClick={[Function]}
       variant="secondary"
     >
       <Button
-        aria-label="modal_title"
+        aria-label="Hjelpetekst"
         aria-roledescription="Hjelp-knapp"
         bounding={false}
         class={null}
@@ -170,19 +168,19 @@ exports[`Modal component have to match snapshot 1`] = `
         custom_method={null}
         disabled={null}
         global_status_id={null}
+        hidden={false}
         href={null}
         icon="question"
-        icon_position="right"
+        icon_position="left"
         icon_size={null}
         id="modal_id"
         innerRef={
           Object {
             "current": <button
-              aria-label="modal_title"
+              aria-label="Hjelpetekst"
               aria-roledescription="Hjelp-knapp"
-              class="dnb-button dnb-button--secondary dnb-help-button dnb-modal__trigger dnb-button--icon-position-right dnb-button--has-icon dnb-button--size-medium"
+              class="dnb-button dnb-button--secondary dnb-help-button dnb-modal__trigger dnb-button--icon-position-left dnb-button--has-icon dnb-button--size-medium"
               id="modal_id"
-              title="modal_title"
               type="button"
             >
               <span
@@ -213,32 +211,32 @@ exports[`Modal component have to match snapshot 1`] = `
             </button>,
           }
         }
-        onClick={null}
-        on_click={[Function]}
+        onClick={[Function]}
+        on_click={null}
         size={null}
         skeleton={null}
         status={null}
         status_animation={null}
         status_state="error"
         text={null}
-        title="modal_title"
+        title={null}
         tooltip={null}
         type="button"
         variant="secondary"
         wrap={false}
       >
         <button
-          aria-label="modal_title"
+          aria-label="Hjelpetekst"
           aria-roledescription="Hjelp-knapp"
-          className="dnb-button dnb-button--secondary dnb-help-button dnb-modal__trigger dnb-button--icon-position-right dnb-button--has-icon dnb-button--size-medium"
+          className="dnb-button dnb-button--secondary dnb-help-button dnb-modal__trigger dnb-button--icon-position-left dnb-button--has-icon dnb-button--size-medium"
           disabled={false}
+          hidden={false}
           id="modal_id"
           onClick={[Function]}
-          title="modal_title"
           type="button"
         >
           <Content
-            aria-label="modal_title"
+            aria-label="Hjelpetekst"
             aria-roledescription="Hjelp-knapp"
             bounding={false}
             class={null}
@@ -248,19 +246,19 @@ exports[`Modal component have to match snapshot 1`] = `
             custom_method={null}
             disabled={null}
             global_status_id={null}
+            hidden={false}
             href={null}
             icon="question"
-            icon_position="right"
+            icon_position="left"
             icon_size={null}
             id="modal_id"
             innerRef={
               Object {
                 "current": <button
-                  aria-label="modal_title"
+                  aria-label="Hjelpetekst"
                   aria-roledescription="Hjelp-knapp"
-                  class="dnb-button dnb-button--secondary dnb-help-button dnb-modal__trigger dnb-button--icon-position-right dnb-button--has-icon dnb-button--size-medium"
+                  class="dnb-button dnb-button--secondary dnb-help-button dnb-modal__trigger dnb-button--icon-position-left dnb-button--has-icon dnb-button--size-medium"
                   id="modal_id"
-                  title="modal_title"
                   type="button"
                 >
                   <span
@@ -292,15 +290,15 @@ exports[`Modal component have to match snapshot 1`] = `
               }
             }
             isIconOnly={true}
-            onClick={null}
-            on_click={[Function]}
+            onClick={[Function]}
+            on_click={null}
             size={null}
             skeleton={null}
             status={null}
             status_animation={null}
             status_state="error"
             text={null}
-            title="modal_title"
+            title={null}
             tooltip={null}
             type="button"
             variant="secondary"
@@ -314,7 +312,7 @@ exports[`Modal component have to match snapshot 1`] = `
             </span>
             <IconPrimary
               alt={null}
-              aria-hidden={true}
+              aria-hidden={null}
               attributes={null}
               border={null}
               className="dnb-button__icon"
@@ -362,7 +360,6 @@ exports[`Modal component have to match snapshot 1`] = `
           "props": Object {
             "align_content": "'left'",
             "animation_duration": "animation_duration",
-            "as_help_button": "as_help_button",
             "children": "children",
             "class": "class",
             "className": "className",
@@ -388,6 +385,7 @@ exports[`Modal component have to match snapshot 1`] = `
             "open_state": "'opened'",
             "prevent_close": "prevent_close",
             "prevent_core_style": "prevent_core_style",
+            "root_id": "root_id",
             "spacing": "spacing",
             "title": "title",
             "trigger_class": "trigger_class",
@@ -395,6 +393,7 @@ exports[`Modal component have to match snapshot 1`] = `
             "trigger_hidden": "trigger_hidden",
             "trigger_icon": "trigger_icon",
             "trigger_icon_position": "trigger_icon_position",
+            "trigger_props": Object {},
             "trigger_size": "trigger_size",
             "trigger_text": "trigger_text",
             "trigger_title": "trigger_title",
@@ -428,12 +427,12 @@ exports[`Modal component have to match snapshot 1`] = `
       close_modal={null}
       close_title="close_title"
       container_placement="right"
-      content_id="modal_content_id"
+      content_id="dnb-modal-modal_id"
       direct_dom_return={true}
       fullscreen="auto"
       hide={false}
       hide_close_button={false}
-      id="modal_id"
+      id={null}
       labelled_by="modal_id"
       modal_content="unique_modal_content"
       mode="modal"
@@ -445,6 +444,7 @@ exports[`Modal component have to match snapshot 1`] = `
       open_modal={null}
       prevent_close={false}
       prevent_core_style={false}
+      root_id="root"
       spacing={true}
       style_type="button"
       title="modal_title"
@@ -457,7 +457,6 @@ exports[`Modal component have to match snapshot 1`] = `
             "props": Object {
               "align_content": "'left'",
               "animation_duration": "animation_duration",
-              "as_help_button": "as_help_button",
               "children": "children",
               "class": "class",
               "className": "className",
@@ -483,6 +482,7 @@ exports[`Modal component have to match snapshot 1`] = `
               "open_state": "'opened'",
               "prevent_close": "prevent_close",
               "prevent_core_style": "prevent_core_style",
+              "root_id": "root_id",
               "spacing": "spacing",
               "title": "title",
               "trigger_class": "trigger_class",
@@ -490,6 +490,7 @@ exports[`Modal component have to match snapshot 1`] = `
               "trigger_hidden": "trigger_hidden",
               "trigger_icon": "trigger_icon",
               "trigger_icon_position": "trigger_icon_position",
+              "trigger_props": Object {},
               "trigger_size": "trigger_size",
               "trigger_text": "trigger_text",
               "trigger_title": "trigger_title",
@@ -524,11 +525,11 @@ exports[`Modal component have to match snapshot 1`] = `
         close_title="close_title"
         container_placement="right"
         content_class={null}
-        content_id="modal_content_id"
+        content_id="dnb-modal-modal_id"
         fullscreen="auto"
         hide={false}
         hide_close_button={false}
-        id="modal_id"
+        id={null}
         labelled_by="modal_id"
         max_width={null}
         min_width={null}
@@ -543,6 +544,7 @@ exports[`Modal component have to match snapshot 1`] = `
         overlay_class={null}
         prevent_close={false}
         prevent_core_style={false}
+        root_id="root"
         spacing={true}
         style_type="button"
         title="modal_title"
@@ -552,12 +554,12 @@ exports[`Modal component have to match snapshot 1`] = `
           aria-describedby="modal_id"
           aria-modal="true"
           className="dnb-modal__content dnb-modal__content--auto-fullscreen dnb-modal__content--modal dnb-modal__content--spacing dnb-modal__content__align--left dnb-modal__content--right dnb-modal__content--no-animation"
+          id="dnb-modal-modal_id"
           onClick={[Function]}
           role="dialog"
         >
           <ForwardRef(ScrollViewRef)
             className="dnb-modal__content__inner dnb-no-focus dnb-core-style"
-            id="modal_id"
             onClick={[Function]}
             onKeyDown={[Function]}
             onTouchStart={[Function]}
@@ -566,12 +568,10 @@ exports[`Modal component have to match snapshot 1`] = `
             <ScrollView
               class={null}
               className="dnb-modal__content__inner dnb-no-focus dnb-core-style"
-              id="modal_id"
               innerRef={
                 Object {
                   "current": <div
                     class="dnb-scroll-view dnb-modal__content__inner dnb-no-focus dnb-core-style"
-                    id="modal_id"
                     tabindex="-1"
                   >
                     <h1
@@ -629,7 +629,6 @@ exports[`Modal component have to match snapshot 1`] = `
             >
               <div
                 className="dnb-scroll-view dnb-modal__content__inner dnb-no-focus dnb-core-style"
-                id="modal_id"
                 onClick={[Function]}
                 onKeyDown={[Function]}
                 onTouchStart={[Function]}
