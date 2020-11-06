@@ -22,6 +22,7 @@ props.icon = 'question'
 props.title = 'This is a button title'
 props.size = null
 props.status = null
+props.element = null
 props.tooltip = null
 props.icon_position = 'right'
 
