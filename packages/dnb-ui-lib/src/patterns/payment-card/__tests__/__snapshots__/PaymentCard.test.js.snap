@@ -269,6 +269,7 @@ exports[`PaymentCard component with urls have to match snapshot 1`] = `
           </div>
           <StatusOverlay
             cardStatus="active"
+            skeleton={false}
             translations={
               Object {
                 "card_number": "************1337",

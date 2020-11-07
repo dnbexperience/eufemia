@@ -196,29 +196,41 @@ const defaultCard = (productCode) => ({
 
 StatusOverlay.propTypes = {
   cardStatus: PropTypes.string.isRequired,
-  translations: PropTypes.object.isRequired
+  translations: PropTypes.object.isRequired,
+  skeleton: PropTypes.bool
+}
+StatusOverlay.defaultProps = {
+  skeleton: false
 }
 
-function StatusOverlay({ cardStatus, translations }) {
+function StatusOverlay({ cardStatus, translations, skeleton }) {
   switch (cardStatus) {
     case 'blocked':
       return (
-        <div className="dnb-payment-card__blocking__overlay">
+        <div
+          className={classnames(
+            'dnb-payment-card__blocking__overlay',
+            createSkeletonClass('font', skeleton)
+          )}
+        >
           <div className="dnb-payment-card__blocking__center">
             <StatusIcon status={cardStatus} />
             <P top="xx-small">{translations.text_blocked}</P>
-            {/* Todo: use Eufemia translation */}
           </div>
         </div>
       )
 
     case 'expired':
       return (
-        <div className="dnb-payment-card__blocking__overlay">
+        <div
+          className={classnames(
+            'dnb-payment-card__blocking__overlay',
+            createSkeletonClass('font', skeleton)
+          )}
+        >
           <div className="dnb-payment-card__blocking__center">
             <StatusIcon status={cardStatus} />
             <P top="xx-small">{translations.text_expired}</P>
-            {/* Todo: use Eufemia translation */}
           </div>
         </div>
       )
@@ -237,21 +249,19 @@ CardText.propTypes = {
 
 function CardText({ cardNumber, translations, skeleton }) {
   return (
-    <span className="dnb-payment-card__card__wrapper">
+    <span
+      className={classnames(
+        'dnb-payment-card__card__wrapper',
+        createSkeletonClass('font', skeleton)
+      )}
+    >
       <P
         className="dnb-payment-card__card__holder"
         style_type="x-small bold"
       >
         {translations.text_card_number}
       </P>
-      <P
-        className={classnames(
-          'dnb-payment-card__card__numbers',
-          createSkeletonClass('font', skeleton)
-        )}
-      >
-        {cardNumber}
-      </P>
+      <P className="dnb-payment-card__card__numbers">{cardNumber}</P>
     </span>
   )
 }
@@ -298,7 +308,11 @@ function NormalCard({
         />
         <TypeLogo cardType={data.cardType} cardDesign={data.cardDesign} />
       </div>
-      <StatusOverlay cardStatus={cardStatus} translations={translations} />
+      <StatusOverlay
+        skeleton={skeleton}
+        cardStatus={cardStatus}
+        translations={translations}
+      />
     </div>
   )
 }

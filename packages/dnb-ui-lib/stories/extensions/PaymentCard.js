@@ -24,6 +24,7 @@ export const PaymentCards = () => (
   <CustomWrapper className="dnb-spacing">
     <Box>
       <PaymentCard
+        // skeleton
         // text_card_number="xxx"
         locale="en-US"
         product_code="DNB"
