@@ -8,9 +8,15 @@ import { Wrapper, Box } from '../helpers'
 import styled from '@emotion/styled'
 
 import { H3 } from '../../src/elements'
-import PaymentCard, { getCardData } from '../../src/patterns/payment-card'
 
-import '../../src/style/patterns'
+import PaymentCard, { getCardData } from '../../src/patterns/payment-card'
+// import '../../src/style/patterns'
+
+import 'dnb-ui-lib/src/patterns/payment-card/style'
+import 'dnb-ui-lib/src/patterns/payment-card/style/themes/ui'
+// import PaymentCard, {
+//   getCardData
+// } from 'dnb-ui-lib/src/patterns/PaymentCard'
 
 export default {
   title: 'Eufemia/Extentions/PaymentCard'
