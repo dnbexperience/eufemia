@@ -21,14 +21,12 @@ import {
 } from '../../components/skeleton/SkeletonHelper'
 import P from '../../elements/P'
 
-import {
-  ProductType,
-  CardType
-  // , Status
-} from './utils/Types'
-import { defaultDesign } from './utils/CardDesigns'
+import { ProductType, CardType } from './utils/Types'
+import Designs, { defaultDesign } from './utils/CardDesigns'
 import cardProducts from './utils/cardProducts'
 import { ProductLogo, TypeLogo, BankLogo, StatusIcon } from './icons'
+
+export { Designs, ProductType, CardType }
 
 const cardDataTypes = PropTypes.shape({
   productCode: PropTypes.string.isRequired,
@@ -54,7 +52,7 @@ export default class PaymentCard extends React.PureComponent {
     card_number: PropTypes.string.isRequired,
     card_status: PropTypes.oneOf(['active', 'blocked', 'expired']),
     digits: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    rawData: cardDataTypes,
+    raw_data: cardDataTypes,
     id: PropTypes.string,
     locale: PropTypes.string,
 
@@ -74,7 +72,7 @@ export default class PaymentCard extends React.PureComponent {
     card_status: 'active',
 
     id: null,
-    rawData: null,
+    raw_data: null,
 
     skeleton: false,
     class: null,
@@ -97,6 +95,7 @@ export default class PaymentCard extends React.PureComponent {
     const props = extendPropsWithContext(
       this.props,
       PaymentCard.defaultProps,
+      { locale: this.context.locale },
       { skeleton: this.context?.skeleton }
     )
 
@@ -106,18 +105,16 @@ export default class PaymentCard extends React.PureComponent {
       card_status,
       digits,
       id,
-      rawData,
+      raw_data,
       locale,
-
       skeleton,
       className,
       class: _className,
       children, //eslint-disable-line
-
       ...attributes
     } = props
 
-    const cardData = rawData || getCardData(product_code)
+    const cardData = raw_data || getCardData(product_code)
 
     const params = {
       className: classnames(
@@ -289,11 +286,11 @@ function NormalCard({
 }) {
   return (
     <div
+      id={id}
       className={classnames(
         'dnb-payment-card__card',
         `dnb-payment-card__${data.cardDesign.cardStyle}`
       )}
-      id={id}
     >
       <div className="dnb-payment-card__card__content">
         <BankLogo logoType={data.cardDesign.bankLogo} />

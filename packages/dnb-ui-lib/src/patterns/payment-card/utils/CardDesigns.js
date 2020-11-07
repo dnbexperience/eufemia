@@ -133,21 +133,21 @@ const businessWithVisa = {
   privateBanking: PB.None
 }
 
-// const Designs = {
-//   defaultDesign,
-//   white,
-//   myFirst,
-//   youth,
-//   silver,
-//   gold,
-//   saga,
-//   sagaPlatinum,
-//   privateBanking,
-//   mcBlack,
-//   businessNoVisa,
-//   businessWithVisa
-// }
-// export default Designs
+const Designs = {
+  defaultDesign,
+  white,
+  myFirst,
+  youth,
+  silver,
+  gold,
+  saga,
+  sagaPlatinum,
+  privateBanking,
+  mcBlack,
+  businessNoVisa,
+  businessWithVisa
+}
+export default Designs
 
 export {
   defaultDesign,

@@ -17,23 +17,20 @@ import Component from '../PaymentCard'
 //   optional: true
 // })
 const defaultProps = {
-  product_code: 'DNB',
+  product_code: 'NK1',
   card_number: '************1337'
 }
 
-describe('PaymentCard component with urls', () => {
+describe('PaymentCard', () => {
   const Comp = mount(<Component {...defaultProps} />)
 
   it('have to match snapshot', () => {
     expect(toJson(Comp)).toMatchSnapshot()
   })
 
-  it.skip('has ...', () => {
-    expect(
-      Comp.find('li.dnb-payment-card--active')
-        .instance()
-        .getAttribute('aria-current')
-    ).toBe('x')
+  it('has to have a figcaption', () => {
+    // const Comp = mount(<Component product_code="DNB" card_number="************1337" />)
+    expect(Comp.find('figcaption').text()).toBe('DNB Kortet')
   })
 
   it('should validate with ARIA rules', async () => {

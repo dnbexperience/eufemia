@@ -17,6 +17,12 @@ describe('PaymentCard screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+  it('have to match a card with status', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-visual-test="payment-card-status"]'
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
   it('have to match all cards', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-visual-test="all-cards"]'

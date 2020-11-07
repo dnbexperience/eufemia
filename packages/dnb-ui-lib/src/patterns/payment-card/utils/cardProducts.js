@@ -1,5 +1,4 @@
 import {
-  // cardDesigns,
   defaultDesign,
   white,
   myFirst,
