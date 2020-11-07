@@ -13,13 +13,13 @@ describe('PaymentCard screenshot', () => {
   setupPageScreenshot({ url: '/uilib/patterns/payment-card/demos' })
   it('have to match a basic card', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-dnb-test="payment-card-basic"]'
+      selector: '[data-visual-test="payment-card-basic"]'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
   it('have to match all cards', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-dnb-test="all-cards"]'
+      selector: '[data-visual-test="all-cards"]'
     })
     expect(screenshot).toMatchImageSnapshot()
   })

@@ -9,7 +9,7 @@ import PaymentCard, { getCardData } from 'dnb-ui-lib/src/patterns/payment-card'
 
 ### Basic example
 
-<ComponentBox scope={{PaymentCard}} data-dnb-test="payment-card-basic">
+<ComponentBox scope={{PaymentCard}} data-visual-test="payment-card-basic">
 	{/* @jsx */ `
 <PaymentCard product_code="DNB" card_number="************1337" />
 	`}
@@ -17,7 +17,7 @@ import PaymentCard, { getCardData } from 'dnb-ui-lib/src/patterns/payment-card'
 
 ### Demo cards
 
-<ComponentBox scope={{PaymentCard,getCardData}} data-dnb-test="all-cards" useRender>
+<ComponentBox scope={{PaymentCard,getCardData}} data-visual-test="all-cards" useRender>
 	{/* @jsx */ `
 const demoCards = [
   'VE1',
