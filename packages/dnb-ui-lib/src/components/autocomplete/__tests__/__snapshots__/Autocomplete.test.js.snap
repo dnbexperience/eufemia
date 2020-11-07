@@ -238,7 +238,6 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
         <FormLabel
           class={null}
           className={null}
-          direction={null}
           disabled="disabled"
           element="label"
           for_id="autocomplete-id"
@@ -282,18 +281,21 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
             icon="error"
             icon_size="large"
             id="autocomplete-id-form-status"
+            label="Autocomplete Label:"
             skeleton="skeleton"
             state="error"
             status="error"
             text="status"
             text_id="autocomplete-id-status"
             title={null}
+            width_element={null}
             width_selector={null}
           >
             <span
               className="dnb-form-status dnb-form-status--error dnb-form-status--status_animation dnb-form-status--has-content"
               hidden={false}
               id="autocomplete-id-form-status"
+              label="Autocomplete Label:"
             >
               <span
                 className="dnb-form-status__shell"
@@ -385,6 +387,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                 aria-haspopup="listbox"
                 autoCapitalize="none"
                 autoComplete="off"
+                autoCorrect="off"
                 autocomplete="off"
                 class={null}
                 className="dnb-autocomplete__input dnb-button--active"
@@ -484,6 +487,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                           aria-haspopup="listbox"
                           autoCapitalize="none"
                           autoComplete="off"
+                          autoCorrect="off"
                           className="dnb-input__input"
                           disabled={false}
                           id="autocomplete-id"
@@ -571,6 +575,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                                 custom_element={null}
                                 custom_method={null}
                                 disabled="disabled"
+                                element={null}
                                 global_status_id={null}
                                 href={null}
                                 icon="icon"
@@ -621,6 +626,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                                     custom_element={null}
                                     custom_method={null}
                                     disabled="disabled"
+                                    element={null}
                                     global_status_id={null}
                                     href={null}
                                     icon="icon"
@@ -717,6 +723,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                 prevent_focus={false}
                 prevent_selection={null}
                 raw_data={null}
+                role="listbox"
                 scrollable="scrollable"
                 size={null}
                 skip_keysearch={false}
@@ -763,6 +770,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                   prevent_focus={false}
                   prevent_selection={null}
                   raw_data={null}
+                  role="listbox"
                   scrollable="scrollable"
                   size={null}
                   skip_keysearch={false}
@@ -834,6 +842,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                                 onClick={[Function]}
                                 onKeyDown={[Function]}
                                 on_click={null}
+                                role="option"
                                 selected={false}
                                 value={null}
                               >
@@ -870,6 +879,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                                 onClick={[Function]}
                                 onKeyDown={[Function]}
                                 on_click={null}
+                                role="option"
                                 selected={false}
                                 value={null}
                               >
@@ -906,6 +916,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                                 onClick={[Function]}
                                 onKeyDown={[Function]}
                                 on_click={null}
+                                role="option"
                                 selected={true}
                                 value={null}
                               >
@@ -950,6 +961,9 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                             />
                           </ul>
                         </ForwardRef>
+                        <OnMounted
+                          assignObservers={[Function]}
+                        />
                       </span>
                     </span>
                   </span>
@@ -2126,7 +2140,7 @@ legend.dnb-form-label {
     align-items: center;
     color: var(--color-sea-green); }
     .dnb-autocomplete__show-all .dnb-drawer-list__option__inner .dnb-icon {
-      margin-right: 0.5rem; }
+      align-self: center; }
   .dnb-autocomplete__input {
     display: inline-flex;
     align-items: center;

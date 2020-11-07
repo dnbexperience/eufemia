@@ -13,12 +13,16 @@ import {
   FormRow,
   FormLabel,
   Button,
-  Modal
+  HelpButton
 } from '../../src/components'
 
 import { H2 } from '../../src/elements'
 
-export const RadioButtons = () => (
+export default {
+  title: 'Eufemia/Components/Radio'
+}
+
+export const RadioButtonSandbox = () => (
   <Wrapper>
     <Box>
       <Radio.Group
@@ -32,7 +36,9 @@ export const RadioButtons = () => (
           value="second"
           status="Error message"
           // suffix="Suffix message"
-          suffix={<Modal title="Modal Title">Modal content</Modal>}
+          suffix={
+            <HelpButton title="Modal Title">Modal content</HelpButton>
+          }
         />
         <Radio label="Third" value="third" />
       </Radio.Group>

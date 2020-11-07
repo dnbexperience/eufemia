@@ -34,10 +34,17 @@ export default class MdxTemplate extends React.PureComponent {
       }
     } = this.props
 
+    if (location.href && location.href.includes('data-visual-test')) {
+      global.IS_TEST = true
+      if (typeof window !== 'undefined') {
+        window.IS_TEST = true
+      }
+    }
+
     const child = children[1] || {}
 
     return (
-      <MDXProvider components={tags}>
+      <>
         <Head>
           <title>{title || fallbackTitle}</title>
           <meta
@@ -49,23 +56,37 @@ export default class MdxTemplate extends React.PureComponent {
             }
           />
         </Head>
-        <Layout location={location} fullscreen={Boolean(fullscreen)}>
+
+        <Layout
+          key="layout"
+          location={location}
+          fullscreen={
+            Boolean(fullscreen) || this.props.pageContext.fullscreen
+          }
+        >
           {showTabs && (
             <Tabbar
+              key="tabbar"
               location={location}
               {...(child.frontmatter || {})}
               usePath={'/' + (child.fields && child.fields.slug)}
             />
           )}
-          <MDXRenderer>{body}</MDXRenderer>
+
+          <MDXProvider components={tags}>
+            <MDXRenderer>{body}</MDXRenderer>
+          </MDXProvider>
         </Layout>
-      </MDXProvider>
+      </>
     )
   }
 }
 
 MdxTemplate.propTypes = {
   location: PropTypes.object.isRequired,
+  pageContext: PropTypes.shape({
+    fullscreen: PropTypes.bool
+  }).isRequired,
   data: PropTypes.shape({
     mdx: PropTypes.shape({
       body: PropTypes.string.isRequired,

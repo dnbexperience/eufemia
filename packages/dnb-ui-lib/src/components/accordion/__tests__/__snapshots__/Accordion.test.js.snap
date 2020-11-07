@@ -2,38 +2,40 @@
 
 exports[`Accordion component have to match snapshot 1`] = `
 <Accordion
-  allow_close_all="allow_close_all"
-  attributes="attributes"
-  class="class"
-  className="className"
-  custom_element={Object {}}
-  custom_method={[Function]}
-  disabled="disabled"
+  allow_close_all={null}
+  attributes={null}
+  class={null}
+  className={null}
+  custom_element={null}
+  custom_method={null}
+  disabled={null}
   element={null}
-  expanded="expanded"
-  expanded_ssr={false}
-  group="group"
+  expanded={null}
+  expanded_ssr={null}
+  flush_remembered_state={null}
+  group={null}
   heading={null}
-  heading_level="heading_level"
-  icon="icon"
-  icon_position="icon_position"
-  icon_size="icon_size"
+  heading_level={null}
+  icon={null}
+  icon_position={null}
+  icon_size="medium"
   id="accordion"
-  label="label"
-  left_component="left_component"
+  label={null}
+  left_component={null}
   no_animation={true}
-  on_change={[Function]}
-  on_state_update={[Function]}
-  prerender="prerender"
-  prevent_rerender="prevent_rerender"
-  remember_state={false}
-  single_container="single_container"
-  skeleton="skeleton"
+  on_change={null}
+  on_state_update={null}
+  prerender={null}
+  prevent_rerender={null}
+  prevent_rerender_conditional={null}
+  remember_state={null}
+  single_container={null}
+  skeleton={null}
   title="title"
   variant="default"
 >
   <div
-    className="dnb-accordion className class dnb-accordion--no-animation dnb-accordion__variant--default"
+    className="dnb-accordion dnb-accordion--no-animation dnb-accordion__variant--default"
     id="accordion"
   >
     <AccordionHeader
@@ -53,7 +55,8 @@ exports[`Accordion component have to match snapshot 1`] = `
     >
       <div
         aria-controls="accordion-content"
-        className="dnb-accordion__header dnb-accordion__header__icon--icon_position"
+        aria-expanded={false}
+        className="dnb-accordion__header"
         disabled={false}
         onClick={[Function]}
         onKeyDown={[Function]}
@@ -63,9 +66,9 @@ exports[`Accordion component have to match snapshot 1`] = `
         tabIndex="0"
       >
         <AccordionHeaderIcon
-          icon="icon"
+          icon={null}
           key="icon"
-          size="icon_size"
+          size="medium"
         >
           <span
             className="dnb-accordion__header__icon"
@@ -78,24 +81,41 @@ exports[`Accordion component have to match snapshot 1`] = `
               className={null}
               color={null}
               height={null}
-              icon="icon"
+              icon="chevron-down"
               modifier={null}
-              size="icon_size"
+              size="medium"
               skeleton={null}
               title={null}
               width={null}
-            />
+            >
+              <span
+                aria-hidden={true}
+                aria-label="chevron-down icon"
+                className="dnb-icon dnb-icon--medium"
+                role="presentation"
+              >
+                <chevron_down_medium>
+                  <svg
+                    fill="none"
+                    height={24}
+                    viewBox="0 0 24 24"
+                    width={24}
+                  >
+                    <path
+                      clipRule="evenodd"
+                      d="M5.78 8.22a.75.75 0 00-1.06 1.06l6.75 6.75a.75.75 0 001.061 0l6.75-6.75a.75.75 0 00-1.061-1.06L12 14.44 5.78 8.22z"
+                      fill="#000"
+                      fillRule="evenodd"
+                    />
+                  </svg>
+                </chevron_down_medium>
+              </span>
+            </IconPrimary>
           </span>
         </AccordionHeaderIcon>
         <AccordionHeaderContainer
           key="container"
-        >
-          <span
-            className="dnb-accordion__header__container"
-          >
-            left_component
-          </span>
-        </AccordionHeaderContainer>
+        />
         <span
           className="dnb-accordion__header__wrapper"
           key="wrapper"
@@ -447,26 +467,27 @@ exports[`Accordion scss have to match snapshot 1`] = `
       margin-top: 0.25rem; }
   .dnb-accordion--expanded .dnb-accordion__header__icon {
     transform: rotate(-180deg); }
-  .dnb-accordion--no-animation .dnb-accordion__header__icon {
-    transition-duration: 1ms; }
+  .dnb-accordion--no-animation .dnb-accordion__header__icon,
+  html[data-visual-test] .dnb-accordion__header__icon {
+    transition-duration: 1ms !important; }
   .dnb-accordion__content {
     display: flex;
+    opacity: 1;
+    visibility: visible;
     will-change: height;
     transition: height 400ms var(--accordion-easing), opacity 600ms var(--accordion-easing); }
     .dnb-accordion__content--hidden {
       visibility: hidden;
-      height: 0; }
+      height: 0;
+      opacity: 0; }
     .dnb-accordion__content--is-animating {
-      opacity: 0.2;
       overflow: hidden; }
     .dnb-accordion__content__inner {
       margin-top: 1rem; }
       .dnb-accordion__content__inner--remove-content {
         display: none; }
-  .dnb-accordion--no-animation .dnb-accordion__content {
-    transition-duration: 1ms; }
   .dnb-accordion-group--single-container {
-    transition: min-height 1000ms var(--accordion-easing); }
+    transition: min-height 1s var(--accordion-easing); }
   .dnb-accordion-group--single-container .dnb-accordion {
     position: static;
     max-width: 60rem; }
@@ -477,9 +498,12 @@ exports[`Accordion scss have to match snapshot 1`] = `
           transform: rotate(-90deg); }
       .dnb-accordion-group--single-container .dnb-accordion__content {
         margin-left: 1rem;
-        transition: opacity 2000ms var(--accordion-easing); }
+        transition: opacity 1s var(--accordion-easing); }
         .dnb-accordion-group--single-container .dnb-accordion__content__inner {
           margin-top: 0; } }
+  .dnb-accordion--no-animation .dnb-accordion__content,
+  html[data-visual-test] .dnb-accordion__content {
+    transition-duration: 1ms !important; }
   .dnb-accordion-group--single-container .dnb-accordion-group__children {
     max-width: 60rem; }
     @media screen and (min-width: 40em) {

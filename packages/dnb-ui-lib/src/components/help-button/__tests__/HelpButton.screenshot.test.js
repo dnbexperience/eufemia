@@ -14,13 +14,13 @@ describe('HelpButton screenshot', () => {
   })
   it('have to match default help button', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-dnb-test="help-button-default"]'
+      selector: '[data-visual-test="help-button-default"]'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
   it('have to match help button with information icon', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-dnb-test="help-button-information"]'
+      selector: '[data-visual-test="help-button-sizes"]'
     })
     expect(screenshot).toMatchImageSnapshot()
   })

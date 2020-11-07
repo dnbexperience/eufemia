@@ -36,16 +36,7 @@ const dev = async () => {
   // await convertSvgToJsx({ preventDelete })
   // await makeLibStyles()
   // await makeMainStyle()
-  await generateTypes({
-    paths: [
-      // For testing only
-      './src/components/section/Section.js',
-      // './src/components/{section,button}/*.js',
-      './src/elements/Anchor.js',
-      // './src/components/index.js',
-      './src/components/number/Number.js'
-    ]
-  })
+  await generateTypes()
   // await makePropertiesFile()
   // await prepareTemplates()
   // await makeLibModules()

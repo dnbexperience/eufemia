@@ -71,6 +71,16 @@ describe('Input component', () => {
     expect(Comp.state().value).toBe(newValue)
   })
 
+  it('gets valid ref element', () => {
+    const ref = React.createRef()
+    const Comp = mount(<Component {...props} inner_ref={ref} />)
+
+    expect(Comp.instance()._ref.current).toBe(ref.current)
+    expect(
+      Comp.instance()._ref.current instanceof window.HTMLInputElement
+    ).toBe(true)
+  })
+
   it('events gets emmited correctly: "on_change" and "onKeyDown"', () => {
     const initValue = 'init value'
     const newValue = 'new value'

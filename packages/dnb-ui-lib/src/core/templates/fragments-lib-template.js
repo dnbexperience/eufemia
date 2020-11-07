@@ -5,10 +5,10 @@
 
 import { registerElement } from '../shared/component-helper'
 
-// import all the aviable fragments
+// import all the available fragments
 import Template from './template/Template'
 
-// define / export all the aviable fragments
+// define / export all the available fragments
 export { Template }
 
 export const getFragments = () => {

@@ -2,7 +2,7 @@
 
 exports[`Dropdown markup have to match snapshot 1`] = `
 <Dropdown
-  action_menu="action_menu"
+  action_menu={null}
   align_dropdown={null}
   class="class"
   className="className"
@@ -29,6 +29,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
           "1134 56 78962",
           "Feriekonto - Kari Nordmann med et kjempelangt etternavnsen",
         ],
+        "selected_key": 1,
         "selected_value": "Feriekonto - Kari Nordmann med et kjempelangt etternavnsen",
       },
       Object {
@@ -36,6 +37,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
           "1534 96 48901",
           "Oppussing - Ole Nordmann",
         ],
+        "selected_key": "0x",
         "selected_value": "Oppussing - Ole Nordmann",
       },
       Object {
@@ -54,6 +56,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
           123
         </React.Fragment>,
       ],
+      "0y",
     ]
   }
   default_value="default_value"
@@ -97,7 +100,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
   value={2}
 >
   <DrawerListProvider
-    action_menu="action_menu"
+    action_menu={null}
     align_dropdown={null}
     class="class"
     className="className"
@@ -124,6 +127,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
             "1134 56 78962",
             "Feriekonto - Kari Nordmann med et kjempelangt etternavnsen",
           ],
+          "selected_key": 1,
           "selected_value": "Feriekonto - Kari Nordmann med et kjempelangt etternavnsen",
         },
         Object {
@@ -131,6 +135,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
             "1534 96 48901",
             "Oppussing - Ole Nordmann",
           ],
+          "selected_key": "0x",
           "selected_value": "Oppussing - Ole Nordmann",
         },
         Object {
@@ -149,6 +154,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
             123
           </React.Fragment>,
         ],
+        "0y",
       ]
     }
     default_value="default_value"
@@ -204,7 +210,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
     wrapper_element={null}
   >
     <DropdownInstance
-      action_menu="action_menu"
+      action_menu={null}
       align_dropdown={null}
       class="class"
       className="className"
@@ -231,6 +237,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
               "1134 56 78962",
               "Feriekonto - Kari Nordmann med et kjempelangt etternavnsen",
             ],
+            "selected_key": 1,
             "selected_value": "Feriekonto - Kari Nordmann med et kjempelangt etternavnsen",
           },
           Object {
@@ -238,6 +245,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
               "1534 96 48901",
               "Oppussing - Ole Nordmann",
             ],
+            "selected_key": "0x",
             "selected_value": "Oppussing - Ole Nordmann",
           },
           Object {
@@ -256,6 +264,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
               123
             </React.Fragment>,
           ],
+          "0y",
         ]
       }
       default_value="default_value"
@@ -304,7 +313,6 @@ exports[`Dropdown markup have to match snapshot 1`] = `
         <FormLabel
           class={null}
           className={null}
-          direction={null}
           disabled="disabled"
           element="label"
           for_id="dropdown-id"
@@ -348,18 +356,21 @@ exports[`Dropdown markup have to match snapshot 1`] = `
             icon="error"
             icon_size="large"
             id="dropdown-id-form-status"
+            label="label"
             skeleton="skeleton"
             state="error"
             status="error"
             text="status"
             text_id="dropdown-id-status"
             title={null}
+            width_element={null}
             width_selector={null}
           >
             <span
               className="dnb-form-status dnb-form-status--error dnb-form-status--status_animation dnb-form-status--has-content"
               hidden={false}
               id="dropdown-id-form-status"
+              label="label"
             >
               <span
                 className="dnb-form-status__shell"
@@ -445,13 +456,14 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                 aria-describedby="dropdown-id-status dropdown-id-suffix"
                 aria-expanded={true}
                 aria-haspopup="listbox"
-                aria-label="Feriekonto - Kari Nordmann med et kjempelangt etternavnsen"
+                aria-labelledby="dropdown-id-label dropdown-id"
                 bounding={false}
                 class={null}
                 className="dnb-dropdown__trigger dnb-button--active"
                 custom_element={null}
                 custom_method={null}
                 disabled="disabled"
+                element={null}
                 global_status_id={null}
                 href={null}
                 icon={null}
@@ -482,7 +494,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                   aria-describedby="dropdown-id-status dropdown-id-suffix"
                   aria-expanded={true}
                   aria-haspopup="listbox"
-                  aria-label="Feriekonto - Kari Nordmann med et kjempelangt etternavnsen"
+                  aria-labelledby="dropdown-id-label dropdown-id"
                   className="dnb-button dnb-button--secondary dnb-button--has-text dnb-dropdown__trigger dnb-button--active"
                   disabled={false}
                   id="dropdown-id"
@@ -498,7 +510,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                     aria-describedby="dropdown-id-status dropdown-id-suffix"
                     aria-expanded={true}
                     aria-haspopup="listbox"
-                    aria-label="Feriekonto - Kari Nordmann med et kjempelangt etternavnsen"
+                    aria-labelledby="dropdown-id-label dropdown-id"
                     bounding={false}
                     class={null}
                     className="dnb-dropdown__trigger dnb-button--active"
@@ -537,6 +549,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                     custom_element={null}
                     custom_method={null}
                     disabled="disabled"
+                    element={null}
                     global_status_id={null}
                     href={null}
                     icon={null}
@@ -595,7 +608,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                 </button>
               </Button>
               <DrawerList
-                action_menu="action_menu"
+                action_menu={null}
                 align_drawer="right"
                 cache_hash={null}
                 class={null}
@@ -610,9 +623,9 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                 focusable="focusable"
                 id="dropdown-id"
                 ignore_events={null}
-                independent_width="action_menu"
+                independent_width={null}
                 inner_class="dnb-dropdown__list"
-                is_popup="action_menu"
+                is_popup={null}
                 keep_open="keep_open"
                 max_height={1}
                 no_animation={true}
@@ -629,19 +642,20 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                 prepared_data={null}
                 prevent_close="prevent_close"
                 prevent_focus={false}
-                prevent_selection="action_menu"
+                prevent_selection={false}
                 raw_data={null}
+                role="listbox"
                 scrollable="scrollable"
                 size={null}
                 skip_keysearch={false}
                 skip_portal={true}
                 triangle_position="right"
-                use_drawer_on_mobile="action_menu"
+                use_drawer_on_mobile={null}
                 value={2}
                 wrapper_element={null}
               >
                 <DrawerListInstance
-                  action_menu="action_menu"
+                  action_menu={null}
                   align_drawer="right"
                   cache_hash={null}
                   class={null}
@@ -656,9 +670,9 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                   focusable="focusable"
                   id="dropdown-id"
                   ignore_events={null}
-                  independent_width="action_menu"
+                  independent_width={null}
                   inner_class="dnb-dropdown__list"
-                  is_popup="action_menu"
+                  is_popup={null}
                   keep_open="keep_open"
                   max_height={1}
                   no_animation={true}
@@ -675,14 +689,15 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                   prepared_data={null}
                   prevent_close="prevent_close"
                   prevent_focus={false}
-                  prevent_selection="action_menu"
+                  prevent_selection={false}
                   raw_data={null}
+                  role="listbox"
                   scrollable="scrollable"
                   size={null}
                   skip_keysearch={false}
                   skip_portal={true}
                   triangle_position="right"
-                  use_drawer_on_mobile="action_menu"
+                  use_drawer_on_mobile={null}
                   value={2}
                   wrapper_element={null}
                 >
@@ -715,10 +730,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                           tabIndex="-1"
                           triangleRef={
                             Object {
-                              "current": <li
-                                aria-hidden="true"
-                                class="dnb-drawer-list__triangle"
-                              />,
+                              "current": null,
                             }
                           }
                         >
@@ -748,6 +760,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                                 onClick={[Function]}
                                 onKeyDown={[Function]}
                                 on_click={null}
+                                role="option"
                                 selected={false}
                                 value={null}
                               >
@@ -795,6 +808,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                                 onClick={[Function]}
                                 onKeyDown={[Function]}
                                 on_click={null}
+                                role="option"
                                 selected={false}
                                 value={null}
                               >
@@ -842,6 +856,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                                 onClick={[Function]}
                                 onKeyDown={[Function]}
                                 on_click={null}
+                                role="option"
                                 selected={true}
                                 value={null}
                               >
@@ -890,6 +905,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                                 onClick={[Function]}
                                 onKeyDown={[Function]}
                                 on_click={null}
+                                role="option"
                                 selected={false}
                                 value={null}
                               >
@@ -937,6 +953,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                                 onClick={[Function]}
                                 onKeyDown={[Function]}
                                 on_click={null}
+                                role="option"
                                 selected={false}
                                 value={null}
                               >
@@ -974,6 +991,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                                 onClick={[Function]}
                                 onKeyDown={[Function]}
                                 on_click={null}
+                                role="option"
                                 selected={false}
                                 value={null}
                               >
@@ -1003,7 +1021,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                               <DrawerList.Item
                                 active={false}
                                 class={null}
-                                className="last-of-type"
+                                className=""
                                 data-item={6}
                                 hash="option-dropdown-id-6-6"
                                 id="option-dropdown-id-6"
@@ -1011,12 +1029,13 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                                 onClick={[Function]}
                                 onKeyDown={[Function]}
                                 on_click={null}
+                                role="option"
                                 selected={false}
                                 value={null}
                               >
                                 <li
                                   aria-selected={false}
-                                  className="last-of-type dnb-drawer-list__option"
+                                  className="dnb-drawer-list__option"
                                   data-item={6}
                                   id="option-dropdown-id-6"
                                   key="lioption-dropdown-id-6-6"
@@ -1042,6 +1061,43 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                                   </span>
                                 </li>
                               </DrawerList.Item>
+                              <DrawerList.Item
+                                active={false}
+                                class={null}
+                                className="last-of-type"
+                                data-item={7}
+                                hash="option-dropdown-id-7-7"
+                                id="option-dropdown-id-7"
+                                key="option-dropdown-id-7-7"
+                                onClick={[Function]}
+                                onKeyDown={[Function]}
+                                on_click={null}
+                                role="option"
+                                selected={false}
+                                value={null}
+                              >
+                                <li
+                                  aria-selected={false}
+                                  className="last-of-type dnb-drawer-list__option"
+                                  data-item={7}
+                                  id="option-dropdown-id-7"
+                                  key="lioption-dropdown-id-7-7"
+                                  onClick={[Function]}
+                                  onKeyDown={[Function]}
+                                  role="option"
+                                  tabIndex="-1"
+                                >
+                                  <span
+                                    className="dnb-drawer-list__option__inner"
+                                  >
+                                    <ItemContent
+                                      hash="option-dropdown-id-7-7"
+                                    >
+                                      0y
+                                    </ItemContent>
+                                  </span>
+                                </li>
+                              </DrawerList.Item>
                             </Items>
                             <li
                               aria-hidden={true}
@@ -1049,6 +1105,9 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                             />
                           </ul>
                         </ForwardRef>
+                        <OnMounted
+                          assignObservers={[Function]}
+                        />
                       </span>
                     </span>
                   </span>
@@ -1060,7 +1119,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
               id="dropdown-id-suffix"
             >
               <Suffix
-                action_menu="action_menu"
+                action_menu={null}
                 align_dropdown={null}
                 class="class"
                 className="className"
@@ -1087,6 +1146,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                         "1134 56 78962",
                         "Feriekonto - Kari Nordmann med et kjempelangt etternavnsen",
                       ],
+                      "selected_key": 1,
                       "selected_value": "Feriekonto - Kari Nordmann med et kjempelangt etternavnsen",
                     },
                     Object {
@@ -1094,6 +1154,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                         "1534 96 48901",
                         "Oppussing - Ole Nordmann",
                       ],
+                      "selected_key": "0x",
                       "selected_value": "Oppussing - Ole Nordmann",
                     },
                     Object {
@@ -1112,6 +1173,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                         123
                       </React.Fragment>,
                     ],
+                    "0y",
                   ]
                 }
                 default_value="default_value"

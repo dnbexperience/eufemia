@@ -20,4 +20,4 @@ To upgrade to v8 with NPM, use:
 $ npm i dnb-ui-lib@8
 ```
 
-_October, 20. 2020_
+_November, 22. 2020_

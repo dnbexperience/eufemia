@@ -6,23 +6,17 @@
 import React from 'react'
 import {
   mount,
-  fakeProps,
   axeComponent,
   toJson,
   loadScss
 } from '../../../core/jest/jestSetup'
 import Component from '../Accordion'
 
-const props = fakeProps(require.resolve('../Accordion'), {
-  optional: true
-})
+const props = {}
 props.id = 'accordion'
 props.variant = 'default'
 props.no_animation = true
-props.remember_state = false
-props.expanded_ssr = false
-props.heading = null
-props.element = null
+props.title = 'title'
 
 describe('Accordion component', () => {
   // then test the state management
@@ -36,12 +30,26 @@ describe('Accordion component', () => {
   it('has correct state after "click" trigger', () => {
     // default expanded value has to be false
     expect(Comp.state().expanded).toBe(false)
+    expect(
+      Comp.find('.dnb-accordion__header')
+        .instance()
+        .getAttribute('aria-expanded')
+    ).toBe('false')
     Comp.find('.dnb-accordion__header').simulate('click') // we could send inn the event data structure like this: , { target: { expanded: true } }
     expect(Comp.state().expanded).toBe(true)
+    expect(
+      Comp.find('.dnb-accordion__header')
+        .instance()
+        .getAttribute('aria-expanded')
+    ).toBe('true')
     // Comp.find('.dnb-accordion__header').simulate('click')
     // expect(Comp.state().expanded).toBe(false)
     Comp.setProps({ expanded: false })
-    expect(Comp.state().expanded).toBe(false)
+    expect(
+      Comp.find('.dnb-accordion__header')
+        .instance()
+        .getAttribute('aria-expanded')
+    ).toBe('false')
   })
 
   it('has "on_change" event which will trigger on click', () => {
@@ -80,6 +88,40 @@ describe('Accordion component', () => {
 
   it('should validate with ARIA rules', async () => {
     expect(await axeComponent(Comp)).toHaveNoViolations()
+  })
+})
+
+describe('Accordion store API', () => {
+  it('will save and read the states for a single accordion', () => {
+    const inst = Component.Store('accordion-id')
+
+    inst.saveState(true)
+    expect(inst.getState()).toBe(true)
+    expect(inst.getData()).toMatchObject({ expanded: true })
+
+    inst.saveState(false)
+    expect(inst.getState()).toBe(false)
+    expect(inst.getData()).toMatchObject({ expanded: false })
+
+    inst.flush()
+    expect(inst.getState()).toBe(null)
+    expect(inst.getData()).toBe(null)
+  })
+
+  it('will save and read the states for an accordion group', () => {
+    const inst = Component.Group.Store('group-id')
+
+    inst.saveState(true, 'remembered-state-2')
+    expect(inst.getState('remembered-state-2')).toBe(true)
+    expect(inst.getData()).toMatchObject({ id: 'remembered-state-2' })
+
+    inst.saveState(false, 'remembered-state-2', { force: true })
+    expect(inst.getState('remembered-state-2')).toBe(false)
+    expect(inst.getData()).toMatchObject({ id: null })
+
+    inst.flush('remembered-state-2')
+    expect(inst.getState('remembered-state-2')).toBe(null)
+    expect(inst.getData()).toBe(null)
   })
 })
 
@@ -150,8 +192,73 @@ describe('Accordion group component', () => {
       .at(0)
       .simulate('click')
     expect(my_event.mock.calls[2][0].expanded).toBe(true)
+  })
+})
 
-    // expect(Comp.state().expanded).toBe(false)
+describe('Accordion container component', () => {
+  class DidRender extends React.PureComponent {
+    state = { mounted: false }
+    componentDidMount() {
+      this.setState({ mounted: true })
+    }
+    render() {
+      return <div id={this.props.id}>{String(this.state.mounted)}</div>
+    }
+  }
+
+  const Comp = mount(
+    <Component.Group
+      label="Label"
+      id="container"
+      single_container
+      prevent_rerender
+      remember_state
+    >
+      <Component id="accordion-1" title="Accordion 1">
+        Accordion 1
+        <DidRender id="mounted-1" />
+      </Component>
+      <Component id="accordion-2" title="Accordion 2" expanded={true}>
+        Accordion 2
+        <DidRender id="mounted-2" />
+      </Component>
+      <Component id="accordion-3" title="Accordion 3">
+        Accordion 3
+        <DidRender id="mounted-3" />
+      </Component>
+    </Component.Group>
+  )
+
+  it('has only to render the expanded accordion content', () => {
+    expect(Comp.find('div#mounted-1').exists()).toBe(false)
+    expect(Comp.find('div#mounted-2').text()).toBe('true')
+    expect(Comp.find('div#mounted-3').exists()).toBe(false)
+    expect(
+      Comp.find('#accordion-2')
+        .find('.dnb-accordion__header')
+        .instance()
+        .getAttribute('aria-expanded')
+    ).toBe('true')
+
+    Comp.find('#accordion-1')
+      .find('.dnb-accordion__header')
+      .simulate('click')
+
+    expect(Comp.find('div#mounted-1').text()).toBe('true')
+    expect(Comp.find('div#mounted-2').text()).toBe('true')
+    expect(Comp.find('div#mounted-3').exists()).toBe(false)
+
+    Comp.find('#accordion-2')
+      .find('.dnb-accordion__header')
+      .simulate('click')
+
+    expect(Comp.find('div#mounted-3').exists()).toBe(false)
+
+    Comp.find('#accordion-3')
+      .find('.dnb-accordion__header')
+      .simulate('click')
+
+    expect(Comp.find('div#mounted-3').text()).toBe('true')
   })
 })
 

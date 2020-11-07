@@ -159,9 +159,10 @@ exports[`PaymentCard component with urls have to match snapshot 1`] = `
                       class={null}
                       className="dnb-p  dnb-p--x-small dnb-p--bold dnb-payment-card__card__holder"
                       css={null}
-                      hasTagClass={false}
+                      internalClass={null}
                       is="p"
                       skeleton={null}
+                      skeleton_method="font"
                     >
                       <p
                         className="dnb-p  dnb-p--x-small dnb-p--bold dnb-payment-card__card__holder"
@@ -188,9 +189,10 @@ exports[`PaymentCard component with urls have to match snapshot 1`] = `
                       class={null}
                       className="dnb-p dnb-payment-card__card__numbers"
                       css={null}
-                      hasTagClass={false}
+                      internalClass={null}
                       is="p"
                       skeleton={null}
+                      skeleton_method="font"
                     >
                       <p
                         className="dnb-p dnb-payment-card__card__numbers"

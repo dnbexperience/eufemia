@@ -3,29 +3,29 @@
  *
  */
 
-@mixin modalFullscreen() {
-  width: 100vw;
-  height: 100vh;
-  height: calc(100vh - var(--modal-height-offset));
-
-  max-width: 100%; // fixes overflow issue on some browsers
-  max-height: 100%;
-}
+@import './modal-mixins';
 
 :root {
   --modal-z-index: 3000;
+  --modal-animation-duration: 300ms;
   --modal-spacing: 2rem; // should reflect --spacing-large
+  --modal-spacing-minus: -2rem; // should reflect --spacing-large
 
   // we do this because SCSS fails by using min(100vw, 50rem) = "Incompatible units: 'rem' and 'vw'"
   --modal-min-width: 20rem; // under 40em, because of spacing and later mobile fullscreen
   --modal-avg-width: 60vw; // content defines the size
   --modal-max-width: 60rem; // because of our default width --layout-large
   --modal-height-offset: 0.0001rem;
+  --modal-content-top: 7rem;
 
   // Drawer mode
   --modal-drawer-width: 40vw;
   --modal-drawer-min-width: 25rem;
   --modal-drawer-max-width: 40rem;
+  --modal-drawer-content-top: 10rem;
+
+  // Overlay
+  --modal-overlay-bg: rgba(0, 0, 0, 0.32);
 }
 
 [data-dnb-modal-active='true'] {
@@ -55,6 +55,12 @@
     width: 100%;
     height: 100%;
 
+    &--auto-fullscreen {
+      @include allBelow(small) {
+        height: auto;
+      }
+    }
+
     max-width: 100vw;
 
     user-select: none;
@@ -63,13 +69,6 @@
     &__inner {
       position: relative;
 
-      padding: var(--modal-spacing) var(--modal-spacing) 0;
-
-      @include allBelow(small) {
-        padding: calc(var(--modal-spacing) / 2) var(--modal-spacing) 0;
-      }
-
-      // width: auto;
       width: var(--modal-avg-width);
       min-width: var(--modal-min-width);
       max-width: var(--modal-max-width);
@@ -79,24 +78,29 @@
         100vh - var(--modal-spacing) * 2
       ); // minus vertical padding
 
+      @include defaultDropShadow();
+      border-radius: 0.5rem;
+
       user-select: text;
       -webkit-user-select: text; // Safari / Touch fix
       border: none;
 
-      @include allAbove(small) {
-        padding: var(--modal-spacing) var(--modal-spacing)
-          calc(var(--modal-spacing) / 2);
-        @include defaultDropShadow();
-        border-radius: 0.5rem;
-      }
+      -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    }
 
+    &--auto-fullscreen &__inner {
       @include allBelow(small) {
         @include modalFullscreen();
-        padding: calc(var(--modal-spacing) / 2)
-          calc(var(--modal-spacing) / 2) 0;
       }
+    }
 
-      -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    &--spacing &__inner {
+      padding: var(--modal-content-top) var(--modal-spacing) 0;
+
+      @include allBelow(small) {
+        padding: var(--modal-content-top) calc(var(--modal-spacing) * 0.75)
+          0;
+      }
     }
 
     &__align--center &__inner {
@@ -122,13 +126,14 @@
       justify-content: flex-start;
     }
     &--drawer &__inner {
-      @include modalFullscreen();
+      @include modalFullscreen('drawer');
 
       width: var(--modal-drawer-width);
       min-width: var(--modal-drawer-min-width);
       max-width: var(--modal-drawer-max-width);
 
-      border-radius: 0;
+      padding: var(--modal-drawer-content-top)
+        calc(var(--modal-spacing) * 1.75) 0;
 
       @media screen and (max-width: 40em) {
         width: 100vw;
@@ -136,11 +141,18 @@
         max-width: auto;
       }
     }
+    &--fullscreen &__content {
+      height: auto;
+    }
+    &--auto-fullscreen &__content {
+      @include allBelow(small) {
+        height: auto;
+      }
+    }
 
     &--drawer#{&}--top &__inner,
     &--drawer#{&}--bottom &__inner {
       max-width: 100%; // fixes overflow issue on some browsers
-      max-height: 100%;
       width: 100vw;
       height: 40vh;
 
@@ -161,49 +173,52 @@
       align-items: flex-start;
       justify-content: flex-start;
     }
-    // Not sure why we need to check for "data-dnb-test" here
-    // But it helps to get fullscreen on "drawer top" placement
-    // Else we have to use !important in order to overwrite height: 40vh;
-    html:not([data-dnb-test]) &--fullscreen &__inner {
+
+    &--fullscreen &__inner {
       @include modalFullscreen();
-      border-radius: 0;
     }
 
     // Drawer animation
-    html:not([data-dnb-test]) &--drawer#{&}--left &__inner {
+    html:not([data-visual-test]) &--drawer#{&}--left &__inner {
       transform: translate3d(-20rem, 0, 0);
     }
-    html:not([data-dnb-test]) &--drawer#{&}--right &__inner {
+    html:not([data-visual-test]) &--drawer#{&}--right &__inner {
       transform: translate3d(20rem, 0, 0);
     }
-    html:not([data-dnb-test]) &--drawer#{&}--top &__inner {
+    html:not([data-visual-test]) &--drawer#{&}--top &__inner {
       transform: translate3d(0, -20rem, 0);
     }
-    html:not([data-dnb-test]) &--drawer#{&}--bottom &__inner {
+    html:not([data-visual-test]) &--drawer#{&}--bottom &__inner {
       transform: translate3d(0, 20rem, 0);
     }
-    html:not([data-dnb-test]) &--drawer &__inner {
+    html:not([data-visual-test]) &--drawer &__inner {
       opacity: 0.1;
-      animation: show-drawer 300ms ease-out forwards;
+      animation: show-drawer var(--modal-animation-duration) ease-out
+        forwards;
     }
-    html:not([data-dnb-test]) &--drawer#{&}--hide#{&}--left &__inner {
-      animation: hide-drawer-left 300ms ease-in-out forwards;
+    html:not([data-visual-test]) &--drawer#{&}--hide#{&}--left &__inner {
+      animation: hide-drawer-left var(--modal-animation-duration)
+        ease-in-out forwards;
     }
-    html:not([data-dnb-test]) &--drawer#{&}--hide#{&}--right &__inner {
-      animation: hide-drawer-right 300ms ease-in-out forwards;
+    html:not([data-visual-test]) &--drawer#{&}--hide#{&}--right &__inner {
+      animation: hide-drawer-right var(--modal-animation-duration)
+        ease-in-out forwards;
     }
-    html:not([data-dnb-test]) &--drawer#{&}--hide#{&}--top &__inner {
-      animation: hide-drawer-top 300ms ease-in-out forwards;
+    html:not([data-visual-test]) &--drawer#{&}--hide#{&}--top &__inner {
+      animation: hide-drawer-top var(--modal-animation-duration)
+        ease-in-out forwards;
     }
-    html:not([data-dnb-test]) &--drawer#{&}--hide#{&}--bottom &__inner {
-      animation: hide-drawer-bottom 300ms ease-in-out forwards;
+    html:not([data-visual-test]) &--drawer#{&}--hide#{&}--bottom &__inner {
+      animation: hide-drawer-bottom var(--modal-animation-duration)
+        ease-in-out forwards;
     }
 
     // Modal mode
-    html:not([data-dnb-test]) &--modal &__inner {
-      animation: show-modal 300ms ease-out forwards;
+    html:not([data-visual-test]) &--modal &__inner {
+      animation: show-modal var(--modal-animation-duration) ease-out
+        forwards;
     }
-    html:not([data-dnb-test]) &--modal#{&}--hide &__inner {
+    html:not([data-visual-test]) &--modal#{&}--hide &__inner {
       animation: hide-modal 220ms ease-in-out forwards;
     }
 
@@ -222,41 +237,78 @@
     &.dnb-h--large,
     .dnb-core-style &.dnb-h--large:not([class*='dnb-space']) {
       margin: 0;
-      padding: 0 2rem 0 0; // because of the close button
+      padding: 0;
     }
   }
   &__wrapper {
     position: relative;
     z-index: 1;
-
-    margin-top: calc(var(--modal-spacing) - 0.5rem);
-    margin-bottom: var(--modal-spacing);
+  }
+  &__content--spacing &__wrapper {
+    padding-bottom: calc(var(--modal-spacing) * 1.75);
 
     @include allBelow(small) {
-      margin-top: calc(var(--modal-spacing) / 2);
-      margin-bottom: calc(var(--modal-spacing) / 2);
+      padding-bottom: calc(var(--modal-spacing) * 1.25);
     }
+  }
+  &__content--drawer &__wrapper {
+    padding-bottom: calc(var(--modal-spacing) * 2);
+  }
+  &__title ~ &__wrapper {
+    padding-top: calc(var(--modal-spacing) / 2);
+  }
+  &__content--drawer &__title ~ &__wrapper {
+    padding-top: calc(var(--modal-spacing) * 0.75);
+  }
 
-    // For testing large scrollable content
-    // height: 200vh;
-    // background: blue;
+  &__wrapper__inner {
+    padding-bottom: calc(var(--modal-spacing) * 2);
+    margin-bottom: calc(var(--modal-spacing-minus) * 1.75);
+
+    @include allBelow(small) {
+      &.dnb-section::after {
+        min-height: calc(
+          100vh - var(--modal-content-top) -
+            calc(var(--modal-spacing) * 1.5)
+        );
+      }
+    }
+  }
+  &__content--drawer &__wrapper__inner {
+    margin-bottom: calc(var(--modal-spacing-minus) * 2);
+
+    &.dnb-section::after {
+      min-height: calc(
+        100vh - var(--modal-drawer-content-top) -
+          calc(var(--modal-spacing) * 2)
+      );
+    }
   }
 
   &__close-button {
-    // NB: as the specificity is several levels deep: html:not([data-whatintent='touch'] ) .dnb-button--secondary:hover:not([disabled])
-    // we use !important in case we define position="relative" on hover
     position: absolute;
-    top: var(--modal-spacing);
+    top: calc(var(--modal-spacing) * 0.75);
     right: var(--modal-spacing);
 
     // set a hight z-index because when font-size is 200%+
-    // then it is possible that someting else will come in front
+    // then it is possible that something else will come in front
     z-index: 1; // below #dropdown and #date-picker
 
     @include allBelow(small) {
-      top: calc(var(--modal-spacing) / 2);
       right: calc(var(--modal-spacing) / 2);
     }
+
+    &--cross {
+      top: var(--modal-spacing);
+
+      @include allBelow(small) {
+        top: calc(var(--modal-spacing) / 2);
+      }
+    }
+  }
+  &__content--drawer &__close-button {
+    top: calc(var(--modal-spacing) * 1.75);
+    right: calc(var(--modal-spacing) * 1.75);
   }
 
   &__overlay {
@@ -268,22 +320,26 @@
     width: 100%;
     height: 100%;
 
-    background: rgba(0, 0, 0, 0.4);
-    box-shadow: 0 100vh 0 0 rgba(0, 0, 0, 0.4);
+    background: var(--modal-overlay-bg);
+    box-shadow: 0 100vh 0 0 var(--modal-overlay-bg);
 
-    html:not([data-dnb-test]) &--modal {
-      animation: show-modal-overlay 300ms ease-out forwards;
+    html:not([data-visual-test]) &--modal {
+      animation: show-modal-overlay var(--modal-animation-duration)
+        ease-out forwards;
     }
-    html:not([data-dnb-test]) &--modal#{&}--hide {
-      animation: hide-modal-overlay 300ms ease-in-out forwards;
+    html:not([data-visual-test]) &--modal#{&}--hide {
+      animation: hide-modal-overlay var(--modal-animation-duration)
+        ease-in-out forwards;
     }
 
     // Drawer mode
-    html:not([data-dnb-test]) &--drawer {
-      animation: show-drawer-overlay 300ms ease-out forwards;
+    html:not([data-visual-test]) &--drawer {
+      animation: show-drawer-overlay var(--modal-animation-duration)
+        ease-out forwards;
     }
-    html:not([data-dnb-test]) &--drawer#{&}--hide {
-      animation: hide-drawer-overlay 300ms ease-in-out forwards;
+    html:not([data-visual-test]) &--drawer#{&}--hide {
+      animation: hide-drawer-overlay var(--modal-animation-duration)
+        ease-in-out forwards;
     }
 
     /* stylelint-disable-next-line */
@@ -296,105 +352,32 @@
       }
     }
   }
-}
 
-@keyframes show-modal {
-  from {
-    opacity: 0.1;
-    transform: translate3d(0, -1rem, 0);
-  }
-  to {
-    transform: translate3d(0, 0, 0);
-    opacity: 1;
-  }
-}
-@keyframes hide-modal {
-  from {
-    transform: translate3d(0, 0, 0);
-    opacity: 1;
-  }
-  to {
-    transform: translate3d(0, 1rem, 0);
+  &-root__inner &__overlay {
     opacity: 0;
+    transition: opacity 300ms ease-in-out;
   }
-}
+  // &-root__inner:nth-of-type(n + 2) &__overlay {
+  //   animation-duration: 0ms !important;
+  // }
+  &-root__inner:last-of-type &__overlay {
+    opacity: 1;
+  }
+  html[data-visual-test] &-root__inner &__overlay {
+    transition: none;
+  }
 
-@keyframes show-drawer {
-  to {
-    transform: translate3d(0, 0, 0);
-    opacity: 1;
+  &-root__inner {
+    position: relative;
+    z-index: calc(var(--modal-z-index) + 1);
   }
-}
-@keyframes hide-drawer-left {
-  from {
-    transform: translate3d(0, 0, 0);
-    opacity: 1;
+  &-root__inner ~ &-root__inner {
+    z-index: calc(var(--modal-z-index) + 2);
   }
-  to {
-    transform: translate3d(-20rem, 0, 0);
-    opacity: 0;
+  &-root__inner ~ &-root__inner ~ &-root__inner {
+    z-index: calc(var(--modal-z-index) + 3);
   }
-}
-@keyframes hide-drawer-top {
-  from {
-    transform: translate3d(0, 0, 0);
-    opacity: 1;
-  }
-  to {
-    transform: translate3d(0, -20rem, 0);
-    opacity: 0;
-  }
-}
-@keyframes hide-drawer-bottom {
-  from {
-    transform: translate3d(0, 0, 0);
-    opacity: 1;
-  }
-  to {
-    transform: translate3d(0, 20rem, 0);
-    opacity: 0;
-  }
-}
-@keyframes hide-drawer-right {
-  from {
-    transform: translate3d(0, 0, 0);
-    opacity: 1;
-  }
-  to {
-    transform: translate3d(20rem, 0, 0);
-    opacity: 0;
-  }
-}
-
-@keyframes show-modal-overlay {
-  from {
-    background: transparent;
-  }
-  to {
-    background: rgba(0, 0, 0, 0.4);
-  }
-}
-@keyframes hide-modal-overlay {
-  from {
-    background: rgba(0, 0, 0, 0.4);
-  }
-  to {
-    background: transparent;
-  }
-}
-@keyframes show-drawer-overlay {
-  from {
-    background: transparent;
-  }
-  to {
-    background: rgba(0, 0, 0, 0.4);
-  }
-}
-@keyframes hide-drawer-overlay {
-  from {
-    background: rgba(0, 0, 0, 0.4);
-  }
-  to {
-    background: transparent;
+  &-root__inner ~ &-root__inner ~ &-root__inner ~ &-root__inner {
+    z-index: calc(var(--modal-z-index) + 4);
   }
 }

@@ -7,6 +7,7 @@ exports[`Modal component have to match snapshot 1`] = `
       "displayName": "Modal",
       "props": Object {
         "align_content": "'left'",
+        "animation_duration": "animation_duration",
         "children": "children",
         "class": "class",
         "className": "className",
@@ -16,7 +17,7 @@ exports[`Modal component have to match snapshot 1`] = `
         "content_id": "content_id",
         "direct_dom_return": "direct_dom_return",
         "disabled": "disabled",
-        "fullscreen": "fullscreen",
+        "fullscreen": "'auto'",
         "hide_close_button": "hide_close_button",
         "id": "id",
         "labelled_by": "labelled_by",
@@ -30,15 +31,17 @@ exports[`Modal component have to match snapshot 1`] = `
         "open_delay": "open_delay",
         "open_modal": [Function],
         "open_state": "'opened'",
-        "preventSetTriggerRef": true,
         "prevent_close": "prevent_close",
         "prevent_core_style": "prevent_core_style",
+        "root_id": "root_id",
+        "spacing": "spacing",
         "title": "title",
         "trigger_class": "trigger_class",
         "trigger_disabled": "trigger_disabled",
         "trigger_hidden": "trigger_hidden",
         "trigger_icon": "trigger_icon",
         "trigger_icon_position": "trigger_icon_position",
+        "trigger_props": Object {},
         "trigger_size": "trigger_size",
         "trigger_text": "trigger_text",
         "trigger_title": "trigger_title",
@@ -52,19 +55,29 @@ exports[`Modal component have to match snapshot 1`] = `
       "props": Object {
         "children": "children",
         "direct_dom_return": "direct_dom_return",
+        "id": "id",
+      },
+    }
+  }
+  2={
+    Object {
+      "displayName": "Inner",
+      "props": Object {
+        "className": "className",
       },
     }
   }
   align_content="left"
+  animation_duration={300}
   class={null}
   className={null}
   close_modal={null}
   close_title="close_title"
   container_placement="right"
-  content_id="modal_content_id"
+  content_id={null}
   direct_dom_return={true}
   disabled={null}
-  fullscreen={false}
+  fullscreen="auto"
   hide_close_button={false}
   id="modal_id"
   labelled_by={null}
@@ -78,15 +91,18 @@ exports[`Modal component have to match snapshot 1`] = `
   open_delay={null}
   open_modal={null}
   open_state={null}
-  preventSetTriggerRef={true}
   prevent_close={false}
   prevent_core_style={false}
+  root_id="root"
+  spacing={true}
+  style_type="button"
   title="modal_title"
   trigger_class={null}
   trigger_disabled={null}
   trigger_hidden={false}
-  trigger_icon="question"
+  trigger_icon={null}
   trigger_icon_position="left"
+  trigger_props={null}
   trigger_size={null}
   trigger_text={null}
   trigger_title={null}
@@ -95,22 +111,55 @@ exports[`Modal component have to match snapshot 1`] = `
   <div
     className="dnb-modal"
   >
-    <HelpButton
+    <HelpButtonInstance
       class={null}
       className="dnb-modal__trigger"
-      disabled={null}
-      icon="question"
+      hidden={false}
+      icon={null}
       icon_position="left"
-      icon_size={null}
       id="modal_id"
-      on_click={[Function]}
-      size={null}
-      text={null}
-      title="modal_title"
+      innerRef={
+        Object {
+          "current": <button
+            aria-label="Hjelpetekst"
+            aria-roledescription="Hjelp-knapp"
+            class="dnb-button dnb-button--secondary dnb-help-button dnb-modal__trigger dnb-button--icon-position-left dnb-button--has-icon dnb-button--size-medium"
+            id="modal_id"
+            type="button"
+          >
+            <span
+              class="dnb-button__alignment"
+            >
+              ‌
+            </span>
+            <span
+              aria-hidden="true"
+              aria-label="question icon"
+              class="dnb-icon dnb-icon--default dnb-button__icon"
+              role="presentation"
+            >
+              <svg
+                fill="none"
+                height="16"
+                viewBox="0 0 16 16"
+                width="16"
+              >
+                <path
+                  clip-rule="evenodd"
+                  d="M4.352 5.1c0-2.05 1.55-3.6 3.6-3.6 2.052 0 3.601 1.55 3.601 3.6 0 2.051-1.55 3.6-3.6 3.6a.75.75 0 00-.75.75v2.666a.75.75 0 001.5 0V10.15c2.506-.348 4.35-2.425 4.35-5.049 0-2.879-2.22-5.1-5.1-5.1-2.88 0-5.1 2.221-5.1 5.1a.75.75 0 001.5 0zm3.6 10.898c.659 0 1.098-.439 1.098-1.097 0-.658-.44-1.097-1.097-1.097-.658 0-1.097.44-1.097 1.097 0 .658.439 1.097 1.097 1.097z"
+                  fill="#000"
+                  fill-rule="evenodd"
+                />
+              </svg>
+            </span>
+          </button>,
+        }
+      }
+      onClick={[Function]}
       variant="secondary"
     >
       <Button
-        aria-label="modal_title"
+        aria-label="Hjelpetekst"
         aria-roledescription="Hjelp-knapp"
         bounding={false}
         class={null}
@@ -118,39 +167,77 @@ exports[`Modal component have to match snapshot 1`] = `
         custom_element={null}
         custom_method={null}
         disabled={null}
+        element={null}
         global_status_id={null}
+        hidden={false}
         href={null}
         icon="question"
         icon_position="left"
         icon_size={null}
         id="modal_id"
-        innerRef={null}
-        onClick={null}
-        on_click={[Function]}
+        innerRef={
+          Object {
+            "current": <button
+              aria-label="Hjelpetekst"
+              aria-roledescription="Hjelp-knapp"
+              class="dnb-button dnb-button--secondary dnb-help-button dnb-modal__trigger dnb-button--icon-position-left dnb-button--has-icon dnb-button--size-medium"
+              id="modal_id"
+              type="button"
+            >
+              <span
+                class="dnb-button__alignment"
+              >
+                ‌
+              </span>
+              <span
+                aria-hidden="true"
+                aria-label="question icon"
+                class="dnb-icon dnb-icon--default dnb-button__icon"
+                role="presentation"
+              >
+                <svg
+                  fill="none"
+                  height="16"
+                  viewBox="0 0 16 16"
+                  width="16"
+                >
+                  <path
+                    clip-rule="evenodd"
+                    d="M4.352 5.1c0-2.05 1.55-3.6 3.6-3.6 2.052 0 3.601 1.55 3.601 3.6 0 2.051-1.55 3.6-3.6 3.6a.75.75 0 00-.75.75v2.666a.75.75 0 001.5 0V10.15c2.506-.348 4.35-2.425 4.35-5.049 0-2.879-2.22-5.1-5.1-5.1-2.88 0-5.1 2.221-5.1 5.1a.75.75 0 001.5 0zm3.6 10.898c.659 0 1.098-.439 1.098-1.097 0-.658-.44-1.097-1.097-1.097-.658 0-1.097.44-1.097 1.097 0 .658.439 1.097 1.097 1.097z"
+                    fill="#000"
+                    fill-rule="evenodd"
+                  />
+                </svg>
+              </span>
+            </button>,
+          }
+        }
+        onClick={[Function]}
+        on_click={null}
         size={null}
         skeleton={null}
         status={null}
         status_animation={null}
         status_state="error"
         text={null}
-        title="modal_title"
+        title={null}
         tooltip={null}
         type="button"
         variant="secondary"
         wrap={false}
       >
         <button
-          aria-label="modal_title"
+          aria-label="Hjelpetekst"
           aria-roledescription="Hjelp-knapp"
           className="dnb-button dnb-button--secondary dnb-help-button dnb-modal__trigger dnb-button--icon-position-left dnb-button--has-icon dnb-button--size-medium"
           disabled={false}
+          hidden={false}
           id="modal_id"
           onClick={[Function]}
-          title="modal_title"
           type="button"
         >
           <Content
-            aria-label="modal_title"
+            aria-label="Hjelpetekst"
             aria-roledescription="Hjelp-knapp"
             bounding={false}
             class={null}
@@ -159,23 +246,61 @@ exports[`Modal component have to match snapshot 1`] = `
             custom_element={null}
             custom_method={null}
             disabled={null}
+            element={null}
             global_status_id={null}
+            hidden={false}
             href={null}
             icon="question"
             icon_position="left"
             icon_size={null}
             id="modal_id"
-            innerRef={null}
+            innerRef={
+              Object {
+                "current": <button
+                  aria-label="Hjelpetekst"
+                  aria-roledescription="Hjelp-knapp"
+                  class="dnb-button dnb-button--secondary dnb-help-button dnb-modal__trigger dnb-button--icon-position-left dnb-button--has-icon dnb-button--size-medium"
+                  id="modal_id"
+                  type="button"
+                >
+                  <span
+                    class="dnb-button__alignment"
+                  >
+                    ‌
+                  </span>
+                  <span
+                    aria-hidden="true"
+                    aria-label="question icon"
+                    class="dnb-icon dnb-icon--default dnb-button__icon"
+                    role="presentation"
+                  >
+                    <svg
+                      fill="none"
+                      height="16"
+                      viewBox="0 0 16 16"
+                      width="16"
+                    >
+                      <path
+                        clip-rule="evenodd"
+                        d="M4.352 5.1c0-2.05 1.55-3.6 3.6-3.6 2.052 0 3.601 1.55 3.601 3.6 0 2.051-1.55 3.6-3.6 3.6a.75.75 0 00-.75.75v2.666a.75.75 0 001.5 0V10.15c2.506-.348 4.35-2.425 4.35-5.049 0-2.879-2.22-5.1-5.1-5.1-2.88 0-5.1 2.221-5.1 5.1a.75.75 0 001.5 0zm3.6 10.898c.659 0 1.098-.439 1.098-1.097 0-.658-.44-1.097-1.097-1.097-.658 0-1.097.44-1.097 1.097 0 .658.439 1.097 1.097 1.097z"
+                        fill="#000"
+                        fill-rule="evenodd"
+                      />
+                    </svg>
+                  </span>
+                </button>,
+              }
+            }
             isIconOnly={true}
-            onClick={null}
-            on_click={[Function]}
+            onClick={[Function]}
+            on_click={null}
             size={null}
             skeleton={null}
             status={null}
             status_animation={null}
             status_state="error"
             text={null}
-            title="modal_title"
+            title={null}
             tooltip={null}
             type="button"
             variant="secondary"
@@ -189,7 +314,7 @@ exports[`Modal component have to match snapshot 1`] = `
             </span>
             <IconPrimary
               alt={null}
-              aria-hidden={true}
+              aria-hidden={null}
               attributes={null}
               border={null}
               className="dnb-button__icon"
@@ -229,13 +354,14 @@ exports[`Modal component have to match snapshot 1`] = `
           </Content>
         </button>
       </Button>
-    </HelpButton>
+    </HelpButtonInstance>
     <ModalRoot
       0={
         Object {
           "displayName": "Modal",
           "props": Object {
             "align_content": "'left'",
+            "animation_duration": "animation_duration",
             "children": "children",
             "class": "class",
             "className": "className",
@@ -245,7 +371,7 @@ exports[`Modal component have to match snapshot 1`] = `
             "content_id": "content_id",
             "direct_dom_return": "direct_dom_return",
             "disabled": "disabled",
-            "fullscreen": "fullscreen",
+            "fullscreen": "'auto'",
             "hide_close_button": "hide_close_button",
             "id": "id",
             "labelled_by": "labelled_by",
@@ -259,15 +385,17 @@ exports[`Modal component have to match snapshot 1`] = `
             "open_delay": "open_delay",
             "open_modal": [Function],
             "open_state": "'opened'",
-            "preventSetTriggerRef": true,
             "prevent_close": "prevent_close",
             "prevent_core_style": "prevent_core_style",
+            "root_id": "root_id",
+            "spacing": "spacing",
             "title": "title",
             "trigger_class": "trigger_class",
             "trigger_disabled": "trigger_disabled",
             "trigger_hidden": "trigger_hidden",
             "trigger_icon": "trigger_icon",
             "trigger_icon_position": "trigger_icon_position",
+            "trigger_props": Object {},
             "trigger_size": "trigger_size",
             "trigger_text": "trigger_text",
             "trigger_title": "trigger_title",
@@ -281,21 +409,32 @@ exports[`Modal component have to match snapshot 1`] = `
           "props": Object {
             "children": "children",
             "direct_dom_return": "direct_dom_return",
+            "id": "id",
+          },
+        }
+      }
+      2={
+        Object {
+          "displayName": "Inner",
+          "props": Object {
+            "className": "className",
           },
         }
       }
       align_content="left"
+      animation_duration={300}
       class={null}
       className={null}
       closeModal={[Function]}
       close_modal={null}
       close_title="close_title"
       container_placement="right"
-      content_id="modal_content_id"
+      content_id="dnb-modal-modal_id"
       direct_dom_return={true}
-      fullscreen={false}
+      fullscreen="auto"
       hide={false}
       hide_close_button={false}
+      id={null}
       labelled_by="modal_id"
       modal_content="unique_modal_content"
       mode="modal"
@@ -307,6 +446,9 @@ exports[`Modal component have to match snapshot 1`] = `
       open_modal={null}
       prevent_close={false}
       prevent_core_style={false}
+      root_id="root"
+      spacing={true}
+      style_type="button"
       title="modal_title"
       toggleOpenClose={[Function]}
     >
@@ -316,6 +458,7 @@ exports[`Modal component have to match snapshot 1`] = `
             "displayName": "Modal",
             "props": Object {
               "align_content": "'left'",
+              "animation_duration": "animation_duration",
               "children": "children",
               "class": "class",
               "className": "className",
@@ -325,7 +468,7 @@ exports[`Modal component have to match snapshot 1`] = `
               "content_id": "content_id",
               "direct_dom_return": "direct_dom_return",
               "disabled": "disabled",
-              "fullscreen": "fullscreen",
+              "fullscreen": "'auto'",
               "hide_close_button": "hide_close_button",
               "id": "id",
               "labelled_by": "labelled_by",
@@ -339,15 +482,17 @@ exports[`Modal component have to match snapshot 1`] = `
               "open_delay": "open_delay",
               "open_modal": [Function],
               "open_state": "'opened'",
-              "preventSetTriggerRef": true,
               "prevent_close": "prevent_close",
               "prevent_core_style": "prevent_core_style",
+              "root_id": "root_id",
+              "spacing": "spacing",
               "title": "title",
               "trigger_class": "trigger_class",
               "trigger_disabled": "trigger_disabled",
               "trigger_hidden": "trigger_hidden",
               "trigger_icon": "trigger_icon",
               "trigger_icon_position": "trigger_icon_position",
+              "trigger_props": Object {},
               "trigger_size": "trigger_size",
               "trigger_text": "trigger_text",
               "trigger_title": "trigger_title",
@@ -361,10 +506,20 @@ exports[`Modal component have to match snapshot 1`] = `
             "props": Object {
               "children": "children",
               "direct_dom_return": "direct_dom_return",
+              "id": "id",
+            },
+          }
+        }
+        2={
+          Object {
+            "displayName": "Inner",
+            "props": Object {
+              "className": "className",
             },
           }
         }
         align_content="left"
+        animation_duration={300}
         class={null}
         className={null}
         closeModal={[Function]}
@@ -372,10 +527,11 @@ exports[`Modal component have to match snapshot 1`] = `
         close_title="close_title"
         container_placement="right"
         content_class={null}
-        content_id="modal_content_id"
-        fullscreen={false}
+        content_id="dnb-modal-modal_id"
+        fullscreen="auto"
         hide={false}
         hide_close_button={false}
+        id={null}
         labelled_by="modal_id"
         max_width={null}
         min_width={null}
@@ -390,20 +546,22 @@ exports[`Modal component have to match snapshot 1`] = `
         overlay_class={null}
         prevent_close={false}
         prevent_core_style={false}
+        root_id="root"
+        spacing={true}
+        style_type="button"
         title="modal_title"
         toggleOpenClose={[Function]}
       >
         <div
           aria-describedby="modal_id"
-          aria-labelledby="modal_id"
           aria-modal="true"
-          className="dnb-modal__content dnb-modal__content--modal dnb-modal__content__align--left dnb-modal__content--right dnb-modal__content--no-animation"
+          className="dnb-modal__content dnb-modal__content--auto-fullscreen dnb-modal__content--modal dnb-modal__content--spacing dnb-modal__content__align--left dnb-modal__content--right dnb-modal__content--no-animation"
+          id="dnb-modal-modal_id"
           onClick={[Function]}
           role="dialog"
         >
           <ForwardRef(ScrollViewRef)
             className="dnb-modal__content__inner dnb-no-focus dnb-core-style"
-            id="modal_content_id"
             onClick={[Function]}
             onKeyDown={[Function]}
             onTouchStart={[Function]}
@@ -412,12 +570,10 @@ exports[`Modal component have to match snapshot 1`] = `
             <ScrollView
               class={null}
               className="dnb-modal__content__inner dnb-no-focus dnb-core-style"
-              id="modal_content_id"
               innerRef={
                 Object {
                   "current": <div
                     class="dnb-scroll-view dnb-modal__content__inner dnb-no-focus dnb-core-style"
-                    id="modal_content_id"
                     tabindex="-1"
                   >
                     <h1
@@ -426,8 +582,7 @@ exports[`Modal component have to match snapshot 1`] = `
                       modal_title
                     </h1>
                     <button
-                      aria-label="close_title"
-                      class="dnb-button dnb-button--secondary dnb-modal__close-button dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-medium dnb-button--size-medium"
+                      class="dnb-button dnb-button--secondary dnb-button--has-text dnb-modal__close-button dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-basis dnb-button--size-large"
                       type="button"
                     >
                       <span
@@ -436,20 +591,25 @@ exports[`Modal component have to match snapshot 1`] = `
                         ‌
                       </span>
                       <span
+                        class="dnb-button__text"
+                      >
+                        close_title
+                      </span>
+                      <span
                         aria-hidden="true"
                         aria-label="close icon"
-                        class="dnb-icon dnb-icon--medium dnb-button__icon"
+                        class="dnb-icon dnb-icon--default dnb-button__icon"
                         role="presentation"
                       >
                         <svg
                           fill="none"
-                          height="24"
-                          viewBox="0 0 24 24"
-                          width="24"
+                          height="16"
+                          viewBox="0 0 16 16"
+                          width="16"
                         >
                           <path
                             clip-rule="evenodd"
-                            d="M4.78 3.914a.75.75 0 00-1.06 1.061l7.22 7.22-7.22 7.22a.75.75 0 001.06 1.06l7.22-7.22 7.22 7.22a.75.75 0 001.06-1.06l-7.22-7.22 7.22-7.22a.75.75 0 00-1.06-1.06L12 11.134l-7.22-7.22z"
+                            d="M4.03 3.1a.75.75 0 10-1.06 1.06l3.97 3.97-3.97 3.97a.75.75 0 101.06 1.06L8 9.19l3.97 3.97a.75.75 0 101.06-1.06L9.06 8.13l3.97-3.97a.75.75 0 00-1.06-1.06L8 7.07 4.03 3.1z"
                             fill="#000"
                             fill-rule="evenodd"
                           />
@@ -471,7 +631,6 @@ exports[`Modal component have to match snapshot 1`] = `
             >
               <div
                 className="dnb-scroll-view dnb-modal__content__inner dnb-no-focus dnb-core-style"
-                id="modal_content_id"
                 onClick={[Function]}
                 onKeyDown={[Function]}
                 onTouchStart={[Function]}
@@ -484,32 +643,33 @@ exports[`Modal component have to match snapshot 1`] = `
                 </h1>
                 <CloseButton
                   className={null}
+                  close_title="close_title"
                   on_click={[Function]}
-                  title="close_title"
+                  style_type={null}
                 >
                   <Button
-                    aria-label="close_title"
                     bounding={false}
                     class={null}
                     className="dnb-modal__close-button"
                     custom_element={null}
                     custom_method={null}
                     disabled={null}
+                    element={null}
                     global_status_id={null}
                     href={null}
                     icon="close"
                     icon_position="right"
-                    icon_size="medium"
+                    icon_size="basis"
                     id={null}
                     innerRef={null}
                     onClick={null}
                     on_click={[Function]}
-                    size="medium"
+                    size="large"
                     skeleton={null}
                     status={null}
                     status_animation={null}
                     status_state="error"
-                    text={null}
+                    text="close_title"
                     title={null}
                     tooltip={null}
                     type="button"
@@ -517,37 +677,36 @@ exports[`Modal component have to match snapshot 1`] = `
                     wrap={false}
                   >
                     <button
-                      aria-label="close_title"
-                      className="dnb-button dnb-button--secondary dnb-modal__close-button dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-medium dnb-button--size-medium"
+                      className="dnb-button dnb-button--secondary dnb-button--has-text dnb-modal__close-button dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-basis dnb-button--size-large"
                       disabled={false}
                       onClick={[Function]}
                       type="button"
                     >
                       <Content
-                        aria-label="close_title"
                         bounding={false}
                         class={null}
                         className="dnb-modal__close-button"
-                        content={null}
+                        content="close_title"
                         custom_element={null}
                         custom_method={null}
                         disabled={null}
+                        element={null}
                         global_status_id={null}
                         href={null}
                         icon="close"
                         icon_position="right"
-                        icon_size="medium"
+                        icon_size="basis"
                         id={null}
                         innerRef={null}
-                        isIconOnly={true}
+                        isIconOnly={false}
                         onClick={null}
                         on_click={[Function]}
-                        size="medium"
+                        size="large"
                         skeleton={null}
                         status={null}
                         status_animation={null}
                         status_state="error"
-                        text={null}
+                        text="close_title"
                         title={null}
                         tooltip={null}
                         type="button"
@@ -560,9 +719,15 @@ exports[`Modal component have to match snapshot 1`] = `
                         >
                           ‌
                         </span>
+                        <span
+                          className="dnb-button__text"
+                          key="button-text"
+                        >
+                          close_title
+                        </span>
                         <IconPrimary
                           alt={null}
-                          aria-hidden={null}
+                          aria-hidden={true}
                           attributes={null}
                           border={null}
                           className="dnb-button__icon"
@@ -571,7 +736,7 @@ exports[`Modal component have to match snapshot 1`] = `
                           icon="close"
                           key="button-icon"
                           modifier={null}
-                          size="medium"
+                          size="basis"
                           skeleton={null}
                           title={null}
                           width={null}
@@ -579,24 +744,24 @@ exports[`Modal component have to match snapshot 1`] = `
                           <span
                             aria-hidden={true}
                             aria-label="close icon"
-                            className="dnb-icon dnb-icon--medium dnb-button__icon"
+                            className="dnb-icon dnb-icon--default dnb-button__icon"
                             role="presentation"
                           >
-                            <close_medium>
+                            <close>
                               <svg
                                 fill="none"
-                                height={24}
-                                viewBox="0 0 24 24"
-                                width={24}
+                                height={16}
+                                viewBox="0 0 16 16"
+                                width={16}
                               >
                                 <path
                                   clipRule="evenodd"
-                                  d="M4.78 3.914a.75.75 0 00-1.06 1.061l7.22 7.22-7.22 7.22a.75.75 0 001.06 1.06l7.22-7.22 7.22 7.22a.75.75 0 001.06-1.06l-7.22-7.22 7.22-7.22a.75.75 0 00-1.06-1.06L12 11.134l-7.22-7.22z"
+                                  d="M4.03 3.1a.75.75 0 10-1.06 1.06l3.97 3.97-3.97 3.97a.75.75 0 101.06 1.06L8 9.19l3.97 3.97a.75.75 0 101.06-1.06L9.06 8.13l3.97-3.97a.75.75 0 00-1.06-1.06L8 7.07 4.03 3.1z"
                                   fill="#000"
                                   fillRule="evenodd"
                                 />
                               </svg>
-                            </close_medium>
+                            </close>
                           </span>
                         </IconPrimary>
                       </Content>
@@ -1093,201 +1258,10 @@ button.dnb-button::-moz-focus-inner {
  * Modal component
  *
  */
-:root {
-  --modal-z-index: 3000;
-  --modal-spacing: 2rem;
-  --modal-min-width: 20rem;
-  --modal-avg-width: 60vw;
-  --modal-max-width: 60rem;
-  --modal-height-offset: 0.0001rem;
-  --modal-drawer-width: 40vw;
-  --modal-drawer-min-width: 25rem;
-  --modal-drawer-max-width: 40rem; }
-
-[data-dnb-modal-active='true'] {
-  user-select: none;
-  -webkit-user-select: none; }
-
-#dnb-modal-root {
-  position: absolute;
-  top: 0;
-  left: 0; }
-
-.dnb-modal {
-  display: inline-flex; }
-  .dnb-modal__content {
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: calc(var(--modal-z-index) + 1);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
-    max-width: 100vw;
-    user-select: none;
-    -webkit-user-select: none;
-    /* stylelint-disable-next-line */ }
-    .dnb-modal__content__inner {
-      position: relative;
-      padding: var(--modal-spacing) var(--modal-spacing) 0;
-      width: var(--modal-avg-width);
-      min-width: var(--modal-min-width);
-      max-width: var(--modal-max-width);
-      height: auto;
-      max-height: calc( 100vh - var(--modal-spacing) * 2);
-      user-select: text;
-      -webkit-user-select: text;
-      border: none;
-      -webkit-tap-highlight-color: rgba(0, 0, 0, 0); }
-      @media screen and (max-width: 40em) {
-        .dnb-modal__content__inner {
-          padding: calc(var(--modal-spacing) / 2) var(--modal-spacing) 0; } }
-      @media screen and (min-width: 40em) {
-        .dnb-modal__content__inner {
-          padding: var(--modal-spacing) var(--modal-spacing) calc(var(--modal-spacing) / 2);
-          box-shadow: 0 1px 6px rgba(0, 0, 0, 0.16);
-          border-radius: 0.5rem; } }
-      @media screen and (max-width: 40em) {
-        .dnb-modal__content__inner {
-          width: 100vw;
-          height: 100vh;
-          height: calc(100vh - var(--modal-height-offset));
-          max-width: 100%;
-          max-height: 100%;
-          padding: calc(var(--modal-spacing) / 2) calc(var(--modal-spacing) / 2) 0; } }
-    .dnb-modal__content__align--center .dnb-modal__content__inner {
-      display: flex;
-      flex-direction: column;
-      align-items: center; }
-    .dnb-modal__content__align--right .dnb-modal__content__inner {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-end; }
-    .dnb-modal__content__align--centered .dnb-modal__content__inner {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center; }
-    .dnb-modal__content--drawer {
-      align-items: flex-start;
-      justify-content: flex-start; }
-    .dnb-modal__content--drawer .dnb-modal__content__inner {
-      width: 100vw;
-      height: 100vh;
-      height: calc(100vh - var(--modal-height-offset));
-      max-width: 100%;
-      max-height: 100%;
-      width: var(--modal-drawer-width);
-      min-width: var(--modal-drawer-min-width);
-      max-width: var(--modal-drawer-max-width);
-      border-radius: 0; }
-      @media screen and (max-width: 40em) {
-        .dnb-modal__content--drawer .dnb-modal__content__inner {
-          width: 100vw;
-          min-width: auto;
-          max-width: auto; } }
-    .dnb-modal__content--drawer.dnb-modal__content--top .dnb-modal__content__inner,
-    .dnb-modal__content--drawer.dnb-modal__content--bottom .dnb-modal__content__inner {
-      max-width: 100%;
-      max-height: 100%;
-      width: 100vw;
-      height: 40vh; }
-      @media screen and (max-height: 40em) {
-        .dnb-modal__content--drawer.dnb-modal__content--top .dnb-modal__content__inner,
-        .dnb-modal__content--drawer.dnb-modal__content--bottom .dnb-modal__content__inner {
-          height: 100vw;
-          min-height: auto;
-          max-height: auto; } }
-    .dnb-modal__content--drawer.dnb-modal__content--right {
-      justify-content: flex-end; }
-    .dnb-modal__content--drawer.dnb-modal__content--bottom {
-      align-items: flex-end; }
-    .dnb-modal__content--fullscreen {
-      align-items: flex-start;
-      justify-content: flex-start; }
-    html:not([data-dnb-test]) .dnb-modal__content--fullscreen .dnb-modal__content__inner {
-      width: 100vw;
-      height: 100vh;
-      height: calc(100vh - var(--modal-height-offset));
-      max-width: 100%;
-      max-height: 100%;
-      border-radius: 0; }
-    html:not([data-dnb-test]) .dnb-modal__content--drawer.dnb-modal__content--left .dnb-modal__content__inner {
-      transform: translate3d(-20rem, 0, 0); }
-    html:not([data-dnb-test]) .dnb-modal__content--drawer.dnb-modal__content--right .dnb-modal__content__inner {
-      transform: translate3d(20rem, 0, 0); }
-    html:not([data-dnb-test]) .dnb-modal__content--drawer.dnb-modal__content--top .dnb-modal__content__inner {
-      transform: translate3d(0, -20rem, 0); }
-    html:not([data-dnb-test]) .dnb-modal__content--drawer.dnb-modal__content--bottom .dnb-modal__content__inner {
-      transform: translate3d(0, 20rem, 0); }
-    html:not([data-dnb-test]) .dnb-modal__content--drawer .dnb-modal__content__inner {
-      opacity: 0.1;
-      animation: show-drawer 300ms ease-out forwards; }
-    html:not([data-dnb-test]) .dnb-modal__content--drawer.dnb-modal__content--hide.dnb-modal__content--left .dnb-modal__content__inner {
-      animation: hide-drawer-left 300ms ease-in-out forwards; }
-    html:not([data-dnb-test]) .dnb-modal__content--drawer.dnb-modal__content--hide.dnb-modal__content--right .dnb-modal__content__inner {
-      animation: hide-drawer-right 300ms ease-in-out forwards; }
-    html:not([data-dnb-test]) .dnb-modal__content--drawer.dnb-modal__content--hide.dnb-modal__content--top .dnb-modal__content__inner {
-      animation: hide-drawer-top 300ms ease-in-out forwards; }
-    html:not([data-dnb-test]) .dnb-modal__content--drawer.dnb-modal__content--hide.dnb-modal__content--bottom .dnb-modal__content__inner {
-      animation: hide-drawer-bottom 300ms ease-in-out forwards; }
-    html:not([data-dnb-test]) .dnb-modal__content--modal .dnb-modal__content__inner {
-      animation: show-modal 300ms ease-out forwards; }
-    html:not([data-dnb-test]) .dnb-modal__content--modal.dnb-modal__content--hide .dnb-modal__content__inner {
-      animation: hide-modal 220ms ease-in-out forwards; }
-    .dnb-modal__content--no-animation .dnb-modal__content__inner {
-      animation-duration: 0ms !important; }
-    @media screen and (max-width: 40em) {
-      .dnb-modal__content--no-animation-on-mobile .dnb-modal__content__inner {
-        animation-duration: 0ms !important; } }
-  .dnb-modal__title.dnb-h--large,
-  .dnb-core-style .dnb-modal__title.dnb-h--large:not([class*='dnb-space']) {
-    margin: 0;
-    padding: 0 2rem 0 0; }
-  .dnb-modal__wrapper {
-    position: relative;
-    z-index: 1;
-    margin-top: calc(var(--modal-spacing) - 0.5rem);
-    margin-bottom: var(--modal-spacing); }
-    @media screen and (max-width: 40em) {
-      .dnb-modal__wrapper {
-        margin-top: calc(var(--modal-spacing) / 2);
-        margin-bottom: calc(var(--modal-spacing) / 2); } }
-  .dnb-modal__close-button {
-    position: absolute;
-    top: var(--modal-spacing);
-    right: var(--modal-spacing);
-    z-index: 1; }
-    @media screen and (max-width: 40em) {
-      .dnb-modal__close-button {
-        top: calc(var(--modal-spacing) / 2);
-        right: calc(var(--modal-spacing) / 2); } }
-  .dnb-modal__overlay {
-    position: fixed;
-    z-index: var(--modal-z-index);
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.4);
-    box-shadow: 0 100vh 0 0 rgba(0, 0, 0, 0.4);
-    /* stylelint-disable-next-line */ }
-    html:not([data-dnb-test]) .dnb-modal__overlay--modal {
-      animation: show-modal-overlay 300ms ease-out forwards; }
-    html:not([data-dnb-test]) .dnb-modal__overlay--modal.dnb-modal__overlay--hide {
-      animation: hide-modal-overlay 300ms ease-in-out forwards; }
-    html:not([data-dnb-test]) .dnb-modal__overlay--drawer {
-      animation: show-drawer-overlay 300ms ease-out forwards; }
-    html:not([data-dnb-test]) .dnb-modal__overlay--drawer.dnb-modal__overlay--hide {
-      animation: hide-drawer-overlay 300ms ease-in-out forwards; }
-    .dnb-modal__overlay--no-animation {
-      animation-duration: 0ms !important; }
-    @media screen and (max-width: 40em) {
-      .dnb-modal__overlay--no-animation-on-mobile {
-        animation-duration: 0ms !important; } }
-
+/*
+ * Modal component
+ *
+ */
 @keyframes show-modal {
   from {
     opacity: 0.1;
@@ -1345,11 +1319,11 @@ button.dnb-button::-moz-focus-inner {
   from {
     background: transparent; }
   to {
-    background: rgba(0, 0, 0, 0.4); } }
+    background: var(--modal-overlay-bg); } }
 
 @keyframes hide-modal-overlay {
   from {
-    background: rgba(0, 0, 0, 0.4); }
+    background: var(--modal-overlay-bg); }
   to {
     background: transparent; } }
 
@@ -1357,12 +1331,260 @@ button.dnb-button::-moz-focus-inner {
   from {
     background: transparent; }
   to {
-    background: rgba(0, 0, 0, 0.4); } }
+    background: var(--modal-overlay-bg); } }
 
 @keyframes hide-drawer-overlay {
   from {
-    background: rgba(0, 0, 0, 0.4); }
+    background: var(--modal-overlay-bg); }
   to {
     background: transparent; } }
+
+:root {
+  --modal-z-index: 3000;
+  --modal-animation-duration: 300ms;
+  --modal-spacing: 2rem;
+  --modal-spacing-minus: -2rem;
+  --modal-min-width: 20rem;
+  --modal-avg-width: 60vw;
+  --modal-max-width: 60rem;
+  --modal-height-offset: 0.0001rem;
+  --modal-content-top: 7rem;
+  --modal-drawer-width: 40vw;
+  --modal-drawer-min-width: 25rem;
+  --modal-drawer-max-width: 40rem;
+  --modal-drawer-content-top: 10rem;
+  --modal-overlay-bg: rgba(0, 0, 0, 0.32); }
+
+[data-dnb-modal-active='true'] {
+  user-select: none;
+  -webkit-user-select: none; }
+
+#dnb-modal-root {
+  position: absolute;
+  top: 0;
+  left: 0; }
+
+.dnb-modal {
+  display: inline-flex; }
+  .dnb-modal__content {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: calc(var(--modal-z-index) + 1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    max-width: 100vw;
+    user-select: none;
+    -webkit-user-select: none;
+    /* stylelint-disable-next-line */ }
+    @media screen and (max-width: 40em) {
+      .dnb-modal__content--auto-fullscreen {
+        height: auto; } }
+    .dnb-modal__content__inner {
+      position: relative;
+      width: var(--modal-avg-width);
+      min-width: var(--modal-min-width);
+      max-width: var(--modal-max-width);
+      height: auto;
+      max-height: calc( 100vh - var(--modal-spacing) * 2);
+      box-shadow: 0 1px 6px rgba(0, 0, 0, 0.16);
+      border-radius: 0.5rem;
+      user-select: text;
+      -webkit-user-select: text;
+      border: none;
+      -webkit-tap-highlight-color: rgba(0, 0, 0, 0); }
+    @media screen and (max-width: 40em) {
+      .dnb-modal__content--auto-fullscreen .dnb-modal__content__inner {
+        width: 100vw;
+        height: 100vh;
+        height: calc(100vh - var(--modal-height-offset, 0.0001rem));
+        max-width: 100%;
+        max-height: 100vh;
+        border-radius: 0;
+        box-shadow: none; } }
+    .dnb-modal__content--spacing .dnb-modal__content__inner {
+      padding: var(--modal-content-top) var(--modal-spacing) 0; }
+      @media screen and (max-width: 40em) {
+        .dnb-modal__content--spacing .dnb-modal__content__inner {
+          padding: var(--modal-content-top) calc(var(--modal-spacing) * 0.75) 0; } }
+    .dnb-modal__content__align--center .dnb-modal__content__inner {
+      display: flex;
+      flex-direction: column;
+      align-items: center; }
+    .dnb-modal__content__align--right .dnb-modal__content__inner {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end; }
+    .dnb-modal__content__align--centered .dnb-modal__content__inner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center; }
+    .dnb-modal__content--drawer {
+      align-items: flex-start;
+      justify-content: flex-start; }
+    .dnb-modal__content--drawer .dnb-modal__content__inner {
+      width: 100vw;
+      height: 100vh;
+      height: calc(100vh - var(--modal-height-offset, 0.0001rem));
+      height: calc(100vh - var(--modal-height-offset, 0.0001rem));
+      max-width: 100%;
+      max-height: 100vh;
+      border-radius: 0;
+      box-shadow: none;
+      width: var(--modal-drawer-width);
+      min-width: var(--modal-drawer-min-width);
+      max-width: var(--modal-drawer-max-width);
+      padding: var(--modal-drawer-content-top) calc(var(--modal-spacing) * 1.75) 0; }
+      @media screen and (max-width: 40em) {
+        .dnb-modal__content--drawer .dnb-modal__content__inner {
+          width: 100vw;
+          min-width: auto;
+          max-width: auto; } }
+    .dnb-modal__content--fullscreen .dnb-modal__content__content {
+      height: auto; }
+    @media screen and (max-width: 40em) {
+      .dnb-modal__content--auto-fullscreen .dnb-modal__content__content {
+        height: auto; } }
+    .dnb-modal__content--drawer.dnb-modal__content--top .dnb-modal__content__inner,
+    .dnb-modal__content--drawer.dnb-modal__content--bottom .dnb-modal__content__inner {
+      max-width: 100%;
+      width: 100vw;
+      height: 40vh; }
+      @media screen and (max-height: 40em) {
+        .dnb-modal__content--drawer.dnb-modal__content--top .dnb-modal__content__inner,
+        .dnb-modal__content--drawer.dnb-modal__content--bottom .dnb-modal__content__inner {
+          height: 100vw;
+          min-height: auto;
+          max-height: auto; } }
+    .dnb-modal__content--drawer.dnb-modal__content--right {
+      justify-content: flex-end; }
+    .dnb-modal__content--drawer.dnb-modal__content--bottom {
+      align-items: flex-end; }
+    .dnb-modal__content--fullscreen {
+      align-items: flex-start;
+      justify-content: flex-start; }
+    .dnb-modal__content--fullscreen .dnb-modal__content__inner {
+      width: 100vw;
+      height: 100vh;
+      height: calc(100vh - var(--modal-height-offset, 0.0001rem));
+      max-width: 100%;
+      max-height: 100vh;
+      border-radius: 0;
+      box-shadow: none; }
+    html:not([data-visual-test]) .dnb-modal__content--drawer.dnb-modal__content--left .dnb-modal__content__inner {
+      transform: translate3d(-20rem, 0, 0); }
+    html:not([data-visual-test]) .dnb-modal__content--drawer.dnb-modal__content--right .dnb-modal__content__inner {
+      transform: translate3d(20rem, 0, 0); }
+    html:not([data-visual-test]) .dnb-modal__content--drawer.dnb-modal__content--top .dnb-modal__content__inner {
+      transform: translate3d(0, -20rem, 0); }
+    html:not([data-visual-test]) .dnb-modal__content--drawer.dnb-modal__content--bottom .dnb-modal__content__inner {
+      transform: translate3d(0, 20rem, 0); }
+    html:not([data-visual-test]) .dnb-modal__content--drawer .dnb-modal__content__inner {
+      opacity: 0.1;
+      animation: show-drawer var(--modal-animation-duration) ease-out forwards; }
+    html:not([data-visual-test]) .dnb-modal__content--drawer.dnb-modal__content--hide.dnb-modal__content--left .dnb-modal__content__inner {
+      animation: hide-drawer-left var(--modal-animation-duration) ease-in-out forwards; }
+    html:not([data-visual-test]) .dnb-modal__content--drawer.dnb-modal__content--hide.dnb-modal__content--right .dnb-modal__content__inner {
+      animation: hide-drawer-right var(--modal-animation-duration) ease-in-out forwards; }
+    html:not([data-visual-test]) .dnb-modal__content--drawer.dnb-modal__content--hide.dnb-modal__content--top .dnb-modal__content__inner {
+      animation: hide-drawer-top var(--modal-animation-duration) ease-in-out forwards; }
+    html:not([data-visual-test]) .dnb-modal__content--drawer.dnb-modal__content--hide.dnb-modal__content--bottom .dnb-modal__content__inner {
+      animation: hide-drawer-bottom var(--modal-animation-duration) ease-in-out forwards; }
+    html:not([data-visual-test]) .dnb-modal__content--modal .dnb-modal__content__inner {
+      animation: show-modal var(--modal-animation-duration) ease-out forwards; }
+    html:not([data-visual-test]) .dnb-modal__content--modal.dnb-modal__content--hide .dnb-modal__content__inner {
+      animation: hide-modal 220ms ease-in-out forwards; }
+    .dnb-modal__content--no-animation .dnb-modal__content__inner {
+      animation-duration: 0ms !important; }
+    @media screen and (max-width: 40em) {
+      .dnb-modal__content--no-animation-on-mobile .dnb-modal__content__inner {
+        animation-duration: 0ms !important; } }
+  .dnb-modal__title.dnb-h--large,
+  .dnb-core-style .dnb-modal__title.dnb-h--large:not([class*='dnb-space']) {
+    margin: 0;
+    padding: 0; }
+  .dnb-modal__wrapper {
+    position: relative;
+    z-index: 1; }
+  .dnb-modal__content--spacing .dnb-modal__wrapper {
+    padding-bottom: calc(var(--modal-spacing) * 1.75); }
+    @media screen and (max-width: 40em) {
+      .dnb-modal__content--spacing .dnb-modal__wrapper {
+        padding-bottom: calc(var(--modal-spacing) * 1.25); } }
+  .dnb-modal__content--drawer .dnb-modal__wrapper {
+    padding-bottom: calc(var(--modal-spacing) * 2); }
+  .dnb-modal__title ~ .dnb-modal__wrapper {
+    padding-top: calc(var(--modal-spacing) / 2); }
+  .dnb-modal__content--drawer .dnb-modal__title ~ .dnb-modal__wrapper {
+    padding-top: calc(var(--modal-spacing) * 0.75); }
+  .dnb-modal__wrapper__inner {
+    padding-bottom: calc(var(--modal-spacing) * 2);
+    margin-bottom: calc(var(--modal-spacing-minus) * 1.75); }
+    @media screen and (max-width: 40em) {
+      .dnb-modal__wrapper__inner.dnb-section::after {
+        min-height: calc( 100vh - var(--modal-content-top) - calc(var(--modal-spacing) * 1.5)); } }
+  .dnb-modal__content--drawer .dnb-modal__wrapper__inner {
+    margin-bottom: calc(var(--modal-spacing-minus) * 2); }
+    .dnb-modal__content--drawer .dnb-modal__wrapper__inner.dnb-section::after {
+      min-height: calc( 100vh - var(--modal-drawer-content-top) - calc(var(--modal-spacing) * 2)); }
+  .dnb-modal__close-button {
+    position: absolute;
+    top: calc(var(--modal-spacing) * 0.75);
+    right: var(--modal-spacing);
+    z-index: 1; }
+    @media screen and (max-width: 40em) {
+      .dnb-modal__close-button {
+        right: calc(var(--modal-spacing) / 2); } }
+    .dnb-modal__close-button--cross {
+      top: var(--modal-spacing); }
+      @media screen and (max-width: 40em) {
+        .dnb-modal__close-button--cross {
+          top: calc(var(--modal-spacing) / 2); } }
+  .dnb-modal__content--drawer .dnb-modal__close-button {
+    top: calc(var(--modal-spacing) * 1.75);
+    right: calc(var(--modal-spacing) * 1.75); }
+  .dnb-modal__overlay {
+    position: fixed;
+    z-index: var(--modal-z-index);
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--modal-overlay-bg);
+    box-shadow: 0 100vh 0 0 var(--modal-overlay-bg);
+    /* stylelint-disable-next-line */ }
+    html:not([data-visual-test]) .dnb-modal__overlay--modal {
+      animation: show-modal-overlay var(--modal-animation-duration) ease-out forwards; }
+    html:not([data-visual-test]) .dnb-modal__overlay--modal.dnb-modal__overlay--hide {
+      animation: hide-modal-overlay var(--modal-animation-duration) ease-in-out forwards; }
+    html:not([data-visual-test]) .dnb-modal__overlay--drawer {
+      animation: show-drawer-overlay var(--modal-animation-duration) ease-out forwards; }
+    html:not([data-visual-test]) .dnb-modal__overlay--drawer.dnb-modal__overlay--hide {
+      animation: hide-drawer-overlay var(--modal-animation-duration) ease-in-out forwards; }
+    .dnb-modal__overlay--no-animation {
+      animation-duration: 0ms !important; }
+    @media screen and (max-width: 40em) {
+      .dnb-modal__overlay--no-animation-on-mobile {
+        animation-duration: 0ms !important; } }
+  .dnb-modal-root__inner .dnb-modal__overlay {
+    opacity: 0;
+    transition: opacity 300ms ease-in-out; }
+  .dnb-modal-root__inner:last-of-type .dnb-modal__overlay {
+    opacity: 1; }
+  html[data-visual-test] .dnb-modal-root__inner .dnb-modal__overlay {
+    transition: none; }
+  .dnb-modal-root__inner {
+    position: relative;
+    z-index: calc(var(--modal-z-index) + 1); }
+  .dnb-modal-root__inner ~ .dnb-modal-root__inner {
+    z-index: calc(var(--modal-z-index) + 2); }
+  .dnb-modal-root__inner ~ .dnb-modal-root__inner ~ .dnb-modal-root__inner {
+    z-index: calc(var(--modal-z-index) + 3); }
+  .dnb-modal-root__inner ~ .dnb-modal-root__inner ~ .dnb-modal-root__inner ~ .dnb-modal-root__inner {
+    z-index: calc(var(--modal-z-index) + 4); }
 "
 `;

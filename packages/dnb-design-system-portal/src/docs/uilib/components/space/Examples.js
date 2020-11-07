@@ -17,19 +17,18 @@ const TestStyles = styled.div`
       width: 8rem;
     }
   }
-  [data-dnb-test='spacing-margins'] {
+  [data-visual-test='spacing-margins'] {
     display: flex;
   }
 `
 
 class Example extends React.PureComponent {
   render() {
-    const IS_TEST = typeof window !== 'undefined' && window.IS_TEST
     return (
       <TestStyles>
         <ComponentBox
           title="Spacing method #1 - `Space` component. The RedBox is only to visualize the result."
-          data-dnb-test="spacing-method-space"
+          data-visual-test="spacing-method-space"
           scope={{ RedBox }}
         >
           {
@@ -44,7 +43,7 @@ class Example extends React.PureComponent {
         </ComponentBox>
         <ComponentBox
           title="Spacing method #2 - `FormRow` component"
-          data-dnb-test="spacing-method-form-row"
+          data-visual-test="spacing-method-form-row"
         >
           {
             /* @jsx */ `
@@ -59,7 +58,7 @@ class Example extends React.PureComponent {
         </ComponentBox>
         <ComponentBox
           title="Spacing method #3 - Define the space directly"
-          data-dnb-test="spacing-method-component"
+          data-visual-test="spacing-method-component"
         >
           {
             /* @jsx */ `
@@ -94,7 +93,7 @@ class Example extends React.PureComponent {
         </ComponentBox>
         <ComponentBox
           title="All four values will result in a equivalent margin"
-          data-dnb-test="spacing-margins"
+          data-visual-test="spacing-margins"
           hideCode
         >
           {
@@ -110,10 +109,10 @@ class Example extends React.PureComponent {
           `
           }
         </ComponentBox>
-        {false && IS_TEST && (
+        {false && global.IS_TEST && (
           <ComponentBox
             title="All spacing patterns listed (screenshot tests)"
-            data-dnb-test="spacing-patterns"
+            data-visual-test="spacing-patterns"
             scope={{ MagicBox, CustomStyle }}
             hideCode
           >

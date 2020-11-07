@@ -6,16 +6,10 @@
 import React from 'react'
 import ComponentBox from 'Src/shared/tags/ComponentBox'
 
-class Example extends React.PureComponent {
-  render() {
-    return (
-      <React.Fragment>
-        <ComponentBox
-          title="Use the `FormSet` as a Provider for `FormRow`"
-          data-dnb-test="form-set-default"
-        >
-          {
-            /* @jsx */ `
+export const FormSetDefault = () => (
+  <ComponentBox data-visual-test="form-set-default">
+    {
+      /* @jsx */ `
 <FormSet indent="true">
   <FormRow no_label>
     <H2>A semantic h2 in a FormRow without a label</H2>
@@ -30,30 +24,30 @@ class Example extends React.PureComponent {
     </Radio.Group>
   </FormRow>
 </FormSet>
-          `
-          }
-        </ComponentBox>
-        <ComponentBox
-          title="FormSet where FormRow inherits the direction"
-          data-dnb-test="form-set-vertical"
-        >
-          {
-            /* @jsx */ `
+  `
+    }
+  </ComponentBox>
+)
+
+export const FormSetVertical = () => (
+  <ComponentBox data-visual-test="form-set-vertical">
+    {
+      /* @jsx */ `
 <FormSet direction="vertical">
   <FormRow label={<Space element="span" className="dnb-h--large">Custom Legend:</Space>}>
     <Input label="Label:" bottom />
     <Input label="Label:" />
   </FormRow>
 </FormSet>
-          `
-          }
-        </ComponentBox>
-        <ComponentBox
-          title="FormSet with `on_submit` event and `prevent_submit` set to true"
-          data-dnb-test="form-set-submit"
-        >
-          {
-            /* @jsx */ `
+  `
+    }
+  </ComponentBox>
+)
+
+export const FormSetSubmit = () => (
+  <ComponentBox data-visual-test="form-set-submit">
+    {
+      /* @jsx */ `
 <FormSet
     direction="horizontal"
     on_submit={({ event }) => console.log('on_submit', event)}
@@ -64,12 +58,7 @@ class Example extends React.PureComponent {
     <Button type="submit" text="Trigger submit" />
   </FormRow>
 </FormSet>
-          `
-          }
-        </ComponentBox>
-      </React.Fragment>
-    )
-  }
-}
-
-export default Example
+  `
+    }
+  </ComponentBox>
+)

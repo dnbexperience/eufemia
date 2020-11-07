@@ -17,7 +17,7 @@ import { bell_medium as Bell, question } from 'dnb-ui-lib/src/icons'
   on_click={() => {
     console.log('on_click')
   }}
-  data-dnb-test="button-primary"
+  data-visual-test="button-primary"
 />
 		`
 	}
@@ -33,7 +33,7 @@ import { bell_medium as Bell, question } from 'dnb-ui-lib/src/icons'
   onClick={() => {
     console.log('onClick')
   }}
-  data-dnb-test="button-secondary"
+  data-visual-test="button-secondary"
 >
   Secondary button with text only
 </Button>
@@ -106,7 +106,7 @@ import { bell_medium as Bell, question } from 'dnb-ui-lib/src/icons'
   text="Tertiary button with icon on left"
   icon_position="left"
   icon="chevron_left"
-  data-dnb-test="button-tertiary"
+  data-visual-test="button-tertiary"
 />
 <Button
   variant="tertiary"
@@ -120,14 +120,18 @@ import { bell_medium as Bell, question } from 'dnb-ui-lib/src/icons'
 
 ### Anchor button
 
-<ComponentBox data-dnb-test="button-anchor">
+<ComponentBox data-visual-test="button-anchor">
 	{
 	/* @jsx */ `
 <Button
   text="Primary with href"
-  href="?no-cache=1"
+  href="/"
   icon_position="right"
   icon="chevron_right"
+  on_click={({ event }) => {
+    // history.push('/')
+    event.preventDefault()
+  }}
 />
 <Button
   variant="secondary"
@@ -158,7 +162,7 @@ Medium is equivalent to 24, but responsive. To import custom icons, use: `import
   variant="signal"
   text="Signal Button"
   icon={Bell}
-  data-dnb-test="button-signal"
+  data-visual-test="button-signal"
 />
 	`
 	}
@@ -194,7 +198,7 @@ Large Signal button with medium sized icon. To import custom icons, use: `import
   icon="calendar"
   disabled
 />
-<Button title="Button with Icon only" icon="calendar" data-dnb-test="button-icon" />
+<Button title="Button with Icon only" icon="calendar" data-visual-test="button-icon" />
 <Button
   title="Small sized button with default Icon"
   icon="add"
@@ -229,7 +233,7 @@ export const TertiaryWithNoIcon = () => {
   return (
     <ComponentBox
       title="Tertiary button with no icon"
-      data-dnb-test="button-tertiary-no-icon"
+      data-visual-test="button-tertiary-no-icon"
     >
     {/* @jsx */ `
 <Button text="Tertiary button with no icon" variant="tertiary" />

@@ -78,6 +78,7 @@ export default class Button extends React.PureComponent {
       PropTypes.func,
       PropTypes.node
     ]),
+    element: PropTypes.node,
 
     custom_element: PropTypes.object,
     custom_method: PropTypes.func,
@@ -111,6 +112,7 @@ export default class Button extends React.PureComponent {
     className: null,
     innerRef: null,
     children: null,
+    element: null,
 
     custom_element: null,
     custom_method: null,
@@ -138,10 +140,7 @@ export default class Button extends React.PureComponent {
   }
 
   componentDidMount() {
-    if (
-      this.props.innerRef &&
-      typeof this.props.innerRef.current !== 'undefined'
-    ) {
+    if (this.props.innerRef) {
       this.props.innerRef.current = this._ref.current
     }
   }
@@ -188,6 +187,7 @@ export default class Button extends React.PureComponent {
       wrap,
       bounding, // eslint-disable-line
       skeleton,
+      element,
       innerRef, // eslint-disable-line
       ...attributes
     } = props
@@ -284,41 +284,35 @@ export default class Button extends React.PureComponent {
       onClick: this.onClickHandler
     }
 
+    if (href) {
+      params.href = href
+    }
+
     skeletonDOMAttributes(params, skeleton, this.context)
 
     // also used for code markup simulation
     validateDOMAttributes(this.props, params)
 
+    const Element = element ? element : href ? 'a' : 'button'
+
     return (
       <>
-        {href ? (
-          <a href={href} ref={this._ref} {...params}>
-            <Content
-              {...this.props}
-              icon={icon}
-              text={text}
-              icon_size={iconSize}
-              content={content}
-              isIconOnly={isIconOnly}
-            />
-          </a>
-        ) : (
-          <button ref={this._ref} {...params}>
-            <Content
-              {...this.props}
-              icon={icon}
-              text={text}
-              icon_size={iconSize}
-              content={content}
-              isIconOnly={isIconOnly}
-            />
-          </button>
-        )}
+        <Element ref={this._ref} {...params}>
+          <Content
+            {...this.props}
+            icon={icon}
+            text={text}
+            icon_size={iconSize}
+            content={content}
+            isIconOnly={isIconOnly}
+          />
+        </Element>
         {this.state.afterContent}
         {showStatus && (
           <FormStatus
             id={this._id + '-form-status'}
             global_status_id={global_status_id}
+            label={text}
             text={status}
             status={status_state}
             text_id={this._id + '-status'} // used for "aria-describedby"

@@ -9,7 +9,7 @@
  * Used by "prepareTemplates"
  */
 
-// import all the aviable components
+// import all the available components
 import Anchor from './Anchor'
 import Blockquote from './Blockquote'
 import Code from './Code'
@@ -33,9 +33,12 @@ import Ol from './Ol'
 import P from './P'
 import Paragraph from './Paragraph'
 import Table from './Table'
+import Td from './Td'
+import Th from './Th'
+import Tr from './Tr'
 import Ul from './Ul'
 
-// define / export all the aviable components
+// define / export all the available components
 export {
   Anchor,
   Blockquote,
@@ -60,6 +63,9 @@ export {
   P,
   Paragraph,
   Table,
+  Td,
+  Th,
+  Tr,
   Ul
 }
 
@@ -88,6 +94,9 @@ export const getElements = () => {
     P,
     Paragraph,
     Table,
+    Td,
+    Th,
+    Tr,
     Ul
   }
 }

@@ -11,6 +11,10 @@ import styled from '@emotion/styled'
 import { Checkbox, FormLabel, FormRow } from '../../src/components'
 // import { Checkbox, FormLabel, FormRow } from '../../components'
 
+export default {
+  title: 'Eufemia/Components/Checkbox'
+}
+
 const CustomRow = styled(FormRow)`
   > .dnb-form-label {
     color: blue;
@@ -21,7 +25,7 @@ const CustomStyle = styled.div`
   /* empty */
 `
 
-export const Checkboxes = () => (
+export const CheckboxSandbox = () => (
   <CustomStyle>
     <Wrapper>
       <Box>

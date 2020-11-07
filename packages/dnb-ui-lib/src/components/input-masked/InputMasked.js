@@ -139,34 +139,6 @@ export default class InputMasked extends React.PureComponent {
       }
 
       if (mask.instanceOf === 'createNumberMask') {
-        const clean = (v) =>
-          String(v).replace(new RegExp('[^\\d,.-]', 'g'), '')
-
-        const fixPositionIssue = (elem) => {
-          clearTimeout(this._selectionTimeout)
-          this._selectionTimeout = setTimeout(() => {
-            const cleaned_value = clean(elem.value)
-            if (cleaned_value.length > 0) {
-              return
-            }
-            try {
-              const end = elem.selectionEnd
-              if (
-                elem.selectionStart === end &&
-                end === elem.value.length
-              ) {
-                let pos = 0
-                if (props.align === 'left') {
-                  pos = end - 1
-                }
-                elem.setSelectionRange(pos, pos)
-              }
-            } catch (e) {
-              //
-            }
-          }, 1) // to get the current value
-        }
-
         const callEvent = ({ event, value }, name) => {
           value = value || event.target.value
           const cleaned_value = clean(value)
@@ -185,7 +157,7 @@ export default class InputMasked extends React.PureComponent {
           callEvent({ event }, 'on_touch_end')
         }
         props.on_focus = (params) => {
-          fixPositionIssue(params.event.target)
+          fixPositionIssue(params.event.target, props)
           callEvent(params, 'on_focus')
         }
 
@@ -205,7 +177,17 @@ export default class InputMasked extends React.PureComponent {
           keepCharPositions: isTrue(keep_char_positions),
           placeholderChar
         }
-        return <MaskedInput ref={innerRef} {...params} />
+        return (
+          <MaskedInput
+            render={(setRef, props) => (
+              <input
+                ref={(ref) => setRef((innerRef.current = ref))}
+                {...props}
+              />
+            )}
+            {...params}
+          />
+        )
       }
     }
 
@@ -220,4 +202,29 @@ export default class InputMasked extends React.PureComponent {
 
     return <Input {...props} />
   }
+}
+
+const clean = (v) => String(v).replace(new RegExp('[^\\d,.-]', 'g'), '')
+
+let _selectionTimeout
+export const fixPositionIssue = (elem, { align = 'right' } = {}) => {
+  clearTimeout(_selectionTimeout)
+  _selectionTimeout = setTimeout(() => {
+    const cleaned_value = clean(elem.value)
+    if (cleaned_value.length > 0) {
+      return
+    }
+    try {
+      const end = elem.selectionEnd
+      if (elem.selectionStart === end && end === elem.value.length) {
+        let pos = 0
+        if (align === 'left') {
+          pos = end - 1
+        }
+        elem.setSelectionRange(pos, pos)
+      }
+    } catch (e) {
+      //
+    }
+  }, 1) // to get the current value
 }

@@ -9,7 +9,11 @@ import { Wrapper, Box } from '../helpers'
 
 import { ProgressIndicator } from '../../src/components'
 
-export const ProgressIndicators = () => (
+export default {
+  title: 'Eufemia/Components/ProgressIndicator'
+}
+
+export const ProgressIndicatorSandbox = () => (
   <Wrapper>
     <Box>
       <ProgressIndicator progress={60} no_animation />

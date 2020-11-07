@@ -565,6 +565,7 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
         custom_element={null}
         custom_method={null}
         disabled={null}
+        element={null}
         global_status_id={null}
         href="href"
         icon="chevron_left"
@@ -601,6 +602,7 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
             custom_element={null}
             custom_method={null}
             disabled={null}
+            element={null}
             global_status_id={null}
             href="href"
             icon="chevron_left"
@@ -832,8 +834,7 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
           >
             <ForwardRef
               bottom="large"
-              className="dnb-h--xx-large"
-              hasTagClass={true}
+              internalClass="dnb-h--xx-large"
               is="h1"
               top="4"
             >
@@ -841,15 +842,16 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
                 _ref={null}
                 bottom="large"
                 class={null}
-                className="dnb-h--xx-large"
+                className={null}
                 css={null}
-                hasTagClass={true}
+                internalClass="dnb-h--xx-large"
                 is="h1"
                 skeleton={null}
+                skeleton_method="font"
                 top="4"
               >
                 <h1
-                  className="dnb-h--xx-large dnb-space__top--xx-large dnb-space__top--x-small dnb-space__bottom--large"
+                  className="dnb-space__top--xx-large dnb-space__top--x-small dnb-space__bottom--large dnb-h--xx-large"
                 >
                   title
                 </h1>
@@ -877,9 +879,10 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
               class={null}
               className="dnb-p"
               css={null}
-              hasTagClass={false}
+              internalClass={null}
               is="p"
               skeleton={null}
+              skeleton_method="font"
             >
               <p
                 className="dnb-p dnb-space__bottom--large"

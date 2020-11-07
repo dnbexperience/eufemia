@@ -47,8 +47,8 @@ render(<DrawerListWithState />)
           }
         </ComponentBox>
         <ComponentBox
-          title="DrawerList list - only to vissualize"
-          data-dnb-test="drawer-list"
+          title="DrawerList list - only to visualize"
+          data-visual-test="drawer-list"
           scope={{ data }}
           hideCode
         >
@@ -56,7 +56,7 @@ render(<DrawerListWithState />)
             /* @jsx */ `
 <span className="dnb-drawer-list__list">
   <ul className="dnb-drawer-list__options">
-    <li className="dnb-drawer-list__option">
+    <li className="dnb-drawer-list__option first-of-type">
       <span className="dnb-drawer-list__option__inner">Brukskonto - Kari Nordmann</span>
     </li>
     <li className="dnb-drawer-list__option dnb-drawer-list__option--selected">
@@ -86,7 +86,7 @@ render(<DrawerListWithState />)
         <ComponentBox
           title="Default DrawerList"
           scope={{ data }}
-          data-dnb-test="drawer-list-default"
+          data-visual-test="drawer-list-default"
         >
           {
             /* @jsx */ `
@@ -111,7 +111,7 @@ render(<DrawerListWithState />)
           title="Custom event and link on single item"
           scope={{ data }}
           useRender
-          data-dnb-test="drawer-list-events"
+          data-visual-test="drawer-list-events"
         >
           {
             /* @jsx */ `
@@ -156,7 +156,7 @@ render(
     on_change={({ value }) => {
       console.log('More menu:', value)
     }}
-    suffix={<Modal title="Modal Title">Modal content</Modal>}
+    suffix={<HelpButton title="Modal Title">Modal content</HelpButton>}
   />
 )
           `
@@ -165,7 +165,7 @@ render(
         <ComponentBox
           title="Using List and Items markup"
           description="**NB:** By using this method you lose currently a lot of the core functionality like keyboard support and other accessibility features."
-          data-dnb-test="drawer-items"
+          data-visual-test="drawer-items"
           useRender
         >
           {
@@ -216,12 +216,12 @@ render(<DrawerListWithState />)
 }
 
 const Wrapper = styled.div`
-  [data-dnb-test] {
+  [data-visual-test] {
     .dnb-drawer-list__list {
       position: relative;
     }
   }
-  [data-dnb-test='drawer-list'] .dnb-drawer-list__list {
+  [data-visual-test='drawer-list'] .dnb-drawer-list__list {
     display: block;
     visibility: visible;
     position: relative;

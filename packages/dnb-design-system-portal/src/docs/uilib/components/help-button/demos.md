@@ -8,31 +8,28 @@ import ComponentBox from 'Tags/ComponentBox'
 
 ### Default HelpButton
 
-<ComponentBox data-dnb-test="help-button-default">
+<ComponentBox data-visual-test="help-button-default">
 	{
 	/* @jsx */ `
-<HelpButton
-  title="Additional details"
-  on_click={() => {
-    console.log('on_click')
-  }}
-/>
+<HelpButton>
+	Text
+</HelpButton>
 	`
 	}
 </ComponentBox>
 
 ### Help button using information icon
 
-<ComponentBox data-dnb-test="help-button-information">
+<ComponentBox data-visual-test="help-button-sizes">
 	{
 	/* @jsx */ `
+<HelpButton title="Custom title">Text</HelpButton>
 <HelpButton
-  icon="information"
-/>
-<HelpButton
-  icon="information"
-  size="small"
-  left
+	size="small"
+	left
+	on_click={() => {
+    	console.log('on_click')
+	}}
 />
 	`
 	}

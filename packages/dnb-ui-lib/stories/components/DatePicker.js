@@ -14,15 +14,21 @@ import addDays from 'date-fns/addDays'
 import Provider from '../../src/shared/Provider'
 import Context from '../../src/shared/Context'
 import nbNO from '../../src/shared/locales/nb-NO'
+import isWeekend from 'date-fns/isWeekend'
 
 import {
   DatePicker,
   Button,
   FormRow,
+  Dropdown,
   Input,
   Section
 } from '../../src/components'
 // import { H2 } from '../../src/elements'
+
+export default {
+  title: 'Eufemia/Components/DatePicker'
+}
 
 const Scrollbar = styled.div`
   height: 10rem;
@@ -37,20 +43,30 @@ const ScrollbarInner = styled.div`
 `
 
 const ChangeLocale = () => {
-  const { setLocale, translation } = React.useContext(Context)
+  const {
+    setLocale,
+    // setCurrentLocale,// to update only the current context
+    locale
+  } = React.useContext(Context)
 
-  // console.log('translation 1', translation)
+  // React.useEffect(() => {
+  //   setTimeout(() => {
+  //     setLocale('en-US')
+  //   }, 2e3)
+  // }, [])
 
-  React.useEffect(() => {
-    setTimeout(() => {
-      setLocale('en-US')
-    }, 2e3)
-  }, [])
-
-  return translation.myString || 'empty'
+  return (
+    <Dropdown
+      value={locale}
+      data={{ 'en-US': 'English', 'nb-NO': 'Norsk' }}
+      on_change={({ data: { value } }) => {
+        setLocale(value)
+      }}
+    />
+  )
 }
 
-export const DatePickers = () => (
+export const DatePickerSandbox = () => (
   <Wrapper>
     <Box>
       <FormRow vertical>
@@ -58,22 +74,45 @@ export const DatePickers = () => (
           label="Linked Range DatePicker:"
           // label_direction="vertical"
           // start_date={new Date()}
-          // start_date="2019-01-15"
-          // start_date="1981-01-15"
-          // end_date="2019-06-15"
+          start_date="2019-01-15"
+          // start_date="2020-11-01"
+          end_date="2020-11-02"
+          // min_date="2020-10-28"
+          // max_date="2020-11-03"
           range={true}
-          link={true}
+          // link={true}
           // sync={false}
           // opened={true}
           show_input={true}
           on_show={(props) => {
             console.log('on_show', props)
           }}
+          on_days_render={(
+            days
+            // , nr
+          ) => {
+            // console.log('on_days_render', nr, days)
+
+            return days.map((dateObject) => {
+              // console.log('dateObject', dateObject)
+              if (isWeekend(dateObject.date)) {
+                // console.log('dateObject', dateObject)
+                dateObject.isInactive = true
+                // dateObject.isDisabled = true
+                // dateObject.isSelectable = false
+                dateObject.className = 'dnb-date-picker__day--weekend'
+              }
+              return dateObject
+            })
+          }}
           on_hide={(props) => {
             console.log('on_hide', props)
           }}
           on_change={(props) => {
             console.log('on_change', props)
+          }}
+          on_type={(props) => {
+            console.log('on_type', props)
           }}
           on_submit={(props) => {
             console.log('on_submit', props)
@@ -281,10 +320,10 @@ export const DatePickers = () => (
 )
 
 const CustomDate = () => {
-  // const [startDate, setStartDate] = React.useState('2019-02-15')
-  // const [endDate, setEndDate] = React.useState('2019-03-15')
-  const [startDate, setStartDate] = React.useState('2019-10-02')
-  const [endDate, setEndDate] = React.useState(null)
+  const [startDate, setStartDate] = React.useState('2019-02-15')
+  const [endDate, setEndDate] = React.useState('2019-03-15')
+  // const [startDate, setStartDate] = React.useState('2019-10-02')
+  // const [endDate, setEndDate] = React.useState(null)
   const [errorStatus, setErrorStatus] = React.useState(false)
 
   // const [count, incement] = React.useState(0)

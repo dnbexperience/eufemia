@@ -10,7 +10,8 @@ AutocompleteFirstFocusUpdate,
 AutocompleteToggleExample,
 AutocompletePredefinedInput,
 AutocompleteDifferentSizes,
-AutocompleteCustomWidth
+AutocompleteCustomWidth,
+AutocompleteOpened
 } from 'Pages/uilib/components/autocomplete/Examples'
 
 ## Demos
@@ -52,3 +53,5 @@ Four sizes are available: `small`, `default`, `medium` and `large`.
 ### Custom width
 
 <AutocompleteCustomWidth />
+
+<AutocompleteOpened />

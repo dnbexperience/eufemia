@@ -17,7 +17,7 @@ class Example extends React.PureComponent {
       <React.Fragment>
         <ComponentBox
           title="Unchecked Switch (default state)"
-          data-dnb-test="switch-default"
+          data-visual-test="switch-default"
           scope={{ onChange }}
         >
           {
@@ -31,7 +31,7 @@ class Example extends React.PureComponent {
         </ComponentBox>
         <ComponentBox
           title="Checked Switch"
-          data-dnb-test="switch-checked"
+          data-visual-test="switch-checked"
           scope={{ onChange }}
         >
           {
@@ -47,7 +47,7 @@ class Example extends React.PureComponent {
         </ComponentBox>
         <ComponentBox
           title="Checked Switch with error message"
-          data-dnb-test="switch-error"
+          data-visual-test="switch-error"
           scope={{ onChange }}
         >
           {
@@ -66,7 +66,7 @@ class Example extends React.PureComponent {
 <Switch
   label="Switch"
   checked
-  suffix={<Modal title="Modal Title">Modal content</Modal>}
+  suffix={<HelpButton title="Modal Title">Modal content</HelpButton>}
 />
           `
           }
@@ -74,7 +74,7 @@ class Example extends React.PureComponent {
         <ComponentBox
           title="With different sizes"
           desciption="As for now, there are two sizes. `medium` is the default size."
-          data-dnb-test="switch-sizes"
+          data-visual-test="switch-sizes"
         >
           {
             /* @jsx */ `
@@ -84,7 +84,7 @@ class Example extends React.PureComponent {
           `
           }
         </ComponentBox>
-        <ComponentBox data-dnb-test="switch-disabled">
+        <ComponentBox data-visual-test="switch-disabled">
           {
             /* @jsx */ `
 <Switch

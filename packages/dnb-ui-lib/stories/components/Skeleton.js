@@ -45,6 +45,10 @@ import '../../src/components/skeleton/style/themes/brand'
 // import SkeletonArticle from '../../src/components/skeleton/figures/Article'
 import { Article as SkeletonArticle } from '../../src/components/skeleton/figures'
 
+export default {
+  title: 'Eufemia/Components/Skeleton'
+}
+
 const CustomStyle = styled.div`
   /* background: var(--color-ocean-green); */
   p {
@@ -56,7 +60,7 @@ const WidthLimit = styled(FormRow)`
   ${'' /* width: 10rem; */}
 `
 
-export const Skeletons = () => {
+export const SkeletonSandbox = () => {
   // React.useEffect(() => {
   //   console.log('myRef', myRef.current)
   //   // console.log('myRef', Input, myRef.current)

@@ -10,12 +10,16 @@ import styled from '@emotion/styled'
 import {
   Input,
   InputMasked,
-  Modal,
+  HelpButton,
   Button,
   FormSet,
   FormRow,
   FormLabel
 } from '../../src/components'
+
+export default {
+  title: 'Eufemia/Components/Input'
+}
 
 const CustomStyle = styled.div`
   p {
@@ -33,7 +37,7 @@ const myRef = React.createRef()
 //   title: 'Components'
 // }
 
-export const Inputs = () => {
+export const InputSandbox = () => {
   // React.useEffect(() => {
   //   console.log('myRef', myRef.current)
   //   // console.log('myRef', Input, myRef.current)
@@ -338,7 +342,7 @@ const CustomInput = () => {
           setValue(value)
         }}
         right
-        suffix={<Modal>123</Modal>}
+        suffix={<HelpButton>123</HelpButton>}
       />
       <Button
         text="Reset"

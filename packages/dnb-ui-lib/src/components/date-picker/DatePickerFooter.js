@@ -6,25 +6,22 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Button from '../button/Button'
+import DatePickerContext from './DatePickerContext'
+import { isTrue } from '../../shared/component-helper'
+import { convertStringToDate } from './DatePickerCalc'
 
 export default class DatePickerFooter extends React.PureComponent {
+  static contextType = DatePickerContext
+
   static propTypes = {
-    submit_button_text: PropTypes.string,
-    cancel_button_text: PropTypes.string,
-    reset_button_text: PropTypes.string,
-    selectedDateTitle: PropTypes.string,
-    onSubmit: PropTypes.oneOfType([PropTypes.bool, PropTypes.func]),
-    onCancel: PropTypes.oneOfType([PropTypes.bool, PropTypes.func]),
-    onReset: PropTypes.oneOfType([PropTypes.bool, PropTypes.func])
+    isRange: PropTypes.bool.isRequired,
+
+    onSubmit: PropTypes.func,
+    onCancel: PropTypes.func,
+    onReset: PropTypes.func
   }
 
   static defaultProps = {
-    submit_button_text: null,
-    cancel_button_text: null,
-    reset_button_text: null,
-    selectedDateTitle: null,
-
-    // events
     onSubmit: null,
     onCancel: null,
     onReset: null
@@ -38,68 +35,110 @@ export default class DatePickerFooter extends React.PureComponent {
   }
 
   onCancelHandler = (args) => {
-    const { onCancel } = this.props
-    if (onCancel) {
-      onCancel(args)
+    const { date_format } = this.context.props
+
+    const startDate = this.context._startDate
+      ? convertStringToDate(this.context._startDate, {
+          date_format
+        })
+      : null
+    const endDate = this.context._endDate
+      ? convertStringToDate(this.context._endDate, {
+          date_format
+        })
+      : startDate
+
+    if (args && args.event) {
+      args.event.persist()
     }
+
+    this.context.setDate(
+      {
+        startDate,
+        endDate
+      },
+      () => {
+        const { onCancel } = this.props
+        if (onCancel) {
+          onCancel(args)
+        }
+      }
+    )
   }
 
   onResetHandler = (args) => {
-    const { onReset } = this.props
-    if (onReset) {
-      onReset(args)
+    if (args && args.event) {
+      args.event.persist()
     }
+
+    this.context.setDate(
+      {
+        date: undefined,
+        startDate: undefined,
+        endDate: undefined
+      },
+      () => {
+        const { onReset } = this.props
+        if (onReset) {
+          onReset(args)
+        }
+      }
+    )
   }
 
   render() {
+    const { isRange } = this.props
+
     const {
-      onSubmit,
-      onCancel,
-      onReset,
-      selectedDateTitle,
+      show_reset_button,
+      show_cancel_button,
+      show_submit_button
+    } = this.context.props
+
+    if (
+      !isRange &&
+      !isTrue(show_submit_button) &&
+      !isTrue(show_cancel_button)
+    ) {
+      return <></>
+    }
+
+    const {
       submit_button_text,
       cancel_button_text,
       reset_button_text
-    } = this.props
-    if (!onSubmit && !onCancel) {
-      return <></>
-    }
+    } = this.context.translation.DatePicker
+
     return (
       <div className="dnb-date-picker__footer">
-        <p className="dnb-sr-only" aria-live="assertive">
-          {selectedDateTitle}
-        </p>
-
-        {(onSubmit && (
+        {((isRange || isTrue(show_submit_button)) && (
           <Button
             text={submit_button_text}
-            // aria-label={
-            // selectedDateTitle
-            // ? `${submit_button_text}, ${selectedDateTitle}`
-            // : submit_button_text
-            // }
             onClick={this.onSubmitHandler}
+            data-visual-test="submit"
           />
         )) || <span />}
 
         <span>
-          {(onReset && (
+          {(isTrue(show_reset_button) && (
             <Button
               text={reset_button_text}
               icon="reset"
               icon_position="left"
               variant="tertiary"
               onClick={this.onResetHandler}
+              data-visual-test="reset"
             />
           )) || <span />}
 
-          {(onCancel && (
+          {((isRange || isTrue(show_cancel_button)) && (
             <Button
               text={cancel_button_text}
               icon="close"
               icon_position="left"
               variant="tertiary"
               onClick={this.onCancelHandler}
+              data-visual-test="cancel"
             />
           )) || <span />}
         </span>

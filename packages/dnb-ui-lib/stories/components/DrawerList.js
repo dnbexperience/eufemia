@@ -12,11 +12,15 @@ import { DrawerList } from '../../src/fragments'
 
 // import { P } from '../../src/elements'
 
+export default {
+  title: 'Eufemia/Fragments/DrawerList'
+}
+
 const Drawer = styled(DrawerList)`
   margin-bottom: 4rem;
 `
 const CustomStyle = styled.div`
-  [data-dnb-test='dropdown-list'].dnb-drawer-list__list {
+  [data-visual-test='dropdown-list'].dnb-drawer-list__list {
     display: block;
     visibility: visible;
     position: relative;
@@ -147,7 +151,7 @@ const DrawerStory = () => {
   )
 }
 
-export const Drawers = () => (
+export const DrawerSandbox = () => (
   <CustomStyle>
     <DrawerStory />
   </CustomStyle>

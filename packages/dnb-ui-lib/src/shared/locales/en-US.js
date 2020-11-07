@@ -25,7 +25,7 @@ export default {
     GlobalStatus: {
       default_title: 'An error has occurred',
       close_text: 'Close',
-      status_anchor_text: 'Go to'
+      status_anchor_text: 'Go to %s'
     },
     GlobalError: {
       404: {
@@ -56,8 +56,7 @@ export default {
       indicator_label: 'Getting data ...'
     },
     Modal: {
-      close_title: 'Close',
-      more_info: 'Help text'
+      close_title: 'Close'
     },
     HelpButton: {
       title: 'Help text',

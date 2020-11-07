@@ -23,7 +23,7 @@ import { Lead, P, Link, ... } from 'dnb-ui-lib/elements'
 <P modifier="small">Paragraph style small</P>
 ```
 
-<ComponentBox data-dnb-test="paragraph-modifiers" caption="Default paragraph typography using React JSX">
+<ComponentBox data-visual-test="paragraph-modifiers" caption="Default paragraph typography using React JSX">
 {`
 <P>Default paragraph</P>
 <P modifier="medium">Medium weight paragraph</P>
@@ -37,7 +37,7 @@ import { Lead, P, Link, ... } from 'dnb-ui-lib/elements'
 
 ### Paragraphs with vanilla HTML
 
-<ComponentBox hideCode data-dnb-test="paragraph-default" caption="Default Paragraph styles">
+<ComponentBox hideCode data-visual-test="paragraph-default" caption="Default Paragraph styles">
 {`
 <p className="dnb-p">
   Here is a paragraph text<br />
@@ -53,7 +53,7 @@ import { Lead, P, Link, ... } from 'dnb-ui-lib/elements'
 `}
 </ComponentBox>
 
-<ComponentBox hideCode data-dnb-test="paragraph-small" caption="Paragraph with small font-size">
+<ComponentBox hideCode data-visual-test="paragraph-small" caption="Paragraph with small font-size">
 {`
 <p className="dnb-p dnb-p--small">
   Here is a small paragraph text<br />
@@ -73,7 +73,7 @@ import { Lead, P, Link, ... } from 'dnb-ui-lib/elements'
 `}
 </ComponentBox>
 
-<ComponentBox hideCode data-dnb-test="paragraph-additional" caption="Additional Paragraph formatting (not defined yet)">
+<ComponentBox hideCode data-visual-test="paragraph-additional" caption="Additional Paragraph formatting (not defined yet)">
 {`
 <p className="dnb-p">
   <i>Italic paragraph</i><br />

@@ -5,17 +5,17 @@
 
 import React from 'react'
 import styled from '@emotion/styled'
-import CodeBlock from 'Src/shared/tags/CodeBlock'
+import ComponentBox from 'Src/shared/tags/ComponentBox'
 
 class Example extends React.PureComponent {
   render() {
     return (
       <React.Fragment>
-        <CodeBlock
+        <ComponentBox
           reactLive
           hideCode
           caption="Reset CSS inside a wrapper by using `.dnb-core-style`"
-          data-dnb-test="helper-core-style"
+          data-visual-test="helper-core-style"
         >
           {
             /* @html */ `
@@ -28,8 +28,12 @@ class Example extends React.PureComponent {
 </div>
         `
           }
-        </CodeBlock>
-        <CodeBlock reactLive hideCode data-dnb-test="helper-tap-focus">
+        </ComponentBox>
+        <ComponentBox
+          reactLive
+          hideCode
+          data-visual-test="helper-tap-focus"
+        >
           {
             /* @html */ `
 <details>
@@ -41,12 +45,12 @@ class Example extends React.PureComponent {
 </details>
         `
           }
-        </CodeBlock>
-        <CodeBlock
+        </ComponentBox>
+        <ComponentBox
           reactLive
           hideCode
           caption="I'm an unstyled list `.dnb-unstyled-list`"
-          data-dnb-test="helper-unstyled-list"
+          data-visual-test="helper-unstyled-list"
         >
           {
             /* @html */ `
@@ -60,12 +64,12 @@ class Example extends React.PureComponent {
 </ul>
           `
           }
-        </CodeBlock>
-        <CodeBlock
+        </ComponentBox>
+        <ComponentBox
           reactLive
           hideCode
           caption="I'm not visible on small screens `.dnb-hide-on-mobile`"
-          data-dnb-test="helper-hide-on-mobile"
+          data-visual-test="helper-hide-on-mobile"
         >
           {
             /* @html */ `
@@ -74,12 +78,12 @@ class Example extends React.PureComponent {
 </div>
           `
           }
-        </CodeBlock>
-        <CodeBlock
+        </ComponentBox>
+        <ComponentBox
           reactLive
           hideCode
           caption="I'm ONLY visible on small screens"
-          data-dnb-test="helper-mobile-exclusive"
+          data-visual-test="helper-mobile-exclusive"
         >
           {
             /* @html */ `
@@ -88,12 +92,12 @@ class Example extends React.PureComponent {
 </div>
           `
           }
-        </CodeBlock>
-        <CodeBlock
+        </ComponentBox>
+        <ComponentBox
           reactLive
           hideCode
           caption="I'm inside a `.dnb-width-limit` wrapper"
-          data-dnb-test="helper-width-limit"
+          data-visual-test="helper-width-limit"
         >
           {
             /* @html */ `
@@ -102,24 +106,24 @@ class Example extends React.PureComponent {
 </div>
           `
           }
-        </CodeBlock>
-        <CodeBlock
+        </ComponentBox>
+        <ComponentBox
           reactLive
           hideCode
           caption="I'm inside a `.dnb-belt`"
-          data-dnb-test="helper-belt"
+          data-visual-test="helper-belt"
         >
           {
             /* @html */ `
 <div className="dnb-belt">I'm inside a .dnb-belt</div>
           `
           }
-        </CodeBlock>
-        <CodeBlock
+        </ComponentBox>
+        <ComponentBox
           reactLive
           hideCode
           caption="I'm a nudge"
-          data-dnb-test="helper-nudge"
+          data-visual-test="helper-nudge"
         >
           {
             /* @html */ `
@@ -134,12 +138,12 @@ I'm a vertical nudge. I have four nudges, which means I am 4rem units tall.
 </div>
           `
           }
-        </CodeBlock>
-        <CodeBlock
+        </ComponentBox>
+        <ComponentBox
           reactLive
           hideCode
           caption="I am only visible to screen readers `.dnb-sr-only`"
-          data-dnb-test="helper-sr-only"
+          data-visual-test="helper-sr-only"
         >
           {
             /* @html */ `
@@ -152,12 +156,12 @@ I'm a vertical nudge. I have four nudges, which means I am 4rem units tall.
 </p>
           `
           }
-        </CodeBlock>
-        <CodeBlock
+        </ComponentBox>
+        <ComponentBox
           reactLive
           hideCode
           caption="`.dnb-not-sr-only` I'm the opposite of .dnb-sr-only"
-          data-dnb-test="helper-not-sr-only"
+          data-visual-test="helper-not-sr-only"
         >
           {
             /* @html */ `
@@ -167,7 +171,7 @@ I'm a vertical nudge. I have four nudges, which means I am 4rem units tall.
 </p>
           `
           }
-        </CodeBlock>
+        </ComponentBox>
       </React.Fragment>
     )
   }

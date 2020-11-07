@@ -9,6 +9,7 @@ import { Global, css } from '@emotion/core'
 
 import {
   Modal,
+  HelpButton,
   Switch,
   Button,
   Input,
@@ -17,63 +18,90 @@ import {
   DatePicker,
   FormSet,
   FormRow,
+  ProgressIndicator,
+  // Space,
   Number
 } from '../../src/components'
 // import { format } from '../../src/components/Number'
 import { H2, P, Hr } from '../../src/elements'
 
-export const Modals = () => (
+export default {
+  title: 'Eufemia/Components/Modal'
+}
+
+export const ModalSandbox = () => (
   <Wrapper>
     <Global
       styles={css`
         :root {
-          --modal-height-offset: 3rem;
+          /* --modal-height-offset: 7rem; */
         }
       `}
     />
 
-    {/* <Box>
-        <h1 tabIndex="0" aria-hidden="true">
-          h1
-        </h1>
-        <h2 tabIndex="-1" aria-hidden="false">
-          h2
-        </h2>
-        <h3>h3</h3>
-      </Box> */}
+    <Box>
+      <Modal
+        spacing={false}
+        fullscreen={false}
+        align_content="centered"
+        hide_close_button
+        trigger_text="Show"
+        // prevent_close
+      >
+        <ProgressIndicator
+          show_label
+          label_direction="vertical"
+          top="large"
+          bottom="large"
+          size="large"
+        />
+      </Modal>
+    </Box>
+
+    <Box>
+      <Modal
+        title="Modal Title"
+        // open_state="opened"
+      >
+        <Modal.Inner top spacing style_type="mint-green">
+          <P>This is the modal text. Triggered by the help button.</P>
+        </Modal.Inner>
+      </Modal>
+    </Box>
 
     <Box>
       <Input
         label="Input"
         placeholder="Placeholder ..."
-        suffix={<Modal>Help text</Modal>}
+        suffix={<HelpButton>Help text</HelpButton>}
       />
     </Box>
 
     <Box>
-      <Button variant="tertiary" text="Button" />
       <Modal
-        // no_animation
-        // open_state="opened"
-        mode="drawer"
-        // fullscreen
-        container_placement="left"
-        align_content="right"
-        // align_content="center"
-        // drawer_offset={}
-        // title="Tertiary test"
-        title={<span className="dnb-sr-only">Test</span>}
-        // min_width="20vw"
-        // max_width="40vw"
-        overlay_class="overlay_class"
-        content_class="content_class"
-        class="inner_class"
+        title="Title 1"
+        trigger_text="Modal in modal"
+        style={{
+          minHeight: '25rem'
+        }}
       >
-        <Button variant="tertiary" text="Button" />
-        <Section>
-          <Button variant="tertiary" text="Button" />
-        </Section>
-        <FillContent />
+        <Modal
+          title="Title 2 a"
+          style={{
+            minHeight: '15rem'
+          }}
+        >
+          New content 2 a <Modal title="Title 3 a">New content 3 a</Modal>
+        </Modal>
+        <Modal
+          title="Title 2 b"
+          style={{
+            minHeight: '15rem'
+          }}
+        >
+          New content 2 b <Modal title="Title 3 b">New content 3 b</Modal>
+        </Modal>
+        {/* <FillContent /> */}
       </Modal>
     </Box>
     <Box>
@@ -92,23 +120,24 @@ export const Modals = () => (
     </Box>
     <Box>
       <Modal
-        min_width="60vw"
+        // min_width="60vw"
+        max_width="40rem"
         trigger_text="Open Modal"
         title="Modal Title"
         on_close={(e) => {
           console.log('on_close', e)
         }}
       >
-        <Hr />
-        <Box>
-          <H2>Some content</H2>
+        <Modal.Inner spacing>
+          <Hr />
+          <H2 top>Some content</H2>
           <Input>Focus me with Tab key</Input>
-        </Box>
-        <Box>
-          <P>
-            <Switch label="Checked:" checked />
-          </P>
-        </Box>
+          <Section top spacing>
+            <P>
+              <Switch label="Checked:" checked />
+            </P>
+          </Section>
+        </Modal.Inner>
       </Modal>
     </Box>
     <Box>
@@ -119,6 +148,90 @@ export const Modals = () => (
     </Box>
     <Box>
       <ModalTriggerExample />
+    </Box>
+  </Wrapper>
+)
+
+export const DrawerSandbox = () => (
+  <Wrapper>
+    <Global
+      styles={css`
+        :root {
+          /* --modal-height-offset: 10rem; */
+        }
+        .custom-inner {
+          padding-top: 1.5rem;
+        }
+      `}
+    />
+
+    <Box>
+      {/* <Button variant="tertiary" text="Button" /> */}
+      <Modal
+        // no_animation
+        // open_state="opened"
+        mode="drawer"
+        // fullscreen
+        // container_placement="left"
+        // align_content="right"
+        // align_content="center"
+        // drawer_offset={}
+        title="Tertiary test"
+        // title={<span className="dnb-sr-only">Test</span>}
+        // min_width="20vw"
+        // max_width="40vw"
+        // overlay_class="overlay_class"
+        // content_class="content_class"
+        // class="inner_class"
+      >
+        <Modal.Inner style_type="pistachio">
+          Modal.Inner
+          {/* <FillContent /> */}
+        </Modal.Inner>
+      </Modal>
+    </Box>
+
+    <Box>
+      <Modal
+        mode="drawer"
+        title="Drawer Title"
+        trigger_text="Open Drawer"
+        trigger_title="Click me"
+      >
+        <Modal.Inner>
+          <P>This is a left aligned Drawer content.</P>
+        </Modal.Inner>
+      </Modal>
+    </Box>
+
+    <Box>
+      {/* <Button variant="tertiary" text="Button" /> */}
+      <Modal
+        // no_animation
+        // open_state="opened"
+        mode="drawer"
+        trigger_text="Drawer in Drawer"
+        // fullscreen
+        // container_placement="left"
+        // align_content="right"
+        // align_content="center"
+        // drawer_offset={}
+        title="Tertiary test"
+        // title={<span className="dnb-sr-only">Test</span>}
+        // min_width="20vw"
+        // max_width="40vw"
+        // overlay_class="overlay_class"
+        // content_class="content_class"
+        // class="inner_class"
+      >
+        <Modal.Inner style_type="pistachio">
+          Modal.Inner
+          <Modal mode="drawer" title="Title 2" open_state="opened">
+            New content 2 <Modal title="Title 3">New content 3</Modal>
+          </Modal>
+          {/* <FillContent /> */}
+        </Modal.Inner>
+      </Modal>
     </Box>
   </Wrapper>
 )
@@ -149,19 +262,21 @@ class ModalRerenderExample extends React.PureComponent {
         // trigger_disabled
         // trigger_hidden
       >
-        {/* <Hr /> */}
-        {/* <Box>
+        <Modal.Inner spacing>
+          {/* <Hr /> */}
+          {/* <Box>
           <H2>Some content</H2>
           <Input>Focus me with Tab key</Input>
         </Box> */}
-        <DatePicker label="DatePicker" right />
-        <Dropdown
-          label="Dropdown"
-          data={dropdownData}
-          right
-          direction="top"
-        />
-        {/* <Switch label="Checked:" checked right /> */}
+          <DatePicker label="DatePicker" right />
+          <Dropdown
+            label="Dropdown"
+            data={dropdownData}
+            right
+            direction="top"
+          />
+          {/* <Switch label="Checked:" checked right /> */}
+        </Modal.Inner>
       </Modal>
     )
   }
@@ -271,7 +386,7 @@ const ModalCloseExample = () => {
 
           if (open_state !== 'opened') {
             console.log('Modal was opened')
-            timeout = setTimeout(close, 1e3)
+            timeout = setTimeout(close, 3e3)
           }
 
           return () => clearTimeout(timeout)
@@ -286,15 +401,15 @@ const ModalCloseExample = () => {
         }}
       >
         <Hr />
-        <Box>
+        <Section spacing>
           <H2>Some content {count}</H2>
           <Input>Focus me with Tab key</Input>
-        </Box>
-        <Box>
+        </Section>
+        <Section spacing>
           <P>
             <Switch label="Checked:" checked />
           </P>
-        </Box>
+        </Section>
       </Modal>
     </>
   )
@@ -313,7 +428,7 @@ const ModalTriggerExample = () => {
         />
 
         <Button
-          id="custom-triggerer"
+          // id="custom-triggerer"
           text="Custom trigger Button"
           on_click={(e) => {
             console.log('on_click', e)

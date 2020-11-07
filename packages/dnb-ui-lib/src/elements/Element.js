@@ -37,23 +37,23 @@ class Elem extends React.PureComponent {
     const {
       className,
       class: _className,
+      internalClass,
       css,
       is: Tag,
       _ref,
-      hasTagClass,
       skeleton,
+      skeleton_method,
       ...rest
     } = props
 
-    const tagClass = `dnb-${Tag}`
+    const tagClass = internalClass || `dnb-${Tag}`
     rest.className = classnames(
-      !hasTagClass &&
-        !new RegExp(`${tagClass}(\\s|$)`).test(String(className)) &&
+      !new RegExp(`${tagClass}(\\s|$)`).test(String(className)) &&
         tagClass,
       className,
       _className,
       css,
-      createSkeletonClass('font', skeleton, this.context),
+      createSkeletonClass(skeleton_method, skeleton, this.context),
       createSpacingClasses(rest, Tag)
     )
 
@@ -71,24 +71,26 @@ class Elem extends React.PureComponent {
 }
 Elem.propTypes = {
   is: PropTypes.string.isRequired,
-  hasTagClass: PropTypes.bool,
   skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  skeleton_method: PropTypes.string,
   className: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.object,
     PropTypes.array
   ]),
-  _ref: PropTypes.object,
   class: PropTypes.string,
-  css: PropTypes.oneOfType([PropTypes.string, PropTypes.object])
+  internalClass: PropTypes.string,
+  css: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+  _ref: PropTypes.object
 }
 Elem.defaultProps = {
-  hasTagClass: false,
   skeleton: null,
+  skeleton_method: 'font',
   className: null,
-  _ref: null,
+  internalClass: null,
   class: null,
-  css: null
+  css: null,
+  _ref: null
 }
 
 const Element = React.forwardRef((props, ref) => {

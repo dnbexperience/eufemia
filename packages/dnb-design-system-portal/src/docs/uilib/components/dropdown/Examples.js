@@ -11,20 +11,21 @@ const Wrapper = styled.div`
   .dnb-form-label {
     margin-right: 1rem;
   }
-  [data-dnb-test] {
+  [data-visual-test] {
     > :not(.dnb-dropdown--is-popup):not(.dnb-dropdown--independent-width)
       .dnb-dropdown__shell {
       width: var(--dropdown-width);
     }
   }
-  [data-dnb-test-wrapper='dropdown-more_menu'] {
+  [data-visual-test-wrapper='dropdown-action_menu-custom'],
+  [data-visual-test-wrapper='dropdown-more_menu'] {
     width: 20rem;
     height: 15rem !important;
     ${'' /* .dnb-dropdown:nth-of-type(1n + 2) {
       display: none;
     } */}
   }
-  [data-dnb-test='dropdown-list'] .dnb-drawer-list__list {
+  [data-visual-test='dropdown-list'] .dnb-drawer-list__list {
     display: block;
     visibility: visible;
     position: relative;
@@ -112,7 +113,7 @@ render(
 
 export const DropdownNoValue = () => (
   <Wrapper>
-    <ComponentBox data-dnb-test="dropdown-closed" useRender>
+    <ComponentBox data-visual-test="dropdown-closed" useRender>
       {
         /* @jsx */ `
 const data = [
@@ -167,7 +168,7 @@ render(
 
 export const DropdownDirections = () => (
   <Wrapper>
-    <ComponentBox data-dnb-test="dropdown-item-directions">
+    <ComponentBox data-visual-test="dropdown-item-directions">
       {
         /* @jsx */ `
 <Dropdown
@@ -187,7 +188,7 @@ export const DropdownDirections = () => (
 
 export const DropdownIconLeft = () => (
   <Wrapper>
-    <ComponentBox scope={{ data }} data-dnb-test="dropdown-left-icon">
+    <ComponentBox scope={{ data }} data-visual-test="dropdown-left-icon">
       {
         /* @jsx */ `
 <Dropdown
@@ -211,7 +212,7 @@ export const DropdownIconLeft = () => (
 
 export const DropdownActionMenu = () => (
   <Wrapper>
-    <ComponentBox scope={{ data }} data-dnb-test="dropdown-action_menu">
+    <ComponentBox scope={{ data }} data-visual-test="dropdown-action_menu">
       {
         /* @jsx */ `
 <Dropdown
@@ -238,7 +239,7 @@ export const DropdownActionMenu = () => (
 
 export const DropdownTertiary = () => (
   <Wrapper>
-    <ComponentBox scope={{ data }} data-dnb-test="dropdown-tertiary">
+    <ComponentBox scope={{ data }} data-visual-test="dropdown-tertiary">
       {
         /* @jsx */ `
 <Dropdown
@@ -256,14 +257,14 @@ export const DropdownTertiary = () => (
 
 export const DropdownMoreMenu = () => (
   <Wrapper>
-    <ComponentBox data-dnb-test="dropdown-more_menu">
+    <ComponentBox data-visual-test="dropdown-more_menu">
       {
         /* @jsx */ `
 <Dropdown
   more_menu="true"
   size="small"
   title="Choose an item"
-  data={() => ['Go this this Link', 'Or press on me', <>Custom component</>]}
+  data={() => [<Link href="/">Go to this Link</Link>, 'Or press on me', <>Custom component</>]}
   right="small"
 />
 <Dropdown
@@ -272,13 +273,13 @@ export const DropdownMoreMenu = () => (
   size="small"
   title={null}
   aria-label="Choose an item"
-  data={() => ['Go this this Link', 'Or press on me', <>Custom component</>]}
+  data={() => [<Link href="/">Go to this Link</Link>, 'Or press on me', <>Custom component</>]}
   right="small"
 />
 <Dropdown
   more_menu="true"
   title="Choose an item"
-  data={['Go this this Link', 'Or press on me', <>Custom component</>]}
+  data={[<Link href="/">Go to this Link</Link>, 'Or press on me', <>Custom component</>]}
   right="small"
 />
 <Dropdown
@@ -286,7 +287,7 @@ export const DropdownMoreMenu = () => (
   align_dropdown="right"
   title={null}
   aria-label="Choose an item"
-  data={['Go this this Link', 'Or press on me', <>Custom component</>]}
+  data={[<Link href="/">Go to this Link</Link>, 'Or press on me', <>Custom component</>]}
   on_change={({ value }) => {
     console.log('on_change', value)
   }}
@@ -314,7 +315,11 @@ export const DropdownDisabled = () => (
 
 export const DropdownCustomEvent = () => (
   <Wrapper>
-    <ComponentBox scope={{ data }} useRender>
+    <ComponentBox
+      scope={{ data }}
+      useRender
+      data-visual-test="dropdown-action_menu-custom"
+    >
       {
         /* @jsx */ `
 const CustomComponent = () => (
@@ -351,7 +356,7 @@ render(
     on_change={({ value }) => {
       console.log('More menu:', value)
     }}
-    suffix={<Modal title="Modal Title">Modal content</Modal>}
+    suffix={<HelpButton title="Modal Title">Modal content</HelpButton>}
   />
 )
           `
@@ -362,7 +367,7 @@ render(
 
 export const DropdownSizes = () => (
   <Wrapper>
-    <ComponentBox data-dnb-test="dropdown-sizes" scope={{ data }}>
+    <ComponentBox data-visual-test="dropdown-sizes" scope={{ data }}>
       {
         /* @jsx */ `
 <FormRow direction="vertical">
@@ -394,7 +399,7 @@ export const DropdownSizes = () => (
 export const DropdownCustomWidth = () => (
   <Wrapper>
     <ComponentBox
-      // data-dnb-test="dropdown-width"
+      // data-visual-test="dropdown-width"
       scope={{ data }}
       useRender
     >
@@ -407,7 +412,7 @@ const CustomWidthOne = styled(Dropdown)\`
 \`
 const CustomWidthTwo = styled(Dropdown)\`
   &.dnb-dropdown--is-popup .dnb-drawer-list__root {
-    width: 8rem;
+    width: 12rem;
   }
 \`
 const CustomWidthThree = styled(Dropdown)\`
@@ -452,7 +457,10 @@ render(<FormRow direction="vertical">
 
 export const DropdownStatusVertical = () => (
   <Wrapper>
-    <ComponentBox data-dnb-test="dropdown-status-error" scope={{ data }}>
+    <ComponentBox
+      data-visual-test="dropdown-status-error"
+      scope={{ data }}
+    >
       {
         /* @jsx */ `
 <Dropdown
@@ -467,21 +475,18 @@ export const DropdownStatusVertical = () => (
   </Wrapper>
 )
 
-export const DropdownListOpened = () =>
-  !(typeof window !== 'undefined' && window.IS_TEST) ? (
-    <></>
-  ) : (
-    <Wrapper>
-      <ComponentBox
-        data-dnb-test="dropdown-list"
-        scope={{ data }}
-        hideCode
-      >
-        {
-          /* @jsx */ `
+export const DropdownListOpened = () => (
+  <Wrapper>
+    <ComponentBox
+      data-visual-test="dropdown-list"
+      scope={{ data }}
+      hideCode
+    >
+      {
+        /* @jsx */ `
 <span className="dnb-drawer-list__list">
   <ul className="dnb-drawer-list__options">
-    <li className="dnb-drawer-list__option">
+    <li className="dnb-drawer-list__option first-of-type">
       <span className="dnb-drawer-list__option__inner">Brukskonto - Kari Nordmann</span>
     </li>
     <li className="dnb-drawer-list__option dnb-drawer-list__option--selected">
@@ -506,7 +511,7 @@ export const DropdownListOpened = () =>
   </ul>
 </span>
           `
-        }
-      </ComponentBox>
-    </Wrapper>
-  )
+      }
+    </ComponentBox>
+  </Wrapper>
+)

@@ -112,7 +112,7 @@
       }
     }
 
-    // Focus ring arround item. Only for keyboard usage
+    // Focus ring around item. Only for keyboard usage
     &--focus {
       // we use the border/line and change it to a fake focus
       &::before {
@@ -130,8 +130,6 @@
           var(--drawer-list-border-color--selected),
           var(--drawer-list-focus-border-width)
         );
-
-        // border-radius: inherit;
       }
     }
 
@@ -170,7 +168,7 @@
         background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgZmlsbD0ibm9uZSI+ICA8cGF0aCAgICBmaWxsPSIjRTlGOEY0IiAgICBkPSJNMyA4LjhhLjc1Ljc1IDAgMSAwLTEuMjIuODZMMyA4Ljc5em0xLjg0IDMuOWwuNjMtLjQxdi0uMDFoLS4wMWwtLjYyLjQyem0xLjcxLjA1bC0uNTktLjQ2di4wMWwuNTkuNDV6bTguNDMtOS40NWEuNzUuNzUgMCAwIDAtMS4xOC0uOTNsMS4xOC45M3pNMS43OCA5LjY2bDIuNDUgMy40OCAxLjIzLS44N0wzIDguOGwtMS4yMy44N3ptMi40NCAzLjQ2Yy4zMi40OC44Ni43OCAxLjQ0LjhsLjA1LTEuNWEuMy4zIDAgMCAxLS4yNC0uMTNsLTEuMjUuODN6bTEuNDQuOGExLjggMS44IDAgMCAwIDEuNDktLjcxbC0xLjItLjlhLjMuMyAwIDAgMS0uMjQuMWwtLjA1IDEuNXptMS40OC0uN2w3Ljg0LTkuOTItMS4xOC0uOTMtNy44NCA5LjkyIDEuMTguOTN6Ii8+PC9zdmc+);
       }
 
-      // Remvoe line on selected items
+      // Remove line on selected items
       &::before {
         content: none;
       }
@@ -183,7 +181,7 @@
       }
     }
 
-    // Focus ring arround item. Only for keyboard usage
+    // Focus ring around item. Only for keyboard usage
     &--focus:not(#{&}--selected) {
       .dnb-drawer-list__option__inner {
         color: var(--drawer-list-option-color--hover);
@@ -193,13 +191,12 @@
       }
     }
 
-    &:first-of-type,/* only for the vissual demo */
-    &--focus:first-of-type &__inner,
-    &--focus:first-of-type::before {
+    &--focus.first-of-type &__inner,
+    &--focus.first-of-type::before {
       border-radius: var(--drawer-list-options-border-radius)
         var(--drawer-list-options-border-radius) 0 0;
     }
-    &.last-of-type,/* only for the vissual demo */
+    &.last-of-type,/* only for the visual demo */
     &--focus.last-of-type &__inner ,
     &--focus.last-of-type::before {
       border-radius: 0 0 var(--drawer-list-options-border-radius)
@@ -252,8 +249,9 @@
   }
 
   // hover
-  &__option:first-of-type:hover ~ &__triangle::before,/* only for the vissual demo */
-  &--bottom &__option.closest-to-top:hover ~ &__triangle::before ,
+  &--top &__option.last-of-type:hover ~ &__triangle::before,/* only for the visual demo */
+  &--bottom &__option.first-of-type:hover ~ &__triangle::before,/* only for the visual demo */
+  &--bottom &__option.closest-to-top:hover ~ &__triangle::before,
   &--top &__option.closest-to-bottom:hover ~ &__triangle::before,
     &--bottom
     &__option.closest-to-top#{&}__option--focus
@@ -265,7 +263,7 @@
   }
 
   // selected
-  // The code below makrs the triangle on focus only, becuas of the focus ring, it can make sence
+  // The code below makes the triangle on focus only, because of the focus ring, it can make sence
   // &--bottom
   //   &__option.closest-to-top#{&}__option--focus
   //   ~ &__triangle::before,
@@ -286,11 +284,6 @@
     ~ &__triangle::before {
     background-color: var(--drawer-list-option-background-color--selected);
   }
-
-  // &--bottom &__triangle.selected-top::before,
-  // &--top &__triangle.selected-bottom::before {
-  //   background-color: var(--drawer-list-option-background-color--selected);
-  // }
 
   // ajust the form-status to the inner border for 2px
   > .dnb-form-status {

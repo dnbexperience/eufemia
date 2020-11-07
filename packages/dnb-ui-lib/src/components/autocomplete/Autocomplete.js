@@ -1455,6 +1455,8 @@ class AutocompleteInstance extends React.PureComponent {
       value: inputValue,
       autoCapitalize: 'none',
       spellCheck: 'false',
+      autoCorrect: 'off',
+      autoComplete: 'off',
 
       // ARIA
       role: 'combobox', // we need combobox twice to make it properly work on VO
@@ -1555,6 +1557,7 @@ class AutocompleteInstance extends React.PureComponent {
             <FormStatus
               id={id + '-form-status'}
               global_status_id={global_status_id}
+              label={label}
               text_id={id + '-status'} // used for "aria-describedby"
               text={status}
               status={status_state}
@@ -1581,7 +1584,6 @@ class AutocompleteInstance extends React.PureComponent {
                   }
                   size={size}
                   status={!opened && status ? status_state : null}
-                  autoComplete="off"
                   type={null}
                   submit_element={
                     isTrue(show_submit_button) ? (
@@ -1659,3 +1661,5 @@ class AutocompleteInstance extends React.PureComponent {
     )
   }
 }
+
+Autocomplete.HorizontalItem = DrawerList.HorizontalItem

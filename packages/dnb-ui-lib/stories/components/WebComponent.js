@@ -22,6 +22,10 @@ class Scope {
 }
 window.Scope = new Scope()
 
+export default {
+  title: 'Eufemia/Components/WebComponent'
+}
+
 export const WebComponent = () => (
   <Wrapper>
     <Box>

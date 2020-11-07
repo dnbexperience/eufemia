@@ -26,7 +26,7 @@ import 'dnb-ui-lib/src/components/skeleton/style/themes/brand'
 
 ## Toggle skeleton on/off
 
-<ComponentBox data-dnb-test="skeleton-exclude" scope={{Provider}} useRender>
+<ComponentBox data-visual-test="skeleton-exclude" scope={{Provider}} useRender>
 {`
 const UserData = () => {
 	const [state, setState] = React.useState(true)
@@ -83,7 +83,7 @@ You may import a given figure, or create your own.
 import { Article } from 'dnb-ui-lib/components/skeleton/figures'
 ```
 
-<ComponentBox scope={{Article}} data-dnb-test="skeleton-shine">
+<ComponentBox scope={{Article}} data-visual-test="skeleton-shine">
 {`
 <Skeleton
 	show
@@ -103,7 +103,7 @@ export const SkeletonVisualTests = () => {
   }
   return (
 	<>
-		<ComponentBox data-dnb-test="skeleton-all-horizontal" scope={{AllComponents}}>
+		<ComponentBox data-visual-test="skeleton-all-horizontal" scope={{AllComponents}}>
 			{`
 			<FormRow>
 				<Skeleton show no_animation>
@@ -112,7 +112,7 @@ export const SkeletonVisualTests = () => {
 			</FormRow>
 			`}
 		</ComponentBox>
-		<ComponentBox data-dnb-test="skeleton-all-vertical" scope={{AllComponents}}>
+		<ComponentBox data-visual-test="skeleton-all-vertical" scope={{AllComponents}}>
 			{`
 			<FormRow vertical="true">
 				<Skeleton show no_animation>

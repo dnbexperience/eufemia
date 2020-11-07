@@ -36,7 +36,6 @@ exports[`Radio component have to match snapshot 1`] = `
       <FormLabel
         class={null}
         className={null}
-        direction={null}
         disabled="disabled"
         element="label"
         for_id="radio"
@@ -202,6 +201,7 @@ exports[`Radio group component have to match group snapshot 1`] = `
     className="dnb-radio-group dnb-radio-group--row dnb-form-component"
   >
     <FormRow
+      centered={null}
       class={null}
       className={null}
       custom_element={null}
@@ -248,7 +248,6 @@ exports[`Radio group component have to match group snapshot 1`] = `
             <FormLabel
               class={null}
               className="dnb-form-row__label"
-              direction={null}
               disabled={null}
               element="label"
               for_id="group"
@@ -355,7 +354,6 @@ exports[`Radio group component have to match group snapshot 1`] = `
                           <FormLabel
                             class={null}
                             className={null}
-                            direction={null}
                             disabled={false}
                             element="label"
                             for_id="radio-1"
@@ -459,7 +457,6 @@ exports[`Radio group component have to match group snapshot 1`] = `
                           <FormLabel
                             class={null}
                             className={null}
-                            direction={null}
                             disabled={false}
                             element="label"
                             for_id="radio-2"

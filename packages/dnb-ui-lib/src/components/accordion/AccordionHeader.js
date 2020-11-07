@@ -33,7 +33,7 @@ function AccordionHeaderTitle({ children, ...rest }) {
   )
 }
 AccordionHeaderTitle.propTypes = {
-  children: PropTypes.oneOfType([PropTypes.node, PropTypes.func])
+  children: PropTypes.node
 }
 AccordionHeaderTitle.defaultProps = {
   children: null
@@ -52,7 +52,7 @@ function AccordionHeaderDescription({ children, ...rest }) {
   ) : null
 }
 AccordionHeaderDescription.propTypes = {
-  children: PropTypes.oneOfType([PropTypes.node, PropTypes.func])
+  children: PropTypes.node
 }
 AccordionHeaderDescription.defaultProps = {
   children: null
@@ -71,7 +71,7 @@ function AccordionHeaderContainer({ children, ...rest }) {
   ) : null
 }
 AccordionHeaderContainer.propTypes = {
-  children: PropTypes.oneOfType([PropTypes.node, PropTypes.func])
+  children: PropTypes.node
 }
 AccordionHeaderContainer.defaultProps = {
   children: null
@@ -231,7 +231,7 @@ export default class AccordionHeader extends React.PureComponent {
 
       // 1. these props should be the same as ...
       left_component,
-      expanded,
+      expanded, // eslint-disable-line
       title,
       description,
       element,
@@ -337,14 +337,6 @@ export default class AccordionHeader extends React.PureComponent {
         icon_position = 'right'
       }
 
-      // if (
-      //   Array.isArray(children) &&
-      //   children.findIndex((c) => c.type === AccordionHeaderContainer) !==
-      //     -1
-      // ) {
-      // icon_position = 'right'
-      // }
-
       if (left_component) {
         icon_position = 'right'
       }
@@ -353,6 +345,7 @@ export default class AccordionHeader extends React.PureComponent {
     const headerParams = {
       id: `${id}-header`,
       'aria-controls': `${id}-content`,
+      'aria-expanded': this.context.expanded,
       role: 'button',
       tabIndex: '0',
       className: classnames(
@@ -367,10 +360,6 @@ export default class AccordionHeader extends React.PureComponent {
       ),
       disabled,
       ...rest
-    }
-
-    if (expanded) {
-      headerParams['aria-expanded'] = true
     }
 
     if (disabled || isTrue(skeleton)) {

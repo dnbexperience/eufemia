@@ -52,11 +52,7 @@ export default class Accordion extends React.PureComponent {
   static Content = AccordionContent
 
   static propTypes = {
-    label: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.func,
-      PropTypes.node
-    ]),
+    label: PropTypes.node,
     title: PropTypes.string,
     expanded: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     no_animation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -66,7 +62,15 @@ export default class Accordion extends React.PureComponent {
       PropTypes.string,
       PropTypes.bool
     ]),
+    prevent_rerender_conditional: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool
+    ]),
     remember_state: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool
+    ]),
+    flush_remembered_state: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.bool
     ]),
@@ -75,11 +79,7 @@ export default class Accordion extends React.PureComponent {
       PropTypes.bool
     ]),
     variant: PropTypes.oneOf(['default', 'outlined', 'filled']),
-    left_component: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.node,
-      PropTypes.func
-    ]),
+    left_component: PropTypes.node,
     allow_close_all: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.bool
@@ -88,26 +88,13 @@ export default class Accordion extends React.PureComponent {
     skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     id: PropTypes.string,
     group: PropTypes.string,
-    element: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.node,
-      PropTypes.func
-    ]),
-    heading: PropTypes.oneOfType([
-      PropTypes.bool,
-      PropTypes.string,
-      PropTypes.node,
-      PropTypes.func
-    ]),
+    element: PropTypes.node,
+    heading: PropTypes.oneOfType([PropTypes.bool, PropTypes.node]),
     heading_level: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.number
     ]),
-    icon: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.node,
-      PropTypes.func
-    ]),
+    icon: PropTypes.node,
     icon_position: PropTypes.string,
     icon_size: PropTypes.string,
     attributes: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
@@ -115,11 +102,7 @@ export default class Accordion extends React.PureComponent {
 
     /// React props
     className: PropTypes.string,
-    children: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.node,
-      PropTypes.func
-    ]),
+    children: PropTypes.node,
 
     custom_element: PropTypes.object,
     custom_method: PropTypes.func,
@@ -135,7 +118,9 @@ export default class Accordion extends React.PureComponent {
     expanded_ssr: null,
     prerender: null,
     prevent_rerender: null,
+    prevent_rerender_conditional: null,
     remember_state: null,
+    flush_remembered_state: null,
     single_container: null,
     variant: 'outlined',
     left_component: null,
@@ -174,7 +159,7 @@ export default class Accordion extends React.PureComponent {
         state._expanded = props.expanded
       }
 
-      if (props.group) {
+      if (props.group && !state.group) {
         state.group = props.group
       }
     }
@@ -213,6 +198,22 @@ export default class Accordion extends React.PureComponent {
 
       window.__dnbAccordion[this.state.group].addInstance(this)
     }
+
+    this.store = new Store({ id: props.id, group: this.state.group })
+
+    if (
+      isTrue(props.remember_state || context.remember_state) &&
+      isTrue(props.expanded)
+    ) {
+      const expanded = this.store.getState()
+      if (expanded === false) {
+        this.state.expanded = false
+      }
+    }
+
+    if (context && typeof context?.onInit === 'function') {
+      context.onInit(this)
+    }
   }
 
   componentDidMount() {
@@ -226,24 +227,10 @@ export default class Accordion extends React.PureComponent {
     }
 
     if (isTrue(this.props.remember_state || this.context.remember_state)) {
-      this.setExpandedState(this.getState())
-    }
-  }
-
-  setExpandedState(expanded) {
-    if (expanded !== null) {
-      this.setState({
-        expanded,
-        no_animation: true,
-        _listenForPropChanges: false
-      })
-      const no_animation = this.state.no_animation
-      this._animationState = setTimeout(() => {
-        this.setState({
-          no_animation,
-          _listenForPropChanges: false
-        })
-      }, 600)
+      const expanded = this.store.getState()
+      if (expanded) {
+        this.setExpandedState(true)
+      }
     }
   }
 
@@ -257,6 +244,31 @@ export default class Accordion extends React.PureComponent {
     if (this.state.group && typeof window !== 'undefined') {
       window?.__dnbAccordion[this.state.group]?.removeInstance(this)
     }
+  }
+
+  componentDidUpdate(props) {
+    if (isTrue(this.context.flush_remembered_state)) {
+      this.store.flush()
+      this.setState({
+        expanded: isTrue(this.props.expanded)
+      })
+    }
+
+    if (
+      this.context?.expanded_id &&
+      this.context.expanded_id === props.id
+    ) {
+      this.setState({
+        expanded: true
+      })
+    }
+  }
+
+  setExpandedState(expanded) {
+    this.setState({
+      expanded,
+      _listenForPropChanges: false
+    })
   }
 
   close() {
@@ -278,49 +290,23 @@ export default class Accordion extends React.PureComponent {
       isTrue(this.props.remember_state) ||
       isTrue(this.context.remember_state)
     ) {
-      this.saveState(expanded)
+      this.store.saveState(expanded)
     }
-  }
-
-  _storeId() {
-    const { id } = this.props
-    return `dnb-accordion-${id}`
-  }
-
-  saveState(expanded) {
-    const { id } = this.props
-    if (id) {
-      try {
-        window.localStorage.setItem(this._storeId(), String(expanded))
-      } catch (e) {
-        //
-      }
-    } else {
-      warn('No id prop is provided in order to store the accordion state!')
-    }
-  }
-
-  getState() {
-    let state = null
-    try {
-      if (
-        Object.prototype.hasOwnProperty.call(
-          window.localStorage,
-          this._storeId()
-        )
-      ) {
-        state = isTrue(window.localStorage.getItem(this._storeId()))
-      }
-    } catch (e) {
-      //
-    }
-
-    return state
   }
 
   handleDisabledClick = (e) => {
     e.preventDefault()
     return false
+  }
+
+  callOnChangeHandler = (...params) => {
+    this.callOnChange(...params)
+    if (this.context?.onChange) {
+      this.context?.onChange(...params)
+    }
+    if (this.state.group && typeof window !== 'undefined') {
+      window?.__dnbAccordion[this.state.group]?.onChange(...params)
+    }
   }
 
   callOnChange = ({ expanded, event }) => {
@@ -386,6 +372,7 @@ export default class Accordion extends React.PureComponent {
                 class: _className,
                 prerender,
                 prevent_rerender,
+                prevent_rerender_conditional,
                 single_container,
                 remember_state,
                 disabled,
@@ -449,21 +436,14 @@ export default class Accordion extends React.PureComponent {
                 expanded,
                 prerender: isTrue(prerender),
                 prevent_rerender: isTrue(prevent_rerender),
+                prevent_rerender_conditional: isTrue(
+                  prevent_rerender_conditional
+                ),
                 single_container: isTrue(single_container),
                 remember_state: isTrue(remember_state),
                 disabled: isTrue(disabled),
                 skeleton: isTrue(skeleton),
-                callOnChange: (...params) => {
-                  this.callOnChange(...params)
-                  if (this.context?.onChange) {
-                    this.context?.onChange(...params)
-                  }
-                  if (this.state.group && typeof window !== 'undefined') {
-                    window?.__dnbAccordion[this.state.group]?.onChange(
-                      ...params
-                    )
-                  }
-                }
+                callOnChange: this.callOnChangeHandler
               }
 
               if (isTrue(disabled)) {
@@ -492,13 +472,190 @@ export default class Accordion extends React.PureComponent {
   }
 }
 
-Accordion.Group = ({ ...props }) => {
-  props.group = props.group || makeUniqueId()
-  return <AccordionProvider {...props} />
+class Group extends React.PureComponent {
+  static propTypes = {
+    id: PropTypes.string,
+    group: PropTypes.string,
+    remember_state: PropTypes.oneOfType([PropTypes.string, PropTypes.bool])
+  }
+
+  static defaultProps = {
+    id: null,
+    group: null,
+    remember_state: null
+  }
+
+  state = {}
+
+  constructor(props) {
+    super(props)
+
+    let group
+
+    if (props.id) {
+      group = props.id
+    } else if (!props.group) {
+      group = '#' + makeUniqueId()
+    }
+    this.state.group = group
+
+    this.store = new Store({ group })
+    this._IDs = []
+
+    if (isTrue(props.remember_state) && !props.id) {
+      rememberWarning('accordion group')
+    }
+  }
+
+  onInit = (instance) => {
+    if (instance.props.id && !this._IDs.includes(instance.props.id)) {
+      this._IDs.push(instance.props.id)
+    }
+  }
+
+  componentDidMount() {
+    const storedData = this.store.getData()
+    if (storedData?.id) {
+      if (!this._IDs.includes(storedData.id)) {
+        // 1. get the fallback id
+        const expanded_id = this._IDs[0]
+
+        if (expanded_id) {
+          // 2. set the fallback id
+          this.setState(
+            {
+              expanded_id
+            },
+            () => {
+              // 3. save the fallback id
+              this.store.saveState(true, expanded_id)
+
+              // 4. and reset the fallback id
+              this.setState({
+                expanded_id: null
+              })
+            }
+          )
+        }
+      }
+    }
+  }
+
+  render() {
+    return (
+      <AccordionProvider
+        onInit={this.onInit}
+        {...this.props}
+        {...this.state}
+      />
+    )
+  }
 }
-Accordion.Group.propTypes = {
-  group: PropTypes.string
+
+Accordion.Group = Group
+Accordion.Group.Store = (group, id = null) => {
+  return new Store({ group, id })
 }
-Accordion.Group.defaultProps = {
-  group: null
+Accordion.Store = (id) => {
+  return new Store({ id })
+}
+
+function rememberWarning(type = 'accordion') {
+  warn(`Missing "id" prop the ${type}! "remember_state" is enabled.`)
+}
+
+class Store {
+  constructor({ id, group }) {
+    this.id = id
+    this.group = group
+    return this
+  }
+
+  storeId(id = this.id) {
+    if (this.group) {
+      // Skip using the random ID
+      if (this.group[0] === '#') {
+        return null
+      }
+      id = this.group
+    }
+    return `dnb-accordion-${id}`
+  }
+
+  saveState(expanded, id = this.id, opts = {}) {
+    if (id) {
+      try {
+        const store = this.getData() || {}
+
+        if (this.group) {
+          if (expanded) {
+            store.id = id
+          } else if (opts && opts.force) {
+            store.id = null
+          }
+        } else {
+          store.expanded = expanded
+        }
+
+        const storeId = this.storeId(id)
+        if (storeId) {
+          window.localStorage.setItem(storeId, JSON.stringify(store))
+        }
+      } catch (e) {
+        //
+      }
+    } else {
+      rememberWarning()
+    }
+  }
+
+  getData(id = this.id) {
+    const storeId = this.storeId(id)
+
+    if (storeId) {
+      try {
+        if (
+          Object.prototype.hasOwnProperty.call(
+            window.localStorage,
+            storeId
+          )
+        ) {
+          return JSON.parse(window.localStorage.getItem(storeId))
+        }
+      } catch (e) {
+        //
+      }
+    }
+
+    return null
+  }
+
+  getState(id = this.id) {
+    let state = null
+
+    const store = this.getData(id)
+
+    if (store) {
+      if (typeof store.id !== 'undefined') {
+        state = id === store.id
+      } else if (store.expanded !== 'undefined') {
+        state = isTrue(store.expanded)
+      }
+    }
+
+    return state
+  }
+
+  flush(id = this.id) {
+    if (id) {
+      try {
+        const storeId = this.storeId(id)
+        if (storeId) {
+          window.localStorage.setItem(storeId, null)
+        }
+      } catch (e) {
+        //
+      }
+    }
+  }
 }

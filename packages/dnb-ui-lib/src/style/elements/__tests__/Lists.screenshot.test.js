@@ -20,37 +20,37 @@ describe('List screenshot', () => {
   // the first one is on 5.54%
   it('have to match ul list', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-dnb-test="lists-ul"]'
+      selector: '[data-visual-test="lists-ul"]'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
   it('have to match ol list', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-dnb-test="lists-ol"]'
+      selector: '[data-visual-test="lists-ol"]'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
   it('have to match outside ol list', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-dnb-test="lists-ol-style-position"]'
+      selector: '[data-visual-test="lists-ol-style-position"]'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
   it('have to match ol list with custom types', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-dnb-test="lists-ol-types"]'
+      selector: '[data-visual-test="lists-ol-types"]'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
   it('have to match dl list', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-dnb-test="lists-dl"]'
+      selector: '[data-visual-test="lists-dl"]'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
   it('have to match lists rest', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-dnb-test="lists-reset"]'
+      selector: '[data-visual-test="lists-reset"]'
     })
     expect(screenshot).toMatchImageSnapshot()
   })

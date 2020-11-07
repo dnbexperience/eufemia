@@ -25,13 +25,12 @@ export default class Provider extends React.PureComponent {
       } = props
 
       // 1. Set default context to be overwritten by the provider props
-      // const newContext = { ...state, ...updatedProps }
       let newContext = state
 
       // No, it's not sure that props have been updated, so we check that here
       if (state._startupProps !== updatedProps) {
         let hasChanges = false
-        for (const i in state._startupProps) {
+        for (const i in updatedProps) {
           if (
             state._startupProps[i] !== updatedProps[i] ||
             typeof updatedProps[i] === 'boolean'
@@ -43,7 +42,8 @@ export default class Provider extends React.PureComponent {
 
         // and if so, update these props
         if (hasChanges) {
-          newContext = { ...state, ...updatedProps }
+          newContext = Object.assign(state, updatedProps)
+          state._startupProps = updatedProps
         }
       }
 
@@ -68,30 +68,34 @@ export default class Provider extends React.PureComponent {
       ...startupProps
     } = props
 
+    // NB: Make sure we create a copy, because we add some custom methods to it
     const newContext = { ...context, ...startupProps }
     const isRoot = !(newContext && newContext.__providerId)
     newContext.__providerId = makeUniqueId()
 
-    // 1. Set default context to be overwirtter by the provider props
+    // 1. Set default context to be overwritten by the provider props
     const pC = isRoot ? prepareContext(newContext) : newContext
 
     // change only current context
-    pC.updateCurrent = (props) => this.setContext(props)
-    pC.setCurrentLocale = (locale) => this.setContext({ locale })
+    pC.updateCurrent = (props) => this.setNewContext(props)
+    pC.setCurrentLocale = (locale) => this.setNewContext({ locale })
 
     // change both the root and the current context
     pC.update = (props) => {
+      // Update the root context
       if (typeof context.update === 'function') {
         context.update(props)
       }
-      this.setContext(props)
+
+      this.setNewContext(props)
     }
     pC.setLocale = (locale) => {
+      // Update the root context
       if (typeof context.update === 'function') {
         context.update({ locale })
       }
-      // make it posible to change the locale during runtime
-      this.setContext({ locale })
+
+      this.setNewContext({ locale })
     }
 
     this.state = pC
@@ -100,11 +104,22 @@ export default class Provider extends React.PureComponent {
     this.state._startupProps = startupProps
   }
 
-  setContext(newContext) {
+  setNewContext(__newContext) {
     this.setState({
       _listenForPropChanges: false
     })
-    this.setState(newContext)
+
+    /**
+     * While we could send in the new state like this:
+     * this.setState(newContext)
+     * – as NO object, we do that for now, because;
+     * This gives us more control on when and how we want to update the new data.
+     *
+     * PS: Initial, the reason was the change locale Dropdown in the Portal,
+     * which has "refresh" problems, in drawer-list animation was enabled
+     */
+    this.setState({ __newContext })
+    // this.setState(newContext)
   }
 
   render() {
@@ -114,7 +129,7 @@ export default class Provider extends React.PureComponent {
     const context = !this.state.isRoot
       ? {
           ...this.context,
-          ...this.state // use this state here, because our child provider can still update the context          ...this.context
+          ...this.state // Use this state here, because our child provider can still update the context          ...this.context
         }
       : this.state
 

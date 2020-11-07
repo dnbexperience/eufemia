@@ -68,6 +68,7 @@ export default class Slider extends React.PureComponent {
     step: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     vertical: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     reverse: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    stretch: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     hide_buttons: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     use_scrollwheel: PropTypes.oneOfType([
@@ -107,6 +108,7 @@ export default class Slider extends React.PureComponent {
     step: null,
     vertical: false,
     reverse: false,
+    stretch: false,
     disabled: false,
     hide_buttons: false,
     use_scrollwheel: false,
@@ -131,47 +133,41 @@ export default class Slider extends React.PureComponent {
 
   static getDerivedStateFromProps(props, state) {
     if (state._listenForPropChanges) {
-      if (state.reverse !== props.reverse) {
-        state.reverse = isTrue(props.reverse)
-        if (isTrue(props.vertical)) {
-          state.reverse = !state.reverse
-        }
+      state.reverse = isTrue(props.reverse)
+      if (isTrue(props.vertical)) {
+        state.reverse = !state.reverse
       }
-      if (state.vertical !== props.vertical) {
-        state.vertical = isTrue(props.vertical)
-      }
-      if (state.disabled !== props.disabled) {
-        state.disabled = isTrue(props.disabled)
-      }
-      if (state.min !== props.min) {
-        state.min = parseFloat(props.min)
-      }
-      if (state.max !== props.max) {
-        state.max = parseFloat(props.max)
-      }
+
+      state.vertical = isTrue(props.vertical)
+      state.min = parseFloat(props.min)
+      state.max = parseFloat(props.max)
 
       const value = Slider.getValue(props)
-      if (value !== state.value && value !== state._value && value >= -1) {
+      if (value !== state._value && value >= -1) {
         state.value = value
+
+        if (typeof props.on_state_update === 'function') {
+          dispatchCustomElementEvent({ ...props }, 'on_state_update', {
+            value
+          })
+        }
       }
 
-      if (
-        state.value !== state.__value &&
-        typeof props.on_state_update === 'function'
-      ) {
-        dispatchCustomElementEvent({ ...props }, 'on_state_update', {
-          value
-        })
-      }
-    }
-    if (state.disabled) {
-      return { currentState: 'disabled' }
-    } else if (state.currentState === 'disabled') {
-      return { currentState: 'normal' }
+      state._value = value
     }
     state._listenForPropChanges = true
-    state._value = state.value
-    state.__value = state.value
+
+    state.disabled = isTrue(props.disabled)
+
+    if (isTrue(props.skeleton)) {
+      state.disabled = true
+    }
+
+    if (state.disabled) {
+      state.currentState = 'disabled'
+    } else if (state.currentState === 'disabled') {
+      state.currentState = 'normal'
+    }
 
     return state
   }
@@ -274,7 +270,8 @@ export default class Slider extends React.PureComponent {
     )
 
     const value = percentToValue(percent, min, max)
-    this.emitChange(event, value, () => this.setToResetState())
+    this.emitChange(event, value)
+    this.setJumpedState()
   }
 
   onSubtractClickHandler = (event) => {
@@ -424,17 +421,16 @@ export default class Slider extends React.PureComponent {
     }
   }
 
-  resetStateTimeoutId = -1
-  setToResetState() {
+  setJumpedState() {
     this.setState(
-      { _listenForPropChanges: false, currentState: 'jumped' },
+      { currentState: 'jumped', _listenForPropChanges: false },
       () => {
-        clearTimeout(this.resetStateTimeoutId)
-        this.resetStateTimeoutId = setTimeout(
+        clearTimeout(this.jumpedTimeout)
+        this.jumpedTimeout = setTimeout(
           () =>
             this.setState({
-              _listenForPropChanges: false,
-              currentState: 'normal'
+              currentState: 'normal',
+              _listenForPropChanges: false
             }),
           100
         )
@@ -492,7 +488,7 @@ export default class Slider extends React.PureComponent {
         warn(e)
       }
     }
-    clearTimeout(this.resetStateTimeoutId)
+    clearTimeout(this.jumpedTimeout)
   }
 
   render() {
@@ -513,6 +509,7 @@ export default class Slider extends React.PureComponent {
       status_state,
       status_animation,
       global_status_id,
+      stretch,
       suffix,
       thump_title: title,
       subtract_title,
@@ -536,9 +533,16 @@ export default class Slider extends React.PureComponent {
       ...attributes
     } = props
 
-    // const { min, max, reverse, vertical, disabled } = this.state
-    const { min, max, reverse, vertical, value } = this.state
-    let { disabled, currentState } = this.state
+    const {
+      min,
+      max,
+      reverse,
+      vertical,
+      value,
+      currentState,
+      disabled
+    } = this.state
+
     const showStatus = status && status !== 'error'
     const showButtons = !isTrue(hide_buttons)
 
@@ -548,6 +552,7 @@ export default class Slider extends React.PureComponent {
         'dnb-slider',
         reverse && 'dnb-slider--reverse',
         vertical && 'dnb-slider--vertical',
+        isTrue(stretch) && 'dnb-slider--stretch',
         label &&
           label_direction &&
           `dnb-slider__label--${label_direction}`,
@@ -571,11 +576,6 @@ export default class Slider extends React.PureComponent {
       [`${vertical ? 'top' : 'left'}`]: `${percent}%`
     }
 
-    if (isTrue(skeleton)) {
-      disabled = true
-      currentState = 'disabled'
-    }
-
     skeletonDOMAttributes(mainParams, skeleton, this.context)
 
     const helperParams = {}
@@ -596,7 +596,6 @@ export default class Slider extends React.PureComponent {
       ...attributes,
       onBlur: this.onBlurHandler,
       onFocus: this.onFocusHandler
-      // onKeyDown: this.onKeyDownHandler,
     }
 
     if (label) {
@@ -673,6 +672,7 @@ export default class Slider extends React.PureComponent {
             <FormStatus
               id={id + '-form-status'}
               global_status_id={global_status_id}
+              label={label}
               text_id={id + '-status'} // used for "aria-describedby"
               text={status}
               status={status_state}

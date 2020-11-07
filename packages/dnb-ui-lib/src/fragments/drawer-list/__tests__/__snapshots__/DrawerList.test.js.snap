@@ -83,6 +83,7 @@ exports[`DrawerList markup have to match snapshot 1`] = `
   prevent_focus="prevent_focus"
   prevent_selection={null}
   raw_data={Array []}
+  role="role"
   scrollable="scrollable"
   size="default"
   skip_keysearch="skip_keysearch"
@@ -179,6 +180,7 @@ exports[`DrawerList markup have to match snapshot 1`] = `
     prevent_focus="prevent_focus"
     prevent_selection={null}
     raw_data={Array []}
+    role="role"
     scrollable="scrollable"
     size="default"
     skip_keysearch="skip_keysearch"
@@ -270,6 +272,7 @@ exports[`DrawerList markup have to match snapshot 1`] = `
       prevent_focus="prevent_focus"
       prevent_selection={null}
       raw_data={Array []}
+      role="role"
       scrollable="scrollable"
       size="default"
       skip_keysearch="skip_keysearch"
@@ -442,8 +445,7 @@ exports[`DrawerList scss have to match default theme snapshot 1`] = `
     .dnb-drawer-list__option--focus:not(.dnb-drawer-list__option--selected) .dnb-drawer-list__option__inner {
       color: var(--drawer-list-option-color--hover);
       background-color: var(--drawer-list-option-background-color--hover); }
-    .dnb-drawer-list__option:first-of-type,
-    .dnb-drawer-list__option--focus:first-of-type .dnb-drawer-list__option__inner, .dnb-drawer-list__option--focus:first-of-type::before {
+    .dnb-drawer-list__option--focus.first-of-type .dnb-drawer-list__option__inner, .dnb-drawer-list__option--focus.first-of-type::before {
       border-radius: var(--drawer-list-options-border-radius) var(--drawer-list-options-border-radius) 0 0; }
     .dnb-drawer-list__option.last-of-type,
     .dnb-drawer-list__option--focus.last-of-type .dnb-drawer-list__option__inner, .dnb-drawer-list__option--focus.last-of-type::before {
@@ -470,7 +472,8 @@ exports[`DrawerList scss have to match default theme snapshot 1`] = `
     border: none;
     background-color: var(--color-white);
     box-shadow: 0 1px 6px rgba(0, 0, 0, 0.16); }
-  .dnb-drawer-list__option:first-of-type:hover ~ .dnb-drawer-list__triangle::before,
+  .dnb-drawer-list--top .dnb-drawer-list__option.last-of-type:hover ~ .dnb-drawer-list__triangle::before,
+  .dnb-drawer-list--bottom .dnb-drawer-list__option.first-of-type:hover ~ .dnb-drawer-list__triangle::before,
   .dnb-drawer-list--bottom .dnb-drawer-list__option.closest-to-top:hover ~ .dnb-drawer-list__triangle::before,
   .dnb-drawer-list--top .dnb-drawer-list__option.closest-to-bottom:hover ~ .dnb-drawer-list__triangle::before,
   .dnb-drawer-list--bottom .dnb-drawer-list__option.closest-to-top.dnb-drawer-list__option--focus ~ .dnb-drawer-list__triangle::before,
@@ -642,16 +645,16 @@ exports[`DrawerList scss have to match snapshot 1`] = `
       flex-direction: column;
       justify-content: center;
       outline: none;
-      width: 100%;
       margin: 0;
       padding: 1rem;
       color: inherit;
       background-color: var(--color-white); }
+      .dnb-drawer-list__option__inner > * {
+        align-self: self-start; }
     .dnb-drawer-list__option__item {
       display: block;
       overflow: hidden;
-      text-overflow: ellipsis;
-      width: 100%; }
+      text-overflow: ellipsis; }
     .dnb-drawer-list__option--ignore {
       cursor: default;
       pointer-events: none; }
@@ -698,7 +701,7 @@ exports[`DrawerList scss have to match snapshot 1`] = `
     flex-direction: column; }
     .dnb-drawer-list--opened .dnb-drawer-list__list {
       animation: drawer-list-slide-top-down 200ms ease-out 1 forwards; }
-    html[data-dnb-test] .dnb-drawer-list--opened .dnb-drawer-list__list, .dnb-drawer-list--opened .dnb-drawer-list__list--no-animation {
+    html[data-visual-test] .dnb-drawer-list--opened .dnb-drawer-list__list, .dnb-drawer-list--opened .dnb-drawer-list__list--no-animation {
       animation: drawer-list-slide-top-down 1ms ease-out 1 forwards; }
   @media screen and (max-width: 40em), screen and (max-height: 40em) {
     .dnb-drawer-list__portal .dnb-drawer-list--mobile-view.dnb-drawer-list--opened .dnb-drawer-list__list {
@@ -765,10 +768,11 @@ exports[`DrawerList scss have to match snapshot 1`] = `
     .dnb-drawer-list__portal .dnb-drawer-list--mobile-view .dnb-drawer-list__options {
       height: 100vh;
       top: 0 !important;
-      max-height: 100vh !important; } }
+      max-height: 100vh !important;
+      border-radius: 0; } }
   .dnb-drawer-list:not(.dnb-drawer-list--opened) .dnb-drawer-list__list {
     animation: drawer-list-slide-top-up 150ms ease-out 1 forwards; }
-  html[data-dnb-test] .dnb-drawer-list:not(.dnb-drawer-list--opened) .dnb-drawer-list__list, .dnb-drawer-list:not(.dnb-drawer-list--opened) .dnb-drawer-list__list--no-animation {
+  html[data-visual-test] .dnb-drawer-list:not(.dnb-drawer-list--opened) .dnb-drawer-list__list, .dnb-drawer-list:not(.dnb-drawer-list--opened) .dnb-drawer-list__list--no-animation {
     animation: drawer-list-slide-top-up 1ms ease-out 1 forwards; }
   @media screen and (max-width: 40em), screen and (max-height: 40em) {
     .dnb-drawer-list__portal .dnb-drawer-list--mobile-view.dnb-drawer-list:not(.dnb-drawer-list--opened) .dnb-drawer-list__list {

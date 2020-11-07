@@ -195,6 +195,7 @@ export default class Dropdown extends React.PureComponent {
 
     on_show: null,
     on_hide: null,
+
     on_change: null,
     on_select: null,
     on_state_update: null
@@ -249,7 +250,7 @@ class DropdownInstance extends React.PureComponent {
     this._refShell = React.createRef()
     this._refButton = React.createRef()
 
-    // deprecated, use value instad
+    // deprecated, use value instead
     const dep = 'selected_item'
     if (typeof props[dep] !== 'undefined') {
       warn(`Dropdown: Please use "value" instead of "${dep}".`)
@@ -336,29 +337,24 @@ class DropdownInstance extends React.PureComponent {
   }
 
   onHideHandler = (args = {}) => {
-    let focus_element
-    try {
-      focus_element = this._refButton.current._ref.current
-    } catch (e) {
-      // do noting
-    }
     const attributes = this.attributes || {}
     dispatchCustomElementEvent(this, 'on_hide', {
       ...args,
-      attributes,
-      focus_element
+      attributes
     })
 
     clearTimeout(this._focusTimeout)
     this._focusTimeout = setTimeout(() => {
       try {
-        if (focus_element && typeof focus_element.focus === 'function') {
-          focus_element.focus({ preventScroll: true })
+        const element = this._refButton.current._ref.current
+        if (element && typeof element.focus === 'function') {
+          element.focus({ preventScroll: true })
+          dispatchCustomElementEvent(this, 'on_hide_focus', { element })
         }
       } catch (e) {
         // do noting
       }
-    }, 1) // NVDA / Firefox needs a dealy to set this focus
+    }, 1) // NVDA / Firefox needs a delay to set this focus
   }
 
   onSelectHandler = (args) => {
@@ -457,6 +453,8 @@ class DropdownInstance extends React.PureComponent {
     let { icon, icon_position, align_dropdown } = props
     const id = this._id
 
+    const handleAsMenu =
+      isTrue(action_menu) || isTrue(more_menu) || isTrue(prevent_selection)
     const isPopupMenu = isTrue(more_menu) || !(_title && _title.length > 0)
     if (isPopupMenu) {
       icon = icon || (isTrue(more_menu) ? 'more' : 'chevron_down')
@@ -507,9 +505,9 @@ class DropdownInstance extends React.PureComponent {
       ),
       id,
       disabled,
-      'aria-haspopup': 'listbox',
+      'aria-haspopup': handleAsMenu ? true : 'listbox',
       'aria-expanded': opened,
-      'aria-controls': `${id}-drawer-list`,
+      // 'aria-controls': `${id}-drawer-list`,
       ...attributes,
       onFocus: this.onFocusHandler,
       onBlur: this.onBlurHandler,
@@ -517,15 +515,25 @@ class DropdownInstance extends React.PureComponent {
       onKeyDown: this.onTriggerKeyDownHandler
     }
 
-    // reads out the current selected state
-    if (typeof title === 'string') {
-      triggerParams['aria-label'] = title
+    if (opened) {
+      triggerParams['aria-controls'] = `${id}-drawer-list`
     }
+
     if (showStatus || suffix) {
       triggerParams['aria-describedby'] = [
         triggerParams['aria-describedby'],
         showStatus ? id + '-status' : null,
         suffix ? id + '-suffix' : null
+      ]
+        .filter(Boolean)
+        .join(' ')
+    }
+
+    if (label) {
+      triggerParams['aria-labelledby'] = [
+        triggerParams['aria-labelledby'],
+        id + '-label',
+        id // used to read the current value
       ]
         .filter(Boolean)
         .join(' ')
@@ -560,6 +568,7 @@ class DropdownInstance extends React.PureComponent {
             <FormStatus
               id={id + '-form-status'}
               global_status_id={global_status_id}
+              label={label}
               text_id={id + '-status'} // used for "aria-describedby"
               text={status}
               status={status_state}
@@ -609,6 +618,7 @@ class DropdownInstance extends React.PureComponent {
 
               <DrawerList
                 id={id}
+                role={handleAsMenu ? 'menu' : 'listbox'}
                 inner_class="dnb-dropdown__list"
                 value={selected_item}
                 default_value={default_value}
@@ -617,9 +627,7 @@ class DropdownInstance extends React.PureComponent {
                 no_animation={no_animation}
                 no_scroll_animation={no_scroll_animation}
                 skip_portal={skip_portal}
-                prevent_selection={
-                  action_menu || more_menu || prevent_selection
-                }
+                prevent_selection={handleAsMenu}
                 action_menu={action_menu}
                 triangle_position={
                   triangle_position || icon_position || 'right'

@@ -12,7 +12,6 @@ import isAfter from 'date-fns/isAfter'
 import isBefore from 'date-fns/isBefore'
 import isSameDay from 'date-fns/isSameDay'
 import isToday from 'date-fns/isToday'
-import isWeekend from 'date-fns/isWeekend'
 import isSameMonth from 'date-fns/isSameMonth'
 import addDays from 'date-fns/addDays'
 import startOfWeek from 'date-fns/startOfWeek'
@@ -31,17 +30,26 @@ export const makeDayObject = (
   { startDate, endDate, hoverDate, minDate, maxDate, month }
 ) => {
   const range = getRange(startDate, endDate, hoverDate)
+  const isLastMonth = isSameMonth(subMonths(date, 1), month)
+  const isNextMonth = isSameMonth(addMonths(date, 1), month)
+  const isStartDate = isStartDateCalc(date, range)
+  const isEndDate = isEndDateCalc(date, range)
+  const isWithinSelection = isWithinSelectionCalc(date, startDate, endDate)
+  const isPreview = isPreviewCalc(date, startDate, endDate, hoverDate)
+  const isDisabled = isDisabledCalc(date, minDate, maxDate)
+
   return {
     date,
     isToday: isToday(date),
-    isWeekend: isWeekend(date),
-    isLastMonth: isSameMonth(subMonths(date, 1), month),
-    isNextMonth: isSameMonth(addMonths(date, 1), month),
-    isStartDate: isStartDate(date, range),
-    isEndDate: isEndDate(date, range),
-    isWithinSelection: isWithinSelection(date, startDate, endDate),
-    isPreview: isPreview(date, startDate, endDate, hoverDate),
-    isDisabled: isDisabled(date, minDate, maxDate)
+    isLastMonth,
+    isNextMonth,
+    isStartDate,
+    isEndDate,
+    isWithinSelection,
+    isPreview,
+    isDisabled,
+    isSelectable: !isLastMonth && !isNextMonth && !isDisabled,
+    isInactive: isLastMonth || isNextMonth || isDisabled
   }
 }
 
@@ -89,7 +97,7 @@ export const getCalendar = (
 }
 const calendarCache = {}
 
-// calculates offset from sunday, eg monday is +1
+// calculates offset from Sunday, eg Monday is +1
 export const dayOffset = (dayName) => {
   const week = [
     'sunday',
@@ -147,7 +155,7 @@ export const getMonth = (month, skip = 0, limit) => {
 }
 
 // date is between selection range
-const isWithinSelection = (date, startDate, endDate) => {
+const isWithinSelectionCalc = (date, startDate, endDate) => {
   const { startDate: start, endDate: end } = toRange(startDate, endDate)
   return startDate && endDate
     ? isValid(start) &&
@@ -160,31 +168,32 @@ const isWithinSelection = (date, startDate, endDate) => {
 }
 
 // date is before minDate or after maxDate
-export const isDisabled = (date, minDate, maxDate) => {
+const isDisabledCalc = (date, minDate, maxDate) => {
   // isBefore and isAfter return false if comparison date is undefined, which is useful here in case minDate and maxDate aren't supplied
   return (
     (minDate && isBefore(date, minDate)) ||
     (maxDate && isAfter(date, maxDate))
   )
 }
+export { isDisabledCalc as isDisabled }
 
 // date selected is start date
-const isStartDate = (date, range) => {
+const isStartDateCalc = (date, range) => {
   return range.startDate && isSameDay(date, range.startDate)
 }
 
 // date selected is end date
-const isEndDate = (date, range) => {
+const isEndDateCalc = (date, range) => {
   return range.endDate && isSameDay(date, range.endDate)
 }
 
 // date is between startDate (exclusive) and hoverDate (inclusive)
-const isPreview = (date, startDate, endDate, hoverDate) => {
+const isPreviewCalc = (date, startDate, endDate, hoverDate) => {
   const { startDate: start, endDate: end } = toRange(startDate, hoverDate)
   return (
     startDate &&
     !endDate &&
-    // To exlude "isPreview" from startDate/endDate, we have to enable theese two lines
+    // To exclude "isPreview" from startDate/endDate, we have to enable these two lines
     // !isStartDate(date, previewRange) &&
     // !isEndDate(date, previewRange) &&
     isValid(start) &&
@@ -197,8 +206,8 @@ const isPreview = (date, startDate, endDate, hoverDate) => {
 }
 
 export const correctV1Format = (date) => {
-  // for backwords compatibility
-  // TODO: Remvoe this in next major version
+  // for backwards compatibility
+  // TODO: Remove this in next major version
   if (/YYYY/.test(date) && /DD/.test(date)) {
     warn(
       'You are using "YYYY-MM-DD" as the date_format or return_format? Please use "yyyy-MM-dd" instead!'

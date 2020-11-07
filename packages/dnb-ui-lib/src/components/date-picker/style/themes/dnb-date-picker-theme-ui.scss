@@ -6,9 +6,10 @@
 @import '../../../../style/themes/imports.scss';
 
 :root {
-  --date-picker-header-color: var(--color-emerald-green);
-  --date-picker-labels-day-color: var(--color-emerald-green);
+  --date-picker-header-color: var(--color-black-80);
+  --date-picker-labels-day-color: var(--color-black-80);
   --date-picker-selected-color: var(--color-mint-green-25);
+  --date-picker-inactive-color: var(--color-black-55);
   --date-picker-selected-bg-color: var(--color-emerald-green);
   --date-picker-selected-bg-color-hover: var(--color-emerald-green);
   --date-picker-within-selection-bg-color: var(--color-mint-green-50);
@@ -43,14 +44,14 @@
   &__calendar {
     // border
     &::after {
-      background-color: var(--color-mint-green-50);
+      background-color: var(--color-black-8);
     }
   }
 
   &__header {
     // border
     &::after {
-      background-color: var(--color-mint-green-50);
+      background-color: var(--color-black-8);
     }
 
     &__nav .dnb-button {
@@ -61,6 +62,7 @@
       text-align: center;
 
       font-size: var(--font-size-basis);
+      font-weight: var(--font-weight-medium);
       color: var(--date-picker-header-color);
     }
   }
@@ -122,6 +124,14 @@
       .dnb-button:hover:not([disabled]) {
       color: var(--date-picker-selected-color);
       background-color: var(--date-picker-selected-bg-color-hover);
+    }
+
+    &--disabled .dnb-button {
+      text-decoration: line-through;
+    }
+
+    &--inactive .dnb-button {
+      color: var(--date-picker-inactive-color);
     }
 
     &--inactive .dnb-button,

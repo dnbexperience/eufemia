@@ -22,6 +22,7 @@ props.icon = 'question'
 props.title = 'This is a button title'
 props.size = null
 props.status = null
+props.element = null
 props.tooltip = null
 props.icon_position = 'right'
 
@@ -96,6 +97,14 @@ describe('Button component', () => {
     Comp.simulate('click')
     expect(my_event.mock.calls.length).toBe(1)
     expect(myEvent.mock.calls.length).toBe(1)
+  })
+
+  it('has set innerRef if ref was given', () => {
+    const ref = React.createRef()
+    expect(ref.current).toBe(null)
+    mount(<Component {...props} innerRef={ref} />)
+    expect(ref.current).not.toBe(null)
+    expect(typeof ref.current).toBe('object')
   })
 
   it('should validate with ARIA rules as a button', async () => {

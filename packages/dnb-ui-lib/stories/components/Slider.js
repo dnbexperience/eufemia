@@ -7,9 +7,19 @@ import React from 'react'
 import { Wrapper, Box } from '../helpers'
 import styled from '@emotion/styled'
 
-import { Slider, Input, FormRow, FormLabel } from '../../src/components'
+import {
+  Slider,
+  ToggleButton,
+  Input,
+  FormRow,
+  FormLabel
+} from '../../src/components'
 
 import '../../src/components/slider/style/dnb-range.scss'
+
+export default {
+  title: 'Eufemia/Components/Slider'
+}
 
 const VerticalWrapper = styled.div`
   display: inline-flex;
@@ -32,6 +42,9 @@ const SliderStory = () => {
   const [value, setValue] = React.useState(70)
   return (
     <Wrapper>
+      <Box>
+        <DisabledState></DisabledState>
+      </Box>
       <Box>
         Text
         <Slider
@@ -109,6 +122,28 @@ const SliderStory = () => {
         </FormRow>
       </Box>
     </Wrapper>
+  )
+}
+
+const DisabledState = () => {
+  const [isDisabled, setDisabled] = React.useState(false)
+  return (
+    <FormRow direction="horizontal" centered>
+      <ToggleButton
+        checked={isDisabled}
+        right
+        on_change={() => setDisabled((s) => !s)}
+      >
+        Set as disabled
+      </ToggleButton>
+      <Slider
+        min={0}
+        max={100}
+        value={70}
+        label="Default Slider:"
+        disabled={isDisabled}
+      />
+    </FormRow>
   )
 }
 

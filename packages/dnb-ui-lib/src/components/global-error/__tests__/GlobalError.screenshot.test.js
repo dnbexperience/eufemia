@@ -16,14 +16,14 @@ describe('GlobalError screenshot', () => {
   it('have to match the 404 status', async () => {
     const screenshot = await testPageScreenshot({
       style,
-      selector: '[data-dnb-test="global-error-404"]'
+      selector: '[data-visual-test="global-error-404"]'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
   it('have to match the 500 status', async () => {
     const screenshot = await testPageScreenshot({
       style,
-      selector: '[data-dnb-test="global-error-500"]'
+      selector: '[data-visual-test="global-error-500"]'
     })
     expect(screenshot).toMatchImageSnapshot()
   })

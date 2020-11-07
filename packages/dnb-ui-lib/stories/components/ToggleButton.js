@@ -18,6 +18,10 @@ import {
 
 import { H2 } from '../../src/elements'
 
+export default {
+  title: 'Eufemia/Components/ToggleButton'
+}
+
 function ToggleButtonGroup() {
   const [button1, setButton1] = React.useState(false)
   const [button2, setButton2] = React.useState(false)
@@ -84,7 +88,7 @@ function ToggleButtonGroup() {
   )
 }
 
-export const ToggleButtons = () => (
+export const ToggleButtonSandbox = () => (
   <Wrapper>
     <Box>
       <ToggleButtonGroup />

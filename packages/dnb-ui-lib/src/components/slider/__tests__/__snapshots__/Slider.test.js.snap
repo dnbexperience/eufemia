@@ -25,6 +25,7 @@ exports[`Slider component have to match snapshot 1`] = `
   status_animation="status_animation"
   status_state="status_state"
   step={10}
+  stretch="stretch"
   subtract_title="subtract_title"
   suffix="suffix"
   thump_title="thump_title"
@@ -38,7 +39,6 @@ exports[`Slider component have to match snapshot 1`] = `
     <FormLabel
       class={null}
       className={null}
-      direction={null}
       disabled={false}
       element="label"
       for_id={null}
@@ -80,6 +80,7 @@ exports[`Slider component have to match snapshot 1`] = `
           custom_element={null}
           custom_method={null}
           disabled={false}
+          element={null}
           global_status_id={null}
           href={null}
           icon="subtract"
@@ -117,6 +118,7 @@ exports[`Slider component have to match snapshot 1`] = `
               custom_element={null}
               custom_method={null}
               disabled={false}
+              element={null}
               global_status_id={null}
               href={null}
               icon="subtract"
@@ -224,6 +226,7 @@ exports[`Slider component have to match snapshot 1`] = `
               custom_element={null}
               custom_method={null}
               disabled={false}
+              element={null}
               global_status_id={null}
               href={null}
               icon={null}
@@ -270,6 +273,7 @@ exports[`Slider component have to match snapshot 1`] = `
                   custom_element={null}
                   custom_method={null}
                   disabled={false}
+                  element={null}
                   global_status_id={null}
                   href={null}
                   icon={null}
@@ -319,6 +323,7 @@ exports[`Slider component have to match snapshot 1`] = `
           custom_element={null}
           custom_method={null}
           disabled={false}
+          element={null}
           global_status_id={null}
           href={null}
           icon="add"
@@ -356,6 +361,7 @@ exports[`Slider component have to match snapshot 1`] = `
               custom_element={null}
               custom_method={null}
               disabled={false}
+              element={null}
               global_status_id={null}
               href={null}
               icon="add"
@@ -454,6 +460,7 @@ exports[`Slider component have to match snapshot 1`] = `
             status_animation="status_animation"
             status_state="status_state"
             step={10}
+            stretch="stretch"
             subtract_title="subtract_title"
             suffix="suffix"
             thump_title="thump_title"
@@ -1038,7 +1045,9 @@ legend.dnb-form-label {
   -webkit-user-select: none;
   display: flex;
   font-size: var(--font-size-small);
-  line-height: var(--line-height-basis); }
+  line-height: var(--slider-thumb-size); }
+  .dnb-slider--stretch {
+    width: 100%; }
   .dnb-slider--vertical {
     display: flex;
     width: auto;

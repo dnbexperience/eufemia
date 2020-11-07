@@ -18,7 +18,7 @@ From the technical side, we have to assign an _invisible_ focus, so the user can
 ```html
 <body>
   <nav><!-- focusable navigation --></nav>
-  <main>
+  <main role="main">
     <!-- more markup with focusable HTMLElements -->
     <h1 class="dnb-h--xx-large dnb-no-focus" tabindex="-1">Main Title</h1>
     <a href="/path">I'm now focusable on next tab</a>

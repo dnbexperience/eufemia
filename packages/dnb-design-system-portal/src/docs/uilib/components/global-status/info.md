@@ -9,9 +9,9 @@ By default, the `GlobalStatus` is automatically connected together with the [For
 
 ### FormStatus default behavior
 
-1. Once a **FormStatus** is show, the `main` **GlobalStatus** will show up.
+1. Once a **FormStatus** is shown, the `main` **GlobalStatus** will show up.
 1. The page will scroll (if needed) to the dedicated **GlobalStatus**.
-1. But the focus will stay on the current place.
+1. Form components will send along both the status text, and it's label to show a good and accessible summary.
 1. Screen reader uses will automatically hear the whole content of the `GlobalStatus` once it shows up.
 
 ### Several Global statuses
@@ -67,13 +67,19 @@ Beside the automated connection between the error states of form components ([Fo
 import { GlobalStatus } from 'dnb-ui-lib/components'
 
 // 1. Update / extend the the status like so:
-const statusOne = GlobalStatus.AddStatus({
+const statusOne = GlobalStatus.create({
+  id: 'other-global-status', // or main
   status_id: 'custom-id-1',
   text: 'New Text',
   item: 'Item from status #1'
 })
 
 // 2. and removes "custom-id-1" again if needed
+statusOne.update({
+  text: 'Updated Text'
+})
+
+// 3. and removes "custom-id-1" again if needed
 statusOne.remove()
 ```
 

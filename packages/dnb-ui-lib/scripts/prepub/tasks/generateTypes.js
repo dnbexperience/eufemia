@@ -14,24 +14,24 @@ import { fetchPropertiesFromDocs } from './fetchPropertiesFromDocs'
 
 export default async function generateTypes({
   paths = [
-    './src/index.js',
-    './src/**/index.js',
-    './src/components/*.js',
-    './src/patterns/*.js',
-    './src/fragments/*.js',
-    './src/components/**/**/*.js',
-    './src/patterns/**/**/*.js',
-    './src/fragments/**/**/*.js',
-    './src/elements/*.js'
+    './src/*.js',
+    './src/**/*.js',
+    '!./src/core/**',
+    '!**/__tests__',
+    '!./src/esm/',
+    '!./src/cjs/',
+    '!./src/umd/',
+    '!./src/style/',
+    '!./src/icons/',
+    '!./src/**/web-component.js',
+    '!./src/**/web-components.js'
   ]
 } = {}) {
   log.start('> PrePublish: generating types')
 
   try {
-    await asyncForEach(paths, async (globe) => {
-      const files = await globby(globe)
-      await createTypes(files)
-    })
+    const files = await globby(paths)
+    await createTypes(files)
 
     log.succeed(`> PrePublish: Converting "types" is done`)
   } catch (e) {

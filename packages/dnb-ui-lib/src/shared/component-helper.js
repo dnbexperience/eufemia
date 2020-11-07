@@ -54,7 +54,7 @@ export function defineNavigator() {
     }
 
     try {
-      if (!window.IS_TEST) {
+      if (!(typeof window !== 'undefined' && window.IS_TEST)) {
         if (navigator.platform.match(new RegExp(PLATFORM_MAC)) !== null) {
           document.documentElement.setAttribute('data-os', 'mac')
         } else if (
@@ -810,5 +810,271 @@ export class InteractionInvalidation {
         `body *:not(${this.bypassSelector}):not(script)`
       )
     ).filter((node) => !skipTheseNodes.includes(node))
+  }
+}
+
+export class AnimateHeight {
+  constructor(opts = {}) {
+    this.state = 'init'
+    this.onStartStack = []
+    this.onEndStack = []
+    this.opts = opts
+  }
+  setElem(elem, container = null) {
+    this.elem =
+      elem ||
+      (typeof document !== 'undefined' && document.createElement('div'))
+
+    // get tr element
+    if (String(this.elem?.nodeName).toLowerCase() === 'td') {
+      this.elem = this.elem.parentElement
+    }
+
+    this.container = container
+
+    if (this.container) {
+      this.onResize = () => {
+        clearTimeout(this.resizeTimeout)
+        this.resizeTimeout = setTimeout(
+          () => this.setContainerHeight(),
+          300
+        )
+      }
+      window.addEventListener('resize', this.onResize)
+    }
+  }
+  removeEndEvents() {
+    if (this.onOpenEnd) {
+      this.elem.removeEventListener('transitionend', this.onOpenEnd)
+      this.onOpenEnd = null
+    }
+    if (this.onAdjustEnd) {
+      this.elem.removeEventListener('transitionend', this.onAdjustEnd)
+      this.onAdjustEnd = null
+    }
+    if (this.onCloseEnd) {
+      this.elem.removeEventListener('transitionend', this.onCloseEnd)
+      this.onCloseEnd = null
+    }
+  }
+  remove() {
+    this.removeEndEvents()
+    this.isAnimating = false
+    this.onStartStack = null
+    this.onEndStack = null
+    this.stop()
+    this.elem = null
+    this.state = 'init'
+    if (this.onResize) {
+      clearTimeout(this.resizeTimeout)
+      window.removeEventListener('resize', this.onResize)
+    }
+  }
+  getCloseHeight() {
+    return parseFloat(this.elem.clientHeight)
+  }
+  getOpenHeight(state) {
+    const currentHeight = window.getComputedStyle(this.elem).height
+    const currentPosition = window.getComputedStyle(this.elem).position
+    const parentPosition = window.getComputedStyle(this.elem.parentElement)
+      .position
+
+    this.elem.parentElement.style.position = 'relative'
+    this.elem.style.position = 'absolute'
+    this.elem.style.visibility = 'hidden'
+    this.elem.style.height = 'auto'
+
+    const height = parseFloat(this.elem.clientHeight)
+
+    this.elem.parentElement.style.position =
+      parentPosition !== 'static' ? parentPosition : ''
+    this.elem.style.position = currentPosition
+    this.elem.style.visibility = 'visible'
+
+    switch (state) {
+      case 'open':
+        this.elem.style.height =
+          this.state === 'init' ? '0' : currentHeight
+        break
+    }
+
+    return height
+  }
+  onStart(fn) {
+    this.onStartStack.push(fn)
+  }
+  onEnd(fn) {
+    this.onEndStack.push(fn)
+  }
+  callOnStart() {
+    this.onStartStack.forEach((fn) => {
+      if (typeof fn === 'function') {
+        fn(this.state)
+      }
+    })
+  }
+  callOnEnd() {
+    this.isAnimating = false
+    this.removeEndEvents()
+    this.resetSuppressAnimation()
+
+    this.onEndStack.forEach((fn) => {
+      if (typeof fn === 'function') {
+        fn(this.state)
+      }
+    })
+  }
+  start(fromHeight, toHeight, { animate }) {
+    if (animate === false || this.opts?.animate === false) {
+      this.callOnStart()
+
+      try {
+        const event = new CustomEvent('transitionend')
+        this.elem.dispatchEvent(event)
+      } catch (e) {
+        warn(e)
+      }
+
+      return // stop here
+    }
+
+    if (typeof window !== 'undefined' && window.requestAnimationFrame) {
+      this.stop()
+
+      this.isAnimating = true
+
+      if (animate === false) {
+        this.suppressAnimation()
+      }
+
+      // call the callbacks here, because then we do not call this during startup. This way we get an instant startup
+      this.callOnStart()
+
+      // make the animation
+      this.reqId1 = window.requestAnimationFrame(() => {
+        this.elem.style.height = `${fromHeight}px`
+
+        if (this.container) {
+          this.container.style.minHeight = `${fromHeight}px`
+        }
+
+        this.reqId2 = window.requestAnimationFrame(() => {
+          this.elem.style.height = `${toHeight}px`
+          this.setContainerHeight()
+        })
+      })
+    }
+  }
+  setContainerHeight() {
+    if (this.container) {
+      const contentElem = this.elem
+      if (contentElem.offsetHeight > 0) {
+        this.container.style.minHeight = `${
+          contentElem.offsetHeight + contentElem.offsetTop
+        }px`
+      }
+    }
+  }
+  stop() {
+    if (typeof window !== 'undefined' && window.requestAnimationFrame) {
+      window.cancelAnimationFrame(this.reqId1)
+      window.cancelAnimationFrame(this.reqId2)
+    }
+  }
+  suppressAnimation() {
+    this.transitionDuration = window.getComputedStyle(
+      this.elem
+    ).transitionDuration
+    this.elem.style.transitionDuration = '1ms'
+  }
+  resetSuppressAnimation() {
+    if (this.transitionDuration) {
+      this.elem.style.transitionDuration = this.transitionDuration
+      this.transitionDuration = null
+    }
+  }
+  adjustFrom() {
+    const height = this.getCloseHeight()
+    this.elem.style.height = `${height}px`
+    return height
+  }
+  adjustTo(fromHeight, { animate = true } = {}) {
+    const toHeight = this.getOpenHeight('open')
+
+    this.state = 'adjusting'
+    this.removeEndEvents() // also, remove events on every open (but not on close!)
+
+    if (!this.onAdjustEnd) {
+      this.elem.addEventListener(
+        'transitionend',
+        (this.onAdjustEnd = () => {
+          if (this.elem) {
+            this.elem.style.height = 'auto'
+          }
+
+          this.state = 'adjusted'
+          this.callOnEnd()
+          this.setContainerHeight()
+        })
+      )
+    }
+
+    this.start(fromHeight, toHeight, { animate })
+  }
+  open({ animate = true } = {}) {
+    if (this.state === 'opened' || this.state === 'opening') {
+      return
+    }
+
+    const height = this.getOpenHeight('open')
+
+    this.state = 'opening'
+    this.removeEndEvents() // also, remove events on every open (but not on close!)
+
+    if (!this.onOpenEnd) {
+      this.elem.addEventListener(
+        'transitionend',
+        (this.onOpenEnd = () => {
+          if (this.elem) {
+            this.elem.style.height = 'auto'
+          }
+
+          this.state = 'opened'
+          this.callOnEnd()
+          this.setContainerHeight()
+        })
+      )
+    }
+
+    this.start(0, height, { animate })
+  }
+  close({ animate = true } = {}) {
+    if (this.state === 'closed' || this.state === 'closing') {
+      return
+    }
+
+    let height = this.getCloseHeight()
+    if (this.state === 'init') {
+      height = this.getOpenHeight()
+    }
+
+    this.state = 'closing'
+    this.removeEndEvents() // also, remove events on every open (but not on close!)
+
+    if (!this.onCloseEnd) {
+      this.elem.addEventListener(
+        'transitionend',
+        (this.onCloseEnd = () => {
+          if (this.elem) {
+            this.elem.style.visibility = 'hidden'
+          }
+
+          this.state = 'closed'
+          this.callOnEnd()
+        })
+      )
+    }
+
+    this.start(height, 0, { animate })
   }
 }

@@ -23,7 +23,11 @@ const CustomStyles = styled.div`
   }
 `
 
-export const Anchors = () => (
+export default {
+  title: 'Eufemia/Elements/Anchor'
+}
+
+export const AnchorSandbox = () => (
   <Wrapper>
     <CustomStyles>
       <Box>

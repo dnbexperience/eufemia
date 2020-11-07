@@ -51,7 +51,8 @@
     box-shadow: none !important;
   }
 
-  &--font {
+  &--font,
+  &--font-only {
     pointer-events: none;
     // ::selection {
     // }
@@ -60,12 +61,13 @@
     --font-family-demi: 'DNBSkeleton' !important; // Deprecated
     --font-family-default: 'DNBSkeleton' !important;
 
-    font-family: var(--font-family-default) !important;
     &,
     * {
+      font-family: var(--font-family-default) !important;
       font-style: unset !important;
     }
-
+  }
+  &--font {
     background-position-y: 50% !important;
     background-repeat: no-repeat !important;
     background-size: 30rem 100% !important;
@@ -115,9 +117,9 @@
     animation: none !important;
   }
 
-  html[data-dnb-test] &,
-  html[data-dnb-test] &::after,
-  html[data-dnb-test] &--shine &::after {
+  html[data-visual-test] &,
+  html[data-visual-test] &::after,
+  html[data-visual-test] &--shine &::after {
     animation: none !important;
   }
 

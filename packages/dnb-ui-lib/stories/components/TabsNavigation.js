@@ -8,6 +8,10 @@ import { Location, Router, navigate } from '@reach/router'
 
 import { Tabs } from '../../src/components'
 
+export default {
+  title: 'Eufemia/Components/Tabs'
+}
+
 export const TabsNavigation = () => (
   <Location>
     {({ location: { pathname } }) => {

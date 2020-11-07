@@ -70,17 +70,14 @@ describe('GlobalStatus component', () => {
   })
 
   it('should have correact attributes like "aria-live"', async () => {
-    const Comp = mount(
-      <Component autoscroll={false} delay={0} duration={0} />
-    )
+    const Comp = mount(<Component autoscroll={false} delay={0} />)
     expect(Comp.exists('[aria-live]')).toBe(true)
 
     Comp.setProps({
       show: true
     })
     Comp.setState({
-      isActive: true,
-      isVisible: true
+      isActive: true
     })
 
     expect(Comp.exists('[aria-live="assertive"]')).toBe(true)
@@ -88,18 +85,24 @@ describe('GlobalStatus component', () => {
     Comp.setProps({
       show: false
     })
-    expect(Comp.exists('[aria-live="off"]')).toBe(true)
+
+    expect(
+      Comp.find('.dnb-global-status__wrapper')
+        .instance()
+        .getAttribute('aria-live')
+    ).toBe('off')
   })
 
-  it('has to to have correct content after a controller update', () => {
+  it('has to to have correct content after a controller add', () => {
     const startupText = 'text'
     const newText = 'new text'
 
     const Comp = mount(
       <>
         <Component
+          autoscroll={false}
+          delay={0}
           no_animation={true}
-          autoclose={false}
           id="custom-status-update"
           text={startupText}
           items={['item#1']}
@@ -120,42 +123,165 @@ describe('GlobalStatus component', () => {
     )
 
     expect(
-      Comp.first().find('div.dnb-global-status__message > .dnb-p').text()
+      Comp.find('div.dnb-global-status__message__content > .dnb-p').text()
     ).toBe(newText)
 
     expect(
-      Comp.first().find('div.dnb-global-status__message > .dnb-ul').text()
+      Comp.find('div.dnb-global-status__message__content > .dnb-ul').text()
     ).toBe('item#1item#3')
+
+    expect(
+      Comp.find('div.dnb-global-status__message p.dnb-p').at(0).text()
+    ).toBe(newText)
+  })
+
+  it('has to to have correct content after a controller update', () => {
+    const startupText = 'text'
+    const startupItems = ['Item1', 'Item2']
+    const newText = 'new text'
+    const newItems = ['Item3', 'Item4']
+
+    const Comp = mount(
+      <Component
+        autoscroll={false}
+        delay={0}
+        no_animation={true}
+        id="custom-status-update"
+      />
+    )
+
+    mount(
+      <Component.Add
+        id="custom-status-update"
+        status_id="status-update-1"
+        text={startupText}
+        items={startupItems}
+      />
+    )
+
+    Comp.update()
+
+    const ulItems = Comp.find('ul.dnb-ul li')
+    expect(ulItems.at(0).text()).toBe('Item1')
+    expect(ulItems.at(1).text()).toBe('Item2')
+    expect(
+      Comp.find('div.dnb-global-status__message p.dnb-p').at(0).text()
+    ).toBe(startupText)
+
+    mount(
+      <Component.Add
+        id="custom-status-update"
+        status_id="status-update-1"
+        text={newText}
+        items={newItems}
+      />
+    )
+
+    const newUlItems = Comp.find('ul.dnb-ul li')
+    expect(newUlItems.at(0).text()).toBe('Item3')
+    expect(newUlItems.at(1).text()).toBe('Item4')
+    expect(
+      Comp.find('div.dnb-global-status__message p.dnb-p').at(0).text()
+    ).toBe(newText)
+
+    mount(
+      <Component.Remove
+        id="custom-status-update"
+        status_id="status-update-1"
+        buffer_delay={0}
+      />
+    )
+
+    Comp.update()
+
+    expect(Comp.state().isActive).toBe(false)
+    expect(Comp.exists('div.dnb-global-status__message')).toBe(false)
   })
 
   it('has to to have correct content after a controller remove', () => {
     const startupText = 'text'
+    const startupItems = ['Item1', 'Item2']
     const newText = 'new text'
+    const newItems = ['Item3', 'Item4']
 
     const Comp = mount(
-      <>
-        <Component
-          no_animation={true}
-          autoclose={false}
-          id="custom-status-remove"
-          text={startupText}
-        />
-        <Component.Add
-          id="custom-status-remove"
-          status_id="status-remove-1"
-          text={newText}
-        />
-        <Component.Remove
-          id="custom-status-remove"
-          status_id="status-remove-1"
-          buffer_delay={0}
-        />
-      </>
+      <Component
+        autoscroll={false}
+        delay={0}
+        no_animation={true}
+        id="custom-status-remove"
+      />
     )
 
+    mount(
+      <Component.Add
+        id="custom-status-remove"
+        status_id="status-remove-1"
+        text={startupText}
+        items={startupItems}
+      />
+    )
+
+    Comp.update()
+
+    const ulItems = Comp.find('ul.dnb-ul li')
+    expect(ulItems.at(0).text()).toBe('Item1')
+    expect(ulItems.at(1).text()).toBe('Item2')
     expect(
-      Comp.first().find('div.dnb-global-status__message').text()
+      Comp.find('div.dnb-global-status__message p.dnb-p').at(0).text()
     ).toBe(startupText)
+
+    // Comp.setProps({ show: false })
+
+    mount(
+      <Component.Add
+        id="custom-status-remove"
+        status_id="status-remove-2"
+        text={newText}
+        items={newItems}
+      />
+    )
+
+    Comp.update()
+
+    const newUlItems = Comp.find('ul.dnb-ul li')
+    expect(newUlItems.at(2).text()).toBe('Item3')
+    expect(newUlItems.at(3).text()).toBe('Item4')
+    expect(
+      Comp.find('div.dnb-global-status__message p.dnb-p').at(0).text()
+    ).toBe(newText)
+
+    mount(
+      <Component.Remove
+        id="custom-status-remove"
+        status_id="status-remove-1"
+        buffer_delay={0}
+      />
+    )
+
+    Comp.update()
+
+    const removedUlItems = Comp.find('ul.dnb-ul li')
+    expect(removedUlItems.at(0).text()).toBe('Item3')
+    expect(removedUlItems.at(1).text()).toBe('Item4')
+    expect(removedUlItems.at(2).exists()).toBe(false)
+    expect(removedUlItems.at(3).exists()).toBe(false)
+    expect(
+      Comp.find('div.dnb-global-status__message p.dnb-p').at(0).text()
+    ).toBe(newText)
+
+    mount(
+      <Component.Remove
+        id="custom-status-remove"
+        status_id="status-remove-2"
+        buffer_delay={0}
+      />
+    )
+
+    Comp.update()
+
+    expect(Comp.state().isActive).toBe(false)
+    expect(Comp.exists('div.dnb-global-status__message')).toBe(false)
   })
 
   it('has to to have a working auto close', () => {
@@ -164,36 +290,87 @@ describe('GlobalStatus component', () => {
     const on_hide = jest.fn()
 
     const Comp = mount(
-      <>
-        <Component
-          no_animation={true}
-          autoclose={true}
-          id="custom-status-autoclose"
-          text="text"
-          on_open={on_open}
-          on_close={on_close}
-          on_hide={on_hide}
-        />
-        <Component.Add
-          id="custom-status-autoclose"
-          status_id="status-autoclose-1"
-        />
-        <Component.Remove
-          id="custom-status-autoclose"
-          status_id="status-autoclose-1"
-          buffer_delay={0}
-        />
-      </>
+      <Component
+        autoclose={true}
+        no_animation={true}
+        autoscroll={false}
+        delay={0}
+        id="custom-status-autoclose"
+        on_open={on_open}
+        on_close={on_close}
+        on_hide={on_hide}
+      />
+    )
+
+    mount(
+      <Component.Add
+        id="custom-status-autoclose"
+        status_id="status-autoclose-1"
+        text="text only"
+      />
     )
 
     expect(on_open.mock.calls.length).toBe(1)
+    expect(Comp.state().isActive).toBe(true)
+
+    Comp.update()
+    expect(Comp.exists('div.dnb-global-status__message')).toBe(true)
+    expect(Comp.find('div.dnb-global-status__message').text()).toBe(
+      'text only'
+    )
+
+    mount(
+      <Component.Add
+        id="custom-status-autoclose"
+        status_id="status-autoclose-2"
+        // text="text only"
+        items={['foo']}
+      />
+    )
+
+    Comp.update()
+    expect(Comp.find('div.dnb-global-status__message').text()).toBe(
+      'text onlyfoo'
+    )
+
+    mount(
+      <Component.Remove
+        id="custom-status-autoclose"
+        status_id="status-autoclose-1"
+        buffer_delay={0}
+      />
+    )
+
+    expect(on_close.mock.calls.length).toBe(0)
+
+    mount(
+      <Component.Remove
+        id="custom-status-autoclose"
+        status_id="status-autoclose-2"
+        buffer_delay={0}
+      />
+    )
+
     expect(on_close.mock.calls.length).toBe(1)
     expect(on_hide.mock.calls.length).toBe(0)
 
-    expect(Comp.first().exists('div.dnb-global-status__message')).toBe(
-      false
+    expect(Comp.state().isActive).toBe(false)
+
+    Comp.update()
+    expect(Comp.exists('div.dnb-global-status__message')).toBe(false)
+
+    mount(
+      <Component.Add
+        id="custom-status-autoclose"
+        status_id="status-autoclose-1"
+        items={['foo']}
+      />
     )
-    expect(Comp.first().state().isActive).toBe(false)
+
+    Comp.update()
+    Comp.find('button.dnb-global-status__close-button').simulate('click')
+
+    expect(on_hide.mock.calls.length).toBe(1)
   })
 
   it('should validate with ARIA rules', async () => {
