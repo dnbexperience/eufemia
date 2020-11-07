@@ -12,6 +12,10 @@ import PaymentCard, { getCardData } from '../../src/patterns/payment-card'
 
 import '../../src/style/patterns'
 
+export default {
+  title: 'Eufemia/Extentions/PaymentCard'
+}
+
 const CustomWrapper = styled(Wrapper)`
   /* empty */
 `
@@ -20,7 +24,6 @@ export const PaymentCards = () => (
   <CustomWrapper className="dnb-spacing">
     <Box>
       <PaymentCard
-        // skeleton
         // text_card_number="xxx"
         locale="en-US"
         product_code="DNB"
@@ -35,6 +38,7 @@ export const PaymentCards = () => (
           <div key={product_code}>
             <H3>{cardData.cardDesign.name}</H3>
             <PaymentCard
+              // skeleton
               product_code={product_code}
               card_number="************1337"
             />
