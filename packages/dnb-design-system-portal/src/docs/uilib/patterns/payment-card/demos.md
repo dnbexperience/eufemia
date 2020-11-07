@@ -3,19 +3,76 @@ showTabs: true
 ---
 
 import ComponentBox from 'Tags/ComponentBox'
-import PaymentCard, { getCardData } from 'dnb-ui-lib/src/patterns/payment-card'
+import PaymentCard, { getCardData, Designs, ProductType, CardType } from 'dnb-ui-lib/src/patterns/payment-card'
+import ChangeLocale from 'Src/core/ChangeLocale'
 
 ## Demos
 
+<ChangeLocale label="Locale used in the demos:" label_direction="vertical" />
+
 ### Basic example
+
+Basic card using productCode.
 
 <ComponentBox scope={{PaymentCard}} data-visual-test="payment-card-basic">
 	{/* @jsx */ `
-<PaymentCard product_code="DNB" card_number="************1337" />
+<PaymentCard
+  product_code="NK1"
+  card_number="************1337"
+/>
+	`}
+</ComponentBox>
+
+### Custom card using rawData
+
+You may have to import the extra named exports:
+
+```js
+import PaymentCard, {
+  getCardData,
+  Designs,
+  ProductType,
+  CardType
+} from 'dnb-ui-lib/patterns/PaymentCard'
+```
+
+<ComponentBox scope={{PaymentCard,Designs,ProductType,CardType}} useRender>
+  {/* @jsx */ `
+const customData = {
+  productCode: 'UNDEFINED',
+  productName: 'DNB Custom Card',
+  displayName: 'Custom card',
+  cardDesign: Designs.gold,
+  cardType: CardType.Visa,
+  productType: ProductType.BankAxept
+}
+render(
+  <PaymentCard 
+    product_code="UNDEFINED"
+    raw_data={customData}
+    card_number="************1337"
+  />
+)
+	`}
+</ComponentBox>
+
+### Basic card using a status
+
+Basic card using product code and status.
+
+<ComponentBox scope={{PaymentCard}} data-visual-test="payment-card-status">
+	{/* @jsx */ `
+<PaymentCard
+  product_code="VG1"
+  card_status="blocked"
+  card_number="************1337"
+/>
 	`}
 </ComponentBox>
 
 ### Demo cards
+
+A few selected cards to showcase all the different PaymentCard designs.
 
 <ComponentBox scope={{PaymentCard,getCardData}} data-visual-test="all-cards" useRender>
 	{/* @jsx */ `
@@ -32,15 +89,15 @@ const demoCards = [
   'P101',
   'BK1',
   'VB2'
-];
+]
 render(demoCards.map(product_code => {
 	const cardData = getCardData(product_code);
 	return (
-	<div key={product_code}>
-		<h3>{cardData.cardDesign.name}</h3>
-		<PaymentCard product_code={product_code} card_number="************1337" />
-	</div>
-	);
+    <article key={product_code}>
+      <H4>{cardData.cardDesign.name}</H4>
+      <PaymentCard product_code={product_code} card_number="************1337" />
+    </article>
+	)
 }))
 	`}
 </ComponentBox>
