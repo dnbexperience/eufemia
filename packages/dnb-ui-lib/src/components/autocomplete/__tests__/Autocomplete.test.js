@@ -34,6 +34,7 @@ const snapshotProps = {
   opened: true,
   show_submit_button: true,
   no_animation: true,
+  input_ref: null,
   skip_portal: true
 }
 

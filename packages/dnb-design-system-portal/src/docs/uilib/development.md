@@ -9,7 +9,7 @@ import { Icon } from 'dnb-ui-lib/src'
 
 # Development
 
-For more development details you may have a look at the confluence pages about [development details](confluence.tech.dnb.no/display/EDS/).
+For more development details you may have a look at the confluence pages about [development details](https://confluence.tech.dnb.no/display/EDS/).
 
 ## Development principles
 

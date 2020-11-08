@@ -1368,6 +1368,7 @@ class AutocompleteInstance extends React.PureComponent {
       default_value,
       submit_button_title,
       drawer_class,
+      input_ref, // eslint-disable-line
       className,
       class: _className,
       disabled,
@@ -1473,6 +1474,7 @@ class AutocompleteInstance extends React.PureComponent {
       onFocus: this.onInputFocusHandler,
       onBlur: this.onBlurHandler,
       icon_position,
+      inner_ref: input_ref,
       disabled,
       skeleton,
       ...attributes

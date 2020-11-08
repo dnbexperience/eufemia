@@ -212,6 +212,7 @@ exports[`Modal component have to match snapshot 1`] = `
             </button>,
           }
         }
+        inner_ref={null}
         onClick={[Function]}
         on_click={null}
         size={null}
@@ -291,6 +292,7 @@ exports[`Modal component have to match snapshot 1`] = `
                 </button>,
               }
             }
+            inner_ref={null}
             isIconOnly={true}
             onClick={[Function]}
             on_click={null}
@@ -662,6 +664,7 @@ exports[`Modal component have to match snapshot 1`] = `
                     icon_size="basis"
                     id={null}
                     innerRef={null}
+                    inner_ref={null}
                     onClick={null}
                     on_click={[Function]}
                     size="large"
@@ -698,6 +701,7 @@ exports[`Modal component have to match snapshot 1`] = `
                         icon_size="basis"
                         id={null}
                         innerRef={null}
+                        inner_ref={null}
                         isIconOnly={false}
                         onClick={null}
                         on_click={[Function]}

@@ -1213,6 +1213,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                       </button>,
                                     }
                                   }
+                                  inner_ref={null}
                                   onBlur={[Function]}
                                   onClick={[Function]}
                                   onFocus={[Function]}
@@ -1294,6 +1295,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                           </button>,
                                         }
                                       }
+                                      inner_ref={null}
                                       isIconOnly={true}
                                       onBlur={[Function]}
                                       onClick={[Function]}

@@ -70,6 +70,7 @@ export default class Button extends React.PureComponent {
     bounding: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    inner_ref: PropTypes.object,
 
     className: PropTypes.string,
     innerRef: PropTypes.object,
@@ -108,6 +109,7 @@ export default class Button extends React.PureComponent {
     status_state: 'error',
     status_animation: null,
     global_status_id: null,
+    inner_ref: null,
 
     className: null,
     innerRef: null,
@@ -142,6 +144,9 @@ export default class Button extends React.PureComponent {
   componentDidMount() {
     if (this.props.innerRef) {
       this.props.innerRef.current = this._ref.current
+    }
+    if (this.props.inner_ref) {
+      this.props.inner_ref.current = this._ref.current
     }
   }
 
@@ -188,6 +193,7 @@ export default class Button extends React.PureComponent {
       bounding, // eslint-disable-line
       skeleton,
       element,
+      inner_ref, // eslint-disable-line
       innerRef, // eslint-disable-line
       ...attributes
     } = props
