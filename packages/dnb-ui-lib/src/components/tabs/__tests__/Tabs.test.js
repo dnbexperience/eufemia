@@ -14,11 +14,6 @@ import {
 import Component from '../Tabs'
 import Input from '../../Input'
 
-// just to make sure we re-run the test in watch mode due to changes in theese files
-import _tabs from '../style/_tabs.scss' // eslint-disable-line
-import dnb_tabs from '../style/dnb-tabs.scss' // eslint-disable-line
-import dnb_tabs_theme_ui from '../style/themes/dnb-tabs-theme-ui.scss' // eslint-disable-line
-
 const props = fakeProps(require.resolve('../Tabs'), {
   all: true,
   optional: true
@@ -62,7 +57,7 @@ describe('Tabs component', () => {
     expect(Comp.state().selected_key).toBe(startup_selected_key)
   })
 
-  it('should validate with ARIA rules as a tabs', async () => {
+  it('should validate with ARIA rules', async () => {
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 })

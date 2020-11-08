@@ -15,12 +15,14 @@ exports[`FormStatus component have to match snapshot 1`] = `
         "icon": "icon",
         "icon_size": "icon_size",
         "id": "id",
-        "render_content": [Function],
+        "label": "label",
+        "skeleton": "skeleton",
         "state": true,
         "status": true,
         "text": "text",
         "text_id": "text_id",
         "title": "title",
+        "width_element": Object {},
         "width_selector": "width_selector",
       },
     }
@@ -49,12 +51,14 @@ exports[`FormStatus component have to match snapshot 1`] = `
   icon="exclamation"
   icon_size="large"
   id="form-status"
-  render_content={null}
+  label={null}
+  skeleton={null}
   state="error"
   status={null}
   text="text"
   text_id={null}
   title={null}
+  width_element={null}
   width_selector={null}
 >
   <span
@@ -79,6 +83,7 @@ exports[`FormStatus component have to match snapshot 1`] = `
         }
         modifier={null}
         size="large"
+        skeleton={null}
         title={null}
         width={null}
       >
@@ -98,7 +103,6 @@ exports[`FormStatus component have to match snapshot 1`] = `
                 title={null}
                 viewBox="0 0 32 32"
                 width="32"
-                xmlns="http://www.w3.org/2000/svg"
               >
                 <path
                   d="M16 25a.5.5 0 100 1 .5.5 0 000-1v0"

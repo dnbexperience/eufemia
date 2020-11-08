@@ -179,7 +179,7 @@ $anchorBorderRadius: 0.25em;
   }
 
   transition: background-color 0.2s ease;
-  [data-dnb-test-wrapper] & {
+  [data-visual-test-wrapper] & {
     transition: none;
   }
 

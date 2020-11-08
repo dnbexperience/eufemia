@@ -17,7 +17,7 @@ describe('DatePicker screenshot', () => {
     it('have to match the input fields', async () => {
       const screenshot = await testPageScreenshot({
         selector:
-          '[data-dnb-test="date-picker-input"] .dnb-date-picker__inner'
+          '[data-visual-test="date-picker-input"] .dnb-date-picker__inner'
       })
       expect(screenshot).toMatchImageSnapshot()
     })
@@ -27,7 +27,7 @@ describe('DatePicker screenshot', () => {
           width: '200px' // make sure our input gets an explicit width, because of mac/linux rendering differences
         },
         selector:
-          '[data-dnb-test="date-picker-input-error"] .dnb-date-picker__inner'
+          '[data-visual-test="date-picker-input-error"] .dnb-date-picker__inner'
       })
       expect(screenshot).toMatchImageSnapshot()
     })
@@ -35,21 +35,22 @@ describe('DatePicker screenshot', () => {
 
   it('have to match the calendar', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-dnb-test="date-picker-calendar"] .dnb-date-picker'
+      selector:
+        '[data-visual-test="date-picker-calendar"] .dnb-date-picker'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
   it('have to match the date-picker trigger button', async () => {
     const screenshot = await testPageScreenshot({
       selector:
-        '[data-dnb-test="date-picker-trigger-default"] .dnb-date-picker__inner'
+        '[data-visual-test="date-picker-trigger-default"] .dnb-date-picker__inner'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
   it('have to match the date-picker trigger button in error state', async () => {
     const screenshot = await testPageScreenshot({
       selector:
-        '[data-dnb-test="date-picker-trigger-error"] .dnb-date-picker__inner'
+        '[data-visual-test="date-picker-trigger-error"] .dnb-date-picker__inner'
     })
     expect(screenshot).toMatchImageSnapshot()
   })

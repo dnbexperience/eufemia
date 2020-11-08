@@ -13,11 +13,6 @@ import {
 } from '../../../core/jest/jestSetup'
 import Component from '../Autocomplete'
 
-// just to make sure we re-run the test in watch mode due to changes in theese files
-import _autocomplete from '../style/_autocomplete.scss' // eslint-disable-line
-import dnb_autocomplete from '../style/dnb-autocomplete.scss' // eslint-disable-line
-import dnb_autocomplete_theme_ui from '../style/themes/dnb-autocomplete-theme-ui.scss' // eslint-disable-line
-
 const snapshotProps = {
   ...fakeProps(require.resolve('../Autocomplete'), {
     optional: true
@@ -510,7 +505,7 @@ describe('Autocomplete markup', () => {
     expect(toJson(CheckComponent)).toMatchSnapshot()
   })
 
-  it('should validate with ARIA rules as a tabs', async () => {
+  it('should validate with ARIA rules', async () => {
     expect(
       await axeComponent(CheckComponent, {
         rules: {

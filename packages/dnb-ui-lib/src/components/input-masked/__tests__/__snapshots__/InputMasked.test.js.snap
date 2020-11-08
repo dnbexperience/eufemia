@@ -12,12 +12,12 @@ exports[`InputMasked component have to match type="text" snapshot 1`] = `
     ]
   }
   number_mask="number_mask"
-  on_blur={null}
-  on_change={null}
-  on_focus={null}
-  on_submit={null}
-  on_submit_blur={null}
-  on_submit_focus={null}
+  on_blur={[Function]}
+  on_change={[Function]}
+  on_focus={[Function]}
+  on_submit={[Function]}
+  on_submit_blur={[Function]}
+  on_submit_focus={[Function]}
   pipe={null}
   placeholder_char="placeholder_char"
   show_guide="show_guide"
@@ -54,12 +54,13 @@ exports[`InputMasked component have to match type="text" snapshot 1`] = `
     on_key_down={[Function]}
     on_state_update={null}
     on_submit={[Function]}
-    on_submit_blur={null}
-    on_submit_focus={null}
+    on_submit_blur={[Function]}
+    on_submit_focus={[Function]}
     placeholder={null}
     readOnly={false}
     selectall={null}
     size={null}
+    skeleton={null}
     status={null}
     status_animation={null}
     status_state="error"
@@ -229,6 +230,10 @@ exports[`InputMasked scss have to match snapshot 1`] = `
   h5 .dnb-icon,
   h6 .dnb-icon {
     vertical-align: middle; }
+  .dnb-icon.dnb-skeleton {
+    color: var(--skeleton-color) !important; }
+    .dnb-icon.dnb-skeleton::before, .dnb-icon.dnb-skeleton::after {
+      content: none !important; }
   @media screen and (-ms-high-contrast: none) {
     .dnb-icon {
       flex: none; } }
@@ -553,6 +558,8 @@ exports[`InputMasked scss have to match snapshot 1`] = `
     white-space: nowrap; }
   .dnb-button + .dnb-form-status {
     margin-top: 0.5rem; }
+  .dnb-button.dnb-skeleton .dnb-icon {
+    visibility: hidden; }
   @media screen and (-ms-high-contrast: none) {
     .dnb-button {
       flex: none; }

@@ -1,6 +1,5 @@
 ---
 title: 'Colors'
-
 icon: 'colors'
 ---
 
@@ -8,9 +7,9 @@ import ColorsTable from 'Pages/quickguide-designer/colors-table.md'
 
 # Colors
 
-## DNB color table for <b>web</b>
+## DNB color table for web
 
-Note: DNB color names for design and development are in english.
+_Note:_ DNB color names for design and development are in english.
 
 <ColorsTable />
 

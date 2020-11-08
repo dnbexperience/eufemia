@@ -11,6 +11,7 @@ import Context from '../../shared/Context'
 import {
   warn,
   isTrue,
+  AnimateHeight,
   makeUniqueId,
   registerElement,
   validateDOMAttributes,
@@ -18,121 +19,126 @@ import {
   processChildren,
   extendPropsWithContext
 } from '../../shared/component-helper'
+import {
+  skeletonDOMAttributes,
+  createSkeletonClass
+} from '../skeleton/SkeletonHelper'
 import { createSpacingClasses } from '../space/SpacingHelper'
-import GlobalStatusController from './GlobalStatusController'
+import GlobalStatusController, {
+  GlobalStatusInterceptor
+} from './GlobalStatusController'
 import GlobalStatusProvider from './GlobalStatusProvider'
 import Icon from '../icon/Icon'
 import { InfoIcon, ErrorIcon } from '../form-status/FormStatus'
 import Button from '../button/Button'
 import Section from '../section/Section'
-import Animation from './AnimationHelper'
 import { IS_IE11 } from '../../shared/helpers'
-
-const renderProps = {
-  on_open: null,
-  on_show: null,
-  on_close: null,
-  on_hide: null,
-  render_content: null
-}
-
-const propTypes = {
-  id: PropTypes.string,
-  status_id: PropTypes.string,
-  title: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  default_title: PropTypes.string,
-  text: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-    PropTypes.node
-  ]),
-  items: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-    PropTypes.array
-  ]),
-  icon: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-    PropTypes.node
-  ]),
-  icon_size: PropTypes.string,
-  state: PropTypes.oneOf(['error', 'info']),
-  show: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  autoscroll: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  autoclose: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  no_animation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  delay: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  duration: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  close_text: PropTypes.string,
-  hide_close_button: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.bool
-  ]),
-  status_anchor_text: PropTypes.string,
-  class: PropTypes.string,
-  demo: PropTypes.bool,
-
-  /** React props */
-  className: PropTypes.string,
-  children: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-    PropTypes.node
-  ]),
-
-  // Web Component props
-  on_open: PropTypes.func,
-  on_show: PropTypes.func,
-  on_close: PropTypes.func,
-  on_hide: PropTypes.func,
-  render_content: PropTypes.func
-}
-
-const defaultProps = {
-  id: 'main',
-  status_id: 'status-main',
-  title: null,
-  default_title: null,
-  text: null,
-  items: [],
-  icon: 'error',
-  icon_size: 'large',
-  state: 'error',
-  show: null,
-  autoscroll: true,
-  autoclose: true,
-  no_animation: false,
-  close_text: 'Lukk',
-  hide_close_button: false,
-  delay: 10,
-  duration: 1e3,
-  status_anchor_text: null,
-  class: null,
-  demo: false,
-
-  /** React props */
-  className: null,
-  children: null,
-
-  // Web Component props
-  ...renderProps
-}
 
 export default class GlobalStatus extends React.PureComponent {
   static tagName = 'dnb-global-status'
-  static propTypes = propTypes
-  static defaultProps = defaultProps
   static contextType = Context
 
+  static propTypes = {
+    id: PropTypes.string,
+    status_id: PropTypes.string,
+    title: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    default_title: PropTypes.string,
+    text: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.func,
+      PropTypes.node
+    ]),
+    items: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.func,
+      PropTypes.array
+    ]),
+    icon: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.func,
+      PropTypes.node
+    ]),
+    icon_size: PropTypes.string,
+    state: PropTypes.oneOf(['error', 'info']),
+    show: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    autoscroll: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    autoclose: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    no_animation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    delay: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    close_text: PropTypes.string,
+    hide_close_button: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool
+    ]),
+    omit_set_focus: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool
+    ]),
+    omit_set_focus_on_update: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool
+    ]),
+    status_anchor_text: PropTypes.string,
+    skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    class: PropTypes.string,
+
+    /** React props */
+    className: PropTypes.string,
+    children: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.func,
+      PropTypes.node
+    ]),
+
+    on_open: PropTypes.func,
+    on_show: PropTypes.func,
+    on_close: PropTypes.func,
+    on_hide: PropTypes.func
+  }
+
+  static defaultProps = {
+    id: 'main',
+    status_id: 'status-main',
+    title: null,
+    default_title: null,
+    text: null,
+    items: [],
+    icon: 'error',
+    icon_size: 'large',
+    state: 'error',
+    show: null,
+    autoscroll: true,
+    autoclose: true,
+    no_animation: false,
+    close_text: 'Lukk',
+    hide_close_button: false,
+    omit_set_focus: false,
+    omit_set_focus_on_update: false,
+    delay: 0,
+    status_anchor_text: null,
+    skeleton: null,
+    class: null,
+
+    /** React props */
+    className: null,
+    children: null,
+
+    on_open: null,
+    on_show: null,
+    on_close: null,
+    on_hide: null
+  }
+
   static enableWebComponent() {
-    registerElement(GlobalStatus.tagName, GlobalStatus, defaultProps)
+    registerElement(
+      GlobalStatus.tagName,
+      GlobalStatus,
+      GlobalStatus.defaultProps
+    )
   }
 
   static getContent(props) {
     if (props.text) return props.text
-    if (typeof props.render_content === 'function')
-      props.render_content(props)
     return processChildren(props)
   }
 
@@ -158,27 +164,25 @@ export default class GlobalStatus extends React.PureComponent {
 
   static getDerivedStateFromProps(props, state) {
     if (state._listenForPropChanges) {
-      if (isTrue(props.show)) {
-        state.makeMeVisible = true
-      } else if (props.show !== null && !isTrue(props.show)) {
-        state.makeMeHidden = true
+      if (state._items !== props.items) {
+        state.globalStatus = GlobalStatusProvider.combineMessages([
+          state.globalStatus,
+          props
+        ])
       }
-      state.globalStatus = GlobalStatusProvider.combineMessages([
-        state.globalStatus,
-        props
-      ])
     }
 
+    state._items = props.items
     state._listenForPropChanges = true
+
     return state
   }
 
   state = {
     globalStatus: null,
     isActive: false,
-    isVisible: false,
-    makeMeVisible: false,
-    makeMeHidden: false,
+    isAnimating: false,
+    keepContentVisible: false,
     _listenForPropChanges: false
   }
 
@@ -186,11 +190,74 @@ export default class GlobalStatus extends React.PureComponent {
     super(props)
 
     this._mainRef = React.createRef()
+    this._wrapperRef = React.createRef()
     this._shellRef = React.createRef()
-    this._fakeRef = React.createRef()
 
-    this._visibility = new Animation()
-    this._height = new Animation()
+    this.anim = new AnimateHeight({
+      animate: !isTrue(props.no_animation)
+    })
+
+    this.anim.onStart((state) => {
+      this.setState({
+        isAnimating: true,
+        _listenForPropChanges: false
+      })
+      if (state === 'opening') {
+        this.scrollToStatus()
+      }
+    })
+
+    this.anim.onEnd((state) => {
+      this.setState({
+        isAnimating: false,
+        _listenForPropChanges: false
+      })
+
+      if (this.state.isActive) {
+        this.setState({
+          keepContentVisible: true,
+          _listenForPropChanges: false
+        })
+
+        dispatchCustomElementEvent(
+          this._globalStatus,
+          'on_show',
+          this._globalStatus
+        )
+
+        if (state === 'opened') {
+          this.setFocus()
+
+          dispatchCustomElementEvent(
+            this._globalStatus,
+            'on_open',
+            this._globalStatus
+          )
+        }
+
+        if (state === 'adjusted') {
+          if (!isTrue(this.props.omit_set_focus_on_update)) {
+            this.setFocus()
+          }
+
+          dispatchCustomElementEvent(
+            this._globalStatus,
+            'on_adjust',
+            this._globalStatus
+          )
+        }
+      } else {
+        this.setState({
+          keepContentVisible: false,
+          _listenForPropChanges: false
+        })
+        dispatchCustomElementEvent(
+          this._globalStatus,
+          'on_close',
+          this._globalStatus
+        )
+      }
+    })
 
     this.provider = GlobalStatusProvider.create(props.id)
 
@@ -203,32 +270,45 @@ export default class GlobalStatus extends React.PureComponent {
     if (isTrue(props.show)) {
       if (isTrue(props.no_animation)) {
         this.state.isActive = true
-      } else {
-        this.state.makeMeVisible = true
       }
     }
 
-    // force rerender
-    this.provider.onUpdate((globalStatus, props, { isEmpty = false }) => {
+    this.provider.onUpdate((globalStatus) => {
       // we need the on_close later during the close process
       // so we set this here, because it gets removed from the stack
       if (globalStatus.on_close) {
         this._globalStatus = globalStatus
       }
 
-      this.setState({ globalStatus, _listenForPropChanges: false })
+      this.adjustHeight = this.anim.adjustFrom()
+
+      // force re-render
+      this.setState({
+        globalStatus,
+        _listenForPropChanges: false
+      })
 
       const isActive = isTrue(globalStatus.show)
       if (isActive) {
         this.setState({ isActive, _listenForPropChanges: false })
       }
 
-      if (isEmpty && isTrue(globalStatus.autoclose)) {
-        this.setHidden({ delay: 0 })
-      }
-
       // make sure to show the new status, inc. scroll
-      else if (isTrue(globalStatus.show)) {
+      if (
+        (isTrue(this.props.autoclose) &&
+          this.hadContent &&
+          !this.hasContent(globalStatus) &&
+          !isTrue(this.props.show)) ||
+        (typeof globalStatus.show !== 'undefined' &&
+          !isTrue(globalStatus.show))
+      ) {
+        this.setHidden({ delay: 0 })
+      } else if (
+        isTrue(this.props.show) ||
+        (typeof globalStatus.show !== 'undefined' &&
+          isTrue(globalStatus.show))
+      ) {
+        this.hadContent = this.hasContent(globalStatus)
         this.setVisible({ delay: 0 })
       }
     })
@@ -236,20 +316,22 @@ export default class GlobalStatus extends React.PureComponent {
     this.initialActiveElement = null
   }
 
-  correctStatus(state) {
-    switch (state) {
-      case 'information':
-        state = 'info'
-        break
+  componentDidMount() {
+    this.anim.setElem(this._shellRef.current)
+
+    if (isTrue(this.props.show)) {
+      const isActive = isTrue(this.props.show)
+      if (isActive) {
+        this.setVisible()
+      }
     }
-    return state
   }
 
   componentWillUnmount() {
-    this._visibility.unbind()
-    this._height.unbind()
-    clearTimeout(this._scrollToStatusId)
-    clearTimeout(this._isDemoHiddenId)
+    this.anim.remove()
+    clearTimeout(this._scrollToStatusTimeout)
+    clearTimeout(this._visibleTimeout)
+    clearTimeout(this._hiddenTimeout)
 
     // NB: Never unbind the provider,
     // as a new provider else will be set BEFORE thi unmount is called
@@ -261,158 +343,111 @@ export default class GlobalStatus extends React.PureComponent {
     this.provider.empty()
   }
 
-  setVisible = ({
-    delay = parseFloat(this.props.delay),
-    duration = parseFloat(this.props.duration)
-  } = {}) => {
-    const { demo: isDemo, no_animation } = this.props
-    const noAnimation = isTrue(no_animation)
-
-    if (noAnimation) {
+  componentDidUpdate(prevProps) {
+    if (prevProps !== this.props) {
+      const globalStatus = extendPropsWithContext(
+        this.props,
+        GlobalStatus.defaultProps,
+        this.state.globalStatus
+      )
       this.setState({
-        isActive: true,
-        isVisible: true,
-        _listenForPropChanges: false
+        globalStatus
       })
-      dispatchCustomElementEvent(
-        this._globalStatus,
-        'on_show',
-        this._globalStatus
+    }
+    if (prevProps.show !== this.props.show) {
+      const isActive = isTrue(this.props.show)
+      if (isActive) {
+        this.setVisible()
+      } else {
+        this.setHidden()
+      }
+    }
+  }
+
+  hasContent(globalStatus) {
+    return globalStatus.items?.length > 0 || globalStatus.text
+  }
+
+  correctStatus(state) {
+    switch (state) {
+      case 'information':
+        state = 'info'
+        break
+    }
+    return state
+  }
+
+  setVisible = ({ delay = parseFloat(this.props.delay) } = {}) => {
+    const { isActive } = this.state
+
+    if (isActive === true) {
+      if (!this.adjustHeight) {
+        this.adjustHeight = this.anim.adjustFrom()
+      }
+
+      // just because we want to run "adjust" after the content has been set
+      this.setState(
+        {
+          keepContentVisible: true,
+          _listenForPropChanges: false
+        },
+        () => {
+          this.anim.adjustTo(this.adjustHeight)
+          this.adjustHeight = null
+        }
       )
-      dispatchCustomElementEvent(
-        this._globalStatus,
-        'on_open',
-        this._globalStatus
-      )
-      this.setFocus()
-      return
+      return // stop here
     }
 
-    const onStart = () => {
-      // in order to get the this._shellRef.current
-      // we have to make a rerender. scrollToStatus needs the element
+    const run = () => {
       this.setState(
         {
           isActive: true,
-          makeMeVisible: true,
-          makeMeHidden: false,
           _listenForPropChanges: false
         },
         () => {
-          this.setFocus()
-          // then scroll to the content
-          if (isTrue(this.state.globalStatus.autoscroll) && !isDemo) {
-            setTimeout(() => {
-              this.scrollToStatus(() => {
-                this.setHeight('full')
-              })
-            }, 1) // because we have to wait for the element to be visible to the dom (chrome)
-          } else {
-            this.setHeight('full')
-          }
+          this.anim.open()
         }
       )
     }
 
-    const wasVisibleFromBefore = this.state.isVisible
-
-    const onComplete = () => {
-      this._setVisibleId = null
-      this.setState({
-        makeMeVisible: false,
-        isVisible: true,
-        _listenForPropChanges: false
-      })
-      dispatchCustomElementEvent(
-        this._globalStatus,
-        'on_show',
-        this._globalStatus
-      )
-      if (!wasVisibleFromBefore) {
-        dispatchCustomElementEvent(
-          this._globalStatus,
-          'on_open',
-          this._globalStatus
-        )
-      }
-      if (isDemo) {
-        this._isDemoHiddenId = setTimeout(this.setHidden, 800)
-      }
+    if (delay > 0) {
+      clearTimeout(this._visibleTimeout)
+      this._visibleTimeout = setTimeout(() => {
+        run()
+      }, delay)
+    } else {
+      run()
     }
-
-    this._visibility.add({
-      type: 'show',
-      onStart,
-      onComplete,
-      onPartial: () => this.state.makeMeVisible && this.setHeight('full'),
-      duration,
-      delay
-    })
   }
 
-  setHidden = ({
-    delay = parseFloat(this.props.delay),
-    duration = parseFloat(this.props.duration)
-  } = {}) => {
-    const { demo: isDemo, no_animation } = this.props
-    const noAnimation = isTrue(no_animation)
+  setHidden = ({ delay = parseFloat(this.props.delay) } = {}) => {
+    const { isActive } = this.state
 
-    if (noAnimation) {
-      this.setState({
-        isActive: false,
-        isVisible: false,
-        _listenForPropChanges: false
-      })
-      dispatchCustomElementEvent(
-        this._globalStatus,
-        'on_close',
-        this._globalStatus
-      )
-      return
+    if (isActive === false) {
+      return // stop here
     }
 
-    const onStart = () => {
-      this.setState(
-        {
-          makeMeVisible: false,
-          makeMeHidden: true,
-          _listenForPropChanges: false
-        },
-        () => this.setHeight('zero')
-      )
-    }
-
-    const onComplete = () => {
-      this._setHiddenId = null
+    const run = () => {
       this.setState(
         {
           isActive: false,
-          isVisible: false,
-          makeMeHidden: false,
           _listenForPropChanges: false
         },
         () => {
-          if (this._globalStatus) {
-            dispatchCustomElementEvent(
-              this._globalStatus,
-              'on_close',
-              this._globalStatus
-            )
-          }
-          if (isDemo) {
-            this._isDemoHiddenId = setTimeout(this.setVisible, 800)
-          }
+          this.anim.close()
         }
       )
     }
 
-    this._visibility.add({
-      type: 'hide',
-      onStart,
-      onComplete,
-      duration,
-      delay
-    })
+    if (delay > 0) {
+      clearTimeout(this._hiddenTimeout)
+      this._hiddenTimeout = setTimeout(() => {
+        run()
+      }, delay)
+    } else {
+      run()
+    }
   }
 
   onKeyDownHandler = (e) => {
@@ -424,71 +459,24 @@ export default class GlobalStatus extends React.PureComponent {
     }
   }
 
-  setHeight = (mode = 'full') => {
-    let _mainRef
-
-    const onStart = () => {
-      _mainRef =
-        this._mainRef.current && this._mainRef.current._ref.current
-    }
-
-    const setHeight = () => {
-      try {
-        if (_mainRef) {
-          switch (mode) {
-            case 'full':
-              {
-                const elem = this._fakeRef.current
-                const height = elem ? parseFloat(elem.scrollHeight) : 0
-                if (height > 0) {
-                  const currentHeight = parseFloat(_mainRef.style.height)
-                  if (!(currentHeight > 0)) {
-                    _mainRef.style.height = 0
-                    _mainRef.style.transition = `height ${
-                      height * 3
-                    }ms ease-in-out`
-                  } else {
-                    const diff = Math.abs(currentHeight - height)
-                    const speed = height * 3 - diff
-                    _mainRef.style.transition = `height ${speed}ms ease-in-out`
-                  }
-
-                  _mainRef.style.height = `${height}px`
-                }
-              }
-              break
-
-            case 'zero': {
-              // reset transition time to default
-              _mainRef.style.transition = 'height 800ms ease-in-out'
-              _mainRef.style.height = '0'
-            }
-          }
-        }
-      } catch (e) {
-        warn('GlobalStatus: Could not set height!', e)
-      }
-    }
-
-    this._height.add({
-      type: mode,
-      onStart,
-      onComplete: setHeight,
-      delay: 20 // isReadyToBeHiddendelay to make the change visible to CSS
-    })
-  }
-
   setFocus() {
-    if (this._shellRef.current) {
-      if (document.activeElement !== this._shellRef.current) {
-        this.initialActiveElement = document.activeElement
-      }
-      this._shellRef.current.focus({ preventScroll: true })
+    if (
+      typeof document !== 'undefined' &&
+      document.activeElement !== this._wrapperRef.current
+    ) {
+      this.initialActiveElement = document.activeElement
+    }
+    if (this._wrapperRef.current && !isTrue(this.props.omit_set_focus)) {
+      this._wrapperRef.current.focus({ preventScroll: true })
     }
   }
 
   closeHandler = () => {
-    this.setHidden({ delay: 0 })
+    this.provider.add({
+      status_id: 'internal-close',
+      show: false
+    })
+
     if (this.initialActiveElement) {
       try {
         this.initialActiveElement.focus()
@@ -497,6 +485,7 @@ export default class GlobalStatus extends React.PureComponent {
         warn(e)
       }
     }
+
     dispatchCustomElementEvent(
       this._globalStatus,
       'on_hide',
@@ -505,16 +494,25 @@ export default class GlobalStatus extends React.PureComponent {
   }
 
   scrollToStatus(isDone = null) {
+    if (
+      typeof window === 'undefined' ||
+      isTrue(this.state.globalStatus.autoscroll) === false
+    ) {
+      return // stop here
+    }
     try {
-      // dispatchCustomElementEvent(this.state.globalStatus, 'on_scroll_to')
-      const element = this._shellRef.current
-      this._scrollToStatusId = isElementVisible(element, isDone)
-      if (element && !IS_IE11) {
+      const element = this._wrapperRef.current
+      this._scrollToStatusTimeout = isElementVisible(element, isDone)
+      if (
+        element &&
+        !IS_IE11 &&
+        typeof element.scrollIntoView === 'function'
+      ) {
         element.scrollIntoView({
           block: 'center',
           behavior: 'smooth'
         })
-      } else if (typeof window !== 'undefined') {
+      } else {
         const top = element.offsetTop
         if (window.scrollTo) {
           window.scrollTo({
@@ -531,10 +529,12 @@ export default class GlobalStatus extends React.PureComponent {
   }
 
   gotoItem = (event, item) => {
+    event.persist()
     const keyCode = keycode(event)
     if (
       (item.status_id &&
         typeof document !== 'undefined' &&
+        typeof window !== 'undefined' &&
         keyCode === 'space') ||
       keyCode === 'enter' ||
       typeof keyCode === 'undefined'
@@ -574,7 +574,7 @@ export default class GlobalStatus extends React.PureComponent {
         // block: 'center' is not suported on IE - now we se the element above
         if (IS_IE11) {
           window.scrollTop = element.offsetTop
-        } else {
+        } else if (typeof element.scrollIntoView === 'function') {
           // then go there
           element.scrollIntoView({
             block: 'center', // center of page
@@ -587,54 +587,29 @@ export default class GlobalStatus extends React.PureComponent {
     }
   }
 
-  isReadyToBeVisible() {
-    const { show } = this.props
-    const { isActive, makeMeVisible, isVisible } = this.state
-    return makeMeVisible && !isActive && !isVisible && isTrue(show)
-  }
-  isReadyToBeHidden() {
-    const { show } = this.props
-    const { isActive, makeMeHidden, isVisible } = this.state
-    return makeMeHidden && isActive && isVisible && !isTrue(show)
-  }
-
-  showingHasStarted() {
-    const { isActive, makeMeVisible, isVisible } = this.state
-    return isActive && makeMeVisible && !isVisible
-  }
-  hidingHasStarted() {
-    const { isActive, makeMeHidden, isVisible } = this.state
-    return isActive && makeMeHidden && isVisible
-  }
-
   render() {
-    if (!this._setVisibleId && this.isReadyToBeVisible()) {
-      clearTimeout(this._setVisibleId)
-      this._setVisibleId = setTimeout(() => this.setVisible(), 1) // because of render reconciliation
-    } else if (!this._setHiddenId && this.isReadyToBeHidden()) {
-      clearTimeout(this._setHiddenId)
-      this._setHiddenId = setTimeout(() => this.setHidden(), 1) // because of render reconciliation
-    }
+    const { isActive, isAnimating, keepContentVisible } = this.state
 
-    const { isActive, makeMeVisible, makeMeHidden, isVisible } = this.state
-
-    const stateProps = extendPropsWithContext(
-      this.state.globalStatus,
-      defaultProps,
+    const fallbackProps = extendPropsWithContext(
+      this.props,
+      GlobalStatus.defaultProps,
       this.context.translation.GlobalStatus
     )
 
-    const props = this.context.globalStatus
-      ? GlobalStatusProvider.combineMessages([
-          this.context.globalStatus,
-          stateProps
-        ])
-      : stateProps
+    const props = extendPropsWithContext(
+      GlobalStatusProvider.combineMessages([
+        this.context.globalStatus,
+        this.state.globalStatus
+      ]),
+      GlobalStatus.defaultProps,
+      fallbackProps
+    )
+
     const lang = this.context.locale
 
     const {
       title,
-      default_title,
+      default_title, // eslint-disable-line
       state: rawState,
       className,
       no_animation,
@@ -642,19 +617,18 @@ export default class GlobalStatus extends React.PureComponent {
       close_text,
       class: _className,
       status_anchor_text,
+      skeleton,
 
       id, // eslint-disable-line
-      demo, // eslint-disable-line
       item, // eslint-disable-line
       items, // eslint-disable-line
       autoclose, // eslint-disable-line
       show, // eslint-disable-line
       delay, // eslint-disable-line
-      duration, // eslint-disable-line
       autoscroll, // eslint-disable-line
       text, // eslint-disable-line
-      icon, // eslint-disable-line
-      icon_size, // eslint-disable-line
+      icon,
+      icon_size,
       children, // eslint-disable-line
 
       ...attributes
@@ -665,28 +639,31 @@ export default class GlobalStatus extends React.PureComponent {
       className: classnames(
         'dnb-global-status__wrapper',
         'dnb-no-focus',
+        createSkeletonClass('font', skeleton, this.context),
         createSpacingClasses(props),
         className,
         _className
       ),
-      'aria-live': this.hidingHasStarted() ? 'off' : 'assertive',
+      'aria-live': isActive ? 'assertive' : 'off',
       onKeyDown: this.onKeyDownHandler,
       tabIndex: '-1'
     }
 
-    if (!isActive) {
-      // because of screen readers will else read the content on page load, if:
-      // 1. if "show" is true from beginning, then we never come here
-      // to make sure we double check that situation
-      return <div {...wrapperParams}></div>
-    }
+    // if (!isActive) {
+    //   // because of screen readers will else read the content on page load, if:
+    //   // 1. if "show" is true from beginning, then we never come here
+    //   // to make sure we double check that situation
+    //   return <div {...wrapperParams} />
+    // }
 
     const state = this.correctStatus(rawState)
     const iconToRender = GlobalStatus.getIcon({
       state,
-      icon,
-      icon_size
+      icon: icon || fallbackProps.icon,
+      icon_size: icon_size || fallbackProps.icon_size
     })
+    const titleToRender =
+      title || fallbackProps.title || fallbackProps.default_title
     const noAnimation = isTrue(no_animation)
     const itemsToRender = props.items || []
     const contentToRender = GlobalStatus.getContent(props)
@@ -694,7 +671,7 @@ export default class GlobalStatus extends React.PureComponent {
 
     /**
      * Show aria-live="assertive" when:
-     * 1. once "show" is true and before content is aplyed
+     * 1. once "show" is true and before content is applied
      * so "isActive" has to have been false on first render
      */
 
@@ -711,12 +688,15 @@ export default class GlobalStatus extends React.PureComponent {
       className: classnames(
         'dnb-global-status',
         `dnb-global-status--${state}`,
-        this.showingHasStarted() && 'dnb-global-status--fade-in',
-        this.hidingHasStarted() && 'dnb-global-status--fade-out',
+        !isActive && 'dnb-global-status--hidden',
+        isActive && keepContentVisible && 'dnb-global-status--visible',
+        isAnimating && 'dnb-global-status--is-animating',
         noAnimation && 'dnb-global-status--no-animation'
       ),
       ...attributes
     }
+
+    skeletonDOMAttributes(params, skeleton, this.context)
 
     // also used for code markup simulation
     validateDOMAttributes(this.props, params)
@@ -726,7 +706,11 @@ export default class GlobalStatus extends React.PureComponent {
         {itemsToRender.map((item, i) => {
           const id = item.id || makeUniqueId()
           const text = (item && item.text) || item
-          const link = status_anchor_text || item.status_anchor_text
+          const anchorText = String(
+            item.status_anchor_text || status_anchor_text
+          )
+            .replace('%s', item.status_anchor_label || '')
+            .replace(/[: ]$/g, '')
           const useAutolink =
             item.status_id && isTrue(item.status_anchor_url)
           return (
@@ -748,7 +732,7 @@ export default class GlobalStatus extends React.PureComponent {
                   onClick={(e) => this.gotoItem(e, item)}
                   onKeyDown={(e) => this.gotoItem(e, item)}
                 >
-                  {link}
+                  {anchorText}
                 </a>
               )}
             </li>
@@ -757,55 +741,50 @@ export default class GlobalStatus extends React.PureComponent {
       </ul>
     )
 
+    const hasContent = renderedItems || contentToRender
+
     const renderedContent = (
-      <div className="dnb-global-status__shell">
-        <div className="dnb-global-status__content">
-          {title !== false && (
-            <p className="dnb-p dnb-global-status__title" lang={lang}>
-              <span className="dnb-global-status__icon">
-                {iconToRender}
-              </span>
-              {title || default_title}
-              {!isTrue(hide_close_button) && (
-                <CloseButton
-                  on_click={this.closeHandler}
-                  text={close_text}
-                  title={close_text}
-                />
-              )}
-            </p>
-          )}
+      <div className="dnb-global-status__content">
+        {title !== false && (
+          <p className="dnb-p dnb-global-status__title" lang={lang}>
+            <span className="dnb-global-status__icon">{iconToRender}</span>
+            {titleToRender}
+            {!isTrue(hide_close_button) && (
+              <CloseButton
+                on_click={this.closeHandler}
+                text={close_text}
+                title={close_text}
+              />
+            )}
+          </p>
+        )}
+        {hasContent && (
           <Section
             element="div"
             style_type="white"
             className="dnb-global-status__message"
           >
-            {typeof contentToRender === 'string' ? (
-              <p className="dnb-p">{contentToRender}</p>
-            ) : (
-              contentToRender
-            )}
-            {renderedItems}
+            <div className="dnb-global-status__message__content">
+              {typeof contentToRender === 'string' ? (
+                <p className="dnb-p">{contentToRender}</p>
+              ) : (
+                contentToRender
+              )}
+              {renderedItems}
+            </div>
           </Section>
-        </div>
+        )}
       </div>
     )
 
     return (
-      <div {...wrapperParams} ref={this._shellRef}>
+      <div {...wrapperParams} ref={this._wrapperRef}>
         <Section style_type={style} {...params} ref={this._mainRef}>
-          {(makeMeVisible || makeMeHidden || isVisible || noAnimation) &&
-            renderedContent}
-        </Section>
-        {!noAnimation && (
-          <div
-            className="dnb-global-status dnb-global-status__fake"
-            aria-hidden="true"
-            ref={this._fakeRef}
-          >
-            {renderedContent}
+          <div className="dnb-global-status__shell" ref={this._shellRef}>
+            {(isAnimating || keepContentVisible || isActive) &&
+              renderedContent}
           </div>
-        )}
+        </Section>
       </div>
     )
   }
@@ -832,13 +811,14 @@ CloseButton.propTypes = {
 }
 CloseButton.defaultProps = {
   className: null,
-  text: defaultProps.close_text
+  text: GlobalStatus.defaultProps.close_text
 }
 
 // Extend our component with controllers
-GlobalStatus.Set = (...args) => new GlobalStatusController(...args)
-GlobalStatus.AddStatus = GlobalStatus.Set
-GlobalStatus.Update = GlobalStatusController
+GlobalStatus.create = (...args) => new GlobalStatusInterceptor(...args)
+GlobalStatus.Set = GlobalStatus.create // Deprecated
+GlobalStatus.AddStatus = GlobalStatus.create // Deprecated
+GlobalStatus.Update = GlobalStatus.create
 GlobalStatus.Add = GlobalStatusController
 GlobalStatus.Remove = GlobalStatusController.Remove
 

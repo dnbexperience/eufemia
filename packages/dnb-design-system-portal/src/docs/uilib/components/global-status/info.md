@@ -9,9 +9,9 @@ By default, the `GlobalStatus` is automatically connected together with the [For
 
 ### FormStatus default behavior
 
-1. Once a **FormStatus** is show, the `main` **GlobalStatus** will show up.
+1. Once a **FormStatus** is shown, the `main` **GlobalStatus** will show up.
 1. The page will scroll (if needed) to the dedicated **GlobalStatus**.
-1. But the focus will stay on the current place.
+1. Form components will send along both the status text, and it's label to show a good and accessible summary.
 1. Screen reader uses will automatically hear the whole content of the `GlobalStatus` once it shows up.
 
 ### Several Global statuses
@@ -28,13 +28,20 @@ Normally, You only want to have **one** `GlobalStatus` inside Your application. 
 - Or as a secondary summary of errors in a submit form. Keep in mind, by default, form components like [Input](/uilib/components/input) are using the ID `main`. To make sure the build in [FormStatus](/uilib/components/form-status) is sending along the message to another `GlobalStatus`, You have to set the `global_status_id`, like:
 
 ```jsx
+<GlobalStatus id="other-global-status" />
+...
 <Input global_status_id="other-global-status" ... />
 ```
 
-But You can also make use of the [FormSet](/uilib/components/form-set) or [FormRow](/uilib/components/form-row) (or FormSet) which will send along the `global_status_id` the underlaying/children components, like:
+But You can also make use of the [FormSet](/uilib/components/form-set) or [FormRow](/uilib/components/form-row) which will send along the `global_status_id` the underlaying/wrapped components, like:
 
 ```jsx
-<FormSet global_status_id="other-global-status">...</FormSet>
+<GlobalStatus id="other-global-status" />
+...
+<FormSet global_status_id="other-global-status">
+  <Input status="Message" />
+  ...
+</FormSet>
 ```
 
 ### Smooth scrolling
@@ -60,13 +67,19 @@ Beside the automated connection between the error states of form components ([Fo
 import { GlobalStatus } from 'dnb-ui-lib/components'
 
 // 1. Update / extend the the status like so:
-const statusOne = GlobalStatus.AddStatus({
+const statusOne = GlobalStatus.create({
+  id: 'other-global-status', // or main
   status_id: 'custom-id-1',
   text: 'New Text',
   item: 'Item from status #1'
 })
 
 // 2. and removes "custom-id-1" again if needed
+statusOne.update({
+  text: 'Updated Text'
+})
+
+// 3. and removes "custom-id-1" again if needed
 statusOne.remove()
 ```
 

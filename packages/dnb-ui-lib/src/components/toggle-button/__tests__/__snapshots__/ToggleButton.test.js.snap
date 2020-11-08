@@ -21,6 +21,7 @@ exports[`ToggleButton component have to match snapshot 1`] = `
   on_change={[Function]}
   on_state_update={[Function]}
   readOnly={false}
+  skeleton="skeleton"
   status={null}
   status_animation="status_animation"
   status_state="status_state"
@@ -36,34 +37,26 @@ exports[`ToggleButton component have to match snapshot 1`] = `
     <FormLabel
       class={null}
       className={null}
-      direction={null}
       disabled="disabled"
       element="label"
       for_id="toggle-button"
       id="toggle-button-label"
       label_direction="horizontal"
-      render_content={null}
+      skeleton="skeleton"
       sr_only="label_sr_only"
       text="label"
       title={null}
       vertical={null}
     >
-      <Element
+      <label
+        aria-disabled={true}
         className="dnb-form-label"
-        disabled={false}
+        disabled={true}
         htmlFor="toggle-button"
         id="toggle-button-label"
-        is="label"
       >
-        <label
-          className="dnb-form-label"
-          disabled={false}
-          htmlFor="toggle-button"
-          id="toggle-button-label"
-        >
-          label
-        </label>
-      </Element>
+        label
+      </label>
     </FormLabel>
     <span
       className="dnb-toggle-button__inner"
@@ -88,6 +81,7 @@ exports[`ToggleButton component have to match snapshot 1`] = `
           custom_element={null}
           custom_method={null}
           disabled="disabled"
+          element={null}
           global_status_id={null}
           href={null}
           icon="icon"
@@ -95,11 +89,13 @@ exports[`ToggleButton component have to match snapshot 1`] = `
           icon_size="icon_size"
           id="toggle-button"
           innerRef={null}
+          inner_ref={null}
           onClick={[Function]}
           onKeyDown={[Function]}
           onKeyUp={[Function]}
           on_click={null}
           size={null}
+          skeleton="skeleton"
           status={null}
           status_animation={null}
           status_state="error"
@@ -149,6 +145,7 @@ exports[`ToggleButton component have to match snapshot 1`] = `
                     on_state_update={null}
                     readOnly={false}
                     size={null}
+                    skeleton={null}
                     status={null}
                     status_animation={null}
                     status_state="error"
@@ -162,6 +159,7 @@ exports[`ToggleButton component have to match snapshot 1`] = `
               custom_element={null}
               custom_method={null}
               disabled="disabled"
+              element={null}
               global_status_id={null}
               href={null}
               icon="icon"
@@ -169,12 +167,14 @@ exports[`ToggleButton component have to match snapshot 1`] = `
               icon_size="icon_size"
               id="toggle-button"
               innerRef={null}
+              inner_ref={null}
               isIconOnly={false}
               onClick={[Function]}
               onKeyDown={[Function]}
               onKeyUp={[Function]}
               on_click={null}
               size={null}
+              skeleton="skeleton"
               status={null}
               status_animation={null}
               status_state="error"
@@ -205,6 +205,7 @@ exports[`ToggleButton component have to match snapshot 1`] = `
                   on_state_update={null}
                   readOnly={false}
                   size={null}
+                  skeleton={null}
                   status={null}
                   status_animation={null}
                   status_state="error"
@@ -256,24 +257,26 @@ exports[`ToggleButton component have to match snapshot 1`] = `
                               className="dnb-checkbox__focus"
                             />
                           </span>
-                          <CheckSVG>
+                          <CheckIcon
+                            size={null}
+                          >
                             <svg
                               aria-hidden={true}
                               className="dnb-checkbox__gfx"
                               fill="none"
-                              height="24"
-                              viewBox="0 0 24 24"
-                              width="24"
+                              height={16}
+                              viewBox="0 0 16 16"
+                              width={16}
                             >
                               <path
-                                d="M1.5 15L7.5 21L22.5 3"
+                                d="M1 10L5 14L15 2"
                                 stroke="currentColor"
                                 strokeLinecap="round"
                                 strokeLinejoin="round"
-                                strokeWidth="2"
+                                strokeWidth="1.5"
                               />
                             </svg>
-                          </CheckSVG>
+                          </CheckIcon>
                         </span>
                       </span>
                     </span>
@@ -304,6 +307,7 @@ exports[`ToggleButton component have to match snapshot 1`] = `
                 key="button-icon"
                 modifier={null}
                 size="icon_size"
+                skeleton={null}
                 title={null}
                 width={null}
               />
@@ -334,6 +338,7 @@ exports[`ToggleButton component have to match snapshot 1`] = `
             on_change={[Function]}
             on_state_update={[Function]}
             readOnly={false}
+            skeleton="skeleton"
             status={null}
             status_animation="status_animation"
             status_state="status_state"
@@ -371,6 +376,7 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
   name={null}
   no_fieldset={null}
   on_change={null}
+  skeleton={null}
   status={null}
   status_animation={null}
   status_state="error"
@@ -383,6 +389,7 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
     className="dnb-toggle-button-group dnb-toggle-button-group--row dnb-form-component"
   >
     <FormRow
+      centered={null}
       class={null}
       className={null}
       custom_element={null}
@@ -400,10 +407,10 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
       label_sr_only={null}
       no_fieldset={null}
       no_label={false}
-      render_content={null}
       responsive={null}
       section_spacing={null}
       section_style={null}
+      skeleton={null}
       skipContentWrapperIfNested={true}
       vertical={null}
       wrap={null}
@@ -429,32 +436,24 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
             <FormLabel
               class={null}
               className="dnb-form-row__label"
-              direction={null}
-              disabled={false}
+              disabled={null}
               element="legend"
               for_id={null}
               id="group-label"
               label_direction={null}
-              render_content={null}
+              skeleton={null}
               sr_only={null}
               text="Label"
               title={null}
               vertical={null}
             >
-              <Element
+              <legend
                 className="dnb-form-label dnb-form-row__label"
                 disabled={false}
                 id="group-label"
-                is="legend"
               >
-                <legend
-                  className="dnb-form-label dnb-form-row__label"
-                  disabled={false}
-                  id="group-label"
-                >
-                  Label
-                </legend>
-              </Element>
+                Label
+              </legend>
             </FormLabel>
             <div
               className="dnb-form-row__content dnb-form-row__content--default"
@@ -487,6 +486,7 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
                     on_change={null}
                     on_state_update={null}
                     readOnly={false}
+                    skeleton={null}
                     status={null}
                     status_animation={null}
                     status_state="error"
@@ -521,6 +521,7 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
                             custom_element={null}
                             custom_method={null}
                             disabled={null}
+                            element={null}
                             global_status_id={null}
                             href={null}
                             icon={null}
@@ -528,11 +529,13 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
                             icon_size={null}
                             id="toggle-button-1"
                             innerRef={null}
+                            inner_ref={null}
                             onClick={[Function]}
                             onKeyDown={[Function]}
                             onKeyUp={[Function]}
                             on_click={null}
                             size={null}
+                            skeleton={null}
                             status={null}
                             status_animation={null}
                             status_state="error"
@@ -562,6 +565,7 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
                                 custom_element={null}
                                 custom_method={null}
                                 disabled={null}
+                                element={null}
                                 global_status_id={null}
                                 href={null}
                                 icon={null}
@@ -569,12 +573,14 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
                                 icon_size={null}
                                 id="toggle-button-1"
                                 innerRef={null}
+                                inner_ref={null}
                                 isIconOnly={false}
                                 onClick={[Function]}
                                 onKeyDown={[Function]}
                                 onKeyUp={[Function]}
                                 on_click={null}
                                 size={null}
+                                skeleton={null}
                                 status={null}
                                 status_animation={null}
                                 status_state="error"
@@ -624,6 +630,7 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
                     on_change={null}
                     on_state_update={null}
                     readOnly={false}
+                    skeleton={null}
                     status={null}
                     status_animation={null}
                     status_state="error"
@@ -658,6 +665,7 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
                             custom_element={null}
                             custom_method={null}
                             disabled={null}
+                            element={null}
                             global_status_id={null}
                             href={null}
                             icon={null}
@@ -665,11 +673,13 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
                             icon_size={null}
                             id="toggle-button-2"
                             innerRef={null}
+                            inner_ref={null}
                             onClick={[Function]}
                             onKeyDown={[Function]}
                             onKeyUp={[Function]}
                             on_click={null}
                             size={null}
+                            skeleton={null}
                             status={null}
                             status_animation={null}
                             status_state="error"
@@ -699,6 +709,7 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
                                 custom_element={null}
                                 custom_method={null}
                                 disabled={null}
+                                element={null}
                                 global_status_id={null}
                                 href={null}
                                 icon={null}
@@ -706,12 +717,14 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
                                 icon_size={null}
                                 id="toggle-button-2"
                                 innerRef={null}
+                                inner_ref={null}
                                 isIconOnly={false}
                                 onClick={[Function]}
                                 onKeyDown={[Function]}
                                 onKeyUp={[Function]}
                                 on_click={null}
                                 size={null}
+                                skeleton={null}
                                 status={null}
                                 status_animation={null}
                                 status_state="error"
@@ -1090,6 +1103,10 @@ legend.dnb-form-label {
   h5 .dnb-icon,
   h6 .dnb-icon {
     vertical-align: middle; }
+  .dnb-icon.dnb-skeleton {
+    color: var(--skeleton-color) !important; }
+    .dnb-icon.dnb-skeleton::before, .dnb-icon.dnb-skeleton::after {
+      content: none !important; }
   @media screen and (-ms-high-contrast: none) {
     .dnb-icon {
       flex: none; } }
@@ -1414,6 +1431,8 @@ legend.dnb-form-label {
     white-space: nowrap; }
   .dnb-button + .dnb-form-status {
     margin-top: 0.5rem; }
+  .dnb-button.dnb-skeleton .dnb-icon {
+    visibility: hidden; }
   @media screen and (-ms-high-contrast: none) {
     .dnb-button {
       flex: none; }
@@ -1583,6 +1602,10 @@ button.dnb-button::-moz-focus-inner {
     order: 3;
     vertical-align: top;
     margin-top: 0.5rem; }
+  .dnb-checkbox.dnb-skeleton .dnb-checkbox__input[disabled] ~ .dnb-checkbox__button {
+    border-color: var(--skeleton-color); }
+    .dnb-checkbox.dnb-skeleton .dnb-checkbox__input[disabled] ~ .dnb-checkbox__button::before {
+      border-radius: 0; }
   @media screen and (-ms-high-contrast: none) {
     .dnb-checkbox {
       vertical-align: text-bottom; }
@@ -1793,6 +1816,8 @@ button.dnb-button::-moz-focus-inner {
       margin-bottom: calc(1px - 1px - var(--radio-margin-bottom)); }
       .dnb-radio-group .dnb-form-row::before {
         font-size: var(--font-size-basis); }
+  .dnb-skeleton .dnb-radio__input[disabled] ~ .dnb-radio__button {
+    border-color: var(--skeleton-color); }
   @media screen and (-ms-high-contrast: none) {
     .dnb-radio {
       vertical-align: text-bottom; }

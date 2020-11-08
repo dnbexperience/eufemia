@@ -25,7 +25,7 @@ export default {
     GlobalStatus: {
       default_title: 'An error has occurred',
       close_text: 'Close',
-      status_anchor_text: 'Go to'
+      status_anchor_text: 'Go to %s'
     },
     GlobalError: {
       404: {
@@ -56,9 +56,15 @@ export default {
       indicator_label: 'Getting data ...'
     },
     Modal: {
-      close_title: 'Close',
-      more_info: 'Help text',
-      help_button: 'Help button'
+      close_title: 'Close'
+    },
+    HelpButton: {
+      title: 'Help text',
+      aria_role: 'Help button'
+    },
+    Skeleton: {
+      aria_bussy: 'In progress ...',
+      aria_ready: 'Ready to interact'
     },
     Input: {
       submit_button_title: 'Submit button'
@@ -72,7 +78,16 @@ export default {
       load_button_text: 'Show more content'
     },
     StepIndicator: {
-      step_title: 'Step %step aofv %count'
+      step_title: 'Step %step of %count'
+    },
+    Slider: {
+      add_title: 'Increase Slider value %s%',
+      subtract_title: 'Decrease Slider value %s%'
+    },
+    PaymentCard: {
+      text_card_number: 'Card number',
+      text_expired: 'Expired',
+      text_blocked: 'Blocked'
     },
     Logo: {
       alt: 'DNB Logo'

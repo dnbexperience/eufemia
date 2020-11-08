@@ -19,112 +19,114 @@ import {
 import { H1, H2 } from '../../src/elements'
 import Provider from '../../src/shared/Provider'
 
-export default [
-  'Space',
-  () => (
-    <Wrapper>
-      <Box>
-        <CustomStyle>
-          <VisualSpace>
-            {/* <MagicBox top="medium" /> */}
-            <Space top="large x-small">
-              <Input label="Input:" />
-            </Space>
-          </VisualSpace>
-        </CustomStyle>
-      </Box>
-      <Box>
-        <Provider
-          space={{
-            no_collapse: true
-          }}
-        >
-          <Collapsing bottom="small">
-            <H1>H1</H1>
-          </Collapsing>
-          <Collapsing top="large">
-            <H2>H2</H2>
-          </Collapsing>
-        </Provider>
-      </Box>
-      <Box>
-        <Collapsing bottom="small" no_collapse={true}>
-          <div>
-            I have <code className="dnb-code">bottom="small"</code>
-          </div>
+export default {
+  title: 'Eufemia/Components/Space'
+}
+
+export const SpaceSandbox = () => (
+  <Wrapper>
+    <Box>
+      <CustomStyle>
+        <VisualSpace>
+          {/* <MagicBox top="medium" /> */}
+          <Space top="large x-small">
+            <Input label="Input:" />
+          </Space>
+        </VisualSpace>
+      </CustomStyle>
+    </Box>
+    <Box>
+      <Provider
+        space={{
+          no_collapse: true
+        }}
+      >
+        <Collapsing bottom="small">
+          <H1>H1</H1>
         </Collapsing>
         <Collapsing top="large">
-          <div>
-            I have <code className="dnb-code">top="large"</code>
-          </div>
+          <H2>H2</H2>
         </Collapsing>
-      </Box>
-      <Box>
-        <CustomStyle>
-          <Space top="0.5">
-            <MagicBox />
-          </Space>
-          <Space top="1">
-            <MagicBox />
-          </Space>
-          <Space top="1.5">
-            <MagicBox />
-          </Space>
-          <Space top="2">
-            <MagicBox />
-          </Space>
-          <Space top="2.5">
-            <MagicBox />
-          </Space>
-          <Space top="3">
-            <MagicBox />
-          </Space>
-          <Space top="3.5">
-            <MagicBox />
-          </Space>
-          <Space top="4">
-            <MagicBox />
-          </Space>
-          <Space top="4.5">
-            <MagicBox />
-          </Space>
-          <Space top="5">
-            <MagicBox />
-          </Space>
-          <Space top="5.5">
-            <MagicBox />
-          </Space>
-          <Space top="6">
-            <MagicBox />
-          </Space>
-          <Space top="6.5">
-            <MagicBox />
-          </Space>
-          <Space top="7">
-            <MagicBox />
-          </Space>
-          <Space top="7.5">
-            <MagicBox />
-          </Space>
-          <Space top="8">
-            <MagicBox />
-          </Space>
-          <Space top="8.5">
-            <MagicBox />
-          </Space>
-          <Space top="9">
-            <MagicBox />
-          </Space>
-          <Space top="9.5">
-            <MagicBox />
-          </Space>
-          <Space top="10" bottom="1">
-            <MagicBox />
-          </Space>
-          {/* <Space top="large large large large large x-small">
+      </Provider>
+    </Box>
+    <Box>
+      <Collapsing bottom="small" no_collapse={true}>
+        <div>
+          I have <code className="dnb-code">bottom="small"</code>
+        </div>
+      </Collapsing>
+      <Collapsing top="large">
+        <div>
+          I have <code className="dnb-code">top="large"</code>
+        </div>
+      </Collapsing>
+    </Box>
+    <Box>
+      <CustomStyle>
+        <Space top="0.5">
+          <MagicBox />
+        </Space>
+        <Space top="1">
+          <MagicBox />
+        </Space>
+        <Space top="1.5">
+          <MagicBox />
+        </Space>
+        <Space top="2">
+          <MagicBox />
+        </Space>
+        <Space top="2.5">
+          <MagicBox />
+        </Space>
+        <Space top="3">
+          <MagicBox />
+        </Space>
+        <Space top="3.5">
+          <MagicBox />
+        </Space>
+        <Space top="4">
+          <MagicBox />
+        </Space>
+        <Space top="4.5">
+          <MagicBox />
+        </Space>
+        <Space top="5">
+          <MagicBox />
+        </Space>
+        <Space top="5.5">
+          <MagicBox />
+        </Space>
+        <Space top="6">
+          <MagicBox />
+        </Space>
+        <Space top="6.5">
+          <MagicBox />
+        </Space>
+        <Space top="7">
+          <MagicBox />
+        </Space>
+        <Space top="7.5">
+          <MagicBox />
+        </Space>
+        <Space top="8">
+          <MagicBox />
+        </Space>
+        <Space top="8.5">
+          <MagicBox />
+        </Space>
+        <Space top="9">
+          <MagicBox />
+        </Space>
+        <Space top="9.5">
+          <MagicBox />
+        </Space>
+        <Space top="10" bottom="1">
+          <MagicBox />
+        </Space>
+        {/* <Space top="large large large large large x-small">
             <MagicBox />
           </Space> */}
-          {/* <Space top="medium x-large medium x-small">
+        {/* <Space top="medium x-large medium x-small">
             <MagicBox />
           </Space>
           <Space top="1 2">
@@ -145,11 +147,10 @@ export default [
           <FormRow top="large x-small">
             <MagicBox />
           </FormRow> */}
-        </CustomStyle>
-      </Box>
-    </Wrapper>
-  )
-]
+      </CustomStyle>
+    </Box>
+  </Wrapper>
+)
 
 const CustomStyle = styled.div`
   display: flex;
@@ -291,4 +292,4 @@ const Collapsing = styled(Space)`
   border: 1px solid;
 `
 
-export { MagicBox, VisualSpace }
+// export { MagicBox, VisualSpace }

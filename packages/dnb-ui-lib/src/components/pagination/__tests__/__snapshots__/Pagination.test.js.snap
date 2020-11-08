@@ -443,6 +443,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
               custom_element={null}
               custom_method={null}
               disabled={true}
+              element={null}
               global_status_id={null}
               href={null}
               icon="chevron_left"
@@ -450,10 +451,12 @@ exports[`Pagination bar component have to match snapshot 1`] = `
               icon_size={null}
               id={null}
               innerRef={null}
+              inner_ref={null}
               key="left-arrow"
               onClick={null}
               on_click={[Function]}
               size="small"
+              skeleton={null}
               status={null}
               status_animation={null}
               status_state="error"
@@ -479,6 +482,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
                   custom_element={null}
                   custom_method={null}
                   disabled={true}
+                  element={null}
                   global_status_id={null}
                   href={null}
                   icon="chevron_left"
@@ -486,10 +490,12 @@ exports[`Pagination bar component have to match snapshot 1`] = `
                   icon_size={null}
                   id={null}
                   innerRef={null}
+                  inner_ref={null}
                   isIconOnly={true}
                   onClick={null}
                   on_click={[Function]}
                   size="small"
+                  skeleton={null}
                   status={null}
                   status_animation={null}
                   status_state="error"
@@ -518,6 +524,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
                     key="button-icon"
                     modifier={null}
                     size={null}
+                    skeleton={null}
                     title={null}
                     width={null}
                   >
@@ -557,6 +564,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
               custom_element={null}
               custom_method={null}
               disabled={false}
+              element={null}
               global_status_id={null}
               href={null}
               icon="chevron_right"
@@ -564,10 +572,12 @@ exports[`Pagination bar component have to match snapshot 1`] = `
               icon_size={null}
               id={null}
               innerRef={null}
+              inner_ref={null}
               key="right-arrow"
               onClick={null}
               on_click={[Function]}
               size="small"
+              skeleton={null}
               status={null}
               status_animation={null}
               status_state="error"
@@ -593,6 +603,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
                   custom_element={null}
                   custom_method={null}
                   disabled={false}
+                  element={null}
                   global_status_id={null}
                   href={null}
                   icon="chevron_right"
@@ -600,10 +611,12 @@ exports[`Pagination bar component have to match snapshot 1`] = `
                   icon_size={null}
                   id={null}
                   innerRef={null}
+                  inner_ref={null}
                   isIconOnly={true}
                   onClick={null}
                   on_click={[Function]}
                   size="small"
+                  skeleton={null}
                   status={null}
                   status_animation={null}
                   status_state="error"
@@ -632,6 +645,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
                     key="button-icon"
                     modifier={null}
                     size={null}
+                    skeleton={null}
                     title={null}
                     width={null}
                   >
@@ -694,7 +708,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
                         visible={true}
                       >
                         <div
-                          aria-busy="true"
+                          aria-busy={true}
                           className="dnb-progress-indicator dnb-progress-indicator--visible dnb-progress-indicator--horizontal"
                           role="alert"
                         >
@@ -932,6 +946,10 @@ exports[`Pagination scss have to match snapshot 1`] = `
   h5 .dnb-icon,
   h6 .dnb-icon {
     vertical-align: middle; }
+  .dnb-icon.dnb-skeleton {
+    color: var(--skeleton-color) !important; }
+    .dnb-icon.dnb-skeleton::before, .dnb-icon.dnb-skeleton::after {
+      content: none !important; }
   @media screen and (-ms-high-contrast: none) {
     .dnb-icon {
       flex: none; } }
@@ -1256,6 +1274,8 @@ exports[`Pagination scss have to match snapshot 1`] = `
     white-space: nowrap; }
   .dnb-button + .dnb-form-status {
     margin-top: 0.5rem; }
+  .dnb-button.dnb-skeleton .dnb-icon {
+    visibility: hidden; }
   @media screen and (-ms-high-contrast: none) {
     .dnb-button {
       flex: none; }

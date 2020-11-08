@@ -38,7 +38,7 @@ class Example extends React.PureComponent {
         <ComponentBox
           title="Left aligned tabs, using both 'data' property and content object"
           scope={{ exampleContent }}
-          data-dnb-test="tabs-tablist"
+          data-visual-test="tabs-tablist"
           useRender
           hideSyntaxButton
         >

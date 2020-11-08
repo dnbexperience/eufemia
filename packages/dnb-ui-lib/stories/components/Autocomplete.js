@@ -10,6 +10,10 @@ import styled from '@emotion/styled'
 import { Autocomplete, Number, Button } from '../../src/components'
 import { Anchor } from '../../src/elements'
 
+export default {
+  title: 'Eufemia/Components/Autocomplete'
+}
+
 const CustomStyle = styled.div`
   .dnb-autocomplete__shell {
     width: 10rem; /* custom width */
@@ -26,7 +30,7 @@ const AutocompleteWithState = () => {
     <Autocomplete
       mode="async" // prevents showing no options message og typing
       no_scroll_animation
-      prevent_selection
+      // prevent_selection
       placeholder="Search ..."
       // label="Search"
       // label_sr_only="true"
@@ -52,14 +56,15 @@ const AutocompleteWithState = () => {
             // 2. if it gets debounced, we cancel this timeout
             return () => clearTimeout(timeout)
           },
-          { value, results }
+          { value, results },
+          1e3
         )
       }}
     />
   )
 }
 
-const AutocompleteStory = () => {
+export const AutocompleteSandbox = () => {
   // const [data, setData] = useState(autocompleteData)
   // const [value, setSelectedItem] = useState(0)
   return (
@@ -170,7 +175,7 @@ const AutocompleteStory = () => {
       <Box>
         <Autocomplete
           mode="async" // prevents showing no options message og typing
-          // label="Search"
+          label="No selection / no filter"
           // label_sr_only="true"
           prevent_selection
           disable_filter
@@ -246,7 +251,7 @@ const AutocompleteStory = () => {
           // opened
           // prevent_close
           no_animation
-          prevent_selection
+          // prevent_selection
           // input_value="the g er"
           input_value="episode a I"
           mode="async"
@@ -297,8 +302,6 @@ const AutocompleteStory = () => {
     </Wrapper>
   )
 }
-
-export default ['Autocomplete', AutocompleteStory]
 
 const testData = [
   {
@@ -590,7 +593,7 @@ function UpdateDataExample() {
 
       <Autocomplete
         title="Choose an item"
-        prevent_selection
+        // prevent_selection
         data={choiceData}
         on_change={({
           data,

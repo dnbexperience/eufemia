@@ -14,28 +14,29 @@ import { hasSelectedText } from '../../src/shared/helpers'
 
 import { createPagination } from '../../src/components/Pagination'
 
-export default [
-  'PaginationTable',
-  () => (
-    <Wrapper className="dnb-core-style" spacing>
-      <Space left>
-        <H1 size="small">Infinity Table</H1>
-        <P bottom>
-          This is a semantic correct table using infinity scrolling. It
-          also has a sticky header.
-        </P>
-        <Ul bottom>
-          <li>The startup page number is set to 3.</li>
-          <li>And per page we show 10 items.</li>
-          <li>
-            A random delay is added to simulate asynchronous interaction.
-          </li>
-        </Ul>
-      </Space>
-      <InfinityPaginationTable tableItems={tableItems} />
-    </Wrapper>
-  )
-]
+export default {
+  title: 'Eufemia/Components/Pagination'
+}
+
+export const PaginationTable = () => (
+  <Wrapper className="dnb-core-style" spacing>
+    <Space left>
+      <H1 size="small">Infinity Table</H1>
+      <P bottom>
+        This is a semantic correct table using infinity scrolling. It also
+        has a sticky header.
+      </P>
+      <Ul bottom>
+        <li>The startup page number is set to 3.</li>
+        <li>And per page we show 10 items.</li>
+        <li>
+          A random delay is added to simulate asynchronous interaction.
+        </li>
+      </Ul>
+    </Space>
+    <InfinityPaginationTable tableItems={tableItems} />
+  </Wrapper>
+)
 
 // create our items
 const tableItems = []

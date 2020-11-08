@@ -1,0 +1,168 @@
+/*
+ * Skeleton Theme
+ *
+ */
+
+:root {
+  --skeleton-color: var(--color-black-8);
+  --skeleton-color--contrast: var(--color-white);
+
+  // Nice color as well. But very colorful!
+  // --skeleton-color: var(
+  //   --color-sea-green-30
+  // ) !important; // to take presence
+
+  // Using a so called DNB background color, could quickly cause conflicts
+  // --skeleton-color: var(--color-lavender) !important; // to take presence
+  // --skeleton-color: var(--color-pistachio) !important; // to take presence
+}
+
+.dnb-skeleton {
+  img,
+  video {
+    filter: brightness(0%) contrast(0%) opacity(0.5);
+  }
+
+  &--shape#{&}::before {
+    background-color: var(--skeleton-color) !important; // to take presence
+  }
+
+  // Lines
+  &--shape#{&}::after,
+  &--lines &--shape#{&}::after,
+  &--lines#{&}--shape#{&}::after {
+    background-image: repeating-linear-gradient(
+      -45deg,
+      var(--skeleton-color--contrast) 1px 2px,
+      transparent 0 6px
+    ) !important;
+    background-repeat: repeat !important;
+    background-size: 100% !important; // to take presence
+
+    animation: skeletonLinearAnimation 1.5s linear infinite;
+
+    // For better performance
+    // animation: skeletonShineAnimation 1.5s linear infinite;
+  }
+
+  // Dots
+  &--dots &--shape#{&}::after,
+  &--dots#{&}--shape#{&}::after {
+    background-image: radial-gradient(
+      circle,
+      var(--skeleton-color--contrast) 1px,
+      transparent 1px /* Having 2px makes it add lookin in Safari */
+    ) !important; // to take presence
+    background-position-y: 50% !important;
+    background-repeat: repeat !important;
+    background-size: 5px 5px !important; // to take presence
+
+    animation: skeletonLinearAnimation 1.5s linear infinite;
+  }
+
+  // Shine
+  &--shine &--shape#{&}::after,
+  &--shine#{&}--shape#{&}::after {
+    background-image: linear-gradient(
+      90deg,
+      transparent 10%,
+      var(--skeleton-color--contrast) 60%,
+      transparent 85%
+    ) !important;
+    background-position-y: 50% !important;
+    background-repeat: no-repeat !important;
+    background-size: 100% 100% !important;
+
+    animation: skeletonShineAnimation 1.5s linear infinite;
+  }
+
+  // Font
+  &--font,
+  &--font-only {
+    *:not(.dnb-skeleton) {
+      -webkit-text-fill-color: var(--skeleton-color) !important;
+    }
+
+    // Additional changes
+    &::marker {
+      color: var(--skeleton-color);
+    }
+  }
+  &--font {
+    background-image: repeating-linear-gradient(
+      -45deg,
+      var(--skeleton-color--contrast) 1px 2px,
+      transparent 0 6px
+    ) !important;
+
+    --border-color: var(--skeleton-color);
+    background-color: var(--skeleton-color) !important;
+  }
+
+  // Dots – does not work well for now
+  // &--dots &--font {
+  //   background-image: radial-gradient(
+  //     circle,
+  //     var(--skeleton-color--contrast) 1px,
+  //     transparent 1px /* Having 2px makes it add lookin in Safari */
+  //   ) !important; // to take presence
+  //   background-position-y: 50% !important;
+  //   background-repeat: repeat !important;
+  //   background-size: 5px 5px !important; // to take presence
+  // }
+
+  // Shine
+  &--shine &--font {
+    // If we would rather like black
+    // rgba(0, 0, 0, 0.2) 60%,
+
+    background-image: linear-gradient(
+      90deg,
+      transparent 10%,
+      var(--skeleton-color--contrast) 60%,
+      transparent 85%
+    );
+  }
+}
+
+@keyframes skeletonLinearAnimation {
+  0% {
+    clip-path: polygon(0 0, 0% 0, 0% 100%, 0 100%);
+  }
+  50% {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+  }
+  100% {
+    clip-path: polygon(100% 0, 100% 0, 100% 100%, 100% 100%);
+  }
+}
+
+@keyframes skeletonFancyAnimation {
+  0% {
+    transform: translate3d(-100%, 0, 0);
+    clip-path: polygon(0 0, 20% 0, 20% 100%, 0 100%);
+  }
+  60% {
+    transform: translate3d(0%, 0, 0);
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+  }
+  100% {
+    transform: translate3d(50%, 0, 0);
+    clip-path: polygon(50% 0, 50% 0, 50% 100%, 50% 100%);
+  }
+}
+
+@keyframes skeletonShineAnimation {
+  0% {
+    opacity: 0.2;
+    transform: translate3d(-120%, 0, 0);
+  }
+  70% {
+    opacity: 1;
+    transform: translate3d(-10%, 0, 0);
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(20%, 0, 0);
+  }
+}

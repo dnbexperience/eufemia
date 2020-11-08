@@ -14,16 +14,16 @@ describe('GlobalStatus screenshot', () => {
   it('have to match the default state with custom content', async () => {
     const screenshot = await testPageScreenshot({
       style,
-      selector: '[data-dnb-test="global-status"] .dnb-global-status'
+      selector: '[data-visual-test="global-status"] .dnb-global-status'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
   it('have to match the close button in focus state', async () => {
     const screenshot = await testPageScreenshot({
       style,
-      selector: '[data-dnb-test="global-status"] .dnb-global-status',
+      selector: '[data-visual-test="global-status"] .dnb-global-status',
       simulateSelector:
-        '[data-dnb-test="global-status"] .dnb-global-status__close-button',
+        '[data-visual-test="global-status"] .dnb-global-status__close-button',
       simulate: 'focus'
     })
     expect(screenshot).toMatchImageSnapshot()
@@ -31,9 +31,9 @@ describe('GlobalStatus screenshot', () => {
   it('have to match the close button in hover state', async () => {
     const screenshot = await testPageScreenshot({
       style,
-      selector: '[data-dnb-test="global-status"] .dnb-global-status',
+      selector: '[data-visual-test="global-status"] .dnb-global-status',
       simulateSelector:
-        '[data-dnb-test="global-status"] .dnb-global-status__close-button',
+        '[data-visual-test="global-status"] .dnb-global-status__close-button',
       simulate: 'hover'
     })
     expect(screenshot).toMatchImageSnapshot()
@@ -41,13 +41,14 @@ describe('GlobalStatus screenshot', () => {
   it('have to match the info state and custom content', async () => {
     const screenshot = await testPageScreenshot({
       style,
-      selector: '[data-dnb-test="global-status-info"] .dnb-global-status'
+      selector:
+        '[data-visual-test="global-status-info"] .dnb-global-status'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
   // it.skip('have to match custom content', async () => {
   //   const screenshot = await testPageScreenshot({
-  //     selector: '[data-dnb-test="global-status-custom"]'
+  //     selector: '[data-visual-test="global-status-custom"]'
   //   })
   //   expect(screenshot).toMatchImageSnapshot()
   // })

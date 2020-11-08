@@ -12,6 +12,7 @@ showTabs: true
 | `step`                                      | _(optional)_ the steps the slider takes on changing the value. Defaults to `null`                                                                                   |
 | `vertical`                                  | _(optional)_ show the slider vertically. Defaults to `false`.                                                                                                       |
 | `reverse`                                   | _(optional)_ show the slider reversed. Defaults to `false`.                                                                                                         |
+| `stretch`                                   | _(optional)_ if set to `true`, then the slider will be 100% in `width`.                                                                                             |
 | `hide_buttons`                              | _(optional)_ removes the helper buttons. Defaults to `false`.                                                                                                       |
 | `use_scrollwheel`                           | _(optional)_ enable mouse scroll-wheel support. Defaults to `false`.                                                                                                |
 | `thump_title`                               | _(optional)_ give the slider thump button a title for accessibility reason. Defaults to `null`.                                                                     |

@@ -3,4 +3,4 @@
  *
  */
 
-import './dnb-form-status-theme-ui.scss'
+import './dnb-section-theme-ui.scss'

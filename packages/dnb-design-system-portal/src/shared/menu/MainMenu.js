@@ -181,7 +181,7 @@ const Toolbar = styled.div`
   }
 `
 
-const LastUpadted = styled.span`
+const LastUpdated = styled.span`
   display: block;
   font-size: var(--font-size-small);
 `
@@ -338,9 +338,9 @@ export default class MainMenu extends React.PureComponent {
                       about={
                         <>
                           {items['design-system'].description}
-                          <LastUpadted title="Last Change log update">
+                          <LastUpdated title="Last Change log update">
                             Updated: {buildVersion}
-                          </LastUpadted>
+                          </LastUpdated>
                         </>
                       }
                       icon={DesignSystemSvg}

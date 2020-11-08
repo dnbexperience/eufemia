@@ -15,6 +15,10 @@ import {
   extendPropsWithContext
 } from '../../shared/component-helper'
 import { createSpacingClasses } from '../space/SpacingHelper'
+import {
+  // skeletonDOMAttributes,
+  createSkeletonClass
+} from '../skeleton/SkeletonHelper'
 import Context from '../../shared/Context'
 
 export const DefaultIconSize = 16
@@ -38,64 +42,58 @@ export const ValidIconSizes = [
   'xx-large' // 48px 3rem
 ]
 
-const propTypes = {
-  icon: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.node,
-    PropTypes.func
-  ]),
-  modifier: PropTypes.string,
-  /**
-   * The Icon size can be either a number or a string
-   */
-  size: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  border: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  color: PropTypes.string,
-  alt: PropTypes.string,
-  title: PropTypes.string,
-  attributes: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-
-  // React props
-  className: PropTypes.string,
-  children: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.node,
-    PropTypes.func
-  ])
-}
-
-const defaultProps = {
-  icon: null,
-  modifier: null,
-  size: null,
-  width: null,
-  height: null,
-  border: null,
-  color: null,
-  alt: null,
-  title: null,
-  attributes: null,
-
-  // React props
-  className: null,
-  children: null
-}
-
 /**
  * The icon component is a span wrapping an inline svg. When using this component in your preferred framework. To load an svg file dynamically, you may need a "svg-loader". Feel free to use whatever tool you want (regarding the setup/tooling), as long as the output is the same markup as shown below.
  */
 export default class Icon extends React.PureComponent {
   static tagName = 'dnb-icon'
-  static propTypes = propTypes
-  static defaultProps = defaultProps
   static contextType = Context
+
+  static propTypes = {
+    icon: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.node,
+      PropTypes.func
+    ]),
+    modifier: PropTypes.string,
+    /**
+     * The Icon size can be either a number or a string
+     */
+    size: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    border: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    color: PropTypes.string,
+    alt: PropTypes.string,
+    title: PropTypes.string,
+    skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    attributes: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+
+    className: PropTypes.string,
+    children: PropTypes.oneOfType([PropTypes.node, PropTypes.func])
+  }
+
+  static defaultProps = {
+    icon: null,
+    modifier: null,
+    size: null,
+    width: null,
+    height: null,
+    border: null,
+    color: null,
+    alt: null,
+    title: null,
+    skeleton: null,
+    attributes: null,
+
+    className: null,
+    children: null
+  }
 
   static enableWebComponent(
     tag = Icon.tagName,
     inst = Icon,
-    props = defaultProps
+    props = Icon.defaultProps
   ) {
     registerElement(tag, inst, props)
   }
@@ -111,12 +109,14 @@ export default class Icon extends React.PureComponent {
     // use only the props from context, who are available here anyway
     const props = extendPropsWithContext(
       this.props,
-      defaultProps,
+      Icon.defaultProps,
+      { skeleton: this.context?.skeleton },
       this.context.formRow
     )
 
     const { icon, size, wrapperParams, iconParams, alt } = prepareIcon(
-      props
+      props,
+      this.context
     )
 
     const IconContainer = prerenderIcon({ icon, size, alt })
@@ -144,7 +144,7 @@ export const getIconNameFromComponent = (icon) => {
 }
 
 export const calcSize = (props) => {
-  const { icon, size, height, width } = props
+  const { icon, size, width, height } = props
 
   let sizeAsInt = -1
   let sizeAsString = null
@@ -292,17 +292,18 @@ const prepareIconParams = ({ sizeAsString, ...rest }) => {
   return { params, sizeAsString }
 }
 
-export const prepareIcon = (props) => {
+export const prepareIcon = (props, context) => {
   const {
     icon,
     size, // eslint-disable-line
+    width,
     height,
     border,
-    width,
     color,
     modifier,
     alt,
     title,
+    skeleton,
     class: _className,
     className,
     ...attributes
@@ -311,8 +312,8 @@ export const prepareIcon = (props) => {
   const { sizeAsString, iconParams } = calcSize({
     icon,
     size,
-    height,
-    width
+    width,
+    height
   })
 
   if (color) {
@@ -339,6 +340,7 @@ export const prepareIcon = (props) => {
     modifier ? `dnb-icon--${modifier}` : null,
     isTrue(border) ? 'dnb-icon--border' : null,
     sizeAsString ? `dnb-icon--${sizeAsString}` : `dnb-icon--default`,
+    createSkeletonClass(null, skeleton, context),
     createSpacingClasses(props),
     _className,
     className
@@ -349,7 +351,16 @@ export const prepareIcon = (props) => {
   if (typeof iconToRender.defaultProps !== 'undefined') {
     iconToRender = React.createElement(
       iconToRender,
-      validateDOMAttributes({}, props)
+      validateDOMAttributes(
+        {},
+        {
+          color,
+          icon,
+          size,
+          width,
+          height
+        }
+      )
     )
   }
 

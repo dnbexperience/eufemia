@@ -8,10 +8,12 @@ import {
   applyPageFocus,
   scrollToLocationHashId,
   copyToClipboard,
+  copyWithEffect,
   getSelectedElement,
   hasSelectedText,
   getSelectedText,
   insertElementBeforeSelection,
+  debounce,
   isIE11,
   isEdge,
   isiOS,
@@ -130,6 +132,13 @@ describe('"copyToClipboard" should', () => {
   })
 })
 
+describe('Number copy methods like', () => {
+  it('copyNumber should make valid clipboard copy', async () => {
+    copyWithEffect('1234.56')
+    expect(await navigator.clipboard.readText()).toBe('1234.56')
+  })
+})
+
 describe('selection related methods', () => {
   it('getSelectedElement should return HTML element', () => {
     expect(getSelectedElement() instanceof HTMLElement).toBe(true)
@@ -147,5 +156,41 @@ describe('selection related methods', () => {
       window.getSelection().getRangeAt(1).getElement() instanceof
         HTMLElement
     ).toBe(true)
+  })
+})
+
+describe('"debounce" should', () => {
+  it('delay exection', (done) => {
+    let outside = 'one'
+
+    debounce(({ inside }) => {
+      outside = inside
+      expect(outside).toBe('two')
+    }, 1)({ inside: 'two' })
+
+    expect(outside).toBe('one')
+
+    setTimeout(() => {
+      done()
+    }, 2)
+  })
+  it('delay exection immediate', (done) => {
+    let outside = 'one'
+
+    debounce(
+      ({ inside }) => {
+        expect(outside).toBe('one')
+        outside = inside
+        expect(outside).toBe('two')
+      },
+      1,
+      { immediate: true }
+    )({ inside: 'two' })
+
+    expect(outside).toBe('two')
+
+    setTimeout(() => {
+      done()
+    }, 2)
   })
 })

@@ -14,11 +14,14 @@ import {
   registerElement,
   validateDOMAttributes,
   processChildren,
-  pickRenderProps,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
 import { createSpacingClasses } from '../space/SpacingHelper'
+import {
+  skeletonDOMAttributes,
+  createSkeletonClass
+} from '../skeleton/SkeletonHelper'
 import Button from '../button/Button'
 import FormLabel from '../form-label/FormLabel'
 import FormStatus from '../form-status/FormStatus'
@@ -27,162 +30,146 @@ import IconPrimary from '../icon-primary/IconPrimary'
 import Context from '../../shared/Context'
 import Suffix from '../../shared/helpers/Suffix'
 
-const renderProps = {
-  on_change: null,
-  on_submit: null,
-  on_focus: null,
-  on_blur: null,
-  on_submit_focus: null,
-  on_submit_blur: null,
-  on_state_update: null
-}
-
-const propTypes = {
-  type: PropTypes.string,
-  size: PropTypes.oneOfType([
-    PropTypes.oneOf(['default', 'small', 'medium', 'large']),
-    PropTypes.number
-  ]),
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  id: PropTypes.string,
-  label: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-    PropTypes.node
-  ]),
-  label_direction: PropTypes.oneOf(['horizontal', 'vertical']),
-  label_sr_only: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  status: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-    PropTypes.node
-  ]),
-  status_state: PropTypes.string,
-  status_animation: PropTypes.string,
-  input_state: PropTypes.string,
-  global_status_id: PropTypes.string,
-  autocomplete: PropTypes.string,
-  submit_button_title: PropTypes.string,
-  placeholder: PropTypes.string,
-  keep_placeholder: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.bool
-  ]),
-  suffix: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-    PropTypes.node
-  ]),
-  align: PropTypes.string,
-  selectall: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  stretch: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  class: PropTypes.string,
-  input_class: PropTypes.string,
-  input_attributes: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.object
-  ]),
-  input_element: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
-  icon: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.node,
-    PropTypes.func
-  ]),
-  icon_position: PropTypes.string,
-  inner_ref: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
-  readOnly: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-
-  // Submit button
-  submit_element: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
-  submit_button_variant: Button.propTypes.variant,
-  submit_button_icon: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.node,
-    PropTypes.func
-  ]),
-  submit_button_status: PropTypes.string,
-
-  // React props
-  className: PropTypes.string,
-  children: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.node,
-    PropTypes.func
-  ]),
-
-  // Web Component props
-  custom_element: PropTypes.object,
-  custom_method: PropTypes.func,
-  on_change: PropTypes.func,
-  on_submit: PropTypes.func,
-  on_focus: PropTypes.func,
-  on_blur: PropTypes.func,
-  on_submit_focus: PropTypes.func,
-  on_submit_blur: PropTypes.func,
-  on_state_update: PropTypes.func
-}
-
-const defaultProps = {
-  type: 'text',
-  size: null,
-  value: 'initval',
-  id: null,
-  label: null,
-  label_direction: null,
-  label_sr_only: null,
-  status: null,
-  status_state: 'error',
-  status_animation: null,
-  input_state: null,
-  global_status_id: null,
-  autocomplete: 'off',
-  placeholder: null,
-  keep_placeholder: null,
-  suffix: null,
-  align: null,
-  selectall: null,
-  stretch: null,
-  disabled: null,
-  input_class: null,
-  class: null,
-  input_attributes: null,
-  input_element: null,
-  inner_ref: null,
-  icon: null,
-  icon_position: 'left',
-  readOnly: false,
-
-  // Submit button
-  submit_element: null,
-  submit_button_title: null,
-  submit_button_variant: 'secondary',
-  submit_button_icon: 'search',
-  submit_button_status: null,
-
-  // React props
-  className: null,
-  children: null,
-
-  // Web Component props
-  custom_element: null,
-  custom_method: null,
-  ...renderProps
-}
-
-/**
- * The input component is an umbrella component for all inputs which share the same style as the classic `text` input field. Radio buttons and other form elements are not included here.
- */
-
 export default class Input extends React.PureComponent {
   static tagName = 'dnb-input'
-  static propTypes = propTypes
-  static defaultProps = defaultProps
-  static renderProps = renderProps
   static contextType = Context
 
+  static propTypes = {
+    type: PropTypes.string,
+    size: PropTypes.oneOfType([
+      PropTypes.oneOf(['default', 'small', 'medium', 'large']),
+      PropTypes.number
+    ]),
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    id: PropTypes.string,
+    label: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.func,
+      PropTypes.node
+    ]),
+    label_direction: PropTypes.oneOf(['horizontal', 'vertical']),
+    label_sr_only: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    status: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.func,
+      PropTypes.node
+    ]),
+    status_state: PropTypes.string,
+    status_animation: PropTypes.string,
+    input_state: PropTypes.string,
+    global_status_id: PropTypes.string,
+    autocomplete: PropTypes.string,
+    submit_button_title: PropTypes.string,
+    placeholder: PropTypes.string,
+    keep_placeholder: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool
+    ]),
+    suffix: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.func,
+      PropTypes.node
+    ]),
+    align: PropTypes.string,
+    selectall: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    stretch: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    class: PropTypes.string,
+    input_class: PropTypes.string,
+    input_attributes: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.object
+    ]),
+    input_element: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
+    icon: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.node,
+      PropTypes.func
+    ]),
+    icon_position: PropTypes.string,
+    inner_ref: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
+    readOnly: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+
+    // Submit button
+    submit_element: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
+    submit_button_variant: Button.propTypes.variant,
+    submit_button_icon: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.node,
+      PropTypes.func
+    ]),
+    submit_button_status: PropTypes.string,
+
+    className: PropTypes.string,
+    children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
+
+    custom_element: PropTypes.object,
+    custom_method: PropTypes.func,
+    on_change: PropTypes.func,
+    on_submit: PropTypes.func,
+    on_focus: PropTypes.func,
+    on_blur: PropTypes.func,
+    on_submit_focus: PropTypes.func,
+    on_submit_blur: PropTypes.func,
+    on_state_update: PropTypes.func
+  }
+
+  static defaultProps = {
+    type: 'text',
+    size: null,
+    value: 'initval',
+    id: null,
+    label: null,
+    label_direction: null,
+    label_sr_only: null,
+    status: null,
+    status_state: 'error',
+    status_animation: null,
+    input_state: null,
+    global_status_id: null,
+    autocomplete: 'off',
+    placeholder: null,
+    keep_placeholder: null,
+    suffix: null,
+    align: null,
+    selectall: null,
+    stretch: null,
+    disabled: null,
+    skeleton: null,
+    input_class: null,
+    class: null,
+    input_attributes: null,
+    input_element: null,
+    inner_ref: null,
+    icon: null,
+    icon_position: 'left',
+    readOnly: false,
+
+    // Submit button
+    submit_element: null,
+    submit_button_title: null,
+    submit_button_variant: 'secondary',
+    submit_button_icon: 'search',
+    submit_button_status: null,
+
+    className: null,
+    children: null,
+
+    custom_element: null,
+    custom_method: null,
+
+    on_change: null,
+    on_submit: null,
+    on_focus: null,
+    on_blur: null,
+    on_submit_focus: null,
+    on_submit_blur: null,
+    on_state_update: null
+  }
+
   static enableWebComponent() {
-    registerElement(Input.tagName, Input, defaultProps)
+    registerElement(Input.tagName, Input, Input.defaultProps)
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -229,7 +216,7 @@ export default class Input extends React.PureComponent {
   constructor(props, context) {
     super(props)
 
-    this._ref = this.props.inner_ref || React.createRef()
+    this._ref = props.inner_ref || React.createRef()
 
     this._id =
       props.id ||
@@ -238,9 +225,12 @@ export default class Input extends React.PureComponent {
         context.formRow.useId()) ||
       makeUniqueId() // cause we need an id anyway
 
-    // make sure we dont trigger getDerivedStateFromProps on startup
+    // make sure we don't trigger getDerivedStateFromProps on startup
     this.state._listenForPropChanges = true
     this.state._value = props.value
+  }
+  componentWillUnmount() {
+    clearTimeout(this._selectallTimeout)
   }
   onFocusHandler = (event) => {
     const { value } = event.target
@@ -250,8 +240,11 @@ export default class Input extends React.PureComponent {
       _listenForPropChanges: false
     })
 
+    dispatchCustomElementEvent(this, 'on_focus', { value, event })
+
     if (isTrue(this.props.selectall) && this._ref.current) {
-      setTimeout(() => {
+      clearTimeout(this._selectallTimeout)
+      this._selectallTimeout = setTimeout(() => {
         try {
           this._ref.current.select()
         } catch (e) {
@@ -259,8 +252,6 @@ export default class Input extends React.PureComponent {
         }
       }, 1) // safari needs a delay
     }
-
-    dispatchCustomElementEvent(this, 'on_focus', { value, event })
   }
   onBlurHandler = (event) => {
     const { value } = event.target
@@ -290,7 +281,8 @@ export default class Input extends React.PureComponent {
     // use only the props from context, who are available here anyway
     const props = extendPropsWithContext(
       this.props,
-      defaultProps,
+      Input.defaultProps,
+      { skeleton: this.context?.skeleton },
       this.context.formRow,
       this.context.translation.Input
     )
@@ -306,6 +298,7 @@ export default class Input extends React.PureComponent {
       status_animation,
       global_status_id,
       disabled,
+      skeleton,
       placeholder,
       keep_placeholder,
       suffix,
@@ -338,7 +331,7 @@ export default class Input extends React.PureComponent {
 
     let { value, focusState, inputState } = this.state
 
-    if (disabled) {
+    if (isTrue(disabled) || isTrue(skeleton)) {
       inputState = 'disabled'
     }
     const sizeIsNumber = parseFloat(size) > 0
@@ -380,10 +373,7 @@ export default class Input extends React.PureComponent {
     }
 
     // pass along all props we wish to have as params
-    let { input_element: InputElement, ...renderProps } = pickRenderProps(
-      this.props,
-      Input.renderProps
-    )
+    let { input_element: InputElement } = props
 
     const inputAttributes = input_attributes
       ? typeof input_attributes === 'string'
@@ -392,7 +382,6 @@ export default class Input extends React.PureComponent {
       : {}
 
     const inputParams = {
-      ...renderProps,
       className: classnames('dnb-input__input', input_class),
       autoComplete: autocomplete,
       value: hasValue ? value : '',
@@ -413,9 +402,10 @@ export default class Input extends React.PureComponent {
       inputParams.size = size
     }
 
-    // we may considder using: aria-details
+    // we may consider using: aria-details
     if (showStatus || suffix) {
       inputParams['aria-describedby'] = [
+        inputParams['aria-describedby'],
         showStatus ? id + '-status' : null,
         suffix ? id + '-suffix' : null
       ]
@@ -430,12 +420,15 @@ export default class Input extends React.PureComponent {
     }
 
     const shellParams = {
+      className: classnames(
+        'dnb-input__shell',
+        createSkeletonClass('shape', skeleton, this.context)
+      ),
       'data-input-state': inputState,
       'data-has-content': hasValue ? 'true' : 'false'
     }
-    if (isTrue(disabled)) {
-      shellParams['aria-disabled'] = true
-    }
+
+    skeletonDOMAttributes(inputParams, skeleton, this.context)
 
     // also used for code markup simulation
     validateDOMAttributes(this.props, inputParams)
@@ -457,6 +450,7 @@ export default class Input extends React.PureComponent {
             label_direction={label_direction}
             sr_only={label_sr_only}
             disabled={disabled}
+            skeleton={skeleton}
           />
         )}
 
@@ -466,15 +460,17 @@ export default class Input extends React.PureComponent {
             <FormStatus
               id={id + '-form-status'}
               global_status_id={global_status_id}
+              label={label}
               text={status}
               status={status_state}
               text_id={id + '-status'} // used for "aria-describedby"
               animation={status_animation}
+              skeleton={skeleton}
             />
           )}
 
           <span className="dnb-input__row">
-            <span className="dnb-input__shell" {...shellParams}>
+            <span {...shellParams}>
               {InputElement || <input ref={this._ref} {...inputParams} />}
 
               {icon && (
@@ -517,13 +513,15 @@ export default class Input extends React.PureComponent {
                     }
                     title={submit_button_title}
                     variant={submit_button_variant}
-                    disabled={disabled}
+                    disabled={isTrue(disabled)}
+                    skeleton={isTrue(skeleton)}
                     size={size}
                     on_submit={on_submit}
                   />
                 )}
               </span>
             )}
+
             {suffix && (
               <span
                 className="dnb-input__suffix"
@@ -546,6 +544,7 @@ class InputSubmitButton extends React.PureComponent {
     title: PropTypes.string,
     variant: Button.propTypes.variant,
     disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     icon: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.node,
@@ -554,7 +553,6 @@ class InputSubmitButton extends React.PureComponent {
     icon_size: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     className: PropTypes.string,
 
-    // Web Component props
     on_submit: PropTypes.func,
     on_submit_focus: PropTypes.func,
     on_submit_blur: PropTypes.func
@@ -565,12 +563,12 @@ class InputSubmitButton extends React.PureComponent {
     value: null,
     title: null,
     disabled: false,
+    skeleton: false,
     variant: 'secondary',
     icon: 'search',
     icon_size: null,
     className: null,
 
-    // Web Component props
     on_submit: null,
     on_submit_focus: null,
     on_submit_blur: null
@@ -601,6 +599,7 @@ class InputSubmitButton extends React.PureComponent {
       id,
       title,
       disabled,
+      skeleton,
       variant,
       icon,
       icon_size,
@@ -615,6 +614,8 @@ class InputSubmitButton extends React.PureComponent {
       disabled,
       ...rest
     }
+
+    skeletonDOMAttributes(params, skeleton, this.context)
 
     // also used for code markup simulation
     validateDOMAttributes(this.props, params)

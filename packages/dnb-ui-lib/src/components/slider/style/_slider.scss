@@ -18,7 +18,11 @@
   display: flex;
 
   font-size: var(--font-size-small);
-  line-height: var(--line-height-basis);
+  line-height: var(--slider-thumb-size);
+
+  &--stretch {
+    width: 100%;
+  }
 
   &--vertical {
     display: flex;
@@ -67,7 +71,7 @@
     position: relative;
     flex: 1;
 
-    // makre room again for the negative line manipulation
+    // make room again for the negative line manipulation
     margin: 0 calc(var(--slider-space) * 1.5);
 
     // only to make sure we have a visible track
@@ -190,7 +194,7 @@
     display: block;
     transform: translate3d(-50%, 0, 0);
 
-    // Becaus of the DropShadow
+    // Because of the DropShadow
     border-radius: 50%;
 
     &,
@@ -238,8 +242,13 @@
   }
 
   > .dnb-form-label {
+    align-self: flex-start;
     margin-right: 1rem;
     line-height: var(--slider-thumb-size);
+  }
+  > .dnb-form-label--vertical {
+    margin-right: 0;
+    line-height: var(--line-height-basis);
   }
   &__label--vertical {
     flex-direction: column;
@@ -274,6 +283,18 @@
       > .dnb-form-label {
         margin-bottom: 0.5rem;
       }
+    }
+  }
+
+  &.dnb-skeleton &__line,
+  &.dnb-skeleton &__state--disabled &__line {
+    background-color: var(--skeleton-color);
+  }
+  &.dnb-skeleton &__track,
+  &.dnb-skeleton &__state--disabled#{&}__track {
+    &::before,
+    &::after {
+      background-color: var(--skeleton-color);
     }
   }
 

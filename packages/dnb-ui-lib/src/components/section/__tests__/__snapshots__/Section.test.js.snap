@@ -5,21 +5,15 @@ exports[`Section component have to match snapshot 1`] = `
   class="class"
   className="className"
   element={null}
-  render_content={[Function]}
   spacing="spacing"
   style={null}
   style_type="mint-green-12"
 >
-  <ForwardRef
+  <section
     className="dnb-section dnb-section--mint-green-12 dnb-section--spacing-spacing className class"
-    is="section"
   >
-    <section
-      className="dnb-section dnb-section--mint-green-12 dnb-section--spacing-spacing className class"
-    >
-      children
-    </section>
-  </ForwardRef>
+    children
+  </section>
 </Section>
 `;
 
@@ -51,11 +45,14 @@ exports[`Section scss have to match default theme snapshot 1`] = `
 .dnb-section--lavender::after {
   color: var(--color-lavender); }
 
-.dnb-section-sand-yellow::after {
+.dnb-section--sand-yellow::after {
   color: var(--color-sand-yellow); }
 
 .dnb-section--pistachio::after {
   color: var(--color-pistachio); }
+
+.dnb-section--black-3::after {
+  color: var(--color-black-3); }
 
 .dnb-section--emerald-green {
   color: var(--color-mint-green); }

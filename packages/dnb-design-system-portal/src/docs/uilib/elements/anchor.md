@@ -15,27 +15,27 @@ You would normally just decorate your anchor class withe this CSS class: `.dnb-a
 {`
 <ul className="dnb-ul dnb-unstyled-list">
   <li>
-    <a href="/" data-dnb-test="anchor-default" className="dnb-anchor">
+    <a href="/" data-visual-test="anchor-default" className="dnb-anchor">
       Default Style
     </a>
   </li>
   <li>
-    <a target="_blank" href="https://eufemia.dnb.no/uilib/elements/anchor" data-dnb-test="anchor-blank" className="dnb-anchor">
+    <a target="_blank" href="https://eufemia.dnb.no/uilib/elements/anchor" data-visual-test="anchor-blank" className="dnb-anchor">
       Blank target with https
     </a>
   </li>
   <li>
-    <a href="/" data-dnb-test="anchor-hover" className="dnb-anchor dnb-anchor--hover">
+    <a href="/" data-visual-test="anchor-hover" className="dnb-anchor dnb-anchor--hover">
       Hover Style
     </a>
   </li>
   <li>
-    <a href="/" data-dnb-test="anchor-active" className="dnb-anchor dnb-anchor--active">
+    <a href="/" data-visual-test="anchor-active" className="dnb-anchor dnb-anchor--active">
       Active Style
     </a>
   </li>
   <li>
-    <a href="/" data-dnb-test="anchor-focus" className="dnb-anchor dnb-anchor--focus">
+    <a href="/" data-visual-test="anchor-focus" className="dnb-anchor dnb-anchor--focus">
       Focus Style
     </a>
   </li>
@@ -65,7 +65,7 @@ To force a specific state of style, use the following classes to do so:
 {`
 <ul className="dnb-ul dnb-unstyled-list">
   <li style={{display: 'inline-block', padding: '0.5rem', margin: '-0.5rem', backgroundColor: 'var(--color-ocean-green)'}}>
-    <a href="/" data-dnb-test="anchor-contrast" className="dnb-anchor dnb-anchor--contrast">
+    <a href="/" data-visual-test="anchor-contrast" className="dnb-anchor dnb-anchor--contrast">
       Contrast Style
     </a>
   </li>
@@ -119,11 +119,11 @@ To force a specific state of style, use the following classes to do so:
 
 <ComponentBox hideCode>
 {`
-<a href="/" className="dnb-anchor" data-dnb-test="anchor-icon">
+<a href="/" className="dnb-anchor" data-visual-test="anchor-icon">
   Anchor with Icon <IconPrimary icon="chevron_right" />
 </a>
 <br/><br/>
-<p className="dnb-p" data-dnb-test="anchor-paragraph">
+<p className="dnb-p" data-visual-test="anchor-paragraph">
   text <a href="/" className="dnb-anchor">Inside a Paragraph <IconPrimary icon="bell" /></a> text
 </p>
 `}
@@ -134,12 +134,12 @@ To force a specific state of style, use the following classes to do so:
 <ComponentBox hideCode>
 {`
 <h2 className="dnb-h--large">
-  <a href="/" className="dnb-anchor" data-dnb-test="anchor-heading">
+  <a href="/" className="dnb-anchor" data-visual-test="anchor-heading">
     Inside Headings <IconPrimary icon="bell" />
   </a> H2
 </h2>
 <h2 className="dnb-h--large">
-  <a target="_blank" href="https://eufemia.dnb.no/uilib/elements/anchor" className="dnb-anchor" data-dnb-test="anchor-heading-blank">
+  <a target="_blank" href="https://eufemia.dnb.no/uilib/elements/anchor" className="dnb-anchor" data-visual-test="anchor-heading-blank">
     Blank target in headings
   </a> H2
 </h2>

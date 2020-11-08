@@ -11,11 +11,13 @@ import { ErrorHandler } from './error-helper'
 // This way we can controll the execution of the polyfill with customElementPolyfill()
 import customElementPolyfill from './custom-element-polyfill'
 
+const isTest = process.env.NODE_ENV === 'test'
+let hasPolyfill = isTest
+
 export const registeredElements =
-  (typeof global !== 'undefined'
-    ? (global.registeredElements = global.registeredElements || [])
-    : typeof window !== 'undefined' &&
-      (window.registeredElements = window.registeredElements || [])) || []
+  (typeof window !== 'undefined' &&
+    (window.registeredElements = window.registeredElements || [])) ||
+  []
 
 export const registerElement = (
   tagName,
@@ -35,8 +37,8 @@ export const registerElement = (
   }
 
   //always run the customElementPolyfill unlress we are in the build process
-  if (!registeredElements.hasPolyfill) {
-    registeredElements.hasPolyfill = true
+  if (!hasPolyfill) {
+    hasPolyfill = true
     customElementPolyfill(window)
   }
 
@@ -70,7 +72,9 @@ export const registerElement = (
     }
     // adoptedCallback: Invoked when the custom element is moved to a new document.
     disconnectedCallback() {
-      ReactDOM.unmountComponentAtNode(this)
+      if (!isTest) {
+        ReactDOM.unmountComponentAtNode(this)
+      }
       if (this._children) delete this._children
       if (this._isConnected) delete this._isConnected
       if (this._elementRef) delete this._elementRef
@@ -94,25 +98,28 @@ export const registerElement = (
         // cn[i].remove()
       }
     }
-    connectEvents(props) {
+    connectEvents() {
+      const props = {}
+      for (let i = this.attributes.length; i--; ) {
+        props[this.attributes[i].name] = this.attributes[i].value
+      }
+
       if (props.events) {
         props.event = props.events
         delete props.events
       }
 
-      // check if there are more than one events
-      let events = props.event ? props.event.split(',') : []
-
-      // check if there are custom renderer, if so, add them as well
-      if (ReactComponent.renderProps) {
-        events = Object.entries(ReactComponent.renderProps)
-          .filter(([key]) => key && props[key])
-          .reduce((events, [key]) => {
-            events.push(key + '=' + props[key])
-            delete props[key]
-            return events
-          }, events)
-      }
+      const events = [
+        ...(props.event ? props.event.split(',') : []),
+        ...Object.entries(props)
+          .map(([key, value]) => {
+            if (key && /^(on_|on[A-Z]|render_)/.test(key)) {
+              return key + '=' + value
+            }
+            return null
+          })
+          .filter(Boolean)
+      ]
 
       if (events.length > 0) {
         events.forEach((eventDef) => {
@@ -233,14 +240,23 @@ export const registerElement = (
       })
     }
     renderElement(props = {}) {
-      const attr = {}
-      for (let i = this.attributes.length; i--; ) {
-        attr[this.attributes[i].name] = this.attributes[i].value
+      props = { ...this._props, ...this.connectEvents(), ...props }
+
+      for (let p in props) {
+        if (props[p] === 'true') {
+          props[p] = true
+        } else if (props[p] === 'false') {
+          props[p] = false
+        } else if (
+          typeof props[p] !== 'undefined' &&
+          props[p] !== null &&
+          !isNaN(Number(props[p]))
+        ) {
+          props[p] = Number(props[p])
+        }
       }
 
-      props = { ...this._props, ...this.connectEvents(attr), ...props }
-
-      // we dont allow ids
+      // we don't allow ids
       for (let i = attributesExcludelist.length; i--; ) {
         if (props[attributesExcludelist[i]]) {
           this.removeAttribute(attributesExcludelist[i])

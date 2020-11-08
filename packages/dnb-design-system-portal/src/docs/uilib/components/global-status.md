@@ -1,13 +1,12 @@
 ---
 title: 'GlobalStatus'
 description: 'The GlobalStatus is a complex component meant for displaying global Application notifications or a summary of a form.'
-status: 'new'
 order: 4
 showTabs: true
 ---
 
-import GlobalStatusInfo from 'Pages/uilib/components/global-status/info'
-import GlobalStatusDemos from 'Pages/uilib/components/global-status/demos'
+import GlobalStatusComponentInfo from 'Pages/uilib/components/global-status/info'
+import GlobalStatusComponentDemos from 'Pages/uilib/components/global-status/demos'
 
-<GlobalStatusInfo />
-<GlobalStatusDemos />
+<GlobalStatusComponentInfo />
+<GlobalStatusComponentDemos />

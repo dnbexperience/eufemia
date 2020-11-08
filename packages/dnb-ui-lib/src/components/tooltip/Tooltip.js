@@ -13,84 +13,75 @@ import {
   registerElement,
   validateDOMAttributes,
   processChildren
-  // pickRenderProps,
   // dispatchCustomElementEvent
 } from '../../shared/component-helper'
 import { createSpacingClasses } from '../space/SpacingHelper'
-
 import TooltipWithEvents from './TooltipWithEvents'
 import TooltipPortal from './TooltipPortal'
-
-// const renderProps = {  }
-
-const propTypes = {
-  id: PropTypes.string,
-  group: PropTypes.string,
-  active: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  position: PropTypes.oneOf(['top', 'right', 'bottom', 'left']),
-  arrow: PropTypes.oneOf([
-    null,
-    'center',
-    'top',
-    'right',
-    'bottom',
-    'left'
-  ]),
-  align: PropTypes.oneOf([null, 'center', 'right', 'left']),
-  class: PropTypes.string,
-  animate_position: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.bool
-  ]),
-  show_delay: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  hide_delay: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-
-  // React props
-  className: PropTypes.string,
-  children: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-    PropTypes.node
-  ]),
-
-  // Events
-  onClick: PropTypes.func,
-  on_click: PropTypes.oneOfType([PropTypes.string, PropTypes.func])
-}
-
-const defaultProps = {
-  id: null,
-  group: 'main',
-  active: undefined,
-  position: 'top',
-  arrow: 'center',
-  align: null,
-  animate_position: false,
-  show_delay: 300,
-  hide_delay: 500,
-
-  // React props
-  class: null,
-  className: null,
-  children: null,
-
-  // Events
-  onClick: null,
-  on_click: null
-}
 
 /**
  * The tooltip component should be used as the call-to-action in a form, or as a user interaction mechanism. Generally speaking, a tooltip should not be used when a link would do the trick. Exceptions are made at times when it is used as a navigation element in the action-nav element.
  */
 export default class Tooltip extends React.PureComponent {
   static tagName = 'dnb-tooltip'
-  static propTypes = propTypes
-  static defaultProps = defaultProps
-  // static renderProps = renderProps
   static contextType = Context
 
+  static propTypes = {
+    id: PropTypes.string,
+    group: PropTypes.string,
+    active: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    position: PropTypes.oneOf(['top', 'right', 'bottom', 'left']),
+    arrow: PropTypes.oneOf([
+      null,
+      'center',
+      'top',
+      'right',
+      'bottom',
+      'left'
+    ]),
+    align: PropTypes.oneOf([null, 'center', 'right', 'left']),
+    class: PropTypes.string,
+    animate_position: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool
+    ]),
+    show_delay: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    hide_delay: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+
+    className: PropTypes.string,
+    children: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.func,
+      PropTypes.node
+    ]),
+
+    // Events
+    onClick: PropTypes.func,
+    on_click: PropTypes.oneOfType([PropTypes.string, PropTypes.func])
+  }
+
+  static defaultProps = {
+    id: null,
+    group: 'main',
+    active: undefined,
+    position: 'top',
+    arrow: 'center',
+    align: null,
+    animate_position: false,
+    show_delay: 300,
+    hide_delay: 500,
+
+    class: null,
+    className: null,
+    children: null,
+
+    // Events
+    onClick: null,
+    on_click: null
+  }
+
   static enableWebComponent() {
-    registerElement(Tooltip.tagName, Tooltip, defaultProps)
+    registerElement(Tooltip.tagName, Tooltip, Tooltip.defaultProps)
   }
 
   static getContent(props) {
@@ -102,17 +93,11 @@ export default class Tooltip extends React.PureComponent {
     this._id = props.id || makeUniqueId() // cause we need an id anyway
   }
 
-  // constructor(props) {
-  //   super(props)
-  //   // pass along all props we wish to have as params
-  //   // this.renderProps = pickRenderProps(props, renderProps)
-  // }
-
   render() {
     // use only the props from context, who are available here anyway
     const props = extendPropsWithContext(
       this.props,
-      defaultProps,
+      Tooltip.defaultProps,
       this.context.formRow
     )
 
@@ -143,7 +128,6 @@ export default class Tooltip extends React.PureComponent {
     )
 
     const attributes = {
-      // ...this.renderProps,
       className: classes,
       ...params
     }

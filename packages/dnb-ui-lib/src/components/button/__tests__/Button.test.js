@@ -13,11 +13,6 @@ import {
 } from '../../../core/jest/jestSetup'
 import Component from '../Button'
 
-// just to make sure we re-run the test in watch mode due to changes in theese files
-import _button from '../style/_button.scss' // eslint-disable-line
-import dnb_button from '../style/dnb-button.scss' // eslint-disable-line
-import dnb_button_theme_ui from '../style/themes/dnb-button-theme-ui.scss' // eslint-disable-line
-
 const props = fakeProps(require.resolve('../Button'), {
   optional: true
 })
@@ -27,6 +22,7 @@ props.icon = 'question'
 props.title = 'This is a button title'
 props.size = null
 props.status = null
+props.element = null
 props.tooltip = null
 props.icon_position = 'right'
 
@@ -103,6 +99,14 @@ describe('Button component', () => {
     expect(myEvent.mock.calls.length).toBe(1)
   })
 
+  it('has set innerRef if ref was given', () => {
+    const ref = React.createRef()
+    expect(ref.current).toBe(null)
+    mount(<Component {...props} innerRef={ref} />)
+    expect(ref.current).not.toBe(null)
+    expect(typeof ref.current).toBe('object')
+  })
+
   it('should validate with ARIA rules as a button', async () => {
     const Comp = mount(<Component {...props} />)
     expect(await axeComponent(Comp)).toHaveNoViolations()
@@ -111,6 +115,32 @@ describe('Button component', () => {
   it('should validate with ARIA rules as a anchor', async () => {
     const Comp = mount(<Component {...props} href="https://url" />)
     expect(await axeComponent(Comp)).toHaveNoViolations()
+  })
+
+  it('has variant set to primary as default', () => {
+    const Comp = mount(<Component />)
+    expect(Comp.find('.dnb-button--primary').exists()).toBe(true)
+  })
+
+  it('has variant set to secondary when only setting icon', () => {
+    const Comp = mount(<Component icon="question" />)
+    expect(Comp.find('.dnb-button--secondary').exists()).toBe(true)
+  })
+
+  it('has size set to medium when only setting icon', () => {
+    const Comp = mount(<Component icon="question" />)
+    expect(Comp.find('.dnb-button--size-medium').exists()).toBe(true)
+  })
+
+  it('has variant set to primary when only setting text', () => {
+    const Comp = mount(<Component text="Button" />)
+    expect(Comp.find('.dnb-button--primary').exists()).toBe(true)
+  })
+
+  it('has no size when only setting text', () => {
+    const Comp = mount(<Component text="Button" />)
+    expect(Comp.find('.dnb-button--size-medium').exists()).toBe(false)
+    expect(Comp.find('.dnb-button--size-large').exists()).toBe(false)
   })
 })
 

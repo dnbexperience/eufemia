@@ -35,7 +35,7 @@ class Example extends React.PureComponent {
       <React.Fragment>
         <ComponentBox
           title="Default pagination"
-          data-dnb-test="pagination-default"
+          data-visual-test="pagination-default"
           scope={{ HeightLimit, LargePage }}
         >
           {

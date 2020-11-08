@@ -1,0 +1,121 @@
+/*
+ * Modal component
+ *
+ */
+
+@mixin modalFullscreen($mode: null) {
+  width: 100vw;
+  height: 100vh; // IE fallback
+  height: calc(100vh - var(--modal-height-offset, 0.0001rem));
+
+  @if $mode == 'drawer' {
+    height: calc(100vh - var(--modal-height-offset, 0.0001rem));
+  }
+
+  max-width: 100%; // fixes overflow issue on some browsers
+  max-height: 100vh;
+
+  border-radius: 0;
+  box-shadow: none;
+}
+
+@keyframes show-modal {
+  from {
+    opacity: 0.1;
+    transform: translate3d(0, -1rem, 0);
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+}
+@keyframes hide-modal {
+  from {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+  to {
+    transform: translate3d(0, 1rem, 0);
+    opacity: 0;
+  }
+}
+
+@keyframes show-drawer {
+  to {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+}
+@keyframes hide-drawer-left {
+  from {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+  to {
+    transform: translate3d(-20rem, 0, 0);
+    opacity: 0;
+  }
+}
+@keyframes hide-drawer-top {
+  from {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+  to {
+    transform: translate3d(0, -20rem, 0);
+    opacity: 0;
+  }
+}
+@keyframes hide-drawer-bottom {
+  from {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+  to {
+    transform: translate3d(0, 20rem, 0);
+    opacity: 0;
+  }
+}
+@keyframes hide-drawer-right {
+  from {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+  to {
+    transform: translate3d(20rem, 0, 0);
+    opacity: 0;
+  }
+}
+
+@keyframes show-modal-overlay {
+  from {
+    background: transparent;
+  }
+  to {
+    background: var(--modal-overlay-bg);
+  }
+}
+@keyframes hide-modal-overlay {
+  from {
+    background: var(--modal-overlay-bg);
+  }
+  to {
+    background: transparent;
+  }
+}
+@keyframes show-drawer-overlay {
+  from {
+    background: transparent;
+  }
+  to {
+    background: var(--modal-overlay-bg);
+  }
+}
+@keyframes hide-drawer-overlay {
+  from {
+    background: var(--modal-overlay-bg);
+  }
+  to {
+    background: transparent;
+  }
+}

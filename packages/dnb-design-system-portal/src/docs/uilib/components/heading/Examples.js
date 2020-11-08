@@ -5,10 +5,6 @@
 
 import React from 'react'
 import ComponentBox from 'Src/shared/tags/ComponentBox'
-// import Heading, {
-//   resetLevels
-// } from 'dnb-ui-lib/src/components/heading/Heading'
-// import { H2 } from 'dnb-ui-lib/src/elements'
 import styled from '@emotion/styled'
 
 const Style = styled.div`
@@ -18,17 +14,11 @@ const Style = styled.div`
   }
 `
 
-class Example extends React.PureComponent {
-  render() {
-    // resetLevels()
-    return (
-      <Style>
-        <ComponentBox
-          title="Default headings"
-          data-dnb-test="heading-default"
-        >
-          {
-            /* @jsx */ `
+export const HeadingDefault = () => (
+  <Style>
+    <ComponentBox data-visual-test="heading-default">
+      {
+        /* @jsx */ `
 <Heading.Level debug reset={1}>
   <Heading>h1</Heading>
   <Heading>h2</Heading>
@@ -38,15 +28,17 @@ class Example extends React.PureComponent {
   <Heading level="2" size="x-large">h2</Heading>
   <Heading skip_correction level={4}>h4</Heading>
 </Heading.Level>
-      `
-          }
-        </ComponentBox>
-        <ComponentBox
-          title="Heading level context"
-          data-dnb-test="heading-context"
-        >
-          {
-            /* @jsx */ `
+`
+      }
+    </ComponentBox>
+  </Style>
+)
+
+export const HeadingContext = () => (
+  <Style>
+    <ComponentBox data-visual-test="heading-context">
+      {
+        /* @jsx */ `
 <Heading.Level debug reset={1}>
   <Heading>h1</Heading>
   <Heading>h2</Heading>
@@ -65,16 +57,20 @@ class Example extends React.PureComponent {
     <Heading>h3</Heading>
   </Heading.Decrease>
 </Heading.Level>
-        `
-          }
-        </ComponentBox>
-        <ComponentBox
-          title="Level isolation"
-          useRender
-          // data-dnb-test="heading-level-isolation"
-        >
-          {
-            /* @jsx */ `
+`
+      }
+    </ComponentBox>
+  </Style>
+)
+
+export const HeadingIsolation = () => (
+  <Style>
+    <ComponentBox
+      useRender
+      // data-visual-test="heading-level-isolation"
+    >
+      {
+        /* @jsx */ `
 const App = () => {
   const [showHeading, setShowHeading] = React.useState(false)
 
@@ -106,15 +102,17 @@ const App = () => {
   )
 }
 render(<App />)
-        `
-          }
-        </ComponentBox>
-        <ComponentBox
-          title="Combine with manual heading"
-          data-dnb-test="heading-mixin"
-        >
-          {
-            /* @jsx */ `
+`
+      }
+    </ComponentBox>
+  </Style>
+)
+
+export const HeadingMix = () => (
+  <Style>
+    <ComponentBox data-visual-test="heading-mixin">
+      {
+        /* @jsx */ `
 <Heading.Level debug reset={1}>
   <Heading>h1</Heading>
   <Heading>h2</Heading>
@@ -122,12 +120,8 @@ render(<App />)
   <H3 level="use">Increase to h3</H3>
   <Heading>h3</Heading>
 </Heading.Level>
-        `
-          }
-        </ComponentBox>
-      </Style>
-    )
-  }
-}
-
-export default Example
+`
+      }
+    </ComponentBox>
+  </Style>
+)

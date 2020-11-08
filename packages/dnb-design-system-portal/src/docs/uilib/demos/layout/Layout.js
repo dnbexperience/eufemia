@@ -35,7 +35,7 @@ const LayoutWrapper = ({ children }) => {
     <Wrapper className="dnb-core-style">
       <WrapperInner>
         {/* <header className="app-header">header</header> */}
-        <Main>{children}</Main>
+        <Main role="main">{children}</Main>
         {/* <footer className="app-footer">Happy Eufemia {'🖋'}</footer> */}
       </WrapperInner>
     </Wrapper>
