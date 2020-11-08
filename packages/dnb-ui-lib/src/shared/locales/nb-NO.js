@@ -84,6 +84,11 @@ export default {
       add_title: 'Øk glider verdi %s%',
       subtract_title: 'Reduser glider verdi %s%'
     },
+    PaymentCard: {
+      text_card_number: 'Kortnummer',
+      text_expired: 'Utgått',
+      text_blocked: 'Sperret'
+    },
     Logo: {
       alt: 'DNB Logo'
     }

@@ -84,6 +84,11 @@ export default {
       add_title: 'Increase Slider value %s%',
       subtract_title: 'Decrease Slider value %s%'
     },
+    PaymentCard: {
+      text_card_number: 'Card number',
+      text_expired: 'Expired',
+      text_blocked: 'Blocked'
+    },
     Logo: {
       alt: 'DNB Logo'
     }
