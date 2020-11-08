@@ -215,9 +215,9 @@ function createDaggy() {
   // optimised version of `arr.map(toString).join(', ')`
   function arrToString(arr) {
     if (arr.length === 0) return ''
-    let str = '(' + window.toString(arr[0])
+    let str = '(' + String(arr[0])
     for (let idx = 1; idx < arr.length; idx += 1) {
-      str = str + ', ' + window.toString(arr[idx])
+      str = str + ', ' + String(arr[idx])
     }
     return str + ')'
   }
