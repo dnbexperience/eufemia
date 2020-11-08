@@ -97,6 +97,87 @@
     }
   }
 
+  &__text {
+    order: 1;
+    position: relative;
+    z-index: 4;
+
+    display: inline-flex;
+    width: 100%;
+
+    overflow: hidden;
+
+    color: inherit;
+    text-align: left;
+    text-overflow: ellipsis;
+    line-height: inherit;
+    font-size: var(--font-size-basis);
+
+    &__inner {
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: inherit;
+    }
+  }
+  &--icon-position-left &__text {
+    order: 2;
+    padding-right: 0;
+    padding-left: var(--dropdown-text-padding);
+  }
+
+  &--icon-position-left &__icon {
+    order: 1;
+  }
+
+  &--independent-width &__shell {
+    width: auto;
+  }
+  @media screen and (max-width: 40em) {
+    &--action-menu &__trigger.dnb-button {
+      padding-left: 0.5rem;
+      padding-right: 0.5rem;
+    }
+  }
+  @media screen and (min-width: 40em) {
+    &--action-menu &__shell &__text {
+      padding: 0 0.5rem;
+    }
+  }
+  @media screen and (max-width: 40em) {
+    &--action-menu &__shell &__text {
+      width: 0;
+      padding: 0;
+    }
+  }
+
+  &--icon-position-left
+    .dnb-button--tertiary
+    ~ .dnb-drawer-list__root--portal {
+    left: -0.5rem;
+  }
+  &--icon-position-right
+    .dnb-button--tertiary
+    ~ .dnb-drawer-list__root--portal {
+    left: 0.5rem;
+  }
+  .dnb-button--tertiary.dnb-button--active {
+    box-shadow: none;
+  }
+  .dnb-button--tertiary .dnb-button__text {
+    margin: 0 0.5rem;
+    &::after {
+      bottom: 0; // ensure that we see the underline, else it is behind the overflow hidden
+    }
+  }
+  &--icon-position-left .dnb-button--tertiary &__text,
+  &--icon-position-right .dnb-button--tertiary &__text {
+    padding: 0;
+  }
+  .dnb-button--tertiary:focus::before {
+    left: 0 !important;
+    right: 0 !important;
+  }
+
   // Button only menu
   &--default#{&}--is-popup &__shell,
   &--is-popup &__trigger {
@@ -133,89 +214,42 @@
   }
 
   // Size--small
-  &--small {
-    line-height: var(--dropdown-height--small);
-  }
   &--small &__shell,
   &--small &__trigger {
     height: var(--dropdown-height--small);
   }
+  &--small,
   &--small &__trigger.dnb-button {
     line-height: var(--dropdown-height--small);
   }
 
   // Size--medium
-  &--medium {
-    line-height: var(--dropdown-height--medium);
-  }
   &--medium &__shell,
   &--medium &__trigger {
     height: var(--dropdown-height--medium);
     border-radius: var(--dropdown-height--medium);
   }
+  &--medium,
   &--medium &__trigger.dnb-button {
     line-height: var(--dropdown-height--medium);
   }
 
   // Size--large
-  &--large {
-    line-height: var(--dropdown-height--large);
-  }
   &--large &__shell,
   &--large &__trigger {
     height: var(--dropdown-height--large);
     border-radius: var(--dropdown-height--large);
   }
+  &--large,
   &--large &__trigger.dnb-button {
     line-height: var(--dropdown-height--large);
+  }
+  &--large &__trigger.dnb-button &__text {
+    line-height: var(--line-height-basis);
   }
 
   &--is-popup &__trigger.dnb-button {
     padding: 0;
-  }
-
-  &__text {
-    order: 1;
-    position: relative;
-    z-index: 4;
-
-    display: inline-flex;
-
-    width: 100%;
-
-    // padding: 0 1rem;
-
-    overflow: hidden;
-
-    color: inherit;
-    text-align: left;
-    text-overflow: ellipsis;
-    font-size: var(--font-size-basis);
-
-    &__inner {
-      display: inline-block;
-
-      width: 100%;
-
-      // height: inherit;
-      // padding: 0;
-
-      overflow: hidden;
-      white-space: nowrap;
-
-      color: inherit;
-      text-overflow: inherit;
-      text-align: inherit;
-    }
-  }
-
-  &--icon-position-left &__icon {
-    order: 1;
-  }
-  &--icon-position-left &__text {
-    order: 2;
-    padding-right: 0;
-    padding-left: var(--dropdown-text-padding);
   }
 
   > .dnb-form-label {

@@ -64,6 +64,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
   show_all="show_all"
   show_submit_button={true}
   size={null}
+  skeleton="skeleton"
   skip_portal={true}
   status="status"
   status_animation="status_animation"
@@ -145,6 +146,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
     show_all="show_all"
     show_submit_button={true}
     size={null}
+    skeleton="skeleton"
     skip_keysearch={true}
     skip_portal={true}
     status="status"
@@ -222,6 +224,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
       show_all="show_all"
       show_submit_button={true}
       size={null}
+      skeleton="skeleton"
       skip_portal={true}
       status="status"
       status_animation="status_animation"
@@ -238,37 +241,28 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
         <FormLabel
           class={null}
           className={null}
-          direction={null}
           disabled="disabled"
           element="label"
           for_id="autocomplete-id"
           id="autocomplete-id-label"
           label_direction="horizontal"
           onMouseDown={[Function]}
-          render_content={null}
+          skeleton="skeleton"
           sr_only="label_sr_only"
           text="Autocomplete Label:"
           title={null}
           vertical={null}
         >
-          <Element
+          <label
+            aria-disabled={true}
             className="dnb-form-label"
-            disabled={false}
+            disabled={true}
             htmlFor="autocomplete-id"
             id="autocomplete-id-label"
-            is="label"
             onMouseDown={[Function]}
           >
-            <label
-              className="dnb-form-label"
-              disabled={false}
-              htmlFor="autocomplete-id"
-              id="autocomplete-id-label"
-              onMouseDown={[Function]}
-            >
-              Autocomplete Label:
-            </label>
-          </Element>
+            Autocomplete Label:
+          </label>
         </FormLabel>
         <span
           className="dnb-autocomplete__inner"
@@ -290,18 +284,21 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
             icon="error"
             icon_size="large"
             id="autocomplete-id-form-status"
-            render_content={null}
+            label="Autocomplete Label:"
+            skeleton="skeleton"
             state="error"
             status="error"
             text="status"
             text_id="autocomplete-id-status"
             title={null}
+            width_element={null}
             width_selector={null}
           >
             <span
               className="dnb-form-status dnb-form-status--error dnb-form-status--status_animation dnb-form-status--has-content"
               hidden={false}
               id="autocomplete-id-form-status"
+              label="Autocomplete Label:"
             >
               <span
                 className="dnb-form-status__shell"
@@ -320,6 +317,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                   }
                   modifier={null}
                   size="large"
+                  skeleton={null}
                   title={null}
                   width={null}
                 >
@@ -339,7 +337,6 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                           title={null}
                           viewBox="0 0 32 32"
                           width="32"
-                          xmlns="http://www.w3.org/2000/svg"
                         >
                           <path
                             d="M16 25a.5.5 0 100 1 .5.5 0 000-1v0"
@@ -393,6 +390,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                 aria-haspopup="listbox"
                 autoCapitalize="none"
                 autoComplete="off"
+                autoCorrect="off"
                 autocomplete="off"
                 class={null}
                 className="dnb-autocomplete__input dnb-button--active"
@@ -431,6 +429,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                 role="combobox"
                 selectall={null}
                 size={null}
+                skeleton="skeleton"
                 spellCheck="false"
                 status={null}
                 status_animation={null}
@@ -480,7 +479,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                       <span
                         className="dnb-input__shell"
                         data-has-content="true"
-                        data-input-state="disabled"
+                        data-input-state="virgin"
                       >
                         <input
                           aria-activedescendant="option-autocomplete-id-2"
@@ -491,6 +490,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                           aria-haspopup="listbox"
                           autoCapitalize="none"
                           autoComplete="off"
+                          autoCorrect="off"
                           className="dnb-input__input"
                           disabled={false}
                           id="autocomplete-id"
@@ -520,6 +520,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                             icon="input_icon"
                             modifier={null}
                             size="icon_size"
+                            skeleton={null}
                             title={null}
                             width={null}
                           />
@@ -557,6 +558,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                             on_submit_blur={null}
                             on_submit_focus={null}
                             size={null}
+                            skeleton={false}
                             status={null}
                             title="submit_button_title"
                             value={null}
@@ -576,6 +578,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                                 custom_element={null}
                                 custom_method={null}
                                 disabled="disabled"
+                                element={null}
                                 global_status_id={null}
                                 href={null}
                                 icon="icon"
@@ -583,6 +586,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                                 icon_size="icon_size"
                                 id="autocomplete-id-submit-button"
                                 innerRef={null}
+                                inner_ref={null}
                                 onBlur={[Function]}
                                 onClick={[Function]}
                                 onFocus={[Function]}
@@ -590,6 +594,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                                 onSubmit={[Function]}
                                 on_click={null}
                                 size={null}
+                                skeleton={null}
                                 status={null}
                                 status_animation={null}
                                 status_state="error"
@@ -625,6 +630,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                                     custom_element={null}
                                     custom_method={null}
                                     disabled="disabled"
+                                    element={null}
                                     global_status_id={null}
                                     href={null}
                                     icon="icon"
@@ -632,6 +638,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                                     icon_size="icon_size"
                                     id="autocomplete-id-submit-button"
                                     innerRef={null}
+                                    inner_ref={null}
                                     isIconOnly={true}
                                     onBlur={[Function]}
                                     onClick={[Function]}
@@ -640,6 +647,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                                     onSubmit={[Function]}
                                     on_click={null}
                                     size={null}
+                                    skeleton={null}
                                     status={null}
                                     status_animation={null}
                                     status_state="error"
@@ -668,6 +676,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                                       key="button-icon"
                                       modifier={null}
                                       size="icon_size"
+                                      skeleton={null}
                                       title={null}
                                       width={null}
                                     />
@@ -683,6 +692,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                 </span>
               </Input>
               <DrawerList
+                action_menu={false}
                 align_drawer={null}
                 cache_hash={null}
                 class={null}
@@ -699,6 +709,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                 ignore_events={null}
                 independent_width={false}
                 inner_class="dnb-autocomplete__list"
+                is_popup={false}
                 keep_open="keep_open"
                 max_height={1}
                 no_animation={true}
@@ -717,6 +728,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                 prevent_focus={false}
                 prevent_selection={null}
                 raw_data={null}
+                role="listbox"
                 scrollable="scrollable"
                 size={null}
                 skip_keysearch={false}
@@ -727,6 +739,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                 wrapper_element={null}
               >
                 <DrawerListInstance
+                  action_menu={false}
                   align_drawer={null}
                   cache_hash={null}
                   class={null}
@@ -743,6 +756,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                   ignore_events={null}
                   independent_width={false}
                   inner_class="dnb-autocomplete__list"
+                  is_popup={false}
                   keep_open="keep_open"
                   max_height={1}
                   no_animation={true}
@@ -761,6 +775,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                   prevent_focus={false}
                   prevent_selection={null}
                   raw_data={null}
+                  role="listbox"
                   scrollable="scrollable"
                   size={null}
                   skip_keysearch={false}
@@ -832,6 +847,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                                 onClick={[Function]}
                                 onKeyDown={[Function]}
                                 on_click={null}
+                                role="option"
                                 selected={false}
                                 value={null}
                               >
@@ -868,6 +884,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                                 onClick={[Function]}
                                 onKeyDown={[Function]}
                                 on_click={null}
+                                role="option"
                                 selected={false}
                                 value={null}
                               >
@@ -904,6 +921,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                                 onClick={[Function]}
                                 onKeyDown={[Function]}
                                 on_click={null}
+                                role="option"
                                 selected={true}
                                 value={null}
                               >
@@ -948,6 +966,9 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                             />
                           </ul>
                         </ForwardRef>
+                        <OnMounted
+                          assignObservers={[Function]}
+                        />
                       </span>
                     </span>
                   </span>
@@ -1021,6 +1042,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                 show_all="show_all"
                 show_submit_button={true}
                 size={null}
+                skeleton="skeleton"
                 skip_portal={true}
                 status="status"
                 status_animation="status_animation"
@@ -1170,6 +1192,10 @@ exports[`Autocomplete scss have to match snapshot 1`] = `
   h5 .dnb-icon,
   h6 .dnb-icon {
     vertical-align: middle; }
+  .dnb-icon.dnb-skeleton {
+    color: var(--skeleton-color) !important; }
+    .dnb-icon.dnb-skeleton::before, .dnb-icon.dnb-skeleton::after {
+      content: none !important; }
   @media screen and (-ms-high-contrast: none) {
     .dnb-icon {
       flex: none; } }
@@ -1494,6 +1520,8 @@ exports[`Autocomplete scss have to match snapshot 1`] = `
     white-space: nowrap; }
   .dnb-button + .dnb-form-status {
     margin-top: 0.5rem; }
+  .dnb-button.dnb-skeleton .dnb-icon {
+    visibility: hidden; }
   @media screen and (-ms-high-contrast: none) {
     .dnb-button {
       flex: none; }
@@ -2118,7 +2146,7 @@ legend.dnb-form-label {
     align-items: center;
     color: var(--color-sea-green); }
     .dnb-autocomplete__show-all .dnb-drawer-list__option__inner .dnb-icon {
-      margin-right: 0.5rem; }
+      align-self: center; }
   .dnb-autocomplete__input {
     display: inline-flex;
     align-items: center;

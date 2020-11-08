@@ -8,8 +8,8 @@ import ComponentBox from 'Tags/ComponentBox'
 
 The DNB UX team has defined three levels of heading styles:
 
-- `.dnb-h-xx--large` (Heading xx-large)
-- `.dnb-h-x--large` (Heading x-large)
+- `.dnb-h--xx-large` (Heading xx-large)
+- `.dnb-h--x-large` (Heading x-large)
 - `.dnb-h--large` (Heading large)
 
 Also available are:
@@ -64,7 +64,7 @@ import { H1, H2, ... } from 'dnb-ui-lib/elements'
 
 ### Heading styles in vanilla HTML
 
-<ComponentBox hideCode data-dnb-test="heading-default" caption="Heading styles in vanilla HTML">
+<ComponentBox hideCode data-visual-test="heading-default" caption="Heading styles in vanilla HTML">
 {`
 <h1 className="dnb-h--xx-large">Heading style xx-large</h1>
 <h2 className="dnb-h--x-large">Heading style x-large</h2>
@@ -74,7 +74,7 @@ import { H1, H2, ... } from 'dnb-ui-lib/elements'
 `}
 </ComponentBox>
 
-<ComponentBox hideCode data-dnb-test="heading-additional" caption="Additional Heading modifiers">
+<ComponentBox hideCode data-visual-test="heading-additional" caption="Additional Heading modifiers">
 {`
 <article>
   <h1 className="dnb-h--xx-large">

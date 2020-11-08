@@ -16,18 +16,18 @@ describe('Textarea screenshot', () => {
   it('have to match the "default" textarea style', async () => {
     const screenshot = await testPageScreenshot({
       style,
-      selector: '[data-dnb-test="textarea-default"]',
+      selector: '[data-visual-test="textarea-default"]',
       // Only for screenshot testing - make textarea having same width on linux chromium
-      styleSelector: '[data-dnb-test="textarea-default"] textarea'
+      styleSelector: '[data-visual-test="textarea-default"] textarea'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
   it('have to match the default error textarea style', async () => {
     const screenshot = await testPageScreenshot({
       style,
-      selector: '[data-dnb-test="textarea-error"]',
+      selector: '[data-visual-test="textarea-error"]',
       // Only for screenshot testing - make textarea having same width on linux chromium
-      styleSelector: '[data-dnb-test="textarea-error"] textarea'
+      styleSelector: '[data-visual-test="textarea-error"] textarea'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -37,8 +37,8 @@ describe('Textarea screenshot', () => {
         width: '30rem' // make sure our textarea gets an explicit width, because of mac/linux rendering differences
       },
       // Only for screenshot testing - make textarea having same width on linux chromium
-      // styleSelector: '[data-dnb-test="textarea-stretch"]',
-      selector: '[data-dnb-test="textarea-stretch"]'
+      // styleSelector: '[data-visual-test="textarea-stretch"]',
+      selector: '[data-visual-test="textarea-stretch"]'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -46,11 +46,11 @@ describe('Textarea screenshot', () => {
   it('have to match the "focus" textarea style', async () => {
     const screenshot = await testPageScreenshot({
       style,
-      selector: '[data-dnb-test="textarea-default"]',
-      simulateSelector: '[data-dnb-test="textarea-default"] textarea',
+      selector: '[data-visual-test="textarea-default"]',
+      simulateSelector: '[data-visual-test="textarea-default"] textarea',
       simulate: 'focus', // should be tested first
       // Only for screenshot testing - make textarea having same width on linux chromium
-      styleSelector: '[data-dnb-test="textarea-default"] textarea'
+      styleSelector: '[data-visual-test="textarea-default"] textarea'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -58,11 +58,11 @@ describe('Textarea screenshot', () => {
   it('have to match the "hover" textarea style', async () => {
     const screenshot = await testPageScreenshot({
       style,
-      selector: '[data-dnb-test="textarea-default"]',
-      simulateSelector: '[data-dnb-test="textarea-default"] textarea',
+      selector: '[data-visual-test="textarea-default"]',
+      simulateSelector: '[data-visual-test="textarea-default"] textarea',
       simulate: 'hover',
       // Only for screenshot testing - make textarea having same width on linux chromium
-      styleSelector: '[data-dnb-test="textarea-default"] textarea'
+      styleSelector: '[data-visual-test="textarea-default"] textarea'
     })
     expect(screenshot).toMatchImageSnapshot()
   })

@@ -13,11 +13,6 @@ import {
 } from '../../../core/jest/jestSetup'
 import Component from '../Section'
 
-// just to make sure we re-run the test in watch mode due to changes in theese files
-import _form_section from '../style/_section.scss' // eslint-disable-line
-import dnb_form_section from '../style/dnb-section.scss' // eslint-disable-line
-import dnb_form_section_theme_ui from '../style/themes/dnb-section-theme-ui.scss' // eslint-disable-line
-
 const props = fakeProps(require.resolve('../Section'), {
   optional: true
 })

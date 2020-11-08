@@ -16,31 +16,31 @@ describe('Space screenshot', () => {
   it.skip('have to match the spacing patterns', async () => {
     const screenshot = await testPageScreenshot({
       waitAfterSimulate: 200,
-      selector: '[data-dnb-test="spacing-patterns"] .spacing-patterns'
+      selector: '[data-visual-test="spacing-patterns"] .spacing-patterns'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
   it('have to match the 2.5 spacing margins', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-dnb-test="spacing-margins"]'
+      selector: '[data-visual-test="spacing-margins"]'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
   it('have to match the spacing method 1', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-dnb-test="spacing-method-space"]'
+      selector: '[data-visual-test="spacing-method-space"]'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
   it('have to match the spacing method 2', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-dnb-test="spacing-method-form-row"]'
+      selector: '[data-visual-test="spacing-method-form-row"]'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
   it('have to match the spacing method 3', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-dnb-test="spacing-method-component"]'
+      selector: '[data-visual-test="spacing-method-component"]'
     })
     expect(screenshot).toMatchImageSnapshot()
   })

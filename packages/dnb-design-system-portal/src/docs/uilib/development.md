@@ -11,6 +11,14 @@ import { Icon } from 'dnb-ui-lib/src'
 
 For more development details you may have a look at the confluence pages about [development details](https://confluence.tech.dnb.no/display/EDS/).
 
+## Development principles
+
+1. Avoid including runtime dependencies as much as possible.
+1. Write integration tests with [these advices](/uilib/usage/best-practices/for-testing#integration-tests).
+1. Re-use existing helper functions and classes.
+1. Use existing linting and code styles, based on configuration.
+1. Follow the existing structures for documentation, naming and setup.
+
 ## Development environment and defaults
 
 Many defaults are given by the linting and prettier configurations. But to keep the code base consistent and clean, we have set a certain set of rules:

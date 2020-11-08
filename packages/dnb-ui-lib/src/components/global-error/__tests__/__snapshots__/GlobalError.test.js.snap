@@ -106,6 +106,10 @@ exports[`GlobalError scss have to match snapshot 1`] = `
   h5 .dnb-icon,
   h6 .dnb-icon {
     vertical-align: middle; }
+  .dnb-icon.dnb-skeleton {
+    color: var(--skeleton-color) !important; }
+    .dnb-icon.dnb-skeleton::before, .dnb-icon.dnb-skeleton::after {
+      content: none !important; }
   @media screen and (-ms-high-contrast: none) {
     .dnb-icon {
       flex: none; } }
@@ -430,6 +434,8 @@ exports[`GlobalError scss have to match snapshot 1`] = `
     white-space: nowrap; }
   .dnb-button + .dnb-form-status {
     margin-top: 0.5rem; }
+  .dnb-button.dnb-skeleton .dnb-icon {
+    visibility: hidden; }
   @media screen and (-ms-high-contrast: none) {
     .dnb-button {
       flex: none; }
@@ -540,7 +546,6 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
   class="class"
   className="className"
   href="href"
-  render_content={[Function]}
   status="404"
   status_content={null}
   text="text [link](/back) text"
@@ -560,6 +565,7 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
         custom_element={null}
         custom_method={null}
         disabled={null}
+        element={null}
         global_status_id={null}
         href="href"
         icon="chevron_left"
@@ -567,9 +573,11 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
         icon_size={null}
         id={null}
         innerRef={null}
+        inner_ref={null}
         onClick={null}
         on_click={[Function]}
         size={null}
+        skeleton={null}
         status={null}
         status_animation={null}
         status_state="error"
@@ -595,6 +603,7 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
             custom_element={null}
             custom_method={null}
             disabled={null}
+            element={null}
             global_status_id={null}
             href="href"
             icon="chevron_left"
@@ -602,10 +611,12 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
             icon_size={null}
             id={null}
             innerRef={null}
+            inner_ref={null}
             isIconOnly={false}
             onClick={null}
             on_click={[Function]}
             size={null}
+            skeleton={null}
             status={null}
             status_animation={null}
             status_state="error"
@@ -640,6 +651,7 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
               key="button-icon"
               modifier={null}
               size={null}
+              skeleton={null}
               title={null}
               width={null}
             >
@@ -824,18 +836,28 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
           >
             <ForwardRef
               bottom="large"
-              class={null}
-              className="dnb-h--xx-large"
-              css={null}
-              hasTagClass={true}
+              internalClass="dnb-h--xx-large"
               is="h1"
               top="4"
             >
-              <h1
-                className="dnb-h--xx-large dnb-space__top--xx-large dnb-space__top--x-small dnb-space__bottom--large"
+              <Elem
+                _ref={null}
+                bottom="large"
+                class={null}
+                className={null}
+                css={null}
+                internalClass="dnb-h--xx-large"
+                is="h1"
+                skeleton={null}
+                skeleton_method="font"
+                top="4"
               >
-                title
-              </h1>
+                <h1
+                  className="dnb-space__top--xx-large dnb-space__top--x-small dnb-space__bottom--large dnb-h--xx-large"
+                >
+                  title
+                </h1>
+              </Elem>
             </ForwardRef>
           </H>
         </H1>
@@ -850,25 +872,34 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
         >
           <ForwardRef
             bottom="large"
-            class={null}
             className="dnb-p"
-            css={null}
-            hasTagClass={false}
             is="p"
           >
-            <p
-              className="dnb-p dnb-space__bottom--large"
+            <Elem
+              _ref={null}
+              bottom="large"
+              class={null}
+              className="dnb-p"
+              css={null}
+              internalClass={null}
+              is="p"
+              skeleton={null}
+              skeleton_method="font"
             >
-              text 
-              <a
-                className="dnb-anchor"
-                href=";"
-                onClick={[Function]}
+              <p
+                className="dnb-p dnb-space__bottom--large"
               >
-                link
-              </a>
-               text
-            </p>
+                text 
+                <a
+                  className="dnb-anchor"
+                  href=";"
+                  onClick={[Function]}
+                >
+                  link
+                </a>
+                 text
+              </p>
+            </Elem>
           </ForwardRef>
         </P>
       </div>

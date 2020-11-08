@@ -19,7 +19,7 @@ The `<hr />` tag in HTML stands for horizontal rule and is used to insert a hori
 }
 ```
 
-<ComponentBox hideCode useRender data-dnb-test="hr-default">
+<ComponentBox hideCode useRender data-visual-test="hr-default">
 {`
 // import { Hr } from 'dnb-ui-lib/elements'
 render(<>
@@ -34,7 +34,7 @@ render(<>
 
 Use the modifier `dnb-hr--fullscreen` to get a full screen rule. You can also set just `fullscreen={true}`.
 
-<ComponentBox hideCode useRender data-dnb-test="hr-fullscreen">
+<ComponentBox hideCode useRender data-visual-test="hr-fullscreen">
 {`
 // import { Hr } from 'dnb-ui-lib/elements'
 render(<>
@@ -49,22 +49,26 @@ render(<>
 
 Use the modifier `dnb-hr--light` to get a `0.5px` rule. You can also set just `light={true}` or `medium={true}`.
 
-<ComponentBox hideCode useRender data-dnb-test="hr-thickness">
+<ComponentBox hideCode useRender data-visual-test="hr-thickness">
 {`
 // import { Hr } from 'dnb-ui-lib/elements'
 render(<>
   <Dl>
-    <dt>Light 0.5px</dt>
-    <dd><Hr light /></dd>
+    <Dt>Light 0.5px</Dt>
+    <Dd><Hr light /></Dd>
+    <Dd>{' '}</Dd>
   </Dl>
   <Dl>
-    <dt>Default 1px</dt>
-    <dd><Hr /></dd>
+    <Dt>Default 1px</Dt>
+    <Dd><Hr /></Dd>
+    <Dd>{' '}</Dd>
   </Dl>
   <Dl>
-    <dt>Medium 1.5px</dt>
-    <dd><Hr medium /></dd>
+    <Dt>Medium 1.5px</Dt>
+    <Dd><Hr medium /></Dd>
+    <Dd>{' '}</Dd>
   </Dl>
+  {' '}
 </>)
 `}
 </ComponentBox>

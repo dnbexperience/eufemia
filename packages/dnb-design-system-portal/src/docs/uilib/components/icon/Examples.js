@@ -12,38 +12,28 @@ import {
 import * as PrimaryIconsMedium from 'dnb-ui-lib/src/icons/primary_icons_medium'
 import * as SecondaryIconsMedium from 'dnb-ui-lib/src/icons/secondary_icons_medium'
 
-// In case we want so sort the icons
-// const allIcons = Object.entries({
-//   ...PrimaryIconsMedium,
-//   ...SecondaryIconsMedium
-// })
-// .sort(([a], [b]) => (a > b ? 1 : -1))
-
-class Example extends React.PureComponent {
-  render() {
-    return (
-      <React.Fragment>
-        <ComponentBox
-          data-dnb-test="icon-default"
-          scope={{ Bell, BellMedium }}
-          title="Default and Medium sized icons (Responsive)"
-        >
-          {
-            /* @jsx */ `
+export const IconDefault = () => (
+  <ComponentBox
+    data-visual-test="icon-default"
+    scope={{ Bell, BellMedium }}
+  >
+    {
+      /* @jsx */ `
 <Icon icon={Bell} title="Give Icons a Title, or ..." />
 <Icon icon={BellMedium} aria-hidden />
 <Bell title="I'm not responsive!" />{/* <- Not responsive! */}
-          `
-          }
-        </ComponentBox>
+`
+    }
+  </ComponentBox>
+)
 
-        <ComponentBox
-          data-dnb-test="icon-border"
-          scope={{ Bell, BellMedium }}
-          title="Icons with border. **NB:** Use it with caution. It should not be used where the usage can confuse users to be a clickable button."
-        >
-          {
-            /* @jsx */ `
+export const IconBorder = () => (
+  <ComponentBox
+    data-visual-test="icon-border"
+    scope={{ Bell, BellMedium }}
+  >
+    {
+      /* @jsx */ `
 <P>
   <Icon border="true" icon={Bell} right />
   <Icon border="true" icon={BellMedium} size="medium" right />
@@ -54,33 +44,41 @@ class Example extends React.PureComponent {
     text="Button"
   />
 </P>
-          `
-          }
-        </ComponentBox>
+`
+    }
+  </ComponentBox>
+)
 
-        <ComponentBox
-          data-dnb-test="icon-inherit-sized"
-          scope={{ Bell, BellMedium }}
-          title="Responsive to its inherited `font-size`"
-        >
-          {
-            /* @jsx */ `
+export const IconInheritSized = () => (
+  <ComponentBox
+    data-visual-test="icon-inherit-sized"
+    scope={{ Bell, BellMedium }}
+  >
+    {
+      /* @jsx */ `
 <h1 className="dnb-h--xx-large">
   h1 with auto sized{' '}
   <Icon icon={BellMedium} size="auto" aria-hidden />{' '}
   icon
 </h1>
-          `
-          }
-        </ComponentBox>
-        {typeof window !== 'undefined' && window.IS_TEST && (
-          <ComponentBox
-            data-dnb-test="icon-medium"
-            scope={{ Bell, BellMedium }}
-            title="Explicit defined size: medium"
-          >
-            {
-              /* @jsx */ `
+`
+    }
+  </ComponentBox>
+)
+
+export const IconMedium = () => {
+  if (!global.IS_TEST) {
+    return null
+  }
+
+  return (
+    <ComponentBox
+      data-visual-test="icon-medium"
+      scope={{ Bell, BellMedium }}
+      title="Explicit defined size: medium"
+    >
+      {
+        /* @jsx */ `
 <Icon icon={BellMedium} size="16" title="force default size" />
 <Icon icon={BellMedium} title="is medium anyway" />
 <Icon icon={Bell} size="medium" title="force medium size" />
@@ -91,19 +89,26 @@ class Example extends React.PureComponent {
   height="24"
   title="not responsive"
 />
-              `
-            }
-          </ComponentBox>
-        )}
-        {typeof window !== 'undefined' && window.IS_TEST && (
-          <ComponentBox
-            data-dnb-test="icon-all-primary"
-            scope={{ PrimaryIconsMedium }}
-            title="All **primary** icons listed as medium sized icons"
-            noFragments={false}
-          >
-            {
-              /* @jsx */ `
+`
+      }
+    </ComponentBox>
+  )
+}
+
+export const IconPrimary = () => {
+  if (!global.IS_TEST) {
+    return null
+  }
+
+  return (
+    <ComponentBox
+      data-visual-test="icon-all-primary"
+      scope={{ PrimaryIconsMedium }}
+      title="All **primary** icons listed as medium sized icons"
+      noFragments={false}
+    >
+      {
+        /* @jsx */ `
 () => {
   const Icons = () => Object.entries(PrimaryIconsMedium).map(
     ([name, SvgMedium]) => (
@@ -119,19 +124,26 @@ class Example extends React.PureComponent {
   )
   return <Icons />
 }
-          `
-            }
-          </ComponentBox>
-        )}
-        {typeof window !== 'undefined' && window.IS_TEST && (
-          <ComponentBox
-            data-dnb-test="icon-all-secondary"
-            scope={{ SecondaryIconsMedium }}
-            title="All **secondary** icons listed as medium sized icons"
-            noFragments={false}
-          >
-            {
-              /* @jsx */ `
+`
+      }
+    </ComponentBox>
+  )
+}
+
+export const IconSecondary = () => {
+  if (!global.IS_TEST) {
+    return null
+  }
+
+  return (
+    <ComponentBox
+      data-visual-test="icon-all-secondary"
+      scope={{ SecondaryIconsMedium }}
+      title="All **secondary** icons listed as medium sized icons"
+      noFragments={false}
+    >
+      {
+        /* @jsx */ `
 () => {
   const Icons = () => Object.entries(SecondaryIconsMedium).map(
     ([name, SvgMedium]) => (
@@ -147,13 +159,18 @@ class Example extends React.PureComponent {
   )
   return <Icons />
 }
-          `
-            }
-          </ComponentBox>
-        )}
-      </React.Fragment>
-    )
-  }
+`
+      }
+    </ComponentBox>
+  )
 }
 
-export default Example
+export default function IconTests() {
+  return (
+    <>
+      <IconMedium />
+      <IconPrimary />
+      <IconSecondary />
+    </>
+  )
+}

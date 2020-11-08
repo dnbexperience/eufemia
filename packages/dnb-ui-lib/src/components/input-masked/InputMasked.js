@@ -15,61 +15,66 @@ import MaskedInput from 'react-text-mask' // https://github.com/text-mask/text-m
 import createNumberMask from './addons/createNumberMask'
 import classnames from 'classnames'
 
-const renderProps = {
-  on_change: null,
-  on_submit: null,
-  on_focus: null,
-  on_blur: null,
-  on_submit_focus: null,
-  on_submit_blur: null
-}
-
-const propTypes = {
-  mask: PropTypes.oneOfType([
-    PropTypes.object,
-    PropTypes.array,
-    PropTypes.func
-  ]),
-  number_mask: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.bool,
-    PropTypes.object
-  ]),
-  currency_mask: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.bool,
-    PropTypes.object
-  ]),
-  show_mask: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  show_guide: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  pipe: PropTypes.func,
-  keep_char_positions: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.bool
-  ]),
-  placeholder_char: PropTypes.string
-}
-
-const defaultProps = {
-  mask: [],
-  number_mask: null,
-  currency_mask: null,
-  show_mask: false,
-  show_guide: true,
-  pipe: null,
-  keep_char_positions: false,
-  placeholder_char: '_',
-  ...renderProps
-}
-
 export default class InputMasked extends React.PureComponent {
   static tagName = 'dnb-input-masked'
-  static propTypes = propTypes
-  static defaultProps = defaultProps
-  static renderProps = renderProps
+
+  static propTypes = {
+    mask: PropTypes.oneOfType([
+      PropTypes.object,
+      PropTypes.array,
+      PropTypes.func
+    ]),
+    number_mask: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool,
+      PropTypes.object
+    ]),
+    currency_mask: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool,
+      PropTypes.object
+    ]),
+    show_mask: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    show_guide: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    pipe: PropTypes.func,
+    keep_char_positions: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool
+    ]),
+    placeholder_char: PropTypes.string,
+
+    on_change: PropTypes.func,
+    on_submit: PropTypes.func,
+    on_focus: PropTypes.func,
+    on_blur: PropTypes.func,
+    on_submit_focus: PropTypes.func,
+    on_submit_blur: PropTypes.func
+  }
+
+  static defaultProps = {
+    mask: [],
+    number_mask: null,
+    currency_mask: null,
+    show_mask: false,
+    show_guide: true,
+    pipe: null,
+    keep_char_positions: false,
+    placeholder_char: '_',
+
+    on_change: null,
+    on_submit: null,
+    on_focus: null,
+    on_blur: null,
+    on_submit_focus: null,
+    on_submit_blur: null
+  }
 
   static enableWebComponent() {
-    registerElement(InputMasked.tagName, InputMasked, defaultProps)
+    registerElement(
+      InputMasked.tagName,
+      InputMasked,
+      InputMasked.defaultProps
+    )
   }
 
   componentWillUnmount() {
@@ -134,34 +139,6 @@ export default class InputMasked extends React.PureComponent {
       }
 
       if (mask.instanceOf === 'createNumberMask') {
-        const clean = (v) =>
-          String(v).replace(new RegExp('[^\\d,.-]', 'g'), '')
-
-        const fixPositionIssue = (elem) => {
-          clearTimeout(this._selectionTimeout)
-          this._selectionTimeout = setTimeout(() => {
-            const cleaned_value = clean(elem.value)
-            if (cleaned_value.length > 0) {
-              return
-            }
-            try {
-              const end = elem.selectionEnd
-              if (
-                elem.selectionStart === end &&
-                end === elem.value.length
-              ) {
-                let pos = 0
-                if (props.align === 'left') {
-                  pos = end - 1
-                }
-                elem.setSelectionRange(pos, pos)
-              }
-            } catch (e) {
-              //
-            }
-          }, 1) // to get the current value
-        }
-
         const callEvent = ({ event, value }, name) => {
           value = value || event.target.value
           const cleaned_value = clean(value)
@@ -180,7 +157,7 @@ export default class InputMasked extends React.PureComponent {
           callEvent({ event }, 'on_touch_end')
         }
         props.on_focus = (params) => {
-          fixPositionIssue(params.event.target)
+          fixPositionIssue(params.event.target, props)
           callEvent(params, 'on_focus')
         }
 
@@ -200,7 +177,17 @@ export default class InputMasked extends React.PureComponent {
           keepCharPositions: isTrue(keep_char_positions),
           placeholderChar
         }
-        return <MaskedInput ref={innerRef} {...params} />
+        return (
+          <MaskedInput
+            render={(setRef, props) => (
+              <input
+                ref={(ref) => setRef((innerRef.current = ref))}
+                {...props}
+              />
+            )}
+            {...params}
+          />
+        )
       }
     }
 
@@ -215,4 +202,29 @@ export default class InputMasked extends React.PureComponent {
 
     return <Input {...props} />
   }
+}
+
+const clean = (v) => String(v).replace(new RegExp('[^\\d,.-]', 'g'), '')
+
+let _selectionTimeout
+export const fixPositionIssue = (elem, { align = 'right' } = {}) => {
+  clearTimeout(_selectionTimeout)
+  _selectionTimeout = setTimeout(() => {
+    const cleaned_value = clean(elem.value)
+    if (cleaned_value.length > 0) {
+      return
+    }
+    try {
+      const end = elem.selectionEnd
+      if (elem.selectionStart === end && end === elem.value.length) {
+        let pos = 0
+        if (align === 'left') {
+          pos = end - 1
+        }
+        elem.setSelectionRange(pos, pos)
+      }
+    } catch (e) {
+      //
+    }
+  }, 1) // to get the current value
 }

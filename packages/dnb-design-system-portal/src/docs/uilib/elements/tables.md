@@ -5,7 +5,7 @@ title: 'Tables'
 import ComponentBox from 'Tags/ComponentBox'
 import { css, Global } from '@emotion/core'
 
-<Global styles={css`body{ .dnb-app-content-inner { overflow: visible; } }`} />
+<Global styles={css`body{ .dnb-app-content { overflow: visible; } }`} />
 
 ## Tables
 
@@ -40,9 +40,9 @@ To enhance or manipulate the the table style, you can make use of a couple helpe
 
 <!-- - `.dnb-table--tabular` Use this on the `table` root -->
 
-<ComponentBox hideCode data-dnb-test="table-classes" caption="Example usage of class helpers">
+<ComponentBox hideCode data-visual-test="table-classes" caption="Example usage of class helpers">
 {`
-<table className="dnb-table">
+<Table className="dnb-table">
   <thead>
     <tr className="dnb-table__tr">
       <th className="dnb-table__th">
@@ -76,15 +76,15 @@ To enhance or manipulate the the table style, you can make use of a couple helpe
       <td colSpan="3" className="dnb-table__td">.dnb-table__tr--odd > .dnb-table__td</td>
     </tr>
   </tbody>
-</table>
+</Table>
 `}
 </ComponentBox>
 
 ### Default Table style
 
-<ComponentBox hideCode data-dnb-test="table-default">
+<ComponentBox hideCode data-visual-test="table-default">
 {`
-<table className="dnb-table">
+<Table className="dnb-table">
   <caption>A Table Caption</caption>
   <thead>
     <tr>
@@ -138,7 +138,7 @@ To enhance or manipulate the the table style, you can make use of a couple helpe
       <td align="right">Column 4</td>
     </tr>
   </tbody>
-</table>
+</Table>
 `}
 </ComponentBox>
 
@@ -146,7 +146,7 @@ To enhance or manipulate the the table style, you can make use of a couple helpe
 
 **NB:** Keep in mind, you have to avoid using `overflow: hidden;` on any child elements to get `position: sticky;` to work. This is a know issue happening on every modern browser. There are various tricks, including [this deallocation / sync solution](https://uxdesign.cc/position-stuck-96c9f55d9526).
 
-<ComponentBox hideCode data-dnb-test="table-sticky">
+<ComponentBox hideCode data-visual-test="table-sticky">
 {`
 <Table sticky="true" sticky_offset="4rem" className="dnb-table--fixed">
   <caption className="dnb-sr-only">A Table Caption</caption>
@@ -217,7 +217,7 @@ To enhance or manipulate the the table style, you can make use of a couple helpe
 
 Also, the table header is set to **small** font-size.
 
-<ComponentBox hideCode data-dnb-test="table-header">
+<ComponentBox hideCode data-visual-test="table-header">
 {`
 <Table>
   <caption className="dnb-sr-only">A Table Caption</caption>

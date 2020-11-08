@@ -13,11 +13,6 @@ import {
 } from '../../../core/jest/jestSetup'
 import Component from '../DrawerList'
 
-// just to make sure we re-run the test in watch mode due to changes in theese files
-import _drawerList from '../style/_drawer-list.scss' // eslint-disable-line
-import dnb_drawerList from '../style/dnb-drawer-list.scss' // eslint-disable-line
-import dnb_drawerList_theme_ui from '../style/themes/dnb-drawer-list-theme-ui.scss' // eslint-disable-line
-
 beforeAll(() => {
   window.resizeTo = function resizeTo({
     width = window.innerWidth,
@@ -392,7 +387,7 @@ describe('DrawerList markup', () => {
     expect(toJson(CheckComponent)).toMatchSnapshot()
   })
 
-  it('should validate with ARIA rules as a tabs', async () => {
+  it('should validate with ARIA rules', async () => {
     expect(await axeComponent(CheckComponent)).toHaveNoViolations()
   })
 })

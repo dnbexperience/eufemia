@@ -13,7 +13,7 @@ class Example extends React.PureComponent {
       <React.Fragment>
         <ComponentBox
           title="Placeholder text"
-          data-dnb-test="textarea-default"
+          data-visual-test="textarea-default"
         >
           {
             /* @jsx */ `
@@ -54,7 +54,7 @@ class Example extends React.PureComponent {
         </ComponentBox>
         <ComponentBox
           title="Stretched horizontal placed label"
-          data-dnb-test="textarea-stretch"
+          data-visual-test="textarea-stretch"
         >
           {
             /* @jsx */ `
@@ -83,7 +83,7 @@ class Example extends React.PureComponent {
         </ComponentBox>
         <ComponentBox
           title="With FormStatus failure message"
-          data-dnb-test="textarea-error"
+          data-visual-test="textarea-error"
         >
           {
             /* @jsx */ `
@@ -124,7 +124,7 @@ class Example extends React.PureComponent {
 <Textarea
   label="Textarea with suffix:"
   value="Nec litora inceptos vestibulum id interdum donec gravida."
-  suffix={<Modal title="Modal Title">Modal content</Modal>}
+  suffix={<HelpButton title="Modal Title">Modal content</HelpButton>}
 />
           `
           }

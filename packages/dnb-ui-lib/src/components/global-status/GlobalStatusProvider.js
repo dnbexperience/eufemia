@@ -3,7 +3,7 @@
  *
  */
 
-import { makeUniqueId } from '../../shared/component-helper'
+import { makeUniqueId, warn } from '../../shared/component-helper'
 
 // The meaning with this is that we can force a rerender without sharing the same context
 class GlobalStatusProvider {
@@ -31,7 +31,12 @@ class GlobalStatusProvider {
     const newStatus = GlobalStatusProvider.create(id, props)
 
     if (onReady) {
-      newStatus.addOnReady(newStatus)
+      // send along the new status
+      newStatus.addOnReady(newStatus, onReady)
+    }
+
+    if (id !== 'main') {
+      warn(`No <GlobalStatus ${`id="${id}"`} /> found.`)
     }
 
     return newStatus
@@ -104,11 +109,6 @@ class GlobalStatusProvider {
       return acc
     }, {})
 
-    // no items? remove them then
-    if (globalStatus.items && globalStatus.items.length === 0) {
-      delete globalStatus.items
-    }
-
     return globalStatus
   }
 }
@@ -128,7 +128,7 @@ class GlobalStatusProviderItem {
     }
   }
 
-  // force rerender of the given GlobalStatus component
+  // force re-render of the given GlobalStatus component
   forceRerender(
     globalStatus,
     props,
@@ -141,6 +141,7 @@ class GlobalStatusProviderItem {
         }
       })
     }
+
     if (buffer_delay > 0) {
       clearTimeout(this._bufferDelayId)
       this._bufferDelayId = setTimeout(run, buffer_delay) // delay the sum & rerender, in case we change the state in the same frame
@@ -154,6 +155,8 @@ class GlobalStatusProviderItem {
   }
 
   add(props, opts = {}) {
+    this.remove('internal-close', { preventRerender: true })
+
     // make copy
     const newProps = { ...props }
 
@@ -163,7 +166,7 @@ class GlobalStatusProviderItem {
     }
 
     // also, set show to true
-    if (typeof newProps.show === 'undefined' || newProps.show === null) {
+    if (typeof newProps.show === 'undefined') {
       newProps.show = true
     }
 
@@ -175,7 +178,7 @@ class GlobalStatusProviderItem {
 
     // replace the props if exists
     const stackIndex = this.stack.findIndex(
-      (cur) => cur.status_id === props.status_id
+      (cur) => cur.status_id === newProps.status_id
     )
     if (stackIndex > -1) {
       this.stack[stackIndex] = newProps
@@ -184,12 +187,12 @@ class GlobalStatusProviderItem {
       this.stack.push(newProps)
     }
 
-    const globalStatus = GlobalStatusProvider.combineMessages(
-      this.stack,
-      opts
-    )
-    if (!opts.preventRerender) {
-      this.forceRerender(globalStatus, props)
+    const globalStatus = GlobalStatusProvider.combineMessages(this.stack)
+
+    if (!opts?.preventRerender) {
+      this.forceRerender(globalStatus, props, {
+        buffer_delay: props?.buffer_delay > -1 ? props.buffer_delay : 0
+      })
     }
 
     return globalStatus
@@ -199,16 +202,66 @@ class GlobalStatusProviderItem {
     return this.stack.find((cur) => cur.status_id === status_id)
   }
 
-  remove(status_id, { buffer_delay = 10, empty_offset = 1 } = {}) {
+  update(status_id, newProps, opts = {}) {
     if (status_id) {
-      this.stack = this.stack.filter((cur) => cur.status_id !== status_id)
+      const item = this.get(status_id)
+      if (!item) {
+        this.add(newProps)
+      }
+    }
 
+    this.stack = this.stack.map((cur, i, arr) => {
+      if (
+        !status_id ? i === arr.length - 1 : cur.status_id === status_id
+      ) {
+        if (!status_id) {
+          newProps = { ...newProps }
+          delete newProps.status_id
+        }
+        return { ...cur, ...newProps }
+      }
+
+      return cur
+    })
+
+    if (!opts?.preventRestack) {
+      this.restack(status_id)
+    }
+
+    const globalStatus = GlobalStatusProvider.combineMessages(this.stack)
+
+    if (!opts?.preventRerender) {
+      this.forceRerender(globalStatus, null, {
+        buffer_delay:
+          newProps?.buffer_delay > -1 ? newProps.buffer_delay : 0
+      })
+    }
+  }
+
+  restack(status_id) {
+    const item = this.get(status_id)
+
+    // re-stack,so the new one is the latest
+    if (item) {
+      this.stack = this.stack.filter((cur) => {
+        return cur.status_id !== status_id
+      })
+      this.stack.push(item)
+    }
+  }
+
+  remove(status_id, opts = {}) {
+    if (status_id) {
+      this.stack = this.stack.filter((cur) => {
+        return cur.status_id !== status_id
+      })
       const globalStatus = GlobalStatusProvider.combineMessages(this.stack)
 
-      this.forceRerender(globalStatus, null, {
-        buffer_delay,
-        isEmpty: this.stack && this.stack.length - empty_offset === 0 // because we have by default a main, we
-      })
+      if (!opts?.preventRerender) {
+        this.forceRerender(globalStatus, null, {
+          buffer_delay: opts?.buffer_delay > -1 ? opts.buffer_delay : 10
+        })
+      }
     }
   }
 
@@ -230,17 +283,21 @@ class GlobalStatusProviderItem {
   }
 
   isReady() {
-    this._onReadyEvents = this._onReadyEvents.filter((cb, i) => {
-      if (typeof cb === 'function') [cb()]
-      this._onReadyEvents[i] = null
-      return false
-    })
+    this._onReadyEvents = this._onReadyEvents.filter(
+      ({ status, cb }, i) => {
+        if (typeof cb === 'function') {
+          cb(status)
+        }
+        this._onReadyEvents[i] = null
+        return false
+      }
+    )
 
     return true
   }
 
-  addOnReady(cb) {
-    this._onReadyEvents.push(cb)
+  addOnReady(status, cb) {
+    this._onReadyEvents.push({ status, cb })
   }
 
   stack = [] // the "layers" with

@@ -18,7 +18,7 @@ const Grid = styled.div`
   padding: 1rem;
   ${gridStyle({ rgb: '220, 220, 220', a: 0.8 })};
 `
-export const Wrapper = ({
+export const VisualGrid = ({
   showOverflow,
   children,
   className,
@@ -26,6 +26,7 @@ export const Wrapper = ({
 }) => (
   <React.StrictMode>
     <MainWrapper
+      role="main"
       className={classnames(
         'dnb-core-style',
         showOverflow && 'show-overflow',
@@ -38,14 +39,19 @@ export const Wrapper = ({
     </MainWrapper>
   </React.StrictMode>
 )
-Wrapper.propTypes = {
+VisualGrid.propTypes = {
   children: PropTypes.node.isRequired,
   className: PropTypes.string,
   showOverflow: PropTypes.bool
 }
-Wrapper.defaultProps = {
+VisualGrid.defaultProps = {
   className: null,
   showOverflow: null
+}
+
+export const Wrapper = ({ children }) => <div>{children}</div>
+Wrapper.propTypes = {
+  children: PropTypes.node.isRequired
 }
 
 export const Box = styled(Space)`

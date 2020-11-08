@@ -9,11 +9,13 @@ import {
   Ul,
   Ol,
   Dl,
+  Li,
   P,
   Hr,
   Blockquote,
   Code
 } from 'dnb-ui-lib/src/elements'
+import Element from 'dnb-ui-lib/src/elements/Element'
 import Table from './Table'
 // import Img from './Img'
 // import Tag from './Tag' // use it like so: <Tag is="p" {...props} />
@@ -47,7 +49,8 @@ export default {
     }
   },
   table: Table,
-  code: (...args) => CodeBlock(...args),
+  pre: (props) => <Element is="div" {...props} />,
+  code: (...props) => CodeBlock(...props),
   inlineCode: ({ ...props }) => {
     if (props.inline) {
       props.inline = props.inline.toString()
@@ -58,6 +61,7 @@ export default {
       </Copy>
     )
   },
+  li: (props) => <Li {...props} />,
   ul: (props) => <Ul {...props} />,
   ol: (props) => <Ol {...props} />,
   dl: (props) => <Dl {...props} />,

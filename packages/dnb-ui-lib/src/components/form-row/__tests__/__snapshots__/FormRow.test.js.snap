@@ -2,6 +2,7 @@
 
 exports[`FormRow component have to match snapshot 1`] = `
 <FormRow
+  centered="centered"
   class="class"
   className="className"
   custom_element={Object {}}
@@ -19,10 +20,10 @@ exports[`FormRow component have to match snapshot 1`] = `
   label_sr_only="label_sr_only"
   no_fieldset="no_fieldset"
   no_label="no_label"
-  render_content={[Function]}
   responsive="responsive"
   section_spacing="section_spacing"
   section_style="section_style"
+  skeleton="skeleton"
   skipContentWrapperIfNested={true}
   vertical="vertical"
   wrap="wrap"
@@ -35,7 +36,7 @@ exports[`FormRow component have to match snapshot 1`] = `
       className="dnb-form-row__fieldset"
     >
       <div
-        className="dnb-form-row dnb-form-row--horizontal dnb-form-row--horizontal-label className class dnb-form-row__indent--indent dnb-section dnb-section--section_style dnb-section--spacing-section_spacing"
+        className="dnb-form-row dnb-form-row--horizontal dnb-form-row--horizontal-label className class dnb-form-row__indent--indent dnb-form-row--centered dnb-section dnb-section--section_style dnb-section--spacing-section_spacing"
       >
         <AlignmentHelper
           className={null}
@@ -48,32 +49,25 @@ exports[`FormRow component have to match snapshot 1`] = `
         <FormLabel
           class={null}
           className="dnb-form-row__label label_class"
-          direction={null}
-          disabled={false}
+          disabled="disabled"
           element="legend"
           for_id={null}
           id="label_id"
           label_direction="horizontal"
-          render_content={null}
+          skeleton="skeleton"
           sr_only="label_sr_only"
           text="label"
           title={null}
           vertical={null}
         >
-          <Element
+          <legend
+            aria-disabled={true}
             className="dnb-form-label dnb-form-row__label label_class"
-            disabled={false}
+            disabled={true}
             id="label_id"
-            is="legend"
           >
-            <legend
-              className="dnb-form-label dnb-form-row__label label_class"
-              disabled={false}
-              id="label_id"
-            >
-              label
-            </legend>
-          </Element>
+            label
+          </legend>
         </FormLabel>
         <div
           className="dnb-form-row__content dnb-form-row__content--indent_offset dnb-responsive-component"
@@ -330,6 +324,9 @@ legend.dnb-form-label {
         flex-direction: column; }
         .dnb-form-row:not(.dnb-form-row--vertical) > .dnb-form-row__content > .dnb-form-label {
           margin-top: 1rem; } }
+  @media screen and (min-width: 40em) {
+    .dnb-form-row--centered.dnb-form-row:not(.dnb-form-row--vertical) .dnb-form-row__content {
+      align-items: center; } }
   .dnb-form-row--vertical > .dnb-form-row__label {
     margin-bottom: 0.5rem; }
   .dnb-form-row--vertical > .dnb-form-row__content, .dnb-form-row--vertical.dnb-form-row:not(.dnb-form-row--nested) {

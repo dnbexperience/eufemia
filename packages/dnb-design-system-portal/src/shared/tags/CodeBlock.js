@@ -15,7 +15,9 @@ import Code from '../parts/uilib/Code'
 import { Button } from 'dnb-ui-lib/src/components'
 import { P } from 'dnb-ui-lib/src/elements'
 import { makeUniqueId } from 'dnb-ui-lib/src/shared/component-helper'
+import { Context } from 'dnb-ui-lib/src/shared'
 import AutoLinkHeader from './AutoLinkHeader'
+import { createSkeletonClass } from 'dnb-ui-lib/src/components/skeleton/SkeletonHelper'
 
 import {
   generateElement,
@@ -83,6 +85,8 @@ const CodeBlock = ({
 export default CodeBlock
 
 class LiveCode extends React.PureComponent {
+  static contextType = Context
+
   static propTypes = {
     code: PropTypes.string.isRequired,
     scope: PropTypes.object,
@@ -99,6 +103,7 @@ class LiveCode extends React.PureComponent {
     hideSyntaxButton: PropTypes.bool,
     language: PropTypes.string
   }
+
   static defaultProps = {
     scope: {},
     title: null,
@@ -153,15 +158,14 @@ class LiveCode extends React.PureComponent {
   prepareCode(code) {
     code = String(code).trim()
     if (
-      /data-dnb-test/.test(code) &&
+      /data-visual-test/.test(code) &&
       // remove test attribute only if: we run live, and are not not test
       typeof window !== 'undefined' &&
       !window.IS_TEST
     ) {
-      code = code
-        .replace(/\s+data-dnb-test="[^"]*"/g, '') // remove test data
-        .replace(/^\s*$(?:\r\n?|\n)/gm, '') // remove empty lines
+      code = code.replace(/\s+data-visual-test="[^"]*"/g, '') // remove test data
     }
+    // code = code.replace(/^\s*$(?:\r\n?|\n)/gm, '') // remove empty lines
     return code
   }
 
@@ -182,7 +186,7 @@ class LiveCode extends React.PureComponent {
       hidePreview: _hidePreview, // eslint-disable-line
       showSyntax: _showSyntax, // eslint-disable-line
       hideSyntaxButton: _hideSyntaxButton, // eslint-disable-line
-      'data-dnb-test': dnbTest, // eslint-disable-line
+      'data-visual-test': visualTest, // eslint-disable-line
 
       ...props
     } = this.props
@@ -203,11 +207,11 @@ class LiveCode extends React.PureComponent {
       return <span>No Code provided</span>
     }
 
-    const IS_TEST = typeof window !== 'undefined' && window.IS_TEST
     const id = makeUniqueId()
 
-    if (IS_TEST && typeof document !== 'undefined') {
-      document.documentElement.setAttribute('data-dnb-test', true)
+    // Add the html attribute, only so we can run it locally during dev
+    if (global.IS_TEST && typeof document !== 'undefined') {
+      document.documentElement.setAttribute('data-visual-test', true)
     }
 
     return (
@@ -229,7 +233,7 @@ class LiveCode extends React.PureComponent {
                 <AutoLinkHeader
                   level={3}
                   // is="h3"
-                  useSlug={dnbTest}
+                  useSlug={visualTest}
                   title={title}
                   addToSearchIndex={addToSearchIndex}
                 >
@@ -253,12 +257,13 @@ class LiveCode extends React.PureComponent {
                   }}
                 />
               )}
+
               <div className="example-box">
                 <LivePreview
-                  data-dnb-test={dnbTest}
                   className="dnb-live-preview"
+                  data-visual-test={visualTest}
                 />
-                {caption && (
+                {!global.IS_TEST && caption && (
                   <ReactMarkdown
                     source={caption}
                     escapeHtml={false}
@@ -269,9 +274,13 @@ class LiveCode extends React.PureComponent {
               </div>
             </>
           )}
-          {!IS_TEST && !hideCode && (
+          {!global.IS_TEST && !hideCode && (
             <div
-              className={classnames('dnb-pre', 'dnb-live-editor')}
+              className={classnames(
+                'dnb-pre',
+                'dnb-live-editor',
+                createSkeletonClass('code', this.context.skeleton)
+              )}
               ref={this._refEditor}
             >
               <label className="dnb-sr-only" htmlFor={id}>
@@ -328,8 +337,8 @@ class LiveCode extends React.PureComponent {
           {!hideCode && (
             <LiveError className="dnb-form-status dnb-form-status--text dnb-form-status--error" />
           )}
-          {!IS_TEST && !hideToolbar && (
-            <Toolbar>
+          {!global.IS_TEST && !hideToolbar && (
+            <Toolbar className="dnb-live-toolbar">
               {!hideCode && !hideSyntaxButton && (
                 <Button
                   className="toggle-button"
@@ -365,7 +374,7 @@ class LiveCode extends React.PureComponent {
               )}
             </Toolbar>
           )}
-          {!IS_TEST && showSyntax && (
+          {!global.IS_TEST && showSyntax && (
             <Syntax>
               <Code
                 source={generateElement({

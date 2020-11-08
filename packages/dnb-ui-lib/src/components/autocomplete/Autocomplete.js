@@ -42,225 +42,231 @@ import {
   getCurrentData
 } from '../../fragments/drawer-list/DrawerListHelpers'
 
-const renderProps = {
-  on_show: null,
-  on_hide: null,
-  on_change: null,
-  on_select: null,
-  on_state_update: null,
-  input_component: null
-}
+export default class Autocomplete extends React.PureComponent {
+  static tagName = 'dnb-autocomplete'
 
-const propTypes = {
-  id: PropTypes.string,
-  mode: PropTypes.oneOf(['sync', 'async']),
-  title: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
-  placeholder: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
-  no_options: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
-  show_all: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
-  aria_live_options: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.node
-  ]),
-  indicator_label: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
-  submit_button_title: PropTypes.string,
-  icon: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.node,
-    PropTypes.func
-  ]),
-  icon_size: PropTypes.string,
-  icon_position: PropTypes.oneOf(['left', 'right']),
-  triangle_position: PropTypes.oneOf(['left', 'right']),
-  input_icon: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.node,
-    PropTypes.func
-  ]),
-  label: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-    PropTypes.node
-  ]),
-  label_direction: PropTypes.oneOf(['horizontal', 'vertical']),
-  label_sr_only: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  keep_value: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  status: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-    PropTypes.node
-  ]),
-  status_state: PropTypes.string,
-  status_animation: PropTypes.string,
-  global_status_id: PropTypes.string,
-  suffix: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-    PropTypes.node
-  ]),
-  disable_filter: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  disable_reorder: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  scrollable: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  focusable: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  disable_highlighting: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.bool
-  ]),
-  direction: PropTypes.oneOf(['auto', 'top', 'bottom']),
-  max_height: PropTypes.number,
-  skip_portal: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  no_animation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  no_scroll_animation: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.bool
-  ]),
-  show_submit_button: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.bool
-  ]),
-  prevent_selection: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.bool
-  ]),
-  size: PropTypes.oneOf(['default', 'small', 'medium', 'large']),
-  align_autocomplete: PropTypes.oneOf(['left', 'right']),
-  options_render: PropTypes.oneOfType([
-    PropTypes.object,
-    PropTypes.func,
-    PropTypes.node
-  ]),
-  input_component: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
-  data: PropTypes.oneOfType([
-    PropTypes.oneOfType([
+  static propTypes = {
+    id: PropTypes.string,
+    mode: PropTypes.oneOf(['sync', 'async']),
+    title: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
+    placeholder: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
+    no_options: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
+    show_all: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
+    aria_live_options: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.node
+    ]),
+    indicator_label: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.node
+    ]),
+    submit_button_title: PropTypes.string,
+    icon: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.node,
+      PropTypes.func
+    ]),
+    icon_size: PropTypes.string,
+    icon_position: PropTypes.oneOf(['left', 'right']),
+    triangle_position: PropTypes.oneOf(['left', 'right']),
+    input_icon: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.node,
+      PropTypes.func
+    ]),
+    label: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.func,
+      PropTypes.node
+    ]),
+    label_direction: PropTypes.oneOf(['horizontal', 'vertical']),
+    label_sr_only: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    keep_value: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    status: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.func,
+      PropTypes.node
+    ]),
+    status_state: PropTypes.string,
+    status_animation: PropTypes.string,
+    global_status_id: PropTypes.string,
+    suffix: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.func,
+      PropTypes.node
+    ]),
+    disable_filter: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool
+    ]),
+    disable_reorder: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool
+    ]),
+    scrollable: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    focusable: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    disable_highlighting: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool
+    ]),
+    direction: PropTypes.oneOf(['auto', 'top', 'bottom']),
+    max_height: PropTypes.number,
+    skip_portal: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    no_animation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    no_scroll_animation: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool
+    ]),
+    show_submit_button: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool
+    ]),
+    prevent_selection: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool
+    ]),
+    size: PropTypes.oneOf(['default', 'small', 'medium', 'large']),
+    align_autocomplete: PropTypes.oneOf(['left', 'right']),
+    options_render: PropTypes.oneOfType([
+      PropTypes.object,
+      PropTypes.func,
+      PropTypes.node
+    ]),
+    input_component: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
+    data: PropTypes.oneOfType([
+      PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.func,
+        PropTypes.node,
+        PropTypes.object
+      ]),
+      PropTypes.arrayOf(
+        PropTypes.oneOfType([
+          PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
+          PropTypes.shape({
+            selected_value: PropTypes.oneOfType([
+              PropTypes.string,
+              PropTypes.node
+            ]),
+            content: PropTypes.oneOfType([
+              PropTypes.string,
+              PropTypes.node,
+              PropTypes.arrayOf(PropTypes.string)
+            ])
+          })
+        ])
+      )
+    ]),
+    search_in_word_index: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number
+    ]),
+    default_value: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number
+    ]),
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    input_value: PropTypes.string,
+    open_on_focus: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    prevent_close: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    keep_open: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    opened: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    drawer_class: PropTypes.string,
+    class: PropTypes.string,
+
+    className: PropTypes.string,
+    children: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.func,
       PropTypes.node,
-      PropTypes.object
+      PropTypes.object,
+      PropTypes.array
     ]),
-    PropTypes.arrayOf(
-      PropTypes.oneOfType([
-        PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
-        PropTypes.shape({
-          selected_value: PropTypes.oneOfType([
-            PropTypes.string,
-            PropTypes.node
-          ]),
-          content: PropTypes.oneOfType([
-            PropTypes.string,
-            PropTypes.node,
-            PropTypes.arrayOf(PropTypes.string)
-          ])
-        })
-      ])
-    )
-  ]),
-  search_in_word_index: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number
-  ]),
-  default_value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  input_value: PropTypes.string,
-  open_on_focus: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  prevent_close: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  keep_open: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  opened: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  drawer_class: PropTypes.string,
-  input_ref: PropTypes.object,
-  class: PropTypes.string,
 
-  // React
-  className: PropTypes.string,
-  children: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-    PropTypes.node,
-    PropTypes.object,
-    PropTypes.array
-  ]),
+    custom_element: PropTypes.object,
+    custom_method: PropTypes.func,
 
-  // Web Component props
-  custom_element: PropTypes.object,
-  custom_method: PropTypes.func,
+    on_show: PropTypes.func,
+    on_hide: PropTypes.func,
+    on_change: PropTypes.func,
+    on_select: PropTypes.func,
+    on_state_update: PropTypes.func
+  }
 
-  on_show: PropTypes.func,
-  on_hide: PropTypes.func,
-  on_change: PropTypes.func,
-  on_select: PropTypes.func,
-  on_state_update: PropTypes.func
-}
+  static defaultProps = {
+    id: null,
+    mode: 'sync',
+    title: 'Option Menu',
+    placeholder: null,
+    no_options: null,
+    show_all: null,
+    aria_live_options: null,
+    indicator_label: null,
+    submit_button_title: null,
+    icon: 'chevron_down',
+    icon_size: null,
+    icon_position: 'left',
+    triangle_position: null,
+    input_icon: 'search',
+    label: null,
+    label_direction: null,
+    label_sr_only: null,
+    keep_value: null,
+    status: null,
+    status_state: 'error',
+    status_animation: null,
+    global_status_id: null,
+    suffix: null,
+    disable_filter: false,
+    disable_reorder: false,
+    scrollable: true,
+    focusable: false,
+    disable_highlighting: false,
+    max_height: null,
+    direction: 'auto',
+    skip_portal: null,
+    no_animation: false,
+    no_scroll_animation: false,
+    show_submit_button: false,
+    prevent_selection: false,
+    size: 'default',
+    align_autocomplete: null,
+    data: null,
+    search_in_word_index: 3,
+    default_value: null,
+    value: 'initval',
+    input_value: 'initval',
+    open_on_focus: false,
+    prevent_close: false,
+    keep_open: false,
+    opened: null,
+    disabled: null,
+    skeleton: null,
+    drawer_class: null,
+    class: null,
 
-const defaultProps = {
-  id: null,
-  mode: 'sync',
-  title: 'Option Menu',
-  placeholder: null,
-  no_options: null,
-  show_all: null,
-  aria_live_options: null,
-  indicator_label: null,
-  submit_button_title: null,
-  icon: 'chevron_down',
-  icon_size: null,
-  icon_position: 'left',
-  triangle_position: null,
-  input_icon: 'search',
-  label: null,
-  label_direction: null,
-  label_sr_only: null,
-  keep_value: null,
-  status: null,
-  status_state: 'error',
-  status_animation: null,
-  global_status_id: null,
-  suffix: null,
-  disable_filter: false,
-  disable_reorder: false,
-  scrollable: true,
-  focusable: false,
-  disable_highlighting: false,
-  max_height: null,
-  direction: 'auto',
-  skip_portal: null,
-  no_animation: false,
-  no_scroll_animation: false,
-  show_submit_button: false,
-  prevent_selection: false,
-  size: 'default',
-  align_autocomplete: null,
-  data: null,
-  search_in_word_index: 3,
-  default_value: null,
-  value: 'initval',
-  input_value: 'initval',
-  open_on_focus: false,
-  prevent_close: false,
-  keep_open: false,
-  opened: null,
-  disabled: null,
-  drawer_class: null,
-  input_ref: null,
-  class: null,
+    className: null,
+    children: null,
 
-  // React props
-  className: null,
-  children: null,
+    custom_element: null,
+    custom_method: null,
 
-  // Web Component props
-  custom_element: null,
-  custom_method: null,
-  ...renderProps
-}
-
-export default class Autocomplete extends React.PureComponent {
-  static tagName = 'dnb-autocomplete'
-  static propTypes = propTypes
-  static defaultProps = defaultProps
-  static renderProps = renderProps
+    on_show: null,
+    on_hide: null,
+    on_change: null,
+    on_select: null,
+    on_state_update: null,
+    input_component: null
+  }
 
   static enableWebComponent() {
-    registerElement(Autocomplete.tagName, Autocomplete, defaultProps)
+    registerElement(
+      Autocomplete.tagName,
+      Autocomplete,
+      Autocomplete.defaultProps
+    )
   }
 
   render() {
@@ -281,8 +287,8 @@ export default class Autocomplete extends React.PureComponent {
 }
 
 class AutocompleteInstance extends React.PureComponent {
-  static propTypes = propTypes
-  static defaultProps = defaultProps
+  static propTypes = Autocomplete.propTypes
+  static defaultProps = Autocomplete.defaultProps
   static contextType = DrawerListContext
 
   static parseDataItem(dataItem) {
@@ -1326,7 +1332,7 @@ class AutocompleteInstance extends React.PureComponent {
     // use only the props from context, who are available here anyway
     const props = (this._props = extendPropsWithContext(
       this.props,
-      defaultProps,
+      Autocomplete.defaultProps,
       this.context.formRow,
       this.context.translation.Autocomplete
     ))
@@ -1366,6 +1372,7 @@ class AutocompleteInstance extends React.PureComponent {
       className,
       class: _className,
       disabled,
+      skeleton,
       triangle_position,
       icon_position,
       skip_portal,
@@ -1449,6 +1456,8 @@ class AutocompleteInstance extends React.PureComponent {
       value: inputValue,
       autoCapitalize: 'none',
       spellCheck: 'false',
+      autoCorrect: 'off',
+      autoComplete: 'off',
 
       // ARIA
       role: 'combobox', // we need combobox twice to make it properly work on VO
@@ -1467,6 +1476,7 @@ class AutocompleteInstance extends React.PureComponent {
       icon_position,
       inner_ref: input_ref,
       disabled,
+      skeleton,
       ...attributes
     }
 
@@ -1512,6 +1522,7 @@ class AutocompleteInstance extends React.PureComponent {
 
     if (showStatus || suffix) {
       inputParams['aria-describedby'] = [
+        inputParams['aria-describedby'],
         showStatus ? id + '-status' : null,
         suffix ? id + '-suffix' : null
       ]
@@ -1536,6 +1547,7 @@ class AutocompleteInstance extends React.PureComponent {
             label_direction={label_direction}
             sr_only={label_sr_only}
             disabled={disabled}
+            skeleton={skeleton}
             onMouseDown={this.toggleVisible}
           />
         )}
@@ -1547,10 +1559,12 @@ class AutocompleteInstance extends React.PureComponent {
             <FormStatus
               id={id + '-form-status'}
               global_status_id={global_status_id}
+              label={label}
               text_id={id + '-status'} // used for "aria-describedby"
               text={status}
               status={status_state}
               animation={status_animation}
+              skeleton={skeleton}
             />
           )}
 
@@ -1572,7 +1586,6 @@ class AutocompleteInstance extends React.PureComponent {
                   }
                   size={size}
                   status={!opened && status ? status_state : null}
-                  autoComplete="off"
                   type={null}
                   submit_element={
                     isTrue(show_submit_button) ? (
@@ -1650,3 +1663,5 @@ class AutocompleteInstance extends React.PureComponent {
     )
   }
 }
+
+Autocomplete.HorizontalItem = DrawerList.HorizontalItem

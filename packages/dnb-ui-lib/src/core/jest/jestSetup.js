@@ -24,6 +24,7 @@ export {
   toHaveNoViolations
 }
 
+global.IS_TEST = true
 if (typeof window !== 'undefined') {
   window.IS_TEST = true
 }
@@ -41,7 +42,7 @@ export const loadScss = (file, options = {}) => {
     })
     return String(sassResult.css)
   } catch (e) {
-    console.log('Error', e)
+    console.error('loadScss error:', e)
     return e
   }
 }
@@ -59,39 +60,53 @@ export const mockGetSelection = () => {
     }
   })
 
-  const ranges = [
-    new (class Range {
-      constructor() {
-        this.startContainer = {
-          parentNode: document.createElement('div')
-        }
+  const mockRange = new (class Range {
+    constructor() {
+      this.startContainer = {
+        parentNode: document.createElement('div')
       }
-      getElement() {
-        return this.node
-      }
-      insertNode(elem) {
-        this.node = document.createElement('div')
-        this.node.appendChild(elem)
-        return this
-      }
-      cloneRange() {
-        return this
-      }
-    })()
-  ]
+    }
+    getElement() {
+      return this.node
+    }
+    insertNode(elem) {
+      this.node = document.createElement('div')
+      this.node.appendChild(elem)
+      return this
+    }
+    cloneRange() {
+      return this
+    }
+  })()
+
+  let ranges = [mockRange]
+
+  const mockValue = '1234.56'
+  let value = mockValue
+  let rangeCount = 9
+
+  class RangeObj {
+    rangeCount = rangeCount
+    toString = () => value
+    addRange(range = mockRange) {
+      value = mockValue
+      ranges.push(range)
+      rangeCount = ranges.length
+    }
+    getRangeAt(index) {
+      return ranges[index]
+    }
+    removeAllRanges() {
+      value = ''
+      ranges = []
+      rangeCount = ranges.length
+    }
+  }
+
   Object.defineProperty(window, 'getSelection', {
     configurable: true,
     value: () => {
-      return {
-        rangeCount: 9,
-        toString: () => '1234.56',
-        addRange: (range) => {
-          ranges.push(range)
-        },
-        getRangeAt: (index) => {
-          return ranges[index]
-        }
-      }
+      return new RangeObj()
     }
   })
 }
@@ -115,6 +130,12 @@ export const axeComponent = async (...components) => {
     `<main>${html}</main>`,
     typeof components[1] === 'object' ? components[1] : null
   )
+}
+
+export function attachToBody() {
+  let container = document.createElement('div')
+  document.body.append(container)
+  return container
 }
 
 function jestSetup() {}

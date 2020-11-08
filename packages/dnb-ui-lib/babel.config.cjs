@@ -36,14 +36,12 @@ if (process.env.BABEL_ENV === 'es') {
   ]
 }
 
-// Produciton plugins
-const plugins = [
+const productionPlugins = [
   '@babel/plugin-transform-react-constant-elements',
-  'babel-plugin-transform-dev-warning',
   [
     'babel-plugin-react-remove-properties',
     {
-      properties: ['data-dnb-test', 'data-dnb-test-wrapper']
+      properties: ['data-visual-test', 'data-visual-test-wrapper']
     }
   ],
   [
@@ -55,7 +53,7 @@ const plugins = [
 ]
 
 if (typeof process.env.BABEL_ENV !== 'undefined') {
-  plugins.push([
+  productionPlugins.push([
     'babel-plugin-search-and-replace',
     {
       rules: [
@@ -75,7 +73,7 @@ module.exports = {
     '@babel/plugin-proposal-export-default-from',
     ['@babel/plugin-proposal-object-rest-spread', { loose: true }],
     ['@babel/plugin-proposal-class-properties', { loose: true }],
-    '@babel/plugin-transform-runtime',
+    '@babel/plugin-proposal-optional-chaining',
     '@babel/plugin-transform-object-assign' // for IE support
   ],
   sourceMaps: true,
@@ -84,32 +82,34 @@ module.exports = {
   env: {
     cjs: {
       presets: legacy,
-      plugins: plugins.concat(['@babel/plugin-transform-modules-commonjs'])
+      plugins: productionPlugins.concat([
+        '@babel/plugin-transform-modules-commonjs'
+      ])
     },
     esm: {
       presets: legacy,
       plugins: [
-        ...plugins,
+        ...productionPlugins,
         ['@babel/plugin-transform-runtime', { useESModules: true }]
       ]
     },
     es: {
       plugins: [
-        ...plugins,
+        ...productionPlugins,
         ['@babel/plugin-transform-runtime', { useESModules: true }]
       ]
     },
     umd: {
       presets: legacy,
       plugins: [
-        ...plugins,
+        ...productionPlugins,
         ['@babel/plugin-transform-runtime', { useESModules: true }]
       ]
     },
     production: {
       presets: legacy,
       plugins: [
-        ...plugins,
+        ...productionPlugins,
         ['@babel/plugin-transform-runtime', { useESModules: true }]
       ]
     },
@@ -120,13 +120,13 @@ module.exports = {
           '@babel/preset-env',
           {
             targets: {
-              node: '10.6'
+              node: '14.10'
             }
           }
         ],
         '@babel/preset-react'
       ],
-      plugins: [...plugins, 'transform-dynamic-import']
+      plugins: ['transform-dynamic-import']
     }
   }
 }

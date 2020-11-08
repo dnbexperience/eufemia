@@ -12,10 +12,6 @@ import {
 } from '../../../core/jest/jestSetup'
 import Component from '../InputMasked'
 
-// just to make sure we re-run the test in watch mode due to changes in theese files
-import _input_masked from '../style/_input-masked.scss' // eslint-disable-line
-import dnb_input_masked from '../style/dnb-input-masked.scss' // eslint-disable-line
-
 const props = {
   ...fakeProps(require.resolve('../InputMasked'), {
     optional: true
@@ -46,6 +42,14 @@ describe('InputMasked component', () => {
     )
 
     expect(Comp.find('input').instance().value).toBe('NOK 1 000 000,- kr.')
+  })
+
+  it('gets valid ref element', () => {
+    const ref = React.createRef()
+    mount(<Component {...props} inner_ref={ref} />)
+
+    expect(ref.current instanceof window.HTMLInputElement).toBe(true)
+    expect(ref.current.id).toBe(props.id)
   })
 })
 

@@ -14,10 +14,6 @@ import {
 import Component from '../Icon'
 import { question } from './test-files'
 
-// just to make sure we re-run the test in watch mode due to changes in theese files
-import _icon from '../style/_icon.scss' // eslint-disable-line
-import dnb_icon from '../style/dnb-icon.scss' // eslint-disable-line
-
 const props = fakeProps(require.resolve('../Icon'), {
   optional: true
 })

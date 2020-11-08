@@ -14,6 +14,33 @@ NB! Modal dialogs interrupt users and demand an action. They are appropriate whe
 
 The modal can be triggered from either a button or by using the `open_state` property. Triggering a modal will activate the opaque overlay and display the contents.
 
+### Help button
+
+As the Modal is very often used in combination with other components and often as a enhancement of contextual content, it comes with a trigger button ([HelpButton](/uilib/components/help-button)) with a question mark icon by default. You can for sure disable that behavior by using `trigger_hidden="true"`.
+
+You can also used the broadly available `suffix` property, like so:
+
+```jsx
+<Input
+  label="Input"
+  placeholder="Placeholder ..."
+  suffix={<HelpButton>Help text</HelpButton>}
+/>
+```
+
+### Accessibility
+
+In order to make modals accessible, a lot of things are considered.
+
+Entering a Modal / Drawer will:
+
+1. Set focus on the heading or close button.
+2. Enable escape key listener.
+3. Invalidate every DOM element outside of the Modal / Drawer, so they are not accessible to keyboard and screen reader users. For doing that, there is a [helper function](/uilib/helpers/functions#interactioninvalidation-example) to be used in your application as well.
+4. Disable the body scroll possibility.
+5. Make the Modal / Drawer scrollable if needed.
+6. Dim the body / background with an overlay
+
 ### Structure and content
 
 Typically an opaque cover over the main content (fullscreen) and a small centered box containing information and interactive elements (buttons, forms etc.)
@@ -91,15 +118,25 @@ You have the properties `min_width` and `max_width`. But by using these, the wid
 }
 ```
 
+## Inner section wrapper
+
+In order to make it easier to have another colored area below the title, you can make use of the extra wrapper `<Modal.Inner>`. Underneath, the [Section](/uilib/components/section) is used, but with the color `black-3` as default. This extra "section" is also customized to work together with the Modal and Drawer component.
+
+```jsx
+<Modal mode="drawer">
+  <Modal.Inner spacing>Modal Content</Modal.Inner>
+</Modal>
+```
+
 ## Styles and `dnb-core-style`
 
-The Modal component comes with the `dnb-core-style` class predefined by default. If you don't want this behavior because of e.g. CSS specificity, you can opt out by setting this property `prevent_core_style="true"`.
+The Modal component comes with the `dnb-core-style` class predefined by default. If you don't want this behavior because of e.g. CSS specificity, you can opt out by setting this property `prevent_core_style` to true.
 
 ```jsx
 /* The CSS class is set by default */
 <Modal className="dnb-core-style">...</Modal>
 
-/* You have the option to set it like this as well */
+/* You have the option to set it like this as well as markup only */
 <body>
   <div id="app" />
   <div id="dnb-modal-root" class="dnb-core-style" />

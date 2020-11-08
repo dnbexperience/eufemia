@@ -10,90 +10,80 @@ import {
   isTrue,
   extendPropsWithContext,
   registerElement,
+  processChildren,
   validateDOMAttributes
 } from '../../shared/component-helper'
 import Context from '../../shared/Context'
 import { createSpacingClasses, isInline } from './SpacingHelper'
-
-const renderProps = {
-  render_content: null
-}
-
-const propTypes = {
-  id: PropTypes.string,
-  element: PropTypes.string,
-  inline: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  no_collapse: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  top: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number,
-    PropTypes.bool
-  ]),
-  right: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number,
-    PropTypes.bool
-  ]),
-  bottom: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number,
-    PropTypes.bool
-  ]),
-  left: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number,
-    PropTypes.bool
-  ]),
-  class: PropTypes.string,
-
-  /** React props */
-  className: PropTypes.string,
-  children: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-    PropTypes.node
-  ]),
-
-  // Web Component props
-  render_content: PropTypes.func
-}
-
-const defaultProps = {
-  id: null,
-  element: 'div',
-  inline: null,
-  no_collapse: null, // avoid margin collapsing
-  top: null,
-  right: null,
-  bottom: null,
-  left: null,
-  class: null,
-
-  /** React props */
-  className: null,
-  children: null,
-
-  // Web Component props
-  ...renderProps
-}
+import {
+  skeletonDOMAttributes,
+  createSkeletonClass
+} from '../skeleton/SkeletonHelper'
 
 export default class Space extends React.PureComponent {
   static tagName = 'dnb-space'
-  static propTypes = propTypes
-  static defaultProps = defaultProps
   static contextType = Context
 
+  static propTypes = {
+    id: PropTypes.string,
+    element: PropTypes.string,
+    inline: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    no_collapse: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    top: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number,
+      PropTypes.bool
+    ]),
+    right: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number,
+      PropTypes.bool
+    ]),
+    bottom: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number,
+      PropTypes.bool
+    ]),
+    left: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number,
+      PropTypes.bool
+    ]),
+    skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    class: PropTypes.string,
+
+    /** React props */
+    className: PropTypes.string,
+    children: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.func,
+      PropTypes.node
+    ])
+  }
+
+  static defaultProps = {
+    id: null,
+    element: 'div',
+    inline: null,
+    no_collapse: null, // avoid margin collapsing
+    top: null,
+    right: null,
+    bottom: null,
+    left: null,
+    skeleton: null,
+    class: null,
+
+    /** React props */
+    className: null,
+    children: null
+  }
+
   static enableWebComponent() {
-    registerElement(Space.tagName, Space, defaultProps)
+    registerElement(Space.tagName, Space, Space.defaultProps)
   }
 
   static getContent(props) {
-    if (typeof props.render_content === 'function')
-      props.render_content(props)
-
-    return typeof props.children === 'function'
-      ? props.children(props)
-      : props.children
+    return processChildren(props)
   }
 
   render() {
@@ -102,7 +92,8 @@ export default class Space extends React.PureComponent {
       ? // use only the props from context, who are available here anyway
         extendPropsWithContext(
           this.props,
-          defaultProps,
+          Space.defaultProps,
+          { skeleton: this.context?.skeleton },
           this.context.space
         )
       : this.props
@@ -115,6 +106,7 @@ export default class Space extends React.PureComponent {
       right,
       bottom,
       left,
+      skeleton,
       id: _id, // eslint-disable-line
       className,
       class: _className,
@@ -129,12 +121,15 @@ export default class Space extends React.PureComponent {
       className: classnames(
         'dnb-space',
         isTrue(inline) && 'dnb-space--inline',
+        createSkeletonClass(null, skeleton), // do not send along this.context
         createSpacingClasses({ top, right, bottom, left }),
         className,
         _className
       ),
       ...attributes
     }
+
+    skeletonDOMAttributes(params, skeleton) // do not send along this.context
 
     // also used for code markup simulation
     validateDOMAttributes(this.props, params)
@@ -148,21 +143,21 @@ export default class Space extends React.PureComponent {
 }
 
 const Element = ({ element: E, no_collapse, children, ...props }) => {
-  const doCollaps = isTrue(no_collapse)
+  if (isTrue(no_collapse)) {
+    const R = E === 'span' || isInline(Element) ? 'span' : 'div'
+    return (
+      <R
+        className={classnames(
+          'dnb-space--no-collapse',
+          isInline(Element) && 'dnb-space--inline'
+        )}
+      >
+        <E {...props}>{children}</E>
+      </R>
+    )
+  }
 
-  return doCollaps ? (
-    <E
-      element={isInline(Element) ? 'span' : 'div'}
-      className={classnames(
-        'dnb-space--no-collapse',
-        isInline(Element) && 'dnb-space--inline'
-      )}
-    >
-      <E {...props}>{children}</E>
-    </E>
-  ) : (
-    <E {...props}>{children}</E>
-  )
+  return <E {...props}>{children}</E>
 }
 Element.propTypes = {
   children: PropTypes.node,

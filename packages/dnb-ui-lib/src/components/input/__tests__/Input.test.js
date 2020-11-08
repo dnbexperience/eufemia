@@ -13,11 +13,6 @@ import {
 } from '../../../core/jest/jestSetup'
 import Component from '../Input'
 
-// just to make sure we re-run the test in watch mode due to changes in theese files
-import _input from '../style/_input.scss' // eslint-disable-line
-import dnb_input from '../style/dnb-input.scss' // eslint-disable-line
-import dnb_input_theme_ui from '../style/themes/dnb-input-theme-ui.scss' // eslint-disable-line
-
 const props = {
   ...fakeProps(require.resolve('../Input'), {
     all: true,
@@ -74,6 +69,16 @@ describe('Input component', () => {
     )
 
     expect(Comp.state().value).toBe(newValue)
+  })
+
+  it('gets valid ref element', () => {
+    const ref = React.createRef()
+    const Comp = mount(<Component {...props} inner_ref={ref} />)
+
+    expect(Comp.instance()._ref.current).toBe(ref.current)
+    expect(
+      Comp.instance()._ref.current instanceof window.HTMLInputElement
+    ).toBe(true)
   })
 
   it('events gets emmited correctly: "on_change" and "onKeyDown"', () => {

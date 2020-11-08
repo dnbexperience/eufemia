@@ -12,6 +12,7 @@
 import { registerElement } from '../shared/component-helper'
 
 // import all the aviable components
+import Accordion from './accordion/Accordion'
 import Autocomplete from './autocomplete/Autocomplete'
 import Button from './button/Button'
 import Checkbox from './checkbox/Checkbox'
@@ -24,6 +25,7 @@ import FormStatus from './form-status/FormStatus'
 import GlobalError from './global-error/GlobalError'
 import GlobalStatus from './global-status/GlobalStatus'
 import Heading from './heading/Heading'
+import HelpButton from './help-button/HelpButton'
 import Icon from './icon/Icon'
 import IconPrimary from './icon-primary/IconPrimary'
 import Input from './input/Input'
@@ -37,6 +39,7 @@ import Pagination from './pagination/Pagination'
 import ProgressIndicator from './progress-indicator/ProgressIndicator'
 import Radio from './radio/Radio'
 import Section from './section/Section'
+import Skeleton from './skeleton/Skeleton'
 import Slider from './slider/Slider'
 import Space from './space/Space'
 import StepIndicator from './step-indicator/StepIndicator'
@@ -48,6 +51,7 @@ import Tooltip from './tooltip/Tooltip'
 
 // define / export all the aviable components
 export {
+  Accordion,
   Autocomplete,
   Button,
   Checkbox,
@@ -60,6 +64,7 @@ export {
   GlobalError,
   GlobalStatus,
   Heading,
+  HelpButton,
   Icon,
   IconPrimary,
   Input,
@@ -73,6 +78,7 @@ export {
   ProgressIndicator,
   Radio,
   Section,
+  Skeleton,
   Slider,
   Space,
   StepIndicator,
@@ -85,6 +91,7 @@ export {
 
 export const getComponents = () => {
   return {
+    Accordion,
     Autocomplete,
     Button,
     Checkbox,
@@ -97,6 +104,7 @@ export const getComponents = () => {
     GlobalError,
     GlobalStatus,
     Heading,
+    HelpButton,
     Icon,
     IconPrimary,
     Input,
@@ -110,6 +118,7 @@ export const getComponents = () => {
     ProgressIndicator,
     Radio,
     Section,
+    Skeleton,
     Slider,
     Space,
     StepIndicator,

@@ -15,7 +15,7 @@ describe('ProgressIndicator screenshot', () => {
   it('have to match the static primary circular with 50 percentage', async () => {
     const screenshot = await testPageScreenshot({
       selector:
-        '[data-dnb-test="progress-indicator-circular--primary"] .dnb-progress-indicator'
+        '[data-visual-test="progress-indicator-circular--primary"] .dnb-progress-indicator'
     })
     expect(screenshot).toMatchImageSnapshot()
   })

@@ -32,6 +32,10 @@
   ],
   "rules": {
     "no-console": "off",
+    "react/self-closing-comp": ["warn", {
+      "component": true,
+      "html": true
+    }],
     "import/no-anonymous-default-export": [
       "error",
       {

@@ -17,10 +17,12 @@ import {
   isTrue,
   makeUniqueId,
   InteractionInvalidation,
+  extendPropsWithContext,
   validateDOMAttributes
 } from '../../shared/component-helper'
 import Button from '../button/Button'
 import ScrollView from '../../fragments/scroll-view/ScrollView'
+import Context from '../../shared/Context'
 
 export default class ModalContent extends React.PureComponent {
   static propTypes = {
@@ -29,20 +31,21 @@ export default class ModalContent extends React.PureComponent {
     mode: PropTypes.string,
     labelled_by: PropTypes.string,
     content_id: PropTypes.string,
-    title: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.node,
-      PropTypes.func
-    ]),
+    title: PropTypes.node,
     close_title: PropTypes.string,
     hide_close_button: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.bool
     ]),
+    spacing: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     prevent_close: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     prevent_core_style: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.bool
+    ]),
+    animation_duration: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number
     ]),
     no_animation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     no_animation_on_mobile: PropTypes.oneOfType([
@@ -58,7 +61,6 @@ export default class ModalContent extends React.PureComponent {
     content_class: PropTypes.string,
     overlay_class: PropTypes.string,
 
-    // React props
     closeModal: PropTypes.func.isRequired,
     className: PropTypes.string,
     children: PropTypes.oneOfType([
@@ -70,14 +72,16 @@ export default class ModalContent extends React.PureComponent {
 
   static defaultProps = {
     mode: null,
-    hide: false,
+    hide: null,
     labelled_by: null,
     content_id: null,
-    title: 'Lukk',
-    close_title: 'Lukk',
-    hide_close_button: false,
+    title: null,
+    close_title: null,
+    hide_close_button: null,
+    spacing: null,
     prevent_close: null,
     prevent_core_style: null,
+    animation_duration: null,
     no_animation: null,
     no_animation_on_mobile: null,
     min_width: null,
@@ -89,7 +93,6 @@ export default class ModalContent extends React.PureComponent {
     overlay_class: null,
     content_class: null,
 
-    // React props
     closeModal: null,
     className: null,
     children: null
@@ -98,13 +101,15 @@ export default class ModalContent extends React.PureComponent {
   constructor(props) {
     super(props)
     this._contentRef = React.createRef()
-    this._id = props.content_id || makeUniqueId()
-    this._ii = new InteractionInvalidation()
+    this._id = makeUniqueId()
+    this._ii = new InteractionInvalidation().setBypassSelector(
+      '.dnb-modal__content'
+    )
   }
 
   componentDidMount() {
     this.removeScrollPossibility()
-    this._ii.active()
+    this._ii.activate()
     this.setFocus()
   }
 
@@ -129,7 +134,7 @@ export default class ModalContent extends React.PureComponent {
         } catch (e) {
           warn(e)
         }
-      }, 300) // with this delay, the user can  press esc without an focus action first
+      }, parseFloat(this.props.animation_duration)) // with this delay, the user can press esc without an focus action first
     }
   }
 
@@ -154,7 +159,7 @@ export default class ModalContent extends React.PureComponent {
     switch (keycode(e)) {
       case 'esc':
         e.preventDefault()
-        this.props.closeModal(e)
+        this.props.closeModal(e, { ifIsLatest: true })
         break
     }
   }
@@ -168,9 +173,11 @@ export default class ModalContent extends React.PureComponent {
       modal_content,
       close_title,
       hide_close_button,
+      spacing,
       prevent_close, // eslint-disable-line
       open_delay, // eslint-disable-line
       prevent_core_style,
+      animation_duration, // eslint-disable-line
       no_animation,
       no_animation_on_mobile,
       min_width,
@@ -183,15 +190,15 @@ export default class ModalContent extends React.PureComponent {
       class: _className,
       content_class,
       overlay_class,
-      content_id, // eslint-disable-line
+      content_id,
       toggleOpenClose, // eslint-disable-line
       children, // eslint-disable-line
       ...rest
     } = this.props
 
-    const id = this._id
+    const id = content_id || this._id
 
-    // ensure the min/max dont conflict
+    // ensure the min/max don't conflict
     let minWidth = min_width
     let maxWidth = max_width
     if (minWidth && !maxWidth && parseFloat(minWidth) > 0) {
@@ -206,11 +213,14 @@ export default class ModalContent extends React.PureComponent {
       className: classnames(
         'dnb-modal__content',
         mode && `dnb-modal__content--${mode}`,
-        hide && 'dnb-modal__content--hide',
+        isTrue(hide) && 'dnb-modal__content--hide',
+        isTrue(spacing) && 'dnb-modal__content--spacing',
         align_content && `dnb-modal__content__align--${align_content}`,
         container_placement &&
           `dnb-modal__content--${container_placement}`,
-        fullscreen && 'dnb-modal__content--fullscreen',
+        isTrue(fullscreen)
+          ? 'dnb-modal__content--fullscreen'
+          : fullscreen === 'auto' && 'dnb-modal__content--auto-fullscreen',
         isTrue(no_animation) && 'dnb-modal__content--no-animation',
         isTrue(no_animation_on_mobile) &&
           'dnb-modal__content--no-animation-on-mobile',
@@ -220,7 +230,6 @@ export default class ModalContent extends React.PureComponent {
     }
 
     const innerParams = {
-      id,
       tabIndex: -1,
       className: classnames(
         'dnb-modal__content__inner',
@@ -237,7 +246,6 @@ export default class ModalContent extends React.PureComponent {
     }
 
     if (labelled_by) {
-      contentParams['aria-labelledby'] = labelled_by
       contentParams['aria-describedby'] = labelled_by
     }
     const overlayParams = {
@@ -257,13 +265,23 @@ export default class ModalContent extends React.PureComponent {
 
     return (
       <>
-        <div {...contentParams}>
+        <div id={id} {...contentParams}>
           <ScrollView {...innerParams} ref={this._contentRef}>
             {title && (
-              <h1 className="dnb-modal__title dnb-h--large">{title}</h1>
+              <h1
+                className={classnames(
+                  'dnb-modal__title',
+                  mode === 'drawer' ? 'dnb-h--x-large' : 'dnb-h--large'
+                )}
+              >
+                {title}
+              </h1>
             )}
             {!isTrue(hide_close_button) && (
-              <CloseButton on_click={closeModal} title={close_title} />
+              <CloseButton
+                on_click={closeModal}
+                close_title={close_title}
+              />
             )}
             <div className="dnb-modal__wrapper">{modal_content}</div>
           </ScrollView>
@@ -274,24 +292,56 @@ export default class ModalContent extends React.PureComponent {
   }
 }
 
-export const CloseButton = ({ on_click, title, className = null }) => (
-  <Button
-    type="button"
-    variant="secondary"
-    size="medium"
-    className={classnames('dnb-modal__close-button', className)}
-    icon="close"
-    icon_size="medium"
-    aria-label={title}
-    on_click={on_click}
-  />
-)
-CloseButton.propTypes = {
-  on_click: PropTypes.func.isRequired,
-  className: PropTypes.string,
-  title: PropTypes.string
-}
-CloseButton.defaultProps = {
-  className: null,
-  title: 'Lukk'
+export class CloseButton extends React.PureComponent {
+  static contextType = Context
+  static propTypes = {
+    style_type: PropTypes.oneOf(['button', 'cross']),
+    on_click: PropTypes.func.isRequired,
+    close_title: PropTypes.string,
+    className: PropTypes.string
+  }
+  static defaultProps = {
+    style_type: null,
+    close_title: null,
+    className: null
+  }
+
+  render() {
+    // use only the props from context, who are available here anyway
+    const {
+      on_click,
+      style_type,
+      close_title,
+      className = null,
+      ...rest
+    } = extendPropsWithContext(
+      this.props,
+      CloseButton.defaultProps,
+      this.context.formRow,
+      this.context.translation.Modal
+    )
+
+    if (style_type === 'cross') {
+      rest.icon_size = 'medium'
+    } else {
+      rest.size = 'large'
+      rest.icon_size = 'basis'
+      rest.text = close_title
+    }
+
+    return (
+      <Button
+        type="button"
+        variant="secondary"
+        className={classnames(
+          'dnb-modal__close-button',
+          style_type && `dnb-modal__close-button--${style_type}`,
+          className
+        )}
+        icon="close"
+        on_click={on_click}
+        {...rest}
+      />
+    )
+  }
 }

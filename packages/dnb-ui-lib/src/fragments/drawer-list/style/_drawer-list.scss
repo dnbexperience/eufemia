@@ -21,26 +21,30 @@
 
   @if $type == 'scale' {
     animation: drawer-list-scale-in 200ms ease-out 1 forwards;
+  } @else if $type == 'up' {
+    animation: drawer-list-slide-bottom-up 200ms ease-out 1 forwards;
   } @else {
     &:not(#{&}--no-animation) {
-      animation: drawer-list-slide-down 200ms ease-out 1 forwards;
+      animation: drawer-list-slide-top-down 200ms ease-out 1 forwards;
     }
-    html[data-dnb-test] &,
+    html[data-visual-test] &,
     &--no-animation {
-      animation: drawer-list-slide-down 1ms ease-out 1 forwards;
+      animation: drawer-list-slide-top-down 1ms ease-out 1 forwards;
     }
   }
 }
 @mixin closDrawerList($type: 'slide') {
   @if $type == 'scale' {
     animation: drawer-list-scale-out 150ms ease-out 1 forwards;
+  } @else if $type == 'up' {
+    animation: drawer-list-slide-bottom-down 200ms ease-out 1 forwards;
   } @else {
     &:not(#{&}--no-animation) {
-      animation: drawer-list-slide-up 150ms ease-out 1 forwards;
+      animation: drawer-list-slide-top-up 150ms ease-out 1 forwards;
     }
-    html[data-dnb-test] &,
+    html[data-visual-test] &,
     &--no-animation {
-      animation: drawer-list-slide-up 1ms ease-out 1 forwards;
+      animation: drawer-list-slide-top-up 1ms ease-out 1 forwards;
     }
   }
 }
@@ -79,7 +83,7 @@
     width: inherit;
     min-width: inherit;
 
-    // this is our relative startuing point on absolute positioning
+    // this is our relative starting point on absolute positioning
     &--portal {
       position: absolute;
       top: 0;
@@ -100,7 +104,6 @@
     left: 0;
     right: 0;
 
-    // width: 100%;
     width: inherit;
     min-width: inherit;
 
@@ -170,12 +173,16 @@
 
       outline: none;
 
-      width: 100%;
       margin: 0;
       padding: 1rem;
 
       color: inherit;
       background-color: var(--color-white);
+
+      // So e.g. an anchor gets aligned to left
+      > * {
+        align-self: self-start;
+      }
     }
 
     &__item {
@@ -184,7 +191,6 @@
       // So it has to be handled by project case
       overflow: hidden;
       text-overflow: ellipsis;
-      width: 100%;
     }
 
     &--ignore {
@@ -241,19 +247,19 @@
     }
   }
 
-  &--independent-width#{&}--right {
+  &--is-popup#{&}--right {
     position: absolute;
     left: auto;
     right: 0;
   }
 
   // size--default button left aligned
-  &--independent-width#{&}--left &__list {
+  &--is-popup#{&}--left &__list {
     left: -0.5rem;
   }
 
   // size--default button right aligned
-  &--independent-width#{&}--right &__list {
+  &--is-popup#{&}--right &__list {
     right: -0.5rem;
   }
 
@@ -290,10 +296,10 @@
   &--small#{&}--top &__list {
     bottom: var(--drawer-list-height--small);
   }
-  &--small#{&}--independent-width#{&}--left &__list {
+  &--small#{&}--is-popup#{&}--left &__list {
     left: -0.75rem;
   }
-  &--small#{&}--independent-width#{&}--right &__list {
+  &--small#{&}--is-popup#{&}--right &__list {
     right: -0.75rem;
   }
 
@@ -304,10 +310,10 @@
   &--medium#{&}--top &__list {
     bottom: var(--drawer-list-height--medium);
   }
-  &--medium#{&}--independent-width#{&}--left &__list {
+  &--medium#{&}--is-popup#{&}--left &__list {
     left: -0.25rem;
   }
-  &--medium#{&}--independent-width#{&}--right &__list {
+  &--medium#{&}--is-popup#{&}--right &__list {
     right: -0.25rem;
   }
 
@@ -321,15 +327,15 @@
   &--large &__triangle {
     margin: 0 1.25rem;
   }
-  &--large#{&}--independent-width#{&}--left &__list {
+  &--large#{&}--is-popup#{&}--left &__list {
     left: -0.25rem;
   }
-  &--large#{&}--independent-width#{&}--right &__list {
+  &--large#{&}--is-popup#{&}--right &__list {
     right: -0.25rem;
   }
 
   /* stylelint-disable-next-line  */
-  &--independent-width#{&}--right &__list {
+  &--is-popup#{&}--right &__list {
     left: auto;
   }
 
@@ -342,7 +348,7 @@
     right: 100%;
   }
 
-  // fix top in protal mode in one style declaration
+  // fix top in portal mode in one style declaration
   &__portal &--top &__list {
     top: auto;
     bottom: 0;
@@ -364,6 +370,7 @@
       height: 100vh;
       top: 0 !important;
       max-height: 100vh !important;
+      border-radius: 0;
     }
   }
 
@@ -373,6 +380,48 @@
   @media screen and (max-width: 40em), screen and (max-height: 40em) {
     &__portal &--mobile-view#{&}:not(.dnb-drawer-list--opened) &__list {
       @include closDrawerList('scale');
+    }
+  }
+
+  // action-menu
+  &--action-menu &__option {
+    &__inner {
+      flex-direction: row;
+      justify-content: flex-start;
+      align-items: center;
+    }
+  }
+  &--action-menu &__options {
+    border-radius: 0;
+  }
+  @media screen and (min-width: 40em) {
+    &--action-menu#{&}--is-popup#{&}--left &__list {
+      left: 0;
+    }
+    &--action-menu#{&}--is-popup#{&}--right &__list {
+      right: 0;
+    }
+  }
+  @media screen and (max-width: 40em), screen and (max-height: 40em) {
+    &__portal &--mobile-view#{&}--action-menu &__list {
+      @include openDrawerList('up');
+    }
+    &__portal
+      &--mobile-view#{&}--action-menu#{&}:not(.dnb-drawer-list--opened)
+      &__list {
+      @include closDrawerList('up');
+    }
+    &__portal &--mobile-view#{&}--action-menu &__list,
+    &__portal &--mobile-view#{&}--action-menu &__options {
+      position: fixed;
+      top: auto !important;
+      right: 0 !important;
+      left: 0 !important;
+      bottom: 0 !important;
+      height: auto !important;
+      width: 100vw !important;
+
+      box-shadow: 0 -4px 4px rgba(0, 0, 0, 0.16);
     }
   }
 
@@ -411,7 +460,7 @@
   }
 }
 
-@keyframes drawer-list-slide-down {
+@keyframes drawer-list-slide-top-down {
   from {
     opacity: 0;
     transform: translateY(calc(1px - var(--drawer-list-height)));
@@ -422,7 +471,7 @@
   }
 }
 
-@keyframes drawer-list-slide-up {
+@keyframes drawer-list-slide-top-up {
   from {
     opacity: 1;
     transform: translateY(0);
@@ -430,5 +479,27 @@
   to {
     opacity: 0;
     transform: translateY(calc(1px - var(--drawer-list-height)));
+  }
+}
+
+@keyframes drawer-list-slide-bottom-down {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(calc(1px + var(--drawer-list-height)));
+  }
+}
+
+@keyframes drawer-list-slide-bottom-up {
+  from {
+    opacity: 0;
+    transform: translateY(calc(1px + var(--drawer-list-height)));
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }

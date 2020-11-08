@@ -26,11 +26,14 @@
   &--lavender::after {
     color: var(--color-lavender);
   }
-  &-sand-yellow::after {
+  &--sand-yellow::after {
     color: var(--color-sand-yellow);
   }
   &--pistachio::after {
     color: var(--color-pistachio);
+  }
+  &--black-3::after {
+    color: var(--color-black-3);
   }
   &--emerald-green {
     color: var(--color-mint-green);

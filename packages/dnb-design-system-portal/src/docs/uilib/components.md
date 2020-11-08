@@ -57,6 +57,10 @@ The GlobalStatus is a complex component meant for displaying global Application 
 
 The Heading component is a helper to create automated semantic headings within a boundary of some rules.
 
+## [HelpButton](/uilib/components/help-button)
+
+The help button uses a custom semantic, helping screen readers determine the meaning of that button.
+
 ## [Icon](/uilib/components/icon)
 
 The main Icon component is basically a wrapper for whatever icon you place within it. This means a span wrapping an inline svg.

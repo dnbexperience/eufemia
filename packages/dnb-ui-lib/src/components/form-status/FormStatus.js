@@ -18,87 +18,89 @@ import {
 import { createSpacingClasses } from '../space/SpacingHelper'
 import Icon from '../icon/Icon'
 import GlobalStatusProvider from '../global-status/GlobalStatusProvider'
-
-const renderProps = {
-  render_content: null
-}
-
-const propTypes = {
-  id: PropTypes.string,
-  title: PropTypes.string,
-  text: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.bool,
-    PropTypes.func,
-    PropTypes.node
-  ]),
-  icon: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-    PropTypes.node
-  ]),
-  icon_size: PropTypes.string,
-  state: PropTypes.oneOfType([
-    PropTypes.bool,
-    PropTypes.string,
-    PropTypes.oneOf(['error', 'info'])
-  ]),
-  // status is Deprecated
-  status: PropTypes.oneOfType([
-    PropTypes.bool,
-    PropTypes.string,
-    PropTypes.oneOf(['error', 'info'])
-  ]),
-  global_status_id: PropTypes.string,
-  hidden: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  text_id: PropTypes.string,
-  width_selector: PropTypes.string,
-  class: PropTypes.string,
-  animation: PropTypes.string,
-
-  /** React props */
-  className: PropTypes.string,
-  children: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-    PropTypes.node
-  ]),
-
-  // Web Component props
-  render_content: PropTypes.func
-}
-
-const defaultProps = {
-  id: null,
-  title: null,
-  text: null,
-  icon: 'error',
-  icon_size: 'large',
-  state: 'error',
-  status: null, // Deprecated
-  global_status_id: null,
-  hidden: false,
-  text_id: null,
-  width_selector: null,
-  class: null,
-  animation: null, // could be 'fade-in'
-
-  /** React props */
-  className: null,
-  children: null,
-
-  // Web Component props
-  ...renderProps
-}
+import {
+  skeletonDOMAttributes,
+  createSkeletonClass
+} from '../skeleton/SkeletonHelper'
 
 export default class FormStatus extends React.PureComponent {
   static tagName = 'dnb-form-status'
-  static propTypes = propTypes
-  static defaultProps = defaultProps
   static contextType = Context
 
+  static propTypes = {
+    id: PropTypes.string,
+    title: PropTypes.string,
+    text: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool,
+      PropTypes.func,
+      PropTypes.node
+    ]),
+    label: PropTypes.node,
+    icon: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.func,
+      PropTypes.node
+    ]),
+    icon_size: PropTypes.string,
+    state: PropTypes.oneOfType([
+      PropTypes.bool,
+      PropTypes.string,
+      PropTypes.oneOf(['error', 'info'])
+    ]),
+    // status is Deprecated
+    status: PropTypes.oneOfType([
+      PropTypes.bool,
+      PropTypes.string,
+      PropTypes.oneOf(['error', 'info'])
+    ]),
+    global_status_id: PropTypes.string,
+    hidden: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    text_id: PropTypes.string,
+    width_selector: PropTypes.string,
+    width_element: PropTypes.object,
+    class: PropTypes.string,
+    animation: PropTypes.string,
+    skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+
+    /** React props */
+    className: PropTypes.string,
+    children: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.func,
+      PropTypes.node
+    ])
+  }
+
+  static defaultProps = {
+    id: null,
+    title: null,
+    text: null,
+    label: null,
+    icon: 'error',
+    icon_size: 'large',
+    state: 'error',
+    status: null, // Deprecated
+    global_status_id: null,
+    hidden: false,
+    text_id: null,
+    width_selector: null,
+    width_element: null,
+    class: null,
+    animation: null, // could be 'fade-in'
+    skeleton: null,
+
+    /** React props */
+    className: null,
+    children: null
+  }
+
   static enableWebComponent() {
-    registerElement(FormStatus.tagName, FormStatus, defaultProps)
+    registerElement(
+      FormStatus.tagName,
+      FormStatus,
+      FormStatus.defaultProps
+    )
   }
 
   static getContent(props) {
@@ -108,8 +110,6 @@ export default class FormStatus extends React.PureComponent {
       }
       return props.text
     }
-    if (typeof props.render_content === 'function')
-      props.render_content(props)
     return processChildren(props)
   }
 
@@ -133,29 +133,82 @@ export default class FormStatus extends React.PureComponent {
     return icon
   }
 
+  static getDerivedStateFromProps(props, state) {
+    if (state._id !== props.id) {
+      state.id = props.id
+    }
+
+    state._id = props.id
+
+    return state
+  }
+
+  state = { id: null }
+
   constructor(props) {
     super(props)
 
     // we do not use a random ID here, as we don't need it for now
-    this._id = props.id || makeUniqueId()
+    this.state.id = props.id || makeUniqueId()
 
     if (props.status !== 'info') {
       this.gsProvider = GlobalStatusProvider.init(
         props.global_status_id || 'main',
         (provider) => {
           // gets called once ready
-          const { text, state } = this.props
-          const status_id = this._id
+          const { state, text, label } = this.props
           provider.add({
             state,
-            status_id,
-            item: { text, status_id, status_anchor_url: true }
+            status_id: `${this.state.id}-gs`,
+            // show: true,
+            item: {
+              status_id: this.state.id,
+              text,
+              status_anchor_label: label,
+              status_anchor_url: true
+            }
           })
         }
       )
     }
 
     this._ref = React.createRef()
+  }
+
+  componentDidMount() {
+    if (this.gsProvider) {
+      this.gsProvider.isReady()
+    }
+
+    this.updateWidth()
+  }
+
+  componentDidUpdate(prevProps) {
+    if (
+      this.gsProvider &&
+      (prevProps.text !== this.props.text ||
+        prevProps.state !== this.props.state)
+    ) {
+      const { state, text, label } = this.props
+      const status_id = `${this.state.id}-gs`
+      this.gsProvider.update(
+        status_id,
+        {
+          state,
+          item: {
+            status_id: this.state.id,
+            text,
+            status_anchor_label: label,
+            status_anchor_url: true
+          }
+        },
+        {
+          preventRestack: true // because of the internal "close"
+        }
+      )
+    }
+
+    this.updateWidth()
   }
 
   correctStatus(state) {
@@ -167,101 +220,31 @@ export default class FormStatus extends React.PureComponent {
     return state
   }
 
-  componentDidMount() {
-    if (this.gsProvider) {
-      this.gsProvider.isReady()
-    }
-
+  updateWidth() {
     // set max-width to this form-status, using the "linked mother"
-    this.setMaxWidth()
+    if (this._ref.current) {
+      const { width_element, width_selector } = this.props
+      setMaxWidthToElement({
+        element: this._ref.current,
+        widthElement: width_element && width_element.current,
+        widthSelector: width_selector
+      })
+    }
   }
 
   componentWillUnmount() {
     if (this.gsProvider) {
-      this.gsProvider.remove(this._id)
+      const status_id = `${this.state.id}-gs`
+      this.gsProvider.remove(status_id)
     }
-  }
-
-  setMaxWidth(elem = null) {
-    const { text_id, width_selector } = this.props
-    if (text_id && this._ref.current && typeof document !== 'undefined') {
-      try {
-        let width = this.sumElementWidth(
-          elem ||
-            width_selector ||
-            (text_id.match(/^([a-z0-9]+)/) || [])[1],
-          this._ref.current
-        )
-
-        const minWidth = 12 * 16 // use 12rem, because thats the default width in chrome for an input
-        if (width < minWidth) {
-          width = minWidth
-        }
-
-        const remWidth = `${width / 16}rem`
-
-        const cS = window.getComputedStyle(this._ref.current)
-        const hasCustomWidth = this._ref.current.style.maxWidth
-          ? false
-          : (cS.minWidth !== '' && cS.minWidth !== 'auto') ||
-            (cS.maxWidth !== '' && cS.maxWidth !== 'none')
-
-        if (!hasCustomWidth) {
-          this._ref.current.style.maxWidth = remWidth
-        }
-      } catch (e) {
-        // skip logging
-      }
-    }
-  }
-
-  sumElementWidth = (selector, targetElement) => {
-    let width = 0
-    try {
-      // hide and show the target, so it don't distract the calculation
-      const display = targetElement.style.display
-      targetElement.style.display = 'none'
-
-      if (selector && selector.offsetWidth) {
-        width = selector.offsetWidth
-      } else {
-        // beside "width_selector" - which is straight forward, we
-        // also check if we can get an ID given by text_id
-        const ids = /,/.test(selector) ? selector.split(', ') : [selector]
-
-        width = ids.reduce((acc, cur) => {
-          const elem =
-            cur[0] === '.'
-              ? document.querySelector(cur)
-              : document.getElementById(cur)
-
-          if (elem && elem.offsetWidth > 0) {
-            // add additional one more spacing unit
-            // to make it more correct for small elements
-            if (acc > 0) {
-              acc += 16
-            }
-            acc += elem.offsetWidth
-          }
-
-          return acc
-        }, width)
-      }
-
-      // and show it again
-      targetElement.style.display = display
-    } catch (e) {
-      // skip logging
-    }
-
-    return width
   }
 
   render() {
     // use only the props from context, who are available here anyway
     const props = extendPropsWithContext(
       this.props,
-      defaultProps,
+      FormStatus.defaultProps,
+      { skeleton: this.context && this.context.skeleton },
       this.context.formRow
     )
 
@@ -280,6 +263,7 @@ export default class FormStatus extends React.PureComponent {
       text, // eslint-disable-line
       icon, // eslint-disable-line
       icon_size, // eslint-disable-line
+      skeleton, // eslint-disable-line
       children, // eslint-disable-line
 
       ...attributes
@@ -302,7 +286,7 @@ export default class FormStatus extends React.PureComponent {
       typeof contentToRender === 'string' && contentToRender.length > 0
 
     const params = {
-      id: this._id,
+      id: this.state.id,
       hidden,
       className: classnames(
         'dnb-form-status',
@@ -318,17 +302,18 @@ export default class FormStatus extends React.PureComponent {
       ...attributes
     }
     const textParams = {
-      className: classnames('dnb-form-status--text'),
+      className: classnames(
+        'dnb-form-status--text',
+        createSkeletonClass('font', skeleton, this.context)
+      ),
       id: text_id
     }
 
     if (hidden) {
       params['aria-hidden'] = hidden
-      // Deprecated: use the GlobalStatus and aria-live
-      // } else if (hasStringContent) {
-      //   // in case we send in a React component, whichs has its own state, then we dont want to have aria-live all the time active
-      //   params['aria-live'] = 'assertive'
     }
+
+    skeletonDOMAttributes(params, skeleton, this.context)
 
     // also used for code markup simulation
     validateDOMAttributes(this.props, params)
@@ -351,7 +336,6 @@ export const ErrorIcon = (props) => (
     height="32"
     viewBox="0 0 32 32"
     fill="none"
-    xmlns="http://www.w3.org/2000/svg"
     role="presentation"
     {...props}
   >
@@ -392,7 +376,6 @@ export const InfoIcon = (props) => (
     height="32"
     viewBox="0 0 32 32"
     fill="none"
-    xmlns="http://www.w3.org/2000/svg"
     role="presentation"
     {...props}
   >
@@ -410,4 +393,92 @@ InfoIcon.propTypes = {
 }
 InfoIcon.defaultProps = {
   title: 'info'
+}
+
+FormStatus.setMaxWidthToElement = setMaxWidthToElement
+
+function setMaxWidthToElement({
+  element,
+  id = null,
+  widthElement = null,
+  widthSelector = null
+}) {
+  if (!(element && typeof window !== 'undefined')) {
+    return // stop here
+  }
+  try {
+    if (!id && !widthSelector) {
+      id = element.getAttribute('id')
+    }
+
+    let width = sumElementWidth({
+      widthElement,
+      widthSelector: widthSelector || id.replace('-form-status', '') || id
+    })
+
+    if (width > 40) {
+      const minWidth = 12 * 16 // use 12rem, because thats the default width in chrome for an input
+      if (width < minWidth) {
+        width = minWidth
+      }
+
+      const remWidth = `${width / 16}rem`
+
+      const cS = window.getComputedStyle(element)
+      const hasCustomWidth = element.style.maxWidth
+        ? false
+        : (cS.minWidth !== '' && cS.minWidth !== 'auto') ||
+          (cS.maxWidth !== '' && cS.maxWidth !== 'none')
+
+      if (!hasCustomWidth) {
+        element.style.maxWidth = remWidth
+      }
+    }
+  } catch (e) {
+    // skip logging
+  }
+}
+
+function sumElementWidth({ widthElement, widthSelector }) {
+  let width = 0
+  if (typeof document === 'undefined') {
+    return width // stop here
+  }
+  try {
+    // beside "selector" - which is straight forward, we
+    // also check if we can get an ID given by text_id
+    const ids = widthElement
+      ? [widthElement]
+      : widthSelector.split(/, |,/g)
+
+    width = ids.reduce((acc, cur) => {
+      const elem =
+        typeof cur === 'string'
+          ? cur[0] === '.'
+            ? document.querySelector(cur)
+            : document.getElementById(cur)
+          : cur
+
+      let width =
+        (elem && elem.offsetWidth) || window.getComputedStyle(elem).width
+      if (/em|rem/.test(width)) {
+        width = parseFloat(width) * 16
+      }
+
+      if (width > 0) {
+        // add additional one more spacing unit
+        // to make it more correct for small elements
+        if (acc > 0) {
+          acc += 16
+        }
+        acc += width
+      }
+
+      return acc
+    }, width)
+  } catch (e) {
+    // skip logging
+  }
+
+  return width
 }

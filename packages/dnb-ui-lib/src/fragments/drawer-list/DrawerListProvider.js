@@ -13,7 +13,6 @@ import {
   roundToNearest,
   isInsideScrollView,
   detectOutsideClick,
-  getPreviousSibling,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
 import {
@@ -37,84 +36,83 @@ import {
   enableBodyScroll
 } from '../../shared/libs/bodyScrollLock'
 
-const propTypes = {
-  no_animation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  prevent_selection: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.bool
-  ]),
-  direction: PropTypes.oneOf(['auto', 'top', 'bottom']),
-  // align_drawer: PropTypes.oneOf(['left', 'right']),
-  wrapper_element: PropTypes.oneOfType([
-    PropTypes.object,
-    PropTypes.func,
-    PropTypes.node
-  ]),
-  prevent_close: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  keep_open: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  prevent_focus: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  skip_keysearch: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  use_drawer_on_mobile: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.bool
-  ]),
-  enable_body_lock: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.bool
-  ]),
-  page_offset: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  observer_element: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.node
-  ]),
-  enable_closest_observer: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.bool
-  ]),
-  opened: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  scrollable: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  min_height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  max_height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  on_resize: PropTypes.func,
-
-  // React
-  children: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-    PropTypes.node,
-    PropTypes.object,
-    PropTypes.array
-  ])
-}
-const defaultProps = {
-  no_animation: false,
-  prevent_selection: false,
-  direction: 'auto',
-  // align_drawer: null,
-  wrapper_element: null,
-  prevent_close: false,
-  keep_open: false,
-  prevent_focus: false,
-  skip_keysearch: false,
-  use_drawer_on_mobile: null,
-  enable_body_lock: null,
-  page_offset: null,
-  observer_element: null,
-  enable_closest_observer: null,
-  opened: null,
-  scrollable: null,
-  min_height: 10, // 10rem = 10x16=160,
-  max_height: null,
-  on_resize: null,
-
-  // React props
-  children: null
-}
-
 export default class DrawerListProvider extends React.PureComponent {
-  static propTypes = propTypes
-  static defaultProps = defaultProps
   static contextType = Context
+
+  static propTypes = {
+    no_animation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    prevent_selection: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool
+    ]),
+    direction: PropTypes.oneOf(['auto', 'top', 'bottom']),
+    // align_drawer: PropTypes.oneOf(['left', 'right']),
+    wrapper_element: PropTypes.oneOfType([
+      PropTypes.object,
+      PropTypes.func,
+      PropTypes.node
+    ]),
+    prevent_close: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    keep_open: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    prevent_focus: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    skip_keysearch: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool
+    ]),
+    use_drawer_on_mobile: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool
+    ]),
+    enable_body_lock: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool
+    ]),
+    page_offset: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    observer_element: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.node
+    ]),
+    enable_closest_observer: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool
+    ]),
+    opened: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    scrollable: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    min_height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    max_height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    on_resize: PropTypes.func,
+
+    children: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.func,
+      PropTypes.node,
+      PropTypes.object,
+      PropTypes.array
+    ])
+  }
+  static defaultProps = {
+    no_animation: false,
+    prevent_selection: false,
+    direction: 'auto',
+    // align_drawer: null,
+    wrapper_element: null,
+    prevent_close: false,
+    keep_open: false,
+    prevent_focus: false,
+    skip_keysearch: false,
+    use_drawer_on_mobile: null,
+    enable_body_lock: null,
+    page_offset: null,
+    observer_element: null,
+    enable_closest_observer: null,
+    opened: null,
+    scrollable: null,
+    min_height: 10, // 10rem = 10x16=160,
+    max_height: null,
+    on_resize: null,
+
+    children: null
+  }
 
   static blurDelay = 201 // some ms more than "DrawerListSlideDown 200ms"
 
@@ -155,7 +153,8 @@ export default class DrawerListProvider extends React.PureComponent {
     clearTimeout(this._hideTimeout)
     clearTimeout(this._selectTimeout)
     clearTimeout(this._scrollTimeout)
-    clearTimeout(this._ddt)
+    clearTimeout(this._ddTimeout)
+    clearTimeout(this._doTimeout)
 
     // NB: do not use setHidden here
     this.setState({
@@ -394,8 +393,8 @@ export default class DrawerListProvider extends React.PureComponent {
 
     // debounce
     this.setDirection = (e) => {
-      clearTimeout(this._ddt)
-      this._ddt = setTimeout(renderDirection, 30)
+      clearTimeout(this._ddTimeout)
+      this._ddTimeout = setTimeout(renderDirection, 30)
 
       if (useDrawer && e.type === 'resize') {
         if (
@@ -426,8 +425,9 @@ export default class DrawerListProvider extends React.PureComponent {
       window.addEventListener('resize', this.setDirection)
     }
 
-    // wait unitl render is complete and we have a valid this._refUl.current
-    this._ddt = setTimeout(() => {
+    // wait until render is complete and we have a valid this._refUl.current
+    clearTimeout(this._doTimeout)
+    this._doTimeout = setTimeout(() => {
       if (
         useBodyLock ||
         (useDrawer && // Like @media screen and (max-width: 40em) { ...
@@ -437,10 +437,7 @@ export default class DrawerListProvider extends React.PureComponent {
       }
 
       this.correctHiddenView()
-      this.setScrollObserver() // because, now we have _refUl!
-      // setTimeout(() => {
-      //   this.refreshScrollObserver()
-      // }, 1)
+      this.refreshScrollObserver()
 
       const { selected_item, active_item } = this.state
       this.scrollToAndSetActiveItem(
@@ -458,27 +455,28 @@ export default class DrawerListProvider extends React.PureComponent {
     // We use "style.transform", because it is a independent "and quick" solution
     // we could send down spaceToLeft and spaceToRight and set it with React's "style" prop in future
     try {
-      const spaceToLeft = getOffsetLeft(this._refUl.current)
+      const ui = this._refUl.current
+      const spaceToLeft = getOffsetLeft(ui)
       const spaceToRight =
-        window.innerWidth -
-        (getOffsetLeft(this._refUl.current) +
-          this._refUl.current.offsetWidth)
+        window.innerWidth - (getOffsetLeft(ui) + ui.offsetWidth)
+
+      const tri = this._refTriangle.current.style
+      const shell = this._refShell.current.style
 
       // correct left side
       if (spaceToLeft < 0) {
-        this._refShell.current.style.transform = `translateX(${Math.abs(
-          spaceToLeft
-        )}px)`
-        this._refTriangle.current.style.transform = `translateX(${spaceToLeft}px)`
+        shell.transform = `translateX(${Math.abs(spaceToLeft)}px)`
+        tri.right = `${Math.abs(spaceToLeft)}px`
 
         // correct right side
       } else if (spaceToRight < 0) {
-        this._refShell.current.style.transform = `translateX(${spaceToRight}px)`
-        this._refTriangle.current.style.transform = `translateX(${-spaceToRight}px)`
+        shell.transform = `translateX(${spaceToRight}px)`
+        tri.left = `${Math.abs(spaceToRight)}px`
       } else {
-        if (this._refShell.current.style.transform) {
-          this._refShell.current.style.transform = ''
-          this._refTriangle.current.style.transform = ''
+        if (shell.transform) {
+          shell.transform = ''
+          tri.left = 'auto'
+          tri.right = 'auto'
         }
       }
     } catch (e) {
@@ -528,7 +526,7 @@ export default class DrawerListProvider extends React.PureComponent {
       const found = this.searchCache[value]
       index = found && found[0] && found[0].i > -1 ? found[0].i : -1
 
-      // if ther eare several of the same type
+      // if there are several of the same type
       if (found && found.length > 1) {
         found.push(found.shift())
         this.changedOrderFor = value
@@ -563,6 +561,9 @@ export default class DrawerListProvider extends React.PureComponent {
             }
             if (!isTrue(this.props.prevent_focus) && liElement) {
               liElement.focus()
+              dispatchCustomElementEvent(this, 'on_show_focus', {
+                element: liElement
+              })
             }
           }
         } catch (e) {
@@ -609,6 +610,9 @@ export default class DrawerListProvider extends React.PureComponent {
     } else if (!isTrue(this.props.prevent_focus)) {
       if (this._refUl.current) {
         this._refUl.current.focus({ preventScroll: true })
+        dispatchCustomElementEvent(this, 'on_show_focus', {
+          element: this._refUl.current
+        })
       }
     }
   }
@@ -616,7 +620,7 @@ export default class DrawerListProvider extends React.PureComponent {
   removeDirectionObserver() {
     this.disableBodyLock()
 
-    clearTimeout(this._ddt)
+    clearTimeout(this._ddTimeout)
     if (typeof window !== 'undefined' && this.setDirection) {
       this._rootElem?.removeEventListener('scroll', this.setDirection)
 
@@ -677,12 +681,12 @@ export default class DrawerListProvider extends React.PureComponent {
 
   setWrapperElement = (wrapper_element = this.props.wrapper_element) => {
     if (
-      // !this.state.wrapper_element &&
       typeof wrapper_element === 'string' &&
       typeof document !== 'undefined'
     ) {
       wrapper_element = document.querySelector(wrapper_element)
     }
+
     if (wrapper_element) {
       this.setState({
         wrapper_element,
@@ -782,10 +786,15 @@ export default class DrawerListProvider extends React.PureComponent {
       // TODO: Has to be worked on better!
       // !isTrue(this.props.prevent_focus)
     ) {
-      const isSameDrawer =
-        typeof document !== 'undefined' &&
-        getPreviousSibling('dnb-drawer-list', document.activeElement) ===
-          this._refRoot.current
+      let isSameDrawer = false
+      try {
+        isSameDrawer =
+          typeof document !== 'undefined' &&
+          `${document.activeElement.getAttribute('id')}-ul` ===
+            this._refUl.current.getAttribute('id')
+      } catch (e) {
+        warn(e)
+      }
       if (!isSameDrawer || key === 'tab') {
         return
       }
@@ -982,40 +991,19 @@ export default class DrawerListProvider extends React.PureComponent {
     }
   }
 
-  _assignObservers = () => {
-    // this.setTrianglePosition() // deprecated
+  assignObservers = () => {
     this.setDirectionObserver()
     this.setScrollObserver()
     this.setOutsideClickObserver()
   }
 
-  assignObservers = () => {
-    // this is the one which will be visible, so we depend on the _refUl
-    if (!this.waitUntilUlIsReady) {
-      this.waitUntilUlIsReady = true
-
-      this._assignObservers()
-
-      // in case we do not have the very much needed _refUl
-      if (!this._refUl.current) {
-        clearInterval(this._outsideClickTimeout)
-        this._outsideClickTimeout = setInterval(() => {
-          if (this._refUl.current) {
-            clearInterval(this._outsideClickTimeout)
-            this._assignObservers()
-          }
-        }, 200)
-      }
-    }
-  }
-
   setVisible = () => {
+    clearTimeout(this._hideTimeout)
+
     if (this.state.opened && this.state.hidden === false) {
-      this.assignObservers()
       return
     }
 
-    clearTimeout(this._hideTimeout)
     this.searchCache = null
 
     this.setState(
@@ -1024,16 +1012,14 @@ export default class DrawerListProvider extends React.PureComponent {
         opened: true,
         _listenForPropChanges: false
       },
-      () => {
-        this.setWrapperElement()
-        this.assignObservers()
-      }
+      this.assignObservers
     )
 
     const { selected_item } = this.state
     dispatchCustomElementEvent(this.state, 'on_show', {
       data: getEventData(selected_item, this.state.data),
-      attributes: this.attributes
+      attributes: this.attributes,
+      ui_element: this._refUl.current
     })
   }
 
@@ -1162,6 +1148,8 @@ export default class DrawerListProvider extends React.PureComponent {
       return // stop here
     }
 
+    const { keep_open, no_animation, prevent_selection } = this.props
+
     const doCallOnChange = this.state.selected_item !== itemToSelect
     const onSelectionIsComplete = () => {
       const delayHandler = () => {
@@ -1175,13 +1163,12 @@ export default class DrawerListProvider extends React.PureComponent {
           })
         }
 
-        const { keep_open } = this.props
         if (!isTrue(keep_open)) {
           this.setHidden()
         }
       }
 
-      if (isTrue(this.props.no_animation)) {
+      if (isTrue(no_animation)) {
         delayHandler()
       } else {
         clearTimeout(this._selectTimeout)
@@ -1192,7 +1179,7 @@ export default class DrawerListProvider extends React.PureComponent {
       }
     }
 
-    if (isTrue(this.props.prevent_selection)) {
+    if (isTrue(prevent_selection)) {
       onSelectionIsComplete()
     } else {
       this.setState(
@@ -1246,6 +1233,7 @@ export default class DrawerListProvider extends React.PureComponent {
             setData: this.setDataHandler,
             setState: this.setStateHandler,
             setWrapperElement: this.setWrapperElement,
+            assignObservers: this.assignObservers,
             setVisible: this.setVisible,
             setHidden: this.setHidden,
             selectItem: this.selectItem,

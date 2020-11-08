@@ -11,18 +11,16 @@ const Style = styled.div`
   span.dnb-number {
     display: block;
   }
+  [data-visual-test='number-locales'] .dnb-p:last-of-type {
+    padding-bottom: 1rem;
+  }
 `
 
-class Example extends React.PureComponent {
-  render() {
-    return (
-      <Style>
-        <ComponentBox
-          title="Default numbers"
-          data-dnb-test="number-default"
-        >
-          {
-            /* @jsx */ `
+export const NumberDefault = () => (
+  <Style>
+    <ComponentBox data-visual-test="number-default">
+      {
+        /* @jsx */ `
 <P>
   <Number value="12345" />
   <Number>-12345678.9</Number>
@@ -30,11 +28,16 @@ class Example extends React.PureComponent {
   <Number options={{ maximumFractionDigits: 1 }}>-1234.54321</Number>
 </P>
           `
-          }
-        </ComponentBox>
-        <ComponentBox title="Currency" data-dnb-test="number-currency">
-          {
-            /* @jsx */ `
+      }
+    </ComponentBox>
+  </Style>
+)
+
+export const NumberCurrency = () => (
+  <Style>
+    <ComponentBox data-visual-test="number-currency">
+      {
+        /* @jsx */ `
 <P>
   <Number currency>12345</Number>
   <Number currency currency_position="after" value={-12345678.9} />
@@ -42,15 +45,16 @@ class Example extends React.PureComponent {
   <Number currency value={-12345678.9} currency_display="code" />
 </P>
           `
-          }
-        </ComponentBox>
-        <ComponentBox
-          title="Phone number"
-          caption="By using selectall={false} you disable the auto select all feature"
-          data-dnb-test="number-phone"
-        >
-          {
-            /* @jsx */ `
+      }
+    </ComponentBox>
+  </Style>
+)
+
+export const NumberPhone = () => (
+  <Style>
+    <ComponentBox data-visual-test="number-phone">
+      {
+        /* @jsx */ `
 <P>
   <Number value="99999999" phone />
   <Number value="4799999999" phone />
@@ -60,50 +64,58 @@ class Example extends React.PureComponent {
   <Number value="+4702000" phone />
 </P>
           `
-          }
-        </ComponentBox>
-        <ComponentBox
-          title="Bank Account number (Kontonummer)"
-          data-dnb-test="number-ban"
-        >
-          {
-            /* @jsx */ `
+      }
+    </ComponentBox>
+  </Style>
+)
+
+export const NumberBankAccount = () => (
+  <Style>
+    <ComponentBox data-visual-test="number-ban">
+      {
+        /* @jsx */ `
 <P>
   <Number value="20001234567" ban />
 </P>
           `
-          }
-        </ComponentBox>
-        <ComponentBox
-          title="National Identification number (Fødselsnummer)"
-          data-dnb-test="number-nin"
-        >
-          {
-            /* @jsx */ `
+      }
+    </ComponentBox>
+  </Style>
+)
+
+export const NumberNationalIdentification = () => (
+  <Style>
+    <ComponentBox data-visual-test="number-nin">
+      {
+        /* @jsx */ `
 <P>
   <Number value="18089212345" nin />
 </P>
           `
-          }
-        </ComponentBox>
-        <ComponentBox
-          title="Organization number (Organisasjonsnummer)"
-          data-dnb-test="number-org"
-        >
-          {
-            /* @jsx */ `
+      }
+    </ComponentBox>
+  </Style>
+)
+
+export const NumberOrganization = () => (
+  <Style>
+    <ComponentBox data-visual-test="number-org">
+      {
+        /* @jsx */ `
 <P>
   <Number value="123456789" org suffix="MVA" />
 </P>
           `
-          }
-        </ComponentBox>
-        <ComponentBox
-          title="Numbers and currencies in different locales"
-          data-dnb-test="number-locales"
-        >
-          {
-            /* @jsx */ `
+      }
+    </ComponentBox>
+  </Style>
+)
+
+export const NumberLocales = () => (
+  <Style>
+    <ComponentBox data-visual-test="number-locales">
+      {
+        /* @jsx */ `
 <H3>Numbers</H3>
 <P>
   <Number locale="nb-NO" value="-12345678.9" />
@@ -121,14 +133,8 @@ class Example extends React.PureComponent {
   <Number locale="de-CH" value="-12345.6" currency />
   <Number locale="fr-CH" value="-12345.6" currency />
 </P>
-
-<br/>
           `
-          }
-        </ComponentBox>
-      </Style>
-    )
-  }
-}
-
-export default Example
+      }
+    </ComponentBox>
+  </Style>
+)

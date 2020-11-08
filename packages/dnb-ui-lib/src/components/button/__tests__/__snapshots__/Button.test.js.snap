@@ -8,16 +8,99 @@ exports[`Button component have to match default button snapshot 1`] = `
   custom_element={Object {}}
   custom_method={[Function]}
   disabled="disabled"
+  element={null}
   global_status_id="global_status_id"
   href={null}
   icon="question"
   icon_position="right"
   icon_size="icon_size"
   id="button"
-  innerRef={Object {}}
+  innerRef={
+    Object {
+      "current": <button
+        class="dnb-button dnb-button--primary dnb-button--has-text class className dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--wrap"
+        id="button"
+        title="This is a button title"
+        type="type"
+      >
+        <span
+          class="dnb-button__alignment"
+        >
+          ‌
+        </span>
+        <span
+          class="dnb-button__text"
+        >
+          children
+        </span>
+        <span
+          aria-hidden="true"
+          aria-label="question icon"
+          class="dnb-icon dnb-icon--default dnb-button__icon"
+          role="presentation"
+        >
+          <svg
+            fill="none"
+            height="16"
+            viewBox="0 0 16 16"
+            width="16"
+          >
+            <path
+              clip-rule="evenodd"
+              d="M4.352 5.1c0-2.05 1.55-3.6 3.6-3.6 2.052 0 3.601 1.55 3.601 3.6 0 2.051-1.55 3.6-3.6 3.6a.75.75 0 00-.75.75v2.666a.75.75 0 001.5 0V10.15c2.506-.348 4.35-2.425 4.35-5.049 0-2.879-2.22-5.1-5.1-5.1-2.88 0-5.1 2.221-5.1 5.1a.75.75 0 001.5 0zm3.6 10.898c.659 0 1.098-.439 1.098-1.097 0-.658-.44-1.097-1.097-1.097-.658 0-1.097.44-1.097 1.097 0 .658.439 1.097 1.097 1.097z"
+              fill="#000"
+              fill-rule="evenodd"
+            />
+          </svg>
+        </span>
+      </button>,
+    }
+  }
+  inner_ref={
+    Object {
+      "current": <button
+        class="dnb-button dnb-button--primary dnb-button--has-text class className dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--wrap"
+        id="button"
+        title="This is a button title"
+        type="type"
+      >
+        <span
+          class="dnb-button__alignment"
+        >
+          ‌
+        </span>
+        <span
+          class="dnb-button__text"
+        >
+          children
+        </span>
+        <span
+          aria-hidden="true"
+          aria-label="question icon"
+          class="dnb-icon dnb-icon--default dnb-button__icon"
+          role="presentation"
+        >
+          <svg
+            fill="none"
+            height="16"
+            viewBox="0 0 16 16"
+            width="16"
+          >
+            <path
+              clip-rule="evenodd"
+              d="M4.352 5.1c0-2.05 1.55-3.6 3.6-3.6 2.052 0 3.601 1.55 3.601 3.6 0 2.051-1.55 3.6-3.6 3.6a.75.75 0 00-.75.75v2.666a.75.75 0 001.5 0V10.15c2.506-.348 4.35-2.425 4.35-5.049 0-2.879-2.22-5.1-5.1-5.1-2.88 0-5.1 2.221-5.1 5.1a.75.75 0 001.5 0zm3.6 10.898c.659 0 1.098-.439 1.098-1.097 0-.658-.44-1.097-1.097-1.097-.658 0-1.097.44-1.097 1.097 0 .658.439 1.097 1.097 1.097z"
+              fill="#000"
+              fill-rule="evenodd"
+            />
+          </svg>
+        </span>
+      </button>,
+    }
+  }
   onClick={[Function]}
   on_click="on_click"
   size={null}
+  skeleton="skeleton"
   status={null}
   status_animation="status_animation"
   status_state="status_state"
@@ -44,17 +127,100 @@ exports[`Button component have to match default button snapshot 1`] = `
       custom_element={Object {}}
       custom_method={[Function]}
       disabled="disabled"
+      element={null}
       global_status_id="global_status_id"
       href={null}
       icon="question"
       icon_position="right"
       icon_size="icon_size"
       id="button"
-      innerRef={Object {}}
+      innerRef={
+        Object {
+          "current": <button
+            class="dnb-button dnb-button--primary dnb-button--has-text class className dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--wrap"
+            id="button"
+            title="This is a button title"
+            type="type"
+          >
+            <span
+              class="dnb-button__alignment"
+            >
+              ‌
+            </span>
+            <span
+              class="dnb-button__text"
+            >
+              children
+            </span>
+            <span
+              aria-hidden="true"
+              aria-label="question icon"
+              class="dnb-icon dnb-icon--default dnb-button__icon"
+              role="presentation"
+            >
+              <svg
+                fill="none"
+                height="16"
+                viewBox="0 0 16 16"
+                width="16"
+              >
+                <path
+                  clip-rule="evenodd"
+                  d="M4.352 5.1c0-2.05 1.55-3.6 3.6-3.6 2.052 0 3.601 1.55 3.601 3.6 0 2.051-1.55 3.6-3.6 3.6a.75.75 0 00-.75.75v2.666a.75.75 0 001.5 0V10.15c2.506-.348 4.35-2.425 4.35-5.049 0-2.879-2.22-5.1-5.1-5.1-2.88 0-5.1 2.221-5.1 5.1a.75.75 0 001.5 0zm3.6 10.898c.659 0 1.098-.439 1.098-1.097 0-.658-.44-1.097-1.097-1.097-.658 0-1.097.44-1.097 1.097 0 .658.439 1.097 1.097 1.097z"
+                  fill="#000"
+                  fill-rule="evenodd"
+                />
+              </svg>
+            </span>
+          </button>,
+        }
+      }
+      inner_ref={
+        Object {
+          "current": <button
+            class="dnb-button dnb-button--primary dnb-button--has-text class className dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--wrap"
+            id="button"
+            title="This is a button title"
+            type="type"
+          >
+            <span
+              class="dnb-button__alignment"
+            >
+              ‌
+            </span>
+            <span
+              class="dnb-button__text"
+            >
+              children
+            </span>
+            <span
+              aria-hidden="true"
+              aria-label="question icon"
+              class="dnb-icon dnb-icon--default dnb-button__icon"
+              role="presentation"
+            >
+              <svg
+                fill="none"
+                height="16"
+                viewBox="0 0 16 16"
+                width="16"
+              >
+                <path
+                  clip-rule="evenodd"
+                  d="M4.352 5.1c0-2.05 1.55-3.6 3.6-3.6 2.052 0 3.601 1.55 3.601 3.6 0 2.051-1.55 3.6-3.6 3.6a.75.75 0 00-.75.75v2.666a.75.75 0 001.5 0V10.15c2.506-.348 4.35-2.425 4.35-5.049 0-2.879-2.22-5.1-5.1-5.1-2.88 0-5.1 2.221-5.1 5.1a.75.75 0 001.5 0zm3.6 10.898c.659 0 1.098-.439 1.098-1.097 0-.658-.44-1.097-1.097-1.097-.658 0-1.097.44-1.097 1.097 0 .658.439 1.097 1.097 1.097z"
+                  fill="#000"
+                  fill-rule="evenodd"
+                />
+              </svg>
+            </span>
+          </button>,
+        }
+      }
       isIconOnly={false}
       onClick={[Function]}
       on_click="on_click"
       size={null}
+      skeleton="skeleton"
       status={null}
       status_animation="status_animation"
       status_state="status_state"
@@ -89,6 +255,7 @@ exports[`Button component have to match default button snapshot 1`] = `
         key="button-icon"
         modifier={null}
         size="icon_size"
+        skeleton={null}
         title={null}
         width={null}
       >
@@ -128,16 +295,101 @@ exports[`Button component have to match href="..." snapshot 1`] = `
   custom_element={Object {}}
   custom_method={[Function]}
   disabled="disabled"
+  element={null}
   global_status_id="global_status_id"
   href="https://url"
   icon="question"
   icon_position="right"
   icon_size="icon_size"
   id="button"
-  innerRef={Object {}}
+  innerRef={
+    Object {
+      "current": <a
+        class="dnb-button dnb-button--primary dnb-button--has-text class className dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--wrap"
+        href="https://url"
+        id="button"
+        title="This is a button title"
+        type="type"
+      >
+        <span
+          class="dnb-button__alignment"
+        >
+          ‌
+        </span>
+        <span
+          class="dnb-button__text"
+        >
+          children
+        </span>
+        <span
+          aria-hidden="true"
+          aria-label="question icon"
+          class="dnb-icon dnb-icon--default dnb-button__icon"
+          role="presentation"
+        >
+          <svg
+            fill="none"
+            height="16"
+            viewBox="0 0 16 16"
+            width="16"
+          >
+            <path
+              clip-rule="evenodd"
+              d="M4.352 5.1c0-2.05 1.55-3.6 3.6-3.6 2.052 0 3.601 1.55 3.601 3.6 0 2.051-1.55 3.6-3.6 3.6a.75.75 0 00-.75.75v2.666a.75.75 0 001.5 0V10.15c2.506-.348 4.35-2.425 4.35-5.049 0-2.879-2.22-5.1-5.1-5.1-2.88 0-5.1 2.221-5.1 5.1a.75.75 0 001.5 0zm3.6 10.898c.659 0 1.098-.439 1.098-1.097 0-.658-.44-1.097-1.097-1.097-.658 0-1.097.44-1.097 1.097 0 .658.439 1.097 1.097 1.097z"
+              fill="#000"
+              fill-rule="evenodd"
+            />
+          </svg>
+        </span>
+      </a>,
+    }
+  }
+  inner_ref={
+    Object {
+      "current": <a
+        class="dnb-button dnb-button--primary dnb-button--has-text class className dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--wrap"
+        href="https://url"
+        id="button"
+        title="This is a button title"
+        type="type"
+      >
+        <span
+          class="dnb-button__alignment"
+        >
+          ‌
+        </span>
+        <span
+          class="dnb-button__text"
+        >
+          children
+        </span>
+        <span
+          aria-hidden="true"
+          aria-label="question icon"
+          class="dnb-icon dnb-icon--default dnb-button__icon"
+          role="presentation"
+        >
+          <svg
+            fill="none"
+            height="16"
+            viewBox="0 0 16 16"
+            width="16"
+          >
+            <path
+              clip-rule="evenodd"
+              d="M4.352 5.1c0-2.05 1.55-3.6 3.6-3.6 2.052 0 3.601 1.55 3.601 3.6 0 2.051-1.55 3.6-3.6 3.6a.75.75 0 00-.75.75v2.666a.75.75 0 001.5 0V10.15c2.506-.348 4.35-2.425 4.35-5.049 0-2.879-2.22-5.1-5.1-5.1-2.88 0-5.1 2.221-5.1 5.1a.75.75 0 001.5 0zm3.6 10.898c.659 0 1.098-.439 1.098-1.097 0-.658-.44-1.097-1.097-1.097-.658 0-1.097.44-1.097 1.097 0 .658.439 1.097 1.097 1.097z"
+              fill="#000"
+              fill-rule="evenodd"
+            />
+          </svg>
+        </span>
+      </a>,
+    }
+  }
   onClick={[Function]}
   on_click="on_click"
   size={null}
+  skeleton="skeleton"
   status={null}
   status_animation="status_animation"
   status_state="status_state"
@@ -165,17 +417,102 @@ exports[`Button component have to match href="..." snapshot 1`] = `
       custom_element={Object {}}
       custom_method={[Function]}
       disabled="disabled"
+      element={null}
       global_status_id="global_status_id"
       href="https://url"
       icon="question"
       icon_position="right"
       icon_size="icon_size"
       id="button"
-      innerRef={Object {}}
+      innerRef={
+        Object {
+          "current": <a
+            class="dnb-button dnb-button--primary dnb-button--has-text class className dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--wrap"
+            href="https://url"
+            id="button"
+            title="This is a button title"
+            type="type"
+          >
+            <span
+              class="dnb-button__alignment"
+            >
+              ‌
+            </span>
+            <span
+              class="dnb-button__text"
+            >
+              children
+            </span>
+            <span
+              aria-hidden="true"
+              aria-label="question icon"
+              class="dnb-icon dnb-icon--default dnb-button__icon"
+              role="presentation"
+            >
+              <svg
+                fill="none"
+                height="16"
+                viewBox="0 0 16 16"
+                width="16"
+              >
+                <path
+                  clip-rule="evenodd"
+                  d="M4.352 5.1c0-2.05 1.55-3.6 3.6-3.6 2.052 0 3.601 1.55 3.601 3.6 0 2.051-1.55 3.6-3.6 3.6a.75.75 0 00-.75.75v2.666a.75.75 0 001.5 0V10.15c2.506-.348 4.35-2.425 4.35-5.049 0-2.879-2.22-5.1-5.1-5.1-2.88 0-5.1 2.221-5.1 5.1a.75.75 0 001.5 0zm3.6 10.898c.659 0 1.098-.439 1.098-1.097 0-.658-.44-1.097-1.097-1.097-.658 0-1.097.44-1.097 1.097 0 .658.439 1.097 1.097 1.097z"
+                  fill="#000"
+                  fill-rule="evenodd"
+                />
+              </svg>
+            </span>
+          </a>,
+        }
+      }
+      inner_ref={
+        Object {
+          "current": <a
+            class="dnb-button dnb-button--primary dnb-button--has-text class className dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--wrap"
+            href="https://url"
+            id="button"
+            title="This is a button title"
+            type="type"
+          >
+            <span
+              class="dnb-button__alignment"
+            >
+              ‌
+            </span>
+            <span
+              class="dnb-button__text"
+            >
+              children
+            </span>
+            <span
+              aria-hidden="true"
+              aria-label="question icon"
+              class="dnb-icon dnb-icon--default dnb-button__icon"
+              role="presentation"
+            >
+              <svg
+                fill="none"
+                height="16"
+                viewBox="0 0 16 16"
+                width="16"
+              >
+                <path
+                  clip-rule="evenodd"
+                  d="M4.352 5.1c0-2.05 1.55-3.6 3.6-3.6 2.052 0 3.601 1.55 3.601 3.6 0 2.051-1.55 3.6-3.6 3.6a.75.75 0 00-.75.75v2.666a.75.75 0 001.5 0V10.15c2.506-.348 4.35-2.425 4.35-5.049 0-2.879-2.22-5.1-5.1-5.1-2.88 0-5.1 2.221-5.1 5.1a.75.75 0 001.5 0zm3.6 10.898c.659 0 1.098-.439 1.098-1.097 0-.658-.44-1.097-1.097-1.097-.658 0-1.097.44-1.097 1.097 0 .658.439 1.097 1.097 1.097z"
+                  fill="#000"
+                  fill-rule="evenodd"
+                />
+              </svg>
+            </span>
+          </a>,
+        }
+      }
       isIconOnly={false}
       onClick={[Function]}
       on_click="on_click"
       size={null}
+      skeleton="skeleton"
       status={null}
       status_animation="status_animation"
       status_state="status_state"
@@ -210,6 +547,7 @@ exports[`Button component have to match href="..." snapshot 1`] = `
         key="button-icon"
         modifier={null}
         size="icon_size"
+        skeleton={null}
         title={null}
         width={null}
       >
@@ -334,8 +672,6 @@ exports[`Button scss have to match default theme snapshot 1`] = `
     /* iOS fix - because \\"inset\\" works not fine with border-radius */
     /* Safari fix - because \\"inset\\" works not fine with border-radius if the user zooms the page */
     border-color: transparent; }
-    .dnb-button--secondary:not([disabled]) .dnb-button__icon {
-      color: var(--color-emerald-green); }
     @supports (-webkit-touch-callout: none) {
       .dnb-button--secondary {
         box-shadow: 0 0 0 0.0625rem var(--border-color); } }
@@ -403,6 +739,64 @@ exports[`Button scss have to match default theme snapshot 1`] = `
       @media screen and (-ms-high-contrast: none) {
         .dnb-button--secondary:active:not([disabled]),
         html:not([data-whatintent='touch']) .dnb-button--secondary:active:not([disabled]) {
+          box-shadow: 0 0 0 0.0625rem transparent; } }
+    html:not([data-whatintent='touch']) .dnb-button--secondary:not(.dnb-button--has-text):hover[disabled] {
+      cursor: not-allowed; }
+    html:not([data-whatintent='touch']) .dnb-button--secondary:not(.dnb-button--has-text):hover:not([disabled]) {
+      color: var(--color-emerald-green);
+      background-color: var(--color-white);
+      --border-color: var(--color-emerald-green);
+      box-shadow: 0 0 0 0.125rem var(--border-color);
+      border-color: transparent; }
+      @media screen and (-ms-high-contrast: none) {
+        html:not([data-whatintent='touch']) .dnb-button--secondary:not(.dnb-button--has-text):hover:not([disabled]) {
+          box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
+      @media screen and (-ms-high-contrast: none) {
+        html:not([data-whatintent='touch']) .dnb-button--secondary:not(.dnb-button--has-text):hover:not([disabled]) {
+          opacity: 1; } }
+    .dnb-button--secondary:not(.dnb-button--has-text):focus[disabled],
+    html:not([data-whatintent='touch']) .dnb-button--secondary:not(.dnb-button--has-text):focus[disabled] {
+      cursor: not-allowed; }
+    .dnb-button--secondary:not(.dnb-button--has-text):focus:not([disabled]),
+    html:not([data-whatintent='touch']) .dnb-button--secondary:not(.dnb-button--has-text):focus:not([disabled]) {
+      outline: none; }
+      html[data-whatinput='keyboard'] .dnb-button--secondary:not(.dnb-button--has-text):focus:not([disabled]), html[data-whatinput='keyboard']
+      html:not([data-whatintent='touch']) .dnb-button--secondary:not(.dnb-button--has-text):focus:not([disabled]) {
+        color: var(--color-emerald-green);
+        background-color: var(--color-white); }
+      html[data-whatinput='keyboard'] .dnb-button--secondary:not(.dnb-button--has-text):focus:not([disabled]), html[data-whatinput='keyboard']
+      html:not([data-whatintent='touch']) .dnb-button--secondary:not(.dnb-button--has-text):focus:not([disabled]) {
+        --border-color: var(--color-emerald-green);
+        box-shadow: inset 0 0 0 0.125rem var(--border-color);
+        /* iOS fix - because \\"inset\\" works not fine with border-radius */
+        /* Safari fix - because \\"inset\\" works not fine with border-radius if the user zooms the page */
+        border-color: transparent; }
+        @supports (-webkit-touch-callout: none) {
+          html[data-whatinput='keyboard'] .dnb-button--secondary:not(.dnb-button--has-text):focus:not([disabled]), html[data-whatinput='keyboard']
+          html:not([data-whatintent='touch']) .dnb-button--secondary:not(.dnb-button--has-text):focus:not([disabled]) {
+            box-shadow: 0 0 0 0.125rem var(--border-color); } }
+        @media not all and (min-resolution: 0.001dpcm) {
+          @supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-overflow-scrolling: touch)) {
+            html[data-whatinput='keyboard'] .dnb-button--secondary:not(.dnb-button--has-text):focus:not([disabled]), html[data-whatinput='keyboard']
+            html:not([data-whatintent='touch']) .dnb-button--secondary:not(.dnb-button--has-text):focus:not([disabled]) {
+              box-shadow: 0 0 0 0.125rem var(--border-color); } } }
+        @media screen and (-ms-high-contrast: none) {
+          html[data-whatinput='keyboard'] .dnb-button--secondary:not(.dnb-button--has-text):focus:not([disabled]), html[data-whatinput='keyboard']
+          html:not([data-whatintent='touch']) .dnb-button--secondary:not(.dnb-button--has-text):focus:not([disabled]) {
+            box-shadow: inset 0 0 0 0.125rem var(--color-emerald-green); } }
+    .dnb-button--secondary:not(.dnb-button--has-text):active[disabled],
+    html:not([data-whatintent='touch']) .dnb-button--secondary:not(.dnb-button--has-text):active[disabled] {
+      cursor: not-allowed; }
+    .dnb-button--secondary:not(.dnb-button--has-text):active:not([disabled]),
+    html:not([data-whatintent='touch']) .dnb-button--secondary:not(.dnb-button--has-text):active:not([disabled]) {
+      color: var(--color-emerald-green);
+      background-color: var(--color-mint-green-50);
+      --border-color: transparent;
+      box-shadow: 0 0 0 0.0625rem var(--border-color);
+      border-color: transparent; }
+      @media screen and (-ms-high-contrast: none) {
+        .dnb-button--secondary:not(.dnb-button--has-text):active:not([disabled]),
+        html:not([data-whatintent='touch']) .dnb-button--secondary:not(.dnb-button--has-text):active:not([disabled]) {
           box-shadow: 0 0 0 0.0625rem transparent; } }
     .dnb-button--secondary[disabled], .dnb-button--secondary[disabled]:focus {
       color: var(--color-sea-green-30);
@@ -474,7 +868,7 @@ exports[`Button scss have to match default theme snapshot 1`] = `
           .dnb-button--tertiary .dnb-button__text::after {
             height: 1px;
             border-radius: 0.5px; } }
-        [data-dnb-test-wrapper] .dnb-button--tertiary .dnb-button__text::after {
+        [data-visual-test-wrapper] .dnb-button--tertiary .dnb-button__text::after {
           transition: none; }
     .dnb-button--tertiary.dnb-button--has-text {
       padding-left: 0.5rem;
@@ -763,6 +1157,10 @@ exports[`Button scss have to match snapshot 1`] = `
   h5 .dnb-icon,
   h6 .dnb-icon {
     vertical-align: middle; }
+  .dnb-icon.dnb-skeleton {
+    color: var(--skeleton-color) !important; }
+    .dnb-icon.dnb-skeleton::before, .dnb-icon.dnb-skeleton::after {
+      content: none !important; }
   @media screen and (-ms-high-contrast: none) {
     .dnb-icon {
       flex: none; } }
@@ -1087,6 +1485,8 @@ exports[`Button scss have to match snapshot 1`] = `
     white-space: nowrap; }
   .dnb-button + .dnb-form-status {
     margin-top: 0.5rem; }
+  .dnb-button.dnb-skeleton .dnb-icon {
+    visibility: hidden; }
   @media screen and (-ms-high-contrast: none) {
     .dnb-button {
       flex: none; }

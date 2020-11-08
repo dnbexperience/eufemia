@@ -54,7 +54,7 @@ export function defineNavigator() {
     }
 
     try {
-      if (!window.IS_TEST) {
+      if (!(typeof window !== 'undefined' && window.IS_TEST)) {
         if (navigator.platform.match(new RegExp(PLATFORM_MAC)) !== null) {
           document.documentElement.setAttribute('data-os', 'mac')
         } else if (
@@ -165,6 +165,42 @@ export const validateDOMAttributes = (props, params) => {
 }
 
 export const processChildren = (props) => {
+  if (!props) {
+    return null
+  }
+
+  // If used in WB, call functions who starts with "render_"
+  if (
+    typeof global !== 'undefined' &&
+    Array.isArray(global.registeredElements) &&
+    global.registeredElements.length > 0
+  ) {
+    let cache = null
+    Object.entries(props)
+      .reverse()
+      .map(([key, cb]) => {
+        if (key.includes('render_') && /^render_/.test(key)) {
+          if (typeof cb === 'function') {
+            if (cache) {
+              if (Object.isFrozen(props)) {
+                props = { ...props }
+              }
+              props.children = cache
+            }
+            return (cache = (
+              <React.Fragment key={key}>{cb(props)}</React.Fragment>
+            ))
+          }
+        }
+
+        return null
+      })
+      .filter(Boolean)
+    if (cache) {
+      return cache
+    }
+  }
+
   const res =
     typeof props.children === 'function'
       ? props.children(props)
@@ -352,21 +388,22 @@ export const toPascalCase = (s) =>
       ''
     )
 
-export const pickRenderProps = (props, renderProps) =>
-  Object.entries(props)
-    .filter(([key, value]) => {
-      if (
-        typeof renderProps[key] !== 'undefined' || // TODO: remove this because of security notation
-        key === 'children' ||
-        key === 'custom_method'
-      )
-        return false
-      return typeof value === 'function'
-    })
-    .reduce((obj, [key, value]) => {
-      obj[key] = value // TODO: remove this because of security notation
-      return obj
-    }, {})
+// Removed as we now run function props from Web Components (custom-element)
+// export const pickRenderProps = (props, renderProps) =>
+//   Object.entries(props)
+//     .filter(([key, value]) => {
+//       if (
+//         typeof renderProps[key] !== 'undefined' || // TODO: remove this because of security notation
+//         key === 'children' ||
+//         key === 'custom_method'
+//       )
+//         return false
+//       return typeof value === 'function'
+//     })
+//     .reduce((obj, [key, value]) => {
+//       obj[key] = value // TODO: remove this because of security notation
+//       return obj
+//     }, {})
 
 /**
  * [detectOutsideClick Detects a click outside a given DOM element]
@@ -516,7 +553,10 @@ export const filterProps = (props, remove = null, allowed = null) => {
     }, {})
   }
   return Object.entries(props).reduce((acc, [k, v]) => {
-    if ((remove && !remove[k]) || (allowed && allowed[k])) {
+    if (
+      (remove && typeof remove[k] === 'undefined') ||
+      (allowed && typeof allowed[k] !== 'undefined')
+    ) {
       acc[k] = v
     }
     return acc
@@ -592,9 +632,14 @@ export const isInsideScrollView = (
   return elem == window ? false : Boolean(elem)
 }
 
+const isTest = process.env.NODE_ENV === 'test'
 export const warn = (...e) => {
   if (typeof console !== 'undefined') {
-    console.warn(...e)
+    if (isTest) {
+      console.log(...e)
+    } else if (typeof console.warn === 'function') {
+      console.warn(...e)
+    }
   }
 }
 
@@ -603,120 +648,433 @@ export const convertJsxToString = (elements, separator = undefined) => {
     elements = [elements]
   }
 
-  return elements
-    .map((word) => {
-      if (React.isValidElement(word)) {
-        if (typeof word.props.children === 'string') {
-          word = word.props.children
-        } else if (Array.isArray(word.props.children)) {
-          word = word.props.children.reduce((acc, word) => {
-            if (typeof word === 'string') {
-              acc = acc + word
-            }
-            return acc
-          }, '')
-        } else {
-          return null
-        }
+  const process = (word) => {
+    if (React.isValidElement(word)) {
+      if (typeof word.props.children === 'string') {
+        word = word.props.children
+      } else if (Array.isArray(word.props.children)) {
+        word = word.props.children.reduce((acc, word) => {
+          if (typeof word !== 'string') {
+            word = process(word)
+          }
+          if (typeof word === 'string') {
+            acc = acc + word
+          }
+          return acc
+        }, '')
+      } else {
+        return null
       }
+    }
 
-      return word
-    })
+    return word
+  }
+
+  return elements
+    .map((word) => process(word))
     .filter(Boolean)
     .join(separator)
 }
 
 export class InteractionInvalidation {
-  active(element = null) {
-    this.preventScreenReaderPossibility(element)
-    this.removeFocusPossibility(element)
+  constructor() {
+    this.bypassSelector = '.not-specified'
+    return this
   }
+
+  setBypassSelector(bypassSelector = null) {
+    if (bypassSelector instanceof HTMLElement) {
+      this.bypassElement = bypassSelector
+    } else {
+      this.bypassElement = null
+      this.bypassSelector = bypassSelector || '.not-specified'
+    }
+    return this
+  }
+
+  activate(TargetElement = null) {
+    if (!this.nodesToInvalidate) {
+      this._runInvalidaiton(TargetElement)
+    }
+  }
+
   revert() {
-    this.revertScreenReaderPossibility()
-    this.revertFocusPossibility()
+    this._revertInvalidation()
+    this.nodesToInvalidate = null
   }
 
-  removeFocusPossibility(element = null) {
-    // since touch devices works diffrent, and we also use preventScreenReaderPossibility
-    // we dont set the tabindex by using removeFocusPossibility
-    if (typeof document === 'undefined' || isTouchDevice()) {
+  _runInvalidaiton(TargetElement) {
+    if (
+      typeof document === 'undefined'
+      // || isTouchDevice() // as for now, we do the same on touch devices
+    ) {
       return // stop here
     }
 
-    const modalNodes = Array.from(
-      (element || document).querySelectorAll('.dnb-modal__content *')
-    )
+    this._setNodesToInvalidate(TargetElement)
 
-    // by only finding elements that do not have tabindex="-1" we ensure we don't
-    // corrupt the previous state of the element if a modal was already open
-    this.nonModalNodes = Array.from(
-      (element || document).querySelectorAll(
-        'body *:not(.dnb-modal__content):not([tabindex="-1"]):not(script)'
-      )
-    ).filter((node) => !modalNodes.includes(node))
+    if (Array.isArray(this.nodesToInvalidate)) {
+      this.nodesToInvalidate.forEach((node) => {
+        try {
+          // save the previous tabindex state so we can restore it on close
+          if (
+            node &&
+            typeof node._orig_tabindex === 'undefined' &&
+            node.hasAttribute('tabindex')
+          ) {
+            node._orig_tabindex = node.getAttribute('tabindex')
+          }
+          if (
+            node &&
+            typeof node._orig_ariahidden === 'undefined' &&
+            node.hasAttribute('aria-hidden')
+          ) {
+            node._orig_ariahidden = node.getAttribute('aria-hidden')
+          }
+          if (
+            node &&
+            typeof node._orig_style === 'undefined' &&
+            node.hasAttribute('style')
+          ) {
+            node._orig_style = node.getAttribute('style')
+          }
 
-    this.nonModalNodes.forEach((node) => {
-      try {
-        // save the previous tabindex state so we can restore it on close
-        node._prevTabindex = node.getAttribute('tabindex')
-        node.setAttribute('tabindex', -1)
+          node.setAttribute('tabindex', '-1')
+          node.setAttribute('aria-hidden', 'true')
 
-        // tabindex=-1 does not prevent the mouse from focusing the node (which
-        // would show a focus outline around the element). prevent this by disabling
-        // outline styles while the modal is open
-        node.style.outline = 'none'
-      } catch (e) {
-        warn(e)
-      }
-    })
+          // tabindex=-1 does not prevent the mouse from focusing the node (which
+          // would show a focus outline around the element). prevent this by disabling
+          // outline styles while the modal is open
+          node.style.outline = 'none'
+        } catch (e) {
+          //
+        }
+      })
+    }
   }
 
-  revertFocusPossibility() {
-    // since touch devices works diffrent, and we also use preventScreenReaderPossibility
-    // we dont set the tabindex by using removeFocusPossibility
-    if (!this.nonModalNodes) {
+  _revertInvalidation() {
+    if (!this.nodesToInvalidate) {
       return // stop here
     }
-    // restore or remove tabindex from nodes
-    this.nonModalNodes.forEach((node) => {
+
+    // restore or remove tabindex and aria-hidden from nodes
+    this.nodesToInvalidate.forEach((node) => {
       try {
-        if (node && node._prevTabindex) {
-          node.setAttribute('tabindex', node._prevTabindex)
-          node._prevTabindex = null
-          delete node._prevTabindex
+        if (node && typeof node._orig_tabindex !== 'undefined') {
+          node.setAttribute('tabindex', node._orig_tabindex)
+          node._orig_tabindex = null
+          delete node._orig_tabindex
         } else {
           node.removeAttribute('tabindex')
         }
-        node.style.outline = null
+        if (node && typeof node._orig_ariahidden !== 'undefined') {
+          node.setAttribute('aria-hidden', node._orig_ariahidden)
+          node._orig_ariahidden = null
+          delete node._orig_ariahidden
+        } else {
+          node.removeAttribute('aria-hidden')
+        }
+        if (node && typeof node._orig_style !== 'undefined') {
+          node.setAttribute('style', node._orig_style)
+          node._orig_style = null
+          delete node._orig_style
+        } else {
+          node.removeAttribute('style')
+        }
       } catch (e) {
-        warn(e)
+        //
       }
     })
-    this.nonModalNodes = null
   }
 
-  preventScreenReaderPossibility(element = null) {
+  _setNodesToInvalidate(TargetElement = null) {
     if (typeof document === 'undefined') {
       return // stop here
     }
 
-    this.nonScreenReaderNodes = Array.from(
-      (element || document).querySelectorAll(
-        'body > div:not(#dnb-modal-root)'
+    if (typeof TargetElement === 'string') {
+      TargetElement = document.querySelector(TargetElement)
+    }
+
+    const skipTheseNodes = Array.from(
+      (this.bypassElement || document).querySelectorAll(
+        this.bypassSelector ? `${this.bypassSelector} *` : '*'
       )
     )
-    this.nonScreenReaderNodes.forEach((node) => {
-      node.setAttribute('aria-hidden', true)
+
+    // by only finding elements that do not have tabindex="-1" we ensure we don't
+    // corrupt the previous state of the element if a modal was already open
+    this.nodesToInvalidate = Array.from(
+      (TargetElement || document).querySelectorAll(
+        `body *:not(${this.bypassSelector}):not(script)`
+      )
+    ).filter((node) => !skipTheseNodes.includes(node))
+  }
+}
+
+export class AnimateHeight {
+  constructor(opts = {}) {
+    this.state = 'init'
+    this.onStartStack = []
+    this.onEndStack = []
+    this.opts = opts
+  }
+  setElem(elem, container = null) {
+    this.elem =
+      elem ||
+      (typeof document !== 'undefined' && document.createElement('div'))
+
+    // get tr element
+    if (String(this.elem?.nodeName).toLowerCase() === 'td') {
+      this.elem = this.elem.parentElement
+    }
+
+    this.container = container
+
+    if (this.container) {
+      this.onResize = () => {
+        clearTimeout(this.resizeTimeout)
+        this.resizeTimeout = setTimeout(
+          () => this.setContainerHeight(),
+          300
+        )
+      }
+      window.addEventListener('resize', this.onResize)
+    }
+  }
+  removeEndEvents() {
+    if (this.onOpenEnd) {
+      this.elem.removeEventListener('transitionend', this.onOpenEnd)
+      this.onOpenEnd = null
+    }
+    if (this.onAdjustEnd) {
+      this.elem.removeEventListener('transitionend', this.onAdjustEnd)
+      this.onAdjustEnd = null
+    }
+    if (this.onCloseEnd) {
+      this.elem.removeEventListener('transitionend', this.onCloseEnd)
+      this.onCloseEnd = null
+    }
+  }
+  remove() {
+    this.removeEndEvents()
+    this.isAnimating = false
+    this.onStartStack = null
+    this.onEndStack = null
+    this.stop()
+    this.elem = null
+    this.state = 'init'
+    if (this.onResize) {
+      clearTimeout(this.resizeTimeout)
+      window.removeEventListener('resize', this.onResize)
+    }
+  }
+  getCloseHeight() {
+    return parseFloat(this.elem.clientHeight)
+  }
+  getOpenHeight(state) {
+    const currentHeight = window.getComputedStyle(this.elem).height
+    const currentPosition = window.getComputedStyle(this.elem).position
+    const parentPosition = window.getComputedStyle(this.elem.parentElement)
+      .position
+
+    this.elem.parentElement.style.position = 'relative'
+    this.elem.style.position = 'absolute'
+    this.elem.style.visibility = 'hidden'
+    this.elem.style.height = 'auto'
+
+    const height = parseFloat(this.elem.clientHeight)
+
+    this.elem.parentElement.style.position =
+      parentPosition !== 'static' ? parentPosition : ''
+    this.elem.style.position = currentPosition
+    this.elem.style.visibility = 'visible'
+
+    switch (state) {
+      case 'open':
+        this.elem.style.height =
+          this.state === 'init' ? '0' : currentHeight
+        break
+    }
+
+    return height
+  }
+  onStart(fn) {
+    this.onStartStack.push(fn)
+  }
+  onEnd(fn) {
+    this.onEndStack.push(fn)
+  }
+  callOnStart() {
+    this.onStartStack.forEach((fn) => {
+      if (typeof fn === 'function') {
+        fn(this.state)
+      }
     })
   }
+  callOnEnd() {
+    this.isAnimating = false
+    this.removeEndEvents()
+    this.resetSuppressAnimation()
 
-  revertScreenReaderPossibility() {
-    if (!this.nonScreenReaderNodes) {
+    this.onEndStack.forEach((fn) => {
+      if (typeof fn === 'function') {
+        fn(this.state)
+      }
+    })
+  }
+  start(fromHeight, toHeight, { animate }) {
+    if (animate === false || this.opts?.animate === false) {
+      this.callOnStart()
+
+      try {
+        const event = new CustomEvent('transitionend')
+        this.elem.dispatchEvent(event)
+      } catch (e) {
+        warn(e)
+      }
+
       return // stop here
     }
 
-    this.nonScreenReaderNodes.forEach((node) => {
-      node.removeAttribute('aria-hidden')
-    })
+    if (typeof window !== 'undefined' && window.requestAnimationFrame) {
+      this.stop()
+
+      this.isAnimating = true
+
+      if (animate === false) {
+        this.suppressAnimation()
+      }
+
+      // call the callbacks here, because then we do not call this during startup. This way we get an instant startup
+      this.callOnStart()
+
+      // make the animation
+      this.reqId1 = window.requestAnimationFrame(() => {
+        this.elem.style.height = `${fromHeight}px`
+
+        if (this.container) {
+          this.container.style.minHeight = `${fromHeight}px`
+        }
+
+        this.reqId2 = window.requestAnimationFrame(() => {
+          this.elem.style.height = `${toHeight}px`
+          this.setContainerHeight()
+        })
+      })
+    }
+  }
+  setContainerHeight() {
+    if (this.container) {
+      const contentElem = this.elem
+      if (contentElem.offsetHeight > 0) {
+        this.container.style.minHeight = `${
+          contentElem.offsetHeight + contentElem.offsetTop
+        }px`
+      }
+    }
+  }
+  stop() {
+    if (typeof window !== 'undefined' && window.requestAnimationFrame) {
+      window.cancelAnimationFrame(this.reqId1)
+      window.cancelAnimationFrame(this.reqId2)
+    }
+  }
+  suppressAnimation() {
+    this.transitionDuration = window.getComputedStyle(
+      this.elem
+    ).transitionDuration
+    this.elem.style.transitionDuration = '1ms'
+  }
+  resetSuppressAnimation() {
+    if (this.transitionDuration) {
+      this.elem.style.transitionDuration = this.transitionDuration
+      this.transitionDuration = null
+    }
+  }
+  adjustFrom() {
+    const height = this.getCloseHeight()
+    this.elem.style.height = `${height}px`
+    return height
+  }
+  adjustTo(fromHeight, { animate = true } = {}) {
+    const toHeight = this.getOpenHeight('open')
+
+    this.state = 'adjusting'
+    this.removeEndEvents() // also, remove events on every open (but not on close!)
+
+    if (!this.onAdjustEnd) {
+      this.elem.addEventListener(
+        'transitionend',
+        (this.onAdjustEnd = () => {
+          if (this.elem) {
+            this.elem.style.height = 'auto'
+          }
+
+          this.state = 'adjusted'
+          this.callOnEnd()
+          this.setContainerHeight()
+        })
+      )
+    }
+
+    this.start(fromHeight, toHeight, { animate })
+  }
+  open({ animate = true } = {}) {
+    if (this.state === 'opened' || this.state === 'opening') {
+      return
+    }
+
+    const height = this.getOpenHeight('open')
+
+    this.state = 'opening'
+    this.removeEndEvents() // also, remove events on every open (but not on close!)
+
+    if (!this.onOpenEnd) {
+      this.elem.addEventListener(
+        'transitionend',
+        (this.onOpenEnd = () => {
+          if (this.elem) {
+            this.elem.style.height = 'auto'
+          }
+
+          this.state = 'opened'
+          this.callOnEnd()
+          this.setContainerHeight()
+        })
+      )
+    }
+
+    this.start(0, height, { animate })
+  }
+  close({ animate = true } = {}) {
+    if (this.state === 'closed' || this.state === 'closing') {
+      return
+    }
+
+    let height = this.getCloseHeight()
+    if (this.state === 'init') {
+      height = this.getOpenHeight()
+    }
+
+    this.state = 'closing'
+    this.removeEndEvents() // also, remove events on every open (but not on close!)
+
+    if (!this.onCloseEnd) {
+      this.elem.addEventListener(
+        'transitionend',
+        (this.onCloseEnd = () => {
+          if (this.elem) {
+            this.elem.style.visibility = 'hidden'
+          }
+
+          this.state = 'closed'
+          this.callOnEnd()
+        })
+      )
+    }
+
+    this.start(height, 0, { animate })
   }
 }

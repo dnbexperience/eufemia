@@ -8,14 +8,15 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import {
   isTrue,
-  // makeUniqueId,
   validateDOMAttributes,
   registerElement
 } from '../../shared/component-helper'
 import '../../shared/helpers'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import HeadingContext from './HeadingContext'
+import Context from '../../shared/Context'
 import HeadingProvider from './HeadingProvider'
+import { createSkeletonClass } from '../skeleton/SkeletonHelper'
 import {
   correctHeadingLevel,
   resetLevels,
@@ -39,87 +40,79 @@ export const levelResolution = {
   6: 'x-small'
 }
 
-const renderProps = {}
-
-const propTypes = {
-  id: PropTypes.string,
-  group: PropTypes.string,
-  text: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
-  size: PropTypes.oneOf([
-    'auto',
-    'xx-large',
-    'x-large',
-    'large',
-    'medium',
-    'basis',
-    'small',
-    'x-small'
-  ]),
-
-  level: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  increase: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  decrease: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  up: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  down: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-
-  skip_correction: PropTypes.bool,
-  debug: PropTypes.oneOfType([PropTypes.bool, PropTypes.func]),
-  debug_counter: PropTypes.oneOfType([PropTypes.bool, PropTypes.func]),
-  counter: PropTypes.any,
-  inherit: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  reset: PropTypes.oneOfType([
-    PropTypes.number,
-    PropTypes.string,
-    PropTypes.bool
-  ]),
-
-  element: PropTypes.string,
-  class: PropTypes.string,
-
-  // React props
-  className: PropTypes.string,
-  children: PropTypes.oneOfType([PropTypes.node, PropTypes.func])
-}
-
-const defaultProps = {
-  id: null,
-  group: null,
-  text: null,
-  size: 'auto',
-
-  level: null, // like auto
-  increase: null,
-  decrease: null,
-  up: null,
-  down: null,
-
-  skip_correction: null,
-  debug: null,
-  debug_counter: null,
-  counter: null,
-  reset: null,
-  inherit: null,
-
-  element: 'auto', // e.g h1
-  class: null,
-
-  // React props
-  className: null,
-  children: null,
-
-  // Web Component props
-  ...renderProps
-}
-
 export default class Heading extends React.PureComponent {
   static tagName = 'dnb-heading'
-  static propTypes = propTypes
-  static defaultProps = defaultProps
-  static renderProps = renderProps
   static contextType = HeadingContext
 
+  static propTypes = {
+    id: PropTypes.string,
+    group: PropTypes.string,
+    text: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
+    size: PropTypes.oneOf([
+      'auto',
+      'xx-large',
+      'x-large',
+      'large',
+      'medium',
+      'basis',
+      'small',
+      'x-small'
+    ]),
+
+    level: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    increase: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    decrease: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    up: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    down: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+
+    skip_correction: PropTypes.bool,
+    debug: PropTypes.oneOfType([PropTypes.bool, PropTypes.func]),
+    debug_counter: PropTypes.oneOfType([PropTypes.bool, PropTypes.func]),
+    counter: PropTypes.any,
+    inherit: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    reset: PropTypes.oneOfType([
+      PropTypes.number,
+      PropTypes.string,
+      PropTypes.bool
+    ]),
+
+    skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    element: PropTypes.string,
+    class: PropTypes.string,
+
+    className: PropTypes.string,
+    children: PropTypes.oneOfType([PropTypes.node, PropTypes.func])
+  }
+
+  static defaultProps = {
+    id: null,
+    group: null,
+    text: null,
+    size: 'auto',
+
+    level: null, // like auto
+    increase: null,
+    decrease: null,
+    up: null,
+    down: null,
+
+    skip_correction: null,
+    debug: null,
+    debug_counter: null,
+    counter: null,
+    reset: null,
+    inherit: null,
+
+    skeleton: null,
+    element: 'auto', // e.g h1
+    class: null,
+
+    className: null,
+    children: null
+  }
+
   static enableWebComponent() {
-    registerElement(Heading.tagName, Heading, defaultProps)
+    registerElement(Heading.tagName, Heading, Heading.defaultProps)
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -223,6 +216,7 @@ export default class Heading extends React.PureComponent {
       inherit: _inherit, // eslint-disable-line
       level: _level, // eslint-disable-line
       size: _size, // eslint-disable-line
+      skeleton: _skeleton, // eslint-disable-line
       element: _element, // eslint-disable-line
       class: _className,
       className,
@@ -230,7 +224,7 @@ export default class Heading extends React.PureComponent {
       ...rest
     } = this.props
 
-    let { size, element } = this.props
+    let { size, element, skeleton } = this.props
     const { level } = this.state
 
     const debug = _debug || this.context.heading?.debug
@@ -256,36 +250,48 @@ export default class Heading extends React.PureComponent {
       }
     }
 
-    attributes.ref = this._ref
-    attributes.className = classnames(
-      'dnb-heading',
-      `dnb-h--${size}`,
-      className,
-      _className,
-      createSpacingClasses(this.props)
-    )
-
     validateDOMAttributes(this.props, attributes)
 
     const Element = element
 
     return (
-      <Element {...attributes}>
-        {debug && (
-          <span className="dnb-heading__debug">
-            {`[h${level || '6'}] `}
-            {debug_counter && (
-              <>
-                {' '}
-                <span className="dnb-code">
-                  {debugCounter(this.state.counter)}
+      <Context.Consumer>
+        {(context) => {
+          if (typeof context?.skeleton !== 'undefined') {
+            skeleton = context.skeleton
+          }
+
+          attributes.className = classnames(
+            'dnb-heading',
+            `dnb-h--${size}`,
+            createSkeletonClass('font', skeleton, this.context),
+            className,
+            _className,
+            createSpacingClasses(this.props)
+          )
+
+          attributes.children = (
+            <>
+              {debug && (
+                <span className="dnb-heading__debug">
+                  {`[h${level || '6'}] `}
+                  {debug_counter && (
+                    <>
+                      {' '}
+                      <span className="dnb-code">
+                        {debugCounter(this.state.counter)}
+                      </span>
+                    </>
+                  )}
                 </span>
-              </>
-            )}
-          </span>
-        )}
-        {text || children}
-      </Element>
+              )}
+              {text || children}
+            </>
+          )
+
+          return <Element ref={this._ref} {...attributes} />
+        }}
+      </Context.Consumer>
     )
   }
 }

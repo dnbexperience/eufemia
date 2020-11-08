@@ -17,7 +17,13 @@ module.exports = ({ IE11 = false, ...options } = {}) => {
       browsers: ['last 2 versions', IE11 ? 'explorer >= 11' : null].filter(
         (i) => i
       ),
-      importFrom: [extractCSSProperties('./src/style/index.scss')],
+      importFrom: [
+        // Use this method, instead ...
+        extractCSSProperties('./src/style/index.scss')
+
+        // ... of this. Because we need that config during build time of the lib
+        // require.resolve('dnb-ui-lib/build/style/dnb-ui-properties.css')
+      ],
       ...options
     }),
 
@@ -70,6 +76,6 @@ function extractCSSProperties(file, opts = {}) {
     fs.writeFileSync(tmpFile, String(sassResult.css))
     return tmpFile
   } catch (e) {
-    console.log('Error in postcssConfig (extractCSSProperties):', e)
+    console.error('Error in postcssConfig (extractCSSProperties):', e)
   }
 }

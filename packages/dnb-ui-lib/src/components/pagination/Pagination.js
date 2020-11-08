@@ -19,12 +19,6 @@ import { PaginationIndicator } from './PaginationHelpers'
 import InfinityScroller from './PaginationInfinity'
 import PaginationBar from './PaginationBar'
 
-const renderProps = {
-  on_change: null,
-  on_startup: null,
-  on_load: null
-}
-
 const propTypes = {
   startup_page: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   current_page: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
@@ -80,7 +74,6 @@ const propTypes = {
   align: PropTypes.string,
   class: PropTypes.string,
 
-  // React props
   className: PropTypes.string,
   children: PropTypes.oneOfType([
     // PropTypes.array,
@@ -88,7 +81,6 @@ const propTypes = {
     PropTypes.func
   ]),
 
-  // Web Component props
   on_change: PropTypes.func,
   on_startup: PropTypes.func,
   on_load: PropTypes.func
@@ -115,19 +107,18 @@ const defaultProps = {
   min_wait_time: 400,
   class: null,
 
-  // React props
   className: null,
   children: null,
 
-  // Web Component props
-  ...renderProps
+  on_change: null,
+  on_startup: null,
+  on_load: null
 }
 
 export default class Pagination extends React.PureComponent {
   static tagName = 'dnb-pagination'
   static propTypes = propTypes
   static defaultProps = defaultProps
-  static renderProps = renderProps
 
   static enableWebComponent() {
     registerElement(Pagination.tagName, Pagination, defaultProps)
@@ -237,7 +228,6 @@ export class InfinityMarker extends React.PureComponent {
   static tagName = 'dnb-infinity-marker'
   static propTypes = propTypes
   static defaultProps = defaultProps
-  static renderProps = renderProps
 
   static enableWebComponent() {
     registerElement(InfinityMarker.tagName, InfinityMarker, defaultProps)

@@ -139,6 +139,11 @@
       }
     }
   }
+  &--centered#{&}:not(#{&}--vertical) &__content {
+    @media screen and (min-width: 40em) {
+      align-items: center;
+    }
+  }
 
   // This is currently not needed
   // &--nested#{&}:not(#{&}--vertical)#{&}:not(#{&}--vertical-label)
