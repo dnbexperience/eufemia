@@ -9,8 +9,14 @@ import { Wrapper, Box } from '../helpers'
 import { css } from '@emotion/core'
 import styled from '@emotion/styled'
 
-import { FormStatus, FormRow } from '../../src/components'
-import { H1, H2, P, Link } from '../../src/elements'
+import {
+  FormStatus,
+  FormRow,
+  Skeleton,
+  IconPrimary,
+  ToggleButton
+} from '../../src/components'
+import { H1, H2, P, Hr, Link, Span, Div, Img } from '../../src/elements'
 // import Link from '../../src/elements/Link'
 
 export default {
@@ -245,3 +251,74 @@ export const Textarea = () => (
     </CustomStyles>
   </Wrapper>
 )
+
+export const ElementsAndSkeleton = () => {
+  // React.useEffect(() => {
+  //   console.log('myRef', myRef.current)
+  //   // console.log('myRef', Input, myRef.current)
+  //   // myRef.current.focus()
+  // })
+
+  const [showSkeleton, setSkeletonState] = React.useState(false)
+  // console.log('showSkeleton', showSkeleton)
+
+  return (
+    <Box>
+      <Skeleton.Exclude>
+        <ToggleButton
+          skeleton={false}
+          checked={showSkeleton}
+          on_change={() => setSkeletonState((s) => !s)}
+        >
+          Toggle Skeleton
+        </ToggleButton>
+      </Skeleton.Exclude>
+      <Skeleton
+        show={showSkeleton}
+        // no_animation
+        // show
+        // figure={() => <SkeletonArticle rows={2} />}
+        // style_type="shine"
+        // style_type="dots"
+        // style_type="norway"
+        // style_type="rainbow"
+        // style_type="brand"
+      >
+        <Hr top="large" bottom />
+        <Span>span span</Span>
+        <Hr top bottom />
+        <Div>div</Div>
+        <Hr top bottom />
+        <StyledImg
+          top
+          width="200"
+          height="200"
+          src="https://raw.githubusercontent.com/dnbexperience/eufemia/develop/logo.png"
+          alt="logo"
+        />
+        <Hr top bottom />
+        <StyledButton className="dnb-button dnb-button--reset">
+          <Span>Text</Span>
+          <IconPrimary icon="chevron_right" />
+        </StyledButton>
+      </Skeleton>
+    </Box>
+  )
+}
+
+const StyledImg = styled(Img)`
+  border-radius: 1rem;
+`
+const StyledButton = styled.button`
+  display: flex;
+  justify-content: space-between;
+
+  width: 100%;
+
+  &:hover {
+    color: var(--color-sea-green);
+  }
+  &:active {
+    opacity: 0.6;
+  }
+`

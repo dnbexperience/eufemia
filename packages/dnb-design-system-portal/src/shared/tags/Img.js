@@ -18,17 +18,15 @@ const Img = ({
   }
   const props = { width, height }
   return (
-    <React.Fragment>
-      <figure className={classnames('image-box', className)}>
-        <img
-          aria-hidden
-          alt={alt || caption}
-          src={src || children}
-          {...props}
-        />
-        {caption && <figcaption>{caption}</figcaption>}
-      </figure>
-    </React.Fragment>
+    <figure className={classnames('image-box', className)}>
+      <img
+        aria-hidden
+        alt={alt || caption}
+        src={src || children}
+        {...props}
+      />
+      {caption && <figcaption>{caption}</figcaption>}
+    </figure>
   )
 }
 

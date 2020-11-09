@@ -4,9 +4,34 @@
  */
 
 @mixin imageStyle() {
+  position: relative;
+  z-index: 2;
+
   box-sizing: content-box;
   max-width: 100%;
   border-style: none;
+
+  border-radius: inherit;
+
+  background-color: var(--color-black-8);
+
+  &[alt]::after {
+    content: attr(alt);
+
+    display: flex;
+    position: absolute;
+    z-index: 3;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: inherit;
+    background-color: inherit;
+  }
 }
 @mixin imageTag() {
   img {
@@ -14,6 +39,25 @@
   }
 }
 
-.dnb-image {
-  @include imageStyle();
+.dnb-img {
+  display: inline-flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+
+  text-align: center; // works on Chrome – hides the alt text
+  align-items: center; // works on FF – hides the alt text
+
+  img,
+  figcaption {
+    font-size: var(--font-size-basis);
+  }
+
+  img {
+    @include imageStyle();
+  }
+
+  figcaption {
+    margin-top: 0.5rem;
+  }
 }
