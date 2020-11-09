@@ -1,15 +1,10 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 export default function MCBlack(props) {
   return (
-    <svg
-      width="80"
-      height="54"
-      viewBox="0 0 80 54"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      {...props}
-    >
+    <svg {...props} fill="none" xmlns="http://www.w3.org/2000/svg">
+      <title>Mastercard</title>
       <path
         d="M55.9251 3.02808C45.3231 3.02808 36.7036 11.6475 36.7036 22.2495C36.7036 32.8515 45.3231 41.471 55.9251 41.471C66.527 41.471 75.1465 32.8515 75.1465 22.2495C75.0603 11.6475 66.527 3.02808 55.9251 3.02808Z"
         fill="url(#paint0_linear)"
@@ -236,4 +231,14 @@ export default function MCBlack(props) {
       </defs>
     </svg>
   )
+}
+MCBlack.propTypes = {
+  width: PropTypes.string,
+  height: PropTypes.string,
+  viewBox: PropTypes.string
+}
+MCBlack.defaultProps = {
+  width: '80',
+  height: '54',
+  viewBox: '0 0 80 54'
 }

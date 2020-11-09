@@ -1,23 +1,9 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from 'react'
+import PropTypes from 'prop-types'
 
-const SVG = ({
-  fill = 'none',
-  width = '75',
-  height = '35',
-  id = '',
-  className = '',
-  viewBox = '0 0 75 35'
-}) => (
-  <svg
-    height={height}
-    width={width}
-    viewBox={viewBox}
-    fill={fill}
-    xmlns="http://www.w3.org/2000/svg"
-    id={id}
-    className={className}
-  >
+const SagaGoldSVG = (props) => (
+  <svg {...props} fill="none" xmlns="http://www.w3.org/2000/svg">
+    <title>SagaGold</title>
     <path
       fillRule="evenodd"
       clipRule="evenodd"
@@ -31,15 +17,16 @@ const SVG = ({
       fill="#CFAD88"
     />
   </svg>
-);
-
-SVG.propTypes = {
-  fill: PropTypes.string,
+)
+SagaGoldSVG.propTypes = {
   width: PropTypes.string,
   height: PropTypes.string,
-  id: PropTypes.string,
-  className: PropTypes.string,
   viewBox: PropTypes.string
-};
+}
+SagaGoldSVG.defaultProps = {
+  width: '75',
+  height: '35',
+  viewBox: '0 0 75 35'
+}
 
-export default SVG;
+export default SagaGoldSVG

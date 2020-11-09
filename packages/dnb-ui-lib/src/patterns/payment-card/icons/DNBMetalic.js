@@ -1,23 +1,9 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from 'react'
+import PropTypes from 'prop-types'
 
-const SVG = ({
-  fill = 'none',
-  width = '56',
-  height = '38',
-  id = '',
-  viewBox = '0 0 56 38',
-  className = ''
-}) => (
-  <svg
-    viewBox={viewBox}
-    height={height}
-    width={width}
-    fill={fill}
-    id={id}
-    className={className}
-    xmlns="http://www.w3.org/2000/svg"
-  >
+const DNBMetalicLogoSVG = (props) => (
+  <svg {...props} fill="none" xmlns="http://www.w3.org/2000/svg">
+    <title>DNB logo</title>
     <path
       fillRule="evenodd"
       clipRule="evenodd"
@@ -44,15 +30,18 @@ const SVG = ({
       </linearGradient>
     </defs>
   </svg>
-);
-
-SVG.propTypes = {
+)
+DNBMetalicLogoSVG.propTypes = {
   fill: PropTypes.string,
   width: PropTypes.string,
   height: PropTypes.string,
-  id: PropTypes.string,
-  className: PropTypes.string,
   viewBox: PropTypes.string
-};
+}
+DNBMetalicLogoSVG.defaultProps = {
+  fill: 'none',
+  width: '56',
+  height: '38',
+  viewBox: '0 0 56 38'
+}
 
-export default SVG;
+export default DNBMetalicLogoSVG

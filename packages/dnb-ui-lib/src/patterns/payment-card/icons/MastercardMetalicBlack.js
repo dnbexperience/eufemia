@@ -1,5 +1,5 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from 'react'
+import PropTypes from 'prop-types'
 
 const SVG = ({
   width = '80',
@@ -243,15 +243,18 @@ const SVG = ({
       </linearGradient>
     </defs>
   </svg>
-);
-
+)
 SVG.propTypes = {
   fill: PropTypes.string,
   width: PropTypes.string,
   height: PropTypes.string,
-  id: PropTypes.string,
-  className: PropTypes.string,
   viewBox: PropTypes.string
-};
+}
+SVG.defaultProps = {
+  fill: '#fff',
+  width: '72',
+  height: '35',
+  viewBox: '0 0 72 35'
+}
 
-export default SVG;
+export default SVG
