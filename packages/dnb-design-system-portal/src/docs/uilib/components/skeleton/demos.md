@@ -26,21 +26,19 @@ import 'dnb-ui-lib/src/components/skeleton/style/themes/brand'
 
 ## Toggle skeleton on/off
 
-<ComponentBox data-visual-test="skeleton-exclude" scope={{Provider}} useRender>
+<ComponentBox data-visual-test="skeleton-exclude" useRender>
 {`
 const UserData = () => {
 	const [state, setState] = React.useState(true)
 	return (
-		<>
-			<Skeleton show={state}>
-				<H2 top bottom>Heading</H2>
-				<P top bottom>Paragraph Non habitasse ut nisi dictum laoreet ridiculus dui.</P>
-				<Input label_direction="vertical" label="Input" />
-				<Skeleton.Exclude>
-					<ToggleButton checked={state} on_change={({ checked }) => setState(checked)} top="large">Toggle</ToggleButton>
-				</Skeleton.Exclude>
-			</Skeleton>
-		</>
+		<Skeleton show={state}>
+			<H2 top bottom>Heading</H2>
+			<P top bottom>Paragraph Non habitasse ut nisi dictum laoreet ridiculus dui.</P>
+			<Input label_direction="vertical" label="Input" />
+			<Skeleton.Exclude>
+				<ToggleButton checked={state} on_change={({ checked }) => setState(checked)} top="large">Toggle</ToggleButton>
+			</Skeleton.Exclude>
+		</Skeleton>
 	)
 }
 render(<UserData />)

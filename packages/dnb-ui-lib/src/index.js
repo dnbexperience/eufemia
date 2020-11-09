@@ -50,6 +50,7 @@ import Anchor from './elements/Anchor'
 import Blockquote from './elements/Blockquote'
 import Code from './elements/Code'
 import Dd from './elements/Dd'
+import Div from './elements/Div'
 import Dl from './elements/Dl'
 import Dt from './elements/Dt'
 import H from './elements/H'
@@ -68,6 +69,7 @@ import Link from './elements/Link'
 import Ol from './elements/Ol'
 import P from './elements/P'
 import Paragraph from './elements/Paragraph'
+import Span from './elements/Span'
 import Table from './elements/Table'
 import Td from './elements/Td'
 import Th from './elements/Th'
@@ -116,6 +118,7 @@ export {
   Blockquote,
   Code,
   Dd,
+  Div,
   Dl,
   Dt,
   H,
@@ -134,6 +137,7 @@ export {
   Ol,
   P,
   Paragraph,
+  Span,
   Table,
   Td,
   Th,
