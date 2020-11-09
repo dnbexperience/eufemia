@@ -13,8 +13,6 @@
 
   border-radius: inherit;
 
-  background-color: var(--color-black-8);
-
   &[alt]::after {
     content: attr(alt);
 
@@ -30,7 +28,7 @@
     justify-content: center;
 
     border-radius: inherit;
-    background-color: inherit;
+    background-color: var(--color-black-8);
   }
 }
 @mixin imageTag() {

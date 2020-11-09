@@ -10,8 +10,6 @@ The image element associated with the class `dnb-img` does not have much opinion
 
 As of now, the React image "element" (Img) does provide a `figure` element with the `role="img"` and an `img` tag inside. This is mainly to support the [Skeleton](/uilib/components/skeleton) provider.
 
-Styles wise, the background color is defined long with a centered alternative text.
-
 ```jsx
 import { Img } from 'dnb-ui-lib/elements'
 
