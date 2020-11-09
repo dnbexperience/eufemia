@@ -13,7 +13,7 @@ How to use it:
 
 ```jsx
 import 'dnb-ui-lib/patterns/payment-card/style'
-import PaymentCard, { getCardData } from 'dnb-ui-lib/patterns/PaymentCard'
+import PaymentCard, { getCardData } from 'dnb-ui-lib/patterns/payment-card'
 
 render(<PaymentCard product_code="..." />)
 ```
