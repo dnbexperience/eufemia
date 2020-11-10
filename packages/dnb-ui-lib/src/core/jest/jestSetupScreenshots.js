@@ -492,10 +492,9 @@ module.exports.loadImage = async (imagePath) =>
 const createUrl = (url, fullscreen = false) => {
   const path = `http://${config.testScreenshotOnHost}:${
     config.testScreenshotOnPort
-  }/${url}?data-visual-test${fullscreen ? '&fullscreen' : ''}`.replace(
-    /\/\//g,
-    '/'
-  )
+  }/${url}${url.includes('?') ? '&' : '?'}data-visual-test${
+    fullscreen ? '&fullscreen' : ''
+  }`.replace(/\/\//g, '/')
 
   return path
 }

@@ -58,6 +58,12 @@ export function setLang(locale) {
   }
 }
 export function getSkeletonEnabled() {
+  if (
+    typeof window !== 'undefined' &&
+    window.location.search.includes('skeleton')
+  ) {
+    return true
+  }
   if (global.IS_TEST) {
     return false
   }
