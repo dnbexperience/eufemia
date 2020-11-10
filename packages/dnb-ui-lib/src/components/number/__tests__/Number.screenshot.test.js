@@ -60,3 +60,26 @@ describe('Number screenshot', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 })
+
+describe('Number with skeleton screenshot', () => {
+  setupPageScreenshot({ url: '/uilib/components/number/demos?skeleton' })
+
+  it('have to match default numbers', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-visual-test="number-default"]'
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+  it('have to match currency', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-visual-test="number-currency"]'
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+  it('have to match phone', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-visual-test="number-phone"]'
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+})

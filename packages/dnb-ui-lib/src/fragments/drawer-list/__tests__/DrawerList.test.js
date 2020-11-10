@@ -277,7 +277,7 @@ describe('DrawerList component', () => {
       Comp.find('.dnb-drawer-list__options')
         .instance()
         .getAttribute('style')
-    ).toBe('max-height: 33.5rem;') // jsdom defualt is 768 innerHeight
+    ).toBe('max-height: 33.5rem;') // jsdom default is 768 innerHeight
 
     window.resizeTo({
       height: 640 // change innerHeight

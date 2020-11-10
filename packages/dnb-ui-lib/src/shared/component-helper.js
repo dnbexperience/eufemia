@@ -926,6 +926,7 @@ export class AnimateHeight {
   }
   start(fromHeight, toHeight, { animate }) {
     if (animate === false || this.opts?.animate === false) {
+      this.elem.style.height = `${toHeight}px`
       this.callOnStart()
 
       try {

@@ -36,25 +36,25 @@ const DidRender1 = ({ message }) => {
   return <></>
 }
 
-Accordion.Group.Store('group-id').saveState(true, 'remembered-state-2')
-const getState = Accordion.Group.Store('group-id').getState(
-  'remembered-state-2'
-)
-console.log('getState', getState)
-/**
- * "getState" returns
- * - true if it is saved as expanded
- * - false if it is saved as not expanded
- * - null if it is not saved
- */
+// Accordion.Group.Store('group-id').saveState(true, 'remembered-state-2')
+// const getState = Accordion.Group.Store('group-id').getState(
+//   'remembered-state-2'
+// )
+// console.log('getState', getState)
+// /**
+//  * "getState" returns
+//  * - true if it is saved as expanded
+//  * - false if it is saved as not expanded
+//  * - null if it is not saved
+//  */
 
-const getData = Accordion.Group.Store('group-id').getData()?.id
-console.log('getData', getData)
-/**
- * "getData" returns
- * - object with the "id" that is saved
- * - null if it is not saved
- */
+// const getData = Accordion.Group.Store('group-id').getData()?.id
+// console.log('getData', getData)
+// /**
+//  * "getData" returns
+//  * - object with the "id" that is saved
+//  * - null if it is not saved
+//  */
 
 // console.log(
 //   'single-accordion',

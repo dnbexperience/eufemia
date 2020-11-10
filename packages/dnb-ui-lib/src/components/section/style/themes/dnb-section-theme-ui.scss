@@ -8,11 +8,14 @@
 @mixin SectionTheme() {
   &--divider::after {
     color: var(--color-white);
-    box-shadow: 100vw 0 0 0 currentColor,
+    box-shadow: 99vw 0 0 0 currentColor, 198vw 0 0 0 currentColor,
+      297vw 0 0 0 currentColor, 396vw 0 0 0 currentColor,
       0 0.0625rem 0 0 var(--color-mint-green-50),
-      100vw 0.0625rem 0 0 var(--color-mint-green-50),
+      99vw 0.0625rem 0 0 var(--color-mint-green-50),
       0 -0.0625rem 0 0 var(--color-mint-green-50),
-      100vw -0.0625rem 0 0 var(--color-mint-green-50);
+      99vw -0.0625rem 0 0 var(--color-mint-green-50),
+      198vw 0.0625rem 0 0 var(--color-mint-green-50),
+      198vw -0.0625rem 0 0 var(--color-mint-green-50);
   }
   &--mint-green-12::after {
     color: var(--color-mint-green-12);

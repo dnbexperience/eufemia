@@ -14,7 +14,7 @@ exports[`GlobalStatus scss have to match default theme snapshot 1`] = `
  * Utilities
  */
 .dnb-global-status:not(.dnb-global-status--no-animation).dnb-global-status--fade-in.dnb-global-status.dnb-section::after {
-  box-shadow: 100vw 0 0 0 currentColor, 0 0.0625rem 0 0 var(--color-black-80), 100vw 0.0625rem 0 0 var(--color-black-80); }
+  box-shadow: 99vw 0 0 0 currentColor, 198vw 0 0 0 currentColor, 297vw 0 0 0 currentColor, 396vw 0 0 0 currentColor, 0 0.0625rem 0 0 var(--color-black-80), 100vw 0.0625rem 0 0 var(--color-black-80); }
 
 .dnb-global-status--info.dnb-global-status.dnb-section--mint-green-12::after {
   color: var(--color-sea-green); }
@@ -551,7 +551,7 @@ button.dnb-button::-moz-focus-inner {
     height: 100%;
     color: var(--color-mint-green-12);
     background-color: currentColor;
-    box-shadow: 10px 0 0 0 currentColor, 100vw 0 0 0 currentColor; }
+    box-shadow: 99vw 0 0 0 currentColor, 198vw 0 0 0 currentColor, 297vw 0 0 0 currentColor, 396vw 0 0 0 currentColor; }
   .dnb-section > .dnb-section::after {
     z-index: -2; }
   .dnb-section > .dnb-section > .dnb-section::after {

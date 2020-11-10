@@ -196,8 +196,6 @@ const UpdateDemoStatus = () => {
         title="Custom Title"
         text="Failure text"
         id="demo-2"
-        // omit_set_focus
-        omit_set_focus_on_update
       />
       <Input
         top
