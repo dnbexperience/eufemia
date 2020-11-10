@@ -40,6 +40,7 @@ export default class AccordionContent extends React.PureComponent {
     this._ref = React.createRef()
 
     this.state = {
+      isInitial: true,
       _gotOpened: context.gotOpened
     }
 
@@ -90,17 +91,19 @@ export default class AccordionContent extends React.PureComponent {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.context.expanded !== this.context._expanded) {
+    if (this.context.expanded !== this.state._expanded) {
+      const isInitial = this.state.isInitial
       this.setState(
         {
           _expanded: this.context.expanded,
+          isInitial: false,
           keepContentVisible: true
         },
         () => {
           if (this.context.expanded) {
-            this.anim.open()
+            this.anim.open({ animate: !isInitial })
           } else {
-            this.anim.close()
+            this.anim.close({ animate: !isInitial })
           }
         }
       )
