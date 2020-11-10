@@ -592,15 +592,15 @@ legend.dnb-form-label {
     -webkit-user-select: none;
     position: relative;
     display: flex;
-    align-items: center;
-    height: var(--switch-height--medium); }
+    align-items: center; }
   .dnb-switch--large {
     line-height: var(--switch-height--large); }
   .dnb-switch--large .dnb-switch__shell {
     height: var(--switch-height--large); }
   .dnb-switch__row {
     display: inline-flex;
-    align-items: center; }
+    align-items: center;
+    height: var(--switch-height--medium); }
   .dnb-switch__focus, .dnb-switch__button {
     position: absolute;
     z-index: 4;

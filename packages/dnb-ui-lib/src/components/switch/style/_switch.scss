@@ -34,8 +34,6 @@
 
     display: flex;
     align-items: center;
-
-    height: var(--switch-height--medium);
   }
   &--large {
     line-height: var(--switch-height--large);
@@ -47,6 +45,7 @@
   &__row {
     display: inline-flex;
     align-items: center;
+    height: var(--switch-height--medium);
   }
 
   &__focus,
