@@ -96,7 +96,7 @@
   &--font {
     background-image: repeating-linear-gradient(
       -45deg,
-      var(--skeleton-color--contrast) #{$pixel1} 2px,
+      var(--skeleton-color--contrast) #{$pixel1} #{$pixel2},
       transparent 0 6px
     ) !important;
 
