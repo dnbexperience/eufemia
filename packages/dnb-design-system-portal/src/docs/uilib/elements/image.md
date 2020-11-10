@@ -29,7 +29,7 @@ const CustomImage = () => {
       width="100"
       height="100"
       alt="DNB logo"
-      src="https://raw.githubusercontent.com/dnbexperience/eufemia/release/logo.png"
+      src="/android-chrome-192x192.png"
     />
 	)
 }
@@ -72,7 +72,7 @@ const CustomImage = () => {
       height="100"
       alt="Alt text"
       caption="Caption text"
-      src="https://raw.githubusercontent.com/dnbexperience/eufemia/release/logo.png"
+      src="/android-chrome-192x192.png"
     />
 	)
 }
@@ -95,7 +95,7 @@ const CustomImage = () => {
         width="100"
         height="100"
         alt="DNB logo"
-        src="https://raw.githubusercontent.com/dnbexperience/eufemia/release/logo.png"
+        src="/android-chrome-192x192.png"
       />
       <br />
       <Skeleton.Exclude>
