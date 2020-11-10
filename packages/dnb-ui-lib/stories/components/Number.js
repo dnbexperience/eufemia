@@ -111,6 +111,7 @@ export const NumberSandbox = () => {
                 // value={'-12.623,988'}
                 value={'-12,623.988'}
                 decimals={3}
+                clean
                 // currency
               />
             </Provider>
@@ -128,6 +129,11 @@ export const NumberSandbox = () => {
             //  locale="en-US"
             >
               <ChangeLocale />
+              <br />
+              <Number value="-1234" decimals="2" />
+              <br />
+              <Number value="-1234.05" decimals="2" />
+              <br />
               <P>
                 text{' '}
                 <Number currency clean>
