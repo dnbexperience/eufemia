@@ -89,7 +89,7 @@
       bottom: 0; // because of the link/anchor border-bottom 2px
 
       width: 100%;
-      height: 3px;
+      height: #{$pixel3};
       border-radius: 1.5px;
     }
   }
@@ -109,7 +109,7 @@
     bottom: 0;
 
     width: 100vw;
-    height: 1px;
+    height: #{$pixel1};
 
     color: black;
     background-color: currentColor;

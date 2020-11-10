@@ -35,7 +35,7 @@
 
   border-radius: var(--range-thumb-dimension);
   background: var(--color-white);
-  border: 0.0625rem solid var(--color-sea-green);
+  border: $pixel1 solid var(--color-sea-green);
 }
 
 input[type='range'] {

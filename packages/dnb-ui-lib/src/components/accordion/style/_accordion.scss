@@ -5,7 +5,7 @@
 
 :root {
   // Props
-  --accordion-border-width: 0.0625rem;
+  --accordion-border-width: #{$pixel1};
   --accordion-border-radius: 0.25rem;
   --accordion-easing: #{$defaultEasing};
 }

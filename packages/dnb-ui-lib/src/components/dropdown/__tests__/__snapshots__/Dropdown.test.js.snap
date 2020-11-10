@@ -1255,20 +1255,20 @@ exports[`Dropdown scss have to match default theme snapshot 1`] = `
       color: var(--dropdown-text-color); }
   .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger {
     --border-color: var(--color-fire-red);
-    box-shadow: 0 0 0 0.125rem var(--border-color) !important;
+    box-shadow: 0 0 0 2px var(--border-color) !important;
     border-color: transparent; }
     @media screen and (-ms-high-contrast: none) {
       .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger {
-        box-shadow: 0 0 0 1px var(--color-fire-red) !important; } }
+        box-shadow: 0 0 0 2px var(--color-fire-red) !important; } }
     html:not([data-whatintent='touch']) .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger:hover[disabled] {
       cursor: not-allowed; }
     html:not([data-whatintent='touch']) .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger:hover:not([disabled]) {
       --border-color: var(--color-fire-red);
-      box-shadow: 0 0 0 0.125rem var(--border-color) !important;
+      box-shadow: 0 0 0 2px var(--border-color) !important;
       border-color: transparent; }
       @media screen and (-ms-high-contrast: none) {
         html:not([data-whatintent='touch']) .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger:hover:not([disabled]) {
-          box-shadow: 0 0 0 1px var(--color-fire-red) !important; } }
+          box-shadow: 0 0 0 2px var(--color-fire-red) !important; } }
       html:not([data-whatintent='touch']) .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger:hover:not([disabled]) .dnb-dropdown__icon .dnb-icon {
         color: var(--color-fire-red); }
   .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger,
@@ -1525,8 +1525,8 @@ exports[`Dropdown scss have to match snapshot 1`] = `
   --button-width--large: 3rem;
   --button-height--large: 3rem;
   --button-icon-size: 1rem;
-  --button-border-width: 0.0625rem;
-  --button-border-width--hover: 0.1875rem;
+  --button-border-width: 1px;
+  --button-border-width--hover: $pixel3;
   --button-border-radius: calc(var(--button-height) / 2);
   --button-border-radius--small: calc(var(--button-height--small) / 2);
   --button-border-radius--medium: calc(var(--button-height--medium) / 2);
@@ -1669,11 +1669,11 @@ exports[`Dropdown scss have to match snapshot 1`] = `
       outline: none; }
       html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):focus, html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):active {
         --border-color: var(--color-emerald-green);
-        box-shadow: 0 0 0 0.125rem var(--border-color);
+        box-shadow: 0 0 0 2px var(--border-color);
         border-color: transparent; }
         @media screen and (-ms-high-contrast: none) {
           html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):focus, html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):active {
-            box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
+            box-shadow: 0 0 0 2px var(--color-emerald-green); } }
     html[data-whatinput='mouse'] .dnb-button--reset:not([disabled]):focus,
     html[data-whatinput='mouse'] .dnb-button--reset:not([disabled]):active {
       box-shadow: none;
@@ -1697,7 +1697,7 @@ exports[`Dropdown scss have to match snapshot 1`] = `
     .dnb-button {
       flex: none; }
       .dnb-button__icon, .dnb-button__text {
-        transform: translateY(-0.0625rem); } }
+        transform: translateY(-1px); } }
 
 /* Firefox includes a hidden border which messes up button dimensions */
 button.dnb-button::-moz-focus-inner {
@@ -1843,7 +1843,7 @@ legend.dnb-form-label {
   --dropdown-height--medium: 2.5rem;
   --dropdown-height--large: 3rem;
   --dropdown-padding-horizontal: 1rem;
-  --dropdown-focus-border-width: 0.125rem;
+  --dropdown-focus-border-width: 2px;
   --dropdown-text-padding: 0.5rem; }
 
 .dnb-dropdown {

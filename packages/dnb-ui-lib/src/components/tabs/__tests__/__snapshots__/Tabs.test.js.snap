@@ -370,11 +370,11 @@ exports[`Tabs scss have to match snapshot 1`] = `
       outline: none; }
       html[data-whatinput='keyboard'] .dnb-tabs__tabs__tablist:focus {
         --border-color: var(--color-emerald-green);
-        box-shadow: 0 0 0 0.125rem var(--border-color);
+        box-shadow: 0 0 0 2px var(--border-color);
         border-color: transparent; }
         @media screen and (-ms-high-contrast: none) {
           html[data-whatinput='keyboard'] .dnb-tabs__tabs__tablist:focus {
-            box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
+            box-shadow: 0 0 0 2px var(--color-emerald-green); } }
   .dnb-tabs__tabs--left .dnb-tabs__tabs__tablist {
     justify-content: flex-start; }
   .dnb-tabs__tabs--right .dnb-tabs__tabs__tablist {
@@ -389,7 +389,7 @@ exports[`Tabs scss have to match snapshot 1`] = `
     -webkit-user-select: none;
     margin: 0;
     margin-left: 4.5rem;
-    padding: 0.25rem 0.125rem;
+    padding: 0.25rem 2px;
     /* 1/16*4 */
     background-color: transparent;
     border-bottom: 1px solid transparent;
@@ -404,7 +404,7 @@ exports[`Tabs scss have to match snapshot 1`] = `
       .dnb-tabs__tabs .dnb-tabs__button__title .dnb-icon,
       .dnb-core-style .dnb-tabs__tabs .dnb-tabs__button__title .dnb-icon {
         font-size: var(--font-size-small);
-        transform: translateY(-0.125rem); }
+        transform: translateY(-2px); }
     .dnb-tabs__tabs .dnb-tabs__button .dnb-dummy,
     .dnb-core-style .dnb-tabs__tabs .dnb-tabs__button .dnb-dummy {
       display: flex;

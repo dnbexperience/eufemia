@@ -236,11 +236,11 @@ const Line = styled.div`
   display: flex;
   align-items: center;
 
-  width: 0.0625rem;
+  width: 1px;
   height: 100%;
 
   background-color: var(--color-fire-red);
-  ${'' /* border-left: 0.0625rem dotted var(--color-fire-red); */}
+  ${'' /* border-left: 1px dotted var(--color-fire-red); */}
 `
 const MarginContainer = styled.div`
   position: relative;
@@ -262,7 +262,7 @@ const Margin = styled.div`
   height: 100%;
 
   background-color: rgba(213, 30, 149, 0.25);
-  ${'' /* border-left: 0.0625rem dotted var(--color-fire-red); */}
+  ${'' /* border-left: 1px dotted var(--color-fire-red); */}
 `
 const Label = styled.label`
   display: block;

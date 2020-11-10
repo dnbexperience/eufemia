@@ -609,11 +609,11 @@ exports[`Button scss have to match default theme snapshot 1`] = `
       color: var(--color-sea-green);
       background-color: var(--color-white);
       --border-color: var(--color-emerald-green);
-      box-shadow: 0 0 0 0.125rem var(--border-color);
+      box-shadow: 0 0 0 2px var(--border-color);
       border-color: transparent; }
       @media screen and (-ms-high-contrast: none) {
         html:not([data-whatintent='touch']) .dnb-button--primary:hover:not([disabled]) {
-          box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
+          box-shadow: 0 0 0 2px var(--color-emerald-green); } }
       @media screen and (-ms-high-contrast: none) {
         html:not([data-whatintent='touch']) .dnb-button--primary:hover:not([disabled]) {
           opacity: 1; } }
@@ -630,23 +630,23 @@ exports[`Button scss have to match default theme snapshot 1`] = `
       html[data-whatinput='keyboard'] .dnb-button--primary:focus:not([disabled]), html[data-whatinput='keyboard']
       html:not([data-whatintent='touch']) .dnb-button--primary:focus:not([disabled]) {
         --border-color: var(--color-emerald-green);
-        box-shadow: inset 0 0 0 0.125rem var(--border-color);
+        box-shadow: inset 0 0 0 2px var(--border-color);
         /* iOS fix - because \\"inset\\" works not fine with border-radius */
         /* Safari fix - because \\"inset\\" works not fine with border-radius if the user zooms the page */
         border-color: transparent; }
         @supports (-webkit-touch-callout: none) {
           html[data-whatinput='keyboard'] .dnb-button--primary:focus:not([disabled]), html[data-whatinput='keyboard']
           html:not([data-whatintent='touch']) .dnb-button--primary:focus:not([disabled]) {
-            box-shadow: 0 0 0 0.125rem var(--border-color); } }
+            box-shadow: 0 0 0 2px var(--border-color); } }
         @media not all and (min-resolution: 0.001dpcm) {
           @supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-overflow-scrolling: touch)) {
             html[data-whatinput='keyboard'] .dnb-button--primary:focus:not([disabled]), html[data-whatinput='keyboard']
             html:not([data-whatintent='touch']) .dnb-button--primary:focus:not([disabled]) {
-              box-shadow: 0 0 0 0.125rem var(--border-color); } } }
+              box-shadow: 0 0 0 2px var(--border-color); } } }
         @media screen and (-ms-high-contrast: none) {
           html[data-whatinput='keyboard'] .dnb-button--primary:focus:not([disabled]), html[data-whatinput='keyboard']
           html:not([data-whatintent='touch']) .dnb-button--primary:focus:not([disabled]) {
-            box-shadow: inset 0 0 0 0.125rem var(--color-emerald-green); } }
+            box-shadow: inset 0 0 0 2px var(--color-emerald-green); } }
     .dnb-button--primary:active[disabled],
     html:not([data-whatintent='touch']) .dnb-button--primary:active[disabled] {
       cursor: not-allowed; }
@@ -655,12 +655,12 @@ exports[`Button scss have to match default theme snapshot 1`] = `
       color: var(--color-sea-green);
       background-color: var(--color-mint-green-50);
       --border-color: transparent;
-      box-shadow: 0 0 0 0.0625rem var(--border-color);
+      box-shadow: 0 0 0 1px var(--border-color);
       border-color: transparent; }
       @media screen and (-ms-high-contrast: none) {
         .dnb-button--primary:active:not([disabled]),
         html:not([data-whatintent='touch']) .dnb-button--primary:active:not([disabled]) {
-          box-shadow: 0 0 0 0.0625rem transparent; } }
+          box-shadow: 0 0 0 1px transparent; } }
     .dnb-button--primary[disabled] {
       color: var(--color-white);
       background-color: var(--color-sea-green-30); }
@@ -668,17 +668,17 @@ exports[`Button scss have to match default theme snapshot 1`] = `
     color: var(--color-sea-green);
     background-color: var(--color-white);
     --border-color: var(--color-sea-green);
-    box-shadow: inset 0 0 0 0.0625rem var(--border-color);
+    box-shadow: inset 0 0 0 1px var(--border-color);
     /* iOS fix - because \\"inset\\" works not fine with border-radius */
     /* Safari fix - because \\"inset\\" works not fine with border-radius if the user zooms the page */
     border-color: transparent; }
     @supports (-webkit-touch-callout: none) {
       .dnb-button--secondary {
-        box-shadow: 0 0 0 0.0625rem var(--border-color); } }
+        box-shadow: 0 0 0 1px var(--border-color); } }
     @media not all and (min-resolution: 0.001dpcm) {
       @supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-overflow-scrolling: touch)) {
         .dnb-button--secondary {
-          box-shadow: 0 0 0 0.0625rem var(--border-color); } } }
+          box-shadow: 0 0 0 1px var(--border-color); } } }
     @media screen and (-ms-high-contrast: none) {
       .dnb-button--secondary {
         box-shadow: inset 0 0 0 1px var(--color-sea-green); } }
@@ -688,11 +688,11 @@ exports[`Button scss have to match default theme snapshot 1`] = `
       color: var(--color-sea-green);
       background-color: var(--color-white);
       --border-color: var(--color-emerald-green);
-      box-shadow: 0 0 0 0.125rem var(--border-color);
+      box-shadow: 0 0 0 2px var(--border-color);
       border-color: transparent; }
       @media screen and (-ms-high-contrast: none) {
         html:not([data-whatintent='touch']) .dnb-button--secondary:hover:not([disabled]) {
-          box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
+          box-shadow: 0 0 0 2px var(--color-emerald-green); } }
       @media screen and (-ms-high-contrast: none) {
         html:not([data-whatintent='touch']) .dnb-button--secondary:hover:not([disabled]) {
           opacity: 1; } }
@@ -709,23 +709,23 @@ exports[`Button scss have to match default theme snapshot 1`] = `
       html[data-whatinput='keyboard'] .dnb-button--secondary:focus:not([disabled]), html[data-whatinput='keyboard']
       html:not([data-whatintent='touch']) .dnb-button--secondary:focus:not([disabled]) {
         --border-color: var(--color-emerald-green);
-        box-shadow: inset 0 0 0 0.125rem var(--border-color);
+        box-shadow: inset 0 0 0 2px var(--border-color);
         /* iOS fix - because \\"inset\\" works not fine with border-radius */
         /* Safari fix - because \\"inset\\" works not fine with border-radius if the user zooms the page */
         border-color: transparent; }
         @supports (-webkit-touch-callout: none) {
           html[data-whatinput='keyboard'] .dnb-button--secondary:focus:not([disabled]), html[data-whatinput='keyboard']
           html:not([data-whatintent='touch']) .dnb-button--secondary:focus:not([disabled]) {
-            box-shadow: 0 0 0 0.125rem var(--border-color); } }
+            box-shadow: 0 0 0 2px var(--border-color); } }
         @media not all and (min-resolution: 0.001dpcm) {
           @supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-overflow-scrolling: touch)) {
             html[data-whatinput='keyboard'] .dnb-button--secondary:focus:not([disabled]), html[data-whatinput='keyboard']
             html:not([data-whatintent='touch']) .dnb-button--secondary:focus:not([disabled]) {
-              box-shadow: 0 0 0 0.125rem var(--border-color); } } }
+              box-shadow: 0 0 0 2px var(--border-color); } } }
         @media screen and (-ms-high-contrast: none) {
           html[data-whatinput='keyboard'] .dnb-button--secondary:focus:not([disabled]), html[data-whatinput='keyboard']
           html:not([data-whatintent='touch']) .dnb-button--secondary:focus:not([disabled]) {
-            box-shadow: inset 0 0 0 0.125rem var(--color-emerald-green); } }
+            box-shadow: inset 0 0 0 2px var(--color-emerald-green); } }
     .dnb-button--secondary:active[disabled],
     html:not([data-whatintent='touch']) .dnb-button--secondary:active[disabled] {
       cursor: not-allowed; }
@@ -734,23 +734,23 @@ exports[`Button scss have to match default theme snapshot 1`] = `
       color: var(--color-sea-green);
       background-color: var(--color-mint-green-50);
       --border-color: transparent;
-      box-shadow: 0 0 0 0.0625rem var(--border-color);
+      box-shadow: 0 0 0 1px var(--border-color);
       border-color: transparent; }
       @media screen and (-ms-high-contrast: none) {
         .dnb-button--secondary:active:not([disabled]),
         html:not([data-whatintent='touch']) .dnb-button--secondary:active:not([disabled]) {
-          box-shadow: 0 0 0 0.0625rem transparent; } }
+          box-shadow: 0 0 0 1px transparent; } }
     html:not([data-whatintent='touch']) .dnb-button--secondary:not(.dnb-button--has-text):hover[disabled] {
       cursor: not-allowed; }
     html:not([data-whatintent='touch']) .dnb-button--secondary:not(.dnb-button--has-text):hover:not([disabled]) {
       color: var(--color-emerald-green);
       background-color: var(--color-white);
       --border-color: var(--color-emerald-green);
-      box-shadow: 0 0 0 0.125rem var(--border-color);
+      box-shadow: 0 0 0 2px var(--border-color);
       border-color: transparent; }
       @media screen and (-ms-high-contrast: none) {
         html:not([data-whatintent='touch']) .dnb-button--secondary:not(.dnb-button--has-text):hover:not([disabled]) {
-          box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
+          box-shadow: 0 0 0 2px var(--color-emerald-green); } }
       @media screen and (-ms-high-contrast: none) {
         html:not([data-whatintent='touch']) .dnb-button--secondary:not(.dnb-button--has-text):hover:not([disabled]) {
           opacity: 1; } }
@@ -767,23 +767,23 @@ exports[`Button scss have to match default theme snapshot 1`] = `
       html[data-whatinput='keyboard'] .dnb-button--secondary:not(.dnb-button--has-text):focus:not([disabled]), html[data-whatinput='keyboard']
       html:not([data-whatintent='touch']) .dnb-button--secondary:not(.dnb-button--has-text):focus:not([disabled]) {
         --border-color: var(--color-emerald-green);
-        box-shadow: inset 0 0 0 0.125rem var(--border-color);
+        box-shadow: inset 0 0 0 2px var(--border-color);
         /* iOS fix - because \\"inset\\" works not fine with border-radius */
         /* Safari fix - because \\"inset\\" works not fine with border-radius if the user zooms the page */
         border-color: transparent; }
         @supports (-webkit-touch-callout: none) {
           html[data-whatinput='keyboard'] .dnb-button--secondary:not(.dnb-button--has-text):focus:not([disabled]), html[data-whatinput='keyboard']
           html:not([data-whatintent='touch']) .dnb-button--secondary:not(.dnb-button--has-text):focus:not([disabled]) {
-            box-shadow: 0 0 0 0.125rem var(--border-color); } }
+            box-shadow: 0 0 0 2px var(--border-color); } }
         @media not all and (min-resolution: 0.001dpcm) {
           @supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-overflow-scrolling: touch)) {
             html[data-whatinput='keyboard'] .dnb-button--secondary:not(.dnb-button--has-text):focus:not([disabled]), html[data-whatinput='keyboard']
             html:not([data-whatintent='touch']) .dnb-button--secondary:not(.dnb-button--has-text):focus:not([disabled]) {
-              box-shadow: 0 0 0 0.125rem var(--border-color); } } }
+              box-shadow: 0 0 0 2px var(--border-color); } } }
         @media screen and (-ms-high-contrast: none) {
           html[data-whatinput='keyboard'] .dnb-button--secondary:not(.dnb-button--has-text):focus:not([disabled]), html[data-whatinput='keyboard']
           html:not([data-whatintent='touch']) .dnb-button--secondary:not(.dnb-button--has-text):focus:not([disabled]) {
-            box-shadow: inset 0 0 0 0.125rem var(--color-emerald-green); } }
+            box-shadow: inset 0 0 0 2px var(--color-emerald-green); } }
     .dnb-button--secondary:not(.dnb-button--has-text):active[disabled],
     html:not([data-whatintent='touch']) .dnb-button--secondary:not(.dnb-button--has-text):active[disabled] {
       cursor: not-allowed; }
@@ -792,44 +792,44 @@ exports[`Button scss have to match default theme snapshot 1`] = `
       color: var(--color-emerald-green);
       background-color: var(--color-mint-green-50);
       --border-color: transparent;
-      box-shadow: 0 0 0 0.0625rem var(--border-color);
+      box-shadow: 0 0 0 1px var(--border-color);
       border-color: transparent; }
       @media screen and (-ms-high-contrast: none) {
         .dnb-button--secondary:not(.dnb-button--has-text):active:not([disabled]),
         html:not([data-whatintent='touch']) .dnb-button--secondary:not(.dnb-button--has-text):active:not([disabled]) {
-          box-shadow: 0 0 0 0.0625rem transparent; } }
+          box-shadow: 0 0 0 1px transparent; } }
     .dnb-button--secondary[disabled], .dnb-button--secondary[disabled]:focus {
       color: var(--color-sea-green-30);
       background-color: var(--color-white);
       --border-color: var(--color-sea-green-30);
-      box-shadow: inset 0 0 0 0.0625rem var(--border-color);
+      box-shadow: inset 0 0 0 1px var(--border-color);
       /* iOS fix - because \\"inset\\" works not fine with border-radius */
       /* Safari fix - because \\"inset\\" works not fine with border-radius if the user zooms the page */
       border-color: transparent; }
       @supports (-webkit-touch-callout: none) {
         .dnb-button--secondary[disabled], .dnb-button--secondary[disabled]:focus {
-          box-shadow: 0 0 0 0.0625rem var(--border-color); } }
+          box-shadow: 0 0 0 1px var(--border-color); } }
       @media not all and (min-resolution: 0.001dpcm) {
         @supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-overflow-scrolling: touch)) {
           .dnb-button--secondary[disabled], .dnb-button--secondary[disabled]:focus {
-            box-shadow: 0 0 0 0.0625rem var(--border-color); } } }
+            box-shadow: 0 0 0 1px var(--border-color); } } }
       @media screen and (-ms-high-contrast: none) {
         .dnb-button--secondary[disabled], .dnb-button--secondary[disabled]:focus {
           box-shadow: inset 0 0 0 1px var(--color-sea-green-30); } }
   .dnb-button:not([disabled]).dnb-button--secondary.dnb-button__status--error {
     color: var(--color-fire-red);
     --border-color: var(--color-fire-red);
-    box-shadow: inset 0 0 0 0.0625rem var(--border-color);
+    box-shadow: inset 0 0 0 1px var(--border-color);
     /* iOS fix - because \\"inset\\" works not fine with border-radius */
     /* Safari fix - because \\"inset\\" works not fine with border-radius if the user zooms the page */
     border-color: transparent; }
     @supports (-webkit-touch-callout: none) {
       .dnb-button:not([disabled]).dnb-button--secondary.dnb-button__status--error {
-        box-shadow: 0 0 0 0.0625rem var(--border-color); } }
+        box-shadow: 0 0 0 1px var(--border-color); } }
     @media not all and (min-resolution: 0.001dpcm) {
       @supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-overflow-scrolling: touch)) {
         .dnb-button:not([disabled]).dnb-button--secondary.dnb-button__status--error {
-          box-shadow: 0 0 0 0.0625rem var(--border-color); } } }
+          box-shadow: 0 0 0 1px var(--border-color); } } }
     @media screen and (-ms-high-contrast: none) {
       .dnb-button:not([disabled]).dnb-button--secondary.dnb-button__status--error {
         box-shadow: inset 0 0 0 1px var(--color-fire-red); } }
@@ -837,11 +837,11 @@ exports[`Button scss have to match default theme snapshot 1`] = `
       color: inherit; }
   .dnb-button--active {
     --border-color: var(--color-emerald-green);
-    box-shadow: 0 0 0 0.125rem var(--border-color);
+    box-shadow: 0 0 0 2px var(--border-color);
     border-color: transparent; }
     @media screen and (-ms-high-contrast: none) {
       .dnb-button--active {
-        box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
+        box-shadow: 0 0 0 2px var(--color-emerald-green); } }
   .dnb-button--tertiary {
     position: relative;
     color: var(--color-sea-green);
@@ -860,7 +860,7 @@ exports[`Button scss have to match default theme snapshot 1`] = `
         border-radius: calc(0.095rem / 2);
         color: var(--color-sea-green);
         background-color: currentColor;
-        bottom: -0.0625rem;
+        bottom: -1px;
         color: transparent;
         opacity: 0;
         transition: opacity 200ms ease-out, color 200ms ease-out; }
@@ -900,12 +900,12 @@ exports[`Button scss have to match default theme snapshot 1`] = `
         html[data-whatinput='keyboard'] .dnb-button--tertiary:focus:not([disabled])::before, html[data-whatinput='keyboard']
         html:not([data-whatintent='touch']) .dnb-button--tertiary:focus:not([disabled])::before {
           --border-color: var(--color-emerald-green);
-          box-shadow: 0 0 0 0.125rem var(--border-color);
+          box-shadow: 0 0 0 2px var(--border-color);
           border-color: transparent; }
           @media screen and (-ms-high-contrast: none) {
             html[data-whatinput='keyboard'] .dnb-button--tertiary:focus:not([disabled])::before, html[data-whatinput='keyboard']
             html:not([data-whatintent='touch']) .dnb-button--tertiary:focus:not([disabled])::before {
-              box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
+              box-shadow: 0 0 0 2px var(--color-emerald-green); } }
       .dnb-button--tertiary:focus:not([disabled]) .dnb-button__text::after,
       html:not([data-whatintent='touch']) .dnb-button--tertiary:focus:not([disabled]) .dnb-button__text::after {
         visibility: hidden; }
@@ -974,23 +974,23 @@ exports[`Button scss have to match default theme snapshot 1`] = `
       cursor: not-allowed; }
     html:not([data-whatintent='touch']) .dnb-button--tertiary.dnb-button--has-icon:not(.dnb-button--has-text):hover:not([disabled]) {
       --border-color: var(--color-sea-green);
-      box-shadow: 0 0 0 0.0625rem var(--border-color);
+      box-shadow: 0 0 0 1px var(--border-color);
       border-color: transparent; }
       @media screen and (-ms-high-contrast: none) {
         html:not([data-whatintent='touch']) .dnb-button--tertiary.dnb-button--has-icon:not(.dnb-button--has-text):hover:not([disabled]) {
-          box-shadow: 0 0 0 0.0625rem var(--color-sea-green); } }
+          box-shadow: 0 0 0 1px var(--color-sea-green); } }
     .dnb-button--tertiary.dnb-button--has-icon:not(.dnb-button--has-text):active[disabled],
     html:not([data-whatintent='touch']) .dnb-button--tertiary.dnb-button--has-icon:not(.dnb-button--has-text):active[disabled] {
       cursor: not-allowed; }
     .dnb-button--tertiary.dnb-button--has-icon:not(.dnb-button--has-text):active:not([disabled]),
     html:not([data-whatintent='touch']) .dnb-button--tertiary.dnb-button--has-icon:not(.dnb-button--has-text):active:not([disabled]) {
       --border-color: var(--color-sea-green-30);
-      box-shadow: 0 0 0 0.0625rem var(--border-color);
+      box-shadow: 0 0 0 1px var(--border-color);
       border-color: transparent; }
       @media screen and (-ms-high-contrast: none) {
         .dnb-button--tertiary.dnb-button--has-icon:not(.dnb-button--has-text):active:not([disabled]),
         html:not([data-whatintent='touch']) .dnb-button--tertiary.dnb-button--has-icon:not(.dnb-button--has-text):active:not([disabled]) {
-          box-shadow: 0 0 0 0.0625rem var(--color-sea-green-30); } }
+          box-shadow: 0 0 0 1px var(--color-sea-green-30); } }
     html[data-whatinput='keyboard']
 .dnb-button--tertiary:hover:focus .dnb-button__text::after {
       visibility: hidden; }
@@ -1005,11 +1005,11 @@ exports[`Button scss have to match default theme snapshot 1`] = `
       color: var(--color-ocean-green);
       background-color: var(--color-accent-yellow);
       --border-color: var(--color-emerald-green);
-      box-shadow: 0 0 0 0.125rem var(--border-color);
+      box-shadow: 0 0 0 2px var(--border-color);
       border-color: transparent; }
       @media screen and (-ms-high-contrast: none) {
         html:not([data-whatintent='touch']) .dnb-button--signal:hover:not([disabled]) {
-          box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
+          box-shadow: 0 0 0 2px var(--color-emerald-green); } }
       @media screen and (-ms-high-contrast: none) {
         html:not([data-whatintent='touch']) .dnb-button--signal:hover:not([disabled]) {
           opacity: 1; } }
@@ -1021,12 +1021,12 @@ exports[`Button scss have to match default theme snapshot 1`] = `
       color: var(--color-ocean-green);
       background-color: var(--color-accent-yellow);
       --border-color: var(--color-emerald-green);
-      box-shadow: 0 0 0 0.125rem var(--border-color);
+      box-shadow: 0 0 0 2px var(--border-color);
       border-color: transparent; }
       @media screen and (-ms-high-contrast: none) {
         html[data-whatintent='touch'] .dnb-button--signal:active:not([disabled]),
         html:not([data-whatintent='touch']) html[data-whatintent='touch'] .dnb-button--signal:active:not([disabled]) {
-          box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
+          box-shadow: 0 0 0 2px var(--color-emerald-green); } }
     .dnb-button--signal:focus[disabled],
     html:not([data-whatintent='touch']) .dnb-button--signal:focus[disabled] {
       cursor: not-allowed; }
@@ -1040,23 +1040,23 @@ exports[`Button scss have to match default theme snapshot 1`] = `
       html[data-whatinput='keyboard'] .dnb-button--signal:focus:not([disabled]), html[data-whatinput='keyboard']
       html:not([data-whatintent='touch']) .dnb-button--signal:focus:not([disabled]) {
         --border-color: var(--color-emerald-green);
-        box-shadow: inset 0 0 0 0.125rem var(--border-color);
+        box-shadow: inset 0 0 0 2px var(--border-color);
         /* iOS fix - because \\"inset\\" works not fine with border-radius */
         /* Safari fix - because \\"inset\\" works not fine with border-radius if the user zooms the page */
         border-color: transparent; }
         @supports (-webkit-touch-callout: none) {
           html[data-whatinput='keyboard'] .dnb-button--signal:focus:not([disabled]), html[data-whatinput='keyboard']
           html:not([data-whatintent='touch']) .dnb-button--signal:focus:not([disabled]) {
-            box-shadow: 0 0 0 0.125rem var(--border-color); } }
+            box-shadow: 0 0 0 2px var(--border-color); } }
         @media not all and (min-resolution: 0.001dpcm) {
           @supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-overflow-scrolling: touch)) {
             html[data-whatinput='keyboard'] .dnb-button--signal:focus:not([disabled]), html[data-whatinput='keyboard']
             html:not([data-whatintent='touch']) .dnb-button--signal:focus:not([disabled]) {
-              box-shadow: 0 0 0 0.125rem var(--border-color); } } }
+              box-shadow: 0 0 0 2px var(--border-color); } } }
         @media screen and (-ms-high-contrast: none) {
           html[data-whatinput='keyboard'] .dnb-button--signal:focus:not([disabled]), html[data-whatinput='keyboard']
           html:not([data-whatintent='touch']) .dnb-button--signal:focus:not([disabled]) {
-            box-shadow: inset 0 0 0 0.125rem var(--color-emerald-green); } }
+            box-shadow: inset 0 0 0 2px var(--color-emerald-green); } }
     .dnb-button--signal:active[disabled],
     html:not([data-whatintent='touch']) .dnb-button--signal:active[disabled] {
       cursor: not-allowed; }
@@ -1065,12 +1065,12 @@ exports[`Button scss have to match default theme snapshot 1`] = `
       color: var(--color-ocean-green);
       background-color: var(--color-accent-yellow);
       --border-color: transparent;
-      box-shadow: 0 0 0 0.0625rem var(--border-color);
+      box-shadow: 0 0 0 1px var(--border-color);
       border-color: transparent; }
       @media screen and (-ms-high-contrast: none) {
         .dnb-button--signal:active:not([disabled]),
         html:not([data-whatintent='touch']) .dnb-button--signal:active:not([disabled]) {
-          box-shadow: 0 0 0 0.0625rem transparent; } }
+          box-shadow: 0 0 0 1px transparent; } }
     .dnb-button--signal[disabled] {
       color: var(--color-black-30);
       background-color: var(--color-accent-yellow-30); }
@@ -1319,8 +1319,8 @@ exports[`Button scss have to match snapshot 1`] = `
   --button-width--large: 3rem;
   --button-height--large: 3rem;
   --button-icon-size: 1rem;
-  --button-border-width: 0.0625rem;
-  --button-border-width--hover: 0.1875rem;
+  --button-border-width: 1px;
+  --button-border-width--hover: $pixel3;
   --button-border-radius: calc(var(--button-height) / 2);
   --button-border-radius--small: calc(var(--button-height--small) / 2);
   --button-border-radius--medium: calc(var(--button-height--medium) / 2);
@@ -1463,11 +1463,11 @@ exports[`Button scss have to match snapshot 1`] = `
       outline: none; }
       html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):focus, html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):active {
         --border-color: var(--color-emerald-green);
-        box-shadow: 0 0 0 0.125rem var(--border-color);
+        box-shadow: 0 0 0 2px var(--border-color);
         border-color: transparent; }
         @media screen and (-ms-high-contrast: none) {
           html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):focus, html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):active {
-            box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
+            box-shadow: 0 0 0 2px var(--color-emerald-green); } }
     html[data-whatinput='mouse'] .dnb-button--reset:not([disabled]):focus,
     html[data-whatinput='mouse'] .dnb-button--reset:not([disabled]):active {
       box-shadow: none;
@@ -1491,7 +1491,7 @@ exports[`Button scss have to match snapshot 1`] = `
     .dnb-button {
       flex: none; }
       .dnb-button__icon, .dnb-button__text {
-        transform: translateY(-0.0625rem); } }
+        transform: translateY(-1px); } }
 
 /* Firefox includes a hidden border which messes up button dimensions */
 button.dnb-button::-moz-focus-inner {

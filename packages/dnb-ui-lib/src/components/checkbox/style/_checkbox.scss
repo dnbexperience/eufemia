@@ -8,7 +8,7 @@
   --checkbox-height--medium: 1.5rem;
   --checkbox-width--large: 2rem;
   --checkbox-height--large: 2rem;
-  --checkbox-border-width: 0.125rem;
+  --checkbox-border-width: #{$pixel2};
 }
 
 .dnb-checkbox {

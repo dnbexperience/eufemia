@@ -1742,8 +1742,8 @@ exports[`DatePicker scss have to match snapshot 1`] = `
   --button-width--large: 3rem;
   --button-height--large: 3rem;
   --button-icon-size: 1rem;
-  --button-border-width: 0.0625rem;
-  --button-border-width--hover: 0.1875rem;
+  --button-border-width: 1px;
+  --button-border-width--hover: $pixel3;
   --button-border-radius: calc(var(--button-height) / 2);
   --button-border-radius--small: calc(var(--button-height--small) / 2);
   --button-border-radius--medium: calc(var(--button-height--medium) / 2);
@@ -1886,11 +1886,11 @@ exports[`DatePicker scss have to match snapshot 1`] = `
       outline: none; }
       html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):focus, html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):active {
         --border-color: var(--color-emerald-green);
-        box-shadow: 0 0 0 0.125rem var(--border-color);
+        box-shadow: 0 0 0 2px var(--border-color);
         border-color: transparent; }
         @media screen and (-ms-high-contrast: none) {
           html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):focus, html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):active {
-            box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
+            box-shadow: 0 0 0 2px var(--color-emerald-green); } }
     html[data-whatinput='mouse'] .dnb-button--reset:not([disabled]):focus,
     html[data-whatinput='mouse'] .dnb-button--reset:not([disabled]):active {
       box-shadow: none;
@@ -1914,7 +1914,7 @@ exports[`DatePicker scss have to match snapshot 1`] = `
     .dnb-button {
       flex: none; }
       .dnb-button__icon, .dnb-button__text {
-        transform: translateY(-0.0625rem); } }
+        transform: translateY(-1px); } }
 
 /* Firefox includes a hidden border which messes up button dimensions */
 button.dnb-button::-moz-focus-inner {
@@ -2066,7 +2066,7 @@ legend.dnb-form-label {
   --input-height--small: 1.5rem;
   --input-height--medium: 2.5rem;
   --input-height--large: 3rem;
-  --input-border-width: 0.0625rem;
+  --input-border-width: 1px;
   --input-border-radius: calc(var(--input-height) / 2);
   --input-border-radius--small: calc(var(--input-height--small) / 2);
   --input-border-radius--medium: calc(var(--input-height--medium) / 2);
@@ -2164,7 +2164,7 @@ legend.dnb-form-label {
       padding-right: var(--input-padding--small);
       font-size: var(--input-font-size--small); }
     .dnb-input--small .dnb-input__submit-element {
-      margin-left: calc(1px - 1px - var(--input-height--small)); }
+      margin-left: calc( 1px - 1px - var(--input-height--small)); }
       .dnb-input--small .dnb-input__submit-element .dnb-button {
         width: var(--input-height--small);
         height: var(--input-height--small);
@@ -2184,7 +2184,7 @@ legend.dnb-form-label {
       padding-right: var(--input-padding--medium);
       font-size: var(--input-font-size--medium); }
     .dnb-input--medium .dnb-input__submit-element {
-      margin-left: calc(1px - 1px - var(--input-height--medium)); }
+      margin-left: calc( 1px - 1px - var(--input-height--medium)); }
       .dnb-input--medium .dnb-input__submit-element .dnb-button {
         width: var(--input-height--medium);
         height: var(--input-height--medium);
@@ -2204,7 +2204,7 @@ legend.dnb-form-label {
       padding-right: var(--input-padding--large);
       font-size: var(--input-font-size--large); }
     .dnb-input--large .dnb-input__submit-element {
-      margin-left: calc(1px - 1px - var(--input-height--large)); }
+      margin-left: calc( 1px - 1px - var(--input-height--large)); }
       .dnb-input--large .dnb-input__submit-element .dnb-button {
         width: var(--input-height--large);
         height: var(--input-height--large); }
@@ -2289,7 +2289,7 @@ legend.dnb-form-label {
       .dnb-input__inner {
         width: 100%; }
       .dnb-input__input, .dnb-input__placeholder {
-        transform: translateY(-0.0625rem); } }
+        transform: translateY(-1px); } }
 
 /*
 * DNB ToggleButton
@@ -2351,7 +2351,7 @@ legend.dnb-form-label {
   --checkbox-height--medium: 1.5rem;
   --checkbox-width--large: 2rem;
   --checkbox-height--large: 2rem;
-  --checkbox-border-width: 0.125rem; }
+  --checkbox-border-width: 2px; }
 
 .dnb-checkbox {
   display: inline-flex;
@@ -2382,11 +2382,11 @@ legend.dnb-form-label {
     outline: none; }
     html[data-whatinput='keyboard'] .dnb-checkbox__focus {
       --border-color: var(--color-emerald-green);
-      box-shadow: 0 0 0 0.125rem var(--border-color);
+      box-shadow: 0 0 0 2px var(--border-color);
       border-color: transparent; }
       @media screen and (-ms-high-contrast: none) {
         html[data-whatinput='keyboard'] .dnb-checkbox__focus {
-          box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
+          box-shadow: 0 0 0 2px var(--color-emerald-green); } }
   .dnb-checkbox__focus, .dnb-checkbox__button {
     position: relative;
     z-index: 4;
@@ -2528,7 +2528,7 @@ legend.dnb-form-label {
   --radio-height--medium: 1.5rem;
   --radio-width--large: 2rem;
   --radio-height--large: 2rem;
-  --radio-border-width: 0.125rem;
+  --radio-border-width: 2px;
   --radio-margin-right: 1rem;
   --radio-margin-bottom: 0.5rem; }
 
@@ -2560,18 +2560,18 @@ legend.dnb-form-label {
     outline: none; }
     html[data-whatinput='keyboard'] .dnb-radio__focus {
       --border-color: var(--color-emerald-green);
-      box-shadow: 0 0 0 0.125rem var(--border-color);
+      box-shadow: 0 0 0 2px var(--border-color);
       border-color: transparent; }
       @media screen and (-ms-high-contrast: none) {
         html[data-whatinput='keyboard'] .dnb-radio__focus {
-          box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
+          box-shadow: 0 0 0 2px var(--color-emerald-green); } }
   .dnb-radio__focus, .dnb-radio__button {
     width: calc(var(--radio-width--medium) - 0.25rem);
     height: calc(var(--radio-height--medium) - 0.25rem);
     border-radius: 50%; }
     .dnb-radio--large .dnb-radio__focus, .dnb-radio--large .dnb-radio__button {
-      width: calc(var(--radio-width--large) - 0.125rem);
-      height: calc(var(--radio-height--large) - 0.125rem); }
+      width: calc(var(--radio-width--large) - 2px);
+      height: calc(var(--radio-height--large) - 2px); }
   .dnb-radio__dot {
     width: calc(var(--radio-width--medium) - 0.75rem);
     height: calc(var(--radio-height--medium) - 0.75rem);
@@ -2665,7 +2665,7 @@ legend.dnb-form-label {
       flex-direction: column; }
     .dnb-radio-group .dnb-form-row {
       align-items: flex-start;
-      margin-bottom: calc(1px - 1px - var(--radio-margin-bottom)); }
+      margin-bottom: calc( 1px - 1px - var(--radio-margin-bottom)); }
       .dnb-radio-group .dnb-form-row::before {
         font-size: var(--font-size-basis); }
   .dnb-skeleton .dnb-radio__input[disabled] ~ .dnb-radio__button {
@@ -2769,7 +2769,7 @@ legend.dnb-form-label {
       .dnb-toggle-button__button .dnb-checkbox__focus, .dnb-toggle-button__button .dnb-checkbox__button {
         width: calc(var(--checkbox-width--medium) - 0.5rem);
         height: calc(var(--checkbox-height--medium) - 0.5rem);
-        border-width: 0.0625rem;
+        border-width: 1px;
         box-shadow: 0 0 0 0.0318rem var(--color-sea-green); }
       .dnb-toggle-button__button .dnb-checkbox__dot {
         width: calc(var(--checkbox-width--medium) - 1rem);
@@ -2784,7 +2784,7 @@ legend.dnb-form-label {
       .dnb-toggle-button__button .dnb-radio__focus, .dnb-toggle-button__button .dnb-radio__button {
         width: calc(var(--radio-width--medium) - 0.5rem);
         height: calc(var(--radio-height--medium) - 0.5rem);
-        border-width: 0.0625rem;
+        border-width: 1px;
         box-shadow: 0 0 0 0.0318rem var(--color-sea-green); }
       .dnb-toggle-button__button .dnb-radio__dot {
         width: calc(var(--radio-width--medium) - 1rem);
@@ -2824,7 +2824,7 @@ legend.dnb-form-label {
         transform: translateY(-0.5rem); }
     .dnb-toggle-button-group .dnb-form-row {
       align-items: baseline;
-      margin-bottom: calc(1px - 1px - var(--toggle-button-margin-bottom)); }
+      margin-bottom: calc( 1px - 1px - var(--toggle-button-margin-bottom)); }
       .dnb-toggle-button-group .dnb-form-row--vertical-label {
         align-items: flex-start; }
       .dnb-toggle-button-group .dnb-form-row::before {
@@ -2959,7 +2959,7 @@ legend.dnb-form-label {
     display: inline-block;
     width: auto;
     margin: 0;
-    padding: 0 0.125rem;
+    padding: 0 2px;
     transform: translateY(0);
     outline: none;
     font-family: var(--font-family-monospace);
@@ -3074,11 +3074,11 @@ legend.dnb-form-label {
       outline: none; }
       html[data-whatinput='keyboard'] .dnb-date-picker table.dnb-no-focus:focus {
         --border-color: var(--color-emerald-green);
-        box-shadow: 0 0 0 0.125rem var(--border-color);
+        box-shadow: 0 0 0 2px var(--border-color);
         border-color: transparent; }
         @media screen and (-ms-high-contrast: none) {
           html[data-whatinput='keyboard'] .dnb-date-picker table.dnb-no-focus:focus {
-            box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
+            box-shadow: 0 0 0 2px var(--color-emerald-green); } }
   .dnb-date-picker__day, .dnb-date-picker__labels__day {
     display: flex;
     flex-basis: 14.28571%;
@@ -3124,7 +3124,7 @@ legend.dnb-form-label {
   .dnb-date-picker__triangle {
     pointer-events: none;
     position: absolute;
-    top: calc(1px + 1px - var(--date-picker-input-height) / 2);
+    top: calc( 1px + 1px - var(--date-picker-input-height) / 2);
     left: 0;
     right: auto;
     margin: 0 1.5rem;

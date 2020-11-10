@@ -15,7 +15,7 @@
 
   &__arrow {
     &::before {
-      border: 1px solid rgba(0, 0, 0, 0.1);
+      border: #{$pixel1} solid rgba(0, 0, 0, 0.1);
       background-color: var(--color-emerald-green);
     }
   }

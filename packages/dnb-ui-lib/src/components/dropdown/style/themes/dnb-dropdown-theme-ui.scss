@@ -10,7 +10,7 @@
 }
 
 @mixin dropdownBorderColor($color) {
-  @include fakeBorder($color, 0.125rem, null, true, !important);
+  @include fakeBorder($color, $pixel2, null, !important);
 }
 
 .dnb-dropdown {

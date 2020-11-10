@@ -7,7 +7,7 @@
   --drawer-list-width: 16rem;
   --drawer-list-height: 2rem;
   --drawer-list-padding-horizontal: 1rem;
-  --drawer-list-focus-border-width: 0.125rem;
+  --drawer-list-focus-border-width: #{$pixel2};
   --drawer-list-text-padding: 0.5rem;
   --drawer-list-height--small: 1.5rem;
   --drawer-list-height--medium: 2.5rem;
@@ -227,7 +227,7 @@
       height: calc(var(--drawer-list-height) / 2);
       transform: translateY(60%) rotate(45deg);
 
-      border: 1px solid var(--color-black-border);
+      border: #{$pixel1} solid var(--color-black-border);
       background-color: var(--color-white);
     }
   }
@@ -442,7 +442,8 @@
 @keyframes drawer-list-scale-in {
   from {
     opacity: 0;
-    transform: scale(0.8) translateX(calc(1px - var(--drawer-list-width)));
+    transform: scale(0.8)
+      translateX(calc(#{$pixel1} - var(--drawer-list-width)));
   }
   to {
     opacity: 1;
@@ -456,14 +457,15 @@
   }
   to {
     opacity: 0;
-    transform: scale(0.8) translateX(calc(1px - var(--drawer-list-width)));
+    transform: scale(0.8)
+      translateX(calc(#{$pixel1} - var(--drawer-list-width)));
   }
 }
 
 @keyframes drawer-list-slide-top-down {
   from {
     opacity: 0;
-    transform: translateY(calc(1px - var(--drawer-list-height)));
+    transform: translateY(calc(#{$pixel1} - var(--drawer-list-height)));
   }
   to {
     opacity: 1;
@@ -478,7 +480,7 @@
   }
   to {
     opacity: 0;
-    transform: translateY(calc(1px - var(--drawer-list-height)));
+    transform: translateY(calc(#{$pixel1} - var(--drawer-list-height)));
   }
 }
 
@@ -489,14 +491,14 @@
   }
   to {
     opacity: 0;
-    transform: translateY(calc(1px + var(--drawer-list-height)));
+    transform: translateY(calc(#{$pixel1} + var(--drawer-list-height)));
   }
 }
 
 @keyframes drawer-list-slide-bottom-up {
   from {
     opacity: 0;
-    transform: translateY(calc(1px + var(--drawer-list-height)));
+    transform: translateY(calc(#{$pixel1} + var(--drawer-list-height)));
   }
   to {
     opacity: 1;

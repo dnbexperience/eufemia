@@ -15,8 +15,8 @@
   --button-width--large: 3rem;
   --button-height--large: 3rem;
   --button-icon-size: 1rem;
-  --button-border-width: 0.0625rem;
-  --button-border-width--hover: 0.1875rem;
+  --button-border-width: #{$pixel1};
+  --button-border-width--hover: $pixel3;
   --button-border-radius: calc(var(--button-height) / 2);
   --button-border-radius--small: calc(var(--button-height--small) / 2);
   --button-border-radius--medium: calc(var(--button-height--medium) / 2);
@@ -289,7 +289,7 @@
     flex: none;
     &__icon,
     &__text {
-      transform: translateY(-0.0625rem);
+      transform: translateY(-$pixel1);
     }
   }
 }

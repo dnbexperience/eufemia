@@ -26,10 +26,10 @@
   }
   &--sr-only {
     // could posssibly be 0, but has to be tested if sr still reads the text then
-    width: 1px;
+    width: #{$pixel1};
     margin: 0;
     padding: 0;
-    margin-left: -1px; // because of 1px width
+    margin-left: -#{$pixel1}; // because of 1px width
     overflow: hidden;
     white-space: nowrap; // so we don't get a large height because of wrapping in norrow space
   }

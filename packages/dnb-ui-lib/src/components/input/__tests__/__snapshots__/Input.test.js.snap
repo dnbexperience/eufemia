@@ -702,7 +702,7 @@ exports[`Input scss have to match default theme snapshot 1`] = `
           box-shadow: 0 0 0 var(--input-border-width) var(--border-color); } } }
     @media screen and (-ms-high-contrast: none) {
       .dnb-input__shell {
-        box-shadow: inset 0 0 0 1px var(--input-border-color); } }
+        box-shadow: inset 0 0 0 var(--input-border-width) var(--input-border-color); } }
     .dnb-input__shell[data-input-state='dirty'] {
       color: var(--input-text-color--changed);
       background-color: var(--input-background-color--changed); }
@@ -724,37 +724,37 @@ exports[`Input scss have to match default theme snapshot 1`] = `
             box-shadow: 0 0 0 var(--input-border-width) var(--border-color); } } }
       @media screen and (-ms-high-contrast: none) {
         .dnb-input__shell[data-input-state='disabled'] {
-          box-shadow: inset 0 0 0 1px var(--input-border-color--disabled); } }
+          box-shadow: inset 0 0 0 var(--input-border-width) var(--input-border-color--disabled); } }
     .dnb-input__shell:not([data-input-state='disabled']):hover, .dnb-input__shell[data-input-state='focus'] {
       color: var(--input-text-color--focus);
       background-color: var(--input-background-color--focus);
       --border-color: var(--input-border-color--focus);
-      box-shadow: 0 0 0 0.125rem var(--border-color);
+      box-shadow: 0 0 0 2px var(--border-color);
       border-color: transparent; }
       @media screen and (-ms-high-contrast: none) {
         .dnb-input__shell:not([data-input-state='disabled']):hover, .dnb-input__shell[data-input-state='focus'] {
-          box-shadow: 0 0 0 0.125rem var(--input-border-color--focus); } }
+          box-shadow: 0 0 0 2px var(--input-border-color--focus); } }
   .dnb-input:not([data-input-state='disabled']).dnb-input__submit-button svg {
     color: var(--color-sea-green); }
   .dnb-input__icon {
     color: var(--color-emerald-green); }
   .dnb-input__status--error .dnb-input__shell:not([data-input-state='focus']) {
     --border-color: var(--color-fire-red);
-    box-shadow: 0 0 0 0.125rem var(--border-color);
+    box-shadow: 0 0 0 2px var(--border-color);
     border-color: transparent; }
     @media screen and (-ms-high-contrast: none) {
       .dnb-input__status--error .dnb-input__shell:not([data-input-state='focus']) {
-        box-shadow: 0 0 0 0.125rem var(--color-fire-red); } }
+        box-shadow: 0 0 0 2px var(--color-fire-red); } }
   .dnb-input__status--error .dnb-input__shell:not([data-input-state='focus']) ~ .dnb-input__submit-element .dnb-button__icon,
   .dnb-input__status--error .dnb-input__shell:not([data-input-state='focus']) ~ .dnb-input__submit-element .dnb-button--secondary .dnb-button__icon {
     color: var(--color-fire-red); }
   .dnb-input__status--error .dnb-input__shell:not([data-input-state='focus']) ~ .dnb-input__submit-element .dnb-button {
     --border-color: var(--color-fire-red);
-    box-shadow: 0 0 0 0.125rem var(--border-color);
+    box-shadow: 0 0 0 2px var(--border-color);
     border-color: transparent; }
     @media screen and (-ms-high-contrast: none) {
       .dnb-input__status--error .dnb-input__shell:not([data-input-state='focus']) ~ .dnb-input__submit-element .dnb-button {
-        box-shadow: 0 0 0 0.125rem var(--color-fire-red); } }
+        box-shadow: 0 0 0 2px var(--color-fire-red); } }
   .dnb-input__status--error,
   .dnb-input__status--error .dnb-input__shell[data-input-state='dirty'] {
     color: var(--color-fire-red); }
@@ -1016,8 +1016,8 @@ exports[`Input scss have to match snapshot 1`] = `
   --button-width--large: 3rem;
   --button-height--large: 3rem;
   --button-icon-size: 1rem;
-  --button-border-width: 0.0625rem;
-  --button-border-width--hover: 0.1875rem;
+  --button-border-width: 1px;
+  --button-border-width--hover: $pixel3;
   --button-border-radius: calc(var(--button-height) / 2);
   --button-border-radius--small: calc(var(--button-height--small) / 2);
   --button-border-radius--medium: calc(var(--button-height--medium) / 2);
@@ -1160,11 +1160,11 @@ exports[`Input scss have to match snapshot 1`] = `
       outline: none; }
       html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):focus, html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):active {
         --border-color: var(--color-emerald-green);
-        box-shadow: 0 0 0 0.125rem var(--border-color);
+        box-shadow: 0 0 0 2px var(--border-color);
         border-color: transparent; }
         @media screen and (-ms-high-contrast: none) {
           html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):focus, html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):active {
-            box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
+            box-shadow: 0 0 0 2px var(--color-emerald-green); } }
     html[data-whatinput='mouse'] .dnb-button--reset:not([disabled]):focus,
     html[data-whatinput='mouse'] .dnb-button--reset:not([disabled]):active {
       box-shadow: none;
@@ -1188,7 +1188,7 @@ exports[`Input scss have to match snapshot 1`] = `
     .dnb-button {
       flex: none; }
       .dnb-button__icon, .dnb-button__text {
-        transform: translateY(-0.0625rem); } }
+        transform: translateY(-1px); } }
 
 /* Firefox includes a hidden border which messes up button dimensions */
 button.dnb-button::-moz-focus-inner {
@@ -1340,7 +1340,7 @@ legend.dnb-form-label {
   --input-height--small: 1.5rem;
   --input-height--medium: 2.5rem;
   --input-height--large: 3rem;
-  --input-border-width: 0.0625rem;
+  --input-border-width: 1px;
   --input-border-radius: calc(var(--input-height) / 2);
   --input-border-radius--small: calc(var(--input-height--small) / 2);
   --input-border-radius--medium: calc(var(--input-height--medium) / 2);
@@ -1438,7 +1438,7 @@ legend.dnb-form-label {
       padding-right: var(--input-padding--small);
       font-size: var(--input-font-size--small); }
     .dnb-input--small .dnb-input__submit-element {
-      margin-left: calc(1px - 1px - var(--input-height--small)); }
+      margin-left: calc( 1px - 1px - var(--input-height--small)); }
       .dnb-input--small .dnb-input__submit-element .dnb-button {
         width: var(--input-height--small);
         height: var(--input-height--small);
@@ -1458,7 +1458,7 @@ legend.dnb-form-label {
       padding-right: var(--input-padding--medium);
       font-size: var(--input-font-size--medium); }
     .dnb-input--medium .dnb-input__submit-element {
-      margin-left: calc(1px - 1px - var(--input-height--medium)); }
+      margin-left: calc( 1px - 1px - var(--input-height--medium)); }
       .dnb-input--medium .dnb-input__submit-element .dnb-button {
         width: var(--input-height--medium);
         height: var(--input-height--medium);
@@ -1478,7 +1478,7 @@ legend.dnb-form-label {
       padding-right: var(--input-padding--large);
       font-size: var(--input-font-size--large); }
     .dnb-input--large .dnb-input__submit-element {
-      margin-left: calc(1px - 1px - var(--input-height--large)); }
+      margin-left: calc( 1px - 1px - var(--input-height--large)); }
       .dnb-input--large .dnb-input__submit-element .dnb-button {
         width: var(--input-height--large);
         height: var(--input-height--large); }
@@ -1563,6 +1563,6 @@ legend.dnb-form-label {
       .dnb-input__inner {
         width: 100%; }
       .dnb-input__input, .dnb-input__placeholder {
-        transform: translateY(-0.0625rem); } }
+        transform: translateY(-1px); } }
 "
 `;

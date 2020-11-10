@@ -10,7 +10,7 @@
   --autocomplete-height--medium: 2.5rem;
   --autocomplete-height--large: 3rem;
   --autocomplete-padding-horizontal: 1rem;
-  --autocomplete-focus-border-width: 0.125rem;
+  --autocomplete-focus-border-width: #{$pixel2};
   --autocomplete-text-padding: 0.5rem;
 }
 

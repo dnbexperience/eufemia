@@ -20,13 +20,15 @@ This results in maintaining the integrity of the **8px** base grid.
 
 Sometimes You may need a compensation of only a few pixels. Heres how to calculate the correct _rem_ values:
 
-- 1px = `1/16x1` = **0.0625rem**
-- 2px = `1/16x2` = **0.125rem**
+- 4px = `4/16` = **0.25rem**
+- 6px = `6/16` = **0.375rem**
 - And so on ...
+
+Values like `1px` or `2px` can be set as pixels, because browser like Safari do have troubles calculating them, and this can have a negative effect on the outcome.
 
 ## Media Queries and Breakpoints
 
-Use `em` for media query sizing for best overall browser support. Read [more abouts units](/uilib/usage/best-practices/for-styling#units)
+Use `em` for media query sizing for best overall browser support. Read [more about units](/uilib/usage/best-practices/for-styling#units)
 
 ### Media Queries Examples
 

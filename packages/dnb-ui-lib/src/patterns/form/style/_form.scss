@@ -54,7 +54,7 @@
 }
 
 .dev-mode .dnb-form__cell {
-  border: 1px solid;
+  border: #{$pixel1} solid;
 }
 
 .dnb-form__item {

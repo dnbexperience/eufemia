@@ -10,7 +10,7 @@
   --dropdown-height--medium: 2.5rem;
   --dropdown-height--large: 3rem;
   --dropdown-padding-horizontal: 1rem;
-  --dropdown-focus-border-width: 0.125rem;
+  --dropdown-focus-border-width: #{$pixel2};
   --dropdown-text-padding: 0.5rem;
 }
 

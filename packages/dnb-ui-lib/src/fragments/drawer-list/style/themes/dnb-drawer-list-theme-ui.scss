@@ -19,12 +19,12 @@
   --drawer-list-option-background-color--selected: var(
     --color-emerald-green
   );
-  --drawer-list-option-border-width: 0.0625rem;
+  --drawer-list-option-border-width: #{$pixel1};
   --drawer-list-option-border-color: var(--color-mint-green-25);
 }
 
 @mixin drawerListBorderColor($color) {
-  @include fakeBorder($color, 0.125rem, null, true, !important);
+  @include fakeBorder($color, $pixel2, null, !important);
 }
 
 .dnb-drawer-list {

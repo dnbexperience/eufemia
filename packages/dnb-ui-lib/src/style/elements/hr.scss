@@ -21,7 +21,7 @@
     top: 0;
 
     width: 100%;
-    height: 1px;
+    height: #{$pixel1};
 
     color: inherit;
     background-color: currentColor;
@@ -58,12 +58,12 @@
       currentColor 60%,
       transparent 65%
     );
-    background-size: 100% 1px;
+    background-size: 100% #{$pixel1};
     background-color: transparent;
   }
 
   &--medium::after {
-    height: 2px;
+    height: #{$pixel2};
     border-radius: 0.75px;
 
     /* Revert the hairline halv */
@@ -72,7 +72,7 @@
       currentColor 51%,
       transparent 51%
     );
-    background-size: 100% 3px;
+    background-size: 100% #{$pixel3};
     background-color: transparent;
   }
 }

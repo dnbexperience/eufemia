@@ -75,12 +75,12 @@
     }
     &__position--left {
       right: -0.75rem;
-      margin-right: 2px; // border correction
+      margin-right: #{$pixel2}; // border correction
       transform: rotate(90deg);
     }
     &__position--right {
       left: -0.75rem;
-      margin-left: 2px; // border correction
+      margin-left: #{$pixel2}; // border correction
       transform: rotate(270deg);
     }
 

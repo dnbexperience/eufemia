@@ -47,20 +47,20 @@ exports[`GlobalStatus scss have to match default theme snapshot 1`] = `
     outline: none; }
     html[data-whatinput='keyboard'] .dnb-global-status__close-button:not([disabled]):focus::before, html[data-whatinput='keyboard'] .dnb-global-status__close-button.dnb-button--tertiary:not([disabled]):focus::before {
       --border-color: var(--color-white);
-      box-shadow: 0 0 0 0.125rem var(--border-color);
+      box-shadow: 0 0 0 2px var(--border-color);
       border-color: transparent; }
       @media screen and (-ms-high-contrast: none) {
         html[data-whatinput='keyboard'] .dnb-global-status__close-button:not([disabled]):focus::before, html[data-whatinput='keyboard'] .dnb-global-status__close-button.dnb-button--tertiary:not([disabled]):focus::before {
-          box-shadow: 0 0 0 0.125rem var(--color-white); } }
+          box-shadow: 0 0 0 2px var(--color-white); } }
   .dnb-global-status__close-button:not([disabled]):active::before, .dnb-global-status__close-button.dnb-button--tertiary:not([disabled]):active::before {
     outline: none; }
     html[data-whatinput='mouse'] .dnb-global-status__close-button:not([disabled]):active::before, html[data-whatinput='mouse'] .dnb-global-status__close-button.dnb-button--tertiary:not([disabled]):active::before {
       --border-color: var(--color-white);
-      box-shadow: 0 0 0 0.125rem var(--border-color);
+      box-shadow: 0 0 0 2px var(--border-color);
       border-color: transparent; }
       @media screen and (-ms-high-contrast: none) {
         html[data-whatinput='mouse'] .dnb-global-status__close-button:not([disabled]):active::before, html[data-whatinput='mouse'] .dnb-global-status__close-button.dnb-button--tertiary:not([disabled]):active::before {
-          box-shadow: 0 0 0 0.125rem var(--color-white); } }
+          box-shadow: 0 0 0 2px var(--color-white); } }
 "
 `;
 
@@ -310,8 +310,8 @@ exports[`GlobalStatus scss have to match snapshot 1`] = `
   --button-width--large: 3rem;
   --button-height--large: 3rem;
   --button-icon-size: 1rem;
-  --button-border-width: 0.0625rem;
-  --button-border-width--hover: 0.1875rem;
+  --button-border-width: 1px;
+  --button-border-width--hover: $pixel3;
   --button-border-radius: calc(var(--button-height) / 2);
   --button-border-radius--small: calc(var(--button-height--small) / 2);
   --button-border-radius--medium: calc(var(--button-height--medium) / 2);
@@ -454,11 +454,11 @@ exports[`GlobalStatus scss have to match snapshot 1`] = `
       outline: none; }
       html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):focus, html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):active {
         --border-color: var(--color-emerald-green);
-        box-shadow: 0 0 0 0.125rem var(--border-color);
+        box-shadow: 0 0 0 2px var(--border-color);
         border-color: transparent; }
         @media screen and (-ms-high-contrast: none) {
           html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):focus, html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):active {
-            box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
+            box-shadow: 0 0 0 2px var(--color-emerald-green); } }
     html[data-whatinput='mouse'] .dnb-button--reset:not([disabled]):focus,
     html[data-whatinput='mouse'] .dnb-button--reset:not([disabled]):active {
       box-shadow: none;
@@ -482,7 +482,7 @@ exports[`GlobalStatus scss have to match snapshot 1`] = `
     .dnb-button {
       flex: none; }
       .dnb-button__icon, .dnb-button__text {
-        transform: translateY(-0.0625rem); } }
+        transform: translateY(-1px); } }
 
 /* Firefox includes a hidden border which messes up button dimensions */
 button.dnb-button::-moz-focus-inner {
@@ -659,7 +659,7 @@ html[data-visual-test] .dnb-global-status__shell {
     font-size: var(--font-size-medium);
     line-height: var(--line-height-medium);
     padding: 1rem 6rem 1rem 3rem;
-    padding-top: calc(1rem - 0.125rem);
+    padding-top: calc(1rem - 2px);
     padding-bottom: calc(1rem - 0.375rem); }
   .dnb-spacing .dnb-global-status__title.dnb-p,
   .dnb-spacing .dnb-global-status__title.dnb-p:not([class*='dnb-space']) {
@@ -686,7 +686,7 @@ html[data-visual-test] .dnb-global-status__shell {
 .dnb-global-status__close-button, .dnb-global-status__close-button.dnb-button--tertiary {
   position: absolute;
   z-index: 1;
-  top: -0.125rem;
+  top: -2px;
   right: 1rem;
   left: auto;
   margin-top: 1rem; }

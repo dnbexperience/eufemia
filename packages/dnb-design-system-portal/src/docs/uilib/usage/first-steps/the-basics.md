@@ -31,7 +31,7 @@ One of the most important reasons why Eufemia exists, is to make it more easy to
 Therefore, You come a long way on using the `dnb-ui-lib` correctly:
 
 - Make You use [import the style packages correctly](/uilib/usage/customisation/styling) (with or without CSS reset depending on Your legacy code situation)
-- Always (mostly) use `rem` to the nearest "8px" value, like **1px = 0.0625rem** (1/16)
+- Always (mostly) use `rem` to the nearest "8px" value, like **4px = 0.25rem** (1/16)
 - Always use the [HTML Elements](/uilib/elements) or [UI Components](/uilib/components)
 - There are more [useful tips on styling](/uilib/usage/best-practices/for-styling)
 

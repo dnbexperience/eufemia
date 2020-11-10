@@ -2,6 +2,10 @@
  * Utilities
  */
 
+$pixel1: 1px; // 0.0625rem
+$pixel2: 2px; // 0.125rem
+$pixel3: 3px; // 0.1875rem
+
 // Mobile-first media query helper
 @mixin media($bp) {
   @media screen and (min-width: #{$bp}) {
@@ -52,7 +56,7 @@ $defaultEasing: cubic-bezier(0.42, 0, 0, 1);
   }
 }
 
-$focusRingWidth: 0.125rem; //2px
+$focusRingWidth: $pixel2; //2px
 $focusRingColor: var(--color-emerald-green);
 @mixin fakeFocus($whatinput: null, $color: null, $inset: null) {
   outline: none;
@@ -83,19 +87,18 @@ $focusRingColor: var(--color-emerald-green);
   $color: null,
   $width: null /* 1px */,
   $inset: null,
-  $is1px: false /* IE11 fix */,
   $important: null
 ) {
   @if $color == null {
     $color: $focusRingColor;
   }
   @if $width == null {
-    $width: 0.0625rem;
+    $width: $pixel1;
   }
 
   --border-color: #{$color};
 
-  // we use !important, cause we have no changes to select the selctor right
+  // we use !important, cause we have no changes to select the selector right
   // in some cases we have another state where we use box-shadow
   // but with important, we take care of that we actually can use use it
   box-shadow: $inset 0 0 0 $width var(--border-color) $important;
@@ -119,14 +122,8 @@ $focusRingColor: var(--color-emerald-green);
   }
 
   @include IS_IE() {
-    @if $is1px {
-      // Since 0.0625rem gets not rendered correctly
-      // and gives an artifact, we do use px instead
-      box-shadow: $inset 0 0 0 1px $color $important;
-    } @else {
-      // IE color fallback
-      box-shadow: $inset 0 0 0 $width $color $important;
-    }
+    // IE color fallback
+    box-shadow: $inset 0 0 0 $width $color $important;
   }
 
   @if $color != null {
@@ -137,7 +134,7 @@ $focusRingColor: var(--color-emerald-green);
 @mixin extendFakeFocus(
   $first-color: null,
   $second-color: null,
-  $width: 0.0625rem /*1px*/
+  $width: $pixel1
 ) {
   $second: 0 0 0 ($focusRingWidth + $width) $second-color;
   box-shadow: 0 0 0 $width $first-color, $second;

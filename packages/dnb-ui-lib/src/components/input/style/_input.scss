@@ -16,7 +16,7 @@
   --input-height--small: 1.5rem;
   --input-height--medium: 2.5rem;
   --input-height--large: 3rem;
-  --input-border-width: 0.0625rem;
+  --input-border-width: #{$pixel1};
   --input-border-radius: calc(var(--input-height) / 2);
   --input-border-radius--small: calc(var(--input-height--small) / 2);
   --input-border-radius--medium: calc(var(--input-height--medium) / 2);
@@ -109,7 +109,7 @@
 
   // centering type="file" - here we can actually keep it as pixels
   input#{&}__input[type='file'] {
-    line-height: calc(var(--input-height) - 2px);
+    line-height: calc(var(--input-height) - #{$pixel2});
   }
 
   // hide the clear button on input type="search"
@@ -148,7 +148,7 @@
   }
 
   &__submit-element {
-    margin-left: calc(1px - 1px - var(--input-height));
+    margin-left: calc(#{$pixel1} - #{$pixel1} - var(--input-height));
     line-height: var(--line-height-basis);
   }
 
@@ -178,7 +178,9 @@
       font-size: var(--input-font-size--small);
     }
     .dnb-input__submit-element {
-      margin-left: calc(1px - 1px - var(--input-height--small));
+      margin-left: calc(
+        #{$pixel1} - #{$pixel1} - var(--input-height--small)
+      );
       .dnb-button {
         width: var(--input-height--small);
         height: var(--input-height--small);
@@ -205,7 +207,9 @@
       font-size: var(--input-font-size--medium);
     }
     .dnb-input__submit-element {
-      margin-left: calc(1px - 1px - var(--input-height--medium));
+      margin-left: calc(
+        #{$pixel1} - #{$pixel1} - var(--input-height--medium)
+      );
       .dnb-button {
         width: var(--input-height--medium);
         height: var(--input-height--medium);
@@ -232,7 +236,9 @@
       font-size: var(--input-font-size--large);
     }
     .dnb-input__submit-element {
-      margin-left: calc(1px - 1px - var(--input-height--large));
+      margin-left: calc(
+        #{$pixel1} - #{$pixel1} - var(--input-height--large)
+      );
       .dnb-button {
         width: var(--input-height--large);
         height: var(--input-height--large);
@@ -373,7 +379,7 @@
     &__input,
     &__placeholder {
       // vertical alignment
-      transform: translateY(-0.0625rem);
+      transform: translateY(-$pixel1);
     }
   }
 }

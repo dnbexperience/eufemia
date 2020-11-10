@@ -36,7 +36,7 @@
     color: var(--color-sea-green);
     background-color: var(--color-white);
 
-    @include fakeBorder(var(--color-sea-green), 0.0625rem, inset, true);
+    @include fakeBorder(var(--color-sea-green), $pixel1, inset);
 
     @include buttonHover(var(--color-sea-green), var(--color-white));
     @include buttonFocus(var(--color-sea-green), var(--color-white));
@@ -61,19 +61,14 @@
       background-color: var(--color-white);
 
       // only because of href/anchor button
-      @include fakeBorder(
-        var(--color-sea-green-30),
-        0.0625rem,
-        inset,
-        true
-      );
+      @include fakeBorder(var(--color-sea-green-30), $pixel1, inset);
     }
   }
   &:not([disabled])#{&}--secondary#{&}__status {
     &--error {
       color: var(--color-fire-red);
 
-      @include fakeBorder(var(--color-fire-red), 0.0625rem, inset, true);
+      @include fakeBorder(var(--color-fire-red), $pixel1, inset);
       .dnb-button__icon {
         color: inherit;
       }
@@ -82,7 +77,7 @@
 
   // simulate active state
   &--active {
-    @include fakeBorder(var(--color-emerald-green), 0.125rem /*2px*/);
+    @include fakeBorder(var(--color-emerald-green), $pixel2);
   }
 
   &--tertiary {
@@ -96,7 +91,7 @@
       position: relative; // because of the underline
 
       @include drawUnderlineBorder() {
-        bottom: -0.0625rem;
+        bottom: -#{$pixel1};
         color: transparent;
         opacity: 0;
         transition: opacity 200ms ease-out, color 200ms ease-out;
@@ -221,11 +216,11 @@
         }
 
         @include hover() {
-          @include fakeBorder(var(--color-sea-green), 0.0625rem);
+          @include fakeBorder(var(--color-sea-green), $pixel1);
         }
 
         @include active() {
-          @include fakeBorder(var(--color-sea-green-30), 0.0625rem);
+          @include fakeBorder(var(--color-sea-green-30), $pixel1);
         }
       }
     }
@@ -263,7 +258,7 @@
 
     // touch helper
     // html[data-whatintent='touch']  &:active {
-    //   @include fakeBorder(var(--color-emerald-green), 0.125rem /*2px*/);
+    //   @include fakeBorder(var(--color-emerald-green), $pixel2);
     // }
 
     &[disabled] {

@@ -33,7 +33,7 @@
   &--lines#{&}--shape#{&}::after {
     background-image: repeating-linear-gradient(
       -45deg,
-      var(--skeleton-color--contrast) 1px 2px,
+      var(--skeleton-color--contrast) #{$pixel1} #{$pixel2},
       transparent 0 6px
     ) !important;
     background-repeat: repeat !important;
@@ -50,8 +50,8 @@
   // &--dots#{&}--shape#{&}::after {
   //   background-image: radial-gradient(
   //     circle,
-  //     var(--skeleton-color--contrast) 1px,
-  //     transparent 1px /* Having 2px makes it add lookin in Safari */
+  //     var(--skeleton-color--contrast) #{$pixel1},
+  //     transparent #{$pixel1} /* Having 2px makes it add lookin in Safari */
   //   ) !important; // to take presence
   //   background-position-y: 50% !important;
   //   background-repeat: repeat !important;
@@ -96,7 +96,7 @@
   &--font {
     background-image: repeating-linear-gradient(
       -45deg,
-      var(--skeleton-color--contrast) 1px 2px,
+      var(--skeleton-color--contrast) #{$pixel1} 2px,
       transparent 0 6px
     ) !important;
 
@@ -108,8 +108,8 @@
   // &--dots &--font {
   //   background-image: radial-gradient(
   //     circle,
-  //     var(--skeleton-color--contrast) 1px,
-  //     transparent 1px /* Having 2px makes it add lookin in Safari */
+  //     var(--skeleton-color--contrast) #{$pixel1},
+  //     transparent #{$pixel1} /* Having 2px makes it add lookin in Safari */
   //   ) !important; // to take presence
   //   background-position-y: 50% !important;
   //   background-repeat: repeat !important;

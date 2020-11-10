@@ -8,7 +8,7 @@
 .dnb-step-indicator {
   &__item-content {
     // so we can se the bottom line on anchor hover
-    // transform: translateY(-1px);
+    // transform: translateY(-#{$pixel1});
 
     &--static {
       color: var(--color-emerald-green);

@@ -8,7 +8,7 @@
   --radio-height--medium: 1.5rem;
   --radio-width--large: 2rem;
   --radio-height--large: 2rem;
-  --radio-border-width: 0.125rem;
+  --radio-border-width: #{$pixel2};
   --radio-margin-right: 1rem;
   --radio-margin-bottom: 0.5rem;
 }
@@ -60,8 +60,8 @@
     border-radius: 50%;
 
     .dnb-radio--large & {
-      width: calc(var(--radio-width--large) - 0.125rem);
-      height: calc(var(--radio-height--large) - 0.125rem);
+      width: calc(var(--radio-width--large) - #{$pixel2});
+      height: calc(var(--radio-height--large) - #{$pixel2});
     }
   }
   &__dot {
@@ -225,7 +225,9 @@
       align-items: flex-start;
 
       // because of our bottom margins we have on the componens
-      margin-bottom: calc(1px - 1px - var(--radio-margin-bottom));
+      margin-bottom: calc(
+        #{$pixel1} - #{$pixel1} - var(--radio-margin-bottom)
+      );
 
       &::before {
         // move the gorup 2px up if label exists

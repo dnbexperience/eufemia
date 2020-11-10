@@ -591,11 +591,11 @@ exports[`Radio scss have to match default theme snapshot 1`] = `
   .dnb-radio__status--error .dnb-radio__input:not([disabled]):not(:focus):not(:active) ~ .dnb-radio__focus {
     display: block;
     --border-color: var(--color-fire-red);
-    box-shadow: 0 0 0 0.125rem var(--border-color);
+    box-shadow: 0 0 0 2px var(--border-color);
     border-color: transparent; }
     @media screen and (-ms-high-contrast: none) {
       .dnb-radio__status--error .dnb-radio__input:not([disabled]):not(:focus):not(:active) ~ .dnb-radio__focus {
-        box-shadow: 0 0 0 0.125rem var(--color-fire-red); } }
+        box-shadow: 0 0 0 2px var(--color-fire-red); } }
   .dnb-radio__status--error .dnb-radio__input:not([disabled]):not(:focus):not(:checked):hover ~ .dnb-radio__button {
     background-color: var(--color-fire-red-8); }
   .dnb-radio__status--error .dnb-radio__input:not([disabled]):not(:focus):not(:active):not(:hover):checked ~ .dnb-radio__dot {
@@ -862,7 +862,7 @@ legend.dnb-form-label {
   --radio-height--medium: 1.5rem;
   --radio-width--large: 2rem;
   --radio-height--large: 2rem;
-  --radio-border-width: 0.125rem;
+  --radio-border-width: 2px;
   --radio-margin-right: 1rem;
   --radio-margin-bottom: 0.5rem; }
 
@@ -894,18 +894,18 @@ legend.dnb-form-label {
     outline: none; }
     html[data-whatinput='keyboard'] .dnb-radio__focus {
       --border-color: var(--color-emerald-green);
-      box-shadow: 0 0 0 0.125rem var(--border-color);
+      box-shadow: 0 0 0 2px var(--border-color);
       border-color: transparent; }
       @media screen and (-ms-high-contrast: none) {
         html[data-whatinput='keyboard'] .dnb-radio__focus {
-          box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
+          box-shadow: 0 0 0 2px var(--color-emerald-green); } }
   .dnb-radio__focus, .dnb-radio__button {
     width: calc(var(--radio-width--medium) - 0.25rem);
     height: calc(var(--radio-height--medium) - 0.25rem);
     border-radius: 50%; }
     .dnb-radio--large .dnb-radio__focus, .dnb-radio--large .dnb-radio__button {
-      width: calc(var(--radio-width--large) - 0.125rem);
-      height: calc(var(--radio-height--large) - 0.125rem); }
+      width: calc(var(--radio-width--large) - 2px);
+      height: calc(var(--radio-height--large) - 2px); }
   .dnb-radio__dot {
     width: calc(var(--radio-width--medium) - 0.75rem);
     height: calc(var(--radio-height--medium) - 0.75rem);
@@ -999,7 +999,7 @@ legend.dnb-form-label {
       flex-direction: column; }
     .dnb-radio-group .dnb-form-row {
       align-items: flex-start;
-      margin-bottom: calc(1px - 1px - var(--radio-margin-bottom)); }
+      margin-bottom: calc( 1px - 1px - var(--radio-margin-bottom)); }
       .dnb-radio-group .dnb-form-row::before {
         font-size: var(--font-size-basis); }
   .dnb-skeleton .dnb-radio__input[disabled] ~ .dnb-radio__button {

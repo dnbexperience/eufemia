@@ -62,8 +62,8 @@
     box-shadow: none;
 
     & > div {
-      height: 3px;
-      width: 3px;
+      height: #{$pixel3};
+      width: #{$pixel3};
 
       margin: 0 0.1rem;
 
@@ -76,17 +76,17 @@
     pointer-events: none;
     position: relative; // because of the marker
 
-    height: 1px;
-    width: 1px;
-    margin: -1px 0 0 -1px;
+    height: #{$pixel1};
+    width: #{$pixel1};
+    margin: -#{$pixel1} 0 0 -#{$pixel1};
     overflow: hidden;
 
     td,
     &__inner {
       padding: 0 !important; // because if it is used in table
 
-      width: 1px;
-      height: 1px;
+      width: #{$pixel1};
+      height: #{$pixel1};
 
       opacity: 0;
     }

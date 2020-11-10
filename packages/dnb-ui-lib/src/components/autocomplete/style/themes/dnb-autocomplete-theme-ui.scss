@@ -26,10 +26,9 @@
   &--opened .dnb-input__submit-button__button {
     @include fakeBorder(
       var(--autocomplete-border-color--selected),
-      0.125rem,
-      // could be 0.0625rem,
-        null,
-      true
+      $pixel2,
+      // could be $pixel1,
+      null
     );
   }
 }

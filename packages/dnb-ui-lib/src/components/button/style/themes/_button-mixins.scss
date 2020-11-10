@@ -11,7 +11,7 @@
   color: $color;
   background-color: $background-color;
 
-  @include fakeBorder(var(--color-emerald-green), 0.125rem /*2px*/);
+  @include fakeBorder(var(--color-emerald-green), $pixel2);
 }
 
 @mixin buttonHover($color, $background-color, $enable-touch: null) {
@@ -100,10 +100,10 @@
 
     // using box-shadow works well to get 1.5px
     // but not for the transition to opacity
-    // box-shadow: 0 0 0 calc(0.0625rem / 2) currentColor;
+    // box-shadow: 0 0 0 calc(#{$pixel1} / 2) currentColor;
 
     @include IS_IE {
-      height: 1px;
+      height: #{$pixel1};
       border-radius: 0.5px;
     }
 

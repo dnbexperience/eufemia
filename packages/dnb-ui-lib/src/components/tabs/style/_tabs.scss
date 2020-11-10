@@ -40,10 +40,10 @@
 
       margin: 0;
       margin-left: 4.5rem;
-      padding: 0.25rem 0.125rem; /* 1/16*4 */
+      padding: 0.25rem #{$pixel2}; /* 1/16*4 */
 
       background-color: transparent;
-      border-bottom: 1px solid transparent;
+      border-bottom: #{$pixel1} solid transparent;
 
       cursor: pointer;
       outline: none;
@@ -62,7 +62,7 @@
           font-size: var(--font-size-small); // has to be 16px
 
           // vertical alignment
-          transform: translateY(-0.125rem);
+          transform: translateY(-#{$pixel2});
         }
       }
 
@@ -76,7 +76,7 @@
         right: 0;
         bottom: 0;
         width: 100%;
-        height: 1px;
+        height: #{$pixel1};
       }
     }
     .dnb-tabs__button:first-child {
@@ -90,7 +90,7 @@
       left: -100vw;
       bottom: 0;
       width: 100vw;
-      height: 1px;
+      height: #{$pixel1};
     }
 
     @include allBelow(medium) {

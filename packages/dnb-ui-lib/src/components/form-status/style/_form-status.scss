@@ -70,7 +70,7 @@
 
   @include IS_IE {
     &__shell > .dnb-icon {
-      border-width: 1px;
+      border-width: #{$pixel1};
     }
   }
 }

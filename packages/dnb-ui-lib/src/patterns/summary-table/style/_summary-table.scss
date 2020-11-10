@@ -21,8 +21,8 @@
   }
 
   &__body {
-    border: 1px solid var(--color-summer-green);
-    border-width: 1px 0;
+    border: #{$pixel1} solid var(--color-summer-green);
+    border-width: #{$pixel1} 0;
   }
 
   &__row {
@@ -36,7 +36,7 @@
     align-items: flex-end;
 
     border-color: var(--color-summer-green);
-    border-top: 1px solid var(--color-summer-green);
+    border-top: #{$pixel1} solid var(--color-summer-green);
 
     &:first-child {
       border-width: 0;

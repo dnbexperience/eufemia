@@ -35,8 +35,7 @@
     @include fakeBorder(
       var(--input-border-color),
       var(--input-border-width),
-      inset,
-      true
+      inset
     );
 
     &[data-input-state='dirty'] {
@@ -51,8 +50,7 @@
       @include fakeBorder(
         var(--input-border-color--disabled),
         var(--input-border-width),
-        inset,
-        true
+        inset
       );
       background-color: var(--input-background-color--disabled);
     }
@@ -61,7 +59,7 @@
     &[data-input-state='focus'] {
       color: var(--input-text-color--focus);
       background-color: var(--input-background-color--focus);
-      @include fakeBorder(var(--input-border-color--focus), 0.125rem);
+      @include fakeBorder(var(--input-border-color--focus), $pixel2);
     }
   }
 
@@ -76,7 +74,7 @@
 
   // with status_state = "error"
   &__status--error &__shell:not([data-input-state='focus']) {
-    @include fakeBorder(var(--color-fire-red), 0.125rem);
+    @include fakeBorder(var(--color-fire-red), $pixel2);
   }
   &__status--error
     &__shell:not([data-input-state='focus'])
@@ -86,7 +84,7 @@
       color: var(--color-fire-red);
     }
     .dnb-button {
-      @include fakeBorder(var(--color-fire-red), 0.125rem);
+      @include fakeBorder(var(--color-fire-red), $pixel2);
     }
   }
   &__status--error,

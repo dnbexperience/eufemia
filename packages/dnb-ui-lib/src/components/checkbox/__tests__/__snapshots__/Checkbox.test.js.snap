@@ -252,11 +252,11 @@ exports[`Checkbox scss have to match default theme snapshot 1`] = `
   .dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):not(:focus):not(:active) ~ .dnb-checkbox__button .dnb-checkbox__focus {
     display: block;
     --border-color: var(--color-fire-red);
-    box-shadow: 0 0 0 0.125rem var(--border-color);
+    box-shadow: 0 0 0 2px var(--border-color);
     border-color: transparent; }
     @media screen and (-ms-high-contrast: none) {
       .dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):not(:focus):not(:active) ~ .dnb-checkbox__button .dnb-checkbox__focus {
-        box-shadow: 0 0 0 0.125rem var(--color-fire-red); } }
+        box-shadow: 0 0 0 2px var(--color-fire-red); } }
   .dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):not(:focus):hover ~ .dnb-checkbox__button {
     border-color: var(--color-fire-red);
     background-color: var(--color-fire-red-8); }
@@ -525,7 +525,7 @@ legend.dnb-form-label {
   --checkbox-height--medium: 1.5rem;
   --checkbox-width--large: 2rem;
   --checkbox-height--large: 2rem;
-  --checkbox-border-width: 0.125rem; }
+  --checkbox-border-width: 2px; }
 
 .dnb-checkbox {
   display: inline-flex;
@@ -556,11 +556,11 @@ legend.dnb-form-label {
     outline: none; }
     html[data-whatinput='keyboard'] .dnb-checkbox__focus {
       --border-color: var(--color-emerald-green);
-      box-shadow: 0 0 0 0.125rem var(--border-color);
+      box-shadow: 0 0 0 2px var(--border-color);
       border-color: transparent; }
       @media screen and (-ms-high-contrast: none) {
         html[data-whatinput='keyboard'] .dnb-checkbox__focus {
-          box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
+          box-shadow: 0 0 0 2px var(--color-emerald-green); } }
   .dnb-checkbox__focus, .dnb-checkbox__button {
     position: relative;
     z-index: 4;

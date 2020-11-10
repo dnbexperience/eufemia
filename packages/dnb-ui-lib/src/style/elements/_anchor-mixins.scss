@@ -186,7 +186,7 @@ $anchorBorderRadius: 0.25em;
   // other stuff, not related to the Anchor directly
   .dnb-icon {
     display: inline-block;
-    // -1px to center the icons agains large chars
+    // -#{$pixel1} to center the icons agains large chars
     transform: translateY(-0.0625em);
   }
 }

@@ -55,7 +55,7 @@
       line-height: var(--line-height-medium);
 
       padding: 1rem 6rem 1rem 3rem; // because of the font-size
-      padding-top: calc(1rem - 0.125rem);
+      padding-top: calc(1rem - #{$pixel2});
       padding-bottom: calc(1rem - 0.375rem);
     }
 
@@ -92,7 +92,7 @@
   &__close-button.dnb-button--tertiary {
     position: absolute;
     z-index: 1;
-    top: -0.125rem;
+    top: -#{$pixel2};
     right: 1rem; // also because of the focus-ring
     left: auto;
 
@@ -106,7 +106,7 @@
     width: 100%;
 
     // to get the red line on the bottom
-    transform: translate3d(0, -1px, 0);
+    transform: translate3d(0, -#{$pixel1}, 0);
 
     .dnb-ul,
     .dnb-spacing & .dnb-ul,
@@ -126,7 +126,7 @@
 
   @include IS_IE {
     &__icon > .dnb-icon {
-      border-width: 1px;
+      border-width: #{$pixel1};
     }
   }
 }

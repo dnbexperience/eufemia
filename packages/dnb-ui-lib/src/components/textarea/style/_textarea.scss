@@ -37,10 +37,10 @@
 }
 @mixin textareaStyle() {
   border: none;
-  border-radius: 1px;
+  border-radius: #{$pixel1};
 
   box-shadow: var(--textarea-border-inner),
-    0 0 0 calc(var(--textarea-padding-width) + 0.0625rem)
+    0 0 0 calc(var(--textarea-padding-width) + #{$pixel1})
       var(--color-sea-green);
 
   @include textareaStyleCommon();
@@ -115,7 +115,8 @@
 
   &__inner > .dnb-form-status {
     order: 2;
-    margin: 1rem 0 0 calc(1px - 1px - var(--textarea-padding-width));
+    margin: 1rem 0 0
+      calc(#{$pixel1} - #{$pixel1} - var(--textarea-padding-width));
   }
 
   &:not(#{&}--vertical) .dnb-form-label {

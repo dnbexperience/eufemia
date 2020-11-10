@@ -98,13 +98,13 @@
 
     &::before {
       background-color: red;
-      left: calc(1px - 1px - var(--slider-space));
+      left: calc(#{$pixel1} - #{$pixel1} - var(--slider-space));
       right: auto;
     }
     &::after {
       background-color: blue;
       left: auto;
-      right: calc(1px - 1px - var(--slider-space));
+      right: calc(#{$pixel1} - #{$pixel1} - var(--slider-space));
     }
   }
   &--vertical &__track {
@@ -122,12 +122,12 @@
       height: var(--slider-thumb-size);
     }
     &::before {
-      top: calc(1px - 1px - var(--slider-space));
+      top: calc(#{$pixel1} - #{$pixel1} - var(--slider-space));
       bottom: auto;
     }
     &::after {
       top: auto;
-      bottom: calc(1px - 1px - var(--slider-space));
+      bottom: calc(#{$pixel1} - #{$pixel1} - var(--slider-space));
     }
   }
 
@@ -235,7 +235,7 @@
     z-index: 2;
     opacity: 0;
 
-    transform: translate3d(0.0625rem, 0, 0);
+    transform: translate3d(#{$pixel1}, 0, 0);
   }
   &__button-helper:not(:disabled):focus ~ .dnb-button {
     @include fakeFocus();

@@ -59,7 +59,7 @@
         height: calc(var(--checkbox-height--medium) - 0.5rem);
 
         // We used this before for more precise sizing
-        border-width: 0.0625rem; // to get 1.5px we use 1px here, and 0.5px with box-shadow
+        border-width: #{$pixel1}; // to get 1.5px we use 1px here, and 0.5px with box-shadow
         box-shadow: 0 0 0 0.0318rem var(--color-sea-green);
       }
 
@@ -85,7 +85,7 @@
       &__button {
         width: calc(var(--radio-width--medium) - 0.5rem);
         height: calc(var(--radio-height--medium) - 0.5rem);
-        border-width: 0.0625rem; // to get 1.5px we use 1px here, and 0.5px with box-shadow
+        border-width: #{$pixel1}; // to get 1.5px we use 1px here, and 0.5px with box-shadow
         // extend the broder to be 1.5px (use .0318rem instead of .03125rem because of Windows)
         box-shadow: 0 0 0 0.0318rem var(--color-sea-green);
       }
@@ -186,7 +186,9 @@
         align-items: flex-start;
       }
 
-      margin-bottom: calc(1px - 1px - var(--toggle-button-margin-bottom));
+      margin-bottom: calc(
+        #{$pixel1} - #{$pixel1} - var(--toggle-button-margin-bottom)
+      );
 
       &::before {
         // move the gorup 2px up if label exists

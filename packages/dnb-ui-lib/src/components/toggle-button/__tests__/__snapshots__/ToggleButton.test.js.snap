@@ -796,7 +796,7 @@ exports[`ToggleButton scss have to match default theme snapshot 1`] = `
     .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]):not(:active):not(:hover),
     .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]):not(:active):not(:hover) {
       --border-color: var(--color-emerald-green);
-      box-shadow: inset 0 0 0 0.0625rem var(--border-color);
+      box-shadow: inset 0 0 0 1px var(--border-color);
       /* iOS fix - because \\"inset\\" works not fine with border-radius */
       /* Safari fix - because \\"inset\\" works not fine with border-radius if the user zooms the page */
       border-color: transparent; }
@@ -804,13 +804,13 @@ exports[`ToggleButton scss have to match default theme snapshot 1`] = `
         .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:active):not(:hover),
         .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]):not(:active):not(:hover),
         .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]):not(:active):not(:hover) {
-          box-shadow: 0 0 0 0.0625rem var(--border-color); } }
+          box-shadow: 0 0 0 1px var(--border-color); } }
       @media not all and (min-resolution: 0.001dpcm) {
         @supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-overflow-scrolling: touch)) {
           .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:active):not(:hover),
           .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]):not(:active):not(:hover),
           .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]):not(:active):not(:hover) {
-            box-shadow: 0 0 0 0.0625rem var(--border-color); } } }
+            box-shadow: 0 0 0 1px var(--border-color); } } }
       @media screen and (-ms-high-contrast: none) {
         .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:active):not(:hover),
         .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]):not(:active):not(:hover),
@@ -859,7 +859,7 @@ exports[`ToggleButton scss have to match default theme snapshot 1`] = `
     .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]):not(:active):not(:hover):focus, html[data-whatinput='keyboard']
     .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]):not(:active):not(:hover):focus {
       --border-color: var(--color-emerald-green);
-      box-shadow: inset 0 0 0 0.125rem var(--border-color);
+      box-shadow: inset 0 0 0 2px var(--border-color);
       /* iOS fix - because \\"inset\\" works not fine with border-radius */
       /* Safari fix - because \\"inset\\" works not fine with border-radius if the user zooms the page */
       border-color: transparent; }
@@ -867,18 +867,18 @@ exports[`ToggleButton scss have to match default theme snapshot 1`] = `
         html[data-whatinput='keyboard'] .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:active):not(:hover):focus, html[data-whatinput='keyboard']
         .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]):not(:active):not(:hover):focus, html[data-whatinput='keyboard']
         .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]):not(:active):not(:hover):focus {
-          box-shadow: 0 0 0 0.125rem var(--border-color); } }
+          box-shadow: 0 0 0 2px var(--border-color); } }
       @media not all and (min-resolution: 0.001dpcm) {
         @supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-overflow-scrolling: touch)) {
           html[data-whatinput='keyboard'] .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:active):not(:hover):focus, html[data-whatinput='keyboard']
           .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]):not(:active):not(:hover):focus, html[data-whatinput='keyboard']
           .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]):not(:active):not(:hover):focus {
-            box-shadow: 0 0 0 0.125rem var(--border-color); } } }
+            box-shadow: 0 0 0 2px var(--border-color); } } }
       @media screen and (-ms-high-contrast: none) {
         html[data-whatinput='keyboard'] .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:active):not(:hover):focus, html[data-whatinput='keyboard']
         .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]):not(:active):not(:hover):focus, html[data-whatinput='keyboard']
         .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]):not(:active):not(:hover):focus {
-          box-shadow: inset 0 0 0 0.125rem var(--color-emerald-green); } }
+          box-shadow: inset 0 0 0 2px var(--color-emerald-green); } }
   .dnb-toggle-button__button:not([disabled]):active .dnb-radio__button,
   .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):active .dnb-radio__button {
     background-color: transparent;
@@ -899,33 +899,33 @@ exports[`ToggleButton scss have to match default theme snapshot 1`] = `
     background-color: var(--color-white);
     color: var(--color-fire-red);
     --border-color: var(--color-fire-red);
-    box-shadow: inset 0 0 0 0.0625rem var(--border-color);
+    box-shadow: inset 0 0 0 1px var(--border-color);
     /* iOS fix - because \\"inset\\" works not fine with border-radius */
     /* Safari fix - because \\"inset\\" works not fine with border-radius if the user zooms the page */
     border-color: transparent; }
     @supports (-webkit-touch-callout: none) {
       .dnb-toggle-button__status--error .dnb-toggle-button__button:not([disabled]):not(:focus):not(:active) {
-        box-shadow: 0 0 0 0.0625rem var(--border-color); } }
+        box-shadow: 0 0 0 1px var(--border-color); } }
     @media not all and (min-resolution: 0.001dpcm) {
       @supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-overflow-scrolling: touch)) {
         .dnb-toggle-button__status--error .dnb-toggle-button__button:not([disabled]):not(:focus):not(:active) {
-          box-shadow: 0 0 0 0.0625rem var(--border-color); } } }
+          box-shadow: 0 0 0 1px var(--border-color); } } }
     @media screen and (-ms-high-contrast: none) {
       .dnb-toggle-button__status--error .dnb-toggle-button__button:not([disabled]):not(:focus):not(:active) {
         box-shadow: inset 0 0 0 1px var(--color-fire-red); } }
     .dnb-toggle-button__status--error .dnb-toggle-button__button:not([disabled]):not(:focus):not(:active):hover {
-      box-shadow: 0 0 0 0.125rem var(--color-fire-red); }
+      box-shadow: 0 0 0 2px var(--color-fire-red); }
   .dnb-toggle-button--checked.dnb-toggle-button__status--error .dnb-toggle-button__button:not([disabled]):not(:focus):not(:active) {
     background-color: var(--color-fire-red);
     color: var(--color-white); }
     .dnb-toggle-button--checked.dnb-toggle-button__status--error .dnb-toggle-button__button:not([disabled]):not(:focus):not(:active):hover {
-      box-shadow: 0 0 0 0.125rem var(--color-fire-red); }
+      box-shadow: 0 0 0 2px var(--color-fire-red); }
   .dnb-toggle-button--checked.dnb-toggle-button__status--error .dnb-radio__input:not([disabled]):not(:focus):not(:active) ~ .dnb-radio__focus {
-    box-shadow: 0 0 0 0.125rem var(--color-white); }
+    box-shadow: 0 0 0 2px var(--color-white); }
   .dnb-toggle-button--checked.dnb-toggle-button__status--error .dnb-radio__input:not([disabled]):not(:focus):not(:active):not(:hover) ~ .dnb-radio__dot {
     background-color: var(--color-white); }
   .dnb-toggle-button--checked.dnb-toggle-button__status--error .dnb-checkbox__input:not([disabled]):not(:focus):not(:active) ~ .dnb-checkbox__button .dnb-checkbox__focus {
-    box-shadow: 0 0 0 0.0625rem var(--color-white); }
+    box-shadow: 0 0 0 1px var(--color-white); }
   .dnb-toggle-button--checked.dnb-toggle-button__status--error .dnb-checkbox__input:not([disabled]):not(:focus):not(:active):not(:hover) ~ .dnb-checkbox__gfx path {
     stroke: var(--color-white); }
   .dnb-toggle-button > .dnb-form-status {
@@ -1265,8 +1265,8 @@ legend.dnb-form-label {
   --button-width--large: 3rem;
   --button-height--large: 3rem;
   --button-icon-size: 1rem;
-  --button-border-width: 0.0625rem;
-  --button-border-width--hover: 0.1875rem;
+  --button-border-width: 1px;
+  --button-border-width--hover: $pixel3;
   --button-border-radius: calc(var(--button-height) / 2);
   --button-border-radius--small: calc(var(--button-height--small) / 2);
   --button-border-radius--medium: calc(var(--button-height--medium) / 2);
@@ -1409,11 +1409,11 @@ legend.dnb-form-label {
       outline: none; }
       html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):focus, html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):active {
         --border-color: var(--color-emerald-green);
-        box-shadow: 0 0 0 0.125rem var(--border-color);
+        box-shadow: 0 0 0 2px var(--border-color);
         border-color: transparent; }
         @media screen and (-ms-high-contrast: none) {
           html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):focus, html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):active {
-            box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
+            box-shadow: 0 0 0 2px var(--color-emerald-green); } }
     html[data-whatinput='mouse'] .dnb-button--reset:not([disabled]):focus,
     html[data-whatinput='mouse'] .dnb-button--reset:not([disabled]):active {
       box-shadow: none;
@@ -1437,7 +1437,7 @@ legend.dnb-form-label {
     .dnb-button {
       flex: none; }
       .dnb-button__icon, .dnb-button__text {
-        transform: translateY(-0.0625rem); } }
+        transform: translateY(-1px); } }
 
 /* Firefox includes a hidden border which messes up button dimensions */
 button.dnb-button::-moz-focus-inner {
@@ -1499,7 +1499,7 @@ button.dnb-button::-moz-focus-inner {
   --checkbox-height--medium: 1.5rem;
   --checkbox-width--large: 2rem;
   --checkbox-height--large: 2rem;
-  --checkbox-border-width: 0.125rem; }
+  --checkbox-border-width: 2px; }
 
 .dnb-checkbox {
   display: inline-flex;
@@ -1530,11 +1530,11 @@ button.dnb-button::-moz-focus-inner {
     outline: none; }
     html[data-whatinput='keyboard'] .dnb-checkbox__focus {
       --border-color: var(--color-emerald-green);
-      box-shadow: 0 0 0 0.125rem var(--border-color);
+      box-shadow: 0 0 0 2px var(--border-color);
       border-color: transparent; }
       @media screen and (-ms-high-contrast: none) {
         html[data-whatinput='keyboard'] .dnb-checkbox__focus {
-          box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
+          box-shadow: 0 0 0 2px var(--color-emerald-green); } }
   .dnb-checkbox__focus, .dnb-checkbox__button {
     position: relative;
     z-index: 4;
@@ -1676,7 +1676,7 @@ button.dnb-button::-moz-focus-inner {
   --radio-height--medium: 1.5rem;
   --radio-width--large: 2rem;
   --radio-height--large: 2rem;
-  --radio-border-width: 0.125rem;
+  --radio-border-width: 2px;
   --radio-margin-right: 1rem;
   --radio-margin-bottom: 0.5rem; }
 
@@ -1708,18 +1708,18 @@ button.dnb-button::-moz-focus-inner {
     outline: none; }
     html[data-whatinput='keyboard'] .dnb-radio__focus {
       --border-color: var(--color-emerald-green);
-      box-shadow: 0 0 0 0.125rem var(--border-color);
+      box-shadow: 0 0 0 2px var(--border-color);
       border-color: transparent; }
       @media screen and (-ms-high-contrast: none) {
         html[data-whatinput='keyboard'] .dnb-radio__focus {
-          box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
+          box-shadow: 0 0 0 2px var(--color-emerald-green); } }
   .dnb-radio__focus, .dnb-radio__button {
     width: calc(var(--radio-width--medium) - 0.25rem);
     height: calc(var(--radio-height--medium) - 0.25rem);
     border-radius: 50%; }
     .dnb-radio--large .dnb-radio__focus, .dnb-radio--large .dnb-radio__button {
-      width: calc(var(--radio-width--large) - 0.125rem);
-      height: calc(var(--radio-height--large) - 0.125rem); }
+      width: calc(var(--radio-width--large) - 2px);
+      height: calc(var(--radio-height--large) - 2px); }
   .dnb-radio__dot {
     width: calc(var(--radio-width--medium) - 0.75rem);
     height: calc(var(--radio-height--medium) - 0.75rem);
@@ -1813,7 +1813,7 @@ button.dnb-button::-moz-focus-inner {
       flex-direction: column; }
     .dnb-radio-group .dnb-form-row {
       align-items: flex-start;
-      margin-bottom: calc(1px - 1px - var(--radio-margin-bottom)); }
+      margin-bottom: calc( 1px - 1px - var(--radio-margin-bottom)); }
       .dnb-radio-group .dnb-form-row::before {
         font-size: var(--font-size-basis); }
   .dnb-skeleton .dnb-radio__input[disabled] ~ .dnb-radio__button {
@@ -1917,7 +1917,7 @@ button.dnb-button::-moz-focus-inner {
       .dnb-toggle-button__button .dnb-checkbox__focus, .dnb-toggle-button__button .dnb-checkbox__button {
         width: calc(var(--checkbox-width--medium) - 0.5rem);
         height: calc(var(--checkbox-height--medium) - 0.5rem);
-        border-width: 0.0625rem;
+        border-width: 1px;
         box-shadow: 0 0 0 0.0318rem var(--color-sea-green); }
       .dnb-toggle-button__button .dnb-checkbox__dot {
         width: calc(var(--checkbox-width--medium) - 1rem);
@@ -1932,7 +1932,7 @@ button.dnb-button::-moz-focus-inner {
       .dnb-toggle-button__button .dnb-radio__focus, .dnb-toggle-button__button .dnb-radio__button {
         width: calc(var(--radio-width--medium) - 0.5rem);
         height: calc(var(--radio-height--medium) - 0.5rem);
-        border-width: 0.0625rem;
+        border-width: 1px;
         box-shadow: 0 0 0 0.0318rem var(--color-sea-green); }
       .dnb-toggle-button__button .dnb-radio__dot {
         width: calc(var(--radio-width--medium) - 1rem);
@@ -1972,7 +1972,7 @@ button.dnb-button::-moz-focus-inner {
         transform: translateY(-0.5rem); }
     .dnb-toggle-button-group .dnb-form-row {
       align-items: baseline;
-      margin-bottom: calc(1px - 1px - var(--toggle-button-margin-bottom)); }
+      margin-bottom: calc( 1px - 1px - var(--toggle-button-margin-bottom)); }
       .dnb-toggle-button-group .dnb-form-row--vertical-label {
         align-items: flex-start; }
       .dnb-toggle-button-group .dnb-form-row::before {

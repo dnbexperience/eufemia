@@ -14,12 +14,7 @@
       background-color: var(--color-emerald-green);
       color: var(--color-mint-green);
       &:not(:hover) {
-        @include fakeBorder(
-          var(--color-emerald-green),
-          0.0625rem,
-          inset,
-          true
-        );
+        @include fakeBorder(var(--color-emerald-green), $pixel1, inset);
       }
     }
 
@@ -116,10 +111,10 @@
   &__status--error &__button:not([disabled]):not(:focus):not(:active) {
     background-color: var(--color-white);
     color: var(--color-fire-red);
-    @include fakeBorder(var(--color-fire-red), 0.0625rem, inset, true);
+    @include fakeBorder(var(--color-fire-red), $pixel1, inset);
 
     &:hover {
-      box-shadow: 0 0 0 0.125rem var(--color-fire-red);
+      box-shadow: 0 0 0 #{$pixel2} var(--color-fire-red);
     }
   }
   &--checked#{&}__status--error
@@ -128,7 +123,7 @@
     color: var(--color-white);
 
     &:hover {
-      box-shadow: 0 0 0 0.125rem var(--color-fire-red);
+      box-shadow: 0 0 0 #{$pixel2} var(--color-fire-red);
     }
   }
 
@@ -137,7 +132,7 @@
     .dnb-radio {
       &__input:not([disabled]):not(:focus):not(:active) {
         & ~ .dnb-radio__focus {
-          box-shadow: 0 0 0 0.125rem /* 2px */ var(--color-white);
+          box-shadow: 0 0 0 #{$pixel2} /* 2px */ var(--color-white);
         }
         &:not(:hover) ~ .dnb-radio__dot {
           background-color: var(--color-white);
@@ -149,7 +144,7 @@
     .dnb-checkbox {
       &__input:not([disabled]):not(:focus):not(:active) {
         & ~ .dnb-checkbox__button .dnb-checkbox__focus {
-          box-shadow: 0 0 0 0.0625rem /* 1px */ var(--color-white);
+          box-shadow: 0 0 0 $pixel1 var(--color-white);
         }
         &:not(:hover) ~ .dnb-checkbox__gfx path {
           stroke: var(--color-white);

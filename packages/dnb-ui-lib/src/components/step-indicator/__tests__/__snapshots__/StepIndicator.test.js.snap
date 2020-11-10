@@ -529,12 +529,12 @@ exports[`StepIndicator scss have to match snapshot 1`] = `
       html[data-whatinput='keyboard'] .dnb-step-indicator__item-content--link:focus:not([disabled]), html[data-whatinput='keyboard']
       html:not([data-whatintent='touch']) .dnb-step-indicator__item-content--link:focus:not([disabled]) {
         --border-color: var(--color-emerald-green);
-        box-shadow: 0 0 0 0.125rem var(--border-color);
+        box-shadow: 0 0 0 2px var(--border-color);
         border-color: transparent; }
         @media screen and (-ms-high-contrast: none) {
           html[data-whatinput='keyboard'] .dnb-step-indicator__item-content--link:focus:not([disabled]), html[data-whatinput='keyboard']
           html:not([data-whatintent='touch']) .dnb-step-indicator__item-content--link:focus:not([disabled]) {
-            box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
+            box-shadow: 0 0 0 2px var(--color-emerald-green); } }
       .dnb-step-indicator__item-content--link:focus:not([disabled])::after,
       html:not([data-whatintent='touch']) .dnb-step-indicator__item-content--link:focus:not([disabled])::after {
         content: none; }

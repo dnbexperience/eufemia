@@ -44,16 +44,16 @@
       background-color: var(--textarea-background-color--focus);
       &:not(.status--error) /* for the HTML element */ {
         box-shadow: var(--textarea-border-inner),
-          0 0 0 calc(var(--textarea-padding-width) + 0.125rem)
+          0 0 0 calc(var(--textarea-padding-width) + #{$pixel2})
             var(--color-emerald-green);
 
         @include IS_IE {
-          box-shadow: 0 0 0 0.125rem var(--color-emerald-green);
+          box-shadow: 0 0 0 #{$pixel2} var(--color-emerald-green);
         }
 
         // Edge fix
         @include IS_EDGE {
-          box-shadow: 0 0 0 0.125rem var(--color-emerald-green);
+          box-shadow: 0 0 0 #{$pixel2} var(--color-emerald-green);
         }
       }
     }
@@ -70,7 +70,7 @@
 
     box-shadow: 0 0 0 var(--textarea-padding-width)
         var(--color-mint-green-12),
-      0 0 0 calc(var(--textarea-padding-width) + 0.0625rem)
+      0 0 0 calc(var(--textarea-padding-width) + #{$pixel1})
         var(--color-sea-green-30);
 
     &::-webkit-scrollbar {
@@ -82,16 +82,16 @@
   &.status--error /* for the HTML element */,
   .dnb-textarea__status--error/* for the HTML element */ {
     box-shadow: var(--textarea-border-inner),
-      0 0 0 calc(var(--textarea-padding-width) + 0.125rem)
+      0 0 0 calc(var(--textarea-padding-width) + #{$pixel2})
         var(--color-fire-red);
 
     @include IS_IE {
-      box-shadow: 0 0 0 1px var(--color-fire-red);
+      box-shadow: 0 0 0 #{$pixel1} var(--color-fire-red);
     }
 
     // Edge fix
     @include IS_EDGE {
-      box-shadow: 0 0 0 1px var(--color-fire-red);
+      box-shadow: 0 0 0 #{$pixel1} var(--color-fire-red);
     }
   }
 
@@ -103,13 +103,13 @@
 
   @include IS_IE {
     -ms-overflow-style: -ms-autohiding-scrollbar;
-    box-shadow: 0 0 0 1px var(--color-sea-green);
+    box-shadow: 0 0 0 #{$pixel1} var(--color-sea-green);
   }
 
   // Edge fix
   @include IS_EDGE {
     -ms-overflow-style: -ms-autohiding-scrollbar;
-    box-shadow: 0 0 0 1px var(--color-sea-green);
+    box-shadow: 0 0 0 #{$pixel1} var(--color-sea-green);
   }
 }
 
@@ -134,16 +134,16 @@
     &,
     &:not(#{&}--disabled):hover {
       box-shadow: var(--textarea-border-inner),
-        0 0 0 calc(var(--textarea-padding-width) + 0.125rem)
+        0 0 0 calc(var(--textarea-padding-width) + #{$pixel2})
           var(--color-fire-red);
 
       @include IS_IE {
-        box-shadow: 0 0 0 0.125rem var(--color-fire-red);
+        box-shadow: 0 0 0 #{$pixel2} var(--color-fire-red);
       }
 
       // Edge fix
       @include IS_EDGE {
-        box-shadow: 0 0 0 0.125rem var(--color-fire-red);
+        box-shadow: 0 0 0 #{$pixel2} var(--color-fire-red);
       }
     }
   }

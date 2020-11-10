@@ -8,8 +8,8 @@
   --switch-height--medium: 1.5rem;
   --switch-width--large: 3.25rem;
   --switch-height--large: 2rem;
-  --switch-border-width--medium: 0.0625rem;
-  --switch-border-width--large: 0.125rem;
+  --switch-border-width--medium: #{$pixel1};
+  --switch-border-width--large: #{$pixel2};
 }
 
 .dnb-switch {
@@ -109,7 +109,7 @@
   &__input:not(:checked) ~ &__button {
     transform: translateX(0); // IE fix
     transform: translateX(
-      calc(1px - 1px - var(--switch-border-width--medium))
+      calc(#{$pixel1} - #{$pixel1} - var(--switch-border-width--medium))
     );
   }
 
@@ -129,7 +129,7 @@
 
   &--large &__input:not(:checked) ~ &__button {
     transform: translateX(
-      calc(1px - 1px - var(--switch-border-width--large))
+      calc(#{$pixel1} - #{$pixel1} - var(--switch-border-width--large))
     );
   }
   &--large &__input:checked ~ &__button {

@@ -110,7 +110,7 @@
     width: auto;
 
     margin: 0;
-    padding: 0 0.125rem;
+    padding: 0 #{$pixel2};
 
     // reset vertical alignment
     transform: translateY(0);
@@ -206,7 +206,7 @@
       position: absolute;
       bottom: 0;
       width: calc(100% - 2rem);
-      height: 1px;
+      height: #{$pixel1};
     }
   }
 
@@ -233,7 +233,7 @@
       position: absolute;
       bottom: 0;
       width: 100%;
-      height: 1px;
+      height: #{$pixel1};
     }
   }
 
@@ -356,7 +356,9 @@
     pointer-events: none;
 
     position: absolute;
-    top: calc(1px + 1px - var(--date-picker-input-height) / 2);
+    top: calc(
+      #{$pixel1} + #{$pixel1} - var(--date-picker-input-height) / 2
+    );
     left: 0;
     right: auto;
     margin: 0 1.5rem;
@@ -376,7 +378,7 @@
       height: calc(var(--date-picker-input-height) / 2);
       transform: translateY(60%) rotate(45deg);
 
-      border: 1px solid var(--color-black-border);
+      border: #{$pixel1} solid var(--color-black-border);
       background-color: var(--color-white);
     }
   }

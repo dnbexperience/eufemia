@@ -21,7 +21,7 @@
   }
   &__dd,
   &__dt {
-    border-bottom: 1px solid var(--color-sea-green);
+    border-bottom: #{$pixel1} solid var(--color-sea-green);
   }
 
   &__dd,
