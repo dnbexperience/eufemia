@@ -678,23 +678,29 @@ export const convertJsxToString = (elements, separator = undefined) => {
 
 export class InteractionInvalidation {
   constructor() {
-    this.bypassSelector = '.not-specified'
+    this.bypassElement = null
+    this.bypassSelectors = []
     return this
   }
 
-  setBypassSelector(bypassSelector = null) {
-    if (bypassSelector instanceof HTMLElement) {
-      this.bypassElement = bypassSelector
-    } else {
-      this.bypassElement = null
-      this.bypassSelector = bypassSelector || '.not-specified'
+  setBypassElement(bypassElement) {
+    if (bypassElement instanceof HTMLElement) {
+      this.bypassElement = bypassElement
     }
     return this
   }
 
-  activate(TargetElement = null) {
+  setBypassSelector(bypassSelector) {
+    if (!Array.isArray(bypassSelector)) {
+      bypassSelector = [bypassSelector]
+    }
+    this.bypassSelectors = bypassSelector
+    return this
+  }
+
+  activate(targetElement = null) {
     if (!this.nodesToInvalidate) {
-      this._runInvalidaiton(TargetElement)
+      this._runInvalidaiton(targetElement)
     }
   }
 
@@ -703,7 +709,7 @@ export class InteractionInvalidation {
     this.nodesToInvalidate = null
   }
 
-  _runInvalidaiton(TargetElement) {
+  _runInvalidaiton(targetElement) {
     if (
       typeof document === 'undefined'
       // || isTouchDevice() // as for now, we do the same on touch devices
@@ -711,7 +717,7 @@ export class InteractionInvalidation {
       return // stop here
     }
 
-    this._setNodesToInvalidate(TargetElement)
+    this._setNodesToInvalidate(targetElement)
 
     if (Array.isArray(this.nodesToInvalidate)) {
       this.nodesToInvalidate.forEach((node) => {
@@ -731,13 +737,14 @@ export class InteractionInvalidation {
           ) {
             node._orig_ariahidden = node.getAttribute('aria-hidden')
           }
-          if (
-            node &&
-            typeof node._orig_style === 'undefined' &&
-            node.hasAttribute('style')
-          ) {
-            node._orig_style = node.getAttribute('style')
-          }
+          // Skip the outline for now - or does it give a value?
+          // if (
+          //   node &&
+          //   typeof node._orig_outline === 'undefined' &&
+          //   node.style.outline
+          // ) {
+          //   node._orig_outline = node.style.outline
+          // }
 
           node.setAttribute('tabindex', '-1')
           node.setAttribute('aria-hidden', 'true')
@@ -745,7 +752,7 @@ export class InteractionInvalidation {
           // tabindex=-1 does not prevent the mouse from focusing the node (which
           // would show a focus outline around the element). prevent this by disabling
           // outline styles while the modal is open
-          node.style.outline = 'none'
+          // node.style.outline = 'none'
         } catch (e) {
           //
         }
@@ -775,39 +782,47 @@ export class InteractionInvalidation {
         } else {
           node.removeAttribute('aria-hidden')
         }
-        if (node && typeof node._orig_style !== 'undefined') {
-          node.setAttribute('style', node._orig_style)
-          node._orig_style = null
-          delete node._orig_style
-        } else {
-          node.removeAttribute('style')
-        }
+
+        // Skip the outline for now - or does it give a value?
+        // if (node && typeof node._orig_outline !== 'undefined') {
+        //   node.style.outline = node._orig_outline
+        //   delete node._orig_outline
+        // } else if(node.style) {
+        //   node.style.outline = null
+        // }
       } catch (e) {
         //
       }
     })
   }
 
-  _setNodesToInvalidate(TargetElement = null) {
+  _setNodesToInvalidate(targetElement = null) {
     if (typeof document === 'undefined') {
       return // stop here
     }
 
-    if (typeof TargetElement === 'string') {
-      TargetElement = document.querySelector(TargetElement)
+    if (typeof targetElement === 'string') {
+      targetElement = document.querySelector(targetElement)
     }
 
-    const skipTheseNodes = Array.from(
-      (this.bypassElement || document).querySelectorAll(
-        this.bypassSelector ? `${this.bypassSelector} *` : '*'
-      )
-    )
+    const skipTheseNodes =
+      this.bypassSelectors && this.bypassSelectors.length > 0
+        ? Array.from(
+            (this.bypassElement || document).querySelectorAll(
+              this.bypassSelectors
+                ? this.bypassSelectors.map((s) => `${s} *`).join(', ')
+                : '*'
+            )
+          )
+        : []
 
     // by only finding elements that do not have tabindex="-1" we ensure we don't
     // corrupt the previous state of the element if a modal was already open
     this.nodesToInvalidate = Array.from(
-      (TargetElement || document).querySelectorAll(
-        `body *:not(${this.bypassSelector}):not(script)`
+      (targetElement || document).querySelectorAll(
+        `body *${this.bypassSelectors
+          .map((s) => `:not(${s})`)
+          .join('')}:not(script):not(style):not(path)`
       )
     ).filter((node) => !skipTheseNodes.includes(node))
   }
