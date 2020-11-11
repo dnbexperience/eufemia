@@ -92,14 +92,14 @@ export default class DatePickerInput extends React.PureComponent {
     this.maskList = props.maskOrder
       .split(props.separatorRexExp)
       .reduce((acc, cur) => {
-        acc.push(cur)
-        if (separators.length > 0) {
-          acc.push(separators.shift())
+        if (cur) {
+          acc.push(cur)
+          if (separators.length > 0) {
+            acc.push(separators.shift())
+          }
         }
         return acc
       }, [])
-
-    console.log('this.maskList', this.maskList)
 
     this._startDayRef = React.createRef()
     this._startMonthRef = React.createRef()

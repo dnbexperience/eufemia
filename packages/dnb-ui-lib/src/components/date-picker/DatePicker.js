@@ -269,16 +269,6 @@ export default class DatePicker extends React.PureComponent {
       _listenForPropChanges: true
     }
 
-    const separators = props.mask_order.match(/[^mdy]/g)
-    this.maskList = props.mask_order.split(/[^mdy]/).reduce((acc, cur) => {
-      acc.push(cur)
-      if (separators.length > 0) {
-        acc.push(separators.shift())
-      }
-      return acc
-    }, [])
-    console.log('this.maskList', this.maskList)
-
     if (props.end_date && !isTrue(props.range)) {
       warn(
         `The DatePicker got a "end_date". You have to set range={true} as well!.`
