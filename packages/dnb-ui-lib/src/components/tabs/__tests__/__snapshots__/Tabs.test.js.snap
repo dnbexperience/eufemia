@@ -17,6 +17,7 @@ exports[`Tabs component have to match snapshot 1`] = `
         "prerender": "prerender",
         "prevent_rerender": "prevent_rerender",
         "render": [Function],
+        "scroll": "scroll",
         "section_spacing": "section_spacing",
         "section_style": "section_style",
         "selected_key": "selected_key",
@@ -83,6 +84,7 @@ exports[`Tabs component have to match snapshot 1`] = `
   prerender={false}
   prevent_rerender={false}
   render={null}
+  scroll={null}
   section_spacing={null}
   section_style={null}
   selected_key="second"

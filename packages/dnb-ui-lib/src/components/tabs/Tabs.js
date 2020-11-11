@@ -76,6 +76,7 @@ export default class Tabs extends React.PureComponent {
       PropTypes.string,
       PropTypes.bool
     ]),
+    scroll: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     id: PropTypes.string,
     class: PropTypes.string,
@@ -101,6 +102,7 @@ export default class Tabs extends React.PureComponent {
     use_hash: false,
     prerender: false,
     prevent_rerender: false,
+    scroll: null,
     skeleton: null,
     id: null,
     class: null,
@@ -272,6 +274,10 @@ export default class Tabs extends React.PureComponent {
     this._tablistRef = React.createRef()
   }
 
+  componentWillUnmount() {
+    clearTimeout(this._setFocusOnTablistId)
+  }
+
   onKeyDownHandler = (e) => {
     switch (keycode(e)) {
       case 'up':
@@ -298,8 +304,17 @@ export default class Tabs extends React.PureComponent {
     this.openTab(+1, e, 'step')
   }
 
-  componentWillUnmount() {
-    clearTimeout(this._setFocusOnTablistId)
+  scrollToTop() {
+    if (
+      isTrue(this.props.scroll) &&
+      this._tablistRef.current &&
+      typeof this._tablistRef.current.scrollIntoView === 'function'
+    ) {
+      this._tablistRef.current.scrollIntoView({
+        block: 'start',
+        behavior: 'smooth'
+      })
+    }
   }
 
   setFocusOnTablist = () => {
@@ -389,6 +404,8 @@ export default class Tabs extends React.PureComponent {
         warn('Tabs Error:', e)
       }
     }
+
+    this.scrollToTop()
   }
 
   isSelected(tabKey) {
