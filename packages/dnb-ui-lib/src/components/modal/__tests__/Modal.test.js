@@ -29,6 +29,11 @@ props.close_title = 'close_title'
 props.direct_dom_return = true
 props.no_animation = true
 
+beforeAll(() => {
+  const button = document.createElement('BUTTON')
+  document.body.appendChild(button)
+})
+
 describe('Modal component', () => {
   const Comp = mount(<Component {...props} />)
   Comp.setState({
@@ -36,6 +41,46 @@ describe('Modal component', () => {
   })
   it('have to match snapshot', () => {
     expect(toJson(Comp)).toMatchSnapshot()
+  })
+  it('should have aria-hidden and tabindex on other elements', () => {
+    const Comp = mount(
+      <Component {...props}>
+        <button>button</button>
+      </Component>
+    )
+
+    // Check the global button
+    Comp.find('Modal').find('button.dnb-modal__trigger').simulate('click')
+    expect(document.querySelector('button') instanceof HTMLElement).toBe(
+      true
+    )
+    expect(
+      document.querySelector('button').hasAttribute('aria-hidden')
+    ).toBe(true)
+    expect(document.querySelector('button').getAttribute('tabindex')).toBe(
+      '-1'
+    )
+    Comp.update()
+    expect(
+      Comp.find('.dnb-modal__content')
+        .instance()
+        .hasAttribute('aria-hidden')
+    ).toBe(false)
+    expect(
+      Comp.find('.dnb-modal__content')
+        .find('button')
+        .instance()
+        .hasAttribute('aria-hidden')
+    ).toBe(false)
+
+    // And close it again
+    Comp.find('button.dnb-modal__close-button').simulate('click')
+    expect(
+      document.querySelector('button').hasAttribute('aria-hidden')
+    ).toBe(false)
+    expect(document.querySelector('button').hasAttribute('tabindex')).toBe(
+      false
+    )
   })
   it('has to have the correct title', () => {
     expect(Comp.find('h1').text()).toBe(props.title)

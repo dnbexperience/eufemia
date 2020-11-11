@@ -185,8 +185,12 @@ export const DrawerSandbox = () => (
         // class="inner_class"
       >
         <Modal.Inner style_type="pistachio">
-          Modal.Inner
-          {/* <FillContent /> */}
+          <Input>Focus me with Tab key</Input>
+          <Section top spacing>
+            <P>
+              <Switch label="Checked:" checked />
+            </P>
+          </Section>
         </Modal.Inner>
       </Modal>
     </Box>
