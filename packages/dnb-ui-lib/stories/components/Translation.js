@@ -20,7 +20,7 @@ import { P } from '../../src/elements'
 
 // import nbNO from 'dnb-ui-lib/src/shared/locales/nb-NO'
 import nbNO from './translation/nb.json'
-import enUS from './translation/en.json'
+import enGB from './translation/en.json'
 
 const nbNOx = {
   'Modal.close_title': 'StengX',
@@ -78,7 +78,7 @@ export const TranslationSandbox = () => (
         // locale="en-GB"
         locales={{
           'nb-NO': nbNOx,
-          'en-GB': enUS
+          'en-GB': enGB
         }}
       >
         <ChangeLocale />
@@ -90,7 +90,7 @@ export const TranslationSandbox = () => (
           // locale="en-GB"
           locales={{
             'nb-NO': nbNO,
-            'en-GB': enUS
+            'en-GB': enGB
           }}
         >
           {getTranslation('other.string', {

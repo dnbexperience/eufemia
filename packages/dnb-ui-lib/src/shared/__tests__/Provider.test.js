@@ -18,7 +18,7 @@ describe('Provider', () => {
   const nbNO = {
     'HelpButton.title': title_nb
   }
-  const enUS = {
+  const enGB = {
     'HelpButton.title': title_gb
   }
 
@@ -27,7 +27,7 @@ describe('Provider', () => {
       <Provider
         locales={{
           'nb-NO': Object.freeze(nbNO),
-          'en-GB': Object.freeze(enUS)
+          'en-GB': Object.freeze(enGB)
         }}
         {...props}
       />
