@@ -8,8 +8,8 @@ export default {
     DatePicker: {
       ...enGB.DatePicker,
       first_day: 'sunday',
-      mask_order: 'dd/mm/yyyy',
-      mask_placeholder: 'dd/mm/yyyy' // have to be same setup as "mask" - but can be like: dd/mm/åååå
+      mask_order: 'mm/dd/yyyy',
+      mask_placeholder: 'mm/dd/yyyy' // have to be same setup as "mask" - but can be like: mm/dd/åååå
     }
   }
 }
