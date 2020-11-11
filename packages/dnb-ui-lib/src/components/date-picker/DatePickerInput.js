@@ -99,6 +99,8 @@ export default class DatePickerInput extends React.PureComponent {
         return acc
       }, [])
 
+    console.log('this.maskList', this.maskList)
+
     this._startDayRef = React.createRef()
     this._startMonthRef = React.createRef()
     this._startYearRef = React.createRef()

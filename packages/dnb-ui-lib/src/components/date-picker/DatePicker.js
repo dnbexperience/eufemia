@@ -23,7 +23,7 @@ import { skeletonDOMAttributes } from '../skeleton/SkeletonHelper'
 // date-fns
 import format from 'date-fns/format'
 import nbLocale from 'date-fns/locale/nb'
-import enLocale from 'date-fns/locale/en-US'
+import enLocale from 'date-fns/locale/en-GB'
 
 import Context from '../../shared/Context'
 import Suffix from '../../shared/helpers/Suffix'
@@ -277,6 +277,7 @@ export default class DatePicker extends React.PureComponent {
       }
       return acc
     }, [])
+    console.log('this.maskList', this.maskList)
 
     if (props.end_date && !isTrue(props.range)) {
       warn(

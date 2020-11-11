@@ -47,7 +47,7 @@ const ChangeLocale = () => {
       <ToggleButton value="nb-NO" className="nb-NO">
         Norsk
       </ToggleButton>
-      <ToggleButton value="en-US" className="en-US">
+      <ToggleButton value="en-GB" className="en-GB">
         English
       </ToggleButton>
     </ToggleButton.Group>
@@ -56,7 +56,7 @@ const ChangeLocale = () => {
   // return (
   // <Dropdown
   // value={locale}
-  // data={{ 'en-US': 'English', 'nb-NO': 'Norsk' }}
+  // data={{ 'en-GB': 'English', 'nb-NO': 'Norsk' }}
   // on_change={({ data: { selected_key: locale } }) => {
   // setLocale(locale)
   // }}
@@ -75,14 +75,14 @@ export const NumberSandbox = () => {
     <CustomStyle>
       <Provider
         // locale="nb-NO"
-        locale="en-US"
+        locale="en-GB"
       >
         <Wrapper>
           <Box>
             <Provider
               // locale="de-DE"
               locale="nb-NO"
-              // locale="en-US"
+              // locale="en-GB"
             >
               <Number
                 prefix={() => <i>S</i>}
@@ -126,7 +126,7 @@ export const NumberSandbox = () => {
           </Box>
           <Box>
             <Provider
-            //  locale="en-US"
+            //  locale="en-GB"
             >
               <ChangeLocale />
               <br />

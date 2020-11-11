@@ -24,7 +24,7 @@ export const ProviderSandbox = () => {
   return (
     <Wrapper>
       <Box>
-        <Provider locale="en-US">
+        <Provider locale="en-GB">
           <Section spacing top>
             <ChangeLocale />
           </Section>
@@ -59,14 +59,14 @@ const ChangeLocale = () => {
           update({ locale })
         }}
       >
-        <ToggleButton text="English" value="en-US" />
+        <ToggleButton text="English" value="en-GB" />
         <ToggleButton text="Norsk" value="nb-NO" />
       </ToggleButton.Group>
 
       <Dropdown
         left
         value={locale}
-        data={{ 'en-US': 'English', 'nb-NO': 'Norsk' }}
+        data={{ 'en-GB': 'English', 'nb-NO': 'Norsk' }}
         on_change={({ data: { selected_key: locale } }) => {
           setLocale(locale)
         }}

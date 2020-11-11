@@ -19,7 +19,7 @@ You can easily change one, some or all of them by using a React provider – the
 Here are the default strings located:
 
 ```js
-import enUS from 'dnb-ui-lib/shared/locales/en-US'
+import enUS from 'dnb-ui-lib/shared/locales/en-GB'
 import nbNO from 'dnb-ui-lib/shared/locales/nb-NO'
 ```
 
@@ -30,7 +30,7 @@ In React based apps, use the shared Eufemia provider:
 ```jsx
 import Provider from 'dnb-ui-lib/shared/Provider'
 
-const myLocale = 'en-US'
+const myLocale = 'en-GB'
 
 render(
   <Provider locale={myLocale}>
@@ -73,7 +73,7 @@ const ChangeLocale = () => {
 
   return <Dropdown
     value={locale}
-    data={{ 'en-US': 'English', 'nb-NO': 'Norsk' }}
+    data={{ 'en-GB': 'English', 'nb-NO': 'Norsk' }}
     on_change={({ data: { value } }) => {
       setLocale(value)
     }}
@@ -160,7 +160,7 @@ render(
     locale="nb-NO"
     locales={{
       'nb-NO': nb,
-      'en-US': en
+      'en-GB': en
     }}
   >
     <Component />
@@ -178,7 +178,7 @@ import Provider from 'dnb-ui-lib/shared/Provider'
 
 const myLocale = {
   // extend the translation
-  'en-US': {
+  'en-GB': {
     myString: 'Custom string'
     myGroup: {
       subString: 'Second string'
@@ -187,7 +187,7 @@ const myLocale = {
 }
 
 render(
-  <Provider locales={myLocale} locale="en-US">
+  <Provider locales={myLocale} locale="en-GB">
     <MyApp>
       <MyComponent />
     </MyApp>

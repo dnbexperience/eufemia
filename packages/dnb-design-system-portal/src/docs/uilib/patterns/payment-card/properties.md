@@ -11,7 +11,7 @@ showTabs: true
 | `card_status`                               | _(optional)_ use one of these: `active`, `blocked`, `expired`. Defaults to `active`.                                                                |
 | `digits`                                    | _(optional)_ will use 8 digits if none are specified.                                                                                               |
 | `card_number`                               | _(optional)_ masked card number.                                                                                                                    |
-| `locale`                                    | _(optional)_ use `nb-NO` or `en-US`. Defaults to the Eufemia provider.                                                                              |
+| `locale`                                    | _(optional)_ use `nb-NO` or `en-GB`. Defaults to the Eufemia provider.                                                                              |
 | [Space](/uilib/components/space/properties) | _(optional)_ spacing properties like `top` or `bottom` are supported.                                                                               |
 
 ## Card Data

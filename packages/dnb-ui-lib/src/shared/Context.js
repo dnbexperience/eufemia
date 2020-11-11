@@ -18,7 +18,7 @@ export const prepareContext = (props = {}) => {
     delete props.__newContext
   }
 
-  const key = props.locale || LOCALE
+  const key = handleLocaleFallbacks(props.locale || LOCALE, locales)
   const translation = locales[key] || defaultLocales[LOCALE] || {} // here we could use Object.freeze
 
   /**
@@ -36,6 +36,15 @@ export const prepareContext = (props = {}) => {
     ...props,
     translation // make sure we set this after props, since we update this one!
   }
+}
+
+function handleLocaleFallbacks(locale, locales) {
+  if (!locales[locale]) {
+    if (locale === 'en' || locale.split('-')[0] === 'en') {
+      return 'en-GB'
+    }
+  }
+  return locale
 }
 
 // If no provider is given, we use the default context from here
