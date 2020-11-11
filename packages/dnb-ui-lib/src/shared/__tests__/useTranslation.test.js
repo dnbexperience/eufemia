@@ -36,11 +36,11 @@ describe('Translation', () => {
 
   const defaultLocales = {
     'nb-NO': nbNO,
-    'en-US': enUS
+    'en-GB': enUS
   }
   const nestedLocales = {
     'nb-NO': nbNO_nested,
-    'en-US': enUS_nested
+    'en-GB': enUS_nested
   }
 
   const RenderGetTranslation = () => {
@@ -65,12 +65,12 @@ describe('Translation', () => {
           nb-NO
         </button>
         <button
-          className="en-US"
+          className="en-GB"
           onClick={() => {
-            setLocale('en-US')
+            setLocale('en-GB')
           }}
         >
-          en-US
+          en-GB
         </button>
       </div>
     )
@@ -137,7 +137,7 @@ describe('Translation', () => {
 
     expect(Comp.find('span.useTranslation').text()).toBe(expected_nbNO)
 
-    Comp.find('button.en-US').simulate('click')
+    Comp.find('button.en-GB').simulate('click')
 
     expect(Comp.find('span.useTranslation').text()).toBe(expected_enUS)
   })
@@ -166,14 +166,14 @@ describe('Translation', () => {
       expected_nbNO_nested
     )
 
-    Comp.find('div.outer button.en-US').simulate('click')
+    Comp.find('div.outer button.en-GB').simulate('click')
 
     expect(Comp.find('span.Translation').text()).toBe(expected_enUS)
     expect(Comp.find('span.useTranslation').text()).toBe(
       expected_nbNO_nested
     )
 
-    Comp.find('div.inner button.en-US').simulate('click')
+    Comp.find('div.inner button.en-GB').simulate('click')
 
     expect(Comp.find('span.Translation').text()).toBe(expected_enUS)
     expect(Comp.find('span.useTranslation').text()).toBe(

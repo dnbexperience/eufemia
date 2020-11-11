@@ -29,7 +29,7 @@ const snapshotProps = {
 }
 
 // make it possible to change the navigator lang
-// because "navigator.language" defaults to en-US
+// because "navigator.language" defaults to en-GB
 let languageGetter, platformGetter
 
 beforeAll(() => {
@@ -122,9 +122,9 @@ describe('Number component', () => {
     expect(window.getSelection().toString()).toBe('1234.56') // Hack! Having there the "cleanedNumber" would be optimal.
     expect(window.getSelection().rangeCount).toBe(1)
 
-    Comp.setProps({ locale: 'en-US' })
+    Comp.setProps({ locale: 'en-GB' })
     const { cleanedValue: enVal } = format(-value, {
-      locale: 'en-US',
+      locale: 'en-GB',
       currency: true,
       returnAria: true
     })

@@ -334,7 +334,7 @@ describe('Dropdown component', () => {
     const Comp = mount(
       <Component
         {...props}
-        data={{ 'en-US': 'English', 'nb-NO': 'Norsk' }}
+        data={{ 'en-GB': 'English', 'nb-NO': 'Norsk' }}
         on_change={on_change}
       />
     )
@@ -348,13 +348,13 @@ describe('Dropdown component', () => {
       data: {
         __id: 0,
         content: 'English',
-        selected_key: 'en-US',
+        selected_key: 'en-GB',
         type: 'object',
-        value: 'en-US'
+        value: 'en-GB'
       },
       event: new KeyboardEvent('keydown', {}),
       selected_item: 0,
-      value: 'en-US'
+      value: 'en-GB'
     })
 
     open(Comp)
