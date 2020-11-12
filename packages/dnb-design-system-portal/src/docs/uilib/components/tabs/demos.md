@@ -32,6 +32,16 @@ TabsExampleReactRouterNavigation,
 
 ### Tabs optimized for mobile
 
+Depending on your setup, you may have to align your Tabs all the way to the edge of the browser window. E.g. with a negative margin:
+
+```css
+@media screen and (min-width: 40em) {
+  .dnb-tabs .dnb-tabs__tabs {
+    margin: 0 -4rem;
+  }
+}
+```
+
 <TabsExampleScrollable />
 
 ### Router navigation with Reach Router

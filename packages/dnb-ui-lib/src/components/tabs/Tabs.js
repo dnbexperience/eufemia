@@ -266,6 +266,7 @@ export default class Tabs extends React.PureComponent {
 
     this.state = {
       hasScrollbar: false,
+      atEdge: false,
       _listenForPropChanges: true,
       selected_key,
       _selected_key: selected_key,
@@ -288,6 +289,9 @@ export default class Tabs extends React.PureComponent {
         hasScrollbar
       })
     }
+    this.setState({
+      atEdge: this.isAtEdge()
+    })
   }
 
   hasScrollbar() {
@@ -295,6 +299,13 @@ export default class Tabs extends React.PureComponent {
       this._tablistRef.current.scrollWidth >
       this._tablistRef.current.offsetWidth
     )
+  }
+
+  isAtEdge() {
+    if (typeof window === 'undefined') {
+      return false
+    }
+    return this._tablistRef.current.offsetWidth >= window.innerWidth - 32
   }
 
   componentWillUnmount() {
@@ -604,7 +615,7 @@ export default class Tabs extends React.PureComponent {
 
   TabsListHandler = ({ children, className }) => {
     const { align, section_style, section_spacing } = this.props
-    const { hasScrollbar } = this.state
+    const { hasScrollbar, atEdge } = this.state
 
     return (
       <div
@@ -620,6 +631,7 @@ export default class Tabs extends React.PureComponent {
               }`
             : null,
           hasScrollbar && 'dnb-tabs--has-scrollbar',
+          atEdge && 'dnb-tabs--at-edge',
           className
         )}
       >

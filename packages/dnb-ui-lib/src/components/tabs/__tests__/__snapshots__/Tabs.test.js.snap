@@ -677,27 +677,6 @@ exports[`Tabs scss have to match snapshot 1`] = `
     justify-content: flex-end; }
   .dnb-tabs__tabs--center .dnb-tabs__tabs__tablist {
     justify-content: center; }
-  .dnb-tabs__tabs .dnb-tabs__scroll-nav-button {
-    position: absolute;
-    z-index: 2;
-    background-color: var(--color-emerald-green);
-    display: none;
-    opacity: 0;
-    transition: opacity 600ms ease-out; }
-    .dnb-tabs__tabs .dnb-tabs__scroll-nav-button:first-of-type {
-      left: 0;
-      border-radius: 0 50% 50% 0; }
-    .dnb-tabs__tabs .dnb-tabs__scroll-nav-button:last-of-type {
-      right: 0;
-      border-radius: 50% 0 0 50%; }
-    html[data-visual-test] .dnb-tabs__tabs .dnb-tabs__scroll-nav-button {
-      transition: none; }
-    .dnb-tabs__tabs .dnb-tabs__scroll-nav-button--visible {
-      display: flex;
-      opacity: 1; }
-    .dnb-tabs__tabs .dnb-tabs__scroll-nav-button--hide {
-      pointer-events: none;
-      opacity: 0 !important; }
   .dnb-tabs__tabs::before {
     content: '';
     position: absolute;
@@ -710,6 +689,33 @@ exports[`Tabs scss have to match snapshot 1`] = `
     .dnb-tabs__tabs .dnb-tabs__button:not(:first-of-type),
     .dnb-core-style .dnb-tabs__tabs .dnb-tabs__button:not(:first-of-type) {
       margin-left: 2.5rem; } }
+
+.dnb-tabs__scroll-nav-button {
+  position: absolute;
+  z-index: 2;
+  background-color: var(--color-emerald-green);
+  display: none;
+  opacity: 0;
+  transition: opacity 600ms ease-out; }
+  .dnb-tabs__scroll-nav-button:first-of-type {
+    left: 0; }
+  .dnb-tabs__scroll-nav-button:last-of-type {
+    right: 0; }
+  .dnb-tabs__scroll-nav-button--visible {
+    display: flex;
+    opacity: 1; }
+  .dnb-tabs__scroll-nav-button--hide {
+    pointer-events: none;
+    opacity: 0 !important; }
+
+.dnb-tabs--at-edge .dnb-tabs__scroll-nav-button:first-of-type {
+  border-radius: 0 50% 50% 0; }
+
+.dnb-tabs--at-edge .dnb-tabs__scroll-nav-button:last-of-type {
+  border-radius: 50% 0 0 50%; }
+
+html[data-visual-test] .dnb-tabs .dnb-tabs__scroll-nav-button {
+  transition: none; }
 
 .dnb-tabs__button__snap {
   display: flex;
