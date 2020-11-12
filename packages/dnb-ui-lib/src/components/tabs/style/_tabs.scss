@@ -60,6 +60,9 @@
       display: none;
       opacity: 0;
       transition: opacity 600ms ease-out;
+      html[data-visual-test] & {
+        transition: none;
+      }
 
       &--visible {
         display: flex;

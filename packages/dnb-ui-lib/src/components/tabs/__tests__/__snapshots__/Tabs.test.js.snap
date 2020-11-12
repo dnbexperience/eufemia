@@ -690,6 +690,8 @@ exports[`Tabs scss have to match snapshot 1`] = `
     .dnb-tabs__tabs .dnb-tabs__scroll-nav-button:last-of-type {
       right: 0;
       border-radius: 50% 0 0 50%; }
+    html[data-visual-test] .dnb-tabs__tabs .dnb-tabs__scroll-nav-button {
+      transition: none; }
     .dnb-tabs__tabs .dnb-tabs__scroll-nav-button--visible {
       display: flex;
       opacity: 1; }

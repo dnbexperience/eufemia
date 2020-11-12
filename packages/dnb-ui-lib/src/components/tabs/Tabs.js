@@ -299,7 +299,8 @@ export default class Tabs extends React.PureComponent {
 
   componentWillUnmount() {
     clearTimeout(this._scrollToTabTimeout)
-    clearTimeout(this._setFocusOnTablistId)
+    clearTimeout(this._setFocusOnTablistFirst)
+    clearTimeout(this._setFocusOnTablistSecond)
     if (typeof window !== 'undefined') {
       window.removeEventListener('resize', this.onScrollHandler)
     }
@@ -343,11 +344,6 @@ export default class Tabs extends React.PureComponent {
     this._scrollToTabTimeout = setTimeout(() => {
       if (this.state.hasScrollbar) {
         try {
-          const elem = this._tablistRef.current.querySelector(
-            '.dnb-tabs__button.selected'
-          )
-          this._tablistRef.current.scrollLeft = elem.offsetLeft
-
           const isFirst = this._tablistRef.current
             .querySelector('.dnb-tabs__button__snap:first-of-type button')
             .classList.contains('selected')
@@ -359,6 +355,12 @@ export default class Tabs extends React.PureComponent {
             isFirst,
             isLast
           })
+
+          const elem = this._tablistRef.current.querySelector(
+            '.dnb-tabs__button.selected'
+          )
+          this._tablistRef.current.scrollLeft =
+            elem && !isFirst ? elem.offsetLeft : 0
         } catch (e) {
           warn(e)
         }
@@ -379,13 +381,14 @@ export default class Tabs extends React.PureComponent {
 
   setFocusOnTablist = () => {
     if (typeof document !== 'undefined') {
-      setTimeout(() => {
+      clearTimeout(this._setFocusOnTablistFirst)
+      this._setFocusOnTablistFirst = setTimeout(() => {
         if (this._tablistRef.current) {
           this._tablistRef.current.focus()
         }
       }, 1) // to make sure we don't "flicker"
-      clearTimeout(this._setFocusOnTablistId)
-      this._setFocusOnTablistId = setTimeout(() => {
+      clearTimeout(this._setFocusOnTablistSecond)
+      this._setFocusOnTablistSecond = setTimeout(() => {
         if (this._tablistRef.current) {
           this._tablistRef.current.focus()
         }
