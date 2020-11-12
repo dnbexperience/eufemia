@@ -9,6 +9,7 @@ showTabs: true
 | `product_code`                              | _(mandatory)_ if product code matches one of the codes in the list the card will get that design, if no match is found Default design will be used. |
 | `raw_data`                                  | _(optional)_ useful if you want to create custom cards. See Card data properties.                                                                   |
 | `card_status`                               | _(optional)_ use one of these: `active`, `blocked`, `expired`. Defaults to `active`.                                                                |
+| `variant`                                   | _(optional)_ defines the appearance. Use one of these: `normal` or `compact`. Defaults to `normal`.                                                 |
 | `digits`                                    | _(optional)_ will use 8 digits if none are specified.                                                                                               |
 | `card_number`                               | _(optional)_ masked card number.                                                                                                                    |
 | `locale`                                    | _(optional)_ use `nb-NO` or `en-US`. Defaults to the Eufemia provider.                                                                              |

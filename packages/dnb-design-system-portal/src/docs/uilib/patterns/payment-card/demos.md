@@ -63,8 +63,20 @@ Basic card using product code and status.
 <ComponentBox scope={{PaymentCard}} data-visual-test="payment-card-status">
 	{/* @jsx */ `
 <PaymentCard
-  product_code="VG1"
+  product_code="VG2"
   card_status="blocked"
+  card_number="************1337"
+/>
+	`}
+</ComponentBox>
+
+### Basic card in compact variant
+
+<ComponentBox scope={{PaymentCard}} data-visual-test="payment-card-compact">
+	{/* @jsx */ `
+<PaymentCard
+  variant="compact"
+  product_code="VG2"
   card_number="************1337"
 />
 	`}

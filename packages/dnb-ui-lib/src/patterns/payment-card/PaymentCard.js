@@ -51,6 +51,7 @@ export default class PaymentCard extends React.PureComponent {
     product_code: PropTypes.string.isRequired,
     card_number: PropTypes.string.isRequired,
     card_status: PropTypes.oneOf(['active', 'blocked', 'expired']),
+    variant: PropTypes.oneOf(['normal', 'compact']),
     digits: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     raw_data: cardDataTypes,
     id: PropTypes.string,
@@ -70,6 +71,7 @@ export default class PaymentCard extends React.PureComponent {
     digits: 8,
     locale: null,
     card_status: 'active',
+    variant: 'normal',
 
     id: null,
     raw_data: null,
@@ -103,6 +105,7 @@ export default class PaymentCard extends React.PureComponent {
       product_code,
       card_number,
       card_status,
+      variant,
       digits,
       id,
       raw_data,
@@ -119,6 +122,7 @@ export default class PaymentCard extends React.PureComponent {
     const params = {
       className: classnames(
         'dnb-payment-card',
+        `dnb-payment-card--${variant}`,
         createSkeletonClass(null, skeleton, this.context),
         createSpacingClasses(props),
         className,
@@ -277,6 +281,64 @@ NormalCard.defaultProps = {
 }
 
 function NormalCard({
+  data,
+  cardStatus,
+  cardNumber,
+  id,
+  skeleton,
+  translations
+}) {
+  return (
+    <div
+      id={id}
+      className={classnames(
+        'dnb-payment-card__card',
+        `dnb-payment-card__${data.cardDesign.cardStyle}`
+      )}
+    >
+      <div className="dnb-payment-card__card__content">
+        <div className="dnb-payment-card__card__top">
+          <BankLogo logoType={data.cardDesign.bankLogo} />
+          <ProductLogo
+            productType={data.productType}
+            cardDesign={data.cardDesign}
+          />
+        </div>
+        <div className="dnb-payment-card__card__bottom">
+          <CardText
+            cardNumber={cardNumber}
+            translations={translations}
+            skeleton={skeleton}
+          />
+          <TypeLogo
+            cardType={data.cardType}
+            cardDesign={data.cardDesign}
+          />
+        </div>
+      </div>
+      <StatusOverlay
+        skeleton={skeleton}
+        cardStatus={cardStatus}
+        translations={translations}
+      />
+    </div>
+  )
+}
+
+CompactCard.propTypes = {
+  id: PropTypes.string,
+  skeleton: PropTypes.bool,
+  data: cardDataTypes.isRequired,
+  cardStatus: PropTypes.string.isRequired,
+  cardNumber: PropTypes.string.isRequired,
+  translations: PropTypes.object.isRequired
+}
+CompactCard.defaultProps = {
+  id: null,
+  skeleton: null
+}
+
+function CompactCard({
   data,
   cardStatus,
   cardNumber,

@@ -24,7 +24,6 @@ VisaSVG.defaultProps = {
   fill: '#ffffff',
   width: '80',
   height: '54',
-  id: '',
   viewBox: '0 0 80 54'
 }
 
