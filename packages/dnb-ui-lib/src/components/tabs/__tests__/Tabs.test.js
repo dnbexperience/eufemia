@@ -74,7 +74,9 @@ describe('TabList component', () => {
   )
 
   it('has to have the right amount of renderet components', () => {
-    expect(Comp.find('button').length).toBe(tablistData.length)
+    expect(Comp.find('.dnb-tabs__button__snap').length).toBe(
+      tablistData.length
+    )
     expect(Comp.find('div[role="tabpanel"]').length).toBe(1)
   })
 
@@ -123,7 +125,12 @@ describe('A single Tab component', () => {
 
   it('has to work with "data only" property containing a "content"', () => {
     const Comp = mount(<Component data={tablistDataWithContent} />)
-    expect(Comp.find('button').first().hasClass('selected')).toBe(true)
+    expect(
+      Comp.find('.dnb-tabs__button__snap')
+        .first()
+        .find('button')
+        .hasClass('selected')
+    ).toBe(true)
     expect(Comp.find('div.dnb-tabs__content').text()).toBe('First')
 
     // then click on tab two
@@ -239,7 +246,10 @@ describe('A single Tab component', () => {
       Comp.find('button.selected').instance().getAttribute('data-tab-key')
     ).toBe('second-title')
     expect(
-      Comp.find('button').at(1).instance().getAttribute('data-tab-key')
+      Comp.find('.dnb-tabs__button__snap button')
+        .at(1)
+        .instance()
+        .getAttribute('data-tab-key')
     ).toBe('second-title')
     expect(Comp.find('div.dnb-tabs__content').text()).toBe('second')
     expect(
