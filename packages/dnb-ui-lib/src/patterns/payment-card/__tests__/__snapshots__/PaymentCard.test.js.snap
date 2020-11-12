@@ -22,6 +22,11 @@ exports[`PaymentCard have to match snapshot 1`] = `
     <figure
       className="dnb-payment-card"
     >
+      <figcaption
+        className="dnb-sr-only dnb-payment-card__figcaption"
+      >
+        DNB Kortet
+      </figcaption>
       <NormalCard
         cardNumber=" **** 1337 "
         cardStatus="active"
@@ -323,11 +328,6 @@ exports[`PaymentCard have to match snapshot 1`] = `
           />
         </div>
       </NormalCard>
-      <figcaption
-        className="dnb-sr-only dnb-payment-card__figcaption"
-      >
-        DNB Kortet
-      </figcaption>
     </figure>
   </Provider>
 </PaymentCard>

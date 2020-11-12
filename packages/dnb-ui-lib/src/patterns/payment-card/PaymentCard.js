@@ -143,6 +143,9 @@ export default class PaymentCard extends React.PureComponent {
             )
             return (
               <figure {...params}>
+                <figcaption className="dnb-sr-only dnb-payment-card__figcaption">
+                  {cardData.productName}
+                </figcaption>
                 <NormalCard
                   id={id}
                   skeleton={isTrue(skeleton)}
@@ -154,9 +157,6 @@ export default class PaymentCard extends React.PureComponent {
                   )}
                   translations={translations}
                 />
-                <figcaption className="dnb-sr-only dnb-payment-card__figcaption">
-                  {cardData.productName}
-                </figcaption>
               </figure>
             )
           }}
