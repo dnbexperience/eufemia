@@ -246,6 +246,10 @@
     //   font-size: var(--font-size-x-small);
     //   line-height: 1rem;
     // }
+
+    svg {
+      shape-rendering: geometricPrecision;
+    }
   }
 
   // Not used?

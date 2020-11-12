@@ -7,8 +7,7 @@ import Expired from './Clock'
 import Blocked from './Padlock'
 import MastercardDefault from './MastercardDefault'
 import MastercardMetalic from './MastercardMetalic'
-// import MastercardMetalicBlack from './MastercardMetalicBlack'
-import MCBlack from './MCBlack'
+import MastercardMetalicBlack from './MastercardMetalicBlack'
 import PB from './PB'
 import PBPlatinum from './PBPlatinum'
 import SagaGold from './SagaGold'
@@ -88,11 +87,7 @@ const TypeLogo = ({ cardType, cardDesign }) => {
           <MastercardDefault className={id} textFill="#ffffff" />
         ),
         Metalic: () => <MastercardMetalic className={id} />,
-        // ! Some gradient color pros are nott correct when using jsx component so using img instead
-        BlackMetalic: () => (
-          <MCBlack className={id} />
-          // <img src={MCBlack} alt="Mastercard Black" className={id} />
-        ) // <MastercardMetalicBlack className={id} />
+        BlackMetalic: () => <MastercardMetalicBlack className={id} />
       }),
     None: () => null
   })
