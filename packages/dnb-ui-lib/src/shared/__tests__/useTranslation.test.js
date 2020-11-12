@@ -15,32 +15,32 @@ import Provider from '../Provider'
 
 describe('Translation', () => {
   const expected_nbNO = 'foo (bar av max)'
-  const expected_enUS = 'foo (bar of max)'
+  const expected_enGB = 'foo (bar of max)'
   const expected_nbNO_nested = 'foo (bar av nestet max)'
-  const expected_enUS_nested = 'foo (bar of nested max)'
+  const expected_enGB_nested = 'foo (bar of nested max)'
 
   const nbNO = {
     'Modal.close_title': 'Steng',
     'other.string': '{foo} ({bar} av {max})'
   }
-  const enUS = {
+  const enGB = {
     'Modal.close_title': 'Close',
     'other.string': '{foo} ({bar} of {max})'
   }
   const nbNO_nested = {
     'other.string': '{foo} ({bar} av nestet {max})'
   }
-  const enUS_nested = {
+  const enGB_nested = {
     'other.string': '{foo} ({bar} of nested {max})'
   }
 
   const defaultLocales = {
     'nb-NO': nbNO,
-    'en-US': enUS
+    'en-GB': enGB
   }
   const nestedLocales = {
     'nb-NO': nbNO_nested,
-    'en-US': enUS_nested
+    'en-GB': enGB_nested
   }
 
   const RenderGetTranslation = () => {
@@ -65,12 +65,12 @@ describe('Translation', () => {
           nb-NO
         </button>
         <button
-          className="en-US"
+          className="en-GB"
           onClick={() => {
-            setLocale('en-US')
+            setLocale('en-GB')
           }}
         >
-          en-US
+          en-GB
         </button>
       </div>
     )
@@ -137,9 +137,9 @@ describe('Translation', () => {
 
     expect(Comp.find('span.useTranslation').text()).toBe(expected_nbNO)
 
-    Comp.find('button.en-US').simulate('click')
+    Comp.find('button.en-GB').simulate('click')
 
-    expect(Comp.find('span.useTranslation').text()).toBe(expected_enUS)
+    expect(Comp.find('span.useTranslation').text()).toBe(expected_enGB)
   })
 
   it('should have valid strings inside render', () => {
@@ -166,18 +166,18 @@ describe('Translation', () => {
       expected_nbNO_nested
     )
 
-    Comp.find('div.outer button.en-US').simulate('click')
+    Comp.find('div.outer button.en-GB').simulate('click')
 
-    expect(Comp.find('span.Translation').text()).toBe(expected_enUS)
+    expect(Comp.find('span.Translation').text()).toBe(expected_enGB)
     expect(Comp.find('span.useTranslation').text()).toBe(
       expected_nbNO_nested
     )
 
-    Comp.find('div.inner button.en-US').simulate('click')
+    Comp.find('div.inner button.en-GB').simulate('click')
 
-    expect(Comp.find('span.Translation').text()).toBe(expected_enUS)
+    expect(Comp.find('span.Translation').text()).toBe(expected_enGB)
     expect(Comp.find('span.useTranslation').text()).toBe(
-      expected_enUS_nested
+      expected_enGB_nested
     )
 
     // if we change the inner locale ...

@@ -281,9 +281,9 @@ describe('Modal component', () => {
   })
   it('has to have a close button', () => {
     expect(
-      String(
-        Comp.find('button.dnb-modal__close-button').instance().textContent
-      ).replace(/\u200C/g, '')
+      Comp.find('button.dnb-modal__close-button')
+        .instance()
+        .textContent.replace(/\u200C/g, '')
     ).toBe(props.close_title)
   })
   it('has to have no icon', () => {
@@ -310,6 +310,85 @@ describe('Modal component', () => {
   })
   it('should validate with ARIA rules as a dialog', async () => {
     expect(await axeComponent(Comp)).toHaveNoViolations()
+  })
+})
+
+describe('Modal trigger', () => {
+  const roledescription = 'Hjelp-knapp'
+  it('will act by defualt as a HelpButton', () => {
+    const Comp = mount(<Component {...props} />)
+    expect(
+      Comp.find('button.dnb-modal__trigger')
+        .instance()
+        .getAttribute('aria-roledescription')
+    ).toBe(roledescription)
+  })
+  it('will have a aria-label', () => {
+    const Comp = mount(
+      <Component
+        {...props}
+        trigger_attributes={{ 'aria-label': 'label' }}
+      />
+    )
+    expect(
+      Comp.find('button.dnb-modal__trigger')
+        .instance()
+        .getAttribute('aria-roledescription')
+    ).toBe(roledescription)
+    expect(
+      Comp.find('button.dnb-modal__trigger')
+        .instance()
+        .getAttribute('aria-label')
+    ).toBe('label')
+  })
+  it('will not act as a HelpButton if only trigger_text was given', () => {
+    const Comp = mount(<Component {...props} trigger_text="text" />)
+    expect(
+      Comp.find('button.dnb-modal__trigger')
+        .instance()
+        .hasAttribute('aria-roledescription')
+    ).toBe(false)
+    expect(
+      Comp.find('button.dnb-modal__trigger').exists('.dnb-button__icon')
+    ).toBe(false)
+    expect(
+      Comp.find('button.dnb-modal__trigger')
+        .text()
+        .replace(/\u200C/g, '')
+    ).toBe('text')
+  })
+  it('will not act as a HelpButton if a different icon was given', () => {
+    const Comp = mount(<Component {...props} trigger_icon="bell" />)
+    expect(
+      Comp.find('button.dnb-modal__trigger')
+        .instance()
+        .hasAttribute('aria-roledescription')
+    ).toBe(false)
+    expect(
+      Comp.find('button.dnb-modal__trigger').exists('.dnb-button__icon')
+    ).toBe(true)
+  })
+  it('will act as a HelpButton if trigger_text was given and trigger_variant is tertiary', () => {
+    const Comp = mount(
+      <Component
+        {...props}
+        trigger_text="text"
+        trigger_variant="tertiary"
+      />
+    )
+    expect(
+      Comp.find('button.dnb-modal__trigger')
+        .instance()
+        .getAttribute('aria-roledescription')
+    ).toBe(roledescription)
+    expect(
+      Comp.find('button.dnb-modal__trigger').exists('.dnb-button__icon')
+    ).toBe(true)
+    expect(
+      Comp.find('button.dnb-modal__trigger')
+        .text()
+        .replace(/\u200C/g, '')
+    ).toBe('text')
   })
 })
 

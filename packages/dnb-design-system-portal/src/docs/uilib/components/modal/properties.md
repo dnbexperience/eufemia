@@ -54,6 +54,7 @@ Properties targeting the trigger component (Button), but they will be set the sa
 
 | Properties                                  | Description                                                                                                                                               |
 | ------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `trigger_attributes`                        | _(optional)_ send along custom HTML attributes or properties to the trigger button.                                                                       |
 | `trigger_hidden`                            | _(optional)_ if truthy, no trigger button will be show. This can be used in combination with `open_state="opened"`.                                       |
 | `trigger_variant`                           | _(optional)_ the modal triggering button variant. Defaults to `secondary`.                                                                                |
 | `trigger_text`                              | _(optional)_ if type is set to `text`, this will be the text which triggers the modal. If set to `button` it will be the `title` attribute of the button. |

@@ -163,12 +163,40 @@ $focusRingColor: var(--color-emerald-green);
   overflow-y: $mode;
   overscroll-behavior: contain;
   scrollbar-width: thin;
+  html:not([data-visual-test]) & {
+    scroll-behavior: smooth;
+  }
 
   // older iOS safari
   -webkit-overflow-scrolling: touch;
 
   // show scrollbar on IE
   -ms-overflow-style: auto;
+}
+
+@mixin scrollX($mode: scroll) {
+  overflow-x: $mode;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  html:not([data-visual-test]) & {
+    scroll-behavior: smooth;
+  }
+
+  // older iOS safari
+  -webkit-overflow-scrolling: touch;
+
+  // show scrollbar on IE
+  -ms-overflow-style: auto;
+}
+
+@mixin hideScrollbar() {
+  /* Hide scrollbar for Chrome, Safari */
+  /* stylelint-disable-next-line */
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }
 
 // IE fix

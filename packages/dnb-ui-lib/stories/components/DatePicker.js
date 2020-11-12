@@ -7,7 +7,7 @@ import React from 'react'
 import { Wrapper, Box } from '../helpers'
 import styled from '@emotion/styled'
 
-import enLocale from 'date-fns/locale/en-US'
+import enLocale from 'date-fns/locale/en-GB'
 import startOfMonth from 'date-fns/startOfMonth'
 import lastDayOfMonth from 'date-fns/lastDayOfMonth'
 import addDays from 'date-fns/addDays'
@@ -51,14 +51,14 @@ const ChangeLocale = () => {
 
   // React.useEffect(() => {
   //   setTimeout(() => {
-  //     setLocale('en-US')
+  //     setLocale('en-GB')
   //   }, 2e3)
   // }, [])
 
   return (
     <Dropdown
       value={locale}
-      data={{ 'en-US': 'English', 'nb-NO': 'Norsk' }}
+      data={{ 'en-GB': 'English', 'nb-NO': 'Norsk' }}
       on_change={({ data: { value } }) => {
         setLocale(value)
       }}

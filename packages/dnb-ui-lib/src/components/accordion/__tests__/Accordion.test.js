@@ -206,30 +206,46 @@ describe('Accordion container component', () => {
     }
   }
 
+  const Increment = () => {
+    const [count, setCount] = React.useState(1)
+    return (
+      <button id="increment" onClick={() => setCount((s) => s + 1)}>
+        {count}
+      </button>
+    )
+  }
+
   const Comp = mount(
-    <Component.Group
-      label="Label"
-      id="container"
-      single_container
-      prevent_rerender
-      remember_state
-    >
-      <Component id="accordion-1" title="Accordion 1">
-        Accordion 1
-        <DidRender id="mounted-1" />
-      </Component>
-      <Component id="accordion-2" title="Accordion 2" expanded={true}>
-        Accordion 2
-        <DidRender id="mounted-2" />
-      </Component>
-      <Component id="accordion-3" title="Accordion 3">
-        Accordion 3
-        <DidRender id="mounted-3" />
-      </Component>
-    </Component.Group>
+    <>
+      <Increment />
+      <Component.Group
+        label="Label"
+        id="container"
+        single_container
+        prevent_rerender
+        remember_state
+      >
+        <Component id="accordion-1" title="Accordion 1">
+          Accordion 1
+          <DidRender id="mounted-1" />
+        </Component>
+        <Component id="accordion-2" title="Accordion 2" expanded={true}>
+          Accordion 2
+          <DidRender id="mounted-2" />
+        </Component>
+        <Component id="accordion-3" title="Accordion 3">
+          Accordion 3
+          <DidRender id="mounted-3" />
+        </Component>
+      </Component.Group>
+    </>
   )
 
   it('has only to render the expanded accordion content', () => {
+    expect(Comp.find('button#increment').text()).toBe('1')
+    Comp.find('button#increment').simulate('click')
+    expect(Comp.find('button#increment').text()).toBe('2')
+
     expect(Comp.find('div#mounted-1').exists()).toBe(false)
     expect(Comp.find('div#mounted-2').text()).toBe('true')
     expect(Comp.find('div#mounted-3').exists()).toBe(false)
@@ -244,6 +260,9 @@ describe('Accordion container component', () => {
       .find('.dnb-accordion__header')
       .simulate('click')
 
+    Comp.find('button#increment').simulate('click')
+    expect(Comp.find('button#increment').text()).toBe('3')
+
     expect(Comp.find('div#mounted-1').text()).toBe('true')
     expect(Comp.find('div#mounted-2').text()).toBe('true')
     expect(Comp.find('div#mounted-3').exists()).toBe(false)
@@ -252,11 +271,17 @@ describe('Accordion container component', () => {
       .find('.dnb-accordion__header')
       .simulate('click')
 
+    Comp.find('button#increment').simulate('click')
+    expect(Comp.find('button#increment').text()).toBe('4')
+
     expect(Comp.find('div#mounted-3').exists()).toBe(false)
 
     Comp.find('#accordion-3')
       .find('.dnb-accordion__header')
       .simulate('click')
+
+    Comp.find('button#increment').simulate('click')
+    expect(Comp.find('button#increment').text()).toBe('5')
 
     expect(Comp.find('div#mounted-3').text()).toBe('true')
   })
