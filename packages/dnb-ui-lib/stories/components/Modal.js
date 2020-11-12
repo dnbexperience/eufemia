@@ -41,6 +41,9 @@ export const ModalSandbox = () => (
 
     <Box>
       <Modal
+        trigger_props={{
+          'aria-label': 'My Label'
+        }}
         spacing={false}
         fullscreen={false}
         align_content="centered"

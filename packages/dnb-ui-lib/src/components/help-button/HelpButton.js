@@ -5,10 +5,7 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import {
-  registerElement
-  // extendPropsWithContext
-} from '../../shared/component-helper'
+import { registerElement } from '../../shared/component-helper'
 import Context from '../../shared/Context'
 import Modal from '../modal/Modal'
 import HelpButtonInstance from './HelpButtonInstance'
