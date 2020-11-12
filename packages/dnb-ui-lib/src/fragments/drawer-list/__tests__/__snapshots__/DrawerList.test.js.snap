@@ -626,6 +626,8 @@ exports[`DrawerList scss have to match snapshot 1`] = `
     scrollbar-width: thin;
     -webkit-overflow-scrolling: touch;
     -ms-overflow-style: auto; }
+    html:not([data-visual-test]) .dnb-drawer-list--scroll .dnb-drawer-list__options {
+      scroll-behavior: smooth; }
   .dnb-drawer-list--opened .dnb-drawer-list__options {
     scroll-behavior: smooth; }
   .dnb-drawer-list--no-scroll-animation .dnb-drawer-list__options {
