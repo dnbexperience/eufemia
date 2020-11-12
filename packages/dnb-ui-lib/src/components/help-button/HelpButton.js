@@ -80,7 +80,7 @@ export default class HelpButton extends React.PureComponent {
       }
 
       return (
-        <Modal trigger_props={params} {...modal_props}>
+        <Modal trigger_attributes={params} {...modal_props}>
           {content}
         </Modal>
       )
