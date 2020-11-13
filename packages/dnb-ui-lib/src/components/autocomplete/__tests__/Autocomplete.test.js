@@ -12,6 +12,7 @@ import {
   loadScss
 } from '../../../core/jest/jestSetup'
 import Component from '../Autocomplete'
+import { SubmitButton } from '../../../components/input/Input'
 
 const snapshotProps = {
   ...fakeProps(require.resolve('../Autocomplete'), {
@@ -492,6 +493,48 @@ describe('Autocomplete component', () => {
         .instance()
         .hasAttribute('disabled')
     ).toBe(true)
+    expect(
+      Comp.find('button.dnb-input__submit-button__button')
+        .find('.dnb-icon')
+        .instance()
+        .getAttribute('aria-label')
+    ).toContain('chevron down')
+  })
+
+  it('submit_element will replace the internal SubmitButton', () => {
+    const Comp = mount(
+      <Component
+        id="autocomplete-id"
+        data={mockData}
+        {...mockProps}
+        // show_submit_button
+        submit_element={<SubmitButton icon="bell" />}
+      />
+    )
+    Comp.setProps({
+      disabled: true
+    })
+    expect(
+      Comp.find('button.dnb-input__submit-button__button')
+        .instance()
+        .hasAttribute('disabled')
+    ).toBe(true)
+    expect(
+      Comp.find('button.dnb-input__submit-button__button').exists(
+        '.dnb-icon'
+      )
+    ).toBe(true)
+    expect(
+      Comp.find('button.dnb-input__submit-button__button').exists(
+        '.dnb-icon'
+      )
+    ).toBe(true)
+    expect(
+      Comp.find('button.dnb-input__submit-button__button')
+        .find('.dnb-icon')
+        .instance()
+        .getAttribute('aria-label')
+    ).toContain('bell')
   })
 })
 

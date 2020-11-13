@@ -61,7 +61,7 @@ export default class Autocomplete extends React.PureComponent {
       PropTypes.node
     ]),
     submit_button_title: PropTypes.string,
-    icon: PropTypes.oneOfType([
+    submit_button_icon: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.node,
       PropTypes.func
@@ -121,6 +121,7 @@ export default class Autocomplete extends React.PureComponent {
       PropTypes.string,
       PropTypes.bool
     ]),
+    submit_element: PropTypes.node,
     prevent_selection: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.bool
@@ -205,7 +206,7 @@ export default class Autocomplete extends React.PureComponent {
     aria_live_options: null,
     indicator_label: null,
     submit_button_title: null,
-    icon: 'chevron_down',
+    submit_button_icon: 'chevron_down',
     icon_size: null,
     icon_position: 'left',
     triangle_position: null,
@@ -230,6 +231,7 @@ export default class Autocomplete extends React.PureComponent {
     no_animation: false,
     no_scroll_animation: false,
     show_submit_button: false,
+    submit_element: null,
     prevent_selection: false,
     size: 'default',
     align_autocomplete: null,
@@ -1343,7 +1345,6 @@ class AutocompleteInstance extends React.PureComponent {
       label,
       label_direction,
       label_sr_only,
-      icon,
       icon_size,
       input_icon,
       size,
@@ -1361,12 +1362,14 @@ class AutocompleteInstance extends React.PureComponent {
       no_animation,
       no_scroll_animation,
       show_submit_button,
+      submit_element,
       input_component: CustomInput,
       options_render,
       prevent_selection,
       max_height,
       default_value,
       submit_button_title,
+      submit_button_icon,
       drawer_class,
       input_ref, // eslint-disable-line
       className,
@@ -1394,11 +1397,6 @@ class AutocompleteInstance extends React.PureComponent {
 
       ...attributes
     } = props
-
-    // let { icon_position } = props
-    // if (icon_position !== 'right' && align_autocomplete === 'right') {
-    //   icon_position = 'right'
-    // }
 
     const id = this._id
     const showStatus = status && status !== 'error'
@@ -1487,23 +1485,6 @@ class AutocompleteInstance extends React.PureComponent {
       }
     }
 
-    const triggerParams = isTrue(show_submit_button)
-      ? {
-          icon: icon,
-          icon_size:
-            icon_size || (size === 'large' ? 'medium' : 'default'),
-          status: !opened && status ? status_state : null,
-          title: submit_button_title,
-          variant: 'secondary',
-          disabled: disabled,
-          size: size === 'default' ? 'medium' : size,
-          onKeyDown: this.onTriggerKeyDownHandler,
-          onSubmit: this.onSubmit,
-          'aria-haspopup': 'listbox',
-          'aria-expanded': isExpanded
-        }
-      : {}
-
     // Handling of activedescendant – required by NVDA
     if (!hidden) {
       if (parseFloat(active_item) > -1) {
@@ -1528,6 +1509,39 @@ class AutocompleteInstance extends React.PureComponent {
       ]
         .filter(Boolean)
         .join(' ')
+    }
+
+    let submitButton = false
+    if (
+      (submit_element && React.isValidElement(submit_element)) ||
+      isTrue(show_submit_button)
+    ) {
+      const triggerParams = {
+        id: id + '-submit-button',
+        disabled,
+        status: !opened && status ? status_state : null,
+        onKeyDown: this.onTriggerKeyDownHandler,
+        onSubmit: this.onSubmit,
+        'aria-haspopup': 'listbox',
+        'aria-expanded': isExpanded
+      }
+
+      if (submit_element && React.isValidElement(submit_element)) {
+        submitButton = React.cloneElement(submit_element, triggerParams)
+      } else if (isTrue(show_submit_button)) {
+        submitButton = (
+          <SubmitButton
+            icon={submit_button_icon}
+            icon_size={
+              icon_size || (size === 'large' ? 'medium' : 'default')
+            }
+            title={submit_button_title}
+            variant="secondary"
+            size={size === 'default' ? 'medium' : size}
+            {...triggerParams}
+          />
+        )
+      }
     }
 
     // also used for code markup simulation
@@ -1587,16 +1601,7 @@ class AutocompleteInstance extends React.PureComponent {
                   size={size}
                   status={!opened && status ? status_state : null}
                   type={null}
-                  submit_element={
-                    isTrue(show_submit_button) ? (
-                      <SubmitButton
-                        id={id + '-submit-button'}
-                        {...triggerParams}
-                      />
-                    ) : (
-                      false
-                    )
-                  }
+                  submit_element={submitButton}
                   input_state={this.state.skipFocus ? 'focus' : undefined} // because of the short blur / focus during select
                   ref={this._refInput}
                   {...inputParams}
