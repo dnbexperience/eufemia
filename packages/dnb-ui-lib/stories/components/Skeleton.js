@@ -133,6 +133,9 @@ export const SkeletonSandbox = () => {
               <IconPrimary>bell</IconPrimary>
               <br />
               <Button>Button</Button>
+              <Button variant="tertiary" icon="bell">
+                Button
+              </Button>
               <Slider
                 label="Vertical slider:"
                 vertical={false}

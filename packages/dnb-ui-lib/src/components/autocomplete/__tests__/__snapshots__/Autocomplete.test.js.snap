@@ -647,7 +647,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                                     onSubmit={[Function]}
                                     on_click={null}
                                     size={null}
-                                    skeleton={null}
+                                    skeleton={false}
                                     status={null}
                                     status_animation={null}
                                     status_state="error"
@@ -676,7 +676,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                                       key="button-icon"
                                       modifier={null}
                                       size="icon_size"
-                                      skeleton={null}
+                                      skeleton={false}
                                       title={null}
                                       width={null}
                                     />
@@ -1520,8 +1520,6 @@ exports[`Autocomplete scss have to match snapshot 1`] = `
     white-space: nowrap; }
   .dnb-button + .dnb-form-status {
     margin-top: 0.5rem; }
-  .dnb-button.dnb-skeleton .dnb-icon {
-    visibility: hidden; }
   @media screen and (-ms-high-contrast: none) {
     .dnb-button {
       flex: none; }

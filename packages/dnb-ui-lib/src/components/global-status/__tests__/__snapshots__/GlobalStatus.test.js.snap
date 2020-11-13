@@ -476,8 +476,6 @@ exports[`GlobalStatus scss have to match snapshot 1`] = `
     white-space: nowrap; }
   .dnb-button + .dnb-form-status {
     margin-top: 0.5rem; }
-  .dnb-button.dnb-skeleton .dnb-icon {
-    visibility: hidden; }
   @media screen and (-ms-high-contrast: none) {
     .dnb-button {
       flex: none; }
@@ -920,7 +918,7 @@ exports[`GlobalStatus snapshot have to match component snapshot 1`] = `
                       onClick={null}
                       on_click={[Function]}
                       size="medium"
-                      skeleton={null}
+                      skeleton={false}
                       status={null}
                       status_animation={null}
                       status_state="error"
@@ -938,7 +936,7 @@ exports[`GlobalStatus snapshot have to match component snapshot 1`] = `
                         ‌
                       </span>
                       <span
-                        className="dnb-button__text"
+                        className="dnb-button__text dnb-skeleton--show-font"
                         key="button-text"
                       >
                         close_text
@@ -955,7 +953,7 @@ exports[`GlobalStatus snapshot have to match component snapshot 1`] = `
                         key="button-icon"
                         modifier={null}
                         size="medium"
-                        skeleton={null}
+                        skeleton={false}
                         title={null}
                         width={null}
                       >

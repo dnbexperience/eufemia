@@ -77,23 +77,19 @@
   }
 
   // Font
+  &--font-only,
   &--font,
-  &--font-only {
-    /**
-     * Because of paragraphs that contain a span (.dnb-number)
-     * Alternatively we would have to wrap the background-image also, but that does have negative side effects, like if a span has has block as display
-     */
-    > :not(.dnb-skeleton):not(.dnb-skeleton--skip) {
-      -webkit-text-fill-color: var(--skeleton-color) !important;
-    }
-
+  &--font &--show-font,
+  &--font .dnb-p {
     // Additional changes
     &::marker {
       color: var(--skeleton-color);
     }
   }
   // Font with Lines
-  &--font {
+  &--font,
+  &--font &--show-font,
+  &--font .dnb-p {
     background-image: repeating-linear-gradient(
       -45deg,
       var(--skeleton-color--contrast) 1px 2px,

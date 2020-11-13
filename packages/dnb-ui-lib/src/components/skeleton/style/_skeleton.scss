@@ -51,8 +51,22 @@
     box-shadow: none !important;
   }
 
+  &--code,
+  &--font {
+    pre,
+    pre *,
+    code,
+    code * {
+      --font-family-monospace: 'DNBMonoSkeleton' !important;
+      font-family: var(--font-family-monospace) !important;
+      font-style: unset !important;
+    }
+  }
+
+  &--font-only,
   &--font,
-  &--font-only {
+  &--font &--show-font,
+  &--font .dnb-p {
     pointer-events: none;
 
     --font-family-book: 'DNBSkeleton' !important; // Deprecated
@@ -62,7 +76,9 @@
     font-family: var(--font-family-default) !important;
     font-style: unset !important;
   }
-  &--font {
+  &--font,
+  &--font &--show-font,
+  &--font .dnb-p {
     background-position-y: 50% !important;
     background-repeat: no-repeat !important;
     background-size: 30rem 100% !important;
@@ -73,17 +89,9 @@
     -webkit-background-clip: text !important;
 
     animation: skeletonFontAnimation 2s linear infinite;
-  }
 
-  &--code,
-  &--font {
-    pre,
-    pre *,
-    code,
-    code * {
-      --font-family-monospace: 'DNBMonoSkeleton' !important;
-      font-family: var(--font-family-monospace) !important;
-      font-style: unset !important;
+    html[data-visual-test] & {
+      animation: none !important;
     }
   }
 
@@ -108,13 +116,8 @@
   }
 
   &--no-animation &,
-  &--no-animation &--font,
   &--no-animation &::after,
-  &--no-animation * &::after,
-  html[data-visual-test] &,
-  html[data-visual-test] &--font,
-  html[data-visual-test] &::after,
-  html[data-visual-test] * &::after {
+  &--no-animation * &::after {
     animation: none !important;
   }
 
