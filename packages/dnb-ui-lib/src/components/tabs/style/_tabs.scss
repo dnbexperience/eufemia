@@ -64,7 +64,9 @@
     position: absolute;
     z-index: 2;
 
-    background-color: var(--color-emerald-green);
+    &.dnb-button--primary {
+      background-color: var(--color-emerald-green);
+    }
 
     display: none;
     opacity: 0;
