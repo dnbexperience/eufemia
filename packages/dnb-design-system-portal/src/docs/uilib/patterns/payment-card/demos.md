@@ -72,6 +72,8 @@ Basic card using product code and status.
 
 ### Basic card in compact variant
 
+**NB:** The compact variant have to be aligned to a not yet defined SSOT style.
+
 <ComponentBox scope={{PaymentCard}} data-visual-test="payment-card-compact">
 	{/* @jsx */ `
 <PaymentCard
