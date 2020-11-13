@@ -172,7 +172,7 @@ export default class PaymentCard extends React.PureComponent {
 
 const formatCardNumberRegex = /(?=(?:....)*$)/g
 
-const formatCardNumber = (cardNumber, digits) =>
+export const formatCardNumber = (cardNumber, digits) =>
   digits
     ? cardNumber
         .slice(cardNumber.length - digits, cardNumber.length)
@@ -307,6 +307,7 @@ function NormalCard({
         <div className="dnb-payment-card__card__bottom">
           <CardText
             cardNumber={cardNumber}
+            displayName={data.displayName}
             translations={translations}
             skeleton={skeleton}
           />
@@ -315,57 +316,6 @@ function NormalCard({
             cardDesign={data.cardDesign}
           />
         </div>
-      </div>
-      <StatusOverlay
-        skeleton={skeleton}
-        cardStatus={cardStatus}
-        translations={translations}
-      />
-    </div>
-  )
-}
-
-CompactCard.propTypes = {
-  id: PropTypes.string,
-  skeleton: PropTypes.bool,
-  data: cardDataTypes.isRequired,
-  cardStatus: PropTypes.string.isRequired,
-  cardNumber: PropTypes.string.isRequired,
-  translations: PropTypes.object.isRequired
-}
-CompactCard.defaultProps = {
-  id: null,
-  skeleton: null
-}
-
-function CompactCard({
-  data,
-  cardStatus,
-  cardNumber,
-  id,
-  skeleton,
-  translations
-}) {
-  return (
-    <div
-      id={id}
-      className={classnames(
-        'dnb-payment-card__card',
-        `dnb-payment-card__${data.cardDesign.cardStyle}`
-      )}
-    >
-      <div className="dnb-payment-card__card__content">
-        <BankLogo logoType={data.cardDesign.bankLogo} />
-        <CardText
-          cardNumber={cardNumber}
-          translations={translations}
-          skeleton={skeleton}
-        />
-        <ProductLogo
-          productType={data.productType}
-          cardDesign={data.cardDesign}
-        />
-        <TypeLogo cardType={data.cardType} cardDesign={data.cardDesign} />
       </div>
       <StatusOverlay
         skeleton={skeleton}

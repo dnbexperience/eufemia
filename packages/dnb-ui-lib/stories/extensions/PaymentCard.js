@@ -36,7 +36,14 @@ export const PaymentCards = () => (
         product_code="DNB"
         card_number="************1337"
         card_status="expired" // 👈 can be expired, blocked or active
-        // variant="compact"
+        variant="compact"
+      />
+    </Box>
+    <Box>
+      <PaymentCard
+        variant="compact"
+        product_code="VG1"
+        card_number="************1337"
       />
     </Box>
     <Box>

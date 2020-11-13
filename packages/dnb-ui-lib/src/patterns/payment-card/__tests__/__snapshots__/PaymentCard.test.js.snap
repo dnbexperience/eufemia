@@ -4,24 +4,24 @@ exports[`PaymentCard have to match snapshot 1`] = `
 <PaymentCard
   card_number="************1337"
   card_status="active"
-  class={null}
-  className={null}
-  digits={8}
-  id={null}
-  locale={null}
+  class="class"
+  className="className"
+  digits="digits"
+  id="id"
+  locale="locale"
   product_code="NK1"
   raw_data={null}
-  skeleton={false}
+  skeleton="skeleton"
   text_blocked={null}
   text_card_number={null}
   text_expired={null}
   variant="normal"
 >
   <Provider
-    locale="nb-NO"
+    locale="locale"
   >
     <figure
-      className="dnb-payment-card dnb-payment-card--normal"
+      className="dnb-payment-card dnb-payment-card--normal className class"
     >
       <figcaption
         className="dnb-sr-only dnb-payment-card__figcaption"
@@ -29,7 +29,7 @@ exports[`PaymentCard have to match snapshot 1`] = `
         DNB Kortet
       </figcaption>
       <NormalCard
-        cardNumber=" **** 1337 "
+        cardNumber=" **** **** **** 1337 "
         cardStatus="active"
         data={
           Object {
@@ -66,21 +66,21 @@ exports[`PaymentCard have to match snapshot 1`] = `
             },
           }
         }
-        id={null}
+        id="id"
         skeleton={false}
         translations={
           Object {
             "card_number": "************1337",
             "card_status": "active",
-            "children": null,
-            "class": null,
-            "className": null,
-            "digits": 8,
-            "id": null,
-            "locale": null,
+            "children": "children",
+            "class": "class",
+            "className": "className",
+            "digits": "digits",
+            "id": "id",
+            "locale": "locale",
             "product_code": "NK1",
             "raw_data": null,
-            "skeleton": false,
+            "skeleton": "skeleton",
             "text_blocked": "Sperret",
             "text_card_number": "Kortnummer",
             "text_expired": "Utgått",
@@ -90,7 +90,7 @@ exports[`PaymentCard have to match snapshot 1`] = `
       >
         <div
           className="dnb-payment-card__card dnb-payment-card__card--design-default"
-          id={null}
+          id="id"
         >
           <div
             className="dnb-payment-card__card__content"
@@ -195,21 +195,22 @@ exports[`PaymentCard have to match snapshot 1`] = `
               className="dnb-payment-card__card__bottom"
             >
               <CardText
-                cardNumber=" **** 1337 "
+                cardNumber=" **** **** **** 1337 "
+                displayName="DNB Kortet"
                 skeleton={false}
                 translations={
                   Object {
                     "card_number": "************1337",
                     "card_status": "active",
-                    "children": null,
-                    "class": null,
-                    "className": null,
-                    "digits": 8,
-                    "id": null,
-                    "locale": null,
+                    "children": "children",
+                    "class": "class",
+                    "className": "className",
+                    "digits": "digits",
+                    "id": "id",
+                    "locale": "locale",
                     "product_code": "NK1",
                     "raw_data": null,
-                    "skeleton": false,
+                    "skeleton": "skeleton",
                     "text_blocked": "Sperret",
                     "text_card_number": "Kortnummer",
                     "text_expired": "Utgått",
@@ -275,7 +276,7 @@ exports[`PaymentCard have to match snapshot 1`] = `
                         <p
                           className="dnb-p dnb-payment-card__card__numbers"
                         >
-                           **** 1337 
+                           **** **** **** 1337 
                         </p>
                       </Elem>
                     </ForwardRef>
@@ -322,15 +323,15 @@ exports[`PaymentCard have to match snapshot 1`] = `
               Object {
                 "card_number": "************1337",
                 "card_status": "active",
-                "children": null,
-                "class": null,
-                "className": null,
-                "digits": 8,
-                "id": null,
-                "locale": null,
+                "children": "children",
+                "class": "class",
+                "className": "className",
+                "digits": "digits",
+                "id": "id",
+                "locale": "locale",
                 "product_code": "NK1",
                 "raw_data": null,
-                "skeleton": false,
+                "skeleton": "skeleton",
                 "text_blocked": "Sperret",
                 "text_card_number": "Kortnummer",
                 "text_expired": "Utgått",
@@ -467,9 +468,6 @@ exports[`PaymentCard scss have to match snapshot 1`] = `
 
 .dnb-payment-card {
   margin: 0; }
-  .dnb-payment-card__figcaption {
-    color: white;
-    opacity: 0; }
   .dnb-payment-card__card {
     position: relative;
     width: 85.6mm;
@@ -596,12 +594,15 @@ exports[`PaymentCard scss have to match snapshot 1`] = `
       left: 0;
       right: 0;
       height: 14mm;
-      background-color: white; }
+      background-color: var(--color-white); }
     .dnb-payment-card--compact .dnb-payment-card__card__wrapper {
       padding: 1.5mm 6mm;
       color: var(--color-black-80); }
     .dnb-payment-card--compact .dnb-payment-card__card__numbers {
       font-size: var(--font-size-basis); }
+    .dnb-payment-card--compact .dnb-payment-card__card__credit-type {
+      top: 0;
+      bottom: auto; }
   .dnb-payment-card--compact .dnb-payment-card__blocking__center {
     display: flex;
     align-items: center;

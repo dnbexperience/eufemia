@@ -51,11 +51,6 @@
 .dnb-payment-card {
   margin: 0;
 
-  &__figcaption {
-    color: white;
-    opacity: 0;
-  }
-
   &__card {
     position: relative;
     width: 85.6mm;
@@ -263,7 +258,7 @@
 
       height: 14mm;
 
-      background-color: white;
+      background-color: var(--color-white);
     }
 
     &__wrapper {
@@ -273,6 +268,11 @@
 
     &__numbers {
       font-size: var(--font-size-basis);
+    }
+
+    &__credit-type {
+      top: 0;
+      bottom: auto;
     }
   }
 

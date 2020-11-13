@@ -78,7 +78,7 @@ Basic card using product code and status.
 	{/* @jsx */ `
 <PaymentCard
   variant="compact"
-  product_code="VG2"
+  product_code="VG1"
   card_number="************1337"
 />
 	`}
