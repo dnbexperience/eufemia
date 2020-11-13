@@ -230,6 +230,10 @@
     }
   }
 
+  &.dnb-skeleton &__card__holder {
+    opacity: 1;
+  }
+
   // Not in use yet
   // &--small {
   //   width: calc(85.6mm * 0.75);
