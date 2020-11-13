@@ -6,7 +6,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Link from 'gatsby-link'
-import { css } from '@emotion/core'
+import { css } from '@emotion/react'
 import styled from '@emotion/styled'
 import { Button } from 'dnb-ui-lib/src'
 import { IS_IE11 } from 'dnb-ui-lib/src/shared/helpers'

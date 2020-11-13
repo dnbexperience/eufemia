@@ -6,7 +6,7 @@
 import React from 'react'
 import { Wrapper, Box } from '../helpers'
 import styled from '@emotion/styled'
-import { Global, css } from '@emotion/core'
+import { Global, css } from '@emotion/react'
 
 import { Input, Tabs, Icon } from '../../src/components'
 import { bell as Bell } from '../../src/icons'

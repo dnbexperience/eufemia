@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { css } from '@emotion/core'
+import { css } from '@emotion/react'
 import AnchorLink from 'react-anchor-link-smooth-scroll'
 import { Heading } from 'dnb-ui-lib/src'
 import { makeSlug } from '../../uilib/utils/slug'

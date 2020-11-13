@@ -6,7 +6,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { CacheProvider } from '@emotion/core'
+import { CacheProvider } from '@emotion/react'
 import createEmotionCache from '@emotion/cache'
 
 import { Provider as EufemiaProvider } from 'dnb-ui-lib/src/shared'
@@ -20,6 +20,7 @@ import cssVars from 'css-vars-ponyfill'
 cssVars()
 
 const emotionCache = createEmotionCache({
+  key: 'my-prefix-key',
   stylisPlugins: [stylisPlugin]
 })
 

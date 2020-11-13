@@ -3,7 +3,7 @@ title: 'Tables'
 ---
 
 import ComponentBox from 'Tags/ComponentBox'
-import { css, Global } from '@emotion/core'
+import { css, Global } from '@emotion/react'
 
 <Global styles={css`body{ .dnb-app-content { overflow: visible; } }`} />
 

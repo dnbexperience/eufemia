@@ -101,10 +101,11 @@ render(
 
 ```jsx
 import stylisPlugin from 'dnb-ui-lib/style/stylis'
-import { CacheProvider } from '@emotion/core'
+import { CacheProvider } from '@emotion/react'
 import createEmotionCache from '@emotion/cache'
 
 const emotionCache = createEmotionCache({
+  key: 'my-prefix-key',
   stylisPlugins: [stylisPlugin]
 })
 
