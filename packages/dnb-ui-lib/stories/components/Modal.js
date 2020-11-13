@@ -5,7 +5,7 @@
 
 import React from 'react'
 import { Wrapper, Box } from '../helpers'
-import { Global, css } from '@emotion/core'
+import { Global, css } from '@emotion/react'
 
 import {
   Modal,
