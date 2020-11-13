@@ -6,6 +6,7 @@
 import React from 'react'
 import { Wrapper, Box } from '../helpers'
 import styled from '@emotion/styled'
+import { Global, css } from '@emotion/core'
 
 import { Input, Tabs, Icon } from '../../src/components'
 import { bell as Bell } from '../../src/icons'
@@ -22,6 +23,17 @@ export const TabsSandbox = () => {
 
   return (
     <Wrapper>
+      <Global
+        styles={css`
+          div > .dnb-space,
+          .sb-show-main {
+            padding: 0 !important;
+          }
+          main.dnb-core-style > div {
+            padding: 0 !important;
+          }
+        `}
+      />
       <Box>
         <Input
           label="Change state"
@@ -182,15 +194,20 @@ const TabsAndRerender = () => (
       //   three: 'Content three'
       // }}
       data={[
-        { title: 'One', key: 'one', content: ContentOne },
-        { title: 'Two', key: 'two', content: ContentTwo },
+        { title: 'One long', key: 'one', content: ContentOne },
+        { title: 'Two long and more', key: 'two', content: ContentTwo },
+        { title: 'Three long', key: 'two1', content: ContentTwo },
+        { title: 'More long', key: 'two3', content: ContentTwo },
+        { title: 'And here long', key: 'two41', content: ContentTwo },
+        { title: 'Four name', key: 'two2', content: ContentTwo },
         {
           title: (
             <>
               <Icon right="x-small" icon={Bell} />
-              Three
+              Three long name asd
             </>
           ),
+          selected: true,
           key: 'three',
           content: 'Content three'
         }

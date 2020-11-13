@@ -138,6 +138,15 @@ export const findNearestTypes = (num) => {
 export const isValidSpaceProp = (prop) =>
   prop && ['top', 'right', 'bottom', 'left'].includes(prop)
 
+export const removeSpaceProps = ({ ...props }) => {
+  for (let i in props) {
+    if (isValidSpaceProp(i)) {
+      delete props[i]
+    }
+  }
+  return props
+}
+
 // Creates a valid space CSS class out from given space types
 export const createSpacingClasses = (props, Element = null) =>
   Object.entries(props).reduce((acc, [direction, cur]) => {

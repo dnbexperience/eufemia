@@ -88,7 +88,7 @@ export default class Modal extends React.PureComponent {
     close_modal: PropTypes.func,
 
     // All "trigger_" are deprecated
-    trigger_props: PropTypes.object,
+    trigger_attributes: PropTypes.object,
     trigger_hidden: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.bool
@@ -150,7 +150,7 @@ export default class Modal extends React.PureComponent {
     close_modal: null,
 
     // All "trigger_" are deprecated
-    trigger_props: null,
+    trigger_attributes: null,
     trigger_hidden: false,
     trigger_disabled: null,
     trigger_variant: 'secondary',
@@ -501,7 +501,7 @@ export default class Modal extends React.PureComponent {
       labelled_by,
 
       // All "trigger_" are deprecated
-      trigger_props,
+      trigger_attributes,
       trigger_hidden,
       trigger_disabled, // eslint-disable-line
       trigger_variant, // eslint-disable-line
@@ -520,7 +520,9 @@ export default class Modal extends React.PureComponent {
 
     const render = (suffixProps) => {
       const modalProps = {}
-      const triggerAttributes = trigger_props ? { ...trigger_props } : {}
+      const triggerAttributes = trigger_attributes
+        ? { ...trigger_attributes }
+        : {}
 
       // Deprecated - this is only to handle the legacy Modal trigger button
       for (let prop in props) {
@@ -534,9 +536,12 @@ export default class Modal extends React.PureComponent {
 
       const isHelpButton =
         !isTrue(trigger_hidden) &&
-        (trigger_props ||
-          suffixProps ||
-          ['question', 'information'].includes(triggerAttributes.icon))
+        (!!suffixProps ||
+          (!(trigger_text && trigger_variant !== 'tertiary') &&
+            (!(triggerAttributes.icon || trigger_icon) ||
+              ['question', 'information'].includes(
+                triggerAttributes.icon || trigger_icon
+              ))))
 
       if (isTrue(disabled)) {
         triggerAttributes.disabled = true
@@ -560,6 +565,8 @@ export default class Modal extends React.PureComponent {
           triggerAttributes.title ||
           props.title ||
           modalProps.title
+      } else {
+        triggerAttributes['aria-roledescription'] = null
       }
 
       const TriggerButton = HelpButtonInstance

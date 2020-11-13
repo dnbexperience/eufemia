@@ -12,7 +12,7 @@ showTabs: true
 | `variant`                                   | _(optional)_ defines the appearance. Use one of these: `normal` or `compact`. Defaults to `normal`.                                                 |
 | `digits`                                    | _(optional)_ will use 8 digits if none are specified.                                                                                               |
 | `card_number`                               | _(optional)_ masked card number.                                                                                                                    |
-| `locale`                                    | _(optional)_ use `nb-NO` or `en-US`. Defaults to the Eufemia provider.                                                                              |
+| `locale`                                    | _(optional)_ use `nb-NO` or `en-GB`. Defaults to the Eufemia provider.                                                                              |
 | [Space](/uilib/components/space/properties) | _(optional)_ spacing properties like `top` or `bottom` are supported.                                                                               |
 
 ## Card Data

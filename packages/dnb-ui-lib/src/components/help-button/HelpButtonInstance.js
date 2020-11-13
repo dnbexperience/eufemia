@@ -55,9 +55,11 @@ export default class HelpButtonInstance extends React.PureComponent {
       ...attributes
     } = props
 
-    attributes[
-      'aria-roledescription'
-    ] = this.context.translation.HelpButton.aria_role
+    if (typeof attributes['aria-roledescription'] === 'undefined') {
+      attributes[
+        'aria-roledescription'
+      ] = this.context.translation.HelpButton.aria_role
+    }
 
     const params = {
       className: classnames(

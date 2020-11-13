@@ -25,6 +25,7 @@ import {
   createSkeletonClass,
   skeletonDOMAttributes
 } from '../skeleton/SkeletonHelper'
+import Button from '../button/Button'
 
 export default class Tabs extends React.PureComponent {
   static tagName = 'dnb-tabs'
@@ -76,6 +77,7 @@ export default class Tabs extends React.PureComponent {
       PropTypes.string,
       PropTypes.bool
     ]),
+    scroll: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     id: PropTypes.string,
     class: PropTypes.string,
@@ -101,6 +103,7 @@ export default class Tabs extends React.PureComponent {
     use_hash: false,
     prerender: false,
     prevent_rerender: false,
+    scroll: null,
     skeleton: null,
     id: null,
     class: null,
@@ -262,6 +265,8 @@ export default class Tabs extends React.PureComponent {
     }
 
     this.state = {
+      hasScrollbar: false,
+      atEdge: false,
       _listenForPropChanges: true,
       selected_key,
       _selected_key: selected_key,
@@ -270,6 +275,53 @@ export default class Tabs extends React.PureComponent {
     }
 
     this._tablistRef = React.createRef()
+  }
+
+  componentDidMount() {
+    this.addScrollBehaviour()
+    this.scrollToTab()
+  }
+
+  onScrollHandler = () => {
+    const hasScrollbar = this.hasScrollbar()
+    if (hasScrollbar !== this.state.hasScrollbar) {
+      this.setState({
+        hasScrollbar
+      })
+    }
+    this.setState({
+      atEdge: this.isAtEdge()
+    })
+  }
+
+  hasScrollbar() {
+    return (
+      this._tablistRef.current.scrollWidth >
+      this._tablistRef.current.offsetWidth
+    )
+  }
+
+  isAtEdge() {
+    if (typeof window === 'undefined') {
+      return false
+    }
+    return this._tablistRef.current.offsetWidth >= window.innerWidth - 32
+  }
+
+  componentWillUnmount() {
+    clearTimeout(this._scrollToTabTimeout)
+    clearTimeout(this._setFocusOnTablistFirst)
+    clearTimeout(this._setFocusOnTablistSecond)
+    if (typeof window !== 'undefined') {
+      window.removeEventListener('resize', this.onScrollHandler)
+    }
+  }
+
+  addScrollBehaviour() {
+    if (typeof window !== 'undefined') {
+      window.addEventListener('resize', this.onScrollHandler)
+    }
+    this.onScrollHandler()
   }
 
   onKeyDownHandler = (e) => {
@@ -298,19 +350,56 @@ export default class Tabs extends React.PureComponent {
     this.openTab(+1, e, 'step')
   }
 
-  componentWillUnmount() {
-    clearTimeout(this._setFocusOnTablistId)
+  scrollToTab() {
+    clearTimeout(this._scrollToTabTimeout)
+    this._scrollToTabTimeout = setTimeout(() => {
+      if (this.state.hasScrollbar) {
+        try {
+          const isFirst = this._tablistRef.current
+            .querySelector('.dnb-tabs__button__snap:first-of-type button')
+            .classList.contains('selected')
+          const isLast = this._tablistRef.current
+            .querySelector('.dnb-tabs__button__snap:last-of-type button')
+            .classList.contains('selected')
+
+          this.setState({
+            isFirst,
+            isLast
+          })
+
+          const elem = this._tablistRef.current.querySelector(
+            '.dnb-tabs__button.selected'
+          )
+          this._tablistRef.current.scrollLeft =
+            elem && !isFirst ? elem.offsetLeft : 0
+        } catch (e) {
+          warn(e)
+        }
+      }
+    }, 1) // delay because chrome does not react during click
+
+    if (
+      isTrue(this.props.scroll) &&
+      this._tablistRef.current &&
+      typeof this._tablistRef.current.scrollIntoView === 'function'
+    ) {
+      this._tablistRef.current.scrollIntoView({
+        block: 'start',
+        behavior: 'smooth'
+      })
+    }
   }
 
   setFocusOnTablist = () => {
     if (typeof document !== 'undefined') {
-      setTimeout(() => {
+      clearTimeout(this._setFocusOnTablistFirst)
+      this._setFocusOnTablistFirst = setTimeout(() => {
         if (this._tablistRef.current) {
           this._tablistRef.current.focus()
         }
       }, 1) // to make sure we don't "flicker"
-      clearTimeout(this._setFocusOnTablistId)
-      this._setFocusOnTablistId = setTimeout(() => {
+      clearTimeout(this._setFocusOnTablistSecond)
+      this._setFocusOnTablistSecond = setTimeout(() => {
         if (this._tablistRef.current) {
           this._tablistRef.current.focus()
         }
@@ -367,10 +456,15 @@ export default class Tabs extends React.PureComponent {
     }
 
     if (selected_key) {
-      this.setState({
-        selected_key,
-        _listenForPropChanges: false
-      })
+      this.setState(
+        {
+          selected_key,
+          _listenForPropChanges: false
+        },
+        () => {
+          this.scrollToTab()
+        }
+      )
     }
 
     dispatchCustomElementEvent(this, 'on_change', {
@@ -521,6 +615,7 @@ export default class Tabs extends React.PureComponent {
 
   TabsListHandler = ({ children, className }) => {
     const { align, section_style, section_spacing } = this.props
+    const { hasScrollbar, atEdge } = this.state
 
     return (
       <div
@@ -535,10 +630,28 @@ export default class Tabs extends React.PureComponent {
                 isTrue(section_spacing) ? 'default' : section_spacing
               }`
             : null,
+          hasScrollbar && 'dnb-tabs--has-scrollbar',
+          atEdge && 'dnb-tabs--at-edge',
           className
         )}
       >
+        <ScrollNavButton
+          onMouseDown={this.prevTab}
+          icon="chevron_left"
+          className={classnames(
+            hasScrollbar && 'dnb-tabs__scroll-nav-button--visible',
+            this.state.isFirst && 'dnb-tabs__scroll-nav-button--hide'
+          )}
+        />
         {children}
+        <ScrollNavButton
+          onMouseDown={this.nextTab}
+          icon="chevron_right"
+          className={classnames(
+            hasScrollbar && 'dnb-tabs__scroll-nav-button--visible',
+            this.state.isLast && 'dnb-tabs__scroll-nav-button--hide'
+          )}
+        />
       </div>
     )
   }
@@ -578,32 +691,32 @@ export default class Tabs extends React.PureComponent {
         skeletonDOMAttributes(itemParams, skeleton, this.context)
 
         return (
-          <button
-            type="button"
-            role="tab"
-            tabIndex="-1"
-            id={`${this._id}-tab-${key}`}
-            aria-selected={isSelected}
-            className={classnames(
-              'dnb-tabs__button',
-              // createSkeletonClass('font', skeleton, this.context),
-              isSelected && 'selected'
-            )}
-            onClick={this.openTabByDOM}
-            key={`tab-${key}`}
-            data-tab-key={key}
-            {...itemParams}
-          >
-            <span
+          <div className="dnb-tabs__button__snap" key={`tab-${key}`}>
+            <button
+              type="button"
+              role="tab"
+              tabIndex="-1"
+              id={`${this._id}-tab-${key}`}
+              aria-selected={isSelected}
               className={classnames(
-                'dnb-tabs__button__title',
-                createSkeletonClass('font', skeleton, this.context)
+                'dnb-tabs__button',
+                isSelected && 'selected'
               )}
+              onClick={this.openTabByDOM}
+              data-tab-key={key}
+              {...itemParams}
             >
-              {title}
-            </span>
-            <Dummy>{title}</Dummy>
-          </button>
+              <span
+                className={classnames(
+                  'dnb-tabs__button__title',
+                  createSkeletonClass('font', skeleton, this.context)
+                )}
+              >
+                {title}
+              </span>
+              <Dummy>{title}</Dummy>
+            </button>
+          </div>
         )
       }
     )
@@ -782,4 +895,24 @@ export const Dummy = ({ children }) => {
 }
 Dummy.propTypes = {
   children: PropTypes.node.isRequired
+}
+
+const ScrollNavButton = (props) => {
+  return (
+    <Button
+      size="medium"
+      variant="primary"
+      tabIndex="-1"
+      bounding
+      aria-hidden
+      {...props}
+      className={classnames(
+        'dnb-tabs__scroll-nav-button',
+        props.className
+      )}
+    />
+  )
+}
+ScrollNavButton.propTypes = {
+  className: PropTypes.node.isRequired
 }

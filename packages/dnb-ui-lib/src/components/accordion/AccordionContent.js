@@ -40,7 +40,9 @@ export default class AccordionContent extends React.PureComponent {
     this._ref = React.createRef()
 
     this.state = {
-      _gotOpened: context.gotOpened
+      isInitial: !context.expanded,
+      isAnimating: false,
+      keepContentInDom: null
     }
 
     this.anim = new AnimateHeight()
@@ -58,11 +60,11 @@ export default class AccordionContent extends React.PureComponent {
 
       if (this.context.expanded) {
         this.setState({
-          keepContentVisible: true
+          keepContentInDom: true
         })
       } else {
         this.setState({
-          keepContentVisible: false
+          keepContentInDom: false
         })
       }
     })
@@ -90,17 +92,20 @@ export default class AccordionContent extends React.PureComponent {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.context.expanded !== this.context._expanded) {
+    const { expanded, prevent_rerender } = this.context
+    if (expanded !== this.state._expanded) {
+      const isInitial = !expanded && this.state.isInitial
       this.setState(
         {
-          _expanded: this.context.expanded,
-          keepContentVisible: true
+          _expanded: expanded,
+          isInitial: false,
+          keepContentInDom: expanded || !isTrue(prevent_rerender)
         },
         () => {
-          if (this.context.expanded) {
-            this.anim.open()
+          if (expanded) {
+            this.anim.open({ animate: !isInitial })
           } else {
-            this.anim.close()
+            this.anim.close({ animate: !isInitial })
           }
         }
       )
@@ -136,7 +141,7 @@ export default class AccordionContent extends React.PureComponent {
     content =
       expanded ||
       prerender ||
-      this.state.keepContentVisible ||
+      this.state.keepContentInDom ||
       this.state.isAnimating
         ? children
         : null
@@ -166,7 +171,7 @@ export default class AccordionContent extends React.PureComponent {
       instance, // eslint-disable-line
       ...rest
     } = this.props
-    const { keepContentVisible, isAnimating } = this.state
+    const { keepContentInDom, isAnimating } = this.state
 
     const { id, expanded, disabled } = this.context
 
@@ -188,7 +193,7 @@ export default class AccordionContent extends React.PureComponent {
       'aria-labelledby': `${id}-header`,
       className: classnames(
         'dnb-accordion__content__inner',
-        keepContentVisible === false &&
+        keepContentInDom === false &&
           'dnb-accordion__content__inner--remove-content',
         createSpacingClasses(rest)
       )

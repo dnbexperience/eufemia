@@ -21,7 +21,7 @@ showTabs: true
 | `hide_close_button`                         | _(optional)_ set to `true` if the close button should be hidden for the user. Defaults to `false`.                                                                                                       |
 | `close_text`                                | _(optional)_ text of the close button. Defaults to `Lukk`.                                                                                                                                               |
 | `status_anchor_text`                        | _(optional)_ defines the anchor text showing up after every item, in case there is a `status_id` defined. Defaults to `Gå til %s`. The `%s` represents the optional and internal handled label addition. |
-| `omit_set_focus`                            | _(optional)_ set to `true` to omit setting the focus during visibility. You also can only omit during updating the statuses by using `omit_set_focus_on_update`. Defaults to `false`.                    |
+| `omit_set_focus`                            | _(optional)_ set to `true` to omit setting the focus during visibility. Defaults to `false`. Additionally, there is `omit_set_focus_on_update` which is set to `true` by default.                        |
 | [Space](/uilib/components/space/properties) | _(optional)_ spacing properties like `top` or `bottom` are supported.                                                                                                                                    |
 
 ## Item Object

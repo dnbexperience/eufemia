@@ -87,8 +87,8 @@ Elem.defaultProps = {
   skeleton: null,
   skeleton_method: 'font',
   className: null,
-  internalClass: null,
   class: null,
+  internalClass: null,
   css: null,
   _ref: null
 }

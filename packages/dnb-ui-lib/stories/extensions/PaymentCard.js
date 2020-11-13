@@ -32,7 +32,7 @@ export const PaymentCards = () => (
       <PaymentCard
         // skeleton
         // text_card_number="xxx"
-        locale="en-US"
+        locale="en-GB"
         product_code="DNB"
         card_number="************1337"
         card_status="expired" // 👈 can be expired, blocked or active

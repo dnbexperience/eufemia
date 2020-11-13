@@ -27,8 +27,9 @@ import Context from '../../shared/Context'
 export default class ModalContent extends React.PureComponent {
   static propTypes = {
     modal_content: PropTypes.node.isRequired,
-    hide: PropTypes.bool,
     mode: PropTypes.string,
+    hide: PropTypes.bool,
+    root_id: PropTypes.string,
     labelled_by: PropTypes.string,
     content_id: PropTypes.string,
     title: PropTypes.node,
@@ -73,6 +74,7 @@ export default class ModalContent extends React.PureComponent {
   static defaultProps = {
     mode: null,
     hide: null,
+    root_id: null,
     labelled_by: null,
     content_id: null,
     title: null,
@@ -102,9 +104,11 @@ export default class ModalContent extends React.PureComponent {
     super(props)
     this._contentRef = React.createRef()
     this._id = makeUniqueId()
-    this._ii = new InteractionInvalidation().setBypassSelector(
-      '.dnb-modal__content'
-    )
+    this._ii = new InteractionInvalidation()
+    this._ii.setBypassSelector([
+      '.dnb-modal__content',
+      `#dnb-modal-${props.root_id || 'root'}`
+    ])
   }
 
   componentDidMount() {
@@ -126,7 +130,7 @@ export default class ModalContent extends React.PureComponent {
         try {
           this._contentRef.current.focus() // in case the button is disabled
           const focusElement = this._contentRef.current.querySelector(
-            '.dnb-h--xx-large:first-of-type, .dnb-h--large:first-of-type, .dnb-modal__close-button'
+            'h1:first-of-type, h2:first-of-type, .dnb-modal__close-button'
           )
           if (focusElement) {
             focusElement.focus()

@@ -113,7 +113,7 @@ export default class GlobalStatus extends React.PureComponent {
     close_text: 'Lukk',
     hide_close_button: false,
     omit_set_focus: false,
-    omit_set_focus_on_update: false,
+    omit_set_focus_on_update: true,
     delay: 0,
     status_anchor_text: null,
     skeleton: null,
@@ -378,9 +378,9 @@ export default class GlobalStatus extends React.PureComponent {
   }
 
   setVisible = ({ delay = parseFloat(this.props.delay) } = {}) => {
-    const { isActive } = this.state
+    const { isActive, initialOpened } = this.state
 
-    if (isActive === true) {
+    if (isActive === true && initialOpened) {
       if (!this.adjustHeight) {
         this.adjustHeight = this.anim.adjustFrom()
       }
@@ -403,6 +403,7 @@ export default class GlobalStatus extends React.PureComponent {
       this.setState(
         {
           isActive: true,
+          initialOpened: true,
           _listenForPropChanges: false
         },
         () => {
@@ -432,6 +433,7 @@ export default class GlobalStatus extends React.PureComponent {
       this.setState(
         {
           isActive: false,
+          initialOpened: false,
           _listenForPropChanges: false
         },
         () => {

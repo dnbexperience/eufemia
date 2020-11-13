@@ -20,7 +20,7 @@ import { P } from '../../src/elements'
 
 // import nbNO from 'dnb-ui-lib/src/shared/locales/nb-NO'
 import nbNO from './translation/nb.json'
-import enUS from './translation/en.json'
+import enGB from './translation/en.json'
 
 const nbNOx = {
   'Modal.close_title': 'StengX',
@@ -56,14 +56,14 @@ const ChangeLocale = () => {
 
   // React.useEffect(() => {
   //   setTimeout(() => {
-  //     setLocale('en-US')
+  //     setLocale('en-GB')
   //   }, 2e3)
   // }, [])
 
   return (
     <Dropdown
       value={locale}
-      data={{ 'en-US': 'English', 'nb-NO': 'Norsk' }}
+      data={{ 'en-GB': 'English', 'nb-NO': 'Norsk' }}
       on_change={({ data: { selected_key: locale } }) => {
         setLocale(locale)
       }}
@@ -75,10 +75,10 @@ export const TranslationSandbox = () => (
   <Wrapper>
     <Box>
       <Provider
-        // locale="en-US"
+        // locale="en-GB"
         locales={{
           'nb-NO': nbNOx,
-          'en-US': enUS
+          'en-GB': enGB
         }}
       >
         <ChangeLocale />
@@ -87,10 +87,10 @@ export const TranslationSandbox = () => (
         <UseTrans />
         ---
         <Provider
-          // locale="en-US"
+          // locale="en-GB"
           locales={{
             'nb-NO': nbNO,
-            'en-US': enUS
+            'en-GB': enGB
           }}
         >
           {getTranslation('other.string', {

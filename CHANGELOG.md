@@ -1,19 +1,15 @@
-## November, 22. 2020
+## November, 8. 2020
 
-New [grey colors](/uilib/usage/customisation/colors):
-
-- `black-55` (#737373)
-- `black-20` (#cccccc) which replaces `black-30` (~~#b3b3b3~~)
-- `black-8` (#ebebeb)
-- `black-3` (#f8f8f8)
-
-New docs about [maintainability](/uilib/getting-started/maintainability).
-
-New component [Skeleton](/uilib/components/skeleton)
-
-Updated Modal & Drawer UI [Modal & Drawer](/uilib/components/modal)
-
-**Ol Lists** do now support the `type` HTML attribute in order to use like _letters_ and _roman numerals_
+- New [grey colors](/uilib/usage/customisation/colors):
+  - `black-55` (#737373)
+  - `black-20` (#cccccc) which replaces `black-30` (~~#b3b3b3~~)
+  - `black-8` (#ebebeb)
+  - `black-3` (#f8f8f8)
+- New docs about [maintainability](/uilib/getting-started/maintainability).
+- New component [Skeleton](/uilib/components/skeleton)
+- Updated Modal & Drawer UI [Modal & Drawer](/uilib/components/modal)
+- **Ol Lists** do now support the `type` HTML attribute in order to use like _letters_ and _roman numerals_
+- **DNB Medium** font got an enhancement regarding readability on Windows.
 
 ## July, 3. 2020
 

@@ -294,12 +294,9 @@ exports[`Skeleton scss have to match snapshot 1`] = `
   pointer-events: none;
   --font-family-book: 'DNBSkeleton' !important;
   --font-family-demi: 'DNBSkeleton' !important;
-  --font-family-default: 'DNBSkeleton' !important; }
-  .dnb-skeleton--font,
-  .dnb-skeleton--font *, .dnb-skeleton--font-only,
-  .dnb-skeleton--font-only * {
-    font-family: var(--font-family-default) !important;
-    font-style: unset !important; }
+  --font-family-default: 'DNBSkeleton' !important;
+  font-family: var(--font-family-default) !important;
+  font-style: unset !important; }
 
 .dnb-skeleton--font {
   background-position-y: 50% !important;
@@ -336,12 +333,13 @@ exports[`Skeleton scss have to match snapshot 1`] = `
     margin-left: 1rem; }
 
 .dnb-skeleton--no-animation .dnb-skeleton,
-.dnb-skeleton--no-animation .dnb-skeleton::after {
-  animation: none !important; }
-
+.dnb-skeleton--no-animation .dnb-skeleton--font,
+.dnb-skeleton--no-animation .dnb-skeleton::after,
+.dnb-skeleton--no-animation * .dnb-skeleton::after,
 html[data-visual-test] .dnb-skeleton,
+html[data-visual-test] .dnb-skeleton--font,
 html[data-visual-test] .dnb-skeleton::after,
-html[data-visual-test] .dnb-skeleton--shine .dnb-skeleton::after {
+html[data-visual-test] * .dnb-skeleton::after {
   animation: none !important; }
 
 @keyframes skeletonFontAnimation {

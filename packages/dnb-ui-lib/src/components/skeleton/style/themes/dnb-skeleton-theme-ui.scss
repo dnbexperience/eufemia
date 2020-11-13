@@ -45,20 +45,20 @@
     // animation: skeletonShineAnimation 1.5s linear infinite;
   }
 
-  // Dots
-  &--dots &--shape#{&}::after,
-  &--dots#{&}--shape#{&}::after {
-    background-image: radial-gradient(
-      circle,
-      var(--skeleton-color--contrast) 1px,
-      transparent 1px /* Having 2px makes it add lookin in Safari */
-    ) !important; // to take presence
-    background-position-y: 50% !important;
-    background-repeat: repeat !important;
-    background-size: 5px 5px !important; // to take presence
+  // Dots – does not work well for now
+  // &--dots &--shape#{&}::after,
+  // &--dots#{&}--shape#{&}::after {
+  //   background-image: radial-gradient(
+  //     circle,
+  //     var(--skeleton-color--contrast) 1px,
+  //     transparent 1px /* Having 2px makes it add lookin in Safari */
+  //   ) !important; // to take presence
+  //   background-position-y: 50% !important;
+  //   background-repeat: repeat !important;
+  //   background-size: 5px 5px !important; // to take presence
 
-    animation: skeletonLinearAnimation 1.5s linear infinite;
-  }
+  //   animation: skeletonLinearAnimation 1.5s linear infinite;
+  // }
 
   // Shine
   &--shine &--shape#{&}::after,
@@ -79,7 +79,11 @@
   // Font
   &--font,
   &--font-only {
-    *:not(.dnb-skeleton) {
+    /**
+     * Because of paragraphs that contain a span (.dnb-number)
+     * Alternatively we would have to wrap the background-image also, but that does have negative side effects, like if a span has has block as display
+     */
+    > :not(.dnb-skeleton):not(.dnb-skeleton--skip) {
       -webkit-text-fill-color: var(--skeleton-color) !important;
     }
 
@@ -88,6 +92,7 @@
       color: var(--skeleton-color);
     }
   }
+  // Font with Lines
   &--font {
     background-image: repeating-linear-gradient(
       -45deg,

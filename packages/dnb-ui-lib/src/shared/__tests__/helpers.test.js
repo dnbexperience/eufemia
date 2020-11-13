@@ -26,7 +26,7 @@ import {
 import { mockGetSelection } from '../../core/jest/jestSetup'
 
 // make it possible to change the navigator lang
-// because "navigator.language" defaults to en-US
+// because "navigator.language" defaults to en-GB
 let userAgentGetter, platformGetter
 
 beforeAll(() => {

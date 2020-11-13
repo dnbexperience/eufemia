@@ -41,12 +41,36 @@ export const ModalSandbox = () => (
 
     <Box>
       <Modal
+        // trigger_attributes={{
+        //   'aria-label': 'My Label'
+        // }}
         spacing={false}
         fullscreen={false}
         align_content="centered"
         hide_close_button
         trigger_text="Show"
         // prevent_close
+        max_width="12rem"
+      >
+        <ProgressIndicator
+          show_label
+          label_direction="vertical"
+          top="large"
+          bottom="large"
+          size="large"
+        />
+      </Modal>
+      <Modal
+        // trigger_attributes={{
+        //   'aria-label': 'My Label'
+        // }}
+        spacing={false}
+        fullscreen={false}
+        align_content="centered"
+        hide_close_button
+        trigger_icon="bell"
+        // prevent_close
+        max_width="12rem"
       >
         <ProgressIndicator
           show_label
@@ -112,7 +136,7 @@ export const ModalSandbox = () => (
         fullscreen
         title="Modal Title"
         trigger_variant="tertiary"
-        trigger_icon={null}
+        // trigger_icon={null}
         trigger_text="Click me"
       >
         <FillContent />
@@ -185,8 +209,12 @@ export const DrawerSandbox = () => (
         // class="inner_class"
       >
         <Modal.Inner style_type="pistachio">
-          Modal.Inner
-          {/* <FillContent /> */}
+          <Input>Focus me with Tab key</Input>
+          <Section top spacing>
+            <P>
+              <Switch label="Checked:" checked />
+            </P>
+          </Section>
         </Modal.Inner>
       </Modal>
     </Box>

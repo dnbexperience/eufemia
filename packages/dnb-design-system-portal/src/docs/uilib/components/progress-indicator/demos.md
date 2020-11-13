@@ -118,6 +118,7 @@ render(<ChangeValue />)
 	{/* @jsx */ `
 <Modal
   spacing={false}
+  max_width="12rem"
   fullscreen={false}
   align_content="centered"
   hide_close_button

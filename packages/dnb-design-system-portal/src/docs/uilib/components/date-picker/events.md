@@ -4,16 +4,16 @@ showTabs: true
 
 ## Events
 
-| Events            | Description                                                                                             |
-| ----------------- | ------------------------------------------------------------------------------------------------------- |
-| `on_change`       | _(optional)_ will be called on a date change event. Returns an `object`. See above.                     |
-| `on_type`         | _(optional)_ will be called on every input and date picker interaction. Returns an `object`. See above. |
-| `on_submit`       | _(optional)_ will be called once a user presses the submit button.                                      |
-| `on_cancel`       | _(optional)_ will be called once a user presses the cancel button.                                      |
-| `on_reset`        | _(optional)_ will be called once a user presses the reset button.                                       |
-| `on_show`         | _(optional)_ will be called once date-picker is visible.                                                |
-| `on_hide`         | _(optional)_ will be called once date-picker is hidden.                                                 |
-| `on_first_render` | _(optional)_ will be called right before every new calendar view gets rendered. Se example above.       |
+| Events           | Description                                                                                             |
+| ---------------- | ------------------------------------------------------------------------------------------------------- |
+| `on_change`      | _(optional)_ will be called on a date change event. Returns an `object`. See above.                     |
+| `on_type`        | _(optional)_ will be called on every input and date picker interaction. Returns an `object`. See above. |
+| `on_submit`      | _(optional)_ will be called once a user presses the submit button.                                      |
+| `on_cancel`      | _(optional)_ will be called once a user presses the cancel button.                                      |
+| `on_reset`       | _(optional)_ will be called once a user presses the reset button.                                       |
+| `on_show`        | _(optional)_ will be called once date-picker is visible.                                                |
+| `on_hide`        | _(optional)_ will be called once date-picker is hidden.                                                 |
+| `on_days_render` | _(optional)_ will be called right before every new calendar view gets rendered. Se example above.       |
 
 ## Returned Object
 
@@ -60,7 +60,7 @@ If `min_date` or `max_date` is given, the return object also contains info about
 
 ### Manipulate the days in the calendar view
 
-The callback event `on_first_render` gives you the possibility to manipulate the "day" object, before it gets rendered. This callback will be called many times. Both on the first render, and on every user interaction, like hover and selection etc. This means, you have to ensure a performant date calculation.
+The callback event `on_days_render` gives you the possibility to manipulate the "day" object, before it gets rendered. This callback will be called many times. Both on the first render, and on every user interaction, like hover and selection etc. This means, you have to ensure a performant date calculation.
 
 Please use [date-fns](https://date-fns.org) to make the calculations.
 

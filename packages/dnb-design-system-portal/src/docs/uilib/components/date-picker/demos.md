@@ -20,7 +20,16 @@ import ChangeLocale from 'Src/core/ChangeLocale'
 
 ## Demos
 
-<ChangeLocale label="Locale used in the demos:" label_direction="vertical" />
+<ChangeLocale bottom label="Locale used in the demos:" showUS={true} />
+
+English (US) is not included in Eufemia by default. You can include it like:
+
+```jsx
+import enUS from 'dnb-ui-lib/shared/locales/en-US'
+<EufemiaProvider locales={enUS} ...>
+	App
+</EufemiaProvider>
+```
 
 ### Range DatePicker
 
