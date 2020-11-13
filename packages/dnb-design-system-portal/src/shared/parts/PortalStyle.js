@@ -3,7 +3,7 @@
  *
  */
 
-import { css } from '@emotion/core'
+import { css } from '@emotion/react'
 import { gridStyle } from 'dnb-ui-lib/stories/GridStyle'
 
 export { gridStyle }

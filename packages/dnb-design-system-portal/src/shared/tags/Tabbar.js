@@ -5,7 +5,7 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import { css } from '@emotion/core'
+import { css } from '@emotion/react'
 import { parsePath, navigate } from 'gatsby'
 import { Button, Tabs } from 'dnb-ui-lib/src/components'
 // import { H1 } from 'dnb-ui-lib/src/elements'
