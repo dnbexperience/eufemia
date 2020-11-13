@@ -302,7 +302,7 @@ exports[`Modal component have to match snapshot 1`] = `
             onClick={[Function]}
             on_click={null}
             size={null}
-            skeleton={null}
+            skeleton={false}
             status={null}
             status_animation={null}
             status_state="error"
@@ -331,7 +331,7 @@ exports[`Modal component have to match snapshot 1`] = `
               key="button-icon"
               modifier={null}
               size={null}
-              skeleton={null}
+              skeleton={false}
               title={null}
               width={null}
             >
@@ -598,7 +598,7 @@ exports[`Modal component have to match snapshot 1`] = `
                         ‌
                       </span>
                       <span
-                        class="dnb-button__text"
+                        class="dnb-button__text dnb-skeleton--show-font"
                       >
                         close_title
                       </span>
@@ -711,7 +711,7 @@ exports[`Modal component have to match snapshot 1`] = `
                         onClick={null}
                         on_click={[Function]}
                         size="large"
-                        skeleton={null}
+                        skeleton={false}
                         status={null}
                         status_animation={null}
                         status_state="error"
@@ -729,7 +729,7 @@ exports[`Modal component have to match snapshot 1`] = `
                           ‌
                         </span>
                         <span
-                          className="dnb-button__text"
+                          className="dnb-button__text dnb-skeleton--show-font"
                           key="button-text"
                         >
                           close_title
@@ -746,7 +746,7 @@ exports[`Modal component have to match snapshot 1`] = `
                           key="button-icon"
                           modifier={null}
                           size="basis"
-                          skeleton={null}
+                          skeleton={false}
                           title={null}
                           width={null}
                         >
@@ -1208,8 +1208,6 @@ exports[`Modal scss have to match snapshot 1`] = `
     white-space: nowrap; }
   .dnb-button + .dnb-form-status {
     margin-top: 0.5rem; }
-  .dnb-button.dnb-skeleton .dnb-icon {
-    visibility: hidden; }
   @media screen and (-ms-high-contrast: none) {
     .dnb-button {
       flex: none; }

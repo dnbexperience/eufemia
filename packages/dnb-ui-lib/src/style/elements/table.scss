@@ -352,7 +352,7 @@
   /* stylelint-enable */
 
   &.dnb-skeleton {
-    * {
+    > * {
       -webkit-text-fill-color: var(--skeleton-color);
     }
   }

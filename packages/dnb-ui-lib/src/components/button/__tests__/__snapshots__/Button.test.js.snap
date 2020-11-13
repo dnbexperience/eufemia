@@ -29,7 +29,7 @@ exports[`Button component have to match default button snapshot 1`] = `
           ‌
         </span>
         <span
-          class="dnb-button__text"
+          class="dnb-button__text dnb-skeleton--show-font"
         >
           children
         </span>
@@ -70,7 +70,7 @@ exports[`Button component have to match default button snapshot 1`] = `
           ‌
         </span>
         <span
-          class="dnb-button__text"
+          class="dnb-button__text dnb-skeleton--show-font"
         >
           children
         </span>
@@ -148,7 +148,7 @@ exports[`Button component have to match default button snapshot 1`] = `
               ‌
             </span>
             <span
-              class="dnb-button__text"
+              class="dnb-button__text dnb-skeleton--show-font"
             >
               children
             </span>
@@ -189,7 +189,7 @@ exports[`Button component have to match default button snapshot 1`] = `
               ‌
             </span>
             <span
-              class="dnb-button__text"
+              class="dnb-button__text dnb-skeleton--show-font"
             >
               children
             </span>
@@ -220,7 +220,7 @@ exports[`Button component have to match default button snapshot 1`] = `
       onClick={[Function]}
       on_click="on_click"
       size={null}
-      skeleton="skeleton"
+      skeleton={false}
       status={null}
       status_animation="status_animation"
       status_state="status_state"
@@ -238,7 +238,7 @@ exports[`Button component have to match default button snapshot 1`] = `
         ‌
       </span>
       <span
-        className="dnb-button__text"
+        className="dnb-button__text dnb-skeleton--show-font"
         key="button-text"
       >
         children
@@ -255,7 +255,7 @@ exports[`Button component have to match default button snapshot 1`] = `
         key="button-icon"
         modifier={null}
         size="icon_size"
-        skeleton={null}
+        skeleton={false}
         title={null}
         width={null}
       >
@@ -317,7 +317,7 @@ exports[`Button component have to match href="..." snapshot 1`] = `
           ‌
         </span>
         <span
-          class="dnb-button__text"
+          class="dnb-button__text dnb-skeleton--show-font"
         >
           children
         </span>
@@ -359,7 +359,7 @@ exports[`Button component have to match href="..." snapshot 1`] = `
           ‌
         </span>
         <span
-          class="dnb-button__text"
+          class="dnb-button__text dnb-skeleton--show-font"
         >
           children
         </span>
@@ -439,7 +439,7 @@ exports[`Button component have to match href="..." snapshot 1`] = `
               ‌
             </span>
             <span
-              class="dnb-button__text"
+              class="dnb-button__text dnb-skeleton--show-font"
             >
               children
             </span>
@@ -481,7 +481,7 @@ exports[`Button component have to match href="..." snapshot 1`] = `
               ‌
             </span>
             <span
-              class="dnb-button__text"
+              class="dnb-button__text dnb-skeleton--show-font"
             >
               children
             </span>
@@ -512,7 +512,7 @@ exports[`Button component have to match href="..." snapshot 1`] = `
       onClick={[Function]}
       on_click="on_click"
       size={null}
-      skeleton="skeleton"
+      skeleton={false}
       status={null}
       status_animation="status_animation"
       status_state="status_state"
@@ -530,7 +530,7 @@ exports[`Button component have to match href="..." snapshot 1`] = `
         ‌
       </span>
       <span
-        className="dnb-button__text"
+        className="dnb-button__text dnb-skeleton--show-font"
         key="button-text"
       >
         children
@@ -547,7 +547,7 @@ exports[`Button component have to match href="..." snapshot 1`] = `
         key="button-icon"
         modifier={null}
         size="icon_size"
-        skeleton={null}
+        skeleton={false}
         title={null}
         width={null}
       >
@@ -870,6 +870,8 @@ exports[`Button scss have to match default theme snapshot 1`] = `
             border-radius: 0.5px; } }
         [data-visual-test-wrapper] .dnb-button--tertiary .dnb-button__text::after {
           transition: none; }
+      .dnb-skeleton .dnb-button--tertiary .dnb-button__text::after {
+        content: none; }
     .dnb-button--tertiary.dnb-button--has-text {
       padding-left: 0.5rem;
       padding-right: 0.5rem; }
@@ -1485,8 +1487,6 @@ exports[`Button scss have to match snapshot 1`] = `
     white-space: nowrap; }
   .dnb-button + .dnb-form-status {
     margin-top: 0.5rem; }
-  .dnb-button.dnb-skeleton .dnb-icon {
-    visibility: hidden; }
   @media screen and (-ms-high-contrast: none) {
     .dnb-button {
       flex: none; }

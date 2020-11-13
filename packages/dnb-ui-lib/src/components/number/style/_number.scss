@@ -70,6 +70,11 @@
     z-index: 3;
     user-select: all;
   }
+
+  &.dnb-skeleton,
+  .dnb-skeleton & {
+    -webkit-text-fill-color: var(--skeleton-color);
+  }
 }
 
 @keyframes number-fx-scale-out {

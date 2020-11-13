@@ -174,7 +174,7 @@ exports[`ToggleButton component have to match snapshot 1`] = `
               onKeyUp={[Function]}
               on_click={null}
               size={null}
-              skeleton="skeleton"
+              skeleton={false}
               status={null}
               status_animation={null}
               status_state="error"
@@ -290,7 +290,7 @@ exports[`ToggleButton component have to match snapshot 1`] = `
                 ‌
               </span>
               <span
-                className="dnb-button__text"
+                className="dnb-button__text dnb-skeleton--show-font"
                 key="button-text"
               >
                 text
@@ -307,7 +307,7 @@ exports[`ToggleButton component have to match snapshot 1`] = `
                 key="button-icon"
                 modifier={null}
                 size="icon_size"
-                skeleton={null}
+                skeleton={false}
                 title={null}
                 width={null}
               />
@@ -580,7 +580,7 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
                                 onKeyUp={[Function]}
                                 on_click={null}
                                 size={null}
-                                skeleton={null}
+                                skeleton={false}
                                 status={null}
                                 status_animation={null}
                                 status_state="error"
@@ -598,7 +598,7 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
                                   ‌
                                 </span>
                                 <span
-                                  className="dnb-button__text"
+                                  className="dnb-button__text dnb-skeleton--show-font"
                                   key="button-text"
                                 >
                                   ToggleButton 1
@@ -724,7 +724,7 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
                                 onKeyUp={[Function]}
                                 on_click={null}
                                 size={null}
-                                skeleton={null}
+                                skeleton={false}
                                 status={null}
                                 status_animation={null}
                                 status_state="error"
@@ -742,7 +742,7 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
                                   ‌
                                 </span>
                                 <span
-                                  className="dnb-button__text"
+                                  className="dnb-button__text dnb-skeleton--show-font"
                                   key="button-text"
                                 >
                                   ToggleButton 2
@@ -1431,8 +1431,6 @@ legend.dnb-form-label {
     white-space: nowrap; }
   .dnb-button + .dnb-form-status {
     margin-top: 0.5rem; }
-  .dnb-button.dnb-skeleton .dnb-icon {
-    visibility: hidden; }
   @media screen and (-ms-high-contrast: none) {
     .dnb-button {
       flex: none; }

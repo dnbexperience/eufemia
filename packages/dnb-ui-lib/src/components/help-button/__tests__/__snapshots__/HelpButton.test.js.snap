@@ -84,7 +84,7 @@ exports[`HelpButton component have to match snapshot 1`] = `
           onClick={null}
           on_click={null}
           size={null}
-          skeleton={null}
+          skeleton={false}
           status={null}
           status_animation={null}
           status_state="error"
@@ -113,7 +113,7 @@ exports[`HelpButton component have to match snapshot 1`] = `
             key="button-icon"
             modifier={null}
             size={null}
-            skeleton={null}
+            skeleton={false}
             title={null}
             width={null}
           >

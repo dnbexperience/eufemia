@@ -135,6 +135,9 @@ exports[`Number scss have to match snapshot 1`] = `
   .dnb-number--selected .dnb-number__selection {
     z-index: 3;
     user-select: all; }
+  .dnb-number.dnb-skeleton,
+  .dnb-skeleton .dnb-number {
+    -webkit-text-fill-color: var(--skeleton-color); }
 
 @keyframes number-fx-scale-out {
   0% {
