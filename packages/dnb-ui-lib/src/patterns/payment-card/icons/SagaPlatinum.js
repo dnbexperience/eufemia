@@ -1,23 +1,9 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from 'react'
+import PropTypes from 'prop-types'
 
-const SVG = ({
-  fill = 'none',
-  width = '73',
-  height = '35',
-  id = '',
-  viewBox = '0 0 75 35',
-  className = ''
-}) => (
-  <svg
-    viewBox={viewBox}
-    height={height}
-    width={width}
-    fill={fill}
-    id={id}
-    className={className}
-    xmlns="http://www.w3.org/2000/svg"
-  >
+const SagaPlatinumSVG = (props) => (
+  <svg {...props} fill="none" xmlns="http://www.w3.org/2000/svg">
+    <title>SagaPlatinum</title>
     <path
       d="M24.5488 18H22V25.56H22.972V22.3092H24.5488C26.1472 22.3092 27.0436 21.5424 27.0436 20.16C27.0436 18.7776 26.1472 18 24.5488 18ZM24.376 21.5208H22.972V18.7884H24.376C25.5208 18.7884 26.0716 19.2312 26.0716 20.16C26.0716 21.078 25.5208 21.5208 24.376 21.5208Z"
       fill="#8C9091"
@@ -57,15 +43,16 @@ const SVG = ({
       fill="#8C9091"
     />
   </svg>
-);
-
-SVG.propTypes = {
-  fill: PropTypes.string,
+)
+SagaPlatinumSVG.propTypes = {
   width: PropTypes.string,
   height: PropTypes.string,
-  id: PropTypes.string,
-  className: PropTypes.string,
   viewBox: PropTypes.string
-};
+}
+SagaPlatinumSVG.defaultProps = {
+  width: '73',
+  height: '35',
+  viewBox: '0 0 75 35'
+}
 
-export default SVG;
+export default SagaPlatinumSVG

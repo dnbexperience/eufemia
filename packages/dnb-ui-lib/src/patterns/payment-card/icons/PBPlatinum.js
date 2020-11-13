@@ -1,23 +1,9 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from 'react'
+import PropTypes from 'prop-types'
 
-const SVG = ({
-  fill = 'none',
-  width = '72',
-  height = '35',
-  id = '',
-  viewBox = '0 0 75 35',
-  className = ''
-}) => (
-  <svg
-    viewBox={viewBox}
-    height={height}
-    width={width}
-    fill={fill}
-    id={id}
-    className={className}
-    xmlns="http://www.w3.org/2000/svg"
-  >
+const PBPlatinumSVG = (props) => (
+  <svg {...props} fill="none" xmlns="http://www.w3.org/2000/svg">
+    <title>PBPlatinum</title>
     <path
       d="M5.1895 18.0856L3.1244 24.527L1.0593 18.0856H0L2.5787 25.5756H3.6594L6.2488 18.0856H5.1895Z"
       fill="#8C9091"
@@ -73,15 +59,16 @@ const SVG = ({
       fill="#8C9091"
     />
   </svg>
-);
-
-SVG.propTypes = {
-  fill: PropTypes.string,
+)
+PBPlatinumSVG.propTypes = {
   width: PropTypes.string,
   height: PropTypes.string,
-  id: PropTypes.string,
-  className: PropTypes.string,
   viewBox: PropTypes.string
-};
+}
+PBPlatinumSVG.defaultProps = {
+  width: '72',
+  height: '35',
+  viewBox: '0 0 75 35'
+}
 
-export default SVG;
+export default PBPlatinumSVG

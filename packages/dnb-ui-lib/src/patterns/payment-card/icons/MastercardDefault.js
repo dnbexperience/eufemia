@@ -1,24 +1,9 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from 'react'
+import PropTypes from 'prop-types'
 
-const SVG = ({
-  fill = 'none',
-  textFill = '#333333',
-  width = '80',
-  height = '54',
-  id = '',
-  viewBox = '0 0 80 54',
-  className = ''
-}) => (
-  <svg
-    viewBox={viewBox}
-    height={height}
-    width={width}
-    fill={fill}
-    id={id}
-    className={className}
-    xmlns="http://www.w3.org/2000/svg"
-  >
+const MastercardSVG = ({ textFill, ...props }) => (
+  <svg {...props} fill="none" xmlns="http://www.w3.org/2000/svg">
+    <title>Mastercard</title>
     <path
       fillRule="evenodd"
       clipRule="evenodd"
@@ -44,16 +29,18 @@ const SVG = ({
       fill="#F79E1B"
     />
   </svg>
-);
-
-SVG.propTypes = {
-  fill: PropTypes.string,
+)
+MastercardSVG.propTypes = {
   textFill: PropTypes.string,
   width: PropTypes.string,
   height: PropTypes.string,
-  id: PropTypes.string,
-  className: PropTypes.string,
   viewBox: PropTypes.string
-};
+}
+MastercardSVG.defaultProps = {
+  textFill: '#333333',
+  width: '80',
+  height: '54',
+  viewBox: '0 0 80 54'
+}
 
-export default SVG;
+export default MastercardSVG
