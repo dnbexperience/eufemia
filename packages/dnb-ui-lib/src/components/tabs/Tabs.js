@@ -20,6 +20,7 @@ import {
   getPreviousSibling,
   filterProps
 } from '../../shared/component-helper'
+import { IS_SAFARI } from 'dnb-ui-lib/src/shared/helpers'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import {
   createSkeletonClass,
@@ -264,26 +265,63 @@ export default class Tabs extends React.PureComponent {
       }
     }
 
+    const lastPosition = this.getLastPosition()
     this.state = {
-      hasScrollbar: false,
-      atEdge: false,
-      _listenForPropChanges: true,
+      data,
+      lastPosition,
       selected_key,
+      atEdge: false,
+      hasScrollbar: lastPosition > -1,
       _selected_key: selected_key,
       _data: props.data || props.children,
-      data
+      _listenForPropChanges: true
     }
 
+    this._tabsRef = React.createRef()
     this._tablistRef = React.createRef()
   }
 
   componentDidMount() {
     this.addScrollBehaviour()
-    this.scrollToTab()
+    this.scrollToLastPosition()
+    this.scrollToSelectedItem()
+  }
+
+  componentWillUnmount() {
+    clearTimeout(this.scrollToSelectedItemTimeout)
+    clearTimeout(this._setFocusOnTablistFirst)
+    clearTimeout(this._setFocusOnTablistSecond)
+    if (typeof window !== 'undefined') {
+      window.removeEventListener('resize', this.onScrollHandler)
+    }
+  }
+
+  getLastPosition() {
+    if (typeof window !== 'undefined') {
+      try {
+        const pos =
+          parseFloat(window.localStorage.getItem('tabs-pos')) || -1
+        window.localStorage.removeItem('tabs-pos')
+        return pos
+      } catch (e) {
+        warn(e)
+      }
+    }
+    return -1
+  }
+
+  saveLastPosition(pos = this._tablistRef.current.scrollLeft) {
+    if (typeof window !== 'undefined') {
+      try {
+        window.localStorage.setItem('tabs-pos', pos)
+      } catch (e) {
+        warn(e)
+      }
+    }
   }
 
   onScrollHandler = () => {
-    const hasScrollbar = this.hasScrollbar()
+    const hasScrollbar = (this._hasScrollbar = this.hasScrollbar())
     if (hasScrollbar !== this.state.hasScrollbar) {
       this.setState({
         hasScrollbar
@@ -292,6 +330,11 @@ export default class Tabs extends React.PureComponent {
     this.setState({
       atEdge: this.isAtEdge()
     })
+
+    // ensure that we scroll to the active item
+    if (hasScrollbar) {
+      this.scrollToSelectedItem()
+    }
   }
 
   hasScrollbar() {
@@ -301,27 +344,30 @@ export default class Tabs extends React.PureComponent {
     )
   }
 
+  getPadding({ onlyLeft = false } = {}) {
+    const style = window.getComputedStyle(this._tabsRef.current)
+    const left = parseFloat(style.getPropertyValue('padding-left'))
+    const right = parseFloat(style.getPropertyValue('padding-right'))
+    return onlyLeft ? left : left + right
+  }
+
   isAtEdge() {
     if (typeof window === 'undefined') {
       return false
     }
-    return this._tablistRef.current.offsetWidth >= window.innerWidth - 32
-  }
 
-  componentWillUnmount() {
-    clearTimeout(this._scrollToTabTimeout)
-    clearTimeout(this._setFocusOnTablistFirst)
-    clearTimeout(this._setFocusOnTablistSecond)
-    if (typeof window !== 'undefined') {
-      window.removeEventListener('resize', this.onScrollHandler)
-    }
+    const padding = this.getPadding()
+    const width = this._tablistRef.current.offsetWidth + padding + 2 // 2 for border correction to ensure we do that!
+    const screenWidth = window.innerWidth
+
+    return width >= screenWidth
   }
 
   addScrollBehaviour() {
+    this.onScrollHandler()
     if (typeof window !== 'undefined') {
       window.addEventListener('resize', this.onScrollHandler)
     }
-    this.onScrollHandler()
   }
 
   onKeyDownHandler = (e) => {
@@ -345,39 +391,14 @@ export default class Tabs extends React.PureComponent {
 
   prevTab = (e) => {
     this.openTab(-1, e, 'step')
+    this.scrollToSelectedItem()
   }
   nextTab = (e) => {
     this.openTab(+1, e, 'step')
+    this.scrollToSelectedItem()
   }
 
-  scrollToTab() {
-    clearTimeout(this._scrollToTabTimeout)
-    this._scrollToTabTimeout = setTimeout(() => {
-      if (this.state.hasScrollbar) {
-        try {
-          const isFirst = this._tablistRef.current
-            .querySelector('.dnb-tabs__button__snap:first-of-type button')
-            .classList.contains('selected')
-          const isLast = this._tablistRef.current
-            .querySelector('.dnb-tabs__button__snap:last-of-type button')
-            .classList.contains('selected')
-
-          this.setState({
-            isFirst,
-            isLast
-          })
-
-          const elem = this._tablistRef.current.querySelector(
-            '.dnb-tabs__button.selected'
-          )
-          this._tablistRef.current.scrollLeft =
-            elem && !isFirst ? elem.offsetLeft : 0
-        } catch (e) {
-          warn(e)
-        }
-      }
-    }, 1) // delay because chrome does not react during click
-
+  handleVerticalScroll() {
     if (
       isTrue(this.props.scroll) &&
       this._tablistRef.current &&
@@ -388,6 +409,61 @@ export default class Tabs extends React.PureComponent {
         behavior: 'smooth'
       })
     }
+  }
+
+  scrollToLastPosition() {
+    try {
+      this._tablistRef.current.style.scrollBehavior = 'auto'
+      this._tablistRef.current.scrollLeft = this.state.lastPosition
+      this._tablistRef.current.style.scrollBehavior = 'smooth'
+    } catch (e) {
+      //
+    }
+  }
+
+  scrollToSelectedItem() {
+    clearTimeout(this.scrollToSelectedItemTimeout)
+    this.scrollToSelectedItemTimeout = setTimeout(() => {
+      if (this._hasScrollbar || this.state.hasScrollbar) {
+        try {
+          const first = this._tablistRef.current.querySelector(
+            '.dnb-tabs__button__snap:first-of-type'
+          )
+          const isFirst = first.classList.contains('selected')
+          const last = this._tablistRef.current.querySelector(
+            '.dnb-tabs__button__snap:last-of-type'
+          )
+          const isLast = last.classList.contains('selected')
+
+          const elem = this._tablistRef.current.querySelector(
+            '.dnb-tabs__button.selected'
+          )
+
+          const leftPadding =
+            this.getPadding() / 2 +
+            parseFloat(
+              window
+                .getComputedStyle(first)
+                .getPropertyValue('padding-left')
+            ) +
+            (IS_SAFARI ? 16 : 0)
+
+          const left = elem && !isFirst ? elem.offsetLeft - leftPadding : 0
+
+          this.setState({
+            isFirst,
+            isLast
+          })
+
+          this._tablistRef.current.scrollTo({
+            left,
+            behavior: 'smooth'
+          })
+        } catch (e) {
+          warn(e)
+        }
+      }
+    }, 100) // Delay so Chrome/Safaru makes the transition / animation smooth
   }
 
   setFocusOnTablist = () => {
@@ -409,7 +485,7 @@ export default class Tabs extends React.PureComponent {
     }
   }
 
-  openTabByDOM = (e) => {
+  onClickHandler = (e) => {
     try {
       const selected_key = (function (elem) {
         return (
@@ -433,6 +509,9 @@ export default class Tabs extends React.PureComponent {
   }
 
   openTab = (selected_key, event = null, mode = null) => {
+    // saving the position will avoid flickering if the new tab will be done by a new page load
+    this.saveLastPosition()
+
     // for handling prevTab and nextTab
     if (mode === 'step' && parseFloat(selected_key)) {
       const currentData = this.state.data.filter(
@@ -462,7 +541,7 @@ export default class Tabs extends React.PureComponent {
           _listenForPropChanges: false
         },
         () => {
-          this.scrollToTab()
+          this.handleVerticalScroll()
         }
       )
     }
@@ -634,6 +713,7 @@ export default class Tabs extends React.PureComponent {
           atEdge && 'dnb-tabs--at-edge',
           className
         )}
+        ref={this._tabsRef}
       >
         <ScrollNavButton
           onMouseDown={this.prevTab}
@@ -691,7 +771,13 @@ export default class Tabs extends React.PureComponent {
         skeletonDOMAttributes(itemParams, skeleton, this.context)
 
         return (
-          <div className="dnb-tabs__button__snap" key={`tab-${key}`}>
+          <div
+            className={classnames(
+              'dnb-tabs__button__snap',
+              isSelected && 'selected'
+            )}
+            key={`tab-${key}`}
+          >
             <button
               type="button"
               role="tab"
@@ -702,7 +788,7 @@ export default class Tabs extends React.PureComponent {
                 'dnb-tabs__button',
                 isSelected && 'selected'
               )}
-              onClick={this.openTabByDOM}
+              onClick={this.onClickHandler}
               data-tab-key={key}
               {...itemParams}
             >

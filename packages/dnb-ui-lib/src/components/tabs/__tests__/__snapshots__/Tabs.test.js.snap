@@ -281,7 +281,7 @@ exports[`Tabs component have to match snapshot 1`] = `
                 </button>
               </div>
               <div
-                className="dnb-tabs__button__snap"
+                className="dnb-tabs__button__snap selected"
                 key="tab-second"
               >
                 <button
@@ -525,9 +525,15 @@ exports[`Tabs scss have to match default theme snapshot 1`] = `
 
 .dnb-tabs__tabs__tablist:focus {
   border-radius: 0.5rem; }
-  @media screen and (max-width: 40em) {
-    .dnb-tabs__tabs__tablist:focus {
-      border-radius: 0; } }
+
+.dnb-tabs--at-edge .dnb-tabs__scroll-nav-button:first-of-type {
+  border-radius: 0 50% 50% 0; }
+
+.dnb-tabs--at-edge .dnb-tabs__scroll-nav-button:last-of-type {
+  border-radius: 50% 0 0 50%; }
+
+.dnb-tabs--at-edge .dnb-tabs__tabs__tablist:focus {
+  border-radius: 0; }
 
 .dnb-tabs__button__title {
   font-weight: var(--font-weight-regular);
@@ -657,7 +663,8 @@ exports[`Tabs scss have to match snapshot 1`] = `
     scroll-snap-type: x mandatory; }
     @media screen and (max-width: 40em) {
       .dnb-tabs__tabs__tablist {
-        margin-left: 0; } }
+        margin-left: 0;
+        padding-left: 0; } }
     .dnb-tabs__tabs__tablist:focus {
       outline: none; }
       html[data-whatinput='keyboard'] .dnb-tabs__tabs__tablist:focus {
@@ -699,9 +706,9 @@ exports[`Tabs scss have to match snapshot 1`] = `
   .dnb-tabs__scroll-nav-button.dnb-button--primary {
     background-color: var(--color-emerald-green); }
   .dnb-tabs__scroll-nav-button:first-of-type {
-    left: 0; }
+    left: -2rem; }
   .dnb-tabs__scroll-nav-button:last-of-type {
-    right: 0; }
+    right: -2rem; }
   .dnb-tabs__scroll-nav-button--visible {
     display: flex;
     opacity: 1; }
@@ -710,20 +717,17 @@ exports[`Tabs scss have to match snapshot 1`] = `
     opacity: 0 !important; }
 
 .dnb-tabs--at-edge .dnb-tabs__scroll-nav-button:first-of-type {
-  border-radius: 0 50% 50% 0; }
+  left: 0; }
 
 .dnb-tabs--at-edge .dnb-tabs__scroll-nav-button:last-of-type {
-  border-radius: 50% 0 0 50%; }
+  right: 0; }
 
 html[data-visual-test] .dnb-tabs .dnb-tabs__scroll-nav-button {
   transition: none; }
 
 .dnb-tabs__button__snap {
   display: flex;
-  padding: 0 2rem 0 2.5rem;
-  /** Scrolling related */
-  scroll-snap-align: start;
-  scroll-snap-stop: always; }
+  padding: 0 2rem 0 2.5rem; }
   @media screen and (max-width: 50em) {
     .dnb-tabs__button__snap {
       padding: 0 1rem 0 1.5rem; } }
@@ -736,20 +740,7 @@ html[data-visual-test] .dnb-tabs .dnb-tabs__scroll-nav-button {
     padding-right: 0; }
 
 .dnb-tabs--has-scrollbar .dnb-tabs__button__snap {
-  padding: 0 1rem 0 3rem; }
-  @media screen and (max-width: 50em) {
-    .dnb-tabs--has-scrollbar .dnb-tabs__button__snap {
-      padding: 0 0 0 2.5rem; } }
-  .dnb-tabs--has-scrollbar .dnb-tabs__button__snap:first-of-type {
-    padding-left: 3rem; }
-  .dnb-tabs--has-scrollbar .dnb-tabs__button__snap:last-of-type {
-    padding-right: 3rem; }
-
-.dnb-tabs--has-scrollbar .dnb-tabs__tabs__tablist {
-  margin-left: 0;
-  padding: 0; }
-  .dnb-tabs--has-scrollbar .dnb-tabs__tabs__tablist:focus {
-    border-radius: 0; }
+  scroll-snap-align: start; }
 
 .dnb-tabs__button,
 .dnb-core-style .dnb-tabs .dnb-tabs__button {
