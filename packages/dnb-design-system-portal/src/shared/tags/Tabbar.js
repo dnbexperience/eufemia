@@ -168,6 +168,9 @@ const tabsWrapperStyle = css`
     top: auto; /* to force the button to center */
     right: auto;
   }
+  .dnb-tabs__tabs .dnb-button.fullscreen {
+    margin-left: 1rem;
+  }
   .dnb-tabs__tabs .dnb-button--secondary {
     box-shadow: none;
     background-color: transparent;

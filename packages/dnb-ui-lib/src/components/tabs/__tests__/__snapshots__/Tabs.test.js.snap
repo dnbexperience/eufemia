@@ -281,13 +281,13 @@ exports[`Tabs component have to match snapshot 1`] = `
                 </button>
               </div>
               <div
-                className="dnb-tabs__button__snap selected"
+                className="dnb-tabs__button__snap focus selected"
                 key="tab-second"
               >
                 <button
                   aria-controls="id-content-second"
                   aria-selected={true}
-                  className="dnb-tabs__button selected"
+                  className="dnb-tabs__button focus selected"
                   data-tab-key="second"
                   id="id-tab-second"
                   onClick={[Function]}
@@ -519,6 +519,10 @@ exports[`Tabs scss have to match default theme snapshot 1`] = `
 /*
  * Utilities
  */
+/*
+* Button mixins
+*
+*/
 .dnb-tabs__tabs:not(.dnb-section)::before {
   background-color: var(--color-mint-green-50);
   box-shadow: 100vw 0 0 0 var(--color-mint-green-50); }
@@ -550,6 +554,32 @@ html:not([data-whatintent='touch']) .dnb-tabs__button:hover:not([disabled]) {
     height: 3px;
     border-radius: 1.5px;
     background-color: var(--color-sea-green); }
+
+.dnb-tabs__button:focus::before {
+  content: '';
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  left: -0.5rem;
+  bottom: 0;
+  right: -0.5rem;
+  height: inherit;
+  border-radius: inherit;
+  outline: none; }
+  html[data-whatinput='keyboard'] .dnb-tabs__button:focus::before {
+    --border-color: var(--color-emerald-green);
+    box-shadow: 0 0 0 0.125rem var(--border-color);
+    border-color: transparent; }
+    @media screen and (-ms-high-contrast: none) {
+      html[data-whatinput='keyboard'] .dnb-tabs__button:focus::before {
+        box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
+
+.dnb-tabs__button:focus::before {
+  top: 2px;
+  bottom: 2px;
+  right: 0;
+  left: 0;
+  border-radius: 0.25rem; }
 
 .dnb-tabs__button[disabled] .dnb-tabs__button__title {
   color: var(--color-sea-green-30); }
@@ -646,9 +676,9 @@ exports[`Tabs scss have to match snapshot 1`] = `
   align-items: center; }
   .dnb-tabs__tabs__tablist {
     display: flex;
-    flex: 1 1 auto;
-    margin-left: -1rem;
-    padding: 0 1rem;
+    flex: 0 1 auto;
+    margin-left: -0.5rem;
+    padding-left: 0.5rem;
     overflow-x: auto;
     overscroll-behavior: contain;
     scrollbar-width: thin;
@@ -659,12 +689,7 @@ exports[`Tabs scss have to match snapshot 1`] = `
     -ms-overflow-style: none;
     /* IE and Edge */
     scrollbar-width: none;
-    /* Firefox */
-    scroll-snap-type: x mandatory; }
-    @media screen and (max-width: 40em) {
-      .dnb-tabs__tabs__tablist {
-        margin-left: 0;
-        padding-left: 0; } }
+    /* Firefox */ }
     .dnb-tabs__tabs__tablist:focus {
       outline: none; }
       html[data-whatinput='keyboard'] .dnb-tabs__tabs__tablist:focus {
@@ -681,6 +706,7 @@ exports[`Tabs scss have to match snapshot 1`] = `
   .dnb-tabs__tabs--left .dnb-tabs__tabs__tablist {
     justify-content: flex-start; }
   .dnb-tabs__tabs--right .dnb-tabs__tabs__tablist {
+    flex-grow: 1;
     justify-content: flex-end; }
   .dnb-tabs__tabs--center .dnb-tabs__tabs__tablist {
     justify-content: center; }
@@ -692,10 +718,6 @@ exports[`Tabs scss have to match snapshot 1`] = `
     bottom: 0;
     width: 100vw;
     height: 1px; }
-  @media screen and (max-width: 50em) {
-    .dnb-tabs__tabs .dnb-tabs__button:not(:first-of-type),
-    .dnb-core-style .dnb-tabs__tabs .dnb-tabs__button:not(:first-of-type) {
-      margin-left: 2.5rem; } }
 
 .dnb-tabs__scroll-nav-button {
   position: absolute;
@@ -706,9 +728,9 @@ exports[`Tabs scss have to match snapshot 1`] = `
   .dnb-tabs__scroll-nav-button.dnb-button--primary {
     background-color: var(--color-emerald-green); }
   .dnb-tabs__scroll-nav-button:first-of-type {
-    left: -2rem; }
+    left: -2.5rem; }
   .dnb-tabs__scroll-nav-button:last-of-type {
-    right: -2rem; }
+    right: -2.5rem; }
   .dnb-tabs__scroll-nav-button--visible {
     display: flex;
     opacity: 1; }
@@ -737,10 +759,10 @@ html[data-visual-test] .dnb-tabs .dnb-tabs__scroll-nav-button {
   .dnb-tabs__button__snap:first-of-type {
     padding-left: 0; }
   .dnb-tabs__button__snap:last-of-type {
-    padding-right: 0; }
+    padding-right: 0.5rem; }
 
-.dnb-tabs--has-scrollbar .dnb-tabs__button__snap {
-  scroll-snap-align: start; }
+.dnb-tabs--has-scrollbar .dnb-tabs__button__snap:last-of-type {
+  padding-right: 2.5rem; }
 
 .dnb-tabs__button,
 .dnb-core-style .dnb-tabs .dnb-tabs__button {

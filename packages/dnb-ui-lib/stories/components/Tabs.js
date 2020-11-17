@@ -25,12 +25,19 @@ export const TabsSandbox = () => {
     <Wrapper>
       <Global
         styles={css`
-          div > .dnb-space,
+          /* div > .dnb-space, */
           .sb-show-main {
             padding: 0 !important;
           }
           main.dnb-core-style > div {
             padding: 0 !important;
+          }
+          .dnb-tabs__tabs {
+            margin: 0 -2rem;
+            /* padding: 0 2rem; */
+          }
+          .dnb-tabs__tabs__tablist {
+            padding: 0 2rem;
           }
         `}
       />

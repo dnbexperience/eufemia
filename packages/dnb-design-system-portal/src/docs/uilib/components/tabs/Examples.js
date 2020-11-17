@@ -225,30 +225,30 @@ const Home = () => <H2>Home</H2>
 const About = () => <H2>About</H2>
 const Topics = () => <H2>Topics</H2>
 render(
-<Location>
-  {({ location: { pathname } }) => {
-  return (
-  <Tabs
-    data={[
-      { title: 'Home', key: '/' },
-      { title: 'About', key: '/about' },
-      { title: 'Topics', key: '/topics' },
-    ]}
-    selected_key={pathname}
-    on_change={({ key }) => navigate(key)}
-    section_style="mint-green"
-  >
-    <React.Suspense fallback={<em>Loading ...</em>}>
-      <Router>
-        <Home path="/" default />
-        <About path="/about" />
-        <Topics path="/topics" />
-      </Router>
-    </React.Suspense>
-  </Tabs>
-  )
-  }}
-</Location>
+  <Location>
+    {({ location: { pathname } }) => {
+    return (
+      <Tabs
+        data={[
+          { title: 'Home', key: '/' },
+          { title: 'About', key: '/about' },
+          { title: 'Topics', key: '/topics' },
+        ]}
+        selected_key={pathname}
+        on_change={({ key }) => navigate(key)}
+        section_style="mint-green"
+      >
+        <React.Suspense fallback={<em>Loading ...</em>}>
+          <Router>
+            <Home path="/" default />
+            <About path="/about" />
+            <Topics path="/topics" />
+          </Router>
+        </React.Suspense>
+      </Tabs>
+    )
+    }}
+  </Location>
 )
 `
         }
@@ -304,6 +304,9 @@ const MaxWidth = styled(Wrapper)`
   @media screen and (max-width: 40em) {
     .dnb-tabs .dnb-tabs__tabs {
       margin: 0 -4rem;
+    }
+    .dnb-tabs .dnb-tabs__tabs__tablist {
+      padding: 0 4rem;
     }
   }
 `

@@ -27,6 +27,7 @@ import {
   skeletonDOMAttributes
 } from '../skeleton/SkeletonHelper'
 import Button from '../button/Button'
+import whatInput from 'what-input'
 
 export default class Tabs extends React.PureComponent {
   static tagName = 'dnb-tabs'
@@ -270,6 +271,7 @@ export default class Tabs extends React.PureComponent {
       data,
       lastPosition,
       selected_key,
+      focus_key: selected_key,
       atEdge: false,
       hasScrollbar: lastPosition > -1,
       _selected_key: selected_key,
@@ -284,13 +286,16 @@ export default class Tabs extends React.PureComponent {
   componentDidMount() {
     this.addScrollBehaviour()
     this.scrollToLastPosition()
-    this.scrollToSelectedItem()
+    this.scrollToTab('selected')
+
+    if (this.getLastUsedTab() !== null) {
+      setTimeout(this.setFocusOnCurrent, 10)
+    }
   }
 
   componentWillUnmount() {
-    clearTimeout(this.scrollToSelectedItemTimeout)
-    clearTimeout(this._setFocusOnTablistFirst)
-    clearTimeout(this._setFocusOnTablistSecond)
+    this.resetWhatInput()
+    clearTimeout(this._scrollToTabTimeout)
     if (typeof window !== 'undefined') {
       window.removeEventListener('resize', this.onScrollHandler)
     }
@@ -300,8 +305,8 @@ export default class Tabs extends React.PureComponent {
     if (typeof window !== 'undefined') {
       try {
         const pos =
-          parseFloat(window.localStorage.getItem('tabs-pos')) || -1
-        window.localStorage.removeItem('tabs-pos')
+          parseFloat(window.localStorage.getItem('tmp-tabs-pos')) || -1
+        window.localStorage.removeItem('tmp-tabs-pos')
         return pos
       } catch (e) {
         warn(e)
@@ -310,10 +315,36 @@ export default class Tabs extends React.PureComponent {
     return -1
   }
 
+  getLastUsedTab() {
+    if (typeof window !== 'undefined') {
+      try {
+        const key = window.localStorage.getItem('tmp-tabs-last') || null
+        window.localStorage.removeItem('tmp-tabs-last')
+        return key
+      } catch (e) {
+        warn(e)
+      }
+    }
+    return -1
+  }
+
+  saveLastUsedTab() {
+    if (typeof window !== 'undefined') {
+      try {
+        window.localStorage.setItem(
+          'tmp-tabs-last',
+          this.state.selected_key
+        ) // gets removed right afterwards
+      } catch (e) {
+        warn(e)
+      }
+    }
+  }
+
   saveLastPosition(pos = this._tablistRef.current.scrollLeft) {
     if (typeof window !== 'undefined') {
       try {
-        window.localStorage.setItem('tabs-pos', pos)
+        window.localStorage.setItem('tmp-tabs-pos', pos) // gets removed right afterwards
       } catch (e) {
         warn(e)
       }
@@ -327,13 +358,14 @@ export default class Tabs extends React.PureComponent {
         hasScrollbar
       })
     }
+
     this.setState({
       atEdge: this.isAtEdge()
     })
 
     // ensure that we scroll to the active item
     if (hasScrollbar) {
-      this.scrollToSelectedItem()
+      this.scrollToTab('selected')
     }
   }
 
@@ -344,19 +376,15 @@ export default class Tabs extends React.PureComponent {
     )
   }
 
-  getPadding({ onlyLeft = false } = {}) {
-    const style = window.getComputedStyle(this._tabsRef.current)
-    const left = parseFloat(style.getPropertyValue('padding-left'))
-    const right = parseFloat(style.getPropertyValue('padding-right'))
-    return onlyLeft ? left : left + right
-  }
-
   isAtEdge() {
-    if (typeof window === 'undefined') {
+    if (!this._hasScrollbar || typeof window === 'undefined') {
       return false
     }
 
-    const padding = this.getPadding()
+    const style = window.getComputedStyle(this._tabsRef.current)
+    const padding =
+      parseFloat(style.paddingLeft) + parseFloat(style.paddingRight)
+
     const width = this._tablistRef.current.offsetWidth + padding + 2 // 2 for border correction to ensure we do that!
     const screenWidth = window.innerWidth
 
@@ -370,32 +398,58 @@ export default class Tabs extends React.PureComponent {
     }
   }
 
-  onKeyDownHandler = (e) => {
+  onTablistKeyDownHandler = (e) => {
     switch (keycode(e)) {
       case 'up':
       case 'page up':
       case 'left':
         e.preventDefault()
-        this.prevTab(e)
-        this.setFocusOnTablist()
+        this.focusPrevTab(e)
         break
       case 'down':
       case 'page down':
       case 'right':
         e.preventDefault()
-        this.nextTab(e)
-        this.setFocusOnTablist()
+        this.focusNextTab(e)
+        break
+      case 'home':
+        e.preventDefault()
+        this.focusFirstTab(e)
+        break
+      case 'end':
+        e.preventDefault()
+        this.focusLastTab(e)
         break
     }
   }
 
-  prevTab = (e) => {
-    this.openTab(-1, e, 'step')
-    this.scrollToSelectedItem()
+  focusFirstTab = (e) => {
+    const key = this.state.data[0].key
+    this.focusTab(key, e, 'step')
+    this.scrollToTab('focus')
   }
-  nextTab = (e) => {
+  focusLastTab = (e) => {
+    const key = this.state.data[this.state.data.length - 1].key
+    this.focusTab(key, e, 'step')
+    this.scrollToTab('focus')
+  }
+
+  focusPrevTab = (e) => {
+    this.focusTab(-1, e, 'step')
+    this.scrollToTab('focus')
+  }
+  focusNextTab = (e) => {
+    this.focusTab(+1, e, 'step')
+    this.scrollToTab('focus')
+  }
+
+  openPrevTab = (e) => {
+    this.openTab(-1, e, 'step')
+    this.scrollToTab('selected')
+  }
+  openNextTab = (e) => {
     this.openTab(+1, e, 'step')
-    this.scrollToSelectedItem()
+    this.scrollToTab('selected')
   }
 
   handleVerticalScroll() {
@@ -421,31 +475,31 @@ export default class Tabs extends React.PureComponent {
     }
   }
 
-  scrollToSelectedItem() {
-    clearTimeout(this.scrollToSelectedItemTimeout)
-    this.scrollToSelectedItemTimeout = setTimeout(() => {
-      if (this._hasScrollbar || this.state.hasScrollbar) {
-        try {
+  scrollToTab(type) {
+    clearTimeout(this._scrollToTabTimeout)
+    this._scrollToTabTimeout = setTimeout(() => {
+      try {
+        if (this._hasScrollbar || this.state.hasScrollbar) {
           const first = this._tablistRef.current.querySelector(
             '.dnb-tabs__button__snap:first-of-type'
           )
-          const isFirst = first.classList.contains('selected')
+          const isFirst = first.classList.contains(type)
           const last = this._tablistRef.current.querySelector(
             '.dnb-tabs__button__snap:last-of-type'
           )
-          const isLast = last.classList.contains('selected')
+          const isLast = last.classList.contains(type)
+          const style = window.getComputedStyle(this._tabsRef.current)
+          const padding = parseFloat(style.paddingLeft)
+          const margin = parseFloat(style.marginLeft)
 
           const elem = this._tablistRef.current.querySelector(
-            '.dnb-tabs__button.selected'
+            `.dnb-tabs__button.${type}`
           )
 
           const leftPadding =
-            this.getPadding() / 2 +
-            parseFloat(
-              window
-                .getComputedStyle(first)
-                .getPropertyValue('padding-left')
-            ) +
+            (margin < 0 ? Math.abs(margin) : 0) +
+            padding +
+            parseFloat(window.getComputedStyle(first).paddingLeft) +
             (IS_SAFARI ? 16 : 0)
 
           const left = elem && !isFirst ? elem.offsetLeft - leftPadding : 0
@@ -459,30 +513,11 @@ export default class Tabs extends React.PureComponent {
             left,
             behavior: 'smooth'
           })
-        } catch (e) {
-          warn(e)
         }
+      } catch (e) {
+        warn(e)
       }
     }, 100) // Delay so Chrome/Safaru makes the transition / animation smooth
-  }
-
-  setFocusOnTablist = () => {
-    if (typeof document !== 'undefined') {
-      clearTimeout(this._setFocusOnTablistFirst)
-      this._setFocusOnTablistFirst = setTimeout(() => {
-        if (this._tablistRef.current) {
-          this._tablistRef.current.focus()
-        }
-      }, 1) // to make sure we don't "flicker"
-      clearTimeout(this._setFocusOnTablistSecond)
-      this._setFocusOnTablistSecond = setTimeout(() => {
-        if (this._tablistRef.current) {
-          this._tablistRef.current.focus()
-        }
-      }, 50)
-      // makes it possible to navigate with left/right key
-      // also, if tabs are used with @reach/router we have to be after the focus handling of this one
-    }
   }
 
   onClickHandler = (e) => {
@@ -494,7 +529,7 @@ export default class Tabs extends React.PureComponent {
       })(e.target).dataset.tabKey
 
       this.openTab(selected_key, e)
-      this.setFocusOnTablist()
+      this.scrollToTab('selected')
     } catch (e) {
       warn('Tabs Error:', e)
     }
@@ -508,36 +543,83 @@ export default class Tabs extends React.PureComponent {
     return (current && current.title) || null
   }
 
+  getStepKey(useKey, stateKey) {
+    const currentData = this.state.data.filter(({ disabled }) => !disabled)
+    const currentIndex = currentData.reduce(
+      (acc, { key }, i) => (key == stateKey ? i : acc),
+      -1
+    )
+    let nextIndex = currentIndex + useKey
+    if (nextIndex < 0) {
+      nextIndex = currentData.length - 1
+    }
+    if (nextIndex >= currentData.length) {
+      nextIndex = 0
+    }
+    return currentData.reduce(
+      (acc, { key }, i) => (i === nextIndex ? key : acc),
+      null
+    )
+  }
+
+  focusTab = (focus_key, event = null, mode = null) => {
+    // for handling openPrevTab and openNextTab
+    if (mode === 'step' && parseFloat(focus_key)) {
+      focus_key = this.getStepKey(focus_key, this.state.focus_key)
+    }
+
+    this.setState(
+      {
+        focus_key,
+        _listenForPropChanges: false
+      },
+      this.setFocusOnCurrent
+    )
+
+    dispatchCustomElementEvent(
+      this,
+      'on_focus',
+      this.getEventArgs({ event, focus_key })
+    )
+
+    this.setWhatInput()
+  }
+
+  setWhatInput() {
+    whatInput.specificKeys([9, 37, 39, 33, 34, 35, 36])
+  }
+
+  resetWhatInput() {
+    whatInput.specificKeys([9])
+  }
+
+  setFocusOnCurrent = () => {
+    try {
+      const elem = this._tablistRef.current.querySelector(
+        '.dnb-tabs__button.focus'
+      )
+      elem.focus()
+    } catch (e) {
+      warn(e)
+    }
+  }
+
   openTab = (selected_key, event = null, mode = null) => {
     // saving the position will avoid flickering if the new tab will be done by a new page load
     this.saveLastPosition()
+    this.saveLastUsedTab()
+    this.resetWhatInput()
 
-    // for handling prevTab and nextTab
+    // for handling openPrevTab and openNextTab
     if (mode === 'step' && parseFloat(selected_key)) {
-      const currentData = this.state.data.filter(
-        ({ disabled }) => !disabled
-      )
-      const currentIndex = currentData.reduce(
-        (acc, { key }, i) => (key == this.state.selected_key ? i : acc),
-        -1
-      )
-      let nextIndex = currentIndex + selected_key
-      if (nextIndex < 0) {
-        nextIndex = currentData.length - 1
-      }
-      if (nextIndex >= currentData.length) {
-        nextIndex = 0
-      }
-      selected_key = currentData.reduce(
-        (acc, { key }, i) => (i === nextIndex ? key : acc),
-        null
-      )
+      selected_key = this.getStepKey(selected_key, this.state.selected_key)
     }
 
-    if (selected_key) {
+    if (typeof selected_key !== 'undefined') {
       this.setState(
         {
           selected_key,
+          focus_key: selected_key,
           _listenForPropChanges: false
         },
         () => {
@@ -546,10 +628,11 @@ export default class Tabs extends React.PureComponent {
       )
     }
 
-    dispatchCustomElementEvent(this, 'on_change', {
-      key: selected_key,
-      event
-    })
+    dispatchCustomElementEvent(
+      this,
+      'on_change',
+      this.getEventArgs({ event, selected_key })
+    )
 
     if (this.props.use_hash && typeof window !== 'undefined') {
       try {
@@ -564,6 +647,22 @@ export default class Tabs extends React.PureComponent {
     }
   }
 
+  getEventArgs(args) {
+    const { selected_key, focus_key } = this.state
+    return {
+      key:
+        typeof args.selected_key !== 'undefined'
+          ? args.selected_key
+          : selected_key,
+      selected_key,
+      focus_key,
+      ...args
+    }
+  }
+
+  isFocus(tabKey) {
+    return this.state.focus_key == tabKey
+  }
   isSelected(tabKey) {
     return this.state.selected_key == tabKey
   }
@@ -716,7 +815,7 @@ export default class Tabs extends React.PureComponent {
         ref={this._tabsRef}
       >
         <ScrollNavButton
-          onMouseDown={this.prevTab}
+          onMouseDown={this.openPrevTab}
           icon="chevron_left"
           className={classnames(
             hasScrollbar && 'dnb-tabs__scroll-nav-button--visible',
@@ -725,7 +824,7 @@ export default class Tabs extends React.PureComponent {
         />
         {children}
         <ScrollNavButton
-          onMouseDown={this.nextTab}
+          onMouseDown={this.openNextTab}
           icon="chevron_right"
           className={classnames(
             hasScrollbar && 'dnb-tabs__scroll-nav-button--visible',
@@ -755,6 +854,7 @@ export default class Tabs extends React.PureComponent {
     const tabs = this.state.data.map(
       ({ title, key, disabled = false }) => {
         const itemParams = {}
+        const isFocus = this.isFocus(key)
         const isSelected = this.isSelected(key)
         if (isSelected) {
           itemParams['aria-controls'] = `${this._id}-content-${key}`
@@ -774,6 +874,7 @@ export default class Tabs extends React.PureComponent {
           <div
             className={classnames(
               'dnb-tabs__button__snap',
+              isFocus && 'focus',
               isSelected && 'selected'
             )}
             key={`tab-${key}`}
@@ -786,6 +887,7 @@ export default class Tabs extends React.PureComponent {
               aria-selected={isSelected}
               className={classnames(
                 'dnb-tabs__button',
+                isFocus && 'focus',
                 isSelected && 'selected'
               )}
               onClick={this.onClickHandler}
@@ -819,7 +921,7 @@ export default class Tabs extends React.PureComponent {
         role="tablist"
         className="dnb-tabs__tabs__tablist"
         tabIndex="0"
-        onKeyDown={this.onKeyDownHandler}
+        onKeyDown={this.onTablistKeyDownHandler}
         ref={this._tablistRef}
         {...params}
       >

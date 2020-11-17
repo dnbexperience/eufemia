@@ -36,8 +36,10 @@ Depending on your setup, you may have to align your Tabs all the way to the edge
 
 ```css
 @media screen and (min-width: 40em) {
-  .dnb-tabs__tabs {
+  .dnb-tabs .dnb-tabs__tabs {
     margin: 0 -2rem;
+  }
+  .dnb-tabs .dnb-tabs__tabs__tablist {
     padding: 0 2rem;
   }
 }

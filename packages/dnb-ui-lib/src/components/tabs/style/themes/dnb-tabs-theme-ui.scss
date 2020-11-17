@@ -4,6 +4,7 @@
 */
 
 @import '../../../../style/themes/imports.scss';
+@import '../../../button/style/themes/_button-mixins.scss';
 
 .dnb-tabs {
   &__tabs {
@@ -52,6 +53,17 @@
         height: 3px;
         border-radius: 1.5px;
         background-color: var(--color-sea-green);
+      }
+    }
+
+    &:focus {
+      @include buttonFocusRing();
+      &::before {
+        top: 2px;
+        bottom: 2px;
+        right: 0;
+        left: 0;
+        border-radius: 0.25rem;
       }
     }
 
