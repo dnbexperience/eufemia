@@ -5,7 +5,7 @@
   left: 40%;
 
   margin: 0;
-  padding: 0.8125rem 1rem 0.6875rem 1rem;
+  padding: 0.5rem 1rem;
 
   white-space: nowrap;
 
@@ -86,14 +86,11 @@
 // 1. Have this on the top of Your App: <a class="dnb-skip-link dnb-button" href="#dnb-app-content">Skip to content</a>
 // 2. Place this id="dnb-app-content" on Your main content container
 a.dnb-skip-link {
-  position: fixed;
-  z-index: -9999;
+  position: absolute;
+  z-index: 0;
   top: -100vh;
   opacity: 0.3;
-  transition: opacity 0.2s ease-out;
-  // @include allBelow(medium) {
-  //   display: none;
-  // }
+  transition: opacity 0.3s ease-out;
 }
 a.dnb-skip-link-demo,
 a.dnb-skip-link:focus {
