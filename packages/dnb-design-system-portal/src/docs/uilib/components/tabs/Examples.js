@@ -291,8 +291,6 @@ const manyTabsContent = manyTabs.reduce((acc, { title, key }) => {
   return acc
 }, {})
 
-// const dataBlob = JSON.stringify(data, null, 2)
-
 const Wrapper = styled.div`
   .dnb-tabs {
     margin-top: 3rem;
