@@ -289,7 +289,7 @@ export default class Tabs extends React.PureComponent {
     this.scrollToTab('selected')
 
     if (this.getLastUsedTab() !== null) {
-      setTimeout(this.setFocusOnTab, 10)
+      this.setState(null, this.setFocusOnTab)
     }
   }
 
@@ -452,7 +452,7 @@ export default class Tabs extends React.PureComponent {
     this.scrollToTab('selected')
   }
 
-  handleVerticalScroll() {
+  handleVerticalScroll = () => {
     if (
       isTrue(this.props.scroll) &&
       this._tablistRef.current &&
@@ -476,48 +476,58 @@ export default class Tabs extends React.PureComponent {
   }
 
   scrollToTab(type) {
+    if (typeof window === 'undefined') {
+      return // stop here
+    }
     clearTimeout(this._scrollToTabTimeout)
-    this._scrollToTabTimeout = setTimeout(() => {
-      try {
-        if (this._hasScrollbar || this.state.hasScrollbar) {
-          const first = this._tablistRef.current.querySelector(
-            '.dnb-tabs__button__snap:first-of-type'
-          )
-          const isFirst = first.classList.contains(type)
-          const last = this._tablistRef.current.querySelector(
-            '.dnb-tabs__button__snap:last-of-type'
-          )
-          const isLast = last.classList.contains(type)
-          const style = window.getComputedStyle(this._tabsRef.current)
-          const padding = parseFloat(style.paddingLeft)
-          const margin = parseFloat(style.marginLeft)
+    this._scrollToTabTimeout = setTimeout(
+      () => {
+        try {
+          if (
+            (this._hasScrollbar || this.state.hasScrollbar) &&
+            this._tablistRef.current
+          ) {
+            const first = this._tablistRef.current.querySelector(
+              '.dnb-tabs__button__snap:first-of-type'
+            )
+            const isFirst = first.classList.contains(type)
+            const last = this._tablistRef.current.querySelector(
+              '.dnb-tabs__button__snap:last-of-type'
+            )
+            const isLast = last.classList.contains(type)
+            const style = window.getComputedStyle(this._tabsRef.current)
+            const padding = parseFloat(style.paddingLeft)
+            const margin = parseFloat(style.marginLeft)
 
-          const elem = this._tablistRef.current.querySelector(
-            `.dnb-tabs__button.${type}`
-          )
+            const elem = this._tablistRef.current.querySelector(
+              `.dnb-tabs__button.${type}`
+            )
 
-          const leftPadding =
-            (margin < 0 ? Math.abs(margin) : 0) +
-            padding +
-            parseFloat(window.getComputedStyle(first).paddingLeft) +
-            (IS_SAFARI ? 16 : 0)
+            const leftPadding =
+              (margin < 0 ? Math.abs(margin) : 0) +
+              padding +
+              parseFloat(window.getComputedStyle(first).paddingLeft) +
+              (IS_SAFARI ? 16 : 0)
 
-          const left = elem && !isFirst ? elem.offsetLeft - leftPadding : 0
+            const left =
+              elem && !isFirst ? elem.offsetLeft - leftPadding : 0
 
-          this.setState({
-            isFirst,
-            isLast
-          })
+            this._tablistRef.current.scrollTo({
+              left,
+              behavior: window.IS_TEST ? 'auto' : 'smooth'
+            })
 
-          this._tablistRef.current.scrollTo({
-            left,
-            behavior: 'smooth'
-          })
+            this.setState({
+              isFirst,
+              isLast
+            })
+          }
+        } catch (e) {
+          warn(e)
         }
-      } catch (e) {
-        warn(e)
-      }
-    }, 100) // Delay so Chrome/Safaru makes the transition / animation smooth
+      },
+      window.IS_TEST ? 0 : 100
+    ) // Delay so Chrome/Safaru makes the transition / animation smooth
   }
 
   onClickHandler = (e) => {
@@ -628,9 +638,7 @@ export default class Tabs extends React.PureComponent {
           focus_key: selected_key,
           _listenForPropChanges: false
         },
-        () => {
-          this.handleVerticalScroll()
-        }
+        this.handleVerticalScroll
       )
     }
 

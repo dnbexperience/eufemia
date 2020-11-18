@@ -694,6 +694,7 @@ exports[`Tabs scss have to match snapshot 1`] = `
     overflow-x: auto;
     overscroll-behavior: contain;
     scrollbar-width: thin;
+    scroll-behavior: smooth;
     -webkit-overflow-scrolling: touch;
     -ms-overflow-style: auto;
     /* Hide scrollbar for Chrome, Safari */
@@ -711,8 +712,8 @@ exports[`Tabs scss have to match snapshot 1`] = `
         @media screen and (-ms-high-contrast: none) {
           html[data-whatinput='keyboard'] .dnb-tabs__tabs__tablist:focus {
             box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
-    html:not([data-visual-test]) .dnb-tabs__tabs__tablist {
-      scroll-behavior: smooth; }
+    html[data-visual-test] .dnb-tabs__tabs__tablist {
+      scroll-behavior: auto !important; }
     .dnb-tabs__tabs__tablist::-webkit-scrollbar {
       display: none; }
   .dnb-tabs__tabs--left .dnb-tabs__tabs__tablist {
