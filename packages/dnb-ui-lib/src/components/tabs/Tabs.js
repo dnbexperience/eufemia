@@ -20,7 +20,7 @@ import {
   getPreviousSibling,
   filterProps
 } from '../../shared/component-helper'
-import { IS_SAFARI } from 'dnb-ui-lib/src/shared/helpers'
+import { IS_SAFARI } from '../../shared/helpers'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import {
   createSkeletonClass,
