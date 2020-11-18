@@ -36,7 +36,7 @@ This example simulates server delay with a timeout and - if it gets debounced, w
 
 ### With a Button to toggle the open / close state
 
-**NB:** The data is given as a function and as children.
+**NB:** Just to show the possibility; the data is given as a function.
 
 <AutocompleteToggleExample />
 

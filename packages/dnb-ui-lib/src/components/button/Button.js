@@ -273,7 +273,11 @@ export default class Button extends React.PureComponent {
       icon && 'dnb-button--has-icon',
       wrap && 'dnb-button--wrap',
       status && `dnb-button__status--${status_state}`,
-      createSkeletonClass('shape', skeleton, this.context),
+      createSkeletonClass(
+        variant === 'tertiary' ? 'font' : 'shape',
+        skeleton,
+        this.context
+      ),
       createSpacingClasses(props),
       class_name,
       className,
@@ -311,6 +315,7 @@ export default class Button extends React.PureComponent {
             icon_size={iconSize}
             content={content}
             isIconOnly={isIconOnly}
+            skeleton={isTrue(skeleton)}
           />
         </Element>
         {this.state.afterContent}
@@ -353,6 +358,7 @@ class Content extends React.PureComponent {
     ]),
     icon_size: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     bounding: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    skeleton: PropTypes.bool,
     isIconOnly: PropTypes.bool
   }
   static defaultProps = {
@@ -362,6 +368,7 @@ class Content extends React.PureComponent {
     icon: null,
     icon_size: 'default',
     bounding: false,
+    skeleton: null,
     isIconOnly: null
   }
   render() {
@@ -372,6 +379,7 @@ class Content extends React.PureComponent {
       icon,
       icon_size,
       bounding,
+      skeleton,
       isIconOnly
     } = this.props
 
@@ -398,7 +406,10 @@ class Content extends React.PureComponent {
         <span key="button-text-empty" className="dnb-button__alignment">
           &zwnj;
         </span>,
-        <span key="button-text" className="dnb-button__text">
+        <span
+          key="button-text"
+          className="dnb-button__text dnb-skeleton--show-font"
+        >
           {text}
         </span>
       )
@@ -427,6 +438,7 @@ class Content extends React.PureComponent {
             icon={icon}
             size={icon_size}
             aria-hidden={isIconOnly && !title ? null : true}
+            skeleton={skeleton}
           />
         )
       )

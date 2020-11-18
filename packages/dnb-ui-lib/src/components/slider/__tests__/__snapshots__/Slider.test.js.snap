@@ -132,7 +132,7 @@ exports[`Slider component have to match snapshot 1`] = `
               onClick={null}
               on_click={[Function]}
               size="small"
-              skeleton="skeleton"
+              skeleton={false}
               status={null}
               status_animation={null}
               status_state="error"
@@ -161,7 +161,7 @@ exports[`Slider component have to match snapshot 1`] = `
                 key="button-icon"
                 modifier={null}
                 size={null}
-                skeleton={null}
+                skeleton={false}
                 title={null}
                 width={null}
               >
@@ -292,7 +292,7 @@ exports[`Slider component have to match snapshot 1`] = `
                   onMouseDown={[Function]}
                   on_click={null}
                   size={null}
-                  skeleton="skeleton"
+                  skeleton={false}
                   status={null}
                   status_animation={null}
                   status_state="error"
@@ -379,7 +379,7 @@ exports[`Slider component have to match snapshot 1`] = `
               onClick={null}
               on_click={[Function]}
               size="small"
-              skeleton="skeleton"
+              skeleton={false}
               status={null}
               status_animation={null}
               status_state="error"
@@ -408,7 +408,7 @@ exports[`Slider component have to match snapshot 1`] = `
                 key="button-icon"
                 modifier={null}
                 size={null}
-                skeleton={null}
+                skeleton={false}
                 title={null}
                 width={null}
               >
@@ -895,8 +895,6 @@ exports[`Slider scss have to match snapshot 1`] = `
     white-space: nowrap; }
   .dnb-button + .dnb-form-status {
     margin-top: 0.5rem; }
-  .dnb-button.dnb-skeleton .dnb-icon {
-    visibility: hidden; }
   @media screen and (-ms-high-contrast: none) {
     .dnb-button {
       flex: none; }

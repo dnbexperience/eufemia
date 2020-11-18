@@ -6,7 +6,7 @@
 import React from 'react'
 // import ReactDOMServer from 'react-dom/server'
 import styled from '@emotion/styled'
-import { ClassNames } from '@emotion/core'
+import { ClassNames } from '@emotion/react'
 import algoliasearch from 'algoliasearch/lite'
 import { Autocomplete } from 'dnb-ui-lib/src/components'
 import { Anchor } from 'dnb-ui-lib/src/elements'

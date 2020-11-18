@@ -13,15 +13,10 @@
 
     &__tablist {
       display: flex;
-      flex: 1 1 auto;
+      flex: 0 1 auto;
 
-      // Only used on to visualize the tab ring nicer
-      margin-left: -1rem;
-      padding: 0 1rem;
-
-      @include allBelow(small) {
-        margin-left: 0;
-      }
+      margin-left: -0.5rem;
+      padding-left: 0.5rem;
 
       &:focus {
         @include fakeFocus();
@@ -29,13 +24,14 @@
 
       @include scrollX(auto);
       @include hideScrollbar();
-      scroll-snap-type: x mandatory;
+      // scroll-snap-type: x mandatory;// gives not the wanted extra UX yet
     }
 
     &--left &__tablist {
       justify-content: flex-start;
     }
     &--right &__tablist {
+      flex-grow: 1;
       justify-content: flex-end;
     }
     &--center &__tablist {
@@ -51,30 +47,25 @@
       width: 100vw;
       height: 1px;
     }
-
-    @include allBelow(medium) {
-      .dnb-tabs__button:not(:first-of-type),
-      .dnb-core-style & .dnb-tabs__button:not(:first-of-type) {
-        margin-left: 2.5rem;
-      }
-    }
   }
 
   &__scroll-nav-button {
     position: absolute;
     z-index: 2;
 
-    background-color: var(--color-emerald-green);
+    &.dnb-button--primary {
+      background-color: var(--color-emerald-green);
+    }
 
     display: none;
     opacity: 0;
     transition: opacity 600ms ease-out;
 
     &:first-of-type {
-      left: 0;
+      left: -2.5rem;
     }
     &:last-of-type {
-      right: 0;
+      right: -2.5rem;
     }
 
     &--visible {
@@ -87,14 +78,16 @@
       opacity: 0 !important;
     }
   }
+
   &--at-edge &__scroll-nav-button {
     &:first-of-type {
-      border-radius: 0 50% 50% 0;
+      left: 0;
     }
     &:last-of-type {
-      border-radius: 50% 0 0 50%;
+      right: 0;
     }
   }
+
   html[data-visual-test] & &__scroll-nav-button {
     transition: none;
   }
@@ -114,38 +107,19 @@
       padding-left: 0;
     }
     &:last-of-type {
-      padding-right: 0;
+      padding-right: 0.5rem;
     }
-
-    /** Scrolling related */
-    scroll-snap-align: start;
-    scroll-snap-stop: always;
   }
-
   &--has-scrollbar &__button__snap {
-    padding: 0 1rem 0 3rem;
-
-    @include allBelow(medium) {
-      padding: 0 0 0 2.5rem;
-    }
-
-    &:first-of-type {
-      padding-left: 3rem;
-    }
     &:last-of-type {
-      padding-right: 3rem;
+      padding-right: 2.5rem;
     }
   }
 
-  &--has-scrollbar &__tabs__tablist {
-    // Only used on to visualize the tab ring nicer
-    margin-left: 0;
-    padding: 0;
-
-    &:focus {
-      border-radius: 0;
-    }
-  }
+  // gives not the wanted extra UX yet
+  // &--has-scrollbar &__button__snap {
+  //   scroll-snap-align: start;
+  // }
 
   // Tab Button
   &__button,

@@ -290,23 +290,6 @@ exports[`Skeleton scss have to match snapshot 1`] = `
   background: none !important;
   box-shadow: none !important; }
 
-.dnb-skeleton--font, .dnb-skeleton--font-only {
-  pointer-events: none;
-  --font-family-book: 'DNBSkeleton' !important;
-  --font-family-demi: 'DNBSkeleton' !important;
-  --font-family-default: 'DNBSkeleton' !important;
-  font-family: var(--font-family-default) !important;
-  font-style: unset !important; }
-
-.dnb-skeleton--font {
-  background-position-y: 50% !important;
-  background-repeat: no-repeat !important;
-  background-size: 30rem 100% !important;
-  -webkit-text-fill-color: transparent !important;
-  background-clip: text !important;
-  -webkit-background-clip: text !important;
-  animation: skeletonFontAnimation 2s linear infinite; }
-
 .dnb-skeleton--code pre,
 .dnb-skeleton--code pre *,
 .dnb-skeleton--code code,
@@ -317,6 +300,31 @@ exports[`Skeleton scss have to match snapshot 1`] = `
   --font-family-monospace: 'DNBMonoSkeleton' !important;
   font-family: var(--font-family-monospace) !important;
   font-style: unset !important; }
+
+.dnb-skeleton--font-only, .dnb-skeleton--font,
+.dnb-skeleton--font .dnb-skeleton--show-font,
+.dnb-skeleton--font .dnb-p {
+  pointer-events: none;
+  --font-family-book: 'DNBSkeleton' !important;
+  --font-family-demi: 'DNBSkeleton' !important;
+  --font-family-default: 'DNBSkeleton' !important;
+  font-family: var(--font-family-default) !important;
+  font-style: unset !important; }
+
+.dnb-skeleton--font,
+.dnb-skeleton--font .dnb-skeleton--show-font,
+.dnb-skeleton--font .dnb-p {
+  background-position-y: 50% !important;
+  background-repeat: no-repeat !important;
+  background-size: 30rem 100% !important;
+  -webkit-text-fill-color: transparent !important;
+  background-clip: text !important;
+  -webkit-background-clip: text !important;
+  animation: skeletonFontAnimation 2s linear infinite; }
+  html[data-visual-test] .dnb-skeleton--font, html[data-visual-test]
+  .dnb-skeleton--font .dnb-skeleton--show-font, html[data-visual-test]
+  .dnb-skeleton--font .dnb-p {
+    animation: none !important; }
 
 .dnb-skeleton__figure {
   position: relative;
@@ -333,13 +341,8 @@ exports[`Skeleton scss have to match snapshot 1`] = `
     margin-left: 1rem; }
 
 .dnb-skeleton--no-animation .dnb-skeleton,
-.dnb-skeleton--no-animation .dnb-skeleton--font,
 .dnb-skeleton--no-animation .dnb-skeleton::after,
-.dnb-skeleton--no-animation * .dnb-skeleton::after,
-html[data-visual-test] .dnb-skeleton,
-html[data-visual-test] .dnb-skeleton--font,
-html[data-visual-test] .dnb-skeleton::after,
-html[data-visual-test] * .dnb-skeleton::after {
+.dnb-skeleton--no-animation * .dnb-skeleton::after {
   animation: none !important; }
 
 @keyframes skeletonFontAnimation {

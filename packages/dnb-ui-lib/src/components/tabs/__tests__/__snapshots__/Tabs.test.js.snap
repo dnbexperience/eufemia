@@ -177,7 +177,7 @@ exports[`Tabs component have to match snapshot 1`] = `
                   onMouseDown={[Function]}
                   on_click={null}
                   size="medium"
-                  skeleton={null}
+                  skeleton={false}
                   status={null}
                   status_animation={null}
                   status_state="error"
@@ -211,7 +211,7 @@ exports[`Tabs component have to match snapshot 1`] = `
                     key="button-icon"
                     modifier={null}
                     size={null}
-                    skeleton={null}
+                    skeleton={false}
                     title={null}
                     width={null}
                   >
@@ -281,13 +281,13 @@ exports[`Tabs component have to match snapshot 1`] = `
                 </button>
               </div>
               <div
-                className="dnb-tabs__button__snap"
+                className="dnb-tabs__button__snap focus selected"
                 key="tab-second"
               >
                 <button
-                  aria-controls="id-content-second"
+                  aria-controls="id-content"
                   aria-selected={true}
-                  className="dnb-tabs__button selected"
+                  className="dnb-tabs__button focus selected"
                   data-tab-key="second"
                   id="id-tab-second"
                   onClick={[Function]}
@@ -413,7 +413,7 @@ exports[`Tabs component have to match snapshot 1`] = `
                   onMouseDown={[Function]}
                   on_click={null}
                   size="medium"
-                  skeleton={null}
+                  skeleton={false}
                   status={null}
                   status_animation={null}
                   status_state="error"
@@ -447,7 +447,7 @@ exports[`Tabs component have to match snapshot 1`] = `
                     key="button-icon"
                     modifier={null}
                     size={null}
-                    skeleton={null}
+                    skeleton={false}
                     title={null}
                     width={null}
                   >
@@ -489,9 +489,10 @@ exports[`Tabs component have to match snapshot 1`] = `
         >
           <div
             aria-labelledby="id-tab-second"
-            className="dnb-tabs__content"
-            id="id-content-second"
+            className="dnb-tabs__content dnb-no-focus"
+            id="id-content"
             role="tabpanel"
+            tabIndex="0"
           >
             <second>
               <h2>
@@ -519,15 +520,36 @@ exports[`Tabs scss have to match default theme snapshot 1`] = `
 /*
  * Utilities
  */
+/*
+* Button mixins
+*
+*/
 .dnb-tabs__tabs:not(.dnb-section)::before {
   background-color: var(--color-mint-green-50);
   box-shadow: 100vw 0 0 0 var(--color-mint-green-50); }
 
 .dnb-tabs__tabs__tablist:focus {
   border-radius: 0.5rem; }
-  @media screen and (max-width: 40em) {
-    .dnb-tabs__tabs__tablist:focus {
-      border-radius: 0; } }
+
+.dnb-tabs--at-edge .dnb-tabs__scroll-nav-button:first-of-type {
+  border-radius: 0 50% 50% 0; }
+
+.dnb-tabs--at-edge .dnb-tabs__scroll-nav-button:last-of-type {
+  border-radius: 50% 0 0 50%; }
+
+.dnb-tabs--at-edge .dnb-tabs__tabs__tablist:focus {
+  border-radius: 0; }
+
+.dnb-tabs__content:focus {
+  outline: none;
+  border-radius: 0.5rem; }
+  html[data-whatinput='keyboard'] .dnb-tabs__content:focus {
+    --border-color: var(--color-emerald-green);
+    box-shadow: 0 0 0 0.125rem var(--border-color);
+    border-color: transparent; }
+    @media screen and (-ms-high-contrast: none) {
+      html[data-whatinput='keyboard'] .dnb-tabs__content:focus {
+        box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
 
 .dnb-tabs__button__title {
   font-weight: var(--font-weight-regular);
@@ -544,6 +566,32 @@ html:not([data-whatintent='touch']) .dnb-tabs__button:hover:not([disabled]) {
     height: 3px;
     border-radius: 1.5px;
     background-color: var(--color-sea-green); }
+
+.dnb-tabs__button:focus::before {
+  content: '';
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  left: -0.5rem;
+  bottom: 0;
+  right: -0.5rem;
+  height: inherit;
+  border-radius: inherit;
+  outline: none; }
+  html[data-whatinput='keyboard'] .dnb-tabs__button:focus::before {
+    --border-color: var(--color-emerald-green);
+    box-shadow: 0 0 0 0.125rem var(--border-color);
+    border-color: transparent; }
+    @media screen and (-ms-high-contrast: none) {
+      html[data-whatinput='keyboard'] .dnb-tabs__button:focus::before {
+        box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
+
+.dnb-tabs__button:focus::before {
+  top: 2px;
+  bottom: 2px;
+  right: 0;
+  left: 0;
+  border-radius: 0.25rem; }
 
 .dnb-tabs__button[disabled] .dnb-tabs__button__title {
   color: var(--color-sea-green-30); }
@@ -640,12 +688,13 @@ exports[`Tabs scss have to match snapshot 1`] = `
   align-items: center; }
   .dnb-tabs__tabs__tablist {
     display: flex;
-    flex: 1 1 auto;
-    margin-left: -1rem;
-    padding: 0 1rem;
+    flex: 0 1 auto;
+    margin-left: -0.5rem;
+    padding-left: 0.5rem;
     overflow-x: auto;
     overscroll-behavior: contain;
     scrollbar-width: thin;
+    scroll-behavior: smooth;
     -webkit-overflow-scrolling: touch;
     -ms-overflow-style: auto;
     /* Hide scrollbar for Chrome, Safari */
@@ -653,11 +702,7 @@ exports[`Tabs scss have to match snapshot 1`] = `
     -ms-overflow-style: none;
     /* IE and Edge */
     scrollbar-width: none;
-    /* Firefox */
-    scroll-snap-type: x mandatory; }
-    @media screen and (max-width: 40em) {
-      .dnb-tabs__tabs__tablist {
-        margin-left: 0; } }
+    /* Firefox */ }
     .dnb-tabs__tabs__tablist:focus {
       outline: none; }
       html[data-whatinput='keyboard'] .dnb-tabs__tabs__tablist:focus {
@@ -667,13 +712,14 @@ exports[`Tabs scss have to match snapshot 1`] = `
         @media screen and (-ms-high-contrast: none) {
           html[data-whatinput='keyboard'] .dnb-tabs__tabs__tablist:focus {
             box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
-    html:not([data-visual-test]) .dnb-tabs__tabs__tablist {
-      scroll-behavior: smooth; }
+    html[data-visual-test] .dnb-tabs__tabs__tablist {
+      scroll-behavior: auto !important; }
     .dnb-tabs__tabs__tablist::-webkit-scrollbar {
       display: none; }
   .dnb-tabs__tabs--left .dnb-tabs__tabs__tablist {
     justify-content: flex-start; }
   .dnb-tabs__tabs--right .dnb-tabs__tabs__tablist {
+    flex-grow: 1;
     justify-content: flex-end; }
   .dnb-tabs__tabs--center .dnb-tabs__tabs__tablist {
     justify-content: center; }
@@ -685,22 +731,19 @@ exports[`Tabs scss have to match snapshot 1`] = `
     bottom: 0;
     width: 100vw;
     height: 1px; }
-  @media screen and (max-width: 50em) {
-    .dnb-tabs__tabs .dnb-tabs__button:not(:first-of-type),
-    .dnb-core-style .dnb-tabs__tabs .dnb-tabs__button:not(:first-of-type) {
-      margin-left: 2.5rem; } }
 
 .dnb-tabs__scroll-nav-button {
   position: absolute;
   z-index: 2;
-  background-color: var(--color-emerald-green);
   display: none;
   opacity: 0;
   transition: opacity 600ms ease-out; }
+  .dnb-tabs__scroll-nav-button.dnb-button--primary {
+    background-color: var(--color-emerald-green); }
   .dnb-tabs__scroll-nav-button:first-of-type {
-    left: 0; }
+    left: -2.5rem; }
   .dnb-tabs__scroll-nav-button:last-of-type {
-    right: 0; }
+    right: -2.5rem; }
   .dnb-tabs__scroll-nav-button--visible {
     display: flex;
     opacity: 1; }
@@ -709,20 +752,17 @@ exports[`Tabs scss have to match snapshot 1`] = `
     opacity: 0 !important; }
 
 .dnb-tabs--at-edge .dnb-tabs__scroll-nav-button:first-of-type {
-  border-radius: 0 50% 50% 0; }
+  left: 0; }
 
 .dnb-tabs--at-edge .dnb-tabs__scroll-nav-button:last-of-type {
-  border-radius: 50% 0 0 50%; }
+  right: 0; }
 
 html[data-visual-test] .dnb-tabs .dnb-tabs__scroll-nav-button {
   transition: none; }
 
 .dnb-tabs__button__snap {
   display: flex;
-  padding: 0 2rem 0 2.5rem;
-  /** Scrolling related */
-  scroll-snap-align: start;
-  scroll-snap-stop: always; }
+  padding: 0 2rem 0 2.5rem; }
   @media screen and (max-width: 50em) {
     .dnb-tabs__button__snap {
       padding: 0 1rem 0 1.5rem; } }
@@ -732,23 +772,10 @@ html[data-visual-test] .dnb-tabs .dnb-tabs__scroll-nav-button {
   .dnb-tabs__button__snap:first-of-type {
     padding-left: 0; }
   .dnb-tabs__button__snap:last-of-type {
-    padding-right: 0; }
+    padding-right: 0.5rem; }
 
-.dnb-tabs--has-scrollbar .dnb-tabs__button__snap {
-  padding: 0 1rem 0 3rem; }
-  @media screen and (max-width: 50em) {
-    .dnb-tabs--has-scrollbar .dnb-tabs__button__snap {
-      padding: 0 0 0 2.5rem; } }
-  .dnb-tabs--has-scrollbar .dnb-tabs__button__snap:first-of-type {
-    padding-left: 3rem; }
-  .dnb-tabs--has-scrollbar .dnb-tabs__button__snap:last-of-type {
-    padding-right: 3rem; }
-
-.dnb-tabs--has-scrollbar .dnb-tabs__tabs__tablist {
-  margin-left: 0;
-  padding: 0; }
-  .dnb-tabs--has-scrollbar .dnb-tabs__tabs__tablist:focus {
-    border-radius: 0; }
+.dnb-tabs--has-scrollbar .dnb-tabs__button__snap:last-of-type {
+  padding-right: 2.5rem; }
 
 .dnb-tabs__button,
 .dnb-core-style .dnb-tabs .dnb-tabs__button {

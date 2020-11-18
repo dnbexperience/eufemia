@@ -46,7 +46,7 @@
 @mixin htmlDefault() {
   html {
     font-size: 100%;
-    @supports (font: -apple-system-body) {
+    @supports (-webkit-touch-callout: none) and (font: -apple-system-body) {
       font: -apple-system-body; /* stylelint-disable-line */
     }
     scroll-behavior: smooth;

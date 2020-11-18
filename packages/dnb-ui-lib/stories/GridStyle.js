@@ -4,7 +4,7 @@
  */
 
 import { IS_IE11 } from '../src/shared/helpers'
-import { css } from '@emotion/core'
+import { css } from '@emotion/react'
 
 export const gridStyle = ({
   rgb = null,

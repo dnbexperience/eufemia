@@ -4,6 +4,7 @@
 */
 
 @import '../../../../style/themes/imports.scss';
+@import '../../../button/style/themes/_button-mixins.scss';
 
 .dnb-tabs {
   &__tabs {
@@ -18,11 +19,26 @@
       // Only used on to visualize the tab ring nicer
       &:focus {
         border-radius: 0.5rem;
-        @include allBelow(small) {
-          border-radius: 0;
-        }
       }
     }
+  }
+
+  &--at-edge &__scroll-nav-button {
+    &:first-of-type {
+      border-radius: 0 50% 50% 0;
+    }
+    &:last-of-type {
+      border-radius: 50% 0 0 50%;
+    }
+  }
+
+  &--at-edge &__tabs__tablist:focus {
+    border-radius: 0;
+  }
+
+  &__content:focus {
+    @include fakeFocus();
+    border-radius: 0.5rem;
   }
 
   &__button {
@@ -42,6 +58,17 @@
         height: 3px;
         border-radius: 1.5px;
         background-color: var(--color-sea-green);
+      }
+    }
+
+    &:focus {
+      @include buttonFocusRing();
+      &::before {
+        top: 2px;
+        bottom: 2px;
+        right: 0;
+        left: 0;
+        border-radius: 0.25rem;
       }
     }
 

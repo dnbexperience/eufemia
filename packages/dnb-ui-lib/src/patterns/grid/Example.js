@@ -5,7 +5,7 @@
 
 import React from 'react'
 // import Grid from './Grid'
-import { css } from '@emotion/core'
+import { css } from '@emotion/react'
 
 class Example extends React.PureComponent {
   render() {

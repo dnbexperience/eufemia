@@ -178,8 +178,10 @@ $focusRingColor: var(--color-emerald-green);
   overflow-x: $mode;
   overscroll-behavior: contain;
   scrollbar-width: thin;
-  html:not([data-visual-test]) & {
-    scroll-behavior: smooth;
+  scroll-behavior: smooth;
+
+  html[data-visual-test] & {
+    scroll-behavior: auto !important;
   }
 
   // older iOS safari

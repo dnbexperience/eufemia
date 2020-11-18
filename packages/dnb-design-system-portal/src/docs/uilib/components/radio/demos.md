@@ -9,6 +9,7 @@ RadioExampleGroupStatus,
 RadioExampleWithoutGroup,
 RadioExampleSizes,
 RadioExampleDisabled,
+RadioExampleSuffix,
 RadioVisualTests
 } from 'Pages/uilib/components/radio/Examples'
 

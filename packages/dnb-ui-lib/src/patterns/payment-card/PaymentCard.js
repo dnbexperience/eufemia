@@ -51,6 +51,7 @@ export default class PaymentCard extends React.PureComponent {
     product_code: PropTypes.string.isRequired,
     card_number: PropTypes.string.isRequired,
     card_status: PropTypes.oneOf(['active', 'blocked', 'expired']),
+    variant: PropTypes.oneOf(['normal', 'compact']),
     digits: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     raw_data: cardDataTypes,
     id: PropTypes.string,
@@ -70,6 +71,7 @@ export default class PaymentCard extends React.PureComponent {
     digits: 8,
     locale: null,
     card_status: 'active',
+    variant: 'normal',
 
     id: null,
     raw_data: null,
@@ -103,6 +105,7 @@ export default class PaymentCard extends React.PureComponent {
       product_code,
       card_number,
       card_status,
+      variant,
       digits,
       id,
       raw_data,
@@ -119,6 +122,7 @@ export default class PaymentCard extends React.PureComponent {
     const params = {
       className: classnames(
         'dnb-payment-card',
+        `dnb-payment-card--${variant}`,
         createSkeletonClass(null, skeleton, this.context),
         createSpacingClasses(props),
         className,
@@ -143,6 +147,9 @@ export default class PaymentCard extends React.PureComponent {
             )
             return (
               <figure {...params}>
+                <figcaption className="dnb-sr-only dnb-payment-card__figcaption">
+                  {cardData.productName}
+                </figcaption>
                 <NormalCard
                   id={id}
                   skeleton={isTrue(skeleton)}
@@ -154,9 +161,6 @@ export default class PaymentCard extends React.PureComponent {
                   )}
                   translations={translations}
                 />
-                <figcaption className="dnb-sr-only dnb-payment-card__figcaption">
-                  {cardData.productName}
-                </figcaption>
               </figure>
             )
           }}
@@ -168,7 +172,7 @@ export default class PaymentCard extends React.PureComponent {
 
 const formatCardNumberRegex = /(?=(?:....)*$)/g
 
-const formatCardNumber = (cardNumber, digits) =>
+export const formatCardNumber = (cardNumber, digits) =>
   digits
     ? cardNumber
         .slice(cardNumber.length - digits, cardNumber.length)
@@ -293,17 +297,25 @@ function NormalCard({
       )}
     >
       <div className="dnb-payment-card__card__content">
-        <BankLogo logoType={data.cardDesign.bankLogo} />
-        <CardText
-          cardNumber={cardNumber}
-          translations={translations}
-          skeleton={skeleton}
-        />
-        <ProductLogo
-          productType={data.productType}
-          cardDesign={data.cardDesign}
-        />
-        <TypeLogo cardType={data.cardType} cardDesign={data.cardDesign} />
+        <div className="dnb-payment-card__card__top">
+          <BankLogo logoType={data.cardDesign.bankLogo} />
+          <ProductLogo
+            productType={data.productType}
+            cardDesign={data.cardDesign}
+          />
+        </div>
+        <div className="dnb-payment-card__card__bottom">
+          <CardText
+            cardNumber={cardNumber}
+            displayName={data.displayName}
+            translations={translations}
+            skeleton={skeleton}
+          />
+          <TypeLogo
+            cardType={data.cardType}
+            cardDesign={data.cardDesign}
+          />
+        </div>
       </div>
       <StatusOverlay
         skeleton={skeleton}

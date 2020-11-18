@@ -4,6 +4,8 @@
  */
 
 :root {
+  --dnb-payment-shadow-e1: 0 1px 3px rgba(0, 0, 0, 0.12),
+    0 1px 2px rgba(0, 0, 0, 0.24);
   --dnb-payment-shadow-e2: 0 3px 6px rgba(0, 0, 0, 0.16),
     0 3px 6px rgba(0, 0, 0, 0.23);
   --dnb-payment-shadow-figma: 0 8px 16px rgba(51, 51, 51, 0.08);
@@ -48,20 +50,6 @@
 
 .dnb-payment-card {
   margin: 0;
-
-  &__figcaption {
-    color: white;
-    opacity: 0;
-  }
-
-  // Not used?
-  // .card-wrapper {
-  //   display: flex;
-  //   height: 100%;
-  //   width: 100%;
-  //   justify-content: center;
-  //   align-items: center;
-  // }
 
   &__card {
     position: relative;
@@ -200,14 +188,6 @@
     }
   }
 
-  // Not used?
-  // .card-type {
-  //   grid-area: cardType;
-  //   max-width: 50px;
-  //   align-self: end;
-  //   justify-self: flex-end;
-  // }
-
   &__blocking {
     &__overlay {
       position: absolute;
@@ -240,38 +220,74 @@
       border-radius: 4px;
     }
 
-    // Not used?
-    // &__center > p {
-    //   font-family: var(--font-family-book);
-    //   font-size: var(--font-size-x-small);
-    //   line-height: 1rem;
-    // }
+    svg {
+      shape-rendering: geometricPrecision;
+    }
   }
 
-  // Not used?
-  // .card__small {
+  &.dnb-skeleton &__card__holder {
+    opacity: 1;
+  }
+
+  // Not in use yet
+  // &--small {
   //   width: calc(85.6mm * 0.75);
   //   height: calc(53.98mm * 0.75);
   //   border-radius: calc(3.48mm * 0.75);
   // }
 
-  // Not used?
-  // .compact {
-  //   height: 17mm;
-  //   border-radius: 3.48mm 3.48mm 0 0;
-  //   padding: 3mm 6mm;
-  //   box-shadow: var(--dnb-payment-shadow-e1);
-  // }
+  &--compact &__card {
+    padding: 0;
+    height: 32.8mm;
 
-  // Not used?
-  // .blocking__compact {
-  //   background: rgba(0, 0, 0, 0.739);
-  //   border-radius: inherit;
-  //   height: 100%;
-  //   width: 100%;
-  //   display: flex;
-  //   align-items: center;
-  //   justify-content: center;
-  //   flex-direction: row;
-  // }
+    border-radius: 3.48mm 3.48mm 0 0;
+    box-shadow: var(--dnb-payment-shadow-e1);
+
+    &__top {
+      position: absolute;
+      top: 4mm;
+      left: 6mm;
+      right: 6mm;
+    }
+
+    &__bottom {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+
+      height: 14mm;
+
+      background-color: var(--color-white);
+    }
+
+    &__wrapper {
+      padding: 1.5mm 6mm;
+      color: var(--color-black-80);
+    }
+
+    &__numbers {
+      font-size: var(--font-size-basis);
+    }
+
+    &__credit-type {
+      top: 0;
+      bottom: auto;
+    }
+  }
+
+  &--compact &__blocking {
+    &__center {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: row;
+
+      height: 100%;
+      width: 100%;
+
+      background: rgba(0, 0, 0, 0.739);
+      border-radius: inherit;
+    }
+  }
 }

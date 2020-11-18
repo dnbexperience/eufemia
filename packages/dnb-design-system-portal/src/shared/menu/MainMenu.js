@@ -5,7 +5,7 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import { css, Global } from '@emotion/core'
+import { css, Global } from '@emotion/react'
 import { StaticQuery, graphql } from 'gatsby'
 import { Helmet as Head } from 'react-helmet'
 import styled from '@emotion/styled'

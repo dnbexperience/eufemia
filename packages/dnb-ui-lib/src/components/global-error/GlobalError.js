@@ -54,6 +54,7 @@ export default class GlobalError extends React.PureComponent {
     title: null,
     text: null,
     href: null,
+    alt: null,
 
     className: null,
     children: null,
@@ -125,9 +126,12 @@ export default class GlobalError extends React.PureComponent {
       }
     }
 
-    const backHandler = () =>
-      !href &&
-      (typeof window !== 'undefined' ? window.history.back() : null)
+    const backHandler =
+      typeof window !== 'undefined' && window.history.length > 1
+        ? () =>
+            !href &&
+            (typeof window !== 'undefined' ? window.history.back() : null)
+        : null
 
     if (typeof useText === 'string' && /\[/.test(useText)) {
       try {
@@ -174,7 +178,7 @@ export default class GlobalError extends React.PureComponent {
     return (
       <div {...params}>
         <div className="dnb-global-error__inner">
-          {(typeof back === 'string' && (
+          {(typeof back === 'string' && backHandler && (
             <Button
               className="dnb-global-error__back"
               variant="tertiary"

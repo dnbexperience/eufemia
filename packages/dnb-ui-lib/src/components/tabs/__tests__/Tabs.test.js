@@ -118,6 +118,7 @@ describe('A single Tab component', () => {
       key: 'ArrowRight',
       keyCode: 39
     })
+    Comp.find('button[data-tab-key="third"]').simulate('click')
     expect(Comp.find('div[role="tabpanel"]').children().html()).toBe(
       mount(contentWrapperData.third).html()
     )
