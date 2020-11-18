@@ -44,12 +44,14 @@ export function scrollToAnimation() {
 class Layout extends React.PureComponent {
   static propTypes = {
     fullscreen: PropTypes.bool,
+    hideSidebar: PropTypes.bool,
     children: PropTypes.node.isRequired,
     location: PropTypes.object.isRequired
   }
 
   static defaultProps = {
-    fullscreen: false
+    fullscreen: false,
+    hideSidebar: false
   }
 
   constructor(props) {
@@ -89,7 +91,7 @@ class Layout extends React.PureComponent {
   }
 
   render() {
-    const { children, location } = this.props
+    const { children, location, hideSidebar } = this.props
 
     const fs = this.state.fullscreen || this.isFullscreen()
 
@@ -110,7 +112,9 @@ class Layout extends React.PureComponent {
               {!fs && <MainMenu enableOverlay />}
 
               <Wrapper className="content-wrapper">
-                {!fs && <Sidebar location={location} showAll={false} />}
+                {!fs && !hideSidebar && (
+                  <Sidebar location={location} showAll={false} />
+                )}
 
                 <Content key="content" fullscreen={fs}>
                   <MainContent key="main" ref={this._mainRef}>
