@@ -14,6 +14,7 @@ import { Helmet as Head } from 'react-helmet'
 import tags from '../shared/tags'
 
 const Tabbar = tags.Tabbar
+const ContentWrapper = Tabbar.ContentWrapper
 
 export default class MdxTemplate extends React.PureComponent {
   render() {
@@ -73,9 +74,11 @@ export default class MdxTemplate extends React.PureComponent {
             />
           )}
 
-          <MDXProvider components={tags}>
-            <MDXRenderer>{body}</MDXRenderer>
-          </MDXProvider>
+          <ContentWrapper>
+            <MDXProvider components={tags}>
+              <MDXRenderer>{body}</MDXRenderer>
+            </MDXProvider>
+          </ContentWrapper>
         </Layout>
       </>
     )

@@ -289,7 +289,7 @@ export default class Tabs extends React.PureComponent {
     this.scrollToTab('selected')
 
     if (this.getLastUsedTab() !== null) {
-      setTimeout(this.setFocusOnCurrent, 10)
+      setTimeout(this.setFocusOnTab, 10)
     }
   }
 
@@ -573,7 +573,7 @@ export default class Tabs extends React.PureComponent {
         focus_key,
         _listenForPropChanges: false
       },
-      this.setFocusOnCurrent
+      this.setFocusOnTab
     )
 
     dispatchCustomElementEvent(
@@ -593,12 +593,18 @@ export default class Tabs extends React.PureComponent {
     whatInput.specificKeys([9])
   }
 
-  setFocusOnCurrent = () => {
+  setFocusOnTab = () => {
     try {
       const elem = this._tablistRef.current.querySelector(
         '.dnb-tabs__button.focus'
       )
       elem.focus()
+
+      if (!document.getElementById(`${this._id}-content`)) {
+        warn(
+          `Could not find the required <Tabs.Content id="${this._id}-content" ... /> that provides role="tabpanel"`
+        )
+      }
     } catch (e) {
       warn(e)
     }
@@ -857,7 +863,7 @@ export default class Tabs extends React.PureComponent {
         const isFocus = this.isFocus(key)
         const isSelected = this.isSelected(key)
         if (isSelected) {
-          itemParams['aria-controls'] = `${this._id}-content-${key}`
+          itemParams['aria-controls'] = `${this._id}-content`
         }
 
         // itemParams['aria-current'] = isSelected // has best support on NVDA
@@ -975,24 +981,40 @@ export default class Tabs extends React.PureComponent {
 class ContentWrapper extends React.PureComponent {
   static propTypes = {
     id: PropTypes.string.isRequired,
-    selected_key: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
-      .isRequired,
+    selected_key: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number
+    ]),
     children: PropTypes.node.isRequired
+  }
+  static defaultProps = {
+    selected_key: null
   }
   render() {
     const { id, children, selected_key: key, ...rest } = this.props
+
     if (!children) {
       return <></>
     }
+
+    const params = rest
+
+    if (key) {
+      params['aria-labelledby'] = `${id}-tab-${key}`
+    }
+
+    validateDOMAttributes(this.props, params)
+
     return (
       <div
         role="tabpanel"
-        id={`${id}-content-${key}`}
+        tabIndex="0"
+        id={`${id}-content`}
         className={classnames(
-          'dnb-tabs__content',
+          'dnb-tabs__content dnb-no-focus',
           createSpacingClasses(rest)
         )}
-        aria-labelledby={`${id}-tab-${key}`}
+        {...params}
       >
         {children}
       </div>

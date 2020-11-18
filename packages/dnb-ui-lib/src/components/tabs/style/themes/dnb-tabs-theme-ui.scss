@@ -36,6 +36,11 @@
     border-radius: 0;
   }
 
+  &__content:focus {
+    @include fakeFocus();
+    border-radius: 0.5rem;
+  }
+
   &__button {
     // should be same as .lead small
     &__title {

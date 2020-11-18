@@ -285,7 +285,7 @@ exports[`Tabs component have to match snapshot 1`] = `
                 key="tab-second"
               >
                 <button
-                  aria-controls="id-content-second"
+                  aria-controls="id-content"
                   aria-selected={true}
                   className="dnb-tabs__button focus selected"
                   data-tab-key="second"
@@ -489,9 +489,10 @@ exports[`Tabs component have to match snapshot 1`] = `
         >
           <div
             aria-labelledby="id-tab-second"
-            className="dnb-tabs__content"
-            id="id-content-second"
+            className="dnb-tabs__content dnb-no-focus"
+            id="id-content"
             role="tabpanel"
+            tabIndex="0"
           >
             <second>
               <h2>
@@ -538,6 +539,17 @@ exports[`Tabs scss have to match default theme snapshot 1`] = `
 
 .dnb-tabs--at-edge .dnb-tabs__tabs__tablist:focus {
   border-radius: 0; }
+
+.dnb-tabs__content:focus {
+  outline: none;
+  border-radius: 0.5rem; }
+  html[data-whatinput='keyboard'] .dnb-tabs__content:focus {
+    --border-color: var(--color-emerald-green);
+    box-shadow: 0 0 0 0.125rem var(--border-color);
+    border-color: transparent; }
+    @media screen and (-ms-high-contrast: none) {
+      html[data-whatinput='keyboard'] .dnb-tabs__content:focus {
+        box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
 
 .dnb-tabs__button__title {
   font-weight: var(--font-weight-regular);

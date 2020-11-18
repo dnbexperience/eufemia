@@ -101,6 +101,7 @@ export default function Tabbar({
         {title}
       </AutoLinkHeader>
       <Tabs
+        id="tabbar"
         data={preparedTabs}
         selected_key={selectedKey}
         on_change={({ key }) => navigate(key)}
@@ -155,6 +156,9 @@ Tabbar.defaultProps = {
   hideTabs: null,
   children: null
 }
+Tabbar.ContentWrapper = (props) => (
+  <Tabs.ContentWrapper id="tabbar" {...props} />
+)
 
 const tabsWrapperStyle = css`
   .fullscreen-page & {
