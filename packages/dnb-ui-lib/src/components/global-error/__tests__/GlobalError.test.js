@@ -38,11 +38,11 @@ const props = {
   title
 }
 
-beforeAll(() => {
-  global.history = {}
-})
-
 describe('GlobalError component', () => {
+  // Ensure we get "window.history.length === 2"
+  jest.spyOn(window.history, 'length', 'get')
+  window.history.pushState({ page: 1 }, 'title 1', '?page=1')
+
   const Comp = mount(<Component {...props} />)
 
   it('has to have a text value as defined in the prop', () => {
@@ -63,7 +63,7 @@ describe('GlobalError component', () => {
 
   it('has to have a working back button', () => {
     const back = jest.fn()
-    global.history.back = back
+    window.history.back = back
 
     const elem = Comp.find('button.dnb-global-error__back')
     elem.simulate('click')
