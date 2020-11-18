@@ -160,7 +160,7 @@ export default class StickyMenuBar extends React.PureComponent {
                 >
                   <HeaderInner>
                     <MainMenuToggleButton />
-                    <CenterWrapper aria-hidden>
+                    <CenterWrapper aria-hidden className="dnb-selection">
                       <Icon icon={PortalLogo} size={48} right="x-small" />
                       <Slogan
                         className={createSkeletonClass(
