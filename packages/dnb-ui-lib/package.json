@@ -217,7 +217,7 @@
     "sass-loader": "^10.1.0",
     "sass-variable-parser": "^1.2.2",
     "scss-to-json": "^2.0.0",
-    "semantic-release": "17.2.2",
+    "semantic-release": "17.2.3",
     "simple-commit-message": "^4.0.13",
     "simple-git": "^2.22.0",
     "stream-buffers": "^3.0.2",
