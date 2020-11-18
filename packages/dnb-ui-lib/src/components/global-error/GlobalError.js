@@ -178,17 +178,18 @@ export default class GlobalError extends React.PureComponent {
     return (
       <div {...params}>
         <div className="dnb-global-error__inner">
-          {(typeof back === 'string' && backHandler && (
-            <Button
-              className="dnb-global-error__back"
-              variant="tertiary"
-              icon="chevron_left"
-              icon_position="left"
-              text={back}
-              href={href}
-              on_click={backHandler}
-            />
-          )) ||
+          {(typeof back === 'string' &&
+            (backHandler ? (
+              <Button
+                className="dnb-global-error__back"
+                variant="tertiary"
+                icon="chevron_left"
+                icon_position="left"
+                text={back}
+                href={href}
+                on_click={backHandler}
+              />
+            ) : null)) ||
             back}
           <Svg
             status={this.props.status}
