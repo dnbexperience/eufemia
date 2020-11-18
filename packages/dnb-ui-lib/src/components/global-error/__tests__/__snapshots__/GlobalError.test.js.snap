@@ -5,20 +5,6 @@ exports[`GlobalError scss have to match default theme snapshot 1`] = `
  * GlobalError theme
  *
  */
-/**
- * This file is only used to make themes independent
- * so that they can get imported individually, without the core styles
- *
- */
-/*
- * Utilities
- */
-.dnb-global-error {
-  background-color: var(--color-white); }
-  .dnb-global-error .dnb-h--xx-large {
-    color: var(--color-fire-red); }
-  .dnb-global-error .dnb-p {
-    color: var(--color-ocean-green); }
 "
 `;
 
