@@ -16,7 +16,7 @@ export default class PageNotFound extends React.PureComponent {
     const { pathname } = this.props.location
 
     return (
-      <Layout key="layout" location={location} hideSidebar>
+      <Layout key="layout" location={this.props.location} hideSidebar>
         <GlobalError
           status="404"
           title="We couldn't find that page"
