@@ -10,6 +10,7 @@
 @import '../../elements/ui-elements.scss';
 
 // ::selection appearance helper
+.dnb-selection ::selection,
 [class^='dnb-'] ::selection {
   // if not IE11 / not IS_IE
   @supports not (-ms-ime-align: auto) {
