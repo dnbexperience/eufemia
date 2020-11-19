@@ -7,7 +7,7 @@
   },
   "parser": "babel-eslint",
   "parserOptions": {
-    "ecmaVersion": 6,
+    "ecmaVersion": 2018,
     "ecmaFeatures": {
       "modules": true,
       "jsx": true
@@ -16,7 +16,9 @@
   },
   "extends": [
     "eslint:recommended",
+    "plugin:import/errors",
     "plugin:import/warnings",
+    "plugin:import/recommended",
     "plugin:react/recommended",
     "plugin:react-hooks/recommended",
     "plugin:jsx-a11y/recommended",
@@ -31,11 +33,23 @@
     "security"
   ],
   "rules": {
+    "no-restricted-imports": [
+      "error",
+      {
+        "paths": [
+          {
+            "name": "dnb-ui-lib/src",
+            "message": "Do not use recursive module dnb-ui-lib!"
+          }
+        ]
+      }
+    ],
     "no-console": "off",
     "react/self-closing-comp": ["warn", {
       "component": true,
       "html": true
-    }],
+      }],
+    "import/export": "off",
     "import/no-anonymous-default-export": [
       "error",
       {
