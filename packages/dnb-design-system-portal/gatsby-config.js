@@ -86,7 +86,16 @@ const plugins = [
   },
   'gatsby-plugin-sass',
   'gatsby-plugin-emotion',
-  'gatsby-plugin-postcss',
+  {
+    resolve: 'gatsby-plugin-postcss',
+    options: {
+      postCssPlugins: require('dnb-ui-lib/scripts/prepub/config/postcssConfig')(
+        {
+          IE11: false
+        }
+      )
+    }
+  },
   // this (optional) plugin enables Progressive Web App + Offline functionality
   // To learn more, visit: https://gatsby.app/offline
   {

@@ -12,11 +12,11 @@ import { H3 } from '../../src/elements'
 import PaymentCard, { getCardData } from '../../src/patterns/payment-card'
 // import '../../src/style/patterns'
 
-import 'dnb-ui-lib/src/patterns/payment-card/style'
-import 'dnb-ui-lib/src/patterns/payment-card/style/themes/ui'
+import '../../src/patterns/payment-card/style'
+import '../../src/patterns/payment-card/style/themes/ui'
 // import PaymentCard, {
 //   getCardData
-// } from 'dnb-ui-lib/src/patterns/PaymentCard'
+// } from '../../src/patterns/PaymentCard'
 
 export default {
   title: 'Eufemia/Extentions/PaymentCard'
