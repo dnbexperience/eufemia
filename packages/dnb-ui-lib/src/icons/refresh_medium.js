@@ -4,7 +4,14 @@ import React from 'react'
 
 function refresh_medium(props) {
   return (
-    <svg width={24} height={24} viewBox="0 0 24 24" fill="none" {...props}>
+    <svg
+      width={24}
+      height={24}
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      {...props}
+    >
       <path
         d="M18.362 7A8.25 8.25 0 003.75 12.247V14.5M6 17.908a8.25 8.25 0 0014.25-5.661v-1.5m0 0l3 3m-3-3l-3 3m-16.5-2.25l3 3 3-3"
         stroke="#000"

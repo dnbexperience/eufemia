@@ -4,7 +4,14 @@ import React from 'react'
 
 function contract_medium(props) {
   return (
-    <svg width={24} height={24} viewBox="0 0 24 24" fill="none" {...props}>
+    <svg
+      width={24}
+      height={24}
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      {...props}
+    >
       <path
         d="M14.7628 16.8719L14.1721 21.7635C14.1224 22.0315 14.2532 22.3006 14.4946 22.4272C14.736 22.5538 15.0317 22.5083 15.2239 22.3151L16.9254 20.6146L18.6268 22.3151C18.8194 22.5078 19.1148 22.5529 19.3561 22.4265C19.5974 22.3001 19.7284 22.0315 19.6796 21.7635L19.0814 16.8383"
         stroke="black"

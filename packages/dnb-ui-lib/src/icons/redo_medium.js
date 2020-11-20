@@ -4,7 +4,14 @@ import React from 'react'
 
 function redo_medium(props) {
   return (
-    <svg width={24} height={24} viewBox="0 0 25 25" fill="none" {...props}>
+    <svg
+      width={24}
+      height={24}
+      viewBox="0 0 25 25"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      {...props}
+    >
       <path
         d="M24.219.783v7.81h-7.81m-3.905 15.62a11.715 11.715 0 1111.038-15.62"
         stroke="#000"

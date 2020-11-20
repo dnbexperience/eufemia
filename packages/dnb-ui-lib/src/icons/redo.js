@@ -4,7 +4,14 @@ import React from 'react'
 
 function redo(props) {
   return (
-    <svg width={16} height={16} viewBox="0 0 16 16" fill="none" {...props}>
+    <svg
+      width={16}
+      height={16}
+      viewBox="0 0 16 16"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      {...props}
+    >
       <path
         d="M15.004 1.001v4.666h-4.667M8.004 15a7 7 0 116.595-9.333"
         stroke="#000"

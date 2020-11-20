@@ -4,7 +4,14 @@ import React from 'react'
 
 function view(props) {
   return (
-    <svg width={16} height={16} viewBox="0 0 16 16" fill="none" {...props}>
+    <svg
+      width={16}
+      height={16}
+      viewBox="0 0 16 16"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      {...props}
+    >
       <path
         clipRule="evenodd"
         d="M7.999 3.65c-2.598-.043-5.284 1.773-6.974 3.632a1.072 1.072 0 000 1.434C2.678 10.536 5.357 12.394 8 12.35c2.642.045 5.322-1.813 6.976-3.633a1.072 1.072 0 000-1.434C13.285 5.423 10.598 3.608 8 3.652z"
