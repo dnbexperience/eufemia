@@ -1,6 +1,0 @@
-{
-  "lookupPaths": [
-    "node_modules/react-toolbox/components/**/*.js",
-    "src/"
-  ]
-}

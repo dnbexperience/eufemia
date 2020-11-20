@@ -6,7 +6,7 @@
 import React from 'react'
 import { Wrapper, Box } from '../helpers'
 
-import { Logo } from 'dnb-ui-lib/src/components'
+import { Logo } from '../../src/components'
 
 export default {
   title: 'Eufemia/Components/Logo'

@@ -38,17 +38,21 @@
       {
         "paths": [
           {
-            "name": "dnb-ui-lib/src",
+            "name": "dnb-ui-lib",
             "message": "Do not use recursive module dnb-ui-lib!"
           }
-        ]
+        ],
+        "patterns": ["dnb-ui-lib/*"]
       }
     ],
     "no-console": "off",
-    "react/self-closing-comp": ["warn", {
-      "component": true,
-      "html": true
-      }],
+    "react/self-closing-comp": [
+      "warn",
+      {
+        "component": true,
+        "html": true
+      }
+    ],
     "import/export": "off",
     "import/no-anonymous-default-export": [
       "error",
@@ -103,5 +107,16 @@
     "react": {
       "version": ">=16.12"
     }
-  }
+  },
+  "overrides": [
+    {
+      "files": ["**/scripts/**/*"],
+      "rules": {
+        "import/namespace": "off",
+        "import/default": "off",
+        "import/no-named-as-default-member": "off",
+        "import/no-named-as-default": "off"
+      }
+    }
+  ]
 }
