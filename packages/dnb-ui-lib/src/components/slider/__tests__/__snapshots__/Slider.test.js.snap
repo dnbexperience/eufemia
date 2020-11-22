@@ -177,6 +177,7 @@ exports[`Slider component have to match snapshot 1`] = `
                       height={16}
                       viewBox="0 0 16 16"
                       width={16}
+                      xmlns="http://www.w3.org/2000/svg"
                     >
                       <path
                         d="M1.75 8h12.5"
@@ -424,6 +425,7 @@ exports[`Slider component have to match snapshot 1`] = `
                       height={16}
                       viewBox="0 0 16 16"
                       width={16}
+                      xmlns="http://www.w3.org/2000/svg"
                     >
                       <path
                         clipRule="evenodd"

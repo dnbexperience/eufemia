@@ -464,6 +464,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
                               height={16}
                               viewBox="0 0 17 17"
                               width={16}
+                              xmlns="http://www.w3.org/2000/svg"
                             >
                               <g
                                 clipPath="url(#clip-06a943)"
@@ -707,7 +708,6 @@ exports[`Input scss have to match default theme snapshot 1`] = `
       color: var(--input-text-color--changed);
       background-color: var(--input-background-color--changed); }
     .dnb-input__shell[data-input-state='disabled'] {
-      color: var(--input-text-color--disabled);
       -webkit-text-fill-color: currentColor;
       --border-color: var(--input-border-color--disabled);
       box-shadow: inset 0 0 0 var(--input-border-width) var(--border-color);
@@ -715,6 +715,9 @@ exports[`Input scss have to match default theme snapshot 1`] = `
       /* Safari fix - because \\"inset\\" works not fine with border-radius if the user zooms the page */
       border-color: transparent;
       background-color: var(--input-background-color--disabled); }
+      .dnb-input__shell[data-input-state='disabled'],
+      .dnb-input__shell[data-input-state='disabled'] .dnb-icon {
+        color: var(--input-text-color--disabled); }
       @supports (-webkit-touch-callout: none) {
         .dnb-input__shell[data-input-state='disabled'] {
           box-shadow: 0 0 0 var(--input-border-width) var(--border-color); } }

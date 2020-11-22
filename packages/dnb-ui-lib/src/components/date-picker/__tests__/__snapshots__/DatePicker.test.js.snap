@@ -389,6 +389,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                           height="16"
                           viewBox="0 0 17 17"
                           width="16"
+                          xmlns="http://www.w3.org/2000/svg"
                         >
                           <path
                             clip-rule="evenodd"
@@ -1135,6 +1136,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                         height="16"
                                         viewBox="0 0 17 17"
                                         width="16"
+                                        xmlns="http://www.w3.org/2000/svg"
                                       >
                                         <path
                                           clip-rule="evenodd"
@@ -1201,6 +1203,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                             height="16"
                                             viewBox="0 0 17 17"
                                             width="16"
+                                            xmlns="http://www.w3.org/2000/svg"
                                           >
                                             <path
                                               clip-rule="evenodd"
@@ -1283,6 +1286,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                                 height="16"
                                                 viewBox="0 0 17 17"
                                                 width="16"
+                                                xmlns="http://www.w3.org/2000/svg"
                                               >
                                                 <path
                                                   clip-rule="evenodd"
@@ -1347,6 +1351,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                               height={16}
                                               viewBox="0 0 17 17"
                                               width={16}
+                                              xmlns="http://www.w3.org/2000/svg"
                                             >
                                               <path
                                                 clipRule="evenodd"
