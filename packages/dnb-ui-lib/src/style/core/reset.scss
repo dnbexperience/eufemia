@@ -458,7 +458,7 @@
    * Change the cursor on control elements in all browsers (opinionated).
    */
 
-  [aria-controls] {
+  [aria-controls]:not(input) {
     cursor: pointer;
   }
 
