@@ -371,7 +371,11 @@ export default class Tabs extends React.PureComponent {
 
   hasScrollbar() {
     return (
-      this._tablistRef.current.scrollWidth >
+      /**
+       * Safari Desktop adds one pixel "on zoom" level 1
+       * therefore we just remove it here
+       */
+      this._tablistRef.current.scrollWidth - 1 >
       this._tablistRef.current.offsetWidth
     )
   }
