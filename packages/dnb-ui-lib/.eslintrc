@@ -16,8 +16,6 @@
   },
   "extends": [
     "eslint:recommended",
-    "plugin:import/errors",
-    "plugin:import/warnings",
     "plugin:import/recommended",
     "plugin:react/recommended",
     "plugin:react-hooks/recommended",
@@ -66,10 +64,10 @@
         "allowObject": true
       }
     ],
-    "import/no-unresolved": 0,
-    "react/prop-types": 1,
-    "react/require-default-props": 1,
-    "react/no-unused-prop-types": [1],
+    "import/no-unresolved": "off",
+    "react/prop-types": "warn",
+    "react/require-default-props": "warn",
+    "react/no-unused-prop-types": "warn",
     "react/no-unescaped-entities": [
       "error",
       {
@@ -90,7 +88,7 @@
       }
     ],
     "jsx-a11y/label-has-for": [
-      2,
+      "error",
       {
         "components": ["Label"],
         "required": {
