@@ -46,7 +46,10 @@
     }
 
     &[data-input-state='disabled'] {
-      color: var(--input-text-color--disabled);
+      &,
+      .dnb-icon {
+        color: var(--input-text-color--disabled);
+      }
       -webkit-text-fill-color: currentColor;
       @include fakeBorder(
         var(--input-border-color--disabled),

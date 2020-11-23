@@ -2167,8 +2167,6 @@ legend.dnb-form-label {
     transition: transform 400ms ease-out; }
   .dnb-autocomplete__shell, .dnb-autocomplete__input {
     border-radius: var(--autocomplete-height); }
-  .dnb-autocomplete [aria-controls] {
-    cursor: text; }
   .dnb-autocomplete__text {
     order: 1;
     position: relative;

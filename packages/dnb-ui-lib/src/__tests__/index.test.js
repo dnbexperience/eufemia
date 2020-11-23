@@ -4,6 +4,7 @@
  */
 
 import '../core/jest/jestSetup'
+// eslint-disable-next-line import/named
 import { enableWebComponents, Button } from '../index'
 import { registeredElements } from '../shared/custom-element'
 

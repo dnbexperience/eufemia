@@ -32,7 +32,8 @@ TabsExampleReactRouterNavigation,
 
 ### Tabs optimized for mobile
 
-Depending on your setup, you may have to align your Tabs all the way to the edge of the browser window. E.g. with a negative margin:
+**Notes about mobile view:** The Tabs component does automatically calculate the remaining spacing once the screen gets under `40em` in width.
+But depending on your setup, you may have to align your Tabs all the way to the edge of the browser window. E.g. with a negative margin:
 
 ```css
 @media screen and (min-width: 40em) {

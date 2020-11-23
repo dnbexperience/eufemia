@@ -227,6 +227,7 @@ exports[`Tabs component have to match snapshot 1`] = `
                           height={16}
                           viewBox="0 0 16 16"
                           width={16}
+                          xmlns="http://www.w3.org/2000/svg"
                         >
                           <path
                             clipRule="evenodd"
@@ -463,6 +464,7 @@ exports[`Tabs component have to match snapshot 1`] = `
                           height={16}
                           viewBox="0 0 16 16"
                           width={16}
+                          xmlns="http://www.w3.org/2000/svg"
                         >
                           <path
                             clipRule="evenodd"
@@ -686,6 +688,8 @@ exports[`Tabs scss have to match snapshot 1`] = `
   z-index: 1;
   display: flex;
   align-items: center; }
+  .dnb-tabs__tabs, .dnb-tabs__tabs.dnb-section--spacing {
+    padding-bottom: 0; }
   .dnb-tabs__tabs__tablist {
     display: flex;
     flex: 0 1 auto;

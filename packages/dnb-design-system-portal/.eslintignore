@@ -1,6 +1,8 @@
 !/*.js
-/tests/**/*.js
 !/**/.eslintrc.js
-/dist/
-/build/
+**/tests/**/*.js
+**/public/**
+**/static/**
+**/reports/**
 **/node_modules/**
+*not_in_use*

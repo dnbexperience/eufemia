@@ -7,7 +7,7 @@
   },
   "parser": "babel-eslint",
   "parserOptions": {
-    "ecmaVersion": 6,
+    "ecmaVersion": 2018,
     "ecmaFeatures": {
       "modules": true,
       "jsx": true
@@ -16,7 +16,7 @@
   },
   "extends": [
     "eslint:recommended",
-    "plugin:import/warnings",
+    "plugin:import/recommended",
     "plugin:react/recommended",
     "plugin:react-hooks/recommended",
     "plugin:jsx-a11y/recommended",
@@ -25,10 +25,10 @@
   "plugins": ["import", "react", "react-hooks", "jsx-a11y", "cypress"],
   "rules": {
     "no-console": "off",
-    "import/no-unresolved": 0,
-    "react/prop-types": 1,
-    "react/require-default-props": 1,
-    "react/no-unused-prop-types": 1,
+    "import/no-unresolved":  "off",
+    "react/prop-types":  "warn",
+    "react/require-default-props":  "warn",
+    "react/no-unused-prop-types":  "warn",
     "react/no-unescaped-entities": ["error", { "forbid": [">", "}"] }],
     "react/display-name": ["off", { "ignoreTranspilerName": false }],
     "jsx-a11y/href-no-hash": "off",

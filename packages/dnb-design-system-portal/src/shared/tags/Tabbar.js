@@ -172,6 +172,7 @@ const tabsWrapperStyle = css`
     top: auto; /* to force the button to center */
     right: auto;
   }
+  .dnb-tabs__tabs .dnb-button.dnb-modal__close-button,
   .dnb-tabs__tabs .dnb-button.fullscreen {
     margin-left: 1rem;
   }
@@ -181,9 +182,12 @@ const tabsWrapperStyle = css`
   }
 
   @media screen and (max-width: 40em) {
-    .dnb-tabs__tabs {
+    ${
+      '' /* .dnb-tabs__tabs {
+      NB: Now this gets handled automatically
       margin: 0 -2rem;
       padding: 0 2rem;
+    } */
     }
     .dnb-tabs__tabs .dnb-button.fullscreen {
       display: none;
