@@ -182,9 +182,12 @@ const tabsWrapperStyle = css`
   }
 
   @media screen and (max-width: 40em) {
-    .dnb-tabs__tabs {
+    ${
+      '' /* .dnb-tabs__tabs {
+      NB: Now this gets handled automatically
       margin: 0 -2rem;
       padding: 0 2rem;
+    } */
     }
     .dnb-tabs__tabs .dnb-button.fullscreen {
       display: none;

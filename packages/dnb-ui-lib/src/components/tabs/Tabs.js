@@ -359,6 +359,33 @@ export default class Tabs extends React.PureComponent {
       })
     }
 
+    if (this._hasScrollbar) {
+      try {
+        if (window.innerWidth / 16 <= 40) {
+          if (!this._tabsRef.current.style.marginLeft) {
+            const style = window.getComputedStyle(this._tabsRef.current)
+
+            if (!(Math.abs(parseFloat(style.marginLeft)) > 0)) {
+              const diff =
+                window.innerWidth - this._tabsRef.current.offsetWidth
+              const remVal = Math.round(diff / 16) / 2
+              this._tabsRef.current.style.marginLeft = `-${remVal}rem`
+              this._tabsRef.current.style.marginRight = `-${remVal}rem`
+              this._tablistRef.current.style.paddingLeft = `${remVal}rem`
+              this._tablistRef.current.style.paddingRight = `${remVal}rem`
+            }
+          }
+        } else {
+          this._tabsRef.current.style.marginLeft = ''
+          this._tabsRef.current.style.marginRight = ''
+          this._tablistRef.current.style.paddingLeft = ''
+          this._tablistRef.current.style.paddingRight = ''
+        }
+      } catch (e) {
+        //
+      }
+    }
+
     this.setState({
       atEdge: this.isAtEdge()
     })
@@ -385,11 +412,7 @@ export default class Tabs extends React.PureComponent {
       return false
     }
 
-    const style = window.getComputedStyle(this._tabsRef.current)
-    const padding =
-      parseFloat(style.paddingLeft) + parseFloat(style.paddingRight)
-
-    const width = this._tablistRef.current.offsetWidth + padding + 2 // 2 for border correction to ensure we do that!
+    const width = this._tablistRef.current.offsetWidth + 2 // 2 for border correction to ensure we do that!
     const screenWidth = window.innerWidth
 
     return width >= screenWidth

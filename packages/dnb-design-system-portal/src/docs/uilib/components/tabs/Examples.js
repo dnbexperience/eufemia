@@ -299,12 +299,13 @@ const Wrapper = styled.div`
 
 // The example has a `max-width` of 60rem.
 const MaxWidth = styled(Wrapper)`
-  @media screen and (max-width: 40em) {
+  /* @media screen and (max-width: 40em) {
+    NB: Now this gets handled automatically
     .dnb-tabs .dnb-tabs__tabs {
       margin: 0 -4rem;
     }
     .dnb-tabs .dnb-tabs__tabs__tablist {
       padding: 0 4rem;
     }
-  }
+  } */
 `

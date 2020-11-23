@@ -32,10 +32,13 @@ export const TabsSandbox = () => {
           main.dnb-core-style > div {
             padding: 0 !important;
           }
-          .dnb-tabs__tabs {
+
+          /* .dnb-tabs__tabs {
+            NB: Now this gets handled automatically
             margin: 0 -2rem;
-            /* padding: 0 2rem; */
-          }
+            padding: 0 2rem;
+          } */
+
           .dnb-tabs__tabs__tablist {
             padding: 0 2rem;
           }
