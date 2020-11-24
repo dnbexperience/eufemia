@@ -197,7 +197,9 @@ class PaginationInstance extends React.PureComponent {
 
       return (
         <>
-          {typeof children !== 'function' && children}
+          {this.context.pagination.mode === 'infinity' &&
+            typeof children !== 'function' &&
+            children}
 
           <div {...mainParams}>
             <PaginationBar contentRef={this._contentRef}>

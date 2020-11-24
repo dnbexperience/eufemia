@@ -42,12 +42,12 @@ class Example extends React.PureComponent {
             /* @jsx */ `
 <Pagination
   page_count={30}
-  current_page={15}
+  startup_page={15}
   on_change={({ page }) => {
     console.log('on_change:', page)
   }}
 >
-  {({ pageNo }) => <div>Page {pageNo}</div>}
+  {({ pageNo }) => <P>Page {pageNo}</P>}
 </Pagination>
           `
           }

@@ -7,7 +7,8 @@ import React from 'react'
 import { Wrapper, Box } from '../helpers'
 import styled from '@emotion/styled'
 
-// import { Button } from '../../src/components'
+import { P } from '../../src/elements'
+import { Button } from '../../src/components'
 import Pagination, {
   createPagination
 } from '../../src/components/pagination/Pagination'
@@ -43,6 +44,9 @@ for (let i = 1; i <= 300; i++) {
 export const PaginationSandbox = () => (
   <Wrapper>
     <Box>
+      <PaginationRender />
+    </Box>
+    <Box>
       <Pagination page_count={2}>
         {({ page, setContent }) => {
           // simulate server communication delay
@@ -58,12 +62,12 @@ export const PaginationSandbox = () => (
     <Box>
       <Pagination
         page_count={30}
-        current_page={15}
+        startup_page={15}
         on_change={(pageNo) => {
           console.log('on_change:', pageNo)
         }}
       >
-        {({ pageNo }) => <div>Page {pageNo}</div>}
+        {({ pageNo }) => <P>Page {pageNo}</P>}
       </Pagination>
     </Box>
 
@@ -209,5 +213,31 @@ const InfinityPagination = ({ children, ...props }) => {
     >
       {/* just a child */}
     </Pagination>
+  )
+}
+
+function PaginationRender() {
+  const [currentPage, setCurrentPage] = React.useState(1)
+  const [count, setCount] = React.useState(0)
+  return (
+    <div className="App">
+      <Pagination
+        id="unique"
+        page_count={30}
+        current_page={currentPage}
+        on_change={({ page }) => {
+          setCurrentPage(page)
+        }}
+      >
+        <div className="pagination-content">
+          <code>{JSON.stringify({ currentPage, count })}</code>
+          <Button
+            on_click={() => setCount((prevCount) => prevCount + 1)}
+            text="Increase count"
+            left
+          />
+        </div>
+      </Pagination>
+    </div>
   )
 }
