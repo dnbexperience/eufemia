@@ -561,13 +561,16 @@ export default class DrawerListProvider extends React.PureComponent {
           if (liElement) {
             const top = liElement.offsetTop
             if (ulElement.scrollTo) {
-              const params = {
-                top
+              if (scrollTo === false || window.IS_TEST) {
+                ulElement.style.scrollBehavior = 'auto'
               }
-              if (scrollTo) {
-                params.behavior = 'smooth'
+              ulElement.scrollTo({
+                top,
+                behavior: scrollTo ? 'smooth' : 'auto'
+              })
+              if (scrollTo === false) {
+                ulElement.style.scrollBehavior = 'smooth'
               }
-              ulElement.scrollTo(params)
             } else if (ulElement.scrollTop) {
               ulElement.scrollTop = top
             }
