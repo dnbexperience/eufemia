@@ -1197,14 +1197,23 @@ class AutocompleteInstance extends React.PureComponent {
     return searchIndex
   }
 
-  onHideHandler = () => {
-    try {
-      this._refInput.current._ref.current.focus({
-        preventScroll: true
-      })
-    } catch (e) {
-      // do nothing
+  onHideHandler = (args = {}) => {
+    const res = dispatchCustomElementEvent(this, 'on_hide', {
+      ...args,
+      ...this.getEventObjects('on_hide')
+    })
+
+    if (res !== false) {
+      try {
+        this._refInput.current._ref.current.focus({
+          preventScroll: true
+        })
+      } catch (e) {
+        // do nothing
+      }
     }
+
+    return res
   }
 
   onSelectHandler = (args) => {

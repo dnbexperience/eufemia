@@ -817,10 +817,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                           tabIndex="-1"
                           triangleRef={
                             Object {
-                              "current": <li
-                                aria-hidden="true"
-                                class="dnb-drawer-list__triangle"
-                              />,
+                              "current": null,
                             }
                           }
                         >
