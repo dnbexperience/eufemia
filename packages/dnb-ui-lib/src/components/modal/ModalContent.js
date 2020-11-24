@@ -159,11 +159,21 @@ export default class ModalContent extends React.PureComponent {
     }
   }
 
+  onCloseClickHandler = (e) => {
+    this.props.closeModal(e, { triggeredBy: 'button' })
+  }
+
+  onContentClickHandler = (e) => {
+    this.props.closeModal(e, { triggeredBy: 'overlay', ifIsLatest: false })
+  }
+
   onKeyDownHandler = (e) => {
     switch (keycode(e)) {
       case 'esc':
         e.preventDefault()
-        this.props.closeModal(e, { ifIsLatest: true })
+        this.props.closeModal(e, {
+          triggeredBy: 'keyboard'
+        })
         break
     }
   }
@@ -189,7 +199,7 @@ export default class ModalContent extends React.PureComponent {
       fullscreen,
       align_content,
       container_placement,
-      closeModal,
+      closeModal, // eslint-disable-line
       className,
       class: _className,
       content_class,
@@ -230,7 +240,7 @@ export default class ModalContent extends React.PureComponent {
           'dnb-modal__content--no-animation-on-mobile',
         content_class
       ),
-      onClick: closeModal
+      onClick: this.onContentClickHandler
     }
 
     const innerParams = {
@@ -283,7 +293,7 @@ export default class ModalContent extends React.PureComponent {
             )}
             {!isTrue(hide_close_button) && (
               <CloseButton
-                on_click={closeModal}
+                on_click={this.onCloseClickHandler}
                 close_title={close_title}
               />
             )}

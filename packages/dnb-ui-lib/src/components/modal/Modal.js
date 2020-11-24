@@ -448,25 +448,24 @@ export default class Modal extends React.PureComponent {
     this.toggleOpenClose(true, e)
   }
 
-  close = (e, opts = {}) => {
+  close = (event, { ifIsLatest, triggeredBy } = { ifIsLatest: true }) => {
     const { prevent_close } = this.props
 
     if (isTrue(prevent_close)) {
-      if (!this.isClosing) {
-        const id = this._id
-        this.isClosing = true
-        dispatchCustomElementEvent(this, 'on_close_prevent', {
-          id,
-          close: (e) => {
-            this.toggleOpenClose(false, e)
-          }
-        })
-      }
+      const id = this._id
+      dispatchCustomElementEvent(this, 'on_close_prevent', {
+        id,
+        event,
+        triggeredBy,
+        close: (e) => {
+          this.toggleOpenClose(false, e)
+        }
+      })
     } else {
-      if (opts.ifIsLatest && typeof window !== 'undefined') {
+      if (ifIsLatest && typeof window !== 'undefined') {
         try {
           const index = window.modalRoot.index
-          if (index.length) {
+          if (index && index.length) {
             const last = index[index.length - 1]
             if (last !== this) {
               return // stop here
@@ -477,7 +476,7 @@ export default class Modal extends React.PureComponent {
         }
       }
 
-      this.toggleOpenClose(false, e)
+      this.toggleOpenClose(false, event)
     }
   }
 
