@@ -29,17 +29,13 @@ const LargePage = styled.div`
   color: white;
 `
 
-class Example extends React.PureComponent {
-  render() {
-    return (
-      <React.Fragment>
-        <ComponentBox
-          title="Default pagination"
-          data-visual-test="pagination-default"
-          scope={{ HeightLimit, LargePage }}
-        >
-          {
-            /* @jsx */ `
+export const PaginationExampleDefault = () => (
+  <ComponentBox
+    data-visual-test="pagination-default"
+    scope={{ HeightLimit, LargePage }}
+  >
+    {
+      /* @jsx */ `
 <Pagination
   page_count={30}
   startup_page={15}
@@ -50,15 +46,14 @@ class Example extends React.PureComponent {
   {({ pageNo }) => <P>Page {pageNo}</P>}
 </Pagination>
           `
-          }
-        </ComponentBox>
-        <ComponentBox
-          title="Centered Pagination with random delay"
-          description="Note that we keep the hight of the previous page. All pages can for sure have their own height."
-          scope={{ HeightLimit, LargePage }}
-        >
-          {
-            /* @jsx */ `
+    }
+  </ComponentBox>
+)
+
+export const PaginationExampleCentered = () => (
+  <ComponentBox scope={{ HeightLimit, LargePage }}>
+    {
+      /* @jsx */ `
 <Pagination
   align="center"
   page_count={30}
@@ -73,15 +68,14 @@ class Example extends React.PureComponent {
   }}
 </Pagination>
           `
-          }
-        </ComponentBox>
-        <ComponentBox
-          title="Infinity scroller with load button"
-          description="A laod button is shown on the bottom by having `use_load_button={true}` - but here we define our `startup_page={5}`, so we also get a laod button on top."
-          scope={{ HeightLimit, LargePage }}
-        >
-          {
-            /* @jsx */ `
+    }
+  </ComponentBox>
+)
+
+export const PaginationExampleInfinityLoadButton = () => (
+  <ComponentBox scope={{ HeightLimit, LargePage }}>
+    {
+      /* @jsx */ `
 <HeightLimit>
   <Pagination
     mode="infinity"
@@ -103,14 +97,14 @@ class Example extends React.PureComponent {
   />
 </HeightLimit>
           `
-          }
-        </ComponentBox>
-        <ComponentBox
-          title="Infinity scroller with custom load indicator"
-          scope={{ HeightLimit, LargePage }}
-        >
-          {
-            /* @jsx */ `
+    }
+  </ComponentBox>
+)
+
+export const PaginationExampleInfinityIndicator = () => (
+  <ComponentBox scope={{ HeightLimit, LargePage }}>
+    {
+      /* @jsx */ `
 <HeightLimit>
   <Pagination
     mode="infinity"
@@ -138,14 +132,14 @@ class Example extends React.PureComponent {
   />
 </HeightLimit>
           `
-          }
-        </ComponentBox>
-        <ComponentBox
-          title="Infinity scroller with unknown `page_count`"
-          scope={{ HeightLimit, LargePage }}
-        >
-          {
-            /* @jsx */ `
+    }
+  </ComponentBox>
+)
+
+export const PaginationExampleInfinityUnknown = () => (
+  <ComponentBox scope={{ HeightLimit, LargePage }}>
+    {
+      /* @jsx */ `
 <HeightLimit>
   <Pagination
     mode="infinity"
@@ -178,25 +172,18 @@ class Example extends React.PureComponent {
   />
 </HeightLimit>
           `
-          }
-        </ComponentBox>
-        <ComponentBox
-          title="Advanced Table infinity scroller"
-          description="You can find the code either on [GitHub](https://github.com/dnbexperience/eufemia/blob/develop/packages/dnb-design-system-portal/src/docs/uilib/components/pagination/PaginationTableExample.js) or on [CodeSandbox](https://codesandbox.io/s/eufemia-table-pagination-infinity-546f7)"
-          scope={{ HeightLimit, PaginationTableExample }}
-        >
-          {
-            /* @jsx */ `
+    }
+  </ComponentBox>
+)
+
+export const PaginationExampleInfinityTable = () => (
+  <ComponentBox scope={{ HeightLimit, PaginationTableExample }}>
+    {
+      /* @jsx */ `
 <HeightLimit height="60rem">
   <PaginationTableExample />
 </HeightLimit>
           `
-          }
-        </ComponentBox>
-      </React.Fragment>
-    )
-  }
-}
-
-export { Example }
-export default Example
+    }
+  </ComponentBox>
+)
