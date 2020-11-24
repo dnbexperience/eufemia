@@ -886,7 +886,7 @@ export default class DrawerListProvider extends React.PureComponent {
 
       case 'esc':
         {
-          this.setHidden()
+          this.setHidden({ event: e })
           e.preventDefault()
         }
         break
@@ -902,7 +902,7 @@ export default class DrawerListProvider extends React.PureComponent {
             }
           }
 
-          this.setHidden()
+          this.setHidden({ event: e })
         }
         break
 
@@ -1034,7 +1034,7 @@ export default class DrawerListProvider extends React.PureComponent {
         this.state.data
       ),
       attributes: this.attributes,
-      ui_element: this._refUl.current
+      ulElement: this._refUl.current
     })
   }
 
