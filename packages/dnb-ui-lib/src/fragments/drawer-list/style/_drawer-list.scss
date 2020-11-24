@@ -391,9 +391,6 @@
       align-items: center;
     }
   }
-  &--action-menu &__options {
-    border-radius: 0;
-  }
   @media screen and (min-width: 40em) {
     &--action-menu#{&}--is-popup#{&}--left &__list {
       left: 0;

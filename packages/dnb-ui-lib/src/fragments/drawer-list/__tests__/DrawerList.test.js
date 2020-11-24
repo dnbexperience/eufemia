@@ -110,13 +110,16 @@ describe('DrawerList component', () => {
   })
 
   it('has correct state after changing prop to opened', () => {
+    expect(Comp.exists('.dnb-drawer-list--opened')).toBe(true)
     Comp.setProps({
       opened: false
     })
+    Comp.update()
     expect(Comp.exists('.dnb-drawer-list--opened')).toBe(false)
     Comp.setProps({
       opened: true
     })
+    Comp.update()
     expect(Comp.exists('.dnb-drawer-list--opened')).toBe(true)
   })
 
@@ -192,28 +195,40 @@ describe('DrawerList component', () => {
     ).toBe(true)
   })
 
-  it('has valid on_select callback', async () => {
+  it('has valid on_select callback', () => {
     const on_select = jest.fn()
 
     const Comp = mount(
       <Component {...props} data={mockData} on_select={on_select} />
     )
 
-    // then simulate changes
+    // select the current
     keydown(Comp, 32) // space
 
     const notChangedItem = mockData[props.value]
     expect(on_select.mock.calls[0][0].data).toStrictEqual(notChangedItem)
+    expect(on_select.mock.calls[0][0].selected_item).toBe(2)
+    expect(on_select.mock.calls[0][0].active_item).toBe(2)
 
-    await wait(100)
+    // reset props
+    Comp.setProps({
+      opened: null
+    })
 
+    // then open again
+    Comp.setProps({
+      opened: true
+    })
     keydown(Comp, 40) // down
+
+    expect(on_select.mock.calls[1][0].selected_item).toBe(undefined)
+    expect(on_select.mock.calls[1][0].active_item).toBe(3)
 
     const selectedItem = mockData[props.value + 1]
     expect(on_select.mock.calls[1][0].data).toStrictEqual(selectedItem) // second call!
   })
 
-  it('has valid on_change callback', async () => {
+  it('has valid on_change callback', () => {
     const on_change = jest.fn()
     const on_select = jest.fn()
 
@@ -236,7 +251,15 @@ describe('DrawerList component', () => {
     expect(on_change.mock.calls[0][0].data).toStrictEqual(selectedItem)
     expect(on_select.mock.calls[1][0].data).toStrictEqual(selectedItem)
 
-    await wait(100)
+    // reset props
+    Comp.setProps({
+      opened: null
+    })
+
+    // then open again
+    Comp.setProps({
+      opened: true
+    })
 
     // then simulate changes
     keydown(Comp, 40) // down
@@ -314,8 +337,30 @@ describe('DrawerList component', () => {
       <Component {...props} data={mockData} on_hide={on_hide} />
     )
 
+    expect(
+      Comp.find('span.dnb-drawer-list')
+        .instance()
+        .classList.contains('dnb-drawer-list--opened')
+    ).toBe(true)
+    expect(
+      Comp.find('span.dnb-drawer-list')
+        .instance()
+        .classList.contains('dnb-drawer-list--hidden')
+    ).toBe(false)
+
     keydown(Comp, 27) // esc
     expect(on_hide.mock.calls.length).toBe(1)
+
+    expect(
+      Comp.find('span.dnb-drawer-list')
+        .instance()
+        .classList.contains('dnb-drawer-list--opened')
+    ).toBe(false)
+    expect(
+      Comp.find('span.dnb-drawer-list')
+        .instance()
+        .classList.contains('dnb-drawer-list--hidden')
+    ).toBe(true)
   })
 
   it('has correct class modifyer "--opened"', () => {
@@ -326,7 +371,7 @@ describe('DrawerList component', () => {
       'dnb-drawer-list--opened'
     )
 
-    expect(elem.hasClass('dnb-drawer-list--closed')).toBe(false)
+    expect(elem.hasClass('dnb-drawer-list--hidden')).toBe(false)
   })
 
   it('has correct length of li elements', () => {
@@ -363,17 +408,25 @@ describe('DrawerList component', () => {
 
   it('has to return all additional attributes the event return', () => {
     const on_show = jest.fn()
+    const on_hide = jest.fn()
     const params = { 'data-attr': 'value' }
+
     mount(
       <Component
         {...props}
         on_show={on_show}
+        on_hide={on_hide}
         {...params}
         data={mockData}
       />
     )
+
     expect(on_show.mock.calls.length).toBe(1)
     expect(on_show.mock.calls[0][0].attributes).toMatchObject(params)
+
+    keydown(Comp, 27) // esc
+    expect(on_hide.mock.calls.length).toBe(1)
+    expect(on_hide.mock.calls[0][0].attributes).toMatchObject(params)
   })
 })
 
