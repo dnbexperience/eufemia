@@ -299,8 +299,8 @@ export const createPagination = (initProps = {}) => {
 
   const args = (props) => ({
     ...{ ...initProps, ...props },
-    store: store,
-    rerender: rerender,
+    store,
+    rerender,
     set_content_handler: (fn) => (_setContent.current = fn),
     reset_content_handler: (fn) => (_resetContent.current = fn),
     reset_pagination_handler: (fn) => (_resetInfinity.current = fn),
