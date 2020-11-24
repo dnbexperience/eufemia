@@ -305,22 +305,114 @@ describe('Autocomplete component', () => {
     ).toBe(mockData.length)
   })
 
-  it('has to return all additional attributes the event return', () => {
+  it.only('has valid events returning all additional attributes the event return', () => {
     const on_show = jest.fn()
+    const on_hide = jest.fn()
+    const on_focus = jest.fn()
+    const on_blur = jest.fn()
     const params = { 'data-attr': 'value' }
     const Comp = mount(
       <Component
         no_animation
         on_show={on_show}
+        on_hide={on_hide}
+        on_focus={on_focus}
+        on_blur={on_blur}
         {...params}
         data={mockData}
         show_submit_button
         {...mockProps}
       />
     )
+
     open(Comp)
     expect(on_show.mock.calls.length).toBe(1)
     expect(on_show.mock.calls[0][0].attributes).toMatchObject(params)
+    expect(on_show).toHaveBeenCalledWith({
+      attributes: params,
+      data: null,
+      ulElement: null
+    })
+
+    keydown(Comp, 27) // esc
+    expect(on_hide.mock.calls.length).toBe(1)
+    expect(on_hide.mock.calls[0][0].attributes).toMatchObject(params)
+    expect(on_hide.mock.calls[0][0].event).toMatchObject(
+      new KeyboardEvent('keydown', {})
+    )
+
+    Comp.find('input').simulate('focus')
+    expect(on_focus.mock.calls.length).toBe(1)
+    expect(on_focus.mock.calls[0][0].attributes).toMatchObject(params)
+
+    Comp.find('input').simulate('blur')
+    expect(on_blur.mock.calls.length).toBe(1)
+    expect(on_blur.mock.calls[0][0].attributes).toMatchObject(params)
+
+    expect(
+      Comp.find('.dnb-autocomplete').hasClass('dnb-autocomplete--opened')
+    ).toBe(false)
+
+    open(Comp)
+    expect(on_show.mock.calls.length).toBe(2)
+    expect(on_show.mock.calls[1][0].attributes).toMatchObject(params)
+
+    expect(
+      Comp.find('.dnb-autocomplete').hasClass('dnb-autocomplete--opened')
+    ).toBe(true)
+
+    keydown(Comp, 27) // esc
+
+    expect(
+      Comp.find('.dnb-autocomplete').hasClass('dnb-autocomplete--opened')
+    ).toBe(false)
+  })
+
+  it('will prevent close if false gets returned from on_hide event', () => {
+    let preventClose = false
+    const on_hide = jest.fn(() => !preventClose)
+    const Comp = mount(
+      <Component
+        no_animation
+        on_hide={on_hide}
+        data={mockData}
+        show_submit_button
+        {...mockProps}
+      />
+    )
+
+    // first open
+    open(Comp)
+
+    expect(
+      Comp.find('.dnb-autocomplete').hasClass('dnb-autocomplete--opened')
+    ).toBe(true)
+
+    // close
+    keydown(Comp, 27) // esc
+    expect(on_hide.mock.calls.length).toBe(1)
+
+    expect(
+      Comp.find('.dnb-autocomplete').hasClass('dnb-autocomplete--opened')
+    ).toBe(false)
+
+    // reopen
+    open(Comp)
+
+    expect(
+      Comp.find('.dnb-autocomplete').hasClass('dnb-autocomplete--opened')
+    ).toBe(true)
+
+    preventClose = true
+
+    // close again, but with false returned
+    keydown(Comp, 27) // esc
+    expect(on_hide.mock.calls.length).toBe(2)
+
+    // we are still open
+    expect(
+      Comp.find('.dnb-autocomplete').hasClass('dnb-autocomplete--opened')
+    ).toBe(true)
   })
 
   it('has no highlighted value by using "disable_highlighting"', () => {

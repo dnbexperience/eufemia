@@ -426,22 +426,16 @@ class AutocompleteInstance extends React.PureComponent {
     this.setVisible()
   }
 
-  scrollToActiveItem = () => {
-    this.context.drawerList.scrollToItem(
-      this.context.drawerList.active_item,
-      {
-        scrollTo: false
-      }
-    )
+  scrollToActiveItem = (active_item) => {
+    this.context.drawerList.scrollToItem(active_item, {
+      scrollTo: false
+    })
   }
 
-  scrollToSelectedItem = () => {
-    this.context.drawerList.scrollToAndSetActiveItem(
-      this.context.drawerList.selected_item,
-      {
-        scrollTo: false
-      }
-    )
+  scrollToSelectedItem = (selected_item) => {
+    this.context.drawerList.scrollToAndSetActiveItem(selected_item, {
+      scrollTo: false
+    })
   }
 
   onInputChangeHandler = ({ value, event }, options = {}) => {
@@ -982,7 +976,7 @@ class AutocompleteInstance extends React.PureComponent {
     this.context.drawerList.setState({
       cache_hash: 'all'
     })
-    this.scrollToSelectedItem()
+    this.scrollToSelectedItem(this.context.drawerList.selected_item)
   }
 
   totalReset = () => {
@@ -1197,14 +1191,23 @@ class AutocompleteInstance extends React.PureComponent {
     return searchIndex
   }
 
-  onHideHandler = () => {
-    try {
-      this._refInput.current._ref.current.focus({
-        preventScroll: true
-      })
-    } catch (e) {
-      // do nothing
+  onHideHandler = (args = {}) => {
+    const res = dispatchCustomElementEvent(this, 'on_hide', {
+      ...args,
+      ...this.getEventObjects('on_hide')
+    })
+
+    if (res !== false) {
+      try {
+        this._refInput.current._ref.current.focus({
+          preventScroll: true
+        })
+      } catch (e) {
+        // do nothing
+      }
     }
+
+    return res
   }
 
   onSelectHandler = (args) => {
@@ -1222,13 +1225,10 @@ class AutocompleteInstance extends React.PureComponent {
 
       if (parseFloat(selected_item) > -1) {
         const active_item = selected_item - 1
-        clearTimeout(this._selectTimeout)
-        this._selectTimeout = setTimeout(() => {
-          this.context.drawerList.setState({
-            active_item
-          })
-          this.scrollToActiveItem()
-        }, 1)
+        this.context.drawerList.setState({
+          active_item
+        })
+        this.scrollToActiveItem(active_item)
       }
 
       return false

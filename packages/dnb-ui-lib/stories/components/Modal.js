@@ -41,6 +41,35 @@ export const ModalSandbox = () => (
 
     <Box>
       <Modal
+        title="1s close delay"
+        trigger_text="Click me"
+        prevent_close="true"
+        // hide_close_button="true"
+        on_open={(e) => console.log('on_open', e)}
+        on_close={(e) => console.log('on_close', e)}
+        on_close_prevent={({ close, triggeredBy }) => {
+          switch (triggeredBy) {
+            case 'keyboard':
+            case 'button':
+              close()
+              break
+            case 'overlay': {
+              const timeout = setTimeout(close, 1e3)
+              return () => clearTimeout(timeout) // clear timeout on unmount
+            }
+          }
+        }}
+      >
+        <P>This is a Modal Window with no close button.</P>
+        <P>Click outside me, and I will be closed within 1 second.</P>
+        <Section top spacing style_type="divider">
+          <Input label="Focus:">Focus me with Tab key</Input>
+        </Section>
+      </Modal>
+    </Box>
+
+    <Box>
+      <Modal
         // trigger_attributes={{
         //   'aria-label': 'My Label'
         // }}

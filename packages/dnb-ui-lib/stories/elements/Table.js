@@ -87,9 +87,9 @@ export const TableSandbox = () => (
                 data={data}
                 selected_index={0}
                 title="Please select a value"
-                on_change={({ data: { selected_key } }) => {
+                on_change={({ data }) => {
                   //eslint-disable-line
-                  console.log('on_change', selected_key) //eslint-disable-line
+                  console.log('on_change', data?.selected_key) //eslint-disable-line
                 }}
               />
             </td>

@@ -71,7 +71,7 @@ describe('Pagination bar component', () => {
 
   it('accepts element in the function return', () => {
     const Comp = mount(
-      <Component page_count={3} current_page={2}>
+      <Component page_count={3} startup_page={2}>
         {({ pageNo }) => <div>{pageNo}</div>}
       </Component>
     )
@@ -80,7 +80,7 @@ describe('Pagination bar component', () => {
 
   it('sets content with setContent', () => {
     const Comp = mount(
-      <Component page_count={3} current_page={2}>
+      <Component page_count={3} startup_page={2}>
         {({ pageNo, setContent }) => {
           setContent(pageNo, <div>{pageNo}</div>)
         }}
@@ -97,6 +97,57 @@ describe('Pagination bar component', () => {
 
     nextButton.simulate('click')
     expect(Comp.find('.dnb-pagination__content').text()).toBe('3')
+  })
+
+  it('rerenders properly', () => {
+    const Rerender = () => {
+      const [count, incrementBy] = React.useReducer((state, count) => {
+        return state + count
+      }, 1)
+      const onClickHandler = () => incrementBy(1)
+      return (
+        <>
+          <button id="button" onClick={onClickHandler}>
+            {count}
+          </button>
+          <Component page_count={3} startup_page={2}>
+            {({ pageNo, setContent }) => {
+              setContent(
+                pageNo,
+                <code>{JSON.stringify({ pageNo, count })}</code>
+              )
+            }}
+          </Component>
+        </>
+      )
+    }
+    const Comp = mount(<Rerender />)
+
+    expect(Comp.find('#button').text()).toBe('1')
+    expect(Comp.find('.dnb-pagination__content').text()).toBe(
+      '{"pageNo":2,"count":1}'
+    )
+
+    Comp.find('#button').simulate('click')
+    expect(Comp.find('#button').text()).toBe('2')
+    expect(Comp.find('.dnb-pagination__content').text()).toBe(
+      '{"pageNo":2,"count":2}'
+    )
+
+    const nextButton = Comp.find('div.dnb-pagination__bar')
+      .find('button.dnb-pagination__button')
+      .find('.dnb-button--size-small')
+      .at(1)
+
+    nextButton.simulate('click')
+    expect(Comp.find('.dnb-pagination__content').text()).toBe(
+      '{"pageNo":3,"count":2}'
+    )
+
+    Comp.find('#button').simulate('click')
+    expect(Comp.find('.dnb-pagination__content').text()).toBe(
+      '{"pageNo":3,"count":3}'
+    )
   })
 
   it('has valid on_change callback', () => {

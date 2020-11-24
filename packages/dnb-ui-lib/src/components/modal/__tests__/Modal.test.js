@@ -130,14 +130,66 @@ describe('Modal component', () => {
       <Component {...props} on_close={on_close} on_open={on_open} />
     )
     Comp.find('button').simulate('click')
+    expect(on_open).toHaveBeenCalledTimes(1)
+    expect(on_open).toHaveBeenCalledWith({
+      id: 'modal_id'
+    })
 
     Comp.find('div.dnb-modal__content__inner').simulate('keyDown', {
       key: 'Esc',
       keyCode: 27
     })
 
-    expect(on_open).toHaveBeenCalled()
-    expect(on_close).toHaveBeenCalled()
+    expect(on_close).toHaveBeenCalledTimes(1)
+    expect(on_close).toHaveBeenCalledWith({
+      id: 'modal_id'
+    })
+  })
+  it('will prevent closing the modal on prevent_close', () => {
+    const on_open = jest.fn()
+    const on_close = jest.fn()
+    const on_close_prevent = jest.fn()
+    const Comp = mount(
+      <Component
+        {...props}
+        prevent_close
+        on_open={on_open}
+        on_close={on_close}
+        on_close_prevent={on_close_prevent}
+      />
+    )
+    Comp.find('button').simulate('click')
+    expect(on_open).toHaveBeenCalledTimes(1)
+
+    Comp.find('div.dnb-modal__content__inner').simulate('keyDown', {
+      key: 'Esc',
+      keyCode: 27
+    })
+
+    expect(on_close).not.toHaveBeenCalled()
+    expect(on_close_prevent).toHaveBeenCalledTimes(1)
+
+    // trigger the close on the overlay
+    Comp.find('div.dnb-modal__content').simulate('click')
+
+    expect(on_close_prevent).toHaveBeenCalledTimes(2)
+    expect(on_close_prevent.mock.calls[1][0].close).toBeType('function')
+    expect(on_close_prevent.mock.calls[1][0].triggeredBy).toBe('overlay')
+
+    // trigger the close button
+    Comp.find('button.dnb-modal__close-button').simulate('click')
+
+    expect(on_close_prevent).toHaveBeenCalledTimes(3)
+    expect(on_close_prevent.mock.calls[2][0].triggeredBy).toBe('button')
+
+    // trigger the esc key
+    Comp.find('div.dnb-modal__content__inner').simulate('keyDown', {
+      key: 'Esc',
+      keyCode: 27
+    })
+
+    expect(on_close_prevent).toHaveBeenCalledTimes(4)
+    expect(on_close_prevent.mock.calls[3][0].triggeredBy).toBe('keyboard')
   })
   it('has working open event and close event on changing the "open_state"', () => {
     const on_close = jest.fn()
@@ -146,10 +198,10 @@ describe('Modal component', () => {
       <Component {...props} on_close={on_close} on_open={on_open} />
     )
     Comp.setProps({ open_state: 'opened' })
-    expect(on_open).toHaveBeenCalled()
+    expect(on_open).toHaveBeenCalledTimes(1)
 
     Comp.setProps({ open_state: 'closed' })
-    expect(on_close).toHaveBeenCalled()
+    expect(on_close).toHaveBeenCalledTimes(1)
   })
   it('should handle the portal correctly', () => {
     const modalContent = 'Modal Content'

@@ -560,7 +560,7 @@ DrawerList.Options = React.memo(
           className="dnb-drawer-list__triangle"
           aria-hidden
           ref={triangleRef}
-        ></li>
+        />
       </ul>
     )
   }),
