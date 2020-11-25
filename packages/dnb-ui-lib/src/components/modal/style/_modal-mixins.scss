@@ -13,7 +13,7 @@
   }
 
   max-width: 100%; // fixes overflow issue on some browsers
-  max-height: 100vh;
+  max-height: calc(100vh - var(--modal-height-offset, 0.0001rem));
 
   border-radius: 0;
   box-shadow: none;

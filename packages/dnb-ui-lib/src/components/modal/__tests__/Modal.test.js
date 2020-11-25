@@ -34,6 +34,10 @@ beforeAll(() => {
   document.body.appendChild(button)
 })
 
+beforeEach(() => {
+  window.__modalStack = []
+})
+
 describe('Modal component', () => {
   const Comp = mount(<Component {...props} />)
   Comp.setState({

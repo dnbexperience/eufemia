@@ -34,10 +34,14 @@ export const ModalSandbox = () => (
     <Global
       styles={css`
         :root {
-          /* --modal-height-offset: 7rem; */
+          --modal-height-offset: 7rem;
         }
       `}
     />
+
+    <Box>
+      <ModalWithScrollableBox />
+    </Box>
 
     <Box>
       <Modal
@@ -134,6 +138,7 @@ export const ModalSandbox = () => (
       <Modal
         title="Title 1"
         trigger_text="Modal in modal"
+        // open_state="opened"
         style={{
           minHeight: '25rem'
         }}
@@ -640,5 +645,51 @@ function FillContent() {
         // direction="top"
       />
     </>
+  )
+}
+
+function ModalWithScrollableBox() {
+  return (
+    <>
+      {/* <ScrollView /> */}
+      <Modal
+      // fullscreen={true}
+      // open_state="opened"
+      >
+        <ScrollView />
+      </Modal>
+    </>
+  )
+}
+
+function ScrollView() {
+  return (
+    <div
+      style={{
+        height: '80rem',
+        width: '100%',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        background: 'yellow'
+      }}
+    >
+      <div
+        style={{
+          width: '50%',
+          height: '50%',
+          overflowY: 'auto',
+          maxHeight: '12rem'
+        }}
+      >
+        <div
+          style={{
+            height: '62rem',
+            width: '40rem',
+            background: 'linear-gradient(#e66465, #9198e5)'
+          }}
+        />
+      </div>
+    </div>
   )
 }
