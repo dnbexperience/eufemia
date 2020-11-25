@@ -20,9 +20,6 @@
       display: flex;
       flex: 0 1 auto;
 
-      margin-left: -0.5rem;
-      padding-left: 0.5rem;
-
       &:focus {
         @include fakeFocus();
       }
@@ -52,6 +49,11 @@
       width: 100vw;
       height: 1px;
     }
+  }
+
+  &:not(.dnb-tabs--has-scrollbar) &__tabs__tablist {
+    margin-left: -0.5rem;
+    padding-left: 0.5rem;
   }
 
   &__scroll-nav-button {

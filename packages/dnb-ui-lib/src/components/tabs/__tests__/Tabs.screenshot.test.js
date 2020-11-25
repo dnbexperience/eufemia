@@ -66,26 +66,23 @@ describe('Tabs screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+})
+
+describe('Tabs screenshot', () => {
+  setupPageScreenshot({
+    pageViewport: {
+      width: 800 // 50rem
+    },
+    url: '/uilib/components/tabs/demos'
+  })
+
   it('have to match scrollable tabs', async () => {
     const screenshot = await testPageScreenshot({
       style: {
         width: '50rem',
-        padding: '0 2rem 4rem 2rem'
+        padding: '0 3rem 4rem 3rem'
       },
       selector: '[data-visual-test="tabs-tablist-scrollable"]'
-    })
-    expect(screenshot).toMatchImageSnapshot()
-  })
-  it('have to match last scrollable tabs', async () => {
-    const screenshot = await testPageScreenshot({
-      style: {
-        width: '75rem',
-        padding: '0 2rem 4rem 2rem'
-      },
-      selector: '[data-visual-test="tabs-tablist-scrollable"]',
-      simulateSelector:
-        '[data-visual-test="tabs-tablist-scrollable"] .dnb-tabs__tabs__tablist .dnb-tabs__button__snap:last-of-type button',
-      simulate: 'click'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -93,11 +90,33 @@ describe('Tabs screenshot', () => {
     const screenshot = await testPageScreenshot({
       style: {
         width: '50rem',
-        padding: '0 2rem 4rem 2rem'
+        padding: '0 3rem 4rem 3rem'
       },
       selector: '[data-visual-test="tabs-tablist-scrollable"]',
       simulateSelector:
         '[data-visual-test="tabs-tablist-scrollable"] .dnb-tabs__tabs__tablist .dnb-tabs__button__snap:first-of-type button',
+      simulate: 'click'
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+})
+
+describe('Tabs screenshot', () => {
+  setupPageScreenshot({
+    pageViewport: {
+      width: 1200 // 75rem
+    },
+    url: '/uilib/components/tabs/demos'
+  })
+  it('have to match last scrollable tabs', async () => {
+    const screenshot = await testPageScreenshot({
+      style: {
+        width: '75rem',
+        padding: '0 3rem 4rem 3rem'
+      },
+      selector: '[data-visual-test="tabs-tablist-scrollable"]',
+      simulateSelector:
+        '[data-visual-test="tabs-tablist-scrollable"] .dnb-tabs__tabs__tablist .dnb-tabs__button__snap:last-of-type button',
       simulate: 'click'
     })
     expect(screenshot).toMatchImageSnapshot()
