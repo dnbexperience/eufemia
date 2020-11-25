@@ -146,9 +146,24 @@ describe('Modal component', () => {
     })
   })
   it('will prevent closing the modal on prevent_close', () => {
+    let preventClose = true
     const on_open = jest.fn()
     const on_close = jest.fn()
-    const on_close_prevent = jest.fn()
+    const on_close_prevent = jest.fn(({ triggeredBy, close }) => {
+      if (preventClose) {
+        return
+      }
+      switch (triggeredBy) {
+        case 'keyboard':
+        case 'button':
+          close()
+          break
+        case 'overlay':
+          break
+      }
+
+      return { triggeredBy }
+    })
     const Comp = mount(
       <Component
         {...props}
@@ -190,6 +205,18 @@ describe('Modal component', () => {
 
     expect(on_close_prevent).toHaveBeenCalledTimes(4)
     expect(on_close_prevent.mock.calls[3][0].triggeredBy).toBe('keyboard')
+
+    preventClose = false
+
+    // trigger the close on the overlay
+    Comp.find('div.dnb-modal__content').simulate('click')
+
+    expect(Comp.exists('div.dnb-modal__content')).toBe(true)
+
+    // trigger the close button
+    Comp.find('button.dnb-modal__close-button').simulate('click')
+
+    expect(Comp.exists('div.dnb-modal__content')).toBe(false)
   })
   it('has working open event and close event on changing the "open_state"', () => {
     const on_close = jest.fn()
