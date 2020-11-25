@@ -102,8 +102,7 @@ const plugins = [
     resolve: 'gatsby-plugin-offline',
     options: {
       workboxConfig: {
-        // NB: This config setting does currently not work with the latest Gatsby version
-        // maximumFileSizeToCacheInBytes: 4 * 1024 * 1024
+        maximumFileSizeToCacheInBytes: 4 * 1024 * 1024
       }
     }
   }
