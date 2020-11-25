@@ -7,6 +7,7 @@ import React from 'react'
 import { mount } from '../../core/jest/jestSetup'
 import { registerElement } from '../custom-element'
 import {
+  warn,
   isTrue,
   extend,
   extendPropsWithContext,
@@ -30,6 +31,8 @@ beforeAll(() => {
   window.PointerEvent = new CustomEvent('ontouchstart')
   navigator.maxTouchPoints = 2 // mocking touch
   defineNavigator()
+
+  jest.spyOn(global.console, 'warn')
 })
 afterAll(() => {
   document.documentElement.removeAttribute('data-is-touch')
@@ -604,5 +607,23 @@ describe('"matchAll" should', () => {
         expect.arrayContaining(['var(--color-two)', '--color-two'])
       ])
     )
+  })
+})
+
+describe('"warn" should', () => {
+  const text = 'warning text'
+
+  it('print a console.warn', () => {
+    global.console.warn = jest.fn()
+    warn(text)
+    expect(global.console.warn).toBeCalled()
+    expect(global.console.warn).toHaveBeenCalledWith(text)
+  })
+
+  it('not print a console.warn in production', () => {
+    process.env.NODE_ENV = 'production'
+    global.console.warn = jest.fn()
+    warn(text)
+    expect(global.console.warn).not.toBeCalled()
   })
 })
