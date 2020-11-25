@@ -26,6 +26,10 @@ props.element = null
 props.tooltip = null
 props.icon_position = 'right'
 
+beforeAll(() => {
+  jest.spyOn(global.console, 'warn')
+})
+
 describe('Button component', () => {
   it('have to match default button snapshot', () => {
     const Comp = mount(<Component {...props} href={null} />)
@@ -122,6 +126,11 @@ describe('Button component', () => {
     expect(Comp.find('.dnb-button--primary').exists()).toBe(true)
   })
 
+  it('has variant set to primary when only setting text', () => {
+    const Comp = mount(<Component text="Button" />)
+    expect(Comp.find('.dnb-button--primary').exists()).toBe(true)
+  })
+
   it('has variant set to secondary when only setting icon', () => {
     const Comp = mount(<Component icon="question" />)
     expect(Comp.find('.dnb-button--secondary').exists()).toBe(true)
@@ -132,9 +141,17 @@ describe('Button component', () => {
     expect(Comp.find('.dnb-button--size-medium').exists()).toBe(true)
   })
 
-  it('has variant set to primary when only setting text', () => {
-    const Comp = mount(<Component text="Button" />)
-    expect(Comp.find('.dnb-button--primary').exists()).toBe(true)
+  it('has variant tertiary', () => {
+    const Comp = mount(
+      <Component text="Button" variant="tertiary" icon="question" />
+    )
+    expect(Comp.find('.dnb-button--tertiary').exists()).toBe(true)
+  })
+
+  it('will warn when tertiary is used without an icon', () => {
+    global.console.warn = jest.fn()
+    mount(<Component text="Button" variant="tertiary" />)
+    expect(global.console.warn).toBeCalled()
   })
 
   it('has no size when only setting text', () => {
