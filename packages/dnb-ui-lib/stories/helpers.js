@@ -58,8 +58,11 @@ export const Box = styled(Space)`
   position: relative;
 
   margin: 0;
-  padding: 2rem;
-  ${'' /* margin-bottom: 2rem; */}
+  padding: 1rem;
+
+  @media screen and (min-width: 40em) {
+    padding: 1rem;
+  }
 
   &::after {
     content: '';
@@ -71,7 +74,7 @@ export const Box = styled(Space)`
     border-bottom: dashed 1px rgb(0, 200, 200);
   }
 
-  p {
-    ${'' /* background-color: rgba(213, 30, 149, 0.25); */}
-  }
+  /* p {
+    background-color: rgba(213, 30, 149, 0.25);
+  } */
 `

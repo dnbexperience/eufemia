@@ -22,12 +22,14 @@ import { createSpacingClasses } from '../space/SpacingHelper'
 import Button from '../button/Button'
 import Section from '../section/Section'
 import HelpButtonInstance from '../help-button/HelpButtonInstance'
-import ModalContent, { CloseButton } from './ModalContent'
+import ModalContent, {
+  CloseButton,
+  getListOfModalRoots
+} from './ModalContent'
 
 export default class Modal extends React.PureComponent {
   static tagName = 'dnb-modal'
   static contextType = Context
-  static modalRoot = null // gets later '.dnb-modal-root'
 
   static propTypes = {
     id: PropTypes.string,
@@ -184,12 +186,12 @@ export default class Modal extends React.PureComponent {
 
     try {
       id = `dnb-modal-${id || 'root'}`
-      window.modalRoot = document.getElementById(id)
-      if (!window.modalRoot) {
-        window.modalRoot = document.createElement('div')
-        window.modalRoot.setAttribute('id', id)
+      window.__modalRoot = document.getElementById(id)
+      if (!window.__modalRoot) {
+        window.__modalRoot = document.createElement('div')
+        window.__modalRoot.setAttribute('id', id)
         document.body.insertBefore(
-          window.modalRoot,
+          window.__modalRoot,
           document.body.firstChild
         )
       }
@@ -197,7 +199,7 @@ export default class Modal extends React.PureComponent {
       warn('Modal: Could not insert dnb-modal-root', e)
     }
 
-    return window.modalRoot
+    return window.__modalRoot
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -246,6 +248,8 @@ export default class Modal extends React.PureComponent {
         this._onUnmount.push(fn)
       }
     }
+
+    this.handleSideEffects()
   }
 
   componentWillUnmount() {
@@ -295,9 +299,8 @@ export default class Modal extends React.PureComponent {
   addToIndex() {
     if (typeof window !== 'undefined') {
       try {
-        window.modalRoot = window.modalRoot || {}
-        window.modalRoot.index = window.modalRoot.index || []
-        window.modalRoot.index.push(this)
+        window.__modalStack = window.__modalStack || []
+        window.__modalStack.push(this)
       } catch (e) {
         warn(e)
       }
@@ -307,11 +310,12 @@ export default class Modal extends React.PureComponent {
   removeFromIndex() {
     if (typeof window !== 'undefined') {
       try {
-        window.modalRoot.index = window.modalRoot.index.filter(
+        window.__modalStack = window.__modalStack || []
+        window.__modalStack = window.__modalStack.filter(
           (cur) => cur !== this
         )
-        if (!window.modalRoot.index.length) {
-          delete window.modalRoot.index
+        if (!window.__modalStack.length) {
+          delete window.__modalStack
         }
       } catch (e) {
         warn(e)
@@ -464,12 +468,9 @@ export default class Modal extends React.PureComponent {
     } else {
       if (ifIsLatest && typeof window !== 'undefined') {
         try {
-          const index = window.modalRoot.index
-          if (index && index.length) {
-            const last = index[index.length - 1]
-            if (last !== this) {
-              return // stop here
-            }
+          const last = getListOfModalRoots(-1)
+          if (last !== this) {
+            return // stop here
           }
         } catch (e) {
           warn(e)
@@ -644,9 +645,9 @@ class ModalRoot extends React.PureComponent {
         if (
           this.portalElem &&
           typeof window !== 'undefined' &&
-          window.modalRoot
+          window.__modalRoot
         ) {
-          window.modalRoot.appendChild(this.portalElem)
+          window.__modalRoot.appendChild(this.portalElem)
         }
       } catch (e) {
         warn(e)
@@ -660,10 +661,10 @@ class ModalRoot extends React.PureComponent {
       if (
         this.portalElem &&
         typeof window !== 'undefined' &&
-        window.modalRoot &&
-        window.modalRoot.removeChild
+        window.__modalRoot &&
+        window.__modalRoot.removeChild
       ) {
-        window.modalRoot.removeChild(this.portalElem)
+        window.__modalRoot.removeChild(this.portalElem)
         this.portalElem = null
       }
     } catch (e) {
@@ -681,7 +682,7 @@ class ModalRoot extends React.PureComponent {
     if (
       this.portalElem &&
       typeof window !== 'undefined' &&
-      window.modalRoot &&
+      window.__modalRoot &&
       this.state.isMounted
     ) {
       return ReactDOM.createPortal(

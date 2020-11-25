@@ -693,8 +693,6 @@ exports[`Tabs scss have to match snapshot 1`] = `
   .dnb-tabs__tabs__tablist {
     display: flex;
     flex: 0 1 auto;
-    margin-left: -0.5rem;
-    padding-left: 0.5rem;
     overflow-x: auto;
     overscroll-behavior: contain;
     scrollbar-width: thin;
@@ -735,6 +733,10 @@ exports[`Tabs scss have to match snapshot 1`] = `
     bottom: 0;
     width: 100vw;
     height: 1px; }
+
+.dnb-tabs:not(.dnb-tabs--has-scrollbar) .dnb-tabs__tabs__tablist {
+  margin-left: -0.5rem;
+  padding-left: 0.5rem; }
 
 .dnb-tabs__scroll-nav-button {
   position: absolute;

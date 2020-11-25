@@ -119,8 +119,10 @@ export default class ModalContent extends React.PureComponent {
 
   componentWillUnmount() {
     clearTimeout(this._focusTimeout)
-    this.revertScrollPossibility()
-    this._ii.revert()
+    if (getListOfModalRoots().length <= 1) {
+      this.revertScrollPossibility()
+      this._ii.revert()
+    }
   }
 
   setFocus() {
@@ -358,4 +360,25 @@ export class CloseButton extends React.PureComponent {
       />
     )
   }
+}
+
+export function getListOfModalRoots(index = null) {
+  if (typeof window !== 'undefined') {
+    try {
+      const stack = window.__modalStack || []
+      if (index !== null) {
+        if (index === -1 && stack.length) {
+          return stack[stack.length - 1]
+        } else if (index > -1) {
+          return stack[index]
+        }
+      }
+
+      return stack
+    } catch (e) {
+      warn(e)
+    }
+  }
+
+  return []
 }

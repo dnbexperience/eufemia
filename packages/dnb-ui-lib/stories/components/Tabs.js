@@ -39,11 +39,14 @@ export const TabsSandbox = () => {
             padding: 0 2rem;
           } */
 
-          .dnb-tabs__tabs__tablist {
+          /* .dnb-tabs__tabs__tablist {
             padding: 0 2rem;
-          }
+          } */
         `}
       />
+      <Box>
+        <TabsInGrid />
+      </Box>
       <Box>
         <Input
           label="Change state"
@@ -181,59 +184,99 @@ const tabsData = [
   { title: 'First', key: 'first' },
   { title: 'Second', key: 'second' },
   { title: 'Third', key: 'third', disabled: true },
-  { title: 'Fourth', key: 'fourth' }
+  { title: 'Fourth', key: 'fourth' },
+  {
+    title: (
+      <>
+        <Icon right="x-small" icon={Bell} />
+        Three long name asd
+      </>
+    ),
+    selected: true,
+    key: 'three',
+    content: 'Content three'
+  }
 ]
 
-const TabStyle = styled.div`
-  .dnb-tabs__button__title:active {
-    opacity: 0.2;
-  }
-  ${'' /* .dnb-icon--default:active {
-    opacity: 0.2;
-  } */}
-`
-
 const TabsAndRerender = () => (
-  <TabStyle>
-    <Tabs
-      section_style="mint-green"
-      prevent_rerender
-      // content={{
-      //   one: ContentOne,
-      //   two: ContentTwo,
-      //   three: 'Content three'
-      // }}
-      data={[
-        { title: 'One long', key: 'one', content: ContentOne },
-        { title: 'Two long and more', key: 'two', content: ContentTwo },
-        { title: 'Three long', key: 'two1', content: ContentTwo },
-        { title: 'More long', key: 'two3', content: ContentTwo },
-        { title: 'And here long', key: 'two41', content: ContentTwo },
-        { title: 'Four name', key: 'two2', content: ContentTwo },
-        {
-          title: (
-            <>
-              <Icon right="x-small" icon={Bell} />
-              Three long name asd
-            </>
-          ),
-          selected: true,
-          key: 'three',
-          content: 'Content three'
-        }
-      ]}
-    />
-  </TabStyle>
+  <Tabs
+    section_style="mint-green"
+    prevent_rerender
+    content={manyTabsContent}
+    data={manyTabs}
+  />
 )
-const ContentOne = () => {
-  console.log('Content one')
-  return (
-    <>
-      <Input label="Content one" placeholder="Edit me" />
-    </>
-  )
-}
-const ContentTwo = () => {
-  console.log('Content two')
-  return <>Content two</>
-}
+const TabGridStyle = styled.div`
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  column-gap: 1rem;
+
+  margin: 0 auto;
+
+  @media screen and (min-width: 40em) {
+    grid-template-columns: repeat(6, 1fr);
+    max-width: 35rem;
+  }
+  @media screen and (min-width: 60em) {
+    grid-template-columns: repeat(12, 1fr);
+    max-width: 71rem;
+  }
+`
+const TabGridWrapperStyle = styled.div`
+  grid-column: span 4;
+  grid-column-start: span 4;
+  grid-column-end: auto;
+
+  @media screen and (min-width: 40em) {
+    grid-column: span 6;
+    grid-column-start: span 6;
+  }
+  @media screen and (min-width: 60em) {
+    grid-column: span 12;
+    grid-column-start: span 12;
+  }
+`
+const manyTabs = [
+  { title: 'Egen sparing til pensjon', key: 'first' },
+  { title: 'Pensjon fra arbeidsgiver', key: 'second', selected: true },
+  { title: 'Planlegg pensjon', key: 'third' },
+  { title: 'Rammelån', key: 'fourth' },
+  // { title: 'First', key: 'first' },
+  // { title: 'Second', key: 'second' },
+  // { title: 'Third', key: 'third', disabled: true },
+  // { title: 'Fourth', key: 'fourth', selected: true },
+  { title: 'Fifth', key: 'fifth' },
+  { title: 'Sixth', key: 'sixth' }
+  // { title: 'Seventh', key: 'seventh' },
+  // { title: 'Eighth', key: 'eighth' },
+  // { title: 'Ninth', key: 'ninth' },
+  // { title: 'Tenth', key: 'tenth' }
+]
+const manyTabsContent = manyTabs.reduce((acc, { title, key }) => {
+  acc[key] = title
+  return acc
+}, {})
+const TabsInGrid = () => (
+  <TabGridStyle>
+    <TabGridWrapperStyle>
+      <Tabs
+        // section_style="mint-green"
+        prevent_rerender
+        content={manyTabsContent}
+        data={manyTabs}
+      />
+    </TabGridWrapperStyle>
+  </TabGridStyle>
+)
+// const ContentOne = () => {
+//   console.log('Content one')
+//   return (
+//     <>
+//       <Input label="Content one" placeholder="Edit me" />
+//     </>
+//   )
+// }
+// const ContentTwo = () => {
+//   console.log('Content two')
+//   return <>Content two</>
+// }

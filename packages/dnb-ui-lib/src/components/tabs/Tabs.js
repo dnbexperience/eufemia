@@ -20,7 +20,6 @@ import {
   getPreviousSibling,
   filterProps
 } from '../../shared/component-helper'
-import { IS_SAFARI } from '../../shared/helpers'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import {
   createSkeletonClass,
@@ -293,11 +292,15 @@ export default class Tabs extends React.PureComponent {
     }
   }
 
+  componentDidUpdate() {
+    this.onResizeHandler()
+  }
+
   componentWillUnmount() {
     this.resetWhatInput()
     clearTimeout(this._scrollToTabTimeout)
     if (typeof window !== 'undefined') {
-      window.removeEventListener('resize', this.onScrollHandler)
+      window.removeEventListener('resize', this.onResizeHandler)
     }
   }
 
@@ -351,7 +354,7 @@ export default class Tabs extends React.PureComponent {
     }
   }
 
-  onScrollHandler = () => {
+  onResizeHandler = () => {
     const hasScrollbar = (this._hasScrollbar = this.hasScrollbar())
     if (hasScrollbar !== this.state.hasScrollbar) {
       this.setState({
@@ -361,23 +364,28 @@ export default class Tabs extends React.PureComponent {
 
     if (this._hasScrollbar) {
       try {
-        if (window.innerWidth / 16 <= 40) {
+        if (Math.ceil(window.innerWidth / 16) <= 40 || this.isAtEdge()) {
           if (!this._tabsRef.current.style.marginLeft) {
             const style = window.getComputedStyle(this._tabsRef.current)
 
             if (!(Math.abs(parseFloat(style.marginLeft)) > 0)) {
               const diff =
                 window.innerWidth - this._tabsRef.current.offsetWidth
-              const remVal = Math.round(diff / 16) / 2
-              this._tabsRef.current.style.marginLeft = `-${remVal}rem`
-              this._tabsRef.current.style.marginRight = `-${remVal}rem`
-              this._tablistRef.current.style.paddingLeft = `${remVal}rem`
-              this._tablistRef.current.style.paddingRight = `${remVal}rem`
+              let val = (Math.round(diff / 16) / 2) * 16
+              this._tabsRef.current.style.marginLeft = `-${val}px`
+              this._tabsRef.current.style.marginRight = `-${val}px`
+              if (val < 32) {
+                val = 32
+              }
+              this._tablistRef.current.style.marginLeft = 0 // because of our "margin-left: -0.5px;" focus helper
+              this._tablistRef.current.style.paddingLeft = `${val}px`
+              this._tablistRef.current.style.paddingRight = `${val}px`
             }
           }
         } else {
           this._tabsRef.current.style.marginLeft = ''
           this._tabsRef.current.style.marginRight = ''
+          this._tablistRef.current.style.marginLeft = ''
           this._tablistRef.current.style.paddingLeft = ''
           this._tablistRef.current.style.paddingRight = ''
         }
@@ -412,16 +420,29 @@ export default class Tabs extends React.PureComponent {
       return false
     }
 
-    const width = this._tablistRef.current.offsetWidth + 2 // 2 for border correction to ensure we do that!
-    const screenWidth = window.innerWidth
+    try {
+      const padding = parseFloat(
+        window.getComputedStyle(this._tablistRef.current).paddingLeft
+      )
+      /**
+       * 2 for border correction to ensure we do that
+       * + 64 for the buttons (2x2rem)
+       */
+      const width = this._tablistRef.current.offsetWidth + 2 + 64 - padding
+      const screenWidth = window.innerWidth
 
-    return width >= screenWidth
+      return width >= screenWidth
+    } catch (e) {
+      //
+    }
+
+    return false
   }
 
   addScrollBehaviour() {
-    this.onScrollHandler()
+    this.onResizeHandler()
     if (typeof window !== 'undefined') {
-      window.addEventListener('resize', this.onScrollHandler)
+      window.addEventListener('resize', this.onResizeHandler)
     }
   }
 
@@ -455,6 +476,7 @@ export default class Tabs extends React.PureComponent {
     this.focusTab(key, e, 'step')
     this.scrollToTab('focus')
   }
+
   focusLastTab = (e) => {
     const key = this.state.data[this.state.data.length - 1].key
     this.focusTab(key, e, 'step')
@@ -522,19 +544,31 @@ export default class Tabs extends React.PureComponent {
               '.dnb-tabs__button__snap:last-of-type'
             )
             const isLast = last.classList.contains(type)
-            const style = window.getComputedStyle(this._tabsRef.current)
-            const padding = parseFloat(style.paddingLeft)
-            const margin = parseFloat(style.marginLeft)
-
             const elem = this._tablistRef.current.querySelector(
               `.dnb-tabs__button.${type}`
             )
 
+            const style = window.getComputedStyle(this._tabsRef.current)
+            const margin = parseFloat(style.marginLeft)
+            let padding = margin < 0 ? parseFloat(style.paddingLeft) : 0
+
+            if (
+              !isFirst &&
+              this.state.atEdge &&
+              parseFloat(style.paddingLeft) < 16
+            ) {
+              const navButton = this._tabsRef.current.querySelector(
+                '.dnb-tabs__scroll-nav-button:first-of-type'
+              )
+              padding = parseFloat(
+                window.getComputedStyle(navButton).width
+              )
+            }
+
             const leftPadding =
               (margin < 0 ? Math.abs(margin) : 0) +
               padding +
-              parseFloat(window.getComputedStyle(first).paddingLeft) +
-              (IS_SAFARI ? 16 : 0)
+              parseFloat(window.getComputedStyle(first).paddingLeft)
 
             const left =
               elem && !isFirst ? elem.offsetLeft - leftPadding : 0
@@ -554,7 +588,7 @@ export default class Tabs extends React.PureComponent {
         }
       },
       window.IS_TEST ? 0 : 100
-    ) // Delay so Chrome/Safaru makes the transition / animation smooth
+    ) // Delay so Chrome/Safari makes the transition / animation smooth
   }
 
   onClickHandler = (e) => {

@@ -74,9 +74,7 @@
       max-width: var(--modal-max-width);
 
       height: auto;
-      max-height: calc(
-        100vh - var(--modal-spacing) * 2
-      ); // minus vertical padding
+      max-height: calc(100vh - var(--modal-content-top));
 
       @include defaultDropShadow();
       border-radius: 0.5rem;

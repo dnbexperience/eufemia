@@ -14,7 +14,8 @@ showTabs: true
 
 ```jsx
 <Modal
-	...
+  ...
+  prevent_close={true}
   on_close_prevent={({ triggeredBy, close /* id, event */ }) => {
 	switch (triggeredBy) {
 	case 'keyboard':
