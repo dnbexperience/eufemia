@@ -88,7 +88,7 @@ export default class InputPassword extends React.PureComponent {
         submit_element={
           <SubmitButton
             type="button"
-            variant="primary"
+            variant="secondary"
             aria-controls={id}
             aria-label={
               this.state.hidden ? props.show_password : props.hide_password
