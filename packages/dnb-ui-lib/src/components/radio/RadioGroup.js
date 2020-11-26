@@ -11,6 +11,7 @@ import {
   makeUniqueId,
   registerElement,
   validateDOMAttributes,
+  getStatusState,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
 import { createSpacingClasses } from '../space/SpacingHelper'
@@ -192,7 +193,7 @@ export default class RadioGroup extends React.PureComponent {
     const { value } = this.state
 
     const id = this._id
-    const showStatus = status && status !== 'error'
+    const showStatus = getStatusState(status)
 
     const classes = classnames(
       'dnb-radio-group',

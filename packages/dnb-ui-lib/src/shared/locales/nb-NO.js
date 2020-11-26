@@ -63,7 +63,9 @@ export default {
       aria_role: 'Hjelp-knapp'
     },
     Input: {
-      submit_button_title: 'Send knapp'
+      submit_button_title: 'Send knapp',
+      show_password: 'Vis passord',
+      hide_password: 'Skjul passord'
     },
     Pagination: {
       button_title: 'Side %s',

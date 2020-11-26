@@ -6,6 +6,7 @@ Wrapper
 
 import React from 'react'
 import ComponentBox from 'Src/shared/tags/ComponentBox'
+import InputPassword from 'dnb-ui-lib/src/components/input/InputPassword'
 import styled from '@emotion/styled'
 
 const Wrapper = styled.div`
@@ -20,7 +21,7 @@ const Wrapper = styled.div`
   }
 `
 
-export const InputDefault = () => (
+export const InputExampleDefault = () => (
   <Wrapper>
     <ComponentBox data-visual-test="input-placeholder">
       {
@@ -35,7 +36,7 @@ export const InputDefault = () => (
   </Wrapper>
 )
 
-export const InputSearch = () => (
+export const InputExampleSearch = () => (
   <Wrapper>
     <ComponentBox data-visual-test="input-search">
       {
@@ -58,7 +59,7 @@ export const InputSearch = () => (
   </Wrapper>
 )
 
-export const InputMedium = () => (
+export const InputExampleMedium = () => (
   <Wrapper>
     <ComponentBox data-visual-test="input-medium">
       {
@@ -78,7 +79,7 @@ export const InputMedium = () => (
   </Wrapper>
 )
 
-export const InputWithIcon = () => (
+export const InputExampleWithIcon = () => (
   <Wrapper>
     <ComponentBox data-visual-test="input-icon">
       {
@@ -104,7 +105,7 @@ export const InputWithIcon = () => (
   </Wrapper>
 )
 
-export const InputDisabled = () => (
+export const InputExampleDisabled = () => (
   <Wrapper>
     <ComponentBox data-visual-test="input-disabled">
       {
@@ -120,7 +121,7 @@ export const InputDisabled = () => (
   </Wrapper>
 )
 
-export const InputFailureStatus = () => (
+export const InputExampleFailureStatus = () => (
   <Wrapper>
     <ComponentBox>
       {
@@ -136,7 +137,7 @@ export const InputFailureStatus = () => (
   </Wrapper>
 )
 
-export const InputFormStatus = () => (
+export const InputExampleFormStatus = () => (
   <Wrapper>
     <ComponentBox data-visual-test="input-error">
       {
@@ -152,7 +153,7 @@ export const InputFormStatus = () => (
   </Wrapper>
 )
 
-export const InputSuffix = () => (
+export const InputExampleSuffix = () => (
   <Wrapper>
     <ComponentBox>
       {
@@ -173,7 +174,7 @@ export const InputSuffix = () => (
   </Wrapper>
 )
 
-export const InputStretched = () => (
+export const InputExampleStretched = () => (
   <Wrapper>
     <ComponentBox>
       {
@@ -192,7 +193,7 @@ export const InputStretched = () => (
   </Wrapper>
 )
 
-export const InputNumbers = () => (
+export const InputExampleNumbers = () => (
   <Wrapper>
     <ComponentBox>
       {
@@ -215,7 +216,7 @@ export const InputNumbers = () => (
   </Wrapper>
 )
 
-export const InputSubmit = () => (
+export const InputExampleSubmit = () => (
   <Wrapper>
     <ComponentBox>
       {
@@ -247,6 +248,33 @@ export const InputSubmit = () => (
     <Button text="Submit" type="submit" />
   </FormRow>
 </FormSet>
+`
+      }
+    </ComponentBox>
+  </Wrapper>
+)
+
+export const InputExamplePassword = () => (
+  <Wrapper>
+    <ComponentBox
+      scope={{ InputPassword }}
+      data-visual-test="input-password"
+    >
+      {
+        /* @jsx */ `
+<InputPassword
+  label="Label:"
+  placeholder="A palceholder text"
+  on_change={({ value }) => {
+    console.log('on_change:', value)
+  }}
+  on_show_password={() => {
+    console.log('on_show_password')
+  }}
+  on_hide_password={() => {
+    console.log('on_hide_password')
+  }}
+/>
 `
       }
     </ComponentBox>

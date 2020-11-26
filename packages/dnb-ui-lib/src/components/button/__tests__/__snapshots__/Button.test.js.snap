@@ -674,6 +674,9 @@ exports[`Button scss have to match default theme snapshot 1`] = `
     .dnb-button--primary[disabled] {
       color: var(--color-white);
       background-color: var(--color-sea-green-30); }
+  .dnb-button:not([disabled]).dnb-button--primary.dnb-button__status--error {
+    color: var(--color-white);
+    background-color: var(--color-fire-red); }
   .dnb-button--secondary {
     color: var(--color-sea-green);
     background-color: var(--color-white);

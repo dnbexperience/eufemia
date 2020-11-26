@@ -632,14 +632,14 @@ export const isInsideScrollView = (
   return elem == window ? false : Boolean(elem)
 }
 
-const isTest = process.env.NODE_ENV === 'test'
 export const warn = (...e) => {
-  if (typeof console !== 'undefined') {
-    if (isTest) {
-      console.log(...e)
-    } else if (typeof console.warn === 'function') {
-      console.warn(...e)
-    }
+  if (
+    typeof process !== 'undefined' &&
+    typeof console !== 'undefined' &&
+    process.env.NODE_ENV !== 'production' &&
+    typeof console.log === 'function'
+  ) {
+    console.log('Eufemia:', ...e)
   }
 }
 
@@ -1093,4 +1093,14 @@ export class AnimateHeight {
 
     this.start(height, 0, { animate })
   }
+}
+
+export function convertStatusToStateOnly(status, state) {
+  return status ? state : null
+}
+
+export function getStatusState(status) {
+  return (
+    status && status !== 'error' && status !== 'warn' && status !== 'info'
+  )
 }

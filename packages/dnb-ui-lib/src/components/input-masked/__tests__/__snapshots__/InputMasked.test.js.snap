@@ -783,6 +783,12 @@ legend.dnb-form-label {
   .dnb-input--has-submit-element .dnb-input__placeholder,
   .dnb-input--has-submit-element .dnb-input__input {
     padding-right: calc(var(--input-padding) * 2.5); }
+  .dnb-input--password .dnb-input__placeholder,
+  .dnb-input--password .dnb-input__input {
+    margin-right: 2.5rem;
+    padding-right: 0; }
+  .dnb-input--password .dnb-input__placeholder {
+    padding-right: 4rem; }
   .dnb-input__row {
     display: inline-flex;
     align-items: center; }

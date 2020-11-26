@@ -67,6 +67,8 @@ exports[`Input component have to match type="search" snapshot 1`] = `
         "on_submit_blur": [Function],
         "on_submit_focus": [Function],
         "skeleton": "skeleton",
+        "status": "status",
+        "status_state": "status_state",
         "title": "title",
         "value": "value",
         "variant": "custom type not supported, please set the correct value for variant prop",
@@ -223,6 +225,8 @@ exports[`Input component have to match type="search" snapshot 1`] = `
                   "on_submit_blur": [Function],
                   "on_submit_focus": [Function],
                   "skeleton": "skeleton",
+                  "status": "status",
+                  "status_state": "status_state",
                   "title": "title",
                   "value": "value",
                   "variant": "custom type not supported, please set the correct value for variant prop",
@@ -246,6 +250,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
             size={null}
             skeleton={false}
             status={null}
+            status_state="error"
             title="Send knapp"
             value="test"
             variant="secondary"
@@ -316,6 +321,8 @@ exports[`Input component have to match type="search" snapshot 1`] = `
                     "on_submit_blur": [Function],
                     "on_submit_focus": [Function],
                     "skeleton": "skeleton",
+                    "status": "status",
+                    "status_state": "status_state",
                     "title": "title",
                     "value": "value",
                     "variant": "custom type not supported, please set the correct value for variant prop",
@@ -342,6 +349,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
               size={null}
               skeleton={false}
               status={null}
+              status_state="error"
               title="Send knapp"
               value="test"
               variant="secondary"
@@ -561,6 +569,8 @@ exports[`Input component have to match type="text" snapshot 1`] = `
         "on_submit_blur": [Function],
         "on_submit_focus": [Function],
         "skeleton": "skeleton",
+        "status": "status",
+        "status_state": "status_state",
         "title": "title",
         "value": "value",
         "variant": "custom type not supported, please set the correct value for variant prop",
@@ -748,7 +758,6 @@ exports[`Input scss have to match default theme snapshot 1`] = `
     @media screen and (-ms-high-contrast: none) {
       .dnb-input__status--error .dnb-input__shell:not([data-input-state='focus']) {
         box-shadow: 0 0 0 0.125rem var(--color-fire-red); } }
-  .dnb-input__status--error .dnb-input__shell:not([data-input-state='focus']) ~ .dnb-input__submit-element .dnb-button__icon,
   .dnb-input__status--error .dnb-input__shell:not([data-input-state='focus']) ~ .dnb-input__submit-element .dnb-button--secondary .dnb-button__icon {
     color: var(--color-fire-red); }
   .dnb-input__status--error .dnb-input__shell:not([data-input-state='focus']) ~ .dnb-input__submit-element .dnb-button {
@@ -1410,6 +1419,12 @@ legend.dnb-form-label {
   .dnb-input--has-submit-element .dnb-input__placeholder,
   .dnb-input--has-submit-element .dnb-input__input {
     padding-right: calc(var(--input-padding) * 2.5); }
+  .dnb-input--password .dnb-input__placeholder,
+  .dnb-input--password .dnb-input__input {
+    margin-right: 2.5rem;
+    padding-right: 0; }
+  .dnb-input--password .dnb-input__placeholder {
+    padding-right: 4rem; }
   .dnb-input__row {
     display: inline-flex;
     align-items: center; }

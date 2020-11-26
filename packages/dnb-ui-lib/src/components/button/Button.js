@@ -8,12 +8,14 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import Context from '../../shared/Context'
 import {
+  warn,
   makeUniqueId,
   isTrue,
   extendPropsWithContext,
   registerElement,
   validateDOMAttributes,
   processChildren,
+  getStatusState,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
 import { createSpacingClasses } from '../space/SpacingHelper'
@@ -198,12 +200,18 @@ export default class Button extends React.PureComponent {
       ...attributes
     } = props
 
-    const showStatus = status && status !== 'error'
+    const showStatus = getStatusState(status)
 
     let { text, icon, icon_position: iconPosition } = props
     let usedVariant = variant
     let usedSize = size
     let content = Button.getContent(this.props) || text
+
+    if (variant === 'tertiary' && content && !icon && icon !== false) {
+      warn(
+        `A Tertiary Button requires an icon. Please declare an icon to: ${content}`
+      )
+    }
 
     // NB: Nice API, but will create way too much code to maintain in future
     // therefore we do not use this fro now

@@ -14,6 +14,7 @@ import {
   registerElement,
   dispatchCustomElementEvent,
   detectOutsideClick,
+  getStatusState,
   validateDOMAttributes
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
@@ -534,7 +535,7 @@ export default class DatePicker extends React.PureComponent {
     const { opened, hidden, showInput } = this.state
 
     const id = this._id
-    const showStatus = status && status !== 'error'
+    const showStatus = getStatusState(status)
 
     const pickerParams = {}
     if (showStatus || suffix) {

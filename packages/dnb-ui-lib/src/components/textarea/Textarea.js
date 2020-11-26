@@ -15,6 +15,7 @@ import {
   registerElement,
   validateDOMAttributes,
   processChildren,
+  getStatusState,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
@@ -251,7 +252,7 @@ export default class Textarea extends React.PureComponent {
     const { value, textareaState } = this.state
 
     const id = this._id
-    const showStatus = status && status !== 'error'
+    const showStatus = getStatusState(status)
     const hasValue = Textarea.hasValue(value)
 
     // pass along all props we wish to have as params

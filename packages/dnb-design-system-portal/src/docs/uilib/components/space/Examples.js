@@ -10,43 +10,30 @@ import ComponentBox from '../../../../shared/tags/ComponentBox'
 import styled from '@emotion/styled'
 import { Space } from 'dnb-ui-lib/src/components'
 
-const TestStyles = styled.div`
-  /* make sure our input gets an explicit width, because of mac/linux rendering differences */
-  .dnb-input {
-    &__input {
-      width: 8rem;
-    }
-  }
-  [data-visual-test='spacing-margins'] {
-    display: flex;
-  }
-`
-
-class Example extends React.PureComponent {
-  render() {
-    return (
-      <TestStyles>
-        <ComponentBox
-          title="Spacing method #1 - `Space` component. The RedBox is only to visualize the result."
-          data-visual-test="spacing-method-space"
-          scope={{ RedBox }}
-        >
-          {
-            /* @jsx */ `
+export const SpaceExamplesMethod1 = () => (
+  <TestStyles>
+    <ComponentBox
+      data-visual-test="spacing-method-space"
+      scope={{ RedBox }}
+    >
+      {
+        /* @jsx */ `
 <RedBox>
   <Space top="large x-small">
     <Input label="Input:" />
   </Space>
 </RedBox>
           `
-          }
-        </ComponentBox>
-        <ComponentBox
-          title="Spacing method #2 - `FormRow` component"
-          data-visual-test="spacing-method-form-row"
-        >
-          {
-            /* @jsx */ `
+      }
+    </ComponentBox>
+  </TestStyles>
+)
+
+export const SpaceExamplesMethod2 = () => (
+  <TestStyles>
+    <ComponentBox data-visual-test="spacing-method-form-row">
+      {
+        /* @jsx */ `
 <FormRow>
   <Input label="Input A:" />
 </FormRow>
@@ -54,28 +41,31 @@ class Example extends React.PureComponent {
   <Input label="Input B:" />
 </FormRow>
           `
-          }
-        </ComponentBox>
-        <ComponentBox
-          title="Spacing method #3 - Define the space directly"
-          data-visual-test="spacing-method-component"
-        >
-          {
-            /* @jsx */ `
+      }
+    </ComponentBox>
+  </TestStyles>
+)
+
+export const SpaceExamplesMethod3 = () => (
+  <TestStyles>
+    <ComponentBox data-visual-test="spacing-method-component">
+      {
+        /* @jsx */ `
 <FormRow>
   <Input label="Input A:" right="small" />
   <Input label="Input B:" />
 </FormRow>
           `
-          }
-        </ComponentBox>
-        <ComponentBox
-          title="Spacing with no margin collapse, due to the flex usage"
-          hideCode
-          scope={{ RedBox, Vertical }}
-        >
-          {
-            /* @jsx */ `
+      }
+    </ComponentBox>
+  </TestStyles>
+)
+
+export const SpaceExampleMarginCollapse = () => (
+  <TestStyles>
+    <ComponentBox hideCode scope={{ RedBox, Vertical }}>
+      {
+        /* @jsx */ `
 <Vertical>
   <RedBox>
     <Space bottom="small">
@@ -89,15 +79,16 @@ class Example extends React.PureComponent {
   </RedBox>
 </Vertical>
           `
-          }
-        </ComponentBox>
-        <ComponentBox
-          title="All four values will result in a equivalent margin"
-          data-visual-test="spacing-margins"
-          hideCode
-        >
-          {
-            /* @jsx */ `
+      }
+    </ComponentBox>
+  </TestStyles>
+)
+
+export const SpaceExampleMargins = () => (
+  <TestStyles>
+    <ComponentBox data-visual-test="spacing-margins" hideCode>
+      {
+        /* @jsx */ `
 <Space top="large x-small" right="2.5" bottom="2.5rem" left="40px" >
   <details>
     <summary>
@@ -107,17 +98,24 @@ class Example extends React.PureComponent {
   </details>
 </Space>
           `
-          }
-        </ComponentBox>
-        {false && global.IS_TEST && (
-          <ComponentBox
-            title="All spacing patterns listed (screenshot tests)"
-            data-visual-test="spacing-patterns"
-            scope={{ MagicBox, CustomStyle }}
-            hideCode
-          >
-            {
-              /* @jsx */ `
+      }
+    </ComponentBox>
+  </TestStyles>
+)
+
+export const SpaceExamplePatterns = () =>
+  false &&
+  global.IS_TEST && (
+    <TestStyles>
+      {' '}
+      <ComponentBox
+        title="All spacing patterns listed (screenshot tests)"
+        data-visual-test="spacing-patterns"
+        scope={{ MagicBox, CustomStyle }}
+        hideCode
+      >
+        {
+          /* @jsx */ `
 <CustomStyle className="spacing-patterns">
   <Space top="0.5">
     <MagicBox />
@@ -181,15 +179,22 @@ class Example extends React.PureComponent {
   </Space>
 </CustomStyle>
           `
-            }
-          </ComponentBox>
-        )}
-      </TestStyles>
-    )
-  }
-}
+        }
+      </ComponentBox>
+    </TestStyles>
+  )
 
-export default Example
+const TestStyles = styled.div`
+  /* make sure our input gets an explicit width, because of mac/linux rendering differences */
+  .dnb-input {
+    &__input {
+      width: 8rem;
+    }
+  }
+  [data-visual-test='spacing-margins'] {
+    display: flex;
+  }
+`
 
 const CustomStyle = styled.div`
   display: inline-flex;
