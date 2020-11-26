@@ -636,16 +636,10 @@ export const warn = (...e) => {
   if (
     typeof process !== 'undefined' &&
     typeof console !== 'undefined' &&
-    process.env.NODE_ENV !== 'production'
+    process.env.NODE_ENV !== 'production' &&
+    typeof console.log === 'function'
   ) {
-    if (
-      process.env.NODE_ENV === 'test' &&
-      typeof console.log === 'function'
-    ) {
-      console.log(...e)
-    } else if (typeof console.warn === 'function') {
-      console.warn(...e)
-    }
+    console.log('Eufemia:', ...e)
   }
 }
 

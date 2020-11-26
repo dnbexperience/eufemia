@@ -206,7 +206,7 @@ export default class Button extends React.PureComponent {
     let usedSize = size
     let content = Button.getContent(this.props) || text
 
-    if (variant === 'tertiary' && content && !icon) {
+    if (variant === 'tertiary' && content && !icon && icon !== false) {
       warn(
         `A Tertiary Button requires an icon. Please declare an icon to: ${content}`
       )

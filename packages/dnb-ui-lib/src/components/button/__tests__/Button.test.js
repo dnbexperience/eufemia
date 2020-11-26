@@ -27,7 +27,7 @@ props.tooltip = null
 props.icon_position = 'right'
 
 beforeAll(() => {
-  jest.spyOn(global.console, 'warn')
+  jest.spyOn(global.console, 'log')
 })
 
 describe('Button component', () => {
@@ -150,9 +150,9 @@ describe('Button component', () => {
 
   it('will warn when tertiary is used without an icon', () => {
     process.env.NODE_ENV = 'development'
-    global.console.warn = jest.fn()
+    global.console.log = jest.fn()
     mount(<Component text="Button" variant="tertiary" />)
-    expect(global.console.warn).toBeCalled()
+    expect(global.console.log).toBeCalled()
   })
 
   it('has no size when only setting text', () => {

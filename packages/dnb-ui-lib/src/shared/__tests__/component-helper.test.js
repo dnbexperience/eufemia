@@ -32,7 +32,7 @@ beforeAll(() => {
   navigator.maxTouchPoints = 2 // mocking touch
   defineNavigator()
 
-  jest.spyOn(global.console, 'warn')
+  jest.spyOn(global.console, 'log')
 })
 afterAll(() => {
   document.documentElement.removeAttribute('data-is-touch')
@@ -613,18 +613,18 @@ describe('"matchAll" should', () => {
 describe('"warn" should', () => {
   const text = 'warning text'
 
-  it('print a console.warn', () => {
+  it('print a console.log', () => {
     process.env.NODE_ENV = 'development'
-    global.console.warn = jest.fn()
+    global.console.log = jest.fn()
     warn(text)
-    expect(global.console.warn).toBeCalled()
-    expect(global.console.warn).toHaveBeenCalledWith(text)
+    expect(global.console.log).toBeCalled()
+    expect(global.console.log).toHaveBeenCalledWith('Eufemia:', text)
   })
 
-  it('not print a console.warn in production', () => {
+  it('not print a console.log in production', () => {
     process.env.NODE_ENV = 'production'
-    global.console.warn = jest.fn()
+    global.console.log = jest.fn()
     warn(text)
-    expect(global.console.warn).not.toBeCalled()
+    expect(global.console.log).not.toBeCalled()
   })
 })
