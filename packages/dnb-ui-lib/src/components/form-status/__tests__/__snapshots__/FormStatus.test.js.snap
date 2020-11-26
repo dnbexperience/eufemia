@@ -37,6 +37,14 @@ exports[`FormStatus component have to match snapshot 1`] = `
   }
   2={
     Object {
+      "displayName": "WarnIcon",
+      "props": Object {
+        "title": "title",
+      },
+    }
+  }
+  3={
+    Object {
       "displayName": "InfoIcon",
       "props": Object {
         "title": "title",

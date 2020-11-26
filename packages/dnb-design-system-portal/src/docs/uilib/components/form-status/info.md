@@ -1,5 +1,7 @@
 ---
 showTabs: true
+redirect_from:
+  - /uilib/components/status-message/info
 ---
 
 import FormStatusIcons from 'Pages/icons/form-status.md'

@@ -46,13 +46,13 @@ export default class FormStatus extends React.PureComponent {
     state: PropTypes.oneOfType([
       PropTypes.bool,
       PropTypes.string,
-      PropTypes.oneOf(['error', 'info'])
+      PropTypes.oneOf(['error', 'warn', 'info'])
     ]),
     // status is Deprecated
     status: PropTypes.oneOfType([
       PropTypes.bool,
       PropTypes.string,
-      PropTypes.oneOf(['error', 'info'])
+      PropTypes.oneOf(['error', 'warn', 'info'])
     ]),
     global_status_id: PropTypes.string,
     hidden: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -367,6 +367,46 @@ ErrorIcon.propTypes = {
   title: PropTypes.string
 }
 ErrorIcon.defaultProps = {
+  title: 'error'
+}
+
+export const WarnIcon = (props) => (
+  <svg
+    width="32"
+    height="32"
+    viewBox="0 0 32 32"
+    fill="none"
+    role="presentation"
+    {...props}
+  >
+    {props && props.title && <title>{props.title}</title>}
+    <path
+      d="M16 25a.5.5 0 100 1 .5.5 0 000-1v0"
+      stroke="#000"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M16 21V11"
+      stroke="#000"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+    />
+    <path
+      clipRule="evenodd"
+      d="M18.161 2.347a2.408 2.408 0 00-4.322 0L1.208 28.077A2.028 2.028 0 003.029 31h25.942a2.028 2.028 0 001.821-2.923l-12.63-25.73z"
+      stroke="#000"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+)
+WarnIcon.propTypes = {
+  title: PropTypes.string
+}
+WarnIcon.defaultProps = {
   title: 'error'
 }
 

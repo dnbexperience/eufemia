@@ -1,5 +1,7 @@
 ---
 showTabs: true
+redirect_from:
+  - /uilib/components/status-message/demos
 ---
 
 import {
