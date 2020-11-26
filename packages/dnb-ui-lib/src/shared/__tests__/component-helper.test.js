@@ -614,6 +614,7 @@ describe('"warn" should', () => {
   const text = 'warning text'
 
   it('print a console.warn', () => {
+    process.env.NODE_ENV = 'development'
     global.console.warn = jest.fn()
     warn(text)
     expect(global.console.warn).toBeCalled()

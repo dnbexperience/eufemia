@@ -149,6 +149,7 @@ describe('Button component', () => {
   })
 
   it('will warn when tertiary is used without an icon', () => {
+    process.env.NODE_ENV = 'development'
     global.console.warn = jest.fn()
     mount(<Component text="Button" variant="tertiary" />)
     expect(global.console.warn).toBeCalled()

@@ -636,10 +636,16 @@ export const warn = (...e) => {
   if (
     typeof process !== 'undefined' &&
     typeof console !== 'undefined' &&
-    typeof console.warn === 'function' &&
     process.env.NODE_ENV !== 'production'
   ) {
-    console.warn(...e)
+    if (
+      process.env.NODE_ENV === 'test' &&
+      typeof console.log === 'function'
+    ) {
+      console.log(...e)
+    } else if (typeof console.warn === 'function') {
+      console.warn(...e)
+    }
   }
 }
 
