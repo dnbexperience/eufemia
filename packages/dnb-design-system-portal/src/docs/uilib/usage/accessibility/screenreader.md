@@ -48,3 +48,25 @@ Some random examples of image and illustration usage:
 <object data="..." aria-labelledby="figure-id" />
 <label id="figure-id">descriptive text</label>
 ```
+
+## Usage of aria-label, aria-labelledby, and aria-describedby
+
+There are limitation when on where you can use `aria-label`, `aria-labelledby`, and `aria-describedby` attributes, because they do not work consistently with all HTML elements.
+
+The `aria-label` and `aria-labelledby` attributes can be used to give an element an accessible name.
+The `aria-describedby` attribute can be used to give an element an accessible description.
+
+Do **not** use `aria-label`, `aria-labelledby`, or `aria-describedby` with any other elements like:
+
+- `div`, `span`, `p`, `blockquote`, or `strong` etc.
+
+they generally won’t work across all assistive technology combinations (screen readers).
+
+### Where can I use them?
+
+The `aria-label`, `aria-labelledby`, and `aria-describedby` attributes can be used with:
+
+1. interactive HTML elements like `<a>` (when the href attribute is present), `audio` and `video` (when the controls attribute is present), `input` (unless they are of type="hidden"), `button`, and `textarea`.
+1. elements that have a landmark role – either implicit (`header`, `footer`, `main`, `nav`, `aside`, `section`, and `form`) or explicitly set via the role attribute.
+1. elements that have an explicit widget role applied, using the role attribute – there are 27 widget roles in ARIA 1.1, including `dialog`, `slider`, `progressbar`, and `tooltip`.
+1. elements like `img`, `figure` and `iframe`.
