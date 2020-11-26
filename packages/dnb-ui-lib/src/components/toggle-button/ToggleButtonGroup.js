@@ -12,6 +12,7 @@ import {
   extendPropsWithContext,
   registerElement,
   validateDOMAttributes,
+  getStatusState,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
 import { createSpacingClasses } from '../space/SpacingHelper'
@@ -230,7 +231,7 @@ export default class ToggleButtonGroup extends React.PureComponent {
     const { value, values } = this.state
 
     const id = this._id
-    const showStatus = status && status !== 'error'
+    const showStatus = getStatusState(status)
 
     const classes = classnames(
       'dnb-toggle-button-group',

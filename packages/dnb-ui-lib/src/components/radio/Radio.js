@@ -13,6 +13,7 @@ import {
   extendPropsWithContext,
   registerElement,
   validateDOMAttributes,
+  getStatusState,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
@@ -311,7 +312,7 @@ export default class Radio extends React.PureComponent {
           }
 
           const id = this._id
-          const showStatus = status && status !== 'error'
+          const showStatus = getStatusState(status)
 
           const mainParams = {
             className: classnames(

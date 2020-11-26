@@ -14,6 +14,7 @@ import {
   extendPropsWithContext,
   registerElement,
   validateDOMAttributes,
+  getStatusState,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
@@ -471,7 +472,7 @@ class DropdownInstance extends React.PureComponent {
     }
 
     const { selected_item, direction, opened } = this.context.drawerList
-    const showStatus = status && status !== 'error'
+    const showStatus = getStatusState(status)
     const title = this.getTitle(_title)
 
     // make it possible to grab the rest attributes and return it with all events

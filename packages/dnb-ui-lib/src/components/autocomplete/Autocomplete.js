@@ -16,6 +16,7 @@ import {
   registerElement,
   validateDOMAttributes,
   dispatchCustomElementEvent,
+  getStatusState,
   convertJsxToString
 } from '../../shared/component-helper'
 import {
@@ -1399,7 +1400,7 @@ class AutocompleteInstance extends React.PureComponent {
     } = props
 
     const id = this._id
-    const showStatus = status && status !== 'error'
+    const showStatus = getStatusState(status)
 
     const { inputValue, visibleIndicator, ariaLiveUpdate } = this.state
 

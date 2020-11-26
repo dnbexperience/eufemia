@@ -84,7 +84,6 @@
   &__status--error
     &__shell:not([data-input-state='focus'])
     ~ &__submit-element {
-    .dnb-button__icon,
     .dnb-button--secondary .dnb-button__icon {
       color: var(--color-fire-red);
     }

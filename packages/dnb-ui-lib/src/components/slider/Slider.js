@@ -15,6 +15,7 @@ import {
   validateDOMAttributes,
   processChildren,
   extendPropsWithContext,
+  getStatusState,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
@@ -543,7 +544,7 @@ export default class Slider extends React.PureComponent {
       disabled
     } = this.state
 
-    const showStatus = status && status !== 'error'
+    const showStatus = getStatusState(status)
     const showButtons = !isTrue(hide_buttons)
 
     const id = this._id

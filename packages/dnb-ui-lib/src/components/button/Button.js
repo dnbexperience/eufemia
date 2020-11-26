@@ -15,6 +15,7 @@ import {
   registerElement,
   validateDOMAttributes,
   processChildren,
+  getStatusState,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
 import { createSpacingClasses } from '../space/SpacingHelper'
@@ -199,7 +200,7 @@ export default class Button extends React.PureComponent {
       ...attributes
     } = props
 
-    const showStatus = status && status !== 'error'
+    const showStatus = getStatusState(status)
 
     let { text, icon, icon_position: iconPosition } = props
     let usedVariant = variant

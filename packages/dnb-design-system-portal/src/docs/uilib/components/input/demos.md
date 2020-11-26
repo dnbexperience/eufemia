@@ -4,67 +4,80 @@ showTabs: true
 
 import {
 ScreenshotTests,
-InputDefault,
-InputSearch,
-InputMedium,
-InputWithIcon,
-InputDisabled,
-InputFailureStatus,
-InputFormStatus,
-InputSuffix,
-InputStretched,
-InputNumbers,
-InputSubmit,
+InputExampleDefault,
+InputExampleSearch,
+InputExampleMedium,
+InputExampleWithIcon,
+InputExampleDisabled,
+InputExampleFailureStatus,
+InputExampleFormStatus,
+InputExampleSuffix,
+InputExampleStretched,
+InputExampleNumbers,
+InputExamplePassword,
+InputExampleSubmit
 } from 'Pages/uilib/components/input/Examples'
 
 ## Demos
 
 ### Placeholder text
 
-<InputDefault />
+<InputExampleDefault />
 
 ### Search text placeholder
 
-<InputSearch />
+<InputExampleSearch />
 
 ### Medium and stretched search input
 
-<InputMedium />
+<InputExampleMedium />
 
 ### Input with icon
 
 With left / right aligned text
 
-<InputWithIcon />
+<InputExampleWithIcon />
 
 ### Disabled input
 
-<InputDisabled />
+<InputExampleDisabled />
 
 ### Show failure status
 
-<InputFailureStatus />
+<InputExampleFailureStatus />
 
 ### With FormStatus
 
-<InputFormStatus />
+<InputExampleFormStatus />
 
 ### Input with suffix (additional description)
 
-<InputSuffix />
+<InputExampleSuffix />
 
 ### Stretched `Input` in horizontal wrapping `FormRow` and a long label
 
-<InputStretched />
+<InputExampleStretched />
 
 ### Numbers are ligned by using Proportional Lining
 
-<InputNumbers />
+<InputExampleNumbers />
 
 ### Submit Form with Input
 
 Pressing the enter key will trigger a submit.
 
-<InputSubmit />
+<InputExampleSubmit />
+
+### Input password type
+
+The password component have to ensure that there is still room for password managers to inject the input with their UX functionality.
+
+In order to get the show/hide button, you may have to import the component like so:
+
+```js
+import InputPassword from 'dnb-ui-lib/components/input/InputPassword'
+```
+
+<InputExamplePassword />
 
 <ScreenshotTests />

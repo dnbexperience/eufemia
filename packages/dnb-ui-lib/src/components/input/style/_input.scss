@@ -135,6 +135,15 @@
   &--has-submit-element &__input {
     padding-right: calc(var(--input-padding) * 2.5);
   }
+  // Because of password managers
+  &--password &__placeholder,
+  &--password &__input {
+    margin-right: 2.5rem;
+    padding-right: 0;
+  }
+  &--password &__placeholder {
+    padding-right: 4rem;
+  }
 
   &__row {
     display: inline-flex;

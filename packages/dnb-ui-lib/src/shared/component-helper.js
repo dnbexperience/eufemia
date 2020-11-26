@@ -1094,3 +1094,13 @@ export class AnimateHeight {
     this.start(height, 0, { animate })
   }
 }
+
+export function convertStatusToStateOnly(status, state) {
+  return status ? state : null
+}
+
+export function getStatusState(status) {
+  return (
+    status && status !== 'error' && status !== 'warn' && status !== 'info'
+  )
+}

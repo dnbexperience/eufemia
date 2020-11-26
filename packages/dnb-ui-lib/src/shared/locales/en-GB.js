@@ -67,7 +67,9 @@ export default {
       aria_ready: 'Ready to interact'
     },
     Input: {
-      submit_button_title: 'Submit button'
+      submit_button_title: 'Submit button',
+      show_password: 'Show password',
+      hide_password: 'Hide password'
     },
     Pagination: {
       button_title: 'Page %s',
