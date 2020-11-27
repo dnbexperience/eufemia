@@ -34,7 +34,7 @@ export const ModalSandbox = () => (
     <Global
       styles={css`
         :root {
-          --modal-height-offset: 7rem;
+          /* --modal-height-offset: 7rem; */
         }
       `}
     />

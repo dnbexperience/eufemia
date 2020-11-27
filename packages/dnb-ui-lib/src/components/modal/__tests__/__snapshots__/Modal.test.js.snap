@@ -56,6 +56,7 @@ exports[`Modal component have to match snapshot 1`] = `
         "children": "children",
         "direct_dom_return": "direct_dom_return",
         "id": "id",
+        "root_id": "root_id",
       },
     }
   }
@@ -67,13 +68,13 @@ exports[`Modal component have to match snapshot 1`] = `
       },
     }
   }
-  align_content="left"
+  align_content={null}
   animation_duration={300}
   class={null}
   className={null}
   close_modal={null}
   close_title="close_title"
-  container_placement="right"
+  container_placement={null}
   content_id={null}
   direct_dom_return={true}
   disabled={null}
@@ -421,6 +422,7 @@ exports[`Modal component have to match snapshot 1`] = `
             "children": "children",
             "direct_dom_return": "direct_dom_return",
             "id": "id",
+            "root_id": "root_id",
           },
         }
       }
@@ -432,20 +434,20 @@ exports[`Modal component have to match snapshot 1`] = `
           },
         }
       }
-      align_content="left"
+      align_content={null}
       animation_duration={300}
       class={null}
       className={null}
       closeModal={[Function]}
       close_modal={null}
       close_title="close_title"
-      container_placement="right"
+      container_placement={null}
       content_id="dnb-modal-modal_id"
       direct_dom_return={true}
       fullscreen="auto"
       hide={false}
       hide_close_button={false}
-      id={null}
+      id="modal_id"
       labelled_by="modal_id"
       modal_content="unique_modal_content"
       mode="modal"
@@ -518,6 +520,7 @@ exports[`Modal component have to match snapshot 1`] = `
               "children": "children",
               "direct_dom_return": "direct_dom_return",
               "id": "id",
+              "root_id": "root_id",
             },
           }
         }
@@ -529,20 +532,20 @@ exports[`Modal component have to match snapshot 1`] = `
             },
           }
         }
-        align_content="left"
+        align_content={null}
         animation_duration={300}
         class={null}
         className={null}
         closeModal={[Function]}
         close_modal={null}
         close_title="close_title"
-        container_placement="right"
+        container_placement={null}
         content_class={null}
         content_id="dnb-modal-modal_id"
         fullscreen="auto"
         hide={false}
         hide_close_button={false}
-        id={null}
+        id="modal_id"
         labelled_by="modal_id"
         max_width={null}
         min_width={null}
@@ -566,13 +569,14 @@ exports[`Modal component have to match snapshot 1`] = `
         <div
           aria-describedby="modal_id"
           aria-modal="true"
-          className="dnb-modal__content dnb-modal__content--auto-fullscreen dnb-modal__content--modal dnb-modal__content--spacing dnb-modal__content__align--left dnb-modal__content--right dnb-modal__content--no-animation"
+          className="dnb-modal__content dnb-modal__content--auto-fullscreen dnb-modal__content--modal dnb-modal__content--spacing dnb-modal__content--no-animation"
           id="dnb-modal-modal_id"
           onClick={[Function]}
           role="dialog"
         >
           <ForwardRef(ScrollViewRef)
             className="dnb-modal__content__inner dnb-no-focus dnb-core-style"
+            id="modal_id"
             onClick={[Function]}
             onKeyDown={[Function]}
             onTouchStart={[Function]}
@@ -581,10 +585,12 @@ exports[`Modal component have to match snapshot 1`] = `
             <ScrollView
               class={null}
               className="dnb-modal__content__inner dnb-no-focus dnb-core-style"
+              id="modal_id"
               innerRef={
                 Object {
                   "current": <div
                     class="dnb-scroll-view dnb-modal__content__inner dnb-no-focus dnb-core-style"
+                    id="modal_id"
                     tabindex="-1"
                   >
                     <h1
@@ -643,6 +649,7 @@ exports[`Modal component have to match snapshot 1`] = `
             >
               <div
                 className="dnb-scroll-view dnb-modal__content__inner dnb-no-focus dnb-core-style"
+                id="modal_id"
                 onClick={[Function]}
                 onKeyDown={[Function]}
                 onTouchStart={[Function]}
@@ -1330,27 +1337,15 @@ button.dnb-button::-moz-focus-inner {
 
 @keyframes show-modal-overlay {
   from {
-    background: transparent; }
+    background-color: var(--modal-overlay-transparent); }
   to {
-    background: var(--modal-overlay-bg); } }
+    background-color: var(--modal-overlay-bg); } }
 
 @keyframes hide-modal-overlay {
   from {
-    background: var(--modal-overlay-bg); }
+    background-color: var(--modal-overlay-bg); }
   to {
-    background: transparent; } }
-
-@keyframes show-drawer-overlay {
-  from {
-    background: transparent; }
-  to {
-    background: var(--modal-overlay-bg); } }
-
-@keyframes hide-drawer-overlay {
-  from {
-    background: var(--modal-overlay-bg); }
-  to {
-    background: transparent; } }
+    background-color: var(--modal-overlay-transparent); } }
 
 :root {
   --modal-z-index: 3000;
@@ -1366,6 +1361,7 @@ button.dnb-button::-moz-focus-inner {
   --modal-drawer-min-width: 25rem;
   --modal-drawer-max-width: 40rem;
   --modal-drawer-content-top: 10rem;
+  --modal-overlay-transparent: rgba(0, 0, 0, 0);
   --modal-overlay-bg: rgba(0, 0, 0, 0.32); }
 
 [data-dnb-modal-active='true'] {
@@ -1378,7 +1374,8 @@ button.dnb-button::-moz-focus-inner {
   left: 0; }
 
 .dnb-modal {
-  display: inline-flex; }
+  display: inline-flex;
+  /* stylelint-disable-next-line */ }
   .dnb-modal__content {
     position: fixed;
     top: 0;
@@ -1415,7 +1412,7 @@ button.dnb-button::-moz-focus-inner {
         height: 100vh;
         height: calc(100vh - var(--modal-height-offset, 0.0001rem));
         max-width: 100%;
-        max-height: calc(100vh - var(--modal-height-offset, 0.0001rem));
+        max-height: 100%;
         border-radius: 0;
         box-shadow: none; } }
     .dnb-modal__content--spacing .dnb-modal__content__inner {
@@ -1445,7 +1442,7 @@ button.dnb-button::-moz-focus-inner {
       height: calc(100vh - var(--modal-height-offset, 0.0001rem));
       height: calc(100vh - var(--modal-height-offset, 0.0001rem));
       max-width: 100%;
-      max-height: calc(100vh - var(--modal-height-offset, 0.0001rem));
+      max-height: 100%;
       border-radius: 0;
       box-shadow: none;
       width: var(--modal-drawer-width);
@@ -1485,7 +1482,7 @@ button.dnb-button::-moz-focus-inner {
       height: 100vh;
       height: calc(100vh - var(--modal-height-offset, 0.0001rem));
       max-width: 100%;
-      max-height: calc(100vh - var(--modal-height-offset, 0.0001rem));
+      max-height: 100%;
       border-radius: 0;
       box-shadow: none; }
     html:not([data-visual-test]) .dnb-modal__content--drawer.dnb-modal__content--left .dnb-modal__content__inner {
@@ -1567,22 +1564,15 @@ button.dnb-button::-moz-focus-inner {
     top: 0;
     width: 100%;
     height: 100%;
-    background: var(--modal-overlay-bg);
-    box-shadow: 0 100vh 0 0 var(--modal-overlay-bg);
-    /* stylelint-disable-next-line */ }
-    html:not([data-visual-test]) .dnb-modal__overlay--modal {
-      animation: show-modal-overlay var(--modal-animation-duration) ease-out forwards; }
-    html:not([data-visual-test]) .dnb-modal__overlay--modal.dnb-modal__overlay--hide {
+    will-change: background-color;
+    background-color: var(--modal-overlay-transparent);
+    box-shadow: 0 100vh 0 0 var(--modal-overlay-bg); }
+    .dnb-modal__overlay--modal {
+      animation: show-modal-overlay var(--modal-animation-duration) ease-out forwards 0ms; }
+    .dnb-modal__overlay--drawer {
+      animation: show-modal-overlay var(--modal-animation-duration) ease-out forwards 100ms; }
+    .dnb-modal__overlay--hide {
       animation: hide-modal-overlay var(--modal-animation-duration) ease-in-out forwards; }
-    html:not([data-visual-test]) .dnb-modal__overlay--drawer {
-      animation: show-drawer-overlay var(--modal-animation-duration) ease-out forwards; }
-    html:not([data-visual-test]) .dnb-modal__overlay--drawer.dnb-modal__overlay--hide {
-      animation: hide-drawer-overlay var(--modal-animation-duration) ease-in-out forwards; }
-    .dnb-modal__overlay--no-animation {
-      animation-duration: 0ms !important; }
-    @media screen and (max-width: 40em) {
-      .dnb-modal__overlay--no-animation-on-mobile {
-        animation-duration: 0ms !important; } }
   .dnb-modal-root__inner .dnb-modal__overlay {
     opacity: 0;
     transition: opacity 300ms ease-in-out; }
@@ -1590,6 +1580,13 @@ button.dnb-button::-moz-focus-inner {
     opacity: 1; }
   html[data-visual-test] .dnb-modal-root__inner .dnb-modal__overlay {
     transition: none; }
+  html[data-visual-test] .dnb-modal__overlay, .dnb-modal__overlay--no-animation {
+    animation-delay: 0ms !important;
+    animation-duration: 0ms !important; }
+  @media screen and (max-width: 40em) {
+    .dnb-modal--no-animation-on-mobile {
+      animation-delay: 0ms !important;
+      animation-duration: 0ms !important; } }
   .dnb-modal-root__inner {
     position: relative;
     z-index: calc(var(--modal-z-index) + 1); }

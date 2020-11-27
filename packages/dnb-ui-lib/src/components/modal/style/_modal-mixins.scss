@@ -13,7 +13,7 @@
   }
 
   max-width: 100%; // fixes overflow issue on some browsers
-  max-height: calc(100vh - var(--modal-height-offset, 0.0001rem));
+  max-height: 100%; // ensures full screen on chrome browser
 
   border-radius: 0;
   box-shadow: none;
@@ -89,33 +89,17 @@
 
 @keyframes show-modal-overlay {
   from {
-    background: transparent;
+    background-color: var(--modal-overlay-transparent);
   }
   to {
-    background: var(--modal-overlay-bg);
+    background-color: var(--modal-overlay-bg);
   }
 }
 @keyframes hide-modal-overlay {
   from {
-    background: var(--modal-overlay-bg);
+    background-color: var(--modal-overlay-bg);
   }
   to {
-    background: transparent;
-  }
-}
-@keyframes show-drawer-overlay {
-  from {
-    background: transparent;
-  }
-  to {
-    background: var(--modal-overlay-bg);
-  }
-}
-@keyframes hide-drawer-overlay {
-  from {
-    background: var(--modal-overlay-bg);
-  }
-  to {
-    background: transparent;
+    background-color: var(--modal-overlay-transparent);
   }
 }

@@ -111,7 +111,7 @@ You have the properties `min_width` and `max_width`. But by using these, the wid
   --modal-spacing: var(--spacing-small);
 }
 
-/* Change the Modal fullscreen height calculation  */
+/* Change the Modal fullscreen height calculation if needed  */
 :root {
   /* Defaults to 0 */
   --modal-height-offset: 3rem;
