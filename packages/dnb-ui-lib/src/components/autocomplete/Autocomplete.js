@@ -17,6 +17,7 @@ import {
   validateDOMAttributes,
   dispatchCustomElementEvent,
   getStatusState,
+  combineDescribedBy,
   convertJsxToString
 } from '../../shared/component-helper'
 import {
@@ -1503,13 +1504,11 @@ class AutocompleteInstance extends React.PureComponent {
     }
 
     if (showStatus || suffix) {
-      inputParams['aria-describedby'] = [
-        inputParams['aria-describedby'],
+      inputParams['aria-describedby'] = combineDescribedBy(
+        inputParams,
         showStatus ? id + '-status' : null,
         suffix ? id + '-suffix' : null
-      ]
-        .filter(Boolean)
-        .join(' ')
+      )
     }
 
     let submitButton = false

@@ -16,6 +16,7 @@ import {
   processChildren,
   getStatusState,
   convertStatusToStateOnly,
+  combineDescribedBy,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
@@ -405,14 +406,13 @@ export default class Input extends React.PureComponent {
     }
 
     // we may consider using: aria-details
-    if (showStatus || suffix) {
-      inputParams['aria-describedby'] = [
-        inputParams['aria-describedby'],
+    if (showStatus || suffix || hasSubmitButton) {
+      inputParams['aria-describedby'] = combineDescribedBy(
+        inputParams,
+        hasSubmitButton && !submit_element ? id + '-submit-button' : null,
         showStatus ? id + '-status' : null,
         suffix ? id + '-suffix' : null
-      ]
-        .filter(Boolean)
-        .join(' ')
+      )
     }
     if (readOnly) {
       inputParams['aria-readonly'] = inputParams.readOnly = true
@@ -505,6 +505,7 @@ export default class Input extends React.PureComponent {
                 ) : (
                   <SubmitButton
                     {...attributes}
+                    id={id + '-submit-button'}
                     value={inputParams.value}
                     icon={submit_button_icon}
                     status={convertStatusToStateOnly(

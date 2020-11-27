@@ -15,6 +15,7 @@ import {
   extendPropsWithContext,
   validateDOMAttributes,
   getStatusState,
+  combineDescribedBy,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
@@ -391,13 +392,11 @@ export default class ToggleButton extends React.PureComponent {
           }
 
           if (showStatus || suffix) {
-            buttonParams['aria-describedby'] = [
-              buttonParams['aria-describedby'],
+            buttonParams['aria-describedby'] = combineDescribedBy(
+              buttonParams,
               showStatus ? id + '-status' : null,
               suffix ? id + '-suffix' : null
-            ]
-              .filter(Boolean)
-              .join(' ')
+            )
           }
           if (readOnly) {
             buttonParams['aria-readonly'] = buttonParams.readOnly = true

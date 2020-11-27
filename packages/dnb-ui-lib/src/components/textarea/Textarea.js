@@ -16,6 +16,7 @@ import {
   validateDOMAttributes,
   processChildren,
   getStatusState,
+  combineDescribedBy,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
@@ -281,13 +282,11 @@ export default class Textarea extends React.PureComponent {
 
     // we may considder using: aria-details
     if (showStatus || suffix) {
-      textareaParams['aria-describedby'] = [
-        textareaParams['aria-describedby'],
+      textareaParams['aria-describedby'] = combineDescribedBy(
+        textareaParams,
         showStatus ? id + '-status' : null,
         suffix ? id + '-suffix' : null
-      ]
-        .filter(Boolean)
-        .join(' ')
+      )
     }
     if (readOnly) {
       textareaParams['aria-readonly'] = textareaParams.readOnly = true

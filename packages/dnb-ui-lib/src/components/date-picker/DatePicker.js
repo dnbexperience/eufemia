@@ -15,6 +15,7 @@ import {
   dispatchCustomElementEvent,
   detectOutsideClick,
   getStatusState,
+  combineDescribedBy,
   validateDOMAttributes
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
@@ -539,13 +540,11 @@ export default class DatePicker extends React.PureComponent {
 
     const pickerParams = {}
     if (showStatus || suffix) {
-      pickerParams['aria-describedby'] = [
-        pickerParams['aria-describedby'],
+      pickerParams['aria-describedby'] = combineDescribedBy(
+        pickerParams,
         showStatus ? id + '-status' : null,
         suffix ? id + '-suffix' : null
-      ]
-        .filter(Boolean)
-        .join(' ')
+      )
     }
 
     const submitParams = {

@@ -31,7 +31,7 @@ describe('InputPassword component', () => {
   })
 
   // then test the state management
-  const Comp = mount(<Component />)
+  const Comp = mount(<Component id="input" />)
 
   it('has correct type by default', () => {
     expect(Comp.find('.dnb-input__input').prop('type')).toBe('password')
@@ -42,6 +42,16 @@ describe('InputPassword component', () => {
     expect(Comp.find('.dnb-input__shell').prop('data-input-state')).toBe(
       'focus'
     )
+  })
+
+  it('has aria-describedby and aria-controls', () => {
+    Comp.find('input').simulate('focus')
+    expect(Comp.find('.dnb-input__input').prop('aria-describedby')).toBe(
+      'input-submit-button'
+    )
+    expect(
+      Comp.find('button#input-submit-button').prop('aria-controls')
+    ).toBe('input')
   })
 
   it('has a submit button which gets focus', () => {
@@ -77,7 +87,7 @@ describe('InputPassword component', () => {
     ).not.toBe('focus')
   })
 
-  it('events gets triggered', () => {
+  it('events gets triggered on interaction', () => {
     const on_show_password = jest.fn()
     const on_hide_password = jest.fn()
     const Comp = mount(

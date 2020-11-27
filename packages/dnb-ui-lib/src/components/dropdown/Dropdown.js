@@ -15,6 +15,7 @@ import {
   registerElement,
   validateDOMAttributes,
   getStatusState,
+  combineDescribedBy,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
@@ -525,13 +526,11 @@ class DropdownInstance extends React.PureComponent {
     }
 
     if (showStatus || suffix) {
-      triggerParams['aria-describedby'] = [
-        triggerParams['aria-describedby'],
+      triggerParams['aria-describedby'] = combineDescribedBy(
+        triggerParams,
         showStatus ? id + '-status' : null,
         suffix ? id + '-suffix' : null
-      ]
-        .filter(Boolean)
-        .join(' ')
+      )
     }
 
     if (label) {

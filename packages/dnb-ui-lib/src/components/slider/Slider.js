@@ -16,6 +16,7 @@ import {
   processChildren,
   extendPropsWithContext,
   getStatusState,
+  combineDescribedBy,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
@@ -603,13 +604,11 @@ export default class Slider extends React.PureComponent {
       helperParams['aria-labelledby'] = id + '-label'
     }
     if (showStatus || suffix) {
-      helperParams['aria-describedby'] = [
-        helperParams['aria-describedby'],
+      helperParams['aria-describedby'] = combineDescribedBy(
+        helperParams,
         showStatus ? id + '-status' : null,
         suffix ? id + '-suffix' : null
-      ]
-        .filter(Boolean)
-        .join(' ')
+      )
     }
 
     const subtractParams = {}

@@ -18,6 +18,7 @@ import {
   makeUniqueId,
   InteractionInvalidation,
   extendPropsWithContext,
+  combineDescribedBy,
   validateDOMAttributes
 } from '../../shared/component-helper'
 import Button from '../button/Button'
@@ -262,7 +263,10 @@ export default class ModalContent extends React.PureComponent {
     }
 
     if (labelled_by) {
-      contentParams['aria-describedby'] = labelled_by
+      contentParams['aria-describedby'] = combineDescribedBy(
+        contentParams,
+        labelled_by
+      )
     }
     const overlayParams = {
       className: classnames(

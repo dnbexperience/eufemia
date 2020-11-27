@@ -14,6 +14,7 @@ import {
   registerElement,
   validateDOMAttributes,
   getStatusState,
+  combineDescribedBy,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
@@ -264,13 +265,11 @@ export default class Switch extends React.PureComponent {
     skeletonDOMAttributes(inputParams, skeleton, this.context)
 
     if (showStatus || suffix) {
-      inputParams['aria-describedby'] = [
-        inputParams['aria-describedby'],
+      inputParams['aria-describedby'] = combineDescribedBy(
+        inputParams,
         showStatus ? id + '-status' : null,
         suffix ? id + '-suffix' : null
-      ]
-        .filter(Boolean)
-        .join(' ')
+      )
     }
     if (readOnly) {
       inputParams['aria-readonly'] = inputParams.readOnly = true
