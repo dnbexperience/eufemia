@@ -140,7 +140,7 @@
     min-height: 2rem;
     max-height: 70vh;
 
-    @include scrollY();
+    @include scrollY(auto);
   }
   &--opened &__options {
     scroll-behavior: smooth;
