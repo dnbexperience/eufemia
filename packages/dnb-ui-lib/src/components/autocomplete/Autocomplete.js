@@ -1338,7 +1338,7 @@ class AutocompleteInstance extends React.PureComponent {
       this.props,
       Autocomplete.defaultProps,
       this.context.formRow,
-      this.context.translation.Autocomplete
+      this.context.getTranslation(this.props).Autocomplete
     ))
 
     const {

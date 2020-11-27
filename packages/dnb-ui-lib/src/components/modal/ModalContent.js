@@ -380,7 +380,7 @@ export class CloseButton extends React.PureComponent {
       this.props,
       CloseButton.defaultProps,
       this.context.formRow,
-      this.context.translation.Modal
+      this.context.getTranslation(this.props).Modal
     )
 
     if (style_type === 'cross') {

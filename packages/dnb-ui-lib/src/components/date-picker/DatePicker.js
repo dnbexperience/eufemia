@@ -439,11 +439,9 @@ export default class DatePicker extends React.PureComponent {
   formatSelectedDateTitle() {
     const { range } = this.props
     const { startDate, endDate } = this.state
-    const {
-      selected_date,
-      start,
-      end
-    } = this.context.translation.DatePicker
+    const { selected_date, start, end } = this.context.getTranslation(
+      this.props
+    ).DatePicker
 
     let currentDate = startDate ? format(startDate, 'PPPP') : null
 

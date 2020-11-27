@@ -287,7 +287,7 @@ export default class Input extends React.PureComponent {
       Input.defaultProps,
       { skeleton: this.context?.skeleton },
       this.context.formRow,
-      this.context.translation.Input
+      this.context.getTranslation(this.props).Input
     )
 
     const {

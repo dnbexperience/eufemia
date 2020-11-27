@@ -282,7 +282,7 @@ class DrawerListInstance extends React.PureComponent {
       this.props,
       DrawerList.defaultProps,
       this.context.formRow,
-      this.context.translation.DrawerList
+      this.context.getTranslation(this.props).DrawerList
     )
 
     const {

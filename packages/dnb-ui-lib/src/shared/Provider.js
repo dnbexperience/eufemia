@@ -119,7 +119,6 @@ export default class Provider extends React.PureComponent {
      * which has "refresh" problems, in drawer-list animation was enabled
      */
     this.setState({ __newContext })
-    // this.setState(newContext)
   }
 
   render() {
@@ -132,6 +131,8 @@ export default class Provider extends React.PureComponent {
           ...this.state // Use this state here, because our child provider can still update the context          ...this.context
         }
       : this.state
+
+    this.context.updateTranslation(context.locale, context.translation)
 
     return <Context.Provider value={context}>{children}</Context.Provider>
   }

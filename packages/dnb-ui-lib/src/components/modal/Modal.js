@@ -248,8 +248,6 @@ export default class Modal extends React.PureComponent {
         this._onUnmount.push(fn)
       }
     }
-
-    this.handleSideEffects()
   }
 
   componentWillUnmount() {
@@ -448,7 +446,7 @@ export default class Modal extends React.PureComponent {
       this.props,
       Modal.defaultProps,
       this.context.formRow,
-      this.context.translation.Modal
+      this.context.getTranslation(this.props).Modal
     )
 
     const {

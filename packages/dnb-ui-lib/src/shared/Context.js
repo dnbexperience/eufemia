@@ -31,11 +31,26 @@ export const prepareContext = (props = {}) => {
     locales[key] = destruct(locales[key], translation)
   }
 
-  return {
+  const context = {
+    // We may use that in future
+    updateTranslation: (locale, translation) => {
+      context.translation = context.locales[locale] = translation
+    },
+    getTranslation: (props) => {
+      if (props) {
+        const lang = props.lang || props.locale
+        if (lang && context.locales[lang] && lang !== key) {
+          return context.locales[lang]
+        }
+      }
+      return context.translation
+    },
     locales,
     ...props,
     translation // make sure we set this after props, since we update this one!
   }
+
+  return context
 }
 
 function handleLocaleFallbacks(locale, locales) {
@@ -69,7 +84,7 @@ function destruct(source, validKeys) {
 
         list.forEach((k, i) => {
           source[k] = i === last ? val : source[k]
-          source = source[k]
+          source = source[k] || {}
         })
 
         // If the root object is frozen, then use this

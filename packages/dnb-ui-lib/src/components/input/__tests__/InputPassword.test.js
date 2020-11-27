@@ -12,6 +12,12 @@ import {
 } from '../../../core/jest/jestSetup'
 import Component from '../InputPassword'
 
+import nbNO from '../../../shared/locales/nb-NO'
+import enGB from '../../../shared/locales/en-GB'
+
+const nb = nbNO['nb-NO'].Input
+const en = enGB['en-GB'].Input
+
 const snapshotProps = {
   ...fakeProps(require.resolve('../InputPassword'), {
     all: true,
@@ -41,6 +47,24 @@ describe('InputPassword component', () => {
     Comp.find('input').simulate('focus')
     expect(Comp.find('.dnb-input__shell').prop('data-input-state')).toBe(
       'focus'
+    )
+  })
+
+  it('has correct aria-label', () => {
+    const Comp = mount(<Component id="input" />)
+
+    expect(Comp.find('button').prop('aria-label')).toBe(nb.show_password)
+
+    Comp.setProps({
+      lang: 'en-GB'
+    })
+
+    expect(Comp.find('button').instance().getAttribute('aria-label')).toBe(
+      en.show_password
+    )
+
+    expect(Comp.find('button').instance().getAttribute('aria-label')).toBe(
+      en.show_password
     )
   })
 

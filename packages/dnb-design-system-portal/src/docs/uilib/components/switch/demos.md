@@ -6,6 +6,7 @@ import {
 SwitchExampleDefault,
 SwitchExampleChecked,
 SwitchExampleErrorMessage,
+SwitchExampleSuffix,
 SwitchExampleSizes,
 SwitchExampleDisabled
 } from 'Pages/uilib/components/switch/Examples'
