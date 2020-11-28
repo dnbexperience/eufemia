@@ -38,8 +38,8 @@ export const WebComponent = () => (
       >
         content
       </dnb-section>
-      <Buttons></Buttons>
-      <DatePicker></DatePicker>
+      <Buttons />
+      <DatePicker />
     </Box>
   </Wrapper>
 )
@@ -92,7 +92,7 @@ const DatePicker = () => {
             return_format="dd.MM.yyyy"
             class="date-picker"
             top="large"
-          ></dnb-date-picker>
+           />
         </>
       )}
     </>
