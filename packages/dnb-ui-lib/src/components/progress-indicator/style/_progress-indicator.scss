@@ -105,6 +105,10 @@
       stroke: black;
     }
   }
+  html[data-visual-test] &__circular__line {
+    animation-duration: 0ms;
+    animation-iteration-count: 0;
+  }
 
   &:not(#{&}--no-animation),
   &--visible:not(#{&}--no-animation) {
