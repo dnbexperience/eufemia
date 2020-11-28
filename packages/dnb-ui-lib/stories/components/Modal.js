@@ -22,7 +22,7 @@ import {
   // Space,
   Number
 } from '../../src/components'
-// import { format } from '../../src/components/Number'
+import { ScrollView } from '../../src/fragments'
 import { H2, P, Hr } from '../../src/elements'
 
 export default {
@@ -653,32 +653,33 @@ function ModalWithScrollableBox() {
     <>
       {/* <ScrollView /> */}
       <Modal
-      // fullscreen={true}
-      // open_state="opened"
+        // fullscreen={true}
+        open_state="opened"
       >
-        <ScrollView />
+        <SimScrollView />
       </Modal>
     </>
   )
 }
 
-function ScrollView() {
+function SimScrollView() {
   return (
     <div
       style={{
-        height: '80rem',
         width: '100%',
+        // height: '100vh',
+        height: '20rem',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
         background: 'yellow'
       }}
     >
-      <div
+      <ScrollView
         style={{
           width: '50%',
           height: '50%',
-          overflowY: 'auto',
+          // overflowY: 'auto',
           maxHeight: '12rem'
         }}
       >
@@ -689,7 +690,7 @@ function ScrollView() {
             background: 'linear-gradient(#e66465, #9198e5)'
           }}
         />
-      </div>
+      </ScrollView>
     </div>
   )
 }
