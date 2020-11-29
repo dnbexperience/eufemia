@@ -229,7 +229,7 @@ const MagicBox = ({ label, ...rest }) => {
 
   return (
     <Block {...rest} ref={ref} title={title}>
-      <Line style={{ height: `${spaceInRem}rem` }}></Line>
+      <Line style={{ height: `${spaceInRem}rem` }} />
       <Label>{spaceInRem}</Label>
     </Block>
   )

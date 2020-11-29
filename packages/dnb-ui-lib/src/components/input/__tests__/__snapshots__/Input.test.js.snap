@@ -143,6 +143,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
           data-input-state="virgin"
         >
           <input
+            aria-describedby="input-submit-button"
             autoComplete="off"
             className="dnb-input__input"
             disabled={false}
@@ -238,6 +239,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
             disabled={false}
             icon="search"
             icon_size="default"
+            id="input-submit-button"
             inner_ref={null}
             input_state={null}
             on_blur={null}
@@ -335,7 +337,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
               disabled={false}
               icon="search"
               icon_size="default"
-              id={null}
+              id="input-submit-button"
               innerRef={null}
               inner_ref={null}
               input_state={null}
@@ -372,7 +374,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
                   icon="search"
                   icon_position="right"
                   icon_size="default"
-                  id={null}
+                  id="input-submit-button"
                   innerRef={null}
                   inner_ref={null}
                   onBlur={[Function]}
@@ -396,6 +398,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
                     aria-label="Send knapp"
                     className="dnb-button dnb-button--secondary dnb-input__submit-button__button dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-default dnb-button--size-medium"
                     disabled={false}
+                    id="input-submit-button"
                     onBlur={[Function]}
                     onClick={[Function]}
                     onFocus={[Function]}
@@ -417,7 +420,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
                       icon="search"
                       icon_position="right"
                       icon_size="default"
-                      id={null}
+                      id="input-submit-button"
                       innerRef={null}
                       inner_ref={null}
                       isIconOnly={true}

@@ -43,7 +43,7 @@ const SliderStory = () => {
   return (
     <Wrapper>
       <Box>
-        <DisabledState></DisabledState>
+        <DisabledState />
       </Box>
       <Box>
         Text

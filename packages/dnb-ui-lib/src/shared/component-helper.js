@@ -1104,3 +1104,20 @@ export function getStatusState(status) {
     status && status !== 'error' && status !== 'warn' && status !== 'info'
   )
 }
+
+export function combineDescribedBy(...params) {
+  params = params.map((cur) => {
+    if (cur && typeof cur['aria-describedby'] !== 'undefined') {
+      cur = cur['aria-describedby']
+    }
+    if (typeof cur !== 'string') {
+      cur = null
+    }
+    return cur
+  })
+  params = params.filter(Boolean).join(' ')
+  if (params === '') {
+    params = undefined
+  }
+  return params
+}

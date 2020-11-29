@@ -10,8 +10,8 @@ import {
   toJson,
   loadScss
 } from '../../../core/jest/jestSetup'
-import Heading from '../Heading'
-import { resetLevels, setNextLevel } from '../Heading'
+import Heading, { resetLevels, setNextLevel } from '../Heading'
+
 import H3 from '../../../elements/H3'
 
 const warn = jest.fn()

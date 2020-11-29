@@ -1349,6 +1349,9 @@ button.dnb-button::-moz-focus-inner {
       stroke: grey; }
     .dnb-progress-indicator__circular__line.dark .dnb-progress-indicator__circular__circle {
       stroke: black; }
+  html[data-visual-test] .dnb-progress-indicator__circular__line {
+    animation-duration: 0ms;
+    animation-iteration-count: 0; }
   .dnb-progress-indicator:not(.dnb-progress-indicator--no-animation), .dnb-progress-indicator--visible:not(.dnb-progress-indicator--no-animation) {
     opacity: 0;
     animation: progress-indicator-fade-in 200ms ease-out 1 forwards; }

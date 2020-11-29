@@ -18,7 +18,9 @@ import {
   makeUniqueId,
   InteractionInvalidation,
   extendPropsWithContext,
-  validateDOMAttributes
+  combineDescribedBy,
+  validateDOMAttributes,
+  dispatchCustomElementEvent
 } from '../../shared/component-helper'
 import Button from '../button/Button'
 import ScrollView from '../../fragments/scroll-view/ScrollView'
@@ -27,8 +29,9 @@ import Context from '../../shared/Context'
 export default class ModalContent extends React.PureComponent {
   static propTypes = {
     modal_content: PropTypes.node.isRequired,
-    mode: PropTypes.string,
+    mode: PropTypes.oneOf(['modal', 'drawer']),
     hide: PropTypes.bool,
+    id: PropTypes.string,
     root_id: PropTypes.string,
     labelled_by: PropTypes.string,
     content_id: PropTypes.string,
@@ -74,6 +77,7 @@ export default class ModalContent extends React.PureComponent {
   static defaultProps = {
     mode: null,
     hide: null,
+    id: null,
     root_id: null,
     labelled_by: null,
     content_id: null,
@@ -112,16 +116,54 @@ export default class ModalContent extends React.PureComponent {
   }
 
   componentDidMount() {
+    this.addToIndex()
+
     this.removeScrollPossibility()
     this._ii.activate()
     this.setFocus()
+
+    const id = this.props.id
+    dispatchCustomElementEvent(this, 'on_open', { id })
   }
 
   componentWillUnmount() {
     clearTimeout(this._focusTimeout)
+
+    this.removeFromIndex()
+
     if (getListOfModalRoots().length <= 1) {
       this.revertScrollPossibility()
       this._ii.revert()
+    }
+
+    const id = this.props.id
+    dispatchCustomElementEvent(this, 'on_close', { id })
+  }
+
+  addToIndex() {
+    if (typeof window !== 'undefined') {
+      try {
+        window.__modalStack = window.__modalStack || []
+        window.__modalStack.push(this)
+      } catch (e) {
+        warn(e)
+      }
+    }
+  }
+
+  removeFromIndex() {
+    if (typeof window !== 'undefined') {
+      try {
+        window.__modalStack = window.__modalStack || []
+        window.__modalStack = window.__modalStack.filter(
+          (cur) => cur !== this
+        )
+        if (!window.__modalStack.length) {
+          delete window.__modalStack
+        }
+      } catch (e) {
+        warn(e)
+      }
     }
   }
 
@@ -232,8 +274,9 @@ export default class ModalContent extends React.PureComponent {
         isTrue(hide) && 'dnb-modal__content--hide',
         isTrue(spacing) && 'dnb-modal__content--spacing',
         align_content && `dnb-modal__content__align--${align_content}`,
-        container_placement &&
-          `dnb-modal__content--${container_placement}`,
+        container_placement || mode === 'drawer'
+          ? `dnb-modal__content--${container_placement || 'right'}`
+          : null,
         isTrue(fullscreen)
           ? 'dnb-modal__content--fullscreen'
           : fullscreen === 'auto' && 'dnb-modal__content--auto-fullscreen',
@@ -262,7 +305,10 @@ export default class ModalContent extends React.PureComponent {
     }
 
     if (labelled_by) {
-      contentParams['aria-describedby'] = labelled_by
+      contentParams['aria-describedby'] = combineDescribedBy(
+        contentParams,
+        labelled_by
+      )
     }
     const overlayParams = {
       className: classnames(
@@ -334,7 +380,7 @@ export class CloseButton extends React.PureComponent {
       this.props,
       CloseButton.defaultProps,
       this.context.formRow,
-      this.context.translation.Modal
+      this.context.getTranslation(this.props).Modal
     )
 
     if (style_type === 'cross') {

@@ -90,7 +90,7 @@ export default class AccordionGroup extends React.PureComponent {
       this.props,
       AccordionGroup.defaultProps,
       this.context.formRow,
-      this.context.translation.Accordion
+      this.context.getTranslation(this.props).Accordion
     )
 
     const {

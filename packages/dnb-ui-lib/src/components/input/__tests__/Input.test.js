@@ -214,9 +214,18 @@ describe('Input component', () => {
 
   it('has a submit button on prop type="search"', () => {
     const Comp = mount(
-      <Component {...props} type="search" value={null}>
+      <Component
+        {...props}
+        type="search"
+        value={null}
+        aria-describedby="id"
+      >
         {null}
       </Component>
+    )
+
+    expect(Comp.find('.dnb-input__input').prop('aria-describedby')).toBe(
+      'id input-submit-button'
     )
 
     const Button = Comp.find('InputSubmitButton').find('button')

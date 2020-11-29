@@ -8,8 +8,7 @@ import React /* , { useState, useEffect } */ from 'react'
 import { Wrapper, Box } from '../helpers'
 import styled from '@emotion/styled'
 
-import { Checkbox, FormLabel, FormRow } from '../../src/components'
-// import { Checkbox, FormLabel, FormRow } from '../../components'
+import { Checkbox, Button, FormLabel, FormRow } from '../../src/components'
 
 export default {
   title: 'Eufemia/Components/Checkbox'
@@ -28,6 +27,9 @@ const CustomStyle = styled.div`
 export const CheckboxSandbox = () => (
   <CustomStyle>
     <Wrapper>
+      <Box>
+        <ControlledVsUncontrolled />
+      </Box>
       <Box>
         <FormRow vertical disabled label="Without for_id (select me)">
           <Checkbox label="Checkbox" />
@@ -114,3 +116,31 @@ export const CheckboxSandbox = () => (
     </Wrapper>
   </CustomStyle>
 )
+
+function ControlledVsUncontrolled() {
+  const [checked, setChecked] = React.useState(false)
+  const [random, setRandom] = React.useState()
+
+  return (
+    <>
+      <Checkbox
+        label="Checkbox 1"
+        checked={checked}
+        id="checkbox1"
+        on_change={({ checked }) => {
+          setChecked(checked)
+        }}
+      />
+      <br />
+      <Button on_click={() => setChecked(true)} text="Set checkbox true" />
+      <Button
+        on_click={() => setChecked(undefined)}
+        text="Reset undefined"
+      />
+      <Button on_click={() => setChecked(null)} text="Reset null" />
+      <Button on_click={() => setRandom(Math.random())} text="Rerender" />
+      <br />
+      <code>{JSON.stringify({ checked, random })}</code>
+    </>
+  )
+}

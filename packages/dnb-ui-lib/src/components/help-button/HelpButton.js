@@ -76,7 +76,9 @@ export default class HelpButton extends React.PureComponent {
 
     if (content) {
       if (!params.title) {
-        params.title = this.context.translation.HelpButton.title
+        params.title = this.context.getTranslation(
+          this.props
+        ).HelpButton.title
       }
 
       return (

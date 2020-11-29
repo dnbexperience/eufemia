@@ -52,7 +52,7 @@ export default class Logo extends React.PureComponent {
       this.props,
       Logo.defaultProps,
       this.context.formRow,
-      this.context.translation.Logo
+      this.context.getTranslation(this.props).Logo
     )
 
     let {

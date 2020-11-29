@@ -136,8 +136,8 @@ export default class Modal extends React.PureComponent {
     no_animation: false,
     no_animation_on_mobile: false,
     fullscreen: 'auto',
-    align_content: 'left',
-    container_placement: 'right',
+    align_content: null,
+    container_placement: null,
     open_state: null,
     direct_dom_return: false,
     class: null,
@@ -248,8 +248,6 @@ export default class Modal extends React.PureComponent {
         this._onUnmount.push(fn)
       }
     }
-
-    this.handleSideEffects()
   }
 
   componentWillUnmount() {
@@ -292,33 +290,6 @@ export default class Modal extends React.PureComponent {
         props.open_state === 'opened'
       ) {
         this.toggleOpenClose(true)
-      }
-    }
-  }
-
-  addToIndex() {
-    if (typeof window !== 'undefined') {
-      try {
-        window.__modalStack = window.__modalStack || []
-        window.__modalStack.push(this)
-      } catch (e) {
-        warn(e)
-      }
-    }
-  }
-
-  removeFromIndex() {
-    if (typeof window !== 'undefined') {
-      try {
-        window.__modalStack = window.__modalStack || []
-        window.__modalStack = window.__modalStack.filter(
-          (cur) => cur !== this
-        )
-        if (!window.__modalStack.length) {
-          delete window.__modalStack
-        }
-      } catch (e) {
-        warn(e)
       }
     }
   }
@@ -410,18 +381,6 @@ export default class Modal extends React.PureComponent {
         }
       }
 
-      const id = this._id
-      const wasActive = this.wasActive
-      this.wasActive = modalActive
-
-      if (modalActive) {
-        this.addToIndex()
-        dispatchCustomElementEvent(this, 'on_open', { id })
-      } else if (wasActive) {
-        dispatchCustomElementEvent(this, 'on_close', { id })
-        this.removeFromIndex()
-      }
-
       if (modalActive === false) {
         if (this._triggerRef && this._triggerRef.current) {
           this._triggerRef.current.focus()
@@ -487,7 +446,7 @@ export default class Modal extends React.PureComponent {
       this.props,
       Modal.defaultProps,
       this.context.formRow,
-      this.context.translation.Modal
+      this.context.getTranslation(this.props).Modal
     )
 
     const {
@@ -591,6 +550,7 @@ export default class Modal extends React.PureComponent {
           {modalActive && modal_content && (
             <ModalRoot
               {...rest}
+              id={this._id}
               root_id={root_id}
               content_id={content_id || `dnb-modal-${this._id}`}
               labelled_by={labelled_by || this._id}
@@ -613,6 +573,7 @@ export default class Modal extends React.PureComponent {
 class ModalRoot extends React.PureComponent {
   static propTypes = {
     id: PropTypes.string,
+    root_id: PropTypes.string,
     direct_dom_return: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.bool
@@ -625,6 +586,7 @@ class ModalRoot extends React.PureComponent {
   }
   static defaultProps = {
     id: null,
+    root_id: null,
     direct_dom_return: false,
     children: null
   }
@@ -635,7 +597,7 @@ class ModalRoot extends React.PureComponent {
 
   componentDidMount() {
     if (!isTrue(this.props.direct_dom_return)) {
-      Modal.insertModalRoot(this.props.id)
+      Modal.insertModalRoot(this.props.root_id)
 
       try {
         if (!this.portalElem) {

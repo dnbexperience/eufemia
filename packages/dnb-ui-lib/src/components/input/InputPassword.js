@@ -13,6 +13,7 @@ import {
   makeUniqueId,
   extendPropsWithContext,
   convertStatusToStateOnly,
+  combineDescribedBy,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
 import IconView from '../../icons/view'
@@ -43,7 +44,7 @@ export default class InputPassword extends React.PureComponent {
     super(props)
 
     this._id = props.id || makeUniqueId() // cause we need an id anyway
-    this._ref = React.createRef()
+    this._ref = props.inner_ref || React.createRef()
   }
 
   toggleVisibility = (event) => {
@@ -71,22 +72,29 @@ export default class InputPassword extends React.PureComponent {
     const props = extendPropsWithContext(
       this.props,
       InputPassword.defaultProps,
-      // { skeleton: this.context?.skeleton },
-      // this.context.formRow,
-      this.context.translation.Input
+      { skeleton: this.context?.skeleton },
+      this.context.formRow,
+      this.context.getTranslation(this.props).Input
     )
 
     const id = this._id
+    const params = {}
+    params['aria-describedby'] = combineDescribedBy(
+      this.props,
+      id + '-submit-button'
+    )
 
     return (
       <Input
         id={id}
         {...this.props}
+        {...params}
         className={classnames('dnb-input--password', this.props.className)}
         type={this.state.hidden ? 'password' : 'text'}
         inner_ref={this._ref}
         submit_element={
           <SubmitButton
+            id={id + '-submit-button'}
             type="button"
             variant="secondary"
             aria-controls={id}

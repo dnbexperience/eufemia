@@ -148,7 +148,7 @@ const DropdownStory = () => {
         </RightAligned>
       </Box>
       <Box>
-        <UpdateDataExample></UpdateDataExample>
+        <UpdateDataExample />
       </Box>
       <CustomWidth>
         <Box>

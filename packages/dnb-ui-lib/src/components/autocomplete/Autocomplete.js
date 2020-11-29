@@ -17,6 +17,7 @@ import {
   validateDOMAttributes,
   dispatchCustomElementEvent,
   getStatusState,
+  combineDescribedBy,
   convertJsxToString
 } from '../../shared/component-helper'
 import {
@@ -83,6 +84,10 @@ export default class Autocomplete extends React.PureComponent {
     label_direction: PropTypes.oneOf(['horizontal', 'vertical']),
     label_sr_only: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     keep_value: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    keep_value_and_selection: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool
+    ]),
     status: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.func,
@@ -216,6 +221,7 @@ export default class Autocomplete extends React.PureComponent {
     label_direction: null,
     label_sr_only: null,
     keep_value: null,
+    keep_value_and_selection: null,
     status: null,
     status_state: 'error',
     status_animation: null,
@@ -733,13 +739,16 @@ class AutocompleteInstance extends React.PureComponent {
       input_value,
       open_on_focus,
       keep_value,
+      keep_value_and_selection,
       prevent_selection
     } = this.props
 
-    this.setState({
-      typedInputValue: null,
-      _listenForPropChanges: false
-    })
+    if (!isTrue(keep_value_and_selection)) {
+      this.setState({
+        typedInputValue: null,
+        _listenForPropChanges: false
+      })
+    }
 
     if (isTrue(open_on_focus)) {
       this.setHidden()
@@ -750,7 +759,7 @@ class AutocompleteInstance extends React.PureComponent {
       ...this.getEventObjects('on_blur')
     })
 
-    if (!isTrue(prevent_selection)) {
+    if (!isTrue(prevent_selection) && !isTrue(keep_value_and_selection)) {
       const inputValue = AutocompleteInstance.getCurrentDataTitle(
         this.context.drawerList.selected_item,
         this.context.drawerList.original_data
@@ -981,7 +990,10 @@ class AutocompleteInstance extends React.PureComponent {
   }
 
   totalReset = () => {
-    if (!isTrue(this.props.keep_value)) {
+    if (
+      !isTrue(this.props.keep_value) &&
+      !isTrue(this.props.keep_value_and_selection)
+    ) {
       this.setState({
         inputValue: null
       })
@@ -1337,7 +1349,7 @@ class AutocompleteInstance extends React.PureComponent {
       this.props,
       Autocomplete.defaultProps,
       this.context.formRow,
-      this.context.translation.Autocomplete
+      this.context.getTranslation(this.props).Autocomplete
     ))
 
     const {
@@ -1503,13 +1515,11 @@ class AutocompleteInstance extends React.PureComponent {
     }
 
     if (showStatus || suffix) {
-      inputParams['aria-describedby'] = [
-        inputParams['aria-describedby'],
+      inputParams['aria-describedby'] = combineDescribedBy(
+        inputParams,
         showStatus ? id + '-status' : null,
         suffix ? id + '-suffix' : null
-      ]
-        .filter(Boolean)
-        .join(' ')
+      )
     }
 
     let submitButton = false

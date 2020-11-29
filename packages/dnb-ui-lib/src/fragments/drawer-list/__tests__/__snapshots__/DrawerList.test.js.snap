@@ -621,7 +621,7 @@ exports[`DrawerList scss have to match snapshot 1`] = `
   .dnb-drawer-list--scroll .dnb-drawer-list__options {
     min-height: 2rem;
     max-height: 70vh;
-    overflow-y: scroll;
+    overflow-y: auto;
     overscroll-behavior: contain;
     scrollbar-width: thin;
     -webkit-overflow-scrolling: touch;

@@ -72,6 +72,18 @@ export const AutocompleteSandbox = () => {
     <Wrapper>
       <Box>
         <Autocomplete
+          label="Keep value"
+          data={topMovies}
+          // keep_value
+          keep_value_and_selection
+          // prevent_selection
+          on_change={({ data }) => {
+            console.log('on_change', data)
+          }}
+        />
+      </Box>
+      <Box>
+        <Autocomplete
           label="Label:"
           show_submit_button="true"
           // icon="bell"

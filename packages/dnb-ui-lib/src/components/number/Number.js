@@ -244,7 +244,7 @@ export default class Number extends React.PureComponent {
         true,
         { locale: null, currency: null },
         this.context,
-        this.context.translation.Number
+        this.context.getTranslation(this.props).Number
       )
 
       if (useContext) {
