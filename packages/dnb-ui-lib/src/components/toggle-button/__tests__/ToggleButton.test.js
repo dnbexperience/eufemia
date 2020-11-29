@@ -105,7 +105,7 @@ describe('ToggleButton component', () => {
     expect(my_event.mock.calls[1][0].checked).toBe(false)
   })
 
-  it.only('does handle controlled vs uncontrolled state properly', () => {
+  it('does handle controlled vs uncontrolled state properly', () => {
     const ControlledVsUncontrolled = () => {
       const [checked, setChecked] = React.useState(true)
       const [random, setRandom] = React.useState()

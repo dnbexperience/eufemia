@@ -305,7 +305,7 @@ describe('Autocomplete component', () => {
     ).toBe(mockData.length)
   })
 
-  it.only('has valid events returning all additional attributes the event return', () => {
+  it('has valid events returning all additional attributes the event return', () => {
     const on_show = jest.fn()
     const on_hide = jest.fn()
     const on_focus = jest.fn()
