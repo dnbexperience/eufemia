@@ -279,6 +279,7 @@ exports[`Radio group component have to match group snapshot 1`] = `
               >
                 <Radio
                   attributes={null}
+                  checked={null}
                   class={null}
                   className={null}
                   custom_element={null}

@@ -83,8 +83,8 @@ export default class Switch extends React.PureComponent {
     label: null,
     label_position: null,
     title: null,
-    default_state: undefined, // Deprecated
-    checked: undefined,
+    default_state: null, // Deprecated
+    checked: null,
     disabled: null,
     id: null,
     size: null,
@@ -118,16 +118,15 @@ export default class Switch extends React.PureComponent {
 
   static getDerivedStateFromProps(props, state) {
     if (state._listenForPropChanges) {
-      if (
-        typeof props.default_state !== 'undefined' &&
-        typeof state.checked === 'undefined'
-      ) {
-        state.checked = Switch.parseChecked(props.default_state)
-      } else if (props.checked !== state._checked) {
-        state.checked = Switch.parseChecked(props.checked)
-      }
-      if (typeof props.checked !== 'undefined') {
-        state._checked = props.checked
+      if (props.checked !== state._checked) {
+        if (
+          props.default_state !== null &&
+          typeof state.checked === 'undefined'
+        ) {
+          state.checked = Switch.parseChecked(props.default_state)
+        } else {
+          state.checked = Switch.parseChecked(props.checked)
+        }
       }
     }
     state._listenForPropChanges = true
@@ -138,9 +137,7 @@ export default class Switch extends React.PureComponent {
       })
     }
 
-    if (typeof state.checked === 'undefined') {
-      state.checked = false
-    }
+    state._checked = props.checked
     state.__checked = state.checked
 
     return state

@@ -42,10 +42,12 @@ exports[`Checkbox component have to match snapshot 1`] = `
     }
   }
   attributes={null}
+  checked={null}
   class={null}
   className={null}
   custom_element={null}
   custom_method={null}
+  default_state={null}
   disabled={null}
   global_status_id={null}
   id="checkbox"
