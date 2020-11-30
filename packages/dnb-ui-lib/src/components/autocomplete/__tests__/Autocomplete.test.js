@@ -305,12 +305,13 @@ describe('Autocomplete component', () => {
     ).toBe(mockData.length)
   })
 
-  it('has valid events returning all additional attributes the event return', () => {
+  it('has valid events returning all additional attributes in the event return', () => {
     const on_show = jest.fn()
     const on_hide = jest.fn()
     const on_focus = jest.fn()
     const on_blur = jest.fn()
     const params = { 'data-attr': 'value' }
+
     const Comp = mount(
       <Component
         no_animation
@@ -325,8 +326,25 @@ describe('Autocomplete component', () => {
       />
     )
 
+    Comp.find('input').simulate('focus')
+    expect(on_focus).toHaveBeenCalledTimes(1)
+    expect(on_focus.mock.calls[0][0].attributes).toMatchObject(params)
+    expect(Comp.find('AutocompleteInstance').state().hasFocus).toBe(true)
+
+    // ensure we focus only once
+    Comp.find('input').simulate('focus')
+    expect(on_focus).toHaveBeenCalledTimes(1)
+
+    Comp.find('input').simulate('blur')
+    expect(on_blur).toHaveBeenCalledTimes(1)
+    expect(on_blur.mock.calls[0][0].attributes).toMatchObject(params)
+
+    // ensure we blur only once
+    Comp.find('input').simulate('blur')
+    expect(on_blur).toHaveBeenCalledTimes(1)
+
     open(Comp)
-    expect(on_show.mock.calls.length).toBe(1)
+    expect(on_show).toHaveBeenCalledTimes(1)
     expect(on_show.mock.calls[0][0].attributes).toMatchObject(params)
     expect(on_show).toHaveBeenCalledWith({
       attributes: params,
@@ -335,26 +353,22 @@ describe('Autocomplete component', () => {
     })
 
     keydown(Comp, 27) // esc
-    expect(on_hide.mock.calls.length).toBe(1)
+    expect(on_hide).toHaveBeenCalledTimes(1)
     expect(on_hide.mock.calls[0][0].attributes).toMatchObject(params)
     expect(on_hide.mock.calls[0][0].event).toMatchObject(
       new KeyboardEvent('keydown', {})
     )
 
-    Comp.find('input').simulate('focus')
-    expect(on_focus.mock.calls.length).toBe(1)
-    expect(on_focus.mock.calls[0][0].attributes).toMatchObject(params)
-
-    Comp.find('input').simulate('blur')
-    expect(on_blur.mock.calls.length).toBe(1)
-    expect(on_blur.mock.calls[0][0].attributes).toMatchObject(params)
-
     expect(
       Comp.find('.dnb-autocomplete').hasClass('dnb-autocomplete--opened')
     ).toBe(false)
 
+    // ensure we blur only once
+    Comp.find('input').simulate('blur')
+    expect(on_blur).toHaveBeenCalledTimes(1)
+
     open(Comp)
-    expect(on_show.mock.calls.length).toBe(2)
+    expect(on_show).toHaveBeenCalledTimes(2)
     expect(on_show.mock.calls[1][0].attributes).toMatchObject(params)
 
     expect(
@@ -366,6 +380,17 @@ describe('Autocomplete component', () => {
     expect(
       Comp.find('.dnb-autocomplete').hasClass('dnb-autocomplete--opened')
     ).toBe(false)
+
+    open(Comp)
+    expect(on_show).toHaveBeenCalledTimes(3)
+
+    Comp.find('AutocompleteInstance').setState({ hasBlur: false })
+    Comp.find('input').simulate('blur')
+    expect(on_blur).toHaveBeenCalledTimes(2)
+
+    Comp.find('AutocompleteInstance').setState({ hasFocus: false })
+    Comp.find('input').simulate('focus')
+    expect(on_focus).toHaveBeenCalledTimes(2)
   })
 
   it('will prevent close if false gets returned from on_hide event', () => {
@@ -390,7 +415,7 @@ describe('Autocomplete component', () => {
 
     // close
     keydown(Comp, 27) // esc
-    expect(on_hide.mock.calls.length).toBe(1)
+    expect(on_hide).toHaveBeenCalledTimes(1)
 
     expect(
       Comp.find('.dnb-autocomplete').hasClass('dnb-autocomplete--opened')
@@ -407,7 +432,7 @@ describe('Autocomplete component', () => {
 
     // close again, but with false returned
     keydown(Comp, 27) // esc
-    expect(on_hide.mock.calls.length).toBe(2)
+    expect(on_hide).toHaveBeenCalledTimes(2)
 
     // we are still open
     expect(
@@ -495,7 +520,7 @@ describe('Autocomplete component', () => {
 
     let callOne = on_type.mock.calls[0][0]
     expect(Comp.find('li.dnb-drawer-list__option').length).toBe(3)
-    expect(on_type.mock.calls.length).toBe(1)
+    expect(on_type).toHaveBeenCalledTimes(1)
     expect(callOne.dataList.length).toBe(3)
 
     // update data
@@ -507,7 +532,7 @@ describe('Autocomplete component', () => {
 
     const callTwo = on_type.mock.calls[1][0]
     expect(Comp.find('li.dnb-drawer-list__option').length).toBe(1)
-    expect(on_type.mock.calls.length).toBe(2)
+    expect(on_type).toHaveBeenCalledTimes(2)
     expect(callTwo.dataList.length).toBe(1)
     expect(callOne.dataList).not.toBe(callTwo.dataList)
 

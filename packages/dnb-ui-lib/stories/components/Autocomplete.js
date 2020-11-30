@@ -80,6 +80,12 @@ export const AutocompleteSandbox = () => {
           on_change={({ data }) => {
             console.log('on_change', data)
           }}
+          on_focus={({ event, data }) => {
+            console.log('on_focus', event, data)
+          }}
+          on_blur={({ event, data }) => {
+            console.log('on_blur', event, data)
+          }}
         />
       </Box>
       <Box>
