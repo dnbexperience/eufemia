@@ -496,7 +496,7 @@ export class DetectOutsideClickClass {
       }
 
       // check if element has like "overflow: scroll"
-      if (this.checkIfHasScrollbar(currentElement)) {
+      if (checkIfHasScrollbar(currentElement)) {
         return // stop here
       }
 
@@ -521,22 +521,21 @@ export class DetectOutsideClickClass {
       warn(e)
     }
   }
+}
 
-  checkIfHasScrollbar = (elem) => {
-    return (
-      elem &&
-      (elem.scrollHeight > elem.offsetHeight ||
-        elem.scrollWidth > elem.offsetWidth) &&
-      this.overflowIsScrollable(elem)
-    )
-  }
-
-  overflowIsScrollable = (elem) => {
-    const style = window.getComputedStyle(elem)
-    return /scroll|auto/i.test(
-      style.overflow + (style.overflowX || '') + (style.overflowY || '')
-    )
-  }
+export const checkIfHasScrollbar = (elem) => {
+  return (
+    elem &&
+    (elem.scrollHeight > elem.offsetHeight ||
+      elem.scrollWidth > elem.offsetWidth) &&
+    overflowIsScrollable(elem)
+  )
+}
+const overflowIsScrollable = (elem) => {
+  const style = window.getComputedStyle(elem)
+  return /scroll|auto/i.test(
+    style.overflow + (style.overflowX || '') + (style.overflowY || '')
+  )
 }
 
 export const filterProps = (props, remove = null, allowed = null) => {
@@ -612,6 +611,33 @@ export const getPreviousSibling = (className, element) => {
   } catch (e) {
     warn(e)
   }
+  return element
+}
+
+export const isChildOfElement = (element, target, cb = null) => {
+  try {
+    const contains = (element) => {
+      if (cb) {
+        const res = cb(element)
+        if (typeof res === 'boolean') {
+          return res
+        }
+      }
+      return element && element === target
+    }
+
+    if (contains(element)) {
+      return element
+    }
+
+    while (
+      (element = element && element.parentElement) &&
+      !contains(element)
+    );
+  } catch (e) {
+    //
+  }
+
   return element
 }
 

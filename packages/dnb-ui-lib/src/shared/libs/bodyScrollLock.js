@@ -1,6 +1,8 @@
 // Copy of https://github.com/tuateam/tua-body-scroll-lock
 // + Additional HTML / root handling
 
+import { isChildOfElement, checkIfHasScrollbar } from '../component-helper'
+
 const isServer = () => typeof window === 'undefined'
 const detectOS = (ua) => {
   ua = ua || navigator.userAgent
@@ -43,24 +45,6 @@ function getEventListenerOptions(options) {
     : typeof capture !== 'undefined'
     ? capture
     : false
-}
-const isChildOfElement = (element, target) => {
-  try {
-    const contains = (element) => element && element === target
-
-    if (contains(element)) {
-      return element
-    }
-
-    while (
-      (element = element && element.parentElement) &&
-      !contains(element)
-    );
-  } catch (e) {
-    //
-  }
-
-  return element
 }
 
 const setOverflowHiddenPc = () => {
@@ -156,6 +140,16 @@ const handleScroll = (event, targetElement) => {
         (isVertical && (isOnTop || isOnBottom)) ||
         (!isVertical && (isOnLeft || isOnRight))
       ) {
+        const hasScrollbar = isChildOfElement(
+          event.target,
+          targetElement,
+          checkIfHasScrollbar
+        )
+
+        if (hasScrollbar && hasScrollbar !== targetElement) {
+          return true
+        }
+
         return event.cancelable && event.preventDefault()
       }
     }
@@ -218,6 +212,7 @@ export const disableBodyScroll = (targetElement) => {
           preventDefault,
           eventListenerOptions
         )
+
         documentListenerAdded = true
       }
     } else if (lockedNum <= 0) {
