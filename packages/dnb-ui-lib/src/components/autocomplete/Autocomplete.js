@@ -717,38 +717,37 @@ class AutocompleteInstance extends React.PureComponent {
   }
 
   onInputFocusHandler = (event) => {
-    if (this.state.hasFocus || this.state.skipFocusDuringChange) {
+    if (this.state.skipFocusDuringChange) {
       return //stop here
     }
 
-    this.setState({
-      hasFocus: true,
-      hasBlur: false
-    })
+    const { open_on_focus, keep_value_and_selection } = this.props
 
-    if (isTrue(this.props.open_on_focus)) {
-      const { value } = event.target
-      this.setVisibleByContext({ value })
-    } else {
-      this.setSearchIndex()
+    if (!this.state.hasFocus) {
+      if (isTrue(open_on_focus)) {
+        const { value } = event.target
+        this.setVisibleByContext({ value })
+      } else {
+        this.setSearchIndex()
+      }
+
+      if (isTrue(keep_value_and_selection)) {
+        this.showAll()
+      }
+
+      dispatchCustomElementEvent(this, 'on_focus', {
+        event,
+        ...this.getEventObjects('on_focus')
+      })
+
+      this.setState({
+        hasFocus: true,
+        hasBlur: false
+      })
     }
-
-    dispatchCustomElementEvent(this, 'on_focus', {
-      event,
-      ...this.getEventObjects('on_focus')
-    })
   }
 
   onBlurHandler = (event) => {
-    if (this.state.hasBlur) {
-      return //stop here
-    }
-
-    this.setState({
-      hasBlur: true,
-      hasFocus: false
-    })
-
     const {
       input_value,
       open_on_focus,
@@ -763,11 +762,6 @@ class AutocompleteInstance extends React.PureComponent {
         _listenForPropChanges: false
       })
     }
-
-    dispatchCustomElementEvent(this, 'on_blur', {
-      event,
-      ...this.getEventObjects('on_blur')
-    })
 
     if (isTrue(open_on_focus)) {
       this.setHidden()
@@ -796,6 +790,18 @@ class AutocompleteInstance extends React.PureComponent {
           })
         }
       }, 1) // to make sure we actually are after the Input state handling -> "input placeholder reset"
+    }
+
+    if (!this.state.hasBlur) {
+      dispatchCustomElementEvent(this, 'on_blur', {
+        event,
+        ...this.getEventObjects('on_blur')
+      })
+
+      this.setState({
+        hasBlur: true,
+        hasFocus: false
+      })
     }
   }
 
