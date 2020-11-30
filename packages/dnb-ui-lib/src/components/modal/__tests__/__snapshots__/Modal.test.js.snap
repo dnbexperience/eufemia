@@ -575,92 +575,31 @@ exports[`Modal component have to match snapshot 1`] = `
           role="dialog"
         >
           <ForwardRef(ScrollViewRef)
-            className="dnb-modal__content__inner dnb-no-focus dnb-core-style"
+            className="dnb-modal__content__inner dnb-core-style"
             id="modal_id"
             onClick={[Function]}
             onKeyDown={[Function]}
             onTouchStart={[Function]}
-            tabIndex={-1}
           >
             <ScrollView
               class={null}
-              className="dnb-modal__content__inner dnb-no-focus dnb-core-style"
+              className="dnb-modal__content__inner dnb-core-style"
               id="modal_id"
-              innerRef={
-                Object {
-                  "current": <div
-                    class="dnb-scroll-view dnb-modal__content__inner dnb-no-focus dnb-core-style"
-                    id="modal_id"
-                    tabindex="-1"
-                  >
-                    <div
-                      class="dnb-modal__content__spacing"
-                    >
-                      <h1
-                        class="dnb-modal__title dnb-h--large"
-                      >
-                        modal_title
-                      </h1>
-                      <button
-                        class="dnb-button dnb-button--secondary dnb-button--has-text dnb-modal__close-button dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-basis dnb-button--size-large"
-                        type="button"
-                      >
-                        <span
-                          class="dnb-button__alignment"
-                        >
-                          ‌
-                        </span>
-                        <span
-                          class="dnb-button__text dnb-skeleton--show-font"
-                        >
-                          close_title
-                        </span>
-                        <span
-                          aria-hidden="true"
-                          aria-label="close icon"
-                          class="dnb-icon dnb-icon--default dnb-button__icon"
-                          role="presentation"
-                        >
-                          <svg
-                            fill="none"
-                            height="16"
-                            viewBox="0 0 16 16"
-                            width="16"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path
-                              clip-rule="evenodd"
-                              d="M4.03 3.1a.75.75 0 10-1.06 1.06l3.97 3.97-3.97 3.97a.75.75 0 101.06 1.06L8 9.19l3.97 3.97a.75.75 0 101.06-1.06L9.06 8.13l3.97-3.97a.75.75 0 00-1.06-1.06L8 7.07 4.03 3.1z"
-                              fill="#000"
-                              fill-rule="evenodd"
-                            />
-                          </svg>
-                        </span>
-                      </button>
-                      <div
-                        class="dnb-modal__wrapper"
-                      >
-                        unique_modal_content
-                      </div>
-                    </div>
-                  </div>,
-                }
-              }
+              innerRef={null}
               onClick={[Function]}
               onKeyDown={[Function]}
               onTouchStart={[Function]}
-              tabIndex={-1}
             >
               <div
-                className="dnb-scroll-view dnb-modal__content__inner dnb-no-focus dnb-core-style"
+                className="dnb-scroll-view dnb-modal__content__inner dnb-core-style"
                 id="modal_id"
                 onClick={[Function]}
                 onKeyDown={[Function]}
                 onTouchStart={[Function]}
-                tabIndex={-1}
               >
                 <div
-                  className="dnb-modal__content__spacing"
+                  className="dnb-modal__content__spacing dnb-no-focus"
+                  tabIndex={-1}
                 >
                   <h1
                     className="dnb-modal__title dnb-h--large"
@@ -1405,6 +1344,7 @@ button.dnb-button::-moz-focus-inner {
       width: var(--modal-avg-width);
       min-width: var(--modal-min-width);
       max-width: var(--modal-max-width);
+      max-height: 100vh;
       box-shadow: 0 1px 6px rgba(0, 0, 0, 0.16);
       border-radius: 0.5rem;
       user-select: text;
@@ -1416,7 +1356,6 @@ button.dnb-button::-moz-focus-inner {
         width: 100%;
         height: 100vh;
         max-width: 100%;
-        max-height: none;
         border-radius: 0;
         box-shadow: none; } }
     .dnb-modal__content__spacing {
@@ -1452,7 +1391,6 @@ button.dnb-button::-moz-focus-inner {
       width: 100%;
       height: 100vh;
       max-width: 100%;
-      max-height: none;
       border-radius: 0;
       box-shadow: none;
       width: var(--modal-drawer-width);
@@ -1490,7 +1428,6 @@ button.dnb-button::-moz-focus-inner {
       width: 100%;
       height: 100vh;
       max-width: 100%;
-      max-height: none;
       border-radius: 0;
       box-shadow: none; }
     html:not([data-visual-test]) .dnb-modal__content--drawer.dnb-modal__content--left .dnb-modal__content__inner {
