@@ -15,7 +15,6 @@
   --modal-min-width: 20rem; // under 40em, because of spacing and later mobile fullscreen
   --modal-avg-width: 60vw; // content defines the size
   --modal-max-width: 60rem; // because of our default width --layout-large
-  --modal-height-offset: 0.0001rem;
   --modal-content-top: 7rem;
 
   // Drawer mode
@@ -74,9 +73,6 @@
       min-width: var(--modal-min-width);
       max-width: var(--modal-max-width);
 
-      height: auto;
-      max-height: calc(100vh - var(--modal-content-top));
-
       @include defaultDropShadow();
       border-radius: 0.5rem;
 
@@ -93,7 +89,15 @@
       }
     }
 
-    &--spacing &__inner {
+    &__spacing {
+      position: relative;
+      display: block;
+
+      width: 100%;
+      height: 100%;
+      overflow-x: hidden;
+    }
+    &--spacing &__spacing {
       padding: var(--modal-content-top) var(--modal-spacing) 0;
 
       @include allBelow(small) {
@@ -101,18 +105,22 @@
           0;
       }
     }
+    &--spacing#{&}--drawer &__spacing {
+      padding: var(--modal-drawer-content-top)
+        calc(var(--modal-spacing) * 1.75) 0;
+    }
 
-    &__align--center &__inner {
+    &__align--center &__spacing {
       display: flex;
       flex-direction: column;
       align-items: center;
     }
-    &__align--right &__inner {
+    &__align--right &__spacing {
       display: flex;
       flex-direction: column;
       align-items: flex-end;
     }
-    &__align--centered &__inner {
+    &__align--centered &__spacing {
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -125,14 +133,11 @@
       justify-content: flex-start;
     }
     &--drawer &__inner {
-      @include modalFullscreen('drawer');
+      @include modalFullscreen(); // 'drawer'
 
       width: var(--modal-drawer-width);
       min-width: var(--modal-drawer-min-width);
       max-width: var(--modal-drawer-max-width);
-
-      padding: var(--modal-drawer-content-top)
-        calc(var(--modal-spacing) * 1.75) 0;
 
       @media screen and (max-width: 40em) {
         width: 100vw;
@@ -151,7 +156,7 @@
 
     &--drawer#{&}--top &__inner,
     &--drawer#{&}--bottom &__inner {
-      max-width: 100%; // fixes overflow issue on some browsers
+      max-width: 100%; // Edge/IE overflow fix
       width: 100vw;
       height: 40vh;
 
