@@ -25,6 +25,14 @@ const detectiOSVersion = () => {
   return false
 }
 
+let lockedNum = 0
+let initialClientY = 0
+let initialClientX = 0
+let unLockCallback = null
+let documentListenerAdded = false
+
+const lockedElements = []
+const eventListenerOptions = getEventListenerOptions({ passive: false })
 function getEventListenerOptions(options) {
   if (isServer()) return false
 
@@ -36,15 +44,24 @@ function getEventListenerOptions(options) {
     ? capture
     : false
 }
+const isChildOfElement = (element, target) => {
+  try {
+    const contains = (element) => element && element === target
 
-let lockedNum = 0
-let initialClientY = 0
-let initialClientX = 0
-let unLockCallback = null
-let documentListenerAdded = false
+    if (contains(element)) {
+      return element
+    }
 
-const lockedElements = []
-const eventListenerOptions = getEventListenerOptions({ passive: false })
+    while (
+      (element = element && element.parentElement) &&
+      !contains(element)
+    );
+  } catch (e) {
+    //
+  }
+
+  return element
+}
 
 const setOverflowHiddenPc = () => {
   try {
@@ -60,7 +77,8 @@ const setOverflowHiddenPc = () => {
     $body.style.boxSizing = 'border-box'
     $body.style.paddingRight = `${scrollBarWidth}px`
     return () => {
-      ['height', 'overflow'].forEach((x) => {
+      // eslint-disable-next-line
+      ;['height', 'overflow'].forEach((x) => {
         $html.style[x] = htmlStyle[x] || ''
       })
       ;['overflow', 'height', 'boxSizing', 'paddingRight'].forEach((x) => {
@@ -87,7 +105,8 @@ const setOverflowHiddenMobile = () => {
     $body.style.position = 'fixed'
     $body.style.overflow = 'hidden'
     return () => {
-      ['height', 'overflow'].forEach((x) => {
+      // eslint-disable-next-line
+      ;['height', 'overflow'].forEach((x) => {
         $html.style[x] = htmlStyle[x] || ''
       })
       ;['top', 'width', 'height', 'overflow', 'position'].forEach((x) => {
@@ -101,10 +120,18 @@ const setOverflowHiddenMobile = () => {
 }
 
 const preventDefault = (event) => {
-  if (!event.cancelable) return
+  const found = lockedElements.find((targetElement) => {
+    return isChildOfElement(event.target, targetElement)
+  })
+
+  if (found || !event.cancelable) {
+    return // stop here
+  }
+
   event.preventDefault()
 }
 
+// Depreciated – this function can be removed as soon as we do not need to support iOS < 14
 const handleScroll = (event, targetElement) => {
   try {
     if (targetElement) {
@@ -129,7 +156,7 @@ const handleScroll = (event, targetElement) => {
         (isVertical && (isOnTop || isOnBottom)) ||
         (!isVertical && (isOnLeft || isOnRight))
       ) {
-        return preventDefault(event)
+        return event.cancelable && event.preventDefault()
       }
     }
 
@@ -152,14 +179,16 @@ const checkTargetElement = (targetElement) => {
 
 export const disableBodyScroll = (targetElement) => {
   if (isServer()) return
+  checkTargetElement(targetElement)
   try {
-    checkTargetElement(targetElement)
     if (detectOS().ios) {
       // Works better, therefore, use this
       if (detectiOSVersion() >= 14) {
         setOverflowHiddenMobile()
         return // stop here
       }
+
+      // Depreciated – the rest here can be removed as soon as we do not need to support iOS < 14
 
       // iOS
       if (targetElement) {
@@ -173,7 +202,9 @@ export const disableBodyScroll = (targetElement) => {
               initialClientX = event.targetTouches[0].clientX
             }
             element.ontouchmove = (event) => {
-              if (event.targetTouches.length !== 1) return
+              if (event.targetTouches.length !== 1) {
+                return // stop here
+              }
               handleScroll(event, element)
             }
             lockedElements.push(element)
@@ -202,8 +233,8 @@ export const disableBodyScroll = (targetElement) => {
 
 export const enableBodyScroll = (targetElement) => {
   if (isServer()) return
+  checkTargetElement(targetElement)
   try {
-    checkTargetElement(targetElement)
     lockedNum -= 1
     if (lockedNum > 0) return
     if (!detectOS().ios && typeof unLockCallback === 'function') {
