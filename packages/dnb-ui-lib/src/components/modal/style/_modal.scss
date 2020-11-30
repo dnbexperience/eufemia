@@ -72,6 +72,7 @@
       width: var(--modal-avg-width);
       min-width: var(--modal-min-width);
       max-width: var(--modal-max-width);
+      max-height: 100vh;
 
       @include defaultDropShadow();
       border-radius: 0.5rem;

@@ -322,10 +322,8 @@ export default class ModalContent extends React.PureComponent {
     }
 
     const innerParams = {
-      tabIndex: -1,
       className: classnames(
         'dnb-modal__content__inner',
-        'dnb-no-focus',
         !isTrue(prevent_core_style) && 'dnb-core-style',
         className,
         _className
@@ -335,6 +333,11 @@ export default class ModalContent extends React.PureComponent {
       onTouchStart: this.preventClick,
       onKeyDown: this.onKeyDownHandler,
       ...rest
+    }
+
+    const spacingParams = {
+      tabIndex: -1,
+      className: classnames('dnb-modal__content__spacing', 'dnb-no-focus')
     }
 
     if (labelled_by) {
@@ -361,8 +364,8 @@ export default class ModalContent extends React.PureComponent {
     return (
       <>
         <div id={id} {...contentParams}>
-          <ScrollView {...innerParams} ref={this._contentRef}>
-            <div className="dnb-modal__content__spacing">
+          <ScrollView {...innerParams}>
+            <div {...spacingParams} ref={this._contentRef}>
               {title && (
                 <h1
                   className={classnames(
