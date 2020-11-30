@@ -575,225 +575,172 @@ exports[`Modal component have to match snapshot 1`] = `
           role="dialog"
         >
           <ForwardRef(ScrollViewRef)
-            className="dnb-modal__content__inner dnb-no-focus dnb-core-style"
+            className="dnb-modal__content__inner dnb-core-style"
             id="modal_id"
             onClick={[Function]}
             onKeyDown={[Function]}
             onTouchStart={[Function]}
-            tabIndex={-1}
           >
             <ScrollView
               class={null}
-              className="dnb-modal__content__inner dnb-no-focus dnb-core-style"
+              className="dnb-modal__content__inner dnb-core-style"
               id="modal_id"
-              innerRef={
-                Object {
-                  "current": <div
-                    class="dnb-scroll-view dnb-modal__content__inner dnb-no-focus dnb-core-style"
-                    id="modal_id"
-                    tabindex="-1"
-                  >
-                    <h1
-                      class="dnb-modal__title dnb-h--large"
-                    >
-                      modal_title
-                    </h1>
-                    <button
-                      class="dnb-button dnb-button--secondary dnb-button--has-text dnb-modal__close-button dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-basis dnb-button--size-large"
-                      type="button"
-                    >
-                      <span
-                        class="dnb-button__alignment"
-                      >
-                        ‌
-                      </span>
-                      <span
-                        class="dnb-button__text dnb-skeleton--show-font"
-                      >
-                        close_title
-                      </span>
-                      <span
-                        aria-hidden="true"
-                        aria-label="close icon"
-                        class="dnb-icon dnb-icon--default dnb-button__icon"
-                        role="presentation"
-                      >
-                        <svg
-                          fill="none"
-                          height="16"
-                          viewBox="0 0 16 16"
-                          width="16"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            clip-rule="evenodd"
-                            d="M4.03 3.1a.75.75 0 10-1.06 1.06l3.97 3.97-3.97 3.97a.75.75 0 101.06 1.06L8 9.19l3.97 3.97a.75.75 0 101.06-1.06L9.06 8.13l3.97-3.97a.75.75 0 00-1.06-1.06L8 7.07 4.03 3.1z"
-                            fill="#000"
-                            fill-rule="evenodd"
-                          />
-                        </svg>
-                      </span>
-                    </button>
-                    <div
-                      class="dnb-modal__wrapper"
-                    >
-                      unique_modal_content
-                    </div>
-                  </div>,
-                }
-              }
+              innerRef={null}
               onClick={[Function]}
               onKeyDown={[Function]}
               onTouchStart={[Function]}
-              tabIndex={-1}
             >
               <div
-                className="dnb-scroll-view dnb-modal__content__inner dnb-no-focus dnb-core-style"
+                className="dnb-scroll-view dnb-modal__content__inner dnb-core-style"
                 id="modal_id"
                 onClick={[Function]}
                 onKeyDown={[Function]}
                 onTouchStart={[Function]}
-                tabIndex={-1}
               >
-                <h1
-                  className="dnb-modal__title dnb-h--large"
+                <div
+                  className="dnb-modal__content__spacing dnb-no-focus"
+                  tabIndex={-1}
                 >
-                  modal_title
-                </h1>
-                <CloseButton
-                  className={null}
-                  close_title="close_title"
-                  on_click={[Function]}
-                  style_type={null}
-                >
-                  <Button
-                    bounding={false}
-                    class={null}
-                    className="dnb-modal__close-button"
-                    custom_element={null}
-                    custom_method={null}
-                    disabled={null}
-                    element={null}
-                    global_status_id={null}
-                    href={null}
-                    icon="close"
-                    icon_position="right"
-                    icon_size="basis"
-                    id={null}
-                    innerRef={null}
-                    inner_ref={null}
-                    onClick={null}
-                    on_click={[Function]}
-                    size="large"
-                    skeleton={null}
-                    status={null}
-                    status_animation={null}
-                    status_state="error"
-                    text="close_title"
-                    title={null}
-                    tooltip={null}
-                    type="button"
-                    variant="secondary"
-                    wrap={false}
+                  <h1
+                    className="dnb-modal__title dnb-h--large"
                   >
-                    <button
-                      className="dnb-button dnb-button--secondary dnb-button--has-text dnb-modal__close-button dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-basis dnb-button--size-large"
-                      disabled={false}
-                      onClick={[Function]}
+                    modal_title
+                  </h1>
+                  <CloseButton
+                    className={null}
+                    close_title="close_title"
+                    on_click={[Function]}
+                    style_type={null}
+                  >
+                    <Button
+                      bounding={false}
+                      class={null}
+                      className="dnb-modal__close-button"
+                      custom_element={null}
+                      custom_method={null}
+                      disabled={null}
+                      element={null}
+                      global_status_id={null}
+                      href={null}
+                      icon="close"
+                      icon_position="right"
+                      icon_size="basis"
+                      id={null}
+                      innerRef={null}
+                      inner_ref={null}
+                      onClick={null}
+                      on_click={[Function]}
+                      size="large"
+                      skeleton={null}
+                      status={null}
+                      status_animation={null}
+                      status_state="error"
+                      text="close_title"
+                      title={null}
+                      tooltip={null}
                       type="button"
+                      variant="secondary"
+                      wrap={false}
                     >
-                      <Content
-                        bounding={false}
-                        class={null}
-                        className="dnb-modal__close-button"
-                        content="close_title"
-                        custom_element={null}
-                        custom_method={null}
-                        disabled={null}
-                        element={null}
-                        global_status_id={null}
-                        href={null}
-                        icon="close"
-                        icon_position="right"
-                        icon_size="basis"
-                        id={null}
-                        innerRef={null}
-                        inner_ref={null}
-                        isIconOnly={false}
-                        onClick={null}
-                        on_click={[Function]}
-                        size="large"
-                        skeleton={false}
-                        status={null}
-                        status_animation={null}
-                        status_state="error"
-                        text="close_title"
-                        title={null}
-                        tooltip={null}
+                      <button
+                        className="dnb-button dnb-button--secondary dnb-button--has-text dnb-modal__close-button dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-basis dnb-button--size-large"
+                        disabled={false}
+                        onClick={[Function]}
                         type="button"
-                        variant="secondary"
-                        wrap={false}
                       >
-                        <span
-                          className="dnb-button__alignment"
-                          key="button-text-empty"
-                        >
-                          ‌
-                        </span>
-                        <span
-                          className="dnb-button__text dnb-skeleton--show-font"
-                          key="button-text"
-                        >
-                          close_title
-                        </span>
-                        <IconPrimary
-                          alt={null}
-                          aria-hidden={true}
-                          attributes={null}
-                          border={null}
-                          className="dnb-button__icon"
-                          color={null}
-                          height={null}
+                        <Content
+                          bounding={false}
+                          class={null}
+                          className="dnb-modal__close-button"
+                          content="close_title"
+                          custom_element={null}
+                          custom_method={null}
+                          disabled={null}
+                          element={null}
+                          global_status_id={null}
+                          href={null}
                           icon="close"
-                          key="button-icon"
-                          modifier={null}
-                          size="basis"
+                          icon_position="right"
+                          icon_size="basis"
+                          id={null}
+                          innerRef={null}
+                          inner_ref={null}
+                          isIconOnly={false}
+                          onClick={null}
+                          on_click={[Function]}
+                          size="large"
                           skeleton={false}
+                          status={null}
+                          status_animation={null}
+                          status_state="error"
+                          text="close_title"
                           title={null}
-                          width={null}
+                          tooltip={null}
+                          type="button"
+                          variant="secondary"
+                          wrap={false}
                         >
                           <span
-                            aria-hidden={true}
-                            aria-label="close icon"
-                            className="dnb-icon dnb-icon--default dnb-button__icon"
-                            role="presentation"
+                            className="dnb-button__alignment"
+                            key="button-text-empty"
                           >
-                            <close>
-                              <svg
-                                fill="none"
-                                height={16}
-                                viewBox="0 0 16 16"
-                                width={16}
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <path
-                                  clipRule="evenodd"
-                                  d="M4.03 3.1a.75.75 0 10-1.06 1.06l3.97 3.97-3.97 3.97a.75.75 0 101.06 1.06L8 9.19l3.97 3.97a.75.75 0 101.06-1.06L9.06 8.13l3.97-3.97a.75.75 0 00-1.06-1.06L8 7.07 4.03 3.1z"
-                                  fill="#000"
-                                  fillRule="evenodd"
-                                />
-                              </svg>
-                            </close>
+                            ‌
                           </span>
-                        </IconPrimary>
-                      </Content>
-                    </button>
-                  </Button>
-                </CloseButton>
-                <div
-                  className="dnb-modal__wrapper"
-                >
-                  unique_modal_content
+                          <span
+                            className="dnb-button__text dnb-skeleton--show-font"
+                            key="button-text"
+                          >
+                            close_title
+                          </span>
+                          <IconPrimary
+                            alt={null}
+                            aria-hidden={true}
+                            attributes={null}
+                            border={null}
+                            className="dnb-button__icon"
+                            color={null}
+                            height={null}
+                            icon="close"
+                            key="button-icon"
+                            modifier={null}
+                            size="basis"
+                            skeleton={false}
+                            title={null}
+                            width={null}
+                          >
+                            <span
+                              aria-hidden={true}
+                              aria-label="close icon"
+                              className="dnb-icon dnb-icon--default dnb-button__icon"
+                              role="presentation"
+                            >
+                              <close>
+                                <svg
+                                  fill="none"
+                                  height={16}
+                                  viewBox="0 0 16 16"
+                                  width={16}
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <path
+                                    clipRule="evenodd"
+                                    d="M4.03 3.1a.75.75 0 10-1.06 1.06l3.97 3.97-3.97 3.97a.75.75 0 101.06 1.06L8 9.19l3.97 3.97a.75.75 0 101.06-1.06L9.06 8.13l3.97-3.97a.75.75 0 00-1.06-1.06L8 7.07 4.03 3.1z"
+                                    fill="#000"
+                                    fillRule="evenodd"
+                                  />
+                                </svg>
+                              </close>
+                            </span>
+                          </IconPrimary>
+                        </Content>
+                      </button>
+                    </Button>
+                  </CloseButton>
+                  <div
+                    className="dnb-modal__wrapper"
+                  >
+                    unique_modal_content
+                  </div>
                 </div>
               </div>
             </ScrollView>
@@ -1355,7 +1302,6 @@ button.dnb-button::-moz-focus-inner {
   --modal-min-width: 20rem;
   --modal-avg-width: 60vw;
   --modal-max-width: 60rem;
-  --modal-height-offset: 0.0001rem;
   --modal-content-top: 7rem;
   --modal-drawer-width: 40vw;
   --modal-drawer-min-width: 25rem;
@@ -1398,8 +1344,7 @@ button.dnb-button::-moz-focus-inner {
       width: var(--modal-avg-width);
       min-width: var(--modal-min-width);
       max-width: var(--modal-max-width);
-      height: auto;
-      max-height: calc(100vh - var(--modal-content-top));
+      max-height: 100vh;
       box-shadow: 0 1px 6px rgba(0, 0, 0, 0.16);
       border-radius: 0.5rem;
       user-select: text;
@@ -1408,27 +1353,33 @@ button.dnb-button::-moz-focus-inner {
       -webkit-tap-highlight-color: rgba(0, 0, 0, 0); }
     @media screen and (max-width: 40em) {
       .dnb-modal__content--auto-fullscreen .dnb-modal__content__inner {
-        width: 100vw;
+        width: 100%;
         height: 100vh;
-        height: calc(100vh - var(--modal-height-offset, 0.0001rem));
         max-width: 100%;
-        max-height: 100%;
         border-radius: 0;
         box-shadow: none; } }
-    .dnb-modal__content--spacing .dnb-modal__content__inner {
+    .dnb-modal__content__spacing {
+      position: relative;
+      display: block;
+      width: 100%;
+      height: 100%;
+      overflow-x: hidden; }
+    .dnb-modal__content--spacing .dnb-modal__content__spacing {
       padding: var(--modal-content-top) var(--modal-spacing) 0; }
       @media screen and (max-width: 40em) {
-        .dnb-modal__content--spacing .dnb-modal__content__inner {
+        .dnb-modal__content--spacing .dnb-modal__content__spacing {
           padding: var(--modal-content-top) calc(var(--modal-spacing) * 0.75) 0; } }
-    .dnb-modal__content__align--center .dnb-modal__content__inner {
+    .dnb-modal__content--spacing.dnb-modal__content--drawer .dnb-modal__content__spacing {
+      padding: var(--modal-drawer-content-top) calc(var(--modal-spacing) * 1.75) 0; }
+    .dnb-modal__content__align--center .dnb-modal__content__spacing {
       display: flex;
       flex-direction: column;
       align-items: center; }
-    .dnb-modal__content__align--right .dnb-modal__content__inner {
+    .dnb-modal__content__align--right .dnb-modal__content__spacing {
       display: flex;
       flex-direction: column;
       align-items: flex-end; }
-    .dnb-modal__content__align--centered .dnb-modal__content__inner {
+    .dnb-modal__content__align--centered .dnb-modal__content__spacing {
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -1437,18 +1388,14 @@ button.dnb-button::-moz-focus-inner {
       align-items: flex-start;
       justify-content: flex-start; }
     .dnb-modal__content--drawer .dnb-modal__content__inner {
-      width: 100vw;
+      width: 100%;
       height: 100vh;
-      height: calc(100vh - var(--modal-height-offset, 0.0001rem));
-      height: calc(100vh - var(--modal-height-offset, 0.0001rem));
       max-width: 100%;
-      max-height: 100%;
       border-radius: 0;
       box-shadow: none;
       width: var(--modal-drawer-width);
       min-width: var(--modal-drawer-min-width);
-      max-width: var(--modal-drawer-max-width);
-      padding: var(--modal-drawer-content-top) calc(var(--modal-spacing) * 1.75) 0; }
+      max-width: var(--modal-drawer-max-width); }
       @media screen and (max-width: 40em) {
         .dnb-modal__content--drawer .dnb-modal__content__inner {
           width: 100vw;
@@ -1478,11 +1425,9 @@ button.dnb-button::-moz-focus-inner {
       align-items: flex-start;
       justify-content: flex-start; }
     .dnb-modal__content--fullscreen .dnb-modal__content__inner {
-      width: 100vw;
+      width: 100%;
       height: 100vh;
-      height: calc(100vh - var(--modal-height-offset, 0.0001rem));
       max-width: 100%;
-      max-height: 100%;
       border-radius: 0;
       box-shadow: none; }
     html:not([data-visual-test]) .dnb-modal__content--drawer.dnb-modal__content--left .dnb-modal__content__inner {

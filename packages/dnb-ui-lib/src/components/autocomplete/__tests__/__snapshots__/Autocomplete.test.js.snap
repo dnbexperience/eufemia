@@ -1755,6 +1755,9 @@ legend.dnb-form-label {
   .dnb-input--password .dnb-input__input {
     margin-right: 2.5rem;
     padding-right: 0; }
+    .dnb-input--password .dnb-input__placeholder::-ms-clear,
+    .dnb-input--password .dnb-input__input::-ms-clear {
+      display: none; }
   .dnb-input--password .dnb-input__placeholder {
     padding-right: 4rem; }
   .dnb-input__row {

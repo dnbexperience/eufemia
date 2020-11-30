@@ -717,21 +717,34 @@ class AutocompleteInstance extends React.PureComponent {
   }
 
   onInputFocusHandler = (event) => {
-    if (this.state.skipFocus) {
-      return // stop here
+    if (this.state.skipFocusDuringChange) {
+      return //stop here
     }
 
-    if (isTrue(this.props.open_on_focus)) {
-      const { value } = event.target
-      this.setVisibleByContext({ value })
-    } else {
-      this.setSearchIndex()
-    }
+    const { open_on_focus, keep_value_and_selection } = this.props
 
-    dispatchCustomElementEvent(this, 'on_focus', {
-      event,
-      ...this.getEventObjects('on_focus')
-    })
+    if (!this.state.hasFocus) {
+      if (isTrue(open_on_focus)) {
+        const { value } = event.target
+        this.setVisibleByContext({ value })
+      } else {
+        this.setSearchIndex()
+      }
+
+      if (isTrue(keep_value_and_selection)) {
+        this.showAll()
+      }
+
+      dispatchCustomElementEvent(this, 'on_focus', {
+        event,
+        ...this.getEventObjects('on_focus')
+      })
+
+      this.setState({
+        hasFocus: true,
+        hasBlur: false
+      })
+    }
   }
 
   onBlurHandler = (event) => {
@@ -753,11 +766,6 @@ class AutocompleteInstance extends React.PureComponent {
     if (isTrue(open_on_focus)) {
       this.setHidden()
     }
-
-    dispatchCustomElementEvent(this, 'on_blur', {
-      event,
-      ...this.getEventObjects('on_blur')
-    })
 
     if (!isTrue(prevent_selection) && !isTrue(keep_value_and_selection)) {
       const inputValue = AutocompleteInstance.getCurrentDataTitle(
@@ -782,6 +790,18 @@ class AutocompleteInstance extends React.PureComponent {
           })
         }
       }, 1) // to make sure we actually are after the Input state handling -> "input placeholder reset"
+    }
+
+    if (!this.state.hasBlur) {
+      dispatchCustomElementEvent(this, 'on_blur', {
+        event,
+        ...this.getEventObjects('on_blur')
+      })
+
+      this.setState({
+        hasBlur: true,
+        hasFocus: false
+      })
     }
   }
 
@@ -1211,16 +1231,33 @@ class AutocompleteInstance extends React.PureComponent {
     })
 
     if (res !== false) {
-      try {
-        this._refInput.current._ref.current.focus({
-          preventScroll: true
-        })
-      } catch (e) {
-        // do nothing
-      }
+      this.setFocusOnInput()
     }
 
     return res
+  }
+
+  setFocusOnInput() {
+    this.setState(
+      {
+        hasFocus: true
+      },
+      () => {
+        try {
+          this._refInput.current._ref.current.focus({
+            preventScroll: true
+          })
+        } catch (e) {
+          // do nothing
+        }
+        clearTimeout(this._focusTimeout)
+        this._focusTimeout = setTimeout(() => {
+          this.setState({
+            hasFocus: false
+          })
+        }, 1) // we have to wait in order to make sure the focus situation is cleared up
+      }
+    )
   }
 
   onSelectHandler = (args) => {
@@ -1256,7 +1293,7 @@ class AutocompleteInstance extends React.PureComponent {
     if (!isTrue(prevent_selection)) {
       if (!isTrue(keep_open)) {
         this.setState({
-          skipFocus: true,
+          skipFocusDuringChange: true,
           skipHighlight: true,
           _listenForPropChanges: false
         })
@@ -1280,17 +1317,11 @@ class AutocompleteInstance extends React.PureComponent {
               selected_item,
               this.context.drawerList.data
             ),
-            skipFocus: false,
+            skipFocusDuringChange: false,
             _listenForPropChanges: false
           })
 
-          try {
-            this._refInput.current._ref.current.focus({
-              preventScroll: true
-            })
-          } catch (e) {
-            // do nothing
-          }
+          this.setFocusOnInput()
         }, 200) // so we properly can set the focus "again" we have to have this amount of delay
       } else {
         this.setState({
@@ -1613,7 +1644,9 @@ class AutocompleteInstance extends React.PureComponent {
                   status={!opened && status ? status_state : null}
                   type={null}
                   submit_element={submitButton}
-                  input_state={this.state.skipFocus ? 'focus' : undefined} // because of the short blur / focus during select
+                  input_state={
+                    this.state.skipFocusDuringChange ? 'focus' : undefined
+                  } // because of the short blur / focus during select
                   ref={this._refInput}
                   {...inputParams}
                 />

@@ -74,11 +74,22 @@ export const AutocompleteSandbox = () => {
         <Autocomplete
           label="Keep value"
           data={topMovies}
+          input_value="does not exist"
           // keep_value
+          // disable_filter
           keep_value_and_selection
           // prevent_selection
           on_change={({ data }) => {
             console.log('on_change', data)
+          }}
+          on_show={({ event, data }) => {
+            console.log('on_show', event, data)
+          }}
+          on_focus={({ event, data }) => {
+            console.log('on_focus', event, data)
+          }}
+          on_blur={({ event, data }) => {
+            console.log('on_blur', event, data)
           }}
         />
       </Box>

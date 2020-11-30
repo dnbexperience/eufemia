@@ -31,13 +31,13 @@ export default {
 
 export const ModalSandbox = () => (
   <Wrapper>
-    <Global
+    {/* <Global
       styles={css`
         :root {
-          /* --modal-height-offset: 7rem; */
+          --modal-height-offset: 7rem;
         }
       `}
-    />
+    /> */}
 
     <Box>
       <ModalWithScrollableBox />
@@ -214,9 +214,9 @@ export const DrawerSandbox = () => (
   <Wrapper>
     <Global
       styles={css`
-        :root {
-          /* --modal-height-offset: 10rem; */
-        }
+        /* :root {
+          --modal-height-offset: 10rem;
+        } */
         .custom-inner {
           padding-top: 1.5rem;
         }
@@ -244,11 +244,12 @@ export const DrawerSandbox = () => (
       >
         <Modal.Inner style_type="pistachio">
           <Input>Focus me with Tab key</Input>
-          <Section top spacing>
+          <Section top bottom spacing>
             <P>
               <Switch label="Checked:" checked />
             </P>
           </Section>
+          <FillContent />
         </Modal.Inner>
       </Modal>
     </Box>
@@ -653,8 +654,8 @@ function ModalWithScrollableBox() {
     <>
       {/* <ScrollView /> */}
       <Modal
-        // fullscreen={true}
-        open_state="opened"
+      // fullscreen={true}
+      // open_state="opened"
       >
         <SimScrollView />
       </Modal>

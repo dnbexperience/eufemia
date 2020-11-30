@@ -140,6 +140,10 @@
   &--password &__input {
     margin-right: 2.5rem;
     padding-right: 0;
+
+    &::-ms-clear {
+      display: none;
+    }
   }
   &--password &__placeholder {
     padding-right: 4rem;
