@@ -83,8 +83,8 @@ export default {
       step_title: 'Step %step of %count'
     },
     Slider: {
-      add_title: 'Increase Slider value %s%',
-      subtract_title: 'Decrease Slider value %s%'
+      add_title: 'Increase %s',
+      subtract_title: 'Decrease %s'
     },
     PaymentCard: {
       text_card_number: 'Card number',
