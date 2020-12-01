@@ -7,6 +7,7 @@ redirect_from:
 import {
 FormStatusDefault,
 FormStatusWithInfo,
+FormStatusWithWarn,
 FormSetDefaultInput,
 FormStatusCustom,
 FormStatusLarge,
@@ -22,6 +23,10 @@ FormStatusWithIcons,
 ### FormStatus displaying info status
 
 <FormStatusWithInfo />
+
+### FormStatus displaying warn status
+
+<FormStatusWithWarn />
 
 ### A form status, used by the Input Component
 

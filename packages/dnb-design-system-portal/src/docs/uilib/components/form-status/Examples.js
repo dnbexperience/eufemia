@@ -36,6 +36,19 @@ export const FormStatusWithInfo = () => (
   </ComponentBox>
 )
 
+export const FormStatusWithWarn = () => (
+  <ComponentBox data-visual-test="form-status-warn">
+    {
+      /* @jsx */ `
+<FormStatus
+  text="Long info nisl tempus hendrerit tortor dapibus nascetur taciti porta risus cursus fusce platea enim curabitur proin nibh ut luctus magnis metus"
+  state="warn"
+/>
+  `
+    }
+  </ComponentBox>
+)
+
 export const FormSetDefaultInput = () => (
   <ComponentBox>
     {
