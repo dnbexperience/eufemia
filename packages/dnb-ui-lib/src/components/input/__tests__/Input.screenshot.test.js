@@ -69,6 +69,13 @@ describe('Input screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+  it('have to match password input', async () => {
+    const screenshot = await testPageScreenshot({
+      ...extend('input-password'),
+      selector: '[data-visual-test="input-password"]'
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
   it('have to match text align with icon', async () => {
     const screenshot = await testPageScreenshot({
       ...extend('input-align'),

@@ -595,7 +595,7 @@ export default class GlobalStatus extends React.PureComponent {
     const fallbackProps = extendPropsWithContext(
       this.props,
       GlobalStatus.defaultProps,
-      this.context.translation.GlobalStatus
+      this.context.getTranslation(this.props).GlobalStatus
     )
 
     const props = extendPropsWithContext(

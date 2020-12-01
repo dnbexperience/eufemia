@@ -11,6 +11,8 @@ import {
   makeUniqueId,
   registerElement,
   validateDOMAttributes,
+  getStatusState,
+  combineDescribedBy,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
 import { createSpacingClasses } from '../space/SpacingHelper'
@@ -192,7 +194,7 @@ export default class RadioGroup extends React.PureComponent {
     const { value } = this.state
 
     const id = this._id
-    const showStatus = status && status !== 'error'
+    const showStatus = getStatusState(status)
 
     const classes = classnames(
       'dnb-radio-group',
@@ -209,13 +211,11 @@ export default class RadioGroup extends React.PureComponent {
     }
 
     if (showStatus || suffix) {
-      params['aria-describedby'] = [
-        params['aria-describedby'],
+      params['aria-describedby'] = combineDescribedBy(
+        params,
         showStatus ? id + '-status' : null,
         suffix ? id + '-suffix' : null
-      ]
-        .filter(Boolean)
-        .join(' ')
+      )
     }
     if (label) {
       params['aria-labelledby'] = id + '-label'

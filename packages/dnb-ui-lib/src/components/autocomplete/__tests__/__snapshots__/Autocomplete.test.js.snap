@@ -39,6 +39,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
   input_value="input_value"
   keep_open="keep_open"
   keep_value="keep_value"
+  keep_value_and_selection="keep_value_and_selection"
   label="Autocomplete Label:"
   label_direction="horizontal"
   label_sr_only="label_sr_only"
@@ -117,6 +118,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
     input_value="input_value"
     keep_open="keep_open"
     keep_value="keep_value"
+    keep_value_and_selection="keep_value_and_selection"
     label="Autocomplete Label:"
     label_direction="horizontal"
     label_sr_only="label_sr_only"
@@ -201,6 +203,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
       input_value="input_value"
       keep_open="keep_open"
       keep_value="keep_value"
+      keep_value_and_selection="keep_value_and_selection"
       label="Autocomplete Label:"
       label_direction="horizontal"
       label_sr_only="label_sr_only"
@@ -563,6 +566,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                             size={null}
                             skeleton={false}
                             status={null}
+                            status_state="error"
                             title="submit_button_title"
                             value={null}
                             variant="secondary"
@@ -1017,6 +1021,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                 input_value="input_value"
                 keep_open="keep_open"
                 keep_value="keep_value"
+                keep_value_and_selection="keep_value_and_selection"
                 label="Autocomplete Label:"
                 label_direction="horizontal"
                 label_sr_only="label_sr_only"
@@ -1746,6 +1751,17 @@ legend.dnb-form-label {
   .dnb-input--has-submit-element .dnb-input__placeholder,
   .dnb-input--has-submit-element .dnb-input__input {
     padding-right: calc(var(--input-padding) * 2.5); }
+  .dnb-input--password .dnb-input__placeholder,
+  .dnb-input--password .dnb-input__input {
+    margin-right: 2.5rem;
+    padding-right: 0; }
+    .dnb-input--password .dnb-input__placeholder::-ms-clear,
+    .dnb-input--password .dnb-input__input::-ms-clear {
+      display: none; }
+  .dnb-input--password .dnb-input__placeholder {
+    padding-right: 4rem; }
+  .dnb-input--password .dnb-input__input {
+    font-family: var(--font-family-monospace); }
   .dnb-input__row {
     display: inline-flex;
     align-items: center; }
@@ -2012,6 +2028,9 @@ legend.dnb-form-label {
       stroke: grey; }
     .dnb-progress-indicator__circular__line.dark .dnb-progress-indicator__circular__circle {
       stroke: black; }
+  html[data-visual-test] .dnb-progress-indicator__circular__line {
+    animation-duration: 0ms;
+    animation-iteration-count: 0; }
   .dnb-progress-indicator:not(.dnb-progress-indicator--no-animation), .dnb-progress-indicator--visible:not(.dnb-progress-indicator--no-animation) {
     opacity: 0;
     animation: progress-indicator-fade-in 200ms ease-out 1 forwards; }

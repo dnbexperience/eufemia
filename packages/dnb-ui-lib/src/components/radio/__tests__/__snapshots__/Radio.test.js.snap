@@ -279,6 +279,7 @@ exports[`Radio group component have to match group snapshot 1`] = `
               >
                 <Radio
                   attributes={null}
+                  checked={null}
                   class={null}
                   className={null}
                   custom_element={null}
@@ -929,8 +930,6 @@ legend.dnb-form-label {
     height: var(--radio-height--large); }
   .dnb-radio__input:not([disabled]) {
     cursor: pointer; }
-  .dnb-radio .dnb-form-label {
-    margin-bottom: 0; }
   .dnb-radio__order {
     display: inline-flex;
     align-items: baseline; }
@@ -954,18 +953,20 @@ legend.dnb-form-label {
   .dnb-radio--large .dnb-radio__shell {
     width: var(--radio-width--large);
     height: var(--radio-height--large); }
+  .dnb-radio .dnb-form-label {
+    margin-right: 0;
+    margin-left: 0;
+    margin-bottom: 0; }
   .dnb-radio--label-position-left .dnb-radio__order .dnb-radio__inner {
     order: 2; }
   .dnb-radio--label-position-left .dnb-radio__order .dnb-form-label {
     order: 1;
-    margin-right: 0.5rem;
-    margin-left: 0; }
+    padding-right: 0.5rem; }
   .dnb-radio--label-position-right .dnb-radio__order .dnb-radio__inner {
     order: 1; }
   .dnb-radio--label-position-right .dnb-radio__order .dnb-form-label {
     order: 2;
-    margin-right: 0;
-    margin-left: 0.5rem; }
+    padding-left: 0.5rem; }
   .dnb-form-row:not(.dnb-form-row--vertical)[class*='__indent']
 .dnb-radio .dnb-form-label {
     margin-top: 0; }

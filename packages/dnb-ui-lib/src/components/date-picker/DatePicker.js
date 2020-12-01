@@ -14,6 +14,8 @@ import {
   registerElement,
   dispatchCustomElementEvent,
   detectOutsideClick,
+  getStatusState,
+  combineDescribedBy,
   validateDOMAttributes
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
@@ -437,11 +439,9 @@ export default class DatePicker extends React.PureComponent {
   formatSelectedDateTitle() {
     const { range } = this.props
     const { startDate, endDate } = this.state
-    const {
-      selected_date,
-      start,
-      end
-    } = this.context.translation.DatePicker
+    const { selected_date, start, end } = this.context.getTranslation(
+      this.props
+    ).DatePicker
 
     let currentDate = startDate ? format(startDate, 'PPPP') : null
 
@@ -534,17 +534,15 @@ export default class DatePicker extends React.PureComponent {
     const { opened, hidden, showInput } = this.state
 
     const id = this._id
-    const showStatus = status && status !== 'error'
+    const showStatus = getStatusState(status)
 
     const pickerParams = {}
     if (showStatus || suffix) {
-      pickerParams['aria-describedby'] = [
-        pickerParams['aria-describedby'],
+      pickerParams['aria-describedby'] = combineDescribedBy(
+        pickerParams,
         showStatus ? id + '-status' : null,
         suffix ? id + '-suffix' : null
-      ]
-        .filter(Boolean)
-        .join(' ')
+      )
     }
 
     const submitParams = {

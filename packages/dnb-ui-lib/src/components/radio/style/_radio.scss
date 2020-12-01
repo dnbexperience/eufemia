@@ -100,10 +100,6 @@
     cursor: pointer;
   }
 
-  .dnb-form-label {
-    margin-bottom: 0;
-  }
-
   &__order {
     display: inline-flex;
     align-items: baseline; // TODO: do we need this anymore?
@@ -145,14 +141,19 @@
     height: var(--radio-height--large);
   }
 
+  .dnb-form-label {
+    margin-right: 0;
+    margin-left: 0;
+    margin-bottom: 0;
+  }
+
   &--label-position-left &__order {
     .dnb-radio__inner {
       order: 2;
     }
     .dnb-form-label {
       order: 1;
-      margin-right: 0.5rem;
-      margin-left: 0;
+      padding-right: 0.5rem;
     }
   }
 
@@ -162,8 +163,7 @@
     }
     .dnb-form-label {
       order: 2;
-      margin-right: 0;
-      margin-left: 0.5rem;
+      padding-left: 0.5rem;
     }
   }
 

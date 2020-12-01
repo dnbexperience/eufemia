@@ -162,7 +162,7 @@ export default class PaginationBar extends React.PureComponent {
     const props = extendPropsWithContext(
       this.props,
       PaginationBar.defaultProps,
-      this.context.translation.Pagination
+      this.context.getTranslation(this.props).Pagination
     )
 
     const { button_title, prev_title, next_title, more_pages } = props

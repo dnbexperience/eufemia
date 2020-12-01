@@ -39,6 +39,20 @@ render(
 )
 ```
 
+For component based locale, you can also make use of the `lang` attribute – if really needed:
+
+```jsx
+import Provider from 'dnb-ui-lib/shared/Provider'
+
+render(
+  <Provider locale="en-GB">
+    <MyApp>
+      <HelpButton lang="nb-NO" />
+    </MyApp>
+  </Provider>
+)
+```
+
 ## How set locale progressively
 
 You can easily enhance or change translated strings progressively:

@@ -67,7 +67,9 @@ export default {
       aria_ready: 'Ready to interact'
     },
     Input: {
-      submit_button_title: 'Submit button'
+      submit_button_title: 'Submit button',
+      show_password: 'Show password',
+      hide_password: 'Hide password'
     },
     Pagination: {
       button_title: 'Page %s',
@@ -81,8 +83,8 @@ export default {
       step_title: 'Step %step of %count'
     },
     Slider: {
-      add_title: 'Increase Slider value %s%',
-      subtract_title: 'Decrease Slider value %s%'
+      add_title: 'Increase %s',
+      subtract_title: 'Decrease %s'
     },
     PaymentCard: {
       text_card_number: 'Card number',

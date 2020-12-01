@@ -13,6 +13,8 @@ import {
   extendPropsWithContext,
   registerElement,
   validateDOMAttributes,
+  getStatusState,
+  combineDescribedBy,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
@@ -82,7 +84,7 @@ export default class Radio extends React.PureComponent {
     label: null,
     label_sr_only: null,
     label_position: null,
-    checked: undefined,
+    checked: null,
     disabled: false,
     id: null,
     size: null,
@@ -121,9 +123,6 @@ export default class Radio extends React.PureComponent {
       if (props.checked !== state._checked) {
         state.checked = Radio.parseChecked(props.checked)
       }
-      if (typeof props.checked !== 'undefined') {
-        state._checked = props.checked
-      }
     }
     state._listenForPropChanges = true
 
@@ -133,9 +132,7 @@ export default class Radio extends React.PureComponent {
       })
     }
 
-    if (typeof state.checked === 'undefined') {
-      state.checked = false
-    }
+    state._checked = props.checked
     state.__checked = state.checked
 
     return state
@@ -311,7 +308,7 @@ export default class Radio extends React.PureComponent {
           }
 
           const id = this._id
-          const showStatus = status && status !== 'error'
+          const showStatus = getStatusState(status)
 
           const mainParams = {
             className: classnames(
@@ -333,13 +330,11 @@ export default class Radio extends React.PureComponent {
           }
 
           if (showStatus || suffix) {
-            inputParams['aria-describedby'] = [
-              inputParams['aria-describedby'],
+            inputParams['aria-describedby'] = combineDescribedBy(
+              inputParams,
               showStatus ? id + '-status' : null,
               suffix ? id + '-suffix' : null
-            ]
-              .filter(Boolean)
-              .join(' ')
+            )
           }
           if (readOnly) {
             inputParams['aria-readonly'] = inputParams.readOnly = true

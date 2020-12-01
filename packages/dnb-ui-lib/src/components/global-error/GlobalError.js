@@ -73,11 +73,49 @@ export default class GlobalError extends React.PureComponent {
     return processChildren(props)
   }
 
+  backHandler = (e) => {
+    const count = this.hasHistory()
+    try {
+      if (!this.props.href && count) {
+        e.preventDefault ? e.preventDefault() : (e.returnValue = false)
+
+        // Try forward first, because
+        // const tmp = window.location.href
+        // window.history.forward()
+        // if (tmp === window.location.href) {
+        // }
+
+        window.history.back()
+      }
+    } catch (e) {
+      warn(e)
+    }
+  }
+
+  getHref() {
+    return this.props.href || (this.hasHistory() ? '#' : '/')
+  }
+
+  hasHistory = () => {
+    return typeof window !== 'undefined' &&
+      window.history &&
+      /**
+       * browser (Chrome) to add more to the history if you:
+       *
+       * 1. first visit
+       * 2. head back
+       * 3. head forward again, suddenly there are 3 values in the history
+       */
+      window.history.length > 2
+      ? window.history.length
+      : false
+  }
+
   render() {
     const {
       status,
       back,
-      href,
+      href, // eslint-disable-line
 
       status_content: _status_content, // eslint-disable-line
       title: _title, // eslint-disable-line
@@ -126,13 +164,6 @@ export default class GlobalError extends React.PureComponent {
       }
     }
 
-    const backHandler =
-      typeof window !== 'undefined' && window.history.length > 1
-        ? () =>
-            !href &&
-            (typeof window !== 'undefined' ? window.history.back() : null)
-        : null
-
     if (typeof useText === 'string' && /\[/.test(useText)) {
       try {
         let parts = useText.split(/\[(.*)\](\(\/back\))/g)
@@ -141,7 +172,12 @@ export default class GlobalError extends React.PureComponent {
           if (backIndex !== -1) {
             // the first one will be
             parts[backIndex - 1] = (
-              <a className="dnb-anchor" href=";" onClick={backHandler}>
+              // eslint-disable-next-line jsx-a11y/anchor-is-valid
+              <a
+                className="dnb-anchor"
+                href={this.getHref()}
+                onClick={this.backHandler}
+              >
                 {parts[1]}
               </a>
             )
@@ -178,18 +214,17 @@ export default class GlobalError extends React.PureComponent {
     return (
       <div {...params}>
         <div className="dnb-global-error__inner">
-          {(typeof back === 'string' &&
-            (backHandler ? (
-              <Button
-                className="dnb-global-error__back"
-                variant="tertiary"
-                icon="chevron_left"
-                icon_position="left"
-                text={back}
-                href={href}
-                on_click={backHandler}
-              />
-            ) : null)) ||
+          {(typeof back === 'string' && (
+            <Button
+              className="dnb-global-error__back"
+              variant="tertiary"
+              icon="chevron_left"
+              icon_position="left"
+              text={back}
+              href={this.getHref()}
+              on_click={this.backHandler}
+            />
+          )) ||
             back}
           <Svg
             status={this.props.status}

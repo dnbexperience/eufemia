@@ -310,9 +310,14 @@ export const isTrue = (value) => {
 export const dispatchCustomElementEvent = (
   src,
   eventName,
-  eventObject
+  eventObjectOrig
 ) => {
-  let ret = null
+  let ret = undefined
+
+  const eventObject = {
+    ...(eventObjectOrig.event || {}),
+    ...eventObjectOrig
+  }
 
   // distribute dataset like "data-*" to both currentTarget and target
   if (eventObject && eventObject.attributes && eventObject.event) {
@@ -357,23 +362,46 @@ export const dispatchCustomElementEvent = (
     }
   }
 
-  // call the default snail case event
-  if (typeof props[eventName] === 'function') {
-    ret = props[eventName].apply(src, [eventObject])
-  }
+  // call the default snake case event
+  if (eventName.includes('_')) {
+    if (typeof props[eventName] === 'function') {
+      const r = props[eventName].apply(src, [eventObject])
+      if (typeof r !== 'undefined') {
+        ret = r
+      }
+    }
 
-  // call Syntetic React event camelCase naming events
-  eventName = toPascalCase(eventName)
-  if (typeof props[eventName] === 'function') {
-    // TODO: we may use [eventObject.event, eventObject] in future
-    ret = props[eventName].apply(src, [eventObject])
+    // call Syntetic React event camelCase naming events
+    eventName = toCamelCase(eventName)
+    if (typeof props[eventName] === 'function') {
+      const r = props[eventName].apply(src, [eventObject])
+      if (typeof r !== 'undefined') {
+        ret = r
+      }
+    }
+  } else {
+    if (typeof props[eventName] === 'function') {
+      const r = props[eventName].apply(src, [eventObject])
+      if (typeof r !== 'undefined') {
+        ret = r
+      }
+    }
+
+    // call (in future deprecated) event snake case naming events
+    eventName = toSnakeCase(eventName)
+    if (typeof props[eventName] === 'function') {
+      const r = props[eventName].apply(src, [eventObject])
+      if (typeof r !== 'undefined') {
+        ret = r
+      }
+    }
   }
 
   return ret
 }
 
 // transform on_click to onClick
-export const toPascalCase = (s) =>
+export const toCamelCase = (s) =>
   s
     .split(/_/g)
     .reduce(
@@ -387,6 +415,30 @@ export const toPascalCase = (s) =>
             )),
       ''
     )
+
+// TODO: Test if this solution is faster
+// const toCamelCase = (str) =>
+//   str.replace(/([-_][a-z])/g, (group) =>
+//     group.toUpperCase().replace('-', '').replace('_', '')
+//   )
+
+// transform my_component to MyComponent
+export const toPascalCase = (s) =>
+  s
+    .split(/_/g)
+    .reduce(
+      (acc, cur) =>
+        acc +
+        cur.replace(
+          /(\w)(\w*)/g,
+          (g0, g1, g2) => g1.toUpperCase() + g2.toLowerCase()
+        ),
+      ''
+    )
+
+// transform MyComponent to my_component
+export const toSnakeCase = (str) =>
+  str.replace(/[A-Z]/g, (letter) => `_${letter.toLowerCase()}`)
 
 // Removed as we now run function props from Web Components (custom-element)
 // export const pickRenderProps = (props, renderProps) =>
@@ -496,7 +548,7 @@ export class DetectOutsideClickClass {
       }
 
       // check if element has like "overflow: scroll"
-      if (this.checkIfHasScrollbar(currentElement)) {
+      if (checkIfHasScrollbar(currentElement)) {
         return // stop here
       }
 
@@ -521,22 +573,21 @@ export class DetectOutsideClickClass {
       warn(e)
     }
   }
+}
 
-  checkIfHasScrollbar = (elem) => {
-    return (
-      elem &&
-      (elem.scrollHeight > elem.offsetHeight ||
-        elem.scrollWidth > elem.offsetWidth) &&
-      this.overflowIsScrollable(elem)
-    )
-  }
-
-  overflowIsScrollable = (elem) => {
-    const style = window.getComputedStyle(elem)
-    return /scroll|auto/i.test(
-      style.overflow + (style.overflowX || '') + (style.overflowY || '')
-    )
-  }
+export const checkIfHasScrollbar = (elem) => {
+  return (
+    elem &&
+    (elem.scrollHeight > elem.offsetHeight ||
+      elem.scrollWidth > elem.offsetWidth) &&
+    overflowIsScrollable(elem)
+  )
+}
+const overflowIsScrollable = (elem) => {
+  const style = window.getComputedStyle(elem)
+  return /scroll|auto/i.test(
+    style.overflow + (style.overflowX || '') + (style.overflowY || '')
+  )
 }
 
 export const filterProps = (props, remove = null, allowed = null) => {
@@ -615,6 +666,33 @@ export const getPreviousSibling = (className, element) => {
   return element
 }
 
+export const isChildOfElement = (element, target, cb = null) => {
+  try {
+    const contains = (element) => {
+      if (cb) {
+        const res = cb(element)
+        if (typeof res === 'boolean') {
+          return res
+        }
+      }
+      return element && element === target
+    }
+
+    if (contains(element)) {
+      return element
+    }
+
+    while (
+      (element = element && element.parentElement) &&
+      !contains(element)
+    );
+  } catch (e) {
+    //
+  }
+
+  return element
+}
+
 // Round number to nearest target number
 export const roundToNearest = (num, target) => {
   const diff = num % target
@@ -636,10 +714,10 @@ export const warn = (...e) => {
   if (
     typeof process !== 'undefined' &&
     typeof console !== 'undefined' &&
-    typeof console.warn === 'function' &&
-    process.env.NODE_ENV !== 'production'
+    process.env.NODE_ENV !== 'production' &&
+    typeof console.log === 'function'
   ) {
-    console.warn(...e)
+    console.log('Eufemia:', ...e)
   }
 }
 
@@ -1093,4 +1171,31 @@ export class AnimateHeight {
 
     this.start(height, 0, { animate })
   }
+}
+
+export function convertStatusToStateOnly(status, state) {
+  return status ? state : null
+}
+
+export function getStatusState(status) {
+  return (
+    status && status !== 'error' && status !== 'warn' && status !== 'info'
+  )
+}
+
+export function combineDescribedBy(...params) {
+  params = params.map((cur) => {
+    if (cur && typeof cur['aria-describedby'] !== 'undefined') {
+      cur = cur['aria-describedby']
+    }
+    if (typeof cur !== 'string') {
+      cur = null
+    }
+    return cur
+  })
+  params = params.filter(Boolean).join(' ')
+  if (params === '') {
+    params = undefined
+  }
+  return params
 }

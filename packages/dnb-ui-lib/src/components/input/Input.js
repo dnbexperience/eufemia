@@ -14,6 +14,9 @@ import {
   registerElement,
   validateDOMAttributes,
   processChildren,
+  getStatusState,
+  convertStatusToStateOnly,
+  combineDescribedBy,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
@@ -284,7 +287,7 @@ export default class Input extends React.PureComponent {
       Input.defaultProps,
       { skeleton: this.context?.skeleton },
       this.context.formRow,
-      this.context.translation.Input
+      this.context.getTranslation(this.props).Input
     )
 
     const {
@@ -337,7 +340,7 @@ export default class Input extends React.PureComponent {
     const sizeIsNumber = parseFloat(size) > 0
 
     const id = this._id
-    const showStatus = status && status !== 'error'
+    const showStatus = getStatusState(status)
     const hasSubmitButton =
       submit_element || (submit_element !== false && type === 'search')
     const hasValue = Input.hasValue(value)
@@ -403,14 +406,13 @@ export default class Input extends React.PureComponent {
     }
 
     // we may consider using: aria-details
-    if (showStatus || suffix) {
-      inputParams['aria-describedby'] = [
-        inputParams['aria-describedby'],
+    if (showStatus || suffix || hasSubmitButton) {
+      inputParams['aria-describedby'] = combineDescribedBy(
+        inputParams,
+        hasSubmitButton && !submit_element ? id + '-submit-button' : null,
         showStatus ? id + '-status' : null,
         suffix ? id + '-suffix' : null
-      ]
-        .filter(Boolean)
-        .join(' ')
+      )
     }
     if (readOnly) {
       inputParams['aria-readonly'] = inputParams.readOnly = true
@@ -503,9 +505,14 @@ export default class Input extends React.PureComponent {
                 ) : (
                   <SubmitButton
                     {...attributes}
+                    id={id + '-submit-button'}
                     value={inputParams.value}
                     icon={submit_button_icon}
-                    status={submit_button_status}
+                    status={convertStatusToStateOnly(
+                      submit_button_status || status,
+                      status_state
+                    )}
+                    status_state={status_state}
                     icon_size={
                       size === 'medium' || size === 'large'
                         ? 'medium'
@@ -551,6 +558,12 @@ class InputSubmitButton extends React.PureComponent {
       PropTypes.func
     ]),
     icon_size: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    status: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.func,
+      PropTypes.node
+    ]),
+    status_state: PropTypes.string,
     className: PropTypes.string,
 
     on_submit: PropTypes.func,
@@ -567,6 +580,8 @@ class InputSubmitButton extends React.PureComponent {
     variant: 'secondary',
     icon: 'search',
     icon_size: null,
+    status: null,
+    status_state: 'error',
     className: null,
 
     on_submit: null,
@@ -603,6 +618,8 @@ class InputSubmitButton extends React.PureComponent {
       variant,
       icon,
       icon_size,
+      status,
+      status_state,
       className,
       ...rest
     } = this.props
@@ -633,6 +650,8 @@ class InputSubmitButton extends React.PureComponent {
           variant={variant}
           icon={icon}
           icon_size={icon_size}
+          status={status}
+          status_state={status_state}
           onClick={this.onSubmitHandler}
           onFocus={this.onFocusHandler}
           onBlur={this.onBlurHandler}

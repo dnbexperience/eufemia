@@ -8,7 +8,6 @@ import {
   applyPageFocus,
   scrollToLocationHashId,
   copyToClipboard,
-  copyWithEffect,
   getSelectedElement,
   hasSelectedText,
   getSelectedText,
@@ -129,13 +128,6 @@ describe('"copyToClipboard" should', () => {
   it('make valid copy', async () => {
     await copyToClipboard('copy')
     expect(await navigator.clipboard.readText()).toBe('copy')
-  })
-})
-
-describe('Number copy methods like', () => {
-  it('copyNumber should make valid clipboard copy', async () => {
-    copyWithEffect('1234.56')
-    expect(await navigator.clipboard.readText()).toBe('1234.56')
   })
 })
 

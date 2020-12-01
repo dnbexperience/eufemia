@@ -149,7 +149,7 @@ class PaginationInstance extends React.PureComponent {
       this.props,
       defaultProps,
       this.context.formRow,
-      this.context.translation.Pagination
+      this.context.getTranslation(this.props).Pagination
     )
 
     const {

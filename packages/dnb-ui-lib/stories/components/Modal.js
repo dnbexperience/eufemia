@@ -22,7 +22,7 @@ import {
   // Space,
   Number
 } from '../../src/components'
-// import { format } from '../../src/components/Number'
+import { ScrollView } from '../../src/fragments'
 import { H2, P, Hr } from '../../src/elements'
 
 export default {
@@ -31,13 +31,13 @@ export default {
 
 export const ModalSandbox = () => (
   <Wrapper>
-    <Global
+    {/* <Global
       styles={css`
         :root {
           --modal-height-offset: 7rem;
         }
       `}
-    />
+    /> */}
 
     <Box>
       <ModalWithScrollableBox />
@@ -214,9 +214,9 @@ export const DrawerSandbox = () => (
   <Wrapper>
     <Global
       styles={css`
-        :root {
-          /* --modal-height-offset: 10rem; */
-        }
+        /* :root {
+          --modal-height-offset: 10rem;
+        } */
         .custom-inner {
           padding-top: 1.5rem;
         }
@@ -244,11 +244,12 @@ export const DrawerSandbox = () => (
       >
         <Modal.Inner style_type="pistachio">
           <Input>Focus me with Tab key</Input>
-          <Section top spacing>
+          <Section top bottom spacing>
             <P>
               <Switch label="Checked:" checked />
             </P>
           </Section>
+          <FillContent />
         </Modal.Inner>
       </Modal>
     </Box>
@@ -656,29 +657,30 @@ function ModalWithScrollableBox() {
       // fullscreen={true}
       // open_state="opened"
       >
-        <ScrollView />
+        <SimScrollView />
       </Modal>
     </>
   )
 }
 
-function ScrollView() {
+function SimScrollView() {
   return (
     <div
       style={{
-        height: '80rem',
         width: '100%',
+        // height: '100vh',
+        height: '20rem',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
         background: 'yellow'
       }}
     >
-      <div
+      <ScrollView
         style={{
           width: '50%',
           height: '50%',
-          overflowY: 'auto',
+          // overflowY: 'auto',
           maxHeight: '12rem'
         }}
       >
@@ -689,7 +691,7 @@ function ScrollView() {
             background: 'linear-gradient(#e66465, #9198e5)'
           }}
         />
-      </div>
+      </ScrollView>
     </div>
   )
 }

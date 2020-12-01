@@ -14,6 +14,8 @@ import {
   registerElement,
   extendPropsWithContext,
   validateDOMAttributes,
+  getStatusState,
+  combineDescribedBy,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
@@ -142,10 +144,7 @@ export default class ToggleButton extends React.PureComponent {
 
   static getDerivedStateFromProps(props, state) {
     if (state._listenForPropChanges) {
-      if (
-        typeof props.checked !== 'undefined' &&
-        props.checked !== state.checked
-      ) {
+      if (props.checked !== state._checked) {
         state.checked = ToggleButton.parseChecked(props.checked)
       }
     }
@@ -157,9 +156,7 @@ export default class ToggleButton extends React.PureComponent {
       })
     }
 
-    if (typeof state.checked === 'undefined') {
-      state.checked = false
-    }
+    state._checked = props.checked
     state.__checked = state.checked
 
     return state
@@ -342,7 +339,7 @@ export default class ToggleButton extends React.PureComponent {
           }
 
           const id = this._id
-          const showStatus = status && status !== 'error'
+          const showStatus = getStatusState(status)
 
           const mainParams = {
             className: classnames(
@@ -390,13 +387,11 @@ export default class ToggleButton extends React.PureComponent {
           }
 
           if (showStatus || suffix) {
-            buttonParams['aria-describedby'] = [
-              buttonParams['aria-describedby'],
+            buttonParams['aria-describedby'] = combineDescribedBy(
+              buttonParams,
               showStatus ? id + '-status' : null,
               suffix ? id + '-suffix' : null
-            ]
-              .filter(Boolean)
-              .join(' ')
+            )
           }
           if (readOnly) {
             buttonParams['aria-readonly'] = buttonParams.readOnly = true

@@ -346,6 +346,7 @@ describe('Dropdown component', () => {
     expect(on_select.mock.calls[1][0].data).toStrictEqual(selectedItem)
     expect(on_change).toHaveBeenCalledWith({
       attributes: {},
+      isTrusted: false,
       data: selectedItem,
       event: new KeyboardEvent('keydown', {}),
       selected_item: props.value + 1,
@@ -379,6 +380,7 @@ describe('Dropdown component', () => {
 
     expect(on_change).toHaveBeenCalledWith({
       attributes: {},
+      isTrusted: false,
       data: {
         __id: 0,
         content: 'English',
@@ -398,6 +400,7 @@ describe('Dropdown component', () => {
 
     expect(on_change).toHaveBeenLastCalledWith({
       attributes: {},
+      isTrusted: false,
       data: {
         content: 'Norsk',
         selected_key: 'nb-NO',
@@ -465,6 +468,7 @@ describe('Dropdown component', () => {
     expect(on_hide.mock.calls.length).toBe(1)
     expect(on_hide.mock.calls[0][0].attributes).toMatchObject(params)
     expect(on_hide).toHaveBeenCalledWith({
+      isTrusted: false,
       attributes: params,
       data: null,
       event: new KeyboardEvent('keydown', {})
@@ -514,6 +518,7 @@ describe('Dropdown component', () => {
     expect(on_hide).toBeCalledTimes(1)
     expect(on_hide).toHaveBeenCalledWith({
       attributes: {},
+      isTrusted: false,
       event: new KeyboardEvent('keydown', {}),
       data: null
     })

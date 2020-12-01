@@ -14,6 +14,8 @@ import {
   extendPropsWithContext,
   registerElement,
   validateDOMAttributes,
+  getStatusState,
+  combineDescribedBy,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
@@ -403,7 +405,7 @@ class DropdownInstance extends React.PureComponent {
       Dropdown.defaultProps,
       { skeleton: this.context?.skeleton },
       this.context.formRow,
-      this.context.translation.Dropdown
+      this.context.getTranslation(this.props).Dropdown
     )
 
     const {
@@ -471,7 +473,7 @@ class DropdownInstance extends React.PureComponent {
     }
 
     const { selected_item, direction, opened } = this.context.drawerList
-    const showStatus = status && status !== 'error'
+    const showStatus = getStatusState(status)
     const title = this.getTitle(_title)
 
     // make it possible to grab the rest attributes and return it with all events
@@ -524,13 +526,11 @@ class DropdownInstance extends React.PureComponent {
     }
 
     if (showStatus || suffix) {
-      triggerParams['aria-describedby'] = [
-        triggerParams['aria-describedby'],
+      triggerParams['aria-describedby'] = combineDescribedBy(
+        triggerParams,
         showStatus ? id + '-status' : null,
         suffix ? id + '-suffix' : null
-      ]
-        .filter(Boolean)
-        .join(' ')
+      )
     }
 
     if (label) {
@@ -588,6 +588,7 @@ class DropdownInstance extends React.PureComponent {
               ) : (
                 <Button
                   variant="secondary"
+                  icon={false} // only to suppress the warning about the icon when tertiary variant is used
                   size={size === 'default' ? 'medium' : size}
                   ref={this._refButton}
                   {...triggerParams}

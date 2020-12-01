@@ -31,6 +31,17 @@
       background-color: var(--color-sea-green-30);
     }
   }
+  &:not([disabled])#{&}--primary#{&}__status {
+    &--error {
+      color: var(--color-white);
+      background-color: var(--color-fire-red);
+
+      // @include fakeBorder(var(--color-fire-red), 0.0625rem, inset, true);
+      // .dnb-button__icon {
+      //   color: inherit;
+      // }
+    }
+  }
 
   &--secondary {
     color: var(--color-sea-green);

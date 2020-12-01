@@ -32,7 +32,6 @@ export default class ProgressIndicator extends React.PureComponent {
     show_label: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
     indicator_label: PropTypes.string,
-
     on_complete: PropTypes.func
   }
 
@@ -101,7 +100,7 @@ export default class ProgressIndicator extends React.PureComponent {
       this.props,
       ProgressIndicator.defaultProps,
       this.context.formRow,
-      this.context.translation.ProgressIndicator
+      this.context.getTranslation(this.props).ProgressIndicator
     )
 
     const {
