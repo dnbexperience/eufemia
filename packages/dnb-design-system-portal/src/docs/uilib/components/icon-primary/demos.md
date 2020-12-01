@@ -18,7 +18,7 @@ import ComponentBox from 'Src/shared/tags/ComponentBox'
 />
 	`}
 </ComponentBox>
-		
+
 ### Default Icon with custom, but fixed size (64)
 
 <ComponentBox>
