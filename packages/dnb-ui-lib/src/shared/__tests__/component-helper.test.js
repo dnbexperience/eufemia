@@ -16,6 +16,7 @@ import {
   processChildren,
   dispatchCustomElementEvent,
   toPascalCase,
+  toCamelCase,
   // pickRenderProps,
   detectOutsideClick,
   makeUniqueId,
@@ -350,8 +351,14 @@ describe('"dispatchCustomElementEvent" should', () => {
 })
 
 describe('"toPascalCase" should', () => {
-  it('transform a snail case event name to a React event case', () => {
-    expect(toPascalCase('my_event_is_long')).toBe('myEventIsLong')
+  it('transform a snake case event name to a React event case', () => {
+    expect(toPascalCase('my_component')).toBe('MyComponent')
+  })
+})
+
+describe('"toCamelCase" should', () => {
+  it('transform a snake case event name to a React event case', () => {
+    expect(toCamelCase('my_event_is_long')).toBe('myEventIsLong')
   })
 })
 

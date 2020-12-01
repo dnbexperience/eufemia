@@ -357,13 +357,13 @@ export const dispatchCustomElementEvent = (
     }
   }
 
-  // call the default snail case event
+  // call the default snake case event
   if (typeof props[eventName] === 'function') {
     ret = props[eventName].apply(src, [eventObject])
   }
 
   // call Syntetic React event camelCase naming events
-  eventName = toPascalCase(eventName)
+  eventName = toCamelCase(eventName)
   if (typeof props[eventName] === 'function') {
     // TODO: we may use [eventObject.event, eventObject] in future
     ret = props[eventName].apply(src, [eventObject])
@@ -373,7 +373,7 @@ export const dispatchCustomElementEvent = (
 }
 
 // transform on_click to onClick
-export const toPascalCase = (s) =>
+export const toCamelCase = (s) =>
   s
     .split(/_/g)
     .reduce(
@@ -385,6 +385,20 @@ export const toPascalCase = (s) =>
               /(\w)(\w*)/g,
               (g0, g1, g2) => g1.toUpperCase() + g2.toLowerCase()
             )),
+      ''
+    )
+
+// transform my_component to MyComponent
+export const toPascalCase = (s) =>
+  s
+    .split(/_/g)
+    .reduce(
+      (acc, cur) =>
+        acc +
+        cur.replace(
+          /(\w)(\w*)/g,
+          (g0, g1, g2) => g1.toUpperCase() + g2.toLowerCase()
+        ),
       ''
     )
 
