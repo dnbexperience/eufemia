@@ -441,6 +441,7 @@ export const format = (
     type = 'phone'
     const { number: _number, aria: _aria } = formatPhone(value, locale)
 
+    value = cleanNumber(value) // clean, because of +47 and ++47
     display = _number
     aria = _aria
   } else if (isTrue(ban)) {
