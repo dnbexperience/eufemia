@@ -7,6 +7,7 @@ import React from 'react'
 import ComponentBox from 'Src/shared/tags/ComponentBox'
 import {
   InfoIcon,
+  WarnIcon,
   ErrorIcon
 } from 'dnb-ui-lib/src/components/form-status/FormStatus'
 
@@ -105,7 +106,7 @@ render(
 
 export const FormStatusWithIcons = () => (
   <ComponentBox
-    scope={{ InfoIcon, ErrorIcon }}
+    scope={{ InfoIcon, WarnIcon, ErrorIcon }}
     data-visual-test="form-status-icons"
   >
     {`
@@ -113,8 +114,15 @@ export const FormStatusWithIcons = () => (
 	icon={InfoIcon}
 	size="medium"
 	title="Some title"
-	right
   inherit_color={false}
+	right
+/>
+<Icon
+	icon={WarnIcon}
+	size="medium"
+	title="Some title"
+  inherit_color={false}
+  right
 />
 <Icon
 	icon={ErrorIcon}
