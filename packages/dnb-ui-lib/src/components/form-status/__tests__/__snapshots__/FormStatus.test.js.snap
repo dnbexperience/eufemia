@@ -278,8 +278,6 @@ exports[`FormStatus scss have to match snapshot 1`] = `
     white-space: normal; }
     .dnb-form-status__text .dnb-anchor {
       font-size: inherit; }
-  .dnb-form-status__size--large .dnb-form-status__text {
-    opacity: 0.2; }
   .dnb-icon + .dnb-form-status__text {
     padding-left: 0.5rem; }
   .dnb-form-status__shell > .dnb-icon {
@@ -287,6 +285,12 @@ exports[`FormStatus scss have to match snapshot 1`] = `
     justify-content: center;
     align-items: center;
     margin: 0.3333333em 0.3333333em 0.3333333em 0.6666666em; }
+  .dnb-form-status__size--large .dnb-form-status__text {
+    padding-top: 1rem;
+    padding-bottom: 1rem; }
+  .dnb-form-status__size--large .dnb-form-status__shell > .dnb-icon {
+    margin-top: 0.6666666em;
+    margin-bottom: 0.6666666em; }
   .dnb-form-status[hidden] {
     display: none; }
   .dnb-form-status__animation--fade-in {
