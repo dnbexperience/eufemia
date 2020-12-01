@@ -2149,6 +2149,8 @@ legend.dnb-form-label {
       display: none; }
   .dnb-input--password .dnb-input__placeholder {
     padding-right: 4rem; }
+  .dnb-input--password .dnb-input__input {
+    font-family: var(--font-family-monospace); }
   .dnb-input__row {
     display: inline-flex;
     align-items: center; }
