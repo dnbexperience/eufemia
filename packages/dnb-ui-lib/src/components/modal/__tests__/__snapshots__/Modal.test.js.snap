@@ -137,7 +137,7 @@ exports[`Modal component have to match snapshot 1`] = `
             <span
               aria-hidden="true"
               aria-label="question icon"
-              class="dnb-icon dnb-icon--default dnb-button__icon"
+              class="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
               role="presentation"
             >
               <svg
@@ -197,7 +197,7 @@ exports[`Modal component have to match snapshot 1`] = `
               <span
                 aria-hidden="true"
                 aria-label="question icon"
-                class="dnb-icon dnb-icon--default dnb-button__icon"
+                class="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
                 role="presentation"
               >
                 <svg
@@ -280,7 +280,7 @@ exports[`Modal component have to match snapshot 1`] = `
                   <span
                     aria-hidden="true"
                     aria-label="question icon"
-                    class="dnb-icon dnb-icon--default dnb-button__icon"
+                    class="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
                     role="presentation"
                   >
                     <svg
@@ -332,6 +332,7 @@ exports[`Modal component have to match snapshot 1`] = `
               color={null}
               height={null}
               icon="question"
+              inherit_color={true}
               key="button-icon"
               modifier={null}
               size={null}
@@ -342,7 +343,7 @@ exports[`Modal component have to match snapshot 1`] = `
               <span
                 aria-hidden={true}
                 aria-label="question icon"
-                className="dnb-icon dnb-icon--default dnb-button__icon"
+                className="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
                 role="presentation"
               >
                 <question>
@@ -701,6 +702,7 @@ exports[`Modal component have to match snapshot 1`] = `
                             color={null}
                             height={null}
                             icon="close"
+                            inherit_color={true}
                             key="button-icon"
                             modifier={null}
                             size="basis"
@@ -711,7 +713,7 @@ exports[`Modal component have to match snapshot 1`] = `
                             <span
                               aria-hidden={true}
                               aria-label="close icon"
-                              className="dnb-icon dnb-icon--default dnb-button__icon"
+                              className="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
                               role="presentation"
                             >
                               <close>
@@ -807,10 +809,10 @@ exports[`Modal scss have to match snapshot 1`] = `
     width: inherit; }
   .dnb-icon svg[height='100%'] {
     height: inherit; }
-  .dnb-icon svg:not([fill]),
-  .dnb-icon svg [fill] {
+  .dnb-icon--inherit-color svg:not([fill]),
+  .dnb-icon--inherit-color svg [fill] {
     fill: currentColor; }
-  .dnb-icon svg [stroke] {
+  .dnb-icon--inherit-color svg [stroke] {
     stroke: currentColor; }
   .dnb-icon--small {
     font-size: 0.75rem; }
@@ -921,12 +923,8 @@ exports[`Modal scss have to match snapshot 1`] = `
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 1.5em;
-    height: 1.5em;
     margin-top: 0.25em;
-    margin-left: 0.5em;
-    color: inherit;
-    font-size: var(--font-size-small); }
+    margin-left: 0.5em; }
   .dnb-form-status[hidden] {
     display: none; }
   .dnb-form-status--fade-in {

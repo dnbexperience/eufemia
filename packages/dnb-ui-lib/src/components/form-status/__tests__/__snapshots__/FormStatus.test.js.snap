@@ -57,7 +57,7 @@ exports[`FormStatus component have to match snapshot 1`] = `
   global_status_id="main"
   hidden={false}
   icon="exclamation"
-  icon_size="large"
+  icon_size="medium"
   id="form-status"
   label={null}
   skeleton={null}
@@ -89,15 +89,16 @@ exports[`FormStatus component have to match snapshot 1`] = `
             title={null}
           />
         }
+        inherit_color={false}
         modifier={null}
-        size="large"
+        size="medium"
         skeleton={null}
         title={null}
         width={null}
       >
         <span
           aria-hidden={true}
-          className="dnb-icon dnb-icon--large"
+          className="dnb-icon dnb-icon--medium"
           role="presentation"
         >
           <Component>
@@ -148,7 +149,7 @@ exports[`FormStatus scss have to match default theme snapshot 1`] = `
  *
  */
 .dnb-form-status__shell {
-  color: var(--color-emerald-green);
+  color: var(--color-black-80);
   font-size: var(--font-size-small); }
 
 .dnb-form-status--error .dnb-form-status__shell {
@@ -157,11 +158,14 @@ exports[`FormStatus scss have to match default theme snapshot 1`] = `
     color: var(--color-fire-red);
     border: none; }
 
+.dnb-form-status--warn .dnb-form-status__shell {
+  background-color: var(--color-sand-yellow); }
+
 .dnb-form-status--info .dnb-form-status__shell {
-  background-color: var(--color-mint-green-25); }
+  background-color: var(--color-pistachio); }
 
 .dnb-form-status:not(.dnb-form-status--attention-focus).dnb-form-status--text {
-  color: var(--color-emerald-green); }
+  color: var(--color-black-80); }
 
 .dnb-form-status--error.dnb-form-status--attention-focus .dnb-form-status__shell,
 .dnb-form-status--error.dnb-form-status:focus .dnb-form-status__shell {
@@ -274,12 +278,8 @@ exports[`FormStatus scss have to match snapshot 1`] = `
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 1.5em;
-    height: 1.5em;
     margin-top: 0.25em;
-    margin-left: 0.5em;
-    color: inherit;
-    font-size: var(--font-size-small); }
+    margin-left: 0.5em; }
   .dnb-form-status[hidden] {
     display: none; }
   .dnb-form-status--fade-in {

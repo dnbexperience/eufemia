@@ -197,10 +197,10 @@ exports[`InputMasked scss have to match snapshot 1`] = `
     width: inherit; }
   .dnb-icon svg[height='100%'] {
     height: inherit; }
-  .dnb-icon svg:not([fill]),
-  .dnb-icon svg [fill] {
+  .dnb-icon--inherit-color svg:not([fill]),
+  .dnb-icon--inherit-color svg [fill] {
     fill: currentColor; }
-  .dnb-icon svg [stroke] {
+  .dnb-icon--inherit-color svg [stroke] {
     stroke: currentColor; }
   .dnb-icon--small {
     font-size: 0.75rem; }
@@ -311,12 +311,8 @@ exports[`InputMasked scss have to match snapshot 1`] = `
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 1.5em;
-    height: 1.5em;
     margin-top: 0.25em;
-    margin-left: 0.5em;
-    color: inherit;
-    font-size: var(--font-size-small); }
+    margin-left: 0.5em; }
   .dnb-form-status[hidden] {
     display: none; }
   .dnb-form-status--fade-in {

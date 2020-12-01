@@ -354,7 +354,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
             global_status_id="global_status_id"
             hidden={false}
             icon="error"
-            icon_size="large"
+            icon_size="medium"
             id="dropdown-id-form-status"
             label="label"
             skeleton="skeleton"
@@ -387,15 +387,16 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                       title={null}
                     />
                   }
+                  inherit_color={false}
                   modifier={null}
-                  size="large"
+                  size="medium"
                   skeleton={null}
                   title={null}
                   width={null}
                 >
                   <span
                     aria-hidden={true}
-                    className="dnb-icon dnb-icon--large"
+                    className="dnb-icon dnb-icon--medium"
                     role="presentation"
                   >
                     <Component>
@@ -532,6 +533,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                             color={null}
                             height={null}
                             icon="icon"
+                            inherit_color={true}
                             modifier={null}
                             size="icon_size"
                             skeleton={null}
@@ -593,6 +595,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                         color={null}
                         height={null}
                         icon="icon"
+                        inherit_color={true}
                         modifier={null}
                         size="icon_size"
                         skeleton={null}
@@ -1320,10 +1323,10 @@ exports[`Dropdown scss have to match snapshot 1`] = `
     width: inherit; }
   .dnb-icon svg[height='100%'] {
     height: inherit; }
-  .dnb-icon svg:not([fill]),
-  .dnb-icon svg [fill] {
+  .dnb-icon--inherit-color svg:not([fill]),
+  .dnb-icon--inherit-color svg [fill] {
     fill: currentColor; }
-  .dnb-icon svg [stroke] {
+  .dnb-icon--inherit-color svg [stroke] {
     stroke: currentColor; }
   .dnb-icon--small {
     font-size: 0.75rem; }
@@ -1438,12 +1441,8 @@ exports[`Dropdown scss have to match snapshot 1`] = `
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 1.5em;
-    height: 1.5em;
     margin-top: 0.25em;
-    margin-left: 0.5em;
-    color: inherit;
-    font-size: var(--font-size-small); }
+    margin-left: 0.5em; }
   .dnb-form-status[hidden] {
     display: none; }
   .dnb-form-status--fade-in {

@@ -492,12 +492,8 @@ legend.dnb-form-label {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 1.5em;
-    height: 1.5em;
     margin-top: 0.25em;
-    margin-left: 0.5em;
-    color: inherit;
-    font-size: var(--font-size-small); }
+    margin-left: 0.5em; }
   .dnb-form-status[hidden] {
     display: none; }
   .dnb-form-status--fade-in {
