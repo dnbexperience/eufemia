@@ -18,7 +18,9 @@ import {
   extend
 } from '../../shared/component-helper'
 import {
-  createSelectionFX,
+  getSelectedText,
+  copyToClipboard,
+  insertElementBeforeSelection,
   hasSelectedText,
   IS_IOS,
   IS_MAC,
@@ -906,4 +908,86 @@ export function runIOSSelectionFix() {
   } catch (e) {
     //
   }
+}
+
+export async function copyWithEffect(string) {
+  let success = null
+
+  if (string) {
+    try {
+      const fx = createSelectionFX(string)
+      success = await copyToClipboard(string)
+      if (success === true) {
+        fx.run()
+      }
+    } catch (e) {
+      warn(e)
+      success = e
+    }
+  }
+
+  return success
+}
+
+export function createSelectionFX(string) {
+  let height = 32
+  let left = 0
+  let top = 0
+  let elem // portalElem
+
+  // do that because getClientRects from selection is an experimental browser API
+  try {
+    // getClientRects
+    const cR = window.getSelection().getRangeAt(0).getClientRects()
+
+    height = cR[0]?.height
+    left = cR[0]?.left
+    top = cR[0]?.top
+  } catch (e) {
+    //
+  }
+
+  try {
+    // create backup to get the position from
+    if (!(top > 0) && !(left > 0)) {
+      // get a more precise position by inserting this empty node
+      const posElem = document.createElement('span')
+      posElem.setAttribute('class', 'dnb-number__fx__selection')
+      insertElementBeforeSelection(posElem)
+
+      // get position
+      ;({ top, left } = posElem.getBoundingClientRect())
+      top -= height / 1.333
+      posElem.parentElement.removeChild(posElem)
+    }
+
+    // create that portal element
+    elem = document.createElement('span')
+    elem.textContent = String(string)
+    elem.setAttribute('class', 'dnb-number__fx dnb-core-style')
+    elem.style.top = `${top}px`
+    elem.style.left = `${left + getSelectedText().length / 2}px`
+  } catch (e) {
+    warn(e)
+  }
+
+  return new (class SelectionFx {
+    remove() {
+      try {
+        document.body.removeChild(elem)
+      } catch (e) {
+        //
+      }
+    }
+    run() {
+      try {
+        document.body.appendChild(elem)
+
+        // remove that element again
+        setTimeout(this.remove, 800)
+      } catch (e) {
+        warn(e)
+      }
+    }
+  })()
 }
