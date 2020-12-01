@@ -119,6 +119,8 @@
 
   .dnb-form-label {
     margin-bottom: 0;
+    margin-right: 0;
+    margin-left: 0;
   }
 
   &__order {
@@ -138,8 +140,7 @@
     }
     .dnb-form-label {
       order: 1;
-      margin-right: 0.5rem;
-      margin-left: 0;
+      padding-right: 0.5rem;
     }
     .dnb-form-status {
       order: 3;
@@ -153,8 +154,7 @@
     }
     .dnb-form-label {
       order: 2;
-      margin-right: 0;
-      margin-left: 0.5rem;
+      padding-left: 0.5rem;
     }
     & + .dnb-form-status {
       order: 3;

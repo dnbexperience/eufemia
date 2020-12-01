@@ -42,6 +42,7 @@ describe('GlobalError component', () => {
   // Ensure we get "window.history.length === 2"
   jest.spyOn(window.history, 'length', 'get')
   window.history.pushState({ page: 1 }, 'title 1', '?page=1')
+  window.history.pushState({ page: 2 }, 'title 2', '?page=2')
 
   const Comp = mount(<Component {...props} />)
 
@@ -61,15 +62,15 @@ describe('GlobalError component', () => {
     expect(Comp.find('Svg500').exists('svg[xmlns]')).toBe(true)
   })
 
-  it('has to have a working back button', () => {
+  it('has to have a working back anchor', () => {
     const back = jest.fn()
     window.history.back = back
 
-    const elem = Comp.find('button.dnb-global-error__back')
-    elem.simulate('click')
+    const elem = Comp.find('a.dnb-global-error__back')
 
     expect(elem.exists()).toBe(true)
-    expect(back).toHaveBeenCalled()
+    elem.simulate('click')
+    expect(back).toHaveBeenCalledTimes(1)
   })
 
   it('should validate with ARIA rules', async () => {

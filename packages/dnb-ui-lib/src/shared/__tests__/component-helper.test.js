@@ -16,6 +16,8 @@ import {
   processChildren,
   dispatchCustomElementEvent,
   toPascalCase,
+  toCamelCase,
+  toSnakeCase,
   // pickRenderProps,
   detectOutsideClick,
   makeUniqueId,
@@ -295,7 +297,7 @@ describe('"isTrue" should', () => {
 })
 
 describe('"dispatchCustomElementEvent" should', () => {
-  it('call a custom event function, set as a property in props', () => {
+  it('emit snake case and camel case events', () => {
     const my_event = jest.fn()
     const myEvent = jest.fn()
     const instance = {
@@ -304,10 +306,47 @@ describe('"dispatchCustomElementEvent" should', () => {
         myEvent
       }
     }
-    const event = {}
-    dispatchCustomElementEvent(instance, 'my_event', event)
-    expect(my_event.mock.calls.length).toBe(1)
-    expect(myEvent.mock.calls.length).toBe(1)
+
+    const eventObject = {}
+
+    dispatchCustomElementEvent(instance, 'my_event', eventObject)
+    expect(my_event).toBeCalledTimes(1)
+    expect(myEvent).toBeCalledTimes(1)
+
+    // dispatchCustomElementEvent(instance, 'my_event', eventObject)
+    dispatchCustomElementEvent(instance, 'myEvent', eventObject)
+    expect(my_event).toBeCalledTimes(2)
+    expect(myEvent).toBeCalledTimes(2)
+  })
+
+  it('emit an event and return its event properties, including custom properties', () => {
+    const my_event = jest.fn()
+    const myEvent = jest.fn()
+    const instance = {
+      props: {
+        my_event,
+        myEvent
+      }
+    }
+
+    const keyCode = 13
+    const event = new KeyboardEvent('keydown', { keyCode })
+    const data = { foo: 'bar' }
+    const eventObject = { event, data }
+    dispatchCustomElementEvent(instance, 'my_event', eventObject)
+
+    expect(my_event).toBeCalledTimes(1)
+    expect(myEvent).toBeCalledTimes(1)
+
+    const eventResult = {
+      data: {
+        foo: 'bar'
+      },
+      event,
+      isTrusted: false
+    }
+    expect(my_event).toBeCalledWith(eventResult)
+    expect(myEvent).toBeCalledWith(eventResult)
   })
 
   it('call a custom event function, set as a property in props', () => {
@@ -321,7 +360,7 @@ describe('"dispatchCustomElementEvent" should', () => {
     }
     const event = {}
     dispatchCustomElementEvent(instance, 'eventName', event)
-    expect(fireEvent.mock.calls.length).toBe(1)
+    expect(fireEvent).toBeCalledTimes(1)
     expect(fireEvent.mock.calls[0][0]).toBe('eventName')
   })
 
@@ -350,8 +389,20 @@ describe('"dispatchCustomElementEvent" should', () => {
 })
 
 describe('"toPascalCase" should', () => {
-  it('transform a snail case event name to a React event case', () => {
-    expect(toPascalCase('my_event_is_long')).toBe('myEventIsLong')
+  it('transform a snake case event name to a React event case', () => {
+    expect(toPascalCase('my_component')).toBe('MyComponent')
+  })
+})
+
+describe('"toCamelCase" should', () => {
+  it('transform a snake case event name to a React event case', () => {
+    expect(toCamelCase('my_event_is_long')).toBe('myEventIsLong')
+  })
+})
+
+describe('"toSnakeCase" should', () => {
+  it('transform a camel case event name to snake case', () => {
+    expect(toSnakeCase('myEventIsLong')).toBe('my_event_is_long')
   })
 })
 

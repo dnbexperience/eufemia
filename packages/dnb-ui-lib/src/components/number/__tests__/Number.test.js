@@ -13,7 +13,7 @@ import {
 } from '../../../core/jest/jestSetup'
 import { LOCALE } from '../../../shared/defaults'
 import { isMac } from '../../../shared/helpers'
-import Number, { format, cleanNumber } from '../Number'
+import Number, { format, cleanNumber, copyWithEffect } from '../Number'
 
 const Component = (props) => {
   return <Number id="unique" {...props} />
@@ -424,6 +424,13 @@ describe('Number cleanNumber', () => {
     expect(cleanNumber("prefix -1.234.567'891 suffix")).toBe(
       '-1234567.891'
     )
+  })
+})
+
+describe('copyWithEffect should', () => {
+  it('make valid clipboard copy', async () => {
+    copyWithEffect('1234.56')
+    expect(await navigator.clipboard.readText()).toBe('1234.56')
   })
 })
 

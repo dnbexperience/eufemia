@@ -877,7 +877,7 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
                 text 
                 <a
                   className="dnb-anchor"
-                  href=";"
+                  href="href"
                   onClick={[Function]}
                 >
                   link

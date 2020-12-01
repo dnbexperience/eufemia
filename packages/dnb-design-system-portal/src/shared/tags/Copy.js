@@ -7,16 +7,15 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import styled from '@emotion/styled'
-import {
-  IS_IOS,
-  copyWithEffect,
-  hasSelectedText
-} from 'dnb-ui-lib/src/shared/helpers'
+import { IS_IOS, hasSelectedText } from 'dnb-ui-lib/src/shared/helpers'
 import {
   convertJsxToString,
   warn
 } from 'dnb-ui-lib/src/shared/component-helper'
-import { runIOSSelectionFix } from 'dnb-ui-lib/src/components/Number'
+import {
+  copyWithEffect,
+  runIOSSelectionFix
+} from 'dnb-ui-lib/src/components/Number'
 
 // we may use this one, but for now, we just keep the build in mdx support
 // import ReactMarkdown from 'react-markdown'

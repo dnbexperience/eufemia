@@ -603,7 +603,9 @@ legend.dnb-form-label {
   .dnb-checkbox__input:not([disabled]) {
     cursor: pointer; }
   .dnb-checkbox .dnb-form-label {
-    margin-bottom: 0; }
+    margin-bottom: 0;
+    margin-right: 0;
+    margin-left: 0; }
   .dnb-checkbox__order {
     display: inline-flex;
     align-items: baseline; }
@@ -615,8 +617,7 @@ legend.dnb-form-label {
     order: 2; }
   .dnb-checkbox--label-position-left .dnb-checkbox__order .dnb-form-label {
     order: 1;
-    margin-right: 0.5rem;
-    margin-left: 0; }
+    padding-right: 0.5rem; }
   .dnb-checkbox--label-position-left .dnb-checkbox__order .dnb-form-status {
     order: 3;
     margin-top: 0.5rem; }
@@ -624,8 +625,7 @@ legend.dnb-form-label {
     order: 1; }
   .dnb-checkbox--label-position-right .dnb-checkbox__order .dnb-form-label {
     order: 2;
-    margin-right: 0;
-    margin-left: 0.5rem; }
+    padding-left: 0.5rem; }
   .dnb-checkbox--label-position-right .dnb-checkbox__order + .dnb-form-status {
     order: 3;
     vertical-align: top;

@@ -83,8 +83,8 @@ export default {
       step_title: 'Steg %step av %count'
     },
     Slider: {
-      add_title: 'Øk glider verdi %s%',
-      subtract_title: 'Reduser glider verdi %s%'
+      add_title: 'Øk %s',
+      subtract_title: 'Reduser %s'
     },
     PaymentCard: {
       text_card_number: 'Kortnummer',

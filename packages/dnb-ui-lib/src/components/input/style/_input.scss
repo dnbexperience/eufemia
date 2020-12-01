@@ -148,6 +148,9 @@
   &--password &__placeholder {
     padding-right: 4rem;
   }
+  &--password &__input {
+    font-family: var(--font-family-monospace);
+  }
 
   &__row {
     display: inline-flex;
