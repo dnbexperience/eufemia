@@ -3,6 +3,10 @@
  *
  */
 
+:root {
+  --form-status-radius: 0.25rem;
+}
+
 .dnb-form-status {
   display: flex;
 
@@ -12,16 +16,18 @@
     align-items: flex-start;
 
     min-width: inherit;
+    // padding: 0.5rem 1rem 1rem 1rem;
 
-    border-radius: var(--input-border-radius);
+    border-radius: var(--form-status-radius);
   }
 
-  &--text {
-    padding: calc(0.5rem / 2) 1rem;
+  &__text {
+    padding: 0.5rem 1rem;
 
     cursor: text;
     color: inherit;
-    line-height: var(--line-height-basis);
+    line-height: var(--line-height-small);
+    font-size: var(--font-size-small);
 
     .dnb-anchor {
       font-size: inherit;
@@ -30,7 +36,7 @@
     white-space: normal;
   }
 
-  .dnb-icon + &--text {
+  .dnb-icon + &__text {
     padding-left: 0.5rem;
   }
 
@@ -39,22 +45,37 @@
     justify-content: center;
     align-items: center;
 
-    width: 1.5em;
-    height: 1.5em;
-
-    margin-top: 0.25em;
-    margin-left: 0.5em;
-
-    color: inherit;
-
-    font-size: var(--font-size-small);
+    margin: 0.3333333em 0.3333333em 0.3333333em 0.6666666em;
   }
+
+  // Large
+  &__size--large &__text {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
+  &__size--large &__shell > .dnb-icon {
+    margin-top: 0.6666666em;
+    margin-bottom: 0.6666666em;
+  }
+
+  // &__size--large &__text {
+  //   // This would be a "real" large sizing
+  //   padding: 1rem 1.5rem;
+  // }
+  // &__size--large .dnb-icon + &__text {
+  //   // This would be a "real" large sizing
+  //   padding-left: 1rem;
+  // }
+  // &__size--large &__shell > .dnb-icon {
+  //   // This would be a "real" large sizing
+  //   margin: 0.6666666em 0.3333333em 0.6666666em 0.9999999em;
+  // }
 
   &[hidden] {
     display: none;
   }
 
-  &--fade-in {
+  &__animation--fade-in {
     @keyframes form-status-fade-in {
       from {
         max-height: 0;

@@ -9,7 +9,7 @@ FormStatusDefault,
 FormStatusWithInfo,
 FormSetDefaultInput,
 FormStatusCustom,
-FormStatusPlain,
+FormStatusLarge,
 FormStatusWithIcons,
 } from 'Pages/uilib/components/form-status/Examples'
 
@@ -33,7 +33,7 @@ FormStatusWithIcons,
 
 ### A form status with plain text/HTML
 
-<FormStatusPlain />
+<FormStatusLarge />
 
 ### In combination with the Icon component
 

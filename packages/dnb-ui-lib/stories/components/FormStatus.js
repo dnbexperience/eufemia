@@ -77,7 +77,7 @@ export const FormStatuseSandbox = () => (
       <FormStatus>Status</FormStatus>
     </Box>
     <Box>
-      <FormStatus state="info">
+      <FormStatus state="info" size="large">
         Long info text Ipsum habitant enim ullamcorper elit sit elementum
         platea rutrum eu condimentum erat risus lacinia viverra magnis
         lobortis nibh mollis suspendisse

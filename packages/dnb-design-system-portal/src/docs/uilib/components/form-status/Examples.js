@@ -70,7 +70,7 @@ render(
   </ComponentBox>
 )
 
-export const FormStatusPlain = () => (
+export const FormStatusLarge = () => (
   <ComponentBox useRender>
     {
       /* @jsx */ `
@@ -81,7 +81,7 @@ const myHTML = \`
 \`
 const CustomStatus = () => <span dangerouslySetInnerHTML={{ __html: myHTML }} />
 render(
-  <FormStatus state="info">
+  <FormStatus state="info" size="large">
     <CustomStatus />
   </FormStatus>
 )
@@ -101,12 +101,13 @@ export const FormStatusWithIcons = () => (
 	size="medium"
 	title="Some title"
 	right
+  inherit_color={false}
 />
 <Icon
 	icon={ErrorIcon}
 	size="medium"
 	title="Some title"
-	color="var(--color-fire-red)"
+  inherit_color={false}
 />
 `}
   </ComponentBox>

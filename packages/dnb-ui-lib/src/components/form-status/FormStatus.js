@@ -48,6 +48,7 @@ export default class FormStatus extends React.PureComponent {
       PropTypes.string,
       PropTypes.oneOf(['error', 'warn', 'info'])
     ]),
+    size: PropTypes.oneOf(['default', 'large']),
     // status is Deprecated
     status: PropTypes.oneOfType([
       PropTypes.bool,
@@ -78,7 +79,8 @@ export default class FormStatus extends React.PureComponent {
     text: null,
     label: null,
     icon: 'error',
-    icon_size: 'large',
+    icon_size: 'medium',
+    size: 'default',
     state: 'error',
     status: null, // Deprecated
     global_status_id: null,
@@ -122,12 +124,22 @@ export default class FormStatus extends React.PureComponent {
         case 'information':
           IconToLoad = InfoIcon
           break
+        case 'warn':
+        case 'warning':
+          IconToLoad = WarnIcon
+          break
         case 'error':
         default:
           IconToLoad = ErrorIcon
       }
 
-      icon = <Icon icon={<IconToLoad title={null} />} size={icon_size} />
+      icon = (
+        <Icon
+          icon={<IconToLoad title={null} />}
+          size={icon_size}
+          inherit_color={false}
+        />
+      )
     }
 
     return icon
@@ -216,6 +228,9 @@ export default class FormStatus extends React.PureComponent {
       case 'information':
         state = 'info'
         break
+      case 'warning':
+        state = 'warn'
+        break
     }
     return state
   }
@@ -252,6 +267,7 @@ export default class FormStatus extends React.PureComponent {
       title,
       status: rawStatus,
       state: rawState,
+      size,
       hidden,
       className,
       animation,
@@ -291,7 +307,8 @@ export default class FormStatus extends React.PureComponent {
       className: classnames(
         'dnb-form-status',
         `dnb-form-status--${state}`,
-        animation ? `dnb-form-status--${animation}` : null,
+        `dnb-form-status__size--${size}`,
+        animation ? `dnb-form-status__animation--${animation}` : null,
         hasStringContent ? 'dnb-form-status--has-content' : null,
         createSpacingClasses(props),
         className,
@@ -303,7 +320,7 @@ export default class FormStatus extends React.PureComponent {
     }
     const textParams = {
       className: classnames(
-        'dnb-form-status--text',
+        'dnb-form-status__text',
         createSkeletonClass('font', skeleton, this.context)
       ),
       id: text_id

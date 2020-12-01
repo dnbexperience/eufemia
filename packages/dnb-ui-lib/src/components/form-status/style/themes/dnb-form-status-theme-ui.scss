@@ -5,7 +5,7 @@
 
 .dnb-form-status {
   &__shell {
-    color: var(--color-emerald-green);
+    color: var(--color-black-80);
     font-size: var(--font-size-small);
   }
 
@@ -16,11 +16,15 @@
       border: none;
     }
   }
-  &--info &__shell {
-    background-color: var(--color-mint-green-25);
+  &--warn &__shell {
+    background-color: var(--color-sand-yellow);
   }
-  &:not(#{&}--attention-focus)#{&}--text {
-    color: var(--color-emerald-green);
+  &--info &__shell {
+    background-color: var(--color-pistachio);
+  }
+
+  &:not(#{&}--attention-focus)#{&}__text {
+    color: var(--color-black-80);
   }
 
   &--error#{&}--attention-focus &__shell,

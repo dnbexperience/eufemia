@@ -335,7 +335,7 @@ class LiveCode extends React.PureComponent {
             </div>
           )}
           {!hideCode && (
-            <LiveError className="dnb-form-status dnb-form-status--text dnb-form-status--error" />
+            <LiveError className="dnb-form-status dnb-form-status__text dnb-form-status--error" />
           )}
           {!global.IS_TEST && !hideToolbar && (
             <Toolbar className="dnb-live-toolbar">
