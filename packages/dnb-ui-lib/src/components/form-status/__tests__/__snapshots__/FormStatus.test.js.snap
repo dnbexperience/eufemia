@@ -16,6 +16,7 @@ exports[`FormStatus component have to match snapshot 1`] = `
         "icon_size": "icon_size",
         "id": "id",
         "label": "label",
+        "size": "'default'",
         "skeleton": "skeleton",
         "state": true,
         "status": true,
@@ -60,6 +61,7 @@ exports[`FormStatus component have to match snapshot 1`] = `
   icon_size="medium"
   id="form-status"
   label={null}
+  size="default"
   skeleton={null}
   state="error"
   status={null}
@@ -70,7 +72,7 @@ exports[`FormStatus component have to match snapshot 1`] = `
   width_selector={null}
 >
   <span
-    className="dnb-form-status dnb-form-status--error dnb-form-status--has-content"
+    className="dnb-form-status dnb-form-status--error dnb-form-status__size--default dnb-form-status--has-content"
     hidden={false}
     id="form-status"
   >
@@ -134,7 +136,7 @@ exports[`FormStatus component have to match snapshot 1`] = `
         </span>
       </Icon>
       <span
-        className="dnb-form-status--text"
+        className="dnb-form-status__text"
       >
         text
       </span>
@@ -164,7 +166,7 @@ exports[`FormStatus scss have to match default theme snapshot 1`] = `
 .dnb-form-status--info .dnb-form-status__shell {
   background-color: var(--color-pistachio); }
 
-.dnb-form-status:not(.dnb-form-status--attention-focus).dnb-form-status--text {
+.dnb-form-status:not(.dnb-form-status--attention-focus).dnb-form-status__text {
   color: var(--color-black-80); }
 
 .dnb-form-status--error.dnb-form-status--attention-focus .dnb-form-status__shell,
@@ -256,6 +258,9 @@ exports[`FormStatus scss have to match snapshot 1`] = `
  * FormStatus component
  *
  */
+:root {
+  --form-status-radius: 0.25rem; }
+
 .dnb-form-status {
   display: flex; }
   .dnb-form-status__shell {
@@ -263,26 +268,28 @@ exports[`FormStatus scss have to match snapshot 1`] = `
     justify-content: flex-start;
     align-items: flex-start;
     min-width: inherit;
-    border-radius: var(--input-border-radius); }
-  .dnb-form-status--text {
-    padding: calc(0.5rem / 2) 1rem;
+    border-radius: var(--form-status-radius); }
+  .dnb-form-status__text {
+    padding: 0.5rem 1rem;
     cursor: text;
     color: inherit;
-    line-height: var(--line-height-basis);
+    line-height: var(--line-height-small);
+    font-size: var(--font-size-small);
     white-space: normal; }
-    .dnb-form-status--text .dnb-anchor {
+    .dnb-form-status__text .dnb-anchor {
       font-size: inherit; }
-  .dnb-icon + .dnb-form-status--text {
+  .dnb-form-status__size--large .dnb-form-status__text {
+    opacity: 0.2; }
+  .dnb-icon + .dnb-form-status__text {
     padding-left: 0.5rem; }
   .dnb-form-status__shell > .dnb-icon {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 0.25em;
-    margin-left: 0.5em; }
+    margin: 0.3333333em 0.3333333em 0.3333333em 0.6666666em; }
   .dnb-form-status[hidden] {
     display: none; }
-  .dnb-form-status--fade-in {
+  .dnb-form-status__animation--fade-in {
     overflow: hidden;
     max-height: 0;
     animation: form-status-fade-in 2s ease-out 400ms forwards; }
