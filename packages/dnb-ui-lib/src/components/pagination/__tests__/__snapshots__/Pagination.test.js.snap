@@ -1021,7 +1021,7 @@ exports[`Pagination scss have to match snapshot 1`] = `
     min-width: inherit;
     border-radius: var(--form-status-radius); }
   .dnb-form-status__text {
-    padding: 0.5rem 1rem;
+    padding: 0.625rem 1rem;
     cursor: text;
     color: inherit;
     line-height: var(--line-height-small);
@@ -1037,8 +1037,8 @@ exports[`Pagination scss have to match snapshot 1`] = `
     align-items: center;
     margin: 0.3333333em 0.3333333em 0.3333333em 0.6666666em; }
   .dnb-form-status__size--large .dnb-form-status__text {
-    padding-top: 1rem;
-    padding-bottom: 1rem; }
+    padding-top: 1.125rem;
+    padding-bottom: 1.125rem; }
   .dnb-form-status__size--large .dnb-form-status__shell > .dnb-icon {
     margin-top: 0.6666666em;
     margin-bottom: 0.6666666em; }
