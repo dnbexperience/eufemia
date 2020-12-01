@@ -1166,7 +1166,6 @@ export const Dummy = ({ children }) => {
       className="dnb-dummy"
       // role="textbox" // methodes to try to make NVDA not read blank
       // aria-readonly // methodes to try to make NVDA not read blank
-      // className="dnb-sr-only"
     >
       {children}
     </span>
@@ -1184,6 +1183,7 @@ const ScrollNavButton = (props) => {
       tabIndex="-1"
       bounding
       aria-hidden
+      icon_size="medium"
       {...props}
       className={classnames(
         'dnb-tabs__scroll-nav-button',

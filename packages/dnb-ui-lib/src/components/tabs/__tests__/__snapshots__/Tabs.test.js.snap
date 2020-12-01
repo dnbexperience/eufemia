@@ -125,7 +125,7 @@ exports[`Tabs component have to match snapshot 1`] = `
               href={null}
               icon="chevron_left"
               icon_position="right"
-              icon_size={null}
+              icon_size="medium"
               id={null}
               innerRef={null}
               inner_ref={null}
@@ -147,7 +147,7 @@ exports[`Tabs component have to match snapshot 1`] = `
             >
               <button
                 aria-hidden={true}
-                className="dnb-button dnb-button--primary dnb-tabs__scroll-nav-button dnb-button--icon-position-right dnb-button--has-icon dnb-button--size-medium"
+                className="dnb-button dnb-button--primary dnb-tabs__scroll-nav-button dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-medium dnb-button--size-medium"
                 disabled={false}
                 onClick={[Function]}
                 onMouseDown={[Function]}
@@ -168,7 +168,7 @@ exports[`Tabs component have to match snapshot 1`] = `
                   href={null}
                   icon="chevron_left"
                   icon_position="right"
-                  icon_size={null}
+                  icon_size="medium"
                   id={null}
                   innerRef={null}
                   inner_ref={null}
@@ -210,7 +210,7 @@ exports[`Tabs component have to match snapshot 1`] = `
                     icon="chevron_left"
                     key="button-icon"
                     modifier={null}
-                    size={null}
+                    size="medium"
                     skeleton={false}
                     title={null}
                     width={null}
@@ -218,25 +218,25 @@ exports[`Tabs component have to match snapshot 1`] = `
                     <span
                       aria-hidden={true}
                       aria-label="chevron left icon"
-                      className="dnb-icon dnb-icon--default dnb-button__icon"
+                      className="dnb-icon dnb-icon--medium dnb-button__icon"
                       role="presentation"
                     >
-                      <chevron_left>
+                      <chevron_left_medium>
                         <svg
                           fill="none"
-                          height={16}
-                          viewBox="0 0 16 16"
-                          width={16}
+                          height={24}
+                          viewBox="0 0 24 24"
+                          width={24}
                           xmlns="http://www.w3.org/2000/svg"
                         >
                           <path
                             clipRule="evenodd"
-                            d="M10.78 4.03a.75.75 0 10-1.06-1.06l-4.5 4.5a.75.75 0 000 1.06l4.5 4.5a.75.75 0 101.06-1.06L6.81 8l3.97-3.97z"
+                            d="M15.905 5.78a.75.75 0 00-1.06-1.06l-6.75 6.75a.75.75 0 000 1.061l6.75 6.75a.75.75 0 101.06-1.061L9.685 12l6.22-6.22z"
                             fill="#000"
                             fillRule="evenodd"
                           />
                         </svg>
-                      </chevron_left>
+                      </chevron_left_medium>
                     </span>
                   </IconPrimary>
                 </Content>
@@ -362,7 +362,7 @@ exports[`Tabs component have to match snapshot 1`] = `
               href={null}
               icon="chevron_right"
               icon_position="right"
-              icon_size={null}
+              icon_size="medium"
               id={null}
               innerRef={null}
               inner_ref={null}
@@ -384,7 +384,7 @@ exports[`Tabs component have to match snapshot 1`] = `
             >
               <button
                 aria-hidden={true}
-                className="dnb-button dnb-button--primary dnb-tabs__scroll-nav-button dnb-button--icon-position-right dnb-button--has-icon dnb-button--size-medium"
+                className="dnb-button dnb-button--primary dnb-tabs__scroll-nav-button dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-medium dnb-button--size-medium"
                 disabled={false}
                 onClick={[Function]}
                 onMouseDown={[Function]}
@@ -405,7 +405,7 @@ exports[`Tabs component have to match snapshot 1`] = `
                   href={null}
                   icon="chevron_right"
                   icon_position="right"
-                  icon_size={null}
+                  icon_size="medium"
                   id={null}
                   innerRef={null}
                   inner_ref={null}
@@ -447,7 +447,7 @@ exports[`Tabs component have to match snapshot 1`] = `
                     icon="chevron_right"
                     key="button-icon"
                     modifier={null}
-                    size={null}
+                    size="medium"
                     skeleton={false}
                     title={null}
                     width={null}
@@ -455,25 +455,25 @@ exports[`Tabs component have to match snapshot 1`] = `
                     <span
                       aria-hidden={true}
                       aria-label="chevron right icon"
-                      className="dnb-icon dnb-icon--default dnb-button__icon"
+                      className="dnb-icon dnb-icon--medium dnb-button__icon"
                       role="presentation"
                     >
-                      <chevron_right>
+                      <chevron_right_medium>
                         <svg
                           fill="none"
-                          height={16}
-                          viewBox="0 0 16 16"
-                          width={16}
+                          height={24}
+                          viewBox="0 0 24 24"
+                          width={24}
                           xmlns="http://www.w3.org/2000/svg"
                         >
                           <path
                             clipRule="evenodd"
-                            d="M6.28 2.97a.75.75 0 00-1.06 1.06L9.19 8l-3.97 3.97a.75.75 0 101.06 1.06l4.5-4.5a.75.75 0 000-1.06l-4.5-4.5z"
+                            d="M9.155 4.72a.75.75 0 00-1.06 1.06l6.22 6.22-6.22 6.22a.75.75 0 101.06 1.06l6.75-6.749a.75.75 0 000-1.061l-6.75-6.75z"
                             fill="#000"
                             fillRule="evenodd"
                           />
                         </svg>
-                      </chevron_right>
+                      </chevron_right_medium>
                     </span>
                   </IconPrimary>
                 </Content>
