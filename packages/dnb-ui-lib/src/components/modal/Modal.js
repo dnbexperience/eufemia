@@ -553,7 +553,7 @@ export default class Modal extends React.PureComponent {
               id={this._id}
               root_id={root_id}
               content_id={content_id || `dnb-modal-${this._id}`}
-              labelled_by={labelled_by || this._id}
+              labelled_by={labelled_by}
               modal_content={modal_content}
               spacing={spacing}
               closeModal={this.close}

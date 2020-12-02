@@ -448,7 +448,7 @@ exports[`Modal component have to match snapshot 1`] = `
       hide={false}
       hide_close_button={false}
       id="modal_id"
-      labelled_by="modal_id"
+      labelled_by={null}
       modal_content="unique_modal_content"
       mode="modal"
       no_animation={true}
@@ -546,7 +546,7 @@ exports[`Modal component have to match snapshot 1`] = `
         hide={false}
         hide_close_button={false}
         id="modal_id"
-        labelled_by="modal_id"
+        labelled_by={null}
         max_width={null}
         min_width={null}
         modal_content="unique_modal_content"
@@ -567,12 +567,13 @@ exports[`Modal component have to match snapshot 1`] = `
         toggleOpenClose={[Function]}
       >
         <div
-          aria-describedby="modal_id"
+          aria-describedby="dnb-modal-modal_id-content"
+          aria-labelledby="dnb-modal-modal_id-title"
           aria-modal="true"
           className="dnb-modal__content dnb-modal__content--auto-fullscreen dnb-modal__content--modal dnb-modal__content--spacing dnb-modal__content--no-animation"
           id="dnb-modal-modal_id"
           onClick={[Function]}
-          role="dialog"
+          role="main"
         >
           <ForwardRef(ScrollViewRef)
             className="dnb-modal__content__inner dnb-core-style"
@@ -603,6 +604,7 @@ exports[`Modal component have to match snapshot 1`] = `
                 >
                   <h1
                     className="dnb-modal__title dnb-h--large"
+                    id="dnb-modal-modal_id-title"
                   >
                     modal_title
                   </h1>
@@ -738,6 +740,7 @@ exports[`Modal component have to match snapshot 1`] = `
                   </CloseButton>
                   <div
                     className="dnb-modal__wrapper"
+                    id="dnb-modal-modal_id-content"
                   >
                     unique_modal_content
                   </div>
