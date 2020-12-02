@@ -65,13 +65,19 @@ const setOverflowHiddenPc = () => {
     $body.style.paddingRight = `${scrollBarWidth}px`
 
     return () => {
-      // eslint-disable-next-line
-      ;['height', 'overflow'].forEach((x) => {
-        $html.style[x] = htmlStyle[x] || ''
-      })
-      ;['overflow', 'height', 'boxSizing', 'paddingRight'].forEach((x) => {
-        $body.style[x] = bodyStyle[x] || ''
-      })
+      try {
+        // eslint-disable-next-line
+        ;['height', 'overflow'].forEach((x) => {
+          $html.style[x] = htmlStyle[x] || ''
+        })
+        ;['overflow', 'height', 'boxSizing', 'paddingRight'].forEach(
+          (x) => {
+            $body.style[x] = bodyStyle[x] || ''
+          }
+        )
+      } catch (e) {
+        //
+      }
     }
   } catch (e) {
     //
@@ -95,15 +101,25 @@ const setOverflowHiddenMobile = () => {
     $body.style.overflow = 'hidden'
 
     return () => {
-      // eslint-disable-next-line
-      ;['height', 'overflow'].forEach((x) => {
-        $html.style[x] = htmlStyle[x] || ''
-      })
-      ;['top', 'width', 'height', 'overflow', 'position'].forEach((x) => {
-        $body.style[x] = bodyStyle[x] || ''
-      })
+      try {
+        // eslint-disable-next-line
+        ;['height', 'overflow'].forEach((x) => {
+          $html.style[x] = htmlStyle[x] || ''
+        })
+        ;['top', 'width', 'height', 'overflow', 'position'].forEach(
+          (x) => {
+            $body.style[x] = bodyStyle[x] || ''
+          }
+        )
 
-      window.scrollTo(0, scrollTop)
+        const scrollBehavior = window.getComputedStyle($html)
+          .scrollBehavior
+        $html.style.scrollBehavior = 'auto'
+        $html.scrollTop = scrollTop
+        $html.style.scrollBehavior = scrollBehavior
+      } catch (e) {
+        //
+      }
     }
   } catch (e) {
     //
