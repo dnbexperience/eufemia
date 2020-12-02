@@ -383,13 +383,13 @@ export default class Modal extends React.PureComponent {
 
       if (modalActive === false) {
         if (this._triggerRef && this._triggerRef.current) {
-          this._triggerRef.current.focus()
+          this._triggerRef.current.focus({ preventScroll: true })
         }
 
         // because the open_state was set to opened, we force
         if (this.props.open_state === 'opened' && this.activeElement) {
           try {
-            this.activeElement.focus()
+            this.activeElement.focus({ preventScroll: true })
             this.activeElement = null
           } catch (e) {
             //
@@ -553,7 +553,7 @@ export default class Modal extends React.PureComponent {
               id={this._id}
               root_id={root_id}
               content_id={content_id || `dnb-modal-${this._id}`}
-              labelled_by={labelled_by || this._id}
+              labelled_by={labelled_by}
               modal_content={modal_content}
               spacing={spacing}
               closeModal={this.close}

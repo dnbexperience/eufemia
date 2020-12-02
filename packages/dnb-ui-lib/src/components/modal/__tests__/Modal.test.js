@@ -357,10 +357,10 @@ describe('Modal component', () => {
   it('has to have the correct aria-describedby', () => {
     expect(
       Comp.find('[aria-describedby]').props()['aria-describedby']
-    ).toBe(props.id)
+    ).toBe(`dnb-modal-${props.id}-content`)
   })
   it('has to have the correct role on aria-modal', () => {
-    expect(Comp.find('[aria-modal]').props().role).toBe('dialog')
+    expect(Comp.find('[aria-modal]').props().role).toBe('main')
   })
   it('has to have a close button', () => {
     expect(

@@ -354,9 +354,7 @@ export default class Number extends React.PureComponent {
 
         <span
           id={this._id}
-          lang={lang}
           className="dnb-number__sr-only dnb-sr-only--inline"
-          // aria-roledescription={type}
         >
           {aria}
         </span>
@@ -491,9 +489,9 @@ export const format = (
 
     // aria options
     aria = formatNumber(cleanedNumber, locale, {
-      ...opts,
-      minimumFractionDigits: 2,
+      minimumFractionDigits: 0,
       maximumFractionDigits: 2,
+      ...opts,
       currencyDisplay: 'name'
     })
     aria = enhanceSR(cleanedNumber, aria, locale) // also calls cleanupMinus
