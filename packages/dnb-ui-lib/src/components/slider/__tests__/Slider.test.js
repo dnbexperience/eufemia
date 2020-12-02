@@ -54,6 +54,86 @@ describe('Slider component', () => {
     expect(Comp.state().value).toBe(20)
   })
 
+  it('has events that return a correct value', () => {
+    const on_init = jest.fn()
+    const on_change = jest.fn()
+    const Comp = mount(
+      <Component {...props} on_init={on_init} on_change={on_change} />
+    )
+
+    Comp.find('[type="range"]').simulate('mousedown')
+    simulateMouseMove({ pageX: 80, width: 100, height: 10 })
+
+    expect(on_init).toBeCalledTimes(1)
+    expect(on_change).toBeCalledTimes(1)
+
+    const initObject = {
+      value: '70'
+    }
+    expect(on_init).toBeCalledWith(initObject)
+
+    const changeObject = {
+      // We may use new MouseEvent('mousedown', in turue
+      event: {
+        height: 10,
+        pageX: 80,
+        width: 100
+      },
+      height: 10,
+      pageX: 80,
+      rawValue: 80,
+      raw_value: 80,
+      value: '80',
+      width: 100
+    }
+    expect(on_change).toBeCalledWith(changeObject)
+  })
+
+  it('return valid value if number_format was given', () => {
+    const on_init = jest.fn()
+    const on_change = jest.fn()
+    const Comp = mount(
+      <Component
+        {...props}
+        on_init={on_init}
+        on_change={on_change}
+        number_format={{ currency: true, decimals: 1 }}
+      />
+    )
+
+    Comp.find('[type="range"]').simulate('mousedown')
+    simulateMouseMove({ pageX: 80, width: 100, height: 10 })
+
+    expect(on_init).toBeCalledTimes(1)
+    expect(on_change).toBeCalledTimes(1)
+
+    const initObject = {
+      value: 'kr 70,0'
+    }
+    expect(on_init).toBeCalledWith(initObject)
+
+    const changeObject = {
+      // We may use new MouseEvent('mousedown', in turue
+      event: {
+        height: 10,
+        pageX: 80,
+        width: 100
+      },
+      height: 10,
+      pageX: 80,
+      rawValue: 80,
+      raw_value: 80,
+      value: 'kr 80,0',
+      width: 100
+    }
+    expect(on_change).toBeCalledWith(changeObject)
+
+    expect(Comp.find('.dnb-sr-only').text()).toBe('kr 80,0')
+    expect(
+      Comp.find('.dnb-slider__button-helper').props()['aria-labelledby']
+    ).toContain(Comp.find('.dnb-sr-only').props().id)
+  })
+
   it('should validate with ARIA rules', async () => {
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })

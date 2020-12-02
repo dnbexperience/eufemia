@@ -6,7 +6,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-// import keycode from 'keycode'
 import {
   warn,
   isTrue,
@@ -16,11 +15,13 @@ import {
   processChildren,
   extendPropsWithContext,
   getStatusState,
+  combineLabelledBy,
   combineDescribedBy,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
 import { createSpacingClasses } from '../space/SpacingHelper'
+import { format } from '../number/Number'
 import {
   createSkeletonClass,
   skeletonDOMAttributes
@@ -71,6 +72,10 @@ export default class Slider extends React.PureComponent {
     vertical: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     reverse: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     stretch: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    number_format: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.object
+    ]),
     disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     hide_buttons: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     use_scrollwheel: PropTypes.oneOfType([
@@ -111,6 +116,7 @@ export default class Slider extends React.PureComponent {
     vertical: false,
     reverse: false,
     stretch: false,
+    number_format: null,
     disabled: false,
     hide_buttons: false,
     use_scrollwheel: false,
@@ -150,7 +156,7 @@ export default class Slider extends React.PureComponent {
 
         if (typeof props.on_state_update === 'function') {
           dispatchCustomElementEvent({ ...props }, 'on_state_update', {
-            value
+            value: formatNumber(value, props.number_format)
           })
         }
       }
@@ -409,7 +415,8 @@ export default class Slider extends React.PureComponent {
         value !== this.roundValue(previousValue)
       ) {
         dispatchCustomElementEvent(this, 'on_change', {
-          value,
+          value: formatNumber(value, this.props.number_format),
+          rawValue,
           raw_value: rawValue,
           event
         })
@@ -465,7 +472,7 @@ export default class Slider extends React.PureComponent {
     if (typeof this.props.on_init === 'function') {
       const { value } = this.state
       dispatchCustomElementEvent(this, 'on_init', {
-        value
+        value: formatNumber(value, this.props.number_format)
       })
     }
   }
@@ -569,6 +576,8 @@ export default class Slider extends React.PureComponent {
     }
 
     const percent = clamp(((value - min) * 100) / (max - min))
+    const humanNumber = formatNumber(value, this.props.number_format)
+    const hasHumanNumber = value !== humanNumber
 
     const inlineStyleBefore = {
       [`${vertical ? 'height' : 'width'}`]: `${percent}%`
@@ -600,8 +609,12 @@ export default class Slider extends React.PureComponent {
       onFocus: this.onFocusHandler
     }
 
-    if (label) {
-      helperParams['aria-labelledby'] = id + '-label'
+    if (label || hasHumanNumber) {
+      helperParams['aria-labelledby'] = combineLabelledBy(
+        helperParams,
+        hasHumanNumber ? id + '-human' : null,
+        label ? id + '-label' : null
+      )
     }
     if (showStatus || suffix) {
       helperParams['aria-describedby'] = combineDescribedBy(
@@ -631,7 +644,7 @@ export default class Slider extends React.PureComponent {
         variant="secondary"
         icon="subtract"
         size="small"
-        aria-label={subtract_title.replace('%s', value)}
+        aria-label={subtract_title.replace('%s', humanNumber)}
         on_click={this.onSubtractClickHandler}
         disabled={disabled}
         skeleton={skeleton}
@@ -644,7 +657,7 @@ export default class Slider extends React.PureComponent {
         variant="secondary"
         icon="add"
         size="small"
-        aria-label={add_title.replace('%s', value)}
+        aria-label={add_title.replace('%s', humanNumber)}
         on_click={this.onAddClickHandler}
         disabled={disabled}
         skeleton={skeleton}
@@ -715,6 +728,15 @@ export default class Slider extends React.PureComponent {
                 style={inlineStyleBefore}
               />
               <span className="dnb-slider__line dnb-slider__line__after" />
+              {hasHumanNumber && (
+                <span
+                  id={id + '-human'}
+                  className="dnb-sr-only"
+                  aria-hidden
+                >
+                  {humanNumber}
+                </span>
+              )}
             </span>
 
             {showButtons && (reverse ? subtractButton : addButton)}
@@ -794,4 +816,11 @@ const createMockDiv = ({ width, height }) => {
     bottom: height
   })
   return div
+}
+
+function formatNumber(value, opts = null) {
+  if (opts) {
+    return format(value, opts)
+  }
+  return value
 }
