@@ -65,10 +65,19 @@ export const FormStatuseSandbox = () => (
       />
     </Box>
     <Box>
+      <SmallWidth
+        label="Warning:"
+        value="4"
+        size={3}
+        status="Adipiscing etiam laoreet et egestas dis massa quis dapibus nam diam est non curae ad hac dictumst"
+        status_state="warn"
+      />
+    </Box>
+    <Box>
       <FormStatus>Status</FormStatus>
     </Box>
     <Box>
-      <FormStatus state="info">
+      <FormStatus state="info" size="large">
         Long info text Ipsum habitant enim ullamcorper elit sit elementum
         platea rutrum eu condimentum erat risus lacinia viverra magnis
         lobortis nibh mollis suspendisse
