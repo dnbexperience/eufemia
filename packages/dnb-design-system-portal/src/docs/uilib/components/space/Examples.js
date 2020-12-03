@@ -118,14 +118,21 @@ for (let i = 0, c = 0, l = 20; i <= l; i++) {
   listOfBoxes.push(String(c))
   c += 0.5
 }
+const TestCase = (props) => {
+  return <CustomStyle {...props}>{listOfBoxes.map((v) => (
+    <Space key={v} top={v}>
+      <MagicBox />
+    </Space>
+  ))}</CustomStyle>
+}
 render(
-  <CustomStyle className="spacing-patterns">
-    {listOfBoxes.map((v) => (
-      <Space key={v} top={v}>
-        <MagicBox />
-      </Space>
-    ))}
-  </CustomStyle>
+  <div className="spacing-patterns">
+    <P bottom small>With <Code>dnb-core-style</Code></P>
+    <TestCase className="dnb-core-style" />
+    
+    <P top bottom small>Without</P>
+    <TestCase />
+  </div>
 )
         `
       }
@@ -146,7 +153,7 @@ const TestStyles = styled.div`
 `
 
 const CustomStyle = styled.div`
-  display: inline-flex;
+  display: flex;
   width: auto;
   box-shadow: 0 0 0 1px var(--color-fire-red);
   .dnb-input__input {
@@ -248,7 +255,7 @@ const MagicBox = ({ label, ...rest }) => {
 
   return (
     <Block {...rest} ref={ref} title={title}>
-      <Line style={{ height: `${spaceInRem}rem` }}></Line>
+      <Line style={{ height: `${spaceInRem}rem` }} />
       <Label>{spaceInRem}</Label>
     </Block>
   )

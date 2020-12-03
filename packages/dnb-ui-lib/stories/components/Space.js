@@ -18,13 +18,21 @@ import {
 } from '../../src/components'
 import { H1, H2 } from '../../src/elements'
 import Provider from '../../src/shared/Provider'
+// import { createSpacingClasses } from '../../src/components/space/SpacingHelper'
 
 export default {
   title: 'Eufemia/Components/Space'
 }
 
 export const SpaceSandbox = () => (
-  <Wrapper>
+  <Wrapper skipCoreStyle>
+    <code>With dnb-core-style</code>
+    <div className="dnb-core-style">
+      <TestCase />
+    </div>
+
+    <code>Without</code>
+    <TestCase />
     <Box>
       <CustomStyle>
         <VisualSpace>
@@ -61,94 +69,6 @@ export const SpaceSandbox = () => (
         </div>
       </Collapsing>
     </Box>
-    <Box>
-      <CustomStyle>
-        <Space top="0.5">
-          <MagicBox />
-        </Space>
-        <Space top="1">
-          <MagicBox />
-        </Space>
-        <Space top="1.5">
-          <MagicBox />
-        </Space>
-        <Space top="2">
-          <MagicBox />
-        </Space>
-        <Space top="2.5">
-          <MagicBox />
-        </Space>
-        <Space top="3">
-          <MagicBox />
-        </Space>
-        <Space top="3.5">
-          <MagicBox />
-        </Space>
-        <Space top="4">
-          <MagicBox />
-        </Space>
-        <Space top="4.5">
-          <MagicBox />
-        </Space>
-        <Space top="5">
-          <MagicBox />
-        </Space>
-        <Space top="5.5">
-          <MagicBox />
-        </Space>
-        <Space top="6">
-          <MagicBox />
-        </Space>
-        <Space top="6.5">
-          <MagicBox />
-        </Space>
-        <Space top="7">
-          <MagicBox />
-        </Space>
-        <Space top="7.5">
-          <MagicBox />
-        </Space>
-        <Space top="8">
-          <MagicBox />
-        </Space>
-        <Space top="8.5">
-          <MagicBox />
-        </Space>
-        <Space top="9">
-          <MagicBox />
-        </Space>
-        <Space top="9.5">
-          <MagicBox />
-        </Space>
-        <Space top="10" bottom="1">
-          <MagicBox />
-        </Space>
-        {/* <Space top="large large large large large x-small">
-            <MagicBox />
-          </Space> */}
-        {/* <Space top="medium x-large medium x-small">
-            <MagicBox />
-          </Space>
-          <Space top="1 2">
-            <MagicBox />
-          </Space>
-          <Space top="large x-small">
-            <MagicBox />
-          </Space>
-          <Space top="2.5">
-            <MagicBox />
-          </Space>
-          <Space top="2rem 0.5rem">
-            <MagicBox />
-          </Space>
-          <Space top="32px">
-            <MagicBox />
-          </Space>
-          <FormRow top="large x-small">
-            <MagicBox />
-          </FormRow> */}
-      </CustomStyle>
-    </Box>
   </Wrapper>
 )
 
@@ -156,6 +76,13 @@ const CustomStyle = styled.div`
   display: flex;
   flex-direction: row;
   box-shadow: 0 0 0 1px var(--color-fire-red);
+
+  .box {
+    background-color: blue;
+    height: 150px;
+    width: 200px;
+    color: white;
+  }
 `
 
 const Block = styled.div`
@@ -292,4 +219,19 @@ const Collapsing = styled(Space)`
   border: 1px solid;
 `
 
-// export { MagicBox, VisualSpace }
+function TestCase() {
+  const listOfBoxes = []
+  for (let i = 0, c = 0, l = 20; i <= l; i++) {
+    listOfBoxes.push(String(c))
+    c += 0.5
+  }
+  return (
+    <CustomStyle>
+      {listOfBoxes.map((v) => (
+        <Space key={v} top={v}>
+          <MagicBox />
+        </Space>
+      ))}
+    </CustomStyle>
+  )
+}
