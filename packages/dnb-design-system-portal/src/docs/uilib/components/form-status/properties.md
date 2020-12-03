@@ -14,5 +14,6 @@ redirect_from:
 | `size`                                      | _(optional)_ defines the appearance size. There are these sizes `defualt`, `large`. The default status is `default`.                        |
 | `icon`                                      | _(optional)_ the `icon` show before the status text. Defaults to `exclamation`.                                                             |
 | `icon_size`                                 | _(optional)_ the icon size of the icon shows. Defaults to `medium`.                                                                         |
+| `variant`                                   | _(optional)_ as of now, there is the `flat` and the `outlined` variant. Defaults to `flat`.                                                 |
 | `global_status_id`                          | _(optional)_ the `status_id` used for the target [GlobalStatus](/uilib/components/global-status).                                           |
 | [Space](/uilib/components/space/properties) | _(optional)_ spacing properties like `top` or `bottom` are supported.                                                                       |

@@ -3,6 +3,8 @@
  *
  */
 
+@import '../../../../style/themes/imports.scss';
+
 .dnb-form-status {
   &__shell {
     color: var(--color-black-80);
@@ -25,6 +27,16 @@
 
   &:not(#{&}--attention-focus)#{&}__text {
     color: var(--color-black-80);
+  }
+
+  &__variant--outlined#{&}--error &__shell {
+    @include fakeBorder(var(--color-fire-red));
+  }
+  &__variant--outlined#{&}--warn &__shell {
+    @include fakeBorder(var(--color-accent-yellow));
+  }
+  &__variant--outlined#{&}--info &__shell {
+    @include fakeBorder(var(--color-sea-green));
   }
 
   &--error#{&}--attention-focus &__shell,

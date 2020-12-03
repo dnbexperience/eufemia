@@ -48,6 +48,7 @@ export default class FormStatus extends React.PureComponent {
       PropTypes.string,
       PropTypes.oneOf(['error', 'warn', 'info'])
     ]),
+    variant: PropTypes.oneOf(['flat', 'outlined']),
     size: PropTypes.oneOf(['default', 'large']),
     // status is Deprecated
     status: PropTypes.oneOfType([
@@ -81,6 +82,7 @@ export default class FormStatus extends React.PureComponent {
     icon: 'error',
     icon_size: 'medium',
     size: 'default',
+    variant: null,
     state: 'error',
     status: null, // Deprecated
     global_status_id: null,
@@ -268,6 +270,7 @@ export default class FormStatus extends React.PureComponent {
       status: rawStatus,
       state: rawState,
       size,
+      variant,
       hidden,
       className,
       animation,
@@ -308,6 +311,7 @@ export default class FormStatus extends React.PureComponent {
         'dnb-form-status',
         `dnb-form-status--${state}`,
         `dnb-form-status__size--${size}`,
+        variant && `dnb-form-status__variant--${variant}`,
         animation ? `dnb-form-status__animation--${animation}` : null,
         hasStringContent ? 'dnb-form-status--has-content' : null,
         createSpacingClasses(props),

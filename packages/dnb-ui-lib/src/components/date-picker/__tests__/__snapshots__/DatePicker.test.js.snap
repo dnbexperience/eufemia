@@ -231,6 +231,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
           text="status"
           text_id="date-picker-id-status"
           title={null}
+          variant={null}
           width_element={null}
           width_selector="date-picker-id-input"
         >

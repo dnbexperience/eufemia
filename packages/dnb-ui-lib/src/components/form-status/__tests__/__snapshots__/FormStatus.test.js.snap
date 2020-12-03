@@ -23,6 +23,7 @@ exports[`FormStatus component have to match snapshot 1`] = `
         "text": "text",
         "text_id": "text_id",
         "title": "title",
+        "variant": "'flat'",
         "width_element": Object {},
         "width_selector": "width_selector",
       },
@@ -68,6 +69,7 @@ exports[`FormStatus component have to match snapshot 1`] = `
   text="text"
   text_id={null}
   title={null}
+  variant={null}
   width_element={null}
   width_selector={null}
 >
@@ -150,6 +152,14 @@ exports[`FormStatus scss have to match default theme snapshot 1`] = `
  * FormStatus theme
  *
  */
+/**
+ * This file is only used to make themes independent
+ * so that they can get imported individually, without the core styles
+ *
+ */
+/*
+ * Utilities
+ */
 .dnb-form-status__shell {
   color: var(--color-black-80);
   font-size: var(--font-size-small); }
@@ -168,6 +178,30 @@ exports[`FormStatus scss have to match default theme snapshot 1`] = `
 
 .dnb-form-status:not(.dnb-form-status--attention-focus).dnb-form-status__text {
   color: var(--color-black-80); }
+
+.dnb-form-status__variant--outlined.dnb-form-status--error .dnb-form-status__shell {
+  --border-color: var(--color-fire-red);
+  box-shadow: 0 0 0 0.0625rem var(--border-color);
+  border-color: transparent; }
+  @media screen and (-ms-high-contrast: none) {
+    .dnb-form-status__variant--outlined.dnb-form-status--error .dnb-form-status__shell {
+      box-shadow: 0 0 0 0.0625rem var(--color-fire-red); } }
+
+.dnb-form-status__variant--outlined.dnb-form-status--warn .dnb-form-status__shell {
+  --border-color: var(--color-accent-yellow);
+  box-shadow: 0 0 0 0.0625rem var(--border-color);
+  border-color: transparent; }
+  @media screen and (-ms-high-contrast: none) {
+    .dnb-form-status__variant--outlined.dnb-form-status--warn .dnb-form-status__shell {
+      box-shadow: 0 0 0 0.0625rem var(--color-accent-yellow); } }
+
+.dnb-form-status__variant--outlined.dnb-form-status--info .dnb-form-status__shell {
+  --border-color: var(--color-sea-green);
+  box-shadow: 0 0 0 0.0625rem var(--border-color);
+  border-color: transparent; }
+  @media screen and (-ms-high-contrast: none) {
+    .dnb-form-status__variant--outlined.dnb-form-status--info .dnb-form-status__shell {
+      box-shadow: 0 0 0 0.0625rem var(--color-sea-green); } }
 
 .dnb-form-status--error.dnb-form-status--attention-focus .dnb-form-status__shell,
 .dnb-form-status--error.dnb-form-status:focus .dnb-form-status__shell {

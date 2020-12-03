@@ -41,10 +41,9 @@ export const FormStatusWithWarn = () => (
   <ComponentBox data-visual-test="form-status-warn">
     {
       /* @jsx */ `
-<FormStatus
-  text="Long info nisl tempus hendrerit tortor dapibus nascetur taciti porta risus cursus fusce platea enim curabitur proin nibh ut luctus magnis metus"
-  state="warn"
-/>
+<FormStatus state="warn" variant="outlined">
+  Warningmessage. Take notice!
+</FormStatus>
   `
     }
   </ComponentBox>
@@ -95,7 +94,7 @@ const myHTML = \`
 \`
 const CustomStatus = () => <span dangerouslySetInnerHTML={{ __html: myHTML }} />
 render(
-  <FormStatus state="info" size="large">
+  <FormStatus state="info" size="large" variant="outlined">
     <CustomStatus />
   </FormStatus>
 )
