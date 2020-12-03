@@ -3,7 +3,8 @@
  *
  */
 
-import '../src/style/basis'
+// import '../src/style/basis'
+import '../src/style/core'
 import '../src/style/components'
 import '../src/style/themes/ui'
 
