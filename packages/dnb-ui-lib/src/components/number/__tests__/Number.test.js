@@ -174,7 +174,7 @@ describe('Number component', () => {
     expect(Comp.find(displaySlector).first().text()).toBe('kr -12 346')
 
     expect(Comp.find(ariaSlector).first().text()).toBe(
-      '-12345,99 norske kroner'
+      '-12346 norske kroner'
     )
   })
   it('have to match phone number', () => {

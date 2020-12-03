@@ -18,6 +18,7 @@ import {
   makeUniqueId,
   InteractionInvalidation,
   extendPropsWithContext,
+  combineLabelledBy,
   combineDescribedBy,
   validateDOMAttributes,
   dispatchCustomElementEvent
@@ -299,8 +300,20 @@ export default class ModalContent extends React.PureComponent {
     }
 
     const contentParams = {
-      role: 'dialog',
+      /**
+       * VoiceOver has troubles with role="dialog" and "Modal in Modal",
+       * the result is, only the first Modal gets focus (set by Safari)
+       * so we only use "main" instead of "dialog"
+       *
+       */
+      role: 'main',
       'aria-modal': 'true',
+      'aria-labelledby': combineLabelledBy(
+        this.props,
+        title ? id + '-title' : null,
+        labelled_by
+      ),
+      'aria-describedby': combineDescribedBy(this.props, id + '-content'),
       className: classnames(
         'dnb-modal__content',
         mode && `dnb-modal__content--${mode}`,
@@ -340,12 +353,6 @@ export default class ModalContent extends React.PureComponent {
       className: classnames('dnb-modal__content__spacing', 'dnb-no-focus')
     }
 
-    if (labelled_by) {
-      contentParams['aria-describedby'] = combineDescribedBy(
-        contentParams,
-        labelled_by
-      )
-    }
     const overlayParams = {
       className: classnames(
         'dnb-modal__overlay',
@@ -368,6 +375,7 @@ export default class ModalContent extends React.PureComponent {
             <div {...spacingParams} ref={this._contentRef}>
               {title && (
                 <h1
+                  id={id + '-title'}
                   className={classnames(
                     'dnb-modal__title',
                     mode === 'drawer' ? 'dnb-h--x-large' : 'dnb-h--large'
@@ -382,7 +390,9 @@ export default class ModalContent extends React.PureComponent {
                   close_title={close_title}
                 />
               )}
-              <div className="dnb-modal__wrapper">{modal_content}</div>
+              <div id={id + '-content'} className="dnb-modal__wrapper">
+                {modal_content}
+              </div>
             </div>
           </ScrollView>
         </div>

@@ -1183,10 +1183,16 @@ export function getStatusState(status) {
   )
 }
 
+export function combineLabelledBy(...params) {
+  return combineAriaBy('aria-labelledby', params)
+}
 export function combineDescribedBy(...params) {
+  return combineAriaBy('aria-describedby', params)
+}
+function combineAriaBy(type, params) {
   params = params.map((cur) => {
-    if (cur && typeof cur['aria-describedby'] !== 'undefined') {
-      cur = cur['aria-describedby']
+    if (cur && typeof cur[type] !== 'undefined') {
+      cur = cur[type]
     }
     if (typeof cur !== 'string') {
       cur = null

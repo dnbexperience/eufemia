@@ -47,7 +47,6 @@ exports[`Number component have to match default number snapshot 1`] = `
       <span
         className="dnb-number__sr-only dnb-sr-only--inline"
         id="unique"
-        lang="nb-NO"
       >
         12 345 678,9876
       </span>

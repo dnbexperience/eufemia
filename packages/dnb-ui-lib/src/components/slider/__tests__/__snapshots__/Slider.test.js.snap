@@ -14,6 +14,12 @@ exports[`Slider component have to match snapshot 1`] = `
   label_sr_only="label_sr_only"
   max={100}
   min={0}
+  number_format={
+    Object {
+      "currency": true,
+      "decimals": 0,
+    }
+  }
   on_change={[Function]}
   on_drag_end={[Function]}
   on_drag_start={[Function]}
@@ -211,7 +217,7 @@ exports[`Slider component have to match snapshot 1`] = `
           >
             <input
               aria-describedby="id-suffix"
-              aria-labelledby="id-label"
+              aria-labelledby="id-human id-label"
               className="dnb-slider__button-helper"
               disabled={false}
               max={100}
@@ -320,6 +326,13 @@ exports[`Slider component have to match snapshot 1`] = `
           <span
             className="dnb-slider__line dnb-slider__line__after"
           />
+          <span
+            aria-hidden={true}
+            className="dnb-sr-only"
+            id="id-human"
+          >
+            70 norske kroner
+          </span>
         </span>
         <Button
           aria-label="add_title"
@@ -459,6 +472,12 @@ exports[`Slider component have to match snapshot 1`] = `
             label_sr_only="label_sr_only"
             max={100}
             min={0}
+            number_format={
+              Object {
+                "currency": true,
+                "decimals": 0,
+              }
+            }
             on_change={[Function]}
             on_drag_end={[Function]}
             on_drag_start={[Function]}

@@ -392,7 +392,7 @@ export default class DatePicker extends React.PureComponent {
     if (isTrue(this.props.prevent_close)) {
       return // stop here
     }
-    if (args.event && args.event.persist) {
+    if (args && args.event && args.event.persist) {
       args.event.persist()
     }
     this.setState(
@@ -587,6 +587,9 @@ export default class DatePicker extends React.PureComponent {
         {...this.props}
         attributes={attributes}
         setReturnObject={(fn) => (this.getReturnObject = fn)}
+        enhanceWithMethods={{
+          hidePicker: this.hidePicker
+        }}
       >
         <span {...mainParams}>
           {label && (
