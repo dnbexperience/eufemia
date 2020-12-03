@@ -47,14 +47,12 @@ export default class MdxTemplate extends React.PureComponent {
 
     // Extend the title with a sub tab title
     if (!pageTitle) {
-      if (child) {
-        pageTitle = `${child?.frontmatter?.title} – ${tableOfContents.items[0].title}`
+      if (child && Array.isArray(tableOfContents?.items)) {
+        pageTitle = `${child?.frontmatter?.title} – ${tableOfContents.items[0]?.title}`
       } else {
         pageTitle = child?.frontmatter?.title || mainTitle
       }
     }
-
-    console.log('pageTitle', pageTitle)
 
     return (
       <>
