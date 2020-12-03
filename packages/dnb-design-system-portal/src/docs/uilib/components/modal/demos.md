@@ -88,6 +88,7 @@ With placement on the left side.
 <Modal
   title="1s close delay"
   trigger_text="Click me"
+  focus_selector=".dnb-input__input:first-of-type"
   prevent_close="true"
   hide_close_button="true"
   on_open={(e) => console.log('on_open', e)}

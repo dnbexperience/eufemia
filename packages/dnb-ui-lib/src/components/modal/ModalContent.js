@@ -35,6 +35,7 @@ export default class ModalContent extends React.PureComponent {
     id: PropTypes.string,
     root_id: PropTypes.string,
     labelled_by: PropTypes.string,
+    focus_selector: PropTypes.string,
     content_id: PropTypes.string,
     title: PropTypes.node,
     close_title: PropTypes.string,
@@ -81,6 +82,7 @@ export default class ModalContent extends React.PureComponent {
     id: null,
     root_id: null,
     labelled_by: null,
+    focus_selector: null,
     content_id: null,
     title: null,
     close_title: null,
@@ -202,21 +204,41 @@ export default class ModalContent extends React.PureComponent {
   }
 
   setFocus() {
-    if (this._contentRef.current) {
+    const { focus_selector, animation_duration } = this.props
+    const elem = this._contentRef.current
+
+    if (elem) {
       clearTimeout(this._focusTimeout)
       this._focusTimeout = setTimeout(() => {
         try {
-          this._contentRef.current.focus() // in case the button is disabled
-          const focusElement = this._contentRef.current.querySelector(
-            'h1:first-of-type, h2:first-of-type, .dnb-modal__close-button'
-          )
+          let focusElement
+
+          // 1. Try to use the "first-focus" method first
+          if (typeof focus_selector === 'string') {
+            focusElement = elem.querySelector(focus_selector)
+          } else if (focus_selector === false) {
+            return // stop here
+          }
+
+          // 2. fall back to headings and the close button
+          if (!focusElement) {
+            focusElement = elem.querySelector(
+              'h1:first-of-type, h2:first-of-type, .dnb-modal__close-button:not([disabled])'
+            )
+          }
+
+          // 3. fall back to the main element
+          if (!focusElement) {
+            focusElement = elem
+          }
+
           if (focusElement) {
             focusElement.focus()
           }
         } catch (e) {
           warn(e)
         }
-      }, parseFloat(this.props.animation_duration)) // with this delay, the user can press esc without an focus action first
+      }, parseFloat(animation_duration)) // with this delay, the user can press esc without an focus action first
     }
   }
 

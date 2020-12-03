@@ -17,6 +17,7 @@ exports[`Modal component have to match snapshot 1`] = `
         "content_id": "content_id",
         "direct_dom_return": "direct_dom_return",
         "disabled": "disabled",
+        "focus_selector": "focus_selector",
         "fullscreen": "'auto'",
         "hide_close_button": "hide_close_button",
         "id": "id",
@@ -78,6 +79,7 @@ exports[`Modal component have to match snapshot 1`] = `
   content_id={null}
   direct_dom_return={true}
   disabled={null}
+  focus_selector={null}
   fullscreen="auto"
   hide_close_button={false}
   id="modal_id"
@@ -384,6 +386,7 @@ exports[`Modal component have to match snapshot 1`] = `
             "content_id": "content_id",
             "direct_dom_return": "direct_dom_return",
             "disabled": "disabled",
+            "focus_selector": "focus_selector",
             "fullscreen": "'auto'",
             "hide_close_button": "hide_close_button",
             "id": "id",
@@ -445,6 +448,7 @@ exports[`Modal component have to match snapshot 1`] = `
       container_placement={null}
       content_id="dnb-modal-modal_id"
       direct_dom_return={true}
+      focus_selector={null}
       fullscreen="auto"
       hide={false}
       hide_close_button={false}
@@ -482,6 +486,7 @@ exports[`Modal component have to match snapshot 1`] = `
               "content_id": "content_id",
               "direct_dom_return": "direct_dom_return",
               "disabled": "disabled",
+              "focus_selector": "focus_selector",
               "fullscreen": "'auto'",
               "hide_close_button": "hide_close_button",
               "id": "id",
@@ -543,6 +548,7 @@ exports[`Modal component have to match snapshot 1`] = `
         container_placement={null}
         content_class={null}
         content_id="dnb-modal-modal_id"
+        focus_selector={null}
         fullscreen="auto"
         hide={false}
         hide_close_button={false}

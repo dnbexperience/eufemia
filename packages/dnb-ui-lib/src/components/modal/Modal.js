@@ -35,6 +35,7 @@ export default class Modal extends React.PureComponent {
     id: PropTypes.string,
     root_id: PropTypes.string,
     mode: PropTypes.oneOf(['modal', 'drawer']),
+    focus_selector: PropTypes.string,
     labelled_by: PropTypes.string,
     title: PropTypes.node,
     disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -122,6 +123,7 @@ export default class Modal extends React.PureComponent {
     id: null,
     root_id: 'root',
     mode: 'modal',
+    focus_selector: null,
     labelled_by: null,
     title: null,
     disabled: null,
@@ -458,6 +460,7 @@ export default class Modal extends React.PureComponent {
       disabled,
       spacing,
       labelled_by,
+      focus_selector,
 
       // All "trigger_" are deprecated
       trigger_attributes,
@@ -554,6 +557,7 @@ export default class Modal extends React.PureComponent {
               root_id={root_id}
               content_id={content_id || `dnb-modal-${this._id}`}
               labelled_by={labelled_by}
+              focus_selector={focus_selector}
               modal_content={modal_content}
               spacing={spacing}
               closeModal={this.close}
