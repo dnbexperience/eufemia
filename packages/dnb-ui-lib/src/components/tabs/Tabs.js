@@ -671,7 +671,10 @@ export default class Tabs extends React.PureComponent {
       )
       elem.focus()
 
-      if (!document.getElementById(`${this._id}-content`)) {
+      if (
+        !document.getElementById(`${this._id}-content`) &&
+        process.env.NODE_ENV !== 'test'
+      ) {
         warn(
           `Could not find the required <Tabs.Content id="${this._id}-content" ... /> that provides role="tabpanel"`
         )
