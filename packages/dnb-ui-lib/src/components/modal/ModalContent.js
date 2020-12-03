@@ -307,14 +307,13 @@ export default class ModalContent extends React.PureComponent {
        *
        */
       role: 'main',
-      // 'aria-labelledby': id + '-title',
+      'aria-modal': 'true',
       'aria-labelledby': combineLabelledBy(
         this.props,
         title ? id + '-title' : null,
         labelled_by
       ),
       'aria-describedby': combineDescribedBy(this.props, id + '-content'),
-      'aria-modal': 'true',
       className: classnames(
         'dnb-modal__content',
         mode && `dnb-modal__content--${mode}`,
