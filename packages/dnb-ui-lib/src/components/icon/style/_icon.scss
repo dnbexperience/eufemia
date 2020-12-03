@@ -36,11 +36,11 @@
   }
 
   // color
-  svg:not([fill]),
-  svg [fill] {
+  &--inherit-color svg:not([fill]),
+  &--inherit-color svg [fill] {
     fill: currentColor;
   }
-  svg [stroke] {
+  &--inherit-color svg [stroke] {
     stroke: currentColor;
   }
 

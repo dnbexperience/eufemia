@@ -143,6 +143,7 @@ describe('A single Tab component', () => {
   it('has to run "prevent_rerender" as supposed', () => {
     const Comp = mount(
       <Component
+        {...props}
         prevent_rerender
         data={[
           {
@@ -199,6 +200,7 @@ describe('A single Tab component', () => {
   it('has to run "prerender" as supposed', () => {
     const Comp = mount(
       <Component
+        {...props}
         prerender
         data={[
           {
@@ -236,7 +238,7 @@ describe('A single Tab component', () => {
 
   it('has to work with "Tabs.Content" as children Components', () => {
     const Comp = mount(
-      <Component data={tablistData}>
+      <Component {...props} data={tablistData}>
         <Component.Content title="first title">first</Component.Content>
         <Component.Content title="second title" selected>
           second

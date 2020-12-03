@@ -53,6 +53,10 @@ export default class DatePickerAddon extends React.PureComponent {
       endDate: endDate || startDate,
       event
     })
+
+    if (value.close_on_select) {
+      this.context.hidePicker(event)
+    }
   }
 
   getCurrentDates() {

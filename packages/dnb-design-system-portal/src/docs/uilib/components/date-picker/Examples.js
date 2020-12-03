@@ -48,6 +48,7 @@ export const DatePickerRange = () =>
       end_date: '1969-08-15'
     },
     {
+      close_on_select: true,
       title: 'This month',
       start_date: startOfMonth(new Date()),
       end_date: lastDayOfMonth(new Date())

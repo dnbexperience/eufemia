@@ -110,6 +110,7 @@ exports[`HelpButton component have to match snapshot 1`] = `
             color={null}
             height={null}
             icon="question"
+            inherit_color={true}
             key="button-icon"
             modifier={null}
             size={null}
@@ -120,7 +121,7 @@ exports[`HelpButton component have to match snapshot 1`] = `
             <span
               aria-hidden={true}
               aria-label="question icon"
-              className="dnb-icon dnb-icon--default dnb-button__icon"
+              className="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
               role="presentation"
             >
               <question>

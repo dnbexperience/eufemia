@@ -393,6 +393,129 @@ describe('Autocomplete component', () => {
     expect(on_focus).toHaveBeenCalledTimes(2)
   })
 
+  it('behaves by default to take the selection in account', async () => {
+    const value = 'c'
+    let newValue = null
+
+    const on_show = jest.fn()
+    const on_hide = jest.fn()
+    const on_focus = jest.fn()
+    const on_blur = jest.fn()
+    const on_change = jest.fn()
+    const on_type = jest.fn()
+
+    const Comp = mount(
+      <Component
+        no_animation
+        on_show={on_show}
+        on_hide={on_hide}
+        on_focus={on_focus}
+        on_blur={on_blur}
+        on_change={on_change}
+        on_type={on_type}
+        data={mockData}
+        show_submit_button
+        {...mockProps}
+      />
+    )
+
+    // Round #1
+
+    toggle(Comp)
+
+    Comp.find('input').simulate('focus')
+
+    Comp.find('input').simulate('change', { target: { value } })
+    expect(Comp.find('input').instance().value).toBe(value)
+
+    Comp.find('input').simulate('blur')
+
+    expect(Comp.find('input').instance().value).toBe(value)
+
+    await wait(1)
+
+    // Here is default consequence
+    expect(Comp.find('input').instance().value).toBe('')
+
+    // Round #2
+    Comp.find('input').simulate('change', { target: { value } })
+    expect(Comp.find('input').instance().value).toBe(value)
+
+    Comp.find('AutocompleteInstance').setState({ hasBlur: false })
+    Comp.find('input').simulate('blur')
+
+    expect(Comp.find('input').instance().value).toBe(value)
+
+    await wait(1)
+
+    // Here is our wanted result
+    expect(Comp.find('input').instance().value).toBe('')
+
+    Comp.find('li.dnb-drawer-list__option').at(1).simulate('click')
+
+    newValue = 'first new value'
+    Comp.find('input').simulate('change', { target: { value: newValue } })
+    expect(Comp.find('input').instance().value).toBe(newValue)
+
+    Comp.find('AutocompleteInstance').setState({ hasBlur: false })
+    Comp.find('input').simulate('blur')
+
+    await wait(1)
+
+    // Here is our wanted result
+    expect(Comp.find('input').instance().value).toBe(mockData[1])
+
+    // Round #3
+
+    Comp.find('input').simulate('change', { target: { value } })
+    expect(Comp.find('input').instance().value).toBe(value)
+    expect(on_type).toHaveBeenCalledTimes(4)
+
+    Comp.find('li.dnb-drawer-list__option').at(0).simulate('click')
+    expect(on_change).toHaveBeenCalledTimes(2)
+
+    newValue = 'second new value'
+    Comp.find('input').simulate('change', { target: { value: newValue } })
+    expect(Comp.find('input').instance().value).toBe(newValue)
+
+    Comp.find('AutocompleteInstance').setState({ hasBlur: false })
+    Comp.find('input').simulate('blur')
+    expect(on_blur).toHaveBeenCalledTimes(4)
+
+    await wait(1)
+
+    // Here is our wanted result
+    expect(Comp.find('input').instance().value).toBe(mockData[0])
+
+    expect(Comp.find('li.dnb-drawer-list__option').at(0).text()).toBe(
+      'Ingen alternativer'
+    )
+
+    // Close
+    toggle(Comp)
+    expect(
+      Comp.find('.dnb-autocomplete').hasClass('dnb-autocomplete--opened')
+    ).toBe(false)
+
+    // Open
+    toggle(Comp)
+    expect(Comp.find('input').instance().value).toBe(mockData[0])
+    Comp.find('AutocompleteInstance').setState({
+      skipFocusDuringChange: false,
+      hasFocus: false
+    })
+    Comp.find('input').simulate('focus')
+    expect(
+      Comp.find('.dnb-autocomplete').hasClass('dnb-autocomplete--opened')
+    ).toBe(true)
+
+    // Now, only the "No option" will be displayed
+    expect(Comp.find('li.dnb-drawer-list__option').length).toBe(1)
+    expect(Comp.find('li.dnb-drawer-list__option').at(0).text()).toBe(
+      'Ingen alternativer'
+    )
+  })
+
   it('keeps the entered input value if "keep_value" or "keep_value_and_selection" is given', async () => {
     const value = 'c'
     let newValue = null

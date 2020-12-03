@@ -122,7 +122,7 @@ describe('Textarea component', () => {
     const Comp = mount(
       <Component {...props} status="status" status_state="error" />
     )
-    expect(Comp.find('.dnb-form-status--text').text()).toBe('status')
+    expect(Comp.find('.dnb-form-status__text').text()).toBe('status')
   })
 
   it('has a disabled attribute, once we set disabled to true', () => {

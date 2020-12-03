@@ -76,7 +76,8 @@ const shortcuts = [
   {
     title: 'Set date period',
     start_date: '1969-07-15',
-    end_date: '1969-07-15'
+    end_date: '1969-07-15',
+    close_on_select: true,// will close the picker
   },
   {
     title: 'This month',

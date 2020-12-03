@@ -21,6 +21,7 @@ props.min = 0
 props.max = 100
 props.value = 70
 props.step = 10
+props.number_format = { currency: true, decimals: 0 }
 props.label_direction = 'horizontal'
 
 describe('Slider component', () => {
@@ -68,7 +69,8 @@ describe('Slider component', () => {
     expect(on_change).toBeCalledTimes(1)
 
     const initObject = {
-      value: '70'
+      value: 70,
+      number: 'kr 70'
     }
     expect(on_init).toBeCalledWith(initObject)
 
@@ -83,7 +85,8 @@ describe('Slider component', () => {
       pageX: 80,
       rawValue: 80,
       raw_value: 80,
-      value: '80',
+      value: 80,
+      number: 'kr 80',
       width: 100
     }
     expect(on_change).toBeCalledWith(changeObject)
@@ -108,7 +111,8 @@ describe('Slider component', () => {
     expect(on_change).toBeCalledTimes(1)
 
     const initObject = {
-      value: 'kr 70,0'
+      value: 70,
+      number: 'kr 70,0'
     }
     expect(on_init).toBeCalledWith(initObject)
 
@@ -123,12 +127,13 @@ describe('Slider component', () => {
       pageX: 80,
       rawValue: 80,
       raw_value: 80,
-      value: 'kr 80,0',
+      value: 80,
+      number: 'kr 80,0',
       width: 100
     }
     expect(on_change).toBeCalledWith(changeObject)
 
-    expect(Comp.find('.dnb-sr-only').text()).toBe('kr 80,0')
+    expect(Comp.find('.dnb-sr-only').text()).toBe('80,0 norske kroner')
     expect(
       Comp.find('.dnb-slider__button-helper').props()['aria-labelledby']
     ).toContain(Comp.find('.dnb-sr-only').props().id)
