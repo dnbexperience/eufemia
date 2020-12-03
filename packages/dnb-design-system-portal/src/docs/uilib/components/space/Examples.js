@@ -103,86 +103,35 @@ export const SpaceExampleMargins = () => (
   </TestStyles>
 )
 
-export const SpaceExamplePatterns = () =>
-  false &&
-  global.IS_TEST && (
-    <TestStyles>
-      {' '}
-      <ComponentBox
-        title="All spacing patterns listed (screenshot tests)"
-        data-visual-test="spacing-patterns"
-        scope={{ MagicBox, CustomStyle }}
-        hideCode
-      >
-        {
-          /* @jsx */ `
-<CustomStyle className="spacing-patterns">
-  <Space top="0.5">
-    <MagicBox />
-  </Space>
-  <Space top="1">
-    <MagicBox />
-  </Space>
-  <Space top="1.5">
-    <MagicBox />
-  </Space>
-  <Space top="2">
-    <MagicBox />
-  </Space>
-  <Space top="2.5">
-    <MagicBox />
-  </Space>
-  <Space top="3">
-    <MagicBox />
-  </Space>
-  <Space top="3.5">
-    <MagicBox />
-  </Space>
-  <Space top="4">
-    <MagicBox />
-  </Space>
-  <Space top="4.5">
-    <MagicBox />
-  </Space>
-  <Space top="5">
-    <MagicBox />
-  </Space>
-  <Space top="5.5">
-    <MagicBox />
-  </Space>
-  <Space top="6">
-    <MagicBox />
-  </Space>
-  <Space top="6.5">
-    <MagicBox />
-  </Space>
-  <Space top="7">
-    <MagicBox />
-  </Space>
-  <Space top="7.5">
-    <MagicBox />
-  </Space>
-  <Space top="8">
-    <MagicBox />
-  </Space>
-  <Space top="8.5">
-    <MagicBox />
-  </Space>
-  <Space top="9">
-    <MagicBox />
-  </Space>
-  <Space top="9.5">
-    <MagicBox />
-  </Space>
-  <Space top="10">
-    <MagicBox />
-  </Space>
-</CustomStyle>
-          `
-        }
-      </ComponentBox>
-    </TestStyles>
-  )
+export const SpaceVisualTest = () => (
+  <TestStyles>
+    <ComponentBox
+      data-visual-test="spacing-patterns"
+      scope={{ MagicBox, CustomStyle }}
+      hideCode
+      useRender
+    >
+      {
+        /* @jsx */ `
+const listOfBoxes = []
+for (let i = 0, c = 0, l = 20; i <= l; i++) {
+  listOfBoxes.push(String(c))
+  c += 0.5
+}
+render(
+  <CustomStyle className="spacing-patterns">
+    {listOfBoxes.map((v) => (
+      <Space key={v} top={v}>
+        <MagicBox />
+      </Space>
+    ))}
+  </CustomStyle>
+)
+        `
+      }
+    </ComponentBox>
+  </TestStyles>
+)
 
 const TestStyles = styled.div`
   /* make sure our input gets an explicit width, because of mac/linux rendering differences */

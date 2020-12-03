@@ -7,7 +7,8 @@ SpaceExamplesMethod1,
 SpaceExamplesMethod2,
 SpaceExamplesMethod3,
 SpaceExampleMarginCollapse,
-SpaceExampleMargins
+SpaceExampleMargins,
+SpaceVisualTest
 } from 'Pages/uilib/components/space/Examples'
 
 ## Demos
@@ -31,3 +32,7 @@ SpaceExampleMargins
 ### All four values will result in a equivalent margin
 
 <SpaceExampleMargins />
+
+### Visual space testing
+
+<SpaceVisualTest />

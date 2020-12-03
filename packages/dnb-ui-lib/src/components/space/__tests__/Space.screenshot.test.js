@@ -12,10 +12,9 @@ describe('Space screenshot', () => {
   setupPageScreenshot({
     url: '/uilib/components/space/demos'
   })
-  // looks like this is not working well
-  it.skip('have to match the spacing patterns', async () => {
+  it('have to match the spacing patterns', async () => {
     const screenshot = await testPageScreenshot({
-      waitAfterSimulate: 200,
+      // waitAfterSimulate: 200,
       selector: '[data-visual-test="spacing-patterns"] .spacing-patterns'
     })
     expect(screenshot).toMatchImageSnapshot()
