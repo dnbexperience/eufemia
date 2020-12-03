@@ -14,7 +14,12 @@ exports[`Slider component have to match snapshot 1`] = `
   label_sr_only="label_sr_only"
   max={100}
   min={0}
-  number_format="number_format"
+  number_format={
+    Object {
+      "currency": true,
+      "decimals": 0,
+    }
+  }
   on_change={[Function]}
   on_drag_end={[Function]}
   on_drag_start={[Function]}
@@ -325,7 +330,7 @@ exports[`Slider component have to match snapshot 1`] = `
             className="dnb-sr-only"
             id="id-human"
           >
-            70
+            70 norske kroner
           </span>
         </span>
         <Button
@@ -465,7 +470,12 @@ exports[`Slider component have to match snapshot 1`] = `
             label_sr_only="label_sr_only"
             max={100}
             min={0}
-            number_format="number_format"
+            number_format={
+              Object {
+                "currency": true,
+                "decimals": 0,
+              }
+            }
             on_change={[Function]}
             on_drag_end={[Function]}
             on_drag_start={[Function]}

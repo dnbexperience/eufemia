@@ -155,9 +155,13 @@ export default class Slider extends React.PureComponent {
         state.value = value
 
         if (typeof props.on_state_update === 'function') {
-          dispatchCustomElementEvent({ ...props }, 'on_state_update', {
-            value: formatNumber(value, props.number_format)
-          })
+          const obj = {
+            value
+          }
+          if (props.number_format) {
+            obj.number = formatNumber(value, props.number_format)
+          }
+          dispatchCustomElementEvent({ ...props }, 'on_state_update', obj)
         }
       }
 
@@ -414,12 +418,16 @@ export default class Slider extends React.PureComponent {
         typeof this.props.on_change === 'function' &&
         value !== this.roundValue(previousValue)
       ) {
-        dispatchCustomElementEvent(this, 'on_change', {
-          value: formatNumber(value, this.props.number_format),
+        const obj = {
+          value,
           rawValue,
           raw_value: rawValue,
           event
-        })
+        }
+        if (this.props.number_format) {
+          obj.number = formatNumber(value, this.props.number_format)
+        }
+        dispatchCustomElementEvent(this, 'on_change', obj)
 
         if (typeof callback === 'function') {
           callback()
@@ -471,9 +479,13 @@ export default class Slider extends React.PureComponent {
 
     if (typeof this.props.on_init === 'function') {
       const { value } = this.state
-      dispatchCustomElementEvent(this, 'on_init', {
-        value: formatNumber(value, this.props.number_format)
-      })
+      const obj = {
+        value
+      }
+      if (this.props.number_format) {
+        obj.number = formatNumber(value, this.props.number_format)
+      }
+      dispatchCustomElementEvent(this, 'on_init', obj)
     }
   }
 
@@ -576,7 +588,10 @@ export default class Slider extends React.PureComponent {
     }
 
     const percent = clamp(((value - min) * 100) / (max - min))
-    const humanNumber = formatNumber(value, this.props.number_format)
+    const { aria: humanNumber } = formatNumber(value, {
+      returnAria: true,
+      ...this.props.number_format
+    })
     const hasHumanNumber = value !== humanNumber
 
     const inlineStyleBefore = {
