@@ -112,6 +112,11 @@ exports[`DatePicker component have to match snapshot 1`] = `
     disabled={null}
     enable_keyboard_nav={false}
     end_date="2019-02-15T00:00:00.000Z"
+    enhanceWithMethods={
+      Object {
+        "hidePicker": [Function],
+      }
+    }
     first_day="monday"
     global_status_id={null}
     hide_days={false}

@@ -188,10 +188,15 @@ describe('DatePicker component', () => {
   })
 
   it('has to work with shortcuts', () => {
+    const on_change = jest.fn()
     const Comp = mount(
       <Component
         no_animation
-        shortcuts={[{ title: 'Set date', date: '2020-05-23' }]}
+        on_change={on_change}
+        shortcuts={[
+          { title: 'Set date', date: '2020-05-23' },
+          { title: 'Set date', close_on_select: true, date: '2020-04-23' }
+        ]}
       />
     )
 
@@ -200,10 +205,22 @@ describe('DatePicker component', () => {
       .at(0)
       .find('button.dnb-button')
       .simulate('click')
-
     expect(Comp.find('label.dnb-date-picker__header__title').text()).toBe(
       'mai 2020'
     )
+    expect(Comp.exists('.dnb-date-picker--opened')).toBe(true)
+    expect(on_change).toBeCalledTimes(1)
+
+    // Now, test "close_on_select"
+    Comp.find('span.dnb-toggle-button')
+      .at(1)
+      .find('button.dnb-button')
+      .simulate('click')
+    expect(Comp.find('label.dnb-date-picker__header__title').text()).toBe(
+      'april 2020'
+    )
+    expect(Comp.exists('.dnb-date-picker--opened')).toBe(false)
+    expect(on_change).toBeCalledTimes(2)
   })
 
   it('has two calendar views', () => {
