@@ -86,14 +86,14 @@ export default class AccordionContent extends React.PureComponent {
   }
 
   componentDidUpdate(prevProps) {
-    const { expanded, single_container, prevent_rerender } = this.context
+    const { expanded, single_container } = this.context
     if (expanded !== this.state._expanded) {
       const isInitial = !expanded && this.state.isInitial
       this.setState(
         {
           _expanded: expanded,
           isInitial: false,
-          keepContentInDom: expanded || !isTrue(prevent_rerender)
+          keepContentInDom: true
         },
         () => {
           if (expanded) {
