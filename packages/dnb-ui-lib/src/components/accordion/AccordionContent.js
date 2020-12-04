@@ -58,15 +58,9 @@ export default class AccordionContent extends React.PureComponent {
         isAnimating: false
       })
 
-      if (this.context.expanded) {
-        this.setState({
-          keepContentInDom: true
-        })
-      } else {
-        this.setState({
-          keepContentInDom: false
-        })
-      }
+      this.setState({
+        keepContentInDom: this.context.expanded
+      })
     })
 
     if (
@@ -92,14 +86,14 @@ export default class AccordionContent extends React.PureComponent {
   }
 
   componentDidUpdate(prevProps) {
-    const { expanded, prevent_rerender } = this.context
+    const { expanded, single_container } = this.context
     if (expanded !== this.state._expanded) {
       const isInitial = !expanded && this.state.isInitial
       this.setState(
         {
           _expanded: expanded,
           isInitial: false,
-          keepContentInDom: expanded || !isTrue(prevent_rerender)
+          keepContentInDom: true
         },
         () => {
           if (expanded) {
@@ -112,8 +106,9 @@ export default class AccordionContent extends React.PureComponent {
     }
 
     if (
+      isTrue(single_container) &&
       AccordionContent.getContent(prevProps) !==
-      AccordionContent.getContent(this.props)
+        AccordionContent.getContent(this.props)
     ) {
       this.anim.setContainerHeight()
     }
@@ -180,7 +175,7 @@ export default class AccordionContent extends React.PureComponent {
     const wrapperParams = {
       className: classnames(
         'dnb-accordion__content',
-        !expanded && 'dnb-accordion__content--hidden',
+        !expanded && !keepContentInDom && 'dnb-accordion__content--hidden',
         isAnimating && 'dnb-accordion__content--is-animating',
         className
       ),

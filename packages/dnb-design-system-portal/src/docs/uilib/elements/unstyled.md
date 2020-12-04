@@ -21,7 +21,7 @@ const Box = styled.div\`
 	width: 12rem;
 	height: 4rem;
 	padding: 0 1rem;
-	background-color: white;
+	background-color: var(--color-white);
 \`
 const StyledButton = styled.button\`
 	display: flex;

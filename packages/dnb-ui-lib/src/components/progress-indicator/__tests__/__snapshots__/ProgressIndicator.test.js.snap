@@ -14,7 +14,7 @@ exports[`Circular ProgressIndicator component have to match snapshot 1`] = `
         "on_complete": [Function],
         "progress": "progress",
         "show_label": "show_label",
-        "size": "'small'",
+        "size": "'default'",
         "type": "'circular'",
         "visible": "visible",
       },
@@ -27,7 +27,7 @@ exports[`Circular ProgressIndicator component have to match snapshot 1`] = `
   on_complete={null}
   progress={50}
   show_label={false}
-  size="medium"
+  size="default"
   type="circular"
   visible={true}
 >
@@ -40,12 +40,12 @@ exports[`Circular ProgressIndicator component have to match snapshot 1`] = `
       maxOffset={88}
       onComplete={null}
       progress={50}
-      size="medium"
+      size="default"
       visible={true}
     >
       <div
         aria-label="50%"
-        className="dnb-progress-indicator__circular dnb-progress-indicator__circular--medium dnb-progress-indicator__circular--has-progress-indicator"
+        className="dnb-progress-indicator__circular dnb-progress-indicator__circular--default dnb-progress-indicator__circular--has-progress-indicator"
         title="50%"
       >
         <ForwardRef
@@ -116,6 +116,10 @@ exports[`ProgressIndicator scss have to match default theme snapshot 1`] = `
 .dnb-progress-indicator__circular--small {
   width: 1rem;
   height: 1rem; }
+
+.dnb-progress-indicator__circular--medium {
+  width: 1.5rem;
+  height: 1.5rem; }
 
 .dnb-progress-indicator__circular--large {
   width: 3.5rem;
@@ -262,7 +266,7 @@ exports[`ProgressIndicator scss have to match snapshot 1`] = `
     .dnb-progress-indicator__circular__line.light .dnb-progress-indicator__circular__circle {
       stroke: grey; }
     .dnb-progress-indicator__circular__line.dark .dnb-progress-indicator__circular__circle {
-      stroke: black; }
+      stroke: var(--color-black); }
   html[data-visual-test] .dnb-progress-indicator__circular__line {
     animation-duration: 0ms;
     animation-iteration-count: 0; }

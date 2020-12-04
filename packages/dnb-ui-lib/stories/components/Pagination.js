@@ -30,7 +30,7 @@ const LargePage = styled.div`
   font-weight: var(--font-weight-bold);
   font-feature-settings: 'pnum' on, 'lnum' on;
 
-  color: white;
+  color: var(--color-white);
 `
 const CustomIndicator = styled(LargePage)`
   color: purple;
@@ -148,7 +148,7 @@ export const PaginationSandbox = () => (
 const HeightLimit = styled.div`
   height: 20rem;
   overflow-y: scroll;
-  background-color: white;
+  background-color: var(--color-white);
   border: 4px solid blue;
 `
 

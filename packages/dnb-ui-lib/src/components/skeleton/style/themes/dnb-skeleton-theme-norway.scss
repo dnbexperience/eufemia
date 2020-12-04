@@ -53,3 +53,18 @@
     background-image: cross(#ef2b2d, #002868, white) !important;
   }
 }
+
+@keyframes skeletonFancyAnimation {
+  0% {
+    transform: translate3d(-100%, 0, 0);
+    clip-path: polygon(0 0, 20% 0, 20% 100%, 0 100%);
+  }
+  60% {
+    transform: translate3d(0%, 0, 0);
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+  }
+  100% {
+    transform: translate3d(50%, 0, 0);
+    clip-path: polygon(50% 0, 50% 0, 50% 100%, 50% 100%);
+  }
+}

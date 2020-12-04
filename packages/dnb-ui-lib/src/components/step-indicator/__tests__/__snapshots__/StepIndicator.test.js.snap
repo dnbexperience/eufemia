@@ -560,7 +560,7 @@ exports[`StepIndicator scss have to match snapshot 1`] = `
     bottom: 0;
     width: 100vw;
     height: 1px;
-    color: black;
+    color: var(--color-black);
     background-color: currentColor;
     box-shadow: 100vw 0 0 0 currentColor; }
 "

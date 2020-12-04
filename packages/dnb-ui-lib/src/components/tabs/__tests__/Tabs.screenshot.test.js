@@ -16,6 +16,12 @@ describe('Tabs screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+  it('have to match a tablist with a click handler', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-visual-test="tabs-clickhandler"] .dnb-tabs__tabs'
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
   it('have to match the right aligned tabs', async () => {
     const screenshot = await testPageScreenshot({
       style: {

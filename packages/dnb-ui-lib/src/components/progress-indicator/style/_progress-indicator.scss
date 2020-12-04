@@ -46,7 +46,7 @@
   &__circular {
     position: relative;
 
-    // medium
+    // default/basis size
     width: 2rem;
     height: 2rem;
 
@@ -102,7 +102,7 @@
       stroke: grey;
     }
     &__line.dark &__circle {
-      stroke: black;
+      stroke: var(--color-black);
     }
   }
   html[data-visual-test] &__circular__line {

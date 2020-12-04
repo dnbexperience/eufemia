@@ -10,10 +10,10 @@ import {
 
 describe('Skeleton screenshot', () => {
   setupPageScreenshot({ url: '/uilib/components/skeleton/demos' })
-  it('have to match shine effect', async () => {
+  it('have to match skeleton article figure', async () => {
     const screenshot = await testPageScreenshot({
       style: { width: '20rem', height: '20rem' },
-      selector: '[data-visual-test="skeleton-shine"]'
+      selector: '[data-visual-test="skeleton-figure-article"]'
     })
     expect(screenshot).toMatchImageSnapshot()
   })

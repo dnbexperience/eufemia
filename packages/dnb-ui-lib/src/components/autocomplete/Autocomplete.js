@@ -1632,7 +1632,9 @@ class AutocompleteInstance extends React.PureComponent {
                 <Input
                   icon={
                     visibleIndicator ? (
-                      <ProgressIndicator size="small" />
+                      <ProgressIndicator
+                        size={size === 'large' ? 'medium' : 'small'}
+                      />
                     ) : (
                       input_icon
                     )

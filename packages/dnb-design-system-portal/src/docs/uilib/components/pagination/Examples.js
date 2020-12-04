@@ -11,8 +11,8 @@ import PaginationTableExample from './PaginationTableExample'
 const HeightLimit = styled.div`
   height: ${(props) => props.height || '20rem'};
   overflow-y: scroll;
-  background-color: white;
-  border: 0.25rem dotted black;
+  background-color: var(--color-white);
+  border: 0.25rem dotted var(--color-black);
 `
 const LargePage = styled.div`
   display: flex;
@@ -26,7 +26,7 @@ const LargePage = styled.div`
   font-weight: var(--font-weight-bold);
   font-feature-settings: 'pnum' on, 'lnum' on;
 
-  color: white;
+  color: var(--color-white);
 `
 
 export const PaginationExampleDefault = () => (

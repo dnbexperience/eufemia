@@ -591,18 +591,29 @@ export default class Tabs extends React.PureComponent {
     ) // Delay so Chrome/Safari makes the transition / animation smooth
   }
 
-  onClickHandler = (e) => {
+  onClickHandler = (event) => {
+    let selected_key
     try {
-      const selected_key = (function (elem) {
+      selected_key = (function (elem) {
         return (
           getPreviousSibling('dnb-tabs__button', elem) || { dataset: {} }
         )
-      })(e.target).dataset.tabKey
-
-      this.openTab(selected_key, e)
-      this.scrollToTab('selected')
+      })(event.target).dataset.tabKey
     } catch (e) {
       warn('Tabs Error:', e)
+    }
+
+    if (selected_key) {
+      const ret = dispatchCustomElementEvent(
+        this,
+        'on_click',
+        this.getEventArgs({ event, selected_key })
+      )
+
+      if (ret !== false) {
+        this.openTab(selected_key, event)
+        this.scrollToTab('selected')
+      }
     }
   }
 
