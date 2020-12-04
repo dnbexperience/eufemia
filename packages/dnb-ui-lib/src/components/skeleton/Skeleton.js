@@ -23,7 +23,7 @@ export default class Skeleton extends React.PureComponent {
     show: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     no_animation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     style_type: PropTypes.oneOfType([
-      PropTypes.oneOf(['lines', 'shine']),
+      PropTypes.oneOf(['lines']),
       PropTypes.string
     ]),
     figure: PropTypes.oneOfType([

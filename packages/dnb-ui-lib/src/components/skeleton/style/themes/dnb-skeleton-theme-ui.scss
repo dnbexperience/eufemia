@@ -60,21 +60,21 @@
   //   animation: skeletonLinearAnimation 1.5s linear infinite;
   // }
 
-  // Shine
-  &--shine &--shape#{&}::after,
-  &--shine#{&}--shape#{&}::after {
-    background-image: linear-gradient(
-      90deg,
-      transparent 10%,
-      var(--skeleton-color--contrast) 60%,
-      transparent 85%
-    ) !important;
-    background-position-y: 50% !important;
-    background-repeat: no-repeat !important;
-    background-size: 100% 100% !important;
+  // Shine – we try to be aligned to one effect – so deprecated
+  // &--shine &--shape#{&}::after,
+  // &--shine#{&}--shape#{&}::after {
+  //   background-image: linear-gradient(
+  //     90deg,
+  //     transparent 10%,
+  //     var(--skeleton-color--contrast) 60%,
+  //     transparent 85%
+  //   ) !important;
+  //   background-position-y: 50% !important;
+  //   background-repeat: no-repeat !important;
+  //   background-size: 100% 100% !important;
 
-    animation: skeletonShineAnimation 1.5s linear infinite;
-  }
+  //   animation: skeletonShineAnimation 1.5s linear infinite;
+  // }
 
   // Font
   &--font-only,
@@ -112,18 +112,18 @@
   //   background-size: 5px 5px !important; // to take presence
   // }
 
-  // Shine
-  &--shine &--font {
-    // If we would rather like black
-    // rgba(0, 0, 0, 0.2) 60%,
+  // Shine – we try to be aligned to one effect – so deprecated
+  // &--shine &--font {
+  //   // If we would rather like black
+  //   // rgba(0, 0, 0, 0.2) 60%,
 
-    background-image: linear-gradient(
-      90deg,
-      transparent 10%,
-      var(--skeleton-color--contrast) 60%,
-      transparent 85%
-    );
-  }
+  //   background-image: linear-gradient(
+  //     90deg,
+  //     transparent 10%,
+  //     var(--skeleton-color--contrast) 60%,
+  //     transparent 85%
+  //   );
+  // }
 }
 
 @keyframes skeletonLinearAnimation {
