@@ -55,6 +55,72 @@ describe('Tabs component', () => {
 
   it('have a "selected_key" state have to be same as prop from startup', () => {
     expect(Comp.state().selected_key).toBe(startup_selected_key)
+    expect(
+      Comp.find('.dnb-tabs__button.selected').find('span').at(0).text()
+    ).toBe(
+      tablistData.find(({ key }) => key === startup_selected_key).title
+    )
+  })
+
+  it('has working "on_change" and "on_click" event handler', () => {
+    let preventChange = false
+    const on_change = jest.fn((e) => {
+      if (preventChange) {
+        return false
+      }
+      return e
+    })
+    const on_click = jest.fn((e) => {
+      if (preventChange) {
+        return false
+      }
+      return e
+    })
+
+    const Comp = mount(
+      <Component
+        {...props}
+        data={tablistData}
+        on_change={on_change}
+        on_click={on_click}
+      >
+        {contentWrapperData}
+      </Component>
+    )
+
+    Comp.find('.dnb-tabs__button').at(1).simulate('click')
+    expect(on_change).toBeCalledTimes(1)
+    expect(on_click).toBeCalledTimes(1)
+
+    Comp.find('.dnb-tabs__button').at(2).simulate('click')
+    expect(on_change).toBeCalledTimes(2)
+    expect(on_click).toBeCalledTimes(2)
+
+    preventChange = true
+
+    Comp.find('.dnb-tabs__button').at(1).simulate('click')
+    expect(on_change).toBeCalledTimes(2)
+    expect(on_click).toBeCalledTimes(3)
+  })
+
+  it('has working "on_focus" event handler', () => {
+    const on_focus = jest.fn()
+
+    const Comp = mount(
+      <Component {...props} data={tablistData} on_focus={on_focus}>
+        {contentWrapperData}
+      </Component>
+    )
+
+    Comp.find('.dnb-tabs__tabs__tablist').simulate('keyDown', {
+      keyCode: 39
+    }) // right
+    expect(on_focus).toBeCalledTimes(1)
+
+    Comp.find('.dnb-tabs__tabs__tablist').simulate('keyDown', {
+      keyCode: 39
+    }) // right
+    expect(on_focus).toBeCalledTimes(2)
   })
 
   it('should validate with ARIA rules', async () => {
@@ -275,3 +341,11 @@ describe('Tabs scss', () => {
     expect(scss).toMatchSnapshot()
   })
 })
+
+// const keydown = (Comp, keyCode) => {
+//   document.dispatchEvent(new KeyboardEvent('keydown', { keyCode }))
+
+//   Comp.simulate('keyDown', {
+//     keyCode
+//   })
+// }

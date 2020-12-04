@@ -54,19 +54,32 @@ render(
 
 export const TabsExampleUsingData = () => (
   <Wrapper>
-    <ComponentBox scope={{ exampleContent }}>
+    <ComponentBox
+      data-visual-test="tabs-clickhandler"
+      scope={{ exampleContent }}
+    >
       {
         /* @jsx */ `
 <Tabs
   data={{
     first: {
-    title: 'First',
-    content: exampleContent.first /* See Example Content below */
-  },
+      title: 'First',
+      // See Example Content below
+      content: exampleContent.first
+    },
     second: {
-    title: 'Second',
-    content: exampleContent.second /* See Example Content below */
-  }
+      title: 'Second',
+      // See Example Content below
+      content: exampleContent.second
+    }
+  }}
+  // Only use "on_click" if you really have to
+  on_click={({ selected_key }) => {
+    console.log('on_click', selected_key)
+  }}
+  // Preferred way to listen on changes
+  on_change={({ selected_key }) => {
+    console.log('on_change', selected_key)
   }}
 />
   `
