@@ -97,7 +97,7 @@ const CustomStyle = styled.div`
     background-color: blue;
     height: 150px;
     width: 200px;
-    color: white;
+    color: var(--color-white);
   }
 `
 

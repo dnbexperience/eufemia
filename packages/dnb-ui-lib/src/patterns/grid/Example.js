@@ -186,7 +186,7 @@ const demoStyle = css`
     width: 100%;
     padding: 1rem;
 
-    color: white;
+    color: var(--color-white);
     background: var(--color-sea-green);
   }
   .grid-demo__item {

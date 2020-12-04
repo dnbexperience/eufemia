@@ -37,6 +37,7 @@
   @include coreDefault();
 
   @media print {
+    // Use hard coded colors, because of theming and color swaps
     background-color: white;
     color: black;
   }

@@ -35,7 +35,7 @@ $large-right-padding: (100 - $large-title-width);
     width: calc(100% + 1rem);
     height: calc(100% + 1rem);
 
-    background-color: white; // so we overlay the line
+    background-color: var(--color-white); // so we overlay the line
   }
 
   &__text {

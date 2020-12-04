@@ -355,7 +355,7 @@ const TableRow = styled.tr`
     td {
       height: inherit;
       padding: 0;
-      background-color: white;
+      background-color: var(--color-white);
 
       .expanded-content__outer {
         height: inherit;
@@ -444,5 +444,5 @@ const reorderDirection = (items, dir) =>
 // Page layout
 const Wrapper = styled(Section)`
   width: 100%;
-  background: white;
+  background: var(--color-white);
 `
