@@ -214,6 +214,13 @@ export default class Accordion extends React.PureComponent {
     if (context && typeof context?.onInit === 'function') {
       context.onInit(this)
     }
+
+    if (isTrue(this.props.remember_state || context.remember_state)) {
+      const expanded = this.store.getState()
+      if (expanded) {
+        this.state.expanded = true
+      }
+    }
   }
 
   componentDidMount() {
@@ -224,13 +231,6 @@ export default class Accordion extends React.PureComponent {
       isTrue(this.props.expanded_ssr || this.context?.expanded_ssr)
     ) {
       this.setExpandedState(false)
-    }
-
-    if (isTrue(this.props.remember_state || this.context.remember_state)) {
-      const expanded = this.store.getState()
-      if (expanded) {
-        this.setExpandedState(true)
-      }
     }
   }
 
