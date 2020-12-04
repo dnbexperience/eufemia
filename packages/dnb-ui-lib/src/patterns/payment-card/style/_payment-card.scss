@@ -11,18 +11,18 @@
   --dnb-payment-shadow-figma: 0 8px 16px rgba(51, 51, 51, 0.08);
   --dnb-payment-bg-default: linear-gradient(
     184.55deg,
-    #008484 6.31%,
-    #007272 82.66%
+    var(--color-sea-green) 6.31%,
+    var(--color-sea-green) 82.66%
   );
   --dnb-payment-bg-white: linear-gradient(
     184.55deg,
-    #fafafa 4.63%,
+    var(--color-black-background) 4.63%,
     var(--color-white) 92.04%
   );
   --dnb-payment-bg-silver: linear-gradient(
     184.55deg,
     var(--color-black-20) 4.63%,
-    #e8e8e8 82.87%
+    var(--color-black-8) 82.87%
   );
   --dnb-payment-bg-gold: linear-gradient(
     184.55deg,
@@ -39,12 +39,12 @@
   --dnb-payment-bg-business-no-visa: linear-gradient(
     184.55deg,
     #50c9de 6.31%,
-    #4bbed2 82.66%
+    var(--color-sky-blue) 82.66%
   );
   --dnb-payment-bg-business-with-visa: linear-gradient(
     184.55deg,
     #2cc48e 6.31%,
-    #28b482 82.66%
+    var(--color-summer-green) 82.66%
   );
 }
 
@@ -65,9 +65,9 @@
     border-top-color: rgba(255, 255, 255, 0.1);
     border-bottom-color: rgba(0, 0, 0, 0.2);
 
-    color: white;
+    color: var(--color-white);
     box-shadow: var(--dnb-payment-shadow-e2);
-    background: #007272;
+    background: var(--color-sea-green);
 
     transition: all 225ms cubic-bezier(0, 0, 0.2, 1) 0ms;
 
@@ -215,7 +215,7 @@
       justify-content: center;
       flex-direction: column;
 
-      background: #333;
+      background: var(--color-black-80);
       color: var(--color-sand-yellow);
       border-radius: 4px;
     }
