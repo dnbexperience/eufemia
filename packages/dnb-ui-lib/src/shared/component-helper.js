@@ -968,9 +968,6 @@ export class AnimateHeight {
   }
   getOpenHeight(state) {
     const currentHeight = window.getComputedStyle(this.elem).height
-    const currentPosition = window.getComputedStyle(this.elem).position
-    const parentPosition = window.getComputedStyle(this.elem.parentElement)
-      .position
 
     this.elem.parentElement.style.position = 'relative'
     this.elem.style.position = 'absolute'
@@ -979,10 +976,9 @@ export class AnimateHeight {
 
     const height = parseFloat(this.elem.clientHeight)
 
-    this.elem.parentElement.style.position =
-      parentPosition !== 'static' ? parentPosition : ''
-    this.elem.style.position = currentPosition
-    this.elem.style.visibility = 'visible'
+    this.elem.parentElement.style.position = ''
+    this.elem.style.position = ''
+    this.elem.style.visibility = ''
 
     switch (state) {
       case 'open':
