@@ -319,8 +319,7 @@ exports[`Skeleton scss have to match snapshot 1`] = `
   background-size: 30rem 100% !important;
   -webkit-text-fill-color: transparent !important;
   background-clip: text !important;
-  -webkit-background-clip: text !important;
-  animation: skeletonFontAnimation 2s linear infinite; }
+  -webkit-background-clip: text !important; }
   html[data-visual-test] .dnb-skeleton--font, html[data-visual-test]
   .dnb-skeleton--font .dnb-skeleton--show-font, html[data-visual-test]
   .dnb-skeleton--font .dnb-p {
@@ -344,12 +343,6 @@ exports[`Skeleton scss have to match snapshot 1`] = `
 .dnb-skeleton--no-animation .dnb-skeleton::after,
 .dnb-skeleton--no-animation * .dnb-skeleton::after {
   animation: none !important; }
-
-@keyframes skeletonFontAnimation {
-  0% {
-    background-position-x: -30rem; }
-  100% {
-    background-position-x: 30rem; } }
 
 @font-face {
   font-family: DNBSkeleton;
