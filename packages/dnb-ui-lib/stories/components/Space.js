@@ -7,6 +7,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Wrapper, Box } from '../helpers'
 import styled from '@emotion/styled'
+import { css, Global } from '@emotion/react'
 
 import {
   Space,
@@ -26,6 +27,21 @@ export default {
 
 export const SpaceSandbox = () => (
   <Wrapper skipCoreStyle>
+    <Global
+      styles={css`
+        :root {
+          --spacing-modifier: 1;
+          --spacing-xx-small: calc(0.25rem * var(--spacing-modifier));
+          --spacing-x-small: calc(0.5rem * var(--spacing-modifier));
+          --spacing-small: calc(1rem * var(--spacing-modifier));
+          --spacing-medium: calc(1.5rem * var(--spacing-modifier));
+          --spacing-large: calc(2rem * var(--spacing-modifier));
+          --spacing-x-large: calc(3rem * var(--spacing-modifier));
+          --spacing-xx-large: calc(3.5rem * var(--spacing-modifier));
+        }
+      `}
+    />
+
     <code>With dnb-core-style</code>
     <div className="dnb-core-style">
       <TestCase />
