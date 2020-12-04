@@ -37,14 +37,6 @@ $anchorBorderRadius: 0.25em;
   .dnb-h--x-small & {
     font-size: inherit;
   }
-
-  // Make anchor links more accessible on print
-  @media print {
-    // We may considder of using ^='http'
-    &[href]:not(:empty)::after {
-      content: ' (' attr(href) ')';
-    }
-  }
 }
 
 // reset methodes
