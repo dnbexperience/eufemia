@@ -376,7 +376,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
                       >
                         <div
                           aria-hidden="true"
-                          class="dnb-progress-indicator__circular dnb-progress-indicator__circular--medium"
+                          class="dnb-progress-indicator__circular dnb-progress-indicator__circular--default"
                         >
                           <svg
                             class="dnb-progress-indicator__circular__line light paused"
@@ -707,7 +707,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
                         on_complete={null}
                         progress={null}
                         show_label={false}
-                        size="medium"
+                        size="default"
                         type="circular"
                         visible={true}
                       >
@@ -722,12 +722,12 @@ exports[`Pagination bar component have to match snapshot 1`] = `
                             maxOffset={88}
                             onComplete={null}
                             progress={null}
-                            size="medium"
+                            size="default"
                             visible={true}
                           >
                             <div
                               aria-hidden={true}
-                              className="dnb-progress-indicator__circular dnb-progress-indicator__circular--medium"
+                              className="dnb-progress-indicator__circular dnb-progress-indicator__circular--default"
                             >
                               <ForwardRef
                                 className="dnb-progress-indicator__circular__line light paused"
