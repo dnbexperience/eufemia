@@ -215,6 +215,13 @@ export default class Accordion extends React.PureComponent {
       context.onInit(this)
     }
 
+    if (
+      typeof window !== 'undefined' &&
+      isTrue(props.expanded_ssr || context?.expanded_ssr)
+    ) {
+      this.state.expanded = false
+    }
+
     if (isTrue(this.props.remember_state || context.remember_state)) {
       const expanded = this.store.getState()
       if (expanded) {
@@ -225,13 +232,6 @@ export default class Accordion extends React.PureComponent {
 
   componentDidMount() {
     this._isMounted = true
-
-    if (
-      typeof window !== 'undefined' &&
-      isTrue(this.props.expanded_ssr || this.context?.expanded_ssr)
-    ) {
-      this.setExpandedState(false)
-    }
   }
 
   componentWillUnmount() {
