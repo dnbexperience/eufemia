@@ -6,6 +6,21 @@
 @import '../../../../style/themes/imports.scss';
 
 .dnb-toggle-button {
+  .dnb-checkbox {
+    &__gfx {
+      path {
+        stroke-width: 0.125rem;
+      }
+    }
+  }
+  .dnb-radio {
+    &__input:not([disabled]) {
+      & ~ .dnb-radio__button {
+        box-shadow: 0 0 0 0.0318rem var(--color-sea-green);
+      }
+    }
+  }
+
   /* stylelint-disable */
   &--checked &__button,
   &--checked &__button:focus,
@@ -13,50 +28,68 @@
     &:not([disabled]):not(:active) {
       background-color: var(--color-emerald-green);
       color: var(--color-mint-green);
-      &:not(:hover) {
-        @include fakeBorder(
-          var(--color-emerald-green),
-          0.0625rem,
-          inset,
-          true
-        );
-      }
     }
 
     .dnb-icon {
       color: inherit;
     }
 
-    // chrome has focus after click, firefox/safari not
-    // TODO: The hover will anyway show up, so this makes the experiance worse
-    // &:focus:hover {
-    //   box-shadow: none;
-    // }
-
     &:not([disabled]) {
-      // radio button
       .dnb-radio {
         &__button {
           background-color: transparent;
           border-color: var(--color-mint-green);
-          // extend the broder to be 1.5px
+          // extend the border to be 1.5px
           box-shadow: 0 0 0 0.0318rem var(--color-mint-green);
         }
         &__dot {
           background-color: var(--color-mint-green);
         }
       }
+    }
+    html[data-whatinput='keyboard'] &:not([disabled]):not(:hover):focus {
+      .dnb-radio {
+        &__button {
+          @include fakeBorder(
+            var(--color-emerald-green),
+            0.09375rem,
+            inset,
+            true
+          );
+        }
 
-      // checkbox
+        &__input:not([disabled]):not(:hover):not(:active) {
+          &:not(:hover) ~ .dnb-radio__dot {
+            background-color: var(--color-emerald-green);
+          }
+        }
+      }
+    }
+
+    &:not([disabled]) {
       .dnb-checkbox {
         &__button {
           background-color: var(--color-mint-green);
+          border-color: var(--color-emerald-green);
+          // extend the border to be 1.5px (use .0318rem instead of .03125rem because of Windows)
+          box-shadow: 0 0 0 0.0318rem var(--color-emerald-green);
         }
         &__gfx {
           color: var(--color-emerald-green);
         }
       }
     }
+    html[data-whatinput='keyboard'] &:not([disabled]):not(:hover):focus {
+      .dnb-checkbox {
+        &__button {
+          background-color: var(--color-emerald-green);
+        }
+        &__gfx {
+          color: var(--color-mint-green);
+        }
+      }
+    }
+
     &[disabled] {
       .dnb-radio__button,
       .dnb-checkbox__button {
@@ -69,7 +102,8 @@
       color: var(--color-emerald-green);
       background-color: var(--color-mint-green);
     }
-    &:not([disabled]):not(:active):not(:hover):focus {
+    html[data-whatinput='keyboard']
+      &:not([disabled]):not(:active):not(:hover):focus {
       @include fakeFocus(null, var(--color-emerald-green), inset);
     }
   }
@@ -77,12 +111,11 @@
   &__button,
   &--checked &__button {
     &:not([disabled]):active {
-      // radio button
       .dnb-radio {
         &__button {
           background-color: transparent;
           border-color: var(--color-sea-green);
-          // extend the broder to be 1.5px (use .0318rem instead of .03125rem because of Windows)
+          // extend the border to be 1.5px (use .0318rem instead of .03125rem because of Windows)
           box-shadow: 0 0 0 0.0318rem var(--color-sea-green);
         }
         &__dot {
@@ -90,12 +123,11 @@
         }
       }
 
-      // checkbox
       .dnb-checkbox {
         &__button {
           background-color: transparent;
           border-color: var(--color-sea-green);
-          // extend the broder to be 1.5px (use .0318rem instead of .03125rem because of Windows)
+          // extend the border to be 1.5px (use .0318rem instead of .03125rem because of Windows)
           box-shadow: 0 0 0 0.0318rem var(--color-sea-green);
         }
         &__gfx {
@@ -113,31 +145,62 @@
   // change button color
   // fake border outside
   /* stylelint-disable */
-  &__status--error &__button:not([disabled]):not(:focus):not(:active) {
-    background-color: var(--color-white);
-    color: var(--color-fire-red);
-    @include fakeBorder(var(--color-fire-red), 0.0625rem, inset, true);
-
-    &:hover {
-      box-shadow: 0 0 0 0.125rem var(--color-fire-red);
+  &__status--error &__button:not([disabled]) {
+    &:not(:hover):not(:focus):not(:active) {
+      background-color: var(--color-white);
+      color: var(--color-fire-red);
+      @include fakeBorder(var(--color-fire-red), 0.0625rem, inset, true);
     }
-  }
-  &--checked#{&}__status--error
-    &__button:not([disabled]):not(:focus):not(:active) {
-    background-color: var(--color-fire-red);
-    color: var(--color-white);
 
-    &:hover {
-      box-shadow: 0 0 0 0.125rem var(--color-fire-red);
-    }
-  }
-
-  &--checked#{&}__status--error {
-    // radio button
     .dnb-radio {
-      &__input:not([disabled]):not(:focus):not(:active) {
+      &__input:not([disabled]) {
+        & ~ .dnb-radio__button {
+          @include fakeBorder(
+            var(--color-fire-red),
+            0.09375rem,
+            inset,
+            true
+          );
+        }
         & ~ .dnb-radio__focus {
-          box-shadow: 0 0 0 0.125rem /* 2px */ var(--color-white);
+          box-shadow: none;
+        }
+        & ~ .dnb-radio__dot {
+          background-color: transparent;
+        }
+      }
+    }
+
+    .dnb-checkbox {
+      &__input {
+        & ~ .dnb-checkbox__button {
+          border: none;
+          @include fakeBorder(
+            var(--color-fire-red),
+            0.09375rem,
+            inset,
+            true
+          );
+        }
+        &:not(:hover) ~ .dnb-checkbox__button .dnb-checkbox__focus {
+          box-shadow: none;
+        }
+      }
+    }
+  }
+
+  &__status--error#{&}--checked
+    &__button:not([disabled]):not(:hover):not(:focus):not(:active) {
+    color: var(--color-white);
+    background-color: var(--color-fire-red);
+    @include fakeBorder(var(--color-fire-red), 0.0625rem, inset, true);
+  }
+
+  &__status--error#{&}--checked &__button:not([disabled]) {
+    &:not(:active):not(:focus) .dnb-radio {
+      &__input:not([disabled]) {
+        & ~ .dnb-radio__button {
+          @include fakeBorder(var(--color-white), 0.09375rem, inset, true);
         }
         &:not(:hover) ~ .dnb-radio__dot {
           background-color: var(--color-white);
@@ -145,18 +208,20 @@
       }
     }
 
-    // checkbox
     .dnb-checkbox {
-      &__input:not([disabled]):not(:focus):not(:active) {
+      &__input:not([disabled]):not(:hover):not(:active) {
         & ~ .dnb-checkbox__button .dnb-checkbox__focus {
-          box-shadow: 0 0 0 0.0625rem /* 1px */ var(--color-white);
-        }
-        &:not(:hover) ~ .dnb-checkbox__gfx path {
-          stroke: var(--color-white);
+          background-color: var(--color-white);
         }
       }
     }
+    .dnb-checkbox
+      .dnb-checkbox__input:not([disabled]):not(:focus):not(:active):not(:hover)
+      ~ .dnb-checkbox__gfx {
+      color: var(--color-fire-red);
+    }
   }
+
   /* stylelint-enable */
 
   // ajust the form-status to the inner border for 3px
