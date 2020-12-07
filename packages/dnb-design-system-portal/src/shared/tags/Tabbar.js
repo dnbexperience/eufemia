@@ -161,6 +161,9 @@ Tabbar.ContentWrapper = (props) => (
 )
 
 const tabsWrapperStyle = css`
+  .dnb-tabs__tabs {
+    justify-content: space-between;
+  }
   .fullscreen-page & {
     top: 0;
     .is-sticky .dnb-tabs__tabs {

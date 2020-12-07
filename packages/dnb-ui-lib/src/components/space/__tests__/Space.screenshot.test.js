@@ -14,8 +14,13 @@ describe('Space screenshot', () => {
   })
   it('have to match the spacing patterns', async () => {
     const screenshot = await testPageScreenshot({
-      // waitAfterSimulate: 200,
       selector: '[data-visual-test="spacing-patterns"] .spacing-patterns'
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+  it('have to match the spacing with elements', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-visual-test="spacing-elements"] .spacing-elements'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
