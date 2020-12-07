@@ -8,7 +8,8 @@ SpaceExamplesMethod2,
 SpaceExamplesMethod3,
 SpaceExampleMarginCollapse,
 SpaceExampleMargins,
-SpaceVisualTest
+SpaceVisualTestPatterns,
+SpaceVisualTestElements
 } from 'Pages/uilib/components/space/Examples'
 
 ## Demos
@@ -35,4 +36,6 @@ SpaceVisualTest
 
 ### Visual space testing
 
-<SpaceVisualTest />
+<SpaceVisualTestPatterns />
+
+<SpaceVisualTestElements />

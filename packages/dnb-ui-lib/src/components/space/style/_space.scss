@@ -130,6 +130,25 @@
   }
 }
 
+/** NB: Because CSS specificity ".dnb-core-style .dnb-space"
+    has to come before the next ".dnb-space"
+  */
+.dnb-core-style .dnb-space {
+  &__top {
+    @include direction(top);
+  }
+  &__right {
+    @include direction(right);
+  }
+  &__bottom {
+    @include direction(bottom);
+  }
+  &__left {
+    @include direction(left);
+  }
+}
+
+/* stylelint-disable */
 .dnb-space {
   &--no-collapse {
     display: flow-root;
@@ -157,3 +176,4 @@
 span.dnb-space--no-collapse > span {
   display: block;
 }
+/* stylelint-enable */

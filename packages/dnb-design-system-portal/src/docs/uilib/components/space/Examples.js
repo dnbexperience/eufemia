@@ -103,7 +103,7 @@ export const SpaceExampleMargins = () => (
   </TestStyles>
 )
 
-export const SpaceVisualTest = () => (
+export const SpaceVisualTestPatterns = () => (
   <TestStyles>
     <ComponentBox
       data-visual-test="spacing-patterns"
@@ -139,6 +139,47 @@ render(
     </ComponentBox>
   </TestStyles>
 )
+
+/**
+ * This test case exists because of the reset.css margin=0 for buttons
+ */
+export const SpaceVisualTestElements = () =>
+  !(typeof window !== 'undefined' && window.IS_TEST) ? null : (
+    <TestStyles>
+      <ComponentBox
+        data-visual-test="spacing-elements"
+        scope={{ MagicBox, CustomStyle }}
+        hideCode
+        useRender
+      >
+        {
+          /* @jsx */ `
+const listOfBoxes = []
+for (let i = 0, c = 0, l = 10; i <= l; i++) {
+  listOfBoxes.push(String(c))
+  c += 1
+}
+const TestCase = (props) => {
+  return <CustomStyle {...props}>{listOfBoxes.map((v) => (
+    <Button key={v} left="x-small" top={v} size="small">
+      <MagicBox>B</MagicBox>
+    </Button>
+  ))}</CustomStyle>
+}
+render(
+  <div className="spacing-elements">
+    <P bottom small>With <Code>dnb-core-style</Code></P>
+    <TestCase className="dnb-core-style" />
+    
+    <P top bottom small>Without</P>
+    <TestCase />
+  </div>
+)
+        `
+        }
+      </ComponentBox>
+    </TestStyles>
+  )
 
 const TestStyles = styled.div`
   /* make sure our input gets an explicit width, because of mac/linux rendering differences */
