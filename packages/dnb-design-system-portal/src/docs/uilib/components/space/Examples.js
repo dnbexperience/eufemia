@@ -162,7 +162,7 @@ for (let i = 0, c = 0, l = 10; i <= l; i++) {
 const TestCase = (props) => {
   return <CustomStyle {...props}>{listOfBoxes.map((v) => (
     <Button key={v} left="x-small" top={v} size="small">
-      <MagicBox>B</MagicBox>
+      <MagicBox />
     </Button>
   ))}</CustomStyle>
 }
