@@ -47,6 +47,7 @@ describe('Autocomplete screenshot', () => {
   })
   it('have to match autocomplete opened list', async () => {
     const screenshot = await testPageScreenshot({
+      waitAfterSimulate: 100,
       selector: '[data-visual-test="autocomplete-opened"]',
       simulateSelector:
         '[data-visual-test="autocomplete-opened"] .focus-trigger .dnb-drawer-list:last-of-type .first-of-type',
