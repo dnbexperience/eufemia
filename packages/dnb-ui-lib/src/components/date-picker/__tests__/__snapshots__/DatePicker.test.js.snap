@@ -2793,8 +2793,7 @@ legend.dnb-form-label {
       .dnb-toggle-button__button .dnb-checkbox__focus, .dnb-toggle-button__button .dnb-checkbox__button {
         width: calc(var(--checkbox-width--medium) - 0.5rem);
         height: calc(var(--checkbox-height--medium) - 0.5rem);
-        border-width: 0.0625rem;
-        box-shadow: 0 0 0 0.0318rem var(--color-sea-green); }
+        border-width: 0.0625rem; }
       .dnb-toggle-button__button .dnb-checkbox__dot {
         width: calc(var(--checkbox-width--medium) - 1rem);
         height: calc(var(--checkbox-height--medium) - 1rem); }
@@ -2808,8 +2807,7 @@ legend.dnb-form-label {
       .dnb-toggle-button__button .dnb-radio__focus, .dnb-toggle-button__button .dnb-radio__button {
         width: calc(var(--radio-width--medium) - 0.5rem);
         height: calc(var(--radio-height--medium) - 0.5rem);
-        border-width: 0.0625rem;
-        box-shadow: 0 0 0 0.0318rem var(--color-sea-green); }
+        border-width: 0.0625rem; }
       .dnb-toggle-button__button .dnb-radio__dot {
         width: calc(var(--radio-width--medium) - 1rem);
         height: calc(var(--radio-height--medium) - 1rem); }
