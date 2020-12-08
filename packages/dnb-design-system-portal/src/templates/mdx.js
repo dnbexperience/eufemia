@@ -14,6 +14,7 @@ import { Helmet as Head } from 'react-helmet'
 import tags from '../shared/tags'
 
 const Tabbar = tags.Tabbar
+const ContentWrapper = Tabbar.ContentWrapper
 
 export default class MdxTemplate extends React.PureComponent {
   render() {
@@ -23,53 +24,80 @@ export default class MdxTemplate extends React.PureComponent {
         mdx: {
           body,
           frontmatter: { title, description, fullscreen, showTabs },
+          tableOfContents,
           children
         },
         site: {
-          siteMetadata: {
-            title: fallbackTitle,
-            description: fallbackDescription
-          }
+          siteMetadata: { title: mainTitle, description: mainDescription }
         }
       }
     } = this.props
 
-    const child = children[1] || {}
+    if (location.href && location.href.includes('data-visual-test')) {
+      global.IS_TEST = true
+      if (typeof window !== 'undefined') {
+        window.IS_TEST = true
+      }
+    }
+
+    const child = children[1] || null
+    let pageTitle = title
+    let pageDescription =
+      description || child?.frontmatter?.description || mainDescription
+
+    // Extend the title with a sub tab title
+    if (!pageTitle) {
+      if (child && Array.isArray(tableOfContents?.items)) {
+        pageTitle = `${child?.frontmatter?.title} – ${tableOfContents.items[0]?.title}`
+      } else {
+        pageTitle = child?.frontmatter?.title || mainTitle
+      }
+    }
 
     return (
-      <MDXProvider components={tags}>
+      <>
         <Head>
-          <title>{title || fallbackTitle}</title>
-          <meta
-            name="description"
-            content={
-              description ||
-              (child.frontmatter && child.frontmatter.description) ||
-              fallbackDescription
-            }
-          />
+          <title>{pageTitle}</title>
+          <meta name="description" content={pageDescription} />
         </Head>
-        <Layout location={location} fullscreen={Boolean(fullscreen)}>
+
+        <Layout
+          key="layout"
+          location={location}
+          fullscreen={
+            Boolean(fullscreen) || this.props.pageContext.fullscreen
+          }
+        >
           {showTabs && (
             <Tabbar
+              key="tabbar"
               location={location}
               {...(child.frontmatter || {})}
               usePath={'/' + (child.fields && child.fields.slug)}
             />
           )}
-          <MDXRenderer>{body}</MDXRenderer>
+
+          <ContentWrapper>
+            <MDXProvider components={tags}>
+              <MDXRenderer>{body}</MDXRenderer>
+            </MDXProvider>
+          </ContentWrapper>
         </Layout>
-      </MDXProvider>
+      </>
     )
   }
 }
 
 MdxTemplate.propTypes = {
   location: PropTypes.object.isRequired,
+  pageContext: PropTypes.shape({
+    fullscreen: PropTypes.bool
+  }).isRequired,
   data: PropTypes.shape({
     mdx: PropTypes.shape({
       body: PropTypes.string.isRequired,
       frontmatter: PropTypes.object.isRequired,
+      tableOfContents: PropTypes.object.isRequired,
       children: PropTypes.array.isRequired
     }).isRequired,
     site: PropTypes.shape({
@@ -82,19 +110,18 @@ export const pageQuery = graphql`
   query MDXQuery($id: String!) {
     site {
       siteMetadata {
+        title
         description
       }
     }
     mdx(id: { eq: $id }) {
-      # fields {
-      #   slug
-      # }
       frontmatter {
         title
         description
         fullscreen
         showTabs
       }
+      tableOfContents
       body
       children {
         ... on Mdx {

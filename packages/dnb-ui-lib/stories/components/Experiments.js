@@ -19,6 +19,10 @@ import {
   FormRow
 } from '../../src/components'
 
+export default {
+  title: 'Eufemia/Components/Experiments'
+}
+
 const Center = styled.div`
   display: flex;
   justify-content: center;
@@ -35,45 +39,42 @@ const PhoneRow = styled(FormRow)`
   }
 `
 
-export default [
-  'Experiments',
-  () => (
-    <Center>
-      <Wrapper>
-        <Box>
-          <PhoneRow
-            label="Phone number"
-            label_direction="vertical"
-            vertical={false}
-          >
-            <Dropdown
-              right="small"
-              // size="large"
-              // label="Choose your code"
-              // label_sr_only
-              title="Country code"
-              value={0}
-              data={['+47', '+48', '+49']}
-            />
-            <Input
-              // size="medium"
-              // label="Phone number"
-              // label_sr_only
-              placeholder="Your phone number"
-            />
-          </PhoneRow>
-        </Box>
-        <Box>
-          <Provider
-            formRow={{
-              vertical: true,
-              label: 'Vertical input B'
-            }}
-          >
-            <Input />
-          </Provider>
-        </Box>
-      </Wrapper>
-    </Center>
-  )
-]
+export const ExperimentsSandbox = () => (
+  <Center>
+    <Wrapper>
+      <Box>
+        <PhoneRow
+          label="Phone number"
+          label_direction="vertical"
+          vertical={false}
+        >
+          <Dropdown
+            right="small"
+            // size="large"
+            // label="Choose your code"
+            // label_sr_only
+            title="Country code"
+            value={0}
+            data={['+47', '+48', '+49']}
+          />
+          <Input
+            // size="medium"
+            // label="Phone number"
+            // label_sr_only
+            placeholder="Your phone number"
+          />
+        </PhoneRow>
+      </Box>
+      <Box>
+        <Provider
+          formRow={{
+            vertical: true,
+            label: 'Vertical input B'
+          }}
+        >
+          <Input />
+        </Provider>
+      </Box>
+    </Wrapper>
+  </Center>
+)

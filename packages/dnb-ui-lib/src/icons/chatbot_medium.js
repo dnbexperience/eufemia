@@ -4,7 +4,14 @@ import React from 'react'
 
 function chatbot_medium(props) {
   return (
-    <svg width={24} height={25} viewBox="0 0 24 25" fill="none" {...props}>
+    <svg
+      width={24}
+      height={25}
+      viewBox="0 0 24 25"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      {...props}
+    >
       <path
         d="M21.7801 12.8828L21.9634 13.9469C21.9634 13.9469 22.9061 14.4871 22.9061 15.6826C22.9061 16.8769 21.4576 17.7843 21.4576 17.7843L21.2744 18.8226C21.2744 18.8226 23.7259 18.0371 23.7259 15.7173C23.7259 13.3971 21.7801 12.8828 21.7801 12.8828Z"
         fill="black"

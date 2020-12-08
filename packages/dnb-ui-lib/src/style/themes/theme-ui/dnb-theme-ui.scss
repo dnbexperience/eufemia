@@ -10,8 +10,9 @@
 @import '../../elements/ui-elements.scss';
 
 // ::selection appearance helper
+.dnb-selection ::selection,
 [class^='dnb-'] ::selection {
-  // if not IE11
+  // if not IE11 / not IS_IE
   @supports not (-ms-ime-align: auto) {
     background-color: var(--color-mint-green);
     color: var(--color-black);
@@ -25,6 +26,7 @@
   All the themes get auto generated in here
 */
 
+@import '../../../components/accordion/style/themes/dnb-accordion-theme-ui.scss';
 @import '../../../components/autocomplete/style/themes/dnb-autocomplete-theme-ui.scss';
 @import '../../../components/button/style/themes/dnb-button-theme-ui.scss';
 @import '../../../components/checkbox/style/themes/dnb-checkbox-theme-ui.scss';
@@ -36,6 +38,7 @@
 @import '../../../components/form-status/style/themes/dnb-form-status-theme-ui.scss';
 @import '../../../components/global-error/style/themes/dnb-global-error-theme-ui.scss';
 @import '../../../components/global-status/style/themes/dnb-global-status-theme-ui.scss';
+@import '../../../components/help-button/style/themes/dnb-help-button-theme-ui.scss';
 @import '../../../components/icon/style/themes/dnb-icon-theme-ui.scss';
 @import '../../../components/input/style/themes/dnb-input-theme-ui.scss';
 @import '../../../components/modal/style/themes/dnb-modal-theme-ui.scss';
@@ -43,6 +46,7 @@
 @import '../../../components/progress-indicator/style/themes/dnb-progress-indicator-theme-ui.scss';
 @import '../../../components/radio/style/themes/dnb-radio-theme-ui.scss';
 @import '../../../components/section/style/themes/dnb-section-theme-ui.scss';
+@import '../../../components/skeleton/style/themes/dnb-skeleton-theme-ui.scss';
 @import '../../../components/slider/style/themes/dnb-slider-theme-ui.scss';
 @import '../../../components/space/style/themes/dnb-space-theme-ui.scss';
 @import '../../../components/step-indicator/style/themes/dnb-step-indicator-theme-ui.scss';
@@ -53,3 +57,4 @@
 @import '../../../components/tooltip/style/themes/dnb-tooltip-theme-ui.scss';
 @import '../../../fragments/drawer-list/style/themes/dnb-drawer-list-theme-ui.scss';
 @import '../../../fragments/scroll-view/style/themes/dnb-scroll-view-theme-ui.scss';
+@import '../../../patterns/payment-card/style/themes/dnb-payment-card-theme-ui.scss';

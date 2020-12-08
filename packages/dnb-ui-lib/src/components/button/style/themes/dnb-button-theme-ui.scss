@@ -31,14 +31,21 @@
       background-color: var(--color-sea-green-30);
     }
   }
+  &:not([disabled])#{&}--primary#{&}__status {
+    &--error {
+      color: var(--color-white);
+      background-color: var(--color-fire-red);
+
+      // @include fakeBorder(var(--color-fire-red), 0.0625rem, inset, true);
+      // .dnb-button__icon {
+      //   color: inherit;
+      // }
+    }
+  }
 
   &--secondary {
     color: var(--color-sea-green);
     background-color: var(--color-white);
-
-    &:not([disabled]) .dnb-button__icon {
-      color: var(--color-emerald-green);
-    }
 
     @include fakeBorder(var(--color-sea-green), 0.0625rem, inset, true);
 
@@ -48,6 +55,15 @@
       var(--color-sea-green),
       var(--color-mint-green-50)
     );
+
+    &:not(.dnb-button--has-text) {
+      @include buttonHover(var(--color-emerald-green), var(--color-white));
+      @include buttonFocus(var(--color-emerald-green), var(--color-white));
+      @include buttonActive(
+        var(--color-emerald-green),
+        var(--color-mint-green-50)
+      );
+    }
 
     &[disabled],
     &[disabled]:focus // only because of href/anchor button
@@ -95,7 +111,7 @@
         color: transparent;
         opacity: 0;
         transition: opacity 200ms ease-out, color 200ms ease-out;
-        [data-dnb-test-wrapper] & {
+        [data-visual-test-wrapper] & {
           transition: none;
         }
       }

@@ -6,6 +6,7 @@
 @import '../../../style/elements/_anchor-mixins.scss';
 
 .dnb-number {
+  position: relative;
   speak-as: numbers;
   color: inherit;
   white-space: nowrap;
@@ -45,31 +46,35 @@
     cursor: text;
   }
 
-  // NB: Is not  active right now
-  // &--selectable {
-  //   cursor: pointer;
-  //
-  //   @include anchorStyle();
-  //
-  //   &::selection {
-  //     color: #fff;
-  //     background-color: transparent !important;
-  //   }
-  //
-  //   &:hover {
-  //     @include anchorHoverStyle();
-  //   }
-  //   &:hover,
-  //   &:active {
-  //     user-select: all;
-  //   }
-  //   &:active {
-  //     @include anchorActiveStyle();
-  //     &::selection {
-  //       color: #fff;
-  //     }
-  //   }
-  // }
+  &__visible {
+    position: relative;
+    z-index: 2;
+  }
+  &--selected &__visible {
+    color: var(--color-black);
+    background-color: var(--color-mint-green);
+  }
+
+  &__selection {
+    position: absolute;
+    z-index: 1;
+
+    top: 0;
+    left: 0;
+
+    opacity: 0;
+
+    user-select: none; // important, so this number not gets copied if only marked/selected
+  }
+  &--selected &__selection {
+    z-index: 3;
+    user-select: all;
+  }
+
+  &.dnb-skeleton,
+  .dnb-skeleton & {
+    -webkit-text-fill-color: var(--skeleton-color);
+  }
 }
 
 @keyframes number-fx-scale-out {

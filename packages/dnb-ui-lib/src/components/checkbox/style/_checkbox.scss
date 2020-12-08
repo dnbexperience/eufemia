@@ -4,8 +4,10 @@
 */
 
 :root {
-  --checkbox-height: 1.5rem;
-  --checkbox-width: 1.5rem;
+  --checkbox-width--medium: 1.5rem;
+  --checkbox-height--medium: 1.5rem;
+  --checkbox-width--large: 2rem;
+  --checkbox-height--large: 2rem;
   --checkbox-border-width: 0.125rem;
 }
 
@@ -31,26 +33,39 @@
     align-items: center;
     justify-content: center;
 
-    width: var(--checkbox-height);
-    height: var(--checkbox-height);
+    width: var(--checkbox-width--medium);
+    height: var(--checkbox-height--medium);
+  }
+  &--large &__shell {
+    width: var(--checkbox-width--large);
+    height: var(--checkbox-height--large);
   }
 
-  &__focus,
   &__button {
-    position: relative;
-    z-index: 4;
+    display: inline-block;
 
-    width: calc(var(--checkbox-width) - 0.25rem);
-    height: calc(var(--checkbox-height) - 0.25rem);
-
-    border-radius: 0.25rem;
-  }
-  &__button {
     border: var(--checkbox-border-width) solid transparent;
   }
   &__focus {
     display: none;
     @include fakeFocus();
+  }
+  &__focus,
+  &__button {
+    position: relative;
+    z-index: 4;
+
+    width: calc(var(--checkbox-width--medium) - 0.25rem);
+    height: calc(var(--checkbox-height--medium) - 0.25rem);
+
+    border-radius: 0.25rem;
+
+    .dnb-checkbox--large & {
+      width: var(--checkbox-width--large);
+      height: var(--checkbox-height--large);
+
+      border-radius: 0.25rem;
+    }
   }
   &__gfx {
     position: absolute;
@@ -59,11 +74,22 @@
     top: auto;
     left: auto;
 
-    width: var(--checkbox-height);
-    height: var(--checkbox-height);
+    // width: var(--checkbox-width--medium); // old svg size
+    // height: var(--checkbox-height--medium); // old svg size
+    width: calc(var(--checkbox-width--medium) - 0.5rem);
+    height: calc(var(--checkbox-height--medium) - 0.5rem);
 
-    fill: currentColor;
+    // fill: currentColor; // old svg fix
     shape-rendering: geometricPrecision;
+  }
+  &--large {
+    line-height: var(--checkbox-height--large);
+  }
+  &--large &__gfx {
+    // width: var(--checkbox-width--large); // old svg size
+    // height: var(--checkbox-height--large); // old svg size
+    width: calc(var(--checkbox-width--large) - 0.5rem);
+    height: calc(var(--checkbox-height--large) - 0.5rem);
   }
 
   &__input {
@@ -74,13 +100,17 @@
     left: auto;
     z-index: 6;
 
-    width: var(--checkbox-width);
-    height: var(--checkbox-height);
+    width: var(--checkbox-width--medium);
+    height: var(--checkbox-height--medium);
 
     margin: 0;
     padding: 0;
 
     border: 0;
+  }
+  &--large &__input {
+    width: var(--checkbox-width--large);
+    height: var(--checkbox-height--large);
   }
 
   &__input:not([disabled]) {
@@ -89,6 +119,8 @@
 
   .dnb-form-label {
     margin-bottom: 0;
+    margin-right: 0;
+    margin-left: 0;
   }
 
   &__order {
@@ -108,8 +140,7 @@
     }
     .dnb-form-label {
       order: 1;
-      margin-right: 0.5rem;
-      margin-left: 0;
+      padding-right: 0.5rem;
     }
     .dnb-form-status {
       order: 3;
@@ -123,8 +154,7 @@
     }
     .dnb-form-label {
       order: 2;
-      margin-right: 0;
-      margin-left: 0.5rem;
+      padding-left: 0.5rem;
     }
     & + .dnb-form-status {
       order: 3;
@@ -135,8 +165,14 @@
     }
   }
 
-  // IE fix
-  @media screen and (-ms-high-contrast: none) {
+  &.dnb-skeleton &__input[disabled] ~ &__button {
+    &::before {
+      border-radius: 0;
+    }
+    border-color: var(--skeleton-color);
+  }
+
+  @include IS_IE {
     vertical-align: text-bottom;
 
     &__order {

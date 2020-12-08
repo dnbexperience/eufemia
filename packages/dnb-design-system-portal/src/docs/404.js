@@ -6,6 +6,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { GlobalError } from 'dnb-ui-lib/src/components'
+import Layout from '../shared/parts/Layout'
 
 export default class PageNotFound extends React.PureComponent {
   static propTypes = {
@@ -15,15 +16,17 @@ export default class PageNotFound extends React.PureComponent {
     const { pathname } = this.props.location
 
     return (
-      <GlobalError
-        status="404"
-        title="We couldn't find that page"
-        text={
-          <>
-            There's not a page at <code>{pathname}</code>
-          </>
-        }
-      />
+      <Layout key="layout" location={this.props.location} hideSidebar>
+        <GlobalError
+          status="404"
+          title="We couldn't find that page"
+          text={
+            <>
+              There's not a page at <code>{pathname}</code>
+            </>
+          }
+        />
+      </Layout>
     )
   }
 }

@@ -7,7 +7,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
       "displayName": "Input",
       "props": Object {
         "align": "align",
-        "autocomplete": "'on'",
+        "autocomplete": "autocomplete",
         "children": "children",
         "class": "class",
         "className": "className",
@@ -38,6 +38,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
         "readOnly": "readOnly",
         "selectall": "selectall",
         "size": "'default'",
+        "skeleton": "skeleton",
         "status": "status",
         "status_animation": "status_animation",
         "status_state": "status_state",
@@ -65,6 +66,9 @@ exports[`Input component have to match type="search" snapshot 1`] = `
         "on_submit": [Function],
         "on_submit_blur": [Function],
         "on_submit_focus": [Function],
+        "skeleton": "skeleton",
+        "status": "status",
+        "status_state": "status_state",
         "title": "title",
         "value": "value",
         "variant": "custom type not supported, please set the correct value for variant prop",
@@ -102,6 +106,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
   readOnly={false}
   selectall={null}
   size={null}
+  skeleton={null}
   status={null}
   status_animation={null}
   status_state="error"
@@ -138,6 +143,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
           data-input-state="virgin"
         >
           <input
+            aria-describedby="input-submit-button"
             autoComplete="off"
             className="dnb-input__input"
             disabled={false}
@@ -160,7 +166,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
                 "displayName": "Input",
                 "props": Object {
                   "align": "align",
-                  "autocomplete": "'on'",
+                  "autocomplete": "autocomplete",
                   "children": "children",
                   "class": "class",
                   "className": "className",
@@ -191,6 +197,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
                   "readOnly": "readOnly",
                   "selectall": "selectall",
                   "size": "'default'",
+                  "skeleton": "skeleton",
                   "status": "status",
                   "status_animation": "status_animation",
                   "status_state": "status_state",
@@ -218,6 +225,9 @@ exports[`Input component have to match type="search" snapshot 1`] = `
                   "on_submit": [Function],
                   "on_submit_blur": [Function],
                   "on_submit_focus": [Function],
+                  "skeleton": "skeleton",
+                  "status": "status",
+                  "status_state": "status_state",
                   "title": "title",
                   "value": "value",
                   "variant": "custom type not supported, please set the correct value for variant prop",
@@ -229,6 +239,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
             disabled={false}
             icon="search"
             icon_size="default"
+            id="input-submit-button"
             inner_ref={null}
             input_state={null}
             on_blur={null}
@@ -239,7 +250,9 @@ exports[`Input component have to match type="search" snapshot 1`] = `
             on_submit_blur={null}
             on_submit_focus={null}
             size={null}
+            skeleton={false}
             status={null}
+            status_state="error"
             title="Send knapp"
             value="test"
             variant="secondary"
@@ -250,7 +263,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
                   "displayName": "Input",
                   "props": Object {
                     "align": "align",
-                    "autocomplete": "'on'",
+                    "autocomplete": "autocomplete",
                     "children": "children",
                     "class": "class",
                     "className": "className",
@@ -281,6 +294,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
                     "readOnly": "readOnly",
                     "selectall": "selectall",
                     "size": "'default'",
+                    "skeleton": "skeleton",
                     "status": "status",
                     "status_animation": "status_animation",
                     "status_state": "status_state",
@@ -308,6 +322,9 @@ exports[`Input component have to match type="search" snapshot 1`] = `
                     "on_submit": [Function],
                     "on_submit_blur": [Function],
                     "on_submit_focus": [Function],
+                    "skeleton": "skeleton",
+                    "status": "status",
+                    "status_state": "status_state",
                     "title": "title",
                     "value": "value",
                     "variant": "custom type not supported, please set the correct value for variant prop",
@@ -320,7 +337,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
               disabled={false}
               icon="search"
               icon_size="default"
-              id={null}
+              id="input-submit-button"
               innerRef={null}
               inner_ref={null}
               input_state={null}
@@ -332,7 +349,9 @@ exports[`Input component have to match type="search" snapshot 1`] = `
               on_submit_blur={null}
               on_submit_focus={null}
               size={null}
+              skeleton={false}
               status={null}
+              status_state="error"
               title="Send knapp"
               value="test"
               variant="secondary"
@@ -349,18 +368,21 @@ exports[`Input component have to match type="search" snapshot 1`] = `
                   custom_element={null}
                   custom_method={null}
                   disabled={false}
+                  element={null}
                   global_status_id={null}
                   href={null}
                   icon="search"
                   icon_position="right"
                   icon_size="default"
-                  id={null}
+                  id="input-submit-button"
                   innerRef={null}
+                  inner_ref={null}
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
                   on_click={null}
                   size={null}
+                  skeleton={null}
                   status={null}
                   status_animation={null}
                   status_state="error"
@@ -376,6 +398,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
                     aria-label="Send knapp"
                     className="dnb-button dnb-button--secondary dnb-input__submit-button__button dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-default dnb-button--size-medium"
                     disabled={false}
+                    id="input-submit-button"
                     onBlur={[Function]}
                     onClick={[Function]}
                     onFocus={[Function]}
@@ -391,19 +414,22 @@ exports[`Input component have to match type="search" snapshot 1`] = `
                       custom_element={null}
                       custom_method={null}
                       disabled={false}
+                      element={null}
                       global_status_id={null}
                       href={null}
                       icon="search"
                       icon_position="right"
                       icon_size="default"
-                      id={null}
+                      id="input-submit-button"
                       innerRef={null}
+                      inner_ref={null}
                       isIconOnly={true}
                       onBlur={[Function]}
                       onClick={[Function]}
                       onFocus={[Function]}
                       on_click={null}
                       size={null}
+                      skeleton={false}
                       status={null}
                       status_animation={null}
                       status_state="error"
@@ -430,15 +456,18 @@ exports[`Input component have to match type="search" snapshot 1`] = `
                         color={null}
                         height={null}
                         icon="search"
+                        inherit_color={true}
                         key="button-icon"
                         modifier={null}
                         size="default"
+                        skeleton={false}
                         title={null}
                         width={null}
                       >
                         <span
+                          aria-hidden={true}
                           aria-label="search icon"
-                          className="dnb-icon dnb-icon--default dnb-button__icon"
+                          className="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
                           role="presentation"
                         >
                           <search>
@@ -447,6 +476,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
                               height={16}
                               viewBox="0 0 17 17"
                               width={16}
+                              xmlns="http://www.w3.org/2000/svg"
                             >
                               <g
                                 clipPath="url(#clip-06a943)"
@@ -483,7 +513,7 @@ exports[`Input component have to match type="text" snapshot 1`] = `
       "displayName": "Input",
       "props": Object {
         "align": "align",
-        "autocomplete": "'on'",
+        "autocomplete": "autocomplete",
         "children": "children",
         "class": "class",
         "className": "className",
@@ -514,6 +544,7 @@ exports[`Input component have to match type="text" snapshot 1`] = `
         "readOnly": "readOnly",
         "selectall": "selectall",
         "size": "'default'",
+        "skeleton": "skeleton",
         "status": "status",
         "status_animation": "status_animation",
         "status_state": "status_state",
@@ -541,6 +572,9 @@ exports[`Input component have to match type="text" snapshot 1`] = `
         "on_submit": [Function],
         "on_submit_blur": [Function],
         "on_submit_focus": [Function],
+        "skeleton": "skeleton",
+        "status": "status",
+        "status_state": "status_state",
         "title": "title",
         "value": "value",
         "variant": "custom type not supported, please set the correct value for variant prop",
@@ -578,6 +612,7 @@ exports[`Input component have to match type="text" snapshot 1`] = `
   readOnly={false}
   selectall={null}
   size={null}
+  skeleton={null}
   status={null}
   status_animation={null}
   status_state="error"
@@ -668,54 +703,74 @@ exports[`Input scss have to match default theme snapshot 1`] = `
     color: inherit;
     background-color: var(--input-background-color);
     border: none;
-    box-shadow: inset 0 0 0 var(--input-border-width) var(--input-border-color);
-    /* IE11 fix */
-    /* iOS fix - because \\"inset\\" works not fine with border-radius and rem unit */
+    --border-color: var(--input-border-color);
+    box-shadow: inset 0 0 0 var(--input-border-width) var(--border-color);
+    /* iOS fix - because \\"inset\\" works not fine with border-radius */
+    /* Safari fix - because \\"inset\\" works not fine with border-radius if the user zooms the page */
     border-color: transparent; }
+    @supports (-webkit-touch-callout: none) {
+      .dnb-input__shell {
+        box-shadow: 0 0 0 var(--input-border-width) var(--border-color); } }
+    @media not all and (min-resolution: 0.001dpcm) {
+      @supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-overflow-scrolling: touch)) {
+        .dnb-input__shell {
+          box-shadow: 0 0 0 var(--input-border-width) var(--border-color); } } }
     @media screen and (-ms-high-contrast: none) {
       .dnb-input__shell {
         box-shadow: inset 0 0 0 1px var(--input-border-color); } }
-    @supports (-webkit-touch-callout: none) {
-      .dnb-input__shell {
-        box-shadow: 0 0 0 var(--input-border-width) var(--input-border-color); } }
     .dnb-input__shell[data-input-state='dirty'] {
       color: var(--input-text-color--changed);
       background-color: var(--input-background-color--changed); }
     .dnb-input__shell[data-input-state='disabled'] {
-      color: var(--input-text-color--disabled);
       -webkit-text-fill-color: currentColor;
-      box-shadow: inset 0 0 0 var(--input-border-width) var(--input-border-color--disabled);
-      /* IE11 fix */
-      /* iOS fix - because \\"inset\\" works not fine with border-radius and rem unit */
+      --border-color: var(--input-border-color--disabled);
+      box-shadow: inset 0 0 0 var(--input-border-width) var(--border-color);
+      /* iOS fix - because \\"inset\\" works not fine with border-radius */
+      /* Safari fix - because \\"inset\\" works not fine with border-radius if the user zooms the page */
       border-color: transparent;
       background-color: var(--input-background-color--disabled); }
+      .dnb-input__shell[data-input-state='disabled'],
+      .dnb-input__shell[data-input-state='disabled'] .dnb-icon {
+        color: var(--input-text-color--disabled); }
+      @supports (-webkit-touch-callout: none) {
+        .dnb-input__shell[data-input-state='disabled'] {
+          box-shadow: 0 0 0 var(--input-border-width) var(--border-color); } }
+      @media not all and (min-resolution: 0.001dpcm) {
+        @supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-overflow-scrolling: touch)) {
+          .dnb-input__shell[data-input-state='disabled'] {
+            box-shadow: 0 0 0 var(--input-border-width) var(--border-color); } } }
       @media screen and (-ms-high-contrast: none) {
         .dnb-input__shell[data-input-state='disabled'] {
           box-shadow: inset 0 0 0 1px var(--input-border-color--disabled); } }
-      @supports (-webkit-touch-callout: none) {
-        .dnb-input__shell[data-input-state='disabled'] {
-          box-shadow: 0 0 0 var(--input-border-width) var(--input-border-color--disabled); } }
     .dnb-input__shell:not([data-input-state='disabled']):hover, .dnb-input__shell[data-input-state='focus'] {
       color: var(--input-text-color--focus);
       background-color: var(--input-background-color--focus);
-      box-shadow: 0 0 0 0.125rem var(--input-border-color--focus);
-      /* IE11 fix */
+      --border-color: var(--input-border-color--focus);
+      box-shadow: 0 0 0 0.125rem var(--border-color);
       border-color: transparent; }
+      @media screen and (-ms-high-contrast: none) {
+        .dnb-input__shell:not([data-input-state='disabled']):hover, .dnb-input__shell[data-input-state='focus'] {
+          box-shadow: 0 0 0 0.125rem var(--input-border-color--focus); } }
   .dnb-input:not([data-input-state='disabled']).dnb-input__submit-button svg {
     color: var(--color-sea-green); }
   .dnb-input__icon {
     color: var(--color-emerald-green); }
   .dnb-input__status--error .dnb-input__shell:not([data-input-state='focus']) {
-    box-shadow: 0 0 0 0.125rem var(--color-fire-red);
-    /* IE11 fix */
+    --border-color: var(--color-fire-red);
+    box-shadow: 0 0 0 0.125rem var(--border-color);
     border-color: transparent; }
-  .dnb-input__status--error .dnb-input__shell:not([data-input-state='focus']) ~ .dnb-input__submit-element .dnb-button__icon,
+    @media screen and (-ms-high-contrast: none) {
+      .dnb-input__status--error .dnb-input__shell:not([data-input-state='focus']) {
+        box-shadow: 0 0 0 0.125rem var(--color-fire-red); } }
   .dnb-input__status--error .dnb-input__shell:not([data-input-state='focus']) ~ .dnb-input__submit-element .dnb-button--secondary .dnb-button__icon {
     color: var(--color-fire-red); }
   .dnb-input__status--error .dnb-input__shell:not([data-input-state='focus']) ~ .dnb-input__submit-element .dnb-button {
-    box-shadow: 0 0 0 0.125rem var(--color-fire-red);
-    /* IE11 fix */
+    --border-color: var(--color-fire-red);
+    box-shadow: 0 0 0 0.125rem var(--border-color);
     border-color: transparent; }
+    @media screen and (-ms-high-contrast: none) {
+      .dnb-input__status--error .dnb-input__shell:not([data-input-state='focus']) ~ .dnb-input__submit-element .dnb-button {
+        box-shadow: 0 0 0 0.125rem var(--color-fire-red); } }
   .dnb-input__status--error,
   .dnb-input__status--error .dnb-input__shell[data-input-state='dirty'] {
     color: var(--color-fire-red); }
@@ -782,10 +837,10 @@ exports[`Input scss have to match snapshot 1`] = `
     width: inherit; }
   .dnb-icon svg[height='100%'] {
     height: inherit; }
-  .dnb-icon svg:not([fill]),
-  .dnb-icon svg [fill] {
+  .dnb-icon--inherit-color svg:not([fill]),
+  .dnb-icon--inherit-color svg [fill] {
     fill: currentColor; }
-  .dnb-icon svg [stroke] {
+  .dnb-icon--inherit-color svg [stroke] {
     stroke: currentColor; }
   .dnb-icon--small {
     font-size: 0.75rem; }
@@ -815,6 +870,10 @@ exports[`Input scss have to match snapshot 1`] = `
   h5 .dnb-icon,
   h6 .dnb-icon {
     vertical-align: middle; }
+  .dnb-icon.dnb-skeleton {
+    color: var(--skeleton-color) !important; }
+    .dnb-icon.dnb-skeleton::before, .dnb-icon.dnb-skeleton::after {
+      content: none !important; }
   @media screen and (-ms-high-contrast: none) {
     .dnb-icon {
       flex: none; } }
@@ -870,36 +929,42 @@ exports[`Input scss have to match snapshot 1`] = `
  * FormStatus component
  *
  */
+:root {
+  --form-status-radius: 0.25rem; }
+
 .dnb-form-status {
   display: flex; }
   .dnb-form-status__shell {
     display: flex;
     justify-content: flex-start;
     align-items: flex-start;
-    border-radius: var(--input-border-radius); }
-  .dnb-form-status--text {
-    padding: calc(0.5rem / 2) 1rem;
+    min-width: inherit;
+    border-radius: var(--form-status-radius); }
+  .dnb-form-status__text {
+    padding: 0.625rem 1rem;
     cursor: text;
     color: inherit;
-    line-height: var(--line-height-basis);
+    line-height: var(--line-height-small);
+    font-size: var(--font-size-small);
     white-space: normal; }
-    .dnb-form-status--text .dnb-anchor {
+    .dnb-form-status__text .dnb-anchor {
       font-size: inherit; }
-  .dnb-icon + .dnb-form-status--text {
+  .dnb-icon + .dnb-form-status__text {
     padding-left: 0.5rem; }
   .dnb-form-status__shell > .dnb-icon {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 1.5em;
-    height: 1.5em;
-    margin-top: 0.25em;
-    margin-left: 0.5em;
-    color: inherit;
-    font-size: var(--font-size-small); }
+    margin: 0.3333333em 0.3333333em 0.3333333em 0.6666666em; }
+  .dnb-form-status__size--large .dnb-form-status__text {
+    padding-top: 1.125rem;
+    padding-bottom: 1.125rem; }
+  .dnb-form-status__size--large .dnb-form-status__shell > .dnb-icon {
+    margin-top: 0.6666666em;
+    margin-bottom: 0.6666666em; }
   .dnb-form-status[hidden] {
     display: none; }
-  .dnb-form-status--fade-in {
+  .dnb-form-status__animation--fade-in {
     overflow: hidden;
     max-height: 0;
     animation: form-status-fade-in 2s ease-out 400ms forwards; }
@@ -1115,9 +1180,12 @@ exports[`Input scss have to match snapshot 1`] = `
     .dnb-button--reset:not([disabled]):focus, .dnb-button--reset:not([disabled]):active {
       outline: none; }
       html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):focus, html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):active {
-        box-shadow: 0 0 0 0.125rem var(--color-emerald-green);
-        /* IE11 fix */
+        --border-color: var(--color-emerald-green);
+        box-shadow: 0 0 0 0.125rem var(--border-color);
         border-color: transparent; }
+        @media screen and (-ms-high-contrast: none) {
+          html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):focus, html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):active {
+            box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
     html[data-whatinput='mouse'] .dnb-button--reset:not([disabled]):focus,
     html[data-whatinput='mouse'] .dnb-button--reset:not([disabled]):active {
       box-shadow: none;
@@ -1301,7 +1369,8 @@ legend.dnb-form-label {
   display: inline-flex;
   align-items: center;
   font-size: var(--input-font-small);
-  line-height: var(--input-height); }
+  line-height: var(--input-height);
+  text-align: left; }
   .dnb-input__inner {
     display: inline-flex;
     flex-direction: column;
@@ -1331,7 +1400,7 @@ legend.dnb-form-label {
     width: 100%;
     padding-left: var(--input-padding);
     padding-right: var(--input-padding);
-    text-align: left;
+    text-align: inherit;
     color: inherit;
     background-color: transparent;
     font-size: var(--input-font-size); }
@@ -1359,6 +1428,17 @@ legend.dnb-form-label {
   .dnb-input--has-submit-element .dnb-input__placeholder,
   .dnb-input--has-submit-element .dnb-input__input {
     padding-right: calc(var(--input-padding) * 2.5); }
+  .dnb-input--password .dnb-input__placeholder,
+  .dnb-input--password .dnb-input__input {
+    margin-right: 2.5rem;
+    padding-right: 0; }
+    .dnb-input--password .dnb-input__placeholder::-ms-clear,
+    .dnb-input--password .dnb-input__input::-ms-clear {
+      display: none; }
+  .dnb-input--password .dnb-input__placeholder {
+    padding-right: 4rem; }
+  .dnb-input--password .dnb-input__input {
+    font-family: var(--font-family-monospace); }
   .dnb-input__row {
     display: inline-flex;
     align-items: center; }

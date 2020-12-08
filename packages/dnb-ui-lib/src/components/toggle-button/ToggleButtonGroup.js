@@ -12,6 +12,8 @@ import {
   extendPropsWithContext,
   registerElement,
   validateDOMAttributes,
+  getStatusState,
+  combineDescribedBy,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
 import { createSpacingClasses } from '../space/SpacingHelper'
@@ -22,127 +24,119 @@ import Context from '../../shared/Context'
 import Suffix from '../../shared/helpers/Suffix'
 import ToggleButtonGroupContext from './ToggleButtonGroupContext'
 
-const renderProps = {
-  on_change: null
-}
-
-const propTypes = {
-  label: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-    PropTypes.node
-  ]),
-  label_direction: PropTypes.oneOf(['horizontal', 'vertical']),
-  label_sr_only: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  title: PropTypes.string,
-  multiselect: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  variant: PropTypes.oneOf(['default', 'checkbox', 'radio']),
-  left_component: PropTypes.node,
-  no_fieldset: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  id: PropTypes.string,
-  name: PropTypes.string,
-  status: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-    PropTypes.node
-  ]),
-  status_state: PropTypes.string,
-  status_animation: PropTypes.string,
-  global_status_id: PropTypes.string,
-  suffix: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-    PropTypes.node
-  ]),
-  vertical: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  layout_direction: PropTypes.oneOf(['column', 'row']),
-  value: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number,
-    PropTypes.object,
-    PropTypes.array
-  ]),
-  values: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
-  attributes: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-  class: PropTypes.string,
-
-  /// React props
-  className: PropTypes.string,
-  children: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-    PropTypes.node
-  ]),
-
-  // Web Component props
-  custom_element: PropTypes.object,
-  custom_method: PropTypes.func,
-  on_change: PropTypes.func
-}
-
-const defaultProps = {
-  label: null,
-  label_direction: null,
-  label_sr_only: null,
-  title: null,
-  multiselect: null,
-  variant: null,
-  left_component: null,
-  no_fieldset: null,
-  disabled: null,
-  id: null,
-  name: null,
-  status: null,
-  status_state: 'error',
-  status_animation: null,
-  global_status_id: null,
-  suffix: null,
-  vertical: null,
-  layout_direction: 'row',
-  value: undefined,
-  values: undefined,
-  attributes: null,
-  class: null,
-
-  // React props
-  className: null,
-  children: null,
-
-  // Web Component props
-  custom_element: null,
-  custom_method: null,
-  ...renderProps
-}
-
 export default class ToggleButtonGroup extends React.PureComponent {
   static tagName = 'dnb-toggle-button-group'
-  static propTypes = propTypes
-  static defaultProps = defaultProps
-  static renderProps = renderProps
   static contextType = Context
+
+  static propTypes = {
+    label: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.func,
+      PropTypes.node
+    ]),
+    label_direction: PropTypes.oneOf(['horizontal', 'vertical']),
+    label_sr_only: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    title: PropTypes.string,
+    multiselect: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    variant: PropTypes.oneOf(['default', 'checkbox', 'radio']),
+    left_component: PropTypes.node,
+    no_fieldset: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    id: PropTypes.string,
+    name: PropTypes.string,
+    status: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.func,
+      PropTypes.node
+    ]),
+    status_state: PropTypes.string,
+    status_animation: PropTypes.string,
+    global_status_id: PropTypes.string,
+    suffix: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.func,
+      PropTypes.node
+    ]),
+    vertical: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    layout_direction: PropTypes.oneOf(['column', 'row']),
+    value: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number,
+      PropTypes.object,
+      PropTypes.array
+    ]),
+    values: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
+    attributes: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+    class: PropTypes.string,
+
+    /// React props
+    className: PropTypes.string,
+    children: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.func,
+      PropTypes.node
+    ]),
+
+    custom_element: PropTypes.object,
+    custom_method: PropTypes.func,
+    on_change: PropTypes.func
+  }
+
+  static defaultProps = {
+    label: null,
+    label_direction: null,
+    label_sr_only: null,
+    title: null,
+    multiselect: null,
+    variant: null,
+    left_component: null,
+    no_fieldset: null,
+    disabled: null,
+    skeleton: null,
+    id: null,
+    name: null,
+    status: null,
+    status_state: 'error',
+    status_animation: null,
+    global_status_id: null,
+    suffix: null,
+    vertical: null,
+    layout_direction: 'row',
+    value: undefined,
+    values: undefined,
+    attributes: null,
+    class: null,
+
+    className: null,
+    children: null,
+
+    custom_element: null,
+    custom_method: null,
+    on_change: null
+  }
 
   static enableWebComponent() {
     registerElement(
       ToggleButtonGroup.tagName,
       ToggleButtonGroup,
-      defaultProps
+      ToggleButtonGroup.defaultProps
     )
   }
 
   static getDerivedStateFromProps(props, state) {
     if (state._listenForPropChanges) {
-      if (props.value !== state._value) {
+      if (
+        typeof props.value !== 'undefined' &&
+        props.value !== state.value
+      ) {
         state.value = props.value
       }
-      if (typeof props.value !== 'undefined') {
-        state._value = props.value
-      }
-      if (props.values !== state._values) {
+      if (
+        typeof props.values !== 'undefined' &&
+        props.values !== state.values
+      ) {
         state.values = ToggleButtonGroup.getValues(props)
-      }
-      if (typeof props.values !== 'undefined') {
-        state._values = props.values
       }
     }
     state._listenForPropChanges = true
@@ -163,6 +157,7 @@ export default class ToggleButtonGroup extends React.PureComponent {
     this._id = props.id || makeUniqueId() // cause we need an id anyway
     this._name = props.name || makeUniqueId() // cause we need an id anyway
     this.state = {
+      // do not set the value here, else get true in this check } else if (context.values && Array.isArray(context.values)) {
       _listenForPropChanges: true
     }
   }
@@ -170,19 +165,21 @@ export default class ToggleButtonGroup extends React.PureComponent {
   onChangeHandler = ({ value, event }) => {
     const { multiselect } = this.props
     const values = this.state.values || []
+
     if (isTrue(multiselect)) {
       if (!values.includes(value)) {
         values.push(value)
       } else {
         values.splice(values.indexOf(value), 1)
       }
-    } else {
-      this.setState({
-        value,
-        values,
-        _listenForPropChanges: false
-      })
     }
+
+    this.setState({
+      value,
+      values,
+      _listenForPropChanges: false
+    })
+
     dispatchCustomElementEvent(this, 'on_change', {
       value,
       values,
@@ -194,7 +191,7 @@ export default class ToggleButtonGroup extends React.PureComponent {
     // use only the props from context, who are available here anyway
     const props = extendPropsWithContext(
       this.props,
-      defaultProps,
+      ToggleButtonGroup.defaultProps,
       this.context.formRow,
       this.context.translation.ToggleButton
     )
@@ -214,6 +211,7 @@ export default class ToggleButtonGroup extends React.PureComponent {
       left_component,
       no_fieldset,
       disabled,
+      skeleton,
       className,
       class: _className,
 
@@ -234,7 +232,7 @@ export default class ToggleButtonGroup extends React.PureComponent {
     const { value, values } = this.state
 
     const id = this._id
-    const showStatus = status && status !== 'error'
+    const showStatus = getStatusState(status)
 
     const classes = classnames(
       'dnb-toggle-button-group',
@@ -252,9 +250,11 @@ export default class ToggleButtonGroup extends React.PureComponent {
     }
 
     if (showStatus || suffix) {
-      params['aria-describedby'] = `${showStatus ? id + '-status' : ''} ${
-        suffix ? id + '-suffix' : ''
-      }`
+      params['aria-describedby'] = combineDescribedBy(
+        params,
+        showStatus ? id + '-status' : null,
+        suffix ? id + '-suffix' : null
+      )
     }
     if (label) {
       params['aria-labelledby'] = id + '-label'
@@ -271,9 +271,10 @@ export default class ToggleButtonGroup extends React.PureComponent {
       variant,
       left_component,
       disabled,
+      skeleton,
       setContext: (context) => {
         // also look for a fuctions, we we are able to fill old values
-        // this is ued in the "constructor" inside the ToggleButton.js component
+        // this is used in the "constructor" inside the ToggleButton.js component
         if (typeof context === 'function') {
           context = context(this._tmp)
         }
@@ -295,6 +296,7 @@ export default class ToggleButtonGroup extends React.PureComponent {
       direction: label_direction,
       vertical,
       disabled,
+      skeleton,
       no_fieldset,
       skipContentWrapperIfNested: true
       // status,
@@ -315,10 +317,12 @@ export default class ToggleButtonGroup extends React.PureComponent {
                 <FormStatus
                   id={id + '-form-status'}
                   global_status_id={global_status_id}
+                  label={label}
                   text_id={id + '-status'} // used for "aria-describedby"
                   text={status}
                   status={status_state}
                   animation={status_animation}
+                  skeleton={skeleton}
                 />
               )}
 

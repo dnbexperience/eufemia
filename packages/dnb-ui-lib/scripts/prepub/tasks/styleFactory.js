@@ -119,7 +119,7 @@ const runFactory = async ({
       )
     }
   } catch (e) {
-    console.log('Error', e)
+    log.fail(e)
   }
 
   processToNamesList = processToNamesList.map((source) => ({

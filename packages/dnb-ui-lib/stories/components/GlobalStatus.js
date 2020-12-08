@@ -25,6 +25,10 @@ import {
 } from '../../src/elements'
 // import { GlobalStatusProvider } from '../../src/components/global-status/GlobalStatusContext'
 
+export default {
+  title: 'Eufemia/Components/GlobalStatus'
+}
+
 const CustomStatus = () => (
   <>
     <H2>Custom Status</H2>
@@ -32,86 +36,86 @@ const CustomStatus = () => (
   </>
 )
 
-export default [
-  'GlobalStatus',
-  () => (
-    <Wrapper>
-      <GlobalStatus />
+export const GlobalStatuseSandbox = () => (
+  <Wrapper>
+    <GlobalStatus />
+    <GlobalStatus
+      // title="Custom Title"
+      // text="Failure text"
+      // items={[
+      //   {
+      //     text: 'List item',
+      //     status_anchor_url: '/uilib/components/global-status'
+      //   }
+      // ]}
+      // show="true"
+      // no_animation="true"
+      // autoscroll="false"
+      id="demo-1"
+    />
+    <Box>
+      <UpdateDemo />
+    </Box>
+    <Box>
+      <DemoAnimation />
+    </Box>
+    <Box>
+      <NestedSections />
+    </Box>
+    <Box>
+      <ModalExample />
+    </Box>
+    <Box>
+      <SimulateSteps />
+    </Box>
+    <Box>
+      <InputWithError />
+    </Box>
+    <Box>
       <GlobalStatus
-        // title="Custom Title"
-        // text="Failure text"
-        // items={[
-        //   {
-        //     text: 'List item',
-        //     status_anchor_url: '/uilib/components/global-status'
-        //   }
-        // ]}
-        // show="true"
-        // no_animation="true"
-        // autoscroll="false"
-        id="demo-1"
-      />
-      <Box>
-        <DemoAnimation />
-      </Box>
-      <Box>
-        <NestedSections />
-      </Box>
-      <Box>
-        <ModalExample />
-      </Box>
-      <Box>
-        <SimulateSteps />
-      </Box>
-      <Box>
-        <InputWithError />
-      </Box>
-      <Box>
-        <GlobalStatus
-          show
-          no_animation
-          autoscroll="false"
-          state="info"
-          title="Custom Title"
-          id="custom-id"
-        >
-          <CustomStatus />
-        </GlobalStatus>
-      </Box>
-      <Box>
-        <Button
-          ref={scrollto_element}
-          text="Scroll To"
-          on_click={() => {
-            GlobalStatus.AddStatus({
-              id: 'demo-1',
-              // id: 'custom-status',
-              text:
-                'This is aDui consectetur viverra aenean vestibulum ac tristique sem ligula condimentum',
-              scrollto_element
-            })
-          }}
-          top="small"
-        />
-      </Box>
-      {/* <Box>
-        {false && <UpdateGlobalStatus />}
-        {true && (
-        <GlobalStatus.Add
-        title="New title"
-        on_close={props => {
-        console.log('on_close', props)
-      }}
+        show
+        no_animation
+        autoscroll="false"
+        state="info"
+        title="Custom Title"
+        id="custom-id"
       >
-      Long info text Ipsum habitant enim ullamcorper elit sit
-      elementum platea rutrum eu condimentum erat risus lacinia
-      viverra magnis lobortis nibh mollis suspendisse
-    </GlobalStatus.Add>
-  )}
-</Box> */}
-    </Wrapper>
-  )
-]
+        <CustomStatus />
+      </GlobalStatus>
+    </Box>
+    <Box>
+      <Button
+        ref={scrollto_element}
+        text="Scroll To"
+        on_click={() => {
+          GlobalStatus.Update({
+            id: 'demo-1',
+            // id: 'custom-status',
+            text:
+              'This is aDui consectetur viverra aenean vestibulum ac tristique sem ligula condimentum',
+            scrollto_element
+          })
+        }}
+        top="small"
+      />
+    </Box>
+    {/* <Box>
+      {false && <UpdateGlobalStatus />}
+      {true && (
+        <GlobalStatus.Add
+          title="New title"
+          on_close={(props) => {
+            console.log('on_close', props)
+          }}
+        >
+          Long info text Ipsum habitant enim ullamcorper elit sit elementum
+          platea rutrum eu condimentum erat risus lacinia viverra magnis
+          lobortis nibh mollis suspendisse
+        </GlobalStatus.Add>
+      )}
+    </Box> */}
+  </Wrapper>
+)
 
 const scrollto_element = React.createRef()
 
@@ -175,7 +179,7 @@ const ModalExample = () => (
     // width="80vw"
     on_open={() => {
       setTimeout(() => {
-        const status = GlobalStatus.AddStatus({
+        const status = GlobalStatus.Update({
           id: 'modal',
           status_id: 'custom-id-1',
           text: 'Second Text',
@@ -221,16 +225,6 @@ const SimulateSteps = () => {
   const [count, toggleUpdateStatus] = React.useState(0)
   return (
     <>
-      <Button
-        text={`Step #${count}`}
-        on_click={() => {
-          toggleUpdateStatus(count + 1)
-          if (count > 2) {
-            toggleUpdateStatus(0)
-          }
-        }}
-        top="small"
-      />
       <GlobalStatus
         id="custom-status"
         // autoscroll="false"
@@ -241,11 +235,22 @@ const SimulateSteps = () => {
         }}
         on_close={() => {
           console.log('on_close')
+          toggleUpdateStatus(0)
         }}
         on_hide={() => {
           console.log('on_hide')
           toggleUpdateStatus(0)
         }}
+      />
+      <Button
+        text={`Step #${count}`}
+        on_click={() => {
+          toggleUpdateStatus(count + 1)
+          if (count > 2) {
+            toggleUpdateStatus(0)
+          }
+        }}
+        top="small"
       />
       {count === 1 && (
         <>
@@ -419,16 +424,157 @@ const DemoAnimation = () => {
         items='["Status text 1", "Status text 2"]'
         // items={['Status text 1', 'Status text 2']}
         // items={items}
-        demo={showDemo}
+        // demo={showDemo}
         show={showDemo}
         autoscroll={false}
         // no_animation={true}
         // delay={0}
         id="demo-3"
-        // on_close={() => {
-        //   toggleShowDemo(false)
-        // }}
       />
     </>
+  )
+}
+
+const Context = React.createContext()
+
+const UpdateDemo = () => {
+  const [errorA, setErrorA] = React.useState()
+  const [errorB, setErrorB] = React.useState()
+
+  const [isVisible, setVisibility] = React.useState(false)
+
+  return (
+    <Context.Provider
+      value={{
+        errorA,
+        errorB,
+        setErrorA,
+        setErrorB,
+        isVisible,
+        setVisibility
+      }}
+    >
+      <UpdateDemoStatus />
+      <UpdateDemoTools />
+    </Context.Provider>
+  )
+}
+
+const UpdateDemoStatus = () => {
+  const { errorA, errorB, setErrorA, setErrorB } = React.useContext(
+    Context
+  )
+
+  return (
+    <>
+      <GlobalStatus
+        title="Custom Title"
+        text="Failure text"
+        id="demo-2"
+        // no_animation
+        // omit_set_focus
+        omit_set_focus_on_update
+      />
+      <Input
+        top
+        right
+        label="Label A:"
+        placeholder="Placeholder A"
+        status={errorA}
+        global_status_id="demo-2"
+        on_change={({ value }) => {
+          setErrorA(value)
+        }}
+      />
+      <Input
+        top
+        label="Label B:"
+        placeholder="Placeholder B"
+        status={errorB}
+        global_status_id="demo-2"
+        on_change={({ value }) => {
+          setErrorB(value)
+        }}
+      />
+    </>
+  )
+}
+
+const UpdateDemoTools = () => {
+  const {
+    errorA,
+    errorB,
+    setErrorA,
+    setErrorB,
+    isVisible,
+    setVisibility
+  } = React.useContext(Context)
+
+  const inst = React.useRef()
+
+  React.useEffect(() => {
+    if (!inst.current) {
+      inst.current = GlobalStatus.create({
+        id: 'demo-2',
+        title: 'New Title',
+        text: 'New Text',
+        status_id: 'custom-item',
+        show: false
+      })
+    }
+
+    inst.current.update({
+      show: isVisible
+    })
+  }, [isVisible])
+  React.useEffect(() => () => inst.current.remove(), [])
+
+  React.useEffect(
+    () =>
+      inst.current.update({
+        on_show: () => {
+          console.log('on_show')
+          if (!isVisible) {
+            showAsVisible(true)
+          }
+        },
+        on_hide: () => {
+          console.log('on_hide')
+          showAsVisible(false)
+        },
+        on_close: () => {
+          console.log('on_close')
+          showAsVisible(false)
+        }
+      }),
+    []
+  )
+
+  const [showAs, showAsVisible] = React.useState(isVisible)
+
+  return (
+    <Section top spacing style_type="divider">
+      <ToggleButton
+        text="Toggle"
+        variant="checkbox"
+        right
+        checked={showAs}
+        on_change={({ checked }) => {
+          setVisibility((s) => !s)
+          showAsVisible(checked)
+        }}
+      />
+      <Button
+        text="Reset"
+        variant="tertiary"
+        disabled={!(errorA || errorB)}
+        on_click={() => {
+          setErrorA(null)
+          setErrorB(null)
+          showAsVisible(false)
+          setVisibility(false)
+        }}
+      />
+    </Section>
   )
 }

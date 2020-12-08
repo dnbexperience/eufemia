@@ -5,7 +5,7 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import { css, Global } from '@emotion/core'
+import { css, Global } from '@emotion/react'
 import { StaticQuery, graphql } from 'gatsby'
 import { Helmet as Head } from 'react-helmet'
 import styled from '@emotion/styled'
@@ -181,7 +181,7 @@ const Toolbar = styled.div`
   }
 `
 
-const LastUpadted = styled.span`
+const LastUpdated = styled.span`
   display: block;
   font-size: var(--font-size-small);
 `
@@ -338,9 +338,9 @@ export default class MainMenu extends React.PureComponent {
                       about={
                         <>
                           {items['design-system'].description}
-                          <LastUpadted title="Last Change log update">
+                          <LastUpdated title="Last Change log update">
                             Updated: {buildVersion}
-                          </LastUpadted>
+                          </LastUpdated>
                         </>
                       }
                       icon={DesignSystemSvg}

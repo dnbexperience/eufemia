@@ -14,7 +14,7 @@ Eufemia may have an example code soon of using this [React adapter solution, use
 
 ## Angular v1
 
-Take a look at the [Example App on GitHub](https://github.com/dnbexperience/eufemia-examples/tree/master/packages/example-angular-1) using the `dnb-ui-lib` React Components.
+Take a look at the [Example App on GitHub](https://github.com/dnbexperience/eufemia-examples/tree/main/packages/example-angular-1) using the `dnb-ui-lib` React Components.
 This is an Example App to demo the usage of `dnb-ui-lib` in Angular _version 1.7.9_. To power the React usage, You could use [react2angular on NPM](https://www.npmjs.com/package/react2angular).
 
 The syntax looks a like:
@@ -43,7 +43,7 @@ ngEufemiaButton.directive('eufemiaButtonDirective', () => {
 
 ## Example
 
-Have a look at [this Angular 1 example app](https://github.com/dnbexperience/eufemia-examples/tree/master/packages/example-angular-1).
+Have a look at [this Angular 1 example app](https://github.com/dnbexperience/eufemia-examples/tree/main/packages/example-angular-1).
 
 ## Screenshot
 

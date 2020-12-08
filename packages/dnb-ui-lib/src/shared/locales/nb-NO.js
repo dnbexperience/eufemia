@@ -25,7 +25,7 @@ export default {
     GlobalStatus: {
       default_title: 'En feil har skjedd',
       close_text: 'Lukk',
-      status_anchor_text: 'Gå til'
+      status_anchor_text: 'Gå til %s'
     },
     GlobalError: {
       404: {
@@ -56,11 +56,16 @@ export default {
       indicator_label: 'Henter data ...'
     },
     Modal: {
-      close_title: 'Lukk',
-      more_info: 'Mer informasjon'
+      close_title: 'Lukk'
+    },
+    HelpButton: {
+      title: 'Hjelpetekst',
+      aria_role: 'Hjelp-knapp'
     },
     Input: {
-      submit_button_title: 'Send knapp'
+      submit_button_title: 'Send knapp',
+      show_password: 'Vis passord',
+      hide_password: 'Skjul passord'
     },
     Pagination: {
       button_title: 'Side %s',
@@ -70,8 +75,21 @@ export default {
       is_loading_text: 'Laster nytt innhold',
       load_button_text: 'Vis mer innhold'
     },
+    Skeleton: {
+      aria_bussy: 'Behandler data ...',
+      aria_ready: 'Klar til å samhandle'
+    },
     StepIndicator: {
       step_title: 'Steg %step av %count'
+    },
+    Slider: {
+      add_title: 'Øk (%s)',
+      subtract_title: 'Reduser (%s)'
+    },
+    PaymentCard: {
+      text_card_number: 'Kortnummer',
+      text_expired: 'Utgått',
+      text_blocked: 'Sperret'
     },
     Logo: {
       alt: 'DNB Logo'

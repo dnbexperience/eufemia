@@ -11,16 +11,11 @@ import styled from '@emotion/styled'
 // How to use masks: https://github.com/text-mask/text-mask/blob/master/componentDocumentation.md#readme
 // import createNumberMask from 'dnb-ui-lib/src/components/input-masked/addons/createNumberMask'
 
-class Example extends React.PureComponent {
-  render() {
-    return (
-      <React.Fragment>
-        <ComponentBox
-          title="Using the `currency_mask`"
-          data-dnb-test="input-masked-currency_mask"
-        >
-          {
-            /* @jsx */ `
+export const InputMaskedExampleCurrencyMask = () => (
+  <Wrapper>
+    <ComponentBox data-visual-test="input-masked-currency_mask">
+      {
+        /* @jsx */ `
 <FormRow vertical>
   <InputMasked
     label="Right aligned:"
@@ -41,11 +36,16 @@ class Example extends React.PureComponent {
   />
 </FormRow>
           `
-          }
-        </ComponentBox>
-        <ComponentBox title="Making a custom currency mask">
-          {
-            /* @jsx */ `
+      }
+    </ComponentBox>
+  </Wrapper>
+)
+
+export const InputMaskedExampleCustomMask = () => (
+  <Wrapper>
+    <ComponentBox>
+      {
+        /* @jsx */ `
 <InputMasked
   label="Masked amount:"
   show_mask
@@ -60,14 +60,16 @@ class Example extends React.PureComponent {
   }}
 />
           `
-          }
-        </ComponentBox>
-        <ComponentBox
-          title="Using the `number_mask` - combined suffix"
-          data-dnb-test="input-masked-number_mask"
-        >
-          {
-            /* @jsx */ `
+      }
+    </ComponentBox>
+  </Wrapper>
+)
+
+export const InputMaskedExampleNumberMask = () => (
+  <Wrapper>
+    <ComponentBox title="" data-visual-test="input-masked-number_mask">
+      {
+        /* @jsx */ `
 <InputMasked
   label="Masked input:"
   value="1000000"
@@ -81,11 +83,16 @@ class Example extends React.PureComponent {
   }}
 />
           `
-          }
-        </ComponentBox>
-        <ComponentBox title="Using the `number_mask` and a prefix">
-          {
-            /* @jsx */ `
+      }
+    </ComponentBox>
+  </Wrapper>
+)
+
+export const InputMaskedExamplePrefix = () => (
+  <Wrapper>
+    <ComponentBox>
+      {
+        /* @jsx */ `
 <InputMasked
   label="Masked input:"
   number_mask={{
@@ -99,14 +106,16 @@ class Example extends React.PureComponent {
   }}
 />
           `
-          }
-        </ComponentBox>
-        <ComponentBox
-          title="Phone Number, starting with 4"
-          data-dnb-test="input-masked-phone"
-        >
-          {
-            /* @jsx */ `
+      }
+    </ComponentBox>
+  </Wrapper>
+)
+
+export const InputMaskedExamplePhone = () => (
+  <Wrapper>
+    <ComponentBox data-visual-test="input-masked-phone">
+      {
+        /* @jsx */ `
 <InputMasked
   label="Masked input:"
   mask={[
@@ -127,18 +136,17 @@ class Example extends React.PureComponent {
     /\\d/,
     /\\d/
   ]}
-  show_mask="true"
+  show_mask
+  keep_char_positions
   on_change={(e) => {
     console.log('e', e)
   }}
 />
           `
-          }
-        </ComponentBox>
-      </React.Fragment>
-    )
-  }
-}
+      }
+    </ComponentBox>
+  </Wrapper>
+)
 
 const Wrapper = styled.div`
   display: block;
@@ -151,12 +159,3 @@ const Wrapper = styled.div`
     margin-top: 0;
   }
 `
-
-export { Example }
-export default function StyledExample() {
-  return (
-    <Wrapper>
-      <Example />
-    </Wrapper>
-  )
-}

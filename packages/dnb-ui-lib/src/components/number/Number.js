@@ -18,10 +18,9 @@ import {
   extend
 } from '../../shared/component-helper'
 import {
-  insertElementBeforeSelection,
   getSelectedText,
-  getSelectedElement,
   copyToClipboard,
+  insertElementBeforeSelection,
   hasSelectedText,
   IS_IOS,
   IS_MAC,
@@ -29,167 +28,151 @@ import {
   IS_IE11
 } from '../../shared/helpers'
 import { createSpacingClasses } from '../space/SpacingHelper'
-import { createShortcut } from '../../shared/libs/Shortcuts'
 
 const NUMBER_CHARS = '-0-9,.'
 
-const renderProps = {}
-
-const propTypes = {
-  value: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  locale: PropTypes.string,
-  prefix: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.node,
-    PropTypes.func
-  ]),
-  suffix: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.node,
-    PropTypes.func
-  ]),
-
-  // currency
-  currency: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
-  currency_display: PropTypes.string,
-  currency_position: PropTypes.oneOf(['auto', 'before', 'after']),
-
-  // bank account number
-  ban: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
-
-  // national identification number
-  nin: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
-
-  // phone number
-  phone: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
-
-  // organization number
-  org: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
-
-  // can be tel or sms
-  link: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
-
-  options: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
-  decimals: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  selectall: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
-  element: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
-  class: PropTypes.string,
-
-  // React props
-  className: PropTypes.string,
-  children: PropTypes.oneOfType([PropTypes.node, PropTypes.func])
-}
-
-const defaultProps = {
-  value: null,
-  locale: null,
-  prefix: null,
-  sufix: null,
-  currency: null,
-  currency_display: null, // code, name, symbol
-  currency_position: null, // null, before, after
-  ban: null,
-  nin: null,
-  phone: null,
-  org: null,
-  link: null,
-
-  options: null,
-  decimals: null,
-  selectall: true,
-  element: 'span', // span or abbr
-  class: null,
-
-  // React props
-  className: null,
-  children: null,
-
-  // Web Component props
-  ...renderProps
-}
-
 export default class Number extends React.PureComponent {
   static tagName = 'dnb-number'
-  static propTypes = propTypes
-  static defaultProps = defaultProps
   static contextType = Context
 
+  static propTypes = {
+    id: PropTypes.string,
+    value: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    locale: PropTypes.string,
+    prefix: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
+    suffix: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
+
+    // currency
+    currency: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    currency_display: PropTypes.string,
+    currency_position: PropTypes.oneOf(['auto', 'before', 'after']),
+
+    // bank account number
+    ban: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+
+    // national identification number
+    nin: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+
+    // phone number
+    phone: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+
+    // organization number
+    org: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+
+    // can be tel or sms
+    link: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+
+    options: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
+    decimals: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    selectall: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    copy_selection: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool
+    ]),
+    omit_rounding: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    clean: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    element: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    class: PropTypes.string,
+
+    className: PropTypes.string,
+    children: PropTypes.oneOfType([PropTypes.node, PropTypes.func])
+  }
+  static defaultProps = {
+    id: null,
+    value: null,
+    locale: null,
+    prefix: null,
+    suffix: null,
+    currency: null,
+    currency_display: null, // code, name, symbol
+    currency_position: null, // null, before, after
+    ban: null,
+    nin: null,
+    phone: null,
+    org: null,
+    link: null,
+    options: null,
+    decimals: null,
+    selectall: true,
+    copy_selection: true,
+    omit_rounding: null,
+    clean: null,
+    element: 'span', // span or abbr
+    class: null,
+
+    className: null,
+    children: null
+  }
+
   static enableWebComponent() {
-    registerElement(Number.tagName, Number, defaultProps)
+    registerElement(Number.tagName, Number, Number.defaultProps)
   }
 
   constructor(props) {
     super(props)
     this._ref = React.createRef()
+    this._selectionRef = React.createRef()
+
+    this._id = props.id || makeUniqueId()
+    this.state = { selected: false }
   }
 
   componentDidMount() {
-    this.osShortcut = IS_WIN ? 'ctrl+c' : 'cmd+c'
+    clearTimeout(this._selectAllTimeout)
 
-    if (typeof window !== 'undefined') {
-      if (!window._shortcuts) {
-        window._shortcuts = new createShortcut()
-        // Firefox sometimes don't respond on the onCopy event
-        // But more importanly, Safari does not supprt onCopy event and custom copy at the same time
-        // therefore we use shortcuts as well
-        window._shortcuts.add(
-          this.osShortcut,
-          this.shortcutHandler
-          // null,
-          // this._ref.current
-        )
-        window._shortcuts._number = 1
-      } else {
-        window._shortcuts._number++
-      }
-    }
-
-    // NB: This h ack may be removed in future iOS versions
-    // in order that iOS v13 can select someting on the first try, we run this add range trick
+    // NB: This hack may be removed in future iOS versions
+    // in order that iOS v13 can select something on the first try, we run this add range trick
     if (IS_IOS && !hasiOSFix) {
       hasiOSFix = true
       runIOSSelectionFix()
     }
   }
-  componentWillUnmount() {
-    if (typeof window !== 'undefined' && window._shortcuts) {
-      window._shortcuts._number--
-      if (window._shortcuts._number === 0) {
-        window._shortcuts.remove(this.osShortcut)
-      }
+
+  shortcutHandler = () => {
+    const fx = createSelectionFX(this.cleanedValue)
+    fx.run()
+  }
+
+  onBlurHandler = () => {
+    this.setState({ selected: false })
+  }
+
+  onContextMenuHandler = () => {
+    if (!hasSelectedText()) {
+      clearTimeout(this._selectAllTimeout)
+      this._selectAllTimeout = setTimeout(() => {
+        this.setFocus()
+      }, 1)
     }
-  }
-
-  shortcutHandler = (e) => {
-    copySelectedNumber(e)
-  }
-
-  onCopyHandler = (e) => {
-    // NB: Safari can't copy during context menu copy
-    copySelectedNumber(e)
   }
 
   onClickHandler = () => {
     if (!hasSelectedText()) {
-      try {
+      this.setFocus()
+    }
+  }
+
+  setFocus() {
+    this.setState({ selected: true }, () => {
+      if (this._selectionRef.current) {
+        this._selectionRef.current.focus()
+      }
+      this.selectAll()
+    })
+  }
+
+  selectAll() {
+    try {
+      const elem = this._selectionRef.current || this._ref.current
+      if (elem) {
         const selection = window.getSelection()
         const range = document.createRange()
-        range.selectNodeContents(this._ref.current)
+        range.selectNodeContents(elem)
         selection.removeAllRanges()
         selection.addRange(range)
-
-        // Could work on IS_IOS, becaus of the user event
-        // if (IS_IOS) {
-        //   let { value, children } = this.props
-        //   if (children !== null) {
-        //     value = children
-        //   }
-        //   const cleanedNumber = cleanDirtyNumber(value)
-        //   copyNumber(cleanedNumber)
-        // }
-      } catch (e) {
-        warn(e)
       }
+    } catch (e) {
+      warn(e)
     }
   }
 
@@ -208,6 +191,7 @@ export default class Number extends React.PureComponent {
   render() {
     // consume the global context
     const {
+      id, // eslint-disable-line
       value: _value,
       prefix,
       suffix,
@@ -223,7 +207,10 @@ export default class Number extends React.PureComponent {
       options,
       locale,
       decimals,
+      omit_rounding,
+      clean,
       selectall,
+      copy_selection,
       element,
       class: _className,
       className,
@@ -247,7 +234,9 @@ export default class Number extends React.PureComponent {
       phone,
       org,
       decimals,
+      omit_rounding: isTrue(omit_rounding),
       options,
+      clean: isTrue(clean),
       returnAria: true
     }
 
@@ -257,7 +246,7 @@ export default class Number extends React.PureComponent {
         true,
         { locale: null, currency: null },
         this.context,
-        this.context.translation.Number
+        this.context.getTranslation(this.props).Number
       )
 
       if (useContext) {
@@ -275,14 +264,14 @@ export default class Number extends React.PureComponent {
       }
     }
 
-    let { number: display, aria, locale: lang } = format(
+    let { cleanedValue, number: display, aria, locale: lang } = format(
       value,
       formatOptions
     )
+    this.cleanedValue = cleanedValue
 
     const attributes = {
       ref: this._ref,
-      onCopy: this.onCopyHandler,
       className: classnames(
         'dnb-number',
         className,
@@ -290,21 +279,24 @@ export default class Number extends React.PureComponent {
         (isTrue(currency) || typeof currency === 'string') &&
           'dnb-number--currency',
         isTrue(selectall) && 'dnb-number--selectall',
+        this.state.selected && 'dnb-number--selected',
         link && 'dnb-anchor',
         createSpacingClasses(this.props)
       ),
       ...rest
     }
 
-    if (isTrue(selectall)) {
-      attributes.onClick = this.onClickHandler
-    }
+    /**
+     * Works in VoiceOver and NVDA
+     * Makes the span with it's roles etc. appear as text.
+     * Special useful if a number is in side e.g. a paragraph alongside with numbers
+     */
+    attributes['role'] = 'text'
 
-    if (IS_MAC) {
-      attributes['role'] = 'text'
-    } else {
-      attributes['role'] = 'textbox' // because NVDA is not reading aria-label on span's
-      attributes['aria-readonly'] = true
+    const displayParams = {}
+    if (isTrue(selectall) || isTrue(copy_selection)) {
+      displayParams.onClick = this.onClickHandler
+      displayParams.onContextMenu = this.onContextMenuHandler
     }
 
     validateDOMAttributes(this.props, attributes)
@@ -315,7 +307,11 @@ export default class Number extends React.PureComponent {
           {this.runFix(prefix, 'dnb-number__prefix')} {display}
         </>
       )
-      aria = `${convertJsxToString(prefix)} ${aria}`
+      aria = String(
+        `${convertJsxToString(
+          this.runFix(prefix, 'dnb-number__prefix')
+        )} ${aria}`
+      )
     }
     if (suffix) {
       display = (
@@ -323,12 +319,9 @@ export default class Number extends React.PureComponent {
           {display} {this.runFix(suffix, 'dnb-number__suffix')}
         </>
       )
-      aria = `${aria} ${convertJsxToString(suffix)}`
-    }
-
-    const additionalAttr = {}
-    if (aria !== display) {
-      additionalAttr['aria-label'] = aria
+      aria = `${aria} ${convertJsxToString(
+        this.runFix(suffix, 'dnb-number__suffix')
+      )}`
     }
 
     if (link) {
@@ -342,75 +335,52 @@ export default class Number extends React.PureComponent {
       )
     }
 
-    const NVDAFriendly = () => {
-      if (!this._id) {
-        this._id = makeUniqueId()
-      }
-      return (
-        <>
-          <Element
-            is={element}
-            aria-describedby={this._id}
-            aria-hidden
-            {...attributes}
-          >
-            {display}
-          </Element>
-          <span
-            id={this._id}
-            lang={lang}
-            className="dnb-number__sr-only dnb-sr-only--inline"
-          >
-            {aria}
-          </span>
-        </>
-      )
-    }
+    const Element = element
 
-    return IS_WIN ? (
-      <NVDAFriendly />
-    ) : (
-      <Element
-        is={element}
-        lang={lang}
-        {...additionalAttr}
-        {...attributes}
-      >
-        {display}
+    /**
+     * This approach is most NVDA friendly, and we used it now also for mac,
+     * because if the consistency and SSR JAM Stack build
+     */
+    return (
+      <Element lang={lang} {...attributes}>
+        <span
+          className="dnb-number__visible"
+          aria-describedby={this._id}
+          aria-hidden
+          {...displayParams}
+        >
+          {display}
+        </span>
+
+        <span
+          id={this._id}
+          className="dnb-number__sr-only dnb-sr-only--inline"
+        >
+          {aria}
+        </span>
+
+        {isTrue(copy_selection) && (
+          <span
+            className="dnb-number__selection dnb-no-focus"
+            ref={this._selectionRef}
+            tabIndex={-1}
+            onBlur={this.onBlurHandler}
+            onCopy={this.shortcutHandler}
+            aria-hidden
+          >
+            {cleanedValue}
+          </span>
+        )}
       </Element>
     )
   }
-}
-
-const Element = React.forwardRef(
-  ({ is: Element, children, ...rest }, ref) => (
-    <Element {...rest} ref={ref}>
-      {children}
-    </Element>
-
-    // Possible solution, but what about word wrapping?
-    // <input
-    //   {...rest}
-    //   size={children.length}
-    //   ref={ref}
-    //   readOnly
-    //   type="text"
-    //   defaultValue={children}
-    // />
-  )
-)
-Element.propTypes = {
-  is: PropTypes.string.isRequired,
-  children: PropTypes.node
-}
-Element.defaultProps = {
-  children: null
 }
 
 export const format = (
   value,
   {
     locale = null, // can be "auto"
+    clean = false,
     phone = null,
     org = null,
     ban = null,
@@ -419,12 +389,14 @@ export const format = (
     currency_display = CURRENCY_DISPLAY,
     currency_position = null,
     decimals = null,
+    omit_rounding = null,
     options = null,
     returnAria = false
   } = {}
 ) => {
   let display = value
   let aria = null
+  let type = 'number'
   const isCurrency = isTrue(currency) || typeof currency === 'string'
 
   // because we are using context comparison
@@ -448,41 +420,52 @@ export const format = (
     deci = 2
   }
   if (deci >= 0) {
+    const isNumber = typeof value === 'number'
     opts.minimumFractionDigits = deci
     opts.maximumFractionDigits = deci
-    value = String(cleanNumber(value))
+    value = String(clean ? cleanNumber(value) : value)
     const pos = value.indexOf('.')
-    if (pos > 0) {
+    if (pos > 0 && omit_rounding === true) {
       value = String(value).substr(0, pos + 1 + deci)
+    }
+    if (isNumber) {
+      value = parseFloat(value)
     }
   } else {
     opts.maximumFractionDigits = 20
   }
 
   if (isTrue(phone)) {
+    type = 'phone'
     const { number: _number, aria: _aria } = formatPhone(value, locale)
 
+    value = cleanNumber(value) // clean, because of +47 and ++47
     display = _number
     aria = _aria
   } else if (isTrue(ban)) {
+    type = 'ban'
     const { number: _number, aria: _aria } = formatBAN(value, locale)
 
     display = _number
     aria = _aria
   } else if (isTrue(nin)) {
+    type = 'nin'
     const { number: _number, aria: _aria } = formatNIN(value, locale)
 
     display = _number
     aria = _aria
   } else if (isTrue(org)) {
+    type = 'org'
     // organization number
     const { number: _number, aria: _aria } = formatORG(value, locale)
 
     display = _number
     aria = _aria
   } else if (isCurrency) {
-    // cleanup
-    let cleanedNumber = parseFloat(cleanNumber(value))
+    type = 'currency'
+    // cleanup, but only if it not got cleaned up already
+    let cleanedNumber =
+      deci >= 0 ? value : clean ? cleanNumber(value) : value
 
     // set currency options
     opts.currency =
@@ -506,14 +489,14 @@ export const format = (
 
     // aria options
     aria = formatNumber(cleanedNumber, locale, {
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 2,
       ...opts,
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 20,
       currencyDisplay: 'name'
     })
     aria = enhanceSR(cleanedNumber, aria, locale) // also calls cleanupMinus
 
-    // IE has a bug, where negative numbers has a parantese arround the number
+    // IE has a bug, where negative numbers has a parentese around the number
     if (IS_IE11) {
       display = display.replace(/^\((.*)\)$/, '-$1')
       aria = aria.replace(/^\((.*)\)$/, '-$1')
@@ -529,7 +512,7 @@ export const format = (
     display = formatNumber(value, locale, opts)
     display = cleanupMinus(display)
 
-    // fix for NDVA to make sure we read the number, we add a minium fraction digit (decimal)
+    // fix for NDVA to make sure we read the number, we add a minimum fraction digit (decimal)
     // NVDA fix
     aria = formatNumber(value, locale, {
       ...opts,
@@ -543,8 +526,26 @@ export const format = (
     aria = display
   }
 
-  // return "locale" as well, since we have to "auto" option
-  return returnAria ? { number: display, aria, locale } : display
+  const cleanedValue = formatNumber(
+    value,
+    locale,
+    opts,
+    ({ type, value }) => {
+      switch (type) {
+        case 'currency':
+        case 'group':
+        case 'literal':
+          return ''
+        default:
+          return value
+      }
+    }
+  )
+
+  // return "locale" as well value,l, since we have to "auto" option
+  return returnAria
+    ? { value, cleanedValue, number: display, aria, locale, type }
+    : display
 }
 
 const prepareCurrencyPosition = (display, position = null) => {
@@ -619,7 +620,7 @@ const enhanceSR = (value, aria) => {
   // Enhance VO support on mobile devices
   // Numbers under 99.999 are read out correctly, but only if we remove the spaces
   // Potential we could also check for locale: && /no|nb|nn/.test(locale)
-  // but leave it for now without this ectra check
+  // but leave it for now without this extra check
   if (IS_MAC && Math.abs(parseFloat(value)) <= 99999) {
     aria = String(aria).replace(/\s([0-9])/g, '$1')
   }
@@ -629,18 +630,31 @@ const enhanceSR = (value, aria) => {
   return aria
 }
 
-export const formatNumber = (number, locale, options = {}) => {
+export const formatNumber = (
+  number,
+  locale,
+  options = {},
+  formatter = null
+) => {
   try {
     if (
+      typeof Intl !== 'undefined' &&
+      typeof Intl.NumberFormat === 'function'
+    ) {
+      const inst = Intl.NumberFormat(locale, options)
+      if (formatter) {
+        return inst
+          .formatToParts(number)
+          .map((val) => formatter(val))
+          .reduce((str, part) => str + part)
+      } else {
+        return inst.format(number)
+      }
+    } else if (
       typeof Number !== 'undefined' &&
       typeof Number.toLocaleString === 'function'
     ) {
       return parseFloat(number).toLocaleString(locale, options)
-    } else if (
-      typeof Intl !== 'undefined' &&
-      typeof Intl.NumberFormat === 'function'
-    ) {
-      return Intl.NumberFormat(locale, options).format(number)
     }
   } catch (e) {
     warn(
@@ -795,7 +809,7 @@ export const formatNIN = (number, locale = null) => {
         .filter((s) => s)
         .join(' ')
 
-      // correct nim for screen redaers
+      // correct nim for screen readers
       aria = display
         .split(
           /([0-9]{2})([0-9]{2})([0-9]{2}) ([0-9]{1})([0-9]{1})([0-9]{1})([0-9]{1})([0-9]{1})/
@@ -812,36 +826,90 @@ export const formatNIN = (number, locale = null) => {
   return { number: display, aria }
 }
 
-export async function copySelectedNumber(e) {
-  const cleanedValue = getCleanedSelection(e)
+// Can be human number - https://en.wikipedia.org/wiki/Decimal_separator
+export function cleanNumber(num) {
+  if (typeof num === 'number') {
+    return num
+  }
+  num = String(num).trim()
 
-  if (cleanedValue) {
-    // If it is a currency, we could do that, but for other numbers like NIN, it does not do a good job
-    // if (
-    //   String(cleanedValue).indexOf('.') === -1 &&
-    //   !isNaN(parseFloat(cleanedValue))
-    // ) {
-    //   cleanedValue = `${cleanedValue}.0`
-    // }
+  // 1. Remove invalid chars on the beginning (not a number)
+  if (/^[^0-9-]/.test(num)) {
+    num.replace(/^(^[^0-9-]+)/, '')
+  }
 
-    if (e && typeof e.persist === 'function') {
-      e.persist()
-    }
+  // Find valid decimals
+  let usesThousand = ','
+  let usesDecimal = '\\.'
 
-    const success = await copyNumber(cleanedValue)
+  // -12 345,678
+  if (/(\s)([0-9]{3})/.test(num)) {
+    usesThousand = '\\s'
+    usesDecimal = ','
+  }
 
-    if (success === true) {
-      if (e && typeof e.preventDefault === 'function') {
-        // prevents the actuall copy
-        e.preventDefault()
-      }
-    } else {
-      warn(success)
-    }
+  // -12.345,678
+  else if (
+    /(\.)([0-9]{3})/.test(num) &&
+    !/([,'][0-9]{3})(\.)([0-9]{3})/.test(num) // just an additioanl check, for support with more
+  ) {
+    usesThousand = '\\.'
+    usesDecimal = ",|·|'" // also support Spain and CH
+  }
+
+  // -1,234,567.891
+  else if (/(,)([0-9]{3})/.test(num)) {
+    usesThousand = ','
+    usesDecimal = '\\.|·' // also support Spain
+  }
+
+  // -1'234'567.891, only used in CH
+  else if (/(')([0-9]{3})/.test(num)) {
+    usesThousand = "'"
+    usesDecimal = '\\.|,'
+  }
+
+  // 3. Remove invalid thousand separators
+  const thousandReg = new RegExp(
+    `([0-9]|)(${usesThousand})([0-9]{3})`,
+    'g'
+  )
+  if (thousandReg.test(num)) {
+    num = num.replace(thousandReg, '$1$3')
+  }
+
+  // 2. Rename invalid decimal separator
+  // Make sure that there are only two digits after the coma, then we clean that up.
+  // else we don't, because it can be a US number
+  // therefore, check first, is there a chance of being a decimal?
+  const decimalReg = new RegExp(`(${usesDecimal})([0-9]{1,2})`, 'g')
+  if (decimalReg.test(num)) {
+    num = num.replace(decimalReg, '.$2')
+  }
+
+  // Edge case, if we have more than 2 decimals, replace these decimals
+  const decimalBackup = new RegExp(`(${usesDecimal})([0-9]{3,})`, 'g')
+  if (decimalBackup.test(num)) {
+    num = num.replace(decimalBackup, '.$2')
+  }
+
+  // Remove all invalid chars
+  return num.replace(new RegExp(`([^${NUMBER_CHARS}])`, 'g'), '')
+}
+
+let hasiOSFix = false
+export function runIOSSelectionFix() {
+  try {
+    const selection = window.getSelection()
+    const range = document.createRange()
+    selection.removeAllRanges()
+    selection.addRange(range)
+  } catch (e) {
+    //
   }
 }
 
-export async function copyNumber(string) {
+export async function copyWithEffect(string) {
   let success = null
 
   if (string) {
@@ -860,18 +928,13 @@ export async function copyNumber(string) {
   return success
 }
 
-function getCleanedSelection() {
-  const selection = getSelectedText()
-  return cleanDirtyNumber(selection)
-}
-
 export function createSelectionFX(string) {
   let height = 32
   let left = 0
   let top = 0
   let elem // portalElem
 
-  // do that becuase getClientRects from selection is an experimental browser API
+  // do that because getClientRects from selection is an experimental browser API
   try {
     // getClientRects
     const cR = window.getSelection().getRangeAt(0).getClientRects()
@@ -886,7 +949,7 @@ export function createSelectionFX(string) {
   try {
     // create backup to get the position from
     if (!(top > 0) && !(left > 0)) {
-      // get a more precize position by inserting this empty node
+      // get a more precise position by inserting this empty node
       const posElem = document.createElement('span')
       posElem.setAttribute('class', 'dnb-number__fx__selection')
       insertElementBeforeSelection(posElem)
@@ -926,184 +989,4 @@ export function createSelectionFX(string) {
       }
     }
   })()
-}
-
-export function cleanDirtyNumber(value) {
-  value = String(value)
-
-  // give the user the option to opt out if he selects white space before and after
-  // later we check even more on that
-  if (/^[\s].*[\s]$/.test(value)) {
-    // console.info('Selection starts and ends with space', value) // debug
-    return false // invalid
-  }
-
-  value = value.trim()
-
-  // opt out if we got newlines
-  if (/\n|\r/.test(value)) {
-    // console.info('Selection had new lines', value) // debug
-    return false // invalid
-  }
-
-  // ok, there has to be some content
-  if (!(value.length > 0)) {
-    // console.info('Selection was to short', value) // debug
-    return false // invalid
-  }
-
-  let elem = getSelectedElement()
-
-  // also, check if we got other elements than our number element
-  if (
-    // stop if the selected elem is not the number component0
-    !/dnb-number/.test(elem.getAttribute('class')) &&
-    // and if no, then check if the value is not a pure number
-    !new RegExp(`[${NUMBER_CHARS}\\s]`).test(value)
-  ) {
-    // console.info('Selected elem was not the Number component', elem) // debug
-    return false // invalid
-  }
-
-  // if the element was a prefix or suffix, get the parent
-  if (/dnb-number__(pre|suf|sr)/.test(elem.getAttribute('class'))) {
-    elem = elem.parentElement
-  }
-
-  // Remove invalid selected text, because we have this for NVDA
-  if (IS_WIN) {
-    const invalidText = (
-      elem.querySelector('.dnb-sr-only--inline') || elem.nextSibling
-    )?.innerHTML
-    if (invalidText) {
-      value = value.replace(invalidText, '')
-    }
-  }
-
-  // Remove prefix and suffix content
-  const removePrefix = elem.querySelector('.dnb-number__prefix')?.innerHTML
-  if (removePrefix) {
-    value = value.replace(removePrefix, '').trim()
-  }
-  const remvoeSuffix = elem.querySelector('.dnb-number__suffix')?.innerHTML
-  if (remvoeSuffix) {
-    value = value.replace(remvoeSuffix, '').trim()
-  }
-
-  // now, also opt out if we have someting else then a number on both sides
-  if (new RegExp(`^[^${NUMBER_CHARS}].*[^${NUMBER_CHARS}]$`).test(value)) {
-    // console.info('Selection starts and ends with someting else than a number', value) // debug
-    return false // invalid
-  }
-
-  // limit the body, but to be above KID of 25
-  if (value.length > 30) {
-    // console.info('Selection was to long', value) // debug
-    return false // invalid
-  }
-
-  let cleanedValue = cleanNumber(value)
-
-  // contoll number
-  const num = parseFloat(cleanedValue)
-  if (isNaN(num)) {
-    // console.info('Number was invalid', cleanedValue) // debug
-    return false // invalid
-  }
-
-  // If it is a currency, and has no decimals, add zero
-  // if (elem.querySelector('.dnb-number--currency')) {
-  //   if (String(num).indexOf('.') === -1) {
-  //     return cleanedValue
-  //   }
-  // }
-
-  // Ff the number not starts with 0, then use the controll number
-  if (/^0/.test(cleanedValue)) {
-    return cleanedValue
-  }
-
-  // This is the defualt return
-  return cleanedValue
-}
-
-// Can be human number - https://en.wikipedia.org/wiki/Decimal_separator
-export function cleanNumber(num) {
-  if (typeof num === 'number') {
-    return num
-  }
-  num = String(num).trim()
-
-  // 1. Remove invalid chars on the beginning (not a number)
-  if (/^[^0-9-]/.test(num)) {
-    num.replace(/^(^[^0-9-]+)/, '')
-  }
-
-  // Find valid decimals
-  let usesThousand = '\\.'
-  let usesDecimal = ','
-
-  // -12 345,678
-  if (/(\s)([0-9]{3})/.test(num)) {
-    usesThousand = '\\s'
-    usesDecimal = ','
-
-    // -12.345,678
-  } else if (
-    /(\.)([0-9]{3})/.test(num) &&
-    !/([,'][0-9]{3})(\.)([0-9]{3})/.test(num) // just an additioanl check, for support with more
-  ) {
-    usesThousand = '\\.'
-    usesDecimal = ",|·|'" // also support Spain and CH
-
-    // -1,234,567.891
-  } else if (/(,)([0-9]{3})/.test(num)) {
-    usesThousand = ','
-    usesDecimal = '\\.|·' // also support Spain
-  }
-
-  // -1'234'567.891, only used in CH
-  else if (/(')([0-9]{3})/.test(num)) {
-    usesThousand = "'"
-    usesDecimal = '\\.|,'
-  }
-
-  // 3. Remove invalid thousand seperators
-  const thousandReg = new RegExp(
-    `([0-9]|)(${usesThousand})([0-9]{3})`,
-    'g'
-  )
-  if (thousandReg.test(num)) {
-    num = num.replace(thousandReg, '$1$3')
-  }
-
-  // 2. Rename invalid decimal separator
-  // Make sure that there are only two digits after the coma, then we clean that up.
-  // else we dont, because it can be a US number
-  // therefore, check first, is there a chance of beeing a decimal?
-  const decimalReg = new RegExp(`(${usesDecimal})([0-9]{1,2})`, 'g')
-  if (decimalReg.test(num)) {
-    num = num.replace(decimalReg, '.$2')
-  }
-
-  // Edge case, if we have more than 2 decimals, replace these decimals
-  const decimalBackup = new RegExp(`(${usesDecimal})([0-9]{3,})`, 'g')
-  if (decimalBackup.test(num)) {
-    num = num.replace(decimalBackup, '.$2')
-  }
-
-  // Remove all invalid chars
-  return num.replace(new RegExp(`([^${NUMBER_CHARS}])`, 'g'), '')
-}
-
-let hasiOSFix = false
-export function runIOSSelectionFix() {
-  try {
-    const selection = window.getSelection()
-    const range = document.createRange()
-    selection.removeAllRanges()
-    selection.addRange(range)
-  } catch (e) {
-    //
-  }
 }

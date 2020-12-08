@@ -14,11 +14,6 @@ import {
 import Component from '../FormRow'
 import Input from '../../input/Input'
 
-// just to make sure we re-run the test in watch mode due to changes in theese files
-import _form_row from '../style/_form-row.scss' // eslint-disable-line
-import dnb_form_row from '../style/dnb-form-row.scss' // eslint-disable-line
-import dnb_form_row_theme_ui from '../style/themes/dnb-form-row-theme-ui.scss' // eslint-disable-line
-
 const props = fakeProps(require.resolve('../FormRow'), {
   optional: true
 })

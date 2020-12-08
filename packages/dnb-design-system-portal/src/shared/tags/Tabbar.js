@@ -5,12 +5,12 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import { css } from '@emotion/core'
+import { css } from '@emotion/react'
 import { parsePath, navigate } from 'gatsby'
-import { Heading, Button, Tabs } from 'dnb-ui-lib/src/components'
-// import { H1 } from 'dnb-ui-lib/src/elements'
+import { Button, Tabs } from 'dnb-ui-lib/src/components'
 import { fullscreen as fullscreenIcon } from 'dnb-ui-lib/src/icons/secondary_icons'
 import { CloseButton } from 'dnb-ui-lib/src/components/modal'
+import AutoLinkHeader from './AutoLinkHeader'
 
 export default function Tabbar({
   location,
@@ -96,27 +96,25 @@ export default function Tabbar({
   ].join('')
 
   return (
-    <>
-      {title && (
-        <Heading level={1} skip_correction>
-          {title}
-        </Heading>
-      )}
+    <div className="dnb-tabbar">
+      <AutoLinkHeader className="dnb-no-focus" level={1} skip_correction>
+        {title}
+      </AutoLinkHeader>
       <Tabs
+        id="tabbar"
         data={preparedTabs}
         selected_key={selectedKey}
         on_change={({ key }) => navigate(key)}
         render={({ Wrapper, Content, TabsList, Tabs }) => {
           return (
             <Wrapper css={tabsWrapperStyle}>
-              <TabsList
-              // className="dnb-section dnb-section--white"
-              >
+              <TabsList>
                 <Tabs />
                 {wasFullscreen ? (
                   <CloseButton
-                    on_click={quitFullscreen}
                     title="Quit Fullscreen"
+                    on_click={quitFullscreen}
+                    style_type="cross"
                   />
                 ) : (
                   <Button
@@ -124,6 +122,7 @@ export default function Tabbar({
                     variant="secondary"
                     title="Fullscreen"
                     icon={fullscreenIcon}
+                    className="fullscreen"
                   />
                 )}
               </TabsList>
@@ -133,7 +132,7 @@ export default function Tabbar({
           )
         }}
       />
-    </>
+    </div>
   )
 }
 
@@ -157,8 +156,14 @@ Tabbar.defaultProps = {
   hideTabs: null,
   children: null
 }
+Tabbar.ContentWrapper = (props) => (
+  <Tabs.ContentWrapper id="tabbar" {...props} />
+)
 
 const tabsWrapperStyle = css`
+  .dnb-tabs__tabs {
+    justify-content: space-between;
+  }
   .fullscreen-page & {
     top: 0;
     .is-sticky .dnb-tabs__tabs {
@@ -170,21 +175,27 @@ const tabsWrapperStyle = css`
     top: auto; /* to force the button to center */
     right: auto;
   }
+  .dnb-tabs__tabs .dnb-button.dnb-modal__close-button,
+  .dnb-tabs__tabs .dnb-button.fullscreen {
+    margin-left: 1rem;
+  }
   .dnb-tabs__tabs .dnb-button--secondary {
     box-shadow: none;
     background-color: transparent;
   }
 
-  ${'' /* &::before {
-    content: '';
-    position: absolute;
-    z-index: 1;
-    height: 17rem;
-    width: 100%;
-    top: 0;
-    left: 0;
-    background: white;
-  } */}
+  @media screen and (max-width: 40em) {
+    ${
+      '' /* .dnb-tabs__tabs {
+      NB: Now this gets handled automatically
+      margin: 0 -2rem;
+      padding: 0 2rem;
+    } */
+    }
+    .dnb-tabs__tabs .dnb-button.fullscreen {
+      display: none;
+    }
+  }
 `
 
 const cleanPath = (p) => p.replace(/(&|\?)$/, '')

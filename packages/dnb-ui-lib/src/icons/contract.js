@@ -4,7 +4,14 @@ import React from 'react'
 
 function contract(props) {
   return (
-    <svg width={16} height={16} viewBox="0 0 16 16" fill="none" {...props}>
+    <svg
+      width={16}
+      height={16}
+      viewBox="0 0 16 16"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      {...props}
+    >
       <path
         d="M9.84198 11.248L9.44812 14.509C9.41503 14.6877 9.5022 14.8671 9.66313 14.9515C9.82406 15.0359 10.0212 15.0056 10.1494 14.8767L11.2837 13.7431L12.418 14.8767C12.5463 15.0052 12.7433 15.0353 12.9041 14.951C13.065 14.8667 13.1524 14.6877 13.1198 14.509L12.721 11.2256"
         stroke="black"

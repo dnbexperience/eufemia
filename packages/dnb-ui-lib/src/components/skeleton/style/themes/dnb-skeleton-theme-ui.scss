@@ -1,0 +1,87 @@
+/*
+ * Skeleton Theme
+ *
+ */
+
+:root {
+  --skeleton-delay: 2s;
+  --skeleton-color: var(--color-black-8);
+  --skeleton-color--contrast: var(--color-white);
+}
+
+.dnb-skeleton {
+  img,
+  video {
+    filter: brightness(0%) contrast(0%) opacity(0.5);
+  }
+
+  &--shape#{&}::before {
+    background-color: var(--skeleton-color) !important; // to take presence
+  }
+
+  // Lines
+  &--shape#{&}::after,
+  &--lines &--shape#{&}::after,
+  &--lines#{&}--shape#{&}::after {
+    background-image: repeating-linear-gradient(
+      -45deg,
+      var(--skeleton-color--contrast) 1px 2px,
+      transparent 0 6px
+    ) !important;
+    background-repeat: repeat !important;
+    background-size: 100% !important; // to take presence
+
+    clip-path: polygon(100% 0, 100% 0, 100% 100%, 100% 100%);
+    animation: skeletonLinearAnimation 1.5s linear infinite
+      var(--skeleton-delay);
+  }
+
+  // Font
+  &--font-only,
+  &--font,
+  &--font &--show-font,
+  &--font .dnb-p {
+    // Additional changes
+    &::marker {
+      color: var(--skeleton-color);
+    }
+  }
+  // Font with Lines
+  &--font,
+  &--font &--show-font,
+  &--font .dnb-p {
+    background-image: repeating-linear-gradient(
+      -45deg,
+      var(--skeleton-color--contrast) 1px 2px,
+      transparent 0 6px
+    ) !important;
+
+    --border-color: var(--skeleton-color);
+    background-color: var(--skeleton-color) !important;
+
+    background-position-x: 30rem;
+    animation: skeletonFontAnimation 2s linear infinite
+      var(--skeleton-delay);
+  }
+}
+
+@keyframes skeletonLinearAnimation {
+  0% {
+    clip-path: polygon(100% 0, 100% 0, 100% 100%, 100% 100%);
+  }
+  50% {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+  }
+  100% {
+    clip-path: polygon(0 0, 0% 0, 0% 100%, 0 100%);
+  }
+}
+
+@keyframes skeletonFontAnimation {
+  0% {
+    background-position-x: 30rem;
+  }
+  100% {
+    background-position-x: -30rem;
+  }
+}

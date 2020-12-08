@@ -6,28 +6,15 @@
 import React from 'react'
 import {
   mount,
-  // render,
   axeComponent,
   toJson,
   loadScss
 } from '../../../core/jest/jestSetup'
-import Heading from '../Heading'
-import {
-  resetLevels,
-  setNextLevel
-  // , resetAllLevels
-} from '../Heading'
+import Heading, { resetLevels, setNextLevel } from '../Heading'
+
 import H3 from '../../../elements/H3'
 
-// just to make sure we re-run the test in watch mode due to changes in theese files
-import _heading from '../style/_heading.scss' // eslint-disable-line
-import dnb_heading from '../style/dnb-heading.scss' // eslint-disable-line
-
 const warn = jest.fn()
-
-// beforeEach(() => {
-//   render(<Heading.Reset />)
-// })
 
 class StateChanges extends React.PureComponent {
   constructor(props) {

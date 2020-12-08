@@ -6,27 +6,38 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { CacheProvider } from '@emotion/core'
+import { CacheProvider } from '@emotion/react'
 import createEmotionCache from '@emotion/cache'
 
-import EufemiaProvider from 'dnb-ui-lib/src/shared/Provider'
+import { Provider as EufemiaProvider } from 'dnb-ui-lib/src/shared'
+import enUS from 'dnb-ui-lib/src/shared/locales/en-US'
 import stylisPlugin from 'dnb-ui-lib/src/style/stylis'
+import { isTrue } from 'dnb-ui-lib/src/shared/component-helper'
 
 import cssVars from 'css-vars-ponyfill'
 
-// run the polifills because of the dynamic menu changes
+// run the polyfill because of the dynamic menu changes
 cssVars()
 
 const emotionCache = createEmotionCache({
+  key: 'portal',
   stylisPlugins: [stylisPlugin]
 })
 
 // Optional, use a Provider
-export const rootElement = ({ element }) => (
-  <CacheProvider value={emotionCache}>
-    <EufemiaProvider locale={getLang()}>{element}</EufemiaProvider>
-  </CacheProvider>
-)
+export const rootElement = ({ element }) => {
+  return (
+    <CacheProvider value={emotionCache}>
+      <EufemiaProvider
+        skeleton={getSkeletonEnabled()} // To simulate a whole page skeleton
+        locale={getLang()}
+        locales={enUS}
+      >
+        {element}
+      </EufemiaProvider>
+    </CacheProvider>
+  )
+}
 rootElement.propTypes = {
   element: PropTypes.node.isRequired
 }
@@ -48,4 +59,21 @@ export function setLang(locale) {
   } catch (e) {
     //
   }
+}
+export function getSkeletonEnabled() {
+  if (
+    typeof window !== 'undefined' &&
+    window.location.search.includes('skeleton')
+  ) {
+    return true
+  }
+  if (global.IS_TEST) {
+    return false
+  }
+  try {
+    return isTrue(window.localStorage.getItem('skeleton-enabled'))
+  } catch (e) {
+    //
+  }
+  return false
 }

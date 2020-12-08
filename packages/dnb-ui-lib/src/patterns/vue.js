@@ -4,7 +4,7 @@
  */
 
 import { VuePlugin } from 'vuera'
-import { getComponents } from './lib'
+import { getComponents } from './components/lib'
 
 export * from './index'
 

@@ -7,6 +7,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Wrapper, Box } from '../helpers'
 import styled from '@emotion/styled'
+import { css, Global } from '@emotion/react'
 
 import {
   Space,
@@ -18,143 +19,86 @@ import {
 } from '../../src/components'
 import { H1, H2 } from '../../src/elements'
 import Provider from '../../src/shared/Provider'
+// import { createSpacingClasses } from '../../src/components/space/SpacingHelper'
 
-export default [
-  'Space',
-  () => (
-    <Wrapper>
-      <Box>
-        <CustomStyle>
-          <VisualSpace>
-            {/* <MagicBox top="medium" /> */}
-            <Space top="large x-small">
-              <Input label="Input:" />
-            </Space>
-          </VisualSpace>
-        </CustomStyle>
-      </Box>
-      <Box>
-        <Provider
-          space={{
-            no_collapse: true
-          }}
-        >
-          <Collapsing bottom="small">
-            <H1>H1</H1>
-          </Collapsing>
-          <Collapsing top="large">
-            <H2>H2</H2>
-          </Collapsing>
-        </Provider>
-      </Box>
-      <Box>
-        <Collapsing bottom="small" no_collapse={true}>
-          <div>
-            I have <code className="dnb-code">bottom="small"</code>
-          </div>
+export default {
+  title: 'Eufemia/Components/Space'
+}
+
+export const SpaceSandbox = () => (
+  <Wrapper skipCoreStyle>
+    <Global
+      styles={css`
+        :root {
+          --spacing-modifier: 1;
+          --spacing-xx-small: calc(0.25rem * var(--spacing-modifier));
+          --spacing-x-small: calc(0.5rem * var(--spacing-modifier));
+          --spacing-small: calc(1rem * var(--spacing-modifier));
+          --spacing-medium: calc(1.5rem * var(--spacing-modifier));
+          --spacing-large: calc(2rem * var(--spacing-modifier));
+          --spacing-x-large: calc(3rem * var(--spacing-modifier));
+          --spacing-xx-large: calc(3.5rem * var(--spacing-modifier));
+        }
+      `}
+    />
+
+    <code>With dnb-core-style</code>
+    <div className="dnb-core-style">
+      <TestCase />
+    </div>
+
+    <code>Without</code>
+    <TestCase />
+    <Box>
+      <CustomStyle>
+        <VisualSpace>
+          {/* <MagicBox top="medium" /> */}
+          <Space top="large x-small">
+            <Input label="Input:" />
+          </Space>
+        </VisualSpace>
+      </CustomStyle>
+    </Box>
+    <Box>
+      <Provider
+        space={{
+          no_collapse: true
+        }}
+      >
+        <Collapsing bottom="small">
+          <H1>H1</H1>
         </Collapsing>
         <Collapsing top="large">
-          <div>
-            I have <code className="dnb-code">top="large"</code>
-          </div>
+          <H2>H2</H2>
         </Collapsing>
-      </Box>
-      <Box>
-        <CustomStyle>
-          <Space top="0.5">
-            <MagicBox />
-          </Space>
-          <Space top="1">
-            <MagicBox />
-          </Space>
-          <Space top="1.5">
-            <MagicBox />
-          </Space>
-          <Space top="2">
-            <MagicBox />
-          </Space>
-          <Space top="2.5">
-            <MagicBox />
-          </Space>
-          <Space top="3">
-            <MagicBox />
-          </Space>
-          <Space top="3.5">
-            <MagicBox />
-          </Space>
-          <Space top="4">
-            <MagicBox />
-          </Space>
-          <Space top="4.5">
-            <MagicBox />
-          </Space>
-          <Space top="5">
-            <MagicBox />
-          </Space>
-          <Space top="5.5">
-            <MagicBox />
-          </Space>
-          <Space top="6">
-            <MagicBox />
-          </Space>
-          <Space top="6.5">
-            <MagicBox />
-          </Space>
-          <Space top="7">
-            <MagicBox />
-          </Space>
-          <Space top="7.5">
-            <MagicBox />
-          </Space>
-          <Space top="8">
-            <MagicBox />
-          </Space>
-          <Space top="8.5">
-            <MagicBox />
-          </Space>
-          <Space top="9">
-            <MagicBox />
-          </Space>
-          <Space top="9.5">
-            <MagicBox />
-          </Space>
-          <Space top="10" bottom="1">
-            <MagicBox />
-          </Space>
-          {/* <Space top="large large large large large x-small">
-            <MagicBox />
-          </Space> */}
-          {/* <Space top="medium x-large medium x-small">
-            <MagicBox />
-          </Space>
-          <Space top="1 2">
-            <MagicBox />
-          </Space>
-          <Space top="large x-small">
-            <MagicBox />
-          </Space>
-          <Space top="2.5">
-            <MagicBox />
-          </Space>
-          <Space top="2rem 0.5rem">
-            <MagicBox />
-          </Space>
-          <Space top="32px">
-            <MagicBox />
-          </Space>
-          <FormRow top="large x-small">
-            <MagicBox />
-          </FormRow> */}
-        </CustomStyle>
-      </Box>
-    </Wrapper>
-  )
-]
+      </Provider>
+    </Box>
+    <Box>
+      <Collapsing bottom="small" no_collapse={true}>
+        <div>
+          I have <code className="dnb-code">bottom="small"</code>
+        </div>
+      </Collapsing>
+      <Collapsing top="large">
+        <div>
+          I have <code className="dnb-code">top="large"</code>
+        </div>
+      </Collapsing>
+    </Box>
+  </Wrapper>
+)
 
 const CustomStyle = styled.div`
   display: flex;
   flex-direction: row;
   box-shadow: 0 0 0 1px var(--color-fire-red);
+
+  .box {
+    background-color: blue;
+    height: 150px;
+    width: 200px;
+    color: var(--color-white);
+  }
 `
 
 const Block = styled.div`
@@ -228,7 +172,7 @@ const MagicBox = ({ label, ...rest }) => {
 
   return (
     <Block {...rest} ref={ref} title={title}>
-      <Line style={{ height: `${spaceInRem}rem` }}></Line>
+      <Line style={{ height: `${spaceInRem}rem` }} />
       <Label>{spaceInRem}</Label>
     </Block>
   )
@@ -291,4 +235,19 @@ const Collapsing = styled(Space)`
   border: 1px solid;
 `
 
-export { MagicBox, VisualSpace }
+function TestCase() {
+  const listOfBoxes = []
+  for (let i = 0, c = 0, l = 20; i <= l; i++) {
+    listOfBoxes.push(String(c))
+    c += 0.5
+  }
+  return (
+    <CustomStyle>
+      {listOfBoxes.map((v) => (
+        <Space key={v} top={v}>
+          <MagicBox />
+        </Space>
+      ))}
+    </CustomStyle>
+  )
+}

@@ -13,118 +13,118 @@ import {
   extendPropsWithContext,
   registerElement,
   validateDOMAttributes,
+  getStatusState,
+  combineDescribedBy,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
 import { createSpacingClasses } from '../space/SpacingHelper'
+import {
+  skeletonDOMAttributes,
+  createSkeletonClass
+} from '../skeleton/SkeletonHelper'
 
 import Context from '../../shared/Context'
 import Suffix from '../../shared/helpers/Suffix'
 import FormLabel from '../form-label/FormLabel'
 import FormStatus from '../form-status/FormStatus'
 
-const renderProps = {
-  on_change: null,
-  on_state_update: null
-}
-
-const propTypes = {
-  label: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-    PropTypes.node
-  ]),
-  label_position: PropTypes.oneOf(['left', 'right']),
-  title: PropTypes.string,
-  default_state: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  checked: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  id: PropTypes.string,
-  status: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-    PropTypes.node
-  ]),
-  status_state: PropTypes.string,
-  status_animation: PropTypes.string,
-  global_status_id: PropTypes.string,
-  suffix: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-    PropTypes.node
-  ]),
-  value: PropTypes.string,
-  attributes: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-  readOnly: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  class: PropTypes.string,
-
-  /// React props
-  className: PropTypes.string,
-  children: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
-
-  // Web Component props
-  custom_element: PropTypes.object,
-  custom_method: PropTypes.func,
-  on_change: PropTypes.func,
-  on_state_update: PropTypes.func
-}
-
-const defaultProps = {
-  label: null,
-  label_position: null,
-  title: null,
-  default_state: undefined,
-  checked: undefined,
-  disabled: null,
-  id: null,
-  status: null,
-  status_state: 'error',
-  status_animation: null,
-  global_status_id: null,
-  suffix: null,
-  value: null,
-  attributes: null,
-  readOnly: false,
-  class: null,
-
-  // React props
-  className: null,
-  children: null,
-
-  // Web Component props
-  custom_element: null,
-  custom_method: null,
-  ...renderProps
-}
-
 /**
  * The checkbox component is our enhancement of the classic checkbox button. It acts like a checkbox. Example: On/off, yes/no.
  */
 export default class Checkbox extends React.PureComponent {
   static tagName = 'dnb-checkbox'
-  static propTypes = propTypes
-  static defaultProps = defaultProps
-  static renderProps = renderProps
   static contextType = Context
 
+  static propTypes = {
+    label: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.func,
+      PropTypes.node
+    ]),
+    label_position: PropTypes.oneOf(['left', 'right']),
+    title: PropTypes.string,
+    default_state: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]), // Deprecated
+    checked: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    id: PropTypes.string,
+    size: PropTypes.oneOf(['default', 'medium', 'large']),
+    status: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.func,
+      PropTypes.node
+    ]),
+    status_state: PropTypes.string,
+    status_animation: PropTypes.string,
+    global_status_id: PropTypes.string,
+    suffix: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.func,
+      PropTypes.node
+    ]),
+    value: PropTypes.string,
+    attributes: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+    readOnly: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    class: PropTypes.string,
+
+    /// React props
+    className: PropTypes.string,
+    children: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
+
+    custom_element: PropTypes.object,
+    custom_method: PropTypes.func,
+    on_change: PropTypes.func,
+    on_state_update: PropTypes.func
+  }
+
+  static defaultProps = {
+    label: null,
+    label_position: null,
+    title: null,
+    default_state: null, // Deprecated
+    checked: null,
+    disabled: null,
+    id: null,
+    size: null,
+    status: null,
+    status_state: 'error',
+    status_animation: null,
+    global_status_id: null,
+    suffix: null,
+    value: null,
+    attributes: null,
+    readOnly: false,
+    skeleton: null,
+    class: null,
+
+    className: null,
+    children: null,
+
+    custom_element: null,
+    custom_method: null,
+
+    on_change: null,
+    on_state_update: null
+  }
+
   static enableWebComponent() {
-    registerElement(Checkbox.tagName, Checkbox, defaultProps)
+    registerElement(Checkbox.tagName, Checkbox, Checkbox.defaultProps)
   }
 
   static parseChecked = (state) => /true|on/.test(String(state))
 
   static getDerivedStateFromProps(props, state) {
     if (state._listenForPropChanges) {
-      if (
-        typeof props.default_state !== 'undefined' &&
-        typeof state.checked === 'undefined'
-      ) {
-        state.checked = Checkbox.parseChecked(props.default_state)
-      } else if (props.checked !== state._checked) {
-        state.checked = Checkbox.parseChecked(props.checked)
-      }
-      if (typeof props.checked !== 'undefined') {
-        state._checked = props.checked
+      if (props.checked !== state._checked) {
+        if (
+          props.default_state !== null &&
+          typeof state.checked === 'undefined'
+        ) {
+          state.checked = Checkbox.parseChecked(props.default_state)
+        } else {
+          state.checked = Checkbox.parseChecked(props.checked)
+        }
       }
     }
     state._listenForPropChanges = true
@@ -135,9 +135,7 @@ export default class Checkbox extends React.PureComponent {
       })
     }
 
-    if (typeof state.checked === 'undefined') {
-      state.checked = false
-    }
+    state._checked = props.checked
     state.__checked = state.checked
 
     return state
@@ -178,7 +176,8 @@ export default class Checkbox extends React.PureComponent {
     // use only the props from context, who are available here anyway
     const props = extendPropsWithContext(
       this.props,
-      defaultProps,
+      Checkbox.defaultProps,
+      { skeleton: this.context && this.context.skeleton },
       this.context.formRow
     )
 
@@ -189,12 +188,14 @@ export default class Checkbox extends React.PureComponent {
       status_animation,
       global_status_id,
       suffix,
+      size,
       label,
       label_position,
       label_sr_only,
       title,
       disabled,
       readOnly,
+      skeleton,
       className,
       class: _className,
 
@@ -214,15 +215,17 @@ export default class Checkbox extends React.PureComponent {
     const { checked } = this.state
 
     const id = this._id
-    const showStatus = status && status !== 'error'
+    const showStatus = getStatusState(status)
 
     const mainParams = {
       className: classnames(
         'dnb-checkbox',
         status && `dnb-checkbox__status--${status_state}`,
+        size && `dnb-checkbox--${size}`,
         label &&
           `dnb-checkbox--label-position-${label_position || 'right'}`,
         'dnb-form-component',
+        createSkeletonClass(null, skeleton),
         createSpacingClasses(props),
         className,
         _className
@@ -236,13 +239,17 @@ export default class Checkbox extends React.PureComponent {
     }
 
     if (showStatus || suffix) {
-      inputParams['aria-describedby'] = `${
-        showStatus ? id + '-status' : ''
-      } ${suffix ? id + '-suffix' : ''}`
+      inputParams['aria-describedby'] = combineDescribedBy(
+        inputParams,
+        showStatus ? id + '-status' : null,
+        suffix ? id + '-suffix' : null
+      )
     }
     if (readOnly) {
       inputParams['aria-readonly'] = inputParams.readOnly = true
     }
+
+    skeletonDOMAttributes(inputParams, skeleton, this.context)
 
     // also used for code markup simulation
     validateDOMAttributes(this.props, inputParams)
@@ -251,11 +258,13 @@ export default class Checkbox extends React.PureComponent {
       <FormStatus
         id={id + '-form-status'}
         global_status_id={global_status_id}
+        label={label}
         text_id={id + '-status'} // used for "aria-describedby"
         width_selector={id + ', ' + id + '-label'}
         text={status}
         status={status_state}
         animation={status_animation}
+        skeleton={skeleton}
       />
     )
 
@@ -268,6 +277,7 @@ export default class Checkbox extends React.PureComponent {
               for_id={id}
               text={label}
               disabled={disabled}
+              skeleton={skeleton}
               sr_only={label_sr_only}
             />
           )}
@@ -292,11 +302,17 @@ export default class Checkbox extends React.PureComponent {
                 ref={this._refInput}
               />
 
-              <span className="dnb-checkbox__button" aria-hidden>
+              <span
+                className={classnames(
+                  'dnb-checkbox__button',
+                  createSkeletonClass('shape', skeleton, this.context)
+                )}
+                aria-hidden
+              >
                 <span className="dnb-checkbox__focus" />
               </span>
 
-              <CheckSVG />
+              <CheckIcon size={size} />
             </span>
           </span>
 
@@ -316,16 +332,35 @@ export default class Checkbox extends React.PureComponent {
   }
 }
 
-export const CheckSVG = (props) => (
-  <svg
-    width="24"
-    height="24"
-    viewBox="0 0 24 24"
-    fill="none"
-    className="dnb-checkbox__gfx"
-    aria-hidden
-    {...props}
-  >
-    <path d="M5.86 12.95a.75.75 0 1 0-1.22.86l1.22-.86zm2.15 4.34l.62-.42-.01-.01-.61.43zm.94.52l.02-.75-.02.75zm.98-.46l-.6-.47v.01l.6.46zm9.4-10.7a.75.75 0 0 0-1.17-.93l1.18.93zm-14.7 7.16l2.76 3.91 1.23-.86-2.76-3.91-1.22.86zm2.75 3.9c.35.52.93.84 1.55.85l.04-1.5a.43.43 0 0 1-.34-.19l-1.25.84zm1.55.85c.62.02 1.22-.26 1.6-.76l-1.2-.9a.43.43 0 0 1-.36.16l-.04 1.5zm1.59-.75l8.82-11.16-1.18-.93-8.82 11.16 1.18.93z" />
-  </svg>
-)
+// The new checkbox has too low contrast, as it is too thin on web
+export const CheckIcon = ({ size, ...props }) => {
+  let vB = 16
+  if (size === 'large') {
+    vB = 24
+  }
+  return (
+    <svg
+      width={vB}
+      height={vB}
+      viewBox={`0 0 ${vB} ${vB}`}
+      fill="none"
+      className="dnb-checkbox__gfx"
+      aria-hidden
+      {...props}
+    >
+      <path
+        d={size === 'large' ? 'M1.5 15L7.5 21L22.5 3' : 'M1 10L5 14L15 2'}
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  )
+}
+CheckIcon.propTypes = {
+  size: PropTypes.string
+}
+CheckIcon.defaultProps = {
+  size: 'default'
+}

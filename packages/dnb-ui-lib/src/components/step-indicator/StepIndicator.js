@@ -15,79 +15,83 @@ import {
   extendPropsWithContext
 } from '../../shared/component-helper'
 import { createSpacingClasses } from '../space/SpacingHelper'
+import {
+  skeletonDOMAttributes,
+  createSkeletonClass
+} from '../skeleton/SkeletonHelper'
 
 import StepItem from './StepIndicatorItem'
 
-const renderProps = {
-  on_change: null
-}
-
-const propTypes = {
-  data: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.arrayOf(PropTypes.string),
-    PropTypes.arrayOf(
-      PropTypes.shape({
-        title: PropTypes.string.isRequired,
-        url: PropTypes.string,
-        is_active: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-        is_current: PropTypes.oneOfType([
-          PropTypes.string,
-          PropTypes.bool
-        ]),
-        url_future: PropTypes.string,
-        url_passed: PropTypes.string,
-        on_click: PropTypes.func,
-        on_render: PropTypes.func
-      })
-    )
-  ]).isRequired,
-  step_title: PropTypes.string,
-  active_item: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  active_url: PropTypes.string,
-  hide_numbers: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  use_navigation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  on_item_render: PropTypes.func,
-  class: PropTypes.string,
-
-  /** React props */
-  className: PropTypes.string,
-  children: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.node,
-    PropTypes.func
-  ]),
-
-  // Web Component props
-  on_change: PropTypes.func
-}
-
-const defaultProps = {
-  data: [],
-  step_title: '%step',
-  active_item: null,
-  active_url: null,
-  hide_numbers: false,
-  use_navigation: false,
-  on_item_render: null,
-  class: null,
-
-  /** React props */
-  className: null,
-  children: null,
-
-  // Web Component props
-  ...renderProps
-}
-
 export default class StepIndicator extends React.PureComponent {
   static tagName = 'dnb-step-indicator'
-  static propTypes = propTypes
-  static defaultProps = defaultProps
   static contextType = Context
 
+  static propTypes = {
+    data: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.arrayOf(PropTypes.string),
+      PropTypes.arrayOf(
+        PropTypes.shape({
+          title: PropTypes.string.isRequired,
+          url: PropTypes.string,
+          is_active: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.bool
+          ]),
+          is_current: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.bool
+          ]),
+          url_future: PropTypes.string,
+          url_passed: PropTypes.string,
+          on_click: PropTypes.func,
+          on_render: PropTypes.func
+        })
+      )
+    ]).isRequired,
+    step_title: PropTypes.string,
+    active_item: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    active_url: PropTypes.string,
+    hide_numbers: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    use_navigation: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool
+    ]),
+    on_item_render: PropTypes.func,
+    skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    class: PropTypes.string,
+
+    /** React props */
+    className: PropTypes.string,
+    children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
+
+    on_change: PropTypes.func
+  }
+
+  static defaultProps = {
+    data: [],
+    step_title: '%step',
+    active_item: null,
+    active_url: null,
+    hide_numbers: false,
+    use_navigation: false,
+    on_item_render: null,
+    skeleton: false,
+    class: null,
+
+    /** React props */
+    className: null,
+    children: null,
+
+    on_change: null
+  }
+
   static enableWebComponent() {
-    registerElement(StepIndicator.tagName, StepIndicator, defaultProps)
+    registerElement(
+      StepIndicator.tagName,
+      StepIndicator,
+      StepIndicator.defaultProps
+    )
   }
 
   static getData(props) {
@@ -163,9 +167,10 @@ export default class StepIndicator extends React.PureComponent {
     // use only the props from context, who are available here anyway
     const props = extendPropsWithContext(
       this.props,
-      defaultProps,
+      StepIndicator.defaultProps,
+      { skeleton: this.context?.skeleton },
       this.context.formRow,
-      this.context.translation.StepIndicator
+      this.context.getTranslation(this.props).StepIndicator
     )
 
     const {
@@ -176,6 +181,7 @@ export default class StepIndicator extends React.PureComponent {
       on_item_render,
       step_title,
       on_change,
+      skeleton,
       className,
       class: _className,
       data: _data, //eslint-disable-line
@@ -190,12 +196,15 @@ export default class StepIndicator extends React.PureComponent {
       'aria-label': 'progress',
       className: classnames(
         'dnb-step-indicator',
+        createSkeletonClass('font', skeleton, this.context),
         createSpacingClasses(props),
         className,
         _className
       ),
       ...attributes
     }
+
+    skeletonDOMAttributes(params, skeleton, this.context)
 
     // also used for code markup simulation
     validateDOMAttributes(this.props, params)
@@ -226,7 +235,7 @@ export default class StepIndicator extends React.PureComponent {
               }
               return (
                 <StepItem
-                  key={`bc${i}`}
+                  key={i}
                   {...params}
                   setActimeItem={this.setActimeItem}
                   hasReached={this.state.hasReached}

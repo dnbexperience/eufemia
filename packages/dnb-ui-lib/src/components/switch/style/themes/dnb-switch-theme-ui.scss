@@ -22,8 +22,7 @@
       position: absolute;
       transition: transform 0.3s ease-out, position 0.3s ease-out;
 
-      // IE fix
-      @media screen and (-ms-high-contrast: none) {
+      @include IS_IE {
         top: 0.25rem; // because IE is not using flex to center here
       }
     }
@@ -36,7 +35,6 @@
   &__input:not(:checked) ~ &__button {
     background-color: var(--color-white);
     border-color: var(--color-sea-green);
-    // border: var(--switch-border-width) solid var(--color-sea-green);
   }
 
   /*
@@ -51,28 +49,35 @@
     * Draw the circle / line
     *
     */
-  &__input:not(:checked) ~ &__background {
-    &::after {
-      right: 0;
-      transform: translateX(-0.3125rem); // 5px
-      // transform: translateX(calc(var(--switch-width) - 0.85rem)); // alternative positioning
+  &__input:not(:checked) ~ &__background::after {
+    right: 0;
+    transform: translateX(calc(var(--switch-width--medium) - 2.8rem));
 
-      width: 0.5rem;
-      height: 0.5rem;
-      border-radius: 50%;
-      border: 0.0625rem solid var(--color-sea-green);
-    }
+    width: 0.5rem;
+    height: 0.5rem;
+
+    border-radius: 50%;
+    border: 0.0625rem solid var(--color-sea-green);
   }
-  &__input:checked ~ &__background {
-    &::after {
-      left: 0;
-      transform: translateX(calc(0.5rem + 0.125rem));
 
-      width: 0.0625rem;
-      height: 0.5rem;
-      border-radius: 0.0625rem;
-      background-color: var(--color-sea-green);
-    }
+  &__input:checked ~ &__background::after {
+    left: 0;
+    transform: translateX(calc(var(--switch-width--medium) - 1.87rem));
+
+    width: 0.0625rem;
+    height: 0.5rem;
+    border-radius: 0.0625rem;
+    background-color: var(--color-sea-green);
+  }
+
+  &--large &__input:not(:checked) ~ &__background::after {
+    width: 0.625rem;
+    height: 0.625rem;
+    transform: translateX(calc(var(--switch-width--large) - 3.7rem));
+  }
+  &--large &__input:checked ~ &__background::after {
+    height: 0.625rem;
+    transform: translateX(calc(var(--switch-width--large) - 2.5rem));
   }
 
   /*
@@ -208,7 +213,7 @@
     transform: rotate(180deg);
   }
 
-  // ajust the form-status to the inner border for 3px
+  // adjust the form-status to the inner border for 3px
   > .dnb-form-status {
     transform: translateY(0.1875rem);
   }

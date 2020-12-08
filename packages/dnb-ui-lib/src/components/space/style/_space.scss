@@ -12,90 +12,127 @@
   }
   // 0.25rem
   &--xx-small {
-    margin-#{$direction}: 0.25rem;
+    margin-#{$direction}: var(--spacing-xx-small);
   }
   // 0.5rem
   &--x-small {
-    margin-#{$direction}: 0.5rem;
+    margin-#{$direction}: var(--spacing-x-small);
   }
   // 1rem
   &--small {
-    margin-#{$direction}: 1rem;
+    margin-#{$direction}: var(--spacing-small);
   }
   // 1.5rem
   &--medium {
-    margin-#{$direction}: 1.5rem;
+    margin-#{$direction}: var(--spacing-medium);
   }
   // 2rem
   &--large {
-    margin-#{$direction}: 2rem;
+    margin-#{$direction}: var(--spacing-large);
   }
   // 2.5rem
   &--large#{&}--x-small {
-    margin-#{$direction}: 2.5rem;
+    margin-#{$direction}: calc(
+      var(--spacing-large) + var(--spacing-x-small)
+    );
   }
   // 3rem
   &--x-large {
-    margin-#{$direction}: 3rem;
+    margin-#{$direction}: var(--spacing-x-large);
   }
   // 3.5rem
   &--xx-large {
-    margin-#{$direction}: 3.5rem;
+    margin-#{$direction}: var(--spacing-xx-large);
   }
   // 4rem
   &--xx-large#{&}--x-small {
-    margin-#{$direction}: 4rem;
+    margin-#{$direction}: calc(
+      var(--spacing-large) + var(--spacing-large)
+    );
   }
   // 4.5rem
   &--xx-large#{&}--small {
-    margin-#{$direction}: 4.5rem;
+    margin-#{$direction}: calc(
+      var(--spacing-x-large) + var(--spacing-medium)
+    );
   }
   // 5rem
   &--xx-large#{&}--medium {
-    margin-#{$direction}: 5rem;
+    margin-#{$direction}: calc(
+      var(--spacing-x-large) + var(--spacing-large)
+    );
   }
   // 5.5rem
   &--xx-large#{&}--large {
-    margin-#{$direction}: 5.5rem;
+    margin-#{$direction}: calc(
+      var(--spacing-x-large) + var(--spacing-large) +
+        var(--spacing-x-small)
+    );
   }
   // 6rem
   &--xx-large#{&}--large#{&}--x-small {
-    margin-#{$direction}: 6rem;
+    margin-#{$direction}: calc(
+      var(--spacing-x-large) + var(--spacing-large) + var(--spacing-small)
+    );
   }
   // 6.5rem
   &--xx-large#{&}--x-large {
-    margin-#{$direction}: 6.5rem;
+    margin-#{$direction}: calc(
+      var(--spacing-xx-large) + var(--spacing-x-large)
+    );
   }
   // 7rem
   &--xx-large-x2 {
-    margin-#{$direction}: 7rem;
+    margin-#{$direction}: calc(
+      var(--spacing-x-large) + var(--spacing-large) + var(--spacing-large)
+    );
   }
   // 7.5rem
   &--xx-large-x2#{&}--x-small {
-    margin-#{$direction}: 7.5rem;
+    margin-#{$direction}: calc(
+      var(--spacing-xx-large) + var(--spacing-large) + var(--spacing-large)
+    );
   }
   // 8rem
   &--xx-large-x2#{&}--small {
-    margin-#{$direction}: 8rem;
+    margin-#{$direction}: calc(
+      var(--spacing-x-large) + var(--spacing-x-large) +
+        var(--spacing-large)
+    );
   }
   // 8.5rem
   &--xx-large-x2#{&}--medium {
-    margin-#{$direction}: 8.5rem;
+    margin-#{$direction}: calc(
+      var(--spacing-xx-large) + var(--spacing-x-large) +
+        var(--spacing-large)
+    );
   }
   // 9rem
   &--xx-large-x2#{&}--large {
-    margin-#{$direction}: 9rem;
+    margin-#{$direction}: calc(
+      var(--spacing-x-large) + var(--spacing-x-large) +
+        var(--spacing-x-large)
+    );
   }
   // 9.5rem
   &--xx-large-x2#{&}--large#{&}--x-small {
-    margin-#{$direction}: 9.5rem;
+    margin-#{$direction}: calc(
+      var(--spacing-xx-large) + var(--spacing-x-large) +
+        var(--spacing-x-large)
+    );
   }
   // 10rem
   &--xx-large-x2#{&}--x-large {
-    margin-#{$direction}: 10rem;
+    margin-#{$direction}: calc(
+      var(--spacing-xx-large) + var(--spacing-xx-large) +
+        var(--spacing-x-large)
+    );
   }
 }
 
+/** NB: Because CSS specificity ".dnb-core-style .dnb-space"
+    has to come before the next ".dnb-space"
+  */
 .dnb-core-style .dnb-space {
   &__top {
     @include direction(top);
@@ -116,16 +153,7 @@
   &--no-collapse {
     display: flow-root;
 
-    // &::after {
-    //   content: '\200C';
-    //   display: table;
-    //   clear: both;
-    //   font-size: 0;
-    //   line-height: 0;
-    // }
-
-    // IE fix
-    @media screen and (-ms-high-contrast: none) {
+    @include IS_IE {
       overflow: auto;
     }
   }
@@ -144,5 +172,8 @@
   &__left {
     @include direction(left);
   }
+}
+span.dnb-space--no-collapse > span {
+  display: block;
 }
 /* stylelint-enable */

@@ -90,8 +90,7 @@
           }
         }
 
-        // IE fix
-        @media screen and (-ms-high-contrast: none) {
+        @include IS_IE {
           margin-top: 0;
         }
 
@@ -138,6 +137,11 @@
           margin-top: 1rem;
         }
       }
+    }
+  }
+  &--centered#{&}:not(#{&}--vertical) &__content {
+    @media screen and (min-width: 40em) {
+      align-items: center;
     }
   }
 
@@ -200,8 +204,7 @@
     width: 100%;
   }
 
-  // IE fix
-  @media screen and (-ms-high-contrast: none) {
+  @include IS_IE {
     align-items: flex-start;
     &__content {
       flex: auto;

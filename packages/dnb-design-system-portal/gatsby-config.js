@@ -21,12 +21,12 @@ const plugins = [
       icon: './static/apple-touch-icon.png', // This path is relative to the root of the site.
       icons: [
         {
-          src: './android-chrome-192x192.png',
+          src: '/android-chrome-192x192.png',
           sizes: '192x192',
           type: 'image/png'
         },
         {
-          src: './android-chrome-512x512.png',
+          src: '/android-chrome-512x512.png',
           sizes: '512x512',
           type: 'image/png'
         }
@@ -89,8 +89,10 @@ const plugins = [
   {
     resolve: 'gatsby-plugin-postcss',
     options: {
-      postCssPlugins: require('../dnb-ui-lib/scripts/prepub/config/postcssConfig')(
-        { IE11: true }
+      postCssPlugins: require('dnb-ui-lib/scripts/prepub/config/postcssConfig')(
+        {
+          IE11: false
+        }
       )
     }
   },

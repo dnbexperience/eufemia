@@ -2,8 +2,39 @@
 showTabs: true
 ---
 
-import SwitchExamples from 'Pages/uilib/components/switch/Examples'
+import {
+SwitchExampleDefault,
+SwitchExampleChecked,
+SwitchExampleErrorMessage,
+SwitchExampleSuffix,
+SwitchExampleSizes,
+SwitchExampleDisabled
+} from 'Pages/uilib/components/switch/Examples'
 
 ## Demos
 
-<SwitchExamples />
+### Unchecked Switch
+
+<SwitchExampleDefault />
+
+### Checked Switch
+
+<SwitchExampleChecked />
+
+### Checked Switch with error message
+
+<SwitchExampleErrorMessage />
+
+### Switch with suffix
+
+<SwitchExampleSuffix />
+
+### Switch in different sizes
+
+As for now, there are two sizes. `medium` is the default size.
+
+<SwitchExampleSizes />
+
+### Switch in disabled state
+
+<SwitchExampleDisabled />

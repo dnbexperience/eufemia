@@ -4,7 +4,14 @@ import React from 'react'
 
 function pencil_medium(props) {
   return (
-    <svg width={24} height={24} viewBox="0 0 24 24" fill="none" {...props}>
+    <svg
+      width={24}
+      height={24}
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      {...props}
+    >
       <path
         clipRule="evenodd"
         d="M22.19 1.81a3.639 3.639 0 00-5.17.035l-14.5 14.5L.75 23.25l6.905-1.771 14.5-14.5a3.637 3.637 0 00.034-5.169z"

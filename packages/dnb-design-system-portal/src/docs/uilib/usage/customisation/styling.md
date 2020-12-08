@@ -161,8 +161,12 @@ Beside the portal documentation with related tables and additional information, 
 ### Access CSS properties in JavaScript
 
 ```js
-import properties from 'dnb-ui-lib/style/ddnb-ui-properties.css'
+import properties from 'dnb-ui-lib/style/properties.js'
 
 const seaGreenColor = properties['--color-sea-green']
 const basisFontSize = properties['--font-size-basis']
 ```
+
+## Known styling and CSS issues
+
+- Safari, both on mobile and desktop has a problem where we combine `border-radius` with the usage of `inset` in a `box-shadow`. The solution for now is to not use `inset` – which results in an outer border, which is not ideal as we then not do follow the UX guidelines for these browsers. We have a SASS function handling this for us: `@mixin fakeBorder`.

@@ -8,11 +8,13 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import Link from '../parts/Link'
 import { StaticQuery, graphql } from 'gatsby'
-import { css, Global } from '@emotion/core'
+import { css, Global } from '@emotion/react'
 import styled from '@emotion/styled'
 import { resetLevels } from 'dnb-ui-lib/src/components/Heading'
+import Context from 'dnb-ui-lib/src/shared/Context'
 import { SidebarMenuContext } from './SidebarMenuContext'
 // import { MainMenuToggleButton } from './ToggleMainMenu'
+import { createSkeletonClass } from 'dnb-ui-lib/src/components/skeleton/SkeletonHelper'
 import { Icon } from 'dnb-ui-lib/src/components'
 import graphics from './SidebarGraphics'
 import keycode from 'keycode'
@@ -592,6 +594,8 @@ export default class SidebarLayout extends React.PureComponent {
 }
 
 class ListItem extends React.PureComponent {
+  static contextType = Context
+
   static propTypes = {
     onOffsetTop: PropTypes.func,
     children: PropTypes.node.isRequired,
@@ -688,11 +692,20 @@ class ListItem extends React.PureComponent {
             {icon && graphics[icon] && (
               <Icon icon={graphics[icon]} size="medium" />
             )}
-            {children}
+            <span
+              className={classnames(
+                createSkeletonClass('font', this.context.skeleton)
+              )}
+            >
+              {children}
+            </span>
           </span>
           {status && (
             <span
-              className="status-badge"
+              className={classnames(
+                'status-badge',
+                createSkeletonClass('font', this.context.skeleton)
+              )}
               title={statusTitle}
               aria-label={statusTitle}
             >
@@ -796,11 +809,14 @@ const prepareNav = ({ location, allMdx, showAll, pathPrefix }) => {
 
       item._order = parts
         .reduce((acc, cur, i) => {
-          if (!levelCache[item.level][cur])
+          if (!levelCache[item.level][cur]) {
             levelCache[item.level][cur] = item.order
               ? parseFloat(item.order) + 1000 // push manual ordering to the top
               : count
-          acc.push(levelCache[i + 1][cur])
+          }
+          if (levelCache[i + 1]) {
+            acc.push(levelCache[i + 1][cur])
+          }
           return acc
         }, [])
         .join('/')

@@ -69,7 +69,7 @@ export const runFactory = async ({
     processToNamesList = await globby(processToNamesList)
     processToNamesList.sort()
   } catch (e) {
-    console.log('Error', e)
+    log.fail(e)
   }
 
   processToNamesList = processToNamesList.map((source) => ({
@@ -122,16 +122,19 @@ export const runFactory = async ({
       } else {
         fileContent = `${autoAdvice}\n${customContent}\n${theme}\n`
       }
+
       if (returnResult) {
         collectedOutput.push(fileContent)
       } else {
-        await fs.writeFile(
-          file,
-          prettier.format(fileContent, {
-            ...prettierrc,
-            filepath: file
-          })
-        )
+        if (fs.existsSync(file)) {
+          await fs.writeFile(
+            file,
+            prettier.format(fileContent, {
+              ...prettierrc,
+              filepath: file
+            })
+          )
+        }
       }
     })
   } catch (e) {

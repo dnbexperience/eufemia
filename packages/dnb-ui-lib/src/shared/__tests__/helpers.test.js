@@ -12,6 +12,7 @@ import {
   hasSelectedText,
   getSelectedText,
   insertElementBeforeSelection,
+  debounce,
   isIE11,
   isEdge,
   isiOS,
@@ -24,7 +25,7 @@ import {
 import { mockGetSelection } from '../../core/jest/jestSetup'
 
 // make it possible to change the navigator lang
-// because "navigator.language" defaults to en-US
+// because "navigator.language" defaults to en-GB
 let userAgentGetter, platformGetter
 
 beforeAll(() => {
@@ -147,5 +148,41 @@ describe('selection related methods', () => {
       window.getSelection().getRangeAt(1).getElement() instanceof
         HTMLElement
     ).toBe(true)
+  })
+})
+
+describe('"debounce" should', () => {
+  it('delay exection', (done) => {
+    let outside = 'one'
+
+    debounce(({ inside }) => {
+      outside = inside
+      expect(outside).toBe('two')
+    }, 1)({ inside: 'two' })
+
+    expect(outside).toBe('one')
+
+    setTimeout(() => {
+      done()
+    }, 2)
+  })
+  it('delay exection immediate', (done) => {
+    let outside = 'one'
+
+    debounce(
+      ({ inside }) => {
+        expect(outside).toBe('one')
+        outside = inside
+        expect(outside).toBe('two')
+      },
+      1,
+      { immediate: true }
+    )({ inside: 'two' })
+
+    expect(outside).toBe('two')
+
+    setTimeout(() => {
+      done()
+    }, 2)
   })
 })

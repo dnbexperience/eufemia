@@ -11,76 +11,33 @@
     display: flex;
     align-items: center;
 
+    &,
+    &.dnb-section--spacing {
+      padding-bottom: 0;
+    }
+
     &__tablist {
       display: flex;
-      flex: 1 1 auto;
+      flex: 0 1 auto;
 
       &:focus {
         @include fakeFocus();
       }
+
+      @include scrollX(auto);
+      @include hideScrollbar();
+      // scroll-snap-type: x mandatory;// gives not the wanted extra UX yet
     }
 
     &--left &__tablist {
       justify-content: flex-start;
     }
     &--right &__tablist {
+      flex-grow: 1;
       justify-content: flex-end;
     }
     &--center &__tablist {
       justify-content: center;
-    }
-
-    .dnb-tabs__button,
-    .dnb-core-style & .dnb-tabs__button {
-      position: relative;
-      z-index: 1;
-
-      user-select: none;
-      -webkit-user-select: none; // Safari / Touch fix
-
-      margin: 0;
-      margin-left: 4.5rem;
-      padding: 0.25rem 0.125rem; /* 1/16*4 */
-
-      background-color: transparent;
-      border-bottom: 1px solid transparent;
-
-      cursor: pointer;
-      outline: none;
-      border: none;
-
-      font-size: var(--font-size-basis);
-      line-height: var(--line-height-basis);
-
-      // should be same as .lead small
-      &__title {
-        // Here we had "white-space: nowrap;" before
-        // but now we alow wrapping, but make it a little nicer than the defualt
-        word-break: normal;
-
-        .dnb-icon {
-          font-size: var(--font-size-small); // has to be 16px
-
-          // vertical alignment
-          transform: translateY(-0.125rem);
-        }
-      }
-
-      @include dummySpacing();
-
-      &::after {
-        content: '';
-        position: absolute;
-        z-index: -1;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        width: 100%;
-        height: 1px;
-      }
-    }
-    .dnb-tabs__button:first-child {
-      margin-left: 0;
     }
 
     &::before {
@@ -92,28 +49,130 @@
       width: 100vw;
       height: 1px;
     }
+  }
+
+  &:not(.dnb-tabs--has-scrollbar) &__tabs__tablist {
+    margin-left: -0.5rem;
+    padding-left: 0.5rem;
+  }
+
+  &__scroll-nav-button {
+    position: absolute;
+    z-index: 2;
+
+    &.dnb-button--primary {
+      background-color: var(--color-emerald-green);
+    }
+
+    display: none;
+    opacity: 0;
+    transition: opacity 600ms ease-out;
+
+    &:first-of-type {
+      left: -2.5rem;
+    }
+    &:last-of-type {
+      right: -2.5rem;
+    }
+
+    &--visible {
+      display: flex;
+      opacity: 1;
+    }
+
+    &--hide {
+      pointer-events: none;
+      opacity: 0 !important;
+    }
+  }
+
+  &--at-edge &__scroll-nav-button {
+    &:first-of-type {
+      left: 0;
+    }
+    &:last-of-type {
+      right: 0;
+    }
+  }
+
+  html[data-visual-test] & &__scroll-nav-button {
+    transition: none;
+  }
+
+  &__button__snap {
+    display: flex;
+    padding: 0 2rem 0 2.5rem;
 
     @include allBelow(medium) {
-      .dnb-tabs__button,
-      .dnb-core-style & .dnb-tabs__button {
-        margin-left: 2.5rem;
-      }
-      .dnb-tabs__button:first-child,
-      .dnb-core-style & .dnb-tabs__button:first-child {
-        margin-left: 0;
+      padding: 0 1rem 0 1.5rem;
+    }
+    @include allBelow(small) {
+      padding: 0 1rem;
+    }
+
+    &:first-of-type {
+      padding-left: 0;
+    }
+    &:last-of-type {
+      padding-right: 0.5rem;
+    }
+  }
+  &--has-scrollbar &__button__snap {
+    &:last-of-type {
+      padding-right: 2.5rem;
+    }
+  }
+
+  // gives not the wanted extra UX yet
+  // &--has-scrollbar &__button__snap {
+  //   scroll-snap-align: start;
+  // }
+
+  // Tab Button
+  &__button,
+  .dnb-core-style & &__button {
+    position: relative;
+    z-index: 1;
+
+    user-select: none;
+    -webkit-user-select: none; // Safari / Touch fix
+
+    margin: 0;
+    padding: 0.25rem 0.125rem; /* 1/16*4 */
+
+    background-color: transparent;
+    border-bottom: 1px solid transparent;
+
+    cursor: pointer;
+    outline: none;
+    border: none;
+
+    font-size: var(--font-size-basis);
+    line-height: var(--line-height-basis);
+
+    white-space: nowrap;
+
+    // should be same as .lead small
+    &__title {
+      .dnb-icon {
+        font-size: var(--font-size-small); // has to be 16px
+
+        // vertical alignment
+        transform: translateY(-0.125rem);
       }
     }
 
-    @include allBelow(small) {
-      &__tablist {
-        flex-direction: column;
-        align-items: flex-start;
-        margin: 0;
-      }
-      .dnb-tabs__button,
-      .dnb-core-style & .dnb-tabs__button {
-        margin-left: 0;
-      }
+    @include dummySpacing();
+
+    &::after {
+      content: '';
+      position: absolute;
+      z-index: -1;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      width: 100%;
+      height: 1px;
     }
   }
 

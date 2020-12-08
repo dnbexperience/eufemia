@@ -6,36 +6,27 @@
 import React from 'react'
 import ComponentBox from 'Src/shared/tags/ComponentBox'
 
-class Example extends React.PureComponent {
-  onChangeHandler = (state) => {
-    console.log('onChangeHandler', state)
-  }
+const onChange = (state) => {
+  console.log('onChangeHandler', state)
+}
 
-  render() {
-    const { onChangeHandler: onChange } = this
-    return (
-      <React.Fragment>
-        <ComponentBox
-          title="Unchecked Switch (default state)"
-          data-dnb-test="switch-default"
-          scope={{ onChange }}
-        >
-          {
-            /* @jsx */ `
+export const SwitchExampleDefault = () => (
+  <ComponentBox data-visual-test="switch-default" scope={{ onChange }}>
+    {
+      /* @jsx */ `
 <Switch
   label="Switch"
   on_change={onChange}
 />
           `
-          }
-        </ComponentBox>
-        <ComponentBox
-          title="Checked Switch"
-          data-dnb-test="switch-checked"
-          scope={{ onChange }}
-        >
-          {
-            /* @jsx */ `
+    }
+  </ComponentBox>
+)
+
+export const SwitchExampleChecked = () => (
+  <ComponentBox data-visual-test="switch-checked" scope={{ onChange }}>
+    {
+      /* @jsx */ `
 <Switch
   label="Label:"
   label_position="left"
@@ -43,48 +34,60 @@ class Example extends React.PureComponent {
   on_change={({ checked }) => console.log(checked)}
 />
           `
-          }
-        </ComponentBox>
-        <ComponentBox
-          title="Checked Switch with error message"
-          data-dnb-test="switch-error"
-          scope={{ onChange }}
-        >
-          {
-            /* @jsx */ `
+    }
+  </ComponentBox>
+)
+
+export const SwitchExampleErrorMessage = () => (
+  <ComponentBox data-visual-test="switch-error" scope={{ onChange }}>
+    {
+      /* @jsx */ `
 <Switch
   label="Switch"
   checked
   status="Error message"
 />
           `
-          }
-        </ComponentBox>
-        <ComponentBox title="Switch with suffix" scope={{ onChange }}>
-          {
-            /* @jsx */ `
+    }
+  </ComponentBox>
+)
+
+export const SwitchExampleSuffix = () => (
+  <ComponentBox scope={{ onChange }}>
+    {
+      /* @jsx */ `
 <Switch
   label="Switch"
   checked
-  suffix={<Modal title="Modal Title">Modal content</Modal>}
+  suffix={<HelpButton title="Modal Title">Modal content</HelpButton>}
 />
           `
-          }
-        </ComponentBox>
-        <ComponentBox data-dnb-test="switch-disabled">
-          {
-            /* @jsx */ `
+    }
+  </ComponentBox>
+)
+
+export const SwitchExampleSizes = () => (
+  <ComponentBox data-visual-test="switch-sizes">
+    {
+      /* @jsx */ `
+<Switch size="medium" label="Medium" right="large" checked />
+<Switch size="large" label="Large" right="large" checked />
+<Switch size="large" label="Large" />
+          `
+    }
+  </ComponentBox>
+)
+
+export const SwitchExampleDisabled = () => (
+  <ComponentBox data-visual-test="switch-disabled">
+    {
+      /* @jsx */ `
 <Switch
   checked
   disabled
   label="Disabled"
 />
 `
-          }
-        </ComponentBox>
-      </React.Fragment>
-    )
-  }
-}
-
-export default Example
+    }
+  </ComponentBox>
+)

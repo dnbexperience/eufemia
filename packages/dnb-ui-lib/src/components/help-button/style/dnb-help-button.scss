@@ -1,0 +1,12 @@
+/*
+* DNB HelpButton
+*
+*/
+
+@import '../../../style/components/imports.scss';
+
+.dnb-help-button {
+  @include componentReset();
+}
+
+@import './_help-button.scss';

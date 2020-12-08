@@ -36,11 +36,11 @@
   }
 
   // color
-  svg:not([fill]),
-  svg [fill] {
+  &--inherit-color svg:not([fill]),
+  &--inherit-color svg [fill] {
     fill: currentColor;
   }
-  svg [stroke] {
+  &--inherit-color svg [stroke] {
     stroke: currentColor;
   }
 
@@ -85,8 +85,15 @@
     vertical-align: middle;
   }
 
-  // IE fix
-  @media screen and (-ms-high-contrast: none) {
+  &.dnb-skeleton {
+    &::before,
+    &::after {
+      content: none !important;
+    }
+    color: var(--skeleton-color) !important;
+  }
+
+  @include IS_IE {
     flex: none;
   }
 }

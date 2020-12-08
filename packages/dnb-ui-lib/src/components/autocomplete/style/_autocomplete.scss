@@ -81,7 +81,7 @@
       align-items: center;
 
       .dnb-icon {
-        margin-right: 0.5rem;
+        align-self: center;
       }
 
       color: var(--color-sea-green);
@@ -116,9 +116,6 @@
   &__shell,
   &__input {
     border-radius: var(--autocomplete-height);
-  }
-  [aria-controls] {
-    cursor: text;
   }
 
   &__text {
@@ -205,8 +202,7 @@
     }
   }
 
-  // IE fix
-  @media screen and (-ms-high-contrast: none) {
+  @include IS_IE {
     flex: none;
     vertical-align: baseline;
 

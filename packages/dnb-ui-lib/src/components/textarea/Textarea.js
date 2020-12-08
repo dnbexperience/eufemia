@@ -15,124 +15,120 @@ import {
   registerElement,
   validateDOMAttributes,
   processChildren,
-  pickRenderProps,
+  getStatusState,
+  combineDescribedBy,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
 import { createSpacingClasses } from '../space/SpacingHelper'
+import {
+  skeletonDOMAttributes,
+  createSkeletonClass
+} from '../skeleton/SkeletonHelper'
 
 import Context from '../../shared/Context'
 import Suffix from '../../shared/helpers/Suffix'
-
-const renderProps = {
-  on_change: null,
-  on_focus: null,
-  on_blur: null,
-  on_state_update: null
-}
-
-const propTypes = {
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  id: PropTypes.string,
-  label: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-    PropTypes.node
-  ]),
-  label_direction: PropTypes.oneOf(['horizontal', 'vertical']),
-  label_sr_only: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  status: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-    PropTypes.node
-  ]),
-  textarea_state: PropTypes.string,
-  status_state: PropTypes.string,
-  status_animation: PropTypes.string,
-  global_status_id: PropTypes.string,
-  suffix: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-    PropTypes.node
-  ]),
-  placeholder: PropTypes.string,
-  align: PropTypes.oneOf(['left', 'right']),
-  stretch: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  class: PropTypes.string,
-  textarea_class: PropTypes.string,
-  textarea_attributes: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.object
-  ]),
-  readOnly: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  rows: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  cols: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-
-  // React props
-  className: PropTypes.string,
-  textarea_element: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
-  children: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.node,
-    PropTypes.func
-  ]),
-
-  // Web Component props
-  custom_element: PropTypes.object,
-  custom_method: PropTypes.func,
-  on_change: PropTypes.func,
-  on_focus: PropTypes.func,
-  on_blur: PropTypes.func,
-  on_state_update: PropTypes.func
-}
-
-const defaultProps = {
-  value: 'initval',
-  id: null,
-  label: null,
-  label_direction: null,
-  label_sr_only: null,
-  status: null,
-  textarea_state: null,
-  status_state: 'error',
-  status_animation: null,
-  global_status_id: null,
-  suffix: null,
-  placeholder: null,
-  align: null,
-  stretch: null,
-  disabled: null,
-  textarea_class: null,
-  class: null,
-  textarea_attributes: null,
-  readOnly: false,
-  rows: null,
-  cols: null,
-
-  // React props
-  className: null,
-  textarea_element: null,
-  children: null,
-
-  // Web Component props
-  custom_element: null,
-  custom_method: null,
-  ...renderProps
-}
 
 /**
  * The textarea component is an umbrella component for all textareas which share the same style as the classic `text` textarea field. Radio buttons and other form elements are not included here.
  */
 export default class Textarea extends React.PureComponent {
   static tagName = 'dnb-textarea'
-  static propTypes = propTypes
-  static defaultProps = defaultProps
-  static renderProps = renderProps
   static contextType = Context
 
+  static propTypes = {
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    id: PropTypes.string,
+    label: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.func,
+      PropTypes.node
+    ]),
+    label_direction: PropTypes.oneOf(['horizontal', 'vertical']),
+    label_sr_only: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    status: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.func,
+      PropTypes.node
+    ]),
+    textarea_state: PropTypes.string,
+    status_state: PropTypes.string,
+    status_animation: PropTypes.string,
+    global_status_id: PropTypes.string,
+    suffix: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.func,
+      PropTypes.node
+    ]),
+    placeholder: PropTypes.string,
+    align: PropTypes.oneOf(['left', 'right']),
+    stretch: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    class: PropTypes.string,
+    textarea_class: PropTypes.string,
+    textarea_attributes: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.object
+    ]),
+    readOnly: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    rows: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    cols: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+
+    className: PropTypes.string,
+    textarea_element: PropTypes.oneOfType([
+      PropTypes.func,
+      PropTypes.node
+    ]),
+    children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
+
+    custom_element: PropTypes.object,
+    custom_method: PropTypes.func,
+    on_change: PropTypes.func,
+    on_focus: PropTypes.func,
+    on_blur: PropTypes.func,
+    on_state_update: PropTypes.func
+  }
+
+  static defaultProps = {
+    value: 'initval',
+    id: null,
+    label: null,
+    label_direction: null,
+    label_sr_only: null,
+    status: null,
+    textarea_state: null,
+    status_state: 'error',
+    status_animation: null,
+    global_status_id: null,
+    suffix: null,
+    placeholder: null,
+    align: null,
+    stretch: null,
+    disabled: null,
+    skeleton: null,
+    textarea_class: null,
+    class: null,
+    textarea_attributes: null,
+    readOnly: false,
+    rows: null,
+    cols: null,
+
+    className: null,
+    textarea_element: null,
+    children: null,
+
+    custom_element: null,
+    custom_method: null,
+
+    on_change: null,
+    on_focus: null,
+    on_blur: null,
+    on_state_update: null
+  }
+
   static enableWebComponent() {
-    registerElement(Textarea.tagName, Textarea, defaultProps)
+    registerElement(Textarea.tagName, Textarea, Textarea.defaultProps)
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -220,7 +216,8 @@ export default class Textarea extends React.PureComponent {
     // use only the props from context, who are available here anyway
     const props = extendPropsWithContext(
       this.props,
-      defaultProps,
+      Textarea.defaultProps,
+      { skeleton: this.context?.skeleton },
       this.context.formRow,
       this.context.translation.Textarea
     )
@@ -235,6 +232,7 @@ export default class Textarea extends React.PureComponent {
       global_status_id,
       suffix,
       disabled,
+      skeleton,
       stretch,
       placeholder,
       align,
@@ -255,14 +253,11 @@ export default class Textarea extends React.PureComponent {
     const { value, textareaState } = this.state
 
     const id = this._id
-    const showStatus = status && status !== 'error'
+    const showStatus = getStatusState(status)
     const hasValue = Textarea.hasValue(value)
 
     // pass along all props we wish to have as params
-    let {
-      textarea_element: TextareaElement,
-      ...renderProps
-    } = pickRenderProps(this.props, Textarea.renderProps)
+    let { textarea_element: TextareaElement } = props
 
     const textareaAttributes = textarea_attributes
       ? typeof textarea_attributes === 'string'
@@ -271,12 +266,11 @@ export default class Textarea extends React.PureComponent {
       : {}
 
     const textareaParams = {
-      ...renderProps,
       className: classnames('dnb-textarea__textarea', textarea_class),
       role: 'textbox',
       value: hasValue ? value : '',
       id,
-      disabled,
+      disabled: isTrue(disabled) || isTrue(skeleton),
       name: id,
       'aria-placeholder': placeholder,
       ...attributes,
@@ -288,19 +282,14 @@ export default class Textarea extends React.PureComponent {
 
     // we may considder using: aria-details
     if (showStatus || suffix) {
-      textareaParams['aria-describedby'] = `${
-        showStatus ? id + '-status' : ''
-      } ${suffix ? id + '-suffix' : ''}`
+      textareaParams['aria-describedby'] = combineDescribedBy(
+        textareaParams,
+        showStatus ? id + '-status' : null,
+        suffix ? id + '-suffix' : null
+      )
     }
     if (readOnly) {
       textareaParams['aria-readonly'] = textareaParams.readOnly = true
-    }
-
-    const shellParams = {
-      className: 'dnb-textarea__shell'
-    }
-    if (isTrue(disabled)) {
-      shellParams['aria-disabled'] = true
     }
 
     const mainParams = {
@@ -313,6 +302,7 @@ export default class Textarea extends React.PureComponent {
         label_direction && `dnb-textarea--${label_direction}`,
         isTrue(stretch) && `dnb-textarea--stretch`,
         'dnb-form-component',
+        createSkeletonClass(null, skeleton),
         createSpacingClasses(props),
         _className,
         className
@@ -320,7 +310,18 @@ export default class Textarea extends React.PureComponent {
     }
 
     const innerParams = {
-      className: 'dnb-textarea__inner'
+      className: classnames(
+        'dnb-textarea__inner',
+        createSkeletonClass('shape', skeleton, this.context)
+      )
+    }
+
+    const shellParams = {
+      className: classnames('dnb-textarea__shell')
+    }
+
+    if (isTrue(disabled) || isTrue(skeleton)) {
+      shellParams['aria-disabled'] = true
     }
 
     // to show the ending dots on a placeholder, if the text is longer
@@ -332,8 +333,11 @@ export default class Textarea extends React.PureComponent {
           }
         : null
 
+    skeletonDOMAttributes(innerParams, skeleton, this.context)
+
     // also used for code markup simulation
     validateDOMAttributes(this.props, textareaParams)
+    validateDOMAttributes(null, innerParams)
     validateDOMAttributes(null, shellParams)
 
     if (TextareaElement && typeof TextareaElement === 'function') {
@@ -352,6 +356,7 @@ export default class Textarea extends React.PureComponent {
             label_direction={label_direction}
             sr_only={label_sr_only}
             disabled={disabled}
+            skeleton={skeleton}
           />
         )}
 
@@ -362,10 +367,12 @@ export default class Textarea extends React.PureComponent {
             <FormStatus
               id={id + '-form-status'}
               global_status_id={global_status_id}
+              label={label}
               text_id={id + '-status'} // used for "aria-describedby"
               text={status}
               status={status_state}
               animation={status_animation}
+              skeleton={skeleton}
             />
           )}
 

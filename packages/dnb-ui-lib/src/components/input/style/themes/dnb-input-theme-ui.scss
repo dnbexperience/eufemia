@@ -46,7 +46,10 @@
     }
 
     &[data-input-state='disabled'] {
-      color: var(--input-text-color--disabled);
+      &,
+      .dnb-icon {
+        color: var(--input-text-color--disabled);
+      }
       -webkit-text-fill-color: currentColor;
       @include fakeBorder(
         var(--input-border-color--disabled),
@@ -81,7 +84,6 @@
   &__status--error
     &__shell:not([data-input-state='focus'])
     ~ &__submit-element {
-    .dnb-button__icon,
     .dnb-button--secondary .dnb-button__icon {
       color: var(--color-fire-red);
     }

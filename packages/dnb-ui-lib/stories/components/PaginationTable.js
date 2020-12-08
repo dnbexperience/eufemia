@@ -14,28 +14,29 @@ import { hasSelectedText } from '../../src/shared/helpers'
 
 import { createPagination } from '../../src/components/Pagination'
 
-export default [
-  'PaginationTable',
-  () => (
-    <Wrapper className="dnb-core-style" spacing>
-      <Space left>
-        <H1 size="small">Infinity Table</H1>
-        <P bottom>
-          This is a semantic correct table using infinity scrolling. It
-          also has a sticky header.
-        </P>
-        <Ul bottom>
-          <li>The startup page number is set to 3.</li>
-          <li>And per page we show 10 items.</li>
-          <li>
-            A random delay is added to simulate asynchronous interaction.
-          </li>
-        </Ul>
-      </Space>
-      <InfinityPaginationTable tableItems={tableItems} />
-    </Wrapper>
-  )
-]
+export default {
+  title: 'Eufemia/Components/Pagination'
+}
+
+export const PaginationTable = () => (
+  <Wrapper className="dnb-core-style" spacing>
+    <Space left>
+      <H1 size="small">Infinity Table</H1>
+      <P bottom>
+        This is a semantic correct table using infinity scrolling. It also
+        has a sticky header.
+      </P>
+      <Ul bottom>
+        <li>The startup page number is set to 3.</li>
+        <li>And per page we show 10 items.</li>
+        <li>
+          A random delay is added to simulate asynchronous interaction.
+        </li>
+      </Ul>
+    </Space>
+    <InfinityPaginationTable tableItems={tableItems} />
+  </Wrapper>
+)
 
 // create our items
 const tableItems = []
@@ -354,7 +355,7 @@ const TableRow = styled.tr`
     td {
       height: inherit;
       padding: 0;
-      background-color: white;
+      background-color: var(--color-white);
 
       .expanded-content__outer {
         height: inherit;
@@ -443,5 +444,5 @@ const reorderDirection = (items, dir) =>
 // Page layout
 const Wrapper = styled(Section)`
   width: 100%;
-  background: white;
+  background: var(--color-white);
 `

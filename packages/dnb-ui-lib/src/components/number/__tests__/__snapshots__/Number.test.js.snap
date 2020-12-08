@@ -1,45 +1,67 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Number component have to match default number snapshot 1`] = `
-<Number
-  ban={null}
-  class={null}
-  className={null}
-  currency={null}
-  currency_display={null}
-  currency_position={null}
-  decimals={null}
+<Component
   element="span"
-  link={null}
   locale="nb-NO"
-  nin={null}
-  options={null}
-  org={null}
-  phone={null}
-  prefix={null}
-  selectall={true}
-  sufix={null}
   value={12345678.9876}
 >
-  <ForwardRef
-    className="dnb-number dnb-number--selectall"
-    is="span"
-    lang="nb-NO"
-    onClick={[Function]}
-    onCopy={[Function]}
-    role="text"
+  <Number
+    ban={null}
+    class={null}
+    className={null}
+    clean={null}
+    copy_selection={true}
+    currency={null}
+    currency_display={null}
+    currency_position={null}
+    decimals={null}
+    element="span"
+    id="unique"
+    link={null}
+    locale="nb-NO"
+    nin={null}
+    omit_rounding={null}
+    options={null}
+    org={null}
+    phone={null}
+    prefix={null}
+    selectall={true}
+    suffix={null}
+    value={12345678.9876}
   >
     <span
       className="dnb-number dnb-number--selectall"
       lang="nb-NO"
-      onClick={[Function]}
-      onCopy={[Function]}
       role="text"
     >
-      12 345 678,9876
+      <span
+        aria-describedby="unique"
+        aria-hidden={true}
+        className="dnb-number__visible"
+        onClick={[Function]}
+        onContextMenu={[Function]}
+      >
+        12 345 678,9876
+      </span>
+      <span
+        className="dnb-number__sr-only dnb-sr-only--inline"
+        id="unique"
+      >
+        12 345 678,9876
+      </span>
+      <span
+        aria-hidden={true}
+        className="dnb-number__selection dnb-no-focus"
+        onBlur={[Function]}
+        onCopy={[Function]}
+        tabIndex={-1}
+      >
+        12345678,9876
+      </span>
     </span>
-  </ForwardRef>
-</Number>
+  </Number>
+</Component>
 `;
 
 exports[`Number scss have to match snapshot 1`] = `
@@ -72,6 +94,7 @@ exports[`Number scss have to match snapshot 1`] = `
  *
  */
 .dnb-number {
+  position: relative;
   speak-as: numbers;
   color: inherit;
   white-space: nowrap; }
@@ -95,6 +118,25 @@ exports[`Number scss have to match snapshot 1`] = `
       line-height: 0; }
   .dnb-number--selectall {
     cursor: text; }
+  .dnb-number__visible {
+    position: relative;
+    z-index: 2; }
+  .dnb-number--selected .dnb-number__visible {
+    color: var(--color-black);
+    background-color: var(--color-mint-green); }
+  .dnb-number__selection {
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    user-select: none; }
+  .dnb-number--selected .dnb-number__selection {
+    z-index: 3;
+    user-select: all; }
+  .dnb-number.dnb-skeleton,
+  .dnb-skeleton .dnb-number {
+    -webkit-text-fill-color: var(--skeleton-color); }
 
 @keyframes number-fx-scale-out {
   0% {

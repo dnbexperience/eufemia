@@ -2,6 +2,7 @@
 
 exports[`Dropdown markup have to match snapshot 1`] = `
 <Dropdown
+  action_menu={null}
   align_dropdown={null}
   class="class"
   className="className"
@@ -28,6 +29,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
           "1134 56 78962",
           "Feriekonto - Kari Nordmann med et kjempelangt etternavnsen",
         ],
+        "selected_key": 1,
         "selected_value": "Feriekonto - Kari Nordmann med et kjempelangt etternavnsen",
       },
       Object {
@@ -35,6 +37,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
           "1534 96 48901",
           "Oppussing - Ole Nordmann",
         ],
+        "selected_key": "0x",
         "selected_value": "Oppussing - Ole Nordmann",
       },
       Object {
@@ -53,6 +56,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
           123
         </React.Fragment>,
       ],
+      "0y",
     ]
   }
   default_value="default_value"
@@ -64,6 +68,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
   icon_position={null}
   icon_size="icon_size"
   id="dropdown-id"
+  independent_width="independent_width"
   keep_open="keep_open"
   label="label"
   label_direction="horizontal"
@@ -83,6 +88,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
   prevent_selection={null}
   scrollable="scrollable"
   size={null}
+  skeleton="skeleton"
   skip_portal={true}
   status="status"
   status_animation="status_animation"
@@ -94,6 +100,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
   value={2}
 >
   <DrawerListProvider
+    action_menu={null}
     align_dropdown={null}
     class="class"
     className="className"
@@ -120,6 +127,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
             "1134 56 78962",
             "Feriekonto - Kari Nordmann med et kjempelangt etternavnsen",
           ],
+          "selected_key": 1,
           "selected_value": "Feriekonto - Kari Nordmann med et kjempelangt etternavnsen",
         },
         Object {
@@ -127,6 +135,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
             "1534 96 48901",
             "Oppussing - Ole Nordmann",
           ],
+          "selected_key": "0x",
           "selected_value": "Oppussing - Ole Nordmann",
         },
         Object {
@@ -145,6 +154,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
             123
           </React.Fragment>,
         ],
+        "0y",
       ]
     }
     default_value="default_value"
@@ -159,6 +169,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
     icon_size="icon_size"
     id="dropdown-id"
     ignore_events={false}
+    independent_width="independent_width"
     keep_open="keep_open"
     label="label"
     label_direction="horizontal"
@@ -180,9 +191,10 @@ exports[`Dropdown markup have to match snapshot 1`] = `
     page_offset={null}
     prevent_close="prevent_close"
     prevent_focus={false}
-    prevent_selection={null}
+    prevent_selection={false}
     scrollable="scrollable"
     size={null}
+    skeleton="skeleton"
     skip_keysearch={false}
     skip_portal={true}
     status="status"
@@ -198,6 +210,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
     wrapper_element={null}
   >
     <DropdownInstance
+      action_menu={null}
       align_dropdown={null}
       class="class"
       className="className"
@@ -224,6 +237,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
               "1134 56 78962",
               "Feriekonto - Kari Nordmann med et kjempelangt etternavnsen",
             ],
+            "selected_key": 1,
             "selected_value": "Feriekonto - Kari Nordmann med et kjempelangt etternavnsen",
           },
           Object {
@@ -231,6 +245,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
               "1534 96 48901",
               "Oppussing - Ole Nordmann",
             ],
+            "selected_key": "0x",
             "selected_value": "Oppussing - Ole Nordmann",
           },
           Object {
@@ -249,6 +264,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
               123
             </React.Fragment>,
           ],
+          "0y",
         ]
       }
       default_value="default_value"
@@ -260,6 +276,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
       icon_position={null}
       icon_size="icon_size"
       id="dropdown-id"
+      independent_width="independent_width"
       keep_open="keep_open"
       label="label"
       label_direction="horizontal"
@@ -279,6 +296,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
       prevent_selection={null}
       scrollable="scrollable"
       size={null}
+      skeleton="skeleton"
       skip_portal={true}
       status="status"
       status_animation="status_animation"
@@ -290,42 +308,33 @@ exports[`Dropdown markup have to match snapshot 1`] = `
       value={2}
     >
       <span
-        className="dnb-dropdown dnb-dropdown--bottom dnb-form-component class className dnb-dropdown--opened dnb-dropdown--horizontal dnb-dropdown__status--error dnb-dropdown__form-status"
+        className="dnb-dropdown dnb-dropdown--bottom dnb-dropdown--icon-position-right dnb-dropdown--right dnb-form-component class className dnb-dropdown--opened dnb-dropdown--horizontal dnb-dropdown__status--error dnb-dropdown__form-status"
       >
         <FormLabel
           class={null}
           className={null}
-          direction={null}
           disabled="disabled"
           element="label"
           for_id="dropdown-id"
           id="dropdown-id-label"
           label_direction="horizontal"
           onMouseDown={[Function]}
-          render_content={null}
+          skeleton="skeleton"
           sr_only="label_sr_only"
           text="label"
           title={null}
           vertical={null}
         >
-          <Element
+          <label
+            aria-disabled={true}
             className="dnb-form-label"
-            disabled={false}
+            disabled={true}
             htmlFor="dropdown-id"
             id="dropdown-id-label"
-            is="label"
             onMouseDown={[Function]}
           >
-            <label
-              className="dnb-form-label"
-              disabled={false}
-              htmlFor="dropdown-id"
-              id="dropdown-id-label"
-              onMouseDown={[Function]}
-            >
-              label
-            </label>
-          </Element>
+            label
+          </label>
         </FormLabel>
         <span
           className="dnb-dropdown__inner"
@@ -345,20 +354,25 @@ exports[`Dropdown markup have to match snapshot 1`] = `
             global_status_id="global_status_id"
             hidden={false}
             icon="error"
-            icon_size="large"
+            icon_size="medium"
             id="dropdown-id-form-status"
-            render_content={null}
+            label="label"
+            size="default"
+            skeleton="skeleton"
             state="error"
             status="error"
             text="status"
             text_id="dropdown-id-status"
             title={null}
+            variant={null}
+            width_element={null}
             width_selector={null}
           >
             <span
-              className="dnb-form-status dnb-form-status--error dnb-form-status--status_animation dnb-form-status--has-content"
+              className="dnb-form-status dnb-form-status--error dnb-form-status__size--default dnb-form-status__animation--status_animation dnb-form-status--has-content"
               hidden={false}
               id="dropdown-id-form-status"
+              label="label"
             >
               <span
                 className="dnb-form-status__shell"
@@ -375,13 +389,16 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                       title={null}
                     />
                   }
+                  inherit_color={false}
                   modifier={null}
-                  size="large"
+                  size="medium"
+                  skeleton={null}
                   title={null}
                   width={null}
                 >
                   <span
-                    className="dnb-icon dnb-icon--large"
+                    aria-hidden={true}
+                    className="dnb-icon dnb-icon--medium"
                     role="presentation"
                   >
                     <Component>
@@ -390,30 +407,23 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                       >
                         <svg
                           fill="none"
-                          height="32"
+                          height="24"
                           role="presentation"
                           title={null}
-                          viewBox="0 0 32 32"
-                          width="32"
-                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 24 24"
+                          width="24"
                         >
                           <path
-                            d="M16 25a.5.5 0 100 1 .5.5 0 000-1v0"
-                            stroke="#000"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="1.5"
+                            d="M23.625 17.864A3.547 3.547 0 0120.45 23H3.548a3.546 3.546 0 01-3.172-5.136l8.45-14.902a3.548 3.548 0 016.347 0l8.452 14.902z"
+                            fill="#DC2A2A"
                           />
                           <path
-                            d="M16 21V11"
-                            stroke="#000"
-                            strokeLinecap="round"
-                            strokeWidth="1.5"
+                            d="M12 16.286a1.286 1.286 0 100 2.572 1.286 1.286 0 000-2.572z"
+                            fill="#fff"
                           />
                           <path
-                            clipRule="evenodd"
-                            d="M18.161 2.347a2.408 2.408 0 00-4.322 0L1.208 28.077A2.028 2.028 0 003.029 31h25.942a2.028 2.028 0 001.821-2.923l-12.63-25.73z"
-                            stroke="#000"
+                            d="M12 13.818v-5"
+                            stroke="#fff"
                             strokeLinecap="round"
                             strokeLinejoin="round"
                             strokeWidth="1.5"
@@ -424,7 +434,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                   </span>
                 </Icon>
                 <span
-                  className="dnb-form-status--text"
+                  className="dnb-form-status__text"
                   id="dropdown-id-status"
                 >
                   status
@@ -443,20 +453,22 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                 aria-describedby="dropdown-id-status dropdown-id-suffix"
                 aria-expanded={true}
                 aria-haspopup="listbox"
-                aria-label="Feriekonto - Kari Nordmann med et kjempelangt etternavnsen"
+                aria-labelledby="dropdown-id-label dropdown-id"
                 bounding={false}
                 class={null}
                 className="dnb-dropdown__trigger dnb-button--active"
                 custom_element={null}
                 custom_method={null}
                 disabled="disabled"
+                element={null}
                 global_status_id={null}
                 href={null}
-                icon={null}
+                icon={false}
                 icon_position="right"
                 icon_size={null}
                 id="dropdown-id"
                 innerRef={null}
+                inner_ref={null}
                 onBlur={[Function]}
                 onClick={null}
                 onFocus={[Function]}
@@ -464,6 +476,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                 onMouseDown={[Function]}
                 on_click={null}
                 size={null}
+                skeleton={null}
                 status={null}
                 status_animation={null}
                 status_state="error"
@@ -479,7 +492,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                   aria-describedby="dropdown-id-status dropdown-id-suffix"
                   aria-expanded={true}
                   aria-haspopup="listbox"
-                  aria-label="Feriekonto - Kari Nordmann med et kjempelangt etternavnsen"
+                  aria-labelledby="dropdown-id-label dropdown-id"
                   className="dnb-button dnb-button--secondary dnb-button--has-text dnb-dropdown__trigger dnb-button--active"
                   disabled={false}
                   id="dropdown-id"
@@ -495,14 +508,14 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                     aria-describedby="dropdown-id-status dropdown-id-suffix"
                     aria-expanded={true}
                     aria-haspopup="listbox"
-                    aria-label="Feriekonto - Kari Nordmann med et kjempelangt etternavnsen"
+                    aria-labelledby="dropdown-id-label dropdown-id"
                     bounding={false}
                     class={null}
                     className="dnb-dropdown__trigger dnb-button--active"
                     content={
                       Array [
                         <span
-                          className="dnb-dropdown__text"
+                          className="dnb-dropdown__text dnb-button__text"
                         >
                           <span
                             className="dnb-dropdown__text__inner"
@@ -522,8 +535,10 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                             color={null}
                             height={null}
                             icon="icon"
+                            inherit_color={true}
                             modifier={null}
                             size="icon_size"
+                            skeleton={null}
                             title={null}
                             width={null}
                           />
@@ -533,13 +548,15 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                     custom_element={null}
                     custom_method={null}
                     disabled="disabled"
+                    element={null}
                     global_status_id={null}
                     href={null}
-                    icon={null}
+                    icon={false}
                     icon_position="right"
                     icon_size={null}
                     id="dropdown-id"
                     innerRef={null}
+                    inner_ref={null}
                     isIconOnly={false}
                     onBlur={[Function]}
                     onClick={null}
@@ -548,6 +565,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                     onMouseDown={[Function]}
                     on_click={null}
                     size={null}
+                    skeleton={false}
                     status={null}
                     status_animation={null}
                     status_state="error"
@@ -559,7 +577,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                     wrap={false}
                   >
                     <span
-                      className="dnb-dropdown__text"
+                      className="dnb-dropdown__text dnb-button__text"
                     >
                       <span
                         className="dnb-dropdown__text__inner"
@@ -579,8 +597,10 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                         color={null}
                         height={null}
                         icon="icon"
+                        inherit_color={true}
                         modifier={null}
                         size="icon_size"
+                        skeleton={null}
                         title={null}
                         width={null}
                       />
@@ -589,7 +609,8 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                 </button>
               </Button>
               <DrawerList
-                align_drawer={null}
+                action_menu={null}
+                align_drawer="right"
                 cache_hash={null}
                 class={null}
                 className={null}
@@ -603,8 +624,9 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                 focusable="focusable"
                 id="dropdown-id"
                 ignore_events={null}
-                independent_width={false}
+                independent_width={null}
                 inner_class="dnb-dropdown__list"
+                is_popup={null}
                 keep_open="keep_open"
                 max_height={1}
                 no_animation={true}
@@ -621,19 +643,21 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                 prepared_data={null}
                 prevent_close="prevent_close"
                 prevent_focus={false}
-                prevent_selection={null}
+                prevent_selection={false}
                 raw_data={null}
+                role="listbox"
                 scrollable="scrollable"
                 size={null}
                 skip_keysearch={false}
                 skip_portal={true}
                 triangle_position="right"
-                use_drawer_on_mobile={false}
+                use_drawer_on_mobile={null}
                 value={2}
                 wrapper_element={null}
               >
                 <DrawerListInstance
-                  align_drawer={null}
+                  action_menu={null}
+                  align_drawer="right"
                   cache_hash={null}
                   class={null}
                   className={null}
@@ -647,8 +671,9 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                   focusable="focusable"
                   id="dropdown-id"
                   ignore_events={null}
-                  independent_width={false}
+                  independent_width={null}
                   inner_class="dnb-dropdown__list"
+                  is_popup={null}
                   keep_open="keep_open"
                   max_height={1}
                   no_animation={true}
@@ -665,14 +690,15 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                   prepared_data={null}
                   prevent_close="prevent_close"
                   prevent_focus={false}
-                  prevent_selection={null}
+                  prevent_selection={false}
                   raw_data={null}
+                  role="listbox"
                   scrollable="scrollable"
                   size={null}
                   skip_keysearch={false}
                   skip_portal={true}
                   triangle_position="right"
-                  use_drawer_on_mobile={false}
+                  use_drawer_on_mobile={null}
                   value={2}
                   wrapper_element={null}
                 >
@@ -680,7 +706,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                     className="dnb-drawer-list__root"
                   >
                     <span
-                      className="dnb-drawer-list dnb-drawer-list--bottom dnb-drawer-list--opened dnb-drawer-list--triangle-position-right"
+                      className="dnb-drawer-list dnb-drawer-list--bottom dnb-drawer-list--opened dnb-drawer-list--triangle-position-right dnb-drawer-list--right"
                       disabled="disabled"
                       id="dropdown-id-drawer-list"
                     >
@@ -705,10 +731,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                           tabIndex="-1"
                           triangleRef={
                             Object {
-                              "current": <li
-                                aria-hidden="true"
-                                class="dnb-drawer-list__triangle"
-                              />,
+                              "current": null,
                             }
                           }
                         >
@@ -738,6 +761,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                                 onClick={[Function]}
                                 onKeyDown={[Function]}
                                 on_click={null}
+                                role="option"
                                 selected={false}
                                 value={null}
                               >
@@ -785,6 +809,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                                 onClick={[Function]}
                                 onKeyDown={[Function]}
                                 on_click={null}
+                                role="option"
                                 selected={false}
                                 value={null}
                               >
@@ -832,6 +857,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                                 onClick={[Function]}
                                 onKeyDown={[Function]}
                                 on_click={null}
+                                role="option"
                                 selected={true}
                                 value={null}
                               >
@@ -880,6 +906,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                                 onClick={[Function]}
                                 onKeyDown={[Function]}
                                 on_click={null}
+                                role="option"
                                 selected={false}
                                 value={null}
                               >
@@ -927,6 +954,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                                 onClick={[Function]}
                                 onKeyDown={[Function]}
                                 on_click={null}
+                                role="option"
                                 selected={false}
                                 value={null}
                               >
@@ -964,6 +992,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                                 onClick={[Function]}
                                 onKeyDown={[Function]}
                                 on_click={null}
+                                role="option"
                                 selected={false}
                                 value={null}
                               >
@@ -993,7 +1022,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                               <DrawerList.Item
                                 active={false}
                                 class={null}
-                                className="last-of-type"
+                                className=""
                                 data-item={6}
                                 hash="option-dropdown-id-6-6"
                                 id="option-dropdown-id-6"
@@ -1001,12 +1030,13 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                                 onClick={[Function]}
                                 onKeyDown={[Function]}
                                 on_click={null}
+                                role="option"
                                 selected={false}
                                 value={null}
                               >
                                 <li
                                   aria-selected={false}
-                                  className="last-of-type dnb-drawer-list__option"
+                                  className="dnb-drawer-list__option"
                                   data-item={6}
                                   id="option-dropdown-id-6"
                                   key="lioption-dropdown-id-6-6"
@@ -1032,6 +1062,43 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                                   </span>
                                 </li>
                               </DrawerList.Item>
+                              <DrawerList.Item
+                                active={false}
+                                class={null}
+                                className="last-of-type"
+                                data-item={7}
+                                hash="option-dropdown-id-7-7"
+                                id="option-dropdown-id-7"
+                                key="option-dropdown-id-7-7"
+                                onClick={[Function]}
+                                onKeyDown={[Function]}
+                                on_click={null}
+                                role="option"
+                                selected={false}
+                                value={null}
+                              >
+                                <li
+                                  aria-selected={false}
+                                  className="last-of-type dnb-drawer-list__option"
+                                  data-item={7}
+                                  id="option-dropdown-id-7"
+                                  key="lioption-dropdown-id-7-7"
+                                  onClick={[Function]}
+                                  onKeyDown={[Function]}
+                                  role="option"
+                                  tabIndex="-1"
+                                >
+                                  <span
+                                    className="dnb-drawer-list__option__inner"
+                                  >
+                                    <ItemContent
+                                      hash="option-dropdown-id-7-7"
+                                    >
+                                      0y
+                                    </ItemContent>
+                                  </span>
+                                </li>
+                              </DrawerList.Item>
                             </Items>
                             <li
                               aria-hidden={true}
@@ -1039,6 +1106,9 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                             />
                           </ul>
                         </ForwardRef>
+                        <OnMounted
+                          assignObservers={[Function]}
+                        />
                       </span>
                     </span>
                   </span>
@@ -1050,6 +1120,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
               id="dropdown-id-suffix"
             >
               <Suffix
+                action_menu={null}
                 align_dropdown={null}
                 class="class"
                 className="className"
@@ -1076,6 +1147,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                         "1134 56 78962",
                         "Feriekonto - Kari Nordmann med et kjempelangt etternavnsen",
                       ],
+                      "selected_key": 1,
                       "selected_value": "Feriekonto - Kari Nordmann med et kjempelangt etternavnsen",
                     },
                     Object {
@@ -1083,6 +1155,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                         "1534 96 48901",
                         "Oppussing - Ole Nordmann",
                       ],
+                      "selected_key": "0x",
                       "selected_value": "Oppussing - Ole Nordmann",
                     },
                     Object {
@@ -1101,6 +1174,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                         123
                       </React.Fragment>,
                     ],
+                    "0y",
                   ]
                 }
                 default_value="default_value"
@@ -1112,6 +1186,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                 icon_position={null}
                 icon_size="icon_size"
                 id="dropdown-id"
+                independent_width="independent_width"
                 keep_open="keep_open"
                 label="label"
                 label_direction="horizontal"
@@ -1131,6 +1206,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                 prevent_selection={null}
                 scrollable="scrollable"
                 size={null}
+                skeleton="skeleton"
                 skip_portal={true}
                 status="status"
                 status_animation="status_animation"
@@ -1177,8 +1253,8 @@ exports[`Dropdown scss have to match default theme snapshot 1`] = `
     html:not([data-whatintent='touch']) .dnb-dropdown__trigger:hover:not([disabled]) {
       color: var(--dropdown-text-color); }
   .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger {
-    box-shadow: 0 0 0 0.125rem var(--color-fire-red) !important;
-    /* IE11 fix */
+    --border-color: var(--color-fire-red);
+    box-shadow: 0 0 0 0.125rem var(--border-color) !important;
     border-color: transparent; }
     @media screen and (-ms-high-contrast: none) {
       .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger {
@@ -1186,8 +1262,8 @@ exports[`Dropdown scss have to match default theme snapshot 1`] = `
     html:not([data-whatintent='touch']) .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger:hover[disabled] {
       cursor: not-allowed; }
     html:not([data-whatintent='touch']) .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger:hover:not([disabled]) {
-      box-shadow: 0 0 0 0.125rem var(--color-fire-red) !important;
-      /* IE11 fix */
+      --border-color: var(--color-fire-red);
+      box-shadow: 0 0 0 0.125rem var(--border-color) !important;
       border-color: transparent; }
       @media screen and (-ms-high-contrast: none) {
         html:not([data-whatintent='touch']) .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger:hover:not([disabled]) {
@@ -1249,10 +1325,10 @@ exports[`Dropdown scss have to match snapshot 1`] = `
     width: inherit; }
   .dnb-icon svg[height='100%'] {
     height: inherit; }
-  .dnb-icon svg:not([fill]),
-  .dnb-icon svg [fill] {
+  .dnb-icon--inherit-color svg:not([fill]),
+  .dnb-icon--inherit-color svg [fill] {
     fill: currentColor; }
-  .dnb-icon svg [stroke] {
+  .dnb-icon--inherit-color svg [stroke] {
     stroke: currentColor; }
   .dnb-icon--small {
     font-size: 0.75rem; }
@@ -1282,6 +1358,10 @@ exports[`Dropdown scss have to match snapshot 1`] = `
   h5 .dnb-icon,
   h6 .dnb-icon {
     vertical-align: middle; }
+  .dnb-icon.dnb-skeleton {
+    color: var(--skeleton-color) !important; }
+    .dnb-icon.dnb-skeleton::before, .dnb-icon.dnb-skeleton::after {
+      content: none !important; }
   @media screen and (-ms-high-contrast: none) {
     .dnb-icon {
       flex: none; } }
@@ -1341,36 +1421,42 @@ exports[`Dropdown scss have to match snapshot 1`] = `
  * FormStatus component
  *
  */
+:root {
+  --form-status-radius: 0.25rem; }
+
 .dnb-form-status {
   display: flex; }
   .dnb-form-status__shell {
     display: flex;
     justify-content: flex-start;
     align-items: flex-start;
-    border-radius: var(--input-border-radius); }
-  .dnb-form-status--text {
-    padding: calc(0.5rem / 2) 1rem;
+    min-width: inherit;
+    border-radius: var(--form-status-radius); }
+  .dnb-form-status__text {
+    padding: 0.625rem 1rem;
     cursor: text;
     color: inherit;
-    line-height: var(--line-height-basis);
+    line-height: var(--line-height-small);
+    font-size: var(--font-size-small);
     white-space: normal; }
-    .dnb-form-status--text .dnb-anchor {
+    .dnb-form-status__text .dnb-anchor {
       font-size: inherit; }
-  .dnb-icon + .dnb-form-status--text {
+  .dnb-icon + .dnb-form-status__text {
     padding-left: 0.5rem; }
   .dnb-form-status__shell > .dnb-icon {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 1.5em;
-    height: 1.5em;
-    margin-top: 0.25em;
-    margin-left: 0.5em;
-    color: inherit;
-    font-size: var(--font-size-small); }
+    margin: 0.3333333em 0.3333333em 0.3333333em 0.6666666em; }
+  .dnb-form-status__size--large .dnb-form-status__text {
+    padding-top: 1.125rem;
+    padding-bottom: 1.125rem; }
+  .dnb-form-status__size--large .dnb-form-status__shell > .dnb-icon {
+    margin-top: 0.6666666em;
+    margin-bottom: 0.6666666em; }
   .dnb-form-status[hidden] {
     display: none; }
-  .dnb-form-status--fade-in {
+  .dnb-form-status__animation--fade-in {
     overflow: hidden;
     max-height: 0;
     animation: form-status-fade-in 2s ease-out 400ms forwards; }
@@ -1586,9 +1672,12 @@ exports[`Dropdown scss have to match snapshot 1`] = `
     .dnb-button--reset:not([disabled]):focus, .dnb-button--reset:not([disabled]):active {
       outline: none; }
       html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):focus, html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):active {
-        box-shadow: 0 0 0 0.125rem var(--color-emerald-green);
-        /* IE11 fix */
+        --border-color: var(--color-emerald-green);
+        box-shadow: 0 0 0 0.125rem var(--border-color);
         border-color: transparent; }
+        @media screen and (-ms-high-contrast: none) {
+          html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):focus, html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):active {
+            box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
     html[data-whatinput='mouse'] .dnb-button--reset:not([disabled]):focus,
     html[data-whatinput='mouse'] .dnb-button--reset:not([disabled]):active {
       box-shadow: none;
@@ -1802,6 +1891,59 @@ legend.dnb-form-label {
     width: 100%; }
     .dnb-dropdown__trigger.dnb-button {
       padding: 0 1rem; }
+  .dnb-dropdown__text {
+    order: 1;
+    position: relative;
+    z-index: 4;
+    display: inline-flex;
+    width: 100%;
+    overflow: hidden;
+    color: inherit;
+    text-align: left;
+    text-overflow: ellipsis;
+    line-height: inherit;
+    font-size: var(--font-size-basis); }
+    .dnb-dropdown__text__inner {
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: inherit; }
+  .dnb-dropdown--icon-position-left .dnb-dropdown__text {
+    order: 2;
+    padding-right: 0;
+    padding-left: var(--dropdown-text-padding); }
+  .dnb-dropdown--icon-position-left .dnb-dropdown__icon {
+    order: 1; }
+  .dnb-dropdown--independent-width .dnb-dropdown__shell {
+    width: auto; }
+  @media screen and (max-width: 40em) {
+    .dnb-dropdown--action-menu .dnb-dropdown__trigger.dnb-button {
+      padding-left: 0.5rem;
+      padding-right: 0.5rem; } }
+  @media screen and (min-width: 40em) {
+    .dnb-dropdown--action-menu .dnb-dropdown__shell .dnb-dropdown__text {
+      padding: 0 0.5rem; } }
+  @media screen and (max-width: 40em) {
+    .dnb-dropdown--action-menu .dnb-dropdown__shell .dnb-dropdown__text {
+      width: 0;
+      padding: 0; } }
+  .dnb-dropdown--icon-position-left .dnb-button--tertiary
+~ .dnb-drawer-list__root--portal {
+    left: -0.5rem; }
+  .dnb-dropdown--icon-position-right .dnb-button--tertiary
+~ .dnb-drawer-list__root--portal {
+    left: 0.5rem; }
+  .dnb-dropdown .dnb-button--tertiary.dnb-button--active {
+    box-shadow: none; }
+  .dnb-dropdown .dnb-button--tertiary .dnb-button__text {
+    margin: 0 0.5rem; }
+    .dnb-dropdown .dnb-button--tertiary .dnb-button__text::after {
+      bottom: 0; }
+  .dnb-dropdown--icon-position-left .dnb-button--tertiary .dnb-dropdown__text,
+  .dnb-dropdown--icon-position-right .dnb-button--tertiary .dnb-dropdown__text {
+    padding: 0; }
+  .dnb-dropdown .dnb-button--tertiary:focus::before {
+    left: 0 !important;
+    right: 0 !important; }
   .dnb-dropdown--default.dnb-dropdown--is-popup .dnb-dropdown__shell,
   .dnb-dropdown--is-popup .dnb-dropdown__trigger {
     padding: 0;
@@ -1822,56 +1964,30 @@ legend.dnb-form-label {
   .dnb-dropdown--large.dnb-dropdown--is-popup .dnb-dropdown__shell,
   .dnb-dropdown--large.dnb-dropdown--is-popup .dnb-dropdown__trigger {
     width: var(--dropdown-height--large); }
-  .dnb-dropdown--small {
-    line-height: var(--dropdown-height--small); }
   .dnb-dropdown--small .dnb-dropdown__shell,
   .dnb-dropdown--small .dnb-dropdown__trigger {
     height: var(--dropdown-height--small); }
+  .dnb-dropdown--small,
   .dnb-dropdown--small .dnb-dropdown__trigger.dnb-button {
     line-height: var(--dropdown-height--small); }
-  .dnb-dropdown--medium {
-    line-height: var(--dropdown-height--medium); }
   .dnb-dropdown--medium .dnb-dropdown__shell,
   .dnb-dropdown--medium .dnb-dropdown__trigger {
     height: var(--dropdown-height--medium);
     border-radius: var(--dropdown-height--medium); }
+  .dnb-dropdown--medium,
   .dnb-dropdown--medium .dnb-dropdown__trigger.dnb-button {
     line-height: var(--dropdown-height--medium); }
-  .dnb-dropdown--large {
-    line-height: var(--dropdown-height--large); }
   .dnb-dropdown--large .dnb-dropdown__shell,
   .dnb-dropdown--large .dnb-dropdown__trigger {
     height: var(--dropdown-height--large);
     border-radius: var(--dropdown-height--large); }
+  .dnb-dropdown--large,
   .dnb-dropdown--large .dnb-dropdown__trigger.dnb-button {
     line-height: var(--dropdown-height--large); }
+  .dnb-dropdown--large .dnb-dropdown__trigger.dnb-button .dnb-dropdown__text {
+    line-height: var(--line-height-basis); }
   .dnb-dropdown--is-popup .dnb-dropdown__trigger.dnb-button {
     padding: 0; }
-  .dnb-dropdown__text {
-    order: 1;
-    position: relative;
-    z-index: 4;
-    display: inline-flex;
-    width: 100%;
-    overflow: hidden;
-    color: inherit;
-    text-align: left;
-    text-overflow: ellipsis;
-    font-size: var(--font-size-basis); }
-    .dnb-dropdown__text__inner {
-      display: inline-block;
-      width: 100%;
-      overflow: hidden;
-      white-space: nowrap;
-      color: inherit;
-      text-overflow: inherit;
-      text-align: inherit; }
-  .dnb-dropdown--icon-position-left .dnb-dropdown__icon {
-    order: 1; }
-  .dnb-dropdown--icon-position-left .dnb-dropdown__text {
-    order: 2;
-    padding-right: 0;
-    padding-left: var(--dropdown-text-padding); }
   .dnb-dropdown > .dnb-form-label {
     margin-right: 1rem;
     line-height: var(--line-height-basis); }

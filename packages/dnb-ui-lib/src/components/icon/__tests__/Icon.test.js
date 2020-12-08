@@ -14,10 +14,6 @@ import {
 import Component from '../Icon'
 import { question } from './test-files'
 
-// just to make sure we re-run the test in watch mode due to changes in theese files
-import _icon from '../style/_icon.scss' // eslint-disable-line
-import dnb_icon from '../style/dnb-icon.scss' // eslint-disable-line
-
 const props = fakeProps(require.resolve('../Icon'), {
   optional: true
 })
@@ -59,6 +55,13 @@ describe('Icon component', () => {
     expect(Comp.find('span.dnb-icon').hasClass('dnb-icon--border')).toBe(
       true
     )
+  })
+
+  it('should not be hidden, given aria-hidden="false"', () => {
+    const Comp = mount(<Component {...props} aria-hidden={false} />)
+    expect(
+      Comp.find('span.dnb-icon').instance().getAttribute('aria-hidden')
+    ).toBe('false')
   })
 
   it('should work with custom size', () => {

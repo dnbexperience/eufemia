@@ -22,6 +22,7 @@ exports[`StepIndicator component with buttons have to match snapshot 1`] = `
   hide_numbers={false}
   on_change={null}
   on_item_render={null}
+  skeleton={false}
   step_title="%step"
   use_navigation={true}
 >
@@ -44,7 +45,7 @@ exports[`StepIndicator component with buttons have to match snapshot 1`] = `
         hide_numbers={false}
         is_active={null}
         is_current={null}
-        key="bc0"
+        key="0"
         on_change={null}
         on_click={null}
         on_item_render={null}
@@ -93,7 +94,7 @@ exports[`StepIndicator component with buttons have to match snapshot 1`] = `
         hide_numbers={false}
         is_active={null}
         is_current={null}
-        key="bc1"
+        key="1"
         on_change={null}
         on_click={null}
         on_item_render={null}
@@ -143,7 +144,7 @@ exports[`StepIndicator component with buttons have to match snapshot 1`] = `
         hide_numbers={false}
         is_active={null}
         is_current={null}
-        key="bc2"
+        key="2"
         on_change={null}
         on_click={null}
         on_item_render={null}
@@ -213,6 +214,7 @@ exports[`StepIndicator component with urls have to match snapshot 1`] = `
   hide_numbers="hide_numbers"
   on_change={[Function]}
   on_item_render={null}
+  skeleton="skeleton"
   step_title="step_title"
   use_navigation="use_navigation"
 >
@@ -235,7 +237,7 @@ exports[`StepIndicator component with urls have to match snapshot 1`] = `
         hide_numbers="hide_numbers"
         is_active={null}
         is_current={null}
-        key="bc0"
+        key="0"
         on_change={[Function]}
         on_click={null}
         on_item_render={null}
@@ -284,7 +286,7 @@ exports[`StepIndicator component with urls have to match snapshot 1`] = `
         hide_numbers="hide_numbers"
         is_active={null}
         is_current={null}
-        key="bc1"
+        key="1"
         on_change={[Function]}
         on_click={null}
         on_item_render={null}
@@ -334,7 +336,7 @@ exports[`StepIndicator component with urls have to match snapshot 1`] = `
         hide_numbers="hide_numbers"
         is_active={null}
         is_current={null}
-        key="bc2"
+        key="2"
         on_change={[Function]}
         on_click={null}
         on_item_render={null}
@@ -526,9 +528,13 @@ exports[`StepIndicator scss have to match snapshot 1`] = `
       outline: none; }
       html[data-whatinput='keyboard'] .dnb-step-indicator__item-content--link:focus:not([disabled]), html[data-whatinput='keyboard']
       html:not([data-whatintent='touch']) .dnb-step-indicator__item-content--link:focus:not([disabled]) {
-        box-shadow: 0 0 0 0.125rem var(--color-emerald-green);
-        /* IE11 fix */
+        --border-color: var(--color-emerald-green);
+        box-shadow: 0 0 0 0.125rem var(--border-color);
         border-color: transparent; }
+        @media screen and (-ms-high-contrast: none) {
+          html[data-whatinput='keyboard'] .dnb-step-indicator__item-content--link:focus:not([disabled]), html[data-whatinput='keyboard']
+          html:not([data-whatintent='touch']) .dnb-step-indicator__item-content--link:focus:not([disabled]) {
+            box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
       .dnb-step-indicator__item-content--link:focus:not([disabled])::after,
       html:not([data-whatintent='touch']) .dnb-step-indicator__item-content--link:focus:not([disabled])::after {
         content: none; }
@@ -554,7 +560,7 @@ exports[`StepIndicator scss have to match snapshot 1`] = `
     bottom: 0;
     width: 100vw;
     height: 1px;
-    color: black;
+    color: var(--color-black);
     background-color: currentColor;
     box-shadow: 100vw 0 0 0 currentColor; }
 "

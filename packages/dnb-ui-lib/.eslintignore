@@ -2,6 +2,9 @@
 !/**/.eslintrc.js
 **/tests/**/*.js
 **/dist/**
+**/build/**
+**/assets/**
+**/.cache/**
 **/icons/**
 **/node_modules/**
 *not_in_use*

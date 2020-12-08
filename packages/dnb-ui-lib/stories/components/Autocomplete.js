@@ -9,6 +9,11 @@ import styled from '@emotion/styled'
 
 import { Autocomplete, Number, Button } from '../../src/components'
 import { Anchor } from '../../src/elements'
+import { SubmitButton } from '../../src/components/input/Input'
+
+export default {
+  title: 'Eufemia/Components/Autocomplete'
+}
 
 const CustomStyle = styled.div`
   .dnb-autocomplete__shell {
@@ -26,7 +31,7 @@ const AutocompleteWithState = () => {
     <Autocomplete
       mode="async" // prevents showing no options message og typing
       no_scroll_animation
-      prevent_selection
+      // prevent_selection
       placeholder="Search ..."
       // label="Search"
       // label_sr_only="true"
@@ -52,20 +57,59 @@ const AutocompleteWithState = () => {
             // 2. if it gets debounced, we cancel this timeout
             return () => clearTimeout(timeout)
           },
-          { value, results }
+          { value, results },
+          1e3
         )
       }}
     />
   )
 }
 
-const AutocompleteStory = () => {
+export const AutocompleteSandbox = () => {
   // const [data, setData] = useState(autocompleteData)
   // const [value, setSelectedItem] = useState(0)
   return (
     <Wrapper>
       <Box>
-        <UpdateDataExample></UpdateDataExample>
+        <Autocomplete
+          label="Keep value"
+          data={topMovies}
+          input_value="does not exist"
+          // keep_value
+          // disable_filter
+          keep_value_and_selection
+          // prevent_selection
+          on_change={({ data }) => {
+            console.log('on_change', data)
+          }}
+          on_show={({ event, data }) => {
+            console.log('on_show', event, data)
+          }}
+          on_focus={({ event, data }) => {
+            console.log('on_focus', event, data)
+          }}
+          on_blur={({ event, data }) => {
+            console.log('on_blur', event, data)
+          }}
+        />
+      </Box>
+      <Box>
+        <Autocomplete
+          label="Label:"
+          show_submit_button="true"
+          // icon="bell"
+          // input_icon="bell"
+          // submit_button_icon="bell"
+          submit_element={<SubmitButton icon="bell" />}
+          on_change={({ data }) => {
+            console.log('on_change', data)
+          }}
+        >
+          {() => topMovies}
+        </Autocomplete>
+      </Box>
+      <Box>
+        <UpdateDataExample />
       </Box>
       <Box>
         <CustomStyle>
@@ -106,12 +150,15 @@ const AutocompleteStory = () => {
                   </Anchor>,
                   <a key="b" href="/" className="dnb-anchor">
                     Pro Com 2
+                  </a>,
+                  <a key="c" href="/" className="dnb-anchor">
+                    Pro Com 3
                   </a>
                 ]
               ]
-            }
-            // ,'More',
-            // 'Comp X',
+            },
+            'More',
+            'Comp X'
             // {
             //   content: [
             //     'Other Content',
@@ -167,7 +214,7 @@ const AutocompleteStory = () => {
       <Box>
         <Autocomplete
           mode="async" // prevents showing no options message og typing
-          // label="Search"
+          label="No selection / no filter"
           // label_sr_only="true"
           prevent_selection
           disable_filter
@@ -243,7 +290,7 @@ const AutocompleteStory = () => {
           // opened
           // prevent_close
           no_animation
-          prevent_selection
+          // prevent_selection
           // input_value="the g er"
           input_value="episode a I"
           mode="async"
@@ -294,8 +341,6 @@ const AutocompleteStory = () => {
     </Wrapper>
   )
 }
-
-export default ['Autocomplete', AutocompleteStory]
 
 const testData = [
   {
@@ -587,7 +632,7 @@ function UpdateDataExample() {
 
       <Autocomplete
         title="Choose an item"
-        prevent_selection
+        // prevent_selection
         data={choiceData}
         on_change={({
           data,

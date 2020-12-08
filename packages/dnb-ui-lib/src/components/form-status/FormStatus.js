@@ -8,7 +8,6 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import Context from '../../shared/Context'
 import {
-  warn,
   isTrue,
   registerElement,
   makeUniqueId,
@@ -19,87 +18,93 @@ import {
 import { createSpacingClasses } from '../space/SpacingHelper'
 import Icon from '../icon/Icon'
 import GlobalStatusProvider from '../global-status/GlobalStatusProvider'
-
-const renderProps = {
-  render_content: null
-}
-
-const propTypes = {
-  id: PropTypes.string,
-  title: PropTypes.string,
-  text: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.bool,
-    PropTypes.func,
-    PropTypes.node
-  ]),
-  icon: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-    PropTypes.node
-  ]),
-  icon_size: PropTypes.string,
-  state: PropTypes.oneOfType([
-    PropTypes.bool,
-    PropTypes.string,
-    PropTypes.oneOf(['error', 'info'])
-  ]),
-  // status is Deprecated
-  status: PropTypes.oneOfType([
-    PropTypes.bool,
-    PropTypes.string,
-    PropTypes.oneOf(['error', 'info'])
-  ]),
-  global_status_id: PropTypes.string,
-  hidden: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  text_id: PropTypes.string,
-  width_selector: PropTypes.string,
-  class: PropTypes.string,
-  animation: PropTypes.string,
-
-  /** React props */
-  className: PropTypes.string,
-  children: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-    PropTypes.node
-  ]),
-
-  // Web Component props
-  render_content: PropTypes.func
-}
-
-const defaultProps = {
-  id: null,
-  title: null,
-  text: null,
-  icon: 'error',
-  icon_size: 'large',
-  state: 'error',
-  status: null, // Deprecated
-  global_status_id: null,
-  hidden: false,
-  text_id: null,
-  width_selector: null,
-  class: null,
-  animation: null, // could be 'fade-in'
-
-  /** React props */
-  className: null,
-  children: null,
-
-  // Web Component props
-  ...renderProps
-}
+import {
+  skeletonDOMAttributes,
+  createSkeletonClass
+} from '../skeleton/SkeletonHelper'
 
 export default class FormStatus extends React.PureComponent {
   static tagName = 'dnb-form-status'
-  static propTypes = propTypes
-  static defaultProps = defaultProps
   static contextType = Context
 
+  static propTypes = {
+    id: PropTypes.string,
+    title: PropTypes.string,
+    text: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool,
+      PropTypes.func,
+      PropTypes.node
+    ]),
+    label: PropTypes.node,
+    icon: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.func,
+      PropTypes.node
+    ]),
+    icon_size: PropTypes.string,
+    state: PropTypes.oneOfType([
+      PropTypes.bool,
+      PropTypes.string,
+      PropTypes.oneOf(['error', 'warn', 'info'])
+    ]),
+    variant: PropTypes.oneOf(['flat', 'outlined']),
+    size: PropTypes.oneOf(['default', 'large']),
+    // status is Deprecated
+    status: PropTypes.oneOfType([
+      PropTypes.bool,
+      PropTypes.string,
+      PropTypes.oneOf(['error', 'warn', 'info'])
+    ]),
+    global_status_id: PropTypes.string,
+    hidden: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    text_id: PropTypes.string,
+    width_selector: PropTypes.string,
+    width_element: PropTypes.object,
+    class: PropTypes.string,
+    animation: PropTypes.string,
+    skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+
+    /** React props */
+    className: PropTypes.string,
+    children: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.func,
+      PropTypes.node
+    ])
+  }
+
+  static defaultProps = {
+    id: null,
+    title: null,
+    text: null,
+    label: null,
+    icon: 'error',
+    icon_size: 'medium',
+    size: 'default',
+    variant: null,
+    state: 'error',
+    status: null, // Deprecated
+    global_status_id: null,
+    hidden: false,
+    text_id: null,
+    width_selector: null,
+    width_element: null,
+    class: null,
+    animation: null, // could be 'fade-in'
+    skeleton: null,
+
+    /** React props */
+    className: null,
+    children: null
+  }
+
   static enableWebComponent() {
-    registerElement(FormStatus.tagName, FormStatus, defaultProps)
+    registerElement(
+      FormStatus.tagName,
+      FormStatus,
+      FormStatus.defaultProps
+    )
   }
 
   static getContent(props) {
@@ -109,8 +114,6 @@ export default class FormStatus extends React.PureComponent {
       }
       return props.text
     }
-    if (typeof props.render_content === 'function')
-      props.render_content(props)
     return processChildren(props)
   }
 
@@ -123,34 +126,61 @@ export default class FormStatus extends React.PureComponent {
         case 'information':
           IconToLoad = InfoIcon
           break
+        case 'warn':
+        case 'warning':
+          IconToLoad = WarnIcon
+          break
         case 'error':
         default:
           IconToLoad = ErrorIcon
       }
 
-      icon = <Icon icon={<IconToLoad title={null} />} size={icon_size} />
+      icon = (
+        <Icon
+          icon={<IconToLoad title={null} />}
+          size={icon_size}
+          inherit_color={false}
+        />
+      )
     }
 
     return icon
   }
 
+  static getDerivedStateFromProps(props, state) {
+    if (state._id !== props.id) {
+      state.id = props.id
+    }
+
+    state._id = props.id
+
+    return state
+  }
+
+  state = { id: null }
+
   constructor(props) {
     super(props)
 
     // we do not use a random ID here, as we don't need it for now
-    this._id = props.id || makeUniqueId()
+    this.state.id = props.id || makeUniqueId()
 
     if (props.status !== 'info') {
       this.gsProvider = GlobalStatusProvider.init(
         props.global_status_id || 'main',
         (provider) => {
           // gets called once ready
-          const { text, state } = this.props
-          const status_id = this._id
+          const { state, text, label } = this.props
           provider.add({
             state,
-            status_id,
-            item: { text, status_id, status_anchor_url: true }
+            status_id: `${this.state.id}-gs`,
+            // show: true,
+            item: {
+              status_id: this.state.id,
+              text,
+              status_anchor_label: label,
+              status_anchor_url: true
+            }
           })
         }
       )
@@ -159,98 +189,79 @@ export default class FormStatus extends React.PureComponent {
     this._ref = React.createRef()
   }
 
-  correctStatus(state) {
-    switch (state) {
-      case 'information':
-        state = 'info'
-        break
-    }
-    return state
-  }
-
   componentDidMount() {
     if (this.gsProvider) {
       this.gsProvider.isReady()
     }
 
+    this.updateWidth()
+  }
+
+  componentDidUpdate(prevProps) {
+    if (
+      this.gsProvider &&
+      (prevProps.text !== this.props.text ||
+        prevProps.state !== this.props.state)
+    ) {
+      const { state, text, label } = this.props
+      const status_id = `${this.state.id}-gs`
+      this.gsProvider.update(
+        status_id,
+        {
+          state,
+          item: {
+            status_id: this.state.id,
+            text,
+            status_anchor_label: label,
+            status_anchor_url: true
+          }
+        },
+        {
+          preventRestack: true // because of the internal "close"
+        }
+      )
+    }
+
+    this.updateWidth()
+  }
+
+  correctStatus(state) {
+    switch (state) {
+      case 'information':
+        state = 'info'
+        break
+      case 'warning':
+        state = 'warn'
+        break
+    }
+    return state
+  }
+
+  updateWidth() {
     // set max-width to this form-status, using the "linked mother"
-    this.setMaxWidth()
+    if (this._ref.current) {
+      const { width_element, width_selector } = this.props
+      setMaxWidthToElement({
+        element: this._ref.current,
+        widthElement: width_element && width_element.current,
+        widthSelector: width_selector
+      })
+    }
   }
 
   componentWillUnmount() {
     if (this.gsProvider) {
-      this.gsProvider.remove(this._id)
+      const status_id = `${this.state.id}-gs`
+      this.gsProvider.remove(status_id)
     }
-  }
-
-  setMaxWidth(elem = null) {
-    const { text_id, width_selector } = this.props
-    if (text_id && this._ref.current && typeof document !== 'undefined') {
-      try {
-        const width = this.sumElementWidth(
-          elem ||
-            width_selector ||
-            (text_id.match(/^([a-z0-9]+)/) || [])[1],
-          this._ref.current
-        )
-        if (width >= 64) {
-          this._ref.current.style.maxWidth = `${
-            (width + (width < 128 ? 32 : 0)) / 16
-          }rem`
-        }
-      } catch (e) {
-        warn(e)
-      }
-    }
-  }
-
-  sumElementWidth = (selector, targetElement) => {
-    let width = 0
-    try {
-      // hide and show the target, so it don't distract the calculation
-      const display = targetElement.style.display
-      targetElement.style.display = 'none'
-
-      if (selector && selector.offsetWidth) {
-        width = selector.offsetWidth
-      } else {
-        // beside "width_selector" - which is straight forward, we
-        // also check if we can get an ID given by text_id
-        const ids = /,/.test(selector) ? selector.split(', ') : [selector]
-
-        width = ids.reduce((acc, cur) => {
-          const elem =
-            cur[0] === '.'
-              ? document.querySelector(cur)
-              : document.getElementById(cur)
-
-          if (elem && elem.offsetWidth > 0) {
-            // add additional one more spacing unit
-            // to make it more correct for small elements
-            if (acc > 0) {
-              acc += 16
-            }
-            acc += elem.offsetWidth
-          }
-
-          return acc
-        }, width)
-      }
-
-      // and show it again
-      targetElement.style.display = display
-    } catch (e) {
-      warn(e)
-    }
-
-    return width
   }
 
   render() {
     // use only the props from context, who are available here anyway
     const props = extendPropsWithContext(
       this.props,
-      defaultProps,
+      FormStatus.defaultProps,
+      { skeleton: this.context && this.context.skeleton },
       this.context.formRow
     )
 
@@ -258,6 +269,8 @@ export default class FormStatus extends React.PureComponent {
       title,
       status: rawStatus,
       state: rawState,
+      size,
+      variant,
       hidden,
       className,
       animation,
@@ -269,6 +282,7 @@ export default class FormStatus extends React.PureComponent {
       text, // eslint-disable-line
       icon, // eslint-disable-line
       icon_size, // eslint-disable-line
+      skeleton, // eslint-disable-line
       children, // eslint-disable-line
 
       ...attributes
@@ -291,12 +305,14 @@ export default class FormStatus extends React.PureComponent {
       typeof contentToRender === 'string' && contentToRender.length > 0
 
     const params = {
-      id: this._id,
+      id: this.state.id,
       hidden,
       className: classnames(
         'dnb-form-status',
         `dnb-form-status--${state}`,
-        animation ? `dnb-form-status--${animation}` : null,
+        `dnb-form-status__size--${size}`,
+        variant && `dnb-form-status__variant--${variant}`,
+        animation ? `dnb-form-status__animation--${animation}` : null,
         hasStringContent ? 'dnb-form-status--has-content' : null,
         createSpacingClasses(props),
         className,
@@ -307,17 +323,18 @@ export default class FormStatus extends React.PureComponent {
       ...attributes
     }
     const textParams = {
-      className: 'dnb-form-status--text',
+      className: classnames(
+        'dnb-form-status__text',
+        createSkeletonClass('font', skeleton, this.context)
+      ),
       id: text_id
     }
 
     if (hidden) {
       params['aria-hidden'] = hidden
-      // Deprecated: use the GlobalStatus and aria-live
-      // } else if (hasStringContent) {
-      //   // in case we send in a React component, whichs has its own state, then we dont want to have aria-live all the time active
-      //   params['aria-live'] = 'assertive'
     }
+
+    skeletonDOMAttributes(params, skeleton, this.context)
 
     // also used for code markup simulation
     validateDOMAttributes(this.props, params)
@@ -336,32 +353,26 @@ export default class FormStatus extends React.PureComponent {
 
 export const ErrorIcon = (props) => (
   <svg
-    width="32"
-    height="32"
-    viewBox="0 0 32 32"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
     fill="none"
-    xmlns="http://www.w3.org/2000/svg"
     role="presentation"
     {...props}
   >
     {props && props.title && <title>{props.title}</title>}
+
     <path
-      d="M16 25a.5.5 0 100 1 .5.5 0 000-1v0"
-      stroke="#000"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
+      d="M23.625 17.864A3.547 3.547 0 0120.45 23H3.548a3.546 3.546 0 01-3.172-5.136l8.45-14.902a3.548 3.548 0 016.347 0l8.452 14.902z"
+      fill="#DC2A2A"
     />
     <path
-      d="M16 21V11"
-      stroke="#000"
-      strokeWidth="1.5"
-      strokeLinecap="round"
+      d="M12 16.286a1.286 1.286 0 100 2.572 1.286 1.286 0 000-2.572z"
+      fill="#fff"
     />
     <path
-      clipRule="evenodd"
-      d="M18.161 2.347a2.408 2.408 0 00-4.322 0L1.208 28.077A2.028 2.028 0 003.029 31h25.942a2.028 2.028 0 001.821-2.923l-12.63-25.73z"
-      stroke="#000"
+      d="M12 13.818v-5"
+      stroke="#fff"
       strokeWidth="1.5"
       strokeLinecap="round"
       strokeLinejoin="round"
@@ -375,22 +386,65 @@ ErrorIcon.defaultProps = {
   title: 'error'
 }
 
-export const InfoIcon = (props) => (
+export const WarnIcon = (props) => (
   <svg
-    width="32"
-    height="32"
-    viewBox="0 0 32 32"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
     fill="none"
-    xmlns="http://www.w3.org/2000/svg"
     role="presentation"
     {...props}
   >
     {props && props.title && <title>{props.title}</title>}
+
+    <path
+      d="M23.625 17.864A3.547 3.547 0 0120.45 23H3.548a3.546 3.546 0 01-3.172-5.136l8.45-14.902a3.548 3.548 0 016.347 0l8.452 14.902z"
+      fill="#FDBB31"
+    />
+    <path
+      d="M12 16.286a1.286 1.286 0 100 2.572 1.286 1.286 0 000-2.572z"
+      fill="#333"
+    />
+    <path
+      d="M12 13.818v-5"
+      stroke="#333"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+)
+WarnIcon.propTypes = {
+  title: PropTypes.string
+}
+WarnIcon.defaultProps = {
+  title: 'error'
+}
+
+export const InfoIcon = (props) => (
+  <svg
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    role="presentation"
+    {...props}
+  >
+    {props && props.title && <title>{props.title}</title>}
+
     <path
       fillRule="evenodd"
       clipRule="evenodd"
-      d="M10.1 1.08A14.75 14.75 0 00.26 15.01a14.73 14.73 0 0022.16 12.74l8.27 3.94a.75.75 0 001-1l-3.94-8.27A14.75 14.75 0 0010.1 1.08zM1.76 15.01a13.25 13.25 0 1124.5 6.97.75.75 0 00-.04.72l3.2 6.73-6.72-3.2a.75.75 0 00-.72.04A13.23 13.23 0 011.76 15zM13.38 7.9a1.31 1.31 0 112.63 0 1.31 1.31 0 01-2.63 0zm-1.13 5.07c0-.41.34-.75.75-.75h1.13c1.04 0 1.88.85 1.88 1.88v5.64c0 .84.67 1.51 1.5 1.51h1.13a.75.75 0 110 1.5h-1.13a3 3 0 01-3-3V14.1c0-.2-.17-.38-.38-.38H13a.75.75 0 01-.75-.75z"
-      fill="#000"
+      d="M11.268 0a11.25 11.25 0 105.566 21.017l6.112 2.91a.75.75 0 001-1l-2.911-6.112A11.234 11.234 0 0011.268 0z"
+      fill="#007272"
+    />
+    <circle cx="11" cy="6.5" r=".5" fill="#fff" stroke="#fff" />
+    <path
+      d="M13.75 16H13a1.5 1.5 0 01-1.5-1.5v-3.75a.75.75 0 00-.75-.75H10"
+      stroke="#fff"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
   </svg>
 )
@@ -399,4 +453,92 @@ InfoIcon.propTypes = {
 }
 InfoIcon.defaultProps = {
   title: 'info'
+}
+
+FormStatus.setMaxWidthToElement = setMaxWidthToElement
+
+function setMaxWidthToElement({
+  element,
+  id = null,
+  widthElement = null,
+  widthSelector = null
+}) {
+  if (!(element && typeof window !== 'undefined')) {
+    return // stop here
+  }
+  try {
+    if (!id && !widthSelector) {
+      id = element.getAttribute('id')
+    }
+
+    let width = sumElementWidth({
+      widthElement,
+      widthSelector: widthSelector || id.replace('-form-status', '') || id
+    })
+
+    if (width > 40) {
+      const minWidth = 12 * 16 // use 12rem, because thats the default width in chrome for an input
+      if (width < minWidth) {
+        width = minWidth
+      }
+
+      const remWidth = `${width / 16}rem`
+
+      const cS = window.getComputedStyle(element)
+      const hasCustomWidth = element.style.maxWidth
+        ? false
+        : (cS.minWidth !== '' && cS.minWidth !== 'auto') ||
+          (cS.maxWidth !== '' && cS.maxWidth !== 'none')
+
+      if (!hasCustomWidth) {
+        element.style.maxWidth = remWidth
+      }
+    }
+  } catch (e) {
+    // skip logging
+  }
+}
+
+function sumElementWidth({ widthElement, widthSelector }) {
+  let width = 0
+  if (typeof document === 'undefined') {
+    return width // stop here
+  }
+  try {
+    // beside "selector" - which is straight forward, we
+    // also check if we can get an ID given by text_id
+    const ids = widthElement
+      ? [widthElement]
+      : widthSelector.split(/, |,/g)
+
+    width = ids.reduce((acc, cur) => {
+      const elem =
+        typeof cur === 'string'
+          ? cur[0] === '.'
+            ? document.querySelector(cur)
+            : document.getElementById(cur)
+          : cur
+
+      let width =
+        (elem && elem.offsetWidth) || window.getComputedStyle(elem).width
+      if (/em|rem/.test(width)) {
+        width = parseFloat(width) * 16
+      }
+
+      if (width > 0) {
+        // add additional one more spacing unit
+        // to make it more correct for small elements
+        if (acc > 0) {
+          acc += 16
+        }
+        acc += width
+      }
+
+      return acc
+    }, width)
+  } catch (e) {
+    // skip logging
+  }
+
+  return width
 }

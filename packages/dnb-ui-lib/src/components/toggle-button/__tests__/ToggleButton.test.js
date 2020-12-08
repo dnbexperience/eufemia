@@ -13,11 +13,6 @@ import {
 } from '../../../core/jest/jestSetup'
 import Component from '../ToggleButton'
 
-// just to make sure we re-run the test in watch mode due to changes in theese files
-import _toggle_button from '../style/_toggle-button.scss' // eslint-disable-line
-import dnb_toggle_button from '../style/dnb-toggle-button.scss' // eslint-disable-line
-import dnb_toggle_button_theme_ui from '../style/themes/dnb-toggle-button-theme-ui.scss' // eslint-disable-line
-
 const props = fakeProps(require.resolve('../ToggleButton'), {
   optional: true
 })
@@ -39,17 +34,54 @@ describe('ToggleButton component', () => {
 
   it('has correct state after "click" trigger', () => {
     // default checked value has to be false
-    expect(Comp.state().checked).toBe(false)
+    expect(Comp.find('input[type="checkbox"]').instance().checked).toBe(
+      false
+    )
 
     Comp.find('button').simulate('click') // we could send inn the event data structure like this: , { target: { checked: true } }
-    expect(Comp.state().checked).toBe(true)
+    expect(Comp.find('input[type="checkbox"]').instance().checked).toBe(
+      true
+    )
 
     Comp.find('button').simulate('click')
-    expect(Comp.state().checked).toBe(false)
+    expect(Comp.find('input[type="checkbox"]').instance().checked).toBe(
+      false
+    )
 
     // also check if getDerivedStateFromProps sets the state as expected
     Comp.setProps({ checked: true })
-    expect(Comp.state().checked).toBe(true)
+    expect(Comp.find('input[type="checkbox"]').instance().checked).toBe(
+      true
+    )
+  })
+
+  it('has correct variant', () => {
+    const Comp = mount(<Component variant="checkbox" checked={false} />)
+
+    // default checked value has to be false
+    expect(Comp.find('input[type="checkbox"]').instance().checked).toBe(
+      false
+    )
+
+    Comp.find('button').simulate('click') // we could send inn the event data structure like this: , { target: { checked: true } }
+    expect(Comp.find('input[type="checkbox"]').instance().checked).toBe(
+      true
+    )
+    expect(Comp.find('.dnb-checkbox__button').exists()).toBe(true)
+
+    Comp.setProps({
+      variant: 'radio'
+    })
+
+    expect(Comp.find('.dnb-radio__button').exists()).toBe(true)
+    expect(Comp.find('input[type="checkbox"]').instance().checked).toBe(
+      true
+    )
+
+    Comp.find('button').simulate('click') // we could send inn the event data structure like this: , { target: { checked: true } }
+    expect(Comp.find('input[type="checkbox"]').instance().checked).toBe(
+      false
+    )
   })
 
   it('has "on_change" event which will trigger on a button click', () => {
@@ -73,6 +105,94 @@ describe('ToggleButton component', () => {
     expect(my_event.mock.calls[1][0].checked).toBe(false)
   })
 
+  it('does handle controlled vs uncontrolled state properly', () => {
+    const ControlledVsUncontrolled = () => {
+      const [checked, setChecked] = React.useState(true)
+      const [random, setRandom] = React.useState()
+
+      return (
+        <>
+          <Component
+            {...props}
+            checked={checked}
+            on_change={({ checked }) => setChecked(checked)}
+          />
+          <button id="set-state" onClick={() => setChecked(true)} />
+          <button
+            id="reset-undefined"
+            onClick={() => setChecked(undefined)}
+          />
+          <button id="reset-null" onClick={() => setChecked(null)} />
+          <button id="rerender" onClick={() => setRandom(Math.random())} />
+          <code>{JSON.stringify({ checked, random })}</code>
+        </>
+      )
+    }
+
+    const TestStates = (Comp) => {
+      // re-render + default state is true
+      Comp.find('button#rerender').simulate('click')
+      expect(Comp.find('input[type="checkbox"]').instance().checked).toBe(
+        true
+      )
+      expect(
+        Comp.find('button.dnb-toggle-button__button')
+          .instance()
+          .getAttribute('aria-pressed')
+      ).toBe('true')
+
+      // change it to false
+      Comp.find('button.dnb-toggle-button__button').simulate('click')
+      expect(Comp.find('input[type="checkbox"]').instance().checked).toBe(
+        false
+      )
+      expect(
+        Comp.find('button.dnb-toggle-button__button')
+          .instance()
+          .getAttribute('aria-pressed')
+      ).toBe('false')
+
+      // set it to true
+      Comp.find('button#set-state').simulate('click')
+      expect(
+        Comp.find('button.dnb-toggle-button__button')
+          .instance()
+          .getAttribute('aria-pressed')
+      ).toBe('true')
+      expect(Comp.find('input[type="checkbox"]').instance().checked).toBe(
+        true
+      )
+
+      // reset it with undefined to false
+      Comp.find('button#reset-undefined').simulate('click')
+      expect(Comp.find('input[type="checkbox"]').instance().checked).toBe(
+        false
+      )
+
+      // set it to true + reset it with null to false
+      Comp.find('button#set-state').simulate('click')
+      Comp.find('button#reset-null').simulate('click')
+      expect(Comp.find('input[type="checkbox"]').instance().checked).toBe(
+        false
+      )
+
+      // re-render + still false
+      Comp.find('button#rerender').simulate('click')
+      expect(Comp.find('input[type="checkbox"]').instance().checked).toBe(
+        false
+      )
+    }
+
+    TestStates(mount(<ControlledVsUncontrolled />))
+    TestStates(
+      mount(
+        <React.StrictMode>
+          <ControlledVsUncontrolled />
+        </React.StrictMode>
+      )
+    )
+  })
+
   it('has a disabled attribute, once we set disabled to true', () => {
     const Comp = mount(<Component />)
     Comp.setProps({
@@ -92,10 +212,32 @@ describe('ToggleButton group component', () => {
   // then test the state management
   const Comp = mount(
     <Component.Group label="Label" id="group">
-      <Component id="toggle-button-1" text="ToggleButton 1" />
-      <Component id="toggle-button-2" text="ToggleButton 2" checked />
+      <Component
+        id="toggle-button-1"
+        text="ToggleButton 1"
+        variant="radio"
+      />
+      <Component
+        id="toggle-button-2"
+        text="ToggleButton 2"
+        variant="radio"
+        checked
+      />
     </Component.Group>
   )
+
+  // mount compare the snapshot
+  it('have to match group snapshot', () => {
+    expect(toJson(Comp)).toMatchSnapshot()
+  })
+
+  it('should validate with ARIA rules', async () => {
+    expect(await axeComponent(Comp)).toHaveNoViolations()
+  })
+
+  it('has to have variant="radio', () => {
+    expect(Comp.find('.dnb-radio__button').exists()).toBe(true)
+  })
 
   it('has to have correct aria-pressed', () => {
     expect(
@@ -157,12 +299,10 @@ describe('ToggleButton group component', () => {
 
   it('has multiselect "on_change" event which will trigger on a button click', () => {
     const my_event = jest.fn()
-    const myEvent = jest.fn()
     const Comp = mount(
       <Component.Group
         id="group"
         on_change={my_event}
-        onChange={myEvent}
         values={['second']}
         multiselect="true"
       >
@@ -181,25 +321,82 @@ describe('ToggleButton group component', () => {
 
     // first click
     Comp.find('button#toggle-button-1').simulate('click')
-    expect(my_event.mock.calls.length).toBe(1)
-    expect(my_event.mock.calls[0][0].values).toEqual(['second', 'first'])
 
-    expect(myEvent).toHaveBeenCalled()
-    expect(myEvent.mock.calls[0][0]).toHaveProperty('values')
-    expect(myEvent.mock.calls[0][0].values).toEqual(['second', 'first'])
+    expect(my_event).toHaveBeenCalled()
+    expect(my_event.mock.calls.length).toBe(1)
+    expect(my_event.mock.calls[0][0]).toHaveProperty('values')
+    expect(my_event.mock.calls[0][0].values).toEqual(['second', 'first'])
+    expect(Comp.state().values).toEqual(['second', 'first'])
 
     // second click
     Comp.find('button#toggle-button-1').simulate('click')
     expect(my_event.mock.calls[1][0].values).toEqual(['second'])
+    expect(Comp.state().values).toEqual(['second'])
+
+    // third click
+    Comp.find('button#toggle-button-2').simulate('click')
+    expect(my_event.mock.calls[2][0].values).toEqual([])
   })
 
-  // mount compare the snapshot
-  it('have to match group snapshot', () => {
-    expect(toJson(Comp)).toMatchSnapshot()
-  })
+  it('will let their items to be check/uncheck by external state', () => {
+    const Comp = mount(
+      <Component.Group id="group" multiselect="true">
+        <Component
+          variant="checkbox"
+          id="toggle-button-1"
+          text="ToggleButton 1"
+          value="first"
+        />
+        <Component
+          variant="checkbox"
+          id="toggle-button-2"
+          text="ToggleButton 2"
+          value="second"
+        />
+      </Component.Group>
+    )
 
-  it('should validate with ARIA rules', async () => {
-    expect(await axeComponent(Comp)).toHaveNoViolations()
+    expect(Comp.state().values).toEqual(undefined)
+
+    const TestButton = (Comp, id) => {
+      const sel = `button#${id}`
+
+      expect(
+        Comp.find(sel).find('input[type="checkbox"]').instance().checked
+      ).toBe(false)
+
+      Comp.find(sel).simulate('click')
+
+      expect(
+        Comp.find(sel).find('input[type="checkbox"]').instance().checked
+      ).toBe(true)
+      expect(Comp.find(sel).instance().getAttribute('aria-pressed')).toBe(
+        'true'
+      )
+
+      Comp.find(sel).simulate('click')
+
+      expect(Comp.find(sel).instance().getAttribute('aria-pressed')).toBe(
+        'false'
+      )
+      expect(Comp.find('.dnb-toggle-button--checked').exists(sel)).toBe(
+        false
+      )
+      expect(
+        Comp.find(sel).find('input[type="checkbox"]').instance().checked
+      ).toBe(false)
+
+      Comp.find(sel).simulate('click')
+      expect(
+        Comp.find(sel).find('input[type="checkbox"]').instance().checked
+      ).toBe(true)
+    }
+
+    TestButton(Comp, 'toggle-button-1')
+    expect(Comp.state().values).toEqual(['first'])
+
+    TestButton(Comp, 'toggle-button-2')
+    expect(Comp.state().values).toEqual(['first', 'second'])
   })
 })
 

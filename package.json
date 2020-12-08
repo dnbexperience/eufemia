@@ -60,7 +60,7 @@
       [
         "@semantic-release/changelog",
         {
-          "changelogTitle": "# Changelog\n\nAll notable changes to this project will be documented in this file. See\n[Conventional Commits](https://conventionalcommits.org) for commit guidelines."
+          "changelogTitle": "# Changelog\n\nAll notable changes to dnb-ui-lib will be documented in this file. See\n[Conventional Commits](https://conventionalcommits.org) for commit guidelines."
         }
       ],
       [
@@ -74,11 +74,24 @@
         {
           "assets": "dist/*.tgz"
         }
+      ],
+      [
+        "@semantic-release/git",
+        {
+          "assets": [
+            "CHANGELOG.md"
+          ],
+          "message": "chore(release): ${nextRelease.version} [CI SKIP]\n\n${nextRelease.notes}"
+        }
       ]
     ]
   },
+  "engines": {
+    "node": ">=10.22.0",
+    "yarn": ">=1.17.0"
+  },
   "volta": {
-    "node": "10.22.0",
-    "yarn": "1.22.4"
+    "node": "14.10.1",
+    "yarn": "1.22.5"
   }
 }

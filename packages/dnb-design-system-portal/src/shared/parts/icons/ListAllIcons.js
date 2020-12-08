@@ -35,7 +35,7 @@ export default class Icons extends React.PureComponent {
           ? SecondaryIconsMedium
           : PrimaryIconsMedium)[`${name}_medium`]
         return (
-          <ListItem key={`icon${name}`}>
+          <ListItem key={name}>
             <ListItemInner>
               <figure aria-labelledby={`icon-${name}`} aria-hidden>
                 {(SvgMedium && (

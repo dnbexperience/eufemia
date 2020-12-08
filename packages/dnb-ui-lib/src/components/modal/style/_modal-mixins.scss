@@ -1,0 +1,101 @@
+/*
+ * Modal component
+ *
+ */
+
+@mixin modalFullscreen() {
+  width: 100%;
+  height: 100vh;
+  max-width: 100%; // Edge/IE overflow fix
+
+  // NB: Do not set "max-height" here – old Android 4.4 does have then troubles
+  // max-height: none;
+
+  border-radius: 0;
+  box-shadow: none;
+}
+
+@keyframes show-modal {
+  from {
+    opacity: 0.1;
+    transform: translate3d(0, -1rem, 0);
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+}
+@keyframes hide-modal {
+  from {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+  to {
+    transform: translate3d(0, 1rem, 0);
+    opacity: 0;
+  }
+}
+
+@keyframes show-drawer {
+  to {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+}
+@keyframes hide-drawer-left {
+  from {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+  to {
+    transform: translate3d(-20rem, 0, 0);
+    opacity: 0;
+  }
+}
+@keyframes hide-drawer-top {
+  from {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+  to {
+    transform: translate3d(0, -20rem, 0);
+    opacity: 0;
+  }
+}
+@keyframes hide-drawer-bottom {
+  from {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+  to {
+    transform: translate3d(0, 20rem, 0);
+    opacity: 0;
+  }
+}
+@keyframes hide-drawer-right {
+  from {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+  to {
+    transform: translate3d(20rem, 0, 0);
+    opacity: 0;
+  }
+}
+
+@keyframes show-modal-overlay {
+  from {
+    background-color: var(--modal-overlay-transparent);
+  }
+  to {
+    background-color: var(--modal-overlay-bg);
+  }
+}
+@keyframes hide-modal-overlay {
+  from {
+    background-color: var(--modal-overlay-bg);
+  }
+  to {
+    background-color: var(--modal-overlay-transparent);
+  }
+}

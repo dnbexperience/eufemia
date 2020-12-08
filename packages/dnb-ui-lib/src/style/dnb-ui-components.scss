@@ -6,6 +6,7 @@
 
 @import './core/utilities.scss';
 @import './dnb-ui-fragments.scss';
+@import '../components/accordion/style/_accordion.scss';
 @import '../components/autocomplete/style/_autocomplete.scss';
 @import '../components/button/style/_button.scss';
 @import '../components/checkbox/style/_checkbox.scss';
@@ -18,6 +19,7 @@
 @import '../components/global-error/style/_global-error.scss';
 @import '../components/global-status/style/_global-status.scss';
 @import '../components/heading/style/_heading.scss';
+@import '../components/help-button/style/_help-button.scss';
 @import '../components/icon/style/_icon.scss';
 @import '../components/input/style/_input.scss';
 @import '../components/input-masked/style/_input-masked.scss';
@@ -30,6 +32,7 @@
 @import '../components/progress-indicator/style/_progress-indicator.scss';
 @import '../components/radio/style/_radio.scss';
 @import '../components/section/style/_section.scss';
+@import '../components/skeleton/style/_skeleton.scss';
 @import '../components/slider/style/_slider.scss';
 @import '../components/space/style/_space.scss';
 @import '../components/step-indicator/style/_step-indicator.scss';

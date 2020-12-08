@@ -18,8 +18,7 @@
   @include hover() {
     @include buttonHoverStyle($color, $background-color);
 
-    // IE fix
-    @media screen and (-ms-high-contrast: none) {
+    @include IS_IE {
       // by setting opacity to 1, we make sure we don't get the artifact of a cutted border on top and bottom
       opacity: 1;
     }
@@ -103,12 +102,15 @@
     // but not for the transition to opacity
     // box-shadow: 0 0 0 calc(0.0625rem / 2) currentColor;
 
-    // IE fix
-    @media screen and (-ms-high-contrast: none) {
+    @include IS_IE {
       height: 1px;
       border-radius: 0.5px;
     }
 
     @content;
+  }
+
+  .dnb-skeleton &::after {
+    content: none;
   }
 }

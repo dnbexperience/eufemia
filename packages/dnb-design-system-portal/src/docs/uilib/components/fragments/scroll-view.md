@@ -2,7 +2,7 @@
 title: 'ScrollView'
 description: 'ScrollView is a tiny helper component to allow Eufemia controlling the UX.'
 # showTabs: true
-status: 'new'
+status: null
 hideTabs:
   - title: Events
   - title: Properties

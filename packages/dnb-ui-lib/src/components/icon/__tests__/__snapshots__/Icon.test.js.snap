@@ -9,8 +9,10 @@ exports[`Icon component have to match snapshot 1`] = `
   color="color"
   height="height"
   icon={[Function]}
+  inherit_color="inherit_color"
   modifier="modifier"
   size="size"
+  skeleton="skeleton"
   title="title"
   width="width"
 >
@@ -98,10 +100,10 @@ exports[`Icon scss have to match snapshot 1`] = `
     width: inherit; }
   .dnb-icon svg[height='100%'] {
     height: inherit; }
-  .dnb-icon svg:not([fill]),
-  .dnb-icon svg [fill] {
+  .dnb-icon--inherit-color svg:not([fill]),
+  .dnb-icon--inherit-color svg [fill] {
     fill: currentColor; }
-  .dnb-icon svg [stroke] {
+  .dnb-icon--inherit-color svg [stroke] {
     stroke: currentColor; }
   .dnb-icon--small {
     font-size: 0.75rem; }
@@ -131,6 +133,10 @@ exports[`Icon scss have to match snapshot 1`] = `
   h5 .dnb-icon,
   h6 .dnb-icon {
     vertical-align: middle; }
+  .dnb-icon.dnb-skeleton {
+    color: var(--skeleton-color) !important; }
+    .dnb-icon.dnb-skeleton::before, .dnb-icon.dnb-skeleton::after {
+      content: none !important; }
   @media screen and (-ms-high-contrast: none) {
     .dnb-icon {
       flex: none; } }

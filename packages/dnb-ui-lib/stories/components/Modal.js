@@ -5,10 +5,11 @@
 
 import React from 'react'
 import { Wrapper, Box } from '../helpers'
-import { Global, css } from '@emotion/core'
+import { Global, css } from '@emotion/react'
 
 import {
   Modal,
+  HelpButton,
   Switch,
   Button,
   Input,
@@ -17,96 +18,287 @@ import {
   DatePicker,
   FormSet,
   FormRow,
+  ProgressIndicator,
+  // Space,
   Number
 } from '../../src/components'
-// import { format } from '../../src/components/Number'
+import { ScrollView } from '../../src/fragments'
 import { H2, P, Hr } from '../../src/elements'
 
-export default [
-  'Modal',
-  () => (
-    <Wrapper>
-      <Global
-        styles={css`
-          :root {
-            --modal-height-offset: 3rem;
-          }
-        `}
-      />
+export default {
+  title: 'Eufemia/Components/Modal'
+}
 
-      <Box>
-        <Button variant="tertiary" text="Button" />
+export const ModalSandbox = () => (
+  <Wrapper>
+    {/* <Global
+      styles={css`
+        :root {
+          --modal-height-offset: 7rem;
+        }
+      `}
+    /> */}
+
+    <Box>
+      <ModalWithScrollableBox />
+    </Box>
+
+    <Box>
+      <Modal
+        title="1s close delay"
+        trigger_text="Click me"
+        focus_selector=".dnb-input__input:first-of-type"
+        prevent_close="true"
+        // hide_close_button="true"
+        on_open={(e) => console.log('on_open', e)}
+        on_close={(e) => console.log('on_close', e)}
+        on_close_prevent={({ close, triggeredBy }) => {
+          switch (triggeredBy) {
+            case 'keyboard':
+            case 'button':
+              close()
+              break
+            case 'overlay': {
+              const timeout = setTimeout(close, 1e3)
+              return () => clearTimeout(timeout) // clear timeout on unmount
+            }
+          }
+        }}
+      >
+        <P>This is a Modal Window with no close button.</P>
+        <P>Click outside me, and I will be closed within 1 second.</P>
+        <Section top spacing style_type="divider">
+          <Input label="Focus:">Focus me with Tab key</Input>
+        </Section>
+      </Modal>
+    </Box>
+
+    <Box>
+      <Modal
+        // trigger_attributes={{
+        //   'aria-label': 'My Label'
+        // }}
+        spacing={false}
+        fullscreen={false}
+        align_content="centered"
+        hide_close_button
+        trigger_text="Show"
+        // prevent_close
+        max_width="12rem"
+      >
+        <ProgressIndicator
+          show_label
+          label_direction="vertical"
+          top="large"
+          bottom="large"
+          size="large"
+        />
+      </Modal>
+      <Modal
+        // trigger_attributes={{
+        //   'aria-label': 'My Label'
+        // }}
+        spacing={false}
+        fullscreen={false}
+        align_content="centered"
+        hide_close_button
+        trigger_icon="bell"
+        // prevent_close
+        max_width="12rem"
+      >
+        <ProgressIndicator
+          show_label
+          label_direction="vertical"
+          top="large"
+          bottom="large"
+          size="large"
+        />
+      </Modal>
+    </Box>
+
+    <Box>
+      <Modal
+        title="Modal Title"
+        // open_state="opened"
+      >
+        <Modal.Inner top spacing style_type="mint-green">
+          <P>This is the modal text. Triggered by the help button.</P>
+        </Modal.Inner>
+      </Modal>
+    </Box>
+
+    <Box>
+      <Input
+        label="Input"
+        placeholder="Placeholder ..."
+        suffix={<HelpButton>Help text</HelpButton>}
+      />
+    </Box>
+
+    <Box>
+      <Modal
+        title="Title 1"
+        trigger_text="Modal in modal"
+        // open_state="opened"
+        style={{
+          minHeight: '25rem'
+        }}
+      >
         <Modal
-          // no_animation
-          // open_state="opened"
-          mode="drawer"
-          // fullscreen
-          container_placement="left"
-          align_content="right"
-          // align_content="center"
-          // drawer_offset={}
-          // title="Tertiary test"
-          title={<span className="dnb-sr-only">Test</span>}
-          // min_width="20vw"
-          // max_width="40vw"
-          overlay_class="overlay_class"
-          content_class="content_class"
-          class="inner_class"
-        >
-          <Button variant="tertiary" text="Button" />
-          <Section>
-            <Button variant="tertiary" text="Button" />
-          </Section>
-          <FillContent />
-        </Modal>
-      </Box>
-      <Box>
-        <Modal
-          // min_width="90vw"
-          // max_width="2rem"
-          // open_state="opened"
-          fullscreen
-          title="Modal Title"
-          trigger_variant="tertiary"
-          trigger_icon={null}
-          trigger_text="Click me"
-        >
-          <FillContent />
-        </Modal>
-      </Box>
-      <Box>
-        <Modal
-          min_width="60vw"
-          trigger_text="Open Modal"
-          title="Modal Title"
-          on_close={(e) => {
-            console.log('on_close', e)
+          title="Title 2 a"
+          style={{
+            minHeight: '15rem'
           }}
         >
+          New content 2 a <Modal title="Title 3 a">New content 3 a</Modal>
+        </Modal>
+        <Modal
+          title="Title 2 b"
+          style={{
+            minHeight: '15rem'
+          }}
+        >
+          New content 2 b <Modal title="Title 3 b">New content 3 b</Modal>
+        </Modal>
+        {/* <FillContent /> */}
+      </Modal>
+    </Box>
+    <Box>
+      <Modal
+        // min_width="90vw"
+        // max_width="2rem"
+        // open_state="opened"
+        fullscreen
+        title="Modal Title"
+        trigger_variant="tertiary"
+        // trigger_icon={null}
+        trigger_text="Click me"
+      >
+        <FillContent />
+      </Modal>
+    </Box>
+    <Box>
+      <Modal
+        // min_width="60vw"
+        max_width="40rem"
+        trigger_text="Open Modal"
+        title="Modal Title"
+        on_close={(e) => {
+          console.log('on_close', e)
+        }}
+      >
+        <Modal.Inner spacing>
           <Hr />
-          <Box>
-            <H2>Some content</H2>
-            <Input>Focus me with Tab key</Input>
-          </Box>
-          <Box>
+          <H2 top>Some content</H2>
+          <Input>Focus me with Tab key</Input>
+          <Section top spacing>
             <P>
               <Switch label="Checked:" checked />
             </P>
-          </Box>
-        </Modal>
-      </Box>
-      <Box>
-        <ModalRerenderExample />
-      </Box>
-      <Box>
-        <ModalCloseExample />
-      </Box>
-      <Box>
-        <ModalTriggerExample />
-      </Box>
-    </Wrapper>
-  )
-]
+          </Section>
+        </Modal.Inner>
+      </Modal>
+    </Box>
+    <Box>
+      <ModalRerenderExample />
+    </Box>
+    <Box>
+      <ModalCloseExample />
+    </Box>
+    <Box>
+      <ModalTriggerExample />
+    </Box>
+  </Wrapper>
+)
+
+export const DrawerSandbox = () => (
+  <Wrapper>
+    <Global
+      styles={css`
+        /* :root {
+          --modal-height-offset: 10rem;
+        } */
+        .custom-inner {
+          padding-top: 1.5rem;
+        }
+      `}
+    />
+
+    <Box>
+      {/* <Button variant="tertiary" text="Button" /> */}
+      <Modal
+        // no_animation
+        // open_state="opened"
+        mode="drawer"
+        // fullscreen
+        // container_placement="left"
+        // align_content="right"
+        // align_content="center"
+        // drawer_offset={}
+        title="Tertiary test"
+        // title={<span className="dnb-sr-only">Test</span>}
+        // min_width="20vw"
+        // max_width="40vw"
+        // overlay_class="overlay_class"
+        // content_class="content_class"
+        // class="inner_class"
+      >
+        <Modal.Inner style_type="pistachio">
+          <Input>Focus me with Tab key</Input>
+          <Section top bottom spacing>
+            <P>
+              <Switch label="Checked:" checked />
+            </P>
+          </Section>
+          <FillContent />
+        </Modal.Inner>
+      </Modal>
+    </Box>
+
+    <Box>
+      <Modal
+        mode="drawer"
+        title="Drawer Title"
+        trigger_text="Open Drawer"
+        trigger_title="Click me"
+      >
+        <Modal.Inner>
+          <P>This is a left aligned Drawer content.</P>
+        </Modal.Inner>
+      </Modal>
+    </Box>
+
+    <Box>
+      {/* <Button variant="tertiary" text="Button" /> */}
+      <Modal
+        // no_animation
+        // open_state="opened"
+        mode="drawer"
+        trigger_text="Drawer in Drawer"
+        // fullscreen
+        // container_placement="left"
+        // align_content="right"
+        // align_content="center"
+        // drawer_offset={}
+        title="Tertiary test"
+        // title={<span className="dnb-sr-only">Test</span>}
+        // min_width="20vw"
+        // max_width="40vw"
+        // overlay_class="overlay_class"
+        // content_class="content_class"
+        // class="inner_class"
+      >
+        <Modal.Inner style_type="pistachio">
+          Modal.Inner
+          <Modal mode="drawer" title="Title 2" open_state="opened">
+            New content 2 <Modal title="Title 3">New content 3</Modal>
+          </Modal>
+          {/* <FillContent /> */}
+        </Modal.Inner>
+      </Modal>
+    </Box>
+  </Wrapper>
+)
 
 class ModalRerenderExample extends React.PureComponent {
   state = {
@@ -134,19 +326,21 @@ class ModalRerenderExample extends React.PureComponent {
         // trigger_disabled
         // trigger_hidden
       >
-        {/* <Hr /> */}
-        {/* <Box>
+        <Modal.Inner spacing>
+          {/* <Hr /> */}
+          {/* <Box>
           <H2>Some content</H2>
           <Input>Focus me with Tab key</Input>
         </Box> */}
-        <DatePicker label="DatePicker" right />
-        <Dropdown
-          label="Dropdown"
-          data={dropdownData}
-          right
-          direction="top"
-        />
-        {/* <Switch label="Checked:" checked right /> */}
+          <DatePicker label="DatePicker" right />
+          <Dropdown
+            label="Dropdown"
+            data={dropdownData}
+            right
+            direction="top"
+          />
+          {/* <Switch label="Checked:" checked right /> */}
+        </Modal.Inner>
       </Modal>
     )
   }
@@ -256,7 +450,7 @@ const ModalCloseExample = () => {
 
           if (open_state !== 'opened') {
             console.log('Modal was opened')
-            timeout = setTimeout(close, 1e3)
+            timeout = setTimeout(close, 3e3)
           }
 
           return () => clearTimeout(timeout)
@@ -271,15 +465,15 @@ const ModalCloseExample = () => {
         }}
       >
         <Hr />
-        <Box>
+        <Section spacing>
           <H2>Some content {count}</H2>
           <Input>Focus me with Tab key</Input>
-        </Box>
-        <Box>
+        </Section>
+        <Section spacing>
           <P>
             <Switch label="Checked:" checked />
           </P>
-        </Box>
+        </Section>
       </Modal>
     </>
   )
@@ -298,7 +492,7 @@ const ModalTriggerExample = () => {
         />
 
         <Button
-          id="custom-triggerer"
+          // id="custom-triggerer"
           text="Custom trigger Button"
           on_click={(e) => {
             console.log('on_click', e)
@@ -453,5 +647,52 @@ function FillContent() {
         // direction="top"
       />
     </>
+  )
+}
+
+function ModalWithScrollableBox() {
+  return (
+    <>
+      {/* <ScrollView /> */}
+      <Modal
+      // fullscreen={true}
+      // open_state="opened"
+      >
+        <SimScrollView />
+      </Modal>
+    </>
+  )
+}
+
+function SimScrollView() {
+  return (
+    <div
+      style={{
+        width: '100%',
+        // height: '100vh',
+        height: '20rem',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        background: 'yellow'
+      }}
+    >
+      <ScrollView
+        style={{
+          width: '50%',
+          height: '50%',
+          // overflowY: 'auto',
+          maxHeight: '12rem'
+        }}
+      >
+        <div
+          style={{
+            height: '62rem',
+            width: '40rem',
+            background: 'linear-gradient(#e66465, #9198e5)'
+          }}
+        />
+      </ScrollView>
+    </div>
   )
 }

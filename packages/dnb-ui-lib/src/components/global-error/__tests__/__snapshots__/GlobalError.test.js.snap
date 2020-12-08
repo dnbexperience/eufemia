@@ -5,20 +5,6 @@ exports[`GlobalError scss have to match default theme snapshot 1`] = `
  * GlobalError theme
  *
  */
-/**
- * This file is only used to make themes independent
- * so that they can get imported individually, without the core styles
- *
- */
-/*
- * Utilities
- */
-.dnb-global-error {
-  background-color: var(--color-white); }
-  .dnb-global-error .dnb-h--xx-large {
-    color: var(--color-fire-red); }
-  .dnb-global-error .dnb-p {
-    color: var(--color-ocean-green); }
 "
 `;
 
@@ -73,10 +59,10 @@ exports[`GlobalError scss have to match snapshot 1`] = `
     width: inherit; }
   .dnb-icon svg[height='100%'] {
     height: inherit; }
-  .dnb-icon svg:not([fill]),
-  .dnb-icon svg [fill] {
+  .dnb-icon--inherit-color svg:not([fill]),
+  .dnb-icon--inherit-color svg [fill] {
     fill: currentColor; }
-  .dnb-icon svg [stroke] {
+  .dnb-icon--inherit-color svg [stroke] {
     stroke: currentColor; }
   .dnb-icon--small {
     font-size: 0.75rem; }
@@ -106,6 +92,10 @@ exports[`GlobalError scss have to match snapshot 1`] = `
   h5 .dnb-icon,
   h6 .dnb-icon {
     vertical-align: middle; }
+  .dnb-icon.dnb-skeleton {
+    color: var(--skeleton-color) !important; }
+    .dnb-icon.dnb-skeleton::before, .dnb-icon.dnb-skeleton::after {
+      content: none !important; }
   @media screen and (-ms-high-contrast: none) {
     .dnb-icon {
       flex: none; } }
@@ -161,36 +151,42 @@ exports[`GlobalError scss have to match snapshot 1`] = `
  * FormStatus component
  *
  */
+:root {
+  --form-status-radius: 0.25rem; }
+
 .dnb-form-status {
   display: flex; }
   .dnb-form-status__shell {
     display: flex;
     justify-content: flex-start;
     align-items: flex-start;
-    border-radius: var(--input-border-radius); }
-  .dnb-form-status--text {
-    padding: calc(0.5rem / 2) 1rem;
+    min-width: inherit;
+    border-radius: var(--form-status-radius); }
+  .dnb-form-status__text {
+    padding: 0.625rem 1rem;
     cursor: text;
     color: inherit;
-    line-height: var(--line-height-basis);
+    line-height: var(--line-height-small);
+    font-size: var(--font-size-small);
     white-space: normal; }
-    .dnb-form-status--text .dnb-anchor {
+    .dnb-form-status__text .dnb-anchor {
       font-size: inherit; }
-  .dnb-icon + .dnb-form-status--text {
+  .dnb-icon + .dnb-form-status__text {
     padding-left: 0.5rem; }
   .dnb-form-status__shell > .dnb-icon {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 1.5em;
-    height: 1.5em;
-    margin-top: 0.25em;
-    margin-left: 0.5em;
-    color: inherit;
-    font-size: var(--font-size-small); }
+    margin: 0.3333333em 0.3333333em 0.3333333em 0.6666666em; }
+  .dnb-form-status__size--large .dnb-form-status__text {
+    padding-top: 1.125rem;
+    padding-bottom: 1.125rem; }
+  .dnb-form-status__size--large .dnb-form-status__shell > .dnb-icon {
+    margin-top: 0.6666666em;
+    margin-bottom: 0.6666666em; }
   .dnb-form-status[hidden] {
     display: none; }
-  .dnb-form-status--fade-in {
+  .dnb-form-status__animation--fade-in {
     overflow: hidden;
     max-height: 0;
     animation: form-status-fade-in 2s ease-out 400ms forwards; }
@@ -406,9 +402,12 @@ exports[`GlobalError scss have to match snapshot 1`] = `
     .dnb-button--reset:not([disabled]):focus, .dnb-button--reset:not([disabled]):active {
       outline: none; }
       html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):focus, html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):active {
-        box-shadow: 0 0 0 0.125rem var(--color-emerald-green);
-        /* IE11 fix */
+        --border-color: var(--color-emerald-green);
+        box-shadow: 0 0 0 0.125rem var(--border-color);
         border-color: transparent; }
+        @media screen and (-ms-high-contrast: none) {
+          html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):focus, html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):active {
+            box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
     html[data-whatinput='mouse'] .dnb-button--reset:not([disabled]):focus,
     html[data-whatinput='mouse'] .dnb-button--reset:not([disabled]):active {
       box-shadow: none;
@@ -536,7 +535,6 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
   class="class"
   className="className"
   href="href"
-  render_content={[Function]}
   status="404"
   status_content={null}
   text="text [link](/back) text"
@@ -556,6 +554,7 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
         custom_element={null}
         custom_method={null}
         disabled={null}
+        element={null}
         global_status_id={null}
         href="href"
         icon="chevron_left"
@@ -563,9 +562,11 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
         icon_size={null}
         id={null}
         innerRef={null}
+        inner_ref={null}
         onClick={null}
         on_click={[Function]}
         size={null}
+        skeleton={null}
         status={null}
         status_animation={null}
         status_state="error"
@@ -591,6 +592,7 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
             custom_element={null}
             custom_method={null}
             disabled={null}
+            element={null}
             global_status_id={null}
             href="href"
             icon="chevron_left"
@@ -598,10 +600,12 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
             icon_size={null}
             id={null}
             innerRef={null}
+            inner_ref={null}
             isIconOnly={false}
             onClick={null}
             on_click={[Function]}
             size={null}
+            skeleton={false}
             status={null}
             status_animation={null}
             status_state="error"
@@ -619,7 +623,7 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
               ‌
             </span>
             <span
-              className="dnb-button__text"
+              className="dnb-button__text dnb-skeleton--show-font"
               key="button-text"
             >
               back
@@ -633,16 +637,18 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
               color={null}
               height={null}
               icon="chevron_left"
+              inherit_color={true}
               key="button-icon"
               modifier={null}
               size={null}
+              skeleton={false}
               title={null}
               width={null}
             >
               <span
                 aria-hidden={true}
                 aria-label="chevron left icon"
-                className="dnb-icon dnb-icon--default dnb-button__icon"
+                className="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
                 role="presentation"
               >
                 <chevron_left>
@@ -651,6 +657,7 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
                     height={16}
                     viewBox="0 0 16 16"
                     width={16}
+                    xmlns="http://www.w3.org/2000/svg"
                   >
                     <path
                       clipRule="evenodd"
@@ -820,18 +827,28 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
           >
             <ForwardRef
               bottom="large"
-              class={null}
-              className="dnb-h--xx-large"
-              css={null}
-              hasTagClass={true}
+              internalClass="dnb-h--xx-large"
               is="h1"
               top="4"
             >
-              <h1
-                className="dnb-h--xx-large dnb-space__top--xx-large dnb-space__top--x-small dnb-space__bottom--large"
+              <Elem
+                _ref={null}
+                bottom="large"
+                class={null}
+                className={null}
+                css={null}
+                internalClass="dnb-h--xx-large"
+                is="h1"
+                skeleton={null}
+                skeleton_method="font"
+                top="4"
               >
-                title
-              </h1>
+                <h1
+                  className="dnb-space__top--xx-large dnb-space__top--x-small dnb-space__bottom--large dnb-h--xx-large"
+                >
+                  title
+                </h1>
+              </Elem>
             </ForwardRef>
           </H>
         </H1>
@@ -846,25 +863,34 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
         >
           <ForwardRef
             bottom="large"
-            class={null}
             className="dnb-p"
-            css={null}
-            hasTagClass={false}
             is="p"
           >
-            <p
-              className="dnb-p dnb-space__bottom--large"
+            <Elem
+              _ref={null}
+              bottom="large"
+              class={null}
+              className="dnb-p"
+              css={null}
+              internalClass={null}
+              is="p"
+              skeleton={null}
+              skeleton_method="font"
             >
-              text 
-              <a
-                className="dnb-anchor"
-                href=";"
-                onClick={[Function]}
+              <p
+                className="dnb-p dnb-space__bottom--large"
               >
-                link
-              </a>
-               text
-            </p>
+                text 
+                <a
+                  className="dnb-anchor"
+                  href="href"
+                  onClick={[Function]}
+                >
+                  link
+                </a>
+                 text
+              </p>
+            </Elem>
           </ForwardRef>
         </P>
       </div>

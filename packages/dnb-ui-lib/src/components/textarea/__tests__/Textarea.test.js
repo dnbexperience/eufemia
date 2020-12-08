@@ -13,11 +13,6 @@ import {
 } from '../../../core/jest/jestSetup'
 import Component from '../Textarea'
 
-// just to make sure we re-run the test in watch mode due to changes in theese files
-import _textarea from '../style/_textarea.scss' // eslint-disable-line
-import dnb_textarea from '../style/dnb-textarea.scss' // eslint-disable-line
-import dnb_textarea_theme_ui from '../style/themes/dnb-textarea-theme-ui.scss' // eslint-disable-line
-
 const props = {
   ...fakeProps(require.resolve('../Textarea'), {
     all: true,
@@ -127,7 +122,7 @@ describe('Textarea component', () => {
     const Comp = mount(
       <Component {...props} status="status" status_state="error" />
     )
-    expect(Comp.find('.dnb-form-status--text').text()).toBe('status')
+    expect(Comp.find('.dnb-form-status__text').text()).toBe('status')
   })
 
   it('has a disabled attribute, once we set disabled to true', () => {

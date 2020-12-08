@@ -31,8 +31,8 @@ function createMdxNode({
     value: slug
   })
 
-  // to make sure we get nodes which has not been thenre during the run
-  // we cound for the length of all nodes
+  // to make sure we get nodes which has not been there during the run
+  // we count for the length of all nodes
 
   // get all nodes
   const nodes = getNodesByType('Mdx')
@@ -138,7 +138,6 @@ async function createPages({ graphql, actions }) {
   const { createPage } = actions
   const { edges } = mdxResult.data.allMdx
 
-  // createPages(createPage, edges)
   edges.forEach(({ node }, i) => {
     const prev = i === 0 ? null : edges[i - 1].node
     const next = i === edges.length - 1 ? null : edges[i + 1].node

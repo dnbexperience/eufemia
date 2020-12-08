@@ -21,7 +21,7 @@ import DrawerListContext from './DrawerListContext'
 import DrawerListProvider from './DrawerListProvider'
 import DrawerListPortal from './DrawerListPortal'
 
-const renderProps = {
+const propsToFilterOut = {
   on_show: null,
   on_hide: null,
   on_change: null,
@@ -33,159 +33,178 @@ const renderProps = {
   wrapper_element: null
 }
 
-export const propTypes = {
-  id: PropTypes.string,
-  cache_hash: PropTypes.string,
-  triangle_position: PropTypes.string,
-  scrollable: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  focusable: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  direction: PropTypes.oneOf(['auto', 'top', 'bottom']),
-  size: PropTypes.oneOf(['default', 'small', 'medium', 'large']),
-  max_height: PropTypes.number,
-  no_animation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  no_scroll_animation: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.bool
-  ]),
-  use_drawer_on_mobile: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.bool
-  ]),
-  prevent_selection: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.bool
-  ]),
-  align_drawer: PropTypes.oneOf(['left', 'right']),
-  options_render: PropTypes.oneOfType([
-    PropTypes.object,
-    PropTypes.func,
-    PropTypes.node
-  ]),
-  wrapper_element: PropTypes.oneOfType([
-    PropTypes.object,
-    PropTypes.func,
-    PropTypes.node
-  ]),
-  default_value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  skip_portal: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  prevent_close: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  independent_width: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.bool
-  ]),
-  fixed_position: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  keep_open: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  prevent_focus: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  skip_keysearch: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  opened: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  class: PropTypes.string,
-  data: PropTypes.oneOfType([
-    PropTypes.oneOfType([
+export default class DrawerList extends React.PureComponent {
+  static tagName = 'dnb-drawer-list'
+  static contextType = DrawerListContext // only used for the hasProvide check
+
+  static propTypes = {
+    id: PropTypes.string,
+    role: PropTypes.string,
+    cache_hash: PropTypes.string,
+    triangle_position: PropTypes.string,
+    scrollable: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    focusable: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    direction: PropTypes.oneOf(['auto', 'top', 'bottom']),
+    size: PropTypes.oneOf(['default', 'small', 'medium', 'large']),
+    max_height: PropTypes.number,
+    no_animation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    no_scroll_animation: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool
+    ]),
+    use_drawer_on_mobile: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool
+    ]),
+    prevent_selection: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool
+    ]),
+    action_menu: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    is_popup: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    align_drawer: PropTypes.oneOf(['left', 'right']),
+    options_render: PropTypes.oneOfType([
+      PropTypes.object,
+      PropTypes.func,
+      PropTypes.node
+    ]),
+    wrapper_element: PropTypes.oneOfType([
+      PropTypes.object,
+      PropTypes.func,
+      PropTypes.node
+    ]),
+    default_value: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number
+    ]),
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    skip_portal: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    prevent_close: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    independent_width: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool
+    ]),
+    fixed_position: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool
+    ]),
+    keep_open: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    prevent_focus: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    skip_keysearch: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool
+    ]),
+    opened: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    class: PropTypes.string,
+    data: PropTypes.oneOfType([
+      PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.func,
+        PropTypes.node,
+        PropTypes.object
+      ]),
+      PropTypes.arrayOf(
+        PropTypes.oneOfType([
+          PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
+          PropTypes.shape({
+            selected_value: PropTypes.oneOfType([
+              PropTypes.string,
+              PropTypes.node
+            ]),
+            content: PropTypes.oneOfType([
+              PropTypes.string,
+              PropTypes.node,
+              PropTypes.arrayOf(PropTypes.string)
+            ])
+          })
+        ])
+      )
+    ]),
+    prepared_data: PropTypes.array,
+    raw_data: PropTypes.oneOfType([
+      PropTypes.array,
+      PropTypes.object,
+      PropTypes.func
+    ]),
+    ignore_events: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+
+    className: PropTypes.string,
+    children: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.func,
       PropTypes.node,
-      PropTypes.object
+      PropTypes.object,
+      PropTypes.array
     ]),
-    PropTypes.arrayOf(
-      PropTypes.oneOfType([
-        PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
-        PropTypes.shape({
-          selected_value: PropTypes.oneOfType([
-            PropTypes.string,
-            PropTypes.node
-          ]),
-          content: PropTypes.oneOfType([
-            PropTypes.string,
-            PropTypes.node,
-            PropTypes.arrayOf(PropTypes.string)
-          ])
-        })
-      ])
-    )
-  ]),
-  prepared_data: PropTypes.array,
-  raw_data: PropTypes.oneOfType([
-    PropTypes.array,
-    PropTypes.object,
-    PropTypes.func
-  ]),
-  ignore_events: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
 
-  // React
-  className: PropTypes.string,
-  children: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-    PropTypes.node,
-    PropTypes.object,
-    PropTypes.array
-  ]),
+    custom_element: PropTypes.object,
+    custom_method: PropTypes.func,
 
-  // Web Component props
-  custom_element: PropTypes.object,
-  custom_method: PropTypes.func,
+    on_show: PropTypes.func,
+    on_hide: PropTypes.func,
+    on_change: PropTypes.func,
+    on_pre_change: PropTypes.func,
+    on_resize: PropTypes.func,
+    on_select: PropTypes.func,
+    on_state_update: PropTypes.func
+  }
 
-  // Events
-  on_show: PropTypes.func,
-  on_hide: PropTypes.func,
-  on_change: PropTypes.func,
-  on_pre_change: PropTypes.func,
-  on_resize: PropTypes.func,
-  on_select: PropTypes.func,
-  on_state_update: PropTypes.func
-}
+  static defaultProps = {
+    id: null,
+    role: 'listbox',
+    cache_hash: null,
+    triangle_position: 'left',
+    scrollable: true,
+    focusable: false,
+    max_height: null,
+    direction: 'auto',
+    size: 'default',
+    no_animation: false,
+    no_scroll_animation: false,
+    use_drawer_on_mobile: false,
+    prevent_selection: false,
+    action_menu: false,
+    is_popup: false,
+    align_drawer: 'left',
+    wrapper_element: null,
+    default_value: null,
+    value: 'initval',
+    skip_portal: null,
+    prevent_close: false,
+    keep_open: false,
+    prevent_focus: false,
+    fixed_position: false,
+    independent_width: false,
+    skip_keysearch: false,
+    opened: null,
+    class: null,
+    data: null,
+    prepared_data: null,
+    raw_data: null,
+    ignore_events: null,
 
-export const defaultProps = {
-  id: null,
-  cache_hash: null,
-  triangle_position: 'left',
-  scrollable: true,
-  focusable: false,
-  max_height: null,
-  direction: 'auto',
-  size: 'default',
-  no_animation: false,
-  no_scroll_animation: false,
-  use_drawer_on_mobile: false,
-  prevent_selection: false,
-  align_drawer: 'left',
-  wrapper_element: null,
-  default_value: null,
-  value: 'initval',
-  skip_portal: null,
-  prevent_close: false,
-  keep_open: false,
-  prevent_focus: false,
-  fixed_position: false,
-  independent_width: false,
-  skip_keysearch: false,
-  opened: null,
-  class: null,
-  data: null,
-  prepared_data: null,
-  raw_data: null,
-  ignore_events: null,
+    className: null,
+    children: null,
 
-  // React props
-  className: null,
-  children: null,
+    custom_element: null,
+    custom_method: null,
 
-  // Web Component props
-  custom_element: null,
-  custom_method: null,
-  ...renderProps
-}
-
-export default class DrawerList extends React.PureComponent {
-  static tagName = 'dnb-drawer-list'
-  static propTypes = propTypes
-  static defaultProps = defaultProps
-  static renderProps = renderProps
-  static contextType = DrawerListContext // only used for the hasProvide check
+    on_show: null,
+    on_hide: null,
+    on_change: null,
+    on_pre_change: null,
+    on_resize: null,
+    on_select: null,
+    on_state_update: null,
+    options_render: null
+  }
 
   static enableWebComponent() {
-    registerElement(DrawerList.tagName, DrawerList, defaultProps)
+    registerElement(
+      DrawerList.tagName,
+      DrawerList,
+      DrawerList.defaultProps
+    )
   }
 
   render() {
@@ -207,8 +226,8 @@ export default class DrawerList extends React.PureComponent {
 }
 
 class DrawerListInstance extends React.PureComponent {
-  static propTypes = propTypes
-  static defaultProps = defaultProps
+  static propTypes = DrawerList.propTypes
+  static defaultProps = DrawerList.defaultProps
   static contextType = DrawerListContext
 
   constructor(props, context) {
@@ -219,7 +238,7 @@ class DrawerListInstance extends React.PureComponent {
 
     // send along the event handlers to the provider state
     context.drawerList.setState(
-      Object.entries(renderProps).reduce((acc, [key]) => {
+      Object.entries(propsToFilterOut).reduce((acc, [key]) => {
         if (props[key]) {
           acc[key] = props[key]
         }
@@ -261,12 +280,13 @@ class DrawerListInstance extends React.PureComponent {
     // use only the props from context, who are available here anyway
     const props = extendPropsWithContext(
       this.props,
-      defaultProps,
+      DrawerList.defaultProps,
       this.context.formRow,
-      this.context.translation.DrawerList
+      this.context.getTranslation(this.props).DrawerList
     )
 
     const {
+      role,
       align_drawer,
       fixed_position,
       use_drawer_on_mobile,
@@ -277,6 +297,8 @@ class DrawerListInstance extends React.PureComponent {
       no_animation,
       no_scroll_animation,
       prevent_selection,
+      action_menu,
+      is_popup,
       inner_class,
       ignore_events,
       options_render,
@@ -312,6 +334,7 @@ class DrawerListInstance extends React.PureComponent {
       active_item,
       closestToTop,
       closestToBottom,
+      assignObservers,
       _refShell,
       _refTriangle,
       _refUl,
@@ -330,8 +353,10 @@ class DrawerListInstance extends React.PureComponent {
           `dnb-drawer-list--triangle-position-${triangle_position}`,
         align_drawer && `dnb-drawer-list--${align_drawer}`,
         size && `dnb-drawer-list--${size}`,
-        // isTrue(fixed_position) && 'dnb-drawer-list--fixed',
-        isTrue(independent_width) && 'dnb-drawer-list--independent-width',
+        isTrue(action_menu) && `dnb-drawer-list--action-menu`,
+        isTrue(is_popup) && 'dnb-drawer-list--is-popup',
+        isTrue(independent_width) ||
+          (isTrue(action_menu) && 'dnb-drawer-list--independent-width'),
         isTrue(scrollable) && 'dnb-drawer-list--scroll',
         isTrue(no_scroll_animation) &&
           'dnb-drawer-list--no-scroll-animation',
@@ -345,6 +370,11 @@ class DrawerListInstance extends React.PureComponent {
 
     const listParams = {
       id: `${id}-listbox`,
+      /**
+       * We may considder to use the hidden attribute in future
+       * Or we may add an prop to put the HTML in the DOM, if needed
+       */
+      // hidden: hidden !== false,
       className: classnames(
         'dnb-drawer-list__list',
         isTrue(no_animation) && 'dnb-drawer-list__list--no-animation',
@@ -353,8 +383,8 @@ class DrawerListInstance extends React.PureComponent {
     }
 
     const ulParams = {
+      role,
       id: `${id}-ul`,
-      role: 'listbox',
       'aria-expanded': opened,
       'aria-labelledby': `${id}-label`,
       tabIndex: '-1',
@@ -363,13 +393,17 @@ class DrawerListInstance extends React.PureComponent {
       },
       ref: _refUl
     }
-    if (
+
+    if (!hidden && parseFloat(active_item) > -1) {
+      ulParams['aria-activedescendant'] = `option-${id}-${active_item}`
+    } else if (
       !isTrue(prevent_selection) &&
       !hidden &&
       parseFloat(selected_item) > -1
     ) {
       ulParams['aria-activedescendant'] = `option-${id}-${selected_item}`
     }
+
     if (isTrue(focusable)) {
       ulParams.tabIndex = '0'
     }
@@ -392,6 +426,7 @@ class DrawerListInstance extends React.PureComponent {
         const _id = dataItem.__id
         const hash = `option-${id}-${_id}-${i}`
         const liParams = {
+          role: role === 'menu' ? 'menuitem' : 'option',
           'data-item': _id,
           id: `option-${id}-${_id}`,
           hash,
@@ -452,7 +487,7 @@ class DrawerListInstance extends React.PureComponent {
                   <Items />
                 )}
               </DrawerList.Options>
-              {/* <Triangle /> */}
+              <OnMounted assignObservers={assignObservers} />
             </>
           ) : (
             children && (
@@ -464,17 +499,7 @@ class DrawerListInstance extends React.PureComponent {
                   ref={_refTriangle}
                 />
               </span>
-            ) /*|| (
-        <ul {...ulParams} hidden>
-          <li
-            role="option"
-            id={`option-${id}-${selected_item}`}
-            aria-selected="true"
-          >
-            blabla
-          </li>
-        </ul>
-      ) - is semanticall good, but not good for NVDA screen reader, as it reads out that there is only one item in there */
+            )
           )}
         </span>
       </span>
@@ -494,9 +519,10 @@ class DrawerListInstance extends React.PureComponent {
             id={this._id}
             rootRef={_refRoot}
             opened={hidden === false}
-            useWidthAddition={align_drawer === 'right'}
-            fixedPosition={isTrue(fixed_position)}
-            useMobileView={isTrue(use_drawer_on_mobile)}
+            include_owner_width={align_drawer === 'right'}
+            independent_width={isTrue(independent_width)}
+            fixed_position={isTrue(fixed_position)}
+            use_drawer_on_mobile={isTrue(use_drawer_on_mobile)}
           >
             {mainList}
           </DrawerListPortal>
@@ -534,7 +560,7 @@ DrawerList.Options = React.memo(
           className="dnb-drawer-list__triangle"
           aria-hidden
           ref={triangleRef}
-        ></li>
+        />
       </ul>
     )
   }),
@@ -562,6 +588,7 @@ DrawerList.Options.defaultProps = {
 // DrawerList Item
 DrawerList.Item = React.forwardRef((props, ref) => {
   const {
+    role, // eslint-disable-line
     hash, // eslint-disable-line
     children, // eslint-disable-line
     className, // eslint-disable-line
@@ -581,7 +608,7 @@ DrawerList.Item = React.forwardRef((props, ref) => {
       selected && 'dnb-drawer-list__option--selected',
       active && 'dnb-drawer-list__option--focus'
     ),
-    role: 'option', // presentation / option / menuitem
+    role,
     tabIndex: selected ? '0' : '-1',
     'aria-selected': active
   }
@@ -614,6 +641,7 @@ DrawerList.Item = React.forwardRef((props, ref) => {
 })
 DrawerList.Item.displayName = 'DrawerList.Item'
 DrawerList.Item.propTypes = {
+  role: PropTypes.string,
   hash: PropTypes.string,
   children: PropTypes.oneOfType([
     PropTypes.node,
@@ -628,6 +656,7 @@ DrawerList.Item.propTypes = {
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
 }
 DrawerList.Item.defaultProps = {
+  role: 'option',
   hash: '',
   className: null,
   class: null,
@@ -659,4 +688,32 @@ ItemContent.propTypes = {
     PropTypes.func,
     PropTypes.object
   ]).isRequired
+}
+
+DrawerList.HorizontalItem = ({ className, ...props }) => (
+  <span
+    className={classnames([
+      'dnb-drawer-list__option__inner__item',
+      className
+    ])}
+    {...props}
+  />
+)
+DrawerList.HorizontalItem.propTypes = {
+  className: PropTypes.string
+}
+DrawerList.HorizontalItem.defaultProps = {
+  className: null
+}
+
+class OnMounted extends React.PureComponent {
+  static propTypes = {
+    assignObservers: PropTypes.func.isRequired
+  }
+  componentDidMount() {
+    this.props.assignObservers()
+  }
+  render() {
+    return null
+  }
 }

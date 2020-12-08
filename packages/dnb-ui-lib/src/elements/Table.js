@@ -9,30 +9,6 @@ import { warn, isTrue, registerElement } from '../shared/component-helper'
 
 import E from './Element'
 
-const renderProps = {}
-
-const propTypes = {
-  sticky: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  sticky_offset: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-
-  children: PropTypes.oneOfType([
-    PropTypes.node,
-    PropTypes.object,
-    PropTypes.func
-  ])
-}
-
-const defaultProps = {
-  sticky: false,
-  sticky_offset: null,
-
-  // React props
-  children: null,
-
-  // Web Component props
-  ...renderProps
-}
-
 export const StickyHelper = () => {
   return (
     <tr className="dnb-table__sticky-helper">
@@ -43,12 +19,30 @@ export const StickyHelper = () => {
 
 export default class Table extends React.PureComponent {
   static tagName = 'dnb-table'
-  static propTypes = propTypes
-  static defaultProps = defaultProps
-  static renderProps = renderProps
+
+  static propTypes = {
+    sticky: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    sticky_offset: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number
+    ]),
+
+    children: PropTypes.oneOfType([
+      PropTypes.node,
+      PropTypes.object,
+      PropTypes.func
+    ])
+  }
+
+  static defaultProps = {
+    sticky: false,
+    sticky_offset: null,
+
+    children: null
+  }
 
   static enableWebComponent() {
-    registerElement(Table.tagName, Table, defaultProps)
+    registerElement(Table.tagName, Table, Table.defaultProps)
   }
 
   constructor(props) {
@@ -111,17 +105,21 @@ export default class Table extends React.PureComponent {
     }
 
     const tableElem = this._ref.current
-    const trElem = tableElem.querySelector(
-      'thead > tr:first-of-type, thead > .dnb-table__tr:first-of-type'
-    )
 
-    const thElem = this.getThElement(tableElem)
-    const tdElem = this.getTdElement(tableElem)
+    let trElem
+    let thElem
+    let tdElem
     let thHeight = 80
     let tdHeight = 64
     let offsetTop = 0
 
     try {
+      trElem = tableElem.querySelector(
+        'thead > tr:first-of-type, thead > .dnb-table__tr:first-of-type'
+      )
+      thElem = this.getThElement(tableElem)
+      tdElem = this.getTdElement(tableElem)
+
       offsetTop = parseFloat(this.props.sticky_offset) || offsetTop
 
       if (offsetTop > 0) {
@@ -149,7 +147,6 @@ export default class Table extends React.PureComponent {
       (entries) => {
         const [entry] = entries
         try {
-          // console.log('entry.isIntersecting', entry.isIntersecting, trElem)
           if (entry.isIntersecting) {
             trElem.classList.remove('show-shadow')
           } else {

@@ -9,14 +9,17 @@ exports[`IconPrimary component have to match snapshot 1`] = `
   color={null}
   height={null}
   icon="question"
+  inherit_color={true}
   modifier={null}
   size={null}
+  skeleton={null}
   title={null}
   width={null}
 >
   <span
+    aria-hidden={true}
     aria-label="question icon"
-    className="dnb-icon dnb-icon--default"
+    className="dnb-icon dnb-icon--default dnb-icon--inherit-color"
     role="presentation"
   >
     <question>
@@ -25,6 +28,7 @@ exports[`IconPrimary component have to match snapshot 1`] = `
         height={16}
         viewBox="0 0 16 16"
         width={16}
+        xmlns="http://www.w3.org/2000/svg"
       >
         <path
           clipRule="evenodd"

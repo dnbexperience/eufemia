@@ -6,7 +6,7 @@
 import React from 'react'
 import styled from '@emotion/styled'
 import Img from 'Tags/Img'
-import { css } from '@emotion/core'
+import { css } from '@emotion/react'
 import { Button, Icon } from 'dnb-ui-lib/src/components'
 import { H2, H4, P, Hr, Code } from 'dnb-ui-lib/src/elements'
 import { bell } from 'dnb-ui-lib/src/icons'
@@ -36,7 +36,7 @@ const LegacyCodeStyling = () => (
         Check out the{' '}
         <a
           className="dnb-anchor"
-          href="https://github.com/dnbexperience/eufemia-examples/tree/master/packages/example-styling/src/App.jsx"
+          href="https://github.com/dnbexperience/eufemia-examples/tree/main/packages/example-styling/src/App.jsx"
         >
           source code for further explanation
         </a>

@@ -8,122 +8,125 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import Context from '../../shared/Context'
 import {
+  warn,
   makeUniqueId,
   isTrue,
   extendPropsWithContext,
   registerElement,
   validateDOMAttributes,
   processChildren,
-  pickRenderProps,
+  getStatusState,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
 import { createSpacingClasses } from '../space/SpacingHelper'
+import {
+  skeletonDOMAttributes,
+  createSkeletonClass
+} from '../skeleton/SkeletonHelper'
 import IconPrimary from '../icon-primary/IconPrimary'
 import FormStatus from '../form-status/FormStatus'
 import Tooltip from '../tooltip/Tooltip'
-
-const renderProps = { on_click: null }
-
-const propTypes = {
-  /** the content of the button. */
-  text: PropTypes.string,
-  type: PropTypes.string,
-  title: PropTypes.string,
-  /* _(optional)_ defines the kind of button. Possible values are `primary`, `secondary`, `tertiary` and `signal`.  */
-  variant: PropTypes.oneOf(['primary', 'secondary', 'tertiary', 'signal']),
-  size: PropTypes.oneOf(['default', 'small', 'medium', 'large']),
-  icon: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.node,
-    PropTypes.func
-  ]),
-  icon_position: PropTypes.oneOf(['left', 'right']),
-  icon_size: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  tooltip: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-    PropTypes.node
-  ]),
-  status: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-    PropTypes.node
-  ]),
-  status_state: PropTypes.string,
-  status_animation: PropTypes.string,
-  global_status_id: PropTypes.string,
-  id: PropTypes.string,
-  class: PropTypes.string,
-  href: PropTypes.string,
-  wrap: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  bounding: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-
-  // React props
-  className: PropTypes.string,
-  innerRef: PropTypes.object,
-  children: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-    PropTypes.node
-  ]),
-
-  // Web Component props
-  custom_element: PropTypes.object,
-  custom_method: PropTypes.func,
-
-  // Events
-  onClick: PropTypes.func,
-  on_click: PropTypes.oneOfType([PropTypes.string, PropTypes.func])
-}
-
-const defaultProps = {
-  type: 'button',
-  text: null,
-  variant: null,
-  size: null,
-  title: null,
-  icon: null,
-  icon_position: 'right',
-  icon_size: null,
-  href: null,
-  id: null,
-  class: null,
-  wrap: false,
-  bounding: false,
-  disabled: null,
-  tooltip: null,
-  status: null,
-  status_state: 'error',
-  status_animation: null,
-  global_status_id: null,
-
-  // React props
-  className: null,
-  innerRef: null,
-  children: null,
-
-  // Web Component props
-  custom_element: null,
-  custom_method: null,
-
-  // Events
-  onClick: null,
-  on_click: null
-}
 
 /**
  * The button component should be used as the call-to-action in a form, or as a user interaction mechanism. Generally speaking, a button should not be used when a link would do the trick. Exceptions are made at times when it is used as a navigation element in the action-nav element.
  */
 export default class Button extends React.PureComponent {
   static tagName = 'dnb-button'
-  static propTypes = propTypes
-  static defaultProps = defaultProps
-  static renderProps = renderProps
   static contextType = Context
 
+  static propTypes = {
+    text: PropTypes.string,
+    type: PropTypes.string,
+    title: PropTypes.string,
+    variant: PropTypes.oneOf([
+      'primary',
+      'secondary',
+      'tertiary',
+      'signal'
+    ]),
+    size: PropTypes.oneOf(['default', 'small', 'medium', 'large']),
+    icon: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.node,
+      PropTypes.func
+    ]),
+    icon_position: PropTypes.oneOf(['left', 'right']),
+    icon_size: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    tooltip: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.func,
+      PropTypes.node
+    ]),
+    status: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.func,
+      PropTypes.node
+    ]),
+    status_state: PropTypes.string,
+    status_animation: PropTypes.string,
+    global_status_id: PropTypes.string,
+    id: PropTypes.string,
+    class: PropTypes.string,
+    href: PropTypes.string,
+    wrap: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    bounding: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    inner_ref: PropTypes.object,
+
+    className: PropTypes.string,
+    innerRef: PropTypes.object,
+    children: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.func,
+      PropTypes.node
+    ]),
+    element: PropTypes.node,
+
+    custom_element: PropTypes.object,
+    custom_method: PropTypes.func,
+
+    onClick: PropTypes.func,
+    on_click: PropTypes.oneOfType([PropTypes.string, PropTypes.func])
+  }
+
+  static defaultProps = {
+    type: 'button',
+    text: null,
+    variant: null,
+    size: null,
+    title: null,
+    icon: null,
+    icon_position: 'right',
+    icon_size: null,
+    href: null,
+    id: null,
+    class: null,
+    wrap: false,
+    bounding: false,
+    skeleton: null,
+    disabled: null,
+    tooltip: null,
+    status: null,
+    status_state: 'error',
+    status_animation: null,
+    global_status_id: null,
+    inner_ref: null,
+
+    className: null,
+    innerRef: null,
+    children: null,
+    element: null,
+
+    custom_element: null,
+    custom_method: null,
+
+    onClick: null,
+    on_click: null
+  }
+
   static enableWebComponent() {
-    registerElement(Button.tagName, Button, defaultProps)
+    registerElement(Button.tagName, Button, Button.defaultProps)
   }
 
   static getContent(props) {
@@ -137,18 +140,15 @@ export default class Button extends React.PureComponent {
       props.id || ((props.status || props.tooltip) && makeUniqueId()) // cause we need an id anyway
     this._ref = React.createRef()
 
-    // pass along all props we wish to have as params
-    this.renderProps = pickRenderProps(props, renderProps)
-
     this.state = { afterContent: null }
   }
 
   componentDidMount() {
-    if (
-      this.props.innerRef &&
-      typeof this.props.innerRef.current !== 'undefined'
-    ) {
+    if (this.props.innerRef) {
       this.props.innerRef.current = this._ref.current
+    }
+    if (this.props.inner_ref) {
+      this.props.inner_ref.current = this._ref.current
     }
   }
 
@@ -167,9 +167,11 @@ export default class Button extends React.PureComponent {
     // use only the props from context, who are available here anyway
     const props = extendPropsWithContext(
       this.props,
-      defaultProps,
+      Button.defaultProps,
+      { skeleton: this.context?.skeleton },
       this.context.formRow
     )
+
     const {
       class: class_name,
       className,
@@ -191,16 +193,25 @@ export default class Button extends React.PureComponent {
       href,
       wrap,
       bounding, // eslint-disable-line
+      skeleton,
+      element,
+      inner_ref, // eslint-disable-line
       innerRef, // eslint-disable-line
       ...attributes
     } = props
 
-    const showStatus = status && status !== 'error'
+    const showStatus = getStatusState(status)
 
     let { text, icon, icon_position: iconPosition } = props
     let usedVariant = variant
     let usedSize = size
     let content = Button.getContent(this.props) || text
+
+    if (variant === 'tertiary' && content && !icon && icon !== false) {
+      warn(
+        `A Tertiary Button requires an icon. Please declare an icon to: ${content}`
+      )
+    }
 
     // NB: Nice API, but will create way too much code to maintain in future
     // therefore we do not use this fro now
@@ -270,6 +281,11 @@ export default class Button extends React.PureComponent {
       icon && 'dnb-button--has-icon',
       wrap && 'dnb-button--wrap',
       status && `dnb-button__status--${status_state}`,
+      createSkeletonClass(
+        variant === 'tertiary' ? 'font' : 'shape',
+        skeleton,
+        this.context
+      ),
       createSpacingClasses(props),
       class_name,
       className,
@@ -277,7 +293,6 @@ export default class Button extends React.PureComponent {
     )
 
     const params = {
-      ...this.renderProps,
       className: classes,
       type,
       title,
@@ -287,43 +302,41 @@ export default class Button extends React.PureComponent {
       onClick: this.onClickHandler
     }
 
+    if (href) {
+      params.href = href
+    }
+
+    skeletonDOMAttributes(params, skeleton, this.context)
+
     // also used for code markup simulation
     validateDOMAttributes(this.props, params)
 
+    const Element = element ? element : href ? 'a' : 'button'
+
     return (
       <>
-        {href ? (
-          <a href={href} ref={this._ref} {...params}>
-            <Content
-              {...this.props}
-              icon={icon}
-              text={text}
-              icon_size={iconSize}
-              content={content}
-              isIconOnly={isIconOnly}
-            />
-          </a>
-        ) : (
-          <button ref={this._ref} {...params}>
-            <Content
-              {...this.props}
-              icon={icon}
-              text={text}
-              icon_size={iconSize}
-              content={content}
-              isIconOnly={isIconOnly}
-            />
-          </button>
-        )}
+        <Element ref={this._ref} {...params}>
+          <Content
+            {...this.props}
+            icon={icon}
+            text={text}
+            icon_size={iconSize}
+            content={content}
+            isIconOnly={isIconOnly}
+            skeleton={isTrue(skeleton)}
+          />
+        </Element>
         {this.state.afterContent}
         {showStatus && (
           <FormStatus
             id={this._id + '-form-status'}
             global_status_id={global_status_id}
+            label={text}
             text={status}
             status={status_state}
             text_id={this._id + '-status'} // used for "aria-describedby"
             animation={status_animation}
+            skeleton={skeleton}
           />
         )}
 
@@ -353,6 +366,7 @@ class Content extends React.PureComponent {
     ]),
     icon_size: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     bounding: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    skeleton: PropTypes.bool,
     isIconOnly: PropTypes.bool
   }
   static defaultProps = {
@@ -362,6 +376,7 @@ class Content extends React.PureComponent {
     icon: null,
     icon_size: 'default',
     bounding: false,
+    skeleton: null,
     isIconOnly: null
   }
   render() {
@@ -372,6 +387,7 @@ class Content extends React.PureComponent {
       icon,
       icon_size,
       bounding,
+      skeleton,
       isIconOnly
     } = this.props
 
@@ -398,7 +414,10 @@ class Content extends React.PureComponent {
         <span key="button-text-empty" className="dnb-button__alignment">
           &zwnj;
         </span>,
-        <span key="button-text" className="dnb-button__text">
+        <span
+          key="button-text"
+          className="dnb-button__text dnb-skeleton--show-font"
+        >
           {text}
         </span>
       )
@@ -427,6 +446,7 @@ class Content extends React.PureComponent {
             icon={icon}
             size={icon_size}
             aria-hidden={isIconOnly && !title ? null : true}
+            skeleton={skeleton}
           />
         )
       )

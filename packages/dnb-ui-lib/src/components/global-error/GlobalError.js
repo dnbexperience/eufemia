@@ -17,78 +17,106 @@ import Button from '../button/Button'
 import H1 from '../../elements/H1'
 import P from '../../elements/P'
 
-const renderProps = {
-  render_content: null
-}
-
-const propTypes = {
-  status: PropTypes.string,
-
-  status_content: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.object
-  ]),
-
-  title: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
-  text: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
-  back: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
-  href: PropTypes.string,
-  alt: PropTypes.string,
-
-  /** React props */
-  className: PropTypes.string,
-  children: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-    PropTypes.node
-  ]),
-
-  // Web Component props
-  class: PropTypes.string,
-  render_content: PropTypes.func
-}
-
-const defaultProps = {
-  status: null,
-  status_content: null,
-  back: 'Tilbake',
-
-  title: null,
-  text: null,
-  href: null,
-
-  // React props
-  className: null,
-  children: null,
-
-  // Web Component props
-  class: null,
-  ...renderProps
-}
-
 export default class GlobalError extends React.PureComponent {
   static tagName = 'dnb-global-error'
-  static propTypes = propTypes
-  static defaultProps = defaultProps
   static contextType = Context
 
+  static propTypes = {
+    status: PropTypes.string,
+
+    status_content: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.object
+    ]),
+
+    title: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
+    text: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
+    back: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
+    href: PropTypes.string,
+    alt: PropTypes.string,
+
+    /** React props */
+    className: PropTypes.string,
+    children: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.func,
+      PropTypes.node
+    ]),
+
+    class: PropTypes.string
+  }
+
+  static defaultProps = {
+    status: null,
+    status_content: null,
+    back: 'Tilbake',
+
+    title: null,
+    text: null,
+    href: null,
+    alt: null,
+
+    className: null,
+    children: null,
+
+    class: null
+  }
+
   static enableWebComponent() {
-    registerElement(GlobalError.tagName, GlobalError, defaultProps)
+    registerElement(
+      GlobalError.tagName,
+      GlobalError,
+      GlobalError.defaultProps
+    )
   }
   static getContent(props) {
-    if (typeof props.render_content === 'function') {
-      props.render_content(props)
-    }
     return processChildren(props)
+  }
+
+  backHandler = (e) => {
+    const count = this.hasHistory()
+    try {
+      if (!this.props.href && count) {
+        e.preventDefault ? e.preventDefault() : (e.returnValue = false)
+
+        // Try forward first, because
+        // const tmp = window.location.href
+        // window.history.forward()
+        // if (tmp === window.location.href) {
+        // }
+
+        window.history.back()
+      }
+    } catch (e) {
+      warn(e)
+    }
+  }
+
+  getHref() {
+    return this.props.href || (this.hasHistory() ? '#' : '/')
+  }
+
+  hasHistory = () => {
+    return typeof window !== 'undefined' &&
+      window.history &&
+      /**
+       * browser (Chrome) to add more to the history if you:
+       *
+       * 1. first visit
+       * 2. head back
+       * 3. head forward again, suddenly there are 3 values in the history
+       */
+      window.history.length > 2
+      ? window.history.length
+      : false
   }
 
   render() {
     const {
       status,
       back,
-      href,
+      href, // eslint-disable-line
 
-      render_content: _render_content, // eslint-disable-line
       status_content: _status_content, // eslint-disable-line
       title: _title, // eslint-disable-line
       text: _text, // eslint-disable-line
@@ -136,10 +164,6 @@ export default class GlobalError extends React.PureComponent {
       }
     }
 
-    const backHandler = () =>
-      !href &&
-      (typeof window !== 'undefined' ? window.history.back() : null)
-
     if (typeof useText === 'string' && /\[/.test(useText)) {
       try {
         let parts = useText.split(/\[(.*)\](\(\/back\))/g)
@@ -148,7 +172,12 @@ export default class GlobalError extends React.PureComponent {
           if (backIndex !== -1) {
             // the first one will be
             parts[backIndex - 1] = (
-              <a className="dnb-anchor" href=";" onClick={backHandler}>
+              // eslint-disable-next-line jsx-a11y/anchor-is-valid
+              <a
+                className="dnb-anchor"
+                href={this.getHref()}
+                onClick={this.backHandler}
+              >
                 {parts[1]}
               </a>
             )
@@ -192,8 +221,8 @@ export default class GlobalError extends React.PureComponent {
               icon="chevron_left"
               icon_position="left"
               text={back}
-              href={href}
-              on_click={backHandler}
+              href={this.getHref()}
+              on_click={this.backHandler}
             />
           )) ||
             back}

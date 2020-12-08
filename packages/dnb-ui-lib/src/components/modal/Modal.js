@@ -20,142 +20,156 @@ import {
 } from '../../shared/component-helper'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import Button from '../button/Button'
-import ModalContent, { CloseButton } from './ModalContent'
-
-const renderProps = {
-  on_open: null,
-  on_close: null,
-  on_close_prevent: null,
-  open_modal: null,
-  close_modal: null,
-  modal_content: null
-}
-
-const propTypes = {
-  id: PropTypes.string,
-  mode: PropTypes.oneOf(['modal', 'drawer']),
-  labelled_by: PropTypes.string,
-  title: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.node,
-    PropTypes.func
-  ]),
-  disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  trigger_hidden: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  trigger_disabled: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.bool
-  ]),
-  trigger_variant: Button.propTypes.variant,
-  trigger_text: PropTypes.string,
-  trigger_title: PropTypes.string,
-  trigger_size: PropTypes.string,
-  trigger_icon: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.node,
-    PropTypes.func
-  ]),
-  trigger_icon_position: PropTypes.string,
-  trigger_class: PropTypes.string,
-  open_delay: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  content_id: PropTypes.string,
-  close_title: PropTypes.string,
-  hide_close_button: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.bool
-  ]),
-  prevent_close: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  prevent_core_style: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.bool
-  ]),
-  no_animation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  no_animation_on_mobile: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.bool
-  ]),
-  fullscreen: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  align_content: PropTypes.oneOf(['left', 'center', 'centered', 'right']),
-  container_placement: PropTypes.oneOf(['left', 'right', 'top', 'bottom']),
-  open_state: PropTypes.oneOf(['opened', 'closed']),
-  direct_dom_return: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.bool
-  ]),
-  class: PropTypes.string,
-
-  // React props
-  className: PropTypes.string,
-  children: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.node,
-    PropTypes.func
-  ]),
-
-  // Events and functions
-  on_open: PropTypes.func,
-  on_close: PropTypes.func,
-  on_close_prevent: PropTypes.func,
-  open_modal: PropTypes.func,
-  close_modal: PropTypes.func,
-
-  // Web Component props
-  preventSetTriggerRef: PropTypes.bool,
-  modal_content: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.node,
-    PropTypes.func
-  ])
-}
-
-const defaultProps = {
-  id: null,
-  mode: 'modal',
-  labelled_by: null,
-  title: null,
-  disabled: null,
-  trigger_hidden: false,
-  trigger_disabled: null,
-  trigger_variant: 'secondary',
-  trigger_text: null,
-  trigger_title: null,
-  trigger_size: null,
-  trigger_icon: 'question',
-  trigger_icon_position: 'left',
-  trigger_class: null,
-  open_delay: null,
-  content_id: null,
-  close_title: 'Lukk', // Close Modal Window
-  hide_close_button: false,
-  prevent_close: false,
-  prevent_core_style: false,
-  no_animation: false,
-  no_animation_on_mobile: false,
-  fullscreen: false,
-  align_content: 'left',
-  container_placement: 'right',
-  open_state: null,
-  direct_dom_return: false,
-  class: null,
-
-  // React props
-  className: null,
-  children: null,
-
-  // Web Component props
-  preventSetTriggerRef: false,
-  ...renderProps
-}
+import Section from '../section/Section'
+import HelpButtonInstance from '../help-button/HelpButtonInstance'
+import ModalContent, {
+  CloseButton,
+  getListOfModalRoots
+} from './ModalContent'
 
 export default class Modal extends React.PureComponent {
   static tagName = 'dnb-modal'
-  static propTypes = propTypes
-  static defaultProps = defaultProps
   static contextType = Context
-  static modalRoot = null // gets later '.dnb-modal-root'
+
+  static propTypes = {
+    id: PropTypes.string,
+    root_id: PropTypes.string,
+    mode: PropTypes.oneOf(['modal', 'drawer']),
+    focus_selector: PropTypes.string,
+    labelled_by: PropTypes.string,
+    title: PropTypes.node,
+    disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    spacing: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    open_delay: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    content_id: PropTypes.string,
+    close_title: PropTypes.string,
+    hide_close_button: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool
+    ]),
+    prevent_close: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    prevent_core_style: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool
+    ]),
+    animation_duration: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number
+    ]),
+    no_animation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    no_animation_on_mobile: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool
+    ]),
+    fullscreen: PropTypes.oneOf(['auto', true, false, 'true', 'false']),
+    align_content: PropTypes.oneOf([
+      'left',
+      'center',
+      'centered',
+      'right'
+    ]),
+    container_placement: PropTypes.oneOf([
+      'left',
+      'right',
+      'top',
+      'bottom'
+    ]),
+    open_state: PropTypes.oneOf(['opened', 'closed']),
+    direct_dom_return: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool
+    ]),
+    class: PropTypes.string,
+
+    className: PropTypes.string,
+    children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
+
+    on_open: PropTypes.func,
+    on_close: PropTypes.func,
+    on_close_prevent: PropTypes.func,
+    open_modal: PropTypes.func,
+    close_modal: PropTypes.func,
+
+    // All "trigger_" are deprecated
+    trigger_attributes: PropTypes.object,
+    trigger_hidden: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool
+    ]),
+    trigger_disabled: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool
+    ]),
+    trigger_variant: Button.propTypes.variant,
+    trigger_text: PropTypes.string,
+    trigger_title: PropTypes.string,
+    trigger_size: PropTypes.string,
+    trigger_icon: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.node,
+      PropTypes.func
+    ]),
+    trigger_icon_position: PropTypes.string,
+    trigger_class: PropTypes.string,
+
+    modal_content: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.node,
+      PropTypes.func
+    ])
+  }
+
+  static defaultProps = {
+    id: null,
+    root_id: 'root',
+    mode: 'modal',
+    focus_selector: null,
+    labelled_by: null,
+    title: null,
+    disabled: null,
+    spacing: true,
+    open_delay: null,
+    content_id: null,
+    close_title: 'Lukk', // Close Modal Window
+    hide_close_button: false,
+    prevent_close: false,
+    prevent_core_style: false,
+    animation_duration: 300, // Not documented!
+    no_animation: false,
+    no_animation_on_mobile: false,
+    fullscreen: 'auto',
+    align_content: null,
+    container_placement: null,
+    open_state: null,
+    direct_dom_return: false,
+    class: null,
+
+    className: null,
+    children: null,
+
+    on_open: null,
+    on_close: null,
+    on_close_prevent: null,
+    open_modal: null,
+    close_modal: null,
+
+    // All "trigger_" are deprecated
+    trigger_attributes: null,
+    trigger_hidden: false,
+    trigger_disabled: null,
+    trigger_variant: 'secondary',
+    trigger_text: null,
+    trigger_title: null,
+    trigger_size: null,
+    trigger_icon: null,
+    trigger_icon_position: 'left',
+    trigger_class: null,
+
+    modal_content: null
+  }
 
   static enableWebComponent() {
-    registerElement(Modal.tagName, Modal, defaultProps)
+    registerElement(Modal.tagName, Modal, Modal.defaultProps)
   }
 
   static getContent(props) {
@@ -167,18 +181,19 @@ export default class Modal extends React.PureComponent {
     return processChildren(props)
   }
 
-  static insertModalRoot() {
+  static insertModalRoot(id) {
     if (typeof window === 'undefined') {
       return false
     }
 
     try {
-      window.modalRoot = document.getElementById('dnb-modal-root') // document.querySelector('.dnb-modal-root')
-      if (!window.modalRoot) {
-        window.modalRoot = document.createElement('div')
-        window.modalRoot.setAttribute('id', 'dnb-modal-root')
+      id = `dnb-modal-${id || 'root'}`
+      window.__modalRoot = document.getElementById(id)
+      if (!window.__modalRoot) {
+        window.__modalRoot = document.createElement('div')
+        window.__modalRoot.setAttribute('id', id)
         document.body.insertBefore(
-          window.modalRoot,
+          window.__modalRoot,
           document.body.firstChild
         )
       }
@@ -186,38 +201,40 @@ export default class Modal extends React.PureComponent {
       warn('Modal: Could not insert dnb-modal-root', e)
     }
 
-    return window.modalRoot
+    return window.__modalRoot
   }
 
   static getDerivedStateFromProps(props, state) {
     if (state._listenForPropChanges) {
-      switch (props.open_state) {
-        case 'opened':
-          state.modalActive = true
-          break
-        case 'closed':
-          state.modalActive = false
-          break
+      if (props.open_state !== state._open_state) {
+        switch (props.open_state) {
+          case 'opened':
+            state.modalActive = true
+            break
+          case 'closed':
+            state.modalActive = false
+            break
+        }
       }
     }
     state._listenForPropChanges = true
+    state._open_state = props.open_state
+
     return state
   }
 
   state = {
     hide: false,
-    _listenForPropChanges: true,
+    modalActive: false,
     currentActiveState: false,
-    modalActive: false
+    _listenForPropChanges: true
   }
 
   constructor(props) {
     super(props)
     this._id = props.id || makeUniqueId()
 
-    if (!props.preventSetTriggerRef) {
-      this._triggerRef = React.createRef()
-    }
+    this._triggerRef = React.createRef()
 
     this._onUnmount = []
   }
@@ -227,63 +244,105 @@ export default class Modal extends React.PureComponent {
 
     if (typeof open_modal === 'function') {
       const fn = open_modal(() => {
-        this.toggleOpenClose(null, true)
+        this.toggleOpenClose(true)
       }, this)
       if (fn) {
         this._onUnmount.push(fn)
       }
     }
   }
+
   componentWillUnmount() {
     this._onUnmount.forEach((fn) => {
       if (typeof fn === 'function') {
         fn()
       }
     })
-    this.setState({
-      hide: true,
-      modalActive: false,
-      _listenForPropChanges: false
-    })
+
     clearTimeout(this._openTimeout)
     clearTimeout(this._closeTimeout)
     clearTimeout(this._sideEffectsTimeout)
+    clearTimeout(this._tryToOpenTimeout)
   }
 
-  toggleOpenClose = (event = null, showModal = null) => {
+  componentDidUpdate(props) {
+    const { modalActive, currentActiveState } = this.state
+
+    if (modalActive !== currentActiveState) {
+      // store the active element to set back the focus later on
+      if (!this.activeElement && typeof document !== 'undefined') {
+        this.activeElement = document.activeElement
+      }
+
+      if (isTrue(this.props.no_animation)) {
+        this.handleSideEffects()
+      } else {
+        clearTimeout(this._sideEffectsTimeout)
+        this._sideEffectsTimeout = setTimeout(
+          () => this.handleSideEffects(),
+          1
+        )
+        // delay the dispatch to make sure we are after the render cycles
+        // this way have the content instead by the time we call this event
+      }
+    } else {
+      if (
+        !this.isClosing &&
+        !modalActive &&
+        props.open_state === 'opened'
+      ) {
+        this.toggleOpenClose(true)
+      }
+    }
+  }
+
+  toggleOpenClose = (showModal = null, event = null) => {
     if (event && event.preventDefault) {
       event.preventDefault()
     }
 
     const toggleNow = () => {
-      const doItNow = () => {
-        this.setState({
-          hide: false,
-          modalActive,
-          _listenForPropChanges: false
-        })
-      }
-
       const modalActive =
         showModal !== null ? showModal : !this.state.modalActive
 
-      if (!isTrue(this.props.no_animation) && modalActive === false) {
+      this.isClosing = true
+
+      const doItNow = () => {
+        this.setState(
+          {
+            hide: false,
+            modalActive,
+            _listenForPropChanges: false
+          },
+          () => {
+            clearTimeout(this._closeTimeout)
+            this._closeTimeout = setTimeout(() => {
+              this.isClosing = false
+            }, 1) // delay because the hidden trigger, and close/open routine in "componentDidUpdate"
+          }
+        )
+      }
+
+      if (modalActive === false && !isTrue(this.props.no_animation)) {
         this.setState({
           hide: true,
           _listenForPropChanges: false
         })
 
         clearTimeout(this._closeTimeout)
-        this._closeTimeout = setTimeout(doItNow, 300)
+        this._closeTimeout = setTimeout(
+          doItNow,
+          parseFloat(this.props.animation_duration)
+        ) // delay because of the animation
       } else {
         doItNow()
       }
     }
 
     const delay = parseFloat(this.props.open_delay)
-    if (delay > 0) {
+    if (delay > 0 && !isTrue(this.props.no_animation)) {
       clearTimeout(this._openTimeout)
-      this._openTimeout = setTimeout(toggleNow, delay)
+      this._openTimeout = setTimeout(toggleNow, delay) // custom delay
     } else {
       toggleNow()
     }
@@ -291,7 +350,7 @@ export default class Modal extends React.PureComponent {
 
   handleSideEffects = () => {
     if (!isTrue(this.props.direct_dom_return)) {
-      Modal.insertModalRoot()
+      Modal.insertModalRoot(this.props.root_id)
     }
 
     const modalActive = this.state.modalActive
@@ -316,8 +375,7 @@ export default class Modal extends React.PureComponent {
       if (modalActive) {
         if (typeof this.props.close_modal === 'function') {
           const fn = this.props.close_modal(() => {
-            this.isClosing = false
-            this.toggleOpenClose(null, false)
+            this.toggleOpenClose(false)
           }, this)
           if (fn) {
             this._onUnmount.push(fn)
@@ -325,24 +383,15 @@ export default class Modal extends React.PureComponent {
         }
       }
 
-      const id = this._id
-      if (modalActive) {
-        dispatchCustomElementEvent(this, 'on_open', { id })
-      } else if (this.wasActive) {
-        dispatchCustomElementEvent(this, 'on_close', { id })
-      }
-
-      this.wasActive = modalActive
-
       if (modalActive === false) {
         if (this._triggerRef && this._triggerRef.current) {
-          this._triggerRef.current.focus()
+          this._triggerRef.current.focus({ preventScroll: true })
         }
 
         // because the open_state was set to opened, we force
         if (this.props.open_state === 'opened' && this.activeElement) {
           try {
-            this.activeElement.focus()
+            this.activeElement.focus({ preventScroll: true })
             this.activeElement = null
           } catch (e) {
             //
@@ -356,30 +405,40 @@ export default class Modal extends React.PureComponent {
         currentActiveState,
         _listenForPropChanges: false
       },
-      runSideEffect
+      () => runSideEffect()
     )
   }
 
   open = (e) => {
-    this.toggleOpenClose(e, true)
+    this.toggleOpenClose(true, e)
   }
 
-  close = (e) => {
+  close = (event, { ifIsLatest, triggeredBy } = { ifIsLatest: true }) => {
     const { prevent_close } = this.props
+
     if (isTrue(prevent_close)) {
-      if (!this.isClosing) {
-        const id = this._id
-        this.isClosing = true
-        dispatchCustomElementEvent(this, 'on_close_prevent', {
-          id,
-          close: (e) => {
-            this.isClosing = false
-            this.toggleOpenClose(e, false)
-          }
-        })
-      }
+      const id = this._id
+      dispatchCustomElementEvent(this, 'on_close_prevent', {
+        id,
+        event,
+        triggeredBy,
+        close: (e) => {
+          this.toggleOpenClose(false, e)
+        }
+      })
     } else {
-      this.toggleOpenClose(e, false)
+      if (ifIsLatest && typeof window !== 'undefined') {
+        try {
+          const last = getListOfModalRoots(-1)
+          if (last !== this) {
+            return // stop here
+          }
+        } catch (e) {
+          warn(e)
+        }
+      }
+
+      this.toggleOpenClose(false, event)
     }
   }
 
@@ -387,110 +446,138 @@ export default class Modal extends React.PureComponent {
     // use only the props from context, who are available here anyway
     const props = extendPropsWithContext(
       this.props,
-      defaultProps,
+      Modal.defaultProps,
       this.context.formRow,
-      this.context.translation.Modal
+      this.context.getTranslation(this.props).Modal
     )
 
     const {
+      root_id,
+      content_id,
       id, // eslint-disable-line
       open_state, // eslint-disable-line
       open_delay, // eslint-disable-line
-      preventSetTriggerRef, // eslint-disable-line
       disabled,
+      spacing,
       labelled_by,
+      focus_selector,
+
+      // All "trigger_" are deprecated
+      trigger_attributes,
       trigger_hidden,
-      trigger_disabled,
-      trigger_variant,
-      trigger_text,
-      trigger_title,
-      trigger_size,
-      trigger_icon,
-      trigger_icon_position,
-      trigger_class,
+      trigger_disabled, // eslint-disable-line
+      trigger_variant, // eslint-disable-line
+      trigger_text, // eslint-disable-line
+      trigger_title, // eslint-disable-line
+      trigger_size, // eslint-disable-line
+      trigger_icon, // eslint-disable-line
+      trigger_icon_position, // eslint-disable-line
+      trigger_class, // eslint-disable-line
+
       ...rest
     } = props
 
-    const { modalActive, currentActiveState } = this.state
+    const { modalActive } = this.state
     const modal_content = Modal.getContent(this.props)
 
-    if (modalActive !== currentActiveState) {
-      // store the active element to set back the focus later on
-      if (!this.activeElement && typeof document !== 'undefined') {
-        this.activeElement = document.activeElement
+    const render = (suffixProps) => {
+      const modalProps = {}
+      const triggerAttributes = trigger_attributes
+        ? { ...trigger_attributes }
+        : {}
+
+      // Deprecated - this is only to handle the legacy Modal trigger button
+      for (let prop in props) {
+        if (prop.includes('trigger_') && props[prop] !== null) {
+          const name = String(prop).replace('trigger_', '')
+          if (name !== 'props' && prop !== 'element') {
+            triggerAttributes[name] = props[prop]
+          }
+        }
       }
 
-      clearTimeout(this._sideEffectsTimeout)
-      this._sideEffectsTimeout = setTimeout(this.handleSideEffects, 1)
-      // delay the dispatch to make sure we are after the render cyclus
-      // this way have the content insted by the time we call this event
+      const isHelpButton =
+        !isTrue(trigger_hidden) &&
+        (!!suffixProps ||
+          (!(trigger_text && trigger_variant !== 'tertiary') &&
+            (!(triggerAttributes.icon || trigger_icon) ||
+              ['question', 'information'].includes(
+                triggerAttributes.icon || trigger_icon
+              ))))
+
+      if (isTrue(disabled)) {
+        triggerAttributes.disabled = true
+      }
+      if (triggerAttributes.id) {
+        this._id = triggerAttributes.id
+      }
+
+      if (!rest.title && triggerAttributes.title) {
+        modalProps.title = triggerAttributes.title
+      }
+      // in case the modal is used in suffix and no title is given
+      // suffixProps.label is also available, so we could use that too
+      else if (!rest.title && isHelpButton && suffixProps) {
+        modalProps.title = this.context.translation.HelpButton.title
+      }
+
+      if (isHelpButton) {
+        triggerAttributes.title =
+          props['aria-label'] ||
+          triggerAttributes.title ||
+          props.title ||
+          modalProps.title
+      } else {
+        triggerAttributes['aria-roledescription'] = null
+      }
+
+      const TriggerButton = HelpButtonInstance
+
+      return (
+        <div className="dnb-modal">
+          {TriggerButton && !isTrue(trigger_hidden) && (
+            <TriggerButton
+              id={this._id}
+              onClick={this.toggleOpenClose}
+              {...triggerAttributes}
+              innerRef={this._triggerRef}
+              className={classnames(
+                'dnb-modal__trigger',
+                createSpacingClasses(props),
+                triggerAttributes.class,
+                triggerAttributes.className
+              )}
+            />
+          )}
+
+          {modalActive && modal_content && (
+            <ModalRoot
+              {...rest}
+              id={this._id}
+              root_id={root_id}
+              content_id={content_id || `dnb-modal-${this._id}`}
+              labelled_by={labelled_by}
+              focus_selector={focus_selector}
+              modal_content={modal_content}
+              spacing={spacing}
+              closeModal={this.close}
+              hide={this.state.hide}
+              toggleOpenClose={this.toggleOpenClose}
+              {...modalProps}
+            />
+          )}
+        </div>
+      )
     }
 
-    return (
-      <SuffixContext.Consumer>
-        {(suffixProps) => {
-          const additional = {}
-
-          const icon =
-            trigger_icon !== 'question'
-              ? trigger_icon
-              : (!trigger_text || trigger_variant === 'tertiary') &&
-                trigger_icon
-
-          // in case the modal is used in suffix and no title is given
-          // suffixProps.label is also available, so we could use that too
-          if (!rest.title && icon === 'question' && suffixProps) {
-            additional.title = this.context.translation.Modal.more_info
-          }
-
-          return (
-            <div className="dnb-modal">
-              {!isTrue(trigger_hidden) && (
-                <Button
-                  id={this._id}
-                  type="button"
-                  variant={trigger_variant}
-                  text={trigger_text}
-                  aria-label={
-                    props['aria-label'] ||
-                    trigger_title ||
-                    props.title ||
-                    additional.title
-                  }
-                  disabled={isTrue(disabled) || isTrue(trigger_disabled)}
-                  icon={icon}
-                  size={trigger_size}
-                  icon_position={trigger_icon_position}
-                  on_click={this.toggleOpenClose}
-                  className={classnames(
-                    'dnb-modal__trigger',
-                    createSpacingClasses(props),
-                    trigger_class
-                  )}
-                  innerRef={this._triggerRef}
-                />
-              )}
-              {modalActive && modal_content && (
-                <ModalRoot
-                  {...rest}
-                  labelled_by={labelled_by || this._id}
-                  modal_content={modal_content}
-                  closeModal={this.close}
-                  hide={this.state.hide}
-                  toggleOpenClose={this.toggleOpenClose}
-                  {...additional}
-                />
-              )}
-            </div>
-          )
-        }}
-      </SuffixContext.Consumer>
-    )
+    return <SuffixContext.Consumer>{render}</SuffixContext.Consumer>
   }
 }
 
 class ModalRoot extends React.PureComponent {
   static propTypes = {
+    id: PropTypes.string,
+    root_id: PropTypes.string,
     direct_dom_return: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.bool
@@ -502,53 +589,93 @@ class ModalRoot extends React.PureComponent {
     ])
   }
   static defaultProps = {
+    id: null,
+    root_id: null,
     direct_dom_return: false,
     children: null
   }
 
   state = {
-    isMonted: false
+    isMounted: false
   }
 
   componentDidMount() {
     if (!isTrue(this.props.direct_dom_return)) {
-      Modal.insertModalRoot()
+      Modal.insertModalRoot(this.props.root_id)
 
       try {
-        if (!this.node) {
-          this.node = document.createElement('div')
-          this.node.className = 'dnb-modal-root__inner'
+        if (!this.portalElem) {
+          this.portalElem = document.createElement('div')
+          this.portalElem.className = 'dnb-modal-root__inner'
         }
-        if (window.modalRoot && this.node) {
-          window.modalRoot.appendChild(this.node)
+        if (
+          this.portalElem &&
+          typeof window !== 'undefined' &&
+          window.__modalRoot
+        ) {
+          window.__modalRoot.appendChild(this.portalElem)
         }
       } catch (e) {
         warn(e)
       }
-      this.setState({ isMonted: true })
+      this.setState({ isMounted: true })
     }
   }
 
   componentWillUnmount() {
-    if (window.modalRoot && this.node) {
-      this.setState({ isMonted: false })
-      window.modalRoot.removeChild(this.node)
-      this.node = null
+    try {
+      if (
+        this.portalElem &&
+        typeof window !== 'undefined' &&
+        window.__modalRoot &&
+        window.__modalRoot.removeChild
+      ) {
+        window.__modalRoot.removeChild(this.portalElem)
+        this.portalElem = null
+      }
+    } catch (e) {
+      warn(e)
     }
   }
+
   render() {
     const { children, direct_dom_return, ...props } = this.props
+
     if (isTrue(direct_dom_return)) {
       return <ModalContent {...props}>{children}</ModalContent>
     }
-    if (this.state.isMonted && window.modalRoot && this.node) {
+
+    if (
+      this.portalElem &&
+      typeof window !== 'undefined' &&
+      window.__modalRoot &&
+      this.state.isMounted
+    ) {
       return ReactDOM.createPortal(
         <ModalContent {...props}>{children}</ModalContent>,
-        this.node
+        this.portalElem
       )
     }
+
     return null
   }
 }
 
 export { CloseButton }
+
+function Inner({ className, ...props }) {
+  return (
+    <Section
+      style_type="black-3"
+      className={classnames('dnb-modal__wrapper__inner', className)}
+      {...props}
+    />
+  )
+}
+Inner.propTypes = {
+  className: PropTypes.string
+}
+Inner.defaultProps = {
+  className: null
+}
+Modal.Inner = Inner

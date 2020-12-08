@@ -3,10 +3,7 @@
 *
 */
 
-// :root {
-// }
-
 .dnb-scroll-view {
   overflow-x: auto;
-  @include scrollY();
+  @include scrollY(auto);
 }

@@ -29,6 +29,7 @@
 
   font-size: var(--input-font-small);
   line-height: var(--input-height);
+  text-align: left;
 
   &__inner {
     display: inline-flex;
@@ -83,7 +84,7 @@
       --input-padding
     ); // we may expand things because of the ellipsis
 
-    text-align: left;
+    text-align: inherit;
 
     color: inherit;
     background-color: transparent;
@@ -133,6 +134,22 @@
   &--has-submit-element &__placeholder,
   &--has-submit-element &__input {
     padding-right: calc(var(--input-padding) * 2.5);
+  }
+  // Because of password managers
+  &--password &__placeholder,
+  &--password &__input {
+    margin-right: 2.5rem;
+    padding-right: 0;
+
+    &::-ms-clear {
+      display: none;
+    }
+  }
+  &--password &__placeholder {
+    padding-right: 4rem;
+  }
+  &--password &__input {
+    font-family: var(--font-family-monospace);
   }
 
   &__row {
@@ -359,8 +376,7 @@
     }
   }
 
-  // IE fix
-  @media screen and (-ms-high-contrast: none) {
+  @include IS_IE {
     vertical-align: baseline;
     .dnb-form-row--horizontal &,
     &:not(#{&}--stretch) {

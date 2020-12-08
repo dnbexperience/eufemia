@@ -6,9 +6,6 @@
 import path from 'path'
 import { runFactory } from '../themeFactory'
 
-// just to make sure we re-run the test in watch mode due to changes in theese files
-import dnb_theme_ui from '../../../../src/style/themes/theme-ui/dnb-theme-ui.scss' // eslint-disable-line
-
 beforeAll(async () => {
   global.css = (
     await runFactory({

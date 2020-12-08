@@ -45,8 +45,8 @@ import { hamburger as hamburgerIcon } from 'dnb-ui-lib/icons/secondary_icons'
 
 Now, let's jump to the [Button Docs](/uilib/components/button) for more details.
 
-Also, you may be interested in more code examples? Have a look at the [Demo App on GitHub](https://github.com/dnbexperience/eufemia-demo/blob/master/src/form-demos/form-demo-01.js) or [Example for React](https://github.com/dnbexperience/eufemia-examples/tree/master/packages/example-react).
+Also, you may be interested in more code examples? Have a look at the [Demo App on GitHub](https://github.com/dnbexperience/eufemia-demo/blob/main/src/form-demos/form-demo-01.js) or [Example for React](https://github.com/dnbexperience/eufemia-examples/tree/main/packages/example-react).
 
 ## Examples
 
-Have a look at [the demos](/uilib/getting-started/demos) as well as a [Webpack example app](https://github.com/dnbexperience/eufemia-examples/tree/master/packages/example-react) and [SSR example](https://github.com/dnbexperience/eufemia-examples/tree/master/packages/example-ssr).
+Have a look at [the demos](/uilib/getting-started/demos) as well as a [Webpack example app](https://github.com/dnbexperience/eufemia-examples/tree/main/packages/example-react) and [SSR example](https://github.com/dnbexperience/eufemia-examples/tree/main/packages/example-ssr).

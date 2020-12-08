@@ -27,13 +27,13 @@ describe('Heading screenshot', () => {
   })
   it('have to match the default heading examples', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-dnb-test="heading-default"]'
+      selector: '[data-visual-test="heading-default"]'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
   it('have to match the additional heading examples', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-dnb-test="heading-additional"]'
+      selector: '[data-visual-test="heading-additional"]'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -49,19 +49,19 @@ describe('Paragraph screenshot', () => {
   })
   it('have to match the paragraph example', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-dnb-test="paragraph-default"]'
+      selector: '[data-visual-test="paragraph-default"]'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
   it('have to match the paragraph with small text', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-dnb-test="paragraph-small"]'
+      selector: '[data-visual-test="paragraph-small"]'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
   it('have to match the paragraph with modifiers', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-dnb-test="paragraph-modifiers"]'
+      selector: '[data-visual-test="paragraph-modifiers"]'
     })
     expect(screenshot).toMatchImageSnapshot()
   })

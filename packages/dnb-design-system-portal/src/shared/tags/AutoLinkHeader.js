@@ -1,9 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { css } from '@emotion/core'
+import { css } from '@emotion/react'
 import AnchorLink from 'react-anchor-link-smooth-scroll'
 import { Heading } from 'dnb-ui-lib/src'
 import { makeSlug } from '../../uilib/utils/slug'
+// import { convertJsxToString } from 'dnb-ui-lib/src/shared/component-helper'
+import { Location } from '@reach/router'
 
 const anchorLinkStyle = css`
   .anchor {
@@ -77,7 +79,9 @@ const AutoLinkHeader = ({
   element,
   useSlug,
   children,
+  title,
   className,
+  addToSearchIndex,
   ...props
 }) => {
   const id = makeSlug(children, useSlug)
@@ -143,22 +147,37 @@ const AutoLinkHeader = ({
           #
         </AnchorLink>
       )}
-      {children}
+      <Location>
+        {({ location }) => {
+          if (typeof addToSearchIndex === 'function') {
+            addToSearchIndex({
+              location,
+              title: React.isValidElement(children) ? title : children,
+              hash: id
+            })
+          }
+          return children
+        }}
+      </Location>
     </Heading>
   )
 }
 AutoLinkHeader.propTypes = {
   level: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  title: PropTypes.string,
   element: PropTypes.string,
   useSlug: PropTypes.string,
   className: PropTypes.string,
-  children: PropTypes.node.isRequired
+  children: PropTypes.node.isRequired,
+  addToSearchIndex: PropTypes.func
 }
 AutoLinkHeader.defaultProps = {
   level: '1',
+  title: null,
   element: null,
   useSlug: null,
-  className: null
+  className: null,
+  addToSearchIndex: null
 }
 
 export default AutoLinkHeader

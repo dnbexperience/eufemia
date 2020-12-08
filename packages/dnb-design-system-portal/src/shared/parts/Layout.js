@@ -8,7 +8,7 @@ import PropTypes from 'prop-types'
 import { Link } from 'gatsby'
 import classnames from 'classnames'
 import styled from '@emotion/styled'
-import { Global } from '@emotion/core'
+import { Global } from '@emotion/react'
 import MainMenu from '../menu/MainMenu'
 import Sidebar from '../menu/SidebarMenu'
 import StickyMenuBar from '../menu/StickyMenuBar'
@@ -21,41 +21,50 @@ import {
   setPageFocusElement,
   scrollToLocationHashId
 } from 'dnb-ui-lib/src/shared/helpers'
+import { Context } from 'dnb-ui-lib/src/shared'
 import { Logo, GlobalStatus } from 'dnb-ui-lib/src/components'
+import { createSkeletonClass } from 'dnb-ui-lib/src/components/skeleton/SkeletonHelper'
+
+export function scrollToAnimation() {
+  // if url hash is defined, scroll to the id
+  scrollToLocationHashId({
+    offset: 100,
+    delay: 100,
+    onCompletion: (elem) => {
+      try {
+        // elem.classList.add('focus')// run link-attention-focus animation
+        elem.parentElement.classList.add('focus') // run parent-attention-focus animation
+      } catch (e) {
+        //
+      }
+    }
+  })
+}
 
 class Layout extends React.PureComponent {
   static propTypes = {
     fullscreen: PropTypes.bool,
+    hideSidebar: PropTypes.bool,
     children: PropTypes.node.isRequired,
     location: PropTypes.object.isRequired
   }
 
   static defaultProps = {
-    fullscreen: false
+    fullscreen: false,
+    hideSidebar: false
   }
 
   constructor(props) {
     super(props)
     this._mainRef = React.createRef()
+    this.state = { fullscreen: props.fullscreen }
   }
 
   componentDidMount() {
-    // gets aplyed on "onRouteUpdate"
+    // gets applied on "onRouteUpdate"
     setPageFocusElement('.dnb-app-content h1:nth-of-type(1)', 'content')
 
-    // if url hash is defined, scroll to the id
-    scrollToLocationHashId({
-      offset: 100,
-      delay: 100,
-      onCompletion: (elem) => {
-        try {
-          // elem.classList.add('focus')// run link-attention-focus animation
-          elem.parentElement.classList.add('focus') // run parent-attention-focus animation
-        } catch (e) {
-          //
-        }
-      }
-    })
+    scrollToAnimation()
   }
 
   skipToContentHandler = (event) => {
@@ -72,53 +81,59 @@ class Layout extends React.PureComponent {
     }
   }
 
+  isFullscreen() {
+    const { location, fullscreen } = this.props
+    return (
+      fullscreen ||
+      (typeof location !== 'undefined' &&
+        /fullscreen/.test(location.search))
+    )
+  }
+
   render() {
-    const { children, location, fullscreen } = this.props
+    const { children, location, hideSidebar } = this.props
 
-    // for screenshot tests we skip the rest
-    if (/data-dnb-test/.test(location.search)) {
-      return <Content fullscreen={true}>{children}</Content>
-    }
-
-    const fs =
-      fullscreen || (location && /fullscreen/.test(location.search))
+    const fs = this.state.fullscreen || this.isFullscreen()
 
     return (
-      <MainMenuProvider>
-        <SidebarMenuProvider>
-          <a
-            className="dnb-skip-link"
-            href="#dnb-app-content"
-            onClick={this.skipToContentHandler}
-          >
-            Skip to content
-          </a>
+      <>
+        <a
+          className="dnb-skip-link"
+          href="#dnb-app-content"
+          onClick={this.skipToContentHandler}
+        >
+          Skip to content
+        </a>
 
-          {!fs && <StickyMenuBar />}
-          {!fs && <MainMenu enableOverlay />}
+        <MainMenuProvider>
+          <SidebarMenuProvider>
+            <ToggleSkeleton>
+              {!fs && <StickyMenuBar />}
+              {!fs && <MainMenu enableOverlay />}
 
-          <Wrapper className="content-wrapper">
-            {!fs && <Sidebar location={location} showAll={false} />}
+              <Wrapper className="content-wrapper">
+                {!fs && !hideSidebar && (
+                  <Sidebar location={location} showAll={false} />
+                )}
 
-            <Content
-              fullscreen={fullscreen}
-              className="dnb-app-content-inner"
-            >
-              <ContentInner
-                id="dnb-app-content"
-                className="dnb-no-focus"
-                ref={this._mainRef}
-              >
-                <GlobalStatus id="main-status" />
-                <div className="dev-grid">{children}</div>
-              </ContentInner>
-              <Footer />
-            </Content>
+                <Content key="content" fullscreen={fs}>
+                  <MainContent key="main" ref={this._mainRef}>
+                    <GlobalStatus id="main-status" />
 
-            {fs && <ToggleGrid hidden />}
-          </Wrapper>
-        </SidebarMenuProvider>
-      </MainMenuProvider>
+                    <div key="grid" className="dev-grid">
+                      {children}
+                    </div>
+                  </MainContent>
+
+                  <Footer />
+                </Content>
+
+                {fs && <ToggleGrid hidden />}
+              </Wrapper>
+            </ToggleSkeleton>
+          </SidebarMenuProvider>
+        </MainMenuProvider>
+      </>
     )
   }
 }
@@ -140,7 +155,6 @@ const Wrapper = styled.div`
 const Content = ({ className, fullscreen, children }) => (
   <ContentWrapper
     className={classnames(
-      'dnb-spacing',
       'dnb-app-content',
       fullscreen && 'fullscreen-page',
       className
@@ -174,7 +188,7 @@ const ContentWrapper = styled.div`
   height of StickyMenuBar - 1px border */
   padding-top: 4rem;
 
-  .dnb-app-content-inner {
+  .dnb-app-content {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -198,9 +212,9 @@ const ContentWrapper = styled.div`
     border: none;
   }
 
-  /* for whider screens */
+  /* for wider screens */
   &:not(.fullscreen-page) {
-    .dnb-app-content-inner > div:first-of-type {
+    .dnb-app-content > div:first-of-type {
       @media screen and (min-width: 70em) {
         max-width: 70rem;
       }
@@ -208,7 +222,17 @@ const ContentWrapper = styled.div`
   }
 `
 
-const ContentInner = styled.main`
+const MainContent = React.forwardRef((props, ref) => (
+  <StyledMain
+    ref={ref}
+    role="main"
+    id="dnb-app-content"
+    className="dnb-no-focus dnb-spacing"
+    {...props}
+  />
+))
+
+const StyledMain = styled.main`
   width: 100%;
   min-height: 85vh;
   padding: 0 2rem;
@@ -216,7 +240,7 @@ const ContentInner = styled.main`
 
 const FooterWrapper = styled.footer`
   position: relative;
-  z-index: 2; /* 1 heigher than aside */
+  z-index: 2; /* 1 higher than aside */
 
   display: flex;
   align-items: center;
@@ -239,18 +263,68 @@ const FooterWrapper = styled.footer`
     margin-left: 1rem;
   }
 `
-const Footer = () => (
-  <FooterWrapper>
-    <Logo height="40" color="white" />
-    <small>
-      Last Portal update: {buildVersion}
-      <Link
-        to="/license"
-        className="dnb-anchor dnb-anchor--contrast dnb-anchor--no-underline"
-      >
-        Copyright (c) 2018-present DNB.no
-      </Link>
-    </small>
-    <span />
-  </FooterWrapper>
-)
+const Footer = () => {
+  const { skeleton } = React.useContext(Context)
+  return (
+    <FooterWrapper>
+      <Logo height="40" color="white" />
+      <small className={createSkeletonClass('font', skeleton)}>
+        Last Portal update: {buildVersion}
+        <Link
+          to="/license"
+          className="dnb-anchor dnb-anchor--contrast dnb-anchor--no-underline"
+        >
+          Copyright (c) 2018-present DNB.no
+        </Link>
+      </small>
+      <span />
+    </FooterWrapper>
+  )
+}
+
+let skeletonCount = 0
+let skeletonTimeout = null
+function ToggleSkeleton(props) {
+  const { update, skeleton } = React.useContext(Context)
+
+  const params = {
+    onMouseDown: (e) => {
+      const x = e.clientX
+      const y = e.clientY
+      if (x < 20 && y < 20) {
+        e.preventDefault()
+        e.stopPropagation()
+        skeletonCount++
+        clearTimeout(skeletonTimeout)
+        skeletonTimeout = setTimeout(() => {
+          skeletonCount = 0
+        }, 1e3)
+        if (skeletonCount >= 3) {
+          skeletonCount = 0
+          update({ skeleton: !skeleton })
+          setSkeletonEnabled(!skeleton)
+        }
+      }
+    }
+  }
+
+  return (
+    <div
+      key="skeleton"
+      className="skeleton-enabler"
+      {...params}
+      {...props}
+    />
+  )
+}
+
+export function setSkeletonEnabled(skeleton) {
+  try {
+    window.localStorage.setItem(
+      'skeleton-enabled',
+      skeleton ? true : false
+    )
+  } catch (e) {
+    //
+  }
+}

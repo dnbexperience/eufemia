@@ -7,7 +7,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import { StaticQuery, graphql } from 'gatsby'
-import { css } from '@emotion/core'
+import { css } from '@emotion/react'
 import styled from '@emotion/styled'
 import { hamburger as hamburgerIcon } from 'dnb-ui-lib/src/icons/secondary_icons'
 import { close as closeIcon } from 'dnb-ui-lib/src/icons/primary_icons'
@@ -17,6 +17,8 @@ import { MainMenuToggleButton } from './ToggleMainMenu'
 import { SidebarMenuContext } from './SidebarMenuContext'
 import ToggleGrid from './ToggleGrid'
 import { SearchBarInput } from './SearchBar'
+import { Context } from 'dnb-ui-lib/src/shared'
+import { createSkeletonClass } from 'dnb-ui-lib/src/components/skeleton/SkeletonHelper'
 
 const Header = styled.header`
   position: fixed;
@@ -40,7 +42,7 @@ const Header = styled.header`
   }
 
   /*
-    God for a mobile menu insted
+    God for a mobile menu instead
     make sure that Content main "styled.main" gets the same max-width
    */
   @media screen and (max-width: 50em) {
@@ -121,6 +123,7 @@ export default class StickyMenuBar extends React.PureComponent {
     hideSiebarToggleButton: false,
     preventBarVisibility: false
   }
+  static contextType = Context
   render() {
     const { hideSiebarToggleButton, preventBarVisibility } = this.props
     if (preventBarVisibility) {
@@ -157,9 +160,16 @@ export default class StickyMenuBar extends React.PureComponent {
                 >
                   <HeaderInner>
                     <MainMenuToggleButton />
-                    <CenterWrapper aria-hidden>
+                    <CenterWrapper aria-hidden className="dnb-selection">
                       <Icon icon={PortalLogo} size={48} right="x-small" />
-                      <Slogan>{slogan}</Slogan>
+                      <Slogan
+                        className={createSkeletonClass(
+                          'font',
+                          this.context.skeleton
+                        )}
+                      >
+                        {slogan}
+                      </Slogan>
                     </CenterWrapper>
                     <Tools>
                       <SearchBarInput />

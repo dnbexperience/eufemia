@@ -19,23 +19,21 @@ import PaginationContext from './PaginationContext'
 
 import Button from '../button/Button'
 
-const propTypes = {
-  contentRef: PropTypes.object,
-  children: PropTypes.oneOfType([PropTypes.node, PropTypes.func])
-}
-const defaultProps = {
-  contentRef: null,
-  children: null,
-  button_title: null,
-  prev_title: null,
-  next_title: null,
-  more_pages: null
-}
-
 export default class PaginationBar extends React.PureComponent {
   static contextType = PaginationContext
-  static propTypes = propTypes
-  static defaultProps = defaultProps
+
+  static propTypes = {
+    contentRef: PropTypes.object,
+    children: PropTypes.oneOfType([PropTypes.node, PropTypes.func])
+  }
+  static defaultProps = {
+    contentRef: null,
+    children: null,
+    button_title: null,
+    prev_title: null,
+    next_title: null,
+    more_pages: null
+  }
 
   componentDidMount() {
     const pgn = this.context.pagination
@@ -48,11 +46,18 @@ export default class PaginationBar extends React.PureComponent {
     )
   }
 
+  componentDidUpdate({ children }) {
+    if (this.props.children !== children) {
+      this.updatePageContent()
+    }
+  }
+
   hasChildrenCallabck() {
     return typeof this.props.children === 'function'
   }
 
   preparePageContent(pageNo) {
+    let potentialElement = this.props.children
     const items = this.context.pagination.prefillItems(
       this.context.pagination.currentPage,
       {
@@ -64,15 +69,31 @@ export default class PaginationBar extends React.PureComponent {
     })
 
     if (this.hasChildrenCallabck()) {
-      const potentialElement = this.props.children({
+      potentialElement = this.props.children({
         pageNo,
         page: pageNo,
         ...this.context.pagination
       })
+    }
 
-      if (potentialElement && React.isValidElement(potentialElement)) {
-        this.context.pagination.setContent([pageNo, potentialElement])
-      }
+    if (potentialElement && React.isValidElement(potentialElement)) {
+      this.context.pagination.setContent([pageNo, potentialElement])
+    }
+  }
+
+  updatePageContent(pageNo = this.context.pagination.currentPage) {
+    let potentialElement = this.props.children
+
+    if (this.hasChildrenCallabck()) {
+      potentialElement = this.props.children({
+        pageNo,
+        page: pageNo,
+        ...this.context.pagination
+      })
+    }
+
+    if (potentialElement && React.isValidElement(potentialElement)) {
+      this.context.pagination.setContent([pageNo, potentialElement])
     }
   }
 
@@ -140,8 +161,8 @@ export default class PaginationBar extends React.PureComponent {
   render() {
     const props = extendPropsWithContext(
       this.props,
-      defaultProps,
-      this.context.translation.Pagination
+      PaginationBar.defaultProps,
+      this.context.getTranslation(this.props).Pagination
     )
 
     const { button_title, prev_title, next_title, more_pages } = props

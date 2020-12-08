@@ -7,9 +7,19 @@ import React from 'react'
 import { Wrapper, Box } from '../helpers'
 import styled from '@emotion/styled'
 
-import { Slider, Input, FormRow, FormLabel } from '../../src/components'
+import {
+  Slider,
+  ToggleButton,
+  Input,
+  FormRow,
+  FormLabel
+} from '../../src/components'
 
 import '../../src/components/slider/style/dnb-range.scss'
+
+export default {
+  title: 'Eufemia/Components/Slider'
+}
 
 const VerticalWrapper = styled.div`
   display: inline-flex;
@@ -33,6 +43,9 @@ const SliderStory = () => {
   return (
     <Wrapper>
       <Box>
+        <DisabledState />
+      </Box>
+      <Box>
         Text
         <Slider
           // hide_buttons
@@ -41,11 +54,12 @@ const SliderStory = () => {
           // min={'50'}
           max={100}
           value={value}
-          step={10}
+          step={0.05}
+          number_format={{ decimals: 2, currency: true }}
           // reverse
           on_change={({ value, raw_value }) => {
-            console.log('on_change:', value, raw_value)
-            setValue(value)
+            console.log('on_change:', { value, raw_value })
+            setValue(raw_value)
           }}
           status="Long status message Lobortis lacus ac ligula vehicula Metus nullam ut at pellentesque"
         />
@@ -112,4 +126,26 @@ const SliderStory = () => {
   )
 }
 
-export default ['Slider', () => <SliderStory />]
+const DisabledState = () => {
+  const [isDisabled, setDisabled] = React.useState(false)
+  return (
+    <FormRow direction="horizontal" centered>
+      <ToggleButton
+        checked={isDisabled}
+        right
+        on_change={() => setDisabled((s) => !s)}
+      >
+        Set as disabled
+      </ToggleButton>
+      <Slider
+        min={0}
+        max={100}
+        value={70}
+        label="Default Slider:"
+        disabled={isDisabled}
+      />
+    </FormRow>
+  )
+}
+
+export const Sliders = () => <SliderStory />

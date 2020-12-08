@@ -6,14 +6,10 @@
 import React from 'react'
 import ComponentBox from 'Src/shared/tags/ComponentBox'
 
-export default function Example() {
-  return (
-    <>
-      <ComponentBox
-        title="GlobalStatus displaying error status"
-        data-dnb-test="global-status"
-      >
-        {/* @jsx */ `
+export const GlobalStatusError = () => (
+  <ComponentBox data-visual-test="global-status">
+    {
+      /* @jsx */ `
 <GlobalStatus
   title="Custom Title"
   text="Failure text"
@@ -21,37 +17,42 @@ export default function Example() {
       {
         text:'List item',
         status_anchor_url: '/uilib/components/global-status',
+        status_anchor_label: 'eksempel',
       }
   ]}
   show="true"
-  no_animation="true"
   autoscroll="false"
+  no_animation="true"
   id="demo-1"
 />
-          `}
-      </ComponentBox>
-      <ComponentBox
-        title="GlobalStatus displaying info status"
-        data-dnb-test="global-status-info"
-      >
-        {/* @jsx */ `
+    `
+    }
+  </ComponentBox>
+)
+
+export const GlobalStatusInfo = () => (
+  <ComponentBox data-visual-test="global-status-info">
+    {
+      /* @jsx */ `
 <GlobalStatus
   state="info"
   title="Custom info title ..."
   text="Long info nisl tempus hendrerit tortor dapibus nascetur taciti porta risus cursus fusce platea enim curabitur proin nibh ut luctus magnis metus"
   items={['Status text 1', 'Status text 2']}
   show="true"
-  no_animation="true"
   autoscroll="false"
+  no_animation="true"
   id="demo-4"
 />
-          `}
-      </ComponentBox>
-      <ComponentBox
-        title="To showcase the automated coupling between **FormStatus** and **GlobalStatus**"
-        useRender
-      >
-        {/* @jsx */ `
+    `
+    }
+  </ComponentBox>
+)
+
+export const GlobalStatusCoupling = () => (
+  <ComponentBox useRender>
+    {
+      /* @jsx */ `
 const InputWithError = () => {
   const [errorMessage, setErrorMessage] = React.useState(null)
   return (
@@ -70,13 +71,15 @@ const InputWithError = () => {
 render(
   <InputWithError />
 )
-          `}
-      </ComponentBox>
-      <ComponentBox
-        title="To showcase the custom **Update** and **Remove** posibility"
-        noFragments={false}
-      >
-        {/* @jsx */ `
+    `
+    }
+  </ComponentBox>
+)
+
+export const GlobalStatusAddRemoveItems = () => (
+  <ComponentBox noFragments={false}>
+    {
+      /* @jsx */ `
 () => {
   const [count, toggleUpdateStatus] = React.useState(0)
   return (
@@ -84,6 +87,7 @@ render(
       <GlobalStatus
         id="custom-status"
         autoscroll={false}
+        on_close={() => toggleUpdateStatus(0)}
         on_hide={() => toggleUpdateStatus(0)}
       />
       <Button
@@ -128,25 +132,177 @@ render(
     </>
   )
 }
-          `}
-      </ComponentBox>
-      <ComponentBox
-        title="To showcase the scrolling"
-        caption="Some browsers (Safari, Edge) will need a polyfill like `smoothscroll-polyfill`"
-      >
-        {/* @jsx */ `
+    `
+    }
+  </ComponentBox>
+)
+
+export const GlobalStatusScrolling = () => (
+  <ComponentBox>
+    {
+      /* @jsx */ `
 <Button
   text="Scroll to main GlobalStatus"
   on_click={() => {
-    GlobalStatus.AddStatus({
+    GlobalStatus.Update({
       id: 'main-status',
       text:
         'Dui consectetur viverra aenean vestibulum ac tristique sem ligula condimentum',
     })
   }}
 />
-           `}
-      </ComponentBox>
+      `
+    }
+  </ComponentBox>
+)
+
+export const GlobalStatusUpdate = () => (
+  <ComponentBox useRender>
+    {
+      /* @jsx */ `
+const Context = React.createContext()
+
+const UpdateDemo = () => {
+  const [errorA, setErrorA] = React.useState()
+  const [errorB, setErrorB] = React.useState()
+
+  const [isVisible, setVisibility] = React.useState(false)
+
+  return (
+    <Context.Provider
+      value={{
+        errorA,
+        errorB,
+        setErrorA,
+        setErrorB,
+        isVisible,
+        setVisibility
+      }}
+    >
+      <UpdateDemoStatus />
+      <UpdateDemoTools />
+    </Context.Provider>
+  )
+}
+
+const UpdateDemoStatus = () => {
+  const { errorA, errorB, setErrorA, setErrorB } = React.useContext(
+    Context
+  )
+
+  return (
+    <>
+      <GlobalStatus
+        title="Custom Title"
+        text="Failure text"
+        id="demo-2"
+      />
+      <Input
+        top
+        right
+        label="Label A:"
+        placeholder="Placeholder A"
+        status={errorA}
+        global_status_id="demo-2"
+        on_change={({ value }) => {
+          setErrorA(value)
+        }}
+      />
+      <Input
+        top
+        label="Label B:"
+        placeholder="Placeholder B"
+        status={errorB}
+        global_status_id="demo-2"
+        on_change={({ value }) => {
+          setErrorB(value)
+        }}
+      />
     </>
   )
 }
+
+const UpdateDemoTools = () => {
+  const {
+    errorA,
+    errorB,
+    setErrorA,
+    setErrorB,
+    isVisible,
+    setVisibility
+  } = React.useContext(Context)
+
+  const inst = React.useRef()
+
+  React.useEffect(() => {
+    if (!inst.current) {
+      inst.current = GlobalStatus.create({
+        id: 'demo-2',
+        title: 'New Title',
+        text: 'New Text',
+        status_id: 'custom-item',
+        show: false
+      })
+    }
+
+    inst.current.update({
+      show: isVisible
+    })
+  }, [isVisible])
+  React.useEffect(() => () => inst.current.remove(), [])
+
+  React.useEffect(
+    () =>
+      inst.current.update({
+        on_show: () => {
+          console.log('on_show')
+          if (!isVisible) {
+            showAsVisible(true)
+          }
+        },
+        on_hide: () => {
+          console.log('on_hide')
+          showAsVisible(false)
+        },
+        on_close: () => {
+          console.log('on_close')
+          showAsVisible(false)
+        }
+      }),
+    []
+  )
+
+  const [showAs, showAsVisible] = React.useState(isVisible)
+
+  return (
+    <Section top spacing style_type="divider">
+      <ToggleButton
+        text="Toggle"
+        variant="checkbox"
+        right
+        checked={showAs}
+        on_change={({ checked }) => {
+          setVisibility((s) => !s)
+          showAsVisible(checked)
+        }}
+      />
+      <Button
+        text="Reset"
+        variant="tertiary"
+        disabled={!(errorA || errorB)}
+        on_click={() => {
+          setErrorA(null)
+          setErrorB(null)
+          showAsVisible(false)
+          setVisibility(false)
+        }}
+      />
+    </Section>
+  )
+}
+
+render(<UpdateDemo />)
+      `
+    }
+  </ComponentBox>
+)

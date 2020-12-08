@@ -9,6 +9,7 @@
   }
 }
 
+$defaultEasing: cubic-bezier(0.42, 0, 0, 1);
 @mixin defaultDropShadow() {
   box-shadow: 0 1px 6px rgba(0, 0, 0, 0.16);
 }
@@ -92,29 +93,39 @@ $focusRingColor: var(--color-emerald-green);
     $width: 0.0625rem;
   }
 
+  --border-color: #{$color};
+
   // we use !important, cause we have no changes to select the selctor right
   // in some cases we have another state where we use box-shadow
   // but with important, we take care of that we actually can use use it
-  box-shadow: $inset 0 0 0 $width $color $important;
-
-  /* IE11 fix */
-  @if $is1px {
-    @media screen and (-ms-high-contrast: none) {
-      // Since 0.0625rem gets not rendered correctly
-      // and gives an artifact, we do use px instead
-      box-shadow: $inset 0 0 0 1px $color $important;
-    }
-  }
+  box-shadow: $inset 0 0 0 $width var(--border-color) $important;
 
   @if $inset {
-    /* iOS fix - because "inset" works not fine with border-radius and rem unit */
-    @supports (-webkit-touch-callout: none) {
-      // remove inset on iOS - this makes the border outside
-      box-shadow: 0 0 0 $width $color $important;
+    /* iOS fix - because "inset" works not fine with border-radius */
+    @include IS_SAFARI_MOBILE() {
+      // remove inset on webkit - this makes the border outside
+      box-shadow: 0 0 0 $width var(--border-color) $important;
 
       // This also works, but then we move content for 1px, if they don't have a border from before
       // box-shadow: none;
-      // border: $width solid $color $important;
+      // border: $width solid var(--border-color) $important;
+    }
+
+    /* Safari fix - because "inset" works not fine with border-radius if the user zooms the page */
+    @include IS_SAFARI_DESKTOP() {
+      // remove inset on webkit - this makes the border outside
+      box-shadow: 0 0 0 $width var(--border-color) $important;
+    }
+  }
+
+  @include IS_IE() {
+    @if $is1px {
+      // Since 0.0625rem gets not rendered correctly
+      // and gives an artifact, we do use px instead
+      box-shadow: $inset 0 0 0 1px $color $important;
+    } @else {
+      // IE color fallback
+      box-shadow: $inset 0 0 0 $width $color $important;
     }
   }
 
@@ -131,8 +142,7 @@ $focusRingColor: var(--color-emerald-green);
   $second: 0 0 0 ($focusRingWidth + $width) $second-color;
   box-shadow: 0 0 0 $width $first-color, $second;
 
-  /* IE11 fix */
-  @media screen and (-ms-high-contrast: none) {
+  @include IS_IE() {
     border: 0 solid transparent; // only to trigger the renderering correctly in IE11
   }
 }
@@ -153,12 +163,90 @@ $focusRingColor: var(--color-emerald-green);
   overflow-y: $mode;
   overscroll-behavior: contain;
   scrollbar-width: thin;
+  html:not([data-visual-test]) & {
+    scroll-behavior: smooth;
+  }
 
   // older iOS safari
   -webkit-overflow-scrolling: touch;
 
   // show scrollbar on IE
   -ms-overflow-style: auto;
+}
+
+@mixin scrollX($mode: scroll) {
+  overflow-x: $mode;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scroll-behavior: smooth;
+
+  html[data-visual-test] & {
+    scroll-behavior: auto !important;
+  }
+
+  // older iOS safari
+  -webkit-overflow-scrolling: touch;
+
+  // show scrollbar on IE
+  -ms-overflow-style: auto;
+}
+
+@mixin hideScrollbar() {
+  /* Hide scrollbar for Chrome, Safari */
+  /* stylelint-disable-next-line */
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+// IE fix
+@mixin IS_IE() {
+  @media screen and (-ms-high-contrast: none) {
+    @content;
+  }
+}
+
+// Edge fix
+@mixin IS_EDGE() {
+  @supports (-ms-ime-align: auto) {
+    @content;
+  }
+}
+
+// Firefox fix
+@mixin IS_FF() {
+  @supports (-moz-appearance: meterbar) and
+    (background-blend-mode: difference, normal) {
+    @content;
+  }
+}
+
+// Chrome fix
+@mixin IS_CHROME() {
+  @supports (-webkit-appearance: none) and
+    (not (overflow: -webkit-marquee)) and (not (-ms-ime-align: auto)) and
+    (not (-moz-appearance: none)) {
+    @content;
+  }
+}
+
+// Safari Mobile fix
+@mixin IS_SAFARI_MOBILE() {
+  @supports (-webkit-touch-callout: none) {
+    @content;
+  }
+}
+
+// Safari Desktop fix
+@mixin IS_SAFARI_DESKTOP() {
+  @media not all and (min-resolution: 0.001dpcm) {
+    @supports (-webkit-appearance: none) and (stroke-color: transparent)
+      and (not (-webkit-overflow-scrolling: touch)) {
+      @content;
+    }
+  }
 }
 
 $breakpoints: (

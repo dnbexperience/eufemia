@@ -2,9 +2,11 @@
 
 The default font for all web applications is the `DNB` font.
 
-You can download the [DNB font files as a ZIP package](https://github.com/dnbexperience/eufemia/blob/develop/packages/dnb-ui-lib/assets/fonts/DNB.zip?raw=true) **Last update: March 10, 2020**.
+### Download DNB font family
 
-Make sure it is installed on your system so you can use the design resources.
+You can download the [DNB font files as a ZIP package](https://github.com/dnbexperience/eufemia/blob/develop/packages/dnb-ui-lib/assets/fonts/DNB.zip?raw=true) **Last update: November 8, 2020**.
+
+If you get access to Figma **Eufemia Web** main file, then you don't need to install the DNB font. Figma will provide the font automatically for you inside Figma. If you use other designer tools, make sure it is installed on your system so you can use the design resources.
 
 ## Typographic scale
 

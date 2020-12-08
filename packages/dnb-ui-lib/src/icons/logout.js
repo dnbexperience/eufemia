@@ -4,7 +4,14 @@ import React from 'react'
 
 function logout(props) {
   return (
-    <svg width={16} height={16} viewBox="0 0 16 16" fill="none" {...props}>
+    <svg
+      width={16}
+      height={16}
+      viewBox="0 0 16 16"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      {...props}
+    >
       <path
         d="M11.224 13.134a.933.933 0 01-.933.933m0-11.2a.934.934 0 01.933.933m1.91 2.8L15 8.466m0 0l-1.867 1.867M15 8.466h-4.5m-5.733-.699a.233.233 0 10.233.23.233.233 0 00-.233-.232M7 14.995l-5.6-.8a.466.466 0 01-.4-.462V2.85a.467.467 0 01.369-.457l5.6-1.382a.467.467 0 01.564.457v13.067a.467.467 0 01-.532.461z"
         stroke="#000"

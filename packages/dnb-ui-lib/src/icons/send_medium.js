@@ -4,7 +4,14 @@ import React from 'react'
 
 function send_medium(props) {
   return (
-    <svg width={24} height={24} viewBox="0 0 24 25" fill="none" {...props}>
+    <svg
+      width={24}
+      height={24}
+      viewBox="0 0 24 25"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      {...props}
+    >
       <path
         clipRule="evenodd"
         d="M2.759 15.632a1.664 1.664 0 01-.882-3.075L20.36 1.003a1.663 1.663 0 012.516 1.72l-3.6 19.173a1.664 1.664 0 01-2.966.691l-5.21-6.955H2.759z"

@@ -5,7 +5,9 @@
 
 import React from 'react'
 import { mount } from '../../core/jest/jestSetup'
+import { registerElement } from '../custom-element'
 import {
+  warn,
   isTrue,
   extend,
   extendPropsWithContext,
@@ -14,13 +16,16 @@ import {
   processChildren,
   dispatchCustomElementEvent,
   toPascalCase,
-  pickRenderProps,
+  toCamelCase,
+  toSnakeCase,
+  // pickRenderProps,
   detectOutsideClick,
   makeUniqueId,
   filterProps,
   isTouchDevice,
   slugify,
   roundToNearest,
+  InteractionInvalidation,
   matchAll
 } from '../component-helper'
 
@@ -28,6 +33,8 @@ beforeAll(() => {
   window.PointerEvent = new CustomEvent('ontouchstart')
   navigator.maxTouchPoints = 2 // mocking touch
   defineNavigator()
+
+  jest.spyOn(global.console, 'log')
 })
 afterAll(() => {
   document.documentElement.removeAttribute('data-is-touch')
@@ -171,23 +178,50 @@ describe('"validateDOMAttributes" should', () => {
 })
 
 describe('"processChildren" should', () => {
+  registerElement('custom-element', () => {})
+
+  it('a given amount of registered custom elements', () => {
+    expect(global.registeredElements).toBeType('array')
+    expect(global.registeredElements.length).toBe(1)
+  })
+
   it('return a joined string if we send in a children property with an array', () => {
     const children = ['foo', 'bar', 123]
     const props = { children }
     const res = processChildren(props)
     expect(res).toMatch(children.join(''))
   })
+
+  it('return a joined string if we send in a children property with an array', () => {
+    const children = ['foo', 'bar', 123]
+    const props = { children }
+    const res = processChildren(props)
+    expect(res).toMatch(children.join(''))
+  })
+
   it('return a joined string if we send in a children property with as a function returning an array', () => {
     const children = ['foo', 'bar', 123]
     const props = { children: () => children }
     const res = processChildren(props)
     expect(res).toMatch(children.join(''))
   })
+
   it('return a joined string, even with only one child', () => {
     const children = ['foo']
     const props = { children }
     const res = processChildren(props)
     expect(res).toMatch(children.join(''))
+  })
+
+  it('return a joined string, even with only one child', () => {
+    const props = {
+      content: 'foo',
+      render_func: (props) => {
+        return props.content + ' new content'
+      }
+    }
+    const res = processChildren(props)
+    expect(res.props).toMatchObject({ children: 'foo new content' })
   })
 })
 
@@ -263,7 +297,7 @@ describe('"isTrue" should', () => {
 })
 
 describe('"dispatchCustomElementEvent" should', () => {
-  it('call a custom event function, set as a property in props', () => {
+  it('emit snake case and camel case events', () => {
     const my_event = jest.fn()
     const myEvent = jest.fn()
     const instance = {
@@ -272,10 +306,47 @@ describe('"dispatchCustomElementEvent" should', () => {
         myEvent
       }
     }
-    const event = {}
-    dispatchCustomElementEvent(instance, 'my_event', event)
-    expect(my_event.mock.calls.length).toBe(1)
-    expect(myEvent.mock.calls.length).toBe(1)
+
+    const eventObject = {}
+
+    dispatchCustomElementEvent(instance, 'my_event', eventObject)
+    expect(my_event).toBeCalledTimes(1)
+    expect(myEvent).toBeCalledTimes(1)
+
+    // dispatchCustomElementEvent(instance, 'my_event', eventObject)
+    dispatchCustomElementEvent(instance, 'myEvent', eventObject)
+    expect(my_event).toBeCalledTimes(2)
+    expect(myEvent).toBeCalledTimes(2)
+  })
+
+  it('emit an event and return its event properties, including custom properties', () => {
+    const my_event = jest.fn()
+    const myEvent = jest.fn()
+    const instance = {
+      props: {
+        my_event,
+        myEvent
+      }
+    }
+
+    const keyCode = 13
+    const event = new KeyboardEvent('keydown', { keyCode })
+    const data = { foo: 'bar' }
+    const eventObject = { event, data }
+    dispatchCustomElementEvent(instance, 'my_event', eventObject)
+
+    expect(my_event).toBeCalledTimes(1)
+    expect(myEvent).toBeCalledTimes(1)
+
+    const eventResult = {
+      data: {
+        foo: 'bar'
+      },
+      event,
+      isTrusted: false
+    }
+    expect(my_event).toBeCalledWith(eventResult)
+    expect(myEvent).toBeCalledWith(eventResult)
   })
 
   it('call a custom event function, set as a property in props', () => {
@@ -289,7 +360,7 @@ describe('"dispatchCustomElementEvent" should', () => {
     }
     const event = {}
     dispatchCustomElementEvent(instance, 'eventName', event)
-    expect(fireEvent.mock.calls.length).toBe(1)
+    expect(fireEvent).toBeCalledTimes(1)
     expect(fireEvent.mock.calls[0][0]).toBe('eventName')
   })
 
@@ -318,62 +389,75 @@ describe('"dispatchCustomElementEvent" should', () => {
 })
 
 describe('"toPascalCase" should', () => {
-  it('transform a snail case event name to a React event case', () => {
-    expect(toPascalCase('my_event_is_long')).toBe('myEventIsLong')
+  it('transform a snake case event name to a React event case', () => {
+    expect(toPascalCase('my_component')).toBe('MyComponent')
   })
 })
 
-describe('"pickRenderProps" should', () => {
-  it('only pass function props which dont exists in renderProps', () => {
-    const renderProp = jest.fn()
-    const customRenderer = jest.fn()
-    const children = jest.fn()
-    const custom_method = jest.fn()
-    const props = {
-      foo: 'bar',
-      renderProp,
-      customRenderer,
-      children,
-      custom_method
-    }
-    const renderProps = {
-      customRenderer
-    }
-    const res = pickRenderProps(props, renderProps)
-
-    expect(res).not.toHaveProperty([
-      'custom_method',
-      'children',
-      'customRenderer',
-      'foo'
-    ])
-    expect(res).toHaveProperty(['renderProp'])
-    expect(res.renderProp).toBe(renderProp)
+describe('"toCamelCase" should', () => {
+  it('transform a snake case event name to a React event case', () => {
+    expect(toCamelCase('my_event_is_long')).toBe('myEventIsLong')
   })
 })
+
+describe('"toSnakeCase" should', () => {
+  it('transform a camel case event name to snake case', () => {
+    expect(toSnakeCase('myEventIsLong')).toBe('my_event_is_long')
+  })
+})
+
+// Removed as we now run function props from Web Components (custom-element)
+// describe('"pickRenderProps" should', () => {
+//   it('only pass function props which dont exists in renderProps', () => {
+//     const renderProp = jest.fn()
+//     const customRenderer = jest.fn()
+//     const children = jest.fn()
+//     const custom_method = jest.fn()
+//     const props = {
+//       foo: 'bar',
+//       renderProp,
+//       customRenderer,
+//       children,
+//       custom_method
+//     }
+//     const renderProps = {
+//       customRenderer
+//     }
+//     const res = pickRenderProps(props, renderProps)
+
+//     expect(res).not.toHaveProperty([
+//       'custom_method',
+//       'children',
+//       'customRenderer',
+//       'foo'
+//     ])
+//     expect(res).toHaveProperty(['renderProp'])
+//     expect(res.renderProp).toBe(renderProp)
+//   })
+// })
 
 describe('"filterProps" should', () => {
   const attributes = {
     key1: 'value1',
     key2: 'value2',
     attr1: 'value1',
-    attr2: 'value2'
+    attr2: false
   }
-  const propTypes = {
+  const defaultProps = {
     key1: 'value1',
-    key2: 'value2'
+    key2: false
   }
   it('remove all unwanted properties', () => {
-    expect(filterProps(attributes, propTypes)).toEqual({
+    expect(filterProps(attributes, defaultProps)).toEqual({
       attr1: 'value1',
-      attr2: 'value2'
+      attr2: false
     })
   })
   it('remove all unwanted properties except "allowed"', () => {
-    expect(filterProps(attributes, propTypes, ['key1'])).toEqual({
+    expect(filterProps(attributes, defaultProps, ['key1'])).toEqual({
       key1: 'value1',
       attr1: 'value1',
-      attr2: 'value2'
+      attr2: false
     })
   })
 })
@@ -430,6 +514,138 @@ describe('"roundToNearest" should', () => {
   })
 })
 
+let ii
+beforeAll(() => {
+  ii = new InteractionInvalidation()
+
+  const effected = document.createElement('div')
+  effected.classList.add('effected')
+
+  const bypass = document.createElement('div')
+  bypass.classList.add('bypass')
+
+  const h1 = document.createElement('h1')
+  h1.setAttribute('tabindex', '0')
+  h1.setAttribute('aria-hidden', 'true')
+  effected.appendChild(h1.cloneNode())
+  bypass.appendChild(h1.cloneNode())
+
+  const h2 = document.createElement('h2')
+  h2.setAttribute('tabindex', '-1')
+  h2.setAttribute('aria-hidden', 'false')
+  effected.appendChild(h2.cloneNode())
+  bypass.appendChild(h2.cloneNode())
+
+  const h3 = document.createElement('h3')
+  effected.appendChild(h3.cloneNode())
+  bypass.appendChild(h3.cloneNode())
+
+  document.body.appendChild(effected)
+  document.body.appendChild(bypass)
+})
+
+describe('"InteractionInvalidation" should', () => {
+  const hasDefaultState = (selector) => {
+    expect(
+      document
+        .querySelector(`${selector} > h1`)
+        .getAttribute('aria-hidden')
+    ).toBe('true')
+    expect(
+      document.querySelector(`${selector} > h1`).getAttribute('tabindex')
+    ).toBe('0')
+
+    expect(
+      document
+        .querySelector(`${selector} > h2`)
+        .getAttribute('aria-hidden')
+    ).toBe('false')
+    expect(
+      document.querySelector(`${selector} > h2`).getAttribute('tabindex')
+    ).toBe('-1')
+
+    expect(
+      document
+        .querySelector(`${selector} > h3`)
+        .hasAttribute('aria-hidden')
+    ).toBe(false)
+    expect(
+      document.querySelector(`${selector} > h3`).hasAttribute('tabindex')
+    ).toBe(false)
+  }
+
+  const hasInvalidatedState = (selector) => {
+    expect(
+      document
+        .querySelector(`${selector} > h1`)
+        .getAttribute('aria-hidden')
+    ).toBe('true')
+    expect(
+      document.querySelector(`${selector} > h1`).getAttribute('tabindex')
+    ).toBe('-1')
+
+    expect(
+      document
+        .querySelector(`${selector} > h2`)
+        .getAttribute('aria-hidden')
+    ).toBe('true')
+    expect(
+      document.querySelector(`${selector} > h2`).getAttribute('tabindex')
+    ).toBe('-1')
+
+    expect(
+      document
+        .querySelector(`${selector} > h3`)
+        .getAttribute('aria-hidden')
+    ).toBe('true')
+    expect(
+      document.querySelector(`${selector} > h3`).getAttribute('tabindex')
+    ).toBe('-1')
+  }
+
+  it('be in its original state', () => {
+    hasDefaultState('.effected')
+  })
+
+  it('have invalidated everything', () => {
+    ii.activate()
+
+    hasInvalidatedState('.effected')
+  })
+
+  it('have reverted the invalidation', () => {
+    ii.revert()
+
+    hasDefaultState('.effected')
+  })
+
+  it('have invalidated everything, even with a bypassed selector', () => {
+    ii.setBypassSelector('.bypass-invalid')
+    ii.activate()
+
+    hasInvalidatedState('.bypass')
+    hasInvalidatedState('.effected')
+  })
+
+  it('have invalidated only .effected', () => {
+    ii.revert()
+    ii.setBypassSelector('.bypass')
+    ii.activate()
+
+    hasDefaultState('.bypass')
+    hasInvalidatedState('.effected')
+  })
+
+  it('have invalidated only .effected', () => {
+    ii.revert()
+    ii.setBypassSelector(null)
+    ii.activate('.effected')
+
+    hasDefaultState('.bypass')
+    hasInvalidatedState('.effected')
+  })
+})
+
 describe('"matchAll" should', () => {
   it('match correct parts from a string', () => {
     const content = `
@@ -442,5 +658,24 @@ describe('"matchAll" should', () => {
         expect.arrayContaining(['var(--color-two)', '--color-two'])
       ])
     )
+  })
+})
+
+describe('"warn" should', () => {
+  const text = 'warning text'
+
+  it('print a console.log', () => {
+    process.env.NODE_ENV = 'development'
+    global.console.log = jest.fn()
+    warn(text)
+    expect(global.console.log).toBeCalled()
+    expect(global.console.log).toHaveBeenCalledWith('Eufemia:', text)
+  })
+
+  it('not print a console.log in production', () => {
+    process.env.NODE_ENV = 'production'
+    global.console.log = jest.fn()
+    warn(text)
+    expect(global.console.log).not.toBeCalled()
   })
 })

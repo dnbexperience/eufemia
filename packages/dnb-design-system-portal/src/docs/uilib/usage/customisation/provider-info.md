@@ -4,7 +4,7 @@ draft: true
 
 ## Changing locale or currency
 
-You can either set the locale as a properly e.g. `<Provider locale="en-US" ...` and handle the change from the app root, or change it inside the app, respective Context:
+You can either set the locale as a properly e.g. `<Provider locale="en-GB" ...` and handle the change from the app root, or change it inside the app, respective Context:
 
 ```jsx
 import Provider from 'dnb-ui-lib/shared/Provider'
@@ -15,7 +15,7 @@ const ChangeLocale = () => {
 
   React.useEffect(() => {
     // Change the locale
-    update({ locale: 'en-US' })
+    update({ locale: 'en-GB' })
 
     // Change the default currency
     update({ currency: 'USD' })
@@ -24,9 +24,9 @@ const ChangeLocale = () => {
   return (
     <Dropdown
       value={locale}
-      data={{ 'en-US': 'English', 'nb-NO': 'Norsk' }}
-      on_change={({ data: { selected_key } }) => {
-        setLocale(selected_key)
+      data={{ 'en-GB': 'English', 'nb-NO': 'Norsk' }}
+      on_change={({ data: { value } }) => {
+        setLocale(value)
       }}
     />
   )
@@ -59,7 +59,7 @@ const ChangeLocale = () => {
 
   React.useEffect(() => {
     // Change the locale
-    updateCurrent({ locale: 'en-US' })
+    updateCurrent({ locale: 'en-GB' })
 
     // Change the default currency
     updateCurrent({ currency: 'USD' })
@@ -68,16 +68,14 @@ const ChangeLocale = () => {
   return (
     <Dropdown
       value={locale}
-      data={{ 'en-US': 'English', 'nb-NO': 'Norsk' }}
-      on_change={({ data: { selected_key } }) => {
-        setCurrentLocale(selected_key)
-      }}
+      data={{ 'en-GB': 'English', 'nb-NO': 'Norsk' }}
+      on_change={({ data }) => data && setCurrentLocale(data.selected_key)}
     />
   )
 }
 
 render(
-  <Provider locale="en-US">
+  <Provider locale="en-GB">
     <MyApp>
       <Provider locale="nb-NO">
         Norsk <Number>1234</Number>

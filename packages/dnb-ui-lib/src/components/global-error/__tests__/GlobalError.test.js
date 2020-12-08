@@ -13,11 +13,6 @@ import {
 } from '../../../core/jest/jestSetup'
 import Component from '../GlobalError'
 
-// just to make sure we re-run the test in watch mode due to changes in theese files
-import _form_status from '../style/_global-error.scss' // eslint-disable-line
-import dnb_form_status from '../style/dnb-global-error.scss' // eslint-disable-line
-import dnb_form_status_theme_ui from '../style/themes/dnb-global-error-theme-ui.scss' // eslint-disable-line
-
 const status = '404'
 const title = 'title'
 const text = 'text [link](/back) text'
@@ -43,11 +38,12 @@ const props = {
   title
 }
 
-beforeAll(() => {
-  global.history = {}
-})
-
 describe('GlobalError component', () => {
+  // Ensure we get "window.history.length === 2"
+  jest.spyOn(window.history, 'length', 'get')
+  window.history.pushState({ page: 1 }, 'title 1', '?page=1')
+  window.history.pushState({ page: 2 }, 'title 2', '?page=2')
+
   const Comp = mount(<Component {...props} />)
 
   it('has to have a text value as defined in the prop', () => {
@@ -66,15 +62,15 @@ describe('GlobalError component', () => {
     expect(Comp.find('Svg500').exists('svg[xmlns]')).toBe(true)
   })
 
-  it('has to have a working back button', () => {
+  it('has to have a working back anchor', () => {
     const back = jest.fn()
-    global.history.back = back
+    window.history.back = back
 
-    const elem = Comp.find('button.dnb-global-error__back')
-    elem.simulate('click')
+    const elem = Comp.find('a.dnb-global-error__back')
 
     expect(elem.exists()).toBe(true)
-    expect(back).toHaveBeenCalled()
+    elem.simulate('click')
+    expect(back).toHaveBeenCalledTimes(1)
   })
 
   it('should validate with ARIA rules', async () => {

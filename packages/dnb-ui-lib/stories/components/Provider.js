@@ -16,32 +16,33 @@ import {
   Section
 } from '../../src'
 
-export default [
-  'Provider',
-  () => {
-    return (
-      <Wrapper>
-        <Box>
-          <Provider locale="en-US">
-            <Section spacing top>
-              <ChangeLocale />
-            </Section>
-            <Section spacing top>
-              <Number>12345678</Number>
-              <DatePicker
-                left
-                opened
-                show_submit_button
-                show_cancel_button
-                show_reset_button
-              />
-            </Section>
-          </Provider>
-        </Box>
-      </Wrapper>
-    )
-  }
-]
+export default {
+  title: 'Eufemia/Components/Provider'
+}
+
+export const ProviderSandbox = () => {
+  return (
+    <Wrapper>
+      <Box>
+        <Provider locale="en-GB">
+          <Section spacing top>
+            <ChangeLocale />
+          </Section>
+          <Section spacing top>
+            <Number>12345678</Number>
+            <DatePicker
+              left
+              opened
+              show_submit_button
+              show_cancel_button
+              show_reset_button
+            />
+          </Section>
+        </Provider>
+      </Box>
+    </Wrapper>
+  )
+}
 
 const ChangeLocale = () => {
   const { locale, setLocale, update } = React.useContext(Context)
@@ -58,14 +59,14 @@ const ChangeLocale = () => {
           update({ locale })
         }}
       >
-        <ToggleButton text="English" value="en-US" />
+        <ToggleButton text="English" value="en-GB" />
         <ToggleButton text="Norsk" value="nb-NO" />
       </ToggleButton.Group>
 
       <Dropdown
         left
         value={locale}
-        data={{ 'en-US': 'English', 'nb-NO': 'Norsk' }}
+        data={{ 'en-GB': 'English', 'nb-NO': 'Norsk' }}
         on_change={({ data: { selected_key: locale } }) => {
           setLocale(locale)
         }}

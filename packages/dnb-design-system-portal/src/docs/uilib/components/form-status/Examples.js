@@ -7,97 +7,128 @@ import React from 'react'
 import ComponentBox from 'Src/shared/tags/ComponentBox'
 import {
   InfoIcon,
+  WarnIcon,
   ErrorIcon
 } from 'dnb-ui-lib/src/components/form-status/FormStatus'
 
-export default function () {
-  return (
-    <>
-      <ComponentBox
-        title="FormStatus displaying error status"
-        data-dnb-test="form-status"
-      >
-        {/* @jsx */ `
+export const FormStatusDefault = () => (
+  <ComponentBox data-visual-test="form-status">
+    {
+      /* @jsx */ `
 <FormStatus
   text="Failure text"
 />
-        `}
-      </ComponentBox>
-      <ComponentBox
-        title="FormStatus displaying info status"
-        data-dnb-test="form-status-info"
-      >
-        {/* @jsx */ `
+  `
+    }
+  </ComponentBox>
+)
+
+export const FormStatusWithInfo = () => (
+  <ComponentBox data-visual-test="form-status-info">
+    {
+      /* @jsx */ `
 <FormStatus
   title="Hover title"
   text="Long info nisl tempus hendrerit tortor dapibus nascetur taciti porta risus cursus fusce platea enim curabitur proin nibh ut luctus magnis metus"
   state="info"
 />
-        `}
-      </ComponentBox>
-      <ComponentBox title="A form status, used by the Input Component">
-        {/* @jsx */ `
+  `
+    }
+  </ComponentBox>
+)
+
+export const FormStatusWithWarn = () => (
+  <ComponentBox data-visual-test="form-status-warn">
+    {
+      /* @jsx */ `
+<FormStatus state="warn" variant="outlined">
+  Warningmessage. Take notice!
+</FormStatus>
+  `
+    }
+  </ComponentBox>
+)
+
+export const FormSetDefaultInput = () => (
+  <ComponentBox>
+    {
+      /* @jsx */ `
 <Input
   label="Input with status:"
   status="You have to fill in this field"
   value="Input value"
 />
-        `}
-      </ComponentBox>
-      <ComponentBox
-        title="A form status, with a custom styled content"
-        data-dnb-test="form-status-custom"
-        useRender
-      >
-        {/* @jsx */ `
+  `
+    }
+  </ComponentBox>
+)
+
+export const FormStatusCustom = () => (
+  <ComponentBox data-visual-test="form-status-custom" useRender>
+    {
+      /* @jsx */ `
 const CustomStatus = () => (
-<>My info <Link href="/">with a link</Link> and more text</>
+  <>My info <Link href="/">with a link</Link> and more text</>
 )
 render(
-<Input
-  label="Input with custom status:"
-  status={ <CustomStatus /> }
-  status_state="info"
-  value="Input value"
-/>
+  <Input
+    label="Input with custom status:"
+    status={ <CustomStatus /> }
+    status_state="info"
+    value="Input value"
+  />
 )
-        `}
-      </ComponentBox>
-      <ComponentBox title="A form status with plain text/HTML" useRender>
-        {/* @jsx */ `
+  `
+    }
+  </ComponentBox>
+)
+
+export const FormStatusLarge = () => (
+  <ComponentBox useRender>
+    {
+      /* @jsx */ `
 const myHTML = \`
-My HTML
-<a class="dnb-anchor" href="/" target="_blank">with a link</a>
-and more text
+  My HTML
+  <a class="dnb-anchor" href="/" target="_blank">with a link</a>
+  and more text
 \`
 const CustomStatus = () => <span dangerouslySetInnerHTML={{ __html: myHTML }} />
 render(
-<FormStatus state="info">
-  <CustomStatus />
-</FormStatus>
+  <FormStatus state="info" size="large" variant="outlined">
+    <CustomStatus />
+  </FormStatus>
 )
-        `}
-      </ComponentBox>
-      <ComponentBox
-        scope={{ InfoIcon, ErrorIcon }}
-        data-dnb-test="form-status-icons"
-        title="In combination with the Icon component"
-      >
-        {`
+  `
+    }
+  </ComponentBox>
+)
+
+export const FormStatusWithIcons = () => (
+  <ComponentBox
+    scope={{ InfoIcon, WarnIcon, ErrorIcon }}
+    data-visual-test="form-status-icons"
+  >
+    {`
 <Icon
 	icon={InfoIcon}
 	size="medium"
 	title="Some title"
+  inherit_color={false}
 	right
+/>
+<Icon
+	icon={WarnIcon}
+	size="medium"
+	title="Some title"
+  inherit_color={false}
+  right
 />
 <Icon
 	icon={ErrorIcon}
 	size="medium"
 	title="Some title"
-	color="var(--color-fire-red)"
+  inherit_color={false}
 />
 `}
-      </ComponentBox>
-    </>
-  )
-}
+  </ComponentBox>
+)

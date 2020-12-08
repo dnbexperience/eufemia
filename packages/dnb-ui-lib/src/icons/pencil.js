@@ -4,7 +4,14 @@ import React from 'react'
 
 function pencil(props) {
   return (
-    <svg width={16} height={16} viewBox="0 0 16 16" fill="none" {...props}>
+    <svg
+      width={16}
+      height={16}
+      viewBox="0 0 16 16"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      {...props}
+    >
       <path
         clipRule="evenodd"
         d="M14.566 1.433a2.345 2.345 0 00-3.331.023L1.89 10.8.75 15.25l4.45-1.142 9.344-9.344a2.344 2.344 0 00.022-3.33z"
