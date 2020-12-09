@@ -32,6 +32,7 @@ const iconSelector = process.env.FIGMA_ICONS_SELECTOR || null
 const iconNameCleaner =
   process.env.FIGMA_ICONS_NAME_SPLIT || /.*\/(.*)_[0-9]{1,2}/
 const iconRenameList = process.env.FIGMA_ICONS_RENAME_LIST || [
+  { from: 'hide', to: 'view_off' },
   { from: 'loupe', to: 'search' },
   { from: 'checkmark', to: 'check' },
   { from: 'more_horizontal', to: 'more' }
