@@ -13,10 +13,11 @@ function chevron_right_medium(props) {
       {...props}
     >
       <path
-        fillRule="evenodd"
-        clipRule="evenodd"
-        d="M9.155 4.72a.75.75 0 00-1.06 1.06l6.22 6.22-6.22 6.22a.75.75 0 101.06 1.06l6.75-6.749a.75.75 0 000-1.061l-6.75-6.75z"
-        fill="#000"
+        d="M9 19L16 12L9 5"
+        stroke="black"
+        strokeWidth={1.5}
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   )
