@@ -32,18 +32,21 @@ const iconSelector = process.env.FIGMA_ICONS_SELECTOR || null
 const iconNameCleaner =
   process.env.FIGMA_ICONS_NAME_SPLIT || /.*\/(.*)_[0-9]{1,2}/
 const iconRenameList = process.env.FIGMA_ICONS_RENAME_LIST || [
-  { from: 'hide', to: 'view_off' },
   { from: 'loupe', to: 'search' },
   { from: 'checkmark', to: 'check' },
+  { from: 'repeat', to: 'refresh' },
+  { from: 'cog', to: 'settings' },
+  { from: 'document', to: 'file' },
   { from: 'more_horizontal', to: 'more' }
+  // { from: 'hide', to: 'view_off' },
+  // { from: 'log_in', to: 'login' },
+  // { from: 'log_out', to: 'logout' },
 ]
 const iconCloneList =
   process.env.FIGMA_ICONS_CLONE_LIST ||
   [
     // As of now, we only rename these icons
     // { from: 'loupe', to: 'search' },
-    // { from: 'checkmark', to: 'check' },
-    // { from: 'more_horizontal', to: 'more' }
   ]
 const iconPrimaryList = process.env.FIGMA_ICONS_PRIMARY_LIST || [
   'chevron_left',
