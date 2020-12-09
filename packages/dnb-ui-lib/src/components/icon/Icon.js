@@ -23,7 +23,7 @@ import Context from '../../shared/Context'
 
 export const DefaultIconSize = 16
 export const DefaultIconSizes = {
-  // small: 8,
+  // small: 8, // currently not in use
   default: 16,
   medium: 24
   // large: 32 // currently not in use
