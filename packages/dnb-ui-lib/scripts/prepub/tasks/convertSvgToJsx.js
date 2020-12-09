@@ -40,8 +40,6 @@ export default async function convertSvgToJsx({
     await transformSvgToReact({ srcPath, destPath })
 
     const icons = await makeIconsEntryFiles({
-      // do exclude large images from beeting in the entry files
-      // srcPath: srcPath.concat(['!**/**_large.svg']),
       srcPath,
       destPath
     })
@@ -144,10 +142,10 @@ const makeIconsEntryFiles = async ({
   // get the svg lock file
   const lockFileContent = await readSvgLockFile()
 
-  // from the svg lock file we can generate groups out of the "frame"
+  // from the svg lock file we can generate groups out of the "bundleName"
   const groups = Object.entries(lockFileContent).reduce(
-    (acc, [file, { frame }]) => {
-      acc[frame] = acc[frame] || []
+    (acc, [file, { bundleName }]) => {
+      acc[bundleName] = acc[bundleName] || []
       const basename = path.basename(file)
       const filename = basename.replace(path.extname(file), '')
 
@@ -157,7 +155,7 @@ const makeIconsEntryFiles = async ({
           path.resolve(process.env.ROOT_DIR, destPath, `${filename}.js`)
         )
       ) {
-        acc[frame].push({
+        acc[bundleName].push({
           filename,
           basename,
           name: iconCase(filename)

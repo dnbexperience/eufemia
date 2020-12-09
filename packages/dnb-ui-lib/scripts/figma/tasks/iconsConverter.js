@@ -22,9 +22,54 @@ import {
   defaultFigmaFile
 } from '../helpers/docHelpers'
 
-const canvasName = process.env.FIGMA_ICONS_PAGE_SELECTOR || /^Icons$/ // before we have used: ^[0-9]+[_\- ]Icons$
-const sizeSeperator = process.env.FIGMA_ICONS_FRAME_SIZE_SEPERATOR || '-'
+const canvasNameSelector =
+  process.env.FIGMA_ICONS_PAGE_SELECTOR || /^Icons$/ // before we have used: ^[0-9]+[_\- ]Icons$
+const frameNameSelector =
+  process.env.FIGMA_ICONS_FRAME_SELECTOR || /[A-z]+ - [0-9]{1,2}/
+const sizeSeperator =
+  process.env.FIGMA_ICONS_FRAME_SIZE_SEPERATOR || /(.*)_[0-9]{1,2}/
 const iconSelector = process.env.FIGMA_ICONS_SELECTOR || null
+const iconNameCleaner =
+  process.env.FIGMA_ICONS_NAME_SPLIT || /.*\/(.*)_[0-9]{1,2}/
+const iconRenameList = process.env.FIGMA_ICONS_RENAME_LIST || [
+  { from: 'loupe', to: 'search' },
+  { from: 'checkmark', to: 'check' },
+  { from: 'more_horizontal', to: 'more' }
+]
+const iconCloneList =
+  process.env.FIGMA_ICONS_CLONE_LIST ||
+  [
+    // As of now, we only rename these icons
+    // { from: 'loupe', to: 'search' },
+    // { from: 'checkmark', to: 'check' },
+    // { from: 'more_horizontal', to: 'more' }
+  ]
+const iconPrimaryList = process.env.FIGMA_ICONS_PRIMARY_LIST || [
+  'chevron_left',
+  'chevron_right',
+  'chevron_down',
+  'chevron_up',
+  'arrow_left',
+  'arrow_right',
+  'arrow_down',
+  'arrow_up',
+  'bell',
+  'add',
+  'subtract',
+  'exclamation',
+  'information',
+  'download',
+  'check',
+  'close',
+  'reset',
+  'more',
+  'save',
+  'search',
+  'question',
+  'calendar'
+]
+
+const ignoreAddingSizeList = ['basis', 'default']
 const iconsDest = path.resolve(__dirname, `../../../assets/icons`)
 
 export const IconsConverter = async ({
@@ -44,7 +89,7 @@ export const IconsConverter = async ({
     })
   }
 
-  // juce out, if no changes
+  // juice out, if no changes
   if (!figmaDoc) return []
 
   const canvasDoc = getIconCanvasDoc({ figmaDoc })
@@ -65,8 +110,8 @@ export const IconsConverter = async ({
 
   // prepare the lockFile content
   await saveLockFile(
-    listOfProcessedIcons.reduce((acc, { iconName, ...cur }) => {
-      acc[iconName] = cur
+    listOfProcessedIcons.reduce((acc, { iconFile, ...cur }) => {
+      acc[iconFile] = cur
       return acc
     }, {})
   )
@@ -82,19 +127,19 @@ const runFrameIconsFactory = async ({
   if (/#skip/.test(frameDoc.name)) {
     return undefined
   }
-  const frameId = frameDoc.id
-  const originalFrameName = String(frameDoc.name).replace(
-    /^[0-9]+[_\- ]/g,
-    ''
-  ) // because the frame name conains a number first
-  const frameName = formatIconName(originalFrameName)
 
-  // split frameName, and use all after the selector/s as iconName additions
-  const iconNameAdditions = String(originalFrameName)
-    .split(sizeSeperator)
-    .slice(1)
-    .map((n) => String(n).trim().toLowerCase()) // remove space arround the names
-    .filter((n) => n !== 'default') // we don't use default size once we save it to size
+  if (!frameNameSelector.test(frameDoc.name)) {
+    return undefined
+  }
+
+  const frameId = frameDoc.id
+  const originalFrameName = String(frameDoc.name)
+    // because the frame name contains a number first
+    .replace(/^[0-9]+[_\- ]/g, '')
+  const size = formatIconName(originalFrameName).replace(
+    sizeSeperator,
+    '$1'
+  )
 
   // select all icons in the frame
   const frameDocChildren = iconSelector
@@ -111,11 +156,12 @@ const runFrameIconsFactory = async ({
     }
 
     // also skip if there are too many underlines
-    // because too many underlines will probably indicate that it is not menat to have it inside
-    const iconName = prerenderIconName(name, iconNameAdditions)
-    if (iconName.split(/_/g).length > 4) {
+    // because too many underlines will probably indicate that it is not meant to have it inside
+    const iconName = prerenderIconName(name)
+    const underlineLimit = 4
+    if (iconName.split(/_/g).length > underlineLimit) {
       log.fail(
-        `${iconName} was skipped, cause it had more than 4 parts on name split by _`
+        `${iconName} was skipped, cause it had more than ${underlineLimit} parts on name split by _`
       )
       return acc
     }
@@ -128,7 +174,7 @@ const runFrameIconsFactory = async ({
   // check if lock file exists
   const oldLockFileContent = await readLockFile()
 
-  // this may be controversielt, but it's kind of a short way to use the lock file
+  // this may be controversial, but it's kind of a short way to use the lock file
   // to fetch icons by using the url in the lock file
   // this way we do not lay on that we have a cached version
   // This is done to optimize the CI process
@@ -137,10 +183,10 @@ const runFrameIconsFactory = async ({
       ([file, { id, url, slug }]) =>
         file && id && url && slug === md5(figmaFile + frameId)
     )
-    // deifine the same format as we get from "getFigmaUrlByImageIds"
+    // define the same format as we get from "getFigmaUrlByImageIds"
     .map(([file, { id, url }]) => [id, url, file])
 
-  // remove the IDs if they are in the lock file so we dont need to refetch the urls
+  // remove the IDs if they are in the lock file so we font need to refetch the urls
   const iconIdsToFetchFrom = iconIdsFromDoc.filter(
     (refId) => !listOfIconUrls.some(([id]) => id === refId)
   )
@@ -157,11 +203,31 @@ const runFrameIconsFactory = async ({
     })
   )
 
-  const listOfIconsToProcess = listOfIconUrls
+  const rawListOfIconsToProcess = listOfIconUrls
     .concat(listOfAdditionalIconUrls)
     // clean the list of icons we will process
-    // my making shure it is in the current figma frame document
-    .filter(([id]) => frameDocChildren.find(({ id: i }) => i === id))
+    .map(([id, url]) => {
+      return {
+        ...frameDocChildren.find(({ id: i }) => i === id),
+        url
+      }
+    })
+    // my making sure it is in the current Figma frame document
+    .filter((item) => item && item.url)
+
+  const listOfIconsToProcess = iconCloneList.reduce((acc, cur) => {
+    const found = acc.find(({ name }) =>
+      new RegExp(`(^|/)${cur.from}(_|$)`).test(name)
+    )
+    if (found && found.name) {
+      acc.push({
+        ...found,
+        name: found.name.replace(cur.from, cur.to)
+      })
+    }
+
+    return acc
+  }, rawListOfIconsToProcess)
 
   log.start(
     `> Figma: Starting to fetch process ${listOfIconsToProcess.length} icons`
@@ -169,26 +235,34 @@ const runFrameIconsFactory = async ({
 
   const listOfProcessedIcons = await asyncForEach(
     listOfIconsToProcess,
-    async ([id, url]) => {
+    async ({ id, url, name }) => {
       try {
-        const { name } = frameDocChildren.find(({ id: i }) => i === id)
-        const iconName = prerenderIconName(name, iconNameAdditions)
+        const iconName = prerenderIconName(name, size)
+        const iconFile = prerenderIconFile(iconName)
+        const bundleName = `${
+          iconPrimaryList.includes(prerenderIconName(name))
+            ? 'primary'
+            : 'secondary'
+        }_icons${!ignoreAddingSizeList.includes(size) ? `_${size}` : ''}`
 
-        // deifine the filePath
-        const file = path.resolve(iconsDest, iconName)
+        // define the filePath
+        const file = path.resolve(iconsDest, iconFile)
 
         // check if frame content exists in the lock file
         const lockFileFrameContent =
-          (oldLockFileContent && oldLockFileContent[iconName]) || null
+          (oldLockFileContent && oldLockFileContent[iconFile]) || null
 
         const ret = {
           iconName,
-          id,
+          iconFile,
           name, // layer name
           url,
-          // timestamp: Date.now(),
+          id,
           slug: md5(figmaFile + frameId),
-          frame: frameName
+          size,
+          // timestamp: Date.now(),// We set the timestamp later anyway, once it got processed
+          // frame: frameName,// The "old" way of defining the primary/secondary icons – they where defined before in Figma Eufemia Web
+          bundleName
         }
 
         if (
@@ -197,16 +271,15 @@ const runFrameIconsFactory = async ({
           // if the id is the same, and the file exists, this version is not changed
           lockFileFrameContent &&
           lockFileFrameContent.id === id &&
-          // and also compare for the frameId, as they may have been upadted
+          // and also compare for the frameId, as they may have been updated
           lockFileFrameContent &&
           lockFileFrameContent.slug === md5(figmaFile + frameId) &&
           fs.existsSync(file)
         ) {
-          log.info(`> Figma: File already exists: ${iconName}`)
+          log.info(`> Figma: File already exists: ${iconFile}`)
         } else {
-          log.info(`> Figma: Saving file to disk: ${iconName}`)
+          log.info(`> Figma: Saving file to disk: ${iconFile}`)
 
-          // console.log('\n\n has url?', file, url)
           await safeFileToDisk(
             {
               file,
@@ -221,13 +294,13 @@ const runFrameIconsFactory = async ({
           ret.timestamp = Date.now()
 
           log.info(
-            `> Figma: Icon was saved: ${iconName} (${ret.timestamp})`
+            `> Figma: Icon was saved: ${iconFile} (${ret.timestamp})`
           )
         }
 
         await optimizeSVG({ file })
 
-        log.info(`> Figma: Icon was prepared: ${iconName}`)
+        log.info(`> Figma: Icon was prepared: ${iconFile}`)
 
         return ret
       } catch (e) {
@@ -240,7 +313,7 @@ const runFrameIconsFactory = async ({
   return listOfProcessedIcons
 }
 
-const prerenderIconName = (name, iconNameAdditions = []) => {
+const prerenderIconName = (name, size = null) => {
   let iconName = name
 
   // in case Icons have "[NAME] ..." somewhere
@@ -248,25 +321,33 @@ const prerenderIconName = (name, iconNameAdditions = []) => {
     iconName = iconName.replace(new RegExp(iconSelector), '')
   }
 
-  // in case there are frameName spesifications, then add them to the iconName
-  if (iconNameAdditions && iconNameAdditions.length > 0) {
-    // iconNameAdditions.unshift(iconName) // prepend the iconName to the array
-    const iconNameAddition = iconNameAdditions
-      .join('_') // then we comine the names
-      .replace(/_$/, '') // make sure we never end up having _ at the end
-
-    if (!iconName.includes(iconNameAddition)) {
-      iconName = `${iconName}_${iconNameAddition}`
-    }
+  // essentials/grabber_16 => grabber
+  if (iconNameCleaner) {
+    iconName = iconName.replace(new RegExp(iconNameCleaner), '$1')
   }
 
-  // also, make sure we use underline, insted of hyphen and so on
+  // also, make sure we use underline, instead of hyphen and so on
   iconName = formatIconName(iconName)
 
-  // make the frameName ready for creating a collection file for every frame
-  iconName = `${iconName}.svg`
+  iconName = iconRenameList.reduce(
+    (acc, cur) => (cur.from === acc ? cur.to : acc),
+    iconName
+  )
+
+  if (reservedJavaScriptWords.includes(iconName)) {
+    iconName = `${iconName}_1`
+  }
+
+  if (size && !ignoreAddingSizeList.includes(size)) {
+    iconName = `${iconName}_${size}`
+  }
 
   return iconName
+}
+
+const prerenderIconFile = (name) => {
+  // make the frameName ready for creating a collection file for every frame
+  return `${name}.svg`
 }
 
 const optimizeSVG = ({ file }) => {
@@ -318,7 +399,7 @@ const optimizeSVG = ({ file }) => {
   }
   return new Promise((resolve, reject) => {
     gulp
-      .src(file, { cwd: process.env.ROOT_DIR })
+      .src(file, { cwd: process.env.ROOT_DIR, allowEmpty: true })
       .pipe(transform('utf8', transformSvg))
       .pipe(gulp.dest(path.dirname(file), { cwd: process.env.ROOT_DIR }))
       .on('end', resolve)
@@ -328,7 +409,7 @@ const optimizeSVG = ({ file }) => {
 
 const getIconCanvasDoc = ({ figmaDoc }) =>
   findNode(figmaDoc.document, {
-    name: canvasName,
+    name: canvasNameSelector,
     type: 'CANVAS'
   })
 
@@ -348,7 +429,8 @@ export const readLockFile = async () => {
     try {
       return JSON.parse((await fs.readFile(lockFileDest, 'utf-8')) || '{}')
     } catch (e) {
-      console.log('Failed to read the lock file and parse the result', e)
+      log.fail('Failed to read the lock file and parse the result')
+      console.error(e)
     }
   }
   return {}
@@ -356,3 +438,106 @@ export const readLockFile = async () => {
 
 export const saveLockFile = async (data) =>
   await saveToFile(lockFileDest, JSON.stringify(data))
+
+const reservedJavaScriptWords = [
+  'abstract',
+  'arguments',
+  'await',
+  'boolean',
+  'break',
+  'byte',
+  'case',
+  'catch',
+  'char',
+  'class',
+  'const',
+  'continue',
+  'debugger',
+  'default',
+  'delete',
+  'do',
+  'double',
+  'else',
+  'enum',
+  'eval',
+  'export',
+  'extends',
+  'false',
+  'final',
+  'finally',
+  'float',
+  'for',
+  'function',
+  'goto',
+  'if',
+  'implements',
+  'import',
+  'in',
+  'instanceof',
+  'int',
+  'interface',
+  'let',
+  'long',
+  'native',
+  'new',
+  'null',
+  'package',
+  'private',
+  'protected',
+  'public',
+  'return',
+  'short',
+  'static',
+  'super',
+  'switch',
+  'synchronized',
+  'this',
+  'throw',
+  'throws',
+  'transient',
+  'true',
+  'try',
+  'typeof',
+  'var',
+  'void',
+  'volatile',
+  'while',
+  'with',
+  'yield',
+
+  'array',
+  'date',
+  'eval',
+  'function',
+  'hasownproperty',
+  'infinity',
+  'isfinite',
+  'isnan',
+  'isprototypeof',
+  'length',
+  'math',
+  'nan',
+  'name',
+  'number',
+  'object',
+  'prototype',
+  'string',
+  'tostring',
+  'undefined',
+  'valueof',
+
+  'alert',
+  'assign',
+  'escape',
+  'event',
+  'location',
+  'navigate',
+  'navigator',
+  'parent',
+  'scroll',
+  'secure',
+  'select',
+  'self',
+  'unescape',
+  'window'
+]
