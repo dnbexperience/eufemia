@@ -1484,6 +1484,8 @@ exports[`DatePicker scss have to match default theme snapshot 1`] = `
     border: none;
     background-color: var(--color-white);
     box-shadow: 0 1px 6px rgba(0, 0, 0, 0.16); }
+  .dnb-date-picker .dnb-input__submit-button__button {
+    color: var(--color-emerald-green); }
   .dnb-date-picker__status--error .dnb-date-picker:not(.dnb-date-picker--opened) .dnb-input__shell:not([data-input-state='focus'])
 .dnb-date-picker__input,
   .dnb-date-picker__status--error .dnb-date-picker:not(.dnb-date-picker--opened) .dnb-input__shell:not([data-input-state='focus'])
