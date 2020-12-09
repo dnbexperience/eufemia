@@ -531,7 +531,6 @@ const reservedJavaScriptWords = [
   'assign',
   'escape',
   'event',
-  'location',
   'navigate',
   'navigator',
   'parent',
