@@ -12,6 +12,10 @@ v8 contains a couple of _braking changes_. As a migration process, you can simpl
 
 1. Find `black-30` and replace it with `black-20`
 
+## Changes
+
+1. The `figure` HTML got included in the CSS reset with a `margin: 0`.
+
 ## Install
 
 To upgrade to v8 with NPM, use:
