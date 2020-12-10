@@ -5,7 +5,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Icon } from 'dnb-ui-lib/src/components'
-import { P, Code } from 'dnb-ui-lib/src/elements'
+import { P } from 'dnb-ui-lib/src/elements'
 import * as PrimaryIcons from 'dnb-ui-lib/src/icons/primary_icons'
 import * as SecondaryIcons from 'dnb-ui-lib/src/icons/secondary_icons'
 import * as PrimaryIconsMedium from 'dnb-ui-lib/src/icons/primary_icons_medium'
@@ -62,10 +62,10 @@ export default class Icons extends React.PureComponent {
     }
 
     const icons = this.state.iconsToRender.map(
-      ({ iconName, Svg, tags }) => {
-        const SvgMedium = (this.props.variant === 'secondary'
-          ? SecondaryIconsMedium
-          : PrimaryIconsMedium)[`${iconName}_medium`]
+      ({ iconName, Svg, variant, tags }) => {
+        const SvgMedium = (variant === 'primary'
+          ? PrimaryIconsMedium
+          : SecondaryIconsMedium)[`${iconName}_medium`]
         return (
           <ListItem key={iconName}>
             <ListItemInner>
@@ -101,7 +101,6 @@ const List = styled.ul`
   flex-wrap: wrap;
   flex-direction: row;
   align-items: flex-end;
-  ${'' /* justify-content: center; */}
 
   padding: 0;
   margin: 0;
@@ -113,6 +112,7 @@ const ListItemInner = styled.div`
   justify-content: center;
   flex-flow: column wrap;
   align-content: center;
+  text-align: center;
 
   padding: 0.5rem 0;
 
@@ -132,7 +132,6 @@ const ListItemInner = styled.div`
   }
 
   .dnb-icon {
-    font-size: var(--font-size-large);
     :hover {
       color: var(--color-sea-green);
     }
