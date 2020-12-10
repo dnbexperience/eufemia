@@ -15,6 +15,7 @@ v8 contains a couple of _braking changes_. As a migration process, you can simpl
 ## Changes
 
 1. The `figure` HTML got included in the CSS reset with a `margin: 0`.
+1. Add TypeScript type declarations for component PropTypes.
 
 ## Install
 
