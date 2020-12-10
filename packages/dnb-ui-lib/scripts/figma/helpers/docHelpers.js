@@ -23,8 +23,7 @@ dotenv.config()
 process.env.ROOT_DIR = packpath.self()
 
 export const defaultFigmaToken = process.env.FIGMA_TOKEN
-// export const defaultFigmaFile = process.env.FIGMA_MAIN_FILE
-export const defaultFigmaFile = '2aNwT4Lbyt9hFmDv8k34yN'
+export const defaultFigmaFile = process.env.FIGMA_MAIN_FILE
 
 const Figma = Client({
   personalAccessToken: defaultFigmaToken
