@@ -110,13 +110,53 @@ export const IconsConverter = async ({
       })
   )
 
-  // prepare the lockFile content
+  // save the lockFile content
   await saveLockFile(
     listOfProcessedIcons.reduce((acc, { iconFile, ...cur }) => {
       acc[iconFile] = cur
       return acc
     }, {})
   )
+  log.info(`> Figma: icons.lock file got generated`)
+
+  // save the metaFile content
+  await saveMetaFile(
+    listOfProcessedIcons.reduce(
+      (acc, { iconName, size, id, created, name, variant }) => {
+        const cleanSize = !ignoreAddingSizeList.includes(size)
+          ? size
+          : null
+        if (cleanSize && iconName.includes(cleanSize)) {
+          iconName = iconName.replace(`_${cleanSize}`, '')
+        }
+
+        const { description } = figmaDoc.components[id]
+        const tags = description
+          .split(/[,;|]/g)
+          .map((s) => (s ? s.trim() : null))
+          .filter(Boolean)
+
+        if (acc[iconName]) {
+          const existing = acc[iconName]
+
+          acc[iconName] = {
+            ...existing,
+            tags: tags.reduce((acc, cur) => {
+              if (!acc.includes(cur)) {
+                acc.push(cur)
+              }
+              return acc
+            }, existing.tags)
+          }
+        } else {
+          acc[iconName] = { tags, created, name, variant }
+        }
+        return acc
+      },
+      {}
+    )
+  )
+  log.info(`> Figma: icons-meta.json file got generated`)
 
   return listOfProcessedIcons
 }
@@ -241,11 +281,12 @@ const runFrameIconsFactory = async ({
       try {
         const iconName = prerenderIconName(name, size)
         const iconFile = prerenderIconFile(iconName)
-        const bundleName = `${
-          iconPrimaryList.includes(prerenderIconName(name))
-            ? 'primary'
-            : 'secondary'
-        }_icons${!ignoreAddingSizeList.includes(size) ? `_${size}` : ''}`
+        const variant = iconPrimaryList.includes(prerenderIconName(name))
+          ? 'primary'
+          : 'secondary'
+        const bundleName = `${variant}_icons${
+          !ignoreAddingSizeList.includes(size) ? `_${size}` : ''
+        }`
 
         // define the filePath
         const file = path.resolve(iconsDest, iconFile)
@@ -262,8 +303,7 @@ const runFrameIconsFactory = async ({
           id,
           slug: md5(figmaFile + frameId),
           size,
-          // timestamp: Date.now(),// We set the timestamp later anyway, once it got processed
-          // frame: frameName,// The "old" way of defining the primary/secondary icons – they where defined before in Figma Eufemia Web
+          variant,
           bundleName
         }
 
@@ -278,6 +318,9 @@ const runFrameIconsFactory = async ({
           lockFileFrameContent.slug === md5(figmaFile + frameId) &&
           fs.existsSync(file)
         ) {
+          ret.created = lockFileFrameContent.created
+          ret.updated = Date.now()
+
           log.info(`> Figma: File already exists: ${iconFile}`)
         } else {
           log.info(`> Figma: Saving file to disk: ${iconFile}`)
@@ -293,7 +336,7 @@ const runFrameIconsFactory = async ({
             }
           )
 
-          ret.timestamp = Date.now()
+          ret.created = Date.now()
 
           log.info(
             `> Figma: Icon was saved: ${iconFile} (${ret.timestamp})`
@@ -432,9 +475,15 @@ export const readLockFile = async () => {
   }
   return {}
 }
-
 export const saveLockFile = async (data) =>
   await saveToFile(lockFileDest, JSON.stringify(data))
+
+const metaFileDest = path.resolve(
+  __dirname,
+  `../../../src/icons/icons-meta.json`
+)
+export const saveMetaFile = async (data) =>
+  await saveToFile(metaFileDest, JSON.stringify(data))
 
 const reservedJavaScriptWords = [
   'abstract',

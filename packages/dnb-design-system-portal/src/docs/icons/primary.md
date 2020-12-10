@@ -2,7 +2,7 @@
 title: 'Primary'
 description: 'The primary icons are icons used inside of Eufemia components.'
 icon: 'primary'
-order: 1
+order: 2
 ---
 
 import Icons from "Parts/icons/ListAllIcons";
@@ -25,6 +25,4 @@ They are integrated by using the `<IconPrimary />` [Icon Component](/uilib/compo
 
 Title in parentheses are the icon's variable name used in coding.
 
----
-
-<Icons type="primary" />
+<Icons variant="primary" />

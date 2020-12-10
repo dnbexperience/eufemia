@@ -2,7 +2,7 @@
 title: 'Other icons'
 description: 'Other icons used inside of Eufemia components.'
 icon: 'helper_classes'
-order: 3
+order: 4
 ---
 
 import FormStatusIcons from 'Pages/icons/form-status.md'
