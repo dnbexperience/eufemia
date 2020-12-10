@@ -14,6 +14,25 @@ import iconsMetaData from 'dnb-ui-lib/src/icons/icons-meta.json'
 import styled from '@emotion/styled'
 import AutoLinkHeader from '../../tags/AutoLinkHeader'
 
+export const getListOfIcons = (icons) => {
+  return Object.entries(icons)
+    .map(([iconName, Svg]) => {
+      const meta =
+        iconsMetaData && iconsMetaData[iconName]
+          ? iconsMetaData[iconName]
+          : { tags: [], created: Date.now() }
+      const category = grabCategory(meta.name)
+      return { iconName, Svg, category, ...meta }
+    })
+    .sort((a, b) => {
+      return a.created < b.created ? 1 : -1
+    })
+}
+
+const grabCategory = (name) => {
+  return String(name).split(/\//)[0]
+}
+
 export default class Icons extends React.PureComponent {
   state = { iconsToRender: [] }
   static propTypes = {
@@ -40,21 +59,7 @@ export default class Icons extends React.PureComponent {
         break
     }
 
-    this.state.iconsToRender = Object.entries(icons)
-      .map(([iconName, Svg]) => {
-        const meta =
-          iconsMetaData && iconsMetaData[iconName]
-            ? iconsMetaData[iconName]
-            : { tags: [], created: Date.now() }
-        const category = this.grabCategory(meta.name)
-        return { iconName, Svg, category, ...meta }
-      })
-      .sort((a, b) => {
-        return a.created < b.created ? 1 : -1
-      })
-  }
-  grabCategory(name) {
-    return name.split(/\//)[0]
+    this.state.iconsToRender = getListOfIcons(icons)
   }
   render() {
     if (this.state.iconsToRender.length === 0) {
