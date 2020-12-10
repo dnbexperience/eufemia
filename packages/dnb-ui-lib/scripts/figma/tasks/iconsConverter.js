@@ -4,16 +4,14 @@
  */
 
 import fs from 'fs-extra'
-import gulp from 'gulp'
 import path from 'path'
-import transform from 'gulp-transform'
 import SVGOptim from 'svgo'
 import { asyncForEach } from '../../tools'
 import { ERROR_HARMLESS } from '../../lib/error'
 import { log, ErrorHandler } from '../../lib'
 import {
   getFigmaUrlByImageIds,
-  safeFileToDisk,
+  streamToDisk,
   getFigmaDoc,
   findNode,
   findAllNodes,
@@ -284,7 +282,7 @@ const runFrameIconsFactory = async ({
         } else {
           log.info(`> Figma: Saving file to disk: ${iconFile}`)
 
-          await safeFileToDisk(
+          await streamToDisk(
             {
               file,
               url,
@@ -354,61 +352,56 @@ const prerenderIconFile = (name) => {
   return `${name}.svg`
 }
 
-const optimizeSVG = ({ file }) => {
-  const transformSvg = async (content) => {
-    // Figma has an issue where 16px icons gets exported as 17px
-    // This is a fix for that issue
-    content = content.replace(/="17"/g, '="16"')
-    content = content.replace(/="25"/g, '="24"')
+const optimizeSVG = async ({ file }) => {
+  let content = await fs.readFile(file, 'utf8')
 
-    // If we cahnge the viewBox, then we change the possition of the icons slightly
-    // content = content.replace(/ (17)("| )/g, ' 16$2')
-    // content = content.replace(/ (25)("| )/g, ' 24$2')
+  // const transformSvg = async (content) => {
+  // Figma has an issue where 16px icons gets exported as 17px
+  // This is a fix for that issue
+  content = content.replace(/="17"/g, '="16"')
+  content = content.replace(/="25"/g, '="24"')
 
-    // find an id, and remove the element containing it, as we don't want IDs in our markups!
-    const id = (/id="(.*)"/g.exec(content) || [0, null])[1]
+  // If we change the viewBox, then we change the position of the icons slightly
+  // content = content.replace(/ (17)("| )/g, ' 16$2')
+  // content = content.replace(/ (25)("| )/g, ' 24$2')
 
-    const plugins = [
-      // {
-      //   removeAttrs: {
-      //     attrs: [
-      //       // once this pullrequest goes throug https://github.com/svg/svgo/pull/977
-      //       // we can use this methode
-      //       // '*:(fill)|((?!^none$).)*'
-      //       // remove all fills - if the instance has a defined background color, then things are not showing good. Then then have to allow this setting to be there
-      //       'fill'
-      //       // 'stroke' // for now, we dont remove stroke
-      //       // 'svg:fill'
-      //       // 'svg:xmlns',
-      //       // 'svg:width',
-      //       // 'svg:height'
-      //     ]
-      //   }
-      // },
-      {
-        removeElementsByAttr: {
-          id
-        }
-      },
-      // { convertPathData: false }, // if we prefere to not transform any data paths, we have to disable this
-      { cleanupIDs: true },
-      { removeViewBox: false },
-      { removeDimensions: false }
-    ]
-    const svgo = new SVGOptim({
-      plugins
-    })
-    const { data } = await svgo.optimize(String(content))
-    return data
-  }
-  return new Promise((resolve, reject) => {
-    gulp
-      .src(file, { cwd: process.env.ROOT_DIR, allowEmpty: true })
-      .pipe(transform('utf8', transformSvg))
-      .pipe(gulp.dest(path.dirname(file), { cwd: process.env.ROOT_DIR }))
-      .on('end', resolve)
-      .on('error', reject)
+  // find an id, and remove the element containing it, as we don't want IDs in our markups!
+  const id = (/id="(.*)"/g.exec(content) || [0, null])[1]
+
+  const plugins = [
+    // {
+    //   removeAttrs: {
+    //     attrs: [
+    //       // once this pullrequest goes throug https://github.com/svg/svgo/pull/977
+    //       // we can use this methode
+    //       // '*:(fill)|((?!^none$).)*'
+    //       // remove all fills - if the instance has a defined background color, then things are not showing good. Then then have to allow this setting to be there
+    //       'fill'
+    //       // 'stroke' // for now, we dont remove stroke
+    //       // 'svg:fill'
+    //       // 'svg:xmlns',
+    //       // 'svg:width',
+    //       // 'svg:height'
+    //     ]
+    //   }
+    // },
+    {
+      removeElementsByAttr: {
+        id
+      }
+    },
+    // { convertPathData: false }, // if we prefer to not transform any data paths, we have to disable this
+    { cleanupIDs: true },
+    { removeViewBox: false },
+    { removeDimensions: false }
+  ]
+  const svgo = new SVGOptim({
+    plugins
   })
+
+  const { data } = await svgo.optimize(content, { path: file })
+
+  return data
 }
 
 const getIconCanvasDoc = ({ figmaDoc }) =>
