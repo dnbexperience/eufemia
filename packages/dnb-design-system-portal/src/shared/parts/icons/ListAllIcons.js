@@ -89,7 +89,7 @@ export default class Icons extends React.PureComponent {
                 {iconName}
               </AutoLinkHeader>
 
-              <P>{tags.length > 0 ? tags.join(', ') : '–'}</P>
+              <P>{tags.length > 0 ? tags.join(', ') : '(no tags)'}</P>
             </ListItemInner>
           </ListItem>
         )
