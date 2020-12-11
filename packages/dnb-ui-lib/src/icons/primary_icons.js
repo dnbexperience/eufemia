@@ -16,6 +16,7 @@ import close from './close.js'
 import download from './download.js'
 import exclamation from './exclamation.js'
 import information from './information.js'
+import loupe from './loupe.js'
 import more from './more.js'
 import question from './question.js'
 import reset from './reset.js'
@@ -39,6 +40,7 @@ export {
   download,
   exclamation,
   information,
+  loupe,
   more,
   question,
   reset,

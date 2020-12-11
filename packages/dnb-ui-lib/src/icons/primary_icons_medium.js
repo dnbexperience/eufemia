@@ -16,6 +16,7 @@ import close_medium from './close_medium.js'
 import download_medium from './download_medium.js'
 import exclamation_medium from './exclamation_medium.js'
 import information_medium from './information_medium.js'
+import loupe_medium from './loupe_medium.js'
 import more_medium from './more_medium.js'
 import question_medium from './question_medium.js'
 import reset_medium from './reset_medium.js'
@@ -39,6 +40,7 @@ export {
   download_medium,
   exclamation_medium,
   information_medium,
+  loupe_medium,
   more_medium,
   question_medium,
   reset_medium,

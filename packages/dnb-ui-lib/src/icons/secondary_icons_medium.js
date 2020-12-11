@@ -89,7 +89,6 @@ import loan_out_medium from './loan_out_medium.js'
 import location_medium from './location_medium.js'
 import log_in_medium from './log_in_medium.js'
 import log_out_medium from './log_out_medium.js'
-import loupe_medium from './loupe_medium.js'
 import mastercard_card_medium from './mastercard_card_medium.js'
 import mastercard_medium from './mastercard_medium.js'
 import microphone_medium from './microphone_medium.js'
@@ -238,7 +237,6 @@ export {
   location_medium,
   log_in_medium,
   log_out_medium,
-  loupe_medium,
   mastercard_card_medium,
   mastercard_medium,
   microphone_medium,

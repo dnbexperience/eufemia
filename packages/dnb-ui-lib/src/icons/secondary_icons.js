@@ -90,7 +90,6 @@ import loan_out from './loan_out.js'
 import location from './location.js'
 import log_in from './log_in.js'
 import log_out from './log_out.js'
-import loupe from './loupe.js'
 import mastercard from './mastercard.js'
 import mastercard_card from './mastercard_card.js'
 import microphone from './microphone.js'
@@ -240,7 +239,6 @@ export {
   location,
   log_in,
   log_out,
-  loupe,
   mastercard,
   mastercard_card,
   microphone,

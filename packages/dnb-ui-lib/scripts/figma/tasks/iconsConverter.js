@@ -66,7 +66,7 @@ const iconPrimaryList = process.env.FIGMA_ICONS_PRIMARY_LIST || [
   'reset',
   'more',
   'save',
-  'search',
+  'loupe', // was "search" before
   'question',
   'calendar'
 ]
