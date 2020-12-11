@@ -815,6 +815,8 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
       >
         <H1
           bottom="large"
+          level={null}
+          size="xx-large"
           top="4"
         >
           <H
@@ -827,9 +829,15 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
             top="4"
           >
             <ForwardRef
+              _ref={null}
               bottom="large"
+              class={null}
+              className={null}
+              css={null}
               internalClass="dnb-h--xx-large"
               is="h1"
+              skeleton={null}
+              skeleton_method="font"
               top="4"
             >
               <Elem
@@ -863,9 +871,15 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
           style_type={null}
         >
           <ForwardRef
+            _ref={null}
             bottom="large"
+            class={null}
             className="dnb-p"
+            css={null}
+            internalClass={null}
             is="p"
+            skeleton={null}
+            skeleton_method="font"
           >
             <Elem
               _ref={null}
