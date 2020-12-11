@@ -20,6 +20,7 @@ import {
   md5,
   defaultFigmaFile
 } from '../helpers/docHelpers'
+import { create } from 'tar'
 
 const iconPrimaryList = process.env.FIGMA_ICONS_PRIMARY_LIST || [
   'chevron_left',
@@ -72,7 +73,62 @@ const iconSelector = process.env.FIGMA_ICONS_SELECTOR || null
 const iconNameCleaner =
   process.env.FIGMA_ICONS_NAME_SPLIT || /.*\/(.*)_[0-9]{1,2}/
 const ignoreAddingSizeList = ['basis', 'default']
-const iconsDest = path.resolve(__dirname, `../../../assets/icons`)
+const iconsDest = path.resolve(__dirname, '../../../assets/icons/svg')
+
+export const PDFConverter = async ({
+  figmaDoc = null,
+  figmaFile = null,
+  forceReconvert = null,
+  ...rest
+}) => {
+  if (!figmaFile) {
+    figmaFile = defaultFigmaFile
+  }
+
+  if (figmaDoc === null) {
+    figmaDoc = await getFigmaDoc({
+      figmaFile,
+      preventUpdate: forceReconvert
+    })
+  }
+
+  // juice out, if no changes
+  if (!figmaDoc) return []
+
+  const canvasDoc = getIconCanvasDoc({ figmaDoc })
+
+  const framesInTheCanvas = findAllNodes(canvasDoc, {
+    type: 'FRAME'
+  })
+
+  const destDir = path.resolve(__dirname, '../../../assets/icons/pdf')
+  if (!fs.existsSync(destDir)) {
+    fs.mkdir(destDir)
+  }
+
+  // Load and save additional PDFs
+  await asyncForEach(framesInTheCanvas, async (frameDoc) => {
+    await runFrameIconsFactory({
+      frameDoc,
+      figmaFile,
+      destDir,
+      format: 'pdf',
+      ...rest
+    })
+  })
+
+  await create(
+    {
+      gzip: true,
+      cwd: destDir,
+      file: path.resolve(
+        __dirname,
+        '../../../assets/icons/pdf/eufemia-icons-pdf.tgz'
+      )
+    },
+    ['.']
+  )
+}
 
 export const IconsConverter = async ({
   figmaDoc = null,
@@ -106,9 +162,15 @@ export const IconsConverter = async ({
       await runFrameIconsFactory({
         frameDoc,
         figmaFile,
+        format: 'svg',
         ...rest
       })
   )
+
+  await asyncForEach(listOfProcessedIcons, async ({ file, iconFile }) => {
+    await optimizeSVG({ file })
+    log.info(`> Figma: Icon was optimized: ${iconFile}`)
+  })
 
   // save the lockFile content
   await saveLockFile(
@@ -171,7 +233,9 @@ export const IconsConverter = async ({
 const runFrameIconsFactory = async ({
   frameDoc,
   figmaFile,
-  forceRedownload = null
+  destDir = iconsDest,
+  forceRedownload = null,
+  format = 'svg'
 }) => {
   if (/#skip/.test(frameDoc.name)) {
     return undefined
@@ -248,7 +312,8 @@ const runFrameIconsFactory = async ({
   const listOfAdditionalIconUrls = Object.entries(
     await getFigmaUrlByImageIds({
       figmaFile,
-      ids: iconIdsToFetchFrom
+      ids: iconIdsToFetchFrom,
+      params: { format }
     })
   )
 
@@ -261,7 +326,7 @@ const runFrameIconsFactory = async ({
         url
       }
     })
-    // my making sure it is in the current Figma frame document
+    // by making sure it is in the current Figma frame document
     .filter((item) => item && item.url)
 
   const listOfIconsToProcess = iconCloneList.reduce((acc, cur) => {
@@ -287,7 +352,7 @@ const runFrameIconsFactory = async ({
     async ({ id, url, name }) => {
       try {
         const iconName = prerenderIconName(name, size)
-        const iconFile = prerenderIconFile(iconName)
+        const iconFile = prerenderIconFile(iconName, format)
         const variant = iconPrimaryList.includes(prerenderIconName(name))
           ? 'primary'
           : 'secondary'
@@ -296,7 +361,7 @@ const runFrameIconsFactory = async ({
         }`
 
         // define the filePath
-        const file = path.resolve(iconsDest, iconFile)
+        const file = path.resolve(destDir, iconFile)
 
         // check if frame content exists in the lock file
         const lockFileFrameContent =
@@ -347,12 +412,8 @@ const runFrameIconsFactory = async ({
 
           ret.created = Date.now()
 
-          log.info(`> Figma: Icon was saved: ${iconFile} (${ret.created})`)
+          log.info(`> Figma: File got saved: ${iconFile} (${ret.created})`)
         }
-
-        await optimizeSVG({ file })
-
-        log.info(`> Figma: Icon was prepared: ${iconFile}`)
 
         return ret
       } catch (e) {
@@ -397,9 +458,9 @@ const prerenderIconName = (name, size = null) => {
   return iconName
 }
 
-const prerenderIconFile = (name) => {
+const prerenderIconFile = (name, format = 'svg') => {
   // make the frameName ready for creating a collection file for every frame
-  return `${name}.svg`
+  return `${name}.${format}`
 }
 
 const optimizeSVG = async ({ file }) => {
