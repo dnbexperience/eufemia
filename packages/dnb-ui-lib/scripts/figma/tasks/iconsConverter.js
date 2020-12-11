@@ -20,32 +20,6 @@ import {
   defaultFigmaFile
 } from '../helpers/docHelpers'
 
-const canvasNameSelector =
-  process.env.FIGMA_ICONS_PAGE_SELECTOR || /^Icons$/ // before we have used: ^[0-9]+[_\- ]Icons$
-const frameNameSelector =
-  process.env.FIGMA_ICONS_FRAME_SELECTOR || /[A-z]+ - [0-9]{1,2}/
-const sizeSeperator =
-  process.env.FIGMA_ICONS_FRAME_SIZE_SEPERATOR || /(.*)_[0-9]{1,2}/
-const iconSelector = process.env.FIGMA_ICONS_SELECTOR || null
-const iconNameCleaner =
-  process.env.FIGMA_ICONS_NAME_SPLIT || /.*\/(.*)_[0-9]{1,2}/
-const iconRenameList = process.env.FIGMA_ICONS_RENAME_LIST || [
-  { from: 'checkmark', to: 'check' },
-  { from: 'repeat', to: 'refresh' },
-  { from: 'document', to: 'file' },
-  { from: 'more_horizontal', to: 'more' }
-  // { from: 'loupe', to: 'settings' },
-  // { from: 'loupe', to: 'search' },
-  // { from: 'hide', to: 'view_off' },
-  // { from: 'log_in', to: 'login' },
-  // { from: 'log_out', to: 'logout' },
-]
-const iconCloneList =
-  process.env.FIGMA_ICONS_CLONE_LIST ||
-  [
-    // As of now, we only rename these icons
-    // { from: 'loupe', to: 'search' },
-  ]
 const iconPrimaryList = process.env.FIGMA_ICONS_PRIMARY_LIST || [
   'chevron_left',
   'chevron_right',
@@ -70,7 +44,32 @@ const iconPrimaryList = process.env.FIGMA_ICONS_PRIMARY_LIST || [
   'question',
   'calendar'
 ]
-
+const iconRenameList = process.env.FIGMA_ICONS_RENAME_LIST || [
+  { from: 'checkmark', to: 'check' },
+  { from: 'repeat', to: 'refresh' },
+  { from: 'document', to: 'file' },
+  { from: 'more_horizontal', to: 'more' }
+  // { from: 'loupe', to: 'settings' },
+  // { from: 'loupe', to: 'search' },
+  // { from: 'hide', to: 'view_off' },
+  // { from: 'log_in', to: 'login' },
+  // { from: 'log_out', to: 'logout' },
+]
+const iconCloneList =
+  process.env.FIGMA_ICONS_CLONE_LIST ||
+  [
+    // As of now, we only rename these icons
+    // { from: 'loupe', to: 'search' },
+  ]
+const canvasNameSelector =
+  process.env.FIGMA_ICONS_PAGE_SELECTOR || /^Icons$/ // before we have used: ^[0-9]+[_\- ]Icons$
+const frameNameSelector =
+  process.env.FIGMA_ICONS_FRAME_SELECTOR || /[A-z]+ - [0-9]{1,2}/
+const sizeSeperator =
+  process.env.FIGMA_ICONS_FRAME_SIZE_SEPERATOR || /(.*)_[0-9]{1,2}/
+const iconSelector = process.env.FIGMA_ICONS_SELECTOR || null
+const iconNameCleaner =
+  process.env.FIGMA_ICONS_NAME_SPLIT || /.*\/(.*)_[0-9]{1,2}/
 const ignoreAddingSizeList = ['basis', 'default']
 const iconsDest = path.resolve(__dirname, `../../../assets/icons`)
 
