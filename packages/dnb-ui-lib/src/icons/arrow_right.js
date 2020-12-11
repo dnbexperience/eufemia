@@ -13,8 +13,8 @@ function arrow_right(props) {
       {...props}
     >
       <path
-        d="M1.5 8H15M10 13L15 8M15 8L10 3"
-        stroke="black"
+        d="M1.5 8H15m-5 5l5-5m0 0l-5-5"
+        stroke="#000"
         strokeWidth={1.5}
         strokeLinecap="round"
         strokeLinejoin="round"

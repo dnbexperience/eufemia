@@ -13,8 +13,8 @@ function check(props) {
       {...props}
     >
       <path
-        d="M1 10L5 14L15 2"
-        stroke="black"
+        d="M1 10l4 4L15 2"
+        stroke="#000"
         strokeWidth={1.5}
         strokeLinecap="round"
         strokeLinejoin="round"
