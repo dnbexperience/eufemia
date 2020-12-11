@@ -97,6 +97,8 @@ import confetti from './confetti.js'
 import confetti_medium from './confetti_medium.js'
 import contacts from './contacts.js'
 import contacts_medium from './contacts_medium.js'
+import cookie from './cookie.js'
+import cookie_medium from './cookie_medium.js'
 import copy from './copy.js'
 import copy_medium from './copy_medium.js'
 import currency from './currency.js'
@@ -145,6 +147,8 @@ import filter from './filter.js'
 import filter_medium from './filter_medium.js'
 import flying_money from './flying_money.js'
 import flying_money_medium from './flying_money_medium.js'
+import folder from './folder.js'
+import folder_medium from './folder_medium.js'
 import fullscreen from './fullscreen.js'
 import fullscreen_medium from './fullscreen_medium.js'
 import fund_in from './fund_in.js'
@@ -247,6 +251,8 @@ import person from './person.js'
 import person_medium from './person_medium.js'
 import phone from './phone.js'
 import phone_medium from './phone_medium.js'
+import photo from './photo.js'
+import photo_medium from './photo_medium.js'
 import pin_code from './pin_code.js'
 import pin_code_medium from './pin_code_medium.js'
 import plant from './plant.js'
@@ -436,6 +442,8 @@ export {
   confetti_medium,
   contacts,
   contacts_medium,
+  cookie,
+  cookie_medium,
   copy,
   copy_medium,
   currency,
@@ -484,6 +492,8 @@ export {
   filter_medium,
   flying_money,
   flying_money_medium,
+  folder,
+  folder_medium,
   fullscreen,
   fullscreen_medium,
   fund_in,
@@ -586,6 +596,8 @@ export {
   person_medium,
   phone,
   phone_medium,
+  photo,
+  photo_medium,
   pin_code,
   pin_code_medium,
   plant,
