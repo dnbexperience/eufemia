@@ -2,7 +2,7 @@
 
 import React from 'react'
 
-function search(props) {
+function loupe(props) {
   return (
     <svg
       width={16}
@@ -20,4 +20,4 @@ function search(props) {
   )
 }
 
-export default search
+export default loupe

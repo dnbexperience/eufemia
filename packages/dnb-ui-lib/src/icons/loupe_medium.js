@@ -2,7 +2,7 @@
 
 import React from 'react'
 
-function search_medium(props) {
+function loupe_medium(props) {
   return (
     <svg
       width={24}
@@ -20,4 +20,4 @@ function search_medium(props) {
   )
 }
 
-export default search_medium
+export default loupe_medium

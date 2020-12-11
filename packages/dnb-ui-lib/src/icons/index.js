@@ -83,6 +83,8 @@ import clock from './clock.js'
 import clock_medium from './clock_medium.js'
 import close from './close.js'
 import close_medium from './close_medium.js'
+import cog from './cog.js'
+import cog_medium from './cog_medium.js'
 import coins_1 from './coins_1.js'
 import coins_1_medium from './coins_1_medium.js'
 import coins_2 from './coins_2.js'
@@ -209,6 +211,8 @@ import log_in from './log_in.js'
 import log_in_medium from './log_in_medium.js'
 import log_out from './log_out.js'
 import log_out_medium from './log_out_medium.js'
+import loupe from './loupe.js'
+import loupe_medium from './loupe_medium.js'
 import mastercard from './mastercard.js'
 import mastercard_card from './mastercard_card.js'
 import mastercard_card_medium from './mastercard_card_medium.js'
@@ -283,12 +287,8 @@ import savings_account_out from './savings_account_out.js'
 import savings_account_out_medium from './savings_account_out_medium.js'
 import scissors from './scissors.js'
 import scissors_medium from './scissors_medium.js'
-import search from './search.js'
-import search_medium from './search_medium.js'
 import send from './send.js'
 import send_medium from './send_medium.js'
-import settings from './settings.js'
-import settings_medium from './settings_medium.js'
 import share_android from './share_android.js'
 import share_android_medium from './share_android_medium.js'
 import share_ios from './share_ios.js'
@@ -422,6 +422,8 @@ export {
   clock_medium,
   close,
   close_medium,
+  cog,
+  cog_medium,
   coins_1,
   coins_1_medium,
   coins_2,
@@ -548,6 +550,8 @@ export {
   log_in_medium,
   log_out,
   log_out_medium,
+  loupe,
+  loupe_medium,
   mastercard,
   mastercard_card,
   mastercard_card_medium,
@@ -622,12 +626,8 @@ export {
   savings_account_out_medium,
   scissors,
   scissors_medium,
-  search,
-  search_medium,
   send,
   send_medium,
-  settings,
-  settings_medium,
   share_android,
   share_android_medium,
   share_ios,

@@ -65,7 +65,7 @@ exports[`InputMasked component have to match type="text" snapshot 1`] = `
     status_animation={null}
     status_state="error"
     stretch={null}
-    submit_button_icon="search"
+    submit_button_icon="cog"
     submit_button_status={null}
     submit_button_title={null}
     submit_button_variant="secondary"

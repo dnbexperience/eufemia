@@ -20,7 +20,6 @@ import more from './more.js'
 import question from './question.js'
 import reset from './reset.js'
 import save from './save.js'
-import search from './search.js'
 import subtract from './subtract.js'
 
 export {
@@ -44,6 +43,5 @@ export {
   question,
   reset,
   save,
-  search,
   subtract
 }

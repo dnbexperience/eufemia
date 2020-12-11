@@ -14,6 +14,8 @@ v8 contains a couple of _braking changes_. As a migration process, you can simpl
 1. Removed the undocumented icons package `dnb-ui-icons-archive`.
 1. Find these icons and replace them:
 
+- `search` to `loupe`
+- `settings` to `cog`
 - `print` to `printer`
 - `pencil` to `edit`
 - `view_off` to `hide`

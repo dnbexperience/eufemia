@@ -20,7 +20,6 @@ import more_medium from './more_medium.js'
 import question_medium from './question_medium.js'
 import reset_medium from './reset_medium.js'
 import save_medium from './save_medium.js'
-import search_medium from './search_medium.js'
 import subtract_medium from './subtract_medium.js'
 
 export {
@@ -44,6 +43,5 @@ export {
   question_medium,
   reset_medium,
   save_medium,
-  search_medium,
   subtract_medium
 }

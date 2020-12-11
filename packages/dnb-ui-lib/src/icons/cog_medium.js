@@ -2,7 +2,7 @@
 
 import React from 'react'
 
-function settings_medium(props) {
+function cog_medium(props) {
   return (
     <svg
       width={24}
@@ -34,4 +34,4 @@ function settings_medium(props) {
   )
 }
 
-export default settings_medium
+export default cog_medium

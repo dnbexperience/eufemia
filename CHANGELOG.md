@@ -4,6 +4,8 @@ Added Eufemia Icon library, with many new icons.
 
 These icons got replaced:
 
+- `search` to `loupe`
+- `settings` to `cog`
 - `print` to `printer`
 - `pencil` to `edit`
 - `view_off` to `hide`

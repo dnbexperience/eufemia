@@ -29,6 +29,7 @@ import chain from './chain.js'
 import chat from './chat.js'
 import chatbot from './chatbot.js'
 import clock from './clock.js'
+import cog from './cog.js'
 import coins_1 from './coins_1.js'
 import coins_2 from './coins_2.js'
 import coins_3 from './coins_3.js'
@@ -89,6 +90,7 @@ import loan_out from './loan_out.js'
 import location from './location.js'
 import log_in from './log_in.js'
 import log_out from './log_out.js'
+import loupe from './loupe.js'
 import mastercard from './mastercard.js'
 import mastercard_card from './mastercard_card.js'
 import microphone from './microphone.js'
@@ -123,7 +125,6 @@ import savings_account_in from './savings_account_in.js'
 import savings_account_out from './savings_account_out.js'
 import scissors from './scissors.js'
 import send from './send.js'
-import settings from './settings.js'
 import share_android from './share_android.js'
 import share_ios from './share_ios.js'
 import shopping_cart from './shopping_cart.js'
@@ -178,6 +179,7 @@ export {
   chat,
   chatbot,
   clock,
+  cog,
   coins_1,
   coins_2,
   coins_3,
@@ -238,6 +240,7 @@ export {
   location,
   log_in,
   log_out,
+  loupe,
   mastercard,
   mastercard_card,
   microphone,
@@ -272,7 +275,6 @@ export {
   savings_account_out,
   scissors,
   send,
-  settings,
   share_android,
   share_ios,
   shopping_cart,

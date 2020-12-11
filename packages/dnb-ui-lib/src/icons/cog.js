@@ -2,7 +2,7 @@
 
 import React from 'react'
 
-function settings(props) {
+function cog(props) {
   return (
     <svg
       width={16}
@@ -34,4 +34,4 @@ function settings(props) {
   )
 }
 
-export default settings
+export default cog

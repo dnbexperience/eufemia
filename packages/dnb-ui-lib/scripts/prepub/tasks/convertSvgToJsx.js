@@ -7,7 +7,6 @@ import fs from 'fs-extra'
 import path from 'path'
 import del from 'del'
 import gulp from 'gulp'
-// import file from 'gulp-file' // before we used to pipe only one file though gulp
 import rename from 'gulp-rename'
 import transform from 'gulp-transform'
 import svgr from '@svgr/core'

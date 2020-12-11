@@ -28,6 +28,7 @@ import chain_medium from './chain_medium.js'
 import chat_medium from './chat_medium.js'
 import chatbot_medium from './chatbot_medium.js'
 import clock_medium from './clock_medium.js'
+import cog_medium from './cog_medium.js'
 import coins_1_medium from './coins_1_medium.js'
 import coins_2_medium from './coins_2_medium.js'
 import coins_3_medium from './coins_3_medium.js'
@@ -88,6 +89,7 @@ import loan_out_medium from './loan_out_medium.js'
 import location_medium from './location_medium.js'
 import log_in_medium from './log_in_medium.js'
 import log_out_medium from './log_out_medium.js'
+import loupe_medium from './loupe_medium.js'
 import mastercard_card_medium from './mastercard_card_medium.js'
 import mastercard_medium from './mastercard_medium.js'
 import microphone_medium from './microphone_medium.js'
@@ -122,7 +124,6 @@ import savings_account_medium from './savings_account_medium.js'
 import savings_account_out_medium from './savings_account_out_medium.js'
 import scissors_medium from './scissors_medium.js'
 import send_medium from './send_medium.js'
-import settings_medium from './settings_medium.js'
 import share_android_medium from './share_android_medium.js'
 import share_ios_medium from './share_ios_medium.js'
 import shopping_cart_medium from './shopping_cart_medium.js'
@@ -176,6 +177,7 @@ export {
   chat_medium,
   chatbot_medium,
   clock_medium,
+  cog_medium,
   coins_1_medium,
   coins_2_medium,
   coins_3_medium,
@@ -236,6 +238,7 @@ export {
   location_medium,
   log_in_medium,
   log_out_medium,
+  loupe_medium,
   mastercard_card_medium,
   mastercard_medium,
   microphone_medium,
@@ -270,7 +273,6 @@ export {
   savings_account_out_medium,
   scissors_medium,
   send_medium,
-  settings_medium,
   share_android_medium,
   share_ios_medium,
   shopping_cart_medium,
