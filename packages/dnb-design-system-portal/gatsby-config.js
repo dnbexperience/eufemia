@@ -125,6 +125,14 @@ if (queries) {
 }
 
 module.exports = {
+  flags: {
+    FAST_REFRESH: true,
+    // FAST_DEV: true,
+    // DEV_SSR: true,
+    // LAZY_IMAGES: true,
+    // QUERY_ON_DEMAND: true,
+    PRESERVE_WEBPACK_CACHE: true
+  },
   pathPrefix,
   siteMetadata,
   plugins
