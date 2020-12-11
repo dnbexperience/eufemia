@@ -13,7 +13,7 @@ description: 'Accessibility checklist to help you remember the most important ta
 - [ ] Group form elements inside `<fieldset />` and `<legend />`. The [FormRow](/uilib/components/form-row) is doing this by default.
 - [ ] Do never expose a form element as `disabled` to the user. Use good UX instead.
 - [ ] Have a [Skip Link](/uilib/usage/accessibility/focus#skip-link) in place if the user has to tab many times to reach the main content.
-- [ ] Make good use of `aria-label` and `aria-hidden`, e.g. of [decorative content](/uilib/usage/accessibility/icons#decorative-icons).
+- [ ] Make good use of [`aria-label`](/uilib/usage/accessibility/screenreader#usage-of-aria-label-aria-labelledby-and-aria-describedby) and `aria-hidden`, e.g. of [decorative content](/uilib/usage/accessibility/icons#decorative-icons).
 - [ ] Make [images and illustrations](/uilib/usage/accessibility/screenreader#images-and-illustrations) accessible.
 - [ ] Have `aria-live` in place for dynamic content, like updates coming from the server.
 - [ ] Hide **invisible content** with `display: none;` or with the `hidden` attribute, or remove the markup entirely (with React States).
@@ -73,6 +73,4 @@ Read more about [HTML landmarks and sectioning elements](https://www.w3.org/TR/w
 
 ## Practical Support of ARIA labels
 
-ARIA labels like `aria-label`, `aria-labelledby` and `aria-describedby` will mostly work on interactive HTML elements, and not on elements such as `div`, `span`, `p` or `ul`.
-
-Read more [about label-support in the w3 docs](https://www.w3.org/TR/using-aria/#label-support).
+You may be interested to read more about aria labels in the [Screen readers section](/uilib/usage/accessibility/screenreader#usage-of-aria-label-aria-labelledby-and-aria-describedby).
