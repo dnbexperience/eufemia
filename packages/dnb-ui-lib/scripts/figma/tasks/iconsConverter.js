@@ -5,6 +5,7 @@
 
 import fs from 'fs-extra'
 import path from 'path'
+import prettier from 'prettier'
 import SVGOptim from 'svgo'
 import { asyncForEach } from '../../tools'
 import { ERROR_HARMLESS } from '../../lib/error'
@@ -488,8 +489,17 @@ const metaFileDest = path.resolve(
   __dirname,
   `../../../src/icons/icons-meta.json`
 )
-export const saveMetaFile = async (data) =>
-  await saveToFile(metaFileDest, JSON.stringify(data))
+const prettierrc = JSON.parse(
+  fs.readFileSync(path.resolve(__dirname, '../../../.prettierrc'), 'utf-8')
+)
+export const saveMetaFile = async (data) => {
+  const content = prettier.format(JSON.stringify(data), {
+    ...prettierrc,
+    filepath: metaFileDest
+  })
+
+  return await saveToFile(metaFileDest, content)
+}
 
 const reservedJavaScriptWords = [
   'abstract',

@@ -3,7 +3,7 @@
     "tags": [
       "Place over the line"
     ],
-    "created": 1607674738075,
+    "created": 1607717824757,
     "name": "essentials/above_the_line_16",
     "variant": "secondary"
   },
@@ -11,7 +11,7 @@
     "tags": [
       "moneybag"
     ],
-    "created": 1607674822842,
+    "created": 1607717912753,
     "name": "products/account_16",
     "variant": "secondary"
   },
@@ -19,7 +19,7 @@
     "tags": [
       "moneybag"
     ],
-    "created": 1607674821222,
+    "created": 1607717911175,
     "name": "products/account_card_16",
     "variant": "secondary"
   },
@@ -27,7 +27,7 @@
     "tags": [
       "moneybag"
     ],
-    "created": 1607674830807,
+    "created": 1607717921239,
     "name": "actions/account_in_16",
     "variant": "secondary"
   },
@@ -35,7 +35,7 @@
     "tags": [
       "moneybag"
     ],
-    "created": 1607674829982,
+    "created": 1607717920294,
     "name": "actions/account_out_16",
     "variant": "secondary"
   },
@@ -43,7 +43,7 @@
     "tags": [
       "moneybag"
     ],
-    "created": 1607674822068,
+    "created": 1607717911951,
     "name": "products/account_percent_16",
     "variant": "secondary"
   },
@@ -51,7 +51,7 @@
     "tags": [
       "plus"
     ],
-    "created": 1607674838066,
+    "created": 1607717928453,
     "name": "actions/add_16",
     "variant": "primary"
   },
@@ -59,7 +59,7 @@
     "tags": [
       "plus"
     ],
-    "created": 1607674838880,
+    "created": 1607717929223,
     "name": "actions/add_circled_16",
     "variant": "secondary"
   },
@@ -67,7 +67,7 @@
     "tags": [
       "avtalegiro"
     ],
-    "created": 1607674815721,
+    "created": 1607717905289,
     "name": "products/ainvoice_16",
     "variant": "secondary"
   },
@@ -75,7 +75,7 @@
     "tags": [
       "smartwatch"
     ],
-    "created": 1607674770571,
+    "created": 1607717860067,
     "name": "objects/apple_watch_16",
     "variant": "secondary"
   },
@@ -83,7 +83,7 @@
     "tags": [
       "downward"
     ],
-    "created": 1607674864820,
+    "created": 1607717956821,
     "name": "navigation/arrow_down_16",
     "variant": "primary"
   },
@@ -92,7 +92,7 @@
       "backward",
       "back"
     ],
-    "created": 1607674866342,
+    "created": 1607717958425,
     "name": "navigation/arrow_left_16",
     "variant": "primary"
   },
@@ -100,7 +100,7 @@
     "tags": [
       "forward"
     ],
-    "created": 1607674865576,
+    "created": 1607717957631,
     "name": "navigation/arrow_right_16",
     "variant": "primary"
   },
@@ -108,7 +108,7 @@
     "tags": [
       "upward"
     ],
-    "created": 1607674864024,
+    "created": 1607717956045,
     "name": "navigation/arrow_up_16",
     "variant": "primary"
   },
@@ -116,7 +116,7 @@
     "tags": [
       "attachment"
     ],
-    "created": 1607674743659,
+    "created": 1607717830428,
     "name": "essentials/attachment_16",
     "variant": "secondary"
   },
@@ -124,7 +124,7 @@
     "tags": [
       "pillars"
     ],
-    "created": 1607674802362,
+    "created": 1607717891534,
     "name": "objects/bank_16",
     "variant": "secondary"
   },
@@ -133,7 +133,7 @@
       "login",
       "authenticate"
     ],
-    "created": 1607674762516,
+    "created": 1607717849746,
     "name": "essentials/bankid_16",
     "variant": "secondary"
   },
@@ -142,7 +142,7 @@
       "login",
       "authenticate"
     ],
-    "created": 1607674761733,
+    "created": 1607717848956,
     "name": "essentials/bankid_mobile_16",
     "variant": "secondary"
   },
@@ -151,7 +151,7 @@
       "login",
       "authenticate"
     ],
-    "created": 1607674760935,
+    "created": 1607717848180,
     "name": "essentials/bankid_qr_16",
     "variant": "secondary"
   },
@@ -159,7 +159,7 @@
     "tags": [
       "notification"
     ],
-    "created": 1607674806312,
+    "created": 1607717895528,
     "name": "objects/bell_16",
     "variant": "primary"
   },
@@ -167,7 +167,7 @@
     "tags": [
       "Categorization: Leisure"
     ],
-    "created": 1607674778557,
+    "created": 1607717868245,
     "name": "objects/bowling_16",
     "variant": "secondary"
   },
@@ -176,7 +176,7 @@
       "theme",
       "colour"
     ],
-    "created": 1607674791109,
+    "created": 1607717880237,
     "name": "objects/brush_16",
     "variant": "secondary"
   },
@@ -184,7 +184,7 @@
     "tags": [
       "house"
     ],
-    "created": 1607674810230,
+    "created": 1607717899522,
     "name": "products/bsu_16",
     "variant": "secondary"
   },
@@ -193,7 +193,7 @@
       "message",
       "speak"
     ],
-    "created": 1607674745201,
+    "created": 1607717832017,
     "name": "essentials/bubble_16",
     "variant": "secondary"
   },
@@ -201,7 +201,7 @@
     "tags": [
       "date"
     ],
-    "created": 1607674798185,
+    "created": 1607717887542,
     "name": "objects/calendar_16",
     "variant": "primary"
   },
@@ -209,7 +209,7 @@
     "tags": [
       "scanner"
     ],
-    "created": 1607674790071,
+    "created": 1607717879412,
     "name": "objects/camera_16",
     "variant": "secondary"
   },
@@ -218,7 +218,7 @@
       "vehicle",
       "transport"
     ],
-    "created": 1607674793479,
+    "created": 1607717882581,
     "name": "objects/car_1_16",
     "variant": "secondary"
   },
@@ -227,25 +227,25 @@
       "vehicle",
       "transport"
     ],
-    "created": 1607674792679,
+    "created": 1607717881811,
     "name": "objects/car_2_16",
     "variant": "secondary"
   },
   "card": {
     "tags": [],
-    "created": 1607674818122,
+    "created": 1607717907851,
     "name": "products/card_16",
     "variant": "secondary"
   },
   "card_in": {
     "tags": [],
-    "created": 1607674827620,
+    "created": 1607717917827,
     "name": "actions/card_in_16",
     "variant": "secondary"
   },
   "card_out": {
     "tags": [],
-    "created": 1607674826832,
+    "created": 1607717917040,
     "name": "actions/card_out_16",
     "variant": "secondary"
   },
@@ -253,7 +253,7 @@
     "tags": [
       "blocked"
     ],
-    "created": 1607674817263,
+    "created": 1607717906864,
     "name": "products/card_with_padlock_16",
     "variant": "secondary"
   },
@@ -261,7 +261,7 @@
     "tags": [
       "link"
     ],
-    "created": 1607674768165,
+    "created": 1607717857624,
     "name": "objects/chain_16",
     "variant": "secondary"
   },
@@ -272,7 +272,7 @@
       "talk",
       "communicate"
     ],
-    "created": 1607674744413,
+    "created": 1607717831220,
     "name": "essentials/chat_16",
     "variant": "secondary"
   },
@@ -280,7 +280,7 @@
     "tags": [
       "aino"
     ],
-    "created": 1607674767370,
+    "created": 1607717856806,
     "name": "objects/chatbot_16",
     "variant": "secondary"
   },
@@ -291,7 +291,7 @@
       "success",
       "checkmark"
     ],
-    "created": 1607674735700,
+    "created": 1607717822318,
     "name": "essentials/checkmark_16",
     "variant": "primary"
   },
@@ -299,19 +299,19 @@
     "tags": [
       "expand"
     ],
-    "created": 1607674861601,
+    "created": 1607717953673,
     "name": "navigation/chevron_down_16",
     "variant": "primary"
   },
   "chevron_left": {
     "tags": [],
-    "created": 1607674863185,
+    "created": 1607717955264,
     "name": "navigation/chevron_left_16",
     "variant": "primary"
   },
   "chevron_right": {
     "tags": [],
-    "created": 1607674862373,
+    "created": 1607717954502,
     "name": "navigation/chevron_right_16",
     "variant": "primary"
   },
@@ -319,7 +319,7 @@
     "tags": [
       "collapse"
     ],
-    "created": 1607674860791,
+    "created": 1607717952841,
     "name": "navigation/chevron_up_16",
     "variant": "primary"
   },
@@ -329,7 +329,7 @@
       "time",
       "expired"
     ],
-    "created": 1607674799787,
+    "created": 1607717889161,
     "name": "objects/clock_16",
     "variant": "secondary"
   },
@@ -339,7 +339,7 @@
       "exit",
       "dismiss"
     ],
-    "created": 1607674867918,
+    "created": 1607717960045,
     "name": "navigation/close_16",
     "variant": "primary"
   },
@@ -347,7 +347,7 @@
     "tags": [
       "settings"
     ],
-    "created": 1607674807889,
+    "created": 1607717897091,
     "name": "objects/cog_16",
     "variant": "secondary"
   },
@@ -355,7 +355,7 @@
     "tags": [
       "spending"
     ],
-    "created": 1607674795804,
+    "created": 1607717885102,
     "name": "objects/coins_1_16",
     "variant": "secondary"
   },
@@ -363,7 +363,7 @@
     "tags": [
       "Other savings"
     ],
-    "created": 1607674795021,
+    "created": 1607717884325,
     "name": "objects/coins_2_16",
     "variant": "secondary"
   },
@@ -371,7 +371,7 @@
     "tags": [
       "Categorization: Other savings"
     ],
-    "created": 1607674794248,
+    "created": 1607717883515,
     "name": "objects/coins_3_16",
     "variant": "secondary"
   },
@@ -380,7 +380,7 @@
       "create",
       "write"
     ],
-    "created": 1607674852031,
+    "created": 1607717941231,
     "name": "actions/compose_16",
     "variant": "secondary"
   },
@@ -389,7 +389,7 @@
       "tada",
       "party"
     ],
-    "created": 1607674773804,
+    "created": 1607717863239,
     "name": "objects/confetti_16",
     "variant": "secondary"
   },
@@ -397,15 +397,21 @@
     "tags": [
       "recipients"
     ],
-    "created": 1607674789006,
+    "created": 1607717878601,
     "name": "objects/contacts_16",
+    "variant": "secondary"
+  },
+  "cookie": {
+    "tags": [],
+    "created": 1607717850513,
+    "name": "objects/cookie_16",
     "variant": "secondary"
   },
   "copy": {
     "tags": [
       "duplicate"
     ],
-    "created": 1607674835602,
+    "created": 1607717926058,
     "name": "actions/copy_16",
     "variant": "secondary"
   },
@@ -413,7 +419,7 @@
     "tags": [
       "currency"
     ],
-    "created": 1607674809450,
+    "created": 1607717898735,
     "name": "products/currency_16",
     "variant": "secondary"
   },
@@ -421,7 +427,7 @@
     "tags": [
       "headset"
     ],
-    "created": 1607674766522,
+    "created": 1607717856011,
     "name": "objects/customer_service_16",
     "variant": "secondary"
   },
@@ -430,37 +436,37 @@
       "login",
       "authenticate"
     ],
-    "created": 1607674759388,
+    "created": 1607717846554,
     "name": "essentials/digipass_16",
     "variant": "secondary"
   },
   "digipost": {
     "tags": [],
-    "created": 1607674814949,
+    "created": 1607717904498,
     "name": "products/digipost_16",
     "variant": "secondary"
   },
   "dismiss_keyboard": {
     "tags": [],
-    "created": 1607674831613,
+    "created": 1607717922011,
     "name": "actions/dismiss_keyboard_16",
     "variant": "secondary"
   },
   "document_add": {
     "tags": [],
-    "created": 1607674785662,
+    "created": 1607717875497,
     "name": "objects/document_add_16",
     "variant": "secondary"
   },
   "document_contract": {
     "tags": [],
-    "created": 1607674781722,
+    "created": 1607717871486,
     "name": "objects/document_contract_16",
     "variant": "secondary"
   },
   "document_loupe": {
     "tags": [],
-    "created": 1607674783295,
+    "created": 1607717873086,
     "name": "objects/document_loupe_16",
     "variant": "secondary"
   },
@@ -468,13 +474,13 @@
     "tags": [
       "Attachment"
     ],
-    "created": 1607674780922,
+    "created": 1607717870678,
     "name": "objects/document_pdf_16",
     "variant": "secondary"
   },
   "document_rejected": {
     "tags": [],
-    "created": 1607674784078,
+    "created": 1607717873931,
     "name": "objects/document_rejected_16",
     "variant": "secondary"
   },
@@ -482,19 +488,19 @@
     "tags": [
       "apply"
     ],
-    "created": 1607674784880,
+    "created": 1607717874703,
     "name": "objects/document_signing_16",
     "variant": "secondary"
   },
   "document_warning": {
     "tags": [],
-    "created": 1607674782508,
+    "created": 1607717872290,
     "name": "objects/document_warning_16",
     "variant": "secondary"
   },
   "download": {
     "tags": [],
-    "created": 1607674850438,
+    "created": 1607717939613,
     "name": "actions/download_16",
     "variant": "primary"
   },
@@ -502,7 +508,7 @@
     "tags": [
       "pencil"
     ],
-    "created": 1607674851253,
+    "created": 1607717940420,
     "name": "actions/edit_16",
     "variant": "secondary"
   },
@@ -510,13 +516,13 @@
     "tags": [
       "efaktura"
     ],
-    "created": 1607674816488,
+    "created": 1607717906092,
     "name": "products/einvoice_16",
     "variant": "secondary"
   },
   "email": {
     "tags": [],
-    "created": 1607674764109,
+    "created": 1607717853624,
     "name": "objects/email_16",
     "variant": "secondary"
   },
@@ -524,7 +530,7 @@
     "tags": [
       "graph"
     ],
-    "created": 1607674811039,
+    "created": 1607717900350,
     "name": "products/equities_and_mutual_funds_16",
     "variant": "secondary"
   },
@@ -534,7 +540,7 @@
       "!",
       "alert"
     ],
-    "created": 1607674747492,
+    "created": 1607717834438,
     "name": "essentials/exclamation_16",
     "variant": "primary"
   },
@@ -544,7 +550,7 @@
       "!",
       "alert"
     ],
-    "created": 1607674749048,
+    "created": 1607717836016,
     "name": "essentials/exclamation_circled_16",
     "variant": "secondary"
   },
@@ -554,7 +560,7 @@
       "!",
       "alert"
     ],
-    "created": 1607674748268,
+    "created": 1607717835239,
     "name": "essentials/Exclamation_triangle_16",
     "variant": "secondary"
   },
@@ -563,7 +569,7 @@
       "file",
       "document"
     ],
-    "created": 1607674786471,
+    "created": 1607717876267,
     "name": "objects/document_16",
     "variant": "secondary"
   },
@@ -571,21 +577,29 @@
     "tags": [
       "adjust"
     ],
-    "created": 1607674754646,
+    "created": 1607717841810,
     "name": "essentials/filter_16",
     "variant": "secondary"
   },
   "flying_money": {
     "tags": [],
-    "created": 1607674774588,
+    "created": 1607717864064,
     "name": "objects/flying_money_16",
+    "variant": "secondary"
+  },
+  "folder": {
+    "tags": [
+      "file"
+    ],
+    "created": 1607717852073,
+    "name": "objects/folder_16",
     "variant": "secondary"
   },
   "fullscreen": {
     "tags": [
       "full screen"
     ],
-    "created": 1607674834027,
+    "created": 1607717924463,
     "name": "actions/fullscreen_16",
     "variant": "secondary"
   },
@@ -593,7 +607,7 @@
     "tags": [
       "graph"
     ],
-    "created": 1607674826024,
+    "created": 1607717916146,
     "name": "actions/fund_in_16",
     "variant": "secondary"
   },
@@ -601,7 +615,7 @@
     "tags": [
       "graph"
     ],
-    "created": 1607674825237,
+    "created": 1607717915379,
     "name": "actions/fund_out_16",
     "variant": "secondary"
   },
@@ -609,7 +623,7 @@
     "tags": [
       "graph"
     ],
-    "created": 1607674812598,
+    "created": 1607717902067,
     "name": "products/funds_16",
     "variant": "secondary"
   },
@@ -617,7 +631,7 @@
     "tags": [
       "graph"
     ],
-    "created": 1607674963956,
+    "created": 1607718060867,
     "name": "actions/funds_in_24",
     "variant": "secondary"
   },
@@ -625,7 +639,7 @@
     "tags": [
       "graph"
     ],
-    "created": 1607674963170,
+    "created": 1607718060044,
     "name": "actions/funds_out_24",
     "variant": "secondary"
   },
@@ -634,13 +648,13 @@
       "earth",
       "world"
     ],
-    "created": 1607674758593,
+    "created": 1607717845737,
     "name": "essentials/globe_16",
     "variant": "secondary"
   },
   "grabber": {
     "tags": [],
-    "created": 1607674734741,
+    "created": 1607717821398,
     "name": "essentials/grabber_16",
     "variant": "secondary"
   },
@@ -649,7 +663,7 @@
       "downpayment",
       "loan"
     ],
-    "created": 1607674857666,
+    "created": 1607717946867,
     "name": "actions/graph_decrease_16",
     "variant": "secondary"
   },
@@ -657,7 +671,7 @@
     "tags": [
       "loan"
     ],
-    "created": 1607674856877,
+    "created": 1607717946100,
     "name": "actions/graph_increase_16",
     "variant": "secondary"
   },
@@ -667,7 +681,7 @@
       "drawer",
       "navigation drawer"
     ],
-    "created": 1607674870253,
+    "created": 1607717962486,
     "name": "navigation/hamburger_16",
     "variant": "secondary"
   },
@@ -675,7 +689,7 @@
     "tags": [
       "recieve"
     ],
-    "created": 1607674740495,
+    "created": 1607717827227,
     "name": "essentials/hand_money_16",
     "variant": "secondary"
   },
@@ -683,7 +697,7 @@
     "tags": [
       "clothes"
     ],
-    "created": 1607674776181,
+    "created": 1607717865824,
     "name": "objects/hanger_16",
     "variant": "secondary"
   },
@@ -692,7 +706,7 @@
       "health",
       "love"
     ],
-    "created": 1607674739695,
+    "created": 1607717826416,
     "name": "essentials/heart_16",
     "variant": "secondary"
   },
@@ -701,7 +715,7 @@
       "health",
       "wellbeing"
     ],
-    "created": 1607674777771,
+    "created": 1607717867478,
     "name": "objects/heart_rate_16",
     "variant": "secondary"
   },
@@ -709,7 +723,7 @@
     "tags": [
       "eye"
     ],
-    "created": 1607674852816,
+    "created": 1607717942062,
     "name": "actions/hide_16",
     "variant": "secondary"
   },
@@ -717,7 +731,7 @@
     "tags": [
       "house"
     ],
-    "created": 1607674805532,
+    "created": 1607717894726,
     "name": "objects/home_16",
     "variant": "secondary"
   },
@@ -727,7 +741,7 @@
       "time",
       "waiting"
     ],
-    "created": 1607674763296,
+    "created": 1607717852864,
     "name": "objects/hourglass_16",
     "variant": "secondary"
   },
@@ -735,7 +749,7 @@
     "tags": [
       "Property"
     ],
-    "created": 1607674804753,
+    "created": 1607717893848,
     "name": "objects/house_1_16",
     "variant": "secondary"
   },
@@ -743,7 +757,7 @@
     "tags": [
       "Categorization: Utilities"
     ],
-    "created": 1607674803955,
+    "created": 1607717893074,
     "name": "objects/house_2_16",
     "variant": "secondary"
   },
@@ -751,7 +765,7 @@
     "tags": [
       "Categorization: Rental income"
     ],
-    "created": 1607674803185,
+    "created": 1607717892293,
     "name": "objects/house_value_16",
     "variant": "secondary"
   },
@@ -759,7 +773,7 @@
     "tags": [
       "i"
     ],
-    "created": 1607674751466,
+    "created": 1607717838408,
     "name": "essentials/information_16",
     "variant": "primary"
   },
@@ -767,7 +781,7 @@
     "tags": [
       "i"
     ],
-    "created": 1607674753080,
+    "created": 1607717840103,
     "name": "essentials/information_bubble_16",
     "variant": "secondary"
   },
@@ -775,7 +789,7 @@
     "tags": [
       "i"
     ],
-    "created": 1607674752303,
+    "created": 1607717839172,
     "name": "essentials/information_circled_16",
     "variant": "secondary"
   },
@@ -784,13 +798,13 @@
       "umbrella",
       "forsikring"
     ],
-    "created": 1607674814167,
+    "created": 1607717903699,
     "name": "products/insurance_16",
     "variant": "secondary"
   },
   "kid_number": {
     "tags": [],
-    "created": 1607674742887,
+    "created": 1607717829632,
     "name": "essentials/kid_number_16",
     "variant": "secondary"
   },
@@ -800,7 +814,7 @@
       "link out",
       "external"
     ],
-    "created": 1607674867125,
+    "created": 1607717959192,
     "name": "navigation/launch_16",
     "variant": "secondary"
   },
@@ -811,7 +825,7 @@
       "idea",
       "light"
     ],
-    "created": 1607674780126,
+    "created": 1607717869912,
     "name": "objects/lightbulb_16",
     "variant": "secondary"
   },
@@ -819,7 +833,7 @@
     "tags": [
       "bulletpoints"
     ],
-    "created": 1607674736489,
+    "created": 1607717823157,
     "name": "essentials/list_16",
     "variant": "secondary"
   },
@@ -827,7 +841,7 @@
     "tags": [
       "graph"
     ],
-    "created": 1607674813367,
+    "created": 1607717902890,
     "name": "products/loan_16",
     "variant": "secondary"
   },
@@ -836,7 +850,7 @@
       "graph",
       "downpayment"
     ],
-    "created": 1607674824447,
+    "created": 1607717914479,
     "name": "actions/loan_in_16",
     "variant": "secondary"
   },
@@ -844,7 +858,7 @@
     "tags": [
       "graph"
     ],
-    "created": 1607674823631,
+    "created": 1607717913660,
     "name": "actions/loan_out_16",
     "variant": "secondary"
   },
@@ -853,7 +867,7 @@
       "place",
       "geo"
     ],
-    "created": 1607674746719,
+    "created": 1607717833652,
     "name": "essentials/location_16",
     "variant": "secondary"
   },
@@ -861,7 +875,7 @@
     "tags": [
       "door"
     ],
-    "created": 1607674846846,
+    "created": 1607717936360,
     "name": "actions/log_in_16",
     "variant": "secondary"
   },
@@ -869,15 +883,16 @@
     "tags": [
       "door"
     ],
-    "created": 1607674845572,
+    "created": 1607717935588,
     "name": "actions/log_out_16",
     "variant": "secondary"
   },
   "loupe": {
     "tags": [
-      "search"
+      "search",
+      "find"
     ],
-    "created": 1607674807087,
+    "created": 1607717896293,
     "name": "objects/loupe_16",
     "variant": "primary"
   },
@@ -885,7 +900,7 @@
     "tags": [
       "Mastercard account"
     ],
-    "created": 1607674820468,
+    "created": 1607717910366,
     "name": "products/mastercard_16",
     "variant": "secondary"
   },
@@ -893,7 +908,7 @@
     "tags": [
       "Mastercard account with card"
     ],
-    "created": 1607674819688,
+    "created": 1607717909543,
     "name": "products/mastercard_card_16",
     "variant": "secondary"
   },
@@ -901,7 +916,7 @@
     "tags": [
       "record"
     ],
-    "created": 1607674768980,
+    "created": 1607717858419,
     "name": "objects/microphone_16",
     "variant": "secondary"
   },
@@ -911,7 +926,7 @@
       "local menu",
       "more_horizontal"
     ],
-    "created": 1607674868704,
+    "created": 1607717960816,
     "name": "navigation/more_horizontal_16",
     "variant": "primary"
   },
@@ -920,13 +935,13 @@
       "overflow",
       "local menu"
     ],
-    "created": 1607674869484,
+    "created": 1607717961702,
     "name": "navigation/more_vertical_16",
     "variant": "secondary"
   },
   "move": {
     "tags": [],
-    "created": 1607674832453,
+    "created": 1607717922795,
     "name": "actions/move_16",
     "variant": "secondary"
   },
@@ -934,7 +949,7 @@
     "tags": [
       "corporate"
     ],
-    "created": 1607674801431,
+    "created": 1607717890755,
     "name": "objects/office_buildings_16",
     "variant": "secondary"
   },
@@ -942,13 +957,13 @@
     "tags": [
       "knowledge"
     ],
-    "created": 1607674773017,
+    "created": 1607717862434,
     "name": "objects/owl_16",
     "variant": "secondary"
   },
   "padlock": {
     "tags": [],
-    "created": 1607674788072,
+    "created": 1607717877834,
     "name": "objects/padlock_16",
     "variant": "secondary"
   },
@@ -956,7 +971,7 @@
     "tags": [
       "attachment"
     ],
-    "created": 1607674764923,
+    "created": 1607717854403,
     "name": "objects/paperclip_16",
     "variant": "secondary"
   },
@@ -965,7 +980,7 @@
       "law",
       "legal"
     ],
-    "created": 1607674737306,
+    "created": 1607717823958,
     "name": "essentials/paragraph_16",
     "variant": "secondary"
   },
@@ -973,7 +988,7 @@
     "tags": [
       "Payment"
     ],
-    "created": 1607674860002,
+    "created": 1607717949335,
     "name": "actions/pay_from_16",
     "variant": "secondary"
   },
@@ -982,7 +997,7 @@
       "binoculars",
       "pensjon"
     ],
-    "created": 1607674808651,
+    "created": 1607717897955,
     "name": "products/pension_16",
     "variant": "secondary"
   },
@@ -991,7 +1006,7 @@
       "persons",
       "friends"
     ],
-    "created": 1607674756191,
+    "created": 1607717843368,
     "name": "essentials/people_1_16",
     "variant": "secondary"
   },
@@ -1000,7 +1015,7 @@
       "firend",
       "persons"
     ],
-    "created": 1607674755413,
+    "created": 1607717842585,
     "name": "essentials/people_2_16",
     "variant": "secondary"
   },
@@ -1008,7 +1023,7 @@
     "tags": [
       "profile"
     ],
-    "created": 1607674756981,
+    "created": 1607717844135,
     "name": "essentials/person_16",
     "variant": "secondary"
   },
@@ -1017,8 +1032,18 @@
       "mobilephone",
       "device"
     ],
-    "created": 1607674787273,
+    "created": 1607717877063,
     "name": "objects/phone_16",
+    "variant": "secondary"
+  },
+  "photo": {
+    "tags": [
+      "picture",
+      "image",
+      "gallery"
+    ],
+    "created": 1607717851289,
+    "name": "objects/photo_16",
     "variant": "secondary"
   },
   "pin_code": {
@@ -1026,7 +1051,7 @@
       "login",
       "authenticate"
     ],
-    "created": 1607674760160,
+    "created": 1607717847372,
     "name": "essentials/pin_code_16",
     "variant": "secondary"
   },
@@ -1034,7 +1059,7 @@
     "tags": [
       "garden"
     ],
-    "created": 1607674777002,
+    "created": 1607717866612,
     "name": "objects/plant_16",
     "variant": "secondary"
   },
@@ -1042,7 +1067,7 @@
     "tags": [
       "print"
     ],
-    "created": 1607674765734,
+    "created": 1607717855218,
     "name": "objects/printer_16",
     "variant": "secondary"
   },
@@ -1050,7 +1075,7 @@
     "tags": [
       "Loan value ratio"
     ],
-    "created": 1607674959219,
+    "created": 1607718056070,
     "name": "products/account_percent",
     "variant": "secondary"
   },
@@ -1061,7 +1086,7 @@
       "person",
       "profile"
     ],
-    "created": 1607674757791,
+    "created": 1607717844924,
     "name": "essentials/profile_16",
     "variant": "secondary"
   },
@@ -1071,7 +1096,7 @@
       "process",
       "%"
     ],
-    "created": 1607674753872,
+    "created": 1607717840884,
     "name": "essentials/progress_16",
     "variant": "secondary"
   },
@@ -1081,7 +1106,7 @@
       "questionmark",
       "help"
     ],
-    "created": 1607674749871,
+    "created": 1607717836792,
     "name": "essentials/question_16",
     "variant": "primary"
   },
@@ -1091,7 +1116,7 @@
       "questionmark",
       "help"
     ],
-    "created": 1607674750665,
+    "created": 1607717837638,
     "name": "essentials/question_circled_16",
     "variant": "secondary"
   },
@@ -1100,7 +1125,7 @@
       "calendar",
       "date"
     ],
-    "created": 1607674797405,
+    "created": 1607717886707,
     "name": "objects/recurring_16",
     "variant": "secondary"
   },
@@ -1108,7 +1133,7 @@
     "tags": [
       "Restart"
     ],
-    "created": 1607674841400,
+    "created": 1607717931604,
     "name": "actions/redo_16",
     "variant": "secondary"
   },
@@ -1116,7 +1141,7 @@
     "tags": [
       "referance"
     ],
-    "created": 1607674742104,
+    "created": 1607717828810,
     "name": "essentials/ref_number_16",
     "variant": "secondary"
   },
@@ -1124,13 +1149,13 @@
     "tags": [
       "repeat"
     ],
-    "created": 1607674843859,
+    "created": 1607717934030,
     "name": "actions/repeat_16",
     "variant": "secondary"
   },
   "reply": {
     "tags": [],
-    "created": 1607674839726,
+    "created": 1607717930018,
     "name": "actions/reply_16",
     "variant": "secondary"
   },
@@ -1138,7 +1163,7 @@
     "tags": [
       "refresh"
     ],
-    "created": 1607674843085,
+    "created": 1607717933218,
     "name": "actions/reset_16",
     "variant": "primary"
   },
@@ -1149,19 +1174,19 @@
       "knife",
       "eat"
     ],
-    "created": 1607674775386,
+    "created": 1607717865021,
     "name": "objects/restaurant_16",
     "variant": "secondary"
   },
   "return_1": {
     "tags": [],
-    "created": 1607674840607,
+    "created": 1607717930800,
     "name": "actions/return_16",
     "variant": "secondary"
   },
   "save": {
     "tags": [],
-    "created": 1607674834807,
+    "created": 1607717925251,
     "name": "actions/save_16",
     "variant": "primary"
   },
@@ -1169,7 +1194,7 @@
     "tags": [
       "piggybank"
     ],
-    "created": 1607674818896,
+    "created": 1607717908705,
     "name": "products/savings_account_16",
     "variant": "secondary"
   },
@@ -1177,7 +1202,7 @@
     "tags": [
       "piggybank"
     ],
-    "created": 1607674829226,
+    "created": 1607717919443,
     "name": "actions/savings_account_in_16",
     "variant": "secondary"
   },
@@ -1185,7 +1210,7 @@
     "tags": [
       "piggybank"
     ],
-    "created": 1607674828415,
+    "created": 1607717918636,
     "name": "actions/savings_account_out_16",
     "variant": "secondary"
   },
@@ -1193,7 +1218,7 @@
     "tags": [
       "cut"
     ],
-    "created": 1607674800613,
+    "created": 1607717889945,
     "name": "objects/scissors_16",
     "variant": "secondary"
   },
@@ -1201,19 +1226,19 @@
     "tags": [
       "paper plane"
     ],
-    "created": 1607674855267,
+    "created": 1607717944473,
     "name": "actions/send_16",
     "variant": "secondary"
   },
   "share_android": {
     "tags": [],
-    "created": 1607674847903,
+    "created": 1607717937154,
     "name": "actions/share_android_16",
     "variant": "secondary"
   },
   "share_ios": {
     "tags": [],
-    "created": 1607674848810,
+    "created": 1607717937945,
     "name": "actions/share_ios_16",
     "variant": "secondary"
   },
@@ -1221,7 +1246,7 @@
     "tags": [
       "groceries"
     ],
-    "created": 1607674779330,
+    "created": 1607717869061,
     "name": "objects/shopping_cart_16",
     "variant": "secondary"
   },
@@ -1229,7 +1254,7 @@
     "tags": [
       "divide"
     ],
-    "created": 1607674833253,
+    "created": 1607717923655,
     "name": "actions/split_16",
     "variant": "secondary"
   },
@@ -1238,7 +1263,7 @@
       "favourite",
       "rating"
     ],
-    "created": 1607674738897,
+    "created": 1607717825579,
     "name": "essentials/star_16",
     "variant": "secondary"
   },
@@ -1246,7 +1271,7 @@
     "tags": [
       "graph"
     ],
-    "created": 1607674811805,
+    "created": 1607717901246,
     "name": "products/stocks_16",
     "variant": "secondary"
   },
@@ -1254,7 +1279,7 @@
     "tags": [
       "Stop"
     ],
-    "created": 1607674844657,
+    "created": 1607717934812,
     "name": "actions/stop_16",
     "variant": "secondary"
   },
@@ -1263,7 +1288,7 @@
       "timer",
       "countdown"
     ],
-    "created": 1607674798983,
+    "created": 1607717888340,
     "name": "objects/stopwatch_16",
     "variant": "secondary"
   },
@@ -1272,7 +1297,7 @@
       "minus",
       "remove"
     ],
-    "created": 1607674836415,
+    "created": 1607717926821,
     "name": "actions/subtract_16",
     "variant": "primary"
   },
@@ -1281,7 +1306,7 @@
       "minus",
       "remove"
     ],
-    "created": 1607674837262,
+    "created": 1607717927669,
     "name": "actions/subtract_circled_16",
     "variant": "secondary"
   },
@@ -1292,7 +1317,7 @@
       "holding",
       "care"
     ],
-    "created": 1607674741315,
+    "created": 1607717828024,
     "name": "essentials/support_16",
     "variant": "secondary"
   },
@@ -1300,7 +1325,7 @@
     "tags": [
       "exchange"
     ],
-    "created": 1607674854429,
+    "created": 1607717943642,
     "name": "actions/swap_16",
     "variant": "secondary"
   },
@@ -1309,7 +1334,7 @@
       "transport",
       "travel"
     ],
-    "created": 1607674791895,
+    "created": 1607717881038,
     "name": "objects/train_16",
     "variant": "secondary"
   },
@@ -1317,7 +1342,7 @@
     "tags": [
       "Transfer"
     ],
-    "created": 1607674858453,
+    "created": 1607717947745,
     "name": "actions/transfer_16",
     "variant": "secondary"
   },
@@ -1325,7 +1350,7 @@
     "tags": [
       "Transfer to"
     ],
-    "created": 1607674859219,
+    "created": 1607717948556,
     "name": "actions/transfer_to_16",
     "variant": "secondary"
   },
@@ -1333,7 +1358,7 @@
     "tags": [
       "delete"
     ],
-    "created": 1607674856071,
+    "created": 1607717945310,
     "name": "actions/trash_16",
     "variant": "secondary"
   },
@@ -1341,13 +1366,13 @@
     "tags": [
       "restart"
     ],
-    "created": 1607674842262,
+    "created": 1607717932402,
     "name": "actions/undo_16",
     "variant": "secondary"
   },
   "upload": {
     "tags": [],
-    "created": 1607674849643,
+    "created": 1607717938806,
     "name": "actions/upload_16",
     "variant": "secondary"
   },
@@ -1356,7 +1381,7 @@
       "show",
       "eye"
     ],
-    "created": 1607674853628,
+    "created": 1607717942852,
     "name": "actions/view_16",
     "variant": "secondary"
   },
@@ -1364,7 +1389,7 @@
     "tags": [
       "payments"
     ],
-    "created": 1607674796607,
+    "created": 1607717885911,
     "name": "objects/wallet_16",
     "variant": "secondary"
   },
@@ -1372,7 +1397,7 @@
     "tags": [
       "smartwatch"
     ],
-    "created": 1607674769776,
+    "created": 1607717859198,
     "name": "objects/wearables_16",
     "variant": "secondary"
   },
@@ -1381,13 +1406,13 @@
       "internet",
       "www"
     ],
-    "created": 1607674745966,
+    "created": 1607717832766,
     "name": "essentials/web_16",
     "variant": "secondary"
   },
   "widget_android": {
     "tags": [],
-    "created": 1607674771432,
+    "created": 1607717860865,
     "name": "objects/widget_android_16",
     "variant": "secondary"
   },
@@ -1396,7 +1421,7 @@
       "puzzle",
       "piece"
     ],
-    "created": 1607674772239,
+    "created": 1607717861641,
     "name": "objects/widget_ios_16",
     "variant": "secondary"
   }
