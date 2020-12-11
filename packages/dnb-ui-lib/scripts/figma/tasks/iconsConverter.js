@@ -451,6 +451,7 @@ const optimizeSVG = async ({ file }) => {
 
   const { data } = await svgo.optimize(content, { path: file })
 
+  await fs.writeFile(file, data)
   return data
 }
 
