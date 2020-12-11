@@ -30,12 +30,12 @@ const iconSelector = process.env.FIGMA_ICONS_SELECTOR || null
 const iconNameCleaner =
   process.env.FIGMA_ICONS_NAME_SPLIT || /.*\/(.*)_[0-9]{1,2}/
 const iconRenameList = process.env.FIGMA_ICONS_RENAME_LIST || [
-  { from: 'loupe', to: 'search' },
   { from: 'checkmark', to: 'check' },
   { from: 'repeat', to: 'refresh' },
-  { from: 'cog', to: 'settings' },
   { from: 'document', to: 'file' },
   { from: 'more_horizontal', to: 'more' }
+  // { from: 'cog', to: 'settings' },
+  // { from: 'loupe', to: 'search' },
   // { from: 'hide', to: 'view_off' },
   // { from: 'log_in', to: 'login' },
   // { from: 'log_out', to: 'logout' },
@@ -135,6 +135,13 @@ export const IconsConverter = async ({
           .split(/[,;|]/g)
           .map((s) => (s ? s.trim() : null))
           .filter(Boolean)
+
+        const foundRename = iconRenameList.find(
+          ({ to }) => to === iconName
+        )
+        if (foundRename) {
+          tags.push(foundRename.from)
+        }
 
         if (acc[iconName]) {
           const existing = acc[iconName]
