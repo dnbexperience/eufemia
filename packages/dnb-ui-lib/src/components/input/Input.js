@@ -153,7 +153,7 @@ export default class Input extends React.PureComponent {
     submit_element: null,
     submit_button_title: null,
     submit_button_variant: 'secondary',
-    submit_button_icon: 'cog',
+    submit_button_icon: 'loupe',
     submit_button_status: null,
 
     className: null,
@@ -578,7 +578,7 @@ class InputSubmitButton extends React.PureComponent {
     disabled: false,
     skeleton: false,
     variant: 'secondary',
-    icon: 'cog',
+    icon: 'loupe',
     icon_size: null,
     status: null,
     status_state: 'error',

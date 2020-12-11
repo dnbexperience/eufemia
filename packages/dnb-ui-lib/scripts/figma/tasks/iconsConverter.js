@@ -34,7 +34,7 @@ const iconRenameList = process.env.FIGMA_ICONS_RENAME_LIST || [
   { from: 'repeat', to: 'refresh' },
   { from: 'document', to: 'file' },
   { from: 'more_horizontal', to: 'more' }
-  // { from: 'cog', to: 'settings' },
+  // { from: 'loupe', to: 'settings' },
   // { from: 'loupe', to: 'search' },
   // { from: 'hide', to: 'view_off' },
   // { from: 'log_in', to: 'login' },
