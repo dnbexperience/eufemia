@@ -348,5 +348,5 @@ const reorderDirection = (items, dir) =>
 // Page layout
 const Wrapper = styled(Section)`
   width: 100%;
-  background: white;
+  background: var(--color-white);
 `

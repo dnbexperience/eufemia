@@ -7,16 +7,11 @@ import React from 'react'
 import ComponentBox from 'Src/shared/tags/ComponentBox'
 import styled from '@emotion/styled'
 
-class Example extends React.PureComponent {
-  render() {
-    return (
-      <React.Fragment>
-        <ComponentBox
-          title="Placeholder text"
-          data-visual-test="textarea-default"
-        >
-          {
-            /* @jsx */ `
+export const TextareaExampleRowsCols = () => (
+  <Wrapper>
+    <ComponentBox data-visual-test="textarea-default">
+      {
+        /* @jsx */ `
 <Textarea
   label="Default:"
   rows="2"
@@ -27,21 +22,31 @@ class Example extends React.PureComponent {
   on_blur={() => { console.log('on_blur') }}
 />
           `
-          }
-        </ComponentBox>
-        <ComponentBox title="Placeholder text">
-          {
-            /* @jsx */ `
+      }
+    </ComponentBox>
+  </Wrapper>
+)
+
+export const TextareaExamplePlaceholder = () => (
+  <Wrapper>
+    <ComponentBox>
+      {
+        /* @jsx */ `
 <Textarea
   label="Placeholder:"
   placeholder="Placeholder text"
 />
           `
-          }
-        </ComponentBox>
-        <ComponentBox title="Vertical placed label">
-          {
-            /* @jsx */ `
+      }
+    </ComponentBox>
+  </Wrapper>
+)
+
+export const TextareaExampleVertical = () => (
+  <Wrapper>
+    <ComponentBox>
+      {
+        /* @jsx */ `
 <Textarea
   label="Vertical:"
   label_direction="vertical"
@@ -50,14 +55,16 @@ class Example extends React.PureComponent {
   value="Textarea value with more than 3 lines\\nNewline\\nNewline\\nNewline\\nNewline"
 />
           `
-          }
-        </ComponentBox>
-        <ComponentBox
-          title="Stretched horizontal placed label"
-          data-visual-test="textarea-stretch"
-        >
-          {
-            /* @jsx */ `
+      }
+    </ComponentBox>
+  </Wrapper>
+)
+
+export const TextareaExampleStretched = () => (
+  <Wrapper>
+    <ComponentBox data-visual-test="textarea-stretch">
+      {
+        /* @jsx */ `
 <Textarea
   label="Horizontal:"
   stretch="true"
@@ -65,11 +72,16 @@ class Example extends React.PureComponent {
   value="Nec litora inceptos vestibulum id interdum donec gravida."
 />
           `
-          }
-        </ComponentBox>
-        <ComponentBox title="Max length usage">
-          {
-            /* @jsx */ `
+      }
+    </ComponentBox>
+  </Wrapper>
+)
+
+export const TextareaExampleMaxLength = () => (
+  <Wrapper>
+    <ComponentBox>
+      {
+        /* @jsx */ `
 <Textarea
   label="Length limit:"
   rows="3"
@@ -79,14 +91,16 @@ class Example extends React.PureComponent {
   value="Nec litora inceptos vestibulum id interdum donec gravida."
 />
           `
-          }
-        </ComponentBox>
-        <ComponentBox
-          title="With FormStatus failure message"
-          data-visual-test="textarea-error"
-        >
-          {
-            /* @jsx */ `
+      }
+    </ComponentBox>
+  </Wrapper>
+)
+
+export const TextareaExampleFormStatus = () => (
+  <Wrapper>
+    <ComponentBox data-visual-test="textarea-error">
+      {
+        /* @jsx */ `
 <Textarea
   label="Error Message:"
   cols="33"
@@ -94,63 +108,60 @@ class Example extends React.PureComponent {
   status="Message to the user"
 />
           `
-          }
-        </ComponentBox>
-        <ComponentBox title="Show failure status">
-          {
-            /* @jsx */ `
+      }
+    </ComponentBox>
+  </Wrapper>
+)
+
+export const TextareaExampleError = () => (
+  <Wrapper>
+    <ComponentBox>
+      {
+        /* @jsx */ `
 <Textarea
   label="Show status:"
   status="error"
   value="Shows status with border only"
 />
 `
-          }
-        </ComponentBox>
-        <ComponentBox title="Disabled textarea">
-          {
-            /* @jsx */ `
+      }
+    </ComponentBox>
+  </Wrapper>
+)
+
+export const TextareaExampleDisabled = () => (
+  <Wrapper>
+    <ComponentBox>
+      {
+        /* @jsx */ `
 <Textarea
   label="Disabled:"
   disabled
   value="Nec litora inceptos vestibulum id interdum donec gravida."
 />
           `
-          }
-        </ComponentBox>
-        <ComponentBox title="Textarea with suffix">
-          {
-            /* @jsx */ `
+      }
+    </ComponentBox>
+  </Wrapper>
+)
+
+export const TextareaExampleSuffix = () => (
+  <Wrapper>
+    <ComponentBox>
+      {
+        /* @jsx */ `
 <Textarea
   label="Textarea with suffix:"
   value="Nec litora inceptos vestibulum id interdum donec gravida."
   suffix={<HelpButton title="Modal Title">Modal content</HelpButton>}
 />
           `
-          }
-        </ComponentBox>
-      </React.Fragment>
-    )
-  }
-}
+      }
+    </ComponentBox>
+  </Wrapper>
+)
 
 const Wrapper = styled.div`
   display: block;
   width: 100%;
-
-  ${'' /* .dnb-textarea textarea {
-    min-width: 10rem;
-  }
-  .dnb-form-label + .dnb-textarea {
-    margin-top: 0;
-  } */}
 `
-
-export { Example }
-export default function StyledExample() {
-  return (
-    <Wrapper>
-      <Example />
-    </Wrapper>
-  )
-}

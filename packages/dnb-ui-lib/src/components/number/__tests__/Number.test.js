@@ -13,11 +13,7 @@ import {
 } from '../../../core/jest/jestSetup'
 import { LOCALE } from '../../../shared/defaults'
 import { isMac } from '../../../shared/helpers'
-import Number, {
-  format,
-  cleanNumber,
-  cleanNumberBeforeCopy
-} from '../Number'
+import Number, { format, cleanNumber, copyWithEffect } from '../Number'
 
 const Component = (props) => {
   return <Number id="unique" {...props} />
@@ -33,7 +29,7 @@ const snapshotProps = {
 }
 
 // make it possible to change the navigator lang
-// because "navigator.language" defaults to en-US
+// because "navigator.language" defaults to en-GB
 let languageGetter, platformGetter
 
 beforeAll(() => {
@@ -118,14 +114,21 @@ describe('Number component', () => {
       Comp.find('span').first().hasClass('dnb-number--selected')
     ).toBe(true)
 
-    const { number: display } = format(-value, {
+    const { cleanedValue: noVal } = format(-value, {
       currency: true,
       returnAria: true
     })
-    const cleanedNumber = cleanNumber(display)
-    expect(Comp.find('.dnb-number__selection').text()).toBe(cleanedNumber)
+    expect(Comp.find('.dnb-number__selection').text()).toBe(noVal)
     expect(window.getSelection().toString()).toBe('1234.56') // Hack! Having there the "cleanedNumber" would be optimal.
     expect(window.getSelection().rangeCount).toBe(1)
+
+    Comp.setProps({ locale: 'en-GB' })
+    const { cleanedValue: enVal } = format(-value, {
+      locale: 'en-GB',
+      currency: true,
+      returnAria: true
+    })
+    expect(Comp.find('.dnb-number__selection').text()).toBe(enVal)
   })
   it('have to match currency with currency_position="after"', () => {
     const Comp = mount(
@@ -171,7 +174,7 @@ describe('Number component', () => {
     expect(Comp.find(displaySlector).first().text()).toBe('kr -12 346')
 
     expect(Comp.find(ariaSlector).first().text()).toBe(
-      '-12345,99 norske kroner'
+      '-12346 norske kroner'
     )
   })
   it('have to match phone number', () => {
@@ -424,20 +427,10 @@ describe('Number cleanNumber', () => {
   })
 })
 
-describe('Number cleanNumberBeforeCopy', () => {
-  it('should clean up and remove invalid suff arround numbers', () => {
-    expect(cleanNumberBeforeCopy(-12345.67)).toBe('-12345.67')
-    expect(cleanNumberBeforeCopy('-12.345,67 suffix')).toBe('-12345.67')
-    expect(cleanNumberBeforeCopy('prefix -12.345,67')).toBe('-12345.67')
-    expect(cleanNumberBeforeCopy(' -12.345,67')).toBe('-12345.67')
-    expect(cleanNumberBeforeCopy('prefix -12 345,67 suffix')).toBe(false)
-    expect(cleanNumberBeforeCopy('prefix -12 345,67 $')).toBe(false)
-    expect(cleanNumberBeforeCopy('$ -12 345,67 suffix')).toBe(false)
-    expect(cleanNumberBeforeCopy(' -12 345,67 ')).toBe(false)
-    expect(cleanNumberBeforeCopy('  -12 345,67  ')).toBe(false)
-    expect(cleanNumberBeforeCopy('0047 ')).toBe('0047')
-    expect(cleanNumberBeforeCopy('prefix \n-12 345,67')).toBe(false)
-    expect(cleanNumberBeforeCopy('prefix')).toBe(false)
+describe('copyWithEffect should', () => {
+  it('make valid clipboard copy', async () => {
+    copyWithEffect('1234.56')
+    expect(await navigator.clipboard.readText()).toBe('1234.56')
   })
 })
 

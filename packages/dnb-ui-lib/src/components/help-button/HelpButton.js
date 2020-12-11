@@ -5,10 +5,7 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import {
-  registerElement
-  // extendPropsWithContext
-} from '../../shared/component-helper'
+import { registerElement } from '../../shared/component-helper'
 import Context from '../../shared/Context'
 import Modal from '../modal/Modal'
 import HelpButtonInstance from './HelpButtonInstance'
@@ -79,11 +76,13 @@ export default class HelpButton extends React.PureComponent {
 
     if (content) {
       if (!params.title) {
-        params.title = this.context.translation.HelpButton.title
+        params.title = this.context.getTranslation(
+          this.props
+        ).HelpButton.title
       }
 
       return (
-        <Modal trigger_props={params} {...modal_props}>
+        <Modal trigger_attributes={params} {...modal_props}>
           {content}
         </Modal>
       )

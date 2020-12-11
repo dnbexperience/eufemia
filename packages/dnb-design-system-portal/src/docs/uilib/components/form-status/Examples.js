@@ -7,6 +7,7 @@ import React from 'react'
 import ComponentBox from 'Src/shared/tags/ComponentBox'
 import {
   InfoIcon,
+  WarnIcon,
   ErrorIcon
 } from 'dnb-ui-lib/src/components/form-status/FormStatus'
 
@@ -31,6 +32,18 @@ export const FormStatusWithInfo = () => (
   text="Long info nisl tempus hendrerit tortor dapibus nascetur taciti porta risus cursus fusce platea enim curabitur proin nibh ut luctus magnis metus"
   state="info"
 />
+  `
+    }
+  </ComponentBox>
+)
+
+export const FormStatusWithWarn = () => (
+  <ComponentBox data-visual-test="form-status-warn">
+    {
+      /* @jsx */ `
+<FormStatus state="warn" variant="outlined">
+  Warningmessage. Take notice!
+</FormStatus>
   `
     }
   </ComponentBox>
@@ -70,7 +83,7 @@ render(
   </ComponentBox>
 )
 
-export const FormStatusPlain = () => (
+export const FormStatusLarge = () => (
   <ComponentBox useRender>
     {
       /* @jsx */ `
@@ -81,7 +94,7 @@ const myHTML = \`
 \`
 const CustomStatus = () => <span dangerouslySetInnerHTML={{ __html: myHTML }} />
 render(
-  <FormStatus state="info">
+  <FormStatus state="info" size="large" variant="outlined">
     <CustomStatus />
   </FormStatus>
 )
@@ -92,7 +105,7 @@ render(
 
 export const FormStatusWithIcons = () => (
   <ComponentBox
-    scope={{ InfoIcon, ErrorIcon }}
+    scope={{ InfoIcon, WarnIcon, ErrorIcon }}
     data-visual-test="form-status-icons"
   >
     {`
@@ -100,13 +113,21 @@ export const FormStatusWithIcons = () => (
 	icon={InfoIcon}
 	size="medium"
 	title="Some title"
+  inherit_color={false}
 	right
+/>
+<Icon
+	icon={WarnIcon}
+	size="medium"
+	title="Some title"
+  inherit_color={false}
+  right
 />
 <Icon
 	icon={ErrorIcon}
 	size="medium"
 	title="Some title"
-	color="var(--color-fire-red)"
+  inherit_color={false}
 />
 `}
   </ComponentBox>

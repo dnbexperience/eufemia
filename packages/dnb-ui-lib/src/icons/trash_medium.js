@@ -4,33 +4,17 @@ import React from 'react'
 
 function trash_medium(props) {
   return (
-    <svg width={24} height={24} viewBox="0 0 24 24" fill="none" {...props}>
+    <svg
+      width={24}
+      height={24}
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      {...props}
+    >
       <path
-        d="M1.5 4.5h21"
-        stroke="#000"
-        strokeWidth={1.5}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <path
-        clipRule="evenodd"
-        d="M14.25 1.5h-4.5A1.5 1.5 0 008.25 3v1.5h7.5V3a1.5 1.5 0 00-1.5-1.5z"
-        stroke="#000"
-        strokeWidth={1.5}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M9.75 17.25v-7.5m4.5 7.5v-7.5"
-        stroke="#000"
-        strokeWidth={1.5}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <path
-        clipRule="evenodd"
-        d="M18.865 21.124A1.5 1.5 0 0117.37 22.5H6.631a1.5 1.5 0 01-1.495-1.376L3.75 4.5h16.5l-1.385 16.624z"
-        stroke="#000"
+        d="M14.25 17.25V9.75M9.75 17.25V9.75M1.5 4.5H22.5M18.865 21.124C18.8339 21.4991 18.6629 21.8488 18.386 22.1037C18.109 22.3586 17.7464 22.5 17.37 22.5H6.631C6.25462 22.5 5.89198 22.3586 5.61504 22.1037C5.33811 21.8488 5.16711 21.4991 5.136 21.124L3.75 4.5H20.25L18.865 21.124ZM14.25 1.5H9.75C9.35218 1.5 8.97064 1.65804 8.68934 1.93934C8.40804 2.22064 8.25 2.60218 8.25 3V4.5H15.75V3C15.75 2.60218 15.592 2.22064 15.3107 1.93934C15.0294 1.65804 14.6478 1.5 14.25 1.5Z"
+        stroke="black"
         strokeWidth={1.5}
         strokeLinecap="round"
         strokeLinejoin="round"

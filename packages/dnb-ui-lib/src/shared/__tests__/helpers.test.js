@@ -8,7 +8,6 @@ import {
   applyPageFocus,
   scrollToLocationHashId,
   copyToClipboard,
-  copyWithEffect,
   getSelectedElement,
   hasSelectedText,
   getSelectedText,
@@ -26,7 +25,7 @@ import {
 import { mockGetSelection } from '../../core/jest/jestSetup'
 
 // make it possible to change the navigator lang
-// because "navigator.language" defaults to en-US
+// because "navigator.language" defaults to en-GB
 let userAgentGetter, platformGetter
 
 beforeAll(() => {
@@ -129,13 +128,6 @@ describe('"copyToClipboard" should', () => {
   it('make valid copy', async () => {
     await copyToClipboard('copy')
     expect(await navigator.clipboard.readText()).toBe('copy')
-  })
-})
-
-describe('Number copy methods like', () => {
-  it('copyNumber should make valid clipboard copy', async () => {
-    copyWithEffect('1234.56')
-    expect(await navigator.clipboard.readText()).toBe('1234.56')
   })
 })
 

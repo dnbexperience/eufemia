@@ -4,12 +4,17 @@ import React from 'react'
 
 function subtract(props) {
   return (
-    <svg width={16} height={16} viewBox="0 0 16 16" fill="none" {...props}>
+    <svg
+      width={16}
+      height={16}
+      viewBox="0 0 16 16"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      {...props}
+    >
       <path
-        stroke="#000"
-        strokeWidth={1.5}
-        strokeLinecap="round"
-        d="M1.75 8h12.5"
+        d="M14 8.75C14.4142 8.75 14.75 8.41421 14.75 8C14.75 7.58579 14.4142 7.25 14 7.25V8.75ZM2 7.25C1.58579 7.25 1.25 7.58579 1.25 8C1.25 8.41421 1.58579 8.75 2 8.75V7.25ZM14 7.25H2V8.75H14V7.25Z"
+        fill="black"
       />
     </svg>
   )

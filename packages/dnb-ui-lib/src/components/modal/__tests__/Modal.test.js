@@ -29,6 +29,15 @@ props.close_title = 'close_title'
 props.direct_dom_return = true
 props.no_animation = true
 
+beforeAll(() => {
+  const button = document.createElement('BUTTON')
+  document.body.appendChild(button)
+})
+
+beforeEach(() => {
+  window.__modalStack = []
+})
+
 describe('Modal component', () => {
   const Comp = mount(<Component {...props} />)
   Comp.setState({
@@ -36,6 +45,46 @@ describe('Modal component', () => {
   })
   it('have to match snapshot', () => {
     expect(toJson(Comp)).toMatchSnapshot()
+  })
+  it('should have aria-hidden and tabindex on other elements', () => {
+    const Comp = mount(
+      <Component {...props}>
+        <button>button</button>
+      </Component>
+    )
+
+    // Check the global button
+    Comp.find('Modal').find('button.dnb-modal__trigger').simulate('click')
+    expect(document.querySelector('button') instanceof HTMLElement).toBe(
+      true
+    )
+    expect(
+      document.querySelector('button').hasAttribute('aria-hidden')
+    ).toBe(true)
+    expect(document.querySelector('button').getAttribute('tabindex')).toBe(
+      '-1'
+    )
+    Comp.update()
+    expect(
+      Comp.find('.dnb-modal__content')
+        .instance()
+        .hasAttribute('aria-hidden')
+    ).toBe(false)
+    expect(
+      Comp.find('.dnb-modal__content')
+        .find('button')
+        .instance()
+        .hasAttribute('aria-hidden')
+    ).toBe(false)
+
+    // And close it again
+    Comp.find('button.dnb-modal__close-button').simulate('click')
+    expect(
+      document.querySelector('button').hasAttribute('aria-hidden')
+    ).toBe(false)
+    expect(document.querySelector('button').hasAttribute('tabindex')).toBe(
+      false
+    )
   })
   it('has to have the correct title', () => {
     expect(Comp.find('h1').text()).toBe(props.title)
@@ -85,14 +134,93 @@ describe('Modal component', () => {
       <Component {...props} on_close={on_close} on_open={on_open} />
     )
     Comp.find('button').simulate('click')
+    expect(on_open).toHaveBeenCalledTimes(1)
+    expect(on_open).toHaveBeenCalledWith({
+      id: 'modal_id'
+    })
 
     Comp.find('div.dnb-modal__content__inner').simulate('keyDown', {
       key: 'Esc',
       keyCode: 27
     })
 
-    expect(on_open).toHaveBeenCalled()
-    expect(on_close).toHaveBeenCalled()
+    expect(on_close).toHaveBeenCalledTimes(1)
+    expect(on_close).toHaveBeenCalledWith({
+      id: 'modal_id'
+    })
+  })
+  it('will prevent closing the modal on prevent_close', () => {
+    let preventClose = true
+    const on_open = jest.fn()
+    const on_close = jest.fn()
+    const on_close_prevent = jest.fn(({ triggeredBy, close }) => {
+      if (preventClose) {
+        return
+      }
+      switch (triggeredBy) {
+        case 'keyboard':
+        case 'button':
+          close()
+          break
+        case 'overlay':
+          break
+      }
+
+      return { triggeredBy }
+    })
+    const Comp = mount(
+      <Component
+        {...props}
+        prevent_close
+        on_open={on_open}
+        on_close={on_close}
+        on_close_prevent={on_close_prevent}
+      />
+    )
+    Comp.find('button').simulate('click')
+    expect(on_open).toHaveBeenCalledTimes(1)
+
+    Comp.find('div.dnb-modal__content__inner').simulate('keyDown', {
+      key: 'Esc',
+      keyCode: 27
+    })
+
+    expect(on_close).not.toHaveBeenCalled()
+    expect(on_close_prevent).toHaveBeenCalledTimes(1)
+
+    // trigger the close on the overlay
+    Comp.find('div.dnb-modal__content').simulate('click')
+
+    expect(on_close_prevent).toHaveBeenCalledTimes(2)
+    expect(on_close_prevent.mock.calls[1][0].close).toBeType('function')
+    expect(on_close_prevent.mock.calls[1][0].triggeredBy).toBe('overlay')
+
+    // trigger the close button
+    Comp.find('button.dnb-modal__close-button').simulate('click')
+
+    expect(on_close_prevent).toHaveBeenCalledTimes(3)
+    expect(on_close_prevent.mock.calls[2][0].triggeredBy).toBe('button')
+
+    // trigger the esc key
+    Comp.find('div.dnb-modal__content__inner').simulate('keyDown', {
+      key: 'Esc',
+      keyCode: 27
+    })
+
+    expect(on_close_prevent).toHaveBeenCalledTimes(4)
+    expect(on_close_prevent.mock.calls[3][0].triggeredBy).toBe('keyboard')
+
+    preventClose = false
+
+    // trigger the close on the overlay
+    Comp.find('div.dnb-modal__content').simulate('click')
+
+    expect(Comp.exists('div.dnb-modal__content')).toBe(true)
+
+    // trigger the close button
+    Comp.find('button.dnb-modal__close-button').simulate('click')
+
+    expect(Comp.exists('div.dnb-modal__content')).toBe(false)
   })
   it('has working open event and close event on changing the "open_state"', () => {
     const on_close = jest.fn()
@@ -101,10 +229,10 @@ describe('Modal component', () => {
       <Component {...props} on_close={on_close} on_open={on_open} />
     )
     Comp.setProps({ open_state: 'opened' })
-    expect(on_open).toHaveBeenCalled()
+    expect(on_open).toHaveBeenCalledTimes(1)
 
     Comp.setProps({ open_state: 'closed' })
-    expect(on_close).toHaveBeenCalled()
+    expect(on_close).toHaveBeenCalledTimes(1)
   })
   it('should handle the portal correctly', () => {
     const modalContent = 'Modal Content'
@@ -229,16 +357,16 @@ describe('Modal component', () => {
   it('has to have the correct aria-describedby', () => {
     expect(
       Comp.find('[aria-describedby]').props()['aria-describedby']
-    ).toBe(props.id)
+    ).toBe(`dnb-modal-${props.id}-content`)
   })
   it('has to have the correct role on aria-modal', () => {
-    expect(Comp.find('[aria-modal]').props().role).toBe('dialog')
+    expect(Comp.find('[aria-modal]').props().role).toBe('main')
   })
   it('has to have a close button', () => {
     expect(
-      String(
-        Comp.find('button.dnb-modal__close-button').instance().textContent
-      ).replace(/\u200C/g, '')
+      Comp.find('button.dnb-modal__close-button')
+        .instance()
+        .textContent.replace(/\u200C/g, '')
     ).toBe(props.close_title)
   })
   it('has to have no icon', () => {
@@ -265,6 +393,85 @@ describe('Modal component', () => {
   })
   it('should validate with ARIA rules as a dialog', async () => {
     expect(await axeComponent(Comp)).toHaveNoViolations()
+  })
+})
+
+describe('Modal trigger', () => {
+  const roledescription = 'Hjelp-knapp'
+  it('will act by defualt as a HelpButton', () => {
+    const Comp = mount(<Component {...props} />)
+    expect(
+      Comp.find('button.dnb-modal__trigger')
+        .instance()
+        .getAttribute('aria-roledescription')
+    ).toBe(roledescription)
+  })
+  it('will have a aria-label', () => {
+    const Comp = mount(
+      <Component
+        {...props}
+        trigger_attributes={{ 'aria-label': 'label' }}
+      />
+    )
+    expect(
+      Comp.find('button.dnb-modal__trigger')
+        .instance()
+        .getAttribute('aria-roledescription')
+    ).toBe(roledescription)
+    expect(
+      Comp.find('button.dnb-modal__trigger')
+        .instance()
+        .getAttribute('aria-label')
+    ).toBe('label')
+  })
+  it('will not act as a HelpButton if only trigger_text was given', () => {
+    const Comp = mount(<Component {...props} trigger_text="text" />)
+    expect(
+      Comp.find('button.dnb-modal__trigger')
+        .instance()
+        .hasAttribute('aria-roledescription')
+    ).toBe(false)
+    expect(
+      Comp.find('button.dnb-modal__trigger').exists('.dnb-button__icon')
+    ).toBe(false)
+    expect(
+      Comp.find('button.dnb-modal__trigger')
+        .text()
+        .replace(/\u200C/g, '')
+    ).toBe('text')
+  })
+  it('will not act as a HelpButton if a different icon was given', () => {
+    const Comp = mount(<Component {...props} trigger_icon="bell" />)
+    expect(
+      Comp.find('button.dnb-modal__trigger')
+        .instance()
+        .hasAttribute('aria-roledescription')
+    ).toBe(false)
+    expect(
+      Comp.find('button.dnb-modal__trigger').exists('.dnb-button__icon')
+    ).toBe(true)
+  })
+  it('will act as a HelpButton if trigger_text was given and trigger_variant is tertiary', () => {
+    const Comp = mount(
+      <Component
+        {...props}
+        trigger_text="text"
+        trigger_variant="tertiary"
+      />
+    )
+    expect(
+      Comp.find('button.dnb-modal__trigger')
+        .instance()
+        .getAttribute('aria-roledescription')
+    ).toBe(roledescription)
+    expect(
+      Comp.find('button.dnb-modal__trigger').exists('.dnb-button__icon')
+    ).toBe(true)
+    expect(
+      Comp.find('button.dnb-modal__trigger')
+        .text()
+        .replace(/\u200C/g, '')
+    ).toBe('text')
   })
 })
 

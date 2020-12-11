@@ -237,6 +237,7 @@
    * Remove the margin in Safari.
    */
 
+  figure,
   button,
   input,
   select {
@@ -458,7 +459,7 @@
    * Change the cursor on control elements in all browsers (opinionated).
    */
 
-  [aria-controls] {
+  [aria-controls]:not(input) {
     cursor: pointer;
   }
 

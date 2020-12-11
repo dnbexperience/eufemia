@@ -4,12 +4,20 @@ import React from 'react'
 
 function arrow_left(props) {
   return (
-    <svg width={16} height={16} viewBox="0 0 16 16" fill="none" {...props}>
+    <svg
+      width={16}
+      height={16}
+      viewBox="0 0 16 16"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      {...props}
+    >
       <path
-        fillRule="evenodd"
-        clipRule="evenodd"
-        d="M4.31 9l3.72 3.72a.75.75 0 11-1.06 1.06l-5-5a.75.75 0 010-1.06l5-5a.75.75 0 011.06 1.06L4.31 7.5h9.19a.75.75 0 010 1.5H4.31z"
-        fill="#000"
+        d="M14.5 8H1M6 3L1 8M1 8L6 13"
+        stroke="black"
+        strokeWidth={1.5}
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   )

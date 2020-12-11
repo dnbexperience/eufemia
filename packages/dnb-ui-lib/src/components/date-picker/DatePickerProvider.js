@@ -41,6 +41,7 @@ export default class DatePickerProvider extends React.PureComponent {
     range: PropTypes.oneOfType([PropTypes.bool, PropTypes.string])
       .isRequired,
     setReturnObject: PropTypes.func.isRequired,
+    enhanceWithMethods: PropTypes.object,
 
     attributes: PropTypes.object,
     children: PropTypes.node.isRequired
@@ -50,7 +51,8 @@ export default class DatePickerProvider extends React.PureComponent {
     min_date: null,
     max_date: null,
     return_format: 'yyyy-MM-dd', // used in date-fns v1: YYYY-MM-DD
-    attributes: null
+    attributes: null,
+    enhanceWithMethods: null
   }
 
   state = { _listenForPropChanges: true, changeMonthViews: false }
@@ -339,6 +341,7 @@ export default class DatePickerProvider extends React.PureComponent {
           getReturnObject: this.getReturnObject,
           callOnChangeHandler: this.callOnChangeHandler,
           props: this.props,
+          ...this.props.enhanceWithMethods,
           ...this.state
         }}
       >

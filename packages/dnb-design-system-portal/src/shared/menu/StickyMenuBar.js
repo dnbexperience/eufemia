@@ -7,7 +7,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import { StaticQuery, graphql } from 'gatsby'
-import { css } from '@emotion/core'
+import { css } from '@emotion/react'
 import styled from '@emotion/styled'
 import { hamburger as hamburgerIcon } from 'dnb-ui-lib/src/icons/secondary_icons'
 import { close as closeIcon } from 'dnb-ui-lib/src/icons/primary_icons'
@@ -160,7 +160,7 @@ export default class StickyMenuBar extends React.PureComponent {
                 >
                   <HeaderInner>
                     <MainMenuToggleButton />
-                    <CenterWrapper aria-hidden>
+                    <CenterWrapper aria-hidden className="dnb-selection">
                       <Icon icon={PortalLogo} size={48} right="x-small" />
                       <Slogan
                         className={createSkeletonClass(

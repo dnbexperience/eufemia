@@ -13,7 +13,7 @@ import ComponentBox from 'Src/shared/tags/ComponentBox'
 <GlobalError status="404" />
 `}
 </ComponentBox>
-	  
+
 ### To showcase the 500 status component
 
 <ComponentBox data-visual-test="global-error-500">

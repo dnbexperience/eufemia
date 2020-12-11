@@ -4,22 +4,12 @@
 */
 
 @import '../../../../style/themes/imports.scss';
+@import '../../../button/style/themes/_button-mixins.scss';
 
 .dnb-tabs {
   &__tabs {
-    &::before {
-      background-color: var(--color-mint-green-50);
-      box-shadow: 100vw 0 0 0 var(--color-mint-green-50);
-    }
-    @include allBelow(small) {
-      &:not(.dnb-section)::after {
-        content: '';
-        position: absolute;
-        z-index: -1;
-        left: -100vw;
-        top: 0;
-        width: 100vw;
-        height: 1px;
+    &:not(.dnb-section) {
+      &::before {
         background-color: var(--color-mint-green-50);
         box-shadow: 100vw 0 0 0 var(--color-mint-green-50);
       }
@@ -27,13 +17,28 @@
 
     &__tablist {
       // Only used on to visualize the tab ring nicer
-      // This was a request by the ux team
-      margin-left: -1rem;
-      padding: 0 1rem;
       &:focus {
         border-radius: 0.5rem;
       }
     }
+  }
+
+  &--at-edge &__scroll-nav-button {
+    &:first-of-type {
+      border-radius: 0 50% 50% 0;
+    }
+    &:last-of-type {
+      border-radius: 50% 0 0 50%;
+    }
+  }
+
+  &--at-edge &__tabs__tablist:focus {
+    border-radius: 0;
+  }
+
+  &__content:focus {
+    @include fakeFocus();
+    border-radius: 0.5rem;
   }
 
   &__button {
@@ -45,10 +50,6 @@
 
       color: var(--color-sea-green);
     }
-    @include allBelow(small) {
-      text-align: left;
-      padding: 0.5rem 1rem;
-    }
 
     // hover
     @include hover() {
@@ -57,6 +58,17 @@
         height: 3px;
         border-radius: 1.5px;
         background-color: var(--color-sea-green);
+      }
+    }
+
+    &:focus {
+      @include buttonFocusRing();
+      &::before {
+        top: 2px;
+        bottom: 2px;
+        right: 0;
+        left: 0;
+        border-radius: 0.25rem;
       }
     }
 
@@ -89,13 +101,5 @@
     span[hidden] {
       font-weight: var(--font-weight-medium);
     }
-
-    // focus helper, for positioning
-    // &:not([disabled]):not(:active):not(.selected):focus {
-    //   @include fakeFocus();
-    //   &::after {
-    //     border-bottom: 3px solid transparent;
-    //   }
-    // }
   }
 }

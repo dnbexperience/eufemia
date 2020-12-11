@@ -55,9 +55,11 @@ export default class HelpButtonInstance extends React.PureComponent {
       ...attributes
     } = props
 
-    attributes[
-      'aria-roledescription'
-    ] = this.context.translation.HelpButton.aria_role
+    if (typeof attributes['aria-roledescription'] === 'undefined') {
+      attributes['aria-roledescription'] = this.context.getTranslation(
+        this.props
+      ).HelpButton.aria_role
+    }
 
     const params = {
       className: classnames(
@@ -69,7 +71,7 @@ export default class HelpButtonInstance extends React.PureComponent {
       size,
       'aria-label': props.title
         ? convertJsxToString(props.title)
-        : this.context.translation.HelpButton.title,
+        : this.context.getTranslation(this.props).HelpButton.title,
       icon,
       ...attributes
     }

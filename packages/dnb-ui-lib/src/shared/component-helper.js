@@ -310,9 +310,14 @@ export const isTrue = (value) => {
 export const dispatchCustomElementEvent = (
   src,
   eventName,
-  eventObject
+  eventObjectOrig
 ) => {
-  let ret = null
+  let ret = undefined
+
+  const eventObject = {
+    ...(eventObjectOrig.event || {}),
+    ...eventObjectOrig
+  }
 
   // distribute dataset like "data-*" to both currentTarget and target
   if (eventObject && eventObject.attributes && eventObject.event) {
@@ -357,23 +362,46 @@ export const dispatchCustomElementEvent = (
     }
   }
 
-  // call the default snail case event
-  if (typeof props[eventName] === 'function') {
-    ret = props[eventName].apply(src, [eventObject])
-  }
+  // call the default snake case event
+  if (eventName.includes('_')) {
+    if (typeof props[eventName] === 'function') {
+      const r = props[eventName].apply(src, [eventObject])
+      if (typeof r !== 'undefined') {
+        ret = r
+      }
+    }
 
-  // call Syntetic React event camelCase naming events
-  eventName = toPascalCase(eventName)
-  if (typeof props[eventName] === 'function') {
-    // TODO: we may use [eventObject.event, eventObject] in future
-    ret = props[eventName].apply(src, [eventObject])
+    // call Syntetic React event camelCase naming events
+    eventName = toCamelCase(eventName)
+    if (typeof props[eventName] === 'function') {
+      const r = props[eventName].apply(src, [eventObject])
+      if (typeof r !== 'undefined') {
+        ret = r
+      }
+    }
+  } else {
+    if (typeof props[eventName] === 'function') {
+      const r = props[eventName].apply(src, [eventObject])
+      if (typeof r !== 'undefined') {
+        ret = r
+      }
+    }
+
+    // call (in future deprecated) event snake case naming events
+    eventName = toSnakeCase(eventName)
+    if (typeof props[eventName] === 'function') {
+      const r = props[eventName].apply(src, [eventObject])
+      if (typeof r !== 'undefined') {
+        ret = r
+      }
+    }
   }
 
   return ret
 }
 
 // transform on_click to onClick
-export const toPascalCase = (s) =>
+export const toCamelCase = (s) =>
   s
     .split(/_/g)
     .reduce(
@@ -387,6 +415,30 @@ export const toPascalCase = (s) =>
             )),
       ''
     )
+
+// TODO: Test if this solution is faster
+// const toCamelCase = (str) =>
+//   str.replace(/([-_][a-z])/g, (group) =>
+//     group.toUpperCase().replace('-', '').replace('_', '')
+//   )
+
+// transform my_component to MyComponent
+export const toPascalCase = (s) =>
+  s
+    .split(/_/g)
+    .reduce(
+      (acc, cur) =>
+        acc +
+        cur.replace(
+          /(\w)(\w*)/g,
+          (g0, g1, g2) => g1.toUpperCase() + g2.toLowerCase()
+        ),
+      ''
+    )
+
+// transform MyComponent to my_component
+export const toSnakeCase = (str) =>
+  str.replace(/[A-Z]/g, (letter) => `_${letter.toLowerCase()}`)
 
 // Removed as we now run function props from Web Components (custom-element)
 // export const pickRenderProps = (props, renderProps) =>
@@ -496,7 +548,7 @@ export class DetectOutsideClickClass {
       }
 
       // check if element has like "overflow: scroll"
-      if (this.checkIfHasScrollbar(currentElement)) {
+      if (checkIfHasScrollbar(currentElement)) {
         return // stop here
       }
 
@@ -521,22 +573,21 @@ export class DetectOutsideClickClass {
       warn(e)
     }
   }
+}
 
-  checkIfHasScrollbar = (elem) => {
-    return (
-      elem &&
-      (elem.scrollHeight > elem.offsetHeight ||
-        elem.scrollWidth > elem.offsetWidth) &&
-      this.overflowIsScrollable(elem)
-    )
-  }
-
-  overflowIsScrollable = (elem) => {
-    const style = window.getComputedStyle(elem)
-    return /scroll|auto/i.test(
-      style.overflow + (style.overflowX || '') + (style.overflowY || '')
-    )
-  }
+export const checkIfHasScrollbar = (elem) => {
+  return (
+    elem &&
+    (elem.scrollHeight > elem.offsetHeight ||
+      elem.scrollWidth > elem.offsetWidth) &&
+    overflowIsScrollable(elem)
+  )
+}
+const overflowIsScrollable = (elem) => {
+  const style = window.getComputedStyle(elem)
+  return /scroll|auto/i.test(
+    style.overflow + (style.overflowX || '') + (style.overflowY || '')
+  )
 }
 
 export const filterProps = (props, remove = null, allowed = null) => {
@@ -615,6 +666,33 @@ export const getPreviousSibling = (className, element) => {
   return element
 }
 
+export const isChildOfElement = (element, target, cb = null) => {
+  try {
+    const contains = (element) => {
+      if (cb) {
+        const res = cb(element)
+        if (typeof res === 'boolean') {
+          return res
+        }
+      }
+      return element && element === target
+    }
+
+    if (contains(element)) {
+      return element
+    }
+
+    while (
+      (element = element && element.parentElement) &&
+      !contains(element)
+    );
+  } catch (e) {
+    //
+  }
+
+  return element
+}
+
 // Round number to nearest target number
 export const roundToNearest = (num, target) => {
   const diff = num % target
@@ -632,14 +710,14 @@ export const isInsideScrollView = (
   return elem == window ? false : Boolean(elem)
 }
 
-const isTest = process.env.NODE_ENV === 'test'
 export const warn = (...e) => {
-  if (typeof console !== 'undefined') {
-    if (isTest) {
-      console.log(...e)
-    } else if (typeof console.warn === 'function') {
-      console.warn(...e)
-    }
+  if (
+    typeof process !== 'undefined' &&
+    typeof console !== 'undefined' &&
+    process.env.NODE_ENV !== 'production' &&
+    typeof console.log === 'function'
+  ) {
+    console.log('Eufemia:', ...e)
   }
 }
 
@@ -678,23 +756,29 @@ export const convertJsxToString = (elements, separator = undefined) => {
 
 export class InteractionInvalidation {
   constructor() {
-    this.bypassSelector = '.not-specified'
+    this.bypassElement = null
+    this.bypassSelectors = []
     return this
   }
 
-  setBypassSelector(bypassSelector = null) {
-    if (bypassSelector instanceof HTMLElement) {
-      this.bypassElement = bypassSelector
-    } else {
-      this.bypassElement = null
-      this.bypassSelector = bypassSelector || '.not-specified'
+  setBypassElement(bypassElement) {
+    if (bypassElement instanceof HTMLElement) {
+      this.bypassElement = bypassElement
     }
     return this
   }
 
-  activate(TargetElement = null) {
+  setBypassSelector(bypassSelector) {
+    if (!Array.isArray(bypassSelector)) {
+      bypassSelector = [bypassSelector]
+    }
+    this.bypassSelectors = bypassSelector
+    return this
+  }
+
+  activate(targetElement = null) {
     if (!this.nodesToInvalidate) {
-      this._runInvalidaiton(TargetElement)
+      this._runInvalidaiton(targetElement)
     }
   }
 
@@ -703,7 +787,7 @@ export class InteractionInvalidation {
     this.nodesToInvalidate = null
   }
 
-  _runInvalidaiton(TargetElement) {
+  _runInvalidaiton(targetElement) {
     if (
       typeof document === 'undefined'
       // || isTouchDevice() // as for now, we do the same on touch devices
@@ -711,7 +795,7 @@ export class InteractionInvalidation {
       return // stop here
     }
 
-    this._setNodesToInvalidate(TargetElement)
+    this._setNodesToInvalidate(targetElement)
 
     if (Array.isArray(this.nodesToInvalidate)) {
       this.nodesToInvalidate.forEach((node) => {
@@ -731,13 +815,14 @@ export class InteractionInvalidation {
           ) {
             node._orig_ariahidden = node.getAttribute('aria-hidden')
           }
-          if (
-            node &&
-            typeof node._orig_style === 'undefined' &&
-            node.hasAttribute('style')
-          ) {
-            node._orig_style = node.getAttribute('style')
-          }
+          // Skip the outline for now - or does it give a value?
+          // if (
+          //   node &&
+          //   typeof node._orig_outline === 'undefined' &&
+          //   node.style.outline
+          // ) {
+          //   node._orig_outline = node.style.outline
+          // }
 
           node.setAttribute('tabindex', '-1')
           node.setAttribute('aria-hidden', 'true')
@@ -745,7 +830,7 @@ export class InteractionInvalidation {
           // tabindex=-1 does not prevent the mouse from focusing the node (which
           // would show a focus outline around the element). prevent this by disabling
           // outline styles while the modal is open
-          node.style.outline = 'none'
+          // node.style.outline = 'none'
         } catch (e) {
           //
         }
@@ -775,39 +860,47 @@ export class InteractionInvalidation {
         } else {
           node.removeAttribute('aria-hidden')
         }
-        if (node && typeof node._orig_style !== 'undefined') {
-          node.setAttribute('style', node._orig_style)
-          node._orig_style = null
-          delete node._orig_style
-        } else {
-          node.removeAttribute('style')
-        }
+
+        // Skip the outline for now - or does it give a value?
+        // if (node && typeof node._orig_outline !== 'undefined') {
+        //   node.style.outline = node._orig_outline
+        //   delete node._orig_outline
+        // } else if(node.style) {
+        //   node.style.outline = null
+        // }
       } catch (e) {
         //
       }
     })
   }
 
-  _setNodesToInvalidate(TargetElement = null) {
+  _setNodesToInvalidate(targetElement = null) {
     if (typeof document === 'undefined') {
       return // stop here
     }
 
-    if (typeof TargetElement === 'string') {
-      TargetElement = document.querySelector(TargetElement)
+    if (typeof targetElement === 'string') {
+      targetElement = document.querySelector(targetElement)
     }
 
-    const skipTheseNodes = Array.from(
-      (this.bypassElement || document).querySelectorAll(
-        this.bypassSelector ? `${this.bypassSelector} *` : '*'
-      )
-    )
+    const skipTheseNodes =
+      this.bypassSelectors && this.bypassSelectors.length > 0
+        ? Array.from(
+            (this.bypassElement || document).querySelectorAll(
+              this.bypassSelectors
+                ? this.bypassSelectors.map((s) => `${s} *`).join(', ')
+                : '*'
+            )
+          )
+        : []
 
     // by only finding elements that do not have tabindex="-1" we ensure we don't
     // corrupt the previous state of the element if a modal was already open
     this.nodesToInvalidate = Array.from(
-      (TargetElement || document).querySelectorAll(
-        `body *:not(${this.bypassSelector}):not(script)`
+      (targetElement || document).querySelectorAll(
+        `body *${this.bypassSelectors
+          .map((s) => `:not(${s})`)
+          .join('')}:not(script):not(style):not(path)`
       )
     ).filter((node) => !skipTheseNodes.includes(node))
   }
@@ -875,9 +968,6 @@ export class AnimateHeight {
   }
   getOpenHeight(state) {
     const currentHeight = window.getComputedStyle(this.elem).height
-    const currentPosition = window.getComputedStyle(this.elem).position
-    const parentPosition = window.getComputedStyle(this.elem.parentElement)
-      .position
 
     this.elem.parentElement.style.position = 'relative'
     this.elem.style.position = 'absolute'
@@ -886,10 +976,9 @@ export class AnimateHeight {
 
     const height = parseFloat(this.elem.clientHeight)
 
-    this.elem.parentElement.style.position =
-      parentPosition !== 'static' ? parentPosition : ''
-    this.elem.style.position = currentPosition
-    this.elem.style.visibility = 'visible'
+    this.elem.parentElement.style.position = ''
+    this.elem.style.position = ''
+    this.elem.style.visibility = ''
 
     switch (state) {
       case 'open':
@@ -926,6 +1015,7 @@ export class AnimateHeight {
   }
   start(fromHeight, toHeight, { animate }) {
     if (animate === false || this.opts?.animate === false) {
+      this.elem.style.height = `${toHeight}px`
       this.callOnStart()
 
       try {
@@ -1077,4 +1167,37 @@ export class AnimateHeight {
 
     this.start(height, 0, { animate })
   }
+}
+
+export function convertStatusToStateOnly(status, state) {
+  return status ? state : null
+}
+
+export function getStatusState(status) {
+  return (
+    status && status !== 'error' && status !== 'warn' && status !== 'info'
+  )
+}
+
+export function combineLabelledBy(...params) {
+  return combineAriaBy('aria-labelledby', params)
+}
+export function combineDescribedBy(...params) {
+  return combineAriaBy('aria-describedby', params)
+}
+function combineAriaBy(type, params) {
+  params = params.map((cur) => {
+    if (cur && typeof cur[type] !== 'undefined') {
+      cur = cur[type]
+    }
+    if (typeof cur !== 'string') {
+      cur = null
+    }
+    return cur
+  })
+  params = params.filter(Boolean).join(' ')
+  if (params === '') {
+    params = undefined
+  }
+  return params
 }

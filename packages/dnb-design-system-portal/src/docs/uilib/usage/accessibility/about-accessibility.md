@@ -1,4 +1,4 @@
-import { check_alt_01 as CheckIcon } from 'dnb-ui-lib/src/icons'
+import { check as CheckIcon } from 'dnb-ui-lib/src/icons'
 import { Icon } from 'dnb-ui-lib/src/components'
 
 ## Eufemia aims to be [WCAG 2.1](https://www.w3.org/TR/WCAG21/) compliant

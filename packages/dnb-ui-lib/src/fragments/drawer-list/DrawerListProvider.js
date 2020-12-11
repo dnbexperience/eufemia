@@ -147,8 +147,20 @@ export default class DrawerListProvider extends React.PureComponent {
     }
   }
 
+  componentDidUpdate(prevProps) {
+    if (
+      this.props.opened !== null &&
+      this.props.opened !== prevProps.opened
+    ) {
+      if (isTrue(this.props.opened)) {
+        this.setVisible()
+      } else if (isTrue(this.props.opened) === false) {
+        this.setHidden()
+      }
+    }
+  }
+
   componentWillUnmount() {
-    clearTimeout(this._showTimeout)
     clearInterval(this._outsideClickTimeout)
     clearTimeout(this._hideTimeout)
     clearTimeout(this._selectTimeout)
@@ -549,13 +561,16 @@ export default class DrawerListProvider extends React.PureComponent {
           if (liElement) {
             const top = liElement.offsetTop
             if (ulElement.scrollTo) {
-              const params = {
-                top
+              if (scrollTo === false || window.IS_TEST) {
+                ulElement.style.scrollBehavior = 'auto'
               }
-              if (scrollTo) {
-                params.behavior = 'smooth'
+              ulElement.scrollTo({
+                top,
+                behavior: scrollTo ? 'smooth' : 'auto'
+              })
+              if (scrollTo === false) {
+                ulElement.style.scrollBehavior = 'smooth'
               }
-              ulElement.scrollTo(params)
             } else if (ulElement.scrollTop) {
               ulElement.scrollTop = top
             }
@@ -874,7 +889,7 @@ export default class DrawerListProvider extends React.PureComponent {
 
       case 'esc':
         {
-          this.setHidden()
+          this.setHidden({ event: e })
           e.preventDefault()
         }
         break
@@ -890,7 +905,7 @@ export default class DrawerListProvider extends React.PureComponent {
             }
           }
 
-          this.setHidden()
+          this.setHidden({ event: e })
         }
         break
 
@@ -1015,11 +1030,14 @@ export default class DrawerListProvider extends React.PureComponent {
       this.assignObservers
     )
 
-    const { selected_item } = this.state
+    const { selected_item, active_item } = this.state
     dispatchCustomElementEvent(this.state, 'on_show', {
-      data: getEventData(selected_item, this.state.data),
+      data: getEventData(
+        parseFloat(selected_item) > -1 ? selected_item : active_item,
+        this.state.data
+      ),
       attributes: this.attributes,
-      ui_element: this._refUl.current
+      ulElement: this._refUl.current
     })
   }
 
@@ -1033,39 +1051,46 @@ export default class DrawerListProvider extends React.PureComponent {
 
     clearTimeout(this._hideTimeout)
 
-    this.setState(
-      {
-        opened: false,
-        _listenForPropChanges: false
-      },
-      () => {
-        this._hideTimeout = setTimeout(
-          () => {
-            this.setState({
-              hidden: undefined, // only to identify once we re-render
-              _listenForPropChanges: false
-            })
-            if (typeof onStateComplete === 'function') {
-              onStateComplete()
-            }
-          },
-          isTrue(this.props.no_animation)
-            ? 1
-            : DrawerListProvider.blurDelay
-        ) // wait until animation is over
-      }
-    )
-
-    this.waitUntilUlIsReady = false
-    this.removeDirectionObserver()
-    this.removeScrollObserver()
-    this.removeOutsideClickObserver()
-
-    dispatchCustomElementEvent(this.state, 'on_hide', {
+    const { selected_item, active_item } = this.state
+    const res = dispatchCustomElementEvent(this.state, 'on_hide', {
       ...args,
-      data: getEventData(this.state.selected_item, this.state.data),
+      data: getEventData(
+        parseFloat(selected_item) > -1 ? selected_item : active_item,
+        this.state.data
+      ),
       attributes: this.attributes
     })
+
+    if (res !== false) {
+      this.setState({
+        opened: false,
+        _listenForPropChanges: false
+      })
+
+      const delayHandler = () => {
+        this.setState({
+          hidden: true,
+          _listenForPropChanges: false
+        })
+        if (typeof onStateComplete === 'function') {
+          onStateComplete()
+        }
+      }
+
+      if (isTrue(this.props.no_animation)) {
+        delayHandler()
+      } else {
+        this._hideTimeout = setTimeout(
+          delayHandler,
+          DrawerListProvider.blurDelay
+        ) // wait until animation is over
+      }
+
+      this.waitUntilUlIsReady = false
+      this.removeDirectionObserver()
+      this.removeScrollObserver()
+      this.removeOutsideClickObserver()
+    }
   }
 
   setDataHandler = (
@@ -1127,7 +1152,7 @@ export default class DrawerListProvider extends React.PureComponent {
       itemToSelect = null
     }
 
-    const data = getEventData(itemToSelect, this.state.data)
+    const data = getEventData(itemToSelect, this.state.data) || null
     const value = getSelectedItemValue(itemToSelect, this.state)
     const attributes = this.attributes
     const attr = {
@@ -1194,30 +1219,6 @@ export default class DrawerListProvider extends React.PureComponent {
   }
 
   render() {
-    const { children } = this.props
-    const { opened, hidden } = this.state
-
-    if (
-      this.props.opened !== null &&
-      isTrue(this.props.opened) &&
-      opened === false &&
-      typeof hidden === 'undefined'
-    ) {
-      clearTimeout(this._showTimeout)
-      this._showTimeout = setTimeout(this.setVisible, 1)
-      return null
-    }
-    if (
-      this.props.opened !== null &&
-      isTrue(this.props.opened) === false &&
-      opened === true &&
-      hidden === false
-    ) {
-      clearTimeout(this._hideTimeout)
-      this._hideTimeout = setTimeout(this.setHidden, 1)
-      return null
-    }
-
     return (
       <DrawerListContext.Provider
         value={{
@@ -1243,7 +1244,7 @@ export default class DrawerListProvider extends React.PureComponent {
           }
         }}
       >
-        {children}
+        {this.props.children}
       </DrawerListContext.Provider>
     )
   }

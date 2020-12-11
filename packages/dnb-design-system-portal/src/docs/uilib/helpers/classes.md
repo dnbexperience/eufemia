@@ -23,6 +23,12 @@ Reusing classes in the markup instead of using SCSS extends or _mixins_ will pre
 | `dnb-mobile-exclusive`     | The opposite of `dnb-hide-on-mobile`, which means it will only be visible on screens up to the size of `medium                                                                                                                                         |  | `dnb-width-limit` | Our main wrapping class for containers. It has a max-width and a left and right padding which varies based on screen sizes |
 | `dnb-belt`                 | A wrapping class which adds a background color and padding to top and bottom                                                                                                                                                                           |
 | `dnb-nudge`                | A visual nudging tool. It has a modifying class which tells the element if it should expand horizontally or vertically. **NB! Use with caution!**                                                                                                      |
+| `dnb-selection`            | Applies the DNB selection colors to the selected content. More notes below.                                                                                                                                                                            |
+
+## Selection color
+
+Eufemia uses custom `::selection` colors to enhance the contrast and to play well agains the many green colors.
+Every HTML class that starts with the prefix `dnb-` will be effected. In some circumstances you can simply make use of the class `.dnb-selection`.
 
 ### More about `dnb-nudge`
 

@@ -376,7 +376,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
                       >
                         <div
                           aria-hidden="true"
-                          class="dnb-progress-indicator__circular dnb-progress-indicator__circular--medium"
+                          class="dnb-progress-indicator__circular dnb-progress-indicator__circular--default"
                         >
                           <svg
                             class="dnb-progress-indicator__circular__line light paused"
@@ -443,6 +443,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
               custom_element={null}
               custom_method={null}
               disabled={true}
+              element={null}
               global_status_id={null}
               href={null}
               icon="chevron_left"
@@ -450,6 +451,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
               icon_size={null}
               id={null}
               innerRef={null}
+              inner_ref={null}
               key="left-arrow"
               onClick={null}
               on_click={[Function]}
@@ -480,6 +482,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
                   custom_element={null}
                   custom_method={null}
                   disabled={true}
+                  element={null}
                   global_status_id={null}
                   href={null}
                   icon="chevron_left"
@@ -487,11 +490,12 @@ exports[`Pagination bar component have to match snapshot 1`] = `
                   icon_size={null}
                   id={null}
                   innerRef={null}
+                  inner_ref={null}
                   isIconOnly={true}
                   onClick={null}
                   on_click={[Function]}
                   size="small"
-                  skeleton={null}
+                  skeleton={false}
                   status={null}
                   status_animation={null}
                   status_state="error"
@@ -517,17 +521,18 @@ exports[`Pagination bar component have to match snapshot 1`] = `
                     color={null}
                     height={null}
                     icon="chevron_left"
+                    inherit_color={true}
                     key="button-icon"
                     modifier={null}
                     size={null}
-                    skeleton={null}
+                    skeleton={false}
                     title={null}
                     width={null}
                   >
                     <span
                       aria-hidden={true}
                       aria-label="chevron left icon"
-                      className="dnb-icon dnb-icon--default dnb-button__icon"
+                      className="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
                       role="presentation"
                     >
                       <chevron_left>
@@ -536,12 +541,14 @@ exports[`Pagination bar component have to match snapshot 1`] = `
                           height={16}
                           viewBox="0 0 16 16"
                           width={16}
+                          xmlns="http://www.w3.org/2000/svg"
                         >
                           <path
-                            clipRule="evenodd"
-                            d="M10.78 4.03a.75.75 0 10-1.06-1.06l-4.5 4.5a.75.75 0 000 1.06l4.5 4.5a.75.75 0 101.06-1.06L6.81 8l3.97-3.97z"
-                            fill="#000"
-                            fillRule="evenodd"
+                            d="M10 3L5 8L10 13"
+                            stroke="black"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={1.5}
                           />
                         </svg>
                       </chevron_left>
@@ -560,6 +567,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
               custom_element={null}
               custom_method={null}
               disabled={false}
+              element={null}
               global_status_id={null}
               href={null}
               icon="chevron_right"
@@ -567,6 +575,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
               icon_size={null}
               id={null}
               innerRef={null}
+              inner_ref={null}
               key="right-arrow"
               onClick={null}
               on_click={[Function]}
@@ -597,6 +606,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
                   custom_element={null}
                   custom_method={null}
                   disabled={false}
+                  element={null}
                   global_status_id={null}
                   href={null}
                   icon="chevron_right"
@@ -604,11 +614,12 @@ exports[`Pagination bar component have to match snapshot 1`] = `
                   icon_size={null}
                   id={null}
                   innerRef={null}
+                  inner_ref={null}
                   isIconOnly={true}
                   onClick={null}
                   on_click={[Function]}
                   size="small"
-                  skeleton={null}
+                  skeleton={false}
                   status={null}
                   status_animation={null}
                   status_state="error"
@@ -634,17 +645,18 @@ exports[`Pagination bar component have to match snapshot 1`] = `
                     color={null}
                     height={null}
                     icon="chevron_right"
+                    inherit_color={true}
                     key="button-icon"
                     modifier={null}
                     size={null}
-                    skeleton={null}
+                    skeleton={false}
                     title={null}
                     width={null}
                   >
                     <span
                       aria-hidden={true}
                       aria-label="chevron right icon"
-                      className="dnb-icon dnb-icon--default dnb-button__icon"
+                      className="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
                       role="presentation"
                     >
                       <chevron_right>
@@ -653,12 +665,14 @@ exports[`Pagination bar component have to match snapshot 1`] = `
                           height={16}
                           viewBox="0 0 16 16"
                           width={16}
+                          xmlns="http://www.w3.org/2000/svg"
                         >
                           <path
-                            clipRule="evenodd"
-                            d="M6.28 2.97a.75.75 0 00-1.06 1.06L9.19 8l-3.97 3.97a.75.75 0 101.06 1.06l4.5-4.5a.75.75 0 000-1.06l-4.5-4.5z"
-                            fill="#000"
-                            fillRule="evenodd"
+                            d="M6 13L11 8L6 3"
+                            stroke="black"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={1.5}
                           />
                         </svg>
                       </chevron_right>
@@ -695,7 +709,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
                         on_complete={null}
                         progress={null}
                         show_label={false}
-                        size="medium"
+                        size="default"
                         type="circular"
                         visible={true}
                       >
@@ -710,12 +724,12 @@ exports[`Pagination bar component have to match snapshot 1`] = `
                             maxOffset={88}
                             onComplete={null}
                             progress={null}
-                            size="medium"
+                            size="default"
                             visible={true}
                           >
                             <div
                               aria-hidden={true}
-                              className="dnb-progress-indicator__circular dnb-progress-indicator__circular--medium"
+                              className="dnb-progress-indicator__circular dnb-progress-indicator__circular--default"
                             >
                               <ForwardRef
                                 className="dnb-progress-indicator__circular__line light paused"
@@ -905,10 +919,10 @@ exports[`Pagination scss have to match snapshot 1`] = `
     width: inherit; }
   .dnb-icon svg[height='100%'] {
     height: inherit; }
-  .dnb-icon svg:not([fill]),
-  .dnb-icon svg [fill] {
+  .dnb-icon--inherit-color svg:not([fill]),
+  .dnb-icon--inherit-color svg [fill] {
     fill: currentColor; }
-  .dnb-icon svg [stroke] {
+  .dnb-icon--inherit-color svg [stroke] {
     stroke: currentColor; }
   .dnb-icon--small {
     font-size: 0.75rem; }
@@ -997,6 +1011,9 @@ exports[`Pagination scss have to match snapshot 1`] = `
  * FormStatus component
  *
  */
+:root {
+  --form-status-radius: 0.25rem; }
+
 .dnb-form-status {
   display: flex; }
   .dnb-form-status__shell {
@@ -1004,30 +1021,32 @@ exports[`Pagination scss have to match snapshot 1`] = `
     justify-content: flex-start;
     align-items: flex-start;
     min-width: inherit;
-    border-radius: var(--input-border-radius); }
-  .dnb-form-status--text {
-    padding: calc(0.5rem / 2) 1rem;
+    border-radius: var(--form-status-radius); }
+  .dnb-form-status__text {
+    padding: 0.625rem 1rem;
     cursor: text;
     color: inherit;
-    line-height: var(--line-height-basis);
+    line-height: var(--line-height-small);
+    font-size: var(--font-size-small);
     white-space: normal; }
-    .dnb-form-status--text .dnb-anchor {
+    .dnb-form-status__text .dnb-anchor {
       font-size: inherit; }
-  .dnb-icon + .dnb-form-status--text {
+  .dnb-icon + .dnb-form-status__text {
     padding-left: 0.5rem; }
   .dnb-form-status__shell > .dnb-icon {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 1.5em;
-    height: 1.5em;
-    margin-top: 0.25em;
-    margin-left: 0.5em;
-    color: inherit;
-    font-size: var(--font-size-small); }
+    margin: 0.3333333em 0.3333333em 0.3333333em 0.6666666em; }
+  .dnb-form-status__size--large .dnb-form-status__text {
+    padding-top: 1.125rem;
+    padding-bottom: 1.125rem; }
+  .dnb-form-status__size--large .dnb-form-status__shell > .dnb-icon {
+    margin-top: 0.6666666em;
+    margin-bottom: 0.6666666em; }
   .dnb-form-status[hidden] {
     display: none; }
-  .dnb-form-status--fade-in {
+  .dnb-form-status__animation--fade-in {
     overflow: hidden;
     max-height: 0;
     animation: form-status-fade-in 2s ease-out 400ms forwards; }
@@ -1266,8 +1285,6 @@ exports[`Pagination scss have to match snapshot 1`] = `
     white-space: nowrap; }
   .dnb-button + .dnb-form-status {
     margin-top: 0.5rem; }
-  .dnb-button.dnb-skeleton .dnb-icon {
-    visibility: hidden; }
   @media screen and (-ms-high-contrast: none) {
     .dnb-button {
       flex: none; }
@@ -1340,7 +1357,10 @@ button.dnb-button::-moz-focus-inner {
     .dnb-progress-indicator__circular__line.light .dnb-progress-indicator__circular__circle {
       stroke: grey; }
     .dnb-progress-indicator__circular__line.dark .dnb-progress-indicator__circular__circle {
-      stroke: black; }
+      stroke: var(--color-black); }
+  html[data-visual-test] .dnb-progress-indicator__circular__line {
+    animation-duration: 0ms;
+    animation-iteration-count: 0; }
   .dnb-progress-indicator:not(.dnb-progress-indicator--no-animation), .dnb-progress-indicator--visible:not(.dnb-progress-indicator--no-animation) {
     opacity: 0;
     animation: progress-indicator-fade-in 200ms ease-out 1 forwards; }

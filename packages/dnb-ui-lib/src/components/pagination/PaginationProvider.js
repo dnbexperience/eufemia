@@ -34,8 +34,10 @@ export default class PaginationProvider extends React.PureComponent {
     reset_content_handler: PropTypes.func,
     reset_pagination_handler: PropTypes.func,
     end_infinity_handler: PropTypes.func,
-    rerender: PropTypes.object,
-    store: PropTypes.object,
+    rerender: PropTypes.shape({ current: PropTypes.func }),
+    store: PropTypes.shape({
+      current: PropTypes.oneOfType([PropTypes.object, PropTypes.func])
+    }),
     useMarkerOnly: PropTypes.bool,
     children: PropTypes.oneOfType([
       PropTypes.string,

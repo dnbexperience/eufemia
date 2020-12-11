@@ -43,7 +43,7 @@ const SliderStory = () => {
   return (
     <Wrapper>
       <Box>
-        <DisabledState></DisabledState>
+        <DisabledState />
       </Box>
       <Box>
         Text
@@ -54,11 +54,12 @@ const SliderStory = () => {
           // min={'50'}
           max={100}
           value={value}
-          step={10}
+          step={0.05}
+          number_format={{ decimals: 2, currency: true }}
           // reverse
           on_change={({ value, raw_value }) => {
-            console.log('on_change:', value, raw_value)
-            setValue(value)
+            console.log('on_change:', { value, raw_value })
+            setValue(raw_value)
           }}
           status="Long status message Lobortis lacus ac ligula vehicula Metus nullam ut at pellentesque"
         />

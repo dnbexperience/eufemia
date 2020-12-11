@@ -109,4 +109,8 @@
 
     @content;
   }
+
+  .dnb-skeleton &::after {
+    content: none;
+  }
 }

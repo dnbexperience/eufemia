@@ -149,7 +149,7 @@ class PaginationInstance extends React.PureComponent {
       this.props,
       defaultProps,
       this.context.formRow,
-      this.context.translation.Pagination
+      this.context.getTranslation(this.props).Pagination
     )
 
     const {
@@ -197,7 +197,9 @@ class PaginationInstance extends React.PureComponent {
 
       return (
         <>
-          {typeof children !== 'function' && children}
+          {this.context.pagination.mode === 'infinity' &&
+            typeof children !== 'function' &&
+            children}
 
           <div {...mainParams}>
             <PaginationBar contentRef={this._contentRef}>
@@ -299,8 +301,8 @@ export const createPagination = (initProps = {}) => {
 
   const args = (props) => ({
     ...{ ...initProps, ...props },
-    store: store,
-    rerender: rerender,
+    store,
+    rerender,
     set_content_handler: (fn) => (_setContent.current = fn),
     reset_content_handler: (fn) => (_resetContent.current = fn),
     reset_pagination_handler: (fn) => (_resetInfinity.current = fn),

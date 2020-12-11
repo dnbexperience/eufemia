@@ -4,12 +4,20 @@ import React from 'react'
 
 function chevron_down_medium(props) {
   return (
-    <svg width={24} height={24} viewBox="0 0 24 24" fill="none" {...props}>
+    <svg
+      width={24}
+      height={24}
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      {...props}
+    >
       <path
-        fillRule="evenodd"
-        clipRule="evenodd"
-        d="M5.78 8.22a.75.75 0 00-1.06 1.06l6.75 6.75a.75.75 0 001.061 0l6.75-6.75a.75.75 0 00-1.061-1.06L12 14.44 5.78 8.22z"
-        fill="#000"
+        d="M19 8.5L12 15.5L5 8.5"
+        stroke="black"
+        strokeWidth={1.5}
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   )

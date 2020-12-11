@@ -12,16 +12,15 @@ import {
   warn,
   isTrue,
   makeUniqueId,
-  getPreviousSibling,
   validateDOMAttributes,
   registerElement,
   convertJsxToString,
   extend
 } from '../../shared/component-helper'
 import {
-  createSelectionFX,
   getSelectedText,
-  getSelectedElement,
+  copyToClipboard,
+  insertElementBeforeSelection,
   hasSelectedText,
   IS_IOS,
   IS_MAC,
@@ -129,12 +128,9 @@ export default class Number extends React.PureComponent {
     }
   }
 
-  shortcutHandler = (e) => {
-    const cleanedValue = getCleanedSelection(e)
-    if (cleanedValue) {
-      const fx = createSelectionFX(cleanedValue)
-      fx.run()
-    }
+  shortcutHandler = () => {
+    const fx = createSelectionFX(this.cleanedValue)
+    fx.run()
   }
 
   onBlurHandler = () => {
@@ -157,26 +153,24 @@ export default class Number extends React.PureComponent {
   }
 
   setFocus() {
-    try {
-      this.selectAll()
+    this.setState({ selected: true }, () => {
       if (this._selectionRef.current) {
         this._selectionRef.current.focus()
-        this.setState({ selected: true })
       }
-    } catch (e) {
-      warn(e)
-    }
+      this.selectAll()
+    })
   }
 
   selectAll() {
     try {
-      const selection = window.getSelection()
-      const range = document.createRange()
-      range.selectNodeContents(
-        this._selectionRef.current || this._ref.current
-      )
-      selection.removeAllRanges()
-      selection.addRange(range)
+      const elem = this._selectionRef.current || this._ref.current
+      if (elem) {
+        const selection = window.getSelection()
+        const range = document.createRange()
+        range.selectNodeContents(elem)
+        selection.removeAllRanges()
+        selection.addRange(range)
+      }
     } catch (e) {
       warn(e)
     }
@@ -252,7 +246,7 @@ export default class Number extends React.PureComponent {
         true,
         { locale: null, currency: null },
         this.context,
-        this.context.translation.Number
+        this.context.getTranslation(this.props).Number
       )
 
       if (useContext) {
@@ -270,11 +264,11 @@ export default class Number extends React.PureComponent {
       }
     }
 
-    let { number: display, aria, locale: lang } = format(
+    let { cleanedValue, number: display, aria, locale: lang } = format(
       value,
       formatOptions
     )
-    this.cleandNumber = cleanNumber(display)
+    this.cleanedValue = cleanedValue
 
     const attributes = {
       ref: this._ref,
@@ -357,14 +351,14 @@ export default class Number extends React.PureComponent {
         >
           {display}
         </span>
+
         <span
           id={this._id}
-          lang={lang}
           className="dnb-number__sr-only dnb-sr-only--inline"
-          // aria-roledescription={type}
         >
           {aria}
         </span>
+
         {isTrue(copy_selection) && (
           <span
             className="dnb-number__selection dnb-no-focus"
@@ -374,7 +368,7 @@ export default class Number extends React.PureComponent {
             onCopy={this.shortcutHandler}
             aria-hidden
           >
-            {this.cleandNumber}
+            {cleanedValue}
           </span>
         )}
       </Element>
@@ -445,6 +439,7 @@ export const format = (
     type = 'phone'
     const { number: _number, aria: _aria } = formatPhone(value, locale)
 
+    value = cleanNumber(value) // clean, because of +47 and ++47
     display = _number
     aria = _aria
   } else if (isTrue(ban)) {
@@ -494,9 +489,9 @@ export const format = (
 
     // aria options
     aria = formatNumber(cleanedNumber, locale, {
-      ...opts,
-      minimumFractionDigits: 2,
+      minimumFractionDigits: 0,
       maximumFractionDigits: 2,
+      ...opts,
       currencyDisplay: 'name'
     })
     aria = enhanceSR(cleanedNumber, aria, locale) // also calls cleanupMinus
@@ -531,8 +526,26 @@ export const format = (
     aria = display
   }
 
-  // return "locale" as well, since we have to "auto" option
-  return returnAria ? { number: display, aria, locale, type } : display
+  const cleanedValue = formatNumber(
+    value,
+    locale,
+    opts,
+    ({ type, value }) => {
+      switch (type) {
+        case 'currency':
+        case 'group':
+        case 'literal':
+          return ''
+        default:
+          return value
+      }
+    }
+  )
+
+  // return "locale" as well value,l, since we have to "auto" option
+  return returnAria
+    ? { value, cleanedValue, number: display, aria, locale, type }
+    : display
 }
 
 const prepareCurrencyPosition = (display, position = null) => {
@@ -617,18 +630,31 @@ const enhanceSR = (value, aria) => {
   return aria
 }
 
-export const formatNumber = (number, locale, options = {}) => {
+export const formatNumber = (
+  number,
+  locale,
+  options = {},
+  formatter = null
+) => {
   try {
     if (
+      typeof Intl !== 'undefined' &&
+      typeof Intl.NumberFormat === 'function'
+    ) {
+      const inst = Intl.NumberFormat(locale, options)
+      if (formatter) {
+        return inst
+          .formatToParts(number)
+          .map((val) => formatter(val))
+          .reduce((str, part) => str + part)
+      } else {
+        return inst.format(number)
+      }
+    } else if (
       typeof Number !== 'undefined' &&
       typeof Number.toLocaleString === 'function'
     ) {
       return parseFloat(number).toLocaleString(locale, options)
-    } else if (
-      typeof Intl !== 'undefined' &&
-      typeof Intl.NumberFormat === 'function'
-    ) {
-      return Intl.NumberFormat(locale, options).format(number)
     }
   } catch (e) {
     warn(
@@ -800,121 +826,6 @@ export const formatNIN = (number, locale = null) => {
   return { number: display, aria }
 }
 
-function getCleanedSelection() {
-  const selection = getSelectedText()
-  return cleanNumberBeforeCopy(selection)
-}
-
-export function cleanNumberBeforeCopy(value) {
-  value = String(value)
-
-  // give the user the option to opt out if he selects white space before and after
-  // later we check even more on that
-  if (/^[\s].*[\s]$/.test(value)) {
-    // console.info('Selection starts and ends with space', value) // debug
-    return false // invalid
-  }
-
-  value = value.trim()
-
-  // opt out if we got newlines
-  if (/\n|\r/.test(value)) {
-    // console.info('Selection had new lines', value) // debug
-    return false // invalid
-  }
-
-  // ok, there has to be some content
-  if (!(value.length > 0)) {
-    // console.info('Selection was to short', value) // debug
-    return false // invalid
-  }
-
-  let elem = getSelectedElement()
-
-  if (elem && elem instanceof HTMLElement) {
-    elem = getPreviousSibling('dnb-number', elem)
-  }
-
-  if (elem) {
-    // also, check if we got other elements than our number element
-    if (
-      // stop if the selected elem is not the number component0
-      !/dnb-number/.test(elem.getAttribute('class')) &&
-      // and if no, then check if the value is not a pure number
-      !new RegExp(`[${NUMBER_CHARS}\\s]`).test(value)
-    ) {
-      // console.info('Selected elem was not the Number component', elem) // debug
-      return false // invalid
-    }
-
-    // if the element was a prefix or suffix, get the parent
-    if (/dnb-number__(pre|suf|sr)/.test(elem.getAttribute('class'))) {
-      elem = elem.parentElement
-    }
-
-    // Remove invalid selected text, because we have this for NVDA
-    const srText = elem.querySelector('.dnb-number__sr-only')?.textContent
-    if (srText && srText !== value) {
-      value = value.replace(srText, '')
-    }
-
-    // Remove invalid selected text, because of the selection feature
-    const selectionText = elem.querySelector('.dnb-number__selection')
-      ?.textContent
-    if (selectionText && selectionText !== value) {
-      value = value.replace(selectionText, '')
-    }
-
-    // Remove prefix and suffix content
-    const removePrefix = elem.querySelector('.dnb-number__prefix')
-      ?.textContent
-    if (removePrefix) {
-      value = value.replace(removePrefix, '').trim()
-    }
-    const remvoeSuffix = elem.querySelector('.dnb-number__suffix')
-      ?.textContent
-    if (remvoeSuffix) {
-      value = value.replace(remvoeSuffix, '').trim()
-    }
-  }
-
-  // now, also opt out if we have something else then a number on both sides
-  if (new RegExp(`^[^${NUMBER_CHARS}].*[^${NUMBER_CHARS}]$`).test(value)) {
-    // console.info('Selection starts and ends with something else than a number', value) // debug
-    return false // invalid
-  }
-
-  // limit the body, but to be above KID of 25
-  if (value.length > 30) {
-    // console.info('Selection was to long', value) // debug
-    return false // invalid
-  }
-
-  let cleanedValue = cleanNumber(value)
-
-  // control number
-  const num = parseFloat(cleanedValue)
-  if (isNaN(num)) {
-    // console.info('Number was invalid', cleanedValue) // debug
-    return false // invalid
-  }
-
-  // If it is a currency, and has no decimals, add zero
-  // if (elem.querySelector('.dnb-number--currency')) {
-  //   if (String(num).indexOf('.') === -1) {
-  //     return cleanedValue
-  //   }
-  // }
-
-  // Ff the number not starts with 0, then use the control number
-  if (/^0/.test(cleanedValue)) {
-    return cleanedValue
-  }
-
-  // This is the default return
-  return cleanedValue
-}
-
 // Can be human number - https://en.wikipedia.org/wiki/Decimal_separator
 export function cleanNumber(num) {
   if (typeof num === 'number') {
@@ -996,4 +907,86 @@ export function runIOSSelectionFix() {
   } catch (e) {
     //
   }
+}
+
+export async function copyWithEffect(string) {
+  let success = null
+
+  if (string) {
+    try {
+      const fx = createSelectionFX(string)
+      success = await copyToClipboard(string)
+      if (success === true) {
+        fx.run()
+      }
+    } catch (e) {
+      warn(e)
+      success = e
+    }
+  }
+
+  return success
+}
+
+export function createSelectionFX(string) {
+  let height = 32
+  let left = 0
+  let top = 0
+  let elem // portalElem
+
+  // do that because getClientRects from selection is an experimental browser API
+  try {
+    // getClientRects
+    const cR = window.getSelection().getRangeAt(0).getClientRects()
+
+    height = cR[0]?.height
+    left = cR[0]?.left
+    top = cR[0]?.top
+  } catch (e) {
+    //
+  }
+
+  try {
+    // create backup to get the position from
+    if (!(top > 0) && !(left > 0)) {
+      // get a more precise position by inserting this empty node
+      const posElem = document.createElement('span')
+      posElem.setAttribute('class', 'dnb-number__fx__selection')
+      insertElementBeforeSelection(posElem)
+
+      // get position
+      ;({ top, left } = posElem.getBoundingClientRect())
+      top -= height / 1.333
+      posElem.parentElement.removeChild(posElem)
+    }
+
+    // create that portal element
+    elem = document.createElement('span')
+    elem.textContent = String(string)
+    elem.setAttribute('class', 'dnb-number__fx dnb-core-style')
+    elem.style.top = `${top}px`
+    elem.style.left = `${left + getSelectedText().length / 2}px`
+  } catch (e) {
+    warn(e)
+  }
+
+  return new (class SelectionFx {
+    remove() {
+      try {
+        document.body.removeChild(elem)
+      } catch (e) {
+        //
+      }
+    }
+    run() {
+      try {
+        document.body.appendChild(elem)
+
+        // remove that element again
+        setTimeout(this.remove, 800)
+      } catch (e) {
+        warn(e)
+      }
+    }
+  })()
 }

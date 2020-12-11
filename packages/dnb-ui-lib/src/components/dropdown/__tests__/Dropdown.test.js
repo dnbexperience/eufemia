@@ -92,15 +92,27 @@ describe('Dropdown component', () => {
     keydown(Comp, 32) // space
 
     elem = Comp.find('.dnb-drawer-list__option').at(props.value)
-    expect(elem.hasClass('dnb-drawer-list__option--focus')).toBe(true)
-    expect(elem.hasClass('dnb-drawer-list__option--selected')).toBe(true)
+    expect(
+      elem.instance().classList.contains('dnb-drawer-list__option--focus')
+    ).toBe(true)
+    expect(
+      elem
+        .instance()
+        .classList.contains('dnb-drawer-list__option--selected')
+    ).toBe(true)
 
     keydown(Comp, 40) // down
     keydown(Comp, 13) // enter
 
     elem = Comp.find('.dnb-drawer-list__option').at(props.value + 1)
-    expect(elem.hasClass('dnb-drawer-list__option--focus')).toBe(true)
-    expect(elem.hasClass('dnb-drawer-list__option--selected')).toBe(true)
+    expect(
+      elem.instance().classList.contains('dnb-drawer-list__option--focus')
+    ).toBe(true)
+    expect(
+      elem
+        .instance()
+        .classList.contains('dnb-drawer-list__option--selected')
+    ).toBe(true)
 
     expect(Comp.find('.dnb-dropdown__text__inner').text()).toBe(
       mockData[props.value + 1].selected_value
@@ -148,6 +160,8 @@ describe('Dropdown component', () => {
     keydown(Comp, 32) // space
     keydown(Comp, 40) // down
 
+    expect(Comp.find('.dnb-drawer-list__option--selected').length).toBe(1)
+
     const notChangedItem = mockData[props.value + 1]
     expect(on_select.mock.calls[0][0].data).toStrictEqual(notChangedItem)
 
@@ -176,19 +190,43 @@ describe('Dropdown component', () => {
     // open first
     open(Comp)
 
+    expect(Comp.exists('.dnb-drawer-list__option--selected')).toBe(false)
+
     // then simulate changes
     keydown(Comp, 40) // down
     keydown(Comp, 40) // down
     keydown(Comp, 32) // space
 
-    // open first
-    open(Comp)
+    expect(Comp.exists('.dnb-drawer-list__option--selected')).toBe(false)
 
-    expect(
-      Comp.find('.dnb-drawer-list__option')
-        .at(1)
-        .hasClass('dnb-drawer-list__option--selected')
-    ).toBe(false)
+    Comp.setProps({
+      prevent_selection: false
+    })
+
+    // open again
+    open(Comp)
+    keydown(Comp, 40) // down
+    keydown(Comp, 40) // down
+    keydown(Comp, 32) // space
+
+    expect(Comp.exists('.dnb-drawer-list__option--selected')).toBe(true)
+
+    Comp.setProps({
+      action_menu: true
+    })
+
+    // open again
+    open(Comp)
+    keydown(Comp, 40) // down
+    keydown(Comp, 40) // down
+    keydown(Comp, 32) // space
+
+    expect(Comp.exists('.dnb-drawer-list__option--selected')).toBe(false)
+
+    Comp.setProps({
+      action_menu: false,
+      prevent_selection: true
+    })
 
     expect(
       Comp.find('.dnb-icon').instance().getAttribute('aria-label')
@@ -269,11 +307,7 @@ describe('Dropdown component', () => {
     // open first
     open(Comp)
 
-    expect(
-      Comp.find('.dnb-drawer-list__option')
-        .at(1)
-        .hasClass('dnb-drawer-list__option--selected')
-    ).toBe(false)
+    expect(Comp.exists('.dnb-drawer-list__option--selected')).toBe(false)
 
     expect(
       Comp.find('.dnb-icon').instance().getAttribute('aria-label')
@@ -312,6 +346,7 @@ describe('Dropdown component', () => {
     expect(on_select.mock.calls[1][0].data).toStrictEqual(selectedItem)
     expect(on_change).toHaveBeenCalledWith({
       attributes: {},
+      isTrusted: false,
       data: selectedItem,
       event: new KeyboardEvent('keydown', {}),
       selected_item: props.value + 1,
@@ -334,7 +369,7 @@ describe('Dropdown component', () => {
     const Comp = mount(
       <Component
         {...props}
-        data={{ 'en-US': 'English', 'nb-NO': 'Norsk' }}
+        data={{ 'en-GB': 'English', 'nb-NO': 'Norsk' }}
         on_change={on_change}
       />
     )
@@ -345,16 +380,17 @@ describe('Dropdown component', () => {
 
     expect(on_change).toHaveBeenCalledWith({
       attributes: {},
+      isTrusted: false,
       data: {
         __id: 0,
         content: 'English',
-        selected_key: 'en-US',
+        selected_key: 'en-GB',
         type: 'object',
-        value: 'en-US'
+        value: 'en-GB'
       },
       event: new KeyboardEvent('keydown', {}),
       selected_item: 0,
-      value: 'en-US'
+      value: 'en-GB'
     })
 
     open(Comp)
@@ -364,6 +400,7 @@ describe('Dropdown component', () => {
 
     expect(on_change).toHaveBeenLastCalledWith({
       attributes: {},
+      isTrusted: false,
       data: {
         content: 'Norsk',
         selected_key: 'nb-NO',
@@ -403,18 +440,39 @@ describe('Dropdown component', () => {
 
   it('has to return all additional attributes the event return', () => {
     const on_show = jest.fn()
+    const on_hide = jest.fn()
     const params = { 'data-attr': 'value' }
     const Comp = mount(
       <Component
         no_animation
         on_show={on_show}
+        on_hide={on_hide}
         {...params}
         data={mockData}
       />
     )
+
     open(Comp)
+
     expect(on_show.mock.calls.length).toBe(1)
     expect(on_show.mock.calls[0][0].attributes).toMatchObject(params)
+    expect(on_show).toHaveBeenCalledWith({
+      attributes: params,
+      data: null,
+      ulElement: null
+    })
+
+    // close
+    keydown(Comp, 27) // esc
+
+    expect(on_hide.mock.calls.length).toBe(1)
+    expect(on_hide.mock.calls[0][0].attributes).toMatchObject(params)
+    expect(on_hide).toHaveBeenCalledWith({
+      isTrusted: false,
+      attributes: params,
+      data: null,
+      event: new KeyboardEvent('keydown', {})
+    })
   })
 
   it('has to set correct focus during open and close', async () => {
@@ -437,9 +495,12 @@ describe('Dropdown component', () => {
     // 1. open the dropdown
     open(Comp)
 
-    await wait(10)
-
     expect(on_show).toBeCalledTimes(1)
+    expect(on_show).toHaveBeenCalledWith({
+      attributes: {},
+      data: null,
+      ulElement: null
+    })
 
     await wait(50) // ensure that we have this._refUl.current – the check is in "assignObservers"
 
@@ -457,12 +518,56 @@ describe('Dropdown component', () => {
     expect(on_hide).toBeCalledTimes(1)
     expect(on_hide).toHaveBeenCalledWith({
       attributes: {},
+      isTrusted: false,
+      event: new KeyboardEvent('keydown', {}),
       data: null
     })
     expect(on_hide_focus).toBeCalledTimes(1)
     expect(on_hide_focus.mock.calls[0][0].element).toBe(
       Comp.find('.dnb-button').instance()
     )
+  })
+
+  it('will prevent close if false gets returned from on_hide event', () => {
+    let preventClose = false
+    const on_hide = jest.fn(() => !preventClose)
+    const Comp = mount(
+      <Component no_animation on_hide={on_hide} data={mockData} />
+    )
+
+    // first open
+    open(Comp)
+
+    expect(
+      Comp.find('.dnb-dropdown').hasClass('dnb-dropdown--opened')
+    ).toBe(true)
+
+    // close
+    keydown(Comp, 27) // esc
+    expect(on_hide.mock.calls.length).toBe(1)
+
+    expect(
+      Comp.find('.dnb-dropdown').hasClass('dnb-dropdown--opened')
+    ).toBe(false)
+
+    // reopen
+    open(Comp)
+
+    expect(
+      Comp.find('.dnb-dropdown').hasClass('dnb-dropdown--opened')
+    ).toBe(true)
+
+    preventClose = true
+
+    // close again, but with false returned
+    keydown(Comp, 27) // esc
+
+    expect(on_hide.mock.calls.length).toBe(3)
+
+    // we are still open
+    expect(
+      Comp.find('.dnb-dropdown').hasClass('dnb-dropdown--opened')
+    ).toBe(true)
   })
 
   it('has correct selected value', () => {

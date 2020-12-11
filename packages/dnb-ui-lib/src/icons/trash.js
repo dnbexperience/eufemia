@@ -4,26 +4,21 @@ import React from 'react'
 
 function trash(props) {
   return (
-    <svg width={16} height={16} viewBox="0 0 16 16" fill="none" {...props}>
-      <g
-        clipPath="url(#clip-306390)"
-        stroke="#000"
+    <svg
+      width={16}
+      height={16}
+      viewBox="0 0 16 16"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      {...props}
+    >
+      <path
+        d="M9.5 11.5V6.5M6.5 11.5V6.5M1 3H15M12.5767 14.0827C12.5559 14.3327 12.4419 14.5659 12.2573 14.7358C12.0727 14.9057 11.8309 15 11.58 15H4.42067C4.16975 15 3.92798 14.9057 3.74336 14.7358C3.55874 14.5659 3.44474 14.3327 3.424 14.0827L2.5 3H13.5L12.5767 14.0827ZM9.5 1H6.5C6.23478 1 5.98043 1.10536 5.79289 1.29289C5.60536 1.48043 5.5 1.73478 5.5 2V3H10.5V2C10.5 1.73478 10.3946 1.48043 10.2071 1.29289C10.0196 1.10536 9.76522 1 9.5 1Z"
+        stroke="black"
+        strokeWidth={1.5}
         strokeLinecap="round"
         strokeLinejoin="round"
-      >
-        <path d="M1.002 3.25h14" strokeWidth={1.5} />
-        <path
-          clipRule="evenodd"
-          d="M9.502.75h-3a1 1 0 00-1 1v1.5h5v-1.5a1 1 0 00-1-1z"
-          strokeWidth={1.5}
-        />
-        <path d="M6.502 11.75v-5m3 5v-5" strokeWidth={1.2} />
-        <path
-          clipRule="evenodd"
-          d="M12.58 14.333a1 1 0 01-.998.917H4.423a1 1 0 01-.997-.917L2.502 3.25h11l-.923 11.083z"
-          strokeWidth={1.5}
-        />
-      </g>
+      />
     </svg>
   )
 }

@@ -307,10 +307,8 @@ export const getFigmaDoc = async ({
 
 export const getFigmaUrlByImageIds = async ({
   figmaFile,
-  // frameId = 'frame',
   ids,
   params = {}
-  // doRefetch = null
 }) => {
   try {
     if (ids.length === 0) {
@@ -326,57 +324,90 @@ export const getFigmaUrlByImageIds = async ({
     })
 
     return images
-
-    // return JSON.parse(await fs.readFile(localFile))
   } catch (e) {
     new ErrorHandler('Failed on client.fileImages(figmaFile)', e)
   }
 }
 
-export const safeFileToDisk = async (
+export const streamToDisk = (
   { file = '.tmp/file.json', url },
   { errorExceptionType = ERROR_FATAL }
-) => {
-  const localFile = /\//.test(file)
-    ? file
-    : path.resolve(__dirname, `../.cache/${file}`)
-  const resetContent = fs.existsSync(localFile)
-    ? await fs.readFile(localFile, 'utf-8')
-    : null
-  const writeStream = fs.createWriteStream(localFile)
-  writeStream
-    .on('error', (err) => {
-      writeStream.end()
-      new ErrorHandler(
-        'Failed on createWriteStream',
-        err,
-        errorExceptionType
-      )
-    })
-    .on('finish', async () => {
-      writeStream.close()
+) =>
+  new Promise((resolve, reject) => {
+    const streamHandler = ({ localFile, oldContent = null }) => {
+      const writeStream = fs.createWriteStream(localFile)
 
-      // reset the file, if its empty
-      if (resetContent) {
-        const newContent = await fs.readFile(localFile, 'utf-8')
-        if (String(newContent).trim().length === 0) {
-          await fs.writeFile(localFile, resetContent)
-        }
-      }
+      writeStream
+        .on('error', (err) => {
+          writeStream.end()
+          reject(
+            new ErrorHandler(
+              'Failed on createWriteStream',
+              err,
+              errorExceptionType
+            )
+          )
+        })
+        .on('finish', async () => {
+          writeStream.close()
 
-      return { localFile }
-    })
-  https
-    .get(url, (response) => response.pipe(writeStream))
-    .on('error', async (err) => {
-      try {
-        await fs.unlink(localFile)
-      } catch (err) {
-        new ErrorHandler('Failed on unlink', err, errorExceptionType)
-      }
-      new ErrorHandler('Failed on safeFileToDisk', err, errorExceptionType)
-    })
-}
+          const newContent = await fs.readFile(localFile, 'utf-8')
+
+          // reset the file, if its empty
+          if (String(newContent).trim().length === 0) {
+            await fs.writeFile(localFile, oldContent)
+            resolve({ localFile, content: oldContent })
+            new ErrorHandler(
+              `streamToDisk failed as the stream did not end with content. Using the old content for: ${localFile}`,
+              errorExceptionType
+            )
+          } else {
+            resolve({ localFile, content: newContent })
+          }
+        })
+
+      https
+        .get(url, (response) => response.pipe(writeStream))
+        .on('error', async (err) => {
+          try {
+            await fs.unlink(localFile)
+          } catch (err) {
+            reject(
+              new ErrorHandler('Failed on unlink', err, errorExceptionType)
+            )
+          }
+
+          reject(
+            new ErrorHandler(
+              'Failed on streamToDisk',
+              err,
+              errorExceptionType
+            )
+          )
+        })
+    }
+
+    const localFile = /\//.test(file)
+      ? file
+      : path.resolve(__dirname, `../.cache/${file}`)
+
+    // Check if an old file exists, this way we can "reset" the file in case the stream fails during the data transfer
+    fs.existsSync(localFile)
+      ? fs.readFile(localFile, 'utf-8', (err, oldContent) => {
+          if (err) {
+            reject(
+              new ErrorHandler(
+                'Failed on readFile',
+                err,
+                errorExceptionType
+              )
+            )
+          }
+
+          streamHandler({ localFile, oldContent })
+        })
+      : streamHandler({ localFile })
+  })
 
 export const saveToFile = async (file, data) => {
   const localFile = /\//.test(file)

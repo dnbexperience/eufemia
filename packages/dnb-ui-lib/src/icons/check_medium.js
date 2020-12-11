@@ -4,10 +4,20 @@ import React from 'react'
 
 function check_medium(props) {
   return (
-    <svg width={24} height={24} viewBox="0 0 24 24" fill="none" {...props}>
+    <svg
+      width={24}
+      height={24}
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      {...props}
+    >
       <path
-        d="M3.613 13.407a.75.75 0 00-1.226.864l1.226-.864zm3.062 5.648l.623-.417-.01-.015-.613.432zm2.56.076l-.588-.465a.39.39 0 00-.009.012l.598.453zM21.588 4.712a.75.75 0 00-1.176-.93l1.176.93zm-19.201 9.56l3.675 5.215 1.226-.864-3.675-5.216-1.226.864zm3.665 5.2a2.324 2.324 0 001.861 1.03l.045-1.5a.823.823 0 01-.66-.364l-1.246.834zm1.861 1.03c.75.023 1.466-.32 1.92-.917l-1.195-.907a.823.823 0 01-.68.325l-.045 1.5zm1.91-.905L21.589 4.711l-1.176-.93L8.647 18.666l1.177.93z"
-        fill="#000"
+        d="M1.5 15L7.5 21L22.5 3"
+        stroke="black"
+        strokeWidth={1.5}
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   )

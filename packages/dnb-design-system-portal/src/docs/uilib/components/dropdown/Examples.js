@@ -21,9 +21,6 @@ const Wrapper = styled.div`
   [data-visual-test-wrapper='dropdown-more_menu'] {
     width: 20rem;
     height: 15rem !important;
-    ${'' /* .dnb-dropdown:nth-of-type(1n + 2) {
-      display: none;
-    } */}
   }
   [data-visual-test='dropdown-list'] .dnb-drawer-list__list {
     display: block;
@@ -155,8 +152,8 @@ render(
     data={data}
     label="Label:"
     title="Please select a value"
-    on_change={({ data: { selected_key } }) => {
-      console.log('on_change', selected_key)
+    on_change={({ data }) => {
+      console.log('on_change', data)
     }}
   />
 )

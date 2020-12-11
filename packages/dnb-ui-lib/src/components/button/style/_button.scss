@@ -281,10 +281,6 @@
     margin-top: 0.5rem;
   }
 
-  &.dnb-skeleton .dnb-icon {
-    visibility: hidden; // because the text corner (as boxes) are visible
-  }
-
   @include IS_IE {
     flex: none;
     &__icon,

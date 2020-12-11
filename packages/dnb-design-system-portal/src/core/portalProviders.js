@@ -6,10 +6,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { CacheProvider } from '@emotion/core'
+import { CacheProvider } from '@emotion/react'
 import createEmotionCache from '@emotion/cache'
 
 import { Provider as EufemiaProvider } from 'dnb-ui-lib/src/shared'
+import enUS from 'dnb-ui-lib/src/shared/locales/en-US'
 import stylisPlugin from 'dnb-ui-lib/src/style/stylis'
 import { isTrue } from 'dnb-ui-lib/src/shared/component-helper'
 
@@ -19,6 +20,7 @@ import cssVars from 'css-vars-ponyfill'
 cssVars()
 
 const emotionCache = createEmotionCache({
+  key: 'portal',
   stylisPlugins: [stylisPlugin]
 })
 
@@ -29,6 +31,7 @@ export const rootElement = ({ element }) => {
       <EufemiaProvider
         skeleton={getSkeletonEnabled()} // To simulate a whole page skeleton
         locale={getLang()}
+        locales={enUS}
       >
         {element}
       </EufemiaProvider>
@@ -58,6 +61,12 @@ export function setLang(locale) {
   }
 }
 export function getSkeletonEnabled() {
+  if (
+    typeof window !== 'undefined' &&
+    window.location.search.includes('skeleton')
+  ) {
+    return true
+  }
   if (global.IS_TEST) {
     return false
   }

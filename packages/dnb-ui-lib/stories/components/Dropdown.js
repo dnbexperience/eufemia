@@ -103,7 +103,10 @@ const DropdownStory = () => {
               </>
             ]}
             on_hide={(e) => {
-              console.log(e)
+              console.log('on_hide', e)
+            }}
+            on_select={(e) => {
+              console.log('on_select', e)
             }}
           />
           <Dropdown
@@ -145,7 +148,7 @@ const DropdownStory = () => {
         </RightAligned>
       </Box>
       <Box>
-        <UpdateDataExample></UpdateDataExample>
+        <UpdateDataExample />
       </Box>
       <CustomWidth>
         <Box>

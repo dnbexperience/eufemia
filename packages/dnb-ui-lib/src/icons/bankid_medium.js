@@ -4,12 +4,19 @@ import React from 'react'
 
 function bankid_medium(props) {
   return (
-    <svg width={24} height={24} viewBox="0 0 24 24" fill="none" {...props}>
+    <svg
+      width={24}
+      height={24}
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      {...props}
+    >
       <path
-        fillRule="evenodd"
-        clipRule="evenodd"
-        d="M.5 4.5A.5.5 0 000 5v1.25a.5.5 0 00.5.5h5a.5.5 0 00.5-.5V5a.5.5 0 00-.5-.5h-5zm18 0a.5.5 0 00-.5.5v1.25a.5.5 0 00.5.5h5a.5.5 0 00.5-.5V5a.5.5 0 00-.5-.5h-5zM9 8.75a.5.5 0 01.5-.5h5a.5.5 0 01.5.5V10a.5.5 0 01-.5.5h-5A.5.5 0 019 10V8.75zm-8.5 4a.5.5 0 00-.5.5v1.25a.5.5 0 00.5.5h5a.5.5 0 00.5-.5v-1.25a.5.5 0 00-.5-.5h-5zm-.5 5a.5.5 0 01.5-.5h5a.5.5 0 01.5.5V19a.5.5 0 01-.5.5h-5A.5.5 0 010 19v-1.25zm18.5-9.5a.5.5 0 00-.5.5V10a.5.5 0 00.5.5h5a.5.5 0 00.5-.5V8.75a.5.5 0 00-.5-.5h-5zm-9.5 5a.5.5 0 01.5-.5h5a.5.5 0 01.5.5v1.25a.5.5 0 01-.5.5h-5a.5.5 0 01-.5-.5v-1.25zm9.5 4a.5.5 0 00-.5.5V19a.5.5 0 00.5.5h5a.5.5 0 00.5-.5v-1.25a.5.5 0 00-.5-.5h-5z"
-        fill="#333"
+        d="M0.75 5.5H5.25M0.75 18.5H5.25M0.75 14H5.25M18.75 5.5H23.25M18.75 18.5H23.25M18.75 9.5H23.25M9.75 9.5H14.25M9.75 14H14.25"
+        stroke="black"
+        strokeWidth={1.5}
+        strokeLinecap="round"
       />
     </svg>
   )

@@ -10,6 +10,7 @@
 @import '../../elements/ui-elements.scss';
 
 // ::selection appearance helper
+.dnb-selection ::selection,
 [class^='dnb-'] ::selection {
   // if not IE11 / not IS_IE
   @supports not (-ms-ime-align: auto) {
@@ -56,3 +57,4 @@
 @import '../../../components/tooltip/style/themes/dnb-tooltip-theme-ui.scss';
 @import '../../../fragments/drawer-list/style/themes/dnb-drawer-list-theme-ui.scss';
 @import '../../../fragments/scroll-view/style/themes/dnb-scroll-view-theme-ui.scss';
+@import '../../../patterns/payment-card/style/themes/dnb-payment-card-theme-ui.scss';

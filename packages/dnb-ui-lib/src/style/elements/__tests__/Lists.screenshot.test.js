@@ -12,12 +12,8 @@ import {
 describe('List screenshot', () => {
   setupPageScreenshot({
     url: '/uilib/elements/lists'
-    // screenshotConfig: {
-    //   // use 6% on CI because of the font rendering differences
-    //   pixelThresholdRelative: isCI ? 0.06 : 0
-    // }
   })
-  // the first one is on 5.54%
+
   it('have to match ul list', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-visual-test="lists-ul"]'
@@ -48,9 +44,44 @@ describe('List screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
-  it('have to match lists rest', async () => {
+  it('have to match lists reset', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-visual-test="lists-reset"]'
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+})
+
+describe('Lists with skeleton screenshot', () => {
+  setupPageScreenshot({ url: '/uilib/elements/lists?skeleton' })
+
+  it('have to match ul list', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-visual-test="lists-ul"]'
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+  it('have to match ol list', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-visual-test="lists-ol"]'
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+  it('have to match outside ol list', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-visual-test="lists-ol-style-position"]'
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+  it('have to match ol list with custom types', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-visual-test="lists-ol-types"]'
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+  it('have to match dl list', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-visual-test="lists-dl"]'
     })
     expect(screenshot).toMatchImageSnapshot()
   })

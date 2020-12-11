@@ -46,13 +46,15 @@ export default class FormStatus extends React.PureComponent {
     state: PropTypes.oneOfType([
       PropTypes.bool,
       PropTypes.string,
-      PropTypes.oneOf(['error', 'info'])
+      PropTypes.oneOf(['error', 'warn', 'info'])
     ]),
+    variant: PropTypes.oneOf(['flat', 'outlined']),
+    size: PropTypes.oneOf(['default', 'large']),
     // status is Deprecated
     status: PropTypes.oneOfType([
       PropTypes.bool,
       PropTypes.string,
-      PropTypes.oneOf(['error', 'info'])
+      PropTypes.oneOf(['error', 'warn', 'info'])
     ]),
     global_status_id: PropTypes.string,
     hidden: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -78,7 +80,9 @@ export default class FormStatus extends React.PureComponent {
     text: null,
     label: null,
     icon: 'error',
-    icon_size: 'large',
+    icon_size: 'medium',
+    size: 'default',
+    variant: null,
     state: 'error',
     status: null, // Deprecated
     global_status_id: null,
@@ -122,12 +126,22 @@ export default class FormStatus extends React.PureComponent {
         case 'information':
           IconToLoad = InfoIcon
           break
+        case 'warn':
+        case 'warning':
+          IconToLoad = WarnIcon
+          break
         case 'error':
         default:
           IconToLoad = ErrorIcon
       }
 
-      icon = <Icon icon={<IconToLoad title={null} />} size={icon_size} />
+      icon = (
+        <Icon
+          icon={<IconToLoad title={null} />}
+          size={icon_size}
+          inherit_color={false}
+        />
+      )
     }
 
     return icon
@@ -216,6 +230,9 @@ export default class FormStatus extends React.PureComponent {
       case 'information':
         state = 'info'
         break
+      case 'warning':
+        state = 'warn'
+        break
     }
     return state
   }
@@ -252,6 +269,8 @@ export default class FormStatus extends React.PureComponent {
       title,
       status: rawStatus,
       state: rawState,
+      size,
+      variant,
       hidden,
       className,
       animation,
@@ -291,7 +310,9 @@ export default class FormStatus extends React.PureComponent {
       className: classnames(
         'dnb-form-status',
         `dnb-form-status--${state}`,
-        animation ? `dnb-form-status--${animation}` : null,
+        `dnb-form-status__size--${size}`,
+        variant && `dnb-form-status__variant--${variant}`,
+        animation ? `dnb-form-status__animation--${animation}` : null,
         hasStringContent ? 'dnb-form-status--has-content' : null,
         createSpacingClasses(props),
         className,
@@ -303,7 +324,7 @@ export default class FormStatus extends React.PureComponent {
     }
     const textParams = {
       className: classnames(
-        'dnb-form-status--text',
+        'dnb-form-status__text',
         createSkeletonClass('font', skeleton, this.context)
       ),
       id: text_id
@@ -332,31 +353,26 @@ export default class FormStatus extends React.PureComponent {
 
 export const ErrorIcon = (props) => (
   <svg
-    width="32"
-    height="32"
-    viewBox="0 0 32 32"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
     fill="none"
     role="presentation"
     {...props}
   >
     {props && props.title && <title>{props.title}</title>}
+
     <path
-      d="M16 25a.5.5 0 100 1 .5.5 0 000-1v0"
-      stroke="#000"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
+      d="M23.625 17.864A3.547 3.547 0 0120.45 23H3.548a3.546 3.546 0 01-3.172-5.136l8.45-14.902a3.548 3.548 0 016.347 0l8.452 14.902z"
+      fill="#DC2A2A"
     />
     <path
-      d="M16 21V11"
-      stroke="#000"
-      strokeWidth="1.5"
-      strokeLinecap="round"
+      d="M12 16.286a1.286 1.286 0 100 2.572 1.286 1.286 0 000-2.572z"
+      fill="#fff"
     />
     <path
-      clipRule="evenodd"
-      d="M18.161 2.347a2.408 2.408 0 00-4.322 0L1.208 28.077A2.028 2.028 0 003.029 31h25.942a2.028 2.028 0 001.821-2.923l-12.63-25.73z"
-      stroke="#000"
+      d="M12 13.818v-5"
+      stroke="#fff"
       strokeWidth="1.5"
       strokeLinecap="round"
       strokeLinejoin="round"
@@ -370,21 +386,65 @@ ErrorIcon.defaultProps = {
   title: 'error'
 }
 
-export const InfoIcon = (props) => (
+export const WarnIcon = (props) => (
   <svg
-    width="32"
-    height="32"
-    viewBox="0 0 32 32"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
     fill="none"
     role="presentation"
     {...props}
   >
     {props && props.title && <title>{props.title}</title>}
+
+    <path
+      d="M23.625 17.864A3.547 3.547 0 0120.45 23H3.548a3.546 3.546 0 01-3.172-5.136l8.45-14.902a3.548 3.548 0 016.347 0l8.452 14.902z"
+      fill="#FDBB31"
+    />
+    <path
+      d="M12 16.286a1.286 1.286 0 100 2.572 1.286 1.286 0 000-2.572z"
+      fill="#333"
+    />
+    <path
+      d="M12 13.818v-5"
+      stroke="#333"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+)
+WarnIcon.propTypes = {
+  title: PropTypes.string
+}
+WarnIcon.defaultProps = {
+  title: 'error'
+}
+
+export const InfoIcon = (props) => (
+  <svg
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    role="presentation"
+    {...props}
+  >
+    {props && props.title && <title>{props.title}</title>}
+
     <path
       fillRule="evenodd"
       clipRule="evenodd"
-      d="M10.1 1.08A14.75 14.75 0 00.26 15.01a14.73 14.73 0 0022.16 12.74l8.27 3.94a.75.75 0 001-1l-3.94-8.27A14.75 14.75 0 0010.1 1.08zM1.76 15.01a13.25 13.25 0 1124.5 6.97.75.75 0 00-.04.72l3.2 6.73-6.72-3.2a.75.75 0 00-.72.04A13.23 13.23 0 011.76 15zM13.38 7.9a1.31 1.31 0 112.63 0 1.31 1.31 0 01-2.63 0zm-1.13 5.07c0-.41.34-.75.75-.75h1.13c1.04 0 1.88.85 1.88 1.88v5.64c0 .84.67 1.51 1.5 1.51h1.13a.75.75 0 110 1.5h-1.13a3 3 0 01-3-3V14.1c0-.2-.17-.38-.38-.38H13a.75.75 0 01-.75-.75z"
-      fill="#000"
+      d="M11.268 0a11.25 11.25 0 105.566 21.017l6.112 2.91a.75.75 0 001-1l-2.911-6.112A11.234 11.234 0 0011.268 0z"
+      fill="#007272"
+    />
+    <circle cx="11" cy="6.5" r=".5" fill="#fff" stroke="#fff" />
+    <path
+      d="M13.75 16H13a1.5 1.5 0 01-1.5-1.5v-3.75a.75.75 0 00-.75-.75H10"
+      stroke="#fff"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
   </svg>
 )

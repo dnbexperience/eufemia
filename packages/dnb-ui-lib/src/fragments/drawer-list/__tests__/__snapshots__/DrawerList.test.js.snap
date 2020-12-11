@@ -621,11 +621,13 @@ exports[`DrawerList scss have to match snapshot 1`] = `
   .dnb-drawer-list--scroll .dnb-drawer-list__options {
     min-height: 2rem;
     max-height: 70vh;
-    overflow-y: scroll;
+    overflow-y: auto;
     overscroll-behavior: contain;
     scrollbar-width: thin;
     -webkit-overflow-scrolling: touch;
     -ms-overflow-style: auto; }
+    html:not([data-visual-test]) .dnb-drawer-list--scroll .dnb-drawer-list__options {
+      scroll-behavior: smooth; }
   .dnb-drawer-list--opened .dnb-drawer-list__options {
     scroll-behavior: smooth; }
   .dnb-drawer-list--no-scroll-animation .dnb-drawer-list__options {
@@ -781,8 +783,6 @@ exports[`DrawerList scss have to match snapshot 1`] = `
     flex-direction: row;
     justify-content: flex-start;
     align-items: center; }
-  .dnb-drawer-list--action-menu .dnb-drawer-list__options {
-    border-radius: 0; }
   @media screen and (min-width: 40em) {
     .dnb-drawer-list--action-menu.dnb-drawer-list--is-popup.dnb-drawer-list--left .dnb-drawer-list__list {
       left: 0; }

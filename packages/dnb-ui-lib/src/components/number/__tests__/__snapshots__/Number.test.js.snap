@@ -47,7 +47,6 @@ exports[`Number component have to match default number snapshot 1`] = `
       <span
         className="dnb-number__sr-only dnb-sr-only--inline"
         id="unique"
-        lang="nb-NO"
       >
         12 345 678,9876
       </span>
@@ -58,7 +57,7 @@ exports[`Number component have to match default number snapshot 1`] = `
         onCopy={[Function]}
         tabIndex={-1}
       >
-        12345678.9876
+        12345678,9876
       </span>
     </span>
   </Number>
@@ -119,18 +118,25 @@ exports[`Number scss have to match snapshot 1`] = `
       line-height: 0; }
   .dnb-number--selectall {
     cursor: text; }
+  .dnb-number__visible {
+    position: relative;
+    z-index: 2; }
   .dnb-number--selected .dnb-number__visible {
-    background-color: var(--color-mint-green);
-    color: var(--color-black); }
+    color: var(--color-black);
+    background-color: var(--color-mint-green); }
   .dnb-number__selection {
-    pointer-events: none;
-    user-select: none;
-    -webkit-touch-callout: none;
     position: absolute;
+    z-index: 1;
+    top: 0;
     left: 0;
-    opacity: 0; }
+    opacity: 0;
+    user-select: none; }
   .dnb-number--selected .dnb-number__selection {
+    z-index: 3;
     user-select: all; }
+  .dnb-number.dnb-skeleton,
+  .dnb-skeleton .dnb-number {
+    -webkit-text-fill-color: var(--skeleton-color); }
 
 @keyframes number-fx-scale-out {
   0% {

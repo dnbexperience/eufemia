@@ -25,14 +25,13 @@ export default class ProgressIndicator extends React.PureComponent {
     visible: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     type: PropTypes.oneOf(['circular']),
     no_animation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    size: PropTypes.oneOf(['small', 'medium', 'large', 'huge']),
+    size: PropTypes.oneOf(['default', 'small', 'medium', 'large', 'huge']),
     progress: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     label: PropTypes.node,
     label_direction: PropTypes.string,
     show_label: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
     indicator_label: PropTypes.string,
-
     on_complete: PropTypes.func
   }
 
@@ -40,7 +39,7 @@ export default class ProgressIndicator extends React.PureComponent {
     visible: true,
     type: 'circular',
     no_animation: false,
-    size: 'medium',
+    size: 'default',
     progress: null,
     label: null,
     label_direction: 'horizontal',
@@ -101,7 +100,7 @@ export default class ProgressIndicator extends React.PureComponent {
       this.props,
       ProgressIndicator.defaultProps,
       this.context.formRow,
-      this.context.translation.ProgressIndicator
+      this.context.getTranslation(this.props).ProgressIndicator
     )
 
     const {

@@ -4,12 +4,20 @@ import React from 'react'
 
 function arrow_right_medium(props) {
   return (
-    <svg width={24} height={24} viewBox="0 0 24 24" fill="none" {...props}>
+    <svg
+      width={24}
+      height={24}
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      {...props}
+    >
       <path
-        fillRule="evenodd"
-        clipRule="evenodd"
-        d="M20.78 12.53a.75.75 0 000-1.06l-7.5-7.5a.75.75 0 10-1.06 1.06l6.22 6.22H3.75a.75.75 0 000 1.5h14.69l-6.22 6.22a.75.75 0 101.06 1.06l7.5-7.5z"
-        fill="#000"
+        d="M2.25 12H22.5M15 19.5L22.5 12M22.5 12L15 4.5"
+        stroke="black"
+        strokeWidth={1.5}
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   )

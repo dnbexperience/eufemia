@@ -112,6 +112,11 @@ exports[`DatePicker component have to match snapshot 1`] = `
     disabled={null}
     enable_keyboard_nav={false}
     end_date="2019-02-15T00:00:00.000Z"
+    enhanceWithMethods={
+      Object {
+        "hidePicker": [Function],
+      }
+    }
     first_day="monday"
     global_status_id={null}
     hide_days={false}
@@ -216,20 +221,22 @@ exports[`DatePicker component have to match snapshot 1`] = `
           global_status_id={null}
           hidden={false}
           icon="error"
-          icon_size="large"
+          icon_size="medium"
           id="date-picker-id-form-status"
           label={null}
+          size="default"
           skeleton={null}
           state="error"
           status="error"
           text="status"
           text_id="date-picker-id-status"
           title={null}
+          variant={null}
           width_element={null}
           width_selector="date-picker-id-input"
         >
           <span
-            className="dnb-form-status dnb-form-status--error dnb-form-status--has-content"
+            className="dnb-form-status dnb-form-status--error dnb-form-status__size--default dnb-form-status--has-content"
             hidden={false}
             id="date-picker-id-form-status"
           >
@@ -248,15 +255,16 @@ exports[`DatePicker component have to match snapshot 1`] = `
                     title={null}
                   />
                 }
+                inherit_color={false}
                 modifier={null}
-                size="large"
+                size="medium"
                 skeleton={null}
                 title={null}
                 width={null}
               >
                 <span
                   aria-hidden={true}
-                  className="dnb-icon dnb-icon--large"
+                  className="dnb-icon dnb-icon--medium"
                   role="presentation"
                 >
                   <Component>
@@ -265,29 +273,23 @@ exports[`DatePicker component have to match snapshot 1`] = `
                     >
                       <svg
                         fill="none"
-                        height="32"
+                        height="24"
                         role="presentation"
                         title={null}
-                        viewBox="0 0 32 32"
-                        width="32"
+                        viewBox="0 0 24 24"
+                        width="24"
                       >
                         <path
-                          d="M16 25a.5.5 0 100 1 .5.5 0 000-1v0"
-                          stroke="#000"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="1.5"
+                          d="M23.625 17.864A3.547 3.547 0 0120.45 23H3.548a3.546 3.546 0 01-3.172-5.136l8.45-14.902a3.548 3.548 0 016.347 0l8.452 14.902z"
+                          fill="#DC2A2A"
                         />
                         <path
-                          d="M16 21V11"
-                          stroke="#000"
-                          strokeLinecap="round"
-                          strokeWidth="1.5"
+                          d="M12 16.286a1.286 1.286 0 100 2.572 1.286 1.286 0 000-2.572z"
+                          fill="#fff"
                         />
                         <path
-                          clipRule="evenodd"
-                          d="M18.161 2.347a2.408 2.408 0 00-4.322 0L1.208 28.077A2.028 2.028 0 003.029 31h25.942a2.028 2.028 0 001.821-2.923l-12.63-25.73z"
-                          stroke="#000"
+                          d="M12 13.818v-5"
+                          stroke="#fff"
                           strokeLinecap="round"
                           strokeLinejoin="round"
                           strokeWidth="1.5"
@@ -298,7 +300,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                 </span>
               </Icon>
               <span
-                className="dnb-form-status--text"
+                className="dnb-form-status__text"
                 id="date-picker-id-status"
               >
                 status
@@ -381,20 +383,19 @@ exports[`DatePicker component have to match snapshot 1`] = `
                       <span
                         aria-hidden="true"
                         aria-label="calendar icon"
-                        class="dnb-icon dnb-icon--default dnb-button__icon"
+                        class="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
                         role="presentation"
                       >
                         <svg
                           fill="none"
                           height="16"
-                          viewBox="0 0 17 17"
+                          viewBox="0 0 16 16"
                           width="16"
+                          xmlns="http://www.w3.org/2000/svg"
                         >
                           <path
-                            clip-rule="evenodd"
-                            d="M4.905 0c.44 0 .797.357.797.797v1.257h5.596V.797a.797.797 0 111.594 0v1.257h1.718A2.39 2.39 0 0117 4.444V14.61A2.39 2.39 0 0114.61 17H2.39A2.39 2.39 0 010 14.61V4.444a2.39 2.39 0 012.39-2.39h1.719V.797c0-.44.356-.797.796-.797zm6.393 3.648v.744a.797.797 0 101.594 0v-.744h1.718c.44 0 .797.356.797.796v1.719H1.593V4.444c0-.44.357-.796.797-.796h1.719v.744a.797.797 0 001.593 0v-.744h5.596zM1.593 7.756h13.814v6.854c0 .44-.357.797-.797.797H2.39a.797.797 0 01-.797-.797V7.756z"
-                            fill="#000"
-                            fill-rule="evenodd"
+                            d="M6.00581 1C6.00581 0.585786 5.67003 0.25 5.25581 0.25C4.8416 0.25 4.50581 0.585786 4.50581 1H6.00581ZM4.50581 4.25581C4.50581 4.67003 4.8416 5.00581 5.25581 5.00581C5.67003 5.00581 6.00581 4.67003 6.00581 4.25581H4.50581ZM11.5 1C11.5 0.585786 11.1642 0.25 10.75 0.25C10.3358 0.25 10 0.585786 10 1H11.5ZM10 4.25581C10 4.67003 10.3358 5.00581 10.75 5.00581C11.1642 5.00581 11.5 4.67003 11.5 4.25581H10ZM2 15.75H14V14.25H2V15.75ZM4.50581 1V4.25581H6.00581V1H4.50581ZM10 1V4.25581H11.5V1H10ZM14 1.87791H2V3.37791H14V1.87791ZM0.25 3.62791V7.5H1.75V3.62791H0.25ZM0.25 7.5V14H1.75V7.5H0.25ZM15.75 14V7.5H14.25V14H15.75ZM15.75 7.5V3.62791H14.25V7.5H15.75ZM1 8.25H15V6.75H1V8.25ZM14 3.37791C14.1381 3.37791 14.25 3.48984 14.25 3.62791H15.75C15.75 2.66141 14.9665 1.87791 14 1.87791V3.37791ZM14 15.75C14.9665 15.75 15.75 14.9665 15.75 14H14.25C14.25 14.1381 14.1381 14.25 14 14.25V15.75ZM2 14.25C1.86193 14.25 1.75 14.1381 1.75 14H0.25C0.25 14.9665 1.0335 15.75 2 15.75V14.25ZM2 1.87791C1.0335 1.87791 0.25 2.66141 0.25 3.62791H1.75C1.75 3.48984 1.86193 3.37791 2 3.37791V1.87791Z"
+                            fill="black"
                           />
                         </svg>
                       </span>
@@ -447,7 +448,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                   status_animation={null}
                   status_state="error"
                   stretch={null}
-                  submit_button_icon="search"
+                  submit_button_icon="loupe"
                   submit_button_status={null}
                   submit_button_title={null}
                   submit_button_variant="secondary"
@@ -1127,20 +1128,19 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                     <span
                                       aria-hidden="true"
                                       aria-label="calendar icon"
-                                      class="dnb-icon dnb-icon--default dnb-button__icon"
+                                      class="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
                                       role="presentation"
                                     >
                                       <svg
                                         fill="none"
                                         height="16"
-                                        viewBox="0 0 17 17"
+                                        viewBox="0 0 16 16"
                                         width="16"
+                                        xmlns="http://www.w3.org/2000/svg"
                                       >
                                         <path
-                                          clip-rule="evenodd"
-                                          d="M4.905 0c.44 0 .797.357.797.797v1.257h5.596V.797a.797.797 0 111.594 0v1.257h1.718A2.39 2.39 0 0117 4.444V14.61A2.39 2.39 0 0114.61 17H2.39A2.39 2.39 0 010 14.61V4.444a2.39 2.39 0 012.39-2.39h1.719V.797c0-.44.356-.797.796-.797zm6.393 3.648v.744a.797.797 0 101.594 0v-.744h1.718c.44 0 .797.356.797.796v1.719H1.593V4.444c0-.44.357-.796.797-.796h1.719v.744a.797.797 0 001.593 0v-.744h5.596zM1.593 7.756h13.814v6.854c0 .44-.357.797-.797.797H2.39a.797.797 0 01-.797-.797V7.756z"
-                                          fill="#000"
-                                          fill-rule="evenodd"
+                                          d="M6.00581 1C6.00581 0.585786 5.67003 0.25 5.25581 0.25C4.8416 0.25 4.50581 0.585786 4.50581 1H6.00581ZM4.50581 4.25581C4.50581 4.67003 4.8416 5.00581 5.25581 5.00581C5.67003 5.00581 6.00581 4.67003 6.00581 4.25581H4.50581ZM11.5 1C11.5 0.585786 11.1642 0.25 10.75 0.25C10.3358 0.25 10 0.585786 10 1H11.5ZM10 4.25581C10 4.67003 10.3358 5.00581 10.75 5.00581C11.1642 5.00581 11.5 4.67003 11.5 4.25581H10ZM2 15.75H14V14.25H2V15.75ZM4.50581 1V4.25581H6.00581V1H4.50581ZM10 1V4.25581H11.5V1H10ZM14 1.87791H2V3.37791H14V1.87791ZM0.25 3.62791V7.5H1.75V3.62791H0.25ZM0.25 7.5V14H1.75V7.5H0.25ZM15.75 14V7.5H14.25V14H15.75ZM15.75 7.5V3.62791H14.25V7.5H15.75ZM1 8.25H15V6.75H1V8.25ZM14 3.37791C14.1381 3.37791 14.25 3.48984 14.25 3.62791H15.75C15.75 2.66141 14.9665 1.87791 14 1.87791V3.37791ZM14 15.75C14.9665 15.75 15.75 14.9665 15.75 14H14.25C14.25 14.1381 14.1381 14.25 14 14.25V15.75ZM2 14.25C1.86193 14.25 1.75 14.1381 1.75 14H0.25C0.25 14.9665 1.0335 15.75 2 15.75V14.25ZM2 1.87791C1.0335 1.87791 0.25 2.66141 0.25 3.62791H1.75C1.75 3.48984 1.86193 3.37791 2 3.37791V1.87791Z"
+                                          fill="black"
                                         />
                                       </svg>
                                     </span>
@@ -1151,6 +1151,8 @@ exports[`DatePicker component have to match snapshot 1`] = `
                               on_submit_blur={null}
                               on_submit_focus={null}
                               skeleton={false}
+                              status={null}
+                              status_state="error"
                               title={null}
                               type="button"
                               value={null}
@@ -1169,6 +1171,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                   custom_element={null}
                                   custom_method={null}
                                   disabled={false}
+                                  element={null}
                                   global_status_id={null}
                                   href={null}
                                   icon="calendar"
@@ -1192,26 +1195,26 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                         <span
                                           aria-hidden="true"
                                           aria-label="calendar icon"
-                                          class="dnb-icon dnb-icon--default dnb-button__icon"
+                                          class="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
                                           role="presentation"
                                         >
                                           <svg
                                             fill="none"
                                             height="16"
-                                            viewBox="0 0 17 17"
+                                            viewBox="0 0 16 16"
                                             width="16"
+                                            xmlns="http://www.w3.org/2000/svg"
                                           >
                                             <path
-                                              clip-rule="evenodd"
-                                              d="M4.905 0c.44 0 .797.357.797.797v1.257h5.596V.797a.797.797 0 111.594 0v1.257h1.718A2.39 2.39 0 0117 4.444V14.61A2.39 2.39 0 0114.61 17H2.39A2.39 2.39 0 010 14.61V4.444a2.39 2.39 0 012.39-2.39h1.719V.797c0-.44.356-.797.796-.797zm6.393 3.648v.744a.797.797 0 101.594 0v-.744h1.718c.44 0 .797.356.797.796v1.719H1.593V4.444c0-.44.357-.796.797-.796h1.719v.744a.797.797 0 001.593 0v-.744h5.596zM1.593 7.756h13.814v6.854c0 .44-.357.797-.797.797H2.39a.797.797 0 01-.797-.797V7.756z"
-                                              fill="#000"
-                                              fill-rule="evenodd"
+                                              d="M6.00581 1C6.00581 0.585786 5.67003 0.25 5.25581 0.25C4.8416 0.25 4.50581 0.585786 4.50581 1H6.00581ZM4.50581 4.25581C4.50581 4.67003 4.8416 5.00581 5.25581 5.00581C5.67003 5.00581 6.00581 4.67003 6.00581 4.25581H4.50581ZM11.5 1C11.5 0.585786 11.1642 0.25 10.75 0.25C10.3358 0.25 10 0.585786 10 1H11.5ZM10 4.25581C10 4.67003 10.3358 5.00581 10.75 5.00581C11.1642 5.00581 11.5 4.67003 11.5 4.25581H10ZM2 15.75H14V14.25H2V15.75ZM4.50581 1V4.25581H6.00581V1H4.50581ZM10 1V4.25581H11.5V1H10ZM14 1.87791H2V3.37791H14V1.87791ZM0.25 3.62791V7.5H1.75V3.62791H0.25ZM0.25 7.5V14H1.75V7.5H0.25ZM15.75 14V7.5H14.25V14H15.75ZM15.75 7.5V3.62791H14.25V7.5H15.75ZM1 8.25H15V6.75H1V8.25ZM14 3.37791C14.1381 3.37791 14.25 3.48984 14.25 3.62791H15.75C15.75 2.66141 14.9665 1.87791 14 1.87791V3.37791ZM14 15.75C14.9665 15.75 15.75 14.9665 15.75 14H14.25C14.25 14.1381 14.1381 14.25 14 14.25V15.75ZM2 14.25C1.86193 14.25 1.75 14.1381 1.75 14H0.25C0.25 14.9665 1.0335 15.75 2 15.75V14.25ZM2 1.87791C1.0335 1.87791 0.25 2.66141 0.25 3.62791H1.75C1.75 3.48984 1.86193 3.37791 2 3.37791V1.87791Z"
+                                              fill="black"
                                             />
                                           </svg>
                                         </span>
                                       </button>,
                                     }
                                   }
+                                  inner_ref={null}
                                   onBlur={[Function]}
                                   onClick={[Function]}
                                   onFocus={[Function]}
@@ -1249,6 +1252,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                       custom_element={null}
                                       custom_method={null}
                                       disabled={false}
+                                      element={null}
                                       global_status_id={null}
                                       href={null}
                                       icon="calendar"
@@ -1272,33 +1276,33 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                             <span
                                               aria-hidden="true"
                                               aria-label="calendar icon"
-                                              class="dnb-icon dnb-icon--default dnb-button__icon"
+                                              class="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
                                               role="presentation"
                                             >
                                               <svg
                                                 fill="none"
                                                 height="16"
-                                                viewBox="0 0 17 17"
+                                                viewBox="0 0 16 16"
                                                 width="16"
+                                                xmlns="http://www.w3.org/2000/svg"
                                               >
                                                 <path
-                                                  clip-rule="evenodd"
-                                                  d="M4.905 0c.44 0 .797.357.797.797v1.257h5.596V.797a.797.797 0 111.594 0v1.257h1.718A2.39 2.39 0 0117 4.444V14.61A2.39 2.39 0 0114.61 17H2.39A2.39 2.39 0 010 14.61V4.444a2.39 2.39 0 012.39-2.39h1.719V.797c0-.44.356-.797.796-.797zm6.393 3.648v.744a.797.797 0 101.594 0v-.744h1.718c.44 0 .797.356.797.796v1.719H1.593V4.444c0-.44.357-.796.797-.796h1.719v.744a.797.797 0 001.593 0v-.744h5.596zM1.593 7.756h13.814v6.854c0 .44-.357.797-.797.797H2.39a.797.797 0 01-.797-.797V7.756z"
-                                                  fill="#000"
-                                                  fill-rule="evenodd"
+                                                  d="M6.00581 1C6.00581 0.585786 5.67003 0.25 5.25581 0.25C4.8416 0.25 4.50581 0.585786 4.50581 1H6.00581ZM4.50581 4.25581C4.50581 4.67003 4.8416 5.00581 5.25581 5.00581C5.67003 5.00581 6.00581 4.67003 6.00581 4.25581H4.50581ZM11.5 1C11.5 0.585786 11.1642 0.25 10.75 0.25C10.3358 0.25 10 0.585786 10 1H11.5ZM10 4.25581C10 4.67003 10.3358 5.00581 10.75 5.00581C11.1642 5.00581 11.5 4.67003 11.5 4.25581H10ZM2 15.75H14V14.25H2V15.75ZM4.50581 1V4.25581H6.00581V1H4.50581ZM10 1V4.25581H11.5V1H10ZM14 1.87791H2V3.37791H14V1.87791ZM0.25 3.62791V7.5H1.75V3.62791H0.25ZM0.25 7.5V14H1.75V7.5H0.25ZM15.75 14V7.5H14.25V14H15.75ZM15.75 7.5V3.62791H14.25V7.5H15.75ZM1 8.25H15V6.75H1V8.25ZM14 3.37791C14.1381 3.37791 14.25 3.48984 14.25 3.62791H15.75C15.75 2.66141 14.9665 1.87791 14 1.87791V3.37791ZM14 15.75C14.9665 15.75 15.75 14.9665 15.75 14H14.25C14.25 14.1381 14.1381 14.25 14 14.25V15.75ZM2 14.25C1.86193 14.25 1.75 14.1381 1.75 14H0.25C0.25 14.9665 1.0335 15.75 2 15.75V14.25ZM2 1.87791C1.0335 1.87791 0.25 2.66141 0.25 3.62791H1.75C1.75 3.48984 1.86193 3.37791 2 3.37791V1.87791Z"
+                                                  fill="black"
                                                 />
                                               </svg>
                                             </span>
                                           </button>,
                                         }
                                       }
+                                      inner_ref={null}
                                       isIconOnly={true}
                                       onBlur={[Function]}
                                       onClick={[Function]}
                                       onFocus={[Function]}
                                       on_click={null}
                                       size={null}
-                                      skeleton={null}
+                                      skeleton={false}
                                       status={null}
                                       status_animation={null}
                                       status_state="error"
@@ -1324,31 +1328,31 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                         color={null}
                                         height={null}
                                         icon="calendar"
+                                        inherit_color={true}
                                         key="button-icon"
                                         modifier={null}
                                         size={null}
-                                        skeleton={null}
+                                        skeleton={false}
                                         title={null}
                                         width={null}
                                       >
                                         <span
                                           aria-hidden={true}
                                           aria-label="calendar icon"
-                                          className="dnb-icon dnb-icon--default dnb-button__icon"
+                                          className="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
                                           role="presentation"
                                         >
                                           <calendar>
                                             <svg
                                               fill="none"
                                               height={16}
-                                              viewBox="0 0 17 17"
+                                              viewBox="0 0 16 16"
                                               width={16}
+                                              xmlns="http://www.w3.org/2000/svg"
                                             >
                                               <path
-                                                clipRule="evenodd"
-                                                d="M4.905 0c.44 0 .797.357.797.797v1.257h5.596V.797a.797.797 0 111.594 0v1.257h1.718A2.39 2.39 0 0117 4.444V14.61A2.39 2.39 0 0114.61 17H2.39A2.39 2.39 0 010 14.61V4.444a2.39 2.39 0 012.39-2.39h1.719V.797c0-.44.356-.797.796-.797zm6.393 3.648v.744a.797.797 0 101.594 0v-.744h1.718c.44 0 .797.356.797.796v1.719H1.593V4.444c0-.44.357-.796.797-.796h1.719v.744a.797.797 0 001.593 0v-.744h5.596zM1.593 7.756h13.814v6.854c0 .44-.357.797-.797.797H2.39a.797.797 0 01-.797-.797V7.756z"
-                                                fill="#000"
-                                                fillRule="evenodd"
+                                                d="M6.00581 1C6.00581 0.585786 5.67003 0.25 5.25581 0.25C4.8416 0.25 4.50581 0.585786 4.50581 1H6.00581ZM4.50581 4.25581C4.50581 4.67003 4.8416 5.00581 5.25581 5.00581C5.67003 5.00581 6.00581 4.67003 6.00581 4.25581H4.50581ZM11.5 1C11.5 0.585786 11.1642 0.25 10.75 0.25C10.3358 0.25 10 0.585786 10 1H11.5ZM10 4.25581C10 4.67003 10.3358 5.00581 10.75 5.00581C11.1642 5.00581 11.5 4.67003 11.5 4.25581H10ZM2 15.75H14V14.25H2V15.75ZM4.50581 1V4.25581H6.00581V1H4.50581ZM10 1V4.25581H11.5V1H10ZM14 1.87791H2V3.37791H14V1.87791ZM0.25 3.62791V7.5H1.75V3.62791H0.25ZM0.25 7.5V14H1.75V7.5H0.25ZM15.75 14V7.5H14.25V14H15.75ZM15.75 7.5V3.62791H14.25V7.5H15.75ZM1 8.25H15V6.75H1V8.25ZM14 3.37791C14.1381 3.37791 14.25 3.48984 14.25 3.62791H15.75C15.75 2.66141 14.9665 1.87791 14 1.87791V3.37791ZM14 15.75C14.9665 15.75 15.75 14.9665 15.75 14H14.25C14.25 14.1381 14.1381 14.25 14 14.25V15.75ZM2 14.25C1.86193 14.25 1.75 14.1381 1.75 14H0.25C0.25 14.9665 1.0335 15.75 2 15.75V14.25ZM2 1.87791C1.0335 1.87791 0.25 2.66141 0.25 3.62791H1.75C1.75 3.48984 1.86193 3.37791 2 3.37791V1.87791Z"
+                                                fill="black"
                                               />
                                             </svg>
                                           </calendar>
@@ -1480,6 +1484,8 @@ exports[`DatePicker scss have to match default theme snapshot 1`] = `
     border: none;
     background-color: var(--color-white);
     box-shadow: 0 1px 6px rgba(0, 0, 0, 0.16); }
+  .dnb-date-picker .dnb-input__submit-button__button {
+    color: var(--color-emerald-green); }
   .dnb-date-picker__status--error .dnb-date-picker:not(.dnb-date-picker--opened) .dnb-input__shell:not([data-input-state='focus'])
 .dnb-date-picker__input,
   .dnb-date-picker__status--error .dnb-date-picker:not(.dnb-date-picker--opened) .dnb-input__shell:not([data-input-state='focus'])
@@ -1543,10 +1549,10 @@ exports[`DatePicker scss have to match snapshot 1`] = `
     width: inherit; }
   .dnb-icon svg[height='100%'] {
     height: inherit; }
-  .dnb-icon svg:not([fill]),
-  .dnb-icon svg [fill] {
+  .dnb-icon--inherit-color svg:not([fill]),
+  .dnb-icon--inherit-color svg [fill] {
     fill: currentColor; }
-  .dnb-icon svg [stroke] {
+  .dnb-icon--inherit-color svg [stroke] {
     stroke: currentColor; }
   .dnb-icon--small {
     font-size: 0.75rem; }
@@ -1635,6 +1641,9 @@ exports[`DatePicker scss have to match snapshot 1`] = `
  * FormStatus component
  *
  */
+:root {
+  --form-status-radius: 0.25rem; }
+
 .dnb-form-status {
   display: flex; }
   .dnb-form-status__shell {
@@ -1642,30 +1651,32 @@ exports[`DatePicker scss have to match snapshot 1`] = `
     justify-content: flex-start;
     align-items: flex-start;
     min-width: inherit;
-    border-radius: var(--input-border-radius); }
-  .dnb-form-status--text {
-    padding: calc(0.5rem / 2) 1rem;
+    border-radius: var(--form-status-radius); }
+  .dnb-form-status__text {
+    padding: 0.625rem 1rem;
     cursor: text;
     color: inherit;
-    line-height: var(--line-height-basis);
+    line-height: var(--line-height-small);
+    font-size: var(--font-size-small);
     white-space: normal; }
-    .dnb-form-status--text .dnb-anchor {
+    .dnb-form-status__text .dnb-anchor {
       font-size: inherit; }
-  .dnb-icon + .dnb-form-status--text {
+  .dnb-icon + .dnb-form-status__text {
     padding-left: 0.5rem; }
   .dnb-form-status__shell > .dnb-icon {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 1.5em;
-    height: 1.5em;
-    margin-top: 0.25em;
-    margin-left: 0.5em;
-    color: inherit;
-    font-size: var(--font-size-small); }
+    margin: 0.3333333em 0.3333333em 0.3333333em 0.6666666em; }
+  .dnb-form-status__size--large .dnb-form-status__text {
+    padding-top: 1.125rem;
+    padding-bottom: 1.125rem; }
+  .dnb-form-status__size--large .dnb-form-status__shell > .dnb-icon {
+    margin-top: 0.6666666em;
+    margin-bottom: 0.6666666em; }
   .dnb-form-status[hidden] {
     display: none; }
-  .dnb-form-status--fade-in {
+  .dnb-form-status__animation--fade-in {
     overflow: hidden;
     max-height: 0;
     animation: form-status-fade-in 2s ease-out 400ms forwards; }
@@ -1904,8 +1915,6 @@ exports[`DatePicker scss have to match snapshot 1`] = `
     white-space: nowrap; }
   .dnb-button + .dnb-form-status {
     margin-top: 0.5rem; }
-  .dnb-button.dnb-skeleton .dnb-icon {
-    visibility: hidden; }
   @media screen and (-ms-high-contrast: none) {
     .dnb-button {
       flex: none; }
@@ -2131,6 +2140,17 @@ legend.dnb-form-label {
   .dnb-input--has-submit-element .dnb-input__placeholder,
   .dnb-input--has-submit-element .dnb-input__input {
     padding-right: calc(var(--input-padding) * 2.5); }
+  .dnb-input--password .dnb-input__placeholder,
+  .dnb-input--password .dnb-input__input {
+    margin-right: 2.5rem;
+    padding-right: 0; }
+    .dnb-input--password .dnb-input__placeholder::-ms-clear,
+    .dnb-input--password .dnb-input__input::-ms-clear {
+      display: none; }
+  .dnb-input--password .dnb-input__placeholder {
+    padding-right: 4rem; }
+  .dnb-input--password .dnb-input__input {
+    font-family: var(--font-family-monospace); }
   .dnb-input__row {
     display: inline-flex;
     align-items: center; }
@@ -2423,7 +2443,9 @@ legend.dnb-form-label {
   .dnb-checkbox__input:not([disabled]) {
     cursor: pointer; }
   .dnb-checkbox .dnb-form-label {
-    margin-bottom: 0; }
+    margin-bottom: 0;
+    margin-right: 0;
+    margin-left: 0; }
   .dnb-checkbox__order {
     display: inline-flex;
     align-items: baseline; }
@@ -2435,8 +2457,7 @@ legend.dnb-form-label {
     order: 2; }
   .dnb-checkbox--label-position-left .dnb-checkbox__order .dnb-form-label {
     order: 1;
-    margin-right: 0.5rem;
-    margin-left: 0; }
+    padding-right: 0.5rem; }
   .dnb-checkbox--label-position-left .dnb-checkbox__order .dnb-form-status {
     order: 3;
     margin-top: 0.5rem; }
@@ -2444,8 +2465,7 @@ legend.dnb-form-label {
     order: 1; }
   .dnb-checkbox--label-position-right .dnb-checkbox__order .dnb-form-label {
     order: 2;
-    margin-right: 0;
-    margin-left: 0.5rem; }
+    padding-left: 0.5rem; }
   .dnb-checkbox--label-position-right .dnb-checkbox__order + .dnb-form-status {
     order: 3;
     vertical-align: top;
@@ -2591,8 +2611,6 @@ legend.dnb-form-label {
     height: var(--radio-height--large); }
   .dnb-radio__input:not([disabled]) {
     cursor: pointer; }
-  .dnb-radio .dnb-form-label {
-    margin-bottom: 0; }
   .dnb-radio__order {
     display: inline-flex;
     align-items: baseline; }
@@ -2616,18 +2634,20 @@ legend.dnb-form-label {
   .dnb-radio--large .dnb-radio__shell {
     width: var(--radio-width--large);
     height: var(--radio-height--large); }
+  .dnb-radio .dnb-form-label {
+    margin-right: 0;
+    margin-left: 0;
+    margin-bottom: 0; }
   .dnb-radio--label-position-left .dnb-radio__order .dnb-radio__inner {
     order: 2; }
   .dnb-radio--label-position-left .dnb-radio__order .dnb-form-label {
     order: 1;
-    margin-right: 0.5rem;
-    margin-left: 0; }
+    padding-right: 0.5rem; }
   .dnb-radio--label-position-right .dnb-radio__order .dnb-radio__inner {
     order: 1; }
   .dnb-radio--label-position-right .dnb-radio__order .dnb-form-label {
     order: 2;
-    margin-right: 0;
-    margin-left: 0.5rem; }
+    padding-left: 0.5rem; }
   .dnb-form-row:not(.dnb-form-row--vertical)[class*='__indent']
 .dnb-radio .dnb-form-label {
     margin-top: 0; }
@@ -2765,8 +2785,7 @@ legend.dnb-form-label {
       .dnb-toggle-button__button .dnb-checkbox__focus, .dnb-toggle-button__button .dnb-checkbox__button {
         width: calc(var(--checkbox-width--medium) - 0.5rem);
         height: calc(var(--checkbox-height--medium) - 0.5rem);
-        border-width: 0.0625rem;
-        box-shadow: 0 0 0 0.0318rem var(--color-sea-green); }
+        border-width: 0.0625rem; }
       .dnb-toggle-button__button .dnb-checkbox__dot {
         width: calc(var(--checkbox-width--medium) - 1rem);
         height: calc(var(--checkbox-height--medium) - 1rem); }
@@ -2780,8 +2799,7 @@ legend.dnb-form-label {
       .dnb-toggle-button__button .dnb-radio__focus, .dnb-toggle-button__button .dnb-radio__button {
         width: calc(var(--radio-width--medium) - 0.5rem);
         height: calc(var(--radio-height--medium) - 0.5rem);
-        border-width: 0.0625rem;
-        box-shadow: 0 0 0 0.0318rem var(--color-sea-green); }
+        border-width: 0.0625rem; }
       .dnb-toggle-button__button .dnb-radio__dot {
         width: calc(var(--radio-width--medium) - 1rem);
         height: calc(var(--radio-height--medium) - 1rem); }

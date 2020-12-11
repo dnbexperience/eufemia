@@ -1,0 +1,293 @@
+/*
+ * PaymentCard component
+ *
+ */
+
+:root {
+  --dnb-payment-shadow-e1: 0 1px 3px rgba(0, 0, 0, 0.12),
+    0 1px 2px rgba(0, 0, 0, 0.24);
+  --dnb-payment-shadow-e2: 0 3px 6px rgba(0, 0, 0, 0.16),
+    0 3px 6px rgba(0, 0, 0, 0.23);
+  --dnb-payment-shadow-figma: 0 8px 16px rgba(51, 51, 51, 0.08);
+  --dnb-payment-bg-default: linear-gradient(
+    184.55deg,
+    var(--color-sea-green) 6.31%,
+    var(--color-sea-green) 82.66%
+  );
+  --dnb-payment-bg-white: linear-gradient(
+    184.55deg,
+    var(--color-black-background) 4.63%,
+    var(--color-white) 92.04%
+  );
+  --dnb-payment-bg-silver: linear-gradient(
+    184.55deg,
+    var(--color-black-20) 4.63%,
+    var(--color-black-8) 82.87%
+  );
+  --dnb-payment-bg-gold: linear-gradient(
+    184.55deg,
+    #bfa970 4.63%,
+    #d3bd83 84.57%
+  );
+  --dnb-payment-bg-saga: linear-gradient(
+    184.55deg,
+    #241e23 6.31%,
+    #251d23 85.2%
+  );
+  --dnb-payment-bg-private: var(--color-black-80);
+  --dnb-payment-bg-mc-black: var(--color-black);
+  --dnb-payment-bg-business-no-visa: linear-gradient(
+    184.55deg,
+    #50c9de 6.31%,
+    var(--color-sky-blue) 82.66%
+  );
+  --dnb-payment-bg-business-with-visa: linear-gradient(
+    184.55deg,
+    #2cc48e 6.31%,
+    var(--color-summer-green) 82.66%
+  );
+}
+
+.dnb-payment-card {
+  margin: 0;
+
+  &__card {
+    position: relative;
+    width: 85.6mm;
+    height: 53.98mm;
+    padding: 6mm;
+
+    border-radius: 3.48mm;
+
+    border: 1px solid;
+    border-left-color: transparent;
+    border-right-color: transparent;
+    border-top-color: rgba(255, 255, 255, 0.1);
+    border-bottom-color: rgba(0, 0, 0, 0.2);
+
+    color: var(--color-white);
+    box-shadow: var(--dnb-payment-shadow-e2);
+    background: var(--color-sea-green);
+
+    transition: all 225ms cubic-bezier(0, 0, 0.2, 1) 0ms;
+
+    &--design-default {
+      background: var(--dnb-payment-bg-default);
+      color: var(--color-white);
+    }
+
+    /* White, Youth, MyFirst */
+    &--design-white {
+      background: var(--dnb-payment-bg-white);
+      color: var(--color-black-80);
+    }
+
+    &--design-silver {
+      background: var(--dnb-payment-bg-silver);
+      color: var(--color-black-80);
+    }
+
+    &--design-gold {
+      background: var(--dnb-payment-bg-gold);
+      color: var(--color-white);
+    }
+
+    &--design-saga {
+      background: var(--dnb-payment-bg-saga);
+      color: var(--color-white);
+    }
+
+    &--design-private {
+      background: var(--dnb-payment-bg-private);
+      color: var(--color-white);
+    }
+
+    &--design-black {
+      background: var(--dnb-payment-bg-mc-black);
+      color: var(--color-white);
+    }
+
+    &--design-business-no-visa {
+      background: var(--dnb-payment-bg-business-no-visa);
+      color: var(--color-white);
+    }
+
+    &--design-business-with-visa {
+      background: var(--dnb-payment-bg-business-with-visa);
+      color: var(--color-white);
+    }
+
+    &::after {
+      content: '';
+
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+
+      background-image: radial-gradient(
+        farthest-corner at 80% 30%,
+        #f7f6e61f 0%,
+        #06060600 60%,
+        #06060600 99%
+      );
+      border-radius: inherit;
+    }
+
+    &__content {
+      display: flex;
+      height: 100%;
+      width: 100%;
+      position: relative;
+    }
+
+    &__wrapper {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+    }
+
+    // In case of .dnb-spacing usage
+    .dnb-spacing & .dnb-p {
+      margin-bottom: 0 !important;
+    }
+
+    &__holder {
+      text-transform: uppercase;
+      text-align: left;
+      opacity: 0.5;
+
+      &.dnb-p {
+        font-size: 0.625rem;
+      }
+    }
+
+    &__numbers {
+      font-size: var(--font-size-medium);
+    }
+
+    &__credit-type {
+      height: 51px;
+      position: absolute;
+      bottom: 0;
+      right: 0;
+    }
+
+    &__bank-logo {
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    &__product-type {
+      height: 45px;
+      position: absolute;
+      top: 0;
+      right: 0;
+    }
+  }
+
+  &__blocking {
+    &__overlay {
+      position: absolute;
+      left: 0;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      border-radius: inherit;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      background: linear-gradient(
+        184.55deg,
+        rgba(204, 204, 204, 0.5) 4.63%,
+        rgba(232, 232, 232, 0.5) 84.83%
+      );
+    }
+
+    &__center {
+      width: 77px;
+      height: 77px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+
+      background: var(--color-black-80);
+      color: var(--color-sand-yellow);
+      border-radius: 4px;
+    }
+
+    svg {
+      shape-rendering: geometricPrecision;
+    }
+  }
+
+  &.dnb-skeleton &__card__holder {
+    opacity: 1;
+  }
+
+  // Not in use yet
+  // &--small {
+  //   width: calc(85.6mm * 0.75);
+  //   height: calc(53.98mm * 0.75);
+  //   border-radius: calc(3.48mm * 0.75);
+  // }
+
+  &--compact &__card {
+    padding: 0;
+    height: 32.8mm;
+
+    border-radius: 3.48mm 3.48mm 0 0;
+    box-shadow: var(--dnb-payment-shadow-e1);
+
+    &__top {
+      position: absolute;
+      top: 4mm;
+      left: 6mm;
+      right: 6mm;
+    }
+
+    &__bottom {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+
+      height: 14mm;
+
+      background-color: var(--color-white);
+    }
+
+    &__wrapper {
+      padding: 1.5mm 6mm;
+      color: var(--color-black-80);
+    }
+
+    &__numbers {
+      font-size: var(--font-size-basis);
+    }
+
+    &__credit-type {
+      top: 0;
+      bottom: auto;
+    }
+  }
+
+  &--compact &__blocking {
+    &__center {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: row;
+
+      height: 100%;
+      width: 100%;
+
+      background: rgba(0, 0, 0, 0.739);
+      border-radius: inherit;
+    }
+  }
+}

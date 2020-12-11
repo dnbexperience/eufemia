@@ -8,12 +8,14 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import Context from '../../shared/Context'
 import {
+  warn,
   makeUniqueId,
   isTrue,
   extendPropsWithContext,
   registerElement,
   validateDOMAttributes,
   processChildren,
+  getStatusState,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
 import { createSpacingClasses } from '../space/SpacingHelper'
@@ -70,6 +72,7 @@ export default class Button extends React.PureComponent {
     bounding: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    inner_ref: PropTypes.object,
 
     className: PropTypes.string,
     innerRef: PropTypes.object,
@@ -78,6 +81,7 @@ export default class Button extends React.PureComponent {
       PropTypes.func,
       PropTypes.node
     ]),
+    element: PropTypes.node,
 
     custom_element: PropTypes.object,
     custom_method: PropTypes.func,
@@ -107,10 +111,12 @@ export default class Button extends React.PureComponent {
     status_state: 'error',
     status_animation: null,
     global_status_id: null,
+    inner_ref: null,
 
     className: null,
     innerRef: null,
     children: null,
+    element: null,
 
     custom_element: null,
     custom_method: null,
@@ -140,6 +146,9 @@ export default class Button extends React.PureComponent {
   componentDidMount() {
     if (this.props.innerRef) {
       this.props.innerRef.current = this._ref.current
+    }
+    if (this.props.inner_ref) {
+      this.props.inner_ref.current = this._ref.current
     }
   }
 
@@ -185,16 +194,24 @@ export default class Button extends React.PureComponent {
       wrap,
       bounding, // eslint-disable-line
       skeleton,
+      element,
+      inner_ref, // eslint-disable-line
       innerRef, // eslint-disable-line
       ...attributes
     } = props
 
-    const showStatus = status && status !== 'error'
+    const showStatus = getStatusState(status)
 
     let { text, icon, icon_position: iconPosition } = props
     let usedVariant = variant
     let usedSize = size
     let content = Button.getContent(this.props) || text
+
+    if (variant === 'tertiary' && content && !icon && icon !== false) {
+      warn(
+        `A Tertiary Button requires an icon. Please declare an icon to: ${content}`
+      )
+    }
 
     // NB: Nice API, but will create way too much code to maintain in future
     // therefore we do not use this fro now
@@ -264,7 +281,11 @@ export default class Button extends React.PureComponent {
       icon && 'dnb-button--has-icon',
       wrap && 'dnb-button--wrap',
       status && `dnb-button__status--${status_state}`,
-      createSkeletonClass('shape', skeleton, this.context),
+      createSkeletonClass(
+        variant === 'tertiary' ? 'font' : 'shape',
+        skeleton,
+        this.context
+      ),
       createSpacingClasses(props),
       class_name,
       className,
@@ -281,36 +302,30 @@ export default class Button extends React.PureComponent {
       onClick: this.onClickHandler
     }
 
+    if (href) {
+      params.href = href
+    }
+
     skeletonDOMAttributes(params, skeleton, this.context)
 
     // also used for code markup simulation
     validateDOMAttributes(this.props, params)
 
+    const Element = element ? element : href ? 'a' : 'button'
+
     return (
       <>
-        {href ? (
-          <a href={href} ref={this._ref} {...params}>
-            <Content
-              {...this.props}
-              icon={icon}
-              text={text}
-              icon_size={iconSize}
-              content={content}
-              isIconOnly={isIconOnly}
-            />
-          </a>
-        ) : (
-          <button ref={this._ref} {...params}>
-            <Content
-              {...this.props}
-              icon={icon}
-              text={text}
-              icon_size={iconSize}
-              content={content}
-              isIconOnly={isIconOnly}
-            />
-          </button>
-        )}
+        <Element ref={this._ref} {...params}>
+          <Content
+            {...this.props}
+            icon={icon}
+            text={text}
+            icon_size={iconSize}
+            content={content}
+            isIconOnly={isIconOnly}
+            skeleton={isTrue(skeleton)}
+          />
+        </Element>
         {this.state.afterContent}
         {showStatus && (
           <FormStatus
@@ -351,6 +366,7 @@ class Content extends React.PureComponent {
     ]),
     icon_size: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     bounding: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    skeleton: PropTypes.bool,
     isIconOnly: PropTypes.bool
   }
   static defaultProps = {
@@ -360,6 +376,7 @@ class Content extends React.PureComponent {
     icon: null,
     icon_size: 'default',
     bounding: false,
+    skeleton: null,
     isIconOnly: null
   }
   render() {
@@ -370,6 +387,7 @@ class Content extends React.PureComponent {
       icon,
       icon_size,
       bounding,
+      skeleton,
       isIconOnly
     } = this.props
 
@@ -396,7 +414,10 @@ class Content extends React.PureComponent {
         <span key="button-text-empty" className="dnb-button__alignment">
           &zwnj;
         </span>,
-        <span key="button-text" className="dnb-button__text">
+        <span
+          key="button-text"
+          className="dnb-button__text dnb-skeleton--show-font"
+        >
           {text}
         </span>
       )
@@ -425,6 +446,7 @@ class Content extends React.PureComponent {
             icon={icon}
             size={icon_size}
             aria-hidden={isIconOnly && !title ? null : true}
+            skeleton={skeleton}
           />
         )
       )

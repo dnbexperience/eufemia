@@ -142,10 +142,10 @@ const DrawerStory = () => {
         </Drawer>
       </Box>
       <Box>
-        <DrawerListWithState></DrawerListWithState>
+        <DrawerListWithState />
       </Box>
       <Box>
-        <MagicOpen bottom></MagicOpen>
+        <MagicOpen bottom />
       </Box>
     </Wrapper>
   )

@@ -34,8 +34,6 @@
 
     display: flex;
     align-items: center;
-
-    height: var(--switch-height--medium);
   }
   &--large {
     line-height: var(--switch-height--large);
@@ -47,6 +45,7 @@
   &__row {
     display: inline-flex;
     align-items: center;
+    height: var(--switch-height--medium);
   }
 
   &__focus,
@@ -187,7 +186,9 @@
 
   // label
   .dnb-form-label {
-    margin-right: 0.5rem;
+    padding-right: 0.5rem;
+    margin-right: 0;
+    margin-left: 0;
     margin-bottom: 0;
   }
 
@@ -224,7 +225,7 @@
     }
     .dnb-form-label {
       order: 2;
-      margin-left: 0.5rem;
+      padding-left: 0.5rem;
     }
     .dnb-form-status {
       order: 3;

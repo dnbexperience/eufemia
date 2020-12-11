@@ -19,7 +19,7 @@ You can easily change one, some or all of them by using a React provider – the
 Here are the default strings located:
 
 ```js
-import enUS from 'dnb-ui-lib/shared/locales/en-US'
+import enGB from 'dnb-ui-lib/shared/locales/en-GB'
 import nbNO from 'dnb-ui-lib/shared/locales/nb-NO'
 ```
 
@@ -30,11 +30,25 @@ In React based apps, use the shared Eufemia provider:
 ```jsx
 import Provider from 'dnb-ui-lib/shared/Provider'
 
-const myLocale = 'en-US'
+const myLocale = 'en-GB'
 
 render(
   <Provider locale={myLocale}>
     <MyApp>Eufemia components</MyApp>
+  </Provider>
+)
+```
+
+For component based locale, you can also make use of the `lang` attribute – if really needed:
+
+```jsx
+import Provider from 'dnb-ui-lib/shared/Provider'
+
+render(
+  <Provider locale="en-GB">
+    <MyApp>
+      <HelpButton lang="nb-NO" />
+    </MyApp>
   </Provider>
 )
 ```
@@ -73,7 +87,7 @@ const ChangeLocale = () => {
 
   return <Dropdown
     value={locale}
-    data={{ 'en-US': 'English', 'nb-NO': 'Norsk' }}
+    data={{ 'nb-NO': 'Norsk', 'en-GB': 'English' }}
     on_change={({ data: { value } }) => {
       setLocale(value)
     }}
@@ -160,7 +174,7 @@ render(
     locale="nb-NO"
     locales={{
       'nb-NO': nb,
-      'en-US': en
+      'en-GB': en
     }}
   >
     <Component />
@@ -176,9 +190,9 @@ It is possible to use the Eufemia shared Provider for your own project / App loc
 ```js
 import Provider from 'dnb-ui-lib/shared/Provider'
 
-const myLocale = {
+const customTranslation = {
   // extend the translation
-  'en-US': {
+  'en-GB': {
     myString: 'Custom string'
     myGroup: {
       subString: 'Second string'
@@ -187,7 +201,7 @@ const myLocale = {
 }
 
 render(
-  <Provider locales={myLocale} locale="en-US">
+  <Provider locales={customTranslation} locale="en-GB">
     <MyApp>
       <MyComponent />
     </MyApp>
@@ -230,10 +244,10 @@ And add the file, like so:
 
 ```jsx
 import Provider from 'dnb-ui-lib/shared/Provider'
-import myLocale from './locales/sv-SE'
+import customTranslation from './locales/sv-SE'
 
 render(
-  <Provider locales={myLocale}>
+  <Provider locales={customTranslation}>
     <MyApp>Eufemia components</MyApp>
   </Provider>
 )
@@ -245,13 +259,13 @@ or add/update the locales during runtime:
 import Provider from 'dnb-ui-lib/shared/Provider'
 import Context from 'dnb-ui-lib/shared/Context'
 
-import myLocale from './locales/sv-SE'
+import customTranslation from './locales/sv-SE'
 
 const ChangeLocale = () => {
   const { update, locale } = React.useContext(Context)
 
   // Add new locales
-  update({ locales: myLocale, locale: 'sv-SE' })
+  update({ locales: customTranslation, locale: 'sv-SE' })
 
   return locale
 }

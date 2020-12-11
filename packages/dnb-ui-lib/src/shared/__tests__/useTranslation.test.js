@@ -13,34 +13,41 @@ import useTranslation, {
 import Context from '../Context'
 import Provider from '../Provider'
 
-describe('Translation', () => {
-  const expected_nbNO = 'foo (bar av max)'
-  const expected_enUS = 'foo (bar of max)'
-  const expected_nbNO_nested = 'foo (bar av nestet max)'
-  const expected_enUS_nested = 'foo (bar of nested max)'
+import nbNO from '../locales/nb-NO'
+import enGB from '../locales/en-GB'
 
+const given_nbNO = '{foo} ({bar} av {max})'
+const given_enGB = '{foo} ({bar} of {max})'
+const given_nbNO_nested = '{foo} ({bar} av nestet {max})'
+const given_enGB_nested = '{foo} ({bar} of nested {max})'
+const expected_nbNO = 'foo (bar av max)'
+const expected_enGB = 'foo (bar of max)'
+const expected_nbNO_nested = 'foo (bar av nestet max)'
+const expected_enGB_nested = 'foo (bar of nested max)'
+
+describe('Translation', () => {
   const nbNO = {
     'Modal.close_title': 'Steng',
-    'other.string': '{foo} ({bar} av {max})'
+    'other.string': given_nbNO
   }
-  const enUS = {
+  const enGB = {
     'Modal.close_title': 'Close',
-    'other.string': '{foo} ({bar} of {max})'
+    'other.string': given_enGB
   }
   const nbNO_nested = {
-    'other.string': '{foo} ({bar} av nestet {max})'
+    'other.string': given_nbNO_nested
   }
-  const enUS_nested = {
-    'other.string': '{foo} ({bar} of nested {max})'
+  const enGB_nested = {
+    'other.string': given_enGB_nested
   }
 
   const defaultLocales = {
     'nb-NO': nbNO,
-    'en-US': enUS
+    'en-GB': enGB
   }
   const nestedLocales = {
     'nb-NO': nbNO_nested,
-    'en-US': enUS_nested
+    'en-GB': enGB_nested
   }
 
   const RenderGetTranslation = () => {
@@ -65,12 +72,12 @@ describe('Translation', () => {
           nb-NO
         </button>
         <button
-          className="en-US"
+          className="en-GB"
           onClick={() => {
-            setLocale('en-US')
+            setLocale('en-GB')
           }}
         >
-          en-US
+          en-GB
         </button>
       </div>
     )
@@ -137,9 +144,9 @@ describe('Translation', () => {
 
     expect(Comp.find('span.useTranslation').text()).toBe(expected_nbNO)
 
-    Comp.find('button.en-US').simulate('click')
+    Comp.find('button.en-GB').simulate('click')
 
-    expect(Comp.find('span.useTranslation').text()).toBe(expected_enUS)
+    expect(Comp.find('span.useTranslation').text()).toBe(expected_enGB)
   })
 
   it('should have valid strings inside render', () => {
@@ -166,18 +173,18 @@ describe('Translation', () => {
       expected_nbNO_nested
     )
 
-    Comp.find('div.outer button.en-US').simulate('click')
+    Comp.find('div.outer button.en-GB').simulate('click')
 
-    expect(Comp.find('span.Translation').text()).toBe(expected_enUS)
+    expect(Comp.find('span.Translation').text()).toBe(expected_enGB)
     expect(Comp.find('span.useTranslation').text()).toBe(
       expected_nbNO_nested
     )
 
-    Comp.find('div.inner button.en-US').simulate('click')
+    Comp.find('div.inner button.en-GB').simulate('click')
 
-    expect(Comp.find('span.Translation').text()).toBe(expected_enUS)
+    expect(Comp.find('span.Translation').text()).toBe(expected_enGB)
     expect(Comp.find('span.useTranslation').text()).toBe(
-      expected_enUS_nested
+      expected_enGB_nested
     )
 
     // if we change the inner locale ...
@@ -189,4 +196,100 @@ describe('Translation', () => {
       expected_nbNO_nested
     )
   })
+})
+
+describe('Context.getTranslation', () => {
+  nbNO['nb-NO'].HelpButton['other.string'] = given_nbNO
+  enGB['en-GB'].HelpButton['other.string'] = given_enGB
+
+  const MagicContext = (props) => {
+    return (
+      <Context.Consumer>
+        {(context) => {
+          // We may use that in future
+          // if (props.translation) {
+          //   context.setTranslation(props.translation)
+          // }
+          const title = context.getTranslation(props).HelpButton.title
+          const otherString = context.getTranslation(props).HelpButton[
+            'other.string'
+          ]
+          return (
+            <>
+              <p className="locale">{context.locale}</p>
+              <p className="title">{title}</p>
+              {otherString && (
+                <p className="other-string">{otherString}</p>
+              )}
+            </>
+          )
+        }}
+      </Context.Consumer>
+    )
+  }
+
+  it('should react on new lang prop', () => {
+    const Comp = mount(<MagicContext />)
+
+    expect(Comp.find('p.title').text()).toBe(
+      nbNO['nb-NO'].HelpButton.title
+    )
+    expect(Comp.find('p.locale').text()).toBe('nb-NO')
+
+    Comp.setProps({
+      lang: 'en-GB'
+    })
+
+    expect(Comp.find('p.title').text()).toBe(
+      enGB['en-GB'].HelpButton.title
+    )
+
+    // locale should not be changed
+    expect(Comp.find('p.locale').text()).not.toBe('en-GB')
+    expect(Comp.find('p.locale').text()).toBe('nb-NO')
+  })
+
+  it('should react on new lang prop and prepare other.string', () => {
+    const Comp = mount(<MagicContext />)
+
+    expect(Comp.find('p.other-string').text()).toBe(given_nbNO)
+
+    Comp.setProps({
+      lang: 'en-GB'
+    })
+
+    expect(Comp.find('p.other-string').text()).toBe(given_enGB)
+  })
+
+  // We may use that in future
+  // it('translation should be mutable, but not locale', () => {
+  //   const Comp = mount(
+  //     <MagicContext
+  //       translation={{
+  //         HelpButton: { title: 'ny-tittle' }
+  //       }}
+  //     />
+  //   )
+
+  //   expect(Comp.find('p.title').text()).toBe('ny-tittle')
+  //   expect(Comp.find('p.locale').text()).toBe('nb-NO')
+
+  //   Comp.setProps({
+  //     translation: {
+  //       HelpButton: { title: 'new-title' }
+  //     }
+  //   })
+
+  //   expect(Comp.find('p.title').text()).toBe('new-title')
+  //   expect(Comp.find('p.locale').text()).toBe('nb-NO')
+
+  //   Comp.setProps({
+  //     lang: 'en-GB',
+  //     translation: {
+  //       HelpButton: { title: 'new-title-update' }
+  //     }
+  //   })
+
+  //   expect(Comp.find('p.title').text()).not.toBe('new-title-update')
+  // })
 })

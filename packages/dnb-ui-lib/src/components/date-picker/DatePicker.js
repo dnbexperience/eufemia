@@ -14,6 +14,8 @@ import {
   registerElement,
   dispatchCustomElementEvent,
   detectOutsideClick,
+  getStatusState,
+  combineDescribedBy,
   validateDOMAttributes
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
@@ -23,7 +25,7 @@ import { skeletonDOMAttributes } from '../skeleton/SkeletonHelper'
 // date-fns
 import format from 'date-fns/format'
 import nbLocale from 'date-fns/locale/nb'
-import enLocale from 'date-fns/locale/en-US'
+import enLocale from 'date-fns/locale/en-GB'
 
 import Context from '../../shared/Context'
 import Suffix from '../../shared/helpers/Suffix'
@@ -269,15 +271,6 @@ export default class DatePicker extends React.PureComponent {
       _listenForPropChanges: true
     }
 
-    const separators = props.mask_order.match(/[^mdy]/g)
-    this.maskList = props.mask_order.split(/[^mdy]/).reduce((acc, cur) => {
-      acc.push(cur)
-      if (separators.length > 0) {
-        acc.push(separators.shift())
-      }
-      return acc
-    }, [])
-
     if (props.end_date && !isTrue(props.range)) {
       warn(
         `The DatePicker got a "end_date". You have to set range={true} as well!.`
@@ -399,7 +392,7 @@ export default class DatePicker extends React.PureComponent {
     if (isTrue(this.props.prevent_close)) {
       return // stop here
     }
-    if (args.event && args.event.persist) {
+    if (args && args.event && args.event.persist) {
       args.event.persist()
     }
     this.setState(
@@ -446,11 +439,9 @@ export default class DatePicker extends React.PureComponent {
   formatSelectedDateTitle() {
     const { range } = this.props
     const { startDate, endDate } = this.state
-    const {
-      selected_date,
-      start,
-      end
-    } = this.context.translation.DatePicker
+    const { selected_date, start, end } = this.context.getTranslation(
+      this.props
+    ).DatePicker
 
     let currentDate = startDate ? format(startDate, 'PPPP') : null
 
@@ -543,17 +534,15 @@ export default class DatePicker extends React.PureComponent {
     const { opened, hidden, showInput } = this.state
 
     const id = this._id
-    const showStatus = status && status !== 'error'
+    const showStatus = getStatusState(status)
 
     const pickerParams = {}
     if (showStatus || suffix) {
-      pickerParams['aria-describedby'] = [
-        pickerParams['aria-describedby'],
+      pickerParams['aria-describedby'] = combineDescribedBy(
+        pickerParams,
         showStatus ? id + '-status' : null,
         suffix ? id + '-suffix' : null
-      ]
-        .filter(Boolean)
-        .join(' ')
+      )
     }
 
     const submitParams = {
@@ -598,6 +587,9 @@ export default class DatePicker extends React.PureComponent {
         {...this.props}
         attributes={attributes}
         setReturnObject={(fn) => (this.getReturnObject = fn)}
+        enhanceWithMethods={{
+          hidePicker: this.hidePicker
+        }}
       >
         <span {...mainParams}>
           {label && (

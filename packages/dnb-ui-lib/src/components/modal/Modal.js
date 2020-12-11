@@ -22,17 +22,20 @@ import { createSpacingClasses } from '../space/SpacingHelper'
 import Button from '../button/Button'
 import Section from '../section/Section'
 import HelpButtonInstance from '../help-button/HelpButtonInstance'
-import ModalContent, { CloseButton } from './ModalContent'
+import ModalContent, {
+  CloseButton,
+  getListOfModalRoots
+} from './ModalContent'
 
 export default class Modal extends React.PureComponent {
   static tagName = 'dnb-modal'
   static contextType = Context
-  static modalRoot = null // gets later '.dnb-modal-root'
 
   static propTypes = {
     id: PropTypes.string,
     root_id: PropTypes.string,
     mode: PropTypes.oneOf(['modal', 'drawer']),
+    focus_selector: PropTypes.string,
     labelled_by: PropTypes.string,
     title: PropTypes.node,
     disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -88,7 +91,7 @@ export default class Modal extends React.PureComponent {
     close_modal: PropTypes.func,
 
     // All "trigger_" are deprecated
-    trigger_props: PropTypes.object,
+    trigger_attributes: PropTypes.object,
     trigger_hidden: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.bool
@@ -120,6 +123,7 @@ export default class Modal extends React.PureComponent {
     id: null,
     root_id: 'root',
     mode: 'modal',
+    focus_selector: null,
     labelled_by: null,
     title: null,
     disabled: null,
@@ -134,8 +138,8 @@ export default class Modal extends React.PureComponent {
     no_animation: false,
     no_animation_on_mobile: false,
     fullscreen: 'auto',
-    align_content: 'left',
-    container_placement: 'right',
+    align_content: null,
+    container_placement: null,
     open_state: null,
     direct_dom_return: false,
     class: null,
@@ -150,7 +154,7 @@ export default class Modal extends React.PureComponent {
     close_modal: null,
 
     // All "trigger_" are deprecated
-    trigger_props: null,
+    trigger_attributes: null,
     trigger_hidden: false,
     trigger_disabled: null,
     trigger_variant: 'secondary',
@@ -184,12 +188,12 @@ export default class Modal extends React.PureComponent {
 
     try {
       id = `dnb-modal-${id || 'root'}`
-      window.modalRoot = document.getElementById(id)
-      if (!window.modalRoot) {
-        window.modalRoot = document.createElement('div')
-        window.modalRoot.setAttribute('id', id)
+      window.__modalRoot = document.getElementById(id)
+      if (!window.__modalRoot) {
+        window.__modalRoot = document.createElement('div')
+        window.__modalRoot.setAttribute('id', id)
         document.body.insertBefore(
-          window.modalRoot,
+          window.__modalRoot,
           document.body.firstChild
         )
       }
@@ -197,7 +201,7 @@ export default class Modal extends React.PureComponent {
       warn('Modal: Could not insert dnb-modal-root', e)
     }
 
-    return window.modalRoot
+    return window.__modalRoot
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -292,33 +296,6 @@ export default class Modal extends React.PureComponent {
     }
   }
 
-  addToIndex() {
-    if (typeof window !== 'undefined') {
-      try {
-        window.modalRoot = window.modalRoot || {}
-        window.modalRoot.index = window.modalRoot.index || []
-        window.modalRoot.index.push(this)
-      } catch (e) {
-        warn(e)
-      }
-    }
-  }
-
-  removeFromIndex() {
-    if (typeof window !== 'undefined') {
-      try {
-        window.modalRoot.index = window.modalRoot.index.filter(
-          (cur) => cur !== this
-        )
-        if (!window.modalRoot.index.length) {
-          delete window.modalRoot.index
-        }
-      } catch (e) {
-        warn(e)
-      }
-    }
-  }
-
   toggleOpenClose = (showModal = null, event = null) => {
     if (event && event.preventDefault) {
       event.preventDefault()
@@ -406,27 +383,15 @@ export default class Modal extends React.PureComponent {
         }
       }
 
-      const id = this._id
-      const wasActive = this.wasActive
-      this.wasActive = modalActive
-
-      if (modalActive) {
-        this.addToIndex()
-        dispatchCustomElementEvent(this, 'on_open', { id })
-      } else if (wasActive) {
-        dispatchCustomElementEvent(this, 'on_close', { id })
-        this.removeFromIndex()
-      }
-
       if (modalActive === false) {
         if (this._triggerRef && this._triggerRef.current) {
-          this._triggerRef.current.focus()
+          this._triggerRef.current.focus({ preventScroll: true })
         }
 
         // because the open_state was set to opened, we force
         if (this.props.open_state === 'opened' && this.activeElement) {
           try {
-            this.activeElement.focus()
+            this.activeElement.focus({ preventScroll: true })
             this.activeElement = null
           } catch (e) {
             //
@@ -448,36 +413,32 @@ export default class Modal extends React.PureComponent {
     this.toggleOpenClose(true, e)
   }
 
-  close = (e, opts = {}) => {
+  close = (event, { ifIsLatest, triggeredBy } = { ifIsLatest: true }) => {
     const { prevent_close } = this.props
 
     if (isTrue(prevent_close)) {
-      if (!this.isClosing) {
-        const id = this._id
-        this.isClosing = true
-        dispatchCustomElementEvent(this, 'on_close_prevent', {
-          id,
-          close: (e) => {
-            this.toggleOpenClose(false, e)
-          }
-        })
-      }
+      const id = this._id
+      dispatchCustomElementEvent(this, 'on_close_prevent', {
+        id,
+        event,
+        triggeredBy,
+        close: (e) => {
+          this.toggleOpenClose(false, e)
+        }
+      })
     } else {
-      if (opts.ifIsLatest && typeof window !== 'undefined') {
+      if (ifIsLatest && typeof window !== 'undefined') {
         try {
-          const index = window.modalRoot.index
-          if (index.length) {
-            const last = index[index.length - 1]
-            if (last !== this) {
-              return // stop here
-            }
+          const last = getListOfModalRoots(-1)
+          if (last !== this) {
+            return // stop here
           }
         } catch (e) {
           warn(e)
         }
       }
 
-      this.toggleOpenClose(false, e)
+      this.toggleOpenClose(false, event)
     }
   }
 
@@ -487,7 +448,7 @@ export default class Modal extends React.PureComponent {
       this.props,
       Modal.defaultProps,
       this.context.formRow,
-      this.context.translation.Modal
+      this.context.getTranslation(this.props).Modal
     )
 
     const {
@@ -499,9 +460,10 @@ export default class Modal extends React.PureComponent {
       disabled,
       spacing,
       labelled_by,
+      focus_selector,
 
       // All "trigger_" are deprecated
-      trigger_props,
+      trigger_attributes,
       trigger_hidden,
       trigger_disabled, // eslint-disable-line
       trigger_variant, // eslint-disable-line
@@ -520,7 +482,9 @@ export default class Modal extends React.PureComponent {
 
     const render = (suffixProps) => {
       const modalProps = {}
-      const triggerAttributes = trigger_props ? { ...trigger_props } : {}
+      const triggerAttributes = trigger_attributes
+        ? { ...trigger_attributes }
+        : {}
 
       // Deprecated - this is only to handle the legacy Modal trigger button
       for (let prop in props) {
@@ -534,9 +498,12 @@ export default class Modal extends React.PureComponent {
 
       const isHelpButton =
         !isTrue(trigger_hidden) &&
-        (trigger_props ||
-          suffixProps ||
-          ['question', 'information'].includes(triggerAttributes.icon))
+        (!!suffixProps ||
+          (!(trigger_text && trigger_variant !== 'tertiary') &&
+            (!(triggerAttributes.icon || trigger_icon) ||
+              ['question', 'information'].includes(
+                triggerAttributes.icon || trigger_icon
+              ))))
 
       if (isTrue(disabled)) {
         triggerAttributes.disabled = true
@@ -560,6 +527,8 @@ export default class Modal extends React.PureComponent {
           triggerAttributes.title ||
           props.title ||
           modalProps.title
+      } else {
+        triggerAttributes['aria-roledescription'] = null
       }
 
       const TriggerButton = HelpButtonInstance
@@ -584,9 +553,11 @@ export default class Modal extends React.PureComponent {
           {modalActive && modal_content && (
             <ModalRoot
               {...rest}
+              id={this._id}
               root_id={root_id}
               content_id={content_id || `dnb-modal-${this._id}`}
-              labelled_by={labelled_by || this._id}
+              labelled_by={labelled_by}
+              focus_selector={focus_selector}
               modal_content={modal_content}
               spacing={spacing}
               closeModal={this.close}
@@ -606,6 +577,7 @@ export default class Modal extends React.PureComponent {
 class ModalRoot extends React.PureComponent {
   static propTypes = {
     id: PropTypes.string,
+    root_id: PropTypes.string,
     direct_dom_return: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.bool
@@ -618,6 +590,7 @@ class ModalRoot extends React.PureComponent {
   }
   static defaultProps = {
     id: null,
+    root_id: null,
     direct_dom_return: false,
     children: null
   }
@@ -628,7 +601,7 @@ class ModalRoot extends React.PureComponent {
 
   componentDidMount() {
     if (!isTrue(this.props.direct_dom_return)) {
-      Modal.insertModalRoot(this.props.id)
+      Modal.insertModalRoot(this.props.root_id)
 
       try {
         if (!this.portalElem) {
@@ -638,9 +611,9 @@ class ModalRoot extends React.PureComponent {
         if (
           this.portalElem &&
           typeof window !== 'undefined' &&
-          window.modalRoot
+          window.__modalRoot
         ) {
-          window.modalRoot.appendChild(this.portalElem)
+          window.__modalRoot.appendChild(this.portalElem)
         }
       } catch (e) {
         warn(e)
@@ -654,10 +627,10 @@ class ModalRoot extends React.PureComponent {
       if (
         this.portalElem &&
         typeof window !== 'undefined' &&
-        window.modalRoot &&
-        window.modalRoot.removeChild
+        window.__modalRoot &&
+        window.__modalRoot.removeChild
       ) {
-        window.modalRoot.removeChild(this.portalElem)
+        window.__modalRoot.removeChild(this.portalElem)
         this.portalElem = null
       }
     } catch (e) {
@@ -675,7 +648,7 @@ class ModalRoot extends React.PureComponent {
     if (
       this.portalElem &&
       typeof window !== 'undefined' &&
-      window.modalRoot &&
+      window.__modalRoot &&
       this.state.isMounted
     ) {
       return ReactDOM.createPortal(

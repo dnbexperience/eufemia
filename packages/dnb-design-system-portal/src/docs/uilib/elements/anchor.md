@@ -76,7 +76,7 @@ To force a specific state of style, use the following classes to do so:
   </li>
   <li>
     <a target="_blank" href="https://eufemia.dnb.no/uilib/elements/anchor" className="dnb-anchor dnb-anchor--no-icon">
-      Blank target without link_out icon
+      Blank target without launch icon
     </a>
   </li>
   <li>

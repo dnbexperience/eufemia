@@ -25,6 +25,8 @@ import {
   createSkeletonClass,
   skeletonDOMAttributes
 } from '../skeleton/SkeletonHelper'
+import Button from '../button/Button'
+import whatInput from 'what-input'
 
 export default class Tabs extends React.PureComponent {
   static tagName = 'dnb-tabs'
@@ -76,6 +78,7 @@ export default class Tabs extends React.PureComponent {
       PropTypes.string,
       PropTypes.bool
     ]),
+    scroll: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     id: PropTypes.string,
     class: PropTypes.string,
@@ -101,6 +104,7 @@ export default class Tabs extends React.PureComponent {
     use_hash: false,
     prerender: false,
     prevent_rerender: false,
+    scroll: null,
     skeleton: null,
     id: null,
     class: null,
@@ -261,77 +265,355 @@ export default class Tabs extends React.PureComponent {
       }
     }
 
+    const lastPosition = this.getLastPosition()
     this.state = {
-      _listenForPropChanges: true,
+      data,
+      lastPosition,
       selected_key,
+      focus_key: selected_key,
+      atEdge: false,
+      hasScrollbar: lastPosition > -1,
       _selected_key: selected_key,
       _data: props.data || props.children,
-      data
+      _listenForPropChanges: true
     }
 
+    this._tabsRef = React.createRef()
     this._tablistRef = React.createRef()
   }
 
-  onKeyDownHandler = (e) => {
+  componentDidMount() {
+    this.addScrollBehaviour()
+    this.scrollToLastPosition()
+    this.scrollToTab('selected')
+
+    if (this.getLastUsedTab() !== null) {
+      this.setState(null, this.setFocusOnTab)
+    }
+  }
+
+  componentDidUpdate() {
+    this.onResizeHandler()
+  }
+
+  componentWillUnmount() {
+    this.resetWhatInput()
+    clearTimeout(this._scrollToTabTimeout)
+    if (typeof window !== 'undefined') {
+      window.removeEventListener('resize', this.onResizeHandler)
+    }
+  }
+
+  getLastPosition() {
+    if (typeof window !== 'undefined') {
+      try {
+        const pos =
+          parseFloat(window.localStorage.getItem('tmp-tabs-pos')) || -1
+        window.localStorage.removeItem('tmp-tabs-pos')
+        return pos
+      } catch (e) {
+        warn(e)
+      }
+    }
+    return -1
+  }
+
+  getLastUsedTab() {
+    if (typeof window !== 'undefined') {
+      try {
+        const key = window.localStorage.getItem('tmp-tabs-last') || null
+        window.localStorage.removeItem('tmp-tabs-last')
+        return key
+      } catch (e) {
+        warn(e)
+      }
+    }
+    return -1
+  }
+
+  saveLastUsedTab() {
+    if (typeof window !== 'undefined') {
+      try {
+        window.localStorage.setItem(
+          'tmp-tabs-last',
+          this.state.selected_key
+        ) // gets removed right afterwards
+      } catch (e) {
+        warn(e)
+      }
+    }
+  }
+
+  saveLastPosition(pos = this._tablistRef.current.scrollLeft) {
+    if (typeof window !== 'undefined') {
+      try {
+        window.localStorage.setItem('tmp-tabs-pos', pos) // gets removed right afterwards
+      } catch (e) {
+        warn(e)
+      }
+    }
+  }
+
+  onResizeHandler = () => {
+    const hasScrollbar = (this._hasScrollbar = this.hasScrollbar())
+    if (hasScrollbar !== this.state.hasScrollbar) {
+      this.setState({
+        hasScrollbar
+      })
+    }
+
+    if (this._hasScrollbar) {
+      try {
+        if (Math.ceil(window.innerWidth / 16) <= 40 || this.isAtEdge()) {
+          if (!this._tabsRef.current.style.marginLeft) {
+            const style = window.getComputedStyle(this._tabsRef.current)
+
+            if (!(Math.abs(parseFloat(style.marginLeft)) > 0)) {
+              const diff =
+                window.innerWidth - this._tabsRef.current.offsetWidth
+              let val = (Math.round(diff / 16) / 2) * 16
+              this._tabsRef.current.style.marginLeft = `-${val}px`
+              this._tabsRef.current.style.marginRight = `-${val}px`
+              if (val < 32) {
+                val = 32
+              }
+              this._tablistRef.current.style.marginLeft = 0 // because of our "margin-left: -0.5px;" focus helper
+              this._tablistRef.current.style.paddingLeft = `${val}px`
+              this._tablistRef.current.style.paddingRight = `${val}px`
+            }
+          }
+        } else {
+          this._tabsRef.current.style.marginLeft = ''
+          this._tabsRef.current.style.marginRight = ''
+          this._tablistRef.current.style.marginLeft = ''
+          this._tablistRef.current.style.paddingLeft = ''
+          this._tablistRef.current.style.paddingRight = ''
+        }
+      } catch (e) {
+        //
+      }
+    }
+
+    this.setState({
+      atEdge: this.isAtEdge()
+    })
+
+    // ensure that we scroll to the active item
+    if (hasScrollbar) {
+      this.scrollToTab('selected')
+    }
+  }
+
+  hasScrollbar() {
+    return (
+      /**
+       * Safari Desktop adds one pixel "on zoom" level 1
+       * therefore we just remove it here
+       */
+      this._tablistRef.current.scrollWidth - 1 >
+      this._tablistRef.current.offsetWidth
+    )
+  }
+
+  isAtEdge() {
+    if (!this._hasScrollbar || typeof window === 'undefined') {
+      return false
+    }
+
+    try {
+      const padding = parseFloat(
+        window.getComputedStyle(this._tablistRef.current).paddingLeft
+      )
+      /**
+       * 2 for border correction to ensure we do that
+       * + 64 for the buttons (2x2rem)
+       */
+      const width = this._tablistRef.current.offsetWidth + 2 + 64 - padding
+      const screenWidth = window.innerWidth
+
+      return width >= screenWidth
+    } catch (e) {
+      //
+    }
+
+    return false
+  }
+
+  addScrollBehaviour() {
+    this.onResizeHandler()
+    if (typeof window !== 'undefined') {
+      window.addEventListener('resize', this.onResizeHandler)
+    }
+  }
+
+  onTablistKeyDownHandler = (e) => {
     switch (keycode(e)) {
       case 'up':
       case 'page up':
       case 'left':
         e.preventDefault()
-        this.prevTab(e)
-        this.setFocusOnTablist()
+        this.focusPrevTab(e)
         break
       case 'down':
       case 'page down':
       case 'right':
         e.preventDefault()
-        this.nextTab(e)
-        this.setFocusOnTablist()
+        this.focusNextTab(e)
+        break
+      case 'home':
+        e.preventDefault()
+        this.focusFirstTab(e)
+        break
+      case 'end':
+        e.preventDefault()
+        this.focusLastTab(e)
         break
     }
   }
 
-  prevTab = (e) => {
+  focusFirstTab = (e) => {
+    const key = this.state.data[0].key
+    this.focusTab(key, e, 'step')
+    this.scrollToTab('focus')
+  }
+
+  focusLastTab = (e) => {
+    const key = this.state.data[this.state.data.length - 1].key
+    this.focusTab(key, e, 'step')
+    this.scrollToTab('focus')
+  }
+
+  focusPrevTab = (e) => {
+    this.focusTab(-1, e, 'step')
+    this.scrollToTab('focus')
+  }
+  focusNextTab = (e) => {
+    this.focusTab(+1, e, 'step')
+    this.scrollToTab('focus')
+  }
+
+  openPrevTab = (e) => {
     this.openTab(-1, e, 'step')
+    this.scrollToTab('selected')
   }
-  nextTab = (e) => {
+  openNextTab = (e) => {
     this.openTab(+1, e, 'step')
+    this.scrollToTab('selected')
   }
 
-  componentWillUnmount() {
-    clearTimeout(this._setFocusOnTablistId)
-  }
-
-  setFocusOnTablist = () => {
-    if (typeof document !== 'undefined') {
-      setTimeout(() => {
-        if (this._tablistRef.current) {
-          this._tablistRef.current.focus()
-        }
-      }, 1) // to make sure we don't "flicker"
-      clearTimeout(this._setFocusOnTablistId)
-      this._setFocusOnTablistId = setTimeout(() => {
-        if (this._tablistRef.current) {
-          this._tablistRef.current.focus()
-        }
-      }, 50)
-      // makes it possible to navigate with left/right key
-      // also, if tabs are used with @reach/router we have to be after the focus handling of this one
+  handleVerticalScroll = () => {
+    if (
+      isTrue(this.props.scroll) &&
+      this._tablistRef.current &&
+      typeof this._tablistRef.current.scrollIntoView === 'function'
+    ) {
+      this._tablistRef.current.scrollIntoView({
+        block: 'start',
+        behavior: 'smooth'
+      })
     }
   }
 
-  openTabByDOM = (e) => {
+  scrollToLastPosition() {
     try {
-      const selected_key = (function (elem) {
+      this._tablistRef.current.style.scrollBehavior = 'auto'
+      this._tablistRef.current.scrollLeft = this.state.lastPosition
+      this._tablistRef.current.style.scrollBehavior = 'smooth'
+    } catch (e) {
+      //
+    }
+  }
+
+  scrollToTab(type) {
+    if (typeof window === 'undefined') {
+      return // stop here
+    }
+    clearTimeout(this._scrollToTabTimeout)
+    this._scrollToTabTimeout = setTimeout(
+      () => {
+        try {
+          if (
+            (this._hasScrollbar || this.state.hasScrollbar) &&
+            this._tablistRef.current
+          ) {
+            const first = this._tablistRef.current.querySelector(
+              '.dnb-tabs__button__snap:first-of-type'
+            )
+            const isFirst = first.classList.contains(type)
+            const last = this._tablistRef.current.querySelector(
+              '.dnb-tabs__button__snap:last-of-type'
+            )
+            const isLast = last.classList.contains(type)
+            const elem = this._tablistRef.current.querySelector(
+              `.dnb-tabs__button.${type}`
+            )
+
+            const style = window.getComputedStyle(this._tabsRef.current)
+            const margin = parseFloat(style.marginLeft)
+            let padding = margin < 0 ? parseFloat(style.paddingLeft) : 0
+
+            if (
+              !isFirst &&
+              this.state.atEdge &&
+              parseFloat(style.paddingLeft) < 16
+            ) {
+              const navButton = this._tabsRef.current.querySelector(
+                '.dnb-tabs__scroll-nav-button:first-of-type'
+              )
+              padding = parseFloat(
+                window.getComputedStyle(navButton).width
+              )
+            }
+
+            const leftPadding =
+              (margin < 0 ? Math.abs(margin) : 0) +
+              padding +
+              parseFloat(window.getComputedStyle(first).paddingLeft)
+
+            const left =
+              elem && !isFirst ? elem.offsetLeft - leftPadding : 0
+
+            this._tablistRef.current.scrollTo({
+              left,
+              behavior: window.IS_TEST ? 'auto' : 'smooth'
+            })
+
+            this.setState({
+              isFirst,
+              isLast
+            })
+          }
+        } catch (e) {
+          warn(e)
+        }
+      },
+      window.IS_TEST ? 0 : 100
+    ) // Delay so Chrome/Safari makes the transition / animation smooth
+  }
+
+  onClickHandler = (event) => {
+    let selected_key
+    try {
+      selected_key = (function (elem) {
         return (
           getPreviousSibling('dnb-tabs__button', elem) || { dataset: {} }
         )
-      })(e.target).dataset.tabKey
-
-      this.openTab(selected_key, e)
-      this.setFocusOnTablist()
+      })(event.target).dataset.tabKey
     } catch (e) {
       warn('Tabs Error:', e)
+    }
+
+    if (selected_key) {
+      const ret = dispatchCustomElementEvent(
+        this,
+        'on_click',
+        this.getEventArgs({ event, selected_key })
+      )
+
+      if (ret !== false) {
+        this.openTab(selected_key, event)
+        this.scrollToTab('selected')
+      }
     }
   }
 
@@ -343,40 +625,103 @@ export default class Tabs extends React.PureComponent {
     return (current && current.title) || null
   }
 
-  openTab = (selected_key, event = null, mode = null) => {
-    // for handling prevTab and nextTab
-    if (mode === 'step' && parseFloat(selected_key)) {
-      const currentData = this.state.data.filter(
-        ({ disabled }) => !disabled
-      )
-      const currentIndex = currentData.reduce(
-        (acc, { key }, i) => (key == this.state.selected_key ? i : acc),
-        -1
-      )
-      let nextIndex = currentIndex + selected_key
-      if (nextIndex < 0) {
-        nextIndex = currentData.length - 1
-      }
-      if (nextIndex >= currentData.length) {
-        nextIndex = 0
-      }
-      selected_key = currentData.reduce(
-        (acc, { key }, i) => (i === nextIndex ? key : acc),
-        null
-      )
+  getStepKey(useKey, stateKey) {
+    const currentData = this.state.data.filter(({ disabled }) => !disabled)
+    const currentIndex = currentData.reduce(
+      (acc, { key }, i) => (key == stateKey ? i : acc),
+      -1
+    )
+    let nextIndex = currentIndex + useKey
+    if (nextIndex < 0) {
+      nextIndex = currentData.length - 1
+    }
+    if (nextIndex >= currentData.length) {
+      nextIndex = 0
+    }
+    return currentData.reduce(
+      (acc, { key }, i) => (i === nextIndex ? key : acc),
+      null
+    )
+  }
+
+  focusTab = (focus_key, event = null, mode = null) => {
+    // for handling openPrevTab and openNextTab
+    if (mode === 'step' && parseFloat(focus_key)) {
+      focus_key = this.getStepKey(focus_key, this.state.focus_key)
     }
 
-    if (selected_key) {
-      this.setState({
-        selected_key,
+    this.setState(
+      {
+        focus_key,
         _listenForPropChanges: false
-      })
+      },
+      this.setFocusOnTab
+    )
+
+    dispatchCustomElementEvent(
+      this,
+      'on_focus',
+      this.getEventArgs({ event, focus_key })
+    )
+
+    this.setWhatInput()
+  }
+
+  setWhatInput() {
+    whatInput.specificKeys([9, 37, 39, 33, 34, 35, 36])
+  }
+
+  resetWhatInput() {
+    whatInput.specificKeys([9])
+  }
+
+  setFocusOnTab = () => {
+    try {
+      const elem = this._tablistRef.current.querySelector(
+        '.dnb-tabs__button.focus'
+      )
+      elem.focus()
+
+      if (
+        !document.getElementById(`${this._id}-content`) &&
+        process.env.NODE_ENV !== 'test'
+      ) {
+        warn(
+          `Could not find the required <Tabs.Content id="${this._id}-content" ... /> that provides role="tabpanel"`
+        )
+      }
+    } catch (e) {
+      warn(e)
+    }
+  }
+
+  openTab = (selected_key, event = null, mode = null) => {
+    // saving the position will avoid flickering if the new tab will be done by a new page load
+    this.saveLastPosition()
+    this.saveLastUsedTab()
+    this.resetWhatInput()
+
+    // for handling openPrevTab and openNextTab
+    if (mode === 'step' && parseFloat(selected_key)) {
+      selected_key = this.getStepKey(selected_key, this.state.selected_key)
     }
 
-    dispatchCustomElementEvent(this, 'on_change', {
-      key: selected_key,
-      event
-    })
+    if (typeof selected_key !== 'undefined') {
+      this.setState(
+        {
+          selected_key,
+          focus_key: selected_key,
+          _listenForPropChanges: false
+        },
+        this.handleVerticalScroll
+      )
+    }
+
+    dispatchCustomElementEvent(
+      this,
+      'on_change',
+      this.getEventArgs({ event, selected_key })
+    )
 
     if (this.props.use_hash && typeof window !== 'undefined') {
       try {
@@ -391,6 +736,22 @@ export default class Tabs extends React.PureComponent {
     }
   }
 
+  getEventArgs(args) {
+    const { selected_key, focus_key } = this.state
+    return {
+      key:
+        typeof args.selected_key !== 'undefined'
+          ? args.selected_key
+          : selected_key,
+      selected_key,
+      focus_key,
+      ...args
+    }
+  }
+
+  isFocus(tabKey) {
+    return this.state.focus_key == tabKey
+  }
   isSelected(tabKey) {
     return this.state.selected_key == tabKey
   }
@@ -521,6 +882,7 @@ export default class Tabs extends React.PureComponent {
 
   TabsListHandler = ({ children, className }) => {
     const { align, section_style, section_spacing } = this.props
+    const { hasScrollbar, atEdge } = this.state
 
     return (
       <div
@@ -535,10 +897,29 @@ export default class Tabs extends React.PureComponent {
                 isTrue(section_spacing) ? 'default' : section_spacing
               }`
             : null,
+          hasScrollbar && 'dnb-tabs--has-scrollbar',
+          atEdge && 'dnb-tabs--at-edge',
           className
         )}
+        ref={this._tabsRef}
       >
+        <ScrollNavButton
+          onMouseDown={this.openPrevTab}
+          icon="chevron_left"
+          className={classnames(
+            hasScrollbar && 'dnb-tabs__scroll-nav-button--visible',
+            this.state.isFirst && 'dnb-tabs__scroll-nav-button--hide'
+          )}
+        />
         {children}
+        <ScrollNavButton
+          onMouseDown={this.openNextTab}
+          icon="chevron_right"
+          className={classnames(
+            hasScrollbar && 'dnb-tabs__scroll-nav-button--visible',
+            this.state.isLast && 'dnb-tabs__scroll-nav-button--hide'
+          )}
+        />
       </div>
     )
   }
@@ -562,9 +943,10 @@ export default class Tabs extends React.PureComponent {
     const tabs = this.state.data.map(
       ({ title, key, disabled = false }) => {
         const itemParams = {}
+        const isFocus = this.isFocus(key)
         const isSelected = this.isSelected(key)
         if (isSelected) {
-          itemParams['aria-controls'] = `${this._id}-content-${key}`
+          itemParams['aria-controls'] = `${this._id}-content`
         }
 
         // itemParams['aria-current'] = isSelected // has best support on NVDA
@@ -578,32 +960,40 @@ export default class Tabs extends React.PureComponent {
         skeletonDOMAttributes(itemParams, skeleton, this.context)
 
         return (
-          <button
-            type="button"
-            role="tab"
-            tabIndex="-1"
-            id={`${this._id}-tab-${key}`}
-            aria-selected={isSelected}
+          <div
             className={classnames(
-              'dnb-tabs__button',
-              // createSkeletonClass('font', skeleton, this.context),
+              'dnb-tabs__button__snap',
+              isFocus && 'focus',
               isSelected && 'selected'
             )}
-            onClick={this.openTabByDOM}
             key={`tab-${key}`}
-            data-tab-key={key}
-            {...itemParams}
           >
-            <span
+            <button
+              type="button"
+              role="tab"
+              tabIndex="-1"
+              id={`${this._id}-tab-${key}`}
+              aria-selected={isSelected}
               className={classnames(
-                'dnb-tabs__button__title',
-                createSkeletonClass('font', skeleton, this.context)
+                'dnb-tabs__button',
+                isFocus && 'focus',
+                isSelected && 'selected'
               )}
+              onClick={this.onClickHandler}
+              data-tab-key={key}
+              {...itemParams}
             >
-              {title}
-            </span>
-            <Dummy>{title}</Dummy>
-          </button>
+              <span
+                className={classnames(
+                  'dnb-tabs__button__title',
+                  createSkeletonClass('font', skeleton, this.context)
+                )}
+              >
+                {title}
+              </span>
+              <Dummy>{title}</Dummy>
+            </button>
+          </div>
         )
       }
     )
@@ -620,7 +1010,7 @@ export default class Tabs extends React.PureComponent {
         role="tablist"
         className="dnb-tabs__tabs__tablist"
         tabIndex="0"
-        onKeyDown={this.onKeyDownHandler}
+        onKeyDown={this.onTablistKeyDownHandler}
         ref={this._tablistRef}
         {...params}
       >
@@ -674,24 +1064,40 @@ export default class Tabs extends React.PureComponent {
 class ContentWrapper extends React.PureComponent {
   static propTypes = {
     id: PropTypes.string.isRequired,
-    selected_key: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
-      .isRequired,
+    selected_key: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number
+    ]),
     children: PropTypes.node.isRequired
+  }
+  static defaultProps = {
+    selected_key: null
   }
   render() {
     const { id, children, selected_key: key, ...rest } = this.props
+
     if (!children) {
       return <></>
     }
+
+    const params = rest
+
+    if (key) {
+      params['aria-labelledby'] = `${id}-tab-${key}`
+    }
+
+    validateDOMAttributes(this.props, params)
+
     return (
       <div
         role="tabpanel"
-        id={`${id}-content-${key}`}
+        tabIndex="0"
+        id={`${id}-content`}
         className={classnames(
-          'dnb-tabs__content',
+          'dnb-tabs__content dnb-no-focus',
           createSpacingClasses(rest)
         )}
-        aria-labelledby={`${id}-tab-${key}`}
+        {...params}
       >
         {children}
       </div>
@@ -774,7 +1180,6 @@ export const Dummy = ({ children }) => {
       className="dnb-dummy"
       // role="textbox" // methodes to try to make NVDA not read blank
       // aria-readonly // methodes to try to make NVDA not read blank
-      // className="dnb-sr-only"
     >
       {children}
     </span>
@@ -782,4 +1187,25 @@ export const Dummy = ({ children }) => {
 }
 Dummy.propTypes = {
   children: PropTypes.node.isRequired
+}
+
+const ScrollNavButton = (props) => {
+  return (
+    <Button
+      size="medium"
+      variant="primary"
+      tabIndex="-1"
+      bounding
+      aria-hidden
+      icon_size="medium"
+      {...props}
+      className={classnames(
+        'dnb-tabs__scroll-nav-button',
+        props.className
+      )}
+    />
+  )
+}
+ScrollNavButton.propTypes = {
+  className: PropTypes.node.isRequired
 }

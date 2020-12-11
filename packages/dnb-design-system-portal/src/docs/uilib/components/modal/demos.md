@@ -88,11 +88,13 @@ With placement on the left side.
 <Modal
   title="1s close delay"
   trigger_text="Click me"
+  focus_selector=".dnb-input__input:first-of-type"
   prevent_close="true"
   hide_close_button="true"
   on_open={(e) => console.log('on_open', e)}
   on_close={(e) => console.log('on_close', e)}
-  on_close_prevent={({ close }) => {
+  on_close_prevent={({ close, triggeredBy }) => {
+    console.log('triggeredBy', triggeredBy)
     const timeout = setTimeout(close, 1e3)
     return () => clearTimeout(timeout) // clear timeout on unmount
   }}

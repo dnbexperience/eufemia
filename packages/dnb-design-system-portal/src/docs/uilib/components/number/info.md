@@ -84,7 +84,7 @@ const string = cleanNumber('prefix -12.345,678 suffix') // returns -12345.678
 
 ## Node.js and SSR usage
 
-If you run the component or `format` function in [Node.js](https://nodejs.org) you have to include [ICU](https://nodejs.org/api/intl.html) data in order to display other locales than en-US. You can do this by:
+If you run the component or `format` function in [Node.js](https://nodejs.org) you have to include [ICU](https://nodejs.org/api/intl.html) data in order to display other locales than en-GB. You can do this by:
 
 - installing `npm i full-icu`
 - and call node (or jest) with an environment variable pointing to the package: `NODE_ICU_DATA=./node_modules/full-icu node ...`
@@ -98,7 +98,7 @@ You can send down the `locale` as an application wide property (Context). More i
 import Provider from 'dnb-ui-lib/shared/Provider'
 
 render(
-  <Provider locale="en-US" currency_display="code">
+  <Provider locale="en-GB" currency_display="code">
     <MyApp>
       text <Number>123</Number> table etc.
     </MyApp>

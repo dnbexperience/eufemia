@@ -20,6 +20,7 @@ import Form from './form/Form'
 import FormSummary from './form-summary/FormSummary'
 import Grid from './grid/Grid'
 import MainNav from './main-nav/MainNav'
+import PaymentCard from './payment-card/PaymentCard'
 import RangeSlider from './range-slider/RangeSlider'
 import SummaryTable from './summary-table/SummaryTable'
 import ViewTitle from './view-title/ViewTitle'
@@ -34,6 +35,7 @@ export {
   FormSummary,
   Grid,
   MainNav,
+  PaymentCard,
   RangeSlider,
   SummaryTable,
   ViewTitle
@@ -49,6 +51,7 @@ export const getPatterns = () => {
     FormSummary,
     Grid,
     MainNav,
+    PaymentCard,
     RangeSlider,
     SummaryTable,
     ViewTitle

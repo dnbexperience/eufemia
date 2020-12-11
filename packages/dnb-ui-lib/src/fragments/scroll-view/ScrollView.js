@@ -26,11 +26,7 @@ class ScrollView extends React.PureComponent {
       PropTypes.func,
       PropTypes.node
     ]),
-    innerRef: PropTypes.oneOfType([
-      PropTypes.func,
-      PropTypes.object,
-      PropTypes.node
-    ]),
+    innerRef: PropTypes.object,
 
     class: PropTypes.string
   }

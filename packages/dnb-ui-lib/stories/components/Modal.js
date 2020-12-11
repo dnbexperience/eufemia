@@ -5,7 +5,7 @@
 
 import React from 'react'
 import { Wrapper, Box } from '../helpers'
-import { Global, css } from '@emotion/core'
+import { Global, css } from '@emotion/react'
 
 import {
   Modal,
@@ -22,7 +22,7 @@ import {
   // Space,
   Number
 } from '../../src/components'
-// import { format } from '../../src/components/Number'
+import { ScrollView } from '../../src/fragments'
 import { H2, P, Hr } from '../../src/elements'
 
 export default {
@@ -31,22 +31,80 @@ export default {
 
 export const ModalSandbox = () => (
   <Wrapper>
-    <Global
+    {/* <Global
       styles={css`
         :root {
-          /* --modal-height-offset: 7rem; */
+          --modal-height-offset: 7rem;
         }
       `}
-    />
+    /> */}
+
+    <Box>
+      <ModalWithScrollableBox />
+    </Box>
 
     <Box>
       <Modal
+        title="1s close delay"
+        trigger_text="Click me"
+        focus_selector=".dnb-input__input:first-of-type"
+        prevent_close="true"
+        // hide_close_button="true"
+        on_open={(e) => console.log('on_open', e)}
+        on_close={(e) => console.log('on_close', e)}
+        on_close_prevent={({ close, triggeredBy }) => {
+          switch (triggeredBy) {
+            case 'keyboard':
+            case 'button':
+              close()
+              break
+            case 'overlay': {
+              const timeout = setTimeout(close, 1e3)
+              return () => clearTimeout(timeout) // clear timeout on unmount
+            }
+          }
+        }}
+      >
+        <P>This is a Modal Window with no close button.</P>
+        <P>Click outside me, and I will be closed within 1 second.</P>
+        <Section top spacing style_type="divider">
+          <Input label="Focus:">Focus me with Tab key</Input>
+        </Section>
+      </Modal>
+    </Box>
+
+    <Box>
+      <Modal
+        // trigger_attributes={{
+        //   'aria-label': 'My Label'
+        // }}
         spacing={false}
         fullscreen={false}
         align_content="centered"
         hide_close_button
         trigger_text="Show"
         // prevent_close
+        max_width="12rem"
+      >
+        <ProgressIndicator
+          show_label
+          label_direction="vertical"
+          top="large"
+          bottom="large"
+          size="large"
+        />
+      </Modal>
+      <Modal
+        // trigger_attributes={{
+        //   'aria-label': 'My Label'
+        // }}
+        spacing={false}
+        fullscreen={false}
+        align_content="centered"
+        hide_close_button
+        trigger_icon="bell"
+        // prevent_close
+        max_width="12rem"
       >
         <ProgressIndicator
           show_label
@@ -81,6 +139,7 @@ export const ModalSandbox = () => (
       <Modal
         title="Title 1"
         trigger_text="Modal in modal"
+        // open_state="opened"
         style={{
           minHeight: '25rem'
         }}
@@ -112,7 +171,7 @@ export const ModalSandbox = () => (
         fullscreen
         title="Modal Title"
         trigger_variant="tertiary"
-        trigger_icon={null}
+        // trigger_icon={null}
         trigger_text="Click me"
       >
         <FillContent />
@@ -156,9 +215,9 @@ export const DrawerSandbox = () => (
   <Wrapper>
     <Global
       styles={css`
-        :root {
-          /* --modal-height-offset: 10rem; */
-        }
+        /* :root {
+          --modal-height-offset: 10rem;
+        } */
         .custom-inner {
           padding-top: 1.5rem;
         }
@@ -185,8 +244,13 @@ export const DrawerSandbox = () => (
         // class="inner_class"
       >
         <Modal.Inner style_type="pistachio">
-          Modal.Inner
-          {/* <FillContent /> */}
+          <Input>Focus me with Tab key</Input>
+          <Section top bottom spacing>
+            <P>
+              <Switch label="Checked:" checked />
+            </P>
+          </Section>
+          <FillContent />
         </Modal.Inner>
       </Modal>
     </Box>
@@ -583,5 +647,52 @@ function FillContent() {
         // direction="top"
       />
     </>
+  )
+}
+
+function ModalWithScrollableBox() {
+  return (
+    <>
+      {/* <ScrollView /> */}
+      <Modal
+      // fullscreen={true}
+      // open_state="opened"
+      >
+        <SimScrollView />
+      </Modal>
+    </>
+  )
+}
+
+function SimScrollView() {
+  return (
+    <div
+      style={{
+        width: '100%',
+        // height: '100vh',
+        height: '20rem',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        background: 'yellow'
+      }}
+    >
+      <ScrollView
+        style={{
+          width: '50%',
+          height: '50%',
+          // overflowY: 'auto',
+          maxHeight: '12rem'
+        }}
+      >
+        <div
+          style={{
+            height: '62rem',
+            width: '40rem',
+            background: 'linear-gradient(#e66465, #9198e5)'
+          }}
+        />
+      </ScrollView>
+    </div>
   )
 }

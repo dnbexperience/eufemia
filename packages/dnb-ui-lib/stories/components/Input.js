@@ -16,6 +16,7 @@ import {
   FormRow,
   FormLabel
 } from '../../src/components'
+import InputPassword from '../../src/components/input/InputPassword'
 
 export default {
   title: 'Eufemia/Components/Input'
@@ -291,6 +292,21 @@ export const InputSandbox = () => {
               }}
             />
           </form>
+        </Box>
+        <Box>
+          <InputPassword
+            label="Label:"
+            placeholder="A palceholder text"
+            on_change={({ value }) => {
+              console.log('on_change:', value)
+            }}
+            on_show_password={() => {
+              console.log('on_show_password')
+            }}
+            on_hide_password={() => {
+              console.log('on_hide_password')
+            }}
+          />
         </Box>
       </Wrapper>
     </CustomStyle>

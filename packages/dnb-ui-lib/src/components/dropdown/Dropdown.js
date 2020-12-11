@@ -14,6 +14,8 @@ import {
   extendPropsWithContext,
   registerElement,
   validateDOMAttributes,
+  getStatusState,
+  combineDescribedBy,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
@@ -338,23 +340,27 @@ class DropdownInstance extends React.PureComponent {
 
   onHideHandler = (args = {}) => {
     const attributes = this.attributes || {}
-    dispatchCustomElementEvent(this, 'on_hide', {
+    const res = dispatchCustomElementEvent(this, 'on_hide', {
       ...args,
       attributes
     })
 
-    clearTimeout(this._focusTimeout)
-    this._focusTimeout = setTimeout(() => {
-      try {
-        const element = this._refButton.current._ref.current
-        if (element && typeof element.focus === 'function') {
-          element.focus({ preventScroll: true })
-          dispatchCustomElementEvent(this, 'on_hide_focus', { element })
+    if (res !== false) {
+      clearTimeout(this._focusTimeout)
+      this._focusTimeout = setTimeout(() => {
+        try {
+          const element = this._refButton.current._ref.current
+          if (element && typeof element.focus === 'function') {
+            element.focus({ preventScroll: true })
+            dispatchCustomElementEvent(this, 'on_hide_focus', { element })
+          }
+        } catch (e) {
+          // do noting
         }
-      } catch (e) {
-        // do noting
-      }
-    }, 1) // NVDA / Firefox needs a delay to set this focus
+      }, 1) // NVDA / Firefox needs a delay to set this focus
+    }
+
+    return res
   }
 
   onSelectHandler = (args) => {
@@ -399,7 +405,7 @@ class DropdownInstance extends React.PureComponent {
       Dropdown.defaultProps,
       { skeleton: this.context?.skeleton },
       this.context.formRow,
-      this.context.translation.Dropdown
+      this.context.getTranslation(this.props).Dropdown
     )
 
     const {
@@ -467,7 +473,7 @@ class DropdownInstance extends React.PureComponent {
     }
 
     const { selected_item, direction, opened } = this.context.drawerList
-    const showStatus = status && status !== 'error'
+    const showStatus = getStatusState(status)
     const title = this.getTitle(_title)
 
     // make it possible to grab the rest attributes and return it with all events
@@ -520,13 +526,11 @@ class DropdownInstance extends React.PureComponent {
     }
 
     if (showStatus || suffix) {
-      triggerParams['aria-describedby'] = [
-        triggerParams['aria-describedby'],
+      triggerParams['aria-describedby'] = combineDescribedBy(
+        triggerParams,
         showStatus ? id + '-status' : null,
         suffix ? id + '-suffix' : null
-      ]
-        .filter(Boolean)
-        .join(' ')
+      )
     }
 
     if (label) {
@@ -584,6 +588,7 @@ class DropdownInstance extends React.PureComponent {
               ) : (
                 <Button
                   variant="secondary"
+                  icon={false} // only to suppress the warning about the icon when tertiary variant is used
                   size={size === 'default' ? 'medium' : size}
                   ref={this._refButton}
                   {...triggerParams}

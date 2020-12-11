@@ -51,35 +51,6 @@
     box-shadow: none !important;
   }
 
-  &--font,
-  &--font-only {
-    pointer-events: none;
-    // ::selection {
-    // }
-
-    --font-family-book: 'DNBSkeleton' !important; // Deprecated
-    --font-family-demi: 'DNBSkeleton' !important; // Deprecated
-    --font-family-default: 'DNBSkeleton' !important;
-
-    &,
-    * {
-      font-family: var(--font-family-default) !important;
-      font-style: unset !important;
-    }
-  }
-  &--font {
-    background-position-y: 50% !important;
-    background-repeat: no-repeat !important;
-    background-size: 30rem 100% !important;
-
-    -webkit-text-fill-color: transparent !important;
-
-    background-clip: text !important;
-    -webkit-background-clip: text !important;
-
-    animation: skeletonFontAnimation 2s linear infinite;
-  }
-
   &--code,
   &--font {
     pre,
@@ -89,6 +60,36 @@
       --font-family-monospace: 'DNBMonoSkeleton' !important;
       font-family: var(--font-family-monospace) !important;
       font-style: unset !important;
+    }
+  }
+
+  &--font-only,
+  &--font,
+  &--font &--show-font,
+  &--font .dnb-p {
+    pointer-events: none;
+
+    --font-family-book: 'DNBSkeleton' !important; // Deprecated
+    --font-family-demi: 'DNBSkeleton' !important; // Deprecated
+    --font-family-default: 'DNBSkeleton' !important;
+
+    font-family: var(--font-family-default) !important;
+    font-style: unset !important;
+  }
+  &--font,
+  &--font &--show-font,
+  &--font .dnb-p {
+    background-position-y: 50% !important;
+    background-repeat: no-repeat !important;
+    background-size: 30rem 100% !important;
+
+    -webkit-text-fill-color: transparent !important;
+
+    background-clip: text !important;
+    -webkit-background-clip: text !important;
+
+    html[data-visual-test] & {
+      animation: none !important;
     }
   }
 
@@ -113,33 +114,9 @@
   }
 
   &--no-animation &,
-  &--no-animation &::after {
+  &--no-animation &::after,
+  &--no-animation * &::after {
     animation: none !important;
-  }
-
-  html[data-visual-test] &,
-  html[data-visual-test] &::after,
-  html[data-visual-test] &--shine &::after {
-    animation: none !important;
-  }
-
-  // Not used right now!
-  // &[data-skeleton-chars] {
-  //   &::before,
-  //   &::after {
-  //     // Since the ch unit is using the size of the 0,
-  //     // it is not that good to also change the size afterwards
-  //     max-width: var(--skeleton-chars);
-  //   }
-  // }
-}
-
-@keyframes skeletonFontAnimation {
-  0% {
-    background-position-x: -30rem;
-  }
-  100% {
-    background-position-x: 30rem;
   }
 }
 

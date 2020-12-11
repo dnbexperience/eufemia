@@ -67,6 +67,8 @@ exports[`Input component have to match type="search" snapshot 1`] = `
         "on_submit_blur": [Function],
         "on_submit_focus": [Function],
         "skeleton": "skeleton",
+        "status": "status",
+        "status_state": "status_state",
         "title": "title",
         "value": "value",
         "variant": "custom type not supported, please set the correct value for variant prop",
@@ -109,7 +111,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
   status_animation={null}
   status_state="error"
   stretch={null}
-  submit_button_icon="search"
+  submit_button_icon="loupe"
   submit_button_status={null}
   submit_button_title={null}
   submit_button_variant="secondary"
@@ -141,6 +143,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
           data-input-state="virgin"
         >
           <input
+            aria-describedby="input-submit-button"
             autoComplete="off"
             className="dnb-input__input"
             disabled={false}
@@ -223,6 +226,8 @@ exports[`Input component have to match type="search" snapshot 1`] = `
                   "on_submit_blur": [Function],
                   "on_submit_focus": [Function],
                   "skeleton": "skeleton",
+                  "status": "status",
+                  "status_state": "status_state",
                   "title": "title",
                   "value": "value",
                   "variant": "custom type not supported, please set the correct value for variant prop",
@@ -232,8 +237,9 @@ exports[`Input component have to match type="search" snapshot 1`] = `
             custom_element={null}
             custom_method={null}
             disabled={false}
-            icon="search"
+            icon="loupe"
             icon_size="default"
+            id="input-submit-button"
             inner_ref={null}
             input_state={null}
             on_blur={null}
@@ -246,6 +252,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
             size={null}
             skeleton={false}
             status={null}
+            status_state="error"
             title="Send knapp"
             value="test"
             variant="secondary"
@@ -316,6 +323,8 @@ exports[`Input component have to match type="search" snapshot 1`] = `
                     "on_submit_blur": [Function],
                     "on_submit_focus": [Function],
                     "skeleton": "skeleton",
+                    "status": "status",
+                    "status_state": "status_state",
                     "title": "title",
                     "value": "value",
                     "variant": "custom type not supported, please set the correct value for variant prop",
@@ -326,9 +335,9 @@ exports[`Input component have to match type="search" snapshot 1`] = `
               custom_element={null}
               custom_method={null}
               disabled={false}
-              icon="search"
+              icon="loupe"
               icon_size="default"
-              id={null}
+              id="input-submit-button"
               innerRef={null}
               inner_ref={null}
               input_state={null}
@@ -342,6 +351,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
               size={null}
               skeleton={false}
               status={null}
+              status_state="error"
               title="Send knapp"
               value="test"
               variant="secondary"
@@ -358,13 +368,15 @@ exports[`Input component have to match type="search" snapshot 1`] = `
                   custom_element={null}
                   custom_method={null}
                   disabled={false}
+                  element={null}
                   global_status_id={null}
                   href={null}
-                  icon="search"
+                  icon="loupe"
                   icon_position="right"
                   icon_size="default"
-                  id={null}
+                  id="input-submit-button"
                   innerRef={null}
+                  inner_ref={null}
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
@@ -386,6 +398,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
                     aria-label="Send knapp"
                     className="dnb-button dnb-button--secondary dnb-input__submit-button__button dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-default dnb-button--size-medium"
                     disabled={false}
+                    id="input-submit-button"
                     onBlur={[Function]}
                     onClick={[Function]}
                     onFocus={[Function]}
@@ -401,20 +414,22 @@ exports[`Input component have to match type="search" snapshot 1`] = `
                       custom_element={null}
                       custom_method={null}
                       disabled={false}
+                      element={null}
                       global_status_id={null}
                       href={null}
-                      icon="search"
+                      icon="loupe"
                       icon_position="right"
                       icon_size="default"
-                      id={null}
+                      id="input-submit-button"
                       innerRef={null}
+                      inner_ref={null}
                       isIconOnly={true}
                       onBlur={[Function]}
                       onClick={[Function]}
                       onFocus={[Function]}
                       on_click={null}
                       size={null}
-                      skeleton={null}
+                      skeleton={false}
                       status={null}
                       status_animation={null}
                       status_state="error"
@@ -440,40 +455,35 @@ exports[`Input component have to match type="search" snapshot 1`] = `
                         className="dnb-button__icon"
                         color={null}
                         height={null}
-                        icon="search"
+                        icon="loupe"
+                        inherit_color={true}
                         key="button-icon"
                         modifier={null}
                         size="default"
-                        skeleton={null}
+                        skeleton={false}
                         title={null}
                         width={null}
                       >
                         <span
                           aria-hidden={true}
-                          aria-label="search icon"
-                          className="dnb-icon dnb-icon--default dnb-button__icon"
+                          aria-label="loupe icon"
+                          className="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
                           role="presentation"
                         >
-                          <search>
+                          <loupe>
                             <svg
                               fill="none"
                               height={16}
-                              viewBox="0 0 17 17"
+                              viewBox="0 0 16 16"
                               width={16}
+                              xmlns="http://www.w3.org/2000/svg"
                             >
-                              <g
-                                clipPath="url(#clip-06a943)"
-                                stroke="#000"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={1.5}
-                              >
-                                <path
-                                  d="M9.055 11.937a5.445 5.445 0 10-4.26-10.023 5.445 5.445 0 004.26 10.023zm1.72-1.162L15 14.999"
-                                />
-                              </g>
+                              <path
+                                d="M12.0303 10.9697C11.7374 10.6768 11.2626 10.6768 10.9697 10.9697C10.6768 11.2626 10.6768 11.7374 10.9697 12.0303L12.0303 10.9697ZM14.4697 15.5303C14.7626 15.8232 15.2374 15.8232 15.5303 15.5303C15.8232 15.2374 15.8232 14.7626 15.5303 14.4697L14.4697 15.5303ZM10.9697 12.0303L14.4697 15.5303L15.5303 14.4697L12.0303 10.9697L10.9697 12.0303ZM11.0682 6.40909C11.0682 8.98224 8.98224 11.0682 6.40909 11.0682V12.5682C9.81066 12.5682 12.5682 9.81066 12.5682 6.40909H11.0682ZM6.40909 11.0682C3.83595 11.0682 1.75 8.98224 1.75 6.40909H0.25C0.25 9.81066 3.00752 12.5682 6.40909 12.5682V11.0682ZM1.75 6.40909C1.75 3.83595 3.83595 1.75 6.40909 1.75V0.25C3.00752 0.25 0.25 3.00752 0.25 6.40909H1.75ZM6.40909 1.75C8.98224 1.75 11.0682 3.83595 11.0682 6.40909H12.5682C12.5682 3.00752 9.81066 0.25 6.40909 0.25V1.75Z"
+                                fill="black"
+                              />
                             </svg>
-                          </search>
+                          </loupe>
                         </span>
                       </IconPrimary>
                     </Content>
@@ -556,6 +566,8 @@ exports[`Input component have to match type="text" snapshot 1`] = `
         "on_submit_blur": [Function],
         "on_submit_focus": [Function],
         "skeleton": "skeleton",
+        "status": "status",
+        "status_state": "status_state",
         "title": "title",
         "value": "value",
         "variant": "custom type not supported, please set the correct value for variant prop",
@@ -598,7 +610,7 @@ exports[`Input component have to match type="text" snapshot 1`] = `
   status_animation={null}
   status_state="error"
   stretch={null}
-  submit_button_icon="search"
+  submit_button_icon="loupe"
   submit_button_status={null}
   submit_button_title={null}
   submit_button_variant="secondary"
@@ -703,7 +715,6 @@ exports[`Input scss have to match default theme snapshot 1`] = `
       color: var(--input-text-color--changed);
       background-color: var(--input-background-color--changed); }
     .dnb-input__shell[data-input-state='disabled'] {
-      color: var(--input-text-color--disabled);
       -webkit-text-fill-color: currentColor;
       --border-color: var(--input-border-color--disabled);
       box-shadow: inset 0 0 0 var(--input-border-width) var(--border-color);
@@ -711,6 +722,9 @@ exports[`Input scss have to match default theme snapshot 1`] = `
       /* Safari fix - because \\"inset\\" works not fine with border-radius if the user zooms the page */
       border-color: transparent;
       background-color: var(--input-background-color--disabled); }
+      .dnb-input__shell[data-input-state='disabled'],
+      .dnb-input__shell[data-input-state='disabled'] .dnb-icon {
+        color: var(--input-text-color--disabled); }
       @supports (-webkit-touch-callout: none) {
         .dnb-input__shell[data-input-state='disabled'] {
           box-shadow: 0 0 0 var(--input-border-width) var(--border-color); } }
@@ -741,7 +755,6 @@ exports[`Input scss have to match default theme snapshot 1`] = `
     @media screen and (-ms-high-contrast: none) {
       .dnb-input__status--error .dnb-input__shell:not([data-input-state='focus']) {
         box-shadow: 0 0 0 0.125rem var(--color-fire-red); } }
-  .dnb-input__status--error .dnb-input__shell:not([data-input-state='focus']) ~ .dnb-input__submit-element .dnb-button__icon,
   .dnb-input__status--error .dnb-input__shell:not([data-input-state='focus']) ~ .dnb-input__submit-element .dnb-button--secondary .dnb-button__icon {
     color: var(--color-fire-red); }
   .dnb-input__status--error .dnb-input__shell:not([data-input-state='focus']) ~ .dnb-input__submit-element .dnb-button {
@@ -817,10 +830,10 @@ exports[`Input scss have to match snapshot 1`] = `
     width: inherit; }
   .dnb-icon svg[height='100%'] {
     height: inherit; }
-  .dnb-icon svg:not([fill]),
-  .dnb-icon svg [fill] {
+  .dnb-icon--inherit-color svg:not([fill]),
+  .dnb-icon--inherit-color svg [fill] {
     fill: currentColor; }
-  .dnb-icon svg [stroke] {
+  .dnb-icon--inherit-color svg [stroke] {
     stroke: currentColor; }
   .dnb-icon--small {
     font-size: 0.75rem; }
@@ -909,6 +922,9 @@ exports[`Input scss have to match snapshot 1`] = `
  * FormStatus component
  *
  */
+:root {
+  --form-status-radius: 0.25rem; }
+
 .dnb-form-status {
   display: flex; }
   .dnb-form-status__shell {
@@ -916,30 +932,32 @@ exports[`Input scss have to match snapshot 1`] = `
     justify-content: flex-start;
     align-items: flex-start;
     min-width: inherit;
-    border-radius: var(--input-border-radius); }
-  .dnb-form-status--text {
-    padding: calc(0.5rem / 2) 1rem;
+    border-radius: var(--form-status-radius); }
+  .dnb-form-status__text {
+    padding: 0.625rem 1rem;
     cursor: text;
     color: inherit;
-    line-height: var(--line-height-basis);
+    line-height: var(--line-height-small);
+    font-size: var(--font-size-small);
     white-space: normal; }
-    .dnb-form-status--text .dnb-anchor {
+    .dnb-form-status__text .dnb-anchor {
       font-size: inherit; }
-  .dnb-icon + .dnb-form-status--text {
+  .dnb-icon + .dnb-form-status__text {
     padding-left: 0.5rem; }
   .dnb-form-status__shell > .dnb-icon {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 1.5em;
-    height: 1.5em;
-    margin-top: 0.25em;
-    margin-left: 0.5em;
-    color: inherit;
-    font-size: var(--font-size-small); }
+    margin: 0.3333333em 0.3333333em 0.3333333em 0.6666666em; }
+  .dnb-form-status__size--large .dnb-form-status__text {
+    padding-top: 1.125rem;
+    padding-bottom: 1.125rem; }
+  .dnb-form-status__size--large .dnb-form-status__shell > .dnb-icon {
+    margin-top: 0.6666666em;
+    margin-bottom: 0.6666666em; }
   .dnb-form-status[hidden] {
     display: none; }
-  .dnb-form-status--fade-in {
+  .dnb-form-status__animation--fade-in {
     overflow: hidden;
     max-height: 0;
     animation: form-status-fade-in 2s ease-out 400ms forwards; }
@@ -1178,8 +1196,6 @@ exports[`Input scss have to match snapshot 1`] = `
     white-space: nowrap; }
   .dnb-button + .dnb-form-status {
     margin-top: 0.5rem; }
-  .dnb-button.dnb-skeleton .dnb-icon {
-    visibility: hidden; }
   @media screen and (-ms-high-contrast: none) {
     .dnb-button {
       flex: none; }
@@ -1405,6 +1421,17 @@ legend.dnb-form-label {
   .dnb-input--has-submit-element .dnb-input__placeholder,
   .dnb-input--has-submit-element .dnb-input__input {
     padding-right: calc(var(--input-padding) * 2.5); }
+  .dnb-input--password .dnb-input__placeholder,
+  .dnb-input--password .dnb-input__input {
+    margin-right: 2.5rem;
+    padding-right: 0; }
+    .dnb-input--password .dnb-input__placeholder::-ms-clear,
+    .dnb-input--password .dnb-input__input::-ms-clear {
+      display: none; }
+  .dnb-input--password .dnb-input__placeholder {
+    padding-right: 4rem; }
+  .dnb-input--password .dnb-input__input {
+    font-family: var(--font-family-monospace); }
   .dnb-input__row {
     display: inline-flex;
     align-items: center; }

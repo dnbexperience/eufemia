@@ -10,43 +10,30 @@ import ComponentBox from '../../../../shared/tags/ComponentBox'
 import styled from '@emotion/styled'
 import { Space } from 'dnb-ui-lib/src/components'
 
-const TestStyles = styled.div`
-  /* make sure our input gets an explicit width, because of mac/linux rendering differences */
-  .dnb-input {
-    &__input {
-      width: 8rem;
-    }
-  }
-  [data-visual-test='spacing-margins'] {
-    display: flex;
-  }
-`
-
-class Example extends React.PureComponent {
-  render() {
-    return (
-      <TestStyles>
-        <ComponentBox
-          title="Spacing method #1 - `Space` component. The RedBox is only to visualize the result."
-          data-visual-test="spacing-method-space"
-          scope={{ RedBox }}
-        >
-          {
-            /* @jsx */ `
+export const SpaceExamplesMethod1 = () => (
+  <TestStyles>
+    <ComponentBox
+      data-visual-test="spacing-method-space"
+      scope={{ RedBox }}
+    >
+      {
+        /* @jsx */ `
 <RedBox>
   <Space top="large x-small">
     <Input label="Input:" />
   </Space>
 </RedBox>
           `
-          }
-        </ComponentBox>
-        <ComponentBox
-          title="Spacing method #2 - `FormRow` component"
-          data-visual-test="spacing-method-form-row"
-        >
-          {
-            /* @jsx */ `
+      }
+    </ComponentBox>
+  </TestStyles>
+)
+
+export const SpaceExamplesMethod2 = () => (
+  <TestStyles>
+    <ComponentBox data-visual-test="spacing-method-form-row">
+      {
+        /* @jsx */ `
 <FormRow>
   <Input label="Input A:" />
 </FormRow>
@@ -54,28 +41,31 @@ class Example extends React.PureComponent {
   <Input label="Input B:" />
 </FormRow>
           `
-          }
-        </ComponentBox>
-        <ComponentBox
-          title="Spacing method #3 - Define the space directly"
-          data-visual-test="spacing-method-component"
-        >
-          {
-            /* @jsx */ `
+      }
+    </ComponentBox>
+  </TestStyles>
+)
+
+export const SpaceExamplesMethod3 = () => (
+  <TestStyles>
+    <ComponentBox data-visual-test="spacing-method-component">
+      {
+        /* @jsx */ `
 <FormRow>
   <Input label="Input A:" right="small" />
   <Input label="Input B:" />
 </FormRow>
           `
-          }
-        </ComponentBox>
-        <ComponentBox
-          title="Spacing with no margin collapse, due to the flex usage"
-          hideCode
-          scope={{ RedBox, Vertical }}
-        >
-          {
-            /* @jsx */ `
+      }
+    </ComponentBox>
+  </TestStyles>
+)
+
+export const SpaceExampleMarginCollapse = () => (
+  <TestStyles>
+    <ComponentBox hideCode scope={{ RedBox, Vertical }}>
+      {
+        /* @jsx */ `
 <Vertical>
   <RedBox>
     <Space bottom="small">
@@ -89,15 +79,16 @@ class Example extends React.PureComponent {
   </RedBox>
 </Vertical>
           `
-          }
-        </ComponentBox>
-        <ComponentBox
-          title="All four values will result in a equivalent margin"
-          data-visual-test="spacing-margins"
-          hideCode
-        >
-          {
-            /* @jsx */ `
+      }
+    </ComponentBox>
+  </TestStyles>
+)
+
+export const SpaceExampleMargins = () => (
+  <TestStyles>
+    <ComponentBox data-visual-test="spacing-margins" hideCode>
+      {
+        /* @jsx */ `
 <Space top="large x-small" right="2.5" bottom="2.5rem" left="40px" >
   <details>
     <summary>
@@ -107,92 +98,103 @@ class Example extends React.PureComponent {
   </details>
 </Space>
           `
-          }
-        </ComponentBox>
-        {false && global.IS_TEST && (
-          <ComponentBox
-            title="All spacing patterns listed (screenshot tests)"
-            data-visual-test="spacing-patterns"
-            scope={{ MagicBox, CustomStyle }}
-            hideCode
-          >
-            {
-              /* @jsx */ `
-<CustomStyle className="spacing-patterns">
-  <Space top="0.5">
-    <MagicBox />
-  </Space>
-  <Space top="1">
-    <MagicBox />
-  </Space>
-  <Space top="1.5">
-    <MagicBox />
-  </Space>
-  <Space top="2">
-    <MagicBox />
-  </Space>
-  <Space top="2.5">
-    <MagicBox />
-  </Space>
-  <Space top="3">
-    <MagicBox />
-  </Space>
-  <Space top="3.5">
-    <MagicBox />
-  </Space>
-  <Space top="4">
-    <MagicBox />
-  </Space>
-  <Space top="4.5">
-    <MagicBox />
-  </Space>
-  <Space top="5">
-    <MagicBox />
-  </Space>
-  <Space top="5.5">
-    <MagicBox />
-  </Space>
-  <Space top="6">
-    <MagicBox />
-  </Space>
-  <Space top="6.5">
-    <MagicBox />
-  </Space>
-  <Space top="7">
-    <MagicBox />
-  </Space>
-  <Space top="7.5">
-    <MagicBox />
-  </Space>
-  <Space top="8">
-    <MagicBox />
-  </Space>
-  <Space top="8.5">
-    <MagicBox />
-  </Space>
-  <Space top="9">
-    <MagicBox />
-  </Space>
-  <Space top="9.5">
-    <MagicBox />
-  </Space>
-  <Space top="10">
-    <MagicBox />
-  </Space>
-</CustomStyle>
-          `
-            }
-          </ComponentBox>
-        )}
-      </TestStyles>
-    )
-  }
-}
+      }
+    </ComponentBox>
+  </TestStyles>
+)
 
-export default Example
+export const SpaceVisualTestPatterns = () => (
+  <TestStyles>
+    <ComponentBox
+      data-visual-test="spacing-patterns"
+      scope={{ MagicBox, CustomStyle }}
+      hideCode
+      useRender
+    >
+      {
+        /* @jsx */ `
+const listOfBoxes = []
+for (let i = 0, c = 0, l = 20; i <= l; i++) {
+  listOfBoxes.push(String(c))
+  c += 0.5
+}
+const TestCase = (props) => {
+  return <CustomStyle {...props}>{listOfBoxes.map((v) => (
+    <Space key={v} top={v}>
+      <MagicBox />
+    </Space>
+  ))}</CustomStyle>
+}
+render(
+  <div className="spacing-patterns">
+    <P bottom small>With <Code>dnb-core-style</Code></P>
+    <TestCase className="dnb-core-style" />
+    
+    <P top bottom small>Without</P>
+    <TestCase />
+  </div>
+)
+        `
+      }
+    </ComponentBox>
+  </TestStyles>
+)
+
+/**
+ * This test case exists because of the reset.css margin=0 for buttons
+ */
+export const SpaceVisualTestElements = () =>
+  !(typeof window !== 'undefined' && window.IS_TEST) ? null : (
+    <TestStyles>
+      <ComponentBox
+        data-visual-test="spacing-elements"
+        scope={{ MagicBox, CustomStyle }}
+        hideCode
+        useRender
+      >
+        {
+          /* @jsx */ `
+const listOfBoxes = []
+for (let i = 0, c = 0, l = 10; i <= l; i++) {
+  listOfBoxes.push(String(c))
+  c += 1
+}
+const TestCase = (props) => {
+  return <CustomStyle {...props}>{listOfBoxes.map((v) => (
+    <Button key={v} left="x-small" top={v} size="small">
+      <MagicBox />
+    </Button>
+  ))}</CustomStyle>
+}
+render(
+  <div className="spacing-elements">
+    <P bottom small>With <Code>dnb-core-style</Code></P>
+    <TestCase className="dnb-core-style" />
+    
+    <P top bottom small>Without</P>
+    <TestCase />
+  </div>
+)
+        `
+        }
+      </ComponentBox>
+    </TestStyles>
+  )
+
+const TestStyles = styled.div`
+  /* make sure our input gets an explicit width, because of mac/linux rendering differences */
+  .dnb-input {
+    &__input {
+      width: 8rem;
+    }
+  }
+  [data-visual-test='spacing-margins'] {
+    display: flex;
+  }
+`
 
 const CustomStyle = styled.div`
-  display: inline-flex;
+  display: flex;
   width: auto;
   box-shadow: 0 0 0 1px var(--color-fire-red);
   .dnb-input__input {
@@ -294,7 +296,7 @@ const MagicBox = ({ label, ...rest }) => {
 
   return (
     <Block {...rest} ref={ref} title={title}>
-      <Line style={{ height: `${spaceInRem}rem` }}></Line>
+      <Line style={{ height: `${spaceInRem}rem` }} />
       <Label>{spaceInRem}</Label>
     </Block>
   )

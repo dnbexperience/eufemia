@@ -44,7 +44,6 @@ const createTypes = async (listOfAllFiles) => {
   try {
     await asyncForEach(listOfAllFiles, async (file) => {
       const basename = path.basename(file)
-      const filename = basename.replace(path.extname(file), '')
       const destFile = file.replace(path.extname(file), '.d.ts')
 
       if (file.includes('__tests__')) {
@@ -143,7 +142,12 @@ const createTypes = async (listOfAllFiles) => {
             ignore: ['node_modules/**']
           })
 
-          definitionContent = generateFromSource(filename, code)
+          /**
+           * Note: Before we have send in "filename" as the first argument of generateFromSource
+           * Like so: const filename = basename.replace(path.extname(file), '')
+           * But this creates the 'declare module' which created trouobles
+           */
+          definitionContent = generateFromSource(null, code)
         }
 
         await fs.writeFile(destFile, definitionContent)

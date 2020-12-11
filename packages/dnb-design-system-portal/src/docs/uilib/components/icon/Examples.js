@@ -11,6 +11,7 @@ import {
 } from 'dnb-ui-lib/src/icons'
 import * as PrimaryIconsMedium from 'dnb-ui-lib/src/icons/primary_icons_medium'
 import * as SecondaryIconsMedium from 'dnb-ui-lib/src/icons/secondary_icons_medium'
+import { getListOfIcons } from '../../../../shared/parts/icons/ListAllIcons'
 
 export const IconDefault = () => (
   <ComponentBox
@@ -103,19 +104,19 @@ export const IconPrimary = () => {
   return (
     <ComponentBox
       data-visual-test="icon-all-primary"
-      scope={{ PrimaryIconsMedium }}
+      scope={{ getListOfIcons, PrimaryIconsMedium }}
       title="All **primary** icons listed as medium sized icons"
       noFragments={false}
     >
       {
         /* @jsx */ `
 () => {
-  const Icons = () => Object.entries(PrimaryIconsMedium).map(
-    ([name, SvgMedium]) => (
+  const Icons = () => getListOfIcons(PrimaryIconsMedium).map(
+    ({name, Svg}) => (
       <Icon
         title={name}
         key={name}
-        icon={SvgMedium}
+        icon={Svg}
         size="medium"
         right="small"
         bottom="small"
@@ -138,19 +139,19 @@ export const IconSecondary = () => {
   return (
     <ComponentBox
       data-visual-test="icon-all-secondary"
-      scope={{ SecondaryIconsMedium }}
+      scope={{ getListOfIcons, SecondaryIconsMedium }}
       title="All **secondary** icons listed as medium sized icons"
       noFragments={false}
     >
       {
         /* @jsx */ `
 () => {
-  const Icons = () => Object.entries(SecondaryIconsMedium).map(
-    ([name, SvgMedium]) => (
+  const Icons = () => getListOfIcons(SecondaryIconsMedium).map(
+    ({name, Svg}) => (
       <Icon
         title={name}
         key={name}
-        icon={SvgMedium}
+        icon={Svg}
         size="medium"
         right="small"
         bottom="small"

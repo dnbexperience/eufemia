@@ -3,13 +3,16 @@
  *
  */
 
-import { css } from '@emotion/core'
+import { css } from '@emotion/react'
 import { gridStyle } from 'dnb-ui-lib/stories/GridStyle'
+
+// import './themes/dnb-theme-ui-dark.scss'
 
 export { gridStyle }
 
 export default css`
-  ${'' /* .dnb-form-component {
+  ${
+    '' /* .dnb-form-component {
     @media screen and (max-width: 40em) {
       flex-wrap: wrap;
       & > .dnb-form-label {
@@ -17,7 +20,8 @@ export default css`
         margin-top: 0.5rem;
       }
     }
-  } */}
+  } */
+  }
 
   /*
     Make sure we cut the tab and seciton parts on the left side
@@ -95,7 +99,8 @@ export default css`
     }
   }
 
-  ${'' /* .pl-0 {
+  ${
+    '' /* .pl-0 {
     padding-left: 0 !important;
   }
   .pl-1 {
@@ -115,7 +120,8 @@ export default css`
   }
   .pl-6 {
     padding-left: 40px !important;
-  } */}
+  } */
+  }
 
   .contains-task-list {
     padding-left: 0;

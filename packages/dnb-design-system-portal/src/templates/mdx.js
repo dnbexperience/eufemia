@@ -14,6 +14,7 @@ import { Helmet as Head } from 'react-helmet'
 import tags from '../shared/tags'
 
 const Tabbar = tags.Tabbar
+const ContentWrapper = Tabbar.ContentWrapper
 
 export default class MdxTemplate extends React.PureComponent {
   render() {
@@ -23,13 +24,11 @@ export default class MdxTemplate extends React.PureComponent {
         mdx: {
           body,
           frontmatter: { title, description, fullscreen, showTabs },
+          tableOfContents,
           children
         },
         site: {
-          siteMetadata: {
-            title: fallbackTitle,
-            description: fallbackDescription
-          }
+          siteMetadata: { title: mainTitle, description: mainDescription }
         }
       }
     } = this.props
@@ -41,20 +40,25 @@ export default class MdxTemplate extends React.PureComponent {
       }
     }
 
-    const child = children[1] || {}
+    const child = children[1] || null
+    let pageTitle = title
+    let pageDescription =
+      description || child?.frontmatter?.description || mainDescription
+
+    // Extend the title with a sub tab title
+    if (!pageTitle) {
+      if (child && Array.isArray(tableOfContents?.items)) {
+        pageTitle = `${child?.frontmatter?.title} – ${tableOfContents.items[0]?.title}`
+      } else {
+        pageTitle = child?.frontmatter?.title || mainTitle
+      }
+    }
 
     return (
       <>
         <Head>
-          <title>{title || fallbackTitle}</title>
-          <meta
-            name="description"
-            content={
-              description ||
-              (child.frontmatter && child.frontmatter.description) ||
-              fallbackDescription
-            }
-          />
+          <title>{pageTitle}</title>
+          <meta name="description" content={pageDescription} />
         </Head>
 
         <Layout
@@ -73,9 +77,11 @@ export default class MdxTemplate extends React.PureComponent {
             />
           )}
 
-          <MDXProvider components={tags}>
-            <MDXRenderer>{body}</MDXRenderer>
-          </MDXProvider>
+          <ContentWrapper>
+            <MDXProvider components={tags}>
+              <MDXRenderer>{body}</MDXRenderer>
+            </MDXProvider>
+          </ContentWrapper>
         </Layout>
       </>
     )
@@ -91,6 +97,7 @@ MdxTemplate.propTypes = {
     mdx: PropTypes.shape({
       body: PropTypes.string.isRequired,
       frontmatter: PropTypes.object.isRequired,
+      tableOfContents: PropTypes.object.isRequired,
       children: PropTypes.array.isRequired
     }).isRequired,
     site: PropTypes.shape({
@@ -103,19 +110,18 @@ export const pageQuery = graphql`
   query MDXQuery($id: String!) {
     site {
       siteMetadata {
+        title
         description
       }
     }
     mdx(id: { eq: $id }) {
-      # fields {
-      #   slug
-      # }
       frontmatter {
         title
         description
         fullscreen
         showTabs
       }
+      tableOfContents
       body
       children {
         ... on Mdx {

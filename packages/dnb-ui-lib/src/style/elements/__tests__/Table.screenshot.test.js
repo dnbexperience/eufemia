@@ -105,13 +105,26 @@ describe('Table screenshot', () => {
       '[data-visual-test="table-classes"] th.dnb-table--sortable.dnb-table--active'
     const screenshot = await testPageScreenshot({
       style: {
-        // display:'block',
         'background-color': 'white'
       },
       styleSelector,
       selector,
       simulateSelector: `${selector} button.dnb-button`,
       simulate: 'active'
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+})
+
+describe('Table with skeleton screenshot', () => {
+  setupPageScreenshot({ url: '/uilib/elements/tables?skeleton' })
+
+  it('have to match default table', async () => {
+    const screenshot = await testPageScreenshot({
+      style: {
+        width: '40rem'
+      },
+      selector: '[data-visual-test="table-default"]'
     })
     expect(screenshot).toMatchImageSnapshot()
   })

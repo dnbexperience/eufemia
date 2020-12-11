@@ -8,9 +8,6 @@ import ComponentBox from 'Tags/ComponentBox'
 import Provider from 'dnb-ui-lib/src/shared/Provider'
 import Context from 'dnb-ui-lib/src/shared/Context'
 import { Article } from 'dnb-ui-lib/src/components/skeleton/figures'
-import 'dnb-ui-lib/src/components/skeleton/style/themes/rainbow'
-import 'dnb-ui-lib/src/components/skeleton/style/themes/norway'
-import 'dnb-ui-lib/src/components/skeleton/style/themes/brand'
 
 ## Demos
 
@@ -26,21 +23,19 @@ import 'dnb-ui-lib/src/components/skeleton/style/themes/brand'
 
 ## Toggle skeleton on/off
 
-<ComponentBox data-visual-test="skeleton-exclude" scope={{Provider}} useRender>
+<ComponentBox data-visual-test="skeleton-exclude" useRender>
 {`
 const UserData = () => {
 	const [state, setState] = React.useState(true)
 	return (
-		<>
-			<Skeleton show={state}>
-				<H2 top bottom>Heading</H2>
-				<P top bottom>Paragraph Non habitasse ut nisi dictum laoreet ridiculus dui.</P>
-				<Input label_direction="vertical" label="Input" />
-				<Skeleton.Exclude>
-					<ToggleButton checked={state} on_change={({ checked }) => setState(checked)} top="large">Toggle</ToggleButton>
-				</Skeleton.Exclude>
-			</Skeleton>
-		</>
+		<Skeleton show={state}>
+			<H2 top bottom>Heading</H2>
+			<P top bottom>Paragraph Non habitasse ut nisi dictum laoreet ridiculus dui.</P>
+			<Input label_direction="vertical" label="Input" />
+			<Skeleton.Exclude>
+				<ToggleButton checked={state} on_change={({ checked }) => setState(checked)} top="large">Toggle</ToggleButton>
+			</Skeleton.Exclude>
+		</Skeleton>
 	)
 }
 render(<UserData />)
@@ -83,11 +78,10 @@ You may import a given figure, or create your own.
 import { Article } from 'dnb-ui-lib/components/skeleton/figures'
 ```
 
-<ComponentBox scope={{Article}} data-visual-test="skeleton-shine">
+<ComponentBox scope={{Article}} data-visual-test="skeleton-figure-article">
 {`
 <Skeleton
 	show
-	style_type="shine"
 	figure={<Article rows={5} />}
 >
 	hidden content

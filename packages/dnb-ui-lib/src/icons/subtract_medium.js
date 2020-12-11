@@ -4,12 +4,17 @@ import React from 'react'
 
 function subtract_medium(props) {
   return (
-    <svg width={24} height={24} viewBox="0 0 24 24" fill="none" {...props}>
+    <svg
+      width={24}
+      height={24}
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      {...props}
+    >
       <path
-        stroke="#000"
-        strokeWidth={1.5}
-        strokeLinecap="round"
-        d="M20.249 12h-16.5"
+        d="M21 12.75C21.4142 12.75 21.75 12.4142 21.75 12C21.75 11.5858 21.4142 11.25 21 11.25V12.75ZM3 11.25C2.58579 11.25 2.25 11.5858 2.25 12C2.25 12.4142 2.58579 12.75 3 12.75V11.25ZM21 11.25H3V12.75H21V11.25Z"
+        fill="black"
       />
     </svg>
   )

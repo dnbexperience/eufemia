@@ -45,22 +45,35 @@
   &--selectall {
     cursor: text;
   }
+
+  &__visible {
+    position: relative;
+    z-index: 2;
+  }
   &--selected &__visible {
-    background-color: var(--color-mint-green);
     color: var(--color-black);
+    background-color: var(--color-mint-green);
   }
 
   &__selection {
-    pointer-events: none;
-    user-select: none;
-    -webkit-touch-callout: none; // iOS
-
     position: absolute;
+    z-index: 1;
+
+    top: 0;
     left: 0;
+
     opacity: 0;
+
+    user-select: none; // important, so this number not gets copied if only marked/selected
   }
   &--selected &__selection {
+    z-index: 3;
     user-select: all;
+  }
+
+  &.dnb-skeleton,
+  .dnb-skeleton & {
+    -webkit-text-fill-color: var(--skeleton-color);
   }
 }
 

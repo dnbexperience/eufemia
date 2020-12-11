@@ -282,7 +282,7 @@ class DrawerListInstance extends React.PureComponent {
       this.props,
       DrawerList.defaultProps,
       this.context.formRow,
-      this.context.translation.DrawerList
+      this.context.getTranslation(this.props).DrawerList
     )
 
     const {
@@ -560,7 +560,7 @@ DrawerList.Options = React.memo(
           className="dnb-drawer-list__triangle"
           aria-hidden
           ref={triangleRef}
-        ></li>
+        />
       </ul>
     )
   }),

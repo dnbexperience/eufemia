@@ -1,13 +1,16 @@
 ---
 showTabs: true
+redirect_from:
+  - /uilib/components/status-message/demos
 ---
 
 import {
 FormStatusDefault,
 FormStatusWithInfo,
+FormStatusWithWarn,
 FormSetDefaultInput,
 FormStatusCustom,
-FormStatusPlain,
+FormStatusLarge,
 FormStatusWithIcons,
 } from 'Pages/uilib/components/form-status/Examples'
 
@@ -21,6 +24,10 @@ FormStatusWithIcons,
 
 <FormStatusWithInfo />
 
+### FormStatus displaying warn status
+
+<FormStatusWithWarn />
+
 ### A form status, used by the Input Component
 
 <FormSetDefaultInput />
@@ -31,7 +38,7 @@ FormStatusWithIcons,
 
 ### A form status with plain text/HTML
 
-<FormStatusPlain />
+<FormStatusLarge />
 
 ### In combination with the Icon component
 

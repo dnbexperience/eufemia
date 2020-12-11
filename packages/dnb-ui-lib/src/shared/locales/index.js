@@ -1,5 +1,5 @@
 // import default locales
-import enUS from './en-US'
 import nbNO from './nb-NO'
+import enGB from './en-GB'
 
-export default { ...enUS, ...nbNO }
+export default { ...nbNO, ...enGB }

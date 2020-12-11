@@ -22,8 +22,13 @@ props.icon = 'question'
 props.title = 'This is a button title'
 props.size = null
 props.status = null
+props.element = null
 props.tooltip = null
 props.icon_position = 'right'
+
+beforeAll(() => {
+  jest.spyOn(global.console, 'log')
+})
 
 describe('Button component', () => {
   it('have to match default button snapshot', () => {
@@ -114,6 +119,46 @@ describe('Button component', () => {
   it('should validate with ARIA rules as a anchor', async () => {
     const Comp = mount(<Component {...props} href="https://url" />)
     expect(await axeComponent(Comp)).toHaveNoViolations()
+  })
+
+  it('has variant set to primary as default', () => {
+    const Comp = mount(<Component />)
+    expect(Comp.find('.dnb-button--primary').exists()).toBe(true)
+  })
+
+  it('has variant set to primary when only setting text', () => {
+    const Comp = mount(<Component text="Button" />)
+    expect(Comp.find('.dnb-button--primary').exists()).toBe(true)
+  })
+
+  it('has variant set to secondary when only setting icon', () => {
+    const Comp = mount(<Component icon="question" />)
+    expect(Comp.find('.dnb-button--secondary').exists()).toBe(true)
+  })
+
+  it('has size set to medium when only setting icon', () => {
+    const Comp = mount(<Component icon="question" />)
+    expect(Comp.find('.dnb-button--size-medium').exists()).toBe(true)
+  })
+
+  it('has variant tertiary', () => {
+    const Comp = mount(
+      <Component text="Button" variant="tertiary" icon="question" />
+    )
+    expect(Comp.find('.dnb-button--tertiary').exists()).toBe(true)
+  })
+
+  it('will warn when tertiary is used without an icon', () => {
+    process.env.NODE_ENV = 'development'
+    global.console.log = jest.fn()
+    mount(<Component text="Button" variant="tertiary" />)
+    expect(global.console.log).toBeCalled()
+  })
+
+  it('has no size when only setting text', () => {
+    const Comp = mount(<Component text="Button" />)
+    expect(Comp.find('.dnb-button--size-medium').exists()).toBe(false)
+    expect(Comp.find('.dnb-button--size-large').exists()).toBe(false)
   })
 })
 

@@ -23,7 +23,7 @@
 
   overflow: auto;
   margin-top: 0;
-  margin-bottom: 1rem;
+  margin-bottom: var(--spacing-small);
 
   border-spacing: 0;
   border-collapse: collapse;
@@ -59,7 +59,8 @@
   & > tr > th,
   & > thead > tr > th,
   & &__th {
-    padding: 3rem 1rem 0.5rem;
+    padding: var(--spacing-x-large) var(--spacing-small)
+      var(--spacing-x-small);
 
     font-weight: var(--font-weight-medium);
     color: var(--color-emerald-green);
@@ -72,7 +73,7 @@
 
     @include IS_FF {
       // to get the perfect height of pixles, to this:
-      padding-bottom: calc(0.5rem - 0.5px);
+      padding-bottom: calc(var(--spacing-x-small) - 0.5px);
     }
 
     background-color: var(--color-mint-green-50);
@@ -231,9 +232,9 @@
   & > tbody > tr > td,
   & &__td,
   & > tr > th[scope='row'] {
-    padding: 1rem;
-    padding-top: 1.25rem;
-    padding-bottom: 1.188rem; /* 19/16 */
+    padding: var(--spacing-small);
+    padding-top: calc(var(--spacing-small) * 1.25);
+    padding-bottom: calc(var(--spacing-small) * 1.188); /* 19/16 */
   }
   & > tbody > tr:not(#{&}--ignore),
   & &__tr:not(#{&}--ignore),
@@ -264,7 +265,7 @@
   & > caption {
     font-size: var(--font-size-small);
 
-    margin-top: 0.5rem;
+    margin-top: var(--spacing-x-small);
     caption-side: bottom;
   }
 
@@ -350,6 +351,12 @@
   }
 
   /* stylelint-enable */
+
+  &.dnb-skeleton {
+    > * {
+      -webkit-text-fill-color: var(--skeleton-color);
+    }
+  }
 }
 
 @mixin resetTableSpacing() {

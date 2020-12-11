@@ -199,7 +199,7 @@ describe('Input component', () => {
     const Comp = mount(
       <Component {...props} status="status" status_state="error" />
     )
-    expect(Comp.find('.dnb-form-status--text').text()).toBe('status')
+    expect(Comp.find('.dnb-form-status__text').text()).toBe('status')
   })
 
   it('has a disabled attribute, once we set disabled to true', () => {
@@ -214,9 +214,18 @@ describe('Input component', () => {
 
   it('has a submit button on prop type="search"', () => {
     const Comp = mount(
-      <Component {...props} type="search" value={null}>
+      <Component
+        {...props}
+        type="search"
+        value={null}
+        aria-describedby="id"
+      >
         {null}
       </Component>
+    )
+
+    expect(Comp.find('.dnb-input__input').prop('aria-describedby')).toBe(
+      'id input-submit-button'
     )
 
     const Button = Comp.find('InputSubmitButton').find('button')

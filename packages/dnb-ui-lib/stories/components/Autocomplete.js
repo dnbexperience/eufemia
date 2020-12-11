@@ -9,6 +9,7 @@ import styled from '@emotion/styled'
 
 import { Autocomplete, Number, Button } from '../../src/components'
 import { Anchor } from '../../src/elements'
+import { SubmitButton } from '../../src/components/input/Input'
 
 export default {
   title: 'Eufemia/Components/Autocomplete'
@@ -70,7 +71,45 @@ export const AutocompleteSandbox = () => {
   return (
     <Wrapper>
       <Box>
-        <UpdateDataExample></UpdateDataExample>
+        <Autocomplete
+          label="Keep value"
+          data={topMovies}
+          input_value="does not exist"
+          // keep_value
+          // disable_filter
+          keep_value_and_selection
+          // prevent_selection
+          on_change={({ data }) => {
+            console.log('on_change', data)
+          }}
+          on_show={({ event, data }) => {
+            console.log('on_show', event, data)
+          }}
+          on_focus={({ event, data }) => {
+            console.log('on_focus', event, data)
+          }}
+          on_blur={({ event, data }) => {
+            console.log('on_blur', event, data)
+          }}
+        />
+      </Box>
+      <Box>
+        <Autocomplete
+          label="Label:"
+          show_submit_button="true"
+          // icon="bell"
+          // input_icon="bell"
+          // submit_button_icon="bell"
+          submit_element={<SubmitButton icon="bell" />}
+          on_change={({ data }) => {
+            console.log('on_change', data)
+          }}
+        >
+          {() => topMovies}
+        </Autocomplete>
+      </Box>
+      <Box>
+        <UpdateDataExample />
       </Box>
       <Box>
         <CustomStyle>

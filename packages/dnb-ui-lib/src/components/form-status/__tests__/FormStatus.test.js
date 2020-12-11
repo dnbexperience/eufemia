@@ -71,7 +71,7 @@ describe('FormStatus component', () => {
       Comp.find('.dnb-form-status').instance().getAttribute('id')
     ).toBe('custom-id-form-status')
     expect(
-      Comp.find('.dnb-form-status--text').instance().getAttribute('id')
+      Comp.find('.dnb-form-status__text').instance().getAttribute('id')
     ).toBe('custom-id-status')
   })
 
@@ -89,7 +89,7 @@ describe('FormStatus component', () => {
   })
 
   it('has to to have a text value as defined in the prop', () => {
-    expect(Comp.find('.dnb-form-status--text').text()).toBe(props.text)
+    expect(Comp.find('.dnb-form-status__text').text()).toBe(props.text)
   })
 })
 

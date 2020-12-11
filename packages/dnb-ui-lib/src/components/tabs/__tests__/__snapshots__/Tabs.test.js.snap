@@ -17,6 +17,7 @@ exports[`Tabs component have to match snapshot 1`] = `
         "prerender": "prerender",
         "prevent_rerender": "prevent_rerender",
         "render": [Function],
+        "scroll": "scroll",
         "section_spacing": "section_spacing",
         "section_style": "section_style",
         "selected_key": "selected_key",
@@ -58,6 +59,14 @@ exports[`Tabs component have to match snapshot 1`] = `
       },
     }
   }
+  4={
+    Object {
+      "displayName": "ScrollNavButton",
+      "props": Object {
+        "className": "className",
+      },
+    }
+  }
   align="left"
   class={null}
   className={null}
@@ -83,6 +92,7 @@ exports[`Tabs component have to match snapshot 1`] = `
   prerender={false}
   prevent_rerender={false}
   render={null}
+  scroll={null}
   section_spacing={null}
   section_style={null}
   selected_key="second"
@@ -97,6 +107,144 @@ exports[`Tabs component have to match snapshot 1`] = `
         <div
           className="dnb-tabs__tabs dnb-tabs__tabs--left"
         >
+          <ScrollNavButton
+            className=""
+            icon="chevron_left"
+            onMouseDown={[Function]}
+          >
+            <Button
+              aria-hidden={true}
+              bounding={true}
+              class={null}
+              className="dnb-tabs__scroll-nav-button"
+              custom_element={null}
+              custom_method={null}
+              disabled={null}
+              element={null}
+              global_status_id={null}
+              href={null}
+              icon="chevron_left"
+              icon_position="right"
+              icon_size="medium"
+              id={null}
+              innerRef={null}
+              inner_ref={null}
+              onClick={null}
+              onMouseDown={[Function]}
+              on_click={null}
+              size="medium"
+              skeleton={null}
+              status={null}
+              status_animation={null}
+              status_state="error"
+              tabIndex="-1"
+              text={null}
+              title={null}
+              tooltip={null}
+              type="button"
+              variant="primary"
+              wrap={false}
+            >
+              <button
+                aria-hidden={true}
+                className="dnb-button dnb-button--primary dnb-tabs__scroll-nav-button dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-medium dnb-button--size-medium"
+                disabled={false}
+                onClick={[Function]}
+                onMouseDown={[Function]}
+                tabIndex="-1"
+                type="button"
+              >
+                <Content
+                  aria-hidden={true}
+                  bounding={true}
+                  class={null}
+                  className="dnb-tabs__scroll-nav-button"
+                  content={null}
+                  custom_element={null}
+                  custom_method={null}
+                  disabled={null}
+                  element={null}
+                  global_status_id={null}
+                  href={null}
+                  icon="chevron_left"
+                  icon_position="right"
+                  icon_size="medium"
+                  id={null}
+                  innerRef={null}
+                  inner_ref={null}
+                  isIconOnly={true}
+                  onClick={null}
+                  onMouseDown={[Function]}
+                  on_click={null}
+                  size="medium"
+                  skeleton={false}
+                  status={null}
+                  status_animation={null}
+                  status_state="error"
+                  tabIndex="-1"
+                  text={null}
+                  title={null}
+                  tooltip={null}
+                  type="button"
+                  variant="primary"
+                  wrap={false}
+                >
+                  <span
+                    className="dnb-button__bounding"
+                    key="button-bounding"
+                  />
+                  <span
+                    className="dnb-button__alignment"
+                    key="button-text-empty"
+                  >
+                    ‌
+                  </span>
+                  <IconPrimary
+                    alt={null}
+                    aria-hidden={null}
+                    attributes={null}
+                    border={null}
+                    className="dnb-button__icon"
+                    color={null}
+                    height={null}
+                    icon="chevron_left"
+                    inherit_color={true}
+                    key="button-icon"
+                    modifier={null}
+                    size="medium"
+                    skeleton={false}
+                    title={null}
+                    width={null}
+                  >
+                    <span
+                      aria-hidden={true}
+                      aria-label="chevron left icon"
+                      className="dnb-icon dnb-icon--medium dnb-button__icon dnb-icon--inherit-color"
+                      role="presentation"
+                    >
+                      <chevron_left_medium>
+                        <svg
+                          fill="none"
+                          height={24}
+                          viewBox="0 0 24 24"
+                          width={24}
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M15 5L8 12L15 19"
+                            stroke="black"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={1.5}
+                          />
+                        </svg>
+                      </chevron_left_medium>
+                    </span>
+                  </IconPrimary>
+                </Content>
+              </button>
+            </Button>
+          </ScrollNavButton>
           <Tabs>
             <div
               aria-labelledby="id-tab-second"
@@ -105,87 +253,237 @@ exports[`Tabs component have to match snapshot 1`] = `
               role="tablist"
               tabIndex="0"
             >
-              <button
-                aria-selected={false}
-                className="dnb-tabs__button"
-                data-tab-key="first"
-                id="id-tab-first"
+              <div
+                className="dnb-tabs__button__snap"
                 key="tab-first"
-                onClick={[Function]}
-                role="tab"
-                tabIndex="-1"
-                type="button"
               >
-                <span
-                  className="dnb-tabs__button__title"
+                <button
+                  aria-selected={false}
+                  className="dnb-tabs__button"
+                  data-tab-key="first"
+                  id="id-tab-first"
+                  onClick={[Function]}
+                  role="tab"
+                  tabIndex="-1"
+                  type="button"
                 >
-                  First
-                </span>
-                <Dummy>
                   <span
-                    aria-hidden={true}
-                    className="dnb-dummy"
-                    hidden={true}
+                    className="dnb-tabs__button__title"
                   >
                     First
                   </span>
-                </Dummy>
-              </button>
-              <button
-                aria-controls="id-content-second"
-                aria-selected={true}
-                className="dnb-tabs__button selected"
-                data-tab-key="second"
-                id="id-tab-second"
+                  <Dummy>
+                    <span
+                      aria-hidden={true}
+                      className="dnb-dummy"
+                      hidden={true}
+                    >
+                      First
+                    </span>
+                  </Dummy>
+                </button>
+              </div>
+              <div
+                className="dnb-tabs__button__snap focus selected"
                 key="tab-second"
-                onClick={[Function]}
-                role="tab"
-                tabIndex="-1"
-                type="button"
               >
-                <span
-                  className="dnb-tabs__button__title"
+                <button
+                  aria-controls="id-content"
+                  aria-selected={true}
+                  className="dnb-tabs__button focus selected"
+                  data-tab-key="second"
+                  id="id-tab-second"
+                  onClick={[Function]}
+                  role="tab"
+                  tabIndex="-1"
+                  type="button"
                 >
-                  Second
-                </span>
-                <Dummy>
                   <span
-                    aria-hidden={true}
-                    className="dnb-dummy"
-                    hidden={true}
+                    className="dnb-tabs__button__title"
                   >
                     Second
                   </span>
-                </Dummy>
-              </button>
-              <button
-                aria-selected={false}
-                className="dnb-tabs__button"
-                data-tab-key="third"
-                id="id-tab-third"
+                  <Dummy>
+                    <span
+                      aria-hidden={true}
+                      className="dnb-dummy"
+                      hidden={true}
+                    >
+                      Second
+                    </span>
+                  </Dummy>
+                </button>
+              </div>
+              <div
+                className="dnb-tabs__button__snap"
                 key="tab-third"
-                onClick={[Function]}
-                role="tab"
-                tabIndex="-1"
-                type="button"
               >
-                <span
-                  className="dnb-tabs__button__title"
+                <button
+                  aria-selected={false}
+                  className="dnb-tabs__button"
+                  data-tab-key="third"
+                  id="id-tab-third"
+                  onClick={[Function]}
+                  role="tab"
+                  tabIndex="-1"
+                  type="button"
                 >
-                  Third
-                </span>
-                <Dummy>
                   <span
-                    aria-hidden={true}
-                    className="dnb-dummy"
-                    hidden={true}
+                    className="dnb-tabs__button__title"
                   >
                     Third
                   </span>
-                </Dummy>
-              </button>
+                  <Dummy>
+                    <span
+                      aria-hidden={true}
+                      className="dnb-dummy"
+                      hidden={true}
+                    >
+                      Third
+                    </span>
+                  </Dummy>
+                </button>
+              </div>
             </div>
           </Tabs>
+          <ScrollNavButton
+            className=""
+            icon="chevron_right"
+            onMouseDown={[Function]}
+          >
+            <Button
+              aria-hidden={true}
+              bounding={true}
+              class={null}
+              className="dnb-tabs__scroll-nav-button"
+              custom_element={null}
+              custom_method={null}
+              disabled={null}
+              element={null}
+              global_status_id={null}
+              href={null}
+              icon="chevron_right"
+              icon_position="right"
+              icon_size="medium"
+              id={null}
+              innerRef={null}
+              inner_ref={null}
+              onClick={null}
+              onMouseDown={[Function]}
+              on_click={null}
+              size="medium"
+              skeleton={null}
+              status={null}
+              status_animation={null}
+              status_state="error"
+              tabIndex="-1"
+              text={null}
+              title={null}
+              tooltip={null}
+              type="button"
+              variant="primary"
+              wrap={false}
+            >
+              <button
+                aria-hidden={true}
+                className="dnb-button dnb-button--primary dnb-tabs__scroll-nav-button dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-medium dnb-button--size-medium"
+                disabled={false}
+                onClick={[Function]}
+                onMouseDown={[Function]}
+                tabIndex="-1"
+                type="button"
+              >
+                <Content
+                  aria-hidden={true}
+                  bounding={true}
+                  class={null}
+                  className="dnb-tabs__scroll-nav-button"
+                  content={null}
+                  custom_element={null}
+                  custom_method={null}
+                  disabled={null}
+                  element={null}
+                  global_status_id={null}
+                  href={null}
+                  icon="chevron_right"
+                  icon_position="right"
+                  icon_size="medium"
+                  id={null}
+                  innerRef={null}
+                  inner_ref={null}
+                  isIconOnly={true}
+                  onClick={null}
+                  onMouseDown={[Function]}
+                  on_click={null}
+                  size="medium"
+                  skeleton={false}
+                  status={null}
+                  status_animation={null}
+                  status_state="error"
+                  tabIndex="-1"
+                  text={null}
+                  title={null}
+                  tooltip={null}
+                  type="button"
+                  variant="primary"
+                  wrap={false}
+                >
+                  <span
+                    className="dnb-button__bounding"
+                    key="button-bounding"
+                  />
+                  <span
+                    className="dnb-button__alignment"
+                    key="button-text-empty"
+                  >
+                    ‌
+                  </span>
+                  <IconPrimary
+                    alt={null}
+                    aria-hidden={null}
+                    attributes={null}
+                    border={null}
+                    className="dnb-button__icon"
+                    color={null}
+                    height={null}
+                    icon="chevron_right"
+                    inherit_color={true}
+                    key="button-icon"
+                    modifier={null}
+                    size="medium"
+                    skeleton={false}
+                    title={null}
+                    width={null}
+                  >
+                    <span
+                      aria-hidden={true}
+                      aria-label="chevron right icon"
+                      className="dnb-icon dnb-icon--medium dnb-button__icon dnb-icon--inherit-color"
+                      role="presentation"
+                    >
+                      <chevron_right_medium>
+                        <svg
+                          fill="none"
+                          height={24}
+                          viewBox="0 0 24 24"
+                          width={24}
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M9 19L16 12L9 5"
+                            stroke="black"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={1.5}
+                          />
+                        </svg>
+                      </chevron_right_medium>
+                    </span>
+                  </IconPrimary>
+                </Content>
+              </button>
+            </Button>
+          </ScrollNavButton>
         </div>
       </TabsList>
       <TabContent
@@ -197,9 +495,10 @@ exports[`Tabs component have to match snapshot 1`] = `
         >
           <div
             aria-labelledby="id-tab-second"
-            className="dnb-tabs__content"
-            id="id-content-second"
+            className="dnb-tabs__content dnb-no-focus"
+            id="id-content"
             role="tabpanel"
+            tabIndex="0"
           >
             <second>
               <h2>
@@ -227,38 +526,42 @@ exports[`Tabs scss have to match default theme snapshot 1`] = `
 /*
  * Utilities
  */
-.dnb-tabs__tabs::before {
+/*
+* Button mixins
+*
+*/
+.dnb-tabs__tabs:not(.dnb-section)::before {
   background-color: var(--color-mint-green-50);
   box-shadow: 100vw 0 0 0 var(--color-mint-green-50); }
 
-@media screen and (max-width: 40em) {
-  .dnb-tabs__tabs:not(.dnb-section)::after {
-    content: '';
-    position: absolute;
-    z-index: -1;
-    left: -100vw;
-    top: 0;
-    width: 100vw;
-    height: 1px;
-    background-color: var(--color-mint-green-50);
-    box-shadow: 100vw 0 0 0 var(--color-mint-green-50); } }
+.dnb-tabs__tabs__tablist:focus {
+  border-radius: 0.5rem; }
 
-.dnb-tabs__tabs__tablist {
-  margin-left: -1rem;
-  padding: 0 1rem; }
-  .dnb-tabs__tabs__tablist:focus {
-    border-radius: 0.5rem; }
+.dnb-tabs--at-edge .dnb-tabs__scroll-nav-button:first-of-type {
+  border-radius: 0 50% 50% 0; }
+
+.dnb-tabs--at-edge .dnb-tabs__scroll-nav-button:last-of-type {
+  border-radius: 50% 0 0 50%; }
+
+.dnb-tabs--at-edge .dnb-tabs__tabs__tablist:focus {
+  border-radius: 0; }
+
+.dnb-tabs__content:focus {
+  outline: none;
+  border-radius: 0.5rem; }
+  html[data-whatinput='keyboard'] .dnb-tabs__content:focus {
+    --border-color: var(--color-emerald-green);
+    box-shadow: 0 0 0 0.125rem var(--border-color);
+    border-color: transparent; }
+    @media screen and (-ms-high-contrast: none) {
+      html[data-whatinput='keyboard'] .dnb-tabs__content:focus {
+        box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
 
 .dnb-tabs__button__title {
   font-weight: var(--font-weight-regular);
   font-size: var(--font-size-basis);
   text-align: center;
   color: var(--color-sea-green); }
-
-@media screen and (max-width: 40em) {
-  .dnb-tabs__button {
-    text-align: left;
-    padding: 0.5rem 1rem; } }
 
 html:not([data-whatintent='touch']) .dnb-tabs__button:hover[disabled] {
   cursor: not-allowed; }
@@ -269,6 +572,32 @@ html:not([data-whatintent='touch']) .dnb-tabs__button:hover:not([disabled]) {
     height: 3px;
     border-radius: 1.5px;
     background-color: var(--color-sea-green); }
+
+.dnb-tabs__button:focus::before {
+  content: '';
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  left: -0.5rem;
+  bottom: 0;
+  right: -0.5rem;
+  height: inherit;
+  border-radius: inherit;
+  outline: none; }
+  html[data-whatinput='keyboard'] .dnb-tabs__button:focus::before {
+    --border-color: var(--color-emerald-green);
+    box-shadow: 0 0 0 0.125rem var(--border-color);
+    border-color: transparent; }
+    @media screen and (-ms-high-contrast: none) {
+      html[data-whatinput='keyboard'] .dnb-tabs__button:focus::before {
+        box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
+
+.dnb-tabs__button:focus::before {
+  top: 2px;
+  bottom: 2px;
+  right: 0;
+  left: 0;
+  border-radius: 0.25rem; }
 
 .dnb-tabs__button[disabled] .dnb-tabs__button__title {
   color: var(--color-sea-green-30); }
@@ -363,9 +692,23 @@ exports[`Tabs scss have to match snapshot 1`] = `
   z-index: 1;
   display: flex;
   align-items: center; }
+  .dnb-tabs__tabs, .dnb-tabs__tabs.dnb-section--spacing {
+    padding-bottom: 0; }
   .dnb-tabs__tabs__tablist {
     display: flex;
-    flex: 1 1 auto; }
+    flex: 0 1 auto;
+    overflow-x: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    -ms-overflow-style: auto;
+    /* Hide scrollbar for Chrome, Safari */
+    /* stylelint-disable-next-line */
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */ }
     .dnb-tabs__tabs__tablist:focus {
       outline: none; }
       html[data-whatinput='keyboard'] .dnb-tabs__tabs__tablist:focus {
@@ -375,55 +718,17 @@ exports[`Tabs scss have to match snapshot 1`] = `
         @media screen and (-ms-high-contrast: none) {
           html[data-whatinput='keyboard'] .dnb-tabs__tabs__tablist:focus {
             box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
+    html[data-visual-test] .dnb-tabs__tabs__tablist {
+      scroll-behavior: auto !important; }
+    .dnb-tabs__tabs__tablist::-webkit-scrollbar {
+      display: none; }
   .dnb-tabs__tabs--left .dnb-tabs__tabs__tablist {
     justify-content: flex-start; }
   .dnb-tabs__tabs--right .dnb-tabs__tabs__tablist {
+    flex-grow: 1;
     justify-content: flex-end; }
   .dnb-tabs__tabs--center .dnb-tabs__tabs__tablist {
     justify-content: center; }
-  .dnb-tabs__tabs .dnb-tabs__button,
-  .dnb-core-style .dnb-tabs__tabs .dnb-tabs__button {
-    position: relative;
-    z-index: 1;
-    user-select: none;
-    -webkit-user-select: none;
-    margin: 0;
-    margin-left: 4.5rem;
-    padding: 0.25rem 0.125rem;
-    /* 1/16*4 */
-    background-color: transparent;
-    border-bottom: 1px solid transparent;
-    cursor: pointer;
-    outline: none;
-    border: none;
-    font-size: var(--font-size-basis);
-    line-height: var(--line-height-basis); }
-    .dnb-tabs__tabs .dnb-tabs__button__title,
-    .dnb-core-style .dnb-tabs__tabs .dnb-tabs__button__title {
-      word-break: normal; }
-      .dnb-tabs__tabs .dnb-tabs__button__title .dnb-icon,
-      .dnb-core-style .dnb-tabs__tabs .dnb-tabs__button__title .dnb-icon {
-        font-size: var(--font-size-small);
-        transform: translateY(-0.125rem); }
-    .dnb-tabs__tabs .dnb-tabs__button .dnb-dummy,
-    .dnb-core-style .dnb-tabs__tabs .dnb-tabs__button .dnb-dummy {
-      display: flex;
-      flex-direction: column;
-      height: 0;
-      visibility: hidden;
-      overflow: hidden; }
-    .dnb-tabs__tabs .dnb-tabs__button::after,
-    .dnb-core-style .dnb-tabs__tabs .dnb-tabs__button::after {
-      content: '';
-      position: absolute;
-      z-index: -1;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      width: 100%;
-      height: 1px; }
-  .dnb-tabs__tabs .dnb-tabs__button:first-child {
-    margin-left: 0; }
   .dnb-tabs__tabs::before {
     content: '';
     position: absolute;
@@ -432,21 +737,94 @@ exports[`Tabs scss have to match snapshot 1`] = `
     bottom: 0;
     width: 100vw;
     height: 1px; }
+
+.dnb-tabs:not(.dnb-tabs--has-scrollbar) .dnb-tabs__tabs__tablist {
+  margin-left: -0.5rem;
+  padding-left: 0.5rem; }
+
+.dnb-tabs__scroll-nav-button {
+  position: absolute;
+  z-index: 2;
+  display: none;
+  opacity: 0;
+  transition: opacity 600ms ease-out; }
+  .dnb-tabs__scroll-nav-button.dnb-button--primary {
+    background-color: var(--color-emerald-green); }
+  .dnb-tabs__scroll-nav-button:first-of-type {
+    left: -2.5rem; }
+  .dnb-tabs__scroll-nav-button:last-of-type {
+    right: -2.5rem; }
+  .dnb-tabs__scroll-nav-button--visible {
+    display: flex;
+    opacity: 1; }
+  .dnb-tabs__scroll-nav-button--hide {
+    pointer-events: none;
+    opacity: 0 !important; }
+
+.dnb-tabs--at-edge .dnb-tabs__scroll-nav-button:first-of-type {
+  left: 0; }
+
+.dnb-tabs--at-edge .dnb-tabs__scroll-nav-button:last-of-type {
+  right: 0; }
+
+html[data-visual-test] .dnb-tabs .dnb-tabs__scroll-nav-button {
+  transition: none; }
+
+.dnb-tabs__button__snap {
+  display: flex;
+  padding: 0 2rem 0 2.5rem; }
   @media screen and (max-width: 50em) {
-    .dnb-tabs__tabs .dnb-tabs__button,
-    .dnb-core-style .dnb-tabs__tabs .dnb-tabs__button {
-      margin-left: 2.5rem; }
-    .dnb-tabs__tabs .dnb-tabs__button:first-child,
-    .dnb-core-style .dnb-tabs__tabs .dnb-tabs__button:first-child {
-      margin-left: 0; } }
+    .dnb-tabs__button__snap {
+      padding: 0 1rem 0 1.5rem; } }
   @media screen and (max-width: 40em) {
-    .dnb-tabs__tabs__tablist {
-      flex-direction: column;
-      align-items: flex-start;
-      margin: 0; }
-    .dnb-tabs__tabs .dnb-tabs__button,
-    .dnb-core-style .dnb-tabs__tabs .dnb-tabs__button {
-      margin-left: 0; } }
+    .dnb-tabs__button__snap {
+      padding: 0 1rem; } }
+  .dnb-tabs__button__snap:first-of-type {
+    padding-left: 0; }
+  .dnb-tabs__button__snap:last-of-type {
+    padding-right: 0.5rem; }
+
+.dnb-tabs--has-scrollbar .dnb-tabs__button__snap:last-of-type {
+  padding-right: 2.5rem; }
+
+.dnb-tabs__button,
+.dnb-core-style .dnb-tabs .dnb-tabs__button {
+  position: relative;
+  z-index: 1;
+  user-select: none;
+  -webkit-user-select: none;
+  margin: 0;
+  padding: 0.25rem 0.125rem;
+  /* 1/16*4 */
+  background-color: transparent;
+  border-bottom: 1px solid transparent;
+  cursor: pointer;
+  outline: none;
+  border: none;
+  font-size: var(--font-size-basis);
+  line-height: var(--line-height-basis);
+  white-space: nowrap; }
+  .dnb-tabs__button__title .dnb-icon,
+  .dnb-core-style .dnb-tabs .dnb-tabs__button__title .dnb-icon {
+    font-size: var(--font-size-small);
+    transform: translateY(-0.125rem); }
+  .dnb-tabs__button .dnb-dummy,
+  .dnb-core-style .dnb-tabs .dnb-tabs__button .dnb-dummy {
+    display: flex;
+    flex-direction: column;
+    height: 0;
+    visibility: hidden;
+    overflow: hidden; }
+  .dnb-tabs__button::after,
+  .dnb-core-style .dnb-tabs .dnb-tabs__button::after {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 1px; }
 
 .dnb-tabs__content {
   margin-top: 2rem; }

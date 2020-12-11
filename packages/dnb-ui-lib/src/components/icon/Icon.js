@@ -23,7 +23,7 @@ import Context from '../../shared/Context'
 
 export const DefaultIconSize = 16
 export const DefaultIconSizes = {
-  // small: 8,
+  // small: 8, // currently not in use
   default: 16,
   medium: 24
   // large: 32 // currently not in use
@@ -64,6 +64,7 @@ export default class Icon extends React.PureComponent {
     height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     border: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     color: PropTypes.string,
+    inherit_color: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     alt: PropTypes.string,
     title: PropTypes.string,
     skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -81,6 +82,7 @@ export default class Icon extends React.PureComponent {
     height: null,
     border: null,
     color: null,
+    inherit_color: true,
     alt: null,
     title: null,
     skeleton: null,
@@ -300,6 +302,7 @@ export const prepareIcon = (props, context) => {
     height,
     border,
     color,
+    inherit_color,
     modifier,
     alt,
     title,
@@ -337,8 +340,9 @@ export const prepareIcon = (props, context) => {
 
   wrapperParams.className = classnames(
     'dnb-icon',
-    modifier ? `dnb-icon--${modifier}` : null,
-    isTrue(border) ? 'dnb-icon--border' : null,
+    modifier && `dnb-icon--${modifier}`,
+    isTrue(border) && 'dnb-icon--border',
+    isTrue(inherit_color) && 'dnb-icon--inherit-color',
     sizeAsString ? `dnb-icon--${sizeAsString}` : `dnb-icon--default`,
     createSkeletonClass(null, skeleton, context),
     createSpacingClasses(props),

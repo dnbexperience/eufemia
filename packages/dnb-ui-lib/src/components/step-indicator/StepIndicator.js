@@ -170,7 +170,7 @@ export default class StepIndicator extends React.PureComponent {
       StepIndicator.defaultProps,
       { skeleton: this.context?.skeleton },
       this.context.formRow,
-      this.context.translation.StepIndicator
+      this.context.getTranslation(this.props).StepIndicator
     )
 
     const {

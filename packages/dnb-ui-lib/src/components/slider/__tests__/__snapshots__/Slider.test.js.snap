@@ -14,6 +14,12 @@ exports[`Slider component have to match snapshot 1`] = `
   label_sr_only="label_sr_only"
   max={100}
   min={0}
+  number_format={
+    Object {
+      "currency": true,
+      "decimals": 0,
+    }
+  }
   on_change={[Function]}
   on_drag_end={[Function]}
   on_drag_start={[Function]}
@@ -80,6 +86,7 @@ exports[`Slider component have to match snapshot 1`] = `
           custom_element={null}
           custom_method={null}
           disabled={false}
+          element={null}
           global_status_id={null}
           href={null}
           icon="subtract"
@@ -87,6 +94,7 @@ exports[`Slider component have to match snapshot 1`] = `
           icon_size={null}
           id={null}
           innerRef={null}
+          inner_ref={null}
           onClick={null}
           on_click={[Function]}
           size="small"
@@ -117,6 +125,7 @@ exports[`Slider component have to match snapshot 1`] = `
               custom_element={null}
               custom_method={null}
               disabled={false}
+              element={null}
               global_status_id={null}
               href={null}
               icon="subtract"
@@ -124,11 +133,12 @@ exports[`Slider component have to match snapshot 1`] = `
               icon_size={null}
               id={null}
               innerRef={null}
+              inner_ref={null}
               isIconOnly={true}
               onClick={null}
               on_click={[Function]}
               size="small"
-              skeleton="skeleton"
+              skeleton={false}
               status={null}
               status_animation={null}
               status_state="error"
@@ -154,17 +164,18 @@ exports[`Slider component have to match snapshot 1`] = `
                 color={null}
                 height={null}
                 icon="subtract"
+                inherit_color={true}
                 key="button-icon"
                 modifier={null}
                 size={null}
-                skeleton={null}
+                skeleton={false}
                 title={null}
                 width={null}
               >
                 <span
                   aria-hidden={true}
                   aria-label="subtract icon"
-                  className="dnb-icon dnb-icon--default dnb-button__icon"
+                  className="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
                   role="presentation"
                 >
                   <subtract>
@@ -173,12 +184,11 @@ exports[`Slider component have to match snapshot 1`] = `
                       height={16}
                       viewBox="0 0 16 16"
                       width={16}
+                      xmlns="http://www.w3.org/2000/svg"
                     >
                       <path
-                        d="M1.75 8h12.5"
-                        stroke="#000"
-                        strokeLinecap="round"
-                        strokeWidth={1.5}
+                        d="M14 8.75C14.4142 8.75 14.75 8.41421 14.75 8C14.75 7.58579 14.4142 7.25 14 7.25V8.75ZM2 7.25C1.58579 7.25 1.25 7.58579 1.25 8C1.25 8.41421 1.58579 8.75 2 8.75V7.25ZM14 7.25H2V8.75H14V7.25Z"
+                        fill="black"
                       />
                     </svg>
                   </subtract>
@@ -205,7 +215,7 @@ exports[`Slider component have to match snapshot 1`] = `
           >
             <input
               aria-describedby="id-suffix"
-              aria-labelledby="id-label"
+              aria-labelledby="id-human id-label"
               className="dnb-slider__button-helper"
               disabled={false}
               max={100}
@@ -224,6 +234,7 @@ exports[`Slider component have to match snapshot 1`] = `
               custom_element={null}
               custom_method={null}
               disabled={false}
+              element={null}
               global_status_id={null}
               href={null}
               icon={null}
@@ -231,6 +242,7 @@ exports[`Slider component have to match snapshot 1`] = `
               icon_size={null}
               id={null}
               innerRef={null}
+              inner_ref={null}
               onBlur={[Function]}
               onClick={null}
               onFocus={[Function]}
@@ -270,6 +282,7 @@ exports[`Slider component have to match snapshot 1`] = `
                   custom_element={null}
                   custom_method={null}
                   disabled={false}
+                  element={null}
                   global_status_id={null}
                   href={null}
                   icon={null}
@@ -277,6 +290,7 @@ exports[`Slider component have to match snapshot 1`] = `
                   icon_size={null}
                   id={null}
                   innerRef={null}
+                  inner_ref={null}
                   isIconOnly={false}
                   onBlur={[Function]}
                   onClick={null}
@@ -284,7 +298,7 @@ exports[`Slider component have to match snapshot 1`] = `
                   onMouseDown={[Function]}
                   on_click={null}
                   size={null}
-                  skeleton="skeleton"
+                  skeleton={false}
                   status={null}
                   status_animation={null}
                   status_state="error"
@@ -310,6 +324,13 @@ exports[`Slider component have to match snapshot 1`] = `
           <span
             className="dnb-slider__line dnb-slider__line__after"
           />
+          <span
+            aria-hidden={true}
+            className="dnb-sr-only"
+            id="id-human"
+          >
+            70 norske kroner
+          </span>
         </span>
         <Button
           aria-label="add_title"
@@ -319,6 +340,7 @@ exports[`Slider component have to match snapshot 1`] = `
           custom_element={null}
           custom_method={null}
           disabled={false}
+          element={null}
           global_status_id={null}
           href={null}
           icon="add"
@@ -326,6 +348,7 @@ exports[`Slider component have to match snapshot 1`] = `
           icon_size={null}
           id={null}
           innerRef={null}
+          inner_ref={null}
           onClick={null}
           on_click={[Function]}
           size="small"
@@ -356,6 +379,7 @@ exports[`Slider component have to match snapshot 1`] = `
               custom_element={null}
               custom_method={null}
               disabled={false}
+              element={null}
               global_status_id={null}
               href={null}
               icon="add"
@@ -363,11 +387,12 @@ exports[`Slider component have to match snapshot 1`] = `
               icon_size={null}
               id={null}
               innerRef={null}
+              inner_ref={null}
               isIconOnly={true}
               onClick={null}
               on_click={[Function]}
               size="small"
-              skeleton="skeleton"
+              skeleton={false}
               status={null}
               status_animation={null}
               status_state="error"
@@ -393,17 +418,18 @@ exports[`Slider component have to match snapshot 1`] = `
                 color={null}
                 height={null}
                 icon="add"
+                inherit_color={true}
                 key="button-icon"
                 modifier={null}
                 size={null}
-                skeleton={null}
+                skeleton={false}
                 title={null}
                 width={null}
               >
                 <span
                   aria-hidden={true}
                   aria-label="add icon"
-                  className="dnb-icon dnb-icon--default dnb-button__icon"
+                  className="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
                   role="presentation"
                 >
                   <add>
@@ -412,12 +438,11 @@ exports[`Slider component have to match snapshot 1`] = `
                       height={16}
                       viewBox="0 0 16 16"
                       width={16}
+                      xmlns="http://www.w3.org/2000/svg"
                     >
                       <path
-                        clipRule="evenodd"
-                        d="M8.75 1.75a.75.75 0 00-1.5 0v5.5h-5.5a.75.75 0 000 1.5h5.5v5.5a.75.75 0 001.5 0v-5.5h5.5a.75.75 0 000-1.5h-5.5v-5.5z"
-                        fill="#000"
-                        fillRule="evenodd"
+                        d="M7.25 14C7.25 14.4142 7.58579 14.75 8 14.75C8.41421 14.75 8.75 14.4142 8.75 14H7.25ZM8.75 2C8.75 1.58579 8.41421 1.25 8 1.25C7.58579 1.25 7.25 1.58579 7.25 2H8.75ZM14 8.75C14.4142 8.75 14.75 8.41421 14.75 8C14.75 7.58579 14.4142 7.25 14 7.25V8.75ZM2 7.25C1.58579 7.25 1.25 7.58579 1.25 8C1.25 8.41421 1.58579 8.75 2 8.75V7.25ZM8.75 14V2H7.25V14H8.75ZM14 7.25H2V8.75H14V7.25Z"
+                        fill="black"
                       />
                     </svg>
                   </add>
@@ -443,6 +468,12 @@ exports[`Slider component have to match snapshot 1`] = `
             label_sr_only="label_sr_only"
             max={100}
             min={0}
+            number_format={
+              Object {
+                "currency": true,
+                "decimals": 0,
+              }
+            }
             on_change={[Function]}
             on_drag_end={[Function]}
             on_drag_start={[Function]}
@@ -522,10 +553,10 @@ exports[`Slider scss have to match snapshot 1`] = `
     width: inherit; }
   .dnb-icon svg[height='100%'] {
     height: inherit; }
-  .dnb-icon svg:not([fill]),
-  .dnb-icon svg [fill] {
+  .dnb-icon--inherit-color svg:not([fill]),
+  .dnb-icon--inherit-color svg [fill] {
     fill: currentColor; }
-  .dnb-icon svg [stroke] {
+  .dnb-icon--inherit-color svg [stroke] {
     stroke: currentColor; }
   .dnb-icon--small {
     font-size: 0.75rem; }
@@ -614,6 +645,9 @@ exports[`Slider scss have to match snapshot 1`] = `
  * FormStatus component
  *
  */
+:root {
+  --form-status-radius: 0.25rem; }
+
 .dnb-form-status {
   display: flex; }
   .dnb-form-status__shell {
@@ -621,30 +655,32 @@ exports[`Slider scss have to match snapshot 1`] = `
     justify-content: flex-start;
     align-items: flex-start;
     min-width: inherit;
-    border-radius: var(--input-border-radius); }
-  .dnb-form-status--text {
-    padding: calc(0.5rem / 2) 1rem;
+    border-radius: var(--form-status-radius); }
+  .dnb-form-status__text {
+    padding: 0.625rem 1rem;
     cursor: text;
     color: inherit;
-    line-height: var(--line-height-basis);
+    line-height: var(--line-height-small);
+    font-size: var(--font-size-small);
     white-space: normal; }
-    .dnb-form-status--text .dnb-anchor {
+    .dnb-form-status__text .dnb-anchor {
       font-size: inherit; }
-  .dnb-icon + .dnb-form-status--text {
+  .dnb-icon + .dnb-form-status__text {
     padding-left: 0.5rem; }
   .dnb-form-status__shell > .dnb-icon {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 1.5em;
-    height: 1.5em;
-    margin-top: 0.25em;
-    margin-left: 0.5em;
-    color: inherit;
-    font-size: var(--font-size-small); }
+    margin: 0.3333333em 0.3333333em 0.3333333em 0.6666666em; }
+  .dnb-form-status__size--large .dnb-form-status__text {
+    padding-top: 1.125rem;
+    padding-bottom: 1.125rem; }
+  .dnb-form-status__size--large .dnb-form-status__shell > .dnb-icon {
+    margin-top: 0.6666666em;
+    margin-bottom: 0.6666666em; }
   .dnb-form-status[hidden] {
     display: none; }
-  .dnb-form-status--fade-in {
+  .dnb-form-status__animation--fade-in {
     overflow: hidden;
     max-height: 0;
     animation: form-status-fade-in 2s ease-out 400ms forwards; }
@@ -883,8 +919,6 @@ exports[`Slider scss have to match snapshot 1`] = `
     white-space: nowrap; }
   .dnb-button + .dnb-form-status {
     margin-top: 0.5rem; }
-  .dnb-button.dnb-skeleton .dnb-icon {
-    visibility: hidden; }
   @media screen and (-ms-high-contrast: none) {
     .dnb-button {
       flex: none; }

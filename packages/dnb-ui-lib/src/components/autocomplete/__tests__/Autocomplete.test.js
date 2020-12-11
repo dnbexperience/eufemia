@@ -12,6 +12,7 @@ import {
   loadScss
 } from '../../../core/jest/jestSetup'
 import Component from '../Autocomplete'
+import { SubmitButton } from '../../../components/input/Input'
 
 const snapshotProps = {
   ...fakeProps(require.resolve('../Autocomplete'), {
@@ -34,6 +35,7 @@ const snapshotProps = {
   opened: true,
   show_submit_button: true,
   no_animation: true,
+  input_ref: null,
   skip_portal: true
 }
 
@@ -80,7 +82,7 @@ describe('Autocomplete component', () => {
       />
     )
 
-    open(Comp)
+    toggle(Comp)
 
     Comp.find('.dnb-input__input').simulate('change', {
       target: { value: 'aa' }
@@ -157,7 +159,7 @@ describe('Autocomplete component', () => {
       />
     )
 
-    open(Comp)
+    toggle(Comp)
 
     // check "cc"
     Comp.find('.dnb-input__input').simulate('change', {
@@ -225,7 +227,7 @@ describe('Autocomplete component', () => {
     // remove selection and reset the order and open again
     // aria-selected should now be on place 2
     keydown(Comp, 27) // esc
-    open(Comp)
+    toggle(Comp)
 
     elem = Comp.find('li.dnb-drawer-list__option').at(2)
     expect(elem.text()).toBe(mockData[2].content.join(''))
@@ -243,7 +245,7 @@ describe('Autocomplete component', () => {
       />
     )
 
-    open(Comp)
+    toggle(Comp)
 
     Comp.find('.dnb-input__input').simulate('change', {
       target: { value: 'aa' }
@@ -284,7 +286,7 @@ describe('Autocomplete component', () => {
   it('has correct "opened" state', () => {
     const Comp = mount(<Component {...props} data={mockData} />)
 
-    open(Comp)
+    toggle(Comp)
 
     const elem = Comp.find('.dnb-autocomplete')
 
@@ -294,7 +296,7 @@ describe('Autocomplete component', () => {
   it('has correct length of li elements', () => {
     const Comp = mount(<Component {...props} data={mockData} />)
 
-    open(Comp)
+    toggle(Comp)
 
     expect(
       Comp.find(
@@ -303,22 +305,400 @@ describe('Autocomplete component', () => {
     ).toBe(mockData.length)
   })
 
-  it('has to return all additional attributes the event return', () => {
+  it('has valid events returning all additional attributes in the event return', () => {
     const on_show = jest.fn()
+    const on_hide = jest.fn()
+    const on_focus = jest.fn()
+    const on_blur = jest.fn()
     const params = { 'data-attr': 'value' }
+
     const Comp = mount(
       <Component
         no_animation
         on_show={on_show}
+        on_hide={on_hide}
+        on_focus={on_focus}
+        on_blur={on_blur}
         {...params}
         data={mockData}
         show_submit_button
         {...mockProps}
       />
     )
-    open(Comp)
-    expect(on_show.mock.calls.length).toBe(1)
+
+    Comp.find('input').simulate('focus')
+    expect(on_focus).toHaveBeenCalledTimes(1)
+    expect(on_focus.mock.calls[0][0].attributes).toMatchObject(params)
+    expect(Comp.find('AutocompleteInstance').state().hasFocus).toBe(true)
+
+    // ensure we focus only once
+    Comp.find('input').simulate('focus')
+    expect(on_focus).toHaveBeenCalledTimes(1)
+
+    Comp.find('input').simulate('blur')
+    expect(on_blur).toHaveBeenCalledTimes(1)
+    expect(on_blur.mock.calls[0][0].attributes).toMatchObject(params)
+
+    // ensure we blur only once
+    Comp.find('input').simulate('blur')
+    expect(on_blur).toHaveBeenCalledTimes(1)
+
+    toggle(Comp)
+    expect(on_show).toHaveBeenCalledTimes(1)
     expect(on_show.mock.calls[0][0].attributes).toMatchObject(params)
+    expect(on_show).toHaveBeenCalledWith({
+      attributes: params,
+      data: null,
+      ulElement: null
+    })
+
+    keydown(Comp, 27) // esc
+    expect(on_hide).toHaveBeenCalledTimes(1)
+    expect(on_hide.mock.calls[0][0].attributes).toMatchObject(params)
+    expect(on_hide.mock.calls[0][0].event).toMatchObject(
+      new KeyboardEvent('keydown', {})
+    )
+
+    expect(
+      Comp.find('.dnb-autocomplete').hasClass('dnb-autocomplete--opened')
+    ).toBe(false)
+
+    // ensure we blur only once
+    Comp.find('input').simulate('blur')
+    expect(on_blur).toHaveBeenCalledTimes(1)
+
+    toggle(Comp)
+    expect(on_show).toHaveBeenCalledTimes(2)
+    expect(on_show.mock.calls[1][0].attributes).toMatchObject(params)
+
+    expect(
+      Comp.find('.dnb-autocomplete').hasClass('dnb-autocomplete--opened')
+    ).toBe(true)
+
+    keydown(Comp, 27) // esc
+
+    expect(
+      Comp.find('.dnb-autocomplete').hasClass('dnb-autocomplete--opened')
+    ).toBe(false)
+
+    toggle(Comp)
+    expect(on_show).toHaveBeenCalledTimes(3)
+
+    Comp.find('AutocompleteInstance').setState({ hasBlur: false })
+    Comp.find('input').simulate('blur')
+    expect(on_blur).toHaveBeenCalledTimes(2)
+
+    Comp.find('AutocompleteInstance').setState({ hasFocus: false })
+    Comp.find('input').simulate('focus')
+    expect(on_focus).toHaveBeenCalledTimes(2)
+  })
+
+  it('behaves by default to take the selection in account', async () => {
+    const value = 'c'
+    let newValue = null
+
+    const on_show = jest.fn()
+    const on_hide = jest.fn()
+    const on_focus = jest.fn()
+    const on_blur = jest.fn()
+    const on_change = jest.fn()
+    const on_type = jest.fn()
+
+    const Comp = mount(
+      <Component
+        no_animation
+        on_show={on_show}
+        on_hide={on_hide}
+        on_focus={on_focus}
+        on_blur={on_blur}
+        on_change={on_change}
+        on_type={on_type}
+        data={mockData}
+        show_submit_button
+        {...mockProps}
+      />
+    )
+
+    // Round #1
+
+    toggle(Comp)
+
+    Comp.find('input').simulate('focus')
+
+    Comp.find('input').simulate('change', { target: { value } })
+    expect(Comp.find('input').instance().value).toBe(value)
+
+    Comp.find('input').simulate('blur')
+
+    expect(Comp.find('input').instance().value).toBe(value)
+
+    await wait(1)
+
+    // Here is default consequence
+    expect(Comp.find('input').instance().value).toBe('')
+
+    // Round #2
+    Comp.find('input').simulate('change', { target: { value } })
+    expect(Comp.find('input').instance().value).toBe(value)
+
+    Comp.find('AutocompleteInstance').setState({ hasBlur: false })
+    Comp.find('input').simulate('blur')
+
+    expect(Comp.find('input').instance().value).toBe(value)
+
+    await wait(1)
+
+    // Here is our wanted result
+    expect(Comp.find('input').instance().value).toBe('')
+
+    Comp.find('li.dnb-drawer-list__option').at(1).simulate('click')
+
+    newValue = 'first new value'
+    Comp.find('input').simulate('change', { target: { value: newValue } })
+    expect(Comp.find('input').instance().value).toBe(newValue)
+
+    Comp.find('AutocompleteInstance').setState({ hasBlur: false })
+    Comp.find('input').simulate('blur')
+
+    await wait(1)
+
+    // Here is our wanted result
+    expect(Comp.find('input').instance().value).toBe(mockData[1])
+
+    // Round #3
+
+    Comp.find('input').simulate('change', { target: { value } })
+    expect(Comp.find('input').instance().value).toBe(value)
+    expect(on_type).toHaveBeenCalledTimes(4)
+
+    Comp.find('li.dnb-drawer-list__option').at(0).simulate('click')
+    expect(on_change).toHaveBeenCalledTimes(2)
+
+    newValue = 'second new value'
+    Comp.find('input').simulate('change', { target: { value: newValue } })
+    expect(Comp.find('input').instance().value).toBe(newValue)
+
+    Comp.find('AutocompleteInstance').setState({ hasBlur: false })
+    Comp.find('input').simulate('blur')
+    expect(on_blur).toHaveBeenCalledTimes(4)
+
+    await wait(1)
+
+    // Here is our wanted result
+    expect(Comp.find('input').instance().value).toBe(mockData[0])
+
+    expect(Comp.find('li.dnb-drawer-list__option').at(0).text()).toBe(
+      'Ingen alternativer'
+    )
+
+    // Close
+    toggle(Comp)
+    expect(
+      Comp.find('.dnb-autocomplete').hasClass('dnb-autocomplete--opened')
+    ).toBe(false)
+
+    // Open
+    toggle(Comp)
+    expect(Comp.find('input').instance().value).toBe(mockData[0])
+    Comp.find('AutocompleteInstance').setState({
+      skipFocusDuringChange: false,
+      hasFocus: false
+    })
+    Comp.find('input').simulate('focus')
+    expect(
+      Comp.find('.dnb-autocomplete').hasClass('dnb-autocomplete--opened')
+    ).toBe(true)
+
+    // Now, only the "No option" will be displayed
+    expect(Comp.find('li.dnb-drawer-list__option').length).toBe(1)
+    expect(Comp.find('li.dnb-drawer-list__option').at(0).text()).toBe(
+      'Ingen alternativer'
+    )
+  })
+
+  it('keeps the entered input value if "keep_value" or "keep_value_and_selection" is given', async () => {
+    const value = 'c'
+    let newValue = null
+
+    const on_show = jest.fn()
+    const on_hide = jest.fn()
+    const on_focus = jest.fn()
+    const on_blur = jest.fn()
+    const on_change = jest.fn()
+    const on_type = jest.fn()
+
+    const Comp = mount(
+      <Component
+        no_animation
+        on_show={on_show}
+        on_hide={on_hide}
+        on_focus={on_focus}
+        on_blur={on_blur}
+        on_change={on_change}
+        on_type={on_type}
+        data={mockData}
+        show_submit_button
+        {...mockProps}
+      />
+    )
+
+    toggle(Comp)
+    expect(on_show).toHaveBeenCalledTimes(1)
+
+    Comp.find('input').simulate('focus')
+    expect(on_focus).toHaveBeenCalledTimes(1)
+    expect(on_show).toHaveBeenCalledTimes(1)
+
+    Comp.find('input').simulate('change', { target: { value } })
+    expect(Comp.find('input').instance().value).toBe(value)
+    expect(on_type).toHaveBeenCalledTimes(1)
+
+    Comp.find('input').simulate('blur')
+    expect(on_blur).toHaveBeenCalledTimes(1)
+
+    expect(Comp.find('input').instance().value).toBe(value)
+
+    await wait(1)
+
+    // Here is default consequence
+    expect(Comp.find('input').instance().value).toBe('')
+
+    // Now, lets try with "keep_value"
+    Comp.setProps({
+      keep_value: true
+    })
+
+    Comp.find('input').simulate('change', { target: { value } })
+    expect(Comp.find('input').instance().value).toBe(value)
+    expect(on_type).toHaveBeenCalledTimes(2)
+
+    Comp.find('AutocompleteInstance').setState({ hasBlur: false })
+    Comp.find('input').simulate('blur')
+    expect(on_blur).toHaveBeenCalledTimes(2)
+
+    expect(Comp.find('input').instance().value).toBe(value)
+
+    await wait(1)
+
+    // Here is our wanted result
+    expect(Comp.find('input').instance().value).toBe(value)
+
+    Comp.find('li.dnb-drawer-list__option').at(1).simulate('click')
+    expect(on_change).toHaveBeenCalledTimes(1)
+
+    newValue = 'first new value'
+    Comp.find('input').simulate('change', { target: { value: newValue } })
+    expect(Comp.find('input').instance().value).toBe(newValue)
+
+    Comp.find('AutocompleteInstance').setState({ hasBlur: false })
+    Comp.find('input').simulate('blur')
+    expect(on_blur).toHaveBeenCalledTimes(3)
+
+    await wait(1)
+
+    // Here is our wanted result
+    expect(Comp.find('input').instance().value).toBe('BB cc zethx')
+
+    // Now lets try with "keep_value_and_selection"
+    Comp.setProps({
+      keep_value: false,
+      keep_value_and_selection: true
+    })
+
+    Comp.find('input').simulate('change', { target: { value } })
+    expect(Comp.find('input').instance().value).toBe(value)
+    expect(on_type).toHaveBeenCalledTimes(4)
+
+    Comp.find('li.dnb-drawer-list__option').at(0).simulate('click')
+    expect(on_change).toHaveBeenCalledTimes(2)
+
+    newValue = 'second new value'
+    Comp.find('input').simulate('change', { target: { value: newValue } })
+    expect(Comp.find('input').instance().value).toBe(newValue)
+
+    Comp.find('AutocompleteInstance').setState({ hasBlur: false })
+    Comp.find('input').simulate('blur')
+    expect(on_blur).toHaveBeenCalledTimes(4)
+
+    await wait(1)
+
+    // Here is our wanted result
+    expect(Comp.find('input').instance().value).toBe(newValue)
+
+    expect(on_hide).toHaveBeenCalledTimes(4)
+
+    expect(Comp.find('li.dnb-drawer-list__option').at(0).text()).toBe(
+      'Ingen alternativer'
+    )
+
+    // Close
+    toggle(Comp)
+    expect(on_hide).toHaveBeenCalledTimes(5)
+    expect(
+      Comp.find('.dnb-autocomplete').hasClass('dnb-autocomplete--opened')
+    ).toBe(false)
+
+    // Open
+    toggle(Comp)
+    expect(Comp.find('input').instance().value).toBe(newValue)
+    Comp.find('AutocompleteInstance').setState({
+      skipFocusDuringChange: false,
+      hasFocus: false
+    })
+    Comp.find('input').simulate('focus')
+    expect(
+      Comp.find('.dnb-autocomplete').hasClass('dnb-autocomplete--opened')
+    ).toBe(true)
+
+    // Now, open all, because of "keep_value_and_selection"
+    expect(Comp.find('li.dnb-drawer-list__option').length).toBe(3)
+  })
+
+  it('will prevent close if false gets returned from on_hide event', () => {
+    let preventClose = false
+    const on_hide = jest.fn(() => !preventClose)
+    const Comp = mount(
+      <Component
+        no_animation
+        on_hide={on_hide}
+        data={mockData}
+        show_submit_button
+        {...mockProps}
+      />
+    )
+
+    // first open
+    toggle(Comp)
+
+    expect(
+      Comp.find('.dnb-autocomplete').hasClass('dnb-autocomplete--opened')
+    ).toBe(true)
+
+    // close
+    keydown(Comp, 27) // esc
+    expect(on_hide).toHaveBeenCalledTimes(1)
+
+    expect(
+      Comp.find('.dnb-autocomplete').hasClass('dnb-autocomplete--opened')
+    ).toBe(false)
+
+    // reopen
+    toggle(Comp)
+
+    expect(
+      Comp.find('.dnb-autocomplete').hasClass('dnb-autocomplete--opened')
+    ).toBe(true)
+
+    preventClose = true
+
+    // close again, but with false returned
+    keydown(Comp, 27) // esc
+    expect(on_hide).toHaveBeenCalledTimes(2)
+
+    // we are still open
+    expect(
+      Comp.find('.dnb-autocomplete').hasClass('dnb-autocomplete--opened')
+    ).toBe(true)
   })
 
   it('has no highlighted value by using "disable_highlighting"', () => {
@@ -332,7 +712,7 @@ describe('Autocomplete component', () => {
       />
     )
 
-    open(Comp)
+    toggle(Comp)
 
     const result = Comp.find('li.dnb-drawer-list__option')
       .at(0)
@@ -401,7 +781,7 @@ describe('Autocomplete component', () => {
 
     let callOne = on_type.mock.calls[0][0]
     expect(Comp.find('li.dnb-drawer-list__option').length).toBe(3)
-    expect(on_type.mock.calls.length).toBe(1)
+    expect(on_type).toHaveBeenCalledTimes(1)
     expect(callOne.dataList.length).toBe(3)
 
     // update data
@@ -413,7 +793,7 @@ describe('Autocomplete component', () => {
 
     const callTwo = on_type.mock.calls[1][0]
     expect(Comp.find('li.dnb-drawer-list__option').length).toBe(1)
-    expect(on_type.mock.calls.length).toBe(2)
+    expect(on_type).toHaveBeenCalledTimes(2)
     expect(callTwo.dataList.length).toBe(1)
     expect(callOne.dataList).not.toBe(callTwo.dataList)
 
@@ -434,7 +814,7 @@ describe('Autocomplete component', () => {
 
   it('has correct selected value after new selection', () => {
     const Comp = mount(<Component {...props} data={mockData} />)
-    open(Comp)
+    toggle(Comp)
 
     // then simulate changes
     keydown(Comp, 40) // down
@@ -491,6 +871,48 @@ describe('Autocomplete component', () => {
         .instance()
         .hasAttribute('disabled')
     ).toBe(true)
+    expect(
+      Comp.find('button.dnb-input__submit-button__button')
+        .find('.dnb-icon')
+        .instance()
+        .getAttribute('aria-label')
+    ).toContain('chevron down')
+  })
+
+  it('submit_element will replace the internal SubmitButton', () => {
+    const Comp = mount(
+      <Component
+        id="autocomplete-id"
+        data={mockData}
+        {...mockProps}
+        // show_submit_button
+        submit_element={<SubmitButton icon="bell" />}
+      />
+    )
+    Comp.setProps({
+      disabled: true
+    })
+    expect(
+      Comp.find('button.dnb-input__submit-button__button')
+        .instance()
+        .hasAttribute('disabled')
+    ).toBe(true)
+    expect(
+      Comp.find('button.dnb-input__submit-button__button').exists(
+        '.dnb-icon'
+      )
+    ).toBe(true)
+    expect(
+      Comp.find('button.dnb-input__submit-button__button').exists(
+        '.dnb-icon'
+      )
+    ).toBe(true)
+    expect(
+      Comp.find('button.dnb-input__submit-button__button')
+        .find('.dnb-icon')
+        .instance()
+        .getAttribute('aria-label')
+    ).toContain('bell')
   })
 })
 
@@ -537,6 +959,7 @@ const keydown = (Comp, keyCode) => {
     keyCode
   })
 }
-const open = (Comp) => {
+const toggle = (Comp) => {
   Comp.find('button.dnb-input__submit-button__button').simulate('click')
 }
+const wait = (t) => new Promise((r) => setTimeout(r, t))
