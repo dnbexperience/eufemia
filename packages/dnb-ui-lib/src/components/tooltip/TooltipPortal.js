@@ -71,7 +71,10 @@ export default class TooltipPortal extends React.PureComponent {
           timeout: null
         }
         tooltipPortal[this.props.group].node.className = 'TooltipPortal'
-        document.body.appendChild(tooltipPortal[this.props.group].node)
+        document.body.insertBefore(
+          tooltipPortal[this.props.group].node,
+          document.body.firstChild
+        )
       } catch (e) {
         console.warn('Could not create TooltipPortal!', e)
       }
