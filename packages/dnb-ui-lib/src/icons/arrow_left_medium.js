@@ -13,10 +13,11 @@ function arrow_left_medium(props) {
       {...props}
     >
       <path
-        fillRule="evenodd"
-        clipRule="evenodd"
-        d="M5.56 12.75l6.22 6.22a.75.75 0 11-1.06 1.06l-7.5-7.5a.75.75 0 010-1.06l7.5-7.5a.75.75 0 111.06 1.06l-6.22 6.22h14.69a.75.75 0 010 1.5H5.56z"
-        fill="#000"
+        d="M22.25 11.5H2M9.5 4L2 11.5M2 11.5L9.5 19"
+        stroke="black"
+        strokeWidth={1.5}
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   )

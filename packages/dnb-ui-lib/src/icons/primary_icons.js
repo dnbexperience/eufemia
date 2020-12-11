@@ -16,11 +16,11 @@ import close from './close.js'
 import download from './download.js'
 import exclamation from './exclamation.js'
 import information from './information.js'
+import loupe from './loupe.js'
 import more from './more.js'
 import question from './question.js'
 import reset from './reset.js'
 import save from './save.js'
-import search from './search.js'
 import subtract from './subtract.js'
 
 export {
@@ -40,10 +40,10 @@ export {
   download,
   exclamation,
   information,
+  loupe,
   more,
   question,
   reset,
   save,
-  search,
   subtract
 }

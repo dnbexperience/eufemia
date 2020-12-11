@@ -13,10 +13,11 @@ function close(props) {
       {...props}
     >
       <path
-        fillRule="evenodd"
-        clipRule="evenodd"
-        d="M4.03 3.1a.75.75 0 10-1.06 1.06l3.97 3.97-3.97 3.97a.75.75 0 101.06 1.06L8 9.19l3.97 3.97a.75.75 0 101.06-1.06L9.06 8.13l3.97-3.97a.75.75 0 00-1.06-1.06L8 7.07 4.03 3.1z"
-        fill="#000"
+        d="M3 13L13 3M13 13L3 3"
+        stroke="black"
+        strokeWidth={1.5}
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   )

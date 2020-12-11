@@ -17,9 +17,9 @@ import {
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
 import IconView from '../../icons/view'
-import IconViewOff from '../../icons/view_off'
+import IconViewOff from '../../icons/hide'
 import IconViewMedium from '../../icons/view_medium'
-import IconViewOffMedium from '../../icons/view_off_medium'
+import IconViewOffMedium from '../../icons/hide_medium'
 
 export default class InputPassword extends React.PureComponent {
   static contextType = Context
