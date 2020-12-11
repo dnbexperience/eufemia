@@ -327,7 +327,9 @@ const runFrameIconsFactory = async ({
           ret.created = lockFileFrameContent.created
           ret.updated = Date.now()
 
-          log.info(`> Figma: File already exists: ${iconFile}`)
+          log.info(
+            `> Figma: File already exists: ${iconFile} (${ret.created})`
+          )
         } else {
           log.info(`> Figma: Saving file to disk: ${iconFile}`)
 
@@ -344,9 +346,7 @@ const runFrameIconsFactory = async ({
 
           ret.created = Date.now()
 
-          log.info(
-            `> Figma: Icon was saved: ${iconFile} (${ret.timestamp})`
-          )
+          log.info(`> Figma: Icon was saved: ${iconFile} (${ret.created})`)
         }
 
         await optimizeSVG({ file })
