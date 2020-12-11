@@ -5,7 +5,7 @@ icon: 'secondary'
 order: 3
 ---
 
-import Icons from "Parts/icons/ListAllIcons";
+import ListAllIcons from "Parts/icons/ListAllIcons";
 
 # Secondary Icons
 
@@ -27,4 +27,4 @@ import { hamburger_medium as HamburgerIcon, bubble } from 'dnb-ui-lib/icons'
 
 ## A list of all Secondary Icons
 
-<Icons variant="secondary" />
+<ListAllIcons variant="secondary" />
