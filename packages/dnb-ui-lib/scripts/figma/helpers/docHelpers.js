@@ -11,7 +11,7 @@ import traverse from 'traverse'
 import isEqual from 'lodash.isequal'
 import isEqualWith from 'lodash.isequalwith'
 import Color from 'color'
-import { ErrorHandler, ERROR_HARMLESS, ERROR_FATAL } from '../../lib/error'
+import { ErrorHandler, ERROR_HARMLESS } from '../../lib/error'
 import { log } from '../../lib'
 import crypto from 'crypto'
 import dotenv from 'dotenv'
@@ -142,7 +142,7 @@ export const getLiveVersionOfFigmaDoc = async ({ figmaFile }) => {
 
     return versions[0].id
   } catch (e) {
-    console.log('Could not get version!', e)
+    new ErrorHandler('Could not get version!', e)
   }
 }
 
@@ -180,7 +180,7 @@ export const getLocalVersionFromLockFile = async ({ figmaFile }) => {
       return fileContent[md5(figmaFile)]
     }
   } catch (e) {
-    console.log('Could not get version from lock file!', e)
+    new ErrorHandler('Could not get version from lock file!', e)
   }
   return null
 }
@@ -307,7 +307,7 @@ export const getFigmaUrlByImageIds = async ({
 
 export const streamToDisk = (
   { file = '.tmp/file.json', url },
-  { errorExceptionType = ERROR_FATAL }
+  { errorExceptionType = ERROR_HARMLESS }
 ) =>
   new Promise((resolve, reject) => {
     const streamHandler = ({ localFile, oldContent = null }) => {
@@ -328,15 +328,23 @@ export const streamToDisk = (
           writeStream.close()
 
           const newContent = await fs.readFile(localFile, 'utf-8')
+          const isEmpty = String(newContent).trim().length === 0
+
+          if (isEmpty) {
+            new ErrorHandler(
+              `streamToDisk failed because the stream did not end with content by using the url: ${url}`
+            )
+          }
 
           // reset the file, if its empty
-          if (String(newContent).trim().length === 0) {
-            await fs.writeFile(localFile, oldContent)
-            resolve({ localFile, content: oldContent })
-            new ErrorHandler(
-              `streamToDisk failed as the stream did not end with content. Using the old content for: ${localFile}`,
-              errorExceptionType
-            )
+          if (isEmpty) {
+            if (oldContent) {
+              await fs.writeFile(localFile, oldContent)
+              new ErrorHandler(`Using the old content for: ${localFile}`)
+            } else {
+              await fs.unlink(localFile)
+            }
+            resolve({ localFile })
           } else {
             resolve({ localFile, content: newContent })
           }

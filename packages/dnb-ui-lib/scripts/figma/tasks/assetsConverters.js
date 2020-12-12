@@ -19,6 +19,7 @@ import {
   saveToFile,
   md5
 } from '../helpers/docHelpers'
+import properties from '../../../src/style/properties'
 import { create } from 'tar'
 
 const prettierrc = JSON.parse(
@@ -136,7 +137,7 @@ export const PDFConverter = async ({
     // Load and save additional PDFs
     const listOfProcessedPdfs = await asyncForEach(
       framesInTheCanvas,
-      async (frameDoc) => {
+      async (frameDoc) =>
         await runFrameIconsFactory({
           frameDoc,
           figmaFile,
@@ -144,36 +145,42 @@ export const PDFConverter = async ({
           format: 'pdf',
           ...rest
         })
-      }
     )
 
     log.info(
-      '> Figma: finished fetching PDFs by using runFrameIconsFactory'
+      `> Figma: finished fetching PDFs by using runFrameIconsFactory. Got ${listOfProcessedPdfs.length} items.`
     )
 
-    log.info(`> Figma: started to create ${outputName}`)
+    if (listOfProcessedPdfs.length > 0) {
+      log.info(`> Figma: started to create ${outputName}`)
 
-    await create(
-      {
-        gzip: true,
-        cwd: destDir,
-        file: path.resolve(`${destDir}`, outputName)
-      },
-      ['.']
-    )
+      const fileList = listOfProcessedPdfs.reduce((acc, { iconFile }) => {
+        acc.push(iconFile)
+        return acc
+      }, [])
 
-    // Remove the pdfs
-    await asyncForEach(listOfProcessedPdfs, async ({ iconFile }) => {
-      const file = path.resolve(destDir, iconFile)
-      try {
-        await fs.unlink(file)
-        log.info(`> Figma: File got removed: ${iconFile}`)
-      } catch (e) {
-        log.fail(new ErrorHandler(`Failed to remove ${iconFile}`, e))
-      }
-    })
+      await create(
+        {
+          gzip: true,
+          cwd: destDir,
+          file: path.resolve(`${destDir}`, outputName)
+        },
+        fileList
+      )
 
-    log.succeed(`> Figma: finished to create ${outputName}`)
+      // Remove the pdfs
+      await asyncForEach(listOfProcessedPdfs, async ({ iconFile }) => {
+        const file = path.resolve(destDir, iconFile)
+        try {
+          await fs.unlink(file)
+          log.info(`> Figma: File got removed: ${iconFile}`)
+        } catch (e) {
+          log.fail(new ErrorHandler(`Failed to remove ${iconFile}`, e))
+        }
+      })
+
+      log.succeed(`> Figma: finished to create ${outputName}`)
+    }
 
     return listOfProcessedPdfs
   } catch (e) {
@@ -228,7 +235,7 @@ export const SVGIconsConverter = async ({
     )
 
     log.info(
-      '> Figma: finished fetching svg icons by using runFrameIconsFactory'
+      `> Figma: finished fetching svg icons by using runFrameIconsFactory. Got ${listOfProcessedIcons.length} items.`
     )
 
     await asyncForEach(
@@ -490,7 +497,7 @@ const runFrameIconsFactory = async ({
             `> Figma: File already exists: ${iconFile} (ID=${id}, CREATED=${ret.created})`
           )
         } else {
-          await streamToDisk(
+          const { content } = await streamToDisk(
             {
               file,
               url,
@@ -501,12 +508,16 @@ const runFrameIconsFactory = async ({
             }
           )
 
-          ret.created = Date.now()
-          ret.updated = ret.created
+          if (content) {
+            ret.created = Date.now()
+            ret.updated = ret.created
 
-          log.info(
-            `> Figma: File got saved: ${iconFile} (ID=${id}, CREATED=${ret.created})`
-          )
+            log.info(
+              `> Figma: Saved file ${iconFile} (ID=${id}, CREATED=${ret.created})`
+            )
+          } else {
+            return null
+          }
         }
 
         return ret
@@ -516,7 +527,7 @@ const runFrameIconsFactory = async ({
     }
   )
 
-  return listOfProcessedIcons
+  return listOfProcessedIcons.filter(Boolean)
 }
 
 const prerenderIconName = (name, size = null) => {
@@ -616,6 +627,8 @@ const optimizeSVG = async (file) => {
       plugins
     })
 
+    // content = insertInlineStylesToSVG(content)
+
     const { data } = await svgo.optimize(content, { path: file })
 
     await fs.writeFile(file, data)
@@ -625,6 +638,21 @@ const optimizeSVG = async (file) => {
   }
 
   return null
+}
+
+// eslint-disable-next-line no-unused-vars
+const insertInlineStylesToSVG = (svg) => {
+  return Object.entries(properties)
+    .filter(([key]) => key.includes('--color-'))
+    .reduce((acc, [key, val]) => {
+      if (acc.includes(val)) {
+        acc = acc.replace(
+          /(fill|stroke)="([^"]*)"/g,
+          `style="$1:var(${key})" $1="$2"`
+        )
+      }
+      return acc
+    }, svg)
 }
 
 const getIconCanvasDoc = ({ figmaDoc }) => {
