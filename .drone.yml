@@ -45,7 +45,10 @@ steps:
     when:
       branch:
         include:
-          - '*figma*'
+          - figma*
+          - ftr/figma*
+          - fix/figma*
+          - rc/figma*
 
   - name: prebuild
     image: tujoworker/docker-node-puppeteer
@@ -117,7 +120,10 @@ steps:
     when:
       branch:
         include:
-          - '*figma*'
+          - figma*
+          - ftr/figma*
+          - fix/figma*
+          - rc/figma*
 
   - name: run screenshot tests
     image: tujoworker/docker-node-puppeteer
