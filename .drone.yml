@@ -29,13 +29,27 @@ steps:
       - yarn lint-ci
       - yarn test-ci
 
+  - name: run Figma converters
+    image: tujoworker/docker-node-puppeteer
+    environment:
+      FIGMA_STYLES_FILE:
+        from_secret: FIGMA_STYLES_FILE
+      FIGMA_ICONS_FILE:
+        from_secret: FIGMA_ICONS_FILE
+      FIGMA_ILLUSTRATIONS_FILE:
+        from_secret: FIGMA_ILLUSTRATIONS_FILE
+      FIGMA_TOKEN:
+        from_secret: FIGMA_TOKEN
+    commands:
+      - yarn figma-prebuild-ci
+    when:
+      branch:
+        include:
+          - *figma*
+
   - name: prebuild
     image: tujoworker/docker-node-puppeteer
     environment:
-      FIGMA_MAIN_FILE:
-        from_secret: FIGMA_MAIN_FILE
-      FIGMA_TOKEN:
-        from_secret: FIGMA_TOKEN
       GH_EMAIL:
         from_secret: GH_EMAIL
       GH_NAME:
@@ -60,10 +74,6 @@ steps:
   - name: make build of portal
     image: tujoworker/docker-node-puppeteer
     environment:
-      FIGMA_MAIN_FILE:
-        from_secret: FIGMA_MAIN_FILE
-      FIGMA_TOKEN:
-        from_secret: FIGMA_TOKEN
       GH_EMAIL:
         from_secret: GH_EMAIL
       GH_NAME:
@@ -93,13 +103,25 @@ steps:
           - fix/*
           - rc/*
 
+  - name: run Figma post build
+    image: tujoworker/docker-node-puppeteer
+    environment:
+      GH_EMAIL:
+        from_secret: GH_EMAIL
+      GH_NAME:
+        from_secret: GH_NAME
+      GH_TOKEN:
+        from_secret: GH_TOKEN
+    commands:
+      - yarn figma-postbuild-ci
+    when:
+      branch:
+        include:
+          - *figma*
+
   - name: run screenshot tests
     image: tujoworker/docker-node-puppeteer
     environment:
-      FIGMA_MAIN_FILE:
-        from_secret: FIGMA_MAIN_FILE
-      FIGMA_TOKEN:
-        from_secret: FIGMA_TOKEN
       GH_EMAIL:
         from_secret: GH_EMAIL
       GH_NAME:

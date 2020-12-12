@@ -14,9 +14,12 @@ import transform from 'gulp-transform'
 import { log } from '../../lib'
 import globby from 'globby'
 import { asyncForEach } from '../../tools/index'
+import packpath from 'packpath'
 
 // import the post css config
 import postcssConfig from '../config/postcssConfig'
+
+const ROOT_DIR = packpath.self()
 
 export default async function makeMainStyle() {
   // info: use this aproach to process files because:
@@ -62,7 +65,7 @@ export const runFactory = (
 
       let stream = gulp
         .src(src, {
-          cwd: process.env.ROOT_DIR
+          cwd: ROOT_DIR
         })
         .pipe(sassStream)
         .pipe(postcss(postcssConfig({ IE11: true })))
@@ -80,15 +83,13 @@ export const runFactory = (
         stream = stream
           .pipe(
             gulp.dest('./build/cjs/style', {
-              cwd: process.env.ROOT_DIR
+              cwd: ROOT_DIR
             })
           )
-          .pipe(
-            gulp.dest('./build/es/style', { cwd: process.env.ROOT_DIR })
-          )
+          .pipe(gulp.dest('./build/es/style', { cwd: ROOT_DIR }))
           .pipe(
             gulp.dest('./build/esm/style', {
-              cwd: process.env.ROOT_DIR
+              cwd: ROOT_DIR
             })
           )
       }
@@ -110,7 +111,7 @@ export const runFactory = (
           returnResult
             ? transform('utf8', (result) => resolve(result))
             : gulp.dest('./build/style', {
-                cwd: process.env.ROOT_DIR
+                cwd: ROOT_DIR
               })
         )
         .on('end', resolve)

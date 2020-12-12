@@ -6,8 +6,6 @@
  *
  */
 
-process.env.ROOT_DIR = require('packpath').self()
-
 import { ErrorHandler, log } from '../lib'
 import del from 'del'
 

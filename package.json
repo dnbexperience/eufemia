@@ -16,6 +16,8 @@
   "scripts": {
     "audit-ci": "yarn workspace dnb-ui-lib audit-ci",
     "prebuild-ci": "yarn workspace dnb-ui-lib prebuild-ci",
+    "figma-prebuild-ci": "yarn workspace dnb-ui-lib figma-ci-prebuild",
+    "figma-postbuild-ci": "yarn workspace dnb-ui-lib figma-ci-postbuild",
     "precommit": "if git-branch-is release; then yarn -v; else yarn workspace dnb-ui-lib precommit && yarn workspace dnb-design-system-portal precommit; fi",
     "postinstall": "yarn workspace dnb-ui-lib lint:lockfile",
     "build-portal-ci": "yarn workspace dnb-design-system-portal build-portal-ci",

@@ -7,10 +7,11 @@ import { commitToBranch } from '../../prepub/commitToBranch'
 
 if (require.main === module) {
   commitToBranch({
-    requiredBranch: 'develop|icons',
+    requiredBranch: 'develop|figma',
     what: 'icons/assets',
     filePathsIncludelist: [
       '/src/icons/',
+      '/src/components/icon/', // visual snapshots
       '/assets/icons/',
       'version.lock',
       'icons.lock',
@@ -20,6 +21,6 @@ if (require.main === module) {
     skipCI: (files) => files.length < 4, // in case we only update the "version.lock"
     // is feature if there are more than 4 files
     isFeature: false
-    // isFeature: files => files.length >= 4 // of there are other files than theese, mark it as a feature
+    // isFeature: files => files.length >= 4 // of there are other files than three, mark it as a feature
   })
 }

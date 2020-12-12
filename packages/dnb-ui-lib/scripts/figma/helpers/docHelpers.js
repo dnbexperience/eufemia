@@ -15,18 +15,12 @@ import { ErrorHandler, ERROR_HARMLESS, ERROR_FATAL } from '../../lib/error'
 import { log } from '../../lib'
 import crypto from 'crypto'
 import dotenv from 'dotenv'
-import packpath from 'packpath'
 
 // import .env variables
 dotenv.config()
 
-process.env.ROOT_DIR = packpath.self()
-
-export const defaultFigmaToken = process.env.FIGMA_TOKEN
-export const defaultFigmaFile = process.env.FIGMA_MAIN_FILE
-
 const Figma = Client({
-  personalAccessToken: defaultFigmaToken
+  personalAccessToken: process.env.FIGMA_TOKEN
 })
 
 export const fetchTextColor = (node) => {
@@ -139,10 +133,7 @@ export const findNode = (doc, find, ignore = null) =>
 export const findAllNodes = (doc, find, ignore = null) =>
   findAll(doc, 'children', find, ignore)
 
-export const getLiveVersionOfFigmaDoc = async ({ figmaFile = null }) => {
-  if (!figmaFile) {
-    figmaFile = defaultFigmaFile
-  }
+export const getLiveVersionOfFigmaDoc = async ({ figmaFile }) => {
   try {
     const {
       data: { versions }
@@ -155,13 +146,7 @@ export const getLiveVersionOfFigmaDoc = async ({ figmaFile = null }) => {
   }
 }
 
-const saveLiveVersionOfFigmaDoc = async ({
-  figmaFile = null,
-  version
-}) => {
-  if (!figmaFile) {
-    figmaFile = defaultFigmaFile
-  }
+const saveLiveVersionOfFigmaDoc = async ({ figmaFile, version }) => {
   if (!version) {
     return null
   }
@@ -187,12 +172,7 @@ const saveLiveVersionOfFigmaDoc = async ({
   }
 }
 
-export const getLocalVersionFromLockFile = async ({
-  figmaFile = null
-}) => {
-  if (!figmaFile) {
-    figmaFile = defaultFigmaFile
-  }
+export const getLocalVersionFromLockFile = async ({ figmaFile }) => {
   const lockFile = path.resolve(__dirname, `../version.lock`)
   try {
     if (fs.existsSync(lockFile)) {
@@ -206,21 +186,17 @@ export const getLocalVersionFromLockFile = async ({
 }
 
 export const getFigmaDoc = async ({
-  figmaFile = null,
+  figmaFile,
   localFile = null,
   forceRefetch = null,
   preventUpdate = null
 } = {}) => {
-  if (!figmaFile) {
-    figmaFile = defaultFigmaFile
-  }
-
   if (
     !(typeof figmaFile === 'string' && figmaFile.length > 0) &&
     !localFile
   ) {
     new ErrorHandler(
-      'No Figma Main File defined. Make sure there is a .env file with a valid FIGMA_MAIN_FILE defined!'
+      'No Figma file defined. Make sure there is a .env file with a valid "figmaFile" defined!'
     )
   }
 
