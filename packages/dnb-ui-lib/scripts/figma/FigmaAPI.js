@@ -4,8 +4,8 @@
  */
 
 import { ConvertAndSaveComponentsStyle } from './tasks/componentsStyleConverter'
-import { SVGIconsConverter } from './tasks/assetsConverters'
-import { PDFConverter } from './tasks/assetsConverters'
+import { SVGIconsConverter, PDFConverter } from './tasks/assetsConverters'
+import { getFigmaDoc } from './helpers/docHelpers'
 import { getBranchName } from './../prepub/commitToBranch'
 import { log, ErrorHandler } from '../lib'
 
@@ -47,9 +47,14 @@ export const fetchFigmaIcons = async ({
     )
   }
 
+  // Get the same figmaFile for the icons fetch
+  const figmaDoc = await getFigmaDoc({
+    figmaFile
+  })
+
   try {
     log.start('> Figma: Starting the icons fetch')
-    const icons = await SVGIconsConverter({ figmaFile, ...args })
+    const icons = await SVGIconsConverter({ figmaFile, figmaDoc, ...args })
     log.succeed(`> Figma: Icons conversion done (${icons?.length} icons)`)
   } catch (e) {
     log.fail(new ErrorHandler('Failed during SVGIconsConverter', e))
@@ -57,7 +62,7 @@ export const fetchFigmaIcons = async ({
 
   try {
     log.start('> Figma: Starting the pdf fetch')
-    const pdfs = await PDFConverter(args)
+    const pdfs = await PDFConverter({ figmaFile, figmaDoc, ...args })
     log.succeed(`> Figma: PDFs conversion done (${pdfs?.length} pdfs)`)
   } catch (e) {
     log.fail(new ErrorHandler('Failed during PDFConverter', e))
