@@ -45,7 +45,7 @@ steps:
     when:
       branch:
         include:
-          - figma*
+          - '*figma*'
 
   - name: prebuild
     image: tujoworker/docker-node-puppeteer
@@ -117,7 +117,7 @@ steps:
     when:
       branch:
         include:
-          - figma*
+          - '*figma*'
 
   - name: run screenshot tests
     image: tujoworker/docker-node-puppeteer
