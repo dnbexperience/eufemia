@@ -78,7 +78,7 @@
     "test:watch": "yarn jest --watchAll --testPathPattern ",
     "prettier:diff": "prettier --list-different '{scripts,stories,src}/**/*.{md,js}'",
     "prettier:js": "prettier --loglevel warn --write '{scripts,stories,src}/**/*.js'",
-    "prettier:js:staged": "prettier --loglevel warn",
+    "prettier:js:staged": "prettier --config ./.prettierrc --loglevel warn",
     "prettier:other": "prettier --loglevel warn --write './src/**/*.{json,md}' && yarn prettier:package",
     "prettier:other:staged": "prettier --loglevel warn",
     "prettier:package": "prettier-package-json --write ./package.json",
