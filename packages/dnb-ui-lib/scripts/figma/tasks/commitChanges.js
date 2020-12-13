@@ -11,13 +11,12 @@ if (require.main === module) {
     what: 'icons/assets',
     filePathsIncludelist: [
       '/src/icons/',
-      '!/src/icons/*.d.ts', // <- exclude
       '/src/components/icon/', // visual snapshots
-      '!/src/components/icon/*.d.ts', // <- exclude
       '/assets/icons/',
       'version.lock',
       'icons.lock',
-      'icons-meta.json'
+      'icons-meta.json',
+      " -- ':!/src/icons/*.d.ts' ':!/src/components/icon/*.d.ts'"
     ],
     // Skip CI if files are only one or both
     skipCI: (files) => files.length < 4, // in case we only update the "version.lock"
