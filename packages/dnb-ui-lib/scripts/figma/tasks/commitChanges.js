@@ -11,7 +11,9 @@ if (require.main === module) {
     what: 'icons/assets',
     filePathsIncludelist: [
       '/src/icons/',
+      '!/src/icons/*.d.ts', // <- exclude
       '/src/components/icon/', // visual snapshots
+      '!/src/components/icon/*.d.ts', // <- exclude
       '/assets/icons/',
       'version.lock',
       'icons.lock',
